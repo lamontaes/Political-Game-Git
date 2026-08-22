@@ -1,6 +1,16 @@
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import { createLightweightPerson, personName } from "./people";
+import { SYNTHETIC_POLICY_IDS } from "./policy";
+import {
+  createFormationContext,
+  recordCampaignCommitment,
+  recordPrinciple,
+  recordPrivateBelief,
+  recordPropositionExposure,
+  recordPublicPosition,
+  recordSubjectKnowledge,
+} from "./politics";
 import { pickDistinct, SeededRng, normalizeSeed } from "./rng";
 import {
   recordClaim,
@@ -125,6 +135,97 @@ export function createDemoWorld(seedInput = DEFAULT_DEMO_SEED): World {
       },
     });
   }
+
+  const diagnosticPerson = people[0];
+  if (!diagnosticPerson) {
+    throw new Error("Demo world did not generate a diagnostic person.");
+  }
+  world = recordPropositionExposure(world, {
+    stableKey: `initial:exposure:${diagnosticPerson.id}:drug-negotiation`,
+    personId: diagnosticPerson.id,
+    propositionId: SYNTHETIC_POLICY_IDS.propositions.drugNegotiation,
+    encounteredAt: world.currentDate,
+    summary:
+      "Encountered the synthetic drug-negotiation proposition without an automatically assigned view.",
+    provenance: {
+      kind: "manual",
+      note: "Authored fixture used to demonstrate sparse proposition exposure.",
+    },
+  });
+  const diagnosticExposure = world.history.propositionExposures.at(-1);
+  if (!diagnosticExposure) {
+    throw new Error("Demo world did not record its diagnostic exposure.");
+  }
+  world = recordPrivateBelief(world, {
+    stableKey: `initial:belief:${diagnosticPerson.id}:drug-negotiation`,
+    personId: diagnosticPerson.id,
+    propositionId: SYNTHETIC_POLICY_IDS.propositions.drugNegotiation,
+    formedAt: world.currentDate,
+    position: "support",
+    conviction: "tentative",
+    salience: "moderate",
+    flexibility: "open",
+    rationale: "Initial synthetic diagnostic record.",
+    formation: createFormationContext("initial-reflection", {
+      propositionExposureIds: [diagnosticExposure.id],
+      note: "Authored fixture; not inferred from personality or biography.",
+    }),
+    supersedesBeliefId: null,
+  });
+  world = recordPublicPosition(world, {
+    stableKey: `initial:public-position:${diagnosticPerson.id}:drug-negotiation`,
+    personId: diagnosticPerson.id,
+    propositionId: SYNTHETIC_POLICY_IDS.propositions.drugNegotiation,
+    statedAt: world.currentDate,
+    stance: "undecided",
+    statement: "I remain publicly undecided on this proposal.",
+    audience: "public",
+    venue: "Synthetic developer fixture",
+    sourceEventId: null,
+    supersedesPublicPositionId: null,
+  });
+  world = recordCampaignCommitment(world, {
+    stableKey: `initial:commitment:${diagnosticPerson.id}:drug-negotiation`,
+    personId: diagnosticPerson.id,
+    propositionId: SYNTHETIC_POLICY_IDS.propositions.drugNegotiation,
+    madeAt: world.currentDate,
+    stance: "oppose",
+    level: "pledge",
+    statement:
+      "I pledge to oppose this proposal in the synthetic campaign record.",
+    conditions: null,
+    sourceEventId: null,
+    supersedesCommitmentId: null,
+  });
+  world = recordPrinciple(world, {
+    stableKey: `initial:principle:${diagnosticPerson.id}:reduce-inequality`,
+    personId: diagnosticPerson.id,
+    principleId: SYNTHETIC_POLICY_IDS.principles.reduceInequality,
+    formedAt: world.currentDate,
+    stance: "endorses",
+    conviction: "moderate",
+    flexibility: "conditional",
+    qualification: "Institutional stability also matters.",
+    formation: createFormationContext("initial-reflection", {
+      note: "Authored fixture; no proposition positions were inferred.",
+    }),
+    supersedesPrincipleRecordId: null,
+  });
+  world = recordSubjectKnowledge(world, {
+    stableKey: `initial:subject-knowledge:${diagnosticPerson.id}:healthcare`,
+    personId: diagnosticPerson.id,
+    subjectId: SYNTHETIC_POLICY_IDS.subjects.healthcare,
+    recordedAt: world.currentDate,
+    familiarity: "aware",
+    understanding: "minimal",
+    expertise: "none",
+    practicalExperience: "indirect",
+    provenance: {
+      kind: "manual",
+      note: "Synthetic diagnostic scaffold, not an assertion of correctness.",
+    },
+    supersedesKnowledgeId: null,
+  });
 
   return world;
 }

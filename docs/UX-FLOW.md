@@ -26,6 +26,8 @@ This document describes the first-build developer simulation viewer. It is not t
    - Show stable identity, typed biography facts, lightweight/materialized state, and a combined biography/event timeline.
    - Offer an explicit, idempotent materialization action for a lightweight person.
    - Keep factual biography, generated detail, subjective memories, and relationship interactions visually and semantically distinct.
+   - Show sparse proposition exposure, private-belief history, public positions, campaign commitments, principles, complete subject-knowledge history, fact-derived expertise, and resolved provenance in separately labeled diagnostic sections.
+   - Show categorical descriptions only; do not expose raw ideology, personality, persuasion, or relationship numbers.
 
 5. **Review history**
    - Present global events newest-first with ISO date, type, summary, visibility, tags, structured context, participants, and involved entities.

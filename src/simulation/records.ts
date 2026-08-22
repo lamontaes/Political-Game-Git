@@ -91,6 +91,9 @@ export function appendPersonFact(
     ...input,
     id: createStableId("fact", `${personId}:${input.stableKey}`),
     provenance: { ...input.provenance },
+    ...(input.kind === "education" || input.kind === "occupation"
+      ? { subjectIds: [...input.subjectIds] }
+      : {}),
   } as PersonFact;
 
   const nextWorld: World = {
@@ -108,9 +111,25 @@ export function appendPersonFact(
 }
 
 export function recordMemory(world: World, input: MemoryRecordInput): World {
-  requirePerson(world, input.personId);
+  const person = requirePerson(world, input.personId);
   const event = requireEvent(world, input.eventId);
   assertDateRange(world, event, input.formedAt, "Memory formation date");
+  if (input.formedAt < person.birthDate) {
+    throw new Error("Memory formation cannot predate the person.");
+  }
+  const hasEventAccess =
+    event.involvedEntityIds.includes(input.personId) ||
+    world.history.knowledge.some(
+      (knowledge) =>
+        knowledge.personId === input.personId &&
+        knowledge.eventId === input.eventId &&
+        knowledge.learnedAt <= input.formedAt,
+    );
+  if (!hasEventAccess) {
+    throw new Error(
+      "A memory requires direct event involvement or prior event knowledge.",
+    );
+  }
   assertNonEmpty(input.rememberedSummary, "Remembered summary");
   assertNonEmpty(input.interpretation, "Memory interpretation");
   assertTags(input.relevanceTags, "Memory relevance");
@@ -124,10 +143,11 @@ export function recordMemory(world: World, input: MemoryRecordInput): World {
     if (
       !prior ||
       prior.personId !== input.personId ||
-      prior.eventId !== input.eventId
+      prior.eventId !== input.eventId ||
+      prior.formedAt > input.formedAt
     ) {
       throw new Error(
-        "A memory may only supersede an earlier memory by the same person about the same event.",
+        "A memory may only supersede an earlier-dated memory by the same person about the same event.",
       );
     }
   }
@@ -141,9 +161,12 @@ export function recordEventKnowledge(
   world: World,
   input: EventKnowledgeRecordInput,
 ): World {
-  requirePerson(world, input.personId);
+  const person = requirePerson(world, input.personId);
   const event = requireEvent(world, input.eventId);
   assertDateRange(world, event, input.learnedAt, "Knowledge date");
+  if (input.learnedAt < person.birthDate) {
+    throw new Error("Event knowledge cannot predate the person.");
+  }
   assertNonEmpty(input.believedSummary, "Believed summary");
   if (!KNOWLEDGE_ACCURACIES.includes(input.accuracy)) {
     throw new Error(`Invalid knowledge accuracy: ${String(input.accuracy)}`);
@@ -161,9 +184,12 @@ export function recordEventKnowledge(
 }
 
 export function recordClaim(world: World, input: ClaimRecordInput): World {
-  requirePerson(world, input.speakerPersonId);
+  const speaker = requirePerson(world, input.speakerPersonId);
   const event = requireEvent(world, input.eventId);
   assertDateRange(world, event, input.madeAt, "Claim date");
+  if (input.madeAt < speaker.birthDate) {
+    throw new Error("A claim cannot predate its speaker.");
+  }
   assertNonEmpty(input.statement, "Claim statement");
   if (!CLAIM_AUDIENCES.includes(input.audience)) {
     throw new Error(`Invalid claim audience: ${String(input.audience)}`);
@@ -173,13 +199,36 @@ export function recordClaim(world: World, input: ClaimRecordInput): World {
       `Invalid claim truth relationship: ${String(input.relationshipToTruth)}`,
     );
   }
-  if (input.provenance.kind === "reported-by") {
-    requirePerson(world, input.provenance.reporterPersonId);
-  } else if (input.provenance.kind === "public-record") {
-    assertNonEmpty(input.provenance.reference, "Claim public-record reference");
-  } else if (input.provenance.kind === "media-record") {
-    assertNonEmpty(input.provenance.outlet, "Claim media outlet");
-    assertOptional(input.provenance.reference, "Claim media reference");
+  switch (input.provenance.kind) {
+    case "direct-record":
+      break;
+    case "reported-by":
+      if (input.provenance.reporterPersonId === input.speakerPersonId) {
+        throw new Error(
+          "A reported-by claim requires another person as reporter.",
+        );
+      }
+      if (
+        requirePerson(world, input.provenance.reporterPersonId).birthDate >
+        input.madeAt
+      ) {
+        throw new Error("A claim reporter must be born by the claim date.");
+      }
+      break;
+    case "public-record":
+      assertNonEmpty(
+        input.provenance.reference,
+        "Claim public-record reference",
+      );
+      break;
+    case "media-record":
+      assertNonEmpty(input.provenance.outlet, "Claim media outlet");
+      assertOptional(input.provenance.reference, "Claim media reference");
+      break;
+    default:
+      throw new Error(
+        `Invalid claim provenance kind: ${runtimeKind(input.provenance)}`,
+      );
   }
   return {
     ...world,
@@ -262,7 +311,13 @@ function validateKnowledgeSource(
       }
       break;
     case "told-by": {
-      requirePerson(world, source.sourcePersonId);
+      const sourcePerson = requirePerson(world, source.sourcePersonId);
+      if (source.sourcePersonId === input.personId) {
+        throw new Error("Told-by knowledge requires another person as source.");
+      }
+      if (sourcePerson.birthDate > input.learnedAt) {
+        throw new Error("A knowledge source must be born before telling it.");
+      }
       if (source.claimId !== null) {
         const claim = world.history.claims.find(
           (candidate) => candidate.id === source.claimId,
@@ -270,7 +325,8 @@ function validateKnowledgeSource(
         if (
           !claim ||
           claim.speakerPersonId !== source.sourcePersonId ||
-          claim.eventId !== input.eventId
+          claim.eventId !== input.eventId ||
+          claim.madeAt > input.learnedAt
         ) {
           throw new Error(
             "Told-by knowledge references an incompatible claim.",
@@ -288,11 +344,20 @@ function validateKnowledgeSource(
       break;
     case "rumor":
       if (source.sourcePersonId !== null) {
-        requirePerson(world, source.sourcePersonId);
+        const sourcePerson = requirePerson(world, source.sourcePersonId);
+        if (sourcePerson.birthDate > input.learnedAt) {
+          throw new Error("A rumor source must be born before the rumor.");
+        }
       }
       assertOptional(source.chainDescription, "Rumor chain description");
       break;
+    default:
+      throw new Error(`Invalid knowledge source kind: ${runtimeKind(source)}`);
   }
+}
+
+function runtimeKind(value: never): string {
+  return String((value as { readonly kind?: unknown }).kind);
 }
 
 function requirePerson(world: World, personId: EntityId) {

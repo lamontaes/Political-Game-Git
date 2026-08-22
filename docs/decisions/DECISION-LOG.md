@@ -176,3 +176,33 @@ Consequence: memories may differ in strength or interpretation, claims and secon
 Represent factual biography as stable typed records for birth date, birthplace, dated residences, family relationships, education, and occupation. Use generic tags, participants, date/age bounds, geography, facts, and relationship histories for later-system queries rather than adding one-off fields for particular life experiences.
 
 Consequence: a lightweight person can gain compatible detail without losing established history, and later gameplay can ask about residence, past experience, unemployment, affected close contacts, or shared work without parsing prose or special-casing a single event such as marijuana use.
+
+## D-018 — Sparse proposition beliefs and separate political knowledge
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Store a shared stable catalog of policy domains, issues, specific propositions, knowledge subjects, and broad principle definitions. Store only formed per-person records in the append-oriented history: private beliefs, public positions, campaign commitments, principles, and subject knowledge. Keep private belief categorical across position, conviction, salience, and flexibility; treat absence as no formed belief rather than a neutral score. Keep education/occupation-derived expertise, political speech, promises, and historical behavior separate from private belief.
+
+Consequence: the system supports unusual and internally tense political combinations, proposition-specific disagreement within one issue, high expertise with uncertainty, strong low-knowledge beliefs, and thousands of possible propositions without a full vector on every person. Principles, facts, life events, trusted cues, and generated biography do not automatically assign beliefs. Autonomous explainable NPC opinion formation and political-action classification remain deferred.
+
+## D-019 — Authoritative staged roadmap and dependency integration guide
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Maintain `docs/ROADMAP.md` as the authoritative record of completed-stage reconciliation, future sequencing, and long-range integration intent. Maintain `docs/SYSTEM-DEPENDENCIES.md` as the required ownership/reference/API/persistence checklist for new persistent concepts. These documents remain below the Constitution, accepted decisions, architecture, and implemented system contracts; a future roadmap entry is not permission to invent that system's detailed mechanics early.
+
+Consequence: later stages must consume existing stable IDs, append-oriented history, provenance, sparse queries, serialization boundaries, and imperfect-information contracts deliberately. Stage completion is recorded only after implementation, validation, tests, and affected authoritative documents agree.
+
+## D-020 — Separate proposition exposure and perceived formation provenance
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent encountering a proposition as its own sparse append-oriented record with source provenance. It does not create a private belief, public statement, or commitment. Belief and principle formation may reference prior biography, exposure, experienced events, memories, event knowledge, claims, relationship interactions, subject knowledge, and categorized trusted cues, but canonical event truth is unavailable as formation context unless the person experienced it or the record cites their prior memory or knowledge.
+
+Consequence: never encountered, encountered without a formed view, and formed belief remain distinct; Stage 4 can later reason from perceived rather than omniscient context; and durable explanations can resolve structured sources without parsing rationale prose or populating blank belief vectors.

@@ -7,8 +7,15 @@ import {
 import type { HistoricalEventInput } from "./history";
 import { createStableId } from "./ids";
 import { materializePersonRecord, personName } from "./people";
+import {
+  assertPolicyCatalogIntegrity,
+  clonePolicyCatalog,
+  createSyntheticPolicyCatalog,
+} from "./policy";
 import { normalizeSeed } from "./rng";
 import type {
+  BeliefFormationContext,
+  ClaimRecord,
   EntityId,
   EventContext,
   HistoricalEvent,
@@ -17,6 +24,8 @@ import type {
   Person,
   PersonFact,
   PersonFactKind,
+  PolicyCatalog,
+  SubjectKnowledgeProvenance,
   World,
 } from "./types";
 
@@ -64,12 +73,103 @@ const EDUCATION_STATUSES = [
   "withdrew",
 ] as const;
 const OCCUPATION_STATUSES = ["ended", "ongoing"] as const;
+const MEMORY_STRENGTHS = ["faint", "moderate", "strong", "defining"] as const;
+const KNOWLEDGE_ACCURACIES = [
+  "accurate",
+  "partial",
+  "inaccurate",
+  "unknown",
+] as const;
+const KNOWLEDGE_CONFIDENCES = ["low", "medium", "high"] as const;
+const CLAIM_AUDIENCES = ["private", "limited", "public"] as const;
+const CLAIM_TRUTH_RELATIONS = [
+  "consistent",
+  "contradicts",
+  "reframes",
+  "unknown",
+] as const;
+const RELATIONSHIP_KINDS = [
+  "introduction",
+  "shared-work",
+  "shared-experience",
+  "support",
+  "favor",
+  "conflict",
+  "betrayal",
+  "commitment",
+  "other",
+] as const;
+const RELATIONSHIP_CHANGES = [
+  "formed",
+  "strengthened",
+  "maintained",
+  "strained",
+  "ended",
+] as const;
+const RELATIONSHIP_SIGNIFICANCES = ["minor", "meaningful", "major"] as const;
+const BELIEF_POSITIONS = [
+  "support",
+  "oppose",
+  "uncertain",
+  "conflicted",
+] as const;
+const CONVICTIONS = ["tentative", "moderate", "strong", "settled"] as const;
+const SALIENCES = ["low", "moderate", "high", "central"] as const;
+const FLEXIBILITIES = ["open", "negotiable", "conditional", "firm"] as const;
+const FORMATION_REASONS = [
+  "initial-reflection",
+  "genuine-reconsideration",
+  "new-evidence",
+  "lived-experience",
+  "proposal-changed",
+  "political-repositioning",
+  "trusted-cue",
+  "unknown",
+] as const;
+const CUE_KINDS = [
+  "expert-information",
+  "politician",
+  "party",
+  "organization",
+  "family",
+  "union",
+  "church",
+  "journalist-media",
+  "social-contact",
+  "unknown",
+] as const;
+const PUBLIC_STANCES = [
+  "support",
+  "oppose",
+  "undecided",
+  "conflicted",
+  "withheld",
+] as const;
+const COMMITMENT_STANCES = [
+  "support",
+  "oppose",
+  "seek-modification",
+  "defer",
+] as const;
+const COMMITMENT_LEVELS = ["aspiration", "conditional", "pledge"] as const;
+const PRINCIPLE_STANCES = ["endorses", "rejects", "conflicted"] as const;
+const FAMILIARITIES = ["aware", "familiar", "deep"] as const;
+const UNDERSTANDINGS = ["minimal", "working", "advanced", "expert"] as const;
+const EXPERTISE_LEVELS = [
+  "none",
+  "basic",
+  "practitioner",
+  "specialist",
+  "authority",
+] as const;
+const PRACTICAL_LEVELS = ["none", "indirect", "direct", "extensive"] as const;
 
 export interface CreateWorldInput {
   readonly seed: string;
   readonly currentDate: IsoDate;
   readonly jurisdictions: readonly Jurisdiction[];
   readonly people: readonly Person[];
+  readonly policyCatalog?: PolicyCatalog;
 }
 
 function recordById<T extends { readonly id: EntityId }>(
@@ -88,16 +188,19 @@ function recordById<T extends { readonly id: EntityId }>(
 }
 
 export function createWorldId(seed: string): EntityId {
-  return createStableId("world", `demo-world-v2:${normalizeSeed(seed)}`);
+  return createStableId("world", `demo-world-v4:${normalizeSeed(seed)}`);
 }
 
 export function createWorld(input: CreateWorldInput): World {
   const seed = normalizeSeed(input.seed);
   const currentDate = makeIsoDate(input.currentDate);
   const worldId = createWorldId(seed);
+  const policyCatalog = input.policyCatalog ?? createSyntheticPolicyCatalog();
 
   assertJsonSafe(input.jurisdictions, "jurisdictions");
   assertJsonSafe(input.people, "people");
+  assertJsonSafe(policyCatalog, "policyCatalog");
+  assertPolicyCatalogIntegrity(policyCatalog);
 
   if (input.jurisdictions.length === 0) {
     throw new Error("A world must begin with at least one jurisdiction.");
@@ -108,13 +211,14 @@ export function createWorld(input: CreateWorldInput): World {
     currentDate,
     input.jurisdictions,
     input.people,
+    policyCatalog,
   );
   const jurisdictions = input.jurisdictions.map(cloneJurisdiction);
   const people = input.people.map(clonePerson);
 
   return {
-    schemaVersion: 2,
-    generatorVersion: "demo-world-v2",
+    schemaVersion: 4,
+    generatorVersion: "demo-world-v4",
     id: worldId,
     seed,
     startedAt: currentDate,
@@ -124,13 +228,14 @@ export function createWorld(input: CreateWorldInput): World {
     jurisdictionOrder: jurisdictions.map((jurisdiction) => jurisdiction.id),
     people: recordById(people),
     personOrder: people.map((person) => person.id),
+    policyCatalog: clonePolicyCatalog(policyCatalog),
     history: createHistoryStore(),
   };
 }
 
 export function assertWorldIntegrity(world: World): void {
   assertJsonSafe(world, "world");
-  if (world.schemaVersion !== 2 || world.generatorVersion !== "demo-world-v2") {
+  if (world.schemaVersion !== 4 || world.generatorVersion !== "demo-world-v4") {
     throw new Error("Unsupported world schema or generator version.");
   }
   if (world.id !== createWorldId(world.seed)) {
@@ -153,7 +258,14 @@ export function assertWorldIntegrity(world: World): void {
     "jurisdiction",
   );
   const people = orderedRecords(world.people, world.personOrder, "person");
-  validateInitialEntities(world.id, currentDate, jurisdictions, people);
+  assertPolicyCatalogIntegrity(world.policyCatalog);
+  validateInitialEntities(
+    world.id,
+    currentDate,
+    jurisdictions,
+    people,
+    world.policyCatalog,
+  );
   validateHistoryIntegrity(world);
 }
 
@@ -206,6 +318,12 @@ export function recordWorldEvent(
     ) {
       throw new Error(
         `Historical event references a missing entity: ${entityId}`,
+      );
+    }
+    const involvedPerson = world.people[entityId];
+    if (involvedPerson && occurredAt < involvedPerson.birthDate) {
+      throw new Error(
+        `Historical event involves a person who was not yet born: ${entityId}`,
       );
     }
   }
@@ -349,19 +467,22 @@ export function materializePerson(world: World, personId: EntityId): World {
     world.seed,
     world.startedAt,
     eventsInvolving(world.history, personId),
+    world.policyCatalog.subjects,
   );
 
   if (materialized === existing) {
     return world;
   }
 
-  return {
+  const next = {
     ...world,
     people: {
       ...world.people,
       [personId]: materialized,
     },
   };
+  assertWorldIntegrity(next);
+  return next;
 }
 
 export function selectPerson(
@@ -385,7 +506,15 @@ export function resolveEntityLabel(world: World, entityId: EntityId): string {
   }
 
   const jurisdiction = world.jurisdictions[entityId];
-  return jurisdiction?.name ?? entityId;
+  if (jurisdiction) return jurisdiction.name;
+  return (
+    world.policyCatalog.domains[entityId]?.name ??
+    world.policyCatalog.issues[entityId]?.name ??
+    world.policyCatalog.propositions[entityId]?.name ??
+    world.policyCatalog.subjects[entityId]?.name ??
+    world.policyCatalog.principles[entityId]?.name ??
+    entityId
+  );
 }
 
 function validateInitialEntities(
@@ -393,6 +522,7 @@ function validateInitialEntities(
   currentDate: IsoDate,
   jurisdictions: readonly Jurisdiction[],
   people: readonly Person[],
+  policyCatalog: PolicyCatalog,
 ): void {
   const entityIds = new Set<EntityId>([worldId]);
   const jurisdictionIds = new Set(
@@ -584,6 +714,7 @@ function validateInitialEntities(
               `Education status and end date disagree: ${fact.id}`,
             );
           }
+          validateSubjectIds(fact.id, fact.subjectIds, policyCatalog);
           break;
         case "occupation":
           assertNonEmptyString(fact.employer, "Occupation employer");
@@ -599,6 +730,7 @@ function validateInitialEntities(
               `Occupation status and end date disagree: ${fact.id}`,
             );
           }
+          validateSubjectIds(fact.id, fact.subjectIds, policyCatalog);
           break;
       }
     }
@@ -620,18 +752,30 @@ function validateInitialEntities(
     }
 
     if (person.detailLevel === "materialized") {
-      if (person.details.generatorVersion !== "person-materialization-v2") {
+      if (person.details.generatorVersion !== "person-materialization-v4") {
         throw new Error(
           `Person details use an unsupported generator: ${person.id}`,
         );
       }
-      for (const value of [
-        ...person.details.expertise,
-        ...person.details.personalityTendencies,
-        ...person.details.currentGoals,
-      ]) {
-        assertNonEmptyString(value, "Materialized person detail");
-      }
+    }
+  }
+}
+
+function validateSubjectIds(
+  factId: EntityId,
+  subjectIds: readonly EntityId[],
+  policyCatalog: PolicyCatalog,
+): void {
+  if (new Set(subjectIds).size !== subjectIds.length) {
+    throw new Error(
+      `Person fact contains duplicate knowledge subjects: ${factId}`,
+    );
+  }
+  for (const subjectId of subjectIds) {
+    if (!policyCatalog.subjects[subjectId]) {
+      throw new Error(
+        `Person fact references a missing knowledge subject: ${factId}`,
+      );
     }
   }
 }
@@ -726,6 +870,12 @@ function validateHistoryIntegrity(world: World): void {
     ...history.knowledge,
     ...history.claims,
     ...history.relationshipInteractions,
+    ...history.propositionExposures,
+    ...history.privateBeliefs,
+    ...history.publicPositions,
+    ...history.campaignCommitments,
+    ...history.principles,
+    ...history.subjectKnowledge,
   ];
   const sequences = records
     .map((record) => record.sequence)
@@ -736,6 +886,17 @@ function validateHistoryIntegrity(world: World): void {
   ) {
     throw new Error("History sequence is not contiguous and append-oriented.");
   }
+  assertSequenceOrdered(history.events, "event");
+  assertSequenceOrdered(history.memories, "memory");
+  assertSequenceOrdered(history.knowledge, "knowledge");
+  assertSequenceOrdered(history.claims, "claim");
+  assertSequenceOrdered(history.relationshipInteractions, "relationship");
+  assertSequenceOrdered(history.propositionExposures, "proposition exposure");
+  assertSequenceOrdered(history.privateBeliefs, "private belief");
+  assertSequenceOrdered(history.publicPositions, "public position");
+  assertSequenceOrdered(history.campaignCommitments, "campaign commitment");
+  assertSequenceOrdered(history.principles, "principle record");
+  assertSequenceOrdered(history.subjectKnowledge, "subject knowledge");
   const ids = new Set<EntityId>([
     world.id,
     ...world.jurisdictionOrder,
@@ -756,11 +917,36 @@ function validateHistoryIntegrity(world: World): void {
   assertUniqueStableKeys(history.knowledge, "knowledge");
   assertUniqueStableKeys(history.claims, "claim");
   assertUniqueStableKeys(history.relationshipInteractions, "relationship");
+  assertUniqueStableKeys(history.propositionExposures, "proposition exposure");
+  assertUniqueStableKeys(history.privateBeliefs, "private belief");
+  assertUniqueStableKeys(history.publicPositions, "public position");
+  assertUniqueStableKeys(history.campaignCommitments, "campaign commitment");
+  assertUniqueStableKeys(history.principles, "principle record");
+  assertUniqueStableKeys(history.subjectKnowledge, "subject knowledge");
 
   const eventIds = new Set(history.events.map((event) => event.id));
   const claimIds = new Set(history.claims.map((claim) => claim.id));
   const memoryIds = new Set(history.memories.map((memory) => memory.id));
+  const exposureIds = new Set(
+    history.propositionExposures.map((exposure) => exposure.id),
+  );
   const personIds = new Set(world.personOrder);
+  const factById = new Map<
+    EntityId,
+    { readonly personId: EntityId; readonly fact: PersonFact }
+  >();
+  for (const personId of world.personOrder) {
+    const person = world.people[personId];
+    if (!person) continue;
+    for (const fact of [
+      ...person.establishedFacts,
+      ...(person.detailLevel === "materialized"
+        ? person.details.generatedFacts
+        : []),
+    ]) {
+      factById.set(fact.id, { personId, fact });
+    }
+  }
   const eventById = new Map(history.events.map((event) => [event.id, event]));
   const claimById = new Map(history.claims.map((claim) => [claim.id, claim]));
   const memoryById = new Map(
@@ -799,6 +985,12 @@ function validateHistoryIntegrity(world: World): void {
       ) {
         throw new Error(
           `Historical event references a missing involved entity: ${event.id}`,
+        );
+      }
+      const involvedPerson = world.people[involvedId];
+      if (involvedPerson && event.occurredAt < involvedPerson.birthDate) {
+        throw new Error(
+          `Historical event involves a person before birth: ${event.id}`,
         );
       }
     }
@@ -871,23 +1063,43 @@ function validateHistoryIntegrity(world: World): void {
       throw new Error(`Memory references a missing prior memory: ${memory.id}`);
     }
     const event = eventById.get(memory.eventId);
+    const person = world.people[memory.personId];
     const prior =
       memory.supersedesMemoryId === null
         ? undefined
         : memoryById.get(memory.supersedesMemoryId);
     if (
       !event ||
+      !person ||
       makeIsoDate(memory.formedAt) < event.occurredAt ||
+      event.sequence >= memory.sequence ||
+      memory.formedAt < person.birthDate ||
       memory.formedAt > world.currentDate ||
       (prior &&
         (prior.sequence >= memory.sequence ||
           prior.personId !== memory.personId ||
-          prior.eventId !== memory.eventId))
+          prior.eventId !== memory.eventId ||
+          prior.formedAt > memory.formedAt))
     ) {
       throw new Error(
         `Memory has invalid chronology or supersession: ${memory.id}`,
       );
     }
+    const hasEventAccess =
+      event.involvedEntityIds.includes(memory.personId) ||
+      history.knowledge.some(
+        (knowledge) =>
+          knowledge.personId === memory.personId &&
+          knowledge.eventId === memory.eventId &&
+          knowledge.sequence < memory.sequence &&
+          knowledge.learnedAt <= memory.formedAt,
+      );
+    if (!hasEventAccess) {
+      throw new Error(
+        `Memory lacks direct involvement or prior event knowledge: ${memory.id}`,
+      );
+    }
+    assertMember(MEMORY_STRENGTHS, memory.strength, "memory strength");
     assertNonEmptyString(memory.rememberedSummary, "Remembered summary");
     assertNonEmptyString(memory.interpretation, "Memory interpretation");
     validateTags(memory.relevanceTags, "Memory relevance");
@@ -902,47 +1114,109 @@ function validateHistoryIntegrity(world: World): void {
         `Knowledge references a missing person or event: ${knowledge.id}`,
       );
     }
-    if (knowledge.source.kind === "told-by") {
-      if (!personIds.has(knowledge.source.sourcePersonId)) {
-        throw new Error(
-          `Knowledge references a missing source person: ${knowledge.id}`,
-        );
-      }
-      if (
-        knowledge.source.claimId !== null &&
-        !claimIds.has(knowledge.source.claimId)
-      ) {
-        throw new Error(
-          `Knowledge references a missing source claim: ${knowledge.id}`,
-        );
-      }
-      const sourceClaim =
-        knowledge.source.claimId === null
-          ? undefined
-          : claimById.get(knowledge.source.claimId);
-      if (
-        sourceClaim &&
-        (sourceClaim.speakerPersonId !== knowledge.source.sourcePersonId ||
-          sourceClaim.eventId !== knowledge.eventId ||
-          sourceClaim.sequence >= knowledge.sequence ||
-          sourceClaim.madeAt > knowledge.learnedAt)
-      ) {
-        throw new Error(
-          `Knowledge references an incompatible source claim: ${knowledge.id}`,
-        );
-      }
-    }
     const event = eventById.get(knowledge.eventId);
+    const person = world.people[knowledge.personId];
     if (
       !event ||
+      !person ||
       makeIsoDate(knowledge.learnedAt) < event.occurredAt ||
+      knowledge.learnedAt < person.birthDate ||
       knowledge.learnedAt > world.currentDate ||
-      (knowledge.source.kind === "direct" &&
-        !event.involvedEntityIds.includes(knowledge.personId))
+      event.sequence >= knowledge.sequence
     ) {
       throw new Error(
         `Knowledge has invalid chronology or source: ${knowledge.id}`,
       );
+    }
+    assertMember(
+      KNOWLEDGE_ACCURACIES,
+      knowledge.accuracy,
+      "knowledge accuracy",
+    );
+    assertMember(
+      KNOWLEDGE_CONFIDENCES,
+      knowledge.confidence,
+      "knowledge confidence",
+    );
+    switch (knowledge.source.kind) {
+      case "direct":
+        if (!event.involvedEntityIds.includes(knowledge.personId)) {
+          throw new Error(
+            `Direct knowledge lacks event involvement: ${knowledge.id}`,
+          );
+        }
+        break;
+      case "told-by": {
+        const sourcePerson = world.people[knowledge.source.sourcePersonId];
+        if (
+          knowledge.source.sourcePersonId === knowledge.personId ||
+          !personIds.has(knowledge.source.sourcePersonId) ||
+          !sourcePerson ||
+          sourcePerson.birthDate > knowledge.learnedAt
+        ) {
+          throw new Error(
+            `Knowledge references a missing source person: ${knowledge.id}`,
+          );
+        }
+        if (
+          knowledge.source.claimId !== null &&
+          !claimIds.has(knowledge.source.claimId)
+        ) {
+          throw new Error(
+            `Knowledge references a missing source claim: ${knowledge.id}`,
+          );
+        }
+        const sourceClaim =
+          knowledge.source.claimId === null
+            ? undefined
+            : claimById.get(knowledge.source.claimId);
+        if (
+          sourceClaim &&
+          (sourceClaim.speakerPersonId !== knowledge.source.sourcePersonId ||
+            sourceClaim.eventId !== knowledge.eventId ||
+            sourceClaim.sequence >= knowledge.sequence ||
+            sourceClaim.madeAt > knowledge.learnedAt)
+        ) {
+          throw new Error(
+            `Knowledge references an incompatible source claim: ${knowledge.id}`,
+          );
+        }
+        break;
+      }
+      case "public-record":
+        assertNonEmptyString(
+          knowledge.source.reference,
+          "Knowledge public-record reference",
+        );
+        break;
+      case "media":
+        assertNonEmptyString(knowledge.source.outlet, "Knowledge media outlet");
+        validateOptionalString(
+          knowledge.source.reference,
+          "Knowledge media reference",
+        );
+        break;
+      case "rumor":
+        if (
+          knowledge.source.sourcePersonId !== null &&
+          (!personIds.has(knowledge.source.sourcePersonId) ||
+            !world.people[knowledge.source.sourcePersonId] ||
+            world.people[knowledge.source.sourcePersonId]!.birthDate >
+              knowledge.learnedAt)
+        ) {
+          throw new Error(
+            `Knowledge rumor references a missing person: ${knowledge.id}`,
+          );
+        }
+        validateOptionalString(
+          knowledge.source.chainDescription,
+          "Knowledge rumor chain",
+        );
+        break;
+      default:
+        throw new Error(
+          `Invalid knowledge source kind: ${runtimeKind(knowledge.source)}`,
+        );
     }
     assertNonEmptyString(knowledge.believedSummary, "Believed summary");
   }
@@ -954,12 +1228,54 @@ function validateHistoryIntegrity(world: World): void {
       );
     }
     const event = eventById.get(claim.eventId);
+    const speaker = world.people[claim.speakerPersonId];
     if (
       !event ||
+      !speaker ||
       makeIsoDate(claim.madeAt) < event.occurredAt ||
-      claim.madeAt > world.currentDate
+      claim.madeAt < speaker.birthDate ||
+      claim.madeAt > world.currentDate ||
+      event.sequence >= claim.sequence
     ) {
       throw new Error(`Claim has invalid chronology: ${claim.id}`);
+    }
+    assertMember(CLAIM_AUDIENCES, claim.audience, "claim audience");
+    assertMember(
+      CLAIM_TRUTH_RELATIONS,
+      claim.relationshipToTruth,
+      "claim truth relationship",
+    );
+    switch (claim.provenance.kind) {
+      case "direct-record":
+        break;
+      case "reported-by":
+        if (
+          claim.provenance.reporterPersonId === claim.speakerPersonId ||
+          !personIds.has(claim.provenance.reporterPersonId) ||
+          !world.people[claim.provenance.reporterPersonId] ||
+          world.people[claim.provenance.reporterPersonId]!.birthDate >
+            claim.madeAt
+        ) {
+          throw new Error(`Claim references a missing reporter: ${claim.id}`);
+        }
+        break;
+      case "public-record":
+        assertNonEmptyString(
+          claim.provenance.reference,
+          "Claim public-record reference",
+        );
+        break;
+      case "media-record":
+        assertNonEmptyString(claim.provenance.outlet, "Claim media outlet");
+        validateOptionalString(
+          claim.provenance.reference,
+          "Claim media reference",
+        );
+        break;
+      default:
+        throw new Error(
+          `Invalid claim provenance kind: ${runtimeKind(claim.provenance)}`,
+        );
     }
     assertNonEmptyString(claim.statement, "Claim statement");
   }
@@ -976,7 +1292,11 @@ function validateHistoryIntegrity(world: World): void {
     }
     if (
       interaction.personIds[0] > interaction.personIds[1] ||
-      makeIsoDate(interaction.occurredAt) > world.currentDate
+      makeIsoDate(interaction.occurredAt) > world.currentDate ||
+      interaction.personIds.some((personId) => {
+        const person = world.people[personId];
+        return !person || interaction.occurredAt < person.birthDate;
+      })
     ) {
       throw new Error(
         `Relationship interaction is not canonical: ${interaction.id}`,
@@ -986,6 +1306,7 @@ function validateHistoryIntegrity(world: World): void {
       const event = eventById.get(interaction.eventId);
       if (
         !event ||
+        event.sequence >= interaction.sequence ||
         event.occurredAt !== interaction.occurredAt ||
         interaction.personIds.some(
           (personId) => !event.involvedEntityIds.includes(personId),
@@ -996,11 +1317,779 @@ function validateHistoryIntegrity(world: World): void {
         );
       }
     }
+    assertMember(
+      RELATIONSHIP_KINDS,
+      interaction.kind,
+      "relationship interaction kind",
+    );
+    assertMember(
+      RELATIONSHIP_CHANGES,
+      interaction.change,
+      "relationship interaction change",
+    );
+    assertMember(
+      RELATIONSHIP_SIGNIFICANCES,
+      interaction.significance,
+      "relationship interaction significance",
+    );
     assertNonEmptyString(
       interaction.summary,
       "Relationship interaction summary",
     );
     validateTags(interaction.tags, "Relationship interaction");
+  }
+
+  for (const exposure of history.propositionExposures) {
+    assertHistoryIdentity(ids, world, exposure, "proposition-exposure");
+    validatePoliticalRecordCore(
+      world,
+      personIds,
+      exposure.personId,
+      exposure.encounteredAt,
+      exposure.id,
+    );
+    if (!world.policyCatalog.propositions[exposure.propositionId]) {
+      throw new Error(
+        `Proposition exposure references a missing proposition: ${exposure.id}`,
+      );
+    }
+    assertNonEmptyString(exposure.summary, "Proposition-exposure summary");
+    validatePropositionExposureProvenance(
+      world,
+      exposure.personId,
+      exposure.encounteredAt,
+      exposure.sequence,
+      exposure.provenance,
+      eventById,
+      claimById,
+      personIds,
+    );
+  }
+
+  validatePoliticalHistory(
+    world,
+    ids,
+    eventById,
+    factById,
+    personIds,
+    exposureIds,
+  );
+}
+
+function validatePoliticalHistory(
+  world: World,
+  ids: Set<EntityId>,
+  eventById: ReadonlyMap<EntityId, HistoricalEvent>,
+  factById: ReadonlyMap<
+    EntityId,
+    { readonly personId: EntityId; readonly fact: PersonFact }
+  >,
+  personIds: ReadonlySet<EntityId>,
+  exposureIds: ReadonlySet<EntityId>,
+): void {
+  const beliefsById = new Map(
+    world.history.privateBeliefs.map((record) => [record.id, record]),
+  );
+  const positionsById = new Map(
+    world.history.publicPositions.map((record) => [record.id, record]),
+  );
+  const commitmentsById = new Map(
+    world.history.campaignCommitments.map((record) => [record.id, record]),
+  );
+  const principlesById = new Map(
+    world.history.principles.map((record) => [record.id, record]),
+  );
+  const subjectKnowledgeById = new Map(
+    world.history.subjectKnowledge.map((record) => [record.id, record]),
+  );
+
+  for (const belief of world.history.privateBeliefs) {
+    assertHistoryIdentity(ids, world, belief, "belief");
+    validatePoliticalRecordCore(
+      world,
+      personIds,
+      belief.personId,
+      belief.formedAt,
+      belief.id,
+    );
+    if (!world.policyCatalog.propositions[belief.propositionId]) {
+      throw new Error(
+        `Private belief references a missing proposition: ${belief.id}`,
+      );
+    }
+    assertMember(BELIEF_POSITIONS, belief.position, "belief position");
+    assertMember(CONVICTIONS, belief.conviction, "belief conviction");
+    assertMember(SALIENCES, belief.salience, "belief salience");
+    assertMember(FLEXIBILITIES, belief.flexibility, "belief flexibility");
+    validateOptionalString(belief.rationale, "Belief rationale");
+    validateFormationContext(
+      world,
+      belief.personId,
+      belief.formedAt,
+      belief.sequence,
+      belief.formation,
+      eventById,
+      factById,
+      exposureIds,
+    );
+    for (const exposureId of belief.formation.propositionExposureIds) {
+      const exposure = world.history.propositionExposures.find(
+        (candidate) => candidate.id === exposureId,
+      );
+      if (exposure?.propositionId !== belief.propositionId) {
+        throw new Error(
+          `Belief formation references an exposure to another proposition: ${exposureId}`,
+        );
+      }
+    }
+    validatePoliticalSupersession(
+      belief,
+      belief.supersedesBeliefId,
+      beliefsById,
+      (record) => record.propositionId,
+      (record) => record.formedAt,
+      "private belief",
+    );
+  }
+
+  for (const position of world.history.publicPositions) {
+    assertHistoryIdentity(ids, world, position, "public-position");
+    validatePoliticalRecordCore(
+      world,
+      personIds,
+      position.personId,
+      position.statedAt,
+      position.id,
+    );
+    if (!world.policyCatalog.propositions[position.propositionId]) {
+      throw new Error(
+        `Public position references a missing proposition: ${position.id}`,
+      );
+    }
+    assertMember(PUBLIC_STANCES, position.stance, "public-position stance");
+    if (position.audience !== "limited" && position.audience !== "public") {
+      throw new Error(
+        `Public position has an invalid audience: ${position.id}`,
+      );
+    }
+    assertNonEmptyString(position.statement, "Public-position statement");
+    validateOptionalString(position.venue, "Public-position venue");
+    validatePoliticalSourceEvent(
+      position.sourceEventId,
+      position.personId,
+      position.statedAt,
+      position.sequence,
+      position.id,
+      eventById,
+    );
+    validatePoliticalSupersession(
+      position,
+      position.supersedesPublicPositionId,
+      positionsById,
+      (record) => record.propositionId,
+      (record) => record.statedAt,
+      "public position",
+    );
+  }
+
+  for (const commitment of world.history.campaignCommitments) {
+    assertHistoryIdentity(ids, world, commitment, "commitment");
+    validatePoliticalRecordCore(
+      world,
+      personIds,
+      commitment.personId,
+      commitment.madeAt,
+      commitment.id,
+    );
+    if (!world.policyCatalog.propositions[commitment.propositionId]) {
+      throw new Error(
+        `Campaign commitment references a missing proposition: ${commitment.id}`,
+      );
+    }
+    assertMember(
+      COMMITMENT_STANCES,
+      commitment.stance,
+      "campaign-commitment stance",
+    );
+    assertMember(
+      COMMITMENT_LEVELS,
+      commitment.level,
+      "campaign-commitment level",
+    );
+    assertNonEmptyString(commitment.statement, "Campaign-commitment statement");
+    validateOptionalString(commitment.conditions, "Campaign conditions");
+    validatePoliticalSourceEvent(
+      commitment.sourceEventId,
+      commitment.personId,
+      commitment.madeAt,
+      commitment.sequence,
+      commitment.id,
+      eventById,
+    );
+    validatePoliticalSupersession(
+      commitment,
+      commitment.supersedesCommitmentId,
+      commitmentsById,
+      (record) => record.propositionId,
+      (record) => record.madeAt,
+      "campaign commitment",
+    );
+  }
+
+  for (const principle of world.history.principles) {
+    assertHistoryIdentity(ids, world, principle, "principle");
+    validatePoliticalRecordCore(
+      world,
+      personIds,
+      principle.personId,
+      principle.formedAt,
+      principle.id,
+    );
+    if (!world.policyCatalog.principles[principle.principleId]) {
+      throw new Error(
+        `Principle record references a missing principle: ${principle.id}`,
+      );
+    }
+    assertMember(PRINCIPLE_STANCES, principle.stance, "principle stance");
+    assertMember(CONVICTIONS, principle.conviction, "principle conviction");
+    assertMember(FLEXIBILITIES, principle.flexibility, "principle flexibility");
+    validateOptionalString(principle.qualification, "Principle qualification");
+    validateFormationContext(
+      world,
+      principle.personId,
+      principle.formedAt,
+      principle.sequence,
+      principle.formation,
+      eventById,
+      factById,
+      exposureIds,
+    );
+    validatePoliticalSupersession(
+      principle,
+      principle.supersedesPrincipleRecordId,
+      principlesById,
+      (record) => record.principleId,
+      (record) => record.formedAt,
+      "principle",
+    );
+  }
+
+  for (const knowledge of world.history.subjectKnowledge) {
+    assertHistoryIdentity(ids, world, knowledge, "subject-knowledge");
+    validatePoliticalRecordCore(
+      world,
+      personIds,
+      knowledge.personId,
+      knowledge.recordedAt,
+      knowledge.id,
+    );
+    if (!world.policyCatalog.subjects[knowledge.subjectId]) {
+      throw new Error(
+        `Subject knowledge references a missing subject: ${knowledge.id}`,
+      );
+    }
+    assertMember(FAMILIARITIES, knowledge.familiarity, "subject familiarity");
+    assertMember(
+      UNDERSTANDINGS,
+      knowledge.understanding,
+      "subject understanding",
+    );
+    assertMember(EXPERTISE_LEVELS, knowledge.expertise, "subject expertise");
+    assertMember(
+      PRACTICAL_LEVELS,
+      knowledge.practicalExperience,
+      "practical-experience level",
+    );
+    validateSubjectKnowledgeProvenance(
+      world,
+      knowledge.personId,
+      knowledge.subjectId,
+      knowledge.recordedAt,
+      knowledge.sequence,
+      knowledge.provenance,
+      eventById,
+      factById,
+      personIds,
+    );
+    validatePoliticalSupersession(
+      knowledge,
+      knowledge.supersedesKnowledgeId,
+      subjectKnowledgeById,
+      (record) => record.subjectId,
+      (record) => record.recordedAt,
+      "subject knowledge",
+    );
+  }
+}
+
+function validatePoliticalRecordCore(
+  world: World,
+  personIds: ReadonlySet<EntityId>,
+  personId: EntityId,
+  date: IsoDate,
+  recordId: EntityId,
+): void {
+  const parsed = makeIsoDate(date);
+  const person = world.people[personId];
+  if (!personIds.has(personId) || !person) {
+    throw new Error(
+      `Political record references a missing person: ${recordId}`,
+    );
+  }
+  if (parsed < person.birthDate || parsed > world.currentDate) {
+    throw new Error(`Political record has invalid chronology: ${recordId}`);
+  }
+}
+
+function validateFormationContext(
+  world: World,
+  personId: EntityId,
+  formedAt: IsoDate,
+  formationSequence: number,
+  formation: BeliefFormationContext,
+  eventById: ReadonlyMap<EntityId, HistoricalEvent>,
+  factById: ReadonlyMap<
+    EntityId,
+    { readonly personId: EntityId; readonly fact: PersonFact }
+  >,
+  exposureIds: ReadonlySet<EntityId>,
+): void {
+  assertMember(FORMATION_REASONS, formation.reason, "formation reason");
+  assertCanonicalEntityIds(formation.relevantEventIds, "formation events");
+  assertCanonicalEntityIds(formation.sourceFactIds, "formation facts");
+  assertCanonicalEntityIds(
+    formation.propositionExposureIds,
+    "formation proposition exposures",
+  );
+  assertCanonicalEntityIds(formation.memoryIds, "formation memories");
+  assertCanonicalEntityIds(
+    formation.eventKnowledgeIds,
+    "formation event knowledge",
+  );
+  assertCanonicalEntityIds(formation.claimIds, "formation claims");
+  assertCanonicalEntityIds(
+    formation.relationshipInteractionIds,
+    "formation relationship interactions",
+  );
+  assertCanonicalEntityIds(
+    formation.subjectKnowledgeIds,
+    "formation subject knowledge",
+  );
+  const referencedMemories = formation.memoryIds.map((memoryId) => {
+    const memory = world.history.memories.find(
+      (candidate) => candidate.id === memoryId,
+    );
+    if (
+      !memory ||
+      memory.personId !== personId ||
+      memory.formedAt > formedAt ||
+      memory.sequence >= formationSequence
+    ) {
+      throw new Error(
+        `Formation references an unavailable memory: ${memoryId}`,
+      );
+    }
+    return memory;
+  });
+  const referencedKnowledge = formation.eventKnowledgeIds.map((knowledgeId) => {
+    const knowledge = world.history.knowledge.find(
+      (candidate) => candidate.id === knowledgeId,
+    );
+    if (
+      !knowledge ||
+      knowledge.personId !== personId ||
+      knowledge.learnedAt > formedAt ||
+      knowledge.sequence >= formationSequence
+    ) {
+      throw new Error(
+        `Formation references unavailable event knowledge: ${knowledgeId}`,
+      );
+    }
+    return knowledge;
+  });
+  const knownEventIds = new Set([
+    ...referencedMemories.map((memory) => memory.eventId),
+    ...referencedKnowledge.map((knowledge) => knowledge.eventId),
+  ]);
+  for (const eventId of formation.relevantEventIds) {
+    const event = eventById.get(eventId);
+    if (
+      !event ||
+      event.occurredAt > formedAt ||
+      event.sequence >= formationSequence ||
+      (!event.involvedEntityIds.includes(personId) &&
+        !knownEventIds.has(eventId))
+    ) {
+      throw new Error(`Formation references an unavailable event: ${eventId}`);
+    }
+  }
+  for (const factId of formation.sourceFactIds) {
+    const factRecord = factById.get(factId);
+    if (
+      !factRecord ||
+      factRecord.personId !== personId ||
+      factRecord.fact.occurredAt > formedAt
+    ) {
+      throw new Error(
+        `Formation references an unavailable person fact: ${factId}`,
+      );
+    }
+  }
+  for (const exposureId of formation.propositionExposureIds) {
+    const exposure = world.history.propositionExposures.find(
+      (candidate) => candidate.id === exposureId,
+    );
+    if (
+      !exposureIds.has(exposureId) ||
+      !exposure ||
+      exposure.personId !== personId ||
+      exposure.encounteredAt > formedAt ||
+      exposure.sequence >= formationSequence
+    ) {
+      throw new Error(
+        `Formation references an unavailable proposition exposure: ${exposureId}`,
+      );
+    }
+  }
+  for (const claimId of formation.claimIds) {
+    const claim = world.history.claims.find(
+      (candidate) => candidate.id === claimId,
+    );
+    const knownThroughClaim = referencedKnowledge.some(
+      (knowledge) =>
+        knowledge.source.kind === "told-by" &&
+        knowledge.source.claimId === claimId,
+    );
+    if (
+      !claim ||
+      claim.madeAt > formedAt ||
+      claim.sequence >= formationSequence ||
+      (claim.speakerPersonId !== personId && !knownThroughClaim)
+    ) {
+      throw new Error(`Formation references an unavailable claim: ${claimId}`);
+    }
+  }
+  for (const interactionId of formation.relationshipInteractionIds) {
+    const interaction = world.history.relationshipInteractions.find(
+      (candidate) => candidate.id === interactionId,
+    );
+    if (
+      !interaction ||
+      !interaction.personIds.includes(personId) ||
+      interaction.occurredAt > formedAt ||
+      interaction.sequence >= formationSequence
+    ) {
+      throw new Error(
+        `Formation references an unavailable relationship interaction: ${interactionId}`,
+      );
+    }
+  }
+  for (const knowledgeId of formation.subjectKnowledgeIds) {
+    const knowledge = world.history.subjectKnowledge.find(
+      (candidate) => candidate.id === knowledgeId,
+    );
+    if (
+      !knowledge ||
+      knowledge.personId !== personId ||
+      knowledge.recordedAt > formedAt ||
+      knowledge.sequence >= formationSequence
+    ) {
+      throw new Error(
+        `Formation references unavailable subject knowledge: ${knowledgeId}`,
+      );
+    }
+  }
+  if (formation.cue) {
+    const cueSource =
+      formation.cue.sourcePersonId === null
+        ? undefined
+        : world.people[formation.cue.sourcePersonId];
+    assertMember(CUE_KINDS, formation.cue.kind, "political cue kind");
+    assertNonEmptyString(
+      formation.cue.sourceLabel,
+      "Political cue source label",
+    );
+    if (formation.cue.sourcePersonId !== null && !cueSource) {
+      throw new Error(
+        `Political cue references a missing person: ${formation.cue.sourcePersonId}`,
+      );
+    }
+    if (formation.cue.sourcePersonId === personId) {
+      throw new Error("A trusted political cue must come from another person.");
+    }
+    if (cueSource && cueSource.birthDate > formedAt) {
+      throw new Error("A political cue source predates their birth.");
+    }
+  }
+  if ((formation.reason === "trusted-cue") !== (formation.cue !== null)) {
+    throw new Error(
+      "Trusted-cue formation reason and political cue must be supplied together.",
+    );
+  }
+  if (formation.cue) validatePoliticalCueConsistency(formation.cue);
+  validateOptionalString(
+    formation.evidenceReference,
+    "Formation evidence reference",
+  );
+  validateOptionalString(formation.note, "Formation note");
+}
+
+function validatePoliticalCueConsistency(
+  cue: NonNullable<BeliefFormationContext["cue"]>,
+): void {
+  const requiresPerson = [
+    "expert-information",
+    "politician",
+    "family",
+    "social-contact",
+  ].includes(cue.kind);
+  const forbidsPerson = [
+    "party",
+    "organization",
+    "union",
+    "church",
+    "unknown",
+  ].includes(cue.kind);
+  if (
+    (requiresPerson && cue.sourcePersonId === null) ||
+    (forbidsPerson && cue.sourcePersonId !== null)
+  ) {
+    throw new Error(
+      `Political cue has inconsistent person provenance: ${cue.kind}`,
+    );
+  }
+}
+
+function validatePropositionExposureProvenance(
+  world: World,
+  personId: EntityId,
+  encounteredAt: IsoDate,
+  exposureSequence: number,
+  provenance: World["history"]["propositionExposures"][number]["provenance"],
+  eventById: ReadonlyMap<EntityId, HistoricalEvent>,
+  claimById: ReadonlyMap<EntityId, ClaimRecord>,
+  personIds: ReadonlySet<EntityId>,
+): void {
+  switch (provenance.kind) {
+    case "direct-experience": {
+      const event = eventById.get(provenance.eventId);
+      if (
+        !event ||
+        event.occurredAt > encounteredAt ||
+        event.sequence >= exposureSequence ||
+        !event.involvedEntityIds.includes(personId)
+      ) {
+        throw new Error(
+          `Proposition exposure references an incompatible event: ${provenance.eventId}`,
+        );
+      }
+      return;
+    }
+    case "told-by": {
+      const sourcePerson = world.people[provenance.sourcePersonId];
+      if (
+        provenance.sourcePersonId === personId ||
+        !personIds.has(provenance.sourcePersonId) ||
+        !sourcePerson ||
+        sourcePerson.birthDate > encounteredAt
+      ) {
+        throw new Error(
+          `Proposition exposure references an unavailable source person: ${provenance.sourcePersonId}`,
+        );
+      }
+      if (provenance.claimId !== null) {
+        const claim = claimById.get(provenance.claimId);
+        if (
+          !claim ||
+          claim.speakerPersonId !== provenance.sourcePersonId ||
+          claim.madeAt > encounteredAt ||
+          claim.sequence >= exposureSequence
+        ) {
+          throw new Error(
+            `Proposition exposure references an incompatible claim: ${provenance.claimId}`,
+          );
+        }
+      }
+      return;
+    }
+    case "public-record":
+      assertNonEmptyString(
+        provenance.reference,
+        "Exposure public-record reference",
+      );
+      return;
+    case "media":
+      assertNonEmptyString(provenance.outlet, "Exposure media outlet");
+      validateOptionalString(provenance.reference, "Exposure media reference");
+      return;
+    case "organization":
+      assertNonEmptyString(
+        provenance.organizationLabel,
+        "Exposure organization label",
+      );
+      validateOptionalString(
+        provenance.reference,
+        "Exposure organization reference",
+      );
+      return;
+    case "manual":
+      assertNonEmptyString(provenance.note, "Exposure manual note");
+      return;
+    default:
+      throw new Error(
+        `Invalid proposition-exposure provenance kind: ${runtimeKind(provenance)}`,
+      );
+  }
+}
+
+function validateSubjectKnowledgeProvenance(
+  world: World,
+  personId: EntityId,
+  subjectId: EntityId,
+  recordedAt: IsoDate,
+  knowledgeSequence: number,
+  provenance: SubjectKnowledgeProvenance,
+  eventById: ReadonlyMap<EntityId, HistoricalEvent>,
+  factById: ReadonlyMap<
+    EntityId,
+    { readonly personId: EntityId; readonly fact: PersonFact }
+  >,
+  personIds: ReadonlySet<EntityId>,
+): void {
+  switch (provenance.kind) {
+    case "person-facts":
+      if (provenance.factIds.length === 0) {
+        throw new Error("Fact-derived expertise requires at least one fact.");
+      }
+      assertCanonicalEntityIds(provenance.factIds, "knowledge facts");
+      for (const factId of provenance.factIds) {
+        const record = factById.get(factId);
+        const fact = record?.fact;
+        if (
+          record?.personId !== personId ||
+          !fact ||
+          (fact.kind !== "education" && fact.kind !== "occupation") ||
+          !fact.subjectIds.includes(subjectId) ||
+          fact.occurredAt > recordedAt
+        ) {
+          throw new Error(
+            `Subject knowledge references an incompatible person fact: ${factId}`,
+          );
+        }
+      }
+      return;
+    case "historical-events":
+      if (provenance.eventIds.length === 0) {
+        throw new Error("Event-derived knowledge requires at least one event.");
+      }
+      assertCanonicalEntityIds(provenance.eventIds, "knowledge events");
+      for (const eventId of provenance.eventIds) {
+        const event = eventById.get(eventId);
+        if (
+          !event ||
+          event.occurredAt > recordedAt ||
+          event.sequence >= knowledgeSequence ||
+          !event.involvedEntityIds.includes(personId)
+        ) {
+          throw new Error(
+            `Subject knowledge references an incompatible event: ${eventId}`,
+          );
+        }
+      }
+      return;
+    case "study":
+      assertNonEmptyString(provenance.reference, "Study reference");
+      return;
+    case "trusted-report":
+      if (
+        provenance.sourcePersonId === personId ||
+        !personIds.has(provenance.sourcePersonId) ||
+        !world.people[provenance.sourcePersonId] ||
+        world.people[provenance.sourcePersonId]!.birthDate > recordedAt
+      ) {
+        throw new Error(
+          `Subject knowledge references an unavailable source person: ${provenance.sourcePersonId}`,
+        );
+      }
+      validateOptionalString(provenance.reference, "Trusted-report reference");
+      return;
+    case "manual":
+      assertNonEmptyString(provenance.note, "Manual knowledge note");
+      return;
+    default:
+      throw new Error(
+        `Invalid subject-knowledge provenance kind: ${runtimeKind(provenance)}`,
+      );
+  }
+}
+
+function validatePoliticalSourceEvent(
+  sourceEventId: EntityId | null,
+  personId: EntityId,
+  recordDate: IsoDate,
+  recordSequence: number,
+  recordId: EntityId,
+  eventById: ReadonlyMap<EntityId, HistoricalEvent>,
+): void {
+  if (sourceEventId === null) return;
+  const event = eventById.get(sourceEventId);
+  if (
+    !event ||
+    event.occurredAt !== recordDate ||
+    !event.involvedEntityIds.includes(personId) ||
+    event.sequence >= recordSequence
+  ) {
+    throw new Error(
+      `Political record has an invalid source event: ${recordId}`,
+    );
+  }
+}
+
+function validatePoliticalSupersession<
+  T extends {
+    readonly id: EntityId;
+    readonly personId: EntityId;
+    readonly sequence: number;
+  },
+>(
+  record: T,
+  priorId: EntityId | null,
+  recordsById: ReadonlyMap<EntityId, T>,
+  selectSubject: (candidate: T) => EntityId,
+  selectDate: (candidate: T) => IsoDate,
+  label: string,
+): void {
+  const previous = [...recordsById.values()]
+    .filter(
+      (candidate) =>
+        candidate.personId === record.personId &&
+        selectSubject(candidate) === selectSubject(record) &&
+        candidate.sequence < record.sequence,
+    )
+    .sort((left, right) => left.sequence - right.sequence)
+    .at(-1);
+  const prior = priorId === null ? undefined : recordsById.get(priorId);
+  if (
+    (previous === undefined && priorId !== null) ||
+    (previous !== undefined && priorId !== previous.id) ||
+    (priorId !== null && !prior) ||
+    (prior !== undefined &&
+      (prior.personId !== record.personId ||
+        selectSubject(prior) !== selectSubject(record) ||
+        prior.sequence >= record.sequence ||
+        selectDate(prior) > selectDate(record)))
+  ) {
+    throw new Error(`Invalid ${label} supersession reference: ${priorId}`);
+  }
+}
+
+function assertCanonicalEntityIds(
+  ids: readonly EntityId[],
+  label: string,
+): void {
+  const canonical = [...new Set(ids)].sort();
+  if (JSON.stringify(ids) !== JSON.stringify(canonical)) {
+    throw new Error(`${label} must contain sorted unique IDs.`);
   }
 }
 
@@ -1008,7 +2097,18 @@ function assertHistoryIdentity(
   ids: Set<EntityId>,
   world: World,
   record: { readonly id: EntityId; readonly stableKey: string },
-  kind: "event" | "memory" | "knowledge" | "claim" | "relationship",
+  kind:
+    | "event"
+    | "memory"
+    | "knowledge"
+    | "claim"
+    | "relationship"
+    | "proposition-exposure"
+    | "belief"
+    | "public-position"
+    | "commitment"
+    | "principle"
+    | "subject-knowledge",
 ): void {
   assertUniqueId(ids, record.id);
   assertNonEmptyString(record.stableKey, "History stable key");
@@ -1030,12 +2130,40 @@ function assertUniqueStableKeys(
   }
 }
 
+function assertSequenceOrdered(
+  records: readonly { readonly sequence: number }[],
+  label: string,
+): void {
+  if (
+    records.some(
+      (record, index) =>
+        index > 0 && record.sequence <= (records[index - 1]?.sequence ?? -1),
+    )
+  ) {
+    throw new Error(`${label} history is not stored in append-sequence order.`);
+  }
+}
+
 function assertNonEmptyString(
   value: unknown,
   label: string,
 ): asserts value is string {
   if (typeof value !== "string" || value.trim().length === 0) {
     throw new Error(`${label} must be a non-empty string.`);
+  }
+}
+
+function runtimeKind(value: never): string {
+  return String((value as { readonly kind?: unknown }).kind);
+}
+
+function assertMember<T extends string>(
+  values: readonly T[],
+  value: T,
+  label: string,
+): void {
+  if (!values.includes(value)) {
+    throw new Error(`Invalid ${label}: ${String(value)}`);
   }
 }
 
@@ -1120,6 +2248,13 @@ function assertJsonSafe(
 }
 
 function cloneFact(fact: PersonFact): PersonFact {
+  if (fact.kind === "education" || fact.kind === "occupation") {
+    return {
+      ...fact,
+      provenance: { ...fact.provenance },
+      subjectIds: [...fact.subjectIds],
+    };
+  }
   return { ...fact, provenance: { ...fact.provenance } };
 }
 
@@ -1145,9 +2280,6 @@ function clonePerson(person: Person): Person {
     detailLevel: "materialized",
     details: {
       ...person.details,
-      expertise: [...person.details.expertise],
-      personalityTendencies: [...person.details.personalityTendencies],
-      currentGoals: [...person.details.currentGoals],
       generatedFacts: person.details.generatedFacts.map(cloneFact),
     },
   };

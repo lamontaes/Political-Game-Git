@@ -1,6 +1,7 @@
 import { ageOnDate } from "./dates";
 import { factsForPerson } from "./people";
 import type {
+  CampaignCommitmentRecord,
   ClaimRecord,
   EntityId,
   EventKnowledgeRecord,
@@ -10,7 +11,16 @@ import type {
   MemoryRecord,
   OccupationFact,
   PersonFact,
+  PrincipleRecord,
+  PrivateBeliefRecord,
+  PropositionExposureRecord,
+  PublicPositionRecord,
   RelationshipInteraction,
+  SubjectExpertise,
+  SubjectFamiliarity,
+  SubjectKnowledgeRecord,
+  SubjectUnderstanding,
+  PracticalExperience,
   World,
 } from "./types";
 
@@ -279,6 +289,536 @@ export function factsNewestFirst(
     : [];
 }
 
+export function privateBeliefHistory(
+  world: World,
+  personId: EntityId,
+  propositionId?: EntityId,
+): readonly PrivateBeliefRecord[] {
+  return world.history.privateBeliefs
+    .filter(
+      (belief) =>
+        belief.personId === personId &&
+        (propositionId === undefined || belief.propositionId === propositionId),
+    )
+    .sort(byDateThenSequence);
+}
+
+export function propositionExposureHistory(
+  world: World,
+  personId: EntityId,
+  propositionId?: EntityId,
+): readonly PropositionExposureRecord[] {
+  return world.history.propositionExposures
+    .filter(
+      (exposure) =>
+        exposure.personId === personId &&
+        (propositionId === undefined ||
+          exposure.propositionId === propositionId),
+    )
+    .sort(byDateThenSequence);
+}
+
+export function hasEncounteredProposition(
+  world: World,
+  personId: EntityId,
+  propositionId: EntityId,
+  throughDate: IsoDate = world.currentDate,
+): boolean {
+  return (
+    latestPrivateBelief(world, personId, propositionId, throughDate) !==
+      undefined ||
+    latestPropositionEncounterEvidence(
+      world,
+      personId,
+      propositionId,
+      throughDate,
+    ) !== undefined
+  );
+}
+
+export type PropositionEncounterEvidence =
+  | {
+      readonly kind: "proposition-exposure";
+      readonly record: PropositionExposureRecord;
+    }
+  | {
+      readonly kind: "public-position";
+      readonly record: PublicPositionRecord;
+    }
+  | {
+      readonly kind: "campaign-commitment";
+      readonly record: CampaignCommitmentRecord;
+    };
+
+export type PrivateOpinionState =
+  | { readonly kind: "never-encountered" }
+  | {
+      readonly kind: "encountered-no-formed-view";
+      readonly evidence: PropositionEncounterEvidence;
+    }
+  | {
+      readonly kind: "formed-belief";
+      readonly belief: PrivateBeliefRecord;
+      readonly latestExposure: PropositionExposureRecord | undefined;
+    };
+
+export function privateOpinionState(
+  world: World,
+  personId: EntityId,
+  propositionId: EntityId,
+  throughDate: IsoDate = world.currentDate,
+): PrivateOpinionState {
+  const belief = latestPrivateBelief(
+    world,
+    personId,
+    propositionId,
+    throughDate,
+  );
+  const evidence = latestPropositionEncounterEvidence(
+    world,
+    personId,
+    propositionId,
+    throughDate,
+  );
+  const latestExposure = propositionExposureHistory(
+    world,
+    personId,
+    propositionId,
+  )
+    .filter((exposure) => exposure.encounteredAt <= throughDate)
+    .at(-1);
+  if (belief) return { kind: "formed-belief", belief, latestExposure };
+  return evidence
+    ? { kind: "encountered-no-formed-view", evidence }
+    : { kind: "never-encountered" };
+}
+
+function latestPropositionEncounterEvidence(
+  world: World,
+  personId: EntityId,
+  propositionId: EntityId,
+  throughDate: IsoDate,
+): PropositionEncounterEvidence | undefined {
+  const evidence: PropositionEncounterEvidence[] = [
+    ...propositionExposureHistory(world, personId, propositionId)
+      .filter((record) => record.encounteredAt <= throughDate)
+      .map((record) => ({ kind: "proposition-exposure" as const, record })),
+    ...publicPositionHistory(world, personId, propositionId)
+      .filter((record) => record.statedAt <= throughDate)
+      .map((record) => ({ kind: "public-position" as const, record })),
+    ...campaignCommitmentHistory(world, personId, propositionId)
+      .filter((record) => record.madeAt <= throughDate)
+      .map((record) => ({ kind: "campaign-commitment" as const, record })),
+  ];
+  return evidence
+    .sort(
+      (left, right) =>
+        propositionEncounterEvidenceDate(left).localeCompare(
+          propositionEncounterEvidenceDate(right),
+        ) || left.record.sequence - right.record.sequence,
+    )
+    .at(-1);
+}
+
+function propositionEncounterEvidenceDate(
+  evidence: PropositionEncounterEvidence,
+): IsoDate {
+  switch (evidence.kind) {
+    case "proposition-exposure":
+      return evidence.record.encounteredAt;
+    case "public-position":
+      return evidence.record.statedAt;
+    case "campaign-commitment":
+      return evidence.record.madeAt;
+  }
+}
+
+export function latestPrivateBelief(
+  world: World,
+  personId: EntityId,
+  propositionId: EntityId,
+  throughDate: IsoDate = world.currentDate,
+): PrivateBeliefRecord | undefined {
+  return privateBeliefHistory(world, personId, propositionId)
+    .filter((belief) => belief.formedAt <= throughDate)
+    .at(-1);
+}
+
+export function privatelySupportsProposition(
+  world: World,
+  personId: EntityId,
+  propositionId: EntityId,
+  throughDate: IsoDate = world.currentDate,
+): boolean {
+  return (
+    latestPrivateBelief(world, personId, propositionId, throughDate)
+      ?.position === "support"
+  );
+}
+
+export function privatePositionAtDate(
+  world: World,
+  personId: EntityId,
+  propositionId: EntityId,
+  throughDate: IsoDate,
+): PrivateBeliefRecord["position"] | undefined {
+  return latestPrivateBelief(world, personId, propositionId, throughDate)
+    ?.position;
+}
+
+export function privatePositionChanges(
+  world: World,
+  personId: EntityId,
+  propositionId: EntityId,
+): readonly PrivateBeliefRecord[] {
+  const history = privateBeliefHistory(world, personId, propositionId);
+  return history.filter(
+    (belief, index) =>
+      index > 0 && belief.position !== history[index - 1]?.position,
+  );
+}
+
+export function privatePositionChangeDates(
+  world: World,
+  personId: EntityId,
+  propositionId: EntityId,
+): readonly IsoDate[] {
+  return privatePositionChanges(world, personId, propositionId).map(
+    (belief) => belief.formedAt,
+  );
+}
+
+export function hasChangedPrivatePosition(
+  world: World,
+  personId: EntityId,
+  propositionId: EntityId,
+): boolean {
+  return (
+    new Set(
+      privateBeliefHistory(world, personId, propositionId).map(
+        (belief) => belief.position,
+      ),
+    ).size > 1
+  );
+}
+
+export function publicPositionHistory(
+  world: World,
+  personId: EntityId,
+  propositionId?: EntityId,
+): readonly PublicPositionRecord[] {
+  return world.history.publicPositions
+    .filter(
+      (position) =>
+        position.personId === personId &&
+        (propositionId === undefined ||
+          position.propositionId === propositionId),
+    )
+    .sort(byDateThenSequence);
+}
+
+export function publicPositionAtDate(
+  world: World,
+  personId: EntityId,
+  propositionId: EntityId,
+  throughDate: IsoDate,
+): PublicPositionRecord | undefined {
+  return publicPositionHistory(world, personId, propositionId)
+    .filter((position) => position.statedAt <= throughDate)
+    .at(-1);
+}
+
+export function campaignCommitmentHistory(
+  world: World,
+  personId: EntityId,
+  propositionId?: EntityId,
+): readonly CampaignCommitmentRecord[] {
+  return world.history.campaignCommitments
+    .filter(
+      (commitment) =>
+        commitment.personId === personId &&
+        (propositionId === undefined ||
+          commitment.propositionId === propositionId),
+    )
+    .sort(byDateThenSequence);
+}
+
+export function latestCampaignCommitment(
+  world: World,
+  personId: EntityId,
+  propositionId: EntityId,
+): CampaignCommitmentRecord | undefined {
+  return campaignCommitmentHistory(world, personId, propositionId).at(-1);
+}
+
+export function hasCampaignCommitment(
+  world: World,
+  personId: EntityId,
+  propositionId: EntityId,
+): boolean {
+  return latestCampaignCommitment(world, personId, propositionId) !== undefined;
+}
+
+export function principleHistory(
+  world: World,
+  personId: EntityId,
+  principleId?: EntityId,
+): readonly PrincipleRecord[] {
+  return world.history.principles
+    .filter(
+      (principle) =>
+        principle.personId === personId &&
+        (principleId === undefined || principle.principleId === principleId),
+    )
+    .sort(byDateThenSequence);
+}
+
+export function latestPrinciple(
+  world: World,
+  personId: EntityId,
+  principleId: EntityId,
+): PrincipleRecord | undefined {
+  return principleHistory(world, personId, principleId).at(-1);
+}
+
+export function personHoldsPrinciple(
+  world: World,
+  personId: EntityId,
+  principleId: EntityId,
+): boolean {
+  return latestPrinciple(world, personId, principleId)?.stance === "endorses";
+}
+
+export function formedBeliefsInDomain(
+  world: World,
+  personId: EntityId,
+  domainId: EntityId,
+): readonly PrivateBeliefRecord[] {
+  const latestByProposition = new Map<EntityId, PrivateBeliefRecord>();
+  for (const belief of privateBeliefHistory(world, personId)) {
+    const proposition = world.policyCatalog.propositions[belief.propositionId];
+    if (
+      proposition &&
+      world.policyCatalog.issues[proposition.issueId]?.domainId === domainId
+    ) {
+      latestByProposition.set(belief.propositionId, belief);
+    }
+  }
+  return [...latestByProposition.values()].sort(byDateThenSequence);
+}
+
+export interface ResolvedBeliefFormationProvenance {
+  readonly events: readonly HistoricalEvent[];
+  readonly facts: readonly PersonFact[];
+  readonly propositionExposures: readonly PropositionExposureRecord[];
+  readonly memories: readonly MemoryRecord[];
+  readonly eventKnowledge: readonly EventKnowledgeRecord[];
+  readonly claims: readonly ClaimRecord[];
+  readonly relationshipInteractions: readonly RelationshipInteraction[];
+  readonly subjectKnowledge: readonly SubjectKnowledgeRecord[];
+}
+
+export function resolvedFormationProvenanceForBelief(
+  world: World,
+  beliefId: EntityId,
+): ResolvedBeliefFormationProvenance | undefined {
+  const belief = world.history.privateBeliefs.find(
+    (candidate) => candidate.id === beliefId,
+  );
+  if (!belief) return undefined;
+  const formation = belief.formation;
+  const select = <T extends { readonly id: EntityId }>(
+    records: readonly T[],
+    ids: readonly EntityId[],
+  ): readonly T[] => {
+    const wanted = new Set(ids);
+    return records.filter((record) => wanted.has(record.id));
+  };
+  const person = world.people[belief.personId];
+  return {
+    events: select(world.history.events, formation.relevantEventIds),
+    facts: person
+      ? select(factsForPerson(person), formation.sourceFactIds)
+      : [],
+    propositionExposures: select(
+      world.history.propositionExposures,
+      formation.propositionExposureIds,
+    ),
+    memories: select(world.history.memories, formation.memoryIds),
+    eventKnowledge: select(
+      world.history.knowledge,
+      formation.eventKnowledgeIds,
+    ),
+    claims: select(world.history.claims, formation.claimIds),
+    relationshipInteractions: select(
+      world.history.relationshipInteractions,
+      formation.relationshipInteractionIds,
+    ),
+    subjectKnowledge: select(
+      world.history.subjectKnowledge,
+      formation.subjectKnowledgeIds,
+    ),
+  };
+}
+
+export function relevantExperiencesForBelief(
+  world: World,
+  beliefId: EntityId,
+): readonly HistoricalEvent[] {
+  return resolvedFormationProvenanceForBelief(world, beliefId)?.events ?? [];
+}
+
+export function subjectKnowledgeHistory(
+  world: World,
+  personId: EntityId,
+  subjectId?: EntityId,
+): readonly SubjectKnowledgeRecord[] {
+  return world.history.subjectKnowledge
+    .filter(
+      (knowledge) =>
+        knowledge.personId === personId &&
+        (subjectId === undefined || knowledge.subjectId === subjectId),
+    )
+    .sort(byDateThenSequence);
+}
+
+export function latestSubjectKnowledge(
+  world: World,
+  personId: EntityId,
+  subjectId: EntityId,
+): SubjectKnowledgeRecord | undefined {
+  return subjectKnowledgeHistory(world, personId, subjectId).at(-1);
+}
+
+export interface SubjectKnowledgeProfile {
+  readonly subjectId: EntityId;
+  readonly familiarity: SubjectFamiliarity;
+  readonly understanding: SubjectUnderstanding;
+  readonly expertise: SubjectExpertise;
+  readonly practicalExperience: PracticalExperience;
+  readonly explicitRecordId: EntityId | null;
+  readonly supportingFactIds: readonly EntityId[];
+}
+
+export function subjectKnowledgeProfile(
+  world: World,
+  personId: EntityId,
+  subjectId: EntityId,
+): SubjectKnowledgeProfile | undefined {
+  if (!world.policyCatalog.subjects[subjectId]) return undefined;
+  const person = world.people[personId];
+  if (!person) return undefined;
+  const supportingFacts = factsForPerson(person).filter(
+    (fact) =>
+      (fact.kind === "education" || fact.kind === "occupation") &&
+      fact.subjectIds.includes(subjectId),
+  );
+  const explicit = latestSubjectKnowledge(world, personId, subjectId);
+  if (!explicit && supportingFacts.length === 0) return undefined;
+
+  if (explicit) {
+    return {
+      subjectId,
+      familiarity: explicit.familiarity,
+      understanding: explicit.understanding,
+      expertise: explicit.expertise,
+      practicalExperience: explicit.practicalExperience,
+      explicitRecordId: explicit.id,
+      supportingFactIds: supportingFacts.map((fact) => fact.id).sort(),
+    };
+  }
+
+  let familiarity: SubjectFamiliarity = "aware";
+  let understanding: SubjectUnderstanding = "minimal";
+  let expertise: SubjectExpertise = "none";
+  let practicalExperience: PracticalExperience = "none";
+  for (const fact of supportingFacts) {
+    if (fact.kind === "occupation") {
+      familiarity = maxCategory(FAMILIARITY_ORDER, familiarity, "deep");
+      understanding = maxCategory(
+        UNDERSTANDING_ORDER,
+        understanding,
+        "advanced",
+      );
+      expertise = maxCategory(EXPERTISE_ORDER, expertise, "practitioner");
+      practicalExperience = maxCategory(
+        PRACTICAL_ORDER,
+        practicalExperience,
+        "direct",
+      );
+    } else {
+      familiarity = maxCategory(FAMILIARITY_ORDER, familiarity, "familiar");
+      understanding = maxCategory(
+        UNDERSTANDING_ORDER,
+        understanding,
+        "working",
+      );
+      expertise = maxCategory(EXPERTISE_ORDER, expertise, "basic");
+      practicalExperience = maxCategory(
+        PRACTICAL_ORDER,
+        practicalExperience,
+        "indirect",
+      );
+    }
+  }
+  return {
+    subjectId,
+    familiarity,
+    understanding,
+    expertise,
+    practicalExperience,
+    explicitRecordId: null,
+    supportingFactIds: supportingFacts.map((fact) => fact.id).sort(),
+  };
+}
+
+export function subjectKnowledgeProfilesForDomain(
+  world: World,
+  personId: EntityId,
+  domainId: EntityId,
+): readonly SubjectKnowledgeProfile[] {
+  return knowledgeSubjectIdsForPerson(world, personId).flatMap((subjectId) => {
+    const subject = world.policyCatalog.subjects[subjectId];
+    const belongsToDomain =
+      subject?.scope === "domain"
+        ? subject.referenceId === domainId
+        : subject?.scope === "issue"
+          ? !!subject.referenceId &&
+            world.policyCatalog.issues[subject.referenceId]?.domainId ===
+              domainId
+          : subject?.scope === "proposition"
+            ? propositionDomainId(world, subject.referenceId) === domainId
+            : false;
+    const profile = belongsToDomain
+      ? subjectKnowledgeProfile(world, personId, subjectId)
+      : undefined;
+    return profile ? [profile] : [];
+  });
+}
+
+export function subjectKnowledgeProfilesForPerson(
+  world: World,
+  personId: EntityId,
+): readonly SubjectKnowledgeProfile[] {
+  return knowledgeSubjectIdsForPerson(world, personId).flatMap((subjectId) => {
+    const profile = subjectKnowledgeProfile(world, personId, subjectId);
+    return profile ? [profile] : [];
+  });
+}
+
+export function hasPracticalExperienceForSubject(
+  world: World,
+  personId: EntityId,
+  subjectId: EntityId,
+): boolean {
+  const experience = subjectKnowledgeProfile(
+    world,
+    personId,
+    subjectId,
+  )?.practicalExperience;
+  return experience === "direct" || experience === "extensive";
+}
+
 function occupations(world: World, personId: EntityId): OccupationFact[] {
   const person = world.people[personId];
   return person
@@ -286,6 +826,59 @@ function occupations(world: World, personId: EntityId): OccupationFact[] {
         (fact): fact is OccupationFact => fact.kind === "occupation",
       )
     : [];
+}
+
+function knowledgeSubjectIdsForPerson(
+  world: World,
+  personId: EntityId,
+): readonly EntityId[] {
+  const person = world.people[personId];
+  if (!person) return [];
+  const subjectIds = new Set<EntityId>();
+  for (const fact of factsForPerson(person)) {
+    if (fact.kind === "education" || fact.kind === "occupation") {
+      for (const subjectId of fact.subjectIds) subjectIds.add(subjectId);
+    }
+  }
+  for (const record of world.history.subjectKnowledge) {
+    if (record.personId === personId) subjectIds.add(record.subjectId);
+  }
+  return [...subjectIds].sort();
+}
+
+const FAMILIARITY_ORDER = ["aware", "familiar", "deep"] as const;
+const UNDERSTANDING_ORDER = [
+  "minimal",
+  "working",
+  "advanced",
+  "expert",
+] as const;
+const EXPERTISE_ORDER = [
+  "none",
+  "basic",
+  "practitioner",
+  "specialist",
+  "authority",
+] as const;
+const PRACTICAL_ORDER = ["none", "indirect", "direct", "extensive"] as const;
+
+function maxCategory<T extends string>(
+  order: readonly T[],
+  left: T,
+  right: T,
+): T {
+  return order.indexOf(left) >= order.indexOf(right) ? left : right;
+}
+
+function propositionDomainId(
+  world: World,
+  propositionId: EntityId | null,
+): EntityId | undefined {
+  if (propositionId === null) return undefined;
+  const proposition = world.policyCatalog.propositions[propositionId];
+  return proposition
+    ? world.policyCatalog.issues[proposition.issueId]?.domainId
+    : undefined;
 }
 
 function periodsOverlap(
@@ -308,13 +901,28 @@ function byDateThenSequence<
     readonly formedAt?: IsoDate;
     readonly learnedAt?: IsoDate;
     readonly madeAt?: IsoDate;
+    readonly statedAt?: IsoDate;
+    readonly recordedAt?: IsoDate;
+    readonly encounteredAt?: IsoDate;
     readonly sequence: number;
   },
 >(left: T, right: T): number {
   const leftDate =
-    left.occurredAt ?? left.formedAt ?? left.learnedAt ?? left.madeAt;
+    left.occurredAt ??
+    left.formedAt ??
+    left.learnedAt ??
+    left.madeAt ??
+    left.statedAt ??
+    left.recordedAt ??
+    left.encounteredAt;
   const rightDate =
-    right.occurredAt ?? right.formedAt ?? right.learnedAt ?? right.madeAt;
+    right.occurredAt ??
+    right.formedAt ??
+    right.learnedAt ??
+    right.madeAt ??
+    right.statedAt ??
+    right.recordedAt ??
+    right.encounteredAt;
   return (
     (leftDate?.localeCompare(rightDate ?? "") ?? 0) ||
     left.sequence - right.sequence

@@ -5,15 +5,26 @@ export type EntityId = string & { readonly [entityIdBrand]: true };
 export type IsoDate = string & { readonly [isoDateBrand]: true };
 
 export type EntityKind =
+  | "belief"
   | "claim"
+  | "commitment"
   | "event"
   | "fact"
   | "jurisdiction"
   | "knowledge"
   | "memory"
   | "person"
+  | "policy-domain"
+  | "policy-issue"
+  | "principle"
+  | "principle-definition"
+  | "proposition-exposure"
+  | "proposition"
+  | "public-position"
   | "relationship"
   | "snapshot"
+  | "subject"
+  | "subject-knowledge"
   | "world";
 
 export type DataStatus =
@@ -33,6 +44,70 @@ export interface Jurisdiction {
   readonly kind: string;
   readonly parentName: string | null;
   readonly provenance: JurisdictionDataProvenance;
+}
+
+export interface PolicyDomainDefinition {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly name: string;
+  readonly description: string;
+}
+
+export interface PolicyIssueDefinition {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly domainId: EntityId;
+  readonly name: string;
+  readonly description: string;
+}
+
+export interface PropositionParameter {
+  readonly key: string;
+  readonly value: string;
+}
+
+export interface PolicyPropositionDefinition {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly issueId: EntityId;
+  readonly name: string;
+  readonly question: string;
+  readonly parameters: readonly PropositionParameter[];
+  readonly tags: readonly string[];
+}
+
+export type KnowledgeSubjectScope =
+  "domain" | "issue" | "proposition" | "technical";
+
+export interface KnowledgeSubjectDefinition {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly name: string;
+  readonly description: string;
+  readonly scope: KnowledgeSubjectScope;
+  readonly referenceId: EntityId | null;
+  readonly tags: readonly string[];
+}
+
+export interface PoliticalPrincipleDefinition {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly name: string;
+  readonly description: string;
+}
+
+export interface PolicyCatalog {
+  readonly catalogVersion: string;
+  readonly domains: Readonly<Record<string, PolicyDomainDefinition>>;
+  readonly domainOrder: readonly EntityId[];
+  readonly issues: Readonly<Record<string, PolicyIssueDefinition>>;
+  readonly issueOrder: readonly EntityId[];
+  readonly propositions: Readonly<Record<string, PolicyPropositionDefinition>>;
+  readonly propositionOrder: readonly EntityId[];
+  readonly subjects: Readonly<Record<string, KnowledgeSubjectDefinition>>;
+  readonly subjectOrder: readonly EntityId[];
+  readonly principles: Readonly<Record<string, PoliticalPrincipleDefinition>>;
+  readonly principleOrder: readonly EntityId[];
 }
 
 export type PersonDetailLevel = "lightweight" | "materialized";
@@ -107,6 +182,7 @@ export interface EducationFact extends PersonFactBase {
   readonly credential: string | null;
   readonly endedAt: IsoDate | null;
   readonly status: EducationStatus;
+  readonly subjectIds: readonly EntityId[];
 }
 
 export type OccupationStatus = "ended" | "ongoing";
@@ -117,6 +193,7 @@ export interface OccupationFact extends PersonFactBase {
   readonly title: string;
   readonly endedAt: IsoDate | null;
   readonly status: OccupationStatus;
+  readonly subjectIds: readonly EntityId[];
 }
 
 export type PersonFact =
@@ -128,10 +205,7 @@ export type PersonFact =
   | OccupationFact;
 
 export interface PersonDetails {
-  readonly generatorVersion: "person-materialization-v2";
-  readonly expertise: readonly string[];
-  readonly personalityTendencies: readonly string[];
-  readonly currentGoals: readonly string[];
+  readonly generatorVersion: "person-materialization-v4";
   readonly generatedFacts: readonly PersonFact[];
 }
 
@@ -317,6 +391,190 @@ export interface RelationshipInteraction {
   readonly tags: readonly string[];
 }
 
+export type BeliefPosition = "support" | "oppose" | "uncertain" | "conflicted";
+export type BeliefConviction = "tentative" | "moderate" | "strong" | "settled";
+export type PoliticalSalience = "low" | "moderate" | "high" | "central";
+export type PoliticalFlexibility =
+  "open" | "negotiable" | "conditional" | "firm";
+export type BeliefFormationReason =
+  | "initial-reflection"
+  | "genuine-reconsideration"
+  | "new-evidence"
+  | "lived-experience"
+  | "proposal-changed"
+  | "political-repositioning"
+  | "trusted-cue"
+  | "unknown";
+export type PoliticalCueKind =
+  | "expert-information"
+  | "politician"
+  | "party"
+  | "organization"
+  | "family"
+  | "union"
+  | "church"
+  | "journalist-media"
+  | "social-contact"
+  | "unknown";
+
+export interface PoliticalCue {
+  readonly kind: PoliticalCueKind;
+  readonly sourcePersonId: EntityId | null;
+  readonly sourceLabel: string;
+}
+
+export interface BeliefFormationContext {
+  readonly reason: BeliefFormationReason;
+  readonly relevantEventIds: readonly EntityId[];
+  readonly sourceFactIds: readonly EntityId[];
+  readonly propositionExposureIds: readonly EntityId[];
+  readonly memoryIds: readonly EntityId[];
+  readonly eventKnowledgeIds: readonly EntityId[];
+  readonly claimIds: readonly EntityId[];
+  readonly relationshipInteractionIds: readonly EntityId[];
+  readonly subjectKnowledgeIds: readonly EntityId[];
+  readonly cue: PoliticalCue | null;
+  readonly evidenceReference: string | null;
+  readonly note: string | null;
+}
+
+export type PropositionExposureProvenance =
+  | { readonly kind: "direct-experience"; readonly eventId: EntityId }
+  | {
+      readonly kind: "told-by";
+      readonly sourcePersonId: EntityId;
+      readonly claimId: EntityId | null;
+    }
+  | { readonly kind: "public-record"; readonly reference: string }
+  | {
+      readonly kind: "media";
+      readonly outlet: string;
+      readonly reference: string | null;
+    }
+  | {
+      readonly kind: "organization";
+      readonly organizationLabel: string;
+      readonly reference: string | null;
+    }
+  | { readonly kind: "manual"; readonly note: string };
+
+export interface PropositionExposureRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly propositionId: EntityId;
+  readonly encounteredAt: IsoDate;
+  readonly summary: string;
+  readonly provenance: PropositionExposureProvenance;
+}
+
+export interface PrivateBeliefRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly propositionId: EntityId;
+  readonly formedAt: IsoDate;
+  readonly position: BeliefPosition;
+  readonly conviction: BeliefConviction;
+  readonly salience: PoliticalSalience;
+  readonly flexibility: PoliticalFlexibility;
+  readonly rationale: string | null;
+  readonly formation: BeliefFormationContext;
+  readonly supersedesBeliefId: EntityId | null;
+}
+
+export type PublicPositionStance =
+  "support" | "oppose" | "undecided" | "conflicted" | "withheld";
+
+export interface PublicPositionRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly propositionId: EntityId;
+  readonly statedAt: IsoDate;
+  readonly stance: PublicPositionStance;
+  readonly statement: string;
+  readonly audience: "limited" | "public";
+  readonly venue: string | null;
+  readonly sourceEventId: EntityId | null;
+  readonly supersedesPublicPositionId: EntityId | null;
+}
+
+export type CampaignCommitmentStance =
+  "support" | "oppose" | "seek-modification" | "defer";
+export type CampaignCommitmentLevel = "aspiration" | "conditional" | "pledge";
+
+export interface CampaignCommitmentRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly propositionId: EntityId;
+  readonly madeAt: IsoDate;
+  readonly stance: CampaignCommitmentStance;
+  readonly level: CampaignCommitmentLevel;
+  readonly statement: string;
+  readonly conditions: string | null;
+  readonly sourceEventId: EntityId | null;
+  readonly supersedesCommitmentId: EntityId | null;
+}
+
+export type PrincipleStance = "endorses" | "rejects" | "conflicted";
+
+export interface PrincipleRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly principleId: EntityId;
+  readonly formedAt: IsoDate;
+  readonly stance: PrincipleStance;
+  readonly conviction: BeliefConviction;
+  readonly flexibility: PoliticalFlexibility;
+  readonly qualification: string | null;
+  readonly formation: BeliefFormationContext;
+  readonly supersedesPrincipleRecordId: EntityId | null;
+}
+
+export type SubjectFamiliarity = "aware" | "familiar" | "deep";
+export type SubjectUnderstanding =
+  "minimal" | "working" | "advanced" | "expert";
+export type SubjectExpertise =
+  "none" | "basic" | "practitioner" | "specialist" | "authority";
+export type PracticalExperience = "none" | "indirect" | "direct" | "extensive";
+
+export type SubjectKnowledgeProvenance =
+  | { readonly kind: "person-facts"; readonly factIds: readonly EntityId[] }
+  | {
+      readonly kind: "historical-events";
+      readonly eventIds: readonly EntityId[];
+    }
+  | { readonly kind: "study"; readonly reference: string }
+  | {
+      readonly kind: "trusted-report";
+      readonly sourcePersonId: EntityId;
+      readonly reference: string | null;
+    }
+  | { readonly kind: "manual"; readonly note: string };
+
+export interface SubjectKnowledgeRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly subjectId: EntityId;
+  readonly recordedAt: IsoDate;
+  readonly familiarity: SubjectFamiliarity;
+  readonly understanding: SubjectUnderstanding;
+  readonly expertise: SubjectExpertise;
+  readonly practicalExperience: PracticalExperience;
+  readonly provenance: SubjectKnowledgeProvenance;
+  readonly supersedesKnowledgeId: EntityId | null;
+}
+
 export interface HistoryStore {
   readonly nextSequence: number;
   readonly events: readonly HistoricalEvent[];
@@ -324,11 +582,17 @@ export interface HistoryStore {
   readonly knowledge: readonly EventKnowledgeRecord[];
   readonly claims: readonly ClaimRecord[];
   readonly relationshipInteractions: readonly RelationshipInteraction[];
+  readonly propositionExposures: readonly PropositionExposureRecord[];
+  readonly privateBeliefs: readonly PrivateBeliefRecord[];
+  readonly publicPositions: readonly PublicPositionRecord[];
+  readonly campaignCommitments: readonly CampaignCommitmentRecord[];
+  readonly principles: readonly PrincipleRecord[];
+  readonly subjectKnowledge: readonly SubjectKnowledgeRecord[];
 }
 
 export interface World {
-  readonly schemaVersion: 2;
-  readonly generatorVersion: "demo-world-v2";
+  readonly schemaVersion: 4;
+  readonly generatorVersion: "demo-world-v4";
   readonly id: EntityId;
   readonly seed: string;
   readonly startedAt: IsoDate;
@@ -338,5 +602,6 @@ export interface World {
   readonly jurisdictionOrder: readonly EntityId[];
   readonly people: Readonly<Record<string, Person>>;
   readonly personOrder: readonly EntityId[];
+  readonly policyCatalog: PolicyCatalog;
   readonly history: HistoryStore;
 }

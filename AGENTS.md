@@ -9,7 +9,8 @@ Read in this order:
 1. [Game Constitution](docs/GAME-CONSTITUTION.md) — binding product principles.
 2. [Decision Log](docs/decisions/DECISION-LOG.md) — accepted, non-superseded decisions.
 3. [Architecture](ARCHITECTURE.md) and [system documents](docs/systems/) — technical and domain contracts.
-4. [First Build Spec](docs/FIRST-BUILD-SPEC.md), [UX Flow](docs/UX-FLOW.md), and [Acceptance Tests](docs/ACCEPTANCE-TESTS.md) — current scope and verification.
+4. [Roadmap](docs/ROADMAP.md) and [System Dependencies](docs/SYSTEM-DEPENDENCIES.md) — sequencing and integration contracts; they do not redefine implemented behavior.
+5. [First Build Spec](docs/FIRST-BUILD-SPEC.md), [UX Flow](docs/UX-FLOW.md), and [Acceptance Tests](docs/ACCEPTANCE-TESTS.md) — current scope and verification.
 
 A lower-authority document or implementation cannot silently override a higher-authority document. Record conflicts explicitly; never weaken the Game Constitution for implementation convenience.
 

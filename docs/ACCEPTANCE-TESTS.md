@@ -82,6 +82,70 @@ Given a contextual teenage event, after forty simulated years its stable ID and 
 
 Versioned JSON serialization round-trips the complete world exactly and rejects unsupported or tampered envelopes. The SQLite repository saves, loads, lists, and replaces validated snapshots without introducing a browser or SQLite dependency into the simulation package.
 
+### NOW-019 — Unusual combinations are not normalized
+
+One person may simultaneously support collective bargaining, an abortion restriction, a clean-electricity standard, concealed carry, increased defense readiness, and universal public health coverage. No ideology or party bundle rewrites those proposition-specific records.
+
+### NOW-020 — No opinion is a real sparse state
+
+No proposition-exposure or private-belief record represents never encountered. A proposition-exposure record without a belief represents encountered with no formed view. Both remain distinct from explicit uncertainty, conflict, tentative conviction, low salience, and a withheld public position. Subject familiarity remains a separate knowledge dimension.
+
+### NOW-021 — Related propositions may diverge
+
+Two propositions in one issue retain their own stable parameters and may have opposing private positions without either position being copied to the other.
+
+### NOW-022 — Private belief, public position, and commitment remain distinct
+
+One proposition may have a supportive private belief, a public claim of being undecided, and a campaign pledge to oppose it. All three histories remain independently queryable and none overwrites another.
+
+### NOW-023 — Belief and principle change history is append-only
+
+A later private belief or principle record may supersede a compatible earlier record, preserving both dates, categorical dimensions, reason, trusted cue or evidence provenance, and stable IDs.
+
+### NOW-024 — Principles do not synthesize positions
+
+A person may endorse broad, potentially competing principles without receiving any new proposition belief.
+
+### NOW-025 — Knowledge and conviction are independent
+
+Deep subject familiarity and specialist expertise may coexist with an uncertain proposition belief. Minimal understanding and no expertise may coexist with a strong, firm belief.
+
+### NOW-026 — Factual history supports expertise without ideology
+
+Materialized education facts separately support categorical understanding/expertise, while occupation facts support practical experience/expertise. Their data-driven subject references create no political beliefs, ideology, or generated personality values.
+
+### NOW-027 — Experiences are context, not automatic political causes
+
+Recording a life event does not change any belief. A later authored belief may cite that immutable event as relevant context, and the event and link remain queryable after forty simulated years.
+
+### NOW-028 — Political state remains sparse at catalog scale
+
+A shared catalog containing more than two thousand propositions does not add blank belief fields to people. A person with three formed beliefs stores three belief records, and a domain query returns those sparse records without constructing a catalog-wide person vector.
+
+### NOW-029 — Political records persist through JSON and SQLite
+
+Snapshot format 3 preserves the policy catalog and all political record families exactly through deterministic JSON round trips and the Node-only SQLite repository. Unsupported older envelopes remain rejected until a migration exists.
+
+### NOW-030 — Political actions replay deterministically
+
+Given the same seed and ordered explicit political record operations, complete worlds, stable IDs, append sequence, and serialized snapshots are identical.
+
+### NOW-031 — Belief changes expose dates and perceived provenance
+
+Typed queries return the dated record for each actual private-position transition. Formation can resolve prior proposition exposure, biography, experienced events, memories, event knowledge, claims, relationship interactions, and subject knowledge; a canonical event the person neither experienced nor knew is rejected as omniscient context.
+
+### NOW-032 — Knowledge assessments can be revised
+
+A later explicitly superseding subject-knowledge record may revise an earlier categorical assessment downward or upward while preserving both records and the supporting factual biography. The latest explicit assessment, rather than a permanent maximum, is authoritative for the current profile.
+
+### NOW-033 — History integrity rejects impossible provenance and ordering
+
+Transitions and snapshot loading reject memories without direct event involvement or prior person-specific event knowledge, backdated memory supersession, self-sourced explicitly third-party provenance, incompatible statement/commitment source events, cross-record formation or source references that point forward in global append sequence even on the same date, unknown discriminators, invalid categorical values, and any history family stored out of append-sequence order.
+
+### NOW-034 — Date-aware encounter queries survive historical backfill
+
+When an older proposition exposure is appended after a later-dated public position or commitment, the opinion-state query still identifies the record with the latest effective date. A historical `throughDate` query returns only evidence available by that date, with append sequence breaking same-day ties.
+
 ## Manual Now
 
 - Creating or reloading the demo shows the active seed, stable world ID, simulated date, Lexington-Fayette placeholder, and six generated people.
@@ -92,6 +156,7 @@ Versioned JSON serialization round-trips the complete world exactly and rejects 
 - Event details show timestamps, structured context, visibility, tags, participants, stable ID, and resolvable involved entities.
 - Known-by rows show per-person believed content and provenance; claims show audience and relationship to truth.
 - Relationship history shows explainable episodes and no raw relationship meter.
+- Proposition exposures, private beliefs, public positions, campaign commitments, principles, complete knowledge/expertise histories, and resolved provenance appear in separate diagnostic sections without raw ideology or personality numbers.
 - The placeholder warning remains visible and does not imply sourced officeholders, rules, or institutions.
 - Seed, reload, advance, person selection, materialization, and event detail controls are keyboard reachable with visible focus.
 
@@ -133,9 +198,9 @@ Given advisers of different ability, expertise, incentives, and relationships, t
 
 Given an election, polls expose estimates shaped by sampling, timing, method, nonresponse, turnout assumptions, and bounded randomness; they never expose true underlying support directly.
 
-### LATER-012 — Private belief, public position, promise, and action remain distinct
+### LATER-012 — Political action remains distinct from belief, speech, and promise
 
-Given a character who says or does conflicting things, private belief, public position, campaign promise, and actual behavior remain separately recorded and historically inspectable.
+Given concrete political gameplay behavior, actual actions receive proposition/provision-aware historical classification and remain distinct from the already implemented private belief, public position, and campaign commitment histories.
 
 ### LATER-013 — Geographic reputation remains differentiated
 

@@ -7,6 +7,7 @@ import {
   selectPersonHistory,
 } from "../simulation";
 import type { HistoricalEvent, Person, World } from "../simulation";
+import { PoliticalProfile } from "./PoliticalProfile";
 
 interface PersonInspectorProps {
   readonly world: World;
@@ -113,6 +114,8 @@ export function PersonInspector({
           ))}
         </ul>
       </section>
+
+      <PoliticalProfile world={world} person={person} />
 
       <section
         className="inspector-section"

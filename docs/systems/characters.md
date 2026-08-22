@@ -28,4 +28,6 @@ Every person stores typed, stable biography facts for birth date, birthplace, da
 
 Lightweight people begin with identity, birth, birthplace, and current residence. Deterministic materialization can add compatible education and occupation facts while preserving every established record. Memories, event knowledge, statements, and relationship interactions live in the shared history store and refer back to the same stable person and event IDs.
 
-This is a persistence and querying foundation, not a complete family, career, personality, or autonomous-decision simulation. Generated expertise, tendencies, and goals remain internal synthetic proof data and are not exposed as raw player-facing values.
+Education and occupation facts carry stable knowledge-subject references selected from data-driven catalog tags. Knowledge and expertise queries may derive categorical familiarity, understanding, expertise, and practical experience from those facts without assigning an ideology or proposition position. Sparse proposition exposures, political beliefs, principles, public positions, commitments, and subject-knowledge records remain in the shared append-oriented history store, so progressive materialization preserves established political history.
+
+The previous string-array expertise, generated personality-tendency, and generated-goal scaffold has been removed. This is not a final personality, goals, family, career, or autonomous-decision simulation; those systems must receive their own designs and cannot retroactively determine player beliefs.

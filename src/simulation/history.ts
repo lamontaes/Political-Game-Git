@@ -1,5 +1,11 @@
 import { createStableId } from "./ids";
 import type {
+  BeliefConviction,
+  BeliefFormationContext,
+  BeliefPosition,
+  CampaignCommitmentLevel,
+  CampaignCommitmentRecord,
+  CampaignCommitmentStance,
   ClaimAudience,
   ClaimProvenance,
   ClaimRecord,
@@ -17,11 +23,26 @@ import type {
   KnowledgeSource,
   MemoryRecord,
   MemoryStrength,
+  PoliticalFlexibility,
+  PoliticalSalience,
+  PrincipleRecord,
+  PrincipleStance,
+  PrivateBeliefRecord,
+  PropositionExposureProvenance,
+  PropositionExposureRecord,
+  PublicPositionRecord,
+  PublicPositionStance,
   PersonFactConstraint,
   RelationshipChange,
   RelationshipInteraction,
   RelationshipInteractionKind,
   RelationshipSignificance,
+  SubjectExpertise,
+  SubjectFamiliarity,
+  SubjectKnowledgeProvenance,
+  SubjectKnowledgeRecord,
+  SubjectUnderstanding,
+  PracticalExperience,
 } from "./types";
 
 export interface HistoricalEventInput {
@@ -85,6 +106,81 @@ export interface RelationshipInteractionInput {
   readonly tags: readonly string[];
 }
 
+export interface PrivateBeliefRecordInput {
+  readonly stableKey: string;
+  readonly personId: EntityId;
+  readonly propositionId: EntityId;
+  readonly formedAt: IsoDate;
+  readonly position: BeliefPosition;
+  readonly conviction: BeliefConviction;
+  readonly salience: PoliticalSalience;
+  readonly flexibility: PoliticalFlexibility;
+  readonly rationale: string | null;
+  readonly formation: BeliefFormationContext;
+  readonly supersedesBeliefId: EntityId | null;
+}
+
+export interface PropositionExposureRecordInput {
+  readonly stableKey: string;
+  readonly personId: EntityId;
+  readonly propositionId: EntityId;
+  readonly encounteredAt: IsoDate;
+  readonly summary: string;
+  readonly provenance: PropositionExposureProvenance;
+}
+
+export interface PublicPositionRecordInput {
+  readonly stableKey: string;
+  readonly personId: EntityId;
+  readonly propositionId: EntityId;
+  readonly statedAt: IsoDate;
+  readonly stance: PublicPositionStance;
+  readonly statement: string;
+  readonly audience: "limited" | "public";
+  readonly venue: string | null;
+  readonly sourceEventId: EntityId | null;
+  readonly supersedesPublicPositionId: EntityId | null;
+}
+
+export interface CampaignCommitmentRecordInput {
+  readonly stableKey: string;
+  readonly personId: EntityId;
+  readonly propositionId: EntityId;
+  readonly madeAt: IsoDate;
+  readonly stance: CampaignCommitmentStance;
+  readonly level: CampaignCommitmentLevel;
+  readonly statement: string;
+  readonly conditions: string | null;
+  readonly sourceEventId: EntityId | null;
+  readonly supersedesCommitmentId: EntityId | null;
+}
+
+export interface PrincipleRecordInput {
+  readonly stableKey: string;
+  readonly personId: EntityId;
+  readonly principleId: EntityId;
+  readonly formedAt: IsoDate;
+  readonly stance: PrincipleStance;
+  readonly conviction: BeliefConviction;
+  readonly flexibility: PoliticalFlexibility;
+  readonly qualification: string | null;
+  readonly formation: BeliefFormationContext;
+  readonly supersedesPrincipleRecordId: EntityId | null;
+}
+
+export interface SubjectKnowledgeRecordInput {
+  readonly stableKey: string;
+  readonly personId: EntityId;
+  readonly subjectId: EntityId;
+  readonly recordedAt: IsoDate;
+  readonly familiarity: SubjectFamiliarity;
+  readonly understanding: SubjectUnderstanding;
+  readonly expertise: SubjectExpertise;
+  readonly practicalExperience: PracticalExperience;
+  readonly provenance: SubjectKnowledgeProvenance;
+  readonly supersedesKnowledgeId: EntityId | null;
+}
+
 export function createHistoryStore(): HistoryStore {
   return {
     nextSequence: 0,
@@ -93,6 +189,35 @@ export function createHistoryStore(): HistoryStore {
     knowledge: [],
     claims: [],
     relationshipInteractions: [],
+    propositionExposures: [],
+    privateBeliefs: [],
+    publicPositions: [],
+    campaignCommitments: [],
+    principles: [],
+    subjectKnowledge: [],
+  };
+}
+
+export function appendPropositionExposureRecord(
+  history: HistoryStore,
+  worldId: EntityId,
+  input: PropositionExposureRecordInput,
+): HistoryStore {
+  assertUniqueStableKey(
+    history.propositionExposures,
+    input.stableKey,
+    "proposition exposure",
+  );
+  const exposure: PropositionExposureRecord = {
+    ...input,
+    id: createStableId("proposition-exposure", `${worldId}:${input.stableKey}`),
+    sequence: history.nextSequence,
+    provenance: { ...input.provenance },
+  };
+  return {
+    ...history,
+    nextSequence: history.nextSequence + 1,
+    propositionExposures: [...history.propositionExposures, exposure],
   };
 }
 
@@ -230,6 +355,119 @@ export function appendRelationshipInteraction(
   };
 }
 
+export function appendPrivateBeliefRecord(
+  history: HistoryStore,
+  worldId: EntityId,
+  input: PrivateBeliefRecordInput,
+): HistoryStore {
+  assertUniqueStableKey(
+    history.privateBeliefs,
+    input.stableKey,
+    "private belief",
+  );
+  const belief: PrivateBeliefRecord = {
+    ...input,
+    id: createStableId("belief", `${worldId}:${input.stableKey}`),
+    sequence: history.nextSequence,
+    formation: cloneFormation(input.formation),
+  };
+  return {
+    ...history,
+    nextSequence: history.nextSequence + 1,
+    privateBeliefs: [...history.privateBeliefs, belief],
+  };
+}
+
+export function appendPublicPositionRecord(
+  history: HistoryStore,
+  worldId: EntityId,
+  input: PublicPositionRecordInput,
+): HistoryStore {
+  assertUniqueStableKey(
+    history.publicPositions,
+    input.stableKey,
+    "public position",
+  );
+  const position: PublicPositionRecord = {
+    ...input,
+    id: createStableId("public-position", `${worldId}:${input.stableKey}`),
+    sequence: history.nextSequence,
+  };
+  return {
+    ...history,
+    nextSequence: history.nextSequence + 1,
+    publicPositions: [...history.publicPositions, position],
+  };
+}
+
+export function appendCampaignCommitmentRecord(
+  history: HistoryStore,
+  worldId: EntityId,
+  input: CampaignCommitmentRecordInput,
+): HistoryStore {
+  assertUniqueStableKey(
+    history.campaignCommitments,
+    input.stableKey,
+    "campaign commitment",
+  );
+  const commitment: CampaignCommitmentRecord = {
+    ...input,
+    id: createStableId("commitment", `${worldId}:${input.stableKey}`),
+    sequence: history.nextSequence,
+  };
+  return {
+    ...history,
+    nextSequence: history.nextSequence + 1,
+    campaignCommitments: [...history.campaignCommitments, commitment],
+  };
+}
+
+export function appendPrincipleRecord(
+  history: HistoryStore,
+  worldId: EntityId,
+  input: PrincipleRecordInput,
+): HistoryStore {
+  assertUniqueStableKey(
+    history.principles,
+    input.stableKey,
+    "principle record",
+  );
+  const principle: PrincipleRecord = {
+    ...input,
+    id: createStableId("principle", `${worldId}:${input.stableKey}`),
+    sequence: history.nextSequence,
+    formation: cloneFormation(input.formation),
+  };
+  return {
+    ...history,
+    nextSequence: history.nextSequence + 1,
+    principles: [...history.principles, principle],
+  };
+}
+
+export function appendSubjectKnowledgeRecord(
+  history: HistoryStore,
+  worldId: EntityId,
+  input: SubjectKnowledgeRecordInput,
+): HistoryStore {
+  assertUniqueStableKey(
+    history.subjectKnowledge,
+    input.stableKey,
+    "subject knowledge",
+  );
+  const knowledge: SubjectKnowledgeRecord = {
+    ...input,
+    id: createStableId("subject-knowledge", `${worldId}:${input.stableKey}`),
+    sequence: history.nextSequence,
+    provenance: cloneSubjectKnowledgeProvenance(input.provenance),
+  };
+  return {
+    ...history,
+    nextSequence: history.nextSequence + 1,
+    subjectKnowledge: [...history.subjectKnowledge, knowledge],
+  };
+}
+
 export function eventsInvolving(
   history: HistoryStore,
   entityId: EntityId,
@@ -261,6 +499,43 @@ function cloneEventContext(context: EventContext): EventContext {
     ...context,
     location: context.location ? { ...context.location } : null,
   };
+}
+
+function cloneFormation(
+  formation: BeliefFormationContext,
+): BeliefFormationContext {
+  return {
+    ...formation,
+    relevantEventIds: canonicalEntityIds(formation.relevantEventIds),
+    sourceFactIds: canonicalEntityIds(formation.sourceFactIds),
+    propositionExposureIds: canonicalEntityIds(
+      formation.propositionExposureIds,
+    ),
+    memoryIds: canonicalEntityIds(formation.memoryIds),
+    eventKnowledgeIds: canonicalEntityIds(formation.eventKnowledgeIds),
+    claimIds: canonicalEntityIds(formation.claimIds),
+    relationshipInteractionIds: canonicalEntityIds(
+      formation.relationshipInteractionIds,
+    ),
+    subjectKnowledgeIds: canonicalEntityIds(formation.subjectKnowledgeIds),
+    cue: formation.cue ? { ...formation.cue } : null,
+  };
+}
+
+function cloneSubjectKnowledgeProvenance(
+  provenance: SubjectKnowledgeProvenance,
+): SubjectKnowledgeProvenance {
+  if (provenance.kind === "person-facts") {
+    return { ...provenance, factIds: canonicalEntityIds(provenance.factIds) };
+  }
+  if (provenance.kind === "historical-events") {
+    return { ...provenance, eventIds: canonicalEntityIds(provenance.eventIds) };
+  }
+  return { ...provenance };
+}
+
+function canonicalEntityIds(ids: readonly EntityId[]): readonly EntityId[] {
+  return [...new Set(ids)].sort();
 }
 
 function assertUniqueStableKey(

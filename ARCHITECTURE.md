@@ -4,6 +4,8 @@
 
 The architecture supports a desktop-first persistent political-life simulation whose world can run autonomously, headlessly, and reproducibly. The first build establishes boundaries and invariants, not the complete game.
 
+The [Roadmap](docs/ROADMAP.md) governs long-term sequencing, and [System Dependencies](docs/SYSTEM-DEPENDENCIES.md) is the integration checklist for new persistent concepts. Neither may override the Game Constitution, accepted decisions, or the implemented contracts in this document and `docs/systems/`.
+
 ## Dependency Direction
 
 ```text
@@ -21,7 +23,7 @@ Node desktop adapter (src/persistence)
           SQLite snapshots
 ```
 
-- `src/simulation/` contains JSON-safe domain types, deterministic utilities, world operations, history, progressive person generation, and the demo scenario.
+- `src/simulation/` contains JSON-safe domain types, deterministic utilities, world operations, policy definitions, sparse political records and queries, history, progressive person generation, and the demo scenario.
 - `src/persistence/` contains Node-only durable-storage adapters and depends on the public simulation snapshot codec.
 - `src/cli/` contains Node-only executable entry points.
 - `src/ui/` contains React components that present and invoke the simulation API.
@@ -42,7 +44,9 @@ The initial domain includes:
 - immutable typed biography facts for birth, place, residence, family, education, and occupation;
 - historical events with unique semantic keys, stable IDs, simulated timestamps, visibility, tags, structured context, typed participants, involved entity references, and explicit person-fact constraints when history owns a biographical dimension;
 - distinct append-only memories, event knowledge, claims, and relationship interactions that may disagree without changing canonical truth;
-- reusable query helpers over facts, event tags, age, geography, experience, relationship context, and shared work;
+- a shared stable policy catalog containing domains, issues, propositions, knowledge subjects, and broad principle definitions;
+- sparse append-only proposition exposures, private beliefs, public positions, campaign commitments, principles, and subject-knowledge records;
+- reusable query helpers over facts, event tags, age, geography, experience, relationship context, shared work, proposition history, principles, knowledge, and expertise;
 - deterministic time advancement and demo occurrence generation.
 
 Names and collection positions are not identity. Entity references use stable IDs. World construction validates and defensively copies caller-owned entity graphs. State-changing transitions return new objects and do not mutate their input world; an idempotent no-op may return the unchanged input object.
@@ -55,7 +59,7 @@ All stochastic behavior in the simulation passes through `SeededRng`. It combine
 
 Persistent IDs are hashes of explicit stable keys, not random draws, names, or display positions. An event's semantic key is unique within a world, is stored with the event, and determines its ID; action parameters therefore belong in keys when they distinguish occurrences. Event sequence separately records append order.
 
-Future saves must retain schema, generator, and ruleset versions before cross-version replay compatibility is promised. This build promises same-version reproducibility only.
+World schema version 4, generator version `demo-world-v4`, person-materialization version 4, policy-catalog version, and snapshot format version 3 are stored explicitly. Older world and envelope versions are rejected because no migration chain is promised yet. This build promises same-version reproducibility only.
 
 ## Time
 
@@ -67,15 +71,19 @@ A lightweight person has a stable identity and established facts. Materializatio
 
 Materialization is additive, idempotent, order-independent, and not itself an in-world event. The first materializer checks established fact kinds and explicit person-fact constraints in canonical history; constrained fields remain unknown. Adding a later historical constraint that conflicts with stored generated detail is rejected atomically. Future materializers must retain this contract, leave details unknown when no consistent result is available, and retain the generator version used.
 
-Progressive resolution affects computational detail, not whether an entity has existed historically.
+Education and occupation facts carry stable knowledge-subject IDs. Materialization can therefore add fact-derived categorical expertise without assigning beliefs, principles, goals, personality, or ideology. Progressive resolution affects computational detail, not whether an entity has existed historically.
 
 ## History
 
-History is append-oriented and is the basis of explanation, archives, memories, relationships, and returning-player briefings. Canonical events, subjective memories, person-specific knowledge, claims, and relationship interactions are separate record families sharing one global sequence. Corrections, disputed claims, inaccurate knowledge, changed interpretations, and later statements are new linked records rather than silent rewrites.
+History is append-oriented and is the basis of explanation, archives, memories, relationships, political evolution, and returning-player briefings. Canonical events, subjective memories, person-specific event knowledge, claims, relationship interactions, proposition exposures, private beliefs, public positions, campaign commitments, principles, and subject knowledge are separate record families sharing one global sequence. Corrections, disputed claims, inaccurate knowledge, changed interpretations, changed beliefs, and later statements are new linked records rather than silent rewrites.
 
 An event's rich context preserves location and setting, participants and roles, visibility, tags, social pressure, choice, motivation, and immediate reaction when known. Knowledge provenance distinguishes direct experience, another person's account, public record, media, and rumor. A claim explicitly records its relationship to historical truth but never changes that truth. Causal graphs, automatic knowledge propagation, and correction records remain future extensions.
 
-Person history in the viewer is a query over the canonical global event store. It is not maintained as a second mutable history.
+Private belief is proposition-specific and categorical across position, conviction, salience, and flexibility. Absence means no formed belief, not neutral. A separate sparse proposition-exposure record distinguishes never encountering a question from encountering it without forming a view. Principles are separate and may conflict. Public speech and campaign commitments never overwrite private belief; political behavior remains event history. Knowledge and expertise are subject-specific, categorical, and provenance-bearing. No opinion-formation engine exists in this stage, so historical events and biography are contextual inputs rather than automatic ideological causes.
+
+Belief and principle formation can reference only validated, already-available biography facts, exposures, experiences, memories, event knowledge, claims, relationship interactions, and subject-knowledge records. Event context that the person neither experienced nor knows is rejected rather than becoming an omniscient rationale. Trusted cues retain explicit source categories and stable person references where the source is a simulated person.
+
+Person history in the viewer is a query over the canonical global event store. Political histories and knowledge profiles are queries over their corresponding sparse record families and factual biography; none is maintained as a mutable score vector on `Person`.
 
 ## Institutions and Geography
 
@@ -94,7 +102,7 @@ Real-world starting data and simulated save history are separate domains:
 3. After initialization, simulated events are authoritative for that save.
 4. Updating a repository snapshot never silently rewrites an existing save.
 
-The pure simulation exposes a versioned JSON snapshot codec that validates stable identity, entity ordering, biography invariants, references, and contiguous history sequence at the persistence boundary. A Node-only `SqliteWorldRepository` stores the complete validated snapshot in a strict SQLite table and supports save, load, update, and list operations. SQLite code remains outside `src/simulation/`, so headless domain execution and browser diagnostics do not depend on a storage driver.
+The pure simulation exposes a versioned JSON snapshot codec that validates stable identity, entity ordering, policy-catalog definitions, biography invariants, political record chronology and provenance, references, and contiguous history sequence at the persistence boundary. A Node-only `SqliteWorldRepository` stores the complete validated snapshot in a strict SQLite table and supports save, load, update, and list operations. SQLite code remains outside `src/simulation/`, so headless domain execution and browser diagnostics do not depend on a storage driver.
 
 This first repository intentionally stores one current snapshot per world rather than prematurely normalizing every domain record into SQL tables. Migration chains, transactional action journaling, branch lineage, recovery policy, and cross-version compatibility remain deferred.
 

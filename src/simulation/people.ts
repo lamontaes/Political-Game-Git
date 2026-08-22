@@ -1,11 +1,12 @@
 import { ageOnDate, dateAtAge, isoDateFromParts, yearOf } from "./dates";
 import { createStableId } from "./ids";
-import { pickDistinct, SeededRng } from "./rng";
+import { SeededRng } from "./rng";
 import type {
   EducationFact,
   EntityId,
   HistoricalEvent,
   IsoDate,
+  KnowledgeSubjectDefinition,
   OccupationFact,
   Person,
   PersonDetails,
@@ -49,6 +50,7 @@ const EDUCATION_PATHS = [
     credential: "high school diploma",
     startAge: 14,
     endAge: 18,
+    subjectTags: [] as readonly string[],
   },
   {
     institution: "a synthetic regional trade program",
@@ -56,6 +58,7 @@ const EDUCATION_PATHS = [
     credential: "trade credential",
     startAge: 18,
     endAge: 19,
+    subjectTags: ["background.education.skilled-trades"],
   },
   {
     institution: "a synthetic community college",
@@ -63,6 +66,7 @@ const EDUCATION_PATHS = [
     credential: "associate degree",
     startAge: 18,
     endAge: 20,
+    subjectTags: ["background.education.general-studies"],
   },
   {
     institution: "a synthetic four-year college",
@@ -70,6 +74,7 @@ const EDUCATION_PATHS = [
     credential: "bachelor's degree",
     startAge: 18,
     endAge: 22,
+    subjectTags: ["background.education.public-administration"],
   },
 ] as const;
 
@@ -77,50 +82,33 @@ const OCCUPATION_PROFILES = [
   {
     employer: "a synthetic neighborhood business",
     title: "small-business bookkeeper",
-    expertise: ["local finance", "small business"],
+    subjectTags: ["background.occupation.local-finance"],
   },
   {
     employer: "a synthetic community health nonprofit",
     title: "community health coordinator",
-    expertise: ["public health", "community outreach"],
+    subjectTags: ["background.occupation.community-health"],
   },
   {
     employer: "a synthetic construction firm",
     title: "construction supervisor",
-    expertise: ["construction", "workplace logistics"],
+    subjectTags: ["background.occupation.construction"],
   },
   {
     employer: "a synthetic hospitality company",
     title: "hospitality manager",
-    expertise: ["hospitality", "staff management"],
+    subjectTags: ["background.occupation.hospitality"],
   },
   {
     employer: "a synthetic insurance office",
     title: "insurance claims specialist",
-    expertise: ["insurance", "case review"],
+    subjectTags: ["background.occupation.insurance"],
   },
   {
     employer: "a synthetic public library",
     title: "library program assistant",
-    expertise: ["public programs", "research"],
+    subjectTags: ["background.occupation.public-programs"],
   },
-] as const;
-
-const PERSONALITY_TENDENCIES = [
-  "deliberate under pressure",
-  "comfortable meeting strangers",
-  "protective of close relationships",
-  "quick to notice inconsistencies",
-  "reserved in unfamiliar groups",
-  "willing to revise an initial view",
-] as const;
-
-const GOALS = [
-  "build a more stable career",
-  "deepen ties in the local community",
-  "make time for family commitments",
-  "learn a new professional skill",
-  "take on a meaningful civic project",
 ] as const;
 
 const PROCEDURAL_PROVENANCE = {
@@ -158,7 +146,7 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
     );
   }
 
-  const generationKey = `demo-person-v2:${input.index}`;
+  const generationKey = `demo-person-v4:${input.index}`;
   const id = createStableId("person", `${input.worldId}:${generationKey}`);
   const rng = new SeededRng(input.worldSeed).fork(generationKey);
   const givenName = rng.pick(GIVEN_NAMES);
@@ -224,13 +212,14 @@ export function materializePersonRecord(
   worldSeed: string,
   backgroundAnchorDate: IsoDate,
   personHistory: readonly HistoricalEvent[],
+  availableSubjects: Readonly<Record<string, KnowledgeSubjectDefinition>>,
 ): Person {
   if (person.detailLevel === "materialized") {
     return person;
   }
 
   const rng = new SeededRng(worldSeed).fork(
-    `person-materialization-v2:${person.id}`,
+    `person-materialization-v4:${person.id}`,
   );
   const ageAtAnchor = ageOnDate(person.birthDate, backgroundAnchorDate);
   const constrainedFactKinds = new Set(
@@ -268,8 +257,8 @@ export function materializePersonRecord(
 
   if (educationPath) {
     const education: EducationFact = {
-      id: createStableId("fact", `${person.id}:education:v2`),
-      stableKey: "education:v2",
+      id: createStableId("fact", `${person.id}:education:v4`),
+      stableKey: "education:v4",
       kind: "education",
       occurredAt: dateAtAge(person.birthDate, educationPath.startAge),
       endedAt: dateAtAge(person.birthDate, educationPath.endAge),
@@ -278,6 +267,10 @@ export function materializePersonRecord(
       field: educationPath.field,
       credential: educationPath.credential,
       status: "completed",
+      subjectIds: subjectIdsMatchingTags(
+        availableSubjects,
+        educationPath.subjectTags,
+      ),
       summary: `${name} completed a procedurally generated ${educationPath.credential}.`,
       provenance: PROCEDURAL_PROVENANCE,
     };
@@ -288,8 +281,8 @@ export function materializePersonRecord(
     const latestWorkAge = Math.min(ageAtAnchor, earliestWorkAge + 3);
     const workAge = rng.integer(earliestWorkAge, latestWorkAge + 1);
     const occupation: OccupationFact = {
-      id: createStableId("fact", `${person.id}:occupation:v2`),
-      stableKey: "occupation:v2",
+      id: createStableId("fact", `${person.id}:occupation:v4`),
+      stableKey: "occupation:v4",
       kind: "occupation",
       occurredAt: dateAtAge(person.birthDate, workAge),
       endedAt: null,
@@ -297,6 +290,10 @@ export function materializePersonRecord(
       employer: occupationProfile.employer,
       title: occupationProfile.title,
       status: "ongoing",
+      subjectIds: subjectIdsMatchingTags(
+        availableSubjects,
+        occupationProfile.subjectTags,
+      ),
       summary: `${name} works as a ${occupationProfile.title}.`,
       provenance: PROCEDURAL_PROVENANCE,
     };
@@ -304,10 +301,7 @@ export function materializePersonRecord(
   }
 
   const details: PersonDetails = {
-    generatorVersion: "person-materialization-v2",
-    expertise: occupationProfile ? [...occupationProfile.expertise] : [],
-    personalityTendencies: pickDistinct(rng, PERSONALITY_TENDENCIES, 2),
-    currentGoals: [rng.pick(GOALS)],
+    generatorVersion: "person-materialization-v4",
     generatedFacts,
   };
 
@@ -316,4 +310,15 @@ export function materializePersonRecord(
     detailLevel: "materialized",
     details,
   };
+}
+
+function subjectIdsMatchingTags(
+  subjects: Readonly<Record<string, KnowledgeSubjectDefinition>>,
+  tags: readonly string[],
+): readonly EntityId[] {
+  if (tags.length === 0) return [];
+  return Object.values(subjects)
+    .filter((subject) => tags.some((tag) => subject.tags.includes(tag)))
+    .map((subject) => subject.id)
+    .sort();
 }

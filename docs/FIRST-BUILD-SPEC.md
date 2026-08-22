@@ -18,9 +18,13 @@ The build provides:
 - context-rich historical events with participants, visibility, tags, and structured circumstances;
 - an append-oriented history store for events, memories, knowledge, claims, and relationship interactions;
 - generic historical queries by person, age, tags, geography, experience, relationship context, and shared work;
+- a stable data-driven policy catalog with domain, issue, proposition, knowledge-subject, and broad-principle definitions;
+- sparse append-only proposition exposures, private beliefs, public positions, campaign commitments, principles, and structured subject knowledge;
+- categorical belief dimensions and knowledge/expertise dimensions with provenance and no universal ideology normalization;
+- political queries for exposure/no-view state, current and historical positions, dated changes, commitments, principles, domain coverage, resolved formation provenance, subject knowledge, and practical experience;
 - lightweight people that can be materialized deterministically;
 - monotonic simulated-time advancement;
-- a versioned JSON snapshot codec and Node-only SQLite world repository;
+- a versioned JSON snapshot codec and Node-only SQLite world repository that preserve the catalog and political histories;
 - a headless demo that creates a seeded world and Lexington-Fayette placeholder, generates six lightweight people, advances time, records events, materializes one existing person, and replays the scenario to demonstrate reproducibility.
 
 ### Developer Viewer
@@ -36,6 +40,7 @@ The React viewer allows a developer to:
 - explicitly materialize a lightweight person;
 - inspect global event context, participants, known-by records, claims, and involved entities;
 - inspect memories and relationship-interaction history without raw personality or relationship meters.
+- inspect proposition exposure, private-belief history, public positions, commitments, principles, complete subject-knowledge history, fact-derived expertise, and resolved provenance without raw ideology or personality scores.
 
 This is diagnostic UI, not final game art or final player-facing information design.
 
@@ -51,6 +56,11 @@ This is diagnostic UI, not final game art or final player-facing information des
 - Historical truth is not mutated by later memory, knowledge, or claim records.
 - Contextually different events remain distinguishable even when they share a broad category.
 - Minor early-life events remain queryable after decades of simulated time.
+- Never encountered, encountered without a formed view, and formed proposition beliefs remain distinct sparse states rather than becoming synthetic neutral values.
+- Related propositions can retain different positions, while private belief, public position, and campaign commitment can disagree without overwriting one another.
+- Principles and factual education/occupation expertise never automatically assign proposition positions.
+- Knowledge and conviction remain independent; high expertise can coexist with uncertainty and low knowledge with strong conviction.
+- A catalog with thousands of propositions leaves per-person political state sparse.
 - Versioned serialization and SQLite loading preserve the complete world graph.
 - The core executes under Node without React or a graphical environment.
 - Simulation randomness never bypasses the seeded RNG.
@@ -63,6 +73,7 @@ This build does not implement:
 - cross-version migrations, branch persistence, recovery tooling, or a production desktop save picker;
 - detailed or purportedly factual Lexington civic data;
 - elections, campaigning, legislation, staff, polling, media simulation, full career/family behavior, or full NPC autonomy;
+- automatic NPC opinion formation, generated personality-driven beliefs, political action classification, or a final personality/goals model;
 - final UI, art direction, or production content;
 - an LLM or external AI runtime dependency;
 - the complete target vertical slice.
@@ -79,11 +90,11 @@ Future work is expected to prove:
 - civilian education/work;
 - persistent characters beyond the implemented life-history foundation;
 - progressive NPC generation;
-- sparse political beliefs;
+- autonomous political belief formation and change over the implemented sparse belief foundation;
 - autonomous memory recall and behavioral consequences;
 - autonomous relationship decisions and asymmetric trust;
 - perceptions;
-- expertise;
+- deeper expertise effects on options, capability, and reasoning;
 - personality and goals;
 - political volunteering;
 - candidate recruitment;
