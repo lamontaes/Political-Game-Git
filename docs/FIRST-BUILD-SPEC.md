@@ -33,12 +33,17 @@ The build provides:
 - explicit observer or controlled-person world state that rejects silent autonomous application of a controlled person's major internal choices;
 - stable organizations with effective-dated names, classifications, locations, provenance, and progressive detail;
 - multiple concurrent actual or expected work relationships with separate status and role/occupation histories plus compensation, authority, dependency, and risk semantics;
+- canonical actual or expected education enrollments linked to stable organizations, with append-only completion, withdrawal, transfer, and ending history;
+- stable non-work organization participation with open activity/role/context semantics, kept distinct from enrollment and actual work;
 - temporal households, locations, and primary/secondary/shared memberships kept separate from kinship, partnership, and cross-household care;
+- separate effective-dated child authority held by a person or organization without inferring kinship, care, partnership, or co-residence;
+- closed typed canonical-life source references for historically available Stage 5 evidence used by Stage 4 perception and decisions;
+- a deterministic injected life-eligibility consumer returning allowed/blocked decisions and structured open reason keys without hard-coded age law;
 - reusable ranged time-demand profiles and qualitative deterministic load, push, fatigue, and recovery behavior over work, care, and exceptional commitments;
 - lightweight people that can be materialized deterministically;
 - monotonic simulated-time advancement;
 - a versioned JSON snapshot codec and Node-only SQLite world repository that preserve both catalogs, control, political, mind, and life histories plus decision traces; and
-- a headless demo that creates a seeded world and Lexington-Fayette placeholder, generates six lightweight people, advances time, records contextual, Stage 4, and Stage 5.1 diagnostic histories, materializes one existing person, and replays the scenario to demonstrate reproducibility.
+- a headless demo that creates a seeded world and Lexington-Fayette placeholder, generates six lightweight people, advances time, records contextual, Stage 4, and Stage 5 diagnostic histories, materializes one existing person, and replays the scenario to demonstrate reproducibility.
 
 ### Developer Viewer
 
@@ -90,7 +95,13 @@ This is diagnostic UI, not final game art or final player-facing information des
 - Organization identity survives profile changes and progressive detail; classifications remain open without becoming arbitrary metadata.
 - Occupation biography remains separate from actual work; multiple paid, unpaid, independent, and expected relationships do not overwrite one another.
 - Expected future work is queryable but inactive until its dated start transition, while leave, return, promotion, organization change, and ending remain historical.
+- Education enrollment uses stable organization identity, remains inactive while merely expected, preserves transfers and school renames, and takes precedence over legacy education-summary text.
+- Non-work participation remains separate from work and education; meaningful recurring demand reuses life commitments instead of creating another scheduler.
 - Household, dwelling/location, kinship, partnership, and care remain separate; care may cross households, unrelated people may co-reside, and valid secondary/shared residence does not create a duplicate primary home.
+- Child authority remains separate from household, kinship, partnership, and care and may be held by a person or organization.
+- Later-appended backdated canonical life records remain unavailable through an earlier exclusive-sequence cutoff and cannot leak into an earlier perception or decision.
+- Legacy `PersonFact` IDs and nondiegetic materialization remain unchanged; canonical Stage 5 life truth wins when present, and no fake fact sequence is introduced.
+- Life eligibility is supplied through a replaceable provider using stable jurisdiction identity and structured reasons; the foundation embeds no universal age threshold or 50-state list.
 - Time demand preserves ranges, concurrency, attention, rigidity, and interruptibility. Concurrent care is not blindly summed as exclusive time, and no universal life score is exposed.
 - Short-term pushing may improve immediate output, sustained fatigue can reduce it, and explicit recovery can restore capacity through the existing temporary-state primitive.
 - Versioned serialization and SQLite loading preserve the complete world graph.

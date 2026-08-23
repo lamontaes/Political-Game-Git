@@ -9,12 +9,16 @@ export type EntityKind =
   | "belief"
   | "care-responsibility"
   | "care-state"
+  | "child-authority"
+  | "child-authority-state"
   | "claim"
   | "commitment"
   | "decision"
   | "decision-trace"
   | "development-proposal"
   | "event"
+  | "education-enrollment"
+  | "education-enrollment-state"
   | "fact"
   | "goal"
   | "goal-state"
@@ -29,6 +33,8 @@ export type EntityKind =
   | "life-load-resolution"
   | "memory"
   | "organization"
+  | "organization-participation"
+  | "organization-participation-state"
   | "organization-profile"
   | "person"
   | "personal-value"
@@ -680,6 +686,10 @@ export type MindSourceReference =
   | {
       readonly kind: "life-load-resolution";
       readonly lifeLoadResolutionId: EntityId;
+    }
+  | {
+      readonly kind: "life-history";
+      readonly reference: LifeHistoryRecordReference;
     };
 
 export interface MindRecordProvenance {
@@ -784,6 +794,10 @@ export type SourceCredibility = "unknown" | "low" | "medium" | "high";
 
 export type PerceptionSource =
   | { readonly kind: "person-fact"; readonly factId: EntityId }
+  | {
+      readonly kind: "life-history";
+      readonly reference: LifeHistoryRecordReference;
+    }
   | {
       readonly kind: "proposition-exposure";
       readonly exposureId: EntityId;
@@ -892,6 +906,80 @@ export interface OrganizationProfileRecord {
   readonly locationJurisdictionId: EntityId | null;
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId | null;
+}
+
+export type EducationProgramNamespace =
+  "schooling" | "postsecondary" | "training" | "custom";
+export type EducationProgramKind = `${EducationProgramNamespace}:${string}`;
+export type EducationContextNamespace =
+  "program" | "stage" | "track" | "custom";
+export type EducationContextKind = `${EducationContextNamespace}:${string}`;
+
+export interface EducationEnrollment {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly organizationId: EntityId;
+  /** When this enrollment, including an expected future enrollment, became known. */
+  readonly recordedAt: IsoDate;
+  /** The actual or expected date on which participation in the program begins. */
+  readonly startedAt: IsoDate;
+  readonly programKind: EducationProgramKind;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export type EducationEnrollmentStatus =
+  "expected" | "active" | "completed" | "withdrawn" | "transferred" | "ended";
+
+export interface EducationEnrollmentStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly enrollmentId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly status: EducationEnrollmentStatus;
+  readonly contextKind: EducationContextKind;
+  readonly reason: string | null;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesStateId: EntityId | null;
+}
+
+export type OrganizationParticipationNamespace =
+  "membership" | "activity" | "affiliation" | "leadership" | "custom";
+export type OrganizationParticipationKind =
+  `${OrganizationParticipationNamespace}:${string}`;
+export type OrganizationParticipationRoleNamespace =
+  "member" | "participant" | "leader" | "advisor" | "custom";
+export type OrganizationParticipationRoleKind =
+  `${OrganizationParticipationRoleNamespace}:${string}`;
+
+export interface OrganizationParticipation {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly organizationId: EntityId;
+  readonly recordedAt: IsoDate;
+  readonly startedAt: IsoDate;
+  readonly kind: OrganizationParticipationKind;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export type OrganizationParticipationStatus =
+  "expected" | "active" | "inactive" | "ended";
+
+export interface OrganizationParticipationStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly participationId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly status: OrganizationParticipationStatus;
+  readonly roleKind: OrganizationParticipationRoleKind | null;
+  readonly context: string | null;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesStateId: EntityId | null;
 }
 
 export type WorkRelationshipNamespace =
@@ -1109,6 +1197,44 @@ export interface CareResponsibilityStateRecord {
   readonly supersedesStateId: EntityId | null;
 }
 
+export type ChildAuthorityNamespace =
+  "parental" | "guardianship" | "custody" | "protective" | "custom";
+export type ChildAuthorityKind = `${ChildAuthorityNamespace}:${string}`;
+export type ChildAuthorityBasisNamespace =
+  "legal" | "administrative" | "consensual" | "custom";
+export type ChildAuthorityBasisKind =
+  `${ChildAuthorityBasisNamespace}:${string}`;
+
+export type ChildAuthorityHolder =
+  | { readonly kind: "person"; readonly personId: EntityId }
+  | { readonly kind: "organization"; readonly organizationId: EntityId };
+
+export interface ChildAuthority {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly childPersonId: EntityId;
+  readonly holder: ChildAuthorityHolder;
+  readonly establishedAt: IsoDate;
+  readonly kind: ChildAuthorityKind;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export type ChildAuthorityStatus = "active" | "ended";
+
+export interface ChildAuthorityStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly childAuthorityId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly status: ChildAuthorityStatus;
+  readonly basisKind: ChildAuthorityBasisKind;
+  readonly context: string | null;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesStateId: EntityId | null;
+}
+
 export type LifeCommitmentNamespace =
   "civic" | "community" | "personal" | "religious" | "custom";
 export type LifeCommitmentKind = `${LifeCommitmentNamespace}:${string}`;
@@ -1188,6 +1314,74 @@ export interface LifeLoadResolutionRecord {
 export interface HistoricalCutoff {
   readonly asOfDate: IsoDate;
   readonly historySequenceExclusive: number;
+}
+
+/** Finite engine record families that may serve as canonical Stage 5 evidence. */
+export type LifeHistoryRecordFamily =
+  | "work-relationship"
+  | "work-status"
+  | "work-role"
+  | "household-membership"
+  | "household-membership-state"
+  | "kinship"
+  | "partnership"
+  | "partnership-state"
+  | "care-responsibility"
+  | "care-state"
+  | "life-commitment"
+  | "life-load-resolution"
+  | "education-enrollment"
+  | "education-enrollment-state"
+  | "organization-participation"
+  | "organization-participation-state"
+  | "child-authority"
+  | "child-authority-state";
+
+export interface LifeHistoryRecordReference {
+  readonly family: LifeHistoryRecordFamily;
+  readonly recordId: EntityId;
+}
+
+export type LifeEligibilityActionNamespace =
+  "education" | "participation" | "authority" | "work" | "life" | "custom";
+export type LifeEligibilityActionKey =
+  `${LifeEligibilityActionNamespace}:${string}`;
+export type LifeEligibilityReasonNamespace =
+  "rule" | "context" | "capacity" | "custom";
+export type LifeEligibilityReasonKey =
+  `${LifeEligibilityReasonNamespace}:${string}`;
+
+export interface LifeEligibilityRequest {
+  readonly actorPersonId: EntityId;
+  readonly actionKey: LifeEligibilityActionKey;
+  readonly asOfDate: IsoDate;
+  readonly jurisdictionId: EntityId | null;
+  readonly contextEntityIds: readonly EntityId[];
+}
+
+export interface LifeEligibilityReason {
+  readonly key: LifeEligibilityReasonKey;
+  readonly explanation: string;
+}
+
+export type LifeEligibilityDecision =
+  | {
+      readonly status: "allowed";
+      readonly reasons: readonly LifeEligibilityReason[];
+    }
+  | {
+      readonly status: "blocked";
+      readonly reasons: readonly [
+        LifeEligibilityReason,
+        ...LifeEligibilityReason[],
+      ];
+    };
+
+export interface LifeEligibilityProvider {
+  evaluate(
+    world: World,
+    request: LifeEligibilityRequest,
+  ): LifeEligibilityDecision;
 }
 
 export type DecisionSourceNamespace =
@@ -1323,6 +1517,10 @@ export interface HistoryStore {
   readonly nextSequence: number;
   readonly organizations: readonly Organization[];
   readonly organizationProfiles: readonly OrganizationProfileRecord[];
+  readonly educationEnrollments: readonly EducationEnrollment[];
+  readonly educationEnrollmentStates: readonly EducationEnrollmentStateRecord[];
+  readonly organizationParticipations: readonly OrganizationParticipation[];
+  readonly organizationParticipationStates: readonly OrganizationParticipationStateRecord[];
   readonly workRelationships: readonly WorkRelationship[];
   readonly workStatuses: readonly WorkStatusRecord[];
   readonly workRoles: readonly WorkRoleRecord[];
@@ -1335,6 +1533,8 @@ export interface HistoryStore {
   readonly partnershipStates: readonly PartnershipStateRecord[];
   readonly careResponsibilities: readonly CareResponsibility[];
   readonly careResponsibilityStates: readonly CareResponsibilityStateRecord[];
+  readonly childAuthorities: readonly ChildAuthority[];
+  readonly childAuthorityStates: readonly ChildAuthorityStateRecord[];
   readonly lifeCommitments: readonly LifeCommitmentRecord[];
   readonly lifeLoadResolutions: readonly LifeLoadResolutionRecord[];
   readonly events: readonly HistoricalEvent[];
@@ -1358,8 +1558,8 @@ export interface HistoryStore {
 }
 
 export interface World {
-  readonly schemaVersion: 6;
-  readonly generatorVersion: "demo-world-v6";
+  readonly schemaVersion: 7;
+  readonly generatorVersion: "demo-world-v7";
   readonly id: EntityId;
   readonly seed: string;
   readonly startedAt: IsoDate;

@@ -21,6 +21,9 @@ function newestFirst<T extends { readonly sequence: number }>(
 }
 
 function sourceReferenceLabel(reference: MindSourceReference): string {
+  if (reference.kind === "life-history") {
+    return `life-history · ${reference.reference.family} · ${reference.reference.recordId}`;
+  }
   const identifier = Object.entries(reference).find(
     ([key]) => key !== "kind",
   )?.[1];
@@ -39,6 +42,8 @@ function perceptionSourceLabel(world: World, source: PerceptionSource): string {
   switch (source.kind) {
     case "person-fact":
       return `Known biography fact · ${source.factId}`;
+    case "life-history":
+      return `Canonical life history · ${source.reference.family} · ${source.reference.recordId}`;
     case "proposition-exposure":
       return `Proposition exposure · ${source.exposureId}`;
     case "subject-knowledge":

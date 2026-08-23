@@ -1,5 +1,9 @@
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
+import {
+  assertLifeHistorySourceAvailable,
+  lifeHistoryReferenceKey,
+} from "./life-sources";
 import { lifeEntityExists } from "./life-integrity";
 import { factsForPerson } from "./people";
 import {
@@ -466,6 +470,15 @@ function validatePerceptionSource(
         record.perceivedAt,
         record.sequence,
         [{ kind: "person-fact", factId: source.factId }],
+      );
+      return;
+    case "life-history":
+      validateSourceRefs(
+        world,
+        record.personId,
+        record.perceivedAt,
+        record.sequence,
+        [{ kind: "life-history", reference: { ...source.reference } }],
       );
       return;
     case "proposition-exposure":
@@ -985,6 +998,14 @@ function validateSourceRefs(
         }
         break;
       }
+      case "life-history":
+        assertLifeHistorySourceAvailable(
+          world,
+          personId,
+          { asOfDate, historySequenceExclusive: sequenceExclusive },
+          reference.reference,
+        );
+        break;
       case "personality-tendency":
         validateOwnedRecord(
           world.history.personalityTendencies.find(
@@ -1377,7 +1398,12 @@ function canonicalSourceRefs(
 ): readonly MindSourceReference[] {
   const records = new Map<string, MindSourceReference>();
   for (const reference of references) {
-    records.set(sourceRefKey(reference), { ...reference });
+    records.set(
+      sourceRefKey(reference),
+      reference.kind === "life-history"
+        ? { ...reference, reference: { ...reference.reference } }
+        : { ...reference },
+    );
   }
   return [...records.entries()]
     .sort(([left], [right]) => left.localeCompare(right))
@@ -1385,6 +1411,9 @@ function canonicalSourceRefs(
 }
 
 function sourceRefKey(reference: MindSourceReference): string {
+  if (reference.kind === "life-history") {
+    return `${reference.kind}:${lifeHistoryReferenceKey(reference.reference)}`;
+  }
   const id = Object.entries(reference).find(([key]) => key !== "kind")?.[1];
   return `${reference.kind}:${String(id)}`;
 }

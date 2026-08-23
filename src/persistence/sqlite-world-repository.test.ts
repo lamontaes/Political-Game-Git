@@ -3,11 +3,21 @@ import { afterEach, describe, expect, it } from "vitest";
 import {
   SYNTHETIC_POLICY_IDS,
   advanceDemoWorld,
+  createChildAuthority,
   createFormationContext,
   createDemoWorld,
+  createEducationEnrollment,
   createOrganization,
+  createOrganizationParticipation,
   createWorkRelationship,
+  currentLifeCutoff,
+  evaluateDecision,
   materializePerson,
+  recordChildAuthorityState,
+  recordDurableDecisionTrace,
+  recordEducationEnrollmentState,
+  recordOrganizationParticipationState,
+  recordPerception,
   recordPrivateBelief,
 } from "../simulation";
 import type { EntityId } from "../simulation";
@@ -124,5 +134,173 @@ describe("SQLite world repository", () => {
       organizationId,
       compensation: "unpaid",
     });
+  });
+
+  it("preserves every Stage 5 Run A family and typed life source exactly", () => {
+    repository = new SqliteWorldRepository(":memory:");
+    let world = createDemoWorld("sqlite-stage-5-run-a");
+    const personId = world.personOrder[1] as EntityId;
+    const holderId = world.personOrder[0] as EntityId;
+    const jurisdictionId = world.jurisdictionOrder[0] as EntityId;
+    const provenance = {
+      kind: "authored" as const,
+      note: "Synthetic SQLite Stage 5 Run A fixture.",
+    };
+    world = createOrganization(world, {
+      stableKey: "sqlite:run-a:organization",
+      formedAt: "1980-01-01",
+      provenance,
+      initialProfile: {
+        name: "SQLite Run A Institute",
+        classification: "custom:sqlite-run-a-institute",
+        locationJurisdictionId: jurisdictionId,
+      },
+    });
+    const organizationId = world.history.organizations.at(-1)?.id;
+    if (!organizationId) throw new Error("Missing Run A SQLite organization.");
+    world = createEducationEnrollment(world, {
+      stableKey: "sqlite:run-a:education",
+      personId,
+      organizationId,
+      startedAt: "2015-01-01",
+      programKind: "custom:sqlite-learning-program",
+      contextKind: "custom:sqlite-learning-context",
+      provenance,
+    });
+    const enrollment = world.history.educationEnrollments.at(-1);
+    const enrollmentState = world.history.educationEnrollmentStates.at(-1);
+    if (!enrollment || !enrollmentState) {
+      throw new Error("Missing Run A SQLite education history.");
+    }
+    world = recordEducationEnrollmentState(world, {
+      stableKey: "sqlite:run-a:education:completed",
+      enrollmentId: enrollment.id,
+      effectiveAt: "2020-01-01",
+      status: "completed",
+      contextKind: "custom:sqlite-learning-context",
+      reason: "Completed the synthetic program",
+      provenance,
+      supersedesStateId: enrollmentState.id,
+    });
+    world = createOrganizationParticipation(world, {
+      stableKey: "sqlite:run-a:participation",
+      personId,
+      organizationId,
+      startedAt: "2018-01-01",
+      kind: "custom:sqlite-membership",
+      roleKind: "custom:sqlite-participant",
+      context: "SQLite participation context",
+      provenance,
+    });
+    const participation = world.history.organizationParticipations.at(-1);
+    const participationState =
+      world.history.organizationParticipationStates.at(-1);
+    if (!participation || !participationState) {
+      throw new Error("Missing Run A SQLite participation history.");
+    }
+    world = recordOrganizationParticipationState(world, {
+      stableKey: "sqlite:run-a:participation:ended",
+      participationId: participation.id,
+      effectiveAt: "2022-01-01",
+      status: "ended",
+      roleKind: "custom:sqlite-participant",
+      context: "Participation ended",
+      provenance,
+      supersedesStateId: participationState.id,
+    });
+    world = createChildAuthority(world, {
+      stableKey: "sqlite:run-a:authority",
+      childPersonId: personId,
+      holder: { kind: "person", personId: holderId },
+      establishedAt: "2018-01-01",
+      kind: "custom:sqlite-authority",
+      basisKind: "custom:sqlite-basis",
+      context: "SQLite authority context",
+      provenance,
+    });
+    const authority = world.history.childAuthorities.at(-1);
+    const authorityState = world.history.childAuthorityStates.at(-1);
+    if (!authority || !authorityState) {
+      throw new Error("Missing Run A SQLite authority history.");
+    }
+    world = recordChildAuthorityState(world, {
+      stableKey: "sqlite:run-a:authority:ended",
+      childAuthorityId: authority.id,
+      effectiveAt: "2023-01-01",
+      status: "ended",
+      basisKind: "custom:sqlite-basis-ended",
+      context: "SQLite authority ended",
+      provenance,
+      supersedesStateId: authorityState.id,
+    });
+    const lifeSource = {
+      kind: "life-history" as const,
+      reference: {
+        family: "education-enrollment" as const,
+        recordId: enrollment.id,
+      },
+    };
+    world = recordPerception(world, {
+      stableKey: "sqlite:run-a:perception",
+      personId,
+      perceivedAt: world.currentDate,
+      subjectKind: "domain:education",
+      subjectKey: "education:sqlite-source",
+      subjectEntityId: enrollment.id,
+      assertion: "The person's education history remains available.",
+      confidence: "high",
+      sourceCredibility: "high",
+      source: lifeSource,
+      supersedesPerceptionId: null,
+    });
+    const evaluation = evaluateDecision(world, {
+      stableKey: "sqlite:run-a:decision",
+      decisionType: "sqlite-life-source",
+      actorPersonId: personId,
+      cutoff: currentLifeCutoff(world),
+      subject: {
+        kind: "domain:education",
+        key: "education:sqlite-source",
+        entityId: enrollment.id,
+      },
+      options: [
+        { key: "use", label: "Use", description: "Use the evidence." },
+        { key: "omit", label: "Omit", description: "Omit the evidence." },
+      ],
+      constraints: [],
+      considerations: [
+        {
+          stableKey: "sqlite-life-source",
+          optionKey: "use",
+          sourceType: "domain:education-history",
+          direction: "supports",
+          importance: "moderate",
+          confidence: "high",
+          explanation: "The education record is durable evidence.",
+          sourceRefs: [lifeSource],
+        },
+      ],
+      perceptionIds: [],
+      randomness: "none",
+      retention: "durable",
+    });
+    world = recordDurableDecisionTrace(world, evaluation);
+
+    const firstSaved = repository.save(world);
+    world = materializePerson(world, holderId);
+    const saved = repository.save(world);
+    const restored = repository.load(world.id);
+    expect(saved.snapshotId).not.toBe(firstSaved.snapshotId);
+    expect(restored).toStrictEqual(world);
+    expect(repository.list()).toStrictEqual([saved]);
+    expect(restored?.history.educationEnrollmentStates).toHaveLength(2);
+    expect(restored?.history.organizationParticipationStates).toHaveLength(2);
+    expect(restored?.history.childAuthorityStates).toHaveLength(2);
+    expect(restored?.history.perceptions.at(-1)?.source).toStrictEqual(
+      lifeSource,
+    );
+    expect(
+      restored?.history.decisionTraces.at(-1)?.sourceSnapshots[0]?.reference,
+    ).toStrictEqual(lifeSource);
   });
 });

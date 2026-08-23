@@ -1,20 +1,28 @@
 import type {
   BeliefFormationReasonNamespace,
   CareNamespace,
+  ChildAuthorityBasisNamespace,
+  ChildAuthorityNamespace,
   DecisionSourceNamespace,
   EventParticipantRoleNamespace,
   FamilyRelationshipNamespace,
   HouseholdLocationNamespace,
   HouseholdMembershipNamespace,
+  EducationContextNamespace,
+  EducationProgramNamespace,
   KinshipNamespace,
   LifeCommitmentNamespace,
   OccupationClassificationNamespace,
   OrganizationClassificationNamespace,
+  OrganizationParticipationNamespace,
+  OrganizationParticipationRoleNamespace,
   PartnershipNamespace,
   PerceptionSubjectNamespace,
   PoliticalCueNamespace,
   RelationshipInteractionNamespace,
   WorkRelationshipNamespace,
+  LifeEligibilityActionNamespace,
+  LifeEligibilityReasonNamespace,
 } from "./types";
 
 export const BELIEF_FORMATION_REASON_NAMESPACES = [
@@ -63,6 +71,35 @@ export const CARE_NAMESPACES = [
   "custom",
 ] as const satisfies readonly CareNamespace[];
 
+export const CHILD_AUTHORITY_NAMESPACES = [
+  "parental",
+  "guardianship",
+  "custody",
+  "protective",
+  "custom",
+] as const satisfies readonly ChildAuthorityNamespace[];
+
+export const CHILD_AUTHORITY_BASIS_NAMESPACES = [
+  "legal",
+  "administrative",
+  "consensual",
+  "custom",
+] as const satisfies readonly ChildAuthorityBasisNamespace[];
+
+export const EDUCATION_PROGRAM_NAMESPACES = [
+  "schooling",
+  "postsecondary",
+  "training",
+  "custom",
+] as const satisfies readonly EducationProgramNamespace[];
+
+export const EDUCATION_CONTEXT_NAMESPACES = [
+  "program",
+  "stage",
+  "track",
+  "custom",
+] as const satisfies readonly EducationContextNamespace[];
+
 export const HOUSEHOLD_LOCATION_NAMESPACES = [
   "residence",
   "temporary",
@@ -110,6 +147,38 @@ export const ORGANIZATION_CLASSIFICATION_NAMESPACES = [
   "international",
   "custom",
 ] as const satisfies readonly OrganizationClassificationNamespace[];
+
+export const ORGANIZATION_PARTICIPATION_NAMESPACES = [
+  "membership",
+  "activity",
+  "affiliation",
+  "leadership",
+  "custom",
+] as const satisfies readonly OrganizationParticipationNamespace[];
+
+export const ORGANIZATION_PARTICIPATION_ROLE_NAMESPACES = [
+  "member",
+  "participant",
+  "leader",
+  "advisor",
+  "custom",
+] as const satisfies readonly OrganizationParticipationRoleNamespace[];
+
+export const LIFE_ELIGIBILITY_ACTION_NAMESPACES = [
+  "education",
+  "participation",
+  "authority",
+  "work",
+  "life",
+  "custom",
+] as const satisfies readonly LifeEligibilityActionNamespace[];
+
+export const LIFE_ELIGIBILITY_REASON_NAMESPACES = [
+  "rule",
+  "context",
+  "capacity",
+  "custom",
+] as const satisfies readonly LifeEligibilityReasonNamespace[];
 
 export const PARTNERSHIP_NAMESPACES = [
   "romantic",

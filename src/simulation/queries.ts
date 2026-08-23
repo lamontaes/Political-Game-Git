@@ -114,13 +114,17 @@ export function hasLivedInJurisdiction(
   jurisdictionId: EntityId,
 ): boolean {
   const person = world.people[personId];
-  return (
-    !!person &&
-    (factsForPerson(person).some(
-      (fact) =>
-        fact.kind === "residence" && fact.jurisdictionId === jurisdictionId,
-    ) ||
-      hasHouseholdResidenceInJurisdiction(world, personId, jurisdictionId))
+  if (!person) return false;
+  if (
+    world.history.householdMemberships.some(
+      (membership) => membership.personId === personId,
+    )
+  ) {
+    return hasHouseholdResidenceInJurisdiction(world, personId, jurisdictionId);
+  }
+  return factsForPerson(person).some(
+    (fact) =>
+      fact.kind === "residence" && fact.jurisdictionId === jurisdictionId,
   );
 }
 

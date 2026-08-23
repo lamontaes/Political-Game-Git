@@ -1,9 +1,15 @@
 import { makeIsoDate } from "./dates";
+import { factsForPerson } from "./people";
 import type {
+  ChildAuthority,
+  ChildAuthorityStateRecord,
   CareResponsibility,
   CareResponsibilityStateRecord,
   CoordinationPressure,
   EntityId,
+  EducationEnrollment,
+  EducationEnrollmentStateRecord,
+  EducationFact,
   ExpectedWeeklyTimeRange,
   HistoricalCutoff,
   Household,
@@ -17,6 +23,8 @@ import type {
   LifeLoadResolutionRecord,
   MindStrength,
   Organization,
+  OrganizationParticipation,
+  OrganizationParticipationStateRecord,
   OrganizationProfileRecord,
   Partnership,
   PartnershipStateRecord,
@@ -44,6 +52,32 @@ export interface ActiveCareResponsibility {
   readonly responsibility: CareResponsibility;
   readonly state: CareResponsibilityStateRecord;
 }
+
+export interface ActiveEducationEnrollment {
+  readonly enrollment: EducationEnrollment;
+  readonly state: EducationEnrollmentStateRecord;
+}
+
+export interface ActiveOrganizationParticipation {
+  readonly participation: OrganizationParticipation;
+  readonly state: OrganizationParticipationStateRecord;
+}
+
+export interface ActiveChildAuthority {
+  readonly authority: ChildAuthority;
+  readonly state: ChildAuthorityStateRecord;
+}
+
+export type EducationHistoryEvidence =
+  | {
+      readonly source: "canonical";
+      readonly enrollment: EducationEnrollment;
+      readonly state: EducationEnrollmentStateRecord;
+    }
+  | {
+      readonly source: "legacy-summary";
+      readonly fact: EducationFact;
+    };
 
 export function currentLifeCutoff(world: World): HistoricalCutoff {
   return {
@@ -83,6 +117,280 @@ export function organizationProfileAt(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): OrganizationProfileRecord | undefined {
   return organizationProfileHistory(world, organizationId, cutoff).at(-1);
+}
+
+export function educationEnrollmentHistoryForPerson(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly EducationEnrollment[] {
+  validatePersonCutoff(world, personId, cutoff);
+  return world.history.educationEnrollments.filter(
+    (enrollment) =>
+      enrollment.personId === personId &&
+      available(
+        enrollment.sequence,
+        enrollment.startedAt < enrollment.recordedAt
+          ? enrollment.startedAt
+          : enrollment.recordedAt,
+        cutoff,
+      ),
+  );
+}
+
+export function educationEnrollmentStateHistory(
+  world: World,
+  enrollmentId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly EducationEnrollmentStateRecord[] {
+  validateCutoff(world, cutoff);
+  return world.history.educationEnrollmentStates
+    .filter(
+      (record) =>
+        record.enrollmentId === enrollmentId &&
+        available(record.sequence, record.effectiveAt, cutoff),
+    )
+    .sort(byEffectiveDateThenSequence);
+}
+
+export function educationEnrollmentStateAt(
+  world: World,
+  enrollmentId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): EducationEnrollmentStateRecord | undefined {
+  return educationEnrollmentStateHistory(world, enrollmentId, cutoff).at(-1);
+}
+
+export function activeEducationEnrollmentsAt(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly ActiveEducationEnrollment[] {
+  return educationEnrollmentHistoryForPerson(world, personId, cutoff).flatMap(
+    (enrollment) => {
+      const state = educationEnrollmentStateAt(world, enrollment.id, cutoff);
+      return state?.status === "active" &&
+        enrollment.startedAt <= cutoff.asOfDate
+        ? [{ enrollment, state }]
+        : [];
+    },
+  );
+}
+
+/** Canonical sequence-aware enrollment wins; biography facts are frontier-only fallback. */
+export function educationHistoryEvidenceForPerson(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly EducationHistoryEvidence[] {
+  const enrollments = educationEnrollmentHistoryForPerson(
+    world,
+    personId,
+    cutoff,
+  );
+  if (enrollments.length > 0) {
+    return enrollments.flatMap((enrollment) => {
+      const state = educationEnrollmentStateAt(world, enrollment.id, cutoff);
+      return state ? [{ source: "canonical" as const, enrollment, state }] : [];
+    });
+  }
+  if (
+    cutoff.asOfDate !== world.currentDate ||
+    cutoff.historySequenceExclusive !== world.history.nextSequence
+  ) {
+    return [];
+  }
+  const person = world.people[personId];
+  if (!person) throw new Error(`Missing person: ${personId}`);
+  return factsForPerson(person).flatMap((fact) =>
+    fact.kind === "education" && fact.occurredAt <= cutoff.asOfDate
+      ? [{ source: "legacy-summary" as const, fact }]
+      : [],
+  );
+}
+
+export function didPeopleShareEducationOrganization(
+  world: World,
+  firstPersonId: EntityId,
+  secondPersonId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): boolean {
+  if (firstPersonId === secondPersonId) return false;
+  const first = educationEnrollmentHistoryForPerson(
+    world,
+    firstPersonId,
+    cutoff,
+  );
+  const second = educationEnrollmentHistoryForPerson(
+    world,
+    secondPersonId,
+    cutoff,
+  );
+  return first.some((left) =>
+    second.some(
+      (right) =>
+        left.organizationId === right.organizationId &&
+        educationAndEducationPeriodsOverlap(world, left, right, cutoff),
+    ),
+  );
+}
+
+export function didPersonShareEducationOrganizationWithWorker(
+  world: World,
+  studentPersonId: EntityId,
+  workerPersonId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): boolean {
+  const enrollments = educationEnrollmentHistoryForPerson(
+    world,
+    studentPersonId,
+    cutoff,
+  );
+  const work = workRelationshipHistoryForPerson(world, workerPersonId, cutoff);
+  return enrollments.some((enrollment) =>
+    work.some(
+      (relationship) =>
+        relationship.organizationId === enrollment.organizationId &&
+        educationAndWorkPeriodsOverlap(world, enrollment, relationship, cutoff),
+    ),
+  );
+}
+
+export function organizationParticipationHistoryForPerson(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly OrganizationParticipation[] {
+  validatePersonCutoff(world, personId, cutoff);
+  return world.history.organizationParticipations.filter(
+    (participation) =>
+      participation.personId === personId &&
+      available(
+        participation.sequence,
+        participation.startedAt < participation.recordedAt
+          ? participation.startedAt
+          : participation.recordedAt,
+        cutoff,
+      ),
+  );
+}
+
+export function organizationParticipationStateHistory(
+  world: World,
+  participationId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly OrganizationParticipationStateRecord[] {
+  validateCutoff(world, cutoff);
+  return world.history.organizationParticipationStates
+    .filter(
+      (record) =>
+        record.participationId === participationId &&
+        available(record.sequence, record.effectiveAt, cutoff),
+    )
+    .sort(byEffectiveDateThenSequence);
+}
+
+export function organizationParticipationStateAt(
+  world: World,
+  participationId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): OrganizationParticipationStateRecord | undefined {
+  return organizationParticipationStateHistory(
+    world,
+    participationId,
+    cutoff,
+  ).at(-1);
+}
+
+export function activeOrganizationParticipationsAt(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly ActiveOrganizationParticipation[] {
+  return organizationParticipationHistoryForPerson(
+    world,
+    personId,
+    cutoff,
+  ).flatMap((participation) => {
+    const state = organizationParticipationStateAt(
+      world,
+      participation.id,
+      cutoff,
+    );
+    return state?.status === "active" &&
+      participation.startedAt <= cutoff.asOfDate
+      ? [{ participation, state }]
+      : [];
+  });
+}
+
+export function childAuthorityStateHistory(
+  world: World,
+  childAuthorityId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly ChildAuthorityStateRecord[] {
+  validateCutoff(world, cutoff);
+  return world.history.childAuthorityStates
+    .filter(
+      (record) =>
+        record.childAuthorityId === childAuthorityId &&
+        available(record.sequence, record.effectiveAt, cutoff),
+    )
+    .sort(byEffectiveDateThenSequence);
+}
+
+export function childAuthorityHistoryForChild(
+  world: World,
+  childPersonId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly ChildAuthority[] {
+  validatePersonCutoff(world, childPersonId, cutoff);
+  return world.history.childAuthorities.filter(
+    (authority) =>
+      authority.childPersonId === childPersonId &&
+      available(authority.sequence, authority.establishedAt, cutoff),
+  );
+}
+
+export function childAuthorityStateAt(
+  world: World,
+  childAuthorityId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): ChildAuthorityStateRecord | undefined {
+  return childAuthorityStateHistory(world, childAuthorityId, cutoff).at(-1);
+}
+
+export function activeChildAuthoritiesAt(
+  world: World,
+  childPersonId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly ActiveChildAuthority[] {
+  validatePersonCutoff(world, childPersonId, cutoff);
+  return childAuthorityHistoryForChild(world, childPersonId, cutoff).flatMap(
+    (authority) => {
+      const state = childAuthorityStateAt(world, authority.id, cutoff);
+      return state?.status === "active" ? [{ authority, state }] : [];
+    },
+  );
+}
+
+export function activeAuthoritiesHeldByPersonAt(
+  world: World,
+  holderPersonId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly ActiveChildAuthority[] {
+  validatePersonCutoff(world, holderPersonId, cutoff);
+  return world.history.childAuthorities.flatMap((authority) => {
+    if (
+      authority.holder.kind !== "person" ||
+      authority.holder.personId !== holderPersonId ||
+      !available(authority.sequence, authority.establishedAt, cutoff)
+    ) {
+      return [];
+    }
+    const state = childAuthorityStateAt(world, authority.id, cutoff);
+    return state?.status === "active" ? [{ authority, state }] : [];
+  });
 }
 
 export function workRelationshipHistoryForPerson(
@@ -566,6 +874,66 @@ function workPeriodsOverlap(
       workStatusAt(world, right.id, atDate)?.status === "active" &&
       left.startedAt <= date &&
       right.startedAt <= date
+    );
+  });
+}
+
+function educationAndEducationPeriodsOverlap(
+  world: World,
+  left: EducationEnrollment,
+  right: EducationEnrollment,
+  cutoff: HistoricalCutoff,
+): boolean {
+  const dates = new Set([
+    left.startedAt,
+    right.startedAt,
+    ...educationEnrollmentStateHistory(world, left.id, cutoff).map(
+      (item) => item.effectiveAt,
+    ),
+    ...educationEnrollmentStateHistory(world, right.id, cutoff).map(
+      (item) => item.effectiveAt,
+    ),
+    cutoff.asOfDate,
+  ]);
+  return [...dates].some((date) => {
+    if (date > cutoff.asOfDate) return false;
+    const atDate = { ...cutoff, asOfDate: date };
+    return (
+      educationEnrollmentStateAt(world, left.id, atDate)?.status === "active" &&
+      educationEnrollmentStateAt(world, right.id, atDate)?.status ===
+        "active" &&
+      left.startedAt <= date &&
+      right.startedAt <= date
+    );
+  });
+}
+
+function educationAndWorkPeriodsOverlap(
+  world: World,
+  enrollment: EducationEnrollment,
+  work: WorkRelationship,
+  cutoff: HistoricalCutoff,
+): boolean {
+  const dates = new Set([
+    enrollment.startedAt,
+    work.startedAt,
+    ...educationEnrollmentStateHistory(world, enrollment.id, cutoff).map(
+      (item) => item.effectiveAt,
+    ),
+    ...workStatusHistory(world, work.id, cutoff).map(
+      (item) => item.effectiveAt,
+    ),
+    cutoff.asOfDate,
+  ]);
+  return [...dates].some((date) => {
+    if (date > cutoff.asOfDate) return false;
+    const atDate = { ...cutoff, asOfDate: date };
+    return (
+      educationEnrollmentStateAt(world, enrollment.id, atDate)?.status ===
+        "active" &&
+      workStatusAt(world, work.id, atDate)?.status === "active" &&
+      enrollment.startedAt <= date &&
+      work.startedAt <= date
     );
   });
 }

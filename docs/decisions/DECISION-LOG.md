@@ -382,3 +382,21 @@ Represent recurring demand with expected weekly ranges plus attention, concurren
 Preserve Stage 2 occupation, residence, and family facts as immutable biography/expertise summaries while making Stage 5.1 records canonical for detailed work, co-residence, partnership, and care. Stable canonical work takes precedence over textual employer fallback. Progressive person or organization detail changes resolution without changing historical existence or identity.
 
 Consequence: one persistent person can accumulate concurrent and changing work, homes, structural relationships, care, and recovery history that later systems can query as of date and append sequence without overwriting earlier truth. Expected future work can be known without becoming active. Formative content, adult career content/progression, resources, dwellings/property, relationship maintenance, health, offices, institutions, and player UI remain dependency-bound future work.
+
+## D-038 — Shared life history, participation, authority, and rule-consumer boundary
+
+- Date: 2026-08-23
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent education enrollment as a stable person-to-`Organization` relationship with separate expected/active/terminal state history, so K-12, postsecondary, and later training share one identity architecture without making school names, grades, credentials, degrees, or majors root-engine ontology. Represent non-work membership, affiliation, and activity through a distinct stable organization-participation relationship; genuine service that is semantically work remains a `WorkRelationship`, and meaningful recurring load reuses `LifeCommitmentRecord` rather than adding activity-specific scheduling fields.
+
+Represent recognized authority or responsibility over a child through a separate effective-dated relationship whose holder is either a `Person` or an `Organization`. Authority does not imply or mutate kinship, partnership, household membership, or care, and no universal age, custody-power bundle, visitation calendar, or jurisdiction-specific guardianship law is embedded in the relationship.
+
+Treat canonical Stage 5 records as sequence-aware typed evidence for Stage 4 perception, appraisal provenance, and decision explanation. A closed engine record-family reference resolves only an existing record belonging to the actor and available before both the as-of date and exclusive global sequence cutoff; durable traces freeze its label and content. Preserve legacy `PersonFact` IDs and nondiegetic progressive-materialization behavior without fabricated append sequence. Birth date remains core identity, birthplace remains compatible origin detail, and education, occupation, residence, and family facts remain summary/fallback evidence only where a canonical sequence-aware family is absent.
+
+Life content asks a typed eligibility provider for an allowed or blocked result with validated open action/reason keys, actor, date, stable jurisdiction, and structured explanations. The default/test provider contains no universal age threshold. Stage 7 effective law may replace this provider without replacing Stage 5 entities, consistent with D-035.
+
+Gameplay remains U.S.-centric while jurisdiction identity stays open and stable; Run A adds no 50-state enum or validation and preserves future territory support. Playable formative/adult paths are Run B; personal resources, housing, and relationship integration are Run C. The generalized event engine, mutable law/institutions, territory-specific law/data, and player-facing UI remain deferred to their owning stages.
+
+Consequence: a person can accumulate school, participation, and child-authority history that remains stable across organization renames, transfers, later materialization, backdated append, subjective reasoning, and persistence without duplicating biography or stealing gameplay and law work from later runs.

@@ -16,6 +16,11 @@ import type {
   TemporaryStateRecordInput,
 } from "./history";
 import { createStableId } from "./ids";
+import { lifeEntityExists } from "./life-integrity";
+import {
+  assertLifeHistorySourceAvailable,
+  lifeHistoryReferenceKey,
+} from "./life-sources";
 import { factsForPerson } from "./people";
 import {
   assertOpenTaxonomyKey,
@@ -556,6 +561,14 @@ export function validateMindSourceReferences(
         }
         break;
       }
+      case "life-history":
+        assertLifeHistorySourceAvailable(
+          world,
+          personId,
+          { asOfDate, historySequenceExclusive },
+          reference.reference,
+        );
+        break;
       case "personality-tendency":
         assertOwnedHistoryRecord(
           world.history.personalityTendencies.find(
@@ -856,6 +869,11 @@ function validatePerceptionSource(
     case "person-fact":
       validateMindSourceReferences(world, personId, perceivedAt, [
         { kind: "person-fact", factId: source.factId },
+      ]);
+      return;
+    case "life-history":
+      validateMindSourceReferences(world, personId, perceivedAt, [
+        { kind: "life-history", reference: { ...source.reference } },
       ]);
       return;
     case "proposition-exposure":
@@ -1190,6 +1208,7 @@ function entityExists(world: World, id: EntityId): boolean {
     !!world.policyCatalog.principles[id] ||
     !!world.mindCatalog.tendencies[id] ||
     !!world.mindCatalog.values[id] ||
+    lifeEntityExists(world, id) ||
     world.history.events.some((record) => record.id === id) ||
     world.history.goalStates.some((record) => record.goalId === id) ||
     world.history.decisionTraces.some((record) => record.decisionId === id)
@@ -1206,13 +1225,20 @@ function canonicalMindSourceRefs(
   references: readonly MindSourceReference[],
 ): readonly MindSourceReference[] {
   return [...references]
-    .map((reference) => ({ ...reference }))
+    .map((reference) =>
+      reference.kind === "life-history"
+        ? { ...reference, reference: { ...reference.reference } }
+        : { ...reference },
+    )
     .sort((left, right) =>
       mindSourceReferenceKey(left).localeCompare(mindSourceReferenceKey(right)),
     );
 }
 
 function mindSourceReferenceKey(reference: MindSourceReference): string {
+  if (reference.kind === "life-history") {
+    return `${reference.kind}:${lifeHistoryReferenceKey(reference.reference)}`;
+  }
   const id = Object.entries(reference).find(([key]) => key !== "kind")?.[1];
   return `${reference.kind}:${String(id)}`;
 }

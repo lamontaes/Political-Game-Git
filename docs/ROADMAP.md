@@ -230,7 +230,7 @@ The completed Stage 4 gate passed formatting, lint, TypeScript checking, 95 test
 
 ### Deliberately Deferred
 
-Biography facts do not yet carry append-sequence availability, so reconstructed historical perceptions exclude them away from the current frontier while durable traces freeze any fact content used. Employer and education-institution names remain text rather than organization IDs. Automatic perception, attention, communication, memory recall, character development, relationship behavior, population-scale opinion change, mutable law, and every Stage 5+ gameplay system remain deferred to their owning dependencies.
+At the Stage 4 checkpoint, biography facts did not carry append-sequence availability, so reconstructed historical perceptions excluded them away from the current frontier while durable traces froze any fact content used. Employer and education-institution names were compatibility text rather than canonical organization identity. Stage 5 later designed around that boundary with sequence-aware canonical work and education records without fabricating fact availability. Automatic perception, attention, communication, memory recall, character development, relationship behavior, population-scale opinion change, mutable law, and later gameplay systems remain deferred to their owning dependencies.
 
 ### Major Future Consumers
 
@@ -254,11 +254,19 @@ Civilian and political paths create context, relationships, resources, expertise
 
 None of these systems are implemented in Stage 4.
 
-### Stage 5.1 — Core Life Architecture
+### Internal Completion Runs
+
+- **Run A — Shared Life-History and Participation Foundation — COMPLETED.** Incorporates the verified Stage 5.1 core-life checkpoint and adds organization-linked education, non-work participation, separate child authority, typed canonical-life sources, the legacy-biography compatibility boundary, and the eligibility-consumer seam.
+- **Run B — Playable Life Paths and Character History — FUTURE.** Owns playable formative/adult paths and content over Run A identities.
+- **Run C — Personal Resources, Housing, Relationship Integration — FUTURE.** Owns personal resources, housing, and relationship integration over the shared life graph.
+
+Stage 5 remains **IN PROGRESS** after Run A.
+
+### Run A — Shared Life-History and Participation Foundation
 
 Status: **COMPLETED**
 
-This first bounded Stage 5 run owns stable organizations; actual and expected work relationships, role and status history; households and co-residence; kinship/partnership/care separation; ranged time demands; and lightweight deterministic load, recovery, and overload behavior that reuses Stage 4 temporary states.
+Run A retains the earlier Stage 5.1 stable-organization, work, household, kinship, partnership, care, time-demand, and load/recovery foundation and completes the shared identities required before playable formative or adult paths.
 
 #### What Actually Landed
 
@@ -270,19 +278,26 @@ This first bounded Stage 5 run owns stable organizations; actual and expected wo
 - Deterministic qualitative load assessment and seven-day push/recovery resolution over active work, care, and exceptional commitments, with fatigue represented through the existing Stage 4 temporary-state primitive.
 - Date-plus-sequence queries, open taxonomy validation, progressive-person preservation, deterministic JSON and SQLite persistence, and semantic tests covering diverse international/public/private career patterns without named branches.
 - A canonical-work-first coworker query and documented migration boundary for legacy textual occupation/residence/family summaries.
+- Stable education enrollment linked to `Organization`, with expected/active/completed/withdrawn/transferred/ended state history, open program/context semantics, stable shared-school queries, and no universal grade/GPA/credential ontology.
+- Stable non-work organization participation with expected/active/inactive/ended history and optional open role/context semantics; genuine volunteer work remains canonical work, and recurring activity load reuses life commitments.
+- Separate effective-dated child authority whose holder may be a person or organization, without inference from kinship, care, co-residence, or partnership.
+- Typed canonical-life source references for Stage 4 perception, appraisal provenance, decision evidence, and frozen trace snapshots, all guarded by actor ownership plus date-and-exclusive-sequence availability.
+- A documented canonical-first `PersonFact` compatibility boundary that preserves existing facts/materialization without fabricating append sequence.
+- An injectable deterministic eligibility consumer with structured allowed/blocked reasons and stable jurisdiction context, ready for later Stage 7 effective-rule resolution without containing a law table.
 
 #### Major Architectural Decisions
 
 - Research-gated bounded implementation runs (D-036).
 - Stable life identities with effective-dated state, separated coincident concepts, and qualitative time/load semantics (D-037).
+- Shared life history, participation, authority, typed evidence, and future-rule consumption (D-038).
 
 #### Validation Evidence
 
-The completed Stage 5.1 plan records the exact format, lint, typecheck, 111-test, production-build, headless-demo, diff, dependency-audit, JSON, and SQLite evidence. Behavior tests cover profile change, actual and expected work, concurrency, promotion/leave/return/end, shared organization identity, household movement/multi-residence, kinship/partnership/care separation, materially different care/time context, overload/recovery, historical cutoffs, order independence, progressive detail, and invalid graph rejection.
+The completed Stage 5.1 plan preserves its exact 111-test checkpoint evidence. The completed Run A plan records the later full validation and semantic tests for grandparent care versus parent authority, relative guardians, agency custody, transfer/rename, teacher/former-student continuity, participation/work separation, backdated append safety, nondiegetic materialization, legacy facts, typed life sources, eligibility injection, open taxonomies, graph integrity, JSON, and SQLite.
 
 #### Deliberately Deferred
 
-Stage 5.2 owns formative ages and content. Stage 5.3 owns adult education/career content and progression, including connecting education institutions to stable organization identity. Stage 5.4 owns finance/resources, housing/property, and relationship maintenance. Player scheduling UI, hourly calendars, health simulation, campaigns, elections, political office, government institutions, and legislation remain outside this run. Stage 5 overall therefore remains **IN PROGRESS**.
+Run B owns playable formative/adult paths, character-history construction, and education/career progression content. Run C owns finance/resources, housing/property, and relationship integration. Stage 6 owns the generalized event engine; Stage 7 owns mutable law/institutions and territory-specific legal/data content. Player scheduling UI, campaigns, elections, political office, government institutions, and legislation remain outside Run A.
 
 ---
 

@@ -3,10 +3,13 @@ import { createStableId } from "./ids";
 import {
   assessLifeLoadAt,
   careResponsibilityStateHistory,
+  childAuthorityStateHistory,
+  educationEnrollmentStateHistory,
   fatigueAt,
   householdLocationHistory,
   householdMembershipStateHistory,
   organizationProfileHistory,
+  organizationParticipationStateHistory,
   partnershipStateHistory,
   workRoleHistory,
   workStatusHistory,
@@ -15,22 +18,38 @@ import { recordTemporaryState } from "./mind";
 import {
   assertOpenTaxonomyKey,
   CARE_NAMESPACES,
+  CHILD_AUTHORITY_BASIS_NAMESPACES,
+  CHILD_AUTHORITY_NAMESPACES,
+  EDUCATION_CONTEXT_NAMESPACES,
+  EDUCATION_PROGRAM_NAMESPACES,
   HOUSEHOLD_LOCATION_NAMESPACES,
   HOUSEHOLD_MEMBERSHIP_NAMESPACES,
   KINSHIP_NAMESPACES,
   LIFE_COMMITMENT_NAMESPACES,
   OCCUPATION_CLASSIFICATION_NAMESPACES,
   ORGANIZATION_CLASSIFICATION_NAMESPACES,
+  ORGANIZATION_PARTICIPATION_NAMESPACES,
+  ORGANIZATION_PARTICIPATION_ROLE_NAMESPACES,
   PARTNERSHIP_NAMESPACES,
   WORK_RELATIONSHIP_NAMESPACES,
 } from "./taxonomy";
 import type {
+  ChildAuthority,
+  ChildAuthorityBasisKind,
+  ChildAuthorityHolder,
+  ChildAuthorityKind,
+  ChildAuthorityStateRecord,
   CareKind,
   CareResponsibility,
   CareResponsibilityShare,
   CareResponsibilityStateRecord,
   EffortMode,
   EntityId,
+  EducationContextKind,
+  EducationEnrollment,
+  EducationEnrollmentStateRecord,
+  EducationEnrollmentStatus,
+  EducationProgramKind,
   HistoricalCutoff,
   Household,
   HouseholdLocationKind,
@@ -49,6 +68,11 @@ import type {
   OccupationClassification,
   Organization,
   OrganizationClassification,
+  OrganizationParticipation,
+  OrganizationParticipationKind,
+  OrganizationParticipationRoleKind,
+  OrganizationParticipationStateRecord,
+  OrganizationParticipationStatus,
   OrganizationProfileRecord,
   Partnership,
   PartnershipKind,
@@ -90,6 +114,73 @@ export interface RecordOrganizationProfileInput {
   readonly locationJurisdictionId: EntityId | null;
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId;
+}
+
+export interface CreateEducationEnrollmentInput {
+  readonly stableKey: string;
+  readonly personId: EntityId;
+  readonly organizationId: EntityId;
+  readonly startedAt: string;
+  readonly initialStatus?: "active" | "expected";
+  readonly programKind: EducationProgramKind;
+  readonly contextKind: EducationContextKind;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export interface RecordEducationEnrollmentStateInput {
+  readonly stableKey: string;
+  readonly enrollmentId: EntityId;
+  readonly effectiveAt: string;
+  readonly status: EducationEnrollmentStatus;
+  readonly contextKind: EducationContextKind;
+  readonly reason: string | null;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesStateId: EntityId;
+}
+
+export interface CreateOrganizationParticipationInput {
+  readonly stableKey: string;
+  readonly personId: EntityId;
+  readonly organizationId: EntityId;
+  readonly startedAt: string;
+  readonly initialStatus?: "active" | "expected";
+  readonly kind: OrganizationParticipationKind;
+  readonly roleKind: OrganizationParticipationRoleKind | null;
+  readonly context: string | null;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export interface RecordOrganizationParticipationStateInput {
+  readonly stableKey: string;
+  readonly participationId: EntityId;
+  readonly effectiveAt: string;
+  readonly status: OrganizationParticipationStatus;
+  readonly roleKind: OrganizationParticipationRoleKind | null;
+  readonly context: string | null;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesStateId: EntityId;
+}
+
+export interface CreateChildAuthorityInput {
+  readonly stableKey: string;
+  readonly childPersonId: EntityId;
+  readonly holder: ChildAuthorityHolder;
+  readonly establishedAt: string;
+  readonly kind: ChildAuthorityKind;
+  readonly basisKind: ChildAuthorityBasisKind;
+  readonly context: string | null;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export interface RecordChildAuthorityStateInput {
+  readonly stableKey: string;
+  readonly childAuthorityId: EntityId;
+  readonly effectiveAt: string;
+  readonly status: ChildAuthorityStateRecord["status"];
+  readonly basisKind: ChildAuthorityBasisKind;
+  readonly context: string | null;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesStateId: EntityId;
 }
 
 export interface CreateWorkRelationshipInput {
@@ -366,6 +457,396 @@ export function recordOrganizationProfile(
     provenance: cloneLifeProvenance(input.provenance),
   };
   return appendOne(world, "organizationProfiles", record);
+}
+
+export function createEducationEnrollment(
+  world: World,
+  input: CreateEducationEnrollmentInput,
+): World {
+  assertUniqueStableKey(
+    world.history.educationEnrollments,
+    input.stableKey,
+    "education enrollment",
+  );
+  const person = requirePerson(world, input.personId);
+  const organization = requireRecord(
+    world.history.organizations,
+    input.organizationId,
+    "education organization",
+  );
+  const recordedAt = makeIsoDate(world.currentDate);
+  const startedAt = makeIsoDate(input.startedAt);
+  const initialStatus = input.initialStatus ?? "active";
+  if (startedAt < person.birthDate) {
+    throw new Error("An education enrollment cannot predate the person.");
+  }
+  if (organization.formedAt > startedAt) {
+    throw new Error("An education enrollment cannot predate its organization.");
+  }
+  if (initialStatus === "active" && startedAt > recordedAt) {
+    throw new Error("Active education cannot start in the future.");
+  }
+  if (initialStatus === "expected" && startedAt <= recordedAt) {
+    throw new Error("Expected education must have a future start date.");
+  }
+  assertOpenTaxonomyKey(
+    input.programKind,
+    EDUCATION_PROGRAM_NAMESPACES,
+    "Education program kind",
+  );
+  assertOpenTaxonomyKey(
+    input.contextKind,
+    EDUCATION_CONTEXT_NAMESPACES,
+    "Education context kind",
+  );
+  validateLifeProvenance(world, input.provenance, recordedAt);
+  const enrollment: EducationEnrollment = {
+    id: createStableId(
+      "education-enrollment",
+      `${world.id}:${input.stableKey}`,
+    ),
+    stableKey: input.stableKey,
+    sequence: world.history.nextSequence,
+    personId: input.personId,
+    organizationId: input.organizationId,
+    recordedAt,
+    startedAt,
+    programKind: input.programKind,
+    provenance: cloneLifeProvenance(input.provenance),
+  };
+  const stateKey = `${input.stableKey}:state:initial`;
+  const state: EducationEnrollmentStateRecord = {
+    id: createStableId("education-enrollment-state", `${world.id}:${stateKey}`),
+    stableKey: stateKey,
+    sequence: world.history.nextSequence + 1,
+    enrollmentId: enrollment.id,
+    effectiveAt: initialStatus === "expected" ? recordedAt : startedAt,
+    status: initialStatus,
+    contextKind: input.contextKind,
+    reason: null,
+    provenance: cloneLifeProvenance(input.provenance),
+    supersedesStateId: null,
+  };
+  return commit(world, {
+    ...world.history,
+    nextSequence: world.history.nextSequence + 2,
+    educationEnrollments: [...world.history.educationEnrollments, enrollment],
+    educationEnrollmentStates: [
+      ...world.history.educationEnrollmentStates,
+      state,
+    ],
+  });
+}
+
+export function recordEducationEnrollmentState(
+  world: World,
+  input: RecordEducationEnrollmentStateInput,
+): World {
+  const enrollment = requireRecord(
+    world.history.educationEnrollments,
+    input.enrollmentId,
+    "education enrollment",
+  );
+  const effectiveAt = personDate(
+    world,
+    enrollment.personId,
+    input.effectiveAt,
+    "Education enrollment state",
+  );
+  const previous = educationEnrollmentStateHistory(world, enrollment.id).at(-1);
+  if (
+    !previous ||
+    previous.id !== input.supersedesStateId ||
+    previous.effectiveAt > effectiveAt
+  ) {
+    throw new Error(
+      "Education enrollment state must supersede its latest prior state.",
+    );
+  }
+  if (
+    ["completed", "withdrawn", "transferred", "ended"].includes(previous.status)
+  ) {
+    throw new Error("A terminal education enrollment cannot be reopened.");
+  }
+  if (previous.status === input.status) {
+    throw new Error("An education enrollment transition must change state.");
+  }
+  if (input.status === "expected") {
+    throw new Error("Expected is only valid as the initial education state.");
+  }
+  if (input.status === "active" && effectiveAt < enrollment.startedAt) {
+    throw new Error(
+      "Expected education cannot become active before its start date.",
+    );
+  }
+  if (input.status === "active") {
+    assertOptional(input.reason, "Education state reason");
+  } else {
+    assertNonEmpty(input.reason, "Education state reason");
+  }
+  assertOpenTaxonomyKey(
+    input.contextKind,
+    EDUCATION_CONTEXT_NAMESPACES,
+    "Education context kind",
+  );
+  validateLifeProvenance(world, input.provenance, effectiveAt);
+  const record: EducationEnrollmentStateRecord = {
+    ...input,
+    id: createStableId(
+      "education-enrollment-state",
+      `${world.id}:${input.stableKey}`,
+    ),
+    sequence: world.history.nextSequence,
+    effectiveAt,
+    provenance: cloneLifeProvenance(input.provenance),
+  };
+  return appendOne(world, "educationEnrollmentStates", record);
+}
+
+export function createOrganizationParticipation(
+  world: World,
+  input: CreateOrganizationParticipationInput,
+): World {
+  assertUniqueStableKey(
+    world.history.organizationParticipations,
+    input.stableKey,
+    "organization participation",
+  );
+  const person = requirePerson(world, input.personId);
+  const organization = requireRecord(
+    world.history.organizations,
+    input.organizationId,
+    "participation organization",
+  );
+  const recordedAt = makeIsoDate(world.currentDate);
+  const startedAt = makeIsoDate(input.startedAt);
+  const initialStatus = input.initialStatus ?? "active";
+  if (startedAt < person.birthDate) {
+    throw new Error("Organization participation cannot predate the person.");
+  }
+  if (organization.formedAt > startedAt) {
+    throw new Error(
+      "Organization participation cannot predate its organization.",
+    );
+  }
+  if (initialStatus === "active" && startedAt > recordedAt) {
+    throw new Error("Active participation cannot start in the future.");
+  }
+  if (initialStatus === "expected" && startedAt <= recordedAt) {
+    throw new Error("Expected participation must have a future start date.");
+  }
+  assertOpenTaxonomyKey(
+    input.kind,
+    ORGANIZATION_PARTICIPATION_NAMESPACES,
+    "Organization participation kind",
+  );
+  validateParticipationState(input.roleKind, input.context);
+  validateLifeProvenance(world, input.provenance, recordedAt);
+  const participation: OrganizationParticipation = {
+    id: createStableId(
+      "organization-participation",
+      `${world.id}:${input.stableKey}`,
+    ),
+    stableKey: input.stableKey,
+    sequence: world.history.nextSequence,
+    personId: input.personId,
+    organizationId: input.organizationId,
+    recordedAt,
+    startedAt,
+    kind: input.kind,
+    provenance: cloneLifeProvenance(input.provenance),
+  };
+  const stateKey = `${input.stableKey}:state:initial`;
+  const state: OrganizationParticipationStateRecord = {
+    id: createStableId(
+      "organization-participation-state",
+      `${world.id}:${stateKey}`,
+    ),
+    stableKey: stateKey,
+    sequence: world.history.nextSequence + 1,
+    participationId: participation.id,
+    effectiveAt: initialStatus === "expected" ? recordedAt : startedAt,
+    status: initialStatus,
+    roleKind: input.roleKind,
+    context: input.context,
+    provenance: cloneLifeProvenance(input.provenance),
+    supersedesStateId: null,
+  };
+  return commit(world, {
+    ...world.history,
+    nextSequence: world.history.nextSequence + 2,
+    organizationParticipations: [
+      ...world.history.organizationParticipations,
+      participation,
+    ],
+    organizationParticipationStates: [
+      ...world.history.organizationParticipationStates,
+      state,
+    ],
+  });
+}
+
+export function recordOrganizationParticipationState(
+  world: World,
+  input: RecordOrganizationParticipationStateInput,
+): World {
+  const participation = requireRecord(
+    world.history.organizationParticipations,
+    input.participationId,
+    "organization participation",
+  );
+  const effectiveAt = personDate(
+    world,
+    participation.personId,
+    input.effectiveAt,
+    "Organization participation state",
+  );
+  const previous = organizationParticipationStateHistory(
+    world,
+    participation.id,
+  ).at(-1);
+  if (
+    !previous ||
+    previous.id !== input.supersedesStateId ||
+    previous.effectiveAt > effectiveAt
+  ) {
+    throw new Error(
+      "Organization participation state must supersede its latest prior state.",
+    );
+  }
+  if (previous.status === "ended") {
+    throw new Error("Ended organization participation cannot be reopened.");
+  }
+  if (previous.status === input.status) {
+    throw new Error("A participation transition must change state.");
+  }
+  if (input.status === "expected") {
+    throw new Error(
+      "Expected is only valid as the initial participation state.",
+    );
+  }
+  if (input.status === "active" && effectiveAt < participation.startedAt) {
+    throw new Error(
+      "Expected participation cannot activate before its start date.",
+    );
+  }
+  if (previous.status === "expected" && input.status === "inactive") {
+    throw new Error("Expected participation must activate or end first.");
+  }
+  validateParticipationState(input.roleKind, input.context);
+  validateLifeProvenance(world, input.provenance, effectiveAt);
+  const record: OrganizationParticipationStateRecord = {
+    ...input,
+    id: createStableId(
+      "organization-participation-state",
+      `${world.id}:${input.stableKey}`,
+    ),
+    sequence: world.history.nextSequence,
+    effectiveAt,
+    provenance: cloneLifeProvenance(input.provenance),
+  };
+  return appendOne(world, "organizationParticipationStates", record);
+}
+
+export function createChildAuthority(
+  world: World,
+  input: CreateChildAuthorityInput,
+): World {
+  assertUniqueStableKey(
+    world.history.childAuthorities,
+    input.stableKey,
+    "child authority",
+  );
+  const child = requirePerson(world, input.childPersonId);
+  const establishedAt = personDate(
+    world,
+    child.id,
+    input.establishedAt,
+    "Child authority",
+  );
+  validateAuthorityHolder(world, child.id, input.holder, establishedAt);
+  assertOpenTaxonomyKey(
+    input.kind,
+    CHILD_AUTHORITY_NAMESPACES,
+    "Child authority kind",
+  );
+  validateAuthorityState(input.basisKind, input.context);
+  validateLifeProvenance(world, input.provenance, establishedAt);
+  const authority: ChildAuthority = {
+    id: createStableId("child-authority", `${world.id}:${input.stableKey}`),
+    stableKey: input.stableKey,
+    sequence: world.history.nextSequence,
+    childPersonId: child.id,
+    holder: cloneAuthorityHolder(input.holder),
+    establishedAt,
+    kind: input.kind,
+    provenance: cloneLifeProvenance(input.provenance),
+  };
+  const stateKey = `${input.stableKey}:state:initial`;
+  const state: ChildAuthorityStateRecord = {
+    id: createStableId("child-authority-state", `${world.id}:${stateKey}`),
+    stableKey: stateKey,
+    sequence: world.history.nextSequence + 1,
+    childAuthorityId: authority.id,
+    effectiveAt: establishedAt,
+    status: "active",
+    basisKind: input.basisKind,
+    context: input.context,
+    provenance: cloneLifeProvenance(input.provenance),
+    supersedesStateId: null,
+  };
+  return commit(world, {
+    ...world.history,
+    nextSequence: world.history.nextSequence + 2,
+    childAuthorities: [...world.history.childAuthorities, authority],
+    childAuthorityStates: [...world.history.childAuthorityStates, state],
+  });
+}
+
+export function recordChildAuthorityState(
+  world: World,
+  input: RecordChildAuthorityStateInput,
+): World {
+  const authority = requireRecord(
+    world.history.childAuthorities,
+    input.childAuthorityId,
+    "child authority",
+  );
+  const effectiveAt = personDate(
+    world,
+    authority.childPersonId,
+    input.effectiveAt,
+    "Child authority state",
+  );
+  const previous = childAuthorityStateHistory(world, authority.id).at(-1);
+  if (
+    !previous ||
+    previous.id !== input.supersedesStateId ||
+    previous.effectiveAt > effectiveAt
+  ) {
+    throw new Error(
+      "Child authority state must supersede its latest prior state.",
+    );
+  }
+  if (previous.status === "ended") {
+    throw new Error("Ended child authority cannot be reopened.");
+  }
+  if (input.status !== "ended") {
+    throw new Error("A child authority transition must end active authority.");
+  }
+  validateAuthorityState(input.basisKind, input.context);
+  validateLifeProvenance(world, input.provenance, effectiveAt);
+  const record: ChildAuthorityStateRecord = {
+    ...input,
+    id: createStableId(
+      "child-authority-state",
+      `${world.id}:${input.stableKey}`,
+    ),
+    sequence: world.history.nextSequence,
+    effectiveAt,
+    provenance: cloneLifeProvenance(input.provenance),
+  };
+  return appendOne(world, "childAuthorityStates", record);
 }
 
 export function createWorkRelationship(
@@ -1115,6 +1596,73 @@ function validateOrganizationProfile(
   );
   if (locationJurisdictionId !== null)
     requireJurisdiction(world, locationJurisdictionId);
+}
+
+function validateParticipationState(
+  roleKind: OrganizationParticipationRoleKind | null,
+  context: string | null,
+): void {
+  if (roleKind !== null) {
+    assertOpenTaxonomyKey(
+      roleKind,
+      ORGANIZATION_PARTICIPATION_ROLE_NAMESPACES,
+      "Organization participation role",
+    );
+  }
+  assertOptional(context, "Organization participation context");
+}
+
+function validateAuthorityHolder(
+  world: World,
+  childPersonId: EntityId,
+  holder: ChildAuthorityHolder,
+  establishedAt: string,
+): void {
+  switch (holder.kind) {
+    case "person": {
+      if (holder.personId === childPersonId) {
+        throw new Error("A child authority holder must differ from the child.");
+      }
+      const person = requirePerson(world, holder.personId);
+      if (person.birthDate > establishedAt) {
+        throw new Error("Child authority cannot predate its person holder.");
+      }
+      return;
+    }
+    case "organization": {
+      const organization = requireRecord(
+        world.history.organizations,
+        holder.organizationId,
+        "authority-holder organization",
+      );
+      if (organization.formedAt > establishedAt) {
+        throw new Error(
+          "Child authority cannot predate its organization holder.",
+        );
+      }
+      return;
+    }
+    default:
+      throw new Error(`Invalid child authority holder: ${runtimeKind(holder)}`);
+  }
+}
+
+function validateAuthorityState(
+  basisKind: ChildAuthorityBasisKind,
+  context: string | null,
+): void {
+  assertOpenTaxonomyKey(
+    basisKind,
+    CHILD_AUTHORITY_BASIS_NAMESPACES,
+    "Child authority basis",
+  );
+  assertOptional(context, "Child authority context");
+}
+
+function cloneAuthorityHolder(
+  holder: ChildAuthorityHolder,
+): ChildAuthorityHolder {
+  return { ...holder };
 }
 
 function validateWorkDimensions(input: CreateWorkRelationshipInput): void {

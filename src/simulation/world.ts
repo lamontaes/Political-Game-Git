@@ -165,7 +165,7 @@ function recordById<T extends { readonly id: EntityId }>(
 }
 
 export function createWorldId(seed: string): EntityId {
-  return createStableId("world", `demo-world-v6:${normalizeSeed(seed)}`);
+  return createStableId("world", `demo-world-v7:${normalizeSeed(seed)}`);
 }
 
 export function createWorld(input: CreateWorldInput): World {
@@ -200,8 +200,8 @@ export function createWorld(input: CreateWorldInput): World {
   const people = input.people.map(clonePerson);
 
   return {
-    schemaVersion: 6,
-    generatorVersion: "demo-world-v6",
+    schemaVersion: 7,
+    generatorVersion: "demo-world-v7",
     id: worldId,
     seed,
     startedAt: currentDate,
@@ -220,7 +220,7 @@ export function createWorld(input: CreateWorldInput): World {
 
 export function assertWorldIntegrity(world: World): void {
   assertJsonSafe(world, "world");
-  if (world.schemaVersion !== 6 || world.generatorVersion !== "demo-world-v6") {
+  if (world.schemaVersion !== 7 || world.generatorVersion !== "demo-world-v7") {
     throw new Error("Unsupported world schema or generator version.");
   }
   if (world.id !== createWorldId(world.seed)) {

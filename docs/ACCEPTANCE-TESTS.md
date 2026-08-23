@@ -124,7 +124,7 @@ A shared catalog containing more than two thousand propositions does not add bla
 
 ### NOW-029 — Political records persist through JSON and SQLite
 
-Snapshot format 4 preserves the policy catalog and all political record families exactly through deterministic JSON round trips and the Node-only SQLite repository. Unsupported older envelopes remain rejected until a migration exists.
+The current snapshot format preserves the policy catalog and all political record families exactly through deterministic JSON round trips and the Node-only SQLite repository. Unsupported older envelopes remain rejected until a migration exists.
 
 ### NOW-030 — Political actions replay deterministically
 
@@ -410,9 +410,9 @@ The same semantic work/care/commitment inputs produce identical load assessment 
 
 Runtime transitions and snapshot loading reject dangling organization/person/jurisdiction references, pre-birth life records, invalid expected/active work chronology, invalid lifecycle or supersession transitions, out-of-order history, invalid taxonomy/provenance, overlapping primary residence, and a stored load result that does not match deterministic derivation.
 
-### NOW-101 — Stage 5.1 persists headlessly
+### NOW-101 — Stage 5 persists headlessly
 
-World schema 6 and snapshot format 5 round-trip every organization, work, household, kinship, partnership, care, commitment, load-resolution, and fatigue record exactly through deterministic JSON and the Node-only SQLite repository. The simulation and its Stage 5.1 tests import no React, DOM, browser, or SQLite runtime.
+World schema 7 and snapshot format 6 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, life-source, and fatigue record exactly through deterministic JSON and the Node-only SQLite repository. The simulation and its Stage 5 tests import no React, DOM, browser, or SQLite runtime.
 
 ### NOW-102 — Real career diversity uses general records
 
@@ -421,6 +421,62 @@ Patterns represented by Feleti Teo, Elvira Nabiullina, Droupadi Murmu, Njoki Ndu
 ### NOW-103 — Stage 5.1 remains bounded
 
 The implementation adds no formative-age content, adult career content/progression, finance, housing/property, relationship-maintenance gameplay, campaign, election, political-office, government, legislation, hourly calendar, polished UI, or player-facing raw personality/relationship/load number.
+
+### NOW-104 — Child authority remains structurally independent
+
+A parent living elsewhere may retain kinship and authority while a grandparent provides care and co-residence. A relative guardian may hold authority without a fake partnership or household relationship. An agency organization may hold authority while a separate foster or kin caregiver supplies daily care. Every dimension is independently queryable and none is inferred from another.
+
+### NOW-105 — Education transfer preserves stable organization history
+
+A student's transfer from School A to School B appends lifecycle history for two stable enrollments. Date-and-sequence queries reconstruct both, and a later School A rename preserves the same organization ID while its historical profile resolves to the earlier name.
+
+### NOW-106 — Shared-school context uses identity, not name text
+
+A teacher's work relationship and a former student's canonical enrollment establish earlier shared-school context through the same stable organization ID. They may later become coworkers or political allies without losing that history.
+
+### NOW-107 — Participation remains distinct from education and work
+
+A student may participate in debate at a school and belong to a separate church youth group without either becoming employment. Genuine volunteer service that functions as actual work remains a `WorkRelationship`; meaningful recurring participation load reuses a life commitment rather than a duplicate scheduler.
+
+### NOW-108 — Expected and backdated records obey both cutoffs
+
+A planned education record remains inactive until an explicit dated activation. A later-appended record with an earlier effective date is absent through an earlier exclusive-sequence cutoff and cannot become a perception or decision source there.
+
+### NOW-109 — Materialization remains nondiegetic
+
+Materializing an unrelated lightweight NPC preserves `history.nextSequence`, appends no in-world life history, and does not perturb unrelated deterministic RNG or history.
+
+### NOW-110 — Legacy facts remain compatible but noncanonical
+
+Existing education, occupation, residence, and family `PersonFact` records preserve their IDs and values through Run A JSON persistence. They receive no fabricated append sequence, do not override corresponding canonical Stage 5 histories, and are not duplicated by canonical constructors.
+
+### NOW-111 — Open Run A taxonomies retain guardrails
+
+Valid namespaced education, participation, and authority keys not named by the initial examples pass normal validation without an engine branch. Malformed or unnamespaced keys are rejected. Jurisdiction references remain stable IDs and an open non-state jurisdiction kind remains valid.
+
+### NOW-112 — Eligibility is an injected future-rule consumer
+
+An eligibility provider can deterministically return allowed or blocked decisions with validated structured reason keys for an actor, action, date, jurisdiction, and context. The life entity embeds neither a universal age threshold nor a jurisdiction law table.
+
+### NOW-113 — Canonical life evidence is a historically available typed source
+
+A Stage 4 perception, appraisal provenance, or decision may cite an actor-involved canonical Run A record through a validated closed record-family reference only when that record precedes both cutoff dimensions. Forward, later-appended, missing, or other-person-only references are rejected. Durable decision traces freeze the life evidence label and content actually used.
+
+### NOW-114 — Run A persistence is exact
+
+Deterministic JSON and Node-only SQLite save/load/list/replace preserve every Run A stable root, lifecycle record, append sequence, provenance object, and typed Stage 4 life-source reference exactly.
+
+### NOW-115 — Run A integrity rejects impossible graphs
+
+Runtime transitions and snapshot loading reject dangling education organizations, dangling person or organization authority holders, impossible participation chronology, invalid lifecycle changes, malformed open keys, and noncontiguous global sequence across the expanded history families.
+
+### NOW-116 — No duplicate truth appears
+
+Creating canonical education, participation, or authority records does not silently create a `PersonFact`, `WorkRelationship`, household membership, kinship, partnership, care responsibility, or other unrelated relationship.
+
+### NOW-117 — Run A remains bounded
+
+Stage 5 remains in progress. Run A adds no playable childhood or adult progression, resource or housing system, relationship-maintenance gameplay, generalized Stage 6 event engine, Stage 7 law or territory content, campaigns, elections, legislation, or polished/player-facing UI.
 
 ## Manual Now
 

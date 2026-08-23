@@ -1,5 +1,10 @@
 import { appendDecisionTraceRecord } from "./history";
 import { createStableId } from "./ids";
+import { lifeEntityExists } from "./life-integrity";
+import {
+  lifeHistoryReferenceKey,
+  resolveLifeHistorySource,
+} from "./life-sources";
 import { validateMindSourceReferences } from "./mind";
 import { factsForPerson } from "./people";
 import { validateCutoff } from "./perception";
@@ -400,6 +405,17 @@ function snapshotSource(
       }
       break;
     }
+    case "life-history": {
+      const source = resolveLifeHistorySource(world, reference.reference);
+      return {
+        reference: {
+          ...reference,
+          reference: { ...reference.reference },
+        },
+        label: source.label,
+        content: source.content,
+      };
+    }
     case "personality-tendency": {
       const record = world.history.personalityTendencies.find(
         (item) => item.id === reference.tendencyRecordId,
@@ -613,7 +629,12 @@ function canonicalMindSourceRefs(
 ): readonly MindSourceReference[] {
   const byKey = new Map<string, MindSourceReference>();
   for (const reference of references) {
-    byKey.set(referenceKey(reference), { ...reference });
+    byKey.set(
+      referenceKey(reference),
+      reference.kind === "life-history"
+        ? { ...reference, reference: { ...reference.reference } }
+        : { ...reference },
+    );
   }
   return [...byKey.entries()]
     .sort(([left], [right]) => left.localeCompare(right))
@@ -621,6 +642,9 @@ function canonicalMindSourceRefs(
 }
 
 function referenceKey(reference: MindSourceReference): string {
+  if (reference.kind === "life-history") {
+    return `${reference.kind}:${lifeHistoryReferenceKey(reference.reference)}`;
+  }
   const id = Object.entries(reference).find(([key]) => key !== "kind")?.[1];
   return `${reference.kind}:${String(id)}`;
 }
@@ -637,6 +661,7 @@ function decisionSubjectExists(world: World, id: EntityId): boolean {
     !!world.policyCatalog.principles[id] ||
     !!world.mindCatalog.tendencies[id] ||
     !!world.mindCatalog.values[id] ||
+    lifeEntityExists(world, id) ||
     world.history.events.some((record) => record.id === id) ||
     world.history.goalStates.some((record) => record.goalId === id)
   );

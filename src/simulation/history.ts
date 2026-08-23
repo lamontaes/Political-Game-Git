@@ -299,6 +299,10 @@ export function createHistoryStore(): HistoryStore {
     nextSequence: 0,
     organizations: [],
     organizationProfiles: [],
+    educationEnrollments: [],
+    educationEnrollmentStates: [],
+    organizationParticipations: [],
+    organizationParticipationStates: [],
     workRelationships: [],
     workStatuses: [],
     workRoles: [],
@@ -311,6 +315,8 @@ export function createHistoryStore(): HistoryStore {
     partnershipStates: [],
     careResponsibilities: [],
     careResponsibilityStates: [],
+    childAuthorities: [],
+    childAuthorityStates: [],
     lifeCommitments: [],
     lifeLoadResolutions: [],
     events: [],
@@ -838,6 +844,8 @@ function cloneMindProvenance(
 
 function clonePerceptionSource(source: PerceptionSource): PerceptionSource {
   switch (source.kind) {
+    case "life-history":
+      return { ...source, reference: { ...source.reference } };
     case "inference":
       return {
         ...source,
@@ -917,10 +925,16 @@ function canonicalMindSourceRefs(
 function cloneMindSourceReference(
   reference: MindSourceReference,
 ): MindSourceReference {
+  if (reference.kind === "life-history") {
+    return { ...reference, reference: { ...reference.reference } };
+  }
   return { ...reference };
 }
 
 function mindSourceReferenceKey(reference: MindSourceReference): string {
+  if (reference.kind === "life-history") {
+    return `${reference.kind}:${reference.reference.family}:${reference.reference.recordId}`;
+  }
   const id = Object.entries(reference).find(([key]) => key !== "kind")?.[1];
   return `${reference.kind}:${String(id)}`;
 }

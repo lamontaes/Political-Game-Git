@@ -3,16 +3,23 @@ import { createStableId } from "./ids";
 import {
   assessLifeLoadAt,
   careResponsibilityStateHistory,
+  childAuthorityStateHistory,
+  educationEnrollmentStateHistory,
   fatigueAt,
   householdMembershipsAt,
   householdMembershipStateHistory,
   organizationProfileHistory,
+  organizationParticipationStateHistory,
   partnershipStateHistory,
   workRoleHistory,
   workStatusHistory,
 } from "./life-queries";
 import {
   CARE_NAMESPACES,
+  CHILD_AUTHORITY_BASIS_NAMESPACES,
+  CHILD_AUTHORITY_NAMESPACES,
+  EDUCATION_CONTEXT_NAMESPACES,
+  EDUCATION_PROGRAM_NAMESPACES,
   HOUSEHOLD_LOCATION_NAMESPACES,
   HOUSEHOLD_MEMBERSHIP_NAMESPACES,
   isOpenTaxonomyKey,
@@ -20,10 +27,13 @@ import {
   LIFE_COMMITMENT_NAMESPACES,
   OCCUPATION_CLASSIFICATION_NAMESPACES,
   ORGANIZATION_CLASSIFICATION_NAMESPACES,
+  ORGANIZATION_PARTICIPATION_NAMESPACES,
+  ORGANIZATION_PARTICIPATION_ROLE_NAMESPACES,
   PARTNERSHIP_NAMESPACES,
   WORK_RELATIONSHIP_NAMESPACES,
 } from "./taxonomy";
 import type {
+  ChildAuthorityHolder,
   EntityId,
   LifeLoadResolutionRecord,
   LifeRecordProvenance,
@@ -39,6 +49,10 @@ export function lifeHistoryRecords(world: World): readonly {
   return [
     ...history.organizations,
     ...history.organizationProfiles,
+    ...history.educationEnrollments,
+    ...history.educationEnrollmentStates,
+    ...history.organizationParticipations,
+    ...history.organizationParticipationStates,
     ...history.workRelationships,
     ...history.workStatuses,
     ...history.workRoles,
@@ -51,6 +65,8 @@ export function lifeHistoryRecords(world: World): readonly {
     ...history.partnershipStates,
     ...history.careResponsibilities,
     ...history.careResponsibilityStates,
+    ...history.childAuthorities,
+    ...history.childAuthorityStates,
     ...history.lifeCommitments,
     ...history.lifeLoadResolutions,
   ];
@@ -59,12 +75,15 @@ export function lifeHistoryRecords(world: World): readonly {
 export function lifeEntityExists(world: World, id: EntityId): boolean {
   return [
     world.history.organizations,
+    world.history.educationEnrollments,
+    world.history.organizationParticipations,
     world.history.workRelationships,
     world.history.households,
     world.history.householdMemberships,
     world.history.kinshipRelationships,
     world.history.partnerships,
     world.history.careResponsibilities,
+    world.history.childAuthorities,
   ].some((records) => records.some((record) => record.id === id));
 }
 
@@ -81,6 +100,16 @@ export function lifeEntityAvailableAt(
       sequence: item.sequence,
     })),
     ...world.history.workRelationships.map((item) => ({
+      id: item.id,
+      date: item.startedAt < item.recordedAt ? item.startedAt : item.recordedAt,
+      sequence: item.sequence,
+    })),
+    ...world.history.educationEnrollments.map((item) => ({
+      id: item.id,
+      date: item.startedAt < item.recordedAt ? item.startedAt : item.recordedAt,
+      sequence: item.sequence,
+    })),
+    ...world.history.organizationParticipations.map((item) => ({
       id: item.id,
       date: item.startedAt < item.recordedAt ? item.startedAt : item.recordedAt,
       sequence: item.sequence,
@@ -110,6 +139,11 @@ export function lifeEntityAvailableAt(
       date: item.startedAt,
       sequence: item.sequence,
     })),
+    ...world.history.childAuthorities.map((item) => ({
+      id: item.id,
+      date: item.establishedAt,
+      sequence: item.sequence,
+    })),
   ].find((item) => item.id === id);
   return (
     record !== undefined &&
@@ -126,6 +160,22 @@ export function assertLifeHistoryIntegrity(
   const families = [
     [h.organizations, "organization", "organization"],
     [h.organizationProfiles, "organization profile", "organization-profile"],
+    [h.educationEnrollments, "education enrollment", "education-enrollment"],
+    [
+      h.educationEnrollmentStates,
+      "education enrollment state",
+      "education-enrollment-state",
+    ],
+    [
+      h.organizationParticipations,
+      "organization participation",
+      "organization-participation",
+    ],
+    [
+      h.organizationParticipationStates,
+      "organization participation state",
+      "organization-participation-state",
+    ],
     [h.workRelationships, "work relationship", "work-relationship"],
     [h.workStatuses, "work status", "work-status"],
     [h.workRoles, "work role", "work-role"],
@@ -142,6 +192,8 @@ export function assertLifeHistoryIntegrity(
     [h.partnershipStates, "partnership state", "partnership-state"],
     [h.careResponsibilities, "care responsibility", "care-responsibility"],
     [h.careResponsibilityStates, "care state", "care-state"],
+    [h.childAuthorities, "child authority", "child-authority"],
+    [h.childAuthorityStates, "child authority state", "child-authority-state"],
     [h.lifeCommitments, "life commitment", "life-commitment"],
     [h.lifeLoadResolutions, "life-load resolution", "life-load-resolution"],
   ] as const;
@@ -228,6 +280,221 @@ export function assertLifeHistoryIntegrity(
       (candidate) => candidate.effectiveAt,
       "organization profile",
     );
+  }
+
+  for (const enrollment of h.educationEnrollments) {
+    const person = world.people[enrollment.personId];
+    const organization = byId(h.organizations, enrollment.organizationId);
+    personDate(
+      world,
+      enrollment.personId,
+      enrollment.recordedAt,
+      enrollment.id,
+    );
+    if (!person || makeIsoDate(enrollment.startedAt) < person.birthDate) {
+      throw new Error(
+        `Education enrollment has invalid start chronology: ${enrollment.id}`,
+      );
+    }
+    if (
+      !organization ||
+      organization.sequence >= enrollment.sequence ||
+      organization.formedAt > enrollment.startedAt
+    ) {
+      throw new Error(
+        `Education enrollment has an invalid organization: ${enrollment.id}`,
+      );
+    }
+    if (
+      !isOpenTaxonomyKey(enrollment.programKind, EDUCATION_PROGRAM_NAMESPACES)
+    ) {
+      throw new Error(`Invalid education program kind: ${enrollment.id}`);
+    }
+    validateProvenance(
+      world,
+      enrollment.provenance,
+      enrollment.recordedAt,
+      enrollment.sequence,
+    );
+    const states = educationEnrollmentStateHistory(world, enrollment.id);
+    if (
+      !states[0] ||
+      (states[0].status === "active" &&
+        (states[0].effectiveAt !== enrollment.startedAt ||
+          enrollment.startedAt > enrollment.recordedAt)) ||
+      (states[0].status === "expected" &&
+        (states[0].effectiveAt !== enrollment.recordedAt ||
+          enrollment.startedAt <= enrollment.recordedAt)) ||
+      !["active", "expected"].includes(states[0].status)
+    ) {
+      throw new Error(
+        `Education enrollment lacks valid initial state: ${enrollment.id}`,
+      );
+    }
+  }
+
+  for (const state of h.educationEnrollmentStates) {
+    const enrollment = byId(h.educationEnrollments, state.enrollmentId);
+    if (!enrollment || enrollment.sequence >= state.sequence) {
+      throw new Error(`Education state has a dangling enrollment: ${state.id}`);
+    }
+    personDate(world, enrollment.personId, state.effectiveAt, state.id);
+    assertMember(
+      ["expected", "active", "completed", "withdrawn", "transferred", "ended"],
+      state.status,
+      "education enrollment status",
+    );
+    if (!isOpenTaxonomyKey(state.contextKind, EDUCATION_CONTEXT_NAMESPACES)) {
+      throw new Error(`Invalid education context kind: ${state.id}`);
+    }
+    if (state.status === "expected" || state.status === "active") {
+      optional(state.reason, "Education state reason");
+    } else {
+      assertNonEmpty(state.reason, "Education state reason");
+    }
+    validateProvenance(
+      world,
+      state.provenance,
+      state.effectiveAt,
+      state.sequence,
+    );
+    validateSupersession(
+      state,
+      state.supersedesStateId,
+      h.educationEnrollmentStates,
+      (candidate) => candidate.enrollmentId,
+      (candidate) => candidate.effectiveAt,
+      "education enrollment state",
+    );
+    const prior = state.supersedesStateId
+      ? byId(h.educationEnrollmentStates, state.supersedesStateId)
+      : undefined;
+    if (
+      (prior &&
+        ["completed", "withdrawn", "transferred", "ended"].includes(
+          prior.status,
+        )) ||
+      prior?.status === state.status ||
+      (state.status === "expected" && prior !== undefined) ||
+      (state.status === "active" && state.effectiveAt < enrollment.startedAt)
+    ) {
+      throw new Error(`Invalid education enrollment transition: ${state.id}`);
+    }
+  }
+
+  for (const participation of h.organizationParticipations) {
+    const person = world.people[participation.personId];
+    const organization = byId(h.organizations, participation.organizationId);
+    personDate(
+      world,
+      participation.personId,
+      participation.recordedAt,
+      participation.id,
+    );
+    if (!person || makeIsoDate(participation.startedAt) < person.birthDate) {
+      throw new Error(
+        `Organization participation has invalid chronology: ${participation.id}`,
+      );
+    }
+    if (
+      !organization ||
+      organization.sequence >= participation.sequence ||
+      organization.formedAt > participation.startedAt
+    ) {
+      throw new Error(
+        `Organization participation has an invalid organization: ${participation.id}`,
+      );
+    }
+    if (
+      !isOpenTaxonomyKey(
+        participation.kind,
+        ORGANIZATION_PARTICIPATION_NAMESPACES,
+      )
+    ) {
+      throw new Error(
+        `Invalid organization participation kind: ${participation.id}`,
+      );
+    }
+    validateProvenance(
+      world,
+      participation.provenance,
+      participation.recordedAt,
+      participation.sequence,
+    );
+    const states = organizationParticipationStateHistory(
+      world,
+      participation.id,
+    );
+    if (
+      !states[0] ||
+      (states[0].status === "active" &&
+        (states[0].effectiveAt !== participation.startedAt ||
+          participation.startedAt > participation.recordedAt)) ||
+      (states[0].status === "expected" &&
+        (states[0].effectiveAt !== participation.recordedAt ||
+          participation.startedAt <= participation.recordedAt)) ||
+      !["active", "expected"].includes(states[0].status)
+    ) {
+      throw new Error(
+        `Organization participation lacks valid initial state: ${participation.id}`,
+      );
+    }
+  }
+
+  for (const state of h.organizationParticipationStates) {
+    const participation = byId(
+      h.organizationParticipations,
+      state.participationId,
+    );
+    if (!participation || participation.sequence >= state.sequence) {
+      throw new Error(
+        `Participation state has a dangling participation: ${state.id}`,
+      );
+    }
+    personDate(world, participation.personId, state.effectiveAt, state.id);
+    assertMember(
+      ["expected", "active", "inactive", "ended"],
+      state.status,
+      "organization participation status",
+    );
+    if (
+      state.roleKind !== null &&
+      !isOpenTaxonomyKey(
+        state.roleKind,
+        ORGANIZATION_PARTICIPATION_ROLE_NAMESPACES,
+      )
+    ) {
+      throw new Error(`Invalid organization participation role: ${state.id}`);
+    }
+    optional(state.context, "Organization participation context");
+    validateProvenance(
+      world,
+      state.provenance,
+      state.effectiveAt,
+      state.sequence,
+    );
+    validateSupersession(
+      state,
+      state.supersedesStateId,
+      h.organizationParticipationStates,
+      (candidate) => candidate.participationId,
+      (candidate) => candidate.effectiveAt,
+      "organization participation state",
+    );
+    const prior = state.supersedesStateId
+      ? byId(h.organizationParticipationStates, state.supersedesStateId)
+      : undefined;
+    if (
+      prior?.status === "ended" ||
+      prior?.status === state.status ||
+      (state.status === "expected" && prior !== undefined) ||
+      (prior?.status === "expected" && state.status === "inactive") ||
+      (state.status === "active" && state.effectiveAt < participation.startedAt)
+    ) {
+      throw new Error(
+        `Invalid organization participation transition: ${state.id}`,
+      );
+    }
   }
 
   for (const relationship of h.workRelationships) {
@@ -636,6 +903,74 @@ export function assertLifeHistoryIntegrity(
     }
   }
 
+  for (const authority of h.childAuthorities) {
+    personDate(
+      world,
+      authority.childPersonId,
+      authority.establishedAt,
+      authority.id,
+    );
+    validateAuthorityHolder(
+      world,
+      authority.childPersonId,
+      authority.holder,
+      authority.establishedAt,
+      authority.sequence,
+      authority.id,
+    );
+    if (!isOpenTaxonomyKey(authority.kind, CHILD_AUTHORITY_NAMESPACES)) {
+      throw new Error(`Invalid child authority kind: ${authority.id}`);
+    }
+    validateProvenance(
+      world,
+      authority.provenance,
+      authority.establishedAt,
+      authority.sequence,
+    );
+    const states = childAuthorityStateHistory(world, authority.id);
+    if (
+      states[0]?.effectiveAt !== authority.establishedAt ||
+      states[0]?.status !== "active"
+    ) {
+      throw new Error(`Child authority lacks initial state: ${authority.id}`);
+    }
+  }
+
+  for (const state of h.childAuthorityStates) {
+    const authority = byId(h.childAuthorities, state.childAuthorityId);
+    if (!authority || authority.sequence >= state.sequence) {
+      throw new Error(
+        `Child authority state has a dangling authority: ${state.id}`,
+      );
+    }
+    personDate(world, authority.childPersonId, state.effectiveAt, state.id);
+    assertMember(["active", "ended"], state.status, "child authority status");
+    if (!isOpenTaxonomyKey(state.basisKind, CHILD_AUTHORITY_BASIS_NAMESPACES)) {
+      throw new Error(`Invalid child authority basis: ${state.id}`);
+    }
+    optional(state.context, "Child authority context");
+    validateProvenance(
+      world,
+      state.provenance,
+      state.effectiveAt,
+      state.sequence,
+    );
+    validateSupersession(
+      state,
+      state.supersedesStateId,
+      h.childAuthorityStates,
+      (candidate) => candidate.childAuthorityId,
+      (candidate) => candidate.effectiveAt,
+      "child authority state",
+    );
+    const prior = state.supersedesStateId
+      ? byId(h.childAuthorityStates, state.supersedesStateId)
+      : undefined;
+    if (prior?.status === "ended" || (prior && state.status !== "ended")) {
+      throw new Error(`Invalid child authority transition: ${state.id}`);
+    }
+  }
+
   for (const commitment of h.lifeCommitments) {
     personDate(world, commitment.personId, commitment.startsAt, commitment.id);
     if (commitment.endsAt !== null) {
@@ -1004,6 +1339,49 @@ function validatePair(
     throw new Error(`Life relationship requires two people: ${recordId}`);
   personDate(world, ids[0], date, recordId);
   personDate(world, ids[1], date, recordId);
+}
+
+function validateAuthorityHolder(
+  world: World,
+  childPersonId: EntityId,
+  holder: ChildAuthorityHolder,
+  establishedAt: string,
+  sequence: number,
+  recordId: EntityId,
+): void {
+  switch (holder.kind) {
+    case "person": {
+      const person = world.people[holder.personId];
+      if (
+        holder.personId === childPersonId ||
+        !person ||
+        person.birthDate > establishedAt
+      ) {
+        throw new Error(
+          `Child authority has an invalid person holder: ${recordId}`,
+        );
+      }
+      return;
+    }
+    case "organization": {
+      const organization = byId(
+        world.history.organizations,
+        holder.organizationId,
+      );
+      if (
+        !organization ||
+        organization.sequence >= sequence ||
+        organization.formedAt > establishedAt
+      ) {
+        throw new Error(
+          `Child authority has an invalid organization holder: ${recordId}`,
+        );
+      }
+      return;
+    }
+    default:
+      throw new Error(`Invalid child authority holder: ${runtimeKind(holder)}`);
+  }
 }
 
 function personDate(
