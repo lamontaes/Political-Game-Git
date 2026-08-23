@@ -412,7 +412,7 @@ Runtime transitions and snapshot loading reject dangling organization/person/jur
 
 ### NOW-101 — Stage 5 persists headlessly
 
-World schema 8 and snapshot format 7 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, life-source, fatigue, and Run B generated-provenance record exactly through deterministic JSON and the Node-only SQLite repository. The simulation and its Stage 5 tests import no React, DOM, browser, or SQLite runtime.
+World schema 9 and snapshot format 8 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, resource, obligation, dwelling, occupancy, tenure, life-source, fatigue/resource-pressure, and generated-provenance record exactly through deterministic JSON and the Node-only SQLite repository. The simulation and its Stage 5 tests import no React, DOM, browser, or SQLite runtime.
 
 ### NOW-102 — Real career diversity uses general records
 
@@ -493,6 +493,62 @@ Apprenticeship composes canonical training enrollment, paid work, mentor interac
 ### NOW-121 — Run B eligibility, determinism, persistence, and scope hold
 
 Teen work asks the injected eligibility provider; a block returns structured reasons and writes no forbidden work truth. Quick generation is deterministic and unaffected by unrelated materialization. JSON and SQLite preserve generated history, bounded context people, provenance, global sequence, and references exactly. Run B adds no Run C finance/housing, Stage 6 generalized event engine, Stage 7 law/territory/institution content, foreign-government simulation, or polished UI.
+
+### NOW-122 — Work compensation produces exact actual income
+
+A paid work relationship has effective exact amount/cadence terms. Explicitly resolving a pay period appends a source-organization-to-person outcome and changes tracked liquid position by the integer minor-unit amount. A raise preserves prior historical terms, later periods use the new amount, concurrent jobs retain distinct flows, unpaid work cannot acquire monetary compensation, and expected future pay remains inactive until explicitly activated and resolved.
+
+### NOW-123 — Expected flows and actual outcomes remain distinct
+
+An arrangement and its cadence do not imply payment. Completed, partial, missed, and blocked outcomes preserve attempted and transferred amounts plus structured reasons. Only the committed transferred amount changes tracked positions, with equal debit/credit where both endpoints are tracked; automatic cadence posting and arbitrary balance mutation do not exist.
+
+### NOW-124 — Equal salary can produce unequal practical capacity
+
+Two people with equal salary outcomes but different housing, support, and debt obligations receive materially different structured affordability results. The query explains available, strained, or blocked capacity using exact liquid evidence and active obligation IDs, not a wealth, financial-health, or credit score.
+
+### NOW-125 — Obligations and debt constrain without a banking simulator
+
+A stable major obligation remains separate from its flow terms and actual payment outcomes. Optional debt principal is reduced only by committed linked payments and cannot be overpaid. Outstanding obligations constrain affordability without accounts, purchase ledgers, interest products, amortization tables, credit reports, or bankruptcy procedure.
+
+### NOW-126 — Financial support does not invent structural relationships
+
+A person can support another person in a different household. Care may justify a separate cost/obligation, but creating, paying, changing, or ending it does not create or end household membership, kinship, partnership, care responsibility, or child authority.
+
+### NOW-127 — Housing identities and movement remain separated
+
+One stable household can rent dwelling A, move while hosted in dwelling B, and later occupy and own dwelling C. Historical occupancy and tenure remain queryable. A household member may reside without tenure; an owner may remain a nonresident; and moving neither recreates the household nor transfers ownership.
+
+### NOW-128 — Assigned and multiple housing use general primitives
+
+Institutional or military assignment uses ordinary dwelling, occupancy, and tenure records rather than a special ontology. Simultaneous secondary/shared residence remains valid without permitting overlapping primary occupancy or imposing a one-dwelling/one-household assumption.
+
+### NOW-129 — Relationship effort is causal history, not upkeep points
+
+A meaningful call/visit/support/reconnection can append ordinary time, event, interaction, knowledge, memory, and appraisal records. A meaningful missed opportunity is later evidence because an opportunity and response existed, not because a timer decremented. No `relationshipMaintenance`, closeness, or monthly decay field is canonical.
+
+### NOW-130 — Long inactivity does not erase a relationship
+
+People may reconnect after years. The derived qualitative continuity view uses earlier shared history plus the new episode; a long gap does not delete the relationship or automatically become hostility, and the projection is not persisted as truth.
+
+### NOW-131 — Concrete resource pressure enters Stage 4 through evidence
+
+An actor-relevant missed/blocked/partial major outcome may support direct knowledge, an appraisal, a bounded temporary `life:resource-pressure` state, an explicit perception, and decision-source snapshots. The path uses typed provenance and creates no universal financial-stress, happiness, wellbeing, or personality score.
+
+### NOW-132 — Run C life sources obey actor, date, and append sequence
+
+Resource and housing life-source references resolve only when the record exists, involves the actor directly or through an available household membership, and precedes both cutoff dimensions. A later-appended backdated outcome or occupancy cannot enter an earlier perception or decision solely because its effective date is old.
+
+### NOW-133 — Run C uses open taxonomies with structural integrity
+
+Unprompted valid resource basis/cadence/restriction, obligation, dwelling classification, occupancy, and tenure keys pass ordinary validation without named branches; malformed keys fail. Runtime and load integrity reject dangling entities, invalid chronology/lifecycle, unsafe money, overdraft, and noncontiguous history. Stable jurisdiction identity remains open and territory-compatible.
+
+### NOW-134 — Character-history convergence and materialization neutrality continue
+
+Played, quick-generated, and authored plans delegate resource and housing transitions to the same canonical writers and persist no resolver-only stable-key fields or biography blob. Inspecting/materializing an unrelated lightweight person creates no money, debt, housing, or relationship history and does not advance global sequence. Canonical Run C construction creates no duplicate `PersonFact` or structural relationship truth.
+
+### NOW-135 — Run C persistence is exact and Stage 5 is continuous
+
+Deterministic JSON and Node-only SQLite save/load/list/replace preserve exact money, every Run C root/state/outcome, global sequence, provenance, links, and typed source. One continuous test composes formative household/care/authority, school/peers/activities, adult training/work, partnership, compensation, resource position, housing obligation/payment, dwelling/occupancy/tenure, and reconnection through stable IDs and canonical histories. All pre-Run-C tests remain meaningful.
 
 ## Manual Now
 

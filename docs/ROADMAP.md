@@ -240,7 +240,7 @@ Stage 5 formative and adult life; Stage 6 causal events; Stage 7 effective law a
 
 ## Stage 5 — Formative Life, Adult Life, Households, Resources, and Organizations
 
-Status: **IN PROGRESS**
+Status: **COMPLETE**
 
 ### Purpose
 
@@ -258,9 +258,9 @@ None of these systems are implemented in Stage 4.
 
 - **Run A — Shared Life-History and Participation Foundation — COMPLETED.** Incorporates the verified Stage 5.1 core-life checkpoint and adds organization-linked education, non-work participation, separate child authority, typed canonical-life sources, the legacy-biography compatibility boundary, and the eligibility-consumer seam.
 - **Run B — Playable Life Paths and Character History — COMPLETED.** Adds one canonical played/quick/authored history-production boundary, sparse formative situations, persistent bounded social context, and compositional adult paths over Run A identities.
-- **Run C — Personal Resources, Housing, Relationship Integration — FUTURE.** Owns personal resources, housing, and relationship integration over the shared life graph.
+- **Run C — Personal Resources, Housing, Relationship Integration — COMPLETED.** Adds exact personal/household flows and positions, effective work compensation, major obligations/debt, structured affordability, stable dwelling/occupancy/tenure history, cross-household care/support flows, and meaningful relationship effort through ordinary history and Stage 4 evidence.
 
-Stage 5 remains **IN PROGRESS** after Run B. Run C is the next bounded candidate.
+Stage 5 is **COMPLETE** after its three separately validated runs. Stage 6 is the next candidate and is not part of Stage 5.
 
 ### Run A — Shared Life-History and Participation Foundation
 
@@ -308,7 +308,19 @@ Run B adds a typed `CharacterHistoryPlan` that applies played, deterministic qui
 
 Formative content uses 0–7, 8–12, and 13–17 interval bands and a deliberately small starter set of household/school, peer, teacher, activity, civic, teen-work, and future-preparation situations. Situations append ordinary event, interaction, knowledge, memory, appraisal, temporary-state, and non-applying repeated-history development evidence as warranted. Teen work asks the injected eligibility provider. Adult helpers compose education/training, work, mentoring context, commitments, completion state, Guard/Reserve activation/return, and household relocation, including an open OCONUS location context.
 
-Run B intentionally adds no resource flows, compensation amounts, debt, housing/property, relationship upkeep, generalized event chains, mutable law/institutions, territory content, foreign-government simulation, or polished player UI. See the completed Run B plan for validation evidence.
+Run B intentionally added no resource flows, compensation amounts, debt, housing/property, relationship upkeep, generalized event chains, mutable law/institutions, territory content, foreign-government simulation, or polished player UI. See the completed Run B plan for its checkpoint evidence.
+
+### Run C — Personal Resources, Housing, and Relationship Integration
+
+Status: **COMPLETED**
+
+Run C implements the personal/household slice of the shared resource-flow contract with typed person/household/organization endpoints, exact integer-minor-unit money, effective expected/active/ended terms, and separate completed/partial/missed/blocked actual outcomes. Work compensation attaches to canonical work identity and produces money only when a pay period is explicitly resolved. Opening liquid positions plus committed outcomes derive historical capacity; active major obligations and bounded debt principal/payment history support structured available/strained/blocked affordability without a bank-account or credit-score simulator.
+
+Stable dwellings are separate from household location, occupancy, and person/household tenure. Lease, ownership, hosting, assignment, nonresident ownership, non-tenure residence, household moves, and primary/secondary/shared occupancy compose the same primitives. Care and cross-household financial support use ordinary flows/obligations and infer no kinship, partnership, household membership, authority, or care.
+
+Meaningful calls, visits, support, missed opportunities, and reconnection create ordinary event, relationship-interaction, knowledge, optional memory/appraisal, and time history. A qualitative derived continuity projection uses the full record without an upkeep meter, inactivity deletion, or automatic hostility. Explicit resource pressure can enter Stage 4 through actor-relevant typed evidence, knowledge, appraisal, temporary context, and decision sources. Played, quick-generated, and authored histories all use the same canonical writers; unrelated progressive materialization remains history-neutral.
+
+Run C adds no campaign/organization/government finance, banking or credit-report simulation, property market, Stage 6 generalized event/economy engine, Stage 7 mutable law or territory data, foreign-government simulation, or polished UI. See D-040 and the completed Run C plan for the exact semantic and validation evidence.
 
 ---
 

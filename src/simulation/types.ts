@@ -1,8 +1,10 @@
 declare const entityIdBrand: unique symbol;
 declare const isoDateBrand: unique symbol;
+declare const currencyCodeBrand: unique symbol;
 
 export type EntityId = string & { readonly [entityIdBrand]: true };
 export type IsoDate = string & { readonly [isoDateBrand]: true };
+export type CurrencyCode = string & { readonly [currencyCodeBrand]: true };
 
 export type EntityKind =
   | "appraisal"
@@ -16,6 +18,9 @@ export type EntityKind =
   | "decision"
   | "decision-trace"
   | "development-proposal"
+  | "dwelling"
+  | "dwelling-occupancy"
+  | "dwelling-occupancy-state"
   | "event"
   | "education-enrollment"
   | "education-enrollment-state"
@@ -26,6 +31,8 @@ export type EntityKind =
   | "household-location"
   | "household-membership"
   | "household-membership-state"
+  | "housing-tenure"
+  | "housing-tenure-state"
   | "jurisdiction"
   | "kinship"
   | "knowledge"
@@ -49,6 +56,12 @@ export type EntityKind =
   | "public-position"
   | "perception"
   | "relationship"
+  | "resource-flow"
+  | "resource-flow-terms"
+  | "resource-obligation"
+  | "resource-obligation-state"
+  | "resource-position"
+  | "resource-transfer-outcome"
   | "snapshot"
   | "subject"
   | "subject-knowledge"
@@ -1321,6 +1334,216 @@ export interface HistoricalCutoff {
   readonly historySequenceExclusive: number;
 }
 
+export interface MoneyAmount {
+  readonly minorUnits: number;
+  readonly currency: CurrencyCode;
+}
+
+export type ResourceEndpoint =
+  | { readonly kind: "person"; readonly personId: EntityId }
+  | { readonly kind: "household"; readonly householdId: EntityId }
+  | { readonly kind: "organization"; readonly organizationId: EntityId };
+
+export type ResourcePositionOwner =
+  | { readonly kind: "person"; readonly personId: EntityId }
+  | { readonly kind: "household"; readonly householdId: EntityId };
+
+export type ResourceFlowBasisNamespace =
+  "compensation" | "support" | "housing" | "care" | "obligation" | "custom";
+export type ResourceFlowBasisKind = `${ResourceFlowBasisNamespace}:${string}`;
+export type ResourceRestrictionNamespace =
+  "purpose" | "restricted" | "unrestricted" | "custom";
+export type ResourceRestrictionKind =
+  `${ResourceRestrictionNamespace}:${string}`;
+export type ResourceCadenceNamespace =
+  "schedule" | "work" | "support" | "custom";
+export type ResourceCadenceKind = `${ResourceCadenceNamespace}:${string}`;
+
+export type ResourceFlowBasisReference =
+  | { readonly kind: "work"; readonly workRelationshipId: EntityId }
+  | { readonly kind: "care"; readonly careResponsibilityId: EntityId }
+  | { readonly kind: "housing"; readonly housingTenureId: EntityId }
+  | { readonly kind: "general" };
+
+export interface ResourcePosition {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly owner: ResourcePositionOwner;
+  readonly openedAt: IsoDate;
+  readonly openingBalance: MoneyAmount;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export interface ResourceFlow {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly source: ResourceEndpoint;
+  readonly recipient: ResourceEndpoint;
+  readonly recordedAt: IsoDate;
+  readonly startsAt: IsoDate;
+  readonly basisKind: ResourceFlowBasisKind;
+  readonly basisReference: ResourceFlowBasisReference;
+  readonly restrictionKind: ResourceRestrictionKind | null;
+  readonly jurisdictionId: EntityId | null;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export type ResourceFlowStatus = "expected" | "active" | "ended";
+
+export interface ResourceFlowTermsRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly resourceFlowId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly status: ResourceFlowStatus;
+  readonly amount: MoneyAmount;
+  readonly cadenceKind: ResourceCadenceKind;
+  readonly reason: string | null;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesTermsId: EntityId | null;
+}
+
+export type ResourceTransferOutcomeStatus =
+  "completed" | "partial" | "missed" | "blocked";
+export type ResourceOutcomeReasonNamespace =
+  "capacity" | "authorization" | "timing" | "dispute" | "custom";
+export type ResourceOutcomeReasonKind =
+  `${ResourceOutcomeReasonNamespace}:${string}`;
+
+export interface ResourceTransferOutcome {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly resourceFlowId: EntityId;
+  readonly periodStartsAt: IsoDate;
+  readonly periodEndsAt: IsoDate;
+  readonly occurredAt: IsoDate;
+  readonly status: ResourceTransferOutcomeStatus;
+  readonly attemptedAmount: MoneyAmount;
+  readonly transferredAmount: MoneyAmount;
+  readonly reasonKind: ResourceOutcomeReasonKind | null;
+  readonly note: string | null;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export type ResourceObligationBasisNamespace =
+  "housing" | "debt" | "support" | "care" | "custom";
+export type ResourceObligationBasisKind =
+  `${ResourceObligationBasisNamespace}:${string}`;
+
+export interface ResourceObligation {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly resourceFlowId: EntityId;
+  readonly establishedAt: IsoDate;
+  readonly basisKind: ResourceObligationBasisKind;
+  /** Null for a recurring obligation without a finite debt principal. */
+  readonly principal: MoneyAmount | null;
+  readonly careResponsibilityId: EntityId | null;
+  readonly housingTenureId: EntityId | null;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export type ResourceObligationStatus = "active" | "satisfied" | "ended";
+
+export interface ResourceObligationStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly resourceObligationId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly status: ResourceObligationStatus;
+  readonly reason: string | null;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesStateId: EntityId | null;
+}
+
+export type DwellingClassificationNamespace =
+  "residential" | "institutional" | "assigned" | "custom";
+export type DwellingClassification =
+  `${DwellingClassificationNamespace}:${string}`;
+
+export interface Dwelling {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly establishedAt: IsoDate;
+  readonly jurisdictionId: EntityId;
+  readonly locationLabel: string;
+  readonly classification: DwellingClassification;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export type DwellingOccupant =
+  | { readonly kind: "person"; readonly personId: EntityId }
+  | { readonly kind: "household"; readonly householdId: EntityId };
+export type DwellingOccupancyNamespace =
+  "residence" | "hosted" | "institutional" | "custom";
+export type DwellingOccupancyKind = `${DwellingOccupancyNamespace}:${string}`;
+
+export interface DwellingOccupancy {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly occupant: DwellingOccupant;
+  readonly dwellingId: EntityId;
+  readonly startedAt: IsoDate;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export type DwellingOccupancyStatus = "active" | "ended";
+
+export interface DwellingOccupancyStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly dwellingOccupancyId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly status: DwellingOccupancyStatus;
+  readonly residenceRole: ResidenceRole;
+  readonly kind: DwellingOccupancyKind;
+  readonly reason: string | null;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesStateId: EntityId | null;
+}
+
+export type HousingTenureHolder =
+  | { readonly kind: "person"; readonly personId: EntityId }
+  | { readonly kind: "household"; readonly householdId: EntityId }
+  | { readonly kind: "organization"; readonly organizationId: EntityId };
+export type HousingTenureNamespace =
+  "ownership" | "lease" | "assignment" | "hosted" | "custom";
+export type HousingTenureKind = `${HousingTenureNamespace}:${string}`;
+
+export interface HousingTenure {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly holder: HousingTenureHolder;
+  readonly dwellingId: EntityId;
+  readonly startedAt: IsoDate;
+  readonly kind: HousingTenureKind;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export type HousingTenureStatus = "active" | "ended";
+
+export interface HousingTenureStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly housingTenureId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly status: HousingTenureStatus;
+  readonly context: string | null;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesStateId: EntityId | null;
+}
+
 /** Finite engine record families that may serve as canonical Stage 5 evidence. */
 export type LifeHistoryRecordFamily =
   | "work-relationship"
@@ -1340,7 +1563,18 @@ export type LifeHistoryRecordFamily =
   | "organization-participation"
   | "organization-participation-state"
   | "child-authority"
-  | "child-authority-state";
+  | "child-authority-state"
+  | "resource-position"
+  | "resource-flow"
+  | "resource-flow-terms"
+  | "resource-transfer-outcome"
+  | "resource-obligation"
+  | "resource-obligation-state"
+  | "dwelling"
+  | "dwelling-occupancy"
+  | "dwelling-occupancy-state"
+  | "housing-tenure"
+  | "housing-tenure-state";
 
 export interface LifeHistoryRecordReference {
   readonly family: LifeHistoryRecordFamily;
@@ -1542,6 +1776,17 @@ export interface HistoryStore {
   readonly childAuthorityStates: readonly ChildAuthorityStateRecord[];
   readonly lifeCommitments: readonly LifeCommitmentRecord[];
   readonly lifeLoadResolutions: readonly LifeLoadResolutionRecord[];
+  readonly resourcePositions: readonly ResourcePosition[];
+  readonly resourceFlows: readonly ResourceFlow[];
+  readonly resourceFlowTerms: readonly ResourceFlowTermsRecord[];
+  readonly resourceTransferOutcomes: readonly ResourceTransferOutcome[];
+  readonly resourceObligations: readonly ResourceObligation[];
+  readonly resourceObligationStates: readonly ResourceObligationStateRecord[];
+  readonly dwellings: readonly Dwelling[];
+  readonly dwellingOccupancies: readonly DwellingOccupancy[];
+  readonly dwellingOccupancyStates: readonly DwellingOccupancyStateRecord[];
+  readonly housingTenures: readonly HousingTenure[];
+  readonly housingTenureStates: readonly HousingTenureStateRecord[];
   readonly events: readonly HistoricalEvent[];
   readonly memories: readonly MemoryRecord[];
   readonly knowledge: readonly EventKnowledgeRecord[];
@@ -1563,8 +1808,8 @@ export interface HistoryStore {
 }
 
 export interface World {
-  readonly schemaVersion: 8;
-  readonly generatorVersion: "demo-world-v8";
+  readonly schemaVersion: 9;
+  readonly generatorVersion: "demo-world-v9";
   readonly id: EntityId;
   readonly seed: string;
   readonly startedAt: IsoDate;

@@ -48,13 +48,21 @@ Neither record embeds a second scheduler. Meaningful recurring education or part
 
 ## Households, Residence, Kinship, Partnership, and Care
 
-`Household` is a persistent social/co-residence unit. Effective-dated location records let it move without changing identity. A stable membership plus state history represents resident/ended status, primary/secondary/shared residence role, and open membership kind. One person may validly have simultaneous secondary or shared residences, but overlapping primary memberships are rejected. Household locations reference jurisdictions and human-readable place labels; dwellings, leases, ownership, and housing finance remain Run C work.
+`Household` is a persistent social/co-residence unit. Effective-dated location records let it move without changing identity. A stable membership plus state history represents resident/ended status, primary/secondary/shared residence role, and open membership kind. One person may validly have simultaneous secondary or shared residences, but overlapping primary memberships are rejected. Household location remains jurisdictional geography; Run C adds separate stable dwelling, person/household occupancy, and person/household/organization tenure histories. A resident is not thereby an owner or tenant, an owner need not reside, and moving does not replace the household.
 
 `KinshipRelationship` records canonical paired kinship through a kin-only open namespace. `Partnership` has its own active/ended state history. `CareResponsibility` has its own caregiver and recipient identities plus active/ended states, responsibility share, context, and time demand. This supports unrelated co-residents, related people living apart, former partners who remain kin through children, and cross-household or shared care without inference between those concepts.
 
 `ChildAuthority` is a separate directed relationship from a child person to either a person or organization holder. Its open authority and basis keys describe the structural relationship; active/ended state history preserves its effective dates. Recording it never infers or mutates kinship, partnership, care, or household membership. This supports a parent holding authority while a grandparent supplies care and residence, a relative guardian without fabricated family state, and agency authority with a separate foster or kin caregiver.
 
-Legacy residence, family, education, and occupation biography facts remain immutable compatibility/background summaries. Canonical Stage 5 history wins when a corresponding sequence-aware record exists; legacy facts are fallback or summary only and keep their original IDs without fabricated append sequences. New detailed co-residence, work, education, participation, partnership, care, and authority use dedicated records. Run A does not silently rewrite older facts or implement custody law, relationship maintenance, playable formative life, or resource transfers.
+Legacy residence, family, education, and occupation biography facts remain immutable compatibility/background summaries. Canonical Stage 5 history wins when a corresponding sequence-aware record exists; legacy facts are fallback or summary only and keep their original IDs without fabricated append sequences. New detailed co-residence, work, education, participation, partnership, care, authority, resource, obligation, dwelling, occupancy, and tenure truth uses dedicated records. Canonical constructors do not silently rewrite or duplicate older facts.
+
+## Resources, Housing, and Support
+
+Run C implements exact personal/household liquid history as an opening position plus committed transfer outcomes. A flow has typed person/household/organization endpoints, an open basis and optional restriction, jurisdiction context, and effective amount/cadence terms. Money is safe integer minor units plus validated currency identity. Expected terms do not post automatically; completed, partial, missed, and blocked outcomes are separate history, and only actual transferred amounts affect derived position.
+
+Work compensation is a flow basis linked to one paid or mixed work relationship. Raises append terms and do not rewrite work. Major obligations link to flows and may preserve an optional debt principal plus active/satisfied/ended state; actual outcomes remain separate. Affordability returns available/strained/blocked evidence from exact liquid position and active obligations rather than a hidden wealth or credit score. Care responsibility may be a flow/obligation basis, but money never creates or changes care, household, kinship, partnership, or authority.
+
+`Dwelling` carries sparse stable identity, jurisdiction, a human location label, and an open classification. Occupancy and tenure each have independent effective lifecycle history. Lease, ownership, hosting, assignment, nonresident ownership, resident-without-tenure, household movement, and secondary/shared residence therefore compose the same primitives. See [Resources and Housing](resources-and-housing.md).
 
 ## Time Demand, Load, and Recovery
 
@@ -72,7 +80,7 @@ The public life query API includes organization/profile history; work relationsh
 
 All canonical life queries use date plus append-sequence availability. This distinguishes historical state from later-appended backfill and preserves unrelated insertion-order independence. Stable life roots and state records participate in integrity checks for IDs, append order, references, chronology, lifecycle transitions, supersession, taxonomy, provenance, residence overlap, and stored load derivation. A closed typed life-history reference lets Stage 4 perceptions, appraisals, decisions, and frozen source snapshots cite only actor-involved canonical records that existed before their date-and-sequence cutoff.
 
-World schema 8, generator `demo-world-v8`, and snapshot format 7 serialize the complete Runs A/B graph, generated provenance, bounded context people, and typed life sources through deterministic JSON and the Node-only SQLite repository. Unsupported older versions remain rejected until a migration chain exists.
+World schema 9, generator `demo-world-v9`, and snapshot format 8 serialize the complete Stage 5 graph, generated provenance, bounded context people, exact money, and typed life sources through deterministic JSON and the Node-only SQLite repository. Unsupported older versions remain rejected until a migration chain exists.
 
 ## Run B Character-History Composition
 
@@ -80,7 +88,7 @@ World schema 8, generator `demo-world-v8`, and snapshot format 7 serialize the c
 
 Formative resolution is sparse: ages 0–7, 8–12, and 13–17 are pacing bands with increasing agency and bounded anchor-scene budgets, not a maturity stat, legal rule, or weekly scheduler. Starter situations cover household/school context, peers, teachers, activities, civic volunteering, teen work, and future preparation. Teen work asks the eligibility provider. Context people are ordinary stable `Person` records; teachers use ordinary school work, peers share ordinary context, and relationships remain derived from their records.
 
-Adult-path helpers compose rather than replace the shared graph. Apprenticeship combines training enrollment, paid work, mentor interaction, commitment, and a completed enrollment state. Guard/Reserve activation temporarily inactivates civilian work and later resumes it. PCS records household-location history, including an open overseas location identity, without a foreign-government model. Run C still owns amounts, payment cadence, resources, debt, housing, care costs, and final relationship-resource integration.
+Adult-path helpers compose rather than replace the shared graph. Apprenticeship combines training enrollment, paid work, mentor interaction, commitment, and a completed enrollment state. Guard/Reserve activation temporarily inactivates civilian work and later resumes it. PCS records household-location history, including an open overseas location identity, without a foreign-government model. Run C plan transitions add resource positions, compensation, flows/terms/outcomes, obligations/states, dwellings, occupancy/states, and tenure/states through the same canonical writers for played, generated, and authored history. Resolver-only stable-key references are stripped before writer input.
 
 ## Eligibility Consumer
 
@@ -88,4 +96,4 @@ Adult-path helpers compose rather than replace the shared graph. Apprenticeship 
 
 ## Explicit Boundary
 
-Run B owns playable formative/adult life paths and education/career progression content. Run C owns finance, resources, housing/property, and relationship integration. Stage 6 owns the generalized event engine. Stage 7 owns mutable law, effective eligibility rules, institutional powers, and territory-specific legal/political data. Campaigns, elections, political office, player scheduling UI, and polished player-facing presentation remain outside Run B.
+Stage 5 owns the implemented bounded formative/adult paths, personal/household resources, sparse housing, and relationship integration. Stage 6 owns the generalized event engine, macro/world metrics, economy, and shocks. Stage 7 owns mutable law, effective eligibility rules, institutional powers, and territory-specific legal/political data. Campaign/organization/government finance, campaigns, elections, political office, player scheduling UI, and polished player-facing presentation remain later work.

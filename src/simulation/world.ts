@@ -27,6 +27,12 @@ import {
 } from "./policy";
 import { normalizeSeed } from "./rng";
 import {
+  assertResourceHousingIntegrity,
+  resourceHousingEntityAvailableAt,
+  resourceHousingEntityExists,
+  resourceHousingHistoryRecords,
+} from "./resource-integrity";
+import {
   assertOpenTaxonomyKey,
   assertDottedContentKey,
   BELIEF_FORMATION_REASON_NAMESPACES,
@@ -165,7 +171,7 @@ function recordById<T extends { readonly id: EntityId }>(
 }
 
 export function createWorldId(seed: string): EntityId {
-  return createStableId("world", `demo-world-v8:${normalizeSeed(seed)}`);
+  return createStableId("world", `demo-world-v9:${normalizeSeed(seed)}`);
 }
 
 export function createWorld(input: CreateWorldInput): World {
@@ -200,8 +206,8 @@ export function createWorld(input: CreateWorldInput): World {
   const people = input.people.map(clonePerson);
 
   return {
-    schemaVersion: 8,
-    generatorVersion: "demo-world-v8",
+    schemaVersion: 9,
+    generatorVersion: "demo-world-v9",
     id: worldId,
     seed,
     startedAt: currentDate,
@@ -220,7 +226,7 @@ export function createWorld(input: CreateWorldInput): World {
 
 export function assertWorldIntegrity(world: World): void {
   assertJsonSafe(world, "world");
-  if (world.schemaVersion !== 8 || world.generatorVersion !== "demo-world-v8") {
+  if (world.schemaVersion !== 9 || world.generatorVersion !== "demo-world-v9") {
     throw new Error("Unsupported world schema or generator version.");
   }
   if (world.id !== createWorldId(world.seed)) {
@@ -302,7 +308,8 @@ export function recordWorldEvent(
       entityId !== world.id &&
       !world.people[entityId] &&
       !world.jurisdictions[entityId] &&
-      !lifeEntityExists(world, entityId)
+      !lifeEntityExists(world, entityId) &&
+      !resourceHousingEntityExists(world, entityId)
     ) {
       throw new Error(
         `Historical event references a missing entity: ${entityId}`,
@@ -319,6 +326,19 @@ export function recordWorldEvent(
     ) {
       throw new Error(
         `Historical event references an unavailable life entity: ${entityId}`,
+      );
+    }
+    if (
+      resourceHousingEntityExists(world, entityId) &&
+      !resourceHousingEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        `Historical event references an unavailable resource/housing entity: ${entityId}`,
       );
     }
     const involvedPerson = world.people[entityId];
@@ -518,6 +538,10 @@ export function resolveEntityLabel(world: World, entityId: EntityId): string {
     (candidate) => candidate.id === entityId,
   );
   if (household) return household.label;
+  const dwelling = world.history.dwellings.find(
+    (candidate) => candidate.id === entityId,
+  );
+  if (dwelling) return dwelling.locationLabel;
   return (
     world.policyCatalog.domains[entityId]?.name ??
     world.policyCatalog.issues[entityId]?.name ??
@@ -898,6 +922,7 @@ function validateHistoryIntegrity(world: World): void {
   }
   const records = [
     ...lifeHistoryRecords(world),
+    ...resourceHousingHistoryRecords(world),
     ...history.events,
     ...history.memories,
     ...history.knowledge,
@@ -960,6 +985,7 @@ function validateHistoryIntegrity(world: World): void {
     }),
   ]);
   assertLifeHistoryIntegrity(world, ids);
+  assertResourceHousingIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
   assertUniqueStableKeys(history.knowledge, "knowledge");
@@ -1030,10 +1056,24 @@ function validateHistoryIntegrity(world: World): void {
         involvedId !== world.id &&
         !world.people[involvedId] &&
         !world.jurisdictions[involvedId] &&
-        !lifeEntityExists(world, involvedId)
+        !lifeEntityExists(world, involvedId) &&
+        !resourceHousingEntityExists(world, involvedId)
       ) {
         throw new Error(
           `Historical event references a missing involved entity: ${event.id}`,
+        );
+      }
+      if (
+        resourceHousingEntityExists(world, involvedId) &&
+        !resourceHousingEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          `Historical event references an unavailable resource/housing entity: ${event.id}`,
         );
       }
       if (

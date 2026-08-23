@@ -20,4 +20,6 @@ Stage 5 implements a bounded time-demand and recovery seam. Active work roles, c
 
 Run B formative progression uses date intervals and sparse anchor situations. It may use the existing positive-day advancement action to move a simulated world through a selected interval, but does not introduce a second scheduler, weekly childhood loop, 168-hour accounting model, or automatic decision tick.
 
+Run C compensation/resource cadence is an effective arrangement term, not a second clock or automatic transaction scheduler. Time advancement alone never fabricates a paycheck, support payment, missed obligation, debt payment, or housing state change; content explicitly resolves an actual outcome. Meaningful relationship contact may reuse an ordinary life commitment when it consumes consequential time, while routine messages and periods of inactivity produce no automatic history or decay tick.
+
 The current load thresholds are deterministic gameplay calibration rather than a health, disability, labor, or family-quality model. Calendars, hourly schedules, player weekly mode, automatic scheduled decisions, health consequences, and multi-resolution population processing remain deferred. See [Core Life](life.md).

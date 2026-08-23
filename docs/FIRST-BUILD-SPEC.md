@@ -37,6 +37,11 @@ The build provides:
 - stable non-work organization participation with open activity/role/context semantics, kept distinct from enrollment and actual work;
 - temporal households, locations, and primary/secondary/shared memberships kept separate from kinship, partnership, and cross-household care;
 - separate effective-dated child authority held by a person or organization without inferring kinship, care, partnership, or co-residence;
+- exact integer-minor-unit personal/household resource positions and typed person/household/organization flow endpoints, with effective terms and separate completed/partial/missed/blocked outcomes;
+- effective work-compensation amount/cadence terms linked to canonical paid work, explicit pay-period resolution, major obligation/debt state, and structured affordability without a banking or credit-score model;
+- stable sparse dwellings plus separate person/household occupancy and tenure/ownership/lease/assignment histories;
+- care/support flows that may cross households without inferring care, kinship, partnership, authority, or co-residence;
+- meaningful relationship contact, missed-opportunity, support, and reconnection composition through ordinary events/interactions/time/subjective records without an upkeep meter;
 - closed typed canonical-life source references for historically available Stage 5 evidence used by Stage 4 perception and decisions;
 - a deterministic injected life-eligibility consumer returning allowed/blocked decisions and structured open reason keys without hard-coded age law;
 - reusable ranged time-demand profiles and qualitative deterministic load, push, fatigue, and recovery behavior over work, care, and exceptional commitments;
@@ -99,6 +104,13 @@ This is diagnostic UI, not final game art or final player-facing information des
 - Non-work participation remains separate from work and education; meaningful recurring demand reuses life commitments instead of creating another scheduler.
 - Household, dwelling/location, kinship, partnership, and care remain separate; care may cross households, unrelated people may co-reside, and valid secondary/shared residence does not create a duplicate primary home.
 - Child authority remains separate from household, kinship, partnership, and care and may be held by a person or organization.
+- Work compensation remains separate from work role/status and produces liquid resources only through explicit actual outcomes; expected cadence does not post money by itself.
+- Money uses safe integer minor units and validated currency identity. Tracked source/recipient positions reconcile committed outcomes without floating drift or arbitrary balance mutation.
+- Obligations and optional debt principal remain separate from actual payments; affordability is a derived structured explanation rather than a wealth, credit, or financial-wellbeing score.
+- Household identity, household location, dwelling identity, occupancy, and tenure/ownership remain separate. A resident need not own or lease, an owner need not reside, and a move does not create a new household.
+- Financial support and care cost never infer structural family/care/household truth.
+- Meaningful relationship effort and missed opportunities are ordinary history; inactivity is not deletion or automatic hostility, and no maintenance meter exists.
+- Explicit resource pressure enters mind/decision behavior only through actor-relevant typed evidence, knowledge, appraisal, and bounded temporary state.
 - Later-appended backdated canonical life records remain unavailable through an earlier exclusive-sequence cutoff and cannot leak into an earlier perception or decision.
 - Legacy `PersonFact` IDs and nondiegetic materialization remain unchanged; canonical Stage 5 life truth wins when present, and no fake fact sequence is introduced.
 - Life eligibility is supplied through a replaceable provider using stable jurisdiction identity and structured reasons; the foundation embeds no universal age threshold or 50-state list.
@@ -115,7 +127,7 @@ This build does not implement:
 
 - cross-version migrations, branch persistence, recovery tooling, or a production desktop save picker;
 - detailed or purportedly factual Lexington civic data;
-- elections, campaigning, legislation, political institutions/offices, mutable law, staff, polling, media simulation, event causality, formative content, career-content progression, finance/resources, dwellings/property, relationship maintenance, or full NPC autonomy;
+- elections, campaigning, legislation, political institutions/offices, mutable law, staff, polling, media simulation, generalized event causality/economy, deep autonomous career progression, campaign/organization/government finance, banking/credit/investments/tax, property markets/maintenance, or full NPC autonomy;
 - hourly calendars, automatic scheduling, health simulation, or player-facing workload, fatigue, personality, trust, or relationship meters;
 - autonomous personality/value/relationship development, background population-scale opinion change, automatic knowledge propagation or memory recall, or political action classification;
 - final UI, art direction, or production content;
@@ -128,8 +140,8 @@ Future work is expected to prove:
 
 - seeded world generation;
 - Quick and Manual character creation;
-- formative childhood events;
-- adult Life Mode;
+- deeper production formative-childhood content beyond the bounded implemented situations;
+- full interactive adult Life Mode beyond the implemented compositional paths;
 - detailed weekly mode;
 - civilian education/work;
 - persistent characters beyond the implemented life-history foundation;

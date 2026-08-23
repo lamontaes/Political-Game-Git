@@ -5,23 +5,36 @@ import {
   advanceDemoWorld,
   applyCharacterHistoryPlan,
   createChildAuthority,
+  createDwelling,
   createFormationContext,
   createDemoWorld,
+  createHousingTenure,
   createWorld,
   createEducationEnrollment,
   createOrganization,
   createOrganizationParticipation,
+  createResourceFlow,
+  createResourceObligation,
+  createResourcePosition,
+  createWorkCompensation,
   createWorkRelationship,
   currentLifeCutoff,
   evaluateDecision,
   generateQuickCharacterHistory,
   materializePerson,
+  money,
   recordChildAuthorityState,
+  recordDwellingOccupancyState,
   recordDurableDecisionTrace,
   recordEducationEnrollmentState,
+  recordHousingTenureState,
   recordOrganizationParticipationState,
   recordPerception,
   recordPrivateBelief,
+  recordResourceObligationState,
+  recordResourceTransferOutcome,
+  recordWorkCompensationTerms,
+  startDwellingOccupancy,
 } from "../simulation";
 import type { EntityId } from "../simulation";
 import { SqliteWorldRepository } from "./sqlite-world-repository";
@@ -343,6 +356,234 @@ describe("SQLite world repository", () => {
     expect(restored?.history.nextSequence).toBe(world.history.nextSequence);
     expect(restored?.personOrder.length).toBeGreaterThan(
       initial.personOrder.length,
+    );
+  });
+
+  it("preserves every Run C resource, housing, and typed-source family through save, load, list, and replace", () => {
+    repository = new SqliteWorldRepository(":memory:");
+    let world = createDemoWorld("sqlite-stage-5-run-c");
+    const personId = world.personOrder[0] as EntityId;
+    const jurisdictionId = world.jurisdictionOrder[0] as EntityId;
+    const provenance = {
+      kind: "authored" as const,
+      note: "Synthetic SQLite Stage 5 Run C fixture.",
+    };
+    world = createOrganization(world, {
+      stableKey: "sqlite:run-c:organization",
+      formedAt: "2000-01-01",
+      provenance,
+      initialProfile: {
+        name: "SQLite Run C Employer and Housing Cooperative",
+        classification: "custom:sqlite-run-c-organization",
+        locationJurisdictionId: jurisdictionId,
+      },
+    });
+    const organizationId = world.history.organizations.at(-1)!.id;
+    world = createWorkRelationship(world, {
+      stableKey: "sqlite:run-c:work",
+      personId,
+      organizationId,
+      startedAt: "2020-01-01",
+      kind: "employment:sqlite-run-c",
+      compensation: "paid",
+      authority: "directed",
+      dependency: "dependent",
+      economicRisk: "organization-borne",
+      provenance,
+      initialRole: {
+        title: "Run C persistence worker",
+        occupationClassification: "custom:sqlite-run-c-worker",
+        locationJurisdictionId: jurisdictionId,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 32, maximumHours: 40 },
+          attention: "moderate",
+          concurrency: "partly-concurrent",
+          scheduleRigidity: "mixed",
+          interruptibility: "interruptible",
+          locationJurisdictionId: jurisdictionId,
+        },
+      },
+    });
+    const workId = world.history.workRelationships.at(-1)!.id;
+    world = createResourcePosition(world, {
+      stableKey: "sqlite:run-c:position",
+      owner: { kind: "person", personId },
+      openedAt: "2020-01-01",
+      openingBalance: money(100_000, "USD"),
+      provenance,
+    });
+    world = createWorkCompensation(world, {
+      stableKey: "sqlite:run-c:compensation",
+      workRelationshipId: workId,
+      startsAt: "2024-01-01",
+      amount: money(300_000, "USD"),
+      cadenceKind: "work:monthly-salary",
+      restrictionKind: null,
+      jurisdictionId,
+      provenance,
+    });
+    const compensationFlow = world.history.resourceFlows.at(-1)!;
+    const initialCompensationTerms = world.history.resourceFlowTerms.at(-1)!;
+    world = recordWorkCompensationTerms(world, {
+      stableKey: "sqlite:run-c:compensation:raise",
+      workRelationshipId: workId,
+      effectiveAt: "2025-01-01",
+      status: "active",
+      amount: money(350_000, "USD"),
+      cadenceKind: "work:monthly-salary",
+      reason: "Synthetic historical raise.",
+      provenance,
+      supersedesTermsId: initialCompensationTerms.id,
+    });
+    world = recordResourceTransferOutcome(world, {
+      stableKey: "sqlite:run-c:pay-outcome",
+      resourceFlowId: compensationFlow.id,
+      periodStartsAt: "2025-01-01",
+      periodEndsAt: "2025-01-31",
+      occurredAt: "2025-01-31",
+      status: "completed",
+      attemptedAmount: money(350_000, "USD"),
+      transferredAmount: money(350_000, "USD"),
+      reasonKind: null,
+      note: null,
+      provenance,
+    });
+    world = createDwelling(world, {
+      stableKey: "sqlite:run-c:dwelling",
+      establishedAt: "2010-01-01",
+      jurisdictionId,
+      locationLabel: "SQLite persistence dwelling",
+      classification: "custom:sqlite-cooperative-home",
+      provenance,
+    });
+    const dwellingId = world.history.dwellings.at(-1)!.id;
+    world = startDwellingOccupancy(world, {
+      stableKey: "sqlite:run-c:occupancy",
+      occupant: { kind: "person", personId },
+      dwellingId,
+      startedAt: "2020-01-01",
+      residenceRole: "primary",
+      kind: "custom:sqlite-residence",
+      provenance,
+    });
+    const occupancyId = world.history.dwellingOccupancies.at(-1)!.id;
+    const occupancyStateId = world.history.dwellingOccupancyStates.at(-1)!.id;
+    world = createHousingTenure(world, {
+      stableKey: "sqlite:run-c:tenure",
+      holder: { kind: "person", personId },
+      dwellingId,
+      startedAt: "2020-01-01",
+      kind: "custom:sqlite-lease",
+      context: "Synthetic SQLite tenure.",
+      provenance,
+    });
+    const tenureId = world.history.housingTenures.at(-1)!.id;
+    const tenureStateId = world.history.housingTenureStates.at(-1)!.id;
+    world = createResourceFlow(world, {
+      stableKey: "sqlite:run-c:housing-flow",
+      source: { kind: "person", personId },
+      recipient: { kind: "organization", organizationId },
+      startsAt: "2024-01-01",
+      amount: money(100_000, "USD"),
+      cadenceKind: "schedule:monthly",
+      basisKind: "housing:lease-payment",
+      basisReference: { kind: "housing", housingTenureId: tenureId },
+      restrictionKind: "purpose:housing",
+      jurisdictionId,
+      provenance,
+    });
+    const housingFlow = world.history.resourceFlows.at(-1)!;
+    world = createResourceObligation(world, {
+      stableKey: "sqlite:run-c:housing-obligation",
+      resourceFlowId: housingFlow.id,
+      establishedAt: "2024-01-01",
+      basisKind: "housing:lease-payment",
+      principal: null,
+      careResponsibilityId: null,
+      housingTenureId: tenureId,
+      provenance,
+    });
+    const obligationId = world.history.resourceObligations.at(-1)!.id;
+    const obligationStateId = world.history.resourceObligationStates.at(-1)!.id;
+    world = recordResourceTransferOutcome(world, {
+      stableKey: "sqlite:run-c:missed-housing-outcome",
+      resourceFlowId: housingFlow.id,
+      periodStartsAt: "2025-02-01",
+      periodEndsAt: "2025-02-28",
+      occurredAt: "2025-02-28",
+      status: "missed",
+      attemptedAmount: money(100_000, "USD"),
+      transferredAmount: money(0, "USD"),
+      reasonKind: "capacity:insufficient-liquid",
+      note: "Synthetic missed housing payment.",
+      provenance,
+    });
+    const outcomeId = world.history.resourceTransferOutcomes.at(-1)!.id;
+
+    const firstSaved = repository.save(world);
+
+    world = recordDwellingOccupancyState(world, {
+      stableKey: "sqlite:run-c:occupancy:ended",
+      dwellingOccupancyId: occupancyId,
+      effectiveAt: "2025-03-01",
+      status: "ended",
+      residenceRole: "primary",
+      kind: "custom:sqlite-residence",
+      reason: "Synthetic move.",
+      provenance,
+      supersedesStateId: occupancyStateId,
+    });
+    world = recordHousingTenureState(world, {
+      stableKey: "sqlite:run-c:tenure:ended",
+      housingTenureId: tenureId,
+      effectiveAt: "2025-03-01",
+      status: "ended",
+      context: "Synthetic tenure ended.",
+      provenance,
+      supersedesStateId: tenureStateId,
+    });
+    world = recordResourceObligationState(world, {
+      stableKey: "sqlite:run-c:obligation:ended",
+      resourceObligationId: obligationId,
+      effectiveAt: "2025-03-01",
+      status: "ended",
+      reason: "Synthetic obligation ended.",
+      provenance,
+      supersedesStateId: obligationStateId,
+    });
+    const lifeSource = {
+      kind: "life-history" as const,
+      reference: {
+        family: "resource-transfer-outcome" as const,
+        recordId: outcomeId,
+      },
+    };
+    world = recordPerception(world, {
+      stableKey: "sqlite:run-c:resource-perception",
+      personId,
+      perceivedAt: world.currentDate,
+      subjectKind: "domain:resource-capacity",
+      subjectKey: "housing-payment",
+      subjectEntityId: housingFlow.id,
+      assertion: "The missed payment is part of durable resource history.",
+      confidence: "high",
+      sourceCredibility: "high",
+      source: lifeSource,
+      supersedesPerceptionId: null,
+    });
+
+    const saved = repository.save(world);
+    const restored = repository.load(world.id);
+    expect(saved.snapshotId).not.toBe(firstSaved.snapshotId);
+    expect(restored).toStrictEqual(world);
+    expect(repository.list()).toStrictEqual([saved]);
+    expect(restored?.history.resourceFlowTerms).toHaveLength(3);
+    expect(restored?.history.resourceTransferOutcomes).toHaveLength(2);
+    expect(restored?.history.resourceObligationStates).toHaveLength(2);
+    expect(restored?.history.dwellingOccupancyStates).toHaveLength(2);
+    expect(restored?.history.housingTenureStates).toHaveLength(2);
+    expect(restored?.history.perceptions.at(-1)?.source).toStrictEqual(
+      lifeSource,
     );
   });
 });

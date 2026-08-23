@@ -4,7 +4,7 @@ import { assertWorldIntegrity } from "./world";
 
 export interface WorldSnapshot {
   readonly format: "political-life-world";
-  readonly formatVersion: 7;
+  readonly formatVersion: 8;
   readonly snapshotId: EntityId;
   readonly worldId: EntityId;
   readonly savedAtWorldDate: IsoDate;
@@ -16,7 +16,7 @@ export function createWorldSnapshot(world: World): WorldSnapshot {
   const worldPayload = JSON.stringify(world);
   return {
     format: "political-life-world",
-    formatVersion: 7,
+    formatVersion: 8,
     snapshotId: createStableId("snapshot", worldPayload),
     worldId: world.id,
     savedAtWorldDate: world.currentDate,
@@ -38,7 +38,7 @@ export function deserializeWorld(payload: string): World {
   if (!isRecord(parsed)) {
     throw new Error("World snapshot must be a JSON object.");
   }
-  if (parsed.format !== "political-life-world" || parsed.formatVersion !== 7) {
+  if (parsed.format !== "political-life-world" || parsed.formatVersion !== 8) {
     throw new Error("World snapshot uses an unsupported format version.");
   }
   if (!isRecord(parsed.world)) {

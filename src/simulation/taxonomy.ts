@@ -23,6 +23,14 @@ import type {
   WorkRelationshipNamespace,
   LifeEligibilityActionNamespace,
   LifeEligibilityReasonNamespace,
+  ResourceFlowBasisNamespace,
+  ResourceRestrictionNamespace,
+  ResourceCadenceNamespace,
+  ResourceOutcomeReasonNamespace,
+  ResourceObligationBasisNamespace,
+  DwellingClassificationNamespace,
+  DwellingOccupancyNamespace,
+  HousingTenureNamespace,
 } from "./types";
 
 export const BELIEF_FORMATION_REASON_NAMESPACES = [
@@ -179,6 +187,67 @@ export const LIFE_ELIGIBILITY_REASON_NAMESPACES = [
   "capacity",
   "custom",
 ] as const satisfies readonly LifeEligibilityReasonNamespace[];
+
+export const RESOURCE_FLOW_BASIS_NAMESPACES = [
+  "compensation",
+  "support",
+  "housing",
+  "care",
+  "obligation",
+  "custom",
+] as const satisfies readonly ResourceFlowBasisNamespace[];
+
+export const RESOURCE_RESTRICTION_NAMESPACES = [
+  "purpose",
+  "restricted",
+  "unrestricted",
+  "custom",
+] as const satisfies readonly ResourceRestrictionNamespace[];
+
+export const RESOURCE_CADENCE_NAMESPACES = [
+  "schedule",
+  "work",
+  "support",
+  "custom",
+] as const satisfies readonly ResourceCadenceNamespace[];
+
+export const RESOURCE_OUTCOME_REASON_NAMESPACES = [
+  "capacity",
+  "authorization",
+  "timing",
+  "dispute",
+  "custom",
+] as const satisfies readonly ResourceOutcomeReasonNamespace[];
+
+export const RESOURCE_OBLIGATION_BASIS_NAMESPACES = [
+  "housing",
+  "debt",
+  "support",
+  "care",
+  "custom",
+] as const satisfies readonly ResourceObligationBasisNamespace[];
+
+export const DWELLING_CLASSIFICATION_NAMESPACES = [
+  "residential",
+  "institutional",
+  "assigned",
+  "custom",
+] as const satisfies readonly DwellingClassificationNamespace[];
+
+export const DWELLING_OCCUPANCY_NAMESPACES = [
+  "residence",
+  "hosted",
+  "institutional",
+  "custom",
+] as const satisfies readonly DwellingOccupancyNamespace[];
+
+export const HOUSING_TENURE_NAMESPACES = [
+  "ownership",
+  "lease",
+  "assignment",
+  "hosted",
+  "custom",
+] as const satisfies readonly HousingTenureNamespace[];
 
 export const PARTNERSHIP_NAMESPACES = [
   "romantic",

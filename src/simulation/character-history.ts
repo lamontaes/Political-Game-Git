@@ -54,6 +54,34 @@ import {
 } from "./records";
 import { SeededRng } from "./rng";
 import { recordWorldEvent, assertWorldIntegrity, advanceWorld } from "./world";
+import {
+  createDwelling,
+  createHousingTenure,
+  createResourceFlow,
+  createResourceObligation,
+  createResourcePosition,
+  createWorkCompensation,
+  recordDwellingOccupancyState,
+  recordHousingTenureState,
+  recordResourceFlowTerms,
+  recordResourceObligationState,
+  recordResourceTransferOutcome,
+  startDwellingOccupancy,
+} from "./resources";
+import type {
+  CreateDwellingInput,
+  CreateHousingTenureInput,
+  CreateResourceFlowInput,
+  CreateResourceObligationInput,
+  CreateResourcePositionInput,
+  CreateWorkCompensationInput,
+  RecordDwellingOccupancyStateInput,
+  RecordHousingTenureStateInput,
+  RecordResourceFlowTermsInput,
+  RecordResourceObligationStateInput,
+  RecordResourceTransferOutcomeInput,
+  StartDwellingOccupancyInput,
+} from "./resources";
 import type {
   AppraisalRecordInput,
   EventKnowledgeRecordInput,
@@ -204,6 +232,95 @@ export type CharacterHistoryTransition =
   | {
       readonly kind: "commitment";
       readonly input: WithProvenance<RecordLifeCommitmentInput>;
+    }
+  | {
+      readonly kind: "resource-position";
+      readonly input: WithProvenance<CreateResourcePositionInput>;
+    }
+  | {
+      readonly kind: "resource-flow";
+      readonly input: WithProvenance<CreateResourceFlowInput>;
+    }
+  | {
+      readonly kind: "resource-flow-terms";
+      readonly input: WithProvenance<
+        Omit<
+          RecordResourceFlowTermsInput,
+          "resourceFlowId" | "supersedesTermsId"
+        >
+      > & { readonly resourceFlowStableKey: string };
+    }
+  | {
+      readonly kind: "resource-transfer";
+      readonly input: WithProvenance<
+        Omit<RecordResourceTransferOutcomeInput, "resourceFlowId">
+      > & { readonly resourceFlowStableKey: string };
+    }
+  | {
+      readonly kind: "work-compensation";
+      readonly input: WithProvenance<
+        Omit<CreateWorkCompensationInput, "workRelationshipId">
+      > & { readonly workStableKey: string };
+    }
+  | {
+      readonly kind: "dwelling";
+      readonly input: WithProvenance<CreateDwellingInput>;
+    }
+  | {
+      readonly kind: "dwelling-occupancy";
+      readonly input: WithProvenance<
+        Omit<StartDwellingOccupancyInput, "dwellingId">
+      > & {
+        readonly dwellingStableKey: string;
+      };
+    }
+  | {
+      readonly kind: "dwelling-occupancy-state";
+      readonly input: WithProvenance<
+        Omit<
+          RecordDwellingOccupancyStateInput,
+          "dwellingOccupancyId" | "supersedesStateId"
+        >
+      > & { readonly occupancyStableKey: string };
+    }
+  | {
+      readonly kind: "housing-tenure";
+      readonly input: WithProvenance<
+        Omit<CreateHousingTenureInput, "dwellingId">
+      > & {
+        readonly dwellingStableKey: string;
+      };
+    }
+  | {
+      readonly kind: "housing-tenure-state";
+      readonly input: WithProvenance<
+        Omit<
+          RecordHousingTenureStateInput,
+          "housingTenureId" | "supersedesStateId"
+        >
+      > & { readonly housingTenureStableKey: string };
+    }
+  | {
+      readonly kind: "resource-obligation";
+      readonly input: WithProvenance<
+        Omit<
+          CreateResourceObligationInput,
+          "resourceFlowId" | "careResponsibilityId" | "housingTenureId"
+        >
+      > & {
+        readonly resourceFlowStableKey: string;
+        readonly careStableKey: string | null;
+        readonly housingTenureStableKey: string | null;
+      };
+    }
+  | {
+      readonly kind: "resource-obligation-state";
+      readonly input: WithProvenance<
+        Omit<
+          RecordResourceObligationStateInput,
+          "resourceObligationId" | "supersedesStateId"
+        >
+      > & { readonly resourceObligationStableKey: string };
     }
   | { readonly kind: "event"; readonly input: HistoricalEventInput }
   | {
@@ -595,6 +712,202 @@ export function applyCharacterHistoryPlan(
           withLifeProvenance(next, transition.input),
         );
         break;
+      case "resource-position":
+        next = createResourcePosition(
+          next,
+          withLifeProvenance(next, transition.input),
+        );
+        break;
+      case "resource-flow":
+        next = createResourceFlow(
+          next,
+          withLifeProvenance(next, transition.input),
+        );
+        break;
+      case "resource-flow-terms": {
+        const flow = byStableKey(
+          next.history.resourceFlows,
+          transition.input.resourceFlowStableKey,
+          "resource flow",
+        );
+        const previous = next.history.resourceFlowTerms
+          .filter((item) => item.resourceFlowId === flow.id)
+          .at(-1);
+        next = recordResourceFlowTerms(
+          next,
+          withLifeProvenance(next, {
+            ...transition.input,
+            resourceFlowId: flow.id,
+            supersedesTermsId: requiredPrevious(
+              previous,
+              "resource-flow terms",
+            ),
+          }),
+        );
+        break;
+      }
+      case "resource-transfer": {
+        const flow = byStableKey(
+          next.history.resourceFlows,
+          transition.input.resourceFlowStableKey,
+          "resource flow",
+        );
+        next = recordResourceTransferOutcome(
+          next,
+          withLifeProvenance(next, {
+            ...transition.input,
+            resourceFlowId: flow.id,
+          }),
+        );
+        break;
+      }
+      case "work-compensation": {
+        const work = byStableKey(
+          next.history.workRelationships,
+          transition.input.workStableKey,
+          "work relationship",
+        );
+        next = createWorkCompensation(
+          next,
+          withLifeProvenance(next, {
+            ...transition.input,
+            workRelationshipId: work.id,
+          }),
+        );
+        break;
+      }
+      case "dwelling":
+        next = createDwelling(next, withLifeProvenance(next, transition.input));
+        break;
+      case "dwelling-occupancy": {
+        const dwelling = byStableKey(
+          next.history.dwellings,
+          transition.input.dwellingStableKey,
+          "dwelling",
+        );
+        next = startDwellingOccupancy(
+          next,
+          withLifeProvenance(next, {
+            ...transition.input,
+            dwellingId: dwelling.id,
+          }),
+        );
+        break;
+      }
+      case "dwelling-occupancy-state": {
+        const occupancy = byStableKey(
+          next.history.dwellingOccupancies,
+          transition.input.occupancyStableKey,
+          "dwelling occupancy",
+        );
+        const previous = next.history.dwellingOccupancyStates
+          .filter((item) => item.dwellingOccupancyId === occupancy.id)
+          .at(-1);
+        next = recordDwellingOccupancyState(
+          next,
+          withLifeProvenance(next, {
+            ...transition.input,
+            dwellingOccupancyId: occupancy.id,
+            supersedesStateId: requiredPrevious(
+              previous,
+              "dwelling occupancy state",
+            ),
+          }),
+        );
+        break;
+      }
+      case "housing-tenure": {
+        const dwelling = byStableKey(
+          next.history.dwellings,
+          transition.input.dwellingStableKey,
+          "dwelling",
+        );
+        next = createHousingTenure(
+          next,
+          withLifeProvenance(next, {
+            ...transition.input,
+            dwellingId: dwelling.id,
+          }),
+        );
+        break;
+      }
+      case "housing-tenure-state": {
+        const tenure = byStableKey(
+          next.history.housingTenures,
+          transition.input.housingTenureStableKey,
+          "housing tenure",
+        );
+        const previous = next.history.housingTenureStates
+          .filter((item) => item.housingTenureId === tenure.id)
+          .at(-1);
+        next = recordHousingTenureState(
+          next,
+          withLifeProvenance(next, {
+            ...transition.input,
+            housingTenureId: tenure.id,
+            supersedesStateId: requiredPrevious(
+              previous,
+              "housing tenure state",
+            ),
+          }),
+        );
+        break;
+      }
+      case "resource-obligation": {
+        const flow = byStableKey(
+          next.history.resourceFlows,
+          transition.input.resourceFlowStableKey,
+          "resource flow",
+        );
+        const care =
+          transition.input.careStableKey === null
+            ? null
+            : byStableKey(
+                next.history.careResponsibilities,
+                transition.input.careStableKey,
+                "care responsibility",
+              );
+        const tenure =
+          transition.input.housingTenureStableKey === null
+            ? null
+            : byStableKey(
+                next.history.housingTenures,
+                transition.input.housingTenureStableKey,
+                "housing tenure",
+              );
+        next = createResourceObligation(
+          next,
+          withLifeProvenance(next, {
+            ...transition.input,
+            resourceFlowId: flow.id,
+            careResponsibilityId: care?.id ?? null,
+            housingTenureId: tenure?.id ?? null,
+          }),
+        );
+        break;
+      }
+      case "resource-obligation-state": {
+        const obligation = byStableKey(
+          next.history.resourceObligations,
+          transition.input.resourceObligationStableKey,
+          "resource obligation",
+        );
+        const previous = next.history.resourceObligationStates
+          .filter((item) => item.resourceObligationId === obligation.id)
+          .at(-1);
+        next = recordResourceObligationState(
+          next,
+          withLifeProvenance(next, {
+            ...transition.input,
+            resourceObligationId: obligation.id,
+            supersedesStateId: requiredPrevious(
+              previous,
+              "resource obligation state",
+            ),
+          }),
+        );
+        break;
+      }
       case "event": {
         next = recordWorldEvent(next, transition.input);
         eventIds[transition.input.stableKey] = requiredEvent(
@@ -2035,7 +2348,14 @@ function withLifeProvenance<
           eventId: requiredEvent(world, input.provenance.eventStableKey).id,
         }
       : input.provenance;
-  return { ...input, provenance };
+  const canonicalInput = Object.fromEntries(
+    Object.entries(input).filter(
+      ([key]) => key !== "provenance" && !key.endsWith("StableKey"),
+    ),
+  );
+  return { ...canonicalInput, provenance } as Omit<T, "provenance"> & {
+    readonly provenance: LifeRecordProvenance;
+  };
 }
 
 function requiredEvent(world: World, stableKey: string) {

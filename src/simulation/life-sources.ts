@@ -1,4 +1,4 @@
-import { organizationProfileAt } from "./life-queries";
+import { householdMembershipsAt, organizationProfileAt } from "./life-queries";
 import type {
   EntityId,
   HistoricalCutoff,
@@ -275,6 +275,188 @@ export function resolveLifeHistorySource(
         `${record.status}; ${record.basisKind}${record.context ? ` — ${record.context}` : ""}`,
       );
     }
+    case "resource-position": {
+      const record = requireRecord(h.resourcePositions, reference);
+      return resolved(
+        reference,
+        peopleForEndpoint(
+          world,
+          record.owner,
+          record.openedAt,
+          record.sequence,
+        ),
+        record.openedAt,
+        record.sequence,
+        "Liquid resource position",
+        `${formatMoney(record.openingBalance)} opening position`,
+      );
+    }
+    case "resource-flow": {
+      const record = requireRecord(h.resourceFlows, reference);
+      const date = earlier(record.recordedAt, record.startsAt);
+      return resolved(
+        reference,
+        peopleForFlow(world, record, date, record.sequence),
+        date,
+        record.sequence,
+        "Resource-flow arrangement",
+        `${record.basisKind}; ${endpointLabel(record.source)} → ${endpointLabel(record.recipient)}`,
+      );
+    }
+    case "resource-flow-terms": {
+      const record = requireRecord(h.resourceFlowTerms, reference);
+      const parent = requireParent(
+        h.resourceFlows,
+        record.resourceFlowId,
+        reference,
+      );
+      return resolved(
+        reference,
+        peopleForFlow(world, parent, record.effectiveAt, record.sequence),
+        record.effectiveAt,
+        record.sequence,
+        "Resource-flow terms",
+        `${record.status}; ${formatMoney(record.amount)}; ${record.cadenceKind}`,
+      );
+    }
+    case "resource-transfer-outcome": {
+      const record = requireRecord(h.resourceTransferOutcomes, reference);
+      const parent = requireParent(
+        h.resourceFlows,
+        record.resourceFlowId,
+        reference,
+      );
+      return resolved(
+        reference,
+        peopleForFlow(world, parent, record.occurredAt, record.sequence),
+        record.occurredAt,
+        record.sequence,
+        "Resource-transfer outcome",
+        `${record.status}; ${formatMoney(record.transferredAmount)} of ${formatMoney(record.attemptedAmount)}`,
+      );
+    }
+    case "resource-obligation": {
+      const record = requireRecord(h.resourceObligations, reference);
+      const flow = requireParent(
+        h.resourceFlows,
+        record.resourceFlowId,
+        reference,
+      );
+      return resolved(
+        reference,
+        peopleForFlow(world, flow, record.establishedAt, record.sequence),
+        record.establishedAt,
+        record.sequence,
+        "Resource obligation",
+        `${record.basisKind}${record.principal ? `; principal ${formatMoney(record.principal)}` : ""}`,
+      );
+    }
+    case "resource-obligation-state": {
+      const record = requireRecord(h.resourceObligationStates, reference);
+      const obligation = requireParent(
+        h.resourceObligations,
+        record.resourceObligationId,
+        reference,
+      );
+      const flow = requireParent(
+        h.resourceFlows,
+        obligation.resourceFlowId,
+        reference,
+      );
+      return resolved(
+        reference,
+        peopleForFlow(world, flow, record.effectiveAt, record.sequence),
+        record.effectiveAt,
+        record.sequence,
+        "Resource obligation state",
+        `${record.status}${record.reason ? ` — ${record.reason}` : ""}`,
+      );
+    }
+    case "dwelling": {
+      const record = requireRecord(h.dwellings, reference);
+      return resolved(
+        reference,
+        [],
+        record.establishedAt,
+        record.sequence,
+        "Dwelling",
+        `${record.locationLabel}; ${record.classification}`,
+      );
+    }
+    case "dwelling-occupancy": {
+      const record = requireRecord(h.dwellingOccupancies, reference);
+      return resolved(
+        reference,
+        peopleForEndpoint(
+          world,
+          record.occupant,
+          record.startedAt,
+          record.sequence,
+        ),
+        record.startedAt,
+        record.sequence,
+        "Dwelling occupancy",
+        `Dwelling ${record.dwellingId}`,
+      );
+    }
+    case "dwelling-occupancy-state": {
+      const record = requireRecord(h.dwellingOccupancyStates, reference);
+      const parent = requireParent(
+        h.dwellingOccupancies,
+        record.dwellingOccupancyId,
+        reference,
+      );
+      return resolved(
+        reference,
+        peopleForEndpoint(
+          world,
+          parent.occupant,
+          record.effectiveAt,
+          record.sequence,
+        ),
+        record.effectiveAt,
+        record.sequence,
+        "Dwelling occupancy state",
+        `${record.status}; ${record.residenceRole}; ${record.kind}`,
+      );
+    }
+    case "housing-tenure": {
+      const record = requireRecord(h.housingTenures, reference);
+      return resolved(
+        reference,
+        peopleForEndpoint(
+          world,
+          record.holder,
+          record.startedAt,
+          record.sequence,
+        ),
+        record.startedAt,
+        record.sequence,
+        "Housing tenure",
+        `${record.kind}; dwelling ${record.dwellingId}`,
+      );
+    }
+    case "housing-tenure-state": {
+      const record = requireRecord(h.housingTenureStates, reference);
+      const parent = requireParent(
+        h.housingTenures,
+        record.housingTenureId,
+        reference,
+      );
+      return resolved(
+        reference,
+        peopleForEndpoint(
+          world,
+          parent.holder,
+          record.effectiveAt,
+          record.sequence,
+        ),
+        record.effectiveAt,
+        record.sequence,
+        "Housing tenure state",
+        `${record.status}${record.context ? ` — ${record.context}` : ""}`,
+      );
+    }
     default:
       throw new Error(
         `Unsupported life-history record family: ${String((reference as { family?: unknown }).family)}`,
@@ -356,6 +538,65 @@ function requireParent<T extends { readonly id: EntityId }>(
 
 function earlier(left: IsoDate, right: IsoDate): IsoDate {
   return left < right ? left : right;
+}
+
+function peopleForFlow(
+  world: World,
+  flow: World["history"]["resourceFlows"][number],
+  date: IsoDate,
+  sequence: number,
+): readonly EntityId[] {
+  return [
+    ...peopleForEndpoint(world, flow.source, date, sequence),
+    ...peopleForEndpoint(world, flow.recipient, date, sequence),
+  ];
+}
+
+function peopleForEndpoint(
+  world: World,
+  endpoint:
+    | World["history"]["resourceFlows"][number]["source"]
+    | World["history"]["resourcePositions"][number]["owner"]
+    | World["history"]["dwellingOccupancies"][number]["occupant"]
+    | World["history"]["housingTenures"][number]["holder"],
+  date: IsoDate,
+  sequence: number,
+): readonly EntityId[] {
+  switch (endpoint.kind) {
+    case "person":
+      return [endpoint.personId];
+    case "household":
+      return world.personOrder.filter((personId) =>
+        householdMembershipsAt(world, personId, {
+          asOfDate: date,
+          historySequenceExclusive: sequence + 1,
+        }).some(
+          (membership) =>
+            membership.membership.householdId === endpoint.householdId,
+        ),
+      );
+    case "organization":
+      return [];
+  }
+}
+
+function endpointLabel(
+  endpoint: World["history"]["resourceFlows"][number]["source"],
+): string {
+  switch (endpoint.kind) {
+    case "person":
+      return `person ${endpoint.personId}`;
+    case "household":
+      return `household ${endpoint.householdId}`;
+    case "organization":
+      return `organization ${endpoint.organizationId}`;
+  }
+}
+
+function formatMoney(
+  amount: World["history"]["resourceFlowTerms"][number]["amount"],
+): string {
+  return `${amount.currency} ${amount.minorUnits} minor units`;
 }
 
 function organizationName(
