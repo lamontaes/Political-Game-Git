@@ -605,12 +605,12 @@ function descriptionForOutcome(
     case "conflicted":
       return "Form a private view that retains materially conflicting considerations.";
     case "tentative-support":
-      return "Tentatively support the proposition while remaining open.";
+      return "Form a tentative private view in support.";
     case "support":
-      return "Form a strong private view in support.";
+      return "Form a private view in support.";
     case "tentative-opposition":
-      return "Tentatively oppose the proposition while remaining open.";
+      return "Form a tentative private view in opposition.";
     case "opposition":
-      return "Form a strong private view in opposition.";
+      return "Form a private view in opposition.";
   }
 }
