@@ -1,11 +1,20 @@
 import type {
   BeliefFormationReasonNamespace,
+  CareNamespace,
   DecisionSourceNamespace,
   EventParticipantRoleNamespace,
   FamilyRelationshipNamespace,
+  HouseholdLocationNamespace,
+  HouseholdMembershipNamespace,
+  KinshipNamespace,
+  LifeCommitmentNamespace,
+  OccupationClassificationNamespace,
+  OrganizationClassificationNamespace,
+  PartnershipNamespace,
   PerceptionSubjectNamespace,
   PoliticalCueNamespace,
   RelationshipInteractionNamespace,
+  WorkRelationshipNamespace,
 } from "./types";
 
 export const BELIEF_FORMATION_REASON_NAMESPACES = [
@@ -42,11 +51,81 @@ export const EVENT_PARTICIPANT_ROLE_NAMESPACES = [
 export const FAMILY_RELATIONSHIP_NAMESPACES = [
   "lineal",
   "collateral",
-  "partner",
-  "care",
   "extended",
-  "other",
+  "custom",
 ] as const satisfies readonly FamilyRelationshipNamespace[];
+
+export const CARE_NAMESPACES = [
+  "personal",
+  "supportive",
+  "supervision",
+  "coordination",
+  "custom",
+] as const satisfies readonly CareNamespace[];
+
+export const HOUSEHOLD_LOCATION_NAMESPACES = [
+  "residence",
+  "temporary",
+  "institutional",
+  "custom",
+] as const satisfies readonly HouseholdLocationNamespace[];
+
+export const HOUSEHOLD_MEMBERSHIP_NAMESPACES = [
+  "resident",
+  "student",
+  "shared-care",
+  "custom",
+] as const satisfies readonly HouseholdMembershipNamespace[];
+
+export const KINSHIP_NAMESPACES = [
+  "lineal",
+  "collateral",
+  "extended",
+  "custom",
+] as const satisfies readonly KinshipNamespace[];
+
+export const LIFE_COMMITMENT_NAMESPACES = [
+  "civic",
+  "community",
+  "personal",
+  "religious",
+  "custom",
+] as const satisfies readonly LifeCommitmentNamespace[];
+
+export const OCCUPATION_CLASSIFICATION_NAMESPACES = [
+  "occupation",
+  "profession",
+  "trade",
+  "practice",
+  "service",
+  "custom",
+] as const satisfies readonly OccupationClassificationNamespace[];
+
+export const ORGANIZATION_CLASSIFICATION_NAMESPACES = [
+  "sector",
+  "membership",
+  "service",
+  "enterprise",
+  "community",
+  "international",
+  "custom",
+] as const satisfies readonly OrganizationClassificationNamespace[];
+
+export const PARTNERSHIP_NAMESPACES = [
+  "romantic",
+  "legal",
+  "custom",
+] as const satisfies readonly PartnershipNamespace[];
+
+export const WORK_RELATIONSHIP_NAMESPACES = [
+  "employment",
+  "independent",
+  "training",
+  "volunteer",
+  "family-work",
+  "service",
+  "custom",
+] as const satisfies readonly WorkRelationshipNamespace[];
 
 export const PERCEPTION_SUBJECT_NAMESPACES = [
   "entity",

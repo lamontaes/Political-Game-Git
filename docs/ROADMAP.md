@@ -240,7 +240,7 @@ Stage 5 formative and adult life; Stage 6 causal events; Stage 7 effective law a
 
 ## Stage 5 — Formative Life, Adult Life, Households, Resources, and Organizations
 
-Status: **FUTURE**
+Status: **IN PROGRESS**
 
 ### Purpose
 
@@ -253,6 +253,36 @@ Formative resolution bands for ages 0–7, 8–12, and 13–17; adult life from 
 Civilian and political paths create context, relationships, resources, expertise, opportunities, and durable history rather than profession-specific clerical minigames. Higher responsibility may create more consequential decisions per period without proportional busywork.
 
 None of these systems are implemented in Stage 4.
+
+### Stage 5.1 — Core Life Architecture
+
+Status: **COMPLETED**
+
+This first bounded Stage 5 run owns stable organizations; actual and expected work relationships, role and status history; households and co-residence; kinship/partnership/care separation; ranged time demands; and lightweight deterministic load, recovery, and overload behavior that reuses Stage 4 temporary states.
+
+#### What Actually Landed
+
+- Stable, provenance-bearing organization identity with effective-dated name/classification/location profiles, open content classification, and nondiegetic progressive detail.
+- Multiple concurrent paid, unpaid, volunteer, independent, actual, or expected work relationships with separate effective-dated status and role/occupation histories plus authority, dependency, compensation, risk, location, and time-demand semantics.
+- Stable households with dated locations and memberships, valid secondary/shared residence, rejected overlapping primary residence, and no conflation with dwellings or family.
+- Separate stable kinship, active/ended partnership, and directed/shared cross-household care histories.
+- Reusable expected-weekly ranges plus attention, concurrency, rigidity, interruptibility, and optional location constraints.
+- Deterministic qualitative load assessment and seven-day push/recovery resolution over active work, care, and exceptional commitments, with fatigue represented through the existing Stage 4 temporary-state primitive.
+- Date-plus-sequence queries, open taxonomy validation, progressive-person preservation, deterministic JSON and SQLite persistence, and semantic tests covering diverse international/public/private career patterns without named branches.
+- A canonical-work-first coworker query and documented migration boundary for legacy textual occupation/residence/family summaries.
+
+#### Major Architectural Decisions
+
+- Research-gated bounded implementation runs (D-036).
+- Stable life identities with effective-dated state, separated coincident concepts, and qualitative time/load semantics (D-037).
+
+#### Validation Evidence
+
+The completed Stage 5.1 plan records the exact format, lint, typecheck, 111-test, production-build, headless-demo, diff, dependency-audit, JSON, and SQLite evidence. Behavior tests cover profile change, actual and expected work, concurrency, promotion/leave/return/end, shared organization identity, household movement/multi-residence, kinship/partnership/care separation, materially different care/time context, overload/recovery, historical cutoffs, order independence, progressive detail, and invalid graph rejection.
+
+#### Deliberately Deferred
+
+Stage 5.2 owns formative ages and content. Stage 5.3 owns adult education/career content and progression, including connecting education institutions to stable organization identity. Stage 5.4 owns finance/resources, housing/property, and relationship maintenance. Player scheduling UI, hourly calendars, health simulation, campaigns, elections, political office, government institutions, and legislation remain outside this run. Stage 5 overall therefore remains **IN PROGRESS**.
 
 ---
 

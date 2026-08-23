@@ -356,3 +356,29 @@ Consequence: equal support or opposition positions can retain materially differe
 Extend D-026: when mutable law and institutional rules are implemented, every autonomous system whose behavior depends on them must consume the controlling rule effective for the actor, authority, scope or jurisdiction, and simulated date. It may not continue assuming the original, current-real-world, or default rule after the rule changes.
 
 Consequence: this is a future integration contract for law-consuming systems, not authorization to implement law, institutions, or future institutional AI in Stage 4.
+
+## D-036 — Research-gated bounded implementation runs
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+At a major roadmap stage, first audit the current repository and affected completed systems, then classify reviewed research and adversarial findings as implement now, retroactive correction, dependency-bound deferral, rejection, or a genuine user decision. Implement the accepted scope through one or more bounded, separately validated and checkpointed runs rather than treating the roadmap stage as one indivisible feature batch.
+
+Research examples test semantic adequacy and global diversity; they do not automatically become content, exhaustive enums, special-case branches, or permission to implement a later dependency. A run proceeds without an extra question when the approved brief already resolves all material choices, and its post-implementation semantic audit must ask whether the intended causal behavior works rather than whether a schema can merely store descriptive text.
+
+Consequence: foundational migrations can be corrected before later systems compound them, research remains auditable without creating scope leakage, and a stage may honestly remain in progress after one bounded substage is complete.
+
+## D-037 — Stable life identities, separated relationships, and qualitative load
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent organizations, actual or expected work engagements, households, household memberships, kinship, partnerships, and care responsibilities as separate stable identities with append-oriented, effective-dated profile or lifecycle records. A job is not an occupation summary, a household is not a dwelling or family, kinship is not partnership, and care neither requires nor implies co-residence. Use validated open semantic namespaces for expandable content and closed sets only for lifecycle and behavior-bearing dimensions.
+
+Represent recurring demand with expected weekly ranges plus attention, concurrency, rigidity, interruptibility, and optional location constraint. Derive inspectable qualitative load and coordination pressure over active work, care, and exceptional commitments rather than subtracting every described hour from 168 or creating a universal life/productivity score. Resolve explicit completed weeks deterministically; any resulting fatigue reuses the Stage 4 temporary-state system with provenance to the load resolution.
+
+Preserve Stage 2 occupation, residence, and family facts as immutable biography/expertise summaries while making Stage 5.1 records canonical for detailed work, co-residence, partnership, and care. Stable canonical work takes precedence over textual employer fallback. Progressive person or organization detail changes resolution without changing historical existence or identity.
+
+Consequence: one persistent person can accumulate concurrent and changing work, homes, structural relationships, care, and recovery history that later systems can query as of date and append sequence without overwriting earlier truth. Expected future work can be known without becoming active. Formative content, adult career content/progression, resources, dwellings/property, relationship maintenance, health, offices, institutions, and player UI remain dependency-bound future work.

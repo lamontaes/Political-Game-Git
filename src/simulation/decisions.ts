@@ -448,6 +448,18 @@ function snapshotSource(
         };
       break;
     }
+    case "life-load-resolution": {
+      const record = world.history.lifeLoadResolutions.find(
+        (item) => item.id === reference.lifeLoadResolutionId,
+      );
+      if (record)
+        return {
+          reference: { ...reference },
+          label: "Life load and recovery",
+          content: `${record.loadBand} load; ${record.effortMode} effort; ${record.futureCapacity} future capacity`,
+        };
+      break;
+    }
     case "historical-event": {
       const record = world.history.events.find(
         (item) => item.id === reference.eventId,

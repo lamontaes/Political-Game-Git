@@ -12,4 +12,6 @@ Institutions define jurisdiction-specific authority, offices, procedures, and co
 - Institutional state and historical actions must be explainable.
 - Real-world definitions carry snapshot provenance; simulated changes belong to the save.
 
-The first build contains only a basic Lexington-Fayette jurisdiction placeholder. It asserts no detailed real-world institutional facts. The Stage 4 decision engine can accept generic hard constraints and provenance-bearing institutional considerations supplied by a future domain adapter, but it does not define offices, eligibility, procedures, authority, or law. Mutable institutional behavior must eventually resolve from the controlling effective-dated law rather than a permanent constant.
+The current build contains only a basic Lexington-Fayette jurisdiction placeholder and stable generic Stage 5.1 organization identity. An organization may gain effective-dated profiles and progressive detail, but it does not thereby become a government body or acquire offices, powers, hierarchy, eligibility, procedure, authority, or law. Later schools, employers, parties, campaigns, agencies, courts, and governments must extend or reference the same organization IDs rather than create parallel name-based identity.
+
+The Stage 4 decision engine can accept generic hard constraints and provenance-bearing institutional considerations supplied by a future domain adapter. Mutable institutional behavior must eventually resolve from the controlling effective-dated law rather than a permanent constant.

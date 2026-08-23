@@ -342,6 +342,86 @@ The political adapter's default reason for leaving a proposition unresolved is r
 
 The permanent Architecture Integrity Audit classifies affected Stage 1–4 categories, records confirmed/corrected/deferred/superseded dispositions, and treats earlier completion as no exemption. The audit records the future effective-rule-consumption contract without implementing mutable law or future institutions in Stage 4.
 
+### NOW-084 — Organization identity survives changing profiles and detail
+
+An organization retains one deterministic stable ID while effective-dated name, open classification, and location profiles change. Promoting it from lightweight to detailed preserves every prior profile/reference, and JSON reload preserves the complete history.
+
+### NOW-085 — Multiple kinds of work coexist
+
+One person may simultaneously hold paid organizational work, unpaid volunteer work, and independent self-directed work. Each has a separate stable relationship and role, and `Person` has no single current-career field.
+
+### NOW-086 — Expected work is not current work
+
+A future expected engagement is queryable and serializable before its start but is absent from active-work and life-load results. It becomes active only through a dated transition at or after its expected start.
+
+### NOW-087 — Work lifecycle preserves history
+
+Promotion, temporary leave, return, ending, and movement to another organization append status or role records. As-of queries return the prior role/status, and ending one relationship does not end another.
+
+### NOW-088 — Stable organization identity establishes shared work
+
+Two people with overlapping actual work at the same organization are recognized as former coworkers through the organization ID. Coincident employer text cannot override canonical work identities.
+
+### NOW-089 — Households do not imply family
+
+Unrelated people may be co-residents in one household without creating kinship, partnership, or care. Kin remain related while living in different households.
+
+### NOW-090 — Households move without changing identity
+
+Effective-dated household location history returns the former jurisdiction at an earlier cutoff and the new jurisdiction later while retaining the same household and memberships. A household record does not contain a dwelling ID.
+
+### NOW-091 — Multi-residence is valid but duplicate primary residence is not
+
+A person may have simultaneous primary plus secondary/shared membership when the chronology is valid. Starting another overlapping primary membership is rejected.
+
+### NOW-092 — Partnership is independently historical
+
+Partnership creation and ending are queryable without manufacturing kinship, co-residence, or care and without deleting earlier partnership history.
+
+### NOW-093 — Care may be shared and cross-household
+
+Multiple caregivers can have separate active responsibility records for the same recipient while living elsewhere. An open care classification absent from the initial examples passes validation without an engine branch.
+
+### NOW-094 — Time demand preserves concurrency and attention
+
+Equal expected-hour care profiles with mostly-concurrent/low-attention versus mostly-exclusive/continuous-attention context produce different exclusive-equivalent load. The source profiles and materially different contexts remain inspectable.
+
+### NOW-095 — Rigidity and location create coordination pressure
+
+Adding rigid, non-interruptible, location-constrained demand changes qualitative coordination pressure even when another commitment is flexible. Game logic consumes the dimensions rather than storing decorative labels.
+
+### NOW-096 — Pushing has a delayed tradeoff
+
+A first short push under high load can raise immediate output and create fatigue. Repeating the push while fatigue is active reduces the immediate benefit and future capacity.
+
+### NOW-097 — Recovery can restore capacity
+
+An explicit recovery period after reducing active demand can clear the derived fatigue and restore future capacity. Fatigue is an ordinary Stage 4 temporary-state record linked to its life-load resolution, not a second meter.
+
+### NOW-098 — Life history obeys date and sequence cutoffs
+
+A backdated organization/work record appended later is absent from an earlier exclusive-sequence cutoff and present at the current frontier. Expected future work is available from its record date but not active before its start.
+
+### NOW-099 — Life derivation is deterministic and order-independent
+
+The same semantic work/care/commitment inputs produce identical load assessment and history regardless of unrelated organization insertion order. Progressive person or organization detail promotion preserves established life history.
+
+### NOW-100 — Life integrity rejects impossible graphs
+
+Runtime transitions and snapshot loading reject dangling organization/person/jurisdiction references, pre-birth life records, invalid expected/active work chronology, invalid lifecycle or supersession transitions, out-of-order history, invalid taxonomy/provenance, overlapping primary residence, and a stored load result that does not match deterministic derivation.
+
+### NOW-101 — Stage 5.1 persists headlessly
+
+World schema 6 and snapshot format 5 round-trip every organization, work, household, kinship, partnership, care, commitment, load-resolution, and fatigue record exactly through deterministic JSON and the Node-only SQLite repository. The simulation and its Stage 5.1 tests import no React, DOM, browser, or SQLite runtime.
+
+### NOW-102 — Real career diversity uses general records
+
+Patterns represented by Feleti Teo, Elvira Nabiullina, Droupadi Murmu, Njoki Ndung'u, Tammy Duckworth, junior judicial careers, and citizen legislators fit combinations of ordinary organizations, work relationships, role/status histories, commitments, and care/time demand. No named person or career receives a special-case type or branch.
+
+### NOW-103 — Stage 5.1 remains bounded
+
+The implementation adds no formative-age content, adult career content/progression, finance, housing/property, relationship-maintenance gameplay, campaign, election, political-office, government, legislation, hourly calendar, polished UI, or player-facing raw personality/relationship/load number.
+
 ## Manual Now
 
 - Creating or reloading the demo shows the active seed, stable world ID, simulated date, Lexington-Fayette placeholder, and six generated people.

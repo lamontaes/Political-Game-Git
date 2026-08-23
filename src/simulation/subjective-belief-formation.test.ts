@@ -4,7 +4,6 @@ import {
   SYNTHETIC_MIND_IDS,
   SYNTHETIC_POLICY_IDS,
   advanceWorld,
-  appendPersonFact,
   applyNpcPoliticalBeliefFormation,
   assertWorldIntegrity,
   buildSubjectivePerception,
@@ -12,6 +11,7 @@ import {
   createDemoWorld,
   createFormationContext,
   createMindProvenance,
+  createPartnership,
   deserializeWorld,
   evaluateDecision,
   evaluatePoliticalBeliefFormation,
@@ -99,18 +99,13 @@ function trustedSpouseFixture(
   const sourceId = personId(world, 2);
   const propositionId = SYNTHETIC_POLICY_IDS.propositions.drugPriceCaps;
 
-  world = appendPersonFact(world, actorId, {
-    stableKey: `family:spouse:${sourceId}`,
-    kind: "family-relationship",
-    occurredAt: world.currentDate,
-    endedAt: null,
-    jurisdictionId: null,
-    relatedPersonId: sourceId,
-    relationship: "partner:spouse",
-    summary: "The source person is the actor's spouse.",
+  world = createPartnership(world, {
+    stableKey: `partnership:spouse:${actorId}:${sourceId}`,
+    personIds: [actorId, sourceId],
+    startedAt: world.currentDate,
+    kind: "legal:marriage",
     provenance: {
-      method: "manual",
-      sourceEventId: null,
+      kind: "authored",
       note: "Synthetic Stage 4 trusted-cue fixture.",
     },
   });
@@ -1035,13 +1030,13 @@ describe("political adapter diversity without automatic mappings", () => {
 });
 
 describe("Stage 4 persistence and load-time integrity", () => {
-  it("round-trips every Stage 4 demo family through snapshot format 4", () => {
+  it("round-trips every Stage 4 demo family through the current snapshot", () => {
     const world = createDemoWorld("stage4-json-roundtrip");
     const payload = serializeWorld(world);
     const restored = deserializeWorld(payload);
     expect(
       (JSON.parse(payload) as { formatVersion: number }).formatVersion,
-    ).toBe(4);
+    ).toBe(5);
     expect(restored).toStrictEqual(world);
     expect(restored.history.personalityTendencies.length).toBeGreaterThan(0);
     expect(restored.history.personalValues.length).toBeGreaterThan(0);

@@ -95,10 +95,12 @@ The world stores explicit observer or controlled-person state. Autonomous applic
 
 All persistent mind records and durable decision traces share the world's contiguous append sequence, stable semantic-key identity, and append-family order. Integrity checks validate person and catalog references, chronology, categorical vocabularies, linear supersession, goal lifecycles, source availability before the historical cutoff, non-self third-party sources, communication and relationship provenance, temporary intervals, decision source snapshots, and control references.
 
-World schema 5 and snapshot format 4 preserve the mind catalog, control state, all Stage 4 history families, and the complete decision trace through deterministic JSON and Node-only SQLite round trips. Unsupported older versions remain rejected until migrations exist.
+Stage 5.1 life-load resolution reuses this system by appending `life:fatigue` as an ordinary temporary state whose provenance resolves to the earlier load-resolution record. It does not create a second fatigue or mood store, and an unresolved load assessment does not mutate the mind.
+
+World schema 6 and snapshot format 5 preserve the mind catalog, control state, all Stage 4 history families, Stage 5.1 life records, and the complete decision trace through deterministic JSON and Node-only SQLite round trips. Unsupported older versions remain rejected until migrations exist.
 
 The developer viewer may show diagnostic truth beside subjective appraisal or perception only when clearly labeled. It presents categorical descriptions and source explanations, never raw personality, relationship, trust, ideology, utility, or random numbers.
 
 ## Deferred Systems
 
-Stage 4 does not implement formative-life gameplay, autonomous personality development, autonomous memory recall, relationships and households, careers and resources, organizations, event causality, institutions and mutable law, elections, campaigns, legislation, public opinion populations, dialogue, or a polished player UI. Those systems may consume this architecture later without redefining its separation, provenance, determinism, history, or player-autonomy contracts.
+The current foundation does not implement formative-life gameplay, autonomous personality development, autonomous memory recall, relationship-maintenance behavior, career content/progression, resources, housing, event causality, institutions and mutable law, elections, campaigns, legislation, public-opinion populations, dialogue, or a polished player UI. Stage 5.1 organizations, work histories, households, care, and load resolution may consume mind context but do not silently create beliefs, values, goals, or appraisals. Later systems may consume this architecture without redefining its separation, provenance, determinism, history, or player-autonomy contracts.

@@ -33,7 +33,7 @@ Node desktop adapter (src/persistence)
           SQLite snapshots
 ```
 
-- `src/simulation/` contains JSON-safe domain types, deterministic utilities, world operations, policy and mind catalogs, append-oriented history, sparse political and character-mind records, subjective-perception projections, the general decision evaluator and political-belief adapter, progressive person generation, and the demo scenario.
+- `src/simulation/` contains JSON-safe domain types, deterministic utilities, world operations, policy and mind catalogs, append-oriented history, sparse political and character-mind records, subjective-perception projections, the general decision evaluator and political-belief adapter, persistent organizations/work/households/care and qualitative life-load resolution, progressive entity detail, and the demo scenario.
 - `src/persistence/` contains Node-only durable-storage adapters and depends on the public simulation snapshot codec.
 - `src/cli/` contains Node-only executable entry points.
 - `src/ui/` contains React components that present and invoke the simulation API.
@@ -58,8 +58,10 @@ The initial domain includes:
 - sparse append-only proposition exposures, private beliefs, public positions, campaign commitments, principles, and subject-knowledge records;
 - a separate stable mind catalog containing sparse personality-tendency and personal-value definitions without ideology or policy mappings;
 - sparse append-only personality, value, goal-state, appraisal, perception, temporary-state, and durable decision-trace records;
+- stable organizations with effective-dated profiles; actual or expected work relationships with separate role/status history; temporal households and memberships; and separate kinship, partnership, and care histories;
+- ranged time-demand profiles and qualitative deterministic load/recovery resolution over active work, care, and exceptional commitments, reusing temporary states for fatigue;
 - an explicit observer/person control state that protects a controlled person's major internal choices from autonomous application;
-- reusable query helpers over facts, event tags, age, geography, experience, relationship context, shared work, proposition history, principles, knowledge, expertise, character mind, perception, and decision traces;
+- reusable query helpers over facts, event tags, age, geography, experience, relationship context, stable organization work, households, kinship, partnership, care, life load, proposition history, principles, knowledge, expertise, character mind, perception, and decision traces;
 - a pure general decision evaluator with hard constraints, conflicting soft considerations, isolated bounded randomness, source snapshots, and separate proposal/application steps;
 - autonomous political-belief formation as the first domain adapter over that evaluator; and
 - deterministic time advancement and demo occurrence generation.
@@ -74,7 +76,7 @@ All stochastic behavior in the simulation passes through `SeededRng`. It combine
 
 Persistent IDs are hashes of explicit stable keys, not random draws, names, or display positions. An event's semantic key is unique within a world, is stored with the event, and determines its ID; action parameters therefore belong in keys when they distinguish occurrences. Event sequence separately records append order.
 
-World schema version 5, generator version `demo-world-v5`, person-materialization version 4, policy- and mind-catalog versions, and snapshot format version 4 are stored explicitly. Older world and envelope versions are rejected because no migration chain is promised yet. This build promises same-version reproducibility only.
+World schema version 6, generator version `demo-world-v6`, person-materialization version 4, policy- and mind-catalog versions, and snapshot format version 5 are stored explicitly. Older world and envelope versions are rejected because no migration chain is promised yet. This build promises same-version reproducibility only.
 
 ## Time
 
@@ -86,11 +88,11 @@ A lightweight person has a stable identity and established facts. Materializatio
 
 Materialization is additive, idempotent, order-independent, and not itself an in-world event. The first materializer checks established fact kinds and explicit person-fact constraints in canonical history; constrained fields remain unknown. Adding a later historical constraint that conflicts with stored generated detail is rejected atomically. Future materializers must retain this contract, leave details unknown when no consistent result is available, and retain the generator version used.
 
-Education and occupation facts carry stable knowledge-subject IDs. Materialization can therefore add fact-derived categorical expertise without assigning beliefs, principles, goals, personality, or ideology. Progressive resolution affects computational detail, not whether an entity has existed historically.
+Education and occupation facts carry stable knowledge-subject IDs. Materialization can therefore add fact-derived categorical expertise without assigning beliefs, principles, goals, personality, or ideology. Organizations follow the same resolution principle: a lightweight organization already has stable identity and effective-dated profile history, and promotion to detailed resolution is nondiegetic and preserves every reference. Progressive resolution affects computational detail, not whether an entity has existed historically.
 
 ## History
 
-History is append-oriented and is the basis of explanation, archives, memories, relationships, political evolution, character development, decisions, and returning-player briefings. Canonical events, subjective memories, person-specific event knowledge, claims, relationship interactions, proposition exposures, private beliefs, public positions, campaign commitments, principles, subject knowledge, personality tendencies, personal values, goal states, appraisals, perceptions, temporary states, and durable decision traces are separate record families sharing one global sequence. Corrections, disputed claims, inaccurate knowledge, changed interpretations, changed beliefs, changed mind records, and later statements are new linked records rather than silent rewrites.
+History is append-oriented and is the basis of explanation, archives, memories, relationships, political evolution, character development, decisions, ordinary life, and returning-player briefings. Canonical events, subjective memories, person-specific event knowledge, claims, relationship interactions, proposition exposures, private beliefs, public positions, campaign commitments, principles, subject knowledge, personality tendencies, personal values, goal states, appraisals, perceptions, temporary states, durable decision traces, organizations and profiles, work relationships/statuses/roles, households/locations/memberships, kinship, partnerships, care responsibilities, life commitments, and load resolutions are separate record families sharing one global sequence. Corrections, disputed claims, inaccurate knowledge, changed interpretations, renamed organizations, promotions, moves, leave/return, changed care, and later statements are new linked records rather than silent rewrites.
 
 An event's rich context preserves location and setting, participants and roles, visibility, tags, social pressure, choice, motivation, and immediate reaction when known. Knowledge provenance distinguishes direct experience, another person's account, public record, media, and rumor. A claim explicitly records its relationship to historical truth but never changes that truth. Causal graphs, automatic knowledge propagation, and correction records remain future extensions.
 
@@ -99,6 +101,10 @@ Private belief is proposition-specific and categorical across position, convicti
 Explicit political records and autonomous formation can reference only validated information available to the person before the record or decision cutoff. Event context that the person neither experienced nor knows is rejected rather than becoming an omniscient rationale. A person-sourced trusted cue requires a perception with an actual earlier communication record and relationship provenance; another person's private belief is never read as communicated information.
 
 Person history in the viewer is a query over the canonical global event store. Political histories and knowledge profiles are queries over their corresponding sparse record families and factual biography; none is maintained as a mutable score vector on `Person`.
+
+Actual work is a stable relationship rather than a current-career field or employer string. Expected future work is recorded before its planned start but remains inactive until a dated lifecycle transition. Occupation facts remain biography/expertise summaries. A household is distinct from family, partnership, care, dwelling, and jurisdiction; membership and location histories preserve co-residence and valid multi-residence without inferring kinship. Care can be shared and cross-household.
+
+Time demand preserves a weekly range plus attention, concurrency, schedule rigidity, interruptibility, and optional location constraint. Life-load assessment derives qualitative pressure from active work, care, and exceptional commitments; it does not subtract all duties from 168 hours or expose a universal life score. A resolved seven-day period can trade immediate output for later fatigue or recovery. Resulting fatigue is an ordinary effective-dated Stage 4 temporary state, not a parallel subsystem or player meter. See [Core Life](docs/systems/life.md).
 
 ## Character Mind, Perception, and Decisions
 
@@ -114,7 +120,7 @@ The first adapter evaluates seven political-belief outcomes: no opinion, defer, 
 
 ## Institutions and Geography
 
-Generic code models worlds, jurisdictions, people, history, and character decisions. Lexington-Fayette-specific facts and rules belong in a jurisdiction definition or sourced snapshot. Institutional rules that can lawfully change must eventually be resolved from the controlling effective-dated law rather than hard-coded constants. Stage 4 provides only generic constraint inputs; it does not implement institutions or law.
+Generic code models worlds, jurisdictions, people, organizations, ordinary life, history, and character decisions. Lexington-Fayette-specific facts and rules belong in a jurisdiction definition or sourced snapshot. Stable `Organization` identity is the shared extension seam for later schools, employers, associations, parties, campaigns, agencies, courts, and other institutions, but Stage 5.1 does not implement those systems or their hierarchies, powers, offices, law, or finance. Institutional rules that can lawfully change must eventually be resolved from the controlling effective-dated law rather than hard-coded constants.
 
 The product's resolution hierarchy is explicit: Lexington-Fayette is the initial deeply modeled jurisdiction, Kentucky begins at medium resolution, and the United States begins at lower resolution. Those are product targets, not permission to hard-code one jurisdiction's institutions into generic simulation logic.
 
@@ -129,7 +135,7 @@ Real-world starting data and simulated save history are separate domains:
 3. After initialization, simulated events are authoritative for that save.
 4. Updating a repository snapshot never silently rewrites an existing save.
 
-The pure simulation exposes a versioned JSON snapshot codec that validates stable identity, entity ordering, policy- and mind-catalog definitions, control references, biography invariants, political and mind-record chronology and provenance, historical cutoffs, decision-source snapshots, references, and contiguous history sequence at the persistence boundary. A Node-only `SqliteWorldRepository` stores the complete validated snapshot in a strict SQLite table and supports save, load, update, and list operations. SQLite code remains outside `src/simulation/`, so headless domain execution and browser diagnostics do not depend on a storage driver.
+The pure simulation exposes a versioned JSON snapshot codec that validates stable identity, entity ordering, policy- and mind-catalog definitions, control references, biography and life-graph invariants, political/mind/life chronology and provenance, lifecycle and supersession chains, historical cutoffs, decision-source snapshots, references, and contiguous history sequence at the persistence boundary. A Node-only `SqliteWorldRepository` stores the complete validated snapshot in a strict SQLite table and supports save, load, update, and list operations. SQLite code remains outside `src/simulation/`, so headless domain execution and browser diagnostics do not depend on a storage driver.
 
 This first repository intentionally stores one current snapshot per world rather than prematurely normalizing every domain record into SQL tables. Migration chains, transactional action journaling, branch lineage, recovery policy, and cross-version compatibility remain deferred.
 

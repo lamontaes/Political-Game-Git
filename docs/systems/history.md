@@ -46,16 +46,21 @@ The global history store uses one contiguous append sequence across:
 - proposition exposures recording that a person encountered a particular question and how, without implying a formed view;
 - proposition-specific private beliefs with categorical dimensions, formation context, and supersession;
 - public positions and campaign commitments that remain distinct from private belief;
-- broad principle records with qualification and formation provenance; and
+- broad principle records with qualification and formation provenance;
 - structured subject-knowledge records with biography, event, study, trusted-report, or authored provenance;
 - personality tendencies and personal values with catalog definitions, provenance, and explicit supersession;
 - persistent goal-state histories retaining stable goal identity and terminal outcomes;
 - event appraisals that preserve personal meaning separately from truth and memory;
-- provenance-bearing perceptions and effective-dated temporary states; and
-- durable decision traces that preserve evaluated options, blockers, conflicting considerations, outcome, and frozen source snapshots.
+- provenance-bearing perceptions and effective-dated temporary states;
+- durable decision traces that preserve evaluated options, blockers, conflicting considerations, outcome, and frozen source snapshots;
+- organizations and effective-dated profiles;
+- work relationships with separate expected/active/leave/ended status and role histories;
+- households with dated locations and membership/state histories;
+- separate kinship, partnership/state, and care-responsibility/state histories; and
+- exceptional life commitments and deterministic seven-day load resolutions.
 
 All records have stable IDs and semantic keys and share one contiguous append sequence. Each family is stored in append order rather than relying on a query-time sort to repair malformed history. A claim, inaccurate secondhand belief, public political position, campaign commitment, appraisal, or perception can contradict another record without changing it. Political and mind records may cite immutable event, biography, exposure, memory, perceived knowledge, claim, relationship, expertise, appraisal, perception, or earlier decision context without claiming that context mechanically caused the later state.
 
 Integrity checks reject a cross-record reference whose target is not earlier in the global sequence, even when both records share a date; they also reject sources that postdate the record or expose canonical events the person neither experienced nor demonstrably knew. Durable decision traces freeze source labels and content used at evaluation time. A trace explains a selection but is not itself the canonical action or event produced by that selection.
 
-Snapshot format 4 preserves the complete graph, shared policy and mind catalogs, and control state. The Node-only persistence adapter validates record order, discriminators, categorical values, chronology, provenance, historical cutoffs, source snapshots, and references before saving or after loading. Causal event graphs, automatic knowledge propagation and correction, autonomous character development, behavioral classification, branching, returning-player briefings, and player-facing archive filtering remain future work.
+Snapshot format 5 preserves the complete graph, shared policy and mind catalogs, control state, and Stage 5.1 life records in world schema 6. The Node-only persistence adapter validates record order, discriminators, categorical values, chronology, provenance, lifecycle/supersession chains, historical cutoffs, stored load derivation, source snapshots, and references before saving or after loading. Causal event graphs, automatic knowledge propagation and correction, autonomous character development, behavioral classification, branching, returning-player briefings, and player-facing archive filtering remain future work.

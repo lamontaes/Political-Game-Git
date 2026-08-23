@@ -1,5 +1,6 @@
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
+import { lifeEntityExists } from "./life-integrity";
 import { factsForPerson } from "./people";
 import {
   assertOpenTaxonomyKey,
@@ -1032,6 +1033,18 @@ function validateSourceRefs(
           reference.temporaryStateId,
         );
         break;
+      case "life-load-resolution":
+        validateOwnedRecord(
+          world.history.lifeLoadResolutions.find(
+            (candidate) => candidate.id === reference.lifeLoadResolutionId,
+          ),
+          personId,
+          asOfDate,
+          sequenceExclusive,
+          (candidate) => candidate.periodEndsAt,
+          reference.lifeLoadResolutionId,
+        );
+        break;
       case "historical-event": {
         const event = world.history.events.find(
           (candidate) => candidate.id === reference.eventId,
@@ -1352,6 +1365,7 @@ function entityExists(world: World, id: EntityId): boolean {
     !!world.policyCatalog.principles[id] ||
     !!world.mindCatalog.tendencies[id] ||
     !!world.mindCatalog.values[id] ||
+    lifeEntityExists(world, id) ||
     world.history.events.some((record) => record.id === id) ||
     world.history.goalStates.some((record) => record.goalId === id) ||
     world.history.decisionTraces.some((record) => record.decisionId === id)

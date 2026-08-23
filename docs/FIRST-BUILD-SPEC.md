@@ -31,10 +31,14 @@ The build provides:
 - separate evaluation, ephemeral or durable trace retention, NPC application, and canonical domain-consequence layers;
 - a political-belief formation adapter supporting no opinion, defer, conflict, tentative support/opposition, and stronger support/opposition without reading unknown truth or another person's private belief;
 - explicit observer or controlled-person world state that rejects silent autonomous application of a controlled person's major internal choices;
+- stable organizations with effective-dated names, classifications, locations, provenance, and progressive detail;
+- multiple concurrent actual or expected work relationships with separate status and role/occupation histories plus compensation, authority, dependency, and risk semantics;
+- temporal households, locations, and primary/secondary/shared memberships kept separate from kinship, partnership, and cross-household care;
+- reusable ranged time-demand profiles and qualitative deterministic load, push, fatigue, and recovery behavior over work, care, and exceptional commitments;
 - lightweight people that can be materialized deterministically;
 - monotonic simulated-time advancement;
-- a versioned JSON snapshot codec and Node-only SQLite world repository that preserve both catalogs, control, political and mind histories, and decision traces; and
-- a headless demo that creates a seeded world and Lexington-Fayette placeholder, generates six lightweight people, advances time, records contextual and Stage 4 diagnostic histories, materializes one existing person, and replays the scenario to demonstrate reproducibility.
+- a versioned JSON snapshot codec and Node-only SQLite world repository that preserve both catalogs, control, political, mind, and life histories plus decision traces; and
+- a headless demo that creates a seeded world and Lexington-Fayette placeholder, generates six lightweight people, advances time, records contextual, Stage 4, and Stage 5.1 diagnostic histories, materializes one existing person, and replays the scenario to demonstrate reproducibility.
 
 ### Developer Viewer
 
@@ -83,6 +87,12 @@ This is diagnostic UI, not final game art or final player-facing information des
 - No-opinion and defer political outcomes create no private belief; applied NPC belief outcomes remain append-only and cite the earlier trace.
 - A person-based political cue requires prior communication and relationship provenance; closeness does not imply universal trust and private beliefs do not leak.
 - Autonomous application rejects the controlled person even though evaluation and non-applying proposals remain available.
+- Organization identity survives profile changes and progressive detail; classifications remain open without becoming arbitrary metadata.
+- Occupation biography remains separate from actual work; multiple paid, unpaid, independent, and expected relationships do not overwrite one another.
+- Expected future work is queryable but inactive until its dated start transition, while leave, return, promotion, organization change, and ending remain historical.
+- Household, dwelling/location, kinship, partnership, and care remain separate; care may cross households, unrelated people may co-reside, and valid secondary/shared residence does not create a duplicate primary home.
+- Time demand preserves ranges, concurrency, attention, rigidity, and interruptibility. Concurrent care is not blindly summed as exclusive time, and no universal life score is exposed.
+- Short-term pushing may improve immediate output, sustained fatigue can reduce it, and explicit recovery can restore capacity through the existing temporary-state primitive.
 - Versioned serialization and SQLite loading preserve the complete world graph.
 - The core executes under Node without React or a graphical environment.
 - Simulation randomness never bypasses the seeded RNG.
@@ -94,7 +104,8 @@ This build does not implement:
 
 - cross-version migrations, branch persistence, recovery tooling, or a production desktop save picker;
 - detailed or purportedly factual Lexington civic data;
-- elections, campaigning, legislation, institutions, mutable law, staff, polling, media simulation, event causality, full career/family/household/resource behavior, or full NPC autonomy;
+- elections, campaigning, legislation, political institutions/offices, mutable law, staff, polling, media simulation, event causality, formative content, career-content progression, finance/resources, dwellings/property, relationship maintenance, or full NPC autonomy;
+- hourly calendars, automatic scheduling, health simulation, or player-facing workload, fatigue, personality, trust, or relationship meters;
 - autonomous personality/value/relationship development, background population-scale opinion change, automatic knowledge propagation or memory recall, or political action classification;
 - final UI, art direction, or production content;
 - an LLM or external AI runtime dependency;

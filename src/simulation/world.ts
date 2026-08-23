@@ -7,6 +7,13 @@ import {
 import type { HistoricalEventInput } from "./history";
 import { createStableId } from "./ids";
 import {
+  assertLifeHistoryIntegrity,
+  lifeEntityAvailableAt,
+  lifeEntityExists,
+  lifeHistoryRecords,
+} from "./life-integrity";
+import { organizationProfileAt } from "./life-queries";
+import {
   assertMindCatalogIntegrity,
   cloneMindCatalog,
   createSyntheticMindCatalog,
@@ -158,7 +165,7 @@ function recordById<T extends { readonly id: EntityId }>(
 }
 
 export function createWorldId(seed: string): EntityId {
-  return createStableId("world", `demo-world-v5:${normalizeSeed(seed)}`);
+  return createStableId("world", `demo-world-v6:${normalizeSeed(seed)}`);
 }
 
 export function createWorld(input: CreateWorldInput): World {
@@ -193,8 +200,8 @@ export function createWorld(input: CreateWorldInput): World {
   const people = input.people.map(clonePerson);
 
   return {
-    schemaVersion: 5,
-    generatorVersion: "demo-world-v5",
+    schemaVersion: 6,
+    generatorVersion: "demo-world-v6",
     id: worldId,
     seed,
     startedAt: currentDate,
@@ -213,7 +220,7 @@ export function createWorld(input: CreateWorldInput): World {
 
 export function assertWorldIntegrity(world: World): void {
   assertJsonSafe(world, "world");
-  if (world.schemaVersion !== 5 || world.generatorVersion !== "demo-world-v5") {
+  if (world.schemaVersion !== 6 || world.generatorVersion !== "demo-world-v6") {
     throw new Error("Unsupported world schema or generator version.");
   }
   if (world.id !== createWorldId(world.seed)) {
@@ -294,10 +301,24 @@ export function recordWorldEvent(
     if (
       entityId !== world.id &&
       !world.people[entityId] &&
-      !world.jurisdictions[entityId]
+      !world.jurisdictions[entityId] &&
+      !lifeEntityExists(world, entityId)
     ) {
       throw new Error(
         `Historical event references a missing entity: ${entityId}`,
+      );
+    }
+    if (
+      lifeEntityExists(world, entityId) &&
+      !lifeEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        `Historical event references an unavailable life entity: ${entityId}`,
       );
     }
     const involvedPerson = world.people[entityId];
@@ -487,6 +508,16 @@ export function resolveEntityLabel(world: World, entityId: EntityId): string {
 
   const jurisdiction = world.jurisdictions[entityId];
   if (jurisdiction) return jurisdiction.name;
+  const organization = world.history.organizations.find(
+    (candidate) => candidate.id === entityId,
+  );
+  if (organization) {
+    return organizationProfileAt(world, organization.id)?.name ?? entityId;
+  }
+  const household = world.history.households.find(
+    (candidate) => candidate.id === entityId,
+  );
+  if (household) return household.label;
   return (
     world.policyCatalog.domains[entityId]?.name ??
     world.policyCatalog.issues[entityId]?.name ??
@@ -866,6 +897,7 @@ function validateHistoryIntegrity(world: World): void {
     );
   }
   const records = [
+    ...lifeHistoryRecords(world),
     ...history.events,
     ...history.memories,
     ...history.knowledge,
@@ -927,6 +959,7 @@ function validateHistoryIntegrity(world: World): void {
       ];
     }),
   ]);
+  assertLifeHistoryIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
   assertUniqueStableKeys(history.knowledge, "knowledge");
@@ -996,10 +1029,24 @@ function validateHistoryIntegrity(world: World): void {
       if (
         involvedId !== world.id &&
         !world.people[involvedId] &&
-        !world.jurisdictions[involvedId]
+        !world.jurisdictions[involvedId] &&
+        !lifeEntityExists(world, involvedId)
       ) {
         throw new Error(
           `Historical event references a missing involved entity: ${event.id}`,
+        );
+      }
+      if (
+        lifeEntityExists(world, involvedId) &&
+        !lifeEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          `Historical event references an unavailable life entity: ${event.id}`,
         );
       }
       const involvedPerson = world.people[involvedId];

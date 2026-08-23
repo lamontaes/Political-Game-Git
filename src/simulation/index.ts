@@ -2,6 +2,8 @@ export * from "./dates";
 export * from "./demo";
 export * from "./history";
 export * from "./ids";
+export * from "./life";
+export * from "./life-queries";
 export * from "./decisions";
 export * from "./mind";
 export * from "./mind-catalog";

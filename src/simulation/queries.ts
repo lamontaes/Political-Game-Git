@@ -1,4 +1,9 @@
 import { ageOnDate, makeIsoDate } from "./dates";
+import {
+  didPeopleShareOrganizationWork,
+  hasHouseholdResidenceInJurisdiction,
+  workRelationshipHistoryForPerson,
+} from "./life-queries";
 import { factsForPerson } from "./people";
 import type {
   AppraisalRecord,
@@ -111,10 +116,11 @@ export function hasLivedInJurisdiction(
   const person = world.people[personId];
   return (
     !!person &&
-    factsForPerson(person).some(
+    (factsForPerson(person).some(
       (fact) =>
         fact.kind === "residence" && fact.jurisdictionId === jurisdictionId,
-    )
+    ) ||
+      hasHouseholdResidenceInJurisdiction(world, personId, jurisdictionId))
   );
 }
 
@@ -170,6 +176,21 @@ export function didPeoplePreviouslyWorkTogether(
   throughDate: IsoDate = world.currentDate,
 ): boolean {
   if (firstPersonId === secondPersonId) {
+    return false;
+  }
+  const cutoff = {
+    asOfDate: throughDate,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  if (
+    didPeopleShareOrganizationWork(world, firstPersonId, secondPersonId, cutoff)
+  ) {
+    return true;
+  }
+  if (
+    workRelationshipHistoryForPerson(world, firstPersonId, cutoff).length > 0 ||
+    workRelationshipHistoryForPerson(world, secondPersonId, cutoff).length > 0
+  ) {
     return false;
   }
   if (

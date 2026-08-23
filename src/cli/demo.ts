@@ -13,6 +13,10 @@ const output = {
   jurisdictionCount: result.world.jurisdictionOrder.length,
   personCount: result.world.personOrder.length,
   eventCount: result.world.history.events.length,
+  organizationCount: result.world.history.organizations.length,
+  workRelationshipCount: result.world.history.workRelationships.length,
+  householdCount: result.world.history.households.length,
+  careResponsibilityCount: result.world.history.careResponsibilities.length,
   materializedPerson: materializedPerson
     ? {
         id: materializedPerson.id,

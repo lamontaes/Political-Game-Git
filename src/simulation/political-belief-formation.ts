@@ -4,6 +4,7 @@ import {
   recordDurableDecisionTrace,
 } from "./decisions";
 import { createFormationContext, recordPrivateBelief } from "./politics";
+import { activePartnershipsAt, kinshipRelationshipsAt } from "./life-queries";
 import type {
   DecisionConstraint,
   DecisionEvaluation,
@@ -419,7 +420,13 @@ function trustedCueForFormation(
     );
   if (!perception || perception.source.kind !== "trusted-cue") return null;
   const sourcePersonId = perception.source.sourcePersonId;
-  const isFamily = world.people[personId]
+  const isPartner = activePartnershipsAt(world, personId, cutoff).some(
+    (partnership) => partnership.personIds.includes(sourcePersonId),
+  );
+  const isKin = kinshipRelationshipsAt(world, personId, cutoff).some(
+    (kinship) => kinship.personIds.includes(sourcePersonId),
+  );
+  const hasLegacyFamilySummary = world.people[personId]
     ? [
         ...world.people[personId]!.establishedFacts,
         ...(world.people[personId]!.detailLevel === "materialized"
@@ -434,7 +441,10 @@ function trustedCueForFormation(
       )
     : false;
   return {
-    kind: isFamily ? "person:family" : "person:social-contact",
+    kind:
+      isPartner || isKin || hasLegacyFamilySummary
+        ? "person:family"
+        : "person:social-contact",
     sourcePersonId,
     sourceLabel: perception.source.sourceLabel,
   };

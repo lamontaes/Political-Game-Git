@@ -37,7 +37,12 @@ stable semantic IDs + normalized seed/keyed RNG + simulated dates
         |- appraisals
         |- explicit perceptions
         |- temporary states
-        `- durable decision traces
+        |- durable decision traces
+        |- organizations / effective-dated profiles
+        |- work relationships / statuses / roles
+        |- households / locations / memberships
+        |- kinship / partnerships / care
+        `- life commitments / load resolutions
 
 typed transitions + historical queries
   -> subjective-perception projection
@@ -58,7 +63,7 @@ The `HistoryStore` has one contiguous global sequence, and every record-family a
 
 ## Approved Future Dependency Spine
 
-The long-term dependency direction is reserved as follows. The chain through the general decision engine is implemented by the current Stage 4 foundation; later items are architectural contracts, not claims of implementation:
+The long-term dependency direction is reserved as follows. The chain through the general decision engine and the bounded Stage 5.1 life/household/organization foundation is implemented; later items are architectural contracts, not claims of implementation:
 
 ```text
 WORLD / IDS / TIME
@@ -75,7 +80,7 @@ SUBJECTIVE PERCEPTION
         ↓
 GENERAL DECISION ENGINE
         ↓
-LIFE / HOUSEHOLDS / ORGANIZATIONS / RESOURCES
+LIFE / HOUSEHOLDS / ORGANIZATIONS / RESOURCES (resources deferred)
         ↓
 WORLD STATE / ECONOMY / POLICY EFFECTS / EVENTS
         ↓
@@ -129,14 +134,14 @@ If an answer is intentionally deferred, record the boundary rather than inventin
 - **Stable IDs exposed:** `World.id`; ordered referenced entity IDs; catalog/history IDs contained by the world.
 - **Referenced by:** every world-scoped entity and history-record stable key; snapshot metadata; SQLite primary key.
 - **Queries/APIs:** `createWorld`, `assertWorldIntegrity`, `advanceWorld`, `recordWorldEvent`, `materializePerson`, entity selectors, and all world-based query functions.
-- **Serialization/persistence:** the entire JSON-safe world is validated and stored in snapshot format 4; world schema is 5. Older unsupported versions are rejected because no migration chain exists yet.
+- **Serialization/persistence:** the entire JSON-safe world is validated and stored in snapshot format 5; world schema is 6. Older unsupported versions are rejected because no migration chain exists yet.
 - **Temporary scaffolding:** one synthetic demo jurisdiction, one current snapshot per world, and a small authored diagnostic scenario rather than an autonomous world engine. Validated political transitions currently recheck the complete world and shared catalog; future batching or indexes may optimize this without weakening atomic integrity.
 - **Future consumers:** every stage, Observer Mode, branch lineage, archives, performance scheduling, and cross-platform saves.
 
 ## Stable IDs
 
 - **Owns:** deterministic kind-prefixed FNV-1a hashes of explicit semantic keys through `createStableId`.
-- **Stable IDs exposed:** world, jurisdiction, person, fact, event, memory, event-knowledge, claim, relationship, proposition-exposure, policy/mind-definition, political-record, subject-knowledge, personality, value, goal, appraisal, perception, decision/trace, temporary-state, and snapshot IDs.
+- **Stable IDs exposed:** world, jurisdiction, person, fact, event, memory, event-knowledge, claim, relationship, proposition-exposure, policy/mind-definition, political-record, subject-knowledge, personality, value, goal, appraisal, perception, decision/trace, temporary-state, organization/profile, work/status/role, household/location/membership, kinship, partnership, care, life-commitment/load-resolution, and snapshot IDs.
 - **Referenced by:** entity maps/order arrays, facts, events, provenance, supersession chains, queries, snapshots, SQLite, and viewer keys.
 - **Queries/APIs:** `stableHash` and `createStableId`; integrity checks recompute expected identities.
 - **Serialization/persistence:** IDs are plain branded strings and round-trip exactly.
@@ -157,10 +162,10 @@ If an answer is intentionally deferred, record the boundary rather than inventin
 
 - **Owns:** validated ISO date-only values and monotonic explicit advancement.
 - **Stable IDs exposed:** no independent time entity; committed advancement receives a stable event ID.
-- **Referenced by:** facts, events, memories, knowledge, claims, relationships, political and mind records, decision cutoffs/traces, snapshots, and queries.
+- **Referenced by:** facts, events, memories, knowledge, claims, relationships, political, mind, and life records, decision/life cutoffs, snapshots, and queries.
 - **Queries/APIs:** `makeIsoDate`, `addDays`, `ageOnDate`, `dateAtAge`, `advanceWorld`.
 - **Serialization/persistence:** start/current dates and every record date round-trip; no wall-clock dependency.
-- **Temporary scaffolding:** positive-day advancement and one audit event; schedules, attention, weekly play, and multi-resolution processing are deferred.
+- **Temporary scaffolding:** positive-day advancement and one audit event; Stage 5.1 records time-demand ranges and resolves an explicitly requested completed week, but hourly schedules, automatic scheduling, player weekly mode, and multi-resolution processing are deferred.
 - **Future consumers:** Life Mode, event chains, campaigns, institutions, terms, careers, legislation, staff workload, and archives.
 
 ## Jurisdiction
@@ -177,10 +182,10 @@ If an answer is intentionally deferred, record the boundary rather than inventin
 
 - **Owns:** stable identity, generation key, name, birth date, home jurisdiction, detail level, established facts, and optional stored materialized facts.
 - **Stable IDs exposed:** `Person.id`; person fact IDs.
-- **Referenced by:** events and participants, family facts, memories, knowledge, claims, relationship interactions, proposition exposures, political records, future staff/careers/elections, and UI selection.
+- **Referenced by:** events and participants, family facts, memories, knowledge, claims, relationship interactions, proposition exposures, political records, work/household/kinship/partnership/care records, future staff/elections, and UI selection.
 - **Queries/APIs:** `personName`, `factsForPerson`, `createLightweightPerson`, `materializePerson`, person/history selectors.
 - **Serialization/persistence:** complete person records and detail generator version round-trip in the world snapshot.
-- **Temporary scaffolding:** generated names and biographies are synthetic. Stage 4 mind state is sparse and authored or explicitly applied rather than a full autonomous development system; family simulation, careers, death, and reputation remain absent.
+- **Temporary scaffolding:** generated names and biographies are synthetic. Stage 4 mind state is sparse and authored or explicitly applied; Stage 5.1 adds life structures but not autonomous family/career generation, death, or reputation.
 - **Future consumers:** all character, life, NPC, staff, campaign, governing, family, archive, and control-transfer systems.
 
 ## Biography Facts
@@ -190,7 +195,7 @@ If an answer is intentionally deferred, record the boundary rather than inventin
 - **Referenced by:** materialization constraints, belief/principle formation context, subject-knowledge provenance, biography and work queries, timelines, and future careers/dialogue.
 - **Queries/APIs:** `appendPersonFact`, `factsForPerson`, `factsNewestFirst`, residence/work queries, and subject-knowledge profiles.
 - **Serialization/persistence:** stored under people and validated against chronology, references, cardinality, provenance, and stable identity.
-- **Temporary scaffolding:** employer and institution are text. Equal employer text is not durable organization identity and can currently create an overly broad coworker fallback; Stage 5 should introduce stable organization/location references and revise that inference.
+- **Temporary scaffolding:** employer and education institution remain text summaries. Canonical Stage 5.1 work uses stable organization and location IDs; equal employer text is only a legacy coworker fallback when neither person has canonical work. Stage 5.3 must connect education/career content to stable organizations without rewriting old facts.
 - **Future consumers:** careers, organizations, expertise, eligibility, dialogue, reputation, family, staff history, and archives.
 
 ## Progressive Materialization
@@ -198,12 +203,62 @@ If an answer is intentionally deferred, record the boundary rather than inventin
 - **Owns:** deterministic expansion from lightweight to materialized detail; it owns no separate historical occurrence.
 - **Stable IDs exposed:** preserves the same person ID and creates stable fact IDs for generated facts.
 - **Referenced by:** person inspection and future selective-activation systems.
-- **Queries/APIs:** `materializePerson` and `materializePersonRecord`.
+- **Queries/APIs:** `materializePerson`, `materializePersonRecord`, and `materializeOrganization`.
 - **Serialization/persistence:** generated facts and materializer version are stored; repeated materialization is an idempotent no-op.
-- **Temporary scaffolding:** currently adds only synthetic education/occupation facts and resolves subject links through catalog-defined materialization tags.
+- **Temporary scaffolding:** person detail currently adds only synthetic education/occupation facts and resolves subject links through catalog-defined materialization tags; organization promotion currently changes resolution only and does not yet add domain-specific components.
 - **Future consumers:** large populations, rising minor NPCs, staff/candidates, event detail, Observer Mode, and performance scaling.
 
 Materialization is a simulation-detail operation, not an in-world event. A lightweight person already existed before expansion. Its keyed RNG stream must remain isolated from unrelated future behavior.
+
+## Organizations
+
+- **Owns:** stable organization identity, formation date, provenance, resolution level, and effective-dated name/classification/location profiles.
+- **Stable IDs exposed:** organization and organization-profile IDs.
+- **Referenced by:** work relationships, event involved-entity references, entity labels, shared-work queries, snapshots, and future education, party, campaign, institution, and finance systems.
+- **Queries/APIs:** `createOrganization`, `recordOrganizationProfile`, `materializeOrganization`, `organizationsAt`, `organizationProfileAt`, and `organizationProfileHistory`.
+- **Serialization/persistence:** root/profile records share global append sequence and are validated for semantic identity, chronology, provenance, supersession, open classification namespace, and jurisdiction reference.
+- **Temporary scaffolding:** no hierarchy, ownership, membership, finance, institution powers, or real organization catalog. Lightweight/detailed resolution currently changes simulation detail only.
+- **Future consumers:** Stage 5.2–5.4 schools/employers/community life, Stage 7 institutions, Stage 9 parties/campaigns, Stage 10 agencies, Stage 11 staff, and archives.
+
+## Work Relationships and Roles
+
+- **Owns:** stable actual or expected person-to-organization/independent work identity; compensation, authority, dependency, and economic-risk dimensions; expected/active/temporarily-inactive/ended state; and effective-dated role/title/occupation/location/time-demand history.
+- **Stable IDs exposed:** work-relationship, work-status, and work-role IDs plus person, organization, and jurisdiction references.
+- **Referenced by:** active-work and coworker queries, life-load assessment, entity/event context, persistence, and future expertise, career, staff, eligibility, and archive systems.
+- **Queries/APIs:** `createWorkRelationship`, `recordWorkStatus`, `recordWorkRole`, relationship/status/role history and as-of helpers, `activeWorkRelationshipsAt`, and `didPeopleShareOrganizationWork`.
+- **Serialization/persistence:** every root and state record shares global append sequence; validation enforces chronology, status lifecycle, linear supersession, provenance, open work/occupation taxonomy, and stable organization identity. Expected future work persists but remains inactive until a dated activation at or after its start.
+- **Temporary scaffolding:** one relationship has one current role profile, while multiple concurrent engagements use multiple relationships. Pay amounts, contracts, schedules, workplace hierarchy, job-content progression, unemployment mechanics, and office-holding semantics remain deferred.
+- **Future consumers:** Stage 5.3 career content, Stage 5.4 income/resources, Stage 7 office/institution links, Stage 11 assignments/staff, dialogue, eligibility, and archives.
+
+## Households and Co-residence
+
+- **Owns:** stable household identity, effective-dated jurisdiction/location history, stable person membership, and resident/ended states with primary/secondary/shared residence roles.
+- **Stable IDs exposed:** household, household-location, household-membership, and membership-state IDs.
+- **Referenced by:** co-residence, residence-geography, event entity references, care context, persistence, and future housing/resource systems.
+- **Queries/APIs:** household creation/location/membership transitions; `householdLocationAt`, `householdMembershipsAt`, `peopleInHouseholdAt`, and `hasHouseholdResidenceInJurisdiction`.
+- **Serialization/persistence:** append-oriented roots/states are validated for identity, chronology, supersession, provenance, jurisdiction references, and no overlapping primary residence. Concurrent secondary/shared memberships remain valid.
+- **Temporary scaffolding:** a location is jurisdiction plus label, not a stable dwelling, lease, property, room, or ownership interest. No household resources or automatic membership generation exists.
+- **Future consumers:** Stage 5.2 formative context, Stage 5.4 housing/resources/relationships, Stage 6 events, eligibility/geography, and archives.
+
+## Kinship, Partnership, and Care
+
+- **Owns:** canonical paired kinship, partnership with active/ended state history, and directed caregiver-to-recipient responsibility with share/context/time-demand state history.
+- **Stable IDs exposed:** kinship, partnership/state, and care-responsibility/state IDs plus canonical person references.
+- **Referenced by:** structural relationship queries, trusted-cue kin/partner context, life-load assessment, persistence, and future family/relationship/resource systems.
+- **Queries/APIs:** record/create/state transitions; `kinshipRelationshipsAt`, `activePartnershipsAt`, care state history, and `activeCareResponsibilitiesAt`.
+- **Serialization/persistence:** records share global append sequence and validate distinct people, canonical pair ordering, chronology, lifecycle/supersession, provenance, open content kinds, and care time semantics.
+- **Temporary scaffolding:** no generation, legal parentage/custody, marriage law, relationship maintenance, obligations, household inference, money flow, or automatic relationship interactions. Structural state does not replace explainable social episodes.
+- **Future consumers:** Stage 5.2–5.4 formative/family/relationship/resource systems, decisions, dialogue, eligibility, staff continuity, and archives.
+
+## Time Demand and Life Load
+
+- **Owns:** reusable weekly range, attention, concurrency, rigidity, interruptibility, and optional location profile; exceptional commitment records; qualitative load assessment; and deterministic seven-day load/recovery resolution.
+- **Stable IDs exposed:** life-commitment and life-load-resolution IDs; contributor references point to work-role, care-state, or commitment IDs. Resulting fatigue has a temporary-state ID referencing its source resolution.
+- **Referenced by:** active work and care, Stage 4 temporary-state perception/decisions, headless demo, persistence, and future scheduling/content adapters.
+- **Queries/APIs:** `recordLifeCommitment`, `activeLifeCommitmentsAt`, `assessLifeLoadAt`, `resolveLifeLoadPeriod`, `lifeLoadResolutionHistory`, and `fatigueAt`.
+- **Serialization/persistence:** commitment and resolution records share global append sequence. Integrity recomputes stored assessment/output/fatigue semantics, validates the historical cutoff and contributor refs, and resolves the load-to-temporary-state provenance edge.
+- **Temporary scaffolding:** deterministic qualitative calibration, not a medical model, hourly calendar, 168-hour subtraction, universal productivity score, or automatic time engine. Only explicit completed seven-day periods resolve consequences.
+- **Future consumers:** Stage 5.2–5.4 life play, Stage 9 campaign load, Stage 10 governing duties, Stage 11 staff workload/delegation, and later health/event consequences.
 
 ## Canonical Historical Events
 
@@ -249,10 +304,10 @@ Materialization is a simulation-detail operation, not an in-world event. A light
 
 - **Owns:** dated interactions between a canonical pair of people, with type, change, significance, summary, tags, and optional source event.
 - **Stable IDs exposed:** `RelationshipInteraction.id` and referenced person/event IDs.
-- **Referenced by:** pair histories, work/affected-contact queries, Stage 4 perceived/decision context, and future character reasoning.
+- **Referenced by:** pair histories, legacy work/affected-contact queries, Stage 4 perceived/decision context, and future character reasoning.
 - **Queries/APIs:** `recordRelationshipInteraction`, `relationshipHistory`, `didPeoplePreviouslyWorkTogether`, `deriveRelationshipSummary`, and `hasCloseRelationshipWithPersonAffectedByEvent`.
 - **Serialization/persistence:** append-oriented and validated for two distinct canonical people, chronology, and compatible event references.
-- **Temporary scaffolding:** `deriveRelationshipSummary` uses a coarse hidden calculation solely as an interim contextual helper. It is not authoritative relationship state, cannot replace specific episodes, and is not exposed as a meter. Asymmetric trust, obligation, loyalty, third-party effects, and autonomous behavior are deferred.
+- **Temporary scaffolding:** `deriveRelationshipSummary` uses a coarse hidden calculation solely as an interim contextual helper. It is not authoritative relationship state, cannot replace specific episodes, and is not exposed as a meter. Stable organization work now takes precedence in coworker queries; `work:` interactions and occupation text remain compatibility evidence. Asymmetric trust, obligation, loyalty, third-party effects, and autonomous behavior are deferred.
 - **Future consumers:** careers, campaigns, legislation, staff, families, reputation, and archives.
 
 ## Policy Catalog
@@ -305,9 +360,9 @@ Private belief, public position, campaign commitment, and historical behavior re
 - **Stable IDs exposed:** tendency/value definitions, personality/value/goal-state/appraisal/perception/temporary-state records, conceptual goals, decisions, and decision traces.
 - **Referenced by:** historical mind queries, subjective projections, the political-belief adapter, deterministic demo, developer viewer, and future life/domain adapters.
 - **Queries/APIs:** validated mind-record transitions, non-applying development proposals, `buildSubjectivePerception`, date-plus-sequence mind queries, pure `evaluateDecision`, durable trace recording, and explicit NPC political-belief evaluation/application.
-- **Serialization/persistence:** all persistent families share the global history sequence and round-trip in world schema 5/snapshot format 4. Validation preserves sparse catalog references, chronology, provenance, supersession, goal lifecycle, source availability, communication evidence, half-open temporary intervals, keyed decision identity, control references, and trace structure.
+- **Serialization/persistence:** all persistent families share the global history sequence and round-trip in world schema 6/snapshot format 5. Validation preserves sparse catalog references, chronology, provenance, supersession, goal lifecycle, source availability, communication evidence, half-open temporary intervals, life-load provenance, keyed decision identity, control references, and trace structure.
 - **Temporary scaffolding:** categorical definitions and internal comparison weights are deliberately small; biography facts lack append-availability metadata; routine traces may remain ephemeral; development proposals do not apply themselves; and political belief formation is the only domain adapter.
-- **Future consumers:** Stage 5 life/resources/organizations, Stage 6 events, later staff/campaign/governing/diplomatic choices, and Stage 12 explanations/Observer Mode.
+- **Current/future consumers:** Stage 5.1 load resolutions reuse temporary states; Stage 5.2–5.4 life/content/resources, Stage 6 events, later staff/campaign/governing/diplomatic choices, and Stage 12 explanations/Observer Mode.
 
 Decision evaluation remains distinct from application and canonical history. Autonomous application rejects the controlled person. A private belief created by the political adapter links to its prior durable trace; no-opinion and defer retain only the trace. Public positions and commitments are never overwritten.
 
@@ -316,9 +371,9 @@ Decision evaluation remains distinct from application and canonical history. Aut
 - **Owns:** no authoritative data; pure typed projections over world records.
 - **Stable IDs exposed:** returns source records and their stable IDs rather than copied prose-derived identities.
 - **Referenced by:** tests, demo, viewer, and future domain systems.
-- **Queries/APIs:** event filters, residence/experience/age/geography, relationship/work, memories/knowledge/claims, political histories/current state/domain coverage, and sparse person-subject profiles/practical experience. Mixed political encounter evidence is ordered by effective date with append sequence as a same-day tie-breaker, so backfilled older records do not become current merely because they were appended later.
+- **Queries/APIs:** event filters, biography residence/experience/age/geography, relationship/work, organization/profile, work status/role, household/co-residence, kinship/partnership/care, life load/recovery, memories/knowledge/claims, political histories/current state/domain coverage, and sparse person-subject profiles/practical experience. Mixed political encounter evidence is ordered by effective date with append sequence as a same-day tie-breaker, so backfilled older records do not become current merely because they were appended later.
 - **Serialization/persistence:** derived results are not stored; authoritative source records are.
-- **Temporary scaffolding:** many histories use linear scans and the coworker query retains a text-employer fallback. Belief-domain and person-subject profile queries already walk sparse person records; future indexes may optimize other lookups without becoming competing truth.
+- **Temporary scaffolding:** many histories use linear scans. The coworker query retains text-employer fallback only when neither person has canonical work. Belief-domain and person-subject profile queries already walk sparse person records; future indexes may optimize other lookups without becoming competing truth.
 - **Future consumers:** dialogue conditions, NPC option evaluation, advisers, UI, archives, campaign/legislative systems, and simulation auditing.
 
 ## Serialization
@@ -327,7 +382,7 @@ Decision evaluation remains distinct from application and canonical history. Aut
 - **Stable IDs exposed:** snapshot ID and world ID.
 - **Referenced by:** SQLite repository, CLI/demo result, and future save adapters.
 - **Queries/APIs:** `createWorldSnapshot`, `serializeWorld`, and `deserializeWorld`.
-- **Serialization/persistence:** snapshot format 4 contains world schema 5 and the complete graph; load returns a defensive clone after validating per-family append order, the contiguous global sequence, cross-record chronology and sequence direction, union discriminators, categorical values, mind provenance, control references, and durable trace structure.
+- **Serialization/persistence:** snapshot format 5 contains world schema 6 and the complete graph; load returns a defensive clone after validating per-family append order, the contiguous global sequence, cross-record chronology and sequence direction, union discriminators, categorical values, life and mind provenance, lifecycle transitions, control references, stored load derivations, and durable trace structure.
 - **Temporary scaffolding:** no migrations, action journal, compression, recovery, parent/branch lineage, or compatibility promise for older formats.
 - **Future consumers:** desktop saves, autosave/recovery, Observer Mode, branches, archive export, debugging, and cross-platform packaging.
 
@@ -348,7 +403,7 @@ Decision evaluation remains distinct from application and canonical history. Aut
 - **Referenced by:** validation and developers.
 - **Queries/APIs:** `createDemoWorld`, `advanceDemoWorld`, `runDemoScenario`, and the CLI entry point.
 - **Serialization/persistence:** creates validated snapshots but does not write SQLite by default.
-- **Temporary scaffolding:** synthetic people/events/political records and one community-listening occurrence.
+- **Temporary scaffolding:** synthetic people/events/political records, one community-listening occurrence, and a small authored organization/work/household/care fixture.
 - **Future consumers:** regression tests, profiling, long-simulation harnesses, and Observer Mode audits.
 
 ## Developer Viewer
@@ -367,7 +422,7 @@ The viewer may display diagnostic truth only when clearly understood as develope
 
 ## Reserved Future Cross-System Contracts
 
-These contracts constrain later stages but introduce no Stage 4 finance, institution, law, or civic-data implementation.
+These contracts constrain later stages but introduce no finance, institution, law, or civic-data implementation in Stage 5.1.
 
 ### Shared Resource-Flow Contract
 
@@ -402,8 +457,8 @@ Real-world civic records retain enough dated provenance to inspect a concept, ex
 
 ## Current and Future Connection Points
 
-- **Current Stage 4 decisions:** consume perceived facts, memories, event knowledge, relationship episodes, sparse political records, subject expertise, incentives, and keyed RNG; emit explainable evaluations and optional durable diagnostic traces separately from canonical outcomes.
-- **Stage 5 careers/organizations:** replace textual employer identity with stable organization/location references and create dated employment/activity history.
+- **Current Stage 4 decisions:** consume perceived facts, memories, event knowledge, relationship episodes, sparse political records, subject expertise, incentives, temporary fatigue where relevant, and keyed RNG; emit explainable evaluations and optional durable diagnostic traces separately from canonical outcomes.
+- **Current Stage 5.1 life foundation:** supplies stable organizations, work and household histories, separated structural relationships/care, time demand, and qualitative load/recovery. Stage 5.2–5.4 must extend these identities rather than add current-career, family-as-household, or competing resource fields.
 - **Stage 6 events:** consume explicit conditions and emit canonical events plus scoped consequence records; definitions remain separate from committed history.
 - **Stage 7 geography/institutions:** extend stable jurisdiction hierarchy and sourced/effective-dated definitions without changing generic simulation assumptions.
 - **Stage 8 populations:** reference propositions, geography, cues, and public records sparsely; never materialize every voter or every issue.

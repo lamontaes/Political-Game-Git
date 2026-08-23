@@ -608,6 +608,19 @@ export function validateMindSourceReferences(
           reference.temporaryStateId,
         );
         break;
+      case "life-load-resolution":
+        assertOwnedHistoryRecord(
+          world.history.lifeLoadResolutions.find(
+            (record) => record.id === reference.lifeLoadResolutionId,
+          ),
+          personId,
+          asOfDate,
+          historySequenceExclusive,
+          (record) => record.periodEndsAt,
+          "life-load resolution",
+          reference.lifeLoadResolutionId,
+        );
+        break;
       case "historical-event": {
         const event = world.history.events.find(
           (record) => record.id === reference.eventId,

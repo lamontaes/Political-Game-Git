@@ -7,6 +7,8 @@ export type IsoDate = string & { readonly [isoDateBrand]: true };
 export type EntityKind =
   | "appraisal"
   | "belief"
+  | "care-responsibility"
+  | "care-state"
   | "claim"
   | "commitment"
   | "decision"
@@ -16,9 +18,18 @@ export type EntityKind =
   | "fact"
   | "goal"
   | "goal-state"
+  | "household"
+  | "household-location"
+  | "household-membership"
+  | "household-membership-state"
   | "jurisdiction"
+  | "kinship"
   | "knowledge"
+  | "life-commitment"
+  | "life-load-resolution"
   | "memory"
+  | "organization"
+  | "organization-profile"
   | "person"
   | "personal-value"
   | "personality-tendency"
@@ -37,6 +48,11 @@ export type EntityKind =
   | "subject-knowledge"
   | "temporary-state"
   | "value-definition"
+  | "partnership"
+  | "partnership-state"
+  | "work-relationship"
+  | "work-role"
+  | "work-status"
   | "world";
 
 export type DataStatus =
@@ -197,7 +213,7 @@ export interface ResidenceFact extends PersonFactBase {
 }
 
 export type FamilyRelationshipNamespace =
-  "lineal" | "collateral" | "partner" | "care" | "extended" | "other";
+  "lineal" | "collateral" | "extended" | "custom";
 export type FamilyRelationshipKind = `${FamilyRelationshipNamespace}:${string}`;
 
 export interface FamilyRelationshipFact extends PersonFactBase {
@@ -660,6 +676,10 @@ export type MindSourceReference =
   | {
       readonly kind: "decision-trace";
       readonly decisionTraceId: EntityId;
+    }
+  | {
+      readonly kind: "life-load-resolution";
+      readonly lifeLoadResolutionId: EntityId;
     };
 
 export interface MindRecordProvenance {
@@ -832,6 +852,339 @@ export interface TemporaryStateRecord {
   readonly provenance: MindRecordProvenance;
 }
 
+export type LifeRecordProvenance =
+  | { readonly kind: "authored"; readonly note: string }
+  | { readonly kind: "simulated-event"; readonly eventId: EntityId }
+  | {
+      readonly kind: "source-record";
+      readonly reference: string;
+      readonly asOf: IsoDate;
+    };
+
+export type OrganizationClassificationNamespace =
+  | "sector"
+  | "membership"
+  | "service"
+  | "enterprise"
+  | "community"
+  | "international"
+  | "custom";
+export type OrganizationClassification =
+  `${OrganizationClassificationNamespace}:${string}`;
+
+export interface Organization {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly formedAt: IsoDate;
+  readonly detailLevel: "lightweight" | "detailed";
+  readonly provenance: LifeRecordProvenance;
+}
+
+export interface OrganizationProfileRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly organizationId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly name: string;
+  readonly classification: OrganizationClassification;
+  readonly locationJurisdictionId: EntityId | null;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesProfileId: EntityId | null;
+}
+
+export type WorkRelationshipNamespace =
+  | "employment"
+  | "independent"
+  | "training"
+  | "volunteer"
+  | "family-work"
+  | "service"
+  | "custom";
+export type WorkRelationshipKind = `${WorkRelationshipNamespace}:${string}`;
+export type OccupationClassificationNamespace =
+  "occupation" | "profession" | "trade" | "practice" | "service" | "custom";
+export type OccupationClassification =
+  `${OccupationClassificationNamespace}:${string}`;
+export type WorkCompensation = "paid" | "unpaid" | "mixed" | "in-kind";
+export type WorkAuthority =
+  "directed" | "shared" | "self-directed" | "directs-others";
+export type WorkDependency = "independent" | "partly-dependent" | "dependent";
+export type WorkEconomicRisk = "organization-borne" | "shared" | "person-borne";
+
+export interface ExpectedWeeklyTimeRange {
+  readonly minimumHours: number;
+  readonly maximumHours: number;
+}
+
+export type AttentionDemand = "low" | "moderate" | "high" | "continuous";
+export type ConcurrencyPotential =
+  "mostly-concurrent" | "partly-concurrent" | "mostly-exclusive";
+export type ScheduleRigidity = "flexible" | "mixed" | "rigid";
+export type Interruptibility =
+  "interruptible" | "limited" | "non-interruptible";
+
+export interface TimeDemandProfile {
+  readonly expectedWeekly: ExpectedWeeklyTimeRange;
+  readonly attention: AttentionDemand;
+  readonly concurrency: ConcurrencyPotential;
+  readonly scheduleRigidity: ScheduleRigidity;
+  readonly interruptibility: Interruptibility;
+  readonly locationJurisdictionId: EntityId | null;
+}
+
+export interface WorkRelationship {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly organizationId: EntityId | null;
+  /** When this relationship, including an expected future engagement, became known. */
+  readonly recordedAt: IsoDate;
+  /** The actual or expected date on which the work begins. */
+  readonly startedAt: IsoDate;
+  readonly kind: WorkRelationshipKind;
+  readonly compensation: WorkCompensation;
+  readonly authority: WorkAuthority;
+  readonly dependency: WorkDependency;
+  readonly economicRisk: WorkEconomicRisk;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export type WorkRelationshipStatus =
+  "expected" | "active" | "temporarily-inactive" | "ended";
+
+export interface WorkStatusRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly workRelationshipId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly status: WorkRelationshipStatus;
+  readonly reason: string | null;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesStatusId: EntityId | null;
+}
+
+export interface WorkRoleRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly workRelationshipId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly title: string;
+  readonly occupationClassification: OccupationClassification | null;
+  readonly locationJurisdictionId: EntityId | null;
+  readonly timeDemand: TimeDemandProfile;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesRoleId: EntityId | null;
+}
+
+export interface Household {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly formedAt: IsoDate;
+  readonly label: string;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export type HouseholdLocationNamespace =
+  "residence" | "temporary" | "institutional" | "custom";
+export type HouseholdLocationKind = `${HouseholdLocationNamespace}:${string}`;
+
+export interface HouseholdLocationRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly householdId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly jurisdictionId: EntityId;
+  readonly label: string;
+  readonly kind: HouseholdLocationKind;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesLocationId: EntityId | null;
+}
+
+export type HouseholdMembershipNamespace =
+  "resident" | "student" | "shared-care" | "custom";
+export type HouseholdMembershipKind =
+  `${HouseholdMembershipNamespace}:${string}`;
+export type ResidenceRole = "primary" | "secondary" | "shared";
+
+export interface HouseholdMembership {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly householdId: EntityId;
+  readonly startedAt: IsoDate;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export type HouseholdMembershipStatus = "resident" | "ended";
+
+export interface HouseholdMembershipStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly membershipId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly status: HouseholdMembershipStatus;
+  readonly residenceRole: ResidenceRole;
+  readonly kind: HouseholdMembershipKind;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesStateId: EntityId | null;
+}
+
+export type KinshipNamespace = "lineal" | "collateral" | "extended" | "custom";
+export type KinshipKind = `${KinshipNamespace}:${string}`;
+
+export interface KinshipRelationship {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personIds: readonly [EntityId, EntityId];
+  readonly establishedAt: IsoDate;
+  readonly kind: KinshipKind;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export type PartnershipNamespace = "romantic" | "legal" | "custom";
+export type PartnershipKind = `${PartnershipNamespace}:${string}`;
+
+export interface Partnership {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personIds: readonly [EntityId, EntityId];
+  readonly startedAt: IsoDate;
+  readonly kind: PartnershipKind;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export type PartnershipStatus = "active" | "ended";
+
+export interface PartnershipStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly partnershipId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly status: PartnershipStatus;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesStateId: EntityId | null;
+}
+
+export type CareNamespace =
+  "personal" | "supportive" | "supervision" | "coordination" | "custom";
+export type CareKind = `${CareNamespace}:${string}`;
+export type CareResponsibilityShare = "supporting" | "shared" | "primary";
+
+export interface CareResponsibility {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly caregiverPersonId: EntityId;
+  readonly recipientPersonId: EntityId;
+  readonly startedAt: IsoDate;
+  readonly kind: CareKind;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export type CareResponsibilityStatus = "active" | "ended";
+
+export interface CareResponsibilityStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly careResponsibilityId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly status: CareResponsibilityStatus;
+  readonly share: CareResponsibilityShare;
+  readonly context: string;
+  readonly timeDemand: TimeDemandProfile;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesStateId: EntityId | null;
+}
+
+export type LifeCommitmentNamespace =
+  "civic" | "community" | "personal" | "religious" | "custom";
+export type LifeCommitmentKind = `${LifeCommitmentNamespace}:${string}`;
+
+export interface LifeCommitmentRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly startsAt: IsoDate;
+  readonly endsAt: IsoDate | null;
+  readonly kind: LifeCommitmentKind;
+  readonly label: string;
+  readonly timeDemand: TimeDemandProfile;
+  readonly provenance: LifeRecordProvenance;
+}
+
+export type LifeLoadContributor =
+  | {
+      readonly kind: "work-role";
+      readonly recordId: EntityId;
+      readonly label: string;
+      readonly timeDemand: TimeDemandProfile;
+    }
+  | {
+      readonly kind: "care-responsibility";
+      readonly recordId: EntityId;
+      readonly label: string;
+      readonly timeDemand: TimeDemandProfile;
+    }
+  | {
+      readonly kind: "life-commitment";
+      readonly recordId: EntityId;
+      readonly label: string;
+      readonly timeDemand: TimeDemandProfile;
+    };
+
+export type LifeLoadBand =
+  "sustainable" | "demanding" | "overloaded" | "severe";
+export type CoordinationPressure = "low" | "moderate" | "high" | "severe";
+
+export interface LifeLoadAssessment {
+  readonly personId: EntityId;
+  readonly cutoff: HistoricalCutoff;
+  readonly expectedWeekly: ExpectedWeeklyTimeRange;
+  readonly exclusiveEquivalentWeekly: ExpectedWeeklyTimeRange;
+  readonly coordinationPressure: CoordinationPressure;
+  readonly loadBand: LifeLoadBand;
+  readonly contributors: readonly LifeLoadContributor[];
+}
+
+export type EffortMode = "normal" | "push" | "recover";
+export type RecoveryLevel = "limited" | "adequate" | "substantial";
+export type OutputPotential = "reduced" | "ordinary" | "elevated";
+export type FutureCapacity = "depleted" | "reduced" | "ordinary" | "restored";
+
+export interface LifeLoadResolutionRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly periodStartsAt: IsoDate;
+  readonly periodEndsAt: IsoDate;
+  readonly cutoff: HistoricalCutoff;
+  readonly effortMode: EffortMode;
+  readonly recovery: RecoveryLevel;
+  readonly loadBand: LifeLoadBand;
+  readonly priorFatigue: MindStrength | null;
+  readonly resultingFatigue: MindStrength | null;
+  readonly immediateOutputPotential: OutputPotential;
+  readonly futureCapacity: FutureCapacity;
+  readonly expectedWeekly: ExpectedWeeklyTimeRange;
+  readonly exclusiveEquivalentWeekly: ExpectedWeeklyTimeRange;
+  readonly contributorRefs: readonly LifeLoadContributor[];
+}
+
 export interface HistoricalCutoff {
   readonly asOfDate: IsoDate;
   readonly historySequenceExclusive: number;
@@ -968,6 +1321,22 @@ export type ControlState =
 
 export interface HistoryStore {
   readonly nextSequence: number;
+  readonly organizations: readonly Organization[];
+  readonly organizationProfiles: readonly OrganizationProfileRecord[];
+  readonly workRelationships: readonly WorkRelationship[];
+  readonly workStatuses: readonly WorkStatusRecord[];
+  readonly workRoles: readonly WorkRoleRecord[];
+  readonly households: readonly Household[];
+  readonly householdLocations: readonly HouseholdLocationRecord[];
+  readonly householdMemberships: readonly HouseholdMembership[];
+  readonly householdMembershipStates: readonly HouseholdMembershipStateRecord[];
+  readonly kinshipRelationships: readonly KinshipRelationship[];
+  readonly partnerships: readonly Partnership[];
+  readonly partnershipStates: readonly PartnershipStateRecord[];
+  readonly careResponsibilities: readonly CareResponsibility[];
+  readonly careResponsibilityStates: readonly CareResponsibilityStateRecord[];
+  readonly lifeCommitments: readonly LifeCommitmentRecord[];
+  readonly lifeLoadResolutions: readonly LifeLoadResolutionRecord[];
   readonly events: readonly HistoricalEvent[];
   readonly memories: readonly MemoryRecord[];
   readonly knowledge: readonly EventKnowledgeRecord[];
@@ -989,8 +1358,8 @@ export interface HistoryStore {
 }
 
 export interface World {
-  readonly schemaVersion: 5;
-  readonly generatorVersion: "demo-world-v5";
+  readonly schemaVersion: 6;
+  readonly generatorVersion: "demo-world-v6";
   readonly id: EntityId;
   readonly seed: string;
   readonly startedAt: IsoDate;

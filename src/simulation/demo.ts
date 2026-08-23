@@ -1,6 +1,15 @@
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import {
+  createCareResponsibility,
+  createHousehold,
+  createOrganization,
+  createWorkRelationship,
+  recordHouseholdLocation,
+  recordLifeCommitment,
+  startHouseholdMembership,
+} from "./life";
+import {
   createMindProvenance,
   recordAppraisal,
   recordGoalState,
@@ -424,6 +433,165 @@ export function createDemoWorld(seedInput = DEFAULT_DEMO_SEED): World {
     ],
   });
   world = applyNpcPoliticalBeliefFormation(world, politicalProposal);
+
+  const lifeProvenance = {
+    kind: "authored" as const,
+    note: "Synthetic Stage 5.1 diagnostic fixture.",
+  };
+  world = createOrganization(world, {
+    stableKey: "initial:organization:community-services-cooperative",
+    formedAt: world.currentDate,
+    provenance: lifeProvenance,
+    initialProfile: {
+      name: "Synthetic Community Services Cooperative",
+      classification: "custom:community-services-cooperative",
+      locationJurisdictionId: jurisdiction.id,
+    },
+  });
+  const organizationId = world.history.organizations.at(-1)?.id;
+  const householdPerson = world.people[world.personOrder[1] ?? ""];
+  const careRecipient = world.people[world.personOrder[2] ?? ""];
+  if (!organizationId || !householdPerson || !careRecipient) {
+    throw new Error("Demo world did not prepare its Stage 5.1 entities.");
+  }
+  const primaryTimeDemand = {
+    expectedWeekly: { minimumHours: 32, maximumHours: 40 },
+    attention: "high" as const,
+    concurrency: "mostly-exclusive" as const,
+    scheduleRigidity: "mixed" as const,
+    interruptibility: "limited" as const,
+    locationJurisdictionId: jurisdiction.id,
+  };
+  world = createWorkRelationship(world, {
+    stableKey: `initial:work:${diagnosticPerson.id}:community-services`,
+    personId: diagnosticPerson.id,
+    organizationId,
+    startedAt: world.currentDate,
+    kind: "employment:staff",
+    compensation: "paid",
+    authority: "directed",
+    dependency: "dependent",
+    economicRisk: "organization-borne",
+    provenance: lifeProvenance,
+    initialRole: {
+      title: "Community services coordinator",
+      occupationClassification: "service:community-coordination",
+      locationJurisdictionId: jurisdiction.id,
+      timeDemand: primaryTimeDemand,
+    },
+  });
+  world = createWorkRelationship(world, {
+    stableKey: `initial:work:${householdPerson.id}:volunteer-repair`,
+    personId: householdPerson.id,
+    organizationId,
+    startedAt: world.currentDate,
+    kind: "volunteer:repair-support",
+    compensation: "unpaid",
+    authority: "shared",
+    dependency: "independent",
+    economicRisk: "shared",
+    provenance: lifeProvenance,
+    initialRole: {
+      title: "Volunteer repair mentor",
+      occupationClassification: "custom:repair-mentorship",
+      locationJurisdictionId: jurisdiction.id,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 4, maximumHours: 8 },
+        attention: "moderate",
+        concurrency: "partly-concurrent",
+        scheduleRigidity: "flexible",
+        interruptibility: "interruptible",
+        locationJurisdictionId: jurisdiction.id,
+      },
+    },
+  });
+  world = createHousehold(world, {
+    stableKey: "initial:household:shared-residence",
+    formedAt: world.currentDate,
+    label: "Synthetic shared residence household",
+    provenance: lifeProvenance,
+  });
+  const sharedHouseholdId = world.history.households.at(-1)?.id;
+  world = createHousehold(world, {
+    stableKey: "initial:household:care-recipient",
+    formedAt: world.currentDate,
+    label: "Synthetic separate care-recipient household",
+    provenance: lifeProvenance,
+  });
+  const recipientHouseholdId = world.history.households.at(-1)?.id;
+  if (!sharedHouseholdId || !recipientHouseholdId) {
+    throw new Error("Demo world did not create its Stage 5.1 households.");
+  }
+  for (const [householdId, stableKey] of [
+    [sharedHouseholdId, "shared"],
+    [recipientHouseholdId, "recipient"],
+  ] as const) {
+    world = recordHouseholdLocation(world, {
+      stableKey: `initial:household-location:${stableKey}`,
+      householdId,
+      effectiveAt: world.currentDate,
+      jurisdictionId: jurisdiction.id,
+      label: "Synthetic Lexington-area location",
+      kind: "residence:community-base",
+      provenance: lifeProvenance,
+      supersedesLocationId: null,
+    });
+  }
+  for (const person of [diagnosticPerson, householdPerson]) {
+    world = startHouseholdMembership(world, {
+      stableKey: `initial:household-membership:${person.id}`,
+      personId: person.id,
+      householdId: sharedHouseholdId,
+      startedAt: world.currentDate,
+      residenceRole: "primary",
+      kind: "resident:member",
+      provenance: lifeProvenance,
+    });
+  }
+  world = startHouseholdMembership(world, {
+    stableKey: `initial:household-membership:${careRecipient.id}`,
+    personId: careRecipient.id,
+    householdId: recipientHouseholdId,
+    startedAt: world.currentDate,
+    residenceRole: "primary",
+    kind: "resident:member",
+    provenance: lifeProvenance,
+  });
+  world = createCareResponsibility(world, {
+    stableKey: `initial:care:${diagnosticPerson.id}:${careRecipient.id}`,
+    caregiverPersonId: diagnosticPerson.id,
+    recipientPersonId: careRecipient.id,
+    startedAt: world.currentDate,
+    kind: "custom:appointment-and-language-support",
+    share: "shared",
+    context: "Periodic appointment and language support across households",
+    timeDemand: {
+      expectedWeekly: { minimumHours: 4, maximumHours: 10 },
+      attention: "low",
+      concurrency: "mostly-concurrent",
+      scheduleRigidity: "flexible",
+      interruptibility: "interruptible",
+      locationJurisdictionId: null,
+    },
+    provenance: lifeProvenance,
+  });
+  world = recordLifeCommitment(world, {
+    stableKey: `initial:commitment:${diagnosticPerson.id}:mutual-aid-circle`,
+    personId: diagnosticPerson.id,
+    startsAt: world.currentDate,
+    endsAt: null,
+    kind: "custom:mutual-aid-circle",
+    label: "Mutual-aid coordination circle",
+    timeDemand: {
+      expectedWeekly: { minimumHours: 3, maximumHours: 6 },
+      attention: "moderate",
+      concurrency: "partly-concurrent",
+      scheduleRigidity: "flexible",
+      interruptibility: "interruptible",
+      locationJurisdictionId: null,
+    },
+    provenance: lifeProvenance,
+  });
 
   return world;
 }
