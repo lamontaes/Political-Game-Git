@@ -36,6 +36,7 @@ import type {
   HousingTenureHolder,
   HousingTenureKind,
   HousingTenureStateRecord,
+  IsoDate,
   LifeRecordProvenance,
   MoneyAmount,
   ResidenceRole,
@@ -427,10 +428,28 @@ export function recordResourceTransferOutcome(
   ) {
     throw new Error("Resource transfer period/outcome chronology is invalid.");
   }
-  const terms = resourceFlowTermsAt(world, flow.id, {
-    asOfDate: occurredAt,
-    historySequenceExclusive: world.history.nextSequence,
-  });
+  if (
+    world.history.resourceTransferOutcomes.some(
+      (outcome) =>
+        outcome.resourceFlowId === flow.id &&
+        settlementPeriodsOverlap(
+          periodStartsAt,
+          periodEndsAt,
+          outcome.periodStartsAt,
+          outcome.periodEndsAt,
+        ),
+    )
+  ) {
+    throw new Error(
+      "A resource flow cannot have overlapping committed settlement periods.",
+    );
+  }
+  const terms = settlementTermsForPeriod(
+    world,
+    flow,
+    periodStartsAt,
+    periodEndsAt,
+  );
   if (!terms || terms.status !== "active") {
     throw new Error("A transfer outcome requires active resource-flow terms.");
   }
@@ -577,11 +596,12 @@ export function resolveWorkCompensationPeriod(
   input: ResolveWorkCompensationPeriodInput,
 ): World {
   const flow = requireWorkCompensationFlow(world, input.workRelationshipId);
-  const terms = resourceFlowTermsAt(world, flow.id, {
-    asOfDate: makeIsoDate(input.occurredAt),
-    historySequenceExclusive: world.history.nextSequence,
-  });
-  if (!terms) throw new Error("Work compensation has no effective terms.");
+  const terms = settlementTermsForPeriod(
+    world,
+    flow,
+    makeIsoDate(input.periodStartsAt),
+    makeIsoDate(input.periodEndsAt),
+  );
   const transferred =
     input.transferredAmount ??
     (input.status === "completed"
@@ -1011,6 +1031,44 @@ function requireWorkCompensationFlow(
   if (!flow)
     throw new Error(`Missing work compensation flow: ${workRelationshipId}`);
   return flow;
+}
+
+function settlementTermsForPeriod(
+  world: World,
+  flow: ResourceFlow,
+  periodStartsAt: IsoDate,
+  periodEndsAt: IsoDate,
+): ResourceFlowTermsRecord {
+  const terms = resourceFlowTermsAt(world, flow.id, {
+    asOfDate: periodStartsAt,
+    historySequenceExclusive: world.history.nextSequence,
+  });
+  if (!terms || terms.status !== "active") {
+    throw new Error("A transfer outcome requires active resource-flow terms.");
+  }
+  if (
+    world.history.resourceFlowTerms.some(
+      (record) =>
+        record.resourceFlowId === flow.id &&
+        record.sequence < world.history.nextSequence &&
+        record.effectiveAt > periodStartsAt &&
+        record.effectiveAt <= periodEndsAt,
+    )
+  ) {
+    throw new Error(
+      "A resource transfer period cannot cross an unprorated terms change.",
+    );
+  }
+  return terms;
+}
+
+function settlementPeriodsOverlap(
+  leftStartsAt: string,
+  leftEndsAt: string,
+  rightStartsAt: string,
+  rightEndsAt: string,
+): boolean {
+  return leftStartsAt <= rightEndsAt && rightStartsAt <= leftEndsAt;
 }
 
 function validateOutcomeAmounts(

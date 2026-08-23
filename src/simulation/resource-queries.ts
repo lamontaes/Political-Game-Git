@@ -8,6 +8,7 @@ import type {
   HousingTenureStateRecord,
   MoneyAmount,
   ResourceEndpoint,
+  ResourceCadenceKind,
   ResourceFlow,
   ResourceFlowTermsRecord,
   ResourceObligation,
@@ -16,6 +17,7 @@ import type {
   ResourceTransferOutcome,
   World,
 } from "./types";
+import { isOpenTaxonomyKey, RESOURCE_CADENCE_NAMESPACES } from "./taxonomy";
 
 export function currentResourceCutoff(world: World): HistoricalCutoff {
   return {
@@ -222,13 +224,34 @@ export type AffordabilityStatus = "available" | "strained" | "blocked";
 export type AffordabilityReasonKey =
   `${"capacity" | "obligation" | "context"}:${string}`;
 
+/**
+ * A caller declares the one cadence bucket that makes its proposed expense
+ * comparable with scheduled obligations. Cadence keys remain open taxonomy
+ * values; this query deliberately treats only exact keys as comparable.
+ */
+export interface AffordabilityComparison {
+  readonly cadenceKind: ResourceCadenceKind;
+}
+
+export interface ScheduledMajorObligationBucket {
+  readonly cadenceKind: ResourceCadenceKind;
+  readonly scheduledAmount: MoneyAmount;
+  readonly obligationIds: readonly EntityId[];
+  readonly termsIds: readonly EntityId[];
+}
+
 export interface AffordabilityAssessment {
   readonly status: AffordabilityStatus;
   readonly owner: ResourcePositionOwner;
   readonly cutoff: HistoricalCutoff;
   readonly proposedAmount: MoneyAmount;
+  readonly comparison: AffordabilityComparison;
+  readonly liquidPositionId: EntityId | null;
   readonly liquidBalance: MoneyAmount;
-  readonly scheduledMajorObligations: MoneyAmount;
+  /** Exact-cadence obligation evidence; amounts are never summed across rows. */
+  readonly scheduledMajorObligationBuckets: readonly ScheduledMajorObligationBucket[];
+  /** The only bucket used to derive this capacity status. */
+  readonly comparableScheduledMajorObligations: MoneyAmount;
   readonly remainingAfterProposal: MoneyAmount;
   readonly reasonKeys: readonly AffordabilityReasonKey[];
   readonly evidenceRecordIds: readonly EntityId[];
@@ -238,8 +261,14 @@ export function assessAffordability(
   world: World,
   owner: ResourcePositionOwner,
   proposedAmount: MoneyAmount,
+  comparison: AffordabilityComparison,
   cutoff: HistoricalCutoff = currentResourceCutoff(world),
 ): AffordabilityAssessment {
+  if (!isOpenTaxonomyKey(comparison.cadenceKind, RESOURCE_CADENCE_NAMESPACES)) {
+    throw new Error(
+      "Affordability comparison requires a valid resource cadence.",
+    );
+  }
   const position = resourcePositionAt(
     world,
     owner,
@@ -247,8 +276,15 @@ export function assessAffordability(
     cutoff,
   );
   const liquid = position?.liquidBalance.minorUnits ?? 0;
-  let scheduled = 0;
   const evidence = position ? [position.positionId] : [];
+  const buckets = new Map<
+    ResourceCadenceKind,
+    {
+      scheduled: number;
+      obligationIds: EntityId[];
+      termsIds: EntityId[];
+    }
+  >();
   for (const obligation of activeResourceObligationsForOwner(
     world,
     owner,
@@ -259,17 +295,35 @@ export function assessAffordability(
       terms?.status === "active" &&
       terms.amount.currency === proposedAmount.currency
     ) {
-      scheduled = addExact(scheduled, terms.amount.minorUnits);
+      const bucket = buckets.get(terms.cadenceKind) ?? {
+        scheduled: 0,
+        obligationIds: [],
+        termsIds: [],
+      };
+      bucket.scheduled = addExact(bucket.scheduled, terms.amount.minorUnits);
+      bucket.obligationIds.push(obligation.id);
+      bucket.termsIds.push(terms.id);
+      buckets.set(terms.cadenceKind, bucket);
       evidence.push(obligation.id, terms.id);
     }
   }
+  const scheduledMajorObligationBuckets = [...buckets.entries()].map(
+    ([cadenceKind, bucket]) => ({
+      cadenceKind,
+      scheduledAmount: money(bucket.scheduled, proposedAmount.currency),
+      obligationIds: [...bucket.obligationIds],
+      termsIds: [...bucket.termsIds],
+    }),
+  );
+  const comparableScheduled =
+    buckets.get(comparison.cadenceKind)?.scheduled ?? 0;
   const remaining = Math.max(0, liquid - proposedAmount.minorUnits);
   let status: AffordabilityStatus;
   let reasonKeys: readonly AffordabilityReasonKey[];
   if (proposedAmount.minorUnits > liquid) {
     status = "blocked";
     reasonKeys = ["capacity:insufficient-liquid"];
-  } else if (remaining < scheduled) {
+  } else if (remaining < comparableScheduled) {
     status = "strained";
     reasonKeys = ["obligation:scheduled-commitments-constrain-capacity"];
   } else {
@@ -281,8 +335,14 @@ export function assessAffordability(
     owner: { ...owner },
     cutoff: { ...cutoff },
     proposedAmount: { ...proposedAmount },
+    comparison: { ...comparison },
+    liquidPositionId: position?.positionId ?? null,
     liquidBalance: money(liquid, proposedAmount.currency),
-    scheduledMajorObligations: money(scheduled, proposedAmount.currency),
+    scheduledMajorObligationBuckets,
+    comparableScheduledMajorObligations: money(
+      comparableScheduled,
+      proposedAmount.currency,
+    ),
     remainingAfterProposal: money(remaining, proposedAmount.currency),
     reasonKeys,
     evidenceRecordIds: [...new Set(evidence)],

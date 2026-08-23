@@ -37,6 +37,7 @@ import {
   recordHousingTenureState,
   recordPerception,
   recordRelationshipMoment,
+  recordResourceFlowTerms,
   recordResourceObligationState,
   recordResourcePressure,
   recordResourceTransferOutcome,
@@ -274,6 +275,18 @@ describe("Stage 5 Run C resource flows and work compensation", () => {
       supersedesTermsId: oldTerms.id,
     });
     world = resolveWorkCompensationPeriod(world, {
+      stableKey: "salary:outcome:a:2024-12-paid-late",
+      workRelationshipId: workA,
+      periodStartsAt: "2024-12-01",
+      periodEndsAt: "2024-12-31",
+      occurredAt: "2025-01-05",
+      status: "completed",
+      reasonKind: null,
+      note: "December pay settled after the January raise took effect.",
+      provenance: AUTHORED,
+    });
+    const lateDecemberOutcome = world.history.resourceTransferOutcomes.at(-1)!;
+    world = resolveWorkCompensationPeriod(world, {
       stableKey: "salary:outcome:a:2025-01",
       workRelationshipId: workA,
       periodStartsAt: "2025-01-01",
@@ -300,9 +313,15 @@ describe("Stage 5 Run C resource flows and work compensation", () => {
         { kind: "person", personId: worker },
         money(0, "USD").currency,
       )?.liquidBalance.minorUnits,
-    ).toBe(1_200_000);
+    ).toBe(1_700_000);
     expect(world.history.workRelationships).toHaveLength(2);
-    expect(world.history.resourceTransferOutcomes).toHaveLength(3);
+    expect(world.history.resourceTransferOutcomes).toHaveLength(4);
+    expect(lateDecemberOutcome.attemptedAmount).toStrictEqual(
+      money(500_000, "USD"),
+    );
+    expect(lateDecemberOutcome.transferredAmount).toStrictEqual(
+      money(500_000, "USD"),
+    );
     expect(oldTerms.amount.minorUnits).toBe(500_000);
   });
 
@@ -358,6 +377,53 @@ describe("Stage 5 Run C resource flows and work compensation", () => {
       note: "Only part of the support was paid.",
       provenance: AUTHORED,
     });
+    expect(
+      resourcePositionAt(
+        world,
+        { kind: "person", personId: source },
+        money(0, "USD").currency,
+      )?.liquidBalance.minorUnits,
+    ).toBe(90_000);
+    expect(
+      resourcePositionAt(
+        world,
+        { kind: "person", personId: recipient },
+        money(0, "USD").currency,
+      )?.liquidBalance.minorUnits,
+    ).toBe(10_000);
+    const afterFirstPeriod = world;
+    expect(() =>
+      recordResourceTransferOutcome(world, {
+        stableKey: "outcome:duplicate-period",
+        resourceFlowId: flow.id,
+        periodStartsAt: "2025-01-01",
+        periodEndsAt: "2025-01-31",
+        occurredAt: "2025-01-31",
+        status: "completed",
+        attemptedAmount: money(25_000, "USD"),
+        transferredAmount: money(25_000, "USD"),
+        reasonKind: null,
+        note: null,
+        provenance: AUTHORED,
+      }),
+    ).toThrow(/overlapping committed settlement periods/);
+    expect(world).toBe(afterFirstPeriod);
+    expect(world.history.resourceTransferOutcomes).toHaveLength(1);
+    expect(() =>
+      recordResourceTransferOutcome(world, {
+        stableKey: "outcome:overlapping-period",
+        resourceFlowId: flow.id,
+        periodStartsAt: "2025-01-15",
+        periodEndsAt: "2025-02-15",
+        occurredAt: "2025-02-15",
+        status: "completed",
+        attemptedAmount: money(25_000, "USD"),
+        transferredAmount: money(25_000, "USD"),
+        reasonKind: null,
+        note: null,
+        provenance: AUTHORED,
+      }),
+    ).toThrow(/overlapping committed settlement periods/);
     for (const [status, month, reason] of [
       ["missed", "02", "timing:missed-date"],
       ["blocked", "03", "authorization:disputed"],
@@ -395,6 +461,134 @@ describe("Stage 5 Run C resource flows and work compensation", () => {
         money(0, "USD").currency,
       )?.liquidBalance.minorUnits,
     ).toBe(10_000);
+    const corruptedDuplicatePeriod = deserializeWorld(serializeWorld(world));
+    (
+      corruptedDuplicatePeriod.history
+        .resourceTransferOutcomes[1] as unknown as {
+        periodStartsAt: string;
+        periodEndsAt: string;
+      }
+    ).periodStartsAt = "2025-01-01";
+    (
+      corruptedDuplicatePeriod.history
+        .resourceTransferOutcomes[1] as unknown as {
+        periodStartsAt: string;
+        periodEndsAt: string;
+      }
+    ).periodEndsAt = "2025-01-31";
+    expect(() => assertWorldIntegrity(corruptedDuplicatePeriod)).toThrow(
+      /overlapping settlement period/,
+    );
+  });
+
+  it("anchors general transfer terms to the settled period and rejects unprorated term changes inside it", () => {
+    let world = bareWorld("run-c-general-settlement-terms");
+    const source = personId(world, 0);
+    const recipient = personId(world, 1);
+    world = createResourceFlow(world, {
+      stableKey: "general-terms:flow",
+      source: { kind: "person", personId: source },
+      recipient: { kind: "person", personId: recipient },
+      startsAt: "2025-12-01",
+      amount: money(10_000, "USD"),
+      cadenceKind: "schedule:monthly",
+      basisKind: "custom:settlement-term-regression",
+      basisReference: { kind: "general" },
+      restrictionKind: null,
+      jurisdictionId: world.jurisdictionOrder[0]!,
+      provenance: AUTHORED,
+    });
+    const flow = world.history.resourceFlows.at(-1)!;
+    const oldTerms = resourceFlowTermsAt(world, flow.id)!;
+    world = recordResourceFlowTerms(world, {
+      stableKey: "general-terms:january-raise",
+      resourceFlowId: flow.id,
+      effectiveAt: "2026-01-01",
+      status: "active",
+      amount: money(20_000, "USD"),
+      cadenceKind: "schedule:monthly",
+      reason: "The new amount applies from January.",
+      provenance: AUTHORED,
+      supersedesTermsId: oldTerms.id,
+    });
+    world = recordResourceTransferOutcome(world, {
+      stableKey: "general-terms:december-paid-late",
+      resourceFlowId: flow.id,
+      periodStartsAt: "2025-12-01",
+      periodEndsAt: "2025-12-31",
+      occurredAt: "2026-01-05",
+      status: "completed",
+      attemptedAmount: money(10_000, "USD"),
+      transferredAmount: money(10_000, "USD"),
+      reasonKind: null,
+      note: "The December obligation settled after the January change.",
+      provenance: AUTHORED,
+    });
+    world = recordResourceTransferOutcome(world, {
+      stableKey: "general-terms:january",
+      resourceFlowId: flow.id,
+      periodStartsAt: "2026-01-01",
+      periodEndsAt: "2026-01-05",
+      occurredAt: "2026-01-05",
+      status: "completed",
+      attemptedAmount: money(20_000, "USD"),
+      transferredAmount: money(20_000, "USD"),
+      reasonKind: null,
+      note: null,
+      provenance: AUTHORED,
+    });
+    expect(
+      world.history.resourceTransferOutcomes.map(
+        (outcome) => outcome.attemptedAmount.minorUnits,
+      ),
+    ).toStrictEqual([10_000, 20_000]);
+
+    let ambiguous = bareWorld("run-c-ambiguous-settlement-terms");
+    const ambiguousSource = personId(ambiguous, 0);
+    const ambiguousRecipient = personId(ambiguous, 1);
+    ambiguous = createResourceFlow(ambiguous, {
+      stableKey: "ambiguous-terms:flow",
+      source: { kind: "person", personId: ambiguousSource },
+      recipient: { kind: "person", personId: ambiguousRecipient },
+      startsAt: "2025-12-01",
+      amount: money(10_000, "USD"),
+      cadenceKind: "schedule:monthly",
+      basisKind: "custom:ambiguous-settlement-terms",
+      basisReference: { kind: "general" },
+      restrictionKind: null,
+      jurisdictionId: ambiguous.jurisdictionOrder[0]!,
+      provenance: AUTHORED,
+    });
+    const ambiguousFlow = ambiguous.history.resourceFlows.at(-1)!;
+    const ambiguousOldTerms = resourceFlowTermsAt(ambiguous, ambiguousFlow.id)!;
+    ambiguous = recordResourceFlowTerms(ambiguous, {
+      stableKey: "ambiguous-terms:mid-period-change",
+      resourceFlowId: ambiguousFlow.id,
+      effectiveAt: "2025-12-15",
+      status: "active",
+      amount: money(20_000, "USD"),
+      cadenceKind: "schedule:monthly",
+      reason: "This change would require payroll prorating.",
+      provenance: AUTHORED,
+      supersedesTermsId: ambiguousOldTerms.id,
+    });
+    const beforeAmbiguousAttempt = ambiguous;
+    expect(() =>
+      recordResourceTransferOutcome(ambiguous, {
+        stableKey: "ambiguous-terms:december-outcome",
+        resourceFlowId: ambiguousFlow.id,
+        periodStartsAt: "2025-12-01",
+        periodEndsAt: "2025-12-31",
+        occurredAt: "2026-01-05",
+        status: "completed",
+        attemptedAmount: money(10_000, "USD"),
+        transferredAmount: money(10_000, "USD"),
+        reasonKind: null,
+        note: null,
+        provenance: AUTHORED,
+      }),
+    ).toThrow(/cross an unprorated terms change/);
+    expect(ambiguous).toBe(beforeAmbiguousAttempt);
   });
 
   it("keeps unpaid work unpaid and requires explicit activation and resolution for future compensation", () => {
@@ -622,7 +816,7 @@ describe("Stage 5 Run C resource flows and work compensation", () => {
       recipient: { kind: "organization", organizationId: payee },
       startsAt: "2025-01-01",
       amount: money(50_000, "USD"),
-      cadenceKind: "support:monthly",
+      cadenceKind: "support:weekly",
       basisKind: "support:cross-household-family",
       basisReference: { kind: "general" },
       restrictionKind: "purpose:family-support",
@@ -654,18 +848,36 @@ describe("Stage 5 Run C resource flows and work compensation", () => {
       provenance: AUTHORED,
     });
 
+    const monthlyComparison = { cadenceKind: "schedule:monthly" } as const;
+    const constrainedAssessment = assessAffordability(
+      world,
+      { kind: "person", personId: constrained },
+      money(900_000, "USD"),
+      monthlyComparison,
+    );
+    expect(constrainedAssessment.status).toBe("strained");
+    expect(constrainedAssessment.liquidPositionId).not.toBeNull();
     expect(
-      assessAffordability(
-        world,
-        { kind: "person", personId: constrained },
-        money(900_000, "USD"),
-      ).status,
-    ).toBe("strained");
+      constrainedAssessment.comparableScheduledMajorObligations,
+    ).toStrictEqual(money(700_000, "USD"));
+    expect(constrainedAssessment.scheduledMajorObligationBuckets).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          cadenceKind: "schedule:monthly",
+          scheduledAmount: money(700_000, "USD"),
+        }),
+        expect.objectContaining({
+          cadenceKind: "support:weekly",
+          scheduledAmount: money(50_000, "USD"),
+        }),
+      ]),
+    );
     expect(
       assessAffordability(
         world,
         { kind: "person", personId: unconstrained },
         money(900_000, "USD"),
+        monthlyComparison,
       ).status,
     ).toBe("available");
     expect(
@@ -673,6 +885,7 @@ describe("Stage 5 Run C resource flows and work compensation", () => {
         world,
         { kind: "person", personId: constrained },
         money(1_600_000, "USD"),
+        monthlyComparison,
       ).status,
     ).toBe("blocked");
     expect(outstandingDebtAt(world, debt.id)?.minorUnits).toBe(1_900_000);
@@ -1704,6 +1917,98 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
       note: null,
       provenance: AUTHORED,
     });
+    const beforeMissedHousingOutcome = currentResourceCutoff(world);
+    world = recordResourceTransferOutcome(world, {
+      stableKey: "end-to-end:missed-housing-payment",
+      resourceFlowId: housingFlow.id,
+      periodStartsAt: "2026-01-01",
+      periodEndsAt: "2026-01-02",
+      occurredAt: "2026-01-02",
+      status: "missed",
+      attemptedAmount: money(50_000, "USD"),
+      transferredAmount: money(0, "USD"),
+      reasonKind: "capacity:insufficient-liquid",
+      note: "A consequential housing obligation was missed.",
+      provenance: AUTHORED,
+    });
+    const missedHousingOutcome = world.history.resourceTransferOutcomes.at(-1)!;
+    const missedHousingSource = {
+      family: "resource-transfer-outcome" as const,
+      recordId: missedHousingOutcome.id,
+    };
+    expect(() =>
+      assertLifeHistorySourceAvailable(
+        world,
+        actor,
+        beforeMissedHousingOutcome,
+        missedHousingSource,
+      ),
+    ).toThrow(/Unavailable life-history source/);
+    const resourcePressure = recordResourcePressure(world, {
+      stableKey: "end-to-end:resource-pressure",
+      personId: actor,
+      resourceTransferOutcomeId: missedHousingOutcome.id,
+      temporaryStateIntensity: "strong",
+      durationDays: 14,
+      interpretation:
+        "The missed housing payment makes a discretionary move unsafe.",
+    });
+    world = resourcePressure.world;
+    world = recordPerception(world, {
+      stableKey: "end-to-end:resource-perception",
+      personId: actor,
+      perceivedAt: world.currentDate,
+      subjectKind: "context:resource-capacity",
+      subjectKey: "housing-obligation-risk",
+      subjectEntityId: housingFlow.id,
+      assertion: "The missed housing obligation constrains the near-term move.",
+      confidence: "high",
+      sourceCredibility: "high",
+      source: { kind: "life-history", reference: missedHousingSource },
+      supersedesPerceptionId: null,
+    });
+    const temporaryState = world.history.temporaryStates.find(
+      (record) => record.id === resourcePressure.temporaryStateId,
+    )!;
+    const housingDecision = evaluateDecision(world, {
+      stableKey: "end-to-end:housing-decision",
+      decisionType: "life.housing-choice",
+      actorPersonId: actor,
+      cutoff: currentResourceCutoff(world),
+      subject: {
+        kind: "context:resource-capacity",
+        key: "housing-choice",
+        entityId: housingFlow.id,
+      },
+      options: [
+        { key: "move", label: "Move", description: "Move immediately." },
+        {
+          key: "wait",
+          label: "Wait",
+          description: "Preserve capacity while resolving the obligation.",
+        },
+      ],
+      constraints: [],
+      considerations: [
+        {
+          stableKey: "end-to-end:resource-consideration",
+          optionKey: "wait",
+          sourceType: "domain:resource-pressure",
+          direction: "supports",
+          importance: "strong",
+          confidence: "high",
+          explanation:
+            "A concrete missed housing obligation changes this choice.",
+          sourceRefs: [
+            { kind: "life-history", reference: missedHousingSource },
+            { kind: "temporary-state", temporaryStateId: temporaryState.id },
+          ],
+        },
+      ],
+      perceptionIds: [world.history.perceptions.at(-1)!.id],
+      randomness: "none",
+      retention: "ephemeral",
+    });
     const reconnect = recordRelationshipMoment(world, {
       stableKey: "end-to-end:reconnect",
       personIds: [actor, peer],
@@ -1731,6 +2036,22 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
     ).toBe(true);
     expect(world.history.partnerships).toHaveLength(1);
     expect(world.history.resourceObligations).toHaveLength(1);
+    expect(
+      world.history.knowledge.some(
+        (record) => record.id === resourcePressure.knowledgeId,
+      ),
+    ).toBe(true);
+    expect(
+      world.history.appraisals.some(
+        (record) => record.id === resourcePressure.appraisalId,
+      ),
+    ).toBe(true);
+    expect(housingDecision.selectedOptionKey).toBe("wait");
+    expect(
+      housingDecision.sourceSnapshots.map(
+        (snapshot) => snapshot.reference.kind,
+      ),
+    ).toEqual(expect.arrayContaining(["life-history", "temporary-state"]));
     expect(
       resourcePositionAt(
         world,

@@ -304,14 +304,44 @@ export function assertResourceHousingIntegrity(
       outcome.occurredAt < outcome.periodEndsAt
     )
       throw new Error(`Invalid resource outcome chronology: ${outcome.id}`);
+    if (
+      h.resourceTransferOutcomes.some(
+        (other) =>
+          other.sequence < outcome.sequence &&
+          other.resourceFlowId === outcome.resourceFlowId &&
+          settlementPeriodsOverlap(
+            outcome.periodStartsAt,
+            outcome.periodEndsAt,
+            other.periodStartsAt,
+            other.periodEndsAt,
+          ),
+      )
+    ) {
+      throw new Error(
+        `Resource outcome has an overlapping settlement period: ${outcome.id}`,
+      );
+    }
     money(outcome.attemptedAmount, "attempted resource amount", true);
     money(outcome.transferredAmount, "transferred resource amount");
     if (outcome.attemptedAmount.currency !== outcome.transferredAmount.currency)
       throw new Error(`Resource outcome currencies disagree: ${outcome.id}`);
     const terms = resourceFlowTermsAt(world, flow.id, {
-      asOfDate: outcome.occurredAt,
+      asOfDate: outcome.periodStartsAt,
       historySequenceExclusive: outcome.sequence,
     });
+    if (
+      h.resourceFlowTerms.some(
+        (record) =>
+          record.resourceFlowId === flow.id &&
+          record.sequence < outcome.sequence &&
+          record.effectiveAt > outcome.periodStartsAt &&
+          record.effectiveAt <= outcome.periodEndsAt,
+      )
+    ) {
+      throw new Error(
+        `Resource outcome crosses an unprorated terms change: ${outcome.id}`,
+      );
+    }
     if (
       !terms ||
       terms.status !== "active" ||
@@ -867,6 +897,15 @@ function validateOutcome(
     status,
     "resource outcome status",
   );
+}
+
+function settlementPeriodsOverlap(
+  leftStartsAt: string,
+  leftEndsAt: string,
+  rightStartsAt: string,
+  rightEndsAt: string,
+): boolean {
+  return leftStartsAt <= rightEndsAt && rightStartsAt <= leftEndsAt;
 }
 
 function money(value: MoneyAmount, label: string, positive = false): void {

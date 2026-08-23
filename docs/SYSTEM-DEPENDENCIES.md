@@ -303,7 +303,7 @@ Education and participation do not contain duplicate time-demand fields. When co
 - **Stable IDs exposed:** resource-position, resource-flow, terms, and outcome IDs plus their referenced endpoint and basis IDs.
 - **Referenced by:** work compensation, care/support, housing and debt obligations, affordability, typed Stage 4 evidence, character-history plans, persistence, and later compatible campaign/organization/government finance consumers.
 - **Queries/APIs:** exact money construction, canonical writers, flow terms/outcome history, current derived liquid position, endpoint flow history, and explicit work-pay-period resolution.
-- **Serialization/persistence:** integer minor units and validated currency codes round-trip exactly. Every root/terms/outcome shares the global sequence and validates identity, endpoints, chronology, provenance, lifecycle, exact amounts, actor relevance, and source liquidity where tracked.
+- **Serialization/persistence:** integer minor units and validated currency codes round-trip exactly. Every root/terms/outcome shares the global sequence and validates identity, endpoints, chronology, non-overlapping per-flow settlement intervals, period-start terms, provenance, lifecycle, exact amounts, actor relevance, and source liquidity where tracked.
 - **Temporary scaffolding:** one opening liquid position per tracked owner/currency plus meaningful outcomes, not accounts, card purchases, merchants, taxes, interest products, investments, insurance, credit reporting, or arbitrary balance mutation. Cadence does not auto-post transfers.
 - **Current/future consumers:** Stage 5 personal life and Stage 4 subjective evidence now; later campaign, organization, and government finance may reuse the vocabulary but must add their own domain identities and rules.
 
@@ -312,7 +312,7 @@ Education and participation do not contain duplicate time-demand fields. When co
 - **Owns:** stable obligation identity linked to a flow, open basis, optional care or housing context, optional exact debt principal, active/satisfied/ended state, and derived outstanding debt.
 - **Stable IDs exposed:** obligation/state IDs and linked flow, care-responsibility, or housing-tenure IDs.
 - **Referenced by:** structured affordability, care/support, housing costs, resource-pressure evidence, character-history plans, and persistence.
-- **Queries/APIs:** obligation state/history, active obligations, outstanding debt, and `assessAffordability` returning available/strained/blocked status with reason keys and evidence IDs.
+- **Queries/APIs:** obligation state/history, active obligations, outstanding debt, and `assessAffordability` returning available/strained/blocked status with reason keys, exact liquid evidence, cadence-preserved obligation buckets, and an explicit exact cadence comparison bucket.
 - **Serialization/persistence:** debt payments reconcile only from committed outcomes and cannot exceed tracked principal; obligation state and source references obey chronology and append sequence.
 - **Temporary scaffolding:** principal/payment history only. No amortization, automatic interest, collections, credit score/report, bankruptcy, underwriting, or hidden financial-health value.
 - **Current/future consumers:** Stage 5 life choices and later explicit personal consequences; Stage 6 may supply economic conditions without replacing these identities.

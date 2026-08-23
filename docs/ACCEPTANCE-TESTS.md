@@ -496,15 +496,15 @@ Teen work asks the injected eligibility provider; a block returns structured rea
 
 ### NOW-122 — Work compensation produces exact actual income
 
-A paid work relationship has effective exact amount/cadence terms. Explicitly resolving a pay period appends a source-organization-to-person outcome and changes tracked liquid position by the integer minor-unit amount. A raise preserves prior historical terms, later periods use the new amount, concurrent jobs retain distinct flows, unpaid work cannot acquire monetary compensation, and expected future pay remains inactive until explicitly activated and resolved.
+A paid work relationship has effective exact amount/cadence terms. Explicitly resolving a pay period appends a source-organization-to-person outcome and changes tracked liquid position by the integer minor-unit amount. Terms are selected at the settled period start, so a December period paid after a January raise still uses December terms; a terms change inside one period is rejected until prorating exists. A raise preserves prior historical terms, later periods use the new amount, concurrent jobs retain distinct flows, unpaid work cannot acquire monetary compensation, and expected future pay remains inactive until explicitly activated and resolved.
 
 ### NOW-123 — Expected flows and actual outcomes remain distinct
 
-An arrangement and its cadence do not imply payment. Completed, partial, missed, and blocked outcomes preserve attempted and transferred amounts plus structured reasons. Only the committed transferred amount changes tracked positions, with equal debit/credit where both endpoints are tracked; automatic cadence posting and arbitrary balance mutation do not exist.
+An arrangement and its cadence do not imply payment. Completed, partial, missed, and blocked outcomes preserve attempted and transferred amounts plus structured reasons. One flow cannot commit a duplicate or overlapping inclusive settlement period, and corrupted persisted duplicates fail integrity. Only the committed transferred amount changes tracked positions, with equal debit/credit where both endpoints are tracked; automatic cadence posting and arbitrary balance mutation do not exist.
 
 ### NOW-124 — Equal salary can produce unequal practical capacity
 
-Two people with equal salary outcomes but different housing, support, and debt obligations receive materially different structured affordability results. The query explains available, strained, or blocked capacity using exact liquid evidence and active obligation IDs, not a wealth, financial-health, or credit score.
+Two people with equal salary outcomes but different housing, support, and debt obligations receive materially different structured affordability results. The query preserves active same-currency obligation buckets by exact cadence and uses only the caller's stated comparable cadence bucket to explain available, strained, or blocked capacity; it never fabricates a weekly-plus-monthly money total. The result uses exact liquid evidence and active obligation IDs, not a wealth, financial-health, or credit score.
 
 ### NOW-125 — Obligations and debt constrain without a banking simulator
 
@@ -548,7 +548,7 @@ Played, quick-generated, and authored plans delegate resource and housing transi
 
 ### NOW-135 — Run C persistence is exact and Stage 5 is continuous
 
-Deterministic JSON and Node-only SQLite save/load/list/replace preserve exact money, every Run C root/state/outcome, global sequence, provenance, links, and typed source. One continuous test composes formative household/care/authority, school/peers/activities, adult training/work, partnership, compensation, resource position, housing obligation/payment, dwelling/occupancy/tenure, and reconnection through stable IDs and canonical histories. All pre-Run-C tests remain meaningful.
+Deterministic JSON and Node-only SQLite save/load/list/replace preserve exact money, every Run C root/state/outcome, global sequence, provenance, links, and typed source; duplicate/overlapping settlement periods in corrupted deserialized history fail integrity. The current maximum cross-system integration gate is the continuous Stage 5 scenario plus SQLite round-trip coverage: it composes quick-generated formative household/care/authority, school/peers/activities, adult training/work, partnership, compensation, resource position, housing obligation/payment, a missed housing outcome, dwelling/occupancy/tenure, typed knowledge/appraisal/temporary-state/perception/decision evidence, cutoff safety, and reconnection through stable IDs and canonical histories. All pre-Run-C tests remain meaningful.
 
 ## Manual Now
 

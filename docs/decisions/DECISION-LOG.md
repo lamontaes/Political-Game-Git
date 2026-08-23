@@ -432,3 +432,17 @@ Meaningful relationship contact, shared activity, support, missed opportunity, a
 Run C expands the finite typed Stage 4 life-source families and the one played/quick/authored `CharacterHistoryPlan` transition boundary. Date plus exclusive append sequence controls historical availability. Orchestration-only stable-key references are stripped before canonical writer input; this is a contained retroactive correction to D-039's already-declared plan-only boundary, not a record migration. Legacy `PersonFact` precedence, nondiegetic person materialization, stable open jurisdiction identity, and territory compatibility remain unchanged.
 
 Consequence: Stage 5 is complete with one durable life graph spanning formative context, education, work, family/care, resources, obligations, housing, relationship effort, and subjective consequences. Campaign, organization, and government finance; Stage 6 generalized events, economy, metrics, and shocks; Stage 7 mutable law/institutions and territory-specific data; foreign-government simulation; property markets; and polished player UI remain explicitly deferred.
+
+## D-041 — Cadence-safe capacity and period-bound resource settlement
+
+- Date: 2026-08-23
+- Status: ACCEPTED
+- Supersedes: none; contained correction/clarification to D-040 settlement and capacity semantics
+
+Affordability remains a derived, structured capacity assessment over exact liquid position and active major obligations. It must preserve obligation amounts in validated open cadence buckets and may derive strain only from a caller-supplied exact cadence comparison bucket. Different cadence keys are not normalized, parsed, or summed into one money amount.
+
+For each `ResourceFlow`, committed outcomes own inclusive settlement intervals and no two outcomes may duplicate or overlap an interval. Completed, partial, missed, and blocked are each the sole bounded canonical outcome for their period; there is no replacement, retry, collection, or correction ledger in Stage 5. Writer and persisted-world integrity enforce this rule before balances can be double-counted.
+
+Settlement validates terms effective at the settled period start, while the actual occurrence may remain on or after its end. If a later terms record becomes effective after the period start through that period end, the period is rejected as unprorated ambiguity rather than silently selecting old or new terms. This applies to general flow outcomes and the work-compensation convenience path.
+
+Consequence: D-040 continues to provide bounded exact personal/household flow history without an automatic billing scheduler, cadence conversion scheme, payroll proration engine, banking or accounting model, Stage 6 event/economy implementation, Stage 7 law content, or UI.
