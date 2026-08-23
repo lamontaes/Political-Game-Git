@@ -412,7 +412,7 @@ Runtime transitions and snapshot loading reject dangling organization/person/jur
 
 ### NOW-101 — Stage 5 persists headlessly
 
-World schema 7 and snapshot format 6 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, life-source, and fatigue record exactly through deterministic JSON and the Node-only SQLite repository. The simulation and its Stage 5 tests import no React, DOM, browser, or SQLite runtime.
+World schema 8 and snapshot format 7 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, life-source, fatigue, and Run B generated-provenance record exactly through deterministic JSON and the Node-only SQLite repository. The simulation and its Stage 5 tests import no React, DOM, browser, or SQLite runtime.
 
 ### NOW-102 — Real career diversity uses general records
 
@@ -477,6 +477,22 @@ Creating canonical education, participation, or authority records does not silen
 ### NOW-117 — Run A remains bounded
 
 Stage 5 remains in progress. Run A adds no playable childhood or adult progression, resource or housing system, relationship-maintenance gameplay, generalized Stage 6 event engine, Stage 7 law or territory content, campaigns, elections, legislation, or polished/player-facing UI.
+
+### NOW-118 — One canonical character-history production path
+
+Played, quick-generated, and manual/authored history plans use the same canonical transitions. They produce ordinary life/event/subjective record families rather than a biography blob, duplicate `PersonFact`, alternate event store, or privileged mutation path. Generated provenance is deterministic and distinct from manual authorship; event-backed consequences preserve simulated-event provenance.
+
+### NOW-119 — Formative play is sparse, social, and subjective
+
+Birth through 17 resolves through the 0–7, 8–12, and 13–17 pacing bands and a bounded set of consequential scenes, not weekly turns. Peer, teacher, mentor, friend/conflict, household move, school, activity, civic, teen-work, and future-preparation content creates ordinary stable people, organizations, structural life records, events, interactions, knowledge, memories, and appraisals where warranted. A lone choice never writes adult personality; repeated history may only produce an existing non-applying development proposal.
+
+### NOW-120 — Adult paths compose shared life primitives
+
+Apprenticeship composes canonical training enrollment, paid work, mentor interaction, commitment, and completed enrollment state. Civilian work and Guard/Reserve service can coexist; activation temporarily inactivates rather than destroys civilian work, and return resumes it. A PCS relocation changes ordinary household location history, including an open OCONUS location fixture, without a foreign-government system.
+
+### NOW-121 — Run B eligibility, determinism, persistence, and scope hold
+
+Teen work asks the injected eligibility provider; a block returns structured reasons and writes no forbidden work truth. Quick generation is deterministic and unaffected by unrelated materialization. JSON and SQLite preserve generated history, bounded context people, provenance, global sequence, and references exactly. Run B adds no Run C finance/housing, Stage 6 generalized event engine, Stage 7 law/territory/institution content, foreign-government simulation, or polished UI.
 
 ## Manual Now
 

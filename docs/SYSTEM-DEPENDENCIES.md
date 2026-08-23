@@ -136,7 +136,7 @@ If an answer is intentionally deferred, record the boundary rather than inventin
 - **Stable IDs exposed:** `World.id`; ordered referenced entity IDs; catalog/history IDs contained by the world.
 - **Referenced by:** every world-scoped entity and history-record stable key; snapshot metadata; SQLite primary key.
 - **Queries/APIs:** `createWorld`, `assertWorldIntegrity`, `advanceWorld`, `recordWorldEvent`, `materializePerson`, entity selectors, and all world-based query functions.
-- **Serialization/persistence:** the entire JSON-safe world is validated and stored in snapshot format 6; world schema is 7. Older unsupported versions are rejected because no migration chain exists yet.
+- **Serialization/persistence:** the entire JSON-safe world is validated and stored in snapshot format 7; world schema is 8. Older unsupported versions are rejected because no migration chain exists yet.
 - **Temporary scaffolding:** one synthetic demo jurisdiction, one current snapshot per world, and a small authored diagnostic scenario rather than an autonomous world engine. Validated political transitions currently recheck the complete world and shared catalog; future batching or indexes may optimize this without weakening atomic integrity.
 - **Future consumers:** every stage, Observer Mode, branch lineage, archives, performance scheduling, and cross-platform saves.
 
@@ -220,7 +220,7 @@ Materialization is a simulation-detail operation, not an in-world event. A light
 - **Queries/APIs:** `createOrganization`, `recordOrganizationProfile`, `materializeOrganization`, `organizationsAt`, `organizationProfileAt`, and `organizationProfileHistory`.
 - **Serialization/persistence:** root/profile records share global append sequence and are validated for semantic identity, chronology, provenance, supersession, open classification namespace, and jurisdiction reference.
 - **Temporary scaffolding:** no hierarchy, ownership, finance, institution powers, or real organization catalog. Lightweight/detailed resolution currently changes simulation detail only; using an organization in child authority does not itself grant legal powers.
-- **Future consumers:** Runs B/C life content, Stage 7 institutions, Stage 9 parties/campaigns, Stage 10 agencies, Stage 11 staff, and archives.
+- **Current/future consumers:** Run B life content; Run C resources/relationship integration; Stage 7 institutions; Stage 9 parties/campaigns; Stage 10 agencies; Stage 11 staff; and archives.
 
 ## Work Relationships and Roles
 
@@ -230,7 +230,7 @@ Materialization is a simulation-detail operation, not an in-world event. A light
 - **Queries/APIs:** `createWorkRelationship`, `recordWorkStatus`, `recordWorkRole`, relationship/status/role history and as-of helpers, `activeWorkRelationshipsAt`, and `didPeopleShareOrganizationWork`.
 - **Serialization/persistence:** every root and state record shares global append sequence; validation enforces chronology, status lifecycle, linear supersession, provenance, open work/occupation taxonomy, and stable organization identity. Expected future work persists but remains inactive until a dated activation at or after its start.
 - **Temporary scaffolding:** one relationship has one current role profile, while multiple concurrent engagements use multiple relationships. Pay amounts, contracts, schedules, workplace hierarchy, job-content progression, unemployment mechanics, and office-holding semantics remain deferred.
-- **Future consumers:** Run B career content, Run C income/resources, Stage 7 office/institution links, Stage 11 assignments/staff, dialogue, eligibility, and archives.
+- **Current/future consumers:** Run B education, employment, apprenticeship, volunteer, and service content; Run C income/resources; Stage 7 office/institution links; Stage 11 assignments/staff; dialogue; eligibility; and archives.
 
 ## Education Enrollment
 
@@ -240,7 +240,7 @@ Materialization is a simulation-detail operation, not an in-world event. A light
 - **Queries/APIs:** `createEducationEnrollment`, `recordEducationEnrollmentState`, enrollment/state history and as-of helpers, `activeEducationEnrollmentsAt`, canonical-first education evidence, and shared education/work organization queries.
 - **Serialization/persistence:** roots/states share global append sequence; validation enforces stable identity, actor/organization references, actual-versus-expected chronology, terminal lifecycle, supersession, provenance, and open taxonomy. Future expected enrollment is inactive until explicit activation.
 - **Temporary scaffolding:** no GPA, grade, credential, degree, major, admission, school-stage catalog, progression content, or embedded schedule. Organization profile history supplies dated names.
-- **Future consumers:** Run B formative/adult education and career content, dialogue, eligibility, archives, and later institution data.
+- **Current/future consumers:** Run B formative/adult education and training content; dialogue; eligibility; archives; and later institution data.
 
 ## Organization Participation
 
@@ -250,7 +250,7 @@ Materialization is a simulation-detail operation, not an in-world event. A light
 - **Queries/APIs:** `createOrganizationParticipation`, `recordOrganizationParticipationState`, history/state/as-of helpers, and active participation queries.
 - **Serialization/persistence:** roots/states share global append sequence and validate identity, references, actual-versus-expected chronology, lifecycle, supersession, provenance, and open taxonomy.
 - **Temporary scaffolding:** actual service/work, including genuine volunteer labor, remains a `WorkRelationship`. Meaningful recurring demand uses `LifeCommitmentRecord`; one activity does not automatically require its own organization.
-- **Future consumers:** Run B school/community life, Run C relationship integration, dialogue, reputation, campaigns, and archives.
+- **Current/future consumers:** Run B school/community activity content; Run C relationship integration; dialogue; reputation; campaigns; and archives.
 
 ## Households and Co-residence
 
@@ -260,7 +260,7 @@ Materialization is a simulation-detail operation, not an in-world event. A light
 - **Queries/APIs:** household creation/location/membership transitions; `householdLocationAt`, `householdMembershipsAt`, `peopleInHouseholdAt`, and `hasHouseholdResidenceInJurisdiction`.
 - **Serialization/persistence:** append-oriented roots/states are validated for identity, chronology, supersession, provenance, jurisdiction references, and no overlapping primary residence. Concurrent secondary/shared memberships remain valid.
 - **Temporary scaffolding:** a location is jurisdiction plus label, not a stable dwelling, lease, property, room, or ownership interest. No household resources or automatic membership generation exists.
-- **Future consumers:** Run B formative context, Run C housing/resources/relationships, Stage 6 events, eligibility/geography, and archives.
+- **Current/future consumers:** Run B formative household/move context; Run C housing/resources/relationships; Stage 6 events; eligibility/geography; and archives.
 
 ## Kinship, Partnership, and Care
 
@@ -270,7 +270,7 @@ Materialization is a simulation-detail operation, not an in-world event. A light
 - **Queries/APIs:** record/create/state transitions; `kinshipRelationshipsAt`, `activePartnershipsAt`, care state history, and `activeCareResponsibilitiesAt`.
 - **Serialization/persistence:** records share global append sequence and validate distinct people, canonical pair ordering, chronology, lifecycle/supersession, provenance, open content kinds, and care time semantics.
 - **Temporary scaffolding:** no generation, marriage law, relationship maintenance, obligations, household inference, money flow, or automatic relationship interactions. Structural state does not replace explainable social episodes or child authority.
-- **Future consumers:** Runs B/C formative/family/relationship/resource systems, decisions, dialogue, eligibility, staff continuity, and archives.
+- **Current/future consumers:** Run B formative care/guardian context; Run C family/relationship/resource systems; decisions; dialogue; eligibility; staff continuity; and archives.
 
 ## Child Authority
 
@@ -280,7 +280,7 @@ Materialization is a simulation-detail operation, not an in-world event. A light
 - **Queries/APIs:** `createChildAuthority`, `recordChildAuthorityState`, authority/state history, active authority for a child, and authority held by a person.
 - **Serialization/persistence:** roots/states share global append sequence and validate distinct person identities, holder references, chronology, lifecycle/supersession, provenance, and open authority/basis taxonomies.
 - **Temporary scaffolding:** no statutory power bundle, parentage inference, custody litigation, visitation calendar, universal autonomy age, or jurisdiction-specific guardianship law. Authority creation never creates or changes kinship, care, partnership, or household membership.
-- **Future consumers:** Run B formative paths, Run C family/resources, Stage 7 effective law/institutions, dialogue, decisions, and archives.
+- **Current/future consumers:** Run B formative guardian context; Run C family/resources; Stage 7 effective law/institutions; dialogue; decisions; and archives.
 
 ## Time Demand and Life Load
 
@@ -290,7 +290,7 @@ Materialization is a simulation-detail operation, not an in-world event. A light
 - **Queries/APIs:** `recordLifeCommitment`, `activeLifeCommitmentsAt`, `assessLifeLoadAt`, `resolveLifeLoadPeriod`, `lifeLoadResolutionHistory`, and `fatigueAt`.
 - **Serialization/persistence:** commitment and resolution records share global append sequence. Integrity recomputes stored assessment/output/fatigue semantics, validates the historical cutoff and contributor refs, and resolves the load-to-temporary-state provenance edge.
 - **Temporary scaffolding:** deterministic qualitative calibration, not a medical model, hourly calendar, 168-hour subtraction, universal productivity score, or automatic time engine. Only explicit completed seven-day periods resolve consequences.
-- **Future consumers:** Runs B/C life play, Stage 9 campaign load, Stage 10 governing duties, Stage 11 staff workload/delegation, and later health/event consequences.
+- **Current/future consumers:** Run B life-path commitments; Run C resource-linked life play; Stage 9 campaign load; Stage 10 governing duties; Stage 11 staff workload/delegation; and later health/event consequences.
 
 Education and participation do not contain duplicate time-demand fields. When content assigns meaningful recurring load, it records an ordinary commitment whose contributor is independently queryable.
 
@@ -404,7 +404,7 @@ Private belief, public position, campaign commitment, and historical behavior re
 - **Stable IDs exposed:** tendency/value definitions, personality/value/goal-state/appraisal/perception/temporary-state records, conceptual goals, decisions, and decision traces.
 - **Referenced by:** historical mind queries, subjective projections, the political-belief adapter, deterministic demo, developer viewer, and future life/domain adapters.
 - **Queries/APIs:** validated mind-record transitions, non-applying development proposals, `buildSubjectivePerception`, `assertLifeHistorySourceAvailable`, `resolveLifeHistorySource`, date-plus-sequence mind queries, pure `evaluateDecision`, durable trace recording, and explicit NPC political-belief evaluation/application.
-- **Serialization/persistence:** all persistent families share the global history sequence and round-trip in world schema 7/snapshot format 6. Validation preserves sparse catalog references, chronology, provenance, supersession, goal lifecycle, typed source availability, communication evidence, half-open temporary intervals, life-load provenance, keyed decision identity, control references, and trace structure.
+- **Serialization/persistence:** all persistent families share the global history sequence and round-trip in world schema 8/snapshot format 7. Validation preserves sparse catalog references, chronology, provenance, supersession, goal lifecycle, typed source availability, communication evidence, half-open temporary intervals, life-load provenance, keyed decision identity, control references, and trace structure.
 - **Temporary scaffolding:** categorical definitions and internal comparison weights are deliberately small; legacy biography facts lack append-availability metadata and remain current-frontier-only; routine traces may remain ephemeral; development proposals do not apply themselves; and political belief formation is the only domain adapter.
 - **Current/future consumers:** Run A life records can be typed evidence and load resolutions reuse temporary states; Runs B/C life/content/resources, Stage 6 events, later staff/campaign/governing/diplomatic choices, and Stage 12 explanations/Observer Mode consume the same boundary.
 
@@ -426,7 +426,7 @@ Decision evaluation remains distinct from application and canonical history. Aut
 - **Stable IDs exposed:** snapshot ID and world ID.
 - **Referenced by:** SQLite repository, CLI/demo result, and future save adapters.
 - **Queries/APIs:** `createWorldSnapshot`, `serializeWorld`, and `deserializeWorld`.
-- **Serialization/persistence:** snapshot format 6 contains world schema 7 and the complete graph; load returns a defensive clone after validating per-family append order, the contiguous global sequence, cross-record chronology and sequence direction, union discriminators, categorical values, life and mind provenance, lifecycle transitions, typed life-source availability, control references, stored load derivations, and durable trace structure.
+- **Serialization/persistence:** snapshot format 7 contains world schema 8 and the complete graph; load returns a defensive clone after validating per-family append order, the contiguous global sequence, cross-record chronology and sequence direction, union discriminators, categorical values, life and mind provenance, lifecycle transitions, typed life-source availability, control references, stored load derivations, and durable trace structure.
 - **Temporary scaffolding:** no migrations, action journal, compression, recovery, parent/branch lineage, or compatibility promise for older formats.
 - **Future consumers:** desktop saves, autosave/recovery, Observer Mode, branches, archive export, debugging, and cross-platform packaging.
 
@@ -504,7 +504,7 @@ Real-world civic records retain enough dated provenance to inspect a concept, ex
 ## Current and Future Connection Points
 
 - **Current Stage 4 decisions:** consume perceived facts, typed historically available life records, memories, event knowledge, relationship episodes, sparse political records, subject expertise, incentives, temporary fatigue where relevant, and keyed RNG; emit explainable evaluations and optional durable diagnostic traces separately from canonical outcomes.
-- **Current Stage 5 Run A foundation:** supplies stable organizations; work, education, participation, and household histories; separated kinship/partnership/care/child authority; time demand/load/recovery; canonical-first compatibility queries; and the future-rule eligibility consumer. Runs B/C must extend these identities rather than add current-career, school-name identity, family-as-household, or competing resource fields.
+- **Current Stage 5 Runs A/B foundation:** supplies stable organizations; work, education, participation, and household histories; separated kinship/partnership/care/child authority; time demand/load/recovery; canonical-first compatibility queries; the future-rule eligibility consumer; and a single played/quick/authored history-plan applicator with bounded formative/adult composition content. Run C must extend these identities rather than add current-career, school-name identity, family-as-household, competing history, or resource fields.
 - **Stage 6 events:** consume explicit conditions and emit canonical events plus scoped consequence records; definitions remain separate from committed history.
 - **Stage 7 geography/institutions:** extend stable jurisdiction hierarchy and sourced/effective-dated definitions without changing generic simulation assumptions.
 - **Stage 8 populations:** reference propositions, geography, cues, and public records sparsely; never materialize every voter or every issue.

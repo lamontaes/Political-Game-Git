@@ -1,5 +1,7 @@
 # Events
 
+Run B introduces a bounded life-situation resolver, not a generalized event engine. A situation definition selects an appropriate formative context and commits its choice through ordinary `HistoricalEvent` and existing consequence writers. It has no reusable prerequisite graph, causal chain language, autonomous world-event scheduler, or parallel event store; those remain Stage 6 work.
+
 The event system determines when contextual occurrences happen and applies their consequences. The history system preserves what occurred.
 
 ## Rules

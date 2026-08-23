@@ -72,7 +72,15 @@ The public life query API includes organization/profile history; work relationsh
 
 All canonical life queries use date plus append-sequence availability. This distinguishes historical state from later-appended backfill and preserves unrelated insertion-order independence. Stable life roots and state records participate in integrity checks for IDs, append order, references, chronology, lifecycle transitions, supersession, taxonomy, provenance, residence overlap, and stored load derivation. A closed typed life-history reference lets Stage 4 perceptions, appraisals, decisions, and frozen source snapshots cite only actor-involved canonical records that existed before their date-and-sequence cutoff.
 
-World schema 7, generator `demo-world-v7`, and snapshot format 6 serialize the complete Run A graph and typed life sources through deterministic JSON and the Node-only SQLite repository. Unsupported older versions remain rejected until a migration chain exists.
+World schema 8, generator `demo-world-v8`, and snapshot format 7 serialize the complete Runs A/B graph, generated provenance, bounded context people, and typed life sources through deterministic JSON and the Node-only SQLite repository. Unsupported older versions remain rejected until a migration chain exists.
+
+## Run B Character-History Composition
+
+`CharacterHistoryPlan` is the only Run B production boundary for played, quick-generated, and manually authored histories. It orchestrates the existing organization, household, care, authority, enrollment, participation, work, commitment, event, relationship, knowledge, memory, appraisal, temporary-state, and development-proposal APIs; it is not a stored history family. Generated pre-play construction uses closed `generated` provenance, while manual and event-backed records retain authored and simulated-event provenance.
+
+Formative resolution is sparse: ages 0–7, 8–12, and 13–17 are pacing bands with increasing agency and bounded anchor-scene budgets, not a maturity stat, legal rule, or weekly scheduler. Starter situations cover household/school context, peers, teachers, activities, civic volunteering, teen work, and future preparation. Teen work asks the eligibility provider. Context people are ordinary stable `Person` records; teachers use ordinary school work, peers share ordinary context, and relationships remain derived from their records.
+
+Adult-path helpers compose rather than replace the shared graph. Apprenticeship combines training enrollment, paid work, mentor interaction, commitment, and a completed enrollment state. Guard/Reserve activation temporarily inactivates civilian work and later resumes it. PCS records household-location history, including an open overseas location identity, without a foreign-government model. Run C still owns amounts, payment cadence, resources, debt, housing, care costs, and final relationship-resource integration.
 
 ## Eligibility Consumer
 
@@ -80,4 +88,4 @@ World schema 7, generator `demo-world-v7`, and snapshot format 6 serialize the c
 
 ## Explicit Boundary
 
-Run B owns playable formative/adult life paths and education/career progression content. Run C owns finance, resources, housing/property, and relationship integration. Stage 6 owns the generalized event engine. Stage 7 owns mutable law, effective eligibility rules, institutional powers, and territory-specific legal/political data. Campaigns, elections, political office, player scheduling UI, and polished player-facing presentation remain outside Run A.
+Run B owns playable formative/adult life paths and education/career progression content. Run C owns finance, resources, housing/property, and relationship integration. Stage 6 owns the generalized event engine. Stage 7 owns mutable law, effective eligibility rules, institutional powers, and territory-specific legal/political data. Campaigns, elections, political office, player scheduling UI, and polished player-facing presentation remain outside Run B.

@@ -1,5 +1,7 @@
 # Relationships
 
+Run B confirms that formative friendship, conflict, reconciliation, teacher guidance, and mentoring use ordinary persistent people plus event and relationship-interaction history. There is no friendship entity, universal closeness field, mentor entity, or popularity meter. A later recognition or reaction must be supported by the relevant person’s knowledge, memory, appraisal, or interaction history; raw shared truth alone is insufficient.
+
 A relationship is a history between people, not a single friendship score.
 
 ## Rules

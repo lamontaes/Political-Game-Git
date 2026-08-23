@@ -1,4 +1,5 @@
 export * from "./dates";
+export * from "./character-history";
 export * from "./demo";
 export * from "./history";
 export * from "./ids";

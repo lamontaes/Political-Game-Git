@@ -399,4 +399,18 @@ Life content asks a typed eligibility provider for an allowed or blocked result 
 
 Gameplay remains U.S.-centric while jurisdiction identity stays open and stable; Run A adds no 50-state enum or validation and preserves future territory support. Playable formative/adult paths are Run B; personal resources, housing, and relationship integration are Run C. The generalized event engine, mutable law/institutions, territory-specific law/data, and player-facing UI remain deferred to their owning stages.
 
+## D-039 — Canonical character-history composition and bounded life situations
+
+- Date: 2026-08-23
+- Status: ACCEPTED
+- Supersedes: none
+
+Played progression, deterministic quick generation, and manual/authored creation use one typed `CharacterHistoryPlan` applicator that delegates exclusively to existing canonical life, event, relationship, knowledge, memory, appraisal, temporary-state, and development-proposal boundaries. The plan is orchestration and content input, never a stored biography, alternate history family, or direct mutation route. `generated` is a closed, auditable life provenance variant for deterministic pre-play construction; authored and simulated-event provenance retain their existing meanings.
+
+Formative life resolves through sparse 0–7, 8–12, and 13–17 interval bands and a deliberately bounded situation catalog. Persistent peers, teachers, mentors, caregivers, coworkers, and later contacts are ordinary stable people in ordinary organization/life context. Friendship, conflict, recognition, and mentorship arise from interaction, event, knowledge, memory, appraisal, and context history rather than a relationship score or mentor entity. A situation may create non-applying development evidence only after repeated relevant history; it never hard-sets adult personality from a single choice.
+
+Adult education/training, volunteer work, ordinary employment, apprenticeship, Guard/Reserve service, activation/return, and relocation compose stable organizations, enrollment states, work statuses/roles, commitments, households, and ordinary historical records. Teen work and other sensitive actions consume the injected eligibility provider rather than encoding a universal age or territory rule. Enrollment completion state is the current canonical outcome seam; no credential database is introduced.
+
+Consequence: Run B adds no Run C resource/compensation/housing/debt/relationship-integration system, Stage 6 generalized prerequisite/chain engine, Stage 7 law/institution/territory implementation, foreign-government simulation, organization hierarchy, population-scale rosters, or polished player UI.
+
 Consequence: a person can accumulate school, participation, and child-authority history that remains stable across organization renames, transfers, later materialization, backdated append, subjective reasoning, and persistence without duplicating biography or stealing gameplay and law work from later runs.

@@ -868,6 +868,11 @@ export interface TemporaryStateRecord {
 
 export type LifeRecordProvenance =
   | { readonly kind: "authored"; readonly note: string }
+  | {
+      /** Deterministic pre-play/history construction, distinct from manual authorship. */
+      readonly kind: "generated";
+      readonly generatorKey: string;
+    }
   | { readonly kind: "simulated-event"; readonly eventId: EntityId }
   | {
       readonly kind: "source-record";
@@ -1558,8 +1563,8 @@ export interface HistoryStore {
 }
 
 export interface World {
-  readonly schemaVersion: 7;
-  readonly generatorVersion: "demo-world-v7";
+  readonly schemaVersion: 8;
+  readonly generatorVersion: "demo-world-v8";
   readonly id: EntityId;
   readonly seed: string;
   readonly startedAt: IsoDate;

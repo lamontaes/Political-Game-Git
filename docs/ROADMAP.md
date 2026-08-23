@@ -257,10 +257,10 @@ None of these systems are implemented in Stage 4.
 ### Internal Completion Runs
 
 - **Run A — Shared Life-History and Participation Foundation — COMPLETED.** Incorporates the verified Stage 5.1 core-life checkpoint and adds organization-linked education, non-work participation, separate child authority, typed canonical-life sources, the legacy-biography compatibility boundary, and the eligibility-consumer seam.
-- **Run B — Playable Life Paths and Character History — FUTURE.** Owns playable formative/adult paths and content over Run A identities.
+- **Run B — Playable Life Paths and Character History — COMPLETED.** Adds one canonical played/quick/authored history-production boundary, sparse formative situations, persistent bounded social context, and compositional adult paths over Run A identities.
 - **Run C — Personal Resources, Housing, Relationship Integration — FUTURE.** Owns personal resources, housing, and relationship integration over the shared life graph.
 
-Stage 5 remains **IN PROGRESS** after Run A.
+Stage 5 remains **IN PROGRESS** after Run B. Run C is the next bounded candidate.
 
 ### Run A — Shared Life-History and Participation Foundation
 
@@ -290,6 +290,7 @@ Run A retains the earlier Stage 5.1 stable-organization, work, household, kinshi
 - Research-gated bounded implementation runs (D-036).
 - Stable life identities with effective-dated state, separated coincident concepts, and qualitative time/load semantics (D-037).
 - Shared life history, participation, authority, typed evidence, and future-rule consumption (D-038).
+- Canonical character-history composition and bounded life situations (D-039).
 
 #### Validation Evidence
 
@@ -298,6 +299,16 @@ The completed Stage 5.1 plan preserves its exact 111-test checkpoint evidence. T
 #### Deliberately Deferred
 
 Run B owns playable formative/adult paths, character-history construction, and education/career progression content. Run C owns finance/resources, housing/property, and relationship integration. Stage 6 owns the generalized event engine; Stage 7 owns mutable law/institutions and territory-specific legal/data content. Player scheduling UI, campaigns, elections, political office, government institutions, and legislation remain outside Run A.
+
+### Run B — Playable Life Paths and Character History
+
+Status: **COMPLETED**
+
+Run B adds a typed `CharacterHistoryPlan` that applies played, deterministic quick-generated, and manually authored transitions through the existing canonical history writers. `generated` provenance distinguishes deterministic pre-play construction from authored and event-backed records without changing life semantics. Bounded context people are ordinary stable people; teachers use work at a school organization, peers share enrollment/participation, and mentorship/friendship/conflict remain derived from ordinary interaction and subjective history.
+
+Formative content uses 0–7, 8–12, and 13–17 interval bands and a deliberately small starter set of household/school, peer, teacher, activity, civic, teen-work, and future-preparation situations. Situations append ordinary event, interaction, knowledge, memory, appraisal, temporary-state, and non-applying repeated-history development evidence as warranted. Teen work asks the injected eligibility provider. Adult helpers compose education/training, work, mentoring context, commitments, completion state, Guard/Reserve activation/return, and household relocation, including an open OCONUS location context.
+
+Run B intentionally adds no resource flows, compensation amounts, debt, housing/property, relationship upkeep, generalized event chains, mutable law/institutions, territory content, foreign-government simulation, or polished player UI. See the completed Run B plan for validation evidence.
 
 ---
 

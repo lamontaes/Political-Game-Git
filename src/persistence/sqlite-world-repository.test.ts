@@ -3,15 +3,18 @@ import { afterEach, describe, expect, it } from "vitest";
 import {
   SYNTHETIC_POLICY_IDS,
   advanceDemoWorld,
+  applyCharacterHistoryPlan,
   createChildAuthority,
   createFormationContext,
   createDemoWorld,
+  createWorld,
   createEducationEnrollment,
   createOrganization,
   createOrganizationParticipation,
   createWorkRelationship,
   currentLifeCutoff,
   evaluateDecision,
+  generateQuickCharacterHistory,
   materializePerson,
   recordChildAuthorityState,
   recordDurableDecisionTrace,
@@ -302,5 +305,44 @@ describe("SQLite world repository", () => {
     expect(
       restored?.history.decisionTraces.at(-1)?.sourceSnapshots[0]?.reference,
     ).toStrictEqual(lifeSource);
+  });
+
+  it("preserves generated Run B formative history, provenance, context people, and sequence exactly", () => {
+    repository = new SqliteWorldRepository(":memory:");
+    const demo = createDemoWorld("sqlite-stage-5-run-b");
+    const initial = createWorld({
+      seed: "sqlite-stage-5-run-b",
+      currentDate: demo.currentDate,
+      jurisdictions: demo.jurisdictionOrder.map(
+        (id) => demo.jurisdictions[id]!,
+      ),
+      people: demo.personOrder.map((id) => demo.people[id]!),
+    });
+    const personId = initial.personOrder[1] as EntityId;
+    const world = applyCharacterHistoryPlan(
+      initial,
+      generateQuickCharacterHistory(initial, {
+        stableKey: "sqlite:run-b:quick-history",
+        personId,
+        jurisdictionId: initial.jurisdictionOrder[0] as EntityId,
+      }),
+    ).world;
+
+    repository.save(world);
+    const restored = repository.load(world.id);
+    expect(restored).toStrictEqual(world);
+    expect(restored?.history.organizations[0]?.provenance).toMatchObject({
+      kind: "generated",
+      generatorKey: "character-history-v1:sqlite:run-b:quick-history",
+    });
+    expect(
+      restored?.history.events.some(
+        (event) => event.type === "life.lunch-table-choice",
+      ),
+    ).toBe(true);
+    expect(restored?.history.nextSequence).toBe(world.history.nextSequence);
+    expect(restored?.personOrder.length).toBeGreaterThan(
+      initial.personOrder.length,
+    );
   });
 });

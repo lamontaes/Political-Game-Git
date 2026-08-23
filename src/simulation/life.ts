@@ -1897,6 +1897,9 @@ function validateLifeProvenance(
     case "authored":
       assertNonEmpty(provenance.note, "Authored life provenance note");
       return;
+    case "generated":
+      assertNonEmpty(provenance.generatorKey, "Generated life provenance key");
+      return;
     case "simulated-event": {
       const event = world.history.events.find(
         (candidate) => candidate.id === provenance.eventId,
