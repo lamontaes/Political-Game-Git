@@ -115,10 +115,10 @@ function recordTeenEvent(
     jurisdictionId: MICHIGAN_ID,
     involvedEntityIds: [personId, witnessId, MICHIGAN_ID],
     participants: [
-      { personId, role: "actor", detail: "Made the choice" },
+      { personId, role: "agency:actor", detail: "Made the choice" },
       {
         personId: witnessId,
-        role: "witness",
+        role: "observation:witness",
         detail: "Present at the gathering",
       },
     ],
@@ -173,7 +173,7 @@ function buildRichHistory(): {
     endedAt: null,
     jurisdictionId: null,
     relatedPersonId: thirdId,
-    relationship: "sibling",
+    relationship: "collateral:sibling",
     summary: "The people are siblings.",
     provenance: {
       method: "manual",
@@ -194,7 +194,9 @@ function buildRichHistory(): {
     recordedAt: world.currentDate,
     jurisdictionId: LEXINGTON_PLACEHOLDER_ID,
     involvedEntityIds: [firstId, LEXINGTON_PLACEHOLDER_ID],
-    participants: [{ personId: firstId, role: "subject", detail: "Patient" }],
+    participants: [
+      { personId: firstId, role: "focus:subject", detail: "Patient" },
+    ],
     personFactConstraints: [],
     visibility: "limited",
     tags: ["health.treatment", "substance.use"],
@@ -295,8 +297,16 @@ function buildRichHistory(): {
     jurisdictionId: LEXINGTON_PLACEHOLDER_ID,
     involvedEntityIds: [firstId, secondId, LEXINGTON_PLACEHOLDER_ID],
     participants: [
-      { personId: firstId, role: "participant", detail: "Coworker" },
-      { personId: secondId, role: "participant", detail: "Coworker" },
+      {
+        personId: firstId,
+        role: "presence:participant",
+        detail: "Coworker",
+      },
+      {
+        personId: secondId,
+        role: "presence:participant",
+        detail: "Coworker",
+      },
     ],
     personFactConstraints: [],
     visibility: "limited",
@@ -313,7 +323,7 @@ function buildRichHistory(): {
     personIds: [firstId, secondId],
     eventId: workEvent.id,
     occurredAt: workEvent.occurredAt,
-    kind: "shared-work",
+    kind: "work:shared",
     change: "formed",
     significance: "meaningful",
     summary: "Working together established mutual trust.",
@@ -332,8 +342,16 @@ function buildRichHistory(): {
     jurisdictionId: LEXINGTON_PLACEHOLDER_ID,
     involvedEntityIds: [firstId, secondId, LEXINGTON_PLACEHOLDER_ID],
     participants: [
-      { personId: secondId, role: "affected", detail: "Lost employment" },
-      { personId: firstId, role: "witness", detail: "Close supporter" },
+      {
+        personId: secondId,
+        role: "impact:affected",
+        detail: "Lost employment",
+      },
+      {
+        personId: firstId,
+        role: "observation:witness",
+        detail: "Close supporter",
+      },
     ],
     personFactConstraints: [],
     visibility: "private",
@@ -351,7 +369,7 @@ function buildRichHistory(): {
     personIds: [firstId, secondId],
     eventId: unemploymentEvent.id,
     occurredAt: unemploymentEvent.occurredAt,
-    kind: "support",
+    kind: "support:given",
     change: "strengthened",
     significance: "meaningful",
     summary:
@@ -382,7 +400,7 @@ describe("persistent character and history foundation", () => {
         (fact) =>
           fact.kind === "family-relationship" &&
           fact.relatedPersonId === thirdId &&
-          fact.relationship === "sibling",
+          fact.relationship === "collateral:sibling",
       ),
     ).toBe(true);
 

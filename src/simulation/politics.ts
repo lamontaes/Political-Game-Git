@@ -16,6 +16,11 @@ import type {
   SubjectKnowledgeRecordInput,
 } from "./history";
 import { factsForPerson } from "./people";
+import {
+  assertOpenTaxonomyKey,
+  BELIEF_FORMATION_REASON_NAMESPACES,
+  POLITICAL_CUE_NAMESPACES,
+} from "./taxonomy";
 import type {
   BeliefFormationContext,
   EntityId,
@@ -34,28 +39,6 @@ const BELIEF_POSITIONS = [
 const CONVICTIONS = ["tentative", "moderate", "strong", "settled"] as const;
 const SALIENCES = ["low", "moderate", "high", "central"] as const;
 const FLEXIBILITIES = ["open", "negotiable", "conditional", "firm"] as const;
-const FORMATION_REASONS = [
-  "initial-reflection",
-  "genuine-reconsideration",
-  "new-evidence",
-  "lived-experience",
-  "proposal-changed",
-  "political-repositioning",
-  "trusted-cue",
-  "unknown",
-] as const;
-const CUE_KINDS = [
-  "expert-information",
-  "politician",
-  "party",
-  "organization",
-  "family",
-  "union",
-  "church",
-  "journalist-media",
-  "social-contact",
-  "unknown",
-] as const;
 const PUBLIC_STANCES = [
   "support",
   "oppose",
@@ -315,6 +298,7 @@ export function createFormationContext(
     claimIds: input.claimIds ?? [],
     relationshipInteractionIds: input.relationshipInteractionIds ?? [],
     subjectKnowledgeIds: input.subjectKnowledgeIds ?? [],
+    decisionTraceIds: input.decisionTraceIds ?? [],
     cue: input.cue ?? null,
     evidenceReference: input.evidenceReference ?? null,
     note: input.note ?? null,
@@ -327,7 +311,11 @@ function validateFormation(
   formedAt: string,
   formation: BeliefFormationContext,
 ): void {
-  assertMember(FORMATION_REASONS, formation.reason, "formation reason");
+  assertOpenTaxonomyKey(
+    formation.reason,
+    BELIEF_FORMATION_REASON_NAMESPACES,
+    "Belief-formation reason",
+  );
   const referencedMemories = formation.memoryIds.map((memoryId) => {
     const memory = world.history.memories.find(
       (candidate) => candidate.id === memoryId,
@@ -444,12 +432,30 @@ function validateFormation(
       );
     }
   }
+  for (const traceId of formation.decisionTraceIds) {
+    const trace = world.history.decisionTraces.find(
+      (candidate) => candidate.id === traceId,
+    );
+    if (
+      !trace ||
+      trace.context.actorPersonId !== personId ||
+      trace.recordedAt > formedAt
+    ) {
+      throw new Error(
+        `Formation references an unavailable decision trace: ${traceId}`,
+      );
+    }
+  }
   if (formation.cue) {
     const cueSource =
       formation.cue.sourcePersonId === null
         ? undefined
         : world.people[formation.cue.sourcePersonId];
-    assertMember(CUE_KINDS, formation.cue.kind, "political cue kind");
+    assertOpenTaxonomyKey(
+      formation.cue.kind,
+      POLITICAL_CUE_NAMESPACES,
+      "Political cue kind",
+    );
     assertNonEmpty(formation.cue.sourceLabel, "Political cue source label");
     if (formation.cue.sourcePersonId !== null && !cueSource) {
       throw new Error(
@@ -465,9 +471,9 @@ function validateFormation(
       );
     }
   }
-  if ((formation.reason === "trusted-cue") !== (formation.cue !== null)) {
+  if (formation.reason.startsWith("cue:") !== (formation.cue !== null)) {
     throw new Error(
-      "Trusted-cue formation reason and political cue must be supplied together.",
+      "Cue-based formation reasons and political cues must be supplied together.",
     );
   }
   if (formation.cue) validateCueConsistency(formation.cue);
@@ -477,19 +483,14 @@ function validateFormation(
 
 function validateCueConsistency(cue: BeliefFormationContext["cue"]): void {
   if (!cue) return;
-  const requiresPerson = [
-    "expert-information",
-    "politician",
-    "family",
-    "social-contact",
-  ].includes(cue.kind);
+  const namespace = cue.kind.slice(0, cue.kind.indexOf(":"));
+  const requiresPerson = namespace === "person";
   const forbidsPerson = [
-    "party",
+    "information",
     "organization",
-    "union",
-    "church",
-    "unknown",
-  ].includes(cue.kind);
+    "media",
+    "community",
+  ].includes(namespace);
   if (
     (requiresPerson && cue.sourcePersonId === null) ||
     (forbidsPerson && cue.sourcePersonId !== null)

@@ -2,7 +2,7 @@
 
 ## Objective
 
-Establish the repository, authoritative documentation, validation infrastructure, and a deterministic persistent character/history foundation that can execute independently of React.
+Establish the repository, authoritative documentation, validation infrastructure, and a deterministic persistent character/history and decision foundation that can execute independently of React.
 
 This build is foundational infrastructure, not the complete first playable vertical slice.
 
@@ -22,10 +22,19 @@ The build provides:
 - sparse append-only proposition exposures, private beliefs, public positions, campaign commitments, principles, and structured subject knowledge;
 - categorical belief dimensions and knowledge/expertise dimensions with provenance and no universal ideology normalization;
 - political queries for exposure/no-view state, current and historical positions, dated changes, commitments, principles, domain coverage, resolved formation provenance, subject knowledge, and practical experience;
+- a stable data-driven mind catalog with sparse append-oriented personality-tendency and personal-value histories, categorical descriptions, provenance, and supersession;
+- persistent goal-state histories, event appraisals, explicit subjective perceptions, and expiring temporary-state records;
+- historical/as-of queries for personality tendencies, personal values, goals, appraisals, perceptions, temporary states, and durable decision explanations;
+- subjective-perception projection from information available to one person at an as-of date and exclusive history-sequence cutoff;
+- non-applying, provenance-bearing development proposals for personality, values, goals, or relationships;
+- a general pure decision evaluator with stable options, absolute hard constraints, conflicting soft considerations, source snapshots, qualitative explanations, and isolated keyed bounded randomness;
+- separate evaluation, ephemeral or durable trace retention, NPC application, and canonical domain-consequence layers;
+- a political-belief formation adapter supporting no opinion, defer, conflict, tentative support/opposition, and stronger support/opposition without reading unknown truth or another person's private belief;
+- explicit observer or controlled-person world state that rejects silent autonomous application of a controlled person's major internal choices;
 - lightweight people that can be materialized deterministically;
 - monotonic simulated-time advancement;
-- a versioned JSON snapshot codec and Node-only SQLite world repository that preserve the catalog and political histories;
-- a headless demo that creates a seeded world and Lexington-Fayette placeholder, generates six lightweight people, advances time, records events, materializes one existing person, and replays the scenario to demonstrate reproducibility.
+- a versioned JSON snapshot codec and Node-only SQLite world repository that preserve both catalogs, control, political and mind histories, and decision traces; and
+- a headless demo that creates a seeded world and Lexington-Fayette placeholder, generates six lightweight people, advances time, records contextual and Stage 4 diagnostic histories, materializes one existing person, and replays the scenario to demonstrate reproducibility.
 
 ### Developer Viewer
 
@@ -39,8 +48,11 @@ The React viewer allows a developer to:
 - inspect structured biography facts, generated detail, and a combined person timeline;
 - explicitly materialize a lightweight person;
 - inspect global event context, participants, known-by records, claims, and involved entities;
-- inspect memories and relationship-interaction history without raw personality or relationship meters.
-- inspect proposition exposure, private-belief history, public positions, commitments, principles, complete subject-knowledge history, fact-derived expertise, and resolved provenance without raw ideology or personality scores.
+- inspect memories and relationship-interaction history without raw relationship meters;
+- inspect personality-tendency, personal-value, goal, appraisal, explicit-perception, and temporary-state histories;
+- inspect the objective event beside a person's appraisal without presenting either as the other;
+- inspect current subjective-perception item count and recent durable decision traces with qualitative options, blockers, considerations, and frozen source explanations; and
+- inspect proposition exposure, private-belief history, public positions, commitments, principles, complete subject-knowledge history, fact-derived expertise, and political-formation reasoning without raw ideology, personality, relationship, trust, utility, or random numbers.
 
 This is diagnostic UI, not final game art or final player-facing information design.
 
@@ -61,6 +73,16 @@ This is diagnostic UI, not final game art or final player-facing information des
 - Principles and factual education/occupation expertise never automatically assign proposition positions.
 - Knowledge and conviction remain independent; high expertise can coexist with uncertainty and low knowledge with strong conviction.
 - A catalog with thousands of propositions leaves per-person political state sparse.
+- Personality tendencies, personal values, political principles, proposition beliefs, expertise, memories, appraisals, perceptions, goals, temporary states, and canonical events remain separate sparse layers.
+- Different people may appraise the same event differently, one may have no appraisal, and a later reinterpretation never changes event truth or the earlier appraisal.
+- Subjective perception includes only person-accessible records available before both the date and sequence cutoff; contradictory perceptions may coexist without exposing diagnostic truth.
+- Expired temporary states remain historical but no longer enter a later perception snapshot.
+- Hard constraints always block an option, while soft considerations and slight bounded randomness cannot make an unavailable option win.
+- Decision results are deterministic and option-order independent for the same stable inputs; unrelated actors and UI activity cannot consume randomness that changes them.
+- A durable decision trace explains an evaluation but does not become the canonical action or event.
+- No-opinion and defer political outcomes create no private belief; applied NPC belief outcomes remain append-only and cite the earlier trace.
+- A person-based political cue requires prior communication and relationship provenance; closeness does not imply universal trust and private beliefs do not leak.
+- Autonomous application rejects the controlled person even though evaluation and non-applying proposals remain available.
 - Versioned serialization and SQLite loading preserve the complete world graph.
 - The core executes under Node without React or a graphical environment.
 - Simulation randomness never bypasses the seeded RNG.
@@ -72,8 +94,8 @@ This build does not implement:
 
 - cross-version migrations, branch persistence, recovery tooling, or a production desktop save picker;
 - detailed or purportedly factual Lexington civic data;
-- elections, campaigning, legislation, staff, polling, media simulation, full career/family behavior, or full NPC autonomy;
-- automatic NPC opinion formation, generated personality-driven beliefs, political action classification, or a final personality/goals model;
+- elections, campaigning, legislation, institutions, mutable law, staff, polling, media simulation, event causality, full career/family/household/resource behavior, or full NPC autonomy;
+- autonomous personality/value/relationship development, background population-scale opinion change, automatic knowledge propagation or memory recall, or political action classification;
 - final UI, art direction, or production content;
 - an LLM or external AI runtime dependency;
 - the complete target vertical slice.
@@ -90,12 +112,12 @@ Future work is expected to prove:
 - civilian education/work;
 - persistent characters beyond the implemented life-history foundation;
 - progressive NPC generation;
-- autonomous political belief formation and change over the implemented sparse belief foundation;
+- population-scale political belief formation and continuing change beyond the implemented NPC proposal/application adapter;
 - autonomous memory recall and behavioral consequences;
 - autonomous relationship decisions and asymmetric trust;
-- perceptions;
+- automatic perception, attention, communication, and knowledge-propagation behavior beyond the implemented explicit records and subjective projection;
 - deeper expertise effects on options, capability, and reasoning;
-- personality and goals;
+- formative personality/value development and gameplay that creates or changes the implemented histories and goals;
 - political volunteering;
 - candidate recruitment;
 - Lexington council campaign;

@@ -15,4 +15,4 @@ Legislation is composed of substantive provisions and proceeds through instituti
 - Easy legislation may remain easy; difficult legislation should create meaningful choices rather than repetitive work.
 - Failed legislation remains durable political history.
 
-Legislation is not implemented in the first build.
+Legislation is not implemented in the first build. The Stage 4 character-mind and decision architecture can later help explain contextual support, opposition, and negotiation choices, but it does not define bills, provisions, institutions, procedures, votes, law, or policy effects.

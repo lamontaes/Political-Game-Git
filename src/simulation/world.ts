@@ -6,6 +6,12 @@ import {
 } from "./history";
 import type { HistoricalEventInput } from "./history";
 import { createStableId } from "./ids";
+import {
+  assertMindCatalogIntegrity,
+  cloneMindCatalog,
+  createSyntheticMindCatalog,
+} from "./mind-catalog";
+import { validateMindHistoryIntegrity } from "./mind-integrity";
 import { materializePersonRecord, personName } from "./people";
 import {
   assertPolicyCatalogIntegrity,
@@ -13,6 +19,16 @@ import {
   createSyntheticPolicyCatalog,
 } from "./policy";
 import { normalizeSeed } from "./rng";
+import {
+  assertOpenTaxonomyKey,
+  assertDottedContentKey,
+  BELIEF_FORMATION_REASON_NAMESPACES,
+  EVENT_PARTICIPANT_ROLE_NAMESPACES,
+  FAMILY_RELATIONSHIP_NAMESPACES,
+  isOpenTaxonomyKey,
+  POLITICAL_CUE_NAMESPACES,
+  RELATIONSHIP_INTERACTION_NAMESPACES,
+} from "./taxonomy";
 import type {
   BeliefFormationContext,
   ClaimRecord,
@@ -21,12 +37,14 @@ import type {
   HistoricalEvent,
   IsoDate,
   Jurisdiction,
+  MindCatalog,
   Person,
   PersonFact,
   PersonFactKind,
   PolicyCatalog,
   SubjectKnowledgeProvenance,
   World,
+  ControlState,
 } from "./types";
 
 const PERSON_FACT_KINDS: readonly PersonFactKind[] = [
@@ -44,27 +62,10 @@ const DATA_STATUSES = [
   "superseded",
 ] as const;
 const EVENT_VISIBILITIES = ["private", "limited", "public"] as const;
-const EVENT_PARTICIPANT_ROLES = [
-  "actor",
-  "participant",
-  "subject",
-  "affected",
-  "witness",
-] as const;
 const FACT_PROVENANCE_METHODS = [
   "procedural-placeholder",
   "simulated-event",
   "manual",
-] as const;
-const FAMILY_RELATIONSHIP_KINDS = [
-  "parent",
-  "child",
-  "sibling",
-  "spouse",
-  "partner",
-  "guardian",
-  "ward",
-  "other",
 ] as const;
 const EDUCATION_STATUSES = [
   "attended",
@@ -88,17 +89,6 @@ const CLAIM_TRUTH_RELATIONS = [
   "reframes",
   "unknown",
 ] as const;
-const RELATIONSHIP_KINDS = [
-  "introduction",
-  "shared-work",
-  "shared-experience",
-  "support",
-  "favor",
-  "conflict",
-  "betrayal",
-  "commitment",
-  "other",
-] as const;
 const RELATIONSHIP_CHANGES = [
   "formed",
   "strengthened",
@@ -116,28 +106,6 @@ const BELIEF_POSITIONS = [
 const CONVICTIONS = ["tentative", "moderate", "strong", "settled"] as const;
 const SALIENCES = ["low", "moderate", "high", "central"] as const;
 const FLEXIBILITIES = ["open", "negotiable", "conditional", "firm"] as const;
-const FORMATION_REASONS = [
-  "initial-reflection",
-  "genuine-reconsideration",
-  "new-evidence",
-  "lived-experience",
-  "proposal-changed",
-  "political-repositioning",
-  "trusted-cue",
-  "unknown",
-] as const;
-const CUE_KINDS = [
-  "expert-information",
-  "politician",
-  "party",
-  "organization",
-  "family",
-  "union",
-  "church",
-  "journalist-media",
-  "social-contact",
-  "unknown",
-] as const;
 const PUBLIC_STANCES = [
   "support",
   "oppose",
@@ -170,6 +138,8 @@ export interface CreateWorldInput {
   readonly jurisdictions: readonly Jurisdiction[];
   readonly people: readonly Person[];
   readonly policyCatalog?: PolicyCatalog;
+  readonly mindCatalog?: MindCatalog;
+  readonly control?: ControlState;
 }
 
 function recordById<T extends { readonly id: EntityId }>(
@@ -188,7 +158,7 @@ function recordById<T extends { readonly id: EntityId }>(
 }
 
 export function createWorldId(seed: string): EntityId {
-  return createStableId("world", `demo-world-v4:${normalizeSeed(seed)}`);
+  return createStableId("world", `demo-world-v5:${normalizeSeed(seed)}`);
 }
 
 export function createWorld(input: CreateWorldInput): World {
@@ -196,11 +166,16 @@ export function createWorld(input: CreateWorldInput): World {
   const currentDate = makeIsoDate(input.currentDate);
   const worldId = createWorldId(seed);
   const policyCatalog = input.policyCatalog ?? createSyntheticPolicyCatalog();
+  const mindCatalog = input.mindCatalog ?? createSyntheticMindCatalog();
+  const control = input.control ?? { kind: "observer" as const };
 
   assertJsonSafe(input.jurisdictions, "jurisdictions");
   assertJsonSafe(input.people, "people");
   assertJsonSafe(policyCatalog, "policyCatalog");
+  assertJsonSafe(mindCatalog, "mindCatalog");
+  assertJsonSafe(control, "control");
   assertPolicyCatalogIntegrity(policyCatalog);
+  assertMindCatalogIntegrity(mindCatalog);
 
   if (input.jurisdictions.length === 0) {
     throw new Error("A world must begin with at least one jurisdiction.");
@@ -213,12 +188,13 @@ export function createWorld(input: CreateWorldInput): World {
     input.people,
     policyCatalog,
   );
+  validateControl(control, new Set(input.people.map((person) => person.id)));
   const jurisdictions = input.jurisdictions.map(cloneJurisdiction);
   const people = input.people.map(clonePerson);
 
   return {
-    schemaVersion: 4,
-    generatorVersion: "demo-world-v4",
+    schemaVersion: 5,
+    generatorVersion: "demo-world-v5",
     id: worldId,
     seed,
     startedAt: currentDate,
@@ -229,13 +205,15 @@ export function createWorld(input: CreateWorldInput): World {
     people: recordById(people),
     personOrder: people.map((person) => person.id),
     policyCatalog: clonePolicyCatalog(policyCatalog),
+    mindCatalog: cloneMindCatalog(mindCatalog),
+    control: { ...control },
     history: createHistoryStore(),
   };
 }
 
 export function assertWorldIntegrity(world: World): void {
   assertJsonSafe(world, "world");
-  if (world.schemaVersion !== 4 || world.generatorVersion !== "demo-world-v4") {
+  if (world.schemaVersion !== 5 || world.generatorVersion !== "demo-world-v5") {
     throw new Error("Unsupported world schema or generator version.");
   }
   if (world.id !== createWorldId(world.seed)) {
@@ -259,6 +237,7 @@ export function assertWorldIntegrity(world: World): void {
   );
   const people = orderedRecords(world.people, world.personOrder, "person");
   assertPolicyCatalogIntegrity(world.policyCatalog);
+  assertMindCatalogIntegrity(world.mindCatalog);
   validateInitialEntities(
     world.id,
     currentDate,
@@ -266,6 +245,7 @@ export function assertWorldIntegrity(world: World): void {
     people,
     world.policyCatalog,
   );
+  validateControl(world.control, new Set(world.personOrder));
   validateHistoryIntegrity(world);
 }
 
@@ -294,7 +274,7 @@ export function recordWorldEvent(
   }
 
   assertNonEmptyString(input.stableKey, "Historical event stable key");
-  assertNonEmptyString(input.type, "Historical event type");
+  assertDottedContentKey(input.type, "Historical event type");
   assertNonEmptyString(input.summary, "Historical event summary");
   if (!EVENT_VISIBILITIES.includes(input.visibility)) {
     throw new Error(
@@ -346,11 +326,11 @@ export function recordWorldEvent(
         `Historical event participant is not an involved entity: ${participant.personId}`,
       );
     }
-    if (!EVENT_PARTICIPANT_ROLES.includes(participant.role)) {
-      throw new Error(
-        `Historical event participant has an invalid role: ${String(participant.role)}`,
-      );
-    }
+    assertOpenTaxonomyKey(
+      participant.role,
+      EVENT_PARTICIPANT_ROLE_NAMESPACES,
+      "Historical event participant role",
+    );
     if (participant.detail !== null) {
       assertNonEmptyString(participant.detail, "Event participant detail");
     }
@@ -513,8 +493,29 @@ export function resolveEntityLabel(world: World, entityId: EntityId): string {
     world.policyCatalog.propositions[entityId]?.name ??
     world.policyCatalog.subjects[entityId]?.name ??
     world.policyCatalog.principles[entityId]?.name ??
+    world.mindCatalog.tendencies[entityId]?.name ??
+    world.mindCatalog.values[entityId]?.name ??
     entityId
   );
+}
+
+function validateControl(
+  control: ControlState,
+  personIds: ReadonlySet<EntityId>,
+): void {
+  switch (control.kind) {
+    case "observer":
+      return;
+    case "person":
+      if (!personIds.has(control.personId)) {
+        throw new Error(
+          `Control state references a missing person: ${control.personId}`,
+        );
+      }
+      return;
+    default:
+      throw new Error(`Invalid control-state kind: ${runtimeKind(control)}`);
+  }
 }
 
 function validateInitialEntities(
@@ -695,11 +696,11 @@ function validateInitialEntities(
               `A person cannot be their own family relation: ${fact.id}`,
             );
           }
-          if (!FAMILY_RELATIONSHIP_KINDS.includes(fact.relationship)) {
-            throw new Error(
-              `Family fact has an invalid relationship: ${fact.id}`,
-            );
-          }
+          assertOpenTaxonomyKey(
+            fact.relationship,
+            FAMILY_RELATIONSHIP_NAMESPACES,
+            "Family relationship",
+          );
           break;
         case "education":
           assertNonEmptyString(fact.institution, "Education institution");
@@ -876,6 +877,13 @@ function validateHistoryIntegrity(world: World): void {
     ...history.campaignCommitments,
     ...history.principles,
     ...history.subjectKnowledge,
+    ...history.personalityTendencies,
+    ...history.personalValues,
+    ...history.goalStates,
+    ...history.appraisals,
+    ...history.perceptions,
+    ...history.temporaryStates,
+    ...history.decisionTraces,
   ];
   const sequences = records
     .map((record) => record.sequence)
@@ -897,6 +905,13 @@ function validateHistoryIntegrity(world: World): void {
   assertSequenceOrdered(history.campaignCommitments, "campaign commitment");
   assertSequenceOrdered(history.principles, "principle record");
   assertSequenceOrdered(history.subjectKnowledge, "subject knowledge");
+  assertSequenceOrdered(history.personalityTendencies, "personality tendency");
+  assertSequenceOrdered(history.personalValues, "personal value");
+  assertSequenceOrdered(history.goalStates, "goal state");
+  assertSequenceOrdered(history.appraisals, "appraisal");
+  assertSequenceOrdered(history.perceptions, "perception");
+  assertSequenceOrdered(history.temporaryStates, "temporary state");
+  assertSequenceOrdered(history.decisionTraces, "decision trace");
   const ids = new Set<EntityId>([
     world.id,
     ...world.jurisdictionOrder,
@@ -962,7 +977,7 @@ function validateHistoryIntegrity(world: World): void {
     ) {
       throw new Error(`Historical event has invalid chronology: ${event.id}`);
     }
-    assertNonEmptyString(event.type, "Historical event type");
+    assertDottedContentKey(event.type, "Historical event type");
     assertNonEmptyString(event.summary, "Historical event summary");
     if (!EVENT_VISIBILITIES.includes(event.visibility)) {
       throw new Error(`Historical event has invalid visibility: ${event.id}`);
@@ -1003,7 +1018,10 @@ function validateHistoryIntegrity(world: World): void {
         );
       }
       if (
-        !EVENT_PARTICIPANT_ROLES.includes(participant.role) ||
+        !isOpenTaxonomyKey(
+          participant.role,
+          EVENT_PARTICIPANT_ROLE_NAMESPACES,
+        ) ||
         event.occurredAt < person.birthDate
       ) {
         throw new Error(
@@ -1317,10 +1335,10 @@ function validateHistoryIntegrity(world: World): void {
         );
       }
     }
-    assertMember(
-      RELATIONSHIP_KINDS,
+    assertOpenTaxonomyKey(
       interaction.kind,
-      "relationship interaction kind",
+      RELATIONSHIP_INTERACTION_NAMESPACES,
+      "Relationship interaction kind",
     );
     assertMember(
       RELATIONSHIP_CHANGES,
@@ -1374,6 +1392,7 @@ function validateHistoryIntegrity(world: World): void {
     personIds,
     exposureIds,
   );
+  validateMindHistoryIntegrity(world, ids);
 }
 
 function validatePoliticalHistory(
@@ -1654,7 +1673,11 @@ function validateFormationContext(
   >,
   exposureIds: ReadonlySet<EntityId>,
 ): void {
-  assertMember(FORMATION_REASONS, formation.reason, "formation reason");
+  assertOpenTaxonomyKey(
+    formation.reason,
+    BELIEF_FORMATION_REASON_NAMESPACES,
+    "Belief-formation reason",
+  );
   assertCanonicalEntityIds(formation.relevantEventIds, "formation events");
   assertCanonicalEntityIds(formation.sourceFactIds, "formation facts");
   assertCanonicalEntityIds(
@@ -1674,6 +1697,10 @@ function validateFormationContext(
   assertCanonicalEntityIds(
     formation.subjectKnowledgeIds,
     "formation subject knowledge",
+  );
+  assertCanonicalEntityIds(
+    formation.decisionTraceIds,
+    "formation decision traces",
   );
   const referencedMemories = formation.memoryIds.map((memoryId) => {
     const memory = world.history.memories.find(
@@ -1799,12 +1826,31 @@ function validateFormationContext(
       );
     }
   }
+  for (const traceId of formation.decisionTraceIds) {
+    const trace = world.history.decisionTraces.find(
+      (candidate) => candidate.id === traceId,
+    );
+    if (
+      !trace ||
+      trace.context.actorPersonId !== personId ||
+      trace.recordedAt > formedAt ||
+      trace.sequence >= formationSequence
+    ) {
+      throw new Error(
+        `Formation references an unavailable decision trace: ${traceId}`,
+      );
+    }
+  }
   if (formation.cue) {
     const cueSource =
       formation.cue.sourcePersonId === null
         ? undefined
         : world.people[formation.cue.sourcePersonId];
-    assertMember(CUE_KINDS, formation.cue.kind, "political cue kind");
+    assertOpenTaxonomyKey(
+      formation.cue.kind,
+      POLITICAL_CUE_NAMESPACES,
+      "Political cue kind",
+    );
     assertNonEmptyString(
       formation.cue.sourceLabel,
       "Political cue source label",
@@ -1821,9 +1867,9 @@ function validateFormationContext(
       throw new Error("A political cue source predates their birth.");
     }
   }
-  if ((formation.reason === "trusted-cue") !== (formation.cue !== null)) {
+  if (formation.reason.startsWith("cue:") !== (formation.cue !== null)) {
     throw new Error(
-      "Trusted-cue formation reason and political cue must be supplied together.",
+      "Cue-based formation reasons and political cues must be supplied together.",
     );
   }
   if (formation.cue) validatePoliticalCueConsistency(formation.cue);
@@ -1837,19 +1883,14 @@ function validateFormationContext(
 function validatePoliticalCueConsistency(
   cue: NonNullable<BeliefFormationContext["cue"]>,
 ): void {
-  const requiresPerson = [
-    "expert-information",
-    "politician",
-    "family",
-    "social-contact",
-  ].includes(cue.kind);
+  const namespace = cue.kind.slice(0, cue.kind.indexOf(":"));
+  const requiresPerson = namespace === "person";
   const forbidsPerson = [
-    "party",
+    "information",
     "organization",
-    "union",
-    "church",
-    "unknown",
-  ].includes(cue.kind);
+    "media",
+    "community",
+  ].includes(namespace);
   if (
     (requiresPerson && cue.sourcePersonId === null) ||
     (forbidsPerson && cue.sourcePersonId !== null)

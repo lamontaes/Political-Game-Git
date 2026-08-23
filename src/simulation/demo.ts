@@ -1,5 +1,15 @@
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
+import {
+  createMindProvenance,
+  recordAppraisal,
+  recordGoalState,
+  recordPersonalValue,
+  recordPersonalityTendency,
+  recordPerception,
+  recordTemporaryState,
+} from "./mind";
+import { SYNTHETIC_MIND_IDS } from "./mind-catalog";
 import { createLightweightPerson, personName } from "./people";
 import { SYNTHETIC_POLICY_IDS } from "./policy";
 import {
@@ -11,6 +21,10 @@ import {
   recordPublicPosition,
   recordSubjectKnowledge,
 } from "./politics";
+import {
+  applyNpcPoliticalBeliefFormation,
+  evaluatePoliticalBeliefFormation,
+} from "./political-belief-formation";
 import { pickDistinct, SeededRng, normalizeSeed } from "./rng";
 import {
   recordClaim,
@@ -115,7 +129,11 @@ export function createDemoWorld(seedInput = DEFAULT_DEMO_SEED): World {
       jurisdictionId: jurisdiction.id,
       involvedEntityIds: [person.id, jurisdiction.id],
       participants: [
-        { personId: person.id, role: "subject", detail: "Generated person" },
+        {
+          personId: person.id,
+          role: "focus:subject",
+          detail: "Generated person",
+        },
       ],
       personFactConstraints: [],
       visibility: "private",
@@ -166,7 +184,7 @@ export function createDemoWorld(seedInput = DEFAULT_DEMO_SEED): World {
     salience: "moderate",
     flexibility: "open",
     rationale: "Initial synthetic diagnostic record.",
-    formation: createFormationContext("initial-reflection", {
+    formation: createFormationContext("reflection:initial", {
       propositionExposureIds: [diagnosticExposure.id],
       note: "Authored fixture; not inferred from personality or biography.",
     }),
@@ -206,7 +224,7 @@ export function createDemoWorld(seedInput = DEFAULT_DEMO_SEED): World {
     conviction: "moderate",
     flexibility: "conditional",
     qualification: "Institutional stability also matters.",
-    formation: createFormationContext("initial-reflection", {
+    formation: createFormationContext("reflection:initial", {
       note: "Authored fixture; no proposition positions were inferred.",
     }),
     supersedesPrincipleRecordId: null,
@@ -226,6 +244,186 @@ export function createDemoWorld(seedInput = DEFAULT_DEMO_SEED): World {
     },
     supersedesKnowledgeId: null,
   });
+
+  const diagnosticEntryEvent = world.history.events.find(
+    (event) =>
+      event.type === "person.lightweight-generated" &&
+      event.involvedEntityIds.includes(diagnosticPerson.id),
+  );
+  if (!diagnosticEntryEvent) {
+    throw new Error(
+      "Demo world did not retain the diagnostic person's entry event.",
+    );
+  }
+  world = recordPersonalityTendency(world, {
+    stableKey: `initial:tendency:${diagnosticPerson.id}:risk-approach`,
+    personId: diagnosticPerson.id,
+    tendencyId: SYNTHETIC_MIND_IDS.tendencies.riskApproach,
+    recordedAt: world.currentDate,
+    expressionKey: "cautious",
+    strength: "moderate",
+    confidence: "medium",
+    scopeTags: ["decision.uncertainty"],
+    provenance: createMindProvenance("authored", {
+      note: "Synthetic diagnostic fixture; not inferred from biography.",
+    }),
+    supersedesTendencyId: null,
+  });
+  world = recordPersonalValue(world, {
+    stableKey: `initial:value:${diagnosticPerson.id}:compassion`,
+    personId: diagnosticPerson.id,
+    valueId: SYNTHETIC_MIND_IDS.values.compassion,
+    recordedAt: world.currentDate,
+    orientation: "embraces",
+    strength: "strong",
+    salience: "high",
+    qualification: "Especially when concrete hardship is visible.",
+    provenance: createMindProvenance("authored", {
+      note: "Synthetic diagnostic fixture; no policy position is implied.",
+    }),
+    supersedesValueId: null,
+  });
+  world = recordGoalState(world, {
+    stableKey: `initial:goal:${diagnosticPerson.id}:understand-local-needs`,
+    goalKey: "understand-local-needs",
+    personId: diagnosticPerson.id,
+    recordedAt: world.currentDate,
+    objective: "Understand one concrete local need before taking a firm view.",
+    domain: "community-learning",
+    scope: "Lexington-Fayette placeholder",
+    priority: "moderate",
+    status: "active",
+    targetEntityId: jurisdiction.id,
+    deadline: null,
+    outcome: null,
+    provenance: createMindProvenance("authored", {
+      note: "Synthetic diagnostic goal.",
+    }),
+    replacesGoalId: null,
+    supersedesGoalStateId: null,
+  });
+  world = recordAppraisal(world, {
+    stableKey: `initial:appraisal:${diagnosticPerson.id}:entry`,
+    personId: diagnosticPerson.id,
+    eventId: diagnosticEntryEvent.id,
+    memoryId: null,
+    eventKnowledgeId: null,
+    appraisedAt: world.currentDate,
+    meanings: [
+      {
+        key: "new-responsibility",
+        label: "New responsibility",
+        valence: "mixed",
+        intensity: "moderate",
+      },
+    ],
+    interpretation:
+      "Entering the active simulation feels like an invitation to learn before committing.",
+    confidence: "medium",
+    involvedPersonIds: [diagnosticPerson.id],
+    provenance: createMindProvenance("reflection", {
+      sourceRefs: [
+        { kind: "historical-event", eventId: diagnosticEntryEvent.id },
+      ],
+      note: "Synthetic diagnostic appraisal, separate from event truth.",
+    }),
+    supersedesAppraisalId: null,
+  });
+  const diagnosticAppraisal = world.history.appraisals.at(-1);
+  if (!diagnosticAppraisal) {
+    throw new Error("Demo world did not record its diagnostic appraisal.");
+  }
+  world = recordTemporaryState(world, {
+    stableKey: `initial:temporary-state:${diagnosticPerson.id}:heightened-attention`,
+    personId: diagnosticPerson.id,
+    stateKey: "heightened-attention",
+    label: "Heightened attention",
+    recordedAt: world.currentDate,
+    startsAt: world.currentDate,
+    endsAt: makeIsoDate("2026-01-06"),
+    intensity: "subtle",
+    decisionTags: ["political-belief-formation"],
+    provenance: createMindProvenance("reflection", {
+      sourceRefs: [{ kind: "appraisal", appraisalId: diagnosticAppraisal.id }],
+      note: "Short-lived context, not a permanent mood meter.",
+    }),
+  });
+
+  world = recordPropositionExposure(world, {
+    stableKey: `initial:exposure:${diagnosticPerson.id}:drug-price-caps`,
+    personId: diagnosticPerson.id,
+    propositionId: SYNTHETIC_POLICY_IDS.propositions.drugPriceCaps,
+    encounteredAt: world.currentDate,
+    summary:
+      "Encountered a synthetic proposal framed as limiting selected out-of-pocket drug prices.",
+    provenance: {
+      kind: "manual",
+      note: "Synthetic diagnostic framing, not a sourced policy-effect claim.",
+    },
+  });
+  const priceCapExposure = world.history.propositionExposures.at(-1);
+  if (!priceCapExposure) {
+    throw new Error("Demo world did not record its price-cap exposure.");
+  }
+  world = recordPerception(world, {
+    stableKey: `initial:perception:${diagnosticPerson.id}:drug-price-caps`,
+    personId: diagnosticPerson.id,
+    perceivedAt: world.currentDate,
+    subjectKind: "domain:policy-proposition",
+    subjectKey: `proposition:${SYNTHETIC_POLICY_IDS.propositions.drugPriceCaps}`,
+    subjectEntityId: SYNTHETIC_POLICY_IDS.propositions.drugPriceCaps,
+    assertion:
+      "This proposal might reduce hardship for some people who buy medicine.",
+    confidence: "low",
+    sourceCredibility: "unknown",
+    source: {
+      kind: "proposition-exposure",
+      exposureId: priceCapExposure.id,
+    },
+    supersedesPerceptionId: null,
+  });
+  const priceCapPerception = world.history.perceptions.at(-1);
+  const compassionValue = world.history.personalValues.at(-1);
+  if (!priceCapPerception || !compassionValue) {
+    throw new Error(
+      "Demo world did not prepare its political reasoning sources.",
+    );
+  }
+  const politicalProposal = evaluatePoliticalBeliefFormation(world, {
+    stableKey: `initial:belief-formation:${diagnosticPerson.id}:drug-price-caps`,
+    personId: diagnosticPerson.id,
+    propositionId: SYNTHETIC_POLICY_IDS.propositions.drugPriceCaps,
+    perceptionIds: [priceCapPerception.id],
+    randomness: "none",
+    beliefDimensions: {
+      conviction: "tentative",
+      salience: "high",
+      flexibility: "open",
+    },
+    factors: [
+      {
+        stableKey: "compassion-under-perceived-hardship",
+        favors: "tentative-support",
+        sourceType: "mind:value",
+        importance: "strong",
+        confidence: "medium",
+        explanation:
+          "In this specific encounter, perceived hardship makes the actor's compassion value relevant without creating a universal value-to-policy rule.",
+        sourceRefs: [
+          {
+            kind: "personal-value",
+            valueRecordId: compassionValue.id,
+          },
+          { kind: "perception", perceptionId: priceCapPerception.id },
+          {
+            kind: "proposition-exposure",
+            exposureId: priceCapExposure.id,
+          },
+        ],
+      },
+    ],
+  });
+  world = applyNpcPoliticalBeliefFormation(world, politicalProposal);
 
   return world;
 }
@@ -270,12 +468,12 @@ export function advanceDemoWorld(world: World, days = 7): World {
     participants: [
       {
         personId: firstPerson.id,
-        role: "participant",
+        role: "presence:participant",
         detail: "Attendee",
       },
       {
         personId: secondPerson.id,
-        role: "participant",
+        role: "presence:participant",
         detail: "Attendee",
       },
     ],
@@ -307,7 +505,7 @@ export function advanceDemoWorld(world: World, days = 7): World {
     personIds: [firstPerson.id, secondPerson.id],
     eventId: listeningEvent.id,
     occurredAt: listeningEvent.occurredAt,
-    kind: "shared-experience",
+    kind: "experience:shared",
     change: "formed",
     significance: "minor",
     summary: `${personName(firstPerson)} and ${personName(secondPerson)} met through the listening session.`,

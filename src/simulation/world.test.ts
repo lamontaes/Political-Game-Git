@@ -12,7 +12,12 @@ import {
   runDemoScenario,
   selectPersonHistory,
 } from "./index";
-import type { EntityId, EventContext, World } from "./types";
+import type {
+  EntityId,
+  EventContext,
+  HistoricalEventInput,
+  World,
+} from "./index";
 
 const TEST_CONTEXT: EventContext = {
   location: null,
@@ -23,7 +28,7 @@ const TEST_CONTEXT: EventContext = {
   immediateReaction: null,
 };
 
-function testEvent(world: World, stableKey: string) {
+function testEvent(world: World, stableKey: string): HistoricalEventInput {
   return {
     stableKey,
     type: "test.occurrence",
@@ -182,7 +187,7 @@ describe("progressive person detail", () => {
     const constrained = recordWorldEvent(initial, {
       ...testEvent(initial, `background:${personId}`),
       involvedEntityIds: [personId, LEXINGTON_PLACEHOLDER_ID],
-      participants: [{ personId, role: "subject", detail: null }],
+      participants: [{ personId, role: "focus:subject", detail: null }],
       personFactConstraints: [
         { personId, kind: "education" },
         { personId, kind: "occupation" },

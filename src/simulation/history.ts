@@ -1,5 +1,7 @@
 import { createStableId } from "./ids";
 import type {
+  AppraisalMeaning,
+  AppraisalRecord,
   BeliefConviction,
   BeliefFormationContext,
   BeliefPosition,
@@ -14,6 +16,7 @@ import type {
   EventContext,
   EventKnowledgeRecord,
   EventParticipant,
+  EventType,
   EventVisibility,
   HistoricalEvent,
   HistoryStore,
@@ -23,6 +26,15 @@ import type {
   KnowledgeSource,
   MemoryRecord,
   MemoryStrength,
+  MindConfidence,
+  MindRecordProvenance,
+  MindSourceReference,
+  MindStrength,
+  PerceptionRecord,
+  PerceptionSource,
+  PerceptionSubjectKind,
+  PersonalValueRecord,
+  PersonalityTendencyRecord,
   PoliticalFlexibility,
   PoliticalSalience,
   PrincipleRecord,
@@ -43,11 +55,19 @@ import type {
   SubjectKnowledgeRecord,
   SubjectUnderstanding,
   PracticalExperience,
+  GoalPriority,
+  GoalStateRecord,
+  GoalStatus,
+  TemporaryStateRecord,
+  ValueOrientation,
+  ValueSalience,
+  DecisionEvaluation,
+  DecisionTraceRecord,
 } from "./types";
 
 export interface HistoricalEventInput {
   readonly stableKey: string;
-  readonly type: string;
+  readonly type: EventType;
   readonly occurredAt: IsoDate;
   readonly recordedAt: IsoDate;
   readonly jurisdictionId: EntityId | null;
@@ -181,6 +201,99 @@ export interface SubjectKnowledgeRecordInput {
   readonly supersedesKnowledgeId: EntityId | null;
 }
 
+export interface PersonalityTendencyRecordInput {
+  readonly stableKey: string;
+  readonly personId: EntityId;
+  readonly tendencyId: EntityId;
+  readonly recordedAt: IsoDate;
+  readonly expressionKey: string;
+  readonly strength: MindStrength;
+  readonly confidence: MindConfidence;
+  readonly scopeTags: readonly string[];
+  readonly provenance: MindRecordProvenance;
+  readonly supersedesTendencyId: EntityId | null;
+}
+
+export interface PersonalValueRecordInput {
+  readonly stableKey: string;
+  readonly personId: EntityId;
+  readonly valueId: EntityId;
+  readonly recordedAt: IsoDate;
+  readonly orientation: ValueOrientation;
+  readonly strength: MindStrength;
+  readonly salience: ValueSalience;
+  readonly qualification: string | null;
+  readonly provenance: MindRecordProvenance;
+  readonly supersedesValueId: EntityId | null;
+}
+
+export interface GoalStateRecordInput {
+  readonly stableKey: string;
+  readonly goalId: EntityId;
+  readonly goalKey: string;
+  readonly personId: EntityId;
+  readonly createdAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly objective: string;
+  readonly domain: string;
+  readonly scope: string;
+  readonly priority: GoalPriority;
+  readonly status: GoalStatus;
+  readonly targetEntityId: EntityId | null;
+  readonly deadline: IsoDate | null;
+  readonly outcome: string | null;
+  readonly provenance: MindRecordProvenance;
+  readonly replacesGoalId: EntityId | null;
+  readonly supersedesGoalStateId: EntityId | null;
+}
+
+export interface AppraisalRecordInput {
+  readonly stableKey: string;
+  readonly personId: EntityId;
+  readonly eventId: EntityId;
+  readonly memoryId: EntityId | null;
+  readonly eventKnowledgeId: EntityId | null;
+  readonly appraisedAt: IsoDate;
+  readonly meanings: readonly AppraisalMeaning[];
+  readonly interpretation: string;
+  readonly confidence: MindConfidence;
+  readonly involvedPersonIds: readonly EntityId[];
+  readonly provenance: MindRecordProvenance;
+  readonly supersedesAppraisalId: EntityId | null;
+}
+
+export interface PerceptionRecordInput {
+  readonly stableKey: string;
+  readonly personId: EntityId;
+  readonly perceivedAt: IsoDate;
+  readonly subjectKind: PerceptionSubjectKind;
+  readonly subjectKey: string;
+  readonly subjectEntityId: EntityId | null;
+  readonly assertion: string;
+  readonly confidence: MindConfidence;
+  readonly sourceCredibility: PerceptionRecord["sourceCredibility"];
+  readonly source: PerceptionSource;
+  readonly supersedesPerceptionId: EntityId | null;
+}
+
+export interface TemporaryStateRecordInput {
+  readonly stableKey: string;
+  readonly personId: EntityId;
+  readonly stateKey: string;
+  readonly label: string;
+  readonly recordedAt: IsoDate;
+  readonly startsAt: IsoDate;
+  readonly endsAt: IsoDate;
+  readonly intensity: MindStrength;
+  readonly decisionTags: readonly string[];
+  readonly provenance: MindRecordProvenance;
+}
+
+export interface DecisionTraceRecordInput extends DecisionEvaluation {
+  readonly stableKey: string;
+  readonly recordedAt: IsoDate;
+}
+
 export function createHistoryStore(): HistoryStore {
   return {
     nextSequence: 0,
@@ -195,6 +308,13 @@ export function createHistoryStore(): HistoryStore {
     campaignCommitments: [],
     principles: [],
     subjectKnowledge: [],
+    personalityTendencies: [],
+    personalValues: [],
+    goalStates: [],
+    appraisals: [],
+    perceptions: [],
+    temporaryStates: [],
+    decisionTraces: [],
   };
 }
 
@@ -468,6 +588,162 @@ export function appendSubjectKnowledgeRecord(
   };
 }
 
+export function appendPersonalityTendencyRecord(
+  history: HistoryStore,
+  worldId: EntityId,
+  input: PersonalityTendencyRecordInput,
+): HistoryStore {
+  assertUniqueStableKey(
+    history.personalityTendencies,
+    input.stableKey,
+    "personality tendency",
+  );
+  const record: PersonalityTendencyRecord = {
+    ...input,
+    id: createStableId("personality-tendency", `${worldId}:${input.stableKey}`),
+    sequence: history.nextSequence,
+    scopeTags: canonicalTags(input.scopeTags),
+    provenance: cloneMindProvenance(input.provenance),
+  };
+  return {
+    ...history,
+    nextSequence: history.nextSequence + 1,
+    personalityTendencies: [...history.personalityTendencies, record],
+  };
+}
+
+export function appendPersonalValueRecord(
+  history: HistoryStore,
+  worldId: EntityId,
+  input: PersonalValueRecordInput,
+): HistoryStore {
+  assertUniqueStableKey(
+    history.personalValues,
+    input.stableKey,
+    "personal value",
+  );
+  const record: PersonalValueRecord = {
+    ...input,
+    id: createStableId("personal-value", `${worldId}:${input.stableKey}`),
+    sequence: history.nextSequence,
+    provenance: cloneMindProvenance(input.provenance),
+  };
+  return {
+    ...history,
+    nextSequence: history.nextSequence + 1,
+    personalValues: [...history.personalValues, record],
+  };
+}
+
+export function appendGoalStateRecord(
+  history: HistoryStore,
+  worldId: EntityId,
+  input: GoalStateRecordInput,
+): HistoryStore {
+  assertUniqueStableKey(history.goalStates, input.stableKey, "goal state");
+  const record: GoalStateRecord = {
+    ...input,
+    id: createStableId("goal-state", `${worldId}:${input.stableKey}`),
+    sequence: history.nextSequence,
+    provenance: cloneMindProvenance(input.provenance),
+  };
+  return {
+    ...history,
+    nextSequence: history.nextSequence + 1,
+    goalStates: [...history.goalStates, record],
+  };
+}
+
+export function appendAppraisalRecord(
+  history: HistoryStore,
+  worldId: EntityId,
+  input: AppraisalRecordInput,
+): HistoryStore {
+  assertUniqueStableKey(history.appraisals, input.stableKey, "appraisal");
+  const record: AppraisalRecord = {
+    ...input,
+    id: createStableId("appraisal", `${worldId}:${input.stableKey}`),
+    sequence: history.nextSequence,
+    meanings: input.meanings
+      .map((meaning) => ({ ...meaning }))
+      .sort((left, right) => left.key.localeCompare(right.key)),
+    involvedPersonIds: canonicalEntityIds(input.involvedPersonIds),
+    provenance: cloneMindProvenance(input.provenance),
+  };
+  return {
+    ...history,
+    nextSequence: history.nextSequence + 1,
+    appraisals: [...history.appraisals, record],
+  };
+}
+
+export function appendPerceptionRecord(
+  history: HistoryStore,
+  worldId: EntityId,
+  input: PerceptionRecordInput,
+): HistoryStore {
+  assertUniqueStableKey(history.perceptions, input.stableKey, "perception");
+  const record: PerceptionRecord = {
+    ...input,
+    id: createStableId("perception", `${worldId}:${input.stableKey}`),
+    sequence: history.nextSequence,
+    source: clonePerceptionSource(input.source),
+  };
+  return {
+    ...history,
+    nextSequence: history.nextSequence + 1,
+    perceptions: [...history.perceptions, record],
+  };
+}
+
+export function appendTemporaryStateRecord(
+  history: HistoryStore,
+  worldId: EntityId,
+  input: TemporaryStateRecordInput,
+): HistoryStore {
+  assertUniqueStableKey(
+    history.temporaryStates,
+    input.stableKey,
+    "temporary state",
+  );
+  const record: TemporaryStateRecord = {
+    ...input,
+    id: createStableId("temporary-state", `${worldId}:${input.stableKey}`),
+    sequence: history.nextSequence,
+    decisionTags: canonicalTags(input.decisionTags),
+    provenance: cloneMindProvenance(input.provenance),
+  };
+  return {
+    ...history,
+    nextSequence: history.nextSequence + 1,
+    temporaryStates: [...history.temporaryStates, record],
+  };
+}
+
+export function appendDecisionTraceRecord(
+  history: HistoryStore,
+  worldId: EntityId,
+  input: DecisionTraceRecordInput,
+): HistoryStore {
+  assertUniqueStableKey(
+    history.decisionTraces,
+    input.stableKey,
+    "decision trace",
+  );
+  const record: DecisionTraceRecord = {
+    ...cloneDecisionEvaluation(input),
+    id: createStableId("decision-trace", `${worldId}:${input.stableKey}`),
+    stableKey: input.stableKey,
+    sequence: history.nextSequence,
+    recordedAt: input.recordedAt,
+  };
+  return {
+    ...history,
+    nextSequence: history.nextSequence + 1,
+    decisionTraces: [...history.decisionTraces, record],
+  };
+}
+
 export function eventsInvolving(
   history: HistoryStore,
   entityId: EntityId,
@@ -518,6 +794,7 @@ function cloneFormation(
       formation.relationshipInteractionIds,
     ),
     subjectKnowledgeIds: canonicalEntityIds(formation.subjectKnowledgeIds),
+    decisionTraceIds: canonicalEntityIds(formation.decisionTraceIds),
     cue: formation.cue ? { ...formation.cue } : null,
   };
 }
@@ -532,6 +809,104 @@ function cloneSubjectKnowledgeProvenance(
     return { ...provenance, eventIds: canonicalEntityIds(provenance.eventIds) };
   }
   return { ...provenance };
+}
+
+function cloneMindProvenance(
+  provenance: MindRecordProvenance,
+): MindRecordProvenance {
+  return {
+    ...provenance,
+    sourceRefs: canonicalMindSourceRefs(provenance.sourceRefs),
+  };
+}
+
+function clonePerceptionSource(source: PerceptionSource): PerceptionSource {
+  switch (source.kind) {
+    case "inference":
+      return {
+        ...source,
+        basisPerceptionIds: canonicalEntityIds(source.basisPerceptionIds),
+      };
+    case "trusted-cue":
+      return {
+        ...source,
+        communicationRecordIds: canonicalEntityIds(
+          source.communicationRecordIds,
+        ),
+        relationshipInteractionIds: canonicalEntityIds(
+          source.relationshipInteractionIds,
+        ),
+      };
+    case "relationship-derived":
+      return {
+        ...source,
+        relationshipInteractionIds: canonicalEntityIds(
+          source.relationshipInteractionIds,
+        ),
+      };
+    default:
+      return { ...source };
+  }
+}
+
+function cloneDecisionEvaluation(
+  evaluation: DecisionEvaluation,
+): DecisionEvaluation {
+  return {
+    ...evaluation,
+    context: {
+      ...evaluation.context,
+      cutoff: { ...evaluation.context.cutoff },
+      subject: { ...evaluation.context.subject },
+      options: evaluation.context.options.map((option) => ({ ...option })),
+      constraints: evaluation.context.constraints.map((constraint) => ({
+        ...constraint,
+        sourceRefs: canonicalMindSourceRefs(constraint.sourceRefs),
+      })),
+      considerations: evaluation.context.considerations.map(
+        (consideration) => ({
+          ...consideration,
+          sourceRefs: canonicalMindSourceRefs(consideration.sourceRefs),
+        }),
+      ),
+      perceptionIds: canonicalEntityIds(evaluation.context.perceptionIds),
+    },
+    optionEvaluations: evaluation.optionEvaluations.map((option) => ({
+      ...option,
+      blockedByConstraintKeys: [...option.blockedByConstraintKeys],
+      considerationKeys: [...option.considerationKeys],
+    })),
+    sourceSnapshots: evaluation.sourceSnapshots.map((snapshot) => ({
+      ...snapshot,
+      reference: cloneMindSourceReference(snapshot.reference),
+    })),
+  };
+}
+
+function canonicalMindSourceRefs(
+  references: readonly MindSourceReference[],
+): readonly MindSourceReference[] {
+  const byKey = new Map<string, MindSourceReference>();
+  for (const reference of references) {
+    byKey.set(
+      mindSourceReferenceKey(reference),
+      cloneMindSourceReference(reference),
+    );
+  }
+  return [...byKey.entries()]
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([, reference]) => reference);
+}
+
+function cloneMindSourceReference(
+  reference: MindSourceReference,
+): MindSourceReference {
+  return { ...reference };
+}
+
+function mindSourceReferenceKey(reference: MindSourceReference): string {
+  const id = Object.entries(reference).find(([key]) => key !== "kind")?.[1];
+  return `${reference.kind}:${String(id)}`;
 }
 
 function canonicalEntityIds(ids: readonly EntityId[]): readonly EntityId[] {

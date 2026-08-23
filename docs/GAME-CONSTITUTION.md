@@ -22,7 +22,7 @@ Any amendment must explicitly identify the affected principle and preserve an au
 
 8. Political beliefs are issue-specific and expandable. Characters form opinions sparsely rather than having predetermined opinions about every issue. Broad ideological principles may influence reasoning but do not force uniform ideology.
 
-9. Government institutions and rules should be data-driven rather than unnecessarily hard-coded. Different jurisdictions can operate differently and rules may change during a save through appropriate mechanisms.
+9. Government institutions and rules should be data-driven rather than unnecessarily hard-coded. Different jurisdictions can operate differently. Any institutional property that can lawfully change—including terms, limits, eligibility, selection and appointment methods, chamber structure, thresholds, vetoes, succession, districting, rights, and powers—must eventually resolve from the law or rule effective at the relevant simulated date rather than an immutable configuration constant.
 
 10. Legislation is composed of provisions. Support, opposition, amendments, negotiation, delay, agenda control, and procedural obstruction must be possible for substantive reasons. Passing legislation must not reduce to accumulating persuasion points.
 
@@ -38,7 +38,7 @@ Any amendment must explicitly identify the affected principle and preserve an au
 
 16. Populations, political coalitions, factions, parties, demographics, and institutions may evolve over decades.
 
-17. Major events should generally arise from conditions, previous events, people, and decisions. Events may have prerequisites, blockers, modifiers, follow-ons, and consequences.
+17. Major events should generally arise from conditions, previous events, people, opportunities, and decisions. Events may have prerequisites, blockers, modifiers, follow-ons, and consequences. Extraordinary outcomes such as major scandals, constitutional crises, assassinations, terrorist attacks, pandemics, wars, and institutional transformations must be causally grounded rather than arbitrary spectacle or context-free random cards.
 
 18. Randomness creates plausible variation rather than arbitrary nonsense. A world seed must make stochastic behavior reproducible where practical.
 
@@ -56,7 +56,7 @@ Any amendment must explicitly identify the affected principle and preserve an au
 
 25. Real-world starting data and simulated save-world history are distinct data domains. Real data must have source and as-of metadata. Once a save starts, simulated events become authoritative for that save.
 
-26. Simulation complexity must not require computing every possible characteristic for every person every turn. Characters and geography may use progressive resolution, sparse beliefs, selective activation, and other scalable techniques.
+26. Simulation complexity must not require computing every possible characteristic for every entity every turn. People, organizations, courts, jurisdictions, countries, and events may exist at low resolution and gain detail when relevant. Progressive resolution, sparse records, and selective activation must preserve stable identity and established history rather than retroactively creating existence.
 
 27. NPC decisions should arise from beliefs, goals, personality, expertise, relationships, memories, perceived circumstances, institutional constraints, political incentives, information, and bounded randomness. NPCs are not globally optimal and may make mistakes.
 
@@ -65,3 +65,7 @@ Any amendment must explicitly identify the affected principle and preserve an au
 29. Relationships are histories between people rather than a single friendship score. Specific favors, betrayals, loyalties, disagreements, introductions, shared experiences, and third-party relationships matter.
 
 30. The same simulation systems should operate in Observer Mode without a player character. A player may later take control of a persistent character and may branch the world.
+
+31. Civic systems should teach through faithful operation. Where practical, authority, procedure, elections, budgeting, legislation, courts, and institutional constraints should reflect the actual rules of the modeled jurisdiction. Explanations and sources should be available on demand rather than replacing the simulation with mandatory textbook tutorials.
+
+32. Life creates political stakes. Time, rest, money, households, relationships, family obligations, health and life circumstances, and personal resources should create contextual constraints and opportunities rather than grindable universal meters or simple morality bonuses.

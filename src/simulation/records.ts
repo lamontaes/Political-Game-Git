@@ -12,6 +12,10 @@ import type {
   RelationshipInteractionInput,
 } from "./history";
 import { createStableId } from "./ids";
+import {
+  assertOpenTaxonomyKey,
+  RELATIONSHIP_INTERACTION_NAMESPACES,
+} from "./taxonomy";
 import { assertWorldIntegrity } from "./world";
 import type { EntityId, HistoricalEvent, PersonFact, World } from "./types";
 
@@ -35,17 +39,6 @@ const CLAIM_TRUTH_RELATIONS = [
   "contradicts",
   "reframes",
   "unknown",
-] as const;
-const RELATIONSHIP_KINDS = [
-  "introduction",
-  "shared-work",
-  "shared-experience",
-  "support",
-  "favor",
-  "conflict",
-  "betrayal",
-  "commitment",
-  "other",
 ] as const;
 const RELATIONSHIP_CHANGES = [
   "formed",
@@ -275,11 +268,11 @@ export function recordRelationshipInteraction(
       );
     }
   }
-  if (!RELATIONSHIP_KINDS.includes(input.kind)) {
-    throw new Error(
-      `Invalid relationship interaction kind: ${String(input.kind)}`,
-    );
-  }
+  assertOpenTaxonomyKey(
+    input.kind,
+    RELATIONSHIP_INTERACTION_NAMESPACES,
+    "Relationship interaction kind",
+  );
   if (!RELATIONSHIP_CHANGES.includes(input.change)) {
     throw new Error(`Invalid relationship change: ${String(input.change)}`);
   }

@@ -124,7 +124,7 @@ A shared catalog containing more than two thousand propositions does not add bla
 
 ### NOW-029 — Political records persist through JSON and SQLite
 
-Snapshot format 3 preserves the policy catalog and all political record families exactly through deterministic JSON round trips and the Node-only SQLite repository. Unsupported older envelopes remain rejected until a migration exists.
+Snapshot format 4 preserves the policy catalog and all political record families exactly through deterministic JSON round trips and the Node-only SQLite repository. Unsupported older envelopes remain rejected until a migration exists.
 
 ### NOW-030 — Political actions replay deterministically
 
@@ -146,6 +146,202 @@ Transitions and snapshot loading reject memories without direct event involvemen
 
 When an older proposition exposure is appended after a later-dated public position or commitment, the opinion-state query still identifies the record with the latest effective date. A historical `throughDate` query returns only evidence available by that date, with append sequence breaking same-day ties.
 
+### NOW-035 — Personality tendencies remain sparse
+
+A person may have no personality-tendency records or only a selected tendency and expression. The mind catalog does not create a full vector on every person, and materialization does not populate one.
+
+### NOW-036 — Personal values may conflict
+
+One person may retain simultaneous strong, provenance-bearing personal values that pull in competing directions. Neither is normalized away or converted into an ideology.
+
+### NOW-037 — Persistent goals may conflict
+
+One person may have multiple active goals with competing objectives and priorities. Each retains stable goal identity and an independent append-only lifecycle.
+
+### NOW-038 — Values and political principles remain distinct
+
+A personal value and a political principle with conceptually related labels remain different catalog definitions and history records; changing either leaves the other untouched.
+
+### NOW-039 — Personality does not determine party or ideology
+
+Recording or revising a personality tendency creates no party, ideology, proposition-belief, public-position, or commitment state.
+
+### NOW-040 — One event can receive different appraisals
+
+Given one objective public-criticism event, two involved or informed NPCs can append materially different meanings and interpretations, such as unfair humiliation and useful challenge, without duplicating or modifying the event.
+
+### NOW-041 — An event need not create an appraisal
+
+Recording an event creates no appraisal automatically. A person may have no appraisal, or only low-intensity or neutral meaning, without receiving a forced psychological consequence.
+
+### NOW-042 — Appraisal remains separate from truth and memory
+
+An appraisal may cite an event and compatible memory or event knowledge, but changing or superseding the appraisal changes neither canonical event truth nor either subjective source record.
+
+### NOW-043 — Historical cutoffs prevent future leakage
+
+A subjective-perception or decision evaluation includes only records satisfying both its as-of date and exclusive history-sequence cutoff. Later information, including a later-appended backdated record, cannot contaminate an earlier evaluation.
+
+### NOW-044 — Contradictory perceptions may coexist
+
+One person may retain incompatible, uncertain assertions from different available sources. The subjective projection preserves both rather than resolving them with diagnostic truth or an event-knowledge accuracy classification.
+
+### NOW-045 — Hard constraints are absolute
+
+An option blocked by a hard constraint is unavailable even when decisive soft considerations favor it. A hard constraint is not represented as a large negative preference.
+
+### NOW-046 — Soft considerations may conflict
+
+Supporting and opposing considerations can apply to the same or competing options without making either option unavailable, and both directions remain in the evaluation explanation.
+
+### NOW-047 — A decision trace explains the selected option
+
+A durable consequential trace preserves the evaluated options, applicable considerations, qualitative preferences, uncertainty, bounded variation when used, and the selected outcome.
+
+### NOW-048 — A decision trace explains blocked options
+
+A decision trace identifies every unavailable option and the stable hard-constraint keys and explanations that blocked it, including when no option remains available.
+
+### NOW-049 — Decision evaluation is deterministic
+
+The same world seed, material state, historical cutoff, actor, stable decision context, and options produce the same complete evaluation and stable IDs.
+
+### NOW-050 — Unrelated actors do not perturb a decision
+
+Evaluating another NPC before the target actor does not change the target actor's outcome, trace, or bounded random contribution.
+
+### NOW-051 — Randomness cannot override a constraint
+
+No keyed random contribution is capable of ranking a blocked option or making it selected.
+
+### NOW-052 — Close choices may use bounded randomness
+
+When enabled, only available options already within the close-choice window receive slight deterministic variation. Clearly separated options and evaluations with randomness disabled receive none.
+
+### NOW-053 — Subjective context can produce a plausible non-optimum
+
+An NPC can select an option that would not maximize an omniscient outside observer's outcome because the NPC's own perception, values, goals, relationship context, or uncertainty supports another plausible choice.
+
+### NOW-054 — Controlled-person autonomy is protected
+
+An evaluation may be created for the controlled person and a development proposal remains non-applying and marked as requiring player choice. Autonomous application of a major private-belief choice is rejected atomically. NPC application remains available in observer mode or for a non-controlled person.
+
+### NOW-055 — Communicated spouse advice can affect evaluation
+
+A spouse who is a stable person, has relevant subject expertise, has public communication and relationship history, and is perceived as credible may contribute a provenance-bearing trusted-cue consideration to the recipient's political evaluation. Expertise remains distinct evidence rather than making the cue correct.
+
+### NOW-056 — Trusted advice does not dictate belief
+
+Even a highly credible spouse cue remains one consideration among constraints and conflicting considerations; it does not copy the spouse's belief or guarantee the recipient's outcome.
+
+### NOW-057 — Weak relationship cues have limited or no influence
+
+A cue without the required communication and relationship provenance is excluded. A qualifying cue assessed with low source credibility has less importance than the same cue assessed as highly credible.
+
+### NOW-058 — Encounter may end with no opinion
+
+An NPC who has encountered a proposition can select no opinion or defer. Applying either outcome records the consequential reasoning trace but creates no private-belief record.
+
+### NOW-059 — Expertise can coexist with uncertainty
+
+A highly expert NPC may select defer, conflict, or another uncertain belief outcome; expertise does not supply a correct answer or force conviction.
+
+### NOW-060 — Low knowledge can coexist with strong belief
+
+An NPC with little subject knowledge may still form a strong private position when other subjective considerations support it. The result does not manufacture expertise.
+
+### NOW-061 — A strong value does not map directly to policy
+
+Recording a defining or central value creates no proposition belief. The value affects a political evaluation only through an explicit, provenance-bearing consideration in that decision context.
+
+### NOW-062 — Different histories can produce different beliefs
+
+Two otherwise similar NPCs with similar broad principles can evaluate the same proposition differently when their appraisals, knowledge, goals, or trusted relationships differ, while both outcomes remain deterministic for their own contexts.
+
+### NOW-063 — Autonomous belief application stays append-only
+
+Applying an NPC political-belief proposal first records its durable decision trace and then appends a new private belief or a compatible explicit supersession. It never rewrites the earlier belief.
+
+### NOW-064 — Autonomous formation does not overwrite speech
+
+Applying a private-belief proposal leaves every public-position record unchanged and separately queryable.
+
+### NOW-065 — Autonomous formation does not overwrite commitments
+
+Applying a private-belief proposal leaves every campaign-commitment record unchanged and separately queryable.
+
+### NOW-066 — Personality can be reconstructed as of a date
+
+A historical personality query returns the applicable tendency records through its date and append-sequence cutoff and cannot return a later superseding expression.
+
+### NOW-067 — Values can be reconstructed as of a date
+
+A historical value query returns the applicable value records through its date and append-sequence cutoff and cannot return a later change.
+
+### NOW-068 — Goals can be reconstructed as of a date
+
+A historical goal query returns the state available at its cutoff rather than a later completion, failure, abandonment, or replacement.
+
+### NOW-069 — Appraisals remain historically reconstructable
+
+A query for one person's appraisal of an event at an earlier cutoff returns the then-current interpretation rather than a later superseding reinterpretation.
+
+### NOW-070 — Temporary state expires correctly
+
+A temporary state is active only during its half-open effective interval. It is present in an in-range subjective projection, absent at the end date and afterward, and remains inspectable as history.
+
+### NOW-071 — Snapshot save and reload preserve Stage 4 state
+
+Creating and reloading a versioned snapshot preserves the mind catalog, control state, every Stage 4 record family, contiguous append sequence, decision evaluation details, and frozen source snapshots exactly.
+
+### NOW-072 — JSON serialization preserves Stage 4 state
+
+Deterministic JSON encoding and decoding round-trip the complete Stage 4 world graph exactly and reject an unsupported envelope version.
+
+### NOW-073 — SQLite preserves the Stage 4 snapshot boundary
+
+The Node-only SQLite repository saves, loads, lists, and replaces worlds containing Stage 4 records without moving the driver or platform dependency into the pure simulation.
+
+### NOW-074 — Decisions execute headlessly
+
+The general evaluator, subjective projection, and political adapter run in Vitest's Node environment without React, DOM, browser, or graphical dependencies.
+
+### NOW-075 — The decision core has no runtime AI service
+
+Production simulation imports and package dependencies contain no LLM, remote model, network, or external AI runtime required for mind or decision evaluation.
+
+### NOW-076 — Stage 4 replay remains deterministic
+
+Replaying the same seed and ordered Stage 1–4 actions produces identical complete worlds, IDs, history sequence, decision traces, and serialized snapshots.
+
+### NOW-077 — Mind and decision integrity rejects invalid graphs
+
+Runtime transitions and snapshot loading reject missing people or catalog definitions, invalid chronology or categorical values, non-linear supersession, impossible goal transitions, unavailable or forward source references, self-sourced third-party cues, missing communication or relationship provenance, invalid temporary intervals or cutoffs, stale durable evaluations, incomplete or mismatched source-snapshot references, invalid control references, and out-of-order history families.
+
+### NOW-078 — Earlier stages remain regression-protected
+
+All Stage 1–3 deterministic generation, biography, event/history, query, political-state, serialization, SQLite, and boundary tests remain green without weakening their assertions.
+
+### NOW-079 — Open taxonomies survive an adversarial content comb
+
+Valid namespaced cases absent from the design examples—including an extended cousin relationship, a coordinating event facilitator, strategic mentorship, co-led work, a community-assembly cue, an appointment subject, a comparative-deliberation reason, and constituent-testimony decision provenance—pass transition/load integrity. Namespace-aware experience and shared-work queries still produce their intended behavior.
+
+### NOW-080 — Open categories retain semantic guardrails
+
+Runtime decision evaluation rejects an unnamespaced subject. Every non-context decision consideration source requires at least one resolvable source reference, while an honestly labeled contextual premise may remain source-record-free. Open content keys therefore do not become arbitrary strings or provenance-free metadata.
+
+### NOW-081 — Autonomous formation preserves belief dimensions
+
+Two applied autonomous proposals may select the same support position while retaining different conviction, salience, and flexibility. Tentative support/opposition requires tentative conviction, but neither the selected side nor conviction silently determines salience or flexibility.
+
+### NOW-082 — No-opinion readiness is not mislabeled risk
+
+The political adapter's default reason for leaving a proposition unresolved is recorded as `context:opinion-readiness`. Applying that outcome records the durable decision trace without creating a private-belief record, provided the person actually encountered the proposition.
+
+### NOW-083 — Architecture rules audit prior stages
+
+The permanent Architecture Integrity Audit classifies affected Stage 1–4 categories, records confirmed/corrected/deferred/superseded dispositions, and treats earlier completion as no exemption. The audit records the future effective-rule-consumption contract without implementing mutable law or future institutions in Stage 4.
+
 ## Manual Now
 
 - Creating or reloading the demo shows the active seed, stable world ID, simulated date, Lexington-Fayette placeholder, and six generated people.
@@ -157,6 +353,10 @@ When an older proposition exposure is appended after a later-dated public positi
 - Known-by rows show per-person believed content and provenance; claims show audience and relationship to truth.
 - Relationship history shows explainable episodes and no raw relationship meter.
 - Proposition exposures, private beliefs, public positions, campaign commitments, principles, complete knowledge/expertise histories, and resolved provenance appear in separate diagnostic sections without raw ideology or personality numbers.
+- The mind profile is explicitly labeled developer-only and shows separate personality-tendency, personal-value, goal, appraisal, perception, temporary-state, and recent decision-trace histories.
+- Appraisal rows show the objective event separately from the person's meaning, and subjective perception is not presented as omniscient truth.
+- Temporary states identify active or expired status; decision traces use qualitative option, blocker, consideration, source, and bounded-variation descriptions rather than raw scores or random values.
+- Political beliefs formed through the adapter resolve their durable reasoning trace without exposing another person's private belief as a communication source.
 - The placeholder warning remains visible and does not imply sourced officeholders, rules, or institutions.
 - Seed, reload, advance, person selection, materialization, and event detail controls are keyboard reachable with visible focus.
 

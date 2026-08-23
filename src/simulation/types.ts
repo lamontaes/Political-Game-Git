@@ -5,15 +5,24 @@ export type EntityId = string & { readonly [entityIdBrand]: true };
 export type IsoDate = string & { readonly [isoDateBrand]: true };
 
 export type EntityKind =
+  | "appraisal"
   | "belief"
   | "claim"
   | "commitment"
+  | "decision"
+  | "decision-trace"
+  | "development-proposal"
   | "event"
   | "fact"
+  | "goal"
+  | "goal-state"
   | "jurisdiction"
   | "knowledge"
   | "memory"
   | "person"
+  | "personal-value"
+  | "personality-tendency"
+  | "personality-tendency-definition"
   | "policy-domain"
   | "policy-issue"
   | "principle"
@@ -21,10 +30,13 @@ export type EntityKind =
   | "proposition-exposure"
   | "proposition"
   | "public-position"
+  | "perception"
   | "relationship"
   | "snapshot"
   | "subject"
   | "subject-knowledge"
+  | "temporary-state"
+  | "value-definition"
   | "world";
 
 export type DataStatus =
@@ -110,6 +122,35 @@ export interface PolicyCatalog {
   readonly principleOrder: readonly EntityId[];
 }
 
+export interface PersonalityExpressionDefinition {
+  readonly key: string;
+  readonly label: string;
+  readonly description: string;
+}
+
+export interface PersonalityTendencyDefinition {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly name: string;
+  readonly description: string;
+  readonly expressions: readonly PersonalityExpressionDefinition[];
+}
+
+export interface PersonalValueDefinition {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly name: string;
+  readonly description: string;
+}
+
+export interface MindCatalog {
+  readonly catalogVersion: "mind-catalog-v1";
+  readonly tendencies: Readonly<Record<string, PersonalityTendencyDefinition>>;
+  readonly tendencyOrder: readonly EntityId[];
+  readonly values: Readonly<Record<string, PersonalValueDefinition>>;
+  readonly valueOrder: readonly EntityId[];
+}
+
 export type PersonDetailLevel = "lightweight" | "materialized";
 
 export type PersonFactKind =
@@ -155,15 +196,9 @@ export interface ResidenceFact extends PersonFactBase {
   readonly endedAt: IsoDate | null;
 }
 
-export type FamilyRelationshipKind =
-  | "parent"
-  | "child"
-  | "sibling"
-  | "spouse"
-  | "partner"
-  | "guardian"
-  | "ward"
-  | "other";
+export type FamilyRelationshipNamespace =
+  "lineal" | "collateral" | "partner" | "care" | "extended" | "other";
+export type FamilyRelationshipKind = `${FamilyRelationshipNamespace}:${string}`;
 
 export interface FamilyRelationshipFact extends PersonFactBase {
   readonly kind: "family-relationship";
@@ -237,9 +272,17 @@ export interface MaterializedPerson extends PersonCore {
 export type Person = LightweightPerson | MaterializedPerson;
 
 export type EventVisibility = "private" | "limited" | "public";
+export type EventType = `${string}.${string}`;
 
-export type EventParticipantRole =
-  "actor" | "participant" | "subject" | "affected" | "witness";
+export type EventParticipantRoleNamespace =
+  | "agency"
+  | "presence"
+  | "focus"
+  | "impact"
+  | "observation"
+  | "coordination"
+  | "other";
+export type EventParticipantRole = `${EventParticipantRoleNamespace}:${string}`;
 
 export interface EventParticipant {
   readonly personId: EntityId;
@@ -266,7 +309,7 @@ export interface HistoricalEvent {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
-  readonly type: string;
+  readonly type: EventType;
   readonly occurredAt: IsoDate;
   readonly recordedAt: IsoDate;
   readonly jurisdictionId: EntityId | null;
@@ -361,16 +404,19 @@ export interface ClaimRecord {
   readonly provenance: ClaimProvenance;
 }
 
-export type RelationshipInteractionKind =
-  | "introduction"
-  | "shared-work"
-  | "shared-experience"
+export type RelationshipInteractionNamespace =
+  | "contact"
+  | "work"
+  | "experience"
   | "support"
-  | "favor"
+  | "exchange"
   | "conflict"
-  | "betrayal"
   | "commitment"
+  | "care"
+  | "mentorship"
   | "other";
+export type RelationshipInteractionKind =
+  `${RelationshipInteractionNamespace}:${string}`;
 
 export type RelationshipChange =
   "formed" | "strengthened" | "maintained" | "strained" | "ended";
@@ -396,26 +442,20 @@ export type BeliefConviction = "tentative" | "moderate" | "strong" | "settled";
 export type PoliticalSalience = "low" | "moderate" | "high" | "central";
 export type PoliticalFlexibility =
   "open" | "negotiable" | "conditional" | "firm";
+export type BeliefFormationReasonNamespace =
+  | "reflection"
+  | "evidence"
+  | "experience"
+  | "proposal"
+  | "repositioning"
+  | "cue"
+  | "deliberation"
+  | "other";
 export type BeliefFormationReason =
-  | "initial-reflection"
-  | "genuine-reconsideration"
-  | "new-evidence"
-  | "lived-experience"
-  | "proposal-changed"
-  | "political-repositioning"
-  | "trusted-cue"
-  | "unknown";
-export type PoliticalCueKind =
-  | "expert-information"
-  | "politician"
-  | "party"
-  | "organization"
-  | "family"
-  | "union"
-  | "church"
-  | "journalist-media"
-  | "social-contact"
-  | "unknown";
+  `${BeliefFormationReasonNamespace}:${string}`;
+export type PoliticalCueNamespace =
+  "person" | "information" | "organization" | "media" | "community" | "other";
+export type PoliticalCueKind = `${PoliticalCueNamespace}:${string}`;
 
 export interface PoliticalCue {
   readonly kind: PoliticalCueKind;
@@ -433,6 +473,7 @@ export interface BeliefFormationContext {
   readonly claimIds: readonly EntityId[];
   readonly relationshipInteractionIds: readonly EntityId[];
   readonly subjectKnowledgeIds: readonly EntityId[];
+  readonly decisionTraceIds: readonly EntityId[];
   readonly cue: PoliticalCue | null;
   readonly evidenceReference: string | null;
   readonly note: string | null;
@@ -575,6 +616,356 @@ export interface SubjectKnowledgeRecord {
   readonly supersedesKnowledgeId: EntityId | null;
 }
 
+export type MindRecordProvenanceKind =
+  "authored" | "reflection" | "development-proposal" | "player-choice";
+
+export type MindSourceReference =
+  | { readonly kind: "person-fact"; readonly factId: EntityId }
+  | {
+      readonly kind: "personality-tendency";
+      readonly tendencyRecordId: EntityId;
+    }
+  | { readonly kind: "personal-value"; readonly valueRecordId: EntityId }
+  | { readonly kind: "goal-state"; readonly goalStateId: EntityId }
+  | {
+      readonly kind: "temporary-state";
+      readonly temporaryStateId: EntityId;
+    }
+  | { readonly kind: "historical-event"; readonly eventId: EntityId }
+  | { readonly kind: "memory"; readonly memoryId: EntityId }
+  | {
+      readonly kind: "event-knowledge";
+      readonly knowledgeId: EntityId;
+    }
+  | { readonly kind: "claim"; readonly claimId: EntityId }
+  | {
+      readonly kind: "relationship-interaction";
+      readonly interactionId: EntityId;
+    }
+  | {
+      readonly kind: "proposition-exposure";
+      readonly exposureId: EntityId;
+    }
+  | { readonly kind: "private-belief"; readonly beliefId: EntityId }
+  | {
+      readonly kind: "political-principle";
+      readonly principleRecordId: EntityId;
+    }
+  | {
+      readonly kind: "subject-knowledge";
+      readonly subjectKnowledgeId: EntityId;
+    }
+  | { readonly kind: "appraisal"; readonly appraisalId: EntityId }
+  | { readonly kind: "perception"; readonly perceptionId: EntityId }
+  | {
+      readonly kind: "decision-trace";
+      readonly decisionTraceId: EntityId;
+    };
+
+export interface MindRecordProvenance {
+  readonly kind: MindRecordProvenanceKind;
+  readonly sourceRefs: readonly MindSourceReference[];
+  readonly note: string | null;
+}
+
+export type MindStrength = "subtle" | "moderate" | "strong" | "defining";
+export type MindConfidence = "low" | "medium" | "high";
+
+export interface PersonalityTendencyRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly tendencyId: EntityId;
+  readonly recordedAt: IsoDate;
+  readonly expressionKey: string;
+  readonly strength: MindStrength;
+  readonly confidence: MindConfidence;
+  readonly scopeTags: readonly string[];
+  readonly provenance: MindRecordProvenance;
+  readonly supersedesTendencyId: EntityId | null;
+}
+
+export type ValueOrientation =
+  "embraces" | "questions" | "rejects" | "conflicted";
+export type ValueSalience = "low" | "moderate" | "high" | "central";
+
+export interface PersonalValueRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly valueId: EntityId;
+  readonly recordedAt: IsoDate;
+  readonly orientation: ValueOrientation;
+  readonly strength: MindStrength;
+  readonly salience: ValueSalience;
+  readonly qualification: string | null;
+  readonly provenance: MindRecordProvenance;
+  readonly supersedesValueId: EntityId | null;
+}
+
+export type GoalPriority = "low" | "moderate" | "high" | "critical";
+export type GoalStatus =
+  "proposed" | "active" | "completed" | "failed" | "abandoned" | "superseded";
+
+export interface GoalStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly goalId: EntityId;
+  readonly goalKey: string;
+  readonly personId: EntityId;
+  readonly createdAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly objective: string;
+  readonly domain: string;
+  readonly scope: string;
+  readonly priority: GoalPriority;
+  readonly status: GoalStatus;
+  readonly targetEntityId: EntityId | null;
+  readonly deadline: IsoDate | null;
+  readonly outcome: string | null;
+  readonly provenance: MindRecordProvenance;
+  readonly replacesGoalId: EntityId | null;
+  readonly supersedesGoalStateId: EntityId | null;
+}
+
+export type AppraisalValence = "positive" | "negative" | "mixed" | "neutral";
+
+export interface AppraisalMeaning {
+  readonly key: string;
+  readonly label: string;
+  readonly valence: AppraisalValence;
+  readonly intensity: MindStrength;
+}
+
+export interface AppraisalRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly eventId: EntityId;
+  readonly memoryId: EntityId | null;
+  readonly eventKnowledgeId: EntityId | null;
+  readonly appraisedAt: IsoDate;
+  readonly meanings: readonly AppraisalMeaning[];
+  readonly interpretation: string;
+  readonly confidence: MindConfidence;
+  readonly involvedPersonIds: readonly EntityId[];
+  readonly provenance: MindRecordProvenance;
+  readonly supersedesAppraisalId: EntityId | null;
+}
+
+export type PerceptionSubjectNamespace =
+  "entity" | "mind" | "context" | "domain";
+export type PerceptionSubjectKind = `${PerceptionSubjectNamespace}:${string}`;
+export type SourceCredibility = "unknown" | "low" | "medium" | "high";
+
+export type PerceptionSource =
+  | { readonly kind: "person-fact"; readonly factId: EntityId }
+  | {
+      readonly kind: "proposition-exposure";
+      readonly exposureId: EntityId;
+    }
+  | {
+      readonly kind: "subject-knowledge";
+      readonly subjectKnowledgeId: EntityId;
+    }
+  | { readonly kind: "appraisal"; readonly appraisalId: EntityId }
+  | {
+      readonly kind: "event-knowledge";
+      readonly knowledgeId: EntityId;
+    }
+  | { readonly kind: "memory"; readonly memoryId: EntityId }
+  | {
+      readonly kind: "heard-claim";
+      readonly claimId: EntityId;
+      readonly knowledgeId: EntityId;
+    }
+  | {
+      readonly kind: "inference";
+      readonly basisPerceptionIds: readonly EntityId[];
+    }
+  | {
+      readonly kind: "trusted-cue";
+      readonly sourcePersonId: EntityId;
+      readonly communicationRecordIds: readonly EntityId[];
+      readonly relationshipInteractionIds: readonly EntityId[];
+      readonly sourceLabel: string;
+    }
+  | {
+      readonly kind: "relationship-derived";
+      readonly sourcePersonId: EntityId;
+      readonly relationshipInteractionIds: readonly EntityId[];
+    }
+  | { readonly kind: "authored"; readonly note: string };
+
+export interface PerceptionRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly perceivedAt: IsoDate;
+  readonly subjectKind: PerceptionSubjectKind;
+  readonly subjectKey: string;
+  readonly subjectEntityId: EntityId | null;
+  readonly assertion: string;
+  readonly confidence: MindConfidence;
+  readonly sourceCredibility: SourceCredibility;
+  readonly source: PerceptionSource;
+  readonly supersedesPerceptionId: EntityId | null;
+}
+
+export interface TemporaryStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly stateKey: string;
+  readonly label: string;
+  readonly recordedAt: IsoDate;
+  readonly startsAt: IsoDate;
+  readonly endsAt: IsoDate;
+  readonly intensity: MindStrength;
+  readonly decisionTags: readonly string[];
+  readonly provenance: MindRecordProvenance;
+}
+
+export interface HistoricalCutoff {
+  readonly asOfDate: IsoDate;
+  readonly historySequenceExclusive: number;
+}
+
+export type DecisionSourceNamespace =
+  | "mind"
+  | "belief"
+  | "information"
+  | "social"
+  | "context"
+  | "institution"
+  | "domain";
+export type DecisionSourceType = `${DecisionSourceNamespace}:${string}`;
+export type DecisionDirection = "supports" | "opposes";
+export type DecisionImportance = "slight" | "moderate" | "strong" | "decisive";
+export type DecisionRandomnessPolicy = "none" | "close-choices";
+export type DecisionTraceRetention = "ephemeral" | "durable";
+
+export interface DecisionSubject {
+  readonly kind: PerceptionSubjectKind;
+  readonly key: string;
+  readonly entityId: EntityId | null;
+}
+
+export interface DecisionOption {
+  readonly key: string;
+  readonly label: string;
+  readonly description: string;
+}
+
+export interface DecisionConstraint {
+  readonly stableKey: string;
+  readonly optionKey: string;
+  readonly kind: string;
+  readonly explanation: string;
+  readonly sourceRefs: readonly MindSourceReference[];
+}
+
+export interface DecisionConsideration {
+  readonly stableKey: string;
+  readonly optionKey: string;
+  readonly sourceType: DecisionSourceType;
+  readonly direction: DecisionDirection;
+  readonly importance: DecisionImportance;
+  readonly confidence: MindConfidence;
+  readonly explanation: string;
+  readonly sourceRefs: readonly MindSourceReference[];
+}
+
+export interface DecisionContext {
+  readonly stableKey: string;
+  readonly decisionType: string;
+  readonly actorPersonId: EntityId;
+  readonly cutoff: HistoricalCutoff;
+  readonly subject: DecisionSubject;
+  readonly options: readonly DecisionOption[];
+  readonly constraints: readonly DecisionConstraint[];
+  readonly considerations: readonly DecisionConsideration[];
+  readonly perceptionIds: readonly EntityId[];
+  readonly randomness: DecisionRandomnessPolicy;
+  readonly retention: DecisionTraceRetention;
+}
+
+export type DecisionPreference =
+  "strongly-opposed" | "opposed" | "mixed" | "supported" | "strongly-supported";
+export type RandomContribution = "none" | "slight-penalty" | "slight-boost";
+
+export interface DecisionOptionEvaluation {
+  readonly optionKey: string;
+  readonly available: boolean;
+  readonly blockedByConstraintKeys: readonly string[];
+  readonly considerationKeys: readonly string[];
+  readonly preference: DecisionPreference;
+  readonly randomContribution: RandomContribution;
+  readonly finalRank: number | null;
+}
+
+export interface DecisionSourceSnapshot {
+  readonly reference: MindSourceReference;
+  readonly label: string;
+  readonly content: string;
+}
+
+export type DecisionOutcomeKind = "selected" | "no-available-option";
+
+export interface DecisionEvaluation {
+  readonly decisionId: EntityId;
+  readonly context: DecisionContext;
+  readonly optionEvaluations: readonly DecisionOptionEvaluation[];
+  readonly outcomeKind: DecisionOutcomeKind;
+  readonly selectedOptionKey: string | null;
+  readonly sourceSnapshots: readonly DecisionSourceSnapshot[];
+  readonly rngVersion: "decision-rng-v1";
+}
+
+export interface DecisionTraceRecord extends DecisionEvaluation {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+}
+
+export type DevelopmentTarget =
+  | {
+      readonly kind: "personality";
+      readonly tendencyId: EntityId;
+      readonly expressionKey: string;
+    }
+  | { readonly kind: "value"; readonly valueId: EntityId }
+  | { readonly kind: "goal"; readonly goalId: EntityId }
+  | {
+      readonly kind: "relationship";
+      readonly otherPersonId: EntityId;
+    };
+
+export interface DevelopmentProposal {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly personId: EntityId;
+  readonly proposedAt: IsoDate;
+  readonly target: DevelopmentTarget;
+  readonly direction:
+    "strengthen" | "soften" | "reconsider" | "activate" | "retire";
+  readonly sourceRefs: readonly MindSourceReference[];
+  readonly repetitionKey: string | null;
+  readonly rationale: string;
+  readonly requiresPlayerChoice: boolean;
+}
+
+export type ControlState =
+  | { readonly kind: "observer" }
+  | { readonly kind: "person"; readonly personId: EntityId };
+
 export interface HistoryStore {
   readonly nextSequence: number;
   readonly events: readonly HistoricalEvent[];
@@ -588,11 +979,18 @@ export interface HistoryStore {
   readonly campaignCommitments: readonly CampaignCommitmentRecord[];
   readonly principles: readonly PrincipleRecord[];
   readonly subjectKnowledge: readonly SubjectKnowledgeRecord[];
+  readonly personalityTendencies: readonly PersonalityTendencyRecord[];
+  readonly personalValues: readonly PersonalValueRecord[];
+  readonly goalStates: readonly GoalStateRecord[];
+  readonly appraisals: readonly AppraisalRecord[];
+  readonly perceptions: readonly PerceptionRecord[];
+  readonly temporaryStates: readonly TemporaryStateRecord[];
+  readonly decisionTraces: readonly DecisionTraceRecord[];
 }
 
 export interface World {
-  readonly schemaVersion: 4;
-  readonly generatorVersion: "demo-world-v4";
+  readonly schemaVersion: 5;
+  readonly generatorVersion: "demo-world-v5";
   readonly id: EntityId;
   readonly seed: string;
   readonly startedAt: IsoDate;
@@ -603,5 +1001,7 @@ export interface World {
   readonly people: Readonly<Record<string, Person>>;
   readonly personOrder: readonly EntityId[];
   readonly policyCatalog: PolicyCatalog;
+  readonly mindCatalog: MindCatalog;
+  readonly control: ControlState;
   readonly history: HistoryStore;
 }

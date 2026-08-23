@@ -1,16 +1,24 @@
-import { ageOnDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "./dates";
 import { factsForPerson } from "./people";
 import type {
+  AppraisalRecord,
   CampaignCommitmentRecord,
   ClaimRecord,
+  DecisionTraceRecord,
   EntityId,
   EventKnowledgeRecord,
   EventParticipantRole,
+  EventParticipantRoleNamespace,
+  GoalStateRecord,
   HistoricalEvent,
+  HistoricalCutoff,
   IsoDate,
   MemoryRecord,
   OccupationFact,
+  PerceptionRecord,
+  PersonalValueRecord,
   PersonFact,
+  PersonalityTendencyRecord,
   PrincipleRecord,
   PrivateBeliefRecord,
   PropositionExposureRecord,
@@ -20,6 +28,7 @@ import type {
   SubjectFamiliarity,
   SubjectKnowledgeRecord,
   SubjectUnderstanding,
+  TemporaryStateRecord,
   PracticalExperience,
   World,
 } from "./types";
@@ -30,6 +39,7 @@ export interface EventQuery {
   readonly tagsAll?: readonly string[];
   readonly tagsAny?: readonly string[];
   readonly participantRoles?: readonly EventParticipantRole[];
+  readonly participantRoleNamespaces?: readonly EventParticipantRoleNamespace[];
   readonly beforeAge?: number;
   readonly throughDate?: IsoDate;
 }
@@ -47,11 +57,17 @@ export function queryEvents(
     if (
       query.personId &&
       (!event.involvedEntityIds.includes(query.personId) ||
-        (query.participantRoles &&
+        ((query.participantRoles || query.participantRoleNamespaces) &&
           !event.participants.some(
             (participant) =>
               participant.personId === query.personId &&
-              query.participantRoles?.includes(participant.role),
+              (query.participantRoles?.includes(participant.role) === true ||
+                query.participantRoleNamespaces?.includes(
+                  participant.role.slice(
+                    0,
+                    participant.role.indexOf(":"),
+                  ) as EventParticipantRoleNamespace,
+                ) === true),
           )))
     ) {
       return false;
@@ -111,7 +127,13 @@ export function hasExperiencedTaggedEvent(
     queryEvents(world, {
       personId,
       tagsAll: [tag],
-      participantRoles: ["actor", "participant", "subject", "affected"],
+      participantRoleNamespaces: [
+        "agency",
+        "presence",
+        "focus",
+        "impact",
+        "coordination",
+      ],
     }).length > 0
   );
 }
@@ -129,7 +151,13 @@ export function hasExperiencedTaggedEventBeforeAge(
     queryEvents(world, {
       personId,
       tagsAll: [tag],
-      participantRoles: ["actor", "participant", "subject", "affected"],
+      participantRoleNamespaces: [
+        "agency",
+        "presence",
+        "focus",
+        "impact",
+        "coordination",
+      ],
       beforeAge: age,
     }).length > 0
   );
@@ -148,7 +176,7 @@ export function didPeoplePreviouslyWorkTogether(
     relationshipHistory(world, firstPersonId, secondPersonId).some(
       (interaction) =>
         interaction.occurredAt <= throughDate &&
-        (interaction.kind === "shared-work" ||
+        (interaction.kind.startsWith("work:") ||
           interaction.tags.includes("relationship.shared-work")),
     )
   ) {
@@ -191,8 +219,7 @@ export function deriveRelationshipSummary(
     hiddenScore +=
       interaction.change === "ended" ||
       interaction.change === "strained" ||
-      interaction.kind === "betrayal" ||
-      interaction.kind === "conflict"
+      interaction.kind.startsWith("conflict:")
         ? -magnitude
         : magnitude;
   }
@@ -224,7 +251,8 @@ export function hasCloseRelationshipWithPersonAffectedByEvent(
   const affectedPeople = event.participants
     .filter(
       (participant) =>
-        participant.role === "affected" || participant.role === "subject",
+        participant.role.startsWith("impact:") ||
+        participant.role.startsWith("focus:"),
     )
     .map((participant) => participant.personId);
   return affectedPeople.some(
@@ -287,6 +315,259 @@ export function factsNewestFirst(
         right.occurredAt.localeCompare(left.occurredAt),
       )
     : [];
+}
+
+export function currentHistoricalCutoff(world: World): HistoricalCutoff {
+  return {
+    asOfDate: world.currentDate,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+}
+
+export function personalityTendencyHistory(
+  world: World,
+  personId: EntityId,
+  tendencyId?: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): readonly PersonalityTendencyRecord[] {
+  validateHistoricalCutoff(world, personId, cutoff);
+  return world.history.personalityTendencies
+    .filter(
+      (record) =>
+        record.personId === personId &&
+        (tendencyId === undefined || record.tendencyId === tendencyId) &&
+        isAvailableAt(record.sequence, record.recordedAt, cutoff),
+    )
+    .sort(byDateThenSequence);
+}
+
+export function latestPersonalityTendency(
+  world: World,
+  personId: EntityId,
+  tendencyId: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): PersonalityTendencyRecord | undefined {
+  return personalityTendencyHistory(world, personId, tendencyId, cutoff).at(-1);
+}
+
+export function latestPersonalityTendenciesForPerson(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): readonly PersonalityTendencyRecord[] {
+  const latestByTendency = new Map<EntityId, PersonalityTendencyRecord>();
+  for (const record of personalityTendencyHistory(
+    world,
+    personId,
+    undefined,
+    cutoff,
+  )) {
+    latestByTendency.set(record.tendencyId, record);
+  }
+  return [...latestByTendency.values()].sort(byDateThenSequence);
+}
+
+export function personalValueHistory(
+  world: World,
+  personId: EntityId,
+  valueId?: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): readonly PersonalValueRecord[] {
+  validateHistoricalCutoff(world, personId, cutoff);
+  return world.history.personalValues
+    .filter(
+      (record) =>
+        record.personId === personId &&
+        (valueId === undefined || record.valueId === valueId) &&
+        isAvailableAt(record.sequence, record.recordedAt, cutoff),
+    )
+    .sort(byDateThenSequence);
+}
+
+export function latestPersonalValue(
+  world: World,
+  personId: EntityId,
+  valueId: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): PersonalValueRecord | undefined {
+  return personalValueHistory(world, personId, valueId, cutoff).at(-1);
+}
+
+export function latestPersonalValuesForPerson(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): readonly PersonalValueRecord[] {
+  const latestByValue = new Map<EntityId, PersonalValueRecord>();
+  for (const record of personalValueHistory(
+    world,
+    personId,
+    undefined,
+    cutoff,
+  )) {
+    latestByValue.set(record.valueId, record);
+  }
+  return [...latestByValue.values()].sort(byDateThenSequence);
+}
+
+export function goalStateHistory(
+  world: World,
+  personId: EntityId,
+  goalId?: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): readonly GoalStateRecord[] {
+  validateHistoricalCutoff(world, personId, cutoff);
+  return world.history.goalStates
+    .filter(
+      (record) =>
+        record.personId === personId &&
+        (goalId === undefined || record.goalId === goalId) &&
+        isAvailableAt(record.sequence, record.recordedAt, cutoff),
+    )
+    .sort(byDateThenSequence);
+}
+
+export function latestGoalState(
+  world: World,
+  personId: EntityId,
+  goalId: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): GoalStateRecord | undefined {
+  return goalStateHistory(world, personId, goalId, cutoff).at(-1);
+}
+
+export function latestGoalStatesForPerson(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): readonly GoalStateRecord[] {
+  const latestByGoal = new Map<EntityId, GoalStateRecord>();
+  for (const record of goalStateHistory(world, personId, undefined, cutoff)) {
+    latestByGoal.set(record.goalId, record);
+  }
+  return [...latestByGoal.values()].sort(byDateThenSequence);
+}
+
+export function activeGoalStatesAt(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): readonly GoalStateRecord[] {
+  return latestGoalStatesForPerson(world, personId, cutoff).filter(
+    (record) => record.status === "active",
+  );
+}
+
+export function appraisalHistory(
+  world: World,
+  personId: EntityId,
+  eventId?: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): readonly AppraisalRecord[] {
+  validateHistoricalCutoff(world, personId, cutoff);
+  return world.history.appraisals
+    .filter(
+      (record) =>
+        record.personId === personId &&
+        (eventId === undefined || record.eventId === eventId) &&
+        isAvailableAt(record.sequence, record.appraisedAt, cutoff),
+    )
+    .sort(byDateThenSequence);
+}
+
+export function latestAppraisal(
+  world: World,
+  personId: EntityId,
+  eventId: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): AppraisalRecord | undefined {
+  return appraisalHistory(world, personId, eventId, cutoff).at(-1);
+}
+
+export function explicitPerceptionHistory(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): readonly PerceptionRecord[] {
+  validateHistoricalCutoff(world, personId, cutoff);
+  return world.history.perceptions
+    .filter(
+      (record) =>
+        record.personId === personId &&
+        isAvailableAt(record.sequence, record.perceivedAt, cutoff),
+    )
+    .sort(byDateThenSequence);
+}
+
+export function explicitPerceptionsAbout(
+  world: World,
+  personId: EntityId,
+  subjectKind: PerceptionRecord["subjectKind"],
+  subjectKey: string,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): readonly PerceptionRecord[] {
+  return explicitPerceptionHistory(world, personId, cutoff).filter(
+    (record) =>
+      record.subjectKind === subjectKind && record.subjectKey === subjectKey,
+  );
+}
+
+export function activeTemporaryStatesAt(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): readonly TemporaryStateRecord[] {
+  validateHistoricalCutoff(world, personId, cutoff);
+  return world.history.temporaryStates
+    .filter(
+      (record) =>
+        record.personId === personId &&
+        isAvailableAt(record.sequence, record.recordedAt, cutoff) &&
+        record.startsAt <= cutoff.asOfDate &&
+        cutoff.asOfDate < record.endsAt,
+    )
+    .sort(byDateThenSequence);
+}
+
+export function decisionTraceHistory(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): readonly DecisionTraceRecord[] {
+  validateHistoricalCutoff(world, personId, cutoff);
+  return world.history.decisionTraces
+    .filter(
+      (record) =>
+        record.context.actorPersonId === personId &&
+        isAvailableAt(record.sequence, record.recordedAt, cutoff),
+    )
+    .sort(byDateThenSequence);
+}
+
+export function decisionTraceForDecision(
+  world: World,
+  personId: EntityId,
+  decisionId: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): DecisionTraceRecord | undefined {
+  return decisionTraceHistory(world, personId, cutoff).find(
+    (record) => record.decisionId === decisionId,
+  );
+}
+
+export function decisionTraceById(
+  world: World,
+  traceId: EntityId,
+  cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
+): DecisionTraceRecord | undefined {
+  const trace = world.history.decisionTraces.find(
+    (record) => record.id === traceId,
+  );
+  if (!trace) return undefined;
+  validateHistoricalCutoff(world, trace.context.actorPersonId, cutoff);
+  return isAvailableAt(trace.sequence, trace.recordedAt, cutoff)
+    ? trace
+    : undefined;
 }
 
 export function privateBeliefHistory(
@@ -886,9 +1167,44 @@ function periodsOverlap(
   second: OccupationFact,
   throughDate: IsoDate,
 ): boolean {
+  if (first.occurredAt > throughDate || second.occurredAt > throughDate) {
+    return false;
+  }
   const firstEnd = first.endedAt ?? throughDate;
   const secondEnd = second.endedAt ?? throughDate;
   return first.occurredAt <= secondEnd && second.occurredAt <= firstEnd;
+}
+
+function validateHistoricalCutoff(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff,
+): void {
+  const person = world.people[personId];
+  if (!person) {
+    throw new Error(`Missing person: ${personId}`);
+  }
+  const asOfDate = makeIsoDate(cutoff.asOfDate);
+  if (asOfDate < person.birthDate || asOfDate > world.currentDate) {
+    throw new Error("Historical cutoff date is outside the person's life.");
+  }
+  if (
+    !Number.isSafeInteger(cutoff.historySequenceExclusive) ||
+    cutoff.historySequenceExclusive < 0 ||
+    cutoff.historySequenceExclusive > world.history.nextSequence
+  ) {
+    throw new Error("Historical cutoff sequence is outside world history.");
+  }
+}
+
+function isAvailableAt(
+  sequence: number,
+  effectiveAt: IsoDate,
+  cutoff: HistoricalCutoff,
+): boolean {
+  return (
+    sequence < cutoff.historySequenceExclusive && effectiveAt <= cutoff.asOfDate
+  );
 }
 
 function normalize(value: string): string {
@@ -904,6 +1220,9 @@ function byDateThenSequence<
     readonly statedAt?: IsoDate;
     readonly recordedAt?: IsoDate;
     readonly encounteredAt?: IsoDate;
+    readonly appraisedAt?: IsoDate;
+    readonly perceivedAt?: IsoDate;
+    readonly startsAt?: IsoDate;
     readonly sequence: number;
   },
 >(left: T, right: T): number {
@@ -914,7 +1233,10 @@ function byDateThenSequence<
     left.madeAt ??
     left.statedAt ??
     left.recordedAt ??
-    left.encounteredAt;
+    left.encounteredAt ??
+    left.appraisedAt ??
+    left.perceivedAt ??
+    left.startsAt;
   const rightDate =
     right.occurredAt ??
     right.formedAt ??
@@ -922,7 +1244,10 @@ function byDateThenSequence<
     right.madeAt ??
     right.statedAt ??
     right.recordedAt ??
-    right.encounteredAt;
+    right.encounteredAt ??
+    right.appraisedAt ??
+    right.perceivedAt ??
+    right.startsAt;
   return (
     (leftDate?.localeCompare(rightDate ?? "") ?? 0) ||
     left.sequence - right.sequence

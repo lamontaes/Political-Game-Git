@@ -12,4 +12,8 @@ Simulated time and limited attention organize play.
 - Delegation and summary are normal handling for routine work.
 - Inactive people and geography may advance at lower resolution without ceasing to exist.
 
-The first build implements UTC-safe date-only arithmetic, a deterministic positive-day advancement action, a system audit record, and one synthetic demo occurrence. Calendars, schedules, attention budgets, weekly mode, and multi-resolution processing are deferred.
+The first build implements UTC-safe date-only arithmetic, a deterministic positive-day advancement action, a system audit record, and one synthetic demo occurrence. Stage 4 historical reasoning uses both an as-of date and an exclusive append-sequence cutoff: date alone cannot prevent a later-appended backdated record from leaking into an earlier decision.
+
+Temporary internal states use effective-dated half-open intervals, `[startsAt, endsAt)`. A state may contribute to a tagged decision while active, remains inspectable after expiry, and does not require a continuous mood tick. Advancing time does not by itself run population opinion formation or autonomous character development.
+
+Calendars, schedules, attention budgets, weekly mode, rest and health effects, scheduled decisions, and multi-resolution processing remain deferred to Stage 5 or later.

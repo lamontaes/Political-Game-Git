@@ -90,7 +90,7 @@ function initialBelief(
     salience: overrides.salience ?? "moderate",
     flexibility: overrides.flexibility ?? "negotiable",
     rationale: null,
-    formation: createFormationContext("initial-reflection"),
+    formation: createFormationContext("reflection:initial"),
     supersedesBeliefId: null,
   });
 }
@@ -361,9 +361,9 @@ describe("sparse political beliefs and principles", () => {
       salience: "high",
       flexibility: "open",
       rationale: "A trusted person's evidence prompted reconsideration.",
-      formation: createFormationContext("trusted-cue", {
+      formation: createFormationContext("cue:trusted", {
         cue: {
-          kind: "social-contact",
+          kind: "person:social-contact",
           sourcePersonId: trustedId,
           sourceLabel: "Trusted colleague",
         },
@@ -377,7 +377,7 @@ describe("sparse political beliefs and principles", () => {
     expect(history[1]).toMatchObject({
       supersedesBeliefId: history[0]?.id,
       formation: {
-        reason: "trusted-cue",
+        reason: "cue:trusted",
         cue: { sourcePersonId: trustedId },
       },
     });
@@ -415,7 +415,7 @@ describe("sparse political beliefs and principles", () => {
         conviction: "strong",
         flexibility: "conditional",
         qualification: "Other principles can matter in a concrete case.",
-        formation: createFormationContext("initial-reflection"),
+        formation: createFormationContext("reflection:initial"),
         supersedesPrincipleRecordId: null,
       });
     }
@@ -506,7 +506,7 @@ describe("sparse political beliefs and principles", () => {
       conviction: "tentative",
       flexibility: "open",
       qualification: null,
-      formation: createFormationContext("initial-reflection"),
+      formation: createFormationContext("reflection:initial"),
       supersedesPrincipleRecordId: null,
     });
     const firstPrinciple = world.history.principles.at(-1);
@@ -520,7 +520,7 @@ describe("sparse political beliefs and principles", () => {
       conviction: "strong",
       flexibility: "conditional",
       qualification: "Stability remains subject to democratic legitimacy.",
-      formation: createFormationContext("genuine-reconsideration"),
+      formation: createFormationContext("reflection:reconsideration"),
       supersedesPrincipleRecordId: firstPrinciple.id,
     });
 
@@ -789,7 +789,9 @@ describe("knowledge, expertise, and lived context", () => {
       recordedAt: world.currentDate,
       jurisdictionId: world.jurisdictionOrder[0] ?? null,
       involvedEntityIds: [id],
-      participants: [{ personId: id, role: "actor", detail: "Made a choice" }],
+      participants: [
+        { personId: id, role: "agency:actor", detail: "Made a choice" },
+      ],
       personFactConstraints: [],
       visibility: "private",
       tags: ["life.minor", "peer-pressure"],
@@ -832,7 +834,7 @@ describe("knowledge, expertise, and lived context", () => {
       flexibility: "open",
       rationale:
         "The event was one context considered, not a deterministic cause.",
-      formation: createFormationContext("lived-experience", {
+      formation: createFormationContext("experience:lived", {
         relevantEventIds: [event.id],
       }),
       supersedesBeliefId: null,
@@ -875,7 +877,11 @@ describe("knowledge, expertise, and lived context", () => {
       jurisdictionId: world.jurisdictionOrder[0] ?? null,
       involvedEntityIds: [otherId],
       participants: [
-        { personId: otherId, role: "participant", detail: "Was present" },
+        {
+          personId: otherId,
+          role: "presence:participant",
+          detail: "Was present",
+        },
       ],
       personFactConstraints: [],
       visibility: "private",
@@ -904,7 +910,7 @@ describe("knowledge, expertise, and lived context", () => {
         salience: "low",
         flexibility: "open",
         rationale: "Invalidly treats historical truth as personally available.",
-        formation: createFormationContext("new-evidence", {
+        formation: createFormationContext("evidence:new", {
           relevantEventIds: [event.id],
         }),
         supersedesBeliefId: null,
@@ -937,7 +943,7 @@ describe("knowledge, expertise, and lived context", () => {
       salience: "low",
       flexibility: "open",
       rationale: "Responds to what the believer heard, not omniscient truth.",
-      formation: createFormationContext("new-evidence", {
+      formation: createFormationContext("evidence:new", {
         relevantEventIds: [event.id],
         eventKnowledgeIds: [knowledge.id],
       }),
@@ -973,8 +979,16 @@ describe("knowledge, expertise, and lived context", () => {
       jurisdictionId: world.jurisdictionOrder[0] ?? null,
       involvedEntityIds: [id, otherId],
       participants: [
-        { personId: id, role: "participant", detail: "Joined discussion" },
-        { personId: otherId, role: "participant", detail: "Joined discussion" },
+        {
+          personId: id,
+          role: "presence:participant",
+          detail: "Joined discussion",
+        },
+        {
+          personId: otherId,
+          role: "presence:participant",
+          detail: "Joined discussion",
+        },
       ],
       personFactConstraints: [],
       visibility: "limited",
@@ -1037,7 +1051,7 @@ describe("knowledge, expertise, and lived context", () => {
       personIds: [id, otherId],
       eventId: event.id,
       occurredAt: world.currentDate,
-      kind: "shared-experience",
+      kind: "experience:shared",
       change: "formed",
       significance: "minor",
       summary: "The policy discussion became a shared experience.",
@@ -1086,7 +1100,7 @@ describe("knowledge, expertise, and lived context", () => {
       salience: "moderate",
       flexibility: "open",
       rationale: "A provisional view after considering several sources.",
-      formation: createFormationContext("lived-experience", {
+      formation: createFormationContext("experience:lived", {
         relevantEventIds: [event.id],
         sourceFactIds: [fact.id],
         propositionExposureIds: [exposure.id],
@@ -1130,7 +1144,11 @@ describe("political history integrity boundaries", () => {
       jurisdictionId: world.jurisdictionOrder[0] ?? null,
       involvedEntityIds: [id],
       participants: [
-        { personId: id, role: "participant", detail: "Was present" },
+        {
+          personId: id,
+          role: "presence:participant",
+          detail: "Was present",
+        },
       ],
       personFactConstraints: [],
       visibility: "limited",
@@ -1198,7 +1216,7 @@ describe("political history integrity boundaries", () => {
         participants: [
           {
             personId: involvedPersonId,
-            role: "participant",
+            role: "presence:participant",
             detail: "Made a political statement",
           },
         ],
@@ -1351,9 +1369,9 @@ describe("political history integrity boundaries", () => {
       salience: "moderate" as const,
       flexibility: "open" as const,
       rationale: "A view shaped by a trusted social cue.",
-      formation: createFormationContext("trusted-cue", {
+      formation: createFormationContext("cue:trusted", {
         cue: {
-          kind: "social-contact",
+          kind: "person:social-contact",
           sourcePersonId: id,
           sourceLabel: "Trusted colleague",
         },
@@ -1364,9 +1382,9 @@ describe("political history integrity boundaries", () => {
     expect(() => recordPrivateBelief(world, input)).toThrow(/another person/i);
     world = recordPrivateBelief(world, {
       ...input,
-      formation: createFormationContext("trusted-cue", {
+      formation: createFormationContext("cue:trusted", {
         cue: {
-          kind: "social-contact",
+          kind: "person:social-contact",
           sourcePersonId: otherId,
           sourceLabel: "Trusted colleague",
         },
@@ -1443,7 +1461,11 @@ describe("political history integrity boundaries", () => {
       jurisdictionId: world.jurisdictionOrder[0] ?? null,
       involvedEntityIds: [id],
       participants: [
-        { personId: id, role: "participant", detail: "Was present" },
+        {
+          personId: id,
+          role: "presence:participant",
+          detail: "Was present",
+        },
       ],
       personFactConstraints: [],
       visibility: "private",
@@ -1517,7 +1539,11 @@ describe("political history integrity boundaries", () => {
       jurisdictionId: world.jurisdictionOrder[0] ?? null,
       involvedEntityIds: [otherId],
       participants: [
-        { personId: otherId, role: "participant", detail: "Was present" },
+        {
+          personId: otherId,
+          role: "presence:participant",
+          detail: "Was present",
+        },
       ],
       personFactConstraints: [],
       visibility: "private",
@@ -1619,7 +1645,11 @@ describe("political history integrity boundaries", () => {
       jurisdictionId: world.jurisdictionOrder[0] ?? null,
       involvedEntityIds: [otherId],
       participants: [
-        { personId: otherId, role: "participant", detail: "Was present" },
+        {
+          personId: otherId,
+          role: "presence:participant",
+          detail: "Was present",
+        },
       ],
       personFactConstraints: [],
       visibility: "private",
@@ -1980,7 +2010,7 @@ describe("sparse scaling, persistence, and determinism", () => {
     const parsed = JSON.parse(payload) as { readonly formatVersion: number };
     const restored = deserializeWorld(payload);
 
-    expect(parsed.formatVersion).toBe(3);
+    expect(parsed.formatVersion).toBe(4);
     expect(restored).toStrictEqual(world);
     expect(restored.policyCatalog).toStrictEqual(world.policyCatalog);
     expect(restored.history.privateBeliefs).toStrictEqual(

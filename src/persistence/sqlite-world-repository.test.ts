@@ -33,7 +33,7 @@ describe("SQLite world repository", () => {
       salience: "high",
       flexibility: "conditional",
       rationale: "Synthetic persistence fixture.",
-      formation: createFormationContext("initial-reflection"),
+      formation: createFormationContext("reflection:initial"),
       supersedesBeliefId: null,
     });
     const detailed = materializePerson(initial, personId);

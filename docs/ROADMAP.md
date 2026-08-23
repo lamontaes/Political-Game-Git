@@ -17,25 +17,31 @@ This roadmap reconciles the implemented foundation with the intended long-term b
 The intended dependency direction is cumulative:
 
 ```text
-deterministic world + stable identity + time
-  -> durable person facts and contextual history
-    -> sparse beliefs, principles, knowledge, and expertise
-      -> bounded autonomous character decisions
-        -> playable life/careers + coherent event engine
-          -> game UI + sourced jurisdiction/institution data
-            -> populations/electorates
-              -> campaigns/elections
-                -> governing/legislation
-                  -> staff/delegation
-                    -> archives/Observer Mode/branching
-                      -> vertical-slice stabilization
+world + stable identity + deterministic time
+  -> factual history
+    -> memory + knowledge + claims + relationship history
+      -> sparse beliefs + principles + expertise
+        -> personality + values + goals + appraisal
+          -> subjective perception
+            -> general decision engine
+              -> life + households + organizations + resources
+                -> world state + economy + policy effects + events
+                  -> mutable law + institutions + authority
+                    -> sourced civic data
+                      -> population + public opinion
+                        -> parties + campaigns + elections
+                          -> governing + fiscal + legislation
+                            -> staff + appointments + administration
+                              -> courts + national/international expansion
+                                -> archives + Observer Mode + branching
+                                  -> vertical-slice stabilization
 ```
 
 Later systems must consume stable records and queries from earlier stages rather than replacing their identities or parsing presentation prose.
 
 ---
 
-## Stage 1 — Foundation
+## Stage 1 — Deterministic World Foundation
 
 Status: **COMPLETED**
 
@@ -177,7 +183,7 @@ The completed Stage 3 audit records a passing repository validation run: formatt
 
 ### Deliberately Deferred
 
-Autonomous opinion formation and NPC decision-making, final personality and goal systems, political-action classification, campaigns, elections, legislation, Life Mode, the causal event engine, a large policy/content library, player-facing political dialogue, and polished game UI remain future-stage work.
+At the Stage 3 checkpoint, character mind, appraisal, subjective perception, and autonomous decision-making were reserved to Stage 4. Stage 4 now supplies that foundation and an explicitly invoked NPC political-belief adapter. Population-scale background opinion change, political-action classification, campaigns, elections, legislation, Life Mode, the causal event engine, a large policy/content library, player-facing political dialogue, and polished game UI remain future work.
 
 ### Major Future Consumers
 
@@ -185,61 +191,88 @@ Stage 4 NPC decisions; Stage 8 public opinion; Stage 9 dialogue, speeches, debat
 
 ---
 
-## Stage 4 — Personality, Values, Goals, and Autonomous NPC Decisions
+## Stage 4 — Character Mind, Appraisal, and Autonomous Decisions
 
-Status: **FUTURE**
+Status: **COMPLETED**
 
 ### Purpose
 
-Make persistent people capable of making their own imperfect, context-sensitive decisions when the player is not controlling them.
+Teach the simulation who a person is, what they value, what they want, what they think is happening, what experiences mean to them, and how they make a bounded, explainable decision.
 
 ### Consumes
 
-Factual biography/history, memories, relationships, Stage 3 beliefs/principles, substantive knowledge/expertise, and perceived rather than omniscient circumstances.
+Stable people and time; factual and contextual history; memories, event knowledge, claims, and relationship episodes; sparse political beliefs and principles; substantive knowledge/expertise; and keyed deterministic RNG.
 
 ### Adds
 
-Personality tendencies, values, goals, ambition and career goals, subjective perception, bounded rationality, imperfect confidence, emotions/context, habits, adviser-influence hooks, autonomous option evaluation, and bounded plausible randomness.
+- Sparse, historically mutable personality tendencies and personal values that remain distinct from political principles and proposition beliefs.
+- Structured persistent goals with priority, status, targets, deadlines, and explicit completion, failure, abandonment, or supersession.
+- Personal appraisal/meaning records distinct from objective events and memories.
+- Subjective perception assembled from information actually available to the character, with provenance, uncertainty, contradictions, and as-of reconstruction.
+- Lightweight temporary-state hooks for contextual decision inputs rather than a mood minigame.
+- A reusable decision architecture with explicit hard constraints, conflicting soft considerations, bounded keyed randomness, and structured traces.
+- Non-applying development proposals for later gradual personality, value, goal, and relationship change.
+- NPC political-belief formation as the first domain adapter over the general engine.
 
-Decisions should be explainable from the NPC's perceived situation. Stage 4 must not collapse reasoning into a single ideology axis or global utility score and must not retroactively dictate player beliefs.
+Stage 4 does not implement formative-life gameplay, careers, households, resources, organizations, campaigns, elections, institutions, legislation, or a polished player UI. It does not map personality or values directly to ideology, and it never silently applies major internal choices to a player-controlled character.
+
+### Major Architectural Decisions
+
+- Appraisal remains distinct from event truth and memory; values remain distinct from personality, political principles, and proposition beliefs (D-021, D-022).
+- One general, subjective, provenance-bearing decision architecture owns hard constraints, conflicting considerations, deterministic close-choice variation, explanations, and separate application (D-023, D-029).
+- Temporary state is sparse expiring context rather than a universal mood meter (D-024).
+- Architecture rules apply retroactively, illustrative content does not become an exhaustive universe, and semantic end-to-end behavior—not structural presence—is the completion criterion (D-031 through D-033).
+- Autonomous belief formation preserves independent conviction, salience, and flexibility; future autonomous rule consumers must resolve the effective rule for their actor, scope, authority, and simulated date (D-034, D-035).
+
+### Validation Evidence
+
+The completed Stage 4 gate passed formatting, lint, TypeScript checking, 95 tests across 12 files, the production build, and deterministic headless replay. `npm audit --audit-level=high` reported zero vulnerabilities, and `git diff --check` passed. Live in-app-browser inspection exercised progressive person materialization and time advancement, inspected personality, values, goals, appraisal, subjective perception, temporary state, decision traces, political reasoning, relationship history, event context, participants, known-by information, and claims, and found no browser console warnings or errors.
+
+### Deliberately Deferred
+
+Biography facts do not yet carry append-sequence availability, so reconstructed historical perceptions exclude them away from the current frontier while durable traces freeze any fact content used. Employer and education-institution names remain text rather than organization IDs. Automatic perception, attention, communication, memory recall, character development, relationship behavior, population-scale opinion change, mutable law, and every Stage 5+ gameplay system remain deferred to their owning dependencies.
+
+### Major Future Consumers
+
+Stage 5 formative and adult life; Stage 6 causal events; Stage 7 effective law and institutions; Stage 8 population opinion; Stage 9 dialogue and campaigning; Stage 10 governing decisions; Stage 11 staff; and Stage 12 archives, Observer Mode, control transfer, and branching.
 
 ---
 
-## Stage 5 — Life Mode, Detailed Time, Activities, and Civilian Careers
+## Stage 5 — Formative Life, Adult Life, Households, Resources, and Organizations
 
 Status: **FUTURE**
 
 ### Purpose
 
-Make adulthood from approximately age 18 onward playable as a life whose intensity changes with circumstances and responsibility.
+Make a life playable from formative childhood through adulthood while giving politics durable personal stakes and shared institutional context.
 
 ### Adds
 
-Life Mode, Detailed Mode, obligations, opportunities, discretionary activities, education, occupations, stable organizations, money/income hooks, family/personal activity, political volunteering, travel, expertise development, delegation hooks, and variable gameplay intensity.
+Formative resolution bands for ages 0–7, 8–12, and 13–17; adult life from approximately age 18; education, careers, military service, employment, relationships, romance, marriage/divorce, children, households, childcare, personal income/debt/resources, simple housing, time/rest/attention, stable organizations, relationship maintenance, and mentorship history.
 
-Civilian paths may include education, skilled trades, law, accounting, food/hospitality, construction, medicine, nonprofits, journalism/media creation, entertainment, athletics, business ownership, inherited wealth, military service, civil service, and political staff. The simulation need not reproduce each profession's technical work; careers primarily create life context, relationships, income, expertise, opportunities, and history.
+Civilian and political paths create context, relationships, resources, expertise, opportunities, and durable history rather than profession-specific clerical minigames. Higher responsibility may create more consequential decisions per period without proportional busywork.
 
-Higher responsibility may create more meaningful decisions per period without clerical busywork.
+None of these systems are implemented in Stage 4.
 
 ---
 
-## Stage 6 — World and Event Engine
+## Stage 6 — World State, Metrics, Economy, Policy Effects, and Events
 
 Status: **FUTURE**
 
 ### Purpose
 
-Produce coherent personal, local, state, national, and international history from conditions, prior events, actors, and deliberate choices rather than an unrelated random-card deck.
+Give later decisions and institutions a typed, causal world to observe and change without turning the simulation into an unrelated random-card deck.
 
 ### Adds
 
-Event prerequisites, blockers, probability modifiers, conditions, chains, follow-ons, consequences, personal/local/state/national/international scopes, economic and political conditions, long-running storylines, actor-initiated events, and causal propagation.
+Typed historical world-state variables; lightweight economy; policy causal effects; delayed implementation and consequences; personal/local/state/national/international event prerequisites, blockers, modifiers, chains, follow-ons, and consequences; long-running conditions and storylines; actor-initiated events; and discovery, evidence, and secrecy foundations where appropriate.
 
-A recession may deepen while underlying conditions persist; a president may initiate peace negotiations; war, attack, or another crisis may transform a planned governing agenda. All committed outcomes still use stable historical records and keyed bounded randomness.
+Initial future metrics may cover housing, income, employment, crime, education, infrastructure, cost of living, government finance, natural disasters, disease outbreaks, political violence, major terrorist incidents, and economic shocks. Extraordinary outcomes remain causal and every committed occurrence still enters stable history through keyed deterministic resolution.
 
 ---
 
-## Stage 6.5 — First Real Game UI Shell
+## Stage 6.5 — First Real UI and Diegetic Onboarding Shell
 
 Status: **FUTURE**
 
@@ -249,33 +282,52 @@ Replace the diagnostic developer webpage with the first recognizable, functional
 
 ### Direction
 
-Use an original identity centered on illustrated/stylized people, political dossiers, newspapers/media, calendars, government documents, dialogue encounters, maps, timelines, atmospheric political presentation, clear navigation, and more visual character than a spreadsheet-like political simulator. _Suzerain_ and _The Political Process_ are product-presentation comparisons; _Democracy 4_ is a secondary information-visualization reference. _Football Manager_ informs simulation/database depth, not the primary visual model. No proprietary implementation or assets may be copied.
+The hierarchy is **scene first, dossier second, database third**. The current political or life moment occupies the center; a persistent player-controlled pin rail keeps approximately three to five tracked people, issues, or actions visible at right; and a compact Sims-like bottom-left anchor holds location, week/date/time, continue/advance, and compact navigation.
 
-Potential functional sections: Week, People, Government, Politics/Campaign, Media, World, and History.
+There is no full-width bottom navigation ribbon, permanent Political Capital number, or Webull/Bloomberg-style information wall. The current visual direction remains dark navy/charcoal with warm paper/wood and local civic identity.
+
+Natural onboarding comes through the world: new-member orientation, experienced allies, party leadership, parliamentarians, city attorneys, clerks, transition officials, and agency briefings. Players can inspect a concept and later use an in-game civic reference. This direction replaces the diagnostic viewer only when Stage 6.5 begins; Stage 4 does not implement it.
 
 ---
 
-## Stage 7 — Real Lexington and Kentucky Data
+## Stage 7A — Institutions, Law, Authority, and Mutable Rules
 
 Status: **FUTURE**
 
 ### Purpose
 
-Replace placeholder jurisdiction information with sourced, dated current starting data.
+Define generic institutional and legal architecture before adding jurisdiction-specific civic content.
+
+### Adds
+
+Jurisdictions, institutions, chambers, offices, seats, terms, eligibility, elections, appointments, confirmations, vacancies, succession, removal, powers, committees, procedures, voting thresholds, agenda authority, vetoes, overrides, and constitutional/statutory/internal-rule hierarchy. Rights, restrictions, effective dates, transition rules, redistricting, and boundary changes are first-class future requirements.
+
+Institutions query the law or rule effective at the relevant simulated date. Generic code must not assume Lexington, Kentucky, or federal structure.
+
+---
+
+## Stage 7B — Real Lexington, Kentucky, and United States Civic Data
+
+Status: **FUTURE**
+
+### Purpose
+
+Replace placeholder civic information with sourced, dated starting records over the generic Stage 7A architecture.
 
 ### Resolution and Additions
 
 - Lexington-Fayette: high resolution.
-- Kentucky: medium resolution.
+- Kentucky: medium/high resolution.
 - United States: lower initial resolution.
-- Government structure, offices, powers, terms, selection/election mechanisms, districts, council, committees, mayor, and reviewed officeholders where appropriate.
-- Every real dataset includes `as_of`, `source`, `jurisdiction`, and `status` provenance.
+- A national county/county-equivalent skeleton for future geographic expansion.
+- Government structure, offices, powers, terms, selection/election mechanisms, districts, councils, committees, executives, and reviewed officeholders where appropriate.
+- Every sourced record preserves `as_of`, `source`, `jurisdiction`, `status`, and an official URL when available.
 
-Jurisdiction rules belong in data, not generic code. Architecture must accommodate consolidated city-counties, council-manager and strong/weak mayor systems, partisan and nonpartisan elections, unusual legislatures/counties, judicial-selection differences, and lawful rule changes without requiring every municipality before the first playable slice.
+This provenance must later support inspect, explain, historical-version comparison, and an “open official source” workflow in the civic reference.
 
 ---
 
-## Stage 8 — Population, Public Opinion, and Electorate
+## Stage 8 — Population, Public Opinion, Reputation, and Electorate
 
 Status: **FUTURE**
 
@@ -289,13 +341,13 @@ Stage 3 propositions/beliefs, geography, politicians, public statements, world e
 
 ### Adds
 
-Population groups/cells, party identification, applicable principles, demographics, geographic traits, engagement, turnout propensity, issue salience, candidate impressions, trusted people/organization cues, opinion formation, split-ticket behavior, geographic change, and coalition evolution.
+Population groups/cells, party identification, applicable principles, demographics, geographic traits, engagement, turnout propensity, political salience, candidate impressions, trusted people/organization cues, public narratives, opinion formation, split-ticket behavior, geographic fame/recognition/reputation, geographic change, and coalition evolution.
 
 There is no single electorate partisan score and no dense voter x issue storage.
 
 ---
 
-## Stage 9 — Campaigns and Elections
+## Stage 9 — Parties, Campaign Finance, Campaigns, and Elections
 
 Status: **FUTURE**
 
@@ -305,13 +357,13 @@ Make a Lexington council campaign playable through substantive choices and imper
 
 ### Adds
 
-Candidate decisions and recruitment, persistent campaign staff, fundraising, donors, volunteers, field activity, speeches, interviews, debates/forums, endorsements, opposition research, polling and fallible pollster interpretation, strategy, voter persuasion, enthusiasm, turnout, results, victory/defeat, and post-election consequences.
+Party organizations; candidate decisions and recruitment; persistent campaign staff; separate personal and campaign accounts; jurisdiction-specific contribution, prohibited-source, party, PAC, public-financing, and self-funding rules; small-donor and major-donor strategies; fundraising; donors; volunteers; field activity; speeches; interviews; debates/forums; endorsements; opposition research; polling and fallible pollster interpretation; strategy; voter persuasion; enthusiasm; turnout; procedures; election-night presentation; results; and post-election consequences.
 
 Campaigning communicates information and changes impressions, enthusiasm, organization, relationships, and turnout; it does not accumulate generic campaign points. Debates and interviews should eventually be contextual gameplay rather than passive modifiers.
 
 ---
 
-## Stage 10 — Governing, Legislation, and Institutional Politics
+## Stage 10 — Governing, Budgeting, Taxation, Legislation, Implementation, and Oversight
 
 Status: **FUTURE**
 
@@ -321,25 +373,27 @@ Lexington council.
 
 ### Adds
 
-Legislation composed from provisions, drafting, explicit revisions and amendments, fiscal/policy effects, committees, hearings, scheduling, agenda control, lobbying/stakeholders, bargaining, promises and deals, whip assessments, obstruction, routine and difficult legislation, hard votes, implementation hooks, and oversight hooks.
+Structured measures and provisions; procedural legislative histories; drafting; explicit revisions, amendments, and substitutes; committees; hearings; scheduling and agenda authority; rule suspension; cloture where relevant; conference/concurrence; veto and override; lobbying/stakeholders; bargaining; promises and deals; whip assessments; obstruction; and hard votes.
+
+Fiscal systems add taxes, revenue, appropriations, recurring versus one-time spending, restricted/general funds, reserves, debt and debt service, grants, capital spending, forecasts, fiscal notes, implementation, agency capacity, actual-versus-estimated effects, oversight, and ethics/investigation hooks. Fiscal effects must remain inspectable rather than collapsing into a single cost number.
 
 Support must be explainable. An actor may support or oppose immediately, support after an amendment, require serious negotiation, or retain a hard substantive objection. Repeated meetings cannot automatically overcome substance. Major asks and conflicts can become long-term relationship and memory history.
 
 ---
 
-## Stage 11 — Staff, Advisers, and Delegation
+## Stage 11 — Staff, Appointments, Administration, Delegation, and Mentorship
 
 Status: **FUTURE**
 
 ### Adds
 
-Persistent chiefs of staff, legislative aides, campaign managers, pollsters, speechwriters, communications staff, policy advisers, and later executive staff.
+Persistent campaign aides, legislative aides, chiefs of staff, pollsters, speechwriters, communications staff, policy advisers, cabinet and other appointees, judicial nominees, diplomats, and senior administrators.
 
-Staff can improve, decline, burn out, become loyal, disagree, leave, run for office, and become politically important. Their primary value is better information, preparation, judgment, continuity, execution, and delegation capacity—not percentage-bonus equipment. Long tenure can create relationship and institutional knowledge while newer people may sometimes be more capable.
+Staff and appointees can improve, decline, burn out, become loyal, disagree, leave, fail confirmation, run for office, and become politically important. Their primary value is better information, preparation, judgment, continuity, execution, and delegation capacity—not percentage-bonus equipment. Mentorship/protégé histories allow long-term political “coaching trees” to emerge from ordinary relationships rather than a special dynasty mechanic.
 
 ---
 
-## Stage 12 — History, Observer Mode, Archive, and Branching
+## Stage 12 — Civic Wiki, Archive, Observer Mode, and Branching
 
 Status: **FUTURE**
 
@@ -349,13 +403,13 @@ Make decades of simulation explorable and causally understandable.
 
 ### Adds
 
-Person, career, place, party, faction, institution, election, and legislation histories; historical maps; returning-player briefings; autonomous Observer Mode; following people/places/parties; taking control of a persistent NPC; and branch saves/worlds with parent lineage.
+Searchable people, places, laws, offices, procedures, cases, bills, political history, institutional history, current-versus-starting-world law, and official source links where available; person/career/place/party/faction/institution/election/legislation histories; historical maps; returning-player briefings; autonomous Observer Mode; following people/places/parties; switching the controlled persistent character; save branches with parent lineage; historical explanations; and political/mentor lineages.
 
 A fifty-year simulation should explain why people rose or failed, places changed, parties realigned or emerged, and institutions transformed, including the earlier records that contributed.
 
 ---
 
-## Stage 13 — Vertical-Slice Stabilization
+## Stage 13 — Lexington Vertical-Slice Stabilization
 
 Status: **FUTURE**
 
@@ -369,11 +423,39 @@ Save integrity, deterministic bugs, performance, simulation speed, UI usability,
 
 ---
 
-## Post-Vertical-Slice Expansion
+## Post-Lexington Expansion
 
-Possible later expansion includes Lexington mayor; additional Kentucky local governments; the Kentucky legislature and statewide offices; governor; Congress and the presidency; executive agencies and cabinet; diplomacy, intelligence, party leadership, judicial careers, courts and precedent, federalism, institutional/rule changes, constitutional amendments, Supreme Court composition changes, more states and municipalities, thousands of propositions, expanded civilian/business/nonprofit/media/celebrity/athletic careers, family wealth and inheritance, political dynasties, factions and party realignment/new parties, long-run institutional transformation, elder-statesman and post-presidency play, historical starts, play-existing-politician mode, deeper character creation, very large contextual dialogue libraries, and expanded/generated visual assets.
+### Stage 14 — Kentucky Expansion
 
-These possibilities do not change the current stage boundary.
+Additional Kentucky local governments, the General Assembly, statewide offices, governor, and higher-resolution Kentucky law, politics, geography, economy, and civic data.
+
+### Stage 15 — Federal Political and Executive Expansion
+
+Congress, the presidency, executive agencies and cabinet, federalism, national parties and campaigns, and national governing systems.
+
+### Stage 16 — Judiciary, Legal Process, and Investigations
+
+Judicial careers, courts, precedent, legal procedure, investigations, constitutional litigation, appointments, and changing constitutional interpretation.
+
+### Stage 17 — National Macroeconomy and Capability Gate
+
+National macroeconomic systems plus a fresh capability audit of the then-current _The Political Process_ before mature national United States scope is called broadly feature-complete.
+
+### Stage 18 — Global Baseline, Diplomacy, and International Institutions
+
+Countries, diplomacy, treaties, international organizations, global conditions, and the institutional baseline for foreign policy.
+
+### Stage 19 — Strategic Conflict, Crisis Bargaining, and Intelligence
+
+Strategic conflict, deterrence, intelligence, crisis bargaining, war initiation and termination, and long-running international consequences grounded in actors and conditions.
+
+### Stage 20+ — Long-Run World and Content Expansion
+
+Broader geography, institutions, careers, history starts, parties and realignments, family wealth and political dynasties, post-office life, contextual dialogue, and content depth. These possibilities do not change the current stage boundary.
+
+## TPP Capability Floor
+
+The contemporary version of _The Political Process_ is a rolling capability floor for the eventual broader United States political simulation, not this project's architectural model and never a source of proprietary implementation. The Lexington vertical slice does not wait for complete parity. Before the mature national game is called broadly feature-complete, perform a fresh capability audit and ensure important political capabilities are either matched or intentionally surpassed through another design.
 
 ---
 

@@ -14,4 +14,4 @@ Elections are contextual contests among persistent people, institutions, geograp
 - Losing is a continuing life state, not game over.
 - Observer Mode uses the same election systems without a player character.
 
-Elections are not implemented in the first build.
+Elections are not implemented in the first build. The Stage 4 character-mind and decision architecture is a future input to candidate, voter, staff, and endorsement choices; it does not create contests, electorate behavior, polling, campaign actions, or election outcomes.

@@ -206,3 +206,153 @@ Consequence: later stages must consume existing stable IDs, append-oriented hist
 Represent encountering a proposition as its own sparse append-oriented record with source provenance. It does not create a private belief, public statement, or commitment. Belief and principle formation may reference prior biography, exposure, experienced events, memories, event knowledge, claims, relationship interactions, subject knowledge, and categorized trusted cues, but canonical event truth is unavailable as formation context unless the person experienced it or the record cites their prior memory or knowledge.
 
 Consequence: never encountered, encountered without a formed view, and formed belief remain distinct; Stage 4 can later reason from perceived rather than omniscient context; and durable explanations can resolve structured sources without parsing rationale prose or populating blank belief vectors.
+
+## D-021 — Appraisal is distinct from event truth and memory
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent an appraisal as a person's historically situated interpretation of what an event or experience means to them. It may reference an event, the person's memory or knowledge, involved people, and provenance, but it neither mutates canonical truth nor duplicates the remembered account.
+
+Consequence: two people can experience the same occurrence and retain different meanings, one person can later reinterpret it explicitly, and an event need not create any appraisal or personality change.
+
+## D-022 — Values are distinct from personality, political principles, and beliefs
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Store sparse, historically mutable personal values separately from personality tendencies, broad political principles, and proposition-specific beliefs. Values may conflict and may contribute to decisions without automatically producing policy positions.
+
+Consequence: people who value the same thing may reach different conclusions because of knowledge, experience, other values, goals, relationships, appraisal, and perceived effects.
+
+## D-023 — Autonomous decisions use subjective and explainable context
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Use one general decision architecture across future domains. It evaluates options from the actor's as-of subjective perception, separates hard constraints from soft considerations, preserves structured reasons and uncertainty, and uses isolated keyed bounded randomness only for plausible variation. Autonomous application is restricted to NPCs; major player-controlled internal choices remain proposals or player decisions.
+
+Consequence: unknown canonical truth cannot influence an NPC, an unavailable option cannot win through utility weighting or randomness, and the simulation can explain why an option was chosen or blocked without inventing a retrospective rationale.
+
+## D-024 — Temporary internal states are contextual inputs
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent temporary states such as grief, stress, fear, anger, fatigue, or excitement as sparse effective-dated, provenance-bearing context that may influence a relevant decision. They are not a universal mood simulation and are not permanent player-facing meters.
+
+Consequence: later time, rest, health, and life systems can provide contextual inputs without making one state dominate every decision or adding constant maintenance gameplay in Stage 4.
+
+## D-025 — Shared resource-flow architecture is reserved for future systems
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Future personal finances, households, campaign finance, organizations, and government finance should share compatible concepts for source, recipient, amount or formula, cadence, effective period, authority or basis, restrictions, and actual outcome. Do not add one universal `fundingSource` field to unrelated records.
+
+Consequence: later salary, support, contribution, appropriation, revenue, and expenditure systems can interoperate without Stage 4 prematurely implementing money or finance.
+
+## D-026 — Mutable institutional behavior resolves from effective law
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Institutional properties that law or rules can change must eventually be resolved from the controlling authority effective at the queried simulated date, including effective dates and transition rules, rather than permanent constants embedded in institution or election code.
+
+Consequence: terms, eligibility, appointment authority, procedures, thresholds, succession, districting, rights, and powers can change coherently during a save. The law and institution systems themselves remain future work.
+
+## D-027 — Progressive resolution is a global scaling strategy
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Apply progressive resolution beyond people to organizations, courts, jurisdictions, countries, and events. Promotion adds simulation detail while preserving stable identity, established facts, references, and prior history.
+
+Consequence: the world can remain broad at low cost and deepen around relevance without pretending a newly detailed entity only just came into existence.
+
+## D-028 — Civic instruction is diegetic and available on demand
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Teach civic systems primarily through their faithful operation, natural in-world guidance such as orientations, allies, leaders, attorneys, clerks, transition officials, and briefings, plus inspectable reference material and official sources on demand.
+
+Consequence: complexity remains learnable without turning the game into a mandatory textbook sequence or replacing substantive mechanics with simplified tutorial abstractions.
+
+## D-029 — Decision traces are explanations, not canonical actions
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+A decision evaluation trace records available and blocked options, applicable considerations, uncertainty, bounded random influence, and the selected or deferred outcome. It is diagnostic/explanatory state, not the canonical event or action produced by the decision. Consequential traces may be durable; routine traces may remain ephemeral or compact.
+
+Consequence: Observer Mode and debugging can answer why a choice occurred while actual world consequences continue to enter the appropriate canonical history system exactly once.
+
+## D-030 — The Political Process is a rolling capability floor, not the architecture
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Treat the contemporary version of _The Political Process_ as a rolling capability floor for the eventual broad United States political simulation, never as this project's architecture or a source of proprietary implementation. The Lexington vertical slice does not wait for complete parity.
+
+Consequence: before mature national United States scope is called broadly feature-complete, perform a fresh capability audit and match important capabilities or intentionally surpass them through another design.
+
+## D-031 — Architecture rules apply retroactively
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Run the Architecture Integrity Audit at major stage boundaries and whenever a newly discovered architecture principle, failure pattern, or invariant could affect completed work. Earlier stages are not grandfathered. Every plausibly affected implementation is either confirmed compatible, corrected with a contained patch, assigned a concrete dependency-bound future migration, or rejected/superseded when retaining it would compound future work.
+
+Consequence: a stage-completion label cannot preserve incompatible foundations, while the audit remains scoped and does not authorize unrelated rewrites.
+
+## D-032 — Separate closed semantic sets from open content taxonomies
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Treat named examples as illustrative unless an authoritative specification explicitly closes the domain. A genuinely finite state machine, bounded scale, provenance discriminator with distinct validation, or supported typed record family may remain a closed union. Expandable classifications use catalogs or validated semantic namespaces with stable content keys. They must not become either prompt-derived exhaustive enums or untyped strings, `unknown`, and arbitrary metadata bags.
+
+Consequence: content can grow without changing engine control flow, while categories still preserve meaning, validation, query behavior, and provenance.
+
+## D-033 — Semantic behavior is the completion criterion
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Accept a simulation capability only when it performs the intended end-to-end behavior with the correct actor, simulated time, scope, authority, subjective access, effective rules where applicable, history, provenance, determinism, and persistence. A type, stored object, diagnostic rendering, placeholder, manual fixture, or graceful fallback is evidence or tooling rather than completion by itself.
+
+Consequence: acceptance tests must exercise meaningful outcomes and cross-system behavior, not only object construction or UI presence.
+
+## D-034 — Autonomous belief formation preserves independent dimensions
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+The political-belief adapter may select a high-level formation outcome, but it may not silently derive all Stage 3 belief dimensions from that outcome. Applied substantive proposals supply position-compatible conviction plus independently chosen salience and flexibility. Private belief, public position, and campaign commitment remain separate records.
+
+Consequence: equal support or opposition positions can retain materially different certainty, importance, and openness to revision after autonomous formation.
+
+## D-035 — Autonomous rule consumers resolve effective rules
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Extend D-026: when mutable law and institutional rules are implemented, every autonomous system whose behavior depends on them must consume the controlling rule effective for the actor, authority, scope or jurisdiction, and simulated date. It may not continue assuming the original, current-real-world, or default rule after the rule changes.
+
+Consequence: this is a future integration contract for law-consuming systems, not authorization to implement law, institutions, or future institutional AI in Stage 4.

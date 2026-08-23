@@ -1,6 +1,7 @@
 import {
   campaignCommitmentHistory,
   factsForPerson,
+  formatOpenTaxonomyKey,
   principleHistory,
   privateBeliefHistory,
   propositionExposureHistory,
@@ -91,7 +92,7 @@ function formationDetails(
 
   if (formation.cue) {
     lines.push(
-      `Cue: ${formation.cue.kind} · ${formation.cue.sourceLabel}${
+      `Cue: ${formatOpenTaxonomyKey(formation.cue.kind)} · ${formation.cue.sourceLabel}${
         formation.cue.sourcePersonId
           ? ` · ${resolvedEntityReference(world, formation.cue.sourcePersonId)}`
           : ""
@@ -185,6 +186,19 @@ function formationDetails(
         knowledgeId,
         knowledge
           ? `${nameFor(world.policyCatalog.subjects, knowledge.subjectId)} · ${knowledge.recordedAt}`
+          : undefined,
+      )}`,
+    );
+  }
+  for (const traceId of formation.decisionTraceIds) {
+    const trace = world.history.decisionTraces.find(
+      (candidate) => candidate.id === traceId,
+    );
+    lines.push(
+      `Decision trace: ${resolvedReference(
+        traceId,
+        trace
+          ? `${trace.context.decisionType} · selected ${trace.selectedOptionKey ?? "no available option"}`
           : undefined,
       )}`,
     );

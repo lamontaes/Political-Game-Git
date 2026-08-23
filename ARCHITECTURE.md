@@ -6,6 +6,16 @@ The architecture supports a desktop-first persistent political-life simulation w
 
 The [Roadmap](docs/ROADMAP.md) governs long-term sequencing, and [System Dependencies](docs/SYSTEM-DEPENDENCIES.md) is the integration checklist for new persistent concepts. Neither may override the Game Constitution, accepted decisions, or the implemented contracts in this document and `docs/systems/`.
 
+The [Architecture Integrity Audit](docs/ARCHITECTURE-INTEGRITY-AUDIT.md) is the permanent stage-boundary and retroactive compatibility gate. A new architecture rule applies to every completed system it could plausibly affect; an earlier completion label is not an exemption.
+
+## Architecture Integrity
+
+Illustrative examples never silently define an exhaustive universe. Finite state machines, bounded scales, and provenance discriminators remain closed where their semantics require it. Expandable content classifications use catalogs or validated semantic namespaces and stable keys rather than exhaustive prompt-derived unions or arbitrary metadata bags.
+
+Stage acceptance is behavioral. A feature must perform its intended headless simulation behavior with correct actor, time, subjective access, scope, history, provenance, determinism, and persistence. Interfaces, diagnostics, placeholders, and manual fixtures are evidence or tooling, not substitutes for end-to-end capability.
+
+When a rule changes, affected earlier systems are confirmed, corrected, assigned a concrete dependency-bound migration, or superseded. Future autonomous systems that depend on mutable law or rules must resolve the effective rule for their actor, scope, and simulated date; Stage 4 records that future contract without implementing law or institutions.
+
 ## Dependency Direction
 
 ```text
@@ -23,7 +33,7 @@ Node desktop adapter (src/persistence)
           SQLite snapshots
 ```
 
-- `src/simulation/` contains JSON-safe domain types, deterministic utilities, world operations, policy definitions, sparse political records and queries, history, progressive person generation, and the demo scenario.
+- `src/simulation/` contains JSON-safe domain types, deterministic utilities, world operations, policy and mind catalogs, append-oriented history, sparse political and character-mind records, subjective-perception projections, the general decision evaluator and political-belief adapter, progressive person generation, and the demo scenario.
 - `src/persistence/` contains Node-only durable-storage adapters and depends on the public simulation snapshot codec.
 - `src/cli/` contains Node-only executable entry points.
 - `src/ui/` contains React components that present and invoke the simulation API.
@@ -46,7 +56,12 @@ The initial domain includes:
 - distinct append-only memories, event knowledge, claims, and relationship interactions that may disagree without changing canonical truth;
 - a shared stable policy catalog containing domains, issues, propositions, knowledge subjects, and broad principle definitions;
 - sparse append-only proposition exposures, private beliefs, public positions, campaign commitments, principles, and subject-knowledge records;
-- reusable query helpers over facts, event tags, age, geography, experience, relationship context, shared work, proposition history, principles, knowledge, and expertise;
+- a separate stable mind catalog containing sparse personality-tendency and personal-value definitions without ideology or policy mappings;
+- sparse append-only personality, value, goal-state, appraisal, perception, temporary-state, and durable decision-trace records;
+- an explicit observer/person control state that protects a controlled person's major internal choices from autonomous application;
+- reusable query helpers over facts, event tags, age, geography, experience, relationship context, shared work, proposition history, principles, knowledge, expertise, character mind, perception, and decision traces;
+- a pure general decision evaluator with hard constraints, conflicting soft considerations, isolated bounded randomness, source snapshots, and separate proposal/application steps;
+- autonomous political-belief formation as the first domain adapter over that evaluator; and
 - deterministic time advancement and demo occurrence generation.
 
 Names and collection positions are not identity. Entity references use stable IDs. World construction validates and defensively copies caller-owned entity graphs. State-changing transitions return new objects and do not mutate their input world; an idempotent no-op may return the unchanged input object.
@@ -55,11 +70,11 @@ Names and collection positions are not identity. Entity references use stable ID
 
 For a fixed generator version, the same normalized seed, starting state, and ordered valid actions must produce the same material state and history. Different seeds must vary meaningful generated content, not merely seed metadata.
 
-All stochastic behavior in the simulation passes through `SeededRng`. It combines a pinned seeded algorithm with non-consuming keyed forks. A person materialization stream is derived from the world seed and stable person ID; a time-advance occurrence stream is derived from the seed and time-action sequence. UI selection, render order, or materialization cannot consume randomness that changes later world activity.
+All stochastic behavior in the simulation passes through `SeededRng`. It combines a pinned seeded algorithm with non-consuming keyed forks. A person materialization stream is derived from the world seed and stable person ID; a time-advance occurrence stream is derived from the seed and time-action sequence. A decision stream is derived from the stable decision and actor IDs and then forked by stable option key. UI selection, render order, person materialization, option order, or evaluation of another actor cannot consume randomness that changes a decision.
 
 Persistent IDs are hashes of explicit stable keys, not random draws, names, or display positions. An event's semantic key is unique within a world, is stored with the event, and determines its ID; action parameters therefore belong in keys when they distinguish occurrences. Event sequence separately records append order.
 
-World schema version 4, generator version `demo-world-v4`, person-materialization version 4, policy-catalog version, and snapshot format version 3 are stored explicitly. Older world and envelope versions are rejected because no migration chain is promised yet. This build promises same-version reproducibility only.
+World schema version 5, generator version `demo-world-v5`, person-materialization version 4, policy- and mind-catalog versions, and snapshot format version 4 are stored explicitly. Older world and envelope versions are rejected because no migration chain is promised yet. This build promises same-version reproducibility only.
 
 ## Time
 
@@ -75,19 +90,31 @@ Education and occupation facts carry stable knowledge-subject IDs. Materializati
 
 ## History
 
-History is append-oriented and is the basis of explanation, archives, memories, relationships, political evolution, and returning-player briefings. Canonical events, subjective memories, person-specific event knowledge, claims, relationship interactions, proposition exposures, private beliefs, public positions, campaign commitments, principles, and subject knowledge are separate record families sharing one global sequence. Corrections, disputed claims, inaccurate knowledge, changed interpretations, changed beliefs, and later statements are new linked records rather than silent rewrites.
+History is append-oriented and is the basis of explanation, archives, memories, relationships, political evolution, character development, decisions, and returning-player briefings. Canonical events, subjective memories, person-specific event knowledge, claims, relationship interactions, proposition exposures, private beliefs, public positions, campaign commitments, principles, subject knowledge, personality tendencies, personal values, goal states, appraisals, perceptions, temporary states, and durable decision traces are separate record families sharing one global sequence. Corrections, disputed claims, inaccurate knowledge, changed interpretations, changed beliefs, changed mind records, and later statements are new linked records rather than silent rewrites.
 
 An event's rich context preserves location and setting, participants and roles, visibility, tags, social pressure, choice, motivation, and immediate reaction when known. Knowledge provenance distinguishes direct experience, another person's account, public record, media, and rumor. A claim explicitly records its relationship to historical truth but never changes that truth. Causal graphs, automatic knowledge propagation, and correction records remain future extensions.
 
-Private belief is proposition-specific and categorical across position, conviction, salience, and flexibility. Absence means no formed belief, not neutral. A separate sparse proposition-exposure record distinguishes never encountering a question from encountering it without forming a view. Principles are separate and may conflict. Public speech and campaign commitments never overwrite private belief; political behavior remains event history. Knowledge and expertise are subject-specific, categorical, and provenance-bearing. No opinion-formation engine exists in this stage, so historical events and biography are contextual inputs rather than automatic ideological causes.
+Private belief is proposition-specific and categorical across position, conviction, salience, and flexibility. Absence means no formed belief, not neutral. A separate sparse proposition-exposure record distinguishes never encountering a question from encountering it without forming a view. Principles, personal values, personality tendencies, public speech, campaign commitments, expertise, and historical behavior remain distinct.
 
-Belief and principle formation can reference only validated, already-available biography facts, exposures, experiences, memories, event knowledge, claims, relationship interactions, and subject-knowledge records. Event context that the person neither experienced nor knows is rejected rather than becoming an omniscient rationale. Trusted cues retain explicit source categories and stable person references where the source is a simulated person.
+Explicit political records and autonomous formation can reference only validated information available to the person before the record or decision cutoff. Event context that the person neither experienced nor knows is rejected rather than becoming an omniscient rationale. A person-sourced trusted cue requires a perception with an actual earlier communication record and relationship provenance; another person's private belief is never read as communicated information.
 
 Person history in the viewer is a query over the canonical global event store. Political histories and knowledge profiles are queries over their corresponding sparse record families and factual biography; none is maintained as a mutable score vector on `Person`.
 
+## Character Mind, Perception, and Decisions
+
+The shared `MindCatalog` defines extensible personality tendencies and personal values once per world. A person stores only the sparse historical records that exist for them. Tendencies use definition-specific expressions rather than forcing every characteristic into a bipolar axis. Values remain separate from political principles and policy beliefs. Goals retain one stable conceptual ID across append-only state changes.
+
+Appraisal is personal meaning, not event truth or memory. Two people can appraise one event differently, and absence of an appraisal is valid. A later reinterpretation is an explicitly linked record; it never edits the event, memory, or earlier appraisal. Development proposals are non-applying suggestions backed by source records, not automatic numerical mutations.
+
+Subjective perception is built from person-owned facts, memories, event knowledge, accessible claims, relationship episodes, proposition exposure, subject knowledge, appraisals, explicit perceptions, and active temporary states. Historical decision input uses both an as-of date and an exclusive history-sequence cutoff, preventing a later-appended backdated record from leaking into an earlier evaluation. Because biography facts do not yet carry append-sequence availability, they are eligible only at the current date/current history frontier; durable traces freeze their exact source labels and content for later explanation.
+
+The decision evaluator is pure: it validates and canonically orders options, applies hard constraints before scoring, retains every supporting or opposing consideration, and allows only slight keyed random influence when at least two available options are within the close-choice window. Blocked or clearly separated options receive no random influence. Consideration source types are open semantic keys under validated `mind`, `belief`, `information`, `social`, `context`, `institution`, or `domain` namespaces. Every non-context source requires a resolvable provenance reference; context sources still require a stable key and explanation. Evaluation creates a proposal and structured explanation, not a canonical action. Consequential traces can be appended durably; routine evaluations may remain ephemeral. Domain application is separate and must create the appropriate belief or future event exactly once.
+
+The first adapter evaluates seven political-belief outcomes: no opinion, defer, conflicted, tentative support, support, tentative opposition, and opposition. The no-opinion default is an honest `context:opinion-readiness` consideration rather than a mislabeled risk. No-opinion and defer outcomes record the durable reasoning trace but create no private belief. Other NPC outcomes append or supersede the Stage 3 private-belief record and link its formation to the earlier trace. A substantive proposal supplies conviction, salience, and flexibility explicitly; the selected side does not alias those independent belief dimensions. Autonomous application rejects the currently controlled person; evaluation remains available so a future UI can present player choices.
+
 ## Institutions and Geography
 
-Generic code models worlds, jurisdictions, people, and history. Lexington-Fayette-specific facts and rules belong in a jurisdiction definition or sourced snapshot. Institutional rules should eventually be effective-dated so lawful rule changes can occur inside a save.
+Generic code models worlds, jurisdictions, people, history, and character decisions. Lexington-Fayette-specific facts and rules belong in a jurisdiction definition or sourced snapshot. Institutional rules that can lawfully change must eventually be resolved from the controlling effective-dated law rather than hard-coded constants. Stage 4 provides only generic constraint inputs; it does not implement institutions or law.
 
 The product's resolution hierarchy is explicit: Lexington-Fayette is the initial deeply modeled jurisdiction, Kentucky begins at medium resolution, and the United States begins at lower resolution. Those are product targets, not permission to hard-code one jurisdiction's institutions into generic simulation logic.
 
@@ -102,7 +129,7 @@ Real-world starting data and simulated save history are separate domains:
 3. After initialization, simulated events are authoritative for that save.
 4. Updating a repository snapshot never silently rewrites an existing save.
 
-The pure simulation exposes a versioned JSON snapshot codec that validates stable identity, entity ordering, policy-catalog definitions, biography invariants, political record chronology and provenance, references, and contiguous history sequence at the persistence boundary. A Node-only `SqliteWorldRepository` stores the complete validated snapshot in a strict SQLite table and supports save, load, update, and list operations. SQLite code remains outside `src/simulation/`, so headless domain execution and browser diagnostics do not depend on a storage driver.
+The pure simulation exposes a versioned JSON snapshot codec that validates stable identity, entity ordering, policy- and mind-catalog definitions, control references, biography invariants, political and mind-record chronology and provenance, historical cutoffs, decision-source snapshots, references, and contiguous history sequence at the persistence boundary. A Node-only `SqliteWorldRepository` stores the complete validated snapshot in a strict SQLite table and supports save, load, update, and list operations. SQLite code remains outside `src/simulation/`, so headless domain execution and browser diagnostics do not depend on a storage driver.
 
 This first repository intentionally stores one current snapshot per world rather than prematurely normalizing every domain record into SQL tables. Migration chains, transactional action journaling, branch lineage, recovery policy, and cross-version compatibility remain deferred.
 

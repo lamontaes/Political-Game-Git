@@ -7,6 +7,7 @@ import {
   selectPersonHistory,
 } from "../simulation";
 import type { HistoricalEvent, Person, World } from "../simulation";
+import { MindProfile } from "./MindProfile";
 import { PoliticalProfile } from "./PoliticalProfile";
 
 interface PersonInspectorProps {
@@ -114,6 +115,8 @@ export function PersonInspector({
           ))}
         </ul>
       </section>
+
+      <MindProfile world={world} person={person} />
 
       <PoliticalProfile world={world} person={person} />
 
