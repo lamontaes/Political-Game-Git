@@ -35,6 +35,18 @@ key, caller evaluation key, scope, date, and historical cutoff. A non-consuming
 actor-initiated definition has no RNG draw, but still records the same explicit
 eligibility and risk evidence.
 
+Incident evaluation remains definition-level and does not make a person act.
+An actor-initiated occurrence requires exactly one `agency:actor`, while a
+probabilistic occurrence has none. Both `recordActorInitiatedIncident` and the
+lower-level `occurIncident` path enforce that mode boundary, so omitting the
+actor cannot bypass the shared vitality availability gate. The gate applies at
+the evaluation date and current append frontier before committing onset. A
+deceased or functionally incapacitated actor is blocked; a limited actor
+remains allowed for this adapter. Loaded incident integrity independently
+rechecks the required actor at the onset event's date and exclusive sequence.
+This is an actor-action restriction, not a ban on ordinary historical
+references to deceased people.
+
 `evaluateIncident` first validates the current world, then delegates to one
 non-recursive canonical evaluator. Before a loaded or committed occurrence is
 accepted, integrity derives that evaluator's input from the immutable snapshot
@@ -103,7 +115,7 @@ Incident truth creates no `EventKnowledgeRecord`; an existing explicit
 event-knowledge writer remains the only person-information bridge. Run D adds no
 media, reporter, discovery, evidence, secrecy, or universal knowledge system.
 
-World schema 13, generator `demo-world-v13`, snapshot format 12, and incident
+World schema 14, generator `demo-world-v14`, snapshot format 13, and incident
 catalog `incident-catalog-v1` persist definitions, records, states, plans,
 snapshots, links, and global sequence through exact JSON and the Node-only
 SQLite repository. Integrity rejects malformed definitions or any risk snapshot
@@ -112,7 +124,10 @@ or writer-specific provenance linkage, broken state supersession, non-event
 phases, malformed outcome plans, invalid or duplicate incident due work,
 source-state drift at due creation, and impossible post-resolution active state.
 
-Run D does not implement weather, health, mortality, incapacity, evidence,
-recurrence, a macroeconomy tick, law or institutions, elections, media,
-territory-specific content, foreign governments, tactical conflict, or a
-player-facing UI. Run E owns mortality/incapacity/evidence.
+Run E adds bounded vitality, functional capacity, and evidence beside this
+substrate without turning an incident into a health state, mortality cause,
+capacity change, or automatic discovery. The current system still does not
+implement weather simulation, a medical/disease model, estates, recurrence, a
+macroeconomy tick, law or institutions, elections, media, territory-specific
+content, foreign governments, tactical conflict, or a player-facing UI. See
+[Vitality and Functional Capacity](vitality-and-capacity.md).

@@ -412,7 +412,7 @@ Runtime transitions and snapshot loading reject dangling organization/person/jur
 
 ### NOW-101 — Stage 5 persists headlessly
 
-Current world schema 13 and snapshot format 12 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, resource, obligation, dwelling, occupancy, tenure, life-source, fatigue/resource-pressure, generated-provenance, metric/observation/causal/effect/due/policy, and incident/state/transition-plan record exactly through deterministic JSON and the Node-only SQLite repository. The simulation and its tests import no React, DOM, browser, or SQLite runtime.
+Current world schema 14 and snapshot format 13 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, resource, obligation, dwelling, occupancy, tenure, life-source, fatigue/resource-pressure, generated-provenance, metric/observation/causal/effect/due/policy, incident/state/transition-plan, vitality/capacity, and evidence/discovery record exactly through deterministic JSON and the Node-only SQLite repository. Production simulation modules import no React, DOM, browser, or SQLite runtime.
 
 ### NOW-102 — Real career diversity uses general records
 
@@ -657,6 +657,26 @@ Possible incidents remain catalog definitions rather than history. Explicit cuto
 ### NOW-162 — Incident follow-ons reuse authoritative time exactly once
 
 One incident transition plan schedules one ordinary future due item with exact plan/date/scope/provenance references only while the plan's active source state still equals the active state at due-item creation. A normal due handler writes one meaningful phase event and one superseding state, then terminally resolves. Duplicate or fabricated generic due work, unavailable plan references, terminal-at-creation plans, source-state drift at creation, and corrupt JSON reject. A once-valid follow-on made obsolete by later resolved/advanced incident history terminally cancels with a typed reason so `advanceWorld` can cross the due frontier. JSON and Node-only SQLite preserve pending and terminal incident history exactly; the permanent cross-system scenario retains Stage 5 life/resources/Stage 4 decisions, Run A metric/due history, Run B effects, Run C policy realization, and a separately rooted actor-initiated incident with a resolved typed follow-on.
+
+### NOW-163 — Mortality is exact, annual, explicit, and materialization-bounded
+
+Versioned mortality tables contain strictly ordered explicit integer ages and canonical bounded exact shares; unsupported ages reject rather than interpolate. Only an explicit writer may schedule a future birthday check for a materialized living person. One domain plan maps to exactly one Run A due item, one person/year identity, and one active check; generic bypasses, duplicate plans/items, wrong birthdays, probabilities, tables, provenance, or creation frontiers reject. February 29 uses February 28 in non-leap years. No time advancement path scans people or performs daily mortality.
+
+### NOW-164 — Keyed mortality, death, and obsolete work are reconstructible
+
+The same seed, person, table, year/date, and age reconstruct the same integer draw and result despite unrelated RNG use. Exact zero survives and schedules exactly one next birthday when that same table supports the next age; exact one dies once and schedules none. Death links one ordinary `person.died` event, one durable death record, and one result exactly. A separately caused earlier death makes a once-valid pending check terminally cancel rather than produce a result or deadlock time. A persisted handler checkpoint resumes without rerolling, duplicating a result, or duplicating follow-on work. Birth, death occurrence, and exclusive sequence make `isPersonAliveAt` backfill-safe while the deceased person's identity and historical graph remain queryable.
+
+### NOW-165 — Functional capacity uses append-only history and one actor gate
+
+A living person defaults to capable, may become limited or incapacitated, and may later recover through exactly superseding ordinary capacity-change history. Cutoff queries preserve earlier status and reject post-death changes or corrupted chains. The common eligibility boundary blocks deceased and incapacitated actors with structured reasons; limited status is not universally blocked. Actor-initiated incidents use the same gate, while ordinary historical references about deceased people remain valid.
+
+### NOW-166 — Objective evidence exists separately from discovery and knowledge
+
+An event/incident-linked artifact persists its open kind, created/recorded chronology, canonical sources, public/restricted/private/sealed metadata, provenance, and sequence while granting zero knowledge. Explicit discovery writes one exact private ordinary event, one person/artifact discovery, and one direct event-knowledge record for only that person. Another person and the artifact's source event remain unknown. Malformed sources, access, chronology, identities, event/knowledge links, duplicates, pre-birth/deceased discovery, and date-plus-sequence leakage reject.
+
+### NOW-167 — Run E persists and completes the permanent Stage 6 integration gate
+
+World schema 14, generator `demo-world-v14`, snapshot 13, vitality catalog v1, and all Run E families round-trip exactly through JSON and Node-only SQLite save/load/list/replace. The permanent scenario is one continuous Stage 5→Run E history: life/resources/relationships and Stage 4 subjectivity; Run A truth, observation, and due work; Run B causal economy; Run C policy; Run D incident/follow-on; capacity and recovery; objective evidence discovered by one person; deterministic mortality and death; continued relationship/resource/history identity after death; and no automatic estate transfer. Deterministic demo replay and the production simulation dependency boundary remain intact. Stage 6.5 UI and Stage 7 institutions/law are absent.
 
 ## Manual Now
 

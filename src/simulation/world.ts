@@ -14,11 +14,22 @@ import {
   createSyntheticIncidentCatalog,
 } from "./incident-catalog";
 import {
+  assertVitalityCatalogIntegrity,
+  cloneVitalityCatalog,
+  createSyntheticVitalityCatalog,
+} from "./vitality-catalog";
+import {
   assertIncidentIntegrity,
   incidentEntityAvailableAt,
   incidentEntityExists,
   incidentHistoryRecords,
 } from "./incident-integrity";
+import {
+  assertEvidenceIntegrity,
+  evidenceEntityAvailableAt,
+  evidenceEntityExists,
+  evidenceHistoryRecords,
+} from "./evidence-integrity";
 import {
   EMPTY_FUTURE_TRANSITION_HANDLERS,
   assertFutureTransitionIntegrity,
@@ -76,6 +87,12 @@ import {
   worldMetricHistoryRecords,
 } from "./world-metrics";
 import {
+  assertVitalityIntegrity,
+  vitalityEntityAvailableAt,
+  vitalityEntityExists,
+  vitalityHistoryRecords,
+} from "./vitality-integrity";
+import {
   assertOpenTaxonomyKey,
   assertDottedContentKey,
   BELIEF_FORMATION_REASON_NAMESPACES,
@@ -105,6 +122,7 @@ import type {
   WorldMetricCatalog,
   CausalMechanismCatalog,
   IncidentCatalog,
+  VitalityCatalog,
 } from "./types";
 
 const PERSON_FACT_KINDS: readonly PersonFactKind[] = [
@@ -202,6 +220,7 @@ export interface CreateWorldInput {
   readonly metricCatalog?: WorldMetricCatalog;
   readonly causalMechanismCatalog?: CausalMechanismCatalog;
   readonly incidentCatalog?: IncidentCatalog;
+  readonly vitalityCatalog?: VitalityCatalog;
   readonly control?: ControlState;
 }
 
@@ -221,7 +240,7 @@ function recordById<T extends { readonly id: EntityId }>(
 }
 
 export function createWorldId(seed: string): EntityId {
-  return createStableId("world", `demo-world-v13:${normalizeSeed(seed)}`);
+  return createStableId("world", `demo-world-v14:${normalizeSeed(seed)}`);
 }
 
 export function createWorld(input: CreateWorldInput): World {
@@ -236,6 +255,8 @@ export function createWorld(input: CreateWorldInput): World {
     input.causalMechanismCatalog ?? createSyntheticCausalMechanismCatalog();
   const incidentCatalog =
     input.incidentCatalog ?? createSyntheticIncidentCatalog();
+  const vitalityCatalog =
+    input.vitalityCatalog ?? createSyntheticVitalityCatalog();
   const control = input.control ?? { kind: "observer" as const };
 
   assertJsonSafe(input.jurisdictions, "jurisdictions");
@@ -245,12 +266,14 @@ export function createWorld(input: CreateWorldInput): World {
   assertJsonSafe(metricCatalog, "metricCatalog");
   assertJsonSafe(causalMechanismCatalog, "causalMechanismCatalog");
   assertJsonSafe(incidentCatalog, "incidentCatalog");
+  assertJsonSafe(vitalityCatalog, "vitalityCatalog");
   assertJsonSafe(control, "control");
   assertPolicyCatalogIntegrity(policyCatalog);
   assertMindCatalogIntegrity(mindCatalog);
   assertWorldMetricCatalogIntegrity(metricCatalog);
   assertCausalMechanismCatalogIntegrity(causalMechanismCatalog);
   assertIncidentCatalogIntegrity(incidentCatalog);
+  assertVitalityCatalogIntegrity(vitalityCatalog);
 
   if (input.jurisdictions.length === 0) {
     throw new Error("A world must begin with at least one jurisdiction.");
@@ -268,8 +291,8 @@ export function createWorld(input: CreateWorldInput): World {
   const people = input.people.map(clonePerson);
 
   const world: World = {
-    schemaVersion: 13,
-    generatorVersion: "demo-world-v13",
+    schemaVersion: 14,
+    generatorVersion: "demo-world-v14",
     id: worldId,
     seed,
     startedAt: currentDate,
@@ -284,6 +307,7 @@ export function createWorld(input: CreateWorldInput): World {
     metricCatalog: cloneWorldMetricCatalog(metricCatalog),
     causalMechanismCatalog: cloneCausalMechanismCatalog(causalMechanismCatalog),
     incidentCatalog: cloneIncidentCatalog(incidentCatalog),
+    vitalityCatalog: cloneVitalityCatalog(vitalityCatalog),
     control: { ...control },
     history: createHistoryStore(),
   };
@@ -294,8 +318,8 @@ export function createWorld(input: CreateWorldInput): World {
 export function assertWorldIntegrity(world: World): void {
   assertJsonSafe(world, "world");
   if (
-    world.schemaVersion !== 13 ||
-    world.generatorVersion !== "demo-world-v13"
+    world.schemaVersion !== 14 ||
+    world.generatorVersion !== "demo-world-v14"
   ) {
     throw new Error("Unsupported world schema or generator version.");
   }
@@ -324,6 +348,7 @@ export function assertWorldIntegrity(world: World): void {
   assertWorldMetricCatalogIntegrity(world.metricCatalog);
   assertCausalMechanismCatalogIntegrity(world.causalMechanismCatalog);
   assertIncidentCatalogIntegrity(world.incidentCatalog);
+  assertVitalityCatalogIntegrity(world.vitalityCatalog);
   validateInitialEntities(
     world.id,
     currentDate,
@@ -387,6 +412,8 @@ export function recordWorldEvent(
       !causalEffectEntityExists(world, entityId) &&
       !incidentEntityExists(world, entityId) &&
       !policySemanticsEntityExists(world, entityId) &&
+      !vitalityEntityExists(world, entityId) &&
+      !evidenceEntityExists(world, entityId) &&
       !futureTransitionEntityExists(world, entityId)
     ) {
       throw new Error(
@@ -456,6 +483,32 @@ export function recordWorldEvent(
     ) {
       throw new Error(
         `Historical event references an unavailable policy entity: ${entityId}`,
+      );
+    }
+    if (
+      vitalityEntityExists(world, entityId) &&
+      !vitalityEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        `Historical event references an unavailable vitality entity: ${entityId}`,
+      );
+    }
+    if (
+      evidenceEntityExists(world, entityId) &&
+      !evidenceEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        `Historical event references an unavailable evidence entity: ${entityId}`,
       );
     }
     if (
@@ -1138,6 +1191,8 @@ function validateHistoryIntegrity(world: World): void {
     ...causalEffectHistoryRecords(world),
     ...policyHistoryRecords(world),
     ...incidentHistoryRecords(world),
+    ...vitalityHistoryRecords(world),
+    ...evidenceHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
     ...history.events,
     ...history.memories,
@@ -1206,6 +1261,8 @@ function validateHistoryIntegrity(world: World): void {
   assertCausalEffectIntegrity(world, ids);
   assertPolicySemanticsIntegrity(world, ids);
   assertIncidentIntegrity(world, ids);
+  assertVitalityIntegrity(world, ids);
+  assertEvidenceIntegrity(world, ids);
   assertFutureTransitionIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
@@ -1283,6 +1340,8 @@ function validateHistoryIntegrity(world: World): void {
         !causalEffectEntityExists(world, involvedId) &&
         !incidentEntityExists(world, involvedId) &&
         !policySemanticsEntityExists(world, involvedId) &&
+        !vitalityEntityExists(world, involvedId) &&
+        !evidenceEntityExists(world, involvedId) &&
         !futureTransitionEntityExists(world, involvedId)
       ) {
         throw new Error(
@@ -1352,6 +1411,32 @@ function validateHistoryIntegrity(world: World): void {
       ) {
         throw new Error(
           `Historical event references an unavailable policy entity: ${event.id}`,
+        );
+      }
+      if (
+        vitalityEntityExists(world, involvedId) &&
+        !vitalityEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          `Historical event references an unavailable vitality entity: ${event.id}`,
+        );
+      }
+      if (
+        evidenceEntityExists(world, involvedId) &&
+        !evidenceEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          `Historical event references an unavailable evidence entity: ${event.id}`,
         );
       }
       if (

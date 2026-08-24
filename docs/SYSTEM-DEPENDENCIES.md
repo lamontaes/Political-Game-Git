@@ -18,6 +18,10 @@ stable semantic IDs + normalized seed/keyed RNG + simulated dates
      |  `- typed biography facts
      |- shared policy catalog
      |- shared mind catalog
+     |- shared world-metric catalog
+     |- shared causal-mechanism catalog
+     |- shared incident catalog
+     |- shared vitality catalog
      |- observer / controlled-person state
      `- append-oriented HistoryStore
         |- canonical events
@@ -47,7 +51,14 @@ stable semantic IDs + normalized seed/keyed RNG + simulated dates
         |- life commitments / load resolutions
         |- exact resource positions / flows / terms / outcomes
         |- obligations / states
-        `- dwellings / occupancies / tenures / states
+        |- dwellings / occupancies / tenures / states
+        |- metric truth / observation vintages
+        |- causal processes / effect activations
+        |- policy alternatives / baselines / operations / estimates / realizations
+        |- incidents / states / transition plans
+        |- mortality plans / results / person deaths / capacities
+        |- objective evidence artifacts / explicit discoveries
+        `- future due items / states
 
 typed transitions + historical/resource/housing/relationship queries
   -> subjective-perception projection
@@ -63,6 +74,8 @@ validated World
 ```
 
 The simulation owns domain truth and transitions. UI, CLI, and persistence adapters consume the public simulation API; the simulation never imports them.
+
+Run E evidence composes existing truth and information seams rather than creating parallel copies: an earlier event or incident may source an objective artifact; an alive person may explicitly discover that artifact; the writer then records an ordinary discovery event, the discovery identity, and direct event knowledge for that person only. Evidence integrity depends on the vitality cutoff query for alive status, while `world.ts` depends only on the cycle-free evidence-integrity helpers for global entity availability and persistence validation.
 
 The `HistoryStore` has one contiguous global sequence, and every record-family array is stored in strictly increasing append-sequence order. Cross-record formation, provenance, source, and supersession references must target an earlier appended record; a same-day reference is invalid when its target has a later sequence. Transition validation and snapshot-load integrity checks reject unknown discriminators and values outside the defined categorical vocabularies instead of accepting structurally plausible but unsupported records.
 
@@ -87,7 +100,7 @@ GENERAL DECISION ENGINE
         ↓
 LIFE / HOUSEHOLDS / ORGANIZATIONS / PERSONAL RESOURCES / HOUSING
         ↓
-WORLD STATE / ECONOMY / POLICY EFFECTS / EVENTS
+WORLD STATE / ECONOMY / POLICY EFFECTS / EVENTS / VITALITY / EVIDENCE
         ↓
 MUTABLE LAW / INSTITUTIONS / AUTHORITY
         ↓
@@ -135,18 +148,18 @@ If an answer is intentionally deferred, record the boundary rather than inventin
 
 ## World
 
-- **Owns:** schema/generator versions, stable world ID, normalized seed, start/current dates, action sequence, ordered jurisdictions and people, shared policy, mind, world-metric, and causal-mechanism catalogs, observer/controlled-person state, and the complete `HistoryStore`.
+- **Owns:** schema/generator versions, stable world ID, normalized seed, start/current dates, action sequence, ordered jurisdictions and people, shared policy, mind, world-metric, causal-mechanism, incident, and vitality catalogs, observer/controlled-person state, and the complete `HistoryStore`.
 - **Stable IDs exposed:** `World.id`; ordered referenced entity IDs; catalog/history IDs contained by the world.
 - **Referenced by:** every world-scoped entity and history-record stable key; snapshot metadata; SQLite primary key.
 - **Queries/APIs:** `createWorld`, `assertWorldIntegrity`, `advanceWorld`, `recordWorldEvent`, `materializePerson`, entity selectors, and all world-based query functions.
-- **Serialization/persistence:** the entire JSON-safe world is validated and stored in snapshot format 11; world schema is 12. Older unsupported versions are rejected because no migration chain exists yet.
+- **Serialization/persistence:** the entire JSON-safe world is validated and stored in snapshot format 13 with world schema 14 and generator `demo-world-v14`. Vitality catalog v1 is embedded alongside the unchanged incident catalog v1, metric catalog v2, and causal catalog v1. Older unsupported versions are rejected because no migration chain exists yet.
 - **Temporary scaffolding:** one synthetic demo jurisdiction, one current snapshot per world, and a small authored diagnostic scenario rather than an autonomous world engine. Validated political transitions currently recheck the complete world and shared catalog; future batching or indexes may optimize this without weakening atomic integrity.
 - **Future consumers:** every stage, Observer Mode, branch lineage, archives, performance scheduling, and cross-platform saves.
 
 ## Stable IDs
 
 - **Owns:** deterministic kind-prefixed FNV-1a hashes of explicit semantic keys through `createStableId`.
-- **Stable IDs exposed:** world, jurisdiction, person, fact, event, memory, event-knowledge, claim, relationship, proposition-exposure, policy/mind/metric-definition, metric-state/observation, causal-mechanism-definition, causal-process, effect-activation, policy-alternative/baseline/operation/implementation-profile/estimate/realization, future-due-item/state, political-record, subject-knowledge, personality, value, goal, appraisal, perception, decision/trace, temporary-state, organization/profile, work/status/role, education/state, participation/state, household/location/membership, kinship, partnership, care, child-authority/state, life-commitment/load-resolution, resource-position/flow/terms/outcome/obligation/state, dwelling/occupancy/state/tenure/state, and snapshot IDs.
+- **Stable IDs exposed:** world, jurisdiction, person, fact, event, memory, event-knowledge, claim, relationship, proposition-exposure, policy/mind/metric/causal/incident/mortality-table definitions, metric-state/observation, causal-process/effect-activation, policy-alternative/baseline/operation/implementation-profile/estimate/realization, incident/state/transition-plan, mortality-plan/result, person-death/functional-capacity, evidence-artifact/discovery, future-due-item/state, political-record, subject-knowledge, personality, value, goal, appraisal, perception, decision/trace, temporary-state, organization/profile, work/status/role, education/state, participation/state, household/location/membership, kinship, partnership, care, child-authority/state, life-commitment/load-resolution, resource-position/flow/terms/outcome/obligation/state, dwelling/occupancy/state/tenure/state, and snapshot IDs.
 - **Referenced by:** entity maps/order arrays, facts, events, provenance, supersession chains, queries, snapshots, SQLite, and viewer keys.
 - **Queries/APIs:** `stableHash` and `createStableId`; integrity checks recompute expected identities.
 - **Serialization/persistence:** IDs are plain branded strings and round-trip exactly.
@@ -179,7 +192,7 @@ If an answer is intentionally deferred, record the boundary rather than inventin
 - **Stable IDs exposed:** `WorldMetricDefinition.id`; quantity units and metric/segment keys are validated semantic keys rather than entities.
 - **Referenced by:** canonical metric-state records, observation vintages/uncertainty, historical metric queries, current Run B effects/derivations, Run C baselines, Run D event conditions, Stage 7 institutions, Stage 8 populations, Stage 10 fiscal systems, and archives/UI.
 - **Queries/APIs:** exact quantity creation/normalization, comparison and compatible addition/subtraction; metric definition/catalog creation, cloning, and integrity.
-- **Serialization/persistence:** metric catalog version `world-metric-catalog-v2` and exact integer numerator/denominator/unit fields live in world schema 12/snapshot 11 and round-trip without floating precision loss.
+- **Serialization/persistence:** metric catalog version `world-metric-catalog-v2` and exact integer numerator/denominator/unit fields live in world schema 14/snapshot 13 and round-trip without floating precision loss.
 - **Temporary scaffolding:** a deliberately small synthetic catalog proves point/interval, stock/flow/rate/index, quantity/money, aggregate economy/fiscal, and primitive/derived semantics. There is no production dataset, formula language, automatic dynamics, or automatic geographic aggregation.
 - **Future consumers:** Stage 6 Runs C–E and later law, opinion, campaign, governing/fiscal, briefing, and archive systems.
 
@@ -197,9 +210,9 @@ If an answer is intentionally deferred, record the boundary rather than inventin
 
 - **Owns:** stable append-oriented causal provenance with effective/recorded dates, canonical sources, earlier causal parents, acyclic ancestry, and distinct-root recovery; a stable mechanism-definition catalog with exact linear/bounded response curves; committed cause-to-metric activations with typed magnitude/direction and a durable point-target or exact interval-total basis, scope, onset/ramp/maturity/end, optional compatible threshold/bound, realization, and source history.
 - **Stable IDs exposed:** `CausalMechanismDefinition.id`, `CausalProcessRecord.id`, and `EffectActivationRecord.id` plus target metric/scope, source, parent, and causal references.
-- **Referenced by:** explicit aggregate metric evaluation and current Run C policy operations/baselines; future Run D incidents/chains, Run E evidence where authorized, Stage 4/8/10 reasoning and analysis, and archives.
+- **Referenced by:** explicit aggregate metric evaluation, current Run C policy operations/baselines, current Run D incidents, Stage 4/8/10 reasoning and analysis, and archives. Run E evidence cites committed event/incident truth rather than treating causal records as artifacts.
 - **Queries/APIs:** definition/catalog construction and integrity; causal-process recording; effect activation; date-plus-exclusive-sequence process/effect queries; distinct root-cause deduplication; exact target-period phase contribution; explicit aggregate evaluation that filters incompatible interval bases; and deliberate canonical result recording through `recordWorldMetricState`.
-- **Serialization/persistence:** the causal catalog and two record families live in world schema 13/snapshot 12, join the one contiguous append sequence, preserve durable magnitude bases, and round-trip exactly through JSON and Node-only SQLite.
+- **Serialization/persistence:** the causal catalog and two record families live in world schema 14/snapshot 13, join the one contiguous append sequence, preserve durable magnitude bases, and round-trip exactly through JSON and Node-only SQLite.
 - **Temporary scaffolding:** only linear and bounded ease-out curves exist. Point phases use the target point; interval phases use a documented representative midpoint and require exact stored-interval equality, not inferred cadence conversion. Activation never mutates a target automatically. There is no equation DSL, serialized callback, causal-strength score, graph database, policy identity, incident identity, recurrence, or event duplicate.
 - **Current/future consumers:** Run B aggregate economy is the first consumer. Run C and Run D must reuse these identities/evaluators rather than create policy-specific or incident-specific effect stores.
 
@@ -219,7 +232,7 @@ If an answer is intentionally deferred, record the boundary rather than inventin
 - **Stable IDs exposed:** `PolicyAlternativeRecord.id`, `PolicyBaselineRecord.id`, `PolicyOperationRecord.id`, `PolicyImplementationProfileRecord.id`, `PolicyEstimateRecord.id`, and `PolicyRealizationRecord.id` plus baseline, predecessor, metric, scope, operation, causal, effect, and provenance references.
 - **Referenced by:** explicit policy analysis/knowledge events and the Stage 4 decision adapter now; later campaign proposals, legislation, executive/administrative choices, institutions, governing implementation, fiscal analysis, incidents, archives, and briefings.
 - **Queries/APIs:** append-only writers for all six families; exact baseline-versus-alternative evaluation; latest/id baseline and estimate queries at date-plus-exclusive-sequence cutoff; implementation-share/status derivation; explicit or due-item realization; terminal cancellation of a historically valid due item made obsolete by a later revision or alternative realization; per-person analysis knowledge; and actor-specific decision-context adaptation.
-- **Serialization/persistence:** all families join the one global sequence in world schema 13/snapshot 12 and round-trip exactly through JSON and Node-only SQLite. Integrity rejects malformed open keys/closed discriminators, duplicate IDs, unavailable sources, unit/currency/scope/period mismatch, invalid revision/timing/factors, forecast-effect conflation, stale/duplicate realization work, multiple effect-producing realizations of one alternative, and mismatched actual causal/effect links.
+- **Serialization/persistence:** all families join the one global sequence in world schema 14/snapshot 13 and round-trip exactly through JSON and Node-only SQLite. Integrity rejects malformed open keys/closed discriminators, duplicate IDs, unavailable sources, unit/currency/scope/period mismatch, invalid revision/timing/factors, forecast-effect conflation, stale/duplicate realization work, multiple effect-producing realizations of one alternative, and mismatched actual causal/effect links.
 - **Temporary scaffolding:** authority, resources, capacity, compliance, and uptake are injected exact evidence because Stage 7 and governing institutions do not exist. Baselines are explicitly authored/simulated and no automatic forecasting service exists. The multiplicative five-factor rule is the sole aggregate; there is no equation language, opinion score, policy tick, or policy-specific effect store.
 - **Current/future consumers:** Run C is the first policy consumer of Run A/B metrics, time, causes, and effects. Run D incidents reuse the same causal substrate. Stage 7/later governing systems may author authoritative alternatives, authority evidence, and realization without replacing these records.
 
@@ -227,21 +240,41 @@ If an answer is intentionally deferred, record the boundary rather than inventin
 
 - **Owns:** possible-incident catalog definitions distinct from history; exact explicit rule and likelihood evaluation; durable incident identity, root, immutable risk snapshot, active/resolved phase state, and named follow-on transition plan; and canonical queries over identity/state/root/ordinary phase events.
 - **Stable IDs exposed:** `IncidentDefinition.id`, `IncidentRecord.id`, `IncidentStateRecord.id`, and `IncidentTransitionPlanRecord.id`, including their root/event/effect/due references.
-- **Referenced by:** Run B effect evaluation, Run A future dispatch, existing Stage 4 event-knowledge writers when an explicit actor learns an incident, policy/incident composition, later Run E evidence and Stage 7+ consumers.
+- **Referenced by:** Run B effect evaluation, Run A future dispatch, existing Stage 4 event-knowledge writers when an explicit actor learns an incident, policy/incident composition, current Run E evidence, and Stage 7+ consumers.
 - **Queries/APIs:** explicit cutoff-aware incident evaluation, occurrence, actor-initiated occurrence, identity/state/active/definition/kind/root/event queries, plan recording, and one typed incident transition handler. The public evaluator validates the world and delegates to the same non-recursive core used to verify persisted occurrence snapshots.
-- **Serialization/persistence:** incident catalog v1 and the three record families live in world schema 13/snapshot 12, share the global sequence, and round-trip exactly through JSON and Node-only SQLite. Integrity reconstructs each occurrence at its stored cutoff, exact root/event/state/effect/plan provenance links, and plan-source versus due-creation state identity, rejecting malformed historical graphs.
-- **Temporary scaffolding:** starter definitions are synthetic and small. Rules are typed metric/event/incident-state checks; likelihood modifiers are bounded active-incident factors; impact is exact exposure × vulnerability × (1 − resilience). There is no callback catalog, recurrence, event-modifier engine, weather/health simulator, media, evidence/discovery, or territory data pack.
-- **Current/future consumers:** Run D is the first consumer. Run E may add authorized mortality/incapacity/evidence without replacing incident identity; Stage 7+ may consume events and causes through the same ordinary/causal records.
+- **Serialization/persistence:** incident catalog v1 and the three record families live in world schema 14/snapshot 13, share the global sequence, and round-trip exactly through JSON and Node-only SQLite. Integrity reconstructs each occurrence at its stored cutoff, exact root/event/state/effect/plan provenance links, plan-source versus due-creation state identity, and occurrence-mode actor cardinality/availability, rejecting malformed historical graphs or actor omission.
+- **Temporary scaffolding:** starter definitions are synthetic and small. Rules are typed metric/event/incident-state checks; likelihood modifiers are bounded active-incident factors; impact is exact exposure × vulnerability × (1 − resilience). There is no callback catalog, recurrence, event-modifier engine, weather/health simulator, media system, or territory data pack.
+- **Current/future consumers:** Run D is the first consumer. Run E evidence may cite committed incident identity without replacing it or automatically teaching its onset event; Stage 7+ may consume events and causes through the same ordinary/causal records.
+
+## Person Vitality, Mortality, and Functional Capacity
+
+- **Owns:** vitality catalog v1 with stable exact age-indexed annual mortality tables; materialized-person mortality plans and keyed results; durable person-death truth; sparse append-only functional-capacity history; and cutoff-aware alive/capacity action availability.
+- **Stable IDs exposed:** `MortalityTableDefinition.id`, `MortalityCheckPlanRecord.id`, `MortalityCheckResultRecord.id`, `PersonDeathRecord.id`, and `PersonFunctionalCapacityRecord.id`, including person, event, result, supersession, source, and due-item references.
+- **Referenced by:** the Run A future-due dispatcher, life eligibility, actor-initiated incidents, evidence discovery eligibility, persistence, archives, and later explicit life/institution consumers.
+- **Queries/APIs:** mortality scheduling and its one typed transition handler; authored/canonical death and capacity writers; `isPersonAliveAt`, `personFunctionalCapacityAt`, `personActionAvailabilityAt`, and deterministic mortality RNG reconstruction.
+- **Serialization/persistence:** catalog and histories join world schema 14/snapshot 13 and the one global sequence. Integrity validates exact table probabilities, birthday/year plan identity, the derived due identity and Run A order, keyed RNG, required same-table supported follow-ons, resumable checkpoints, mutual result/death links, exact terminal metadata/time continuity, one death per person, sparse capacity supersession, source/provenance agreement, reserved event reverse links, chronology, and cutoff-safe vitality availability.
+- **Temporary scaffolding:** only explicitly materialized people receive individual scheduled mortality checks. Exact synthetic annual tables prove the mechanism; there is no daily health tick, disease model, treatment, cause-of-death taxonomy, estate/probate/inheritance engine, automatic relationship termination, or automatic resource transfer.
+- **Current/future consumers:** Run E eligibility and evidence now; later health, estate, succession, staffing, office, and archive systems may consume durable vitality truth without adding an `alive` flag or rewriting `Person`.
+
+## Objective Evidence and Explicit Discovery
+
+- **Owns:** durable objective artifact identity with open kind, created/recorded dates, earlier event/incident relations, closed access metadata, description, provenance, and global sequence; plus one explicit person/artifact discovery identity and its ordinary discovery event.
+- **Stable IDs exposed:** `EvidenceArtifactRecord.id` and `EvidenceDiscoveryRecord.id`, including related event/incident, person, discovery-event, and provenance references. The direct knowledge ID is derived from `${discoveryStableKey}:knowledge`, not stored as a forward reference.
+- **Referenced by:** ordinary historical events, the existing per-person event-knowledge seam, persistence/archives, the permanent maximum-current scenario, and later bounded reasoning consumers.
+- **Queries/APIs:** `recordEvidenceArtifact`, `recordEvidenceDiscovery`, artifact-by-ID and related-entity cutoff queries, discovered-by-person/artifact checks, and discovery history filtered by person or artifact.
+- **Serialization/persistence:** artifacts and discoveries join world schema 14/snapshot 13 and the contiguous global sequence. Integrity rejects duplicate/global identity, malformed access/kinds/provenance, unavailable or post-created event/incident sources, pre-creation discovery, missing/pre-birth/deceased discoverers, duplicate person/artifact discovery, reserved discovery events without their domain record, and any mismatch in the exact event → discovery → direct-knowledge path.
+- **Temporary scaffolding:** access is objective metadata only. Artifact creation grants no knowledge; discovery teaches one person only that they encountered the artifact, not what every related source proves. There is no ACL, blob/document store, investigative search or interpretation, chain of custody, media/newsroom system, subpoena, warrant, public-record procedure, or court discovery.
+- **Current/future consumers:** Stage 6 Run E and archives consume it now. Later dialogue, decisions, campaigning, governing, and legal systems may add explicit interpretations or procedures while preserving artifact truth and ordinary person-specific information. See [Evidence and Discovery](systems/evidence-and-discovery.md).
 
 ## Future Due Items and Authoritative Time Dispatch
 
 - **Owns:** one stable future due identity, due date, open transition key, sorted canonical domain references, optional jurisdiction/provenance, append-oriented closed scheduled/resolved/cancelled/blocked state, and nonserialized deterministic handler registry integrated with `advanceWorld`. A due-today scheduled item is valid pending work; a strictly overdue scheduled item is invalid.
 - **Stable IDs exposed:** `FutureDueItem.id`, `FutureDueItemStateRecord.id`, referenced canonical entity IDs, and optional ordinary outcome-event ID.
-- **Referenced by:** authoritative time advancement now; current policy realization and incident follow-ons; later terms, elections, policy effective dates/sunsets/phases, deadlines, court stays, and appointments.
+- **Referenced by:** authoritative time advancement now; current policy realization, incident follow-ons, and mortality checks; later terms, elections, policy effective dates/sunsets/phases, deadlines, court stays, and appointments.
 - **Queries/APIs:** schedule, explicit terminal cancellation, cutoff-aware state lookup, due-range ordering, registry construction, and internal deterministic resolution through `advanceWorld`. Due-range resolution includes pending items on the starting current date.
 - **Serialization/persistence:** identity/state share global sequence and exact snapshots. Integrity rejects past scheduling, missing/unavailable references, malformed keys, skipped strictly overdue scheduled items, invalid lifecycle/supersession, wrong-date resolved/blocked state, and invalid outcome-event chronology; due-today scheduled work remains loadable pending the next advance.
-- **Temporary scaffolding:** synthetic/test handlers plus one policy-realization and one incident-transition handler exist. Items contain no closure, executable/formula/recurrence string, arbitrary payload, or duplicate domain truth. Handlers can compose normal validating canonical writers and append later scheduled follow-ons, but cannot rewrite existing due history. A missing or failing handler aborts an advance atomically; terminal items do not rerun.
-- **Future consumers:** Stage 6 Run E, Stage 7 institutions/law/elections, Stage 10 implementation/governing, Stage 11 appointments, and archives. Run C uses one named realization handler; Run D uses one named incident-transition handler; neither adds scheduled recurrence.
+- **Temporary scaffolding:** synthetic/test handlers plus one policy-realization, one incident-transition, and one mortality-check handler exist. Items contain no closure, executable/formula/recurrence string, arbitrary payload, or duplicate domain truth. Handlers can compose canonical history and append later scheduled follow-ons, but cannot rewrite existing due history. Mortality's reconstructible pre-terminal checkpoint is idempotently resumable. A missing or failing handler aborts an advance atomically; terminal items do not rerun.
+- **Future consumers:** Stage 7 institutions/law/elections, Stage 10 implementation/governing, Stage 11 appointments, and archives. Run C uses one named realization handler, Run D uses one named incident-transition handler, and Run E uses one named mortality-check handler; none adds generic recurrence.
 
 ## Jurisdiction
 
@@ -260,7 +293,7 @@ If an answer is intentionally deferred, record the boundary rather than inventin
 - **Referenced by:** events and participants, family facts, memories, knowledge, claims, relationship interactions, proposition exposures, political records, work/education/participation/household/kinship/partnership/care/child-authority records, future staff/elections, and UI selection.
 - **Queries/APIs:** `personName`, `factsForPerson`, `createLightweightPerson`, `materializePerson`, person/history selectors.
 - **Serialization/persistence:** complete person records and detail generator version round-trip in the world snapshot.
-- **Temporary scaffolding:** generated names and biographies are synthetic. Stage 4 mind state is sparse and authored or explicitly applied; Stage 5 adds life structures but not playable or autonomous family/career generation, death, or reputation.
+- **Temporary scaffolding:** generated names and biographies are synthetic. Stage 4 mind state is sparse and authored or explicitly applied; Stage 5 adds life structures, while Run E adds durable death/capacity history without playable or autonomous family/career generation, a health simulation, estate handling, or reputation.
 - **Future consumers:** all character, life, NPC, staff, campaign, governing, family, archive, and control-transfer systems.
 
 ## Biography Facts
@@ -517,7 +550,7 @@ Private belief, public position, campaign commitment, and historical behavior re
 - **Stable IDs exposed:** tendency/value definitions, personality/value/goal-state/appraisal/perception/temporary-state records, conceptual goals, decisions, and decision traces.
 - **Referenced by:** historical mind queries, subjective projections, the political-belief adapter, deterministic demo, developer viewer, and future life/domain adapters.
 - **Queries/APIs:** validated mind-record transitions, non-applying development proposals, `buildSubjectivePerception`, `assertLifeHistorySourceAvailable`, `resolveLifeHistorySource`, date-plus-sequence mind queries, pure `evaluateDecision`, durable trace recording, and explicit NPC political-belief evaluation/application.
-- **Serialization/persistence:** all persistent families share the global history sequence and round-trip in world schema 13/snapshot format 12. Validation preserves sparse catalog references, chronology, provenance, supersession, goal lifecycle, typed source availability including resource/housing and policy-analysis records, communication evidence, half-open temporary intervals, life-load and resource-pressure provenance, keyed decision identity, control references, and trace structure.
+- **Serialization/persistence:** all persistent families share the global history sequence and round-trip in world schema 14/snapshot format 13. Validation preserves sparse catalog references, chronology, provenance, supersession, goal lifecycle, typed source availability including resource/housing and policy-analysis records, communication evidence, half-open temporary intervals, life-load and resource-pressure provenance, keyed decision identity, control references, and trace structure.
 - **Temporary scaffolding:** categorical definitions and internal comparison weights are deliberately small; legacy biography facts lack append-availability metadata and remain current-frontier-only; routine traces may remain ephemeral; development proposals do not apply themselves; and political belief formation is the only domain adapter.
 - **Current/future consumers:** Stage 5 life records are typed evidence, load resolutions reuse temporary states, and Run C resource pressure composes the same appraisal/temporary-state boundary. Stage 6 incidents and later staff/campaign/governing/diplomatic choices plus Stage 12 explanations/Observer Mode remain future consumers.
 
@@ -539,7 +572,7 @@ Decision evaluation remains distinct from application and canonical history. Aut
 - **Stable IDs exposed:** snapshot ID and world ID.
 - **Referenced by:** SQLite repository, CLI/demo result, and future save adapters.
 - **Queries/APIs:** `createWorldSnapshot`, `serializeWorld`, and `deserializeWorld`.
-- **Serialization/persistence:** snapshot format 12 contains world schema 13 and the complete graph; load returns a defensive clone after validating per-family append order, the contiguous global sequence, cross-record chronology and sequence direction, union discriminators, categorical values, life/mind/policy/incident provenance, lifecycle and forecast revisions, typed source availability, exact quantity/unit and money/resource reconciliation, metric correction/observation predecessor chronology, causal graph/effect activation magnitude-basis and timing integrity, incident root/state/plan/due integrity, future due references/closed states/strict-overdue boundary/outcome events, dwelling/occupancy/tenure references, control references, stored load derivations, and durable trace structure.
+- **Serialization/persistence:** snapshot format 13 contains world schema 14 and the complete graph; load returns a defensive clone after validating per-family append order, the contiguous global sequence, cross-record chronology and sequence direction, union discriminators, categorical values, life/mind/policy/incident/vitality/evidence provenance, lifecycle and forecast revisions, typed source availability, exact quantity/unit and money/resource reconciliation, metric correction/observation predecessor chronology, causal graph/effect activation magnitude-basis and timing integrity, incident root/state/plan/due integrity, mortality/result/death/capacity integrity, exact evidence discovery event/knowledge links, future due references/closed states/strict-overdue boundary/outcome events, dwelling/occupancy/tenure references, control references, stored load derivations, and durable trace structure.
 - **Temporary scaffolding:** no migrations, action journal, compression, recovery, parent/branch lineage, or compatibility promise for older formats.
 - **Future consumers:** desktop saves, autosave/recovery, Observer Mode, branches, archive export, debugging, and cross-platform packaging.
 
@@ -622,7 +655,7 @@ Real-world civic records retain enough dated provenance to inspect a concept, ex
 - **Stage 6 Run B:** supplies append-oriented causal ancestry, typed exact effect activations with target-period phase and durable magnitude bases, root-cause deduplication, primitive/derived metric enforcement, and bounded aggregate labor/income-cost/proxy/fiscal derivations without automatic dynamics or replacing Stage 5 personal resources.
 - **Stage 6 Run C:** supplies frozen quantitative policy alternatives/operations/baselines/estimates, explicit distribution and implementation evidence, person-specific analysis knowledge, and one-time exact realization through the Run A/B seams. Delayed-policy integrity reconstructs current-estimate and prior-effect status at its own due-item creation sequence, while later obsolescence remains a terminal handler concern; Run C implements no law or institutions.
 - **Stage 6 Run D:** supplies a small incident catalog, explicit typed rule/risk evaluation, keyed deterministic selection, append-only incident/phase history, exact Run B consequences, and Run A follow-ons. Definitions remain separate from committed history, and incident truth grants no automatic knowledge.
-- **Future Stage 6 Run E:** may add mortality/incapacity/evidence through a separately validated boundary without replacing Run D definitions, ordinary events, or causal roots.
+- **Stage 6 Run E:** supplies vitality catalog v1, birthday-based keyed mortality checks through the Run A due seam, durable death and sparse capacity history, objective event/incident-related artifacts, and one-person explicit discovery knowledge. It preserves person identity and existing life/resource/relationship history, and it does not replace Run D definitions, ordinary events, causal roots, or Stage 4 information records.
 - **Stage 7 geography/institutions:** extend stable jurisdiction hierarchy and sourced/effective-dated definitions without changing generic simulation assumptions.
 - **Stage 8 populations:** reference propositions, geography, cues, and public records sparsely; never materialize every voter or every issue.
 - **Stage 9 campaigns:** create persistent contest/candidate/staff/message/poll identities and historical records rather than generic points.

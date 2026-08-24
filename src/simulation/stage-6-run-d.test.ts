@@ -258,7 +258,7 @@ function serializeUnchecked(world: World): string {
   const payload = JSON.stringify(world);
   return JSON.stringify({
     format: "political-life-world",
-    formatVersion: 12,
+    formatVersion: 13,
     snapshotId: createStableId("snapshot", payload),
     worldId: world.id,
     savedAtWorldDate: world.currentDate,

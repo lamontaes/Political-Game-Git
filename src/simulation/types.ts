@@ -23,6 +23,8 @@ export type EntityKind =
   | "dwelling"
   | "dwelling-occupancy"
   | "dwelling-occupancy-state"
+  | "evidence-artifact"
+  | "evidence-discovery"
   | "event"
   | "education-enrollment"
   | "education-enrollment-state"
@@ -44,11 +46,16 @@ export type EntityKind =
   | "memory"
   | "metric-observation"
   | "metric-state"
+  | "mortality-check-plan"
+  | "mortality-check-result"
+  | "mortality-table-definition"
   | "organization"
   | "organization-participation"
   | "organization-participation-state"
   | "organization-profile"
   | "person"
+  | "person-death"
+  | "person-functional-capacity"
   | "personal-value"
   | "personality-tendency"
   | "personality-tendency-definition"
@@ -1566,6 +1573,137 @@ export interface IncidentCatalog {
   readonly definitionOrder: readonly EntityId[];
 }
 
+export type VitalitySemanticKey = `${string}:${string}`;
+
+export interface MortalityRateEntry {
+  readonly age: number;
+  readonly annualProbability: ExactQuantity;
+}
+
+export interface MortalityTableDefinition {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly label: string;
+  readonly description: string;
+  readonly sourceKey: VitalitySemanticKey;
+  readonly rates: readonly MortalityRateEntry[];
+}
+
+export interface VitalityCatalog {
+  readonly catalogVersion: "vitality-catalog-v1";
+  readonly mortalityTables: Readonly<Record<string, MortalityTableDefinition>>;
+  readonly mortalityTableOrder: readonly EntityId[];
+}
+
+export type VitalityRecordProvenance =
+  | {
+      readonly kind: "simulated";
+      readonly sourceEntityIds: readonly EntityId[];
+    }
+  | { readonly kind: "authored"; readonly note: string };
+
+export interface MortalityCheckPlanRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly mortalityTableId: EntityId;
+  readonly checkYear: number;
+  readonly dueAt: IsoDate;
+  readonly age: number;
+  readonly annualProbability: ExactQuantity;
+  readonly recordedAt: IsoDate;
+  readonly provenance: VitalityRecordProvenance;
+}
+
+export interface MortalityRngResult {
+  readonly version: "mortality-rng-v1";
+  readonly key: string;
+  readonly draw: number;
+  readonly drawRangeExclusive: 4294967296;
+  readonly died: boolean;
+}
+
+export interface MortalityCheckResultRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly planId: EntityId;
+  readonly checkedAt: IsoDate;
+  readonly outcome: "survived" | "died";
+  readonly rng: MortalityRngResult;
+  readonly deathEventId: EntityId | null;
+  readonly deathRecordId: EntityId | null;
+  readonly provenance: VitalityRecordProvenance;
+}
+
+export interface PersonDeathRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly diedAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly eventId: EntityId;
+  readonly causeKey: VitalitySemanticKey;
+  readonly sourceEntityIds: readonly EntityId[];
+  readonly provenance: VitalityRecordProvenance;
+}
+
+export type PersonFunctionalCapacityStatus =
+  "capable" | "limited" | "incapacitated";
+
+export interface PersonFunctionalCapacityRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly status: PersonFunctionalCapacityStatus;
+  readonly eventId: EntityId;
+  readonly reasonKey: VitalitySemanticKey;
+  readonly sourceEntityIds: readonly EntityId[];
+  readonly supersedesCapacityId: EntityId | null;
+  readonly provenance: VitalityRecordProvenance;
+}
+
+export type EvidenceSemanticKey = `${string}:${string}`;
+export type EvidenceAccess = "public" | "restricted" | "private" | "sealed";
+
+export type EvidenceRecordProvenance =
+  | {
+      readonly kind: "simulated";
+      readonly sourceEntityIds: readonly EntityId[];
+    }
+  | { readonly kind: "authored"; readonly note: string };
+
+export interface EvidenceArtifactRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly evidenceKind: EvidenceSemanticKey;
+  readonly createdAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly relatedEntityIds: readonly EntityId[];
+  readonly access: EvidenceAccess;
+  readonly description: string | null;
+  readonly provenance: EvidenceRecordProvenance;
+}
+
+export interface EvidenceDiscoveryRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly evidenceArtifactId: EntityId;
+  readonly discoveredAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly methodKey: EvidenceSemanticKey;
+  readonly discoveryEventId: EntityId;
+  readonly provenance: EvidenceRecordProvenance;
+}
+
 export interface IncidentRuleEvaluation {
   readonly ruleStableKey: IncidentSemanticKey;
   readonly kind: IncidentRule["kind"];
@@ -2524,6 +2662,12 @@ export interface HistoryStore {
   readonly incidents: readonly IncidentRecord[];
   readonly incidentStates: readonly IncidentStateRecord[];
   readonly incidentTransitionPlans: readonly IncidentTransitionPlanRecord[];
+  readonly mortalityCheckPlans: readonly MortalityCheckPlanRecord[];
+  readonly mortalityCheckResults: readonly MortalityCheckResultRecord[];
+  readonly personDeaths: readonly PersonDeathRecord[];
+  readonly personFunctionalCapacities: readonly PersonFunctionalCapacityRecord[];
+  readonly evidenceArtifacts: readonly EvidenceArtifactRecord[];
+  readonly evidenceDiscoveries: readonly EvidenceDiscoveryRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];
@@ -2547,8 +2691,8 @@ export interface HistoryStore {
 }
 
 export interface World {
-  readonly schemaVersion: 13;
-  readonly generatorVersion: "demo-world-v13";
+  readonly schemaVersion: 14;
+  readonly generatorVersion: "demo-world-v14";
   readonly id: EntityId;
   readonly seed: string;
   readonly startedAt: IsoDate;
@@ -2563,6 +2707,7 @@ export interface World {
   readonly metricCatalog: WorldMetricCatalog;
   readonly causalMechanismCatalog: CausalMechanismCatalog;
   readonly incidentCatalog: IncidentCatalog;
+  readonly vitalityCatalog: VitalityCatalog;
   readonly control: ControlState;
   readonly history: HistoryStore;
 }

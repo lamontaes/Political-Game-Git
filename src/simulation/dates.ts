@@ -99,7 +99,15 @@ export function ageOnDate(birthDate: IsoDate, comparisonDate: IsoDate): number {
   const validatedBirthDate = makeIsoDate(birthDate);
   const validatedComparisonDate = makeIsoDate(comparisonDate);
   let age = yearOf(validatedComparisonDate) - yearOf(validatedBirthDate);
-  if (validatedComparisonDate.slice(5) < validatedBirthDate.slice(5)) {
+  let birthdayInComparisonYear = validatedBirthDate.slice(5);
+  if (birthdayInComparisonYear === "02-29") {
+    try {
+      isoDateFromParts(yearOf(validatedComparisonDate), 2, 29);
+    } catch {
+      birthdayInComparisonYear = "02-28";
+    }
+  }
+  if (validatedComparisonDate.slice(5) < birthdayInComparisonYear) {
     age -= 1;
   }
   return age;

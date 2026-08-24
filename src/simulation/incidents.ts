@@ -34,6 +34,7 @@ import type {
 } from "./types";
 import { recordWorldEvent, assertWorldIntegrity } from "./world";
 import { worldMetricStateForPeriodAt } from "./world-metrics";
+import { personActionAvailabilityAt } from "./vitality-integrity";
 
 export const INCIDENT_TRANSITION_KEY = "incident:transition" as const;
 
@@ -209,6 +210,31 @@ export function occurIncident(world: World, input: OccurIncidentInput): World {
     !world.people[input.actorPersonId]
   ) {
     throw new Error(`Incident actor is not available: ${input.actorPersonId}`);
+  }
+  if (definition.occurrenceMode === "actor-initiated" && !input.actorPersonId) {
+    throw new Error("Actor-initiated incident occurrence requires an actor.");
+  }
+  if (
+    definition.occurrenceMode === "probabilistic" &&
+    input.actorPersonId !== undefined &&
+    input.actorPersonId !== null
+  ) {
+    throw new Error("Probabilistic incident occurrence cannot name an actor.");
+  }
+  if (input.actorPersonId) {
+    const availability = personActionAvailabilityAt(
+      world,
+      input.actorPersonId,
+      {
+        asOfDate: input.evaluation.evaluatedAt,
+        historySequenceExclusive: world.history.nextSequence,
+      },
+    );
+    if (availability.status === "blocked") {
+      throw new Error(
+        `Incident actor is blocked: ${availability.reasons.map((reason) => reason.key).join(", ")}`,
+      );
+    }
   }
   let working = recordWorldEvent(world, {
     stableKey: `${input.stableKey}:occurred`,

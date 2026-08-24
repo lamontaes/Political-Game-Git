@@ -27,6 +27,7 @@ import type {
   World,
   WorldMetricValue,
 } from "./types";
+import { personActionAvailabilityAt } from "./vitality-integrity";
 
 const INCIDENT_TRANSITION_KEY = "incident:transition";
 const SEMANTIC_KEY = /^[a-z][a-z0-9-]*:[a-z0-9][a-z0-9._-]*$/;
@@ -149,6 +150,31 @@ export function assertIncidentIntegrity(
       );
     }
     roots.add(root.id);
+    const actorParticipants = onsetEvent.participants.filter(
+      (candidate) => candidate.role === "agency:actor",
+    );
+    if (
+      (definition.occurrenceMode === "actor-initiated" &&
+        actorParticipants.length !== 1) ||
+      (definition.occurrenceMode === "probabilistic" &&
+        actorParticipants.length !== 0)
+    ) {
+      throw new Error(
+        `Incident onset actor does not match occurrence mode: ${incident.id}`,
+      );
+    }
+    for (const participant of actorParticipants) {
+      if (
+        personActionAvailabilityAt(world, participant.personId, {
+          asOfDate: onsetEvent.occurredAt,
+          historySequenceExclusive: onsetEvent.sequence,
+        }).status === "blocked"
+      ) {
+        throw new Error(
+          `Incident onset has an unavailable actor: ${participant.personId}`,
+        );
+      }
+    }
     validateEvaluation(world, incident.occurrence, incident);
     validateCausalProvenance(world, incident.provenance, incident.sequence);
     for (const consequence of incident.occurrence.consequences) {

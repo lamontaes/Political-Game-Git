@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { SqliteWorldRepository } from "../persistence/sqlite-world-repository";
+
 import {
   activeDwellingOccupanciesAt,
   activeHousingTenuresAt,
@@ -29,12 +31,15 @@ import {
   createWorkRelationship,
   createWorld,
   currentResourceCutoff,
+  dateAtAge,
+  daysBetween,
   deserializeWorld,
   distinctRootCausalIds,
   directPolicyImplementationFactor,
   effectActivationsAt,
   evaluateDecision,
   evaluateIncident,
+  evaluateLifeEligibility,
   generateQuickCharacterHistory,
   householdMembershipsAt,
   materializePerson,
@@ -75,6 +80,11 @@ import {
   futureDueItemStateAt,
   latestObservationForSeriesAt,
   makeIsoDate,
+  mortalityRngForPlan,
+  mortalityTransitionHandler,
+  MORTALITY_TRANSITION_KEY,
+  isPersonAliveAt,
+  personFunctionalCapacityAt,
   worldMetricStateForPeriodAt,
   worldMetricDefinitionByStableKey,
   policyEstimateAt,
@@ -83,7 +93,14 @@ import {
   INCIDENT_TRANSITION_KEY,
   incidentTransitionHandler,
   recordIncidentTransitionPlan,
+  recordEvidenceArtifact,
+  recordEvidenceDiscovery,
+  evidenceArtifactsRelatedToEntity,
+  hasPersonDiscoveredEvidence,
+  recordPersonFunctionalCapacity,
+  schedulePersonMortalityCheck,
   scheduleIncidentTransition,
+  yearOf,
 } from "./index";
 import type {
   CharacterHistoryMode,
@@ -1652,7 +1669,7 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
     expect(deserializeWorld(payload)).toStrictEqual(world);
     expect(
       (JSON.parse(payload) as { formatVersion: number }).formatVersion,
-    ).toBe(12);
+    ).toBe(13);
     expect(() =>
       createResourceFlow(world, {
         stableKey: "open:malformed",
@@ -1803,7 +1820,7 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
     }
   });
 
-  it("proves one continuous maximum-current life through Stage 5, quantitative observation, causal economy, and future transition", () => {
+  it("proves one continuous maximum-current history from Stage 5 through every Stage 6 system", () => {
     let world = bareWorld("run-c-stage-5-end-to-end");
     const actor = personId(world, 0);
     world = applyCharacterHistoryPlan(
@@ -2429,6 +2446,7 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
         },
       ],
       [INCIDENT_TRANSITION_KEY, incidentTransitionHandler],
+      [MORTALITY_TRANSITION_KEY, mortalityTransitionHandler],
     ]);
     world = advanceWorld(world, 5, transitionHandlers);
 
@@ -3090,8 +3108,246 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
         (event) => event.id === resolvedDueState?.outcomeEventId,
       ),
     ).toHaveLength(1);
-    expect(serializeWorld(world)).toBe(
-      serializeWorld(deserializeWorld(serializeWorld(world))),
+
+    world = recordPersonFunctionalCapacity(world, {
+      stableKey: "end-to-end:capacity:limited",
+      personId: actor,
+      effectiveAt: world.currentDate,
+      status: "limited",
+      reasonKey: "capacity:temporary-limitation",
+      sourceEntityIds: [],
+      summary: "The actor temporarily had limited functional capacity.",
+      provenance: AUTHORED,
+    });
+    const limitedCutoff = currentResourceCutoff(world);
+    const limitedEligibility = evaluateLifeEligibility(world, {
+      actorPersonId: actor,
+      actionKey: "custom:maximum-current-action",
+      asOfDate: world.currentDate,
+      jurisdictionId: world.jurisdictionOrder[0]!,
+      contextEntityIds: [],
+    });
+    expect(limitedEligibility).toMatchObject({
+      status: "allowed",
+      reasons: [{ key: "capacity:limited" }],
+    });
+    world = recordPersonFunctionalCapacity(world, {
+      stableKey: "end-to-end:capacity:recovered",
+      personId: actor,
+      effectiveAt: world.currentDate,
+      status: "capable",
+      reasonKey: "capacity:recovered",
+      sourceEntityIds: [],
+      summary: "The actor returned to capable functional status.",
+      provenance: AUTHORED,
+    });
+    expect(personFunctionalCapacityAt(world, actor, limitedCutoff)).toBe(
+      "limited",
     );
+    expect(
+      personFunctionalCapacityAt(world, actor, currentResourceCutoff(world)),
+    ).toBe("capable");
+
+    const knowledgeBeforeEvidence = world.history.knowledge.length;
+    world = recordEvidenceArtifact(world, {
+      stableKey: "end-to-end:evidence:civic-record",
+      evidenceKind: "evidence:incident-record",
+      createdAt: world.currentDate,
+      recordedAt: world.currentDate,
+      relatedEntityIds: [civicIncident.id],
+      access: "restricted",
+      description: "A durable record of the civic occurrence.",
+      provenance: {
+        kind: "simulated",
+        sourceEntityIds: [civicIncident.id],
+      },
+    });
+    const evidenceArtifact = world.history.evidenceArtifacts.at(-1)!;
+    const beforeEvidenceDiscovery = currentResourceCutoff(world);
+    expect(world.history.knowledge).toHaveLength(knowledgeBeforeEvidence);
+    expect(
+      hasPersonDiscoveredEvidence(
+        world,
+        actor,
+        evidenceArtifact.id,
+        beforeEvidenceDiscovery,
+      ),
+    ).toBe(false);
+    world = recordEvidenceDiscovery(world, {
+      stableKey: "end-to-end:evidence:civic-record:actor-discovery",
+      personId: actor,
+      evidenceArtifactId: evidenceArtifact.id,
+      discoveredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      methodKey: "discovery:direct-review",
+      provenance: {
+        kind: "simulated",
+        sourceEntityIds: [evidenceArtifact.id],
+      },
+    });
+    const evidenceDiscovery = world.history.evidenceDiscoveries.at(-1)!;
+    expect(
+      hasPersonDiscoveredEvidence(
+        world,
+        actor,
+        evidenceArtifact.id,
+        currentResourceCutoff(world),
+      ),
+    ).toBe(true);
+    expect(
+      hasPersonDiscoveredEvidence(
+        world,
+        peer,
+        evidenceArtifact.id,
+        currentResourceCutoff(world),
+      ),
+    ).toBe(false);
+    expect(
+      evidenceArtifactsRelatedToEntity(
+        world,
+        civicIncident.id,
+        currentResourceCutoff(world),
+      ).map((artifact) => artifact.id),
+    ).toStrictEqual([evidenceArtifact.id]);
+    expect(
+      world.history.knowledge.filter(
+        (knowledge) =>
+          knowledge.personId === actor &&
+          knowledge.eventId === evidenceDiscovery.discoveryEventId,
+      ),
+    ).toHaveLength(1);
+    expect(
+      world.history.knowledge.some(
+        (knowledge) =>
+          knowledge.personId === peer &&
+          knowledge.eventId === evidenceDiscovery.discoveryEventId,
+      ),
+    ).toBe(false);
+    expect(
+      world.history.knowledge.some(
+        (knowledge) => knowledge.eventId === civicIncident.onsetEventId,
+      ),
+    ).toBe(false);
+
+    if (world.people[peer]?.detailLevel === "lightweight") {
+      world = materializePerson(world, peer);
+    }
+    const peerPerson = world.people[peer]!;
+    const currentYear = yearOf(world.currentDate);
+    const ageThisYear = currentYear - yearOf(peerPerson.birthDate);
+    const checkYear =
+      dateAtAge(peerPerson.birthDate, ageThisYear) > world.currentDate
+        ? currentYear
+        : currentYear + 1;
+    const certainDeathTable = Object.values(
+      world.vitalityCatalog.mortalityTables,
+    ).find((table) => table.stableKey === "vitality.synthetic-certain-death")!;
+    const transferCountBeforeDeath =
+      world.history.resourceTransferOutcomes.length;
+    const flowCountBeforeDeath = world.history.resourceFlows.length;
+    world = createResourcePosition(world, {
+      stableKey: "end-to-end:peer-position-before-death",
+      owner: { kind: "person", personId: peer },
+      openedAt: world.currentDate,
+      openingBalance: money(75_000, "USD"),
+      provenance: AUTHORED,
+    });
+    const peerPosition = world.history.resourcePositions.at(-1)!;
+    world = schedulePersonMortalityCheck(world, {
+      stableKey: "end-to-end:mortality:peer",
+      personId: peer,
+      mortalityTableId: certainDeathTable.id,
+      checkYear,
+      provenance: AUTHORED,
+    });
+    const mortalityPlan = world.history.mortalityCheckPlans.at(-1)!;
+    const aliveBeforeDeath = currentResourceCutoff(world);
+    const expectedMortalityRng = mortalityRngForPlan(world, mortalityPlan);
+    expect(expectedMortalityRng.died).toBe(true);
+    world = advanceWorld(
+      world,
+      daysBetween(world.currentDate, mortalityPlan.dueAt),
+      transitionHandlers,
+    );
+    const mortalityResult = world.history.mortalityCheckResults.at(-1)!;
+    const death = world.history.personDeaths.at(-1)!;
+    expect(mortalityResult.rng).toStrictEqual(expectedMortalityRng);
+    expect(mortalityResult).toMatchObject({
+      planId: mortalityPlan.id,
+      outcome: "died",
+      deathEventId: death.eventId,
+      deathRecordId: death.id,
+    });
+    expect(isPersonAliveAt(world, peer, aliveBeforeDeath)).toBe(true);
+    expect(isPersonAliveAt(world, peer, currentResourceCutoff(world))).toBe(
+      false,
+    );
+    expect(
+      evaluateLifeEligibility(world, {
+        actorPersonId: peer,
+        actionKey: "custom:post-death-action",
+        asOfDate: world.currentDate,
+        jurisdictionId: world.jurisdictionOrder[0]!,
+        contextEntityIds: [],
+      }),
+    ).toMatchObject({
+      status: "blocked",
+      reasons: [{ key: "capacity:deceased" }],
+    });
+    expect(
+      world.history.partnerships.some((record) =>
+        record.personIds.includes(peer),
+      ),
+    ).toBe(true);
+    expect(world.history.resourceTransferOutcomes).toHaveLength(
+      transferCountBeforeDeath,
+    );
+    expect(world.history.resourceFlows).toHaveLength(flowCountBeforeDeath);
+    expect(
+      resourcePositionAt(
+        world,
+        { kind: "person", personId: peer },
+        money(0, "USD").currency,
+      ),
+    ).toMatchObject({
+      positionId: peerPosition.id,
+      liquidBalance: money(75_000, "USD"),
+    });
+    const beforePostDeathReference = world;
+    world = recordWorldEvent(world, {
+      stableKey: "end-to-end:post-death-historical-reference",
+      type: "history.person-referenced",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: world.jurisdictionOrder[0]!,
+      involvedEntityIds: [peer],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: ["history.person-reference"],
+      summary:
+        "The durable historical record continued to reference the person.",
+      context: relationshipContext(
+        "Death preserved identity and earlier relationship/resource history.",
+      ),
+    });
+
+    const finalPayload = serializeWorld(world);
+    expect(deserializeWorld(finalPayload)).toStrictEqual(world);
+    expect(finalPayload).toBe(serializeWorld(deserializeWorld(finalPayload)));
+    const repository = new SqliteWorldRepository(":memory:");
+    try {
+      const firstSaved = repository.save(beforePostDeathReference);
+      const saved = repository.save(world);
+      expect(saved.snapshotId).not.toBe(firstSaved.snapshotId);
+      expect(repository.load(world.id)).toStrictEqual(world);
+      expect(repository.list()).toStrictEqual([saved]);
+      expect(repository.save(deserializeWorld(finalPayload))).toStrictEqual(
+        saved,
+      );
+      expect(repository.load(world.id)).toStrictEqual(world);
+    } finally {
+      repository.close();
+    }
   });
 });

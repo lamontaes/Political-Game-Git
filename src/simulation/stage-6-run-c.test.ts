@@ -2107,8 +2107,8 @@ describe("Stage 6 Run C scope, subjective access, persistence, and integrity", (
     const payload = serializeWorld(world);
     expect(deserializeWorld(payload)).toStrictEqual(world);
     expect(JSON.parse(payload)).toMatchObject({
-      formatVersion: 12,
-      world: { schemaVersion: 13, generatorVersion: "demo-world-v13" },
+      formatVersion: 13,
+      world: { schemaVersion: 14, generatorVersion: "demo-world-v14" },
     });
     const beforeSequence = world.history.nextSequence;
     const policyBefore = JSON.stringify({

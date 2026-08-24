@@ -12,6 +12,7 @@ import type {
   LifeEligibilityRequest,
   World,
 } from "./types";
+import { personActionAvailabilityAt } from "./vitality-integrity";
 
 export const allowAllLifeActions: LifeEligibilityProvider = {
   evaluate: () => ({ status: "allowed", reasons: [] }),
@@ -54,7 +55,25 @@ export function evaluateLifeEligibility(
     asOfDate,
     contextEntityIds,
   };
-  const result = provider.evaluate(world, request);
+  const vitality = personActionAvailabilityAt(world, request.actorPersonId, {
+    asOfDate,
+    historySequenceExclusive: world.history.nextSequence,
+  });
+  const provided =
+    vitality.status === "blocked"
+      ? { status: "allowed" as const, reasons: [] as const }
+      : provider.evaluate(world, request);
+  const combinedReasons = [...vitality.reasons, ...provided.reasons];
+  const result: LifeEligibilityDecision =
+    vitality.status === "blocked" || provided.status === "blocked"
+      ? {
+          status: "blocked",
+          reasons: combinedReasons as [
+            (typeof combinedReasons)[number],
+            ...(typeof combinedReasons)[number][],
+          ],
+        }
+      : { status: "allowed", reasons: combinedReasons };
   if (result.status !== "allowed" && result.status !== "blocked") {
     throw new Error(
       `Invalid life eligibility status: ${String((result as { status?: unknown }).status)}`,

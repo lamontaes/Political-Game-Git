@@ -1275,9 +1275,9 @@ describe("Stage 6 Run A persistence and loaded-world integrity", () => {
     const loaded = deserializeWorld(payload);
     expect(loaded).toStrictEqual(world);
     expect(serializeWorld(loaded)).toBe(payload);
-    expect(loaded.schemaVersion).toBe(13);
-    expect(loaded.generatorVersion).toBe("demo-world-v13");
-    expect(JSON.parse(payload).formatVersion).toBe(12);
+    expect(loaded.schemaVersion).toBe(14);
+    expect(loaded.generatorVersion).toBe("demo-world-v14");
+    expect(JSON.parse(payload).formatVersion).toBe(13);
   });
 
   it("rejects corrupted persisted supersession and due-reference histories", () => {

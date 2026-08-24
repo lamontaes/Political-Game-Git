@@ -29,6 +29,10 @@ import {
   worldMetricEntityExists,
 } from "./world-metrics";
 import { assertWorldIntegrity } from "./world";
+import {
+  vitalityEntityAvailableAt,
+  vitalityEntityExists,
+} from "./vitality-integrity";
 
 export interface ScheduleFutureDueItemInput {
   readonly stableKey: string;
@@ -675,6 +679,9 @@ function canonicalEntityAvailable(
   }
   if (incidentEntityExists(world, id)) {
     return incidentEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
+  }
+  if (vitalityEntityExists(world, id)) {
+    return vitalityEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   }
   const policyRecord = [
     ...world.history.policyAlternatives,
