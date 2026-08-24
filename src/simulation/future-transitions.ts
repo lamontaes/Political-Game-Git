@@ -669,6 +669,20 @@ function canonicalEntityAvailable(
   if (worldMetricEntityExists(world, id)) {
     return worldMetricEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   }
+  const policyRecord = [
+    ...world.history.policyAlternatives,
+    ...world.history.policyBaselines,
+    ...world.history.policyOperations,
+    ...world.history.policyImplementationProfiles,
+    ...world.history.policyEstimates,
+    ...world.history.policyRealizations,
+  ].find((record) => record.id === id);
+  if (policyRecord) {
+    return (
+      policyRecord.recordedAt <= asOfDate &&
+      policyRecord.sequence < sequenceExclusive
+    );
+  }
   const causalRecord = [
     ...world.history.causalProcesses,
     ...world.history.effectActivations,

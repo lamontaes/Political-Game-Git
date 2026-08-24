@@ -34,7 +34,7 @@ Consumption, output, and housing pressure are intentionally aggregate typed prox
 
 Government revenue and outlays are exact money flows over explicit intervals; debt is an exact point stock. Fiscal balance is always derived as revenue minus outlays from source records with the same jurisdiction/segment scope, interval, and currency. The result preserves both source-state IDs. No independently mutable fiscal-balance truth, government bank account, appropriation, tax law, agency budget, double-entry ledger, debt instrument, or campaign/organization accounting exists.
 
-Stage 10 may later produce budget/tax/appropriation consequences into these shared metric/effect contracts. Stage 6 Run C may consume the same effect substrate for policy baselines and phased implementation without moving law authority out of Stage 7.
+Stage 10 may later produce budget/tax/appropriation consequences into these shared metric/effect contracts. Stage 6 Run C now consumes this effect substrate through frozen policy estimates and explicit realizations without moving law authority out of Stage 7.
 
 ## Information, time, integrity, and persistence
 
@@ -42,8 +42,8 @@ Causal processes, effect activations, and resulting economic truth create no per
 
 Run B adds no scheduler. Explicit evaluation is caller-driven. Existing due items remain the only future-transition mechanism and can later schedule a named domain evaluation without recurrence syntax.
 
-The causal catalog plus causal/effect histories are JSON-safe. World schema 11, generator `demo-world-v11`, metric catalog `world-metric-catalog-v2`, causal catalog `causal-mechanism-catalog-v1`, and snapshot format 10 persist through deterministic JSON and the Node-only SQLite repository; person materializer remains version 4. Integrity rejects malformed catalogs/keys/curves, missing or target-incompatible magnitude bases, malformed interval bases, duplicate identity, dangling or forward sources/parents, cycles, unavailable historical references, mismatched metrics/units/currencies, invalid timing/threshold/bounds, derived-state writes, unsafe exact arithmetic, and noncontiguous global history.
+The causal catalog plus causal/effect and policy histories are JSON-safe. World schema 12, generator `demo-world-v12`, metric catalog `world-metric-catalog-v2`, causal catalog `causal-mechanism-catalog-v1`, and snapshot format 11 persist through deterministic JSON and the Node-only SQLite repository; person materializer remains version 4. Integrity rejects malformed catalogs/keys/curves, missing or target-incompatible magnitude bases, malformed interval bases, duplicate identity, dangling or forward sources/parents, cycles, unavailable historical references, mismatched metrics/units/currencies, invalid timing/threshold/bounds, derived-state writes, unsafe exact arithmetic, and noncontiguous global history.
 
 ## Deferred systems
 
-Run B implements no quantitative policy operation, forecast/baseline, law identity, incident selection or crisis chain, disaster/disease/unrest generator, mortality/incapacity/evidence, media ecology, public opinion, election/campaign/party, institution/office/chamber, appropriation/tax statute, central bank, full macroeconomy, organization accounting, banking, recurrence DSL, territory data pack, foreign government, or player-facing UI. Runs C–E and later stages retain those boundaries.
+Run C adds quantitative policy operations, frozen baselines/estimates, implementation factors, and explicit realization over Run B. It adds no law identity, incident selection or crisis chain, disaster/disease/unrest generator, mortality/incapacity/evidence, media ecology, public opinion, election/campaign/party, institution/office/chamber, appropriation/tax statute, central bank, full macroeconomy, organization accounting, banking, recurrence DSL, territory data pack, foreign government, or player-facing UI. Runs D–E and later stages retain those boundaries.

@@ -2,6 +2,7 @@ import { appendDecisionTraceRecord } from "./history";
 import { createStableId } from "./ids";
 import { lifeEntityExists } from "./life-integrity";
 import { resourceHousingEntityExists } from "./resource-integrity";
+import { policySemanticsEntityExists } from "./policy-semantics";
 import {
   lifeHistoryReferenceKey,
   resolveLifeHistorySource,
@@ -664,6 +665,7 @@ function decisionSubjectExists(world: World, id: EntityId): boolean {
     !!world.mindCatalog.values[id] ||
     lifeEntityExists(world, id) ||
     resourceHousingEntityExists(world, id) ||
+    policySemanticsEntityExists(world, id) ||
     world.history.events.some((record) => record.id === id) ||
     world.history.goalStates.some((record) => record.goalId === id)
   );

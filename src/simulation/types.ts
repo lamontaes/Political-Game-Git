@@ -54,6 +54,12 @@ export type EntityKind =
   | "personality-tendency-definition"
   | "policy-domain"
   | "policy-issue"
+  | "policy-alternative"
+  | "policy-baseline"
+  | "policy-estimate"
+  | "policy-implementation-profile"
+  | "policy-operation"
+  | "policy-realization"
   | "principle"
   | "principle-definition"
   | "proposition-exposure"
@@ -1628,6 +1634,199 @@ export interface WorldMetricObservationRecord {
   readonly underlyingStateId: EntityId | null;
 }
 
+export type QuantitativePolicyAlternativeKind = `${string}:${string}`;
+export type PolicySemanticKey = `${string}:${string}`;
+
+export type PolicyRecordProvenance =
+  | { readonly kind: "authored"; readonly note: string }
+  | {
+      readonly kind: "simulated";
+      readonly sourceEntityIds: readonly EntityId[];
+    }
+  | {
+      readonly kind: "source-record";
+      readonly reference: string;
+      readonly asOf: IsoDate;
+    };
+
+export interface PolicyAlternativeRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly alternativeKind: QuantitativePolicyAlternativeKind;
+  readonly title: string;
+  readonly summary: string;
+  readonly propositionId: EntityId | null;
+  readonly proposedAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly provenance: PolicyRecordProvenance;
+}
+
+export type PolicyChangeDirection = "increase" | "decrease";
+
+export type QuantitativePolicyOperation =
+  | { readonly kind: "set-level"; readonly value: WorldMetricValue }
+  | {
+      readonly kind: "absolute-change";
+      readonly direction: PolicyChangeDirection;
+      readonly magnitude: WorldMetricValue;
+    }
+  | {
+      readonly kind: "relative-change";
+      readonly direction: PolicyChangeDirection;
+      readonly share: ExactQuantity;
+    }
+  | {
+      readonly kind: "share-of-baseline";
+      readonly direction: PolicyChangeDirection;
+      readonly sourceBaselineId: EntityId;
+      readonly share: ExactQuantity;
+    }
+  | { readonly kind: "cap"; readonly maximum: WorldMetricValue }
+  | { readonly kind: "floor"; readonly minimum: WorldMetricValue };
+
+export interface PolicyOperationTrigger {
+  readonly baselineId: EntityId;
+  readonly comparison: "at-least" | "at-most";
+  readonly threshold: WorldMetricValue;
+}
+
+export interface PolicyEffectTiming {
+  readonly startsAt: IsoDate;
+  readonly maturesAt: IsoDate;
+  readonly endsAt: IsoDate | null;
+}
+
+export interface PolicyOperationRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly alternativeId: EntityId;
+  readonly targetMetricId: EntityId;
+  readonly targetScope: MetricScope;
+  readonly targetReferencePeriod: MetricReferencePeriod;
+  readonly targetBaselineId: EntityId;
+  readonly operation: QuantitativePolicyOperation;
+  readonly trigger: PolicyOperationTrigger | null;
+  readonly mechanismDefinitionId: EntityId;
+  readonly realizationKind: EffectRealizationKind;
+  readonly timing: PolicyEffectTiming;
+  readonly recordedAt: IsoDate;
+  readonly provenance: PolicyRecordProvenance;
+}
+
+export interface PolicyBaselineRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly seriesKey: PolicySemanticKey;
+  readonly metricId: EntityId;
+  readonly scope: MetricScope;
+  readonly referencePeriod: MetricReferencePeriod;
+  readonly expectedValue: WorldMetricValue;
+  readonly generatedAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly sourceEntityIds: readonly EntityId[];
+  readonly methodologyKey: PolicySemanticKey;
+  readonly assumptionKeys: readonly PolicySemanticKey[];
+  readonly uncertainty: MetricObservationUncertainty;
+  readonly provenance: PolicyRecordProvenance;
+  readonly supersedesBaselineId: EntityId | null;
+}
+
+export type PolicyImplementationFactorKind =
+  | "authority"
+  | "funding"
+  | "administrative-capacity"
+  | "enforcement-compliance"
+  | "uptake-participation";
+
+export type PolicyImplementationFactorBasis =
+  | { readonly kind: "direct" }
+  | {
+      readonly kind: "resource-ratio";
+      readonly required: WorldMetricValue;
+      readonly available: WorldMetricValue;
+    };
+
+export interface PolicyImplementationFactor {
+  readonly kind: PolicyImplementationFactorKind;
+  readonly share: ExactQuantity;
+  readonly basis: PolicyImplementationFactorBasis;
+  readonly reasonKey: PolicySemanticKey;
+  readonly explanation: string;
+  readonly evidenceEntityIds: readonly EntityId[];
+}
+
+export interface PolicyImplementationProfileRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly alternativeId: EntityId;
+  readonly operationIds: readonly EntityId[];
+  readonly factors: readonly PolicyImplementationFactor[];
+  readonly aggregateRule: "multiplicative-v1";
+  readonly assessedAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly provenance: PolicyRecordProvenance;
+}
+
+export type PolicyImplementationStatus = "full" | "partial" | "blocked";
+
+export interface PolicyEstimatedConsequence {
+  readonly operationId: EntityId;
+  readonly baselineId: EntityId;
+  readonly triggered: boolean;
+  readonly baselineValue: WorldMetricValue;
+  readonly intendedChange: WorldMetricValue;
+  readonly intendedResult: WorldMetricValue;
+  readonly implementationShare: ExactQuantity;
+  readonly estimatedChange: WorldMetricValue;
+  readonly estimatedResult: WorldMetricValue;
+  readonly uncertainty: MetricObservationUncertainty;
+}
+
+export interface PolicyEstimateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly seriesKey: PolicySemanticKey;
+  readonly alternativeId: EntityId;
+  readonly operationIds: readonly EntityId[];
+  readonly implementationProfileId: EntityId;
+  readonly projectedCausalProcessId: EntityId;
+  readonly implementationStatus: PolicyImplementationStatus;
+  readonly consequences: readonly PolicyEstimatedConsequence[];
+  readonly generatedAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly provenance: PolicyRecordProvenance;
+  readonly supersedesEstimateId: EntityId | null;
+}
+
+export interface PolicyRealizedConsequence {
+  readonly operationId: EntityId;
+  readonly effectActivationId: EntityId;
+  readonly realizedChange: WorldMetricValue;
+}
+
+export type PolicyRealizationStatus =
+  "full" | "partial" | "blocked" | "not-triggered";
+
+export interface PolicyRealizationRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly estimateId: EntityId;
+  readonly implementationProfileId: EntityId;
+  readonly status: PolicyRealizationStatus;
+  readonly realizedAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly actualCausalProcessId: EntityId | null;
+  readonly consequences: readonly PolicyRealizedConsequence[];
+  readonly reasonKeys: readonly PolicySemanticKey[];
+  readonly provenance: PolicyRecordProvenance;
+}
+
 export type FutureTransitionKey = `${string}:${string}`;
 export type FutureDueReasonKey = `${string}:${string}`;
 
@@ -2141,6 +2340,12 @@ export interface HistoryStore {
   readonly metricObservations: readonly WorldMetricObservationRecord[];
   readonly causalProcesses: readonly CausalProcessRecord[];
   readonly effectActivations: readonly EffectActivationRecord[];
+  readonly policyAlternatives: readonly PolicyAlternativeRecord[];
+  readonly policyBaselines: readonly PolicyBaselineRecord[];
+  readonly policyOperations: readonly PolicyOperationRecord[];
+  readonly policyImplementationProfiles: readonly PolicyImplementationProfileRecord[];
+  readonly policyEstimates: readonly PolicyEstimateRecord[];
+  readonly policyRealizations: readonly PolicyRealizationRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];
@@ -2164,8 +2369,8 @@ export interface HistoryStore {
 }
 
 export interface World {
-  readonly schemaVersion: 11;
-  readonly generatorVersion: "demo-world-v11";
+  readonly schemaVersion: 12;
+  readonly generatorVersion: "demo-world-v12";
   readonly id: EntityId;
   readonly seed: string;
   readonly startedAt: IsoDate;

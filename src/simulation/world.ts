@@ -42,6 +42,12 @@ import {
   clonePolicyCatalog,
   createSyntheticPolicyCatalog,
 } from "./policy";
+import {
+  assertPolicySemanticsIntegrity,
+  policyHistoryRecords,
+  policySemanticsEntityAvailableAt,
+  policySemanticsEntityExists,
+} from "./policy-semantics";
 import { normalizeSeed } from "./rng";
 import {
   assertResourceHousingIntegrity,
@@ -202,7 +208,7 @@ function recordById<T extends { readonly id: EntityId }>(
 }
 
 export function createWorldId(seed: string): EntityId {
-  return createStableId("world", `demo-world-v11:${normalizeSeed(seed)}`);
+  return createStableId("world", `demo-world-v12:${normalizeSeed(seed)}`);
 }
 
 export function createWorld(input: CreateWorldInput): World {
@@ -245,8 +251,8 @@ export function createWorld(input: CreateWorldInput): World {
   const people = input.people.map(clonePerson);
 
   return {
-    schemaVersion: 11,
-    generatorVersion: "demo-world-v11",
+    schemaVersion: 12,
+    generatorVersion: "demo-world-v12",
     id: worldId,
     seed,
     startedAt: currentDate,
@@ -268,8 +274,8 @@ export function createWorld(input: CreateWorldInput): World {
 export function assertWorldIntegrity(world: World): void {
   assertJsonSafe(world, "world");
   if (
-    world.schemaVersion !== 11 ||
-    world.generatorVersion !== "demo-world-v11"
+    world.schemaVersion !== 12 ||
+    world.generatorVersion !== "demo-world-v12"
   ) {
     throw new Error("Unsupported world schema or generator version.");
   }
@@ -358,6 +364,7 @@ export function recordWorldEvent(
       !resourceHousingEntityExists(world, entityId) &&
       !worldMetricEntityExists(world, entityId) &&
       !causalEffectEntityExists(world, entityId) &&
+      !policySemanticsEntityExists(world, entityId) &&
       !futureTransitionEntityExists(world, entityId)
     ) {
       throw new Error(
@@ -401,6 +408,19 @@ export function recordWorldEvent(
     ) {
       throw new Error(
         `Historical event references an unavailable causal/effect entity: ${entityId}`,
+      );
+    }
+    if (
+      policySemanticsEntityExists(world, entityId) &&
+      !policySemanticsEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        `Historical event references an unavailable policy entity: ${entityId}`,
       );
     }
     if (
@@ -672,6 +692,32 @@ export function resolveEntityLabel(world: World, entityId: EntityId): string {
     (candidate) => candidate.id === entityId,
   );
   if (dueItem) return `Due transition ${dueItem.transitionKey}`;
+  const policyAlternative = world.history.policyAlternatives.find(
+    (candidate) => candidate.id === entityId,
+  );
+  if (policyAlternative) return policyAlternative.title;
+  const policyBaseline = world.history.policyBaselines.find(
+    (candidate) => candidate.id === entityId,
+  );
+  if (policyBaseline) return `Policy baseline ${policyBaseline.seriesKey}`;
+  const policyOperation = world.history.policyOperations.find(
+    (candidate) => candidate.id === entityId,
+  );
+  if (policyOperation)
+    return `Policy operation ${policyOperation.operation.kind}`;
+  const policyProfile = world.history.policyImplementationProfiles.find(
+    (candidate) => candidate.id === entityId,
+  );
+  if (policyProfile) return "Policy implementation profile";
+  const policyEstimate = world.history.policyEstimates.find(
+    (candidate) => candidate.id === entityId,
+  );
+  if (policyEstimate) return `Policy estimate ${policyEstimate.seriesKey}`;
+  const policyRealization = world.history.policyRealizations.find(
+    (candidate) => candidate.id === entityId,
+  );
+  if (policyRealization)
+    return `Policy realization ${policyRealization.status}`;
   return (
     world.policyCatalog.domains[entityId]?.name ??
     world.policyCatalog.issues[entityId]?.name ??
@@ -1055,6 +1101,7 @@ function validateHistoryIntegrity(world: World): void {
     ...resourceHousingHistoryRecords(world),
     ...worldMetricHistoryRecords(world),
     ...causalEffectHistoryRecords(world),
+    ...policyHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
     ...history.events,
     ...history.memories,
@@ -1121,6 +1168,7 @@ function validateHistoryIntegrity(world: World): void {
   assertResourceHousingIntegrity(world, ids);
   assertWorldMetricIntegrity(world, ids);
   assertCausalEffectIntegrity(world, ids);
+  assertPolicySemanticsIntegrity(world, ids);
   assertFutureTransitionIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
@@ -1196,6 +1244,7 @@ function validateHistoryIntegrity(world: World): void {
         !resourceHousingEntityExists(world, involvedId) &&
         !worldMetricEntityExists(world, involvedId) &&
         !causalEffectEntityExists(world, involvedId) &&
+        !policySemanticsEntityExists(world, involvedId) &&
         !futureTransitionEntityExists(world, involvedId)
       ) {
         throw new Error(
@@ -1239,6 +1288,19 @@ function validateHistoryIntegrity(world: World): void {
       ) {
         throw new Error(
           `Historical event references an unavailable causal/effect entity: ${event.id}`,
+        );
+      }
+      if (
+        policySemanticsEntityExists(world, involvedId) &&
+        !policySemanticsEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          `Historical event references an unavailable policy entity: ${event.id}`,
         );
       }
       if (

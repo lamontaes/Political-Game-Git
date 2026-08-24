@@ -16,6 +16,7 @@ import {
   createDemoWorld,
   createExactQuantity,
   createFutureTransitionHandlerRegistry,
+  createPolicyDecisionContext,
   createDwelling,
   createHousehold,
   createHousingTenure,
@@ -30,6 +31,7 @@ import {
   currentResourceCutoff,
   deserializeWorld,
   distinctRootCausalIds,
+  directPolicyImplementationFactor,
   effectActivationsAt,
   evaluateDecision,
   generateQuickCharacterHistory,
@@ -43,6 +45,13 @@ import {
   recordHouseholdLocation,
   recordHousingTenureState,
   recordPerception,
+  recordPolicyAlternative,
+  recordPolicyAnalysisKnowledge,
+  recordPolicyBaseline,
+  recordPolicyEstimate,
+  recordPolicyImplementationProfile,
+  recordPolicyOperation,
+  recordPolicyProjectionRoot,
   recordRelationshipMoment,
   recordResourceFlowTerms,
   recordResourceObligationState,
@@ -66,6 +75,8 @@ import {
   makeIsoDate,
   worldMetricStateForPeriodAt,
   worldMetricDefinitionByStableKey,
+  policyEstimateAt,
+  realizePolicyEstimate,
 } from "./index";
 import type {
   CharacterHistoryMode,
@@ -1634,7 +1645,7 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
     expect(deserializeWorld(payload)).toStrictEqual(world);
     expect(
       (JSON.parse(payload) as { formatVersion: number }).formatVersion,
-    ).toBe(10);
+    ).toBe(11);
     expect(() =>
       createResourceFlow(world, {
         stableKey: "open:malformed",
@@ -2413,6 +2424,359 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
     ]);
     world = advanceWorld(world, 5, transitionHandlers);
 
+    const beforePolicyHistory = currentResourceCutoff(world);
+    const metricStateCountBeforeProjection = world.history.metricStates.length;
+    const effectCountBeforeProjection = world.history.effectActivations.length;
+    const policyOutputPeriod = {
+      kind: "interval" as const,
+      startsAt: makeIsoDate("2026-01-11"),
+      endsAt: makeIsoDate("2026-02-10"),
+    };
+    world = recordPolicyBaseline(world, {
+      stableKey: "end-to-end:policy:output-baseline",
+      seriesKey: "baseline:end-to-end-policy-output",
+      metricId: outputMetric.id,
+      scope: economicScope,
+      referencePeriod: policyOutputPeriod,
+      expectedValue: { kind: "money", money: money(1_150_000, "USD") },
+      generatedAt: world.currentDate,
+      recordedAt: world.currentDate,
+      sourceEntityIds: [evaluatedOutput.id],
+      methodologyKey: "forecast:maximum-current-v1",
+      assumptionKeys: ["assumption:continuity"],
+      uncertainty: { kind: "none" },
+      provenance: AUTHORED,
+      supersedesBaselineId: null,
+    });
+    const policyOutputBaseline = world.history.policyBaselines.at(-1)!;
+    const policyHousingPeriod = {
+      kind: "point" as const,
+      at: makeIsoDate("2026-02-10"),
+    };
+    world = recordPolicyBaseline(world, {
+      stableKey: "end-to-end:policy:housing-baseline",
+      seriesKey: "baseline:end-to-end-policy-housing",
+      metricId: housingPressureMetric.id,
+      scope: economicScope,
+      referencePeriod: policyHousingPeriod,
+      expectedValue: {
+        kind: "quantity",
+        quantity: createExactQuantity(100, 1, "index:housing-pressure"),
+      },
+      generatedAt: world.currentDate,
+      recordedAt: world.currentDate,
+      sourceEntityIds: [housingEffect.id],
+      methodologyKey: "forecast:maximum-current-v1",
+      assumptionKeys: ["assumption:continuity"],
+      uncertainty: { kind: "none" },
+      provenance: AUTHORED,
+      supersedesBaselineId: null,
+    });
+    const policyHousingBaseline = world.history.policyBaselines.at(-1)!;
+    world = recordPolicyAlternative(world, {
+      stableKey: "end-to-end:policy:small",
+      alternativeKind: "proposal:public-investment",
+      title: "Bounded public investment",
+      summary: "A small version of the same public-investment direction.",
+      propositionId: null,
+      proposedAt: world.currentDate,
+      recordedAt: world.currentDate,
+      provenance: AUTHORED,
+    });
+    const smallPolicy = world.history.policyAlternatives.at(-1)!;
+    world = recordPolicyOperation(world, {
+      stableKey: "end-to-end:policy:small:output",
+      alternativeId: smallPolicy.id,
+      targetMetricId: outputMetric.id,
+      targetScope: economicScope,
+      targetReferencePeriod: policyOutputPeriod,
+      targetBaselineId: policyOutputBaseline.id,
+      operation: {
+        kind: "absolute-change",
+        direction: "increase",
+        magnitude: { kind: "money", money: money(100_000, "USD") },
+      },
+      trigger: null,
+      mechanismDefinitionId: linearMechanism.id,
+      realizationKind: "policy:public-investment",
+      timing: {
+        startsAt: world.currentDate,
+        maturesAt: makeIsoDate("2026-01-20"),
+        endsAt: null,
+      },
+      recordedAt: world.currentDate,
+      provenance: AUTHORED,
+    });
+    const smallOutputOperation = world.history.policyOperations.at(-1)!;
+    world = recordPolicyOperation(world, {
+      stableKey: "end-to-end:policy:small:housing",
+      alternativeId: smallPolicy.id,
+      targetMetricId: housingPressureMetric.id,
+      targetScope: economicScope,
+      targetReferencePeriod: policyHousingPeriod,
+      targetBaselineId: policyHousingBaseline.id,
+      operation: {
+        kind: "absolute-change",
+        direction: "decrease",
+        magnitude: {
+          kind: "quantity",
+          quantity: createExactQuantity(5, 1, "index:housing-pressure"),
+        },
+      },
+      trigger: null,
+      mechanismDefinitionId: linearMechanism.id,
+      realizationKind: "policy:public-investment",
+      timing: {
+        startsAt: world.currentDate,
+        maturesAt: makeIsoDate("2026-01-20"),
+        endsAt: null,
+      },
+      recordedAt: world.currentDate,
+      provenance: AUTHORED,
+    });
+    const smallHousingOperation = world.history.policyOperations.at(-1)!;
+    const fullPolicyFactors = [
+      "authority",
+      "funding",
+      "administrative-capacity",
+      "enforcement-compliance",
+      "uptake-participation",
+    ].map((kind) =>
+      directPolicyImplementationFactor({
+        kind: kind as
+          | "authority"
+          | "funding"
+          | "administrative-capacity"
+          | "enforcement-compliance"
+          | "uptake-participation",
+        share: createExactQuantity(1, 1, "rate:share"),
+        reasonKey: `implementation:${kind}-available`,
+        explanation: `${kind} is available in the maximum-current fixture.`,
+        evidenceEntityIds: [policyHousingBaseline.id, policyOutputBaseline.id],
+      }),
+    );
+    const smallOperationIds = [
+      smallOutputOperation.id,
+      smallHousingOperation.id,
+    ].sort();
+    world = recordPolicyImplementationProfile(world, {
+      stableKey: "end-to-end:policy:small:profile",
+      alternativeId: smallPolicy.id,
+      operationIds: smallOperationIds,
+      factors: fullPolicyFactors,
+      assessedAt: world.currentDate,
+      recordedAt: world.currentDate,
+      provenance: AUTHORED,
+    });
+    const smallProfile = world.history.policyImplementationProfiles.at(-1)!;
+    world = recordPolicyProjectionRoot(world, {
+      stableKey: "end-to-end:policy:small:projected-cause",
+      alternativeId: smallPolicy.id,
+      operationIds: smallOperationIds,
+      effectiveAt: world.currentDate,
+      recordedAt: world.currentDate,
+    });
+    const smallProjectedCause = world.history.causalProcesses.at(-1)!;
+    world = recordPolicyEstimate(world, {
+      stableKey: "end-to-end:policy:small:estimate",
+      seriesKey: "estimate:end-to-end-policy-small",
+      alternativeId: smallPolicy.id,
+      operationIds: smallOperationIds,
+      implementationProfileId: smallProfile.id,
+      projectedCausalProcessId: smallProjectedCause.id,
+      generatedAt: world.currentDate,
+      recordedAt: world.currentDate,
+      provenance: AUTHORED,
+      supersedesEstimateId: null,
+    });
+    const smallEstimate = world.history.policyEstimates.at(-1)!;
+
+    world = recordPolicyAlternative(world, {
+      stableKey: "end-to-end:policy:large",
+      alternativeKind: "proposal:public-investment",
+      title: "Large public investment",
+      summary: "A much larger version of the same public-investment direction.",
+      propositionId: null,
+      proposedAt: world.currentDate,
+      recordedAt: world.currentDate,
+      provenance: AUTHORED,
+    });
+    const largePolicy = world.history.policyAlternatives.at(-1)!;
+    world = recordPolicyOperation(world, {
+      stableKey: "end-to-end:policy:large:output",
+      alternativeId: largePolicy.id,
+      targetMetricId: outputMetric.id,
+      targetScope: economicScope,
+      targetReferencePeriod: policyOutputPeriod,
+      targetBaselineId: policyOutputBaseline.id,
+      operation: {
+        kind: "absolute-change",
+        direction: "increase",
+        magnitude: { kind: "money", money: money(1_000_000, "USD") },
+      },
+      trigger: null,
+      mechanismDefinitionId: linearMechanism.id,
+      realizationKind: "policy:public-investment",
+      timing: {
+        startsAt: world.currentDate,
+        maturesAt: makeIsoDate("2026-01-20"),
+        endsAt: null,
+      },
+      recordedAt: world.currentDate,
+      provenance: AUTHORED,
+    });
+    const largeOperation = world.history.policyOperations.at(-1)!;
+    const largeOperationIds = [largeOperation.id];
+    const constrainedFactors = fullPolicyFactors.map((factor) =>
+      factor.kind === "administrative-capacity"
+        ? directPolicyImplementationFactor({
+            kind: "administrative-capacity",
+            share: createExactQuantity(1, 2, "rate:share"),
+            reasonKey: "implementation:capacity-constrained",
+            explanation: "The larger version exceeds available setup capacity.",
+            evidenceEntityIds: [policyOutputBaseline.id],
+          })
+        : factor,
+    );
+    world = recordPolicyImplementationProfile(world, {
+      stableKey: "end-to-end:policy:large:profile",
+      alternativeId: largePolicy.id,
+      operationIds: largeOperationIds,
+      factors: constrainedFactors,
+      assessedAt: world.currentDate,
+      recordedAt: world.currentDate,
+      provenance: AUTHORED,
+    });
+    const largeProfile = world.history.policyImplementationProfiles.at(-1)!;
+    world = recordPolicyProjectionRoot(world, {
+      stableKey: "end-to-end:policy:large:projected-cause",
+      alternativeId: largePolicy.id,
+      operationIds: largeOperationIds,
+      effectiveAt: world.currentDate,
+      recordedAt: world.currentDate,
+    });
+    const largeProjectedCause = world.history.causalProcesses.at(-1)!;
+    world = recordPolicyEstimate(world, {
+      stableKey: "end-to-end:policy:large:estimate",
+      seriesKey: "estimate:end-to-end-policy-large",
+      alternativeId: largePolicy.id,
+      operationIds: largeOperationIds,
+      implementationProfileId: largeProfile.id,
+      projectedCausalProcessId: largeProjectedCause.id,
+      generatedAt: world.currentDate,
+      recordedAt: world.currentDate,
+      provenance: AUTHORED,
+      supersedesEstimateId: null,
+    });
+    const largeEstimate = world.history.policyEstimates.at(-1)!;
+    expect(world.history.metricStates).toHaveLength(
+      metricStateCountBeforeProjection,
+    );
+    expect(world.history.effectActivations).toHaveLength(
+      effectCountBeforeProjection,
+    );
+
+    world = recordPolicyAnalysisKnowledge(world, {
+      stableKey: "end-to-end:policy:small:analysis",
+      personId: actor,
+      estimateId: smallEstimate.id,
+      summary: "The actor reviewed the bounded policy estimate.",
+      believedSummary: "The bounded version has modest projected consequences.",
+      accuracy: "accurate",
+      confidence: "high",
+      visibility: "private",
+    });
+    const smallPolicyKnowledge = world.history.knowledge.at(-1)!;
+    world = recordPolicyAnalysisKnowledge(world, {
+      stableKey: "end-to-end:policy:large:analysis",
+      personId: actor,
+      estimateId: largeEstimate.id,
+      summary: "The actor reviewed the larger policy estimate.",
+      believedSummary:
+        "The larger version has a greater projected effect and a capacity constraint.",
+      accuracy: "accurate",
+      confidence: "high",
+      visibility: "private",
+    });
+    const largePolicyKnowledge = world.history.knowledge.at(-1)!;
+    const policyDecision = evaluateDecision(
+      world,
+      createPolicyDecisionContext(world, {
+        stableKey: "end-to-end:policy:choice",
+        decisionType: "choose-policy-scale",
+        actorPersonId: actor,
+        options: [
+          {
+            optionKey: "small",
+            estimateId: smallEstimate.id,
+            knowledgeId: smallPolicyKnowledge.id,
+            assessment: {
+              direction: "supports",
+              importance: "strong",
+              confidence: "high",
+              explanation: "The known bounded result fits the actor's goals.",
+            },
+          },
+          {
+            optionKey: "large",
+            estimateId: largeEstimate.id,
+            knowledgeId: largePolicyKnowledge.id,
+            assessment: {
+              direction: "supports",
+              importance: "moderate",
+              confidence: "high",
+              explanation: "The actor supports the shared policy direction.",
+            },
+            feasibilityConcern: {
+              direction: "opposes",
+              importance: "decisive",
+              confidence: "high",
+              explanation:
+                "The known capacity constraint weighs against this scale.",
+            },
+          },
+        ],
+        randomness: "none",
+        retention: "ephemeral",
+      }),
+    );
+    world = realizePolicyEstimate(world, {
+      stableKey: "end-to-end:policy:small:realization",
+      estimateId: smallEstimate.id,
+      provenance: AUTHORED,
+    });
+    const smallRealization = world.history.policyRealizations.at(-1)!;
+    const policyEffectIds = smallRealization.consequences.map(
+      (consequence) => consequence.effectActivationId,
+    );
+    const policyOutputEffectId = smallRealization.consequences.find(
+      (consequence) => consequence.operationId === smallOutputOperation.id,
+    )?.effectActivationId;
+    if (!policyOutputEffectId) {
+      throw new Error(
+        "Maximum-current policy realization lost its output effect.",
+      );
+    }
+    world = advanceWorld(world, 32, transitionHandlers);
+    world = recordWorldMetricState(world, {
+      stableKey: "end-to-end:policy:output-actual-baseline",
+      metricId: outputMetric.id,
+      scope: economicScope,
+      referencePeriod: policyOutputPeriod,
+      value: { kind: "money", money: money(1_150_000, "USD") },
+      recordedAt: world.currentDate,
+      provenance: AUTHORED,
+      supersedesStateId: null,
+    });
+    const policyActualBaseline = world.history.metricStates.at(-1)!;
+    world = recordEvaluatedMetricState(world, {
+      stableKey: "end-to-end:policy:output-realized",
+      baselineStateId: policyActualBaseline.id,
+      evaluatedAt: world.currentDate,
+      referencePeriod: policyOutputPeriod,
+    });
+    const policyResultingOutput = world.history.metricStates.at(-1)!;
+
     expect(world.history.childAuthorities.length).toBeGreaterThan(0);
     expect(world.history.careResponsibilities.length).toBeGreaterThan(0);
     expect(world.history.educationEnrollments.length).toBeGreaterThan(1);
@@ -2517,8 +2881,43 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
       ),
     ).toBe(false);
     expect(world.history.knowledge.length).toBe(
-      knowledgeCountBeforeObservation + 1,
+      knowledgeCountBeforeObservation + 3,
     );
+    expect(policyDecision.selectedOptionKey).toBe("small");
+    expect(smallEstimate.consequences).toHaveLength(2);
+    expect(largeEstimate.implementationStatus).toBe("partial");
+    expect(smallProfile.factors.map((factor) => factor.kind)).toStrictEqual([
+      "authority",
+      "funding",
+      "administrative-capacity",
+      "enforcement-compliance",
+      "uptake-participation",
+    ]);
+    expect(
+      policyEstimateAt(world, smallEstimate.id, beforePolicyHistory),
+    ).toBeNull();
+    expect(
+      world.history.knowledge.some(
+        (knowledge) =>
+          knowledge.personId === peer &&
+          (knowledge.eventId === smallPolicyKnowledge.eventId ||
+            knowledge.eventId === largePolicyKnowledge.eventId),
+      ),
+    ).toBe(false);
+    expect(
+      distinctRootCausalIds(
+        world,
+        policyEffectIds,
+        currentResourceCutoff(world),
+      ),
+    ).toStrictEqual([smallProjectedCause.id]);
+    expect(policyResultingOutput).toMatchObject({
+      value: { money: { minorUnits: 1_250_000, currency: "USD" } },
+      provenance: {
+        kind: "simulated",
+        sourceEntityIds: [policyActualBaseline.id, policyOutputEffectId].sort(),
+      },
+    });
     expect(
       worldMetricStateForPeriodAt(
         world,

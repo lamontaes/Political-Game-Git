@@ -22,6 +22,7 @@ import {
   createWorkCompensation,
   createWorkRelationship,
   currentLifeCutoff,
+  directPolicyImplementationFactor,
   evaluateDecision,
   generateQuickCharacterHistory,
   makeIsoDate,
@@ -35,6 +36,13 @@ import {
   recordHousingTenureState,
   recordOrganizationParticipationState,
   recordPerception,
+  recordPolicyAlternative,
+  recordPolicyAnalysisKnowledge,
+  recordPolicyBaseline,
+  recordPolicyEstimate,
+  recordPolicyImplementationProfile,
+  recordPolicyOperation,
+  recordPolicyProjectionRoot,
   recordPrivateBelief,
   recordResourceObligationState,
   recordResourceTransferOutcome,
@@ -44,6 +52,7 @@ import {
   recordEvaluatedMetricState,
   scheduleFutureDueItem,
   recordWorkCompensationTerms,
+  realizePolicyEstimate,
   startDwellingOccupancy,
   worldMetricDefinitionByStableKey,
 } from "../simulation";
@@ -298,6 +307,168 @@ describe("SQLite world repository", () => {
         sourceEntityIds: [baseline.id, effect.id].sort(),
       },
     });
+  });
+
+  it("preserves and replaces every Stage 6 Run C policy family and subjective linkage exactly", () => {
+    repository = new SqliteWorldRepository(":memory:");
+    let world = advanceWorld(createDemoWorld("sqlite-stage-6-run-c"), 180);
+    const actorId = world.personOrder[0]!;
+    const jurisdictionId = world.jurisdictionOrder[0]!;
+    const housingMetric = worldMetricDefinitionByStableKey(
+      world,
+      "housing.availability-pressure",
+    );
+    const policyPeriod = { kind: "point" as const, at: world.currentDate };
+    const provenance = {
+      kind: "authored" as const,
+      note: "SQLite Stage 6 Run C persistence fixture.",
+    };
+    world = recordPolicyBaseline(world, {
+      stableKey: "sqlite:run-c:housing-baseline",
+      seriesKey: "baseline:sqlite-run-c-housing",
+      metricId: housingMetric.id,
+      scope: { jurisdictionId, segmentKey: null },
+      referencePeriod: policyPeriod,
+      expectedValue: {
+        kind: "quantity",
+        quantity: createExactQuantity(100, 1, "index:housing-pressure"),
+      },
+      generatedAt: world.currentDate,
+      recordedAt: world.currentDate,
+      sourceEntityIds: [world.id],
+      methodologyKey: "forecast:sqlite-v1",
+      assumptionKeys: ["assumption:sqlite-context"],
+      uncertainty: { kind: "none" },
+      provenance,
+      supersedesBaselineId: null,
+    });
+    const baseline = world.history.policyBaselines.at(-1)!;
+    world = recordPolicyAlternative(world, {
+      stableKey: "sqlite:run-c:alternative",
+      alternativeKind: "proposal:sqlite-housing-response",
+      title: "SQLite housing response",
+      summary: "An exact quantitative policy persistence fixture.",
+      propositionId: null,
+      proposedAt: world.currentDate,
+      recordedAt: world.currentDate,
+      provenance,
+    });
+    const alternative = world.history.policyAlternatives.at(-1)!;
+    world = recordPolicyOperation(world, {
+      stableKey: "sqlite:run-c:operation",
+      alternativeId: alternative.id,
+      targetMetricId: housingMetric.id,
+      targetScope: baseline.scope,
+      targetReferencePeriod: policyPeriod,
+      targetBaselineId: baseline.id,
+      operation: {
+        kind: "absolute-change",
+        direction: "decrease",
+        magnitude: {
+          kind: "quantity",
+          quantity: createExactQuantity(5, 1, "index:housing-pressure"),
+        },
+      },
+      trigger: null,
+      mechanismDefinitionId: world.causalMechanismCatalog.definitionOrder[0]!,
+      realizationKind: "policy:sqlite-realization",
+      timing: {
+        startsAt: world.currentDate,
+        maturesAt: world.currentDate,
+        endsAt: null,
+      },
+      recordedAt: world.currentDate,
+      provenance,
+    });
+    const operation = world.history.policyOperations.at(-1)!;
+    const factors = [
+      "authority",
+      "funding",
+      "administrative-capacity",
+      "enforcement-compliance",
+      "uptake-participation",
+    ].map((kind) =>
+      directPolicyImplementationFactor({
+        kind: kind as
+          | "authority"
+          | "funding"
+          | "administrative-capacity"
+          | "enforcement-compliance"
+          | "uptake-participation",
+        share: createExactQuantity(1, 1, "rate:share"),
+        reasonKey: `implementation:${kind}-available`,
+        explanation: `${kind} is available in the SQLite fixture.`,
+        evidenceEntityIds: [baseline.id],
+      }),
+    );
+    world = recordPolicyImplementationProfile(world, {
+      stableKey: "sqlite:run-c:profile",
+      alternativeId: alternative.id,
+      operationIds: [operation.id],
+      factors,
+      assessedAt: world.currentDate,
+      recordedAt: world.currentDate,
+      provenance,
+    });
+    const profile = world.history.policyImplementationProfiles.at(-1)!;
+    world = recordPolicyProjectionRoot(world, {
+      stableKey: "sqlite:run-c:projected-cause",
+      alternativeId: alternative.id,
+      operationIds: [operation.id],
+      effectiveAt: world.currentDate,
+      recordedAt: world.currentDate,
+    });
+    const projectedCause = world.history.causalProcesses.at(-1)!;
+    world = recordPolicyEstimate(world, {
+      stableKey: "sqlite:run-c:estimate",
+      seriesKey: "estimate:sqlite-run-c",
+      alternativeId: alternative.id,
+      operationIds: [operation.id],
+      implementationProfileId: profile.id,
+      projectedCausalProcessId: projectedCause.id,
+      generatedAt: world.currentDate,
+      recordedAt: world.currentDate,
+      provenance,
+      supersedesEstimateId: null,
+    });
+    const estimate = world.history.policyEstimates.at(-1)!;
+    const firstSaved = repository.save(world);
+    world = recordPolicyAnalysisKnowledge(world, {
+      stableKey: "sqlite:run-c:analysis",
+      personId: actorId,
+      estimateId: estimate.id,
+      summary: "The actor reviewed the SQLite policy estimate.",
+      believedSummary:
+        "Housing pressure is projected to decline by five points.",
+      accuracy: "accurate",
+      confidence: "high",
+      visibility: "private",
+    });
+    world = realizePolicyEstimate(world, {
+      stableKey: "sqlite:run-c:realization",
+      estimateId: estimate.id,
+      provenance,
+    });
+    const realization = world.history.policyRealizations.at(-1)!;
+    const saved = repository.save(world);
+    const restored = repository.load(world.id);
+
+    expect(saved.snapshotId).not.toBe(firstSaved.snapshotId);
+    expect(restored).toStrictEqual(world);
+    expect(repository.list()).toStrictEqual([saved]);
+    expect(restored?.history.policyAlternatives.at(-1)).toStrictEqual(
+      alternative,
+    );
+    expect(restored?.history.policyBaselines.at(-1)).toStrictEqual(baseline);
+    expect(restored?.history.policyOperations.at(-1)).toStrictEqual(operation);
+    expect(restored?.history.policyImplementationProfiles.at(-1)).toStrictEqual(
+      profile,
+    );
+    expect(restored?.history.policyEstimates.at(-1)).toStrictEqual(estimate);
+    expect(restored?.history.policyRealizations.at(-1)).toStrictEqual(
+      realization,
+    );
+    expect(restored?.history.knowledge.at(-1)?.personId).toBe(actorId);
   });
 
   it("preserves Stage 5.1 organization and work history through SQLite", () => {

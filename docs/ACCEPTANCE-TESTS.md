@@ -412,7 +412,7 @@ Runtime transitions and snapshot loading reject dangling organization/person/jur
 
 ### NOW-101 — Stage 5 persists headlessly
 
-Current world schema 11 and snapshot format 10 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, resource, obligation, dwelling, occupancy, tenure, life-source, fatigue/resource-pressure, and generated-provenance record exactly alongside Stage 6 metric/observation/causal/effect/due history through deterministic JSON and the Node-only SQLite repository. The simulation and its tests import no React, DOM, browser, or SQLite runtime.
+Current world schema 12 and snapshot format 11 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, resource, obligation, dwelling, occupancy, tenure, life-source, fatigue/resource-pressure, and generated-provenance record exactly alongside Stage 6 metric/observation/causal/effect/due/policy history through deterministic JSON and the Node-only SQLite repository. The simulation and its tests import no React, DOM, browser, or SQLite runtime.
 
 ### NOW-102 — Real career diversity uses general records
 
@@ -580,7 +580,7 @@ Past/impossible scheduling, missing references, malformed keys/status, invalid t
 
 ### NOW-143 — Stage 6 Run A persists and extends the permanent maximum-current gate
 
-World schema 11, generator `demo-world-v11`, snapshot format 10, and materializer 4 preserve the metric catalog, exact quantities/money, state corrections, observation sources/vintages/uncertainty, due identity/state, global sequence, provenance, and references through deterministic JSON and Node-only SQLite save/load/list/replace. The continuous character retains jurisdictional metric truth, a differing public observation, explicit one-person knowledge, and an exactly-once future transition with one linked ordinary outcome event while retaining formative, education, work, household/care, resources/housing, relationship, appraisal, temporary-state, perception, and decision history. Run B extends rather than replaces this gate; Runs C–E, Stage 7+, and player-facing UI remain unimplemented.
+At the accepted Run A checkpoint, world schema 10, generator `demo-world-v10`, snapshot format 9, and materializer 4 preserved the metric catalog, exact quantities/money, state corrections, observation sources/vintages/uncertainty, due identity/state, global sequence, provenance, and references through deterministic JSON and Node-only SQLite save/load/list/replace. The continuous character retained jurisdictional metric truth, a differing public observation, explicit one-person knowledge, and an exactly-once future transition with one linked ordinary outcome event while retaining formative, education, work, household/care, resources/housing, relationship, appraisal, temporary-state, perception, and decision history. Later runs extend rather than replace this gate.
 
 ### NOW-144 — Causal identity and ancestry remain distinct from occurrences
 
@@ -608,11 +608,47 @@ Government revenue/outlays are exact same-period money flows and government debt
 
 ### NOW-150 — Run B history is cutoff-safe, non-omniscient, and persistent
 
-Effective/recording date plus exclusive global sequence gates every causal/effect query; later-appended backfill is absent from earlier sequence views. Causal/economic truth becomes subjective only through the existing observation → ordinary release event → person knowledge bridge. World schema 11, metric catalog v2, causal catalog v1, generator `demo-world-v11`, snapshot 10, and materializer 4 preserve definitions, ancestry, activations, exact contributions/source references, and evaluated metric truth through deterministic JSON and Node-only SQLite save/load/list/replace.
+Effective/recording date plus exclusive global sequence gates every causal/effect query; later-appended backfill is absent from earlier sequence views. Causal/economic truth becomes subjective only through the existing observation → ordinary release event → person knowledge bridge. At the accepted Run B checkpoint, world schema 11, metric catalog v2, causal catalog v1, generator `demo-world-v11`, snapshot 10, and materializer 4 preserved definitions, ancestry, activations, exact contributions/source references, and evaluated metric truth through deterministic JSON and Node-only SQLite save/load/list/replace.
 
 ### NOW-151 — The permanent maximum-current gate includes causal economy
 
-The continuous Stage 5 life/resource/housing/relationship/Stage-4 scenario retains Run A quantitative observation and future-transition behavior, then adds an ordinary root occurrence, one root fanning into output and housing effects, an independent second root affecting output, explicit canonical aggregate evaluation, a differing public observation known only by the chosen person, root deduplication, historical before/after cutoffs, exactly-once due resolution, and exact JSON round-trip. Run C policy operations, Run D incidents, Run E mortality/evidence, Stage 7+, and UI remain absent.
+The continuous Stage 5 life/resource/housing/relationship/Stage-4 scenario retains Run A quantitative observation and future-transition behavior, then adds an ordinary root occurrence, one root fanning into output and housing effects, an independent second root affecting output, explicit canonical aggregate evaluation, a differing public observation known only by the chosen person, root deduplication, historical before/after cutoffs, exactly-once due resolution, and exact JSON round-trip. Run C extends this same gate rather than replacing it; Run D incidents, Run E mortality/evidence, Stage 7+, and UI remain absent.
+
+### NOW-152 — Quantitative policy operations are exact and typed
+
+One stable alternative owns typed set-level, absolute-change, relative-change, share-of-baseline, cap, and floor operations plus an optional typed trigger. Each operation names one primitive metric, exact scope, compatible point/interval period, and exact quantity or integer-minor-unit money value. Unit, value-kind, currency, period, malformed-key, fractional-minor-unit, and unsafe-arithmetic mismatches fail; no proposition parsing or expression language exists.
+
+### NOW-153 — Baselines and estimates are frozen historical evidence
+
+An immutable baseline revision preserves exact expected value, source frontier, assumptions, uncertainty, provenance, predecessor, and global sequence. An estimate cites the exact revision and freezes its baseline-versus-alternative consequences. Later actual truth, later revisions, or later-appended backfill do not rewrite the estimate and remain absent from earlier exclusive-sequence views.
+
+### NOW-154 — Projection and implementation are different actions
+
+Creating an alternative, operation, baseline, implementation profile, or estimate creates no effect activation and mutates no metric truth. An explicit allowed/triggered realization creates one actual causal child and compatible Run B effect activations; blocked or untriggered attempts create none. Canonical resulting metric truth is committed only through the existing Run B evaluator/writer.
+
+### NOW-155 — Implementation preserves five independent constraints
+
+Authority, funding, administrative capacity, enforcement/compliance, and uptake/participation remain five separately evidenced exact factors. The bounded aggregate is their exact product. Authority denial blocks realization; limited funding or capacity produces a partial result without becoming a universal feasibility score or institutional-law claim.
+
+### NOW-156 — Policy magnitude remains degree-sensitive and bounded
+
+Behavioral tests distinguish 0.1%, 10%, and absurd-scale proposals using exact arithmetic. Explicit caps and implementation factors bound consequences where authored, unsafe arithmetic fails, and different magnitudes do not collapse to identical flavor text or a binary support flag.
+
+### NOW-157 — Distribution is explicit and territory-compatible
+
+Multi-jurisdiction policy is represented by separate operations over stable jurisdiction/open-segment scopes. An unprompted valid jurisdiction/segment key works without an engine branch, while malformed keys fail. No national magic allocation, 50-state enum, uniform sub-state hierarchy, or territory-specific content is introduced.
+
+### NOW-158 — Policy knowledge and decisions remain actor-specific
+
+A policy estimate becomes available to one actor only through an ordinary review event and that person's provenance-bearing event knowledge. The decision adapter consumes only that explicit knowledge plus actor-supplied interpretation and existing subjective sources. One informed actor can choose the smaller of two alternatives without granting another person knowledge or writing a universal ideology, opinion, or feasibility score.
+
+### NOW-159 — Delayed policy uses the one future-transition mechanism
+
+A delayed realization schedules one typed Run A due item and resolves exactly once through the ordinary handler/terminal lifecycle. It adds no recurrence, second scheduler, hidden policy tick, or automatic metric mutation. Point and interval consequences retain Run B's exact magnitude-basis and phasing rules.
+
+### NOW-160 — Run C persists and extends the permanent maximum-current gate
+
+World schema 12, generator `demo-world-v12`, metric catalog v2, causal catalog v1, snapshot 11, and materializer 4 preserve all six policy families, exact values, sources, causal/effect links, due references, actor knowledge, provenance, and global sequence through deterministic JSON and Node-only SQLite save/load/list/replace. The permanent scenario carries one continuous Stage 5 life through Run A observations/due work, Run B causal economy, and two Run C alternatives; the informed actor selects the smaller one, explicit realization fans into correlated effects, later canonical output is queryable, old cutoffs remain safe, and JSON round-trip is exact. Run D, Run E, Stage 7+, and UI remain absent.
 
 ## Manual Now
 

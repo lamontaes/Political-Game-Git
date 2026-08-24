@@ -1286,6 +1286,20 @@ function canonicalEntityAvailable(
       sequenceExclusive,
     );
   }
+  const policyRecord = [
+    ...world.history.policyAlternatives,
+    ...world.history.policyBaselines,
+    ...world.history.policyOperations,
+    ...world.history.policyImplementationProfiles,
+    ...world.history.policyEstimates,
+    ...world.history.policyRealizations,
+  ].find((record) => record.id === id);
+  if (policyRecord) {
+    return (
+      policyRecord.recordedAt <= asOfDate &&
+      policyRecord.sequence < sequenceExclusive
+    );
+  }
   const event = world.history.events.find((record) => record.id === id);
   if (event) {
     return event.recordedAt <= asOfDate && event.sequence < sequenceExclusive;
