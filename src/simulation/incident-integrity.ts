@@ -2,14 +2,15 @@ import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import {
   assertExactQuantity,
-  compareExactQuantities,
-  multiplyExactShares,
   scaleExactQuantity,
   scaleSafeIntegerByExactShare,
-  subtractExactQuantities,
 } from "./quantity";
 import { makeCurrencyCode } from "./resources";
 import { assertDottedContentKey } from "./taxonomy";
+import {
+  evaluateIncidentCore,
+  incidentEvaluationInputFromSnapshot,
+} from "./incidents";
 import type {
   CausalRecordProvenance,
   EntityId,
@@ -27,16 +28,6 @@ import type {
   WorldMetricValue,
 } from "./types";
 
-const ONE_SHARE: ExactQuantity = {
-  numerator: 1,
-  denominator: 1,
-  unit: "rate:share",
-};
-const ZERO_SHARE: ExactQuantity = {
-  numerator: 0,
-  denominator: 1,
-  unit: "rate:share",
-};
 const INCIDENT_TRANSITION_KEY = "incident:transition";
 const SEMANTIC_KEY = /^[a-z][a-z0-9-]*:[a-z0-9][a-z0-9._-]*$/;
 
@@ -133,9 +124,15 @@ export function assertIncidentIntegrity(
       root.parentCausalIds.length !== 0 ||
       root.sourceEntityIds.length !== 1 ||
       root.sourceEntityIds[0] !== incident.onsetEventId ||
+      root.effectiveAt !== incident.onsetAt ||
+      root.recordedAt !== incident.recordedAt ||
+      root.provenance.kind !== "simulated" ||
+      root.provenance.sourceEntityIds.length !== 1 ||
+      root.provenance.sourceEntityIds[0] !== incident.onsetEventId ||
       !onsetEvent ||
       onsetEvent.sequence >= incident.sequence ||
       onsetEvent.occurredAt !== incident.onsetAt ||
+      onsetEvent.recordedAt !== incident.recordedAt ||
       onsetEvent.jurisdictionId !== incident.scope.jurisdictionId ||
       onsetEvent.type !== "incident.occurred" ||
       incident.provenance.kind !== "simulated" ||
@@ -178,6 +175,9 @@ export function assertIncidentIntegrity(
       event.type !== "incident.phase" ||
       !event.tags.includes("incident.phase") ||
       !event.involvedEntityIds.includes(incident.id) ||
+      state.provenance.kind !== "simulated" ||
+      state.provenance.sourceEntityIds.length !== 1 ||
+      state.provenance.sourceEntityIds[0] !== state.incidentId ||
       state.effectiveAt < incident.onsetAt ||
       state.effectiveAt > world.currentDate ||
       (state.status !== "active" && state.status !== "resolved") ||
@@ -235,6 +235,9 @@ export function assertIncidentIntegrity(
       plan.recordedAt > world.currentDate ||
       !priorState ||
       priorState.status !== "active" ||
+      plan.provenance.kind !== "simulated" ||
+      plan.provenance.sourceEntityIds.length !== 1 ||
+      plan.provenance.sourceEntityIds[0] !== plan.incidentId ||
       !SEMANTIC_KEY.test(plan.phaseKey) ||
       (plan.reasonKey !== null && !SEMANTIC_KEY.test(plan.reasonKey))
     ) {
@@ -329,8 +332,15 @@ export function assertIncidentDueIntegrity(
       world.history.incidentStates.filter(
         (state) => state.incidentId === incident.id,
       );
+    const planSourceState = latestStateBefore(states, plan.sequence);
     const stateAtCreation = latestStateBefore(states, dueItem.sequence);
-    if (!stateAtCreation || stateAtCreation.status !== "active") {
+    if (
+      !planSourceState ||
+      planSourceState.status !== "active" ||
+      !stateAtCreation ||
+      stateAtCreation.status !== "active" ||
+      stateAtCreation.id !== planSourceState.id
+    ) {
       throw new Error(
         `Incident due item was invalid when scheduled: ${dueItem.id}`,
       );
@@ -365,79 +375,14 @@ function validateEvaluation(
       `Incident occurrence scope does not match incident: ${incident.id}`,
     );
   }
-  assertShare(evaluation.baseLikelihood, "Incident base likelihood");
-  assertShare(evaluation.likelihood, "Incident likelihood");
-  assertShare(evaluation.exposure, "Incident exposure");
-  assertShare(evaluation.vulnerability, "Incident vulnerability");
-  assertShare(evaluation.resilience, "Incident resilience");
-  assertShare(evaluation.impactShare, "Incident impact share");
-  const impact = multiplyExactShares(
-    multiplyExactShares(evaluation.exposure, evaluation.vulnerability),
-    subtractExactQuantities(ONE_SHARE, evaluation.resilience),
+  const reconstructed = evaluateIncidentCore(
+    world,
+    incidentEvaluationInputFromSnapshot(evaluation),
   );
-  if (compareExactQuantities(impact, evaluation.impactShare) !== 0) {
-    throw new Error(`Incident impact share is inconsistent: ${incident.id}`);
-  }
-  if (evaluation.rng !== null) {
-    if (
-      !Number.isSafeInteger(evaluation.rng.draw) ||
-      evaluation.rng.draw < 0 ||
-      evaluation.rng.draw >= evaluation.rng.drawRangeExclusive ||
-      evaluation.rng.drawRangeExclusive !== 4294967296 ||
-      !evaluation.rng.occurred
-    ) {
-      throw new Error(`Incident RNG snapshot is malformed: ${incident.id}`);
-    }
-  }
-  const keys = new Set<string>();
-  for (const result of [
-    ...evaluation.prerequisiteResults,
-    ...evaluation.blockerResults,
-  ]) {
-    if (
-      keys.has(result.ruleStableKey) ||
-      !SEMANTIC_KEY.test(result.ruleStableKey)
-    ) {
-      throw new Error(`Incident rule evaluation is malformed: ${incident.id}`);
-    }
-    keys.add(result.ruleStableKey);
-    if (
-      result.status !== "satisfied" &&
-      result.status !== "unsatisfied" &&
-      result.status !== "unavailable"
-    ) {
-      throw new Error(
-        `Incident rule evaluation has invalid status: ${incident.id}`,
-      );
-    }
-  }
-  for (const modifier of evaluation.appliedLikelihoodModifiers) {
-    assertShare(modifier.factor, "Incident likelihood modifier factor");
-    if (!SEMANTIC_KEY.test(modifier.modifierStableKey)) {
-      throw new Error(
-        `Incident likelihood modifier snapshot is malformed: ${incident.id}`,
-      );
-    }
-  }
-  const consequenceKeys = new Set<string>();
-  for (const consequence of evaluation.consequences) {
-    if (consequenceKeys.has(consequence.stableKey)) {
-      throw new Error(
-        `Incident consequence snapshot duplicates a key: ${incident.id}`,
-      );
-    }
-    consequenceKeys.add(consequence.stableKey);
-    validateConsequencePlan(world, consequence, incident.onsetAt);
-    if (
-      !sameMetricValue(
-        scaleMetricValue(consequence.baseMagnitude, evaluation.impactShare),
-        consequence.scaledMagnitude,
-      )
-    ) {
-      throw new Error(
-        `Incident consequence magnitude is inconsistent: ${incident.id}`,
-      );
-    }
+  if (JSON.stringify(reconstructed) !== JSON.stringify(evaluation)) {
+    throw new Error(
+      `Incident occurrence snapshot does not match canonical evaluation: ${incident.id}`,
+    );
   }
 }
 
@@ -455,7 +400,8 @@ function assertIncidentEffect(
     !effect ||
     effect.sequence >= incident.sequence ||
     effect.causalProcessId !== incident.rootCausalProcessId ||
-    !effect.sourceEntityIds.includes(incident.onsetEventId) ||
+    effect.sourceEntityIds.length !== 1 ||
+    effect.sourceEntityIds[0] !== incident.onsetEventId ||
     effect.targetMetricId !== consequence.targetMetricId ||
     !sameScope(effect.targetScope, consequence.targetScope) ||
     !sameMetricValue(effect.magnitude, consequence.scaledMagnitude) ||
@@ -749,17 +695,6 @@ function sameScope(left: MetricScope, right: MetricScope): boolean {
     left.jurisdictionId === right.jurisdictionId &&
     left.segmentKey === right.segmentKey
   );
-}
-
-function assertShare(value: ExactQuantity, label: string): void {
-  assertExactQuantity(value);
-  if (
-    value.unit !== "rate:share" ||
-    compareExactQuantities(value, ZERO_SHARE) < 0 ||
-    compareExactQuantities(value, ONE_SHARE) > 0
-  ) {
-    throw new Error(`${label} must be a bounded exact rate:share.`);
-  }
 }
 
 function validateOptionalNonEmpty(value: string | null, label: string): void {

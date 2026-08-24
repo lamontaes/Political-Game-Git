@@ -35,6 +35,15 @@ key, caller evaluation key, scope, date, and historical cutoff. A non-consuming
 actor-initiated definition has no RNG draw, but still records the same explicit
 eligibility and risk evidence.
 
+`evaluateIncident` first validates the current world, then delegates to one
+non-recursive canonical evaluator. Before a loaded or committed occurrence is
+accepted, integrity derives that evaluator's input from the immutable snapshot
+and reruns it at the snapshot's exact cutoff. The complete result must match:
+base/final likelihood, rule and modifier evidence/sources, RNG key/draw/result,
+risk factors, scaled consequences, and outcome. A valid older same-day cutoff
+therefore remains valid, but it is never silently recomputed at a newer
+frontier.
+
 ## Risk inputs and Run B consequences
 
 Hazard likelihood is separate from consequence impact. Every evaluation keeps
@@ -73,11 +82,13 @@ incident. Resolved incidents remain historical/queryable.
 incident, due date, target state, phase/reason/context, optional typed
 consequences, provenance, and global sequence. `scheduleIncidentTransition`
 creates one ordinary Run A due item with transition key `incident:transition`
-and exactly the plan ID as its reference. Integrity reconstructs that the plan
-and active incident existed at creation, the date/scope/provenance match, and no
-second due item names the same plan. A normal due handler records the phase and
-state exactly once. If later incident history already resolves or advances the
-incident, the now-obsolete item terminally cancels with
+and exactly the plan ID as its reference. A plan may be scheduled only while
+its source state (the latest state before the plan sequence) is also the latest
+active state. Integrity reconstructs that same source state and requires it to
+equal the latest active state before the due item's own sequence, as well as
+the date/scope/provenance and one-plan/one-due identity. A normal due handler
+records the phase and state exactly once. If later incident history already
+resolves or advances the incident, the now-obsolete item terminally cancels with
 `incident:already-resolved` or `incident:state-advanced`; time can cross the
 frontier without rewriting history or silently scheduling a replacement.
 
@@ -95,11 +106,11 @@ media, reporter, discovery, evidence, secrecy, or universal knowledge system.
 World schema 13, generator `demo-world-v13`, snapshot format 12, and incident
 catalog `incident-catalog-v1` persist definitions, records, states, plans,
 snapshots, links, and global sequence through exact JSON and the Node-only
-SQLite repository. Integrity rejects malformed definitions/risk snapshots,
-invalid shares/probability/RNG shape, wrong root/event/effect linkage, broken
-state supersession, non-event phases, malformed outcome plans, invalid or
-duplicate incident due work, unavailable creation-frontier references, and
-impossible post-resolution active state.
+SQLite repository. Integrity rejects malformed definitions or any risk snapshot
+that does not exactly reconstruct at its stored cutoff, wrong root/event/effect
+or writer-specific provenance linkage, broken state supersession, non-event
+phases, malformed outcome plans, invalid or duplicate incident due work,
+source-state drift at due creation, and impossible post-resolution active state.
 
 Run D does not implement weather, health, mortality, incapacity, evidence,
 recurrence, a macroeconomy tick, law or institutions, elections, media,

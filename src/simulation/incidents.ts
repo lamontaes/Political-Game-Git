@@ -82,6 +82,13 @@ export function evaluateIncident(
   input: EvaluateIncidentInput,
 ): IncidentEvaluation {
   assertWorldIntegrity(world);
+  return evaluateIncidentCore(world, input);
+}
+
+export function evaluateIncidentCore(
+  world: World,
+  input: EvaluateIncidentInput,
+): IncidentEvaluation {
   const definition = requireIncidentDefinition(world, input.definitionId);
   const evaluatedAt = makeIsoDate(input.evaluatedAt);
   validateEvaluationInput(world, input, evaluatedAt);
@@ -150,23 +157,32 @@ export function evaluateIncident(
   };
 }
 
+export function incidentEvaluationInputFromSnapshot(
+  evaluation: IncidentEvaluation,
+): EvaluateIncidentInput {
+  return {
+    definitionId: evaluation.definitionId,
+    evaluationKey: evaluation.evaluationKey,
+    scope: evaluation.scope,
+    evaluatedAt: evaluation.evaluatedAt,
+    cutoff: evaluation.cutoff,
+    exposure: evaluation.exposure,
+    vulnerability: evaluation.vulnerability,
+    resilience: evaluation.resilience,
+    consequences: evaluation.consequences.map(stripAppliedConsequence),
+  };
+}
+
 export function occurIncident(world: World, input: OccurIncidentInput): World {
   assertWorldIntegrity(world);
   const definition = requireIncidentDefinition(
     world,
     input.evaluation.definitionId,
   );
-  const expected = evaluateIncident(world, {
-    definitionId: input.evaluation.definitionId,
-    evaluationKey: input.evaluation.evaluationKey,
-    scope: input.evaluation.scope,
-    evaluatedAt: input.evaluation.evaluatedAt,
-    cutoff: input.evaluation.cutoff,
-    exposure: input.evaluation.exposure,
-    vulnerability: input.evaluation.vulnerability,
-    resilience: input.evaluation.resilience,
-    consequences: input.evaluation.consequences.map(stripAppliedConsequence),
-  });
+  const expected = evaluateIncidentCore(
+    world,
+    incidentEvaluationInputFromSnapshot(input.evaluation),
+  );
   if (
     !expected.occurred ||
     JSON.stringify(expected) !== JSON.stringify(input.evaluation)
@@ -352,8 +368,19 @@ export function scheduleIncidentTransition(
   assertWorldIntegrity(world);
   const plan = requireTransitionPlan(world, input.transitionPlanId);
   const incident = requireIncident(world, plan.incidentId);
-  if (latestIncidentState(world, incident.id)?.status !== "active") {
+  const sourceState = latestIncidentStateBefore(
+    world,
+    incident.id,
+    plan.sequence,
+  );
+  const stateAtScheduling = latestIncidentState(world, incident.id);
+  if (stateAtScheduling?.status !== "active") {
     throw new Error("A terminal incident cannot schedule another transition.");
+  }
+  if (!sourceState || sourceState.id !== stateAtScheduling.id) {
+    throw new Error(
+      "Incident transition plan is no longer current when scheduled.",
+    );
   }
   if (
     world.history.futureDueItems.some(
@@ -899,6 +926,22 @@ function latestIncidentState(
   return (
     world.history.incidentStates
       .filter((state) => state.incidentId === incidentId)
+      .sort((left, right) => left.sequence - right.sequence)
+      .at(-1) ?? null
+  );
+}
+
+function latestIncidentStateBefore(
+  world: World,
+  incidentId: IncidentRecord["id"],
+  sequenceExclusive: number,
+): IncidentStateRecord | null {
+  return (
+    world.history.incidentStates
+      .filter(
+        (state) =>
+          state.incidentId === incidentId && state.sequence < sequenceExclusive,
+      )
       .sort((left, right) => left.sequence - right.sequence)
       .at(-1) ?? null
   );

@@ -34,6 +34,7 @@ import {
 } from "./index";
 import type {
   EntityId,
+  ExactQuantity,
   IncidentConsequencePlan,
   IncidentDefinition,
   MetricScope,
@@ -265,6 +266,15 @@ function serializeUnchecked(world: World): string {
   });
 }
 
+function expectSnapshotIntegrityFailure(world: World): void {
+  expect(() => assertWorldIntegrity(world)).toThrow(
+    /canonical evaluation|malformed occurrence snapshot/i,
+  );
+  expect(() => deserializeWorld(serializeUnchecked(world))).toThrow(
+    /canonical evaluation|malformed occurrence snapshot/i,
+  );
+}
+
 describe("Stage 6 Run D generalized incident substrate", () => {
   it("reports unavailable prerequisites, blocks matching conditions, and preserves exact likelihood evidence", () => {
     const prepared = runDWorld("run-d-eligibility");
@@ -321,6 +331,110 @@ describe("Stage 6 Run D generalized incident substrate", () => {
     expect(first.likelihood).toStrictEqual(
       createExactQuantity(1, 1, "rate:share"),
     );
+  });
+
+  it("reconstructs every persisted probabilistic occurrence snapshot at its stored cutoff", () => {
+    const prepared = runDWorld("run-d-snapshot-integrity");
+    const valid = occurHazard(
+      withPopulation(prepared.world, "population"),
+      prepared.hazard,
+    ).world;
+    expect(deserializeWorld(serializeWorld(valid))).toStrictEqual(valid);
+
+    const baseLikelihood = structuredClone(valid);
+    (
+      baseLikelihood.history.incidents[0]!.occurrence as {
+        baseLikelihood: ExactQuantity;
+      }
+    ).baseLikelihood = createExactQuantity(1, 2, "rate:share");
+    expectSnapshotIntegrityFailure(baseLikelihood);
+
+    const finalLikelihood = structuredClone(valid);
+    (
+      finalLikelihood.history.incidents[0]!.occurrence as {
+        likelihood: ExactQuantity;
+      }
+    ).likelihood = createExactQuantity(1, 2, "rate:share");
+    expectSnapshotIntegrityFailure(finalLikelihood);
+
+    const prerequisite = structuredClone(valid);
+    (
+      prerequisite.history.incidents[0]!.occurrence.prerequisiteResults[0] as {
+        status: string;
+      }
+    ).status = "unsatisfied";
+    expectSnapshotIntegrityFailure(prerequisite);
+
+    const modifier = structuredClone(valid);
+    (
+      modifier.history.incidents[0]!.occurrence
+        .appliedLikelihoodModifiers[0] as unknown as {
+        applied: boolean;
+        sourceEntityIds: EntityId[];
+      }
+    ).applied = true;
+    expectSnapshotIntegrityFailure(modifier);
+
+    const modifierFactor = structuredClone(valid);
+    (
+      modifierFactor.history.incidents[0]!.occurrence
+        .appliedLikelihoodModifiers[0] as unknown as {
+        factor: ExactQuantity;
+      }
+    ).factor = createExactQuantity(1, 3, "rate:share");
+    expectSnapshotIntegrityFailure(modifierFactor);
+
+    const modifierSource = structuredClone(valid);
+    (
+      modifierSource.history.incidents[0]!.occurrence
+        .appliedLikelihoodModifiers[0] as unknown as {
+        sourceEntityIds: EntityId[];
+      }
+    ).sourceEntityIds = [createStableId("incident", "corrupt:modifier-source")];
+    expectSnapshotIntegrityFailure(modifierSource);
+
+    const rngKey = structuredClone(valid);
+    (rngKey.history.incidents[0]!.occurrence.rng as { key: string }).key =
+      "fabricated-incident-rng-key";
+    expectSnapshotIntegrityFailure(rngKey);
+
+    const rngDraw = structuredClone(valid);
+    const draw = rngDraw.history.incidents[0]!.occurrence.rng!;
+    (draw as { draw: number }).draw = (draw.draw + 1) % 4_294_967_296;
+    expectSnapshotIntegrityFailure(rngDraw);
+
+    const rngResult = structuredClone(valid);
+    (
+      rngResult.history.incidents[0]!.occurrence.rng as { occurred: boolean }
+    ).occurred = false;
+    expectSnapshotIntegrityFailure(rngResult);
+
+    const unavailableAtClaimedFrontier = structuredClone(valid);
+    (
+      unavailableAtClaimedFrontier.history.incidents[0]!.occurrence.cutoff as {
+        historySequenceExclusive: number;
+      }
+    ).historySequenceExclusive = 0;
+    expectSnapshotIntegrityFailure(unavailableAtClaimedFrontier);
+
+    const blockerWorld = occurIncident(prepared.world, {
+      stableKey: "snapshot:blocker",
+      evaluation: evaluate(
+        prepared.world,
+        prepared.slowdown,
+        "snapshot:blocker",
+        [],
+      ),
+      summary: "A non-blocked economic condition occurred.",
+      visibility: "public",
+    });
+    const blocker = structuredClone(blockerWorld);
+    (
+      blocker.history.incidents[0]!.occurrence.blockerResults[0] as {
+        status: string;
+      }
+    ).status = "satisfied";
+    expectSnapshotIntegrityFailure(blocker);
   });
 
   it("keeps likelihood modifiers separate from consequence risk factors", () => {
@@ -534,8 +648,7 @@ describe("Stage 6 Run D generalized incident substrate", () => {
       /invalid transition plan/i,
     );
 
-    const manualState = corrupted.history.incidentStates.at(-1)!;
-    expect(manualState.status).toBe("active");
+    expect(corrupted.history.incidentStates.at(-1)?.status).toBe("active");
     const registry = createFutureTransitionHandlerRegistry([
       [INCIDENT_TRANSITION_KEY, incidentTransitionHandler],
     ]);
@@ -599,6 +712,149 @@ describe("Stage 6 Run D generalized incident substrate", () => {
     ).toBe("incident:already-resolved");
   });
 
+  it("requires a transition plan source state to still be current when it is scheduled", () => {
+    const prepared = runDWorld("run-d-due-creation-frontier");
+    const occurred = occurHazard(
+      withPopulation(prepared.world, "population"),
+      prepared.hazard,
+    );
+    let world = recordIncidentTransitionPlan(occurred.world, {
+      stableKey: "hazard:old-plan",
+      incidentId: occurred.incident.id,
+      dueAt: makeIsoDate("2026-01-08"),
+      targetStatus: "resolved",
+      phaseKey: "incident:ended",
+      reasonKey: "incident:recovered",
+      context: null,
+      consequences: [],
+    });
+    const oldPlan = world.history.incidentTransitionPlans.at(-1)!;
+    world = recordIncidentTransitionPlan(world, {
+      stableKey: "hazard:response-plan",
+      incidentId: occurred.incident.id,
+      dueAt: makeIsoDate("2026-01-07"),
+      targetStatus: "active",
+      phaseKey: "incident:response",
+      reasonKey: "incident:response-recorded",
+      context: null,
+      consequences: [],
+    });
+    const responsePlan = world.history.incidentTransitionPlans.at(-1)!;
+    world = scheduleIncidentTransition(world, {
+      stableKey: "hazard:response-due",
+      transitionPlanId: responsePlan.id,
+    });
+    world = advanceWorld(
+      world,
+      2,
+      createFutureTransitionHandlerRegistry([
+        [INCIDENT_TRANSITION_KEY, incidentTransitionHandler],
+      ]),
+    );
+    const beforeRejectedWriter = structuredClone(world);
+    expect(() =>
+      scheduleIncidentTransition(world, {
+        stableKey: "hazard:old-plan-due",
+        transitionPlanId: oldPlan.id,
+      }),
+    ).toThrow(/no longer current/i);
+    expect(world).toStrictEqual(beforeRejectedWriter);
+
+    expect(() =>
+      scheduleFutureDueItem(world, {
+        stableKey: "hazard:old-plan-generic-due",
+        dueAt: oldPlan.dueAt,
+        transitionKey: INCIDENT_TRANSITION_KEY,
+        entityIds: [oldPlan.id],
+        jurisdictionId: scope(world).jurisdictionId,
+        provenance: { kind: "simulated", sourceEntityIds: [oldPlan.id] },
+      }),
+    ).toThrow(/invalid when scheduled/i);
+    expect(world).toStrictEqual(beforeRejectedWriter);
+
+    const source = structuredClone(world);
+    const dueStableKey = "hazard:old-plan-corrupt-due";
+    const dueSequence = source.history.nextSequence;
+    const dueId = createStableId(
+      "future-due-item",
+      `${source.id}:${dueStableKey}`,
+    );
+    const corrupted: World = {
+      ...source,
+      history: {
+        ...source.history,
+        nextSequence: dueSequence + 2,
+        futureDueItems: [
+          ...source.history.futureDueItems,
+          {
+            id: dueId,
+            stableKey: dueStableKey,
+            sequence: dueSequence,
+            scheduledAt: source.currentDate,
+            dueAt: oldPlan.dueAt,
+            transitionKey: INCIDENT_TRANSITION_KEY,
+            entityIds: [oldPlan.id],
+            jurisdictionId: scope(source).jurisdictionId,
+            provenance: { kind: "simulated", sourceEntityIds: [oldPlan.id] },
+          },
+        ],
+        futureDueItemStates: [
+          ...source.history.futureDueItemStates,
+          {
+            id: createStableId(
+              "future-due-item-state",
+              `${source.id}:${dueStableKey}:state:scheduled`,
+            ),
+            stableKey: `${dueStableKey}:state:scheduled`,
+            sequence: dueSequence + 1,
+            dueItemId: dueId,
+            effectiveAt: source.currentDate,
+            status: "scheduled",
+            reasonKey: null,
+            context: null,
+            outcomeEventId: null,
+            supersedesStateId: null,
+          },
+        ],
+      },
+    };
+    expect(() => assertWorldIntegrity(corrupted)).toThrow(
+      /invalid when scheduled/i,
+    );
+    expect(() => deserializeWorld(serializeUnchecked(corrupted))).toThrow(
+      /invalid when scheduled/i,
+    );
+
+    world = recordIncidentTransitionPlan(world, {
+      stableKey: "hazard:terminal-plan",
+      incidentId: occurred.incident.id,
+      dueAt: makeIsoDate("2026-01-08"),
+      targetStatus: "resolved",
+      phaseKey: "incident:ended",
+      reasonKey: "incident:recovered",
+      context: null,
+      consequences: [],
+    });
+    const terminalPlan = world.history.incidentTransitionPlans.at(-1)!;
+    world = scheduleIncidentTransition(world, {
+      stableKey: "hazard:terminal-due",
+      transitionPlanId: terminalPlan.id,
+    });
+    world = advanceWorld(
+      world,
+      1,
+      createFutureTransitionHandlerRegistry([
+        [INCIDENT_TRANSITION_KEY, incidentTransitionHandler],
+      ]),
+    );
+    expect(() =>
+      scheduleIncidentTransition(world, {
+        stableKey: "hazard:terminal-old-plan-due",
+        transitionPlanId: oldPlan.id,
+      }),
+    ).toThrow(/terminal incident/i);
+  });
+
   it("persists exact incident history and supports actor-initiated ordinary truth", () => {
     const prepared = runDWorld("run-d-json");
     const world = recordActorInitiatedIncident(prepared.world, {
@@ -622,6 +878,7 @@ describe("Stage 6 Run D generalized incident substrate", () => {
       incidentsByDefinitionAt(world, prepared.civic.id, cutoff(world)),
     ).toHaveLength(1);
     const payload = serializeWorld(world);
+    expect(world.history.incidents[0]?.occurrence.rng).toBeNull();
     expect(deserializeWorld(payload)).toStrictEqual(world);
   });
 
