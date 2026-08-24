@@ -648,11 +648,17 @@ describe("knowledge, expertise, and lived context", () => {
             : [],
         ),
       )
-      .find(({ facts, subjectId }) =>
-        facts.every(
-          (fact) =>
-            fact.kind !== "occupation" || !fact.subjectIds.includes(subjectId),
-        ),
+      .find(
+        ({ id, facts, subjectId }) =>
+          facts.every(
+            (fact) =>
+              fact.kind !== "occupation" ||
+              !fact.subjectIds.includes(subjectId),
+          ) &&
+          world.history.subjectKnowledge.every(
+            (record) =>
+              record.personId !== id || record.subjectId !== subjectId,
+          ),
       );
     const occupationFixture = candidates
       .flatMap(({ id, facts }) =>
@@ -667,11 +673,16 @@ describe("knowledge, expertise, and lived context", () => {
             : [],
         ),
       )
-      .find(({ facts, subjectId }) =>
-        facts.every(
-          (fact) =>
-            fact.kind !== "education" || !fact.subjectIds.includes(subjectId),
-        ),
+      .find(
+        ({ id, facts, subjectId }) =>
+          facts.every(
+            (fact) =>
+              fact.kind !== "education" || !fact.subjectIds.includes(subjectId),
+          ) &&
+          world.history.subjectKnowledge.every(
+            (record) =>
+              record.personId !== id || record.subjectId !== subjectId,
+          ),
       );
     if (!educationFixture || !occupationFixture) {
       throw new Error(
@@ -2010,7 +2021,7 @@ describe("sparse scaling, persistence, and determinism", () => {
     const parsed = JSON.parse(payload) as { readonly formatVersion: number };
     const restored = deserializeWorld(payload);
 
-    expect(parsed.formatVersion).toBe(9);
+    expect(parsed.formatVersion).toBe(10);
     expect(restored).toStrictEqual(world);
     expect(restored.policyCatalog).toStrictEqual(world.policyCatalog);
     expect(restored.history.privateBeliefs).toStrictEqual(

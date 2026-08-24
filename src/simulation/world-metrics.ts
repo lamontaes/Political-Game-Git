@@ -40,6 +40,7 @@ export interface WorldMetricDefinitionInput {
   readonly denominatorMetricId: EntityId | null;
   readonly aggregationKind: WorldMetricDefinition["aggregationKind"];
   readonly aggregationNote: string;
+  readonly stateSemantics: WorldMetricDefinition["stateSemantics"];
   readonly tags: readonly string[];
 }
 
@@ -108,7 +109,7 @@ export function createWorldMetricCatalog(
     ]),
   );
   const catalog: WorldMetricCatalog = {
-    catalogVersion: "world-metric-catalog-v1",
+    catalogVersion: "world-metric-catalog-v2",
     definitions,
     definitionOrder: input.definitions.map((definition) => definition.id),
   };
@@ -130,6 +131,7 @@ export function createSyntheticWorldMetricCatalog(): WorldMetricCatalog {
     aggregationKind: "sum-compatible",
     aggregationNote:
       "May be summed only across caller-proven disjoint geographic scopes.",
+    stateSemantics: "primitive",
     tags: ["population.residents"],
   });
   const employmentRate = createWorldMetricDefinition({
@@ -145,6 +147,7 @@ export function createSyntheticWorldMetricCatalog(): WorldMetricCatalog {
     aggregationKind: "derived-only",
     aggregationNote:
       "Rates require denominator-aware derivation and cannot be summed directly.",
+    stateSemantics: "primitive",
     tags: ["labor.rate"],
   });
   const aggregateIncome = createWorldMetricDefinition({
@@ -160,10 +163,239 @@ export function createSyntheticWorldMetricCatalog(): WorldMetricCatalog {
     aggregationKind: "sum-compatible",
     aggregationNote:
       "May be summed only for the same currency, period, and disjoint scopes.",
+    stateSemantics: "primitive",
     tags: ["economy.income"],
   });
+  const laborForce = createWorldMetricDefinition({
+    stableKey: "labor.force-count",
+    name: "Labor force",
+    description: "Canonical labor-force population at a point in time.",
+    domainKey: "labor.population",
+    valueKind: "quantity",
+    quantityUnit: makeQuantityUnitKey("count:people"),
+    measureNature: "stock",
+    referencePeriodKind: "point",
+    denominatorMetricId: residentPopulation.id,
+    aggregationKind: "sum-compatible",
+    aggregationNote:
+      "May be summed only across caller-proven disjoint scopes at the same point.",
+    stateSemantics: "primitive",
+    tags: ["labor.population"],
+  });
+  const employedPopulation = createWorldMetricDefinition({
+    stableKey: "labor.employed-count",
+    name: "Employed population",
+    description:
+      "Canonical employed labor-force population at a point in time.",
+    domainKey: "labor.population",
+    valueKind: "quantity",
+    quantityUnit: makeQuantityUnitKey("count:people"),
+    measureNature: "stock",
+    referencePeriodKind: "point",
+    denominatorMetricId: laborForce.id,
+    aggregationKind: "sum-compatible",
+    aggregationNote:
+      "May be summed only across caller-proven disjoint scopes at the same point.",
+    stateSemantics: "primitive",
+    tags: ["labor.employment", "labor.population"],
+  });
+  const unemployedPopulation = createWorldMetricDefinition({
+    stableKey: "labor.unemployed-count",
+    name: "Unemployed population",
+    description: "Derived labor force minus employed population.",
+    domainKey: "labor.population",
+    valueKind: "quantity",
+    quantityUnit: makeQuantityUnitKey("count:people"),
+    measureNature: "stock",
+    referencePeriodKind: "point",
+    denominatorMetricId: laborForce.id,
+    aggregationKind: "derived-only",
+    aggregationNote:
+      "Derived from coherent same-scope labor-force and employed counts; never independently summed or written.",
+    stateSemantics: "derived",
+    tags: ["labor.unemployment"],
+  });
+  const unemploymentRate = createWorldMetricDefinition({
+    stableKey: "labor.unemployment-rate",
+    name: "Unemployment rate",
+    description: "Derived unemployed population divided by labor force.",
+    domainKey: "labor.employment",
+    valueKind: "quantity",
+    quantityUnit: makeQuantityUnitKey("rate:share"),
+    measureNature: "rate",
+    referencePeriodKind: "point",
+    denominatorMetricId: laborForce.id,
+    aggregationKind: "derived-only",
+    aggregationNote:
+      "Derived from coherent same-scope counts and cannot be summed or written independently.",
+    stateSemantics: "derived",
+    tags: ["labor.rate", "labor.unemployment"],
+  });
+  const laborIncome = createWorldMetricDefinition({
+    stableKey: "labor.aggregate-income",
+    name: "Aggregate labor income",
+    description:
+      "Exact aggregate labor-income proxy over an explicit interval.",
+    domainKey: "labor.income",
+    valueKind: "money",
+    quantityUnit: null,
+    measureNature: "flow",
+    referencePeriodKind: "interval",
+    denominatorMetricId: null,
+    aggregationKind: "sum-compatible",
+    aggregationNote:
+      "May be summed only for the same currency, interval, and disjoint scopes.",
+    stateSemantics: "primitive",
+    tags: ["economy.income", "labor.income"],
+  });
+  const costLevel = createWorldMetricDefinition({
+    stableKey: "prices.cost-level",
+    name: "Cost level",
+    description: "Exact aggregate price/cost index at a point in time.",
+    domainKey: "economy.prices",
+    valueKind: "quantity",
+    quantityUnit: makeQuantityUnitKey("index:cost-level"),
+    measureNature: "index",
+    referencePeriodKind: "point",
+    denominatorMetricId: null,
+    aggregationKind: "not-aggregatable",
+    aggregationNote: "Index levels cannot be summed across scopes.",
+    stateSemantics: "primitive",
+    tags: ["economy.cost", "economy.prices"],
+  });
+  const consumptionDemand = createWorldMetricDefinition({
+    stableKey: "economy.consumption-demand",
+    name: "Aggregate consumption demand",
+    description: "Exact aggregate consumption/demand proxy over an interval.",
+    domainKey: "economy.demand",
+    valueKind: "money",
+    quantityUnit: null,
+    measureNature: "flow",
+    referencePeriodKind: "interval",
+    denominatorMetricId: null,
+    aggregationKind: "sum-compatible",
+    aggregationNote:
+      "May be summed only for the same currency, interval, and disjoint scopes.",
+    stateSemantics: "primitive",
+    tags: ["economy.consumption", "economy.demand"],
+  });
+  const outputActivity = createWorldMetricDefinition({
+    stableKey: "economy.output-activity",
+    name: "Aggregate output activity",
+    description:
+      "Exact aggregate output/business-activity proxy over an interval.",
+    domainKey: "economy.output",
+    valueKind: "money",
+    quantityUnit: null,
+    measureNature: "flow",
+    referencePeriodKind: "interval",
+    denominatorMetricId: null,
+    aggregationKind: "sum-compatible",
+    aggregationNote:
+      "May be summed only for the same currency, interval, and disjoint scopes.",
+    stateSemantics: "primitive",
+    tags: ["economy.business-activity", "economy.output"],
+  });
+  const housingPressure = createWorldMetricDefinition({
+    stableKey: "housing.availability-pressure",
+    name: "Housing availability pressure",
+    description:
+      "Exact aggregate housing availability/pressure index at a point.",
+    domainKey: "housing.conditions",
+    valueKind: "quantity",
+    quantityUnit: makeQuantityUnitKey("index:housing-pressure"),
+    measureNature: "index",
+    referencePeriodKind: "point",
+    denominatorMetricId: null,
+    aggregationKind: "not-aggregatable",
+    aggregationNote: "Pressure indexes cannot be summed across scopes.",
+    stateSemantics: "primitive",
+    tags: ["housing.aggregate", "housing.pressure"],
+  });
+  const governmentRevenue = createWorldMetricDefinition({
+    stableKey: "government.revenue",
+    name: "Government revenue",
+    description: "Exact aggregate government revenue over an interval.",
+    domainKey: "government.fiscal",
+    valueKind: "money",
+    quantityUnit: null,
+    measureNature: "flow",
+    referencePeriodKind: "interval",
+    denominatorMetricId: null,
+    aggregationKind: "sum-compatible",
+    aggregationNote:
+      "May be summed only for the same currency, interval, and nonoverlapping fiscal scopes.",
+    stateSemantics: "primitive",
+    tags: ["government.fiscal", "government.revenue"],
+  });
+  const governmentOutlays = createWorldMetricDefinition({
+    stableKey: "government.outlays",
+    name: "Government outlays",
+    description: "Exact aggregate government outlays over an interval.",
+    domainKey: "government.fiscal",
+    valueKind: "money",
+    quantityUnit: null,
+    measureNature: "flow",
+    referencePeriodKind: "interval",
+    denominatorMetricId: null,
+    aggregationKind: "sum-compatible",
+    aggregationNote:
+      "May be summed only for the same currency, interval, and nonoverlapping fiscal scopes.",
+    stateSemantics: "primitive",
+    tags: ["government.fiscal", "government.outlays"],
+  });
+  const governmentDebt = createWorldMetricDefinition({
+    stableKey: "government.debt",
+    name: "Government debt",
+    description: "Exact aggregate government debt outstanding at a point.",
+    domainKey: "government.fiscal",
+    valueKind: "money",
+    quantityUnit: null,
+    measureNature: "stock",
+    referencePeriodKind: "point",
+    denominatorMetricId: null,
+    aggregationKind: "not-aggregatable",
+    aggregationNote:
+      "Debt stocks require authority-aware consolidation and cannot be automatically summed.",
+    stateSemantics: "primitive",
+    tags: ["government.debt", "government.fiscal"],
+  });
+  const fiscalBalance = createWorldMetricDefinition({
+    stableKey: "government.fiscal-balance",
+    name: "Government fiscal balance",
+    description:
+      "Derived revenue minus outlays for one scope, interval, and currency.",
+    domainKey: "government.fiscal",
+    valueKind: "money",
+    quantityUnit: null,
+    measureNature: "flow",
+    referencePeriodKind: "interval",
+    denominatorMetricId: null,
+    aggregationKind: "derived-only",
+    aggregationNote:
+      "Derived from same-scope, same-period, same-currency revenue and outlays; never independently written.",
+    stateSemantics: "derived",
+    tags: ["government.balance", "government.fiscal"],
+  });
   return createWorldMetricCatalog({
-    definitions: [residentPopulation, employmentRate, aggregateIncome],
+    definitions: [
+      residentPopulation,
+      employmentRate,
+      aggregateIncome,
+      laborForce,
+      employedPopulation,
+      unemployedPopulation,
+      unemploymentRate,
+      laborIncome,
+      costLevel,
+      consumptionDemand,
+      outputActivity,
+      housingPressure,
+      governmentRevenue,
+      governmentOutlays,
+      governmentDebt,
+      fiscalBalance,
+    ],
   });
 }
 
@@ -185,7 +417,7 @@ export function cloneWorldMetricCatalog(
 export function assertWorldMetricCatalogIntegrity(
   catalog: WorldMetricCatalog,
 ): void {
-  if (catalog.catalogVersion !== "world-metric-catalog-v1") {
+  if (catalog.catalogVersion !== "world-metric-catalog-v2") {
     throw new Error("Unsupported world-metric catalog version.");
   }
   const recordIds = Object.keys(catalog.definitions).sort();
@@ -235,6 +467,20 @@ export function assertWorldMetricCatalogIntegrity(
       throw new Error(`Invalid metric aggregation kind: ${id}`);
     }
     assertNonEmpty(definition.aggregationNote, "Metric aggregation note");
+    if (
+      definition.stateSemantics !== "primitive" &&
+      definition.stateSemantics !== "derived"
+    ) {
+      throw new Error(`Invalid metric state semantics: ${id}`);
+    }
+    if (
+      definition.stateSemantics === "derived" &&
+      definition.aggregationKind !== "derived-only"
+    ) {
+      throw new Error(
+        `Derived metric must use derived-only aggregation: ${id}`,
+      );
+    }
     if (definition.valueKind === "quantity") {
       if (definition.quantityUnit === null) {
         throw new Error(`Quantity metric requires an expected unit: ${id}`);
@@ -519,6 +765,11 @@ function validateStateRecord(
 ): void {
   assertNonEmpty(record.stableKey, "Metric-state stable key");
   const definition = requireMetricDefinition(world, record.metricId);
+  if (definition.stateSemantics === "derived") {
+    throw new Error(
+      `Derived metric cannot be committed as independent canonical truth: ${record.metricId}`,
+    );
+  }
   validateScope(world, record.scope);
   validateReferencePeriodForDefinition(record.referencePeriod, definition);
   validateMetricValue(record.value, definition);
@@ -772,6 +1023,16 @@ function canonicalSourceAvailable(
   if (event) {
     return event.recordedAt <= asOfDate && event.sequence < sequenceExclusive;
   }
+  const causalRecord = [
+    ...world.history.causalProcesses,
+    ...world.history.effectActivations,
+  ].find((record) => record.id === id);
+  if (causalRecord) {
+    return (
+      causalRecord.recordedAt <= asOfDate &&
+      causalRecord.sequence < sequenceExclusive
+    );
+  }
   const metricRecord = [
     ...world.history.metricStates,
     ...world.history.metricObservations,
@@ -821,13 +1082,27 @@ function validateScope(world: World, scope: MetricScope): void {
   }
 }
 
-function requireMetricDefinition(
+export function requireMetricDefinition(
   world: World,
   metricId: EntityId,
 ): WorldMetricDefinition {
   const definition = world.metricCatalog.definitions[metricId];
   if (!definition)
     throw new Error(`Missing world-metric definition: ${metricId}`);
+  return definition;
+}
+
+export function worldMetricDefinitionByStableKey(
+  world: World,
+  stableKey: string,
+): WorldMetricDefinition {
+  assertDottedContentKey(stableKey, "Metric definition stable key");
+  const definition = world.metricCatalog.definitionOrder
+    .map((id) => world.metricCatalog.definitions[id])
+    .find((candidate) => candidate?.stableKey === stableKey);
+  if (!definition) {
+    throw new Error(`Missing world-metric definition key: ${stableKey}`);
+  }
   return definition;
 }
 
@@ -878,12 +1153,17 @@ function cloneStateProvenance(
       : { ...provenance };
 }
 
-function sameScope(left: MetricScope, right: MetricScope): boolean {
+export function sameMetricScope(
+  left: MetricScope,
+  right: MetricScope,
+): boolean {
   return (
     left.jurisdictionId === right.jurisdictionId &&
     left.segmentKey === right.segmentKey
   );
 }
+
+const sameScope = sameMetricScope;
 
 export function sameReferencePeriod(
   left: MetricReferencePeriod,

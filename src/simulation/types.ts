@@ -9,6 +9,8 @@ export type CurrencyCode = string & { readonly [currencyCodeBrand]: true };
 export type EntityKind =
   | "appraisal"
   | "belief"
+  | "causal-mechanism-definition"
+  | "causal-process"
   | "care-responsibility"
   | "care-state"
   | "child-authority"
@@ -24,6 +26,7 @@ export type EntityKind =
   | "event"
   | "education-enrollment"
   | "education-enrollment-state"
+  | "effect-activation"
   | "fact"
   | "goal"
   | "goal-state"
@@ -1355,6 +1358,7 @@ export type MetricMeasureNature = "stock" | "flow" | "rate" | "index";
 export type ReferencePeriodKind = "point" | "interval";
 export type MetricAggregationKind =
   "not-aggregatable" | "sum-compatible" | "derived-only";
+export type MetricStateSemantics = "primitive" | "derived";
 export type MetricDomainKey = `${string}.${string}`;
 export type MetricSegmentKey = `${string}.${string}`;
 
@@ -1384,14 +1388,164 @@ export interface WorldMetricDefinition {
   readonly denominatorMetricId: EntityId | null;
   readonly aggregationKind: MetricAggregationKind;
   readonly aggregationNote: string;
+  readonly stateSemantics: MetricStateSemantics;
   readonly tags: readonly string[];
 }
 
 export interface WorldMetricCatalog {
-  readonly catalogVersion: "world-metric-catalog-v1";
+  readonly catalogVersion: "world-metric-catalog-v2";
   readonly definitions: Readonly<Record<string, WorldMetricDefinition>>;
   readonly definitionOrder: readonly EntityId[];
 }
+
+export type CausalMechanismResponseCurve =
+  { readonly kind: "linear" } | { readonly kind: "bounded-ease-out" };
+
+export interface CausalMechanismDefinition {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly name: string;
+  readonly description: string;
+  readonly domainKey: MetricDomainKey;
+  readonly responseCurve: CausalMechanismResponseCurve;
+  readonly tags: readonly string[];
+}
+
+export interface CausalMechanismCatalog {
+  readonly catalogVersion: "causal-mechanism-catalog-v1";
+  readonly definitions: Readonly<Record<string, CausalMechanismDefinition>>;
+  readonly definitionOrder: readonly EntityId[];
+}
+
+export type CausalProcessKind = `${string}:${string}`;
+export type EffectRealizationKind = `${string}:${string}`;
+
+export type CausalRecordProvenance =
+  | {
+      readonly kind: "simulated";
+      readonly sourceEntityIds: readonly EntityId[];
+    }
+  | {
+      readonly kind: "initialization";
+      readonly sourceReference: MetricSourceReference | null;
+    }
+  | { readonly kind: "authored"; readonly note: string };
+
+export interface CausalProcessRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly kind: CausalProcessKind;
+  readonly effectiveAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly sourceEntityIds: readonly EntityId[];
+  readonly parentCausalIds: readonly EntityId[];
+  readonly provenance: CausalRecordProvenance;
+}
+
+export type EffectDirection = "increase" | "decrease";
+
+export type EffectThreshold =
+  | { readonly kind: "target-at-least"; readonly value: WorldMetricValue }
+  | { readonly kind: "target-at-most"; readonly value: WorldMetricValue };
+
+export type EffectTargetBound =
+  | { readonly kind: "minimum"; readonly value: WorldMetricValue }
+  | { readonly kind: "maximum"; readonly value: WorldMetricValue };
+
+export interface EffectActivationRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly mechanismDefinitionId: EntityId;
+  readonly causalProcessId: EntityId;
+  readonly targetMetricId: EntityId;
+  readonly targetScope: MetricScope;
+  readonly direction: EffectDirection;
+  readonly magnitude: WorldMetricValue;
+  readonly activatedAt: IsoDate;
+  readonly onsetAt: IsoDate;
+  readonly maturesAt: IsoDate;
+  readonly endsAt: IsoDate | null;
+  readonly threshold: EffectThreshold | null;
+  readonly targetBound: EffectTargetBound | null;
+  readonly realizationKind: EffectRealizationKind;
+  readonly sourceEntityIds: readonly EntityId[];
+  readonly recordedAt: IsoDate;
+}
+
+export type EffectContributionPhase =
+  "not-started" | "ramping" | "mature" | "expired" | "threshold-not-met";
+
+export interface EffectContribution {
+  readonly effectActivationId: EntityId;
+  readonly causalProcessId: EntityId;
+  readonly rootCausalIds: readonly EntityId[];
+  readonly phase: EffectContributionPhase;
+  readonly factor: ExactQuantity;
+  readonly signedValue: WorldMetricValue;
+}
+
+export type AggregateMetricEvaluation =
+  | {
+      readonly status: "available";
+      readonly baselineStateId: EntityId;
+      readonly metricId: EntityId;
+      readonly scope: MetricScope;
+      readonly referencePeriod: MetricReferencePeriod;
+      readonly evaluatedAt: IsoDate;
+      readonly baselineValue: WorldMetricValue;
+      readonly resultingValue: WorldMetricValue;
+      readonly contributions: readonly EffectContribution[];
+      readonly rootCausalIds: readonly EntityId[];
+    }
+  | {
+      readonly status: "unavailable";
+      readonly reasonKey: `${string}:${string}`;
+      readonly missingMetricIds: readonly EntityId[];
+    };
+
+export type DerivedLaborMarket =
+  | {
+      readonly status: "available";
+      readonly residentPopulation: ExactQuantity;
+      readonly laborForce: ExactQuantity;
+      readonly employedPopulation: ExactQuantity;
+      readonly unemployedPopulation: ExactQuantity;
+      readonly unemploymentRate: ExactQuantity;
+      readonly sourceStateIds: readonly EntityId[];
+    }
+  | {
+      readonly status: "unavailable";
+      readonly reasonKey: `${string}:${string}`;
+      readonly missingMetricIds: readonly EntityId[];
+    };
+
+export type DerivedPurchasingPower =
+  | {
+      readonly status: "available";
+      readonly value: ExactQuantity;
+      readonly nominalIncomeStateId: EntityId;
+      readonly costLevelStateId: EntityId;
+    }
+  | {
+      readonly status: "unavailable";
+      readonly reasonKey: `${string}:${string}`;
+      readonly missingMetricIds: readonly EntityId[];
+    };
+
+export type DerivedFiscalBalance =
+  | {
+      readonly status: "available";
+      readonly balance: MoneyAmount;
+      readonly revenueStateId: EntityId;
+      readonly outlaysStateId: EntityId;
+    }
+  | {
+      readonly status: "unavailable";
+      readonly reasonKey: `${string}:${string}`;
+      readonly missingMetricIds: readonly EntityId[];
+    };
 
 export interface MetricSourceReference {
   readonly title: string;
@@ -1966,6 +2120,8 @@ export interface HistoryStore {
   readonly housingTenureStates: readonly HousingTenureStateRecord[];
   readonly metricStates: readonly WorldMetricStateRecord[];
   readonly metricObservations: readonly WorldMetricObservationRecord[];
+  readonly causalProcesses: readonly CausalProcessRecord[];
+  readonly effectActivations: readonly EffectActivationRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];
@@ -1989,8 +2145,8 @@ export interface HistoryStore {
 }
 
 export interface World {
-  readonly schemaVersion: 10;
-  readonly generatorVersion: "demo-world-v10";
+  readonly schemaVersion: 11;
+  readonly generatorVersion: "demo-world-v11";
   readonly id: EntityId;
   readonly seed: string;
   readonly startedAt: IsoDate;
@@ -2003,6 +2159,7 @@ export interface World {
   readonly policyCatalog: PolicyCatalog;
   readonly mindCatalog: MindCatalog;
   readonly metricCatalog: WorldMetricCatalog;
+  readonly causalMechanismCatalog: CausalMechanismCatalog;
   readonly control: ControlState;
   readonly history: HistoryStore;
 }

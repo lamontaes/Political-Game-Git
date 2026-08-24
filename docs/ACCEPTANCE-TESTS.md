@@ -412,7 +412,7 @@ Runtime transitions and snapshot loading reject dangling organization/person/jur
 
 ### NOW-101 — Stage 5 persists headlessly
 
-Current world schema 10 and snapshot format 9 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, resource, obligation, dwelling, occupancy, tenure, life-source, fatigue/resource-pressure, and generated-provenance record exactly alongside Stage 6 Run A history through deterministic JSON and the Node-only SQLite repository. The simulation and its tests import no React, DOM, browser, or SQLite runtime.
+Current world schema 11 and snapshot format 10 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, resource, obligation, dwelling, occupancy, tenure, life-source, fatigue/resource-pressure, and generated-provenance record exactly alongside Stage 6 metric/observation/causal/effect/due history through deterministic JSON and the Node-only SQLite repository. The simulation and its tests import no React, DOM, browser, or SQLite runtime.
 
 ### NOW-102 — Real career diversity uses general records
 
@@ -580,7 +580,39 @@ Past/impossible scheduling, missing references, malformed keys/status, invalid t
 
 ### NOW-143 — Stage 6 Run A persists and extends the permanent maximum-current gate
 
-World schema 10, generator `demo-world-v10`, snapshot format 9, and materializer 4 preserve the metric catalog, exact quantities/money, state corrections, observation sources/vintages/uncertainty, due identity/state, global sequence, provenance, and references through deterministic JSON and Node-only SQLite save/load/list/replace. The continuous Stage 5 character now also has jurisdictional metric truth, a differing public observation, explicit one-person knowledge, and an exactly-once future transition with one linked ordinary outcome event while retaining formative, education, work, household/care, resources/housing, relationship, appraisal, temporary-state, perception, and decision history. Runs B–E, Stage 7+, and player-facing UI remain unimplemented.
+World schema 11, generator `demo-world-v11`, snapshot format 10, and materializer 4 preserve the metric catalog, exact quantities/money, state corrections, observation sources/vintages/uncertainty, due identity/state, global sequence, provenance, and references through deterministic JSON and Node-only SQLite save/load/list/replace. The continuous character retains jurisdictional metric truth, a differing public observation, explicit one-person knowledge, and an exactly-once future transition with one linked ordinary outcome event while retaining formative, education, work, household/care, resources/housing, relationship, appraisal, temporary-state, perception, and decision history. Run B extends rather than replaces this gate; Runs C–E, Stage 7+, and player-facing UI remain unimplemented.
+
+### NOW-144 — Causal identity and ancestry remain distinct from occurrences
+
+An ordinary `HistoricalEvent` can source a stable append-oriented causal process without becoming a duplicate narrative event. One root can fan into multiple effect activations; a downstream process can cite an earlier causal parent; distinct-root queries deduplicate correlated branches; and independent roots remain separate even when they target the same metric. Missing/forward/self/cyclic ancestry is rejected.
+
+### NOW-145 — Exact response mechanisms preserve phase and dimensional meaning
+
+Linear and bounded nonlinear activations use exact rational factors and typed quantity/money magnitude. Tests prove zero before onset, exact partial ramp, full maturity, zero after exclusive expiry, threshold blocking, target bounds, and append-sequence deterministic same-date order. Wrong target kind/unit/currency, malformed threshold/bound, invalid timing, fractional minor-unit phasing, and unsafe arithmetic are rejected; no formula language or opaque callback is serialized.
+
+### NOW-146 — Effect activation does not silently mutate metric truth
+
+Creating a causal process or activation changes no metric state and grants no person knowledge. Explicit evaluation starts from a named historically available baseline, returns every contribution and distinct root, and preserves independent provenance. The deliberate result writer uses `recordWorldMetricState`, explicitly supersedes latest same-period truth, and cites baseline plus contributing activation IDs. Advancing time alone creates no economy record.
+
+### NOW-147 — Labor identities are coherent and derived
+
+Same-scope/same-point resident, labor-force, and employed counts derive unemployed population and exact unemployment share. Missing inputs or a zero denominator return explicit unavailable state rather than a fabricated zero. Negative counts, labor force above residents, and employment above labor force fail. Unemployed count/rate definitions reject independent canonical writes.
+
+### NOW-148 — Nominal income, cost, and aggregate proxies remain bounded
+
+An unchanged nominal aggregate-income record plus a changed cost-level record produces a changed exact purchasing-power projection retaining both source IDs without mutating income. Missing/nonpositive/incompatible inputs do not fabricate results. Consumption demand, output activity, labor income, and housing pressure remain typed aggregate metric records and create no people, organizations, firms, goods, markets, or hidden tick.
+
+### NOW-149 — Fiscal continuity derives balance from exact sources
+
+Government revenue/outlays are exact same-period money flows and government debt is a separate exact point stock. Fiscal balance derives revenue minus outlays and retains both source-state IDs. Different currencies, periods, or scopes fail, and the derived fiscal-balance definition cannot be independently written. No government account, appropriation, tax statute, agency budget, debt instrument, campaign finance, or organization accounting is created.
+
+### NOW-150 — Run B history is cutoff-safe, non-omniscient, and persistent
+
+Effective/recording date plus exclusive global sequence gates every causal/effect query; later-appended backfill is absent from earlier sequence views. Causal/economic truth becomes subjective only through the existing observation → ordinary release event → person knowledge bridge. World schema 11, metric catalog v2, causal catalog v1, generator `demo-world-v11`, snapshot 10, and materializer 4 preserve definitions, ancestry, activations, exact contributions/source references, and evaluated metric truth through deterministic JSON and Node-only SQLite save/load/list/replace.
+
+### NOW-151 — The permanent maximum-current gate includes causal economy
+
+The continuous Stage 5 life/resource/housing/relationship/Stage-4 scenario retains Run A quantitative observation and future-transition behavior, then adds an ordinary root occurrence, one root fanning into output and housing effects, an independent second root affecting output, explicit canonical aggregate evaluation, a differing public observation known only by the chosen person, root deduplication, historical before/after cutoffs, exactly-once due resolution, and exact JSON round-trip. Run C policy operations, Run D incidents, Run E mortality/evidence, Stage 7+, and UI remain absent.
 
 ## Manual Now
 

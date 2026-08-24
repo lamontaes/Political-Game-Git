@@ -95,6 +95,100 @@ export function subtractExactQuantities(
   return combineExactQuantities(left, right, -1);
 }
 
+function multiplyExactQuantities(
+  left: ExactQuantity,
+  right: ExactQuantity,
+  resultUnit: string,
+): ExactQuantity {
+  assertExactQuantity(left);
+  assertExactQuantity(right);
+  const leftNumeratorDivisor = greatestCommonDivisor(
+    Math.abs(left.numerator),
+    right.denominator,
+  );
+  const rightNumeratorDivisor = greatestCommonDivisor(
+    Math.abs(right.numerator),
+    left.denominator,
+  );
+  return createExactQuantity(
+    safeMultiply(
+      left.numerator / leftNumeratorDivisor,
+      right.numerator / rightNumeratorDivisor,
+      "Quantity multiplication",
+    ),
+    safeMultiply(
+      left.denominator / rightNumeratorDivisor,
+      right.denominator / leftNumeratorDivisor,
+      "Quantity multiplication",
+    ),
+    resultUnit,
+  );
+}
+
+export function divideExactQuantities(
+  dividend: ExactQuantity,
+  divisor: ExactQuantity,
+  resultUnit: string,
+): ExactQuantity {
+  assertExactQuantity(dividend);
+  assertExactQuantity(divisor);
+  if (dividend.unit !== divisor.unit) {
+    throw new Error("Exact quantity division requires compatible units.");
+  }
+  if (divisor.numerator === 0) {
+    throw new Error("Cannot divide an exact quantity by zero.");
+  }
+  const sign = divisor.numerator < 0 ? -1 : 1;
+  const reciprocal = createExactQuantity(
+    sign * divisor.denominator,
+    Math.abs(divisor.numerator),
+    "ratio:reciprocal",
+  );
+  return multiplyExactQuantities(dividend, reciprocal, resultUnit);
+}
+
+export function multiplyExactShares(
+  left: ExactQuantity,
+  right: ExactQuantity,
+): ExactQuantity {
+  if (left.unit !== "rate:share" || right.unit !== "rate:share") {
+    throw new Error("Exact share multiplication requires rate:share inputs.");
+  }
+  return multiplyExactQuantities(left, right, "rate:share");
+}
+
+export function scaleExactQuantity(
+  value: ExactQuantity,
+  factor: ExactQuantity,
+): ExactQuantity {
+  if (factor.unit !== "rate:share") {
+    throw new Error("Exact quantity scale factor must use rate:share.");
+  }
+  return multiplyExactQuantities(value, factor, value.unit);
+}
+
+export function scaleSafeIntegerByExactShare(
+  value: number,
+  factor: ExactQuantity,
+): number {
+  assertSafeInteger(value, "Scaled integer");
+  assertExactQuantity(factor);
+  if (factor.unit !== "rate:share") {
+    throw new Error("Exact integer scale factor must use rate:share.");
+  }
+  const divisor = greatestCommonDivisor(Math.abs(value), factor.denominator);
+  const numerator = safeMultiply(
+    value / divisor,
+    factor.numerator,
+    "Exact integer scaling",
+  );
+  const denominator = factor.denominator / divisor;
+  if (numerator % denominator !== 0) {
+    throw new Error("Exact integer scaling would create a fractional unit.");
+  }
+  return numerator / denominator;
+}
+
 function combineExactQuantities(
   left: ExactQuantity,
   right: ExactQuantity,

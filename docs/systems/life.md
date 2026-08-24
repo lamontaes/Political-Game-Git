@@ -80,7 +80,7 @@ The public life query API includes organization/profile history; work relationsh
 
 All canonical life queries use date plus append-sequence availability. This distinguishes historical state from later-appended backfill and preserves unrelated insertion-order independence. Stable life roots and state records participate in integrity checks for IDs, append order, references, chronology, lifecycle transitions, supersession, taxonomy, provenance, residence overlap, and stored load derivation. A closed typed life-history reference lets Stage 4 perceptions, appraisals, decisions, and frozen source snapshots cite only actor-involved canonical records that existed before their date-and-sequence cutoff.
 
-World schema 10, generator `demo-world-v10`, and snapshot format 9 serialize the complete Stage 5 graph together with Stage 6 Run A metric/due histories, generated provenance, bounded context people, exact money, and typed life sources through deterministic JSON and the Node-only SQLite repository. Person materializer version 4 and Stage 5 life semantics remain unchanged. Unsupported older versions remain rejected until a migration chain exists.
+World schema 11, generator `demo-world-v11`, and snapshot format 10 serialize the complete Stage 5 graph together with Stage 6 metric/observation/causal/effect/due histories, generated provenance, bounded context people, exact money, and typed life sources through deterministic JSON and the Node-only SQLite repository. Person materializer version 4 and Stage 5 life semantics remain unchanged. Unsupported older versions remain rejected until a migration chain exists.
 
 ## Run B Character-History Composition
 
@@ -96,4 +96,4 @@ Adult-path helpers compose rather than replace the shared graph. Apprenticeship 
 
 ## Explicit Boundary
 
-Stage 5 owns the implemented bounded formative/adult paths, personal/household resources, sparse housing, and relationship integration. Stage 6 owns the generalized event engine, macro/world metrics, economy, and shocks. Stage 7 owns mutable law, effective eligibility rules, institutional powers, and territory-specific legal/political data. Campaign/organization/government finance, campaigns, elections, political office, player scheduling UI, and polished player-facing presentation remain later work.
+Stage 5 owns the implemented bounded formative/adult paths, personal/household resources, sparse housing, and relationship integration. Stage 6 now owns exact world metrics, causal mechanisms, and a bounded aggregate economy; generalized incidents, policy operations, mortality/evidence, and full macroeconomic systems remain later bounded runs/stages. Stage 7 owns mutable law, effective eligibility rules, institutional powers, and territory-specific legal/political data. Campaign/organization finance, detailed government finance, campaigns, elections, political office, player scheduling UI, and polished player-facing presentation remain later work.

@@ -669,6 +669,16 @@ function canonicalEntityAvailable(
   if (worldMetricEntityExists(world, id)) {
     return worldMetricEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   }
+  const causalRecord = [
+    ...world.history.causalProcesses,
+    ...world.history.effectActivations,
+  ].find((record) => record.id === id);
+  if (causalRecord) {
+    return (
+      causalRecord.recordedAt <= asOfDate &&
+      causalRecord.sequence < sequenceExclusive
+    );
+  }
   const event = world.history.events.find((record) => record.id === id);
   return !!(
     event &&

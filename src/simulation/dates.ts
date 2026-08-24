@@ -66,6 +66,31 @@ export function addDays(date: IsoDate, days: number): IsoDate {
   );
 }
 
+export function daysBetween(start: IsoDate, end: IsoDate): number {
+  const startDate = makeIsoDate(start);
+  const endDate = makeIsoDate(end);
+  const startParts = ISO_DATE_PATTERN.exec(startDate);
+  const endParts = ISO_DATE_PATTERN.exec(endDate);
+  if (!startParts || !endParts) {
+    throw new Error("Unable to compare invalid ISO dates.");
+  }
+  const startTime = utcDate(
+    Number(startParts[1]),
+    Number(startParts[2]),
+    Number(startParts[3]),
+  ).getTime();
+  const endTime = utcDate(
+    Number(endParts[1]),
+    Number(endParts[2]),
+    Number(endParts[3]),
+  ).getTime();
+  const difference = (endTime - startTime) / 86_400_000;
+  if (!Number.isSafeInteger(difference)) {
+    throw new Error("Date difference exceeds safe integer precision.");
+  }
+  return difference;
+}
+
 export function yearOf(date: IsoDate): number {
   return Number(date.slice(0, 4));
 }

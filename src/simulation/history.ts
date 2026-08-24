@@ -332,6 +332,8 @@ export function createHistoryStore(): HistoryStore {
     housingTenureStates: [],
     metricStates: [],
     metricObservations: [],
+    causalProcesses: [],
+    effectActivations: [],
     futureDueItems: [],
     futureDueItemStates: [],
     events: [],

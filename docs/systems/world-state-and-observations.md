@@ -1,6 +1,6 @@
 # World State, Observations, and Future Transitions
 
-Stage 6 Run A establishes quantitative truth, fallible measurement, and deterministic future transition identity without implementing economy dynamics, policy effects, or generalized event selection.
+Stage 6 Run A establishes quantitative truth, fallible measurement, and deterministic future transition identity. Run B composes those contracts with causal mechanisms and bounded aggregate economy without changing truth/observation or due-frontier semantics.
 
 ## Exact quantitative values
 
@@ -8,7 +8,7 @@ Stage 6 Run A establishes quantitative truth, fallible measurement, and determin
 
 ## Metric definitions, scope, and periods
 
-`WorldMetricCatalog` is definition metadata stored once per world, not append history. Definitions have deterministic stable IDs/keys, open domain and tags, quantity-or-money value kind, expected quantity unit, stock/flow/rate/index nature, point/interval period form, optional denominator metric, and explicit geographic-aggregation limitation. The synthetic starter catalog proves one point stock, one interval rate, and one interval money flow; it is not a production metric catalog or dynamics model. Derived formulas remain Run B work.
+`WorldMetricCatalog` is definition metadata stored once per world, not append history. Definitions have deterministic stable IDs/keys, open domain and tags, quantity-or-money value kind, expected quantity unit, stock/flow/rate/index nature, point/interval period form, optional denominator metric, explicit geographic-aggregation limitation, and primitive-versus-derived state semantics. Run B expands the synthetic catalog only for its bounded labor/income-cost/proxy/fiscal layer and prevents derived-only definitions from being written as independent truth; it is not a production dataset or automatic dynamics model.
 
 Every state or observation has an exact stable-jurisdiction scope and optional validated open segment key. No global unscoped value, 50-state enumeration, implicit geographic coverage, or missing-value zero exists. Reference periods remain a closed point-or-interval union. An interval retains both dates and is never treated as its end-date value.
 
@@ -42,8 +42,8 @@ Run A supplies only synthetic/test handlers. Elections, policy effective dates, 
 
 Metric state, observations, due items, and due states join the one contiguous `HistoryStore` sequence and deterministic stable-ID space. Integrity validates catalog identity/order, exact canonical quantities, type/unit/currency/period compatibility, scope and jurisdiction references, predecessor recording chronology, source availability, correction/revision chains, exact due-state vocabulary, due references/lifecycle/strict-overdue boundary, outcome-event links, and per-family append order both at write time and when loading a snapshot.
 
-World schema 10, generator `demo-world-v10`, and snapshot format 9 preserve the metric catalog and every new history family exactly through JSON and the Node-only SQLite repository. Person materializer version 4 remains unchanged. Unsupported older versions remain rejected; no fabricated migration sequence was added.
+World schema 11, generator `demo-world-v11`, metric catalog `world-metric-catalog-v2`, causal catalog `causal-mechanism-catalog-v1`, and snapshot format 10 preserve the metric/causal catalogs and every history family exactly through JSON and the Node-only SQLite repository. Person materializer version 4 remains unchanged. Unsupported older versions remain rejected; no fabricated migration sequence was added.
 
 ## Deferred systems
 
-Run A adds no effect graph, economy or fiscal tick, formula language, policy forecast/baseline/implementation, generalized event prerequisites/selection/chains, natural disaster or recession generator, mortality/incapacity/evidence system, law/institutions/elections/campaigns, media ecology, public opinion, territory-specific content, foreign-government simulation, or player-facing UI. Runs B–E and later stages own those boundaries.
+Run B now owns the bounded causal/effect and aggregate economy/fiscal derivation layer described in [Causal Mechanisms, Lightweight Economy, and Fiscal Continuity](causal-economy-and-fiscal.md). Runs A/B still add no automatic economy/fiscal tick, formula language, policy forecast/baseline/implementation, generalized incident prerequisites/selection/chains, natural-disaster or recession generator, mortality/incapacity/evidence system, law/institutions/elections/campaigns, media ecology, public opinion, territory-specific content, foreign-government simulation, or player-facing UI. Runs C–E and later stages own those boundaries.

@@ -2,7 +2,9 @@ import { afterEach, describe, expect, it } from "vitest";
 
 import {
   SYNTHETIC_POLICY_IDS,
+  activateEffect,
   advanceDemoWorld,
+  advanceWorld,
   applyCharacterHistoryPlan,
   createChildAuthority,
   createDwelling,
@@ -22,9 +24,11 @@ import {
   currentLifeCutoff,
   evaluateDecision,
   generateQuickCharacterHistory,
+  makeIsoDate,
   materializePerson,
   money,
   recordChildAuthorityState,
+  recordCausalProcess,
   recordDwellingOccupancyState,
   recordDurableDecisionTrace,
   recordEducationEnrollmentState,
@@ -36,9 +40,12 @@ import {
   recordResourceTransferOutcome,
   recordWorldMetricObservation,
   recordWorldMetricState,
+  recordWorldEvent,
+  recordEvaluatedMetricState,
   scheduleFutureDueItem,
   recordWorkCompensationTerms,
   startDwellingOccupancy,
+  worldMetricDefinitionByStableKey,
 } from "../simulation";
 import type { EntityId } from "../simulation";
 import { SqliteWorldRepository } from "./sqlite-world-repository";
@@ -180,6 +187,113 @@ describe("SQLite world repository", () => {
     expect(restored?.history.futureDueItemStates.at(-1)?.status).toBe(
       "scheduled",
     );
+  });
+
+  it("preserves Stage 6 Run B causal ancestry, effect activation, and evaluated aggregate state exactly", () => {
+    repository = new SqliteWorldRepository(":memory:");
+    let world = advanceWorld(createDemoWorld("sqlite-stage-6-run-b"), 180);
+    const jurisdictionId = world.jurisdictionOrder[0]!;
+    const outputMetric = worldMetricDefinitionByStableKey(
+      world,
+      "economy.output-activity",
+    );
+    const outputPeriod = {
+      kind: "interval" as const,
+      startsAt: makeIsoDate("2026-01-01"),
+      endsAt: makeIsoDate("2026-03-31"),
+    };
+    world = recordWorldMetricState(world, {
+      stableKey: "sqlite:run-b:output-baseline",
+      metricId: outputMetric.id,
+      scope: { jurisdictionId, segmentKey: null },
+      referencePeriod: outputPeriod,
+      value: { kind: "money", money: money(1_000_000, "USD") },
+      recordedAt: "2026-03-31",
+      provenance: { kind: "authored", note: "SQLite Run B baseline." },
+      supersedesStateId: null,
+    });
+    const baseline = world.history.metricStates.at(-1)!;
+    world = recordWorldEvent(world, {
+      stableKey: "sqlite:run-b:root-event",
+      type: "economy.synthetic-condition",
+      occurredAt: makeIsoDate("2026-01-10"),
+      recordedAt: makeIsoDate("2026-01-10"),
+      jurisdictionId,
+      involvedEntityIds: [jurisdictionId],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "limited",
+      tags: ["economy.synthetic"],
+      summary: "Synthetic SQLite causal root.",
+      context: {
+        location: null,
+        socialContext: "SQLite Run B persistence fixture.",
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const sourceEvent = world.history.events.at(-1)!;
+    world = recordCausalProcess(world, {
+      stableKey: "sqlite:run-b:root-cause",
+      kind: "economy:synthetic-root",
+      effectiveAt: "2026-01-10",
+      recordedAt: "2026-01-10",
+      sourceEntityIds: [sourceEvent.id],
+      parentCausalIds: [],
+      provenance: { kind: "simulated", sourceEntityIds: [sourceEvent.id] },
+    });
+    const cause = world.history.causalProcesses.at(-1)!;
+    const linear = world.causalMechanismCatalog.definitionOrder
+      .map((id) => world.causalMechanismCatalog.definitions[id])
+      .find(
+        (definition) => definition?.stableKey === "mechanism.linear-transition",
+      )!;
+    world = activateEffect(world, {
+      stableKey: "sqlite:run-b:output-effect",
+      mechanismDefinitionId: linear.id,
+      causalProcessId: cause.id,
+      targetMetricId: outputMetric.id,
+      targetScope: { jurisdictionId, segmentKey: null },
+      direction: "increase",
+      magnitude: { kind: "money", money: money(100_000, "USD") },
+      activatedAt: "2026-01-10",
+      onsetAt: "2026-01-10",
+      maturesAt: "2026-01-10",
+      endsAt: null,
+      threshold: null,
+      targetBound: null,
+      realizationKind: "economy:direct",
+      sourceEntityIds: [],
+      recordedAt: "2026-01-10",
+    });
+    const effect = world.history.effectActivations.at(-1)!;
+    const firstSaved = repository.save(world);
+    world = recordEvaluatedMetricState(world, {
+      stableKey: "sqlite:run-b:output-evaluated",
+      baselineStateId: baseline.id,
+      evaluatedAt: "2026-03-31",
+      referencePeriod: outputPeriod,
+    });
+    const saved = repository.save(world);
+    const restored = repository.load(world.id);
+
+    expect(saved.snapshotId).not.toBe(firstSaved.snapshotId);
+    expect(restored).toStrictEqual(world);
+    expect(repository.list()).toStrictEqual([saved]);
+    expect(restored?.causalMechanismCatalog).toStrictEqual(
+      world.causalMechanismCatalog,
+    );
+    expect(restored?.history.causalProcesses.at(-1)).toStrictEqual(cause);
+    expect(restored?.history.effectActivations.at(-1)).toStrictEqual(effect);
+    expect(restored?.history.metricStates.at(-1)).toMatchObject({
+      value: { money: { minorUnits: 1_100_000, currency: "USD" } },
+      provenance: {
+        kind: "simulated",
+        sourceEntityIds: [baseline.id, effect.id].sort(),
+      },
+    });
   });
 
   it("preserves Stage 5.1 organization and work history through SQLite", () => {

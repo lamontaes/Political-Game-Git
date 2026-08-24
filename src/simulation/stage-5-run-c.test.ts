@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   activeDwellingOccupanciesAt,
   activeHousingTenuresAt,
+  activateEffect,
   advanceWorld,
   applyCharacterHistoryPlan,
   assessAffordability,
@@ -28,6 +29,8 @@ import {
   createWorld,
   currentResourceCutoff,
   deserializeWorld,
+  distinctRootCausalIds,
+  effectActivationsAt,
   evaluateDecision,
   generateQuickCharacterHistory,
   householdMembershipsAt,
@@ -35,6 +38,7 @@ import {
   money,
   outstandingDebtAt,
   recordDwellingOccupancyState,
+  recordCausalProcess,
   recordEventKnowledge,
   recordHouseholdLocation,
   recordHousingTenureState,
@@ -48,6 +52,7 @@ import {
   recordWorldEvent,
   recordWorldMetricObservation,
   recordWorldMetricState,
+  recordEvaluatedMetricState,
   resolveWorkCompensationPeriod,
   resourceFlowTermsAt,
   resourcePositionAt,
@@ -58,7 +63,9 @@ import {
   startHouseholdMembership,
   futureDueItemStateAt,
   latestObservationForSeriesAt,
+  makeIsoDate,
   worldMetricStateForPeriodAt,
+  worldMetricDefinitionByStableKey,
 } from "./index";
 import type {
   CharacterHistoryMode,
@@ -1627,7 +1634,7 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
     expect(deserializeWorld(payload)).toStrictEqual(world);
     expect(
       (JSON.parse(payload) as { formatVersion: number }).formatVersion,
-    ).toBe(9);
+    ).toBe(10);
     expect(() =>
       createResourceFlow(world, {
         stableKey: "open:malformed",
@@ -1778,7 +1785,7 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
     }
   });
 
-  it("proves one continuous Stage 5 life through formative context, education, work, family/care, resources, housing, and reconnection", () => {
+  it("proves one continuous maximum-current life through Stage 5, quantitative observation, causal economy, and future transition", () => {
     let world = bareWorld("run-c-stage-5-end-to-end");
     const actor = personId(world, 0);
     world = applyCharacterHistoryPlan(
@@ -2037,6 +2044,222 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
     });
     world = reconnect.world;
 
+    const outputMetric = worldMetricDefinitionByStableKey(
+      world,
+      "economy.output-activity",
+    );
+    const housingPressureMetric = worldMetricDefinitionByStableKey(
+      world,
+      "housing.availability-pressure",
+    );
+    const economicScope = {
+      jurisdictionId: world.jurisdictionOrder[0]!,
+      segmentKey: null,
+    };
+    const outputPeriod = {
+      kind: "interval" as const,
+      startsAt: makeIsoDate("2026-01-01"),
+      endsAt: world.currentDate,
+    };
+    world = recordWorldMetricState(world, {
+      stableKey: "end-to-end:output-baseline",
+      metricId: outputMetric.id,
+      scope: economicScope,
+      referencePeriod: outputPeriod,
+      value: { kind: "money", money: money(1_000_000, "USD") },
+      recordedAt: world.currentDate,
+      provenance: {
+        kind: "authored",
+        note: "Synthetic maximum-current aggregate output baseline.",
+      },
+      supersedesStateId: null,
+    });
+    const outputBaseline = world.history.metricStates.at(-1)!;
+    const beforeCausalHistory = currentResourceCutoff(world);
+    world = recordWorldEvent(world, {
+      stableKey: "end-to-end:economic-root-one:event",
+      type: "economy.synthetic-condition",
+      occurredAt: makeIsoDate("2026-01-01"),
+      recordedAt: makeIsoDate("2026-01-01"),
+      jurisdictionId: world.jurisdictionOrder[0]!,
+      involvedEntityIds: [world.jurisdictionOrder[0]!],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "limited",
+      tags: ["economy.synthetic", "life.continuity"],
+      summary: "One aggregate economic cause began contributing.",
+      context: relationshipContext(
+        "The occurrence remains ordinary history; causal attribution is separate.",
+      ),
+    });
+    const firstEconomicEvent = world.history.events.at(-1)!;
+    world = recordCausalProcess(world, {
+      stableKey: "end-to-end:economic-root-one",
+      kind: "economy:synthetic-root",
+      effectiveAt: "2026-01-01",
+      recordedAt: "2026-01-01",
+      sourceEntityIds: [firstEconomicEvent.id],
+      parentCausalIds: [],
+      provenance: {
+        kind: "simulated",
+        sourceEntityIds: [firstEconomicEvent.id],
+      },
+    });
+    const firstEconomicCause = world.history.causalProcesses.at(-1)!;
+    const linearMechanism = world.causalMechanismCatalog.definitionOrder
+      .map((id) => world.causalMechanismCatalog.definitions[id])
+      .find(
+        (definition) => definition?.stableKey === "mechanism.linear-transition",
+      )!;
+    world = activateEffect(world, {
+      stableKey: "end-to-end:economic-root-one:output",
+      mechanismDefinitionId: linearMechanism.id,
+      causalProcessId: firstEconomicCause.id,
+      targetMetricId: outputMetric.id,
+      targetScope: economicScope,
+      direction: "increase",
+      magnitude: { kind: "money", money: money(100_000, "USD") },
+      activatedAt: "2026-01-01",
+      onsetAt: "2026-01-01",
+      maturesAt: "2026-01-01",
+      endsAt: null,
+      threshold: null,
+      targetBound: null,
+      realizationKind: "economy:direct",
+      sourceEntityIds: [],
+      recordedAt: "2026-01-01",
+    });
+    const firstOutputEffect = world.history.effectActivations.at(-1)!;
+    world = activateEffect(world, {
+      stableKey: "end-to-end:economic-root-one:housing",
+      mechanismDefinitionId: linearMechanism.id,
+      causalProcessId: firstEconomicCause.id,
+      targetMetricId: housingPressureMetric.id,
+      targetScope: economicScope,
+      direction: "increase",
+      magnitude: {
+        kind: "quantity",
+        quantity: createExactQuantity(2, 1, "index:housing-pressure"),
+      },
+      activatedAt: "2026-01-01",
+      onsetAt: "2026-01-01",
+      maturesAt: "2026-01-01",
+      endsAt: null,
+      threshold: null,
+      targetBound: null,
+      realizationKind: "economy:indirect",
+      sourceEntityIds: [],
+      recordedAt: "2026-01-01",
+    });
+    const housingEffect = world.history.effectActivations.at(-1)!;
+    world = recordWorldEvent(world, {
+      stableKey: "end-to-end:economic-root-two:event",
+      type: "economy.synthetic-condition",
+      occurredAt: makeIsoDate("2026-01-02"),
+      recordedAt: makeIsoDate("2026-01-02"),
+      jurisdictionId: world.jurisdictionOrder[0]!,
+      involvedEntityIds: [world.jurisdictionOrder[0]!],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "limited",
+      tags: ["economy.synthetic", "life.continuity"],
+      summary: "An independent aggregate economic cause began contributing.",
+      context: relationshipContext(
+        "Independent roots remain distinct even when they share a target.",
+      ),
+    });
+    const secondEconomicEvent = world.history.events.at(-1)!;
+    world = recordCausalProcess(world, {
+      stableKey: "end-to-end:economic-root-two",
+      kind: "economy:independent-root",
+      effectiveAt: "2026-01-02",
+      recordedAt: "2026-01-02",
+      sourceEntityIds: [secondEconomicEvent.id],
+      parentCausalIds: [],
+      provenance: {
+        kind: "simulated",
+        sourceEntityIds: [secondEconomicEvent.id],
+      },
+    });
+    const secondEconomicCause = world.history.causalProcesses.at(-1)!;
+    world = activateEffect(world, {
+      stableKey: "end-to-end:economic-root-two:output",
+      mechanismDefinitionId: linearMechanism.id,
+      causalProcessId: secondEconomicCause.id,
+      targetMetricId: outputMetric.id,
+      targetScope: economicScope,
+      direction: "increase",
+      magnitude: { kind: "money", money: money(50_000, "USD") },
+      activatedAt: "2026-01-02",
+      onsetAt: "2026-01-02",
+      maturesAt: "2026-01-02",
+      endsAt: null,
+      threshold: null,
+      targetBound: null,
+      realizationKind: "economy:direct",
+      sourceEntityIds: [],
+      recordedAt: "2026-01-02",
+    });
+    const secondOutputEffect = world.history.effectActivations.at(-1)!;
+    world = recordEvaluatedMetricState(world, {
+      stableKey: "end-to-end:output-evaluated",
+      baselineStateId: outputBaseline.id,
+      evaluatedAt: world.currentDate,
+      referencePeriod: outputPeriod,
+    });
+    const evaluatedOutput = world.history.metricStates.at(-1)!;
+    world = recordWorldMetricObservation(world, {
+      stableKey: "end-to-end:output-observation",
+      metricId: outputMetric.id,
+      scope: economicScope,
+      referencePeriod: outputPeriod,
+      value: { kind: "money", money: money(1_140_000, "USD") },
+      sourceSeriesKey: "series.end-to-end-output",
+      sourceLabel: "Synthetic economic statistical office",
+      sourceReference: {
+        title: "Synthetic aggregate output release",
+        locator: "fixture:end-to-end-output",
+      },
+      methodologyKey: "method.end-to-end-output-estimate",
+      releaseDate: world.currentDate,
+      recordedAt: world.currentDate,
+      vintageKey: "vintage.end-to-end-output-initial",
+      uncertainty: { kind: "none" },
+      supersedesObservationId: null,
+      underlyingStateId: evaluatedOutput.id,
+    });
+    const outputObservation = world.history.metricObservations.at(-1)!;
+    world = recordWorldEvent(world, {
+      stableKey: "end-to-end:output-release",
+      type: "statistics.public-release",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: world.jurisdictionOrder[0]!,
+      involvedEntityIds: [outputObservation.id],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["statistics.release", "life.continuity"],
+      summary: "A fallible aggregate output observation was released.",
+      context: relationshipContext(
+        "The observation differs from causal economic truth.",
+      ),
+    });
+    const outputRelease = world.history.events.at(-1)!;
+    world = recordEventKnowledge(world, {
+      stableKey: "end-to-end:output-release-knowledge",
+      personId: actor,
+      eventId: outputRelease.id,
+      learnedAt: world.currentDate,
+      believedSummary: "The released aggregate output estimate was 1,140,000.",
+      accuracy: "partial",
+      confidence: "medium",
+      source: {
+        kind: "public-record",
+        reference: outputObservation.sourceReference!.locator!,
+      },
+    });
+
     const populationMetric = Object.values(
       world.metricCatalog.definitions,
     ).find(
@@ -2225,6 +2448,65 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
         currentResourceCutoff(world),
       ).continuity,
     ).toBe("reconnected");
+    expect(
+      distinctRootCausalIds(
+        world,
+        [firstOutputEffect.id, housingEffect.id],
+        currentResourceCutoff(world),
+      ),
+    ).toEqual([firstEconomicCause.id]);
+    expect(
+      distinctRootCausalIds(
+        world,
+        [firstOutputEffect.id, secondOutputEffect.id],
+        currentResourceCutoff(world),
+      ),
+    ).toEqual([firstEconomicCause.id, secondEconomicCause.id].sort());
+    expect(
+      effectActivationsAt(
+        world,
+        outputMetric.id,
+        economicScope,
+        beforeCausalHistory,
+      ),
+    ).toEqual([]);
+    expect(
+      worldMetricStateForPeriodAt(
+        world,
+        outputMetric.id,
+        economicScope,
+        outputPeriod,
+        beforeCausalHistory,
+      )?.id,
+    ).toBe(outputBaseline.id);
+    expect(
+      worldMetricStateForPeriodAt(
+        world,
+        outputMetric.id,
+        economicScope,
+        outputPeriod,
+        currentResourceCutoff(world),
+      ),
+    ).toMatchObject({
+      id: evaluatedOutput.id,
+      value: { money: { minorUnits: 1_150_000, currency: "USD" } },
+    });
+    expect(outputObservation.value).toEqual({
+      kind: "money",
+      money: money(1_140_000, "USD"),
+    });
+    expect(
+      world.history.knowledge.some(
+        (record) =>
+          record.personId === actor && record.eventId === outputRelease.id,
+      ),
+    ).toBe(true);
+    expect(
+      world.history.knowledge.some(
+        (record) =>
+          record.personId === peer && record.eventId === outputRelease.id,
+      ),
+    ).toBe(false);
     expect(world.history.knowledge.length).toBe(
       knowledgeCountBeforeObservation + 1,
     );
