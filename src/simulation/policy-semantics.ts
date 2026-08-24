@@ -24,7 +24,9 @@ import {
 import { makeCurrencyCode } from "./resources";
 import { assertDottedContentKey } from "./taxonomy";
 import type {
+  CausalProcessRecord,
   EntityId,
+  EffectActivationRecord,
   ExactQuantity,
   FutureDueItem,
   FutureTransitionHandlerResult,
@@ -437,6 +439,7 @@ export function realizePolicyEstimate(
     "policy realization",
   );
   const estimate = requirePolicyEstimate(world, input.estimateId);
+  assertPolicyEstimateIsCurrentForImplementation(world, estimate);
   if (
     world.history.policyRealizations.some(
       (record) => record.estimateId === estimate.id,
@@ -463,6 +466,9 @@ export function realizePolicyEstimate(
       consequence.triggered && !isZeroMetricValue(consequence.estimatedChange),
   );
   const status = realizationStatus(profile, active.length > 0);
+  if (status === "full" || status === "partial") {
+    assertAlternativeHasNoEffectProducingRealization(world, estimate);
+  }
   if (status === "blocked" || status === "not-triggered") {
     return appendPolicyRealization(world, {
       stableKey: input.stableKey,
@@ -559,17 +565,29 @@ export function schedulePolicyEstimateRealization(
   input: SchedulePolicyEstimateRealizationInput,
 ): World {
   const estimate = requirePolicyEstimate(world, input.estimateId);
-  const dueAt = estimate.operationIds
-    .map((id) => requirePolicyOperation(world, id).timing.startsAt)
-    .sort()[0];
-  if (!dueAt) throw new Error("Policy estimate has no operation start date.");
+  assertPolicyEstimateIsCurrentForImplementation(world, estimate);
+  if (
+    world.history.policyRealizations.some(
+      (record) => record.estimateId === estimate.id,
+    )
+  ) {
+    throw new Error("A realized policy estimate cannot be scheduled again.");
+  }
+  if (policyEstimateWouldProduceEffects(world, estimate)) {
+    assertAlternativeHasNoEffectProducingRealization(world, estimate);
+  }
+  if (policyRealizationDueItemsForEstimate(world, estimate.id).length > 0) {
+    throw new Error(
+      "A policy estimate may have only one policy-realization due item.",
+    );
+  }
+  const dueAt = policyRealizationDueAt(world, estimate);
   return scheduleFutureDueItem(world, {
     stableKey: input.stableKey,
     dueAt,
     transitionKey: POLICY_REALIZATION_TRANSITION_KEY,
     entityIds: [estimate.id],
-    jurisdictionId: requirePolicyOperation(world, estimate.operationIds[0]!)
-      .targetScope.jurisdictionId,
+    jurisdictionId: policyRealizationJurisdictionId(world, estimate),
     provenance: { kind: "simulated", sourceEntityIds: [estimate.id] },
   });
 }
@@ -581,14 +599,7 @@ export function policyRealizationTransitionHandler(
   if (dueItem.transitionKey !== POLICY_REALIZATION_TRANSITION_KEY) {
     throw new Error("Policy realization handler received another transition.");
   }
-  const estimate = dueItem.entityIds
-    .map((id) =>
-      world.history.policyEstimates.find((record) => record.id === id),
-    )
-    .find((record): record is PolicyEstimateRecord => record !== undefined);
-  if (!estimate) {
-    throw new Error("Policy realization due item has no policy estimate.");
-  }
+  const estimate = validatePolicyRealizationDueItem(world, dueItem);
   let working = realizePolicyEstimate(world, {
     stableKey: `${dueItem.stableKey}:realization`,
     estimateId: estimate.id,
@@ -601,7 +612,7 @@ export function policyRealizationTransitionHandler(
     type: "policy.implementation-realization",
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
-    jurisdictionId: dueItem.jurisdictionId,
+    jurisdictionId: policyRealizationJurisdictionId(working, estimate),
     involvedEntityIds: [
       estimate.id,
       realization.id,
@@ -773,6 +784,7 @@ export function assertPolicySemanticsIntegrity(
     assertHistoryIdentity(ids, world, record, "policy-realization");
     validatePolicyRealization(world, record);
   }
+  validatePolicyRealizationDueItems(world);
 }
 
 type PolicyHistoryRecord =
@@ -809,6 +821,202 @@ function appendPolicyRealization(
     nextSequence: world.history.nextSequence + 1,
     policyRealizations: [...world.history.policyRealizations, record],
   });
+}
+
+function assertPolicyEstimateIsCurrentForImplementation(
+  world: World,
+  estimate: PolicyEstimateRecord,
+): void {
+  const latest = world.history.policyEstimates
+    .filter((record) => record.seriesKey === estimate.seriesKey)
+    .sort(bySequence)
+    .at(-1);
+  if (!latest || latest.id !== estimate.id) {
+    throw new Error(
+      "A superseded policy estimate cannot be newly scheduled or realized.",
+    );
+  }
+}
+
+function assertAlternativeHasNoEffectProducingRealization(
+  world: World,
+  estimate: PolicyEstimateRecord,
+): void {
+  const existing = world.history.policyRealizations.find((record) => {
+    if (record.status !== "full" && record.status !== "partial") return false;
+    const realizedEstimate = requirePolicyEstimate(world, record.estimateId);
+    return realizedEstimate.alternativeId === estimate.alternativeId;
+  });
+  if (existing) {
+    throw new Error(
+      "A policy alternative may have only one effect-producing realization.",
+    );
+  }
+}
+
+function policyRealizationDueItemsForEstimate(
+  world: World,
+  estimateId: EntityId,
+): readonly FutureDueItem[] {
+  return world.history.futureDueItems.filter(
+    (item) =>
+      item.transitionKey === POLICY_REALIZATION_TRANSITION_KEY &&
+      item.entityIds.includes(estimateId),
+  );
+}
+
+function policyEstimateWouldProduceEffects(
+  world: World,
+  estimate: PolicyEstimateRecord,
+): boolean {
+  const profile = requirePolicyImplementationProfile(
+    world,
+    estimate.implementationProfileId,
+  );
+  const hasActiveChange = computePolicyConsequences(
+    world,
+    estimate.operationIds,
+    profile,
+  ).some(
+    (consequence) =>
+      consequence.triggered && !isZeroMetricValue(consequence.estimatedChange),
+  );
+  const status = realizationStatus(profile, hasActiveChange);
+  return status === "full" || status === "partial";
+}
+
+function policyRealizationDueAt(
+  world: World,
+  estimate: PolicyEstimateRecord,
+): ReturnType<typeof makeIsoDate> {
+  const dueAt = estimate.operationIds
+    .map((id) => requirePolicyOperation(world, id).timing.startsAt)
+    .sort()[0];
+  if (!dueAt) throw new Error("Policy estimate has no operation start date.");
+  return dueAt;
+}
+
+function policyRealizationJurisdictionId(
+  world: World,
+  estimate: PolicyEstimateRecord,
+): EntityId | null {
+  const jurisdictionIds = new Set(
+    estimate.operationIds.map(
+      (id) => requirePolicyOperation(world, id).targetScope.jurisdictionId,
+    ),
+  );
+  if (jurisdictionIds.size !== 1) return null;
+  return jurisdictionIds.values().next().value ?? null;
+}
+
+function validatePolicyRealizationDueItems(world: World): void {
+  const seenEstimateIds = new Set<EntityId>();
+  for (const dueItem of world.history.futureDueItems) {
+    if (dueItem.transitionKey !== POLICY_REALIZATION_TRANSITION_KEY) continue;
+    const estimate = validatePolicyRealizationDueItem(world, dueItem);
+    if (seenEstimateIds.has(estimate.id)) {
+      throw new Error(
+        `Policy estimate has duplicate realization due items: ${estimate.id}`,
+      );
+    }
+    seenEstimateIds.add(estimate.id);
+  }
+}
+
+function validatePolicyRealizationDueItem(
+  world: World,
+  dueItem: FutureDueItem,
+): PolicyEstimateRecord {
+  if (dueItem.entityIds.length !== 1 || dueItem.entityIds[0] === undefined) {
+    throw new Error(
+      `Policy realization due item must reference exactly one estimate: ${dueItem.id}`,
+    );
+  }
+  const estimate = requirePolicyEstimate(world, dueItem.entityIds[0]);
+  if (
+    estimate.sequence >= dueItem.sequence ||
+    estimate.recordedAt > dueItem.scheduledAt ||
+    dueItem.dueAt !== policyRealizationDueAt(world, estimate) ||
+    dueItem.jurisdictionId !== policyRealizationJurisdictionId(world, estimate)
+  ) {
+    throw new Error(
+      `Policy realization due item has mismatched estimate semantics: ${dueItem.id}`,
+    );
+  }
+  for (const operationId of estimate.operationIds) {
+    const operation = requirePolicyOperation(world, operationId);
+    if (
+      operation.sequence >= dueItem.sequence ||
+      operation.recordedAt > dueItem.scheduledAt
+    ) {
+      throw new Error(
+        `Policy realization due item has unavailable operation: ${dueItem.id}`,
+      );
+    }
+  }
+  if (
+    dueItem.provenance.kind !== "simulated" ||
+    !sameEntityIds(dueItem.provenance.sourceEntityIds, [estimate.id])
+  ) {
+    throw new Error(
+      `Policy realization due item has invalid canonical source: ${dueItem.id}`,
+    );
+  }
+  const realization = world.history.policyRealizations.find(
+    (record) => record.estimateId === estimate.id,
+  );
+  if (realization) {
+    if (realization.sequence < dueItem.sequence) {
+      throw new Error(
+        `Policy realization due item was created after realization: ${dueItem.id}`,
+      );
+    }
+    const latestState = world.history.futureDueItemStates
+      .filter((state) => state.dueItemId === dueItem.id)
+      .sort(bySequence)
+      .at(-1);
+    if (
+      latestState?.status === "scheduled" &&
+      !isPolicyDueResolutionInFlight(world, dueItem, realization)
+    ) {
+      throw new Error(
+        `Policy realization due item remains pending after realization: ${dueItem.id}`,
+      );
+    }
+  }
+  if (
+    policyEstimateWouldProduceEffects(world, estimate) &&
+    world.history.policyRealizations.some((record) => {
+      if (
+        record.sequence >= dueItem.sequence ||
+        (record.status !== "full" && record.status !== "partial")
+      ) {
+        return false;
+      }
+      return (
+        requirePolicyEstimate(world, record.estimateId).alternativeId ===
+        estimate.alternativeId
+      );
+    })
+  ) {
+    throw new Error(
+      `Policy realization due item would duplicate an implemented alternative: ${dueItem.id}`,
+    );
+  }
+  return estimate;
+}
+
+function isPolicyDueResolutionInFlight(
+  world: World,
+  dueItem: FutureDueItem,
+  realization: PolicyRealizationRecord,
+): boolean {
+  return (
+    dueItem.dueAt === world.currentDate &&
+    realization.stableKey === `${dueItem.stableKey}:realization` &&
+    realization.provenance.kind === "simulated" &&
+    sameEntityIds(realization.provenance.sourceEntityIds, [dueItem.id])
+  );
 }
 
 function computePolicyConsequences(
@@ -1401,6 +1609,7 @@ function validatePolicyRealization(
 ): void {
   assertNonEmpty(record.stableKey, "Policy-realization stable key");
   const estimate = requirePolicyEstimate(world, record.estimateId);
+  assertEstimateHasNoOtherPolicyRealization(world, record);
   const profile = requirePolicyImplementationProfile(
     world,
     record.implementationProfileId,
@@ -1450,50 +1659,9 @@ function validatePolicyRealization(
       );
     }
   } else {
-    const cause = world.history.causalProcesses.find(
-      (candidate) => candidate.id === record.actualCausalProcessId,
-    );
-    if (
-      !cause ||
-      cause.sequence >= record.sequence ||
-      !cause.parentCausalIds.includes(estimate.projectedCausalProcessId) ||
-      !cause.sourceEntityIds.includes(estimate.id)
-    ) {
-      throw new Error(
-        `Policy realization has invalid actual causal process: ${record.id}`,
-      );
-    }
-    if (record.consequences.length !== active.length) {
-      throw new Error(
-        `Policy realization effect count is inconsistent: ${record.id}`,
-      );
-    }
-    for (const item of record.consequences) {
-      const expected = active.find(
-        (candidate) => candidate.operationId === item.operationId,
-      );
-      const operation = requirePolicyOperation(world, item.operationId);
-      const effect = world.history.effectActivations.find(
-        (candidate) => candidate.id === item.effectActivationId,
-      );
-      if (
-        !expected ||
-        !effect ||
-        effect.sequence >= record.sequence ||
-        effect.causalProcessId !== cause.id ||
-        effect.targetMetricId !== operation.targetMetricId ||
-        !sameMetricScope(effect.targetScope, operation.targetScope) ||
-        !effect.sourceEntityIds.includes(estimate.id) ||
-        JSON.stringify(item.realizedChange) !==
-          JSON.stringify(expected.estimatedChange) ||
-        JSON.stringify(effect.magnitude) !==
-          JSON.stringify(absoluteMetricValue(expected.estimatedChange))
-      ) {
-        throw new Error(
-          `Policy realization has mismatched Run B effect: ${record.id}`,
-        );
-      }
-    }
+    assertAlternativeHasNoOtherEffectProducingRealization(world, record);
+    const cause = requireRealizedPolicyCause(world, record, estimate);
+    validateRealizedPolicyConsequences(world, record, estimate, cause, active);
   }
   validatePolicyProvenance(
     world,
@@ -1501,6 +1669,167 @@ function validatePolicyRealization(
     record.recordedAt,
     record.sequence,
   );
+}
+
+function assertEstimateHasNoOtherPolicyRealization(
+  world: World,
+  record: PolicyRealizationRecord,
+): void {
+  if (
+    world.history.policyRealizations.some(
+      (candidate) =>
+        candidate.id !== record.id &&
+        candidate.estimateId === record.estimateId,
+    )
+  ) {
+    throw new Error(
+      `Policy estimate has multiple realization records: ${record.id}`,
+    );
+  }
+}
+
+function assertAlternativeHasNoOtherEffectProducingRealization(
+  world: World,
+  record: PolicyRealizationRecord,
+): void {
+  const estimate = requirePolicyEstimate(world, record.estimateId);
+  const other = world.history.policyRealizations.find((candidate) => {
+    if (candidate.id === record.id) return false;
+    if (candidate.status !== "full" && candidate.status !== "partial") {
+      return false;
+    }
+    return (
+      requirePolicyEstimate(world, candidate.estimateId).alternativeId ===
+      estimate.alternativeId
+    );
+  });
+  if (other) {
+    throw new Error(
+      `Policy alternative has multiple effect-producing realizations: ${record.id}`,
+    );
+  }
+}
+
+function requireRealizedPolicyCause(
+  world: World,
+  realization: PolicyRealizationRecord,
+  estimate: PolicyEstimateRecord,
+): CausalProcessRecord {
+  const cause = world.history.causalProcesses.find(
+    (candidate) => candidate.id === realization.actualCausalProcessId,
+  );
+  if (
+    !cause ||
+    cause.sequence >= realization.sequence ||
+    cause.kind !== "policy:realized-intervention" ||
+    !sameEntityIds(cause.parentCausalIds, [
+      estimate.projectedCausalProcessId,
+    ]) ||
+    !sameEntityIds(cause.sourceEntityIds, [estimate.id]) ||
+    cause.effectiveAt !== realization.realizedAt ||
+    cause.recordedAt !== realization.recordedAt ||
+    cause.provenance.kind !== "simulated" ||
+    !sameEntityIds(cause.provenance.sourceEntityIds, [estimate.id])
+  ) {
+    throw new Error(
+      `Policy realization has invalid actual causal process: ${realization.id}`,
+    );
+  }
+  return cause;
+}
+
+function validateRealizedPolicyConsequences(
+  world: World,
+  realization: PolicyRealizationRecord,
+  estimate: PolicyEstimateRecord,
+  cause: CausalProcessRecord,
+  active: readonly PolicyEstimatedConsequence[],
+): void {
+  if (
+    realization.consequences.length !== active.length ||
+    JSON.stringify(realization.consequences.map((item) => item.operationId)) !==
+      JSON.stringify(active.map((item) => item.operationId)) ||
+    new Set(realization.consequences.map((item) => item.effectActivationId))
+      .size !== realization.consequences.length
+  ) {
+    throw new Error(
+      `Policy realization effect count/order is inconsistent: ${realization.id}`,
+    );
+  }
+  for (const [index, item] of realization.consequences.entries()) {
+    const expected = active[index];
+    if (!expected) {
+      throw new Error(
+        `Policy realization has an unexpected effect: ${realization.id}`,
+      );
+    }
+    const operation = requirePolicyOperation(world, item.operationId);
+    const effect = world.history.effectActivations.find(
+      (candidate) => candidate.id === item.effectActivationId,
+    );
+    if (
+      !effect ||
+      !isCanonicalRealizedPolicyEffect(
+        effect,
+        operation,
+        expected,
+        estimate,
+        cause,
+        realization,
+      ) ||
+      JSON.stringify(item.realizedChange) !==
+        JSON.stringify(expected.estimatedChange)
+    ) {
+      throw new Error(
+        `Policy realization has mismatched Run B effect: ${realization.id}`,
+      );
+    }
+  }
+}
+
+function isCanonicalRealizedPolicyEffect(
+  effect: EffectActivationRecord,
+  operation: PolicyOperationRecord,
+  expected: PolicyEstimatedConsequence,
+  estimate: PolicyEstimateRecord,
+  cause: CausalProcessRecord,
+  realization: PolicyRealizationRecord,
+): boolean {
+  const direction =
+    metricValueSign(expected.estimatedChange) < 0 ? "decrease" : "increase";
+  return (
+    effect.sequence < realization.sequence &&
+    effect.causalProcessId === cause.id &&
+    effect.targetMetricId === operation.targetMetricId &&
+    sameMetricScope(effect.targetScope, operation.targetScope) &&
+    effect.direction === direction &&
+    JSON.stringify(effect.magnitude) ===
+      JSON.stringify(absoluteMetricValue(expected.estimatedChange)) &&
+    effectMagnitudeBasisMatchesOperation(effect, operation) &&
+    effect.mechanismDefinitionId === operation.mechanismDefinitionId &&
+    effect.activatedAt === realization.realizedAt &&
+    effect.onsetAt === operation.timing.startsAt &&
+    effect.maturesAt === operation.timing.maturesAt &&
+    effect.endsAt === operation.timing.endsAt &&
+    effect.threshold === null &&
+    effect.targetBound === null &&
+    effect.realizationKind === operation.realizationKind &&
+    sameEntityIds(effect.sourceEntityIds, [estimate.id]) &&
+    effect.recordedAt === realization.recordedAt
+  );
+}
+
+function effectMagnitudeBasisMatchesOperation(
+  effect: EffectActivationRecord,
+  operation: PolicyOperationRecord,
+): boolean {
+  return operation.targetReferencePeriod.kind === "point"
+    ? effect.magnitudeBasis.kind === "point-at-target"
+    : effect.magnitudeBasis.kind === "interval-total" &&
+        sameReferencePeriod(
+          effect.magnitudeBasis.referencePeriod,
+          operation.targetReferencePeriod,
+        );
 }
 
 function validatePolicyProvenance(
@@ -2041,6 +2370,13 @@ function clonePolicyProvenance(
 
 function canonicalEntityIds(values: readonly EntityId[]): EntityId[] {
   return [...new Set(values)].sort();
+}
+
+function sameEntityIds(
+  left: readonly EntityId[],
+  right: readonly EntityId[],
+): boolean {
+  return JSON.stringify(left) === JSON.stringify(right);
 }
 
 function assertCanonicalEntityIds(

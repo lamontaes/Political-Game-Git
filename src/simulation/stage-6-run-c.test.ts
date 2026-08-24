@@ -30,6 +30,7 @@ import {
   recordPolicyProjectionRoot,
   recordWorldMetricState,
   resourceRatioPolicyImplementationFactor,
+  scheduleFutureDueItem,
   schedulePolicyEstimateRealization,
   serializeWorld,
   worldMetricDefinitionByStableKey,
@@ -242,6 +243,7 @@ function recordEstimate(
   operationIds: readonly EntityId[],
   factors: readonly PolicyImplementationFactor[],
   supersedesEstimateId: EntityId | null = null,
+  seriesKey: PolicySemanticKey = semanticKey("estimate", stableKey),
 ): { readonly world: World; readonly estimate: PolicyEstimateRecord } {
   let next = recordPolicyImplementationProfile(world, {
     stableKey: `${stableKey}:profile`,
@@ -263,7 +265,7 @@ function recordEstimate(
   const projectedCause = next.history.causalProcesses.at(-1)!;
   next = recordPolicyEstimate(next, {
     stableKey,
-    seriesKey: semanticKey("estimate", stableKey),
+    seriesKey,
     alternativeId,
     operationIds,
     implementationProfileId: profile.id,
@@ -311,6 +313,57 @@ function baselineWorld(seed: string): {
     revenueStateId,
     outlayStateId,
     outputStateId: world.history.metricStates.at(-1)!.id,
+  };
+}
+
+function realizedPolicyWorld(seed: string): {
+  readonly world: World;
+  readonly alternative: PolicyAlternativeRecord;
+  readonly operation: PolicyOperationRecord;
+  readonly estimate: PolicyEstimateRecord;
+} {
+  const prepared = baselineWorld(seed);
+  let world = prepared.world;
+  const baseline = recordBaseline(
+    world,
+    `${seed}:outlays`,
+    "government.outlays",
+    annual(2027),
+    moneyValue(70_000_000_000),
+    [prepared.outlayStateId],
+  );
+  world = baseline.world;
+  const alternative = recordAlternative(world, `${seed}:alternative`);
+  world = alternative.world;
+  const operation = recordOperation(
+    world,
+    `${seed}:operation`,
+    alternative.alternative.id,
+    baseline.baseline,
+    {
+      kind: "absolute-change",
+      direction: "increase",
+      magnitude: moneyValue(1_000_000_000),
+    },
+    { endsAt: "2028-01-01" },
+  );
+  const estimate = recordEstimate(
+    operation.world,
+    `${seed}:estimate`,
+    alternative.alternative.id,
+    [operation.operation.id],
+    fullFactors([baseline.baseline.id]),
+  );
+  world = realizePolicyEstimate(estimate.world, {
+    stableKey: `${seed}:realization`,
+    estimateId: estimate.estimate.id,
+    provenance: AUTHORED,
+  });
+  return {
+    world,
+    alternative: alternative.alternative,
+    operation: operation.operation,
+    estimate: estimate.estimate,
   };
 }
 
@@ -580,6 +633,21 @@ describe("Stage 6 Run C quantitative operations and frozen baselines", () => {
     ).toBe(revised.id);
   });
 });
+
+function serializeUnchecked(world: World): string {
+  const payload = JSON.parse(
+    serializeWorld(runCWorld("run-c-corrupt-envelope")),
+  ) as {
+    snapshotId: string;
+    worldId: string;
+    savedAtWorldDate: string;
+    world: World;
+  };
+  payload.world = world;
+  payload.worldId = world.id;
+  payload.savedAtWorldDate = world.currentDate;
+  return JSON.stringify(payload);
+}
 
 describe("Stage 6 Run C implementation, degree, causality, and time", () => {
   it("keeps projections noncanonical until explicit realization creates Run B effects and later metric truth", () => {
@@ -944,7 +1012,16 @@ describe("Stage 6 Run C implementation, degree, causality, and time", () => {
     });
     const dueItem = world.history.futureDueItems.at(-1)!;
     expect(dueItem.transitionKey).toBe(POLICY_REALIZATION_TRANSITION_KEY);
+    expect(dueItem.jurisdictionId).toBe(scope(world).jurisdictionId);
     expect(dueItem).not.toHaveProperty("recurrence");
+    const beforeDuplicateSchedule = world;
+    expect(() =>
+      schedulePolicyEstimateRealization(world, {
+        stableKey: "delayed-policy:duplicate-due",
+        estimateId: estimate.estimate.id,
+      }),
+    ).toThrow(/only one policy-realization due item/i);
+    expect(world).toBe(beforeDuplicateSchedule);
     const registry = createFutureTransitionHandlerRegistry([
       [POLICY_REALIZATION_TRANSITION_KEY, policyRealizationTransitionHandler],
     ]);
@@ -957,6 +1034,396 @@ describe("Stage 6 Run C implementation, degree, causality, and time", () => {
         .filter((state) => state.dueItemId === dueItem.id)
         .at(-1)?.status,
     ).toBe("resolved");
+    expect(world.history.policyRealizations).toHaveLength(1);
+    const outcomeEventId = world.history.futureDueItemStates
+      .filter((state) => state.dueItemId === dueItem.id)
+      .at(-1)?.outcomeEventId;
+    expect(
+      world.history.events.find((event) => event.id === outcomeEventId)
+        ?.jurisdictionId,
+    ).toBe(scope(world).jurisdictionId);
+    expect(() =>
+      schedulePolicyEstimateRealization(world, {
+        stableKey: "delayed-policy:rescheduled",
+        estimateId: estimate.estimate.id,
+      }),
+    ).toThrow(/realized policy estimate/i);
+  });
+});
+
+describe("Stage 6 Run C realization linkage and implementation integrity", () => {
+  it("rejects every otherwise-valid mutation of a realized cause or effect", () => {
+    const prepared = realizedPolicyWorld("run-c-realization-linkage");
+    const realization = prepared.world.history.policyRealizations.at(-1)!;
+    const effectId = realization.consequences[0]?.effectActivationId;
+    const causeId = realization.actualCausalProcessId;
+    if (!effectId || !causeId)
+      throw new Error("Expected realized policy links.");
+
+    const mutateEffect = (
+      mutate: (effect: Record<string, unknown>) => void,
+    ): World => {
+      const corrupted = structuredClone(prepared.world);
+      const effect = corrupted.history.effectActivations.find(
+        (candidate) => candidate.id === effectId,
+      );
+      if (!effect) throw new Error("Expected realized policy effect.");
+      mutate(effect as unknown as Record<string, unknown>);
+      return corrupted;
+    };
+    const alternateMechanism =
+      prepared.world.causalMechanismCatalog.definitionOrder.find(
+        (id) => id !== prepared.operation.mechanismDefinitionId,
+      );
+    if (!alternateMechanism) throw new Error("Expected alternate mechanism.");
+
+    for (const corrupted of [
+      mutateEffect((effect) => {
+        effect.direction = "decrease";
+      }),
+      mutateEffect((effect) => {
+        effect.mechanismDefinitionId = alternateMechanism;
+      }),
+      mutateEffect((effect) => {
+        effect.onsetAt = "2027-02-02";
+      }),
+      mutateEffect((effect) => {
+        effect.maturesAt = "2027-03-02";
+      }),
+      mutateEffect((effect) => {
+        effect.endsAt = "2028-02-01";
+      }),
+      mutateEffect((effect) => {
+        effect.magnitudeBasis = {
+          kind: "interval-total",
+          referencePeriod: annual(2026),
+        };
+      }),
+      mutateEffect((effect) => {
+        effect.realizationKind = "policy:other-realization";
+      }),
+    ]) {
+      expect(() => assertWorldIntegrity(corrupted)).toThrow(
+        /mismatched Run B effect/i,
+      );
+    }
+
+    const mutateCause = (
+      mutate: (cause: Record<string, unknown>) => void,
+    ): World => {
+      const corrupted = structuredClone(prepared.world);
+      const cause = corrupted.history.causalProcesses.find(
+        (candidate) => candidate.id === causeId,
+      );
+      if (!cause) throw new Error("Expected realized policy cause.");
+      mutate(cause as unknown as Record<string, unknown>);
+      return corrupted;
+    };
+    for (const corrupted of [
+      mutateCause((cause) => {
+        cause.kind = "policy:projected-alternative";
+      }),
+      mutateCause((cause) => {
+        cause.parentCausalIds = [];
+      }),
+      mutateCause((cause) => {
+        cause.sourceEntityIds = [prepared.alternative.id];
+        cause.provenance = {
+          kind: "simulated",
+          sourceEntityIds: [prepared.alternative.id],
+        };
+      }),
+    ]) {
+      expect(() => assertWorldIntegrity(corrupted)).toThrow(
+        /invalid actual causal process/i,
+      );
+    }
+
+    const jsonCorruption = mutateEffect((effect) => {
+      effect.direction = "decrease";
+    });
+    expect(() => deserializeWorld(serializeUnchecked(jsonCorruption))).toThrow(
+      /mismatched Run B effect/i,
+    );
+  });
+
+  it("prevents stale or competing estimates from applying one alternative twice", () => {
+    const prepared = baselineWorld("run-c-estimate-freshness");
+    let world = prepared.world;
+    const baseline = recordBaseline(
+      world,
+      "freshness-outlays",
+      "government.outlays",
+      annual(2027),
+      moneyValue(70_000_000_000),
+      [prepared.outlayStateId],
+    );
+    world = baseline.world;
+    const alternative = recordAlternative(world, "freshness-policy");
+    world = alternative.world;
+    const operation = recordOperation(
+      world,
+      "freshness-policy:operation",
+      alternative.alternative.id,
+      baseline.baseline,
+      {
+        kind: "absolute-change",
+        direction: "increase",
+        magnitude: moneyValue(1_000_000_000),
+      },
+    );
+    const seriesKey = "estimate:freshness" as PolicySemanticKey;
+    const first = recordEstimate(
+      operation.world,
+      "freshness-policy:e1",
+      alternative.alternative.id,
+      [operation.operation.id],
+      fullFactors([baseline.baseline.id]),
+      null,
+      seriesKey,
+    );
+    const revision = recordEstimate(
+      first.world,
+      "freshness-policy:e2",
+      alternative.alternative.id,
+      [operation.operation.id],
+      fullFactors([baseline.baseline.id]),
+      first.estimate.id,
+      seriesKey,
+    );
+    expect(() =>
+      schedulePolicyEstimateRealization(revision.world, {
+        stableKey: "freshness-policy:e1-due",
+        estimateId: first.estimate.id,
+      }),
+    ).toThrow(/superseded policy estimate/i);
+    expect(() =>
+      realizePolicyEstimate(revision.world, {
+        stableKey: "freshness-policy:e1-realization",
+        estimateId: first.estimate.id,
+        provenance: AUTHORED,
+      }),
+    ).toThrow(/superseded policy estimate/i);
+
+    let realizedFirst = realizePolicyEstimate(first.world, {
+      stableKey: "freshness-policy:e1-realized-before-revision",
+      estimateId: first.estimate.id,
+      provenance: AUTHORED,
+    });
+    const historicalRevision = recordEstimate(
+      realizedFirst,
+      "freshness-policy:e2-after-realization",
+      alternative.alternative.id,
+      [operation.operation.id],
+      fullFactors([baseline.baseline.id]),
+      first.estimate.id,
+      seriesKey,
+    );
+    realizedFirst = historicalRevision.world;
+    expect(realizedFirst.history.policyRealizations.at(-1)?.estimateId).toBe(
+      first.estimate.id,
+    );
+    expect(() =>
+      realizePolicyEstimate(realizedFirst, {
+        stableKey: "freshness-policy:e2-second-effect",
+        estimateId: historicalRevision.estimate.id,
+        provenance: AUTHORED,
+      }),
+    ).toThrow(/only one effect-producing realization/i);
+
+    const independent = recordEstimate(
+      realizedFirst,
+      "freshness-policy:independent-series",
+      alternative.alternative.id,
+      [operation.operation.id],
+      fullFactors([baseline.baseline.id]),
+    );
+    expect(independent.estimate.seriesKey).not.toBe(seriesKey);
+    expect(() =>
+      realizePolicyEstimate(independent.world, {
+        stableKey: "freshness-policy:independent-second-effect",
+        estimateId: independent.estimate.id,
+        provenance: AUTHORED,
+      }),
+    ).toThrow(/only one effect-producing realization/i);
+  });
+
+  it("allows blocked or not-triggered analysis to be revised before one later effect", () => {
+    for (const kind of ["blocked", "not-triggered"] as const) {
+      const prepared = baselineWorld(`run-c-${kind}-revision`);
+      let world = prepared.world;
+      const baseline = recordBaseline(
+        world,
+        `${kind}:outlays`,
+        "government.outlays",
+        annual(2027),
+        moneyValue(70_000_000_000),
+        [prepared.outlayStateId],
+      );
+      world = baseline.world;
+      const alternative = recordAlternative(world, `${kind}:policy`);
+      world = alternative.world;
+      const firstOperation = recordOperation(
+        world,
+        `${kind}:first-operation`,
+        alternative.alternative.id,
+        baseline.baseline,
+        {
+          kind: "absolute-change",
+          direction: "increase",
+          magnitude: moneyValue(1_000_000_000),
+        },
+        kind === "not-triggered"
+          ? {
+              trigger: {
+                baselineId: baseline.baseline.id,
+                comparison: "at-least",
+                threshold: moneyValue(80_000_000_000),
+              },
+            }
+          : {},
+      );
+      world = firstOperation.world;
+      const firstFactors =
+        kind === "blocked"
+          ? fullFactors([baseline.baseline.id]).map((factor) =>
+              factor.kind === "authority"
+                ? directPolicyImplementationFactor({
+                    kind: "authority",
+                    share: createExactQuantity(0, 1, "rate:share"),
+                    reasonKey: "implementation:authority-blocked",
+                    explanation: "The first analysis has no authority.",
+                    evidenceEntityIds: [baseline.baseline.id],
+                  })
+                : factor,
+            )
+          : fullFactors([baseline.baseline.id]);
+      const seriesKey = `estimate:${kind}-revision` as PolicySemanticKey;
+      const first = recordEstimate(
+        world,
+        `${kind}:e1`,
+        alternative.alternative.id,
+        [firstOperation.operation.id],
+        firstFactors,
+        null,
+        seriesKey,
+      );
+      world = realizePolicyEstimate(first.world, {
+        stableKey: `${kind}:e1-realization`,
+        estimateId: first.estimate.id,
+        provenance: AUTHORED,
+      });
+      expect(world.history.policyRealizations.at(-1)?.status).toBe(kind);
+      const secondOperation =
+        kind === "not-triggered"
+          ? recordOperation(
+              world,
+              `${kind}:second-operation`,
+              alternative.alternative.id,
+              baseline.baseline,
+              {
+                kind: "absolute-change",
+                direction: "increase",
+                magnitude: moneyValue(1_000_000_000),
+              },
+            )
+          : { world, operation: firstOperation.operation };
+      const second = recordEstimate(
+        secondOperation.world,
+        `${kind}:e2`,
+        alternative.alternative.id,
+        [secondOperation.operation.id],
+        fullFactors([baseline.baseline.id]),
+        first.estimate.id,
+        seriesKey,
+      );
+      world = realizePolicyEstimate(second.world, {
+        stableKey: `${kind}:e2-realization`,
+        estimateId: second.estimate.id,
+        provenance: AUTHORED,
+      });
+      expect(world.history.policyRealizations.at(-1)?.status).toBe("full");
+    }
+  });
+
+  it("rejects persisted duplicate policy due items while preserving valid domain scheduling", () => {
+    const prepared = baselineWorld("run-c-policy-due-corruption");
+    let world = prepared.world;
+    const baseline = recordBaseline(
+      world,
+      "due-corruption:outlays",
+      "government.outlays",
+      annual(2027),
+      moneyValue(70_000_000_000),
+      [prepared.outlayStateId],
+    );
+    world = baseline.world;
+    const alternative = recordAlternative(world, "due-corruption:policy");
+    world = alternative.world;
+    const operation = recordOperation(
+      world,
+      "due-corruption:operation",
+      alternative.alternative.id,
+      baseline.baseline,
+      {
+        kind: "absolute-change",
+        direction: "increase",
+        magnitude: moneyValue(1_000_000_000),
+      },
+    );
+    const estimate = recordEstimate(
+      operation.world,
+      "due-corruption:estimate",
+      alternative.alternative.id,
+      [operation.operation.id],
+      fullFactors([baseline.baseline.id]),
+    );
+    world = schedulePolicyEstimateRealization(estimate.world, {
+      stableKey: "due-corruption:policy-due",
+      estimateId: estimate.estimate.id,
+    });
+    const policyDue = world.history.futureDueItems.at(-1)!;
+    world = scheduleFutureDueItem(world, {
+      stableKey: "due-corruption:generic-due",
+      dueAt: policyDue.dueAt,
+      transitionKey: "test:generic-due",
+      entityIds: [estimate.estimate.id],
+      jurisdictionId: policyDue.jurisdictionId,
+      provenance: {
+        kind: "simulated",
+        sourceEntityIds: [estimate.estimate.id],
+      },
+    });
+    const corrupted = structuredClone(world);
+    const duplicate = corrupted.history.futureDueItems.at(-1);
+    if (!duplicate) throw new Error("Expected generic due item.");
+    (duplicate as { transitionKey: string }).transitionKey =
+      POLICY_REALIZATION_TRANSITION_KEY;
+    expect(() => deserializeWorld(serializeUnchecked(corrupted))).toThrow(
+      /duplicate realization due items/i,
+    );
+
+    const realized = realizedPolicyWorld("run-c-policy-due-after-realization");
+    const realizedEstimate = realized.estimate;
+    const lateDueWorld = scheduleFutureDueItem(realized.world, {
+      stableKey: "due-corruption:late-generic-due",
+      dueAt: "2027-02-01",
+      transitionKey: "test:generic-due",
+      entityIds: [realizedEstimate.id],
+      jurisdictionId: scope(realized.world).jurisdictionId,
+      provenance: {
+        kind: "simulated",
+        sourceEntityIds: [realizedEstimate.id],
+      },
+    });
+    const pendingAfterRealization = structuredClone(lateDueWorld);
+    const lateDue = pendingAfterRealization.history.futureDueItems.at(-1);
+    if (!lateDue) throw new Error("Expected late generic due item.");
+    (lateDue as { transitionKey: string }).transitionKey =
+      POLICY_REALIZATION_TRANSITION_KEY;
+    expect(() =>
+      deserializeWorld(serializeUnchecked(pendingAfterRealization)),
+    ).toThrow(/created after realization/i);
   });
 });
 
@@ -1044,6 +1511,23 @@ describe("Stage 6 Run C scope, subjective access, persistence, and integrity", (
         .slice(-2)
         .map((operation) => operation.targetScope.jurisdictionId),
     ).toStrictEqual([first.id, second.id]);
+    world = schedulePolicyEstimateRealization(estimate.world, {
+      stableKey: "multi-scope-policy:due",
+      estimateId: estimate.estimate.id,
+    });
+    const dueItem = world.history.futureDueItems.at(-1)!;
+    expect(dueItem.jurisdictionId).toBeNull();
+    const registry = createFutureTransitionHandlerRegistry([
+      [POLICY_REALIZATION_TRANSITION_KEY, policyRealizationTransitionHandler],
+    ]);
+    world = advanceWorld(world, 22, registry);
+    const outcomeEventId = world.history.futureDueItemStates
+      .filter((state) => state.dueItemId === dueItem.id)
+      .at(-1)?.outcomeEventId;
+    expect(
+      world.history.events.find((event) => event.id === outcomeEventId)
+        ?.jurisdictionId,
+    ).toBeNull();
   });
 
   it("requires explicit person knowledge and lets one stable actor assess policy magnitudes differently", () => {

@@ -34,7 +34,7 @@ Consumption, output, and housing pressure are intentionally aggregate typed prox
 
 Government revenue and outlays are exact money flows over explicit intervals; debt is an exact point stock. Fiscal balance is always derived as revenue minus outlays from source records with the same jurisdiction/segment scope, interval, and currency. The result preserves both source-state IDs. No independently mutable fiscal-balance truth, government bank account, appropriation, tax law, agency budget, double-entry ledger, debt instrument, or campaign/organization accounting exists.
 
-Stage 10 may later produce budget/tax/appropriation consequences into these shared metric/effect contracts. Stage 6 Run C now consumes this effect substrate through frozen policy estimates and explicit realizations without moving law authority out of Stage 7.
+Stage 10 may later produce budget/tax/appropriation consequences into these shared metric/effect contracts. Stage 6 Run C now consumes this effect substrate through frozen policy estimates and explicit realizations without moving law authority out of Stage 7. A full/partial policy realization is accepted only when its actual cause is the exact child of that estimate's projected root and every activation is the exact operation-derived Run B effect; this preserves causal identity without a second policy effect engine.
 
 ## Information, time, integrity, and persistence
 

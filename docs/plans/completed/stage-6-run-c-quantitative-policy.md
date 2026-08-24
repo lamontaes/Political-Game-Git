@@ -38,3 +38,7 @@ This run does not implement bills, law, offices, agencies, appropriations, taxes
 - Current persisted boundary is world schema 12, generator `demo-world-v12`, snapshot format 11, metric catalog v2, causal catalog v1, and person materializer v4.
 - The final checkpoint message is `Implement Stage 6 Run C quantitative policy semantics`; its exact hash and the source-audit ZIP checksum are reported externally because a commit cannot contain its own hash.
 - Run D, Run E, Stage 7+, incidents, mortality/evidence, law/institutions, public opinion/media, elections/campaigns, territory-specific data, foreign governments, and player-facing UI were not started.
+
+## Post-completion corrective audit
+
+The external Run C audit identified contained realization-integrity defects after the original completion evidence. The corrective patch enforces the exact projected-root-to-actual-cause and operation-to-effect linkage, rejects stale estimates and a second effect-producing realization of one alternative, and makes the one delayed due item per estimate semantically exact (earliest operation start, unambiguous shared jurisdiction only, no duplicate or persisted pending work after realization). It preserves schema 12, `demo-world-v12`, snapshot 11, the generic Run A scheduler, and the Run B effect substrate. Fresh focused, integration, JSON-corruption, and SQLite validation evidence is recorded with the corrective commit; Run D remains unstarted pending external re-audit.

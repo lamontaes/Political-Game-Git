@@ -624,7 +624,7 @@ An immutable baseline revision preserves exact expected value, source frontier, 
 
 ### NOW-154 — Projection and implementation are different actions
 
-Creating an alternative, operation, baseline, implementation profile, or estimate creates no effect activation and mutates no metric truth. An explicit allowed/triggered realization creates one actual causal child and compatible Run B effect activations; blocked or untriggered attempts create none. Canonical resulting metric truth is committed only through the existing Run B evaluator/writer.
+Creating an alternative, operation, baseline, implementation profile, or estimate creates no effect activation and mutates no metric truth. An explicit allowed/triggered realization creates one actual causal child whose sole parent/source lineage is the frozen estimate and compatible exact operation-derived Run B effect activations; blocked or untriggered attempts create none. A stale estimate cannot be scheduled or realized, and an alternative cannot apply a second full/partial effect. Canonical resulting metric truth is committed only through the existing Run B evaluator/writer.
 
 ### NOW-155 — Implementation preserves five independent constraints
 
@@ -644,11 +644,11 @@ A policy estimate becomes available to one actor only through an ordinary review
 
 ### NOW-159 — Delayed policy uses the one future-transition mechanism
 
-A delayed realization schedules one typed Run A due item and resolves exactly once through the ordinary handler/terminal lifecycle. It adds no recurrence, second scheduler, hidden policy tick, or automatic metric mutation. Point and interval consequences retain Run B's exact magnitude-basis and phasing rules.
+A delayed realization schedules exactly one typed Run A due item for one current estimate, due at the earliest operation start with a shared jurisdiction only when all operations share it, and resolves exactly once through the ordinary handler/terminal lifecycle. Duplicate/stale/pending-after-realization policy due records fail integrity. It adds no recurrence, second scheduler, hidden policy tick, or automatic metric mutation. Point and interval consequences retain Run B's exact magnitude-basis and phasing rules.
 
 ### NOW-160 — Run C persists and extends the permanent maximum-current gate
 
-World schema 12, generator `demo-world-v12`, metric catalog v2, causal catalog v1, snapshot 11, and materializer 4 preserve all six policy families, exact values, sources, causal/effect links, due references, actor knowledge, provenance, and global sequence through deterministic JSON and Node-only SQLite save/load/list/replace. The permanent scenario carries one continuous Stage 5 life through Run A observations/due work, Run B causal economy, and two Run C alternatives; the informed actor selects the smaller one, explicit realization fans into correlated effects, later canonical output is queryable, old cutoffs remain safe, and JSON round-trip is exact. Run D, Run E, Stage 7+, and UI remain absent.
+World schema 12, generator `demo-world-v12`, metric catalog v2, causal catalog v1, snapshot 11, and materializer 4 preserve all six policy families, exact values, sources, causal/effect links, due references, actor knowledge, provenance, and global sequence through deterministic JSON and Node-only SQLite save/load/list/replace. The permanent scenario carries one continuous Stage 5 life through Run A observations/due work, Run B causal economy, and two Run C alternatives; the informed actor selects the smaller one, exactly linked realization fans into correlated effects once, later canonical output is queryable, old cutoffs remain safe, and JSON round-trip is exact. Run D, Run E, Stage 7+, and UI remain absent.
 
 ## Manual Now
 
