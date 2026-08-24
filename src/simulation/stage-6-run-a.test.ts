@@ -31,6 +31,7 @@ import {
   worldMetricStateForPeriodAt,
   worldMetricStateHistory,
 } from "./index";
+import { setFutureDueItemTerminalState } from "./future-transitions";
 import type {
   EntityId,
   ExactQuantity,
@@ -305,6 +306,7 @@ describe("Stage 6 Run A metric definitions and canonical state", () => {
       first.id,
     );
     const correction = world.history.metricStates.at(-1)!;
+    expect(correction.sequence).toBeGreaterThan(first.sequence);
     expect(world.history.metricStates).toHaveLength(2);
     expect(
       worldMetricStateForPeriodAt(
@@ -399,6 +401,44 @@ describe("Stage 6 Run A metric definitions and canonical state", () => {
     ).toThrow(/end before/i);
   });
 
+  it("rejects a state correction recorded before its predecessor without closing late backfill", () => {
+    let world = advanceWorld(
+      bareWorld("stage-6-state-correction-chronology"),
+      46,
+    );
+    const population = metric(world, "population.resident-count");
+    const metricScope = scope(world);
+    const referencePeriod: MetricReferencePeriod = {
+      kind: "point",
+      at: makeIsoDate("2026-01-15"),
+    };
+    world = recordWorldMetricState(world, {
+      stableKey: "state:chronology:first",
+      metricId: population.id,
+      scope: metricScope,
+      referencePeriod,
+      value: quantity(10_000),
+      recordedAt: "2026-02-20",
+      provenance: { kind: "authored", note: "Later-recorded original." },
+      supersedesStateId: null,
+    });
+    const first = world.history.metricStates.at(-1)!;
+    const beforeRejectedCorrection = world;
+    expect(() =>
+      recordWorldMetricState(world, {
+        stableKey: "state:chronology:too-early",
+        metricId: population.id,
+        scope: metricScope,
+        referencePeriod,
+        value: quantity(10_050),
+        recordedAt: "2026-02-01",
+        provenance: { kind: "authored", note: "Invalid earlier correction." },
+        supersedesStateId: first.id,
+      }),
+    ).toThrow(/before its predecessor/i);
+    expect(world).toBe(beforeRejectedCorrection);
+  });
+
   it("orders the most recent truth by reference period before append sequence", () => {
     let world = bareWorld("stage-6-reference-period-ordering");
     const population = metric(world, "population.resident-count");
@@ -487,6 +527,7 @@ describe("Stage 6 Run A observations, vintages, and subjective access", () => {
       truth.id,
     );
     const revision = world.history.metricObservations.at(-1)!;
+    expect(revision.sequence).toBeGreaterThan(first.sequence);
 
     expect(
       (truth.value as { kind: "quantity"; quantity: ExactQuantity }).quantity
@@ -533,6 +574,53 @@ describe("Stage 6 Run A observations, vintages, and subjective access", () => {
     ).toStrictEqual(
       new Set(["series.agency-a-population", "series.private-population"]),
     );
+  });
+
+  it("rejects an observation revision recorded before its predecessor", () => {
+    let world = advanceWorld(bareWorld("stage-6-observation-chronology"), 46);
+    const population = metric(world, "population.resident-count");
+    const metricScope = scope(world);
+    const referencePeriod: MetricReferencePeriod = {
+      kind: "point",
+      at: makeIsoDate("2026-01-15"),
+    };
+    const firstInput = {
+      metricId: population.id,
+      scope: metricScope,
+      referencePeriod,
+      value: quantity(9_900),
+      sourceSeriesKey: "series.chronology-fixture",
+      sourceLabel: "Chronology fixture source",
+      sourceReference: null,
+      methodologyKey: null,
+      uncertainty: {
+        kind: "margin-of-error" as const,
+        margin: quantity(25),
+        confidence: null,
+      },
+      underlyingStateId: null,
+    };
+    world = recordWorldMetricObservation(world, {
+      ...firstInput,
+      stableKey: "observation:chronology:first",
+      releaseDate: "2026-01-20",
+      recordedAt: "2026-02-20",
+      vintageKey: "vintage.chronology.first",
+      supersedesObservationId: null,
+    });
+    const first = world.history.metricObservations.at(-1)!;
+    const beforeRejectedRevision = world;
+    expect(() =>
+      recordWorldMetricObservation(world, {
+        ...firstInput,
+        stableKey: "observation:chronology:too-early",
+        releaseDate: "2026-01-25",
+        recordedAt: "2026-02-01",
+        vintageKey: "vintage.chronology.revision",
+        supersedesObservationId: first.id,
+      }),
+    ).toThrow(/before its predecessor/i);
+    expect(world).toBe(beforeRejectedRevision);
   });
 
   it("validates uncertainty and revision identity without fabricating unsupported coverage", () => {
@@ -932,6 +1020,28 @@ describe("Stage 6 Run A future due items and authoritative time", () => {
     expect(scheduled).toStrictEqual(before);
   });
 
+  it("rejects unsafe terminal statuses atomically", () => {
+    const world = schedule(
+      bareWorld("stage-6-due-runtime-status"),
+      "due:runtime-status",
+      "2026-01-15",
+    );
+    const dueItem = world.history.futureDueItems.at(-1)!;
+    const before = structuredClone(world);
+    expect(() =>
+      setFutureDueItemTerminalState(world, {
+        stableKey: "due:runtime-status:invalid",
+        dueItemId: dueItem.id,
+        effectiveAt: world.currentDate,
+        status: "nonsense" as never,
+        reasonKey: null,
+        context: null,
+        outcomeEventId: null,
+      }),
+    ).toThrow(/invalid terminal future due-item status/i);
+    expect(world).toStrictEqual(before);
+  });
+
   it("preserves legacy time behavior when there are no pending due items", () => {
     const world = bareWorld("stage-6-no-due-items");
     const advanced = advanceWorld(world, 3);
@@ -1016,5 +1126,62 @@ describe("Stage 6 Run A persistence and loaded-world integrity", () => {
     expect(() => deserializeWorld(JSON.stringify(parsed))).toThrow(
       /unavailable entity/i,
     );
+  });
+
+  it("rejects committed due-now and unknown-status lifecycle corruption", () => {
+    const base = bareWorld("stage-6-due-corrupt-lifecycle");
+    const world = scheduleFutureDueItem(base, {
+      stableKey: "due:corrupt-lifecycle",
+      dueAt: "2026-01-15",
+      transitionKey: "custom:synthetic-transition",
+      entityIds: [base.jurisdictionOrder[0]!],
+      jurisdictionId: base.jurisdictionOrder[0]!,
+      provenance: { kind: "authored", note: "Corrupt lifecycle fixture." },
+    });
+
+    const dueNow = structuredClone(world);
+    (dueNow as { currentDate: string }).currentDate = "2026-01-15";
+    expect(() => assertWorldIntegrity(dueNow)).toThrow(
+      /current time frontier/i,
+    );
+    const dueNowSnapshot = JSON.parse(serializeWorld(world)) as {
+      snapshotId: EntityId;
+      world: World;
+    };
+    (dueNowSnapshot.world as { currentDate: string }).currentDate =
+      "2026-01-15";
+    dueNowSnapshot.snapshotId = createStableId(
+      "snapshot",
+      JSON.stringify(dueNowSnapshot.world),
+    );
+    expect(() => deserializeWorld(JSON.stringify(dueNowSnapshot))).toThrow(
+      /current time frontier/i,
+    );
+
+    const unknownStatus = structuredClone(world);
+    (
+      unknownStatus.history.futureDueItemStates[0] as unknown as {
+        status: string;
+      }
+    ).status = "nonsense";
+    expect(() => assertWorldIntegrity(unknownStatus)).toThrow(
+      /invalid status/i,
+    );
+    const unknownStatusSnapshot = JSON.parse(serializeWorld(world)) as {
+      snapshotId: EntityId;
+      world: World;
+    };
+    (
+      unknownStatusSnapshot.world.history.futureDueItemStates[0] as unknown as {
+        status: string;
+      }
+    ).status = "nonsense";
+    unknownStatusSnapshot.snapshotId = createStableId(
+      "snapshot",
+      JSON.stringify(unknownStatusSnapshot.world),
+    );
+    expect(() =>
+      deserializeWorld(JSON.stringify(unknownStatusSnapshot)),
+    ).toThrow(/invalid status/i);
   });
 });

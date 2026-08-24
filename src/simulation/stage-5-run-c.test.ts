@@ -2276,6 +2276,11 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
         (event) => event.id === resolvedDueState?.outcomeEventId,
       ),
     ).toBe(true);
+    expect(
+      world.history.events.filter(
+        (event) => event.id === resolvedDueState?.outcomeEventId,
+      ),
+    ).toHaveLength(1);
     expect(serializeWorld(world)).toBe(
       serializeWorld(deserializeWorld(serializeWorld(world))),
     );

@@ -10,6 +10,7 @@ import type {
   FutureDueItem,
   FutureDueItemProvenance,
   FutureDueItemStateRecord,
+  FutureDueItemStatus,
   FutureDueReasonKey,
   FutureTransitionHandler,
   FutureTransitionHandlerRegistry,
@@ -50,6 +51,30 @@ export interface CancelFutureDueItemInput {
   readonly effectiveAt: string;
   readonly reasonKey: FutureDueReasonKey;
   readonly context: string | null;
+}
+
+const FUTURE_DUE_ITEM_STATUSES = [
+  "scheduled",
+  "resolved",
+  "cancelled",
+  "blocked",
+] as const;
+
+function isFutureDueItemStatus(value: unknown): value is FutureDueItemStatus {
+  return (
+    typeof value === "string" &&
+    FUTURE_DUE_ITEM_STATUSES.includes(value as FutureDueItemStatus)
+  );
+}
+
+function assertTerminalFutureDueItemStatus(
+  value: unknown,
+): asserts value is Exclude<FutureDueItemStatus, "scheduled"> {
+  if (!isFutureDueItemStatus(value) || value === "scheduled") {
+    throw new Error(
+      `Invalid terminal future due-item status: ${String(value)}`,
+    );
+  }
 }
 
 export function createFutureTransitionHandlerRegistry(
@@ -156,15 +181,17 @@ export function scheduleFutureDueItem(
   });
 }
 
-export function setFutureDueItemTerminalState(
+function setFutureDueItemTerminalStateInternal(
   world: World,
   input: SetFutureDueItemTerminalStateInput,
+  validateResult: boolean,
 ): World {
   assertUniqueStableKey(
     world.history.futureDueItemStates,
     input.stableKey,
     "future due-item state",
   );
+  assertTerminalFutureDueItemStatus(input.status);
   const dueItem = world.history.futureDueItems.find(
     (candidate) => candidate.id === input.dueItemId,
   );
@@ -229,11 +256,22 @@ export function setFutureDueItemTerminalState(
     outcomeEventId: input.outcomeEventId,
     supersedesStateId: previous.id,
   };
-  return commit(world, {
-    ...world.history,
-    nextSequence: world.history.nextSequence + 1,
-    futureDueItemStates: [...world.history.futureDueItemStates, record],
-  });
+  return commit(
+    world,
+    {
+      ...world.history,
+      nextSequence: world.history.nextSequence + 1,
+      futureDueItemStates: [...world.history.futureDueItemStates, record],
+    },
+    validateResult,
+  );
+}
+
+export function setFutureDueItemTerminalState(
+  world: World,
+  input: SetFutureDueItemTerminalStateInput,
+): World {
+  return setFutureDueItemTerminalStateInternal(world, input, true);
 }
 
 export function cancelFutureDueItem(
@@ -345,16 +383,25 @@ export function resolveFutureDueItemsThrough(
         "Future-transition handlers cannot write due-item state directly.",
       );
     }
-    assertWorldIntegrity(result.world);
-    working = setFutureDueItemTerminalState(result.world, {
-      stableKey: `${item.stableKey}:state:${result.status}:${item.dueAt}`,
-      dueItemId: item.id,
-      effectiveAt: item.dueAt,
-      status: result.status,
-      reasonKey: result.reasonKey,
-      context: result.context,
-      outcomeEventId: result.outcomeEventId,
-    });
+    working = setFutureDueItemTerminalStateInternal(
+      result.world,
+      {
+        stableKey: `${item.stableKey}:state:${result.status}:${item.dueAt}`,
+        dueItemId: item.id,
+        effectiveAt: item.dueAt,
+        status: result.status,
+        reasonKey: result.reasonKey,
+        context: result.context,
+        outcomeEventId: result.outcomeEventId,
+      },
+      false,
+    );
+    const next = scheduledFutureDueItemsThrough(
+      working,
+      startingDate,
+      throughDate,
+    )[0];
+    if (!next || next.dueAt !== item.dueAt) assertWorldIntegrity(working);
   }
 }
 
@@ -464,6 +511,9 @@ export function assertFutureTransitionIntegrity(
       );
     }
     makeIsoDate(state.effectiveAt);
+    if (!isFutureDueItemStatus(state.status)) {
+      throw new Error(`Future due-item state has invalid status: ${state.id}`);
+    }
     if (
       state.effectiveAt < item.scheduledAt ||
       state.effectiveAt > world.currentDate
@@ -545,9 +595,9 @@ export function assertFutureTransitionIntegrity(
       throw new Error(`Future due item lacks one valid lifecycle: ${item.id}`);
     }
     const latest = states.at(-1);
-    if (latest?.status === "scheduled" && item.dueAt < world.currentDate) {
+    if (latest?.status === "scheduled" && item.dueAt <= world.currentDate) {
       throw new Error(
-        `Future due item was skipped by authoritative time: ${item.id}`,
+        `Future due item was not resolved before the current time frontier: ${item.id}`,
       );
     }
   }
@@ -715,9 +765,13 @@ function bySequence<T extends { readonly sequence: number }>(
   return left.sequence - right.sequence;
 }
 
-function commit(world: World, history: World["history"]): World {
+function commit(
+  world: World,
+  history: World["history"],
+  validateResult = true,
+): World {
   const next = { ...world, history };
-  assertWorldIntegrity(next);
+  if (validateResult) assertWorldIntegrity(next);
   return next;
 }
 

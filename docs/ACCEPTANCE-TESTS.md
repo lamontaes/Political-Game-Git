@@ -560,11 +560,11 @@ The deterministic world-metric catalog validates stable IDs/keys, open domain/ta
 
 ### NOW-138 — Canonical metric truth is append-oriented and cutoff-safe
 
-One exact metric/scope/period admits one initial canonical state. Any correction explicitly supersedes the latest exact match and preserves the earlier record; crossing metric/scope/period is rejected. Exact-period and most-recent-period queries apply recording date plus exclusive sequence, so a later-appended backdated correction is absent from an earlier cutoff and an old corrected period does not become the newest reference period.
+One exact metric/scope/period admits one initial canonical state. Any correction explicitly supersedes the latest exact match, preserves the earlier record, and cannot be recorded before its predecessor; crossing metric/scope/period is rejected. Same-day correction ordering remains sequence-safe. Exact-period and most-recent-period queries apply recording date plus exclusive sequence, so a later-appended backdated correction is absent from an earlier cutoff and an old corrected period does not become the newest reference period; legitimate late backfill of a different scope or period remains valid.
 
 ### NOW-139 — Observation sources, vintages, and uncertainty remain separate from truth
 
-Independent source series may publish different exact estimates for the same truth. Revisions remain in the same metric/scope/period/series, explicitly supersede the prior vintage, and become latest only after release/recording/sequence availability. Range and margin-of-error uncertainty require compatible units/currency, ordered bounds, nonnegative margin, and optional exact share confidence. State never fabricates observation; observation never creates or mutates state; all-series queries return competing sources rather than arbitrarily selecting one.
+Independent source series may publish different exact estimates for the same truth. Revisions remain in the same metric/scope/period/series, explicitly supersede the prior vintage, cannot be recorded before that predecessor, and become latest only after release/recording/sequence availability. Same-day revision ordering remains sequence-safe. Range and margin-of-error uncertainty require compatible units/currency, ordered bounds, nonnegative margin, and optional exact share confidence. State never fabricates observation; observation never creates or mutates state; all-series queries return competing sources rather than arbitrarily selecting one.
 
 ### NOW-140 — Statistics are not omniscient
 
@@ -572,15 +572,15 @@ Committing truth or an observation creates no person knowledge. An explicit ordi
 
 ### NOW-141 — One future-transition mechanism is authoritative over time
 
-Scheduling creates one stable due identity and scheduled history with a future date, open transition key, stable canonical references, jurisdiction/provenance, and no opaque payload, recurrence, closure, formula, or copied domain truth. `advanceWorld` leaves later items scheduled, resolves crossed items by due date then creation sequence through injected deterministic handlers, appends one resolved/blocked/cancelled terminal state and optional ordinary outcome event, never reruns terminal items, and preserves prior no-due behavior.
+Scheduling creates one stable due identity and scheduled history with a future date, open transition key, stable canonical references, jurisdiction/provenance, and no opaque payload, recurrence, closure, formula, or copied domain truth. The closed state vocabulary is runtime- and load-validated. `advanceWorld` leaves later items scheduled, resolves crossed items by due date then creation sequence through injected deterministic handlers, settles each same-date batch before the current frontier is committed, appends one resolved/blocked/cancelled terminal state and optional ordinary outcome event, never reruns terminal items, and preserves prior no-due behavior. A saved world with a latest scheduled item due at or before its current date is invalid.
 
 ### NOW-142 — Due transition failure is atomic and inspectable
 
-Past/impossible scheduling, missing references, malformed keys, invalid terminal chronology, direct handler scheduler writes, and invalid outcome links fail integrity. Every crossed transition key is preflighted; an unknown or throwing handler returns no partial durable world. The original immutable input remains exact. Corrupted loaded due or supersession histories fail the permanent integrity gate.
+Past/impossible scheduling, missing references, malformed keys/status, invalid terminal chronology, direct handler scheduler writes, and invalid outcome links fail integrity. Every crossed transition key is preflighted; an unknown or throwing handler returns no partial durable world. The original immutable input remains exact. Corrupted loaded due-now, unknown-status, or supersession histories fail the permanent integrity gate.
 
 ### NOW-143 — Stage 6 Run A persists and extends the permanent maximum-current gate
 
-World schema 10, generator `demo-world-v10`, snapshot format 9, and materializer 4 preserve the metric catalog, exact quantities/money, state corrections, observation sources/vintages/uncertainty, due identity/state, global sequence, provenance, and references through deterministic JSON and Node-only SQLite save/load/list/replace. The continuous Stage 5 character now also has jurisdictional metric truth, a differing public observation, explicit one-person knowledge, and an exactly-once future transition while retaining formative, education, work, household/care, resources/housing, relationship, appraisal, temporary-state, perception, and decision history. Runs B–E, Stage 7+, and player-facing UI remain unimplemented.
+World schema 10, generator `demo-world-v10`, snapshot format 9, and materializer 4 preserve the metric catalog, exact quantities/money, state corrections, observation sources/vintages/uncertainty, due identity/state, global sequence, provenance, and references through deterministic JSON and Node-only SQLite save/load/list/replace. The continuous Stage 5 character now also has jurisdictional metric truth, a differing public observation, explicit one-person knowledge, and an exactly-once future transition with one linked ordinary outcome event while retaining formative, education, work, household/care, resources/housing, relationship, appraisal, temporary-state, perception, and decision history. Runs B–E, Stage 7+, and player-facing UI remain unimplemented.
 
 ## Manual Now
 

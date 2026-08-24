@@ -195,7 +195,7 @@ If an answer is intentionally deferred, record the boundary rather than inventin
 
 ## Future Due Items and Authoritative Time Dispatch
 
-- **Owns:** one stable future due identity, due date, open transition key, sorted canonical domain references, optional jurisdiction/provenance, append-oriented scheduled/resolved/cancelled/blocked state, and nonserialized deterministic handler registry integrated with `advanceWorld`.
+- **Owns:** one stable future due identity, due date, open transition key, sorted canonical domain references, optional jurisdiction/provenance, append-oriented closed scheduled/resolved/cancelled/blocked state, and nonserialized deterministic handler registry integrated with `advanceWorld`. A committed frontier cannot retain a scheduled due-now or overdue item.
 - **Stable IDs exposed:** `FutureDueItem.id`, `FutureDueItemStateRecord.id`, referenced canonical entity IDs, and optional ordinary outcome-event ID.
 - **Referenced by:** authoritative time advancement now; later terms, elections, policy effective dates/sunsets/phases, deadlines, court stays, appointments, and incident follow-ons.
 - **Queries/APIs:** schedule, explicit terminal cancellation, cutoff-aware state lookup, due-range ordering, registry construction, and internal deterministic resolution through `advanceWorld`.
@@ -499,7 +499,7 @@ Decision evaluation remains distinct from application and canonical history. Aut
 - **Stable IDs exposed:** snapshot ID and world ID.
 - **Referenced by:** SQLite repository, CLI/demo result, and future save adapters.
 - **Queries/APIs:** `createWorldSnapshot`, `serializeWorld`, and `deserializeWorld`.
-- **Serialization/persistence:** snapshot format 9 contains world schema 10 and the complete graph; load returns a defensive clone after validating per-family append order, the contiguous global sequence, cross-record chronology and sequence direction, union discriminators, categorical values, life and mind provenance, lifecycle transitions, typed life-source availability, exact quantity/unit and money/resource reconciliation, metric corrections/observation vintages, future due references/states/outcome events, dwelling/occupancy/tenure references, control references, stored load derivations, and durable trace structure.
+- **Serialization/persistence:** snapshot format 9 contains world schema 10 and the complete graph; load returns a defensive clone after validating per-family append order, the contiguous global sequence, cross-record chronology and sequence direction, union discriminators, categorical values, life and mind provenance, lifecycle transitions, typed life-source availability, exact quantity/unit and money/resource reconciliation, metric correction/observation predecessor chronology, future due references/closed states/current-frontier settlement/outcome events, dwelling/occupancy/tenure references, control references, stored load derivations, and durable trace structure.
 - **Temporary scaffolding:** no migrations, action journal, compression, recovery, parent/branch lineage, or compatibility promise for older formats.
 - **Future consumers:** desktop saves, autosave/recovery, Observer Mode, branches, archive export, debugging, and cross-platform packaging.
 

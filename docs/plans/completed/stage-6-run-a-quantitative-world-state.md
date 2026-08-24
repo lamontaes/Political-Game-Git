@@ -41,6 +41,12 @@ This run does not implement economy dynamics, causal effects, policy baselines o
 - Online `npm audit --audit-level=high` completed with zero vulnerabilities.
 - Final artifact/scope review found no generated junk, secret, duplicate repository, local-machine file, Stage 6 Run B–E implementation, Stage 7+ implementation, or UI change. The pre-existing untracked `Political-Game-5f1f230-source.zip` remains untouched and excluded.
 
+## Post-completion corrective audit — 2026-08-24
+
+A contained corrective audit on the accepted Run A architecture closes four semantic gaps without rewriting the original completion evidence: committed/latest scheduled due items at or before the current frontier are invalid; due-state status is a closed runtime/load vocabulary; canonical state corrections cannot be recorded before their predecessor; and within-series observation revisions cannot be recorded before their predecessor. Same-day chain ordering remains sequence-safe, while different-scope/period late backfill remains valid and cutoff-safe.
+
+Focused Run A coverage grows from the original 15 tests to 19, adding persisted due-now and unknown-status corruption rejection, unsafe runtime terminal-status atomicity, and state/observation predecessor-date atomicity. The existing continuous Stage 5-to-Run-A integration gate now also asserts its one linked due outcome event exists exactly once. No schema/version migration, Run B implementation, or scope expansion is implied by this correction.
+
 ## Version and checkpoint record
 
 World schema is 10, generator is `demo-world-v10`, snapshot format is 9, world-metric catalog is `world-metric-catalog-v1`, and person materializer remains version 4. Unsupported older snapshots remain explicit rejection; no migration or fabricated history sequence was added.

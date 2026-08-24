@@ -546,6 +546,11 @@ function validateStateRecord(
       `Metric-state correction must explicitly supersede the latest matching truth: ${record.id}`,
     );
   }
+  if (previous && previous.recordedAt > record.recordedAt) {
+    throw new Error(
+      `Metric-state correction cannot be recorded before its predecessor: ${record.id}`,
+    );
+  }
   validateStateProvenance(world, record);
 }
 
@@ -607,6 +612,11 @@ function validateObservationRecord(
   if (previous && previous.releaseDate > record.releaseDate) {
     throw new Error(
       `Observation revision predates its prior release: ${record.id}`,
+    );
+  }
+  if (previous && previous.recordedAt > record.recordedAt) {
+    throw new Error(
+      `Observation revision cannot be recorded before its predecessor: ${record.id}`,
     );
   }
   if (previous && previous.vintageKey === record.vintageKey) {
