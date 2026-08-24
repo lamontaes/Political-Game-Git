@@ -258,6 +258,10 @@ describe("SQLite world repository", () => {
       targetScope: { jurisdictionId, segmentKey: null },
       direction: "increase",
       magnitude: { kind: "money", money: money(100_000, "USD") },
+      magnitudeBasis: {
+        kind: "interval-total",
+        referencePeriod: outputPeriod,
+      },
       activatedAt: "2026-01-10",
       onsetAt: "2026-01-10",
       maturesAt: "2026-01-10",

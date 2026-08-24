@@ -1,4 +1,4 @@
-import { daysBetween, makeIsoDate } from "./dates";
+import { addDays, daysBetween, makeIsoDate } from "./dates";
 import {
   futureTransitionEntityAvailableAt,
   futureTransitionEntityExists,
@@ -30,6 +30,7 @@ import type {
   EffectActivationRecord,
   EffectContribution,
   EffectDirection,
+  EffectMagnitudeBasis,
   EffectRealizationKind,
   EffectTargetBound,
   EffectThreshold,
@@ -86,6 +87,7 @@ export interface ActivateEffectInput {
   readonly targetScope: MetricScope;
   readonly direction: EffectDirection;
   readonly magnitude: WorldMetricValue;
+  readonly magnitudeBasis: EffectMagnitudeBasis;
   readonly activatedAt: string;
   readonly onsetAt: string;
   readonly maturesAt: string;
@@ -281,6 +283,7 @@ export function activateEffect(
     sequence: world.history.nextSequence,
     targetScope: { ...input.targetScope },
     magnitude: cloneMetricValue(input.magnitude),
+    magnitudeBasis: cloneEffectMagnitudeBasis(input.magnitudeBasis),
     activatedAt: makeIsoDate(input.activatedAt),
     onsetAt: makeIsoDate(input.onsetAt),
     maturesAt: makeIsoDate(input.maturesAt),
@@ -378,6 +381,9 @@ export function evaluateEffectContribution(
     throw new Error("Effect evaluation date is outside its historical cutoff.");
   }
   validateReferencePeriod(input.referencePeriod);
+  if (referencePeriodEnd(input.referencePeriod) > evaluatedAt) {
+    throw new Error("Effect target period is after its evaluation frontier.");
+  }
   const activation = world.history.effectActivations.find(
     (candidate) => candidate.id === input.effectActivationId,
   );
@@ -390,6 +396,13 @@ export function evaluateEffectContribution(
   if (definition.referencePeriodKind !== input.referencePeriod.kind) {
     throw new Error("Effect evaluation period does not match target metric.");
   }
+  if (
+    !effectMagnitudeMatchesReferencePeriod(activation, input.referencePeriod)
+  ) {
+    throw new Error(
+      "Effect magnitude basis does not match the evaluation reference period.",
+    );
+  }
   assertMetricValueForDefinition(input.baselineValue, definition);
   assertCompatibleMetricValues(input.baselineValue, activation.magnitude);
   const roots = distinctRootCausalIds(
@@ -397,7 +410,11 @@ export function evaluateEffectContribution(
     [activation.causalProcessId],
     input.cutoff,
   );
-  const factorResult = responseFactorAt(world, activation, evaluatedAt);
+  const factorResult = responseFactorAt(
+    world,
+    activation,
+    causalPhaseDate(input.referencePeriod),
+  );
   if (
     factorResult.phase !== "not-started" &&
     factorResult.phase !== "expired" &&
@@ -438,6 +455,13 @@ export function evaluateAggregateMetric(
 ): AggregateMetricEvaluation {
   validateCutoff(world, input.cutoff);
   const evaluatedAt = makeIsoDate(input.evaluatedAt);
+  if (evaluatedAt > input.cutoff.asOfDate || evaluatedAt > world.currentDate) {
+    throw new Error("Effect evaluation date is outside its historical cutoff.");
+  }
+  validateReferencePeriod(input.referencePeriod);
+  if (referencePeriodEnd(input.referencePeriod) > evaluatedAt) {
+    throw new Error("Effect target period is after its evaluation frontier.");
+  }
   const baseline = world.history.metricStates.find(
     (candidate) => candidate.id === input.baselineStateId,
   );
@@ -462,6 +486,8 @@ export function evaluateAggregateMetric(
     baseline.metricId,
     baseline.scope,
     input.cutoff,
+  ).filter((activation) =>
+    effectMagnitudeMatchesReferencePeriod(activation, input.referencePeriod),
   );
   const contributions: EffectContribution[] = [];
   let resultingValue = cloneMetricValue(baseline.value);
@@ -696,6 +722,7 @@ function validateEffectActivation(
   }
   validateMetricScope(world, activation.targetScope);
   assertMetricValueForDefinition(activation.magnitude, metric);
+  validateEffectMagnitudeBasis(activation, metric);
   if (metricValueSign(activation.magnitude) < 0) {
     throw new Error(`Effect magnitude cannot be negative: ${activation.id}`);
   }
@@ -813,24 +840,24 @@ function validateCausalProvenance(
 function responseFactorAt(
   world: World,
   activation: EffectActivationRecord,
-  evaluatedAt: string,
+  targetDate: string,
 ): {
   readonly phase: EffectContribution["phase"];
   readonly factor: ReturnType<typeof zeroShare>;
 } {
-  if (evaluatedAt < activation.onsetAt) {
+  if (targetDate < activation.onsetAt) {
     return { phase: "not-started", factor: zeroShare() };
   }
-  if (activation.endsAt !== null && evaluatedAt >= activation.endsAt) {
+  if (activation.endsAt !== null && targetDate >= activation.endsAt) {
     return { phase: "expired", factor: zeroShare() };
   }
   if (
     activation.maturesAt === activation.onsetAt ||
-    evaluatedAt >= activation.maturesAt
+    targetDate >= activation.maturesAt
   ) {
     return { phase: "mature", factor: oneShare() };
   }
-  const elapsed = daysBetween(activation.onsetAt, makeIsoDate(evaluatedAt));
+  const elapsed = daysBetween(activation.onsetAt, makeIsoDate(targetDate));
   const rampDays = daysBetween(activation.onsetAt, activation.maturesAt);
   const linear = createExactQuantity(elapsed, rampDays, "rate:share");
   const mechanism =
@@ -849,6 +876,72 @@ function responseFactorAt(
     phase: "ramping",
     factor: subtractExactQuantities(twice, square),
   };
+}
+
+function validateEffectMagnitudeBasis(
+  activation: EffectActivationRecord,
+  metric: WorldMetricDefinition,
+): void {
+  const basis = activation.magnitudeBasis;
+  if (!basis || typeof basis !== "object") {
+    throw new Error(
+      `Effect activation has no magnitude basis: ${activation.id}`,
+    );
+  }
+  if (metric.referencePeriodKind === "point") {
+    if (basis.kind !== "point-at-target") {
+      throw new Error(
+        `Point metric effect requires a point-at-target magnitude basis: ${activation.id}`,
+      );
+    }
+    return;
+  }
+  if (basis.kind !== "interval-total") {
+    throw new Error(
+      `Interval metric effect requires an exact interval-total magnitude basis: ${activation.id}`,
+    );
+  }
+  validateReferencePeriod(basis.referencePeriod);
+  if (basis.referencePeriod.kind !== "interval") {
+    throw new Error(
+      `Interval metric effect has an invalid magnitude reference period: ${activation.id}`,
+    );
+  }
+}
+
+function effectMagnitudeMatchesReferencePeriod(
+  activation: EffectActivationRecord,
+  referencePeriod: MetricReferencePeriod,
+): boolean {
+  return activation.magnitudeBasis.kind === "point-at-target"
+    ? referencePeriod.kind === "point"
+    : referencePeriod.kind === "interval" &&
+        sameReferencePeriod(
+          activation.magnitudeBasis.referencePeriod,
+          referencePeriod,
+        );
+}
+
+/**
+ * Interval effects use the earlier inclusive midpoint as their one bounded,
+ * deterministic representative date. This avoids a hidden duration integral
+ * while keeping onset/ramp/expiry tied to the target interval, never to the
+ * later date at which it is evaluated or recorded.
+ */
+function causalPhaseDate(referencePeriod: MetricReferencePeriod): string {
+  if (referencePeriod.kind === "point") return referencePeriod.at;
+  return addDays(
+    referencePeriod.startsAt,
+    Math.floor(
+      daysBetween(referencePeriod.startsAt, referencePeriod.endsAt) / 2,
+    ),
+  );
+}
+
+function referencePeriodEnd(referencePeriod: MetricReferencePeriod): string {
+  return referencePeriod.kind === "point"
+    ? referencePeriod.at
+    : referencePeriod.endsAt;
 }
 
 function thresholdSatisfied(
@@ -1048,6 +1141,22 @@ function cloneMetricValue(value: WorldMetricValue): WorldMetricValue {
   return value.kind === "quantity"
     ? { kind: "quantity", quantity: { ...value.quantity } }
     : { kind: "money", money: { ...value.money } };
+}
+
+function cloneEffectMagnitudeBasis(
+  basis: EffectMagnitudeBasis,
+): EffectMagnitudeBasis {
+  if (!basis || typeof basis !== "object") {
+    return basis;
+  }
+  return basis.kind === "point-at-target"
+    ? { kind: "point-at-target" }
+    : basis.kind === "interval-total"
+      ? {
+          kind: "interval-total",
+          referencePeriod: { ...basis.referencePeriod },
+        }
+      : basis;
 }
 
 function cloneThreshold(

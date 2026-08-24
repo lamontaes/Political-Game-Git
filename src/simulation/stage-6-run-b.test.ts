@@ -26,6 +26,7 @@ import type {
   ActivateEffectInput,
   CausalProcessRecord,
   EffectActivationRecord,
+  EffectMagnitudeBasis,
   EntityId,
   HistoricalCutoff,
   MetricReferencePeriod,
@@ -59,11 +60,14 @@ function cutoff(world: World, asOfDate = world.currentDate): HistoricalCutoff {
   };
 }
 
-function point(at: string): MetricReferencePeriod {
+function point(at: string): Extract<MetricReferencePeriod, { kind: "point" }> {
   return { kind: "point", at: at as World["currentDate"] };
 }
 
-function interval(startsAt: string, endsAt: string): MetricReferencePeriod {
+function interval(
+  startsAt: string,
+  endsAt: string,
+): Extract<MetricReferencePeriod, { kind: "interval" }> {
   return {
     kind: "interval",
     startsAt: startsAt as World["currentDate"],
@@ -164,14 +168,23 @@ function activate(
       (definition) => definition?.stableKey === "mechanism.linear-transition",
     );
   if (!linear) throw new Error("Expected linear mechanism definition.");
+  const targetMetric = metric(world, metricKey);
+  const magnitudeBasis: EffectMagnitudeBasis =
+    targetMetric.referencePeriodKind === "point"
+      ? { kind: "point-at-target" }
+      : {
+          kind: "interval-total",
+          referencePeriod: interval("2026-01-01", "2026-03-31"),
+        };
   const next = activateEffect(world, {
     stableKey,
     mechanismDefinitionId: linear.id,
     causalProcessId: causeId,
-    targetMetricId: metric(world, metricKey).id,
+    targetMetricId: targetMetric.id,
     targetScope: scope(world),
     direction: "increase",
     magnitude,
+    magnitudeBasis,
     activatedAt: "2026-01-10",
     onsetAt: "2026-02-01",
     maturesAt: "2026-03-01",
@@ -333,11 +346,11 @@ describe("Stage 6 Run B effect mechanisms", () => {
     );
     world = activated.world;
     const baseline = quantityValue(100, 1, "index:housing-pressure");
-    const evaluate = (evaluatedAt: string) =>
+    const evaluate = (targetAt: string, evaluatedAt = targetAt) =>
       evaluateEffectContribution(world, {
         effectActivationId: activated.effect.id,
         evaluatedAt,
-        referencePeriod: point("2026-03-31"),
+        referencePeriod: point(targetAt),
         cutoff: cutoff(world),
         baselineValue: baseline,
       });
@@ -346,6 +359,14 @@ describe("Stage 6 Run B effect mechanisms", () => {
       phase: "not-started",
       factor: { numerator: 0, denominator: 1 },
       signedValue: { quantity: { numerator: 0 } },
+    });
+    expect(evaluate("2026-01-31", "2026-04-15")).toMatchObject({
+      phase: "not-started",
+      factor: { numerator: 0, denominator: 1 },
+    });
+    expect(evaluate("2026-02-01")).toMatchObject({
+      phase: "ramping",
+      factor: { numerator: 0, denominator: 1 },
     });
     expect(evaluate("2026-02-15")).toMatchObject({
       phase: "ramping",
@@ -361,6 +382,201 @@ describe("Stage 6 Run B effect mechanisms", () => {
       phase: "expired",
       factor: { numerator: 0, denominator: 1 },
     });
+  });
+
+  it("uses the target interval's deterministic midpoint rather than the later evaluation date", () => {
+    const world = worldForRunB("run-b-interval-phase-date");
+    const root = recordRootCause(world, "cause:interval-phase-date");
+    const evaluateInterval = (
+      stableKey: string,
+      referencePeriod: Extract<MetricReferencePeriod, { kind: "interval" }>,
+    ) => {
+      const activated = activate(
+        root.world,
+        stableKey,
+        root.cause.id,
+        "economy.output-activity",
+        moneyValue(20_000),
+        {
+          magnitudeBasis: { kind: "interval-total", referencePeriod },
+        },
+      );
+      return evaluateEffectContribution(activated.world, {
+        effectActivationId: activated.effect.id,
+        evaluatedAt: "2026-06-30",
+        referencePeriod,
+        cutoff: cutoff(activated.world),
+        baselineValue: moneyValue(100_000),
+      });
+    };
+
+    expect(
+      evaluateInterval(
+        "effect:interval-before",
+        interval("2026-01-01", "2026-01-31"),
+      ),
+    ).toMatchObject({ phase: "not-started", factor: { numerator: 0 } });
+    expect(
+      evaluateInterval(
+        "effect:interval-onset",
+        interval("2026-01-31", "2026-02-02"),
+      ),
+    ).toMatchObject({ phase: "ramping", factor: { numerator: 0 } });
+    expect(
+      evaluateInterval(
+        "effect:interval-ramp",
+        interval("2026-02-14", "2026-02-16"),
+      ),
+    ).toMatchObject({
+      phase: "ramping",
+      factor: { numerator: 1, denominator: 2 },
+    });
+    expect(
+      evaluateInterval(
+        "effect:interval-mature",
+        interval("2026-03-01", "2026-03-01"),
+      ),
+    ).toMatchObject({
+      phase: "mature",
+      factor: { numerator: 1, denominator: 1 },
+    });
+    expect(
+      evaluateInterval(
+        "effect:interval-spans-maturity",
+        interval("2026-02-28", "2026-03-02"),
+      ),
+    ).toMatchObject({
+      phase: "mature",
+      factor: { numerator: 1, denominator: 1 },
+    });
+    expect(
+      evaluateInterval(
+        "effect:interval-expiry-overlap",
+        interval("2026-04-30", "2026-05-02"),
+      ),
+    ).toMatchObject({ phase: "expired", factor: { numerator: 0 } });
+    expect(
+      evaluateInterval(
+        "effect:interval-expired",
+        interval("2026-05-01", "2026-05-03"),
+      ),
+    ).toMatchObject({ phase: "expired", factor: { numerator: 0 } });
+  });
+
+  it("requires exact interval-total bases and records only period-compatible contributions", () => {
+    let world = worldForRunB("run-b-interval-magnitude-basis");
+    const calibratedPeriod = interval("2026-01-01", "2026-03-31");
+    const incompatiblePeriod = interval("2026-02-15", "2026-02-15");
+    world = recordState(
+      world,
+      "state:interval-basis-baseline",
+      "economy.output-activity",
+      calibratedPeriod,
+      moneyValue(100_000),
+      "2026-03-31",
+    );
+    const baseline = world.history.metricStates.at(-1);
+    if (!baseline) throw new Error("Expected interval-basis baseline.");
+    const root = recordRootCause(world, "cause:interval-basis");
+    world = root.world;
+    const compatible = activate(
+      world,
+      "effect:interval-basis-compatible",
+      root.cause.id,
+      "economy.output-activity",
+      moneyValue(10_000),
+      {
+        onsetAt: "2026-01-10",
+        maturesAt: "2026-01-10",
+        endsAt: null,
+        magnitudeBasis: {
+          kind: "interval-total",
+          referencePeriod: calibratedPeriod,
+        },
+      },
+    );
+    world = compatible.world;
+    const incompatible = activate(
+      world,
+      "effect:interval-basis-incompatible",
+      root.cause.id,
+      "economy.output-activity",
+      moneyValue(5_000),
+      {
+        onsetAt: "2026-01-10",
+        maturesAt: "2026-01-10",
+        endsAt: null,
+        magnitudeBasis: {
+          kind: "interval-total",
+          referencePeriod: incompatiblePeriod,
+        },
+      },
+    );
+    world = incompatible.world;
+
+    expect(() =>
+      evaluateEffectContribution(world, {
+        effectActivationId: incompatible.effect.id,
+        evaluatedAt: "2026-03-31",
+        referencePeriod: calibratedPeriod,
+        cutoff: cutoff(world),
+        baselineValue: moneyValue(100_000),
+      }),
+    ).toThrow(/magnitude basis/);
+    expect(() =>
+      activate(
+        world,
+        "effect:interval-basis-missing",
+        root.cause.id,
+        "economy.output-activity",
+        moneyValue(1),
+        { magnitudeBasis: { kind: "point-at-target" } },
+      ),
+    ).toThrow(/interval-total/);
+
+    const evaluation = evaluateAggregateMetric(world, {
+      baselineStateId: baseline.id,
+      evaluatedAt: "2026-03-31",
+      referencePeriod: calibratedPeriod,
+      cutoff: cutoff(world),
+    });
+    expect(evaluation).toMatchObject({
+      status: "available",
+      resultingValue: { money: { minorUnits: 110_000, currency: "USD" } },
+      contributions: [{ effectActivationId: compatible.effect.id }],
+    });
+
+    world = recordEvaluatedMetricState(world, {
+      stableKey: "state:interval-basis-evaluated",
+      baselineStateId: baseline.id,
+      evaluatedAt: "2026-03-31",
+      referencePeriod: calibratedPeriod,
+    });
+    const evaluated = world.history.metricStates.at(-1);
+    if (!evaluated || evaluated.provenance.kind !== "simulated") {
+      throw new Error("Expected simulated interval-basis result.");
+    }
+    expect(evaluated.provenance.sourceEntityIds).toEqual(
+      [baseline.id, compatible.effect.id].sort(),
+    );
+    expect(
+      deserializeWorld(serializeWorld(world)).history.effectActivations,
+    ).toStrictEqual(world.history.effectActivations);
+
+    const corrupted = structuredClone(world);
+    const corruptedActivation = corrupted.history.effectActivations.find(
+      (activation) => activation.id === compatible.effect.id,
+    );
+    if (!corruptedActivation)
+      throw new Error("Expected compatible activation.");
+    (
+      corruptedActivation as {
+        magnitudeBasis: EffectMagnitudeBasis;
+      }
+    ).magnitudeBasis = { kind: "point-at-target" };
+    expect(() => deserializeWorld(serializeUnchecked(corrupted))).toThrow(
+      /interval-total/,
+    );
   });
 
   it("evaluates a genuinely nonlinear bounded curve and exact target cap", () => {
@@ -391,7 +607,7 @@ describe("Stage 6 Run B effect mechanisms", () => {
     const contribution = evaluateEffectContribution(world, {
       effectActivationId: activated.effect.id,
       evaluatedAt: "2026-02-15",
-      referencePeriod: point("2026-03-31"),
+      referencePeriod: point("2026-02-15"),
       cutoff: cutoff(world),
       baselineValue: quantityValue(100, 1, "index:housing-pressure"),
     });
@@ -443,7 +659,7 @@ describe("Stage 6 Run B effect mechanisms", () => {
     expect(
       evaluateEffectContribution(world, {
         effectActivationId: thresholded.effect.id,
-        evaluatedAt: "2026-03-01",
+        evaluatedAt: "2026-03-31",
         referencePeriod: interval("2026-01-01", "2026-03-31"),
         cutoff: cutoff(world),
         baselineValue: moneyValue(90_000),
@@ -459,12 +675,18 @@ describe("Stage 6 Run B effect mechanisms", () => {
       root.cause.id,
       "economy.output-activity",
       moneyValue(1),
+      {
+        magnitudeBasis: {
+          kind: "interval-total",
+          referencePeriod: interval("2026-02-15", "2026-02-15"),
+        },
+      },
     );
     expect(() =>
       evaluateEffectContribution(fractionalMoney.world, {
         effectActivationId: fractionalMoney.effect.id,
         evaluatedAt: "2026-02-15",
-        referencePeriod: interval("2026-01-01", "2026-03-31"),
+        referencePeriod: interval("2026-02-15", "2026-02-15"),
         cutoff: cutoff(fractionalMoney.world),
         baselineValue: moneyValue(90_000),
       }),

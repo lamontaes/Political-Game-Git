@@ -28,6 +28,16 @@ The named `14_STAGE_6_RESEARCH_AND_ARCHITECTURE_GATE.md` was not present in the 
 - `sqlite-world-repository.test.ts` adds one Run B test preserving the causal catalog, root, activation, exact evaluated metric state, references, save/load/list, and replacement behavior through the Node-only adapter.
 - `boundary.test.ts` and `architecture-integrity.test.ts` continue to reject React/DOM/browser, SQLite/persistence, network-runtime, and ambient-entropy leakage from the pure simulation package while checking global identity, chronology, references, and contiguous append sequence.
 
+## Post-completion corrective evidence — 2026-08-24
+
+The externally rejected `922e1f8c97577a50e89969485e7a535ca24a0d52` candidate retained the intended Run B architecture but left one generic effect ambiguity. This contained correction preserves the same schema generation and all existing causal/economy boundaries.
+
+- Every activation now persists `magnitudeBasis`: a point metric uses `point-at-target`; an interval metric uses `interval-total` with one exact calibrated interval. A bare interval amount cannot silently mean a different month, quarter, or year, and there is no inferred cadence conversion.
+- Contribution phase now derives from the target point, or the earlier inclusive midpoint of the exact target interval, rather than the later `evaluatedAt` frontier. The frontier remains cutoff-safe and must not precede the target period's end. The midpoint rule makes pre-onset/post-expiry intervals zero and makes onset/ramp/maturity/expiry overlap deterministic without adding a continuous economy model.
+- Writer and persisted-world integrity reject missing, malformed, and target-incompatible bases. Direct incompatible evaluation rejects; aggregate evaluation filters to period-compatible activations, and the canonical result preserves only the baseline plus actual contributing activation IDs.
+- `stage-6-run-b.test.ts` now extends the original focused suite with January point-retroactivity, point onset/ramp/maturity/expiry, interval midpoint, cross-duration incompatibility, aggregate-provenance, JSON corruption, and exact JSON-basis coverage. The existing bounded nonlinear, threshold/bound, append-order, cutoff, and arithmetic cases now use valid target periods.
+- The permanent maximum-current `stage-5-run-c.test.ts` scenario and Run B SQLite fixture now supply durable valid bases, proving the existing life/resource/knowledge/future-transition path and Node-only persistence continue to compose with corrected effects.
+
 ## Validation record
 
 - `npm run format` passed.

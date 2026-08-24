@@ -1,6 +1,6 @@
 # World State, Observations, and Future Transitions
 
-Stage 6 Run A establishes quantitative truth, fallible measurement, and deterministic future transition identity. Run B composes those contracts with causal mechanisms and bounded aggregate economy without changing truth/observation or due-frontier semantics.
+Stage 6 Run A establishes quantitative truth, fallible measurement, and deterministic future transition identity. Run B composes those contracts with causal mechanisms and bounded aggregate economy without changing truth/observation or due-frontier semantics: an effect's later evaluation frontier never replaces the historical target period that determines its causal phase.
 
 ## Exact quantitative values
 
@@ -42,7 +42,7 @@ Run A supplies only synthetic/test handlers. Elections, policy effective dates, 
 
 Metric state, observations, due items, and due states join the one contiguous `HistoryStore` sequence and deterministic stable-ID space. Integrity validates catalog identity/order, exact canonical quantities, type/unit/currency/period compatibility, scope and jurisdiction references, predecessor recording chronology, source availability, correction/revision chains, exact due-state vocabulary, due references/lifecycle/strict-overdue boundary, outcome-event links, and per-family append order both at write time and when loading a snapshot.
 
-World schema 11, generator `demo-world-v11`, metric catalog `world-metric-catalog-v2`, causal catalog `causal-mechanism-catalog-v1`, and snapshot format 10 preserve the metric/causal catalogs and every history family exactly through JSON and the Node-only SQLite repository. Person materializer version 4 remains unchanged. Unsupported older versions remain rejected; no fabricated migration sequence was added.
+World schema 11, generator `demo-world-v11`, metric catalog `world-metric-catalog-v2`, causal catalog `causal-mechanism-catalog-v1`, and snapshot format 10 preserve the metric/causal catalogs and every history family exactly through JSON and the Node-only SQLite repository. This includes each activation's typed point-target or exact interval-total magnitude basis; load integrity rejects a missing, malformed, or metric-incompatible basis. Person materializer version 4 remains unchanged. Unsupported older versions remain rejected; no fabricated migration sequence was added.
 
 ## Deferred systems
 

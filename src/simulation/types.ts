@@ -1453,6 +1453,24 @@ export type EffectTargetBound =
   | { readonly kind: "minimum"; readonly value: WorldMetricValue }
   | { readonly kind: "maximum"; readonly value: WorldMetricValue };
 
+/**
+ * States the period meaning of an effect magnitude without inventing a
+ * recurrence, cadence, or implicit duration conversion.
+ *
+ * A point metric's target point supplies its own basis. An interval metric
+ * stores one exact calibrated interval total and can contribute only to that
+ * same interval.
+ */
+export type EffectMagnitudeBasis =
+  | { readonly kind: "point-at-target" }
+  | {
+      readonly kind: "interval-total";
+      readonly referencePeriod: Extract<
+        MetricReferencePeriod,
+        { readonly kind: "interval" }
+      >;
+    };
+
 export interface EffectActivationRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -1463,6 +1481,7 @@ export interface EffectActivationRecord {
   readonly targetScope: MetricScope;
   readonly direction: EffectDirection;
   readonly magnitude: WorldMetricValue;
+  readonly magnitudeBasis: EffectMagnitudeBasis;
   readonly activatedAt: IsoDate;
   readonly onsetAt: IsoDate;
   readonly maturesAt: IsoDate;

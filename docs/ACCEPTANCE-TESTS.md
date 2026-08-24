@@ -588,11 +588,11 @@ An ordinary `HistoricalEvent` can source a stable append-oriented causal process
 
 ### NOW-145 — Exact response mechanisms preserve phase and dimensional meaning
 
-Linear and bounded nonlinear activations use exact rational factors and typed quantity/money magnitude. Tests prove zero before onset, exact partial ramp, full maturity, zero after exclusive expiry, threshold blocking, target bounds, and append-sequence deterministic same-date order. Wrong target kind/unit/currency, malformed threshold/bound, invalid timing, fractional minor-unit phasing, and unsafe arithmetic are rejected; no formula language or opaque callback is serialized.
+Linear and bounded nonlinear activations use exact rational factors and typed quantity/money magnitude bases. A point activation phases at its target point rather than a later evaluation date: a January point remains zero for a February-onset effect even when evaluated in March. An interval total stores its exact calibrated interval and cannot apply unchanged to a different month, quarter, or year. Its causal phase is the documented earlier inclusive midpoint of the target interval, so wholly pre-onset and post-expiry intervals are zero while overlap behavior is deterministic. Tests prove exact partial ramps, maturity, threshold blocking, target bounds, append-sequence deterministic same-date order, and fractional-minor-unit rejection. Wrong target kind/unit/currency, missing/malformed/incompatible magnitude basis, invalid timing, and unsafe arithmetic are rejected; no formula language or opaque callback is serialized.
 
 ### NOW-146 — Effect activation does not silently mutate metric truth
 
-Creating a causal process or activation changes no metric state and grants no person knowledge. Explicit evaluation starts from a named historically available baseline, returns every contribution and distinct root, and preserves independent provenance. The deliberate result writer uses `recordWorldMetricState`, explicitly supersedes latest same-period truth, and cites baseline plus contributing activation IDs. Advancing time alone creates no economy record.
+Creating a causal process or activation changes no metric state and grants no person knowledge. Explicit evaluation starts from a named historically available baseline, returns every period-compatible contribution and distinct root, and preserves independent provenance. The deliberate result writer uses `recordWorldMetricState`, explicitly supersedes latest same-period truth, and cites baseline plus contributing activation IDs. Advancing time alone creates no economy record.
 
 ### NOW-147 — Labor identities are coherent and derived
 
