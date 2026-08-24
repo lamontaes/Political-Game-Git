@@ -41,7 +41,7 @@ Resource and housing roots/states/outcomes are finite typed life-source families
 
 Played, quick-generated, and authored `CharacterHistoryPlan` transitions all delegate to these canonical writers. Progressive person materialization remains nondiegetic and never fabricates a balance, flow, obligation, debt, dwelling, occupancy, or tenure merely because an NPC was inspected.
 
-Every Run C family uses deterministic stable identity, provenance, one contiguous global append sequence, chronology and dangling-reference validation, date-plus-sequence queries, and exact JSON/Node-only SQLite persistence in world schema 9 and snapshot format 8.
+Every Run C family uses deterministic stable identity, provenance, one contiguous global append sequence, chronology and dangling-reference validation, date-plus-sequence queries, and exact JSON/Node-only SQLite persistence. The current Stage 6 Run A boundary is world schema 10 and snapshot format 9; the Stage 5 identities and semantics are unchanged.
 
 ## Deferred consumers
 

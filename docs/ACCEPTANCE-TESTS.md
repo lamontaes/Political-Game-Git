@@ -412,7 +412,7 @@ Runtime transitions and snapshot loading reject dangling organization/person/jur
 
 ### NOW-101 — Stage 5 persists headlessly
 
-World schema 9 and snapshot format 8 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, resource, obligation, dwelling, occupancy, tenure, life-source, fatigue/resource-pressure, and generated-provenance record exactly through deterministic JSON and the Node-only SQLite repository. The simulation and its Stage 5 tests import no React, DOM, browser, or SQLite runtime.
+Current world schema 10 and snapshot format 9 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, resource, obligation, dwelling, occupancy, tenure, life-source, fatigue/resource-pressure, and generated-provenance record exactly alongside Stage 6 Run A history through deterministic JSON and the Node-only SQLite repository. The simulation and its tests import no React, DOM, browser, or SQLite runtime.
 
 ### NOW-102 — Real career diversity uses general records
 
@@ -549,6 +549,38 @@ Played, quick-generated, and authored plans delegate resource and housing transi
 ### NOW-135 — Run C persistence is exact and Stage 5 is continuous
 
 Deterministic JSON and Node-only SQLite save/load/list/replace preserve exact money, every Run C root/state/outcome, global sequence, provenance, links, and typed source; duplicate/overlapping settlement periods in corrupted deserialized history fail integrity. The current maximum cross-system integration gate is the continuous Stage 5 scenario plus SQLite round-trip coverage: it composes quick-generated formative household/care/authority, school/peers/activities, adult training/work, partnership, compensation, resource position, housing obligation/payment, a missed housing outcome, dwelling/occupancy/tenure, typed knowledge/appraisal/temporary-state/perception/decision evidence, cutoff safety, and reconnection through stable IDs and canonical histories. All pre-Run-C tests remain meaningful.
+
+### NOW-136 — Exact non-money quantities retain units and precision
+
+Equivalent safe-integer rational values normalize to one reduced numerator/positive-denominator form with a validated open namespaced unit. Compatible addition/subtraction/comparison is exact; malformed denominator/unit, incompatible-unit arithmetic, noncanonical loaded values, and unsafe intermediate/final arithmetic fail instead of rounding. JSON round-trip loses no precision, and Stage 5 exact money remains a distinct metric-value variant with currency identity.
+
+### NOW-137 — Metric definitions, scopes, and periods prevent false global values
+
+The deterministic world-metric catalog validates stable IDs/keys, open domain/tags, quantity-or-money kind, expected unit, stock/flow/rate/index nature, point/interval requirement, optional denominator, and aggregation limitation. State always names a stable jurisdiction plus optional open segment. Point and interval periods remain explicit and chronological; no 50-state list, one-field-per-metric world schema, unscoped global value, unsupported-jurisdiction observation, implicit zero, or display-string parsing exists.
+
+### NOW-138 — Canonical metric truth is append-oriented and cutoff-safe
+
+One exact metric/scope/period admits one initial canonical state. Any correction explicitly supersedes the latest exact match and preserves the earlier record; crossing metric/scope/period is rejected. Exact-period and most-recent-period queries apply recording date plus exclusive sequence, so a later-appended backdated correction is absent from an earlier cutoff and an old corrected period does not become the newest reference period.
+
+### NOW-139 — Observation sources, vintages, and uncertainty remain separate from truth
+
+Independent source series may publish different exact estimates for the same truth. Revisions remain in the same metric/scope/period/series, explicitly supersede the prior vintage, and become latest only after release/recording/sequence availability. Range and margin-of-error uncertainty require compatible units/currency, ordered bounds, nonnegative margin, and optional exact share confidence. State never fabricates observation; observation never creates or mutates state; all-series queries return competing sources rather than arbitrarily selecting one.
+
+### NOW-140 — Statistics are not omniscient
+
+Committing truth or an observation creates no person knowledge. An explicit ordinary public-release event may involve the observation, after which an existing public-record `EventKnowledgeRecord` can teach one person while another remains unaware. Historical cutoffs before the release/knowledge append sequence expose neither later evidence nor subjective access. No statistics-specific knowledge store or media system exists.
+
+### NOW-141 — One future-transition mechanism is authoritative over time
+
+Scheduling creates one stable due identity and scheduled history with a future date, open transition key, stable canonical references, jurisdiction/provenance, and no opaque payload, recurrence, closure, formula, or copied domain truth. `advanceWorld` leaves later items scheduled, resolves crossed items by due date then creation sequence through injected deterministic handlers, appends one resolved/blocked/cancelled terminal state and optional ordinary outcome event, never reruns terminal items, and preserves prior no-due behavior.
+
+### NOW-142 — Due transition failure is atomic and inspectable
+
+Past/impossible scheduling, missing references, malformed keys, invalid terminal chronology, direct handler scheduler writes, and invalid outcome links fail integrity. Every crossed transition key is preflighted; an unknown or throwing handler returns no partial durable world. The original immutable input remains exact. Corrupted loaded due or supersession histories fail the permanent integrity gate.
+
+### NOW-143 — Stage 6 Run A persists and extends the permanent maximum-current gate
+
+World schema 10, generator `demo-world-v10`, snapshot format 9, and materializer 4 preserve the metric catalog, exact quantities/money, state corrections, observation sources/vintages/uncertainty, due identity/state, global sequence, provenance, and references through deterministic JSON and Node-only SQLite save/load/list/replace. The continuous Stage 5 character now also has jurisdictional metric truth, a differing public observation, explicit one-person knowledge, and an exactly-once future transition while retaining formative, education, work, household/care, resources/housing, relationship, appraisal, temporary-state, perception, and decision history. Runs B–E, Stage 7+, and player-facing UI remain unimplemented.
 
 ## Manual Now
 

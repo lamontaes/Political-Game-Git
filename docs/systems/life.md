@@ -80,7 +80,7 @@ The public life query API includes organization/profile history; work relationsh
 
 All canonical life queries use date plus append-sequence availability. This distinguishes historical state from later-appended backfill and preserves unrelated insertion-order independence. Stable life roots and state records participate in integrity checks for IDs, append order, references, chronology, lifecycle transitions, supersession, taxonomy, provenance, residence overlap, and stored load derivation. A closed typed life-history reference lets Stage 4 perceptions, appraisals, decisions, and frozen source snapshots cite only actor-involved canonical records that existed before their date-and-sequence cutoff.
 
-World schema 9, generator `demo-world-v9`, and snapshot format 8 serialize the complete Stage 5 graph, generated provenance, bounded context people, exact money, and typed life sources through deterministic JSON and the Node-only SQLite repository. Unsupported older versions remain rejected until a migration chain exists.
+World schema 10, generator `demo-world-v10`, and snapshot format 9 serialize the complete Stage 5 graph together with Stage 6 Run A metric/due histories, generated provenance, bounded context people, exact money, and typed life sources through deterministic JSON and the Node-only SQLite repository. Person materializer version 4 and Stage 5 life semantics remain unchanged. Unsupported older versions remain rejected until a migration chain exists.
 
 ## Run B Character-History Composition
 

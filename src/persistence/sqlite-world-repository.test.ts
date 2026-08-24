@@ -16,6 +16,7 @@ import {
   createResourceFlow,
   createResourceObligation,
   createResourcePosition,
+  createExactQuantity,
   createWorkCompensation,
   createWorkRelationship,
   currentLifeCutoff,
@@ -33,6 +34,9 @@ import {
   recordPrivateBelief,
   recordResourceObligationState,
   recordResourceTransferOutcome,
+  recordWorldMetricObservation,
+  recordWorldMetricState,
+  scheduleFutureDueItem,
   recordWorkCompensationTerms,
   startDwellingOccupancy,
 } from "../simulation";
@@ -87,6 +91,95 @@ describe("SQLite world repository", () => {
     repository = new SqliteWorldRepository(":memory:");
     const missingId = "world_missing" as EntityId;
     expect(repository.load(missingId)).toBeNull();
+  });
+
+  it("preserves Stage 6 metric truth, observation vintages, exact uncertainty, and future due identity", () => {
+    repository = new SqliteWorldRepository(":memory:");
+    let world = createDemoWorld("sqlite-stage-6-run-a");
+    const metric = Object.values(world.metricCatalog.definitions).find(
+      (definition) => definition.stableKey === "population.resident-count",
+    )!;
+    const metricScope = {
+      jurisdictionId: world.jurisdictionOrder[0]!,
+      segmentKey: "cohort.sqlite-fixture" as const,
+    };
+    const referencePeriod = {
+      kind: "point" as const,
+      at: world.currentDate,
+    };
+    world = recordWorldMetricState(world, {
+      stableKey: "sqlite:metric:population",
+      metricId: metric.id,
+      scope: metricScope,
+      referencePeriod,
+      value: {
+        kind: "quantity",
+        quantity: createExactQuantity(200_001, 2, "count:people"),
+      },
+      recordedAt: world.currentDate,
+      provenance: {
+        kind: "initialization",
+        sourceReference: {
+          title: "Synthetic SQLite calibration fixture",
+          locator: "fixture:sqlite-calibration",
+        },
+      },
+      supersedesStateId: null,
+    });
+    const state = world.history.metricStates.at(-1)!;
+    world = recordWorldMetricObservation(world, {
+      stableKey: "sqlite:observation:population:v1",
+      metricId: metric.id,
+      scope: metricScope,
+      referencePeriod,
+      value: {
+        kind: "quantity",
+        quantity: createExactQuantity(99_950, 1, "count:people"),
+      },
+      sourceSeriesKey: "series.sqlite-population",
+      sourceLabel: "Synthetic SQLite statistical source",
+      sourceReference: {
+        title: "Synthetic SQLite release",
+        locator: "fixture:sqlite-stage-6",
+      },
+      methodologyKey: "method.sqlite-estimate",
+      releaseDate: world.currentDate,
+      recordedAt: world.currentDate,
+      vintageKey: "vintage.sqlite-initial",
+      uncertainty: {
+        kind: "margin-of-error",
+        margin: {
+          kind: "quantity",
+          quantity: createExactQuantity(25, 1, "count:people"),
+        },
+        confidence: createExactQuantity(19, 20, "rate:share"),
+      },
+      supersedesObservationId: null,
+      underlyingStateId: state.id,
+    });
+    world = scheduleFutureDueItem(world, {
+      stableKey: "sqlite:future-transition",
+      dueAt: "2026-02-01",
+      transitionKey: "custom:sqlite-transition",
+      entityIds: [state.id],
+      jurisdictionId: world.jurisdictionOrder[0]!,
+      provenance: { kind: "simulated", sourceEntityIds: [state.id] },
+    });
+
+    const saved = repository.save(world);
+    const restored = repository.load(world.id);
+    expect(restored).toStrictEqual(world);
+    expect(repository.list()).toStrictEqual([saved]);
+    expect(restored?.history.metricStates.at(-1)).toStrictEqual(state);
+    expect(
+      restored?.history.metricObservations.at(-1)?.uncertainty,
+    ).toStrictEqual(world.history.metricObservations.at(-1)?.uncertainty);
+    expect(restored?.history.futureDueItems.at(-1)?.entityIds).toStrictEqual([
+      state.id,
+    ]);
+    expect(restored?.history.futureDueItemStates.at(-1)?.status).toBe(
+      "scheduled",
+    );
   });
 
   it("preserves Stage 5.1 organization and work history through SQLite", () => {

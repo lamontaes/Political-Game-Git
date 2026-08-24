@@ -135,18 +135,18 @@ If an answer is intentionally deferred, record the boundary rather than inventin
 
 ## World
 
-- **Owns:** schema/generator versions, stable world ID, normalized seed, start/current dates, action sequence, ordered jurisdictions and people, shared policy and mind catalogs, observer/controlled-person state, and the complete `HistoryStore`.
+- **Owns:** schema/generator versions, stable world ID, normalized seed, start/current dates, action sequence, ordered jurisdictions and people, shared policy, mind, and world-metric catalogs, observer/controlled-person state, and the complete `HistoryStore`.
 - **Stable IDs exposed:** `World.id`; ordered referenced entity IDs; catalog/history IDs contained by the world.
 - **Referenced by:** every world-scoped entity and history-record stable key; snapshot metadata; SQLite primary key.
 - **Queries/APIs:** `createWorld`, `assertWorldIntegrity`, `advanceWorld`, `recordWorldEvent`, `materializePerson`, entity selectors, and all world-based query functions.
-- **Serialization/persistence:** the entire JSON-safe world is validated and stored in snapshot format 8; world schema is 9. Older unsupported versions are rejected because no migration chain exists yet.
+- **Serialization/persistence:** the entire JSON-safe world is validated and stored in snapshot format 9; world schema is 10. Older unsupported versions are rejected because no migration chain exists yet.
 - **Temporary scaffolding:** one synthetic demo jurisdiction, one current snapshot per world, and a small authored diagnostic scenario rather than an autonomous world engine. Validated political transitions currently recheck the complete world and shared catalog; future batching or indexes may optimize this without weakening atomic integrity.
 - **Future consumers:** every stage, Observer Mode, branch lineage, archives, performance scheduling, and cross-platform saves.
 
 ## Stable IDs
 
 - **Owns:** deterministic kind-prefixed FNV-1a hashes of explicit semantic keys through `createStableId`.
-- **Stable IDs exposed:** world, jurisdiction, person, fact, event, memory, event-knowledge, claim, relationship, proposition-exposure, policy/mind-definition, political-record, subject-knowledge, personality, value, goal, appraisal, perception, decision/trace, temporary-state, organization/profile, work/status/role, education/state, participation/state, household/location/membership, kinship, partnership, care, child-authority/state, life-commitment/load-resolution, resource-position/flow/terms/outcome/obligation/state, dwelling/occupancy/state/tenure/state, and snapshot IDs.
+- **Stable IDs exposed:** world, jurisdiction, person, fact, event, memory, event-knowledge, claim, relationship, proposition-exposure, policy/mind/metric-definition, metric-state/observation, future-due-item/state, political-record, subject-knowledge, personality, value, goal, appraisal, perception, decision/trace, temporary-state, organization/profile, work/status/role, education/state, participation/state, household/location/membership, kinship, partnership, care, child-authority/state, life-commitment/load-resolution, resource-position/flow/terms/outcome/obligation/state, dwelling/occupancy/state/tenure/state, and snapshot IDs.
 - **Referenced by:** entity maps/order arrays, facts, events, provenance, supersession chains, queries, snapshots, SQLite, and viewer keys.
 - **Queries/APIs:** `stableHash` and `createStableId`; integrity checks recompute expected identities.
 - **Serialization/persistence:** IDs are plain branded strings and round-trip exactly.
@@ -168,10 +168,40 @@ If an answer is intentionally deferred, record the boundary rather than inventin
 - **Owns:** validated ISO date-only values and monotonic explicit advancement.
 - **Stable IDs exposed:** no independent time entity; committed advancement receives a stable event ID.
 - **Referenced by:** facts, events, memories, knowledge, claims, relationships, political, mind, and life records, decision/life cutoffs, snapshots, and queries.
-- **Queries/APIs:** `makeIsoDate`, `addDays`, `ageOnDate`, `dateAtAge`, `advanceWorld`.
+- **Queries/APIs:** `makeIsoDate`, `addDays`, `ageOnDate`, `dateAtAge`, and the one authoritative `advanceWorld` path with optional injected future-transition handlers.
 - **Serialization/persistence:** start/current dates and every record date round-trip; no wall-clock dependency.
-- **Temporary scaffolding:** positive-day advancement and one audit event; Stage 5 records time-demand ranges and resolves an explicitly requested completed week, but hourly schedules, automatic scheduling, player weekly mode, and multi-resolution processing are deferred.
+- **Temporary scaffolding:** positive-day advancement, one audit event, and Stage 6 Run A due-item dispatch; Stage 5 records time-demand ranges and resolves an explicitly requested completed week. Hourly schedules, recurrence/payroll/billing, automatic decisions, player weekly mode, and multi-resolution processing are deferred.
 - **Future consumers:** Life Mode, event chains, campaigns, institutions, terms, careers, legislation, staff workload, and archives.
+
+## Exact Quantities and World Metric Catalog
+
+- **Owns:** canonical reduced safe-integer rational non-money quantities with validated open namespaced units; a closed quantity-or-money metric-value union; stable metric definitions with open domain/tags, stock/flow/rate/index nature, point/interval period requirement, optional denominator reference, and explicit aggregation limits.
+- **Stable IDs exposed:** `WorldMetricDefinition.id`; quantity units and metric/segment keys are validated semantic keys rather than entities.
+- **Referenced by:** canonical metric-state records, observation vintages/uncertainty, historical metric queries, future Run B effects/dynamics, Run C baselines, Run D event conditions, Stage 7 institutions, Stage 8 populations, Stage 10 fiscal systems, and archives/UI.
+- **Queries/APIs:** exact quantity creation/normalization, comparison and compatible addition/subtraction; metric definition/catalog creation, cloning, and integrity.
+- **Serialization/persistence:** metric catalog version `world-metric-catalog-v1` and exact integer numerator/denominator/unit fields live in world schema 10/snapshot 9 and round-trip without floating precision loss.
+- **Temporary scaffolding:** three deterministic synthetic definitions prove point stock, interval rate, and interval money semantics. There is no production dataset, derived-formula engine, dynamic value update, or automatic geographic aggregation.
+- **Future consumers:** Stage 6 Runs B–E and later law, opinion, campaign, governing/fiscal, briefing, and archive systems.
+
+## Canonical Metric State and Observation Vintages
+
+- **Owns:** jurisdiction plus optional open-segment metric scope; explicit point/interval reference periods; append-oriented canonical truth with explicit same-key correction; separate source-series observations with release/recording dates, vintage/revision identity, optional underlying truth link, structured citation/methodology, and exact compatible range/MOE uncertainty.
+- **Stable IDs exposed:** `WorldMetricStateRecord.id` and `WorldMetricObservationRecord.id` plus referenced metric, jurisdiction, prior vintage/correction, source, and optional canonical-state IDs.
+- **Referenced by:** metric queries, explicit release events, later knowledge/media adapters, Run B causal effects/dynamics, Run C baselines, Run D event prerequisites, Stage 8 polling/opinion inputs where semantically appropriate, Stage 10 fiscal analysis, and archives.
+- **Queries/APIs:** canonical exact-period state, reference-period-ordered most recent state, complete state history, source-specific observation history/vintages/latest, and all-series availability at a date-plus-exclusive-sequence cutoff.
+- **Serialization/persistence:** both families join the one global sequence. Integrity rejects type/unit/currency/period mismatch, missing jurisdictions, future chronology, implicit duplicates, cross-scope correction/revision, incompatible uncertainty, forward underlying-state/provenance references, and malformed loaded chains.
+- **Temporary scaffolding:** records are explicitly authored/simulated. Missing jurisdictions/segments return no result rather than zero; state never fabricates observation; observation never mutates state; neither creates person knowledge.
+- **Current/future consumers:** an explicit ordinary release event plus `EventKnowledgeRecord` proves bounded subjective access now. Later forecasting, data release, media, public opinion, policy, fiscal, and UI adapters consume the same records.
+
+## Future Due Items and Authoritative Time Dispatch
+
+- **Owns:** one stable future due identity, due date, open transition key, sorted canonical domain references, optional jurisdiction/provenance, append-oriented scheduled/resolved/cancelled/blocked state, and nonserialized deterministic handler registry integrated with `advanceWorld`.
+- **Stable IDs exposed:** `FutureDueItem.id`, `FutureDueItemStateRecord.id`, referenced canonical entity IDs, and optional ordinary outcome-event ID.
+- **Referenced by:** authoritative time advancement now; later terms, elections, policy effective dates/sunsets/phases, deadlines, court stays, appointments, and incident follow-ons.
+- **Queries/APIs:** schedule, explicit terminal cancellation, cutoff-aware state lookup, due-range ordering, registry construction, and internal deterministic resolution through `advanceWorld`.
+- **Serialization/persistence:** identity/state share global sequence and exact snapshots. Integrity rejects past scheduling, missing/unavailable references, malformed keys, skipped overdue scheduled items, invalid lifecycle/supersession, wrong-date resolved/blocked state, and invalid outcome-event chronology.
+- **Temporary scaffolding:** only synthetic/test handlers exist. Items contain no closure, executable/formula/recurrence string, arbitrary payload, or duplicate domain truth. A missing or failing handler aborts an advance atomically; terminal items do not rerun.
+- **Future consumers:** Stage 6 Runs C–E, Stage 7 institutions/law/elections, Stage 10 implementation/governing, Stage 11 appointments, and archives.
 
 ## Jurisdiction
 
@@ -447,7 +477,7 @@ Private belief, public position, campaign commitment, and historical behavior re
 - **Stable IDs exposed:** tendency/value definitions, personality/value/goal-state/appraisal/perception/temporary-state records, conceptual goals, decisions, and decision traces.
 - **Referenced by:** historical mind queries, subjective projections, the political-belief adapter, deterministic demo, developer viewer, and future life/domain adapters.
 - **Queries/APIs:** validated mind-record transitions, non-applying development proposals, `buildSubjectivePerception`, `assertLifeHistorySourceAvailable`, `resolveLifeHistorySource`, date-plus-sequence mind queries, pure `evaluateDecision`, durable trace recording, and explicit NPC political-belief evaluation/application.
-- **Serialization/persistence:** all persistent families share the global history sequence and round-trip in world schema 9/snapshot format 8. Validation preserves sparse catalog references, chronology, provenance, supersession, goal lifecycle, typed source availability including resource/housing records, communication evidence, half-open temporary intervals, life-load and resource-pressure provenance, keyed decision identity, control references, and trace structure.
+- **Serialization/persistence:** all persistent families share the global history sequence and round-trip in world schema 10/snapshot format 9. Validation preserves sparse catalog references, chronology, provenance, supersession, goal lifecycle, typed source availability including resource/housing records, communication evidence, half-open temporary intervals, life-load and resource-pressure provenance, keyed decision identity, control references, and trace structure.
 - **Temporary scaffolding:** categorical definitions and internal comparison weights are deliberately small; legacy biography facts lack append-availability metadata and remain current-frontier-only; routine traces may remain ephemeral; development proposals do not apply themselves; and political belief formation is the only domain adapter.
 - **Current/future consumers:** Run A life records can be typed evidence and load resolutions reuse temporary states; Runs B/C life/content/resources, Stage 6 events, later staff/campaign/governing/diplomatic choices, and Stage 12 explanations/Observer Mode consume the same boundary.
 
@@ -458,7 +488,7 @@ Decision evaluation remains distinct from application and canonical history. Aut
 - **Owns:** no authoritative data; pure typed projections over world records.
 - **Stable IDs exposed:** returns source records and their stable IDs rather than copied prose-derived identities.
 - **Referenced by:** tests, demo, viewer, and future domain systems.
-- **Queries/APIs:** event filters; canonical-first biography residence/work/education; relationship/work and qualitative continuity; organization/profile; work status/role and compensation; education and participation state; shared-school context; household/co-residence; kinship/partnership/care/child authority; resource terms/outcomes/positions/obligations/debt/affordability; dwelling occupancy/tenure; life load/recovery; memories/knowledge/claims; political histories/current state/domain coverage; and sparse person-subject profiles/practical experience. Mixed evidence is ordered by effective date with append sequence as a same-day tie-breaker, so backfilled older records do not become current merely because they were appended later.
+- **Queries/APIs:** event filters; canonical-first biography residence/work/education; relationship/work and qualitative continuity; organization/profile; work status/role and compensation; education and participation state; shared-school context; household/co-residence; kinship/partnership/care/child authority; resource terms/outcomes/positions/obligations/debt/affordability; dwelling occupancy/tenure; life load/recovery; metric truth/observation source/vintage histories; future due state; memories/knowledge/claims; political histories/current state/domain coverage; and sparse person-subject profiles/practical experience. Mixed evidence is ordered by its explicit domain-effective/reference period and append sequence, so backfilled older records do not become current merely because they were appended later.
 - **Serialization/persistence:** derived results are not stored; authoritative source records are.
 - **Temporary scaffolding:** many histories use linear scans. Coworker and education queries retain legacy text fallback only when canonical sequence-aware history is absent. Belief-domain and person-subject profile queries already walk sparse person records; future indexes may optimize other lookups without becoming competing truth.
 - **Future consumers:** dialogue conditions, NPC option evaluation, advisers, UI, archives, campaign/legislative systems, and simulation auditing.
@@ -469,7 +499,7 @@ Decision evaluation remains distinct from application and canonical history. Aut
 - **Stable IDs exposed:** snapshot ID and world ID.
 - **Referenced by:** SQLite repository, CLI/demo result, and future save adapters.
 - **Queries/APIs:** `createWorldSnapshot`, `serializeWorld`, and `deserializeWorld`.
-- **Serialization/persistence:** snapshot format 8 contains world schema 9 and the complete graph; load returns a defensive clone after validating per-family append order, the contiguous global sequence, cross-record chronology and sequence direction, union discriminators, categorical values, life and mind provenance, lifecycle transitions, typed life-source availability, exact money/resource reconciliation, dwelling/occupancy/tenure references, control references, stored load derivations, and durable trace structure.
+- **Serialization/persistence:** snapshot format 9 contains world schema 10 and the complete graph; load returns a defensive clone after validating per-family append order, the contiguous global sequence, cross-record chronology and sequence direction, union discriminators, categorical values, life and mind provenance, lifecycle transitions, typed life-source availability, exact quantity/unit and money/resource reconciliation, metric corrections/observation vintages, future due references/states/outcome events, dwelling/occupancy/tenure references, control references, stored load derivations, and durable trace structure.
 - **Temporary scaffolding:** no migrations, action journal, compression, recovery, parent/branch lineage, or compatibility promise for older formats.
 - **Future consumers:** desktop saves, autosave/recovery, Observer Mode, branches, archive export, debugging, and cross-platform packaging.
 
@@ -548,7 +578,8 @@ Real-world civic records retain enough dated provenance to inspect a concept, ex
 
 - **Current Stage 4 decisions:** consume perceived facts, typed historically available life records, memories, event knowledge, relationship episodes, sparse political records, subject expertise, incentives, temporary fatigue where relevant, and keyed RNG; emit explainable evaluations and optional durable diagnostic traces separately from canonical outcomes.
 - **Completed Stage 5 foundation:** supplies stable organizations; work, education, participation, household, care and authority histories; exact personal/household flows, work compensation, major obligations/debt, derived liquid capacity and affordability, stable dwelling/occupancy/tenure history, time/load/recovery, meaningful relationship continuity, typed Stage 4 life evidence, the future-rule eligibility consumer, and one played/quick/authored plan applicator. It contains no competing career, family, biography, balance, housing, or relationship truth store.
-- **Stage 6 events:** consume explicit conditions and emit canonical events plus scoped consequence records; definitions remain separate from committed history.
+- **Stage 6 Run A:** supplies exact scoped quantitative truth, separate fallible observation vintages, sequence-aware queries, and one authoritative-time future due mechanism without replacing Stage 5 resources or ordinary events.
+- **Future Stage 6 Runs B–E:** consume explicit conditions and Run A metrics/time, add causal effects/dynamics, policy baselines/implementation, generalized incidents/chains, and later mortality/incapacity/evidence through separately validated boundaries; definitions remain separate from committed history.
 - **Stage 7 geography/institutions:** extend stable jurisdiction hierarchy and sourced/effective-dated definitions without changing generic simulation assumptions.
 - **Stage 8 populations:** reference propositions, geography, cues, and public records sparsely; never materialize every voter or every issue.
 - **Stage 9 campaigns:** create persistent contest/candidate/staff/message/poll identities and historical records rather than generic points.

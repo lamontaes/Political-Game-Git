@@ -13,6 +13,8 @@ import {
   composeApprenticeshipPlan,
   createCareResponsibility,
   createDemoWorld,
+  createExactQuantity,
+  createFutureTransitionHandlerRegistry,
   createDwelling,
   createHousehold,
   createHousingTenure,
@@ -33,6 +35,7 @@ import {
   money,
   outstandingDebtAt,
   recordDwellingOccupancyState,
+  recordEventKnowledge,
   recordHouseholdLocation,
   recordHousingTenureState,
   recordPerception,
@@ -42,13 +45,20 @@ import {
   recordResourcePressure,
   recordResourceTransferOutcome,
   recordWorkCompensationTerms,
+  recordWorldEvent,
+  recordWorldMetricObservation,
+  recordWorldMetricState,
   resolveWorkCompensationPeriod,
   resourceFlowTermsAt,
   resourcePositionAt,
   resourceTransferOutcomesForFlow,
   serializeWorld,
+  scheduleFutureDueItem,
   startDwellingOccupancy,
   startHouseholdMembership,
+  futureDueItemStateAt,
+  latestObservationForSeriesAt,
+  worldMetricStateForPeriodAt,
 } from "./index";
 import type {
   CharacterHistoryMode,
@@ -1617,7 +1627,7 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
     expect(deserializeWorld(payload)).toStrictEqual(world);
     expect(
       (JSON.parse(payload) as { formatVersion: number }).formatVersion,
-    ).toBe(8);
+    ).toBe(9);
     expect(() =>
       createResourceFlow(world, {
         stableKey: "open:malformed",
@@ -2027,6 +2037,150 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
     });
     world = reconnect.world;
 
+    const populationMetric = Object.values(
+      world.metricCatalog.definitions,
+    ).find(
+      (definition) => definition.stableKey === "population.resident-count",
+    )!;
+    const populationScope = {
+      jurisdictionId: world.jurisdictionOrder[0]!,
+      segmentKey: null,
+    };
+    const populationPeriod = {
+      kind: "point" as const,
+      at: world.currentDate,
+    };
+    world = recordWorldMetricState(world, {
+      stableKey: "end-to-end:population-truth",
+      metricId: populationMetric.id,
+      scope: populationScope,
+      referencePeriod: populationPeriod,
+      value: {
+        kind: "quantity",
+        quantity: createExactQuantity(100_000, 1, "count:people"),
+      },
+      recordedAt: world.currentDate,
+      provenance: {
+        kind: "authored",
+        note: "Synthetic maximum-current canonical metric truth.",
+      },
+      supersedesStateId: null,
+    });
+    const populationTruth = world.history.metricStates.at(-1)!;
+    const beforeObservation = currentResourceCutoff(world);
+    const knowledgeCountBeforeObservation = world.history.knowledge.length;
+    world = recordWorldMetricObservation(world, {
+      stableKey: "end-to-end:population-observation",
+      metricId: populationMetric.id,
+      scope: populationScope,
+      referencePeriod: populationPeriod,
+      value: {
+        kind: "quantity",
+        quantity: createExactQuantity(99_500, 1, "count:people"),
+      },
+      sourceSeriesKey: "series.end-to-end-public-estimate",
+      sourceLabel: "Synthetic public statistical office",
+      sourceReference: {
+        title: "Synthetic population release",
+        locator: "fixture:end-to-end-population",
+      },
+      methodologyKey: "method.end-to-end-estimate",
+      releaseDate: world.currentDate,
+      recordedAt: world.currentDate,
+      vintageKey: "vintage.end-to-end-initial",
+      uncertainty: {
+        kind: "range",
+        lower: {
+          kind: "quantity",
+          quantity: createExactQuantity(99_000, 1, "count:people"),
+        },
+        upper: {
+          kind: "quantity",
+          quantity: createExactQuantity(100_000, 1, "count:people"),
+        },
+      },
+      supersedesObservationId: null,
+      underlyingStateId: populationTruth.id,
+    });
+    const populationObservation = world.history.metricObservations.at(-1)!;
+    const beforeReleaseEvent = currentResourceCutoff(world);
+    world = recordWorldEvent(world, {
+      stableKey: "end-to-end:population-release",
+      type: "statistics.public-release",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: world.jurisdictionOrder[0]!,
+      involvedEntityIds: [populationObservation.id],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["statistics.release", "life.continuity"],
+      summary:
+        "A public observation of the jurisdiction population was released.",
+      context: relationshipContext(
+        "The public estimate remains distinct from canonical world truth.",
+      ),
+    });
+    const populationRelease = world.history.events.at(-1)!;
+    const beforePopulationKnowledge = currentResourceCutoff(world);
+    world = recordEventKnowledge(world, {
+      stableKey: "end-to-end:population-release-knowledge",
+      personId: actor,
+      eventId: populationRelease.id,
+      learnedAt: world.currentDate,
+      believedSummary: "The public estimate reported a population of 99,500.",
+      accuracy: "accurate",
+      confidence: "medium",
+      source: {
+        kind: "public-record",
+        reference: populationObservation.sourceReference!.locator!,
+      },
+    });
+    world = scheduleFutureDueItem(world, {
+      stableKey: "end-to-end:future-transition",
+      dueAt: "2026-01-10",
+      transitionKey: "custom:end-to-end-transition",
+      entityIds: [populationTruth.id],
+      jurisdictionId: world.jurisdictionOrder[0]!,
+      provenance: {
+        kind: "simulated",
+        sourceEntityIds: [populationTruth.id],
+      },
+    });
+    const dueItem = world.history.futureDueItems.at(-1)!;
+    const beforeDueTransition = currentResourceCutoff(world);
+    const transitionHandlers = createFutureTransitionHandlerRegistry([
+      [
+        "custom:end-to-end-transition",
+        (handlerWorld, item) => {
+          const withEvent = recordWorldEvent(handlerWorld, {
+            stableKey: "end-to-end:future-transition:outcome",
+            type: "simulation.synthetic-transition-resolved",
+            occurredAt: item.dueAt,
+            recordedAt: item.dueAt,
+            jurisdictionId: item.jurisdictionId,
+            involvedEntityIds: [item.id, ...item.entityIds].sort(),
+            participants: [],
+            personFactConstraints: [],
+            visibility: "public",
+            tags: ["simulation.future-transition", "life.continuity"],
+            summary: "The scheduled synthetic transition resolved once.",
+            context: relationshipContext(
+              "The generic future-transition handler wrote ordinary history.",
+            ),
+          });
+          return {
+            world: withEvent,
+            status: "resolved" as const,
+            reasonKey: null,
+            context: "Maximum-current integration transition resolved.",
+            outcomeEventId: withEvent.history.events.at(-1)!.id,
+          };
+        },
+      ],
+    ]);
+    world = advanceWorld(world, 5, transitionHandlers);
+
     expect(world.history.childAuthorities.length).toBeGreaterThan(0);
     expect(world.history.careResponsibilities.length).toBeGreaterThan(0);
     expect(world.history.educationEnrollments.length).toBeGreaterThan(1);
@@ -2071,6 +2225,57 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
         currentResourceCutoff(world),
       ).continuity,
     ).toBe("reconnected");
+    expect(world.history.knowledge.length).toBe(
+      knowledgeCountBeforeObservation + 1,
+    );
+    expect(
+      worldMetricStateForPeriodAt(
+        world,
+        populationMetric.id,
+        populationScope,
+        populationPeriod,
+        beforeObservation,
+      )?.id,
+    ).toBe(populationTruth.id);
+    expect(
+      latestObservationForSeriesAt(
+        world,
+        populationMetric.id,
+        populationScope,
+        "series.end-to-end-public-estimate",
+        beforeObservation,
+      ),
+    ).toBeNull();
+    expect(
+      latestObservationForSeriesAt(
+        world,
+        populationMetric.id,
+        populationScope,
+        "series.end-to-end-public-estimate",
+        beforeReleaseEvent,
+      )?.id,
+    ).toBe(populationObservation.id);
+    expect(
+      world.history.knowledge.some(
+        (record) =>
+          record.eventId === populationRelease.id &&
+          record.sequence < beforePopulationKnowledge.historySequenceExclusive,
+      ),
+    ).toBe(false);
+    expect(
+      futureDueItemStateAt(world, dueItem.id, beforeDueTransition)?.status,
+    ).toBe("scheduled");
+    const resolvedDueState = futureDueItemStateAt(
+      world,
+      dueItem.id,
+      currentResourceCutoff(world),
+    );
+    expect(resolvedDueState?.status).toBe("resolved");
+    expect(
+      world.history.events.some(
+        (event) => event.id === resolvedDueState?.outcomeEventId,
+      ),
+    ).toBe(true);
     expect(serializeWorld(world)).toBe(
       serializeWorld(deserializeWorld(serializeWorld(world))),
     );

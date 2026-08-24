@@ -99,7 +99,7 @@ Stage 5 life-load resolution reuses this system by appending `life:fatigue` as a
 
 Run C resource pressure follows the same boundary. Only an explicit actor-relevant partial, missed, or blocked transfer outcome can be converted into direct knowledge, an appraisal, and a bounded `life:resource-pressure` temporary state with typed life-source evidence. Perception and decisions may then consume those records normally. The engine does not infer pressure from salary, debt, or cadence alone and stores no global financial-stress, happiness, utility, or wellbeing value.
 
-World schema 9 and snapshot format 8 preserve the mind catalog, control state, all Stage 4 history families, complete Stage 5 life/resource/housing records, generated provenance, typed life-history source references, and the complete decision trace through deterministic JSON and Node-only SQLite round trips. Unsupported older versions remain rejected until migrations exist.
+World schema 10 and snapshot format 9 preserve the mind catalog, control state, all Stage 4 history families, complete Stage 5 life/resource/housing records, Stage 6 Run A metric/due histories, generated provenance, typed life-history source references, and the complete decision trace through deterministic JSON and Node-only SQLite round trips. Unsupported older versions remain rejected until migrations exist.
 
 The developer viewer may show diagnostic truth beside subjective appraisal or perception only when clearly labeled. It presents categorical descriptions and source explanations, never raw personality, relationship, trust, ideology, utility, or random numbers.
 

@@ -39,6 +39,8 @@ export type EntityKind =
   | "life-commitment"
   | "life-load-resolution"
   | "memory"
+  | "metric-observation"
+  | "metric-state"
   | "organization"
   | "organization-participation"
   | "organization-participation-state"
@@ -66,12 +68,15 @@ export type EntityKind =
   | "subject"
   | "subject-knowledge"
   | "temporary-state"
+  | "future-due-item"
+  | "future-due-item-state"
   | "value-definition"
   | "partnership"
   | "partnership-state"
   | "work-relationship"
   | "work-role"
   | "work-status"
+  | "world-metric-definition"
   | "world";
 
 export type DataStatus =
@@ -1334,6 +1339,178 @@ export interface HistoricalCutoff {
   readonly historySequenceExclusive: number;
 }
 
+export type QuantityUnitKey = `${string}:${string}`;
+
+export interface ExactQuantity {
+  readonly numerator: number;
+  readonly denominator: number;
+  readonly unit: QuantityUnitKey;
+}
+
+export type WorldMetricValue =
+  | { readonly kind: "quantity"; readonly quantity: ExactQuantity }
+  | { readonly kind: "money"; readonly money: MoneyAmount };
+
+export type MetricMeasureNature = "stock" | "flow" | "rate" | "index";
+export type ReferencePeriodKind = "point" | "interval";
+export type MetricAggregationKind =
+  "not-aggregatable" | "sum-compatible" | "derived-only";
+export type MetricDomainKey = `${string}.${string}`;
+export type MetricSegmentKey = `${string}.${string}`;
+
+export type MetricReferencePeriod =
+  | { readonly kind: "point"; readonly at: IsoDate }
+  | {
+      readonly kind: "interval";
+      readonly startsAt: IsoDate;
+      readonly endsAt: IsoDate;
+    };
+
+export interface MetricScope {
+  readonly jurisdictionId: EntityId;
+  readonly segmentKey: MetricSegmentKey | null;
+}
+
+export interface WorldMetricDefinition {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly name: string;
+  readonly description: string;
+  readonly domainKey: MetricDomainKey;
+  readonly valueKind: WorldMetricValue["kind"];
+  readonly quantityUnit: QuantityUnitKey | null;
+  readonly measureNature: MetricMeasureNature;
+  readonly referencePeriodKind: ReferencePeriodKind;
+  readonly denominatorMetricId: EntityId | null;
+  readonly aggregationKind: MetricAggregationKind;
+  readonly aggregationNote: string;
+  readonly tags: readonly string[];
+}
+
+export interface WorldMetricCatalog {
+  readonly catalogVersion: "world-metric-catalog-v1";
+  readonly definitions: Readonly<Record<string, WorldMetricDefinition>>;
+  readonly definitionOrder: readonly EntityId[];
+}
+
+export interface MetricSourceReference {
+  readonly title: string;
+  readonly locator: string | null;
+}
+
+export type MetricStateProvenance =
+  | {
+      readonly kind: "simulated";
+      readonly sourceEntityIds: readonly EntityId[];
+    }
+  | {
+      readonly kind: "initialization";
+      readonly sourceReference: MetricSourceReference | null;
+    }
+  | { readonly kind: "authored"; readonly note: string };
+
+export interface WorldMetricStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly metricId: EntityId;
+  readonly scope: MetricScope;
+  readonly referencePeriod: MetricReferencePeriod;
+  readonly value: WorldMetricValue;
+  readonly recordedAt: IsoDate;
+  readonly provenance: MetricStateProvenance;
+  readonly supersedesStateId: EntityId | null;
+}
+
+export type MetricObservationUncertainty =
+  | { readonly kind: "none" }
+  | {
+      readonly kind: "range";
+      readonly lower: WorldMetricValue;
+      readonly upper: WorldMetricValue;
+    }
+  | {
+      readonly kind: "margin-of-error";
+      readonly margin: WorldMetricValue;
+      readonly confidence: ExactQuantity | null;
+    };
+
+export interface WorldMetricObservationRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly metricId: EntityId;
+  readonly scope: MetricScope;
+  readonly referencePeriod: MetricReferencePeriod;
+  readonly value: WorldMetricValue;
+  readonly sourceSeriesKey: string;
+  readonly sourceLabel: string;
+  readonly sourceReference: MetricSourceReference | null;
+  readonly methodologyKey: string | null;
+  readonly releaseDate: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly vintageKey: string;
+  readonly uncertainty: MetricObservationUncertainty;
+  readonly supersedesObservationId: EntityId | null;
+  readonly underlyingStateId: EntityId | null;
+}
+
+export type FutureTransitionKey = `${string}:${string}`;
+export type FutureDueReasonKey = `${string}:${string}`;
+
+export type FutureDueItemProvenance =
+  | {
+      readonly kind: "simulated";
+      readonly sourceEntityIds: readonly EntityId[];
+    }
+  | { readonly kind: "initialization"; readonly reference: string | null }
+  | { readonly kind: "authored"; readonly note: string };
+
+export interface FutureDueItem {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly scheduledAt: IsoDate;
+  readonly dueAt: IsoDate;
+  readonly transitionKey: FutureTransitionKey;
+  readonly entityIds: readonly EntityId[];
+  readonly jurisdictionId: EntityId | null;
+  readonly provenance: FutureDueItemProvenance;
+}
+
+export type FutureDueItemStatus =
+  "scheduled" | "resolved" | "cancelled" | "blocked";
+
+export interface FutureDueItemStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly dueItemId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly status: FutureDueItemStatus;
+  readonly reasonKey: FutureDueReasonKey | null;
+  readonly context: string | null;
+  readonly outcomeEventId: EntityId | null;
+  readonly supersedesStateId: EntityId | null;
+}
+
+export interface FutureTransitionHandlerResult {
+  readonly world: World;
+  readonly status: "resolved" | "cancelled" | "blocked";
+  readonly reasonKey: FutureDueReasonKey | null;
+  readonly context: string | null;
+  readonly outcomeEventId: EntityId | null;
+}
+
+export type FutureTransitionHandler = (
+  world: World,
+  dueItem: FutureDueItem,
+) => FutureTransitionHandlerResult;
+
+export interface FutureTransitionHandlerRegistry {
+  get(transitionKey: FutureTransitionKey): FutureTransitionHandler | undefined;
+}
+
 export interface MoneyAmount {
   readonly minorUnits: number;
   readonly currency: CurrencyCode;
@@ -1787,6 +1964,10 @@ export interface HistoryStore {
   readonly dwellingOccupancyStates: readonly DwellingOccupancyStateRecord[];
   readonly housingTenures: readonly HousingTenure[];
   readonly housingTenureStates: readonly HousingTenureStateRecord[];
+  readonly metricStates: readonly WorldMetricStateRecord[];
+  readonly metricObservations: readonly WorldMetricObservationRecord[];
+  readonly futureDueItems: readonly FutureDueItem[];
+  readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];
   readonly memories: readonly MemoryRecord[];
   readonly knowledge: readonly EventKnowledgeRecord[];
@@ -1808,8 +1989,8 @@ export interface HistoryStore {
 }
 
 export interface World {
-  readonly schemaVersion: 9;
-  readonly generatorVersion: "demo-world-v9";
+  readonly schemaVersion: 10;
+  readonly generatorVersion: "demo-world-v10";
   readonly id: EntityId;
   readonly seed: string;
   readonly startedAt: IsoDate;
@@ -1821,6 +2002,7 @@ export interface World {
   readonly personOrder: readonly EntityId[];
   readonly policyCatalog: PolicyCatalog;
   readonly mindCatalog: MindCatalog;
+  readonly metricCatalog: WorldMetricCatalog;
   readonly control: ControlState;
   readonly history: HistoryStore;
 }

@@ -260,7 +260,7 @@ None of these systems are implemented in Stage 4.
 - **Run B — Playable Life Paths and Character History — COMPLETED.** Adds one canonical played/quick/authored history-production boundary, sparse formative situations, persistent bounded social context, and compositional adult paths over Run A identities.
 - **Run C — Personal Resources, Housing, Relationship Integration — COMPLETED.** Adds exact personal/household flows and positions, effective work compensation, major obligations/debt, structured affordability, stable dwelling/occupancy/tenure history, cross-household care/support flows, and meaningful relationship effort through ordinary history and Stage 4 evidence.
 
-Stage 5 is **COMPLETE** after its three separately validated runs. Stage 6 is the next candidate and is not part of Stage 5.
+Stage 5 is **COMPLETE** after its three separately validated runs. Stage 6 has since begun through its separately bounded Run A and is not part of Stage 5.
 
 ### Run A — Shared Life-History and Participation Foundation
 
@@ -326,7 +326,7 @@ Run C adds no campaign/organization/government finance, banking or credit-report
 
 ## Stage 6 — World State, Metrics, Economy, Policy Effects, and Events
 
-Status: **FUTURE**
+Status: **IN PROGRESS**
 
 ### Purpose
 
@@ -337,6 +337,16 @@ Give later decisions and institutions a typed, causal world to observe and chang
 Typed historical world-state variables; lightweight economy; policy causal effects; delayed implementation and consequences; personal/local/state/national/international event prerequisites, blockers, modifiers, chains, follow-ons, and consequences; long-running conditions and storylines; actor-initiated events; and discovery, evidence, and secrecy foundations where appropriate.
 
 Initial future metrics may cover housing, income, employment, crime, education, infrastructure, cost of living, government finance, natural disasters, disease outbreaks, political violence, major terrorist incidents, and economic shocks. Extraordinary outcomes remain causal and every committed occurrence still enters stable history through keyed deterministic resolution.
+
+### Internal Completion Runs
+
+- **Run A — Quantitative World State, Observation, and Future-Transition Foundation — COMPLETED.** Adds exact non-money quantities with open units, a small typed metric-definition catalog, jurisdiction/segment scope, explicit point/interval reference periods, append-oriented canonical metric truth and explicit corrections, separate source-series observation vintages with compatible uncertainty, cutoff-safe queries, and one generic due-item/state mechanism integrated atomically with `advanceWorld`.
+- **Run B — Quantitative Dynamics and Causal Effect Foundation — FUTURE.** Owns derived metrics, effect mechanisms, causal provenance/anti-double-counting, and bounded economy/world dynamics.
+- **Run C — Policy Baselines, Implementation, and Quantitative Operations — FUTURE.** Owns forecast/baseline and phased policy implementation semantics without moving law ownership out of Stage 7.
+- **Run D — Generalized Events, Incidents, and Causal Chains — FUTURE.** Owns prerequisites, blockers, selection, incidents, shocks, chains, and follow-ons over the shared state/effect/time foundations.
+- **Run E — Mortality, Incapacity, and Evidence Foundation — FUTURE.** Owns the later research-gated life-status and evidence boundaries.
+
+Run A deliberately contains no economy tick, causal effect graph, policy forecast or implementation, generalized event selection/chain engine, mortality/incapacity/evidence system, law/institutions/elections, media ecology, territory-specific content, or player-facing UI. Metric state and observations are separate; neither is automatically known by a person. Future due items reference canonical domain identity and contain no opaque payload or recurrence language. See D-042, the completed Run A plan, and [World State, Observations, and Future Transitions](systems/world-state-and-observations.md).
 
 ---
 

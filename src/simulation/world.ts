@@ -1,5 +1,13 @@
 import { addDays, makeIsoDate } from "./dates";
 import {
+  EMPTY_FUTURE_TRANSITION_HANDLERS,
+  assertFutureTransitionIntegrity,
+  futureTransitionEntityAvailableAt,
+  futureTransitionEntityExists,
+  futureTransitionHistoryRecords,
+  resolveFutureDueItemsThrough,
+} from "./future-transitions";
+import {
   appendHistoricalEvent,
   createHistoryStore,
   eventsInvolving,
@@ -33,6 +41,15 @@ import {
   resourceHousingHistoryRecords,
 } from "./resource-integrity";
 import {
+  assertWorldMetricCatalogIntegrity,
+  assertWorldMetricIntegrity,
+  cloneWorldMetricCatalog,
+  createSyntheticWorldMetricCatalog,
+  worldMetricEntityAvailableAt,
+  worldMetricEntityExists,
+  worldMetricHistoryRecords,
+} from "./world-metrics";
+import {
   assertOpenTaxonomyKey,
   assertDottedContentKey,
   BELIEF_FORMATION_REASON_NAMESPACES,
@@ -58,6 +75,8 @@ import type {
   SubjectKnowledgeProvenance,
   World,
   ControlState,
+  FutureTransitionHandlerRegistry,
+  WorldMetricCatalog,
 } from "./types";
 
 const PERSON_FACT_KINDS: readonly PersonFactKind[] = [
@@ -152,6 +171,7 @@ export interface CreateWorldInput {
   readonly people: readonly Person[];
   readonly policyCatalog?: PolicyCatalog;
   readonly mindCatalog?: MindCatalog;
+  readonly metricCatalog?: WorldMetricCatalog;
   readonly control?: ControlState;
 }
 
@@ -171,7 +191,7 @@ function recordById<T extends { readonly id: EntityId }>(
 }
 
 export function createWorldId(seed: string): EntityId {
-  return createStableId("world", `demo-world-v9:${normalizeSeed(seed)}`);
+  return createStableId("world", `demo-world-v10:${normalizeSeed(seed)}`);
 }
 
 export function createWorld(input: CreateWorldInput): World {
@@ -180,15 +200,19 @@ export function createWorld(input: CreateWorldInput): World {
   const worldId = createWorldId(seed);
   const policyCatalog = input.policyCatalog ?? createSyntheticPolicyCatalog();
   const mindCatalog = input.mindCatalog ?? createSyntheticMindCatalog();
+  const metricCatalog =
+    input.metricCatalog ?? createSyntheticWorldMetricCatalog();
   const control = input.control ?? { kind: "observer" as const };
 
   assertJsonSafe(input.jurisdictions, "jurisdictions");
   assertJsonSafe(input.people, "people");
   assertJsonSafe(policyCatalog, "policyCatalog");
   assertJsonSafe(mindCatalog, "mindCatalog");
+  assertJsonSafe(metricCatalog, "metricCatalog");
   assertJsonSafe(control, "control");
   assertPolicyCatalogIntegrity(policyCatalog);
   assertMindCatalogIntegrity(mindCatalog);
+  assertWorldMetricCatalogIntegrity(metricCatalog);
 
   if (input.jurisdictions.length === 0) {
     throw new Error("A world must begin with at least one jurisdiction.");
@@ -206,8 +230,8 @@ export function createWorld(input: CreateWorldInput): World {
   const people = input.people.map(clonePerson);
 
   return {
-    schemaVersion: 9,
-    generatorVersion: "demo-world-v9",
+    schemaVersion: 10,
+    generatorVersion: "demo-world-v10",
     id: worldId,
     seed,
     startedAt: currentDate,
@@ -219,6 +243,7 @@ export function createWorld(input: CreateWorldInput): World {
     personOrder: people.map((person) => person.id),
     policyCatalog: clonePolicyCatalog(policyCatalog),
     mindCatalog: cloneMindCatalog(mindCatalog),
+    metricCatalog: cloneWorldMetricCatalog(metricCatalog),
     control: { ...control },
     history: createHistoryStore(),
   };
@@ -226,7 +251,10 @@ export function createWorld(input: CreateWorldInput): World {
 
 export function assertWorldIntegrity(world: World): void {
   assertJsonSafe(world, "world");
-  if (world.schemaVersion !== 9 || world.generatorVersion !== "demo-world-v9") {
+  if (
+    world.schemaVersion !== 10 ||
+    world.generatorVersion !== "demo-world-v10"
+  ) {
     throw new Error("Unsupported world schema or generator version.");
   }
   if (world.id !== createWorldId(world.seed)) {
@@ -251,6 +279,7 @@ export function assertWorldIntegrity(world: World): void {
   const people = orderedRecords(world.people, world.personOrder, "person");
   assertPolicyCatalogIntegrity(world.policyCatalog);
   assertMindCatalogIntegrity(world.mindCatalog);
+  assertWorldMetricCatalogIntegrity(world.metricCatalog);
   validateInitialEntities(
     world.id,
     currentDate,
@@ -309,7 +338,9 @@ export function recordWorldEvent(
       !world.people[entityId] &&
       !world.jurisdictions[entityId] &&
       !lifeEntityExists(world, entityId) &&
-      !resourceHousingEntityExists(world, entityId)
+      !resourceHousingEntityExists(world, entityId) &&
+      !worldMetricEntityExists(world, entityId) &&
+      !futureTransitionEntityExists(world, entityId)
     ) {
       throw new Error(
         `Historical event references a missing entity: ${entityId}`,
@@ -326,6 +357,32 @@ export function recordWorldEvent(
     ) {
       throw new Error(
         `Historical event references an unavailable life entity: ${entityId}`,
+      );
+    }
+    if (
+      worldMetricEntityExists(world, entityId) &&
+      !worldMetricEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        `Historical event references an unavailable metric entity: ${entityId}`,
+      );
+    }
+    if (
+      futureTransitionEntityExists(world, entityId) &&
+      !futureTransitionEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        `Historical event references an unavailable future-transition entity: ${entityId}`,
       );
     }
     if (
@@ -431,7 +488,11 @@ export function recordWorldEvent(
   };
 }
 
-export function advanceWorld(world: World, days: number): World {
+export function advanceWorld(
+  world: World,
+  days: number,
+  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+): World {
   if (!Number.isSafeInteger(days) || days <= 0) {
     throw new Error(
       "Time advancement must be a positive whole number of days.",
@@ -441,8 +502,13 @@ export function advanceWorld(world: World, days: number): World {
   const actionSequence = world.actionSequence;
   const nextDate = addDays(world.currentDate, days);
   const primaryJurisdictionId = world.jurisdictionOrder[0] ?? null;
+  const transitioned = resolveFutureDueItemsThrough(
+    world,
+    nextDate,
+    transitionHandlers,
+  );
   const advanced: World = {
-    ...world,
+    ...transitioned,
     currentDate: nextDate,
     actionSequence: actionSequence + 1,
   };
@@ -542,6 +608,24 @@ export function resolveEntityLabel(world: World, entityId: EntityId): string {
     (candidate) => candidate.id === entityId,
   );
   if (dwelling) return dwelling.locationLabel;
+  const metricDefinition = world.metricCatalog.definitions[entityId];
+  if (metricDefinition) return metricDefinition.name;
+  const metricObservation = world.history.metricObservations.find(
+    (candidate) => candidate.id === entityId,
+  );
+  if (metricObservation) {
+    return `${metricObservation.sourceLabel} observation`;
+  }
+  const metricState = world.history.metricStates.find(
+    (candidate) => candidate.id === entityId,
+  );
+  if (metricState) {
+    return `${world.metricCatalog.definitions[metricState.metricId]?.name ?? "Metric"} state`;
+  }
+  const dueItem = world.history.futureDueItems.find(
+    (candidate) => candidate.id === entityId,
+  );
+  if (dueItem) return `Due transition ${dueItem.transitionKey}`;
   return (
     world.policyCatalog.domains[entityId]?.name ??
     world.policyCatalog.issues[entityId]?.name ??
@@ -923,6 +1007,8 @@ function validateHistoryIntegrity(world: World): void {
   const records = [
     ...lifeHistoryRecords(world),
     ...resourceHousingHistoryRecords(world),
+    ...worldMetricHistoryRecords(world),
+    ...futureTransitionHistoryRecords(world),
     ...history.events,
     ...history.memories,
     ...history.knowledge,
@@ -986,6 +1072,8 @@ function validateHistoryIntegrity(world: World): void {
   ]);
   assertLifeHistoryIntegrity(world, ids);
   assertResourceHousingIntegrity(world, ids);
+  assertWorldMetricIntegrity(world, ids);
+  assertFutureTransitionIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
   assertUniqueStableKeys(history.knowledge, "knowledge");
@@ -1057,7 +1145,9 @@ function validateHistoryIntegrity(world: World): void {
         !world.people[involvedId] &&
         !world.jurisdictions[involvedId] &&
         !lifeEntityExists(world, involvedId) &&
-        !resourceHousingEntityExists(world, involvedId)
+        !resourceHousingEntityExists(world, involvedId) &&
+        !worldMetricEntityExists(world, involvedId) &&
+        !futureTransitionEntityExists(world, involvedId)
       ) {
         throw new Error(
           `Historical event references a missing involved entity: ${event.id}`,
@@ -1074,6 +1164,32 @@ function validateHistoryIntegrity(world: World): void {
       ) {
         throw new Error(
           `Historical event references an unavailable resource/housing entity: ${event.id}`,
+        );
+      }
+      if (
+        worldMetricEntityExists(world, involvedId) &&
+        !worldMetricEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          `Historical event references an unavailable metric entity: ${event.id}`,
+        );
+      }
+      if (
+        futureTransitionEntityExists(world, involvedId) &&
+        !futureTransitionEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          `Historical event references an unavailable future-transition entity: ${event.id}`,
         );
       }
       if (

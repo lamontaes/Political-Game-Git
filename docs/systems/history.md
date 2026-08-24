@@ -60,8 +60,11 @@ The global history store uses one contiguous append sequence across:
 - households with dated locations and membership/state histories;
 - separate kinship, partnership/state, care-responsibility/state, and child-authority/state histories;
 - exceptional life commitments and deterministic seven-day load resolutions;
-- exact resource positions, flows, effective terms, actual transfer outcomes, major obligations, and obligation states; and
-- stable dwellings with separate occupancy/state and housing-tenure/state histories.
+- exact resource positions, flows, effective terms, actual transfer outcomes, major obligations, and obligation states;
+- stable dwellings with separate occupancy/state and housing-tenure/state histories;
+- exact jurisdiction/segment metric-state truth and explicit correction history;
+- separate source-series observation vintages with compatible uncertainty and explicit revisions; and
+- stable future due items with append-oriented scheduled/resolved/cancelled/blocked state and optional ordinary outcome-event links.
 
 All records have stable IDs and semantic keys and share one contiguous append sequence. Each family is stored in append order rather than relying on a query-time sort to repair malformed history. A claim, inaccurate secondhand belief, public political position, campaign commitment, appraisal, or perception can contradict another record without changing it. Political and mind records may cite immutable event, biography, exposure, memory, perceived knowledge, claim, relationship, expertise, appraisal, perception, or earlier decision context without claiming that context mechanically caused the later state.
 
@@ -79,4 +82,6 @@ Run C adds no universal finance event or alternate relationship store. Exact ope
 
 Resource and housing roots/states/outcomes may be typed Stage 4 sources only when actor-relevant and available through both cutoff dimensions. An explicit missed or blocked outcome may support ordinary direct knowledge, appraisal, a bounded temporary resource-pressure state, perception, and decision evidence without creating a stress score. `CharacterHistoryPlan` delegates Run C transitions to the same canonical writers and removes its resolver-only stable-key references before writing.
 
-Snapshot format 8 preserves the complete graph, shared policy and mind catalogs, control state, and Stage 5 life records in world schema 9. The Node-only persistence adapter validates record order, discriminators, categorical values, chronology, provenance, lifecycle/supersession chains, historical cutoffs, typed life-source availability, exact resource/housing integrity, stored load derivation, source snapshots, and references before saving or after loading. Causal event graphs, automatic knowledge propagation and correction, autonomous character development, behavioral classification, branching, returning-player briefings, and player-facing archive filtering remain future work.
+Stage 6 Run A preserves quantitative truth separately from observations and subjective access. Metric corrections and observation revisions are later linked records; an observation can differ from truth without changing it. Neither record grants person knowledge until an explicit ordinary release/knowledge history path exists. Future due identity/state shares the same global sequence, while any due occurrence remains an ordinary `HistoricalEvent` rather than a parallel event store.
+
+Snapshot format 9 preserves the complete graph, shared policy, mind, and world-metric catalogs, control state, Stage 5 life records, metric state/observations, and future due histories in world schema 10. The Node-only persistence adapter validates record order, discriminators, exact quantities/units/money, chronology, provenance, lifecycle/supersession and correction/revision chains, historical cutoffs, typed life-source availability, exact resource/housing integrity, due references/outcome events, stored load derivation, source snapshots, and references before saving or after loading. Causal effect/event graphs, automatic knowledge propagation and correction, autonomous character development, behavioral classification, branching, returning-player briefings, and player-facing archive filtering remain future work.

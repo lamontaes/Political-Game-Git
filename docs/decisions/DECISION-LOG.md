@@ -446,3 +446,17 @@ For each `ResourceFlow`, committed outcomes own inclusive settlement intervals a
 Settlement validates terms effective at the settled period start, while the actual occurrence may remain on or after its end. If a later terms record becomes effective after the period start through that period end, the period is rejected as unprorated ambiguity rather than silently selecting old or new terms. This applies to general flow outcomes and the work-compensation convenience path.
 
 Consequence: D-040 continues to provide bounded exact personal/household flow history without an automatic billing scheduler, cadence conversion scheme, payroll proration engine, banking or accounting model, Stage 6 event/economy implementation, Stage 7 law content, or UI.
+
+## D-042 — Quantitative truth, observation vintages, and future transitions remain distinct
+
+- Date: 2026-08-24
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent exact non-money quantitative values as canonical reduced safe-integer rationals with validated open namespaced units. Keep Stage 5 integer-minor-unit `MoneyAmount` separate, and let a closed metric-value union distinguish quantity from money. Store stable metric definitions in a world catalog with scope, stock/flow/rate/index nature, explicit point/interval period form, and aggregation limitations rather than adding one `World` property per metric or parsing Stage 3 proposition strings.
+
+Represent canonical quantitative world truth as append-oriented metric-state history and source-specific measurement/public-statistic vintages as a separate append-oriented observation history. Corrections and revisions explicitly supersede matching prior records without mutation; competing observation series remain distinct; uncertainty is exact and dimensionally compatible; and date plus exclusive append sequence controls availability. Truth and observations create no automatic person knowledge. An explicit ordinary release event plus existing event-knowledge provenance is the bridge into subjective information.
+
+Use one stable future due-item identity with append-oriented scheduled/resolved/cancelled/blocked state and canonical entity references, not opaque payloads, recurrence expressions, or duplicated domain truth. Nonserialized deterministic handlers resolve open transition keys. The authoritative `advanceWorld` path preflights and processes crossed due items by due date then creation sequence, fails atomically for missing/failing handlers, and commits ordinary outcome history exactly once where applicable.
+
+Consequence: Stage 6 Run A supplies exact quantitative state, fallible observation, and future-transition foundations only. Economy/effect mechanics and derived formulas remain Run B; policy forecasts/implementation remain Run C; generalized incident/event selection and chains remain Run D; mortality/incapacity/evidence remain Run E. Mutable law/institutions/elections, territory-specific data, media ecology, campaigns/governing, foreign-government simulation, and player-facing UI remain later-stage work. Stable jurisdiction identity remains open and contains no 50-state assumption.
