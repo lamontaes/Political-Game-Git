@@ -49,3 +49,13 @@ handler now terminally cancels it at its due frontier with
 substituting an estimate or creating a realization, causal process, activation,
 or outcome event. Direct stale/double public writers remain strict, and the
 generic Run A scheduler remains policy-agnostic.
+
+## Creation-frontier correction
+
+A policy due item must also have been possible at its own append sequence.
+Integrity reconstructs its same-series current estimate and, when it would
+produce effects, the absence of an earlier full/partial realization for the
+alternative. This rejects fabricated generic and corrupted persisted due work
+without making later supersession or later alternative implementation corrupt
+otherwise-valid historical schedules. The existing typed cancellation handler
+continues to resolve those later-obsolete items at the due frontier.

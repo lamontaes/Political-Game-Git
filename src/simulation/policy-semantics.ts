@@ -1003,6 +1003,7 @@ function validatePolicyRealizationDueItem(
       `Policy realization due item has invalid canonical source: ${dueItem.id}`,
     );
   }
+  assertPolicyEstimateCurrentAtDueCreation(world, estimate, dueItem);
   const realization = world.history.policyRealizations.find(
     (record) => record.estimateId === estimate.id,
   );
@@ -1025,7 +1026,54 @@ function validatePolicyRealizationDueItem(
       );
     }
   }
+  assertAlternativeWasNotImplementedAtDueCreation(world, estimate, dueItem);
   return estimate;
+}
+
+function assertPolicyEstimateCurrentAtDueCreation(
+  world: World,
+  estimate: PolicyEstimateRecord,
+  dueItem: FutureDueItem,
+): void {
+  const latestAtCreation = world.history.policyEstimates
+    .filter(
+      (record) =>
+        record.seriesKey === estimate.seriesKey &&
+        record.sequence < dueItem.sequence,
+    )
+    .sort(bySequence)
+    .at(-1);
+  if (!latestAtCreation || latestAtCreation.id !== estimate.id) {
+    throw new Error(
+      `Policy realization due item was stale when scheduled: ${dueItem.id}`,
+    );
+  }
+}
+
+function assertAlternativeWasNotImplementedAtDueCreation(
+  world: World,
+  estimate: PolicyEstimateRecord,
+  dueItem: FutureDueItem,
+): void {
+  if (!policyEstimateWouldProduceEffects(world, estimate)) return;
+  if (
+    world.history.policyRealizations.some((record) => {
+      if (
+        record.sequence >= dueItem.sequence ||
+        (record.status !== "full" && record.status !== "partial")
+      ) {
+        return false;
+      }
+      return (
+        requirePolicyEstimate(world, record.estimateId).alternativeId ===
+        estimate.alternativeId
+      );
+    })
+  ) {
+    throw new Error(
+      `Policy realization due item was created after alternative implementation: ${dueItem.id}`,
+    );
+  }
 }
 
 function isPolicyDueResolutionInFlight(

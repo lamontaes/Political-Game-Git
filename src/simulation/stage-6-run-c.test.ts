@@ -367,13 +367,12 @@ function realizedPolicyWorld(seed: string): {
   };
 }
 
-function scheduledPolicyEstimateWorld(seed: string): {
+function policyEstimateWorld(seed: string): {
   readonly world: World;
   readonly alternative: PolicyAlternativeRecord;
   readonly baseline: PolicyBaselineRecord;
   readonly operation: PolicyOperationRecord;
   readonly estimate: PolicyEstimateRecord;
-  readonly dueItemId: EntityId;
   readonly seriesKey: PolicySemanticKey;
 } {
   const prepared = baselineWorld(seed);
@@ -411,20 +410,36 @@ function scheduledPolicyEstimateWorld(seed: string): {
     null,
     seriesKey,
   );
-  world = schedulePolicyEstimateRealization(estimate.world, {
-    stableKey: `${seed}:e1-due`,
-    estimateId: estimate.estimate.id,
-  });
-  const dueItem = world.history.futureDueItems.at(-1);
-  if (!dueItem) throw new Error("Expected scheduled policy due item.");
   return {
-    world,
+    world: estimate.world,
     alternative: alternative.alternative,
     baseline: baseline.baseline,
     operation: operation.operation,
     estimate: estimate.estimate,
-    dueItemId: dueItem.id,
     seriesKey,
+  };
+}
+
+function scheduledPolicyEstimateWorld(seed: string): {
+  readonly world: World;
+  readonly alternative: PolicyAlternativeRecord;
+  readonly baseline: PolicyBaselineRecord;
+  readonly operation: PolicyOperationRecord;
+  readonly estimate: PolicyEstimateRecord;
+  readonly dueItemId: EntityId;
+  readonly seriesKey: PolicySemanticKey;
+} {
+  const prepared = policyEstimateWorld(seed);
+  const world = schedulePolicyEstimateRealization(prepared.world, {
+    stableKey: `${seed}:e1-due`,
+    estimateId: prepared.estimate.id,
+  });
+  const dueItem = world.history.futureDueItems.at(-1);
+  if (!dueItem) throw new Error("Expected scheduled policy due item.");
+  return {
+    ...prepared,
+    world,
+    dueItemId: dueItem.id,
   };
 }
 
@@ -1242,6 +1257,180 @@ describe("Stage 6 Run C implementation, degree, causality, and time", () => {
       ),
     ).toBe(false);
     expect(deserializeWorld(serializeWorld(advanced))).toStrictEqual(advanced);
+  });
+
+  it("rejects a stale policy due item that was fabricated after its revision", () => {
+    const prepared = policyEstimateWorld("run-c-due-created-stale");
+    const revision = recordEstimate(
+      prepared.world,
+      "run-c-due-created-stale:e2",
+      prepared.alternative.id,
+      [prepared.operation.id],
+      fullFactors([prepared.baseline.id]),
+      prepared.estimate.id,
+      prepared.seriesKey,
+    );
+    const inputWorld = structuredClone(revision.world);
+    const genericInput = {
+      stableKey: "run-c-due-created-stale:generic-due",
+      dueAt: prepared.operation.timing.startsAt,
+      transitionKey: POLICY_REALIZATION_TRANSITION_KEY,
+      entityIds: [prepared.estimate.id],
+      jurisdictionId: scope(revision.world).jurisdictionId,
+      provenance: {
+        kind: "simulated" as const,
+        sourceEntityIds: [prepared.estimate.id],
+      },
+    };
+    expect(() => scheduleFutureDueItem(revision.world, genericInput)).toThrow(
+      /stale when scheduled/i,
+    );
+    expect(revision.world).toStrictEqual(inputWorld);
+
+    const genericDue = scheduleFutureDueItem(revision.world, {
+      ...genericInput,
+      stableKey: "run-c-due-created-stale:generic-envelope",
+      transitionKey: "test:generic-due",
+    });
+    const corrupted = structuredClone(genericDue);
+    const dueItem = corrupted.history.futureDueItems.at(-1);
+    if (!dueItem) throw new Error("Expected generic due item.");
+    (dueItem as { transitionKey: string }).transitionKey =
+      POLICY_REALIZATION_TRANSITION_KEY;
+    expect(() => assertWorldIntegrity(corrupted)).toThrow(
+      /stale when scheduled/i,
+    );
+    expect(() => deserializeWorld(serializeUnchecked(corrupted))).toThrow(
+      /stale when scheduled/i,
+    );
+  });
+
+  it("rejects a policy due item fabricated after its alternative was implemented", () => {
+    const prepared = policyEstimateWorld("run-c-due-created-after-effect");
+    const independent = recordEstimate(
+      prepared.world,
+      "run-c-due-created-after-effect:e2",
+      prepared.alternative.id,
+      [prepared.operation.id],
+      fullFactors([prepared.baseline.id]),
+    );
+    const implemented = realizePolicyEstimate(independent.world, {
+      stableKey: "run-c-due-created-after-effect:e2-realization",
+      estimateId: independent.estimate.id,
+      provenance: AUTHORED,
+    });
+    const inputWorld = structuredClone(implemented);
+    const genericInput = {
+      stableKey: "run-c-due-created-after-effect:generic-due",
+      dueAt: prepared.operation.timing.startsAt,
+      transitionKey: POLICY_REALIZATION_TRANSITION_KEY,
+      entityIds: [prepared.estimate.id],
+      jurisdictionId: scope(implemented).jurisdictionId,
+      provenance: {
+        kind: "simulated" as const,
+        sourceEntityIds: [prepared.estimate.id],
+      },
+    };
+    expect(() => scheduleFutureDueItem(implemented, genericInput)).toThrow(
+      /created after alternative implementation/i,
+    );
+    expect(implemented).toStrictEqual(inputWorld);
+
+    const genericDue = scheduleFutureDueItem(implemented, {
+      ...genericInput,
+      stableKey: "run-c-due-created-after-effect:generic-envelope",
+      transitionKey: "test:generic-due",
+    });
+    const corrupted = structuredClone(genericDue);
+    const dueItem = corrupted.history.futureDueItems.at(-1);
+    if (!dueItem) throw new Error("Expected generic due item.");
+    (dueItem as { transitionKey: string }).transitionKey =
+      POLICY_REALIZATION_TRANSITION_KEY;
+    expect(() => assertWorldIntegrity(corrupted)).toThrow(
+      /created after alternative implementation/i,
+    );
+    expect(() => deserializeWorld(serializeUnchecked(corrupted))).toThrow(
+      /created after alternative implementation/i,
+    );
+  });
+
+  it("keeps blocked and not-triggered due scheduling aligned with the domain writer", () => {
+    const prepared = policyEstimateWorld("run-c-nonproducing-due-frontier");
+    const independent = recordEstimate(
+      prepared.world,
+      "run-c-nonproducing-due-frontier:e2",
+      prepared.alternative.id,
+      [prepared.operation.id],
+      fullFactors([prepared.baseline.id]),
+    );
+    const implemented = realizePolicyEstimate(independent.world, {
+      stableKey: "run-c-nonproducing-due-frontier:e2-realization",
+      estimateId: independent.estimate.id,
+      provenance: AUTHORED,
+    });
+
+    for (const kind of ["blocked", "not-triggered"] as const) {
+      const operation =
+        kind === "not-triggered"
+          ? recordOperation(
+              implemented,
+              `run-c-nonproducing-due-frontier:${kind}:operation`,
+              prepared.alternative.id,
+              prepared.baseline,
+              {
+                kind: "absolute-change",
+                direction: "increase",
+                magnitude: moneyValue(1_000_000_000),
+              },
+              {
+                trigger: {
+                  baselineId: prepared.baseline.id,
+                  comparison: "at-least",
+                  threshold: moneyValue(80_000_000_000),
+                },
+              },
+            )
+          : { world: implemented, operation: prepared.operation };
+      const factors =
+        kind === "blocked"
+          ? fullFactors([prepared.baseline.id]).map((factor) =>
+              factor.kind === "authority"
+                ? directPolicyImplementationFactor({
+                    kind: "authority",
+                    share: createExactQuantity(0, 1, "rate:share"),
+                    reasonKey: "implementation:authority-blocked",
+                    explanation: "The policy cannot be implemented.",
+                    evidenceEntityIds: [prepared.baseline.id],
+                  })
+                : factor,
+            )
+          : fullFactors([prepared.baseline.id]);
+      const estimate = recordEstimate(
+        operation.world,
+        `run-c-nonproducing-due-frontier:${kind}:estimate`,
+        prepared.alternative.id,
+        [operation.operation.id],
+        factors,
+      );
+      expect(() =>
+        schedulePolicyEstimateRealization(estimate.world, {
+          stableKey: `run-c-nonproducing-due-frontier:${kind}:domain-due`,
+          estimateId: estimate.estimate.id,
+        }),
+      ).not.toThrow();
+      const genericDue = scheduleFutureDueItem(estimate.world, {
+        stableKey: `run-c-nonproducing-due-frontier:${kind}:generic-due`,
+        dueAt: operation.operation.timing.startsAt,
+        transitionKey: POLICY_REALIZATION_TRANSITION_KEY,
+        entityIds: [estimate.estimate.id],
+        jurisdictionId: scope(estimate.world).jurisdictionId,
+        provenance: {
+          kind: "simulated",
+          sourceEntityIds: [estimate.estimate.id],
+        },
+      });
+      expect(() => assertWorldIntegrity(genericDue)).not.toThrow();
+    }
   });
 });
 
