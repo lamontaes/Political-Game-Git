@@ -644,7 +644,7 @@ A policy estimate becomes available to one actor only through an ordinary review
 
 ### NOW-159 — Delayed policy uses the one future-transition mechanism
 
-A delayed realization schedules exactly one typed Run A due item for one current estimate, due at the earliest operation start with a shared jurisdiction only when all operations share it, and resolves exactly once through the ordinary handler/terminal lifecycle. Duplicate/stale/pending-after-realization policy due records fail integrity. It adds no recurrence, second scheduler, hidden policy tick, or automatic metric mutation. Point and interval consequences retain Run B's exact magnitude-basis and phasing rules.
+A delayed realization schedules exactly one typed Run A due item for one current estimate, due at the earliest operation start with a shared jurisdiction only when all operations share it, and resolves exactly once through the ordinary handler/terminal lifecycle. Duplicate/stale/pending-after-realization policy due records fail integrity. A schedule that was valid when created remains historical evidence if later superseded or precluded by an already-implemented alternative; it terminally cancels at the frontier with a typed reason and creates no substitute/second effect. It adds no recurrence, second scheduler, hidden policy tick, or automatic metric mutation. Point and interval consequences retain Run B's exact magnitude-basis and phasing rules.
 
 ### NOW-160 — Run C persists and extends the permanent maximum-current gate
 

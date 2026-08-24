@@ -39,3 +39,13 @@ the current maximum integration scenario. Do not begin Run D.
 - Online audit could not reach `registry.npmjs.org`; cached offline
   `npm audit --offline --audit-level=high` reported 0 vulnerabilities, and
   `npm ls --all` completed.
+
+## Final lifecycle correction
+
+A due item that passed scheduling validation remains legitimate history if later
+estimate revision or alternative implementation makes it obsolete. The Run C
+handler now terminally cancels it at its due frontier with
+`policy:superseded-estimate` or `policy:alternative-already-realized`, without
+substituting an estimate or creating a realization, causal process, activation,
+or outcome event. Direct stale/double public writers remain strict, and the
+generic Run A scheduler remains policy-agnostic.

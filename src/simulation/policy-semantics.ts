@@ -29,6 +29,7 @@ import type {
   EffectActivationRecord,
   ExactQuantity,
   FutureDueItem,
+  FutureDueReasonKey,
   FutureTransitionHandlerResult,
   HistoricalCutoff,
   MetricObservationUncertainty,
@@ -600,6 +601,19 @@ export function policyRealizationTransitionHandler(
     throw new Error("Policy realization handler received another transition.");
   }
   const estimate = validatePolicyRealizationDueItem(world, dueItem);
+  const obsoleteReason = policyRealizationObsolescenceReason(world, estimate);
+  if (obsoleteReason !== null) {
+    return {
+      world,
+      status: "cancelled",
+      reasonKey: obsoleteReason,
+      context:
+        obsoleteReason === "policy:superseded-estimate"
+          ? "The scheduled policy estimate was superseded before its implementation frontier."
+          : "Another estimate already produced this alternative's one allowed effect-producing realization.",
+      outcomeEventId: null,
+    };
+  }
   let working = realizePolicyEstimate(world, {
     stableKey: `${dueItem.stableKey}:realization`,
     estimateId: estimate.id,
@@ -838,6 +852,33 @@ function assertPolicyEstimateIsCurrentForImplementation(
   }
 }
 
+function policyRealizationObsolescenceReason(
+  world: World,
+  estimate: PolicyEstimateRecord,
+): FutureDueReasonKey | null {
+  const latest = world.history.policyEstimates
+    .filter((record) => record.seriesKey === estimate.seriesKey)
+    .sort(bySequence)
+    .at(-1);
+  if (!latest || latest.id !== estimate.id) {
+    return "policy:superseded-estimate";
+  }
+  if (
+    world.history.policyRealizations.some((record) => {
+      if (record.status !== "full" && record.status !== "partial") {
+        return false;
+      }
+      return (
+        requirePolicyEstimate(world, record.estimateId).alternativeId ===
+        estimate.alternativeId
+      );
+    })
+  ) {
+    return "policy:alternative-already-realized";
+  }
+  return null;
+}
+
 function assertAlternativeHasNoEffectProducingRealization(
   world: World,
   estimate: PolicyEstimateRecord,
@@ -983,25 +1024,6 @@ function validatePolicyRealizationDueItem(
         `Policy realization due item remains pending after realization: ${dueItem.id}`,
       );
     }
-  }
-  if (
-    policyEstimateWouldProduceEffects(world, estimate) &&
-    world.history.policyRealizations.some((record) => {
-      if (
-        record.sequence >= dueItem.sequence ||
-        (record.status !== "full" && record.status !== "partial")
-      ) {
-        return false;
-      }
-      return (
-        requirePolicyEstimate(world, record.estimateId).alternativeId ===
-        estimate.alternativeId
-      );
-    })
-  ) {
-    throw new Error(
-      `Policy realization due item would duplicate an implemented alternative: ${dueItem.id}`,
-    );
   }
   return estimate;
 }

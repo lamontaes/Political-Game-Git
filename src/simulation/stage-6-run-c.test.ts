@@ -367,6 +367,67 @@ function realizedPolicyWorld(seed: string): {
   };
 }
 
+function scheduledPolicyEstimateWorld(seed: string): {
+  readonly world: World;
+  readonly alternative: PolicyAlternativeRecord;
+  readonly baseline: PolicyBaselineRecord;
+  readonly operation: PolicyOperationRecord;
+  readonly estimate: PolicyEstimateRecord;
+  readonly dueItemId: EntityId;
+  readonly seriesKey: PolicySemanticKey;
+} {
+  const prepared = baselineWorld(seed);
+  let world = prepared.world;
+  const baseline = recordBaseline(
+    world,
+    `${seed}:outlays`,
+    "government.outlays",
+    annual(2027),
+    moneyValue(70_000_000_000),
+    [prepared.outlayStateId],
+  );
+  world = baseline.world;
+  const alternative = recordAlternative(world, `${seed}:alternative`);
+  world = alternative.world;
+  const operation = recordOperation(
+    world,
+    `${seed}:operation`,
+    alternative.alternative.id,
+    baseline.baseline,
+    {
+      kind: "absolute-change",
+      direction: "increase",
+      magnitude: moneyValue(1_000_000_000),
+    },
+    { endsAt: "2028-01-01" },
+  );
+  const seriesKey = semanticKey("estimate", `${seed}:series`);
+  const estimate = recordEstimate(
+    operation.world,
+    `${seed}:e1`,
+    alternative.alternative.id,
+    [operation.operation.id],
+    fullFactors([baseline.baseline.id]),
+    null,
+    seriesKey,
+  );
+  world = schedulePolicyEstimateRealization(estimate.world, {
+    stableKey: `${seed}:e1-due`,
+    estimateId: estimate.estimate.id,
+  });
+  const dueItem = world.history.futureDueItems.at(-1);
+  if (!dueItem) throw new Error("Expected scheduled policy due item.");
+  return {
+    world,
+    alternative: alternative.alternative,
+    baseline: baseline.baseline,
+    operation: operation.operation,
+    estimate: estimate.estimate,
+    dueItemId: dueItem.id,
+    seriesKey,
+  };
+}
+
 describe("Stage 6 Run C quantitative operations and frozen baselines", () => {
   it("evaluates set, absolute, relative, baseline-share, cap, floor, and triggers exactly", () => {
     const prepared = baselineWorld("run-c-operation-family");
@@ -1048,6 +1109,139 @@ describe("Stage 6 Run C implementation, degree, causality, and time", () => {
         estimateId: estimate.estimate.id,
       }),
     ).toThrow(/realized policy estimate/i);
+  });
+
+  it("cancels an obsolete scheduled estimate without substituting its revision", () => {
+    const prepared = scheduledPolicyEstimateWorld("run-c-scheduled-superseded");
+    const revision = recordEstimate(
+      prepared.world,
+      "run-c-scheduled-superseded:e2",
+      prepared.alternative.id,
+      [prepared.operation.id],
+      fullFactors([prepared.baseline.id]),
+      prepared.estimate.id,
+      prepared.seriesKey,
+    );
+    expect(() =>
+      schedulePolicyEstimateRealization(revision.world, {
+        stableKey: "run-c-scheduled-superseded:stale-due",
+        estimateId: prepared.estimate.id,
+      }),
+    ).toThrow(/superseded policy estimate/i);
+    expect(() =>
+      realizePolicyEstimate(revision.world, {
+        stableKey: "run-c-scheduled-superseded:stale-realization",
+        estimateId: prepared.estimate.id,
+        provenance: AUTHORED,
+      }),
+    ).toThrow(/superseded policy estimate/i);
+    assertWorldIntegrity(revision.world);
+    expect(deserializeWorld(serializeWorld(revision.world))).toStrictEqual(
+      revision.world,
+    );
+
+    const registry = createFutureTransitionHandlerRegistry([
+      [POLICY_REALIZATION_TRANSITION_KEY, policyRealizationTransitionHandler],
+    ]);
+    const advanced = advanceWorld(revision.world, 22, registry);
+    expect(advanceWorld(revision.world, 22, registry)).toStrictEqual(advanced);
+    const terminalState = advanced.history.futureDueItemStates
+      .filter((state) => state.dueItemId === prepared.dueItemId)
+      .at(-1);
+    expect(terminalState).toMatchObject({
+      status: "cancelled",
+      reasonKey: "policy:superseded-estimate",
+      outcomeEventId: null,
+    });
+    expect(
+      advanced.history.policyRealizations.some(
+        (record) => record.estimateId === prepared.estimate.id,
+      ),
+    ).toBe(false);
+    expect(
+      advanced.history.causalProcesses.some(
+        (record) =>
+          record.kind === "policy:realized-intervention" &&
+          record.sourceEntityIds.includes(prepared.estimate.id),
+      ),
+    ).toBe(false);
+    expect(
+      advanced.history.effectActivations.some((record) =>
+        record.sourceEntityIds.includes(prepared.estimate.id),
+      ),
+    ).toBe(false);
+    expect(deserializeWorld(serializeWorld(advanced))).toStrictEqual(advanced);
+
+    const implementedRevision = realizePolicyEstimate(advanced, {
+      stableKey: "run-c-scheduled-superseded:e2-realization",
+      estimateId: revision.estimate.id,
+      provenance: AUTHORED,
+    });
+    expect(implementedRevision.history.policyRealizations.at(-1)).toMatchObject(
+      {
+        estimateId: revision.estimate.id,
+        status: "full",
+      },
+    );
+  });
+
+  it("cancels an obsolete schedule after another estimate implements its alternative", () => {
+    const prepared = scheduledPolicyEstimateWorld(
+      "run-c-scheduled-alternative-realized",
+    );
+    const independent = recordEstimate(
+      prepared.world,
+      "run-c-scheduled-alternative-realized:e2",
+      prepared.alternative.id,
+      [prepared.operation.id],
+      fullFactors([prepared.baseline.id]),
+    );
+    const implemented = realizePolicyEstimate(independent.world, {
+      stableKey: "run-c-scheduled-alternative-realized:e2-realization",
+      estimateId: independent.estimate.id,
+      provenance: AUTHORED,
+    });
+    expect(() =>
+      realizePolicyEstimate(implemented, {
+        stableKey: "run-c-scheduled-alternative-realized:e1-second",
+        estimateId: prepared.estimate.id,
+        provenance: AUTHORED,
+      }),
+    ).toThrow(/only one effect-producing realization/i);
+    assertWorldIntegrity(implemented);
+    expect(deserializeWorld(serializeWorld(implemented))).toStrictEqual(
+      implemented,
+    );
+
+    const registry = createFutureTransitionHandlerRegistry([
+      [POLICY_REALIZATION_TRANSITION_KEY, policyRealizationTransitionHandler],
+    ]);
+    const advanced = advanceWorld(implemented, 22, registry);
+    const terminalState = advanced.history.futureDueItemStates
+      .filter((state) => state.dueItemId === prepared.dueItemId)
+      .at(-1);
+    expect(terminalState).toMatchObject({
+      status: "cancelled",
+      reasonKey: "policy:alternative-already-realized",
+      outcomeEventId: null,
+    });
+    expect(advanced.history.policyRealizations).toHaveLength(1);
+    expect(advanced.history.policyRealizations[0]?.estimateId).toBe(
+      independent.estimate.id,
+    );
+    expect(
+      advanced.history.causalProcesses.some(
+        (record) =>
+          record.kind === "policy:realized-intervention" &&
+          record.sourceEntityIds.includes(prepared.estimate.id),
+      ),
+    ).toBe(false);
+    expect(
+      advanced.history.effectActivations.some((record) =>
+        record.sourceEntityIds.includes(prepared.estimate.id),
+      ),
+    ).toBe(false);
+    expect(deserializeWorld(serializeWorld(advanced))).toStrictEqual(advanced);
   });
 });
 

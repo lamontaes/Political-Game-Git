@@ -2,6 +2,8 @@ import { afterEach, describe, expect, it } from "vitest";
 
 import {
   SYNTHETIC_POLICY_IDS,
+  POLICY_REALIZATION_TRANSITION_KEY,
+  addDays,
   activateEffect,
   advanceDemoWorld,
   advanceWorld,
@@ -9,6 +11,7 @@ import {
   createChildAuthority,
   createDwelling,
   createFormationContext,
+  createFutureTransitionHandlerRegistry,
   createDemoWorld,
   createHousingTenure,
   createWorld,
@@ -28,6 +31,7 @@ import {
   makeIsoDate,
   materializePerson,
   money,
+  policyRealizationTransitionHandler,
   recordChildAuthorityState,
   recordCausalProcess,
   recordDwellingOccupancyState,
@@ -51,6 +55,7 @@ import {
   recordWorldEvent,
   recordEvaluatedMetricState,
   scheduleFutureDueItem,
+  schedulePolicyEstimateRealization,
   recordWorkCompensationTerms,
   realizePolicyEstimate,
   startDwellingOccupancy,
@@ -318,7 +323,8 @@ describe("SQLite world repository", () => {
       world,
       "housing.availability-pressure",
     );
-    const policyPeriod = { kind: "point" as const, at: world.currentDate };
+    const policyDueAt = addDays(world.currentDate, 1);
+    const policyPeriod = { kind: "point" as const, at: policyDueAt };
     const provenance = {
       kind: "authored" as const,
       note: "SQLite Stage 6 Run C persistence fixture.",
@@ -373,8 +379,8 @@ describe("SQLite world repository", () => {
       mechanismDefinitionId: world.causalMechanismCatalog.definitionOrder[0]!,
       realizationKind: "policy:sqlite-realization",
       timing: {
-        startsAt: world.currentDate,
-        maturesAt: world.currentDate,
+        startsAt: policyDueAt,
+        maturesAt: policyDueAt,
         endsAt: null,
       },
       recordedAt: world.currentDate,
@@ -432,6 +438,11 @@ describe("SQLite world repository", () => {
       supersedesEstimateId: null,
     });
     const estimate = world.history.policyEstimates.at(-1)!;
+    world = schedulePolicyEstimateRealization(world, {
+      stableKey: "sqlite:run-c:e1-due",
+      estimateId: estimate.id,
+    });
+    const dueItem = world.history.futureDueItems.at(-1)!;
     const firstSaved = repository.save(world);
     world = recordPolicyAnalysisKnowledge(world, {
       stableKey: "sqlite:run-c:analysis",
@@ -444,12 +455,51 @@ describe("SQLite world repository", () => {
       confidence: "high",
       visibility: "private",
     });
+    world = recordPolicyImplementationProfile(world, {
+      stableKey: "sqlite:run-c:independent-profile",
+      alternativeId: alternative.id,
+      operationIds: [operation.id],
+      factors,
+      assessedAt: world.currentDate,
+      recordedAt: world.currentDate,
+      provenance,
+    });
+    const independentProfile =
+      world.history.policyImplementationProfiles.at(-1)!;
+    world = recordPolicyProjectionRoot(world, {
+      stableKey: "sqlite:run-c:independent-projected-cause",
+      alternativeId: alternative.id,
+      operationIds: [operation.id],
+      effectiveAt: world.currentDate,
+      recordedAt: world.currentDate,
+    });
+    const independentProjectedCause = world.history.causalProcesses.at(-1)!;
+    world = recordPolicyEstimate(world, {
+      stableKey: "sqlite:run-c:independent-estimate",
+      seriesKey: "estimate:sqlite-run-c-independent",
+      alternativeId: alternative.id,
+      operationIds: [operation.id],
+      implementationProfileId: independentProfile.id,
+      projectedCausalProcessId: independentProjectedCause.id,
+      generatedAt: world.currentDate,
+      recordedAt: world.currentDate,
+      provenance,
+      supersedesEstimateId: null,
+    });
+    const independentEstimate = world.history.policyEstimates.at(-1)!;
     world = realizePolicyEstimate(world, {
-      stableKey: "sqlite:run-c:realization",
-      estimateId: estimate.id,
+      stableKey: "sqlite:run-c:independent-realization",
+      estimateId: independentEstimate.id,
       provenance,
     });
     const realization = world.history.policyRealizations.at(-1)!;
+    world = advanceWorld(
+      world,
+      1,
+      createFutureTransitionHandlerRegistry([
+        [POLICY_REALIZATION_TRANSITION_KEY, policyRealizationTransitionHandler],
+      ]),
+    );
     const saved = repository.save(world);
     const restored = repository.load(world.id);
 
@@ -461,13 +511,28 @@ describe("SQLite world repository", () => {
     );
     expect(restored?.history.policyBaselines.at(-1)).toStrictEqual(baseline);
     expect(restored?.history.policyOperations.at(-1)).toStrictEqual(operation);
-    expect(restored?.history.policyImplementationProfiles.at(-1)).toStrictEqual(
-      profile,
-    );
-    expect(restored?.history.policyEstimates.at(-1)).toStrictEqual(estimate);
+    expect(
+      restored?.history.policyImplementationProfiles.find(
+        (candidate) => candidate.id === profile.id,
+      ),
+    ).toStrictEqual(profile);
+    expect(
+      restored?.history.policyEstimates.find(
+        (candidate) => candidate.id === estimate.id,
+      ),
+    ).toStrictEqual(estimate);
     expect(restored?.history.policyRealizations.at(-1)).toStrictEqual(
       realization,
     );
+    expect(
+      restored?.history.futureDueItemStates
+        .filter((state) => state.dueItemId === dueItem.id)
+        .at(-1),
+    ).toMatchObject({
+      status: "cancelled",
+      reasonKey: "policy:alternative-already-realized",
+      outcomeEventId: null,
+    });
     expect(restored?.history.knowledge.at(-1)?.personId).toBe(actorId);
   });
 
