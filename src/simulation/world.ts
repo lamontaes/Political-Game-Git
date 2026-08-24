@@ -499,6 +499,8 @@ export function advanceWorld(
     );
   }
 
+  assertWorldIntegrity(world);
+
   const actionSequence = world.actionSequence;
   const nextDate = addDays(world.currentDate, days);
   const primaryJurisdictionId = world.jurisdictionOrder[0] ?? null;

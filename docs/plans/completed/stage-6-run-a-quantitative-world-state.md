@@ -43,9 +43,9 @@ This run does not implement economy dynamics, causal effects, policy baselines o
 
 ## Post-completion corrective audit — 2026-08-24
 
-A contained corrective audit on the accepted Run A architecture closes four semantic gaps without rewriting the original completion evidence: committed/latest scheduled due items at or before the current frontier are invalid; due-state status is a closed runtime/load vocabulary; canonical state corrections cannot be recorded before their predecessor; and within-series observation revisions cannot be recorded before their predecessor. Same-day chain ordering remains sequence-safe, while different-scope/period late backfill remains valid and cutoff-safe.
+A contained corrective audit on the accepted Run A architecture closes four semantic gaps without rewriting the original completion evidence: due-state status is a closed runtime/load vocabulary; canonical state corrections cannot be recorded before their predecessor; and within-series observation revisions cannot be recorded before their predecessor. Its initial due-now interpretation was itself corrected by the subsequent due-frontier composition audit: scheduled due-today work is valid pending work, while only strictly overdue work is invalid. Same-day chain ordering remains sequence-safe, while different-scope/period late backfill remains valid and cutoff-safe.
 
-Focused Run A coverage grows from the original 15 tests to 19, adding persisted due-now and unknown-status corruption rejection, unsafe runtime terminal-status atomicity, and state/observation predecessor-date atomicity. The existing continuous Stage 5-to-Run-A integration gate now also asserts its one linked due outcome event exists exactly once. No schema/version migration, Run B implementation, or scope expansion is implied by this correction.
+Focused Run A coverage grows from the original 15 tests to 21, adding pending due-today/strict-overdue persistence coverage, unsafe runtime terminal-status atomicity, state/observation predecessor-date atomicity, and canonical metric/follow-on scheduling inside a due handler. The existing continuous Stage 5-to-Run-A integration gate now also asserts its one linked due outcome event exists exactly once. No schema/version migration, Run B implementation, or scope expansion is implied by this correction.
 
 ## Version and checkpoint record
 

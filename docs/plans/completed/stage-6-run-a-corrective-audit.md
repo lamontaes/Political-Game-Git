@@ -16,9 +16,10 @@ remain preserved.
 - [x] Verified expected commit `d04b94a38476373e9c34b1535a74797d8d5f4d8c`, its
       accepted Run C parent, governing contracts, source/tests, and the expected
       untracked delivery ZIP.
-- [x] Rejected committed/latest scheduled due items at or before the current
-      time frontier, while preserving atomic due-date then creation-sequence
-      resolution and same-date batches in `advanceWorld`.
+- [x] Recorded the initial due-frontier correction, subsequently superseded by
+      the due-frontier composition correction: due-today is valid pending work,
+      while strictly overdue scheduled items are rejected; `advanceWorld`
+      resolves due-today before moving later.
 - [x] Validated the closed due-state vocabulary at runtime writer and
       loaded-world integrity boundaries.
 - [x] Required state corrections and observation revisions not to predate their

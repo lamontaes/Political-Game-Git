@@ -181,10 +181,9 @@ export function scheduleFutureDueItem(
   });
 }
 
-function setFutureDueItemTerminalStateInternal(
+export function setFutureDueItemTerminalState(
   world: World,
   input: SetFutureDueItemTerminalStateInput,
-  validateResult: boolean,
 ): World {
   assertUniqueStableKey(
     world.history.futureDueItemStates,
@@ -256,22 +255,11 @@ function setFutureDueItemTerminalStateInternal(
     outcomeEventId: input.outcomeEventId,
     supersedesStateId: previous.id,
   };
-  return commit(
-    world,
-    {
-      ...world.history,
-      nextSequence: world.history.nextSequence + 1,
-      futureDueItemStates: [...world.history.futureDueItemStates, record],
-    },
-    validateResult,
-  );
-}
-
-export function setFutureDueItemTerminalState(
-  world: World,
-  input: SetFutureDueItemTerminalStateInput,
-): World {
-  return setFutureDueItemTerminalStateInternal(world, input, true);
+  return commit(world, {
+    ...world.history,
+    nextSequence: world.history.nextSequence + 1,
+    futureDueItemStates: [...world.history.futureDueItemStates, record],
+  });
 }
 
 export function cancelFutureDueItem(
@@ -306,7 +294,7 @@ export function futureDueItemStateAt(
 
 export function scheduledFutureDueItemsThrough(
   world: World,
-  afterExclusive: IsoDate,
+  fromInclusive: IsoDate,
   throughInclusive: IsoDate,
 ): readonly FutureDueItem[] {
   return world.history.futureDueItems
@@ -314,7 +302,7 @@ export function scheduledFutureDueItemsThrough(
       const state = latestDueItemStateAtCurrentFrontier(world, item.id);
       return (
         state?.status === "scheduled" &&
-        item.dueAt > afterExclusive &&
+        item.dueAt >= fromInclusive &&
         item.dueAt <= throughInclusive
       );
     })
@@ -356,10 +344,8 @@ export function resolveFutureDueItemsThrough(
     }
     const atDueDate: World = { ...working, currentDate: item.dueAt };
     const unchangedInput = JSON.stringify(atDueDate);
-    const dueHistoryBefore = JSON.stringify({
-      items: atDueDate.history.futureDueItems,
-      states: atDueDate.history.futureDueItemStates,
-    });
+    const dueItemsBefore = atDueDate.history.futureDueItems;
+    const dueStatesBefore = atDueDate.history.futureDueItemStates;
     const result = handler(atDueDate, item);
     if (JSON.stringify(atDueDate) !== unchangedInput) {
       throw new Error("Future-transition handler mutated its input world.");
@@ -373,35 +359,46 @@ export function resolveFutureDueItemsThrough(
         "Future-transition handler changed world identity, time, or action sequence.",
       );
     }
+    const resultDueItems = result.world.history.futureDueItems;
+    const resultDueStates = result.world.history.futureDueItemStates;
     if (
-      JSON.stringify({
-        items: result.world.history.futureDueItems,
-        states: result.world.history.futureDueItemStates,
-      }) !== dueHistoryBefore
+      JSON.stringify(resultDueItems.slice(0, dueItemsBefore.length)) !==
+        JSON.stringify(dueItemsBefore) ||
+      JSON.stringify(resultDueStates.slice(0, dueStatesBefore.length)) !==
+        JSON.stringify(dueStatesBefore)
     ) {
       throw new Error(
-        "Future-transition handlers cannot write due-item state directly.",
+        "Future-transition handlers cannot rewrite existing due-item history.",
       );
     }
-    working = setFutureDueItemTerminalStateInternal(
-      result.world,
-      {
-        stableKey: `${item.stableKey}:state:${result.status}:${item.dueAt}`,
-        dueItemId: item.id,
-        effectiveAt: item.dueAt,
-        status: result.status,
-        reasonKey: result.reasonKey,
-        context: result.context,
-        outcomeEventId: result.outcomeEventId,
-      },
-      false,
+    const appendedDueItemIds = new Set(
+      resultDueItems
+        .slice(dueItemsBefore.length)
+        .map((candidate) => candidate.id),
     );
-    const next = scheduledFutureDueItemsThrough(
-      working,
-      startingDate,
-      throughDate,
-    )[0];
-    if (!next || next.dueAt !== item.dueAt) assertWorldIntegrity(working);
+    if (
+      resultDueStates
+        .slice(dueStatesBefore.length)
+        .some(
+          (state) =>
+            state.status !== "scheduled" ||
+            !appendedDueItemIds.has(state.dueItemId),
+        )
+    ) {
+      throw new Error(
+        "Future-transition handlers may only schedule new future due items.",
+      );
+    }
+    assertWorldIntegrity(result.world);
+    working = setFutureDueItemTerminalState(result.world, {
+      stableKey: `${item.stableKey}:state:${result.status}:${item.dueAt}`,
+      dueItemId: item.id,
+      effectiveAt: item.dueAt,
+      status: result.status,
+      reasonKey: result.reasonKey,
+      context: result.context,
+      outcomeEventId: result.outcomeEventId,
+    });
   }
 }
 
@@ -595,9 +592,9 @@ export function assertFutureTransitionIntegrity(
       throw new Error(`Future due item lacks one valid lifecycle: ${item.id}`);
     }
     const latest = states.at(-1);
-    if (latest?.status === "scheduled" && item.dueAt <= world.currentDate) {
+    if (latest?.status === "scheduled" && item.dueAt < world.currentDate) {
       throw new Error(
-        `Future due item was not resolved before the current time frontier: ${item.id}`,
+        `Future due item was skipped by authoritative time: ${item.id}`,
       );
     }
   }
@@ -765,13 +762,9 @@ function bySequence<T extends { readonly sequence: number }>(
   return left.sequence - right.sequence;
 }
 
-function commit(
-  world: World,
-  history: World["history"],
-  validateResult = true,
-): World {
+function commit(world: World, history: World["history"]): World {
   const next = { ...world, history };
-  if (validateResult) assertWorldIntegrity(next);
+  assertWorldIntegrity(next);
   return next;
 }
 

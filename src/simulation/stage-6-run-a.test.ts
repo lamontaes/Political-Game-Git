@@ -911,6 +911,139 @@ describe("Stage 6 Run A future due items and authoritative time", () => {
     ).toHaveLength(2);
   });
 
+  it("lets a due handler use canonical metric and follow-on scheduling writers", () => {
+    let world = bareWorld("stage-6-due-writer-composition");
+    const population = metric(world, "population.resident-count");
+    const populationScope = scope(world);
+    const dueAt = makeIsoDate("2026-01-15");
+    world = schedule(
+      world,
+      "due:writer-composition",
+      dueAt,
+      "custom:writer-composition",
+    );
+    const firstDueItem = world.history.futureDueItems.at(-1)!;
+    let metricStateId: EntityId | null = null;
+    const calls: string[] = [];
+    const registry = createFutureTransitionHandlerRegistry([
+      [
+        "custom:writer-composition",
+        (handlerWorld, item) => {
+          calls.push(item.stableKey);
+          const withTruth = recordWorldMetricState(handlerWorld, {
+            stableKey: "truth:due-writer-composition",
+            metricId: population.id,
+            scope: populationScope,
+            referencePeriod: point(handlerWorld),
+            value: quantity(10_250),
+            recordedAt: handlerWorld.currentDate,
+            provenance: {
+              kind: "authored",
+              note: "Canonical truth written by a due handler.",
+            },
+            supersedesStateId: null,
+          });
+          const truth = withTruth.history.metricStates.at(-1)!;
+          metricStateId = truth.id;
+          const withFollowOn = scheduleFutureDueItem(withTruth, {
+            stableKey: "due:writer-composition:follow-on",
+            dueAt: "2026-01-20",
+            transitionKey: "custom:writer-follow-on",
+            entityIds: [truth.id],
+            jurisdictionId: handlerWorld.jurisdictionOrder[0]!,
+            provenance: { kind: "simulated", sourceEntityIds: [truth.id] },
+          });
+          const withOutcome = recordWorldEvent(withFollowOn, {
+            stableKey: "due:writer-composition:outcome",
+            type: "simulation.synthetic-transition-resolved",
+            occurredAt: item.dueAt,
+            recordedAt: item.dueAt,
+            jurisdictionId: item.jurisdictionId,
+            involvedEntityIds: [item.id, truth.id].sort(),
+            participants: [],
+            personFactConstraints: [],
+            visibility: "public",
+            tags: ["simulation.future-transition"],
+            summary: "The compositional due handler resolved once.",
+            context: {
+              location: null,
+              socialContext: "Canonical writer composition.",
+              pressure: null,
+              choice: null,
+              motivation: null,
+              immediateReaction: null,
+            },
+          });
+          return {
+            world: withOutcome,
+            status: "resolved" as const,
+            reasonKey: null,
+            context: "Wrote truth and scheduled follow-on.",
+            outcomeEventId: withOutcome.history.events.at(-1)!.id,
+          };
+        },
+      ],
+      ["custom:writer-follow-on", eventHandler(calls)],
+    ]);
+
+    world = advanceWorld(world, 10, registry);
+    const firstTerminalState = futureDueItemStateAt(
+      world,
+      firstDueItem.id,
+      currentHistoricalCutoff(world),
+    );
+    expect(firstTerminalState?.status).toBe("resolved");
+    expect(
+      world.history.futureDueItemStates.filter(
+        (state) => state.dueItemId === firstDueItem.id,
+      ),
+    ).toHaveLength(2);
+    expect(
+      world.history.events.filter(
+        (event) => event.id === firstTerminalState?.outcomeEventId,
+      ),
+    ).toHaveLength(1);
+    expect(calls).toStrictEqual(["due:writer-composition"]);
+    expect(metricStateId).not.toBeNull();
+    expect(
+      worldMetricStateForPeriodAt(
+        world,
+        population.id,
+        populationScope,
+        { kind: "point", at: dueAt },
+        currentHistoricalCutoff(world),
+      )?.id,
+    ).toBe(metricStateId);
+    const followOn = world.history.futureDueItems.find(
+      (item) => item.stableKey === "due:writer-composition:follow-on",
+    )!;
+    expect(
+      futureDueItemStateAt(world, followOn.id, currentHistoricalCutoff(world))
+        ?.status,
+    ).toBe("scheduled");
+
+    world = advanceWorld(world, 5, registry);
+    expect(calls).toStrictEqual([
+      "due:writer-composition",
+      "due:writer-composition:follow-on",
+    ]);
+    expect(
+      futureDueItemStateAt(world, followOn.id, currentHistoricalCutoff(world))
+        ?.status,
+    ).toBe("resolved");
+    const loaded = deserializeWorld(serializeWorld(world));
+    expect(loaded).toStrictEqual(world);
+    expect(
+      worldMetricStateForPeriodAt(
+        loaded,
+        population.id,
+        populationScope,
+        { kind: "point", at: dueAt },
+        currentHistoricalCutoff(loaded),
+      )?.id,
+    ).toBe(metricStateId);
+  });
+
   it("orders multiple dates and same-date items by creation sequence", () => {
     let world = bareWorld("stage-6-due-order");
     world = schedule(world, "due:later", "2026-01-20");
@@ -1018,6 +1151,33 @@ describe("Stage 6 Run A future due items and authoritative time", () => {
       /handler failure/i,
     );
     expect(scheduled).toStrictEqual(before);
+    const directLifecycleWrite = createFutureTransitionHandlerRegistry([
+      [
+        "custom:synthetic-transition",
+        (handlerWorld, item) => {
+          const directlySettled = setFutureDueItemTerminalState(handlerWorld, {
+            stableKey: "due:atomic:direct-terminal",
+            dueItemId: item.id,
+            effectiveAt: item.dueAt,
+            status: "resolved",
+            reasonKey: null,
+            context: "Handlers may not settle their own due state directly.",
+            outcomeEventId: null,
+          });
+          return {
+            world: directlySettled,
+            status: "resolved" as const,
+            reasonKey: null,
+            context: "Invalid direct lifecycle write.",
+            outcomeEventId: null,
+          };
+        },
+      ],
+    ]);
+    expect(() => advanceWorld(scheduled, 10, directLifecycleWrite)).toThrow(
+      /may only schedule new future due items/i,
+    );
+    expect(scheduled).toStrictEqual(before);
   });
 
   it("rejects unsafe terminal statuses atomically", () => {
@@ -1040,6 +1200,42 @@ describe("Stage 6 Run A future due items and authoritative time", () => {
       }),
     ).toThrow(/invalid terminal future due-item status/i);
     expect(world).toStrictEqual(before);
+  });
+
+  it("keeps loaded due-today work pending until authoritative time leaves the date", () => {
+    const scheduled = schedule(
+      bareWorld("stage-6-due-today-pending"),
+      "due:today-pending",
+      "2026-01-15",
+    );
+    const dueItem = scheduled.history.futureDueItems.at(-1)!;
+    const dueToday = structuredClone(scheduled);
+    (dueToday as { currentDate: string }).currentDate = "2026-01-15";
+    expect(() => assertWorldIntegrity(dueToday)).not.toThrow();
+    const loaded = deserializeWorld(serializeWorld(dueToday));
+    expect(loaded).toStrictEqual(dueToday);
+
+    const calls: string[] = [];
+    const registry = createFutureTransitionHandlerRegistry([
+      ["custom:synthetic-transition", eventHandler(calls)],
+    ]);
+    const advanced = advanceWorld(loaded, 1, registry);
+    expect(advanced.currentDate).toBe("2026-01-16");
+    expect(calls).toStrictEqual(["due:today-pending"]);
+    expect(
+      futureDueItemStateAt(
+        advanced,
+        dueItem.id,
+        currentHistoricalCutoff(advanced),
+      )?.status,
+    ).toBe("resolved");
+    const later = advanceWorld(advanced, 2, registry);
+    expect(calls).toStrictEqual(["due:today-pending"]);
+    expect(
+      later.history.futureDueItemStates.filter(
+        (state) => state.dueItemId === dueItem.id,
+      ),
+    ).toHaveLength(2);
   });
 
   it("preserves legacy time behavior when there are no pending due items", () => {
@@ -1128,7 +1324,7 @@ describe("Stage 6 Run A persistence and loaded-world integrity", () => {
     );
   });
 
-  it("rejects committed due-now and unknown-status lifecycle corruption", () => {
+  it("rejects overdue and unknown-status lifecycle corruption", () => {
     const base = bareWorld("stage-6-due-corrupt-lifecycle");
     const world = scheduleFutureDueItem(base, {
       stableKey: "due:corrupt-lifecycle",
@@ -1139,23 +1335,23 @@ describe("Stage 6 Run A persistence and loaded-world integrity", () => {
       provenance: { kind: "authored", note: "Corrupt lifecycle fixture." },
     });
 
-    const dueNow = structuredClone(world);
-    (dueNow as { currentDate: string }).currentDate = "2026-01-15";
-    expect(() => assertWorldIntegrity(dueNow)).toThrow(
-      /current time frontier/i,
+    const overdue = structuredClone(world);
+    (overdue as { currentDate: string }).currentDate = "2026-01-16";
+    expect(() => assertWorldIntegrity(overdue)).toThrow(
+      /skipped by authoritative time/i,
     );
-    const dueNowSnapshot = JSON.parse(serializeWorld(world)) as {
+    const overdueSnapshot = JSON.parse(serializeWorld(world)) as {
       snapshotId: EntityId;
       world: World;
     };
-    (dueNowSnapshot.world as { currentDate: string }).currentDate =
-      "2026-01-15";
-    dueNowSnapshot.snapshotId = createStableId(
+    (overdueSnapshot.world as { currentDate: string }).currentDate =
+      "2026-01-16";
+    overdueSnapshot.snapshotId = createStableId(
       "snapshot",
-      JSON.stringify(dueNowSnapshot.world),
+      JSON.stringify(overdueSnapshot.world),
     );
-    expect(() => deserializeWorld(JSON.stringify(dueNowSnapshot))).toThrow(
-      /current time frontier/i,
+    expect(() => deserializeWorld(JSON.stringify(overdueSnapshot))).toThrow(
+      /skipped by authoritative time/i,
     );
 
     const unknownStatus = structuredClone(world);
