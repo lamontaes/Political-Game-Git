@@ -14,6 +14,8 @@ export type {
   ScheduleFutureDueItemInput,
 } from "./future-transitions";
 export * from "./ids";
+export * from "./incident-catalog";
+export * from "./incidents";
 export * from "./life";
 export * from "./life-eligibility";
 export * from "./life-queries";

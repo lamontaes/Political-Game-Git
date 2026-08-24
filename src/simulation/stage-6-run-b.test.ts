@@ -1192,9 +1192,9 @@ describe("Stage 6 Run B lightweight economy and fiscal continuity", () => {
     const loaded = deserializeWorld(payload);
     expect(loaded).toStrictEqual(world);
     expect(serializeWorld(loaded)).toBe(payload);
-    expect(loaded.schemaVersion).toBe(12);
-    expect(loaded.generatorVersion).toBe("demo-world-v12");
-    expect(JSON.parse(payload).formatVersion).toBe(11);
+    expect(loaded.schemaVersion).toBe(13);
+    expect(loaded.generatorVersion).toBe("demo-world-v13");
+    expect(JSON.parse(payload).formatVersion).toBe(12);
     expect(loaded.causalMechanismCatalog).toStrictEqual(
       world.causalMechanismCatalog,
     );

@@ -294,3 +294,41 @@ This audit applies D-031 through D-044 retroactively across the proposition, wor
 ### Run C disposition
 
 Focused Run C tests prove every operation, exact failure boundary, frozen baseline/backfill behavior, projection-versus-realization separation, point/interval reuse, five-factor implementation, degree sensitivity, explicit multi-jurisdiction distribution, delayed due handling, actor-specific knowledge/choice, persistence, open keys, corrupted-record rejection, and materialization neutrality. The contained post-implementation corrective audit additionally proves exact cause/effect linkage, stale-estimate rejection, alternative-level effect uniqueness, policy-due uniqueness/freshness/period/jurisdiction integrity, and corrupted JSON rejection. The final lifecycle correction further proves that a valid historical schedule made obsolete before its due frontier terminally cancels with a typed reason, preserving strict direct writers and allowing authoritative time to advance. This creation-frontier correction proves integrity rejects a generic or persisted policy due record that was already stale or already precluded by a full/partial realization at its own sequence, without rejecting a schedule invalidated only later. The permanent maximum-current scenario now carries one continuous Stage 5 life/resource/subjective history through Run A truth/observation/due behavior, Run B causal/economic evaluation, and two Run C policy alternatives: the informed actor selects the smaller option, only its explicit realization creates correlated effects, and later canonical metric truth is written solely through the Run B evaluator. Node-only SQLite preserves all six new families and actor knowledge exactly. Stage 6 remains **IN PROGRESS**; Run D is the next candidate and was not started.
+
+## Stage 6 Run D Boundary Audit — 2026-08-24
+
+This audit applies D-031 through D-045 retroactively across the Run A metric and
+future-due seams, Run B causal/effect substrate, Run C policy composition,
+ordinary historical events, Stage 4 information boundary, persistence,
+determinism, and later-stage scope.
+
+| Concern                           | Disposition             | Evidence and rationale                                                                                                                                                                                                                                                        |
+| --------------------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Definition versus occurrence      | Confirmed separated     | `IncidentCatalog` definitions are JSON-safe possibilities; only `IncidentRecord` plus ordinary event/state history represents a committed occurrence.                                                                                                                         |
+| Rule and blocker evaluator        | Confirmed bounded       | Metric comparison, ordinary-event, and incident-state rules are typed, cutoff-aware, and inspectable. Missing metric truth is unavailable evidence, not invented state. No string parser or callback is serialized.                                                           |
+| Likelihood, selection, and RNG    | Confirmed deterministic | Exact bounded shares and integer comparison use a non-consuming key derived from seed, definition, evaluation, scope, date, and cutoff. Unrelated RNG work cannot reroll a candidate.                                                                                         |
+| Consequence risk                  | Confirmed distinct      | Exact exposure, vulnerability, and resilience independently yield `exposure × vulnerability × (1 − resilience)`. They scale typed Run B consequences and do not change eligibility or hazard likelihood.                                                                      |
+| Ordinary-event and causal truth   | Confirmed composed      | An occurrence has an ordinary onset event, one root causal process, meaningful ordinary phase events, append-only state history, and exact Run B activations. No parallel narrative-event log or incident-specific modifier math exists.                                      |
+| Root separation and deduplication | Confirmed composed      | Incident effects and Run C policy effects may target one metric but retain distinct roots. Existing distinct-root queries still deduplicate multiple branches of one incident root.                                                                                           |
+| Follow-ons and generic time       | Confirmed bounded       | One transition plan owns one due item. Creation-frontier integrity reconstructs plan/state/date/scope/provenance. Normal handling resolves once; later resolved/advanced state cancels obsolete pending work with typed reason and allows generic time to cross the frontier. |
+| Information boundary              | Confirmed preserved     | Incident truth writes no knowledge. Existing ordinary event-knowledge writers remain the only explicit actor-information path.                                                                                                                                                |
+| Historical query/cutoff safety    | Confirmed compatible    | Incident, state, active, kind/definition, root, and event queries use date plus exclusive sequence. Resolved history remains queryable; later onset/phase records remain absent from older cutoffs.                                                                           |
+| Persistence/versioning            | Corrected consistently  | World schema 13, generator `demo-world-v13`, snapshot 12, and incident catalog v1 preserve records, risk evidence, causes/effects, plans, due state, JSON, and Node-only SQLite exactly. Metric catalog v2, causal catalog v1, and materializer v4 remain unchanged.          |
+| Performance and resolution        | Confirmed bounded       | Evaluation is explicit over the small catalog/rule set and keyed forks; it does not execute a daily population scan, continuous simulation, or a second scheduler.                                                                                                            |
+| Run E boundary                    | Confirmed deferred      | No vital status, incapacity, medical record, individual disease model, mortality, evidence artifact, discovery, investigation, or secrecy system was introduced.                                                                                                              |
+| Stage 7+/media/UI boundary        | Confirmed deferred      | No law, institution, office, election, campaign, budget/tax, media, public opinion, territory-specific incident data, foreign-government, tactical-conflict, or player-facing UI system was introduced.                                                                       |
+
+### Run D disposition
+
+Focused Run D coverage proves unavailable/ineligible and blocked conditions,
+keyed deterministic RNG, likelihood-versus-impact separation, exact scaled
+consequences, ordinary onset/phase history, root fan-out, state and cutoff
+queries, due creation-frontier rejection, exactly-once resolution, obsolete
+follow-on cancellation, corrupted JSON linkage rejection, and actor-initiated
+ordinary truth. Node-only SQLite preserves an exact actor-initiated incident
+snapshot. The permanent maximum-current scenario retains the existing formative,
+education/work, household/care, compensation/resources/housing, relationship,
+Stage 4 appraisal/perception/decision, Run A state/due, Run B economic, and Run
+C policy chain while adding a separately rooted incident effect on the same
+output metric, no automatic actor knowledge, cutoff safety, and one resolved
+incident follow-on. Stage 6 remains **IN PROGRESS**; Run E was not started.

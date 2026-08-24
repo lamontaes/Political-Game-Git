@@ -1,5 +1,9 @@
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
+import {
+  incidentEntityAvailableAt,
+  incidentEntityExists,
+} from "./incident-integrity";
 import { lifeEntityAvailableAt, lifeEntityExists } from "./life-integrity";
 import {
   resourceHousingEntityAvailableAt,
@@ -668,6 +672,9 @@ function canonicalEntityAvailable(
   }
   if (worldMetricEntityExists(world, id)) {
     return worldMetricEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
+  }
+  if (incidentEntityExists(world, id)) {
+    return incidentEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   }
   const policyRecord = [
     ...world.history.policyAlternatives,

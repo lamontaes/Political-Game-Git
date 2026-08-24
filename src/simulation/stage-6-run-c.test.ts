@@ -826,9 +826,19 @@ describe("Stage 6 Run C implementation, degree, causality, and time", () => {
     expect(world.history.metricStates.at(-1)?.value).toStrictEqual(
       moneyValue(79_000_000_000),
     );
+    const outlayEffect = realization.consequences.find(
+      (consequence) =>
+        world.history.effectActivations.find(
+          (effect) => effect.id === consequence.effectActivationId,
+        )?.targetMetricId === metricId(world, "government.outlays"),
+    );
+    if (!outlayEffect) throw new Error("Expected government-outlays effect.");
     expect(world.history.metricStates.at(-1)?.provenance).toStrictEqual({
       kind: "simulated",
-      sourceEntityIds: [actualBaseline.id, effectIds[0]!].sort(),
+      sourceEntityIds: [
+        actualBaseline.id,
+        outlayEffect.effectActivationId,
+      ].sort(),
     });
   });
 
@@ -2097,8 +2107,8 @@ describe("Stage 6 Run C scope, subjective access, persistence, and integrity", (
     const payload = serializeWorld(world);
     expect(deserializeWorld(payload)).toStrictEqual(world);
     expect(JSON.parse(payload)).toMatchObject({
-      formatVersion: 11,
-      world: { schemaVersion: 12, generatorVersion: "demo-world-v12" },
+      formatVersion: 12,
+      world: { schemaVersion: 13, generatorVersion: "demo-world-v13" },
     });
     const beforeSequence = world.history.nextSequence;
     const policyBefore = JSON.stringify({

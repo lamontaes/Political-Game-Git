@@ -34,6 +34,7 @@ import {
   directPolicyImplementationFactor,
   effectActivationsAt,
   evaluateDecision,
+  evaluateIncident,
   generateQuickCharacterHistory,
   householdMembershipsAt,
   materializePerson,
@@ -41,6 +42,7 @@ import {
   outstandingDebtAt,
   recordDwellingOccupancyState,
   recordCausalProcess,
+  recordActorInitiatedIncident,
   recordEventKnowledge,
   recordHouseholdLocation,
   recordHousingTenureState,
@@ -77,6 +79,11 @@ import {
   worldMetricDefinitionByStableKey,
   policyEstimateAt,
   realizePolicyEstimate,
+  incidentAt,
+  INCIDENT_TRANSITION_KEY,
+  incidentTransitionHandler,
+  recordIncidentTransitionPlan,
+  scheduleIncidentTransition,
 } from "./index";
 import type {
   CharacterHistoryMode,
@@ -1645,7 +1652,7 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
     expect(deserializeWorld(payload)).toStrictEqual(world);
     expect(
       (JSON.parse(payload) as { formatVersion: number }).formatVersion,
-    ).toBe(11);
+    ).toBe(12);
     expect(() =>
       createResourceFlow(world, {
         stableKey: "open:malformed",
@@ -2421,6 +2428,7 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
           };
         },
       ],
+      [INCIDENT_TRANSITION_KEY, incidentTransitionHandler],
     ]);
     world = advanceWorld(world, 5, transitionHandlers);
 
@@ -2757,6 +2765,74 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
         "Maximum-current policy realization lost its output effect.",
       );
     }
+    const beforeIncidentHistory = currentResourceCutoff(world);
+    const civicDefinition = Object.values(
+      world.incidentCatalog.definitions,
+    ).find(
+      (definition) =>
+        definition.stableKey === "incident.actor-initiated-civic-occurrence",
+    );
+    if (!civicDefinition) {
+      throw new Error(
+        "Maximum-current integration lost the civic incident definition.",
+      );
+    }
+    const incidentEvaluation = evaluateIncident(world, {
+      definitionId: civicDefinition.id,
+      evaluationKey: "end-to-end:civic-incident",
+      scope: economicScope,
+      evaluatedAt: world.currentDate,
+      cutoff: currentResourceCutoff(world),
+      exposure: createExactQuantity(1, 1, "rate:share"),
+      vulnerability: createExactQuantity(1, 1, "rate:share"),
+      resilience: createExactQuantity(0, 1, "rate:share"),
+      consequences: [
+        {
+          stableKey: "incident:output-disruption",
+          targetMetricId: outputMetric.id,
+          targetScope: economicScope,
+          referencePeriod: policyOutputPeriod,
+          direction: "increase",
+          baseMagnitude: { kind: "money", money: money(50_000, "USD") },
+          magnitudeBasis: {
+            kind: "interval-total",
+            referencePeriod: policyOutputPeriod,
+          },
+          mechanismDefinitionId: linearMechanism.id,
+          onsetAt: world.currentDate,
+          maturesAt: world.currentDate,
+          endsAt: null,
+          realizationKind: "incident:civic-impact",
+        },
+      ],
+    });
+    expect(incidentEvaluation.occurred).toBe(true);
+    world = recordActorInitiatedIncident(world, {
+      stableKey: "end-to-end:civic-incident",
+      evaluation: incidentEvaluation,
+      actorPersonId: actor,
+      summary: "A civic occurrence created a separately rooted output effect.",
+      visibility: "public",
+    });
+    const civicIncident = world.history.incidents.at(-1)!;
+    const civicEffect = world.history.effectActivations.at(-1)!;
+    world = recordIncidentTransitionPlan(world, {
+      stableKey: "end-to-end:civic-incident:recovery-plan",
+      incidentId: civicIncident.id,
+      dueAt: makeIsoDate("2026-01-11"),
+      targetStatus: "resolved",
+      phaseKey: "incident:ended",
+      reasonKey: "incident:recovered",
+      context: "The civic occurrence reached its recorded end state.",
+      consequences: [],
+    });
+    const civicRecoveryPlan = world.history.incidentTransitionPlans.at(-1)!;
+    world = scheduleIncidentTransition(world, {
+      stableKey: "end-to-end:civic-incident:recovery-due",
+      transitionPlanId: civicRecoveryPlan.id,
+    });
+    const civicRecoveryDueItem = world.history.futureDueItems.at(-1)!;
+    const beforeCivicRecovery = currentResourceCutoff(world);
     world = advanceWorld(world, 32, transitionHandlers);
     world = recordWorldMetricState(world, {
       stableKey: "end-to-end:policy:output-actual-baseline",
@@ -2912,12 +2988,55 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
       ),
     ).toStrictEqual([smallProjectedCause.id]);
     expect(policyResultingOutput).toMatchObject({
-      value: { money: { minorUnits: 1_250_000, currency: "USD" } },
+      value: { money: { minorUnits: 1_300_000, currency: "USD" } },
       provenance: {
         kind: "simulated",
-        sourceEntityIds: [policyActualBaseline.id, policyOutputEffectId].sort(),
+        sourceEntityIds: [
+          policyActualBaseline.id,
+          policyOutputEffectId,
+          civicEffect.id,
+        ].sort(),
       },
     });
+    expect(
+      incidentAt(world, civicIncident.id, beforeIncidentHistory),
+    ).toBeNull();
+    expect(
+      world.history.futureDueItemStates
+        .filter((state) => state.dueItemId === civicRecoveryDueItem.id)
+        .at(-1),
+    ).toMatchObject({ status: "resolved" });
+    expect(
+      world.history.incidentStates.some(
+        (state) =>
+          state.incidentId === civicIncident.id &&
+          state.status === "resolved" &&
+          state.phaseKey === "incident:ended",
+      ),
+    ).toBe(true);
+    expect(
+      world.history.incidentStates.filter(
+        (state) =>
+          state.incidentId === civicIncident.id &&
+          state.sequence < beforeCivicRecovery.historySequenceExclusive,
+      ),
+    ).toHaveLength(1);
+    expect(
+      world.history.knowledge.some(
+        (knowledge) => knowledge.eventId === civicIncident.onsetEventId,
+      ),
+    ).toBe(false);
+    expect(
+      [
+        ...distinctRootCausalIds(
+          world,
+          [policyOutputEffectId, civicEffect.id],
+          currentResourceCutoff(world),
+        ),
+      ].sort(),
+    ).toStrictEqual(
+      [smallProjectedCause.id, civicIncident.rootCausalProcessId].sort(),
+    );
     expect(
       worldMetricStateForPeriodAt(
         world,

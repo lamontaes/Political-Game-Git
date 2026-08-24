@@ -412,7 +412,7 @@ Runtime transitions and snapshot loading reject dangling organization/person/jur
 
 ### NOW-101 — Stage 5 persists headlessly
 
-Current world schema 12 and snapshot format 11 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, resource, obligation, dwelling, occupancy, tenure, life-source, fatigue/resource-pressure, and generated-provenance record exactly alongside Stage 6 metric/observation/causal/effect/due/policy history through deterministic JSON and the Node-only SQLite repository. The simulation and its tests import no React, DOM, browser, or SQLite runtime.
+Current world schema 13 and snapshot format 12 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, resource, obligation, dwelling, occupancy, tenure, life-source, fatigue/resource-pressure, generated-provenance, metric/observation/causal/effect/due/policy, and incident/state/transition-plan record exactly through deterministic JSON and the Node-only SQLite repository. The simulation and its tests import no React, DOM, browser, or SQLite runtime.
 
 ### NOW-102 — Real career diversity uses general records
 
@@ -649,6 +649,14 @@ A delayed realization schedules exactly one typed Run A due item for one current
 ### NOW-160 — Run C persists and extends the permanent maximum-current gate
 
 World schema 12, generator `demo-world-v12`, metric catalog v2, causal catalog v1, snapshot 11, and materializer 4 preserve all six policy families, exact values, sources, causal/effect links, due references, actor knowledge, provenance, and global sequence through deterministic JSON and Node-only SQLite save/load/list/replace. The permanent scenario carries one continuous Stage 5 life through Run A observations/due work, Run B causal economy, and two Run C alternatives; the informed actor selects the smaller one, exactly linked realization fans into correlated effects once, later canonical output is queryable, old cutoffs remain safe, and JSON round-trip is exact. Run D, Run E, Stage 7+, and UI remain absent.
+
+### NOW-161 — Incidents are explicit, exact, causal, and non-omniscient
+
+Possible incidents remain catalog definitions rather than history. Explicit cutoff-aware evaluation reports typed metric/event/incident-state prerequisite and blocker evidence, exact bounded likelihood and modifier evidence, a non-consuming keyed integer RNG draw for probabilistic incidents, and independent exact exposure/vulnerability/resilience inputs with the documented impact share. Missing required truth is unavailable and cannot fire an incident. A committed occurrence writes ordinary onset/phase events, one durable incident/root/state history, and exactly linked Run B effects; a policy and an incident may affect the same metric with distinct roots. Incident truth creates no person knowledge. Wrong definitions, snapshots, shares, root/event/effect links, state supersession, or phase events reject through write/load integrity.
+
+### NOW-162 — Incident follow-ons reuse authoritative time exactly once
+
+One incident transition plan schedules one ordinary future due item with exact plan/date/scope/provenance references. A normal due handler writes one meaningful phase event and one superseding state, then terminally resolves. Duplicate or fabricated generic due work, unavailable plan references, terminal-at-creation plans, stale creation-frontier state, and corrupt JSON reject. A once-valid follow-on made obsolete by later resolved/advanced incident history terminally cancels with a typed reason so `advanceWorld` can cross the due frontier. JSON and Node-only SQLite preserve pending and terminal incident history exactly; the permanent cross-system scenario retains Stage 5 life/resources/Stage 4 decisions, Run A metric/due history, Run B effects, Run C policy realization, and a separately rooted actor-initiated incident with a resolved typed follow-on.
 
 ## Manual Now
 

@@ -27,6 +27,7 @@ import {
   currentLifeCutoff,
   directPolicyImplementationFactor,
   evaluateDecision,
+  evaluateIncident,
   generateQuickCharacterHistory,
   makeIsoDate,
   materializePerson,
@@ -54,6 +55,7 @@ import {
   recordWorldMetricState,
   recordWorldEvent,
   recordEvaluatedMetricState,
+  recordActorInitiatedIncident,
   scheduleFutureDueItem,
   schedulePolicyEstimateRealization,
   recordWorkCompensationTerms,
@@ -70,6 +72,40 @@ describe("SQLite world repository", () => {
   afterEach(() => {
     repository?.close();
     repository = null;
+  });
+
+  it("persists an exact Run D actor-initiated incident snapshot", () => {
+    let world = createDemoWorld("sqlite-run-d-incident");
+    const definition = Object.values(world.incidentCatalog.definitions).find(
+      (candidate) =>
+        candidate.stableKey === "incident.actor-initiated-civic-occurrence",
+    );
+    if (!definition)
+      throw new Error("Missing actor-initiated incident definition.");
+    const evaluation = evaluateIncident(world, {
+      definitionId: definition.id,
+      evaluationKey: "sqlite-civic-occurrence",
+      scope: { jurisdictionId: world.jurisdictionOrder[0]!, segmentKey: null },
+      evaluatedAt: world.currentDate,
+      cutoff: {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: world.history.nextSequence,
+      },
+      exposure: createExactQuantity(1, 1, "rate:share"),
+      vulnerability: createExactQuantity(1, 1, "rate:share"),
+      resilience: createExactQuantity(0, 1, "rate:share"),
+      consequences: [],
+    });
+    world = recordActorInitiatedIncident(world, {
+      stableKey: "sqlite-civic-occurrence",
+      evaluation,
+      actorPersonId: world.personOrder[0]!,
+      summary: "A SQLite-persisted civic occurrence was initiated.",
+      visibility: "public",
+    });
+    repository = new SqliteWorldRepository(":memory:");
+    repository.save(world);
+    expect(repository.load(world.id)).toStrictEqual(world);
   });
 
   it("persists, loads, lists, and updates a complete versioned world snapshot", () => {

@@ -4,6 +4,10 @@ import {
   futureTransitionEntityExists,
 } from "./future-transitions";
 import { createStableId } from "./ids";
+import {
+  incidentEntityAvailableAt,
+  incidentEntityExists,
+} from "./incident-integrity";
 import { lifeEntityAvailableAt, lifeEntityExists } from "./life-integrity";
 import {
   addExactQuantities,
@@ -1277,6 +1281,9 @@ function canonicalEntityAvailable(
   }
   if (worldMetricEntityExists(world, id)) {
     return worldMetricEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
+  }
+  if (incidentEntityExists(world, id)) {
+    return incidentEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   }
   if (futureTransitionEntityExists(world, id)) {
     return futureTransitionEntityAvailableAt(

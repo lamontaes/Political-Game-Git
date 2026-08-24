@@ -79,6 +79,10 @@ export type EntityKind =
   | "temporary-state"
   | "future-due-item"
   | "future-due-item-state"
+  | "incident"
+  | "incident-definition"
+  | "incident-state"
+  | "incident-transition-plan"
   | "value-definition"
   | "partnership"
   | "partnership-state"
@@ -1499,6 +1503,177 @@ export interface EffectActivationRecord {
   readonly recordedAt: IsoDate;
 }
 
+export type IncidentSemanticKey = `${string}:${string}`;
+export type IncidentOccurrenceMode = "probabilistic" | "actor-initiated";
+export type IncidentStatus = "active" | "resolved";
+export type IncidentRuleComparison = "at-least" | "at-most";
+
+export type IncidentMetricReference =
+  | { readonly kind: "at-evaluation" }
+  | { readonly kind: "exact"; readonly referencePeriod: MetricReferencePeriod };
+
+export type IncidentRule =
+  | {
+      readonly kind: "metric-comparison";
+      readonly stableKey: IncidentSemanticKey;
+      readonly metricId: EntityId;
+      readonly reference: IncidentMetricReference;
+      readonly comparison: IncidentRuleComparison;
+      readonly threshold: WorldMetricValue;
+      readonly reasonKey: IncidentSemanticKey;
+    }
+  | {
+      readonly kind: "historical-event";
+      readonly stableKey: IncidentSemanticKey;
+      readonly eventType: EventType | null;
+      readonly eventTag: string | null;
+      readonly reasonKey: IncidentSemanticKey;
+    }
+  | {
+      readonly kind: "incident-state";
+      readonly stableKey: IncidentSemanticKey;
+      readonly definitionId: EntityId;
+      readonly status: IncidentStatus;
+      readonly phaseKey: IncidentSemanticKey | null;
+      readonly reasonKey: IncidentSemanticKey;
+    };
+
+export interface IncidentLikelihoodModifier {
+  readonly kind: "active-incident-factor";
+  readonly stableKey: IncidentSemanticKey;
+  readonly definitionId: EntityId;
+  readonly factor: ExactQuantity;
+  readonly reasonKey: IncidentSemanticKey;
+}
+
+export interface IncidentDefinition {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly label: string;
+  readonly description: string;
+  readonly incidentKind: IncidentSemanticKey;
+  readonly occurrenceMode: IncidentOccurrenceMode;
+  readonly baseLikelihood: ExactQuantity;
+  readonly prerequisites: readonly IncidentRule[];
+  readonly blockers: readonly IncidentRule[];
+  readonly likelihoodModifiers: readonly IncidentLikelihoodModifier[];
+  readonly tags: readonly string[];
+}
+
+export interface IncidentCatalog {
+  readonly catalogVersion: "incident-catalog-v1";
+  readonly definitions: Readonly<Record<string, IncidentDefinition>>;
+  readonly definitionOrder: readonly EntityId[];
+}
+
+export interface IncidentRuleEvaluation {
+  readonly ruleStableKey: IncidentSemanticKey;
+  readonly kind: IncidentRule["kind"];
+  readonly status: "satisfied" | "unsatisfied" | "unavailable";
+  readonly reasonKey: IncidentSemanticKey;
+  readonly context: string;
+  readonly sourceEntityIds: readonly EntityId[];
+}
+
+export interface IncidentLikelihoodModifierEvaluation {
+  readonly modifierStableKey: IncidentSemanticKey;
+  readonly applied: boolean;
+  readonly factor: ExactQuantity;
+  readonly reasonKey: IncidentSemanticKey;
+  readonly sourceEntityIds: readonly EntityId[];
+}
+
+export interface IncidentRngResult {
+  readonly key: string;
+  readonly draw: number;
+  readonly drawRangeExclusive: 4294967296;
+  readonly occurred: boolean;
+}
+
+export interface IncidentConsequencePlan {
+  readonly stableKey: IncidentSemanticKey;
+  readonly targetMetricId: EntityId;
+  readonly targetScope: MetricScope;
+  readonly referencePeriod: MetricReferencePeriod;
+  readonly direction: EffectDirection;
+  readonly baseMagnitude: WorldMetricValue;
+  readonly magnitudeBasis: EffectMagnitudeBasis;
+  readonly mechanismDefinitionId: EntityId;
+  readonly onsetAt: IsoDate;
+  readonly maturesAt: IsoDate;
+  readonly endsAt: IsoDate | null;
+  readonly realizationKind: EffectRealizationKind;
+}
+
+export interface IncidentAppliedConsequencePlan extends IncidentConsequencePlan {
+  readonly scaledMagnitude: WorldMetricValue;
+}
+
+export interface IncidentEvaluation {
+  readonly definitionId: EntityId;
+  readonly evaluationKey: string;
+  readonly scope: MetricScope;
+  readonly evaluatedAt: IsoDate;
+  readonly cutoff: HistoricalCutoff;
+  readonly prerequisiteResults: readonly IncidentRuleEvaluation[];
+  readonly blockerResults: readonly IncidentRuleEvaluation[];
+  readonly baseLikelihood: ExactQuantity;
+  readonly appliedLikelihoodModifiers: readonly IncidentLikelihoodModifierEvaluation[];
+  readonly likelihood: ExactQuantity;
+  readonly rng: IncidentRngResult | null;
+  readonly exposure: ExactQuantity;
+  readonly vulnerability: ExactQuantity;
+  readonly resilience: ExactQuantity;
+  readonly impactShare: ExactQuantity;
+  readonly consequences: readonly IncidentAppliedConsequencePlan[];
+  readonly occurred: boolean;
+}
+
+export interface IncidentRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly definitionId: EntityId;
+  readonly incidentKind: IncidentSemanticKey;
+  readonly scope: MetricScope;
+  readonly onsetAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly rootCausalProcessId: EntityId;
+  readonly onsetEventId: EntityId;
+  readonly occurrence: IncidentEvaluation;
+  readonly provenance: CausalRecordProvenance;
+}
+
+export interface IncidentStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly incidentId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly status: IncidentStatus;
+  readonly phaseKey: IncidentSemanticKey;
+  readonly eventId: EntityId;
+  readonly reasonKey: IncidentSemanticKey | null;
+  readonly context: string | null;
+  readonly supersedesStateId: EntityId | null;
+  readonly provenance: CausalRecordProvenance;
+}
+
+export interface IncidentTransitionPlanRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly incidentId: EntityId;
+  readonly dueAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly targetStatus: IncidentStatus;
+  readonly phaseKey: IncidentSemanticKey;
+  readonly reasonKey: IncidentSemanticKey | null;
+  readonly context: string | null;
+  readonly consequences: readonly IncidentConsequencePlan[];
+  readonly provenance: CausalRecordProvenance;
+}
+
 export type EffectContributionPhase =
   "not-started" | "ramping" | "mature" | "expired" | "threshold-not-met";
 
@@ -2346,6 +2521,9 @@ export interface HistoryStore {
   readonly policyImplementationProfiles: readonly PolicyImplementationProfileRecord[];
   readonly policyEstimates: readonly PolicyEstimateRecord[];
   readonly policyRealizations: readonly PolicyRealizationRecord[];
+  readonly incidents: readonly IncidentRecord[];
+  readonly incidentStates: readonly IncidentStateRecord[];
+  readonly incidentTransitionPlans: readonly IncidentTransitionPlanRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];
@@ -2369,8 +2547,8 @@ export interface HistoryStore {
 }
 
 export interface World {
-  readonly schemaVersion: 12;
-  readonly generatorVersion: "demo-world-v12";
+  readonly schemaVersion: 13;
+  readonly generatorVersion: "demo-world-v13";
   readonly id: EntityId;
   readonly seed: string;
   readonly startedAt: IsoDate;
@@ -2384,6 +2562,7 @@ export interface World {
   readonly mindCatalog: MindCatalog;
   readonly metricCatalog: WorldMetricCatalog;
   readonly causalMechanismCatalog: CausalMechanismCatalog;
+  readonly incidentCatalog: IncidentCatalog;
   readonly control: ControlState;
   readonly history: HistoryStore;
 }
