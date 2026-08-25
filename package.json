@@ -17,7 +17,10 @@
     "typecheck": "tsc -b",
     "format": "prettier --check .",
     "format:write": "prettier --write .",
-    "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed"
+    "validate:art": "node --import tsx scripts/art-asset-factory/cli-validate.ts",
+    "inventory:art": "node --import tsx scripts/art-asset-factory/cli-inventory.ts",
+    "qa:art": "node --import tsx scripts/art-asset-factory/cli-qa.ts",
+    "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art"
   },
   "dependencies": {
     "react": "19.2.6",
@@ -31,6 +34,7 @@
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.2",
     "eslint": "9.39.4",
+    "image-size": "^2.0.2",
     "prettier": "3.9.6",
     "tsx": "4.23.12",
     "typescript": "5.9.3",

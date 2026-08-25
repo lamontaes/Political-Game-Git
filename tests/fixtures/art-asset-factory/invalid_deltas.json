@@ -1,0 +1,11 @@
+{
+  "deltas": [
+    {
+      "delta_id": "invalid_base_family",
+      "jurisdiction_identity": "state_y",
+      "building_identity": "bldg_y",
+      "room_identity": "room_y",
+      "base_family_id": "nonexistent_base_family"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "assets": [
+    {
+      "asset_id": "lectern_standard_01",
+      "asset_type": "prop",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "dimensions": {
+        "room_width": {
+          "value": 0.8,
+          "confidence": "specified",
+          "source": "architectural_standards"
+        }
+      },
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "final_path": "art/shared/lecterns/lectern_standard_01.png",
+      "hash": "a1b2c3d4e5f6",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "hero_room_01",
+      "asset_type": "environment",
+      "hero_asset": true,
+      "hero_justification": "Unique historic setting required for federal signature event",
+      "reuse_allowed": false,
+      "generation_status": "pending",
+      "qa_status": "pending",
+      "era_start": 1900,
+      "era_end": 2026
+    }
+  ]
+}

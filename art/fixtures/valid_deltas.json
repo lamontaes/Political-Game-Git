@@ -1,0 +1,13 @@
+{
+  "deltas": [
+    {
+      "delta_id": "state_x_committee_room_1",
+      "jurisdiction_identity": "state_x",
+      "building_identity": "state_x_capitol",
+      "room_identity": "room_101",
+      "base_family_id": "committee_hearing_standard",
+      "proportion_overrides": "square instead of rectangular",
+      "notes": "Testing a valid delta fixture"
+    }
+  ]
+}

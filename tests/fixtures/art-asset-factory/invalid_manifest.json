@@ -1,0 +1,140 @@
+{
+  "assets": [
+    {
+      "asset_id": "duplicate_id",
+      "asset_type": "prop",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "generation_status": "draft",
+      "qa_status": "pending"
+    },
+    {
+      "asset_id": "duplicate_id",
+      "asset_type": "prop",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "generation_status": "draft",
+      "qa_status": "pending"
+    },
+    {
+      "asset_id": "missing_required_fields"
+    },
+    {
+      "asset_id": "invalid_family_ref",
+      "asset_type": "environment",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "family_id": "nonexistent_family",
+      "generation_status": "draft",
+      "qa_status": "pending"
+    },
+    {
+      "asset_id": "hero_missing_justification",
+      "asset_type": "environment",
+      "hero_asset": true,
+      "reuse_allowed": false,
+      "generation_status": "draft",
+      "qa_status": "pending"
+    },
+    {
+      "asset_id": "precise_measure_no_source",
+      "asset_type": "prop",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "dimensions": {
+        "room_width": {
+          "value": 10.123
+        }
+      }
+    },
+    {
+      "asset_id": "invalid_confidence",
+      "asset_type": "prop",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "dimensions": {
+        "room_width": {
+          "value": 10,
+          "confidence": "made-up-guess"
+        }
+      }
+    },
+    {
+      "asset_id": "missing_provenance_for_approved",
+      "asset_type": "prop",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "final_path": "art/shared/something.png",
+      "hash": "abcdef"
+    },
+    {
+      "asset_id": "approved_missing_hash",
+      "asset_type": "prop",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "generation_status": "approved",
+      "qa_status": "approved"
+    },
+    {
+      "asset_id": "rejected_used_as_approved",
+      "asset_type": "prop",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "final_path": "art/shared/rejected.png",
+      "hash": "rejected_hash"
+    },
+    {
+      "asset_id": "duplicate_hash_1",
+      "asset_type": "prop",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "final_path": "art/1.png",
+      "hash": "same_hash"
+    },
+    {
+      "asset_id": "duplicate_hash_2",
+      "asset_type": "prop",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "final_path": "art/2.png",
+      "hash": "same_hash"
+    },
+    {
+      "asset_id": "invalid_era",
+      "asset_type": "prop",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "era_start": 2000,
+      "era_end": 1900
+    },
+    {
+      "asset_id": "missing_vs_zero",
+      "asset_type": "prop",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "dimensions": {
+        "room_width": {
+          "value": 0,
+          "confidence": "exact"
+        },
+        "room_length": {}
+      }
+    }
+  ]
+}
