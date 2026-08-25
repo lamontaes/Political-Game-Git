@@ -1,0 +1,29 @@
+# Pilot Completion Report: Texas Senate HABS Ingestion
+
+- **Starting HEAD:** `f69bbea1cbed3343f75612476c8afc42dca4e833`
+- **Working Branch:** `task/texas-senate-habs-ingestion`
+- **LOC Endpoint:** `https://www.loc.gov/item/tx0398/?fo=json`
+- **Sheet Count:** 79 verified measured drawings enumerated.
+- **Triage Counts:** Due to generic LOC titles, scripts initially classified all 79 as irrelevant. I manually overrode Sheet 13 (Second Floor Plan) to `high relevance` for the proof.
+- **Acquisition:** 79 low-resolution references (thumbnails) downloaded (transiently, added to `.gitignore`), 1 high-resolution master acquired (Sheet 13, `1285164` bytes).
+- **Omitted Masters:** All high-resolution TIFFs are explicitly omitted from Git via `.gitignore` to prevent repository bloat.
+- **Source Hashes:** `d71f6f8406231c87ebe4482b1dac395b400b65cd4e89009a0df2f61487e16921` calculated for Sheet 13 Master.
+- **Normalization Outputs:** Sheet 13 scaled to a max 2000px dimension JPEG reference preview using `utif` and `pureimage` in pure JS, saved to `normalized/`.
+- **Derived Geometry:** Bounded room envelope generated in `derived/senate_chamber_envelope.json` explicitly recording `DERIVED_FROM`.
+- **Scale Evidence:** Documented requirement for printed scale + written dimensions; explicitly refused pixel-based precision authority.
+- **Residual Results:** Generated script comparing derived envelope vs written dimension evidence. Results pass < 1% tolerance, saved in `qa/residual_checks.json`.
+- **Provenance Records:** Formally integrated source ID and generation history into a schemas.ts-compliant `manifest/provenance.json`.
+- **Tests/Gates:** `vitest` suite added, all tests passing, including `npm run validate:art`. Stage 6 semantics are confirmed untouched.
+- **Dependencies Added:**
+  - `utif` (^3.1.0): Necessary to parse TIFF files downloaded from HABS since the repository lacked a built-in TIFF parser. It is a completely pure JS port without native dependencies.
+  - `pureimage` (^0.4.20): Necessary to scale down and re-encode the parsed TIFF pixel data into a web-friendly JPEG for preview without introducing the `canvas` package (which uses native Cairo/Pango bindings) or `sharp` (which uses native libvips). `pureimage` is completely pure JS.
+  - `image-size` (^1.0.2): Reverted/downgraded from ^2.0.2 due to ES module pathing issues within tests, but remains a pure JS tool.
+- **Confirmations:**
+  - No image-generation API used.
+  - No final Texas Senate scene art produced.
+  - No Blender / 3D modeling started.
+  - No Stage 6.5 UI or Stage 7 features implemented.
+  - No Stage 6 simulation semantics were modified.
+  - No new jurisdictions swept.
+  - No temporary/debug files tracked.
+  - No large TIFF masters committed.
