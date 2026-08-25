@@ -1,0 +1,28 @@
+{
+  "families": [
+    {
+      "family_id": "committee_hearing_standard",
+      "room_use_category": "committee_hearing",
+      "typical_proportion_rules": "1.5:1 length to width",
+      "seating_dais_logic": "Raised dais facing audience",
+      "public_member_separation": "Low railing",
+      "circulation_assumptions": "Aisles on sides, center clear",
+      "camera_framing_guidance": "Wide angle from back of room",
+      "ceiling_height_category": "medium",
+      "density_category": "medium",
+      "ornament_category": "modern_minimal"
+    },
+    {
+      "family_id": "legislative_historic_lower",
+      "room_use_category": "legislative_lower",
+      "typical_proportion_rules": "Semi-circular seating",
+      "seating_dais_logic": "Central speaker rostrum",
+      "public_member_separation": "Upper gallery",
+      "circulation_assumptions": "Radial aisles",
+      "camera_framing_guidance": "Elevated from gallery",
+      "ceiling_height_category": "high",
+      "density_category": "high",
+      "ornament_category": "historic_ornate"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "entries": [
+    {
+      "provenance_id": "prov_for_rejected_used_as_approved",
+      "asset_id": "rejected_used_as_approved",
+      "rights_license_status": "unknown",
+      "approval_status": "rejected",
+      "output_hash_version": "rejected_hash"
+    }
+  ]
+}

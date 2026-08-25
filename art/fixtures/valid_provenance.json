@@ -1,0 +1,22 @@
+{
+  "entries": [
+    {
+      "provenance_id": "prov_lectern_01",
+      "asset_id": "lectern_standard_01",
+      "rights_license_status": "owned",
+      "approval_status": "approved",
+      "output_hash_version": "a1b2c3d4e5f6"
+    },
+    {
+      "provenance_id": "prov_hero_01",
+      "asset_id": "hero_room_01",
+      "rights_license_status": "unknown"
+    },
+    {
+      "provenance_id": "prov_rejected_01",
+      "asset_id": "bad_asset_01",
+      "rights_license_status": "unknown",
+      "approval_status": "rejected"
+    }
+  ]
+}

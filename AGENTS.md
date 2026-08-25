@@ -34,3 +34,16 @@ A lower-authority document or implementation cannot silently override a higher-a
 - Run the Architecture Integrity Audit at major stage boundaries and whenever a new rule could affect completed work; prior stages are not grandfathered.
 - Start work in `docs/plans/active/`; move completed plans to `docs/plans/completed/`.
 - Do not use proprietary code, assets, text, or implementation from other political games.
+
+## Art & Assets Constraints
+
+- **Stage 6 Baseline is Frozen**: The accepted Stage 6 baseline (commit d792e79a) is frozen. Do not reopen, refactor, or redesign Stage 6 simulation semantics.
+- **Stage 6.5 Visual Shell is On Hold**: Do not casually regenerate, redesign, or replace the approved visual shell UI pending completion of the visual/reference gate.
+- **No Stage 7 Feature Creep**: Do not implement any Stage 7 systems or feature creep (e.g., legislation UI, calendar systems).
+- **Scene Art Hierarchy Principle**: Implement environments via a scene-first hierarchy: shared global assets → reusable environment families → jurisdiction/building deltas → explicitly justified hero environments.
+- **Scene-First Design**: Adhere strictly to the scene-first / dossier-second / database-third presentation principle.
+- **Provenance and Rights**: Preserve provenance and rights information for every source and future generated asset. Unknown rights status must remain unknown (do not infer public domain status or commercially reusable status from mere visibility).
+- **No Fabricated Measurement Precision**: Never fabricate precise physical dimensions. Measurements must strictly distinguish confidence classes (e.g. `exact`, `plan-derived`, `specified`, `bounded-estimate`, `visual-estimate`). Missing measurements must remain missing, not guessed or zeroed out.
+- **Deterministic and Testable Tooling**: Prefer deterministic, inspectable, and testable tooling over opaque manual state. Generate deterministic fixture and replay outputs. Ensure art schemas are continually checked.
+- **Art-Pipeline Run Commands**: Art validation, inventory generation, and QA contact sheet generation commands have been explicitly added. Always run: `npm run validate:art`, `npm run inventory:art`, and `npm run qa:art`.
+- **Art-Pipeline Stop Conditions & Forbidden Changes**: Under no circumstances should the art pipeline generation exceed its constraints. Stop work immediately when constraints are met. You are forbidden from modifying accepted Stage 6 simulation semantics, implementing Stage 6.5 shell UI, implementing Stage 7 systems, or generating non-fixture final output images during foundation work.
