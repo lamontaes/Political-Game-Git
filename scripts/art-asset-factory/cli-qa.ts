@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { generateContactSheetHtml } from "./qa";
+import { generateContactSheetHtml, generateComparisonSheetHtml } from "./qa";
 
 const REPO_ROOT = path.resolve(process.cwd());
 const ART_DIR = path.join(REPO_ROOT, "art");
@@ -49,4 +49,26 @@ if (cmd === "contact") {
 
   console.log(`Contact sheet generated at ${htmlPath}`);
   console.log(`QA Report generated at ${reportPath}`);
+} else if (cmd === "compare") {
+  // Mock compare data setup for CLI testing
+  // Real pairs would come from input JSON or explicit lists, but for demonstration of the tooling:
+  const mockPairs = [
+    {
+      source: path.join(ART_DIR, "shared/img_A.png"),
+      generated: path.join(ART_DIR, "generated/approved/img_A_gen.png"),
+    },
+  ];
+
+  const { html, report } = generateComparisonSheetHtml(mockPairs, ART_DIR);
+
+  const htmlPath = path.join(QA_DIR, "comparison_reports", "index.html");
+  const reportPath = path.join(QA_DIR, "comparison_reports", "qa_report.json");
+
+  fs.mkdirSync(path.join(QA_DIR, "comparison_reports"), { recursive: true });
+
+  fs.writeFileSync(htmlPath, html, "utf-8");
+  fs.writeFileSync(reportPath, JSON.stringify(report, null, 2), "utf-8");
+
+  console.log(`Comparison sheet generated at ${htmlPath}`);
+  console.log(`Comparison Report generated at ${reportPath}`);
 }

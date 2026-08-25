@@ -70,6 +70,9 @@ describe("Art Asset Factory Foundation", () => {
       expect(errStr).toContain(
         "precise measurement but lacks valid confidence metadata",
       );
+      expect(errStr).toContain(
+        "Asset 'precise_measure_valid_confidence_no_source' dimension 'room_width' has a precise measurement but lacks required source metadata.",
+      );
       // 7. invalid confidence values
       expect(errStr).toContain("invalid confidence 'made-up-guess'");
       // 8. missing provenance where required
@@ -86,9 +89,15 @@ describe("Art Asset Factory Foundation", () => {
       );
       // 11. duplicate hashes
       expect(errStr).toContain("duplicate hash 'same_hash'");
+      expect(errStr).toContain(
+        "Asset 'duplicate_hash_draft' has duplicate hash 'same_hash'",
+      );
       // 12. invalid/missing era ranges
       expect(errStr).toContain(
         "invalid era range: start (2000) is greater than end (1900)",
+      );
+      expect(errStr).toContain(
+        "Asset 'one_sided_era' has a one-sided era range",
       );
       // 13. missing-vs-zero measurement correctness
       expect(errStr).toContain(
@@ -136,40 +145,75 @@ describe("Art Asset Factory Foundation", () => {
   });
 
   describe("QA & Contact Sheet Tooling", () => {
-    it("generates deterministic HTML and QA reports", () => {
-      const mockImages = [
-        path.join(REPO_ROOT, "art/shared/img_B.png"),
-        path.join(REPO_ROOT, "art/shared/img_A.png"),
-      ];
+    it("generates deterministic HTML and QA reports from real file buffers", () => {
+      // Create minimal valid PNG headers to satisfy image-size checking
+      // 10x20 transparent PNG
+      const pngBufferA = Buffer.from(
+        "iVBORw0KGgoAAAANSUhEUgAAAAoAAAAUCAYAAAC9c+tuAAAAF0lEQVR42mNkYPhfz0AEYBxVyKhCBgYADnQBHc++1FkAAAAASUVORK5CYII=",
+        "base64",
+      );
+      // 20x20 JPG
+      const jpgBufferB = Buffer.from(
+        "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAAUABQBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=",
+        "base64",
+      );
+      // Create temp fixture dir
+      const tempQADir = path.join(__dirname, "temp_qa_fixtures");
+      if (!fs.existsSync(tempQADir))
+        fs.mkdirSync(tempQADir, { recursive: true });
 
-      // Use dependency-light metadata mock parsing logic inside qa tooling if actual file is missing
+      const fileA = path.join(tempQADir, "img_A.png");
+      const fileB = path.join(tempQADir, "img_B.jpg");
+      fs.writeFileSync(fileA, pngBufferA);
+      fs.writeFileSync(fileB, jpgBufferB);
+
+      const mockImages = [fileB, fileA];
+
+      // Use dependency-light metadata mock parsing logic inside qa tooling
+      const relA = path.relative(__dirname, fileA).replace(/\\/g, "/");
+      const relB = path.relative(__dirname, fileB).replace(/\\/g, "/");
+
       const manifestReqs = {
-        "art/shared/img_A.png": true,
+        [relA]: true,
+        [relB]: true,
       };
 
       const { html, report } = generateContactSheetHtml(
         mockImages,
         "Test",
-        REPO_ROOT,
+        __dirname,
         manifestReqs,
       );
 
       // Deterministic Ordering
-      expect(report[0].file).toBe("art/shared/img_A.png");
-      expect(report[1].file).toBe("art/shared/img_B.png");
+      expect(report[0].file).toBe(relA);
+      expect(report[1].file).toBe(relB);
 
-      // Metadata fields exist in report
-      expect(report[0].metadata).toHaveProperty("width");
-      expect(report[0].metadata).toHaveProperty("aspectRatio");
+      // Metadata parsing assertions (A is a 10x20 PNG)
+      expect(report[0].metadata.width).toBe(10);
+      expect(report[0].metadata.height).toBe(20);
+      expect(report[0].metadata.aspectRatio).toBe("1:2");
+      expect(report[0].metadata.hasTransparency).toBe("not-confirmed");
+      expect(report[0].meetsTransparencyReq).toBe("not-confirmed");
 
-      // Transparency requirement checking outputted to report
-      expect(report[0].meetsTransparencyReq).not.toBeNull();
+      // Metadata parsing assertions (B is a 20x20 JPG)
+      expect(report[1].metadata.width).toBe(20);
+      expect(report[1].metadata.height).toBe(20);
+      expect(report[1].metadata.aspectRatio).toBe("1:1");
+      expect(report[1].metadata.hasTransparency).toBe("none");
+      expect(report[1].meetsTransparencyReq).toBe(false); // fails the manifest req for transparency
 
       // HTML output checks
       expect(html).toContain("img_A.png");
-      expect(html).toContain("img_B.png");
+      expect(html).toContain("img_B.jpg");
+
       // Assert that ordering is preserved in HTML via index check
-      expect(html.indexOf("img_A.png")).toBeLessThan(html.indexOf("img_B.png"));
+      expect(html.indexOf("img_A.png")).toBeLessThan(html.indexOf("img_B.jpg"));
+
+      // Cleanup
+      fs.unlinkSync(fileA);
+      fs.unlinkSync(fileB);
+      fs.rmdirSync(tempQADir);
     });
 
     it("generates source vs generated comparison sheet deterministically", () => {

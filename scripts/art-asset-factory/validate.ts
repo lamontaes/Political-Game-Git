@@ -27,12 +27,48 @@ export function validateArtAssets(
 ): ValidationResult {
   const errors: string[] = [];
 
+  if (!Array.isArray(familiesData.families)) {
+    errors.push("Top-level structure error: 'families' is not an array.");
+    return { valid: false, errors };
+  }
+  if (!Array.isArray(manifest.assets)) {
+    errors.push("Top-level structure error: 'assets' is not an array.");
+    return { valid: false, errors };
+  }
+  if (!Array.isArray(deltasData.deltas)) {
+    errors.push("Top-level structure error: 'deltas' is not an array.");
+    return { valid: false, errors };
+  }
+  if (!Array.isArray(provenanceData.entries)) {
+    errors.push(
+      "Top-level structure error: 'entries' is not an array in provenance.",
+    );
+    return { valid: false, errors };
+  }
+
+  const VALID_RIGHTS_STATUS = ["public-domain", "licensed", "owned", "unknown"];
+  const VALID_APPROVAL_STATUS = ["approved", "rejected", "pending"];
+  const VALID_GENERATION_STATUS = ["draft", "approved", "rejected", "pending"];
+
   const familyIds = new Set(familiesData.families.map((f) => f.family_id));
   const assetIds = new Set<string>();
   const assetHashes = new Map<string, string>(); // hash -> asset_id
-  const provenanceMap = new Map<string, unknown>(); // asset_id -> provenance entry
+  const provenanceMap = new Map<string, { approval_status?: string }>(); // asset_id -> provenance entry
 
   for (const entry of provenanceData.entries) {
+    if (!VALID_RIGHTS_STATUS.includes(entry.rights_license_status)) {
+      errors.push(
+        `Provenance '${entry.provenance_id}' has invalid rights_license_status '${entry.rights_license_status}'.`,
+      );
+    }
+    if (
+      entry.approval_status &&
+      !VALID_APPROVAL_STATUS.includes(entry.approval_status)
+    ) {
+      errors.push(
+        `Provenance '${entry.provenance_id}' has invalid approval_status '${entry.approval_status}'.`,
+      );
+    }
     if (entry.asset_id) {
       provenanceMap.set(entry.asset_id, entry);
     }
@@ -69,6 +105,21 @@ export function validateArtAssets(
       );
     }
 
+    if (
+      asset.generation_status &&
+      !VALID_GENERATION_STATUS.includes(asset.generation_status)
+    ) {
+      errors.push(
+        `Asset '${asset.asset_id}' has invalid generation_status '${asset.generation_status}'.`,
+      );
+    }
+
+    if (asset.qa_status && !VALID_APPROVAL_STATUS.includes(asset.qa_status)) {
+      errors.push(
+        `Asset '${asset.asset_id}' has invalid qa_status '${asset.qa_status}'.`,
+      );
+    }
+
     if (asset.family_id && !familyIds.has(asset.family_id)) {
       errors.push(
         `Asset '${asset.asset_id}' references invalid family_id '${asset.family_id}'.`,
@@ -87,12 +138,20 @@ export function validateArtAssets(
           `Asset '${asset.asset_id}' has invalid era range: start (${asset.era_start}) is greater than end (${asset.era_end}).`,
         );
       }
+    } else if (asset.era_start !== undefined || asset.era_end !== undefined) {
+      errors.push(
+        `Asset '${asset.asset_id}' has a one-sided era range. Both era_start and era_end must be defined, or both omitted.`,
+      );
     }
 
     if (asset.dimensions) {
       for (const [key, dim] of Object.entries(asset.dimensions)) {
         if (key === "drawing_source_scale") continue;
-        const measure = dim as { value?: number; confidence?: string };
+        const measure = dim as {
+          value?: number;
+          confidence?: string;
+          source?: string;
+        };
         if (!measure) continue;
 
         if (
@@ -128,6 +187,16 @@ export function validateArtAssets(
       }
     }
 
+    if (asset.hash) {
+      if (assetHashes.has(asset.hash)) {
+        errors.push(
+          `Asset '${asset.asset_id}' has duplicate hash '${asset.hash}' (also used by '${assetHashes.get(asset.hash)}').`,
+        );
+      } else {
+        assetHashes.set(asset.hash, asset.asset_id);
+      }
+    }
+
     if (
       asset.generation_status === "approved" ||
       asset.qa_status === "approved"
@@ -151,16 +220,6 @@ export function validateArtAssets(
         errors.push(
           `Asset '${asset.asset_id}' is marked as approved but references rejected/anti-reference provenance.`,
         );
-      }
-
-      if (asset.hash) {
-        if (assetHashes.has(asset.hash)) {
-          errors.push(
-            `Asset '${asset.asset_id}' has duplicate hash '${asset.hash}' (also used by '${assetHashes.get(asset.hash)}').`,
-          );
-        } else {
-          assetHashes.set(asset.hash, asset.asset_id);
-        }
       }
     }
   }

@@ -50,6 +50,20 @@
       }
     },
     {
+      "asset_id": "precise_measure_valid_confidence_no_source",
+      "asset_type": "prop",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "dimensions": {
+        "room_width": {
+          "value": 10.123,
+          "confidence": "exact"
+        }
+      }
+    },
+    {
       "asset_id": "invalid_confidence",
       "asset_type": "prop",
       "hero_asset": false,
@@ -112,6 +126,16 @@
       "hash": "same_hash"
     },
     {
+      "asset_id": "duplicate_hash_draft",
+      "asset_type": "prop",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "final_path": "art/draft.png",
+      "hash": "same_hash"
+    },
+    {
       "asset_id": "invalid_era",
       "asset_type": "prop",
       "hero_asset": false,
@@ -120,6 +144,15 @@
       "qa_status": "pending",
       "era_start": 2000,
       "era_end": 1900
+    },
+    {
+      "asset_id": "one_sided_era",
+      "asset_type": "prop",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "era_start": 2000
     },
     {
       "asset_id": "missing_vs_zero",

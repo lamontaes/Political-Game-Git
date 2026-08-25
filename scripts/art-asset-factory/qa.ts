@@ -5,7 +5,7 @@ export interface QaMetadata {
   width: number;
   height: number;
   aspectRatio: string;
-  hasTransparency: boolean;
+  hasTransparency: "confirmed" | "not-confirmed" | "unknown" | "none";
 }
 
 export function parseImageMetadata(filePath: string): QaMetadata {
@@ -13,7 +13,7 @@ export function parseImageMetadata(filePath: string): QaMetadata {
   // We use `image-size` specifically to avoid the brittle nature of writing manual binary parsing for png/jpeg/webp headers.
   let width = 0;
   let height = 0;
-  let hasTransparency = false;
+  let hasTransparency: QaMetadata["hasTransparency"] = "unknown";
   let aspectRatio = "unknown";
 
   try {
@@ -35,8 +35,10 @@ export function parseImageMetadata(filePath: string): QaMetadata {
     ) {
       // Very basic structural hint. Real pixel-level transparency checking requires decoding (e.g. sharp/canvas),
       // which we are specifically forbidden from adding to this foundation unless strictly necessary.
-      // So we assume that png/webp CAN have transparency, and if the requirement is true, it passes the format test.
-      hasTransparency = true;
+      // So we mark it as not-confirmed since it supports alpha but we haven't read the pixels.
+      hasTransparency = "not-confirmed";
+    } else if (dimensions.type === "jpg" || dimensions.type === "jpeg") {
+      hasTransparency = "none";
     }
   } catch {
     // Ignore errors for unparseable images
@@ -79,26 +81,32 @@ export function generateContactSheetHtml(
     const metadata = parseImageMetadata(img);
 
     let transparencyWarning = "";
-    if (
-      manifestReqs &&
-      manifestReqs[relativePath] === true &&
-      !metadata.hasTransparency
-    ) {
-      transparencyWarning =
-        '<br><span class="error">Warning: Missing transparency channel</span>';
+    let meetsTransparencyReq: boolean | null | string = null;
+    if (manifestReqs && manifestReqs[relativePath] === true) {
+      if (metadata.hasTransparency === "none") {
+        transparencyWarning =
+          '<br><span class="error">Warning: Missing transparency channel</span>';
+        meetsTransparencyReq = false;
+      } else if (metadata.hasTransparency === "not-confirmed") {
+        transparencyWarning =
+          '<br><span class="warning" style="color: orange; font-weight: bold;">Warning: Transparency required but not confirmed</span>';
+        meetsTransparencyReq = "not-confirmed";
+      } else if (metadata.hasTransparency === "confirmed") {
+        meetsTransparencyReq = true;
+      }
     }
 
     reportData.push({
       file: relativePath,
       metadata,
-      meetsTransparencyReq:
-        manifestReqs && manifestReqs[relativePath] === true
-          ? metadata.hasTransparency
-          : null,
+      meetsTransparencyReq,
     });
 
+    // Adjust path since HTML will be served from art/qa/contact_sheets/
+    const htmlImgPath = "../../" + relativePath;
+
     html += `    <div class="card">
-      <img src="${relativePath}" alt="${relativePath}" loading="lazy" />
+      <img src="${htmlImgPath}" alt="${relativePath}" loading="lazy" />
       <div class="label">
         <strong>${relativePath}</strong><br>
         ${metadata.width}x${metadata.height} (${metadata.aspectRatio})
@@ -148,9 +156,14 @@ export function generateComparisonSheetHtml(
 
     reportData.push({ source: srcRel, generated: genRel });
 
+    // HTML output lives in art/qa/comparison_reports/, so go up 3 levels to reach repo root (or up 2 levels if it's base_dir = art/)
+    // Our baseDir is usually `art/`, so it's `../../` from `art/qa/comparison_reports` to reach `art/`
+    const htmlSrcPath = "../../" + srcRel;
+    const htmlGenPath = "../../" + genRel;
+
     html += `    <tr>
-      <td><img src="${srcRel}" alt="${srcRel}" /><br><small>${srcRel}</small></td>
-      <td><img src="${genRel}" alt="${genRel}" /><br><small>${genRel}</small></td>
+      <td><img src="${htmlSrcPath}" alt="${srcRel}" /><br><small>${srcRel}</small></td>
+      <td><img src="${htmlGenPath}" alt="${genRel}" /><br><small>${genRel}</small></td>
     </tr>\n`;
   }
 
