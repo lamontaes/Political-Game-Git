@@ -27,19 +27,35 @@ export function validateArtAssets(
 ): ValidationResult {
   const errors: string[] = [];
 
-  if (!Array.isArray(familiesData.families)) {
+  if (
+    !familiesData ||
+    typeof familiesData !== "object" ||
+    !Array.isArray(familiesData.families)
+  ) {
     errors.push("Top-level structure error: 'families' is not an array.");
     return { valid: false, errors };
   }
-  if (!Array.isArray(manifest.assets)) {
+  if (
+    !manifest ||
+    typeof manifest !== "object" ||
+    !Array.isArray(manifest.assets)
+  ) {
     errors.push("Top-level structure error: 'assets' is not an array.");
     return { valid: false, errors };
   }
-  if (!Array.isArray(deltasData.deltas)) {
+  if (
+    !deltasData ||
+    typeof deltasData !== "object" ||
+    !Array.isArray(deltasData.deltas)
+  ) {
     errors.push("Top-level structure error: 'deltas' is not an array.");
     return { valid: false, errors };
   }
-  if (!Array.isArray(provenanceData.entries)) {
+  if (
+    !provenanceData ||
+    typeof provenanceData !== "object" ||
+    !Array.isArray(provenanceData.entries)
+  ) {
     errors.push(
       "Top-level structure error: 'entries' is not an array in provenance.",
     );
@@ -50,12 +66,24 @@ export function validateArtAssets(
   const VALID_APPROVAL_STATUS = ["approved", "rejected", "pending"];
   const VALID_GENERATION_STATUS = ["draft", "approved", "rejected", "pending"];
 
-  const familyIds = new Set(familiesData.families.map((f) => f.family_id));
+  const familyIds = new Set<string>();
+  for (const f of familiesData.families) {
+    if (!f.family_id) {
+      errors.push("A family entry is missing its required 'family_id'.");
+    } else {
+      familyIds.add(f.family_id);
+    }
+  }
   const assetIds = new Set<string>();
   const assetHashes = new Map<string, string>(); // hash -> asset_id
   const provenanceMap = new Map<string, { approval_status?: string }>(); // asset_id -> provenance entry
 
   for (const entry of provenanceData.entries) {
+    if (!entry.provenance_id) {
+      errors.push(
+        "A provenance entry is missing its required 'provenance_id'.",
+      );
+    }
     if (!VALID_RIGHTS_STATUS.includes(entry.rights_license_status)) {
       errors.push(
         `Provenance '${entry.provenance_id}' has invalid rights_license_status '${entry.rights_license_status}'.`,
@@ -75,6 +103,9 @@ export function validateArtAssets(
   }
 
   for (const delta of deltasData.deltas) {
+    if (!delta.delta_id) {
+      errors.push("A delta entry is missing its required 'delta_id'.");
+    }
     if (!delta.base_family_id || !familyIds.has(delta.base_family_id)) {
       errors.push(
         `Delta '${delta.delta_id}' references invalid base_family_id '${delta.base_family_id}'.`,
@@ -166,6 +197,12 @@ export function validateArtAssets(
         if (measure.value !== undefined && !measure.confidence) {
           errors.push(
             `Asset '${asset.asset_id}' dimension '${key}' has a precise measurement but lacks valid confidence metadata.`,
+          );
+        }
+
+        if (measure.value !== undefined && !measure.source) {
+          errors.push(
+            `Asset '${asset.asset_id}' dimension '${key}' has a precise measurement but lacks required source metadata.`,
           );
         }
 

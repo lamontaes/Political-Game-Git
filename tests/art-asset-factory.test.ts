@@ -11,6 +11,7 @@ import {
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
+import os from "os";
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 
@@ -158,9 +159,7 @@ describe("Art Asset Factory Foundation", () => {
         "base64",
       );
       // Create temp fixture dir
-      const tempQADir = path.join(__dirname, "temp_qa_fixtures");
-      if (!fs.existsSync(tempQADir))
-        fs.mkdirSync(tempQADir, { recursive: true });
+      const tempQADir = fs.mkdtempSync(path.join(os.tmpdir(), "qa-test-"));
 
       const fileA = path.join(tempQADir, "img_A.png");
       const fileB = path.join(tempQADir, "img_B.jpg");
@@ -170,8 +169,8 @@ describe("Art Asset Factory Foundation", () => {
       const mockImages = [fileB, fileA];
 
       // Use dependency-light metadata mock parsing logic inside qa tooling
-      const relA = path.relative(__dirname, fileA).replace(/\\/g, "/");
-      const relB = path.relative(__dirname, fileB).replace(/\\/g, "/");
+      const relA = path.relative(tempQADir, fileA).replace(/\\/g, "/");
+      const relB = path.relative(tempQADir, fileB).replace(/\\/g, "/");
 
       const manifestReqs = {
         [relA]: true,
@@ -181,7 +180,7 @@ describe("Art Asset Factory Foundation", () => {
       const { html, report } = generateContactSheetHtml(
         mockImages,
         "Test",
-        __dirname,
+        tempQADir,
         manifestReqs,
       );
 

@@ -50,16 +50,34 @@ if (cmd === "contact") {
   console.log(`Contact sheet generated at ${htmlPath}`);
   console.log(`QA Report generated at ${reportPath}`);
 } else if (cmd === "compare") {
-  // Mock compare data setup for CLI testing
-  // Real pairs would come from input JSON or explicit lists, but for demonstration of the tooling:
-  const mockPairs = [
-    {
-      source: path.join(ART_DIR, "shared/img_A.png"),
-      generated: path.join(ART_DIR, "generated/approved/img_A_gen.png"),
-    },
-  ];
+  const pairsJsonPath = process.argv[3];
+  if (!pairsJsonPath || !fs.existsSync(pairsJsonPath)) {
+    console.error(
+      "Error: Please provide a valid JSON file path containing pairs. Usage: cli-qa.ts compare <pairs.json>",
+    );
+    process.exit(1);
+  }
 
-  const { html, report } = generateComparisonSheetHtml(mockPairs, ART_DIR);
+  const pairsInput = JSON.parse(fs.readFileSync(pairsJsonPath, "utf-8"));
+  if (!Array.isArray(pairsInput)) {
+    console.error(
+      "Error: Input JSON must be an array of objects with {source, generated} paths.",
+    );
+    process.exit(1);
+  }
+
+  const pairs = pairsInput.map((p) => {
+    if (!p.source || !p.generated) {
+      console.error("Error: Pair object missing source or generated path:", p);
+      process.exit(1);
+    }
+    return {
+      source: path.resolve(p.source),
+      generated: path.resolve(p.generated),
+    };
+  });
+
+  const { html, report } = generateComparisonSheetHtml(pairs, ART_DIR);
 
   const htmlPath = path.join(QA_DIR, "comparison_reports", "index.html");
   const reportPath = path.join(QA_DIR, "comparison_reports", "qa_report.json");
