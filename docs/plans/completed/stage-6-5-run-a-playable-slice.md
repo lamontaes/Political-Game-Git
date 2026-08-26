@@ -27,8 +27,9 @@ independent repository review and human play review.
    pose, and occlusion metadata with a semantic placement validator.
 4. Built the permanent shell, contextual person action menu, quick dossier,
    and one civic-learning concept as reusable accessible React components.
-5. Proved the same deterministic fixture states through semantic tests,
-   Playwright, and direct browser inspection.
+5. Exercised the same deterministic fixture states through semantic tests and
+   Playwright. Codex also performed implementation-time browser inspection;
+   independent human visual acceptance remains required on the unmerged PR.
 
 ## Deterministic fixture states
 
@@ -47,7 +48,8 @@ independent repository review and human play review.
 - [x] Learned concepts persist only after an explicit action.
 - [x] Manual pin sizing remains authoritative.
 - [x] Person action menu is replaced by the dossier on Inspect.
-- [x] Scene anchor, pose, scale, collision, and occlusion assertions pass.
+- [x] Scene-anchor, pose/configuration, scale, collision, and occlusion metadata
+      assertions pass as deterministic safeguards, not rendered-geometry proof.
 - [x] Keyboard/focus paths cover the scene person, menu, dossier, learning, and
       navigation.
 - [x] Existing Stage 6 tests and the full repository validation path stay green.
@@ -55,7 +57,9 @@ independent repository review and human play review.
 - [x] Art schemas, inventory, and QA fixture generation pass.
 - [x] Repository architecture, roadmap, acceptance, and decision records match
       the implemented Stage 6.5 authority without reopening Stage 6.
-- [x] Browser review passes the visual hard-rejection checklist.
+- [x] Codex's implementation-time browser inspection found no visual
+      hard-rejection failure.
+- [ ] Independent human visual acceptance remains pending on the unmerged PR.
 - [x] A bounded branch is pushed and a new unmerged pull request is verified.
 
 ## Explicit non-goals

@@ -61,7 +61,7 @@ export function QuickDossier({ dossier, onClose }: QuickDossierProps) {
 
       <dl className="dossier-identity-grid">
         <DossierFact fact={dossier.age} />
-        <DossierFact fact={dossier.hometown} />
+        <DossierFact fact={dossier.homePlace} />
       </dl>
 
       <dl className="dossier-read-grid">

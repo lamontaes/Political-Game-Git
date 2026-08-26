@@ -5,6 +5,7 @@ import {
   type RunAUiAction,
   type RunAUiState,
 } from "../presentation/run-a-state";
+import type { QuickDossierProjection } from "../presentation/run-a-projection";
 
 interface PinDefinition {
   readonly id: RunAPinId;
@@ -14,40 +15,54 @@ interface PinDefinition {
   readonly kind: string;
 }
 
-const PINS: readonly PinDefinition[] = [
-  {
-    id: "briefing",
-    shortLabel: "B",
-    label: "Afternoon briefing",
-    detail: "Three constituent-service points are ready for review.",
-    kind: "Current",
-  },
-  {
-    id: "person",
-    shortLabel: "AC",
-    label: "Andre Collins",
-    detail: "Senior legislative aide · in the office",
-    kind: "Person",
-  },
-  {
-    id: "district-notes",
-    shortLabel: "N",
-    label: "District notes",
-    detail: "Working notes from this morning's constituent requests.",
-    kind: "Reference",
-  },
-];
+function personInitials(name: string): string {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((part) => part[0]?.toUpperCase())
+    .join("")
+    .slice(0, 2);
+}
+
+function pinsForPerson(
+  person: Pick<QuickDossierProjection, "name" | "title">,
+): readonly PinDefinition[] {
+  return [
+    {
+      id: "briefing",
+      shortLabel: "B",
+      label: "Afternoon briefing",
+      detail: "Three constituent-service points are ready for review.",
+      kind: "Current",
+    },
+    {
+      id: "person",
+      shortLabel: personInitials(person.name),
+      label: person.name,
+      detail: `${person.title} · in the office`,
+      kind: "Person",
+    },
+    {
+      id: "district-notes",
+      shortLabel: "N",
+      label: "District notes",
+      detail: "Working notes from this morning's constituent requests.",
+      kind: "Reference",
+    },
+  ];
+}
 
 interface PinRailProps {
+  readonly person: Pick<QuickDossierProjection, "name" | "title">;
   readonly state: RunAUiState;
   readonly dispatch: (action: RunAUiAction) => void;
 }
 
-export function PinRail({ state, dispatch }: PinRailProps) {
+export function PinRail({ person, state, dispatch }: PinRailProps) {
   return (
     <aside className="pin-rail" aria-label="Pinned context">
       <p className="pin-rail-label">Pinned</p>
-      {PINS.map((pin) => {
+      {pinsForPerson(person).map((pin) => {
         const size = resolveRunAPinSize(state, pin.id);
         return (
           <button

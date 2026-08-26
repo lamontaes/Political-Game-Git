@@ -74,6 +74,7 @@ export function PlayerOffice() {
       />
       <PermanentShell
         fixture={fixture}
+        dossier={dossier}
         formattedDate={formatRunADate(fixture.world.currentDate)}
         state={state}
         dispatch={dispatch}

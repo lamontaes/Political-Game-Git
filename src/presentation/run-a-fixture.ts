@@ -126,8 +126,9 @@ export function createRunAFixture(): RunAFixture {
     kind: "work:briefing",
     change: "maintained",
     significance: "meaningful",
-    summary:
-      "Andre gave Cameron a concise, candid read of the morning's constituent requests.",
+    summary: `${personName(scenePerson)} gave ${personName(
+      playerPerson,
+    )} a concise, candid read of the morning's constituent requests.`,
     tags: ["relationship.shared-work", "run-a.office"],
   });
 

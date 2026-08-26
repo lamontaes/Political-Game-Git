@@ -30,6 +30,8 @@ test("opens navigation upward and keeps its single submenu dark", async ({
   await cluster.click();
   const flyout = page.getByTestId("navigation-flyout");
   await expect(flyout).toBeVisible();
+  await expect(cluster).toHaveAttribute("aria-controls", "run-a-navigation");
+  await expect(flyout).toHaveAttribute("id", "run-a-navigation");
 
   const clusterBox = await cluster.boundingBox();
   const flyoutBox = await flyout.boundingBox();
@@ -76,7 +78,7 @@ test("replaces the anchored person menu with an epistemically filtered dossier",
   await expect(dossier).toBeVisible();
   await expect(dossier).toContainText("Andre Collins");
   await expect(dossier).toContainText("Age");
-  await expect(dossier).toContainText("Hometown");
+  await expect(dossier).toContainText("Birthplace");
   await expect(dossier).toContainText("Uncertain read");
   await expect(dossier).toContainText("Unknown");
   await expect(dossier).toContainText("Latest meaningful interaction");
@@ -112,6 +114,7 @@ test("marks civic learning explicitly and preserves the reference", async ({
   await expect(page.getByTestId("civic-learning-marker")).toHaveCount(0);
   await page.getByTestId("navigation-cluster").click();
   await page.getByRole("menuitem", { name: /Civic reference/ }).click();
+  await expect(page.getByTestId("navigation-flyout")).toHaveCount(0);
   await expect(page.getByTestId("civic-learning-popover")).toContainText(
     "Marked learned",
   );

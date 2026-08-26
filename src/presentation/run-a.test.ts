@@ -12,7 +12,10 @@ import {
   RUN_A_CIVIC_CONCEPT_ID,
 } from "./run-a-learning";
 import { RUN_A_SCENE_LAYOUT, validateRunASceneLayout } from "./run-a-layout";
-import { projectRunAFixtureDossier } from "./run-a-projection";
+import {
+  projectRunADossier,
+  projectRunAFixtureDossier,
+} from "./run-a-projection";
 import {
   createRunAUiState,
   resolveRunAPinSize,
@@ -85,6 +88,58 @@ describe("Stage 6.5 Run A presentation", () => {
     expect(JSON.stringify(dossier)).not.toContain(hiddenBelief?.propositionId);
   });
 
+  it("does not silently present home jurisdiction as hometown", () => {
+    const fixture = createRunAFixture();
+    const personId = fixture.scenePerson.personId;
+    const person = fixture.world.people[personId];
+    if (!person) throw new Error("Run A test fixture lost its scene person.");
+
+    const withoutKinds = (kinds: readonly string[]) => {
+      const establishedFacts = person.establishedFacts.filter(
+        (fact) => !kinds.includes(fact.kind),
+      );
+      const projectedPerson =
+        person.detailLevel === "materialized"
+          ? {
+              ...person,
+              establishedFacts,
+              details: {
+                ...person.details,
+                generatedFacts: person.details.generatedFacts.filter(
+                  (fact) => !kinds.includes(fact.kind),
+                ),
+              },
+            }
+          : { ...person, establishedFacts };
+
+      return projectRunADossier(
+        {
+          ...fixture.world,
+          people: {
+            ...fixture.world.people,
+            [personId]: projectedPerson,
+          },
+        },
+        fixture.playerPersonId,
+        fixture.scenePerson,
+      );
+    };
+
+    const residenceFallback = withoutKinds(["birthplace"]);
+    expect(residenceFallback.homePlace.label).toBe("Residence");
+    expect(residenceFallback.homePlace.access).toBe(
+      "institutionally-accessible",
+    );
+
+    const unknownHometown = withoutKinds(["birthplace", "residence"]);
+    expect(unknownHometown.homePlace).toMatchObject({
+      label: "Hometown",
+      value: "Not known",
+      access: "unknown",
+    });
+    expect(person.homeJurisdictionId).toBeTruthy();
+  });
+
   it("replaces the person action menu with the dossier", () => {
     const { fixture, state } = createState();
     const menuState = runAUiReducer(state, {
@@ -127,13 +182,19 @@ describe("Stage 6.5 Run A presentation", () => {
 
   it("marks civic learning only after an explicit state transition", () => {
     const { state } = createState();
-    const opened = runAUiReducer(state, { type: "open-civic-learning" });
+    const navigationOpen = runAUiReducer(state, {
+      type: "toggle-navigation",
+    });
+    const opened = runAUiReducer(navigationOpen, {
+      type: "open-civic-learning",
+    });
     const learned = runAUiReducer(opened, {
       type: "mark-concept-learned",
       conceptId: RUN_A_CIVIC_CONCEPT_ID,
     });
 
     expect(opened.learnedConceptIds).toEqual([]);
+    expect(opened.navigation).toBe("closed");
     expect(learned.learnedConceptIds).toEqual([RUN_A_CIVIC_CONCEPT_ID]);
     expect(learned.overlay).toBe("none");
   });
@@ -188,8 +249,8 @@ describe("Stage 6.5 Run A presentation", () => {
       validateRunASceneLayout({
         ...RUN_A_SCENE_LAYOUT,
         personFootprint: { x: 63, y: 68, width: 12, height: 8 },
-        personAnchor: {
-          ...RUN_A_SCENE_LAYOUT.personAnchor,
+        scenePlacementAnchor: {
+          ...RUN_A_SCENE_LAYOUT.scenePlacementAnchor,
           y: 20,
           scale: 1.45,
         },

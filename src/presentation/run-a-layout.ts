@@ -1,5 +1,17 @@
 export type RunAPose = "seated-at-desk";
 
+export interface RunAScenePlacementAnchor {
+  readonly id: "primary-desk-chair";
+  readonly x: number;
+  readonly y: number;
+  readonly scale: number;
+  readonly compatiblePoses: readonly RunAPose[];
+}
+
+export interface RunACharacterConfiguration {
+  readonly pose: RunAPose;
+}
+
 export interface SceneRect {
   readonly x: number;
   readonly y: number;
@@ -11,13 +23,8 @@ export interface RunASceneLayout {
   readonly deskFootprint: SceneRect;
   readonly chairFootprint: SceneRect;
   readonly personFootprint: SceneRect;
-  readonly personAnchor: {
-    readonly x: number;
-    readonly y: number;
-    readonly scale: number;
-    readonly pose: RunAPose;
-    readonly compatiblePoses: readonly RunAPose[];
-  };
+  readonly scenePlacementAnchor: RunAScenePlacementAnchor;
+  readonly characterConfiguration: RunACharacterConfiguration;
   readonly occlusion: {
     readonly foregroundObject: "desk";
     readonly hiddenCharacterRegion: "lower-body";
@@ -28,12 +35,15 @@ export const RUN_A_SCENE_LAYOUT: RunASceneLayout = {
   deskFootprint: { x: 50, y: 66, width: 36, height: 17 },
   chairFootprint: { x: 64, y: 56, width: 13, height: 9 },
   personFootprint: { x: 68, y: 59, width: 5, height: 4 },
-  personAnchor: {
+  scenePlacementAnchor: {
+    id: "primary-desk-chair",
     x: 70.5,
     y: 63,
     scale: 1,
-    pose: "seated-at-desk",
     compatiblePoses: ["seated-at-desk"],
+  },
+  characterConfiguration: {
+    pose: "seated-at-desk",
   },
   occlusion: {
     foregroundObject: "desk",
@@ -63,18 +73,20 @@ export function validateRunASceneLayout(
   layout: RunASceneLayout,
 ): readonly string[] {
   const issues: string[] = [];
-  const { personAnchor } = layout;
+  const { scenePlacementAnchor, characterConfiguration } = layout;
 
-  if (!personAnchor.compatiblePoses.includes(personAnchor.pose)) {
+  if (
+    !scenePlacementAnchor.compatiblePoses.includes(characterConfiguration.pose)
+  ) {
     issues.push("The selected pose is not compatible with the scene anchor.");
   }
-  if (personAnchor.x < 0 || personAnchor.x > 100) {
+  if (scenePlacementAnchor.x < 0 || scenePlacementAnchor.x > 100) {
     issues.push("The person anchor falls outside the scene width.");
   }
-  if (personAnchor.y < 45 || personAnchor.y > 90) {
+  if (scenePlacementAnchor.y < 45 || scenePlacementAnchor.y > 90) {
     issues.push("The person anchor does not rest on the office floor plane.");
   }
-  if (personAnchor.scale < 0.85 || personAnchor.scale > 1.15) {
+  if (scenePlacementAnchor.scale < 0.85 || scenePlacementAnchor.scale > 1.15) {
     issues.push("The person scale is inconsistent with the office fixture.");
   }
   if (!contains(layout.chairFootprint, layout.personFootprint)) {

@@ -123,7 +123,12 @@ export function runAUiReducer(
     case "close-navigation":
       return { ...state, navigation: "closed" };
     case "open-civic-learning":
-      return { ...state, overlay: "civic", selectedPersonId: null };
+      return {
+        ...state,
+        overlay: "civic",
+        selectedPersonId: null,
+        navigation: "closed",
+      };
     case "mark-concept-learned":
       if (action.conceptId !== RUN_A_CIVIC_CONCEPT_ID) {
         return state;

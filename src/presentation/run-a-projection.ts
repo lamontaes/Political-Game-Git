@@ -1,4 +1,4 @@
-import { ageOnDate, personName } from "../simulation";
+import { ageOnDate, factsForPerson, personName } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import type { RunAFixture, RunAScenePersonContext } from "./run-a-fixture";
 
@@ -23,7 +23,7 @@ export interface QuickDossierProjection {
   readonly title: string;
   readonly role: string;
   readonly age: PlayerVisibleFact;
-  readonly hometown: PlayerVisibleFact;
+  readonly homePlace: PlayerVisibleFact;
   readonly relationship: PlayerVisibleFact;
   readonly read: PlayerVisibleFact;
   readonly knownFacts: readonly PlayerVisibleFact[];
@@ -104,13 +104,60 @@ function projectLatestInteraction(
       };
 }
 
+function projectHomePlace(world: World, personId: EntityId): PlayerVisibleFact {
+  const person = requireScenePerson(world, personId);
+  const facts = factsForPerson(person);
+  const birthplace = facts.find(
+    (fact) => fact.kind === "birthplace" && fact.jurisdictionId,
+  );
+  const birthplaceJurisdiction = birthplace?.jurisdictionId
+    ? world.jurisdictions[birthplace.jurisdictionId]
+    : undefined;
+
+  if (birthplaceJurisdiction) {
+    return {
+      id: "birthplace",
+      label: "Birthplace",
+      value: birthplaceJurisdiction.name,
+      access: "institutionally-accessible",
+    };
+  }
+
+  const residence = [...facts]
+    .reverse()
+    .find(
+      (fact) =>
+        fact.kind === "residence" &&
+        fact.endedAt === null &&
+        fact.jurisdictionId,
+    );
+  const residenceJurisdiction = residence?.jurisdictionId
+    ? world.jurisdictions[residence.jurisdictionId]
+    : undefined;
+
+  if (residenceJurisdiction) {
+    return {
+      id: "residence",
+      label: "Residence",
+      value: residenceJurisdiction.name,
+      access: "institutionally-accessible",
+    };
+  }
+
+  return {
+    id: "hometown",
+    label: "Hometown",
+    value: "Not known",
+    access: "unknown",
+  };
+}
+
 export function projectRunADossier(
   world: World,
   playerPersonId: EntityId,
   sceneContext: RunAScenePersonContext,
 ): QuickDossierProjection {
   const person = requireScenePerson(world, sceneContext.personId);
-  const hometown = world.jurisdictions[person.homeJurisdictionId];
 
   return {
     personId: person.id,
@@ -123,12 +170,7 @@ export function projectRunADossier(
       value: String(ageOnDate(person.birthDate, world.currentDate)),
       access: "institutionally-accessible",
     },
-    hometown: {
-      id: "hometown",
-      label: "Hometown",
-      value: hometown?.name ?? "Not known",
-      access: hometown ? "institutionally-accessible" : "unknown",
-    },
+    homePlace: projectHomePlace(world, person.id),
     relationship: {
       id: "relationship",
       label: "Relationship",
@@ -164,7 +206,8 @@ export function projectRunADossier(
     unresolved: {
       id: "unresolved",
       label: "Unconfirmed priority",
-      value: "What he wants from the afternoon briefing is not yet known.",
+      value:
+        "The desired outcome from the afternoon briefing is not yet known.",
       access: "unknown",
     },
   };

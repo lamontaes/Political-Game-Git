@@ -1,10 +1,12 @@
 import type { RunAFixture } from "../presentation/run-a-fixture";
 import { RUN_A_CIVIC_CONCEPT_ID } from "../presentation/run-a-learning";
+import type { QuickDossierProjection } from "../presentation/run-a-projection";
 import type { RunAUiAction, RunAUiState } from "../presentation/run-a-state";
 import { PinRail } from "./PinRail";
 
 interface PermanentShellProps {
   readonly fixture: RunAFixture;
+  readonly dossier: QuickDossierProjection;
   readonly formattedDate: string;
   readonly state: RunAUiState;
   readonly dispatch: (action: RunAUiAction) => void;
@@ -12,6 +14,7 @@ interface PermanentShellProps {
 
 export function PermanentShell({
   fixture,
+  dossier,
   formattedDate,
   state,
   dispatch,
@@ -20,11 +23,12 @@ export function PermanentShell({
 
   return (
     <>
-      <PinRail state={state} dispatch={dispatch} />
+      <PinRail person={dossier} state={state} dispatch={dispatch} />
 
       <nav className="nav-cluster" aria-label="Time, location, and navigation">
         {state.navigation !== "closed" ? (
           <div
+            id="run-a-navigation"
             className="nav-flyout civic-glass"
             data-testid="navigation-flyout"
           >

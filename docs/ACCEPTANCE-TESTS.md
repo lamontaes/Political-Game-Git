@@ -693,10 +693,12 @@ at `?view=developer`.
 
 The Run A selector returns qualitative personally-known, institutionally
 accessible, publicly discoverable, reported, inferred/uncertain, and unknown
-fields. It shows name, role, known age/hometown, relationship/read, three known
-facts, recent interaction, and unresolved context without numeric meters. The
-fixture contains a canonical private-belief rationale that is absent from both
-the projection and browser DOM.
+fields. It shows name, role, known age, an accurately named birthplace or
+residence when supported (otherwise unknown hometown), relationship/read, three
+known facts, recent interaction, and unresolved context without numeric meters.
+`homeJurisdictionId` alone never supplies a hometown. The fixture contains a
+canonical private-belief rationale that is absent from both the projection and
+browser DOM.
 
 ### NOW-170 — Person interaction is immediate and mutually exclusive
 
@@ -732,10 +734,13 @@ same flows. No Stage 6 transition is changed or invoked.
 
 ### NOW-174 — Scene placement and core input paths are valid
 
-The seated-person layout accepts only a compatible desk pose, bounded scale,
-floor-plane anchor, chair-contained physical footprint, nonintersecting desk
-footprint, and lower-body desk occlusion. Invalid floating, scale, and desk
-intersection cases reject semantically. The person, action menu, Inspect,
+The seated-person layout keeps the scene-placement anchor distinct from its
+compatible character pose/configuration and accepts only bounded scale,
+floor-plane contact, a chair-contained physical footprint, nonintersecting desk
+footprint, and lower-body desk-occlusion metadata. Invalid floating, scale, and
+desk-intersection cases reject semantically. These metadata assertions are
+deterministic safeguards, not proof of actual CSS-rendered geometry. The person,
+action menu, Inspect,
 dossier close, civic learning, pin, navigation, and submenu use semantic
 controls with visible focus and keyboard activation.
 
@@ -748,6 +753,10 @@ keyboard path, and manual pin sizing. Failed tests retain traces and screenshots
 plus console/error output, and CI uploads available failure evidence.
 
 ## Manual Now
+
+The visual statements below are independent human acceptance checks. They are
+not established by the semantic rectangle assertions or by Codex's own
+implementation-time browser inspection.
 
 - The default browser result is a warm, restrained, semi-illustrated office
   fixture rather than a top-bar dashboard.

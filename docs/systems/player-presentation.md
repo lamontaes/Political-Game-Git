@@ -38,6 +38,12 @@ dossier and browser DOM. Public speech remains distinct from that private
 belief. A qualitative relationship read derives from explicit shared history
 and remains distinct from a numeric score or hidden trait.
 
+Place labels follow the same boundary. The fixture dossier names an accessible
+birthplace fact as `Birthplace`; if that fact is unavailable, it may name an
+accessible residence fact as `Residence`. A person's `homeJurisdictionId` alone
+never supplies or implies a hometown, and the selector returns an unknown
+`Hometown` when neither kind of evidence is available.
+
 ## Inspectorial state and time
 
 The Run A reducer stores selected person, one contextual overlay, navigation
@@ -63,7 +69,8 @@ stored in a versioned, allowlisted browser-storage record under
 `political-game:run-a:learned-concepts:v1`; malformed or unknown content is
 ignored. This presentation-only record is not a simulation save or migration.
 After learning, the resting scene marker disappears while the reference remains
-available from primary navigation.
+available from primary navigation. Opening the reference also closes the
+temporary navigation surface so the two overlays do not compete.
 
 ## Deterministic fixture and layout
 
@@ -74,10 +81,14 @@ institution or jurisdiction rule.
 
 Named URL fixtures reproduce normal, person-menu, dossier, civic-learning,
 mixed-pins, navigation, and submenu states. The scene layout separately records
-a desk footprint, chair footprint, seated-person footprint, compatible pose,
-bounded scale, floor-plane anchor, and lower-body desk occlusion. Validation
-rejects incompatible poses, floating/scale failures, a seated body outside its
-chair footprint, or a physical intersection with the desk.
+a scene-placement anchor and a compatible character pose/configuration alongside
+the desk, chair, and seated-person footprints and lower-body desk occlusion.
+Validation rejects incompatible pose metadata, floating/scale failures, a
+seated body outside its chair footprint, or a declared physical intersection
+with the desk. These semantic rectangles safeguard deterministic fixture data;
+they do not prove the actual CSS-rendered character/furniture geometry. Codex's
+implementation-time browser inspection is also distinct from the independent
+human visual acceptance still required on the unmerged PR.
 
 ## Visual-reference provenance
 
