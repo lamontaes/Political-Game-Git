@@ -1,6 +1,5 @@
 /**
  * Generalized environment-scene and measurement evidence contract.
- * Located in a non-simulation pure domain as requested.
  */
 
 export type GeometryAuthorityGrade = "G0" | "G1" | "G2" | "G3" | "G4" | "G5";
@@ -50,7 +49,7 @@ export interface KnownMeasurement {
   value: number; // A literal numeric zero is preserved here.
   unit: string;
   confidence: MeasurementConfidence;
-  provenance_refs?: string[]; // Every populated known measurement must be capable of explicit source linkage.
+  provenance_refs?: string[];
 }
 
 export interface UnknownMeasurement {
@@ -58,10 +57,6 @@ export interface UnknownMeasurement {
   reason?: string;
 }
 
-// Represent unknown/missing explicitly, and ensure literal zero is distinct.
-// If the measurement simply isn't provided at all, it's undefined (missing).
-// If it's provided as unknown, it uses UnknownMeasurement.
-// If it's known, even if the value is zero, it uses KnownMeasurement.
 export type MeasurementValue = KnownMeasurement | UnknownMeasurement;
 
 export type ResidualState = "PASS" | "FAIL" | "BLOCKED" | "UNRESOLVED";
@@ -74,7 +69,12 @@ export interface DimensionalResidualCheck {
   units?: string;
   tolerance_basis?: string;
   state: ResidualState;
-  blocking_reason?: string; // e.g. "required basis is unresolved"
+  blocking_reason?: string;
+}
+
+export interface SourceEvidence {
+  id: string;
+  source_type: string;
 }
 
 export interface SceneFeature {
@@ -105,11 +105,6 @@ export interface Occluder {
   type: string;
 }
 
-export interface SourceEvidence {
-  id: string;
-  source_type: string;
-}
-
 export interface EnvironmentSceneSpec {
   environment_id: string;
   building_id?: string;
@@ -118,8 +113,8 @@ export interface EnvironmentSceneSpec {
   units?: string;
   scale_evidence?: ScaleEvidence;
   fidelity_tier: FidelityTier;
-  sources?: SourceEvidence[];
 
+  sources?: SourceEvidence[];
   room_outline?: SceneFeature[];
   walls?: SceneFeature[];
   doors_openings?: SceneFeature[];
@@ -139,6 +134,11 @@ export interface EnvironmentSceneSpec {
   explicit_unknowns?: string[];
 }
 
+export interface ValidationResult {
+  valid: boolean;
+  errors: string[];
+}
+
 export function parseEnvironmentSceneSpec(json: string): EnvironmentSceneSpec {
   let parsed: unknown;
   try {
@@ -155,40 +155,38 @@ export function parseEnvironmentSceneSpec(json: string): EnvironmentSceneSpec {
   return parsed as EnvironmentSceneSpec;
 }
 
-export interface ValidationResult {
-  valid: boolean;
-  errors: string[];
-}
-
 export function validateEnvironmentSceneSpec(input: unknown): ValidationResult {
   const errors: string[] = [];
 
   if (!input || typeof input !== "object" || Array.isArray(input)) {
     return { valid: false, errors: ["Input must be a JSON object."] };
   }
-  const spec = input as unknown as EnvironmentSceneSpec;
+
+  const spec = input as Record<string, unknown>;
 
   if (typeof spec.environment_id !== "string") {
     errors.push("Missing or invalid 'environment_id'");
   }
+
   const validFidelityTiers = ["F1", "F2", "F3", "F4"];
-  if (!validFidelityTiers.includes(spec.fidelity_tier)) {
+  if (
+    typeof spec.fidelity_tier !== "string" ||
+    !validFidelityTiers.includes(spec.fidelity_tier)
+  ) {
     errors.push(`Invalid fidelity_tier: '${spec.fidelity_tier}'`);
   }
 
+  const zonesArr = (spec.zones as Record<string, unknown>[]) || [];
   const validZones = new Set(
-    ((spec.zones as unknown as Record<string, unknown>[]) || []).map(
-      (z) => z.id,
-    ),
+    zonesArr.map((z) => (typeof z?.id === "string" ? z.id : "")),
   );
+
+  const sourcesArr = (spec.sources as Record<string, unknown>[]) || [];
   const validSources = new Set(
-    ((spec.sources as unknown as Record<string, unknown>[]) || []).map(
-      (s) => s.id,
-    ),
+    sourcesArr.map((s) => (typeof s?.id === "string" ? s.id : "")),
   );
 
   const ids = new Set<string>();
-
   const checkUniqueId = (id: string, context: string) => {
     if (ids.has(id)) {
       errors.push(`Duplicate ID found: '${id}' in ${context}`);
@@ -197,42 +195,55 @@ export function validateEnvironmentSceneSpec(input: unknown): ValidationResult {
     }
   };
 
-  // Check unique IDs for features
-  const checkFeatures = (features?: unknown[], context = "features") => {
-    if (!features || !Array.isArray(features)) return;
-    for (const f of features as Record<string, unknown>[]) {
-      if (!f || typeof f !== "object" || typeof f.id !== "string") {
+  const checkFeatures = (features?: unknown, context = "features") => {
+    if (!features) return;
+    if (!Array.isArray(features)) {
+      errors.push(`Expected array for ${context}`);
+      return;
+    }
+    for (const f of features) {
+      if (
+        !f ||
+        typeof f !== "object" ||
+        typeof (f as Record<string, unknown>).id !== "string"
+      ) {
         errors.push(`Invalid feature in ${context}`);
         continue;
       }
-      checkUniqueId(f.id, context);
+      checkUniqueId((f as Record<string, unknown>).id as string, context);
 
       const validGrades = ["G0", "G1", "G2", "G3", "G4", "G5"];
-      if (!validGrades.includes(f.geometry_grade as string)) {
+      if (
+        !validGrades.includes(
+          (f as Record<string, unknown>).geometry_grade as string,
+        )
+      ) {
         errors.push(
-          `Feature '${f.id}' has invalid geometry_grade '${f.geometry_grade}'`,
+          `Feature '${(f as Record<string, unknown>).id}' has invalid geometry_grade '${(f as Record<string, unknown>).geometry_grade}'`,
         );
       }
 
-      // Validate dimensions if present
-      if (f.dimensions && typeof f.dimensions === "object") {
+      const dimensions = (f as Record<string, unknown>).dimensions;
+      if (dimensions && typeof dimensions === "object") {
         for (const [key, dim] of Object.entries(
-          f.dimensions as unknown as Record<string, Record<string, unknown>>,
+          dimensions as Record<string, unknown>,
         )) {
           if (!dim || typeof dim !== "object") {
-            errors.push(`Feature '${f.id}' dimension '${key}' is invalid`);
+            errors.push(
+              `Feature '${(f as Record<string, unknown>).id}' dimension '${key}' is invalid`,
+            );
             continue;
           }
           if ("value" in dim) {
-            // It's a KnownMeasurement
-            if (typeof dim.value !== "number") {
+            // KnownMeasurement
+            if (typeof (dim as Record<string, unknown>).value !== "number") {
               errors.push(
-                `Feature '${f.id}' dimension '${key}' value must be a number`,
+                `Feature '${(f as Record<string, unknown>).id}' dimension '${key}' value must be a number`,
               );
             }
-            if (typeof dim.unit !== "string") {
+            if (typeof (dim as Record<string, unknown>).unit !== "string") {
               errors.push(
-                `Feature '${f.id}' dimension '${key}' is missing unit or invalid unit`,
+                `Feature '${(f as Record<string, unknown>).id}' dimension '${key}' is missing unit`,
               );
             }
             const validConfidences = [
@@ -242,31 +253,40 @@ export function validateEnvironmentSceneSpec(input: unknown): ValidationResult {
               "bounded-estimate",
               "visual-estimate",
             ];
-            if (!validConfidences.includes(dim.confidence as string)) {
+            if (
+              !validConfidences.includes(
+                (dim as Record<string, unknown>).confidence as string,
+              )
+            ) {
               errors.push(
-                `Feature '${f.id}' dimension '${key}' has invalid confidence '${dim.confidence}'`,
+                `Feature '${(f as Record<string, unknown>).id}' dimension '${key}' has invalid confidence '${(dim as Record<string, unknown>).confidence}'`,
               );
             }
-            if (Array.isArray(dim.provenance_refs)) {
-              for (const ref of dim.provenance_refs) {
-                if (!validSources.has(ref as string)) {
+            const refs = (dim as Record<string, unknown>).provenance_refs;
+            if (Array.isArray(refs)) {
+              for (const ref of refs) {
+                if (typeof ref !== "string" || !validSources.has(ref)) {
                   errors.push(
-                    `Feature '${f.id}' dimension '${key}' has broken provenance_ref '${ref}'`,
+                    `Feature '${(f as Record<string, unknown>).id}' dimension '${key}' has broken provenance_ref '${ref}'`,
                   );
                 }
               }
             }
           } else {
-            // It's an UnknownMeasurement
+            // UnknownMeasurement
             const validUnknowns = [
               "unknown",
               "unreadable",
               "contradictory",
               "unsupported",
             ];
-            if (!validUnknowns.includes(dim.state as string)) {
+            if (
+              !validUnknowns.includes(
+                (dim as Record<string, unknown>).state as string,
+              )
+            ) {
               errors.push(
-                `Feature '${f.id}' dimension '${key}' has invalid unknown state '${dim.state}'`,
+                `Feature '${(f as Record<string, unknown>).id}' dimension '${key}' has invalid unknown state '${(dim as Record<string, unknown>).state}'`,
               );
             }
           }
@@ -275,82 +295,65 @@ export function validateEnvironmentSceneSpec(input: unknown): ValidationResult {
     }
   };
 
+  checkFeatures(spec.room_outline, "room_outline");
+  checkFeatures(spec.walls, "walls");
+  checkFeatures(spec.doors_openings, "doors_openings");
+  checkFeatures(spec.levels_steps, "levels_steps");
+  checkFeatures(spec.ceiling_profile, "ceiling_profile");
   checkFeatures(
-    spec.room_outline as unknown as Record<string, unknown>[],
-    "room_outline",
-  );
-  checkFeatures(spec.walls as unknown as Record<string, unknown>[], "walls");
-  checkFeatures(
-    spec.doors_openings as unknown as Record<string, unknown>[],
-    "doors_openings",
-  );
-  checkFeatures(
-    spec.levels_steps as unknown as Record<string, unknown>[],
-    "levels_steps",
-  );
-  checkFeatures(
-    spec.ceiling_profile as unknown as Record<string, unknown>[],
-    "ceiling_profile",
-  );
-  checkFeatures(
-    spec.fixed_architectural_geometry as unknown as Record<string, unknown>[],
+    spec.fixed_architectural_geometry,
     "fixed_architectural_geometry",
   );
-  checkFeatures(
-    spec.fixed_furniture as unknown as Record<string, unknown>[],
-    "fixed_furniture",
-  );
-  checkFeatures(
-    spec.gallery_relationships as unknown as Record<string, unknown>[],
-    "gallery_relationships",
+  checkFeatures(spec.fixed_furniture, "fixed_furniture");
+  checkFeatures(spec.gallery_relationships, "gallery_relationships");
+
+  zonesArr.forEach((z) => checkUniqueId(z.id as string, "zones"));
+  const camerasArr = (spec.cameras as Record<string, unknown>[]) || [];
+  camerasArr.forEach((c) => checkUniqueId(c.id as string, "cameras"));
+  const anchorsArr = (spec.anchors as Record<string, unknown>[]) || [];
+  anchorsArr.forEach((a) => checkUniqueId(a.id as string, "anchors"));
+  const occArr =
+    (spec.foreground_occlusion_objects as Record<string, unknown>[]) || [];
+  occArr.forEach((o) =>
+    checkUniqueId(o.id as string, "foreground_occlusion_objects"),
   );
 
-  (spec.zones || []).forEach((z) => checkUniqueId(z.id, "zones"));
-  (spec.cameras || []).forEach((c) => checkUniqueId(c.id, "cameras"));
-  (spec.anchors || []).forEach((a) => checkUniqueId(a.id, "anchors"));
-  (spec.foreground_occlusion_objects || []).forEach((o) =>
-    checkUniqueId(o.id, "foreground_occlusion_objects"),
-  );
-
-  // Referential Integrity: Cameras targeting Zones
-  if (spec.cameras) {
+  if (Array.isArray(spec.cameras)) {
     for (const camera of spec.cameras) {
-      if (camera.target_zone_id && !validZones.has(camera.target_zone_id)) {
-        errors.push(
-          `Camera '${camera.id}' references invalid target_zone_id '${camera.target_zone_id}'`,
-        );
+      if (camera && typeof camera === "object" && camera.target_zone_id) {
+        if (
+          typeof camera.target_zone_id !== "string" ||
+          !validZones.has(camera.target_zone_id)
+        ) {
+          errors.push(
+            `Camera '${camera.id}' references invalid target_zone_id '${camera.target_zone_id}'`,
+          );
+        }
       }
     }
   }
 
   if (spec.scale_evidence && typeof spec.scale_evidence === "object") {
+    const scaleEv = spec.scale_evidence as Record<string, unknown>;
     const validScaleStates = [
       "known",
       "unresolved",
       "conflicting",
       "unsupported",
     ];
-    if (!validScaleStates.includes(spec.scale_evidence.state)) {
-      errors.push(`Invalid scale state '${spec.scale_evidence.state}'`);
+    if (!validScaleStates.includes(scaleEv.state as string)) {
+      errors.push(`Invalid scale state '${scaleEv.state}'`);
     }
-    if (
-      spec.scale_evidence.calibration &&
-      typeof spec.scale_evidence.calibration === "object"
-    ) {
-      const cal = spec.scale_evidence.calibration as unknown as Record<
-        string,
-        unknown
-      >;
+
+    if (scaleEv.calibration && typeof scaleEv.calibration === "object") {
+      const cal = scaleEv.calibration as Record<string, unknown>;
       const validCalStates = ["resolved", "unresolved", "uncertain"];
       if (!validCalStates.includes(cal.state as string)) {
         errors.push(`Invalid calibration state '${cal.state}'`);
       }
 
       if (cal.state === "resolved") {
-        if (
-          !cal.evidence_identifier ||
-          typeof cal.evidence_identifier !== "string"
-        ) {
+        if (typeof cal.evidence_identifier !== "string") {
           errors.push(`Resolved calibration requires 'evidence_identifier'`);
         }
         if (typeof cal.reference_dimension !== "number") {
@@ -381,12 +384,10 @@ export function validateEnvironmentSceneSpec(input: unknown): ValidationResult {
           );
         }
       }
-      if (
-        cal.evidence_reference_linkage &&
-        Array.isArray(cal.evidence_reference_linkage)
-      ) {
+
+      if (Array.isArray(cal.evidence_reference_linkage)) {
         for (const ref of cal.evidence_reference_linkage) {
-          if (!validSources.has(ref)) {
+          if (typeof ref !== "string" || !validSources.has(ref)) {
             errors.push(
               `Calibration evidence_reference_linkage '${ref}' is broken`,
             );
@@ -396,38 +397,41 @@ export function validateEnvironmentSceneSpec(input: unknown): ValidationResult {
     }
   }
 
-  // Residual Integrity
-  if (Array.isArray(spec.residuals)) {
-    for (const res of spec.residuals) {
-      if (!res || typeof res !== "object") {
-        errors.push("Invalid residual entry");
-        continue;
-      }
-      const validResStates = ["PASS", "FAIL", "BLOCKED", "UNRESOLVED"];
-      if (!validResStates.includes(res.state)) {
-        errors.push(
-          `Invalid residual state '${res.state}' for '${res.what_was_compared}'`,
-        );
-      }
-      if (
-        !res.tolerance_basis &&
-        res.state !== "BLOCKED" &&
-        res.state !== "UNRESOLVED"
-      ) {
-        errors.push(
-          `Residual check '${res.what_was_compared}' is missing tolerance_basis but state is '${res.state}'. Must be BLOCKED or UNRESOLVED if missing basis.`,
-        );
-      }
-      if (res.state === "BLOCKED" && !res.blocking_reason) {
-        errors.push(
-          `Residual check '${res.what_was_compared}' is BLOCKED but missing blocking_reason.`,
-        );
+  if (spec.residuals) {
+    if (!Array.isArray(spec.residuals)) {
+      errors.push("Invalid residuals type");
+    } else {
+      for (const res of spec.residuals) {
+        if (!res || typeof res !== "object") {
+          errors.push("Invalid residual entry");
+          continue;
+        }
+        const validResStates = ["PASS", "FAIL", "BLOCKED", "UNRESOLVED"];
+        if (!validResStates.includes(res.state as string)) {
+          errors.push(
+            `Invalid residual state '${res.state}' for '${res.what_was_compared}'`,
+          );
+        }
+        if (
+          !res.tolerance_basis &&
+          res.state !== "BLOCKED" &&
+          res.state !== "UNRESOLVED"
+        ) {
+          errors.push(
+            `Residual check '${res.what_was_compared}' is missing tolerance_basis but state is '${res.state}'.`,
+          );
+        }
+        if (res.state === "BLOCKED" && !res.blocking_reason) {
+          errors.push(
+            `Residual check '${res.what_was_compared}' is BLOCKED but missing blocking_reason.`,
+          );
+        }
       }
     }
   }
 
-  // Temporal Validation
-  if (spec.effective_version) {
+  if (spec.effective_version && typeof spec.effective_version === "object") {
+    const ev = spec.effective_version as Record<string, unknown>;
     const validTemporalStates = [
       "CURRENT_VERIFIED",
       "STABLE_RECONCILED",
@@ -435,23 +439,19 @@ export function validateEnvironmentSceneSpec(input: unknown): ValidationResult {
       "EFFECTIVE_DATE_UNCERTAIN",
       "HISTORICAL_VERSION_ONLY",
     ];
-    if (!validTemporalStates.includes(spec.effective_version.state)) {
-      errors.push(`Invalid temporal state '${spec.effective_version.state}'.`);
+    if (!validTemporalStates.includes(ev.state as string)) {
+      errors.push(`Invalid temporal state '${ev.state}'.`);
     }
   }
 
   return { valid: errors.length === 0, errors };
 }
 
-// Canonical deterministic serialization
-
 export function serializeEnvironmentSceneSpec(
   spec: EnvironmentSceneSpec,
 ): string {
-  // Deep sort object keys to ensure canonical serialization
   const deepSort = (obj: unknown, path: string = ""): unknown => {
     if (Array.isArray(obj)) {
-      // For semantically unordered collections, sort by 'id'
       const unorderedPaths = [
         "zones",
         "anchors",
@@ -466,9 +466,17 @@ export function serializeEnvironmentSceneSpec(
         obj[0] !== null &&
         "id" in obj[0]
       ) {
-        const sortedArray = [...obj].sort((a, b) =>
-          (a as { id: string }).id.localeCompare((b as { id: string }).id),
-        );
+        const sortedArray = [...obj].sort((a, b) => {
+          const aId =
+            typeof (a as Record<string, unknown>).id === "string"
+              ? (a as Record<string, unknown>).id
+              : "";
+          const bId =
+            typeof (b as Record<string, unknown>).id === "string"
+              ? (b as Record<string, unknown>).id
+              : "";
+          return (aId as string).localeCompare(bId as string);
+        });
         return sortedArray.map((item) => deepSort(item, path));
       }
       return obj.map((item) => deepSort(item, path));

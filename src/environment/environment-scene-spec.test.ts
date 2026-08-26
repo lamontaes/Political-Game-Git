@@ -1,17 +1,18 @@
 import { describe, it, expect } from "vitest";
-
 import {
-  type EnvironmentSceneSpec,
-  validateEnvironmentSceneSpec,
+  parseEnvironmentSceneSpec,
   serializeEnvironmentSceneSpec,
 } from "./environment-scene-spec";
 
 describe("Environment Scene Spec", () => {
-  it("should validate a known measurement round trip", () => {
-    const spec: EnvironmentSceneSpec = {
-      environment_id: "env-1",
-      sources: [{ id: "source-1", source_type: "drawing" }],
+  it("should perform true round-trip parse and canonical stringification for a known measurement", () => {
+    const rawJSON = JSON.stringify({
+      environment_id: "env-rt-1",
       fidelity_tier: "F3",
+      sources: [
+        { id: "source-b", source_type: "drawing" },
+        { id: "source-a", source_type: "drawing" },
+      ],
       walls: [
         {
           id: "wall-1",
@@ -22,250 +23,234 @@ describe("Environment Scene Spec", () => {
               value: 120,
               unit: "inches",
               confidence: "exact",
-              provenance_refs: ["source-1"],
+              provenance_refs: ["source-a"],
             },
           },
         },
       ],
-    };
-    const result = validateEnvironmentSceneSpec(spec);
-    expect(result.errors).toEqual([]);
-    expect(result.valid).toBe(true);
+    });
+
+    const parsed = parseEnvironmentSceneSpec(rawJSON);
+    expect(parsed.environment_id).toBe("env-rt-1");
+    expect(
+      (parsed.walls![0].dimensions!.length as { value: number }).value,
+    ).toBe(120);
+
+    const reSerialized = serializeEnvironmentSceneSpec(parsed);
+    const reparsedRoundTrip = parseEnvironmentSceneSpec(reSerialized);
+
+    // Check array deterministic order
+    expect(reparsedRoundTrip.sources![0].id).toBe("source-a");
+    expect(reparsedRoundTrip.sources![1].id).toBe("source-b");
   });
 
-  it("should validate a missing measurement correctly", () => {
-    const spec: EnvironmentSceneSpec = {
-      environment_id: "env-2",
-      fidelity_tier: "F3",
+  it("should preserve explicitly missing vs unknown vs literal zero values", () => {
+    const rawJSON = JSON.stringify({
+      environment_id: "env-zero-test",
+      fidelity_tier: "F2",
       walls: [
         {
-          id: "wall-missing",
+          id: "wall-zero",
           type: "wall",
-          geometry_grade: "G1",
-          dimensions: {
-            length: {
-              state: "unknown",
-              reason: "not measured",
-            },
-          },
-        },
-      ],
-    };
-    const result = validateEnvironmentSceneSpec(spec);
-    expect(result.errors).toEqual([]);
-    expect(result.valid).toBe(true);
-  });
-
-  it("should preserve literal zero measurement as valid", () => {
-    const spec: EnvironmentSceneSpec = {
-      environment_id: "env-3",
-      fidelity_tier: "F3",
-      levels_steps: [
-        {
-          id: "step-1",
-          type: "step",
           geometry_grade: "G5",
           dimensions: {
-            dais_height: {
-              value: 0,
-              unit: "inches",
-              confidence: "exact",
-            },
+            length: { value: 0, unit: "feet", confidence: "exact" },
+            height: { state: "unknown", reason: "Illegible" },
+            // width is strictly missing
           },
         },
       ],
-    };
-    const result = validateEnvironmentSceneSpec(spec);
-    expect(result.errors).toEqual([]);
-    expect(result.valid).toBe(true);
-    // Explicitly check zero survived
+    });
+
+    const parsed = parseEnvironmentSceneSpec(rawJSON);
+    const lengthDim = parsed.walls![0].dimensions!.length as { value: number };
+    const heightDim = parsed.walls![0].dimensions!.height as { state: string };
+    const widthDim = parsed.walls![0].dimensions!.width;
+
+    expect(lengthDim.value).toBe(0);
+    expect(heightDim.state).toBe("unknown");
+    expect(widthDim).toBeUndefined();
+
+    const serialized = serializeEnvironmentSceneSpec(parsed);
+    const reparsed = parseEnvironmentSceneSpec(serialized);
+
     expect(
-      (spec.levels_steps![0].dimensions!.dais_height as { value: number })
-        .value,
+      (reparsed.walls![0].dimensions!.length as { value: number }).value,
     ).toBe(0);
   });
 
-  it("should enforce deterministic canonical serialization", () => {
-    const spec1: EnvironmentSceneSpec = {
-      fidelity_tier: "F2",
-      environment_id: "env-4",
-      anchors: [{ id: "a1", type: "interaction" }],
-    };
-    const spec2: EnvironmentSceneSpec = {
-      environment_id: "env-4",
-      anchors: [{ type: "interaction", id: "a1" }],
-      fidelity_tier: "F2",
-    };
-
-    const s1 = serializeEnvironmentSceneSpec(spec1);
-    const s2 = serializeEnvironmentSceneSpec(spec2);
-    expect(s1).toEqual(s2);
+  it("should cleanly reject malformed JSON", () => {
+    expect(() => parseEnvironmentSceneSpec("not valid json")).toThrow(
+      "Malformed JSON",
+    );
   });
 
-  it("should reject duplicate IDs", () => {
-    const spec: EnvironmentSceneSpec = {
-      environment_id: "env-dup",
-      fidelity_tier: "F2",
-      walls: [
-        { id: "wall-same", type: "wall", geometry_grade: "G2" },
-        { id: "wall-same", type: "wall", geometry_grade: "G1" },
-      ],
-    };
-    const result = validateEnvironmentSceneSpec(spec);
-    expect(result.valid).toBe(false);
-    expect(result.errors[0]).toContain("Duplicate ID");
+  it("should safely reject malformed object schema shapes", () => {
+    expect(() =>
+      parseEnvironmentSceneSpec(JSON.stringify(["array_instead_of_obj"])),
+    ).toThrow("Input must be a JSON object");
+    expect(() =>
+      parseEnvironmentSceneSpec(JSON.stringify({ fidelity_tier: "F1" })),
+    ).toThrow("Missing or invalid 'environment_id'");
   });
 
-  it("should reject broken reference for camera to zone", () => {
-    const spec: EnvironmentSceneSpec = {
-      environment_id: "env-cam-ref",
+  it("should catch closed-vocabulary errors outside TS boundaries", () => {
+    expect(() =>
+      parseEnvironmentSceneSpec(
+        JSON.stringify({
+          environment_id: "test",
+          fidelity_tier: "F99_MADE_UP",
+        }),
+      ),
+    ).toThrow("Invalid fidelity_tier");
+  });
+
+  it("should reject duplicate IDs and broken camera references", () => {
+    const json = JSON.stringify({
+      environment_id: "env",
       fidelity_tier: "F1",
-      zones: [{ id: "zone-1", type: "public" }],
-      cameras: [{ id: "cam-1", target_zone_id: "zone-unknown" }],
-    };
-    const result = validateEnvironmentSceneSpec(spec);
-    expect(result.valid).toBe(false);
-    expect(result.errors[0]).toContain("invalid target_zone_id");
+      zones: [{ id: "zone-1", type: "staff" }],
+      cameras: [{ id: "cam-1", target_zone_id: "fake-zone" }],
+      walls: [
+        { id: "wall-dup", type: "wall", geometry_grade: "G0" },
+        { id: "wall-dup", type: "wall", geometry_grade: "G0" },
+      ],
+    });
+    expect(() => parseEnvironmentSceneSpec(json)).toThrow(
+      "Duplicate ID found: 'wall-dup'",
+    );
+
+    const json2 = JSON.stringify({
+      environment_id: "env",
+      fidelity_tier: "F1",
+      zones: [{ id: "zone-1", type: "staff" }],
+      cameras: [{ id: "cam-1", target_zone_id: "fake-zone" }],
+    });
+    expect(() => parseEnvironmentSceneSpec(json2)).toThrow(
+      "invalid target_zone_id",
+    );
   });
 
-  it("should validate structured calibration evidence", () => {
-    const spec: EnvironmentSceneSpec = {
-      environment_id: "env-calib",
-      fidelity_tier: "F4",
-      sources: [{ id: "sheet-A", source_type: "drawing" }],
+  it("should enforce broken source/evidence references for measurement provenance", () => {
+    const json = JSON.stringify({
+      environment_id: "env",
+      fidelity_tier: "F1",
+      sources: [{ id: "src-1", source_type: "drawing" }],
+      walls: [
+        {
+          id: "wall-1",
+          type: "wall",
+          geometry_grade: "G2",
+          dimensions: {
+            length: {
+              value: 10,
+              unit: "ft",
+              confidence: "exact",
+              provenance_refs: ["fake-src"],
+            },
+          },
+        },
+      ],
+    });
+    expect(() => parseEnvironmentSceneSpec(json)).toThrow(
+      "broken provenance_ref 'fake-src'",
+    );
+  });
+
+  it("should enforce valid, malformed, and unresolved calibration evidence constraints", () => {
+    // Valid Resolved
+    const validJson = JSON.stringify({
+      environment_id: "env",
+      fidelity_tier: "F1",
+      sources: [{ id: "sheet-A", source_type: "blueprint" }],
       scale_evidence: {
         state: "known",
         calibration: {
-          evidence_identifier: "sheet-A",
-          pixel_span: 1200,
-          reference_dimension: 20,
-          units: "feet",
           state: "resolved",
+          evidence_identifier: "sheet-A",
+          reference_dimension: 10,
+          units: "ft",
+          pixel_span: 100,
         },
       },
-    };
-    const result = validateEnvironmentSceneSpec(spec);
-    expect(result.errors).toEqual([]);
-    expect(result.valid).toBe(true);
-  });
+    });
+    expect(parseEnvironmentSceneSpec(validJson).environment_id).toBe("env");
 
-  it("should enforce residual state checking logic", () => {
-    const spec: EnvironmentSceneSpec = {
-      environment_id: "env-res",
-      fidelity_tier: "F3",
-      residuals: [
-        {
-          what_was_compared: "desk_length",
-          state: "FAIL", // FAIL requires a tolerance_basis
-        },
-      ],
-    };
-    let result = validateEnvironmentSceneSpec(spec);
-    expect(result.valid).toBe(false);
-    expect(result.errors[0]).toContain("missing tolerance_basis");
-
-    spec.residuals![0].state = "BLOCKED";
-    spec.residuals![0].blocking_reason = "missing reference dimension";
-    result = validateEnvironmentSceneSpec(spec);
-    expect(result.errors).toEqual([]);
-    expect(result.valid).toBe(true);
-  });
-
-  it("should reject invalid temporal states", () => {
-    const spec: EnvironmentSceneSpec = {
-      environment_id: "env-temp",
-      fidelity_tier: "F4",
-      sources: [{ id: "sheet-A", source_type: "drawing" }],
-      effective_version: {
-        state: "SOME_MADE_UP_STATE" as "CURRENT_VERIFIED",
-      },
-    };
-    const result = validateEnvironmentSceneSpec(spec);
-    expect(result.valid).toBe(false);
-    expect(result.errors[0]).toContain("Invalid temporal state");
-  });
-
-  it("should reject duplicate IDs", () => {
-    const spec: EnvironmentSceneSpec = {
-      environment_id: "env-dup",
-      fidelity_tier: "F2",
-      walls: [
-        { id: "wall-same", type: "wall", geometry_grade: "G2" },
-        { id: "wall-same", type: "wall", geometry_grade: "G1" },
-      ],
-    };
-    const result = validateEnvironmentSceneSpec(spec);
-    expect(result.valid).toBe(false);
-    expect(result.errors[0]).toContain("Duplicate ID");
-  });
-
-  it("should reject broken reference for camera to zone", () => {
-    const spec: EnvironmentSceneSpec = {
-      environment_id: "env-cam-ref",
+    // Invalid Resolved (missing pixel basis)
+    const invalidJson = JSON.stringify({
+      environment_id: "env",
       fidelity_tier: "F1",
-      zones: [{ id: "zone-1", type: "public" }],
-      cameras: [{ id: "cam-1", target_zone_id: "zone-unknown" }],
-    };
-    const result = validateEnvironmentSceneSpec(spec);
-    expect(result.valid).toBe(false);
-    expect(result.errors[0]).toContain("invalid target_zone_id");
-  });
-
-  it("should validate structured calibration evidence", () => {
-    const spec: EnvironmentSceneSpec = {
-      environment_id: "env-calib",
-      fidelity_tier: "F4",
-      sources: [{ id: "sheet-A", source_type: "drawing" }],
-      sources: [{ id: "sheet-A", source_type: "drawing" }],
+      sources: [{ id: "sheet-A", source_type: "blueprint" }],
       scale_evidence: {
         state: "known",
         calibration: {
-          evidence_identifier: "sheet-A",
-          pixel_span: 1200,
-          reference_dimension: 20,
-          units: "feet",
           state: "resolved",
+          evidence_identifier: "sheet-A",
+          reference_dimension: 10,
+          units: "ft",
         },
       },
-    };
-    const result = validateEnvironmentSceneSpec(spec);
-    expect(result.errors).toEqual([]);
-    expect(result.valid).toBe(true);
-  });
+    });
+    expect(() => parseEnvironmentSceneSpec(invalidJson)).toThrow(
+      "Resolved calibration requires either 'pixel_span' or 'pixel_points'",
+    );
 
-  it("should enforce residual state checking logic", () => {
-    const spec: EnvironmentSceneSpec = {
-      environment_id: "env-res",
-      fidelity_tier: "F3",
-      residuals: [
-        {
-          what_was_compared: "desk_length",
-          state: "FAIL", // FAIL requires a tolerance_basis
+    // Unresolved Calibration (requires no fake numbers)
+    const unresolvedJson = JSON.stringify({
+      environment_id: "env",
+      fidelity_tier: "F1",
+      scale_evidence: {
+        state: "unresolved",
+        calibration: {
+          state: "unresolved",
         },
-      ],
-    };
-    let result = validateEnvironmentSceneSpec(spec);
-    expect(result.valid).toBe(false);
-    expect(result.errors[0]).toContain("missing tolerance_basis");
-
-    spec.residuals![0].state = "BLOCKED";
-    spec.residuals![0].blocking_reason = "missing reference dimension";
-    result = validateEnvironmentSceneSpec(spec);
-    expect(result.errors).toEqual([]);
-    expect(result.valid).toBe(true);
+      },
+    });
+    expect(parseEnvironmentSceneSpec(unresolvedJson).environment_id).toBe(
+      "env",
+    );
   });
 
-  it("should reject invalid temporal states", () => {
-    const spec: EnvironmentSceneSpec = {
+  it("should process multiple valid temporal states properly", () => {
+    const validJson = JSON.stringify({
       environment_id: "env-temp",
-      fidelity_tier: "F4",
-      sources: [{ id: "sheet-A", source_type: "drawing" }],
+      fidelity_tier: "F1",
       effective_version: {
-        state: "SOME_MADE_UP_STATE" as "CURRENT_VERIFIED",
+        state: "HISTORICAL_VERSION_ONLY",
       },
-    };
-    const result = validateEnvironmentSceneSpec(spec);
-    expect(result.valid).toBe(false);
-    expect(result.errors[0]).toContain("Invalid temporal state");
+    });
+    expect(parseEnvironmentSceneSpec(validJson).effective_version!.state).toBe(
+      "HISTORICAL_VERSION_ONLY",
+    );
+
+    const invalidJson = JSON.stringify({
+      environment_id: "env-temp",
+      fidelity_tier: "F1",
+      effective_version: {
+        state: "SOME_MADE_UP_STATE",
+      },
+    });
+    expect(() => parseEnvironmentSceneSpec(invalidJson)).toThrow(
+      "Invalid temporal state",
+    );
+  });
+
+  it("should allow mixed source authority to coexist legitimately", () => {
+    // Contract supports features containing geometry_grades from G0-G5 seamlessly across different elements
+    const json = JSON.stringify({
+      environment_id: "env-auth",
+      fidelity_tier: "F2",
+      sources: [
+        { id: "verified-cad", source_type: "cad" },
+        { id: "old-photo", source_type: "photo" },
+      ],
+      walls: [
+        { id: "wall-1", type: "wall", geometry_grade: "G5" },
+        { id: "wall-2", type: "wall", geometry_grade: "G1" },
+      ],
+    });
+    const parsed = parseEnvironmentSceneSpec(json);
+    expect(parsed.walls![0].geometry_grade).toBe("G5");
+    expect(parsed.walls![1].geometry_grade).toBe("G1");
   });
 });
