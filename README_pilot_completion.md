@@ -3,7 +3,7 @@
 - **Starting `main` HEAD**: `f69bbea1cbed3343f75612476c8afc42dca4e833`
 - **Working branch**: `task/texas-senate-habs-ingestion-15303141471110786355`
 - **Reviewed Implementation SHA(s)**: `cafa1bb46401c2c59beaacfd159c40e2ed099e9a`
-- **Final Reporting Correction SHA(s)**: _(Will be generated on final local commit before PR submit)_
+- **Final Reporting Correction SHA(s)**: `9b934b24e005b42136329d265fa9f551c339de9d` (Subsequent commit is a metadata/finalization follow-up)
 
 ## Repository Constraints Met
 
