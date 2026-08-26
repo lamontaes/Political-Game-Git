@@ -1,8 +1,9 @@
 # Pilot Completion Report: Texas Senate HABS Ingestion
 
 - **Starting `main` HEAD**: `f69bbea1cbed3343f75612476c8afc42dca4e833`
-- **Working branch**: `task/texas-senate-habs-ingestion`
-- **Resulting commit SHA(s)**: Updated to match latest commit
+- **Working branch**: `task/texas-senate-habs-ingestion-15303141471110786355`
+- **Reviewed Implementation SHA(s)**: `cafa1bb46401c2c59beaacfd159c40e2ed099e9a`
+- **Final Reporting Correction SHA(s)**: _(Will be generated on final local commit before PR submit)_
 
 ## Repository Constraints Met
 
@@ -21,12 +22,12 @@
 - **Masters deliberately not committed**: The TIFF master was excluded via `.gitignore` to prevent repository bloat (1.2MB).
 - **Source hashes**: Tooling hashes `habs_tx3326_00013a` generating SHA-256 via exact byte checks. Testing explicitly asserts SHA-256 integrity directly against fixture bytes.
 - **Normalization tooling**: Provided pure JS tooling via `utif` and `pureimage` to perform cropping/rendering operations without destructive alterations of the master file.
-- **Derived geometry capability**: Added the structural tooling to compute derived geometry artifacts. The current Texas Senate geometry (`senate_chamber_envelope.json`) is correctly set to UNRESOLVED because printed scale verification cannot be corroborated visually without arbitrary fabrication.
-- **Scale evidence capacity**: Added `establish-scale.ts`. The current output (`scale_proof.json`) explicitly outputs UNRESOLVED since the raster pixel conversion logic has no verifiable printed dimension checks to use right now.
-- **Residual/consistency checks**: Added `residual_checks.ts`. Checks were computed via `residual_checks.json` but rightfully halted at `BLOCKED/review-needed` because underlying parameters are legitimately UNRESOLVED.
+- **Derived geometry capability**: The pipeline proves intake, triage, acquisition, normalization, and explicit unresolved-state handling. The current Texas Senate geometry (`senate_chamber_envelope.json`) is correctly set to UNRESOLVED because printed scale verification cannot be corroborated visually without arbitrary fabrication. Senate Chamber room-envelope dimensions remain unresolved.
+- **Scale evidence capacity**: Added `establish-scale.ts`. Metric scale remains UNRESOLVED since the raster pixel conversion logic has no verifiable printed dimension checks to use right now.
+- **Residual/consistency checks**: Added `residual_checks.ts`. Checks were computed via `residual_checks.json` but rightfully halted and are blocked/review-needed because the required geometry/scale basis is unresolved.
 - **Unresolved geometry/source conflicts**: We refused to falsify scale/bounds to finish geometry extraction, halting and outputting UNRESOLVED logic per pilot integrity rules.
 - **Schema extensions**: Added `triage.ts` integration and refined schemas/rights processing (`unknown` rights preserved).
-- **Provenance records**: `provenance.json` generated, linking `derived/senate_chamber_envelope.json` explicitly to `habs_tx3326_00013a` retaining a strictly deterministic generation date and a `pending` status.
+- **Provenance records**: `provenance.json` generated. Provenance for derived geometry remains pending while that geometry is unresolved.
 
 ## Verification
 
