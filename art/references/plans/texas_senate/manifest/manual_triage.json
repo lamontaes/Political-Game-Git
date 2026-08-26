@@ -1,0 +1,22 @@
+{
+  "13": {
+    "classification": "high relevance",
+    "confidence": "visual-surrogate",
+    "notes": "Visual inspection of sheet confirms explicit Senate Chamber plan."
+  },
+  "15": {
+    "classification": "possible relevance",
+    "confidence": "visual-surrogate",
+    "notes": "Sections possibly intersecting Senate chamber."
+  },
+  "16": {
+    "classification": "possible relevance",
+    "confidence": "visual-surrogate",
+    "notes": "Sections possibly intersecting Senate chamber."
+  },
+  "17": {
+    "classification": "possible relevance",
+    "confidence": "visual-surrogate",
+    "notes": "Sections possibly intersecting Senate chamber."
+  }
+}

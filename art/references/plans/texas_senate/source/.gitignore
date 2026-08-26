@@ -1,0 +1,2 @@
+# Ignore massive transient archival files, preserving repo size constraints
+*_master.tif
