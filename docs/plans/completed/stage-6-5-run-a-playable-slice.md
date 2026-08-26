@@ -2,31 +2,32 @@
 
 ## Status
 
-Implementation and local verification complete — remote PR delivery pending.
+Completed — implemented, validated, pushed, and opened as unmerged PR #6 for
+independent repository review and human play review.
 
 ## Baseline and boundaries
 
-- Start from accepted `origin/main` at
+- Started from accepted `origin/main` at
   `a43b4bb3f2288324b76d4a8be252bd2a507a94b6`.
-- Preserve frozen Stage 6 simulation semantics and strict snapshot compatibility.
-- Keep Stage 7 institutions, law, legislation, and calendar systems gated.
-- Retain the diagnostic viewer as an explicit development surface while making
+- Preserved frozen Stage 6 simulation semantics and strict snapshot compatibility.
+- Kept Stage 7 institutions, law, legislation, and calendar systems gated.
+- Retained the diagnostic viewer as an explicit development surface while making
   the political-office scene the normal entry point.
-- Use only deterministic, repository-owned fixture imagery and typeset UI.
+- Used only deterministic, repository-owned fixture imagery and typeset UI.
 
 ## Architecture spine
 
-1. Add a pure presentation projection over the accepted simulation model. It
-   will expose only facts justified as personally known, institutionally
+1. Added a pure presentation projection over the accepted simulation model. It
+   exposes only facts justified as personally known, institutionally
    accessible, publicly discoverable, reported, inferred, or unknown.
-2. Keep Run A interaction state separate from `World`. Reducer actions,
-   learned-concept persistence, pin sizing, and deterministic view states must
+2. Kept Run A interaction state separate from `World`. Reducer actions,
+   learned-concept persistence, pin sizing, and deterministic view states do
    not change simulation time or history.
-3. Compose one office scene from explicit scene anchors, compatible character
-   poses, and occlusion metadata with a semantic placement validator.
-4. Build the permanent shell, contextual person action menu, quick dossier,
+3. Composed one office scene from explicit scene anchors, a compatible seated
+   pose, and occlusion metadata with a semantic placement validator.
+4. Built the permanent shell, contextual person action menu, quick dossier,
    and one civic-learning concept as reusable accessible React components.
-5. Prove the same deterministic fixture states through semantic tests,
+5. Proved the same deterministic fixture states through semantic tests,
    Playwright, and direct browser inspection.
 
 ## Deterministic fixture states
@@ -55,7 +56,7 @@ Implementation and local verification complete — remote PR delivery pending.
 - [x] Repository architecture, roadmap, acceptance, and decision records match
       the implemented Stage 6.5 authority without reopening Stage 6.
 - [x] Browser review passes the visual hard-rejection checklist.
-- [ ] A bounded branch is pushed and a new unmerged pull request is verified.
+- [x] A bounded branch is pushed and a new unmerged pull request is verified.
 
 ## Explicit non-goals
 
