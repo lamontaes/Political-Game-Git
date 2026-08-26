@@ -1,5 +1,10 @@
 {
-  "totalItems": 0,
-  "items": [],
+  "totalItems": 1,
+  "items": [
+    {
+      "filePath": "references/plans/texas_senate/normalized/habs_tx3326_00013a_normalized.jpg",
+      "hash": "5e1e138825237f325487da9496f707c4d2fe1166331c1a06ba56c7abf590340f"
+    }
+  ],
   "duplicates": []
 }

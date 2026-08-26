@@ -532,3 +532,43 @@ Represent objective evidence as stable append-oriented artifacts with an open ki
 World schema 14, generator `demo-world-v14`, snapshot 13, and vitality catalog v1 persist the new catalog and six history families through exact JSON and Node-only SQLite; incident v1, metric v2, causal v1, and materializer v4 remain unchanged. The permanent maximum-current contract is one continuous Stage 5 through Run E history including Stage 4 subjective state, Run A truth/observation/time, Run B causal economy, Run C policy, Run D incidents, capacity/recovery, one-person evidence discovery, deterministic mortality/death, preserved post-death identity/resources, and exact JSON/SQLite replay.
 
 Consequence: the conceptual Stage 6 implementation milestone is complete, pending external repository audit. Run E adds no medical/disease simulator, health score, population-wide mortality, investigation/search/chain-of-custody system, media/public-opinion ecology, estate/inheritance law, institution/office/law/authority model, territory-specific content, second scheduler, or player-facing Stage 6.5 UI.
+
+## D-047 — Player presentation is filtered, inspectorial, and separate from world state
+
+- Date: 2026-08-26
+- Status: ACCEPTED
+- Supersedes: the Stage 6.5 hold only for the bounded authorized Run A slice;
+  no Stage 6 decision is superseded
+
+Make the deterministic political-office scene the normal browser entry point
+and retain the omniscient diagnostic viewer only at `?view=developer`. The
+player scene is not a restyled diagnostic dashboard. It composes one bounded
+synthetic person, office event, relationship interaction, scene anchor, seated
+pose, live shell, contextual menu, dossier, and civic-learning example. The
+fixture role, clock, and geometry are presentation context and establish no
+Stage 7 institution, office authority, law, calendar, or legislation system.
+
+Place the epistemic selector and interaction reducer in a React-independent
+presentation layer. A dossier field must be justified as personally known,
+institutionally accessible, publicly discoverable, reported, inferred and
+uncertain, or unknown. These are qualitative access classes, never numeric
+meters. Canonical existence grants no player access: the Run A fixture's private
+belief remains absent while its public statement remains eligible. Person
+selection, Inspect, dossier reading/closing, navigation, pin sizing, civic help,
+and learning state never invoke a simulation transition, append history,
+consume RNG, or advance the canonical date/action sequence.
+
+Store only the allowlisted learned concept in a versioned Stage 6.5 browser
+record. Opening help does not learn it; an explicit button or Shift + left click
+does, with a keyboard-equivalent control. Keep manual pin size authoritative
+over later automatic importance sizing for the session. Browser state is not a
+world snapshot and does not relax strict unsupported-version rejection.
+
+Accept the four project-owner-supplied 2026-08-26 images as visual/composition
+authority only: warm semi-illustrated office, scene-first depth, correct desk
+occlusion, compact navy/gold bottom-left plaque, and narrow mixed-density right
+tray. Their rights remain unknown, their measurements are visual estimates,
+and their raster bytes are not repository assets. Dynamic UI remains authored
+React/CSS/text. Playwright is the one new focused development dependency and
+must prove the bounded player flows with useful failure evidence. Stage 6 stays
+frozen and Stage 7 stays gated.

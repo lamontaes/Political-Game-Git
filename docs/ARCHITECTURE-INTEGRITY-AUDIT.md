@@ -357,3 +357,31 @@ This audit applies D-031 through D-046 across Person identity and Stage 5 life/r
 ### Run E disposition
 
 Fourteen focused vitality/capacity tests and seven focused evidence tests cover exact catalogs, birthday and leap-day selection, materialization, due creation and bypass corruption, keyed survival/death, exact same-table follow-ons, resumable handler checkpoints, Run A ordering/date/terminal continuity, obsolete-item behavior, mutual death/event/result linkage, backfill-safe vitality, capacity supersession and eligibility, reserved-event rejection, objective artifacts, one-person discovery, and corrupted write/load rejection. The expanded permanent scenario proves continuous Stage 5→Run E composition plus exact JSON and SQLite changed-replacement persistence. The prior 222-test baseline remains green in the final 22-file/243-test suite alongside deterministic demo replay and the production simulation boundary. The conceptual Stage 6 implementation milestone is **COMPLETE**, pending external repository audit. Stage 6.5 and Stage 7 were not started.
+
+## Stage 6.5 Run A Boundary Audit — 2026-08-26
+
+This audit applies D-047 retroactively across the accepted Stage 6 simulation,
+information boundary, browser entry point, diagnostic viewer, persistence,
+determinism, environment/art contracts, and Stage 7 scope gate.
+
+| Concern                           | Disposition                   | Evidence and rationale                                                                                                                                                                                                                                |
+| --------------------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stage 6 semantic freeze           | Confirmed unchanged           | No file under `src/simulation/` is modified. Run A composes the accepted public API in a separate deterministic fixture and never changes world/snapshot versions or strict compatibility.                                                            |
+| Player versus canonical truth     | Confirmed filtered            | A React-independent selector exposes only qualitative justified access. One canonical private-belief rationale is deliberately absent from the projection and DOM while public speech and direct shared history remain eligible.                      |
+| Inspectorial state versus time    | Confirmed separated           | The reducer owns overlay, navigation, pins, and learning only. Focused and browser tests preserve date `2026-01-05` and action sequence zero across every ordinary Run A action.                                                                      |
+| Diagnostic tooling                | Confirmed retained            | The player office is the default entry point; the accepted omniscient viewer remains explicitly development-only at `?view=developer`. Diagnostic access cannot leak into the player dossier.                                                         |
+| Learning persistence              | Confirmed bounded             | One allowlisted concept uses a versioned browser record. Opening help does not learn it; explicit button or Shift-click does. It does not enter `World`, JSON, or SQLite.                                                                             |
+| Pin authority and shell density   | Confirmed bounded             | Tiny/normal/expanded display is explicit. Most pins rest tiny, the current item may rest normal, and a manual size overrides later automatic sizing without creating a heavy toolbar.                                                                 |
+| Scene anchor, pose, and collision | Confirmed semantic and visual | The accepted seated pose requires chair containment, a floor-plane anchor, bounded scale, no desk-footprint intersection, and lower-body desk occlusion. Browser review confirms the desk hides the lower body without a visible furniture collision. |
+| Visual references and rights      | Confirmed conservative        | Four user-supplied references govern composition only. Rights remain unknown, measurements remain visual estimates, raster bytes are not committed, and all dynamic UI is React/CSS/text.                                                             |
+| Deterministic proof and CI        | Confirmed independent         | Thirteen focused semantic tests cover projection/state/layout/persistence. Eight Playwright tests cover the executable browser flow with trace/screenshot evidence; one deterministic GitHub workflow runs normal validation and Chromium proof.      |
+| Stage 7 boundary                  | Confirmed deferred            | Run A adds no institution/law/authority model, legislation workspace, calendar, dialogue system, elections, government data, or national scaling. Presentation-only role and office fixture do not become canonical rules.                            |
+
+### Run A disposition
+
+Run A establishes the scene-first player surface, restrained permanent shell,
+immediate person menu, replacement dossier, filtered knowledge, one persistent
+civic concept, deterministic named states, accessibility path, and independent
+browser proof. It does not reopen the accepted Stage 6 simulation. Stage 7 and
+later Stage 6.5 systems remain gated. Final acceptance still requires the
+unmerged pull request's independent repository review and human play review.

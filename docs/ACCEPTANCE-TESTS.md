@@ -3,12 +3,15 @@
 ## Status Vocabulary
 
 - **AUTOMATED NOW** — executable in the current repository and required to pass.
-- **MANUAL NOW** — current viewer smoke check; useful but not a substitute for automated tests.
+- **MANUAL NOW** — current player and developer viewer smoke checks; useful but not a substitute for automated tests.
 - **PLANNED LATER** — product acceptance contract for future systems. It is not implemented and must not be reported as passing in this build.
 
 ## Automated Now
 
-The current suite is under `src/simulation/*.test.ts` and `src/persistence/*.test.ts` and runs in Vitest's Node environment.
+The current semantic suite is under `src/simulation/*.test.ts`,
+`src/persistence/*.test.ts`, and `src/presentation/*.test.ts` and runs in
+Vitest's Node environment. Run A browser proof is under `tests/e2e/` and runs
+with Playwright Chromium.
 
 ### NOW-001 — Initial-world determinism
 
@@ -678,8 +681,85 @@ An event/incident-linked artifact persists its open kind, created/recorded chron
 
 World schema 14, generator `demo-world-v14`, snapshot 13, vitality catalog v1, and all Run E families round-trip exactly through JSON and Node-only SQLite save/load/list/replace. The permanent scenario is one continuous Stage 5→Run E history: life/resources/relationships and Stage 4 subjectivity; Run A truth, observation, and due work; Run B causal economy; Run C policy; Run D incident/follow-on; capacity and recovery; objective evidence discovered by one person; deterministic mortality and death; continued relationship/resource/history identity after death; and no automatic estate transfer. Deterministic demo replay and the production simulation dependency boundary remain intact. Stage 6.5 UI and Stage 7 institutions/law are absent.
 
+### NOW-168 — Run A defaults to a genuine player-facing office scene
+
+The normal browser entry point loads the deterministic political-office scene,
+not only the diagnostic dashboard. The warm environmental composition remains
+primary while the live bottom-left civic plaque, mixed-density right pins, and
+contextual surfaces remain restrained. The diagnostic viewer remains reachable
+at `?view=developer`.
+
+### NOW-169 — The dossier is an independently tested epistemic projection
+
+The Run A selector returns qualitative personally-known, institutionally
+accessible, publicly discoverable, reported, inferred/uncertain, and unknown
+fields. It shows name, role, known age/hometown, relationship/read, three known
+facts, recent interaction, and unresolved context without numeric meters. The
+fixture contains a canonical private-belief rationale that is absent from both
+the projection and browser DOM.
+
+### NOW-170 — Person interaction is immediate and mutually exclusive
+
+Activating the in-scene person opens the anchored contextual action menu with
+Inspect directly available. Inspect replaces the menu with the quick dossier;
+the action menu is not left underneath or alongside it. Close and Escape return
+to the scene.
+
+### NOW-171 — Permanent shell behavior is bounded and dark
+
+The bottom-left time/date/location plaque is clickable, has no disclosure
+arrow, and opens navigation upward. There is at most one submenu cascade and
+its computed background is not white. The right tray rests mostly small, the
+current briefing may be normal, a deterministic fixture can be expanded, and a
+manual pin size survives other inspectorial actions and later automatic sizing.
+
+### NOW-172 — Civic learning requires an explicit learned action
+
+Opening the committee-referral explanation changes no learned state. The
+explicit Mark as learned button and Shift + left click add the allowlisted
+concept to versioned browser storage without changing simulation time. The
+resting marker then disappears, persistence survives reload, and the learned
+reference remains accessible from navigation. Malformed or unknown persisted
+concepts are ignored.
+
+### NOW-173 — Run A inspection cannot advance simulation time
+
+The presentation reducer preserves its simulation-date and action-sequence
+snapshots across person selection, Inspect, dossier close, navigation, submenu,
+pin sizing, civic help, and learned-state actions. Browser tests confirm the
+rendered date remains `2026-01-05` and action sequence remains zero through the
+same flows. No Stage 6 transition is changed or invoked.
+
+### NOW-174 — Scene placement and core input paths are valid
+
+The seated-person layout accepts only a compatible desk pose, bounded scale,
+floor-plane anchor, chair-contained physical footprint, nonintersecting desk
+footprint, and lower-body desk occlusion. Invalid floating, scale, and desk
+intersection cases reject semantically. The person, action menu, Inspect,
+dossier close, civic learning, pin, navigation, and submenu use semantic
+controls with visible focus and keyboard activation.
+
+### NOW-175 — Deterministic fixtures and browser failure evidence exist
+
+Named URL fixtures reproduce normal, person-menu, dossier, civic-learning,
+mixed-pins, navigation, and submenu states. Playwright verifies the default
+surface, shell, epistemic filtering, time invariant, learning persistence,
+keyboard path, and manual pin sizing. Failed tests retain traces and screenshots
+plus console/error output, and CI uploads available failure evidence.
+
 ## Manual Now
 
+- The default browser result is a warm, restrained, semi-illustrated office
+  fixture rather than a top-bar dashboard.
+- The person is visibly seated behind the desk with the desk occluding only the
+  lower body; there is no chair/desk intersection, floating, or scale break.
+- The bottom-left plaque and right tray follow the four user-supplied Run A
+  visual references without baking dynamic text or UI into raster imagery.
+- Person menu, dossier, civic popover, navigation, dark submenu, mixed pins, and
+  learned/reference states remain readable while the scene stays substantially
+  visible.
+- The player surface has no white submenu cards, generated microtext, permanent
+  numeric relationship/support display, or Stage 7 workspace.
 - Creating or reloading the demo shows the active seed, stable world ID, simulated date, Lexington-Fayette placeholder, and six generated people.
 - Advancing time changes the date, records events, and updates the status message.
 - Selecting a person does not change world state.

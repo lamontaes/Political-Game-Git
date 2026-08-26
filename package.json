@@ -12,6 +12,8 @@
     "preview": "vite preview",
     "demo": "node --import tsx src/cli/demo.ts",
     "test": "vitest run",
+    "test:run-a": "vitest run src/presentation/run-a.test.ts",
+    "test:e2e": "playwright test",
     "test:watch": "vitest",
     "lint": "eslint .",
     "typecheck": "tsc -b",
@@ -30,6 +32,7 @@
   "devDependencies": {
     "@eslint/js": "9.39.4",
     "@openai/sites-vite-plugin": "0.2.0",
+    "@playwright/test": "1.62.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",

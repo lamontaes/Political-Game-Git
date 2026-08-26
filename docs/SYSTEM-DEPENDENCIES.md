@@ -67,6 +67,7 @@ typed transitions + historical/resource/housing/relationship queries
 
 validated projections and transitions
   -> headless demo / React diagnostic viewer
+  -> player epistemic projection -> React office scene and shell
 
 validated World
   -> versioned JSON snapshot
@@ -600,13 +601,43 @@ Decision evaluation remains distinct from application and canonical history. Aut
 
 - **Owns:** only ephemeral UI selection, pending seed input, and status text. It does not own simulation truth.
 - **Stable IDs exposed:** displays and uses world/person/event/catalog/history IDs as React keys and references.
-- **Referenced by:** developers inspecting the current foundation.
+- **Referenced by:** developers inspecting the current foundation through
+  `?view=developer`.
 - **Queries/APIs:** public simulation creation, advancement, materialization, and read-only query APIs.
 - **Serialization/persistence:** browser viewer state is intentionally in-memory and stateless; it does not use SQLite, browser storage, or Sites D1.
-- **Temporary scaffolding:** diagnostic omniscience, foundation styling, synthetic content, and no player-facing information-access rules.
-- **Future consumers:** replaced or reorganized by Stage 6.5's real game shell while retaining reusable typed projections and accessibility invariants.
+- **Temporary scaffolding:** diagnostic omniscience, foundation styling, and
+  synthetic content. It is no longer the normal player entry point.
+- **Future consumers:** retained as bounded development tooling while the player
+  shell grows through separately filtered projections.
 
 The viewer may display diagnostic truth only when clearly understood as developer tooling. It must not normalize raw ideology, personality, relationship, persuasion, political-capital, or true-support numbers into player-facing meters.
+
+## Stage 6.5 Run A Player Presentation
+
+- **Owns:** qualitative epistemic projection, inspectorial overlay/navigation
+  state, manual/automatic pin display size, deterministic named fixtures,
+  browser-only learned-concept state, and scene-anchor validation.
+- **Stable IDs exposed:** Person IDs remain internal React/state identity. The
+  player sees names and justified contextual facts, not opaque identifiers.
+- **Referenced by:** the default React political-office scene, focused Vitest
+  semantics, and Playwright browser proof.
+- **Queries/APIs:** `createRunAFixture`, `projectRunADossier`,
+  `createRunAUiState`, `runAUiReducer`, learned-state serialization, and layout
+  validation.
+- **Serialization/persistence:** only allowlisted learned concept IDs use a
+  versioned browser-storage record. World JSON, SQLite, and strict snapshot
+  version rejection are unchanged. Pin sizing is session-only.
+- **Temporary scaffolding:** one synthetic office, one synthetic scene-role
+  assignment, one person, one civic concept, and CSS-authored fixture art.
+- **Future consumers:** later player scenes, dossiers, civic reference, and
+  reusable shell surfaces; not Stage 7 law or institution truth.
+
+The projection reads canonical state but never implies access from existence
+alone. Personally known, institutionally accessible, publicly discoverable,
+reported, inferred/uncertain, and unknown are qualitative access classes, not
+meters. Inspectorial state cannot advance time, append history, consume RNG, or
+mutate the simulation. See
+[Player Presentation and Epistemic Projection](systems/player-presentation.md).
 
 ---
 

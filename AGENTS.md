@@ -16,9 +16,11 @@ A lower-authority document or implementation cannot silently override a higher-a
 
 ## Commands
 
-- `npm run dev` — React development viewer
+- `npm run dev` — player-facing React viewer (`?view=developer` retains diagnostics)
 - `npm run demo` — headless deterministic demo
 - `npm run test` — automated tests
+- `npm run test:run-a` — focused Stage 6.5 semantic tests
+- `npm run test:e2e` — Playwright browser proof
 - `npm run lint` — lint
 - `npm run typecheck` — TypeScript validation
 - `npm run build` — production build
@@ -38,7 +40,7 @@ A lower-authority document or implementation cannot silently override a higher-a
 ## Art & Assets Constraints
 
 - **Stage 6 Baseline is Frozen**: The accepted Stage 6 baseline (commit d792e79a) is frozen. Do not reopen, refactor, or redesign Stage 6 simulation semantics.
-- **Stage 6.5 Visual Shell is On Hold**: Do not casually regenerate, redesign, or replace the approved visual shell UI pending completion of the visual/reference gate.
+- **Stage 6.5 Run A is Authorized**: The bounded playable office slice and reusable shell are current work. Do not extend it into later Stage 6.5 runs or redesign the approved visual direction without a new gate.
 - **No Stage 7 Feature Creep**: Do not implement any Stage 7 systems or feature creep (e.g., legislation UI, calendar systems).
 - **Scene Art Hierarchy Principle**: Implement environments via a scene-first hierarchy: shared global assets → reusable environment families → jurisdiction/building deltas → explicitly justified hero environments.
 - **Scene-First Design**: Adhere strictly to the scene-first / dossier-second / database-third presentation principle.
@@ -46,4 +48,4 @@ A lower-authority document or implementation cannot silently override a higher-a
 - **No Fabricated Measurement Precision**: Never fabricate precise physical dimensions. Measurements must strictly distinguish confidence classes (e.g. `exact`, `plan-derived`, `specified`, `bounded-estimate`, `visual-estimate`). Missing measurements must remain missing, not guessed or zeroed out.
 - **Deterministic and Testable Tooling**: Prefer deterministic, inspectable, and testable tooling over opaque manual state. Generate deterministic fixture and replay outputs. Ensure art schemas are continually checked.
 - **Art-Pipeline Run Commands**: Art validation, inventory generation, and QA contact sheet generation commands have been explicitly added. Always run: `npm run validate:art`, `npm run inventory:art`, and `npm run qa:art`.
-- **Art-Pipeline Stop Conditions & Forbidden Changes**: Under no circumstances should the art pipeline generation exceed its constraints. Stop work immediately when constraints are met. You are forbidden from modifying accepted Stage 6 simulation semantics, implementing Stage 6.5 shell UI, implementing Stage 7 systems, or generating non-fixture final output images during foundation work.
+- **Art-Pipeline Stop Conditions & Forbidden Changes**: Foundation-only art runs must stop when their constraints are met. Their historical Stage 6.5 ban does not override the authorized Run A slice. You remain forbidden from modifying accepted Stage 6 simulation semantics, implementing Stage 7 systems, or generating non-fixture final output images without separate authorization.
