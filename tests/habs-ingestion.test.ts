@@ -6,6 +6,7 @@ import { deriveGeometry } from "../scripts/art-asset-factory/derive-geometry";
 import { checkResiduals } from "../scripts/art-asset-factory/residual-checks";
 import { integrateProvenance } from "../scripts/art-asset-factory/integrate-provenance";
 import { acquireMaster } from "../scripts/art-asset-factory/acquire-master";
+import crypto from "crypto";
 
 vi.mock("fs", () => {
   return {
@@ -267,7 +268,7 @@ describe("HABS Ingestion Pilot Tests", () => {
   });
 
   // 6. SHA-256 Hashing, 8. Immutable Source Behavior
-  it("should acquire master transiently and assign sha256 hash without mutating relevance", async () => {
+  it("should acquire master transiently and assign exact sha256 hash without mutating relevance", async () => {
     const mockManifest = [
       {
         sheet_number: 13,
@@ -276,25 +277,50 @@ describe("HABS Ingestion Pilot Tests", () => {
         file_variants: { master: { url: "http://test.tif" } },
       },
     ];
+
+    // Use an actual ArrayBuffer-compatible string to verify exact equality without Buffer memory leaks
+    const fixtureString = "deterministic fixture bytes for testing";
+    const fixtureData = Buffer.from(fixtureString);
+    const expectedHash = crypto
+      .createHash("sha256")
+      .update(fixtureData)
+      .digest("hex");
+
     (fs.readFileSync as unknown).mockImplementation((filePath: unknown) => {
       const p = filePath as string;
       if (p.includes("intake.json")) return JSON.stringify(mockManifest);
-      return Buffer.from("mock image data");
+      return fixtureData; // Mock reading the newly downloaded file for crypto hashing
     });
 
     (fs.existsSync as unknown).mockReturnValue(false); // mock file doesn't exist
 
     (global.fetch as unknown).mockResolvedValue({
       ok: true,
-      arrayBuffer: async () => Buffer.from("mock image data").buffer,
+      arrayBuffer: async () => {
+        // Construct standard array buffer to match exact node behavior in fetch polyfills
+        const arrayBuffer = new ArrayBuffer(fixtureData.length);
+        const view = new Uint8Array(arrayBuffer);
+        for (let i = 0; i < fixtureData.length; i++) {
+          view[i] = fixtureData[i];
+        }
+        return arrayBuffer;
+      },
     });
 
     await acquireMaster("intake.json", 13, "/fake/out");
 
-    const writeCall = (fs.writeFileSync as unknown).mock.calls[1]; // first is the image buffer, second is manifest update
-    const updatedManifest = JSON.parse(writeCall[1]);
+    // First write is the image buffer download
+    const downloadWriteCall = (fs.writeFileSync as unknown).mock.calls[0];
+    const writtenBuffer = downloadWriteCall[1];
+    expect(writtenBuffer.toString()).toEqual(fixtureString); // assert bytes were written correctly
 
-    expect(updatedManifest[0].file_variants.master.hash).toBeDefined();
+    // Second write is the manifest
+    const manifestWriteCall = (fs.writeFileSync as unknown).mock.calls[1];
+    const updatedManifest = JSON.parse(manifestWriteCall[1]);
+
+    // Value-level assertion of hash correctness
+    expect(updatedManifest[0].file_variants.master.hash).toBe(expectedHash);
+
     // Test that we DID NOT change relevance status (Fix for Blocker #2)
     expect(updatedManifest[0].relevance_classification).toBe("unresolved");
   });

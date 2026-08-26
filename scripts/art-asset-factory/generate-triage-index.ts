@@ -28,7 +28,16 @@ export function generateIndex(manifestPath: string, outputHtml: string) {
   `;
 
   for (const entry of manifest) {
-    const thumbPath = `thumbnails/${entry.stable_id}_thumb.jpg`;
+    // Use the remote thumbnail URL instead of a local missing path to fix Blocker #1
+    let thumbUrl = "";
+    if (
+      entry.file_variants &&
+      entry.file_variants.thumbnail &&
+      entry.file_variants.thumbnail.url
+    ) {
+      thumbUrl = entry.file_variants.thumbnail.url;
+    }
+
     let cssClass = "irrelevant";
     if (entry.relevance_classification === "high relevance")
       cssClass = "high-relevance";
@@ -40,7 +49,7 @@ export function generateIndex(manifestPath: string, outputHtml: string) {
     html += `
       <div class="card">
         <a href="${entry.canonical_url}" target="_blank">
-          <img src="${thumbPath}" alt="Thumbnail" />
+          <img src="${thumbUrl}" alt="Thumbnail" />
         </a>
         <div class="class ${cssClass.replace(" ", "-")}">${entry.relevance_classification}</div>
         <div class="title">Sheet ${entry.sheet_number}</div>

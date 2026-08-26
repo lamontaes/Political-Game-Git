@@ -448,8 +448,7 @@
         "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tx/tx0300/tx0398/sheet/00013a.tif",
         "mimetype": "image/tiff",
         "size": 1285164,
-        "hash": "d71f6f8406231c87ebe4482b1dac395b400b65cd4e89009a0df2f61487e16921",
-        "local_path": "art/references/plans/texas_senate/source/habs_tx3326_00013a_master.tif"
+        "hash": "d71f6f8406231c87ebe4482b1dac395b400b65cd4e89009a0df2f61487e16921"
       },
       "reference": {
         "url": "https://tile.loc.gov/storage-services/service/pnp/habshaer/tx/tx0300/tx0398/sheet/00013v.jpg",
