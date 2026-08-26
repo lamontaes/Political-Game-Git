@@ -31,9 +31,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "context only",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Exterior elevations and context"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00002a",
@@ -67,9 +67,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "context only",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Exterior elevations and context"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00003a",
@@ -103,9 +103,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "context only",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Exterior elevations and context"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00004a",
@@ -139,9 +139,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "context only",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Exterior elevations and context"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00005a",
@@ -175,9 +175,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "context only",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Exterior elevations and context"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00006a",
@@ -211,9 +211,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "context only",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Exterior elevations and context"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00007a",
@@ -247,9 +247,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "context only",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Exterior elevations and context"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00008a",
@@ -283,9 +283,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "context only",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Exterior elevations and context"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00009a",
@@ -319,9 +319,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "context only",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Exterior elevations and context"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00010a",
@@ -355,9 +355,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "context only",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Exterior elevations and context"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00011a",
@@ -391,9 +391,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Basement and First Floor plans - irrelevant"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00012a",
@@ -427,9 +427,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Basement and First Floor plans - irrelevant"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00013a",
@@ -462,29 +462,12 @@
         "mimetype": "image/jpeg",
         "width": 426,
         "height": 640
-      },
-      "normalized": {
-        "local_path": "art/references/plans/texas_senate/normalized/habs_tx3326_00013a_normalized.jpg",
-        "width": 1332,
-        "height": 2000,
-        "transformation": {
-          "scale_max_dim": 2000,
-          "format": "image/jpeg",
-          "tool": "utif + pureimage"
-        }
       }
     },
     "local_status": "transient_master_acquired",
     "relevance_classification": "high relevance",
-    "classification_confidence": "manual-override",
-    "notes": "Manually acquired for proof geometry",
-    "scale_establishment": {
-      "printed_scale_legible": false,
-      "written_dimension_evidence": [],
-      "units": "unknown",
-      "confidence": "unresolved",
-      "unresolved_ambiguity": "Scale could not be reliably extracted from image pixels. Raster pixel lengths alone must not become precise architectural dimensions."
-    }
+    "classification_confidence": "visual-surrogate",
+    "notes": "Visual inspection of sheet confirms explicit Senate Chamber plan."
   },
   {
     "stable_id": "habs_tx3326_00014a",
@@ -520,7 +503,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00015a",
@@ -556,7 +539,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "possible relevance",
     "classification_confidence": "visual-surrogate",
-    "notes": "Sections possibly intersecting Senate chamber"
+    "notes": "Sections possibly intersecting Senate chamber."
   },
   {
     "stable_id": "habs_tx3326_00016a",
@@ -592,7 +575,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "possible relevance",
     "classification_confidence": "visual-surrogate",
-    "notes": "Sections possibly intersecting Senate chamber"
+    "notes": "Sections possibly intersecting Senate chamber."
   },
   {
     "stable_id": "habs_tx3326_00017a",
@@ -628,7 +611,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "possible relevance",
     "classification_confidence": "visual-surrogate",
-    "notes": "Sections possibly intersecting Senate chamber"
+    "notes": "Sections possibly intersecting Senate chamber."
   },
   {
     "stable_id": "habs_tx3326_00018a",
@@ -664,7 +647,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00019a",
@@ -700,7 +683,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00020a",
@@ -736,7 +719,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00021a",
@@ -772,7 +755,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00022a",
@@ -808,7 +791,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00023a",
@@ -844,7 +827,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00024a",
@@ -880,7 +863,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00025a",
@@ -916,7 +899,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00026a",
@@ -952,7 +935,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00027a",
@@ -988,7 +971,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00028a",
@@ -1024,7 +1007,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00029a",
@@ -1060,7 +1043,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00030a",
@@ -1096,7 +1079,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00031a",
@@ -1132,7 +1115,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00032a",
@@ -1168,7 +1151,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00033a",
@@ -1204,7 +1187,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00034a",
@@ -1240,7 +1223,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00035a",
@@ -1276,7 +1259,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00036a",
@@ -1312,7 +1295,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00037a",
@@ -1348,7 +1331,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00038a",
@@ -1384,7 +1367,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00039a",
@@ -1420,7 +1403,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00040a",
@@ -1456,7 +1439,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00041a",
@@ -1492,7 +1475,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00042a",
@@ -1528,7 +1511,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00043a",
@@ -1564,7 +1547,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00044a",
@@ -1600,7 +1583,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00045a",
@@ -1636,7 +1619,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00046a",
@@ -1672,7 +1655,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00047a",
@@ -1708,7 +1691,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00048a",
@@ -1744,7 +1727,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00049a",
@@ -1780,7 +1763,7 @@
     "local_status": "metadata_only",
     "relevance_classification": "unresolved",
     "classification_confidence": "unresolved",
-    "notes": "Requires closer manual inspection"
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00050a",
@@ -1814,9 +1797,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00051a",
@@ -1850,9 +1833,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00052a",
@@ -1886,9 +1869,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00053a",
@@ -1922,9 +1905,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00054a",
@@ -1958,9 +1941,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00055a",
@@ -1994,9 +1977,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00056a",
@@ -2030,9 +2013,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00057a",
@@ -2066,9 +2049,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00058a",
@@ -2102,9 +2085,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00059a",
@@ -2138,9 +2121,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00060a",
@@ -2174,9 +2157,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00061a",
@@ -2210,9 +2193,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00062a",
@@ -2246,9 +2229,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00063a",
@@ -2282,9 +2265,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00064a",
@@ -2318,9 +2301,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00065a",
@@ -2354,9 +2337,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00066a",
@@ -2390,9 +2373,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00067a",
@@ -2426,9 +2409,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00068a",
@@ -2462,9 +2445,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00069a",
@@ -2498,9 +2481,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00070a",
@@ -2534,9 +2517,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00071a",
@@ -2570,9 +2553,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00072a",
@@ -2606,9 +2589,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00073a",
@@ -2642,9 +2625,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00074a",
@@ -2678,9 +2661,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00075a",
@@ -2714,9 +2697,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00076a",
@@ -2750,9 +2733,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00077a",
@@ -2786,9 +2769,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00078a",
@@ -2822,9 +2805,9 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   },
   {
     "stable_id": "habs_tx3326_00079a",
@@ -2858,8 +2841,8 @@
       }
     },
     "local_status": "metadata_only",
-    "relevance_classification": "irrelevant to current pilot",
-    "classification_confidence": "visual-surrogate",
-    "notes": "Details for other rooms"
+    "relevance_classification": "unresolved",
+    "classification_confidence": "unresolved",
+    "notes": "Requires manual visual inspection"
   }
 ]

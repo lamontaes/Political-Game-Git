@@ -3,8 +3,9 @@ import { runIntake } from "../scripts/art-asset-factory/habs-intake";
 import { runTriage } from "../scripts/art-asset-factory/triage";
 import { establishScale } from "../scripts/art-asset-factory/establish-scale";
 import { deriveGeometry } from "../scripts/art-asset-factory/derive-geometry";
-import { runResidualChecks } from "../scripts/art-asset-factory/residual-checks";
+import { checkResiduals } from "../scripts/art-asset-factory/residual-checks";
 import { integrateProvenance } from "../scripts/art-asset-factory/integrate-provenance";
+import { acquireMaster } from "../scripts/art-asset-factory/acquire-master";
 
 vi.mock("fs", () => {
   return {
@@ -129,37 +130,50 @@ describe("HABS Ingestion Pilot Tests", () => {
       json: async () => mockLocData,
     });
 
-    expect(true).toBe(true);
+    // First run to get output
+    (fs.existsSync as unknown).mockReturnValue(false);
+    await runIntake({
+      locItemId: "tx0398",
+      outputDir: "/fake/dir",
+      retrievalDate: "2025-01-01",
+    });
+    const firstWriteCall = (fs.writeFileSync as unknown).mock.calls[0];
+    const firstJsonStr = firstWriteCall[1];
+
+    // Reset and mock existing file
+    vi.clearAllMocks();
+    (fs.existsSync as unknown).mockReturnValue(true);
+    (fs.readFileSync as unknown).mockReturnValue(firstJsonStr);
+
+    // Second run
+    await runIntake({
+      locItemId: "tx0398",
+      outputDir: "/fake/dir",
+      retrievalDate: "2025-01-01",
+    });
+
+    // Should not write again because data is unchanged
+    expect(fs.writeFileSync).not.toHaveBeenCalled();
   });
 
-  // 4. All five classification states
-  it("should triage sheets and correctly identify all 5 states", () => {
+  // 4. Classification state based on textual metadata (because no mock review object passed)
+  it("should triage sheets based on text if manual review not provided", () => {
     const mockManifest = [
       {
-        sheet_number: 13,
-        title: "Generic",
-        relevance_classification: "unresolved",
-      }, // High
-      {
-        sheet_number: 15,
-        title: "Generic",
-        relevance_classification: "unresolved",
-      }, // Possible
-      {
         sheet_number: 1,
-        title: "Generic",
+        title: "Section of Senate Chamber",
         relevance_classification: "unresolved",
-      }, // Context
+      },
       {
-        sheet_number: 11,
-        title: "Generic",
+        sheet_number: 2,
+        title: "Second Floor Plan",
         relevance_classification: "unresolved",
-      }, // Irrelevant
+      },
       {
-        sheet_number: 99,
+        sheet_number: 3,
         title: "Generic",
         relevance_classification: "unresolved",
-      }, // Unresolved
+      },
     ];
 
     (fs.readFileSync as unknown).mockReturnValue(JSON.stringify(mockManifest));
@@ -169,13 +183,9 @@ describe("HABS Ingestion Pilot Tests", () => {
     const writeCall = (fs.writeFileSync as unknown).mock.calls[0];
     const writtenData = JSON.parse(writeCall[1]);
 
-    expect(writtenData[0].relevance_classification).toBe("high relevance");
-    expect(writtenData[1].relevance_classification).toBe("possible relevance");
-    expect(writtenData[2].relevance_classification).toBe("context only");
-    expect(writtenData[3].relevance_classification).toBe(
-      "irrelevant to current pilot",
-    );
-    expect(writtenData[4].relevance_classification).toBe("unresolved");
+    expect(writtenData[0].relevance_classification).toBe("high relevance"); // "senate chamber"
+    expect(writtenData[1].relevance_classification).toBe("possible relevance"); // "second floor"
+    expect(writtenData[2].relevance_classification).toBe("unresolved");
   });
 
   // 10. Missing-vs-zero
@@ -187,57 +197,49 @@ describe("HABS Ingestion Pilot Tests", () => {
     ];
     (fs.readFileSync as unknown).mockReturnValue(JSON.stringify(mockManifest));
 
-    establishScale("/fake/manifest.json", 13);
+    establishScale("/fake/manifest.json", 13, "/fake/scale.json");
 
-    const writeCall = (fs.writeFileSync as unknown).mock.calls[0];
-    const updatedManifest = JSON.parse(writeCall[1]);
+    const scaleCall = (fs.writeFileSync as unknown).mock.calls[0];
+    const scaleData = JSON.parse(scaleCall[1]);
 
-    const scale = updatedManifest[0].scale_establishment;
-    expect(scale.confidence).toBe("unresolved");
-    expect(scale.units).toBe("unknown");
-    expect(scale.unresolved_ambiguity).toContain(
-      "must not become precise architectural dimensions",
-    );
+    expect(scaleData.scale_status).toBe("UNRESOLVED");
+    expect(scaleData.pixels_per_foot).toBe("UNRESOLVED");
 
     // Derive geometry
-    (fs.readFileSync as unknown).mockReturnValue(
-      JSON.stringify(updatedManifest),
-    );
-    deriveGeometry("/fake/derived", "/fake/manifest.json", 13);
+    deriveGeometry("/fake/manifest.json", 13, "/fake/geometry.json");
 
     const geomCall = (fs.writeFileSync as unknown).mock.calls[1];
     const geometry = JSON.parse(geomCall[1]);
 
     // 13. Derived geometry referencing valid source IDs
-    expect(geometry.DERIVED_FROM).toContain("habs_tx3326_00013a");
-
-    // missing is not zero
-    expect(geometry.elements.senate_chamber_envelope.width).toBeUndefined();
-    expect(geometry.measurement_confidence).toBe("unresolved");
+    expect(geometry.derived_from).toContain("habs_tx3326_00013a");
+    expect(geometry.geometry_status).toBe("UNRESOLVED");
+    expect(geometry.width_ft).toBe("UNRESOLVED");
   });
 
   // 14. Residual behavior/determinism, including unresolved/review-needed cases
   it("should output review-needed for residuals when bounds are missing/unresolved", () => {
-    const geometry = {
-      source_sheets: [13],
-      elements: {
-        senate_chamber_envelope: { width: undefined, length: undefined },
-      },
-    };
-    const manifest = [{ sheet_number: 13 }];
+    const mockGeom = { derived_from: ["id1"], geometry_status: "UNRESOLVED" };
+    const mockScale = { derived_from: ["id1"], scale_status: "UNRESOLVED" };
 
     (fs.readFileSync as unknown).mockImplementation((filePath: unknown) => {
       const p = filePath as string;
-      if (p.includes("geometry")) return JSON.stringify(geometry);
-      return JSON.stringify(manifest);
+      if (p.includes("geometry")) return JSON.stringify(mockGeom);
+      if (p.includes("scale")) return JSON.stringify(mockScale);
+      return "{}";
     });
 
-    runResidualChecks("/fake/geometry", "/fake/manifest.json", "/fake/out");
+    checkResiduals(
+      "/fake/geometry.json",
+      "/fake/scale.json",
+      "/fake/residuals.json",
+    );
+
     const writeCall = (fs.writeFileSync as unknown).mock.calls[0];
     const residuals = JSON.parse(writeCall[1]);
 
-    expect(residuals[0].status).toBe("review-needed");
-    expect(residuals[0].expected_value).toBeUndefined();
+    expect(residuals.check_status).toBe("review-needed");
+    expect(residuals.checks[0].status).toBe("BLOCKED");
   });
 
   // 7. Source -> normalized -> derived provenance
@@ -251,11 +253,10 @@ describe("HABS Ingestion Pilot Tests", () => {
         retrieval_date: "1",
       },
     ];
-    const geometry = {};
     (fs.readFileSync as unknown).mockImplementation((filePath: unknown) => {
       const p = filePath as string;
       if (p.includes("manifest")) return JSON.stringify(intake);
-      return JSON.stringify(geometry);
+      return "{}";
     });
 
     integrateProvenance("/fake/manifest", "/fake/out");
@@ -263,14 +264,38 @@ describe("HABS Ingestion Pilot Tests", () => {
     const prov = JSON.parse(writeCall[1]);
 
     expect(prov.entries[0].approval_status).toBe("pending");
-    expect(prov.entries[1].approval_status).toBeUndefined(); // derived shouldn't force 'approved'
   });
-});
 
-// 6. SHA-256 Hashing, 8. Immutable Source Behavior, 9. Deterministic normalization
-it("should implement safe transient master acquisition with stable hashing without overwriting the source", async () => {
-  // This is tested in reality via `acquireMaster` checking existence and `crypto.createHash`,
-  // and `normalizeDrawing` reading the buffer without writing to the input path.
-  // For unit coverage bounds:
-  expect(true).toBe(true);
+  // 6. SHA-256 Hashing, 8. Immutable Source Behavior
+  it("should acquire master transiently and assign sha256 hash without mutating relevance", async () => {
+    const mockManifest = [
+      {
+        sheet_number: 13,
+        stable_id: "id1",
+        relevance_classification: "unresolved",
+        file_variants: { master: { url: "http://test.tif" } },
+      },
+    ];
+    (fs.readFileSync as unknown).mockImplementation((filePath: unknown) => {
+      const p = filePath as string;
+      if (p.includes("intake.json")) return JSON.stringify(mockManifest);
+      return Buffer.from("mock image data");
+    });
+
+    (fs.existsSync as unknown).mockReturnValue(false); // mock file doesn't exist
+
+    (global.fetch as unknown).mockResolvedValue({
+      ok: true,
+      arrayBuffer: async () => Buffer.from("mock image data").buffer,
+    });
+
+    await acquireMaster("intake.json", 13, "/fake/out");
+
+    const writeCall = (fs.writeFileSync as unknown).mock.calls[1]; // first is the image buffer, second is manifest update
+    const updatedManifest = JSON.parse(writeCall[1]);
+
+    expect(updatedManifest[0].file_variants.master.hash).toBeDefined();
+    // Test that we DID NOT change relevance status (Fix for Blocker #2)
+    expect(updatedManifest[0].relevance_classification).toBe("unresolved");
+  });
 });

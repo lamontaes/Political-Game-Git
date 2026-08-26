@@ -1,48 +1,31 @@
 import fs from "fs";
-import path from "path";
 
 export function deriveGeometry(
-  outputDir: string,
   manifestPath: string,
   sheetNumber: number,
+  outputJson: string,
 ) {
   const manifestRaw = fs.readFileSync(manifestPath, "utf8");
-  const manifest = JSON.parse(manifestRaw);
-  const entry = manifest.find(
-    (e: unknown) =>
-      (e as { sheet_number: number }).sheet_number === sheetNumber,
-  );
+  const manifest: unknown[] = JSON.parse(manifestRaw);
+  const entry = manifest.find((e) => e.sheet_number === sheetNumber);
+  if (!entry) throw new Error(`Sheet ${sheetNumber} not found.`);
 
-  if (!entry) throw new Error("Sheet not found.");
-  if (!entry.scale_establishment)
-    throw new Error("Scale must be established before deriving geometry.");
+  // Because the drawing lacks clear bounding dimensions and the printed scale
+  // is hard to verify automatically, we intentionally leave the dimensions UNRESOLVED.
+  // We do not fabricate geometry or emit undefined values that get swallowed by JSON.
 
-  const geometry = {
-    DERIVED_FROM: [entry.stable_id],
-    source_sheets: [sheetNumber],
-    units: entry.scale_establishment.units,
-    scale_basis: entry.scale_establishment.confidence,
-    transformation_history: [
-      "Review needed: automatic bounding and line extraction skipped due to missing reliable scale.",
-    ],
-    measurement_confidence: "unresolved",
-    unresolved_unknowns: [
-      "Room envelope width unresolved due to missing scale.",
-      "Room envelope length unresolved due to missing scale.",
-    ],
-    version: "1.0",
-    elements: {
-      senate_chamber_envelope: {
-        type: "rect",
-        width: undefined, // undefined represents missing, not zero
-        length: undefined,
-        notes:
-          "Bounded geometry derivation requires manual review. Values intentionally left missing.",
-      },
-    },
+  const geometryProof = {
+    room: "Senate Chamber",
+    geometry_status: "UNRESOLVED",
+    width_ft: "UNRESOLVED",
+    length_ft: "UNRESOLVED",
+    derived_from: [entry.stable_id],
+    confidence: "unresolved",
+    notes:
+      "Geometry is strictly bounded to explicitly avoid fabricating dimensions without a firm printed/written scale and dimensional corroboration.",
+    version: "1.0.0",
   };
 
-  const destPath = path.join(outputDir, "senate_chamber_envelope.json");
-  fs.writeFileSync(destPath, JSON.stringify(geometry, null, 2));
-  console.log(`Derived geometry (unresolved state) saved to ${destPath}`);
+  fs.writeFileSync(outputJson, JSON.stringify(geometryProof, null, 2));
+  console.log(`Derived geometry (unresolved) saved to ${outputJson}`);
 }

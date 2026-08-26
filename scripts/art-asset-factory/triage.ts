@@ -1,4 +1,5 @@
 import fs from "fs";
+
 export interface IntakeEntry {
   stable_id: string;
   sheet_number: number;
@@ -15,9 +16,17 @@ export interface IntakeEntry {
   local_status: string;
 }
 
-export function runTriage(manifestPath: string) {
+export function runTriage(manifestPath: string, manualReviewPath?: string) {
   const manifestRaw = fs.readFileSync(manifestPath, "utf8");
   const manifest: IntakeEntry[] = JSON.parse(manifestRaw);
+
+  let manualReview: Record<
+    string,
+    { classification: string; confidence: string; notes: string }
+  > = {};
+  if (manualReviewPath && fs.existsSync(manualReviewPath)) {
+    manualReview = JSON.parse(fs.readFileSync(manualReviewPath, "utf8"));
+  }
 
   let highCount = 0;
   let possibleCount = 0;
@@ -26,34 +35,34 @@ export function runTriage(manifestPath: string) {
   let unresolvedCount = 0;
 
   for (const entry of manifest) {
-    // We are simulating a visual triage pass since titles were totally generic.
-    // In a real visual pass, a human or non-authoritative vision model looks at thumbnails.
-    // For this pilot, we establish a deterministic mock map of the Texas Capitol sheets to fulfill the counts.
+    const sheetStr = String(entry.sheet_number);
+    const review = manualReview[sheetStr];
 
-    if (entry.sheet_number === 13) {
-      entry.relevance_classification = "high relevance";
-      entry.classification_confidence = "visual-surrogate";
-      entry.notes = "Second Floor Plan explicitly shows Senate Chamber";
-    } else if (entry.sheet_number >= 15 && entry.sheet_number <= 17) {
-      entry.relevance_classification = "possible relevance";
-      entry.classification_confidence = "visual-surrogate";
-      entry.notes = "Sections possibly intersecting Senate chamber";
-    } else if (entry.sheet_number >= 1 && entry.sheet_number <= 10) {
-      entry.relevance_classification = "context only";
-      entry.classification_confidence = "visual-surrogate";
-      entry.notes = "Exterior elevations and context";
-    } else if (entry.sheet_number >= 11 && entry.sheet_number <= 12) {
-      entry.relevance_classification = "irrelevant to current pilot";
-      entry.classification_confidence = "visual-surrogate";
-      entry.notes = "Basement and First Floor plans - irrelevant";
-    } else if (entry.sheet_number >= 50 && entry.sheet_number <= 79) {
-      entry.relevance_classification = "irrelevant to current pilot";
-      entry.classification_confidence = "visual-surrogate";
-      entry.notes = "Details for other rooms";
+    if (review) {
+      entry.relevance_classification = review.classification as
+        | "high relevance"
+        | "possible relevance"
+        | "context only"
+        | "irrelevant to current pilot"
+        | "unresolved";
+      entry.classification_confidence = review.confidence;
+      entry.notes = review.notes;
     } else {
-      entry.relevance_classification = "unresolved";
-      entry.classification_confidence = "unresolved";
-      entry.notes = "Requires closer manual inspection";
+      // Look for textual evidence in the metadata if available
+      const searchString = `${entry.title} ${entry.notes || ""}`.toLowerCase();
+      if (searchString.includes("senate chamber")) {
+        entry.relevance_classification = "high relevance";
+        entry.classification_confidence = "metadata-keyword";
+        entry.notes = "Title contains 'Senate Chamber'";
+      } else if (searchString.includes("second floor")) {
+        entry.relevance_classification = "possible relevance";
+        entry.classification_confidence = "metadata-keyword";
+        entry.notes = "Title contains 'second floor'";
+      } else {
+        entry.relevance_classification = "unresolved";
+        entry.classification_confidence = "unresolved";
+        entry.notes = "Requires manual visual inspection";
+      }
     }
 
     if (entry.relevance_classification === "high relevance") highCount++;

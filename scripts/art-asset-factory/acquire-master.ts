@@ -24,11 +24,6 @@ export async function acquireMaster(
   const url = entry.file_variants.master.url;
   const destPath = path.join(outputDir, `${entry.stable_id}_master.tif`);
 
-  // We'll mark it as high relevance since we are actively choosing it
-  entry.relevance_classification = "high relevance";
-  entry.classification_confidence = "manual-override";
-  entry.notes = "Manually acquired for proof geometry";
-
   if (fs.existsSync(destPath)) {
     console.log(`Master ${destPath} already exists.`);
   } else {

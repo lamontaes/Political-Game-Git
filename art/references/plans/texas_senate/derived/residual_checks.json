@@ -1,0 +1,12 @@
+{
+  "derived_from": ["habs_tx3326_00013a"],
+  "check_status": "review-needed",
+  "checks": [
+    {
+      "type": "scale_vs_geometry",
+      "status": "BLOCKED",
+      "reason": "Geometry or Scale is explicitly marked UNRESOLVED."
+    }
+  ],
+  "notes": "Residual checks cannot run because scale and geometry are structurally UNRESOLVED."
+}

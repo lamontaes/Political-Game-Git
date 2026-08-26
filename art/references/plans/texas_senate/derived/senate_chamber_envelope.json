@@ -1,21 +1,10 @@
 {
-  "DERIVED_FROM": ["habs_tx3326_00013a"],
-  "source_sheets": [13],
-  "units": "unknown",
-  "scale_basis": "unresolved",
-  "transformation_history": [
-    "Review needed: automatic bounding and line extraction skipped due to missing reliable scale."
-  ],
-  "measurement_confidence": "unresolved",
-  "unresolved_unknowns": [
-    "Room envelope width unresolved due to missing scale.",
-    "Room envelope length unresolved due to missing scale."
-  ],
-  "version": "1.0",
-  "elements": {
-    "senate_chamber_envelope": {
-      "type": "rect",
-      "notes": "Bounded geometry derivation requires manual review. Values intentionally left missing."
-    }
-  }
+  "room": "Senate Chamber",
+  "geometry_status": "UNRESOLVED",
+  "width_ft": "UNRESOLVED",
+  "length_ft": "UNRESOLVED",
+  "derived_from": ["habs_tx3326_00013a"],
+  "confidence": "unresolved",
+  "notes": "Geometry is strictly bounded to explicitly avoid fabricating dimensions without a firm printed/written scale and dimensional corroboration.",
+  "version": "1.0.0"
 }
