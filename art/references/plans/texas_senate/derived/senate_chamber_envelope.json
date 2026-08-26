@@ -1,0 +1,10 @@
+{
+  "room": "Senate Chamber",
+  "geometry_status": "UNRESOLVED",
+  "width_ft": "UNRESOLVED",
+  "length_ft": "UNRESOLVED",
+  "derived_from": ["habs_tx3326_00013a"],
+  "confidence": "unresolved",
+  "notes": "Geometry is strictly bounded to explicitly avoid fabricating dimensions without a firm printed/written scale and dimensional corroboration.",
+  "version": "1.0.0"
+}

@@ -1,0 +1,8 @@
+{
+  "derived_from": ["habs_tx3326_00013a"],
+  "scale_status": "UNRESOLVED",
+  "printed_scale": "UNRESOLVED",
+  "pixels_per_foot": "UNRESOLVED",
+  "confidence": "unresolved",
+  "notes": "Cannot responsibly establish scale from purely raster pixels without a corroborated printed scale."
+}
