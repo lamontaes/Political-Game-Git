@@ -1,39 +1,50 @@
-import { getAllTrackedFiles, getUntrackedFiles, getFileSize } from "./utils";
+import { getAllTrackedFiles, getStagedFiles, getFileSize } from "./utils";
 import { SAFETY_CONFIG } from "./config";
 import path from "path";
 import fs from "fs";
 
-export function checkRepositoryState(): { valid: boolean; errors: string[] } {
-  // Validate entire tracked tree + untracked instead of just staged
+export function checkRepositoryState(): {
+  valid: boolean;
+  errors: string[];
+  warnings: string[];
+} {
+  // We ONLY validate tracked and explicitly staged files to prevent failing CI
+  // or local workspace checks due to unrelated user workspace files.
   const tracked = getAllTrackedFiles();
-  const untracked = getUntrackedFiles();
-  const allFiles = [...tracked, ...untracked].filter(
+  const staged = getStagedFiles();
+
+  // Deduplicate and filter existing files
+  const surfaceFiles = Array.from(new Set([...tracked, ...staged])).filter(
     (f) => fs.existsSync(f) && fs.statSync(f).isFile(),
   );
 
   const errors: string[] = [];
+  const warnings: string[] = [];
 
-  for (const file of allFiles) {
+  for (const file of surfaceFiles) {
     const size = getFileSize(file);
     const ext = path.extname(file).toLowerCase();
 
-    // Ignore 0-byte placeholders here as well just to be clean
+    // Ignore 0-byte placeholders
     if (size === 0) continue;
 
-    // Check if it's a generated output, if so, is it in an allowed path?
-    // A file is considered "generated output" in this check if it's unusually large and untracked.
-    // However, the prompt mentions strict source-master protection and size policy globally.
-    if (size > SAFETY_CONFIG.SHIPPING_ASSET_MAX_BYTES) {
+    // Check size policies
+    if (size > SAFETY_CONFIG.SHIPPING_ASSET_FATAL_BYTES) {
       errors.push(
-        `File ${file} exceeds shipping asset threshold of ${
-          SAFETY_CONFIG.SHIPPING_ASSET_MAX_BYTES / 1024 / 1024
+        `File ${file} exceeds shipping asset fatal threshold of ${
+          SAFETY_CONFIG.SHIPPING_ASSET_FATAL_BYTES / 1024 / 1024
+        }MB.`,
+      );
+    } else if (size > SAFETY_CONFIG.SHIPPING_ASSET_WARNING_BYTES) {
+      warnings.push(
+        `File ${file} exceeds shipping asset warning threshold of ${
+          SAFETY_CONFIG.SHIPPING_ASSET_WARNING_BYTES / 1024 / 1024
         }MB.`,
       );
     }
 
-    // Prohibited raw master formats
+    // Check raw master formats (HARD BLOCK unless in fixture path)
     if (SAFETY_CONFIG.PROHIBITED_ARCHIVAL_EXTENSIONS.includes(ext)) {
-      // Check if it's in an allowed fixture path
       const inAllowedPath = SAFETY_CONFIG.ALLOWED_FIXTURE_PATHS.some(
         (fixturePath) =>
           file.startsWith(fixturePath + "/") ||
@@ -46,14 +57,11 @@ export function checkRepositoryState(): { valid: boolean; errors: string[] } {
         );
       }
     }
-
-    // Explicit generated paths check:
-    // If a file is in a known output path, we can skip further generic untracked alerts for it,
-    // but the size limits still apply above.
   }
 
   return {
     valid: errors.length === 0,
     errors,
+    warnings,
   };
 }

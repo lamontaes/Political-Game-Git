@@ -23,6 +23,12 @@ switch (command) {
   }
   case "guard": {
     const guardResult = checkRepositoryState();
+
+    if (guardResult.warnings.length > 0) {
+      console.warn("Repository tree warnings:");
+      guardResult.warnings.forEach((w) => console.warn(` - ${w}`));
+    }
+
     if (!guardResult.valid) {
       console.error("Repository tree guard failed:");
       guardResult.errors.forEach((e) => console.error(` - ${e}`));
@@ -40,8 +46,15 @@ switch (command) {
   case "repro": {
     const reproResult = checkReproducibility();
     if (!reproResult.success) {
-      console.error("Reproducibility check failed. Unexpected changes:");
-      reproResult.unexpectedChanges.forEach((c) => console.error(` - ${c}`));
+      console.error(
+        "Reproducibility check failed. Unexpected changes or commands failed:",
+      );
+      reproResult.commandResults
+        .filter((c) => !c.success)
+        .forEach((c) => console.error(` - Command failed: ${c.command}`));
+      reproResult.unexpectedChanges.forEach((c) =>
+        console.error(` - Unexpected change: ${c}`),
+      );
       process.exit(1);
     } else {
       console.log(

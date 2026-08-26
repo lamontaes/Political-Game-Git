@@ -27,7 +27,7 @@ export function runInventory(): InventoryReport {
   for (const file of allFiles) {
     const size = getFileSize(file);
 
-    // Check Hygiene
+    // Check Hygiene (Note: this is just reporting, not a validation failure)
     for (const pattern of SAFETY_CONFIG.TEMP_FILE_PATTERNS) {
       if (pattern.test(path.basename(file)) || pattern.test(file)) {
         hygieneAnomalies.push(file);

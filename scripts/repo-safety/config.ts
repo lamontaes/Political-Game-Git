@@ -1,9 +1,12 @@
 export const SAFETY_CONFIG = {
-  // Configurable threshold for legitimate shipping/generated assets
-  SHIPPING_ASSET_MAX_BYTES: 50 * 1024 * 1024, // 50 MB
+  // Configurable threshold for legitimate shipping/generated assets.
+  // Files exceeding this are warnings, unless designated fatal.
+  SHIPPING_ASSET_WARNING_BYTES: 10 * 1024 * 1024, // 10 MB
+  SHIPPING_ASSET_FATAL_BYTES: 50 * 1024 * 1024, // 50 MB
 
   // Extensions considered raw master or production binaries that must NEVER be committed
   // except potentially in explicit narrow test fixture paths.
+  // `.blend` is removed from global blocks because it can be a legitimate production source.
   PROHIBITED_ARCHIVAL_EXTENSIONS: [
     ".tiff",
     ".tif",
@@ -12,7 +15,6 @@ export const SAFETY_CONFIG = {
     ".dng",
     ".cr2",
     ".nef",
-    ".blend",
   ],
 
   // Specific paths where raw masters are exceptionally permitted as fixtures for testing

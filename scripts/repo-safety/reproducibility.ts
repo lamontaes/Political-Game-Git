@@ -3,9 +3,15 @@ import { getUnstagedFiles, getUntrackedFiles, execGit } from "./utils";
 import { SAFETY_CONFIG } from "./config";
 import path from "path";
 
+export interface CommandResult {
+  command: string;
+  success: boolean;
+  error?: string;
+}
+
 export interface ReproducibilityResult {
   success: boolean;
-  commandsExecuted: string[];
+  commandResults: CommandResult[];
   unexpectedChanges: string[];
   diffBasis: string;
 }
@@ -24,16 +30,24 @@ export function checkReproducibility(): ReproducibilityResult {
     "npm run qa:art",
   ];
 
+  const commandResults: CommandResult[] = [];
+  let overallSuccess = true;
+
   for (const cmd of commands) {
     try {
       execSync(cmd, { stdio: "ignore" });
-    } catch {
-      return {
+      commandResults.push({
+        command: cmd,
+        success: true,
+      });
+    } catch (e) {
+      overallSuccess = false;
+      commandResults.push({
+        command: cmd,
         success: false,
-        commandsExecuted: commands,
-        unexpectedChanges: ["Command execution failed"],
-        diffBasis,
-      };
+        error: e instanceof Error ? e.message : "Command failed",
+      });
+      break; // Stop executing on first failure
     }
   }
 
@@ -47,7 +61,6 @@ export function checkReproducibility(): ReproducibilityResult {
   const newUntracked = postUntracked.filter((f) => !preUntracked.includes(f));
 
   // If a file is in an ALLOWED_GENERATED_PATHS, it's allowed to be generated as an untracked/unstaged output
-  // We filter those out so they don't cause failures.
   const unexpectedChanges = [...newUnstaged, ...newUntracked].filter((file) => {
     return !SAFETY_CONFIG.ALLOWED_GENERATED_PATHS.some(
       (allowedPath) =>
@@ -56,9 +69,13 @@ export function checkReproducibility(): ReproducibilityResult {
     );
   });
 
+  if (unexpectedChanges.length > 0) {
+    overallSuccess = false;
+  }
+
   return {
-    success: unexpectedChanges.length === 0,
-    commandsExecuted: commands,
+    success: overallSuccess,
+    commandResults,
     unexpectedChanges,
     diffBasis,
   };

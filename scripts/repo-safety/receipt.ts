@@ -1,12 +1,7 @@
-import {
-  getCurrentBranch,
-  getHeadSha,
-  getStagedFiles,
-  getUnstagedFiles,
-  getUntrackedFiles,
-} from "./utils";
-import { runInventory } from "./inventory";
-import { checkReproducibility } from "./reproducibility";
+import { getCurrentBranch, getHeadSha, getFileHash } from "./utils";
+import { checkReproducibility, type CommandResult } from "./reproducibility";
+import { SAFETY_CONFIG } from "./config";
+import fs from "fs";
 
 export interface ReceiptPayload {
   taskId: string;
@@ -14,16 +9,11 @@ export interface ReceiptPayload {
   startingHeadSha: string;
   endingHeadSha: string;
   diffBasis: string;
-  commandsExecuted: string[];
-  testResults: string;
+  commandResults: CommandResult[];
   unresolvedAssumptions: string[];
-  artifactHashes: Record<string, string[]>; // From duplicates/inventory
-  unexpectedChanges: string[]; // From repro
-  stagedFiles: string[];
-  unstagedFiles: string[];
-  untrackedFiles: string[];
+  artifactHashes: Record<string, string>; // Maps file path to its hash explicitly
+  unexpectedChanges: string[];
   warnings: string[];
-  isClean: boolean;
 }
 
 export interface Receipt {
@@ -33,32 +23,51 @@ export interface Receipt {
   payload: ReceiptPayload;
 }
 
+function getExpectedArtifacts(): string[] {
+  // Try to find files in allowed generated paths to record their hashes
+  const artifacts: string[] = [];
+  for (const dir of SAFETY_CONFIG.ALLOWED_GENERATED_PATHS) {
+    if (fs.existsSync(dir)) {
+      const walk = (d: string) => {
+        const files = fs.readdirSync(d);
+        for (const file of files) {
+          const p = `${d}/${file}`;
+          if (fs.statSync(p).isDirectory()) {
+            walk(p);
+          } else {
+            artifacts.push(p);
+          }
+        }
+      };
+      walk(dir);
+    }
+  }
+  return artifacts.sort(); // Deterministic ordering
+}
+
 export function generateReceipt(taskId: string = "manual-run"): Receipt {
   const branch = getCurrentBranch();
-  const startingHeadSha = getHeadSha(); // Record start
+  const startingHeadSha = getHeadSha();
 
   const repro = checkReproducibility();
-  const inventory = runInventory();
 
-  const endingHeadSha = getHeadSha(); // Record end
-
-  const stagedFiles = getStagedFiles();
-  const unstagedFiles = getUnstagedFiles();
-  const untrackedFiles = getUntrackedFiles();
+  const endingHeadSha = getHeadSha();
 
   const warnings: string[] = [];
-  if (inventory.hygieneAnomalies.length > 0)
-    warnings.push("Hygiene anomalies detected.");
-  if (Object.keys(inventory.duplicateHashes).length > 0)
-    warnings.push("Duplicate files detected.");
   if (!repro.success)
-    warnings.push("Reproducibility check failed with unexpected changes.");
+    warnings.push(
+      "Reproducibility check failed with unexpected changes or command failure.",
+    );
 
-  const isClean =
-    stagedFiles.length === 0 &&
-    unstagedFiles.length === 0 &&
-    untrackedFiles.length === 0 &&
-    warnings.length === 0;
+  // Record hashes of relevant artifacts
+  const artifactHashes: Record<string, string> = {};
+  const artifacts = getExpectedArtifacts();
+  for (const artifact of artifacts) {
+    const hash = getFileHash(artifact);
+    if (hash) {
+      artifactHashes[artifact] = hash;
+    }
+  }
 
   // Returning keys in deterministic order via a fresh object
   const payload: ReceiptPayload = {
@@ -67,16 +76,11 @@ export function generateReceipt(taskId: string = "manual-run"): Receipt {
     startingHeadSha,
     endingHeadSha,
     diffBasis: repro.diffBasis,
-    commandsExecuted: repro.commandsExecuted,
-    testResults: repro.success ? "success" : "failed",
-    unresolvedAssumptions: [], // Placeholder for pipeline
-    artifactHashes: inventory.duplicateHashes,
+    commandResults: repro.commandResults,
+    unresolvedAssumptions: [],
+    artifactHashes,
     unexpectedChanges: repro.unexpectedChanges,
-    stagedFiles,
-    unstagedFiles,
-    untrackedFiles,
     warnings,
-    isClean,
   };
 
   return {

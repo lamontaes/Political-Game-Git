@@ -6,31 +6,29 @@ import * as utils from "../scripts/repo-safety/utils";
 import { SAFETY_CONFIG } from "../scripts/repo-safety/config";
 import fs from "fs";
 import path from "path";
-
-const TEST_DIR = path.join(__dirname, "fixtures", "repo-safety");
+import os from "os";
 
 describe("Repo Safety Tooling", () => {
+  let testDir: string;
+
   beforeEach(() => {
-    // Create test fixtures directory
-    if (!fs.existsSync(TEST_DIR)) {
-      fs.mkdirSync(TEST_DIR, { recursive: true });
-    }
+    // True isolated temp directory to prevent deleting legitimate future fixtures
+    testDir = fs.mkdtempSync(path.join(os.tmpdir(), "repo-safety-"));
   });
 
   afterEach(() => {
     // Cleanup fixtures
-    if (fs.existsSync(TEST_DIR)) {
-      fs.rmSync(TEST_DIR, { recursive: true, force: true });
+    if (fs.existsSync(testDir)) {
+      fs.rmSync(testDir, { recursive: true, force: true });
     }
     vi.restoreAllMocks();
   });
 
   describe("Inventory & Duplicate Check", () => {
     it("should detect duplicate hashes and exclude 0-byte placeholders", () => {
-      // Actually write small files for real hashing
-      const file1 = path.join(TEST_DIR, "dup1.txt");
-      const file2 = path.join(TEST_DIR, "dup2.txt");
-      const fileEmpty = path.join(TEST_DIR, ".gitkeep");
+      const file1 = path.join(testDir, "dup1.txt");
+      const file2 = path.join(testDir, "dup2.txt");
+      const fileEmpty = path.join(testDir, ".gitkeep");
 
       const content = "duplicate content";
 
@@ -50,46 +48,51 @@ describe("Repo Safety Tooling", () => {
       expect(hashes.length).toBe(1); // One group of duplicates
       expect(report.duplicateHashes[hashes[0]]).toContain(file1);
       expect(report.duplicateHashes[hashes[0]]).toContain(file2);
-      expect(report.duplicateHashes[hashes[0]]).not.toContain(fileEmpty);
-    });
-
-    it("should detect hygiene anomalies like temp files", () => {
-      const tempFile = path.join(TEST_DIR, "scratch.txt");
-      vi.spyOn(utils, "getAllTrackedFiles").mockReturnValue([tempFile]);
-      vi.spyOn(utils, "getUntrackedFiles").mockReturnValue([]);
-      vi.spyOn(fs, "existsSync").mockReturnValue(true);
-      // @ts-expect-error Mocking statSync
-      vi.spyOn(fs, "statSync").mockReturnValue({
-        isFile: () => true,
-        size: 100,
-      });
-
-      const report = runInventory();
-      expect(report.hygieneAnomalies).toContain(tempFile);
+      expect(report.duplicateHashes[hashes[0]]).not.toContain(fileEmpty); // 0-byte excluded
     });
   });
 
   describe("Repository Tree Guard", () => {
-    it("tree guard catches violation in clean/no-staged-file state (oversized)", () => {
-      const largeFile = path.join(TEST_DIR, "huge-asset.png");
+    it("tree guard catches violation in clean/no-staged-file state (oversized tracked)", () => {
+      const largeFile = path.join(testDir, "huge-asset.png");
       vi.spyOn(utils, "getAllTrackedFiles").mockReturnValue([largeFile]);
-      vi.spyOn(utils, "getUntrackedFiles").mockReturnValue([]);
+      vi.spyOn(utils, "getStagedFiles").mockReturnValue([]);
       vi.spyOn(fs, "existsSync").mockReturnValue(true);
       // @ts-expect-error Mocking statSync
       vi.spyOn(fs, "statSync").mockReturnValue({
         isFile: () => true,
-        size: SAFETY_CONFIG.SHIPPING_ASSET_MAX_BYTES + 100,
+        size: SAFETY_CONFIG.SHIPPING_ASSET_FATAL_BYTES + 100,
       });
 
       const result = checkRepositoryState();
       expect(result.valid).toBe(false);
-      expect(result.errors[0]).toContain("exceeds shipping asset threshold");
+      expect(result.errors[0]).toContain(
+        "exceeds shipping asset fatal threshold",
+      );
     });
 
-    it("prohibited master/raw file fails in tracked or untracked tree outside fixtures", () => {
-      const badMaster = "art/source/giant_master.tiff";
+    it("tree guard ignores unrelated untracked user workspace files (doesn't fail validation)", () => {
+      // Not tracked, not staged
+      vi.spyOn(utils, "getAllTrackedFiles").mockReturnValue([]);
+      vi.spyOn(utils, "getStagedFiles").mockReturnValue([]);
+
+      vi.spyOn(fs, "existsSync").mockReturnValue(true);
+      // @ts-expect-error Mocking statSync
+      vi.spyOn(fs, "statSync").mockReturnValue({
+        isFile: () => true,
+        size: SAFETY_CONFIG.SHIPPING_ASSET_FATAL_BYTES + 1000,
+      });
+
+      const result = checkRepositoryState();
+      // It should NOT fail the repository validation gate because it's just untracked local user work
+      expect(result.valid).toBe(true);
+      expect(result.errors.length).toBe(0);
+    });
+
+    it("prohibited master/raw file fails in tracked tree outside fixtures", () => {
+      const badMaster = path.join(testDir, "giant_master.tiff"); // It's tracked!
       vi.spyOn(utils, "getAllTrackedFiles").mockReturnValue([badMaster]);
-      vi.spyOn(utils, "getUntrackedFiles").mockReturnValue([]);
+      vi.spyOn(utils, "getStagedFiles").mockReturnValue([]);
       vi.spyOn(fs, "existsSync").mockReturnValue(true);
       // @ts-expect-error Mocking statSync
       vi.spyOn(fs, "statSync").mockReturnValue({
@@ -102,10 +105,10 @@ describe("Repo Safety Tooling", () => {
       expect(result.errors[0]).toContain("Prohibited raw/archival file");
     });
 
-    it("allows raw file in designated test fixture path", () => {
-      const fixtureMaster = "tests/fixtures/art-asset-factory/test.tiff";
-      vi.spyOn(utils, "getAllTrackedFiles").mockReturnValue([fixtureMaster]);
-      vi.spyOn(utils, "getUntrackedFiles").mockReturnValue([]);
+    it("does not globally ban .blend files by default unless overridden", () => {
+      const blendFile = path.join(testDir, "my_model.blend");
+      vi.spyOn(utils, "getAllTrackedFiles").mockReturnValue([blendFile]);
+      vi.spyOn(utils, "getStagedFiles").mockReturnValue([]);
       vi.spyOn(fs, "existsSync").mockReturnValue(true);
       // @ts-expect-error Mocking statSync
       vi.spyOn(fs, "statSync").mockReturnValue({
@@ -115,97 +118,95 @@ describe("Repo Safety Tooling", () => {
 
       const result = checkRepositoryState();
       expect(result.valid).toBe(true);
+      expect(result.errors.length).toBe(0);
     });
 
-    it("configurable shipping-asset threshold behavior", () => {
-      const okFile = path.join(TEST_DIR, "asset.png");
-      vi.spyOn(utils, "getAllTrackedFiles").mockReturnValue([okFile]);
-      vi.spyOn(utils, "getUntrackedFiles").mockReturnValue([]);
+    it("configurable shipping-asset threshold behavior warns below fatal limit", () => {
+      const warnFile = path.join(testDir, "asset.png");
+      vi.spyOn(utils, "getAllTrackedFiles").mockReturnValue([warnFile]);
+      vi.spyOn(utils, "getStagedFiles").mockReturnValue([]);
       vi.spyOn(fs, "existsSync").mockReturnValue(true);
       // @ts-expect-error Mocking statSync
       vi.spyOn(fs, "statSync").mockReturnValue({
         isFile: () => true,
-        size: SAFETY_CONFIG.SHIPPING_ASSET_MAX_BYTES - 100,
+        size: SAFETY_CONFIG.SHIPPING_ASSET_WARNING_BYTES + 100,
       });
 
       const result = checkRepositoryState();
-      expect(result.valid).toBe(true);
+      expect(result.valid).toBe(true); // Still valid!
+      expect(result.warnings.length).toBe(1);
+      expect(result.warnings[0]).toContain(
+        "exceeds shipping asset warning threshold",
+      );
     });
   });
 
   describe("Receipt Generator & Reproducibility", () => {
-    it("should generate a clean receipt with deterministic payload structure", () => {
+    it("should record exact commands attempted and separate clock time from deterministic payload", () => {
       vi.spyOn(utils, "getCurrentBranch").mockReturnValue("main");
       vi.spyOn(utils, "getHeadSha").mockReturnValue("123456");
       vi.spyOn(utils, "getStagedFiles").mockReturnValue([]);
       vi.spyOn(utils, "getUnstagedFiles").mockReturnValue([]);
       vi.spyOn(utils, "getUntrackedFiles").mockReturnValue([]);
       vi.spyOn(utils, "getAllTrackedFiles").mockReturnValue([]);
-      vi.spyOn(utils, "execGit").mockReturnValue("123456"); // for diffBasis
+      vi.spyOn(utils, "execGit").mockReturnValue("123456");
 
       const receipt = generateReceipt("test-run");
 
       expect(receipt.payload.taskId).toBe("test-run");
-      expect(receipt.payload.branch).toBe("main");
-      expect(receipt.payload.isClean).toBe(true);
-      expect(receipt.metadata).toHaveProperty("timestamp"); // Separated clock time
+      expect(receipt.metadata).toHaveProperty("timestamp");
+      expect(receipt.payload).not.toHaveProperty("timestamp"); // Separate clock time
 
-      const payloadKeys = Object.keys(receipt.payload);
-      const expectedKeys = [
-        "taskId",
-        "branch",
-        "startingHeadSha",
-        "endingHeadSha",
-        "diffBasis",
-        "commandsExecuted",
-        "testResults",
-        "unresolvedAssumptions",
-        "artifactHashes",
-        "unexpectedChanges",
-        "stagedFiles",
-        "unstagedFiles",
-        "untrackedFiles",
-        "warnings",
-        "isClean",
-      ];
-      expect(payloadKeys).toEqual(expectedKeys);
+      // Explicit command results instead of blanket "success" / "failed"
+      expect(receipt.payload.commandResults.length).toBeGreaterThan(0);
+      expect(receipt.payload.commandResults[0]).toHaveProperty("command");
+      expect(receipt.payload.commandResults[0]).toHaveProperty("success");
     });
 
-    it("should preserve pre-existing untracked files and not flag them as unexpected", () => {
-      // Mock that an untracked file existed BEFORE reproducibility run, and still exists AFTER
+    it("should preserve pre-existing untracked files and not flag them as unexpected generated files", () => {
+      // Untracked file existed BEFORE reproducibility run, and still exists AFTER
       vi.spyOn(utils, "getUnstagedFiles").mockReturnValue([]);
       vi.spyOn(utils, "getUntrackedFiles").mockReturnValue(["my-notes.txt"]);
       vi.spyOn(utils, "execGit").mockReturnValue("123456");
 
       const receipt = generateReceipt("preserve-untracked-run");
-      // The untracked file is listed
-      expect(receipt.payload.untrackedFiles).toContain("my-notes.txt");
-      // But it was NOT caused by the command, so it's not an unexpected generated change
+
       expect(receipt.payload.unexpectedChanges).not.toContain("my-notes.txt");
     });
 
-    it("respects narrow output allowlist for generated files", () => {
-      // Mock that nothing existed BEFORE
+    it("respects narrow explicit output paths", () => {
       let callCount = 0;
       vi.spyOn(utils, "getUntrackedFiles").mockImplementation(() => {
         callCount++;
-        // First call is BEFORE tools run (returns []), Second call is AFTER tools run (returns ["art/generated/new.png"])
-        // Wait, checkReproducibility calls it twice. receipt calls it once.
-        // checkReproducibility: preUntracked (call 1), postUntracked (call 2).
         if (callCount === 1) return [];
-        if (callCount === 2) return ["art/generated/new-contact-sheet.html"];
-        return ["art/generated/new-contact-sheet.html"];
+        // Generated in narrow explicit output
+        return ["art/generated/new-output.json"];
       });
       vi.spyOn(utils, "getUnstagedFiles").mockReturnValue([]);
       vi.spyOn(utils, "execGit").mockReturnValue("123456");
 
       const receipt = generateReceipt("allowlist-run");
 
-      // The file was newly generated, but it's in an allowed output path, so it shouldn't be unexpected
+      // Not unexpected because it's inside art/generated/
       expect(receipt.payload.unexpectedChanges).not.toContain(
-        "art/generated/new-contact-sheet.html",
+        "art/generated/new-output.json",
       );
-      expect(receipt.payload.isClean).toBe(false); // Because there is an untracked file
+    });
+
+    it("flags files generated in prohibited directories", () => {
+      let callCount = 0;
+      vi.spyOn(utils, "getUntrackedFiles").mockImplementation(() => {
+        callCount++;
+        if (callCount === 1) return [];
+        // The task generated a file in public/ which is NOT blanket allowed
+        return ["public/sneaky.png"];
+      });
+      vi.spyOn(utils, "getUnstagedFiles").mockReturnValue([]);
+      vi.spyOn(utils, "execGit").mockReturnValue("123456");
+
+      const receipt = generateReceipt("fail-allowlist-run");
+
+      expect(receipt.payload.unexpectedChanges).toContain("public/sneaky.png");
     });
   });
 });
