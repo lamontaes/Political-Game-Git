@@ -4,6 +4,7 @@ import path from "path";
 export interface HabsIntakeOptions {
   locItemId: string;
   outputDir: string;
+  retrievalDate?: string;
 }
 
 export async function runIntake(options: HabsIntakeOptions) {
@@ -68,6 +69,8 @@ export async function runIntake(options: HabsIntakeOptions) {
     );
   }
 
+  const defaultRetrievalDate =
+    options.retrievalDate || new Date().toISOString();
   const manifest: unknown[] = [];
 
   for (let i = 0; i < drawingsCount; i++) {
@@ -109,22 +112,25 @@ export async function runIntake(options: HabsIntakeOptions) {
       stable_id: stableId,
       sheet_number: sheetNumber,
       title: title,
+      description: data.item?.description
+        ? data.item.description[0]
+        : "Unknown description",
+      date_vintage: data.item?.date || "Unknown date",
       loc_item_id: options.locItemId,
       canonical_url: akaUrl,
       // preserve existing retrieval date to make idempotency easier, unless it's new
-      retrieval_date: existingEntry?.retrieval_date || new Date().toISOString(),
+      retrieval_date: existingEntry?.retrieval_date || defaultRetrievalDate,
       source_organization: "Library of Congress / HABS",
-      rights_status: data.item?.rights_information
-        ? data.item.rights_information.includes("No known restrictions")
-          ? "public-domain"
-          : "unknown"
-        : "unknown",
+      // Fix Rights Semantics
+      rights_status: "unknown",
+      rights_statement: data.item?.rights_information || "Unknown",
       file_variants: {
         master: masterFile
           ? {
               url: masterFile.url,
               mimetype: masterFile.mimetype,
               size: masterFile.size,
+              hash: existingEntry?.file_variants?.master?.hash,
             }
           : null,
         reference: refFile

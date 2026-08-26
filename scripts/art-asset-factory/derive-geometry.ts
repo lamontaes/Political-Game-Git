@@ -8,7 +8,10 @@ export function deriveGeometry(
 ) {
   const manifestRaw = fs.readFileSync(manifestPath, "utf8");
   const manifest = JSON.parse(manifestRaw);
-  const entry = manifest.find((e: unknown) => e.sheet_number === sheetNumber);
+  const entry = manifest.find(
+    (e: unknown) =>
+      (e as { sheet_number: number }).sheet_number === sheetNumber,
+  );
 
   if (!entry) throw new Error("Sheet not found.");
   if (!entry.scale_establishment)
@@ -20,25 +23,26 @@ export function deriveGeometry(
     units: entry.scale_establishment.units,
     scale_basis: entry.scale_establishment.confidence,
     transformation_history: [
-      "Manual bounding box extraction based on written dimensions, no automatic line extraction used.",
+      "Review needed: automatic bounding and line extraction skipped due to missing reliable scale.",
     ],
-    measurement_confidence: "plan-derived",
+    measurement_confidence: "unresolved",
     unresolved_unknowns: [
-      "Internal gallery column exact placement unresolved due to scan legibility.",
+      "Room envelope width unresolved due to missing scale.",
+      "Room envelope length unresolved due to missing scale.",
     ],
     version: "1.0",
     elements: {
       senate_chamber_envelope: {
         type: "rect",
-        width: 900,
-        length: 960,
+        width: undefined, // undefined represents missing, not zero
+        length: undefined,
         notes:
-          "Bounded subset representing the primary room envelope derived from written dimension evidence.",
+          "Bounded geometry derivation requires manual review. Values intentionally left missing.",
       },
     },
   };
 
   const destPath = path.join(outputDir, "senate_chamber_envelope.json");
   fs.writeFileSync(destPath, JSON.stringify(geometry, null, 2));
-  console.log(`Derived geometry saved to ${destPath}`);
+  console.log(`Derived geometry (unresolved state) saved to ${destPath}`);
 }

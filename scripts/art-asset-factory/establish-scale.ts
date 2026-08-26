@@ -3,35 +3,24 @@ import fs from "fs";
 export function establishScale(manifestPath: string, sheetNumber: number) {
   const manifestRaw = fs.readFileSync(manifestPath, "utf8");
   const manifest = JSON.parse(manifestRaw);
-  const entry = manifest.find((e: unknown) => e.sheet_number === sheetNumber);
+  const entry = manifest.find(
+    (e: unknown) =>
+      (e as { sheet_number: number }).sheet_number === sheetNumber,
+  );
   if (!entry) throw new Error(`Sheet ${sheetNumber} not found.`);
 
-  // Hardcoding established scale for Sheet 13 based on visual review of HABS TX-3326 Sheet 13
-  // Usually HABS plans have a graphic scale and written dimensions.
-  // Let's assume we can't reliably read the raster pixels for exact precise numbers,
-  // so we document the scale basis and rely on written dimensions for consistency checks.
+  // Removing previous fabricated precision dimensions.
+  // Sheet 13 has a visual scale but without manual resolution it is unresolved for automatic precision.
 
   entry.scale_establishment = {
-    printed_scale_legible: true, // "1/8 in = 1 ft" is typical for these plans
-    written_dimension_evidence: [
-      // Hypothetical dimension checks from reading the drawing
-      {
-        source_label: "Senate Chamber Width",
-        written_value: "75'-0\"",
-        parsed_inches: 900,
-      },
-      {
-        source_label: "Senate Chamber Length",
-        written_value: "80'-0\"",
-        parsed_inches: 960,
-      },
-    ],
-    units: "inches",
-    confidence: "plan-derived", // From existing schema
+    printed_scale_legible: false,
+    written_dimension_evidence: [],
+    units: "unknown",
+    confidence: "unresolved",
     unresolved_ambiguity:
-      "Pixel measurements not used for authoritative scale; relying strictly on written dimensions and graphic scale.",
+      "Scale could not be reliably extracted from image pixels. Raster pixel lengths alone must not become precise architectural dimensions.",
   };
 
   fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
-  console.log(`Established scale for Sheet ${sheetNumber}`);
+  console.log(`Established scale as unresolved for Sheet ${sheetNumber}`);
 }
