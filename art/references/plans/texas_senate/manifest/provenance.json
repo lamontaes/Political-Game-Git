@@ -1,0 +1,22 @@
+{
+  "entries": [
+    {
+      "provenance_id": "prov_habs_tx3326_00013a",
+      "source_url_or_path": "https://www.loc.gov/resource/hhh.tx0398.sheet.00013a",
+      "source_organization": "Library of Congress / HABS",
+      "document_photo_plan_title": "HABS TEX,227-AUST,13- (sheet 13 of 79) - Texas State Capitol, Eleventh Street at Congress Avenue, Austin, Travis County, TX",
+      "access_retrieval_date": "2026-08-25T23:38:00.000Z",
+      "rights_license_status": "unknown",
+      "reference_type": "measured-drawing",
+      "source_authority_category": "authoritative",
+      "approval_status": "pending"
+    },
+    {
+      "provenance_id": "prov_tx_senate_envelope_proof_1",
+      "source_url_or_path": "derived/senate_chamber_envelope.json",
+      "generator_tool": "manual bounding box script",
+      "generated_model_version": "1.0",
+      "generation_edit_date": "2026-08-25T23:38:00.000Z"
+    }
+  ]
+}
