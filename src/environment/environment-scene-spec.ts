@@ -105,6 +105,11 @@ export interface Occluder {
   type: string;
 }
 
+export interface SourceEvidence {
+  id: string;
+  source_type: string;
+}
+
 export interface EnvironmentSceneSpec {
   environment_id: string;
   building_id?: string;
@@ -113,6 +118,7 @@ export interface EnvironmentSceneSpec {
   units?: string;
   scale_evidence?: ScaleEvidence;
   fidelity_tier: FidelityTier;
+  sources?: SourceEvidence[];
 
   room_outline?: SceneFeature[];
   walls?: SceneFeature[];
@@ -133,17 +139,54 @@ export interface EnvironmentSceneSpec {
   explicit_unknowns?: string[];
 }
 
+export function parseEnvironmentSceneSpec(json: string): EnvironmentSceneSpec {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(json);
+  } catch (e) {
+    throw new Error("Malformed JSON: " + (e as Error).message);
+  }
+  const result = validateEnvironmentSceneSpec(parsed);
+  if (!result.valid) {
+    throw new Error(
+      "Invalid EnvironmentSceneSpec: " + result.errors.join(", "),
+    );
+  }
+  return parsed as EnvironmentSceneSpec;
+}
+
 export interface ValidationResult {
   valid: boolean;
   errors: string[];
 }
 
-export function validateEnvironmentSceneSpec(
-  spec: EnvironmentSceneSpec,
-): ValidationResult {
+export function validateEnvironmentSceneSpec(input: unknown): ValidationResult {
   const errors: string[] = [];
 
-  const validZones = new Set((spec.zones || []).map((z) => z.id));
+  if (!input || typeof input !== "object" || Array.isArray(input)) {
+    return { valid: false, errors: ["Input must be a JSON object."] };
+  }
+  const spec = input as unknown as EnvironmentSceneSpec;
+
+  if (typeof spec.environment_id !== "string") {
+    errors.push("Missing or invalid 'environment_id'");
+  }
+  const validFidelityTiers = ["F1", "F2", "F3", "F4"];
+  if (!validFidelityTiers.includes(spec.fidelity_tier)) {
+    errors.push(`Invalid fidelity_tier: '${spec.fidelity_tier}'`);
+  }
+
+  const validZones = new Set(
+    ((spec.zones as unknown as Record<string, unknown>[]) || []).map(
+      (z) => z.id,
+    ),
+  );
+  const validSources = new Set(
+    ((spec.sources as unknown as Record<string, unknown>[]) || []).map(
+      (s) => s.id,
+    ),
+  );
+
   const ids = new Set<string>();
 
   const checkUniqueId = (id: string, context: string) => {
@@ -155,13 +198,31 @@ export function validateEnvironmentSceneSpec(
   };
 
   // Check unique IDs for features
-  const checkFeatures = (features?: SceneFeature[], context = "features") => {
-    if (!features) return;
-    for (const f of features) {
+  const checkFeatures = (features?: unknown[], context = "features") => {
+    if (!features || !Array.isArray(features)) return;
+    for (const f of features as Record<string, unknown>[]) {
+      if (!f || typeof f !== "object" || typeof f.id !== "string") {
+        errors.push(`Invalid feature in ${context}`);
+        continue;
+      }
       checkUniqueId(f.id, context);
+
+      const validGrades = ["G0", "G1", "G2", "G3", "G4", "G5"];
+      if (!validGrades.includes(f.geometry_grade as string)) {
+        errors.push(
+          `Feature '${f.id}' has invalid geometry_grade '${f.geometry_grade}'`,
+        );
+      }
+
       // Validate dimensions if present
-      if (f.dimensions) {
-        for (const [key, dim] of Object.entries(f.dimensions)) {
+      if (f.dimensions && typeof f.dimensions === "object") {
+        for (const [key, dim] of Object.entries(
+          f.dimensions as unknown as Record<string, Record<string, unknown>>,
+        )) {
+          if (!dim || typeof dim !== "object") {
+            errors.push(`Feature '${f.id}' dimension '${key}' is invalid`);
+            continue;
+          }
           if ("value" in dim) {
             // It's a KnownMeasurement
             if (typeof dim.value !== "number") {
@@ -169,10 +230,31 @@ export function validateEnvironmentSceneSpec(
                 `Feature '${f.id}' dimension '${key}' value must be a number`,
               );
             }
-            if (!dim.unit || !dim.confidence) {
+            if (typeof dim.unit !== "string") {
               errors.push(
-                `Feature '${f.id}' dimension '${key}' is missing unit or confidence`,
+                `Feature '${f.id}' dimension '${key}' is missing unit or invalid unit`,
               );
+            }
+            const validConfidences = [
+              "exact",
+              "plan-derived",
+              "specified",
+              "bounded-estimate",
+              "visual-estimate",
+            ];
+            if (!validConfidences.includes(dim.confidence as string)) {
+              errors.push(
+                `Feature '${f.id}' dimension '${key}' has invalid confidence '${dim.confidence}'`,
+              );
+            }
+            if (Array.isArray(dim.provenance_refs)) {
+              for (const ref of dim.provenance_refs) {
+                if (!validSources.has(ref as string)) {
+                  errors.push(
+                    `Feature '${f.id}' dimension '${key}' has broken provenance_ref '${ref}'`,
+                  );
+                }
+              }
             }
           } else {
             // It's an UnknownMeasurement
@@ -182,7 +264,7 @@ export function validateEnvironmentSceneSpec(
               "contradictory",
               "unsupported",
             ];
-            if (!validUnknowns.includes(dim.state)) {
+            if (!validUnknowns.includes(dim.state as string)) {
               errors.push(
                 `Feature '${f.id}' dimension '${key}' has invalid unknown state '${dim.state}'`,
               );
@@ -193,17 +275,35 @@ export function validateEnvironmentSceneSpec(
     }
   };
 
-  checkFeatures(spec.room_outline, "room_outline");
-  checkFeatures(spec.walls, "walls");
-  checkFeatures(spec.doors_openings, "doors_openings");
-  checkFeatures(spec.levels_steps, "levels_steps");
-  checkFeatures(spec.ceiling_profile, "ceiling_profile");
   checkFeatures(
-    spec.fixed_architectural_geometry,
+    spec.room_outline as unknown as Record<string, unknown>[],
+    "room_outline",
+  );
+  checkFeatures(spec.walls as unknown as Record<string, unknown>[], "walls");
+  checkFeatures(
+    spec.doors_openings as unknown as Record<string, unknown>[],
+    "doors_openings",
+  );
+  checkFeatures(
+    spec.levels_steps as unknown as Record<string, unknown>[],
+    "levels_steps",
+  );
+  checkFeatures(
+    spec.ceiling_profile as unknown as Record<string, unknown>[],
+    "ceiling_profile",
+  );
+  checkFeatures(
+    spec.fixed_architectural_geometry as unknown as Record<string, unknown>[],
     "fixed_architectural_geometry",
   );
-  checkFeatures(spec.fixed_furniture, "fixed_furniture");
-  checkFeatures(spec.gallery_relationships, "gallery_relationships");
+  checkFeatures(
+    spec.fixed_furniture as unknown as Record<string, unknown>[],
+    "fixed_furniture",
+  );
+  checkFeatures(
+    spec.gallery_relationships as unknown as Record<string, unknown>[],
+    "gallery_relationships",
+  );
 
   (spec.zones || []).forEach((z) => checkUniqueId(z.id, "zones"));
   (spec.cameras || []).forEach((c) => checkUniqueId(c.id, "cameras"));
@@ -223,9 +323,92 @@ export function validateEnvironmentSceneSpec(
     }
   }
 
+  if (spec.scale_evidence && typeof spec.scale_evidence === "object") {
+    const validScaleStates = [
+      "known",
+      "unresolved",
+      "conflicting",
+      "unsupported",
+    ];
+    if (!validScaleStates.includes(spec.scale_evidence.state)) {
+      errors.push(`Invalid scale state '${spec.scale_evidence.state}'`);
+    }
+    if (
+      spec.scale_evidence.calibration &&
+      typeof spec.scale_evidence.calibration === "object"
+    ) {
+      const cal = spec.scale_evidence.calibration as unknown as Record<
+        string,
+        unknown
+      >;
+      const validCalStates = ["resolved", "unresolved", "uncertain"];
+      if (!validCalStates.includes(cal.state as string)) {
+        errors.push(`Invalid calibration state '${cal.state}'`);
+      }
+
+      if (cal.state === "resolved") {
+        if (
+          !cal.evidence_identifier ||
+          typeof cal.evidence_identifier !== "string"
+        ) {
+          errors.push(`Resolved calibration requires 'evidence_identifier'`);
+        }
+        if (typeof cal.reference_dimension !== "number") {
+          errors.push(
+            `Resolved calibration requires numeric 'reference_dimension'`,
+          );
+        }
+        if (typeof cal.units !== "string") {
+          errors.push(`Resolved calibration requires 'units'`);
+        }
+        if (
+          typeof cal.pixel_span !== "number" &&
+          !Array.isArray(cal.pixel_points)
+        ) {
+          errors.push(
+            `Resolved calibration requires either 'pixel_span' or 'pixel_points'`,
+          );
+        }
+      }
+
+      if (
+        cal.evidence_identifier &&
+        typeof cal.evidence_identifier === "string"
+      ) {
+        if (!validSources.has(cal.evidence_identifier)) {
+          errors.push(
+            `Calibration evidence_identifier '${cal.evidence_identifier}' is broken/unresolved`,
+          );
+        }
+      }
+      if (
+        cal.evidence_reference_linkage &&
+        Array.isArray(cal.evidence_reference_linkage)
+      ) {
+        for (const ref of cal.evidence_reference_linkage) {
+          if (!validSources.has(ref)) {
+            errors.push(
+              `Calibration evidence_reference_linkage '${ref}' is broken`,
+            );
+          }
+        }
+      }
+    }
+  }
+
   // Residual Integrity
-  if (spec.residuals) {
+  if (Array.isArray(spec.residuals)) {
     for (const res of spec.residuals) {
+      if (!res || typeof res !== "object") {
+        errors.push("Invalid residual entry");
+        continue;
+      }
+      const validResStates = ["PASS", "FAIL", "BLOCKED", "UNRESOLVED"];
+      if (!validResStates.includes(res.state)) {
+        errors.push(
+          `Invalid residual state '${res.state}' for '${res.what_was_compared}'`,
+        );
+      }
       if (
         !res.tolerance_basis &&
         res.state !== "BLOCKED" &&
@@ -261,18 +444,39 @@ export function validateEnvironmentSceneSpec(
 }
 
 // Canonical deterministic serialization
+
 export function serializeEnvironmentSceneSpec(
   spec: EnvironmentSceneSpec,
 ): string {
   // Deep sort object keys to ensure canonical serialization
-  const deepSort = (obj: unknown): unknown => {
+  const deepSort = (obj: unknown, path: string = ""): unknown => {
     if (Array.isArray(obj)) {
-      return obj.map(deepSort);
+      // For semantically unordered collections, sort by 'id'
+      const unorderedPaths = [
+        "zones",
+        "anchors",
+        "cameras",
+        "foreground_occlusion_objects",
+        "sources",
+      ];
+      if (
+        unorderedPaths.includes(path) &&
+        obj.length > 0 &&
+        typeof obj[0] === "object" &&
+        obj[0] !== null &&
+        "id" in obj[0]
+      ) {
+        const sortedArray = [...obj].sort((a, b) =>
+          (a as { id: string }).id.localeCompare((b as { id: string }).id),
+        );
+        return sortedArray.map((item) => deepSort(item, path));
+      }
+      return obj.map((item) => deepSort(item, path));
     } else if (obj !== null && typeof obj === "object") {
       const sortedObj: Record<string, unknown> = {};
       const keys = Object.keys(obj).sort();
       for (const key of keys) {
-        sortedObj[key] = deepSort((obj as Record<string, unknown>)[key]);
+        sortedObj[key] = deepSort((obj as Record<string, unknown>)[key], key);
       }
       return sortedObj;
     }

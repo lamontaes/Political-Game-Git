@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+
 import {
   type EnvironmentSceneSpec,
   validateEnvironmentSceneSpec,
@@ -9,6 +10,7 @@ describe("Environment Scene Spec", () => {
   it("should validate a known measurement round trip", () => {
     const spec: EnvironmentSceneSpec = {
       environment_id: "env-1",
+      sources: [{ id: "source-1", source_type: "drawing" }],
       fidelity_tier: "F3",
       walls: [
         {
@@ -27,6 +29,7 @@ describe("Environment Scene Spec", () => {
       ],
     };
     const result = validateEnvironmentSceneSpec(spec);
+    expect(result.errors).toEqual([]);
     expect(result.valid).toBe(true);
   });
 
@@ -49,6 +52,7 @@ describe("Environment Scene Spec", () => {
       ],
     };
     const result = validateEnvironmentSceneSpec(spec);
+    expect(result.errors).toEqual([]);
     expect(result.valid).toBe(true);
   });
 
@@ -72,6 +76,7 @@ describe("Environment Scene Spec", () => {
       ],
     };
     const result = validateEnvironmentSceneSpec(spec);
+    expect(result.errors).toEqual([]);
     expect(result.valid).toBe(true);
     // Explicitly check zero survived
     expect(
@@ -127,6 +132,7 @@ describe("Environment Scene Spec", () => {
     const spec: EnvironmentSceneSpec = {
       environment_id: "env-calib",
       fidelity_tier: "F4",
+      sources: [{ id: "sheet-A", source_type: "drawing" }],
       scale_evidence: {
         state: "known",
         calibration: {
@@ -139,6 +145,7 @@ describe("Environment Scene Spec", () => {
       },
     };
     const result = validateEnvironmentSceneSpec(spec);
+    expect(result.errors).toEqual([]);
     expect(result.valid).toBe(true);
   });
 
@@ -160,6 +167,7 @@ describe("Environment Scene Spec", () => {
     spec.residuals![0].state = "BLOCKED";
     spec.residuals![0].blocking_reason = "missing reference dimension";
     result = validateEnvironmentSceneSpec(spec);
+    expect(result.errors).toEqual([]);
     expect(result.valid).toBe(true);
   });
 
@@ -167,6 +175,91 @@ describe("Environment Scene Spec", () => {
     const spec: EnvironmentSceneSpec = {
       environment_id: "env-temp",
       fidelity_tier: "F4",
+      sources: [{ id: "sheet-A", source_type: "drawing" }],
+      effective_version: {
+        state: "SOME_MADE_UP_STATE" as "CURRENT_VERIFIED",
+      },
+    };
+    const result = validateEnvironmentSceneSpec(spec);
+    expect(result.valid).toBe(false);
+    expect(result.errors[0]).toContain("Invalid temporal state");
+  });
+
+  it("should reject duplicate IDs", () => {
+    const spec: EnvironmentSceneSpec = {
+      environment_id: "env-dup",
+      fidelity_tier: "F2",
+      walls: [
+        { id: "wall-same", type: "wall", geometry_grade: "G2" },
+        { id: "wall-same", type: "wall", geometry_grade: "G1" },
+      ],
+    };
+    const result = validateEnvironmentSceneSpec(spec);
+    expect(result.valid).toBe(false);
+    expect(result.errors[0]).toContain("Duplicate ID");
+  });
+
+  it("should reject broken reference for camera to zone", () => {
+    const spec: EnvironmentSceneSpec = {
+      environment_id: "env-cam-ref",
+      fidelity_tier: "F1",
+      zones: [{ id: "zone-1", type: "public" }],
+      cameras: [{ id: "cam-1", target_zone_id: "zone-unknown" }],
+    };
+    const result = validateEnvironmentSceneSpec(spec);
+    expect(result.valid).toBe(false);
+    expect(result.errors[0]).toContain("invalid target_zone_id");
+  });
+
+  it("should validate structured calibration evidence", () => {
+    const spec: EnvironmentSceneSpec = {
+      environment_id: "env-calib",
+      fidelity_tier: "F4",
+      sources: [{ id: "sheet-A", source_type: "drawing" }],
+      sources: [{ id: "sheet-A", source_type: "drawing" }],
+      scale_evidence: {
+        state: "known",
+        calibration: {
+          evidence_identifier: "sheet-A",
+          pixel_span: 1200,
+          reference_dimension: 20,
+          units: "feet",
+          state: "resolved",
+        },
+      },
+    };
+    const result = validateEnvironmentSceneSpec(spec);
+    expect(result.errors).toEqual([]);
+    expect(result.valid).toBe(true);
+  });
+
+  it("should enforce residual state checking logic", () => {
+    const spec: EnvironmentSceneSpec = {
+      environment_id: "env-res",
+      fidelity_tier: "F3",
+      residuals: [
+        {
+          what_was_compared: "desk_length",
+          state: "FAIL", // FAIL requires a tolerance_basis
+        },
+      ],
+    };
+    let result = validateEnvironmentSceneSpec(spec);
+    expect(result.valid).toBe(false);
+    expect(result.errors[0]).toContain("missing tolerance_basis");
+
+    spec.residuals![0].state = "BLOCKED";
+    spec.residuals![0].blocking_reason = "missing reference dimension";
+    result = validateEnvironmentSceneSpec(spec);
+    expect(result.errors).toEqual([]);
+    expect(result.valid).toBe(true);
+  });
+
+  it("should reject invalid temporal states", () => {
+    const spec: EnvironmentSceneSpec = {
+      environment_id: "env-temp",
+      fidelity_tier: "F4",
+      sources: [{ id: "sheet-A", source_type: "drawing" }],
       effective_version: {
         state: "SOME_MADE_UP_STATE" as "CURRENT_VERIFIED",
       },
