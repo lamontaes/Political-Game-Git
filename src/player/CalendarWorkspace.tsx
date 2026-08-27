@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import { simulationMinutesBetween, type EntityId } from "../simulation";
+import type { EntityId } from "../simulation";
 import type {
   RunDAgendaEntry,
   RunDLiteFixture,
@@ -211,7 +211,6 @@ export function CalendarWorkspace({
         <CalendarDetail
           entry={selected}
           fixture={fixture}
-          projection={projection}
           feedback={feedback}
           onClose={onCloseDetail}
           onValidReschedule={onValidReschedule}
@@ -226,7 +225,6 @@ export function CalendarWorkspace({
 function CalendarDetail({
   entry,
   fixture,
-  projection,
   feedback,
   onClose,
   onValidReschedule,
@@ -235,7 +233,6 @@ function CalendarDetail({
 }: {
   readonly entry: RunDAgendaEntry;
   readonly fixture: RunDLiteFixture;
-  readonly projection: RunDLiteProjection;
   readonly feedback: string | null;
   readonly onClose: () => void;
   readonly onValidReschedule: () => void;
@@ -248,10 +245,7 @@ function CalendarDetail({
   const flexibleBlockAlreadyMoved =
     isFlexible && entry.state.start.minuteOfDay === 11 * 60;
   const isBriefing = entry.activity.id === fixture.dLite.briefingActivityId;
-  const startsIn = simulationMinutesBetween(
-    projection.currentMoment,
-    entry.state.start,
-  );
+  const startsIn = entry.waitBeforeStartMinutes ?? -1;
   const canPerform =
     isBriefing && entry.state.status === "scheduled" && startsIn >= 0;
   return (
@@ -295,11 +289,14 @@ function CalendarDetail({
       {canPerform ? (
         <div className="calendar-detail-actions">
           <p>
-            Starts in {startsIn} minutes. Attending uses the full 45-minute
-            briefing and advances the clock to 10:15 AM.
+            This action waits {startsIn} minutes, then attends the full{" "}
+            {entry.durationMinutes}-minute briefing:{" "}
+            {entry.elapsedIfPerformedMinutes} minutes total elapse, advancing
+            the clock to 10:15 AM.
           </p>
           <button type="button" onClick={onPerformBriefing}>
-            Attend briefing — 45 minutes
+            Wait {startsIn} + attend {entry.durationMinutes} —{" "}
+            {entry.elapsedIfPerformedMinutes} minutes total
           </button>
         </div>
       ) : null}

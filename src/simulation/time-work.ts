@@ -5,6 +5,7 @@ import {
   compareSimulationMoments,
   makeSimulationMoment,
   sameSimulationMoment,
+  simulationMomentAtLocalTime,
   simulationMinutesBetween,
 } from "./dates";
 import { createStableId } from "./ids";
@@ -104,6 +105,13 @@ export interface WorkPendingEntry {
   readonly item: WorkItemRecord;
   readonly state: WorkItemStateRecord;
   readonly group: WorkPendingGroup;
+}
+
+export interface ScheduledActivityPerformanceTiming {
+  readonly waitMinutes: number;
+  readonly activityMinutes: number;
+  readonly totalElapsedMinutes: number;
+  readonly targetMoment: SimulationMoment;
 }
 
 const SCHEDULE_KINDS = [
@@ -757,12 +765,109 @@ export function canPersonAccess(
   return access.kind === "office" || access.personIds.includes(personId);
 }
 
+function controlledCommitmentIdsBefore(
+  world: World,
+  target: SimulationMoment,
+  ignoredActivityId: EntityId | null,
+): readonly EntityId[] {
+  if (world.control.kind !== "person") return [];
+  const controlledPersonId = world.control.personId;
+  return world.history.scheduledActivities
+    .filter((activity) => activity.id !== ignoredActivityId)
+    .filter((activity) =>
+      activity.participantPersonIds.includes(controlledPersonId),
+    )
+    .map((activity) => ({
+      activity,
+      state: latestActivityStateUnchecked(world, activity.id),
+    }))
+    .filter(
+      ({ state }) =>
+        state?.status === "scheduled" &&
+        compareSimulationMoments(state.end, world.currentMoment) > 0 &&
+        compareSimulationMoments(target, state.start) > 0,
+    )
+    .sort(
+      (left, right) =>
+        compareSimulationMoments(left.state!.start, right.state!.start) ||
+        left.activity.sequence - right.activity.sequence ||
+        left.activity.id.localeCompare(right.activity.id),
+    )
+    .map(({ activity }) => activity.id);
+}
+
+export function controlledCommitmentsBlockingMinuteAdvance(
+  world: World,
+  minutes: number,
+): readonly EntityId[] {
+  if (!Number.isSafeInteger(minutes) || minutes <= 0) {
+    throw new Error(
+      "Sub-day time advancement requires positive whole minutes.",
+    );
+  }
+  assertWorldIntegrity(world);
+  return controlledCommitmentIdsBefore(
+    world,
+    addSimulationMinutes(world.currentMoment, minutes),
+    null,
+  );
+}
+
 export function advanceWorldMinutes(
   world: World,
   minutes: number,
   transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
 ): World {
+  if (controlledCommitmentsBlockingMinuteAdvance(world, minutes).length > 0) {
+    return world;
+  }
   return advanceCanonicalMinutes(world, minutes, null, transitionHandlers);
+}
+
+export function scheduledActivityPerformanceTiming(
+  world: World,
+  activityId: EntityId,
+): ScheduledActivityPerformanceTiming {
+  assertWorldIntegrity(world);
+  const state = scheduledActivityState(world, activityId);
+  if (state.status !== "scheduled") {
+    throw new Error("Only a currently scheduled activity can be performed.");
+  }
+  const waitMinutes = simulationMinutesBetween(
+    world.currentMoment,
+    state.start,
+  );
+  if (waitMinutes < 0) {
+    throw new Error(
+      "A scheduled activity cannot be started after its interval began.",
+    );
+  }
+  const activityMinutes = simulationMinutesBetween(state.start, state.end);
+  const totalElapsedMinutes = simulationMinutesBetween(
+    world.currentMoment,
+    state.end,
+  );
+  if (totalElapsedMinutes <= 0) {
+    throw new Error("Scheduled activity has no remaining future interval.");
+  }
+  return {
+    waitMinutes,
+    activityMinutes,
+    totalElapsedMinutes,
+    targetMoment: cloneMoment(state.end),
+  };
+}
+
+export function controlledCommitmentsBlockingActivityPerformance(
+  world: World,
+  activityId: EntityId,
+): readonly EntityId[] {
+  const timing = scheduledActivityPerformanceTiming(world, activityId);
+  const activityState = scheduledActivityState(world, activityId);
+  if (!sameSimulationMoment(timing.targetMoment, activityState.end)) {
+    throw new Error("Scheduled activity timing projection is inconsistent.");
+  }
+  return controlledCommitmentIdsBefore(world, activityState.start, activityId);
 }
 
 export function performScheduledActivity(
@@ -786,18 +891,16 @@ export function performScheduledActivity(
       "The controlled person is not responsible for this activity.",
     );
   }
-  if (compareSimulationMoments(world.currentMoment, state.start) > 0) {
-    throw new Error(
-      "A scheduled activity cannot be started after its interval began.",
-    );
-  }
-  const minutesToEnd = simulationMinutesBetween(world.currentMoment, state.end);
-  if (minutesToEnd <= 0) {
-    throw new Error("Scheduled activity has no remaining future interval.");
+  const timing = scheduledActivityPerformanceTiming(world, activityId);
+  if (
+    controlledCommitmentsBlockingActivityPerformance(world, activityId).length >
+    0
+  ) {
+    return world;
   }
   return advanceCanonicalMinutes(
     world,
-    minutesToEnd,
+    timing.totalElapsedMinutes,
     activityId,
     transitionHandlers,
   );
@@ -837,11 +940,11 @@ function advanceCanonicalMinutes(
     date <= target.date;
     date = addDays(date, 1)
   ) {
-    const boundary = makeSimulationMoment({
+    const boundary = simulationMomentAtLocalTime({
       date,
       minuteOfDay: 0,
       timeZone: start.timeZone,
-      utcOffsetMinutes: start.utcOffsetMinutes,
+      preferredUtcOffsetMinutes: start.utcOffsetMinutes,
     });
     if (compareSimulationMoments(boundary, target) <= 0) {
       transitions.push({

@@ -19,6 +19,7 @@ import {
 import {
   createRunAUiState,
   resolveRunAPinSize,
+  RUN_A_PIN_IDS,
   runAUiReducer,
   type RunAUiAction,
   type RunAUiState,
@@ -245,6 +246,29 @@ describe("Stage 6.5 Run A presentation", () => {
     });
 
     expect(resolveRunAPinSize(automatic, "person")).toBe("expanded");
+  });
+
+  it("keeps Pinned user-controlled and closes sizing controls in one action", () => {
+    const { state } = createState();
+    expect(RUN_A_PIN_IDS).toStrictEqual(["person", "person-b"]);
+    const opened = runAUiReducer(state, {
+      type: "toggle-pin-controls",
+      pinId: "person",
+    });
+    expect(opened.activePinMenuId).toBe("person");
+    const sized = runAUiReducer(opened, {
+      type: "set-pin-size",
+      pinId: "person",
+      size: "expanded",
+    });
+    expect(sized.activePinMenuId).toBeNull();
+    expect(sized.manualPinSizes.person).toBe("expanded");
+    const automaticallyResized = runAUiReducer(sized, {
+      type: "set-automatic-pin-size",
+      pinId: "person",
+      size: "tiny",
+    });
+    expect(resolveRunAPinSize(automaticallyResized, "person")).toBe("expanded");
   });
 
   it("supports semantic keyboard-equivalent transitions through the reducer", () => {

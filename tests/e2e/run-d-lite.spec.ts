@@ -177,10 +177,12 @@ test("derives truthful work groups and advances staff work during player activit
     .click();
   const detail = page.getByTestId("calendar-event-detail");
   await expect(detail).toContainText(
-    "Attending uses the full 45-minute briefing and advances the clock to 10:15 AM",
+    "This action waits 20 minutes, then attends the full 45-minute briefing: 65 minutes total elapse, advancing the clock to 10:15 AM",
   );
   await detail
-    .getByRole("button", { name: "Attend briefing — 45 minutes" })
+    .getByRole("button", {
+      name: "Wait 20 + attend 45 — 65 minutes total",
+    })
     .click();
   await expect(office).toHaveAttribute("data-simulation-minute", "615");
   await expect(
@@ -191,6 +193,9 @@ test("derives truthful work groups and advances staff work during player activit
     "615",
   );
   await expect(detail).toContainText("Completed at 10:15 AM");
+  await expect(page.getByTestId("current-commitment")).toContainText(
+    "Transit draft follow-up",
+  );
 
   await calendar.getByRole("button", { name: "Return to office" }).click();
   await openPlanning(page, "Work / Pending");
@@ -252,4 +257,104 @@ test("returns from planning to the accepted office, conversation, and working do
   ]) {
     await expect(body).not.toContainText(forbidden);
   }
+});
+
+test("keeps the bottom-left shell compact until pointer approach, focus, or activation", async ({
+  browser,
+  page,
+}) => {
+  const shellContainer = page.locator(".nav-cluster");
+  const shell = page.getByTestId("navigation-cluster");
+  await page.mouse.move(1_000, 100);
+  await page.waitForTimeout(220);
+  const restBox = await shell.boundingBox();
+  expect(restBox).not.toBeNull();
+  expect(restBox?.width ?? Infinity).toBeLessThan(200);
+  expect(restBox?.height ?? Infinity).toBeLessThan(70);
+  expect(
+    ((restBox?.width ?? Infinity) * (restBox?.height ?? Infinity)) /
+      (1_440 * 900),
+  ).toBeLessThan(0.01);
+  const restOpacity = await shell.evaluate((element) =>
+    Number(getComputedStyle(element).opacity),
+  );
+  expect(restOpacity).toBeLessThanOrEqual(0.8);
+
+  await page.mouse.move(
+    (restBox?.x ?? 0) + (restBox?.width ?? 0) + 48,
+    (restBox?.y ?? 0) + (restBox?.height ?? 0) / 2,
+  );
+  await page.waitForTimeout(220);
+  const approachBox = await shell.boundingBox();
+  expect(approachBox?.width ?? 0).toBeGreaterThan(400);
+  expect(approachBox?.height ?? 0).toBeGreaterThan(80);
+  expect(
+    await shell.evaluate((element) =>
+      Number(getComputedStyle(element).opacity),
+    ),
+  ).toBeGreaterThanOrEqual(0.95);
+
+  await page.mouse.move(1_000, 100);
+  await shell.focus();
+  await page.waitForTimeout(220);
+  expect((await shell.boundingBox())?.width ?? 0).toBeGreaterThan(400);
+
+  await shell.evaluate((element) => (element as HTMLElement).blur());
+  await page.mouse.move(1_000, 100);
+  await page.waitForTimeout(220);
+  await shell.click();
+  await expect(page.getByTestId("navigation-flyout")).toBeVisible();
+  await page.waitForTimeout(220);
+  expect((await shell.boundingBox())?.width ?? 0).toBeGreaterThan(400);
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const transitionDurations = await shellContainer.evaluate((element) => ({
+    container: getComputedStyle(element).transitionDuration,
+    button: getComputedStyle(element.querySelector(".nav-cluster-button")!)
+      .transitionDuration,
+  }));
+  expect(transitionDurations).toStrictEqual({ container: "0s", button: "0s" });
+
+  const touchContext = await browser.newContext({
+    baseURL: "http://127.0.0.1:4173",
+    hasTouch: true,
+    viewport: { width: 1_440, height: 900 },
+  });
+  const touchPage = await touchContext.newPage();
+  await touchPage.goto("/");
+  const touchShell = touchPage.getByTestId("navigation-cluster");
+  await touchShell.tap();
+  await expect(touchPage.getByTestId("navigation-flyout")).toBeVisible();
+  await touchPage.waitForTimeout(220);
+  expect((await touchShell.boundingBox())?.width ?? 0).toBeGreaterThan(400);
+  await touchContext.close();
+});
+
+test("keeps Pinned user-controlled and dismisses size controls immediately", async ({
+  page,
+}) => {
+  const currentCommitment = page.getByTestId("current-commitment");
+  const pinned = page.getByTestId("pinned-collection");
+  const collinsPin = pinned.locator('[data-pin-id="person"]');
+  await expect(currentCommitment).toContainText("Constituent intake briefing");
+  await expect(pinned).not.toContainText(/district notes|afternoon briefing/i);
+  await expect(collinsPin).toHaveCount(1);
+
+  await collinsPin.click();
+  let controls = page.getByTestId("pin-controls-person");
+  await controls.getByRole("menuitem", { name: "Expanded" }).click();
+  await expect(controls).toHaveCount(0);
+  await expect(collinsPin).toHaveAttribute("data-size", "expanded");
+
+  await collinsPin.click();
+  controls = page.getByTestId("pin-controls-person");
+  await controls.getByRole("menuitem", { name: "Unpin Andre Collins" }).click();
+  await expect(collinsPin).toHaveCount(0);
+  await expect(pinned).toContainText("No pinned references");
+  await expect(currentCommitment).toContainText("Constituent intake briefing");
+
+  await page.getByTestId("scene-person").click();
+  await page.getByRole("menuitem", { name: /Pin person/ }).click();
+  await expect(collinsPin).toHaveCount(1);
+  await expect(collinsPin).toHaveAttribute("data-size", "normal");
 });

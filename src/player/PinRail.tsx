@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 
 import type { QuickDossierProjection } from "../presentation/run-a-projection";
+import type { RunDAgendaEntry } from "../presentation/run-d-lite";
 import {
   resolveRunAPinSize,
   type RunAPersonPinId,
@@ -17,7 +18,7 @@ interface PinDefinition {
   readonly label: string;
   readonly detail: string;
   readonly kind: string;
-  readonly personId: EntityId | null;
+  readonly personId: EntityId;
 }
 
 export interface PinnedPersonDefinition {
@@ -50,25 +51,14 @@ function pinsForPeople(
       personId: person.personId,
     }));
 
-  return [
-    {
-      id: "briefing",
-      shortLabel: "B",
-      label: "Afternoon briefing",
-      detail: "Three constituent-service points are ready for review.",
-      kind: "Current",
-      personId: null,
-    },
-    ...personPins,
-    {
-      id: "district-notes",
-      shortLabel: "N",
-      label: "District notes",
-      detail: "Working notes from this morning's constituent requests.",
-      kind: "Reference",
-      personId: null,
-    },
-  ];
+  return personPins;
+}
+
+function formatMinute(minuteOfDay: number): string {
+  const hour24 = Math.floor(minuteOfDay / 60);
+  const minute = minuteOfDay % 60;
+  const suffix = hour24 >= 12 ? "PM" : "AM";
+  return `${hour24 % 12 || 12}:${minute.toString().padStart(2, "0")} ${suffix}`;
 }
 
 interface PinControlMenuProps {
@@ -112,73 +102,116 @@ function PinControlMenu({ pin, size, dispatch }: PinControlMenuProps) {
           {label}
         </button>
       ))}
-      {pin.personId ? (
-        <button
-          type="button"
-          role="menuitem"
-          className="pin-unpin-action"
-          aria-label={`Unpin ${pin.label}`}
-          onClick={() =>
-            dispatch({
-              type: "unpin-person",
-              personId: pin.personId!,
-              pinId: pin.id as RunAPersonPinId,
-            })
-          }
-        >
-          Unpin
-        </button>
-      ) : null}
+      <button
+        type="button"
+        role="menuitem"
+        className="pin-unpin-action"
+        aria-label={`Unpin ${pin.label}`}
+        onClick={() =>
+          dispatch({
+            type: "unpin-person",
+            personId: pin.personId,
+            pinId: pin.id as RunAPersonPinId,
+          })
+        }
+      >
+        Unpin
+      </button>
     </div>
   );
 }
 
 interface PinRailProps {
   readonly people: readonly PinnedPersonDefinition[];
+  readonly nextCommitment: RunDAgendaEntry | null;
   readonly state: RunAUiState;
   readonly dispatch: (action: RunAUiAction) => void;
 }
 
-export function PinRail({ people, state, dispatch }: PinRailProps) {
+export function PinRail({
+  people,
+  nextCommitment,
+  state,
+  dispatch,
+}: PinRailProps) {
+  const pins = pinsForPeople(people, state.pinnedPersonIds);
   return (
-    <aside className="pin-rail" aria-label="Pinned context">
-      <p className="pin-rail-label">Pinned</p>
-      {pinsForPeople(people, state.pinnedPersonIds).map((pin) => {
-        const size = resolveRunAPinSize(state, pin.id);
-        const controlsOpen = state.activePinMenuId === pin.id;
-        return (
-          <div className="pin-slot" key={pin.id}>
-            <button
-              type="button"
-              className="context-pin civic-glass"
-              data-pin-id={pin.id}
-              data-size={size}
-              aria-label={`${pin.label}. ${pin.kind}. Display size ${size}. Open pin controls.`}
-              aria-expanded={controlsOpen}
-              aria-controls={
-                controlsOpen ? `pin-controls-${pin.id}` : undefined
-              }
-              onClick={() =>
-                dispatch({ type: "toggle-pin-controls", pinId: pin.id })
-              }
-            >
-              <span className="pin-monogram" aria-hidden="true">
-                {pin.shortLabel}
-              </span>
-              {size !== "tiny" ? (
-                <span className="pin-copy">
-                  <span className="pin-kind">{pin.kind}</span>
-                  <strong>{pin.label}</strong>
-                  {size === "expanded" ? <small>{pin.detail}</small> : null}
+    <aside
+      className="pin-rail"
+      aria-label="Current status and pinned references"
+    >
+      {nextCommitment ? (
+        <section
+          className="current-commitment civic-glass"
+          aria-label="Next scheduled commitment"
+          data-testid="current-commitment"
+          data-activity-id={nextCommitment.activity.id}
+        >
+          <span>Next commitment</span>
+          <strong>{nextCommitment.activity.title}</strong>
+          <small>
+            {formatMinute(nextCommitment.state.start.minuteOfDay)} ·{" "}
+            {nextCommitment.activity.location.label}
+          </small>
+        </section>
+      ) : (
+        <section
+          className="current-commitment civic-glass"
+          aria-label="Next scheduled commitment"
+          data-testid="current-commitment"
+        >
+          <span>Current status</span>
+          <strong>No scheduled commitment ahead</strong>
+        </section>
+      )}
+      <section
+        className="pinned-collection"
+        aria-labelledby="pinned-collection-label"
+        data-testid="pinned-collection"
+      >
+        <p className="pin-rail-label" id="pinned-collection-label">
+          Pinned
+        </p>
+        {pins.length === 0 ? (
+          <p className="pin-rail-empty">No pinned references</p>
+        ) : null}
+        {pins.map((pin) => {
+          const size = resolveRunAPinSize(state, pin.id);
+          const controlsOpen = state.activePinMenuId === pin.id;
+          return (
+            <div className="pin-slot" key={pin.id}>
+              <button
+                type="button"
+                className="context-pin civic-glass"
+                data-pin-id={pin.id}
+                data-size={size}
+                aria-label={`${pin.label}. ${pin.kind}. Display size ${size}. Open pin controls.`}
+                aria-expanded={controlsOpen}
+                aria-controls={
+                  controlsOpen ? `pin-controls-${pin.id}` : undefined
+                }
+                onClick={() =>
+                  dispatch({ type: "toggle-pin-controls", pinId: pin.id })
+                }
+              >
+                <span className="pin-monogram" aria-hidden="true">
+                  {pin.shortLabel}
                 </span>
+                {size !== "tiny" ? (
+                  <span className="pin-copy">
+                    <span className="pin-kind">{pin.kind}</span>
+                    <strong>{pin.label}</strong>
+                    {size === "expanded" ? <small>{pin.detail}</small> : null}
+                  </span>
+                ) : null}
+              </button>
+              {controlsOpen ? (
+                <PinControlMenu pin={pin} size={size} dispatch={dispatch} />
               ) : null}
-            </button>
-            {controlsOpen ? (
-              <PinControlMenu pin={pin} size={size} dispatch={dispatch} />
-            ) : null}
-          </div>
-        );
-      })}
+            </div>
+          );
+        })}
+      </section>
       <span className="sr-only" aria-live="polite">
         Pin changes are presentation-only.
       </span>

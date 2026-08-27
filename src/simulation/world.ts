@@ -1,9 +1,9 @@
 import {
   addDays,
-  addSimulationMinutes,
   assertSimulationMoment,
   makeIsoDate,
   makeSimulationMoment,
+  simulationMomentOnLocalDate,
 } from "./dates";
 import {
   assertCausalEffectIntegrity,
@@ -690,7 +690,7 @@ export function advanceWorld(
 
   const actionSequence = world.actionSequence;
   const nextDate = addDays(world.currentDate, days);
-  const nextMoment = addSimulationMinutes(world.currentMoment, days * 1_440);
+  const nextMoment = simulationMomentOnLocalDate(world.currentMoment, nextDate);
   const primaryJurisdictionId = world.jurisdictionOrder[0] ?? null;
   const transitioned = resolveFutureDueItemsThrough(
     world,

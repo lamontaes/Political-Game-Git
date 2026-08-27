@@ -2,12 +2,7 @@ import type { EntityId, IsoDate } from "../simulation";
 import { RUN_A_CIVIC_CONCEPT_ID } from "./run-a-learning";
 import type { RunAFixtureStateName } from "./run-a-fixture";
 
-export const RUN_A_PIN_IDS = [
-  "briefing",
-  "person",
-  "person-b",
-  "district-notes",
-] as const;
+export const RUN_A_PIN_IDS = ["person", "person-b"] as const;
 export type RunAPinId = (typeof RUN_A_PIN_IDS)[number];
 export type RunAPersonPinId = Extract<RunAPinId, "person" | "person-b">;
 export type RunAPinSize = "tiny" | "normal" | "expanded";
@@ -95,14 +90,10 @@ export function createRunAUiState(input: RunAUiStateInput): RunAUiState {
     activePinMenuId: null,
     pinnedPersonIds: [input.scenePersonId],
     manualPinSizes:
-      input.fixtureState === "mixed-pins"
-        ? { "district-notes": "expanded" }
-        : {},
+      input.fixtureState === "mixed-pins" ? { person: "expanded" } : {},
     automaticPinSizes: {
-      briefing: "normal",
       person: "tiny",
       "person-b": "tiny",
-      "district-notes": "tiny",
     },
     learnedConceptIds: [...new Set(input.learnedConceptIds ?? [])].sort(),
   };
@@ -206,6 +197,7 @@ export function runAUiReducer(
     case "set-pin-size":
       return {
         ...state,
+        activePinMenuId: null,
         manualPinSizes: {
           ...state.manualPinSizes,
           [action.pinId]: action.size,

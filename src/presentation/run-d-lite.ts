@@ -55,6 +55,8 @@ export interface RunDAgendaEntry {
   readonly activity: ScheduledActivityRecord;
   readonly state: ScheduledActivityStateRecord;
   readonly durationMinutes: number;
+  readonly waitBeforeStartMinutes: number | null;
+  readonly elapsedIfPerformedMinutes: number | null;
 }
 
 export interface RunDLiteProjection {
@@ -355,10 +357,22 @@ export function projectRunDLite(
   const agenda = scheduledActivitiesVisibleTo(world, controlledPersonId).map(
     (activity) => {
       const state = scheduledActivityState(world, activity.id);
+      const waitBeforeStartMinutes = simulationMinutesBetween(
+        world.currentMoment,
+        state.start,
+      );
       return {
         activity,
         state,
         durationMinutes: simulationMinutesBetween(state.start, state.end),
+        waitBeforeStartMinutes:
+          state.status === "scheduled" && waitBeforeStartMinutes >= 0
+            ? waitBeforeStartMinutes
+            : null,
+        elapsedIfPerformedMinutes:
+          state.status === "scheduled" && waitBeforeStartMinutes >= 0
+            ? simulationMinutesBetween(world.currentMoment, state.end)
+            : null,
       };
     },
   );

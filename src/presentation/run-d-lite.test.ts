@@ -5,15 +5,19 @@ import {
   advanceWorld,
   advanceWorldMinutes,
   assertWorldIntegrity,
+  controlledCommitmentsBlockingActivityPerformance,
+  controlledCommitmentsBlockingMinuteAdvance,
   createFutureTransitionHandlerRegistry,
   createScheduledActivity,
   deserializeWorld,
   futureDueItemStateAt,
   makeSimulationMoment,
+  performScheduledActivity,
   recordWorldEvent,
   rescheduleScheduledActivity,
   scheduleFutureDueItem,
   scheduledActivityState,
+  scheduledActivityPerformanceTiming,
   serializeWorld,
   simulationMinutesBetween,
   workItemState,
@@ -117,6 +121,22 @@ describe("Stage 6.5 Run D-Lite canonical moment", () => {
       makeSimulationMoment({
         date: "2026-01-05",
         minuteOfDay: 550,
+        timeZone: "Fake/Zone",
+        utcOffsetMinutes: -300,
+      }),
+    ).toThrow(/timezone/i);
+    expect(() =>
+      makeSimulationMoment({
+        date: "2026-07-05",
+        minuteOfDay: 550,
+        timeZone: "America/New_York",
+        utcOffsetMinutes: -300,
+      }),
+    ).toThrow(/offset/i);
+    expect(() =>
+      makeSimulationMoment({
+        date: "2026-01-05",
+        minuteOfDay: 550,
         timeZone: "America/New_York",
         utcOffsetMinutes: -900,
       }),
@@ -167,6 +187,64 @@ describe("Stage 6.5 Run D-Lite canonical moment", () => {
       date: "2026-01-07",
     });
     expect(advanced.actionSequence).toBe(1);
+  });
+
+  it("resolves the target-date offset while preserving local time across DST", () => {
+    const fixture = createRunDLiteFixture();
+    const currentMoment = makeSimulationMoment({
+      date: "2026-03-07",
+      minuteOfDay: 9 * 60 + 10,
+      timeZone: "America/New_York",
+      utcOffsetMinutes: -300,
+    });
+    const world: World = {
+      ...fixture.world,
+      currentDate: currentMoment.date,
+      currentMoment,
+    };
+    assertWorldIntegrity(world);
+    const advanced = advanceWorld(world, 1);
+    expect(advanced.currentMoment).toStrictEqual({
+      date: "2026-03-08",
+      minuteOfDay: 9 * 60 + 10,
+      timeZone: "America/New_York",
+      utcOffsetMinutes: -240,
+    });
+    expect(
+      simulationMinutesBetween(world.currentMoment, advanced.currentMoment),
+    ).toBe(23 * 60);
+  });
+
+  it("adds exact elapsed minutes through both New York DST transitions", () => {
+    const springStart = makeSimulationMoment({
+      date: "2026-03-08",
+      minuteOfDay: 90,
+      timeZone: "America/New_York",
+      utcOffsetMinutes: -300,
+    });
+    const springEnd = addSimulationMinutes(springStart, 60);
+    expect(springEnd).toStrictEqual({
+      date: "2026-03-08",
+      minuteOfDay: 210,
+      timeZone: "America/New_York",
+      utcOffsetMinutes: -240,
+    });
+    expect(simulationMinutesBetween(springStart, springEnd)).toBe(60);
+
+    const fallStart = makeSimulationMoment({
+      date: "2026-11-01",
+      minuteOfDay: 90,
+      timeZone: "America/New_York",
+      utcOffsetMinutes: -240,
+    });
+    const fallEnd = addSimulationMinutes(fallStart, 60);
+    expect(fallEnd).toStrictEqual({
+      date: "2026-11-01",
+      minuteOfDay: 90,
+      timeZone: "America/New_York",
+      utcOffsetMinutes: -300,
+    });
+    expect(simulationMinutesBetween(fallStart, fallEnd)).toBe(60);
   });
 
   it("crosses midnight and resolves date-level due work exactly once", () => {
@@ -323,6 +401,51 @@ describe("Stage 6.5 Run D-Lite canonical agenda", () => {
     expect(result.world).toBe(fixture.world);
   });
 
+  it("stops generic minute advancement at an unresolved player commitment", () => {
+    const fixture = createRunDLiteFixture();
+    const before = JSON.stringify(fixture.world);
+    expect(
+      controlledCommitmentsBlockingMinuteAdvance(fixture.world, 21),
+    ).toStrictEqual([fixture.dLite.briefingActivityId]);
+    const rejected = advanceWorldMinutes(fixture.world, 21);
+    expect(rejected).toBe(fixture.world);
+    expect(JSON.stringify(rejected)).toBe(before);
+
+    const atBoundary = advanceWorldMinutes(fixture.world, 20);
+    expect(atBoundary).not.toBe(fixture.world);
+    expect(atBoundary.currentMoment.minuteOfDay).toBe(570);
+    expect(advanceWorldMinutes(atBoundary, 1)).toBe(atBoundary);
+  });
+
+  it("does not perform a later commitment through earlier unresolved work or travel", () => {
+    const fixture = createRunDLiteFixture();
+    const blockers = controlledCommitmentsBlockingActivityPerformance(
+      fixture.world,
+      fixture.dLite.meetingActivityId,
+    );
+    expect(blockers).toContain(fixture.dLite.briefingActivityId);
+    expect(blockers).toContain(fixture.dLite.flexibleActivityId);
+    expect(blockers).toContain(fixture.dLite.travelActivityId);
+    expect(
+      performScheduledActivity(fixture.world, fixture.dLite.meetingActivityId),
+    ).toBe(fixture.world);
+
+    const currentMoment = fixtureMoment(fixture.world, 13, 30);
+    const beforeTravel: World = {
+      ...fixture.world,
+      currentDate: currentMoment.date,
+      currentMoment,
+    };
+    assertWorldIntegrity(beforeTravel);
+    expect(
+      controlledCommitmentsBlockingMinuteAdvance(beforeTravel, 15),
+    ).toStrictEqual([fixture.dLite.travelActivityId]);
+    expect(advanceWorldMinutes(beforeTravel, 15)).toBe(beforeTravel);
+    expect(
+      performScheduledActivity(beforeTravel, fixture.dLite.meetingActivityId),
+    ).toBe(beforeTravel);
+  });
+
   it("keeps Calendar, Work/Pending, and event inspection time-neutral", () => {
     const fixture = createRunDLiteFixture();
     const before = JSON.stringify(fixture.world);
@@ -339,6 +462,27 @@ describe("Stage 6.5 Run D-Lite canonical agenda", () => {
 
   it("performs one meaningful activity and records exact chronological resolution", () => {
     const fixture = createRunDLiteFixture();
+    const timing = scheduledActivityPerformanceTiming(
+      fixture.world,
+      fixture.dLite.briefingActivityId,
+    );
+    const projectedBriefing = projectRunDLite(
+      fixture.world,
+      fixture,
+    ).agenda.find(
+      (entry) => entry.activity.id === fixture.dLite.briefingActivityId,
+    );
+    expect(timing).toMatchObject({
+      waitMinutes: 20,
+      activityMinutes: 45,
+      totalElapsedMinutes: 65,
+      targetMoment: { minuteOfDay: 615 },
+    });
+    expect(projectedBriefing).toMatchObject({
+      waitBeforeStartMinutes: 20,
+      durationMinutes: 45,
+      elapsedIfPerformedMinutes: 65,
+    });
     const result = performRunDBriefing(fixture.world, fixture);
     expect(
       simulationMinutesBetween(
@@ -359,6 +503,9 @@ describe("Stage 6.5 Run D-Lite canonical agenda", () => {
     const staffState = workItemState(result, fixture.dLite.staffWorkItemId);
     expect(staffState.recordedAt.minuteOfDay).toBe(600);
     expect(staffState.sequence).toBeLessThan(briefingState.sequence);
+    expect(projectRunDLite(result, fixture).nextCommitment?.activity.id).toBe(
+      fixture.dLite.flexibleActivityId,
+    );
   });
 });
 

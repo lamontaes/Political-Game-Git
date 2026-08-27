@@ -1041,11 +1041,56 @@ real-context routing, and return to the office.
 
 ### NOW-205 — D-Lite remains deterministic and composes with Runs A–C
 
-The 22-test focused D-Lite suite proves identical World plus identical
+The 26-test focused D-Lite suite proves identical World plus identical
 scheduling/action input yields identical results and malformed time/work graphs
-fail. The full 429-test Vitest suite, focused Run A/B/C suites, and browser
+fail. The full 434-test Vitest suite, focused Run A/B/C suites, and browser
 return paths preserve people, pins, conversation, and the Transit Access Pilot
 working document. No Stage 7/8/9 or Lexington Slice E semantics are present.
+
+### NOW-206 — Player-facing elapsed time equals the canonical transition
+
+At 9:10, the briefing confirmation states a 20-minute wait, 45-minute
+briefing, and 65 total elapsed minutes before activation. The canonical result
+is exactly 10:15, and semantic plus browser tests bind the disclosure to that
+same projection and transition.
+
+### NOW-207 — Unresolved player commitments cannot be skipped silently
+
+Generic minute advancement may reach an unresolved activity's start but cannot
+cross it; rejection returns the exact input World. Performing a later selected
+activity also returns the exact input World when an earlier unresolved player
+commitment or travel block remains. No missed/late state is inferred.
+
+### NOW-208 — Canonical zones and offsets remain mutually valid through DST
+
+Moment construction rejects both unsupported `Fake/Zone` and a local
+date/minute paired with the wrong zone offset. Whole-day movement preserves the
+local clock while resolving the target-date New York offset. Exact 60-minute
+moves across spring-forward and fall-back preserve exact elapsed time while
+deriving the correct resulting date, local minute, and offset.
+
+### NOW-209 — The shell rests compactly and opens through equivalent input paths
+
+At 1440×900 the bottom-left shell rests below 200×70 pixels, below one percent
+of viewport area, and at no more than 0.8 opacity. Pointer approach through the
+invisible proximity zone, hover, keyboard focus, and click/touch open state
+expand it above 400×80 and restore readable opacity. Reduced motion removes the
+transition, and document entry retains the stronger existing no-overlap proof.
+
+### NOW-210 — Pinned means deliberate removable references
+
+The next scheduled commitment is a separate projection and updates from the
+completed briefing to the real flexible draft block. Pinned contains only
+person references, every item exposes Unpin, and each person can be re-pinned
+from their real scene context. The static briefing and unsupported District
+Notes pins are absent.
+
+### NOW-211 — Manual pin sizing is one complete reducer action
+
+Selecting Compact, Standard, or Expanded writes the manual size and clears the
+active pin menu in the same reducer result. Browser proof confirms one-click
+dismissal, persistence through later presentation actions, and manual
+precedence over automatic sizing.
 
 ## Manual Now
 
@@ -1076,7 +1121,7 @@ implementation-time browser inspection.
   surface already identifies that person.
 - Pin controls remain a small floating treatment; Collins and Reed can each be
   pinned, explicitly resized, unpinned, and re-pinned without displacing the
-  briefing.
+  separate canonical next-commitment status.
 - The ordinary conversation header establishes Cameron Foster as `You` and the
   emergency-rent/shared-intake-checklist question without becoming a large
   exposition panel.

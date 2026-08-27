@@ -1,6 +1,7 @@
 import type { RunAFixture } from "../presentation/run-a-fixture";
 import { RUN_A_CIVIC_CONCEPT_ID } from "../presentation/run-a-learning";
 import type { RunAUiAction, RunAUiState } from "../presentation/run-a-state";
+import type { RunDAgendaEntry } from "../presentation/run-d-lite";
 import { PinRail, type PinnedPersonDefinition } from "./PinRail";
 
 interface PermanentShellProps {
@@ -9,6 +10,7 @@ interface PermanentShellProps {
   readonly formattedTime: string;
   readonly formattedDate: string;
   readonly compactNavigation?: boolean;
+  readonly nextCommitment: RunDAgendaEntry | null;
   readonly onOpenCalendar: () => void;
   readonly onOpenWorkPending: () => void;
   readonly state: RunAUiState;
@@ -21,6 +23,7 @@ export function PermanentShell({
   formattedTime,
   formattedDate,
   compactNavigation = false,
+  nextCommitment,
   onOpenCalendar,
   onOpenWorkPending,
   state,
@@ -30,12 +33,18 @@ export function PermanentShell({
 
   return (
     <>
-      <PinRail people={people} state={state} dispatch={dispatch} />
+      <PinRail
+        people={people}
+        nextCommitment={nextCommitment}
+        state={state}
+        dispatch={dispatch}
+      />
 
       <nav
-        className={`nav-cluster${compactNavigation ? " nav-cluster--document" : ""}`}
+        className={`nav-cluster${compactNavigation ? " nav-cluster--document" : ""}${state.navigation !== "closed" ? " nav-cluster--open" : ""}`}
         aria-label="Time, location, and navigation"
         data-document-compact={compactNavigation ? "true" : "false"}
+        data-navigation-open={state.navigation !== "closed" ? "true" : "false"}
       >
         {state.navigation !== "closed" ? (
           <div

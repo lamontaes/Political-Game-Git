@@ -1,4 +1,4 @@
-import { makeIsoDate, makeSimulationMoment } from "./dates";
+import { makeIsoDate, simulationMomentAtLocalTime } from "./dates";
 import { createStableId } from "./ids";
 import {
   incidentEntityAvailableAt,
@@ -353,14 +353,14 @@ export function resolveFutureDueItemsThrough(
     const atDueDate: World = {
       ...working,
       currentDate: item.dueAt,
-      currentMoment: makeSimulationMoment({
+      currentMoment: simulationMomentAtLocalTime({
         date: item.dueAt,
         minuteOfDay:
           item.dueAt === working.currentMoment.date
             ? working.currentMoment.minuteOfDay
             : 0,
         timeZone: working.currentMoment.timeZone,
-        utcOffsetMinutes: working.currentMoment.utcOffsetMinutes,
+        preferredUtcOffsetMinutes: working.currentMoment.utcOffsetMinutes,
       }),
     };
     const unchangedInput = JSON.stringify(atDueDate);

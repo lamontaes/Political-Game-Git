@@ -91,14 +91,20 @@ nor creates law, legislation procedure, authority, appropriation, effect
 activation, or metric truth.
 
 Stage 6.5 Run D-Lite upgrades World schema 15 and snapshot format 14 with one
-canonical `SimulationMoment`: date, minute of day, IANA-style zone identity,
-and explicit UTC offset. `currentDate` must equal the moment date; whole-day
-advancement preserves local minute/zone/offset. Append-oriented scheduled
+canonical `SimulationMoment`: date, minute of day, supported IANA zone identity,
+and explicit UTC offset. The zone must be supported and the local fields/offset
+must describe the same instant. `currentDate` must equal the moment date;
+whole-day advancement preserves local minute/zone and resolves the target-date
+offset, while exact-minute advancement derives local fields across DST.
+Append-oriented scheduled
 activity roots/states own exact intervals, participant conflicts, fixed versus
 bounded movable flexibility, travel, and completion. Work roots/states own real
 sources, focus targets, assignees, player requirements, dependencies, authored
 effort, and lifecycle. Exact minute advancement resolves crossed date-level due
-frontiers, staff work, and a selected activity deterministically. `FutureDueItem`
+frontiers, staff work, and a selected activity deterministically. Generic
+minute movement stops at unresolved controlled-person commitments, and explicit
+activity performance cannot skip an earlier commitment or travel block.
+`FutureDueItem`
 remains date-level; history sequence and action sequence remain ordering/seed
 inputs, not clocks. See
 [Canonical Sub-Day Time, Scheduled Activity, and Office Work](docs/systems/time-work.md).

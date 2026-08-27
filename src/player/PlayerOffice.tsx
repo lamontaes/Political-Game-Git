@@ -295,7 +295,7 @@ export function PlayerOffice() {
     planningDispatch({
       type: "set-feedback",
       message:
-        "The 45-minute briefing is complete. The canonical clock is now 10:15 AM; Collins's parallel work also advanced.",
+        "The 20-minute wait and 45-minute briefing are complete: 65 canonical minutes elapsed, the clock is now 10:15 AM, and Collins's parallel work also advanced.",
     });
   }
 
@@ -478,6 +478,7 @@ export function PlayerOffice() {
         formattedDate={formatRunADate(world.currentDate)}
         formattedTime={formatRunATime(world.currentMoment.minuteOfDay)}
         compactNavigation={documentState.mode === "open"}
+        nextCommitment={planningProjection.nextCommitment}
         onOpenCalendar={() => openPlanningWorkspace("calendar")}
         onOpenWorkPending={() => openPlanningWorkspace("work")}
         state={state}

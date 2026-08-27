@@ -742,3 +742,46 @@ Consequence: later campaign, constituent, legislative, staff, public-event,
 governing, and authored-travel systems may reuse one exact schedule/work/time
 substrate. D-Lite adds no recurrence, routing, staff economy, campaign,
 election, electorate, law, institution, procedure, or Lexington Slice E system.
+
+## D-051 — D-Lite acceptance repair makes elapsed time, commitment boundaries, zones, and pins truthful
+
+- Date: 2026-08-27
+- Status: ACCEPTED
+- Supersedes: D-050 only where it described an IANA-style regex identity,
+  preserved a stale offset across whole-day advancement, or allowed generic
+  minute movement through unresolved controlled-person commitments; no record
+  family or later-stage scope decision is superseded
+
+A canonical `SimulationMoment` must name a timezone supported by the runtime's
+IANA data, and its local date, minute, and explicit offset must all represent
+the same instant in that zone. Exact-minute addition advances the represented
+instant and derives the resulting local date, minute, and offset. Whole-day
+advancement preserves the intended local clock and zone while resolving the
+offset valid on the target date. An ambiguous local time prefers the previous
+offset when valid and otherwise the earlier represented instant; a nonexistent
+local time rejects rather than fabricating a clock reading.
+
+Generic minute advancement stops before crossing the start of any unresolved
+scheduled activity involving the controlled person and returns the exact input
+World. Explicit scheduled-activity performance may consume its own pre-start
+wait and interval, but cannot jump through an earlier unresolved controlled
+commitment or travel block. D-Lite adds no lateness, missed-appointment, or
+automatic cancellation system.
+
+Player-facing action disclosure must equal the canonical transition. The
+9:10-to-10:15 briefing path therefore states 20 minutes waiting plus 45 minutes
+attending and 65 total elapsed minutes before confirmation. The bottom-left
+civic-glass shell rests as a compact translucent chip and expands through a
+forgiving pointer approach zone, focus, or activation; touch activation uses
+the same open state and reduced motion removes transition animation.
+
+`Pinned` contains only deliberate user-controlled references. Canonical next
+commitment is a separate status projection derived from `nextCommitment`.
+Every remaining person pin has an Unpin action and a scene-native re-pin route;
+the unsupported District Notes fixture is removed. Selecting a manual pin size
+persists it and closes the controls in the same reducer action.
+
+Consequence: this is a correctness and human-play repair to the existing
+D-Lite substrate. It adds no Slice E, campaign, election, governing, law,
+institution, procedure, routing, generalized multi-zone travel, or pin
+organization feature.

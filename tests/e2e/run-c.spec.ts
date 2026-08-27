@@ -45,7 +45,9 @@ test("opens a readable scene-native legislative working document from the office
   expect(phraseAffordance.borderBottomStyle).toBe("solid");
   expect(phraseAffordance.borderBottomWidth).not.toBe("0px");
   expect(phraseAffordance.backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
-  await expect(page.locator('[data-pin-id="briefing"]')).toBeVisible();
+  await expect(page.getByTestId("current-commitment")).toContainText(
+    "Constituent intake briefing",
+  );
   await expect(navigation).toBeVisible();
   await expect(navigation.locator(".cluster-time")).toHaveText("9:10 AM");
   await expect(navigation.locator("strong")).toContainText("Lexington, KY");

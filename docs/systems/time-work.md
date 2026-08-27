@@ -8,22 +8,25 @@ World schema 15 owns `currentMoment`, a JSON-safe `SimulationMoment` with:
 
 - `date: IsoDate`;
 - `minuteOfDay`, an integer from 0 through 1439;
-- `timeZone`, a non-empty IANA-style zone identity; and
+- `timeZone`, an actually supported IANA zone identity; and
 - `utcOffsetMinutes`, an integer from -840 through 840.
 
-The explicit offset makes the represented instant deterministic without asking
-the host runtime for a timezone database. The zone identity preserves the
-geographic context needed by later travel systems. Moment comparison converts
-the date and local minute through the stored offset; two differently zoned
-moments may therefore represent the same instant. D-Lite does not infer future
-daylight-saving changes or implement travel between zones.
+The explicit offset makes the represented instant deterministic. Construction,
+integrity, and advancement also consult the runtime's IANA data to prove that
+zone, local date/minute, and offset describe that same instant; regex-shaped
+names such as `Fake/Zone` reject. The zone identity preserves geographic
+context. Moment comparison converts local date/minute through the stored
+offset, so differently zoned moments may represent the same instant.
 
 `World.currentDate` remains the authoritative calendar date for date-level
 systems and must equal `World.currentMoment.date`. Construction, transition,
 integrity, snapshot-load, and persistence boundaries reject a mismatch or an
-invalid minute, zone, offset, or date. `advanceWorld(world, days, handlers)`
-still accepts positive whole days and preserves the current local minute, zone,
-and offset. Snapshot format 14 round-trips schema 15 exactly.
+invalid minute, unsupported zone, inconsistent offset, or date.
+`advanceWorld(world, days, handlers)` still accepts positive whole days and
+preserves the intended local minute and zone while resolving the offset valid
+on the target date. Ambiguous local times prefer the prior offset when valid;
+nonexistent local times reject. Snapshot format 14 round-trips schema 15
+exactly.
 
 Neither global history sequence nor `World.actionSequence` is elapsed time.
 History sequence remains append order, including deterministic same-instant
@@ -32,11 +35,20 @@ ties. Action sequence remains the existing seeded whole-day action input.
 ## Exact advancement and date-level frontiers
 
 `advanceWorldMinutes` is the one sub-day advancement path. It accepts a
-positive integer minute count, computes the exact target moment, and resolves
-crossed work/activity completions in moment order. Crossing a date boundary
-updates both `currentMoment.date` and `currentDate`, then invokes the existing
-future-due frontier for that date. A date-level `FutureDueItem` remains a dated
-transition request and is never treated as an appointment.
+positive integer minute count, advances the represented instant exactly, and
+derives the resulting local date, minute, and offset even across daylight-saving
+transitions. Crossing a date boundary updates both `currentMoment.date` and
+`currentDate`, then invokes the existing future-due frontier for that date. A
+date-level `FutureDueItem` remains a dated transition request and is never
+treated as an appointment.
+
+Before committing a generic minute move, the transition checks every scheduled
+activity involving the controlled person. If the target would cross an
+unresolved activity start, including travel, it returns the exact input World.
+An explicit activity-performance path may consume that activity's own wait and
+interval, but rejects to the exact input World if an earlier unresolved player
+commitment would be skipped. This is a hard boundary, not a late-arrival or
+missed-appointment model.
 
 At the same represented instant, resolution uses a fixed deterministic order:
 date boundary and its due work, then work completion, then selected scheduled
@@ -115,7 +127,8 @@ access to unrelated private work.
 Calendar and Work/Pending are dedicated, explicitly opened planning surfaces.
 Opening, closing, navigating, selecting an event, reading its detail, or moving
 between real context targets consumes no time. Attending the briefing explains
-the 45-minute cost before committing it and then uses the canonical transition.
+the 20-minute wait, 45-minute activity, and 65-minute total before committing
+the exact 9:10–10:15 canonical transition.
 `PlayerOffice` remains the sole mutable owner of the immutable World.
 
 Later campaign events, fundraising, canvassing, debates, constituent work,
