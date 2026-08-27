@@ -41,7 +41,7 @@ export function QuickDossier({ dossier, onClose }: QuickDossierProps) {
     >
       <header className="dossier-header">
         <div>
-          <p className="dossier-kicker">Working impression</p>
+          <p className="dossier-kicker">Your read</p>
           <h2 id="dossier-name">{dossier.name}</h2>
           <p>{dossier.title}</p>
         </div>

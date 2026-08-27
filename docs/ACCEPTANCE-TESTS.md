@@ -703,9 +703,9 @@ browser DOM.
 ### NOW-170 — Person interaction is immediate and mutually exclusive
 
 Activating the in-scene person opens the anchored contextual action menu with
-Inspect directly available. Inspect replaces the menu with the quick dossier;
-the action menu is not left underneath or alongside it. Close and Escape return
-to the scene.
+Inspect directly available. Inspect replaces the menu with the subjective Your
+Read panel; the action menu is not left underneath or alongside it. Close and
+Escape return to the scene.
 
 ### NOW-171 — Permanent shell behavior is bounded and dark
 
@@ -752,6 +752,120 @@ surface, shell, epistemic filtering, time invariant, learning persistence,
 keyboard path, and manual pin sizing. Failed tests retain traces and screenshots
 plus console/error output, and CI uploads available failure evidence.
 
+### NOW-176 — Run B has a real multi-person scene and direct Talk entry
+
+The deterministic office contains the controlled player perspective plus Andre
+Collins and Julian Reed as active NPCs at separate valid visual-estimate scene
+anchors. Both are visibly readable. Activating either person opens the existing
+immediate menu with Talk directly alongside Inspect and Pin person. Reed is an
+actual listener/participant in committed turns, not decoration.
+
+### NOW-177 — Addressee, audibility, and physical presence remain distinct
+
+One session can switch Collins, Reed, and Everyone without restarting. Normal,
+Quiet, and Private are a separate closed presentation control. Explicit bounded
+room data identifies physical presence, active participation, eligible
+addressees, and reasonable listeners. Normal and Quiet resolve different
+listener sets for a single addressee. The occupied office disables Private with
+a natural nearby-person explanation; a separate deterministic two-person
+context proves a genuine private turn without distance acoustics.
+
+### NOW-178 — Conversation presentation keeps the office primary
+
+Talk opens a compact nonmodal lower-screen strip containing only current
+addressee, audibility, hearing context, current NPC dialogue, relevant intent
+choices, transcript, collapse, and close controls. Both NPCs, the scene,
+bottom-left cluster, and right pins remain visible and usable. Selected state is
+clear without portraits, wheels, ears, cones, outlines, or targeting rings.
+Keyboard focus moves from the person menu into the intent controls and every
+control has semantic labels and selected-state communication.
+
+### NOW-179 — Ephemeral conversation actions cannot mutate World
+
+Opening/closing, switching addressee, switching audibility, opening/closing the
+transcript, and collapsing/resuming preserve the exact serialized World,
+`currentDate`, `actionSequence`, and history frontier. Conversation state stores
+no canonical beliefs, claims, knowledge, perceptions, relationship records, or
+decision traces.
+
+### NOW-180 — A committed turn composes existing same-date canonical history
+
+A valid substantive turn returns a new immutable World plus bounded semantic
+and player-facing results. Where an NPC genuinely decides, evaluation is NPC
+only and its durable trace is recorded immediately before the turn event. The
+adapter then composes an ordinary event, unknown-truth claim, direct presence
+knowledge, claim-linked told-by knowledge, heard-claim perception, and only
+meaningful qualitative relationship history. Event participants and listeners
+match resolved room semantics. No `overheard` knowledge source, formal public
+position, campaign commitment, or private-belief rewrite is introduced.
+
+### NOW-181 — Conversation identity, ordering, and replay are deterministic
+
+Stable session identity derives from World, scene, starting history frontier,
+and ordered participants; each committed turn adds a positive local ordinal.
+Duplicate turn submission is rejected before a new write. Identical World,
+session, addressee, audibility, and intent reproduce the same semantic result,
+dialogue, canonical history, and serialized snapshot. Malformed sessions/turns
+fail without mutating input.
+
+### NOW-182 — Conversation keeps date-only time and controlled-person autonomy
+
+Every turn record uses the current `IsoDate`; `World.currentDate` remains
+unchanged and same-day causal order is global history sequence.
+`World.actionSequence` remains unchanged and no minute/hour counter is created
+or displayed. Room validation and the existing autonomous-application guard
+prevent the controlled person from becoming the NPC decision actor.
+
+### NOW-183 — Hidden state and internal decision mechanics remain absent
+
+Available intents derive from bounded shared/known office context. Hidden
+private-belief text, decision scores/ranks/random contributions, source
+snapshots, relationship points, probabilities, stable IDs, canonical debug
+fields, and warnings about future memory remain absent from player dialogue,
+transcript, ordinary visible DOM, and accessibility text. Runtime remains
+network-independent and uses deterministic authored phrase families rather than
+an LLM.
+
+### NOW-184 — Contextual identity and listening remain natural
+
+Character identification appears only on hover or keyboard focus, stays
+visually attached just above the character, and remains clear of the bottom-left
+shell. The label is suppressed whenever the action menu, Your Read panel, or
+conversation already makes identity explicit. The listening intent is labeled
+`Listen`; its transcript action is `(You listen.)`, never a quoted player line.
+The first bounded listening opportunity may produce a deterministic NPC
+continuation, while one repeated Listen may record a settled-room state without
+an NPC claim or fabricated speech. Listen is then unavailable and a third empty
+turn is rejected before history changes.
+
+### NOW-185 — Existing pins generalize explicitly to both scene NPCs
+
+Collins and Reed each map to one deterministic person pin in the existing right
+rail. Repeated pinning cannot duplicate either. Activating a pin opens explicit
+Compact, Standard, and Expanded actions; manual choice remains authoritative
+over automatic sizing. Each person pin exposes an accessible Unpin action that
+removes only that person and stale manual size. Re-pin works, while the current
+briefing and unrelated pins remain intact. Every pin action is presentation-only
+and time/history-neutral.
+
+### NOW-186 — Fixture identity, problem context, and dialogue are coherent
+
+The compact conversation context identifies `You — Cameron Foster` and states
+that three emergency-rent cases share a referral gap, the briefing will decide
+whether to recommend a shared intake checklist, Collins must back it, and Reed
+can verify the final case. Collins and Reed remain distinct NPC addressees and
+can never become controlled-person self-dialogue. Representative request lines
+commit, defer, or condition an answer according to outcome; pressure reacts to
+pressure; group lines recognize the group; and Listen continues the current
+thought only where warranted. Identical state/intent reproduces the same line.
+
+### NOW-187 — Temporary menus dismiss without discarding substantive work
+
+Clicking elsewhere in the scene or pressing Escape closes the navigation
+flyout, floating pin controls, and immediate person-action menu. Clicking within
+those controls remains usable. The rule does not click-away-close conversation
+or another surface where doing so could silently discard a substantive choice.
+
 ## Manual Now
 
 The visual statements below are independent human acceptance checks. They are
@@ -767,6 +881,21 @@ implementation-time browser inspection.
 - Person menu, dossier, civic popover, navigation, dark submenu, mixed pins, and
   learned/reference states remain readable while the scene stays substantially
   visible.
+- The compact Run B conversation strip keeps both NPCs, scene context,
+  bottom-left cluster, and pins substantially visible; addressee remains clear
+  and Private unavailability reads naturally.
+- Contextual character labels remain attached above the relevant person, never
+  drift onto the foreground chair or shell, and disappear when another open
+  surface already identifies that person.
+- Pin controls remain a small floating treatment; Collins and Reed can each be
+  pinned, explicitly resized, unpinned, and re-pinned without displacing the
+  briefing.
+- The ordinary conversation header establishes Cameron Foster as `You` and the
+  emergency-rent/shared-intake-checklist question without becoming a large
+  exposition panel.
+- Collins and Reed remain at plausible separate anchors with no
+  person/furniture intersection, floating, scale break, or incorrect foreground
+  occlusion.
 - The player surface has no white submenu cards, generated microtext, permanent
   numeric relationship/support display, or Stage 7 workspace.
 - Creating or reloading the demo shows the active seed, stable world ID, simulated date, Lexington-Fayette placeholder, and six generated people.

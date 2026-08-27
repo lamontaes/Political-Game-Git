@@ -639,6 +639,51 @@ meters. Inspectorial state cannot advance time, append history, consume RNG, or
 mutate the simulation. See
 [Player Presentation and Epistemic Projection](systems/player-presentation.md).
 
+## Stage 6.5 Run B Scene-Native Conversation
+
+- **Owns:** bounded conversation session identity, current NPC A/NPC
+  B/Everyone addressee, Normal/Quiet/Private presentation mode, explicit room
+  presence/listener resolution, topic/prior-turn-compatible authored
+  semantic-response families, transcript/collapse UI state, a controlled-person
+  identity/problem cue, presentation-only multi-person pin controls, and
+  committed-turn orchestration.
+- **Stable IDs exposed:** Person IDs and stable session/turn keys remain internal
+  state and canonical writer identity. Players see names, intent labels,
+  dialogue, and restrained hearing context.
+- **Referenced by:** `PlayerOffice`'s immutable World owner, the two-person
+  office scene, compact conversation strip, focused semantic tests, and the
+  existing Playwright proof.
+- **Queries/APIs:** `createRunBFixture`,
+  `createConversationSessionDescriptor`, `resolveConversationListeners`,
+  `describeConversationHearing`, `availableConversationIntents`,
+  `commitConversationTurn`, and `runBConversationReducer`.
+- **Canonical writers consumed:** NPC-only `evaluateDecision` plus immediate
+  `recordDurableDecisionTrace` where a genuine decision exists, followed by
+  ordinary event, claim, direct/told-by knowledge, heard-claim perception, and
+  qualitative relationship-interaction writers.
+- **Serialization/persistence:** the adapter returns an ordinary new `World`
+  that already uses world schema 14/snapshot 13. Conversation UI/session state
+  is ephemeral and adds no snapshot field or migration.
+- **Time:** UI manipulation writes nothing. A committed turn remains on the
+  current `IsoDate`; global history sequence orders same-day records and
+  `World.actionSequence` is unchanged.
+- **Presentation lifecycle:** person pin/unpin/size changes and click-away
+  dismissal for temporary navigation/pin/person menus remain in the Run A
+  inspectorial reducer. Listen becomes unavailable after its bounded
+  continuation and settled state, preventing empty duplicate commits.
+- **Temporary scaffolding:** one synthetic occupied office with a controlled
+  player and two active NPCs, plus one deterministic private-capable room
+  context. It is not a universal room, acoustic, dialogue, or speech system.
+- **Future consumers:** later contextual dialogue and negotiation may add
+  content/adapters over the same subjective/canonical boundaries. Stage 7 law
+  and institutions, Run C workspaces, and Run D time/calendar remain separate.
+
+Claims remain statements rather than truth. Actual resolved listeners determine
+limited/private claim audience; audibility labels never map mechanically to
+claim audience. Hidden beliefs and durable decision internals remain absent
+from normal dialogue, transcript, DOM, and accessibility text. See D-048 and
+[Player Presentation and Epistemic Projection](systems/player-presentation.md).
+
 ---
 
 ## Reserved Future Cross-System Contracts

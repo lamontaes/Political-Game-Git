@@ -76,6 +76,15 @@ browser entry point while retaining this accepted diagnostic viewer at
 knowledge; it uses the separate bounded epistemic projection documented in
 [Player Presentation and Epistemic Projection](systems/player-presentation.md).
 
+Stage 6.5 Run B extends that same scene with a controlled-player/two-NPC room,
+direct Talk actions, a compact conversation strip, separate addressee and
+audibility controls, and deterministic authored NPC dialogue. Ephemeral session
+state remains outside World. A committed turn replaces the session's immutable
+World after composing existing NPC decision, event, claim, knowledge,
+perception, and qualitative relationship writers on the same date. It adds no
+new persistence shape, sub-day clock, universal dialogue/acoustic engine,
+legislation/calendar workspace, runtime AI, or Stage 7 institution/law truth.
+
 ### Required Invariants
 
 - Same seed plus same ordered actions yields the same result for the same generator version.

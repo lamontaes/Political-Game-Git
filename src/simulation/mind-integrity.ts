@@ -552,8 +552,8 @@ function validatePerceptionSource(
         record.perceivedAt,
         record.sequence,
         [
-          { kind: "event-knowledge", knowledgeId: source.knowledgeId },
           { kind: "claim", claimId: source.claimId },
+          { kind: "event-knowledge", knowledgeId: source.knowledgeId },
         ],
       );
       return;

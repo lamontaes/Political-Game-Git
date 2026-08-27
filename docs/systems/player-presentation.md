@@ -1,6 +1,6 @@
 # Player Presentation and Epistemic Projection
 
-Status: **Stage 6.5 Run A implementation contract**
+Status: **Stage 6.5 Runs A–B implementation contract**
 
 ## Boundary
 
@@ -21,8 +21,9 @@ strict world/snapshot version rejection contract remains unchanged.
 
 ## Epistemic projection
 
-The quick dossier is a bounded projection, not a general dump of Person or
-HistoryStore. Every visible field carries one qualitative access class:
+The player-facing **Your Read** panel is a bounded subjective projection, not a
+general dump of Person or HistoryStore. Every visible field carries one
+qualitative access class:
 
 - personally known;
 - institutionally accessible;
@@ -107,3 +108,65 @@ Run A uses repository-authored React, CSS, and ordinary text for the scene
 fixture and all dynamic shell content. The references do not authorize copying
 their raster UI, microtext, flags, seals, implied jurisdiction facts, or exact
 dimensions.
+
+## Run B conversation boundary
+
+Run B adds a React-independent bounded conversation adapter and a separate
+conversation presentation reducer. `PlayerOffice` now owns the current
+immutable `World` for the player session and replaces it only with a successful
+committed-turn result. The Run A reducer remains inspectorial. Conversation UI
+state may retain session identity, current addressee, audibility, displayed
+dialogue, local committed-turn count, transcript visibility/content, and
+collapse state; it never copies canonical beliefs, claims, knowledge,
+perceptions, relationship history, or decision traces.
+
+Opening or closing conversation, changing NPC A/NPC B/Everyone addressee,
+changing Normal/Quiet/Private audibility, opening or closing the transcript, and
+collapsing or resuming the strip are presentation actions. They write no World
+record and change neither date nor action sequence. One substantive turn uses a
+stable session key built from World, scene, starting history frontier, and
+participants plus a local positive turn ordinal. An already committed key is
+rejected before any new write.
+
+The primary deterministic fixture has a physically situated controlled person,
+Andre Collins at the accepted desk anchor, and Julian Reed at a separate
+visual-estimate guest-chair anchor. All three are physically present and active
+participants; only the two NPCs are addressees. Normal includes both NPCs as
+reasonable listeners, Quiet normally limits hearing to the selected addressee,
+and Private is unavailable while the other NPC is plausibly within earshot. A
+second deterministic two-person room context makes Private genuinely
+available. This explicit bounded data is not a distance, decibel, ray, cone, or
+universal room simulation.
+
+For a substantive turn, the adapter validates World/session/room integrity;
+evaluates only a genuine NPC semantic decision when required; immediately
+records any durable trace; resolves actual listeners; and then composes the
+accepted event, claim, direct/told-by knowledge, heard-claim perception, and
+qualitative relationship writers. Spoken claims default to unknown truth
+relationship and never silently become private belief, public position, or
+campaign commitment. A listener may receive direct knowledge of presence and a
+separate claim-linked told-by record without an invented `overheard` source.
+
+All records use `World.currentDate`. Same-day order is the global history
+sequence; `World.actionSequence` remains unchanged. Deterministic authored
+phrase families translate the semantic response into natural dialogue without
+exposing decision ranks, scores, source snapshots, hidden beliefs, stable IDs,
+or diagnostic fields. Selection uses the emergency-rent referral topic,
+addressee/group context, intent, preceding session turn, and NPC outcome. The
+compact header identifies `You — Cameron Foster` and states that the briefing
+must decide whether to recommend a shared intake checklist, Collins must back
+it, and Reed can verify the final case. Listen permits one continuation and one
+settled-room record; the intent is then unavailable so empty turns cannot be
+spammed. The compact lower strip keeps both people, the room,
+bottom-left navigation, and right pins recognizable and usable. Run B adds no
+runtime LLM/network dependency, sub-day clock, legislation/calendar workspace,
+universal dialogue engine, or Stage 7 institution/law content.
+
+The accepted right-side rail projects one deduplicated person pin for each
+scene NPC in deterministic order. Pin activation opens a small floating menu
+with Compact, Standard, Expanded, and, for person pins, Unpin. Removing a person
+leaves briefing and unrelated pins intact, clears that pin's stale manual size,
+and permits a clean re-pin. Manual size continues to outrank later automatic
+sizing. Pin, unpin, and size actions remain inspectorial. Navigation, pin, and
+person-action menus dismiss on click-away or Escape; dossier and conversation
+surfaces do not silently close as a side effect of that transient-menu rule.
