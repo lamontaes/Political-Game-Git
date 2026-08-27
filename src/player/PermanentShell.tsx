@@ -7,6 +7,7 @@ interface PermanentShellProps {
   readonly fixture: RunAFixture;
   readonly people: readonly PinnedPersonDefinition[];
   readonly formattedDate: string;
+  readonly compactNavigation?: boolean;
   readonly state: RunAUiState;
   readonly dispatch: (action: RunAUiAction) => void;
 }
@@ -15,6 +16,7 @@ export function PermanentShell({
   fixture,
   people,
   formattedDate,
+  compactNavigation = false,
   state,
   dispatch,
 }: PermanentShellProps) {
@@ -24,7 +26,11 @@ export function PermanentShell({
     <>
       <PinRail people={people} state={state} dispatch={dispatch} />
 
-      <nav className="nav-cluster" aria-label="Time, location, and navigation">
+      <nav
+        className={`nav-cluster${compactNavigation ? " nav-cluster--document" : ""}`}
+        aria-label="Time, location, and navigation"
+        data-document-compact={compactNavigation ? "true" : "false"}
+      >
         {state.navigation !== "closed" ? (
           <div
             id="run-a-navigation"

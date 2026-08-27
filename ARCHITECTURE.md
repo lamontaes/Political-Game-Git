@@ -40,11 +40,12 @@ Node desktop adapter (src/persistence)
 - `src/persistence/` contains Node-only durable-storage adapters and depends on the public simulation snapshot codec.
 - `src/cli/` contains Node-only executable entry points.
 - `src/presentation/` contains React-independent epistemic selectors,
-  inspectorial and conversation-session state, deterministic Run A/Run B
-  fixtures, a bounded canonical-conversation adapter, browser persistence, and
-  semantic scene-placement validation. It may read the simulation and compose
-  its public writers for explicit fixtures and committed conversation turns;
-  the simulation never imports it.
+  inspectorial, conversation-session, and working-document state, deterministic
+  Run A/Run B/Run C fixtures, a bounded canonical-conversation adapter, the
+  provision-to-policy bridge, browser persistence, and semantic scene-placement
+  validation. It may read the simulation and compose its public writers for
+  explicit fixtures, known-analysis review, committed conversation turns, and
+  one office working-draft instruction; the simulation never imports it.
 - `src/player/` contains the normal player-facing React scene and shell.
 - `src/ui/` retains React diagnostics with explicitly omniscient developer access.
 - `src/App.tsx` selects the player scene by default and the developer viewer only
@@ -73,6 +74,18 @@ no parallel room, world, or history model. It composes existing public Stage 6
 writers in strict order and returns only a filtered semantic/presentation result
 to the strip. Same-date conversation order is history sequence, never action
 sequence or a fabricated clock.
+
+Stage 6.5 Run C keeps the Transit Access Pilot document, provisions, variants,
+selections, annotations, compare state, and clean-document state in the
+React-independent presentation layer. Its quantitative provision stores an
+explicit link to prepared Stage 6 `PolicyAlternativeRecord`,
+`PolicyOperationRecord`, and `PolicyEstimateRecord` identities; rendered prose
+is never parsed to infer effects. Player-visible staff interpretation requires
+ordinary actor-specific policy-analysis knowledge. The current office draft is
+derived from one exact same-date `office.working-draft-revised` event linking
+both prepared alternatives and operations. That event neither realizes policy
+nor creates law, legislation procedure, authority, appropriation, effect
+activation, or metric truth.
 
 The initial domain includes:
 
@@ -158,6 +171,13 @@ Education enrollment is a stable person-to-organization relationship rather than
 `CharacterHistoryPlan` is orchestration only: played choices, quick generation, and manual authorship apply the same validated transition intents through existing writers. Bounded formative content uses 0–7, 8–12, and 13–17 resolution pacing rather than weekly turns. Its consequential situations append ordinary events, interactions, knowledge, memories, appraisals, temporary context where warranted, and non-applying development proposals. Apprenticeship, volunteer, education, ordinary work, Guard/Reserve activation, relocation, resource initialization, compensation, flows/outcomes, obligations, dwellings, occupancy, and tenure compose the existing records. Orchestration-only `*StableKey` references are resolved and stripped before writer input so they cannot leak into canonical records. The plan adds no career object, friendship score, generalized event DSL, law source, or UI layer.
 
 Run C implements D-025's shared resource vocabulary only for bounded personal/household life. Money is an integer count of minor units plus a validated three-letter currency identity. A flow retains typed endpoints, basis, restrictions, effective terms, and cadence; actual outcomes are separate and are the only records that change a derived tracked liquid position. One flow may commit only one outcome for each non-overlapping inclusive settlement interval, including partial, missed, and blocked outcomes. Settlement validates the active terms at the period start; a later occurrence is allowed, while a term change after that start through the period end is rejected pending an explicit prorating model. Opening positions plus committed outcomes avoid an arbitrary balance-mutation API. Obligations and debt principal are stable arrangements distinct from payment outcomes, while affordability is a structured derived projection over current liquid position and active major obligations. It keeps exact same-currency obligation buckets by cadence and derives strain only from the caller's explicit exact cadence comparison bucket; it never adds different cadence terms. This is neither an account ledger nor a universal campaign, organization, or government finance object.
+
+Stage 6.5 Run C is a separate presentation milestone from Stage 5 Run C and
+Stage 6 Run C. Its working-document state is not enacted law and does not
+replace the future law, institution, legislation, appropriations, or procedure
+model. Later systems may attach authoritative proposal/revision/provision and
+legal-order identities to this bridge without replacing the accepted Stage 6
+policy/effect backend.
 
 Meaningful relationship contact, visits, support, missed opportunities, and reconnection append ordinary events, interactions, knowledge, optional memories/appraisals, and optional time commitments. A qualitative continuity assessment explains recent evidence, tension context, or a long gap; it is derived, stores no score, never deletes a relationship, and does not turn inactivity into hostility. Explicit missed or blocked resource outcomes may become actor-relevant typed Stage 4 evidence and support a bounded temporary resource-pressure state; no universal financial-stress or wellbeing value exists.
 

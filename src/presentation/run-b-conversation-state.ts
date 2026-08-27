@@ -5,7 +5,7 @@ import type {
   ConversationPresentationResult,
   ConversationSessionDescriptor,
 } from "./run-b-conversation";
-import type { RunBConversationProgress } from "./run-b-conversation-progress";
+import type { ConversationProgress } from "./run-b-conversation-progress";
 
 export interface ConversationTranscriptEntry {
   readonly ordinal: number;
@@ -19,7 +19,7 @@ export interface ConversationTranscriptEntry {
 export interface RunBConversationState {
   readonly mode: "closed" | "open" | "collapsed";
   readonly session: ConversationSessionDescriptor | null;
-  readonly progress: RunBConversationProgress | null;
+  readonly progress: ConversationProgress | null;
   readonly addressee: ConversationAddressee | null;
   readonly audibility: ConversationAudibility;
   readonly transcriptOpen: boolean;
@@ -34,7 +34,7 @@ export type RunBConversationAction =
   | {
       readonly type: "open";
       readonly session: ConversationSessionDescriptor;
-      readonly progress: RunBConversationProgress;
+      readonly progress: ConversationProgress;
       readonly addressee: ConversationAddressee;
       readonly openingBeat: ConversationDialogueBeat;
     }
@@ -54,7 +54,7 @@ export type RunBConversationAction =
   | {
       readonly type: "apply-turn";
       readonly turnOrdinal: number;
-      readonly progress: RunBConversationProgress;
+      readonly progress: ConversationProgress;
       readonly presentation: ConversationPresentationResult;
     }
   | { readonly type: "close" };

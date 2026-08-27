@@ -45,6 +45,38 @@ export interface RunBConversationProgress {
   readonly silenceSettled: boolean;
 }
 
+export interface RunCLegislativeConversationSubjectFacts {
+  readonly documentId: string;
+  readonly provisionId: string;
+  readonly selectionId: string;
+  readonly currentAmount: "$8,000,000";
+  readonly preparedAmount: "$4,000,000";
+  readonly currentAlternativeId: EntityId;
+  readonly currentOperationId: EntityId;
+  readonly currentEstimateId: EntityId;
+  readonly preparedAlternativeId: EntityId;
+  readonly preparedOperationId: EntityId;
+  readonly preparedEstimateId: EntityId;
+  readonly analysisKnowledgeId: EntityId;
+  readonly targetScopeLabel: string;
+}
+
+/**
+ * One bounded Run C subject carried by the accepted conversation session. It
+ * references canonical policy and knowledge records without copying them.
+ */
+export interface RunCLegislativeConversationProgress {
+  readonly subject: "transit-access-pilot-provision";
+  readonly subjectFacts: RunCLegislativeConversationSubjectFacts;
+  readonly phase: "opening" | "discussed";
+  readonly latestProposition: "compare-prepared-cap" | null;
+  readonly pendingContributions: readonly [];
+  readonly silenceSettled: true;
+}
+
+export type ConversationProgress =
+  RunBConversationProgress | RunCLegislativeConversationProgress;
+
 export function createRunBConversationProgress(): RunBConversationProgress {
   return {
     subject: "shared-intake-checklist",
@@ -69,8 +101,15 @@ export function createRunBConversationProgress(): RunBConversationProgress {
   };
 }
 
+export function isRunCLegislativeConversationProgress(
+  progress: ConversationProgress,
+): progress is RunCLegislativeConversationProgress {
+  return progress.subject === "transit-access-pilot-provision";
+}
+
 export function canListenToRunBConversation(
   progress: RunBConversationProgress,
 ): boolean {
   return progress.pendingContributions.length > 0 || !progress.silenceSettled;
 }
+import type { EntityId } from "../simulation";

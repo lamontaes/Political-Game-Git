@@ -889,6 +889,100 @@ flyout, floating pin controls, and immediate person-action menu. Clicking within
 those controls remains usable. The rule does not click-away-close conversation
 or another surface where doing so could silently discard a substantive choice.
 
+### NOW-189 — A physical working draft opens as a scene-native document
+
+The existing office desk contains one visibly paper-like Transit Access Pilot
+working draft. Pointer or keyboard activation opens readable numbered legal text
+as ordinary DOM content while retaining office edges, people, right pins, and
+the bottom-left shell. The paper identifies itself as an office working draft,
+not introduced and not enacted; no legislation dashboard or generated text
+raster replaces the scene.
+
+### NOW-190 — The quantitative provision maps explicitly to accepted policy semantics
+
+The stable Section 3 provision and exact amount selection map directly to two
+deterministic prepared policy alternatives and operations. Both target the
+existing government-outlay metric, Lexington jurisdiction, explicit
+`transit.pilot-eligible-riders` segment, and twelve-month pilot period. Their
+exact $8,000,000 and $4,000,000 magnitudes produce different existing-policy
+estimates without parsing legal text, calculating consequences in React,
+changing metric truth, or creating actual effects.
+
+### NOW-191 — Legal text, staff annotation, and comparison remain distinct
+
+Collins's attributed staff annotation is separate from the legal text. Clean
+copy hides the note without changing one legal word. Pointer and keyboard can
+select the exact amount phrase and open a restrained anchored action menu. The
+prepared comparison uses clear strike/insert markup and is preview only:
+opening, closing, or navigating it preserves the active variant, serialized
+World, date, action sequence, history, policy realization, effects, and metrics.
+
+### NOW-192 — Staff projections respect actor-specific knowledge
+
+Before Cameron reviews Collins's note, the player projection and DOM omit
+modeled consequences. Reviewing it appends ordinary policy-analysis review and
+knowledge records for Cameron, then exposes only the explicitly known
+$8,000,000 and $4,000,000 analyses with author, provenance, target scope, and
+forecast qualification. A separate unreviewed sensitivity estimate and its
+internal text remain absent. Collins's own analysis knowledge does not transfer
+automatically to Cameron.
+
+### NOW-193 — Legislative discussion reuses the accepted conversation engine
+
+Ask Collins opens the Run B conversation strip with the legislative working
+draft and selected Section 3 as its subject. Collins is the bounded addressee;
+Reed is a Normal listener derived from the same room semantics. Committing the
+authored response uses existing event, unknown-truth claim, direct/told-by
+knowledge, and heard-claim perception writers, grounded in Collins's exact
+analysis knowledge. No second dialogue state machine, runtime model call,
+emergency-rent casework copy, or fabricated relationship consequence is added.
+
+### NOW-194 — Selecting a working version records drafting history, not law
+
+`Use $4,000,000 version as office working draft` records exactly one stable,
+same-date `office.working-draft-revised` event linking the player,
+jurisdiction, both alternatives, and both operations. The paper projects its
+active version from that exact event. Duplicate submission rejects before a
+write. Date, action sequence, realization count, effect count, and metric count
+remain unchanged, and the UI never describes the instruction as passage,
+appropriation, enactment, or implementation.
+
+### NOW-195 — Run C is deterministic, scoped, valid, and serializable
+
+Identical fixture and action inputs reproduce stable document/provision/
+selection IDs, policy links, projections, conversation output, revision event,
+and serialized snapshot. Integrity accepts the expected graph and rejects
+malformed operation magnitude, direction, currency, alternative linkage, or
+provision target scope. The accepted world and snapshot versions remain
+unchanged and no `src/simulation/` implementation file changes.
+
+### NOW-196 — Run C composes with accepted office play
+
+After closing the document or committing the working revision, the ordinary
+office remains usable. Collins and Reed, pins, navigation, dossier, and the Run B
+emergency-rent conversation still follow their accepted flows. Focused Run A,
+Run B, and Run C semantic tests plus the executable browser suite cover pointer,
+keyboard, geometry, knowledge gating, conversation reuse, revision neutrality,
+post-return interaction, and deterministic reload.
+
+### NOW-197 — Human-play document presentation stays authentic and state-correct
+
+The selected quantitative phrase has a restrained underline/highlight plus
+pointer and keyboard focus behavior, with no generated `review` word or other
+explanatory text contaminating the legal sentence. Opening the document changes
+only the existing bottom-left shell's presentation modifier: its visible
+time/date/location context occupies materially less area and does not intersect
+the paper at the normal desktop viewport; closing the document restores the
+accepted Run A shell.
+
+Before the office instruction, paper, annotation, analysis, comparison, actions,
+accessible names, and DOM identify $8,000,000 as current and $4,000,000 as the
+prepared narrower revision. After the single canonical revision event, those
+surfaces identify $4,000,000 as current and $8,000,000 as the earlier office
+version; none retain the stale inverse labels. The correction changes no stable
+document identity, policy record, analysis-knowledge gate, conversation
+semantics, history write, realization, effect, metric, date, or action sequence.
+
 ## Manual Now
 
 The visual statements below are independent human acceptance checks. They are
@@ -924,6 +1018,13 @@ implementation-time browser inspection.
   exposition panel.
 - Active conversation requires no internal vertical scrolling at the normal
   desktop viewport; paged history reuses the same bounded box.
+- The Transit Access Pilot draft reads as a real paper working document on the
+  desk, not a floating dashboard tile, bill-management application, or dossier.
+- The focused working document remains comfortably readable while office
+  context, people, pins, and the shell still frame it.
+- The amount selection, Collins annotation, clean-copy state, prepared
+  strike/insert comparison, and committed $4,000,000 working version are
+  visually distinct without making legal text resemble a game board.
 - Collins and Reed remain at plausible separate anchors with no
   person/furniture intersection, floating, scale break, or incorrect foreground
   occlusion.

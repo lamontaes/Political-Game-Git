@@ -24,11 +24,25 @@ import {
   createRunBConversationState,
   runBConversationReducer,
 } from "../presentation/run-b-conversation-state";
-import { createRunBConversationProgress } from "../presentation/run-b-conversation-progress";
-import { createRunBFixture } from "../presentation/run-b-fixture";
+import {
+  createRunBConversationProgress,
+  isRunCLegislativeConversationProgress,
+} from "../presentation/run-b-conversation-progress";
+import {
+  createRunCDocumentUiState,
+  runCDocumentUiReducer,
+} from "../presentation/run-c-document-state";
+import {
+  commitRunCWorkingDraftRevision,
+  createRunCFixture,
+  createRunCLegislativeConversationProgress,
+  projectRunCWorkingDocument,
+  recordRunCPlayerAnalysisReview,
+} from "../presentation/run-c-working-document";
 import { ConversationStrip } from "./ConversationStrip";
 import { OfficeScene } from "./OfficeScene";
 import { PermanentShell } from "./PermanentShell";
+import { WorkingDocumentWorkspace } from "./WorkingDocumentWorkspace";
 
 function formatRunADate(date: string): string {
   return new Intl.DateTimeFormat("en-US", {
@@ -41,7 +55,7 @@ function formatRunADate(date: string): string {
 }
 
 export function PlayerOffice() {
-  const fixture = useMemo(createRunBFixture, []);
+  const fixture = useMemo(createRunCFixture, []);
   const [world, setWorld] = useState(fixture.world);
   const fixtureState = parseRunAFixtureState(
     new URLSearchParams(window.location.search).get("fixture"),
@@ -60,6 +74,20 @@ export function PlayerOffice() {
     undefined,
     createRunBConversationState,
   );
+  const [documentState, documentDispatch] = useReducer(
+    runCDocumentUiReducer,
+    undefined,
+    createRunCDocumentUiState,
+  );
+  const documentProjection = useMemo(
+    () => projectRunCWorkingDocument(world, fixture),
+    [fixture, world],
+  );
+  const activeConversationRoom =
+    conversationState.progress &&
+    isRunCLegislativeConversationProgress(conversationState.progress)
+      ? fixture.legislativeRoomContext
+      : fixture.roomContext;
   const dossiers = useMemo(
     () =>
       Object.fromEntries(
@@ -86,6 +114,12 @@ export function PlayerOffice() {
       conversationDispatch({ type: "toggle-transcript" });
     } else if (conversationState.mode !== "closed") {
       conversationDispatch({ type: "close" });
+    } else if (documentState.panel !== "none") {
+      documentDispatch({ type: "close-panel" });
+    } else if (documentState.actionMenuOpen) {
+      documentDispatch({ type: "dismiss-action-menu" });
+    } else if (documentState.mode === "open") {
+      documentDispatch({ type: "close" });
     } else if (state.activePinMenuId !== null) {
       dispatch({ type: "close-pin-controls" });
     } else if (state.overlay !== "none") {
@@ -112,13 +146,24 @@ export function PlayerOffice() {
     ) {
       dispatch({ type: "dismiss-overlay" });
     }
+    if (
+      documentState.actionMenuOpen &&
+      !target.closest(".provision-action-menu") &&
+      !target.closest(".legal-phrase-selection")
+    ) {
+      documentDispatch({ type: "dismiss-action-menu" });
+    }
   }
 
   function startConversation(
     personId: (typeof fixture.scenePeople)[number]["personId"],
   ) {
     dispatch({ type: "dismiss-overlay" });
-    if (conversationState.session) {
+    if (
+      conversationState.session &&
+      conversationState.progress &&
+      !isRunCLegislativeConversationProgress(conversationState.progress)
+    ) {
       if (!conversationState.progress) return;
       conversationDispatch({
         type: "switch-addressee",
@@ -147,6 +192,48 @@ export function PlayerOffice() {
     });
   }
 
+  function openWorkingDocument() {
+    dispatch({ type: "dismiss-overlay" });
+    dispatch({ type: "close-navigation" });
+    dispatch({ type: "close-pin-controls" });
+    if (conversationState.mode !== "closed") {
+      conversationDispatch({ type: "close" });
+    }
+    documentDispatch({ type: "open" });
+  }
+
+  function reviewStaffAnalysis() {
+    const reviewedWorld = recordRunCPlayerAnalysisReview(world, fixture);
+    setWorld(reviewedWorld);
+    documentDispatch({ type: "open-analysis" });
+  }
+
+  function discussSelectedProvision() {
+    const progress = createRunCLegislativeConversationProgress(world, fixture);
+    const room = fixture.legislativeRoomContext;
+    const collinsPersonId = fixture.scenePerson.personId;
+    documentDispatch({ type: "dismiss-action-menu" });
+    conversationDispatch({
+      type: "open",
+      session: createConversationSessionDescriptor(world, room),
+      progress,
+      addressee: collinsPersonId,
+      openingBeat: openingConversationBeat(
+        world,
+        room,
+        collinsPersonId,
+        progress,
+      ),
+    });
+  }
+
+  function commitWorkingDraftRevision() {
+    const revisedWorld = commitRunCWorkingDraftRevision(world, fixture);
+    setWorld(revisedWorld);
+    documentDispatch({ type: "close-panel" });
+    documentDispatch({ type: "dismiss-action-menu" });
+  }
+
   function commitTurn(intent: ConversationIntent) {
     if (
       !conversationState.session ||
@@ -158,7 +245,7 @@ export function PlayerOffice() {
     const turnOrdinal = conversationState.committedTurnCount + 1;
     const result = commitConversationTurn(world, {
       session: conversationState.session,
-      room: fixture.roomContext,
+      room: activeConversationRoom,
       progress: conversationState.progress,
       turnOrdinal,
       addressee: conversationState.addressee,
@@ -196,6 +283,15 @@ export function PlayerOffice() {
           knowledge.stableKey.includes("run-b:conversation:"),
         ).length
       }
+      data-working-draft-variant={documentProjection.activeVariantKey}
+      data-working-draft-revision-count={
+        world.history.events.filter(
+          (event) => event.type === "office.working-draft-revised",
+        ).length
+      }
+      data-policy-realization-count={world.history.policyRealizations.length}
+      data-effect-activation-count={world.history.effectActivations.length}
+      data-metric-state-count={world.history.metricStates.length}
       onKeyDown={handleKeyDown}
       onPointerDown={handlePointerDown}
     >
@@ -211,10 +307,21 @@ export function PlayerOffice() {
         dispatch={dispatch}
         conversationAddressee={conversationState.addressee}
         onTalk={startConversation}
+        onOpenWorkingDocument={openWorkingDocument}
+      />
+      <WorkingDocumentWorkspace
+        world={world}
+        fixture={fixture}
+        projection={documentProjection}
+        state={documentState}
+        dispatch={documentDispatch}
+        onReviewAnalysis={reviewStaffAnalysis}
+        onDiscussProvision={discussSelectedProvision}
+        onCommitRevision={commitWorkingDraftRevision}
       />
       <ConversationStrip
         world={world}
-        room={fixture.roomContext}
+        room={activeConversationRoom}
         scenePeople={fixture.scenePeople}
         state={conversationState}
         dispatch={conversationDispatch}
@@ -230,6 +337,7 @@ export function PlayerOffice() {
           dossier: dossiers[scenePerson.personId]!,
         }))}
         formattedDate={formatRunADate(world.currentDate)}
+        compactNavigation={documentState.mode === "open"}
         state={state}
         dispatch={dispatch}
       />

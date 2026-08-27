@@ -89,4 +89,13 @@ Stage 6 Run B preserves causal attribution separately from both occurrence truth
 
 Stage 6 Run C adds six sequence-aware quantitative policy families without creating another event or effect store. Baselines are counterfactual expectations, estimates are projections, and both remain separate from observations and metric truth. Alternatives and operations share projected causal identity, while only a separate realization may create actual Run B effects. One person's policy knowledge is an ordinary review event plus event-knowledge record and grants no access to anyone else.
 
+Stage 6.5 Run C continues to use that same append-oriented history. Reading an
+attached staff analysis records ordinary actor-specific policy-analysis review
+events and knowledge. Choosing the prepared office version records one
+duplicate-safe `office.working-draft-revised` event linking the controlled
+person, jurisdiction, both alternatives, and both operations. The active paper
+is projected from that exact event. No presentation-only selection, annotation,
+comparison, or focus state enters history, and the drafting instruction is not
+law or policy realization.
+
 Snapshot format 11 preserves the complete graph, shared descriptive policy, mind, world-metric, and causal-mechanism catalogs, control state, Stage 5 life records, metric state/observations, causal processes/effect activations, quantitative policy histories, and future due histories in world schema 12. The Node-only persistence adapter validates record order, discriminators, exact quantities/units/money, chronology, provenance, lifecycle/supersession and correction/forecast-revision chains, causal ancestry/effect timing, historical cutoffs, typed source availability, exact resource/housing integrity, due references/outcome events, stored load derivation, source snapshots, and references before saving or after loading. Generalized incident/event graphs, automatic knowledge propagation and correction, autonomous character development, behavioral classification, branching, returning-player briefings, and player-facing archive filtering remain future work.
