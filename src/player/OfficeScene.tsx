@@ -221,6 +221,7 @@ interface OfficeSceneProps {
   readonly dispatch: (action: RunAUiAction) => void;
   readonly conversationAddressee: ConversationAddressee | null;
   readonly onTalk: (personId: EntityId) => void;
+  readonly onOpenWorkingDocument: () => void;
 }
 
 export function OfficeScene({
@@ -230,6 +231,7 @@ export function OfficeScene({
   dispatch,
   conversationAddressee,
   onTalk,
+  onOpenWorkingDocument,
 }: OfficeSceneProps) {
   const learned = state.learnedConceptIds.includes(RUN_A_CIVIC_CONCEPT_ID);
   const selectedScenePerson = fixture.scenePeople.find(
@@ -316,8 +318,19 @@ export function OfficeScene({
         <span className="desk-drawer desk-drawer-one" />
         <span className="desk-drawer desk-drawer-two" />
         <span className="desk-lamp" />
-        <span className="desk-folder" />
       </div>
+
+      <button
+        type="button"
+        className="office-working-document-entry"
+        aria-label="Open Working Draft — Transit Access Pilot"
+        data-testid="working-document-entry"
+        onClick={onOpenWorkingDocument}
+      >
+        <span>WORKING DRAFT</span>
+        <strong>Transit Access Pilot</strong>
+        <small>Section 3 marked for review</small>
+      </button>
 
       <article className="briefing-memo" aria-label="Briefing memorandum">
         <p className="memo-label">Office memorandum</p>

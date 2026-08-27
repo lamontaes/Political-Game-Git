@@ -689,6 +689,52 @@ claim audience. Hidden beliefs and durable decision internals remain absent
 from normal dialogue, transcript, DOM, and accessibility text. See D-048 and
 [Player Presentation and Epistemic Projection](systems/player-presentation.md).
 
+## Stage 6.5 Run C Legislative Working Document
+
+- **Owns:** deterministic presentation identity for one office working
+  document, provisions, two prepared variants, exact phrase selection, Collins
+  annotation, clean/annotated display, compare panel, and derived active office
+  version.
+- **Stable IDs exposed:** document, provision, selection, and annotation IDs
+  remain presentation identities. Each quantitative variant explicitly stores
+  canonical policy alternative, operation, and estimate IDs rather than parsing
+  legal prose.
+- **Referenced by:** the physical desk-paper entry point, document workspace,
+  contextual provision menu, staff-analysis projection, one legislative Run B
+  subject, focused Vitest semantics, and Run C Playwright proof.
+- **Canonical writers consumed:** existing Stage 6 policy alternative,
+  baseline, operation, implementation-profile, projected-root, estimate, and
+  actor-specific analysis-knowledge writers for deterministic fixture
+  composition; ordinary `recordWorldEvent` for the player office-draft
+  instruction; existing Run B conversation writers for provision discussion.
+- **Scope:** both operations retain the same stable Lexington jurisdiction and
+  explicit `transit.pilot-eligible-riders` segment. No universal application is
+  inferred, and future targeted local benefits can preserve or replace that
+  explicit scope without a new document architecture.
+- **Epistemic boundary:** an estimate's existence grants Cameron no access.
+  Projection requires Cameron-owned policy-analysis knowledge and preserves
+  author, provenance, and forecast qualification. One unlearned sensitivity
+  estimate remains absent from ordinary DOM and accessibility text.
+- **Serialization/persistence:** policy fixture records, knowledge reviews,
+  conversation history, and the office-draft event already use world schema
+  14/snapshot 13. Ephemeral document UI state adds no snapshot field or browser
+  storage. Exact JSON replay remains unchanged.
+- **Time and consequence:** select, annotate, clean, compare, focus, and close
+  write nothing. The office revision adds one same-date history event, leaves
+  `World.actionSequence` unchanged, and creates no realization, effect, metric
+  truth, law, appropriation, or procedure.
+- **Temporary scaffolding:** one synthetic Transit Access Pilot fixture with
+  authored legal-style language and prepared $8,000,000/$4,000,000 variants. It
+  is not a bill editor, appropriations model, legislature, or universal document
+  engine.
+- **Future consumers:** Stage 7/10 law, institution, legislation, budget, and
+  procedure producers may attach authoritative proposal/revision/provision acts
+  to this bridge while continuing to use the Stage 6 policy/effect backend.
+
+Run C working-document state is not enacted law and does not replace the future
+law, institution, legislation, appropriations, or procedure model. See D-049
+and [Player Presentation and Epistemic Projection](systems/player-presentation.md).
+
 ---
 
 ## Reserved Future Cross-System Contracts

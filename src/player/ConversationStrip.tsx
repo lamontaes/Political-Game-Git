@@ -3,7 +3,8 @@ import { useEffect, useRef } from "react";
 import { personName, type World } from "../simulation";
 import {
   availableConversationIntents,
-  describeRunBBriefingContext,
+  conversationTopicLabel,
+  describeConversationBriefingContext,
   describeConversationHearing,
   openingConversationBeat,
   RUN_B_AUDIBILITY_OPTIONS,
@@ -54,11 +55,17 @@ export function ConversationStrip({
     readonly key: ConversationAddressee;
     readonly label: string;
   }[] = [
-    ...scenePeople.map((person) => ({
-      key: person.personId,
-      label: world.people[person.personId]?.familyName ?? "Colleague",
-    })),
-    { key: "everyone", label: "Everyone" },
+    ...scenePeople
+      .filter((person) =>
+        room.eligibleAddresseePersonIds.includes(person.personId),
+      )
+      .map((person) => ({
+        key: person.personId,
+        label: world.people[person.personId]?.familyName ?? "Colleague",
+      })),
+    ...(room.eligibleAddresseePersonIds.length > 1
+      ? ([{ key: "everyone", label: "Everyone" }] as const)
+      : []),
   ];
 
   function switchAddressee(addressee: ConversationAddressee) {
@@ -231,8 +238,8 @@ export function ConversationStrip({
           <h2 id="conversation-strip-title">Office conversation</h2>
         </div>
         <p className="conversation-topic-context">
-          <strong>Constituent services ·</strong>{" "}
-          {describeRunBBriefingContext(progress)}
+          <strong>{conversationTopicLabel(progress)} ·</strong>{" "}
+          {describeConversationBriefingContext(progress)}
         </p>
         <div className="conversation-window-actions">
           <button

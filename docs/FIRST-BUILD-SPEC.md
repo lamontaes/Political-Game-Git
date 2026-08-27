@@ -85,6 +85,14 @@ perception, and qualitative relationship writers on the same date. It adds no
 new persistence shape, sub-day clock, universal dialogue/acoustic engine,
 legislation/calendar workspace, runtime AI, or Stage 7 institution/law truth.
 
+Stage 6.5 Run C adds one separate bounded Transit Access Pilot office working
+draft. It presents stable provisions and real DOM legal text over existing
+quantitative policy alternatives/operations/estimates, filters staff analysis
+through ordinary actor knowledge, reuses the Run B strip for one provision
+discussion, and records one office-draft instruction as ordinary history. It
+does not implement a bill, law, appropriation, institution, procedure, or policy
+realization.
+
 ### Required Invariants
 
 - Same seed plus same ordered actions yields the same result for the same generator version.
@@ -142,7 +150,7 @@ This build does not implement:
 
 - cross-version migrations, branch persistence, recovery tooling, or a production desktop save picker;
 - detailed or purportedly factual Lexington civic data;
-- elections, campaigning, legislation, political institutions/offices, mutable law, staff, polling, media simulation, generalized event causality/economy, deep autonomous career progression, campaign/organization/government finance, banking/credit/investments/tax, property markets/maintenance, or full NPC autonomy;
+- elections, campaigning, full legislation/procedure, political institutions/offices, mutable law, staff systems, polling, media simulation, generalized event causality/economy, deep autonomous career progression, campaign/organization/government finance, banking/credit/investments/tax, property markets/maintenance, or full NPC autonomy; the bounded Stage 6.5 Run C working-document bridge is the only current legislative-work exception;
 - hourly calendars, automatic scheduling, health simulation, or player-facing workload, fatigue, personality, trust, or relationship meters;
 - autonomous personality/value/relationship development, background population-scale opinion change, automatic knowledge propagation or memory recall, or political action classification;
 - final UI, art direction, or production content;

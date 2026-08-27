@@ -1,6 +1,6 @@
 # Player Presentation and Epistemic Projection
 
-Status: **Stage 6.5 Runs A–B implementation contract**
+Status: **Stage 6.5 Runs A–C implementation contract**
 
 ## Boundary
 
@@ -188,3 +188,47 @@ and permits a clean re-pin. Manual size continues to outrank later automatic
 sizing. Pin, unpin, and size actions remain inspectorial. Navigation, pin, and
 person-action menus dismiss on click-away or Escape; dossier and conversation
 surfaces do not silently close as a side effect of that transient-menu rule.
+
+## Run C working-document boundary
+
+Run C composes the accepted office and immutable `PlayerOffice` World owner with
+one deterministic Transit Access Pilot office working draft. The ordinary entry
+is a physical paper on the scene desk. Focusing it preserves visible room edges,
+the right pin rail, and the bottom-left shell while providing natural document
+scrolling. Legal text remains authored, deterministic, selectable DOM text; no
+legal wording is baked into art.
+
+Document, provision, variant, selection, and annotation identities are stable
+presentation records. The shared Section 3 amount selection remains one stable
+identity across the current $8,000,000 and prepared $4,000,000 variants. Each
+variant's Section 3 record explicitly stores its Stage 6 policy alternative and
+operation IDs plus the Lexington `transit.pilot-eligible-riders` metric scope.
+The UI never parses currency text to infer the operation.
+
+Current legal text, staff annotation, Collins's interpretation, prepared
+alternate text, and compare markup remain separate. Annotation visibility,
+clean-document mode, phrase selection, compare open/close, focus, and panel
+state live in `runCDocumentUiReducer` and cannot write World. The qualified
+staff comparison is projected only when Cameron owns ordinary policy-analysis
+review knowledge for each estimate. A canonical hidden sensitivity estimate is
+not included in labels, descriptions, annotations, compare, accessibility text,
+or DOM.
+
+The selected phrase can open the existing conversation strip with one
+`transit-access-pilot-provision` progress variant and a Run C room key. Collins
+is the sole eligible addressee while Reed remains physically present and a
+Normal-mode listener. Collins's authored response requires Collins's own
+knowledge of the current estimate. The shared Run B commit path supplies actual
+listeners, ordinary event, unknown-truth claim, direct/told-by knowledge, and
+heard-claim perception; it never falls back to the emergency-rent casework
+subject.
+
+The only drafting consequence is one exact
+`office.working-draft-revised` event selecting the prepared $4,000,000 office
+version. `projectRunCWorkingDocument` derives the active variant from that exact
+event and verifies its alternative/operation linkage. Duplicate submission
+rejects. The action keeps date and action sequence unchanged and creates no
+policy realization, effect activation, metric state, bill, law, appropriation,
+office authority, chamber procedure, calendar, or sub-day clock. Run C working
+document state is not enacted law and does not replace the future law,
+institution, legislation, appropriations, or procedure model.

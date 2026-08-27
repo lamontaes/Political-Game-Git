@@ -426,3 +426,34 @@ addressee/audibility controls, natural Private unavailability, canonical test
 hooks, transcript/collapse neutrality, keyboard focus, forbidden-content
 absence, and deterministic reload. Independent human visual and repository
 review remain required on the unmerged PR.
+
+## Stage 6.5 Run C Boundary Audit — 2026-08-27
+
+This audit applies D-049 across the accepted Run A scene, Run B conversation
+adapter, frozen Stage 6 quantitative-policy and history contracts,
+actor-specific knowledge boundary, immutable World ownership, persistence,
+determinism, and the Stage 7 scope gate.
+
+| Concern                                 | Disposition                           | Evidence and rationale                                                                                                                                                                                                                                                                                                                                                                   |
+| --------------------------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Run A scene hierarchy                   | Confirmed composed                    | A physical paper rests on the existing desk and opens a focused readable workspace while the office edges, people, pins, and bottom-left shell remain present. The document is the interaction surface; no dashboard, bill database, or detached legislation workspace was added.                                                                                                        |
+| Document identity and policy mapping    | Confirmed explicit                    | Stable document, provision, selection, annotation, and prepared-variant IDs are deterministic presentation records. The quantitative provision explicitly links to two existing policy alternatives and operations over one jurisdiction, named eligible-rider segment, metric, and period. No legal-text parser or UI consequence calculator exists.                                    |
+| Projection versus reality               | Confirmed separated                   | Existing baseline, operation, implementation-profile, projected-root, and estimate writers produce the $8,000,000 and $4,000,000 forecast cases. Preview and revision create no policy realization, causal effect activation, metric write, appropriation, enactment, or implementation claim.                                                                                           |
+| Legal text, annotation, and comparison  | Confirmed distinct                    | Authored numbered legal text is ordinary readable DOM content. Collins's attributed working note is separate and may be hidden without altering legal text. Strike/insert comparison is a neutral preview and cannot select a variant or write World.                                                                                                                                    |
+| Actor-specific analysis                 | Confirmed filtered                    | Collins and Cameron require separate ordinary policy-analysis knowledge. Cameron sees modeled consequences only after explicit review. Projection selects analyses through person-specific knowledge, and an unreviewed sensitivity estimate and its text remain absent from the player projection and browser DOM.                                                                      |
+| Conversation reuse                      | Confirmed composed                    | The selected provision opens the accepted Run B strip and reuses its room, addressee, audibility, listener, event, unknown-truth claim, direct/told-by knowledge, and heard-claim perception paths. Collins speaks from an exact knowledge record; Reed remains an audibility-derived listener. No second conversation engine or emergency-rent copy appears in the legislative subject. |
+| Historical revision boundary            | Confirmed ordinary and duplicate-safe | The office instruction is one stable-keyed, same-date `office.working-draft-revised` event linked to the player, jurisdiction, alternatives, and operations. Active paper state derives from that event. Duplicate submission rejects before writing; `currentDate` and `actionSequence` remain unchanged.                                                                               |
+| Determinism, integrity, and persistence | Confirmed exact                       | Identical fixture creation, analysis review, conversation input, and revision reproduce the same IDs, projections, history, and serialized World. Existing integrity validation accepts the graph; no schema, snapshot, metric catalog, causal catalog, or simulation source file changed.                                                                                               |
+| Target-scope safeguard                  | Confirmed explicit                    | Both operations and the provision carry the exact jurisdiction plus `transit.pilot-eligible-riders` segment. Validation rejects a malformed alternative, operation magnitude, currency, direction, or provision-to-scope linkage instead of falling back to an unscoped aggregate.                                                                                                       |
+| Later-stage boundary                    | Confirmed bounded                     | Run C adds no bill/law/institution/procedure/vote/committee/appropriation system, calendar, sub-day time, Work/Pending surface, runtime AI, external data, or Run D feature. The future authoritative legislation system remains gated.                                                                                                                                                  |
+
+### Run C disposition
+
+Focused semantic and browser coverage proves deterministic document identity,
+explicit policy mapping, distinct projections, presentation neutrality,
+actor-specific analysis access, hidden-estimate filtering, Run B conversation
+reuse, duplicate-safe same-date revision history, scope integrity, exact replay,
+and continued Run A/Run B interaction after returning to the office. Codex's
+implementation-time browser inspection confirms the intended scene-first paper
+composition and readable document hierarchy. Independent human visual,
+playthrough, and repository review remain required on the new unmerged PR.

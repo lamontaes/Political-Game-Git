@@ -637,3 +637,56 @@ decide, learn claims, and affect relationship history without a detached RPG
 dialogue tree. It adds no universal dialogue language, acoustic engine,
 calendar, legislation workspace, institution/law/authority model, Run C or Run
 D scope, or Stage 7 feature.
+
+## D-049 — Legislative working documents project existing policy semantics without becoming law
+
+- Date: 2026-08-27
+- Status: ACCEPTED
+- Supersedes: the Stage 6.5 hold only for the bounded authorized Run C slice;
+  no Stage 6 policy or future Stage 7 law/institution decision is superseded
+
+Represent the first player-facing legislative work as one presentation-owned
+office working document, not a canonical bill, statute, chamber action,
+appropriation, or procedure record family. Deterministic document, provision,
+variant, annotation, and selection identities live in `src/presentation/`.
+Each quantitative variant stores explicit canonical links to an existing Stage
+6 `PolicyAlternativeRecord`, `PolicyOperationRecord`, and
+`PolicyEstimateRecord`; rendered legal prose is never parsed to infer
+quantitative behavior. The Transit Access Pilot fixture maps the current
+$8,000,000 phrase and prepared $4,000,000 phrase to distinct absolute increases
+in `government.outlays`, both scoped to the same Lexington jurisdiction and
+`transit.pilot-eligible-riders` segment for the same interval.
+
+Keep current legal text, Collins's working annotation, staff interpretation,
+prepared alternate text, and compare markup as separate presentation concepts.
+Document selection, clean/annotated display, and compare never write World.
+Policy estimates remain forecasts: they create no realization, effect
+activation, or metric truth. Cameron sees an interpretation only after the
+existing `recordPolicyAnalysisKnowledge()` path creates ordinary person-owned
+review knowledge. An additional canonical sensitivity estimate deliberately
+remains absent from the projection and DOM because Cameron never learns it.
+
+Derive the current office working variant from one exact duplicate-safe
+`office.working-draft-revised` historical event linking the controlled player,
+jurisdiction, both alternatives, and both operations. The event records a
+same-date office drafting instruction and leaves `currentDate`,
+`World.actionSequence`, policy realization, effect activation, and metric truth
+unchanged. It does not enact, introduce, pass, appropriate, or implement
+anything. Later law, institution, legislation, budget, and procedure systems
+must attach authoritative identities and acts without replacing this provision
+bridge or the accepted Stage 6 policy/effect backend.
+
+Extend the accepted Run B conversation progress with one discriminated
+legislative-provision subject. Its authored Collins response requires Collins's
+own policy-analysis knowledge and then uses the existing room, addressee,
+audibility, listener, ordinary event, unknown-truth claim, direct/told-by
+knowledge, and heard-claim perception commit path. No second legislation
+conversation engine or casework copy enters this subject.
+
+Consequence: Run C proves physical document → legal phrase → stable provision →
+known staff analysis → prepared quantitative alternative → provision
+discussion → office-draft instruction while preserving scene-first
+presentation and proposal-versus-implementation truth. It adds no formal
+officeholding, bill/law identity, sponsorship, chamber, committee, vote,
+passage, enactment, appropriation, calendar, sub-day clock, Run D surface, or
+Stage 7 system.

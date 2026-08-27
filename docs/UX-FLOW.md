@@ -124,6 +124,59 @@ Foster`; Collins and Reed remain distinct NPCs.
      never reveals source snapshots, private beliefs, numeric relationship
      changes, probabilities, or fake elapsed minutes.
 
+## Run C Legislative Working-Document Flow
+
+1. **Open the physical draft**
+   - Notice and activate the Transit Access Pilot paper resting on the existing
+     desk rather than entering a legislation dashboard.
+   - Focus a readable paper workspace while retaining visible office edges,
+     people behind it, the right pin rail, and bottom-left shell.
+   - Read authored numbered legal text as real DOM text. Keep `OFFICE WORKING
+DRAFT`, `NOT INTRODUCED`, and `NOT ENACTED` explicit.
+
+2. **Select the quantitative provision**
+   - Activate the exact $8,000,000 phrase by pointer or keyboard.
+   - Show one restrained anchored menu with only implemented actions: read/view
+     the staff note, compare the prepared revision, ask Collins, or use the
+     prepared office version.
+   - Keep the selected phrase visually unambiguous without inserting civic-game
+     icons into legal typography.
+
+3. **Separate text from interpretation**
+   - Keep Collins's attached working annotation in the margin and label its
+     author.
+   - Toggling Clean copy hides the annotation but leaves every legal word
+     unchanged and writes no history.
+   - Before Cameron reviews the note, omit modeled consequences and every hidden
+     sensitivity detail. Reading the note creates ordinary actor-specific
+     policy-analysis knowledge, then shows qualified $8,000,000 versus
+     $4,000,000 staff projections with provenance.
+
+4. **Compare without committing**
+   - Present a strike/insert markup projection for `$8,000,000` → `$4,000,000`
+     and name each explicitly mapped proposed outlay operation.
+   - State that compare is preview only. Opening or closing it cannot change the
+     active draft, date, action sequence, policy realization, effects, or
+     metrics.
+
+5. **Discuss the selected provision**
+   - Open the accepted conversation strip with `Legislative working draft` and
+     the selected Section 3 subject, not the emergency-rent casework copy.
+   - Address Collins while Reed remains an audibility-derived Normal listener.
+     Collins distinguishes working language, staff projection, appropriation,
+     and implementation using information he canonically knows.
+   - Commit through the existing event/claim/knowledge/perception path and close
+     or review history with normal Run B controls.
+
+6. **Choose the office working version**
+   - Commit `Use $4,000,000 version as office working draft` once.
+   - Update the active paper from the ordinary same-date office-draft event and
+     prevent duplicate submission.
+   - Do not call the action passage, enactment, appropriation, or implementation;
+     do not realize policy or change metrics.
+   - Return to the ordinary office and continue using people, pins, navigation,
+     dossier, and Run B casework conversation normally.
+
 ## Retained Developer Flow
 
 ### Primary Flow

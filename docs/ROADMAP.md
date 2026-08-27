@@ -352,7 +352,7 @@ Runs A through E deliberately contain no automatic economy tick, daily or popula
 
 ## Stage 6.5 — First Real UI and Diegetic Onboarding Shell
 
-Status: **RUNS A–B IMPLEMENTED; RUN B INDEPENDENT REVIEW AND HUMAN PLAY REVIEW PENDING**
+Status: **RUNS A–C IMPLEMENTED; RUN C INDEPENDENT REVIEW AND HUMAN PLAY REVIEW PENDING**
 
 ### Purpose
 
@@ -411,6 +411,24 @@ conversation is non-scrolling with paged history in the same box; and temporary
 menus dismiss on scene click-away. Pending response eligibility now uses the
 same resolved listeners as canonical consequences: Quiet preserves an unheard
 NPC contribution, while a later audible context may resolve it exactly once.
+
+Run C adds one bounded scene-native legislative working document to the same
+office. A physical Transit Access Pilot paper opens into readable authored DOM
+legal text while leaving the surrounding room, shell, and pins recognizable.
+Stable document, provision, and phrase identities map explicitly to prepared
+Stage 6 policy alternatives, operations, and estimates for $8,000,000 and
+$4,000,000 outlay magnitudes over the same Lexington eligible-rider scope.
+Annotations and Collins's qualified interpretation remain visually distinct
+from current legal text; analysis appears only after ordinary person-specific
+policy-analysis knowledge. Compare and clean-document controls are
+presentation-only. One duplicate-safe same-date office instruction selects the
+narrower working version through an ordinary historical event without passage,
+enactment, appropriation, policy realization, effect activation, metric change,
+date advance, or action-sequence use. The selected provision may open the
+existing Run B strip with a legislative subject while preserving its listener,
+claim, knowledge, and perception semantics. Run C adds no formal bill,
+institution, chamber, officeholding, procedure, calendar, or Run D system. See
+D-049 and [Player Presentation and Epistemic Projection](systems/player-presentation.md).
 
 ---
 

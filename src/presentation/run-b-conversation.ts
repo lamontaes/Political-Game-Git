@@ -23,9 +23,12 @@ import type {
 import {
   canListenToRunBConversation,
   createRunBConversationProgress,
+  isRunCLegislativeConversationProgress,
+  type ConversationProgress,
   type RunBConversationProgress,
   type RunBConversationProposition,
   type RunBPendingContribution,
+  type RunCLegislativeConversationProgress,
 } from "./run-b-conversation-progress";
 
 export const RUN_B_AUDIBILITY_OPTIONS = ["normal", "quiet", "private"] as const;
@@ -36,6 +39,7 @@ export const RUN_B_CONVERSATION_INTENTS = [
   "reassure",
   "press",
   "listen",
+  "discuss-provision",
 ] as const;
 export type ConversationIntent = (typeof RUN_B_CONVERSATION_INTENTS)[number];
 
@@ -46,6 +50,21 @@ export function describeRunBBriefingContext(
 ): string {
   const facts = progress.subjectFacts;
   return `Three Lexington tenants asked this office for emergency-rent help. The county could not process two referrals because each lacked a required ${facts.requiredDocument}. Reed is checking the third. Decide whether Collins should back a document checklist before future referrals.`;
+}
+
+export function describeConversationBriefingContext(
+  progress: ConversationProgress,
+): string {
+  if (isRunCLegislativeConversationProgress(progress)) {
+    return `Review Section 3 of the Transit Access Pilot office working draft. The current provision states ${progress.subjectFacts.currentAmount}; a prepared version states ${progress.subjectFacts.preparedAmount} for the same eligible-rider scope.`;
+  }
+  return describeRunBBriefingContext(progress);
+}
+
+export function conversationTopicLabel(progress: ConversationProgress): string {
+  return isRunCLegislativeConversationProgress(progress)
+    ? "Legislative working draft"
+    : "Constituent services";
 }
 
 export interface ConversationRoomContext {
@@ -85,7 +104,7 @@ export interface ConversationDialogueBeat {
 export interface CommitConversationTurnInput {
   readonly session: ConversationSessionDescriptor;
   readonly room: ConversationRoomContext;
-  readonly progress?: RunBConversationProgress;
+  readonly progress?: ConversationProgress;
   readonly turnOrdinal: number;
   readonly addressee: ConversationAddressee;
   readonly audibility: ConversationAudibility;
@@ -120,7 +139,7 @@ export interface ConversationPresentationResult {
 
 export interface CommitConversationTurnResult {
   readonly world: World;
-  readonly progress: RunBConversationProgress;
+  readonly progress: ConversationProgress;
   readonly semantic: ConversationSemanticResult;
   readonly presentation: ConversationPresentationResult;
 }
@@ -162,9 +181,27 @@ export function createConversationSessionDescriptor(
 export function availableConversationIntents(
   room: ConversationRoomContext,
   addressee: ConversationAddressee,
-  progress: RunBConversationProgress,
+  progress: ConversationProgress,
   audibility: ConversationAudibility = "normal",
 ): readonly ConversationIntentOption[] {
+  if (isRunCLegislativeConversationProgress(progress)) {
+    if (
+      addressee !== "everyone" &&
+      addressee !== room.eligibleAddresseePersonIds[0]
+    ) {
+      return [];
+    }
+    return progress.phase === "discussed"
+      ? []
+      : [
+          {
+            key: "discuss-provision",
+            label: `Ask Collins about the ${progress.subjectFacts.currentAmount} provision`,
+            description:
+              "Ask for Collins's known staff interpretation of the selected working-draft provision and prepared narrower version.",
+          },
+        ];
+  }
   const commitmentLabel =
     addressee === "everyone"
       ? "Ask Reed to check and Collins to decide"
@@ -213,7 +250,7 @@ export function openingConversationBeat(
   world: World,
   room: ConversationRoomContext,
   addressee: ConversationAddressee,
-  progress: RunBConversationProgress = createRunBConversationProgress(),
+  progress: ConversationProgress = createRunBConversationProgress(),
 ): ConversationDialogueBeat {
   validateAddressee(room, addressee);
   const addresseeIds = resolveAddresseePersonIds(room, addressee);
@@ -221,6 +258,17 @@ export function openingConversationBeat(
   const speaker = world.people[speakerPersonId];
   if (!speaker) {
     throw new Error("Conversation opening speaker is missing from the World.");
+  }
+
+  if (isRunCLegislativeConversationProgress(progress)) {
+    return {
+      speakerPersonId,
+      speakerName: personName(speaker),
+      dialogue:
+        progress.phase === "discussed"
+          ? `“The prepared ${progress.subjectFacts.preparedAmount} language is still on the page for comparison,” Collins says. “Neither version is enacted or implemented.”`
+          : `“I have Section 3 open,” Collins says. “You’re looking at the ${progress.subjectFacts.currentAmount} ceiling and the prepared ${progress.subjectFacts.preparedAmount} version for the same pilot scope.”`,
+    };
   }
 
   if (progress.phase !== "opening" || progress.latestProposition !== null) {
@@ -255,8 +303,19 @@ function continuingConversationBeat(
   world: World,
   room: ConversationRoomContext,
   addressee: ConversationAddressee,
-  progress: RunBConversationProgress,
+  progress: ConversationProgress,
 ): ConversationDialogueBeat {
+  if (isRunCLegislativeConversationProgress(progress)) {
+    const speakerPersonId = room.eligibleAddresseePersonIds[0]!;
+    const speaker = world.people[speakerPersonId];
+    if (!speaker)
+      throw new Error("Legislative conversation speaker is missing.");
+    return {
+      speakerPersonId,
+      speakerName: personName(speaker),
+      dialogue: `“The office copy still distinguishes the current ${progress.subjectFacts.currentAmount} text from the prepared ${progress.subjectFacts.preparedAmount} text,” Collins says.`,
+    };
+  }
   const primaryId = room.eligibleAddresseePersonIds[0]!;
   const secondaryId = room.eligibleAddresseePersonIds[1] ?? primaryId;
   const speakerPersonId = addressee === "everyone" ? primaryId : addressee;
@@ -414,7 +473,8 @@ export function commitConversationTurn(
     input.addressee,
   );
   const pendingContribution =
-    input.intent === "listen"
+    input.intent === "listen" &&
+    !isRunCLegislativeConversationProgress(currentProgress)
       ? (currentProgress.pendingContributions[0] ?? null)
       : null;
   const responseSpeakerPersonId =
@@ -473,6 +533,7 @@ export function commitConversationTurn(
     resolved.speakerPersonId,
     input.intent,
     resolved.outcome,
+    currentProgress,
   );
 
   world = recordWorldEvent(world, {
@@ -484,6 +545,7 @@ export function commitConversationTurn(
     involvedEntityIds: canonicalEntities([
       ...participantPersonIds,
       input.room.jurisdictionId,
+      ...conversationSubjectEntityIds(currentProgress),
     ]),
     participants: participantPersonIds.map((personId) => ({
       personId,
@@ -514,6 +576,9 @@ export function commitConversationTurn(
       "conversation.office",
       `conversation.intent.${input.intent}`,
       `conversation.audibility.${input.audibility}`,
+      isRunCLegislativeConversationProgress(currentProgress)
+        ? "conversation.subject.legislative-provision"
+        : "conversation.subject.constituent-services",
     ],
     summary: eventSummary,
     context: {
@@ -523,10 +588,11 @@ export function commitConversationTurn(
         setting: "Synthetic Stage 6.5 office conversation fixture",
       },
       socialContext: "A bounded in-room conversation during briefing work.",
-      pressure: conversationPressure(input.intent),
-      choice: conversationChoice(input.intent),
-      motivation:
-        "Clarify the next step without turning the exchange into a score check.",
+      pressure: conversationPressure(input.intent, currentProgress),
+      choice: conversationChoice(input.intent, currentProgress),
+      motivation: isRunCLegislativeConversationProgress(currentProgress)
+        ? "Clarify legal working language and staff projection without treating either as enacted policy."
+        : "Clarify the next step without turning the exchange into a score check.",
       immediateReaction:
         resolved.dialogue ??
         "The room settled briefly; no participant added another claim.",
@@ -736,7 +802,7 @@ function resolveNpcResponse(
     readonly intent: ConversationIntent;
     readonly groupAddressed: boolean;
     readonly previousIntent: ConversationIntent | null;
-    readonly progress: RunBConversationProgress;
+    readonly progress: ConversationProgress;
     readonly pendingContribution: RunBPendingContribution | null;
   },
 ): ResolvedResponse {
@@ -749,6 +815,23 @@ function resolveNpcResponse(
   if (!speaker) throw new Error("Conversation response speaker is missing.");
   const isPrimary =
     input.speakerPersonId === input.room.eligibleAddresseePersonIds[0];
+
+  if (input.intent === "discuss-provision") {
+    if (!isRunCLegislativeConversationProgress(input.progress)) {
+      throw new Error(
+        "A legislative discussion requires its provision subject.",
+      );
+    }
+    return resolveLegislativeProvisionResponse(world, {
+      speakerPersonId: input.speakerPersonId,
+      progress: input.progress,
+    });
+  }
+  if (isRunCLegislativeConversationProgress(input.progress)) {
+    throw new Error(
+      "The legislative provision subject cannot use casework intents.",
+    );
+  }
 
   if (input.intent === "listen" && input.pendingContribution !== null) {
     return resolvePendingConversationContribution(world, {
@@ -843,6 +926,46 @@ function resolveQuietRoom(world: World): ResolvedResponse {
   };
 }
 
+function resolveLegislativeProvisionResponse(
+  world: World,
+  input: {
+    readonly speakerPersonId: EntityId;
+    readonly progress: RunCLegislativeConversationProgress;
+  },
+): ResolvedResponse {
+  const speaker = world.people[input.speakerPersonId];
+  if (!speaker) throw new Error("Legislative response speaker is missing.");
+  const knowledge = world.history.knowledge.find(
+    (candidate) =>
+      candidate.id === input.progress.subjectFacts.analysisKnowledgeId &&
+      candidate.personId === input.speakerPersonId,
+  );
+  const knowledgeEvent = knowledge
+    ? world.history.events.find(
+        (candidate) => candidate.id === knowledge.eventId,
+      )
+    : undefined;
+  if (
+    !knowledge ||
+    knowledgeEvent?.type !== "policy.analysis-reviewed" ||
+    !knowledgeEvent.involvedEntityIds.includes(
+      input.progress.subjectFacts.currentEstimateId,
+    )
+  ) {
+    throw new Error(
+      "Collins cannot discuss a policy projection he does not canonically know.",
+    );
+  }
+  return {
+    world,
+    outcome: "continued",
+    speakerPersonId: input.speakerPersonId,
+    dialogue: `“My read is that Section 3 sets an ${input.progress.subjectFacts.currentAmount} ceiling for this office draft,” Collins says. “Under the staff projection, the prepared ${input.progress.subjectFacts.preparedAmount} version cuts the modeled maximum outlay in half for the same eligible-rider scope. That is a forecast comparison, not an appropriation or implementation.”`,
+    perception: `${personName(speaker)} distinguished the current working language from a qualified staff projection and from actual implementation.`,
+    durableDecisionRecorded: false,
+  };
+}
+
 function resolvePendingConversationContribution(
   world: World,
   input: {
@@ -889,7 +1012,7 @@ function resolvePendingConversationContribution(
 }
 
 function advanceConversationProgress(
-  progress: RunBConversationProgress,
+  progress: ConversationProgress,
   input: {
     readonly room: ConversationRoomContext;
     readonly addressee: ConversationAddressee;
@@ -898,7 +1021,19 @@ function advanceConversationProgress(
     readonly responseSpeakerPersonId: EntityId | null;
     readonly pendingContribution: RunBPendingContribution | null;
   },
-): RunBConversationProgress {
+): ConversationProgress {
+  if (isRunCLegislativeConversationProgress(progress)) {
+    if (input.intent !== "discuss-provision") {
+      throw new Error(
+        "The legislative subject accepts only its bounded discussion intent.",
+      );
+    }
+    return {
+      ...progress,
+      phase: "discussed",
+      latestProposition: "compare-prepared-cap",
+    };
+  }
   if (input.intent === "listen") {
     if (input.pendingContribution === null) {
       return {
@@ -1419,8 +1554,18 @@ function conversationEventSummary(
   responseSpeakerPersonId: EntityId | null,
   intent: ConversationIntent,
   outcome: ConversationSemanticResult["outcome"],
+  progress: ConversationProgress,
 ): string {
   const player = personName(world.people[playerPersonId]!);
+  if (isRunCLegislativeConversationProgress(progress)) {
+    if (intent !== "discuss-provision" || responseSpeakerPersonId === null) {
+      throw new Error(
+        "A legislative provision turn requires Collins's response.",
+      );
+    }
+    const speaker = personName(world.people[responseSpeakerPersonId]!);
+    return `${player} asked ${speaker} about the selected ${progress.subjectFacts.currentAmount} Transit Access Pilot working provision and its prepared ${progress.subjectFacts.preparedAmount} version.`;
+  }
   if (intent === "listen") {
     if (responseSpeakerPersonId === null) {
       return `${player} listened without speaking; the room settled without another claim.`;
@@ -1435,7 +1580,13 @@ function conversationEventSummary(
   return `${player} used a ${intent.replaceAll("-", " ")} approach; ${speaker} ${outcome.replaceAll("-", " ")}.`;
 }
 
-function conversationPressure(intent: ConversationIntent): string | null {
+function conversationPressure(
+  intent: ConversationIntent,
+  progress: ConversationProgress,
+): string | null {
+  if (isRunCLegislativeConversationProgress(progress)) {
+    return "The office needs a clear working version while legal text and projected consequences remain distinct.";
+  }
   if (intent === "press") return "The player asked for an immediate answer.";
   if (intent === "request-commitment") {
     return "The afternoon briefing creates pressure for a clear next step.";
@@ -1443,7 +1594,13 @@ function conversationPressure(intent: ConversationIntent): string | null {
   return null;
 }
 
-function conversationChoice(intent: ConversationIntent): string {
+function conversationChoice(
+  intent: ConversationIntent,
+  progress: ConversationProgress,
+): string {
+  if (isRunCLegislativeConversationProgress(progress)) {
+    return "The player asked Collins to interpret the selected working provision and compare its prepared alternative.";
+  }
   if (intent === "request-commitment") {
     return "The player asked for a concrete checklist or verification commitment.";
   }
@@ -1454,6 +1611,20 @@ function conversationChoice(intent: ConversationIntent): string {
     return "The player pressed for an answer on the checklist or last case.";
   }
   return "The player listened for the next relevant contribution.";
+}
+
+function conversationSubjectEntityIds(
+  progress: ConversationProgress,
+): readonly EntityId[] {
+  if (!isRunCLegislativeConversationProgress(progress)) return [];
+  return [
+    progress.subjectFacts.currentAlternativeId,
+    progress.subjectFacts.currentOperationId,
+    progress.subjectFacts.currentEstimateId,
+    progress.subjectFacts.preparedAlternativeId,
+    progress.subjectFacts.preparedOperationId,
+    progress.subjectFacts.preparedEstimateId,
+  ];
 }
 
 function canonicalPeople(

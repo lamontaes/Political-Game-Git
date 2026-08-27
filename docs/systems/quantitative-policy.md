@@ -33,3 +33,20 @@ Policy records do not grant person knowledge. `recordPolicyAnalysisKnowledge` cr
 The six policy families share the world's one contiguous append sequence, deterministic IDs, immutable inputs, date-plus-exclusive-sequence availability, canonical source validation, and corrupted-graph integrity checks. World schema 12, generator `demo-world-v12`, and snapshot format 11 preserve them through deterministic JSON and Node-only SQLite save/load/list/replace. Metric catalog v2, causal catalog v1, and person materializer v4 remain unchanged.
 
 Run C adds no law identity, statute, office, agency, appropriation, tax, budget authority, policy baseline generator, public opinion, media ecology, generalized incident selection/chain, mortality/incapacity/evidence, territory-specific data, foreign government, campaign system, or player-facing UI. Stage 7 and later governing systems may become authoritative producers of alternatives, authority evidence, and actual implementation without replacing these quantitative records; Run D is the next Stage 6 boundary.
+
+## Stage 6.5 Run C presentation bridge
+
+The bounded Run C working-document fixture records two explicitly mapped
+proposal alternatives over the same Lexington jurisdiction, eligible-rider
+segment, primitive government-outlay metric, and pilot period. Their exact
+$8,000,000 and $4,000,000 absolute-change operations produce distinct forecast
+estimates through the existing policy writers. The presentation reads those
+records; it never parses legal prose into policy behavior or performs a second
+UI-side consequence calculation.
+
+Opening the document, selecting text, hiding annotations, and comparing prepared
+language do not write World. Reviewing the staff note uses ordinary
+person-specific policy-analysis knowledge. Selecting the narrower office
+working version records one same-date historical drafting instruction, not a
+realization: it creates no causal effect activation, metric change,
+appropriation, enactment, or implementation claim.
