@@ -50,7 +50,9 @@ test("opens a readable scene-native legislative working document from the office
   );
   await expect(navigation).toBeVisible();
   await expect(navigation.locator(".cluster-time")).toHaveText("9:10 AM");
-  await expect(navigation.locator("strong")).toContainText("Lexington, KY");
+  await expect(navigation.locator(".cluster-location-compact")).toHaveText(
+    "Lexington, KY",
+  );
   await expect(navigation.locator("xpath=..")).toHaveAttribute(
     "data-document-compact",
     "true",

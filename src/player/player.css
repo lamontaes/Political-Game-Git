@@ -1943,7 +1943,7 @@
 .nav-cluster:not(.nav-cluster--document):hover,
 .nav-cluster:not(.nav-cluster--document):focus-within,
 .nav-cluster--open:not(.nav-cluster--document) {
-  width: min(27rem, calc(100vw - 2rem));
+  width: min(16rem, calc(100vw - 2rem));
 }
 
 .nav-cluster-button {
@@ -1967,9 +1967,9 @@
 .nav-cluster:not(.nav-cluster--document):hover .nav-cluster-button,
 .nav-cluster:not(.nav-cluster--document):focus-within .nav-cluster-button,
 .nav-cluster--open:not(.nav-cluster--document) .nav-cluster-button {
-  min-height: 5.5rem;
-  border-radius: 0.78rem;
-  padding: 0.75rem 1rem;
+  min-height: 4rem;
+  border-radius: 0.7rem;
+  padding: 0.58rem 0.75rem;
   opacity: 1;
 }
 
@@ -2065,9 +2065,9 @@
 .nav-cluster:not(.nav-cluster--document):hover .civic-seal,
 .nav-cluster:not(.nav-cluster--document):focus-within .civic-seal,
 .nav-cluster--open:not(.nav-cluster--document) .civic-seal {
-  width: 3.45rem;
-  height: 3.45rem;
-  font-size: 0.8rem;
+  width: 2.65rem;
+  height: 2.65rem;
+  font-size: 0.72rem;
 }
 
 .civic-seal::before {
@@ -2083,8 +2083,8 @@
 .nav-cluster:not(.nav-cluster--document):hover .civic-seal::before,
 .nav-cluster:not(.nav-cluster--document):focus-within .civic-seal::before,
 .nav-cluster--open:not(.nav-cluster--document) .civic-seal::before {
-  width: 1.7rem;
-  height: 1.25rem;
+  width: 1.35rem;
+  height: 1rem;
 }
 
 .cluster-copy {
@@ -2097,7 +2097,7 @@
 .nav-cluster:not(.nav-cluster--document):hover .cluster-copy,
 .nav-cluster:not(.nav-cluster--document):focus-within .cluster-copy,
 .nav-cluster--open:not(.nav-cluster--document) .cluster-copy {
-  margin-left: 1rem;
+  margin-left: 0.68rem;
 }
 
 .cluster-copy span,
@@ -2115,7 +2115,7 @@
 .nav-cluster:not(.nav-cluster--document):hover .cluster-time,
 .nav-cluster:not(.nav-cluster--document):focus-within .cluster-time,
 .nav-cluster--open:not(.nav-cluster--document) .cluster-time {
-  font-size: 1.05rem;
+  font-size: 0.9rem;
 }
 
 .cluster-copy span:not(.cluster-time) {
@@ -2150,11 +2150,28 @@
   white-space: nowrap;
 }
 
+.cluster-location-full {
+  display: none;
+  letter-spacing: 0.02em;
+}
+
+.nav-cluster:not(.nav-cluster--document):hover .cluster-location-compact,
+.nav-cluster:not(.nav-cluster--document):focus-within .cluster-location-compact,
+.nav-cluster--open:not(.nav-cluster--document) .cluster-location-compact {
+  display: none;
+}
+
+.nav-cluster:not(.nav-cluster--document):hover .cluster-location-full,
+.nav-cluster:not(.nav-cluster--document):focus-within .cluster-location-full,
+.nav-cluster--open:not(.nav-cluster--document) .cluster-location-full {
+  display: block;
+}
+
 .nav-cluster:not(.nav-cluster--document):hover .cluster-copy strong,
 .nav-cluster:not(.nav-cluster--document):focus-within .cluster-copy strong,
 .nav-cluster--open:not(.nav-cluster--document) .cluster-copy strong {
-  margin-top: 0.34rem;
-  font-size: 0.7rem;
+  margin-top: 0.22rem;
+  font-size: 0.5rem;
 }
 
 .nav-flyout {

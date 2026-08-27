@@ -56,9 +56,10 @@ injection.
   deterministic demo/replay, and art validation.
 - Required art inventory and QA passed and their formatting-only generated
   output was normalized back to a clean art diff.
-- Live 1440×900 inspection measured the shell at 432×88 before repair,
-  164×54.25 at rest after repair, 432×88 after pointer approach, and 56×39.23
-  in document mode.
+- Live 1440×900 inspection measured the shell at 432×88 before repair and
+  164×54.25 at rest after repair. The accepted follow-up measures 256×66.30 on
+  pointer approach at full opacity, retains the fully fitting context only in
+  expanded/accessibility state, and keeps document mode at 56×39.23.
 - Production dependency audit found zero vulnerabilities. The full development
   audit retains the known high-severity `image-size` parser advisory with no
   available fix.

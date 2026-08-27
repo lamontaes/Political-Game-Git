@@ -1074,8 +1074,11 @@ deriving the correct resulting date, local minute, and offset.
 At 1440×900 the bottom-left shell rests below 200×70 pixels, below one percent
 of viewport area, and at no more than 0.8 opacity. Pointer approach through the
 invisible proximity zone, hover, keyboard focus, and click/touch open state
-expand it above 400×80 and restore readable opacity. Reduced motion removes the
-transition, and document entry retains the stronger existing no-overlap proof.
+expand it to 230–280×58–70 pixels and restore readable opacity without restoring
+the old full plate. Rest shows the complete compact label `Lexington, KY`; the
+full office context appears in expanded and accessible state. Reduced motion
+removes the transition, and document entry retains the stronger existing
+no-overlap proof.
 
 ### NOW-210 — Pinned means deliberate removable references
 

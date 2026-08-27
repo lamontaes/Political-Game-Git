@@ -293,8 +293,10 @@ its controls immediately and remains authoritative over automatic sizing.
 
 The bottom-left civic-glass shell rests as a substantially smaller translucent
 chip. An invisible pointer-approach zone, hover, keyboard focus, or open/click
-state expands it toward the readable plate and raises opacity. Click/touch use
-the same reducer-owned open state, and reduced-motion preference removes the
+state expands it modestly and raises opacity without restoring the old full
+plate. Rest shows the complete compact location `Lexington, KY`; expanded and
+accessible state retain the full office context. Click/touch use the same
+reducer-owned open state, and reduced-motion preference removes the
 geometry/opacity animation. Document mode remains an immediate smaller chip so
 it cannot sweep through or overlap the paper during entry. See [Canonical
 Sub-Day Time, Scheduled Activity, and Office Work](time-work.md).

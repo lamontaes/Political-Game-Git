@@ -30,6 +30,7 @@ export function PermanentShell({
   dispatch,
 }: PermanentShellProps) {
   const learned = state.learnedConceptIds.includes(RUN_A_CIVIC_CONCEPT_ID);
+  const compactLocationLabel = fixture.locationLabel.split(" · ")[0];
 
   return (
     <>
@@ -130,6 +131,7 @@ export function PermanentShell({
           aria-controls={
             state.navigation !== "closed" ? "run-a-navigation" : undefined
           }
+          aria-label={`${formattedTime}. ${formattedDate}. ${fixture.locationLabel}. Open navigation.`}
           onClick={() => dispatch({ type: "toggle-navigation" })}
           data-testid="navigation-cluster"
         >
@@ -139,7 +141,12 @@ export function PermanentShell({
           <span className="cluster-copy">
             <span className="cluster-time">{formattedTime}</span>
             <span>{formattedDate}</span>
-            <strong>{fixture.locationLabel}</strong>
+            <strong className="cluster-location-compact">
+              {compactLocationLabel}
+            </strong>
+            <strong className="cluster-location-full">
+              {fixture.locationLabel}
+            </strong>
           </span>
         </button>
       </nav>

@@ -279,6 +279,14 @@ test("keeps the bottom-left shell compact until pointer approach, focus, or acti
     Number(getComputedStyle(element).opacity),
   );
   expect(restOpacity).toBeLessThanOrEqual(0.8);
+  const compactLocation = shell.locator(".cluster-location-compact");
+  await expect(compactLocation).toHaveText("Lexington, KY");
+  expect(
+    await compactLocation.evaluate(
+      (element) => element.scrollWidth <= element.clientWidth,
+    ),
+  ).toBe(true);
+  await expect(shell.locator(".cluster-location-full")).toBeHidden();
 
   await page.mouse.move(
     (restBox?.x ?? 0) + (restBox?.width ?? 0) + 48,
@@ -286,8 +294,26 @@ test("keeps the bottom-left shell compact until pointer approach, focus, or acti
   );
   await page.waitForTimeout(220);
   const approachBox = await shell.boundingBox();
-  expect(approachBox?.width ?? 0).toBeGreaterThan(400);
-  expect(approachBox?.height ?? 0).toBeGreaterThan(80);
+  expect(approachBox?.width ?? 0).toBeGreaterThanOrEqual(230);
+  expect(approachBox?.width ?? Infinity).toBeLessThanOrEqual(280);
+  expect(approachBox?.height ?? 0).toBeGreaterThanOrEqual(58);
+  expect(approachBox?.height ?? Infinity).toBeLessThanOrEqual(70);
+  expect(
+    (approachBox?.width ?? 0) / (restBox?.width ?? Infinity),
+  ).toBeGreaterThanOrEqual(1.5);
+  expect(
+    (approachBox?.width ?? Infinity) / (restBox?.width ?? 0),
+  ).toBeLessThanOrEqual(1.7);
+  await expect(shell.locator(".cluster-location-compact")).toBeHidden();
+  await expect(shell.locator(".cluster-location-full")).toHaveText(
+    "Lexington, KY · Legislative Office",
+  );
+  await expect(shell.locator(".cluster-location-full")).toBeVisible();
+  expect(
+    await shell
+      .locator(".cluster-location-full")
+      .evaluate((element) => element.scrollWidth <= element.clientWidth),
+  ).toBe(true);
   expect(
     await shell.evaluate((element) =>
       Number(getComputedStyle(element).opacity),
@@ -297,7 +323,10 @@ test("keeps the bottom-left shell compact until pointer approach, focus, or acti
   await page.mouse.move(1_000, 100);
   await shell.focus();
   await page.waitForTimeout(220);
-  expect((await shell.boundingBox())?.width ?? 0).toBeGreaterThan(400);
+  expect((await shell.boundingBox())?.width ?? 0).toBeGreaterThanOrEqual(230);
+  expect((await shell.boundingBox())?.width ?? Infinity).toBeLessThanOrEqual(
+    280,
+  );
 
   await shell.evaluate((element) => (element as HTMLElement).blur());
   await page.mouse.move(1_000, 100);
@@ -305,7 +334,10 @@ test("keeps the bottom-left shell compact until pointer approach, focus, or acti
   await shell.click();
   await expect(page.getByTestId("navigation-flyout")).toBeVisible();
   await page.waitForTimeout(220);
-  expect((await shell.boundingBox())?.width ?? 0).toBeGreaterThan(400);
+  expect((await shell.boundingBox())?.width ?? 0).toBeGreaterThanOrEqual(230);
+  expect((await shell.boundingBox())?.width ?? Infinity).toBeLessThanOrEqual(
+    280,
+  );
 
   await page.emulateMedia({ reducedMotion: "reduce" });
   const transitionDurations = await shellContainer.evaluate((element) => ({
@@ -326,7 +358,12 @@ test("keeps the bottom-left shell compact until pointer approach, focus, or acti
   await touchShell.tap();
   await expect(touchPage.getByTestId("navigation-flyout")).toBeVisible();
   await touchPage.waitForTimeout(220);
-  expect((await touchShell.boundingBox())?.width ?? 0).toBeGreaterThan(400);
+  expect((await touchShell.boundingBox())?.width ?? 0).toBeGreaterThanOrEqual(
+    230,
+  );
+  expect(
+    (await touchShell.boundingBox())?.width ?? Infinity,
+  ).toBeLessThanOrEqual(280);
   await touchContext.close();
 });
 
