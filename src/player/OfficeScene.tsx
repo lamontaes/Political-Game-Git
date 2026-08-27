@@ -33,7 +33,7 @@ function PersonActionMenu({ name, dispatch }: PersonActionMenuProps) {
         onClick={() => dispatch({ type: "inspect-person" })}
       >
         <span>Inspect</span>
-        <small>Open quick dossier</small>
+        <small>Review your notes and impressions</small>
       </button>
       <button
         type="button"

@@ -121,6 +121,10 @@ test("replaces the anchored person menu with an epistemically filtered dossier",
   await person.click();
   const menu = page.getByTestId("person-action-menu");
   await expect(menu).toBeVisible();
+  await expect(page.getByTestId("player-office")).not.toContainText(
+    /quick dossier/i,
+  );
+  await expect(menu).toContainText("Review your notes and impressions");
 
   const personBox = await person.boundingBox();
   const menuBox = await menu.boundingBox();

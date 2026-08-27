@@ -1195,24 +1195,6 @@
   padding: 1.1rem 0.75rem 1.1rem;
 }
 
-.pin-rail::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: 1.9rem;
-  right: 0.15rem;
-  bottom: 0.2rem;
-  width: 4.6rem;
-  border-right: 1px solid rgba(188, 205, 220, 0.28);
-  background: linear-gradient(
-    90deg,
-    rgba(10, 17, 28, 0),
-    rgba(10, 17, 28, 0.1) 48%,
-    rgba(7, 13, 22, 0.24)
-  );
-  backdrop-filter: blur(2px);
-}
-
 .pin-rail-label {
   position: absolute;
   top: 0;
