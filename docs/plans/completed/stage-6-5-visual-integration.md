@@ -13,6 +13,9 @@ Completed on `codex/stage-6-5-visual-integration`, based on accepted main
   seated-character recipes and retain the source bytes for reproduction.
 - Release the environment and derived characters through the existing Packet
   77 manifest/provenance gate.
+- Classify the ordinary legislative/council room under the reusable
+  `council-staff-office` environment family and verify required PNG
+  transparency from decoded pixel alpha rather than header color type.
 - Replace the office and character placeholders with a data-driven compositor
   while preserving all Run A–D-Lite semantics and controls.
 - Apply only the banked compact-date, workspace-retreat, zero-pin, dead-strip,

@@ -1264,6 +1264,11 @@ Given either exact approved green-field source, deterministic extraction creates
 the recorded runtime SHA-256 repeatedly while the raw source hash remains exact.
 No generation, redraw, or opaque anatomy repaint occurs.
 
+The Prompt 30 room resolves from the ordinary `council-staff-office` family.
+PNG transparency QA decodes actual pixels: an all-opaque RGBA PNG fails an
+actual-transparency requirement, while any alpha below 255 confirms it. The
+derived A01/B01 sprites retain their exact hashes and pass this pixel proof.
+
 ### VISUAL-005 — Banked presentation cleanup remains bounded
 
 At rest the shell shows a nontruncated compact date; its full date remains in the

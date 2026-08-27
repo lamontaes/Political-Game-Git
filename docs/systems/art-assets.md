@@ -57,7 +57,8 @@ incomplete only while they make no runtime-release claim and omit any
 nonexistent `final_path`.
 
 Packet 76 is the first production use of this gate. It releases one ordinary
-office environment plate and two anonymous authored-pose character recipes.
+council/legislative staff-office environment plate under the reusable
+`council-staff-office` family and two anonymous authored-pose character recipes.
 The supplied raw bytes are verified before import. The two green-field sources
 remain under `art/references/approved/packet76/`; a fixed green-dominance alpha
 ramp plus transition-pixel spill clamp produces the runtime PNGs. The transform
@@ -66,3 +67,8 @@ anatomy pixels, and is reproduced by the focused art suite. Gemini is recorded
 as the generator family and `not-recorded` as the honestly unknown model
 version. Rights remain `unknown`; project approval and runtime release do not
 upgrade them.
+
+PNG transparency QA is pixel-based. An alpha-capable PNG is `confirmed` only
+when deterministic decoding finds at least one pixel whose alpha is below 255;
+an all-opaque RGBA image does not satisfy `requires_transparency` merely because
+its header declares an alpha channel.

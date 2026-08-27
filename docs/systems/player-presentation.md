@@ -304,7 +304,8 @@ Sub-Day Time, Scheduled Activity, and Office Work](time-work.md).
 ## Post-D-Lite production-art composition
 
 The accepted office mechanics now render through the Packet 76 production-art
-compositor. The approved room plate is one pointer-transparent, accessibility-
+compositor. The approved room plate belongs to the ordinary
+`council-staff-office` environment family and is one pointer-transparent, accessibility-
 hidden environment layer. Two separately released anonymous authored-pose
 recipes are selected deterministically by scene-anchor compatibility. Their
 scene anchor, pelvis/hip-center root, seated contact, visual bounds, allowed

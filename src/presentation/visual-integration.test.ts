@@ -22,6 +22,13 @@ describe("Stage 6.5 production visual integration", () => {
       expect(asset.url).toMatch(/^\/|^data:|^file:|^[a-z]+:/i);
       expect(asset.hash).toMatch(/^[a-f0-9]{64}$/);
     }
+    expect(
+      PRODUCTION_VISUAL_LIBRARY.get(
+        "env_lexington_council_staff_office_prompt30_v1",
+      )?.finalPath,
+    ).toBe(
+      "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
+    );
   });
 
   it("admits only generation-approved, QA-approved, runtime-released records", () => {

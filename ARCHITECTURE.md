@@ -116,6 +116,9 @@ their build URLs, and owns typed environment, scene-anchor, character-root,
 seated-contact, authored-outfit, scale, depth, occlusion, and interaction-bound
 composition. Anonymous appearance recipes map to displayed scene roles only.
 They never become `Person` identity, facts, traits, knowledge, or history.
+The ordinary room plate is classified under the reusable
+`council-staff-office` family. Required PNG transparency is confirmed from
+decoded alpha values below 255, never from alpha-channel metadata alone.
 `OfficeScene` retains semantic DOM controls and code-authored labels while the
 environment and character images remain pointer-transparent and hidden from
 the accessibility tree. Deterministic clipped copies of the one approved room

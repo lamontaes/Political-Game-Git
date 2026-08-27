@@ -49,7 +49,7 @@ if (cmd === "contact") {
       ]),
   );
 
-  const { html, report } = generateContactSheetHtml(
+  const { html, report } = await generateContactSheetHtml(
     images,
     "Contact Sheet",
     ART_DIR,

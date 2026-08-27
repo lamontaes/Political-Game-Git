@@ -3,7 +3,7 @@
     {
       "asset_id": "env_lexington_council_staff_office_prompt30_v1",
       "asset_type": "environment-plate",
-      "family_id": "executive-private-office",
+      "family_id": "council-staff-office",
       "jurisdiction_scope": "lexington-fayette-placeholder",
       "hero_asset": false,
       "reuse_allowed": true,
@@ -18,7 +18,7 @@
       "generation_status": "approved",
       "qa_status": "approved",
       "runtime_release_status": "released",
-      "final_path": "art/families/executive-private-office/env_lexington_council_staff_office_prompt30_v1.png",
+      "final_path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
       "hash": "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43",
       "requires_transparency": false
     },

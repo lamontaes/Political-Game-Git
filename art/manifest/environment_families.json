@@ -1,7 +1,7 @@
 {
   "families": [
     {
-      "family_id": "executive-private-office",
+      "family_id": "council-staff-office",
       "room_use_category": "private legislative or council staff office",
       "typical_proportion_rules": "Scene plate supplies only visual-estimate proportions; no physical dimensions are claimed.",
       "seating_dais_logic": "One desk chair and visitor seating; no dais.",
@@ -9,7 +9,7 @@
       "circulation_assumptions": "Foreground visitor seating and a desk-side work zone remain visually clear.",
       "camera_framing_guidance": "Wide eye-level room plate with foreground furniture available for character occlusion.",
       "ceiling_height_category": "unknown",
-      "density_category": "ordinary-private-office",
+      "density_category": "ordinary-council-staff-office",
       "ornament_category": "restrained-civic",
       "reusable_prop_slots": ["working-document", "briefing-memo"],
       "event_layer_slots": ["primary-desk-chair", "left-guest-chair"],

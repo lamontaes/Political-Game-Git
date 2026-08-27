@@ -8,6 +8,7 @@ import {
 import {
   generateContactSheetHtml,
   generateComparisonSheetHtml,
+  parseImageMetadata,
 } from "../scripts/art-asset-factory/qa";
 import fs from "fs";
 import path from "path";
@@ -20,12 +21,30 @@ import type {
   ProvenanceData,
 } from "../scripts/art-asset-factory/schemas";
 import { extractChromaToPng } from "../scripts/art-asset-factory/chroma-extract";
+import * as PImage from "pureimage";
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 
 function loadJson(relPath: string) {
   const fullPath = path.join(REPO_ROOT, relPath);
   return JSON.parse(fs.readFileSync(fullPath, "utf-8"));
+}
+
+async function writeRgbaPng(
+  filePath: string,
+  width: number,
+  height: number,
+  alphaAtPixel: (pixelIndex: number) => number,
+) {
+  const image = PImage.make(width, height);
+  for (let pixelIndex = 0; pixelIndex < width * height; pixelIndex += 1) {
+    const offset = pixelIndex * 4;
+    image.data[offset] = 40;
+    image.data[offset + 1] = 80;
+    image.data[offset + 2] = 120;
+    image.data[offset + 3] = alphaAtPixel(pixelIndex);
+  }
+  await PImage.encodePNGToStream(image, fs.createWriteStream(filePath));
 }
 
 const EMPTY_FAMILIES: EnvironmentFamiliesData = { families: [] };
@@ -590,13 +609,7 @@ describe("Art Asset Factory Foundation", () => {
   });
 
   describe("QA & Contact Sheet Tooling", () => {
-    it("generates deterministic HTML and QA reports from real file buffers", () => {
-      // Create minimal valid PNG headers to satisfy image-size checking
-      // 10x20 transparent PNG
-      const pngBufferA = Buffer.from(
-        "iVBORw0KGgoAAAANSUhEUgAAAAoAAAAUCAYAAAC9c+tuAAAAF0lEQVR42mNkYPhfz0AEYBxVyKhCBgYADnQBHc++1FkAAAAASUVORK5CYII=",
-        "base64",
-      );
+    it("generates deterministic HTML and QA reports from real file buffers", async () => {
       // 20x20 JPG
       const jpgBufferB = Buffer.from(
         "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAAUABQBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=",
@@ -607,7 +620,9 @@ describe("Art Asset Factory Foundation", () => {
 
       const fileA = path.join(tempQADir, "img_A.png");
       const fileB = path.join(tempQADir, "img_B.jpg");
-      fs.writeFileSync(fileA, pngBufferA);
+      await writeRgbaPng(fileA, 10, 20, (pixelIndex) =>
+        pixelIndex === 0 ? 0 : 255,
+      );
       fs.writeFileSync(fileB, jpgBufferB);
 
       const mockImages = [fileB, fileA];
@@ -621,7 +636,7 @@ describe("Art Asset Factory Foundation", () => {
         [relB]: true,
       };
 
-      const { html, report } = generateContactSheetHtml(
+      const { html, report } = await generateContactSheetHtml(
         mockImages,
         "Test",
         tempQADir,
@@ -659,6 +674,50 @@ describe("Art Asset Factory Foundation", () => {
       fs.rmdirSync(tempQADir);
     });
 
+    it("requires an actually transparent pixel in an RGBA PNG", async () => {
+      const tempQADir = fs.mkdtempSync(
+        path.join(os.tmpdir(), "qa-alpha-pixels-"),
+      );
+      const opaquePath = path.join(tempQADir, "opaque-rgba.png");
+      const transparentPath = path.join(tempQADir, "transparent-rgba.png");
+      try {
+        await writeRgbaPng(opaquePath, 2, 1, () => 255);
+        await writeRgbaPng(transparentPath, 2, 1, (pixelIndex) =>
+          pixelIndex === 1 ? 254 : 255,
+        );
+
+        expect(fs.readFileSync(opaquePath)[25]).toBe(6);
+        expect(fs.readFileSync(transparentPath)[25]).toBe(6);
+        expect((await parseImageMetadata(opaquePath)).hasTransparency).toBe(
+          "none",
+        );
+        expect(
+          (await parseImageMetadata(transparentPath)).hasTransparency,
+        ).toBe("confirmed");
+
+        const { report } = await generateContactSheetHtml(
+          [transparentPath, opaquePath],
+          "Actual alpha proof",
+          tempQADir,
+          { "opaque-rgba.png": true, "transparent-rgba.png": true },
+        );
+        expect(report).toMatchObject([
+          {
+            file: "opaque-rgba.png",
+            metadata: { hasTransparency: "none" },
+            meetsTransparencyReq: false,
+          },
+          {
+            file: "transparent-rgba.png",
+            metadata: { hasTransparency: "confirmed" },
+            meetsTransparencyReq: true,
+          },
+        ]);
+      } finally {
+        fs.rmSync(tempQADir, { recursive: true, force: true });
+      }
+    });
+
     it("generates source vs generated comparison sheet deterministically", () => {
       const pairs = [
         {
@@ -693,9 +752,11 @@ describe("Packet 76 approved runtime art", () => {
   );
 
   it("validates the real released manifest, files, hashes, and provenance", () => {
+    const manifest = loadJson("art/manifest/asset_manifest.json");
+    const families = loadJson("art/manifest/environment_families.json");
     const result = validateArtAssets(
-      loadJson("art/manifest/asset_manifest.json"),
-      loadJson("art/manifest/environment_families.json"),
+      manifest,
+      families,
       loadJson("art/manifest/jurisdiction_deltas.json"),
       loadJson("art/manifest/provenance.json"),
     );
@@ -708,6 +769,21 @@ describe("Packet 76 approved runtime art", () => {
         "human_candidate_B01_left_guest_seated_v1",
       ],
     });
+    const environment = manifest.assets.find(
+      (asset: { asset_id: string }) =>
+        asset.asset_id === "env_lexington_council_staff_office_prompt30_v1",
+    );
+    expect(environment).toMatchObject({
+      family_id: "council-staff-office",
+      final_path:
+        "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
+      hash: "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43",
+    });
+    expect(
+      families.families.map(
+        (family: { family_id: string }) => family.family_id,
+      ),
+    ).toEqual(["council-staff-office"]);
   });
 
   it.each([
@@ -737,6 +813,9 @@ describe("Packet 76 approved runtime art", () => {
         expect(firstResult.transparentPixelCount).toBeGreaterThan(500_000);
         expect(hashArtFile(first)).toBe(expectedOutputHash);
         expect(hashArtFile(second)).toBe(expectedOutputHash);
+        expect((await parseImageMetadata(first)).hasTransparency).toBe(
+          "confirmed",
+        );
         expect(hashArtFile(sourcePath)).toBe(sourceHashBefore);
         expect(sourceHashBefore).toBe(expectedSourceHash);
       } finally {
