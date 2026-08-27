@@ -485,7 +485,7 @@ export function PlayerOffice() {
       />
       <p className="sr-only" role="status" aria-live="polite">
         Simulation time is {formatRunATime(world.currentMoment.minuteOfDay)} on{" "}
-        {world.currentDate} in {world.currentMoment.timeZone}.
+        {world.currentDate}, Lexington local time.
       </p>
     </main>
   );

@@ -94,8 +94,8 @@ export function CalendarWorkspace({
           <p>Office week · Lexington time</p>
           <h2 id="calendar-workspace-title">Calendar</h2>
           <span>
-            Current time {formatMinute(projection.currentMoment.minuteOfDay)} ·{" "}
-            {projection.currentMoment.timeZone}
+            Current time {formatMinute(projection.currentMoment.minuteOfDay)} ·
+            Lexington time
           </span>
         </div>
         <div className="planning-header-actions">

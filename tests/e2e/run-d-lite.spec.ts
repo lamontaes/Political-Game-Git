@@ -38,6 +38,8 @@ test("renders canonical week geometry and enforces flexible and travel conflicts
   const calendar = page.getByTestId("calendar-workspace");
   const week = page.getByTestId("calendar-week");
   await expect(calendar).toBeVisible();
+  await expect(calendar).toContainText("Lexington time");
+  await expect(calendar).not.toContainText("America/New_York");
   await expect(week).toBeVisible();
   await expect(page.getByTestId("calendar-day-column")).toHaveCount(5);
   await expect(page.getByLabel("Time scale")).toBeVisible();
