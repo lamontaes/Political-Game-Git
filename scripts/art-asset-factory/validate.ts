@@ -1,14 +1,24 @@
+import fs from "fs";
+import path from "path";
+import { hashArtFile, isArtContentHash } from "./content-hash";
 import type {
   AssetManifest,
+  AssetManifestEntry,
   EnvironmentFamiliesData,
   JurisdictionDeltasData,
-  ProvenanceData,
   MeasurementConfidence,
+  ProvenanceData,
+  ProvenanceEntry,
 } from "./schemas";
 
 export interface ValidationResult {
   valid: boolean;
   errors: string[];
+  runtimeEligibleAssetIds: string[];
+}
+
+export interface ArtValidationOptions {
+  repositoryRoot?: string;
 }
 
 const VALID_CONFIDENCE_LEVELS: MeasurementConfidence[] = [
@@ -19,13 +29,133 @@ const VALID_CONFIDENCE_LEVELS: MeasurementConfidence[] = [
   "visual-estimate",
 ];
 
+const VALID_RIGHTS_STATUS = ["public-domain", "licensed", "owned", "unknown"];
+const VALID_APPROVAL_STATUS = ["approved", "rejected", "pending"];
+const VALID_GENERATION_STATUS = ["draft", "approved", "rejected", "pending"];
+const VALID_RUNTIME_RELEASE_STATUS = ["unreleased", "released"];
+
+function isAllowedStatus(
+  value: unknown,
+  allowedValues: readonly string[],
+): value is string {
+  return typeof value === "string" && allowedValues.includes(value);
+}
+
+function hasRequiredRuntimeStates(asset: AssetManifestEntry): boolean {
+  return (
+    asset.generation_status === "approved" &&
+    asset.qa_status === "approved" &&
+    asset.runtime_release_status === "released"
+  );
+}
+
+function resultWith(errors: string[]): ValidationResult {
+  return { valid: false, errors, runtimeEligibleAssetIds: [] };
+}
+
+function isPathInside(root: string, candidate: string): boolean {
+  const relative = path.relative(root, candidate);
+  return (
+    relative !== "" &&
+    relative !== ".." &&
+    !relative.startsWith(`..${path.sep}`) &&
+    !path.isAbsolute(relative)
+  );
+}
+
+function resolveValidFinalPath(
+  asset: AssetManifestEntry,
+  repositoryRoot: string,
+  errors: string[],
+): string | undefined {
+  const declaredPath = asset.final_path as unknown;
+  if (declaredPath === undefined) return undefined;
+  if (typeof declaredPath !== "string" || declaredPath.trim().length === 0) {
+    errors.push(
+      `Asset '${asset.asset_id}' final_path must be a non-empty repository-relative path under art/.`,
+    );
+    return undefined;
+  }
+
+  if (
+    path.isAbsolute(declaredPath) ||
+    path.win32.isAbsolute(declaredPath) ||
+    declaredPath.includes("\\")
+  ) {
+    errors.push(
+      `Asset '${asset.asset_id}' final_path '${declaredPath}' must be a repository-relative POSIX path under art/.`,
+    );
+    return undefined;
+  }
+
+  if (declaredPath.split("/").includes("..")) {
+    errors.push(
+      `Asset '${asset.asset_id}' final_path '${declaredPath}' contains forbidden path traversal.`,
+    );
+    return undefined;
+  }
+
+  const artRoot = path.resolve(repositoryRoot, "art");
+  const resolvedPath = path.resolve(repositoryRoot, declaredPath);
+  if (!isPathInside(artRoot, resolvedPath)) {
+    errors.push(
+      `Asset '${asset.asset_id}' final_path '${declaredPath}' escapes the repository art root.`,
+    );
+    return undefined;
+  }
+
+  if (!fs.existsSync(resolvedPath)) {
+    errors.push(
+      `Asset '${asset.asset_id}' final_path '${declaredPath}' does not exist.`,
+    );
+    return undefined;
+  }
+
+  try {
+    const realArtRoot = fs.realpathSync(artRoot);
+    const realPath = fs.realpathSync(resolvedPath);
+    if (!isPathInside(realArtRoot, realPath)) {
+      errors.push(
+        `Asset '${asset.asset_id}' final_path '${declaredPath}' resolves outside the repository art root.`,
+      );
+      return undefined;
+    }
+    if (!fs.statSync(realPath).isFile()) {
+      errors.push(
+        `Asset '${asset.asset_id}' final_path '${declaredPath}' is not a regular file.`,
+      );
+      return undefined;
+    }
+    return realPath;
+  } catch {
+    errors.push(
+      `Asset '${asset.asset_id}' final_path '${declaredPath}' could not be safely resolved.`,
+    );
+    return undefined;
+  }
+}
+
+function isAiGenerated(entry: ProvenanceEntry): boolean {
+  return entry.reference_type?.trim().toLowerCase() === "ai-generated";
+}
+
+function isValidGenerationDate(value: string): boolean {
+  const match = /^(\d{4})-(\d{2})-(\d{2})(?:T.*)?$/.exec(value);
+  if (!match || !Number.isFinite(Date.parse(value))) return false;
+  return (
+    new Date(value).toISOString().slice(0, 10) === match.slice(1).join("-")
+  );
+}
+
 export function validateArtAssets(
   manifest: AssetManifest,
   familiesData: EnvironmentFamiliesData,
   deltasData: JurisdictionDeltasData,
   provenanceData: ProvenanceData,
+  options: ArtValidationOptions = {},
 ): ValidationResult {
   const errors: string[] = [];
+  const repositoryRoot = path.resolve(options.repositoryRoot ?? process.cwd());
 
   if (
     !familiesData ||
@@ -33,7 +163,7 @@ export function validateArtAssets(
     !Array.isArray(familiesData.families)
   ) {
     errors.push("Top-level structure error: 'families' is not an array.");
-    return { valid: false, errors };
+    return resultWith(errors);
   }
   if (
     !manifest ||
@@ -41,7 +171,7 @@ export function validateArtAssets(
     !Array.isArray(manifest.assets)
   ) {
     errors.push("Top-level structure error: 'assets' is not an array.");
-    return { valid: false, errors };
+    return resultWith(errors);
   }
   if (
     !deltasData ||
@@ -49,7 +179,7 @@ export function validateArtAssets(
     !Array.isArray(deltasData.deltas)
   ) {
     errors.push("Top-level structure error: 'deltas' is not an array.");
-    return { valid: false, errors };
+    return resultWith(errors);
   }
   if (
     !provenanceData ||
@@ -59,31 +189,40 @@ export function validateArtAssets(
     errors.push(
       "Top-level structure error: 'entries' is not an array in provenance.",
     );
-    return { valid: false, errors };
+    return resultWith(errors);
   }
-
-  const VALID_RIGHTS_STATUS = ["public-domain", "licensed", "owned", "unknown"];
-  const VALID_APPROVAL_STATUS = ["approved", "rejected", "pending"];
-  const VALID_GENERATION_STATUS = ["draft", "approved", "rejected", "pending"];
 
   const familyIds = new Set<string>();
-  for (const f of familiesData.families) {
-    if (!f.family_id) {
+  for (const family of familiesData.families) {
+    if (!family.family_id) {
       errors.push("A family entry is missing its required 'family_id'.");
     } else {
-      familyIds.add(f.family_id);
+      familyIds.add(family.family_id);
     }
   }
-  const assetIds = new Set<string>();
-  const assetHashes = new Map<string, string>(); // hash -> asset_id
-  const provenanceMap = new Map<string, { approval_status?: string }>(); // asset_id -> provenance entry
 
+  const assetIds = new Set<string>();
+  for (const asset of manifest.assets) {
+    if (!asset.asset_id) continue;
+    if (assetIds.has(asset.asset_id)) {
+      errors.push(`Duplicate asset_id found: '${asset.asset_id}'.`);
+    }
+    assetIds.add(asset.asset_id);
+  }
+
+  const provenanceIds = new Set<string>();
+  const provenanceByAsset = new Map<string, ProvenanceEntry[]>();
   for (const entry of provenanceData.entries) {
     if (!entry.provenance_id) {
       errors.push(
         "A provenance entry is missing its required 'provenance_id'.",
       );
+    } else if (provenanceIds.has(entry.provenance_id)) {
+      errors.push(`Duplicate provenance_id found: '${entry.provenance_id}'.`);
+    } else {
+      provenanceIds.add(entry.provenance_id);
     }
+
     if (!VALID_RIGHTS_STATUS.includes(entry.rights_license_status)) {
       errors.push(
         `Provenance '${entry.provenance_id}' has invalid rights_license_status '${entry.rights_license_status}'.`,
@@ -98,7 +237,14 @@ export function validateArtAssets(
       );
     }
     if (entry.asset_id) {
-      provenanceMap.set(entry.asset_id, entry);
+      if (!assetIds.has(entry.asset_id)) {
+        errors.push(
+          `Provenance '${entry.provenance_id}' references missing asset_id '${entry.asset_id}'.`,
+        );
+      }
+      const entries = provenanceByAsset.get(entry.asset_id) ?? [];
+      entries.push(entry);
+      provenanceByAsset.set(entry.asset_id, entries);
     }
   }
 
@@ -113,41 +259,45 @@ export function validateArtAssets(
     }
   }
 
+  const assetHashes = new Map<string, string>();
+  const runtimeReleaseCandidates: string[] = [];
   for (const asset of manifest.assets) {
     if (!asset.asset_id) {
-      errors.push(`Asset is missing required field 'asset_id'.`);
+      errors.push("Asset is missing required field 'asset_id'.");
       continue;
     }
-
-    if (assetIds.has(asset.asset_id)) {
-      errors.push(`Duplicate asset_id found: '${asset.asset_id}'.`);
-    }
-    assetIds.add(asset.asset_id);
 
     if (
       asset.asset_type === undefined ||
       asset.hero_asset === undefined ||
       asset.reuse_allowed === undefined ||
       asset.generation_status === undefined ||
-      asset.qa_status === undefined
+      asset.qa_status === undefined ||
+      asset.runtime_release_status === undefined
     ) {
       errors.push(
-        `Asset '${asset.asset_id}' is missing one or more required fields (asset_type, hero_asset, reuse_allowed, generation_status, qa_status).`,
+        `Asset '${asset.asset_id}' is missing one or more required fields (asset_type, hero_asset, reuse_allowed, generation_status, qa_status, runtime_release_status).`,
       );
     }
 
-    if (
-      asset.generation_status &&
-      !VALID_GENERATION_STATUS.includes(asset.generation_status)
-    ) {
+    if (!isAllowedStatus(asset.generation_status, VALID_GENERATION_STATUS)) {
       errors.push(
         `Asset '${asset.asset_id}' has invalid generation_status '${asset.generation_status}'.`,
       );
     }
-
-    if (asset.qa_status && !VALID_APPROVAL_STATUS.includes(asset.qa_status)) {
+    if (!isAllowedStatus(asset.qa_status, VALID_APPROVAL_STATUS)) {
       errors.push(
         `Asset '${asset.asset_id}' has invalid qa_status '${asset.qa_status}'.`,
+      );
+    }
+    if (
+      !isAllowedStatus(
+        asset.runtime_release_status,
+        VALID_RUNTIME_RELEASE_STATUS,
+      )
+    ) {
+      errors.push(
+        `Asset '${asset.asset_id}' has invalid runtime_release_status '${asset.runtime_release_status}'.`,
       );
     }
 
@@ -156,7 +306,6 @@ export function validateArtAssets(
         `Asset '${asset.asset_id}' references invalid family_id '${asset.family_id}'.`,
       );
     }
-
     if (asset.hero_asset && !asset.hero_justification) {
       errors.push(
         `Asset '${asset.asset_id}' is marked as hero_asset but lacks a hero_justification.`,
@@ -176,9 +325,9 @@ export function validateArtAssets(
     }
 
     if (asset.dimensions) {
-      for (const [key, dim] of Object.entries(asset.dimensions)) {
+      for (const [key, dimension] of Object.entries(asset.dimensions)) {
         if (key === "drawing_source_scale") continue;
-        const measure = dim as {
+        const measure = dimension as {
           value?: number;
           confidence?: string;
           source?: string;
@@ -187,35 +336,24 @@ export function validateArtAssets(
 
         if (
           measure.confidence &&
-          !VALID_CONFIDENCE_LEVELS.includes(measure.confidence)
+          !VALID_CONFIDENCE_LEVELS.includes(
+            measure.confidence as MeasurementConfidence,
+          )
         ) {
           errors.push(
             `Asset '${asset.asset_id}' dimension '${key}' has invalid confidence '${measure.confidence}'.`,
           );
         }
-
         if (measure.value !== undefined && !measure.confidence) {
           errors.push(
             `Asset '${asset.asset_id}' dimension '${key}' has a precise measurement but lacks valid confidence metadata.`,
           );
         }
-
         if (measure.value !== undefined && !measure.source) {
           errors.push(
             `Asset '${asset.asset_id}' dimension '${key}' has a precise measurement but lacks required source metadata.`,
           );
         }
-
-        if (measure.value === 0 && measure.confidence === "exact") {
-          // Technically a value can be exactly 0, but usually this is a mistake for 'missing'.
-          // The prompt says "Missing and zero are different states and must remain different through serialization and validation... missing-vs-zero correctness for optional measurements".
-          // We just ensure if it's 0 it was intentional, but here we can enforce that 0 must not be a stand-in for missing.
-          // If it's missing it should be undefined. We will assume 0 is an error if it doesn't make sense, but for now we rely on the schema to keep them distinct.
-          // Actually, we'll just flag if value is undefined but confidence is present, or value is 0 and it's flagged as an issue.
-          // Wait, the prompt specifically says "missing-vs-zero measurement correctness".
-          // We'll enforce that if a measurement object exists, either value is undefined (missing) or a valid number.
-        }
-
         if (!measure.confidence) {
           errors.push(
             `Asset '${asset.asset_id}' dimension '${key}' is missing confidence.`,
@@ -234,29 +372,104 @@ export function validateArtAssets(
       }
     }
 
-    if (
-      asset.generation_status === "approved" ||
-      asset.qa_status === "approved"
-    ) {
-      const prov = provenanceMap.get(asset.asset_id) as {
-        approval_status?: string;
-      };
-      if (!prov) {
+    const resolvedFinalPath = resolveValidFinalPath(
+      asset,
+      repositoryRoot,
+      errors,
+    );
+    const linkedProvenance = provenanceByAsset.get(asset.asset_id) ?? [];
+    const hasOrdinaryApproval =
+      asset.generation_status === "approved" || asset.qa_status === "approved";
+
+    if (hasOrdinaryApproval) {
+      if (linkedProvenance.length === 0) {
         errors.push(
           `Asset '${asset.asset_id}' is marked as approved but lacks a provenance entry.`,
         );
       }
-
       if (!asset.final_path || !asset.hash) {
         errors.push(
           `Asset '${asset.asset_id}' is marked as approved but lacks a final_path or hash.`,
         );
       }
-
-      if (prov && prov.approval_status === "rejected") {
+      if (
+        linkedProvenance.some((entry) => entry.approval_status === "rejected")
+      ) {
         errors.push(
           `Asset '${asset.asset_id}' is marked as approved but references rejected/anti-reference provenance.`,
         );
+      }
+    }
+
+    if (asset.runtime_release_status === "released") {
+      if (hasRequiredRuntimeStates(asset)) {
+        runtimeReleaseCandidates.push(asset.asset_id);
+      }
+
+      if (
+        asset.generation_status !== "approved" ||
+        asset.qa_status !== "approved"
+      ) {
+        errors.push(
+          `Asset '${asset.asset_id}' is runtime-released but generation_status and qa_status are not both approved.`,
+        );
+      }
+      if (!asset.final_path) {
+        errors.push(
+          `Asset '${asset.asset_id}' is runtime-released but lacks a final_path.`,
+        );
+      }
+      if (!asset.hash) {
+        errors.push(
+          `Asset '${asset.asset_id}' is runtime-released but lacks a content hash.`,
+        );
+      } else if (!isArtContentHash(asset.hash)) {
+        errors.push(
+          `Asset '${asset.asset_id}' runtime content hash must be a lowercase 64-character SHA-256 digest.`,
+        );
+      } else if (
+        resolvedFinalPath &&
+        hashArtFile(resolvedFinalPath) !== asset.hash
+      ) {
+        errors.push(
+          `Asset '${asset.asset_id}' runtime content hash does not match its final file.`,
+        );
+      }
+
+      if (linkedProvenance.length === 0) {
+        errors.push(
+          `Asset '${asset.asset_id}' is runtime-released but lacks required provenance.`,
+        );
+      } else if (
+        !linkedProvenance.some((entry) => entry.approval_status === "approved")
+      ) {
+        errors.push(
+          `Asset '${asset.asset_id}' is runtime-released but lacks approved provenance.`,
+        );
+      }
+
+      for (const entry of linkedProvenance.filter(isAiGenerated)) {
+        const requiredFields: Array<keyof ProvenanceEntry> = [
+          "generator_tool",
+          "generated_model_version",
+          "prompt_spec_manifest_id",
+          "generation_edit_date",
+        ];
+        const missingFields = requiredFields.filter((field) => {
+          const value = entry[field];
+          return typeof value !== "string" || value.trim().length === 0;
+        });
+        if (missingFields.length > 0) {
+          errors.push(
+            `AI-generated provenance '${entry.provenance_id}' for runtime asset '${asset.asset_id}' is missing required generation metadata: ${missingFields.join(", ")}.`,
+          );
+        } else if (
+          !isValidGenerationDate(entry.generation_edit_date as string)
+        ) {
+          errors.push(
+            `AI-generated provenance '${entry.provenance_id}' for runtime asset '${asset.asset_id}' has an invalid generation_edit_date.`,
+          );
+        }
       }
     }
   }
@@ -264,5 +477,7 @@ export function validateArtAssets(
   return {
     valid: errors.length === 0,
     errors,
+    runtimeEligibleAssetIds:
+      errors.length === 0 ? runtimeReleaseCandidates : [],
   };
 }

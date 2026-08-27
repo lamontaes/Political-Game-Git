@@ -10,6 +10,8 @@ export type MeasurementSourceClass =
 
 export type RightsStatus = "public-domain" | "licensed" | "owned" | "unknown";
 
+export type RuntimeReleaseStatus = "unreleased" | "released";
+
 export interface MeasurementValue {
   value: number; // missing must remain undefined, zero is distinct from missing
   confidence: MeasurementConfidence;
@@ -61,6 +63,7 @@ export interface AssetManifestEntry {
   approved_reference?: string;
   generation_status: "draft" | "approved" | "rejected" | "pending";
   qa_status: "approved" | "rejected" | "pending";
+  runtime_release_status: RuntimeReleaseStatus;
   final_path?: string;
   hash?: string;
   requires_transparency?: boolean;
