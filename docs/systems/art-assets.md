@@ -75,8 +75,10 @@ its header declares an alpha channel.
 
 The approved 1024×572 Prompt 30 room is preserved byte-for-byte as its source
 input. Runtime composition uses a deterministic 2048×1144 separable Lanczos-3
-derivative so the 1440×900 and 1200×720 scene plates downsample rather than
-upscale the approved pixels. The same derivation command emits one transparent
+delivery derivative, but that resampling is never represented as additional
+source detail. The responsive density gate measures against the approved
+1024×572 master and records it as insufficient for sharp Retina presentation.
+The same derivation command emits one transparent
 foreground mask from fixed source-coordinate desk and chair polygons with 2×2
 edge coverage. Both derivatives are ordinary released manifest assets with
 their own hashes and linked provenance; neither creates a parallel registry,

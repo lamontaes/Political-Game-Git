@@ -438,6 +438,7 @@ export function PlayerOffice() {
         conversationAddressee={conversationState.addressee}
         onTalk={startConversation}
         onOpenWorkingDocument={openWorkingDocument}
+        onOpenBriefing={() => openPlanningWorkspace("work")}
       />
       <WorkingDocumentWorkspace
         world={world}

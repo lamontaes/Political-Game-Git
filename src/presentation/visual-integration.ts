@@ -3,6 +3,11 @@ import type {
   RunBSceneAnchorId,
   RunBScenePersonContext,
 } from "./run-b-fixture";
+import type {
+  SceneCameraPolicy,
+  SceneRect,
+  SceneSize,
+} from "./scene-transform";
 
 type RuntimeAssetStatus = "draft" | "approved" | "rejected" | "pending";
 type QaStatus = "approved" | "rejected" | "pending";
@@ -86,7 +91,22 @@ export interface ComposedSceneOccluder extends SceneOccluder {
 
 export interface OfficeVisualSceneConfiguration {
   readonly environmentAssetId: string;
-  readonly plate: { readonly width: 1024; readonly height: 572 };
+  readonly plate: SceneSize;
+  readonly camera: SceneCameraPolicy;
+  readonly safeArea: SceneRect;
+  readonly essentialContentArea: SceneRect;
+  readonly uiSafeZones: readonly {
+    readonly id: "lower-shell" | "navigation-flyout";
+    readonly edge: "bottom-left" | "top-left";
+    readonly width: number;
+    readonly height: number;
+  }[];
+  readonly documentAnchors: Readonly<
+    Record<
+      "working-draft" | "briefing-memo" | "civic-marker",
+      { readonly xPercent: number; readonly yPercent: number }
+    >
+  >;
   readonly anchors: Readonly<Record<RunBSceneAnchorId, SceneVisualAnchor>>;
   readonly occluders: readonly SceneOccluder[];
   readonly appearanceByAnchor: Readonly<
@@ -219,20 +239,47 @@ export const CHARACTER_VISUAL_RECIPES = {
 export const OFFICE_VISUAL_SCENE: OfficeVisualSceneConfiguration = {
   environmentAssetId: "env_lexington_council_staff_office_prompt30_v1",
   plate: { width: 1024, height: 572 },
+  camera: {
+    minimumAspectRatio: 1.5,
+    maximumAspectRatio: 12 / 5,
+    horizontalFocus: 0.5,
+    verticalFocus: 0.75,
+  },
+  safeArea: { x: 86, y: 112, width: 850, height: 421 },
+  essentialContentArea: { x: 185, y: 165, width: 730, height: 353.75 },
+  uiSafeZones: [
+    {
+      id: "lower-shell",
+      edge: "bottom-left",
+      width: 620,
+      height: 120,
+    },
+    {
+      id: "navigation-flyout",
+      edge: "top-left",
+      width: 320,
+      height: 300,
+    },
+  ],
+  documentAnchors: {
+    "working-draft": { xPercent: 70.5, yPercent: 64.2 },
+    "briefing-memo": { xPercent: 50.5, yPercent: 63.5 },
+    "civic-marker": { xPercent: 65, yPercent: 61.5 },
+  },
   anchors: {
     "primary-desk-chair": {
       id: "primary-desk-chair",
       xPercent: 77.7,
-      yPercent: 66.5,
-      scale: 0.9,
+      yPercent: 67.5,
+      scale: 1.05,
       poseFamily: "seated-at-desk",
       depth: 2,
     },
     "left-guest-chair": {
       id: "left-guest-chair",
       xPercent: 29.5,
-      yPercent: 70,
-      scale: 0.92,
+      yPercent: 70.0,
+      scale: 0.85,
       poseFamily: "seated-in-guest-chair",
       depth: 3,
     },

@@ -88,13 +88,13 @@ describe("Stage 6.5 production visual integration", () => {
     expect(OFFICE_VISUAL_SCENE.anchors).toMatchObject({
       "primary-desk-chair": {
         xPercent: 77.7,
-        yPercent: 66.5,
-        scale: 0.9,
+        yPercent: 67.5,
+        scale: 1.05,
       },
       "left-guest-chair": {
         xPercent: 29.5,
-        yPercent: 70,
-        scale: 0.92,
+        yPercent: 70.0,
+        scale: 0.85,
       },
     });
     expect(OFFICE_VISUAL_SCENE.occluders).toEqual([

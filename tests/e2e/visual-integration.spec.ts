@@ -29,6 +29,22 @@ async function requiredBox(locator: Locator): Promise<Box> {
   return box!;
 }
 
+const RESPONSIVE_VIEWPORT_MATRIX = [
+  { id: "small-16-9", width: 1_280, height: 720 },
+  { id: "common-laptop", width: 1_366, height: 768 },
+  { id: "mac-like-16-10", width: 1_440, height: 900 },
+  { id: "full-hd", width: 1_920, height: 1_080 },
+  { id: "standard-16-10", width: 1_920, height: 1_200 },
+  { id: "qhd", width: 2_560, height: 1_440 },
+  { id: "mac-high-vertical", width: 2_560, height: 1_600 },
+  { id: "ultrawide", width: 2_560, height: 1_080 },
+  { id: "ultrawide-qhd", width: 3_440, height: 1_440 },
+  { id: "large-ultrawide", width: 3_840, height: 1_600 },
+  { id: "4k", width: 3_840, height: 2_160 },
+  { id: "super-ultrawide", width: 5_120, height: 1_440 },
+  { id: "extreme-super-ultrawide", width: 7_680, height: 2_160 },
+] as const;
+
 for (const viewport of [
   { width: 1_440, height: 900 },
   { width: 1_200, height: 720 },
@@ -138,7 +154,7 @@ for (const viewport of [
 
       const root =
         variant === "primary"
-          ? { x: 0.56, y: 0.6, anchorX: 0.777, anchorY: 0.665 }
+          ? { x: 0.56, y: 0.6, anchorX: 0.777, anchorY: 0.675 }
           : { x: 0.55, y: 0.61, anchorX: 0.295, anchorY: 0.7 };
       expect(artBox!.x + artBox!.width * root.x).toBeCloseTo(
         stageBox!.x + stageBox!.width * root.anchorX,
@@ -170,7 +186,7 @@ for (const viewport of [
     const sceneReferences = [
       page.getByTestId("scene-character-art-primary"),
       page.getByTestId("scene-character-art-guest"),
-      page.locator(".briefing-memo"),
+      page.getByTestId("briefing-memo-entry"),
       page.getByTestId("working-document-entry"),
     ];
     const [closedShellBox, closedStatusBox, closedPinBox] = await Promise.all([
@@ -251,7 +267,7 @@ for (const viewport of [
       ["pin", personPin],
       ["primary character", page.getByTestId("scene-person")],
       ["guest character", page.getByTestId("scene-person-b")],
-      ["briefing memo", page.locator(".briefing-memo")],
+      ["briefing memo", page.getByTestId("briefing-memo-entry")],
       ["working document", page.getByTestId("working-document-entry")],
     ] as const;
     for (const [name, surface] of controlClearanceSurfaces) {
@@ -285,6 +301,276 @@ for (const viewport of [
     await page.keyboard.press("Escape");
   });
 }
+
+for (const viewport of RESPONSIVE_VIEWPORT_MATRIX) {
+  test(
+    "keeps the shared scene camera locked at " +
+      viewport.width +
+      "x" +
+      viewport.height +
+      " (" +
+      viewport.id +
+      ")",
+    async ({ page }) => {
+      await page.setViewportSize(viewport);
+      await page.goto("/");
+      await closeConversation(page);
+
+      const compositor = page.getByTestId("office-art-compositor");
+      const camera = await compositor.evaluate((element) => {
+        const style = getComputedStyle(element);
+        const matrix = new DOMMatrix(style.transform);
+        return {
+          virtualWidth: Number(element.getAttribute("data-virtual-width")),
+          virtualHeight: Number(element.getAttribute("data-virtual-height")),
+          scale: Number(element.getAttribute("data-scene-scale")),
+          scaleX: Number(element.getAttribute("data-scene-scale-x")),
+          scaleY: Number(element.getAttribute("data-scene-scale-y")),
+          offsetX: Number(element.getAttribute("data-scene-offset-x")),
+          offsetY: Number(element.getAttribute("data-scene-offset-y")),
+          cameraWidth: Number(element.getAttribute("data-camera-width")),
+          cameraHeight: Number(element.getAttribute("data-camera-height")),
+          constraint: element.getAttribute("data-camera-constraint"),
+          matrixA: matrix.a,
+          matrixB: matrix.b,
+          matrixC: matrix.c,
+          matrixD: matrix.d,
+        };
+      });
+      expect(camera.virtualWidth).toBe(1_024);
+      expect(camera.virtualHeight).toBe(572);
+      expect(camera.scaleX).toBe(camera.scaleY);
+      expect(camera.scale).toBe(camera.scaleX);
+      expect(camera.matrixA).toBeCloseTo(camera.scale, 5);
+      expect(camera.matrixD).toBeCloseTo(camera.scale, 5);
+      expect(camera.matrixB).toBeCloseTo(0, 8);
+      expect(camera.matrixC).toBeCloseTo(0, 8);
+      expect(camera.cameraWidth / camera.cameraHeight).toBeLessThanOrEqual(
+        12 / 5 + 0.001,
+      );
+      if (viewport.width / viewport.height > 12 / 5) {
+        expect(camera.constraint).toBe("horizontal");
+        expect(camera.cameraWidth).toBeLessThan(viewport.width);
+      }
+
+      const environment = page.locator(".scene-environment-art");
+      const foreground = page.locator(".scene-environment-occluder");
+      const [environmentBox, foregroundBox, compositorBox] = await Promise.all([
+        requiredBox(environment),
+        requiredBox(foreground),
+        requiredBox(compositor),
+      ]);
+      expect(environmentBox.width / environmentBox.height).toBeCloseTo(
+        1_024 / 572,
+        3,
+      );
+      expect(foregroundBox.x).toBeCloseTo(environmentBox.x, 2);
+      expect(foregroundBox.y).toBeCloseTo(environmentBox.y, 2);
+      expect(foregroundBox.width).toBeCloseTo(environmentBox.width, 2);
+      expect(foregroundBox.height).toBeCloseTo(environmentBox.height, 2);
+      expect(compositorBox.x).toBeCloseTo(environmentBox.x, 2);
+      expect(compositorBox.y).toBeCloseTo(environmentBox.y, 2);
+
+      const sceneSurfaces = [
+        page.getByTestId("scene-character-art-primary"),
+        page.getByTestId("scene-character-art-guest"),
+        page.getByTestId("working-document-entry"),
+        page.getByTestId("briefing-memo-entry"),
+      ];
+      for (const surface of sceneSurfaces) {
+        const box = await requiredBox(surface);
+        expect(box.x + box.width).toBeGreaterThan(0);
+        expect(box.x).toBeLessThan(viewport.width);
+        expect(box.y + box.height).toBeGreaterThan(0);
+        expect(box.y).toBeLessThan(viewport.height);
+      }
+
+      for (const variant of ["primary", "guest"] as const) {
+        const art = page.getByTestId("scene-character-art-" + variant);
+        const control = page.getByTestId(
+          variant === "primary" ? "scene-person" : "scene-person-b",
+        );
+        const [artBox, controlBox, raster] = await Promise.all([
+          requiredBox(art),
+          requiredBox(control),
+          art.evaluate((element: HTMLImageElement) => ({
+            naturalWidth: element.naturalWidth,
+            naturalHeight: element.naturalHeight,
+          })),
+        ]);
+        expect(artBox.width / artBox.height).toBeCloseTo(
+          raster.naturalWidth / raster.naturalHeight,
+          3,
+        );
+        expect(controlBox.x + controlBox.width / 2).toBeGreaterThan(artBox.x);
+        expect(controlBox.x + controlBox.width / 2).toBeLessThan(
+          artBox.x + artBox.width,
+        );
+        expect(controlBox.y + controlBox.height / 2).toBeGreaterThan(artBox.y);
+        expect(controlBox.y + controlBox.height / 2).toBeLessThan(
+          artBox.y + artBox.height,
+        );
+      }
+
+      const shell = page.getByTestId("navigation-cluster");
+      const status = page.getByTestId("current-commitment");
+      const pin = page.locator('[data-pin-id="person"]');
+      const permanentUi = [shell, status, pin];
+      const characters = [
+        page.getByTestId("scene-character-art-primary"),
+        page.getByTestId("scene-character-art-guest"),
+      ];
+      for (const ui of permanentUi) {
+        const uiBox = await requiredBox(ui);
+        expect(uiBox.x).toBeGreaterThanOrEqual(0);
+        expect(uiBox.y).toBeGreaterThanOrEqual(0);
+        expect(uiBox.x + uiBox.width).toBeLessThanOrEqual(viewport.width);
+        expect(uiBox.y + uiBox.height).toBeLessThanOrEqual(viewport.height);
+        for (const character of characters) {
+          expect(boxesOverlap(uiBox, await requiredBox(character))).toBe(false);
+        }
+      }
+
+      await pin.click();
+      const pinControls = page.getByTestId("pin-controls-person");
+      await expect(pinControls).toBeVisible();
+      await pinControls.getByRole("menuitem", { name: /Unpin/ }).click();
+      await expect(page.locator(".pin-rail")).toHaveCount(0);
+      await expect(page.getByTestId("pinned-collection")).toHaveCount(0);
+      await page.getByTestId("scene-person").click();
+      await page.getByRole("menuitem", { name: /Pin person/ }).click();
+      await expect(page.locator('[data-pin-id="person"]')).toBeVisible();
+
+      await shell.click();
+      const navigation = page.getByTestId("navigation-flyout");
+      await expect(navigation.getByRole("menuitem")).toHaveCount(5);
+      await expect(navigation).not.toContainText(/pinned|next commitment/i);
+      await navigation.getByRole("menuitem", { name: /Calendar/ }).click();
+      await expect(page.getByTestId("calendar-workspace")).toBeVisible();
+      await page
+        .getByTestId("calendar-workspace")
+        .getByRole("button", { name: "Return to office" })
+        .click();
+      await shell.click();
+      await page
+        .getByTestId("navigation-flyout")
+        .getByRole("menuitem", { name: /Work \/ Pending/ })
+        .click();
+      await expect(page.getByTestId("work-pending-workspace")).toBeVisible();
+      await page
+        .getByTestId("work-pending-workspace")
+        .getByRole("button", { name: "Return to office" })
+        .click();
+      // Pointer click document
+      await page.getByTestId("working-document-entry").click();
+      await expect(
+        page.getByTestId("working-document-workspace"),
+      ).toBeVisible();
+      await page
+        .getByTestId("working-document-workspace")
+        .getByRole("button", { name: "Return to office" })
+        .click();
+
+      // Pointer click briefing
+      await page.getByTestId("briefing-memo-entry").click();
+      await expect(page.getByTestId("work-pending-workspace")).toBeVisible();
+      await page
+        .getByTestId("work-pending-workspace")
+        .getByRole("button", { name: "Return to office" })
+        .click();
+
+      // Keyboard focus and Enter for document
+      await page.getByTestId("working-document-entry").focus();
+      await page.keyboard.press("Enter");
+      await expect(
+        page.getByTestId("working-document-workspace"),
+      ).toBeVisible();
+      await page.keyboard.press("Escape");
+
+      // Keyboard focus and Space for briefing
+      await page.getByTestId("briefing-memo-entry").focus();
+      await page.keyboard.press("Space");
+      await expect(page.getByTestId("work-pending-workspace")).toBeVisible();
+      await page.keyboard.press("Escape");
+
+      if (
+        (viewport.width === 1_920 && viewport.height === 1_080) ||
+        (viewport.width === 3_440 && viewport.height === 1_440) ||
+        (viewport.width === 5_120 && viewport.height === 1_440)
+      ) {
+        await page.screenshot({
+          path:
+            "test-results/visual-acceptance-" +
+            viewport.width +
+            "x" +
+            viewport.height +
+            "-responsive.png",
+          fullPage: false,
+          animations: "disabled",
+          scale: "css",
+        });
+      }
+    },
+  );
+}
+
+test("keeps camera geometry and raster alignment at DPR 1, 1.25, and 2", async ({
+  browser,
+}) => {
+  for (const deviceScaleFactor of [1, 1.25, 2]) {
+    const viewport =
+      deviceScaleFactor === 2
+        ? { width: 1_512, height: 982 }
+        : { width: 1_440, height: 900 };
+    const context = await browser.newContext({
+      viewport,
+      deviceScaleFactor,
+    });
+    const page = await context.newPage();
+    await page.goto("/");
+    await closeConversation(page);
+    expect(await page.evaluate(() => window.devicePixelRatio)).toBeCloseTo(
+      deviceScaleFactor,
+      5,
+    );
+    const camera = await page
+      .getByTestId("office-art-compositor")
+      .evaluate((element) => ({
+        dpr: Number(element.getAttribute("data-device-pixel-ratio")),
+        x: Number(element.getAttribute("data-scene-offset-x")),
+        y: Number(element.getAttribute("data-scene-offset-y")),
+        scaleX: Number(element.getAttribute("data-scene-scale-x")),
+        scaleY: Number(element.getAttribute("data-scene-scale-y")),
+      }));
+    expect(camera.dpr).toBeCloseTo(deviceScaleFactor, 5);
+    expect(camera.scaleX).toBe(camera.scaleY);
+    expect(camera.x * deviceScaleFactor).toBeCloseTo(
+      Math.round(camera.x * deviceScaleFactor),
+      8,
+    );
+    expect(camera.y * deviceScaleFactor).toBeCloseTo(
+      Math.round(camera.y * deviceScaleFactor),
+      8,
+    );
+    const [environmentBox, foregroundBox] = await Promise.all([
+      requiredBox(page.locator(".scene-environment-art")),
+      requiredBox(page.locator(".scene-environment-occluder")),
+    ]);
+    expect(foregroundBox.x).toBeCloseTo(environmentBox.x, 2);
+    expect(foregroundBox.y).toBeCloseTo(environmentBox.y, 2);
+    expect(foregroundBox.width).toBeCloseTo(environmentBox.width, 2);
+    expect(foregroundBox.height).toBeCloseTo(environmentBox.height, 2);
+    if (deviceScaleFactor === 2) {
+      await page.screenshot({
+        path: "test-results/visual-acceptance-mac-retina-1512x982-dpr2.png",
+        fullPage: false,
+        animations: "disabled",
+        scale: "device",
+      });
+    }
+    await context.close();
+  }
+});
 
 test("keeps workspace safe areas, compact date, and retreat behavior honest", async ({
   page,

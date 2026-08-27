@@ -121,11 +121,19 @@ The ordinary room plate is classified under the reusable
 decoded alpha values below 255, never from alpha-channel metadata alone.
 `OfficeScene` retains semantic DOM controls and code-authored labels while the
 environment and character images remain pointer-transparent and hidden from
-the accessibility tree. A deterministic 2× Lanczos runtime plate avoids browser
-upscaling of the approved 1024×572 source. One separately released transparent
-mask, derived from fixed source-coordinate furniture polygons without a redraw,
-restores desk and chair foreground pixels above the character layers. The
-approved source remains the provenance input and no second registry exists.
+the accessibility tree. `resolveSceneTransform` owns one 1024×572 virtual-scene
+camera transform for the environment, foreground mask, character roots,
+hitboxes, occlusion, and scene documents. It uses uniform cover scaling through
+a bounded 3:2–12:5 camera aperture; excess super-ultrawide width becomes pillar
+space rather than non-uniform stretching. Code-authored shells and workspaces
+remain viewport-space UI. One separately released transparent mask, derived
+from fixed source-coordinate furniture polygons without a redraw, restores desk
+and chair foreground pixels above the character layers. The deterministic 2×
+Lanczos plate remains a reproducible delivery derivative and is not treated as
+new source detail; the responsive raster gate records the approved Prompt 30
+master as insufficient for sharp Retina presentation. The approved source
+remains the provenance input and no second registry exists. See
+[Responsive Office Virtual Scene](docs/systems/responsive-office-scene.md).
 No `src/simulation/` dependency points back to this layer.
 
 The initial domain includes:

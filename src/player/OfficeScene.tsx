@@ -1,4 +1,11 @@
-import { useEffect, useRef, type CSSProperties } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type RefObject,
+} from "react";
 
 import { RUN_A_CIVIC_CONCEPT_ID } from "../presentation/run-a-learning";
 import type { QuickDossierProjection } from "../presentation/run-a-projection";
@@ -14,11 +21,61 @@ import type {
 } from "../presentation/run-b-fixture";
 import {
   composeOfficeVisuals,
+  OFFICE_VISUAL_SCENE,
   PRODUCTION_VISUAL_LIBRARY,
   type ComposedCharacterVisual,
 } from "../presentation/visual-integration";
+import {
+  resolveSceneTransform,
+  type SceneTransform,
+} from "../presentation/scene-transform";
 import type { EntityId } from "../simulation";
 import { QuickDossier } from "./QuickDossier";
+
+function useOfficeSceneTransform(
+  viewportRef: RefObject<HTMLElement | null>,
+): SceneTransform {
+  const [transform, setTransform] = useState(() =>
+    resolveSceneTransform(
+      OFFICE_VISUAL_SCENE.plate,
+      OFFICE_VISUAL_SCENE.plate,
+      OFFICE_VISUAL_SCENE.camera,
+    ),
+  );
+
+  useLayoutEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    const update = () => {
+      const bounds = viewport.getBoundingClientRect();
+      const next = resolveSceneTransform(
+        { width: bounds.width, height: bounds.height },
+        OFFICE_VISUAL_SCENE.plate,
+        OFFICE_VISUAL_SCENE.camera,
+        window.devicePixelRatio,
+      );
+      setTransform((current) =>
+        current.viewport.width === next.viewport.width &&
+        current.viewport.height === next.viewport.height &&
+        current.devicePixelRatio === next.devicePixelRatio
+          ? current
+          : next,
+      );
+    };
+
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(viewport);
+    window.addEventListener("resize", update);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", update);
+    };
+  }, [viewportRef]);
+
+  return transform;
+}
 
 interface PersonActionMenuProps {
   readonly name: string;
@@ -218,6 +275,7 @@ interface OfficeSceneProps {
   readonly conversationAddressee: ConversationAddressee | null;
   readonly onTalk: (personId: EntityId) => void;
   readonly onOpenWorkingDocument: () => void;
+  readonly onOpenBriefing: () => void;
 }
 
 export function OfficeScene({
@@ -228,6 +286,7 @@ export function OfficeScene({
   conversationAddressee,
   onTalk,
   onOpenWorkingDocument,
+  onOpenBriefing,
 }: OfficeSceneProps) {
   const learned = state.learnedConceptIds.includes(RUN_A_CIVIC_CONCEPT_ID);
   const selectedScenePerson = fixture.scenePeople.find(
@@ -240,17 +299,40 @@ export function OfficeScene({
     fixture.scenePeople,
     PRODUCTION_VISUAL_LIBRARY,
   );
+  const sceneViewportRef = useRef<HTMLElement>(null);
+  const sceneTransform = useOfficeSceneTransform(sceneViewportRef);
+  const cameraStyle = {
+    width: `${OFFICE_VISUAL_SCENE.plate.width}px`,
+    height: `${OFFICE_VISUAL_SCENE.plate.height}px`,
+    transform: `translate3d(${sceneTransform.xOffset}px, ${sceneTransform.yOffset}px, 0) scale(${sceneTransform.uniformScale})`,
+  } satisfies CSSProperties;
+  const documentAnchors = OFFICE_VISUAL_SCENE.documentAnchors;
 
   return (
     <section
+      ref={sceneViewportRef}
       className="office-scene"
       aria-label={`A quiet legislative office in ${fixture.locationDisplayName}`}
       data-testid="political-office-scene"
     >
       <div
-        className="scene-art-stage"
+        className="scene-camera"
         data-testid="office-art-compositor"
         data-environment-asset-id={visualComposition.environment.assetId}
+        data-virtual-width={OFFICE_VISUAL_SCENE.plate.width}
+        data-virtual-height={OFFICE_VISUAL_SCENE.plate.height}
+        data-scene-scale={sceneTransform.uniformScale}
+        data-scene-scale-x={sceneTransform.scaleX}
+        data-scene-scale-y={sceneTransform.scaleY}
+        data-scene-offset-x={sceneTransform.xOffset}
+        data-scene-offset-y={sceneTransform.yOffset}
+        data-camera-x={sceneTransform.camera.x}
+        data-camera-y={sceneTransform.camera.y}
+        data-camera-width={sceneTransform.camera.width}
+        data-camera-height={sceneTransform.camera.height}
+        data-camera-constraint={sceneTransform.constrainedAxis}
+        data-device-pixel-ratio={sceneTransform.devicePixelRatio}
+        style={cameraStyle}
       >
         <img
           className="scene-environment-art"
@@ -292,8 +374,6 @@ export function OfficeScene({
             style={{ zIndex: occluder.depth }}
           />
         ))}
-      </div>
-      <div className="scene-control-stage">
         {fixture.scenePeople.map((person) => {
           const dossier = dossiers[person.personId];
           const visual = visualComposition.characters.find(
@@ -314,46 +394,62 @@ export function OfficeScene({
             />
           );
         })}
-      </div>
-
-      <button
-        type="button"
-        className="office-working-document-entry"
-        aria-label="Open Working Draft — Transit Access Pilot"
-        data-testid="working-document-entry"
-        onClick={onOpenWorkingDocument}
-      >
-        <span>WORKING DRAFT</span>
-        <strong>Transit Access Pilot</strong>
-        <small>Section 3 marked for review</small>
-      </button>
-
-      <article className="briefing-memo" aria-label="Briefing memorandum">
-        <p className="memo-label">Office memorandum</p>
-        <h2>Afternoon briefing</h2>
-        <p>Constituent services · three points for review</p>
-      </article>
-
-      {!learned ? (
         <button
           type="button"
-          className="civic-marker"
-          aria-label="Explain committee referral. Shift click to mark learned."
-          data-testid="civic-learning-marker"
-          onClick={(event) =>
-            dispatch(
-              event.shiftKey
-                ? {
-                    type: "mark-concept-learned",
-                    conceptId: RUN_A_CIVIC_CONCEPT_ID,
-                  }
-                : { type: "open-civic-learning" },
-            )
-          }
+          className="office-working-document-entry"
+          style={{
+            left: `${documentAnchors["working-draft"].xPercent}%`,
+            top: `${documentAnchors["working-draft"].yPercent}%`,
+          }}
+          aria-label="Open Working Draft — Transit Access Pilot"
+          data-testid="working-document-entry"
+          data-scene-anchor-id="working-draft"
+          onClick={onOpenWorkingDocument}
         >
-          i
+          <strong>Transit Access Pilot</strong>
         </button>
-      ) : null}
+
+        <button
+          type="button"
+          className="briefing-memo"
+          style={{
+            left: `${documentAnchors["briefing-memo"].xPercent}%`,
+            top: `${documentAnchors["briefing-memo"].yPercent}%`,
+          }}
+          aria-label="Open Afternoon briefing"
+          data-testid="briefing-memo-entry"
+          data-scene-anchor-id="briefing-memo"
+          onClick={onOpenBriefing}
+        >
+          <strong>Afternoon briefing</strong>
+        </button>
+
+        {!learned ? (
+          <button
+            type="button"
+            className="civic-marker"
+            style={{
+              left: `${documentAnchors["civic-marker"].xPercent}%`,
+              top: `${documentAnchors["civic-marker"].yPercent}%`,
+            }}
+            aria-label="Explain committee referral. Shift click to mark learned."
+            data-testid="civic-learning-marker"
+            data-scene-anchor-id="civic-marker"
+            onClick={(event) =>
+              dispatch(
+                event.shiftKey
+                  ? {
+                      type: "mark-concept-learned",
+                      conceptId: RUN_A_CIVIC_CONCEPT_ID,
+                    }
+                  : { type: "open-civic-learning" },
+              )
+            }
+          >
+            i
+          </button>
+        ) : null}
+      </div>
 
       {state.overlay === "person-actions" &&
       selectedScenePerson &&

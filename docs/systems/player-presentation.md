@@ -327,13 +327,21 @@ authored outfit advertises no modular attachment slots; this run does not claim
 a wardrobe or rig system.
 
 The primary desk and left guest scene anchors use visual-estimate coordinates
-against the 1024×572 source plate. Character placement derives from root/contact
-data, not person names. Runtime uses the deterministic 2048×1144 room derivative
-and one matching transparent furniture mask; the mask restores only the desk
-and chair foreground above the characters without duplicating the room plate.
-A separate interaction layer retains semantic buttons, keyboard focus,
-code-authored names/titles, dossiers, pins, conversation, and document routes.
-The artwork never supplies identity, knowledge, simulation state, or UI text.
+against one 1024×572 virtual plate. Character placement derives from
+root/contact data, not person names. `resolveSceneTransform` supplies the only
+uniform scale and camera offset to the environment, matching transparent mask,
+character rasters, semantic hitboxes, and scene documents. Ordinary ratios use
+cover; super-ultrawide ratios retain a bounded 12:5 camera with pillar space.
+Menus, dossiers, navigation, status, pins, conversation, Calendar,
+Work/Pending, and full document workspaces remain viewport-space UI. See
+[Responsive Office Virtual Scene](responsive-office-scene.md).
+
+Runtime uses the deterministic 2048×1144 room derivative; the mask restores
+only the desk and chair foreground above the characters without duplicating the
+room plate. The derivative does not create source detail. The approved Prompt
+30 master fails the Retina density gate and awaits a separately approved higher-
+resolution graphics input; no presentation code sharpens or redraws it. The
+artwork never supplies identity, knowledge, simulation state, or UI text.
 
 The resting shell uses the short truthful date; expansion uses the bounded
 nontruncated `Mon, Jan 5, 2026` form while the accessible label retains the full

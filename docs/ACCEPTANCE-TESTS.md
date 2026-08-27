@@ -1270,10 +1270,10 @@ occlusion, and keep both person controls, dossiers, pins, conversation, Transit
 Access Pilot, Calendar, and Work/Pending operable.
 
 The environment renders from the deterministic 2048×1144 runtime derivative,
-with no CSS filter or image transform, and one released transparent furniture
-mask supplies foreground depth. Primary and guest authored-pose images remain
-below their 765×1024 natural dimensions, their declared roots align to the
-scene anchors, and neither a second room layer nor legacy rectangular clip is
+with no CSS filter, and one released transparent furniture mask supplies
+foreground depth. The environment, mask, character rasters, declared roots,
+semantic hitboxes, and scene documents share one uniform virtual-scene camera
+transform. Neither a second room layer nor a legacy rectangular clip is
 present. The obsolete synthetic placeholder caption is absent.
 
 ### VISUAL-004 — Packet 76 preprocessing is reproducible
@@ -1298,3 +1298,27 @@ expanded/accessibility state. Full workspaces cause a stronger but discoverable
 shell retreat. Zero deliberate pins leave no prominent empty-state residue,
 the artificial office/desk strip is absent, and workspace content does not
 intersect the status/pin rail.
+
+### VISUAL-006 — Responsive camera geometry is shared and measurable
+
+For each required viewport from 1280×720 through 7680×2160 and each DPR in
+1, 1.25, and 2, the pure transform proof preserves the 1024:572 scene aspect,
+keeps scale X equal to scale Y, contains the safe and essential rectangles,
+aligns character roots and source-aspect rasters, and physically aligns camera
+offsets. Live Chromium repeats all 13 viewport classes and exercises people,
+pins, navigation, Calendar, Work/Pending, and the working document. Live DPR
+proof repeats mask/environment alignment at 1, 1.25, and 2.
+
+The camera uses ordinary aspect-preserving cover and a bounded 12:5 aperture
+for super-ultrawide displays. Environment, foreground mask, characters,
+hitboxes, and scene documents share that one transform. Viewport-space UI does
+not inherit the raster transform. Exact safe-area and source-density evidence
+is recorded in
+[Responsive Office Virtual Scene](systems/responsive-office-scene.md).
+
+The geometry gate passes. The raster-fidelity gate reports the approved
+1024×572 Prompt 30 master insufficient for sharp Retina display: the tested
+1512×982 logical DPR-2 checkpoint requires 3516×1964 physical source pixels.
+The A01 checkpoint requires 887×1186 against 765×1024; B01 remains sufficient
+at 712×953. No sharpening, repeated resampling, redraw, or generation is used
+to hide that deficit.

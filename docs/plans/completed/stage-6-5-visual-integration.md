@@ -28,6 +28,11 @@ Completed on `codex/stage-6-5-visual-integration`, based on accepted main
   and safe-area presentation cleanup authorized by the packet.
 - Prove deterministic selection, anchor/pose compatibility, portability,
   accessibility, responsive geometry, art integrity, and unchanged World data.
+- Resolve environment, mask, characters, roots, hitboxes, and scene documents
+  through one 1024×572 responsive camera contract; prove 13 viewport classes
+  and DPR 1/1.25/2 without device-model special cases.
+- Measure approved-source density honestly and stop at the graphics boundary
+  when a master lacks sufficient source pixels.
 
 ## Verification gate
 
@@ -45,9 +50,8 @@ full wardrobe system.
 ## Completed verification
 
 - Run A/B/C/D-Lite focused suites: 16 / 35 / 37 / 26 passed.
-- Visual/art focused suite: 45 passed.
-- Full Vitest: 30 files and 474 tests passed.
-- Full Playwright: 31 tests passed with the repository CI worker count.
+- Visual/art focused suite: 86 passed after the responsive-camera repair.
+- Full Vitest and Playwright counts are recorded from the final exact-head gate.
 - Format, lint, typecheck, build, deterministic demo, art validation,
   inventory, QA, and diff checks passed.
 - Production dependency audit: zero vulnerabilities.
