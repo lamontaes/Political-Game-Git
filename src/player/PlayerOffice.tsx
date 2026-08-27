@@ -337,6 +337,7 @@ export function PlayerOffice() {
           dossier: dossiers[scenePerson.personId]!,
         }))}
         formattedDate={formatRunADate(world.currentDate)}
+        compactNavigation={documentState.mode === "open"}
         state={state}
         dispatch={dispatch}
       />

@@ -7,7 +7,10 @@ import type {
   RunCWorkingDocumentVariant,
   RunCWorkingProvision,
 } from "../presentation/run-c-working-document";
-import { RUN_C_WIDE_VARIANT_KEY } from "../presentation/run-c-working-document";
+import {
+  RUN_C_NARROW_VARIANT_KEY,
+  RUN_C_WIDE_VARIANT_KEY,
+} from "../presentation/run-c-working-document";
 import type {
   RunCDocumentUiAction,
   RunCDocumentUiState,
@@ -88,14 +91,16 @@ export function WorkingDocumentWorkspace({
       <div className="working-document-stage">
         <article
           className="legislative-paper"
-          aria-label={`${document.title}, ${projection.activeVariant.label}`}
+          aria-label={`${document.title}, ${projection.paperStatusLabel}`}
           data-testid="legislative-paper"
         >
           <header className="legislative-paper-header">
             <p>OFFICE WORKING DRAFT</p>
             <strong>NOT INTRODUCED · NOT ENACTED</strong>
             <h3>Transit Access Pilot</h3>
-            <span>{projection.activeVariant.label}</span>
+            <span data-testid="active-working-draft-role">
+              {projection.paperStatusLabel}
+            </span>
           </header>
 
           <div className="legislative-provisions">
@@ -128,7 +133,8 @@ export function WorkingDocumentWorkspace({
             data-annotation-id={annotation.id}
           >
             <p>{annotation.label}</p>
-            <span>{annotation.teaser}</span>
+            <span>{projection.annotationSummary}</span>
+            <small>{annotation.teaser}</small>
             <button type="button" onClick={onReviewAnalysis}>
               {analysisKnown ? "View analysis" : "Read staff note"}
             </button>
@@ -246,7 +252,7 @@ function ProvisionActionMenu({
     <div
       className="provision-action-menu civic-glass"
       role="menu"
-      aria-label={`Actions for the ${current.amountDisplay} provision`}
+      aria-label={`Actions for the current ${current.amountDisplay} provision`}
       data-testid="provision-action-menu"
     >
       <p>Section 3 · selected phrase</p>
@@ -309,10 +315,11 @@ function AnalysisPanel({
         <div className="analysis-comparison">
           {projection.staffAnalyses.map((analysis) => (
             <article key={analysis.variantKey}>
-              <span>
+              <span data-testid={`analysis-role-${analysis.variantKey}`}>
                 {analysis.variantKey === RUN_C_WIDE_VARIANT_KEY
-                  ? "$8,000,000 current version"
-                  : "$4,000,000 prepared version"}
+                  ? "$8,000,000"
+                  : "$4,000,000"}
+                {` · ${analysis.documentRoleLabel}`}
               </span>
               <strong>{analysis.modeledChange}</strong>
               <p>{analysis.scopeLabel}</p>
@@ -342,6 +349,8 @@ function ComparePanel({
   useEffect(() => closeRef.current?.focus(), []);
   const isForwardComparison =
     projection.activeVariant.key === RUN_C_WIDE_VARIANT_KEY;
+  const wideRole = projection.variantRoles[RUN_C_WIDE_VARIANT_KEY];
+  const narrowRole = projection.variantRoles[RUN_C_NARROW_VARIANT_KEY];
   return (
     <aside
       className="working-document-panel compare-panel"
@@ -350,7 +359,11 @@ function ComparePanel({
     >
       <header>
         <div>
-          <p>Prepared change · preview only</p>
+          <p>
+            {isForwardComparison
+              ? "Prepared revision · preview only"
+              : "Working revision · current status"}
+          </p>
           <h3 id="prepared-revision-title">Section 3 markup</h3>
         </div>
         <button ref={closeRef} type="button" onClick={onClose}>
@@ -367,11 +380,11 @@ function ComparePanel({
       </blockquote>
       <div className="compare-semantics">
         <article>
-          <span>Current operation</span>
+          <span>{wideRole.label}</span>
           <strong>$8,000,000 proposed outlay increase</strong>
         </article>
         <article>
-          <span>Prepared operation</span>
+          <span>{narrowRole.label}</span>
           <strong>$4,000,000 proposed outlay increase</strong>
         </article>
       </div>

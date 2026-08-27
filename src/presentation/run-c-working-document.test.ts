@@ -66,6 +66,28 @@ describe("Stage 6.5 Run C working document", () => {
     ]);
   });
 
+  it("derives pre-commit current and prepared roles from document history", () => {
+    const fixture = sharedFixture;
+    const projection = projectRunCWorkingDocument(fixture.world, fixture);
+    expect(projection.variantRoles[RUN_C_WIDE_VARIANT_KEY]).toEqual({
+      role: "current",
+      label: "Current office working draft",
+    });
+    expect(projection.variantRoles[RUN_C_NARROW_VARIANT_KEY]).toEqual({
+      role: "prepared",
+      label: "Prepared narrower revision",
+    });
+    expect(projection.paperStatusLabel).toBe(
+      "$8,000,000 · Current office working draft",
+    );
+    expect(projection.annotationSummary).toContain(
+      "$8,000,000 language is the current office working draft",
+    );
+    expect(projection.annotationSummary).toContain(
+      "$4,000,000 is the prepared narrower revision",
+    );
+  });
+
   it("maps the visible provision explicitly to policy alternatives and operations", () => {
     const fixture = sharedFixture;
     for (const key of [
@@ -395,6 +417,60 @@ describe("Stage 6.5 Run C working document", () => {
     expect(revised.history.policyOperations).toEqual(
       fixture.world.history.policyOperations,
     );
+  });
+
+  it("re-derives every visible variant role after the $4m revision event", () => {
+    const fixture = sharedFixture;
+    const reviewed = recordRunCPlayerAnalysisReview(fixture.world, fixture);
+    const beforeRevisionEvents = reviewed.history.events.filter(
+      (event) => event.type === "office.working-draft-revised",
+    ).length;
+    const revised = commitRunCWorkingDraftRevision(reviewed, fixture);
+    const projection = projectRunCWorkingDocument(revised, fixture);
+
+    expect(projection.paperStatusLabel).toBe(
+      "$4,000,000 · Current office working draft",
+    );
+    expect(projection.variantRoles[RUN_C_NARROW_VARIANT_KEY]).toEqual({
+      role: "current",
+      label: "Current office working draft",
+    });
+    expect(projection.variantRoles[RUN_C_WIDE_VARIANT_KEY]).toEqual({
+      role: "previous",
+      label: "Earlier office working version",
+    });
+    expect(projection.preparedVariant).toBeNull();
+    expect(projection.annotationSummary).toContain(
+      "$4,000,000 narrower version is now the current office working draft",
+    );
+    expect(
+      projection.staffAnalyses.find(
+        (analysis) => analysis.variantKey === RUN_C_NARROW_VARIANT_KEY,
+      ),
+    ).toMatchObject({
+      documentRole: "current",
+      documentRoleLabel: "Current office working draft",
+    });
+    expect(
+      projection.staffAnalyses.find(
+        (analysis) => analysis.variantKey === RUN_C_WIDE_VARIANT_KEY,
+      ),
+    ).toMatchObject({
+      documentRole: "previous",
+      documentRoleLabel: "Earlier office working version",
+    });
+    expect(
+      revised.history.events.filter(
+        (event) => event.type === "office.working-draft-revised",
+      ),
+    ).toHaveLength(beforeRevisionEvents + 1);
+    expect(revised.history.policyRealizations).toEqual(
+      reviewed.history.policyRealizations,
+    );
+    expect(revised.history.effectActivations).toEqual(
+      reviewed.history.effectActivations,
+    );
+    expect(revised.history.metricStates).toEqual(reviewed.history.metricStates);
   });
 
   it("does not realize policy when the office draft changes", () => {

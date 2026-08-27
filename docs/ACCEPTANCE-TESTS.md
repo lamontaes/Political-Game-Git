@@ -965,6 +965,24 @@ Run B, and Run C semantic tests plus the executable browser suite cover pointer,
 keyboard, geometry, knowledge gating, conversation reuse, revision neutrality,
 post-return interaction, and deterministic reload.
 
+### NOW-197 — Human-play document presentation stays authentic and state-correct
+
+The selected quantitative phrase has a restrained underline/highlight plus
+pointer and keyboard focus behavior, with no generated `review` word or other
+explanatory text contaminating the legal sentence. Opening the document changes
+only the existing bottom-left shell's presentation modifier: its visible
+time/date/location context occupies materially less area and does not intersect
+the paper at the normal desktop viewport; closing the document restores the
+accepted Run A shell.
+
+Before the office instruction, paper, annotation, analysis, comparison, actions,
+accessible names, and DOM identify $8,000,000 as current and $4,000,000 as the
+prepared narrower revision. After the single canonical revision event, those
+surfaces identify $4,000,000 as current and $8,000,000 as the earlier office
+version; none retain the stale inverse labels. The correction changes no stable
+document identity, policy record, analysis-knowledge gate, conversation
+semantics, history write, realization, effect, metric, date, or action sequence.
+
 ## Manual Now
 
 The visual statements below are independent human acceptance checks. They are

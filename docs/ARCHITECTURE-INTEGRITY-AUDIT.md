@@ -457,3 +457,18 @@ and continued Run A/Run B interaction after returning to the office. Codex's
 implementation-time browser inspection confirms the intended scene-first paper
 composition and readable document hierarchy. Independent human visual,
 playthrough, and repository review remain required on the new unmerged PR.
+
+## Stage 6.5 Run C Human-Play Acceptance Correction — 2026-08-27
+
+| Concern                       | Disposition                      | Evidence and rationale                                                                                                                                                                                                                                                                                                                                                                             |
+| ----------------------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Legal-text authenticity       | Corrected presentation-only      | The `review` generated-content rule is removed. Existing button semantics, focus, underline, restrained fill, hover, and selected state preserve pointer/keyboard identification without adding words to authored legal text. Browser proof checks the pseudo-element content and affordance styles.                                                                                               |
+| Document-mode shell mass      | Corrected locally                | `PermanentShell` accepts one optional document-mode modifier. Only while the document is open, the existing cluster becomes a 7rem bottom-left time/date/location chip; normal office markup and CSS remain unchanged. Normal-desktop geometry proves its area is materially smaller and its rectangle does not intersect the legislative paper.                                                   |
+| Current/prepared truth        | Corrected from canonical history | Static labels are removed from variant identity. `projectRunCWorkingDocument` derives current/prepared/previous roles from the exact revision event and supplies paper status, annotation summary, and analysis-role labels. Compare and action UI consume the same projection. Before commit $8m is current/$4m prepared; after commit $4m is current/$8m previous and `preparedVariant` is null. |
+| Simulation and scope boundary | Confirmed unchanged              | The correction changes no `src/simulation/` file, policy alternative/operation/estimate, knowledge writer, conversation commit, revision event, stable identity, serialized schema, date, action sequence, realization, activation, or metric state. Run D and Stage 7 remain gated.                                                                                                               |
+
+Focused semantic tests and Playwright cover both label frontiers, exactly one
+revision event, unchanged policy truth, absent pseudo-text, retained selection
+affordance, compact-shell visibility/geometry, and restoration of accepted
+office behavior. Independent correction review and human replay remain pending
+on the same open PR.

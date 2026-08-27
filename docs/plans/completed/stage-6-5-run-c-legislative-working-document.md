@@ -79,3 +79,16 @@ Implementation and local validation complete on
 - No file under `src/simulation/` changed. Run D and Stage 7 systems remain
   unstarted. Independent repository and human play review remain pending on the
   new open PR.
+
+## Human-play acceptance correction
+
+Human review of PR #10 found three bounded presentation defects. The follow-up
+removes generated `review` text from the selected legal phrase, compacts the
+bottom-left time/location shell only while the document is open, and moves
+current/prepared/previous role labels out of immutable variant identity into the
+history-derived document projection. Focused and browser regressions cover the
+pre-commit and post-commit labels, shell non-overlap, retained selection
+affordance, exactly one revision event, and unchanged policy realization,
+effects, metrics, date, and action sequence. The accepted Run C semantic bridge
+and Run A/Run B behavior remain unchanged; independent correction review and
+human replay remain pending on the same open PR.

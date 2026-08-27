@@ -130,7 +130,9 @@ Foster`; Collins and Reed remain distinct NPCs.
    - Notice and activate the Transit Access Pilot paper resting on the existing
      desk rather than entering a legislation dashboard.
    - Focus a readable paper workspace while retaining visible office edges,
-     people behind it, the right pin rail, and bottom-left shell.
+     people behind it, the right pin rail, and a compact bottom-left
+     time/location chip. The accepted full shell returns unchanged with the
+     ordinary office.
    - Read authored numbered legal text as real DOM text. Keep `OFFICE WORKING
 DRAFT`, `NOT INTRODUCED`, and `NOT ENACTED` explicit.
 
@@ -140,7 +142,7 @@ DRAFT`, `NOT INTRODUCED`, and `NOT ENACTED` explicit.
      the staff note, compare the prepared revision, ask Collins, or use the
      prepared office version.
    - Keep the selected phrase visually unambiguous without inserting civic-game
-     icons into legal typography.
+     icons or explanatory pseudo-words into legal typography.
 
 3. **Separate text from interpretation**
    - Keep Collins's attached working annotation in the margin and label its
@@ -151,6 +153,10 @@ DRAFT`, `NOT INTRODUCED`, and `NOT ENACTED` explicit.
      sensitivity detail. Reading the note creates ordinary actor-specific
      policy-analysis knowledge, then shows qualified $8,000,000 versus
      $4,000,000 staff projections with provenance.
+   - Derive current, prepared, and earlier-version labels from the canonical
+     office-draft revision event. Before selection, $8,000,000 is current and
+     $4,000,000 is prepared; afterward, $4,000,000 is current and $8,000,000 is
+     the earlier office version on the paper, note, analysis, and accessible DOM.
 
 4. **Compare without committing**
    - Present a strike/insert markup projection for `$8,000,000` → `$4,000,000`

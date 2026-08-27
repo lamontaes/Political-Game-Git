@@ -69,7 +69,6 @@ export interface RunCWorkingProvision {
 
 export interface RunCWorkingDocumentVariant {
   readonly key: RunCVariantKey;
-  readonly label: string;
   readonly amountMinorUnits: number;
   readonly amountDisplay: string;
   readonly policyAlternativeId: EntityId;
@@ -120,6 +119,8 @@ export interface RunCFixture extends RunBFixture {
 
 export interface RunCStaffAnalysisProjection {
   readonly variantKey: RunCVariantKey;
+  readonly documentRole: RunCDocumentVariantRole;
+  readonly documentRoleLabel: string;
   readonly authorPersonId: EntityId;
   readonly authorLabel: string;
   readonly provenanceLabel: string;
@@ -129,10 +130,22 @@ export interface RunCStaffAnalysisProjection {
   readonly knowledgeId: EntityId;
 }
 
+export type RunCDocumentVariantRole = "current" | "prepared" | "previous";
+
+export interface RunCDocumentVariantRoleProjection {
+  readonly role: RunCDocumentVariantRole;
+  readonly label: string;
+}
+
 export interface RunCDocumentProjection {
   readonly activeVariantKey: RunCVariantKey;
   readonly activeVariant: RunCWorkingDocumentVariant;
-  readonly preparedVariant: RunCWorkingDocumentVariant;
+  readonly preparedVariant: RunCWorkingDocumentVariant | null;
+  readonly variantRoles: Readonly<
+    Record<RunCVariantKey, RunCDocumentVariantRoleProjection>
+  >;
+  readonly paperStatusLabel: string;
+  readonly annotationSummary: string;
   readonly staffAnalyses: readonly RunCStaffAnalysisProjection[];
   readonly revisionCommitted: boolean;
 }
@@ -298,15 +311,43 @@ export function projectRunCWorkingDocument(
   const activeVariantKey = revision
     ? RUN_C_NARROW_VARIANT_KEY
     : RUN_C_WIDE_VARIANT_KEY;
-  const preparedVariantKey =
-    activeVariantKey === RUN_C_WIDE_VARIANT_KEY
-      ? RUN_C_NARROW_VARIANT_KEY
-      : RUN_C_WIDE_VARIANT_KEY;
+  const revisionCommitted = revision !== undefined;
+  const variantRoles: Readonly<
+    Record<RunCVariantKey, RunCDocumentVariantRoleProjection>
+  > = revisionCommitted
+    ? {
+        [RUN_C_WIDE_VARIANT_KEY]: {
+          role: "previous",
+          label: "Earlier office working version",
+        },
+        [RUN_C_NARROW_VARIANT_KEY]: {
+          role: "current",
+          label: "Current office working draft",
+        },
+      }
+    : {
+        [RUN_C_WIDE_VARIANT_KEY]: {
+          role: "current",
+          label: "Current office working draft",
+        },
+        [RUN_C_NARROW_VARIANT_KEY]: {
+          role: "prepared",
+          label: "Prepared narrower revision",
+        },
+      };
+  const activeVariant = fixture.document.variants[activeVariantKey];
 
   return {
     activeVariantKey,
-    activeVariant: fixture.document.variants[activeVariantKey],
-    preparedVariant: fixture.document.variants[preparedVariantKey],
+    activeVariant,
+    preparedVariant: revisionCommitted
+      ? null
+      : fixture.document.variants[RUN_C_NARROW_VARIANT_KEY],
+    variantRoles,
+    paperStatusLabel: `${activeVariant.amountDisplay} · ${variantRoles[activeVariantKey].label}`,
+    annotationSummary: revisionCommitted
+      ? "The $4,000,000 narrower version is now the current office working draft; the $8,000,000 language is the earlier office version."
+      : "The $8,000,000 language is the current office working draft; $4,000,000 is the prepared narrower revision.",
     staffAnalyses: (
       [RUN_C_WIDE_VARIANT_KEY, RUN_C_NARROW_VARIANT_KEY] as const
     ).flatMap((variantKey) => {
@@ -317,10 +358,18 @@ export function projectRunCWorkingDocument(
         variant.policyEstimateId,
       );
       return knowledge
-        ? [projectKnownAnalysis(world, fixture, variant, knowledge)]
+        ? [
+            projectKnownAnalysis(
+              world,
+              fixture,
+              variant,
+              variantRoles[variantKey],
+              knowledge,
+            ),
+          ]
         : [];
     }),
-    revisionCommitted: revision !== undefined,
+    revisionCommitted,
   };
 }
 
@@ -689,7 +738,6 @@ function createDocumentDefinition(input: {
   const variants = {
     [RUN_C_WIDE_VARIANT_KEY]: createVariant({
       key: RUN_C_WIDE_VARIANT_KEY,
-      label: "Current office working draft",
       amountMinorUnits: 800_000_000,
       amountDisplay: "$8,000,000",
       alternativeId: input.wide.alternativeId,
@@ -704,7 +752,6 @@ function createDocumentDefinition(input: {
     }),
     [RUN_C_NARROW_VARIANT_KEY]: createVariant({
       key: RUN_C_NARROW_VARIANT_KEY,
-      label: "Prepared narrower version",
       amountMinorUnits: 400_000_000,
       amountDisplay: "$4,000,000",
       alternativeId: input.narrow.alternativeId,
@@ -739,7 +786,7 @@ function createDocumentDefinition(input: {
         authorPersonId: input.collinsPersonId,
         label: "Collins · staff projection attached",
         teaser:
-          "The note compares the current ceiling with the prepared narrower version. Read it to add the analysis to Cameron's known record.",
+          "Read the attached note to add Collins's analysis to Cameron's known record.",
       },
     ],
   };
@@ -747,7 +794,6 @@ function createDocumentDefinition(input: {
 
 function createVariant(input: {
   readonly key: RunCVariantKey;
-  readonly label: string;
   readonly amountMinorUnits: number;
   readonly amountDisplay: string;
   readonly alternativeId: EntityId;
@@ -759,7 +805,6 @@ function createVariant(input: {
 }): RunCWorkingDocumentVariant {
   return {
     key: input.key,
-    label: input.label,
     amountMinorUnits: input.amountMinorUnits,
     amountDisplay: input.amountDisplay,
     policyAlternativeId: input.alternativeId,
@@ -835,6 +880,7 @@ function projectKnownAnalysis(
   world: World,
   fixture: RunCFixture,
   variant: RunCWorkingDocumentVariant,
+  documentRole: RunCDocumentVariantRoleProjection,
   knowledge: EventKnowledgeRecord,
 ): RunCStaffAnalysisProjection {
   const estimate = requireEstimate(world, variant.policyEstimateId);
@@ -846,6 +892,8 @@ function projectKnownAnalysis(
   }
   return {
     variantKey: variant.key,
+    documentRole: documentRole.role,
+    documentRoleLabel: documentRole.label,
     authorPersonId: fixture.scenePerson.personId,
     authorLabel: "Andre Collins · staff analysis",
     provenanceLabel: "Known through an explicit policy-analysis review",

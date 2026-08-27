@@ -13,11 +13,14 @@ test("opens a readable scene-native legislative working document from the office
   const office = page.getByTestId("player-office");
   const scene = page.getByTestId("political-office-scene");
   const entry = page.getByTestId("working-document-entry");
+  const navigation = page.getByTestId("navigation-cluster");
   await expect(scene).toBeVisible();
   await expect(page.getByTestId("scene-person")).toBeVisible();
   await expect(page.getByTestId("scene-person-b")).toBeVisible();
   await expect(entry).toBeVisible();
   await expect(entry).toContainText("Transit Access Pilot");
+  const normalNavigationBox = await navigation.boundingBox();
+  expect(normalNavigationBox).not.toBeNull();
 
   await entry.click();
   const workspace = page.getByTestId("working-document-workspace");
@@ -27,20 +30,51 @@ test("opens a readable scene-native legislative working document from the office
   await expect(paper).toContainText("NOT INTRODUCED · NOT ENACTED");
   await expect(paper).toContainText("Section 1. Purpose and construction");
   await expect(paper).toContainText("Section 3. Pilot support limit");
-  await expect(page.getByTestId("working-document-amount")).toHaveText(
-    "$8,000,000",
-  );
+  const amount = page.getByTestId("working-document-amount");
+  await expect(amount).toHaveText("$8,000,000");
+  const phraseAffordance = await amount.evaluate((element) => {
+    const style = window.getComputedStyle(element);
+    return {
+      pseudoContent: window.getComputedStyle(element, "::after").content,
+      borderBottomStyle: style.borderBottomStyle,
+      borderBottomWidth: style.borderBottomWidth,
+      backgroundColor: style.backgroundColor,
+    };
+  });
+  expect(["none", '""']).toContain(phraseAffordance.pseudoContent);
+  expect(phraseAffordance.borderBottomStyle).toBe("solid");
+  expect(phraseAffordance.borderBottomWidth).not.toBe("0px");
+  expect(phraseAffordance.backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
   await expect(page.locator('[data-pin-id="briefing"]')).toBeVisible();
-  await expect(page.getByTestId("navigation-cluster")).toBeVisible();
+  await expect(navigation).toBeVisible();
+  await expect(navigation.locator(".cluster-time")).toHaveText("9:10 AM");
+  await expect(navigation.locator("strong")).toContainText("Lexington, KY");
+  await expect(navigation.locator("xpath=..")).toHaveAttribute(
+    "data-document-compact",
+    "true",
+  );
 
   const officeBox = await office.boundingBox();
   const workspaceBox = await workspace.boundingBox();
+  const paperBox = await paper.boundingBox();
+  const compactNavigationBox = await navigation.boundingBox();
   expect(officeBox).not.toBeNull();
   expect(workspaceBox).not.toBeNull();
+  expect(paperBox).not.toBeNull();
+  expect(compactNavigationBox).not.toBeNull();
   expect(workspaceBox!.width).toBeLessThan(officeBox!.width * 0.94);
   expect(workspaceBox!.height).toBeLessThan(officeBox!.height * 0.96);
   expect(workspaceBox!.x).toBeGreaterThan(officeBox!.x);
   expect(workspaceBox!.y).toBeGreaterThan(officeBox!.y);
+  expect(compactNavigationBox!.width).toBeLessThan(
+    normalNavigationBox!.width * 0.35,
+  );
+  expect(
+    compactNavigationBox!.width * compactNavigationBox!.height,
+  ).toBeLessThan(
+    normalNavigationBox!.width * normalNavigationBox!.height * 0.35,
+  );
+  expect(rectanglesOverlap(compactNavigationBox!, paperBox!)).toBe(false);
 
   const legalText = await paper.innerText();
   const initialHistory = await office.getAttribute("data-history-sequence");
@@ -71,6 +105,7 @@ test("supports pointer and keyboard phrase selection with nonmutating markup com
   const amount = page.getByTestId("working-document-amount");
   await amount.focus();
   await page.keyboard.press("Enter");
+  await expect(amount).toHaveAttribute("aria-pressed", "true");
   const menu = page.getByTestId("provision-action-menu");
   await expect(menu).toBeVisible();
   await expect(
@@ -226,6 +261,26 @@ test("commits only the narrower office working draft and preserves the rest of p
 }) => {
   const office = page.getByTestId("player-office");
   await page.getByTestId("working-document-entry").click();
+  const activeRole = page.getByTestId("active-working-draft-role");
+  const annotation = page.getByTestId("working-annotation");
+  await expect(activeRole).toHaveText(
+    "$8,000,000 · Current office working draft",
+  );
+  await expect(annotation).toContainText(
+    "$8,000,000 language is the current office working draft",
+  );
+  await expect(annotation).toContainText(
+    "$4,000,000 is the prepared narrower revision",
+  );
+  await page.getByRole("button", { name: "Read staff note" }).click();
+  const analysis = page.getByTestId("staff-analysis-panel");
+  await expect(page.getByTestId("analysis-role-pilot-cap-8m")).toHaveText(
+    "$8,000,000 · Current office working draft",
+  );
+  await expect(page.getByTestId("analysis-role-pilot-cap-4m")).toHaveText(
+    "$4,000,000 · Prepared narrower revision",
+  );
+  await analysis.getByRole("button", { name: "Back to document" }).click();
   await page.getByTestId("working-document-amount").click();
   await page
     .getByRole("menuitem", { name: /Compare prepared revision/ })
@@ -259,8 +314,14 @@ test("commits only the narrower office working draft and preserves the rest of p
     "data-working-draft-revision-count",
     "1",
   );
-  await expect(page.getByTestId("legislative-paper")).toContainText(
-    "Prepared narrower version",
+  await expect(activeRole).toHaveText(
+    "$4,000,000 · Current office working draft",
+  );
+  await expect(annotation).toContainText(
+    "$4,000,000 narrower version is now the current office working draft",
+  );
+  await expect(annotation).toContainText(
+    "$8,000,000 language is the earlier office version",
   );
   await expect(page.getByTestId("working-document-amount")).toHaveText(
     "$4,000,000",
@@ -281,6 +342,21 @@ test("commits only the narrower office working draft and preserves the rest of p
   expect(after.effects).toBe(initial.effects);
   expect(after.metrics).toBe(initial.metrics);
 
+  await page.getByTestId("working-document-amount").click();
+  await page.getByRole("menuitem", { name: "View analysis" }).click();
+  await expect(page.getByTestId("analysis-role-pilot-cap-4m")).toHaveText(
+    "$4,000,000 · Current office working draft",
+  );
+  await expect(page.getByTestId("analysis-role-pilot-cap-8m")).toHaveText(
+    "$8,000,000 · Earlier office working version",
+  );
+  await expect(analysis).not.toContainText(
+    "$4,000,000 · Prepared narrower revision",
+  );
+  await expect(analysis).not.toContainText(
+    "$8,000,000 · Current office working draft",
+  );
+  await analysis.getByRole("button", { name: "Back to document" }).click();
   await page.getByTestId("working-document-amount").click();
   await expect(
     page.getByRole("menuitem", { name: /Use the prepared/ }),
@@ -315,3 +391,15 @@ test("commits only the narrower office working draft and preserves the rest of p
     await expect(body).not.toContainText(forbidden);
   }
 });
+
+function rectanglesOverlap(
+  left: { x: number; y: number; width: number; height: number },
+  right: { x: number; y: number; width: number; height: number },
+): boolean {
+  return !(
+    left.x + left.width <= right.x ||
+    right.x + right.width <= left.x ||
+    left.y + left.height <= right.y ||
+    right.y + right.height <= left.y
+  );
+}

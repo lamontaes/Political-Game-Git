@@ -232,3 +232,22 @@ policy realization, effect activation, metric state, bill, law, appropriation,
 office authority, chamber procedure, calendar, or sub-day clock. Run C working
 document state is not enacted law and does not replace the future law,
 institution, legislation, appropriations, or procedure model.
+
+### Run C human-play acceptance correction
+
+The exact legal phrase uses underline, restrained background, hover/selected
+state, and normal focus outline without generated pseudo-text inside or above
+the sentence. Document-open mode applies a modifier only to the existing
+bottom-left navigation cluster, reducing it to a small time/date/location chip
+that does not intersect the paper at the normal desktop viewport. Closing the
+document restores the accepted Run A shell without changing its ordinary
+markup, information, or behavior.
+
+Current/prepared language is projection state, not variant identity. Before the
+revision event, the $8,000,000 variant projects as current and the $4,000,000
+variant as the prepared narrower revision. After the exact
+`office.working-draft-revised` event, the $4,000,000 variant projects as current,
+the $8,000,000 variant as the earlier office version, and no prepared variant
+remains pending. Paper status, annotation summary, analysis roles, compare
+semantics, action names, accessible labels, and DOM text consume that derived
+role projection.
