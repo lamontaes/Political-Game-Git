@@ -89,11 +89,11 @@ test("pins, explicitly resizes, unpins, and re-pins each person without disturbi
   page,
 }) => {
   const office = page.getByTestId("player-office");
-  const briefing = page.locator('[data-pin-id="briefing"]');
+  const currentCommitment = page.getByTestId("current-commitment");
   const collinsPin = page.locator('[data-pin-id="person"]');
   const reedPin = page.locator('[data-pin-id="person-b"]');
 
-  await expect(briefing).toBeVisible();
+  await expect(currentCommitment).toContainText("Constituent intake briefing");
   await expect(collinsPin).toHaveCount(1);
   await expect(reedPin).toHaveCount(0);
   const initialHistory = await office.getAttribute("data-history-sequence");
@@ -102,7 +102,7 @@ test("pins, explicitly resizes, unpins, and re-pins each person without disturbi
   await page.getByRole("menuitem", { name: /Pin person/ }).click();
   await expect(reedPin).toHaveCount(1);
   await expect(reedPin).toHaveAttribute("data-size", "normal");
-  await expect(briefing).toBeVisible();
+  await expect(currentCommitment).toContainText("Constituent intake briefing");
   await expect(collinsPin).toHaveCount(1);
 
   await page.getByTestId("scene-person-b").click();
@@ -123,19 +123,28 @@ test("pins, explicitly resizes, unpins, and re-pins each person without disturbi
   ).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(reedPin).toHaveAttribute("data-size", "expanded");
+  await expect(controls).toHaveCount(0);
+  await reedPin.focus();
+  await page.keyboard.press("Enter");
+  controls = page.getByTestId("pin-controls-person-b");
+  await expect(
+    controls.getByRole("menuitem", { name: "Compact" }),
+  ).toBeFocused();
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Tab");
   await page.keyboard.press("Tab");
   const unpin = controls.getByRole("menuitem", { name: "Unpin Julian Reed" });
   await expect(unpin).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(reedPin).toHaveCount(0);
-  await expect(briefing).toBeVisible();
+  await expect(currentCommitment).toContainText("Constituent intake briefing");
   await expect(collinsPin).toHaveCount(1);
 
   await page.getByTestId("scene-person-b").click();
   await page.getByRole("menuitem", { name: /Pin person/ }).click();
   await expect(reedPin).toHaveCount(1);
   await expect(reedPin).toHaveAttribute("data-size", "normal");
-  await expect(briefing).toBeVisible();
+  await expect(currentCommitment).toContainText("Constituent intake briefing");
   await expect(office).toHaveAttribute(
     "data-history-sequence",
     initialHistory!,
@@ -150,14 +159,14 @@ test("pins, explicitly resizes, unpins, and re-pins each person without disturbi
   await controls.getByRole("menuitem", { name: "Unpin Andre Collins" }).click();
   await expect(collinsPin).toHaveCount(0);
   await expect(reedPin).toHaveCount(1);
-  await expect(briefing).toBeVisible();
+  await expect(currentCommitment).toContainText("Constituent intake briefing");
 
   await page.getByTestId("scene-person").click();
   await page.getByRole("menuitem", { name: /Pin person/ }).click();
   await expect(collinsPin).toHaveCount(1);
   await expect(collinsPin).toHaveAttribute("data-size", "normal");
   await expect(reedPin).toHaveCount(1);
-  await expect(briefing).toBeVisible();
+  await expect(currentCommitment).toContainText("Constituent intake briefing");
   await expect(office).toHaveAttribute(
     "data-history-sequence",
     initialHistory!,
@@ -224,7 +233,9 @@ test("runs the occupied-office conversation through addressee, audibility, and c
   await expect(page.getByTestId("scene-person-b-nameplate")).toBeHidden();
   await expect(scene).toBeVisible();
   await expect(page.getByTestId("navigation-cluster")).toBeVisible();
-  await expect(page.locator('[data-pin-id="briefing"]')).toBeVisible();
+  await expect(page.getByTestId("current-commitment")).toContainText(
+    "Constituent intake briefing",
+  );
 
   const officeBox = await office.boundingBox();
   const stripBox = await strip.boundingBox();

@@ -4,7 +4,14 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
 } from "./character-history";
-import { addDays, dateAtAge, daysBetween, makeIsoDate, yearOf } from "./dates";
+import {
+  addDays,
+  addSimulationMinutes,
+  dateAtAge,
+  daysBetween,
+  makeIsoDate,
+  yearOf,
+} from "./dates";
 import { createDemoWorld } from "./demo";
 import {
   createFutureTransitionHandlerRegistry,
@@ -86,6 +93,17 @@ function bareWorld(seed: string, vitalityCatalog?: VitalityCatalog): World {
     people: demo.personOrder.map((id) => demo.people[id] as Person),
     vitalityCatalog,
   });
+}
+
+function worldAtDate(world: World, date: IsoDate): World {
+  return {
+    ...world,
+    currentDate: date,
+    currentMoment: addSimulationMinutes(
+      world.currentMoment,
+      daysBetween(world.currentDate, date) * 1_440,
+    ),
+  };
 }
 
 function addContextPerson(
@@ -210,7 +228,7 @@ function uncheckedSnapshot(world: World): string {
   const worldPayload = JSON.stringify(world);
   return JSON.stringify({
     format: "political-life-world",
-    formatVersion: 13,
+    formatVersion: 14,
     snapshotId: createStableId("snapshot", worldPayload),
     worldId: world.id,
     savedAtWorldDate: world.currentDate,
@@ -651,7 +669,7 @@ describe("Stage 6 Run E vitality and functional capacity", () => {
     const due = world.history.futureDueItems.at(-1)!;
 
     const handled = mortalityTransitionHandler(
-      { ...world, currentDate: plan.dueAt },
+      worldAtDate(world, plan.dueAt),
       due,
     );
     expect(latestDueState(handled.world, due.id)?.status).toBe("scheduled");
@@ -660,7 +678,7 @@ describe("Stage 6 Run E vitality and functional capacity", () => {
     const restored = deserializeWorld(serializeWorld(handled.world));
     expect(() =>
       mortalityTransitionHandler(
-        { ...world, currentDate: addDays(plan.dueAt, 1) },
+        worldAtDate(world, addDays(plan.dueAt, 1)),
         due,
       ),
     ).toThrow(/exact due-date frontier/i);
@@ -677,10 +695,10 @@ describe("Stage 6 Run E vitality and functional capacity", () => {
         outcomeEventId: null,
       },
     );
-    const forgedLateCompletion: World = {
-      ...terminalizedCheckpoint,
-      currentDate: addDays(plan.dueAt, 1),
-    };
+    const forgedLateCompletion = worldAtDate(
+      terminalizedCheckpoint,
+      addDays(plan.dueAt, 1),
+    );
     expect(() => assertWorldIntegrity(forgedLateCompletion)).toThrow(
       /mortality result lacks an exact due lifecycle/i,
     );
@@ -754,7 +772,7 @@ describe("Stage 6 Run E vitality and functional capacity", () => {
     const orderedMortalityDue = outOfOrder.history.futureDueItems.at(-1)!;
     expect(() =>
       mortalityTransitionHandler(
-        { ...outOfOrder, currentDate: orderedPlan.dueAt },
+        worldAtDate(outOfOrder, orderedPlan.dueAt),
         orderedMortalityDue,
       ),
     ).toThrow(/evaluated out of Run A order/i);
@@ -769,7 +787,7 @@ describe("Stage 6 Run E vitality and functional capacity", () => {
       provenance: AUTHORED,
     });
     const cancelled = mortalityTransitionHandler(
-      { ...deadOutOfOrder, currentDate: orderedPlan.dueAt },
+      worldAtDate(deadOutOfOrder, orderedPlan.dueAt),
       orderedMortalityDue,
     );
     expect(() =>
@@ -799,22 +817,19 @@ describe("Stage 6 Run E vitality and functional capacity", () => {
     expect(mortalityRngForPlan(world, plan).died).toBe(true);
 
     expect(() =>
-      recordPersonDeath(
-        { ...world, currentDate: plan.dueAt },
-        {
-          stableKey: `${plan.stableKey}:death`,
-          personId: added.personId,
-          diedAt: plan.dueAt,
-          causeKey: MORTALITY_TRANSITION_KEY,
-          sourceEntityIds: [plan.id],
-          summary: "A caller cannot imitate the handler's partial death state.",
-          provenance: { kind: "simulated", sourceEntityIds: [plan.id] },
-        },
-      ),
+      recordPersonDeath(worldAtDate(world, plan.dueAt), {
+        stableKey: `${plan.stableKey}:death`,
+        personId: added.personId,
+        diedAt: plan.dueAt,
+        causeKey: MORTALITY_TRANSITION_KEY,
+        sourceEntityIds: [plan.id],
+        summary: "A caller cannot imitate the handler's partial death state.",
+        provenance: { kind: "simulated", sourceEntityIds: [plan.id] },
+      }),
     ).toThrow(/mortality-caused death lacks its exact died result/i);
 
     const handlerCheckpoint = mortalityTransitionHandler(
-      { ...world, currentDate: plan.dueAt },
+      worldAtDate(world, plan.dueAt),
       due,
     ).world;
     expect(handlerCheckpoint.history.personDeaths).toHaveLength(1);
@@ -1049,8 +1064,7 @@ describe("Stage 6 Run E vitality and functional capacity", () => {
       supersedesStateId: scheduled.id,
     };
     const forged: World = {
-      ...world,
-      currentDate: plan.dueAt,
+      ...worldAtDate(world, plan.dueAt),
       history: {
         ...world.history,
         nextSequence: resultSequence + 2,

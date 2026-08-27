@@ -1,13 +1,18 @@
 import type { RunAFixture } from "../presentation/run-a-fixture";
 import { RUN_A_CIVIC_CONCEPT_ID } from "../presentation/run-a-learning";
 import type { RunAUiAction, RunAUiState } from "../presentation/run-a-state";
+import type { RunDAgendaEntry } from "../presentation/run-d-lite";
 import { PinRail, type PinnedPersonDefinition } from "./PinRail";
 
 interface PermanentShellProps {
   readonly fixture: RunAFixture;
   readonly people: readonly PinnedPersonDefinition[];
+  readonly formattedTime: string;
   readonly formattedDate: string;
   readonly compactNavigation?: boolean;
+  readonly nextCommitment: RunDAgendaEntry | null;
+  readonly onOpenCalendar: () => void;
+  readonly onOpenWorkPending: () => void;
   readonly state: RunAUiState;
   readonly dispatch: (action: RunAUiAction) => void;
 }
@@ -15,21 +20,32 @@ interface PermanentShellProps {
 export function PermanentShell({
   fixture,
   people,
+  formattedTime,
   formattedDate,
   compactNavigation = false,
+  nextCommitment,
+  onOpenCalendar,
+  onOpenWorkPending,
   state,
   dispatch,
 }: PermanentShellProps) {
   const learned = state.learnedConceptIds.includes(RUN_A_CIVIC_CONCEPT_ID);
+  const compactLocationLabel = fixture.locationLabel.split(" · ")[0];
 
   return (
     <>
-      <PinRail people={people} state={state} dispatch={dispatch} />
+      <PinRail
+        people={people}
+        nextCommitment={nextCommitment}
+        state={state}
+        dispatch={dispatch}
+      />
 
       <nav
-        className={`nav-cluster${compactNavigation ? " nav-cluster--document" : ""}`}
+        className={`nav-cluster${compactNavigation ? " nav-cluster--document" : ""}${state.navigation !== "closed" ? " nav-cluster--open" : ""}`}
         aria-label="Time, location, and navigation"
         data-document-compact={compactNavigation ? "true" : "false"}
+        data-navigation-open={state.navigation !== "closed" ? "true" : "false"}
       >
         {state.navigation !== "closed" ? (
           <div
@@ -44,6 +60,18 @@ export function PermanentShell({
                 aria-label="Main navigation"
               >
                 <p className="nav-heading">Office</p>
+                <button type="button" role="menuitem" onClick={onOpenCalendar}>
+                  Calendar
+                  <small>Week and commitments</small>
+                </button>
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={onOpenWorkPending}
+                >
+                  Work / Pending
+                  <small>What actually needs you</small>
+                </button>
                 <button
                   type="button"
                   role="menuitem"
@@ -103,6 +131,7 @@ export function PermanentShell({
           aria-controls={
             state.navigation !== "closed" ? "run-a-navigation" : undefined
           }
+          aria-label={`${formattedTime}. ${formattedDate}. ${fixture.locationLabel}. Open navigation.`}
           onClick={() => dispatch({ type: "toggle-navigation" })}
           data-testid="navigation-cluster"
         >
@@ -110,9 +139,14 @@ export function PermanentShell({
             PG
           </span>
           <span className="cluster-copy">
-            <span className="cluster-time">{fixture.presentationTime}</span>
+            <span className="cluster-time">{formattedTime}</span>
             <span>{formattedDate}</span>
-            <strong>{fixture.locationLabel}</strong>
+            <strong className="cluster-location-compact">
+              {compactLocationLabel}
+            </strong>
+            <strong className="cluster-location-full">
+              {fixture.locationLabel}
+            </strong>
           </span>
         </button>
       </nav>

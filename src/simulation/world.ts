@@ -1,4 +1,10 @@
-import { addDays, makeIsoDate } from "./dates";
+import {
+  addDays,
+  assertSimulationMoment,
+  makeIsoDate,
+  makeSimulationMoment,
+  simulationMomentOnLocalDate,
+} from "./dates";
 import {
   assertCausalEffectIntegrity,
   assertCausalMechanismCatalogIntegrity,
@@ -93,6 +99,12 @@ import {
   vitalityHistoryRecords,
 } from "./vitality-integrity";
 import {
+  assertTimeWorkIntegrity,
+  timeWorkEntityAvailableAt,
+  timeWorkEntityExists,
+  timeWorkHistoryRecords,
+} from "./time-work";
+import {
   assertOpenTaxonomyKey,
   assertDottedContentKey,
   BELIEF_FORMATION_REASON_NAMESPACES,
@@ -123,6 +135,7 @@ import type {
   CausalMechanismCatalog,
   IncidentCatalog,
   VitalityCatalog,
+  SimulationMoment,
 } from "./types";
 
 const PERSON_FACT_KINDS: readonly PersonFactKind[] = [
@@ -213,6 +226,7 @@ const PRACTICAL_LEVELS = ["none", "indirect", "direct", "extensive"] as const;
 export interface CreateWorldInput {
   readonly seed: string;
   readonly currentDate: IsoDate;
+  readonly currentMoment?: SimulationMoment;
   readonly jurisdictions: readonly Jurisdiction[];
   readonly people: readonly Person[];
   readonly policyCatalog?: PolicyCatalog;
@@ -240,12 +254,25 @@ function recordById<T extends { readonly id: EntityId }>(
 }
 
 export function createWorldId(seed: string): EntityId {
-  return createStableId("world", `demo-world-v14:${normalizeSeed(seed)}`);
+  return createStableId("world", `demo-world-v15:${normalizeSeed(seed)}`);
 }
 
 export function createWorld(input: CreateWorldInput): World {
   const seed = normalizeSeed(input.seed);
   const currentDate = makeIsoDate(input.currentDate);
+  const currentMoment = input.currentMoment
+    ? makeSimulationMoment(input.currentMoment)
+    : makeSimulationMoment({
+        date: currentDate,
+        minuteOfDay: 0,
+        timeZone: "Etc/UTC",
+        utcOffsetMinutes: 0,
+      });
+  if (currentMoment.date !== currentDate) {
+    throw new Error(
+      "Initial current date must match the simulation moment date.",
+    );
+  }
   const worldId = createWorldId(seed);
   const policyCatalog = input.policyCatalog ?? createSyntheticPolicyCatalog();
   const mindCatalog = input.mindCatalog ?? createSyntheticMindCatalog();
@@ -291,12 +318,13 @@ export function createWorld(input: CreateWorldInput): World {
   const people = input.people.map(clonePerson);
 
   const world: World = {
-    schemaVersion: 14,
-    generatorVersion: "demo-world-v14",
+    schemaVersion: 15,
+    generatorVersion: "demo-world-v15",
     id: worldId,
     seed,
     startedAt: currentDate,
     currentDate,
+    currentMoment,
     actionSequence: 0,
     jurisdictions: recordById(jurisdictions),
     jurisdictionOrder: jurisdictions.map((jurisdiction) => jurisdiction.id),
@@ -318,8 +346,8 @@ export function createWorld(input: CreateWorldInput): World {
 export function assertWorldIntegrity(world: World): void {
   assertJsonSafe(world, "world");
   if (
-    world.schemaVersion !== 14 ||
-    world.generatorVersion !== "demo-world-v14"
+    world.schemaVersion !== 15 ||
+    world.generatorVersion !== "demo-world-v15"
   ) {
     throw new Error("Unsupported world schema or generator version.");
   }
@@ -328,6 +356,12 @@ export function assertWorldIntegrity(world: World): void {
   }
   const startedAt = makeIsoDate(world.startedAt);
   const currentDate = makeIsoDate(world.currentDate);
+  assertSimulationMoment(world.currentMoment);
+  if (world.currentMoment.date !== currentDate) {
+    throw new Error(
+      "World current date must match its canonical simulation moment.",
+    );
+  }
   if (currentDate < startedAt) {
     throw new Error("World current date cannot predate its start date.");
   }
@@ -414,6 +448,7 @@ export function recordWorldEvent(
       !policySemanticsEntityExists(world, entityId) &&
       !vitalityEntityExists(world, entityId) &&
       !evidenceEntityExists(world, entityId) &&
+      !timeWorkEntityExists(world, entityId) &&
       !futureTransitionEntityExists(world, entityId)
     ) {
       throw new Error(
@@ -509,6 +544,19 @@ export function recordWorldEvent(
     ) {
       throw new Error(
         `Historical event references an unavailable evidence entity: ${entityId}`,
+      );
+    }
+    if (
+      timeWorkEntityExists(world, entityId) &&
+      !timeWorkEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        `Historical event references an unavailable schedule/work entity: ${entityId}`,
       );
     }
     if (
@@ -642,6 +690,7 @@ export function advanceWorld(
 
   const actionSequence = world.actionSequence;
   const nextDate = addDays(world.currentDate, days);
+  const nextMoment = simulationMomentOnLocalDate(world.currentMoment, nextDate);
   const primaryJurisdictionId = world.jurisdictionOrder[0] ?? null;
   const transitioned = resolveFutureDueItemsThrough(
     world,
@@ -651,6 +700,7 @@ export function advanceWorld(
   const advanced: World = {
     ...transitioned,
     currentDate: nextDate,
+    currentMoment: nextMoment,
     actionSequence: actionSequence + 1,
   };
 
@@ -1193,6 +1243,7 @@ function validateHistoryIntegrity(world: World): void {
     ...incidentHistoryRecords(world),
     ...vitalityHistoryRecords(world),
     ...evidenceHistoryRecords(world),
+    ...timeWorkHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
     ...history.events,
     ...history.memories,
@@ -1263,6 +1314,7 @@ function validateHistoryIntegrity(world: World): void {
   assertIncidentIntegrity(world, ids);
   assertVitalityIntegrity(world, ids);
   assertEvidenceIntegrity(world, ids);
+  assertTimeWorkIntegrity(world, ids);
   assertFutureTransitionIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
@@ -1342,6 +1394,7 @@ function validateHistoryIntegrity(world: World): void {
         !policySemanticsEntityExists(world, involvedId) &&
         !vitalityEntityExists(world, involvedId) &&
         !evidenceEntityExists(world, involvedId) &&
+        !timeWorkEntityExists(world, involvedId) &&
         !futureTransitionEntityExists(world, involvedId)
       ) {
         throw new Error(
@@ -1437,6 +1490,19 @@ function validateHistoryIntegrity(world: World): void {
       ) {
         throw new Error(
           `Historical event references an unavailable evidence entity: ${event.id}`,
+        );
+      }
+      if (
+        timeWorkEntityExists(world, involvedId) &&
+        !timeWorkEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          `Historical event references an unavailable schedule/work entity: ${event.id}`,
         );
       }
       if (

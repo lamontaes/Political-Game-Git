@@ -282,6 +282,7 @@ test("keeps manual pin sizing through other inspectorial actions", async ({
   await expect(controls).toBeVisible();
   await controls.getByRole("menuitem", { name: "Standard" }).click();
   await expect(personPin).toHaveAttribute("data-size", "normal");
+  await expect(controls).toHaveCount(0);
 
   await page.getByTestId("scene-person").click();
   await expect(page.getByTestId("person-action-menu")).toBeVisible();
@@ -306,16 +307,14 @@ test("reproduces every named Run A fixture state by URL", async ({ page }) => {
   }
 
   await page.goto("/?fixture=mixed-pins");
-  await expect(page.locator('[data-pin-id="briefing"]')).toHaveAttribute(
-    "data-size",
-    "normal",
-  );
   await expect(page.locator('[data-pin-id="person"]')).toHaveAttribute(
     "data-size",
-    "tiny",
-  );
-  await expect(page.locator('[data-pin-id="district-notes"]')).toHaveAttribute(
-    "data-size",
     "expanded",
+  );
+  await expect(page.getByTestId("current-commitment")).toContainText(
+    "Constituent intake briefing",
+  );
+  await expect(page.getByTestId("pinned-collection")).not.toContainText(
+    /briefing|district notes/i,
   );
 });

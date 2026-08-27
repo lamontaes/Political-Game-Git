@@ -20,6 +20,9 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run demo` — headless deterministic demo
 - `npm run test` — automated tests
 - `npm run test:run-a` — focused Stage 6.5 semantic tests
+- `npm run test:run-b` — focused Stage 6.5 conversation tests
+- `npm run test:run-c` — focused Stage 6.5 working-document tests
+- `npm run test:run-d-lite` — focused Stage 6.5 time/work tests
 - `npm run test:e2e` — Playwright browser proof
 - `npm run lint` — lint
 - `npm run typecheck` — TypeScript validation
@@ -40,12 +43,12 @@ A lower-authority document or implementation cannot silently override a higher-a
 ## Art & Assets Constraints
 
 - **Stage 6 Baseline is Frozen**: The accepted Stage 6 baseline (commit d792e79a) is frozen. Do not reopen, refactor, or redesign Stage 6 simulation semantics.
-- **Stage 6.5 Runs A–B Are Accepted; Run C is Authorized**: Preserve the accepted playable office, reusable shell, and conversation foundation. Run C may add only the bounded scene-native legislative working-document bridge authorized by its implementation gate; do not extend into later Stage 6.5 runs or redesign the approved visual direction without another gate.
-- **No Stage 7 Feature Creep**: Do not implement any Stage 7 systems or feature creep (e.g., law/institution/procedure engines or calendar systems).
+- **Stage 6.5 Runs A–C Are Accepted; Run D-Lite is Authorized**: Preserve the accepted playable office, reusable shell, conversation, and legislative working-document bridge. Run D-Lite may add only its bounded canonical clock, scheduled activity, Work/Pending, and planning surfaces; do not begin Lexington Slice E or redesign the approved visual direction without another gate.
+- **No Stage 7 Feature Creep**: Do not implement law, institution, procedure, electorate, campaign, or election engines. The bounded Run D-Lite calendar/work substrate is not authority for those systems.
 - **Scene Art Hierarchy Principle**: Implement environments via a scene-first hierarchy: shared global assets → reusable environment families → jurisdiction/building deltas → explicitly justified hero environments.
 - **Scene-First Design**: Adhere strictly to the scene-first / dossier-second / database-third presentation principle.
 - **Provenance and Rights**: Preserve provenance and rights information for every source and future generated asset. Unknown rights status must remain unknown (do not infer public domain status or commercially reusable status from mere visibility).
 - **No Fabricated Measurement Precision**: Never fabricate precise physical dimensions. Measurements must strictly distinguish confidence classes (e.g. `exact`, `plan-derived`, `specified`, `bounded-estimate`, `visual-estimate`). Missing measurements must remain missing, not guessed or zeroed out.
 - **Deterministic and Testable Tooling**: Prefer deterministic, inspectable, and testable tooling over opaque manual state. Generate deterministic fixture and replay outputs. Ensure art schemas are continually checked.
 - **Art-Pipeline Run Commands**: Art validation, inventory generation, and QA contact sheet generation commands have been explicitly added. Always run: `npm run validate:art`, `npm run inventory:art`, and `npm run qa:art`.
-- **Art-Pipeline Stop Conditions & Forbidden Changes**: Foundation-only art runs must stop when their constraints are met. Their historical Stage 6.5 ban does not override the authorized Run A slice. You remain forbidden from modifying accepted Stage 6 simulation semantics, implementing Stage 7 systems, or generating non-fixture final output images without separate authorization.
+- **Art-Pipeline Stop Conditions & Forbidden Changes**: Foundation-only art runs must stop when their constraints are met. Their historical Stage 6.5 ban does not override the accepted Runs A–C or authorized Run D-Lite slice. You remain forbidden from reopening accepted Stage 6 domain semantics, implementing Stage 7 systems, or generating non-fixture final output images without separate authorization.

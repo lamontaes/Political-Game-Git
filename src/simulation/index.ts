@@ -42,6 +42,7 @@ export * from "./resources";
 export * from "./rng";
 export * from "./serialization";
 export * from "./taxonomy";
+export * from "./time-work";
 export * from "./vitality";
 export * from "./vitality-catalog";
 export type * from "./types";

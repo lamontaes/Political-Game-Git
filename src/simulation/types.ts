@@ -6,6 +6,15 @@ export type EntityId = string & { readonly [entityIdBrand]: true };
 export type IsoDate = string & { readonly [isoDateBrand]: true };
 export type CurrencyCode = string & { readonly [currencyCodeBrand]: true };
 
+export interface SimulationMoment {
+  readonly date: IsoDate;
+  readonly minuteOfDay: number;
+  /** IANA timezone identity retained for geographic and later travel context. */
+  readonly timeZone: string;
+  /** Explicit offset makes the represented instant deterministic and replayable. */
+  readonly utcOffsetMinutes: number;
+}
+
 export type EntityKind =
   | "appraisal"
   | "belief"
@@ -80,6 +89,8 @@ export type EntityKind =
   | "resource-obligation-state"
   | "resource-position"
   | "resource-transfer-outcome"
+  | "scheduled-activity"
+  | "scheduled-activity-state"
   | "snapshot"
   | "subject"
   | "subject-knowledge"
@@ -97,6 +108,8 @@ export type EntityKind =
   | "work-role"
   | "work-status"
   | "world-metric-definition"
+  | "work-item"
+  | "work-item-state"
   | "world";
 
 export type DataStatus =
@@ -2140,6 +2153,125 @@ export interface PolicyRealizationRecord {
   readonly provenance: PolicyRecordProvenance;
 }
 
+export type CanonicalAccess =
+  | { readonly kind: "office" }
+  | {
+      readonly kind: "private";
+      readonly personIds: readonly EntityId[];
+    };
+
+export interface AuthoredActivityLocation {
+  readonly locationKey: string;
+  readonly label: string;
+  readonly jurisdictionId: EntityId | null;
+}
+
+export type ScheduledActivityKind =
+  "confirmed" | "tentative" | "flexible" | "travel";
+
+export type ScheduledActivityFlexibility =
+  | { readonly kind: "fixed" }
+  | {
+      readonly kind: "movable";
+      readonly earliestStart: SimulationMoment;
+      readonly latestEnd: SimulationMoment;
+    };
+
+export interface ScheduledActivityRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly createdAt: SimulationMoment;
+  readonly title: string;
+  readonly summary: string;
+  readonly kind: ScheduledActivityKind;
+  readonly participantPersonIds: readonly EntityId[];
+  readonly responsiblePersonId: EntityId | null;
+  readonly location: AuthoredActivityLocation;
+  readonly sourceEntityIds: readonly EntityId[];
+  readonly flexibility: ScheduledActivityFlexibility;
+  readonly access: CanonicalAccess;
+}
+
+export type ScheduledActivityStatus = "scheduled" | "completed" | "cancelled";
+
+export type ScheduledActivityStateChange =
+  "created" | "rescheduled" | "completed" | "cancelled";
+
+export interface ScheduledActivityStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly activityId: EntityId;
+  readonly recordedAt: SimulationMoment;
+  readonly start: SimulationMoment;
+  readonly end: SimulationMoment;
+  readonly status: ScheduledActivityStatus;
+  readonly change: ScheduledActivityStateChange;
+  readonly outcomeEventId: EntityId | null;
+  readonly supersedesStateId: EntityId | null;
+}
+
+export type WorkPlayerRequirement = "decision" | "action" | "none";
+export type WorkItemStatus =
+  "active" | "ready-for-review" | "completed" | "cancelled";
+
+export type WorkFocusTarget =
+  | {
+      readonly kind: "person";
+      readonly personId: EntityId;
+    }
+  | {
+      readonly kind: "legislative-material";
+      readonly targetKey: string;
+      readonly sourceEntityId: EntityId;
+    }
+  | {
+      readonly kind: "calendar-item";
+      readonly scheduledActivityId: EntityId;
+    }
+  | {
+      readonly kind: "other";
+      readonly targetKey: string;
+      readonly sourceEntityId: EntityId;
+    };
+
+export interface AuthoredWorkEffort {
+  readonly kind: "authored-duration";
+  readonly requiredMinutes: number;
+}
+
+export interface WorkItemRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly createdAt: SimulationMoment;
+  readonly title: string;
+  readonly summary: string;
+  readonly jurisdictionId: EntityId | null;
+  readonly sourceEntityIds: readonly EntityId[];
+  readonly focus: WorkFocusTarget;
+  readonly effort: AuthoredWorkEffort | null;
+  readonly access: CanonicalAccess;
+}
+
+export interface WorkItemStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly workItemId: EntityId;
+  readonly recordedAt: SimulationMoment;
+  readonly status: WorkItemStatus;
+  readonly assignedPersonIds: readonly EntityId[];
+  readonly playerRequirement: WorkPlayerRequirement;
+  readonly waitingOnPersonIds: readonly EntityId[];
+  readonly blocker: string | null;
+  readonly completedEffortMinutes: number;
+  readonly scheduledActivityId: EntityId | null;
+  readonly outcomeEventId: EntityId | null;
+  readonly supersedesStateId: EntityId | null;
+}
+
 export type FutureTransitionKey = `${string}:${string}`;
 export type FutureDueReasonKey = `${string}:${string}`;
 
@@ -2668,6 +2800,10 @@ export interface HistoryStore {
   readonly personFunctionalCapacities: readonly PersonFunctionalCapacityRecord[];
   readonly evidenceArtifacts: readonly EvidenceArtifactRecord[];
   readonly evidenceDiscoveries: readonly EvidenceDiscoveryRecord[];
+  readonly scheduledActivities: readonly ScheduledActivityRecord[];
+  readonly scheduledActivityStates: readonly ScheduledActivityStateRecord[];
+  readonly workItems: readonly WorkItemRecord[];
+  readonly workItemStates: readonly WorkItemStateRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];
@@ -2691,12 +2827,13 @@ export interface HistoryStore {
 }
 
 export interface World {
-  readonly schemaVersion: 14;
-  readonly generatorVersion: "demo-world-v14";
+  readonly schemaVersion: 15;
+  readonly generatorVersion: "demo-world-v15";
   readonly id: EntityId;
   readonly seed: string;
   readonly startedAt: IsoDate;
   readonly currentDate: IsoDate;
+  readonly currentMoment: SimulationMoment;
   readonly actionSequence: number;
   readonly jurisdictions: Readonly<Record<string, Jurisdiction>>;
   readonly jurisdictionOrder: readonly EntityId[];

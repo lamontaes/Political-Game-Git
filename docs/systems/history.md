@@ -65,6 +65,8 @@ The global history store uses one contiguous append sequence across:
 - exact jurisdiction/segment metric-state truth and explicit correction history;
 - separate source-series observation vintages with compatible uncertainty and explicit revisions; and
 - stable future due items with append-oriented scheduled/resolved/cancelled/blocked state and optional ordinary outcome-event links.
+- exact scheduled activity roots/states with interval, flexibility, travel, supersession, and ordinary completion-event links;
+- exact office work roots/states with assignees, player requirements, dependencies, authored effort, focus/provenance, supersession, and ordinary outcome-event links; and
 - stable causal processes with canonical sources/parents plus typed effect activations targeting metric/scope history.
 
 All records have stable IDs and semantic keys and share one contiguous append sequence. Each family is stored in append order rather than relying on a query-time sort to repair malformed history. A claim, inaccurate secondhand belief, public political position, campaign commitment, appraisal, or perception can contradict another record without changing it. Political and mind records may cite immutable event, biography, exposure, memory, perceived knowledge, claim, relationship, expertise, appraisal, perception, or earlier decision context without claiming that context mechanically caused the later state.
@@ -98,4 +100,13 @@ is projected from that exact event. No presentation-only selection, annotation,
 comparison, or focus state enters history, and the drafting instruction is not
 law or policy realization.
 
-Snapshot format 11 preserves the complete graph, shared descriptive policy, mind, world-metric, and causal-mechanism catalogs, control state, Stage 5 life records, metric state/observations, causal processes/effect activations, quantitative policy histories, and future due histories in world schema 12. The Node-only persistence adapter validates record order, discriminators, exact quantities/units/money, chronology, provenance, lifecycle/supersession and correction/forecast-revision chains, causal ancestry/effect timing, historical cutoffs, typed source availability, exact resource/housing integrity, due references/outcome events, stored load derivation, source snapshots, and references before saving or after loading. Generalized incident/event graphs, automatic knowledge propagation and correction, autonomous character development, behavioral classification, branching, returning-player briefings, and player-facing archive filtering remain future work.
+Stage 6.5 Run D-Lite adds exact-time state families while retaining ordinary
+date-level events as the factual outcome narrative. Root identities are stable;
+rescheduling, assignment, completion, and cancellation append states rather
+than rewriting earlier state. Exact state timestamps are canonical queryable
+moments. Global sequence orders records appended at the same instant but is
+never interpreted as elapsed time. Work/activity outcome events must exist,
+refer back to the correct root/state transition, and precede no source they
+claim to use. See [Canonical Sub-Day Time, Scheduled Activity, and Office Work](time-work.md).
+
+Snapshot format 14 preserves the complete graph, current moment, scheduled activities, office work, catalogs, control state, Stage 5 life records, Stage 6 truth/observation/causal/policy/incident/vitality/evidence records, and future-due history in world schema 15. The Node-only persistence adapter validates record order, moment/date consistency, discriminators, exact quantities/units/money, chronology, provenance, lifecycle/supersession and correction/forecast-revision chains, schedule conflicts, work/activity references and outcomes, causal ancestry/effect timing, historical cutoffs, typed source availability, exact resource/housing integrity, due references/outcome events, stored load derivation, source snapshots, and references before saving or after loading. Automatic knowledge propagation and correction, autonomous character development, behavioral classification, branching, returning-player briefings, and player-facing archive filtering remain future work.

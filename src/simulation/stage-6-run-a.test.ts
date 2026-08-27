@@ -1211,6 +1211,9 @@ describe("Stage 6 Run A future due items and authoritative time", () => {
     const dueItem = scheduled.history.futureDueItems.at(-1)!;
     const dueToday = structuredClone(scheduled);
     (dueToday as { currentDate: string }).currentDate = "2026-01-15";
+    (
+      dueToday as unknown as { currentMoment: { date: string } }
+    ).currentMoment.date = "2026-01-15";
     expect(() => assertWorldIntegrity(dueToday)).not.toThrow();
     const loaded = deserializeWorld(serializeWorld(dueToday));
     expect(loaded).toStrictEqual(dueToday);
@@ -1275,9 +1278,9 @@ describe("Stage 6 Run A persistence and loaded-world integrity", () => {
     const loaded = deserializeWorld(payload);
     expect(loaded).toStrictEqual(world);
     expect(serializeWorld(loaded)).toBe(payload);
-    expect(loaded.schemaVersion).toBe(14);
-    expect(loaded.generatorVersion).toBe("demo-world-v14");
-    expect(JSON.parse(payload).formatVersion).toBe(13);
+    expect(loaded.schemaVersion).toBe(15);
+    expect(loaded.generatorVersion).toBe("demo-world-v15");
+    expect(JSON.parse(payload).formatVersion).toBe(14);
   });
 
   it("rejects corrupted persisted supersession and due-reference histories", () => {
@@ -1337,6 +1340,9 @@ describe("Stage 6 Run A persistence and loaded-world integrity", () => {
 
     const overdue = structuredClone(world);
     (overdue as { currentDate: string }).currentDate = "2026-01-16";
+    (
+      overdue as unknown as { currentMoment: { date: string } }
+    ).currentMoment.date = "2026-01-16";
     expect(() => assertWorldIntegrity(overdue)).toThrow(
       /skipped by authoritative time/i,
     );
@@ -1346,6 +1352,11 @@ describe("Stage 6 Run A persistence and loaded-world integrity", () => {
     };
     (overdueSnapshot.world as { currentDate: string }).currentDate =
       "2026-01-16";
+    (
+      overdueSnapshot.world as unknown as {
+        currentMoment: { date: string };
+      }
+    ).currentMoment.date = "2026-01-16";
     overdueSnapshot.snapshotId = createStableId(
       "snapshot",
       JSON.stringify(overdueSnapshot.world),

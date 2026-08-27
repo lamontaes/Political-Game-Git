@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useReducer, useState } from "react";
 
+import type { EntityId } from "../simulation";
+
 import { parseRunAFixtureState } from "../presentation/run-a-fixture";
 import {
   loadLearnedConcepts,
@@ -34,14 +36,26 @@ import {
 } from "../presentation/run-c-document-state";
 import {
   commitRunCWorkingDraftRevision,
-  createRunCFixture,
   createRunCLegislativeConversationProgress,
   projectRunCWorkingDocument,
   recordRunCPlayerAnalysisReview,
 } from "../presentation/run-c-working-document";
+import {
+  createRunDLiteFixture,
+  delegateRunDMeetingBrief,
+  performRunDBriefing,
+  projectRunDLite,
+  rescheduleRunDFlexibleBlock,
+} from "../presentation/run-d-lite";
+import {
+  createRunDUiState,
+  runDUiReducer,
+} from "../presentation/run-d-lite-state";
+import { CalendarWorkspace } from "./CalendarWorkspace";
 import { ConversationStrip } from "./ConversationStrip";
 import { OfficeScene } from "./OfficeScene";
 import { PermanentShell } from "./PermanentShell";
+import { WorkPendingWorkspace } from "./WorkPendingWorkspace";
 import { WorkingDocumentWorkspace } from "./WorkingDocumentWorkspace";
 
 function formatRunADate(date: string): string {
@@ -54,8 +68,16 @@ function formatRunADate(date: string): string {
   }).format(new Date(`${date}T12:00:00Z`));
 }
 
+function formatRunATime(minuteOfDay: number): string {
+  const hour24 = Math.floor(minuteOfDay / 60);
+  const minute = minuteOfDay % 60;
+  const suffix = hour24 >= 12 ? "PM" : "AM";
+  const hour = hour24 % 12 || 12;
+  return `${hour}:${minute.toString().padStart(2, "0")} ${suffix}`;
+}
+
 export function PlayerOffice() {
-  const fixture = useMemo(createRunCFixture, []);
+  const fixture = useMemo(createRunDLiteFixture, []);
   const [world, setWorld] = useState(fixture.world);
   const fixtureState = parseRunAFixtureState(
     new URLSearchParams(window.location.search).get("fixture"),
@@ -79,8 +101,17 @@ export function PlayerOffice() {
     undefined,
     createRunCDocumentUiState,
   );
+  const [planningState, planningDispatch] = useReducer(
+    runDUiReducer,
+    undefined,
+    createRunDUiState,
+  );
   const documentProjection = useMemo(
     () => projectRunCWorkingDocument(world, fixture),
+    [fixture, world],
+  );
+  const planningProjection = useMemo(
+    () => projectRunDLite(world, fixture),
     [fixture, world],
   );
   const activeConversationRoom =
@@ -110,7 +141,11 @@ export function PlayerOffice() {
   function handleKeyDown(event: React.KeyboardEvent<HTMLElement>) {
     if (event.key !== "Escape") return;
 
-    if (conversationState.transcriptOpen) {
+    if (planningState.selectedActivityId !== null) {
+      planningDispatch({ type: "close-activity-detail" });
+    } else if (planningState.mode !== "closed") {
+      planningDispatch({ type: "close" });
+    } else if (conversationState.transcriptOpen) {
       conversationDispatch({ type: "toggle-transcript" });
     } else if (conversationState.mode !== "closed") {
       conversationDispatch({ type: "close" });
@@ -158,6 +193,7 @@ export function PlayerOffice() {
   function startConversation(
     personId: (typeof fixture.scenePeople)[number]["personId"],
   ) {
+    planningDispatch({ type: "close" });
     dispatch({ type: "dismiss-overlay" });
     if (
       conversationState.session &&
@@ -193,6 +229,7 @@ export function PlayerOffice() {
   }
 
   function openWorkingDocument() {
+    planningDispatch({ type: "close" });
     dispatch({ type: "dismiss-overlay" });
     dispatch({ type: "close-navigation" });
     dispatch({ type: "close-pin-controls" });
@@ -200,6 +237,71 @@ export function PlayerOffice() {
       conversationDispatch({ type: "close" });
     }
     documentDispatch({ type: "open" });
+  }
+
+  function openPlanningWorkspace(mode: "calendar" | "work") {
+    dispatch({ type: "dismiss-overlay" });
+    dispatch({ type: "close-navigation" });
+    dispatch({ type: "close-pin-controls" });
+    documentDispatch({ type: "close" });
+    if (conversationState.mode !== "closed") {
+      conversationDispatch({ type: "close" });
+    }
+    planningDispatch({
+      type: mode === "calendar" ? "open-calendar" : "open-work",
+    });
+  }
+
+  function rescheduleFlexibleBlock(choice: "valid" | "travel-conflict") {
+    const result = rescheduleRunDFlexibleBlock(world, fixture, choice);
+    if (result.ok) {
+      setWorld(result.world);
+      planningDispatch({
+        type: "set-feedback",
+        message: "The flexible block moved to 11:00 AM–12:00 PM.",
+      });
+      return;
+    }
+    const conflictNames = result.conflictingActivityIds
+      .map(
+        (activityId) =>
+          world.history.scheduledActivities.find(
+            (activity) => activity.id === activityId,
+          )?.title,
+      )
+      .filter((title): title is string => Boolean(title));
+    planningDispatch({
+      type: "set-feedback",
+      message:
+        result.reason === "conflict"
+          ? `That move is not possible. It conflicts with ${conflictNames.join(
+              " and ",
+            )}; the required travel time stays in place.`
+          : "That move is not available for this commitment.",
+    });
+  }
+
+  function delegateMeetingBrief() {
+    setWorld(delegateRunDMeetingBrief(world, fixture));
+    planningDispatch({
+      type: "set-feedback",
+      message:
+        "Collins now owns the meeting brief and can work on it while you handle other commitments.",
+    });
+  }
+
+  function performBriefing() {
+    setWorld(performRunDBriefing(world, fixture));
+    planningDispatch({
+      type: "set-feedback",
+      message:
+        "The 20-minute wait and 45-minute briefing are complete: 65 canonical minutes elapsed, the clock is now 10:15 AM, and Collins's parallel work also advanced.",
+    });
+  }
+
+  function focusWorkPerson(personId: EntityId) {
+    planningDispatch({ type: "close" });
+    dispatch({ type: "select-person", personId });
   }
 
   function reviewStaffAnalysis() {
@@ -266,6 +368,8 @@ export function PlayerOffice() {
       className="player-office"
       data-testid="player-office"
       data-simulation-date={world.currentDate}
+      data-simulation-minute={world.currentMoment.minuteOfDay}
+      data-simulation-time-zone={world.currentMoment.timeZone}
       data-action-sequence={world.actionSequence}
       data-history-sequence={world.history.nextSequence}
       data-conversation-event-count={
@@ -292,6 +396,8 @@ export function PlayerOffice() {
       data-policy-realization-count={world.history.policyRealizations.length}
       data-effect-activation-count={world.history.effectActivations.length}
       data-metric-state-count={world.history.metricStates.length}
+      data-scheduled-activity-count={world.history.scheduledActivities.length}
+      data-work-item-count={world.history.workItems.length}
       onKeyDown={handleKeyDown}
       onPointerDown={handlePointerDown}
     >
@@ -319,6 +425,39 @@ export function PlayerOffice() {
         onDiscussProvision={discussSelectedProvision}
         onCommitRevision={commitWorkingDraftRevision}
       />
+      {planningState.mode === "calendar" ? (
+        <CalendarWorkspace
+          fixture={fixture}
+          projection={planningProjection}
+          selectedActivityId={planningState.selectedActivityId}
+          feedback={planningState.feedback}
+          onSelect={(activityId) =>
+            planningDispatch({ type: "select-activity", activityId })
+          }
+          onCloseDetail={() =>
+            planningDispatch({ type: "close-activity-detail" })
+          }
+          onClose={() => planningDispatch({ type: "close" })}
+          onValidReschedule={() => rescheduleFlexibleBlock("valid")}
+          onInvalidReschedule={() => rescheduleFlexibleBlock("travel-conflict")}
+          onPerformBriefing={performBriefing}
+        />
+      ) : null}
+      {planningState.mode === "work" ? (
+        <WorkPendingWorkspace
+          world={world}
+          fixture={fixture}
+          projection={planningProjection}
+          feedback={planningState.feedback}
+          onClose={() => planningDispatch({ type: "close" })}
+          onDelegate={delegateMeetingBrief}
+          onOpenDocument={openWorkingDocument}
+          onOpenCalendarItem={(activityId) =>
+            planningDispatch({ type: "open-calendar", activityId })
+          }
+          onFocusPerson={focusWorkPerson}
+        />
+      ) : null}
       <ConversationStrip
         world={world}
         room={activeConversationRoom}
@@ -337,12 +476,17 @@ export function PlayerOffice() {
           dossier: dossiers[scenePerson.personId]!,
         }))}
         formattedDate={formatRunADate(world.currentDate)}
+        formattedTime={formatRunATime(world.currentMoment.minuteOfDay)}
         compactNavigation={documentState.mode === "open"}
+        nextCommitment={planningProjection.nextCommitment}
+        onOpenCalendar={() => openPlanningWorkspace("calendar")}
+        onOpenWorkPending={() => openPlanningWorkspace("work")}
         state={state}
         dispatch={dispatch}
       />
       <p className="sr-only" role="status" aria-live="polite">
-        Simulation date remains {world.currentDate}.
+        Simulation time is {formatRunATime(world.currentMoment.minuteOfDay)} on{" "}
+        {world.currentDate}, Lexington local time.
       </p>
     </main>
   );

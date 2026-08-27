@@ -1,4 +1,4 @@
-import { makeIsoDate } from "./dates";
+import { makeIsoDate, simulationMomentAtLocalTime } from "./dates";
 import { createStableId } from "./ids";
 import {
   incidentEntityAvailableAt,
@@ -350,7 +350,19 @@ export function resolveFutureDueItemsThrough(
         `Missing future-transition handler for due item ${item.id}: ${item.transitionKey}`,
       );
     }
-    const atDueDate: World = { ...working, currentDate: item.dueAt };
+    const atDueDate: World = {
+      ...working,
+      currentDate: item.dueAt,
+      currentMoment: simulationMomentAtLocalTime({
+        date: item.dueAt,
+        minuteOfDay:
+          item.dueAt === working.currentMoment.date
+            ? working.currentMoment.minuteOfDay
+            : 0,
+        timeZone: working.currentMoment.timeZone,
+        preferredUtcOffsetMinutes: working.currentMoment.utcOffsetMinutes,
+      }),
+    };
     const unchangedInput = JSON.stringify(atDueDate);
     const dueItemsBefore = atDueDate.history.futureDueItems;
     const dueStatesBefore = atDueDate.history.futureDueItemStates;

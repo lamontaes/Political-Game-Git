@@ -352,7 +352,7 @@ Runs A through E deliberately contain no automatic economy tick, daily or popula
 
 ## Stage 6.5 — First Real UI and Diegetic Onboarding Shell
 
-Status: **RUNS A–C IMPLEMENTED; RUN C INDEPENDENT REVIEW AND HUMAN PLAY REVIEW PENDING**
+Status: **RUNS A–C ACCEPTED; RUN D-LITE IMPLEMENTED, INDEPENDENT REVIEW AND HUMAN PLAY REVIEW PENDING**
 
 ### Purpose
 
@@ -429,6 +429,26 @@ existing Run B strip with a legislative subject while preserving its listener,
 claim, knowledge, and perception semantics. Run C adds no formal bill,
 institution, chamber, officeholding, procedure, calendar, or Run D system. See
 D-049 and [Player Presentation and Epistemic Projection](systems/player-presentation.md).
+
+Run D-Lite adds the smallest reusable canonical time/work layer before the
+Lexington political-career MVP. World now owns an exact zoned minute-level
+moment consistent with `currentDate`; whole-day advancement remains compatible.
+Append-oriented scheduled activities model fixed, tentative, flexible, and
+travel intervals with real participant conflicts and explicit rescheduling.
+Append-oriented work models real sources, focus targets, assignees, player
+requirements, dependencies, authored effort, and completion. One vertical week
+and one access-filtered Work/Pending surface project that truth without using
+React state as a clock or task-bucket source. A bounded briefing advances 45
+minutes while Collins's separate analysis progresses in parallel. D-Lite adds
+no recurrence, route finding, staff economy, law, institutions, electorate,
+campaign, election, or Lexington Slice E behavior. See D-050,
+[Canonical Sub-Day Time, Scheduled Activity, and Office Work](systems/time-work.md),
+and [Player Presentation and Epistemic Projection](systems/player-presentation.md).
+
+The intended next critical path is Lexington MVP Slice E for the minimum
+institution/electorate/campaign/election systems of one council race, then a
+minimum governing-term Slice F and continuation/next-cycle Slice G. Those
+slices remain separately gated and were not started by D-Lite.
 
 ---
 

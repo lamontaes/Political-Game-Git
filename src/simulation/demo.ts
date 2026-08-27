@@ -97,6 +97,12 @@ export function createDemoWorld(seedInput = DEFAULT_DEMO_SEED): World {
   let world = createWorld({
     seed,
     currentDate: DEMO_START_DATE,
+    currentMoment: {
+      date: DEMO_START_DATE,
+      minuteOfDay: 9 * 60 + 10,
+      timeZone: "America/New_York",
+      utcOffsetMinutes: -300,
+    },
     jurisdictions: [jurisdiction],
     people,
   });
