@@ -34,6 +34,13 @@ const VALID_APPROVAL_STATUS = ["approved", "rejected", "pending"];
 const VALID_GENERATION_STATUS = ["draft", "approved", "rejected", "pending"];
 const VALID_RUNTIME_RELEASE_STATUS = ["unreleased", "released"];
 
+function isAllowedStatus(
+  value: unknown,
+  allowedValues: readonly string[],
+): value is string {
+  return typeof value === "string" && allowedValues.includes(value);
+}
+
 function hasRequiredRuntimeStates(asset: AssetManifestEntry): boolean {
   return (
     asset.generation_status === "approved" &&
@@ -273,22 +280,21 @@ export function validateArtAssets(
       );
     }
 
-    if (
-      asset.generation_status &&
-      !VALID_GENERATION_STATUS.includes(asset.generation_status)
-    ) {
+    if (!isAllowedStatus(asset.generation_status, VALID_GENERATION_STATUS)) {
       errors.push(
         `Asset '${asset.asset_id}' has invalid generation_status '${asset.generation_status}'.`,
       );
     }
-    if (asset.qa_status && !VALID_APPROVAL_STATUS.includes(asset.qa_status)) {
+    if (!isAllowedStatus(asset.qa_status, VALID_APPROVAL_STATUS)) {
       errors.push(
         `Asset '${asset.asset_id}' has invalid qa_status '${asset.qa_status}'.`,
       );
     }
     if (
-      asset.runtime_release_status &&
-      !VALID_RUNTIME_RELEASE_STATUS.includes(asset.runtime_release_status)
+      !isAllowedStatus(
+        asset.runtime_release_status,
+        VALID_RUNTIME_RELEASE_STATUS,
+      )
     ) {
       errors.push(
         `Asset '${asset.asset_id}' has invalid runtime_release_status '${asset.runtime_release_status}'.`,

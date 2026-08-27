@@ -96,6 +96,25 @@ function removeSyntheticRuntimeFixture(fixture: SyntheticRuntimeFixture) {
   fs.rmSync(fixture.repositoryRoot, { recursive: true, force: true });
 }
 
+type ClosedStatusField =
+  "generation_status" | "qa_status" | "runtime_release_status";
+
+function setRuntimeParsedStatus(
+  fixture: SyntheticRuntimeFixture,
+  field: ClosedStatusField,
+  value: unknown,
+) {
+  const runtimeJson = JSON.parse(JSON.stringify(fixture.manifest)) as {
+    assets: Array<Record<string, unknown>>;
+  };
+  if (value === undefined) {
+    delete runtimeJson.assets[0][field];
+  } else {
+    runtimeJson.assets[0][field] = value;
+  }
+  fixture.manifest = JSON.parse(JSON.stringify(runtimeJson)) as AssetManifest;
+}
+
 describe("Art Asset Factory Foundation", () => {
   describe("Validation Tooling", () => {
     it("accepts valid fixtures", () => {
@@ -220,6 +239,76 @@ describe("Art Asset Factory Foundation", () => {
         expect(result.runtimeEligibleAssetIds).toEqual([
           "synthetic_runtime_asset",
         ]);
+      } finally {
+        removeSyntheticRuntimeFixture(fixture);
+      }
+    });
+
+    it.each([
+      ["null", null],
+      ["an empty string", ""],
+    ])("rejects runtime_release_status parsed from JSON as %s", (_, value) => {
+      const fixture = createSyntheticRuntimeFixture();
+      try {
+        setRuntimeParsedStatus(fixture, "runtime_release_status", value);
+        const result = validateSyntheticFixture(fixture);
+        expect(result.valid).toBe(false);
+        expect(result.errors.join("\n")).toContain(
+          `invalid runtime_release_status '${value}'`,
+        );
+        expect(result.runtimeEligibleAssetIds).toEqual([]);
+      } finally {
+        removeSyntheticRuntimeFixture(fixture);
+      }
+    });
+
+    it.each([
+      ["generation_status", false],
+      ["qa_status", 0],
+    ] as const)("rejects falsy JSON value for %s", (field, value) => {
+      const fixture = createSyntheticRuntimeFixture();
+      try {
+        setRuntimeParsedStatus(fixture, field, value);
+        const result = validateSyntheticFixture(fixture);
+        expect(result.valid).toBe(false);
+        expect(result.errors.join("\n")).toContain(`invalid ${field}`);
+        expect(result.runtimeEligibleAssetIds).toEqual([]);
+      } finally {
+        removeSyntheticRuntimeFixture(fixture);
+      }
+    });
+
+    it.each([
+      "generation_status",
+      "qa_status",
+      "runtime_release_status",
+    ] as const)("rejects an arbitrary out-of-enum %s", (field) => {
+      const fixture = createSyntheticRuntimeFixture();
+      try {
+        setRuntimeParsedStatus(fixture, field, "future-status");
+        const result = validateSyntheticFixture(fixture);
+        expect(result.valid).toBe(false);
+        expect(result.errors.join("\n")).toContain(
+          `invalid ${field} 'future-status'`,
+        );
+        expect(result.runtimeEligibleAssetIds).toEqual([]);
+      } finally {
+        removeSyntheticRuntimeFixture(fixture);
+      }
+    });
+
+    it.each([
+      "generation_status",
+      "qa_status",
+      "runtime_release_status",
+    ] as const)("rejects missing JSON field %s", (field) => {
+      const fixture = createSyntheticRuntimeFixture();
+      try {
+        setRuntimeParsedStatus(fixture, field, undefined);
+        const result = validateSyntheticFixture(fixture);
+        expect(result.valid).toBe(false);
+        expect(result.errors.join("\n")).toContain(`invalid ${field}`);
+        expect(result.runtimeEligibleAssetIds).toEqual([]);
       } finally {
         removeSyntheticRuntimeFixture(fixture);
       }
