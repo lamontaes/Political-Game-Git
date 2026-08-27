@@ -32,10 +32,6 @@
   outline-offset: 4px;
 }
 
-.player-office button:hover:not(:disabled) {
-  background: initial;
-}
-
 .sr-only {
   position: absolute !important;
   width: 1px !important;
@@ -1225,6 +1221,12 @@
     width 150ms ease,
     min-height 150ms ease,
     border-color 150ms ease;
+}
+
+.context-pin:hover:not(:disabled) {
+  background:
+    linear-gradient(145deg, rgba(28, 38, 54, 0.97), rgba(7, 13, 23, 0.97)),
+    var(--run-a-navy);
 }
 
 .context-pin[data-size="tiny"] {

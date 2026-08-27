@@ -95,7 +95,9 @@ export function PermanentShell({
           type="button"
           className="nav-cluster-button civic-glass"
           aria-expanded={state.navigation !== "closed"}
-          aria-controls="run-a-navigation"
+          aria-controls={
+            state.navigation !== "closed" ? "run-a-navigation" : undefined
+          }
           onClick={() => dispatch({ type: "toggle-navigation" })}
           data-testid="navigation-cluster"
         >

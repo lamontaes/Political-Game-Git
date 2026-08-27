@@ -1,7 +1,19 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Locator } from "@playwright/test";
 
 const STORAGE_KEY = "political-game:run-a:learned-concepts:v1";
 const HIDDEN_CANONICAL_TEXT = "Initial synthetic diagnostic record.";
+
+async function hoverStyle(locator: Locator) {
+  await locator.hover();
+  return locator.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      backgroundColor: style.backgroundColor,
+      backgroundImage: style.backgroundImage,
+      color: style.color,
+    };
+  });
+}
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
@@ -27,6 +39,7 @@ test("opens navigation upward and keeps its single submenu dark", async ({
   page,
 }) => {
   const cluster = page.getByTestId("navigation-cluster");
+  expect(await cluster.getAttribute("aria-controls")).toBeNull();
   await cluster.click();
   const flyout = page.getByTestId("navigation-flyout");
   await expect(flyout).toBeVisible();
@@ -53,6 +66,44 @@ test("opens navigation upward and keeps its single submenu dark", async ({
     "data-simulation-date",
     "2026-01-05",
   );
+  await cluster.click();
+  await expect(flyout).toHaveCount(0);
+  expect(await cluster.getAttribute("aria-controls")).toBeNull();
+});
+
+test("preserves deliberate component hover surfaces", async ({ page }) => {
+  const pinStyle = await hoverStyle(page.locator('[data-pin-id="person"]'));
+  expect(pinStyle.backgroundImage).toContain("linear-gradient");
+  expect(pinStyle.backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
+
+  const markerStyle = await hoverStyle(
+    page.getByTestId("civic-learning-marker"),
+  );
+  expect(markerStyle.backgroundColor).toBe("rgb(227, 188, 97)");
+  expect(markerStyle.color).toBe("rgb(17, 23, 34)");
+
+  await page.getByTestId("civic-learning-marker").click();
+  const learnedStyle = await hoverStyle(
+    page.getByRole("button", { name: "Mark as learned" }),
+  );
+  expect(learnedStyle.backgroundColor).toBe("rgb(240, 207, 123)");
+  expect(learnedStyle.color).toBe("rgb(23, 20, 14)");
+  await page.getByRole("button", { name: "Close civic reference" }).click();
+
+  await page.getByTestId("scene-person").click();
+  const actionStyle = await hoverStyle(
+    page.getByRole("menuitem", { name: /Inspect/ }),
+  );
+  expect(actionStyle.backgroundColor).toBe("rgba(197, 164, 87, 0.12)");
+  expect(actionStyle.color).toBe("rgb(245, 235, 212)");
+  await page.keyboard.press("Escape");
+
+  await page.getByTestId("navigation-cluster").click();
+  const navigationStyle = await hoverStyle(
+    page.getByRole("menuitem", { name: "Places" }),
+  );
+  expect(navigationStyle.backgroundColor).toBe("rgb(32, 45, 64)");
+  expect(navigationStyle.color).toBe("rgb(255, 244, 216)");
 });
 
 test("replaces the anchored person menu with an epistemically filtered dossier", async ({
