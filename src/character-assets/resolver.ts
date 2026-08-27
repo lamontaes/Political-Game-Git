@@ -4,14 +4,13 @@ import type {
   PersistentAppearanceRecipe,
   ResolvedOutfitRecipe,
   WardrobeContext,
-  SceneAnchorClass
+  SceneAnchorClass,
 } from "./types";
 import {
   getCompatibleHeadFamilies,
-  getCompatibleHairs,
   getCompatibleHeadAssets,
   getCompatibleWardrobes,
-  getCompatiblePoses
+  getCompatiblePoses,
 } from "./compatibility";
 
 /**
@@ -20,7 +19,7 @@ import {
  */
 export function resolvePersistentAppearance(
   identitySeed: string,
-  library: CharacterAssetLibrary
+  library: CharacterAssetLibrary,
 ): PersistentAppearanceRecipe {
   // 1. Select Body Family
   const bodyFamily = selectDeterministically(
@@ -28,32 +27,35 @@ export function resolvePersistentAppearance(
     identitySeed,
     library.version,
     "body",
-    (b) => b.id
+    (b) => b.id,
   );
 
   // 2. Select Head Family compatible with body
-  const compatibleHeadFamilies = getCompatibleHeadFamilies(library, bodyFamily.id);
+  const compatibleHeadFamilies = getCompatibleHeadFamilies(
+    library,
+    bodyFamily.id,
+  );
   const headFamily = selectDeterministically(
     compatibleHeadFamilies,
     identitySeed,
     library.version,
     "head_family",
-    (h) => h.id
+    (h) => h.id,
   );
 
-  // 3. Select Hair (or bald)
-  // We represent "bald" or "no hair asset" by allowing null.
-  // Let's create a null option by injecting it into the selection pool if desired,
-  // or just pick from compatible hairs + a null option.
-  const compatibleHairs = getCompatibleHairs(library, headFamily.id);
-  const hairOptions = [...compatibleHairs, null];
+  // 3. Select Hair Family (or bald)
+  // We represent "bald" or "no hair" by allowing null.
+  const compatibleHairFamilies = library.hairFamilies.filter((h) =>
+    h.compatibleHeadFamilies.includes(headFamily.id),
+  );
+  const hairFamilyOptions = [...compatibleHairFamilies, null];
 
-  const selectedHair = selectDeterministically(
-    hairOptions,
+  const selectedHairFamily = selectDeterministically(
+    hairFamilyOptions,
     identitySeed,
     library.version,
-    "hair",
-    (h) => h ? h.id : "hair_null"
+    "hair_family",
+    (h) => (h ? h.id : "hair_null"),
   );
 
   return {
@@ -61,7 +63,7 @@ export function resolvePersistentAppearance(
     libraryVersion: library.version,
     bodyFamilyId: bodyFamily.id,
     headFamilyId: headFamily.id,
-    hairAssetId: selectedHair ? selectedHair.id : null,
+    hairFamilyId: selectedHairFamily ? selectedHairFamily.id : null,
   };
 }
 
@@ -72,41 +74,78 @@ export function resolveContextualOutfit(
   recipe: PersistentAppearanceRecipe,
   context: WardrobeContext,
   anchorClass: SceneAnchorClass,
-  library: CharacterAssetLibrary
+  library: CharacterAssetLibrary,
 ): ResolvedOutfitRecipe {
-
   if (recipe.libraryVersion !== library.version) {
-    throw new Error(`Recipe library version ${recipe.libraryVersion} does not match current library ${library.version}`);
+    throw new Error(
+      `Recipe library version ${recipe.libraryVersion} does not match current library ${library.version}`,
+    );
   }
 
   // 1. Select Age-Specific Head Asset for the Head Family
-  const compatibleHeads = getCompatibleHeadAssets(library, recipe.headFamilyId, context.ageState);
+  const compatibleHeads = getCompatibleHeadAssets(
+    library,
+    recipe.headFamilyId,
+    context.ageState,
+  );
   const headAsset = selectDeterministically(
     compatibleHeads,
     recipe.identitySeed,
     library.version,
     `head_asset_${context.ageState}`, // Use age state in channel so different ages can pick different variants deterministically if multiple exist
-    (h) => h.id
+    (h) => h.id,
   );
 
+  // 1b. Select Age-Specific Hair Asset (if they have hair)
+  let resolvedHairAssetId = null;
+  if (recipe.hairFamilyId) {
+    // get compatible hairs for that family and age
+    const compatibleHairs = library.hairAssets.filter(
+      (h) =>
+        h.familyId === recipe.hairFamilyId && h.ageState === context.ageState,
+    );
+    if (compatibleHairs.length > 0) {
+      const hairAsset = selectDeterministically(
+        compatibleHairs,
+        recipe.identitySeed,
+        library.version,
+        `hair_asset_${context.ageState}`,
+        (h) => h.id,
+      );
+      resolvedHairAssetId = hairAsset.id;
+    }
+  }
+
   // 2. Select Wardrobe compatible with body and context tags
-  const compatibleWardrobes = getCompatibleWardrobes(library, recipe.bodyFamilyId, context.requiredTags);
+  // Canonicalize tag order so logically identical contexts resolve identically
+  const canonicalTags = [...context.requiredTags].sort((a, b) =>
+    a < b ? -1 : a > b ? 1 : 0,
+  );
+  const compatibleWardrobes = getCompatibleWardrobes(
+    library,
+    recipe.bodyFamilyId,
+    canonicalTags,
+  );
   const wardrobe = selectDeterministically(
     compatibleWardrobes,
     recipe.identitySeed,
     library.version,
-    `wardrobe_${context.requiredTags.join("_")}`, // Contextual channel
-    (w) => w.id
+    `wardrobe_${canonicalTags.join("_")}`, // Contextual channel
+    (w) => w.id,
   );
 
   // 3. Select Pose compatible with body and scene anchor
-  const compatiblePoses = getCompatiblePoses(library, recipe.bodyFamilyId, anchorClass);
+  const compatiblePoses = getCompatiblePoses(
+    library,
+    recipe.bodyFamilyId,
+    anchorClass,
+  );
   const pose = selectDeterministically(
     compatiblePoses,
     recipe.identitySeed,
     library.version,
     `pose_${anchorClass}`,
-    (p) => p.id
+    (p) => p.id,
   );
 
   return {
@@ -114,8 +153,8 @@ export function resolveContextualOutfit(
     libraryVersion: recipe.libraryVersion,
     bodyFamilyId: recipe.bodyFamilyId,
     headAssetId: headAsset.id,
-    hairAssetId: recipe.hairAssetId,
+    hairAssetId: resolvedHairAssetId,
     wardrobeAssetId: wardrobe.id,
-    poseFamilyId: pose.id,
+    poseAssetId: pose.id,
   };
 }

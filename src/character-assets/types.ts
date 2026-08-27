@@ -5,10 +5,12 @@ export type AssetLibraryVersion = `lib_v${number}`;
 export type BodyFamilyId = `body_family_${string}`;
 export type HeadFamilyId = `head_family_${string}`;
 export type HeadAssetId = `head_${string}`;
-export type HairAssetId = `hair_${string}`;
+export type HairFamilyId = `hair_family_${string}`;
+export type HairAssetId = `hair_asset_${string}`;
 export type FacialHairAssetId = `facial_hair_${string}`;
 export type WardrobeAssetId = `wardrobe_${string}`;
-export type PoseFamilyId = `pose_${string}`;
+export type PoseFamilyId = `pose_family_${string}`;
+export type PoseAssetId = `pose_asset_${string}`;
 export type SceneAnchorClass = `anchor_${string}`;
 
 export type AgeState = "young_adult" | "adult" | "senior";
@@ -39,9 +41,18 @@ export interface HeadAsset {
   readonly provenanceRef: string;
 }
 
+/**
+ * A hair family groups persistent hair identity (e.g. natural curl pattern/base style) across age states.
+ */
+export interface HairFamilyAsset {
+  readonly id: HairFamilyId;
+  readonly compatibleHeadFamilies: readonly HeadFamilyId[];
+}
+
 export interface HairAsset {
   readonly id: HairAssetId;
-  readonly compatibleHeadFamilies: readonly HeadFamilyId[];
+  readonly familyId: HairFamilyId;
+  readonly ageState: AgeState;
   readonly provenanceRef: string;
 }
 
@@ -57,7 +68,8 @@ export interface WardrobeAsset {
 }
 
 export interface PoseAsset {
-  readonly id: PoseFamilyId;
+  readonly id: PoseAssetId;
+  readonly familyId: PoseFamilyId;
   readonly compatibleSceneAnchors: readonly SceneAnchorClass[];
   readonly provenanceRef: string;
 }
@@ -71,7 +83,7 @@ export interface PersistentAppearanceRecipe {
 
   readonly bodyFamilyId: BodyFamilyId;
   readonly headFamilyId: HeadFamilyId;
-  readonly hairAssetId: HairAssetId | null; // e.g. bald
+  readonly hairFamilyId: HairFamilyId | null; // e.g. permanently bald
 }
 
 /**
@@ -93,7 +105,7 @@ export interface ResolvedOutfitRecipe {
   readonly headAssetId: HeadAssetId;
   readonly hairAssetId: HairAssetId | null;
   readonly wardrobeAssetId: WardrobeAssetId;
-  readonly poseFamilyId: PoseFamilyId;
+  readonly poseAssetId: PoseAssetId;
 }
 
 /**
@@ -104,6 +116,7 @@ export interface CharacterAssetLibrary {
   readonly bodyFamilies: readonly BodyFamilyAsset[];
   readonly headFamilies: readonly HeadFamilyAsset[];
   readonly headAssets: readonly HeadAsset[];
+  readonly hairFamilies: readonly HairFamilyAsset[];
   readonly hairAssets: readonly HairAsset[];
   readonly wardrobeAssets: readonly WardrobeAsset[];
   readonly poses: readonly PoseAsset[];

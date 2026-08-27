@@ -7,14 +7,21 @@ export const SYNTHETIC_LIBRARY_V1: CharacterAssetLibrary = {
       id: "body_family_01",
       shoulderWidthBand: "narrow",
       statureBand: "average",
-      supportedPoseFamilies: ["pose_standing_neutral", "pose_seated_chair"],
+      supportedPoseFamilies: [
+        "pose_family_standing_neutral",
+        "pose_family_seated_chair",
+      ],
       provenanceRef: "synthetic-source-A",
     },
     {
       id: "body_family_02",
       shoulderWidthBand: "broad",
       statureBand: "tall",
-      supportedPoseFamilies: ["pose_standing_neutral", "pose_seated_chair", "pose_leaning_desk"],
+      supportedPoseFamilies: [
+        "pose_family_standing_neutral",
+        "pose_family_seated_chair",
+        "pose_family_leaning_desk",
+      ],
       provenanceRef: "synthetic-source-B",
     },
   ],
@@ -59,17 +66,59 @@ export const SYNTHETIC_LIBRARY_V1: CharacterAssetLibrary = {
       ageState: "adult",
       provenanceRef: "synthetic-head-2-adult",
     },
+    {
+      id: "head_02_senior",
+      familyId: "head_family_02",
+      ageState: "senior",
+      provenanceRef: "synthetic-head-2-senior",
+    },
+  ],
+  hairFamilies: [
+    {
+      id: "hair_family_short_neat",
+      compatibleHeadFamilies: ["head_family_01", "head_family_02"],
+    },
+    {
+      id: "hair_family_long_tied",
+      compatibleHeadFamilies: ["head_family_01"],
+    },
   ],
   hairAssets: [
     {
-      id: "hair_short_neat",
-      compatibleHeadFamilies: ["head_family_01", "head_family_02"],
-      provenanceRef: "synthetic-hair-1",
+      id: "hair_asset_short_neat_young",
+      familyId: "hair_family_short_neat",
+      ageState: "young_adult",
+      provenanceRef: "synthetic-hair-1-young",
     },
     {
-      id: "hair_long_tied",
-      compatibleHeadFamilies: ["head_family_01"],
-      provenanceRef: "synthetic-hair-2",
+      id: "hair_asset_short_neat_adult",
+      familyId: "hair_family_short_neat",
+      ageState: "adult",
+      provenanceRef: "synthetic-hair-1-adult",
+    },
+    {
+      id: "hair_asset_short_neat_senior",
+      familyId: "hair_family_short_neat",
+      ageState: "senior",
+      provenanceRef: "synthetic-hair-1-senior",
+    },
+    {
+      id: "hair_asset_long_tied_young",
+      familyId: "hair_family_long_tied",
+      ageState: "young_adult",
+      provenanceRef: "synthetic-hair-2-young",
+    },
+    {
+      id: "hair_asset_long_tied_adult",
+      familyId: "hair_family_long_tied",
+      ageState: "adult",
+      provenanceRef: "synthetic-hair-2-adult",
+    },
+    {
+      id: "hair_asset_long_tied_senior",
+      familyId: "hair_family_long_tied",
+      ageState: "senior",
+      provenanceRef: "synthetic-hair-2-senior",
     },
   ],
   wardrobeAssets: [
@@ -94,17 +143,20 @@ export const SYNTHETIC_LIBRARY_V1: CharacterAssetLibrary = {
   ],
   poses: [
     {
-      id: "pose_standing_neutral",
+      id: "pose_asset_standing_neutral_v1",
+      familyId: "pose_family_standing_neutral",
       compatibleSceneAnchors: ["anchor_hallway", "anchor_podium"],
       provenanceRef: "synthetic-pose-1",
     },
     {
-      id: "pose_seated_chair",
+      id: "pose_asset_seated_chair_v1",
+      familyId: "pose_family_seated_chair",
       compatibleSceneAnchors: ["anchor_visitor_chair", "anchor_committee_seat"],
       provenanceRef: "synthetic-pose-2",
     },
     {
-      id: "pose_leaning_desk",
+      id: "pose_asset_leaning_desk_v1",
+      familyId: "pose_family_leaning_desk",
       compatibleSceneAnchors: ["anchor_desk_side"],
       provenanceRef: "synthetic-pose-3",
     },
