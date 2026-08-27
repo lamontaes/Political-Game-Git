@@ -93,6 +93,17 @@ discussion, and records one office-draft instruction as ordinary history. It
 does not implement a bill, law, appropriation, institution, procedure, or policy
 realization.
 
+Stage 6.5 Run D-Lite adds a canonical zoned minute-level World moment, exact
+scheduled-activity intervals, travel/conflict validation, and source-linked
+office work/assignment state. One conventional vertical week and one denser
+Work/Pending surface remain secondary to the accepted office scene. Inspection
+is time-neutral; the bounded briefing declares and consumes 45 minutes, while a
+separately assigned Collins analysis progresses in parallel. Work groups derive
+from real requirements, dependencies, assignment, and lifecycle. Private NPC
+schedule/work remains filtered. D-Lite adds no recurrence, route finding,
+general staff simulation, campaign/election, institution/law, or Lexington
+Slice E content.
+
 ### Required Invariants
 
 - Same seed plus same ordered actions yields the same result for the same generator version.
@@ -150,8 +161,8 @@ This build does not implement:
 
 - cross-version migrations, branch persistence, recovery tooling, or a production desktop save picker;
 - detailed or purportedly factual Lexington civic data;
-- elections, campaigning, full legislation/procedure, political institutions/offices, mutable law, staff systems, polling, media simulation, generalized event causality/economy, deep autonomous career progression, campaign/organization/government finance, banking/credit/investments/tax, property markets/maintenance, or full NPC autonomy; the bounded Stage 6.5 Run C working-document bridge is the only current legislative-work exception;
-- hourly calendars, automatic scheduling, health simulation, or player-facing workload, fatigue, personality, trust, or relationship meters;
+- elections, campaigning, full legislation/procedure, political institutions/offices, mutable law, generalized staff systems, polling, media simulation, generalized event causality/economy, deep autonomous career progression, campaign/organization/government finance, banking/credit/investments/tax, property markets/maintenance, or full NPC autonomy; the bounded Run C document bridge and Run D-Lite office work/assignment seam are the only current legislative/staff-work exceptions;
+- recurrence, automatic scheduling, route finding, full personal calendars, health simulation, or player-facing workload, fatigue, personality, trust, or relationship meters; the bounded exact Run D-Lite office agenda is the only current calendar exception;
 - autonomous personality/value/relationship development, background population-scale opinion change, automatic knowledge propagation or memory recall, or political action classification;
 - final UI, art direction, or production content;
 - an LLM or external AI runtime dependency;

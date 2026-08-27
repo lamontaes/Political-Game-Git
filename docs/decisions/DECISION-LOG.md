@@ -690,3 +690,55 @@ presentation and proposal-versus-implementation truth. It adds no formal
 officeholding, bill/law identity, sponsorship, chamber, committee, vote,
 passage, enactment, appropriation, calendar, sub-day clock, Run D surface, or
 Stage 7 system.
+
+## D-050 — Canonical zoned minute time owns exact agenda and work progression
+
+- Date: 2026-08-27
+- Status: ACCEPTED
+- Supersedes: the Stage 6.5 calendar hold only for the bounded authorized
+  Run D-Lite slice; no Stage 6 future-transition or Stage 5 load decision is
+  superseded
+
+Advance World to schema 15 and snapshot format 14 with one canonical
+`SimulationMoment`: `IsoDate`, integer minute of day, IANA-style timezone
+identity, and explicit UTC offset. The zone retains geographic context while
+the explicit offset makes instant comparison and replay independent of host
+timezone data. `currentDate` must equal the moment date. Whole-day advancement
+preserves local minute, zone, and offset; exact-minute advancement updates both
+date forms across midnight and invokes the existing date-level future-due
+frontier. `FutureDueItem` remains date-level. Global history sequence and
+`World.actionSequence` remain append order and seeded-action input,
+respectively; neither becomes elapsed time.
+
+Represent agenda commitments with immutable scheduled-activity roots and
+append-oriented exact state. Roots own participants, responsible person,
+authored location, source identities, access, kind, and fixed or bounded
+movable flexibility. State owns start/end moments, lifecycle, change,
+supersession, and an optional ordinary outcome event. Shared-participant
+half-open interval overlap is invalid. Fixed and travel commitments never move
+silently; a flexible block moves only through an explicit valid reschedule. A
+rejected reschedule returns its deterministic reason and exact unchanged World.
+Travel is a real fixed interval, not descriptive padding.
+
+Represent office work with immutable roots and append-oriented state. Roots own
+real source identities, jurisdiction, access, a person/legislative-material/
+calendar/other focus target, and optional authored effort. State owns
+assignees, controlled-player decision/action/none requirement, waiting people,
+blocker, elapsed effort, calendar linkage, lifecycle, outcome, and
+supersession. Needs you, Waiting on others, Staff handling, and Completed /
+ready to review are projections from those semantics, never stored buckets.
+During canonical elapsed time, assigned staff progress only when not occupied
+by overlapping commitments; exact authored completion appends one state and
+ordinary event and cannot duplicate.
+
+Keep Calendar and Work/Pending presentation-owned as access-filtered planning
+projections over canonical truth. Their reducer stores only open/inspection and
+feedback state. Opening or inspecting them consumes no time. A declared
+meaningful activity cost uses the simulation transition. Private NPC schedule
+and work remain omitted. Manual pins remain deliberate references and are not
+auto-populated or overridden by system status.
+
+Consequence: later campaign, constituent, legislative, staff, public-event,
+governing, and authored-travel systems may reuse one exact schedule/work/time
+substrate. D-Lite adds no recurrence, routing, staff economy, campaign,
+election, electorate, law, institution, procedure, or Lexington Slice E system.

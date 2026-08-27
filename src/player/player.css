@@ -2612,6 +2612,527 @@
   font-weight: 800;
 }
 
+/* Stage 6.5 Run D-Lite planning and work surfaces */
+.planning-workspace {
+  position: absolute;
+  z-index: 28;
+  inset: 1.4rem 7.7rem 5.5rem 7.7rem;
+  min-width: 0;
+  overflow: hidden;
+  color: #30271c;
+  border: 1px solid rgba(91, 69, 42, 0.62);
+  border-radius: 5px;
+  background:
+    linear-gradient(rgba(255, 253, 244, 0.97), rgba(239, 232, 211, 0.98)),
+    #f2ead5;
+  box-shadow:
+    0 26px 65px rgba(32, 17, 9, 0.44),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.72);
+}
+
+.planning-workspace::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.22;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(111, 91, 63, 0.08) 0,
+    rgba(111, 91, 63, 0.08) 1px,
+    transparent 1px,
+    transparent 5px
+  );
+}
+
+.planning-workspace > * {
+  position: relative;
+}
+
+.planning-workspace button {
+  border: 1px solid rgba(79, 65, 45, 0.46);
+  border-radius: 3px;
+  padding: 0.48rem 0.68rem;
+  color: #342b20;
+  background: rgba(255, 253, 246, 0.84);
+  font:
+    700 0.7rem/1.2 ui-sans-serif,
+    system-ui,
+    sans-serif;
+  cursor: pointer;
+}
+
+.planning-workspace button:hover {
+  border-color: #886e3e;
+  background: #fffdf5;
+}
+
+.planning-workspace-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 4.25rem;
+  padding: 0.7rem 1rem;
+  color: #f4ead4;
+  background: linear-gradient(100deg, #182535, #243448 70%, #172334);
+  border-bottom: 2px solid #b8954d;
+}
+
+.planning-workspace-header p,
+.planning-workspace-header h2,
+.planning-workspace-header span {
+  margin: 0;
+}
+
+.planning-workspace-header p {
+  color: #ccb98f;
+  font:
+    700 0.58rem/1.2 ui-sans-serif,
+    system-ui,
+    sans-serif;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.planning-workspace-header h2 {
+  margin: 0.08rem 0;
+  font-size: 1.45rem;
+  letter-spacing: 0.025em;
+}
+
+.planning-workspace-header span {
+  color: #d8ccb4;
+  font:
+    0.66rem/1.2 ui-sans-serif,
+    system-ui,
+    sans-serif;
+}
+
+.planning-workspace-header button {
+  color: #f6ecd7;
+  border-color: rgba(214, 193, 148, 0.54);
+  background: rgba(6, 12, 21, 0.42);
+}
+
+.calendar-week {
+  height: calc(100% - 7.2rem);
+  padding: 0 0.8rem;
+}
+
+.calendar-day-headers {
+  display: grid;
+  grid-template-columns: 4.25rem repeat(5, minmax(0, 1fr));
+  height: 3rem;
+  border-bottom: 1px solid rgba(94, 77, 53, 0.35);
+}
+
+.calendar-day-headers > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-left: 1px solid rgba(94, 77, 53, 0.18);
+}
+
+.calendar-day-headers strong,
+.calendar-day-headers small {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.calendar-day-headers strong {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.calendar-day-headers small {
+  color: #74664e;
+  font-size: 0.61rem;
+}
+
+.calendar-week-body {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4.25rem minmax(0, 1fr);
+  height: calc(100% - 3rem);
+}
+
+.calendar-time-scale {
+  position: relative;
+  color: #6f6049;
+  border-right: 1px solid rgba(94, 77, 53, 0.35);
+}
+
+.calendar-time-scale time {
+  position: absolute;
+  right: 0.45rem;
+  transform: translateY(-50%);
+  font:
+    0.58rem/1 ui-sans-serif,
+    system-ui,
+    sans-serif;
+}
+
+.calendar-day-columns {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  min-width: 0;
+}
+
+.calendar-day-column {
+  position: relative;
+  min-width: 0;
+  border-right: 1px solid rgba(94, 77, 53, 0.2);
+  background: rgba(255, 255, 251, 0.46);
+}
+
+.calendar-hour-line {
+  position: absolute;
+  right: 0;
+  left: 0;
+  border-top: 1px solid rgba(94, 77, 53, 0.14);
+}
+
+.calendar-event {
+  position: absolute;
+  z-index: 2;
+  right: 4%;
+  left: 4%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  min-height: 1.15rem;
+  overflow: hidden;
+  padding: 0.28rem 0.38rem !important;
+  text-align: left;
+  border-left-width: 4px !important;
+  box-shadow: 0 2px 7px rgba(55, 40, 23, 0.13);
+}
+
+.calendar-event span,
+.calendar-event strong,
+.calendar-event small {
+  display: block;
+  max-width: 100%;
+}
+
+.calendar-event span {
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.calendar-event strong {
+  margin-top: 0.08rem;
+  overflow: hidden;
+  font-size: 0.61rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calendar-event small {
+  margin-top: 0.1rem;
+  font-size: 0.5rem;
+}
+
+.calendar-event--confirmed {
+  border-color: #395773 !important;
+  background: #dbe5eb !important;
+}
+
+.calendar-event--tentative {
+  border-color: #8c7953 !important;
+  border-style: dashed !important;
+  background: rgba(241, 229, 195, 0.82) !important;
+}
+
+.calendar-event--flexible {
+  border-color: #57735b !important;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(78, 111, 79, 0.08) 0,
+      rgba(78, 111, 79, 0.08) 5px,
+      transparent 5px,
+      transparent 10px
+    ),
+    #e1e9dc !important;
+}
+
+.calendar-event--travel {
+  border-color: #8a543f !important;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(124, 70, 50, 0.12) 0,
+      rgba(124, 70, 50, 0.12) 3px,
+      transparent 3px,
+      transparent 7px
+    ),
+    #eadbd2 !important;
+}
+
+.calendar-current-marker {
+  position: absolute;
+  z-index: 5;
+  right: -1px;
+  left: -1px;
+  border-top: 2px solid #a93c35;
+  pointer-events: none;
+}
+
+.calendar-current-marker span {
+  position: absolute;
+  top: -5px;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #a93c35;
+}
+
+.calendar-legend {
+  display: flex;
+  gap: 1rem;
+  height: 2.5rem;
+  padding: 0.55rem 1rem;
+  color: #62543f;
+  border-top: 1px solid rgba(94, 77, 53, 0.25);
+  font:
+    0.6rem/1 ui-sans-serif,
+    system-ui,
+    sans-serif;
+}
+
+.calendar-legend span::before {
+  content: "";
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.45rem;
+  margin-right: 0.3rem;
+  border-left: 3px solid;
+  vertical-align: -0.04rem;
+  background: #e7e0d0;
+}
+
+.legend-confirmed::before {
+  border-color: #395773 !important;
+}
+
+.legend-tentative::before {
+  border-color: #8c7953 !important;
+}
+
+.legend-flexible::before {
+  border-color: #57735b !important;
+}
+
+.legend-travel::before {
+  border-color: #8a543f !important;
+}
+
+.calendar-detail-card {
+  position: absolute;
+  z-index: 12;
+  top: 5.4rem;
+  right: 1.2rem;
+  width: min(18.5rem, 34%);
+  max-height: calc(100% - 7rem);
+  overflow: auto;
+  padding: 0.9rem;
+  color: #f5ebd4;
+}
+
+.calendar-detail-card header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(201, 181, 138, 0.36);
+  padding-bottom: 0.55rem;
+}
+
+.calendar-detail-card h3,
+.calendar-detail-card p {
+  margin: 0;
+}
+
+.calendar-detail-card header p {
+  color: #cdbb96;
+  font:
+    700 0.55rem/1.2 ui-sans-serif,
+    system-ui,
+    sans-serif;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.calendar-detail-card h3 {
+  margin-top: 0.15rem;
+  font-size: 1rem;
+}
+
+.calendar-detail-card > time,
+.calendar-detail-card > strong,
+.calendar-detail-card > p {
+  display: block;
+  margin-top: 0.65rem;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.68rem;
+}
+
+.calendar-detail-card > strong {
+  color: #e0c881;
+}
+
+.calendar-detail-actions {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.calendar-detail-actions p,
+.calendar-detail-actions small {
+  margin: 0;
+  color: #d7c9aa;
+  font:
+    0.62rem/1.4 ui-sans-serif,
+    system-ui,
+    sans-serif;
+}
+
+.calendar-result {
+  padding: 0.55rem;
+  color: #f2dfae;
+  border-left: 3px solid #c6a65d;
+  background: rgba(198, 166, 93, 0.1);
+}
+
+.calendar-result--success {
+  border-left-color: #7ca37e;
+}
+
+.work-pending-workspace {
+  overflow-y: auto;
+}
+
+.work-feedback {
+  margin: 0.7rem 1rem 0;
+  padding: 0.55rem 0.7rem;
+  color: #243526;
+  border-left: 3px solid #66806a;
+  background: rgba(105, 135, 104, 0.12);
+  font:
+    0.68rem/1.35 ui-sans-serif,
+    system-ui,
+    sans-serif;
+}
+
+.work-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 0.9rem;
+}
+
+.work-group {
+  min-width: 0;
+  border: 1px solid rgba(89, 71, 47, 0.32);
+  background: rgba(255, 253, 246, 0.76);
+  box-shadow: 0 5px 14px rgba(72, 50, 28, 0.08);
+}
+
+.work-group > header {
+  padding: 0.7rem 0.8rem 0.6rem;
+  border-bottom: 1px solid rgba(89, 71, 47, 0.22);
+  background: rgba(225, 215, 189, 0.42);
+}
+
+.work-group h3,
+.work-group header p,
+.work-entry h4,
+.work-entry p {
+  margin: 0;
+}
+
+.work-group h3 {
+  color: #2e4050;
+  font-size: 0.92rem;
+}
+
+.work-group header p {
+  margin-top: 0.18rem;
+  color: #75664d;
+  font:
+    0.58rem/1.3 ui-sans-serif,
+    system-ui,
+    sans-serif;
+}
+
+.work-entry-list {
+  display: grid;
+}
+
+.work-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.7rem;
+  padding: 0.72rem 0.8rem;
+  border-bottom: 1px solid rgba(89, 71, 47, 0.16);
+}
+
+.work-entry:last-child {
+  border-bottom: 0;
+}
+
+.work-entry h4 {
+  font-size: 0.8rem;
+}
+
+.work-entry p {
+  margin-top: 0.22rem;
+  color: #554936;
+  font:
+    0.62rem/1.35 ui-sans-serif,
+    system-ui,
+    sans-serif;
+}
+
+.work-entry span,
+.work-entry em,
+.work-entry small {
+  display: block;
+  margin-top: 0.28rem;
+  color: #76664b;
+  font:
+    0.56rem/1.3 ui-sans-serif,
+    system-ui,
+    sans-serif;
+}
+
+.work-entry em {
+  color: #7a4938;
+}
+
+.work-entry-actions {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 7.4rem;
+}
+
+.work-group-empty {
+  margin: 0;
+  padding: 0.85rem;
+  color: #81745e;
+  font:
+    italic 0.63rem/1.3 ui-sans-serif,
+    system-ui,
+    sans-serif;
+}
+
 @media (max-width: 1100px) {
   .working-document-workspace {
     right: 1.2rem;

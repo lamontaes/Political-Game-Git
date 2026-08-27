@@ -679,7 +679,7 @@ An event/incident-linked artifact persists its open kind, created/recorded chron
 
 ### NOW-167 — Run E persists and completes the permanent Stage 6 integration gate
 
-World schema 14, generator `demo-world-v14`, snapshot 13, vitality catalog v1, and all Run E families round-trip exactly through JSON and Node-only SQLite save/load/list/replace. The permanent scenario is one continuous Stage 5→Run E history: life/resources/relationships and Stage 4 subjectivity; Run A truth, observation, and due work; Run B causal economy; Run C policy; Run D incident/follow-on; capacity and recovery; objective evidence discovered by one person; deterministic mortality and death; continued relationship/resource/history identity after death; and no automatic estate transfer. Deterministic demo replay and the production simulation dependency boundary remain intact. Stage 6.5 UI and Stage 7 institutions/law are absent.
+World schema 15, generator `demo-world-v15`, snapshot 14, vitality catalog v1, and all Run E families round-trip exactly through JSON and Node-only SQLite save/load/list/replace. The permanent scenario is one continuous Stage 5→Run E history: life/resources/relationships and Stage 4 subjectivity; Run A truth, observation, and due work; Run B causal economy; Run C policy; Run D incident/follow-on; capacity and recovery; objective evidence discovered by one person; deterministic mortality and death; continued relationship/resource/history identity after death; and no automatic estate transfer. Deterministic demo replay and the production simulation dependency boundary remain intact. Stage 6.5 presentation composes this truth without changing its semantics; Stage 7 institutions/law remain absent.
 
 ### NOW-168 — Run A defaults to a genuine player-facing office scene
 
@@ -812,13 +812,13 @@ session, addressee, audibility, and intent reproduce the same semantic result,
 dialogue, canonical history, and serialized snapshot. Malformed sessions/turns
 fail without mutating input.
 
-### NOW-182 — Conversation keeps date-only time and controlled-person autonomy
+### NOW-182 — Conversation keeps canonical time unchanged and protects controlled-person autonomy
 
 Every turn record uses the current `IsoDate`; `World.currentDate` remains
-unchanged and same-day causal order is global history sequence.
-`World.actionSequence` remains unchanged and no minute/hour counter is created
-or displayed. Room validation and the existing autonomous-application guard
-prevent the controlled person from becoming the NPC decision actor.
+unchanged, `World.currentMoment` remains unchanged, and same-day causal order is
+global history sequence. `World.actionSequence` remains unchanged. Room
+validation and the existing autonomous-application guard prevent the controlled
+person from becoming the NPC decision actor.
 
 ### NOW-183 — Hidden state and internal decision mechanics remain absent
 
@@ -983,6 +983,70 @@ version; none retain the stale inverse labels. The correction changes no stable
 document identity, policy record, analysis-knowledge gate, conversation
 semantics, history write, realization, effect, metric, date, or action sequence.
 
+### NOW-198 — Canonical sub-day time is valid, consistent, and replayable
+
+World owns an integer-minute `SimulationMoment` with date, zone identity, and
+explicit offset. Invalid dates/minutes/zones/offsets and a `currentDate` mismatch
+fail integrity. Differently zoned equal instants compare correctly. Snapshot 14
+round-trips schema 15 moment, agenda, and work state exactly. Whole-day
+advancement preserves local minute/zone/offset.
+
+### NOW-199 — Exact minute advancement composes with date-level future work
+
+Crossing midnight updates `currentMoment.date` and `currentDate` together and
+resolves crossed `FutureDueItem` frontiers exactly once. Exact work/activity
+outcomes resolve chronologically with deterministic same-time ties and cannot
+complete twice. History sequence and action sequence are not treated as clocks.
+
+### NOW-200 — Scheduled activities have real intervals, conflicts, and travel
+
+Activity/state IDs and duration/order are deterministic. Shared-participant
+overlap is rejected. A fixed activity cannot move. A valid bounded flexible
+reschedule succeeds; an invalid move returns the exact unchanged World. The
+fixture's authored 20-minute travel interval prevents an impossible activity
+from running through the off-site transition.
+
+### NOW-201 — Work/Pending groups derive from canonical work semantics
+
+Needs you requires controlled-person action/decision. Waiting on others has a
+real waiting person/blocker and exposes no false completion action. Staff
+handling is genuinely assigned to another person without a player requirement.
+Completed/ready follows lifecycle. No canonical bucket or player-facing
+progress percentage exists. Work retains source and focus provenance through
+assignment/completion.
+
+### NOW-202 — Staff can progress while the player is occupied
+
+Collins's authored 50-minute analysis advances while the player attends the
+separate 9:30–10:15 briefing and reaches ready for review at exactly 10:00. The
+player's clock reaches 10:15 and the briefing completes once. A delegated
+90-minute meeting brief advances only through Collins's free elapsed intervals
+and remains in Staff handling when incomplete.
+
+### NOW-203 — Planning inspection is time-neutral and epistemic
+
+Opening Calendar, opening Work/Pending, and inspecting an activity change
+neither moment nor history. Private Reed schedule/work roots exist in World but
+remain absent from agenda/work projections and the browser DOM. Meaningful
+activity duration is disclosed before its canonical transition.
+
+### NOW-204 — Calendar and Work/Pending are browser-proven planning surfaces
+
+At the normal desktop viewport, Playwright proves five day columns, a vertical
+time scale, canonical current marker, duration-proportional 45/75-minute event
+geometry, four distinct restrained event states, anchored detail with week
+retention, persistent valid movement, atomic travel-conflict rejection,
+derived work groups, delegation, visible time advance, parallel staff return,
+real-context routing, and return to the office.
+
+### NOW-205 — D-Lite remains deterministic and composes with Runs A–C
+
+The 22-test focused D-Lite suite proves identical World plus identical
+scheduling/action input yields identical results and malformed time/work graphs
+fail. The full 429-test Vitest suite, focused Run A/B/C suites, and browser
+return paths preserve people, pins, conversation, and the Transit Access Pilot
+working document. No Stage 7/8/9 or Lexington Slice E semantics are present.
+
 ## Manual Now
 
 The visual statements below are independent human acceptance checks. They are
@@ -1025,6 +1089,16 @@ implementation-time browser inspection.
 - The amount selection, Collins annotation, clean-copy state, prepared
   strike/insert comparison, and committed $4,000,000 working version are
   visually distinct without making legal text resemble a game board.
+- Calendar reads as a restrained office week with days horizontal and time
+  vertical; event lengths, current-time marker, travel, flexible, tentative,
+  and confirmed treatments remain legible without resembling a generic SaaS
+  calendar.
+- The anchored event detail leaves the week understandable, states the real
+  time cost before attendance, and explains travel conflict rejection in
+  ordinary language.
+- Work/Pending reads as a deliberately opened catch-up surface centered on what
+  needs Cameron, with dependency, ownership, returned work, and routes to real
+  context understandable without raw engine fields or dashboard pressure.
 - Collins and Reed remain at plausible separate anchors with no
   person/furniture intersection, floating, scale break, or incorrect foreground
   occlusion.

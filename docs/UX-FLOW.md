@@ -183,6 +183,55 @@ DRAFT`, `NOT INTRODUCED`, and `NOT ENACTED` explicit.
    - Return to the ordinary office and continue using people, pins, navigation,
      dossier, and Run B casework conversation normally.
 
+## Run D-Lite Calendar and Work/Pending Flow
+
+1. **Open a planning surface without spending time**
+   - Use the established bottom-left navigation to open Calendar or Work /
+     Pending. Close either surface to return to the unchanged office.
+   - Keep manual pins visible and authoritative; planning status never creates,
+     resizes, or replaces a user pin.
+
+2. **Read the office week**
+   - Show Monday through Friday horizontally and 8 AM through 5 PM vertically.
+   - Place/size every event from its canonical exact interval and draw the
+     current line from the canonical 9:10 AM moment.
+   - Distinguish confirmed, tentative, flexible, and travel through label,
+     border, and restrained treatment rather than color alone.
+
+3. **Inspect and reschedule**
+   - Select an event to open a compact anchored card while the week stays
+     visible. Selection itself writes nothing and moves no time.
+   - Move the flexible Transit draft block to 11:00 AM–12:00 PM through an
+     explicit successful canonical action.
+   - Reject 1:00–2:00 PM because it overlaps the fixed 1:40–2:00 PM travel
+     interval. Explain that required travel stays in place and leave the exact
+     World unchanged.
+
+4. **Catch up on truthful work**
+   - Derive Needs you, Waiting on others, Staff handling, and Completed / ready
+     to review from canonical state.
+   - Open the Transit Access Pilot item in the accepted working document, show a
+     linked meeting on Calendar, or return to an existing person rather than
+     duplicating context.
+   - Do not offer a completion action for Reed's waiting dependency. Delegate
+     the bounded meeting brief to Collins explicitly.
+
+5. **Commit a known time cost**
+   - Inspect the 9:30 briefing and state that attending consumes its full 45
+     minutes and reaches 10:15 AM before the player commits.
+   - Advance through the canonical simulation action. Complete the briefing at
+     10:15 and let Collins's independent analysis complete at 10:00 during the
+     same interval.
+   - Return to Work/Pending to see the completed analysis in ready review while
+     the longer delegated brief remains Staff handling.
+
+6. **Preserve epistemic and product boundaries**
+   - Never show the fixture's private Reed call or private Reed note.
+   - Expose no raw IDs, engine states, progress percentages, omniscient meters,
+     or generic end-turn control.
+   - Closing the planning surface restores accepted Run A people/pins, Run B
+     conversation, and Run C working-document play.
+
 ## Retained Developer Flow
 
 ### Primary Flow

@@ -1,6 +1,6 @@
 # Player Presentation and Epistemic Projection
 
-Status: **Stage 6.5 Runs A–C implementation contract**
+Status: **Stage 6.5 Runs A–D-Lite implementation contract**
 
 ## Boundary
 
@@ -251,3 +251,40 @@ the $8,000,000 variant as the earlier office version, and no prepared variant
 remains pending. Paper status, annotation summary, analysis roles, compare
 semantics, action names, accessible labels, and DOM text consume that derived
 role projection.
+
+## Run D-Lite calendar and Work/Pending boundary
+
+`PlayerOffice` still owns the one mutable reference to an immutable canonical
+World. A separate `runDUiReducer` stores only which planning surface is open,
+the inspected activity, and ordinary-language feedback. Opening Calendar,
+opening Work/Pending, selecting/closing a detail card, following links, or
+returning to the office changes no moment, action sequence, or history.
+
+The Calendar is one conventional Monday–Friday vertical week: days are columns,
+time is vertical, and event top/height derive from canonical start/end moments.
+The current-time line derives from `World.currentMoment`. Confirmed, tentative,
+flexible, and travel intervals use restrained distinct treatments. Selecting an
+event opens a compact anchored card without replacing the week. The fixture
+offers one explicit valid flexible move and one invalid move into the required
+travel interval; only the successful canonical transition changes World.
+
+Work/Pending projects **Needs you**, **Waiting on others**, **Staff handling**,
+and **Completed / ready to review** from assignment, controlled-player
+requirement, dependency, and lifecycle semantics. It stores no category. Links
+return to the accepted Run C document, a real calendar item, or an existing
+person. Waiting work has no false completion button. Explicit delegation to
+Collins writes canonical assignment history.
+
+The 9:30 briefing detail states that attending consumes 45 minutes and advances
+to 10:15 before the button commits it. That action uses exact simulation
+advancement and lets Collins's separately assigned 50-minute analysis complete
+at 10:00 while the player remains occupied. The result later appears in the
+derived ready-review group. There is no generic end-turn control or
+player-facing progress percentage.
+
+Both surfaces use access-filtered roots. A private Reed call and private Reed
+work note intentionally exist in World but are absent from projection, DOM,
+accessible text, and visible counts. Calendar/Work are system-derived status
+surfaces; manual pins remain deliberate user references and are neither
+overridden nor populated from work automatically. See
+[Canonical Sub-Day Time, Scheduled Activity, and Office Work](time-work.md).

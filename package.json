@@ -15,6 +15,7 @@
     "test:run-a": "vitest run src/presentation/run-a.test.ts",
     "test:run-b": "vitest run src/presentation/run-b-conversation.test.ts",
     "test:run-c": "vitest run src/presentation/run-c-working-document.test.ts",
+    "test:run-d-lite": "vitest run src/presentation/run-d-lite.test.ts",
     "test:e2e": "playwright test",
     "test:watch": "vitest",
     "lint": "eslint .",

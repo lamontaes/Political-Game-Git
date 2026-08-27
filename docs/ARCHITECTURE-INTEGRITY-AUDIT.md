@@ -472,3 +472,38 @@ revision event, unchanged policy truth, absent pseudo-text, retained selection
 affordance, compact-shell visibility/geometry, and restoration of accepted
 office behavior. Independent correction review and human replay remain pending
 on the same open PR.
+
+## Stage 6.5 Run D-Lite Boundary Audit — 2026-08-27
+
+This audit applies D-050 retroactively across accepted time advancement,
+future-due, Stage 5 load/work identity, append-oriented history, persistence,
+Runs A–C presentation, epistemic access, and the Stage 7/8/9 scope gates.
+
+| Concern                                | Disposition                | Evidence and rationale                                                                                                                                                                                                                                         |
+| -------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Canonical time versus UI clock         | Corrected canonically      | World schema 15 owns date, integer minute, IANA-style zone, and explicit offset. `currentDate` must equal the moment date. React formats/projections only; host time, animation, history sequence, and action sequence are unused as clocks.                   |
+| Whole-day and future-due compatibility | Confirmed composed         | Whole-day advancement preserves local minute/zone/offset. Exact midnight crossing updates both date fields and invokes existing date-level due handlers once. `FutureDueItem` remains date-level and is not an appointment.                                    |
+| Exact chronology and atomicity         | Confirmed deterministic    | Exact states store moments and link ordinary outcome events. Crossed date/work/activity states use a fixed moment/tie order. Stable terminal-state/key checks prevent duplicates; invalid actions return no partial World.                                     |
+| Scheduled identity and conflicts       | Confirmed explicit         | Immutable roots own participants, location, sources, access, and flexibility; append states own interval/lifecycle/supersession/outcome. Half-open shared-participant overlaps fail. Fixed commitments cannot move.                                            |
+| Travel                                 | Confirmed real but bounded | The authored 20-minute office-to-East-End activity is fixed, includes player and Collins, and blocks overlapping work. No route, map, traffic, or transport simulation was added.                                                                              |
+| Work versus Stage 5 life load          | Confirmed distinct         | D-Lite exact office assignments do not contort weekly `TimeDemandProfile` or `LifeCommitmentRecord` into appointments. Work roots/states own exact sources, focus, assignees, player requirement, dependencies, authored effort, schedule link, and lifecycle. |
+| Work/Pending categories                | Confirmed derived          | Needs you, Waiting on others, Staff handling, and Completed/ready are selectors over canonical assignment/requirement/dependency/lifecycle. No source bucket, arbitrary priority, or progress percentage exists. Waiting work has no player completion path.   |
+| Staff parallel work                    | Confirmed behavioral       | Collins's 50-minute analysis reaches ready review at 10:00 while Cameron attends the separate 9:30–10:15 briefing. Assignees do not progress through overlapping commitments; completion is exact, event-linked, persistent, replayable, and duplicate-safe.   |
+| Epistemic access                       | Confirmed filtered         | Agenda/work selectors require controlled-person access. The canonical private Reed call and note remain absent from projection, DOM, accessible text, and visible group counts.                                                                                |
+| Runs A–C composition                   | Confirmed preserved        | `PlayerOffice` remains the sole World owner. Planning reducer is inspectorial. People, dossiers, manual pins/sizing, conversation continuity/audibility, working document, analysis, and revision routes retain existing code and focused/browser proof.       |
+| Persistence/versioning                 | Confirmed advanced         | Snapshot format 14 exactly preserves schema 15 moments, activity/work roots and states, sources, and event links. Integrity rejects invalid moments, current-date mismatch, overlaps, missing references, malformed chains, and duplicate outcomes.            |
+| Stage 7/8/9 and Slice E                | Confirmed absent           | No law, institution, authority, electorate, campaign, election, Lexington rules, recurrence, routing, staff economy, or later MVP slice was implemented.                                                                                                       |
+
+### Run D-Lite disposition
+
+The 22 focused semantic tests prove clock integrity, timezone instant semantics,
+snapshot replay, whole-day/midnight due composition, deterministic identity and
+ordering, interval conflict/flexibility/travel behavior, inspection neutrality,
+exact activity time, category derivation, waiting/delegation, parallel staff
+work, duplicate prevention, provenance, non-leakage, malformed-graph rejection,
+and identical replay. The 429-test full suite preserves earlier boundaries.
+Three new Playwright tests cover week geometry, state treatments, detail
+retention, valid/invalid movement, travel language, work groups, delegation,
+visible canonical advance, staff return, real-context links, and accepted Run
+A–C return paths. Independent remote audit and human play review remain required
+on the open unmerged PR.

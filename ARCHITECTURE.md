@@ -36,16 +36,18 @@ Node desktop adapter (src/persistence)
           SQLite snapshots
 ```
 
-- `src/simulation/` contains JSON-safe domain types, deterministic utilities, world operations, policy, mind, world-metric, causal-mechanism, incident-definition, and vitality catalogs, append-oriented history, exact quantity and money primitives, separate quantitative truth and observation vintages, append-oriented causal ancestry and effect activations, explicit exact aggregate-economy/fiscal derivations, frozen quantitative policy baselines/operations/estimates and explicit implementation realization, generalized incident occurrence/state/follow-on records, bounded mortality/death/functional-capacity history, objective evidence artifacts and explicit person discovery, one authoritative-time future-transition mechanism, sparse political and character-mind records, subjective-perception projections, the general decision evaluator and political-belief adapter, persistent organizations/work/education/participation/households/care/child-authority history, exact personal/household resource flows and housing histories, a canonical character-history plan applicator, bounded formative situations, compositional adult path helpers, meaningful relationship-history helpers, qualitative life-load resolution, a future-rule eligibility consumer, progressive entity detail, and the demo scenario.
+- `src/simulation/` contains JSON-safe domain types, deterministic utilities, world operations, a canonical zoned minute-level moment, exact scheduled activities and office work/assignment history, policy, mind, world-metric, causal-mechanism, incident-definition, and vitality catalogs, append-oriented history, exact quantity and money primitives, separate quantitative truth and observation vintages, append-oriented causal ancestry and effect activations, explicit exact aggregate-economy/fiscal derivations, frozen quantitative policy baselines/operations/estimates and explicit implementation realization, generalized incident occurrence/state/follow-on records, bounded mortality/death/functional-capacity history, objective evidence artifacts and explicit person discovery, one date-level future-transition mechanism, sparse political and character-mind records, subjective-perception projections, the general decision evaluator and political-belief adapter, persistent organizations/work/education/participation/households/care/child-authority history, exact personal/household resource flows and housing histories, a canonical character-history plan applicator, bounded formative situations, compositional adult path helpers, meaningful relationship-history helpers, qualitative life-load resolution, a future-rule eligibility consumer, progressive entity detail, and the demo scenario.
 - `src/persistence/` contains Node-only durable-storage adapters and depends on the public simulation snapshot codec.
 - `src/cli/` contains Node-only executable entry points.
 - `src/presentation/` contains React-independent epistemic selectors,
   inspectorial, conversation-session, and working-document state, deterministic
-  Run A/Run B/Run C fixtures, a bounded canonical-conversation adapter, the
-  provision-to-policy bridge, browser persistence, and semantic scene-placement
-  validation. It may read the simulation and compose its public writers for
-  explicit fixtures, known-analysis review, committed conversation turns, and
-  one office working-draft instruction; the simulation never imports it.
+  Run A/Run B/Run C/Run D-Lite fixtures, a bounded canonical-conversation
+  adapter, the provision-to-policy bridge, epistemic agenda/work projection,
+  browser persistence, and semantic scene-placement validation. It may read the
+  simulation and compose its public writers for explicit fixtures,
+  known-analysis review, committed conversation turns, one office working-draft
+  instruction, scheduling, assignment, and exact activity performance; the
+  simulation never imports it.
 - `src/player/` contains the normal player-facing React scene and shell.
 - `src/ui/` retains React diagnostics with explicitly omniscient developer access.
 - `src/App.tsx` selects the player scene by default and the developer viewer only
@@ -62,8 +64,9 @@ Run A inspectorial state is deliberately outside the simulation. Epistemic
 selectors expose a bounded, qualitative subset of canonical state; browser
 learned-concept storage and manual pin sizing do not enter `World`, history, or
 snapshot persistence. Opening player UI therefore cannot advance the date or
-consume simulation randomness. Presentation-only fixture role, clock, and scene
-geometry are labeled synthetic and do not establish Stage 7 institutions or
+consume simulation randomness. Presentation-only fixture role and scene
+geometry remain synthetic; Run D-Lite replaces the old display-only office
+clock with canonical World time without establishing Stage 7 institutions or
 rules. See [Player Presentation and Epistemic Projection](docs/systems/player-presentation.md).
 
 Run B gives the player session the smallest World owner needed for substantive
@@ -87,9 +90,22 @@ both prepared alternatives and operations. That event neither realizes policy
 nor creates law, legislation procedure, authority, appropriation, effect
 activation, or metric truth.
 
+Stage 6.5 Run D-Lite upgrades World schema 15 and snapshot format 14 with one
+canonical `SimulationMoment`: date, minute of day, IANA-style zone identity,
+and explicit UTC offset. `currentDate` must equal the moment date; whole-day
+advancement preserves local minute/zone/offset. Append-oriented scheduled
+activity roots/states own exact intervals, participant conflicts, fixed versus
+bounded movable flexibility, travel, and completion. Work roots/states own real
+sources, focus targets, assignees, player requirements, dependencies, authored
+effort, and lifecycle. Exact minute advancement resolves crossed date-level due
+frontiers, staff work, and a selected activity deterministically. `FutureDueItem`
+remains date-level; history sequence and action sequence remain ordering/seed
+inputs, not clocks. See
+[Canonical Sub-Day Time, Scheduled Activity, and Office Work](docs/systems/time-work.md).
+
 The initial domain includes:
 
-- a JSON-safe `World` with a stable ID, normalized seed, current simulated date, entities, action sequence, generator version, and history;
+- a JSON-safe `World` with a stable ID, normalized seed, canonical zoned minute-level moment consistent with its current simulated date, entities, action sequence, generator version, and history;
 - stable-ID `Person` and `Jurisdiction` entities;
 - lightweight and materialized person detail states;
 - immutable typed biography facts for birth, place, residence, family, education, and occupation;
@@ -109,6 +125,8 @@ The initial domain includes:
 - a stable vitality catalog with exact age-indexed annual mortality probabilities; materialized-person mortality plans/results through the existing future-due seam; durable person-death truth; sparse functional-capacity history; and cutoff-aware alive/capacity eligibility without removing person identity or prior history;
 - objective evidence artifacts related to earlier ordinary event or incident truth, with closed access metadata but no implicit knowledge; explicit per-person discovery history through one ordinary discovery event and one direct event-knowledge record; and created/discovered-date plus exclusive-sequence queries;
 - one stable future due-item identity with an exact closed scheduled/resolved/cancelled/blocked state vocabulary and deterministic nonserialized handlers integrated with authoritative time advancement; a scheduled due-today item is valid pending work, while a scheduled overdue item is invalid;
+- stable scheduled-activity identities with append-only exact interval state, participant conflict/flexibility/travel semantics, and ordinary completion history;
+- stable office work identities with append-only assignment, player-requirement, dependency, authored-effort, scheduling-link, and completion state;
 - ranged time-demand profiles and qualitative deterministic load/recovery resolution over active work, care, and exceptional commitments, reusing temporary states for fatigue;
 - an explicit observer/person control state that protects a controlled person's major internal choices from autonomous application;
 - reusable query helpers over facts, event tags, age, geography, experience, relationship context, stable organization work/education/participation, households, kinship, partnership, care, child authority, exact liquid position, obligations, affordability, dwelling occupancy/tenure, qualitative relationship continuity, life load, proposition history, principles, knowledge, expertise, character mind, perception, decision traces, historical vitality/capacity, and evidence/discovery;

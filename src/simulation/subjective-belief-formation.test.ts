@@ -1036,7 +1036,7 @@ describe("Stage 4 persistence and load-time integrity", () => {
     const restored = deserializeWorld(payload);
     expect(
       (JSON.parse(payload) as { formatVersion: number }).formatVersion,
-    ).toBe(13);
+    ).toBe(14);
     expect(restored).toStrictEqual(world);
     expect(restored.history.personalityTendencies.length).toBeGreaterThan(0);
     expect(restored.history.personalValues.length).toBeGreaterThan(0);

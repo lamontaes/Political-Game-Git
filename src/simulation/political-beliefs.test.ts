@@ -2021,7 +2021,7 @@ describe("sparse scaling, persistence, and determinism", () => {
     const parsed = JSON.parse(payload) as { readonly formatVersion: number };
     const restored = deserializeWorld(payload);
 
-    expect(parsed.formatVersion).toBe(13);
+    expect(parsed.formatVersion).toBe(14);
     expect(restored).toStrictEqual(world);
     expect(restored.policyCatalog).toStrictEqual(world.policyCatalog);
     expect(restored.history.privateBeliefs).toStrictEqual(

@@ -6,8 +6,11 @@ import { PinRail, type PinnedPersonDefinition } from "./PinRail";
 interface PermanentShellProps {
   readonly fixture: RunAFixture;
   readonly people: readonly PinnedPersonDefinition[];
+  readonly formattedTime: string;
   readonly formattedDate: string;
   readonly compactNavigation?: boolean;
+  readonly onOpenCalendar: () => void;
+  readonly onOpenWorkPending: () => void;
   readonly state: RunAUiState;
   readonly dispatch: (action: RunAUiAction) => void;
 }
@@ -15,8 +18,11 @@ interface PermanentShellProps {
 export function PermanentShell({
   fixture,
   people,
+  formattedTime,
   formattedDate,
   compactNavigation = false,
+  onOpenCalendar,
+  onOpenWorkPending,
   state,
   dispatch,
 }: PermanentShellProps) {
@@ -44,6 +50,18 @@ export function PermanentShell({
                 aria-label="Main navigation"
               >
                 <p className="nav-heading">Office</p>
+                <button type="button" role="menuitem" onClick={onOpenCalendar}>
+                  Calendar
+                  <small>Week and commitments</small>
+                </button>
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={onOpenWorkPending}
+                >
+                  Work / Pending
+                  <small>What actually needs you</small>
+                </button>
                 <button
                   type="button"
                   role="menuitem"
@@ -110,7 +128,7 @@ export function PermanentShell({
             PG
           </span>
           <span className="cluster-copy">
-            <span className="cluster-time">{fixture.presentationTime}</span>
+            <span className="cluster-time">{formattedTime}</span>
             <span>{formattedDate}</span>
             <strong>{fixture.locationLabel}</strong>
           </span>
