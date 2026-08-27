@@ -12,10 +12,9 @@
           "source": "architectural_standards"
         }
       },
-      "generation_status": "approved",
-      "qa_status": "approved",
-      "final_path": "art/shared/lecterns/lectern_standard_01.png",
-      "hash": "a1b2c3d4e5f6",
+      "generation_status": "pending",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
       "requires_transparency": true
     },
     {
@@ -26,6 +25,7 @@
       "reuse_allowed": false,
       "generation_status": "pending",
       "qa_status": "pending",
+      "runtime_release_status": "unreleased",
       "era_start": 1900,
       "era_end": 2026
     }

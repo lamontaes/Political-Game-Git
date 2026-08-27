@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import crypto from "crypto";
+import { hashArtFile } from "./content-hash";
 
 export interface InventoryItem {
   filePath: string;
@@ -25,15 +25,10 @@ export function generateInventory(baseDir: string): InventoryItem[] {
         const ext = path.extname(entry.name).toLowerCase();
         // Only inventory media files
         if ([".png", ".jpg", ".jpeg", ".webp"].includes(ext)) {
-          const content = fs.readFileSync(fullPath);
-          const hash = crypto
-            .createHash("sha256")
-            .update(content)
-            .digest("hex");
           // Store relative path for stable reports
           items.push({
             filePath: path.relative(baseDir, fullPath).replace(/\\/g, "/"),
-            hash,
+            hash: hashArtFile(fullPath),
           });
         }
       }

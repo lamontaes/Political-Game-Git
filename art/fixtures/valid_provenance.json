@@ -11,12 +11,6 @@
       "provenance_id": "prov_hero_01",
       "asset_id": "hero_room_01",
       "rights_license_status": "unknown"
-    },
-    {
-      "provenance_id": "prov_rejected_01",
-      "asset_id": "bad_asset_01",
-      "rights_license_status": "unknown",
-      "approval_status": "rejected"
     }
   ]
 }

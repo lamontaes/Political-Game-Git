@@ -20,7 +20,9 @@ const families = loadJson("art/manifest/environment_families.json");
 const deltas = loadJson("art/manifest/jurisdiction_deltas.json");
 const provenance = loadJson("art/manifest/provenance.json");
 
-const result = validateArtAssets(manifest, families, deltas, provenance);
+const result = validateArtAssets(manifest, families, deltas, provenance, {
+  repositoryRoot: REPO_ROOT,
+});
 
 if (result.valid) {
   console.log("Validation passed.");
