@@ -31,7 +31,7 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Run Run A browser proof
+      - name: Run Run A and Run B browser proofs
         run: npm run test:e2e
 
       - name: Preserve browser failure evidence

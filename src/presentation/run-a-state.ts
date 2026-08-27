@@ -2,8 +2,14 @@ import type { EntityId, IsoDate } from "../simulation";
 import { RUN_A_CIVIC_CONCEPT_ID } from "./run-a-learning";
 import type { RunAFixtureStateName } from "./run-a-fixture";
 
-export const RUN_A_PIN_IDS = ["briefing", "person", "district-notes"] as const;
+export const RUN_A_PIN_IDS = [
+  "briefing",
+  "person",
+  "person-b",
+  "district-notes",
+] as const;
 export type RunAPinId = (typeof RUN_A_PIN_IDS)[number];
+export type RunAPersonPinId = Extract<RunAPinId, "person" | "person-b">;
 export type RunAPinSize = "tiny" | "normal" | "expanded";
 export type RunAOverlay = "none" | "person-actions" | "dossier" | "civic";
 export type RunANavigation = "closed" | "primary" | "submenu";
@@ -14,6 +20,8 @@ export interface RunAUiState {
   readonly selectedPersonId: EntityId | null;
   readonly overlay: RunAOverlay;
   readonly navigation: RunANavigation;
+  readonly activePinMenuId: RunAPinId | null;
+  readonly pinnedPersonIds: readonly EntityId[];
   readonly manualPinSizes: Readonly<Partial<Record<RunAPinId, RunAPinSize>>>;
   readonly automaticPinSizes: Readonly<Record<RunAPinId, RunAPinSize>>;
   readonly learnedConceptIds: readonly string[];
@@ -28,6 +36,18 @@ export type RunAUiAction =
   | { readonly type: "close-navigation" }
   | { readonly type: "open-civic-learning" }
   | { readonly type: "mark-concept-learned"; readonly conceptId: string }
+  | {
+      readonly type: "pin-person";
+      readonly personId: EntityId;
+      readonly pinId: RunAPersonPinId;
+    }
+  | {
+      readonly type: "unpin-person";
+      readonly personId: EntityId;
+      readonly pinId: RunAPersonPinId;
+    }
+  | { readonly type: "toggle-pin-controls"; readonly pinId: RunAPinId }
+  | { readonly type: "close-pin-controls" }
   | {
       readonly type: "set-pin-size";
       readonly pinId: RunAPinId;
@@ -72,6 +92,8 @@ export function createRunAUiState(input: RunAUiStateInput): RunAUiState {
         : null,
     overlay,
     navigation,
+    activePinMenuId: null,
+    pinnedPersonIds: [input.scenePersonId],
     manualPinSizes:
       input.fixtureState === "mixed-pins"
         ? { "district-notes": "expanded" }
@@ -79,6 +101,7 @@ export function createRunAUiState(input: RunAUiStateInput): RunAUiState {
     automaticPinSizes: {
       briefing: "normal",
       person: "tiny",
+      "person-b": "tiny",
       "district-notes": "tiny",
     },
     learnedConceptIds: [...new Set(input.learnedConceptIds ?? [])].sort(),
@@ -108,6 +131,7 @@ export function runAUiReducer(
         ...state,
         selectedPersonId: action.personId,
         overlay: "person-actions",
+        activePinMenuId: null,
       };
     case "inspect-person":
       return state.selectedPersonId ? { ...state, overlay: "dossier" } : state;
@@ -117,6 +141,7 @@ export function runAUiReducer(
       return {
         ...state,
         navigation: state.navigation === "closed" ? "primary" : "closed",
+        activePinMenuId: null,
       };
     case "open-submenu":
       return { ...state, navigation: "submenu" };
@@ -128,6 +153,7 @@ export function runAUiReducer(
         overlay: "civic",
         selectedPersonId: null,
         navigation: "closed",
+        activePinMenuId: null,
       };
     case "mark-concept-learned":
       if (action.conceptId !== RUN_A_CIVIC_CONCEPT_ID) {
@@ -140,6 +166,43 @@ export function runAUiReducer(
           ...new Set([...state.learnedConceptIds, action.conceptId]),
         ].sort(),
       };
+    case "pin-person":
+      return state.pinnedPersonIds.includes(action.personId)
+        ? state
+        : {
+            ...state,
+            pinnedPersonIds: [...state.pinnedPersonIds, action.personId],
+            manualPinSizes: {
+              ...state.manualPinSizes,
+              [action.pinId]: "normal",
+            },
+          };
+    case "unpin-person": {
+      const remainingManualPinSizes: Partial<Record<RunAPinId, RunAPinSize>> = {
+        ...state.manualPinSizes,
+      };
+      delete remainingManualPinSizes[action.pinId];
+      return {
+        ...state,
+        activePinMenuId:
+          state.activePinMenuId === action.pinId ? null : state.activePinMenuId,
+        pinnedPersonIds: state.pinnedPersonIds.filter(
+          (personId) => personId !== action.personId,
+        ),
+        manualPinSizes: remainingManualPinSizes,
+      };
+    }
+    case "toggle-pin-controls":
+      return {
+        ...state,
+        overlay: "none",
+        selectedPersonId: null,
+        navigation: "closed",
+        activePinMenuId:
+          state.activePinMenuId === action.pinId ? null : action.pinId,
+      };
+    case "close-pin-controls":
+      return { ...state, activePinMenuId: null };
     case "set-pin-size":
       return {
         ...state,

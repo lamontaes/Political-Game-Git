@@ -27,7 +27,8 @@ diagnostic access does not authorize omniscient player-facing UI.
    - Reach and activate the seated person by pointer or keyboard.
    - Open the concise anchored contextual menu immediately; do not insert a
      generic Talk, More, Character, or Details layer.
-   - Choosing Inspect replaces the action menu with the nearby quick dossier.
+   - Choosing Inspect replaces the action menu with the nearby subjective read
+     panel.
      The two surfaces are never visibly stacked.
 
 4. **Read the dossier**
@@ -49,14 +50,79 @@ diagnostic access does not authorize omniscient player-facing UI.
    - Hide the resting marker after learning while retaining the explanation in
      Civic reference. Persist only the allowlisted concept-level learned state.
 
-6. **Resize pins**
+6. **Manage pins**
    - Most pins rest tiny, while a current item may be normal and a manual choice
      may be expanded.
-   - Activating a pin cycles its explicit display size. Later automatic
-     importance changes cannot override a manual size.
+   - Activating a pin opens restrained textual controls for Compact, Standard,
+     and Expanded. Person pins also expose Unpin; pointer, touch-style
+     activation, and keyboard use the same actions.
+   - Pinning Collins or Reed adds at most one person pin in deterministic scene
+     order. Unpin removes only that person, never the current briefing, and a
+     re-pin starts at the normal person-pin size. Later automatic importance
+     changes cannot override a manual size.
+   - Navigation, pin controls, and the immediate person menu dismiss on a click
+     elsewhere in the scene or Escape.
 
 Named `?fixture=` states reproduce normal, person-menu, dossier,
 civic-learning, mixed-pins, navigation, and submenu browser states.
+
+## Run B Conversation Flow
+
+1. **Choose a person**
+   - Keep two NPCs visibly present at separate scene anchors.
+   - Activate either person and choose Talk directly beside Inspect and Pin
+     person in the immediate contextual menu.
+   - Do not insert a Talk/More layer or replace the room with a dialogue screen.
+
+2. **Set who is addressed**
+   - Open one compact lower-screen strip while the scene, people, bottom-left
+     cluster, and right pins remain recognizable and usable.
+   - Switch between Collins, Reed, and Everyone without restarting the session.
+   - Identify the synthetic fixture player unobtrusively as `You — Cameron
+Foster`; Collins and Reed remain distinct NPCs.
+   - Communicate the selected addressee in the strip and with a restrained scene
+     treatment, never targeting rings or hidden diagnostic IDs. Character names
+     appear contextually on hover/focus near the person and are suppressed while
+     the menu, Your Read panel, or conversation already identifies them.
+
+3. **Set intended audibility**
+   - Keep Normal, Quiet, and Private separate from addressee.
+   - Explain reasonable hearing context in one restrained text line.
+   - Disable Private in the occupied office and state naturally that Reed
+     remains within plausible earshot. Do not imply magical muting or certainty.
+   - Use that same current listener set for pending response eligibility. If
+     Quiet-to-Reed excludes Collins, preserve Collins's pending contribution and
+     do not offer Listen for it until a hearing context such as Normal includes
+     Collins.
+
+4. **Choose an intent**
+   - State the constituent-services problem in ordinary language before the
+     choices: three Lexington tenants sought emergency-rent help; a required
+     proof-of-income form was missing from the first two county referrals; Reed
+     is checking the third; and Collins is deciding whether to back a document
+     checklist before future referrals.
+   - Offer concise, fixture-specific intent labels such as asking Collins to
+     back the referral checklist, asking Reed to check the third referral,
+     asking each for the corresponding next step, focusing the checklist on the
+     missing proof-of-income form, pressing, or listening.
+   - Let an NPC return authored deterministic dialogue from the semantic result.
+   - Keep each line tied to the briefing topic, current addressee, intent,
+     preceding bounded turn, and actual semantic outcome.
+   - Derive Listen from the current pending contributions: Collins may explain
+     his evidence condition, then Reed may offer the verification follow-up.
+     When no contribution remains, one Listen may let the room settle without
+     fabricated speech; remove Listen until a later player action creates a
+     legitimate new follow-up.
+
+5. **Review or leave**
+   - Switch the same bounded box between active conversation and one-turn-at-a-
+     time history. Return to active conversation, collapse/resume, or close it
+     without an internal vertical scrollbar.
+   - Those actions, plus addressee/audibility changes, never write World or move
+     time.
+   - A committed turn may add same-date canonical history, but the normal UI
+     never reveals source snapshots, private beliefs, numeric relationship
+     changes, probabilities, or fake elapsed minutes.
 
 ## Retained Developer Flow
 

@@ -139,7 +139,7 @@ test("replaces the anchored person menu with an epistemically filtered dossier",
   const dossier = page.getByTestId("quick-dossier");
   await expect(dossier).toBeVisible();
   await expect(dossier).toContainText("Andre Collins");
-  await expect(dossier).toContainText("Working impression");
+  await expect(dossier).toContainText("Your read");
   await expect(dossier).toContainText("Born in Lexington, Kentucky");
   await expect(dossier).not.toContainText("Lexington-Fayette");
   await expect(dossier).toContainText("Established working rapport");
@@ -278,12 +278,16 @@ test("keeps manual pin sizing through other inspectorial actions", async ({
   const personPin = page.locator('[data-pin-id="person"]');
   await expect(personPin).toHaveAttribute("data-size", "tiny");
   await personPin.click();
+  const controls = page.getByTestId("pin-controls-person");
+  await expect(controls).toBeVisible();
+  await controls.getByRole("menuitem", { name: "Standard" }).click();
   await expect(personPin).toHaveAttribute("data-size", "normal");
 
   await page.getByTestId("scene-person").click();
   await expect(page.getByTestId("person-action-menu")).toBeVisible();
   await expect(personPin).toHaveAttribute("data-size", "normal");
   await page.keyboard.press("Escape");
+  await expect(controls).toHaveCount(0);
   await expect(personPin).toHaveAttribute("data-size", "normal");
 });
 

@@ -40,9 +40,11 @@ Node desktop adapter (src/persistence)
 - `src/persistence/` contains Node-only durable-storage adapters and depends on the public simulation snapshot codec.
 - `src/cli/` contains Node-only executable entry points.
 - `src/presentation/` contains React-independent epistemic selectors,
-  inspectorial state, deterministic Run A fixtures, bounded browser persistence,
-  and semantic scene-placement validation. It may read the simulation and use
-  its public writers for explicit fixtures; the simulation never imports it.
+  inspectorial and conversation-session state, deterministic Run A/Run B
+  fixtures, a bounded canonical-conversation adapter, browser persistence, and
+  semantic scene-placement validation. It may read the simulation and compose
+  its public writers for explicit fixtures and committed conversation turns;
+  the simulation never imports it.
 - `src/player/` contains the normal player-facing React scene and shell.
 - `src/ui/` retains React diagnostics with explicitly omniscient developer access.
 - `src/App.tsx` selects the player scene by default and the developer viewer only
@@ -62,6 +64,15 @@ snapshot persistence. Opening player UI therefore cannot advance the date or
 consume simulation randomness. Presentation-only fixture role, clock, and scene
 geometry are labeled synthetic and do not establish Stage 7 institutions or
 rules. See [Player Presentation and Epistemic Projection](docs/systems/player-presentation.md).
+
+Run B gives the player session the smallest World owner needed for substantive
+actions. The React owner replaces one immutable `World` only after the bounded
+conversation adapter succeeds; ephemeral addressee, audibility, dialogue,
+transcript, collapse, and local-turn state remains separate. The adapter creates
+no parallel room, world, or history model. It composes existing public Stage 6
+writers in strict order and returns only a filtered semantic/presentation result
+to the strip. Same-date conversation order is history sequence, never action
+sequence or a fabricated clock.
 
 The initial domain includes:
 

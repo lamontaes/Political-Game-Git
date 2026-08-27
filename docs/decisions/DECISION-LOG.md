@@ -572,3 +572,68 @@ and their raster bytes are not repository assets. Dynamic UI remains authored
 React/CSS/text. Playwright is the one new focused development dependency and
 must prove the bounded player flows with useful failure evidence. Stage 6 stays
 frozen and Stage 7 stays gated.
+
+## D-048 — Scene-native conversation composes canonical history without a second world model
+
+- Date: 2026-08-26
+- Status: ACCEPTED
+- Supersedes: the Stage 6.5 hold only for the bounded authorized Run B slice;
+  no Stage 6 decision is superseded
+
+Add the first bounded player-facing conversation through the accepted office
+scene rather than a full-screen dialogue mode. A controlled person, two visible
+NPCs, and explicit presentation-owned room presence distinguish physical
+presence, active participation, current addressee, and resolved listener.
+Addressee and the closed Normal/Quiet/Private interaction mode are separate;
+Private remains unavailable when another person is plausibly within earshot.
+This is a deterministic room contract, not distance acoustics or a universal
+spatial simulation.
+
+Keep one immutable `World` owned by the player session and keep conversation UI
+state separate. Opening, closing, collapsing, changing addressee or audibility,
+and reading the transcript do not write history or move time. A substantive
+turn uses a stable key derived from scene, starting history frontier,
+participants, session, and local committed-turn ordinal. It may immediately
+record an NPC-only durable decision trace, then composes the existing ordinary
+event, claim, direct/told-by knowledge, heard-claim perception, and qualitative
+relationship writers. Claim occurrence remains distinct from truth and casual
+speech does not rewrite private belief, public position, or campaign promise.
+
+Conversation turns stay on `World.currentDate`; same-day causality uses the
+global history sequence and never `World.actionSequence`, fabricated minutes,
+or a sub-day clock. Authored phrase families translate bounded semantic results
+into deterministic dialogue without runtime AI or network access. A contained
+Stage 6 integrity correction orders the already-supported heard-claim source
+pair canonically so the public writer and persisted-world validator agree; it
+changes no record shape, vocabulary, or intended semantic rule.
+
+The existing right pin rail generalizes presentation-only person pins to both
+visible NPCs with deterministic order and deduplication. Pin activation opens
+explicit Compact/Standard/Expanded controls rather than silently cycling; a
+person pin also exposes an accessible Unpin action. Manual size remains
+authoritative, unpin removes only that person and clears stale manual size, and
+current/scheduled context stays in place. The compact conversation header names
+the synthetic controlled person as `You — Cameron Foster` and states the
+constituent-services problem before intent selection: two county referrals
+lacked a required proof-of-income form, Reed is checking the third, and Collins
+must decide whether to back a staff document checklist. Authored responses
+use the topic, addressee, intent, prior bounded turn, and semantic outcome.
+Listen is a non-spoken action whose availability derives from fixture-specific
+pending contributions rather than a universal turn cap. Collins and Reed may
+contribute sequentially; one empty beat may settle the room, after which empty
+duplicates reject until a later player action creates a new follow-up. A small
+progression record preserves the briefing subject, support/verification state,
+latest proposition, pending contributions, and phase across addressee changes.
+The current resolved listener set also gates a pending speaker: Quiet-to-Reed
+preserves an unheard Collins contribution without response or canonical
+consequences, while the same state under Normal may resolve it exactly once.
+Active conversation has no desktop internal scrollbar; paged history reuses
+the same bounded box rather than appending beneath active interaction.
+Temporary navigation, pin, and person-action menus dismiss on click-away or
+Escape without applying that rule to substantive conversation.
+
+Consequence: Run B proves that people present in a scene can hear, respond,
+decide, learn claims, and affect relationship history without a detached RPG
+dialogue tree. It adds no universal dialogue language, acoustic engine,
+calendar, legislation workspace, institution/law/authority model, Run C or Run
+D scope, or Stage 7 feature.

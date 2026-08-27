@@ -352,7 +352,7 @@ Runs A through E deliberately contain no automatic economy tick, daily or popula
 
 ## Stage 6.5 — First Real UI and Diegetic Onboarding Shell
 
-Status: **RUN A IMPLEMENTED; INDEPENDENT REVIEW AND HUMAN PLAY REVIEW PENDING**
+Status: **RUNS A–B IMPLEMENTED; RUN B INDEPENDENT REVIEW AND HUMAN PLAY REVIEW PENDING**
 
 ### Purpose
 
@@ -367,8 +367,8 @@ The hierarchy is **scene first, dossier second, database third**. The current po
 There is no full-width bottom navigation ribbon, permanent Political Capital number, or Webull/Bloomberg-style information wall. The current visual direction remains dark navy/charcoal with warm paper/wood and local civic identity.
 
 Run A implements one deterministic synthetic legislative-office fixture, one
-in-scene person with an immediate contextual action menu, an adaptive quick
-dossier, a bounded epistemic projection, one committee-referral learning
+in-scene person with an immediate contextual action menu, an adaptive Your Read
+panel, a bounded epistemic projection, one committee-referral learning
 example, mixed-density pins, upward navigation and a dark submenu. All ordinary
 inspection is time-neutral, keyboard accessible, and browser-testable. The
 player view is now default; `?view=developer` retains the diagnostic surface.
@@ -380,6 +380,37 @@ orientation, experienced allies, party leadership, parliamentarians, city
 attorneys, clerks, transition officials, and agency briefings. Run A does not
 implement dialogue, scheduling/calendar, legislation workspaces, institutions,
 or those later content systems. Stage 7 remains gated.
+
+Run B adds one bounded scene-native conversation slice over that accepted
+office. The controlled player and two visible NPCs share explicit room presence;
+the player can address either NPC or Everyone and independently choose Normal,
+Quiet, or contextually available Private audibility. The occupied fixture keeps
+Private unavailable because another NPC remains nearby, while a second
+deterministic context proves genuinely private resolution. A compact lower
+strip preserves the room, shell, pins, person menu, Inspect, and dossier.
+
+Committed turns replace the player session's immutable `World` after composing
+existing NPC decision traces, ordinary events, claims, knowledge, heard-claim
+perceptions, and qualitative relationship history. Session state holds no
+canonical beliefs or history. Conversation remains on the same date and uses
+global history sequence for order, never `World.actionSequence` or fabricated
+minutes. Authored deterministic response families require no runtime model or
+network. Run B adds no legislation workspace, calendar, universal speech or
+acoustic engine, institution/law/authority model, Run C/Run D scope, or Stage 7
+system. See D-048 and [Player Presentation and Epistemic Projection](systems/player-presentation.md).
+
+Live-play corrections keep this boundary while making the slice legible:
+Collins/Reed person pins now deduplicate and expose explicit size/unpin controls;
+the compact header identifies Cameron Foster as `You` and states the synthetic
+constituent-services problem in concrete terms: two county referrals lacked a
+required proof-of-income form, Reed is checking the third, and Collins is
+deciding whether to back a staff checklist; dialogue follows topic,
+addressee, prior turn, intent, outcome, and the bounded checklist progression;
+Listen consumes actual pending contributions instead of a two-turn cap; active
+conversation is non-scrolling with paged history in the same box; and temporary
+menus dismiss on scene click-away. Pending response eligibility now uses the
+same resolved listeners as canonical consequences: Quiet preserves an unheard
+NPC contribution, while a later audible context may resolve it exactly once.
 
 ---
 

@@ -40,7 +40,7 @@ A lower-authority document or implementation cannot silently override a higher-a
 ## Art & Assets Constraints
 
 - **Stage 6 Baseline is Frozen**: The accepted Stage 6 baseline (commit d792e79a) is frozen. Do not reopen, refactor, or redesign Stage 6 simulation semantics.
-- **Stage 6.5 Run A is Authorized**: The bounded playable office slice and reusable shell are current work. Do not extend it into later Stage 6.5 runs or redesign the approved visual direction without a new gate.
+- **Stage 6.5 Run A is Accepted; Run B is Authorized**: Preserve the accepted playable office slice and reusable shell. Run B may add only the bounded scene-native conversation/negotiation slice authorized by its implementation gate; do not extend into later Stage 6.5 runs or redesign the approved visual direction without another gate.
 - **No Stage 7 Feature Creep**: Do not implement any Stage 7 systems or feature creep (e.g., legislation UI, calendar systems).
 - **Scene Art Hierarchy Principle**: Implement environments via a scene-first hierarchy: shared global assets → reusable environment families → jurisdiction/building deltas → explicitly justified hero environments.
 - **Scene-First Design**: Adhere strictly to the scene-first / dossier-second / database-third presentation principle.

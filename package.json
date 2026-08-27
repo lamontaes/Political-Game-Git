@@ -13,6 +13,7 @@
     "demo": "node --import tsx src/cli/demo.ts",
     "test": "vitest run",
     "test:run-a": "vitest run src/presentation/run-a.test.ts",
+    "test:run-b": "vitest run src/presentation/run-b-conversation.test.ts",
     "test:e2e": "playwright test",
     "test:watch": "vitest",
     "lint": "eslint .",
