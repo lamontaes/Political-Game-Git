@@ -132,7 +132,7 @@ export function OfficeScene({
   return (
     <section
       className="office-scene"
-      aria-label="A quiet legislative office in Lexington-Fayette"
+      aria-label={`A quiet legislative office in ${fixture.locationDisplayName}`}
       data-testid="political-office-scene"
     >
       <div className="scene-wall-shadow" aria-hidden="true" />

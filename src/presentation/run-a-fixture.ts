@@ -10,6 +10,18 @@ export const RUN_A_SEED = "stage-6-5-run-a";
 export const RUN_A_HIDDEN_CANONICAL_TEXT =
   "Initial synthetic diagnostic record.";
 
+const RUN_A_LEXINGTON_DISPLAY_NAMES = {
+  canonical: "Lexington-Fayette, Kentucky",
+  full: "Lexington, Kentucky",
+  compact: "Lexington, KY",
+} as const;
+
+export function runAPlaceDisplayName(canonicalName: string): string {
+  return canonicalName === RUN_A_LEXINGTON_DISPLAY_NAMES.canonical
+    ? RUN_A_LEXINGTON_DISPLAY_NAMES.full
+    : canonicalName;
+}
+
 export const RUN_A_FIXTURE_STATE_NAMES = [
   "normal",
   "person-menu",
@@ -35,6 +47,7 @@ export interface RunAFixture {
   readonly playerPersonId: EntityId;
   readonly scenePerson: RunAScenePersonContext;
   readonly officeEventId: EntityId;
+  readonly locationDisplayName: string;
   readonly locationLabel: string;
   readonly locationDetail: string;
   readonly presentationTime: string;
@@ -151,7 +164,8 @@ export function createRunAFixture(): RunAFixture {
         "Direct and prepared. You have a useful working impression, though you may not know exactly where he stands.",
     },
     officeEventId: officeEvent.id,
-    locationLabel: "Lexington-Fayette · Legislative Office",
+    locationDisplayName: RUN_A_LEXINGTON_DISPLAY_NAMES.full,
+    locationLabel: `${RUN_A_LEXINGTON_DISPLAY_NAMES.compact} · Legislative Office`,
     locationDetail: "Synthetic placeholder office fixture",
     presentationTime: "9:10 AM",
   };

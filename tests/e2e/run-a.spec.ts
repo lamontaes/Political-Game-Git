@@ -26,6 +26,13 @@ test("loads the player-facing office instead of only the diagnostic viewer", asy
 }) => {
   await expect(page.getByTestId("player-office")).toBeVisible();
   await expect(page.getByTestId("political-office-scene")).toBeVisible();
+  await expect(page.getByTestId("political-office-scene")).toHaveAttribute(
+    "aria-label",
+    "A quiet legislative office in Lexington, Kentucky",
+  );
+  await expect(page.getByTestId("navigation-cluster")).toContainText(
+    "Lexington, KY · Legislative Office",
+  );
   await expect(
     page.getByText("Simulation foundation · Developer tooling"),
   ).toHaveCount(0);
@@ -129,7 +136,8 @@ test("replaces the anchored person menu with an epistemically filtered dossier",
   await expect(dossier).toBeVisible();
   await expect(dossier).toContainText("Andre Collins");
   await expect(dossier).toContainText("Working impression");
-  await expect(dossier).toContainText("Born in Lexington-Fayette");
+  await expect(dossier).toContainText("Born in Lexington, Kentucky");
+  await expect(dossier).not.toContainText("Lexington-Fayette");
   await expect(dossier).toContainText("Established working rapport");
   await expect(dossier).toContainText("Last interaction");
   await expect(dossier).toContainText("You're not sure");

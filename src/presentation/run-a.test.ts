@@ -88,6 +88,25 @@ describe("Stage 6.5 Run A presentation", () => {
     expect(JSON.stringify(dossier)).not.toContain(hiddenBelief?.propositionId);
   });
 
+  it("uses natural player-facing Lexington labels without rewriting canonical identity", () => {
+    const fixture = createRunAFixture();
+    const dossier = projectRunAFixtureDossier(fixture);
+    const jurisdictionId = fixture.world.jurisdictionOrder[0];
+    const jurisdiction = jurisdictionId
+      ? fixture.world.jurisdictions[jurisdictionId]
+      : undefined;
+    const scenePerson = fixture.world.people[fixture.scenePerson.personId];
+    const birthplace = scenePerson?.establishedFacts.find(
+      (fact) => fact.kind === "birthplace",
+    );
+
+    expect(jurisdiction?.name).toBe("Lexington-Fayette, Kentucky");
+    expect(birthplace?.jurisdictionId).toBe(jurisdictionId);
+    expect(dossier.homePlace.value).toBe("Lexington, Kentucky");
+    expect(fixture.locationDisplayName).toBe("Lexington, Kentucky");
+    expect(fixture.locationLabel).toBe("Lexington, KY · Legislative Office");
+  });
+
   it("does not silently present home jurisdiction as hometown", () => {
     const fixture = createRunAFixture();
     const personId = fixture.scenePerson.personId;

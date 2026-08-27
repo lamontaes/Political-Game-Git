@@ -1,6 +1,10 @@
 import { ageOnDate, factsForPerson, personName } from "../simulation";
 import type { EntityId, World } from "../simulation";
-import type { RunAFixture, RunAScenePersonContext } from "./run-a-fixture";
+import {
+  runAPlaceDisplayName,
+  type RunAFixture,
+  type RunAScenePersonContext,
+} from "./run-a-fixture";
 
 export type EpistemicAccess =
   | "personally-known"
@@ -118,7 +122,7 @@ function projectHomePlace(world: World, personId: EntityId): PlayerVisibleFact {
     return {
       id: "birthplace",
       label: "Birthplace",
-      value: birthplaceJurisdiction.name,
+      value: runAPlaceDisplayName(birthplaceJurisdiction.name),
       access: "institutionally-accessible",
     };
   }
@@ -139,7 +143,7 @@ function projectHomePlace(world: World, personId: EntityId): PlayerVisibleFact {
     return {
       id: "residence",
       label: "Residence",
-      value: residenceJurisdiction.name,
+      value: runAPlaceDisplayName(residenceJurisdiction.name),
       access: "institutionally-accessible",
     };
   }
