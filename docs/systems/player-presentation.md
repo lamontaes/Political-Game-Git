@@ -143,6 +143,14 @@ second deterministic two-person room context makes Private genuinely
 available. This explicit bounded data is not a distance, decibel, ray, cone, or
 universal room simulation.
 
+Hearing-dependent pending response eligibility uses that same current resolved
+listener set. If Quiet-to-Reed excludes Collins, a Collins contribution remains
+queued but cannot produce dialogue, event participation, claim knowledge, or
+other hearing-derived consequences. Because that contribution still exists,
+Listen is unavailable rather than generating repeat empty turns. Changing the
+same state to Normal includes Collins, makes the response eligible, and consumes
+the contribution exactly once.
+
 For a substantive turn, the adapter validates World/session/room integrity;
 evaluates only a genuine NPC semantic decision when required; immediately
 records any durable trace; resolves actual listeners; and then composes the
@@ -164,7 +172,7 @@ form that stopped two county referrals, Reed's check of the third referral, and
 Collins's decision about a document checklist before future referrals.
 Addressee switching projects a continuation from the progression record
 instead of replaying an opening line. Listen consumes actual
-pending NPC contributions, may then settle the room once, and remains
+and currently audible pending NPC contributions, may then settle the room once, and remains
 unavailable until a later player action creates another legitimate follow-up.
 The active box has no internal vertical scrollbar at the desktop acceptance
 viewport. History reuses the same box and pages one turn at a time. The compact lower strip keeps both people, the room,

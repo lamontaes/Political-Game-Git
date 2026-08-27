@@ -90,6 +90,10 @@ Foster`; Collins and Reed remain distinct NPCs.
    - Explain reasonable hearing context in one restrained text line.
    - Disable Private in the occupied office and state naturally that Reed
      remains within plausible earshot. Do not imply magical muting or certainty.
+   - Use that same current listener set for pending response eligibility. If
+     Quiet-to-Reed excludes Collins, preserve Collins's pending contribution and
+     do not offer Listen for it until a hearing context such as Normal includes
+     Collins.
 
 4. **Choose an intent**
    - State the constituent-services problem in ordinary language before the
@@ -99,8 +103,8 @@ Foster`; Collins and Reed remain distinct NPCs.
      checklist before future referrals.
    - Offer concise, fixture-specific intent labels such as asking Collins to
      back the referral checklist, asking Reed to check the third referral,
-     asking each for the corresponding next step, keeping the checklist tied to
-     the missing form, pressing, or listening.
+     asking each for the corresponding next step, focusing the checklist on the
+     missing proof-of-income form, pressing, or listening.
    - Let an NPC return authored deterministic dialogue from the semantic result.
    - Keep each line tied to the briefing topic, current addressee, intent,
      preceding bounded turn, and actual semantic outcome.

@@ -294,6 +294,9 @@ describe("Stage 6.5 Run B conversation semantics", () => {
     expect(everyoneIntents.map((intent) => intent.label)).toContain(
       "Ask Reed to check and Collins to decide",
     );
+    expect(everyoneIntents.map((intent) => intent.label)).toContain(
+      "Limit the checklist to proof-of-income forms",
+    );
     expect(
       everyoneIntents.map((intent) => intent.description).join(" "),
     ).toMatch(/third referral.*staff checklist/i);
@@ -969,6 +972,155 @@ describe("Stage 6.5 Run B conversation semantics", () => {
     expect(followUp.presentation.beat?.dialogue).toMatch(
       /Once Reed reports on the third referral.*final answer.*document checklist/,
     );
+  });
+
+  it("preserves an unheard Collins contribution under Quiet and resolves it once under Normal", () => {
+    const { fixture, progress, session } = setup();
+    const collinsId = fixture.scenePeople[0].personId;
+    const reedId = fixture.scenePeople[1].personId;
+    const request = commitConversationTurn(fixture.world, {
+      session,
+      room: fixture.roomContext,
+      progress,
+      turnOrdinal: 1,
+      addressee: reedId,
+      audibility: "quiet",
+      intent: "request-commitment",
+    });
+    const requestEvent = request.world.history.events.at(-1)!;
+
+    expect(request.semantic.actualListenerPersonIds).toEqual([reedId]);
+    expect(request.semantic.responseSpeakerPersonId).toBe(reedId);
+    expect(request.progress.pendingContributions).toEqual([
+      "collins-respond-to-reed",
+    ]);
+    expect(requestEvent.involvedEntityIds).not.toContain(collinsId);
+    expect(
+      request.world.history.knowledge.some(
+        (record) =>
+          record.personId === collinsId && record.eventId === requestEvent.id,
+      ),
+    ).toBe(false);
+
+    expect(
+      resolveConversationListeners(fixture.roomContext, reedId, "quiet"),
+    ).toEqual([reedId]);
+    expect(
+      availableConversationIntents(
+        fixture.roomContext,
+        reedId,
+        request.progress,
+        "quiet",
+      ).map((intent) => intent.key),
+    ).not.toContain("listen");
+    const beforeRejectedQuietListen = serializeWorld(request.world);
+    expect(() =>
+      commitConversationTurn(request.world, {
+        session,
+        room: fixture.roomContext,
+        progress: request.progress,
+        turnOrdinal: 2,
+        addressee: reedId,
+        audibility: "quiet",
+        intent: "listen",
+      }),
+    ).toThrow("intent listen is unavailable");
+    expect(serializeWorld(request.world)).toBe(beforeRejectedQuietListen);
+    expect(request.progress.pendingContributions).toEqual([
+      "collins-respond-to-reed",
+    ]);
+
+    expect(
+      resolveConversationListeners(fixture.roomContext, reedId, "normal"),
+    ).toEqual([collinsId, reedId]);
+    expect(
+      availableConversationIntents(
+        fixture.roomContext,
+        reedId,
+        request.progress,
+        "normal",
+      ).map((intent) => intent.key),
+    ).toContain("listen");
+    const normal = commitConversationTurn(request.world, {
+      session,
+      room: fixture.roomContext,
+      progress: request.progress,
+      turnOrdinal: 2,
+      addressee: reedId,
+      audibility: "normal",
+      intent: "listen",
+    });
+    const replay = commitConversationTurn(request.world, {
+      session,
+      room: fixture.roomContext,
+      progress: request.progress,
+      turnOrdinal: 2,
+      addressee: reedId,
+      audibility: "normal",
+      intent: "listen",
+    });
+    const normalEvent = normal.world.history.events.at(-1)!;
+
+    expect(normal.semantic.actualListenerPersonIds).toEqual([
+      collinsId,
+      reedId,
+    ]);
+    expect(normal.semantic.responseSpeakerPersonId).toBe(collinsId);
+    expect(normal.progress.pendingContributions).toEqual([]);
+    expect(normalEvent.participants).toContainEqual({
+      personId: collinsId,
+      role: "focus:respondent",
+      detail: "Gave the recorded response",
+    });
+    expect(
+      normal.world.history.knowledge
+        .filter(
+          (record) =>
+            record.personId === collinsId && record.eventId === normalEvent.id,
+        )
+        .map((record) => record.source.kind),
+    ).toEqual(["direct"]);
+    expect(
+      normal.world.history.knowledge
+        .filter(
+          (record) =>
+            record.personId === reedId && record.eventId === normalEvent.id,
+        )
+        .map((record) => record.source.kind)
+        .sort(),
+    ).toEqual(["direct", "told-by"]);
+    expect(
+      normal.world.history.claims.filter(
+        (claim) =>
+          claim.speakerPersonId === collinsId &&
+          claim.statement.includes("Once Reed reports on the third referral"),
+      ),
+    ).toHaveLength(1);
+    expect(replay.semantic).toEqual(normal.semantic);
+    expect(replay.progress).toEqual(normal.progress);
+    expect(serializeWorld(replay.world)).toBe(serializeWorld(normal.world));
+
+    const settled = commitConversationTurn(normal.world, {
+      session,
+      room: fixture.roomContext,
+      progress: normal.progress,
+      turnOrdinal: 3,
+      addressee: reedId,
+      audibility: "normal",
+      intent: "listen",
+    });
+    expect(settled.semantic.responseSpeakerPersonId).toBeNull();
+    expect(settled.world.history.claims).toHaveLength(
+      normal.world.history.claims.length,
+    );
+    expect(
+      availableConversationIntents(
+        fixture.roomContext,
+        reedId,
+        settled.progress,
+        "normal",
+      ).map((intent) => intent.key),
+    ).not.toContain("listen");
   });
 
   it("fails malformed turns safely and leaves the input World untouched", () => {

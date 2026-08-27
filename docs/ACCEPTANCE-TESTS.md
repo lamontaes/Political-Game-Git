@@ -768,7 +768,11 @@ room data identifies physical presence, active participation, eligible
 addressees, and reasonable listeners. Normal and Quiet resolve different
 listener sets for a single addressee. The occupied office disables Private with
 a natural nearby-person explanation; a separate deterministic two-person
-context proves a genuine private turn without distance acoustics.
+context proves a genuine private turn without distance acoustics. A pending NPC
+may respond only when that NPC belongs to the current resolved listener set.
+Quiet-to-Reed therefore preserves an unheard Collins contribution without a
+response or canonical consequence; switching that same state to Normal may
+resolve and consume it exactly once.
 
 ### NOW-178 — Conversation presentation keeps the office primary
 
@@ -835,11 +839,14 @@ conversation already makes identity explicit. The listening intent is labeled
 `Listen`; its transcript action is `(You listen.)`, never a quoted player line.
 Listen availability derives from fixture-specific pending contributions rather
 than a count of earlier Listen turns. Collins and Reed may contribute in
-sequence where both have something relevant pending. When the queue is empty,
-one Listen may record a settled-room state without an NPC claim or fabricated
-speech; further empty Listen commits reject before history changes. A later
-spoken player action may create a new legitimate pending contribution and make
-Listen available again.
+sequence where both have something relevant pending, but only when the pending
+speaker is in the current resolved listener set. An unheard pending contribution
+is preserved and Listen is unavailable in that hearing context, preventing
+ineligible or repeat empty history. When the queue is empty, one Listen may
+record a settled-room state without an NPC claim or fabricated speech; further
+empty Listen commits reject before history changes. A later spoken player
+action may create a new legitimate pending contribution and make Listen
+available again.
 
 ### NOW-185 — Existing pins generalize explicitly to both scene NPCs
 

@@ -405,6 +405,47 @@ test("presents Listen as a non-spoken action and only continues when the bounded
   await expect(office).toHaveAttribute("data-action-sequence", "0");
 });
 
+test("gates a pending Collins response by Quiet versus Normal hearing", async ({
+  page,
+}) => {
+  const office = page.getByTestId("player-office");
+  const strip = await openConversation(page);
+  const listen = () =>
+    strip.getByRole("button", { name: "Listen", exact: true });
+
+  await expect(
+    strip.getByRole("button", {
+      name: "Limit the checklist to proof-of-income forms",
+    }),
+  ).toBeVisible();
+  await strip.getByRole("button", { name: "Reed", exact: true }).click();
+  await strip.getByRole("button", { name: "Quiet", exact: true }).click();
+  await expect(page.getByTestId("conversation-hearing-context")).toContainText(
+    "do not expect Collins to catch the details",
+  );
+  await strip
+    .getByRole("button", { name: "Ask Reed to check the third referral" })
+    .click();
+  await expect(strip).toContainText("I’ll call the neighborhood office");
+  await expect(strip).not.toContainText(
+    "Once Reed reports on the third referral",
+  );
+  await expect(listen()).toHaveCount(0);
+  await expect(office).toHaveAttribute("data-conversation-event-count", "1");
+  await expect(office).toHaveAttribute("data-conversation-claim-count", "1");
+
+  await strip.getByRole("button", { name: "Normal", exact: true }).click();
+  await expect(page.getByTestId("conversation-hearing-context")).toContainText(
+    "Collins is nearby",
+  );
+  await expect(listen()).toBeVisible();
+  await listen().click();
+  await expect(strip).toContainText("Once Reed reports on the third referral");
+  await expect(office).toHaveAttribute("data-conversation-event-count", "2");
+  await expect(office).toHaveAttribute("data-conversation-claim-count", "2");
+  await expectConversationContentFits(strip);
+});
+
 test("keeps transcript, collapse, and close controls time-neutral", async ({
   page,
 }) => {

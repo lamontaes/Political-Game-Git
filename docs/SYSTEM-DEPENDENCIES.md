@@ -670,10 +670,12 @@ mutate the simulation. See
   `World.actionSequence` is unchanged.
 - **Presentation lifecycle:** person pin/unpin/size changes and click-away
   dismissal for temporary navigation/pin/person menus remain in the Run A
-  inspectorial reducer. Listen consumes actual pending contributions and, after
-  a settled state, rejects empty duplicate commits until a later player action
-  creates a new pending response. Active conversation and paged history share
-  one non-scrolling bounded box.
+  inspectorial reducer. Listen consumes only pending contributions whose speaker
+  belongs to the current resolved listener set. An unheard contribution remains
+  pending without canonical writes or repeat empty turns; a later audible
+  context may consume it once. After a settled state, empty duplicate commits
+  reject until a later player action creates a new pending response. Active
+  conversation and paged history share one non-scrolling bounded box.
 - **Temporary scaffolding:** one synthetic occupied office with a controlled
   player and two active NPCs, plus one deterministic private-capable room
   context. It is not a universal room, acoustic, dialogue, or speech system.

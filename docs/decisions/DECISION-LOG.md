@@ -624,6 +624,9 @@ contribute sequentially; one empty beat may settle the room, after which empty
 duplicates reject until a later player action creates a new follow-up. A small
 progression record preserves the briefing subject, support/verification state,
 latest proposition, pending contributions, and phase across addressee changes.
+The current resolved listener set also gates a pending speaker: Quiet-to-Reed
+preserves an unheard Collins contribution without response or canonical
+consequences, while the same state under Normal may resolve it exactly once.
 Active conversation has no desktop internal scrollbar; paged history reuses
 the same bounded box rather than appending beneath active interaction.
 Temporary navigation, pin, and person-action menus dismiss on click-away or

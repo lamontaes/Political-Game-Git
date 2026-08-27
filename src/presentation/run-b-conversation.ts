@@ -163,6 +163,7 @@ export function availableConversationIntents(
   room: ConversationRoomContext,
   addressee: ConversationAddressee,
   progress: RunBConversationProgress,
+  audibility: ConversationAudibility = "normal",
 ): readonly ConversationIntentOption[] {
   const commitmentLabel =
     addressee === "everyone"
@@ -183,7 +184,7 @@ export function availableConversationIntents(
     },
     {
       key: "reassure",
-      label: "Keep it to the missing income form",
+      label: "Limit the checklist to proof-of-income forms",
       description:
         "Limit the staff checklist to the document problem these referrals establish.",
     },
@@ -198,7 +199,7 @@ export function availableConversationIntents(
       description: "Ask for the concrete next step now.",
     });
   }
-  if (canListenToRunBConversation(progress)) {
+  if (canListenInCurrentHearingContext(room, addressee, audibility, progress)) {
     options.push({
       key: "listen",
       label: "Listen",
@@ -393,6 +394,7 @@ export function commitConversationTurn(
     input.room,
     input.addressee,
     currentProgress,
+    input.audibility,
   ).map((option) => option.key);
   if (!availableIntents.includes(input.intent)) {
     throw new Error(
@@ -423,7 +425,17 @@ export function commitConversationTurn(
           input.intent,
           addresseePersonIds,
           pendingContribution,
+          actualListenerPersonIds,
         );
+  if (
+    input.intent === "listen" &&
+    pendingContribution &&
+    !responseSpeakerPersonId
+  ) {
+    throw new Error(
+      "An inaudible pending contribution cannot be committed in the current hearing context.",
+    );
+  }
 
   const resolved =
     responseSpeakerPersonId === null
@@ -686,6 +698,7 @@ export function commitConversationTurn(
           input.room,
           input.addressee,
           currentProgress,
+          input.audibility,
         ).find((option) => option.key === input.intent)?.label ?? input.intent,
       playerActionDescription:
         input.intent === "listen"
@@ -695,6 +708,7 @@ export function commitConversationTurn(
                 input.room,
                 input.addressee,
                 currentProgress,
+                input.audibility,
               ).find((option) => option.key === input.intent)?.label ??
               input.intent
             }`,
@@ -1318,18 +1332,53 @@ function resolveResponseSpeaker(
   intent: ConversationIntent,
   addresseePersonIds: readonly EntityId[],
   pendingContribution: RunBPendingContribution | null,
-): EntityId {
+  actualListenerPersonIds: readonly EntityId[],
+): EntityId | null {
   if (intent === "listen" && pendingContribution !== null) {
-    if (pendingContribution === "reed-offer-verification") {
-      const secondary = room.eligibleAddresseePersonIds[1];
-      if (secondary) return secondary;
-    }
-    const primary = room.eligibleAddresseePersonIds[0];
-    if (primary) return primary;
+    const pendingSpeakerPersonId = pendingContributionSpeakerPersonId(
+      room,
+      pendingContribution,
+    );
+    return actualListenerPersonIds.includes(pendingSpeakerPersonId)
+      ? pendingSpeakerPersonId
+      : null;
   }
   const speaker = addresseePersonIds[0];
   if (!speaker) throw new Error("Conversation turn has no response speaker.");
+  if (!actualListenerPersonIds.includes(speaker)) {
+    throw new Error("Conversation response speaker did not hear the exchange.");
+  }
   return speaker;
+}
+
+function canListenInCurrentHearingContext(
+  room: ConversationRoomContext,
+  addressee: ConversationAddressee,
+  audibility: ConversationAudibility,
+  progress: RunBConversationProgress,
+): boolean {
+  const pendingContribution = progress.pendingContributions[0] ?? null;
+  if (pendingContribution === null) {
+    return canListenToRunBConversation(progress);
+  }
+  const listeners = resolveConversationListeners(room, addressee, audibility);
+  return listeners.includes(
+    pendingContributionSpeakerPersonId(room, pendingContribution),
+  );
+}
+
+function pendingContributionSpeakerPersonId(
+  room: ConversationRoomContext,
+  pendingContribution: RunBPendingContribution,
+): EntityId {
+  const speakerPersonId =
+    pendingContribution === "reed-offer-verification"
+      ? room.eligibleAddresseePersonIds[1]
+      : room.eligibleAddresseePersonIds[0];
+  if (!speakerPersonId) {
+    throw new Error("Pending conversation contribution has no room speaker.");
+  }
+  return speakerPersonId;
 }
 
 function previousConversationIntent(

@@ -408,7 +408,9 @@ deciding whether to back a staff checklist; dialogue follows topic,
 addressee, prior turn, intent, outcome, and the bounded checklist progression;
 Listen consumes actual pending contributions instead of a two-turn cap; active
 conversation is non-scrolling with paged history in the same box; and temporary
-menus dismiss on scene click-away.
+menus dismiss on scene click-away. Pending response eligibility now uses the
+same resolved listeners as canonical consequences: Quiet preserves an unheard
+NPC contribution, while a later audible context may resolve it exactly once.
 
 ---
 

@@ -209,7 +209,12 @@ export function ConversationStrip({
     !room.privateAvailable && room.privateUnavailableReason
       ? `${hearingDescription} ${room.privateUnavailableReason}`
       : hearingDescription;
-  const intents = availableConversationIntents(room, state.addressee, progress);
+  const intents = availableConversationIntents(
+    room,
+    state.addressee,
+    progress,
+    state.audibility,
+  );
 
   return (
     <aside
