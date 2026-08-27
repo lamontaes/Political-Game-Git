@@ -71,7 +71,7 @@ function projectPublicPosition(
     : {
         id: "public-position",
         label: "Public position",
-        value: "No current statement is available.",
+        value: "No current public position is known.",
         access: "unknown",
       };
 }
@@ -206,8 +206,7 @@ export function projectRunADossier(
     unresolved: {
       id: "unresolved",
       label: "Unconfirmed priority",
-      value:
-        "The desired outcome from the afternoon briefing is not yet known.",
+      value: "You're not sure what he wants from this afternoon's briefing.",
       access: "unknown",
     },
   };

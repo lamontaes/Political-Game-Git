@@ -128,13 +128,60 @@ test("replaces the anchored person menu with an epistemically filtered dossier",
   const dossier = page.getByTestId("quick-dossier");
   await expect(dossier).toBeVisible();
   await expect(dossier).toContainText("Andre Collins");
-  await expect(dossier).toContainText("Age");
-  await expect(dossier).toContainText("Birthplace");
-  await expect(dossier).toContainText("Uncertain read");
-  await expect(dossier).toContainText("Unknown");
-  await expect(dossier).toContainText("Latest meaningful interaction");
+  await expect(dossier).toContainText("Working impression");
+  await expect(dossier).toContainText("Born in Lexington-Fayette");
+  await expect(dossier).toContainText("Established working rapport");
+  await expect(dossier).toContainText("Last interaction");
+  await expect(dossier).toContainText("You're not sure");
+  await expect(
+    dossier.locator('[data-access="inferred-uncertain"]'),
+  ).toContainText("You have a useful working impression");
+  await expect(
+    dossier.locator('[data-access="unknown"]').filter({
+      hasText: "You're not sure",
+    }),
+  ).toHaveCount(1);
+  await expect(dossier.locator(".access-label")).toHaveCount(0);
+  for (const rejectedLabel of [
+    "Quick dossier",
+    "What you know",
+    "Office record",
+    "Known directly",
+    "Uncertain read",
+    "Known context",
+    "Recent history",
+    "Latest meaningful interaction",
+    "Unconfirmed priority",
+    "This view reflects access and uncertainty",
+  ]) {
+    await expect(dossier).not.toContainText(rejectedLabel);
+  }
   await expect(dossier).not.toContainText(HIDDEN_CANONICAL_TEXT);
   await expect(page.locator("body")).not.toContainText(HIDDEN_CANONICAL_TEXT);
+
+  const officeBox = await office.boundingBox();
+  const dossierBox = await dossier.boundingBox();
+  const selectedPersonBox = await person.boundingBox();
+  expect(officeBox).not.toBeNull();
+  expect(dossierBox).not.toBeNull();
+  expect(selectedPersonBox).not.toBeNull();
+  expect(dossierBox?.width ?? Infinity).toBeLessThan(
+    (officeBox?.width ?? 0) * 0.36,
+  );
+  expect(dossierBox?.height ?? Infinity).toBeLessThan(
+    (officeBox?.height ?? 0) * 0.75,
+  );
+  const overlapsSelectedPerson = !(
+    (dossierBox?.x ?? 0) + (dossierBox?.width ?? 0) <=
+      (selectedPersonBox?.x ?? 0) ||
+    (selectedPersonBox?.x ?? 0) + (selectedPersonBox?.width ?? 0) <=
+      (dossierBox?.x ?? 0) ||
+    (dossierBox?.y ?? 0) + (dossierBox?.height ?? 0) <=
+      (selectedPersonBox?.y ?? 0) ||
+    (selectedPersonBox?.y ?? 0) + (selectedPersonBox?.height ?? 0) <=
+      (dossierBox?.y ?? 0)
+  );
+  expect(overlapsSelectedPerson).toBe(false);
   await expect(office).toHaveAttribute("data-simulation-date", "2026-01-05");
   await expect(office).toHaveAttribute("data-action-sequence", "0");
 });

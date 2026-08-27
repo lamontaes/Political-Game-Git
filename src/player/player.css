@@ -937,14 +937,14 @@
 .quick-dossier {
   position: absolute;
   z-index: 22;
-  top: 8%;
-  left: 43%;
-  width: min(27rem, 36vw);
-  max-height: 80%;
+  top: 12%;
+  left: 27%;
+  width: min(23.5rem, 31vw);
+  max-height: 74%;
   overflow: auto;
   border-color: rgba(204, 171, 94, 0.7);
   border-radius: 5px;
-  padding: 1.1rem 1.15rem 1rem;
+  padding: 1rem 1.1rem;
   scrollbar-color: #8b7444 #101827;
 }
 
@@ -962,7 +962,6 @@
 }
 
 .dossier-header,
-.dossier-fact-heading,
 .civic-learning header {
   display: flex;
   align-items: flex-start;
@@ -983,7 +982,7 @@
   font-family: ui-sans-serif, system-ui, sans-serif;
   font-size: 0.59rem;
   font-weight: 750;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -1024,88 +1023,107 @@
 }
 
 .dossier-role {
-  margin: 0.85rem 0;
-  border-top: 1px solid rgba(207, 219, 230, 0.16);
-  border-bottom: 1px solid rgba(207, 219, 230, 0.16);
-  padding: 0.65rem 0;
-  color: #e5dac4;
-  font-size: 0.82rem;
+  margin: 0.48rem 0 0;
+  color: #c8bdad;
+  font-size: 0.76rem;
   line-height: 1.35;
 }
 
-.dossier-identity-grid,
-.dossier-read-grid,
-.dossier-fact-list {
-  display: grid;
-  gap: 0.55rem;
-  margin: 0;
+.dossier-identity-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  margin: 0.75rem 0 0;
+  border-bottom: 1px solid rgba(207, 219, 230, 0.16);
+  padding-bottom: 0.72rem;
+  color: #f0e4ce;
+  font-size: 0.8rem;
 }
 
-.dossier-identity-grid {
-  grid-template-columns: 0.55fr 1.45fr;
+.dossier-identity-line [data-access="unknown"] {
+  color: #adb5bd;
+  font-style: italic;
 }
 
-.dossier-read-grid {
-  grid-template-columns: 0.85fr 1.15fr;
-  margin-top: 0.55rem;
+.dossier-impression {
+  margin-top: 0.78rem;
+  border-left: 2px solid rgba(194, 155, 72, 0.72);
+  padding-left: 0.72rem;
+}
+
+.dossier-impression strong {
+  color: #f0d78f;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.dossier-impression p {
+  margin: 0.3rem 0 0;
+  color: #e9dfce;
+  font-size: 0.79rem;
+  line-height: 1.45;
 }
 
 .quick-dossier section {
-  margin-top: 0.85rem;
+  margin-top: 0.82rem;
 }
 
 .quick-dossier section h3 {
-  margin: 0 0 0.45rem;
+  margin: 0 0 0.4rem;
   color: #d0b66f;
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 0.61rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.dossier-fact {
-  border: 1px solid rgba(206, 218, 229, 0.14);
-  border-radius: 3px;
-  padding: 0.55rem 0.6rem;
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.dossier-fact[data-access="unknown"] {
-  border-style: dashed;
-  background: rgba(126, 141, 156, 0.035);
-}
-
-.dossier-fact-heading dt {
-  color: #e9dfca;
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 0.57rem;
-  letter-spacing: 0.08em;
-}
-
-.access-label {
-  border: 1px solid rgba(191, 157, 79, 0.34);
-  border-radius: 999px;
-  padding: 0.12rem 0.31rem;
-  color: #c9b98f;
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 0.49rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.77rem;
+  font-weight: 500;
   letter-spacing: 0.03em;
-  white-space: nowrap;
 }
 
-.dossier-fact dd {
-  margin: 0.32rem 0 0;
-  color: #eee5d4;
-  font-size: 0.72rem;
-  line-height: 1.4;
+.dossier-notes ul {
+  display: grid;
+  gap: 0.38rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.dossier-footnote {
-  margin: 0.85rem 0 0;
-  color: #9faab6;
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 0.57rem;
-  line-height: 1.4;
+.dossier-notes li {
+  position: relative;
+  padding-left: 0.75rem;
+  color: #e7ddca;
+  font-size: 0.75rem;
+  line-height: 1.42;
+}
+
+.dossier-notes li::before {
+  content: "";
+  position: absolute;
+  top: 0.52em;
+  left: 0;
+  width: 0.28rem;
+  height: 1px;
+  background: rgba(194, 155, 72, 0.85);
+}
+
+.dossier-notes li[data-access="unknown"] {
+  color: #aeb7bf;
+  font-style: italic;
+}
+
+.dossier-recent {
+  border-top: 1px solid rgba(207, 219, 230, 0.16);
+  padding-top: 0.72rem;
+}
+
+.dossier-recent p {
+  margin: 0;
+  color: #e8decb;
+  font-size: 0.75rem;
+  line-height: 1.44;
+}
+
+.dossier-recent .dossier-uncertain {
+  margin-top: 0.48rem;
+  color: #b5bdc4;
+  font-style: italic;
 }
 
 .civic-learning {
@@ -1538,8 +1556,8 @@
   }
 
   .quick-dossier {
-    left: 28%;
-    width: min(27rem, 52vw);
+    left: 5%;
+    width: min(23rem, 46vw);
   }
 
   .person-action-menu {
@@ -1624,10 +1642,10 @@
   }
 
   .quick-dossier {
-    top: 6%;
+    top: 7%;
     left: 4%;
-    width: 76%;
-    max-height: 72%;
+    width: min(23rem, 76%);
+    max-height: 70%;
   }
 
   .person-action-menu {

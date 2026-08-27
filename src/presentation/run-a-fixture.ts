@@ -148,7 +148,7 @@ export function createRunAFixture(): RunAFixture {
       role: "Constituent services and policy briefing",
       qualitativeRead: "Established working rapport",
       inferredRead:
-        "Direct and prepared; the read is provisional, not a hidden trait.",
+        "Direct and prepared. You have a useful working impression, though you may not know exactly where he stands.",
     },
     officeEventId: officeEvent.id,
     locationLabel: "Lexington-Fayette · Legislative Office",
