@@ -1,4 +1,5 @@
 import { selectDeterministically } from "./hash";
+import { deriveLibrarySignature } from "./identity";
 import type {
   CharacterAssetLibrary,
   PersistentAppearanceRecipe,
@@ -21,6 +22,7 @@ export function resolvePersistentAppearance(
   identitySeed: string,
   library: CharacterAssetLibrary,
 ): PersistentAppearanceRecipe {
+  const librarySignature = deriveLibrarySignature(library);
   // 1. Select Body Family
   const bodyFamily = selectDeterministically(
     library.bodyFamilies,
@@ -58,12 +60,57 @@ export function resolvePersistentAppearance(
     (h) => (h ? h.id : "hair_null"),
   );
 
+  // 4. Select Complexion
+  const compatibleComplexions = library.complexions.filter((c) =>
+    c.compatibleHeadFamilies.includes(headFamily.id),
+  );
+  const selectedComplexion = selectDeterministically(
+    compatibleComplexions,
+    identitySeed,
+    library.version,
+    "complexion",
+    (c) => c.id,
+  );
+
+  // 5. Select Facial Hair Tendency (or none)
+  const compatibleFacialHair = library.facialHairFamilies.filter((f) =>
+    f.compatibleHeadFamilies.includes(headFamily.id),
+  );
+  const facialHairOptions = [...compatibleFacialHair, null];
+  const selectedFacialHairFamily = selectDeterministically(
+    facialHairOptions,
+    identitySeed,
+    library.version,
+    "facial_hair_family",
+    (f) => (f ? f.id : "facial_hair_null"),
+  );
+
+  // 6. Select Accessories (currently just 0 or 1 for simplicity in MVP)
+  const compatibleAccessories = library.accessories.filter((a) =>
+    a.compatibleHeadFamilies.includes(headFamily.id),
+  );
+  const accessoryOptions = [...compatibleAccessories, null];
+  const selectedAccessory = selectDeterministically(
+    accessoryOptions,
+    identitySeed,
+    library.version,
+    "accessory",
+    (a) => (a ? a.id : "accessory_null"),
+  );
+  const durableAccessoryIds = selectedAccessory ? [selectedAccessory.id] : [];
+
   return {
     identitySeed,
     libraryVersion: library.version,
+    librarySignature,
     bodyFamilyId: bodyFamily.id,
     headFamilyId: headFamily.id,
     hairFamilyId: selectedHairFamily ? selectedHairFamily.id : null,
+    complexionId: selectedComplexion.id,
+    facialHairFamilyId: selectedFacialHairFamily
+      ? selectedFacialHairFamily.id
+      : null,
+    durableAccessoryIds,
   };
 }
 
@@ -76,9 +123,10 @@ export function resolveContextualOutfit(
   anchorClass: SceneAnchorClass,
   library: CharacterAssetLibrary,
 ): ResolvedOutfitRecipe {
-  if (recipe.libraryVersion !== library.version) {
+  const currentSignature = deriveLibrarySignature(library);
+  if (recipe.librarySignature !== currentSignature) {
     throw new Error(
-      `Recipe library version ${recipe.libraryVersion} does not match current library ${library.version}`,
+      `Recipe library signature ${recipe.librarySignature} does not match current library signature ${currentSignature}. The library content has changed.`,
     );
   }
 
@@ -113,6 +161,28 @@ export function resolveContextualOutfit(
         (h) => h.id,
       );
       resolvedHairAssetId = hairAsset.id;
+    }
+  }
+
+  // 1c. Select Age-Specific Facial Hair Asset (if they have a tendency for it)
+  let resolvedFacialHairAssetId = null;
+  if (recipe.facialHairFamilyId) {
+    const compatibleFHs = library.facialHairAssets.filter(
+      (f) =>
+        f.familyId === recipe.facialHairFamilyId &&
+        f.ageState === context.ageState,
+    );
+    if (compatibleFHs.length > 0) {
+      // Sometimes a person with a beard tendency shaves for an event. We could add
+      // logic for this, but for now we'll deterministically select the life-state beard asset.
+      const fhAsset = selectDeterministically(
+        compatibleFHs,
+        recipe.identitySeed,
+        library.version,
+        `facial_hair_asset_${context.ageState}`,
+        (f) => f.id,
+      );
+      resolvedFacialHairAssetId = fhAsset.id;
     }
   }
 
@@ -151,9 +221,11 @@ export function resolveContextualOutfit(
   return {
     identitySeed: recipe.identitySeed,
     libraryVersion: recipe.libraryVersion,
+    librarySignature: recipe.librarySignature,
     bodyFamilyId: recipe.bodyFamilyId,
     headAssetId: headAsset.id,
     hairAssetId: resolvedHairAssetId,
+    facialHairAssetId: resolvedFacialHairAssetId,
     wardrobeAssetId: wardrobe.id,
     poseAssetId: pose.id,
   };

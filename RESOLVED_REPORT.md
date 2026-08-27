@@ -1,61 +1,45 @@
-# Character Asset System - Draft Report
+# Character Asset System - Final Production Hardening
 
-The isolated private draft of the character asset architecture has been successfully implemented and tested locally.
+This PR updates the seeded character asset architecture and rebases it cleanly onto the accepted `main` (`5f27bccc759600968cd12d1610eb6f328fe84da8`). All changes remain isolated from `Run A` UI, simulation semantics, and existing `Asset-QA` ownership.
 
-### 1. Architecture Decisions
+## 1. Starting State and Base
+- **Current `main` SHA:** `5f27bccc759600968cd12d1610eb6f328fe84da8`
+- **Rebase:** Cleanly rebased the previous draft onto `main`.
 
-1.  **Opaque IDs & No Stereotyping**:
-    - Implemented opaque/stable IDs (e.g., `body_family_01`, `head_family_01`).
-    - Moved dimensional data (shoulder width, stature band) into explicit geometry metadata (`shoulderWidthBand`, `statureBand`) inside `BodyFamilyAsset`.
-2.  **Determinism Independence**:
-    - Created `src/character-assets/hash.ts` exposing a standalone TS `fnv1a` function.
-    - Selection uses explicit string hashing of `seed | libraryVersion | channel`.
-    - Arrays are canonically sorted by ID before selecting.
-    - This successfully ensures addition/removal of traits from the pool won't cross-contaminate existing assignments, and adding new channels later (e.g., `accessory`) won't shift existing head or body assignments.
-3.  **Hybrid Age Identity**:
-    - Distinguished `HeadFamilyId` (the persistent core identity) from `HeadAssetId` (the rendered specific mesh/texture for a given age state).
-    - Age state (`young_adult`, `adult`, `senior`) is injected into the contextual resolver, resolving an age-appropriate `HeadAsset` that strictly belongs to the pre-resolved `HeadFamily`.
-4.  **Wardrobe Context vs Identity Recipe**:
-    - `PersistentAppearanceRecipe` is generated once and captures only core identity (Seed, Body Family, Head Family, Hair).
-    - `ResolvedOutfitRecipe` dynamically evaluates Wardrobe and Pose contexts based on Simulation rules (Formality tags, Scene Anchors).
+## 2. Library Identity Contract (Fixing the library-growth flaw)
+Previously, the report incorrectly assumed that adding new assets to a selection pool (even under the same version) was harmless. Because of modulo hashing, it is not.
+- **Implemented:** `src/character-assets/identity.ts` exposing `deriveLibrarySignature()`.
+- **Behavior:** This extracts and canonically sorts (via code-unit sorting) all selection-relevant IDs across all collections (bodies, heads, hairs, complexions, facial hairs, accessories, wardrobes, poses), alongside the version, and derives an FNV-1a signature.
+- **Enforcement:** `PersistentAppearanceRecipe` now securely records this `librarySignature`. The `resolveContextualOutfit()` function strictly evaluates the incoming library and explicitly **throws an error** if the library signature does not match the recipe's signature. This proves that library content has mutated and rejects silent reshuffling of persisted appearances.
 
-### 2. Exact Files Modified/Created
+## 3. Human Appearance Channels Added
+We expanded the asset types securely without imposing demographic stereotyping or breaking morphology boundaries:
+- **Complexion:** `ComplexionId` is uniquely resolved against the `HeadFamilyId` compatibility list, entirely independent of the `BodyFamilyId`.
+- **Facial Hair:** Implemented as a persistent tendency (`FacialHairFamilyId` or `null`) mapping to a contextual, life-state specific `FacialHairAssetId`. This correctly supports aging or shaving.
+- **Accessories:** Included `AccessoryId` (e.g., glasses) mapping to the `HeadFamilyId`.
 
-All changes were strictly contained within the draft namespaces without touching `src/simulation` UI, or Asset QA.
+## 4. Referential Validation
+Added rigorous integrity checks inside `validateAssetLibrary()`:
+- IDs must be globally unique across all mapped entities.
+- Every `HeadAsset` points to a valid `HeadFamily`.
+- Every `HairAsset` points to a valid `HairFamily`.
+- Every `FacialHairAsset` points to a valid `FacialHairFamily`.
+- Complexions, Facial Hairs, and Accessories point to valid `HeadFamilies`.
+- Poses must map correctly back to their specific Body Families.
+- Lifecycles are fully covered (each head, hair, and facial hair family has an asset for `young_adult`, `adult`, and `senior`).
 
-- `src/character-assets/types.ts` (Schemas/Interfaces)
-- `src/character-assets/hash.ts` (FNV-1a Hash + Deterministic Selection logic)
-- `src/character-assets/compatibility.ts` (Strongly-typed constraint checking)
-- `src/character-assets/resolver.ts` (Persistent + Contextual resolver functions)
-- `src/character-assets/fixtures.ts` (Synthetic `SYNTHETIC_LIBRARY_V1` data proving the constraints)
-- `tests/character-assets/resolver.test.ts` (Vitest specs for verification)
+## 5. Test Coverage
+- **10 Vitest Specs** specifically testing the `resolver` and `identity` modules.
+- Proved adversarial manipulation is blocked (e.g. shuffling array order doesn't shift the signature; adding/removing assets changes the signature; and signatures must match context evaluation).
+- 349 total repository tests passed smoothly.
 
-### 3. Test Results
+## 6. Rendering-Manifest Boundaries
+This branch stops strictly at deterministic trait resolution. The actual *image composition* (e.g., 2D bounds, crop coordinates, transparent canvas handling, layer depth sorting) is outside the scope of this architecture and should be handled by an independent generic `Asset-QA` / compositing service later.
 
-Vitest executed 9 tests targeting the determinism and compatibility logic. All passed.
-
-- `selects the same item given the same seed and channel`
-- `selects different items across different seeds (distribution)`
-- `selects differently when library version changes`
-- `resolves a stable identity for a given seed`
-- `adding a new asset channel doesn't reshuffle existing attributes`
-- `resolves contextual state correctly`
-- `throws if library version mismatches`
-- `throws on invalid combinations`
-- `preserves identical head family across ages`
-
-### 4. Proof of Channel Independence
-
-Test 5 explicitly proves that hashing `stable_seed | lib_v1 | body` yields a specific asset. Running a secondary derivation for `stable_seed | lib_v1 | accessory` does not invoke a shared simulation tick generator, meaning previously generated recipes stay 100% frozen.
-
-### 5. Remaining Questions Before Production
-
-1.  **Serialization**: Once a character is given an identity, we must decide if `PersistentAppearanceRecipe` is persisted to disk alongside the simulation state, or entirely re-derived at runtime on every load. Re-derivation is now safe thanks to our deterministic stateless hashing.
-2.  **Asset Loading**: In a production environment, the library won't be hardcoded TS objects. We must integrate these types with Zod validation reading the finalized JSON manifests that the art production pipeline writes.
-3.  **Integration into Run A**: How and where does the UI pipeline intercept a `PersonCore` ID to trigger the resolution?
+---
 
 PR #7 was automatically published:
 https://github.com/lamontaes/Political-Game-Git/pull/7
 
 Current reviewed head:
-9f794f847fe16d8a716147ae94224dbf4914f4d8
+9f794f847fe16d8a716147ae94224dbf4914f4d8 (prior to this final hardening pass).

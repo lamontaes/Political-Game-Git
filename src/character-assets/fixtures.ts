@@ -121,6 +121,46 @@ export const SYNTHETIC_LIBRARY_V1: CharacterAssetLibrary = {
       provenanceRef: "synthetic-hair-2-senior",
     },
   ],
+  facialHairFamilies: [
+    {
+      id: "facial_hair_family_beard",
+      compatibleHeadFamilies: ["head_family_01", "head_family_02"],
+    },
+  ],
+  facialHairAssets: [
+    {
+      id: "facial_hair_beard_young",
+      familyId: "facial_hair_family_beard",
+      ageState: "young_adult",
+      provenanceRef: "synthetic-beard-young",
+    },
+    {
+      id: "facial_hair_beard_adult",
+      familyId: "facial_hair_family_beard",
+      ageState: "adult",
+      provenanceRef: "synthetic-beard-adult",
+    },
+    {
+      id: "facial_hair_beard_senior",
+      familyId: "facial_hair_family_beard",
+      ageState: "senior",
+      provenanceRef: "synthetic-beard-senior",
+    },
+  ],
+  complexions: [
+    {
+      id: "complexion_01",
+      compatibleHeadFamilies: ["head_family_01", "head_family_02"],
+      provenanceRef: "synthetic-complexion-1",
+    },
+  ],
+  accessories: [
+    {
+      id: "accessory_glasses_01",
+      compatibleHeadFamilies: ["head_family_01", "head_family_02"],
+      provenanceRef: "synthetic-glasses-1",
+    },
+  ],
   wardrobeAssets: [
     {
       id: "wardrobe_business_01",

@@ -45,6 +45,25 @@ describe("Character Asset Resolver", () => {
         ),
       ).toThrowError(/references missing body: body_family_999/);
     });
+
+    it("throws on invalid facial hair family references", () => {
+      const badLib = {
+        ...SYNTHETIC_LIBRARY_V1,
+        facialHairAssets: [
+          {
+            id: "facial_hair_bad" as const,
+            familyId: "facial_hair_family_999" as const, // Missing
+            ageState: "adult" as const,
+            provenanceRef: "bad",
+          },
+        ],
+      };
+      expect(() =>
+        validateAssetLibrary(
+          badLib as Parameters<typeof validateAssetLibrary>[0],
+        ),
+      ).toThrowError(/references missing family: facial_hair_family_999/);
+    });
   });
 
   describe("Deterministic hashing", () => {
@@ -170,24 +189,28 @@ describe("Character Asset Resolver", () => {
       expect(outfit1).toEqual(outfit2);
     });
 
-    it("throws if library version mismatches", () => {
+    it("a recipe created under library A is rejected against selection-incompatible library B", () => {
       const recipe = resolvePersistentAppearance(
         "context_seed_1",
         SYNTHETIC_LIBRARY_V1,
       );
-      const wrongLibrary = {
+
+      const mutatedLibrary = {
         ...SYNTHETIC_LIBRARY_V1,
-        version: "lib_v2" as const,
+        // Because derivation checks bodyFamilies, removing one will change the signature.
+        bodyFamilies: SYNTHETIC_LIBRARY_V1.bodyFamilies.slice(1),
       };
 
+      // Since we just slice a bodyFamily out, this simulates the library signature changing.
+      // And the resolver should throw.
       expect(() => {
         resolveContextualOutfit(
           recipe,
           { ageState: "adult", requiredTags: ["formal", "office"] },
           "anchor_hallway",
-          wrongLibrary,
+          mutatedLibrary,
         );
-      }).toThrowError(/does not match current library/);
+      }).toThrowError(/does not match current library signature/);
     });
   });
 });

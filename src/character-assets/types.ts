@@ -9,6 +9,9 @@ export type HairFamilyId = `hair_family_${string}`;
 export type HairAssetId = `hair_asset_${string}`;
 export type FacialHairAssetId = `facial_hair_${string}`;
 export type WardrobeAssetId = `wardrobe_${string}`;
+export type FacialHairFamilyId = `facial_hair_family_${string}`;
+export type ComplexionId = `complexion_${string}`;
+export type AccessoryId = `accessory_${string}`;
 export type PoseFamilyId = `pose_family_${string}`;
 export type PoseAssetId = `pose_asset_${string}`;
 export type SceneAnchorClass = `anchor_${string}`;
@@ -56,6 +59,30 @@ export interface HairAsset {
   readonly provenanceRef: string;
 }
 
+export interface FacialHairFamilyAsset {
+  readonly id: FacialHairFamilyId;
+  readonly compatibleHeadFamilies: readonly HeadFamilyId[];
+}
+
+export interface FacialHairAsset {
+  readonly id: FacialHairAssetId;
+  readonly familyId: FacialHairFamilyId;
+  readonly ageState: AgeState;
+  readonly provenanceRef: string;
+}
+
+export interface ComplexionAsset {
+  readonly id: ComplexionId;
+  readonly compatibleHeadFamilies: readonly HeadFamilyId[];
+  readonly provenanceRef: string;
+}
+
+export interface AccessoryAsset {
+  readonly id: AccessoryId;
+  readonly compatibleHeadFamilies: readonly HeadFamilyId[];
+  readonly provenanceRef: string;
+}
+
 /**
  * Compatibility rules for a wardrobe piece.
  */
@@ -80,10 +107,14 @@ export interface PoseAsset {
 export interface PersistentAppearanceRecipe {
   readonly identitySeed: string;
   readonly libraryVersion: AssetLibraryVersion;
+  readonly librarySignature: string;
 
   readonly bodyFamilyId: BodyFamilyId;
   readonly headFamilyId: HeadFamilyId;
   readonly hairFamilyId: HairFamilyId | null; // e.g. permanently bald
+  readonly complexionId: ComplexionId;
+  readonly facialHairFamilyId: FacialHairFamilyId | null; // e.g. clean shaven tendency
+  readonly durableAccessoryIds: readonly AccessoryId[]; // e.g. glasses
 }
 
 /**
@@ -100,10 +131,12 @@ export interface WardrobeContext {
 export interface ResolvedOutfitRecipe {
   readonly identitySeed: string;
   readonly libraryVersion: AssetLibraryVersion;
+  readonly librarySignature: string;
 
   readonly bodyFamilyId: BodyFamilyId;
   readonly headAssetId: HeadAssetId;
   readonly hairAssetId: HairAssetId | null;
+  readonly facialHairAssetId: FacialHairAssetId | null;
   readonly wardrobeAssetId: WardrobeAssetId;
   readonly poseAssetId: PoseAssetId;
 }
@@ -118,6 +151,10 @@ export interface CharacterAssetLibrary {
   readonly headAssets: readonly HeadAsset[];
   readonly hairFamilies: readonly HairFamilyAsset[];
   readonly hairAssets: readonly HairAsset[];
+  readonly facialHairFamilies: readonly FacialHairFamilyAsset[];
+  readonly facialHairAssets: readonly FacialHairAsset[];
+  readonly complexions: readonly ComplexionAsset[];
+  readonly accessories: readonly AccessoryAsset[];
   readonly wardrobeAssets: readonly WardrobeAsset[];
   readonly poses: readonly PoseAsset[];
 }

@@ -352,11 +352,13 @@ Runs A through E deliberately contain no automatic economy tick, daily or popula
 
 ## Stage 6.5 — First Real UI and Diegetic Onboarding Shell
 
-Status: **FUTURE**
+Status: **RUN A IMPLEMENTED; INDEPENDENT REVIEW AND HUMAN PLAY REVIEW PENDING**
 
 ### Purpose
 
-Replace the diagnostic developer webpage with the first recognizable, functional political-RPG shell without claiming final art polish.
+Make the first recognizable, functional political-RPG shell the normal entry
+point without claiming final art polish. Retain the diagnostic webpage as an
+explicit development route rather than deleting accepted inspection tooling.
 
 ### Direction
 
@@ -364,7 +366,20 @@ The hierarchy is **scene first, dossier second, database third**. The current po
 
 There is no full-width bottom navigation ribbon, permanent Political Capital number, or Webull/Bloomberg-style information wall. The current visual direction remains dark navy/charcoal with warm paper/wood and local civic identity.
 
-Natural onboarding comes through the world: new-member orientation, experienced allies, party leadership, parliamentarians, city attorneys, clerks, transition officials, and agency briefings. Players can inspect a concept and later use an in-game civic reference. This direction replaces the diagnostic viewer only when Stage 6.5 begins; Stage 4 does not implement it.
+Run A implements one deterministic synthetic legislative-office fixture, one
+in-scene person with an immediate contextual action menu, an adaptive quick
+dossier, a bounded epistemic projection, one committee-referral learning
+example, mixed-density pins, upward navigation and a dark submenu. All ordinary
+inspection is time-neutral, keyboard accessible, and browser-testable. The
+player view is now default; `?view=developer` retains the diagnostic surface.
+See [Player Presentation and Epistemic Projection](systems/player-presentation.md)
+and D-047.
+
+Later Stage 6.5 runs may add natural onboarding through the world: new-member
+orientation, experienced allies, party leadership, parliamentarians, city
+attorneys, clerks, transition officials, and agency briefings. Run A does not
+implement dialogue, scheduling/calendar, legislation workspaces, institutions,
+or those later content systems. Stage 7 remains gated.
 
 ---
 

@@ -2,9 +2,65 @@
 
 ## Scope
 
-This document describes the first-build developer simulation viewer. It is not the final game shell and its diagnostic access does not authorize omniscient player-facing UI.
+The normal Run A entry point is the player-facing political-office scene. The
+first-build developer viewer remains available at `?view=developer`; its
+diagnostic access does not authorize omniscient player-facing UI.
 
-## Primary Flow
+## Run A Player Flow
+
+1. **Enter the office**
+   - Load the deterministic political-office fixture rather than the diagnostic
+     dashboard.
+   - Keep the warm office scene visually primary, with a compact bottom-left
+     time/date/location plaque and restrained right-side pins.
+   - Keep the Lexington-Fayette office explicitly synthetic; do not imply a
+     sourced officeholder, building, rule, or institution.
+
+2. **Open shell navigation**
+   - Activate the bottom-left plaque as one semantic button with no disclosure
+     arrow.
+   - Expand the dark primary navigation upward.
+   - Permit one dark submenu cascade before a deliberate workspace.
+   - Keep a development-only route to the retained diagnostic viewer.
+
+3. **Interact with a person**
+   - Reach and activate the seated person by pointer or keyboard.
+   - Open the concise anchored contextual menu immediately; do not insert a
+     generic Talk, More, Character, or Details layer.
+   - Choosing Inspect replaces the action menu with the nearby quick dossier.
+     The two surfaces are never visibly stacked.
+
+4. **Read the dossier**
+   - Show name, role, known age and hometown, qualitative relationship/read,
+     known context, recent interaction, and explicit uncertainty/unknown state.
+   - Label how the player has access without turning access, relationship, or
+     uncertainty into numeric meters.
+   - Never expose a private belief, hidden trait, support probability, or other
+     canonical truth that the player is not justified in knowing.
+   - Close with a semantic control or Escape. Every dossier action is
+     simulation-time neutral.
+
+5. **Learn one civic concept**
+   - Activate the information marker beside, not inside, the typeset office
+     memorandum.
+   - Opening the committee-referral explanation does not mark it learned.
+   - Mark it through the explicit button or Shift + left click. Equivalent
+     keyboard controls remain available.
+   - Hide the resting marker after learning while retaining the explanation in
+     Civic reference. Persist only the allowlisted concept-level learned state.
+
+6. **Resize pins**
+   - Most pins rest tiny, while a current item may be normal and a manual choice
+     may be expanded.
+   - Activating a pin cycles its explicit display size. Later automatic
+     importance changes cannot override a manual size.
+
+Named `?fixture=` states reproduce normal, person-menu, dossier,
+civic-learning, mixed-pins, navigation, and submenu browser states.
+
+## Retained Developer Flow
+
+### Primary Flow
 
 1. **Start with the demo world**
    - Load the default seed deterministically without a side effect.

@@ -19,10 +19,13 @@ When a rule changes, affected earlier systems are confirmed, corrected, assigned
 ## Dependency Direction
 
 ```text
-React viewer (src/ui, src/App.tsx)
-                 |
-                 v
-Pure simulation API (src/simulation/index.ts)
+Player shell (src/player) -> presentation projection/state (src/presentation)
+                    \                     /
+                     v                   v
+                 Pure simulation API (src/simulation/index.ts)
+                              ^
+                              |
+                  Diagnostic viewer (src/ui)
                  |
                  v
 Domain state + deterministic transitions + history
@@ -36,15 +39,29 @@ Node desktop adapter (src/persistence)
 - `src/simulation/` contains JSON-safe domain types, deterministic utilities, world operations, policy, mind, world-metric, causal-mechanism, incident-definition, and vitality catalogs, append-oriented history, exact quantity and money primitives, separate quantitative truth and observation vintages, append-oriented causal ancestry and effect activations, explicit exact aggregate-economy/fiscal derivations, frozen quantitative policy baselines/operations/estimates and explicit implementation realization, generalized incident occurrence/state/follow-on records, bounded mortality/death/functional-capacity history, objective evidence artifacts and explicit person discovery, one authoritative-time future-transition mechanism, sparse political and character-mind records, subjective-perception projections, the general decision evaluator and political-belief adapter, persistent organizations/work/education/participation/households/care/child-authority history, exact personal/household resource flows and housing histories, a canonical character-history plan applicator, bounded formative situations, compositional adult path helpers, meaningful relationship-history helpers, qualitative life-load resolution, a future-rule eligibility consumer, progressive entity detail, and the demo scenario.
 - `src/persistence/` contains Node-only durable-storage adapters and depends on the public simulation snapshot codec.
 - `src/cli/` contains Node-only executable entry points.
-- `src/ui/` contains React components that present and invoke the simulation API.
-- `src/App.tsx` composes the developer viewer; `src/main.tsx` is the browser entry point.
+- `src/presentation/` contains React-independent epistemic selectors,
+  inspectorial state, deterministic Run A fixtures, bounded browser persistence,
+  and semantic scene-placement validation. It may read the simulation and use
+  its public writers for explicit fixtures; the simulation never imports it.
+- `src/player/` contains the normal player-facing React scene and shell.
+- `src/ui/` retains React diagnostics with explicitly omniscient developer access.
+- `src/App.tsx` selects the player scene by default and the developer viewer only
+  for `?view=developer`; `src/main.tsx` is the browser entry point.
 - `data/snapshots/` is reserved for versioned real-world source material, never live save history.
 
-The UI may depend on the simulation. The simulation must never depend on React, browser globals, UI state, SQLite drivers, paid APIs, or graphical execution.
+The UI and presentation projection may depend on the simulation. The simulation must never depend on React, browser globals, UI/presentation state, SQLite drivers, paid APIs, or graphical execution.
 
 ## Simulation Boundary
 
 The simulation owns world state and all transitions. UI code submits explicit actions and reads returned state; it does not directly invent domain facts.
+
+Run A inspectorial state is deliberately outside the simulation. Epistemic
+selectors expose a bounded, qualitative subset of canonical state; browser
+learned-concept storage and manual pin sizing do not enter `World`, history, or
+snapshot persistence. Opening player UI therefore cannot advance the date or
+consume simulation randomness. Presentation-only fixture role, clock, and scene
+geometry are labeled synthetic and do not establish Stage 7 institutions or
+rules. See [Player Presentation and Epistemic Projection](docs/systems/player-presentation.md).
 
 The initial domain includes:
 
