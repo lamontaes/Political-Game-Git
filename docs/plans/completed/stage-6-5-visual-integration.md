@@ -18,6 +18,12 @@ Completed on `codex/stage-6-5-visual-integration`, based on accepted main
   transparency from decoded pixel alpha rather than header color type.
 - Replace the office and character placeholders with a data-driven compositor
   while preserving all Run A–D-Lite semantics and controls.
+- Preserve the approved Prompt 30 source bytes, derive one deterministic 2×
+  runtime plate plus one released transparent furniture mask, and remove the
+  browser-upscaled/multi-copy blur and rectangular occlusion seams.
+- Keep navigation purely navigational, attach canonical next commitment to the
+  time/location shell, and render deliberate user pins on a separate ordinary-
+  scene reference shelf with no empty rail.
 - Apply only the banked compact-date, workspace-retreat, zero-pin, dead-strip,
   and safe-area presentation cleanup authorized by the packet.
 - Prove deterministic selection, anchor/pose compatibility, portability,
@@ -39,8 +45,8 @@ full wardrobe system.
 ## Completed verification
 
 - Run A/B/C/D-Lite focused suites: 16 / 35 / 37 / 26 passed.
-- Visual/art focused suite: 42 passed.
-- Full Vitest: 30 files and 471 tests passed.
+- Visual/art focused suite: 45 passed.
+- Full Vitest: 30 files and 474 tests passed.
 - Full Playwright: 31 tests passed with the repository CI worker count.
 - Format, lint, typecheck, build, deterministic demo, art validation,
   inventory, QA, and diff checks passed.

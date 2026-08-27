@@ -1,5 +1,25 @@
 [
   {
+    "file": "families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
+    "metadata": {
+      "width": 2048,
+      "height": 1144,
+      "aspectRatio": "256:143",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "families/council-staff-office/env_lexington_council_staff_office_prompt30_runtime_2x_v1.png",
+    "metadata": {
+      "width": 2048,
+      "height": 1144,
+      "aspectRatio": "256:143",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
     "metadata": {
       "width": 1024,

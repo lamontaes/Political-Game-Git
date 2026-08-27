@@ -49,7 +49,6 @@ export interface RunAFixture {
   readonly officeEventId: EntityId;
   readonly locationDisplayName: string;
   readonly locationLabel: string;
-  readonly locationDetail: string;
   readonly presentationTime: string;
 }
 
@@ -166,7 +165,6 @@ export function createRunAFixture(): RunAFixture {
     officeEventId: officeEvent.id,
     locationDisplayName: RUN_A_LEXINGTON_DISPLAY_NAMES.full,
     locationLabel: `${RUN_A_LEXINGTON_DISPLAY_NAMES.compact} · Legislative Office`,
-    locationDetail: "Synthetic placeholder office fixture",
     presentationTime: "9:10 AM",
   };
 }

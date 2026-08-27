@@ -2,6 +2,7 @@ import type { RunAFixture } from "../presentation/run-a-fixture";
 import { RUN_A_CIVIC_CONCEPT_ID } from "../presentation/run-a-learning";
 import type { RunAUiAction, RunAUiState } from "../presentation/run-a-state";
 import type { RunDAgendaEntry } from "../presentation/run-d-lite";
+import type { EntityId } from "../simulation";
 import { PinRail, type PinnedPersonDefinition } from "./PinRail";
 
 interface PermanentShellProps {
@@ -9,11 +10,13 @@ interface PermanentShellProps {
   readonly people: readonly PinnedPersonDefinition[];
   readonly formattedTime: string;
   readonly formattedDate: string;
+  readonly expandedDate: string;
   readonly compactDate: string;
   readonly compactNavigation?: boolean;
   readonly retreatedNavigation?: boolean;
   readonly nextCommitment: RunDAgendaEntry | null;
   readonly onOpenCalendar: () => void;
+  readonly onOpenCalendarCommitment: (activityId: EntityId) => void;
   readonly onOpenWorkPending: () => void;
   readonly state: RunAUiState;
   readonly dispatch: (action: RunAUiAction) => void;
@@ -24,27 +27,25 @@ export function PermanentShell({
   people,
   formattedTime,
   formattedDate,
+  expandedDate,
   compactDate,
   compactNavigation = false,
   retreatedNavigation = false,
   nextCommitment,
   onOpenCalendar,
+  onOpenCalendarCommitment,
   onOpenWorkPending,
   state,
   dispatch,
 }: PermanentShellProps) {
   const learned = state.learnedConceptIds.includes(RUN_A_CIVIC_CONCEPT_ID);
   const compactLocationLabel = fixture.locationLabel.split(" · ")[0];
+  const nextCommitmentTime = nextCommitment
+    ? formatMinute(nextCommitment.state.start.minuteOfDay)
+    : null;
 
   return (
     <>
-      <PinRail
-        people={people}
-        nextCommitment={nextCommitment}
-        state={state}
-        dispatch={dispatch}
-      />
-
       <nav
         className={`nav-cluster${compactNavigation ? " nav-cluster--document" : ""}${retreatedNavigation ? " nav-cluster--retreated" : ""}${state.navigation !== "closed" ? " nav-cluster--open" : ""}`}
         aria-label="Time, location, and navigation"
@@ -145,16 +146,64 @@ export function PermanentShell({
           <span className="cluster-copy">
             <span className="cluster-time">{formattedTime}</span>
             <span className="cluster-date-compact">{compactDate}</span>
-            <span className="cluster-date-full">{formattedDate}</span>
+            <span className="cluster-date-full">{expandedDate}</span>
             <strong className="cluster-location-compact">
               {compactLocationLabel}
             </strong>
             <strong className="cluster-location-full">
-              {fixture.locationLabel}
+              {compactLocationLabel}
             </strong>
           </span>
         </button>
       </nav>
+
+      {!retreatedNavigation ? (
+        <button
+          type="button"
+          className={`next-commitment-status civic-glass${state.navigation !== "closed" ? " next-commitment-status--shell-open" : ""}`}
+          aria-label={
+            nextCommitment
+              ? `Next commitment: ${nextCommitment.activity.title}, ${nextCommitmentTime}, ${nextCommitment.activity.location.label}. Open in Calendar.`
+              : "No scheduled commitment ahead. Open Calendar."
+          }
+          data-testid="current-commitment"
+          data-activity-id={nextCommitment?.activity.id}
+          onClick={() =>
+            nextCommitment
+              ? onOpenCalendarCommitment(nextCommitment.activity.id)
+              : onOpenCalendar()
+          }
+        >
+          <span className="next-commitment-compact">
+            {nextCommitmentTime
+              ? `Next · ${nextCommitmentTime}`
+              : "No next commitment"}
+          </span>
+          <span className="next-commitment-detail">
+            <span>Next commitment</span>
+            <strong>
+              {nextCommitment?.activity.title ??
+                "No scheduled commitment ahead"}
+            </strong>
+            {nextCommitment ? (
+              <small>
+                {nextCommitmentTime} · {nextCommitment.activity.location.label}
+              </small>
+            ) : null}
+          </span>
+        </button>
+      ) : null}
+
+      {!retreatedNavigation ? (
+        <PinRail people={people} state={state} dispatch={dispatch} />
+      ) : null}
     </>
   );
+}
+
+function formatMinute(minuteOfDay: number): string {
+  const hour24 = Math.floor(minuteOfDay / 60);
+  const minute = minuteOfDay % 60;
+  const suffix = hour24 >= 12 ? "PM" : "AM";
+  return `${hour24 % 12 || 12}:${minute.toString().padStart(2, "0")} ${suffix}`;
 }

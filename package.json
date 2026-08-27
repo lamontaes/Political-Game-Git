@@ -28,6 +28,7 @@
     "inventory:art": "node --import tsx scripts/art-asset-factory/cli-inventory.ts",
     "qa:art": "node --import tsx scripts/art-asset-factory/cli-qa.ts",
     "extract:art-chroma": "node --import tsx scripts/art-asset-factory/cli-chroma-extract.ts",
+    "derive:office-art": "node --import tsx scripts/art-asset-factory/cli-office-plate-derive.ts",
     "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art"
   },
   "dependencies": {

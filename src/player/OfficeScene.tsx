@@ -283,12 +283,13 @@ export function OfficeScene({
           <img
             key={occluder.id}
             className="scene-environment-occluder"
-            src={visualComposition.environment.url}
+            src={occluder.asset.url}
             alt=""
             aria-hidden="true"
             draggable="false"
             data-occluder-id={occluder.id}
-            style={{ clipPath: occluder.clipPath, zIndex: occluder.depth }}
+            data-asset-id={occluder.asset.assetId}
+            style={{ zIndex: occluder.depth }}
           />
         ))}
       </div>

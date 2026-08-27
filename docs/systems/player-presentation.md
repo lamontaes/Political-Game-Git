@@ -291,11 +291,24 @@ derives from the real D-Lite projection. Pinned contains only removable person
 references with real scene-native re-pin paths; selecting a manual size closes
 its controls immediately and remains authoritative over automatic sizing.
 
+The navigation flyout contains navigation only: Calendar, Work/Pending, Places,
+Civic Reference, and the development route. The canonical next commitment is a
+compact button attached to the time/location shell, expands to title, time, and
+location detail with the shell or its own focus, and opens the matching Calendar
+activity. Deliberate user pins render on a separate lower reference shelf and
+remain available when navigation is closed. Zero pins render no rail or empty
+state. Planning and document workspaces suppress these ordinary-scene companion
+surfaces so they cannot cover workspace content; their reducer ownership,
+unpin/re-pin routes, manual sizes, keyboard, touch, and click-away behavior are
+unchanged.
+
 The bottom-left civic-glass shell rests as a substantially smaller translucent
 chip. An invisible pointer-approach zone, hover, keyboard focus, or open/click
 state expands it modestly and raises opacity without restoring the old full
-plate. Rest shows the complete compact location `Lexington, KY`; expanded and
-accessible state retain the full office context. Click/touch use the same
+plate. Rest and expanded visual states show the complete nontruncated location
+`Lexington, KY`; the full `Lexington, KY · Legislative Office` context remains
+in the accessible label, and the attached commitment exposes its canonical
+location when expanded. Click/touch use the same
 reducer-owned open state, and reduced-motion preference removes the
 geometry/opacity animation. Document mode remains an immediate smaller chip so
 it cannot sweep through or overlap the paper during entry. See [Canonical
@@ -314,17 +327,18 @@ authored outfit advertises no modular attachment slots; this run does not claim
 a wardrobe or rig system.
 
 The primary desk and left guest scene anchors use visual-estimate coordinates
-against the 1024×572 plate. Character placement derives from root/contact data,
-not person names. Clipped copies of the same plate restore the desk front and
-guest-chair arm above the character layers; no second desk, chair, or room image
-exists. A separate interaction layer retains semantic buttons, keyboard focus,
+against the 1024×572 source plate. Character placement derives from root/contact
+data, not person names. Runtime uses the deterministic 2048×1144 room derivative
+and one matching transparent furniture mask; the mask restores only the desk
+and chair foreground above the characters without duplicating the room plate.
+A separate interaction layer retains semantic buttons, keyboard focus,
 code-authored names/titles, dossiers, pins, conversation, and document routes.
 The artwork never supplies identity, knowledge, simulation state, or UI text.
 
-The resting shell uses the short truthful date while its expanded and
-accessible label retains the full date. Calendar, Work/Pending, and document
-mode retreat the shell farther without removing its pointer-proximity, focus,
-touch, or reduced-motion behavior. Empty deliberate-pin presentation collapses
-without changing unpin/re-pin semantics. The obsolete artificial desk-edge
-strip is gone, and document/planning right safe areas leave the canonical
-status and user-pin rail clear.
+The resting shell uses the short truthful date; expansion uses the bounded
+nontruncated `Mon, Jan 5, 2026` form while the accessible label retains the full
+date. Calendar, Work/Pending, and document mode retreat the shell farther
+without removing its pointer-proximity, focus, touch, or reduced-motion
+behavior. Empty deliberate-pin presentation collapses without changing
+unpin/re-pin semantics. The obsolete artificial desk-edge strip and permanent
+top-right status tray are gone.

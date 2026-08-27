@@ -193,11 +193,12 @@ test("derives truthful work groups and advances staff work during player activit
     "615",
   );
   await expect(detail).toContainText("Completed at 10:15 AM");
+  await expect(page.getByTestId("current-commitment")).toHaveCount(0);
+
+  await calendar.getByRole("button", { name: "Return to office" }).click();
   await expect(page.getByTestId("current-commitment")).toContainText(
     "Transit draft follow-up",
   );
-
-  await calendar.getByRole("button", { name: "Return to office" }).click();
   await openPlanning(page, "Work / Pending");
   await expect(page.getByTestId("work-group-completed-ready")).toContainText(
     "Collins's transit analysis summary",
@@ -306,7 +307,7 @@ test("keeps the bottom-left shell compact until pointer approach, focus, or acti
   ).toBeLessThanOrEqual(1.7);
   await expect(shell.locator(".cluster-location-compact")).toBeHidden();
   await expect(shell.locator(".cluster-location-full")).toHaveText(
-    "Lexington, KY · Legislative Office",
+    "Lexington, KY",
   );
   await expect(shell.locator(".cluster-location-full")).toBeVisible();
   expect(
@@ -387,8 +388,7 @@ test("keeps Pinned user-controlled and dismisses size controls immediately", asy
   controls = page.getByTestId("pin-controls-person");
   await controls.getByRole("menuitem", { name: "Unpin Andre Collins" }).click();
   await expect(collinsPin).toHaveCount(0);
-  await expect(pinned).toHaveAttribute("data-empty", "true");
-  await expect(pinned).toBeHidden();
+  await expect(pinned).toHaveCount(0);
   await expect(page.locator("body")).not.toContainText("No pinned references");
   await expect(currentCommitment).toContainText("Constituent intake briefing");
 

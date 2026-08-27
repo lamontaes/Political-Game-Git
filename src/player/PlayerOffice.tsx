@@ -77,6 +77,16 @@ function formatRunACompactDate(date: string): string {
   }).format(new Date(`${date}T12:00:00Z`));
 }
 
+function formatRunAExpandedDate(date: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${date}T12:00:00Z`));
+}
+
 function formatRunATime(minuteOfDay: number): string {
   const hour24 = Math.floor(minuteOfDay / 60);
   const minute = minuteOfDay % 60;
@@ -248,7 +258,10 @@ export function PlayerOffice() {
     documentDispatch({ type: "open" });
   }
 
-  function openPlanningWorkspace(mode: "calendar" | "work") {
+  function openPlanningWorkspace(
+    mode: "calendar" | "work",
+    activityId?: EntityId,
+  ) {
     dispatch({ type: "dismiss-overlay" });
     dispatch({ type: "close-navigation" });
     dispatch({ type: "close-pin-controls" });
@@ -258,6 +271,7 @@ export function PlayerOffice() {
     }
     planningDispatch({
       type: mode === "calendar" ? "open-calendar" : "open-work",
+      ...(mode === "calendar" && activityId ? { activityId } : {}),
     });
   }
 
@@ -416,11 +430,6 @@ export function PlayerOffice() {
       onKeyDown={handleKeyDown}
       onPointerDown={handlePointerDown}
     >
-      <div className="scene-caption">
-        <p>Legislative Office</p>
-        <span>{fixture.locationDetail}</span>
-      </div>
-
       <OfficeScene
         fixture={fixture}
         dossiers={dossiers}
@@ -491,6 +500,7 @@ export function PlayerOffice() {
           dossier: dossiers[scenePerson.personId]!,
         }))}
         formattedDate={formatRunADate(world.currentDate)}
+        expandedDate={formatRunAExpandedDate(world.currentDate)}
         compactDate={formatRunACompactDate(world.currentDate)}
         formattedTime={formatRunATime(world.currentMoment.minuteOfDay)}
         compactNavigation={documentState.mode === "open"}
@@ -499,6 +509,9 @@ export function PlayerOffice() {
         }
         nextCommitment={planningProjection.nextCommitment}
         onOpenCalendar={() => openPlanningWorkspace("calendar")}
+        onOpenCalendarCommitment={(activityId) =>
+          openPlanningWorkspace("calendar", activityId)
+        }
         onOpenWorkPending={() => openPlanningWorkspace("work")}
         state={state}
         dispatch={dispatch}

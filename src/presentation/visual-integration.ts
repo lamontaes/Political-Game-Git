@@ -76,8 +76,12 @@ export interface SceneVisualAnchor {
 
 export interface SceneOccluder {
   readonly id: string;
-  readonly clipPath: string;
+  readonly assetId: string;
   readonly depth: number;
+}
+
+export interface ComposedSceneOccluder extends SceneOccluder {
+  readonly asset: RuntimeVisualAsset;
 }
 
 export interface OfficeVisualSceneConfiguration {
@@ -112,7 +116,7 @@ export interface ComposedCharacterVisual {
 export interface OfficeVisualComposition {
   readonly environment: RuntimeVisualAsset;
   readonly characters: readonly ComposedCharacterVisual[];
-  readonly occluders: readonly SceneOccluder[];
+  readonly occluders: readonly ComposedSceneOccluder[];
 }
 
 const runtimeUrls = import.meta.glob<string>(
@@ -184,7 +188,7 @@ export const CHARACTER_VISUAL_RECIPES = {
     visualBounds: {
       sourceAspectRatio: 765 / 1024,
       widthPercent: 28,
-      interaction: { x: 0.2, y: 0.03, width: 0.72, height: 0.35 },
+      interaction: { x: 0.25, y: 0.05, width: 0.68, height: 0.48 },
     },
     allowedScale: { minimum: 0.9, maximum: 1.08 },
     deterministicSelectionKey: "office:primary-desk-chair:seated:v1",
@@ -203,8 +207,8 @@ export const CHARACTER_VISUAL_RECIPES = {
     },
     visualBounds: {
       sourceAspectRatio: 765 / 1024,
-      widthPercent: 30,
-      interaction: { x: 0.2, y: 0.03, width: 0.72, height: 0.35 },
+      widthPercent: 22,
+      interaction: { x: 0.25, y: 0.05, width: 0.68, height: 0.48 },
     },
     allowedScale: { minimum: 0.85, maximum: 1 },
     deterministicSelectionKey: "office:left-guest-chair:seated:v1",
@@ -218,16 +222,16 @@ export const OFFICE_VISUAL_SCENE: OfficeVisualSceneConfiguration = {
   anchors: {
     "primary-desk-chair": {
       id: "primary-desk-chair",
-      xPercent: 80.2,
-      yPercent: 68,
-      scale: 1,
+      xPercent: 77.7,
+      yPercent: 66.5,
+      scale: 0.9,
       poseFamily: "seated-at-desk",
       depth: 2,
     },
     "left-guest-chair": {
       id: "left-guest-chair",
-      xPercent: 12.8,
-      yPercent: 75,
+      xPercent: 29.5,
+      yPercent: 70,
       scale: 0.92,
       poseFamily: "seated-in-guest-chair",
       depth: 3,
@@ -235,15 +239,8 @@ export const OFFICE_VISUAL_SCENE: OfficeVisualSceneConfiguration = {
   },
   occluders: [
     {
-      id: "primary-desk-front",
-      clipPath:
-        "polygon(42% 58%, 68% 58%, 68% 50%, 100% 50%, 100% 100%, 68% 100%, 68% 94%, 42% 86%)",
-      depth: 4,
-    },
-    {
-      id: "left-guest-chair-near-arm",
-      clipPath:
-        "polygon(2.5% 67%, 12.5% 67%, 12.5% 94%, 11% 94%, 11% 72%, 3.5% 72%)",
+      id: "office-furniture-foreground",
+      assetId: "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
       depth: 4,
     },
   ],
@@ -332,7 +329,10 @@ export function composeOfficeVisuals(
         depth: anchor.depth,
       };
     }),
-    occluders: scene.occluders,
+    occluders: scene.occluders.map((occluder) => ({
+      ...occluder,
+      asset: requireAsset(library, occluder.assetId),
+    })),
   };
 }
 

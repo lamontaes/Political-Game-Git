@@ -14,6 +14,7 @@ import {
 describe("Stage 6.5 production visual integration", () => {
   it("resolves every released production image through the existing manifest", () => {
     expect([...PRODUCTION_VISUAL_LIBRARY.keys()].sort()).toEqual([
+      "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
       "env_lexington_council_staff_office_prompt30_v1",
       "human_candidate_A01_primary_desk_seated_v1",
       "human_candidate_B01_left_guest_seated_v1",
@@ -27,7 +28,7 @@ describe("Stage 6.5 production visual integration", () => {
         "env_lexington_council_staff_office_prompt30_v1",
       )?.finalPath,
     ).toBe(
-      "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
+      "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_runtime_2x_v1.png",
     );
   });
 
@@ -80,6 +81,37 @@ describe("Stage 6.5 production visual integration", () => {
     );
     expect(validateOfficeVisualScene(invalidScene).join("\n")).toContain(
       "does not match anchor 'primary-desk-chair' pose",
+    );
+  });
+
+  it("uses measured chair anchors and one released furniture-only foreground mask", () => {
+    expect(OFFICE_VISUAL_SCENE.anchors).toMatchObject({
+      "primary-desk-chair": {
+        xPercent: 77.7,
+        yPercent: 66.5,
+        scale: 0.9,
+      },
+      "left-guest-chair": {
+        xPercent: 29.5,
+        yPercent: 70,
+        scale: 0.92,
+      },
+    });
+    expect(OFFICE_VISUAL_SCENE.occluders).toEqual([
+      {
+        id: "office-furniture-foreground",
+        assetId:
+          "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
+        depth: 4,
+      },
+    ]);
+    const composition = composeOfficeVisuals(
+      createRunBFixture().scenePeople,
+      PRODUCTION_VISUAL_LIBRARY,
+    );
+    expect(composition.occluders).toHaveLength(1);
+    expect(composition.occluders[0]?.asset.assetId).toBe(
+      "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
     );
   });
 

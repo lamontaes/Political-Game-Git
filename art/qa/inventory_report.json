@@ -1,6 +1,14 @@
 {
-  "totalItems": 6,
+  "totalItems": 8,
   "items": [
+    {
+      "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
+      "hash": "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe"
+    },
+    {
+      "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_runtime_2x_v1.png",
+      "hash": "66678f0e91c52ca86f851ae4ba73d1a736a56be9cb7875512ab6bd1235de07f0"
+    },
     {
       "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
       "hash": "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43"

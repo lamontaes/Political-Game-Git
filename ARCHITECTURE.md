@@ -121,9 +121,12 @@ The ordinary room plate is classified under the reusable
 decoded alpha values below 255, never from alpha-channel metadata alone.
 `OfficeScene` retains semantic DOM controls and code-authored labels while the
 environment and character images remain pointer-transparent and hidden from
-the accessibility tree. Deterministic clipped copies of the one approved room
-plate supply foreground furniture occlusion without a second environment or
-asset registry. No `src/simulation/` dependency points back to this layer.
+the accessibility tree. A deterministic 2× Lanczos runtime plate avoids browser
+upscaling of the approved 1024×572 source. One separately released transparent
+mask, derived from fixed source-coordinate furniture polygons without a redraw,
+restores desk and chair foreground pixels above the character layers. The
+approved source remains the provenance input and no second registry exists.
+No `src/simulation/` dependency points back to this layer.
 
 The initial domain includes:
 

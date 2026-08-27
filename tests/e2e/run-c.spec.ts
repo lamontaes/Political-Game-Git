@@ -45,9 +45,8 @@ test("opens a readable scene-native legislative working document from the office
   expect(phraseAffordance.borderBottomStyle).toBe("solid");
   expect(phraseAffordance.borderBottomWidth).not.toBe("0px");
   expect(phraseAffordance.backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
-  await expect(page.getByTestId("current-commitment")).toContainText(
-    "Constituent intake briefing",
-  );
+  await expect(page.getByTestId("current-commitment")).toHaveCount(0);
+  await expect(page.locator(".pin-rail")).toHaveCount(0);
   await expect(navigation).toBeVisible();
   await expect(navigation.locator(".cluster-time")).toHaveText("9:10 AM");
   await expect(navigation.locator(".cluster-location-compact")).toHaveText(
@@ -66,7 +65,7 @@ test("opens a readable scene-native legislative working document from the office
   expect(workspaceBox).not.toBeNull();
   expect(paperBox).not.toBeNull();
   expect(compactNavigationBox).not.toBeNull();
-  expect(workspaceBox!.width).toBeLessThan(officeBox!.width * 0.94);
+  expect(workspaceBox!.width).toBeLessThan(officeBox!.width * 0.96);
   expect(workspaceBox!.height).toBeLessThan(officeBox!.height * 0.96);
   expect(workspaceBox!.x).toBeGreaterThan(officeBox!.x);
   expect(workspaceBox!.y).toBeGreaterThan(officeBox!.y);

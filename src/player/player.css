@@ -56,35 +56,6 @@
   backdrop-filter: blur(10px);
 }
 
-.scene-caption {
-  position: absolute;
-  z-index: 10;
-  top: 24px;
-  left: 30px;
-  border-left: 1px solid var(--run-a-gold);
-  padding: 5px 0 5px 12px;
-  color: rgba(42, 27, 17, 0.8);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.32);
-}
-
-.scene-caption p,
-.scene-caption span {
-  margin: 0;
-}
-
-.scene-caption p {
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-}
-
-.scene-caption span {
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 0.66rem;
-  letter-spacing: 0.04em;
-}
-
 .office-scene {
   position: absolute;
   inset: 0;
@@ -2175,14 +2146,22 @@
 }
 
 .nav-flyout {
-  position: absolute;
+  position: fixed;
   z-index: 2;
-  bottom: calc(100% + 0.65rem);
-  left: 0;
-  width: 19.5rem;
+  top: 1.1rem;
+  bottom: auto;
+  left: 2.7%;
+  width: 16rem;
   border-color: rgba(204, 171, 94, 0.67);
   border-radius: 0.5rem;
   padding: 0.45rem;
+}
+
+.nav-cluster--document .nav-flyout {
+  position: absolute;
+  top: auto;
+  bottom: calc(100% + 0.65rem);
+  left: 0;
 }
 
 .nav-menu,
@@ -3383,11 +3362,6 @@
     min-height: 740px;
   }
 
-  .scene-caption {
-    top: 14px;
-    left: 16px;
-  }
-
   .office-window {
     width: 34%;
   }
@@ -3561,7 +3535,7 @@
   height: auto;
   pointer-events: none;
   user-select: none;
-  filter: drop-shadow(0 10px 8px rgba(36, 27, 20, 0.25));
+  filter: none;
 }
 
 .scene-environment-occluder {
@@ -3599,9 +3573,186 @@
 }
 
 .pin-rail {
-  top: 2%;
-  right: 1.4%;
+  position: absolute;
+  z-index: 33;
+  top: auto;
+  right: auto;
+  bottom: 1rem;
+  left: calc(2.7% + 32rem);
+  display: block;
+  width: auto;
   min-height: 0;
+  padding: 0;
+}
+
+.pin-rail .pinned-collection {
+  align-items: flex-end;
+  flex-direction: row;
+  gap: 0.55rem;
+}
+
+.pin-rail .pin-rail-label {
+  position: absolute;
+  bottom: calc(100% + 0.25rem);
+  left: 0.25rem;
+  width: max-content;
+  margin: 0;
+  color: rgba(245, 235, 212, 0.76);
+}
+
+.pin-rail .pin-slot {
+  justify-content: flex-start;
+}
+
+.pin-rail .context-pin[data-size="tiny"] {
+  width: 3.35rem;
+  min-height: 3.35rem;
+  padding: 0.34rem;
+}
+
+.pin-rail .context-pin[data-size="normal"] {
+  width: 8rem;
+  min-height: 3.35rem;
+  padding: 0.42rem;
+}
+
+.pin-rail .context-pin[data-size="expanded"] {
+  width: 11.2rem;
+  min-height: 4.75rem;
+  padding: 0.48rem;
+}
+
+.pin-rail .pin-monogram {
+  width: 2.35rem;
+  height: 2.35rem;
+}
+
+.pin-rail .pin-control-menu {
+  top: auto;
+  right: auto;
+  bottom: calc(100% + 0.45rem);
+  left: 0;
+}
+
+.next-commitment-status {
+  position: absolute;
+  z-index: 34;
+  bottom: 1rem;
+  left: calc(2.7% + 10.85rem);
+  display: grid;
+  width: 7.6rem;
+  min-height: 3.35rem;
+  place-items: center start;
+  overflow: hidden;
+  border-color: rgba(204, 171, 94, 0.62);
+  border-radius: 0.55rem;
+  padding: 0.48rem 0.62rem;
+  opacity: 0.82;
+  text-align: left;
+  transition:
+    left 180ms ease,
+    width 180ms ease,
+    min-height 180ms ease,
+    opacity 180ms ease;
+}
+
+.next-commitment-compact {
+  color: #f0d282;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.58rem;
+  font-weight: 750;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.next-commitment-detail {
+  display: none;
+}
+
+.nav-cluster:not(.nav-cluster--document):hover + .next-commitment-status,
+.nav-cluster:not(.nav-cluster--document):focus-within + .next-commitment-status,
+.next-commitment-status--shell-open,
+.next-commitment-status:hover,
+.next-commitment-status:focus-visible {
+  left: calc(2.7% + 16.75rem);
+  width: 12.2rem;
+  min-height: 4rem;
+  place-items: center stretch;
+  opacity: 1;
+}
+
+.nav-cluster:not(.nav-cluster--document):hover
+  + .next-commitment-status
+  .next-commitment-compact,
+.nav-cluster:not(.nav-cluster--document):focus-within
+  + .next-commitment-status
+  .next-commitment-compact,
+.next-commitment-status--shell-open .next-commitment-compact,
+.next-commitment-status:hover .next-commitment-compact,
+.next-commitment-status:focus-visible .next-commitment-compact {
+  display: none;
+}
+
+.nav-cluster:not(.nav-cluster--document):hover
+  + .next-commitment-status
+  .next-commitment-detail,
+.nav-cluster:not(.nav-cluster--document):focus-within
+  + .next-commitment-status
+  .next-commitment-detail,
+.next-commitment-status--shell-open .next-commitment-detail,
+.next-commitment-status:hover .next-commitment-detail,
+.next-commitment-status:focus-visible .next-commitment-detail {
+  display: grid;
+}
+
+.next-commitment-detail > span {
+  color: var(--run-a-gold);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.46rem;
+  font-weight: 750;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.next-commitment-detail strong {
+  margin-top: 0.18rem;
+  overflow: hidden;
+  color: #fff2d3;
+  font-size: 0.68rem;
+  font-weight: 500;
+  line-height: 1.18;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.next-commitment-detail small {
+  margin-top: 0.2rem;
+  overflow: hidden;
+  color: #b9c1c8;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.48rem;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 1300px) {
+  .pin-rail {
+    left: calc(2.7% + 33rem);
+  }
+
+  .pin-rail .pin-control-menu {
+    right: auto;
+    bottom: calc(100% + 0.1rem);
+    left: -3.45rem;
+    width: 5.8rem;
+  }
+
+  .pin-rail .pin-control-menu button {
+    min-height: 1.45rem;
+    padding: 0.18rem 0.4rem;
+    font-size: 0.54rem;
+  }
 }
 
 .cluster-date-full {
@@ -3620,6 +3771,30 @@
   display: block;
 }
 
+.nav-cluster:not(.nav-cluster--document):hover .cluster-copy .cluster-date-full,
+.nav-cluster:not(.nav-cluster--document):focus-within
+  .cluster-copy
+  .cluster-date-full,
+.nav-cluster--open:not(.nav-cluster--document)
+  .cluster-copy
+  .cluster-date-full {
+  font-size: 0.55rem !important;
+  letter-spacing: -0.01em;
+}
+
+.nav-cluster:not(.nav-cluster--document):hover
+  .cluster-copy
+  .cluster-location-full,
+.nav-cluster:not(.nav-cluster--document):focus-within
+  .cluster-copy
+  .cluster-location-full,
+.nav-cluster--open:not(.nav-cluster--document)
+  .cluster-copy
+  .cluster-location-full {
+  font-size: 0.44rem !important;
+  letter-spacing: 0;
+}
+
 .nav-cluster--retreated:not(:hover):not(:focus-within):not(.nav-cluster--open)
   .nav-cluster-button {
   opacity: 0.28;
@@ -3635,7 +3810,7 @@
 }
 
 .working-document-workspace {
-  right: 13rem;
+  right: 1.2rem;
 }
 
 .working-document-room-context {
@@ -3643,7 +3818,7 @@
 }
 
 .planning-workspace {
-  right: 13rem;
+  right: 1.2rem;
 }
 
 @media (max-width: 980px) {
@@ -3654,6 +3829,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .next-commitment-status,
   .nav-cluster--retreated .nav-cluster-button {
     transition: none;
   }

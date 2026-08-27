@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 
 import type { QuickDossierProjection } from "../presentation/run-a-projection";
-import type { RunDAgendaEntry } from "../presentation/run-d-lite";
 import {
   resolveRunAPinSize,
   type RunAPersonPinId,
@@ -52,13 +51,6 @@ function pinsForPeople(
     }));
 
   return personPins;
-}
-
-function formatMinute(minuteOfDay: number): string {
-  const hour24 = Math.floor(minuteOfDay / 60);
-  const minute = minuteOfDay % 60;
-  const suffix = hour24 >= 12 ? "PM" : "AM";
-  return `${hour24 % 12 || 12}:${minute.toString().padStart(2, "0")} ${suffix}`;
 }
 
 interface PinControlMenuProps {
@@ -123,54 +115,23 @@ function PinControlMenu({ pin, size, dispatch }: PinControlMenuProps) {
 
 interface PinRailProps {
   readonly people: readonly PinnedPersonDefinition[];
-  readonly nextCommitment: RunDAgendaEntry | null;
   readonly state: RunAUiState;
   readonly dispatch: (action: RunAUiAction) => void;
 }
 
-export function PinRail({
-  people,
-  nextCommitment,
-  state,
-  dispatch,
-}: PinRailProps) {
+export function PinRail({ people, state, dispatch }: PinRailProps) {
   const pins = pinsForPeople(people, state.pinnedPersonIds);
+  if (pins.length === 0) return null;
+
   return (
-    <aside
-      className="pin-rail"
-      aria-label="Current status and pinned references"
-    >
-      {nextCommitment ? (
-        <section
-          className="current-commitment civic-glass"
-          aria-label="Next scheduled commitment"
-          data-testid="current-commitment"
-          data-activity-id={nextCommitment.activity.id}
-        >
-          <span>Next commitment</span>
-          <strong>{nextCommitment.activity.title}</strong>
-          <small>
-            {formatMinute(nextCommitment.state.start.minuteOfDay)} ·{" "}
-            {nextCommitment.activity.location.label}
-          </small>
-        </section>
-      ) : (
-        <section
-          className="current-commitment civic-glass"
-          aria-label="Next scheduled commitment"
-          data-testid="current-commitment"
-        >
-          <span>Current status</span>
-          <strong>No scheduled commitment ahead</strong>
-        </section>
-      )}
+    <aside className="pin-rail" aria-label="Pinned references">
       <section
         className="pinned-collection"
         aria-label="Pinned references"
         data-testid="pinned-collection"
         data-empty={pins.length === 0 ? "true" : "false"}
       >
-        {pins.length > 0 ? <p className="pin-rail-label">Pinned</p> : null}
+        <p className="pin-rail-label">Pinned reference</p>
         {pins.map((pin) => {
           const size = resolveRunAPinSize(state, pin.id);
           const controlsOpen = state.activePinMenuId === pin.id;

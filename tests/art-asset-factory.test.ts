@@ -22,6 +22,11 @@ import type {
 } from "../scripts/art-asset-factory/schemas";
 import { extractChromaToPng } from "../scripts/art-asset-factory/chroma-extract";
 import * as PImage from "pureimage";
+import {
+  deriveOfficeRuntimePlate,
+  OFFICE_PLATE_LANCZOS_LOBES,
+  OFFICE_PLATE_RUNTIME_SCALE,
+} from "../scripts/art-asset-factory/office-plate-derive";
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 
@@ -742,6 +747,10 @@ describe("Art Asset Factory Foundation", () => {
 });
 
 describe("Packet 76 approved runtime art", () => {
+  const environmentSource = path.join(
+    REPO_ROOT,
+    "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
+  );
   const rawA = path.join(
     REPO_ROOT,
     "art/references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png",
@@ -765,6 +774,7 @@ describe("Packet 76 approved runtime art", () => {
       errors: [],
       runtimeEligibleAssetIds: [
         "env_lexington_council_staff_office_prompt30_v1",
+        "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
         "human_candidate_A01_primary_desk_seated_v1",
         "human_candidate_B01_left_guest_seated_v1",
       ],
@@ -776,14 +786,58 @@ describe("Packet 76 approved runtime art", () => {
     expect(environment).toMatchObject({
       family_id: "council-staff-office",
       final_path:
-        "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
-      hash: "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43",
+        "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_runtime_2x_v1.png",
+      hash: "66678f0e91c52ca86f851ae4ba73d1a736a56be9cb7875512ab6bd1235de07f0",
     });
     expect(
       families.families.map(
         (family: { family_id: string }) => family.family_id,
       ),
     ).toEqual(["council-staff-office"]);
+  });
+
+  it("reproduces the 2x Lanczos office plate and furniture-only alpha mask", async () => {
+    expect(OFFICE_PLATE_RUNTIME_SCALE).toBe(2);
+    expect(OFFICE_PLATE_LANCZOS_LOBES).toBe(3);
+    expect(hashArtFile(environmentSource)).toBe(
+      "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43",
+    );
+    const temporaryDirectory = fs.mkdtempSync(
+      path.join(os.tmpdir(), "packet-76-office-derive-"),
+    );
+    try {
+      const runtimePath = path.join(temporaryDirectory, "runtime.png");
+      const foregroundPath = path.join(temporaryDirectory, "foreground.png");
+      const result = await deriveOfficeRuntimePlate(
+        environmentSource,
+        runtimePath,
+        foregroundPath,
+      );
+      expect(result).toEqual({
+        sourceWidth: 1024,
+        sourceHeight: 572,
+        runtimeWidth: 2048,
+        runtimeHeight: 1144,
+        foregroundPixelCount: 269_313,
+      });
+      expect(hashArtFile(runtimePath)).toBe(
+        "66678f0e91c52ca86f851ae4ba73d1a736a56be9cb7875512ab6bd1235de07f0",
+      );
+      expect(hashArtFile(foregroundPath)).toBe(
+        "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe",
+      );
+      expect((await parseImageMetadata(runtimePath)).hasTransparency).toBe(
+        "none",
+      );
+      expect((await parseImageMetadata(foregroundPath)).hasTransparency).toBe(
+        "confirmed",
+      );
+      expect(hashArtFile(environmentSource)).toBe(
+        "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43",
+      );
+    } finally {
+      fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+    }
   });
 
   it.each([

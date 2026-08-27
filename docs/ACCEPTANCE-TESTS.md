@@ -1088,6 +1088,17 @@ person references, every item exposes Unpin, and each person can be re-pinned
 from their real scene context. The static briefing and unsupported District
 Notes pins are absent.
 
+At 1440×900 and 1200×720, closed navigation leaves a compact next-commitment
+status attached to the time/location shell and any deliberate user pins on a
+separate lower reference shelf. Open navigation contains only Calendar,
+Work/Pending, Places, Civic Reference, and the development route. It contains no
+pin or status card. Shell expansion reveals the canonical commitment title,
+time, and location without truncating the date or location; activating the
+status opens that exact Calendar activity. The flyout, status, pin, and pin
+controls have non-overlapping geometry with both characters and the two
+scene-native document surfaces at both viewports. Calendar/document modes show
+no ordinary-scene pin or commitment companion surface.
+
 ### NOW-211 — Manual pin sizing is one complete reducer action
 
 Selecting Compact, Standard, or Expanded writes the manual size and clears the
@@ -1258,11 +1269,22 @@ transparent, align with their semantic hitboxes, use same-plate desk/chair
 occlusion, and keep both person controls, dossiers, pins, conversation, Transit
 Access Pilot, Calendar, and Work/Pending operable.
 
+The environment renders from the deterministic 2048×1144 runtime derivative,
+with no CSS filter or image transform, and one released transparent furniture
+mask supplies foreground depth. Primary and guest authored-pose images remain
+below their 765×1024 natural dimensions, their declared roots align to the
+scene anchors, and neither a second room layer nor legacy rectangular clip is
+present. The obsolete synthetic placeholder caption is absent.
+
 ### VISUAL-004 — Packet 76 preprocessing is reproducible
 
 Given either exact approved green-field source, deterministic extraction creates
 the recorded runtime SHA-256 repeatedly while the raw source hash remains exact.
 No generation, redraw, or opaque anatomy repaint occurs.
+
+Given the exact Prompt 30 source, deterministic office-plate derivation creates
+the recorded 2048×1144 runtime and furniture-mask hashes repeatedly, records
+269,313 foreground pixels, and leaves the 1024×572 approved bytes unchanged.
 
 The Prompt 30 room resolves from the ordinary `council-staff-office` family.
 PNG transparency QA decodes actual pixels: an all-opaque RGBA PNG fails an
