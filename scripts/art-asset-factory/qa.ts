@@ -1,3 +1,4 @@
+import fs from "fs";
 import path from "path";
 import imageSize from "image-size";
 
@@ -33,10 +34,14 @@ export function parseImageMetadata(filePath: string): QaMetadata {
       dimensions.type === "webp" ||
       dimensions.type === "gif"
     ) {
-      // Very basic structural hint. Real pixel-level transparency checking requires decoding (e.g. sharp/canvas),
-      // which we are specifically forbidden from adding to this foundation unless strictly necessary.
-      // So we mark it as not-confirmed since it supports alpha but we haven't read the pixels.
-      hasTransparency = "not-confirmed";
+      if (dimensions.type === "png") {
+        const header = fs.readFileSync(filePath).subarray(0, 26);
+        const colorType = header[25];
+        hasTransparency =
+          colorType === 4 || colorType === 6 ? "confirmed" : "none";
+      } else {
+        hasTransparency = "not-confirmed";
+      }
     } else if (dimensions.type === "jpg" || dimensions.type === "jpeg") {
       hasTransparency = "none";
     }
@@ -109,15 +114,14 @@ export function generateContactSheetHtml(
       <img src="${htmlImgPath}" alt="${relativePath}" loading="lazy" />
       <div class="label">
         <strong>${relativePath}</strong><br>
-        ${metadata.width}x${metadata.height} (${metadata.aspectRatio})
-        ${transparencyWarning}
+        ${metadata.width}x${metadata.height} (${metadata.aspectRatio})${transparencyWarning}
       </div>
     </div>\n`;
   }
 
   html += `  </div>
 </body>
-</html>`;
+</html>\n`;
 
   return { html, report: reportData };
 }
@@ -169,7 +173,7 @@ export function generateComparisonSheetHtml(
 
   html += `  </table>
 </body>
-</html>`;
+</html>\n`;
 
   return { html, report: reportData };
 }

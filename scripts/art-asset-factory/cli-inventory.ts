@@ -15,7 +15,7 @@ const report = {
 };
 
 const reportPath = path.join(ART_DIR, "qa", "inventory_report.json");
-const reportString = JSON.stringify(report, null, 2);
+const reportString = `${JSON.stringify(report, null, 2)}\n`;
 
 let shouldWrite = true;
 if (fs.existsSync(reportPath)) {

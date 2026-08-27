@@ -16,6 +16,7 @@
     "test:run-b": "vitest run src/presentation/run-b-conversation.test.ts",
     "test:run-c": "vitest run src/presentation/run-c-working-document.test.ts",
     "test:run-d-lite": "vitest run src/presentation/run-d-lite.test.ts",
+    "test:visual": "vitest run src/presentation/visual-integration.test.ts tests/art-asset-factory.test.ts",
     "test:e2e": "playwright test",
     "test:watch": "vitest",
     "lint": "eslint .",
@@ -26,6 +27,7 @@
     "validate:art": "node --import tsx scripts/art-asset-factory/cli-validate.ts",
     "inventory:art": "node --import tsx scripts/art-asset-factory/cli-inventory.ts",
     "qa:art": "node --import tsx scripts/art-asset-factory/cli-qa.ts",
+    "extract:art-chroma": "node --import tsx scripts/art-asset-factory/cli-chroma-extract.ts",
     "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art"
   },
   "dependencies": {

@@ -1233,3 +1233,41 @@ Given increased responsibility or political intensity, the player faces more com
 ### LATER-018 — Losing an election does not end the character's life
 
 Given a player character who loses an election, the world and character continue with civilian, staff, appointed, future electoral, family, or other available life paths; there is no generic game over.
+
+## Stage 6.5 Post-D-Lite Visual Integration — Implemented
+
+### VISUAL-001 — Only released manifest art reaches the player runtime
+
+Given the office visual configuration, every image resolves through the existing
+art manifest and renders only when generation, QA, and runtime-release states
+are all approved/released with a valid file, hash, and provenance record.
+Missing, unreleased, or incompatible assets fail closed.
+
+### VISUAL-002 — Approved characters compose without becoming people
+
+Given the same scene configuration and displayed people, anonymous authored
+appearance recipes resolve identically by compatible anchor and pose. Reordering
+an alternate valid fixture does not change anchor selection, and composition
+does not mutate a `Person`, `World`, trait, fact, knowledge, or history record.
+
+### VISUAL-003 — Production art preserves semantic play
+
+At 1440×900 and 1200×720, the approved environment and alpha characters replace
+placeholder scenery/anatomy, remain accessibility-hidden and pointer-
+transparent, align with their semantic hitboxes, use same-plate desk/chair
+occlusion, and keep both person controls, dossiers, pins, conversation, Transit
+Access Pilot, Calendar, and Work/Pending operable.
+
+### VISUAL-004 — Packet 76 preprocessing is reproducible
+
+Given either exact approved green-field source, deterministic extraction creates
+the recorded runtime SHA-256 repeatedly while the raw source hash remains exact.
+No generation, redraw, or opaque anatomy repaint occurs.
+
+### VISUAL-005 — Banked presentation cleanup remains bounded
+
+At rest the shell shows a nontruncated compact date; its full date remains in the
+expanded/accessibility state. Full workspaces cause a stronger but discoverable
+shell retreat. Zero deliberate pins leave no prominent empty-state residue,
+the artificial office/desk strip is absent, and workspace content does not
+intersect the status/pin rail.

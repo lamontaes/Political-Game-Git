@@ -300,3 +300,30 @@ reducer-owned open state, and reduced-motion preference removes the
 geometry/opacity animation. Document mode remains an immediate smaller chip so
 it cannot sweep through or overlap the paper during entry. See [Canonical
 Sub-Day Time, Scheduled Activity, and Office Work](time-work.md).
+
+## Post-D-Lite production-art composition
+
+The accepted office mechanics now render through the Packet 76 production-art
+compositor. The approved room plate is one pointer-transparent, accessibility-
+hidden environment layer. Two separately released anonymous authored-pose
+recipes are selected deterministically by scene-anchor compatibility. Their
+scene anchor, pelvis/hip-center root, seated contact, visual bounds, allowed
+scale, and authored-outfit compatibility remain separate typed records. The
+authored outfit advertises no modular attachment slots; this run does not claim
+a wardrobe or rig system.
+
+The primary desk and left guest scene anchors use visual-estimate coordinates
+against the 1024×572 plate. Character placement derives from root/contact data,
+not person names. Clipped copies of the same plate restore the desk front and
+guest-chair arm above the character layers; no second desk, chair, or room image
+exists. A separate interaction layer retains semantic buttons, keyboard focus,
+code-authored names/titles, dossiers, pins, conversation, and document routes.
+The artwork never supplies identity, knowledge, simulation state, or UI text.
+
+The resting shell uses the short truthful date while its expanded and
+accessible label retains the full date. Calendar, Work/Pending, and document
+mode retreat the shell farther without removing its pointer-proximity, focus,
+touch, or reduced-motion behavior. Empty deliberate-pin presentation collapses
+without changing unpin/re-pin semantics. The obsolete artificial desk-edge
+strip is gone, and document/planning right safe areas leave the canonical
+status and user-pin rail clear.

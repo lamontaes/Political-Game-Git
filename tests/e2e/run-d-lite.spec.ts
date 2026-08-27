@@ -387,7 +387,9 @@ test("keeps Pinned user-controlled and dismisses size controls immediately", asy
   controls = page.getByTestId("pin-controls-person");
   await controls.getByRole("menuitem", { name: "Unpin Andre Collins" }).click();
   await expect(collinsPin).toHaveCount(0);
-  await expect(pinned).toContainText("No pinned references");
+  await expect(pinned).toHaveAttribute("data-empty", "true");
+  await expect(pinned).toBeHidden();
+  await expect(page.locator("body")).not.toContainText("No pinned references");
   await expect(currentCommitment).toContainText("Constituent intake briefing");
 
   await page.getByTestId("scene-person").click();

@@ -68,6 +68,15 @@ function formatRunADate(date: string): string {
   }).format(new Date(`${date}T12:00:00Z`));
 }
 
+function formatRunACompactDate(date: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${date}T12:00:00Z`));
+}
+
 function formatRunATime(minuteOfDay: number): string {
   const hour24 = Math.floor(minuteOfDay / 60);
   const minute = minuteOfDay % 60;
@@ -398,6 +407,12 @@ export function PlayerOffice() {
       data-metric-state-count={world.history.metricStates.length}
       data-scheduled-activity-count={world.history.scheduledActivities.length}
       data-work-item-count={world.history.workItems.length}
+      data-planning-workspace-open={
+        planningState.mode !== "closed" ? "true" : "false"
+      }
+      data-document-workspace-open={
+        documentState.mode === "open" ? "true" : "false"
+      }
       onKeyDown={handleKeyDown}
       onPointerDown={handlePointerDown}
     >
@@ -476,8 +491,12 @@ export function PlayerOffice() {
           dossier: dossiers[scenePerson.personId]!,
         }))}
         formattedDate={formatRunADate(world.currentDate)}
+        compactDate={formatRunACompactDate(world.currentDate)}
         formattedTime={formatRunATime(world.currentMoment.minuteOfDay)}
         compactNavigation={documentState.mode === "open"}
+        retreatedNavigation={
+          documentState.mode === "open" || planningState.mode !== "closed"
+        }
         nextCommitment={planningProjection.nextCommitment}
         onOpenCalendar={() => openPlanningWorkspace("calendar")}
         onOpenWorkPending={() => openPlanningWorkspace("work")}

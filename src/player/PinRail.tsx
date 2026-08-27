@@ -166,15 +166,11 @@ export function PinRail({
       )}
       <section
         className="pinned-collection"
-        aria-labelledby="pinned-collection-label"
+        aria-label="Pinned references"
         data-testid="pinned-collection"
+        data-empty={pins.length === 0 ? "true" : "false"}
       >
-        <p className="pin-rail-label" id="pinned-collection-label">
-          Pinned
-        </p>
-        {pins.length === 0 ? (
-          <p className="pin-rail-empty">No pinned references</p>
-        ) : null}
+        {pins.length > 0 ? <p className="pin-rail-label">Pinned</p> : null}
         {pins.map((pin) => {
           const size = resolveRunAPinSize(state, pin.id);
           const controlsOpen = state.activePinMenuId === pin.id;

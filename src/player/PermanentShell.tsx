@@ -9,7 +9,9 @@ interface PermanentShellProps {
   readonly people: readonly PinnedPersonDefinition[];
   readonly formattedTime: string;
   readonly formattedDate: string;
+  readonly compactDate: string;
   readonly compactNavigation?: boolean;
+  readonly retreatedNavigation?: boolean;
   readonly nextCommitment: RunDAgendaEntry | null;
   readonly onOpenCalendar: () => void;
   readonly onOpenWorkPending: () => void;
@@ -22,7 +24,9 @@ export function PermanentShell({
   people,
   formattedTime,
   formattedDate,
+  compactDate,
   compactNavigation = false,
+  retreatedNavigation = false,
   nextCommitment,
   onOpenCalendar,
   onOpenWorkPending,
@@ -42,7 +46,7 @@ export function PermanentShell({
       />
 
       <nav
-        className={`nav-cluster${compactNavigation ? " nav-cluster--document" : ""}${state.navigation !== "closed" ? " nav-cluster--open" : ""}`}
+        className={`nav-cluster${compactNavigation ? " nav-cluster--document" : ""}${retreatedNavigation ? " nav-cluster--retreated" : ""}${state.navigation !== "closed" ? " nav-cluster--open" : ""}`}
         aria-label="Time, location, and navigation"
         data-document-compact={compactNavigation ? "true" : "false"}
         data-navigation-open={state.navigation !== "closed" ? "true" : "false"}
@@ -140,7 +144,8 @@ export function PermanentShell({
           </span>
           <span className="cluster-copy">
             <span className="cluster-time">{formattedTime}</span>
-            <span>{formattedDate}</span>
+            <span className="cluster-date-compact">{compactDate}</span>
+            <span className="cluster-date-full">{formattedDate}</span>
             <strong className="cluster-location-compact">
               {compactLocationLabel}
             </strong>

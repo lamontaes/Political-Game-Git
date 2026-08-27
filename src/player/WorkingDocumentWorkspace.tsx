@@ -59,11 +59,6 @@ export function WorkingDocumentWorkspace({
       data-active-variant={projection.activeVariantKey}
       data-revision-committed={projection.revisionCommitted ? "true" : "false"}
     >
-      <div className="working-document-room-context" aria-hidden="true">
-        <span>Desk edge</span>
-        <span>Office remains in view</span>
-      </div>
-
       <header className="working-document-toolbar">
         <div>
           <p>{document.statusLabel}</p>

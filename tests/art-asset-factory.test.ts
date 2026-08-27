@@ -19,6 +19,7 @@ import type {
   JurisdictionDeltasData,
   ProvenanceData,
 } from "../scripts/art-asset-factory/schemas";
+import { extractChromaToPng } from "../scripts/art-asset-factory/chroma-extract";
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 
@@ -635,8 +636,8 @@ describe("Art Asset Factory Foundation", () => {
       expect(report[0].metadata.width).toBe(10);
       expect(report[0].metadata.height).toBe(20);
       expect(report[0].metadata.aspectRatio).toBe("1:2");
-      expect(report[0].metadata.hasTransparency).toBe("not-confirmed");
-      expect(report[0].meetsTransparencyReq).toBe("not-confirmed");
+      expect(report[0].metadata.hasTransparency).toBe("confirmed");
+      expect(report[0].meetsTransparencyReq).toBe(true);
 
       // Metadata parsing assertions (B is a 20x20 JPG)
       expect(report[1].metadata.width).toBe(20);
@@ -679,4 +680,68 @@ describe("Art Asset Factory Foundation", () => {
       expect(html).toContain("gen_A.png");
     });
   });
+});
+
+describe("Packet 76 approved runtime art", () => {
+  const rawA = path.join(
+    REPO_ROOT,
+    "art/references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png",
+  );
+  const rawB = path.join(
+    REPO_ROOT,
+    "art/references/approved/packet76/GEMINI_OUTPUT_32_PROMPT35_human_candidate_B01_left_guest_seated_base_APPROVED_v1.png",
+  );
+
+  it("validates the real released manifest, files, hashes, and provenance", () => {
+    const result = validateArtAssets(
+      loadJson("art/manifest/asset_manifest.json"),
+      loadJson("art/manifest/environment_families.json"),
+      loadJson("art/manifest/jurisdiction_deltas.json"),
+      loadJson("art/manifest/provenance.json"),
+    );
+    expect(result).toEqual({
+      valid: true,
+      errors: [],
+      runtimeEligibleAssetIds: [
+        "env_lexington_council_staff_office_prompt30_v1",
+        "human_candidate_A01_primary_desk_seated_v1",
+        "human_candidate_B01_left_guest_seated_v1",
+      ],
+    });
+  });
+
+  it.each([
+    [
+      rawA,
+      "8270689800e31006ae54497253845c3bf619ffb46b1bbc3c8d2bafd7136a7827",
+      "8e5882e26eab1c6cf966cff188bfebd4e40cd117804e87930a0b06d67ca66e43",
+    ],
+    [
+      rawB,
+      "6484bfe77edd4a46f35e2572c6be37ca06ce1c98ab72af1d2b48125df0bf245a",
+      "fd880e52fb191d6c32019ba451d006176ebc7762db89590c437c67586906be8d",
+    ],
+  ])(
+    "reproduces alpha extraction without changing approved source bytes",
+    async (sourcePath, expectedSourceHash, expectedOutputHash) => {
+      const sourceHashBefore = hashArtFile(sourcePath);
+      const temporaryDirectory = fs.mkdtempSync(
+        path.join(os.tmpdir(), "packet-76-chroma-"),
+      );
+      try {
+        const first = path.join(temporaryDirectory, "first.png");
+        const second = path.join(temporaryDirectory, "second.png");
+        const firstResult = await extractChromaToPng(sourcePath, first);
+        const secondResult = await extractChromaToPng(sourcePath, second);
+        expect(firstResult).toEqual(secondResult);
+        expect(firstResult.transparentPixelCount).toBeGreaterThan(500_000);
+        expect(hashArtFile(first)).toBe(expectedOutputHash);
+        expect(hashArtFile(second)).toBe(expectedOutputHash);
+        expect(hashArtFile(sourcePath)).toBe(sourceHashBefore);
+        expect(sourceHashBefore).toBe(expectedSourceHash);
+      } finally {
+        fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+      }
+    },
+  );
 });

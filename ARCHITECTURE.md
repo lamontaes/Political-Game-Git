@@ -109,6 +109,19 @@ remains date-level; history sequence and action sequence remain ordering/seed
 inputs, not clocks. See
 [Canonical Sub-Day Time, Scheduled Activity, and Office Work](docs/systems/time-work.md).
 
+Stage 6.5 post-D-Lite visual integration remains entirely above the simulation
+boundary. The existing art manifest is the sole runtime asset registry;
+`src/presentation/visual-integration.ts` filters its released records, resolves
+their build URLs, and owns typed environment, scene-anchor, character-root,
+seated-contact, authored-outfit, scale, depth, occlusion, and interaction-bound
+composition. Anonymous appearance recipes map to displayed scene roles only.
+They never become `Person` identity, facts, traits, knowledge, or history.
+`OfficeScene` retains semantic DOM controls and code-authored labels while the
+environment and character images remain pointer-transparent and hidden from
+the accessibility tree. Deterministic clipped copies of the one approved room
+plate supply foreground furniture occlusion without a second environment or
+asset registry. No `src/simulation/` dependency points back to this layer.
+
 The initial domain includes:
 
 - a JSON-safe `World` with a stable ID, normalized seed, canonical zoned minute-level moment consistent with its current simulated date, entities, action sequence, generator version, and history;

@@ -1,5 +1,55 @@
 [
   {
+    "file": "families/executive-private-office/env_lexington_council_staff_office_prompt30_v1.png",
+    "metadata": {
+      "width": 1024,
+      "height": 572,
+      "aspectRatio": "256:143",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/approved/human_candidate_A01_primary_desk_seated_v1.png",
+    "metadata": {
+      "width": 765,
+      "height": 1024,
+      "aspectRatio": "765:1024",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/human_candidate_B01_left_guest_seated_v1.png",
+    "metadata": {
+      "width": 765,
+      "height": 1024,
+      "aspectRatio": "765:1024",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png",
+    "metadata": {
+      "width": 765,
+      "height": 1024,
+      "aspectRatio": "765:1024",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/approved/packet76/GEMINI_OUTPUT_32_PROMPT35_human_candidate_B01_left_guest_seated_base_APPROVED_v1.png",
+    "metadata": {
+      "width": 765,
+      "height": 1024,
+      "aspectRatio": "765:1024",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "references/plans/texas_senate/normalized/habs_tx3326_00013a_normalized.jpg",
     "metadata": {
       "width": 1332,

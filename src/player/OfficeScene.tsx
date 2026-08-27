@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 
 import { RUN_A_CIVIC_CONCEPT_ID } from "../presentation/run-a-learning";
 import type { QuickDossierProjection } from "../presentation/run-a-projection";
@@ -12,6 +12,11 @@ import type {
   RunBFixture,
   RunBScenePersonContext,
 } from "../presentation/run-b-fixture";
+import {
+  composeOfficeVisuals,
+  PRODUCTION_VISUAL_LIBRARY,
+  type ComposedCharacterVisual,
+} from "../presentation/visual-integration";
 import type { EntityId } from "../simulation";
 import { QuickDossier } from "./QuickDossier";
 
@@ -80,6 +85,7 @@ interface ScenePersonProps {
   readonly dossier: QuickDossierProjection;
   readonly state: RunAUiState;
   readonly conversationAddressee: ConversationAddressee | null;
+  readonly visual: ComposedCharacterVisual;
   readonly onSelect: (personId: EntityId) => void;
 }
 
@@ -88,6 +94,7 @@ function ScenePerson({
   dossier,
   state,
   conversationAddressee,
+  visual,
   onSelect,
 }: ScenePersonProps) {
   const selected =
@@ -105,6 +112,14 @@ function ScenePerson({
     <button
       type="button"
       className={`scene-person scene-person--${person.visualVariant}`}
+      style={
+        {
+          left: `${visual.hitbox.leftPercent}%`,
+          top: `${visual.hitbox.topPercent}%`,
+          width: `${visual.hitbox.widthPercent}%`,
+          height: `${visual.hitbox.heightPercent}%`,
+        } satisfies CSSProperties
+      }
       aria-label={`${dossier.name}, ${dossier.title}`}
       aria-haspopup="menu"
       aria-expanded={selected}
@@ -116,25 +131,6 @@ function ScenePerson({
       data-label-suppressed={labelSuppressed ? "true" : "false"}
       onClick={() => onSelect(person.personId)}
     >
-      <span className="person-shadow" aria-hidden="true" />
-      <span className="person-torso" aria-hidden="true">
-        <span className="shirt-collar" />
-        <span className="jacket-lapel lapel-left" />
-        <span className="jacket-lapel lapel-right" />
-      </span>
-      <span className="person-neck" aria-hidden="true" />
-      <span className="person-head" aria-hidden="true">
-        <span className="person-hair" />
-        <span className="person-ear" />
-        <span className="person-brow brow-left" />
-        <span className="person-brow brow-right" />
-        <span className="person-eye eye-left" />
-        <span className="person-eye eye-right" />
-        <span className="person-nose" />
-        <span className="person-mouth" />
-      </span>
-      <span className="person-arm person-arm-left" aria-hidden="true" />
-      <span className="person-arm person-arm-right" aria-hidden="true" />
       <span
         className="person-nameplate"
         data-testid={
@@ -240,6 +236,10 @@ export function OfficeScene({
   const selectedDossier = selectedScenePerson
     ? dossiers[selectedScenePerson.personId]
     : undefined;
+  const visualComposition = composeOfficeVisuals(
+    fixture.scenePeople,
+    PRODUCTION_VISUAL_LIBRARY,
+  );
 
   return (
     <section
@@ -247,77 +247,72 @@ export function OfficeScene({
       aria-label={`A quiet legislative office in ${fixture.locationDisplayName}`}
       data-testid="political-office-scene"
     >
-      <div className="scene-wall-shadow" aria-hidden="true" />
-      <div className="office-window office-window-left" aria-hidden="true">
-        <span className="window-sky" />
-        <span className="window-building window-building-one" />
-        <span className="window-building window-building-two" />
-        <span className="window-frame window-frame-vertical" />
-        <span className="window-frame window-frame-horizontal" />
-      </div>
-      <div className="office-window office-window-right" aria-hidden="true">
-        <span className="window-sky" />
-        <span className="window-building window-building-one" />
-        <span className="window-building window-building-two" />
-        <span className="window-frame window-frame-vertical" />
-        <span className="window-frame window-frame-horizontal" />
-      </div>
-      <div className="office-curtain office-curtain-left" aria-hidden="true" />
-      <div className="office-curtain office-curtain-right" aria-hidden="true" />
       <div
-        className="office-curtain office-curtain-right-window-left"
-        aria-hidden="true"
-      />
-      <div
-        className="office-curtain office-curtain-right-window-right"
-        aria-hidden="true"
-      />
-      <div className="wall-frame wall-frame-one" aria-hidden="true">
-        <span />
-      </div>
-      <div className="wall-frame wall-frame-two" aria-hidden="true">
-        <span />
-      </div>
-      <div className="bookcase" aria-hidden="true">
-        <span className="book-row row-one" />
-        <span className="book-row row-two" />
-        <span className="book-row row-three" />
-      </div>
-      <div className="office-plant" aria-hidden="true">
-        <span className="plant-pot" />
-        <span className="leaf leaf-one" />
-        <span className="leaf leaf-two" />
-        <span className="leaf leaf-three" />
-      </div>
-      <div className="office-rug" aria-hidden="true" />
-      <div className="guest-chair guest-chair-left" aria-hidden="true" />
-      <div className="guest-chair guest-chair-right" aria-hidden="true" />
-      <div className="desk-chair" aria-hidden="true" />
-
-      {fixture.scenePeople.map((person) => {
-        const dossier = dossiers[person.personId];
-        if (!dossier) return null;
-        return (
-          <ScenePerson
-            key={person.personId}
-            person={person}
-            dossier={dossier}
-            state={state}
-            conversationAddressee={conversationAddressee}
-            onSelect={(personId) =>
-              dispatch({ type: "select-person", personId })
-            }
+        className="scene-art-stage"
+        data-testid="office-art-compositor"
+        data-environment-asset-id={visualComposition.environment.assetId}
+      >
+        <img
+          className="scene-environment-art"
+          src={visualComposition.environment.url}
+          alt=""
+          aria-hidden="true"
+          draggable="false"
+        />
+        {visualComposition.characters.map((visual) => (
+          <img
+            key={`art-${visual.personId}`}
+            className={`scene-character-art scene-character-art--${visual.visualVariant}`}
+            src={visual.asset.url}
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+            data-testid={`scene-character-art-${visual.visualVariant}`}
+            data-asset-id={visual.asset.assetId}
+            data-anchor-id={visual.anchorId}
+            data-appearance-recipe-id={visual.appearanceRecipeId}
+            style={{
+              left: `${visual.leftPercent}%`,
+              top: `${visual.topPercent}%`,
+              width: `${visual.widthPercent}%`,
+              zIndex: visual.depth,
+            }}
           />
-        );
-      })}
-
-      <div className="office-desk" aria-hidden="true">
-        <span className="desk-top" />
-        <span className="desk-front" />
-        <span className="desk-panel" />
-        <span className="desk-drawer desk-drawer-one" />
-        <span className="desk-drawer desk-drawer-two" />
-        <span className="desk-lamp" />
+        ))}
+        {visualComposition.occluders.map((occluder) => (
+          <img
+            key={occluder.id}
+            className="scene-environment-occluder"
+            src={visualComposition.environment.url}
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+            data-occluder-id={occluder.id}
+            style={{ clipPath: occluder.clipPath, zIndex: occluder.depth }}
+          />
+        ))}
+      </div>
+      <div className="scene-control-stage">
+        {fixture.scenePeople.map((person) => {
+          const dossier = dossiers[person.personId];
+          const visual = visualComposition.characters.find(
+            (candidate) => candidate.personId === person.personId,
+          );
+          if (!dossier || !visual) return null;
+          return (
+            <ScenePerson
+              key={person.personId}
+              person={person}
+              dossier={dossier}
+              state={state}
+              conversationAddressee={conversationAddressee}
+              visual={visual}
+              onSelect={(personId) =>
+                dispatch({ type: "select-person", personId })
+              }
+            />
+          );
+        })}
       </div>
 
       <button

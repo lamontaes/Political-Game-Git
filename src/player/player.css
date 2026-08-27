@@ -3510,3 +3510,151 @@
     transition: none;
   }
 }
+
+/* Stage 6.5 Packet 76 production-art compositor */
+.office-scene {
+  background: #8f806b;
+}
+
+.office-scene::before,
+.office-scene::after {
+  content: none;
+}
+
+.scene-art-stage,
+.scene-control-stage {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  min-width: 100%;
+  aspect-ratio: 1024 / 572;
+  overflow: hidden;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.scene-art-stage {
+  z-index: 0;
+}
+
+.scene-control-stage {
+  z-index: 9;
+}
+
+.scene-environment-art,
+.scene-environment-occluder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.scene-environment-art {
+  z-index: 0;
+}
+
+.scene-character-art {
+  position: absolute;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 10px 8px rgba(36, 27, 20, 0.25));
+}
+
+.scene-environment-occluder {
+  object-fit: fill;
+}
+
+.scene-person,
+.scene-person--guest {
+  z-index: 6;
+  min-height: 0;
+  border: 0;
+  border-radius: 42%;
+  padding: 0;
+  transform: none;
+  filter: none;
+  background: transparent;
+  pointer-events: auto;
+}
+
+.scene-person--guest::after {
+  content: none;
+}
+
+.scene-person:hover:not(:disabled),
+.scene-person[aria-expanded="true"] {
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(241, 203, 112, 0.2),
+    transparent 64%
+  );
+}
+
+.pinned-collection[data-empty="true"] {
+  display: none;
+}
+
+.pin-rail {
+  top: 2%;
+  right: 1.4%;
+  min-height: 0;
+}
+
+.cluster-date-full {
+  display: none;
+}
+
+.nav-cluster:not(.nav-cluster--document):hover .cluster-date-compact,
+.nav-cluster:not(.nav-cluster--document):focus-within .cluster-date-compact,
+.nav-cluster--open:not(.nav-cluster--document) .cluster-date-compact {
+  display: none;
+}
+
+.nav-cluster:not(.nav-cluster--document):hover .cluster-date-full,
+.nav-cluster:not(.nav-cluster--document):focus-within .cluster-date-full,
+.nav-cluster--open:not(.nav-cluster--document) .cluster-date-full {
+  display: block;
+}
+
+.nav-cluster--retreated:not(:hover):not(:focus-within):not(.nav-cluster--open)
+  .nav-cluster-button {
+  opacity: 0.28;
+  transform: scale(0.82);
+  transform-origin: left bottom;
+}
+
+.nav-cluster--retreated:hover .nav-cluster-button,
+.nav-cluster--retreated:focus-within .nav-cluster-button,
+.nav-cluster--retreated.nav-cluster--open .nav-cluster-button {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.working-document-workspace {
+  right: 13rem;
+}
+
+.working-document-room-context {
+  display: none;
+}
+
+.planning-workspace {
+  right: 13rem;
+}
+
+@media (max-width: 980px) {
+  .scene-art-stage {
+    height: 100%;
+    min-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-cluster--retreated .nav-cluster-button {
+    transition: none;
+  }
+}
