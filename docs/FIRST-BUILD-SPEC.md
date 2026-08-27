@@ -70,6 +70,12 @@ The React viewer allows a developer to:
 
 This is diagnostic UI, not final game art or final player-facing information design.
 
+Stage 6.5 Run A now makes a separate player-facing office scene the default
+browser entry point while retaining this accepted diagnostic viewer at
+`?view=developer`. Run A does not reinterpret the diagnostic sections as player
+knowledge; it uses the separate bounded epistemic projection documented in
+[Player Presentation and Epistemic Projection](systems/player-presentation.md).
+
 ### Required Invariants
 
 - Same seed plus same ordered actions yields the same result for the same generator version.

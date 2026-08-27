@@ -12,6 +12,8 @@
     "preview": "vite preview",
     "demo": "node --import tsx src/cli/demo.ts",
     "test": "vitest run",
+    "test:run-a": "vitest run src/presentation/run-a.test.ts",
+    "test:e2e": "playwright test",
     "test:watch": "vitest",
     "lint": "eslint .",
     "typecheck": "tsc -b",
@@ -21,10 +23,7 @@
     "validate:art": "node --import tsx scripts/art-asset-factory/cli-validate.ts",
     "inventory:art": "node --import tsx scripts/art-asset-factory/cli-inventory.ts",
     "qa:art": "node --import tsx scripts/art-asset-factory/cli-qa.ts",
-    "safety:inventory": "node --import tsx scripts/repo-safety/cli.ts inventory",
     "safety:guard": "node --import tsx scripts/repo-safety/cli.ts guard",
-    "safety:receipt": "node --import tsx scripts/repo-safety/cli.ts receipt",
-    "safety:repro": "node --import tsx scripts/repo-safety/cli.ts repro",
     "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art && npm run safety:guard"
   },
   "dependencies": {
@@ -34,6 +33,7 @@
   "devDependencies": {
     "@eslint/js": "9.39.4",
     "@openai/sites-vite-plugin": "0.2.0",
+    "@playwright/test": "1.62.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
