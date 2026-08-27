@@ -24,6 +24,7 @@ import {
   createRunBConversationState,
   runBConversationReducer,
 } from "../presentation/run-b-conversation-state";
+import { createRunBConversationProgress } from "../presentation/run-b-conversation-progress";
 import { createRunBFixture } from "../presentation/run-b-fixture";
 import { ConversationStrip } from "./ConversationStrip";
 import { OfficeScene } from "./OfficeScene";
@@ -118,6 +119,7 @@ export function PlayerOffice() {
   ) {
     dispatch({ type: "dismiss-overlay" });
     if (conversationState.session) {
+      if (!conversationState.progress) return;
       conversationDispatch({
         type: "switch-addressee",
         addressee: personId,
@@ -125,30 +127,39 @@ export function PlayerOffice() {
           world,
           fixture.roomContext,
           personId,
+          conversationState.progress,
         ),
       });
       return;
     }
+    const progress = createRunBConversationProgress();
     conversationDispatch({
       type: "open",
       session: createConversationSessionDescriptor(world, fixture.roomContext),
+      progress,
       addressee: personId,
       openingBeat: openingConversationBeat(
         world,
         fixture.roomContext,
         personId,
+        progress,
       ),
     });
   }
 
   function commitTurn(intent: ConversationIntent) {
-    if (!conversationState.session || conversationState.addressee === null) {
+    if (
+      !conversationState.session ||
+      !conversationState.progress ||
+      conversationState.addressee === null
+    ) {
       return;
     }
     const turnOrdinal = conversationState.committedTurnCount + 1;
     const result = commitConversationTurn(world, {
       session: conversationState.session,
       room: fixture.roomContext,
+      progress: conversationState.progress,
       turnOrdinal,
       addressee: conversationState.addressee,
       audibility: conversationState.audibility,
@@ -158,6 +169,7 @@ export function PlayerOffice() {
     conversationDispatch({
       type: "apply-turn",
       turnOrdinal,
+      progress: result.progress,
       presentation: result.presentation,
     });
   }

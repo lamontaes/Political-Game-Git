@@ -20,6 +20,13 @@ import type {
   MindSourceReference,
   World,
 } from "../simulation";
+import {
+  canListenToRunBConversation,
+  createRunBConversationProgress,
+  type RunBConversationProgress,
+  type RunBConversationProposition,
+  type RunBPendingContribution,
+} from "./run-b-conversation-progress";
 
 export const RUN_B_AUDIBILITY_OPTIONS = ["normal", "quiet", "private"] as const;
 export type ConversationAudibility = (typeof RUN_B_AUDIBILITY_OPTIONS)[number];
@@ -34,8 +41,12 @@ export type ConversationIntent = (typeof RUN_B_CONVERSATION_INTENTS)[number];
 
 export type ConversationAddressee = EntityId | "everyone";
 
-export const RUN_B_BRIEFING_CONTEXT =
-  "Three emergency-rent cases share a referral gap. The briefing will decide on a shared intake checklist; Collins must back it, and Reed can verify the final case.";
+export function describeRunBBriefingContext(
+  progress: RunBConversationProgress,
+): string {
+  const facts = progress.subjectFacts;
+  return `Three Lexington tenants asked this office for emergency-rent help. The county could not process two referrals because each lacked a required ${facts.requiredDocument}. Reed is checking the third. Decide whether Collins should back a document checklist before future referrals.`;
+}
 
 export interface ConversationRoomContext {
   readonly sceneKey: string;
@@ -74,6 +85,7 @@ export interface ConversationDialogueBeat {
 export interface CommitConversationTurnInput {
   readonly session: ConversationSessionDescriptor;
   readonly room: ConversationRoomContext;
+  readonly progress?: RunBConversationProgress;
   readonly turnOrdinal: number;
   readonly addressee: ConversationAddressee;
   readonly audibility: ConversationAudibility;
@@ -108,6 +120,7 @@ export interface ConversationPresentationResult {
 
 export interface CommitConversationTurnResult {
   readonly world: World;
+  readonly progress: RunBConversationProgress;
   readonly semantic: ConversationSemanticResult;
   readonly presentation: ConversationPresentationResult;
 }
@@ -147,33 +160,45 @@ export function createConversationSessionDescriptor(
 }
 
 export function availableConversationIntents(
+  room: ConversationRoomContext,
   addressee: ConversationAddressee,
-  availability: { readonly listenAvailable?: boolean } = {},
+  progress: RunBConversationProgress,
 ): readonly ConversationIntentOption[] {
   const commitmentLabel =
     addressee === "everyone"
-      ? "Ask for a joint commitment"
-      : "Ask for a commitment";
+      ? "Ask Reed to check and Collins to decide"
+      : addressee === room.eligibleAddresseePersonIds[0]
+        ? "Ask Collins to back the referral checklist"
+        : "Ask Reed to check the third referral";
   const options: ConversationIntentOption[] = [
     {
       key: "request-commitment",
       label: commitmentLabel,
-      description: "Ask for a clear next step before the briefing.",
+      description:
+        addressee === room.eligibleAddresseePersonIds[0]
+          ? "Ask Collins to back a document checklist before staff make future county referrals."
+          : addressee === room.eligibleAddresseePersonIds[1]
+            ? "Ask Reed whether the third referral also lacked the required proof-of-income form."
+            : "Ask Reed to check the third referral and Collins to decide on the staff checklist.",
     },
     {
       key: "reassure",
-      label: "Reassure",
-      description: "Keep the request narrow and evidence-led.",
+      label: "Keep it to the missing income form",
+      description:
+        "Limit the staff checklist to the document problem these referrals establish.",
     },
   ];
   if (addressee !== "everyone") {
     options.push({
       key: "press",
-      label: "Press the point",
-      description: "Ask for an answer now.",
+      label:
+        addressee === room.eligibleAddresseePersonIds[0]
+          ? "Press Collins to back the checklist"
+          : "Press Reed to check the third referral now",
+      description: "Ask for the concrete next step now.",
     });
   }
-  if (availability.listenAvailable !== false) {
+  if (canListenToRunBConversation(progress)) {
     options.push({
       key: "listen",
       label: "Listen",
@@ -187,6 +212,7 @@ export function openingConversationBeat(
   world: World,
   room: ConversationRoomContext,
   addressee: ConversationAddressee,
+  progress: RunBConversationProgress = createRunBConversationProgress(),
 ): ConversationDialogueBeat {
   validateAddressee(room, addressee);
   const addresseeIds = resolveAddresseePersonIds(room, addressee);
@@ -196,26 +222,81 @@ export function openingConversationBeat(
     throw new Error("Conversation opening speaker is missing from the World.");
   }
 
+  if (progress.phase !== "opening" || progress.latestProposition !== null) {
+    return continuingConversationBeat(world, room, addressee, progress);
+  }
+
   if (addressee === "everyone") {
     return {
       speakerPersonId,
       speakerName: personName(speaker),
       dialogue:
-        "“We have three cases and an afternoon briefing,” Collins says. “What do you want to settle?”",
+        "“If Reed finds the third county referral also lacked the proof-of-income form, I’ll decide whether to back one document checklist for staff to use before future referrals,” Collins says.",
     };
   }
   if (speakerPersonId === room.eligibleAddresseePersonIds[0]) {
     return {
       speakerPersonId,
       speakerName: personName(speaker),
-      dialogue: "“What do you need from me before the afternoon briefing?”",
+      dialogue:
+        "“If Reed finds the third county referral also lacked the proof-of-income form, I’ll decide whether to back one document checklist for staff to use before future referrals,” Collins says.",
     };
   }
   return {
     speakerPersonId,
     speakerName: personName(speaker),
     dialogue:
-      "“I can check with the neighborhood office,” Reed says. “What should I ask them to confirm?”",
+      "“The county could not process our first two referrals because the proof-of-income form was missing,” Reed says. “I can check whether the third referral arrived without that form too.”",
+  };
+}
+
+function continuingConversationBeat(
+  world: World,
+  room: ConversationRoomContext,
+  addressee: ConversationAddressee,
+  progress: RunBConversationProgress,
+): ConversationDialogueBeat {
+  const primaryId = room.eligibleAddresseePersonIds[0]!;
+  const secondaryId = room.eligibleAddresseePersonIds[1] ?? primaryId;
+  const speakerPersonId = addressee === "everyone" ? primaryId : addressee;
+  const speaker = world.people[speakerPersonId];
+  if (!speaker) {
+    throw new Error("Conversation continuation speaker is missing.");
+  }
+
+  if (addressee === "everyone") {
+    return {
+      speakerPersonId,
+      speakerName: personName(speaker),
+      dialogue:
+        progress.reedVerification === "promised"
+          ? "“We have the next step,” Collins says. “Reed will check whether the third county referral lacked the proof-of-income form, and I’ll decide on the staff checklist when that answer comes back.”"
+          : "“The question is whether staff should check required documents before future county referrals,” Collins says. “I need Reed to find out whether the third referral lacked the proof-of-income form too.”",
+    };
+  }
+
+  if (speakerPersonId === primaryId) {
+    return {
+      speakerPersonId,
+      speakerName: personName(speaker),
+      dialogue:
+        progress.collinsSupport === "committed"
+          ? "“I’m backing the pre-referral document checklist,” Collins says. “Reed’s check will tell us whether to keep it focused on the proof-of-income form.”"
+          : progress.reedVerification === "promised"
+            ? "“Reed is checking the third county referral,” Collins says. “Once he tells us whether the proof-of-income form was missing there too, I can answer on the staff checklist.”"
+            : "“I need the third county referral checked,” Collins says. “If it also lacked the proof-of-income form, I can decide whether to back the staff checklist.”",
+    };
+  }
+
+  return {
+    speakerPersonId: secondaryId,
+    speakerName: personName(speaker),
+    dialogue:
+      progress.reedVerification === "promised"
+        ? "“I’m taking the third referral,” Reed says. “I’ll find out whether the county received it without the proof-of-income form and report back before the briefing.”"
+        : progress.collinsSupport === "conditional"
+          ? "“Collins needs the third referral checked,” Reed says. “I can call the neighborhood office and find out whether its proof-of-income form was missing too.”"
+          : "“The first two county referrals arrived without the proof-of-income form,” Reed says. “I can check whether the third one failed for that same reason.”",
   };
 }
 
@@ -298,6 +379,7 @@ export function commitConversationTurn(
   inputWorld: World,
   input: CommitConversationTurnInput,
 ): CommitConversationTurnResult {
+  const currentProgress = input.progress ?? createRunBConversationProgress();
   assertWorldIntegrity(inputWorld);
   validateConversationRoom(inputWorld, input.room);
   validateConversationSession(inputWorld, input.room, input.session);
@@ -307,11 +389,11 @@ export function commitConversationTurn(
       "Conversation turn ordinal must be a positive safe integer.",
     );
   }
-  const listenAvailable =
-    conversationIntentCount(inputWorld, input.session, "listen") < 2;
-  const availableIntents = availableConversationIntents(input.addressee, {
-    listenAvailable,
-  }).map((option) => option.key);
+  const availableIntents = availableConversationIntents(
+    input.room,
+    input.addressee,
+    currentProgress,
+  ).map((option) => option.key);
   if (!availableIntents.includes(input.intent)) {
     throw new Error(
       `Conversation intent ${String(input.intent)} is unavailable for this addressee.`,
@@ -329,17 +411,19 @@ export function commitConversationTurn(
     input.room,
     input.addressee,
   );
-  const npcContinuationWarranted =
-    input.intent !== "listen" ||
-    shouldContinueAfterListening(inputWorld, input.session);
-  const responseSpeakerPersonId = npcContinuationWarranted
-    ? resolveResponseSpeaker(
-        input.room,
-        input.intent,
-        addresseePersonIds,
-        actualListenerPersonIds,
-      )
-    : null;
+  const pendingContribution =
+    input.intent === "listen"
+      ? (currentProgress.pendingContributions[0] ?? null)
+      : null;
+  const responseSpeakerPersonId =
+    input.intent === "listen" && pendingContribution === null
+      ? null
+      : resolveResponseSpeaker(
+          input.room,
+          input.intent,
+          addresseePersonIds,
+          pendingContribution,
+        );
 
   const resolved =
     responseSpeakerPersonId === null
@@ -352,7 +436,17 @@ export function commitConversationTurn(
           intent: input.intent,
           groupAddressed: input.addressee === "everyone",
           previousIntent: previousConversationIntent(inputWorld, input.session),
+          progress: currentProgress,
+          pendingContribution,
         });
+  const progress = advanceConversationProgress(currentProgress, {
+    room: input.room,
+    addressee: input.addressee,
+    intent: input.intent,
+    outcome: resolved.outcome,
+    responseSpeakerPersonId: resolved.speakerPersonId,
+    pendingContribution,
+  });
   let world = resolved.world;
   const participantPersonIds = canonicalPeople(input.room, [
     input.room.playerPersonId,
@@ -567,6 +661,7 @@ export function commitConversationTurn(
   assertWorldIntegrity(world);
   return {
     world,
+    progress,
     semantic: {
       turnKey,
       outcome: resolved.outcome,
@@ -587,16 +682,21 @@ export function commitConversationTurn(
             }
           : null,
       playerIntentLabel:
-        availableConversationIntents(input.addressee).find(
-          (option) => option.key === input.intent,
-        )?.label ?? input.intent,
+        availableConversationIntents(
+          input.room,
+          input.addressee,
+          currentProgress,
+        ).find((option) => option.key === input.intent)?.label ?? input.intent,
       playerActionDescription:
         input.intent === "listen"
           ? "(You listen.)"
           : `You · ${
-              availableConversationIntents(input.addressee).find(
-                (option) => option.key === input.intent,
-              )?.label ?? input.intent
+              availableConversationIntents(
+                input.room,
+                input.addressee,
+                currentProgress,
+              ).find((option) => option.key === input.intent)?.label ??
+              input.intent
             }`,
       roomNarration:
         resolved.speakerPersonId === null
@@ -622,6 +722,8 @@ function resolveNpcResponse(
     readonly intent: ConversationIntent;
     readonly groupAddressed: boolean;
     readonly previousIntent: ConversationIntent | null;
+    readonly progress: RunBConversationProgress;
+    readonly pendingContribution: RunBPendingContribution | null;
   },
 ): ResolvedResponse {
   if (input.speakerPersonId === input.playerPersonId) {
@@ -633,6 +735,13 @@ function resolveNpcResponse(
   if (!speaker) throw new Error("Conversation response speaker is missing.");
   const isPrimary =
     input.speakerPersonId === input.room.eligibleAddresseePersonIds[0];
+
+  if (input.intent === "listen" && input.pendingContribution !== null) {
+    return resolvePendingConversationContribution(world, {
+      speakerPersonId: input.speakerPersonId,
+      pendingContribution: input.pendingContribution,
+    });
+  }
 
   if (input.intent === "request-commitment" || input.intent === "press") {
     assertNpcAutonomousApplication(world, input.speakerPersonId);
@@ -654,11 +763,11 @@ function resolveNpcResponse(
         speakerPersonId: input.speakerPersonId,
         dialogue: held
           ? input.previousIntent === "request-commitment"
-            ? "“I heard the request, and my condition hasn’t changed: verify one more constituent-service case, then I’ll answer before the briefing.”"
-            : "“Pressing me won’t replace the missing evidence. Bring me one more verified constituent-service case, and I’ll answer before the briefing.”"
+            ? "“I heard the request, and my condition hasn’t changed: Reed needs to find out whether the third county referral lacked the proof-of-income form too. Then I can answer on the staff checklist.”"
+            : "“Pressing me won’t replace the missing fact. Have Reed check whether the third county referral lacked the proof-of-income form, and then I can answer on the staff checklist.”"
           : input.groupAddressed
-            ? "“All right. Reed, verify the remaining case; I’ll give the group a narrow answer before the briefing.”"
-            : "“All right. Keep the request narrow, put the verified constituent-service cases in front of me, and I’ll answer before the briefing.”",
+            ? "“All right. Reed, check the third county referral; if its proof-of-income form was missing too, I’ll back the staff checklist at the briefing.”"
+            : "“All right. Put the three county referrals in front of me, and I’ll give you a clear answer on the document checklist.”",
         perception: held
           ? `${personName(speaker)} is holding a boundary until another case is verified.`
           : `${personName(speaker)} agreed to a narrow next step before the briefing.`,
@@ -674,12 +783,16 @@ function resolveNpcResponse(
       dialogue: committed
         ? isPrimary
           ? input.groupAddressed
-            ? "“All right. Reed can verify the remaining case, and you have my support for a narrow recommendation at the briefing.”"
-            : "“All right. Keep it tied to the verified constituent-service cases, and you have my support for the briefing.”"
-          : "“Yes. I’ll call the neighborhood office and bring back what they can verify before the briefing.”"
+            ? "“All right. Reed can check the third referral, and I’ll back a staff checklist focused on required documents at the briefing.”"
+            : "“All right. Keep it tied to the missing proof-of-income forms, and I’ll back the pre-referral document checklist at the briefing.”"
+          : input.progress.reedVerification === "promised"
+            ? "“I’ve got the third referral. I’ll check whether the county received it without the proof-of-income form and report back before the briefing.”"
+            : "“Yes. I’ll call the neighborhood office and check whether the third county referral lacked the proof-of-income form before the briefing.”"
         : input.groupAddressed
-          ? "“Not yet. Reed, bring us one more verified constituent-service case, and I’ll give the group an answer before the briefing.”"
-          : "“Not yet. Bring me one more verified case, and I’ll give you an answer before the briefing.”",
+          ? "“Not yet. Reed, find out whether the third county referral lacked the proof-of-income form too. Then I can answer on the staff checklist.”"
+          : input.progress.reedVerification === "promised"
+            ? "“Not yet. Reed is checking the third county referral; once he reports whether its proof-of-income form was missing, I can decide on the staff checklist.”"
+            : "“Not yet. Have Reed check whether the third county referral lacked the proof-of-income form, and then I can answer on the staff checklist.”",
       perception: committed
         ? `${personName(speaker)} agreed to a bounded commitment before the briefing.`
         : `${personName(speaker)} deferred a commitment pending one more verified case.`,
@@ -694,28 +807,15 @@ function resolveNpcResponse(
       speakerPersonId: input.speakerPersonId,
       dialogue: isPrimary
         ? input.groupAddressed
-          ? "“That helps. Reed, check the remaining case; we’ll keep the briefing recommendation narrow and tied to what we can verify.”"
-          : "“That helps. Keep the briefing recommendation narrow and tied to what we can verify.”"
-        : "“Good. I’ll ask for the facts, not a talking point.”",
+          ? "“That helps. Reed, check the third referral; we’ll keep the staff checklist focused on the required document these cases establish.”"
+          : "“That helps. Keep the staff checklist focused on the proof-of-income form these referrals establish.”"
+        : "“Good. I’ll check whether the third county referral lacked the proof-of-income form and bring back that fact.”",
       perception: `${personName(speaker)} welcomed a narrow, evidence-led approach.`,
       durableDecisionRecorded: false,
     };
   }
 
-  return {
-    world,
-    outcome: isPrimary ? "continued" : "bystander-interjected",
-    speakerPersonId: input.speakerPersonId,
-    dialogue: isPrimary
-      ? input.previousIntent === "request-commitment"
-        ? "“That condition is the point: one more verified constituent-service case would make the briefing recommendation easier to defend.”"
-        : "“Let me finish the thought: the briefing recommendation turns on whether one more constituent-service case confirms the same barrier.”"
-      : input.previousIntent === "request-commitment"
-        ? "“I’ll take that condition. I can call the neighborhood office now and verify the remaining constituent-service case,” Reed says."
-        : "“The open question is whether the three constituent-service cases share the same barrier. I can call the neighborhood office now,” Reed says.",
-    perception: `${personName(speaker)} offered a concrete way to verify another case.`,
-    durableDecisionRecorded: false,
-  };
+  throw new Error("Listen requires a pending bounded contribution.");
 }
 
 function resolveQuietRoom(world: World): ResolvedResponse {
@@ -727,6 +827,172 @@ function resolveQuietRoom(world: World): ResolvedResponse {
     perception: null,
     durableDecisionRecorded: false,
   };
+}
+
+function resolvePendingConversationContribution(
+  world: World,
+  input: {
+    readonly speakerPersonId: EntityId;
+    readonly pendingContribution: RunBPendingContribution;
+  },
+): ResolvedResponse {
+  const speaker = world.people[input.speakerPersonId];
+  if (!speaker) {
+    throw new Error("Pending conversation speaker is missing.");
+  }
+  switch (input.pendingContribution) {
+    case "collins-explain-condition":
+      return {
+        world,
+        outcome: "continued",
+        speakerPersonId: input.speakerPersonId,
+        dialogue:
+          "“Here’s what I need,” Collins says. “If the third county referral also lacked the proof-of-income form, I can back one document checklist for staff to use before future referrals. Reed is checking that missing fact.”",
+        perception: `${personName(speaker)} made support for the checklist conditional on the last case.`,
+        durableDecisionRecorded: false,
+      };
+    case "reed-offer-verification":
+      return {
+        world,
+        outcome: "bystander-interjected",
+        speakerPersonId: input.speakerPersonId,
+        dialogue:
+          "“I can make that call,” Reed says. “I’ll check whether the county received the third referral without the proof-of-income form and report back before the briefing.”",
+        perception: `${personName(speaker)} promised to verify the remaining case before the briefing.`,
+        durableDecisionRecorded: false,
+      };
+    case "collins-respond-to-reed":
+      return {
+        world,
+        outcome: "continued",
+        speakerPersonId: input.speakerPersonId,
+        dialogue:
+          "“Good,” Collins says. “Once Reed reports on the third referral, put all three together and I’ll give you a final answer on the staff document checklist.”",
+        perception: `${personName(speaker)} kept a clear evidence condition while Reed followed up.`,
+        durableDecisionRecorded: false,
+      };
+  }
+}
+
+function advanceConversationProgress(
+  progress: RunBConversationProgress,
+  input: {
+    readonly room: ConversationRoomContext;
+    readonly addressee: ConversationAddressee;
+    readonly intent: ConversationIntent;
+    readonly outcome: ConversationSemanticResult["outcome"];
+    readonly responseSpeakerPersonId: EntityId | null;
+    readonly pendingContribution: RunBPendingContribution | null;
+  },
+): RunBConversationProgress {
+  if (input.intent === "listen") {
+    if (input.pendingContribution === null) {
+      return {
+        ...progress,
+        phase: "settled",
+        silenceSettled: true,
+      };
+    }
+    const remaining = progress.pendingContributions.slice(1);
+    switch (input.pendingContribution) {
+      case "collins-explain-condition":
+        return {
+          ...progress,
+          phase: "clarifying-condition",
+          collinsSupport: "conditional",
+          pendingContributions: remaining,
+          silenceSettled: false,
+        };
+      case "reed-offer-verification":
+        return {
+          ...progress,
+          phase: "awaiting-verification",
+          reedVerification: "promised",
+          pendingContributions: remaining,
+          silenceSettled: false,
+        };
+      case "collins-respond-to-reed":
+        return {
+          ...progress,
+          phase: "coordinating-briefing",
+          collinsSupport: "conditional",
+          pendingContributions: remaining,
+          silenceSettled: false,
+        };
+    }
+  }
+
+  const proposition = propositionFor(input.room, input.addressee, input.intent);
+  const primaryId = input.room.eligibleAddresseePersonIds[0];
+  const secondaryId = input.room.eligibleAddresseePersonIds[1];
+  const primaryResponded = input.responseSpeakerPersonId === primaryId;
+  const secondaryResponded = input.responseSpeakerPersonId === secondaryId;
+  const collinsSupport = primaryResponded
+    ? input.outcome === "committed"
+      ? "committed"
+      : input.intent === "request-commitment" || input.intent === "press"
+        ? "conditional"
+        : progress.collinsSupport
+    : progress.collinsSupport;
+  const reedVerification = secondaryResponded
+    ? "promised"
+    : progress.reedVerification;
+  const pendingContributions = pendingContributionsAfterPlayerIntent({
+    progress: { ...progress, collinsSupport, reedVerification },
+    primaryResponded,
+    secondaryResponded,
+  });
+
+  return {
+    ...progress,
+    phase:
+      reedVerification === "promised"
+        ? "awaiting-verification"
+        : collinsSupport === "conditional"
+          ? "clarifying-condition"
+          : "coordinating-briefing",
+    collinsSupport,
+    reedVerification,
+    latestProposition: proposition,
+    pendingContributions,
+    silenceSettled: false,
+  };
+}
+
+function pendingContributionsAfterPlayerIntent(input: {
+  readonly progress: Pick<
+    RunBConversationProgress,
+    "collinsSupport" | "reedVerification"
+  >;
+  readonly primaryResponded: boolean;
+  readonly secondaryResponded: boolean;
+}): readonly RunBPendingContribution[] {
+  if (
+    input.primaryResponded &&
+    input.progress.reedVerification === "unoffered"
+  ) {
+    return ["reed-offer-verification"];
+  }
+  if (
+    input.secondaryResponded &&
+    input.progress.collinsSupport !== "committed"
+  ) {
+    return ["collins-respond-to-reed"];
+  }
+  return [];
+}
+
+function propositionFor(
+  room: ConversationRoomContext,
+  addressee: ConversationAddressee,
+  intent: Exclude<ConversationIntent, "listen">,
+): RunBConversationProposition {
+  if (intent === "reassure") return "keep-recommendation-narrow";
+  if (intent === "press") return "press-for-answer";
+  if (addressee === "everyone") return "joint-commitment";
+  return addressee === room.eligibleAddresseePersonIds[0]
+    ? "collins-back-checklist"
+    : "reed-verify-last-case";
 }
 
 function evaluateConversationDecision(
@@ -1051,12 +1317,15 @@ function resolveResponseSpeaker(
   room: ConversationRoomContext,
   intent: ConversationIntent,
   addresseePersonIds: readonly EntityId[],
-  actualListenerPersonIds: readonly EntityId[],
+  pendingContribution: RunBPendingContribution | null,
 ): EntityId {
-  if (intent === "listen" && addresseePersonIds.length > 1) {
-    const secondary = room.eligibleAddresseePersonIds[1];
-    if (secondary && actualListenerPersonIds.includes(secondary))
-      return secondary;
+  if (intent === "listen" && pendingContribution !== null) {
+    if (pendingContribution === "reed-offer-verification") {
+      const secondary = room.eligibleAddresseePersonIds[1];
+      if (secondary) return secondary;
+    }
+    const primary = room.eligibleAddresseePersonIds[0];
+    if (primary) return primary;
   }
   const speaker = addresseePersonIds[0];
   if (!speaker) throw new Error("Conversation turn has no response speaker.");
@@ -1075,29 +1344,6 @@ function previousConversationIntent(
     RUN_B_CONVERSATION_INTENTS.find((intent) =>
       previousTurn.tags.includes(`conversation.intent.${intent}`),
     ) ?? null
-  );
-}
-
-function conversationIntentCount(
-  world: World,
-  session: ConversationSessionDescriptor,
-  intent: ConversationIntent,
-): number {
-  return world.history.events.filter(
-    (event) =>
-      event.stableKey.startsWith(`${session.sessionKey}:turn:`) &&
-      event.tags.includes(`conversation.intent.${intent}`),
-  ).length;
-}
-
-function shouldContinueAfterListening(
-  world: World,
-  session: ConversationSessionDescriptor,
-): boolean {
-  return !world.history.events.some(
-    (event) =>
-      event.stableKey.startsWith(`${session.sessionKey}:turn:`) &&
-      event.tags.includes("conversation.intent.listen"),
   );
 }
 
@@ -1149,11 +1395,16 @@ function conversationPressure(intent: ConversationIntent): string | null {
 }
 
 function conversationChoice(intent: ConversationIntent): string {
-  return (
-    availableConversationIntents("everyone").find(
-      (option) => option.key === intent,
-    )?.description ?? `The player chose to ${intent.replaceAll("-", " ")}.`
-  );
+  if (intent === "request-commitment") {
+    return "The player asked for a concrete checklist or verification commitment.";
+  }
+  if (intent === "reassure") {
+    return "The player kept the checklist recommendation narrow and evidence-led.";
+  }
+  if (intent === "press") {
+    return "The player pressed for an answer on the checklist or last case.";
+  }
+  return "The player listened for the next relevant contribution.";
 }
 
 function canonicalPeople(

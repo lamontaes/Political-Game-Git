@@ -614,10 +614,18 @@ person pin also exposes an accessible Unpin action. Manual size remains
 authoritative, unpin removes only that person and clears stale manual size, and
 current/scheduled context stays in place. The compact conversation header names
 the synthetic controlled person as `You — Cameron Foster` and states the
-emergency-rent referral question before intent selection. Authored responses
+constituent-services problem before intent selection: two county referrals
+lacked a required proof-of-income form, Reed is checking the third, and Collins
+must decide whether to back a staff document checklist. Authored responses
 use the topic, addressee, intent, prior bounded turn, and semantic outcome.
-Listen is a non-spoken action, permits at most one continuation plus a settled
-room state, and is then unavailable rather than creating empty duplicate turns.
+Listen is a non-spoken action whose availability derives from fixture-specific
+pending contributions rather than a universal turn cap. Collins and Reed may
+contribute sequentially; one empty beat may settle the room, after which empty
+duplicates reject until a later player action creates a new follow-up. A small
+progression record preserves the briefing subject, support/verification state,
+latest proposition, pending contributions, and phase across addressee changes.
+Active conversation has no desktop internal scrollbar; paged history reuses
+the same bounded box rather than appending beneath active interaction.
 Temporary navigation, pin, and person-action menus dismiss on click-away or
 Escape without applying that rule to substantive conversation.
 

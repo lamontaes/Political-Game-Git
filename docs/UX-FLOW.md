@@ -92,21 +92,28 @@ Foster`; Collins and Reed remain distinct NPCs.
      remains within plausible earshot. Do not imply magical muting or certainty.
 
 4. **Choose an intent**
-   - State the emergency-rent referral gap and shared-intake-checklist briefing
-     question concisely before the choices, including what Collins must support
-     and Reed can verify.
-   - Offer only concise, contextually sensible intent labels such as asking for
-     a commitment, reassuring, pressing, or listening.
+   - State the constituent-services problem in ordinary language before the
+     choices: three Lexington tenants sought emergency-rent help; a required
+     proof-of-income form was missing from the first two county referrals; Reed
+     is checking the third; and Collins is deciding whether to back a document
+     checklist before future referrals.
+   - Offer concise, fixture-specific intent labels such as asking Collins to
+     back the referral checklist, asking Reed to check the third referral,
+     asking each for the corresponding next step, keeping the checklist tied to
+     the missing form, pressing, or listening.
    - Let an NPC return authored deterministic dialogue from the semantic result.
    - Keep each line tied to the briefing topic, current addressee, intent,
      preceding bounded turn, and actual semantic outcome.
-   - Let a nearby NPC genuinely hear and, for the first Listen in this bounded
-     state, make one continuation; repeated listening can let the room settle
-     without fabricating player or NPC speech. After that settled state, remove
-     Listen instead of writing further empty turns.
+   - Derive Listen from the current pending contributions: Collins may explain
+     his evidence condition, then Reed may offer the verification follow-up.
+     When no contribution remains, one Listen may let the room settle without
+     fabricated speech; remove Listen until a later player action creates a
+     legitimate new follow-up.
 
 5. **Review or leave**
-   - Show/hide the turn transcript, collapse/resume the strip, or close it.
+   - Switch the same bounded box between active conversation and one-turn-at-a-
+     time history. Return to active conversation, collapse/resume, or close it
+     without an internal vertical scrollbar.
    - Those actions, plus addressee/audibility changes, never write World or move
      time.
    - A committed turn may add same-date canonical history, but the normal UI

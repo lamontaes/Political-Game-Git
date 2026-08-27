@@ -833,10 +833,13 @@ visually attached just above the character, and remains clear of the bottom-left
 shell. The label is suppressed whenever the action menu, Your Read panel, or
 conversation already makes identity explicit. The listening intent is labeled
 `Listen`; its transcript action is `(You listen.)`, never a quoted player line.
-The first bounded listening opportunity may produce a deterministic NPC
-continuation, while one repeated Listen may record a settled-room state without
-an NPC claim or fabricated speech. Listen is then unavailable and a third empty
-turn is rejected before history changes.
+Listen availability derives from fixture-specific pending contributions rather
+than a count of earlier Listen turns. Collins and Reed may contribute in
+sequence where both have something relevant pending. When the queue is empty,
+one Listen may record a settled-room state without an NPC claim or fabricated
+speech; further empty Listen commits reject before history changes. A later
+spoken player action may create a new legitimate pending contribution and make
+Listen available again.
 
 ### NOW-185 — Existing pins generalize explicitly to both scene NPCs
 
@@ -850,14 +853,27 @@ and time/history-neutral.
 
 ### NOW-186 — Fixture identity, problem context, and dialogue are coherent
 
-The compact conversation context identifies `You — Cameron Foster` and states
-that three emergency-rent cases share a referral gap, the briefing will decide
-whether to recommend a shared intake checklist, Collins must back it, and Reed
-can verify the final case. Collins and Reed remain distinct NPC addressees and
-can never become controlled-person self-dialogue. Representative request lines
-commit, defer, or condition an answer according to outcome; pressure reacts to
-pressure; group lines recognize the group; and Listen continues the current
-thought only where warranted. Identical state/intent reproduces the same line.
+The compact conversation context and opening exchange identify `You — Cameron
+Foster`; establish that three Lexington tenants sought constituent-services
+help, the county could not process the first two referrals because a required
+proof-of-income form was missing, Reed is checking the third referral, and
+Collins is deciding whether to back a staff document checklist; and use
+contextual intent labels. The active box does not rely on an unexplained
+`referral gap` shorthand. A bounded progression record preserves these subject
+facts, Collins's condition, Reed's promise, the latest proposition, pending
+contributions, and phase when switching Collins → Reed → Everyone → an
+individual. Representative requests commit, defer, or condition an answer
+according to outcome; identical state/intent reproduces the same progression
+and line.
+
+### NOW-188 — Active conversation and history fit one game-like box
+
+At the normal desktop acceptance viewport, active conversation has no internal
+vertical scrollbar: `scrollHeight <= clientHeight`, and the current beat,
+choices, audibility, addressee, and essential controls are simultaneously
+visible. Opening history changes the same box into a bounded one-turn page with
+Previous, Next, and Back to conversation controls. History does not append
+beneath active play or make active interaction scroll-dependent.
 
 ### NOW-187 — Temporary menus dismiss without discarding substantive work
 
@@ -874,6 +890,12 @@ implementation-time browser inspection.
 
 - The default browser result is a warm, restrained, semi-illustrated office
   fixture rather than a top-bar dashboard.
+- A first-time player reading only the active conversation box can answer: the
+  county could not process two emergency-rent referrals because each lacked a
+  required proof-of-income form; this legislative office is involved through
+  constituent services; Reed is checking the third referral for the same
+  missing form; Collins is deciding whether to back a staff document checklist;
+  and the player is choosing whether and how to ask for those next steps.
 - The person is visibly seated behind the desk with the desk occluding only the
   lower body; there is no chair/desk intersection, floating, or scale break.
 - The bottom-left plaque and right tray follow the four user-supplied Run A
@@ -893,6 +915,8 @@ implementation-time browser inspection.
 - The ordinary conversation header establishes Cameron Foster as `You` and the
   emergency-rent/shared-intake-checklist question without becoming a large
   exposition panel.
+- Active conversation requires no internal vertical scrolling at the normal
+  desktop viewport; paged history reuses the same bounded box.
 - Collins and Reed remain at plausible separate anchors with no
   person/furniture intersection, floating, scale break, or incorrect foreground
   occlusion.

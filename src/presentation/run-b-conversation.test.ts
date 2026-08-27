@@ -16,15 +16,19 @@ import {
   availableConversationIntents,
   commitConversationTurn,
   createConversationSessionDescriptor,
+  describeRunBBriefingContext,
   describeConversationHearing,
   openingConversationBeat,
   resolveConversationListeners,
-  RUN_B_BRIEFING_CONTEXT,
   type CommitConversationTurnInput,
   type ConversationAddressee,
   type ConversationAudibility,
   type ConversationIntent,
 } from "./run-b-conversation";
+import {
+  canListenToRunBConversation,
+  createRunBConversationProgress,
+} from "./run-b-conversation-progress";
 import {
   createRunBConversationState,
   runBConversationReducer,
@@ -35,11 +39,12 @@ import { validateRunBSceneLayouts } from "./run-b-layout";
 
 function setup() {
   const fixture = createRunBFixture();
+  const progress = createRunBConversationProgress();
   const session = createConversationSessionDescriptor(
     fixture.world,
     fixture.roomContext,
   );
-  return { fixture, session };
+  return { fixture, progress, session };
 }
 
 function commit(
@@ -50,13 +55,14 @@ function commit(
     >
   > = {},
 ) {
-  const { fixture, session } = setup();
+  const { fixture, progress, session } = setup();
   return {
     fixture,
     session,
     result: commitConversationTurn(fixture.world, {
       session,
       room: fixture.roomContext,
+      progress,
       turnOrdinal: overrides.turnOrdinal ?? 1,
       addressee: overrides.addressee ?? fixture.scenePeople[0].personId,
       audibility: overrides.audibility ?? "normal",
@@ -70,11 +76,18 @@ function openState(
   addressee: ConversationAddressee,
 ): RunBConversationState {
   const fixture = createRunBFixture();
+  const progress = createRunBConversationProgress();
   return runBConversationReducer(createRunBConversationState(), {
     type: "open",
     session: createConversationSessionDescriptor(world, fixture.roomContext),
+    progress,
     addressee,
-    openingBeat: openingConversationBeat(world, fixture.roomContext, addressee),
+    openingBeat: openingConversationBeat(
+      world,
+      fixture.roomContext,
+      addressee,
+      progress,
+    ),
   });
 }
 
@@ -202,14 +215,17 @@ describe("Stage 6.5 Run B conversation semantics", () => {
       fixture.world,
       fixture.roomContext,
     );
+    const progress = createRunBConversationProgress();
     const state = runBConversationReducer(createRunBConversationState(), {
       type: "open",
       session,
+      progress,
       addressee: fixture.scenePeople[0].personId,
       openingBeat: openingConversationBeat(
         fixture.world,
         fixture.roomContext,
         fixture.scenePeople[0].personId,
+        progress,
       ),
     });
     expect(state.mode).toBe("open");
@@ -217,12 +233,70 @@ describe("Stage 6.5 Run B conversation semantics", () => {
   });
 
   it("establishes the bounded briefing problem before intent selection", () => {
-    expect(RUN_B_BRIEFING_CONTEXT).toMatch(
-      /emergency-rent cases.*referral gap.*shared intake checklist/i,
+    const fixture = createRunBFixture();
+    const progress = createRunBConversationProgress();
+    const opening = openingConversationBeat(
+      fixture.world,
+      fixture.roomContext,
+      fixture.scenePeople[0].personId,
+      progress,
     );
-    expect(RUN_B_BRIEFING_CONTEXT).toMatch(
-      /Collins must back.*Reed can verify the final case/i,
+    const briefing = describeRunBBriefingContext(progress);
+    const visibleContext = `${briefing} ${opening.dialogue}`;
+    expect(progress.subjectFacts).toMatchObject({
+      constituentDescription: "three Lexington tenants",
+      officeRole: "constituent-services referral",
+      referralDestination: "county emergency-rent program",
+      requiredDocument: "proof-of-income form",
+      knownAffectedReferralCount: 2,
+      unresolvedReferralOrdinal: 3,
+      proposedOfficeProcedure: "pre-referral document checklist",
+    });
+    expect(briefing).toMatch(
+      /Three Lexington tenants.*this office.*emergency-rent help/i,
     );
+    expect(briefing).toMatch(
+      /county could not process two referrals.*proof-of-income form/i,
+    );
+    expect(briefing).toMatch(/Reed is checking the third/i);
+    expect(briefing).toMatch(
+      /Collins should back a document checklist before future referrals/i,
+    );
+    expect(visibleContext).toMatch(
+      /county could not process.*proof-of-income form.*Reed finds the third county referral.*back one document checklist.*future referrals/i,
+    );
+    expect(visibleContext).not.toMatch(/referral gap/i);
+    expect(
+      availableConversationIntents(
+        fixture.roomContext,
+        fixture.scenePeople[0].personId,
+        progress,
+      ).map((intent) => [intent.key, intent.label]),
+    ).toContainEqual([
+      "request-commitment",
+      "Ask Collins to back the referral checklist",
+    ]);
+    expect(
+      availableConversationIntents(
+        fixture.roomContext,
+        fixture.scenePeople[1].personId,
+        progress,
+      ).map((intent) => [intent.key, intent.label]),
+    ).toContainEqual([
+      "request-commitment",
+      "Ask Reed to check the third referral",
+    ]);
+    const everyoneIntents = availableConversationIntents(
+      fixture.roomContext,
+      "everyone",
+      progress,
+    );
+    expect(everyoneIntents.map((intent) => intent.label)).toContain(
+      "Ask Reed to check and Collins to decide",
+    );
+    expect(
+      everyoneIntents.map((intent) => intent.description).join(" "),
+    ).toMatch(/third referral.*staff checklist/i);
   });
 
   it("switches NPC A, NPC B, and Everyone without restarting or mutating World", () => {
@@ -242,12 +316,83 @@ describe("Stage 6.5 Run B conversation semantics", () => {
           fixture.world,
           fixture.roomContext,
           addressee,
+          state.progress!,
         ),
       });
       expect(state.session?.sessionKey).toBe(session.sessionKey);
       expect(state.addressee).toBe(addressee);
     }
     expect(serializeWorld(fixture.world)).toBe(before);
+  });
+
+  it("preserves briefing continuity across Collins, Reed, Everyone, and back to an individual", () => {
+    const { fixture, progress, session } = setup();
+    const collinsId = fixture.scenePeople[0].personId;
+    const reedId = fixture.scenePeople[1].personId;
+    const collinsTurn = commitConversationTurn(fixture.world, {
+      session,
+      room: fixture.roomContext,
+      progress,
+      turnOrdinal: 1,
+      addressee: collinsId,
+      audibility: "normal",
+      intent: "request-commitment",
+    });
+    expect(collinsTurn.progress.collinsSupport).toBe("conditional");
+
+    const reedContinuation = openingConversationBeat(
+      collinsTurn.world,
+      fixture.roomContext,
+      reedId,
+      collinsTurn.progress,
+    );
+    expect(reedContinuation.dialogue).toMatch(
+      /Collins needs the third referral checked.*proof-of-income form was missing/,
+    );
+    expect(reedContinuation.dialogue).not.toMatch(/first two.*point/i);
+
+    const reedTurn = commitConversationTurn(collinsTurn.world, {
+      session,
+      room: fixture.roomContext,
+      progress: collinsTurn.progress,
+      turnOrdinal: 2,
+      addressee: reedId,
+      audibility: "normal",
+      intent: "request-commitment",
+    });
+    expect(reedTurn.progress.reedVerification).toBe("promised");
+
+    const everyoneContinuation = openingConversationBeat(
+      reedTurn.world,
+      fixture.roomContext,
+      "everyone",
+      reedTurn.progress,
+    );
+    expect(everyoneContinuation.dialogue).toMatch(
+      /Reed will check.*third county referral.*proof-of-income form.*decide on the staff checklist/,
+    );
+
+    const groupTurn = commitConversationTurn(reedTurn.world, {
+      session,
+      room: fixture.roomContext,
+      progress: reedTurn.progress,
+      turnOrdinal: 3,
+      addressee: "everyone",
+      audibility: "normal",
+      intent: "reassure",
+    });
+    const collinsContinuation = openingConversationBeat(
+      groupTurn.world,
+      fixture.roomContext,
+      collinsId,
+      groupTurn.progress,
+    );
+    expect(collinsContinuation.dialogue).toMatch(
+      /Reed is checking the third county referral.*proof-of-income form.*answer on the staff checklist/,
+    );
+    expect(groupTurn.progress.latestProposition).toBe(
+      "keep-recommendation-narrow",
+    );
   });
 
   it("switches audibility without mutating World", () => {
@@ -354,6 +499,7 @@ describe("Stage 6.5 Run B conversation semantics", () => {
     const first = commit().result;
     const second = commit().result;
     expect(first.semantic).toEqual(second.semantic);
+    expect(first.progress).toEqual(second.progress);
     expect(first.presentation).toEqual(second.presentation);
     expect(serializeWorld(first.world)).toBe(serializeWorld(second.world));
   });
@@ -515,11 +661,18 @@ describe("Stage 6.5 Run B conversation semantics", () => {
       {
         type: "apply-turn",
         turnOrdinal: 1,
+        progress: result.progress,
         presentation: result.presentation,
       },
     );
     expect(
-      JSON.stringify(availableConversationIntents("everyone")),
+      JSON.stringify(
+        availableConversationIntents(
+          fixture.roomContext,
+          "everyone",
+          createRunBConversationProgress(),
+        ),
+      ),
     ).not.toContain(RUN_A_HIDDEN_CANONICAL_TEXT);
     expect(JSON.stringify(result.presentation)).not.toContain(
       RUN_A_HIDDEN_CANONICAL_TEXT,
@@ -589,12 +742,13 @@ describe("Stage 6.5 Run B conversation semantics", () => {
     });
     expect(asked.semantic.outcome).toBe("deferred");
     expect(asked.presentation.beat?.dialogue).toMatch(
-      /Not yet.*verified case.*answer before the briefing/,
+      /Not yet.*Reed.*third county referral.*proof-of-income form.*staff checklist/,
     );
 
     const pressed = commitConversationTurn(asked.world, {
       session,
       room: fixture.roomContext,
+      progress: asked.progress,
       turnOrdinal: 2,
       addressee: fixture.scenePeople[0].personId,
       audibility: "normal",
@@ -602,7 +756,7 @@ describe("Stage 6.5 Run B conversation semantics", () => {
     });
     expect(pressed.semantic.outcome).toBe("boundary-held");
     expect(pressed.presentation.beat?.dialogue).toMatch(
-      /condition hasn’t changed.*constituent-service case.*briefing/,
+      /condition hasn’t changed.*Reed.*third county referral.*proof-of-income form.*staff checklist/,
     );
 
     const groupFixture = createRunBFixture();
@@ -619,7 +773,7 @@ describe("Stage 6.5 Run B conversation semantics", () => {
       intent: "request-commitment",
     });
     expect(group.presentation.beat?.dialogue).toMatch(
-      /Reed.*constituent-service case.*group.*briefing/,
+      /Reed.*third county referral.*proof-of-income form.*staff checklist/,
     );
     expect(group.semantic.responseSpeakerPersonId).not.toBe(
       groupFixture.playerPersonId,
@@ -642,111 +796,179 @@ describe("Stage 6.5 Run B conversation semantics", () => {
       directListenFixture.scenePeople[0].personId,
     );
     expect(directListen.presentation.beat?.dialogue).toMatch(
-      /briefing recommendation.*constituent-service case/,
+      /third county referral.*proof-of-income form.*document checklist.*Reed is checking/,
     );
   });
 
-  it("lets a real bystander continue the group conversation when the player listens", () => {
-    const { fixture, session } = setup();
-    const result = commitConversationTurn(fixture.world, {
-      session,
-      room: fixture.roomContext,
-      turnOrdinal: 1,
-      addressee: "everyone",
-      audibility: "normal",
-      intent: "listen",
-    });
-    expect(result.semantic.outcome).toBe("bystander-interjected");
-    expect(result.semantic.responseSpeakerPersonId).toBe(
-      fixture.scenePeople[1].personId,
-    );
-    expect(result.presentation.beat?.dialogue).toContain(
-      "call the neighborhood office",
-    );
-    expect(result.presentation.playerIntentLabel).toBe("Listen");
-    expect(result.presentation.playerActionDescription).toBe("(You listen.)");
-    expect(JSON.stringify(result.presentation)).not.toContain("Say nothing");
-  });
-
-  it("lets repeated listening settle into silence without fabricating player or NPC speech", () => {
-    const { fixture, session } = setup();
+  it("allows consecutive Listen turns while distinct NPC contributions remain pending", () => {
+    const { fixture, progress, session } = setup();
     const first = commitConversationTurn(fixture.world, {
       session,
       room: fixture.roomContext,
+      progress,
       turnOrdinal: 1,
       addressee: "everyone",
       audibility: "normal",
       intent: "listen",
     });
-    const claimCountAfterContinuation = first.world.history.claims.length;
+    expect(first.semantic.responseSpeakerPersonId).toBe(
+      fixture.scenePeople[0].personId,
+    );
+    expect(first.presentation.beat?.dialogue).toMatch(
+      /third county referral.*proof-of-income form.*document checklist.*Reed is checking/,
+    );
+    expect(first.progress.pendingContributions).toEqual([
+      "reed-offer-verification",
+    ]);
+    expect(canListenToRunBConversation(first.progress)).toBe(true);
+
     const second = commitConversationTurn(first.world, {
       session,
       room: fixture.roomContext,
+      progress: first.progress,
       turnOrdinal: 2,
       addressee: "everyone",
       audibility: "normal",
       intent: "listen",
     });
+    expect(second.semantic.outcome).toBe("bystander-interjected");
+    expect(second.semantic.responseSpeakerPersonId).toBe(
+      fixture.scenePeople[1].personId,
+    );
+    expect(second.presentation.beat?.dialogue).toMatch(
+      /county received the third referral.*proof-of-income form.*before the briefing/,
+    );
+    expect(second.progress.reedVerification).toBe("promised");
+    expect(second.progress.pendingContributions).toEqual([]);
+    expect(canListenToRunBConversation(second.progress)).toBe(true);
+    expect(second.presentation.playerActionDescription).toBe("(You listen.)");
+    expect(JSON.stringify(second.presentation)).not.toContain("Say nothing");
+  });
 
-    expect(second.semantic.outcome).toBe("silence-held");
-    expect(second.semantic.responseSpeakerPersonId).toBeNull();
-    expect(second.semantic.claimAudience).toBeNull();
-    expect(second.semantic.claimRecipientPersonIds).toEqual([]);
-    expect(second.presentation.beat).toBeNull();
-    expect(second.presentation.roomNarration).toBe(
+  it("settles Listen only when no contribution remains and rejects empty repetition", () => {
+    const { fixture, progress, session } = setup();
+    const first = commitConversationTurn(fixture.world, {
+      session,
+      room: fixture.roomContext,
+      progress,
+      turnOrdinal: 1,
+      addressee: "everyone",
+      audibility: "normal",
+      intent: "listen",
+    });
+    const second = commitConversationTurn(first.world, {
+      session,
+      room: fixture.roomContext,
+      progress: first.progress,
+      turnOrdinal: 2,
+      addressee: "everyone",
+      audibility: "normal",
+      intent: "listen",
+    });
+    const claimCountAfterContributions = second.world.history.claims.length;
+    const settled = commitConversationTurn(second.world, {
+      session,
+      room: fixture.roomContext,
+      progress: second.progress,
+      turnOrdinal: 3,
+      addressee: "everyone",
+      audibility: "normal",
+      intent: "listen",
+    });
+
+    expect(settled.semantic.outcome).toBe("silence-held");
+    expect(settled.semantic.responseSpeakerPersonId).toBeNull();
+    expect(settled.presentation.beat).toBeNull();
+    expect(settled.presentation.roomNarration).toBe(
       "The room settles. No one adds anything yet.",
     );
-    expect(second.world.history.claims).toHaveLength(
-      claimCountAfterContinuation,
+    expect(settled.world.history.claims).toHaveLength(
+      claimCountAfterContributions,
     );
+    expect(settled.progress.silenceSettled).toBe(true);
+    expect(canListenToRunBConversation(settled.progress)).toBe(false);
     expect(
-      second.world.history.claims.some(
-        (claim) => claim.speakerPersonId === fixture.playerPersonId,
-      ),
-    ).toBe(false);
-    const event = second.world.history.events.at(-1)!;
-    expect(
-      event.participants.find(
-        (participant) => participant.personId === fixture.playerPersonId,
-      ),
-    ).toMatchObject({
-      role: "presence:participant",
-      detail: "Listened without speaking",
-    });
+      availableConversationIntents(
+        fixture.roomContext,
+        "everyone",
+        settled.progress,
+      ).map((intent) => intent.key),
+    ).not.toContain("listen");
 
-    let state = openState(fixture.world, "everyone");
-    state = runBConversationReducer(state, {
-      type: "apply-turn",
-      turnOrdinal: 1,
-      presentation: first.presentation,
-    });
-    state = runBConversationReducer(state, {
-      type: "apply-turn",
-      turnOrdinal: 2,
-      presentation: second.presentation,
-    });
-    expect(
-      state.transcript.map((entry) => entry.playerActionDescription),
-    ).toEqual(["(You listen.)", "(You listen.)"]);
-    expect(state.transcript[1]?.response).toBeNull();
-
-    const beforeRejectedThirdListen = serializeWorld(second.world);
+    const beforeRejectedListen = serializeWorld(settled.world);
     expect(() =>
-      commitConversationTurn(second.world, {
+      commitConversationTurn(settled.world, {
         session,
         room: fixture.roomContext,
-        turnOrdinal: 3,
+        progress: settled.progress,
+        turnOrdinal: 4,
         addressee: "everyone",
         audibility: "normal",
         intent: "listen",
       }),
     ).toThrow("intent listen is unavailable");
-    expect(serializeWorld(second.world)).toBe(beforeRejectedThirdListen);
-    expect(
-      availableConversationIntents("everyone", { listenAvailable: false }).map(
-        (intent) => intent.key,
-      ),
-    ).not.toContain("listen");
+    expect(serializeWorld(settled.world)).toBe(beforeRejectedListen);
+  });
+
+  it("lets a later player request create a new legitimate Listen opportunity", () => {
+    const { fixture, progress, session } = setup();
+    const first = commitConversationTurn(fixture.world, {
+      session,
+      room: fixture.roomContext,
+      progress,
+      turnOrdinal: 1,
+      addressee: "everyone",
+      audibility: "normal",
+      intent: "listen",
+    });
+    const second = commitConversationTurn(first.world, {
+      session,
+      room: fixture.roomContext,
+      progress: first.progress,
+      turnOrdinal: 2,
+      addressee: "everyone",
+      audibility: "normal",
+      intent: "listen",
+    });
+    const settled = commitConversationTurn(second.world, {
+      session,
+      room: fixture.roomContext,
+      progress: second.progress,
+      turnOrdinal: 3,
+      addressee: "everyone",
+      audibility: "normal",
+      intent: "listen",
+    });
+    const request = commitConversationTurn(settled.world, {
+      session,
+      room: fixture.roomContext,
+      progress: settled.progress,
+      turnOrdinal: 4,
+      addressee: fixture.scenePeople[1].personId,
+      audibility: "normal",
+      intent: "request-commitment",
+    });
+    expect(request.progress.silenceSettled).toBe(false);
+    expect(request.progress.pendingContributions).toEqual([
+      "collins-respond-to-reed",
+    ]);
+    expect(canListenToRunBConversation(request.progress)).toBe(true);
+
+    const followUp = commitConversationTurn(request.world, {
+      session,
+      room: fixture.roomContext,
+      progress: request.progress,
+      turnOrdinal: 5,
+      addressee: fixture.scenePeople[1].personId,
+      audibility: "normal",
+      intent: "listen",
+    });
+    expect(followUp.semantic.responseSpeakerPersonId).toBe(
+      fixture.scenePeople[0].personId,
+    );
+    expect(followUp.presentation.beat?.dialogue).toMatch(
+      /Once Reed reports on the third referral.*final answer.*document checklist/,
+    );
   });
 
   it("fails malformed turns safely and leaves the input World untouched", () => {

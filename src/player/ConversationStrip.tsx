@@ -3,10 +3,10 @@ import { useEffect, useRef } from "react";
 import { personName, type World } from "../simulation";
 import {
   availableConversationIntents,
+  describeRunBBriefingContext,
   describeConversationHearing,
   openingConversationBeat,
   RUN_B_AUDIBILITY_OPTIONS,
-  RUN_B_BRIEFING_CONTEXT,
   type ConversationAddressee,
   type ConversationIntent,
   type ConversationRoomContext,
@@ -35,16 +35,20 @@ export function ConversationStrip({
   onCommit,
 }: ConversationStripProps) {
   const firstIntentRef = useRef<HTMLButtonElement>(null);
+  const historyBackRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (state.mode === "open" && state.committedTurnCount === 0) {
+    if (state.mode === "open" && state.transcriptOpen) {
+      historyBackRef.current?.focus();
+    } else if (state.mode === "open" && state.committedTurnCount === 0) {
       firstIntentRef.current?.focus();
     }
-  }, [state.mode, state.committedTurnCount]);
+  }, [state.mode, state.committedTurnCount, state.transcriptOpen]);
 
-  if (!state.session || state.addressee === null) {
+  if (!state.session || !state.progress || state.addressee === null) {
     return null;
   }
+  const progress = state.progress;
 
   const addresseeOptions: readonly {
     readonly key: ConversationAddressee;
@@ -61,7 +65,7 @@ export function ConversationStrip({
     dispatch({
       type: "switch-addressee",
       addressee,
-      openingBeat: openingConversationBeat(world, room, addressee),
+      openingBeat: openingConversationBeat(world, room, addressee, progress),
     });
   }
 
@@ -95,6 +99,106 @@ export function ConversationStrip({
     );
   }
 
+  const player = world.people[room.playerPersonId];
+  if (!player) {
+    throw new Error("Conversation player is missing from the current World.");
+  }
+
+  if (state.transcriptOpen) {
+    const entry = state.transcript[state.transcriptCursor] ?? null;
+    return (
+      <aside
+        className="conversation-strip conversation-strip--history civic-glass"
+        aria-labelledby="conversation-history-title"
+        data-testid="conversation-strip"
+        data-conversation-mode="history"
+      >
+        <header className="conversation-strip-header">
+          <div>
+            <p className="conversation-kicker">
+              You — {personName(player)} · In the room
+            </p>
+            <h2 id="conversation-history-title">Conversation history</h2>
+          </div>
+          <div className="conversation-window-actions">
+            <button
+              ref={historyBackRef}
+              type="button"
+              onClick={() => dispatch({ type: "toggle-transcript" })}
+            >
+              Back to conversation
+            </button>
+            <button
+              type="button"
+              className="conversation-icon-button"
+              aria-label="Close conversation"
+              onClick={() => dispatch({ type: "close" })}
+            >
+              ×
+            </button>
+          </div>
+        </header>
+
+        <div
+          id="conversation-transcript"
+          className="conversation-transcript conversation-history-page"
+          data-testid="conversation-transcript"
+        >
+          {entry ? (
+            <article data-player-intent={entry.playerIntent}>
+              <span
+                className={
+                  entry.playerIntent === "Listen"
+                    ? "conversation-listen-action"
+                    : undefined
+                }
+              >
+                {entry.playerActionDescription}
+              </span>
+              {entry.response ? (
+                <>
+                  <strong>{entry.response.speakerName}</strong>
+                  <p>{entry.response.dialogue}</p>
+                </>
+              ) : null}
+              {entry.roomNarration ? (
+                <p className="conversation-room-narration">
+                  {entry.roomNarration}
+                </p>
+              ) : null}
+            </article>
+          ) : (
+            <p>No substantive turns yet.</p>
+          )}
+        </div>
+
+        <div className="conversation-history-navigation">
+          <button
+            type="button"
+            disabled={!entry || state.transcriptCursor === 0}
+            onClick={() => dispatch({ type: "previous-transcript-entry" })}
+          >
+            Previous
+          </button>
+          <span>
+            {entry
+              ? `Turn ${state.transcriptCursor + 1} of ${state.transcript.length}`
+              : "No committed turns"}
+          </span>
+          <button
+            type="button"
+            disabled={
+              !entry || state.transcriptCursor >= state.transcript.length - 1
+            }
+            onClick={() => dispatch({ type: "next-transcript-entry" })}
+          >
+            Next
+          </button>
+        </div>
+      </aside>
+    );
+  }
+
   const hearingDescription = describeConversationHearing(
     world,
     room,
@@ -105,16 +209,7 @@ export function ConversationStrip({
     !room.privateAvailable && room.privateUnavailableReason
       ? `${hearingDescription} ${room.privateUnavailableReason}`
       : hearingDescription;
-  const listenAvailable =
-    state.transcript.filter((entry) => entry.playerIntent === "Listen").length <
-    2;
-  const intents = availableConversationIntents(state.addressee, {
-    listenAvailable,
-  });
-  const player = world.people[room.playerPersonId];
-  if (!player) {
-    throw new Error("Conversation player is missing from the current World.");
-  }
+  const intents = availableConversationIntents(room, state.addressee, progress);
 
   return (
     <aside
@@ -131,7 +226,8 @@ export function ConversationStrip({
           <h2 id="conversation-strip-title">Office conversation</h2>
         </div>
         <p className="conversation-topic-context">
-          <strong>Briefing question ·</strong> {RUN_B_BRIEFING_CONTEXT}
+          <strong>Constituent services ·</strong>{" "}
+          {describeRunBBriefingContext(progress)}
         </p>
         <div className="conversation-window-actions">
           <button
@@ -234,7 +330,7 @@ export function ConversationStrip({
           aria-controls="conversation-transcript"
           onClick={() => dispatch({ type: "toggle-transcript" })}
         >
-          {state.transcriptOpen ? "Hide transcript" : "Show transcript"}
+          View history
         </button>
         <span>
           {state.committedTurnCount === 0
@@ -244,44 +340,6 @@ export function ConversationStrip({
               }`}
         </span>
       </div>
-      {state.transcriptOpen ? (
-        <div
-          id="conversation-transcript"
-          className="conversation-transcript"
-          data-testid="conversation-transcript"
-        >
-          {state.transcript.length === 0 ? (
-            <p>No substantive turns yet.</p>
-          ) : (
-            <ol>
-              {state.transcript.map((entry) => (
-                <li key={entry.ordinal} data-player-intent={entry.playerIntent}>
-                  <span
-                    className={
-                      entry.playerIntent === "Listen"
-                        ? "conversation-listen-action"
-                        : undefined
-                    }
-                  >
-                    {entry.playerActionDescription}
-                  </span>
-                  {entry.response ? (
-                    <>
-                      <strong>{entry.response.speakerName}</strong>
-                      <p>{entry.response.dialogue}</p>
-                    </>
-                  ) : null}
-                  {entry.roomNarration ? (
-                    <p className="conversation-room-narration">
-                      {entry.roomNarration}
-                    </p>
-                  ) : null}
-                </li>
-              ))}
-            </ol>
-          )}
-        </div>
-      ) : null}
     </aside>
   );
 }

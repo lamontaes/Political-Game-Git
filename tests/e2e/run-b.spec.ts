@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
@@ -19,6 +19,32 @@ async function openConversation(page: Page) {
   const strip = page.getByTestId("conversation-strip");
   await expect(strip).toBeVisible();
   return strip;
+}
+
+async function expectConversationContentFits(strip: Locator) {
+  const metrics = await strip.evaluate((element) => ({
+    clientHeight: element.clientHeight,
+    overflowY: window.getComputedStyle(element).overflowY,
+    scrollHeight: element.scrollHeight,
+  }));
+  expect(metrics.scrollHeight).toBeLessThanOrEqual(metrics.clientHeight);
+  expect(["auto", "scroll"]).not.toContain(metrics.overflowY);
+
+  const stripBox = await strip.boundingBox();
+  expect(stripBox).not.toBeNull();
+  const required = strip.locator(
+    ".conversation-beat, .conversation-intents button, .conversation-transcript-controls",
+  );
+  for (let index = 0; index < (await required.count()); index += 1) {
+    const item = required.nth(index);
+    await expect(item).toBeVisible();
+    const itemBox = await item.boundingBox();
+    expect(itemBox).not.toBeNull();
+    expect(itemBox?.y ?? 0).toBeGreaterThanOrEqual(stripBox?.y ?? 0);
+    expect((itemBox?.y ?? 0) + (itemBox?.height ?? 0)).toBeLessThanOrEqual(
+      (stripBox?.y ?? 0) + (stripBox?.height ?? 0) + 1,
+    );
+  }
 }
 
 test("anchors contextual character labels and suppresses them when identity is already clear", async ({
@@ -182,9 +208,16 @@ test("runs the occupied-office conversation through addressee, audibility, and c
   const strip = await openConversation(page);
   await expect(strip).toContainText("You — Cameron Foster");
   await expect(strip).toContainText(
-    "Three emergency-rent cases share a referral gap",
+    "Three Lexington tenants asked this office for emergency-rent help",
   );
-  await expect(strip).toContainText("shared intake checklist");
+  await expect(strip).toContainText("required proof-of-income form");
+  await expect(strip).toContainText(
+    "Reed is checking the third. Decide whether Collins should back a document checklist before future referrals",
+  );
+  await expect(strip).toContainText(
+    "If Reed finds the third county referral also lacked the proof-of-income form",
+  );
+  await expect(strip).not.toContainText("referral gap");
   await npcA.hover();
   await expect(page.getByTestId("scene-person-nameplate")).toBeHidden();
   await npcB.hover();
@@ -204,11 +237,12 @@ test("runs the occupied-office conversation through addressee, audibility, and c
     (officeBox?.width ?? 0) * 0.68,
   );
   expect(stripBox?.y ?? 0).toBeGreaterThan(
-    (npcABox?.y ?? 0) + (npcABox?.height ?? 0) * 0.4,
+    (npcABox?.y ?? 0) + (npcABox?.height ?? 0) * 0.25,
   );
   expect(stripBox?.y ?? 0).toBeGreaterThan(
-    (npcBBox?.y ?? 0) + (npcBBox?.height ?? 0) * 0.4,
+    (npcBBox?.y ?? 0) + (npcBBox?.height ?? 0) * 0.25,
   );
+  await expectConversationContentFits(strip);
 
   const collins = strip.getByRole("button", { name: "Collins", exact: true });
   const reed = strip.getByRole("button", { name: "Reed", exact: true });
@@ -224,7 +258,12 @@ test("runs the occupied-office conversation through addressee, audibility, and c
   await expect(reed).toHaveAttribute("aria-pressed", "true");
   await expect(npcA).toHaveAttribute("data-addressed", "false");
   await expect(npcB).toHaveAttribute("data-addressed", "true");
-  await expect(strip).toContainText("What should I ask them to confirm?");
+  await expect(strip).toContainText(
+    "check whether the third referral arrived without that form too",
+  );
+  await expect(
+    strip.getByRole("button", { name: "Ask Reed to check the third referral" }),
+  ).toBeVisible();
 
   await everyone.click();
   await expect(everyone).toHaveAttribute("aria-pressed", "true");
@@ -247,9 +286,13 @@ test("runs the occupied-office conversation through addressee, audibility, and c
   await strip.getByRole("button", { name: "Normal", exact: true }).click();
   await expect(hearing).toContainText("Reed is nearby");
 
-  await strip.getByRole("button", { name: "Ask for a commitment" }).click();
+  await strip
+    .getByRole("button", {
+      name: "Ask Collins to back the referral checklist",
+    })
+    .click();
   await expect(strip).toContainText(
-    "Bring me one more verified case, and I’ll give you an answer",
+    "Have Reed check whether the third county referral lacked the proof-of-income form",
   );
   await expect(office).toHaveAttribute("data-conversation-event-count", "1");
   await expect(office).toHaveAttribute("data-conversation-claim-count", "1");
@@ -261,6 +304,19 @@ test("runs the occupied-office conversation through addressee, audibility, and c
   ).toBeGreaterThan(0);
   await expect(office).toHaveAttribute("data-simulation-date", "2026-01-05");
   await expect(office).toHaveAttribute("data-action-sequence", "0");
+
+  await reed.click();
+  await expect(strip).toContainText("Collins needs the third referral checked");
+  await expect(strip).not.toContainText(
+    "The first two county referrals arrived without the proof-of-income form",
+  );
+  await everyone.click();
+  await expect(strip).toContainText(
+    "staff should check required documents before future county referrals",
+  );
+  await collins.click();
+  await expect(strip).toContainText("I need the third county referral checked");
+  await expectConversationContentFits(strip);
 
   await page.locator('[data-pin-id="person"]').click();
   await page
@@ -294,37 +350,57 @@ test("presents Listen as a non-spoken action and only continues when the bounded
 }) => {
   const office = page.getByTestId("player-office");
   const strip = await openConversation(page);
-  const listen = strip.getByRole("button", { name: "Listen", exact: true });
+  const listen = () =>
+    strip.getByRole("button", { name: "Listen", exact: true });
 
   await expect(strip).not.toContainText("Say nothing");
-  await listen.click();
-  await expect(strip).toContainText(
-    "briefing recommendation turns on whether one more constituent-service case",
-  );
+  await listen().click();
+  await expect(strip).toContainText("Reed is checking that missing fact");
   await expect(office).toHaveAttribute("data-conversation-event-count", "1");
   await expect(office).toHaveAttribute("data-conversation-claim-count", "1");
 
-  await strip.getByRole("button", { name: "Show transcript" }).click();
-  let transcript = page.getByTestId("conversation-transcript");
-  await expect(transcript).toContainText("(You listen.)");
-  await expect(transcript).not.toContainText("You · Say nothing");
-  await expect(transcript).not.toContainText("You · Listen");
-  await expect(transcript.locator("strong")).toHaveCount(1);
+  await listen().click();
+  await expect(strip).toContainText("I can make that call");
+  await expect(strip).toContainText(
+    "county received the third referral without the proof-of-income form",
+  );
+  await expect(office).toHaveAttribute("data-conversation-event-count", "2");
+  await expect(office).toHaveAttribute("data-conversation-claim-count", "2");
+  await expect(listen()).toBeVisible();
 
-  await listen.click();
+  await listen().click();
   await expect(strip).toContainText(
     "The room settles. No one adds anything yet.",
   );
-  await expect(office).toHaveAttribute("data-conversation-event-count", "2");
-  await expect(office).toHaveAttribute("data-conversation-claim-count", "1");
-  transcript = page.getByTestId("conversation-transcript");
-  await expect(transcript.locator('[data-player-intent="Listen"]')).toHaveCount(
-    2,
+  await expect(office).toHaveAttribute("data-conversation-event-count", "3");
+  await expect(office).toHaveAttribute("data-conversation-claim-count", "2");
+  await expect(listen()).toHaveCount(0);
+
+  await strip.getByRole("button", { name: "View history" }).click();
+  await expect(strip).toHaveAttribute("data-conversation-mode", "history");
+  let transcript = page.getByTestId("conversation-transcript");
+  await expect(transcript).toContainText("(You listen.)");
+  await expect(transcript).toContainText(
+    "The room settles. No one adds anything yet.",
   );
+  await expect(transcript).not.toContainText("You · Say nothing");
+  await expect(transcript).not.toContainText("You · Listen");
+  await strip.getByRole("button", { name: "Previous" }).click();
+  transcript = page.getByTestId("conversation-transcript");
+  await expect(transcript).toContainText("I can make that call");
   await expect(transcript.locator("strong")).toHaveCount(1);
-  await expect(
-    strip.getByRole("button", { name: "Listen", exact: true }),
-  ).toHaveCount(0);
+  await expectConversationContentFits(strip);
+  await strip.getByRole("button", { name: "Back to conversation" }).click();
+  await expect(strip).toHaveAttribute("data-conversation-mode", "open");
+  await expect(listen()).toHaveCount(0);
+
+  await strip.getByRole("button", { name: "Reed", exact: true }).click();
+  await strip
+    .getByRole("button", { name: "Ask Reed to check the third referral" })
+    .click();
+  await expect(listen()).toBeVisible();
+  await listen().click();
+  await expect(strip).toContainText("Once Reed reports on the third referral");
   await expect(office).toHaveAttribute("data-simulation-date", "2026-01-05");
   await expect(office).toHaveAttribute("data-action-sequence", "0");
 });
@@ -336,10 +412,15 @@ test("keeps transcript, collapse, and close controls time-neutral", async ({
   let strip = await openConversation(page);
   const initialHistory = await office.getAttribute("data-history-sequence");
 
-  await strip.getByRole("button", { name: "Show transcript" }).click();
+  await strip.getByRole("button", { name: "View history" }).click();
+  await expect(strip).toHaveAttribute("data-conversation-mode", "history");
   await expect(page.getByTestId("conversation-transcript")).toContainText(
     "No substantive turns yet",
   );
+  await expect(
+    strip.getByRole("button", { name: "Back to conversation" }),
+  ).toBeVisible();
+  await expectConversationContentFits(strip);
   await expect(office).toHaveAttribute(
     "data-history-sequence",
     initialHistory!,
@@ -347,6 +428,8 @@ test("keeps transcript, collapse, and close controls time-neutral", async ({
   await page.keyboard.press("Escape");
   await expect(page.getByTestId("conversation-transcript")).toHaveCount(0);
   await expect(strip).toBeVisible();
+  await expect(strip).toHaveAttribute("data-conversation-mode", "open");
+  await expectConversationContentFits(strip);
   await expect(office).toHaveAttribute(
     "data-history-sequence",
     initialHistory!,
@@ -385,7 +468,7 @@ test("supports a complete keyboard and focus path into conversation", async ({
   await page.keyboard.press("Enter");
 
   const firstIntent = page.getByRole("button", {
-    name: /Ask for a commitment/,
+    name: /Ask Collins to back the referral checklist/,
   });
   await expect(firstIntent).toBeFocused();
   const quiet = page.getByTestId("conversation-strip").getByRole("button", {
@@ -398,7 +481,7 @@ test("supports a complete keyboard and focus path into conversation", async ({
   await firstIntent.focus();
   await page.keyboard.press("Enter");
   await expect(page.getByTestId("conversation-strip")).toContainText(
-    "one more verified case",
+    "Have Reed check whether the third county referral",
   );
   await page.keyboard.press("Escape");
   await expect(page.getByTestId("conversation-strip")).toHaveCount(0);
@@ -410,7 +493,11 @@ test("reproduces the same deterministic conversation result after reload", async
   async function playOnce() {
     const strip = await openConversation(page);
     await strip.getByRole("button", { name: "Quiet", exact: true }).click();
-    await strip.getByRole("button", { name: "Ask for a commitment" }).click();
+    await strip
+      .getByRole("button", {
+        name: "Ask Collins to back the referral checklist",
+      })
+      .click();
     return {
       dialogue: await strip
         .locator(".conversation-beat blockquote")

@@ -5,6 +5,7 @@ import type {
   ConversationPresentationResult,
   ConversationSessionDescriptor,
 } from "./run-b-conversation";
+import type { RunBConversationProgress } from "./run-b-conversation-progress";
 
 export interface ConversationTranscriptEntry {
   readonly ordinal: number;
@@ -18,9 +19,11 @@ export interface ConversationTranscriptEntry {
 export interface RunBConversationState {
   readonly mode: "closed" | "open" | "collapsed";
   readonly session: ConversationSessionDescriptor | null;
+  readonly progress: RunBConversationProgress | null;
   readonly addressee: ConversationAddressee | null;
   readonly audibility: ConversationAudibility;
   readonly transcriptOpen: boolean;
+  readonly transcriptCursor: number;
   readonly currentBeat: ConversationDialogueBeat | null;
   readonly currentRoomNarration: string | null;
   readonly committedTurnCount: number;
@@ -31,6 +34,7 @@ export type RunBConversationAction =
   | {
       readonly type: "open";
       readonly session: ConversationSessionDescriptor;
+      readonly progress: RunBConversationProgress;
       readonly addressee: ConversationAddressee;
       readonly openingBeat: ConversationDialogueBeat;
     }
@@ -44,10 +48,13 @@ export type RunBConversationAction =
       readonly audibility: ConversationAudibility;
     }
   | { readonly type: "toggle-transcript" }
+  | { readonly type: "previous-transcript-entry" }
+  | { readonly type: "next-transcript-entry" }
   | { readonly type: "toggle-collapsed" }
   | {
       readonly type: "apply-turn";
       readonly turnOrdinal: number;
+      readonly progress: RunBConversationProgress;
       readonly presentation: ConversationPresentationResult;
     }
   | { readonly type: "close" };
@@ -56,9 +63,11 @@ export function createRunBConversationState(): RunBConversationState {
   return {
     mode: "closed",
     session: null,
+    progress: null,
     addressee: null,
     audibility: "normal",
     transcriptOpen: false,
+    transcriptCursor: 0,
     currentBeat: null,
     currentRoomNarration: null,
     committedTurnCount: 0,
@@ -75,9 +84,11 @@ export function runBConversationReducer(
       return {
         mode: "open",
         session: action.session,
+        progress: action.progress,
         addressee: action.addressee,
         audibility: "normal",
         transcriptOpen: false,
+        transcriptCursor: 0,
         currentBeat: action.openingBeat,
         currentRoomNarration: null,
         committedTurnCount: 0,
@@ -99,7 +110,29 @@ export function runBConversationReducer(
         : state;
     case "toggle-transcript":
       return state.mode === "open"
-        ? { ...state, transcriptOpen: !state.transcriptOpen }
+        ? {
+            ...state,
+            transcriptOpen: !state.transcriptOpen,
+            transcriptCursor:
+              state.transcript.length === 0 ? 0 : state.transcript.length - 1,
+          }
+        : state;
+    case "previous-transcript-entry":
+      return state.transcriptOpen
+        ? {
+            ...state,
+            transcriptCursor: Math.max(0, state.transcriptCursor - 1),
+          }
+        : state;
+    case "next-transcript-entry":
+      return state.transcriptOpen
+        ? {
+            ...state,
+            transcriptCursor: Math.min(
+              Math.max(0, state.transcript.length - 1),
+              state.transcriptCursor + 1,
+            ),
+          }
         : state;
     case "toggle-collapsed":
       if (!state.session) return state;
@@ -119,6 +152,7 @@ export function runBConversationReducer(
         ...state,
         currentBeat: action.presentation.beat,
         currentRoomNarration: action.presentation.roomNarration,
+        progress: action.progress,
         committedTurnCount: action.turnOrdinal,
         transcript: [
           ...state.transcript,

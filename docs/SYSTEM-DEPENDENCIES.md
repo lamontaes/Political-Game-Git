@@ -644,7 +644,8 @@ mutate the simulation. See
 - **Owns:** bounded conversation session identity, current NPC A/NPC
   B/Everyone addressee, Normal/Quiet/Private presentation mode, explicit room
   presence/listener resolution, topic/prior-turn-compatible authored
-  semantic-response families, transcript/collapse UI state, a controlled-person
+  semantic-response families, fixture-specific concrete subject facts plus
+  commitment/pending-beat progression, paged-history/collapse UI state, a controlled-person
   identity/problem cue, presentation-only multi-person pin controls, and
   committed-turn orchestration.
 - **Stable IDs exposed:** Person IDs and stable session/turn keys remain internal
@@ -669,8 +670,10 @@ mutate the simulation. See
   `World.actionSequence` is unchanged.
 - **Presentation lifecycle:** person pin/unpin/size changes and click-away
   dismissal for temporary navigation/pin/person menus remain in the Run A
-  inspectorial reducer. Listen becomes unavailable after its bounded
-  continuation and settled state, preventing empty duplicate commits.
+  inspectorial reducer. Listen consumes actual pending contributions and, after
+  a settled state, rejects empty duplicate commits until a later player action
+  creates a new pending response. Active conversation and paged history share
+  one non-scrolling bounded box.
 - **Temporary scaffolding:** one synthetic occupied office with a controlled
   player and two active NPCs, plus one deterministic private-capable room
   context. It is not a universal room, acoustic, dialogue, or speech system.

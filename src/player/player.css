@@ -1251,15 +1251,14 @@
 .conversation-strip {
   position: absolute;
   z-index: 31;
-  right: 12.5rem;
+  right: 9.25rem;
   bottom: 0.75rem;
-  left: clamp(28rem, 33vw, 34rem);
-  max-height: min(18.5rem, 40vh);
-  overflow-y: auto;
+  left: clamp(29.5rem, 34vw, 35rem);
+  max-height: none;
+  overflow: hidden;
   border-color: rgba(210, 177, 95, 0.78);
   border-radius: 0.55rem;
   padding: 0.58rem 0.72rem;
-  scrollbar-color: #8b7444 #101827;
 }
 
 .conversation-strip::before {
@@ -1430,8 +1429,8 @@
 
 .conversation-beat blockquote {
   color: #f4ead3;
-  font-size: 0.82rem;
-  line-height: 1.42;
+  font-size: 0.78rem;
+  line-height: 1.32;
 }
 
 .conversation-beat > .conversation-room-narration {
@@ -1459,7 +1458,7 @@
   align-content: start;
   border: 1px solid rgba(198, 212, 225, 0.2);
   border-radius: 0.35rem;
-  padding: 0.45rem 0.5rem;
+  padding: 0.38rem 0.46rem;
   color: #f0e6d1;
   background: rgba(13, 22, 35, 0.78);
   text-align: left;
@@ -1473,7 +1472,8 @@
 
 .conversation-intents button span {
   font-family: Georgia, serif;
-  font-size: 0.72rem;
+  font-size: 0.69rem;
+  line-height: 1.14;
 }
 
 .conversation-transcript-controls {
@@ -1503,30 +1503,76 @@
 }
 
 .conversation-transcript li span,
-.conversation-transcript li strong {
+.conversation-transcript li strong,
+.conversation-transcript article span,
+.conversation-transcript article strong {
   display: block;
 }
 
-.conversation-transcript li span {
+.conversation-transcript li span,
+.conversation-transcript article span {
   color: #b4a579;
   font-family: ui-sans-serif, system-ui, sans-serif;
   font-size: 0.5rem;
 }
 
 .conversation-transcript li .conversation-listen-action,
-.conversation-transcript li .conversation-room-narration {
+.conversation-transcript li .conversation-room-narration,
+.conversation-transcript article .conversation-listen-action,
+.conversation-transcript article .conversation-room-narration {
   color: #aeb7bf;
   font-style: italic;
 }
 
-.conversation-transcript li strong {
+.conversation-transcript li strong,
+.conversation-transcript article strong {
   margin-top: 0.14rem;
   color: #e8d7aa;
 }
 
-.conversation-transcript li p {
+.conversation-transcript li p,
+.conversation-transcript article p {
   margin-top: 0.12rem;
   line-height: 1.35;
+}
+
+.conversation-strip--history {
+  min-height: 11.5rem;
+}
+
+.conversation-history-page {
+  min-height: 5.2rem;
+  border-bottom: 1px solid rgba(198, 212, 225, 0.14);
+  padding-bottom: 0.45rem;
+}
+
+.conversation-history-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-top: 0.46rem;
+}
+
+.conversation-history-navigation button {
+  min-height: 2rem;
+  border: 1px solid rgba(206, 216, 225, 0.25);
+  border-radius: 0.3rem;
+  padding: 0.35rem 0.62rem;
+  color: #d8d0bf;
+  background: rgba(13, 22, 35, 0.68);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.58rem;
+}
+
+.conversation-history-navigation button:disabled {
+  opacity: 0.42;
+}
+
+.conversation-history-navigation span {
+  color: #9da8b3;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.54rem;
 }
 
 .conversation-strip--collapsed {
@@ -2011,7 +2057,7 @@
     right: 10.5rem;
     bottom: 7.5rem;
     left: 1rem;
-    max-height: 35vh;
+    max-height: none;
   }
 }
 
@@ -2115,7 +2161,7 @@
     right: 1rem;
     bottom: 6.3rem;
     left: 1rem;
-    max-height: 35vh;
+    max-height: none;
   }
 
   .conversation-controls-row {

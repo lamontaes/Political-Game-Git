@@ -116,9 +116,14 @@ conversation presentation reducer. `PlayerOffice` now owns the current
 immutable `World` for the player session and replaces it only with a successful
 committed-turn result. The Run A reducer remains inspectorial. Conversation UI
 state may retain session identity, current addressee, audibility, displayed
-dialogue, local committed-turn count, transcript visibility/content, and
-collapse state; it never copies canonical beliefs, claims, knowledge,
-perceptions, relationship history, or decision traces.
+dialogue, local committed-turn count, paged history content, collapse state,
+and one fixture-specific progression record: current subject/phase, Collins
+support condition, Reed verification promise, latest proposition, pending NPC
+contributions, settled silence, and the bounded subject facts that ground the
+fixture: constituent-services referrals, the county program, the missing
+proof-of-income form, the unresolved third referral, and the proposed staff
+checklist. It never copies canonical beliefs, claims, knowledge, perceptions,
+relationship history, or decision traces.
 
 Opening or closing conversation, changing NPC A/NPC B/Everyone addressee,
 changing Normal/Quiet/Private audibility, opening or closing the transcript, and
@@ -151,13 +156,18 @@ All records use `World.currentDate`. Same-day order is the global history
 sequence; `World.actionSequence` remains unchanged. Deterministic authored
 phrase families translate the semantic response into natural dialogue without
 exposing decision ranks, scores, source snapshots, hidden beliefs, stable IDs,
-or diagnostic fields. Selection uses the emergency-rent referral topic,
+or diagnostic fields. Selection uses the concrete emergency-rent referral,
 addressee/group context, intent, preceding session turn, and NPC outcome. The
-compact header identifies `You — Cameron Foster` and states that the briefing
-must decide whether to recommend a shared intake checklist, Collins must back
-it, and Reed can verify the final case. Listen permits one continuation and one
-settled-room record; the intent is then unavailable so empty turns cannot be
-spammed. The compact lower strip keeps both people, the room,
+compact header and opening exchange identify `You — Cameron Foster`, the three
+Lexington tenants who sought this office's help, the missing proof-of-income
+form that stopped two county referrals, Reed's check of the third referral, and
+Collins's decision about a document checklist before future referrals.
+Addressee switching projects a continuation from the progression record
+instead of replaying an opening line. Listen consumes actual
+pending NPC contributions, may then settle the room once, and remains
+unavailable until a later player action creates another legitimate follow-up.
+The active box has no internal vertical scrollbar at the desktop acceptance
+viewport. History reuses the same box and pages one turn at a time. The compact lower strip keeps both people, the room,
 bottom-left navigation, and right pins recognizable and usable. Run B adds no
 runtime LLM/network dependency, sub-day clock, legislation/calendar workspace,
 universal dialogue engine, or Stage 7 institution/law content.

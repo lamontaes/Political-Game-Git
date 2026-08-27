@@ -402,9 +402,13 @@ system. See D-048 and [Player Presentation and Epistemic Projection](systems/pla
 Live-play corrections keep this boundary while making the slice legible:
 Collins/Reed person pins now deduplicate and expose explicit size/unpin controls;
 the compact header identifies Cameron Foster as `You` and states the synthetic
-emergency-rent/shared-intake-checklist question; dialogue follows topic,
-addressee, prior turn, intent, and outcome; exhausted Listen disappears; and
-temporary menus dismiss on scene click-away.
+constituent-services problem in concrete terms: two county referrals lacked a
+required proof-of-income form, Reed is checking the third, and Collins is
+deciding whether to back a staff checklist; dialogue follows topic,
+addressee, prior turn, intent, outcome, and the bounded checklist progression;
+Listen consumes actual pending contributions instead of a two-turn cap; active
+conversation is non-scrolling with paged history in the same box; and temporary
+menus dismiss on scene click-away.
 
 ---
 
