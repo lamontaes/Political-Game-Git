@@ -22,7 +22,12 @@ import {
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import { createPortabilityFixture } from "./portability-fixture";
 import { deserializeWorld, serializeWorld } from "./serialization";
-import type { EntityId, World } from "./types";
+import type {
+  EntityId,
+  FutureDueItem,
+  ResolveElectionContestInput,
+  World,
+} from "./types";
 import { assertWorldIntegrity, advanceWorld } from "./world";
 import { SqliteWorldRepository } from "../persistence/sqlite-world-repository";
 
@@ -778,5 +783,334 @@ describe("Election Contest Substrate", () => {
     expect(isElectionContestResolved(world, contest.id)).toBe(false);
 
     assertWorldIntegrity(world);
+  });
+
+  describe("Blocker 1 Regressions: Election-Date Frontier", () => {
+    it("rejects direct resolution before electionDate and leaves World unchanged", () => {
+      let world = createDemoWorld("election-early-direct-seed");
+      const jurisdictionId = getJurisdictionId(world);
+      const candidate1 = getPersonId(world, 0);
+      const candidate2 = getPersonId(world, 1);
+      const electionDate = addDays(world.currentDate, 10);
+
+      world = scheduleElectionContest(world, {
+        stableKey: "early-test:mayor",
+        jurisdictionId,
+        office: {
+          officeKey: "mayor",
+          title: "Mayor",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        electionDate,
+        candidatePersonIds: [candidate1, candidate2],
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+
+      const contest = (world.history.electionContests ?? [])[0]!;
+      const registry = createElectionTransitionRegistry();
+
+      // Advance world 9 days (1 day before electionDate)
+      world = advanceWorld(world, 9, registry);
+      const preResolveWorld = structuredClone(world);
+      const preEventsCount = world.history.events.length;
+
+      // 1. Direct resolution 1 day before electionDate with resolvedAt = currentDate must throw
+      expect(() =>
+        resolveElectionContest(world, {
+          contestId: contest.id,
+          resolvedAt: world.currentDate,
+        }),
+      ).toThrow(/cannot be resolved before its election date/i);
+
+      // 2. Direct resolution 1 day before electionDate with resolvedAt = electionDate must throw (future date relative to world)
+      expect(() =>
+        resolveElectionContest(world, {
+          contestId: contest.id,
+          resolvedAt: electionDate,
+        }),
+      ).toThrow(/cannot be resolved after the current world date/i);
+
+      // World state remains completely unchanged
+      expect(world).toStrictEqual(preResolveWorld);
+      expect(electionContestStatus(world, contest.id)).toBe("pending");
+      expect(electionContestResult(world, contest.id)).toBeNull();
+      expect(world.history.electionContestResults ?? []).toHaveLength(0);
+      expect(world.history.events).toHaveLength(preEventsCount);
+      expect(
+        world.history.events.some(
+          (e) => e.type === "election.contest-resolved",
+        ),
+      ).toBe(false);
+      assertWorldIntegrity(world);
+
+      // Advance 1 more day to exact electionDate
+      world = advanceWorld(world, 1, registry);
+      expect(world.currentDate).toBe(electionDate);
+      expect(electionContestStatus(world, contest.id)).toBe("resolved");
+      expect(electionContestResult(world, contest.id)).not.toBeNull();
+      expect(
+        world.history.events.filter(
+          (e) => e.type === "election.contest-resolved",
+        ),
+      ).toHaveLength(1);
+      assertWorldIntegrity(world);
+
+      // Post-resolution duplicate guard
+      expect(() =>
+        resolveElectionContest(world, {
+          contestId: contest.id,
+          resolvedAt: electionDate,
+        }),
+      ).toThrow(/already resolved/i);
+    });
+
+    it("scheduled FutureDue resolves at exact election-date frontier exactly once", () => {
+      let world = createDemoWorld("election-future-due-frontier-seed");
+      const jurisdictionId = getJurisdictionId(world);
+      const candidate1 = getPersonId(world, 0);
+      const candidate2 = getPersonId(world, 1);
+      const electionDate = addDays(world.currentDate, 5);
+
+      world = scheduleElectionContest(world, {
+        stableKey: "frontier-test:council",
+        jurisdictionId,
+        office: {
+          officeKey: "council",
+          title: "Council",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        electionDate,
+        candidatePersonIds: [candidate1, candidate2],
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+
+      const contest = (world.history.electionContests ?? [])[0]!;
+      const registry = createElectionTransitionRegistry();
+
+      // Advance 4 days (still pending)
+      world = advanceWorld(world, 4, registry);
+      expect(electionContestStatus(world, contest.id)).toBe("pending");
+      expect(electionContestResult(world, contest.id)).toBeNull();
+
+      // Advance 1 day to election date (resolves exactly once)
+      world = advanceWorld(world, 1, registry);
+      expect(world.currentDate).toBe(electionDate);
+      expect(electionContestStatus(world, contest.id)).toBe("resolved");
+      expect(world.history.electionContestResults ?? []).toHaveLength(1);
+
+      // Advance further (remains resolved, exactly 1 result record)
+      world = advanceWorld(world, 5, registry);
+      expect(electionContestStatus(world, contest.id)).toBe("resolved");
+      expect(world.history.electionContestResults ?? []).toHaveLength(1);
+      assertWorldIntegrity(world);
+    });
+  });
+
+  describe("Blocker 2 Regressions: Manual Result Both-Or-Neither Invariant", () => {
+    function createManualRegistry(
+      override: Partial<ResolveElectionContestInput>,
+    ) {
+      return createFutureTransitionHandlerRegistry([
+        [
+          ELECTION_CONTEST_TRANSITION_KEY,
+          (w: World, dueItem: FutureDueItem) => {
+            const contestId = dueItem.entityIds[0]!;
+            const resolvedWorld = resolveElectionContest(w, {
+              contestId,
+              resolvedAt: dueItem.dueAt,
+              ...override,
+            });
+            const result = electionContestResult(resolvedWorld, contestId)!;
+            return {
+              world: resolvedWorld,
+              status: "resolved",
+              reasonKey: null,
+              context: "Manual resolution test",
+              outcomeEventId: result.outcomeEventId,
+            };
+          },
+        ],
+      ]);
+    }
+
+    it("rejects winner-only manual result input and leaves World unchanged", () => {
+      let world = createDemoWorld("election-winner-only-seed");
+      const jurisdictionId = getJurisdictionId(world);
+      const candidate1 = getPersonId(world, 0);
+      const candidate2 = getPersonId(world, 1);
+      const electionDate = addDays(world.currentDate, 5);
+
+      world = scheduleElectionContest(world, {
+        stableKey: "manual-winner-only:mayor",
+        jurisdictionId,
+        office: {
+          officeKey: "mayor",
+          title: "Mayor",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        electionDate,
+        candidatePersonIds: [candidate1, candidate2],
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+
+      const preState = structuredClone(world);
+
+      // Winner supplied without tallies must throw during resolution transition
+      expect(() =>
+        advanceWorld(
+          world,
+          5,
+          createManualRegistry({
+            winnerPersonId: candidate1,
+          }),
+        ),
+      ).toThrow(/requires both winnerPersonId and tallies/i);
+
+      expect(world).toStrictEqual(preState);
+      expect(world.history.electionContestResults ?? []).toHaveLength(0);
+      expect(
+        world.history.events.some(
+          (e) => e.type === "election.contest-resolved",
+        ),
+      ).toBe(false);
+      assertWorldIntegrity(world);
+    });
+
+    it("rejects tallies-only manual result input and leaves World unchanged", () => {
+      let world = createDemoWorld("election-tallies-only-seed");
+      const jurisdictionId = getJurisdictionId(world);
+      const candidate1 = getPersonId(world, 0);
+      const candidate2 = getPersonId(world, 1);
+      const electionDate = addDays(world.currentDate, 5);
+
+      world = scheduleElectionContest(world, {
+        stableKey: "manual-tallies-only:mayor",
+        jurisdictionId,
+        office: {
+          officeKey: "mayor",
+          title: "Mayor",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        electionDate,
+        candidatePersonIds: [candidate1, candidate2],
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+
+      const preState = structuredClone(world);
+
+      // Tallies supplied without winnerPersonId must throw during transition
+      expect(() =>
+        advanceWorld(
+          world,
+          5,
+          createManualRegistry({
+            tallies: [
+              { candidatePersonId: candidate1, votes: 600, voteShare: 0.6 },
+              { candidatePersonId: candidate2, votes: 400, voteShare: 0.4 },
+            ],
+          }),
+        ),
+      ).toThrow(/requires both winnerPersonId and tallies/i);
+
+      expect(world).toStrictEqual(preState);
+      expect(world.history.electionContestResults ?? []).toHaveLength(0);
+      expect(
+        world.history.events.some(
+          (e) => e.type === "election.contest-resolved",
+        ),
+      ).toBe(false);
+      assertWorldIntegrity(world);
+    });
+
+    it("rejects mismatch between supplied winner and highest tally and leaves World unchanged", () => {
+      let world = createDemoWorld("election-mismatch-seed");
+      const jurisdictionId = getJurisdictionId(world);
+      const candidate1 = getPersonId(world, 0);
+      const candidate2 = getPersonId(world, 1);
+      const electionDate = addDays(world.currentDate, 5);
+
+      world = scheduleElectionContest(world, {
+        stableKey: "manual-mismatch:mayor",
+        jurisdictionId,
+        office: {
+          officeKey: "mayor",
+          title: "Mayor",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        electionDate,
+        candidatePersonIds: [candidate1, candidate2],
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+
+      const preState = structuredClone(world);
+
+      // candidate1 specified as winner, but candidate2 has higher votes
+      expect(() =>
+        advanceWorld(
+          world,
+          5,
+          createManualRegistry({
+            winnerPersonId: candidate1,
+            tallies: [
+              { candidatePersonId: candidate1, votes: 300, voteShare: 0.3 },
+              { candidatePersonId: candidate2, votes: 700, voteShare: 0.7 },
+            ],
+          }),
+        ),
+      ).toThrow(/does not match highest vote tally/i);
+
+      expect(world).toStrictEqual(preState);
+      expect(world.history.electionContestResults ?? []).toHaveLength(0);
+      assertWorldIntegrity(world);
+    });
+
+    it("accepts valid both winner and tallies manual override", () => {
+      let world = createDemoWorld("election-valid-manual-seed");
+      const jurisdictionId = getJurisdictionId(world);
+      const candidate1 = getPersonId(world, 0);
+      const candidate2 = getPersonId(world, 1);
+      const electionDate = addDays(world.currentDate, 5);
+
+      world = scheduleElectionContest(world, {
+        stableKey: "manual-valid:mayor",
+        jurisdictionId,
+        office: {
+          officeKey: "mayor",
+          title: "Mayor",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        electionDate,
+        candidatePersonIds: [candidate1, candidate2],
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+
+      const contest = (world.history.electionContests ?? [])[0]!;
+
+      const manualTallies = [
+        { candidatePersonId: candidate1, votes: 750, voteShare: 0.75 },
+        { candidatePersonId: candidate2, votes: 250, voteShare: 0.25 },
+      ];
+
+      const resolvedWorld = advanceWorld(
+        world,
+        5,
+        createManualRegistry({
+          winnerPersonId: candidate1,
+          tallies: manualTallies,
+        }),
+      );
+
+      const result = electionContestResult(resolvedWorld, contest.id);
+      expect(result).not.toBeNull();
+      expect(result?.winnerPersonId).toBe(candidate1);
+      expect(result?.tallies).toEqual(manualTallies);
+      assertWorldIntegrity(resolvedWorld);
+    });
   });
 });

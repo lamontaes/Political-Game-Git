@@ -22,7 +22,7 @@
 
 2. **Domain Operations & Future Due Integration**:
    - `scheduleElectionContest`: Validates candidates, office, jurisdiction, and future date. Appends `ElectionContestRecord` to history and registers a `FutureDueItem` with `transitionKey: "election:contest-resolution"` at the target election date.
-   - `resolveElectionContest`: Resolves contest, computes/records deterministic tallies, identifies winner, records a public historical event (`election.contest-resolved`), and appends `ElectionContestResultRecord`.
+   - `resolveElectionContest`: Resolves contest, validates `resolvedAt >= contest.electionDate` and `resolvedAt <= world.currentDate`, enforces both-or-neither manual result inputs (`winnerPersonId` and `tallies`), computes/records deterministic tallies, identifies winner, records a public historical event (`election.contest-resolved`), and appends `ElectionContestResultRecord`.
    - `cancelElectionContest`: Cancels a pending contest and its associated future due item.
    - `electionContestTransitionHandler`: Future due transition handler for automatic resolution on time advancement.
    - `evaluateDeterministicContestOutcome`: Seeded deterministic placeholder resolver producing reproducible tallies based on world seed, contest ID, stable key, and election date.
@@ -41,7 +41,7 @@
 - `npm run typecheck`: Passed with 0 errors.
 - `npm run lint`: Passed with 0 warnings / errors.
 - `npm run format`: Prettier formatted and verified.
-- `npm run test`: All 33 test files passed (539 tests).
+- `npm run test`: All 33 test files passed (545 tests).
 - `npm run build`: Production client build completed successfully.
 - `npm run demo -- validation-seed`: Deterministic demo passed (`reproducible: true`).
 - `npm run validate:art`: Art validation passed.

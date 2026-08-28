@@ -203,14 +203,22 @@ export function resolveElectionContest(
   }
 
   const resolvedAt = makeIsoDate(input.resolvedAt ?? world.currentDate);
-  if (resolvedAt < contest.scheduledAt) {
+  if (resolvedAt < contest.electionDate) {
     throw new Error(
-      "An election contest cannot be resolved before its scheduling date.",
+      `An election contest cannot be resolved before its election date: ${contest.electionDate}`,
     );
   }
   if (resolvedAt > world.currentDate) {
     throw new Error(
       "An election contest cannot be resolved after the current world date.",
+    );
+  }
+
+  const hasWinner = input.winnerPersonId !== undefined;
+  const hasTallies = input.tallies !== undefined;
+  if (hasWinner !== hasTallies) {
+    throw new Error(
+      "Manual election contest resolution requires both winnerPersonId and tallies when either is provided.",
     );
   }
 
@@ -226,21 +234,24 @@ export function resolveElectionContest(
   let winnerPersonId: EntityId;
   let tallies: readonly CandidateTally[];
 
-  if (input.winnerPersonId !== undefined && input.tallies !== undefined) {
-    if (!contest.candidatePersonIds.includes(input.winnerPersonId)) {
+  if (hasWinner && hasTallies) {
+    if (!contest.candidatePersonIds.includes(input.winnerPersonId!)) {
       throw new Error(
         `Specified winner ${input.winnerPersonId} is not a candidate in contest ${contest.id}`,
       );
     }
-    validateTallies(input.tallies, contest.candidatePersonIds);
-    const topTally = [...input.tallies].sort((a, b) => b.votes - a.votes)[0];
-    if (topTally?.candidatePersonId !== input.winnerPersonId) {
+    validateTallies(input.tallies!, contest.candidatePersonIds);
+    const maxVotes = Math.max(...input.tallies!.map((t) => t.votes));
+    const winnerTally = input.tallies!.find(
+      (t) => t.candidatePersonId === input.winnerPersonId,
+    );
+    if (!winnerTally || winnerTally.votes !== maxVotes) {
       throw new Error(
         `Specified winner ${input.winnerPersonId} does not match highest vote tally.`,
       );
     }
-    winnerPersonId = input.winnerPersonId;
-    tallies = input.tallies;
+    winnerPersonId = input.winnerPersonId!;
+    tallies = input.tallies!;
   } else {
     const outcome = evaluateDeterministicContestOutcome(world, contest);
     winnerPersonId = outcome.winnerPersonId;
