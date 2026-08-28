@@ -5,6 +5,8 @@ export type RunBConversationPhase =
   | "coordinating-briefing"
   | "settled";
 
+// Legacy-named keys below are stable fixture/session vocabulary, not person
+// identity or display names. Resolve prose from the room's canonical role IDs.
 export type RunBCollinsSupport = "undecided" | "conditional" | "committed";
 export type RunBReedVerification = "unoffered" | "promised";
 

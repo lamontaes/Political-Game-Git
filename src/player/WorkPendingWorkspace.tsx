@@ -127,7 +127,11 @@ export function WorkPendingWorkspace({
                           {item.id === fixture.dLite.delegableWorkItemId &&
                           state.playerRequirement === "action" ? (
                             <button type="button" onClick={onDelegate}>
-                              Delegate to Collins
+                              Delegate to{" "}
+                              {
+                                world.people[fixture.dLite.collinsPersonId]!
+                                  .familyName
+                              }
                             </button>
                           ) : null}
                           {focus.kind === "legislative-material" ? (

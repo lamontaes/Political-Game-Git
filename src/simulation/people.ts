@@ -169,11 +169,32 @@ function generateProductionBirthDate(
     ? currentYear - targetAge
     : currentYear - targetAge - 1;
 
-  // Handle Feb 29 birth year adjustment if needed
-  const validMaxDay = daysInMonth(birthYear, month);
-  const safeDay = Math.min(day, validMaxDay);
+  return birthDateForSelectedAge(currentDate, targetAge, birthYear, month, day);
+}
 
-  return isoDateFromParts(birthYear, month, safeDay);
+function birthDateForSelectedAge(
+  currentDate: IsoDate,
+  targetAge: number,
+  birthYear: number,
+  month: number,
+  day: number,
+): IsoDate {
+  // Normalize before constructing any date. Copying a leap-day anniversary
+  // into a non-leap birth year must never reach the calendar validator.
+  const safeDay = Math.min(day, daysInMonth(birthYear, month));
+  const candidate = isoDateFromParts(birthYear, month, safeDay);
+  const ageDifference = ageOnDate(candidate, currentDate) - targetAge;
+  if (ageDifference === 0) return candidate;
+
+  // Normalization (and the canonical Feb 28 observance of a leap birthday)
+  // can change which side of the birthday we are on. Keep the normalized day
+  // and reconcile the year, without rerolling age or changing RNG consumption.
+  const correctedYear = birthYear + ageDifference;
+  return isoDateFromParts(
+    correctedYear,
+    month,
+    Math.min(safeDay, daysInMonth(correctedYear, month)),
+  );
 }
 
 function generateStressBirthDate(
@@ -189,21 +210,33 @@ function generateStressBirthDate(
       return generateProductionBirthDate(currentDate, 18, rng);
     }
     case 1: {
-      // Birthday is TODAY (exact birthday boundary)
+      // Prefer today's month/day; normalize Feb 29 when the birth year is not leap.
       const age = rng.integer(22, 70);
       const currentYear = yearOf(currentDate);
       const currentMonth = Number(currentDate.slice(5, 7));
       const currentDay = Number(currentDate.slice(8, 10));
-      return isoDateFromParts(currentYear - age, currentMonth, currentDay);
+      return birthDateForSelectedAge(
+        currentDate,
+        age,
+        currentYear - age,
+        currentMonth,
+        currentDay,
+      );
     }
     case 2: {
-      // Birthday is TOMORROW (age boundary: 1 day before birthday)
+      // Prefer tomorrow's month/day, preserving the selected age after normalization.
       const age = rng.integer(22, 70);
       const tomorrow = addDays(currentDate, 1);
       const tomorrowMonth = Number(tomorrow.slice(5, 7));
       const tomorrowDay = Number(tomorrow.slice(8, 10));
       const birthYear = yearOf(tomorrow) - (age + 1);
-      return isoDateFromParts(birthYear, tomorrowMonth, tomorrowDay);
+      return birthDateForSelectedAge(
+        currentDate,
+        age,
+        birthYear,
+        tomorrowMonth,
+        tomorrowDay,
+      );
     }
     case 3: {
       // Leap-day birthday (Feb 29)
@@ -218,13 +251,19 @@ function generateStressBirthDate(
       return generateProductionBirthDate(currentDate, 88, rng);
     }
     default: {
-      // Birthday was YESTERDAY (age boundary: 1 day after birthday)
+      // Prefer yesterday's month/day, preserving the selected age after normalization.
       const age = rng.integer(22, 70);
       const yesterday = addDays(currentDate, -1);
       const yesterdayMonth = Number(yesterday.slice(5, 7));
       const yesterdayDay = Number(yesterday.slice(8, 10));
       const birthYear = yearOf(yesterday) - age;
-      return isoDateFromParts(birthYear, yesterdayMonth, yesterdayDay);
+      return birthDateForSelectedAge(
+        currentDate,
+        age,
+        birthYear,
+        yesterdayMonth,
+        yesterdayDay,
+      );
     }
   }
 }

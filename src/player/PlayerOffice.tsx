@@ -79,7 +79,7 @@ function formatRunATime(minuteOfDay: number): string {
 export function PlayerOffice() {
   const seedParam = new URLSearchParams(window.location.search).get("seed");
   const fixture = useMemo(
-    () => createRunDLiteFixture(seedParam || undefined),
+    () => createRunDLiteFixture(seedParam ?? undefined),
     [seedParam],
   );
   const [world, setWorld] = useState(fixture.world);
@@ -289,8 +289,7 @@ export function PlayerOffice() {
     setWorld(delegateRunDMeetingBrief(world, fixture));
     planningDispatch({
       type: "set-feedback",
-      message:
-        "Collins now owns the meeting brief and can work on it while you handle other commitments.",
+      message: `${world.people[fixture.dLite.collinsPersonId]!.familyName} now owns the meeting brief and can work on it while you handle other commitments.`,
     });
   }
 

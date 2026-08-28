@@ -4,6 +4,7 @@ import {
   directPolicyImplementationFactor,
   makeIsoDate,
   money,
+  personName,
   recordPolicyAlternative,
   recordPolicyAnalysisKnowledge,
   recordPolicyBaseline,
@@ -224,8 +225,7 @@ export function createRunCFixture(seedInput?: string): RunCFixture {
     stableKey: `${RUN_C_DOCUMENT_STABLE_KEY}:collins-analysis-wide`,
     personId: collinsPersonId,
     estimateId: wide.estimateId,
-    summary:
-      "Andre Collins reviewed the staff projection for the current Transit Access Pilot working provision.",
+    summary: `${personName(world.people[collinsPersonId]!)} reviewed the staff projection for the current Transit Access Pilot working provision.`,
     believedSummary:
       "The $8,000,000 working provision is a proposal-level ceiling whose modeled outlay remains a projection, not an appropriation or implementation.",
     accuracy: "accurate",
@@ -236,8 +236,7 @@ export function createRunCFixture(seedInput?: string): RunCFixture {
     stableKey: `${RUN_C_DOCUMENT_STABLE_KEY}:collins-analysis-narrow`,
     personId: collinsPersonId,
     estimateId: narrow.estimateId,
-    summary:
-      "Andre Collins reviewed the staff projection for the prepared narrower Transit Access Pilot provision.",
+    summary: `${personName(world.people[collinsPersonId]!)} reviewed the staff projection for the prepared narrower Transit Access Pilot provision.`,
     believedSummary:
       "The prepared $4,000,000 provision models half the maximum outlay for the same target scope while remaining only a working proposal.",
     accuracy: "accurate",
@@ -245,8 +244,9 @@ export function createRunCFixture(seedInput?: string): RunCFixture {
     visibility: "limited",
   });
 
-  const document = createDocumentDefinition({
+  const document = createDocumentDefinition(world, {
     collinsPersonId,
+    playerPersonId: runB.playerPersonId,
     jurisdictionId,
     baselineId,
     wide,
@@ -262,8 +262,7 @@ export function createRunCFixture(seedInput?: string): RunCFixture {
     physicallyPresentPersonIds,
     activeParticipantPersonIds: physicallyPresentPersonIds,
     privateAvailable: false,
-    privateUnavailableReason:
-      "Private isn't possible while Reed remains within plausible earshot.",
+    privateUnavailableReason: runB.roomContext.privateUnavailableReason,
   };
   assertWorldIntegrity(world);
 
@@ -397,8 +396,8 @@ export function recordRunCPlayerAnalysisReview(
       stableKey: `${RUN_C_DOCUMENT_STABLE_KEY}:player-analysis:${variant.key}`,
       personId: fixture.playerPersonId,
       estimateId: variant.policyEstimateId,
-      summary: `Cameron Foster reviewed Collins's staff projection for the ${variant.amountDisplay} Transit Access Pilot working provision.`,
-      believedSummary: `Collins's analysis treats the ${variant.amountDisplay} amount as a projected maximum outlay for the same eligible-rider scope, not as enacted or implemented policy.`,
+      summary: `${personName(world.people[fixture.playerPersonId]!)} reviewed ${world.people[fixture.document.preparedByPersonId]!.familyName}'s staff projection for the ${variant.amountDisplay} Transit Access Pilot working provision.`,
+      believedSummary: `${world.people[fixture.document.preparedByPersonId]!.familyName}'s analysis treats the ${variant.amountDisplay} amount as a projected maximum outlay for the same eligible-rider scope, not as enacted or implemented policy.`,
       accuracy: "accurate",
       confidence: "medium",
       visibility: "private",
@@ -425,7 +424,7 @@ export function createRunCLegislativeConversationProgress(
   );
   if (!collinsKnowledge) {
     throw new Error(
-      "Run C legislative discussion requires Collins's analysis knowledge.",
+      `Run C legislative discussion requires ${world.people[fixture.document.preparedByPersonId]!.familyName}'s analysis knowledge.`,
     );
   }
   if (
@@ -501,8 +500,7 @@ export function commitRunCWorkingDraftRevision(
     personFactConstraints: [],
     visibility: "limited",
     tags: ["office.working-draft", "policy.proposal", "run-c.document"],
-    summary:
-      "Cameron Foster instructed staff to use the prepared $4,000,000 provision in the Transit Access Pilot office working draft.",
+    summary: `${personName(inputWorld.people[fixture.playerPersonId]!)} instructed staff to use the prepared $4,000,000 provision in the Transit Access Pilot office working draft.`,
     context: {
       location: {
         jurisdictionId: fixture.roomContext.jurisdictionId,
@@ -708,21 +706,25 @@ function recordHiddenSensitivityEstimate(
   });
 }
 
-function createDocumentDefinition(input: {
-  readonly collinsPersonId: EntityId;
-  readonly jurisdictionId: EntityId;
-  readonly baselineId: EntityId;
-  readonly wide: {
-    readonly alternativeId: EntityId;
-    readonly operationId: EntityId;
-    readonly estimateId: EntityId;
-  };
-  readonly narrow: {
-    readonly alternativeId: EntityId;
-    readonly operationId: EntityId;
-    readonly estimateId: EntityId;
-  };
-}): RunCWorkingDocumentDefinition {
+function createDocumentDefinition(
+  world: World,
+  input: {
+    readonly playerPersonId: EntityId;
+    readonly collinsPersonId: EntityId;
+    readonly jurisdictionId: EntityId;
+    readonly baselineId: EntityId;
+    readonly wide: {
+      readonly alternativeId: EntityId;
+      readonly operationId: EntityId;
+      readonly estimateId: EntityId;
+    };
+    readonly narrow: {
+      readonly alternativeId: EntityId;
+      readonly operationId: EntityId;
+      readonly estimateId: EntityId;
+    };
+  },
+): RunCWorkingDocumentDefinition {
   const documentId = stablePresentationId(
     "working-document",
     RUN_C_DOCUMENT_STABLE_KEY,
@@ -784,9 +786,8 @@ function createDocumentDefinition(input: {
         ),
         selectionId: amountSelectionId,
         authorPersonId: input.collinsPersonId,
-        label: "Collins · staff projection attached",
-        teaser:
-          "Read the attached note to add Collins's analysis to Cameron's known record.",
+        label: `${world.people[input.collinsPersonId]!.familyName} · staff projection attached`,
+        teaser: `Read the attached note to add ${world.people[input.collinsPersonId]!.familyName}'s analysis to ${world.people[input.playerPersonId]!.givenName}'s known record.`,
       },
     ],
   };
@@ -895,7 +896,7 @@ function projectKnownAnalysis(
     documentRole: documentRole.role,
     documentRoleLabel: documentRole.label,
     authorPersonId: fixture.scenePerson.personId,
-    authorLabel: "Andre Collins · staff analysis",
+    authorLabel: `${personName(world.people[fixture.document.preparedByPersonId]!)} · staff analysis`,
     provenanceLabel: "Known through an explicit policy-analysis review",
     qualification:
       "Projection under the fixture assumptions. This is not an appropriation, enactment, or guarantee of implementation.",

@@ -217,6 +217,7 @@ export function ConversationStrip({
       ? `${hearingDescription} ${room.privateUnavailableReason}`
       : hearingDescription;
   const intents = availableConversationIntents(
+    world,
     room,
     state.addressee,
     progress,
@@ -239,7 +240,7 @@ export function ConversationStrip({
         </div>
         <p className="conversation-topic-context">
           <strong>{conversationTopicLabel(progress)} ·</strong>{" "}
-          {describeConversationBriefingContext(progress)}
+          {describeConversationBriefingContext(world, room, progress)}
         </p>
         <div className="conversation-window-actions">
           <button
