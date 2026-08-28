@@ -1,5 +1,9 @@
 import crypto from "crypto";
-import type { ConfidenceLevel, LegislativeProvider, SourceProvenance } from "./types.js";
+import type {
+  ConfidenceLevel,
+  LegislativeProvider,
+  SourceProvenance,
+} from "./types.js";
 
 export const COMPILER_SCHEMA_VERSION = "1.0.0";
 
@@ -18,7 +22,7 @@ export function canonicalJsonStringify(obj: unknown): string {
   const record = obj as Record<string, unknown>;
   const sortedKeys = Object.keys(record).sort();
   const entries = sortedKeys.map(
-    (key) => `${JSON.stringify(key)}:${canonicalJsonStringify(record[key])}`
+    (key) => `${JSON.stringify(key)}:${canonicalJsonStringify(record[key])}`,
   );
   return `{${entries.join(",")}}`;
 }
@@ -45,7 +49,9 @@ export interface BuildProvenanceOptions {
   contentForHash?: unknown;
 }
 
-export function buildSourceProvenance(opts: BuildProvenanceOptions): SourceProvenance {
+export function buildSourceProvenance(
+  opts: BuildProvenanceOptions,
+): SourceProvenance {
   const retrievalTimestamp = opts.retrievalTimestamp || "2026-08-28T00:00:00Z";
   const confidence = opts.confidence || "provider_standardized";
   const officialUrl = opts.officialUrl ?? null;
@@ -56,7 +62,7 @@ export function buildSourceProvenance(opts: BuildProvenanceOptions): SourceProve
     providerId: opts.providerId,
     officialUrl,
     providerUrl,
-    retrievalTimestamp
+    retrievalTimestamp,
   };
 
   return {
@@ -67,6 +73,6 @@ export function buildSourceProvenance(opts: BuildProvenanceOptions): SourceProve
     retrievalTimestamp,
     compilerVersion: COMPILER_SCHEMA_VERSION,
     sha256: computeSha256(contentToHash),
-    confidence
+    confidence,
   };
 }

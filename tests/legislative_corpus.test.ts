@@ -6,13 +6,14 @@ import {
   LegislativeCorpusCompiler,
   LegiScanAdapter,
   OpenStatesAdapter,
-  validateResearchEpisode
+  validateResearchEpisode,
 } from "../src/legislative_corpus/index.js";
-import type {
-  ResearchValidationEpisode
-} from "../src/legislative_corpus/types.js";
+import type { ResearchValidationEpisode } from "../src/legislative_corpus/types.js";
 
-const FIXTURES_DIR = path.resolve(process.cwd(), "data/legislative_source/fixtures");
+const FIXTURES_DIR = path.resolve(
+  process.cwd(),
+  "data/legislative_source/fixtures",
+);
 const OPENSTATES_DIR = path.join(FIXTURES_DIR, "openstates");
 const RESEARCH_DIR = path.join(FIXTURES_DIR, "research_validation");
 
@@ -22,8 +23,15 @@ describe("National Legislative Source Corpus Compiler", () => {
     const compilerA = new LegislativeCorpusCompiler();
     const compilerB = new LegislativeCorpusCompiler();
 
-    const kyRaw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_hb497.json"), "utf-8"));
-    const neRaw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "ne_2021_lb102_unicameral.json"), "utf-8"));
+    const kyRaw = JSON.parse(
+      fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_hb497.json"), "utf-8"),
+    );
+    const neRaw = JSON.parse(
+      fs.readFileSync(
+        path.join(OPENSTATES_DIR, "ne_2021_lb102_unicameral.json"),
+        "utf-8",
+      ),
+    );
 
     compilerA.ingest({ provider: "openstates", type: "measure", raw: kyRaw });
     compilerA.ingest({ provider: "openstates", type: "measure", raw: neRaw });
@@ -43,9 +51,21 @@ describe("National Legislative Source Corpus Compiler", () => {
     const compiler1 = new LegislativeCorpusCompiler();
     const compiler2 = new LegislativeCorpusCompiler();
 
-    const kyRaw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_hb497.json"), "utf-8"));
-    const dcRaw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "dc_b24_council.json"), "utf-8"));
-    const prRaw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "pr_2021_bicameral.json"), "utf-8"));
+    const kyRaw = JSON.parse(
+      fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_hb497.json"), "utf-8"),
+    );
+    const dcRaw = JSON.parse(
+      fs.readFileSync(
+        path.join(OPENSTATES_DIR, "dc_b24_council.json"),
+        "utf-8",
+      ),
+    );
+    const prRaw = JSON.parse(
+      fs.readFileSync(
+        path.join(OPENSTATES_DIR, "pr_2021_bicameral.json"),
+        "utf-8",
+      ),
+    );
 
     // Ingest in order 1: KY, DC, PR
     compiler1.ingest({ provider: "openstates", type: "measure", raw: kyRaw });
@@ -60,7 +80,9 @@ describe("National Legislative Source Corpus Compiler", () => {
     const pkg1 = compiler1.compile("2026-08-28T00:00:00Z");
     const pkg2 = compiler2.compile("2026-08-28T00:00:00Z");
 
-    expect(pkg1.measures.map((m) => m.measureId)).toEqual(pkg2.measures.map((m) => m.measureId));
+    expect(pkg1.measures.map((m) => m.measureId)).toEqual(
+      pkg2.measures.map((m) => m.measureId),
+    );
     expect(pkg1.buildMetadata.checksum).toBe(pkg2.buildMetadata.checksum);
   });
 
@@ -73,17 +95,17 @@ describe("National Legislative Source Corpus Compiler", () => {
     const billKy = {
       identifier: "HB 1",
       jurisdiction: { id: "ocd-jurisdiction/country:us/state:ky/government" },
-      session: "2021RS"
+      session: "2021RS",
     };
     const billTx = {
       identifier: "HB 1",
       jurisdiction: { id: "ocd-jurisdiction/country:us/state:tx/government" },
-      session: "87"
+      session: "87",
     };
     const billLegiScan = {
       bill_number: "HB 1",
       state: "FL",
-      session: { session_tag: "2021" }
+      session: { session_tag: "2021" },
     };
 
     const normKy = adapterOS.normalizeMeasure(billKy);
@@ -94,26 +116,38 @@ describe("National Legislative Source Corpus Compiler", () => {
     expect(normTx.measure.measureId).toBe("us_tx_87_hb_1");
     expect(normFl.measure.measureId).toBe("us_fl_2021_hb_1");
 
-    const idSet = new Set([normKy.measure.measureId, normTx.measure.measureId, normFl.measure.measureId]);
+    const idSet = new Set([
+      normKy.measure.measureId,
+      normTx.measure.measureId,
+      normFl.measure.measureId,
+    ]);
     expect(idSet.size).toBe(3);
   });
 
   // Test 4: Actions remain chronologically reconstructible
   it("preserves chronological ordering and sequence indices for actions", () => {
-    const raw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_hb497.json"), "utf-8"));
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_hb497.json"), "utf-8"),
+    );
     const adapter = new OpenStatesAdapter();
     const res = adapter.normalizeMeasure(raw);
 
     expect(res.actions.length).toBeGreaterThan(5);
     for (let i = 0; i < res.actions.length - 1; i++) {
-      expect(res.actions[i]!.sequenceIndex).toBeLessThan(res.actions[i + 1]!.sequenceIndex);
-      expect(res.actions[i]!.actionDate <= res.actions[i + 1]!.actionDate).toBe(true);
+      expect(res.actions[i]!.sequenceIndex).toBeLessThan(
+        res.actions[i + 1]!.sequenceIndex,
+      );
+      expect(res.actions[i]!.actionDate <= res.actions[i + 1]!.actionDate).toBe(
+        true,
+      );
     }
   });
 
   // Test 5: Votes remain linked to their source measure
   it("keeps roll call votes strictly linked to their parent source measure", () => {
-    const raw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_hb497.json"), "utf-8"));
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_hb497.json"), "utf-8"),
+    );
     const adapter = new OpenStatesAdapter();
     const res = adapter.normalizeMeasure(raw);
 
@@ -129,34 +163,57 @@ describe("National Legislative Source Corpus Compiler", () => {
   it("distinguishes explicit defeat from unresolved session adjournment", () => {
     const adapter = new OpenStatesAdapter();
 
-    const failedRaw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "failed_bill_fixture.json"), "utf-8"));
+    const failedRaw = JSON.parse(
+      fs.readFileSync(
+        path.join(OPENSTATES_DIR, "failed_bill_fixture.json"),
+        "utf-8",
+      ),
+    );
     const failedRes = adapter.normalizeMeasure(failedRaw);
     expect(failedRes.measure.derivedLifecycle.status).toBe("explicitly-failed");
     expect(failedRes.measure.derivedLifecycle.terminalState).toBe(true);
     expect(failedRes.measure.derivedLifecycle.failureEvidence).toBeDefined();
 
-    const unresolvedRaw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "session_ended_unresolved_fixture.json"), "utf-8"));
-    const unresolvedRes = adapter.normalizeMeasure(unresolvedRaw, { sessionState: "adjourned_sine_die" });
-    expect(unresolvedRes.measure.derivedLifecycle.status).toBe("session-ended-unresolved");
+    const unresolvedRaw = JSON.parse(
+      fs.readFileSync(
+        path.join(OPENSTATES_DIR, "session_ended_unresolved_fixture.json"),
+        "utf-8",
+      ),
+    );
+    const unresolvedRes = adapter.normalizeMeasure(unresolvedRaw, {
+      sessionState: "adjourned_sine_die",
+    });
+    expect(unresolvedRes.measure.derivedLifecycle.status).toBe(
+      "session-ended-unresolved",
+    );
     expect(unresolvedRes.measure.derivedLifecycle.terminalState).toBe(true);
     expect(unresolvedRes.measure.derivedLifecycle.failureEvidence).toBeNull();
   });
 
   // Test 7: Veto is distinguishable from final death if an override later occurs
   it("correctly models veto transition to became-law upon successful override", () => {
-    const raw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_sb3_veto.json"), "utf-8"));
+    const raw = JSON.parse(
+      fs.readFileSync(
+        path.join(OPENSTATES_DIR, "ky_2021_sb3_veto.json"),
+        "utf-8",
+      ),
+    );
     const adapter = new OpenStatesAdapter();
     const res = adapter.normalizeMeasure(raw);
 
     expect(res.measure.derivedLifecycle.status).toBe("became-law");
-    expect(res.measure.derivedLifecycle.becameLawEvidence?.vetoOverridden).toBe(true);
-    expect(res.measure.derivedLifecycle.becameLawEvidence?.chapterOrActId).toBe("Acts Chapter 160");
+    expect(res.measure.derivedLifecycle.becameLawEvidence?.vetoOverridden).toBe(
+      true,
+    );
+    expect(res.measure.derivedLifecycle.becameLawEvidence?.chapterOrActId).toBe(
+      "Acts Chapter 160",
+    );
 
     // If we only take actions up to the veto (action order 4):
     const preOverrideActions = raw.actions.slice(0, 5);
     const preOverrideLifecycle = inferLegislativeLifecycle({
       actions: preOverrideActions,
-      sessionState: "active"
+      sessionState: "active",
     });
     expect(preOverrideLifecycle.status).toBe("vetoed");
     expect(preOverrideLifecycle.vetoEvidence?.vetoType).toBe("full");
@@ -164,13 +221,19 @@ describe("National Legislative Source Corpus Compiler", () => {
 
   // Test 8: Became-law evidence is preserved
   it("preserves authentic became-law evidence including signed date and Acts chapter", () => {
-    const raw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_hb497.json"), "utf-8"));
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_hb497.json"), "utf-8"),
+    );
     const adapter = new OpenStatesAdapter();
     const res = adapter.normalizeMeasure(raw);
 
     expect(res.measure.derivedLifecycle.status).toBe("became-law");
-    expect(res.measure.derivedLifecycle.becameLawEvidence?.signedDate).toBe("2021-04-05");
-    expect(res.measure.derivedLifecycle.becameLawEvidence?.chapterOrActId).toBe("Acts Chapter 182");
+    expect(res.measure.derivedLifecycle.becameLawEvidence?.signedDate).toBe(
+      "2021-04-05",
+    );
+    expect(res.measure.derivedLifecycle.becameLawEvidence?.chapterOrActId).toBe(
+      "Acts Chapter 182",
+    );
   });
 
   // Test 9: Missing official URL stays unknown/null rather than fabricated
@@ -179,7 +242,7 @@ describe("National Legislative Source Corpus Compiler", () => {
     const rawNoSources = {
       identifier: "HB 555",
       title: "Test Measure Without Sources",
-      session: "2021RS"
+      session: "2021RS",
     };
 
     const res = adapter.normalizeMeasure(rawNoSources);
@@ -188,7 +251,9 @@ describe("National Legislative Source Corpus Compiler", () => {
 
   // Test 10: Provider classification stays distinct from derived lifecycle
   it("keeps raw provider classification distinct from conservative derived lifecycle", () => {
-    const raw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_hb497.json"), "utf-8"));
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_hb497.json"), "utf-8"),
+    );
     const adapter = new OpenStatesAdapter();
     const res = adapter.normalizeMeasure(raw);
 
@@ -200,17 +265,32 @@ describe("National Legislative Source Corpus Compiler", () => {
   it("preserves Nebraska unicameral, DC Council, and PR territory structure without forcing bicameral state mold", () => {
     const adapter = new OpenStatesAdapter();
 
-    const neRaw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "ne_2021_lb102_unicameral.json"), "utf-8"));
+    const neRaw = JSON.parse(
+      fs.readFileSync(
+        path.join(OPENSTATES_DIR, "ne_2021_lb102_unicameral.json"),
+        "utf-8",
+      ),
+    );
     const neRes = adapter.normalizeMeasure(neRaw);
     expect(neRes.measure.chamberOrigin).toBe("unicameral");
     expect(neRes.actions[0]!.actingBody).toBe("unicameral");
 
-    const dcRaw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "dc_b24_council.json"), "utf-8"));
+    const dcRaw = JSON.parse(
+      fs.readFileSync(
+        path.join(OPENSTATES_DIR, "dc_b24_council.json"),
+        "utf-8",
+      ),
+    );
     const dcRes = adapter.normalizeMeasure(dcRaw);
     expect(dcRes.measure.chamberOrigin).toBe("council");
     expect(dcRes.actions[0]!.actingBody).toBe("council");
 
-    const prRaw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "pr_2021_bicameral.json"), "utf-8"));
+    const prRaw = JSON.parse(
+      fs.readFileSync(
+        path.join(OPENSTATES_DIR, "pr_2021_bicameral.json"),
+        "utf-8",
+      ),
+    );
     const prRes = adapter.normalizeMeasure(prRaw);
     expect(prRes.measure.jurisdictionKey).toBe("us_pr");
     expect(prRes.actions[0]!.actingBody).toBe("lower");
@@ -233,7 +313,9 @@ describe("National Legislative Source Corpus Compiler", () => {
   // Test 13: Provenance and checksums are present
   it("ensures valid SHA-256 provenance checksums on all normalized records", () => {
     const compiler = new LegislativeCorpusCompiler();
-    const raw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_hb497.json"), "utf-8"));
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_hb497.json"), "utf-8"),
+    );
     compiler.ingest({ provider: "openstates", type: "measure", raw });
     const pkg = compiler.compile();
 
@@ -245,19 +327,27 @@ describe("National Legislative Source Corpus Compiler", () => {
   // Test 14: Kentucky HB 497 contradiction fixture is detected
   it("validates authentic Kentucky HB 497 truth and detects all contradictions in flawed episode", () => {
     const compiler = new LegislativeCorpusCompiler();
-    const raw = JSON.parse(fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_hb497.json"), "utf-8"));
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(OPENSTATES_DIR, "ky_2021_hb497.json"), "utf-8"),
+    );
     compiler.ingest({ provider: "openstates", type: "measure", raw });
     const corpus = compiler.compile();
 
     const truthEpisode = JSON.parse(
-      fs.readFileSync(path.join(RESEARCH_DIR, "ky_hb497_truth_episode.json"), "utf-8")
+      fs.readFileSync(
+        path.join(RESEARCH_DIR, "ky_hb497_truth_episode.json"),
+        "utf-8",
+      ),
     ) as ResearchValidationEpisode;
     const truthResult = validateResearchEpisode(truthEpisode, corpus);
     expect(truthResult.valid).toBe(true);
     expect(truthResult.discrepancies.length).toBe(0);
 
     const flawedEpisode = JSON.parse(
-      fs.readFileSync(path.join(RESEARCH_DIR, "ky_hb497_flawed_episode.json"), "utf-8")
+      fs.readFileSync(
+        path.join(RESEARCH_DIR, "ky_hb497_flawed_episode.json"),
+        "utf-8",
+      ),
     ) as ResearchValidationEpisode;
     const flawedResult = validateResearchEpisode(flawedEpisode, corpus);
     expect(flawedResult.valid).toBe(false);
@@ -275,7 +365,7 @@ describe("National Legislative Source Corpus Compiler", () => {
     // Check that legislative corpus has zero imports or dependencies on src/simulation
     const compilerTs = fs.readFileSync(
       path.resolve(process.cwd(), "src/legislative_corpus/compiler.ts"),
-      "utf-8"
+      "utf-8",
     );
     expect(compilerTs.includes("../simulation")).toBe(false);
     expect(compilerTs.includes("src/simulation")).toBe(false);

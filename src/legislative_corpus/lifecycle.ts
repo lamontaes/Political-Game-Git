@@ -8,29 +8,54 @@ import type {
   SessionState,
   BecameLawEvidence,
   VetoEvidence,
-  FailureEvidence
+  FailureEvidence,
 } from "./types.js";
 
 export interface LifecycleInferenceContext {
-  actions: Array<Partial<LegislativeActionSourceRecord> & { rawDescription?: string; description?: string; providerClassifications?: string[]; classification?: string[]; actionDate?: string; date?: string; actingBody?: ChamberType }>;
-  votes?: Array<Partial<LegislativeVoteSourceRecord> & { passed?: boolean; motion?: string; date?: string; chamber?: ChamberType }>;
+  actions: Array<
+    Partial<LegislativeActionSourceRecord> & {
+      rawDescription?: string;
+      description?: string;
+      providerClassifications?: string[];
+      classification?: string[];
+      actionDate?: string;
+      date?: string;
+      actingBody?: ChamberType;
+    }
+  >;
+  votes?: Array<
+    Partial<LegislativeVoteSourceRecord> & {
+      passed?: boolean;
+      motion?: string;
+      date?: string;
+      chamber?: ChamberType;
+    }
+  >;
   sessionState?: SessionState;
   chamberStructure?: ChamberStructure;
 }
 
-const CHAPTER_PATTERN = /(?:Acts\s+Chapter|Chapter|Public\s+Act|Public\s+Law|Act\s+No\.|Ley\s+Núm\.|DC\s+Act)\s+([A-Za-z0-9-]+)/i;
+const CHAPTER_PATTERN =
+  /(?:Acts\s+Chapter|Chapter|Public\s+Act|Public\s+Law|Act\s+No\.|Ley\s+Núm\.|DC\s+Act)\s+([A-Za-z0-9-]+)/i;
 
 /**
  * Derives a conservative, source-grounded lifecycle summary.
- * 
+ *
  * Invariants:
  * 1. became-law requires affirmative enactment evidence.
  * 2. explicitly-failed requires affirmative failure evidence.
  * 3. absence of action before session adjournment is session-ended-unresolved, NOT failure or passage.
  * 4. veto is distinguishable from final failure, and subsequent veto overrides transition to became-law.
  */
-export function inferLegislativeLifecycle(context: LifecycleInferenceContext): LegislativeLifecycleSummary {
-  const { actions = [], votes = [], sessionState = "unknown", chamberStructure = "bicameral" } = context;
+export function inferLegislativeLifecycle(
+  context: LifecycleInferenceContext,
+): LegislativeLifecycleSummary {
+  const {
+    actions = [],
+    votes = [],
+    sessionState = "unknown",
+    chamberStructure = "bicameral",
+  } = context;
 
   if (actions.length === 0 && votes.length === 0) {
     return {
@@ -40,7 +65,7 @@ export function inferLegislativeLifecycle(context: LifecycleInferenceContext): L
       becameLawEvidence: null,
       vetoEvidence: null,
       failureEvidence: null,
-      rationale: "No source actions or votes recorded for measure."
+      rationale: "No source actions or votes recorded for measure.",
     };
   }
 
@@ -64,7 +89,8 @@ export function inferLegislativeLifecycle(context: LifecycleInferenceContext): L
   for (const action of sortedActions) {
     const rawDesc = action.rawDescription ?? action.description ?? "";
     const desc = rawDesc.toLowerCase();
-    const rawClassList = action.providerClassifications ?? action.classification ?? [];
+    const rawClassList =
+      action.providerClassifications ?? action.classification ?? [];
     const classifications = rawClassList.map((c) => String(c).toLowerCase());
     const actionDate = action.actionDate ?? action.date ?? null;
     const actingBody = action.actingBody || "other";
@@ -89,7 +115,7 @@ export function inferLegislativeLifecycle(context: LifecycleInferenceContext): L
         failureDate: actionDate || undefined,
         actingBody,
         stage: "withdrawn",
-        description: rawDesc
+        description: rawDesc,
       };
       continue;
     }
@@ -114,7 +140,7 @@ export function inferLegislativeLifecycle(context: LifecycleInferenceContext): L
         failureDate: actionDate || undefined,
         actingBody,
         stage: classifications.join(",") || "failure",
-        description: rawDesc
+        description: rawDesc,
       };
       continue;
     }
@@ -125,7 +151,8 @@ export function inferLegislativeLifecycle(context: LifecycleInferenceContext): L
       desc.includes("veto overridden") ||
       desc.includes("passed over governor's veto") ||
       desc.includes("passed over veto") ||
-      (desc.includes("overridden by senate") && desc.includes("overridden by house"));
+      (desc.includes("overridden by senate") &&
+        desc.includes("overridden by house"));
 
     if (isVetoOverridePass) {
       currentStatus = "became-law";
@@ -133,7 +160,7 @@ export function inferLegislativeLifecycle(context: LifecycleInferenceContext): L
         signedDate: actionDate || undefined,
         chapterOrActId: chapterId,
         vetoOverridden: true,
-        description: rawDesc
+        description: rawDesc,
       };
       continue;
     }
@@ -151,8 +178,12 @@ export function inferLegislativeLifecycle(context: LifecycleInferenceContext): L
       currentStatus = "vetoed";
       vetoEvidence = {
         vetoDate: actionDate || undefined,
-        vetoType: classifications.includes("line-item-veto") || desc.includes("line-item") ? "line_item" : "full",
-        description: rawDesc
+        vetoType:
+          classifications.includes("line-item-veto") ||
+          desc.includes("line-item")
+            ? "line_item"
+            : "full",
+        description: rawDesc,
       };
       continue;
     }
@@ -168,7 +199,10 @@ export function inferLegislativeLifecycle(context: LifecycleInferenceContext): L
       desc.includes("became law without signature") ||
       desc.includes("enacted") ||
       desc.includes("delivered to secretary of state; chapter") ||
-      (chapterId !== undefined && (desc.includes("signed") || desc.includes("chapter") || desc.includes("acts")));
+      (chapterId !== undefined &&
+        (desc.includes("signed") ||
+          desc.includes("chapter") ||
+          desc.includes("acts")));
 
     if (isEnacted) {
       currentStatus = "became-law";
@@ -176,7 +210,7 @@ export function inferLegislativeLifecycle(context: LifecycleInferenceContext): L
         signedDate: actionDate || undefined,
         chapterOrActId: chapterId || becameLawEvidence?.chapterOrActId,
         withoutSignature: desc.includes("without signature"),
-        description: rawDesc
+        description: rawDesc,
       };
       continue;
     }
@@ -191,7 +225,12 @@ export function inferLegislativeLifecycle(context: LifecycleInferenceContext): L
       desc.includes("concurred in house amendments") ||
       desc.includes("adopted");
 
-    if (isChamberPass && currentStatus !== "became-law" && currentStatus !== "vetoed" && currentStatus !== "explicitly-failed") {
+    if (
+      isChamberPass &&
+      currentStatus !== "became-law" &&
+      currentStatus !== "vetoed" &&
+      currentStatus !== "explicitly-failed"
+    ) {
       passedChambers.add(actingBody);
       currentStatus = "chamber-passed";
       continue;
@@ -215,7 +254,11 @@ export function inferLegislativeLifecycle(context: LifecycleInferenceContext): L
 
   // Check votes for any definitive failure not captured in action classifications
   for (const vote of votes) {
-    if (vote.passed === false && currentStatus !== "became-law" && currentStatus !== "explicitly-failed") {
+    if (
+      vote.passed === false &&
+      currentStatus !== "became-law" &&
+      currentStatus !== "explicitly-failed"
+    ) {
       const motion = (vote.motion || "").toLowerCase();
       if (
         motion.includes("passage") ||
@@ -228,7 +271,7 @@ export function inferLegislativeLifecycle(context: LifecycleInferenceContext): L
           failureDate: vote.date,
           actingBody: vote.chamber,
           stage: vote.motion || "roll_call_vote",
-          description: `Roll call vote failed: ${vote.yeas ?? 0} yeas, ${vote.nays ?? 0} nays.`
+          description: `Roll call vote failed: ${vote.yeas ?? 0} yeas, ${vote.nays ?? 0} nays.`,
         };
       }
     }
@@ -292,6 +335,6 @@ export function inferLegislativeLifecycle(context: LifecycleInferenceContext): L
     becameLawEvidence,
     vetoEvidence,
     failureEvidence,
-    rationale
+    rationale,
   };
 }

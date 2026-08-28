@@ -2,4 +2,7 @@ dist
 coverage
 node_modules
 package-lock.json
-
+playwright-report
+test-results
+data/names-v2
+data/legislative_source/corpus

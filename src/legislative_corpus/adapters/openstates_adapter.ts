@@ -13,7 +13,7 @@ import type {
   RollCallEntry,
   SessionClassification,
   SessionState,
-  SponsorshipType
+  SponsorshipType,
 } from "../types.js";
 import {
   buildActionId,
@@ -22,14 +22,14 @@ import {
   buildSponsorId,
   buildTextVersionId,
   buildVoteId,
-  normalizeJurisdictionKey
+  normalizeJurisdictionKey,
 } from "../ids.js";
 import { buildSourceProvenance } from "../provenance.js";
 import { inferLegislativeLifecycle } from "../lifecycle.js";
 import type {
   LegislativeProviderAdapter,
   MeasureNormalizationResult,
-  NormalizeMeasureOptions
+  NormalizeMeasureOptions,
 } from "./adapter_interface.js";
 
 interface OpenStatesSourceLink {
@@ -100,10 +100,12 @@ interface OpenStatesBillRaw {
   session?: string;
   classification?: string[];
   subject?: string[];
-  from_organization?: {
-    classification?: string;
-    name?: string;
-  } | string;
+  from_organization?:
+    | {
+        classification?: string;
+        name?: string;
+      }
+    | string;
   openstates_url?: string;
   sources?: OpenStatesSourceLink[];
   abstracts?: Array<{ abstract?: string }>;
@@ -133,14 +135,16 @@ export class OpenStatesAdapter implements LegislativeProviderAdapter {
 
   normalizeJurisdiction(
     raw: unknown,
-    retrievalTimestamp: string = "2026-08-28T00:00:00Z"
+    retrievalTimestamp: string = "2026-08-28T00:00:00Z",
   ): LegislativeJurisdictionSourceRecord {
     if (!raw || typeof raw !== "object") {
       throw new Error("OpenStatesAdapter: Invalid raw jurisdiction payload.");
     }
     const data = raw as OpenStatesJurisdictionRaw;
     if (!data.id || !data.name) {
-      throw new Error("OpenStatesAdapter: Jurisdiction payload missing required 'id' or 'name'.");
+      throw new Error(
+        "OpenStatesAdapter: Jurisdiction payload missing required 'id' or 'name'.",
+      );
     }
 
     const sourceKey = normalizeJurisdictionKey(data.id || data.name);
@@ -184,15 +188,15 @@ export class OpenStatesAdapter implements LegislativeProviderAdapter {
         providerUrl,
         retrievalTimestamp,
         confidence: "provider_standardized",
-        contentForHash: data
-      })
+        contentForHash: data,
+      }),
     };
   }
 
   normalizeSession(
     raw: unknown,
     jurisdictionKey: string,
-    retrievalTimestamp: string = "2026-08-28T00:00:00Z"
+    retrievalTimestamp: string = "2026-08-28T00:00:00Z",
   ): LegislativeSessionSourceRecord {
     if (!raw || typeof raw !== "object") {
       throw new Error("OpenStatesAdapter: Invalid raw session payload.");
@@ -207,7 +211,9 @@ export class OpenStatesAdapter implements LegislativeProviderAdapter {
     };
 
     if (!data.identifier) {
-      throw new Error("OpenStatesAdapter: Session payload missing required 'identifier'.");
+      throw new Error(
+        "OpenStatesAdapter: Session payload missing required 'identifier'.",
+      );
     }
 
     const normJurKey = normalizeJurisdictionKey(jurisdictionKey);
@@ -215,7 +221,11 @@ export class OpenStatesAdapter implements LegislativeProviderAdapter {
 
     let classification: SessionClassification = "regular";
     const rawClass = (data.classification || "").toLowerCase();
-    if (rawClass.includes("special") || (data.identifier.toLowerCase().includes("s") && !data.identifier.toLowerCase().includes("rs"))) {
+    if (
+      rawClass.includes("special") ||
+      (data.identifier.toLowerCase().includes("s") &&
+        !data.identifier.toLowerCase().includes("rs"))
+    ) {
       classification = "special";
     } else if (rawClass.includes("extraordinary")) {
       classification = "extraordinary";
@@ -249,14 +259,14 @@ export class OpenStatesAdapter implements LegislativeProviderAdapter {
         providerUrl,
         retrievalTimestamp,
         confidence: "provider_standardized",
-        contentForHash: data
-      })
+        contentForHash: data,
+      }),
     };
   }
 
   normalizeMeasure(
     raw: unknown,
-    options: NormalizeMeasureOptions = {}
+    options: NormalizeMeasureOptions = {},
   ): MeasureNormalizationResult {
     if (!raw || typeof raw !== "object") {
       throw new Error("OpenStatesAdapter: Invalid raw bill payload.");
@@ -264,43 +274,73 @@ export class OpenStatesAdapter implements LegislativeProviderAdapter {
     const data = raw as OpenStatesBillRaw;
 
     if (!data.identifier) {
-      throw new Error("OpenStatesAdapter: Bill payload missing required 'identifier'.");
+      throw new Error(
+        "OpenStatesAdapter: Bill payload missing required 'identifier'.",
+      );
     }
 
-    const retrievalTimestamp = options.retrievalTimestamp || "2026-08-28T00:00:00Z";
-    const rawJur = options.jurisdictionKey || data.jurisdiction?.id || data.jurisdiction?.name || "us_unknown";
+    const retrievalTimestamp =
+      options.retrievalTimestamp || "2026-08-28T00:00:00Z";
+    const rawJur =
+      options.jurisdictionKey ||
+      data.jurisdiction?.id ||
+      data.jurisdiction?.name ||
+      "us_unknown";
     const jurisdictionKey = normalizeJurisdictionKey(rawJur);
-    const sessionIdentifier = options.sessionIdentifier || data.session || "current";
+    const sessionIdentifier =
+      options.sessionIdentifier || data.session || "current";
     const sessionId = buildSessionId(jurisdictionKey, sessionIdentifier);
-    const measureId = buildMeasureId(jurisdictionKey, sessionIdentifier, data.identifier);
+    const measureId = buildMeasureId(
+      jurisdictionKey,
+      sessionIdentifier,
+      data.identifier,
+    );
 
     // Official source link preservation
     let officialUrl: string | null = null;
     if (data.sources && Array.isArray(data.sources)) {
-      const primarySource = data.sources.find((s) => s.url && !s.url.includes("openstates.org"));
+      const primarySource = data.sources.find(
+        (s) => s.url && !s.url.includes("openstates.org"),
+      );
       if (primarySource?.url) {
         officialUrl = primarySource.url;
       }
     }
 
-    const providerUrl = data.openstates_url || (data.id ? `https://openstates.org/bills/${data.id}` : null);
+    const providerUrl =
+      data.openstates_url ||
+      (data.id ? `https://openstates.org/bills/${data.id}` : null);
 
     // Measure Classification
     let classification: MeasureClassification = "bill";
     const rawClass = (data.classification || []).map((c) => c.toLowerCase());
     if (rawClass.includes("resolution")) {
       classification = "resolution";
-    } else if (rawClass.includes("joint resolution") || rawClass.includes("joint_resolution")) {
+    } else if (
+      rawClass.includes("joint resolution") ||
+      rawClass.includes("joint_resolution")
+    ) {
       classification = "joint_resolution";
-    } else if (rawClass.includes("concurrent resolution") || rawClass.includes("concurrent_resolution")) {
+    } else if (
+      rawClass.includes("concurrent resolution") ||
+      rawClass.includes("concurrent_resolution")
+    ) {
       classification = "concurrent_resolution";
-    } else if (rawClass.includes("constitutional amendment") || rawClass.includes("constitutional_amendment")) {
+    } else if (
+      rawClass.includes("constitutional amendment") ||
+      rawClass.includes("constitutional_amendment")
+    ) {
       classification = "constitutional_amendment";
     }
 
     // Chamber Origin
     let chamberOrigin: ChamberType = "lower";
-    const rawOrg = typeof data.from_organization === "string" ? data.from_organization : data.from_organization?.classification || data.from_organization?.name || "";
+    const rawOrg =
+      typeof data.from_organization === "string"
+        ? data.from_organization
+        : data.from_organization?.classification ||
+          data.from_organization?.name ||
+          "";
     const lowerOrg = rawOrg.toLowerCase();
     if (jurisdictionKey === "us_ne") {
       chamberOrigin = "unicameral";
@@ -308,12 +348,18 @@ export class OpenStatesAdapter implements LegislativeProviderAdapter {
       chamberOrigin = "council";
     } else if (lowerOrg.includes("upper") || lowerOrg.includes("senate")) {
       chamberOrigin = "upper";
-    } else if (lowerOrg.includes("lower") || lowerOrg.includes("house") || lowerOrg.includes("assembly")) {
+    } else if (
+      lowerOrg.includes("lower") ||
+      lowerOrg.includes("house") ||
+      lowerOrg.includes("assembly")
+    ) {
       chamberOrigin = "lower";
     }
 
     // Text Versions
-    const textVersions: LegislativeTextVersionSourceRecord[] = (data.versions || []).map((v, idx) => {
+    const textVersions: LegislativeTextVersionSourceRecord[] = (
+      data.versions || []
+    ).map((v, idx) => {
       const primaryLink = (v.links || [])[0];
       const docUrl = primaryLink?.url || null;
       const mediaType = primaryLink?.media_type || "application/pdf";
@@ -327,7 +373,8 @@ export class OpenStatesAdapter implements LegislativeProviderAdapter {
         versionLabel: label,
         versionDate: v.date || null,
         documentUrl: docUrl,
-        officialUrl: docUrl && !docUrl.includes("openstates.org") ? docUrl : null,
+        officialUrl:
+          docUrl && !docUrl.includes("openstates.org") ? docUrl : null,
         mediaType,
         contentHash: null,
         provenance: buildSourceProvenance({
@@ -336,145 +383,184 @@ export class OpenStatesAdapter implements LegislativeProviderAdapter {
           officialUrl: docUrl,
           providerUrl,
           retrievalTimestamp,
-          contentForHash: v
-        })
+          contentForHash: v,
+        }),
       };
     });
 
     // Actions
-    const actions: LegislativeActionSourceRecord[] = (data.actions || []).map((act, idx) => {
-      const actionDate = act.date || "undated";
-      const actionId = buildActionId(measureId, act.order ?? idx, actionDate);
-      const orgClass = act.organization?.classification?.toLowerCase() || "";
-      const orgName = act.organization?.name || null;
+    const actions: LegislativeActionSourceRecord[] = (data.actions || []).map(
+      (act, idx) => {
+        const actionDate = act.date || "undated";
+        const actionId = buildActionId(measureId, act.order ?? idx, actionDate);
+        const orgClass = act.organization?.classification?.toLowerCase() || "";
+        const orgName = act.organization?.name || null;
 
-      let actingBody: ChamberType = "other";
-      if (jurisdictionKey === "us_ne") {
-        actingBody = "unicameral";
-      } else if (jurisdictionKey === "us_dc") {
-        actingBody = "council";
-      } else if (orgClass.includes("upper") || (orgName && orgName.toLowerCase().includes("senate"))) {
-        actingBody = "upper";
-      } else if (orgClass.includes("lower") || (orgName && (orgName.toLowerCase().includes("house") || orgName.toLowerCase().includes("assembly")))) {
-        actingBody = "lower";
-      } else if (orgClass.includes("executive") || (orgName && orgName.toLowerCase().includes("governor"))) {
-        actingBody = "executive";
-      }
-
-      let actOfficialUrl: string | null = null;
-      if (act.sources && act.sources[0]?.url && !act.sources[0].url.includes("openstates.org")) {
-        actOfficialUrl = act.sources[0].url;
-      }
-
-      return {
-        actionId,
-        measureId,
-        actionDate,
-        actingBody,
-        actingBodyName: orgName,
-        providerClassifications: act.classification || [],
-        rawDescription: act.description || "",
-        sourceUrl: providerUrl,
-        officialUrl: actOfficialUrl,
-        sequenceIndex: act.order ?? idx,
-        provenance: buildSourceProvenance({
-          provider: "openstates",
-          providerId: `${data.id || measureId}_act_${idx}`,
-          officialUrl: actOfficialUrl,
-          providerUrl,
-          retrievalTimestamp,
-          contentForHash: act
-        })
-      };
-    });
-
-    // Votes
-    const votes: LegislativeVoteSourceRecord[] = (data.votes || []).map((vote, idx) => {
-      const voteDate = vote.start_date || "undated";
-      const orgClass = vote.organization?.classification?.toLowerCase() || "";
-      const orgName = vote.organization?.name || "";
-
-      let chamber: ChamberType = "other";
-      if (jurisdictionKey === "us_ne") {
-        chamber = "unicameral";
-      } else if (jurisdictionKey === "us_dc") {
-        chamber = "council";
-      } else if (orgClass.includes("upper") || orgName.toLowerCase().includes("senate")) {
-        chamber = "upper";
-      } else if (orgClass.includes("lower") || orgName.toLowerCase().includes("house") || orgName.toLowerCase().includes("assembly")) {
-        chamber = "lower";
-      }
-
-      const voteId = buildVoteId(measureId, chamber, voteDate, idx);
-      const passed = (vote.result || "").toLowerCase() === "pass";
-
-      let yeas = 0;
-      let nays = 0;
-      const otherCounts: Record<string, number> = {};
-
-      for (const count of vote.counts || []) {
-        const opt = (count.option || "").toLowerCase();
-        const val = count.value || 0;
-        if (opt === "yes" || opt === "yea" || opt === "aye") {
-          yeas = val;
-        } else if (opt === "no" || opt === "nay") {
-          nays = val;
-        } else {
-          otherCounts[opt || "other"] = val;
+        let actingBody: ChamberType = "other";
+        if (jurisdictionKey === "us_ne") {
+          actingBody = "unicameral";
+        } else if (jurisdictionKey === "us_dc") {
+          actingBody = "council";
+        } else if (
+          orgClass.includes("upper") ||
+          (orgName && orgName.toLowerCase().includes("senate"))
+        ) {
+          actingBody = "upper";
+        } else if (
+          orgClass.includes("lower") ||
+          (orgName &&
+            (orgName.toLowerCase().includes("house") ||
+              orgName.toLowerCase().includes("assembly")))
+        ) {
+          actingBody = "lower";
+        } else if (
+          orgClass.includes("executive") ||
+          (orgName && orgName.toLowerCase().includes("governor"))
+        ) {
+          actingBody = "executive";
         }
-      }
 
-      const rollCall: RollCallEntry[] = (vote.votes || []).map((v) => {
-        const opt = (v.option || "").toLowerCase();
-        let standardOption: RollCallEntry["option"] = "other";
-        if (opt === "yes" || opt === "yea" || opt === "aye") standardOption = "yes";
-        else if (opt === "no" || opt === "nay") standardOption = "no";
-        else if (opt === "absent") standardOption = "absent";
-        else if (opt === "excused") standardOption = "excused";
-        else if (opt === "nv" || opt === "not voting") standardOption = "nv";
+        let actOfficialUrl: string | null = null;
+        if (
+          act.sources &&
+          act.sources[0]?.url &&
+          !act.sources[0].url.includes("openstates.org")
+        ) {
+          actOfficialUrl = act.sources[0].url;
+        }
 
         return {
-          personId: v.voter_id || null,
-          personName: v.voter_name || "Unknown Legislator",
-          option: standardOption,
-          rawOption: v.option
+          actionId,
+          measureId,
+          actionDate,
+          actingBody,
+          actingBodyName: orgName,
+          providerClassifications: act.classification || [],
+          rawDescription: act.description || "",
+          sourceUrl: providerUrl,
+          officialUrl: actOfficialUrl,
+          sequenceIndex: act.order ?? idx,
+          provenance: buildSourceProvenance({
+            provider: "openstates",
+            providerId: `${data.id || measureId}_act_${idx}`,
+            officialUrl: actOfficialUrl,
+            providerUrl,
+            retrievalTimestamp,
+            contentForHash: act,
+          }),
         };
-      });
+      },
+    );
 
-      let voteOfficialUrl: string | null = null;
-      if (vote.sources && vote.sources[0]?.url && !vote.sources[0].url.includes("openstates.org")) {
-        voteOfficialUrl = vote.sources[0].url;
-      }
+    // Votes
+    const votes: LegislativeVoteSourceRecord[] = (data.votes || []).map(
+      (vote, idx) => {
+        const voteDate = vote.start_date || "undated";
+        const orgClass = vote.organization?.classification?.toLowerCase() || "";
+        const orgName = vote.organization?.name || "";
 
-      return {
-        voteId,
-        measureId,
-        chamber,
-        motion: vote.motion_text || vote.identifier || "Roll Call Vote",
-        date: voteDate,
-        passed,
-        yeas,
-        nays,
-        otherCounts,
-        rollCall,
-        providerClassification: vote.result || null,
-        officialUrl: voteOfficialUrl,
-        sourceUrl: providerUrl,
-        provenance: buildSourceProvenance({
-          provider: "openstates",
-          providerId: vote.id || voteId,
+        let chamber: ChamberType = "other";
+        if (jurisdictionKey === "us_ne") {
+          chamber = "unicameral";
+        } else if (jurisdictionKey === "us_dc") {
+          chamber = "council";
+        } else if (
+          orgClass.includes("upper") ||
+          orgName.toLowerCase().includes("senate")
+        ) {
+          chamber = "upper";
+        } else if (
+          orgClass.includes("lower") ||
+          orgName.toLowerCase().includes("house") ||
+          orgName.toLowerCase().includes("assembly")
+        ) {
+          chamber = "lower";
+        }
+
+        const voteId = buildVoteId(measureId, chamber, voteDate, idx);
+        const passed = (vote.result || "").toLowerCase() === "pass";
+
+        let yeas = 0;
+        let nays = 0;
+        const otherCounts: Record<string, number> = {};
+
+        for (const count of vote.counts || []) {
+          const opt = (count.option || "").toLowerCase();
+          const val = count.value || 0;
+          if (opt === "yes" || opt === "yea" || opt === "aye") {
+            yeas = val;
+          } else if (opt === "no" || opt === "nay") {
+            nays = val;
+          } else {
+            otherCounts[opt || "other"] = val;
+          }
+        }
+
+        const rollCall: RollCallEntry[] = (vote.votes || []).map((v) => {
+          const opt = (v.option || "").toLowerCase();
+          let standardOption: RollCallEntry["option"] = "other";
+          if (opt === "yes" || opt === "yea" || opt === "aye")
+            standardOption = "yes";
+          else if (opt === "no" || opt === "nay") standardOption = "no";
+          else if (opt === "absent") standardOption = "absent";
+          else if (opt === "excused") standardOption = "excused";
+          else if (opt === "nv" || opt === "not voting") standardOption = "nv";
+
+          return {
+            personId: v.voter_id || null,
+            personName: v.voter_name || "Unknown Legislator",
+            option: standardOption,
+            rawOption: v.option,
+          };
+        });
+
+        let voteOfficialUrl: string | null = null;
+        if (
+          vote.sources &&
+          vote.sources[0]?.url &&
+          !vote.sources[0].url.includes("openstates.org")
+        ) {
+          voteOfficialUrl = vote.sources[0].url;
+        }
+
+        return {
+          voteId,
+          measureId,
+          chamber,
+          motion: vote.motion_text || vote.identifier || "Roll Call Vote",
+          date: voteDate,
+          passed,
+          yeas,
+          nays,
+          otherCounts,
+          rollCall,
+          providerClassification: vote.result || null,
           officialUrl: voteOfficialUrl,
-          providerUrl,
-          retrievalTimestamp,
-          contentForHash: vote
-        })
-      };
-    });
+          sourceUrl: providerUrl,
+          provenance: buildSourceProvenance({
+            provider: "openstates",
+            providerId: vote.id || voteId,
+            officialUrl: voteOfficialUrl,
+            providerUrl,
+            retrievalTimestamp,
+            contentForHash: vote,
+          }),
+        };
+      },
+    );
 
     // Sponsors
-    const sponsors: LegislativeSponsorSourceRecord[] = (data.sponsors || []).map((sp, idx) => {
-      const sponsorId = buildSponsorId(measureId, sp.name || `sponsor_${idx}`, idx);
-      const isPrimary = sp.primary === true || (sp.classification || "").toLowerCase() === "primary";
+    const sponsors: LegislativeSponsorSourceRecord[] = (
+      data.sponsors || []
+    ).map((sp, idx) => {
+      const sponsorId = buildSponsorId(
+        measureId,
+        sp.name || `sponsor_${idx}`,
+        idx,
+      );
+      const isPrimary =
+        sp.primary === true ||
+        (sp.classification || "").toLowerCase() === "primary";
 
       let sponsorshipType: SponsorshipType = "cosponsor";
       if (isPrimary) {
@@ -498,21 +584,30 @@ export class OpenStatesAdapter implements LegislativeProviderAdapter {
           officialUrl: null,
           providerUrl,
           retrievalTimestamp,
-          contentForHash: sp
-        })
+          contentForHash: sp,
+        }),
       };
     });
 
     // Derive Lifecycle
-    const chamberStructure = options.chamberStructure || (jurisdictionKey === "us_ne" ? "nonpartisan_unicameral" : jurisdictionKey === "us_dc" ? "council" : "bicameral");
+    const chamberStructure =
+      options.chamberStructure ||
+      (jurisdictionKey === "us_ne"
+        ? "nonpartisan_unicameral"
+        : jurisdictionKey === "us_dc"
+          ? "council"
+          : "bicameral");
     const derivedLifecycle = inferLegislativeLifecycle({
       actions,
       votes,
       sessionState: options.sessionState || "unknown",
-      chamberStructure
+      chamberStructure,
     });
 
-    const summaryText = data.abstracts && data.abstracts[0]?.abstract ? data.abstracts[0].abstract : null;
+    const summaryText =
+      data.abstracts && data.abstracts[0]?.abstract
+        ? data.abstracts[0].abstract
+        : null;
 
     const measure: LegislativeMeasureSourceRecord = {
       measureId,
@@ -541,9 +636,9 @@ export class OpenStatesAdapter implements LegislativeProviderAdapter {
           id: data.id,
           identifier: data.identifier,
           title: data.title,
-          session: data.session
-        }
-      })
+          session: data.session,
+        },
+      }),
     };
 
     return {
@@ -551,7 +646,7 @@ export class OpenStatesAdapter implements LegislativeProviderAdapter {
       textVersions,
       actions,
       votes,
-      sponsors
+      sponsors,
     };
   }
 }

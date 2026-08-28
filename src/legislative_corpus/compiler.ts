@@ -6,11 +6,14 @@ import type {
   LegislativeSponsorSourceRecord,
   LegislativeTextVersionSourceRecord,
   LegislativeVoteSourceRecord,
-  NormalizedCorpusPackage
+  NormalizedCorpusPackage,
 } from "./types.js";
 import { OpenStatesAdapter } from "./adapters/openstates_adapter.js";
 import { LegiScanAdapter } from "./adapters/legiscan_adapter.js";
-import { buildNationalCoverageManifest, type ManifestSampleCounts } from "./manifest_builder.js";
+import {
+  buildNationalCoverageManifest,
+  type ManifestSampleCounts,
+} from "./manifest_builder.js";
 import { COMPILER_SCHEMA_VERSION, computeSha256 } from "./provenance.js";
 import type { NormalizeMeasureOptions } from "./adapters/adapter_interface.js";
 
@@ -27,7 +30,10 @@ export class LegislativeCorpusCompiler {
   private openStatesAdapter = new OpenStatesAdapter();
   private legiscanAdapter = new LegiScanAdapter();
 
-  private jurisdictions = new Map<string, LegislativeJurisdictionSourceRecord>();
+  private jurisdictions = new Map<
+    string,
+    LegislativeJurisdictionSourceRecord
+  >();
   private sessions = new Map<string, LegislativeSessionSourceRecord>();
   private measures = new Map<string, LegislativeMeasureSourceRecord>();
   private textVersions = new Map<string, LegislativeTextVersionSourceRecord>();
@@ -35,8 +41,14 @@ export class LegislativeCorpusCompiler {
   private votes = new Map<string, LegislativeVoteSourceRecord>();
   private sponsors = new Map<string, LegislativeSponsorSourceRecord>();
 
-  ingest(item: IngestItemInput, timestamp: string = "2026-08-28T00:00:00Z"): void {
-    const adapter = item.provider === "openstates" ? this.openStatesAdapter : this.legiscanAdapter;
+  ingest(
+    item: IngestItemInput,
+    timestamp: string = "2026-08-28T00:00:00Z",
+  ): void {
+    const adapter =
+      item.provider === "openstates"
+        ? this.openStatesAdapter
+        : this.legiscanAdapter;
 
     if (item.type === "jurisdiction") {
       const rec = adapter.normalizeJurisdiction(item.raw, timestamp);
@@ -48,7 +60,7 @@ export class LegislativeCorpusCompiler {
     } else if (item.type === "measure") {
       const res = adapter.normalizeMeasure(item.raw, {
         ...item.options,
-        retrievalTimestamp: timestamp
+        retrievalTimestamp: timestamp,
       });
 
       this.measures.set(res.measure.measureId, res.measure);
@@ -69,17 +81,17 @@ export class LegislativeCorpusCompiler {
 
   compile(timestamp: string = "2026-08-28T00:00:00Z"): NormalizedCorpusPackage {
     // Sort all arrays deterministically by stable ID / key
-    const sortedJurisdictions = Array.from(this.jurisdictions.values()).sort((a, b) =>
-      a.sourceKey.localeCompare(b.sourceKey)
+    const sortedJurisdictions = Array.from(this.jurisdictions.values()).sort(
+      (a, b) => a.sourceKey.localeCompare(b.sourceKey),
     );
     const sortedSessions = Array.from(this.sessions.values()).sort((a, b) =>
-      a.sessionId.localeCompare(b.sessionId)
+      a.sessionId.localeCompare(b.sessionId),
     );
     const sortedMeasures = Array.from(this.measures.values()).sort((a, b) =>
-      a.measureId.localeCompare(b.measureId)
+      a.measureId.localeCompare(b.measureId),
     );
-    const sortedTextVersions = Array.from(this.textVersions.values()).sort((a, b) =>
-      a.textVersionId.localeCompare(b.textVersionId)
+    const sortedTextVersions = Array.from(this.textVersions.values()).sort(
+      (a, b) => a.textVersionId.localeCompare(b.textVersionId),
     );
     const sortedActions = Array.from(this.actions.values()).sort((a, b) => {
       const mComp = a.measureId.localeCompare(b.measureId);
@@ -87,10 +99,10 @@ export class LegislativeCorpusCompiler {
       return a.sequenceIndex - b.sequenceIndex;
     });
     const sortedVotes = Array.from(this.votes.values()).sort((a, b) =>
-      a.voteId.localeCompare(b.voteId)
+      a.voteId.localeCompare(b.voteId),
     );
     const sortedSponsors = Array.from(this.sponsors.values()).sort((a, b) =>
-      a.sponsorId.localeCompare(b.sponsorId)
+      a.sponsorId.localeCompare(b.sponsorId),
     );
 
     // Compute sample counts per jurisdiction
@@ -127,7 +139,8 @@ export class LegislativeCorpusCompiler {
       voteCount: sortedVotes.length,
       sponsorCount: sortedSponsors.length,
       firstMeasureId: sortedMeasures[0]?.measureId || null,
-      lastMeasureId: sortedMeasures[sortedMeasures.length - 1]?.measureId || null
+      lastMeasureId:
+        sortedMeasures[sortedMeasures.length - 1]?.measureId || null,
     };
 
     const checksum = computeSha256(rawPayloadToHash);
@@ -151,10 +164,10 @@ export class LegislativeCorpusCompiler {
           textVersions: sortedTextVersions.length,
           actions: sortedActions.length,
           votes: sortedVotes.length,
-          sponsors: sortedSponsors.length
+          sponsors: sortedSponsors.length,
         },
-        checksum
-      }
+        checksum,
+      },
     };
   }
 }

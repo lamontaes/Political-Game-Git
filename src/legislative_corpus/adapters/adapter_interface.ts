@@ -7,7 +7,7 @@ import type {
   LegislativeSponsorSourceRecord,
   LegislativeTextVersionSourceRecord,
   LegislativeVoteSourceRecord,
-  SessionState
+  SessionState,
 } from "../types.js";
 
 export interface MeasureNormalizationResult {
@@ -31,17 +31,17 @@ export interface LegislativeProviderAdapter {
 
   normalizeJurisdiction(
     raw: unknown,
-    retrievalTimestamp?: string
+    retrievalTimestamp?: string,
   ): LegislativeJurisdictionSourceRecord;
 
   normalizeSession(
     raw: unknown,
     jurisdictionKey: string,
-    retrievalTimestamp?: string
+    retrievalTimestamp?: string,
   ): LegislativeSessionSourceRecord;
 
   normalizeMeasure(
     raw: unknown,
-    options?: NormalizeMeasureOptions
+    options?: NormalizeMeasureOptions,
   ): MeasureNormalizationResult;
 }
