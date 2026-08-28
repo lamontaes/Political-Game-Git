@@ -26,7 +26,9 @@
     "validate:art": "node --import tsx scripts/art-asset-factory/cli-validate.ts",
     "inventory:art": "node --import tsx scripts/art-asset-factory/cli-inventory.ts",
     "qa:art": "node --import tsx scripts/art-asset-factory/cli-qa.ts",
-    "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art"
+    "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art",
+    "agent:preflight": "node scripts/agent-preflight.mjs",
+    "dev:identified": "node scripts/dev-identified.mjs"
   },
   "dependencies": {
     "react": "19.2.6",
