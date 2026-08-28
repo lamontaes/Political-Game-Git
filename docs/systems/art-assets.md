@@ -49,10 +49,52 @@ record `generator_tool`, `generated_model_version`,
 not required for photographs, measured drawings, HABS sources, hand-authored
 art, or other provenance classes.
 
-## Bootstrap state
+## Bootstrap and development runtime release
 
-An empty production manifest and empty provenance set remain valid. Reference,
-draft, pending, and experimental entries may remain incomplete only while they
-make no runtime-release claim and omit any nonexistent `final_path`. Gate B and
-Gate C remain unsatisfied until actual approved assets are recorded and
-released through this contract.
+An empty production manifest and empty provenance set remain valid for a new
+bootstrap. Reference, draft, pending, and experimental entries may remain
+incomplete only while they make no runtime-release claim and omit any
+nonexistent `final_path`.
+
+Packet 76 provides the initial development fixture assets to verify the
+runtime compositor pipeline: one ordinary council/legislative staff-office
+environment plate under the reusable `council-staff-office` family and two
+authored-pose character recipes (historical A01/B01). The supplied raw bytes are
+verified before import. The two green-field sources remain under
+`art/references/approved/packet76/`; a fixed green-dominance alpha ramp plus
+transition-pixel spill clamp produces the runtime PNGs. The transform is
+deterministic, changes no opaque clothing, skin, hair, face, hand, foot, or
+anatomy pixels, and is reproduced by the focused art suite. Gemini is recorded
+as the generator family and `not-recorded` as the honestly unknown model
+version. Rights remain `unknown`; project approval and runtime release do not
+upgrade them.
+
+PNG transparency QA is pixel-based. An alpha-capable PNG is `confirmed` only
+when deterministic decoding finds at least one pixel whose alpha is below 255;
+an all-opaque RGBA image does not satisfy `requires_transparency` merely because
+its header declares an alpha channel.
+
+The historical Prompt 30 room is preserved byte-for-byte as a development/test
+fixture. Runtime composition uses a deterministic 2048×1144 separable Lanczos-3
+derivative alongside a transparent foreground mask covering the desk and chair
+foreground polygons with 2×2 edge coverage. Both derivatives are ordinary
+released manifest assets with their own hashes and linked provenance; neither
+creates a parallel registry, changes the source bytes, or redraws the room.
+
+## Current project art authority
+
+The historical Prompt 30 plate, A01, and B01 assets serve as temporary
+development/test fixture runtime material for verifying presentation code.
+They do not represent the final production art set:
+
+- **Office Environment Authority**: `PG-E02 CLEAN` is the human-approved current
+  office composition master (locally verified Topaz source = 5568×3008 PNG /
+  24.2 MB). This master provides full resolution sufficient for a later
+  non-enlarging crop to 4096×2288. The office does not require another
+  regeneration or upscale.
+- **Character Authority**: Historical B01 is retired as the final guest-chair
+  asset. New primary and guest character assets are being generated externally
+  (e.g., Firefly) and will replace the development fixtures in a subsequent
+  asset-substitution pass.
+- No synthetic or unverified hashes, paths, or provenance records are added
+  until the actual production files are supplied to the repository.

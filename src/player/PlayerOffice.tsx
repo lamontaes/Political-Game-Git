@@ -68,6 +68,25 @@ function formatRunADate(date: string): string {
   }).format(new Date(`${date}T12:00:00Z`));
 }
 
+function formatRunACompactDate(date: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${date}T12:00:00Z`));
+}
+
+function formatRunAExpandedDate(date: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${date}T12:00:00Z`));
+}
+
 function formatRunATime(minuteOfDay: number): string {
   const hour24 = Math.floor(minuteOfDay / 60);
   const minute = minuteOfDay % 60;
@@ -243,7 +262,10 @@ export function PlayerOffice() {
     documentDispatch({ type: "open" });
   }
 
-  function openPlanningWorkspace(mode: "calendar" | "work") {
+  function openPlanningWorkspace(
+    mode: "calendar" | "work",
+    activityId?: EntityId,
+  ) {
     dispatch({ type: "dismiss-overlay" });
     dispatch({ type: "close-navigation" });
     dispatch({ type: "close-pin-controls" });
@@ -253,6 +275,7 @@ export function PlayerOffice() {
     }
     planningDispatch({
       type: mode === "calendar" ? "open-calendar" : "open-work",
+      ...(mode === "calendar" && activityId ? { activityId } : {}),
     });
   }
 
@@ -442,14 +465,15 @@ export function PlayerOffice() {
       data-metric-state-count={world.history.metricStates.length}
       data-scheduled-activity-count={world.history.scheduledActivities.length}
       data-work-item-count={world.history.workItems.length}
+      data-planning-workspace-open={
+        planningState.mode !== "closed" ? "true" : "false"
+      }
+      data-document-workspace-open={
+        documentState.mode === "open" ? "true" : "false"
+      }
       onKeyDown={handleKeyDown}
       onPointerDown={handlePointerDown}
     >
-      <div className="scene-caption">
-        <p>Legislative Office</p>
-        <span>{fixture.locationDetail}</span>
-      </div>
-
       <OfficeScene
         fixture={fixture}
         dossiers={dossiers}
@@ -458,6 +482,7 @@ export function PlayerOffice() {
         conversationAddressee={conversationState.addressee}
         onTalk={startConversation}
         onOpenWorkingDocument={openWorkingDocument}
+        onOpenBriefing={() => openPlanningWorkspace("work")}
       />
       <WorkingDocumentWorkspace
         world={world}
@@ -520,10 +545,18 @@ export function PlayerOffice() {
           dossier: dossiers[scenePerson.personId]!,
         }))}
         formattedDate={formatRunADate(world.currentDate)}
+        expandedDate={formatRunAExpandedDate(world.currentDate)}
+        compactDate={formatRunACompactDate(world.currentDate)}
         formattedTime={formatRunATime(world.currentMoment.minuteOfDay)}
         compactNavigation={documentState.mode === "open"}
+        retreatedNavigation={
+          documentState.mode === "open" || planningState.mode !== "closed"
+        }
         nextCommitment={planningProjection.nextCommitment}
         onOpenCalendar={() => openPlanningWorkspace("calendar")}
+        onOpenCalendarCommitment={(activityId) =>
+          openPlanningWorkspace("calendar", activityId)
+        }
         onOpenWorkPending={() => openPlanningWorkspace("work")}
         state={state}
         dispatch={dispatch}

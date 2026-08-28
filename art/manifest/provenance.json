@@ -1,3 +1,72 @@
 {
-  "entries": []
+  "entries": [
+    {
+      "provenance_id": "prov_env_lexington_council_staff_office_prompt30_v1",
+      "asset_id": "env_lexington_council_staff_office_prompt30_v1",
+      "source_url_or_path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
+      "document_photo_plan_title": "Drive source 13EMVa7roYDRNyxsy_YKk7GYsXi8EAewI · GEMINI_OUTPUT_27_PROMPT30_council_staff_office_environment_master_APPROVED_v1.png",
+      "access_retrieval_date": "2026-08-27",
+      "rights_license_status": "unknown",
+      "reference_type": "ai-generated",
+      "source_authority_category": "visual-estimate-support",
+      "generator_tool": "Gemini",
+      "generated_model_version": "not-recorded",
+      "prompt_spec_manifest_id": "Prompt 30",
+      "generation_edit_date": "2026-08-27",
+      "edits_performed": "Deterministic 2x separable Lanczos-3 resampling from the exact owner-approved 1024x572 source; no redraw, sharpening filter, contrast change, or generative edit.",
+      "output_hash_version": "sha256",
+      "approval_status": "approved"
+    },
+    {
+      "provenance_id": "prov_env_lexington_council_staff_office_prompt30_foreground_mask_v1",
+      "asset_id": "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
+      "source_url_or_path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
+      "document_photo_plan_title": "Drive source 13EMVa7roYDRNyxsy_YKk7GYsXi8EAewI · Prompt 30 furniture foreground derivative",
+      "access_retrieval_date": "2026-08-27",
+      "rights_license_status": "unknown",
+      "reference_type": "ai-generated",
+      "source_authority_category": "visual-estimate-support",
+      "generator_tool": "Gemini",
+      "generated_model_version": "not-recorded",
+      "prompt_spec_manifest_id": "Prompt 30",
+      "generation_edit_date": "2026-08-27",
+      "edits_performed": "Deterministic transparent mask derived from the same 2x Lanczos-3 office plate using fixed visual-estimate furniture polygons and 2x2 edge coverage; no redraw or generated pixels.",
+      "output_hash_version": "sha256",
+      "approval_status": "approved"
+    },
+    {
+      "provenance_id": "prov_human_candidate_A01_primary_desk_seated_v1",
+      "asset_id": "human_candidate_A01_primary_desk_seated_v1",
+      "source_url_or_path": "art/references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png",
+      "document_photo_plan_title": "Drive source 1GiahSGSL1CfaR87y3lCon_qbv3wgXVL2",
+      "access_retrieval_date": "2026-08-27",
+      "rights_license_status": "unknown",
+      "reference_type": "ai-generated",
+      "source_authority_category": "visual-estimate-support",
+      "generator_tool": "Gemini",
+      "generated_model_version": "not-recorded",
+      "prompt_spec_manifest_id": "Prompt 34",
+      "generation_edit_date": "2026-08-27",
+      "edits_performed": "Deterministic alpha extraction only: fixed green-dominance ramp and transition-pixel green-spill clamp from scripts/art-asset-factory/chroma-extract.ts; no redraw or repaint.",
+      "output_hash_version": "sha256",
+      "approval_status": "approved"
+    },
+    {
+      "provenance_id": "prov_human_candidate_B01_left_guest_seated_v1",
+      "asset_id": "human_candidate_B01_left_guest_seated_v1",
+      "source_url_or_path": "art/references/approved/packet76/GEMINI_OUTPUT_32_PROMPT35_human_candidate_B01_left_guest_seated_base_APPROVED_v1.png",
+      "document_photo_plan_title": "Drive source 1mdTvRbBZWvBQ5mIVofOg6wEKvC4mT3OV",
+      "access_retrieval_date": "2026-08-27",
+      "rights_license_status": "unknown",
+      "reference_type": "ai-generated",
+      "source_authority_category": "visual-estimate-support",
+      "generator_tool": "Gemini",
+      "generated_model_version": "not-recorded",
+      "prompt_spec_manifest_id": "Prompt 35",
+      "generation_edit_date": "2026-08-27",
+      "edits_performed": "Deterministic alpha extraction only: fixed green-dominance ramp and transition-pixel green-spill clamp from scripts/art-asset-factory/chroma-extract.ts; no redraw or repaint.",
+      "output_hash_version": "sha256",
+      "approval_status": "approved"
+    }
+  ]
 }

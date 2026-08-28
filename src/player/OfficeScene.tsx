@@ -1,4 +1,11 @@
-import { useEffect, useRef } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type RefObject,
+} from "react";
 
 import { RUN_A_CIVIC_CONCEPT_ID } from "../presentation/run-a-learning";
 import type { QuickDossierProjection } from "../presentation/run-a-projection";
@@ -12,8 +19,63 @@ import type {
   RunBFixture,
   RunBScenePersonContext,
 } from "../presentation/run-b-fixture";
+import {
+  composeOfficeVisuals,
+  OFFICE_VISUAL_SCENE,
+  PRODUCTION_VISUAL_LIBRARY,
+  type ComposedCharacterVisual,
+} from "../presentation/visual-integration";
+import {
+  resolveSceneTransform,
+  type SceneTransform,
+} from "../presentation/scene-transform";
 import type { EntityId } from "../simulation";
 import { QuickDossier } from "./QuickDossier";
+
+function useOfficeSceneTransform(
+  viewportRef: RefObject<HTMLElement | null>,
+): SceneTransform {
+  const [transform, setTransform] = useState(() =>
+    resolveSceneTransform(
+      OFFICE_VISUAL_SCENE.plate,
+      OFFICE_VISUAL_SCENE.plate,
+      OFFICE_VISUAL_SCENE.camera,
+    ),
+  );
+
+  useLayoutEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    const update = () => {
+      const bounds = viewport.getBoundingClientRect();
+      const next = resolveSceneTransform(
+        { width: bounds.width, height: bounds.height },
+        OFFICE_VISUAL_SCENE.plate,
+        OFFICE_VISUAL_SCENE.camera,
+        window.devicePixelRatio,
+      );
+      setTransform((current) =>
+        current.viewport.width === next.viewport.width &&
+        current.viewport.height === next.viewport.height &&
+        current.devicePixelRatio === next.devicePixelRatio
+          ? current
+          : next,
+      );
+    };
+
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(viewport);
+    window.addEventListener("resize", update);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", update);
+    };
+  }, [viewportRef]);
+
+  return transform;
+}
 
 interface PersonActionMenuProps {
   readonly name: string;
@@ -80,6 +142,7 @@ interface ScenePersonProps {
   readonly dossier: QuickDossierProjection;
   readonly state: RunAUiState;
   readonly conversationAddressee: ConversationAddressee | null;
+  readonly visual: ComposedCharacterVisual;
   readonly onSelect: (personId: EntityId) => void;
 }
 
@@ -88,6 +151,7 @@ function ScenePerson({
   dossier,
   state,
   conversationAddressee,
+  visual,
   onSelect,
 }: ScenePersonProps) {
   const selected =
@@ -105,6 +169,14 @@ function ScenePerson({
     <button
       type="button"
       className={`scene-person scene-person--${person.visualVariant}`}
+      style={
+        {
+          left: `${visual.hitbox.leftPercent}%`,
+          top: `${visual.hitbox.topPercent}%`,
+          width: `${visual.hitbox.widthPercent}%`,
+          height: `${visual.hitbox.heightPercent}%`,
+        } satisfies CSSProperties
+      }
       aria-label={`${dossier.name}, ${dossier.title}`}
       aria-haspopup="menu"
       aria-expanded={selected}
@@ -112,29 +184,11 @@ function ScenePerson({
         person.visualVariant === "primary" ? "scene-person" : "scene-person-b"
       }
       data-person-id={person.personId}
+      data-anchor-id={person.anchorId}
       data-addressed={addressed ? "true" : "false"}
       data-label-suppressed={labelSuppressed ? "true" : "false"}
       onClick={() => onSelect(person.personId)}
     >
-      <span className="person-shadow" aria-hidden="true" />
-      <span className="person-torso" aria-hidden="true">
-        <span className="shirt-collar" />
-        <span className="jacket-lapel lapel-left" />
-        <span className="jacket-lapel lapel-right" />
-      </span>
-      <span className="person-neck" aria-hidden="true" />
-      <span className="person-head" aria-hidden="true">
-        <span className="person-hair" />
-        <span className="person-ear" />
-        <span className="person-brow brow-left" />
-        <span className="person-brow brow-right" />
-        <span className="person-eye eye-left" />
-        <span className="person-eye eye-right" />
-        <span className="person-nose" />
-        <span className="person-mouth" />
-      </span>
-      <span className="person-arm person-arm-left" aria-hidden="true" />
-      <span className="person-arm person-arm-right" aria-hidden="true" />
       <span
         className="person-nameplate"
         data-testid={
@@ -222,6 +276,7 @@ interface OfficeSceneProps {
   readonly conversationAddressee: ConversationAddressee | null;
   readonly onTalk: (personId: EntityId) => void;
   readonly onOpenWorkingDocument: () => void;
+  readonly onOpenBriefing: () => void;
 }
 
 export function OfficeScene({
@@ -232,6 +287,7 @@ export function OfficeScene({
   conversationAddressee,
   onTalk,
   onOpenWorkingDocument,
+  onOpenBriefing,
 }: OfficeSceneProps) {
   const learned = state.learnedConceptIds.includes(RUN_A_CIVIC_CONCEPT_ID);
   const selectedScenePerson = fixture.scenePeople.find(
@@ -240,124 +296,163 @@ export function OfficeScene({
   const selectedDossier = selectedScenePerson
     ? dossiers[selectedScenePerson.personId]
     : undefined;
+  const visualComposition = composeOfficeVisuals(
+    fixture.scenePeople,
+    PRODUCTION_VISUAL_LIBRARY,
+  );
+  const sceneViewportRef = useRef<HTMLElement>(null);
+  const sceneTransform = useOfficeSceneTransform(sceneViewportRef);
+  const cameraStyle = {
+    width: `${OFFICE_VISUAL_SCENE.plate.width}px`,
+    height: `${OFFICE_VISUAL_SCENE.plate.height}px`,
+    transform: `translate3d(${sceneTransform.xOffset}px, ${sceneTransform.yOffset}px, 0) scale(${sceneTransform.uniformScale})`,
+  } satisfies CSSProperties;
+  const documentAnchors = OFFICE_VISUAL_SCENE.documentAnchors;
 
   return (
     <section
+      ref={sceneViewportRef}
       className="office-scene"
       aria-label={`A quiet legislative office in ${fixture.locationDisplayName}`}
       data-testid="political-office-scene"
     >
-      <div className="scene-wall-shadow" aria-hidden="true" />
-      <div className="office-window office-window-left" aria-hidden="true">
-        <span className="window-sky" />
-        <span className="window-building window-building-one" />
-        <span className="window-building window-building-two" />
-        <span className="window-frame window-frame-vertical" />
-        <span className="window-frame window-frame-horizontal" />
-      </div>
-      <div className="office-window office-window-right" aria-hidden="true">
-        <span className="window-sky" />
-        <span className="window-building window-building-one" />
-        <span className="window-building window-building-two" />
-        <span className="window-frame window-frame-vertical" />
-        <span className="window-frame window-frame-horizontal" />
-      </div>
-      <div className="office-curtain office-curtain-left" aria-hidden="true" />
-      <div className="office-curtain office-curtain-right" aria-hidden="true" />
       <div
-        className="office-curtain office-curtain-right-window-left"
-        aria-hidden="true"
-      />
-      <div
-        className="office-curtain office-curtain-right-window-right"
-        aria-hidden="true"
-      />
-      <div className="wall-frame wall-frame-one" aria-hidden="true">
-        <span />
-      </div>
-      <div className="wall-frame wall-frame-two" aria-hidden="true">
-        <span />
-      </div>
-      <div className="bookcase" aria-hidden="true">
-        <span className="book-row row-one" />
-        <span className="book-row row-two" />
-        <span className="book-row row-three" />
-      </div>
-      <div className="office-plant" aria-hidden="true">
-        <span className="plant-pot" />
-        <span className="leaf leaf-one" />
-        <span className="leaf leaf-two" />
-        <span className="leaf leaf-three" />
-      </div>
-      <div className="office-rug" aria-hidden="true" />
-      <div className="guest-chair guest-chair-left" aria-hidden="true" />
-      <div className="guest-chair guest-chair-right" aria-hidden="true" />
-      <div className="desk-chair" aria-hidden="true" />
-
-      {fixture.scenePeople.map((person) => {
-        const dossier = dossiers[person.personId];
-        if (!dossier) return null;
-        return (
-          <ScenePerson
-            key={person.personId}
-            person={person}
-            dossier={dossier}
-            state={state}
-            conversationAddressee={conversationAddressee}
-            onSelect={(personId) =>
-              dispatch({ type: "select-person", personId })
-            }
-          />
-        );
-      })}
-
-      <div className="office-desk" aria-hidden="true">
-        <span className="desk-top" />
-        <span className="desk-front" />
-        <span className="desk-panel" />
-        <span className="desk-drawer desk-drawer-one" />
-        <span className="desk-drawer desk-drawer-two" />
-        <span className="desk-lamp" />
-      </div>
-
-      <button
-        type="button"
-        className="office-working-document-entry"
-        aria-label="Open Working Draft — Transit Access Pilot"
-        data-testid="working-document-entry"
-        onClick={onOpenWorkingDocument}
+        className="scene-camera"
+        data-testid="office-art-compositor"
+        data-environment-asset-id={visualComposition.environment.assetId}
+        data-virtual-width={OFFICE_VISUAL_SCENE.plate.width}
+        data-virtual-height={OFFICE_VISUAL_SCENE.plate.height}
+        data-scene-scale={sceneTransform.uniformScale}
+        data-scene-scale-x={sceneTransform.scaleX}
+        data-scene-scale-y={sceneTransform.scaleY}
+        data-scene-offset-x={sceneTransform.xOffset}
+        data-scene-offset-y={sceneTransform.yOffset}
+        data-camera-x={sceneTransform.camera.x}
+        data-camera-y={sceneTransform.camera.y}
+        data-camera-width={sceneTransform.camera.width}
+        data-camera-height={sceneTransform.camera.height}
+        data-camera-constraint={sceneTransform.constrainedAxis}
+        data-device-pixel-ratio={sceneTransform.devicePixelRatio}
+        style={cameraStyle}
       >
-        <span>WORKING DRAFT</span>
-        <strong>Transit Access Pilot</strong>
-        <small>Section 3 marked for review</small>
-      </button>
-
-      <article className="briefing-memo" aria-label="Briefing memorandum">
-        <p className="memo-label">Office memorandum</p>
-        <h2>Afternoon briefing</h2>
-        <p>Constituent services · three points for review</p>
-      </article>
-
-      {!learned ? (
+        <img
+          className="scene-environment-art"
+          src={visualComposition.environment.url}
+          alt=""
+          aria-hidden="true"
+          draggable="false"
+        />
+        {visualComposition.characters.map((visual) =>
+          visual.asset ? (
+            <img
+              key={`art-${visual.personId}`}
+              className={`scene-character-art scene-character-art--${visual.visualVariant}`}
+              src={visual.asset.url}
+              alt=""
+              aria-hidden="true"
+              draggable="false"
+              data-testid={`scene-character-art-${visual.visualVariant}`}
+              data-asset-id={visual.asset.assetId}
+              data-anchor-id={visual.anchorId}
+              data-appearance-recipe-id={visual.appearanceRecipeId}
+              style={{
+                left: `${visual.leftPercent}%`,
+                top: `${visual.topPercent}%`,
+                width: `${visual.widthPercent}%`,
+                zIndex: visual.depth,
+              }}
+            />
+          ) : null,
+        )}
+        {visualComposition.occluders.map((occluder) => (
+          <img
+            key={occluder.id}
+            className="scene-environment-occluder"
+            src={occluder.asset.url}
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+            data-occluder-id={occluder.id}
+            data-asset-id={occluder.asset.assetId}
+            style={{ zIndex: occluder.depth }}
+          />
+        ))}
+        {fixture.scenePeople.map((person) => {
+          const dossier = dossiers[person.personId];
+          const visual = visualComposition.characters.find(
+            (candidate) => candidate.personId === person.personId,
+          );
+          if (!dossier || !visual) return null;
+          return (
+            <ScenePerson
+              key={person.personId}
+              person={person}
+              dossier={dossier}
+              state={state}
+              conversationAddressee={conversationAddressee}
+              visual={visual}
+              onSelect={(personId) =>
+                dispatch({ type: "select-person", personId })
+              }
+            />
+          );
+        })}
         <button
           type="button"
-          className="civic-marker"
-          aria-label="Explain committee referral. Shift click to mark learned."
-          data-testid="civic-learning-marker"
-          onClick={(event) =>
-            dispatch(
-              event.shiftKey
-                ? {
-                    type: "mark-concept-learned",
-                    conceptId: RUN_A_CIVIC_CONCEPT_ID,
-                  }
-                : { type: "open-civic-learning" },
-            )
-          }
+          className="office-working-document-entry"
+          style={{
+            left: `${documentAnchors["working-draft"].xPercent}%`,
+            top: `${documentAnchors["working-draft"].yPercent}%`,
+          }}
+          aria-label="Open Working Draft — Transit Access Pilot"
+          data-testid="working-document-entry"
+          data-scene-anchor-id="working-draft"
+          onClick={onOpenWorkingDocument}
         >
-          i
+          <strong>Transit Access Pilot</strong>
         </button>
-      ) : null}
+
+        <button
+          type="button"
+          className="briefing-memo"
+          style={{
+            left: `${documentAnchors["briefing-memo"].xPercent}%`,
+            top: `${documentAnchors["briefing-memo"].yPercent}%`,
+          }}
+          aria-label="Open Afternoon briefing"
+          data-testid="briefing-memo-entry"
+          data-scene-anchor-id="briefing-memo"
+          onClick={onOpenBriefing}
+        >
+          <strong>Afternoon briefing</strong>
+        </button>
+
+        {!learned ? (
+          <button
+            type="button"
+            className="civic-marker"
+            style={{
+              left: `${documentAnchors["civic-marker"].xPercent}%`,
+              top: `${documentAnchors["civic-marker"].yPercent}%`,
+            }}
+            aria-label="Explain committee referral. Shift click to mark learned."
+            data-testid="civic-learning-marker"
+            data-scene-anchor-id="civic-marker"
+            onClick={(event) =>
+              dispatch(
+                event.shiftKey
+                  ? {
+                      type: "mark-concept-learned",
+                      conceptId: RUN_A_CIVIC_CONCEPT_ID,
+                    }
+                  : { type: "open-civic-learning" },
+              )
+            }
+          >
+            i
+          </button>
+        ) : null}
+      </div>
 
       {state.overlay === "person-actions" &&
       selectedScenePerson &&

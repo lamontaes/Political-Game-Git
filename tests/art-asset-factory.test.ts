@@ -8,6 +8,7 @@ import {
 import {
   generateContactSheetHtml,
   generateComparisonSheetHtml,
+  parseImageMetadata,
 } from "../scripts/art-asset-factory/qa";
 import fs from "fs";
 import path from "path";
@@ -19,12 +20,36 @@ import type {
   JurisdictionDeltasData,
   ProvenanceData,
 } from "../scripts/art-asset-factory/schemas";
+import { extractChromaToPng } from "../scripts/art-asset-factory/chroma-extract";
+import * as PImage from "pureimage";
+import {
+  deriveOfficeRuntimePlate,
+  OFFICE_PLATE_LANCZOS_LOBES,
+  OFFICE_PLATE_RUNTIME_SCALE,
+} from "../scripts/art-asset-factory/office-plate-derive";
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 
 function loadJson(relPath: string) {
   const fullPath = path.join(REPO_ROOT, relPath);
   return JSON.parse(fs.readFileSync(fullPath, "utf-8"));
+}
+
+async function writeRgbaPng(
+  filePath: string,
+  width: number,
+  height: number,
+  alphaAtPixel: (pixelIndex: number) => number,
+) {
+  const image = PImage.make(width, height);
+  for (let pixelIndex = 0; pixelIndex < width * height; pixelIndex += 1) {
+    const offset = pixelIndex * 4;
+    image.data[offset] = 40;
+    image.data[offset + 1] = 80;
+    image.data[offset + 2] = 120;
+    image.data[offset + 3] = alphaAtPixel(pixelIndex);
+  }
+  await PImage.encodePNGToStream(image, fs.createWriteStream(filePath));
 }
 
 const EMPTY_FAMILIES: EnvironmentFamiliesData = { families: [] };
@@ -589,13 +614,7 @@ describe("Art Asset Factory Foundation", () => {
   });
 
   describe("QA & Contact Sheet Tooling", () => {
-    it("generates deterministic HTML and QA reports from real file buffers", () => {
-      // Create minimal valid PNG headers to satisfy image-size checking
-      // 10x20 transparent PNG
-      const pngBufferA = Buffer.from(
-        "iVBORw0KGgoAAAANSUhEUgAAAAoAAAAUCAYAAAC9c+tuAAAAF0lEQVR42mNkYPhfz0AEYBxVyKhCBgYADnQBHc++1FkAAAAASUVORK5CYII=",
-        "base64",
-      );
+    it("generates deterministic HTML and QA reports from real file buffers", async () => {
       // 20x20 JPG
       const jpgBufferB = Buffer.from(
         "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAAUABQBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=",
@@ -606,7 +625,9 @@ describe("Art Asset Factory Foundation", () => {
 
       const fileA = path.join(tempQADir, "img_A.png");
       const fileB = path.join(tempQADir, "img_B.jpg");
-      fs.writeFileSync(fileA, pngBufferA);
+      await writeRgbaPng(fileA, 10, 20, (pixelIndex) =>
+        pixelIndex === 0 ? 0 : 255,
+      );
       fs.writeFileSync(fileB, jpgBufferB);
 
       const mockImages = [fileB, fileA];
@@ -620,7 +641,7 @@ describe("Art Asset Factory Foundation", () => {
         [relB]: true,
       };
 
-      const { html, report } = generateContactSheetHtml(
+      const { html, report } = await generateContactSheetHtml(
         mockImages,
         "Test",
         tempQADir,
@@ -635,8 +656,8 @@ describe("Art Asset Factory Foundation", () => {
       expect(report[0].metadata.width).toBe(10);
       expect(report[0].metadata.height).toBe(20);
       expect(report[0].metadata.aspectRatio).toBe("1:2");
-      expect(report[0].metadata.hasTransparency).toBe("not-confirmed");
-      expect(report[0].meetsTransparencyReq).toBe("not-confirmed");
+      expect(report[0].metadata.hasTransparency).toBe("confirmed");
+      expect(report[0].meetsTransparencyReq).toBe(true);
 
       // Metadata parsing assertions (B is a 20x20 JPG)
       expect(report[1].metadata.width).toBe(20);
@@ -656,6 +677,50 @@ describe("Art Asset Factory Foundation", () => {
       fs.unlinkSync(fileA);
       fs.unlinkSync(fileB);
       fs.rmdirSync(tempQADir);
+    });
+
+    it("requires an actually transparent pixel in an RGBA PNG", async () => {
+      const tempQADir = fs.mkdtempSync(
+        path.join(os.tmpdir(), "qa-alpha-pixels-"),
+      );
+      const opaquePath = path.join(tempQADir, "opaque-rgba.png");
+      const transparentPath = path.join(tempQADir, "transparent-rgba.png");
+      try {
+        await writeRgbaPng(opaquePath, 2, 1, () => 255);
+        await writeRgbaPng(transparentPath, 2, 1, (pixelIndex) =>
+          pixelIndex === 1 ? 254 : 255,
+        );
+
+        expect(fs.readFileSync(opaquePath)[25]).toBe(6);
+        expect(fs.readFileSync(transparentPath)[25]).toBe(6);
+        expect((await parseImageMetadata(opaquePath)).hasTransparency).toBe(
+          "none",
+        );
+        expect(
+          (await parseImageMetadata(transparentPath)).hasTransparency,
+        ).toBe("confirmed");
+
+        const { report } = await generateContactSheetHtml(
+          [transparentPath, opaquePath],
+          "Actual alpha proof",
+          tempQADir,
+          { "opaque-rgba.png": true, "transparent-rgba.png": true },
+        );
+        expect(report).toMatchObject([
+          {
+            file: "opaque-rgba.png",
+            metadata: { hasTransparency: "none" },
+            meetsTransparencyReq: false,
+          },
+          {
+            file: "transparent-rgba.png",
+            metadata: { hasTransparency: "confirmed" },
+            meetsTransparencyReq: true,
+          },
+        ]);
+      } finally {
+        fs.rmSync(tempQADir, { recursive: true, force: true });
+      }
     });
 
     it("generates source vs generated comparison sheet deterministically", () => {
@@ -679,4 +744,137 @@ describe("Art Asset Factory Foundation", () => {
       expect(html).toContain("gen_A.png");
     });
   });
+});
+
+describe("Packet 76 approved runtime art", () => {
+  const environmentSource = path.join(
+    REPO_ROOT,
+    "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
+  );
+  const rawA = path.join(
+    REPO_ROOT,
+    "art/references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png",
+  );
+  const rawB = path.join(
+    REPO_ROOT,
+    "art/references/approved/packet76/GEMINI_OUTPUT_32_PROMPT35_human_candidate_B01_left_guest_seated_base_APPROVED_v1.png",
+  );
+
+  it("validates the real released manifest, files, hashes, and provenance", () => {
+    const manifest = loadJson("art/manifest/asset_manifest.json");
+    const families = loadJson("art/manifest/environment_families.json");
+    const result = validateArtAssets(
+      manifest,
+      families,
+      loadJson("art/manifest/jurisdiction_deltas.json"),
+      loadJson("art/manifest/provenance.json"),
+    );
+    expect(result).toEqual({
+      valid: true,
+      errors: [],
+      runtimeEligibleAssetIds: [
+        "env_lexington_council_staff_office_prompt30_v1",
+        "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
+        "human_candidate_A01_primary_desk_seated_v1",
+        "human_candidate_B01_left_guest_seated_v1",
+      ],
+    });
+    const environment = manifest.assets.find(
+      (asset: { asset_id: string }) =>
+        asset.asset_id === "env_lexington_council_staff_office_prompt30_v1",
+    );
+    expect(environment).toMatchObject({
+      family_id: "council-staff-office",
+      final_path:
+        "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_runtime_2x_v1.png",
+      hash: "66678f0e91c52ca86f851ae4ba73d1a736a56be9cb7875512ab6bd1235de07f0",
+    });
+    expect(
+      families.families.map(
+        (family: { family_id: string }) => family.family_id,
+      ),
+    ).toEqual(["council-staff-office"]);
+  });
+
+  it("reproduces the 2x Lanczos office plate and furniture-only alpha mask", async () => {
+    expect(OFFICE_PLATE_RUNTIME_SCALE).toBe(2);
+    expect(OFFICE_PLATE_LANCZOS_LOBES).toBe(3);
+    expect(hashArtFile(environmentSource)).toBe(
+      "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43",
+    );
+    const temporaryDirectory = fs.mkdtempSync(
+      path.join(os.tmpdir(), "packet-76-office-derive-"),
+    );
+    try {
+      const runtimePath = path.join(temporaryDirectory, "runtime.png");
+      const foregroundPath = path.join(temporaryDirectory, "foreground.png");
+      const result = await deriveOfficeRuntimePlate(
+        environmentSource,
+        runtimePath,
+        foregroundPath,
+      );
+      expect(result).toEqual({
+        sourceWidth: 1024,
+        sourceHeight: 572,
+        runtimeWidth: 2048,
+        runtimeHeight: 1144,
+        foregroundPixelCount: 269_313,
+      });
+      expect(hashArtFile(runtimePath)).toBe(
+        "66678f0e91c52ca86f851ae4ba73d1a736a56be9cb7875512ab6bd1235de07f0",
+      );
+      expect(hashArtFile(foregroundPath)).toBe(
+        "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe",
+      );
+      expect((await parseImageMetadata(runtimePath)).hasTransparency).toBe(
+        "none",
+      );
+      expect((await parseImageMetadata(foregroundPath)).hasTransparency).toBe(
+        "confirmed",
+      );
+      expect(hashArtFile(environmentSource)).toBe(
+        "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43",
+      );
+    } finally {
+      fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+    }
+  });
+
+  it.each([
+    [
+      rawA,
+      "8270689800e31006ae54497253845c3bf619ffb46b1bbc3c8d2bafd7136a7827",
+      "8e5882e26eab1c6cf966cff188bfebd4e40cd117804e87930a0b06d67ca66e43",
+    ],
+    [
+      rawB,
+      "6484bfe77edd4a46f35e2572c6be37ca06ce1c98ab72af1d2b48125df0bf245a",
+      "fd880e52fb191d6c32019ba451d006176ebc7762db89590c437c67586906be8d",
+    ],
+  ])(
+    "reproduces alpha extraction without changing approved source bytes",
+    async (sourcePath, expectedSourceHash, expectedOutputHash) => {
+      const sourceHashBefore = hashArtFile(sourcePath);
+      const temporaryDirectory = fs.mkdtempSync(
+        path.join(os.tmpdir(), "packet-76-chroma-"),
+      );
+      try {
+        const first = path.join(temporaryDirectory, "first.png");
+        const second = path.join(temporaryDirectory, "second.png");
+        const firstResult = await extractChromaToPng(sourcePath, first);
+        const secondResult = await extractChromaToPng(sourcePath, second);
+        expect(firstResult).toEqual(secondResult);
+        expect(firstResult.transparentPixelCount).toBeGreaterThan(500_000);
+        expect(hashArtFile(first)).toBe(expectedOutputHash);
+        expect(hashArtFile(second)).toBe(expectedOutputHash);
+        expect((await parseImageMetadata(first)).hasTransparency).toBe(
+          "confirmed",
+        );
+        expect(hashArtFile(sourcePath)).toBe(sourceHashBefore);
+        expect(sourceHashBefore).toBe(expectedSourceHash);
+      } finally {
+        fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+      }
+    },
+  );
 });

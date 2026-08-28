@@ -1088,6 +1088,17 @@ person references, every item exposes Unpin, and each person can be re-pinned
 from their real scene context. The static briefing and unsupported District
 Notes pins are absent.
 
+At 1440×900 and 1200×720, closed navigation leaves a compact next-commitment
+status attached to the time/location shell and any deliberate user pins on a
+separate lower reference shelf. Open navigation contains only Calendar,
+Work/Pending, Places, Civic Reference, and the development route. It contains no
+pin or status card. Shell expansion reveals the canonical commitment title,
+time, and location without truncating the date or location; activating the
+status opens that exact Calendar activity. The flyout, status, pin, and pin
+controls have non-overlapping geometry with both characters and the two
+scene-native document surfaces at both viewports. Calendar/document modes show
+no ordinary-scene pin or commitment companion surface.
+
 ### NOW-211 — Manual pin sizing is one complete reducer action
 
 Selecting Compact, Standard, or Expanded writes the manual size and clears the
@@ -1273,3 +1284,82 @@ Given a player character who loses an election, the world and character continue
   replay. Pointer and keyboard activation are exercised. The explicit legacy-
   named seed also agrees with the developer route's generated person-v5/names-v1
   semantics. No New Game button or visual redesign is required.
+
+## Stage 6.5 Post-D-Lite Visual Integration — Implemented
+
+### VISUAL-001 — Only released manifest art reaches the player runtime
+
+Given the office visual configuration, every image resolves through the existing
+art manifest and renders only when generation, QA, and runtime-release states
+are all approved/released with a valid file, hash, and provenance record.
+Missing, unreleased, or incompatible assets fail closed.
+
+### VISUAL-002 — Person owns appearance identity; anchors own only pose and geometry
+
+Character visual recipes resolve deterministically from the canonical person's
+owned appearance identity (`PersonAppearance.seed`) and the anchor's required
+`poseFamily`. Scene anchors declare physical constraints (pose, contact, scale,
+depth, occlusion, hitboxes) but do not own person identity. Reordering recipes
+or people in a fixture does not alter identity assignment; swapping anchors
+preserves person-owned identity while updating pose. A person lacking an
+approved recipe for the requested pose fails closed to the fallback placeholder
+path without mutating the person, world, or adopting another's appearance.
+
+### VISUAL-003 — Production art preserves semantic play
+
+At 1440×900 and 1200×720, the approved environment and alpha characters replace
+placeholder scenery/anatomy, remain accessibility-hidden and pointer-
+transparent, align with their semantic hitboxes, use same-plate desk/chair
+occlusion, and keep both person controls, dossiers, pins, conversation, Transit
+Access Pilot, Calendar, and Work/Pending operable.
+
+The environment renders from the deterministic 2048×1144 runtime derivative,
+with no CSS filter, and one released transparent furniture mask supplies
+foreground depth. The environment, mask, character rasters, declared roots,
+semantic hitboxes, and scene documents share one uniform virtual-scene camera
+transform. Neither a second room layer nor a legacy rectangular clip is
+present. The obsolete synthetic placeholder caption is absent.
+
+### VISUAL-004 — Packet 76 preprocessing is reproducible
+
+Given either exact approved green-field source, deterministic extraction creates
+the recorded runtime SHA-256 repeatedly while the raw source hash remains exact.
+No generation, redraw, or opaque anatomy repaint occurs.
+
+Given the exact Prompt 30 source, deterministic office-plate derivation creates
+the recorded 2048×1144 runtime and furniture-mask hashes repeatedly, records
+269,313 foreground pixels, and leaves the 1024×572 approved bytes unchanged.
+
+The Prompt 30 room resolves from the ordinary `council-staff-office` family.
+PNG transparency QA decodes actual pixels: an all-opaque RGBA PNG fails an
+actual-transparency requirement, while any alpha below 255 confirms it. The
+derived A01/B01 sprites retain their exact hashes and pass this pixel proof.
+
+### VISUAL-005 — Banked presentation cleanup remains bounded
+
+At rest the shell shows a nontruncated compact date; its full date remains in the
+expanded/accessibility state. Full workspaces cause a stronger but discoverable
+shell retreat. Zero deliberate pins leave no prominent empty-state residue,
+the artificial office/desk strip is absent, and workspace content does not
+intersect the status/pin rail.
+
+### VISUAL-006 — Responsive camera geometry is shared and measurable
+
+For each required viewport from 1280×720 through 7680×2160 and each DPR in
+1, 1.25, and 2, the pure transform proof preserves the 1024:572 scene aspect,
+keeps scale X equal to scale Y, contains the safe and essential rectangles,
+aligns character roots and source-aspect rasters, and physically aligns camera
+offsets. Live Chromium repeats all 13 viewport classes and exercises people,
+pins, navigation, Calendar, Work/Pending, and the working document. Live DPR
+proof repeats mask/environment alignment at 1, 1.25, and 2.
+
+The camera uses ordinary aspect-preserving cover and a bounded 12:5 aperture
+for super-ultrawide displays. Environment, foreground mask, characters,
+hitboxes, and scene documents share that one transform. Viewport-space UI does
+not inherit the raster transform. Exact safe-area evidence is recorded in
+[Responsive Office Virtual Scene](systems/responsive-office-scene.md).
+
+Project art authority is established externally via `PG-E02 CLEAN` (5568×3008
+master source), ensuring no further upscaling is needed for final office
+production. Historical Prompt 30 and A01/B01 assets serve as development test
+fixtures while final production character assets remain in external production.

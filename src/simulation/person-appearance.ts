@@ -2,6 +2,8 @@ import { stableHash } from "./ids";
 import { SeededRng } from "./rng";
 import type { EntityId, Person, PersonAppearance } from "./types";
 
+export type { PersonAppearance };
+
 export const DEFAULT_APPEARANCE_RECIPE_VERSION = "appearance-recipe-v1";
 
 /**

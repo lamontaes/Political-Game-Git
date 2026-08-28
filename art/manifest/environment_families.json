@@ -1,3 +1,25 @@
 {
-  "families": []
+  "families": [
+    {
+      "family_id": "council-staff-office",
+      "room_use_category": "private legislative or council staff office",
+      "typical_proportion_rules": "Scene plate supplies only visual-estimate proportions; no physical dimensions are claimed.",
+      "seating_dais_logic": "One desk chair and visitor seating; no dais.",
+      "public_member_separation": "Ordinary furniture separation only; no security or access rule is implied.",
+      "circulation_assumptions": "Foreground visitor seating and a desk-side work zone remain visually clear.",
+      "camera_framing_guidance": "Wide eye-level room plate with foreground furniture available for character occlusion.",
+      "ceiling_height_category": "unknown",
+      "density_category": "ordinary-council-staff-office",
+      "ornament_category": "restrained-civic",
+      "reusable_prop_slots": ["working-document", "briefing-memo"],
+      "event_layer_slots": ["primary-desk-chair", "left-guest-chair"],
+      "negative_constraints": [
+        "No physical measurement precision is authorized by the raster plate.",
+        "No jurisdiction rule or canonical simulation fact derives from visible decoration."
+      ],
+      "supporting_source_references": [
+        "prov_env_lexington_council_staff_office_prompt30_v1"
+      ]
+    }
+  ]
 }
