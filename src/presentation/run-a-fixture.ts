@@ -74,7 +74,7 @@ export function createRunAFixture(seedInput?: string): RunAFixture {
   const seed =
     seedInput && seedInput.trim().length > 0 ? seedInput.trim() : RUN_A_SEED;
   let world =
-    seed === RUN_A_SEED
+    seedInput === undefined
       ? createDemoWorld(RUN_A_SEED)
       : createGeneratedWorld(seed);
   const scenePersonId = requirePersonId(world, 0);

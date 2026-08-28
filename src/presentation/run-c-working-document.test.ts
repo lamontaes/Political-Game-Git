@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   assertWorldIntegrity,
+  personName,
   deserializeWorld,
   serializeWorld,
 } from "../simulation";
@@ -611,4 +612,56 @@ describe("Stage 6.5 Run C working document", () => {
       fixture.scenePerson.personId,
     ]);
   });
+});
+
+describe("generated-person Run C role prose", () => {
+  it.each(["player-seed-alpha", "player-seed-beta", "stage-6-5-run-a"])(
+    "keeps annotations, knowledge, dialogue and draft instructions tied to people: %s",
+    (seed) => {
+      const fixture = createRunCFixture(seed);
+      const lead = fixture.world.people[fixture.document.preparedByPersonId]!;
+      const player = fixture.world.people[fixture.playerPersonId]!;
+      const annotation = fixture.document.annotations[0]!;
+      expect(annotation.label).toBe(
+        `${lead.familyName} · staff projection attached`,
+      );
+      expect(annotation.teaser).toContain(`${player.givenName}'s known record`);
+      let world = recordRunCPlayerAnalysisReview(fixture.world, fixture);
+      const projection = projectRunCWorkingDocument(world, fixture);
+      expect(projection.staffAnalyses).toHaveLength(2);
+      expect(
+        projection.staffAnalyses.every(
+          (analysis) =>
+            analysis.authorLabel === `${personName(lead)} · staff analysis`,
+        ),
+      ).toBe(true);
+      const room = fixture.legislativeRoomContext;
+      const result = commitConversationTurn(world, {
+        session: createConversationSessionDescriptor(world, room),
+        room,
+        progress: createRunCLegislativeConversationProgress(world, fixture),
+        turnOrdinal: 1,
+        addressee: lead.id,
+        audibility: "normal",
+        intent: "discuss-provision",
+      });
+      expect(result.presentation.beat?.dialogue).toContain(
+        `${lead.familyName} says`,
+      );
+      world = commitRunCWorkingDraftRevision(result.world, fixture);
+      expect(world.history.events.at(-1)?.summary).toContain(
+        `${personName(player)} instructed staff`,
+      );
+      expect(
+        JSON.stringify([
+          fixture.document,
+          projection,
+          result.presentation,
+          world.history.events,
+          world.history.knowledge,
+        ]),
+      ).not.toMatch(/\b(?:Collins|Reed|Cameron|Foster)\b/);
+      expect(world.people).toEqual(fixture.world.people);
+    },
+  );
 });

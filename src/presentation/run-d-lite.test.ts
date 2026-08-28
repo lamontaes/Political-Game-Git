@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -881,4 +882,62 @@ describe("Stage 6.5 Run D-Lite Work/Pending", () => {
     }
     expect(scenario()).toStrictEqual(scenario());
   });
+});
+
+describe("generated-person D-Lite route and role compatibility", () => {
+  it("preserves the accepted no-seed D-Lite serialized baseline byte for byte", () => {
+    const world = createRunDLiteFixture().world;
+    expect(
+      createHash("sha256").update(serializeWorld(world)).digest("hex"),
+    ).toBe("6de3e4b5d785f84f1aa3f6fa8894aa2c8d11a418cb75d482305b8e92464621a2");
+  });
+
+  it.each([
+    "player-seed-alpha",
+    "player-seed-beta",
+    "stage-6-5-run-a",
+    " stage-6-5-run-a ",
+    "",
+  ])(
+    "every explicit seed uses person-v5/names-v1, with canonical work/calendar prose: %s",
+    (seed) => {
+      const fixture = createRunDLiteFixture(seed);
+      const { world } = fixture;
+      for (const person of Object.values(world.people)) {
+        expect(person.generatorVersion).toBe("person-v5");
+        expect(person.corpusVersion).toBe("names-v1");
+      }
+      const lead = world.people[fixture.dLite.collinsPersonId]!;
+      const verifier = world.people[fixture.dLite.reedPersonId]!;
+      const projection = projectRunDLite(world, fixture);
+      expect(
+        projection.agenda.find(
+          (entry) => entry.activity.id === fixture.dLite.briefingActivityId,
+        )?.activity.summary,
+      ).toContain(`with ${verifier.familyName}`);
+      expect(
+        projection.work.find(
+          (entry) => entry.item.id === fixture.dLite.staffWorkItemId,
+        )?.item.title,
+      ).toBe(`${lead.familyName}'s transit analysis summary`);
+      expect(
+        projection.work.find(
+          (entry) => entry.item.id === fixture.dLite.waitingWorkItemId,
+        )?.state.blocker,
+      ).toContain(`${verifier.familyName}'s verification`);
+      expect(JSON.stringify(projection)).not.toMatch(
+        /\b(?:Collins|Reed|Cameron|Foster)\b/,
+      );
+      expect(hiddenRunDStateIsFiltered(world, fixture)).toBe(true);
+      const delegated = delegateRunDMeetingBrief(world, fixture);
+      expect(
+        workItemState(delegated, fixture.dLite.delegableWorkItemId)
+          .assignedPersonIds,
+      ).toEqual([lead.id]);
+      expect(delegated.people).toEqual(world.people);
+      expect(serializeWorld(createRunDLiteFixture(seed).world)).toBe(
+        serializeWorld(world),
+      );
+    },
+  );
 });

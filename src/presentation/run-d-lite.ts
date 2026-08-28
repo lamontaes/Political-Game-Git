@@ -119,12 +119,14 @@ export function createRunDLiteFixture(seedInput?: string): RunDLiteFixture {
   const collinsPersonId = runC.scenePerson.personId;
   const reedPersonId = runC.scenePeople[1].personId;
   const officeSource = [runC.officeEventId];
+  const briefingLead = world.people[collinsPersonId]!;
+  const verifier = world.people[reedPersonId]!;
+  const player = world.people[playerPersonId]!;
 
   world = createScheduledActivity(world, {
     stableKey: "run-d-lite:activity:office-briefing",
     title: "Constituent intake briefing",
-    summary:
-      "A confirmed office briefing with Reed on the morning constituent-service queue.",
+    summary: `A confirmed office briefing with ${verifier.familyName} on the morning constituent-service queue.`,
     kind: "confirmed",
     start: moment(date, 9, 30),
     end: moment(date, 10, 15),
@@ -230,8 +232,8 @@ export function createRunDLiteFixture(seedInput?: string): RunDLiteFixture {
 
   world = createScheduledActivity(world, {
     stableKey: "run-d-lite:activity:hidden-reed-call",
-    title: "Private Reed follow-up",
-    summary: "A private NPC commitment not disclosed to Cameron.",
+    title: `Private ${verifier.familyName} follow-up`,
+    summary: `A private NPC commitment not disclosed to ${player.givenName}.`,
     kind: "confirmed",
     start: moment(date, 11, 0),
     end: moment(date, 11, 45),
@@ -291,8 +293,7 @@ export function createRunDLiteFixture(seedInput?: string): RunDLiteFixture {
   world = createWorkItem(world, {
     stableKey: "run-d-lite:work:reed-verification",
     title: "Third referral verification",
-    summary:
-      "Reed is checking the third emergency-rent referral before the office can respond.",
+    summary: `${verifier.familyName} is checking the third emergency-rent referral before the office can respond.`,
     jurisdictionId,
     sourceEntityIds: officeSource,
     focus: { kind: "person", personId: reedPersonId },
@@ -301,14 +302,14 @@ export function createRunDLiteFixture(seedInput?: string): RunDLiteFixture {
     assignedPersonIds: [reedPersonId],
     playerRequirement: "none",
     waitingOnPersonIds: [reedPersonId],
-    blocker: "Waiting for Reed's verification from the third referral.",
+    blocker: `Waiting for ${verifier.familyName}'s verification from the third referral.`,
     scheduledActivityId: null,
   });
   const waitingWorkItemId = lastWorkItem(world).id;
 
   world = createWorkItem(world, {
     stableKey: "run-d-lite:work:collins-analysis-summary",
-    title: "Collins's transit analysis summary",
+    title: `${briefingLead.familyName}'s transit analysis summary`,
     summary:
       "A concise staff summary of the known Transit Access Pilot projections.",
     jurisdictionId,
@@ -330,8 +331,8 @@ export function createRunDLiteFixture(seedInput?: string): RunDLiteFixture {
 
   world = createWorkItem(world, {
     stableKey: "run-d-lite:work:hidden-reed-note",
-    title: "Undisclosed Reed note",
-    summary: "A private NPC work item not reported to Cameron.",
+    title: `Undisclosed ${verifier.familyName} note`,
+    summary: `A private NPC work item not reported to ${player.givenName}.`,
     jurisdictionId,
     sourceEntityIds: officeSource,
     focus: { kind: "person", personId: reedPersonId },

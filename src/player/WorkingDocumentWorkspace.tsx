@@ -145,6 +145,7 @@ export function WorkingDocumentWorkspace({
         state.selectedSelectionId === document.amountSelectionId ? (
           <ProvisionActionMenu
             current={projection.activeVariant}
+            authorName={staffAuthor?.familyName ?? "Staff"}
             analysisKnown={analysisKnown}
             revisionCommitted={projection.revisionCommitted}
             onReviewAnalysis={onReviewAnalysis}
@@ -156,6 +157,8 @@ export function WorkingDocumentWorkspace({
 
         {state.panel === "analysis" ? (
           <AnalysisPanel
+            authorName={staffAuthor?.familyName ?? "Staff"}
+            playerGivenName={world.people[fixture.playerPersonId]!.givenName}
             projection={projection}
             onClose={() => dispatch({ type: "close-panel" })}
           />
@@ -227,6 +230,7 @@ function ProvisionText({
 }
 
 function ProvisionActionMenu({
+  authorName,
   current,
   analysisKnown,
   revisionCommitted,
@@ -235,6 +239,7 @@ function ProvisionActionMenu({
   onDiscuss,
   onCommit,
 }: {
+  readonly authorName: string;
   readonly current: RunCWorkingDocumentVariant;
   readonly analysisKnown: boolean;
   readonly revisionCommitted: boolean;
@@ -271,7 +276,7 @@ function ProvisionActionMenu({
             <small>$8,000,000 → $4,000,000</small>
           </button>
           <button type="button" role="menuitem" onClick={onDiscuss}>
-            <span>Ask Collins about this</span>
+            <span>Ask {authorName} about this</span>
           </button>
           <button type="button" role="menuitem" onClick={onCommit}>
             <span>Use the prepared $4,000,000 version</span>
@@ -288,9 +293,13 @@ function ProvisionActionMenu({
 }
 
 function AnalysisPanel({
+  authorName,
+  playerGivenName,
   projection,
   onClose,
 }: {
+  readonly authorName: string;
+  readonly playerGivenName: string;
   readonly projection: RunCDocumentProjection;
   readonly onClose: () => void;
 }) {
@@ -305,7 +314,7 @@ function AnalysisPanel({
       <header>
         <div>
           <p>Staff interpretation · distinct from legal text</p>
-          <h3 id="staff-analysis-title">Collins’s working analysis</h3>
+          <h3 id="staff-analysis-title">{authorName}’s working analysis</h3>
         </div>
         <button ref={closeRef} type="button" onClick={onClose}>
           Back to document
@@ -330,7 +339,7 @@ function AnalysisPanel({
           ))}
         </div>
       ) : (
-        <p>No staff projection is currently known to Cameron.</p>
+        <p>No staff projection is currently known to {playerGivenName}.</p>
       )}
     </aside>
   );

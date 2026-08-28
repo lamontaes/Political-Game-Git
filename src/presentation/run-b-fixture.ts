@@ -35,7 +35,7 @@ export function createRunBFixture(seedInput?: string): RunBFixture {
   const runA = createRunAFixture(seedInput);
   const npcBPersonId = requirePersonId(runA, 2);
   const npcBPerson = runA.world.people[npcBPersonId];
-  const npcBName = npcBPerson ? npcBPerson.familyName : "Reed";
+  const npcBName = npcBPerson!.familyName;
   const jurisdictionId = runA.world.jurisdictionOrder[0];
   if (!jurisdictionId) {
     throw new Error("Run B fixture is missing its office jurisdiction.");
@@ -63,6 +63,8 @@ export function createRunBFixture(seedInput?: string): RunBFixture {
   ] as const;
   const roomContext: ConversationRoomContext = {
     sceneKey: "run-b:lexington-office:occupied",
+    briefingLeadPersonId: runA.scenePerson.personId,
+    referralVerifierPersonId: npcBPersonId,
     locationLabel: "Shared legislative office",
     jurisdictionId,
     playerPersonId: runA.playerPersonId,
@@ -76,6 +78,8 @@ export function createRunBFixture(seedInput?: string): RunBFixture {
   };
   const privateCapableRoomContext: ConversationRoomContext = {
     sceneKey: "run-b:lexington-office:private-capable",
+    briefingLeadPersonId: runA.scenePerson.personId,
+    referralVerifierPersonId: npcBPersonId,
     locationLabel: `Shared legislative office after ${npcBName} stepped out`,
     jurisdictionId,
     playerPersonId: runA.playerPersonId,

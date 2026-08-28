@@ -46,19 +46,23 @@ export type ConversationIntent = (typeof RUN_B_CONVERSATION_INTENTS)[number];
 export type ConversationAddressee = EntityId | "everyone";
 
 export function describeRunBBriefingContext(
+  world: World,
+  room: ConversationRoomContext,
   progress: RunBConversationProgress,
 ): string {
   const facts = progress.subjectFacts;
-  return `Three Lexington tenants asked this office for emergency-rent help. The county could not process two referrals because each lacked a required ${facts.requiredDocument}. Reed is checking the third. Decide whether Collins should back a document checklist before future referrals.`;
+  return `Three Lexington tenants asked this office for emergency-rent help. The county could not process two referrals because each lacked a required ${facts.requiredDocument}. ${shortPersonName(world, room.referralVerifierPersonId)} is checking the third. Decide whether ${shortPersonName(world, room.briefingLeadPersonId)} should back a document checklist before future referrals.`;
 }
 
 export function describeConversationBriefingContext(
+  world: World,
+  room: ConversationRoomContext,
   progress: ConversationProgress,
 ): string {
   if (isRunCLegislativeConversationProgress(progress)) {
     return `Review Section 3 of the Transit Access Pilot office working draft. The current provision states ${progress.subjectFacts.currentAmount}; a prepared version states ${progress.subjectFacts.preparedAmount} for the same eligible-rider scope.`;
   }
-  return describeRunBBriefingContext(progress);
+  return describeRunBBriefingContext(world, room, progress);
 }
 
 export function conversationTopicLabel(progress: ConversationProgress): string {
@@ -69,6 +73,9 @@ export function conversationTopicLabel(progress: ConversationProgress): string {
 
 export interface ConversationRoomContext {
   readonly sceneKey: string;
+  /** Authored briefing roles remain references even when someone leaves earshot. */
+  readonly briefingLeadPersonId: EntityId;
+  readonly referralVerifierPersonId: EntityId;
   readonly locationLabel: string;
   readonly jurisdictionId: EntityId;
   readonly playerPersonId: EntityId;
@@ -179,6 +186,7 @@ export function createConversationSessionDescriptor(
 }
 
 export function availableConversationIntents(
+  world: World,
   room: ConversationRoomContext,
   addressee: ConversationAddressee,
   progress: ConversationProgress,
@@ -196,28 +204,27 @@ export function availableConversationIntents(
       : [
           {
             key: "discuss-provision",
-            label: `Ask Collins about the ${progress.subjectFacts.currentAmount} provision`,
-            description:
-              "Ask for Collins's known staff interpretation of the selected working-draft provision and prepared narrower version.",
+            label: `Ask ${shortPersonName(world, room.briefingLeadPersonId)} about the ${progress.subjectFacts.currentAmount} provision`,
+            description: `Ask for ${shortPersonName(world, room.briefingLeadPersonId)}'s known staff interpretation of the selected working-draft provision and prepared narrower version.`,
           },
         ];
   }
   const commitmentLabel =
     addressee === "everyone"
-      ? "Ask Reed to check and Collins to decide"
+      ? `Ask ${shortPersonName(world, room.referralVerifierPersonId)} to check and ${shortPersonName(world, room.briefingLeadPersonId)} to decide`
       : addressee === room.eligibleAddresseePersonIds[0]
-        ? "Ask Collins to back the referral checklist"
-        : "Ask Reed to check the third referral";
+        ? `Ask ${shortPersonName(world, room.briefingLeadPersonId)} to back the referral checklist`
+        : `Ask ${shortPersonName(world, room.referralVerifierPersonId)} to check the third referral`;
   const options: ConversationIntentOption[] = [
     {
       key: "request-commitment",
       label: commitmentLabel,
       description:
         addressee === room.eligibleAddresseePersonIds[0]
-          ? "Ask Collins to back a document checklist before staff make future county referrals."
+          ? `Ask ${shortPersonName(world, room.briefingLeadPersonId)} to back a document checklist before staff make future county referrals.`
           : addressee === room.eligibleAddresseePersonIds[1]
-            ? "Ask Reed whether the third referral also lacked the required proof-of-income form."
-            : "Ask Reed to check the third referral and Collins to decide on the staff checklist.",
+            ? `Ask ${shortPersonName(world, room.referralVerifierPersonId)} whether the third referral also lacked the required proof-of-income form.`
+            : `Ask ${shortPersonName(world, room.referralVerifierPersonId)} to check the third referral and ${shortPersonName(world, room.briefingLeadPersonId)} to decide on the staff checklist.`,
     },
     {
       key: "reassure",
@@ -231,8 +238,8 @@ export function availableConversationIntents(
       key: "press",
       label:
         addressee === room.eligibleAddresseePersonIds[0]
-          ? "Press Collins to back the checklist"
-          : "Press Reed to check the third referral now",
+          ? `Press ${shortPersonName(world, room.briefingLeadPersonId)} to back the checklist`
+          : `Press ${shortPersonName(world, room.referralVerifierPersonId)} to check the third referral now`,
       description: "Ask for the concrete next step now.",
     });
   }
@@ -266,8 +273,8 @@ export function openingConversationBeat(
       speakerName: personName(speaker),
       dialogue:
         progress.phase === "discussed"
-          ? `“The prepared ${progress.subjectFacts.preparedAmount} language is still on the page for comparison,” Collins says. “Neither version is enacted or implemented.”`
-          : `“I have Section 3 open,” Collins says. “You’re looking at the ${progress.subjectFacts.currentAmount} ceiling and the prepared ${progress.subjectFacts.preparedAmount} version for the same pilot scope.”`,
+          ? `“The prepared ${progress.subjectFacts.preparedAmount} language is still on the page for comparison,” ${shortPersonName(world, room.briefingLeadPersonId)} says. “Neither version is enacted or implemented.”`
+          : `“I have Section 3 open,” ${shortPersonName(world, room.briefingLeadPersonId)} says. “You’re looking at the ${progress.subjectFacts.currentAmount} ceiling and the prepared ${progress.subjectFacts.preparedAmount} version for the same pilot scope.”`,
     };
   }
 
@@ -279,23 +286,20 @@ export function openingConversationBeat(
     return {
       speakerPersonId,
       speakerName: personName(speaker),
-      dialogue:
-        "“If Reed finds the third county referral also lacked the proof-of-income form, I’ll decide whether to back one document checklist for staff to use before future referrals,” Collins says.",
+      dialogue: `“If ${shortPersonName(world, room.referralVerifierPersonId)} finds the third county referral also lacked the proof-of-income form, I’ll decide whether to back one document checklist for staff to use before future referrals,” ${shortPersonName(world, room.briefingLeadPersonId)} says.`,
     };
   }
   if (speakerPersonId === room.eligibleAddresseePersonIds[0]) {
     return {
       speakerPersonId,
       speakerName: personName(speaker),
-      dialogue:
-        "“If Reed finds the third county referral also lacked the proof-of-income form, I’ll decide whether to back one document checklist for staff to use before future referrals,” Collins says.",
+      dialogue: `“If ${shortPersonName(world, room.referralVerifierPersonId)} finds the third county referral also lacked the proof-of-income form, I’ll decide whether to back one document checklist for staff to use before future referrals,” ${shortPersonName(world, room.briefingLeadPersonId)} says.`,
     };
   }
   return {
     speakerPersonId,
     speakerName: personName(speaker),
-    dialogue:
-      "“The county could not process our first two referrals because the proof-of-income form was missing,” Reed says. “I can check whether the third referral arrived without that form too.”",
+    dialogue: `“The county could not process our first two referrals because the proof-of-income form was missing,” ${shortPersonName(world, room.referralVerifierPersonId)} says. “I can check whether the third referral arrived without that form too.”`,
   };
 }
 
@@ -313,7 +317,7 @@ function continuingConversationBeat(
     return {
       speakerPersonId,
       speakerName: personName(speaker),
-      dialogue: `“The office copy still distinguishes the current ${progress.subjectFacts.currentAmount} text from the prepared ${progress.subjectFacts.preparedAmount} text,” Collins says.`,
+      dialogue: `“The office copy still distinguishes the current ${progress.subjectFacts.currentAmount} text from the prepared ${progress.subjectFacts.preparedAmount} text,” ${shortPersonName(world, room.briefingLeadPersonId)} says.`,
     };
   }
   const primaryId = room.eligibleAddresseePersonIds[0]!;
@@ -330,8 +334,8 @@ function continuingConversationBeat(
       speakerName: personName(speaker),
       dialogue:
         progress.reedVerification === "promised"
-          ? "“We have the next step,” Collins says. “Reed will check whether the third county referral lacked the proof-of-income form, and I’ll decide on the staff checklist when that answer comes back.”"
-          : "“The question is whether staff should check required documents before future county referrals,” Collins says. “I need Reed to find out whether the third referral lacked the proof-of-income form too.”",
+          ? `“We have the next step,” ${shortPersonName(world, room.briefingLeadPersonId)} says. “${shortPersonName(world, room.referralVerifierPersonId)} will check whether the third county referral lacked the proof-of-income form, and I’ll decide on the staff checklist when that answer comes back.”`
+          : `“The question is whether staff should check required documents before future county referrals,” ${shortPersonName(world, room.briefingLeadPersonId)} says. “I need ${shortPersonName(world, room.referralVerifierPersonId)} to find out whether the third referral lacked the proof-of-income form too.”`,
     };
   }
 
@@ -341,10 +345,10 @@ function continuingConversationBeat(
       speakerName: personName(speaker),
       dialogue:
         progress.collinsSupport === "committed"
-          ? "“I’m backing the pre-referral document checklist,” Collins says. “Reed’s check will tell us whether to keep it focused on the proof-of-income form.”"
+          ? `“I’m backing the pre-referral document checklist,” ${shortPersonName(world, room.briefingLeadPersonId)} says. “${shortPersonName(world, room.referralVerifierPersonId)}’s check will tell us whether to keep it focused on the proof-of-income form.”`
           : progress.reedVerification === "promised"
-            ? "“Reed is checking the third county referral,” Collins says. “Once he tells us whether the proof-of-income form was missing there too, I can answer on the staff checklist.”"
-            : "“I need the third county referral checked,” Collins says. “If it also lacked the proof-of-income form, I can decide whether to back the staff checklist.”",
+            ? `“${shortPersonName(world, room.referralVerifierPersonId)} is checking the third county referral,” ${shortPersonName(world, room.briefingLeadPersonId)} says. “Once he tells us whether the proof-of-income form was missing there too, I can answer on the staff checklist.”`
+            : `“I need the third county referral checked,” ${shortPersonName(world, room.briefingLeadPersonId)} says. “If it also lacked the proof-of-income form, I can decide whether to back the staff checklist.”`,
     };
   }
 
@@ -353,10 +357,10 @@ function continuingConversationBeat(
     speakerName: personName(speaker),
     dialogue:
       progress.reedVerification === "promised"
-        ? "“I’m taking the third referral,” Reed says. “I’ll find out whether the county received it without the proof-of-income form and report back before the briefing.”"
+        ? `“I’m taking the third referral,” ${shortPersonName(world, room.referralVerifierPersonId)} says. “I’ll find out whether the county received it without the proof-of-income form and report back before the briefing.”`
         : progress.collinsSupport === "conditional"
-          ? "“Collins needs the third referral checked,” Reed says. “I can call the neighborhood office and find out whether its proof-of-income form was missing too.”"
-          : "“The first two county referrals arrived without the proof-of-income form,” Reed says. “I can check whether the third one failed for that same reason.”",
+          ? `“${shortPersonName(world, room.briefingLeadPersonId)} needs the third referral checked,” ${shortPersonName(world, room.referralVerifierPersonId)} says. “I can call the neighborhood office and find out whether its proof-of-income form was missing too.”`
+          : `“The first two county referrals arrived without the proof-of-income form,” ${shortPersonName(world, room.referralVerifierPersonId)} says. “I can check whether the third one failed for that same reason.”`,
   };
 }
 
@@ -450,6 +454,7 @@ export function commitConversationTurn(
     );
   }
   const availableIntents = availableConversationIntents(
+    inputWorld,
     input.room,
     input.addressee,
     currentProgress,
@@ -589,7 +594,12 @@ export function commitConversationTurn(
       },
       socialContext: "A bounded in-room conversation during briefing work.",
       pressure: conversationPressure(input.intent, currentProgress),
-      choice: conversationChoice(input.intent, currentProgress),
+      choice: conversationChoice(
+        world,
+        input.room,
+        input.intent,
+        currentProgress,
+      ),
       motivation: isRunCLegislativeConversationProgress(currentProgress)
         ? "Clarify legal working language and staff projection without treating either as enacted policy."
         : "Clarify the next step without turning the exchange into a score check.",
@@ -761,6 +771,7 @@ export function commitConversationTurn(
           : null,
       playerIntentLabel:
         availableConversationIntents(
+          world,
           input.room,
           input.addressee,
           currentProgress,
@@ -771,6 +782,7 @@ export function commitConversationTurn(
           ? "(You listen.)"
           : `You · ${
               availableConversationIntents(
+                world,
                 input.room,
                 input.addressee,
                 currentProgress,
@@ -835,6 +847,7 @@ function resolveNpcResponse(
 
   if (input.intent === "listen" && input.pendingContribution !== null) {
     return resolvePendingConversationContribution(world, {
+      room: input.room,
       speakerPersonId: input.speakerPersonId,
       pendingContribution: input.pendingContribution,
     });
@@ -860,10 +873,10 @@ function resolveNpcResponse(
         speakerPersonId: input.speakerPersonId,
         dialogue: held
           ? input.previousIntent === "request-commitment"
-            ? "“I heard the request, and my condition hasn’t changed: Reed needs to find out whether the third county referral lacked the proof-of-income form too. Then I can answer on the staff checklist.”"
-            : "“Pressing me won’t replace the missing fact. Have Reed check whether the third county referral lacked the proof-of-income form, and then I can answer on the staff checklist.”"
+            ? `“I heard the request, and my condition hasn’t changed: ${shortPersonName(world, input.room.referralVerifierPersonId)} needs to find out whether the third county referral lacked the proof-of-income form too. Then I can answer on the staff checklist.”`
+            : `“Pressing me won’t replace the missing fact. Have ${shortPersonName(world, input.room.referralVerifierPersonId)} check whether the third county referral lacked the proof-of-income form, and then I can answer on the staff checklist.”`
           : input.groupAddressed
-            ? "“All right. Reed, check the third county referral; if its proof-of-income form was missing too, I’ll back the staff checklist at the briefing.”"
+            ? `“All right. ${shortPersonName(world, input.room.referralVerifierPersonId)}, check the third county referral; if its proof-of-income form was missing too, I’ll back the staff checklist at the briefing.”`
             : "“All right. Put the three county referrals in front of me, and I’ll give you a clear answer on the document checklist.”",
         perception: held
           ? `${personName(speaker)} is holding a boundary until another case is verified.`
@@ -880,16 +893,16 @@ function resolveNpcResponse(
       dialogue: committed
         ? isPrimary
           ? input.groupAddressed
-            ? "“All right. Reed can check the third referral, and I’ll back a staff checklist focused on required documents at the briefing.”"
+            ? `“All right. ${shortPersonName(world, input.room.referralVerifierPersonId)} can check the third referral, and I’ll back a staff checklist focused on required documents at the briefing.”`
             : "“All right. Keep it tied to the missing proof-of-income forms, and I’ll back the pre-referral document checklist at the briefing.”"
           : input.progress.reedVerification === "promised"
             ? "“I’ve got the third referral. I’ll check whether the county received it without the proof-of-income form and report back before the briefing.”"
             : "“Yes. I’ll call the neighborhood office and check whether the third county referral lacked the proof-of-income form before the briefing.”"
         : input.groupAddressed
-          ? "“Not yet. Reed, find out whether the third county referral lacked the proof-of-income form too. Then I can answer on the staff checklist.”"
+          ? `“Not yet. ${shortPersonName(world, input.room.referralVerifierPersonId)}, find out whether the third county referral lacked the proof-of-income form too. Then I can answer on the staff checklist.”`
           : input.progress.reedVerification === "promised"
-            ? "“Not yet. Reed is checking the third county referral; once he reports whether its proof-of-income form was missing, I can decide on the staff checklist.”"
-            : "“Not yet. Have Reed check whether the third county referral lacked the proof-of-income form, and then I can answer on the staff checklist.”",
+            ? `“Not yet. ${shortPersonName(world, input.room.referralVerifierPersonId)} is checking the third county referral; once he reports whether its proof-of-income form was missing, I can decide on the staff checklist.”`
+            : `“Not yet. Have ${shortPersonName(world, input.room.referralVerifierPersonId)} check whether the third county referral lacked the proof-of-income form, and then I can answer on the staff checklist.”`,
       perception: committed
         ? `${personName(speaker)} agreed to a bounded commitment before the briefing.`
         : `${personName(speaker)} deferred a commitment pending one more verified case.`,
@@ -904,7 +917,7 @@ function resolveNpcResponse(
       speakerPersonId: input.speakerPersonId,
       dialogue: isPrimary
         ? input.groupAddressed
-          ? "“That helps. Reed, check the third referral; we’ll keep the staff checklist focused on the required document these cases establish.”"
+          ? `“That helps. ${shortPersonName(world, input.room.referralVerifierPersonId)}, check the third referral; we’ll keep the staff checklist focused on the required document these cases establish.”`
           : "“That helps. Keep the staff checklist focused on the proof-of-income form these referrals establish.”"
         : "“Good. I’ll check whether the third county referral lacked the proof-of-income form and bring back that fact.”",
       perception: `${personName(speaker)} welcomed a narrow, evidence-led approach.`,
@@ -953,14 +966,14 @@ function resolveLegislativeProvisionResponse(
     )
   ) {
     throw new Error(
-      "Collins cannot discuss a policy projection he does not canonically know.",
+      `${speaker.familyName} cannot discuss a policy projection he does not canonically know.`,
     );
   }
   return {
     world,
     outcome: "continued",
     speakerPersonId: input.speakerPersonId,
-    dialogue: `“My read is that Section 3 sets an ${input.progress.subjectFacts.currentAmount} ceiling for this office draft,” Collins says. “Under the staff projection, the prepared ${input.progress.subjectFacts.preparedAmount} version cuts the modeled maximum outlay in half for the same eligible-rider scope. That is a forecast comparison, not an appropriation or implementation.”`,
+    dialogue: `“My read is that Section 3 sets an ${input.progress.subjectFacts.currentAmount} ceiling for this office draft,” ${speaker.familyName} says. “Under the staff projection, the prepared ${input.progress.subjectFacts.preparedAmount} version cuts the modeled maximum outlay in half for the same eligible-rider scope. That is a forecast comparison, not an appropriation or implementation.”`,
     perception: `${personName(speaker)} distinguished the current working language from a qualified staff projection and from actual implementation.`,
     durableDecisionRecorded: false,
   };
@@ -969,6 +982,7 @@ function resolveLegislativeProvisionResponse(
 function resolvePendingConversationContribution(
   world: World,
   input: {
+    readonly room: ConversationRoomContext;
     readonly speakerPersonId: EntityId;
     readonly pendingContribution: RunBPendingContribution;
   },
@@ -983,8 +997,7 @@ function resolvePendingConversationContribution(
         world,
         outcome: "continued",
         speakerPersonId: input.speakerPersonId,
-        dialogue:
-          "“Here’s what I need,” Collins says. “If the third county referral also lacked the proof-of-income form, I can back one document checklist for staff to use before future referrals. Reed is checking that missing fact.”",
+        dialogue: `“Here’s what I need,” ${shortPersonName(world, input.room.briefingLeadPersonId)} says. “If the third county referral also lacked the proof-of-income form, I can back one document checklist for staff to use before future referrals. ${shortPersonName(world, input.room.referralVerifierPersonId)} is checking that missing fact.”`,
         perception: `${personName(speaker)} made support for the checklist conditional on the last case.`,
         durableDecisionRecorded: false,
       };
@@ -993,8 +1006,7 @@ function resolvePendingConversationContribution(
         world,
         outcome: "bystander-interjected",
         speakerPersonId: input.speakerPersonId,
-        dialogue:
-          "“I can make that call,” Reed says. “I’ll check whether the county received the third referral without the proof-of-income form and report back before the briefing.”",
+        dialogue: `“I can make that call,” ${shortPersonName(world, input.room.referralVerifierPersonId)} says. “I’ll check whether the county received the third referral without the proof-of-income form and report back before the briefing.”`,
         perception: `${personName(speaker)} promised to verify the remaining case before the briefing.`,
         durableDecisionRecorded: false,
       };
@@ -1003,9 +1015,8 @@ function resolvePendingConversationContribution(
         world,
         outcome: "continued",
         speakerPersonId: input.speakerPersonId,
-        dialogue:
-          "“Good,” Collins says. “Once Reed reports on the third referral, put all three together and I’ll give you a final answer on the staff document checklist.”",
-        perception: `${personName(speaker)} kept a clear evidence condition while Reed followed up.`,
+        dialogue: `“Good,” ${shortPersonName(world, input.room.briefingLeadPersonId)} says. “Once ${shortPersonName(world, input.room.referralVerifierPersonId)} reports on the third referral, put all three together and I’ll give you a final answer on the staff document checklist.”`,
+        perception: `${personName(speaker)} kept a clear evidence condition while ${shortPersonName(world, input.room.referralVerifierPersonId)} followed up.`,
         durableDecisionRecorded: false,
       };
   }
@@ -1330,6 +1341,16 @@ function validateConversationRoom(world: World, room: ConversationRoomContext) {
       "Conversation room must use the controlled person as player.",
     );
   }
+  for (const personId of [
+    room.briefingLeadPersonId,
+    room.referralVerifierPersonId,
+  ]) {
+    if (!world.people[personId]) {
+      throw new Error(
+        `Conversation briefing role references a missing person: ${personId}`,
+      );
+    }
+  }
   const groups = [
     room.physicallyPresentPersonIds,
     room.activeParticipantPersonIds,
@@ -1560,7 +1581,7 @@ function conversationEventSummary(
   if (isRunCLegislativeConversationProgress(progress)) {
     if (intent !== "discuss-provision" || responseSpeakerPersonId === null) {
       throw new Error(
-        "A legislative provision turn requires Collins's response.",
+        "A legislative provision turn requires the briefing lead's response.",
       );
     }
     const speaker = personName(world.people[responseSpeakerPersonId]!);
@@ -1595,11 +1616,13 @@ function conversationPressure(
 }
 
 function conversationChoice(
+  world: World,
+  room: ConversationRoomContext,
   intent: ConversationIntent,
   progress: ConversationProgress,
 ): string {
   if (isRunCLegislativeConversationProgress(progress)) {
-    return "The player asked Collins to interpret the selected working provision and compare its prepared alternative.";
+    return `The player asked ${shortPersonName(world, room.briefingLeadPersonId)} to interpret the selected working provision and compare its prepared alternative.`;
   }
   if (intent === "request-commitment") {
     return "The player asked for a concrete checklist or verification commitment.";

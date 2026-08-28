@@ -19,7 +19,53 @@ import {
   type SceneAnchor,
 } from "./person-appearance";
 import { createWorld, createWorldId } from "./world";
-import type { EntityId, Person } from "./types";
+import { SeededRng } from "./rng";
+import type {
+  EntityId,
+  IsoDate,
+  Person,
+  PersonGenerationProfile,
+} from "./types";
+
+// Replay the profile's selection draws independently of DOB construction. Do
+// not derive the expected selected age from the returned Person's birth date.
+function selectedProfileAge(
+  seed: string,
+  index: number,
+  date: IsoDate,
+  profile: PersonGenerationProfile,
+): number {
+  const rng = new SeededRng(seed).fork(`person-v5:${index}`);
+  const corpus = getNameCorpus("names-v1");
+  rng.pick(corpus.givenNames);
+  rng.pick(corpus.familyNames);
+  if (profile === "production") {
+    const roll = rng.next();
+    const [min, max] =
+      roll < 0.15
+        ? [21, 30]
+        : roll < 0.7
+          ? [30, 50]
+          : roll < 0.9
+            ? [50, 65]
+            : [65, 76];
+    return rng.integer(min!, max!);
+  }
+  if (index % 6 === 0) return 18;
+  if (index % 6 === 4) return 88;
+  if (index % 6 === 3) {
+    // This case selects a leap birth year, rather than selecting an age.
+    const birthYear = rng.pick([
+      2004, 2000, 1996, 1992, 1988, 1984, 1980, 1976, 1972, 1968,
+    ]);
+    const year = Number(date.slice(0, 4));
+    const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+    return (
+      year - birthYear - Number(date.slice(5) < (leap ? "02-29" : "02-28"))
+    );
+  }
+  return rng.integer(22, 70);
+}
 
 describe("Generated Person Substrate & Foundation", () => {
   const TEST_JURISDICTION_ID = "jurisdiction_test_placeholder" as EntityId;
@@ -232,6 +278,109 @@ describe("Generated Person Substrate & Foundation", () => {
     expect(ageOnDate(leapBirth, makeIsoDate("2024-02-29"))).toBe(20);
     expect(ageOnDate(leapBirth, makeIsoDate("2024-03-01"))).toBe(20);
   });
+
+  it.each([
+    ["stress", "2024-02-28", "dob-boundary-189", 2, 65, "1959-02-28"],
+    ["stress", "2024-02-29", "dob-boundary-30", 1, 25, "1999-02-28"],
+    ["stress", "2024-03-01", "dob-boundary-48", 5, 23, "2001-02-28"],
+    ["production", "2025-02-28", "dob-age-73-6095", 0, 73, "1952-02-28"],
+  ] as const)(
+    "repairs the reproduced %s DOB boundary on %s (%s)",
+    (profile, date, worldSeed, index, targetAge, birthDate) => {
+      const currentDate = makeIsoDate(date);
+      expect(selectedProfileAge(worldSeed, index, currentDate, profile)).toBe(
+        targetAge,
+      );
+      const person = createLightweightPerson({
+        worldId: createWorldId(worldSeed),
+        worldSeed,
+        index,
+        currentDate,
+        homeJurisdictionId: TEST_JURISDICTION_ID,
+        profile,
+      });
+      expect(person.birthDate).toBe(birthDate);
+      expect(ageOnDate(person.birthDate, currentDate)).toBe(targetAge);
+    },
+  );
+
+  it.each(["production", "stress"] as const)(
+    "DOB invariant matrix: %s preserves selected ages, valid dates, bounds, and exact replay (39,000 cases)",
+    (profile) => {
+      const dates = [
+        "2024-02-27",
+        "2024-02-28",
+        "2024-02-29",
+        "2024-03-01",
+        "2025-02-27",
+        "2025-02-28",
+        "2025-03-01",
+        "2028-02-27",
+        "2028-02-28",
+        "2028-02-29",
+        "2028-03-01",
+        "2025-12-31",
+        "2026-01-01",
+      ].map(makeIsoDate);
+      const birthdayDays = new Set<string>();
+      const birthYearKinds = new Set<boolean>();
+      let cases = 0;
+      for (const currentDate of dates) {
+        for (let seedIndex = 0; seedIndex < 250; seedIndex += 1) {
+          const worldSeed = `dob-invariant-${seedIndex}`;
+          for (let index = 0; index < 12; index += 1) {
+            const input = {
+              worldId: createWorldId(worldSeed),
+              worldSeed,
+              index,
+              currentDate,
+              homeJurisdictionId: TEST_JURISDICTION_ID,
+              profile,
+            };
+            const expectedAge = selectedProfileAge(
+              worldSeed,
+              index,
+              currentDate,
+              profile,
+            );
+            const person = createLightweightPerson(input);
+            const context = `${profile}/${currentDate}/${worldSeed}/${index}`;
+            expect(makeIsoDate(person.birthDate), context).toBe(
+              person.birthDate,
+            );
+            expect(ageOnDate(person.birthDate, currentDate), context).toBe(
+              expectedAge,
+            );
+            expect(expectedAge, context).toBeGreaterThanOrEqual(
+              profile === "production" ? 21 : 18,
+            );
+            expect(expectedAge, context).toBeLessThanOrEqual(
+              profile === "production" ? 75 : 88,
+            );
+            expect(createLightweightPerson(input), context).toStrictEqual(
+              person,
+            );
+            birthdayDays.add(person.birthDate.slice(5));
+            const birthYear = Number(person.birthDate.slice(0, 4));
+            birthYearKinds.add(
+              birthYear % 4 === 0 &&
+                (birthYear % 100 !== 0 || birthYear % 400 === 0),
+            );
+            if (profile === "stress" && index % 6 === 3) {
+              expect(person.birthDate.slice(5), context).toBe("02-29");
+            }
+            cases += 1;
+          }
+        }
+      }
+      expect(cases).toBe(39_000);
+      expect(birthYearKinds).toEqual(new Set([true, false]));
+      for (const day of ["02-27", "02-28", "02-29", "03-01"]) {
+        expect(birthdayDays.has(day), day).toBe(true);
+      }
+    },
+    60_000,
+  );
 
   it("8. reasonable production age constraints", () => {
     const worldId = createWorldId("prod-age-constraints");

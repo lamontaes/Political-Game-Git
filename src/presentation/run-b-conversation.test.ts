@@ -241,7 +241,11 @@ describe("Stage 6.5 Run B conversation semantics", () => {
       fixture.scenePeople[0].personId,
       progress,
     );
-    const briefing = describeRunBBriefingContext(progress);
+    const briefing = describeRunBBriefingContext(
+      fixture.world,
+      fixture.roomContext,
+      progress,
+    );
     const visibleContext = `${briefing} ${opening.dialogue}`;
     expect(progress.subjectFacts).toMatchObject({
       constituentDescription: "three Lexington tenants",
@@ -268,6 +272,7 @@ describe("Stage 6.5 Run B conversation semantics", () => {
     expect(visibleContext).not.toMatch(/referral gap/i);
     expect(
       availableConversationIntents(
+        fixture.world,
         fixture.roomContext,
         fixture.scenePeople[0].personId,
         progress,
@@ -278,6 +283,7 @@ describe("Stage 6.5 Run B conversation semantics", () => {
     ]);
     expect(
       availableConversationIntents(
+        fixture.world,
         fixture.roomContext,
         fixture.scenePeople[1].personId,
         progress,
@@ -287,6 +293,7 @@ describe("Stage 6.5 Run B conversation semantics", () => {
       "Ask Reed to check the third referral",
     ]);
     const everyoneIntents = availableConversationIntents(
+      fixture.world,
       fixture.roomContext,
       "everyone",
       progress,
@@ -671,6 +678,7 @@ describe("Stage 6.5 Run B conversation semantics", () => {
     expect(
       JSON.stringify(
         availableConversationIntents(
+          fixture.world,
           fixture.roomContext,
           "everyone",
           createRunBConversationProgress(),
@@ -892,6 +900,7 @@ describe("Stage 6.5 Run B conversation semantics", () => {
     expect(canListenToRunBConversation(settled.progress)).toBe(false);
     expect(
       availableConversationIntents(
+        fixture.world,
         fixture.roomContext,
         "everyone",
         settled.progress,
@@ -1007,6 +1016,7 @@ describe("Stage 6.5 Run B conversation semantics", () => {
     ).toEqual([reedId]);
     expect(
       availableConversationIntents(
+        fixture.world,
         fixture.roomContext,
         reedId,
         request.progress,
@@ -1035,6 +1045,7 @@ describe("Stage 6.5 Run B conversation semantics", () => {
     ).toEqual([collinsId, reedId]);
     expect(
       availableConversationIntents(
+        fixture.world,
         fixture.roomContext,
         reedId,
         request.progress,
@@ -1115,6 +1126,7 @@ describe("Stage 6.5 Run B conversation semantics", () => {
     );
     expect(
       availableConversationIntents(
+        fixture.world,
         fixture.roomContext,
         reedId,
         settled.progress,
@@ -1198,4 +1210,97 @@ describe("Stage 6.5 Run B conversation semantics", () => {
       /distance|radius|cone|decibel|coordinate/i,
     );
   });
+});
+
+describe("generated-person Run B role prose", () => {
+  it.each(["player-seed-alpha", "player-seed-beta", "stage-6-5-run-a"])(
+    "resolves openings, options, responses, continuation and history from canonical roles: %s",
+    (seed) => {
+      const fixture = createRunBFixture(seed);
+      const { world, roomContext: room } = fixture;
+      const lead = world.people[room.briefingLeadPersonId]!;
+      const verifier = world.people[room.referralVerifierPersonId]!;
+      const progress = createRunBConversationProgress();
+      const briefing = describeRunBBriefingContext(world, room, progress);
+      expect(briefing).toContain(`${verifier.familyName} is checking`);
+      expect(briefing).toContain(`${lead.familyName} should back`);
+      // A verifier who has stepped out is still the same canonical role.
+      expect(
+        describeRunBBriefingContext(
+          world,
+          fixture.privateCapableRoomContext,
+          progress,
+        ),
+      ).toBe(briefing);
+      const outputs: unknown[] = [briefing];
+      for (const addressee of [lead.id, verifier.id, "everyone"] as const) {
+        const session = createConversationSessionDescriptor(world, room);
+        outputs.push(openingConversationBeat(world, room, addressee, progress));
+        const options = availableConversationIntents(
+          world,
+          room,
+          addressee,
+          progress,
+        );
+        outputs.push(options);
+        for (const option of options) {
+          const result = commitConversationTurn(world, {
+            session,
+            room,
+            progress,
+            turnOrdinal: 1,
+            addressee,
+            audibility: "normal",
+            intent: option.key,
+          });
+          outputs.push(
+            result.presentation,
+            result.world.history.events.slice(world.history.events.length),
+            result.world.history.claims.slice(world.history.claims.length),
+          );
+          outputs.push(
+            openingConversationBeat(
+              result.world,
+              room,
+              addressee,
+              result.progress,
+            ),
+          );
+        }
+      }
+      // Follow all pending contributions and the repeated-pressure path.
+      function play() {
+        let current = world;
+        let currentProgress = progress;
+        const session = createConversationSessionDescriptor(world, room);
+        const presentation = [];
+        for (const [index, intent] of (
+          ["listen", "listen", "listen", "request-commitment", "press"] as const
+        ).entries()) {
+          const result = commitConversationTurn(current, {
+            session,
+            room,
+            progress: currentProgress,
+            turnOrdinal: index + 1,
+            addressee: lead.id,
+            audibility: "normal",
+            intent,
+          });
+          current = result.world;
+          if (result.progress.subject !== "shared-intake-checklist")
+            throw new Error("Wrong subject");
+          currentProgress = result.progress;
+          presentation.push(result.presentation);
+        }
+        return { serialized: serializeWorld(current), presentation };
+      }
+      const first = play();
+      expect(play()).toEqual(first);
+      outputs.push(first.presentation);
+      expect(JSON.stringify(outputs)).not.toMatch(
+        /\b(?:Collins|Reed|Cameron|Foster)\b/,
+      );
+      expect(world.people[lead.id]).toBe(lead);
+    },
+  );
 });
