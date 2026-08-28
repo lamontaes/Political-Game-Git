@@ -216,14 +216,22 @@ DRAFT`, `NOT INTRODUCED`, and `NOT ENACTED` explicit.
    - Do not offer a completion action for Reed's waiting dependency. Delegate
      the bounded meeting brief to Collins explicitly.
 
-5. **Commit a known time cost**
-   - Inspect the 9:30 briefing and state that attending consumes its full 45
-     minutes and reaches 10:15 AM before the player commits.
-   - Advance through the canonical simulation action. Complete the briefing at
-     10:15 and let Collins's independent analysis complete at 10:00 during the
-     same interval.
-   - Return to Work/Pending to see the completed analysis in ready review while
-     the longer delegated brief remains Staff handling.
+5. **Commit known time costs and continue the day**
+   - For a future visible player-responsible activity, state any wait, the full
+     activity duration, total elapsed time, and resulting canonical end before
+     the player commits. Use Work, Travel, Attend, or Begin according to the
+     existing activity kind.
+   - At 9:10, inspect the 9:30 briefing and disclose 20 minutes waiting plus 45
+     minutes attending, 65 total, and a 10:15 result. Complete it through the
+     canonical action while Collins's independent analysis completes at 10:00.
+   - Return to Work/Pending to see the analysis ready while the longer delegated
+     brief remains Staff handling, then perform the 10:30–11:30 flexible block.
+     Collins's delegated brief becomes ready at 10:40 during that interval.
+   - Do not let the 2:00 meeting skip its 1:40–2:00 travel commitment. Perform
+     travel first, then attend the 2:00–3:15 meeting. The final next commitment
+     is the real 3:30 tentative return call, proving the day remains continuable.
+   - A blocked attempt returns the exact World. A completed activity offers no
+     second performance action.
 
 6. **Preserve epistemic and product boundaries**
    - Never show the fixture's private Reed call or private Reed note.

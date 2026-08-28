@@ -43,7 +43,7 @@ import {
 import {
   createRunDLiteFixture,
   delegateRunDMeetingBrief,
-  performRunDBriefing,
+  performRunDScheduledActivity,
   projectRunDLite,
   rescheduleRunDFlexibleBlock,
 } from "../presentation/run-d-lite";
@@ -290,12 +290,52 @@ export function PlayerOffice() {
     });
   }
 
-  function performBriefing() {
-    setWorld(performRunDBriefing(world, fixture));
+  function performActivity(activityId: EntityId) {
+    const entry = planningProjection.agenda.find(
+      (candidate) => candidate.activity.id === activityId,
+    );
+    if (!entry?.execution) {
+      planningDispatch({
+        type: "set-feedback",
+        message: "That activity is no longer available to perform.",
+      });
+      return;
+    }
+    const result = performRunDScheduledActivity(world, fixture, activityId);
+    if (result === world) {
+      const blockerNames = entry.execution.blockingActivityIds
+        .map(
+          (blockerId) =>
+            planningProjection.agenda.find(
+              (candidate) => candidate.activity.id === blockerId,
+            )?.activity.title,
+        )
+        .filter((title): title is string => Boolean(title));
+      planningDispatch({
+        type: "set-feedback",
+        message: `${entry.execution.verb} cannot begin yet. Complete ${blockerNames.join(
+          ", ",
+        )} first; canonical time, Calendar, and Work / Pending are unchanged.`,
+      });
+      return;
+    }
+    const updatedProjection = projectRunDLite(result, fixture);
+    const updatedEntry = updatedProjection.agenda.find(
+      (candidate) => candidate.activity.id === activityId,
+    );
+    const nextCommitment = updatedProjection.nextCommitment;
+    setWorld(result);
     planningDispatch({
       type: "set-feedback",
-      message:
-        "The 20-minute wait and 45-minute briefing are complete: 65 canonical minutes elapsed, the clock is now 10:15 AM, and Collins's parallel work also advanced.",
+      message: `${entry.activity.title} is ${updatedEntry?.state.status ?? "updated"} at ${formatRunATime(
+        result.currentMoment.minuteOfDay,
+      )} after ${entry.execution.totalElapsedMinutes} canonical minutes. ${
+        nextCommitment
+          ? `Next commitment: ${nextCommitment.activity.title} at ${formatRunATime(
+              nextCommitment.state.start.minuteOfDay,
+            )}.`
+          : "No later commitment remains in the visible schedule."
+      }`,
     });
   }
 
@@ -440,7 +480,7 @@ export function PlayerOffice() {
           onClose={() => planningDispatch({ type: "close" })}
           onValidReschedule={() => rescheduleFlexibleBlock("valid")}
           onInvalidReschedule={() => rescheduleFlexibleBlock("travel-conflict")}
-          onPerformBriefing={performBriefing}
+          onPerformActivity={performActivity}
         />
       ) : null}
       {planningState.mode === "work" ? (

@@ -104,6 +104,12 @@ effort, and lifecycle. Exact minute advancement resolves crossed date-level due
 frontiers, staff work, and a selected activity deterministically. Generic
 minute movement stops at unresolved controlled-person commitments, and explicit
 activity performance cannot skip an earlier commitment or travel block.
+The access-filtered agenda projection exposes the same canonical performance
+timing and blocker result for every future player-responsible activity; the
+Calendar chooses only bounded activity-appropriate copy and never owns a clock
+or completion state. Successful execution replaces the one `PlayerOffice`
+World, so current time, activity status, next commitment, and Work/Pending all
+reproject from the same result.
 `FutureDueItem`
 remains date-level; history sequence and action sequence remain ordering/seed
 inputs, not clocks. See

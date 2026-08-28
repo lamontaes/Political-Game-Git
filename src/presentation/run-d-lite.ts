@@ -3,12 +3,14 @@ import {
   assertWorldIntegrity,
   assignWorkItem,
   canPersonAccess,
+  controlledCommitmentsBlockingActivityPerformance,
   createScheduledActivity,
   createWorkItem,
   makeSimulationMoment,
   performScheduledActivity,
   rescheduleScheduledActivity,
   scheduledActivitiesVisibleTo,
+  scheduledActivityPerformanceTiming,
   scheduledActivityState,
   simulationMinutesBetween,
   workPendingEntriesFor,
@@ -55,8 +57,19 @@ export interface RunDAgendaEntry {
   readonly activity: ScheduledActivityRecord;
   readonly state: ScheduledActivityStateRecord;
   readonly durationMinutes: number;
-  readonly waitBeforeStartMinutes: number | null;
-  readonly elapsedIfPerformedMinutes: number | null;
+  readonly execution: RunDActivityExecution | null;
+}
+
+export type RunDActivityExecutionVerb = "Work" | "Travel" | "Attend" | "Begin";
+
+export interface RunDActivityExecution {
+  readonly verb: RunDActivityExecutionVerb;
+  readonly waitMinutes: number;
+  readonly activityMinutes: number;
+  readonly totalElapsedMinutes: number;
+  readonly resultingMoment: SimulationMoment;
+  readonly blockingActivityIds: readonly EntityId[];
+  readonly canPerform: boolean;
 }
 
 export interface RunDLiteProjection {
@@ -65,6 +78,15 @@ export interface RunDLiteProjection {
   readonly agenda: readonly RunDAgendaEntry[];
   readonly work: readonly WorkPendingEntry[];
   readonly nextCommitment: RunDAgendaEntry | null;
+}
+
+function executionVerb(
+  activity: ScheduledActivityRecord,
+): RunDActivityExecutionVerb {
+  if (activity.kind === "flexible") return "Work";
+  if (activity.kind === "travel") return "Travel";
+  if (activity.kind === "tentative") return "Begin";
+  return "Attend";
 }
 
 function moment(date: string, hour: number, minute: number): SimulationMoment {
@@ -361,18 +383,31 @@ export function projectRunDLite(
         world.currentMoment,
         state.start,
       );
+      const canProjectExecution =
+        state.status === "scheduled" &&
+        waitBeforeStartMinutes >= 0 &&
+        activity.responsiblePersonId === controlledPersonId;
+      const timing = canProjectExecution
+        ? scheduledActivityPerformanceTiming(world, activity.id)
+        : null;
+      const blockingActivityIds = timing
+        ? controlledCommitmentsBlockingActivityPerformance(world, activity.id)
+        : [];
       return {
         activity,
         state,
         durationMinutes: simulationMinutesBetween(state.start, state.end),
-        waitBeforeStartMinutes:
-          state.status === "scheduled" && waitBeforeStartMinutes >= 0
-            ? waitBeforeStartMinutes
-            : null,
-        elapsedIfPerformedMinutes:
-          state.status === "scheduled" && waitBeforeStartMinutes >= 0
-            ? simulationMinutesBetween(world.currentMoment, state.end)
-            : null,
+        execution: timing
+          ? {
+              verb: executionVerb(activity),
+              waitMinutes: timing.waitMinutes,
+              activityMinutes: timing.activityMinutes,
+              totalElapsedMinutes: timing.totalElapsedMinutes,
+              resultingMoment: timing.targetMoment,
+              blockingActivityIds,
+              canPerform: blockingActivityIds.length === 0,
+            }
+          : null,
       };
     },
   );
@@ -418,11 +453,20 @@ export function delegateRunDMeetingBrief(
   });
 }
 
-export function performRunDBriefing(
+export function performRunDScheduledActivity(
   world: World,
   fixture: RunDLiteFixture,
+  activityId: EntityId,
 ): World {
-  return performScheduledActivity(world, fixture.dLite.briefingActivityId);
+  const entry = projectRunDLite(world, fixture).agenda.find(
+    (candidate) => candidate.activity.id === activityId,
+  );
+  if (!entry?.execution) {
+    throw new Error(
+      "The controlled player cannot perform this scheduled activity now.",
+    );
+  }
+  return performScheduledActivity(world, activityId);
 }
 
 export function hiddenRunDStateIsFiltered(

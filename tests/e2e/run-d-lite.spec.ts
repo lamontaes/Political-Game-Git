@@ -139,7 +139,7 @@ test("renders canonical week geometry and enforces flexible and travel conflicts
   ).toHaveAttribute("data-start-minute", "660");
 });
 
-test("derives truthful work groups and advances staff work during player activity", async ({
+test("continues the canonical day through work, travel, and a later meeting", async ({
   page,
 }) => {
   const office = page.getByTestId("player-office");
@@ -172,17 +172,37 @@ test("derives truthful work groups and advances staff work during player activit
   await work.getByRole("button", { name: "Return to office" }).click();
   await openPlanning(page, "Calendar");
   const calendar = page.getByTestId("calendar-workspace");
+  const meeting = calendar.getByRole("button", {
+    name: /Community transit meeting/,
+  });
+  await meeting.click();
+  const detail = page.getByTestId("calendar-event-detail");
+  const beforeBlockedMeetingHistory = await office.getAttribute(
+    "data-history-sequence",
+  );
+  await expect(page.getByTestId("calendar-execution-blocked")).toContainText(
+    "Complete Constituent intake briefing",
+  );
+  await detail
+    .getByRole("button", { name: "Check Attend availability" })
+    .click();
+  await expect(page.getByTestId("calendar-feedback")).toContainText(
+    "canonical time, Calendar, and Work / Pending are unchanged",
+  );
+  await expect(office).toHaveAttribute("data-simulation-minute", "550");
+  await expect(office).toHaveAttribute(
+    "data-history-sequence",
+    beforeBlockedMeetingHistory!,
+  );
+
   await calendar
     .getByRole("button", { name: /Constituent intake briefing/ })
     .click();
-  const detail = page.getByTestId("calendar-event-detail");
   await expect(detail).toContainText(
-    "This action waits 20 minutes, then attends the full 45-minute briefing: 65 minutes total elapse, advancing the clock to 10:15 AM",
+    "This action waits 20 minutes until 9:30 AM, then attends the full 45-minute commitment. 65 canonical minutes elapse, advancing the clock to 10:15 AM.",
   );
   await detail
-    .getByRole("button", {
-      name: "Wait 20 + attend 45 — 65 minutes total",
-    })
+    .getByRole("button", { name: "Attend · 65 minutes to 10:15 AM" })
     .click();
   await expect(office).toHaveAttribute("data-simulation-minute", "615");
   await expect(
@@ -193,8 +213,25 @@ test("derives truthful work groups and advances staff work during player activit
     "615",
   );
   await expect(detail).toContainText("Completed at 10:15 AM");
+  await expect(
+    calendar.getByRole("button", { name: /Constituent intake briefing/ }),
+  ).toHaveAttribute("data-activity-status", "completed");
   await expect(page.getByTestId("current-commitment")).toContainText(
     "Transit draft follow-up",
+  );
+
+  const afterBriefingHistory = await office.getAttribute(
+    "data-history-sequence",
+  );
+  await calendar
+    .getByRole("button", { name: /Constituent intake briefing/ })
+    .click();
+  await expect(detail.getByRole("button", { name: /^Attend/ })).toHaveCount(0);
+  await expect(detail).toContainText("Completed at 10:15 AM");
+  await expect(office).toHaveAttribute("data-simulation-minute", "615");
+  await expect(office).toHaveAttribute(
+    "data-history-sequence",
+    afterBriefingHistory!,
   );
 
   await calendar.getByRole("button", { name: "Return to office" }).click();
@@ -207,6 +244,102 @@ test("derives truthful work groups and advances staff work during player activit
   );
   await expect(page.getByTestId("work-pending-workspace")).not.toContainText(
     /\d+%/,
+  );
+
+  await work.getByRole("button", { name: "Return to office" }).click();
+  await openPlanning(page, "Calendar");
+  const continuedCalendar = page.getByTestId("calendar-workspace");
+  const flexible = continuedCalendar.getByRole("button", {
+    name: /Transit draft follow-up/,
+  });
+  await expect(flexible).toHaveAttribute("data-activity-can-perform", "true");
+  await flexible.click();
+  await expect(detail).toContainText(
+    "This action waits 15 minutes until 10:30 AM, then works the full 60-minute block. 75 canonical minutes elapse, advancing the clock to 11:30 AM.",
+  );
+  await detail
+    .getByRole("button", { name: "Work · 75 minutes to 11:30 AM" })
+    .click();
+  await expect(office).toHaveAttribute("data-simulation-minute", "690");
+  await expect(flexible).toHaveAttribute("data-activity-status", "completed");
+  await expect(page.getByTestId("current-commitment")).toContainText(
+    "Travel to community meeting",
+  );
+
+  await continuedCalendar
+    .getByRole("button", { name: "Return to office" })
+    .click();
+  await openPlanning(page, "Work / Pending");
+  await expect(page.getByTestId("work-group-completed-ready")).toContainText(
+    "Prepare community meeting brief",
+  );
+  await expect(page.getByTestId("work-group-staff-handling")).not.toContainText(
+    "Prepare community meeting brief",
+  );
+
+  await page
+    .getByTestId("work-pending-workspace")
+    .getByRole("button", { name: "Return to office" })
+    .click();
+  await openPlanning(page, "Calendar");
+  const laterCalendar = page.getByTestId("calendar-workspace");
+  const laterMeeting = laterCalendar.getByRole("button", {
+    name: /Community transit meeting/,
+  });
+  await laterMeeting.click();
+  const beforeTravelSkipHistory = await office.getAttribute(
+    "data-history-sequence",
+  );
+  await expect(page.getByTestId("calendar-execution-blocked")).toContainText(
+    "Complete Travel to community meeting first",
+  );
+  await detail
+    .getByRole("button", { name: "Check Attend availability" })
+    .click();
+  await expect(office).toHaveAttribute("data-simulation-minute", "690");
+  await expect(office).toHaveAttribute(
+    "data-history-sequence",
+    beforeTravelSkipHistory!,
+  );
+
+  const travel = laterCalendar.getByRole("button", {
+    name: /Travel to community meeting/,
+  });
+  await travel.click();
+  await expect(detail).toContainText(
+    "This action waits 130 minutes until 1:40 PM, then travels for the full 20-minute interval. 150 canonical minutes elapse, advancing the clock to 2:00 PM.",
+  );
+  await detail
+    .getByRole("button", { name: "Travel · 150 minutes to 2:00 PM" })
+    .click();
+  await expect(office).toHaveAttribute("data-simulation-minute", "840");
+  await expect(travel).toHaveAttribute("data-activity-status", "completed");
+  await expect(page.getByTestId("current-commitment")).toContainText(
+    "Community transit meeting",
+  );
+
+  await laterMeeting.click();
+  await expect(laterMeeting).toHaveAttribute(
+    "data-activity-can-perform",
+    "true",
+  );
+  await expect(detail).toContainText(
+    "This action attends the full 75-minute commitment. 75 canonical minutes elapse, advancing the clock to 3:15 PM.",
+  );
+  await detail
+    .getByRole("button", { name: "Attend · 75 minutes to 3:15 PM" })
+    .click();
+  await expect(office).toHaveAttribute("data-simulation-minute", "915");
+  await expect(laterMeeting).toHaveAttribute(
+    "data-activity-status",
+    "completed",
+  );
+  await expect(page.getByTestId("calendar-current-marker")).toHaveAttribute(
+    "data-current-minute",
+    "915",
+  );
+  await expect(page.getByTestId("current-commitment")).toContainText(
+    "Tentative constituent return call",
   );
 });
 

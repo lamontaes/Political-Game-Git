@@ -30,7 +30,7 @@ import {
   createRunDLiteFixture,
   delegateRunDMeetingBrief,
   hiddenRunDStateIsFiltered,
-  performRunDBriefing,
+  performRunDScheduledActivity,
   projectRunDLite,
   rescheduleRunDFlexibleBlock,
   RUN_D_LITE_TIME_ZONE,
@@ -479,11 +479,22 @@ describe("Stage 6.5 Run D-Lite canonical agenda", () => {
       targetMoment: { minuteOfDay: 615 },
     });
     expect(projectedBriefing).toMatchObject({
-      waitBeforeStartMinutes: 20,
       durationMinutes: 45,
-      elapsedIfPerformedMinutes: 65,
+      execution: {
+        verb: "Attend",
+        waitMinutes: 20,
+        activityMinutes: 45,
+        totalElapsedMinutes: 65,
+        resultingMoment: { minuteOfDay: 615 },
+        blockingActivityIds: [],
+        canPerform: true,
+      },
     });
-    const result = performRunDBriefing(fixture.world, fixture);
+    const result = performRunDScheduledActivity(
+      fixture.world,
+      fixture,
+      fixture.dLite.briefingActivityId,
+    );
     expect(
       simulationMinutesBetween(
         fixture.world.currentMoment,
@@ -506,6 +517,165 @@ describe("Stage 6.5 Run D-Lite canonical agenda", () => {
     expect(projectRunDLite(result, fixture).nextCommitment?.activity.id).toBe(
       fixture.dLite.flexibleActivityId,
     );
+  });
+
+  it("continues canonically through flexible work, travel, and a later meeting", () => {
+    const fixture = createRunDLiteFixture();
+    let world = delegateRunDMeetingBrief(fixture.world, fixture);
+
+    const initialProjection = projectRunDLite(world, fixture);
+    expect(
+      initialProjection.agenda.find(
+        (entry) => entry.activity.id === fixture.dLite.flexibleActivityId,
+      )?.execution,
+    ).toMatchObject({
+      verb: "Work",
+      canPerform: false,
+      blockingActivityIds: [fixture.dLite.briefingActivityId],
+    });
+    const beforeBlockedMeeting = JSON.stringify(world);
+    expect(
+      performRunDScheduledActivity(
+        world,
+        fixture,
+        fixture.dLite.meetingActivityId,
+      ),
+    ).toBe(world);
+    expect(JSON.stringify(world)).toBe(beforeBlockedMeeting);
+
+    world = performRunDScheduledActivity(
+      world,
+      fixture,
+      fixture.dLite.briefingActivityId,
+    );
+    expect(world.currentMoment.minuteOfDay).toBe(615);
+    expect(
+      scheduledActivityState(world, fixture.dLite.briefingActivityId).status,
+    ).toBe("completed");
+    expect(projectRunDLite(world, fixture).nextCommitment?.activity.id).toBe(
+      fixture.dLite.flexibleActivityId,
+    );
+    expect(workItemState(world, fixture.dLite.staffWorkItemId)).toMatchObject({
+      status: "ready-for-review",
+      completedEffortMinutes: 50,
+      recordedAt: { minuteOfDay: 600 },
+    });
+    expect(
+      workItemState(world, fixture.dLite.delegableWorkItemId),
+    ).toMatchObject({ status: "active", completedEffortMinutes: 65 });
+
+    const afterBriefing = JSON.stringify(world);
+    expect(() =>
+      performRunDScheduledActivity(
+        world,
+        fixture,
+        fixture.dLite.briefingActivityId,
+      ),
+    ).toThrow(/cannot perform/i);
+    expect(JSON.stringify(world)).toBe(afterBriefing);
+
+    const flexibleExecution = projectRunDLite(world, fixture).agenda.find(
+      (entry) => entry.activity.id === fixture.dLite.flexibleActivityId,
+    )?.execution;
+    expect(flexibleExecution).toMatchObject({
+      verb: "Work",
+      waitMinutes: 15,
+      activityMinutes: 60,
+      totalElapsedMinutes: 75,
+      resultingMoment: { minuteOfDay: 690 },
+      blockingActivityIds: [],
+      canPerform: true,
+    });
+    world = performRunDScheduledActivity(
+      world,
+      fixture,
+      fixture.dLite.flexibleActivityId,
+    );
+    expect(world.currentMoment.minuteOfDay).toBe(690);
+    expect(
+      scheduledActivityState(world, fixture.dLite.flexibleActivityId).status,
+    ).toBe("completed");
+    expect(projectRunDLite(world, fixture).nextCommitment?.activity.id).toBe(
+      fixture.dLite.travelActivityId,
+    );
+    expect(
+      workItemState(world, fixture.dLite.delegableWorkItemId),
+    ).toMatchObject({
+      status: "ready-for-review",
+      completedEffortMinutes: 90,
+      recordedAt: { minuteOfDay: 640 },
+    });
+
+    const beforeBlockedTravelSkip = JSON.stringify(world);
+    expect(
+      performRunDScheduledActivity(
+        world,
+        fixture,
+        fixture.dLite.meetingActivityId,
+      ),
+    ).toBe(world);
+    expect(JSON.stringify(world)).toBe(beforeBlockedTravelSkip);
+    expect(
+      projectRunDLite(world, fixture).agenda.find(
+        (entry) => entry.activity.id === fixture.dLite.meetingActivityId,
+      )?.execution,
+    ).toMatchObject({
+      verb: "Attend",
+      blockingActivityIds: [fixture.dLite.travelActivityId],
+      canPerform: false,
+    });
+
+    expect(
+      projectRunDLite(world, fixture).agenda.find(
+        (entry) => entry.activity.id === fixture.dLite.travelActivityId,
+      )?.execution,
+    ).toMatchObject({
+      verb: "Travel",
+      waitMinutes: 130,
+      activityMinutes: 20,
+      totalElapsedMinutes: 150,
+      resultingMoment: { minuteOfDay: 840 },
+      canPerform: true,
+    });
+    world = performRunDScheduledActivity(
+      world,
+      fixture,
+      fixture.dLite.travelActivityId,
+    );
+    expect(world.currentMoment.minuteOfDay).toBe(840);
+    expect(
+      scheduledActivityState(world, fixture.dLite.travelActivityId).status,
+    ).toBe("completed");
+    expect(projectRunDLite(world, fixture).nextCommitment?.activity.id).toBe(
+      fixture.dLite.meetingActivityId,
+    );
+
+    expect(
+      projectRunDLite(world, fixture).agenda.find(
+        (entry) => entry.activity.id === fixture.dLite.meetingActivityId,
+      )?.execution,
+    ).toMatchObject({
+      verb: "Attend",
+      waitMinutes: 0,
+      activityMinutes: 75,
+      totalElapsedMinutes: 75,
+      resultingMoment: { minuteOfDay: 915 },
+      canPerform: true,
+    });
+    world = performRunDScheduledActivity(
+      world,
+      fixture,
+      fixture.dLite.meetingActivityId,
+    );
+    expect(world.currentMoment.minuteOfDay).toBe(915);
+    expect(
+      scheduledActivityState(world, fixture.dLite.meetingActivityId).status,
+    ).toBe("completed");
+    expect(projectRunDLite(world, fixture).nextCommitment?.activity.id).toBe(
+      fixture.dLite.tentativeActivityId,
+    );
+    expect(world.actionSequence).toBe(4);
+    assertWorldIntegrity(world);
   });
 });
 
@@ -577,7 +747,11 @@ describe("Stage 6.5 Run D-Lite Work/Pending", () => {
 
   it("lets staff finish in parallel without consuming the player's work interval", () => {
     const fixture = createRunDLiteFixture();
-    const result = performRunDBriefing(fixture.world, fixture);
+    const result = performRunDScheduledActivity(
+      fixture.world,
+      fixture,
+      fixture.dLite.briefingActivityId,
+    );
     const staffState = workItemState(result, fixture.dLite.staffWorkItemId);
     const completionEvent = result.history.events.find(
       (event) => event.id === staffState.outcomeEventId,
@@ -601,7 +775,11 @@ describe("Stage 6.5 Run D-Lite Work/Pending", () => {
 
   it("does not duplicate staff completion on later time advancement", () => {
     const fixture = createRunDLiteFixture();
-    const completed = performRunDBriefing(fixture.world, fixture);
+    const completed = performRunDScheduledActivity(
+      fixture.world,
+      fixture,
+      fixture.dLite.briefingActivityId,
+    );
     const later = advanceWorldMinutes(completed, 5);
     expect(
       later.history.events.filter(
@@ -695,9 +873,10 @@ describe("Stage 6.5 Run D-Lite Work/Pending", () => {
         "valid",
       );
       if (!moved.ok) throw new Error("Expected valid reschedule.");
-      return performRunDBriefing(
+      return performRunDScheduledActivity(
         delegateRunDMeetingBrief(moved.world, fixture),
         fixture,
+        fixture.dLite.briefingActivityId,
       );
     }
     expect(scenario()).toStrictEqual(scenario());
