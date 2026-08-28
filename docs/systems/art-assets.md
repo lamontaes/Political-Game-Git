@@ -49,10 +49,37 @@ record `generator_tool`, `generated_model_version`,
 not required for photographs, measured drawings, HABS sources, hand-authored
 art, or other provenance classes.
 
-## Bootstrap state
+## Bootstrap and first runtime release
 
-An empty production manifest and empty provenance set remain valid. Reference,
-draft, pending, and experimental entries may remain incomplete only while they
-make no runtime-release claim and omit any nonexistent `final_path`. Gate B and
-Gate C remain unsatisfied until actual approved assets are recorded and
-released through this contract.
+An empty production manifest and empty provenance set remain valid for a new
+bootstrap. Reference, draft, pending, and experimental entries may remain
+incomplete only while they make no runtime-release claim and omit any
+nonexistent `final_path`.
+
+Packet 76 is the first production use of this gate. It releases one ordinary
+council/legislative staff-office environment plate under the reusable
+`council-staff-office` family and two anonymous authored-pose character recipes.
+The supplied raw bytes are verified before import. The two green-field sources
+remain under `art/references/approved/packet76/`; a fixed green-dominance alpha
+ramp plus transition-pixel spill clamp produces the runtime PNGs. The transform
+is deterministic, changes no opaque clothing, skin, hair, face, hand, foot, or
+anatomy pixels, and is reproduced by the focused art suite. Gemini is recorded
+as the generator family and `not-recorded` as the honestly unknown model
+version. Rights remain `unknown`; project approval and runtime release do not
+upgrade them.
+
+PNG transparency QA is pixel-based. An alpha-capable PNG is `confirmed` only
+when deterministic decoding finds at least one pixel whose alpha is below 255;
+an all-opaque RGBA image does not satisfy `requires_transparency` merely because
+its header declares an alpha channel.
+
+The approved 1024×572 Prompt 30 room is preserved byte-for-byte as its source
+input. Runtime composition uses a deterministic 2048×1144 separable Lanczos-3
+delivery derivative, but that resampling is never represented as additional
+source detail. The responsive density gate measures against the approved
+1024×572 master and records it as insufficient for sharp Retina presentation.
+The same derivation command emits one transparent
+foreground mask from fixed source-coordinate desk and chair polygons with 2×2
+edge coverage. Both derivatives are ordinary released manifest assets with
+their own hashes and linked provenance; neither creates a parallel registry,
+changes the approved source bytes, or redraws the room.

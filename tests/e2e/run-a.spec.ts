@@ -30,8 +30,9 @@ test("loads the player-facing office instead of only the diagnostic viewer", asy
     "aria-label",
     "A quiet legislative office in Lexington, Kentucky",
   );
-  await expect(page.getByTestId("navigation-cluster")).toContainText(
-    "Lexington, KY · Legislative Office",
+  await expect(page.getByTestId("navigation-cluster")).toHaveAttribute(
+    "aria-label",
+    /Lexington, KY · Legislative Office/,
   );
   await expect(
     page.getByText("Simulation foundation · Developer tooling"),

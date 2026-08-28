@@ -1,5 +1,7 @@
+import fs from "fs";
 import path from "path";
 import imageSize from "image-size";
+import * as PImage from "pureimage";
 
 export interface QaMetadata {
   width: number;
@@ -8,7 +10,25 @@ export interface QaMetadata {
   hasTransparency: "confirmed" | "not-confirmed" | "unknown" | "none";
 }
 
-export function parseImageMetadata(filePath: string): QaMetadata {
+async function inspectPngTransparency(
+  filePath: string,
+): Promise<QaMetadata["hasTransparency"]> {
+  try {
+    const image = await PImage.decodePNGFromStream(
+      fs.createReadStream(filePath),
+    );
+    for (let offset = 3; offset < image.data.length; offset += 4) {
+      if ((image.data[offset] ?? 255) < 255) return "confirmed";
+    }
+    return "none";
+  } catch {
+    return "not-confirmed";
+  }
+}
+
+export async function parseImageMetadata(
+  filePath: string,
+): Promise<QaMetadata> {
   // Extract metadata directly from the file headers where possible
   // We use `image-size` specifically to avoid the brittle nature of writing manual binary parsing for png/jpeg/webp headers.
   let width = 0;
@@ -27,16 +47,18 @@ export function parseImageMetadata(filePath: string): QaMetadata {
       aspectRatio = `${width / div}:${height / div}`;
     }
 
-    // Checking for transparency based on image type
+    // A PNG alpha channel alone does not prove that any pixel is transparent.
+    // Decode pixels and require at least one alpha sample below 255.
     if (
       dimensions.type === "png" ||
       dimensions.type === "webp" ||
       dimensions.type === "gif"
     ) {
-      // Very basic structural hint. Real pixel-level transparency checking requires decoding (e.g. sharp/canvas),
-      // which we are specifically forbidden from adding to this foundation unless strictly necessary.
-      // So we mark it as not-confirmed since it supports alpha but we haven't read the pixels.
-      hasTransparency = "not-confirmed";
+      if (dimensions.type === "png") {
+        hasTransparency = await inspectPngTransparency(filePath);
+      } else {
+        hasTransparency = "not-confirmed";
+      }
     } else if (dimensions.type === "jpg" || dimensions.type === "jpeg") {
       hasTransparency = "none";
     }
@@ -47,12 +69,12 @@ export function parseImageMetadata(filePath: string): QaMetadata {
   return { width, height, aspectRatio, hasTransparency };
 }
 
-export function generateContactSheetHtml(
+export async function generateContactSheetHtml(
   images: string[],
   title: string,
   baseDir: string,
   manifestReqs?: Record<string, boolean>, // map relative path to requires_transparency
-): { html: string; report: unknown[] } {
+): Promise<{ html: string; report: unknown[] }> {
   // Guarantee deterministic sorting
   const sortedImages = [...images].sort((a, b) => a.localeCompare(b));
 
@@ -78,14 +100,14 @@ export function generateContactSheetHtml(
 
   for (const img of sortedImages) {
     const relativePath = path.relative(baseDir, img).replace(/\\/g, "/");
-    const metadata = parseImageMetadata(img);
+    const metadata = await parseImageMetadata(img);
 
     let transparencyWarning = "";
     let meetsTransparencyReq: boolean | null | string = null;
     if (manifestReqs && manifestReqs[relativePath] === true) {
       if (metadata.hasTransparency === "none") {
         transparencyWarning =
-          '<br><span class="error">Warning: Missing transparency channel</span>';
+          '<br><span class="error">Warning: No actually transparent pixels</span>';
         meetsTransparencyReq = false;
       } else if (metadata.hasTransparency === "not-confirmed") {
         transparencyWarning =
@@ -109,15 +131,14 @@ export function generateContactSheetHtml(
       <img src="${htmlImgPath}" alt="${relativePath}" loading="lazy" />
       <div class="label">
         <strong>${relativePath}</strong><br>
-        ${metadata.width}x${metadata.height} (${metadata.aspectRatio})
-        ${transparencyWarning}
+        ${metadata.width}x${metadata.height} (${metadata.aspectRatio})${transparencyWarning}
       </div>
     </div>\n`;
   }
 
   html += `  </div>
 </body>
-</html>`;
+</html>\n`;
 
   return { html, report: reportData };
 }
@@ -169,7 +190,7 @@ export function generateComparisonSheetHtml(
 
   html += `  </table>
 </body>
-</html>`;
+</html>\n`;
 
   return { html, report: reportData };
 }

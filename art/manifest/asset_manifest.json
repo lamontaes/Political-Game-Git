@@ -1,3 +1,90 @@
 {
-  "assets": []
+  "assets": [
+    {
+      "asset_id": "env_lexington_council_staff_office_prompt30_v1",
+      "asset_type": "environment-plate",
+      "family_id": "council-staff-office",
+      "jurisdiction_scope": "lexington-fayette-placeholder",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_lexington_council_staff_office_prompt30_v1"],
+      "rights_note": "Owner-approved project input; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Ordinary legislative or council staff-office plate; UI and character identity remain code-authored.",
+      "negative_constraints": [
+        "Do not treat depicted details as sourced jurisdiction facts.",
+        "Do not bake names, controls, clocks, documents, or simulation status into this plate."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_runtime_2x_v1.png",
+      "hash": "66678f0e91c52ca86f851ae4ba73d1a736a56be9cb7875512ab6bd1235de07f0",
+      "requires_transparency": false
+    },
+    {
+      "asset_id": "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
+      "asset_type": "environment-foreground-mask",
+      "family_id": "council-staff-office",
+      "jurisdiction_scope": "lexington-fayette-placeholder",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_env_lexington_council_staff_office_prompt30_foreground_mask_v1"
+      ],
+      "rights_note": "Deterministic furniture-only derivative of the owner-approved Prompt 30 input; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Transparent foreground pixels reproduce only the desk worktop/front and the physically near chair arms from the same approved office plate.",
+      "negative_constraints": [
+        "Do not use as a second environment plate.",
+        "Do not expand the mask beyond furniture physically in front of seated characters."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
+      "hash": "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "human_candidate_A01_primary_desk_seated_v1",
+      "asset_type": "authored-character-pose",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_human_candidate_A01_primary_desk_seated_v1"],
+      "rights_note": "Owner-approved anonymous appearance recipe; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Presentation-only anonymous seated-at-desk recipe; never a canonical Person identity.",
+      "negative_constraints": [
+        "Compatible only with declared seated-at-desk anchors.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/human_candidate_A01_primary_desk_seated_v1.png",
+      "hash": "8e5882e26eab1c6cf966cff188bfebd4e40cd117804e87930a0b06d67ca66e43",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "human_candidate_B01_left_guest_seated_v1",
+      "asset_type": "authored-character-pose",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_human_candidate_B01_left_guest_seated_v1"],
+      "rights_note": "Owner-approved anonymous appearance recipe; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Presentation-only anonymous seated-in-guest-chair recipe; never a canonical Person identity.",
+      "negative_constraints": [
+        "Compatible only with declared seated-in-guest-chair anchors.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/human_candidate_B01_left_guest_seated_v1.png",
+      "hash": "fd880e52fb191d6c32019ba451d006176ebc7762db89590c437c67586906be8d",
+      "requires_transparency": true
+    }
+  ]
 }

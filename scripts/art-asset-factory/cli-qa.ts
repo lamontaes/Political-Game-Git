@@ -1,10 +1,12 @@
 import fs from "fs";
 import path from "path";
+import { format as formatWithPrettier } from "prettier";
 import { generateContactSheetHtml, generateComparisonSheetHtml } from "./qa";
 
 const REPO_ROOT = path.resolve(process.cwd());
 const ART_DIR = path.join(REPO_ROOT, "art");
 const QA_DIR = path.join(ART_DIR, "qa");
+const MANIFEST_PATH = path.join(ART_DIR, "manifest", "asset_manifest.json");
 
 // Basic CLI wrapper for tests and ad-hoc execution
 // Usage: node tsx scripts/art-asset-factory/cli-qa.ts [contact|compare] [dir]
@@ -33,10 +35,25 @@ if (cmd === "contact") {
 
   walk(targetDir);
 
-  const { html, report } = generateContactSheetHtml(
+  const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, "utf-8")) as {
+    assets: Array<{ final_path?: string; requires_transparency?: boolean }>;
+  };
+  const manifestRequirements = Object.fromEntries(
+    manifest.assets
+      .filter((asset) => asset.final_path)
+      .map((asset) => [
+        path
+          .relative(ART_DIR, path.resolve(REPO_ROOT, asset.final_path!))
+          .replace(/\\/g, "/"),
+        asset.requires_transparency === true,
+      ]),
+  );
+
+  const { html, report } = await generateContactSheetHtml(
     images,
     "Contact Sheet",
     ART_DIR,
+    manifestRequirements,
   );
 
   const htmlPath = path.join(QA_DIR, "contact_sheets", "index.html");
@@ -44,8 +61,12 @@ if (cmd === "contact") {
 
   fs.mkdirSync(path.join(QA_DIR, "contact_sheets"), { recursive: true });
 
-  fs.writeFileSync(htmlPath, html, "utf-8");
-  fs.writeFileSync(reportPath, JSON.stringify(report, null, 2), "utf-8");
+  fs.writeFileSync(
+    htmlPath,
+    await formatWithPrettier(html, { filepath: htmlPath, parser: "html" }),
+    "utf-8",
+  );
+  fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`, "utf-8");
 
   console.log(`Contact sheet generated at ${htmlPath}`);
   console.log(`QA Report generated at ${reportPath}`);
@@ -84,8 +105,12 @@ if (cmd === "contact") {
 
   fs.mkdirSync(path.join(QA_DIR, "comparison_reports"), { recursive: true });
 
-  fs.writeFileSync(htmlPath, html, "utf-8");
-  fs.writeFileSync(reportPath, JSON.stringify(report, null, 2), "utf-8");
+  fs.writeFileSync(
+    htmlPath,
+    await formatWithPrettier(html, { filepath: htmlPath, parser: "html" }),
+    "utf-8",
+  );
+  fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`, "utf-8");
 
   console.log(`Comparison sheet generated at ${htmlPath}`);
   console.log(`Comparison Report generated at ${reportPath}`);

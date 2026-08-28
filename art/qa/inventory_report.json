@@ -1,6 +1,34 @@
 {
-  "totalItems": 1,
+  "totalItems": 8,
   "items": [
+    {
+      "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
+      "hash": "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe"
+    },
+    {
+      "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_runtime_2x_v1.png",
+      "hash": "66678f0e91c52ca86f851ae4ba73d1a736a56be9cb7875512ab6bd1235de07f0"
+    },
+    {
+      "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
+      "hash": "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43"
+    },
+    {
+      "filePath": "generated/approved/human_candidate_A01_primary_desk_seated_v1.png",
+      "hash": "8e5882e26eab1c6cf966cff188bfebd4e40cd117804e87930a0b06d67ca66e43"
+    },
+    {
+      "filePath": "generated/approved/human_candidate_B01_left_guest_seated_v1.png",
+      "hash": "fd880e52fb191d6c32019ba451d006176ebc7762db89590c437c67586906be8d"
+    },
+    {
+      "filePath": "references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png",
+      "hash": "8270689800e31006ae54497253845c3bf619ffb46b1bbc3c8d2bafd7136a7827"
+    },
+    {
+      "filePath": "references/approved/packet76/GEMINI_OUTPUT_32_PROMPT35_human_candidate_B01_left_guest_seated_base_APPROVED_v1.png",
+      "hash": "6484bfe77edd4a46f35e2572c6be37ca06ce1c98ab72af1d2b48125df0bf245a"
+    },
     {
       "filePath": "references/plans/texas_senate/normalized/habs_tx3326_00013a_normalized.jpg",
       "hash": "5e1e138825237f325487da9496f707c4d2fe1166331c1a06ba56c7abf590340f"

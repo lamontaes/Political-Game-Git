@@ -300,12 +300,62 @@ derives from the real D-Lite projection. Pinned contains only removable person
 references with real scene-native re-pin paths; selecting a manual size closes
 its controls immediately and remains authoritative over automatic sizing.
 
+The navigation flyout contains navigation only: Calendar, Work/Pending, Places,
+Civic Reference, and the development route. The canonical next commitment is a
+compact button attached to the time/location shell, expands to title, time, and
+location detail with the shell or its own focus, and opens the matching Calendar
+activity. Deliberate user pins render on a separate lower reference shelf and
+remain available when navigation is closed. Zero pins render no rail or empty
+state. Planning and document workspaces suppress these ordinary-scene companion
+surfaces so they cannot cover workspace content; their reducer ownership,
+unpin/re-pin routes, manual sizes, keyboard, touch, and click-away behavior are
+unchanged.
+
 The bottom-left civic-glass shell rests as a substantially smaller translucent
 chip. An invisible pointer-approach zone, hover, keyboard focus, or open/click
 state expands it modestly and raises opacity without restoring the old full
-plate. Rest shows the complete compact location `Lexington, KY`; expanded and
-accessible state retain the full office context. Click/touch use the same
+plate. Rest and expanded visual states show the complete nontruncated location
+`Lexington, KY`; the full `Lexington, KY · Legislative Office` context remains
+in the accessible label, and the attached commitment exposes its canonical
+location when expanded. Click/touch use the same
 reducer-owned open state, and reduced-motion preference removes the
 geometry/opacity animation. Document mode remains an immediate smaller chip so
 it cannot sweep through or overlap the paper during entry. See [Canonical
 Sub-Day Time, Scheduled Activity, and Office Work](time-work.md).
+
+## Post-D-Lite production-art composition
+
+The accepted office mechanics now render through the Packet 76 production-art
+compositor. The approved room plate belongs to the ordinary
+`council-staff-office` environment family and is one pointer-transparent, accessibility-
+hidden environment layer. Two separately released anonymous authored-pose
+recipes are selected deterministically by scene-anchor compatibility. Their
+scene anchor, pelvis/hip-center root, seated contact, visual bounds, allowed
+scale, and authored-outfit compatibility remain separate typed records. The
+authored outfit advertises no modular attachment slots; this run does not claim
+a wardrobe or rig system.
+
+The primary desk and left guest scene anchors use visual-estimate coordinates
+against one 1024×572 virtual plate. Character placement derives from
+root/contact data, not person names. `resolveSceneTransform` supplies the only
+uniform scale and camera offset to the environment, matching transparent mask,
+character rasters, semantic hitboxes, and scene documents. Ordinary ratios use
+cover; super-ultrawide ratios retain a bounded 12:5 camera with pillar space.
+Menus, dossiers, navigation, status, pins, conversation, Calendar,
+Work/Pending, and full document workspaces remain viewport-space UI. See
+[Responsive Office Virtual Scene](responsive-office-scene.md).
+
+Runtime uses the deterministic 2048×1144 room derivative; the mask restores
+only the desk and chair foreground above the characters without duplicating the
+room plate. The derivative does not create source detail. The approved Prompt
+30 master fails the Retina density gate and awaits a separately approved higher-
+resolution graphics input; no presentation code sharpens or redraws it. The
+artwork never supplies identity, knowledge, simulation state, or UI text.
+
+The resting shell uses the short truthful date; expansion uses the bounded
+nontruncated `Mon, Jan 5, 2026` form while the accessible label retains the full
+date. Calendar, Work/Pending, and document mode retreat the shell farther
+without removing its pointer-proximity, focus, touch, or reduced-motion
+behavior. Empty deliberate-pin presentation collapses without changing
+unpin/re-pin semantics. The obsolete artificial desk-edge strip and permanent
+top-right status tray are gone.
