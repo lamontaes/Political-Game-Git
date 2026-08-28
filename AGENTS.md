@@ -52,3 +52,18 @@ A lower-authority document or implementation cannot silently override a higher-a
 - **Deterministic and Testable Tooling**: Prefer deterministic, inspectable, and testable tooling over opaque manual state. Generate deterministic fixture and replay outputs. Ensure art schemas are continually checked.
 - **Art-Pipeline Run Commands**: Art validation, inventory generation, and QA contact sheet generation commands have been explicitly added. Always run: `npm run validate:art`, `npm run inventory:art`, and `npm run qa:art`.
 - **Art-Pipeline Stop Conditions & Forbidden Changes**: Foundation-only art runs must stop when their constraints are met. Their historical Stage 6.5 ban does not override the accepted Runs A–C or authorized Run D-Lite slice. You remain forbidden from reopening accepted Stage 6 domain semantics, implementing Stage 7 systems, or generating non-fixture final output images without separate authorization.
+
+## Coding-Agent Operations
+
+- **run agent preflight** before substantial coding-agent work;
+- **verify exact workspace, branch, local SHA, and upstream SHA**;
+- **use isolated worktrees** for concurrent work and agent takeovers;
+- **treat paused source workspaces as read-only** during takeover;
+- **never stash/reset/clean another agent's workspace** to simplify takeover;
+- **never force-push** merely to simplify handoff;
+- **re-fetch and verify remote branch head** immediately before publishing;
+- **for player-facing visual work, passing automated tests do not equal human visual acceptance**;
+- **semantic visible controls require actual pointer and keyboard activation tests**;
+- **completion reports must include exact SHA, git state, tests actually run, remaining defects, and acceptance state**;
+- **after substantial tasks, perform a small LEARN pass** and encode recurring lessons in the smallest appropriate durable mechanism;
+- **do not solve recurring process problems merely by making prompts larger**.
