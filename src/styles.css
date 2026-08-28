@@ -233,6 +233,22 @@ dt {
   white-space: nowrap;
 }
 
+.control-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.new-sim-button {
+  border-color: #2b574c;
+  background: #2b574c;
+  white-space: nowrap;
+}
+
+.new-sim-button:hover:not(:disabled) {
+  background: #3c7264;
+}
+
 .action-status {
   min-height: 1.2rem;
   margin: 0.7rem 0 0;

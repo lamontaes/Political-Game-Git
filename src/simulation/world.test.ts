@@ -6,6 +6,7 @@ import {
   advanceWorld,
   createDemoWorld,
   createStableId,
+  createWorld,
   makeIsoDate,
   materializePerson,
   recordWorldEvent,
@@ -207,5 +208,36 @@ describe("progressive person detail", () => {
     expect(
       selectPersonHistory(world, personId)[0]?.participants[0]?.personId,
     ).toBe(personId);
+  });
+});
+
+describe("world referential integrity & entity validation", () => {
+  it("rejects person with missing home jurisdiction without mutating state", () => {
+    const validWorld = createDemoWorld("integrity-base");
+    const person = validWorld.people[validWorld.personOrder[0] as EntityId];
+    expect(person).toBeDefined();
+
+    if (!person) return;
+
+    const invalidPerson = {
+      ...person,
+      homeJurisdictionId: "jurisdiction_nonexistent" as EntityId,
+    };
+
+    const invalidWorldInput = {
+      seed: validWorld.seed,
+      currentDate: validWorld.currentDate,
+      currentMoment: validWorld.currentMoment,
+      jurisdictions: Object.values(validWorld.jurisdictions),
+      people: [invalidPerson],
+    };
+
+    // Before state is unchanged
+    const beforeWorldCount = Object.keys(validWorld.people).length;
+    expect(() => {
+      createWorld(invalidWorldInput);
+    }).toThrow(/Person references a missing home jurisdiction/);
+
+    expect(Object.keys(validWorld.people).length).toBe(beforeWorldCount);
   });
 });

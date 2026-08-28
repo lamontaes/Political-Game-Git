@@ -5,10 +5,11 @@
  *
  * PROVENANCE & LICENSING:
  * Starter corpus ("names-v1") is composed of standard given names and family names
- * drawn from public domain U.S. Census Bureau surname statistics, Social Security
- * Administration open public records, and public domain civic rosters.
+ * drawn from public-domain U.S. government datasets:
+ * - Surnames: U.S. Census Bureau Frequently Occurring Surnames (2010/2020 Decennial Census data)
+ * - Given names: U.S. Social Security Administration (SSA) National Data on the Relative Frequency of Given Names
  *
- * License: Public Domain / Creative Commons CC0 1.0 Universal.
+ * License: Public Domain (U.S. Government Work pursuant to 17 U.S.C. § 105).
  * Free for all uses without copyright restrictions or live network dependencies.
  *
  * IMPORTANT:
@@ -39,10 +40,10 @@ export const NAMES_STARTER_V1: NameCorpus = {
   version: "names-v1",
   provenance: {
     source:
-      "U.S. Census Bureau Demographic Data & Social Security Administration Open Records",
-    license: "Public Domain / CC0-equivalent",
+      "U.S. Census Bureau Frequently Occurring Surnames (Decennial Census) and U.S. Social Security Administration (SSA) National Given Name Frequency Records",
+    license: "Public Domain (U.S. Government Work, 17 U.S.C. § 105)",
     notes:
-      "Curated non-demographic starter corpus for deterministic person generation.",
+      "Curated non-demographic starter corpus for deterministic person generation. Surnames drawn from top Census frequency tables; given names drawn from SSA decadal frequency tables. Names are treated strictly as non-demographic strings.",
   },
   givenNames: [
     "Aaron",

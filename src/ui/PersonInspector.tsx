@@ -1,4 +1,6 @@
 import {
+  ageOnDate,
+  derivePersonAppearance,
   factsForPerson,
   memoriesForPerson,
   personName,
@@ -64,6 +66,9 @@ export function PersonInspector({
       right.id.localeCompare(left.id),
   );
   const jurisdiction = world.jurisdictions[person.homeJurisdictionId];
+  const age = ageOnDate(person.birthDate, world.currentDate);
+  const appearanceSeed =
+    person.appearance?.seed ?? derivePersonAppearance(person.id).seed;
 
   return (
     <section className="panel inspector-panel" aria-labelledby="person-title">
@@ -85,9 +90,23 @@ export function PersonInspector({
           </dd>
         </div>
         <div>
-          <dt>Birth date</dt>
+          <dt>Birth date / Age</dt>
           <dd>
-            <time dateTime={person.birthDate}>{person.birthDate}</time>
+            <time dateTime={person.birthDate}>{person.birthDate}</time> (Age{" "}
+            {age})
+          </dd>
+        </div>
+        <div>
+          <dt>Appearance seed</dt>
+          <dd>
+            <code>{appearanceSeed}</code>
+          </dd>
+        </div>
+        <div>
+          <dt>Generator / Corpus</dt>
+          <dd>
+            {person.generatorVersion ?? "legacy"} /{" "}
+            {person.corpusVersion ?? "legacy"}
           </dd>
         </div>
         <div>

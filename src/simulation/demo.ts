@@ -20,6 +20,7 @@ import {
 } from "./mind";
 import { SYNTHETIC_MIND_IDS } from "./mind-catalog";
 import {
+  DEFAULT_PERSON_GENERATOR_VERSION,
   LEGACY_DEMO_PERSON_GENERATOR_VERSION,
   createLightweightPerson,
   personName,
@@ -631,6 +632,21 @@ export function createDemoWorld(
   });
 
   return world;
+}
+
+/**
+ * Creates a fresh simulation world using the standard generated-person foundation
+ * (person-v5 / names-v1) and plausible working age profile.
+ */
+export function createGeneratedWorld(
+  seedInput = DEFAULT_DEMO_SEED,
+  options?: Omit<CreateDemoWorldOptions, "generatorVersion" | "corpusVersion">,
+): World {
+  return createDemoWorld(seedInput, {
+    generatorVersion: DEFAULT_PERSON_GENERATOR_VERSION,
+    corpusVersion: DEFAULT_CORPUS_VERSION,
+    ...options,
+  });
 }
 
 export function advanceDemoWorld(world: World, days = 7): World {

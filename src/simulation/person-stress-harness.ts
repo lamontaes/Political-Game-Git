@@ -1,4 +1,4 @@
-import { ageOnDate } from "./dates";
+import { addDays, ageOnDate } from "./dates";
 import { DEMO_START_DATE, LEXINGTON_PLACEHOLDER_ID } from "./demo";
 import { createWorldId } from "./world";
 import { DEFAULT_CORPUS_VERSION } from "./names-data";
@@ -106,8 +106,9 @@ export function runPersonStressHarness(
   let leapBirthdaysCount = 0;
   let boundaryBirthdaysCount = 0;
 
-  const currentMonth = Number(currentDate.slice(5, 7));
-  const currentDay = Number(currentDate.slice(8, 10));
+  const todayMmDd = currentDate.slice(5);
+  const tomorrowMmDd = addDays(currentDate, 1).slice(5);
+  const yesterdayMmDd = addDays(currentDate, -1).slice(5);
 
   for (const seed of seeds) {
     const worldId = createWorldId(seed);
@@ -128,10 +129,11 @@ export function runPersonStressHarness(
       const fullName = `${person.givenName} ${person.familyName}`;
       const age = ageOnDate(person.birthDate, currentDate);
       const isLeapBirthday = person.birthDate.endsWith("-02-29");
-      const birthMonth = Number(person.birthDate.slice(5, 7));
-      const birthDay = Number(person.birthDate.slice(8, 10));
+      const personMmDd = person.birthDate.slice(5);
       const isBoundaryBirthday =
-        (birthMonth === currentMonth && Math.abs(birthDay - currentDay) <= 1) ||
+        personMmDd === todayMmDd ||
+        personMmDd === tomorrowMmDd ||
+        personMmDd === yesterdayMmDd ||
         isLeapBirthday;
 
       if (isLeapBirthday) leapBirthdaysCount += 1;

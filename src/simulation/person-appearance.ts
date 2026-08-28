@@ -7,17 +7,18 @@ export const DEFAULT_APPEARANCE_RECIPE_VERSION = "appearance-recipe-v1";
 /**
  * Derives a stable, person-owned appearance identity.
  *
- * Deterministically binds appearance identity to the person's own unique seed,
- * rather than any scene anchor, chair, room position, or demographic stereotype.
+ * Deterministically binds appearance identity to the person's unique canonical ID
+ * and recipe version, rather than any scene anchor, chair, room position, name string,
+ * or demographic stereotype.
  */
 export function derivePersonAppearance(
-  personSeed: string,
+  personId: EntityId | string,
   recipeVersion = DEFAULT_APPEARANCE_RECIPE_VERSION,
 ): PersonAppearance {
-  if (personSeed.trim().length === 0) {
-    throw new Error("Person seed must not be empty when deriving appearance.");
+  if (personId.trim().length === 0) {
+    throw new Error("Person ID must not be empty when deriving appearance.");
   }
-  const appearanceRng = new SeededRng(personSeed).fork(
+  const appearanceRng = new SeededRng(personId).fork(
     `appearance-identity:${recipeVersion}`,
   );
   const seed = `app_${stableHash(appearanceRng.seed)}`;
@@ -62,8 +63,7 @@ export function createScenePlacement(
   person: Person,
   anchor: SceneAnchor,
 ): ScenePersonPlacement {
-  const appearance =
-    person.appearance ?? derivePersonAppearance(person.generationKey);
+  const appearance = person.appearance ?? derivePersonAppearance(person.id);
   return {
     personId: person.id,
     appearance,

@@ -1,9 +1,12 @@
 import { useState } from "react";
 
 import {
+  DEFAULT_CORPUS_VERSION,
   DEFAULT_DEMO_SEED,
+  DEFAULT_PERSON_GENERATOR_VERSION,
   advanceDemoWorld,
   createDemoWorld,
+  createGeneratedWorld,
   materializePerson,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
@@ -23,7 +26,21 @@ interface ViewerState {
   readonly status: string;
 }
 
+function getSeedFromUrl(): string | null {
+  if (typeof window === "undefined") return null;
+  return new URLSearchParams(window.location.search).get("seed");
+}
+
 function createInitialViewerState(): ViewerState {
+  const seedParam = getSeedFromUrl();
+  if (seedParam) {
+    const world = createGeneratedWorld(seedParam);
+    return {
+      world,
+      selectedPersonId: firstPersonId(world),
+      status: `Created a fresh simulation from seed “${world.seed}” (${DEFAULT_PERSON_GENERATOR_VERSION} / ${DEFAULT_CORPUS_VERSION}).`,
+    };
+  }
   const world = createDemoWorld(DEFAULT_DEMO_SEED);
   return {
     world,
@@ -42,12 +59,18 @@ export function DeveloperViewer() {
     : undefined;
 
   function loadWorld(seed: string) {
-    const nextWorld = createDemoWorld(seed);
+    const nextWorld = createGeneratedWorld(seed);
     setViewerState({
       world: nextWorld,
       selectedPersonId: firstPersonId(nextWorld),
-      status: `Created a fresh demo world from seed “${nextWorld.seed}”.`,
+      status: `Created a fresh simulation from seed “${nextWorld.seed}” (${DEFAULT_PERSON_GENERATOR_VERSION} / ${DEFAULT_CORPUS_VERSION}).`,
     });
+  }
+
+  function newSimulation() {
+    const randomSuffix = Math.random().toString(36).slice(2, 10);
+    const nextSeed = `sim-${Date.now().toString(36)}-${randomSuffix}`;
+    loadWorld(nextSeed);
   }
 
   function advanceTime() {
@@ -111,7 +134,12 @@ export function DeveloperViewer() {
         no sourced civic dataset is loaded.
       </aside>
 
-      <WorldControls world={world} onLoad={loadWorld} onAdvance={advanceTime} />
+      <WorldControls
+        world={world}
+        onLoad={loadWorld}
+        onNewSimulation={newSimulation}
+        onAdvance={advanceTime}
+      />
       <p
         className="action-status"
         role="status"

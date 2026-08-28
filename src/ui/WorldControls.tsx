@@ -1,16 +1,18 @@
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 import type { World } from "../simulation";
 
 interface WorldControlsProps {
   readonly world: World;
   readonly onLoad: (seed: string) => void;
+  readonly onNewSimulation?: () => void;
   readonly onAdvance: () => void;
 }
 
 export function WorldControls({
   world,
   onLoad,
+  onNewSimulation,
   onAdvance,
 }: WorldControlsProps) {
   const seedInputId = useId();
@@ -18,6 +20,10 @@ export function WorldControls({
   const seedErrorId = useId();
   const [seedInput, setSeedInput] = useState(world.seed);
   const [seedError, setSeedError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setSeedInput(world.seed);
+  }, [world.seed]);
 
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -28,7 +34,7 @@ export function WorldControls({
     }
 
     setSeedError(null);
-    onLoad(seedInput);
+    onLoad(seedInput.trim());
   }
 
   const describedBy = seedError ? `${seedHelpId} ${seedErrorId}` : seedHelpId;
@@ -62,11 +68,11 @@ export function WorldControls({
               autoComplete="off"
               spellCheck="false"
             />
-            <button type="submit">Create / reload</button>
+            <button type="submit">Replay / Load</button>
           </div>
           <span className="field-help" id={seedHelpId}>
-            Reloading reconstructs the baseline world and discards in-memory
-            advancement.
+            Replaying reconstructs the baseline world deterministically from
+            seed.
           </span>
           {seedError ? (
             <span className="field-error" id={seedErrorId} role="alert">
@@ -75,9 +81,20 @@ export function WorldControls({
           ) : null}
         </div>
       </form>
-      <button className="advance-button" type="button" onClick={onAdvance}>
-        Advance 7 days
-      </button>
+      <div className="control-actions">
+        {onNewSimulation ? (
+          <button
+            className="new-sim-button"
+            type="button"
+            onClick={onNewSimulation}
+          >
+            New simulation
+          </button>
+        ) : null}
+        <button className="advance-button" type="button" onClick={onAdvance}>
+          Advance 7 days
+        </button>
+      </div>
     </section>
   );
 }

@@ -1,4 +1,10 @@
-import { ageOnDate, dateAtAge, isoDateFromParts, yearOf } from "./dates";
+import {
+  addDays,
+  ageOnDate,
+  dateAtAge,
+  isoDateFromParts,
+  yearOf,
+} from "./dates";
 import { createStableId } from "./ids";
 import {
   DEFAULT_CORPUS_VERSION,
@@ -175,9 +181,6 @@ function generateStressBirthDate(
   currentDate: IsoDate,
   rng: SeededRng,
 ): IsoDate {
-  const currentYear = yearOf(currentDate);
-  const currentMonth = Number(currentDate.slice(5, 7));
-  const currentDay = Number(currentDate.slice(8, 10));
   const stressCase = index % 6;
 
   switch (stressCase) {
@@ -188,19 +191,19 @@ function generateStressBirthDate(
     case 1: {
       // Birthday is TODAY (exact birthday boundary)
       const age = rng.integer(22, 70);
+      const currentYear = yearOf(currentDate);
+      const currentMonth = Number(currentDate.slice(5, 7));
+      const currentDay = Number(currentDate.slice(8, 10));
       return isoDateFromParts(currentYear - age, currentMonth, currentDay);
     }
     case 2: {
       // Birthday is TOMORROW (age boundary: 1 day before birthday)
       const age = rng.integer(22, 70);
-      let nextDay = currentDay + 1;
-      let nextMonth = currentMonth;
-      const targetYear = currentYear - age - 1;
-      if (nextDay > daysInMonth(targetYear, nextMonth)) {
-        nextDay = 1;
-        nextMonth = (nextMonth % 12) + 1;
-      }
-      return isoDateFromParts(targetYear, nextMonth, nextDay);
+      const tomorrow = addDays(currentDate, 1);
+      const tomorrowMonth = Number(tomorrow.slice(5, 7));
+      const tomorrowDay = Number(tomorrow.slice(8, 10));
+      const birthYear = yearOf(tomorrow) - (age + 1);
+      return isoDateFromParts(birthYear, tomorrowMonth, tomorrowDay);
     }
     case 3: {
       // Leap-day birthday (Feb 29)
@@ -217,14 +220,11 @@ function generateStressBirthDate(
     default: {
       // Birthday was YESTERDAY (age boundary: 1 day after birthday)
       const age = rng.integer(22, 70);
-      let prevDay = currentDay - 1;
-      let prevMonth = currentMonth;
-      const targetYear = currentYear - age;
-      if (prevDay < 1) {
-        prevMonth = prevMonth === 1 ? 12 : prevMonth - 1;
-        prevDay = daysInMonth(targetYear, prevMonth);
-      }
-      return isoDateFromParts(targetYear, prevMonth, prevDay);
+      const yesterday = addDays(currentDate, -1);
+      const yesterdayMonth = Number(yesterday.slice(5, 7));
+      const yesterdayDay = Number(yesterday.slice(8, 10));
+      const birthYear = yearOf(yesterday) - age;
+      return isoDateFromParts(birthYear, yesterdayMonth, yesterdayDay);
     }
   }
 }
@@ -285,7 +285,7 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
     }
   }
 
-  const appearance = derivePersonAppearance(rng.fork("appearance").seed);
+  const appearance = derivePersonAppearance(id);
   const birthplaceJurisdictionId =
     input.birthplaceJurisdictionId ?? input.homeJurisdictionId;
   const fullName = `${givenName} ${familyName}`;

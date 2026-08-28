@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { SqliteWorldRepository } from "../persistence/sqlite-world-repository";
 import { ageOnDate, makeIsoDate } from "./dates";
-import { DEMO_START_DATE, createDemoWorld } from "./demo";
+import { createDemoWorld, createGeneratedWorld } from "./demo";
 import {
   DEFAULT_CORPUS_VERSION,
   DEMO_NAMES_V4,
@@ -18,7 +18,7 @@ import {
   derivePersonAppearance,
   type SceneAnchor,
 } from "./person-appearance";
-import { createWorldId } from "./world";
+import { createWorld, createWorldId } from "./world";
 import type { EntityId, Person } from "./types";
 
 describe("Generated Person Substrate & Foundation", () => {
@@ -98,55 +98,54 @@ describe("Generated Person Substrate & Foundation", () => {
     }
   });
 
-  it("4. generator and corpus version stability (no silent mutation of legacy or versioned worlds)", () => {
-    // Legacy demo world version
-    const legacyPerson = createLightweightPerson({
-      worldId: createWorldId("stage-6-5-run-a"),
-      worldSeed: "stage-6-5-run-a",
-      index: 0,
-      currentDate: DEMO_START_DATE,
-      homeJurisdictionId: TEST_JURISDICTION_ID,
-      generatorVersion: LEGACY_DEMO_PERSON_GENERATOR_VERSION,
-      corpusVersion: DEMO_NAMES_V4.version,
-    });
+  it("4. backwards compatibility: legacy demo fixture produces exact legacy names", () => {
+    const legacyWorld = createDemoWorld("stage-6-5-run-a");
+    const p0 = legacyWorld.people[legacyWorld.personOrder[0] as EntityId];
+    const p1 = legacyWorld.people[legacyWorld.personOrder[1] as EntityId];
+    const p2 = legacyWorld.people[legacyWorld.personOrder[2] as EntityId];
 
-    expect(legacyPerson.generatorVersion).toBe("demo-person-v4");
-    expect(legacyPerson.corpusVersion).toBe("demo-names-v4");
-    expect(legacyPerson.givenName).toBe("Andre");
-    expect(legacyPerson.familyName).toBe("Collins");
-
-    // Versioned substrate person
-    const v5Person = createLightweightPerson({
-      worldId: createWorldId("stage-6-5-run-a"),
-      worldSeed: "stage-6-5-run-a",
-      index: 0,
-      currentDate: DEMO_START_DATE,
-      homeJurisdictionId: TEST_JURISDICTION_ID,
-      generatorVersion: "person-v5",
-      corpusVersion: "names-v1",
-    });
-
-    expect(v5Person.generatorVersion).toBe("person-v5");
-    expect(v5Person.corpusVersion).toBe("names-v1");
-    // Expanding names-v1 with names-v2 later will not change names-v1 lookup
-    expect(getNameCorpus("names-v1").version).toBe("names-v1");
+    expect(p0?.generatorVersion).toBe(LEGACY_DEMO_PERSON_GENERATOR_VERSION);
+    expect(p0?.corpusVersion).toBe(DEMO_NAMES_V4.version);
+    expect(p0 && personName(p0)).toBe("Andre Collins");
+    expect(p1 && personName(p1)).toBe("Cameron Foster");
+    expect(p2 && personName(p2)).toBe("Julian Reed");
   });
 
-  it("5. date-of-birth derivation (derived age on canonical simulation date)", () => {
-    const worldId = createWorldId("dob-derivation-seed");
+  it("5. date-of-birth arithmetic: ageOnDate(birthDate, currentDate) is exact", () => {
+    const worldId = createWorldId("dob-arithmetic-test");
+    const testDates = [
+      makeIsoDate("2026-01-05"),
+      makeIsoDate("2026-06-15"),
+      makeIsoDate("2026-12-31"),
+      makeIsoDate("2027-02-28"),
+    ];
+
+    for (const simDate of testDates) {
+      for (let i = 0; i < 20; i += 1) {
+        const person = createLightweightPerson({
+          worldId,
+          worldSeed: `seed-dob-${i}`,
+          index: i,
+          currentDate: simDate,
+          homeJurisdictionId: TEST_JURISDICTION_ID,
+          profile: "production",
+        });
+
+        const derivedAge = ageOnDate(person.birthDate, simDate);
+        expect(derivedAge).toBeGreaterThanOrEqual(21);
+        expect(derivedAge).toBeLessThanOrEqual(75);
+        expect(person.birthDate <= simDate).toBe(true);
+      }
+    }
+
     const person = createLightweightPerson({
       worldId,
-      worldSeed: "dob-derivation-seed",
+      worldSeed: "dob-fact-check",
       index: 0,
       currentDate: TEST_WORLD_DATE,
       homeJurisdictionId: TEST_JURISDICTION_ID,
     });
 
-    const derivedAge = ageOnDate(person.birthDate, TEST_WORLD_DATE);
-    expect(derivedAge).toBeGreaterThanOrEqual(18);
-    expect(derivedAge).toBeLessThanOrEqual(100);
-
-    // Verify birth-date fact matches person.birthDate
     const birthFact = person.establishedFacts.find(
       (f) => f.kind === "birth-date",
     );
@@ -165,6 +164,52 @@ describe("Generated Person Substrate & Foundation", () => {
     const nyBirth = makeIsoDate("2000-01-01");
     expect(ageOnDate(nyBirth, makeIsoDate("2025-12-31"))).toBe(25);
     expect(ageOnDate(nyBirth, makeIsoDate("2026-01-01"))).toBe(26);
+  });
+
+  it("6b. year-boundary stress DOB cases (Dec 31 tomorrow, Jan 1 yesterday)", () => {
+    const worldId = createWorldId("year-boundary-seed");
+
+    // Case 1: Current date is December 31, birthday is TOMORROW (Jan 1)
+    const dec31 = makeIsoDate("2025-12-31");
+    const personTomorrow = createLightweightPerson({
+      worldId,
+      worldSeed: "year-boundary-tomorrow",
+      index: 2, // Stress index 2: birthday tomorrow
+      currentDate: dec31,
+      homeJurisdictionId: TEST_JURISDICTION_ID,
+      profile: "stress",
+    });
+
+    // Birthday is Jan 1 (01-01)
+    expect(personTomorrow.birthDate.slice(5)).toBe("01-01");
+    const ageOnDec31 = ageOnDate(personTomorrow.birthDate, dec31);
+    // On tomorrow Jan 1, 2026, age increases by exactly 1
+    const ageOnJan1 = ageOnDate(
+      personTomorrow.birthDate,
+      makeIsoDate("2026-01-01"),
+    );
+    expect(ageOnJan1).toBe(ageOnDec31 + 1);
+
+    // Case 2: Current date is January 1, birthday was YESTERDAY (Dec 31)
+    const jan1 = makeIsoDate("2026-01-01");
+    const personYesterday = createLightweightPerson({
+      worldId,
+      worldSeed: "year-boundary-yesterday",
+      index: 5, // Stress index 5 (default % 6): birthday yesterday
+      currentDate: jan1,
+      homeJurisdictionId: TEST_JURISDICTION_ID,
+      profile: "stress",
+    });
+
+    // Birthday is Dec 31 (12-31)
+    expect(personYesterday.birthDate.slice(5)).toBe("12-31");
+    const ageOnJan1Current = ageOnDate(personYesterday.birthDate, jan1);
+    // On Dec 30 (before birthday), age was 1 less
+    const ageOnDec30 = ageOnDate(
+      personYesterday.birthDate,
+      makeIsoDate("2025-12-30"),
+    );
+    expect(ageOnJan1Current).toBe(ageOnDec30 + 1);
   });
 
   it("7. leap-date handling (born Feb 29 in leap and non-leap years)", () => {
@@ -292,23 +337,83 @@ describe("Generated Person Substrate & Foundation", () => {
     expect(p1.id).not.toBe(p2.id);
   });
 
-  it("13. stable appearance seeds derived from person seed", () => {
-    const worldId = createWorldId("app-seed-test");
+  it("13. canonical appearance equality across generation, persistence, placement, anchor movement, and replay", () => {
+    const seed = "canonical-appearance-proof";
+    const worldId = createWorldId(seed);
     const person = createLightweightPerson({
       worldId,
-      worldSeed: "app-seed-test",
+      worldSeed: seed,
       index: 0,
       currentDate: TEST_WORLD_DATE,
       homeJurisdictionId: TEST_JURISDICTION_ID,
     });
 
+    // 1. Initial generation: appearance is persisted and matches canonical derivePersonAppearance(person.id)
     expect(person.appearance).toBeDefined();
-    expect(person.appearance?.seed).toMatch(/^app_[0-9a-f]{16}$/);
-    expect(person.appearance?.recipeVersion).toBe("appearance-recipe-v1");
+    const canonicalDerived = derivePersonAppearance(person.id);
+    expect(person.appearance?.seed).toBe(canonicalDerived.seed);
+    expect(person.appearance?.recipeVersion).toBe(
+      canonicalDerived.recipeVersion,
+    );
 
-    // Calling derivePersonAppearance with same seed yields exact same result
-    const derived = derivePersonAppearance(person.generationKey);
-    expect(derived.recipeVersion).toBe("appearance-recipe-v1");
+    // 2. Persistence / Reload equality
+    const world = createDemoWorld(seed, {
+      generatorVersion: DEFAULT_PERSON_GENERATOR_VERSION,
+      corpusVersion: DEFAULT_CORPUS_VERSION,
+    });
+    const repo = new SqliteWorldRepository(":memory:");
+    repo.save(world);
+    const loaded = repo.load(world.id);
+    repo.close();
+    const loadedPerson = loaded?.people[person.id];
+    expect(loadedPerson?.appearance?.seed).toBe(person.appearance?.seed);
+
+    // 3. Scene placement equality
+    const anchorA: SceneAnchor = {
+      anchorId: "chair-a",
+      position: { x: 100, y: 200 },
+      depth: 1,
+    };
+    const placementA = createScenePlacement(person, anchorA);
+    expect(placementA.appearance.seed).toBe(person.appearance?.seed);
+
+    // 4. Movement between two anchors equality
+    const anchorB: SceneAnchor = {
+      anchorId: "chair-b",
+      position: { x: 500, y: 600 },
+      depth: 5,
+    };
+    const placementB = createScenePlacement(person, anchorB);
+    expect(placementB.appearance.seed).toBe(person.appearance?.seed);
+    expect(placementB.appearance.seed).toBe(placementA.appearance.seed);
+
+    // 5. Replay of same seed
+    const replayedWorld = createDemoWorld(seed, {
+      generatorVersion: DEFAULT_PERSON_GENERATOR_VERSION,
+      corpusVersion: DEFAULT_CORPUS_VERSION,
+    });
+    const replayedPerson = replayedWorld.people[person.id];
+    expect(replayedPerson?.appearance?.seed).toBe(person.appearance?.seed);
+
+    // 6. Distinct identities across different seeds even with same generation index
+    const otherWorldId = createWorldId("different-world-seed");
+    const otherPerson = createLightweightPerson({
+      worldId: otherWorldId,
+      worldSeed: "different-world-seed",
+      index: 0,
+      currentDate: TEST_WORLD_DATE,
+      homeJurisdictionId: TEST_JURISDICTION_ID,
+    });
+    expect(otherPerson.id).not.toBe(person.id);
+    expect(otherPerson.appearance?.seed).not.toBe(person.appearance?.seed);
+
+    // 7. Legacy fallback derivation without persisted appearance
+    const legacyPerson: Person = {
+      ...person,
+      appearance: undefined,
+    };
+    const fallbackPlacement = createScenePlacement(legacyPerson, anchorA);
+    expect(fallbackPlacement.appearance.seed).toBe(person.appearance?.seed);
   });
 
   it("14. appearance seed not derived from chair or scene position", () => {
@@ -340,20 +445,17 @@ describe("Generated Person Substrate & Foundation", () => {
     const placement1 = createScenePlacement(person, chairAnchor1);
     const placement2 = createScenePlacement(person, chairAnchor2);
 
-    // Moving person between chairs preserves exact appearance identity
     expect(placement1.appearance.seed).toBe(placement2.appearance.seed);
     expect(placement1.appearance.recipeVersion).toBe(
       placement2.appearance.recipeVersion,
     );
     expect(placement1.personId).toBe(person.id);
     expect(placement2.personId).toBe(person.id);
-    // Anchors remain distinct
     expect(placement1.anchor.anchorId).toBe("primary-desk-chair");
     expect(placement2.anchor.anchorId).toBe("left-guest-chair");
   });
 
   it("15. no demographic/appearance inference from names", () => {
-    // Person appearance and date-of-birth depend on seed and generation index, not name string
     const worldId = createWorldId("neutral-names-seed");
     const person = createLightweightPerson({
       worldId,
@@ -363,7 +465,6 @@ describe("Generated Person Substrate & Foundation", () => {
       homeJurisdictionId: TEST_JURISDICTION_ID,
     });
 
-    // Renaming a person in userland does not alter appearance seed or birthdate
     const renamedPerson: Person = {
       ...person,
       givenName: "CustomGiven",
@@ -372,5 +473,65 @@ describe("Generated Person Substrate & Foundation", () => {
 
     expect(renamedPerson.appearance?.seed).toBe(person.appearance?.seed);
     expect(renamedPerson.birthDate).toBe(person.birthDate);
+  });
+
+  it("16. developer new simulation and seed replay API contract", () => {
+    // A. createGeneratedWorld produces a world with person-v5 and names-v1
+    const world1 = createGeneratedWorld("developer-seed-test-1");
+    expect(world1.seed).toBe("developer-seed-test-1");
+    expect(world1.personOrder.length).toBe(6);
+
+    const firstPerson1 = world1.people[world1.personOrder[0] as EntityId];
+    expect(firstPerson1?.generatorVersion).toBe("person-v5");
+    expect(firstPerson1?.corpusVersion).toBe("names-v1");
+
+    // B. Replaying same seed produces exact same canonical people
+    const world1Replay = createGeneratedWorld("developer-seed-test-1");
+    expect(world1Replay.personOrder).toEqual(world1.personOrder);
+    for (const pid of world1.personOrder) {
+      expect(world1Replay.people[pid]).toStrictEqual(world1.people[pid]);
+    }
+
+    // C. Different seed produces materially different people
+    const world2 = createGeneratedWorld("developer-seed-test-2");
+    expect(world2.seed).toBe("developer-seed-test-2");
+    const namesWorld1 = world1.personOrder.map((pid) =>
+      personName(world1.people[pid]!),
+    );
+    const namesWorld2 = world2.personOrder.map((pid) =>
+      personName(world2.people[pid]!),
+    );
+    expect(namesWorld1).not.toEqual(namesWorld2);
+
+    // D. Creating new simulation does not mutate prior world
+    const world1Snapshot = JSON.stringify(world1);
+    const world3 = createGeneratedWorld("developer-seed-test-3");
+    expect(JSON.stringify(world1)).toBe(world1Snapshot);
+    expect(world3.seed).toBe("developer-seed-test-3");
+  });
+
+  it("17. referential integrity: invalid home jurisdiction rejected, valid accepted", () => {
+    const validWorld = createGeneratedWorld("referential-check-seed");
+    expect(validWorld.jurisdictionOrder.length).toBeGreaterThan(0);
+    const validJurId = validWorld.jurisdictionOrder[0] as EntityId;
+
+    const person = validWorld.people[validWorld.personOrder[0] as EntityId]!;
+    expect(person.homeJurisdictionId).toBe(validJurId);
+
+    // Construction with invalid jurisdiction throws
+    expect(() => {
+      createWorld({
+        seed: validWorld.seed,
+        currentDate: validWorld.currentDate,
+        currentMoment: validWorld.currentMoment,
+        jurisdictions: Object.values(validWorld.jurisdictions),
+        people: [
+          {
+            ...person,
+            homeJurisdictionId: "jurisdiction_nonexistent" as EntityId,
+          },
+        ],
+      });
+    }).toThrow(/Person references a missing home jurisdiction/);
   });
 });
