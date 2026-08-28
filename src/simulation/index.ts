@@ -29,6 +29,7 @@ export * from "./names-data";
 export * from "./people";
 export * from "./person-appearance";
 export * from "./person-stress-harness";
+export * from "./portability-fixture";
 export * from "./perception";
 export * from "./policy";
 export * from "./policy-decision";
