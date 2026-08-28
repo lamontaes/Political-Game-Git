@@ -785,3 +785,33 @@ Consequence: this is a correctness and human-play repair to the existing
 D-Lite substrate. It adds no Slice E, campaign, election, governing, law,
 institution, procedure, routing, generalized multi-zone travel, or pin
 organization feature.
+
+## D-052 — D-Lite scheduled execution is activity-generic and canonically continuous
+
+- Date: 2026-08-27
+- Status: ACCEPTED
+- Supersedes: the briefing-specific Calendar/`PlayerOffice` execution adapter
+  described by the initial D-Lite implementation; no D-050/D-051 simulation,
+  travel, rescheduling, time-zone, work, or scope contract is superseded
+
+Project canonical performance timing for every future visible scheduled
+activity for which the controlled person is responsible. The projection owns
+no new truth: it reads the existing wait, activity duration, resulting moment,
+and earlier controlled-person blockers from the D-050/D-051 simulation API.
+Presentation maps the existing activity kind to the bounded player verbs Work,
+Travel, Attend, or Begin and submits the selected activity ID through the one
+`performScheduledActivity` transition. It does not special-case
+`briefingActivityId`, create a React clock, or store an activity status.
+
+`PlayerOffice` remains the sole mutable World owner and replaces its World only
+after canonical performance succeeds. Blocked later execution returns the
+exact input World and reports the earlier commitment or travel interval.
+Terminal activities project no performance action, so they cannot repeat.
+After every success, current moment, Calendar activity status, Next Commitment,
+Work/Pending, and staff progress rederive from the returned World.
+
+Consequence: the representative day continues deterministically from 9:10
+through briefing, flexible work, required travel, and the later community
+meeting. This repair adds no missed-appointment state, autonomous planning,
+Calendar redesign, recurrence, routing, Slice E, generated-person behavior, or
+Stage 7/8/9 system.

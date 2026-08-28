@@ -524,3 +524,25 @@ completed Runs A–C and later-stage gates.
 | Pin truthfulness             | Corrected presentation-only | `nextCommitment` owns separate status. Pinned contains only removable person references with scene-native re-pin routes; District Notes and the static briefing pin are gone. Manual size selection closes controls atomically.    |
 | Runs A–C and World ownership | Confirmed preserved         | Focused suites and browser return paths retain the office, people, dossier, conversation, document, and one `PlayerOffice` World owner. UI-only shell/pin actions write no simulation history.                                     |
 | Stage 7/8/9 and Slice E      | Confirmed absent            | No campaign, election, governing, law, institution, procedure, portability, routing, flight, missed-appointment, or generalized travel system was added.                                                                           |
+
+## Stage 6.5 D-Lite Calendar Continuity Repair Audit — 2026-08-27
+
+This audit applies D-052 to the accepted D-Lite implementation and rechecks
+D-050/D-051, immutable World ownership, Runs A–C, and later-stage gates.
+
+| Concern                       | Disposition           | Evidence and rationale                                                                                                                                                                                                                                                                       |
+| ----------------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| World ownership               | Confirmed unchanged   | `PlayerOffice` remains the only mutable owner of one immutable World. Calendar stores inspection and feedback only; no React clock, duplicate activity lifecycle, or task bucket was added.                                                                                                  |
+| General scheduled execution   | Corrected canonically | Access-filtered agenda entries project existing canonical timing and blockers for every future player-responsible activity. One activity-ID adapter invokes `performScheduledActivity`; no execution branch depends on `briefingActivityId`.                                                 |
+| Chronology, travel, atomicity | Confirmed and exposed | A 9:10 meeting attempt returns the exact World behind the earlier briefing/flexible/travel sequence. At 11:30 the meeting still returns that exact World until 1:40–2:00 travel completes. Existing rescheduling and conflict behavior remain unchanged.                                     |
+| Truthful player disclosure    | Corrected generally   | Work, Travel, Attend, and Begin confirmations state wait, activity duration, total elapsed minutes, and the canonical resulting moment from one performance projection. The 20 + 45 = 65 briefing disclosure remains exact rather than fixture-hard-coded.                                   |
+| Terminal and downstream state | Confirmed derived     | A completed briefing exposes no repeat route. Each successful returned World reprojects current moment, activity status, Next Commitment, Work/Pending, and exact staff progress; analysis completes at 10:00 and the delegated meeting brief at 10:40.                                      |
+| Runs A–C and scope gates      | Confirmed preserved   | Focused/full semantic and browser suites retain office, people, pins, conversation, and working-document behavior. No simulation record/schema change, Calendar redesign, missed state, autonomous planner, route system, generated-person work, Slice E, or Stage 7/8/9 behavior was added. |
+
+The 27-test focused D-Lite suite and 463-test full Vitest suite prove exact
+object-identity/serialized-World rejection, duplicate prevention, progression,
+staff completion, determinism, and compatibility. The 28-test Playwright suite
+includes one full 9:10–3:15 regression through delegation, briefing, flexible
+work, travel, and the community meeting; its blocked attempts preserve browser
+time/history attributes and its final next commitment is the 3:30 tentative
+call.

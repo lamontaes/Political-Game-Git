@@ -275,13 +275,22 @@ return to the accepted Run C document, a real calendar item, or an existing
 person. Waiting work has no false completion button. Explicit delegation to
 Collins writes canonical assignment history.
 
+Each future visible player-responsible activity consumes one generic execution
+projection: canonical wait, duration, resulting moment, chronological blockers,
+and an activity-appropriate Work, Travel, Attend, or Begin verb. The Calendar
+submits only the selected activity ID; `PlayerOffice` replaces its World only
+with the canonical result. A rejected later selection keeps the same World and
+reports the earlier activity or travel interval, while a completed activity has
+no repeat action.
+
 The 9:30 briefing detail states that the 9:10 action waits 20 minutes, attends
 for 45 minutes, and advances 65 total minutes to 10:15 before the button commits
-it. That action uses exact simulation
-advancement and lets Collins's separately assigned 50-minute analysis complete
-at 10:00 while the player remains occupied. The result later appears in the
-derived ready-review group. There is no generic end-turn control or
-player-facing progress percentage.
+it. The same route continues through the 10:30 flexible work block, 1:40 travel,
+and 2:00 meeting. Exact advancement lets Collins's separately assigned
+50-minute analysis complete at 10:00 and the delegated 90-minute meeting brief
+complete at 10:40. Calendar state, current time, Next Commitment, and all
+Work/Pending groups rederive from each returned World. There is no generic
+end-turn control or player-facing progress percentage.
 
 Both surfaces use access-filtered roots. A private Reed call and private Reed
 work note intentionally exist in World but are absent from projection, DOM,

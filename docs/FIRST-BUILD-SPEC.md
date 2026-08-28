@@ -97,12 +97,14 @@ Stage 6.5 Run D-Lite adds a canonical zoned minute-level World moment, exact
 scheduled-activity intervals, travel/conflict validation, and source-linked
 office work/assignment state. One conventional vertical week and one denser
 Work/Pending surface remain secondary to the accepted office scene. Inspection
-is time-neutral; the bounded briefing declares and consumes 45 minutes, while a
-separately assigned Collins analysis progresses in parallel. Work groups derive
-from real requirements, dependencies, assignment, and lifecycle. Private NPC
-schedule/work remains filtered. D-Lite adds no recurrence, route finding,
-general staff simulation, campaign/election, institution/law, or Lexington
-Slice E content.
+is time-neutral; visible player-responsible activities disclose canonical wait,
+duration, and resulting end before using the existing exact performance
+transition. The representative day continues from briefing through flexible
+work, required travel, and a later meeting, while separately assigned Collins
+work progresses in parallel. Work groups derive from real requirements,
+dependencies, assignment, and lifecycle. Private NPC schedule/work remains
+filtered. D-Lite adds no recurrence, route finding, general staff simulation,
+campaign/election, institution/law, or Lexington Slice E content.
 
 ### Required Invariants
 

@@ -126,9 +126,17 @@ access to unrelated private work.
 
 Calendar and Work/Pending are dedicated, explicitly opened planning surfaces.
 Opening, closing, navigating, selecting an event, reading its detail, or moving
-between real context targets consumes no time. Attending the briefing explains
-the 20-minute wait, 45-minute activity, and 65-minute total before committing
-the exact 9:10–10:15 canonical transition.
+between real context targets consumes no time. Every future visible activity
+for which the controlled player is responsible projects its canonical wait,
+duration, resulting moment, chronological blockers, and one bounded verb:
+Work, Travel, Attend, or Begin. The Calendar submits the selected activity ID
+to `performScheduledActivity`; it does not special-case briefing identity or
+invent completion. Attending the first briefing explains the 20-minute wait,
+45-minute activity, and 65-minute total before committing the exact
+9:10–10:15 transition. The same path then performs the 10:30–11:30 flexible
+work block, 1:40–2:00 travel, and 2:00–3:15 meeting in canonical order.
+Blocked execution returns the exact World and names the earlier commitment;
+completed activities expose no repeat action.
 `PlayerOffice` remains the sole mutable owner of the immutable World.
 
 Later campaign events, fundraising, canvassing, debates, constituent work,

@@ -1041,9 +1041,9 @@ real-context routing, and return to the office.
 
 ### NOW-205 — D-Lite remains deterministic and composes with Runs A–C
 
-The 26-test focused D-Lite suite proves identical World plus identical
+The 27-test focused D-Lite suite proves identical World plus identical
 scheduling/action input yields identical results and malformed time/work graphs
-fail. The full 434-test Vitest suite, focused Run A/B/C suites, and browser
+fail. The full 463-test Vitest suite, focused Run A/B/C suites, and browser
 return paths preserve people, pins, conversation, and the Transit Access Pilot
 working document. No Stage 7/8/9 or Lexington Slice E semantics are present.
 
@@ -1094,6 +1094,20 @@ Selecting Compact, Standard, or Expanded writes the manual size and clears the
 active pin menu in the same reducer result. Browser proof confirms one-click
 dismissal, persistence through later presentation actions, and manual
 precedence over automatic sizing.
+
+### NOW-212 — The representative D-Lite day continues through later commitments
+
+Starting at 9:10, deterministic semantic and browser proof delegates the
+community-meeting brief, attends the 9:30–10:15 briefing, works the
+10:30–11:30 flexible block, travels from 1:40–2:00, and attends the
+2:00–3:15 community meeting. Each confirmation discloses canonical wait,
+duration, total elapsed time, and resulting moment with an activity-appropriate
+verb. Activity status, current moment, Next Commitment, and Work/Pending
+rederive after every returned World; the final next commitment is the 3:30
+tentative call. The briefing cannot repeat, a premature meeting attempt cannot
+skip earlier commitments, and a second blocked attempt at 11:30 cannot skip
+travel. Both rejected actions retain object identity and exact serialized
+World, and browser time/history attributes remain unchanged.
 
 ## Manual Now
 
