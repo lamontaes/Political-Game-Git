@@ -77,7 +77,11 @@ function formatRunATime(minuteOfDay: number): string {
 }
 
 export function PlayerOffice() {
-  const fixture = useMemo(createRunDLiteFixture, []);
+  const seedParam = new URLSearchParams(window.location.search).get("seed");
+  const fixture = useMemo(
+    () => createRunDLiteFixture(seedParam || undefined),
+    [seedParam],
+  );
   const [world, setWorld] = useState(fixture.world);
   const fixtureState = parseRunAFixtureState(
     new URLSearchParams(window.location.search).get("fixture"),
@@ -407,6 +411,7 @@ export function PlayerOffice() {
     <main
       className="player-office"
       data-testid="player-office"
+      data-simulation-seed={world.seed}
       data-simulation-date={world.currentDate}
       data-simulation-minute={world.currentMoment.minuteOfDay}
       data-simulation-time-zone={world.currentMoment.timeZone}

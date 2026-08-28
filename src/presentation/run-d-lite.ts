@@ -110,8 +110,8 @@ function lastWorkItem(world: World) {
   return item;
 }
 
-export function createRunDLiteFixture(): RunDLiteFixture {
-  const runC = createRunCFixture();
+export function createRunDLiteFixture(seedInput?: string): RunDLiteFixture {
+  const runC = createRunCFixture(seedInput);
   let world = runC.world;
   const date = world.currentDate;
   const jurisdictionId = runC.roomContext.jurisdictionId;

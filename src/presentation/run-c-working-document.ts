@@ -150,8 +150,8 @@ export interface RunCDocumentProjection {
   readonly revisionCommitted: boolean;
 }
 
-export function createRunCFixture(): RunCFixture {
-  const runB = createRunBFixture();
+export function createRunCFixture(seedInput?: string): RunCFixture {
+  const runB = createRunBFixture(seedInput);
   let world = runB.world;
   const jurisdictionId = runB.roomContext.jurisdictionId;
   const collinsPersonId = runB.scenePerson.personId;

@@ -1,5 +1,6 @@
 import {
   createDemoWorld,
+  createGeneratedWorld,
   personName,
   recordRelationshipInteraction,
   recordWorldEvent,
@@ -69,8 +70,13 @@ function requireJurisdictionId(world: World, index: number): EntityId {
   return jurisdictionId;
 }
 
-export function createRunAFixture(): RunAFixture {
-  let world = createDemoWorld(RUN_A_SEED);
+export function createRunAFixture(seedInput?: string): RunAFixture {
+  const seed =
+    seedInput && seedInput.trim().length > 0 ? seedInput.trim() : RUN_A_SEED;
+  let world =
+    seed === RUN_A_SEED
+      ? createDemoWorld(RUN_A_SEED)
+      : createGeneratedWorld(seed);
   const scenePersonId = requirePersonId(world, 0);
   const playerPersonId = requirePersonId(world, 1);
   const jurisdictionId = requireJurisdictionId(world, 0);
