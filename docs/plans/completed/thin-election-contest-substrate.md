@@ -22,14 +22,14 @@
 
 2. **Domain Operations & Future Due Integration**:
    - `scheduleElectionContest`: Validates candidates, office, jurisdiction, and future date. Appends `ElectionContestRecord` to history and registers a `FutureDueItem` with `transitionKey: "election:contest-resolution"` at the target election date.
-   - `resolveElectionContest`: Resolves contest, validates `resolvedAt >= contest.electionDate` and `resolvedAt <= world.currentDate`, enforces both-or-neither manual result inputs (`winnerPersonId` and `tallies`), computes/records deterministic tallies, identifies winner, records a public historical event (`election.contest-resolved`), and appends `ElectionContestResultRecord`.
-   - `cancelElectionContest`: Cancels a pending contest and its associated future due item.
+   - `resolveElectionContest`: Resolves contest, validates `resolvedAt >= contest.electionDate` and `resolvedAt <= world.currentDate`, enforces both-or-neither manual result inputs (`winnerPersonId` and `tallies`), clones manual tallies to prevent caller mutation aliasing, defaults provenance truthfully (`"manual"` vs `"simulated"`), enforces terminal cancellation (rejects resolving cancelled contests), computes/records deterministic tallies, identifies winner, records a public historical event (`election.contest-resolved`), and appends `ElectionContestResultRecord`.
+   - `cancelElectionContest`: Cancels a pending contest and its associated future due item using semantic reason key `"election:contest-cancelled"`.
    - `electionContestTransitionHandler`: Future due transition handler for automatic resolution on time advancement.
    - `evaluateDeterministicContestOutcome`: Seeded deterministic placeholder resolver producing reproducible tallies based on world seed, contest ID, stable key, and election date.
 
 3. **Query Helpers & Integrity**:
    - Queries: `electionContestById`, `requireElectionContest`, `electionContestResult`, `electionContestStatus`, `isElectionContestPending`, `isElectionContestResolved`, `electionContestsForJurisdiction`, `electionContestsForCandidate`, `pendingElectionContests`, `resolvedElectionContests`.
-   - Integrity: `assertElectionContestIntegrity`, `electionContestHistoryRecords`, `electionContestEntityExists`, `electionContestEntityAvailableAt`. Enforces that persisted `result.resolvedAt >= contest.electionDate` (mirroring canonical writer) and validates that `winnerPersonId` has the maximum vote tally regardless of tally array order (supporting tied-max manual results).
+   - Integrity: `assertElectionContestIntegrity`, `electionContestHistoryRecords`, `electionContestEntityExists`, `electionContestEntityAvailableAt`. Enforces that persisted `result.resolvedAt >= contest.electionDate` (mirroring canonical writer), validates that `winnerPersonId` has the maximum vote tally regardless of tally array order (supporting tied-max manual results), and rejects invalid corrupted states containing both a cancelled contest due state and an election result record.
    - Integrated with `validateHistoryIntegrity` in `src/simulation/world.ts` and canonical entity checks in `src/simulation/future-transitions.ts`.
 
 4. **Portability and Determinism**:
@@ -41,7 +41,7 @@
 - `npm run typecheck`: Passed with 0 errors.
 - `npm run lint`: Passed with 0 warnings / errors.
 - `npm run format`: Prettier formatted and verified.
-- `npm run test`: All 33 test files passed (547 tests).
+- `npm run test`: All 33 test files passed (551 tests).
 - `npm run build`: Production client build completed successfully.
 - `npm run demo -- validation-seed`: Deterministic demo passed (`reproducible: true`).
 - `npm run validate:art`: Art validation passed.

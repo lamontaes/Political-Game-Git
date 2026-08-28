@@ -20,6 +20,7 @@ import {
   scheduleElectionContest,
 } from "./election-contests";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
+import { createStableId } from "./ids";
 import { createPortabilityFixture } from "./portability-fixture";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type {
@@ -781,6 +782,15 @@ describe("Election Contest Substrate", () => {
     expect(electionContestStatus(world, contest.id)).toBe("cancelled");
     expect(isElectionContestPending(world, contest.id)).toBe(false);
     expect(isElectionContestResolved(world, contest.id)).toBe(false);
+    expect(electionContestResult(world, contest.id)).toBeNull();
+
+    const dueItem = world.history.futureDueItems.find(
+      (item) => item.entityIds[0] === contest.id,
+    )!;
+    const cancelState = world.history.futureDueItemStates.find(
+      (state) => state.dueItemId === dueItem.id && state.status === "cancelled",
+    );
+    expect(cancelState?.reasonKey).toBe("election:contest-cancelled");
 
     assertWorldIntegrity(world);
   });
@@ -1365,6 +1375,372 @@ describe("Election Contest Substrate", () => {
       const loadedLater = repository.load(worldLater.id);
       expect(loadedLater).not.toBeNull();
       assertWorldIntegrity(loadedLater!);
+    });
+  });
+
+  describe("ELEC-004 & ELEC-005: Terminal Cancellation and Correct Semantic Reason Key", () => {
+    it("ELEC-004: cancelled contest cannot resolve and rejects corrupted persisted cancelled+resolved state", () => {
+      const dbPath = `:memory:`;
+      const repository = new SqliteWorldRepository(dbPath);
+
+      let world = createDemoWorld("election-terminal-cancel-seed");
+      const jurisdictionId = getJurisdictionId(world);
+      const candidate1 = getPersonId(world, 0);
+      const candidate2 = getPersonId(world, 1);
+      const electionDate = addDays(world.currentDate, 10);
+
+      // 1. Schedule contest
+      world = scheduleElectionContest(world, {
+        stableKey: "terminal-cancel:mayor",
+        jurisdictionId,
+        office: {
+          officeKey: "mayor",
+          title: "Mayor",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        electionDate,
+        candidatePersonIds: [candidate1, candidate2],
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+
+      const contest = (world.history.electionContests ?? [])[0]!;
+
+      // 2. Cancel contest
+      world = cancelElectionContest(world, {
+        stableKey: "terminal-cancel:mayor:cancel",
+        contestId: contest.id,
+        effectiveAt: world.currentDate,
+        reason: "Election cancelled due to charter reform",
+      });
+
+      expect(electionContestStatus(world, contest.id)).toBe("cancelled");
+      expect(isElectionContestPending(world, contest.id)).toBe(false);
+      expect(isElectionContestResolved(world, contest.id)).toBe(false);
+
+      // Advance world to election date
+      const registry = createElectionTransitionRegistry();
+      world = advanceWorld(world, 10, registry);
+      expect(world.currentDate).toBe(electionDate);
+      expect(electionContestStatus(world, contest.id)).toBe("cancelled");
+
+      const preResolveAttempt = structuredClone(world);
+
+      // 3. Direct resolve on cancelled contest must throw
+      expect(() =>
+        resolveElectionContest(world, {
+          contestId: contest.id,
+          resolvedAt: electionDate,
+        }),
+      ).toThrow(/Cannot resolve a cancelled election contest/i);
+
+      // 4. Rejected call leaves World unchanged
+      expect(world).toStrictEqual(preResolveAttempt);
+      expect(electionContestResult(world, contest.id)).toBeNull();
+      expect(world.history.electionContestResults ?? []).toHaveLength(0);
+      expect(
+        world.history.events.some(
+          (e) => e.type === "election.contest-resolved",
+        ),
+      ).toBe(false);
+      expect(electionContestStatus(world, contest.id)).toBe("cancelled");
+
+      // 5. Serialization and SQLite round trip preserve cancellation
+      const deserializedWorld = deserializeWorld(serializeWorld(world));
+      expect(electionContestStatus(deserializedWorld, contest.id)).toBe(
+        "cancelled",
+      );
+      assertWorldIntegrity(deserializedWorld);
+
+      repository.save(world);
+      const loadedWorld = repository.load(world.id);
+      expect(loadedWorld).not.toBeNull();
+      expect(electionContestStatus(loadedWorld!, contest.id)).toBe("cancelled");
+      assertWorldIntegrity(loadedWorld!);
+
+      // 6. Corrupted persisted state with both cancellation and result record is rejected by assertWorldIntegrity
+      const validWorld = createDemoWorld("election-valid-resolution-seed");
+      const cand1 = getPersonId(validWorld, 0);
+      const cand2 = getPersonId(validWorld, 1);
+      const validElectDate = addDays(validWorld.currentDate, 5);
+
+      let resolvedWorld = scheduleElectionContest(validWorld, {
+        stableKey: "corrupt-cancel-test",
+        jurisdictionId,
+        office: {
+          officeKey: "mayor",
+          title: "Mayor",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        electionDate: validElectDate,
+        candidatePersonIds: [cand1, cand2],
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+      resolvedWorld = advanceWorld(resolvedWorld, 5, registry);
+      expect(
+        electionContestStatus(
+          resolvedWorld,
+          resolvedWorld.history.electionContests![0]!.id,
+        ),
+      ).toBe("resolved");
+
+      // Corrupt the resolved world to mark the due item state as cancelled
+      const corruptCancelledAndResolved: World = {
+        ...resolvedWorld,
+        history: {
+          ...resolvedWorld.history,
+          nextSequence: resolvedWorld.history.nextSequence + 1,
+          futureDueItemStates: [
+            ...resolvedWorld.history.futureDueItemStates,
+            {
+              id: createStableId("future-due-item-state", "corrupt:state"),
+              stableKey: "corrupt:state",
+              sequence: resolvedWorld.history.nextSequence,
+              dueItemId: resolvedWorld.history.futureDueItems[0]!.id,
+              effectiveAt: validElectDate,
+              status: "cancelled",
+              reasonKey: "election:contest-cancelled",
+              context: "Corrupted cancellation injection",
+              outcomeEventId: null,
+              supersedesStateId: null,
+            },
+          ],
+        },
+      };
+
+      expect(() => assertWorldIntegrity(corruptCancelledAndResolved)).toThrow(
+        /Election contest result exists for cancelled contest/i,
+      );
+    });
+
+    it("ELEC-005: cancellation records semantic election:contest-cancelled reasonKey", () => {
+      let world = createDemoWorld("election-reason-key-seed");
+      const jurisdictionId = getJurisdictionId(world);
+      const candidate1 = getPersonId(world, 0);
+      const electionDate = addDays(world.currentDate, 10);
+
+      world = scheduleElectionContest(world, {
+        stableKey: "cancel-reason:judge",
+        jurisdictionId,
+        office: {
+          officeKey: "judge",
+          title: "Judge",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        electionDate,
+        candidatePersonIds: [candidate1],
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+
+      const contest = (world.history.electionContests ?? [])[0]!;
+      world = cancelElectionContest(world, {
+        stableKey: "cancel-reason:judge:cancel",
+        contestId: contest.id,
+        effectiveAt: world.currentDate,
+        reason: "Judicial seat abolished",
+      });
+
+      const dueItem = world.history.futureDueItems.find(
+        (item) => item.entityIds[0] === contest.id,
+      )!;
+      const cancellationState = world.history.futureDueItemStates.find(
+        (state) =>
+          state.dueItemId === dueItem.id && state.status === "cancelled",
+      );
+
+      expect(cancellationState).toBeDefined();
+      expect(cancellationState?.reasonKey).toBe("election:contest-cancelled");
+      expect(cancellationState?.reasonKey).not.toContain(
+        "policy:superseded-estimate",
+      );
+      assertWorldIntegrity(world);
+    });
+  });
+
+  describe("ELEC-006 & ELEC-007: Truthful Default Provenance and Tallies Immutability", () => {
+    it("ELEC-006: defaults provenance truthfully to manual for manual results and simulated for simulated results", () => {
+      let world = createDemoWorld("election-default-provenance-seed");
+      const jurisdictionId = getJurisdictionId(world);
+      const candidate1 = getPersonId(world, 0);
+      const candidate2 = getPersonId(world, 1);
+      const electionDate = addDays(world.currentDate, 5);
+
+      // 1. Simulated path (no winner/tallies, no provenance provided)
+      world = scheduleElectionContest(world, {
+        stableKey: "sim-prov:mayor",
+        jurisdictionId,
+        office: {
+          officeKey: "mayor",
+          title: "Mayor",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        electionDate,
+        candidatePersonIds: [candidate1, candidate2],
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+
+      const contestSim = (world.history.electionContests ?? [])[0]!;
+      const holdingRegistry = createFutureTransitionHandlerRegistry([
+        [
+          ELECTION_CONTEST_TRANSITION_KEY,
+          (w) => ({
+            world: w,
+            status: "resolved" as const,
+            reasonKey: null,
+            context: "Awaiting manual test invocation",
+            outcomeEventId: null,
+          }),
+        ],
+      ]);
+      world = advanceWorld(world, 5, holdingRegistry);
+
+      world = resolveElectionContest(world, {
+        contestId: contestSim.id,
+        resolvedAt: electionDate,
+      });
+
+      const simResult = electionContestResult(world, contestSim.id);
+      expect(simResult).not.toBeNull();
+      expect(simResult?.provenance.method).toBe("simulated");
+      expect(simResult?.provenance.note).toBe(
+        "Resolved via deterministic contest substrate.",
+      );
+
+      // 2. Manual path (winner + tallies provided, provenance omitted)
+      const electionDate2 = addDays(world.currentDate, 5);
+      world = scheduleElectionContest(world, {
+        stableKey: "man-prov:mayor",
+        jurisdictionId,
+        office: {
+          officeKey: "mayor-2",
+          title: "Mayor 2",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        electionDate: electionDate2,
+        candidatePersonIds: [candidate1, candidate2],
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+
+      const contestManual = (world.history.electionContests ?? [])[1]!;
+      world = advanceWorld(world, 5, holdingRegistry);
+
+      world = resolveElectionContest(world, {
+        contestId: contestManual.id,
+        resolvedAt: electionDate2,
+        winnerPersonId: candidate1,
+        tallies: [
+          {
+            candidatePersonId: candidate1,
+            votes: 700,
+            voteShare: 0.7,
+          },
+          {
+            candidatePersonId: candidate2,
+            votes: 300,
+            voteShare: 0.3,
+          },
+        ],
+      });
+
+      const manualResult = electionContestResult(world, contestManual.id);
+      expect(manualResult).not.toBeNull();
+      expect(manualResult?.provenance.method).toBe("manual");
+      expect(manualResult?.provenance.note).toBe(
+        "Resolved via manual candidate tally override.",
+      );
+      assertWorldIntegrity(world);
+    });
+
+    it("ELEC-007: clones caller-owned manual tallies and isolates World from subsequent caller mutation", () => {
+      let world = createDemoWorld("election-tally-cloning-seed");
+      const jurisdictionId = getJurisdictionId(world);
+      const candidate1 = getPersonId(world, 0);
+      const candidate2 = getPersonId(world, 1);
+      const electionDate = addDays(world.currentDate, 5);
+
+      world = scheduleElectionContest(world, {
+        stableKey: "tally-clone:mayor",
+        jurisdictionId,
+        office: {
+          officeKey: "mayor",
+          title: "Mayor",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        electionDate,
+        candidatePersonIds: [candidate1, candidate2],
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+
+      const contest = (world.history.electionContests ?? [])[0]!;
+
+      const callerTally1 = {
+        candidatePersonId: candidate1,
+        votes: 800,
+        voteShare: 0.8,
+      };
+      const callerTally2 = {
+        candidatePersonId: candidate2,
+        votes: 200,
+        voteShare: 0.2,
+      };
+      const callerTallies = [callerTally1, callerTally2];
+
+      const resolvedWorld = advanceWorld(
+        world,
+        5,
+        createFutureTransitionHandlerRegistry([
+          [
+            ELECTION_CONTEST_TRANSITION_KEY,
+            (w, dueItem) => {
+              const resolved = resolveElectionContest(w, {
+                contestId: dueItem.entityIds[0]!,
+                resolvedAt: dueItem.dueAt,
+                winnerPersonId: candidate1,
+                tallies: callerTallies,
+              });
+              const res = electionContestResult(
+                resolved,
+                dueItem.entityIds[0]!,
+              )!;
+              return {
+                world: resolved,
+                status: "resolved",
+                reasonKey: null,
+                context: "Tally cloning test",
+                outcomeEventId: res.outcomeEventId,
+              };
+            },
+          ],
+        ]),
+      );
+
+      const initialSnapshot = serializeWorld(resolvedWorld);
+
+      // Mutate the caller's original objects and array
+      callerTally1.votes = 0;
+      callerTally1.voteShare = 0;
+      callerTally2.votes = 999999;
+      callerTallies.reverse();
+      callerTallies.push({
+        candidatePersonId: candidate1,
+        votes: 12345,
+        voteShare: 0.5,
+      });
+
+      // Canonical World result remains byte-for-byte identical
+      const postMutationSnapshot = serializeWorld(resolvedWorld);
+      expect(postMutationSnapshot).toBe(initialSnapshot);
+
+      const result = electionContestResult(resolvedWorld, contest.id);
+      expect(result?.tallies[0]?.votes).toBe(800);
+      expect(result?.tallies[1]?.votes).toBe(200);
+      expect(result?.tallies).toHaveLength(2);
+      assertWorldIntegrity(resolvedWorld);
     });
   });
 });

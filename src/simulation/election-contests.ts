@@ -198,6 +198,11 @@ export function resolveElectionContest(
   input: ResolveElectionContestInput,
 ): World {
   const contest = requireElectionContest(world, input.contestId);
+  if (electionContestStatus(world, contest.id) === "cancelled") {
+    throw new Error(
+      `Cannot resolve a cancelled election contest: ${contest.id}`,
+    );
+  }
   if (isElectionContestResolved(world, contest.id)) {
     throw new Error(`Election contest is already resolved: ${contest.id}`);
   }
@@ -251,7 +256,11 @@ export function resolveElectionContest(
       );
     }
     winnerPersonId = input.winnerPersonId!;
-    tallies = input.tallies!;
+    tallies = input.tallies!.map((t) => ({
+      candidatePersonId: t.candidatePersonId,
+      votes: t.votes,
+      voteShare: t.voteShare,
+    }));
   } else {
     const outcome = evaluateDeterministicContestOutcome(world, contest);
     winnerPersonId = outcome.winnerPersonId;
@@ -308,11 +317,21 @@ export function resolveElectionContest(
     throw new Error("Failed to retrieve recorded election resolution event.");
   }
 
-  const provenance: ElectionContestProvenance = input.provenance ?? {
-    method: "simulated",
-    sourceEntityIds: [contest.id, outcomeEvent.id],
-    note: "Resolved via deterministic contest substrate.",
-  };
+  const defaultProvenance: ElectionContestProvenance =
+    hasWinner && hasTallies
+      ? {
+          method: "manual",
+          sourceEntityIds: [contest.id, outcomeEvent.id],
+          note: "Resolved via manual candidate tally override.",
+        }
+      : {
+          method: "simulated",
+          sourceEntityIds: [contest.id, outcomeEvent.id],
+          note: "Resolved via deterministic contest substrate.",
+        };
+
+  const provenance: ElectionContestProvenance =
+    input.provenance ?? defaultProvenance;
 
   validateElectionContestProvenance(
     worldWithEvent,
@@ -374,7 +393,7 @@ export function cancelElectionContest(
     stableKey: `${input.stableKey}:due-cancel`,
     dueItemId: dueItem.id,
     effectiveAt: input.effectiveAt,
-    reasonKey: "policy:superseded-estimate",
+    reasonKey: "election:contest-cancelled",
     context: input.reason,
   });
 }
@@ -473,10 +492,6 @@ export function electionContestStatus(
   contestId: EntityId,
 ): ElectionContestStatus {
   const contest = requireElectionContest(world, contestId);
-  if (electionContestResult(world, contest.id)) {
-    return "resolved";
-  }
-
   const dueItem = world.history.futureDueItems.find(
     (item) =>
       item.transitionKey === ELECTION_CONTEST_TRANSITION_KEY &&
@@ -491,6 +506,10 @@ export function electionContestStatus(
     if (latestState?.status === "cancelled") {
       return "cancelled";
     }
+  }
+
+  if (electionContestResult(world, contest.id)) {
+    return "resolved";
   }
 
   return "pending";
@@ -653,6 +672,24 @@ export function assertElectionContestIntegrity(
       throw new Error(
         `Election contest result sequence does not follow contest: ${result.id}`,
       );
+    }
+
+    const dueItem = world.history.futureDueItems.find(
+      (item) =>
+        item.transitionKey === ELECTION_CONTEST_TRANSITION_KEY &&
+        item.entityIds.length === 1 &&
+        item.entityIds[0] === contest.id,
+    );
+    if (dueItem) {
+      const states = world.history.futureDueItemStates.filter(
+        (state) => state.dueItemId === dueItem.id,
+      );
+      const latestState = states.sort((a, b) => a.sequence - b.sequence).at(-1);
+      if (latestState?.status === "cancelled") {
+        throw new Error(
+          `Election contest result exists for cancelled contest: ${contest.id}`,
+        );
+      }
     }
 
     makeIsoDate(result.resolvedAt);
