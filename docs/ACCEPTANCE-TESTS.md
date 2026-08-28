@@ -415,7 +415,7 @@ Runtime transitions and snapshot loading reject dangling organization/person/jur
 
 ### NOW-101 — Stage 5 persists headlessly
 
-Current world schema 14 and snapshot format 13 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, resource, obligation, dwelling, occupancy, tenure, life-source, fatigue/resource-pressure, generated-provenance, metric/observation/causal/effect/due/policy, incident/state/transition-plan, vitality/capacity, and evidence/discovery record exactly through deterministic JSON and the Node-only SQLite repository. Production simulation modules import no React, DOM, browser, or SQLite runtime.
+Current world schema 15 and snapshot format 14 round-trip every organization, work, education, participation, household, kinship, partnership, care, child-authority, commitment, load-resolution, resource, obligation, dwelling, occupancy, tenure, life-source, fatigue/resource-pressure, generated-provenance, metric/observation/causal/effect/due/policy, incident/state/transition-plan, vitality/capacity, and evidence/discovery record exactly through deterministic JSON and the Node-only SQLite repository. Production simulation modules import no React, DOM, browser, or SQLite runtime.
 
 ### NOW-102 — Real career diversity uses general records
 
@@ -1247,3 +1247,29 @@ Given increased responsibility or political intensity, the player faces more com
 ### LATER-018 — Losing an election does not end the character's life
 
 Given a player character who loses an election, the world and character continue with civilian, staff, appointed, future electoral, family, or other available life paths; there is no generic game over.
+
+## Generated-person current-main correctness regressions
+
+- A deterministic 78,000-case production/stress matrix independently replays the
+  selected profile age and checks valid DOBs, exact canonical age, applicable
+  bounds, and exact Person replay. Dates include February 27/28/29 and March 1
+  in leap and non-leap comparison years, plus December 31 / January 1. Coverage
+  asserts both leap/non-leap birth years and actual leap-day births. Four pinned
+  regression cases cover invalid copied leap dates and the selected-age-73
+  normalization disagreement. `ageOnDate` and Stage 6 calendar semantics stay
+  unchanged.
+- The no-seed D-Lite serialized World preserves the accepted PR #18 hash.
+  Existing generic-constructor, Synthetic Tidal Basin, alternate home-jurisdiction,
+  seeded replay, baseline, JSON, and SQLite proofs remain required.
+- Run B/C/D-Lite tests verify role-dependent options, dialogue, continuation,
+  history, annotations, reviews, drafting instructions, calendar descriptions,
+  work titles, blockers, and delegation use actual canonical people. Default
+  Andre Collins / Julian Reed wording remains covered by the existing suites.
+- Normal-route browser proof walks `/`, alpha, beta, alpha replay, and explicit
+  `/?seed=stage-6-5-run-a`. It compares visible IDs/names to the generated
+  constructor independently of the fixture router, checks dossier age and
+  role-dependent prose across conversation/history, document/analysis, work,
+  delegation, and calendar, and compares alpha identities and text exactly on
+  replay. Pointer and keyboard activation are exercised. The explicit legacy-
+  named seed also agrees with the developer route's generated person-v5/names-v1
+  semantics. No New Game button or visual redesign is required.

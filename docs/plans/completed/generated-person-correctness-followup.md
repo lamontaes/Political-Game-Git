@@ -1,6 +1,8 @@
 # Generated-person current-main correctness repair
 
-Status: In progress. One writer; bounded correctness only.
+Status: Implementation and local verification complete. One writer; bounded correctness only.
+
+PR: [#19](https://github.com/lamontaes/Political-Game-Git/pull/19), open/unmerged against main.
 
 ## Starting gate and workspace
 
@@ -94,7 +96,7 @@ src/simulation/person-foundation.test.ts -t 'DOB invariant matrix'`: passed.
   provision discussion, delegation, and calendar copy were exercised.
 - Full `CI=1 npm run test:e2e`: successful exit; 35 passed plus 1 flaky pass on
   retry (36 total). The unchanged `run-c.spec.ts:10` compact-navigation-area
-  assertion needed retry in two runs. An untouched starting-main archive passed
+  assertion needed retry in three full runs. An untouched starting-main archive passed
   that test 5/5 in isolation and the full 34-test baseline. No geometry or test
   threshold change is included. Final publication CI is reported separately.
 - `npm run validate:art`, `npm run inventory:art`, and `npm run qa:art`: passed.
@@ -154,4 +156,8 @@ behavior as recorded above. `npm ci` / `npm audit` also report an existing high
 and art tooling changes are outside this correctness scope. No human visual
 acceptance or merge is claimed.
 
-Publication: pending one open/unmerged PR and exact-head CI verification.
+Publication: PR #19 is open against current main. Executable repair commit:
+`743b6ec2395cb18f840d1bfd9416f77b4f8f2a0e`. Direct documentation corrections
+are separate. The exact final documentation-inclusive head and completed GitHub
+Actions run IDs/URLs are recorded in the PR verification comment and completion
+report; this document does not pre-claim a CI outcome. Do not merge.
