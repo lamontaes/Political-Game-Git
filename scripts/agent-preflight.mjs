@@ -1,7 +1,5 @@
-/* eslint-disable */
+/* global console, process */
 import { execSync } from "child_process";
-import fs from "fs";
-import path from "path";
 
 function runCmd(cmd) {
   try {
@@ -9,7 +7,7 @@ function runCmd(cmd) {
       stdio: ["pipe", "pipe", "ignore"],
       encoding: "utf8",
     }).trim();
-  } catch (err) {
+  } catch {
     return null;
   }
 }
@@ -26,7 +24,7 @@ console.log("POLITICAL GAME AGENT PREFLIGHT\n");
 // Check valid git repo
 try {
   runCmdThrow("git rev-parse --is-inside-work-tree");
-} catch (e) {
+} catch {
   console.error("Error: Not inside a valid git repository.");
   process.exit(1);
 }

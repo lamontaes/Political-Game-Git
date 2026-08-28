@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* global console, process */
 import { execSync, spawn } from "child_process";
 
 function runCmd(cmd) {
@@ -7,7 +7,7 @@ function runCmd(cmd) {
       stdio: ["pipe", "pipe", "ignore"],
       encoding: "utf8",
     }).trim();
-  } catch (err) {
+  } catch {
     return "unavailable";
   }
 }
@@ -41,13 +41,15 @@ const viteArgs = [
   port.toString(),
   "--strictPort",
 ];
-// Forward any additional arguments
-const doubleDashIdx = process.argv.indexOf("--");
-if (doubleDashIdx !== -1) {
-  const extraArgs = process.argv.slice(doubleDashIdx + 1);
-  for (const a of extraArgs) {
-    if (!viteArgs.includes(a)) viteArgs.push(a);
+
+// Forward any additional arguments that are not --host or --port (and their values)
+for (let i = 0; i < args.length; i++) {
+  const arg = args[i];
+  if (arg === "--host" || arg === "--port") {
+    i++; // skip the value too
+    continue;
   }
+  viteArgs.push(arg);
 }
 
 const child = spawn("npx", viteArgs, { stdio: "inherit" });
