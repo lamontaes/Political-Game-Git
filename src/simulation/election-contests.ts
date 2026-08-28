@@ -656,9 +656,9 @@ export function assertElectionContestIntegrity(
     }
 
     makeIsoDate(result.resolvedAt);
-    if (result.resolvedAt < contest.scheduledAt) {
+    if (result.resolvedAt < contest.electionDate) {
       throw new Error(
-        `Election contest result resolved before scheduling date: ${result.id}`,
+        `Election contest result resolved before election date: ${result.id}`,
       );
     }
 
@@ -669,8 +669,11 @@ export function assertElectionContestIntegrity(
     }
 
     validateTallies(result.tallies, contest.candidatePersonIds);
-    const topTally = [...result.tallies].sort((a, b) => b.votes - a.votes)[0];
-    if (topTally?.candidatePersonId !== result.winnerPersonId) {
+    const maxVotes = Math.max(...result.tallies.map((t) => t.votes));
+    const winnerTally = result.tallies.find(
+      (t) => t.candidatePersonId === result.winnerPersonId,
+    );
+    if (!winnerTally || winnerTally.votes !== maxVotes) {
       throw new Error(
         `Election contest result winner does not match top tally candidate: ${result.id}`,
       );

@@ -29,7 +29,7 @@
 
 3. **Query Helpers & Integrity**:
    - Queries: `electionContestById`, `requireElectionContest`, `electionContestResult`, `electionContestStatus`, `isElectionContestPending`, `isElectionContestResolved`, `electionContestsForJurisdiction`, `electionContestsForCandidate`, `pendingElectionContests`, `resolvedElectionContests`.
-   - Integrity: `assertElectionContestIntegrity`, `electionContestHistoryRecords`, `electionContestEntityExists`, `electionContestEntityAvailableAt`.
+   - Integrity: `assertElectionContestIntegrity`, `electionContestHistoryRecords`, `electionContestEntityExists`, `electionContestEntityAvailableAt`. Enforces that persisted `result.resolvedAt >= contest.electionDate` (mirroring canonical writer) and validates that `winnerPersonId` has the maximum vote tally regardless of tally array order (supporting tied-max manual results).
    - Integrated with `validateHistoryIntegrity` in `src/simulation/world.ts` and canonical entity checks in `src/simulation/future-transitions.ts`.
 
 4. **Portability and Determinism**:
@@ -41,7 +41,7 @@
 - `npm run typecheck`: Passed with 0 errors.
 - `npm run lint`: Passed with 0 warnings / errors.
 - `npm run format`: Prettier formatted and verified.
-- `npm run test`: All 33 test files passed (545 tests).
+- `npm run test`: All 33 test files passed (547 tests).
 - `npm run build`: Production client build completed successfully.
 - `npm run demo -- validation-seed`: Deterministic demo passed (`reproducible: true`).
 - `npm run validate:art`: Art validation passed.

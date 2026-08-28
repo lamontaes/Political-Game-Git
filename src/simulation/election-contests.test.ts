@@ -1112,5 +1112,259 @@ describe("Election Contest Substrate", () => {
       expect(result?.tallies).toEqual(manualTallies);
       assertWorldIntegrity(resolvedWorld);
     });
+
+    it("accepts manual tied maximum with winner listed first or second, and rejects lower vote totals", () => {
+      let world = createDemoWorld("election-tied-max-seed");
+      const jurisdictionId = getJurisdictionId(world);
+      const candidate1 = getPersonId(world, 0);
+      const candidate2 = getPersonId(world, 1);
+      const electionDate = addDays(world.currentDate, 5);
+
+      world = scheduleElectionContest(world, {
+        stableKey: "tied-max:mayor",
+        jurisdictionId,
+        office: {
+          officeKey: "mayor",
+          title: "Mayor",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        electionDate,
+        candidatePersonIds: [candidate1, candidate2],
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+
+      const contest = (world.history.electionContests ?? [])[0]!;
+
+      // Case 1: Tied max tallies with candidate1 first, candidate1 as winner
+      const tiedTalliesOrderA = [
+        { candidatePersonId: candidate1, votes: 500, voteShare: 0.5 },
+        { candidatePersonId: candidate2, votes: 500, voteShare: 0.5 },
+      ];
+
+      const resolvedWorldA = advanceWorld(
+        world,
+        5,
+        createManualRegistry({
+          winnerPersonId: candidate1,
+          tallies: tiedTalliesOrderA,
+        }),
+      );
+
+      expect(electionContestStatus(resolvedWorldA, contest.id)).toBe(
+        "resolved",
+      );
+      expect(
+        electionContestResult(resolvedWorldA, contest.id)?.winnerPersonId,
+      ).toBe(candidate1);
+      assertWorldIntegrity(resolvedWorldA);
+
+      // Case 2: Tied max tallies with candidate2 first, candidate1 still as winner
+      const tiedTalliesOrderB = [
+        { candidatePersonId: candidate2, votes: 500, voteShare: 0.5 },
+        { candidatePersonId: candidate1, votes: 500, voteShare: 0.5 },
+      ];
+
+      const resolvedWorldB = advanceWorld(
+        world,
+        5,
+        createManualRegistry({
+          winnerPersonId: candidate1,
+          tallies: tiedTalliesOrderB,
+        }),
+      );
+
+      expect(electionContestStatus(resolvedWorldB, contest.id)).toBe(
+        "resolved",
+      );
+      expect(
+        electionContestResult(resolvedWorldB, contest.id)?.winnerPersonId,
+      ).toBe(candidate1);
+      assertWorldIntegrity(resolvedWorldB);
+
+      // Verify deserialization and round trip of tied max world
+      const reloadedWorldB = deserializeWorld(serializeWorld(resolvedWorldB));
+      assertWorldIntegrity(reloadedWorldB);
+
+      // Case 3: Winner has fewer votes than max (499 vs 500) throws
+      expect(() =>
+        advanceWorld(
+          world,
+          5,
+          createManualRegistry({
+            winnerPersonId: candidate1,
+            tallies: [
+              { candidatePersonId: candidate1, votes: 499, voteShare: 0.499 },
+              { candidatePersonId: candidate2, votes: 500, voteShare: 0.501 },
+            ],
+          }),
+        ),
+      ).toThrow(/does not match highest vote tally/i);
+
+      // Case 4: Corrupted persisted result where winner has fewer votes than max is rejected by assertWorldIntegrity
+      const corruptedWorld = structuredClone(resolvedWorldA);
+      const corruptedResult =
+        corruptedWorld.history.electionContestResults![0]!;
+      // Mutate result tallies so winner (candidate1) has 400 while candidate2 has 600
+      (corruptedResult as { tallies: unknown }).tallies = [
+        { candidatePersonId: candidate1, votes: 400, voteShare: 0.4 },
+        { candidatePersonId: candidate2, votes: 600, voteShare: 0.6 },
+      ];
+
+      expect(() => assertWorldIntegrity(corruptedWorld)).toThrow(
+        /winner does not match top tally candidate/i,
+      );
+      const validSnapshotA = JSON.parse(serializeWorld(resolvedWorldA));
+      validSnapshotA.world.history.electionContestResults[0].tallies = [
+        { candidatePersonId: candidate1, votes: 400, voteShare: 0.4 },
+        { candidatePersonId: candidate2, votes: 600, voteShare: 0.6 },
+      ];
+      expect(() => deserializeWorld(JSON.stringify(validSnapshotA))).toThrow(
+        /winner does not match top tally candidate/i,
+      );
+    });
+  });
+
+  describe("Defect 1 Regressions: Persisted Result Chronology Integrity Mirror", () => {
+    it("rejects corrupted persisted results resolved before electionDate and accepts valid/later resolutions", () => {
+      const dbPath = `:memory:`;
+      const repository = new SqliteWorldRepository(dbPath);
+
+      let world = createDemoWorld("election-persisted-chronology-seed");
+      const jurisdictionId = getJurisdictionId(world);
+      const candidate1 = getPersonId(world, 0);
+      const candidate2 = getPersonId(world, 1);
+      const scheduledDate = world.currentDate;
+      const electionDate = addDays(scheduledDate, 10);
+
+      world = scheduleElectionContest(world, {
+        stableKey: "chronology-integrity:mayor",
+        jurisdictionId,
+        office: {
+          officeKey: "mayor",
+          title: "Mayor",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        electionDate,
+        candidatePersonIds: [candidate1, candidate2],
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+
+      const contest = (world.history.electionContests ?? [])[0]!;
+      const registry = createElectionTransitionRegistry();
+
+      // Advance to election date (day 10) so it resolves legitimately
+      world = advanceWorld(world, 10, registry);
+      expect(electionContestStatus(world, contest.id)).toBe("resolved");
+      assertWorldIntegrity(world);
+
+      // 1. Corrupt result.resolvedAt to day 5 (after scheduledAt, but before electionDate)
+      const corruptedWorld = structuredClone(world);
+      const corruptedResult =
+        corruptedWorld.history.electionContestResults![0]!;
+      const earlyResolvedAt = addDays(scheduledDate, 5);
+      (corruptedResult as { resolvedAt: string }).resolvedAt = earlyResolvedAt;
+
+      // Update the outcome event occurredAt to match earlyResolvedAt so event integrity passes
+      const outcomeEvent = corruptedWorld.history.events.find(
+        (e) => e.id === corruptedResult.outcomeEventId,
+      )!;
+      (outcomeEvent as { occurredAt: string }).occurredAt = earlyResolvedAt;
+
+      // 2. assertWorldIntegrity() rejects with election date check
+      expect(() => assertWorldIntegrity(corruptedWorld)).toThrow(
+        /Election contest result resolved before election date/i,
+      );
+
+      // 3. deserializeWorld() rejects corrupted serialized payload
+      const validSnapshot = JSON.parse(serializeWorld(world));
+      validSnapshot.world.history.electionContestResults[0].resolvedAt =
+        earlyResolvedAt;
+      const outcomeEventId =
+        validSnapshot.world.history.electionContestResults[0].outcomeEventId;
+      const eventToMutate = validSnapshot.world.history.events.find(
+        (e: { id: string }) => e.id === outcomeEventId,
+      );
+      if (eventToMutate) eventToMutate.occurredAt = earlyResolvedAt;
+      expect(() => deserializeWorld(JSON.stringify(validSnapshot))).toThrow(
+        /Election contest result resolved before election date/i,
+      );
+
+      // 4. Persistence round-trip rejects saving corrupted world
+      expect(() => repository.save(corruptedWorld)).toThrow(
+        /Election contest result resolved before election date/i,
+      );
+
+      // 5. Exact election date result passes cleanly
+      assertWorldIntegrity(world);
+      const roundTrippedWorld = deserializeWorld(serializeWorld(world));
+      assertWorldIntegrity(roundTrippedWorld);
+
+      // 6. Legitimate later resolution (e.g. electionDate + 2 days for certification) passes
+      let worldLater = createDemoWorld("election-later-certification-seed");
+      const jurisdictionLater = getJurisdictionId(worldLater);
+      const candidateLater1 = getPersonId(worldLater, 0);
+      const candidateLater2 = getPersonId(worldLater, 1);
+      const electionDateLater = addDays(worldLater.currentDate, 10);
+
+      worldLater = scheduleElectionContest(worldLater, {
+        stableKey: "later-cert:mayor",
+        jurisdictionId: jurisdictionLater,
+        office: {
+          officeKey: "mayor",
+          title: "Mayor",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        electionDate: electionDateLater,
+        candidatePersonIds: [candidateLater1, candidateLater2],
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+
+      const contestLater = (worldLater.history.electionContests ?? [])[0]!;
+
+      // Advance world 12 days (2 days after electionDate) and manually certify on certDate
+      const certDate = addDays(electionDateLater, 2);
+      const certificationHoldingRegistry =
+        createFutureTransitionHandlerRegistry([
+          [
+            ELECTION_CONTEST_TRANSITION_KEY,
+            (w: World) => ({
+              world: w,
+              status: "resolved" as const,
+              reasonKey: null,
+              context: "Awaiting post-election manual certification",
+              outcomeEventId: null,
+            }),
+          ],
+        ]);
+
+      worldLater = advanceWorld(worldLater, 12, certificationHoldingRegistry);
+      expect(worldLater.currentDate).toBe(certDate);
+
+      worldLater = resolveElectionContest(worldLater, {
+        contestId: contestLater.id,
+        resolvedAt: certDate,
+        provenance: {
+          method: "manual",
+          sourceEntityIds: [],
+          note: "Official certification 2 days after election",
+        },
+      });
+
+      expect(electionContestStatus(worldLater, contestLater.id)).toBe(
+        "resolved",
+      );
+      expect(
+        electionContestResult(worldLater, contestLater.id)?.resolvedAt,
+      ).toBe(certDate);
+      assertWorldIntegrity(worldLater);
+
+      repository.save(worldLater);
+      const loadedLater = repository.load(worldLater.id);
+      expect(loadedLater).not.toBeNull();
+      assertWorldIntegrity(loadedLater!);
+    });
   });
 });
