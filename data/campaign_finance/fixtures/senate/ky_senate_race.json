@@ -1,0 +1,268 @@
+{
+  "description": "Representative US Senate Campaign Finance Fixture - Statewide Senate Contest",
+  "candidates": [
+    {
+      "candidateId": "S0KY00010",
+      "name": "MCCONNELL, MITCH",
+      "office": "S",
+      "state": "KY",
+      "district": "00",
+      "party": "REP",
+      "partyAffiliation": "Republican Party",
+      "cycles": [2020, 2026],
+      "incumbentChallengeStatus": "I",
+      "principalCampaignCommitteeId": "C00193433",
+      "flags": {
+        "isFederalCandidate": true,
+        "hasActivePcc": true
+      }
+    },
+    {
+      "candidateId": "S0KY00150",
+      "name": "MCGRATH, AMY",
+      "office": "S",
+      "state": "KY",
+      "district": "00",
+      "party": "DEM",
+      "partyAffiliation": "Democratic Party",
+      "cycles": [2020, 2026],
+      "incumbentChallengeStatus": "C",
+      "principalCampaignCommitteeId": "C00719872",
+      "flags": {
+        "isFederalCandidate": true,
+        "hasActivePcc": true
+      }
+    }
+  ],
+  "committees": [
+    {
+      "committeeId": "C00193433",
+      "name": "MCCONNELL SENATE COMMITTEE",
+      "committeeType": "S",
+      "committeeTypeLabel": "Senate Principal Campaign Committee",
+      "designation": "P",
+      "designationLabel": "Principal Campaign Committee",
+      "party": "REP",
+      "state": "KY",
+      "treasurerName": "DAVIS, LARRY",
+      "sponsorCandidateId": "S0KY00010",
+      "cycles": [2020, 2026]
+    },
+    {
+      "committeeId": "C00719872",
+      "name": "AMY MCGRATH FOR SENATE",
+      "committeeType": "S",
+      "committeeTypeLabel": "Senate Principal Campaign Committee",
+      "designation": "P",
+      "designationLabel": "Principal Campaign Committee",
+      "party": "DEM",
+      "state": "KY",
+      "treasurerName": "MARSHALL, JUSTIN",
+      "sponsorCandidateId": "S0KY00150",
+      "cycles": [2020, 2026]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipId": "rel-S0KY00010-C00193433-2020-P",
+      "candidateId": "S0KY00010",
+      "committeeId": "C00193433",
+      "cycle": 2020,
+      "designation": "P",
+      "committeeType": "S",
+      "effectiveDateRange": {
+        "startYear": 2019,
+        "endYear": 2020
+      },
+      "isPrincipalCampaignCommittee": true
+    },
+    {
+      "relationshipId": "rel-S0KY00150-C00719872-2020-P",
+      "candidateId": "S0KY00150",
+      "committeeId": "C00719872",
+      "cycle": 2020,
+      "designation": "P",
+      "committeeType": "S",
+      "effectiveDateRange": {
+        "startYear": 2019,
+        "endYear": 2020
+      },
+      "isPrincipalCampaignCommittee": true
+    }
+  ],
+  "filings": [
+    {
+      "filingId": "1610001",
+      "committeeId": "C00193433",
+      "candidateId": "S0KY00010",
+      "cycle": 2020,
+      "reportYear": 2020,
+      "reportType": "Q3",
+      "reportTypeDescription": "OCTOBER QUARTERLY",
+      "formType": "F3",
+      "coverageStartDate": "2020-07-01",
+      "coverageEndDate": "2020-09-30",
+      "receiptDate": "2020-10-15",
+      "amendmentChain": {
+        "amendmentIndicator": "N",
+        "amendmentVersion": 0,
+        "amendsFilingId": null,
+        "isLatestActiveAmendment": true,
+        "supersededByFilingId": null
+      },
+      "financialSummary": {
+        "totalReceipts": 15600000.0,
+        "totalDisbursements": 19800000.0,
+        "cashOnHandBeginningPeriod": 16900000.0,
+        "cashOnHandClosePeriod": 12700000.0,
+        "debtsOwedByCommittee": 0.0,
+        "debtsOwedToCommittee": 0.0,
+        "individualContributionsTotal": 11200000.0,
+        "individualItemizedContributions": 8100000.0,
+        "individualUnitemizedContributions": 3100000.0,
+        "otherPoliticalCommitteeContributions": 3800000.0,
+        "transfersFromOtherAuthorizedCommittees": 600000.0,
+        "candidateContributions": 0.0,
+        "loansMadeByCandidate": 0.0,
+        "otherLoans": 0.0,
+        "operatingExpenditures": 19750000.0,
+        "refunds": 50000.0,
+        "independentExpendituresTotal": 0.0,
+        "netContributions": 15550000.0,
+        "netOperatingExpenditures": 19750000.0
+      },
+      "provenance": {
+        "source": "curated_fec_fixture",
+        "sourceUrl": "https://api.open.fec.gov/v1/reports/house-senate/?committee_id=C00193433",
+        "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
+        "apiVersion": "v1.0",
+        "recordChecksum": "5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f",
+        "amendmentPolicy": "exclude_superseded_in_aggregates",
+        "license": "public_domain_us_gov"
+      }
+    },
+    {
+      "filingId": "1620001",
+      "committeeId": "C00719872",
+      "candidateId": "S0KY00150",
+      "cycle": 2020,
+      "reportYear": 2020,
+      "reportType": "Q3",
+      "reportTypeDescription": "OCTOBER QUARTERLY",
+      "formType": "F3",
+      "coverageStartDate": "2020-07-01",
+      "coverageEndDate": "2020-09-30",
+      "receiptDate": "2020-10-15",
+      "amendmentChain": {
+        "amendmentIndicator": "N",
+        "amendmentVersion": 0,
+        "amendsFilingId": null,
+        "isLatestActiveAmendment": true,
+        "supersededByFilingId": null
+      },
+      "financialSummary": {
+        "totalReceipts": 36900000.0,
+        "totalDisbursements": 42100000.0,
+        "cashOnHandBeginningPeriod": 21800000.0,
+        "cashOnHandClosePeriod": 16600000.0,
+        "debtsOwedByCommittee": 250000.0,
+        "debtsOwedToCommittee": 0.0,
+        "individualContributionsTotal": 35200000.0,
+        "individualItemizedContributions": 18400000.0,
+        "individualUnitemizedContributions": 16800000.0,
+        "otherPoliticalCommitteeContributions": 1200000.0,
+        "transfersFromOtherAuthorizedCommittees": 500000.0,
+        "candidateContributions": 0.0,
+        "loansMadeByCandidate": 0.0,
+        "otherLoans": 0.0,
+        "operatingExpenditures": 42050000.0,
+        "refunds": 50000.0,
+        "independentExpendituresTotal": 0.0,
+        "netContributions": 36850000.0,
+        "netOperatingExpenditures": 42050000.0
+      },
+      "provenance": {
+        "source": "curated_fec_fixture",
+        "sourceUrl": "https://api.open.fec.gov/v1/reports/house-senate/?committee_id=C00719872",
+        "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
+        "apiVersion": "v1.0",
+        "recordChecksum": "6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a",
+        "amendmentPolicy": "exclude_superseded_in_aggregates",
+        "license": "public_domain_us_gov"
+      }
+    }
+  ],
+  "receipts": [
+    {
+      "transactionId": "SA11AI-SEN-MCC-1001",
+      "filingId": "1610001",
+      "committeeId": "C00193433",
+      "contributorName": "THOROUGHBRED EQUINE ENTERPRISES",
+      "contributorType": "individual",
+      "contributorOccupation": "OWNER",
+      "contributorEmployer": "SELF",
+      "contributorState": "KY",
+      "contributionDate": "2020-08-10",
+      "contributionAmount": 5600.0,
+      "aggregateAmountYtd": 5600.0,
+      "memoText": "PRIMARY/GENERAL COMBO",
+      "isItemized": true
+    },
+    {
+      "transactionId": "SA11AI-SEN-MCG-2001",
+      "filingId": "1620001",
+      "committeeId": "C00719872",
+      "contributorName": "GRASSROOTS ONLINE DONOR",
+      "contributorType": "individual",
+      "contributorOccupation": "TEACHER",
+      "contributorEmployer": "JEFFERSON COUNTY PUBLIC SCHOOLS",
+      "contributorState": "KY",
+      "contributionDate": "2020-09-02",
+      "contributionAmount": 250.0,
+      "aggregateAmountYtd": 350.0,
+      "memoText": "ACTBLUE RECURRING",
+      "isItemized": true
+    }
+  ],
+  "disbursements": [
+    {
+      "transactionId": "SB17-SEN-MCC-3001",
+      "filingId": "1610001",
+      "committeeId": "C00193433",
+      "recipientName": "NATIONAL MEDIA RESEARCH PLANNING & PLACEMENT",
+      "disbursementPurpose": "STATEWIDE TELEVISION BROADCAST ADVERTISING",
+      "disbursementCategory": "media_advertising",
+      "disbursementDate": "2020-09-12",
+      "disbursementAmount": 8500000.0,
+      "memoText": "MEDIA RESERVATION WEEKS 38-41"
+    },
+    {
+      "transactionId": "SB17-SEN-MCG-4001",
+      "filingId": "1620001",
+      "committeeId": "C00719872",
+      "recipientName": "AL MEDIA LLC",
+      "disbursementPurpose": "MEDIA BUY TELEVISION AND DIGITAL",
+      "disbursementCategory": "media_advertising",
+      "disbursementDate": "2020-09-15",
+      "disbursementAmount": 14200000.0,
+      "memoText": "STATEWIDE FLIGHT TV/DIGITAL"
+    }
+  ],
+  "loans": [],
+  "debts": [
+    {
+      "debtId": "SD10-SEN-MCG-6001",
+      "filingId": "1620001",
+      "committeeId": "C00719872",
+      "creditorName": "GLOBAL STRATEGY GROUP",
+      "debtNature": "POLLING AND SURVEY RESEARCH",
+      "debtCategory": "vendor_services",
+      "beginningBalanceThisPeriod": 0.0,
+      "amountIncurredThisPeriod": 250000.0,
+      "amountPaidThisPeriod": 0.0,
+      "endingBalanceThisPeriod": 250000.0,
+      "isDebtOwedByCommittee": true
+    }
+  ],
+  "independentExpenditures": []
+}

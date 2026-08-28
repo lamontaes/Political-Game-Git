@@ -1,0 +1,112 @@
+{
+  "description": "Representative Super PAC Independent Expenditures Fixture - Schedule E / Form 24 Filings",
+  "candidates": [],
+  "committees": [
+    {
+      "committeeId": "C00543210",
+      "name": "BLUEGRASS FREEDOM ACTION (SUPER PAC)",
+      "committeeType": "O",
+      "committeeTypeLabel": "Super PAC (Independent Expenditure-Only)",
+      "designation": "U",
+      "designationLabel": "Unauthorized Super PAC",
+      "party": null,
+      "state": "VA",
+      "treasurerName": "MACKENZIE, SCOTT",
+      "sponsorCandidateId": null,
+      "cycles": [2024]
+    }
+  ],
+  "relationships": [],
+  "filings": [
+    {
+      "filingId": "1880001",
+      "committeeId": "C00543210",
+      "candidateId": null,
+      "cycle": 2024,
+      "reportYear": 2024,
+      "reportType": "24",
+      "reportTypeDescription": "24-HOUR NOTICE OF INDEPENDENT EXPENDITURES",
+      "formType": "F24",
+      "coverageStartDate": "2024-10-18",
+      "coverageEndDate": "2024-10-18",
+      "receiptDate": "2024-10-18",
+      "amendmentChain": {
+        "amendmentIndicator": "N",
+        "amendmentVersion": 0,
+        "amendsFilingId": null,
+        "isLatestActiveAmendment": true,
+        "supersededByFilingId": null
+      },
+      "financialSummary": {
+        "totalReceipts": 0.0,
+        "totalDisbursements": 770000.0,
+        "cashOnHandBeginningPeriod": 2500000.0,
+        "cashOnHandClosePeriod": 1730000.0,
+        "debtsOwedByCommittee": 0.0,
+        "debtsOwedToCommittee": 0.0,
+        "individualContributionsTotal": 0.0,
+        "individualItemizedContributions": 0.0,
+        "individualUnitemizedContributions": 0.0,
+        "otherPoliticalCommitteeContributions": 0.0,
+        "transfersFromOtherAuthorizedCommittees": 0.0,
+        "candidateContributions": 0.0,
+        "loansMadeByCandidate": 0.0,
+        "otherLoans": 0.0,
+        "operatingExpenditures": 0.0,
+        "refunds": 0.0,
+        "independentExpendituresTotal": 770000.0,
+        "netContributions": 0.0,
+        "netOperatingExpenditures": 0.0
+      },
+      "provenance": {
+        "source": "curated_fec_fixture",
+        "sourceUrl": "https://api.open.fec.gov/v1/reports/independent-expenditures/?committee_id=C00543210",
+        "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
+        "apiVersion": "v1.0",
+        "recordChecksum": "0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b",
+        "amendmentPolicy": "exclude_superseded_in_aggregates",
+        "license": "public_domain_us_gov"
+      }
+    }
+  ],
+  "receipts": [],
+  "disbursements": [],
+  "loans": [],
+  "debts": [],
+  "independentExpenditures": [
+    {
+      "expenditureId": "SE-24HR-BARR-1001",
+      "filingId": "1880001",
+      "committeeId": "C00543210",
+      "committeeName": "BLUEGRASS FREEDOM ACTION (SUPER PAC)",
+      "candidateId": "H2KY06097",
+      "candidateName": "BARR, ANDY",
+      "officeSought": "H",
+      "state": "KY",
+      "district": "06",
+      "supportOppose": "S",
+      "payeeName": "WATERFRONT STRATEGIES MEDIA BUYING",
+      "disbursementDate": "2024-10-18",
+      "disseminationDate": "2024-10-19",
+      "amount": 450000.0,
+      "purpose": "TV ADVERTISEMENT - SUPPORT ANDY BARR"
+    },
+    {
+      "expenditureId": "SE-24HR-CRAV-1002",
+      "filingId": "1880001",
+      "committeeId": "C00543210",
+      "committeeName": "BLUEGRASS FREEDOM ACTION (SUPER PAC)",
+      "candidateId": "H0KY06085",
+      "candidateName": "CRAVENS, RANDY",
+      "officeSought": "H",
+      "state": "KY",
+      "district": "06",
+      "supportOppose": "O",
+      "payeeName": "MEDIA BUYING NETWORK INC",
+      "disbursementDate": "2024-10-18",
+      "disseminationDate": "2024-10-19",
+      "amount": 320000.0,
+      "purpose": "DIGITAL ATTACK ADVERTISEMENT - OPPOSE RANDY CRAVENS"
+    }
+  ]
+}

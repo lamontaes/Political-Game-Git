@@ -1,0 +1,51 @@
+{
+  "manifestVersion": "1.0.0",
+  "generatedAt": "2026-08-28T22:58:47.079Z",
+  "vintage": "2024-OpenFEC-v1.0",
+  "totals": {
+    "candidates": 5,
+    "committees": 9,
+    "relationships": 6,
+    "filings": 11,
+    "activeFilings": 10,
+    "supersededFilings": 1,
+    "receipts": 7,
+    "disbursements": 8,
+    "loans": 1,
+    "debts": 4,
+    "independentExpenditures": 2
+  },
+  "coverage": {
+    "cycles": [
+      2020,
+      2022,
+      2024,
+      2026
+    ],
+    "offices": {
+      "houseCandidates": 2,
+      "senateCandidates": 2,
+      "presidentialCandidates": 1
+    },
+    "committeeTypes": {
+      "X": 1,
+      "S": 2,
+      "W": 2,
+      "H": 2,
+      "O": 1,
+      "P": 1
+    },
+    "statesRepresented": [
+      "DC",
+      "KY",
+      "US",
+      "VA"
+    ]
+  },
+  "integrity": {
+    "corpusChecksum": "f10c5de988ce777aa9b3472948174083ac3ce62e115f6f69a0b1f7f73c37dc8d",
+    "totalActiveReceiptsVolume": 151210000,
+    "totalActiveDisbursementsVolume": 178072000,
+    "totalIndependentExpendituresVolume": 770000
+  }
+}

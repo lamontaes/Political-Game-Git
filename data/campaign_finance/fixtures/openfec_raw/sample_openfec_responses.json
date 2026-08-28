@@ -1,0 +1,121 @@
+{
+  "description": "Raw OpenFEC JSON API Endpoint Response Fixtures for Unit Adapter Testing",
+  "rawCandidates": [
+    {
+      "candidate_id": "H4KY04128",
+      "name": "MASSIE, THOMAS",
+      "office": "H",
+      "state": "KY",
+      "district": "04",
+      "party": "REP",
+      "party_full": "Republican Party",
+      "cycles": [2020, 2022, 2024],
+      "incumbent_challenge": "I",
+      "principal_committees": [
+        {
+          "committee_id": "C00508606",
+          "name": "THOMAS MASSIE FOR CONGRESS",
+          "designation": "P",
+          "committee_type": "H",
+          "cycles": [2020, 2022, 2024]
+        }
+      ]
+    }
+  ],
+  "rawCommittees": [
+    {
+      "committee_id": "C00508606",
+      "name": "THOMAS MASSIE FOR CONGRESS",
+      "committee_type": "H",
+      "committee_type_full": "House Principal Campaign Committee",
+      "designation": "P",
+      "designation_full": "Principal Campaign Committee",
+      "party": "REP",
+      "state": "KY",
+      "treasurer_name": "MASSIE, RHONDA",
+      "sponsor_candidate_id": "H4KY04128",
+      "cycles": [2020, 2022, 2024]
+    }
+  ],
+  "rawReports": [
+    {
+      "file_number": 1795432,
+      "committee_id": "C00508606",
+      "candidate_id": "H4KY04128",
+      "cycle": 2024,
+      "report_year": 2024,
+      "report_type": "Q2",
+      "report_type_full": "JULY QUARTERLY",
+      "form_type": "F3",
+      "coverage_start_date": "2024-04-01",
+      "coverage_end_date": "2024-06-30",
+      "receipt_date": "2024-07-15T12:00:00Z",
+      "amendment_indicator": "N",
+      "total_receipts": 420000.0,
+      "total_disbursements": 180000.0,
+      "cash_on_hand_beginning_period": 750000.0,
+      "cash_on_hand_close_period": 990000.0,
+      "debts_owed_by_committee": 0.0,
+      "debts_owed_to_committee": 0.0,
+      "individual_itemized_contributions": 210000.0,
+      "individual_unitemized_contributions": 150000.0,
+      "other_political_committee_contributions": 60000.0,
+      "transfers_from_other_authorized_committee": 0.0,
+      "candidate_contributions": 0.0,
+      "loans_made_by_candidate": 0.0,
+      "all_other_loans": 0.0,
+      "operating_expenditures": 180000.0,
+      "refunded_individual_contributions": 0.0,
+      "independent_expenditures": 0.0
+    }
+  ],
+  "rawReceipts": [
+    {
+      "sub_id": "4071520241987654321",
+      "transaction_id": "SA11AI.12345",
+      "file_number": 1795432,
+      "committee_id": "C00508606",
+      "contributor_name": "BOONE, DANIEL",
+      "entity_type": "IND",
+      "contributor_occupation": "SURVEYOR",
+      "contributor_employer": "SELF",
+      "contributor_state": "KY",
+      "contribution_receipt_date": "2024-05-12",
+      "contribution_receipt_amount": 1000.0,
+      "contributor_aggregate_ytd": 1000.0,
+      "memo_text": "PRIMARY ELECTION"
+    }
+  ],
+  "rawDisbursements": [
+    {
+      "sub_id": "4071520242987654321",
+      "transaction_id": "SB17.54321",
+      "file_number": 1795432,
+      "committee_id": "C00508606",
+      "recipient_name": "BLUEGRASS BROADCAST MEDIA",
+      "disbursement_description": "RADIO ADVERTISEMENT BROADCAST",
+      "disbursement_date": "2024-05-18",
+      "disbursement_amount": 25000.0,
+      "memo_text": "MEDIA SPOT"
+    }
+  ],
+  "rawIndependentExpenditures": [
+    {
+      "sub_id": "4071520243987654321",
+      "file_number": 1880001,
+      "committee_id": "C00543210",
+      "committee_name": "BLUEGRASS FREEDOM ACTION",
+      "candidate_id": "H4KY04128",
+      "candidate_name": "MASSIE, THOMAS",
+      "candidate_office": "H",
+      "candidate_state": "KY",
+      "candidate_district": "04",
+      "support_oppose_indicator": "S",
+      "payee_name": "NORTHERN KENTUCKY AD NETWORK",
+      "expenditure_date": "2024-05-10",
+      "dissemination_date": "2024-05-11",
+      "expenditure_amount": 85000.0,
+      "expenditure_description": "BILLBOARD AND DIGITAL ADS - SUPPORT THOMAS MASSIE"
+    }
+  ]
+}

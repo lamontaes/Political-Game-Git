@@ -1,0 +1,161 @@
+{
+  "description": "Representative Presidential Campaign Finance Fixture - Form 3P Monthly Campaign Filings",
+  "candidates": [
+    {
+      "candidateId": "P00000001",
+      "name": "PRESIDENTIAL NOMINEE, EXAMPLE",
+      "office": "P",
+      "state": "US",
+      "district": "00",
+      "party": "REP",
+      "partyAffiliation": "Republican Party",
+      "cycles": [2024],
+      "incumbentChallengeStatus": "O",
+      "principalCampaignCommitteeId": "C00703975",
+      "flags": {
+        "isFederalCandidate": true,
+        "hasActivePcc": true
+      }
+    }
+  ],
+  "committees": [
+    {
+      "committeeId": "C00703975",
+      "name": "CAMPAIGN FOR AMERICA 2024",
+      "committeeType": "P",
+      "committeeTypeLabel": "Presidential Principal Campaign Committee",
+      "designation": "P",
+      "designationLabel": "Principal Campaign Committee",
+      "party": "REP",
+      "state": "DC",
+      "treasurerName": "CRATE, BRADLEY",
+      "sponsorCandidateId": "P00000001",
+      "cycles": [2024]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipId": "rel-P00000001-C00703975-2024-P",
+      "candidateId": "P00000001",
+      "committeeId": "C00703975",
+      "cycle": 2024,
+      "designation": "P",
+      "committeeType": "P",
+      "effectiveDateRange": {
+        "startYear": 2023,
+        "endYear": 2024
+      },
+      "isPrincipalCampaignCommittee": true
+    }
+  ],
+  "filings": [
+    {
+      "filingId": "1850001",
+      "committeeId": "C00703975",
+      "candidateId": "P00000001",
+      "cycle": 2024,
+      "reportYear": 2024,
+      "reportType": "M9",
+      "reportTypeDescription": "SEPTEMBER MONTHLY",
+      "formType": "F3P",
+      "coverageStartDate": "2024-08-01",
+      "coverageEndDate": "2024-08-31",
+      "receiptDate": "2024-09-20",
+      "amendmentChain": {
+        "amendmentIndicator": "N",
+        "amendmentVersion": 0,
+        "amendsFilingId": null,
+        "isLatestActiveAmendment": true,
+        "supersededByFilingId": null
+      },
+      "financialSummary": {
+        "totalReceipts": 82000000.0,
+        "totalDisbursements": 95000000.0,
+        "cashOnHandBeginningPeriod": 140000000.0,
+        "cashOnHandClosePeriod": 127000000.0,
+        "debtsOwedByCommittee": 1200000.0,
+        "debtsOwedToCommittee": 0.0,
+        "individualContributionsTotal": 45000000.0,
+        "individualItemizedContributions": 28000000.0,
+        "individualUnitemizedContributions": 17000000.0,
+        "otherPoliticalCommitteeContributions": 1000000.0,
+        "transfersFromOtherAuthorizedCommittees": 36000000.0,
+        "candidateContributions": 0.0,
+        "loansMadeByCandidate": 0.0,
+        "otherLoans": 0.0,
+        "operatingExpenditures": 94800000.0,
+        "refunds": 200000.0,
+        "independentExpendituresTotal": 0.0,
+        "netContributions": 44800000.0,
+        "netOperatingExpenditures": 94800000.0
+      },
+      "provenance": {
+        "source": "curated_fec_fixture",
+        "sourceUrl": "https://api.open.fec.gov/v1/reports/presidential/?committee_id=C00703975",
+        "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
+        "apiVersion": "v1.0",
+        "recordChecksum": "7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b",
+        "amendmentPolicy": "exclude_superseded_in_aggregates",
+        "license": "public_domain_us_gov"
+      }
+    }
+  ],
+  "receipts": [
+    {
+      "transactionId": "SA18-PRES-1001",
+      "filingId": "1850001",
+      "committeeId": "C00703975",
+      "contributorName": "TRUMP 47 VICTORY JOINT FUNDRAISING COMMITTEE",
+      "contributorType": "transfer",
+      "contributorOccupation": null,
+      "contributorEmployer": null,
+      "contributorState": "VA",
+      "contributionDate": "2024-08-15",
+      "contributionAmount": 25000000.0,
+      "aggregateAmountYtd": 95000000.0,
+      "memoText": "TRANSFERRED PROCEEDS FROM JFC",
+      "isItemized": true
+    }
+  ],
+  "disbursements": [
+    {
+      "transactionId": "SB23-PRES-2001",
+      "filingId": "1850001",
+      "committeeId": "C00703975",
+      "recipientName": "NATIONAL MEDIA BUYING CONSORTIUM",
+      "disbursementPurpose": "NATIONAL BROADCAST AND STREAMING ADVERTISING",
+      "disbursementCategory": "media_advertising",
+      "disbursementDate": "2024-08-22",
+      "disbursementAmount": 42000000.0,
+      "memoText": "BATTLEGROUND MEDIA FLIGHT"
+    },
+    {
+      "transactionId": "SB23-PRES-2002",
+      "filingId": "1850001",
+      "committeeId": "C00703975",
+      "recipientName": "EVENT PRODUCTIONS USA",
+      "disbursementPurpose": "ARENA STADIUM RALLY VENUE RENTALS",
+      "disbursementCategory": "travel_events",
+      "disbursementDate": "2024-08-28",
+      "disbursementAmount": 3400000.0,
+      "memoText": "SOUND, LIGHTING, ARENA LEASE"
+    }
+  ],
+  "loans": [],
+  "debts": [
+    {
+      "debtId": "SD10-PRES-6001",
+      "filingId": "1850001",
+      "committeeId": "C00703975",
+      "creditorName": "AVIATION CHARTER SOLUTIONS",
+      "debtNature": "CAMPAIGN AIRCRAFT CHARTER LEASE",
+      "debtCategory": "travel_logistics",
+      "beginningBalanceThisPeriod": 800000.0,
+      "amountIncurredThisPeriod": 1200000.0,
+      "amountPaidThisPeriod": 800000.0,
+      "endingBalanceThisPeriod": 1200000.0,
+      "isDebtOwedByCommittee": true
+    }
+  ],
+  "independentExpenditures": []
+}

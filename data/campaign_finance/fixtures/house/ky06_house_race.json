@@ -1,0 +1,499 @@
+{
+  "description": "Representative US House Campaign Finance Fixture - Kentucky 6th Congressional District (2022-2024 Cycles)",
+  "candidates": [
+    {
+      "candidateId": "H2KY06097",
+      "name": "BARR, ANDY",
+      "office": "H",
+      "state": "KY",
+      "district": "06",
+      "party": "REP",
+      "partyAffiliation": "Republican Party",
+      "cycles": [2022, 2024],
+      "incumbentChallengeStatus": "I",
+      "principalCampaignCommitteeId": "C00473538",
+      "flags": {
+        "isFederalCandidate": true,
+        "hasActivePcc": true
+      }
+    },
+    {
+      "candidateId": "H0KY06085",
+      "name": "CRAVENS, RANDY",
+      "office": "H",
+      "state": "KY",
+      "district": "06",
+      "party": "DEM",
+      "partyAffiliation": "Democratic Party",
+      "cycles": [2022, 2024],
+      "incumbentChallengeStatus": "C",
+      "principalCampaignCommitteeId": "C00742890",
+      "flags": {
+        "isFederalCandidate": true,
+        "hasActivePcc": true
+      }
+    }
+  ],
+  "committees": [
+    {
+      "committeeId": "C00473538",
+      "name": "ANDY BARR FOR CONGRESS",
+      "committeeType": "H",
+      "committeeTypeLabel": "House Principal Campaign Committee",
+      "designation": "P",
+      "designationLabel": "Principal Campaign Committee",
+      "party": "REP",
+      "state": "KY",
+      "treasurerName": "KILGORE, WHITNEY",
+      "sponsorCandidateId": "H2KY06097",
+      "cycles": [2022, 2024]
+    },
+    {
+      "committeeId": "C00632125",
+      "name": "BUILDING AMERICA'S REPUBLICAN REACH PAC (BARR PAC)",
+      "committeeType": "W",
+      "committeeTypeLabel": "Leadership PAC",
+      "designation": "D",
+      "designationLabel": "Leadership PAC",
+      "party": "REP",
+      "state": "KY",
+      "treasurerName": "KILGORE, WHITNEY",
+      "sponsorCandidateId": "H2KY06097",
+      "cycles": [2022, 2024]
+    },
+    {
+      "committeeId": "C00742890",
+      "name": "CRAVENS FOR CONGRESS",
+      "committeeType": "H",
+      "committeeTypeLabel": "House Principal Campaign Committee",
+      "designation": "P",
+      "designationLabel": "Principal Campaign Committee",
+      "party": "DEM",
+      "state": "KY",
+      "treasurerName": "CRAVENS, RANDY",
+      "sponsorCandidateId": "H0KY06085",
+      "cycles": [2022, 2024]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipId": "rel-H2KY06097-C00473538-2024-P",
+      "candidateId": "H2KY06097",
+      "committeeId": "C00473538",
+      "cycle": 2024,
+      "designation": "P",
+      "committeeType": "H",
+      "effectiveDateRange": {
+        "startYear": 2023,
+        "endYear": 2024
+      },
+      "isPrincipalCampaignCommittee": true
+    },
+    {
+      "relationshipId": "rel-H2KY06097-C00632125-2024-D",
+      "candidateId": "H2KY06097",
+      "committeeId": "C00632125",
+      "cycle": 2024,
+      "designation": "D",
+      "committeeType": "W",
+      "effectiveDateRange": {
+        "startYear": 2023,
+        "endYear": 2024
+      },
+      "isPrincipalCampaignCommittee": false
+    },
+    {
+      "relationshipId": "rel-H0KY06085-C00742890-2024-P",
+      "candidateId": "H0KY06085",
+      "committeeId": "C00742890",
+      "cycle": 2024,
+      "designation": "P",
+      "committeeType": "H",
+      "effectiveDateRange": {
+        "startYear": 2023,
+        "endYear": 2024
+      },
+      "isPrincipalCampaignCommittee": true
+    }
+  ],
+  "filings": [
+    {
+      "filingId": "1710001",
+      "committeeId": "C00473538",
+      "candidateId": "H2KY06097",
+      "cycle": 2024,
+      "reportYear": 2023,
+      "reportType": "Q1",
+      "reportTypeDescription": "APRIL QUARTERLY",
+      "formType": "F3",
+      "coverageStartDate": "2023-01-01",
+      "coverageEndDate": "2023-03-31",
+      "receiptDate": "2023-04-15",
+      "amendmentChain": {
+        "amendmentIndicator": "N",
+        "amendmentVersion": 0,
+        "amendsFilingId": null,
+        "isLatestActiveAmendment": true,
+        "supersededByFilingId": null
+      },
+      "financialSummary": {
+        "totalReceipts": 650000.0,
+        "totalDisbursements": 180000.0,
+        "cashOnHandBeginningPeriod": 420000.0,
+        "cashOnHandClosePeriod": 890000.0,
+        "debtsOwedByCommittee": 0.0,
+        "debtsOwedToCommittee": 0.0,
+        "individualContributionsTotal": 390000.0,
+        "individualItemizedContributions": 310000.0,
+        "individualUnitemizedContributions": 80000.0,
+        "otherPoliticalCommitteeContributions": 240000.0,
+        "transfersFromOtherAuthorizedCommittees": 20000.0,
+        "candidateContributions": 0.0,
+        "loansMadeByCandidate": 0.0,
+        "otherLoans": 0.0,
+        "operatingExpenditures": 175000.0,
+        "refunds": 5000.0,
+        "independentExpendituresTotal": 0.0,
+        "netContributions": 645000.0,
+        "netOperatingExpenditures": 175000.0
+      },
+      "provenance": {
+        "source": "curated_fec_fixture",
+        "sourceUrl": "https://api.open.fec.gov/v1/reports/house-senate/?committee_id=C00473538",
+        "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
+        "apiVersion": "v1.0",
+        "recordChecksum": "7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b",
+        "amendmentPolicy": "exclude_superseded_in_aggregates",
+        "license": "public_domain_us_gov"
+      }
+    },
+    {
+      "filingId": "1720001",
+      "committeeId": "C00473538",
+      "candidateId": "H2KY06097",
+      "cycle": 2024,
+      "reportYear": 2023,
+      "reportType": "Q2",
+      "reportTypeDescription": "JULY QUARTERLY",
+      "formType": "F3",
+      "coverageStartDate": "2023-04-01",
+      "coverageEndDate": "2023-06-30",
+      "receiptDate": "2023-07-15",
+      "amendmentChain": {
+        "amendmentIndicator": "N",
+        "amendmentVersion": 0,
+        "amendsFilingId": null,
+        "isLatestActiveAmendment": false,
+        "supersededByFilingId": "1720099"
+      },
+      "financialSummary": {
+        "totalReceipts": 580000.0,
+        "totalDisbursements": 210000.0,
+        "cashOnHandBeginningPeriod": 890000.0,
+        "cashOnHandClosePeriod": 1260000.0,
+        "debtsOwedByCommittee": 0.0,
+        "debtsOwedToCommittee": 0.0,
+        "individualContributionsTotal": 340000.0,
+        "individualItemizedContributions": 270000.0,
+        "individualUnitemizedContributions": 70000.0,
+        "otherPoliticalCommitteeContributions": 230000.0,
+        "transfersFromOtherAuthorizedCommittees": 10000.0,
+        "candidateContributions": 0.0,
+        "loansMadeByCandidate": 0.0,
+        "otherLoans": 0.0,
+        "operatingExpenditures": 205000.0,
+        "refunds": 5000.0,
+        "independentExpendituresTotal": 0.0,
+        "netContributions": 575000.0,
+        "netOperatingExpenditures": 205000.0
+      },
+      "provenance": {
+        "source": "curated_fec_fixture",
+        "sourceUrl": "https://api.open.fec.gov/v1/reports/house-senate/?committee_id=C00473538",
+        "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
+        "apiVersion": "v1.0",
+        "recordChecksum": "1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b",
+        "amendmentPolicy": "exclude_superseded_in_aggregates",
+        "license": "public_domain_us_gov"
+      }
+    },
+    {
+      "filingId": "1720099",
+      "committeeId": "C00473538",
+      "candidateId": "H2KY06097",
+      "cycle": 2024,
+      "reportYear": 2023,
+      "reportType": "Q2",
+      "reportTypeDescription": "JULY QUARTERLY (AMENDMENT 1)",
+      "formType": "F3",
+      "coverageStartDate": "2023-04-01",
+      "coverageEndDate": "2023-06-30",
+      "receiptDate": "2023-08-01",
+      "amendmentChain": {
+        "amendmentIndicator": "A",
+        "amendmentVersion": 1,
+        "amendsFilingId": "1720001",
+        "isLatestActiveAmendment": true,
+        "supersededByFilingId": null
+      },
+      "financialSummary": {
+        "totalReceipts": 595000.0,
+        "totalDisbursements": 210000.0,
+        "cashOnHandBeginningPeriod": 890000.0,
+        "cashOnHandClosePeriod": 1275000.0,
+        "debtsOwedByCommittee": 0.0,
+        "debtsOwedToCommittee": 0.0,
+        "individualContributionsTotal": 355000.0,
+        "individualItemizedContributions": 285000.0,
+        "individualUnitemizedContributions": 70000.0,
+        "otherPoliticalCommitteeContributions": 230000.0,
+        "transfersFromOtherAuthorizedCommittees": 10000.0,
+        "candidateContributions": 0.0,
+        "loansMadeByCandidate": 0.0,
+        "otherLoans": 0.0,
+        "operatingExpenditures": 205000.0,
+        "refunds": 5000.0,
+        "independentExpendituresTotal": 0.0,
+        "netContributions": 590000.0,
+        "netOperatingExpenditures": 205000.0
+      },
+      "provenance": {
+        "source": "curated_fec_fixture",
+        "sourceUrl": "https://api.open.fec.gov/v1/reports/house-senate/?committee_id=C00473538",
+        "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
+        "apiVersion": "v1.0",
+        "recordChecksum": "2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c",
+        "amendmentPolicy": "exclude_superseded_in_aggregates",
+        "license": "public_domain_us_gov"
+      }
+    },
+    {
+      "filingId": "1730001",
+      "committeeId": "C00473538",
+      "candidateId": "H2KY06097",
+      "cycle": 2024,
+      "reportYear": 2024,
+      "reportType": "Q3",
+      "reportTypeDescription": "OCTOBER QUARTERLY",
+      "formType": "F3",
+      "coverageStartDate": "2024-07-01",
+      "coverageEndDate": "2024-09-30",
+      "receiptDate": "2024-10-15",
+      "amendmentChain": {
+        "amendmentIndicator": "N",
+        "amendmentVersion": 0,
+        "amendsFilingId": null,
+        "isLatestActiveAmendment": true,
+        "supersededByFilingId": null
+      },
+      "financialSummary": {
+        "totalReceipts": 850000.0,
+        "totalDisbursements": 1150000.0,
+        "cashOnHandBeginningPeriod": 1850000.0,
+        "cashOnHandClosePeriod": 1550000.0,
+        "debtsOwedByCommittee": 12500.0,
+        "debtsOwedToCommittee": 0.0,
+        "individualContributionsTotal": 510000.0,
+        "individualItemizedContributions": 410000.0,
+        "individualUnitemizedContributions": 100000.0,
+        "otherPoliticalCommitteeContributions": 320000.0,
+        "transfersFromOtherAuthorizedCommittees": 20000.0,
+        "candidateContributions": 0.0,
+        "loansMadeByCandidate": 0.0,
+        "otherLoans": 0.0,
+        "operatingExpenditures": 1145000.0,
+        "refunds": 5000.0,
+        "independentExpendituresTotal": 0.0,
+        "netContributions": 845000.0,
+        "netOperatingExpenditures": 1145000.0
+      },
+      "provenance": {
+        "source": "curated_fec_fixture",
+        "sourceUrl": "https://api.open.fec.gov/v1/reports/house-senate/?committee_id=C00473538",
+        "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
+        "apiVersion": "v1.0",
+        "recordChecksum": "3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d",
+        "amendmentPolicy": "exclude_superseded_in_aggregates",
+        "license": "public_domain_us_gov"
+      }
+    },
+    {
+      "filingId": "1740001",
+      "committeeId": "C00742890",
+      "candidateId": "H0KY06085",
+      "cycle": 2024,
+      "reportYear": 2024,
+      "reportType": "Q3",
+      "reportTypeDescription": "OCTOBER QUARTERLY",
+      "formType": "F3",
+      "coverageStartDate": "2024-07-01",
+      "coverageEndDate": "2024-09-30",
+      "receiptDate": "2024-10-15",
+      "amendmentChain": {
+        "amendmentIndicator": "N",
+        "amendmentVersion": 0,
+        "amendsFilingId": null,
+        "isLatestActiveAmendment": true,
+        "supersededByFilingId": null
+      },
+      "financialSummary": {
+        "totalReceipts": 95000.0,
+        "totalDisbursements": 82000.0,
+        "cashOnHandBeginningPeriod": 12000.0,
+        "cashOnHandClosePeriod": 25000.0,
+        "debtsOwedByCommittee": 54200.0,
+        "debtsOwedToCommittee": 0.0,
+        "individualContributionsTotal": 40000.0,
+        "individualItemizedContributions": 18000.0,
+        "individualUnitemizedContributions": 22000.0,
+        "otherPoliticalCommitteeContributions": 5000.0,
+        "transfersFromOtherAuthorizedCommittees": 0.0,
+        "candidateContributions": 0.0,
+        "loansMadeByCandidate": 50000.0,
+        "otherLoans": 0.0,
+        "operatingExpenditures": 82000.0,
+        "refunds": 0.0,
+        "independentExpendituresTotal": 0.0,
+        "netContributions": 45000.0,
+        "netOperatingExpenditures": 82000.0
+      },
+      "provenance": {
+        "source": "curated_fec_fixture",
+        "sourceUrl": "https://api.open.fec.gov/v1/reports/house-senate/?committee_id=C00742890",
+        "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
+        "apiVersion": "v1.0",
+        "recordChecksum": "4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e",
+        "amendmentPolicy": "exclude_superseded_in_aggregates",
+        "license": "public_domain_us_gov"
+      }
+    }
+  ],
+  "receipts": [
+    {
+      "transactionId": "SA11AI-BARR-1001",
+      "filingId": "1730001",
+      "committeeId": "C00473538",
+      "contributorName": "SMITH, ELEANOR",
+      "contributorType": "individual",
+      "contributorOccupation": "PHYSICIAN",
+      "contributorEmployer": "LEXINGTON CLINIC",
+      "contributorState": "KY",
+      "contributionDate": "2024-08-14",
+      "contributionAmount": 3300.0,
+      "aggregateAmountYtd": 3300.0,
+      "memoText": "PRIMARY ELECTION CONTRIBUTION",
+      "isItemized": true
+    },
+    {
+      "transactionId": "SA11C-BARR-1002",
+      "filingId": "1730001",
+      "committeeId": "C00473538",
+      "contributorName": "AMERICAN FINANCIAL SERVICES PAC",
+      "contributorType": "pac",
+      "contributorOccupation": null,
+      "contributorEmployer": null,
+      "contributorState": "DC",
+      "contributionDate": "2024-09-10",
+      "contributionAmount": 5000.0,
+      "aggregateAmountYtd": 10000.0,
+      "memoText": "PAC CONTRIBUTION",
+      "isItemized": true
+    },
+    {
+      "transactionId": "SA11AI-CRAV-2001",
+      "filingId": "1740001",
+      "committeeId": "C00742890",
+      "contributorName": "JOHNSON, ROBERT",
+      "contributorType": "individual",
+      "contributorOccupation": "SOFTWARE ENGINEER",
+      "contributorEmployer": "SELF",
+      "contributorState": "KY",
+      "contributionDate": "2024-08-20",
+      "contributionAmount": 500.0,
+      "aggregateAmountYtd": 750.0,
+      "memoText": "ONLINE CONTRIBUTION",
+      "isItemized": true
+    }
+  ],
+  "disbursements": [
+    {
+      "transactionId": "SB17-BARR-3001",
+      "filingId": "1730001",
+      "committeeId": "C00473538",
+      "recipientName": "STRATEGIC MEDIA PLACEMENT INC",
+      "disbursementPurpose": "TELEVISION ADVERTISING BROADCAST",
+      "disbursementCategory": "media_advertising",
+      "disbursementDate": "2024-09-18",
+      "disbursementAmount": 450000.0,
+      "memoText": "TV AIRTIME LEXINGTON MEDIA MARKET"
+    },
+    {
+      "transactionId": "SB17-BARR-3002",
+      "filingId": "1730001",
+      "committeeId": "C00473538",
+      "recipientName": "PUBLIC OPINION STRATEGIES",
+      "disbursementPurpose": "BENCHMARK SURVEY POLLING",
+      "disbursementCategory": "polling_research",
+      "disbursementDate": "2024-08-05",
+      "disbursementAmount": 38000.0,
+      "memoText": "DISTRICT WIDE SURVEY"
+    },
+    {
+      "transactionId": "SB17-CRAV-4001",
+      "filingId": "1740001",
+      "committeeId": "C00742890",
+      "recipientName": "BLUEGRASS PRINTING & MAIL",
+      "disbursementPurpose": "VOTER CONTACT DIRECT MAIL",
+      "disbursementCategory": "mail_postage",
+      "disbursementDate": "2024-09-22",
+      "disbursementAmount": 18500.0,
+      "memoText": "ABSENTEE BALLOT CHASE PIECE"
+    }
+  ],
+  "loans": [
+    {
+      "loanId": "SC10-CRAV-5001",
+      "filingId": "1740001",
+      "committeeId": "C00742890",
+      "lenderName": "CRAVENS, RANDY",
+      "lenderType": "candidate_personal",
+      "isCandidatePersonalLoan": true,
+      "originalLoanAmount": 50000.0,
+      "cumulativePaymentToDate": 0.0,
+      "loanBalanceRemaining": 50000.0,
+      "loanIncurredDate": "2024-07-05",
+      "loanDueDate": "2024-12-31",
+      "interestRate": 0.0,
+      "isSecured": false
+    }
+  ],
+  "debts": [
+    {
+      "debtId": "SD10-BARR-6001",
+      "filingId": "1730001",
+      "committeeId": "C00473538",
+      "creditorName": "TARGETED VICTORY LLC",
+      "debtNature": "DIGITAL AD PRODUCTION",
+      "debtCategory": "media_production",
+      "beginningBalanceThisPeriod": 0.0,
+      "amountIncurredThisPeriod": 12500.0,
+      "amountPaidThisPeriod": 0.0,
+      "endingBalanceThisPeriod": 12500.0,
+      "isDebtOwedByCommittee": true
+    },
+    {
+      "debtId": "SD10-CRAV-6002",
+      "filingId": "1740001",
+      "committeeId": "C00742890",
+      "creditorName": "COMPLIANCE & LEGAL PARTNERS PLLC",
+      "debtNature": "LEGAL AND TREASURY COMPLIANCE",
+      "debtCategory": "legal_compliance",
+      "beginningBalanceThisPeriod": 2000.0,
+      "amountIncurredThisPeriod": 4200.0,
+      "amountPaidThisPeriod": 2000.0,
+      "endingBalanceThisPeriod": 4200.0,
+      "isDebtOwedByCommittee": true
+    }
+  ],
+  "independentExpenditures": []
+}
