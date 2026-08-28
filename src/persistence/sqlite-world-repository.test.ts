@@ -13,6 +13,9 @@ import {
   createFormationContext,
   createFutureTransitionHandlerRegistry,
   createDemoWorld,
+  createPortabilityFixture,
+  advanceWorldMinutes,
+  serializeWorld,
   createHousingTenure,
   createWorld,
   createEducationEnrollment,
@@ -72,6 +75,19 @@ describe("SQLite world repository", () => {
   afterEach(() => {
     repository?.close();
     repository = null;
+  });
+
+  it("preserves alternate jurisdiction identities and deterministic continuation through SQLite", () => {
+    const initial = createPortabilityFixture();
+    const world = materializePerson(initial, initial.personOrder[0]!);
+    repository = new SqliteWorldRepository(":memory:");
+    repository.save(world);
+    const loaded = repository.load(world.id);
+    expect(loaded).toStrictEqual(world);
+    if (!loaded) throw new Error("Portability world was not persisted.");
+    expect(
+      serializeWorld(advanceDemoWorld(advanceWorldMinutes(loaded, 40), 7)),
+    ).toBe(serializeWorld(advanceDemoWorld(advanceWorldMinutes(world, 40), 7)));
   });
 
   it("persists an exact Run D actor-initiated incident snapshot", () => {

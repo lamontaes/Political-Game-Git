@@ -1,11 +1,56 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "./dates";
+import { createScenarioWorld } from "./demo";
+import { PORTABILITY_CONTEXT } from "./portability-fixture";
+import { assertWorldIntegrity } from "./world";
 import {
   formatPersonStressHarnessReport,
   runPersonStressHarness,
 } from "./person-stress-harness";
 
 describe("Person Multi-Seed Stress Harness", () => {
+  it.each(["production", "stress"] as const)(
+    "replays %s harness populations through the alternate jurisdiction constructor",
+    (profile) => {
+      const options = {
+        seedCount: 20,
+        seedPrefix: "synthetic-portability-stress",
+        peoplePerSeed: 8,
+        profile,
+        currentDate: PORTABILITY_CONTEXT.initialMoment.date,
+        jurisdictionId: PORTABILITY_CONTEXT.jurisdiction.id,
+      };
+      const result = runPersonStressHarness(options);
+      expect(result).toStrictEqual(runPersonStressHarness(options));
+      expect(result.uniqueAppearanceSeeds).toBe(160);
+      for (const population of result.populations) {
+        const world = createScenarioWorld(
+          population.seed,
+          PORTABILITY_CONTEXT,
+          {
+            peopleCount: options.peoplePerSeed,
+            profile,
+          },
+        );
+        expect(() => assertWorldIntegrity(world)).not.toThrow();
+        expect(world.personOrder).toEqual(
+          population.people.map((person) => person.id),
+        );
+        for (const summary of population.people) {
+          expect(world.people[summary.id]).toMatchObject({
+            givenName: summary.givenName,
+            familyName: summary.familyName,
+            birthDate: summary.birthDate,
+            appearance: { seed: summary.appearanceSeed },
+            homeJurisdictionId: options.jurisdictionId,
+            generatorVersion: "person-v5",
+            corpusVersion: "names-v1",
+          });
+        }
+      }
+    },
+  );
+
   it("16. produces deterministic statistics and report across multiple seeds", () => {
     const run1 = runPersonStressHarness({
       seeds: ["harness-seed-1", "harness-seed-2", "harness-seed-3"],

@@ -1,4 +1,16 @@
-import { makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "./dates";
+import {
+  LEXINGTON_DEMO_CONTEXT,
+  LEXINGTON_PLACEHOLDER_ID,
+  type DemoJurisdictionContext,
+} from "./demo-jurisdiction-context";
+
+export {
+  DEMO_START_DATE,
+  LEXINGTON_DEMO_CONTEXT,
+  LEXINGTON_PLACEHOLDER_ID,
+} from "./demo-jurisdiction-context";
+export type { DemoJurisdictionContext } from "./demo-jurisdiction-context";
 import { createStableId } from "./ids";
 import {
   createCareResponsibility,
@@ -47,12 +59,7 @@ import {
   recordMemory,
   recordRelationshipInteraction,
 } from "./records";
-import type {
-  EntityId,
-  Jurisdiction,
-  PersonGenerationProfile,
-  World,
-} from "./types";
+import type { EntityId, PersonGenerationProfile, World } from "./types";
 import {
   advanceWorld,
   createWorld,
@@ -62,11 +69,6 @@ import {
 } from "./world";
 
 export const DEFAULT_DEMO_SEED = "lexington-foundation";
-export const DEMO_START_DATE = makeIsoDate("2026-01-05");
-export const LEXINGTON_PLACEHOLDER_ID = createStableId(
-  "jurisdiction",
-  "definition:us-ky-lexington-fayette-placeholder",
-);
 
 const COMMUNITY_TOPICS = [
   "access to neighborhood services",
@@ -75,38 +77,44 @@ const COMMUNITY_TOPICS = [
   "workforce training options",
 ] as const;
 
-function createLexingtonPlaceholder(): Jurisdiction {
-  return {
-    id: LEXINGTON_PLACEHOLDER_ID,
-    slug: "us-ky-lexington-fayette-placeholder",
-    name: "Lexington-Fayette, Kentucky",
-    kind: "consolidated-city-county-placeholder",
-    parentName: "Kentucky",
-    provenance: {
-      asOf: null,
-      source: null,
-      jurisdiction: LEXINGTON_PLACEHOLDER_ID,
-      status: "placeholder",
-    },
-  };
-}
-
-export interface CreateDemoWorldOptions {
+export interface CreateScenarioWorldOptions {
   readonly generatorVersion?: string;
   readonly corpusVersion?: string;
   readonly profile?: PersonGenerationProfile;
   readonly peopleCount?: number;
 }
 
+export interface CreateDemoWorldOptions extends CreateScenarioWorldOptions {
+  readonly context?: DemoJurisdictionContext;
+}
+
+/** Compatibility entry point: omitted context preserves the primary fixture. */
 export function createDemoWorld(
   seedInput = DEFAULT_DEMO_SEED,
   options?: CreateDemoWorldOptions,
 ): World {
+  const { context = LEXINGTON_DEMO_CONTEXT, ...generationOptions } =
+    options ?? {};
+  return createScenarioWorld(seedInput, context, {
+    ...generationOptions,
+    generatorVersion:
+      generationOptions.generatorVersion ??
+      LEGACY_DEMO_PERSON_GENERATOR_VERSION,
+  });
+}
+
+/** Shared fixture assembly; jurisdiction and canonical clock are required inputs. */
+export function createScenarioWorld(
+  seedInput: string,
+  context: DemoJurisdictionContext,
+  options?: CreateScenarioWorldOptions,
+): World {
   const seed = normalizeSeed(seedInput);
   const worldId = createWorldId(seed);
-  const jurisdiction = createLexingtonPlaceholder();
+  const jurisdiction = context.jurisdiction;
+  const currentDate = makeIsoDate(context.initialMoment.date);
   const generatorVersion =
-    options?.generatorVersion ?? LEGACY_DEMO_PERSON_GENERATOR_VERSION;
+    options?.generatorVersion ?? DEFAULT_PERSON_GENERATOR_VERSION;
   const corpusVersion =
     options?.corpusVersion ??
     (generatorVersion === LEGACY_DEMO_PERSON_GENERATOR_VERSION
@@ -118,7 +126,7 @@ export function createDemoWorld(
       worldId,
       worldSeed: seed,
       index,
-      currentDate: DEMO_START_DATE,
+      currentDate,
       homeJurisdictionId: jurisdiction.id,
       profile: options?.profile,
       generatorVersion,
@@ -128,13 +136,8 @@ export function createDemoWorld(
 
   let world = createWorld({
     seed,
-    currentDate: DEMO_START_DATE,
-    currentMoment: {
-      date: DEMO_START_DATE,
-      minuteOfDay: 9 * 60 + 10,
-      timeZone: "America/New_York",
-      utcOffsetMinutes: -300,
-    },
+    currentDate,
+    currentMoment: context.initialMoment,
     jurisdictions: [jurisdiction],
     people,
   });
@@ -150,8 +153,7 @@ export function createDemoWorld(
     personFactConstraints: [],
     visibility: "public",
     tags: ["simulation.world-created"],
-    summary:
-      "Seeded demonstration world created with a Lexington-Fayette placeholder.",
+    summary: context.creationSummary,
     context: {
       location: {
         jurisdictionId: jurisdiction.id,
@@ -337,7 +339,7 @@ export function createDemoWorld(
     recordedAt: world.currentDate,
     objective: "Understand one concrete local need before taking a firm view.",
     domain: "community-learning",
-    scope: "Lexington-Fayette placeholder",
+    scope: context.goalScope,
     priority: "moderate",
     status: "active",
     targetEntityId: jurisdiction.id,
@@ -387,7 +389,7 @@ export function createDemoWorld(
     label: "Heightened attention",
     recordedAt: world.currentDate,
     startsAt: world.currentDate,
-    endsAt: makeIsoDate("2026-01-06"),
+    endsAt: addDays(world.currentDate, 1),
     intensity: "subtle",
     decisionTags: ["political-belief-formation"],
     provenance: createMindProvenance("reflection", {
@@ -569,7 +571,7 @@ export function createDemoWorld(
       householdId,
       effectiveAt: world.currentDate,
       jurisdictionId: jurisdiction.id,
-      label: "Synthetic Lexington-area location",
+      label: context.householdLocationLabel,
       kind: "residence:community-base",
       provenance: lifeProvenance,
       supersedesLocationId: null,
@@ -671,7 +673,8 @@ export function advanceDemoWorld(world: World, days = 7): World {
     ? advanced.people[secondPersonId]
     : undefined;
 
-  if (!firstPerson || !secondPerson) {
+  const jurisdiction = advanced.jurisdictions[jurisdictionId];
+  if (!jurisdiction || !firstPerson || !secondPerson) {
     throw new Error(
       "Demo occurrence could not resolve its selected participants.",
     );
@@ -705,7 +708,11 @@ export function advanceDemoWorld(world: World, days = 7): World {
     context: {
       location: {
         jurisdictionId,
-        label: "Lexington-Fayette community venue",
+        // Retain the accepted primary fixture's exact historical copy.
+        label:
+          jurisdictionId === LEXINGTON_PLACEHOLDER_ID
+            ? "Lexington-Fayette community venue"
+            : `${jurisdiction.name} community venue`,
         setting: "Public listening session",
       },
       socialContext:
