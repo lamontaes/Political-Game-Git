@@ -19,7 +19,12 @@ import {
   recordTemporaryState,
 } from "./mind";
 import { SYNTHETIC_MIND_IDS } from "./mind-catalog";
-import { createLightweightPerson, personName } from "./people";
+import {
+  LEGACY_DEMO_PERSON_GENERATOR_VERSION,
+  createLightweightPerson,
+  personName,
+} from "./people";
+import { DEFAULT_CORPUS_VERSION, DEMO_NAMES_V4 } from "./names-data";
 import { SYNTHETIC_POLICY_IDS } from "./policy";
 import {
   createFormationContext,
@@ -41,7 +46,12 @@ import {
   recordMemory,
   recordRelationshipInteraction,
 } from "./records";
-import type { EntityId, Jurisdiction, World } from "./types";
+import type {
+  EntityId,
+  Jurisdiction,
+  PersonGenerationProfile,
+  World,
+} from "./types";
 import {
   advanceWorld,
   createWorld,
@@ -80,17 +90,38 @@ function createLexingtonPlaceholder(): Jurisdiction {
   };
 }
 
-export function createDemoWorld(seedInput = DEFAULT_DEMO_SEED): World {
+export interface CreateDemoWorldOptions {
+  readonly generatorVersion?: string;
+  readonly corpusVersion?: string;
+  readonly profile?: PersonGenerationProfile;
+  readonly peopleCount?: number;
+}
+
+export function createDemoWorld(
+  seedInput = DEFAULT_DEMO_SEED,
+  options?: CreateDemoWorldOptions,
+): World {
   const seed = normalizeSeed(seedInput);
   const worldId = createWorldId(seed);
   const jurisdiction = createLexingtonPlaceholder();
-  const people = Array.from({ length: 6 }, (_, index) =>
+  const generatorVersion =
+    options?.generatorVersion ?? LEGACY_DEMO_PERSON_GENERATOR_VERSION;
+  const corpusVersion =
+    options?.corpusVersion ??
+    (generatorVersion === LEGACY_DEMO_PERSON_GENERATOR_VERSION
+      ? DEMO_NAMES_V4.version
+      : DEFAULT_CORPUS_VERSION);
+  const count = options?.peopleCount ?? 6;
+  const people = Array.from({ length: count }, (_, index) =>
     createLightweightPerson({
       worldId,
       worldSeed: seed,
       index,
       currentDate: DEMO_START_DATE,
       homeJurisdictionId: jurisdiction.id,
+      profile: options?.profile,
+      generatorVersion,
+      corpusVersion,
     }),
   );
 
