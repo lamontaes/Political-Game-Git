@@ -953,6 +953,19 @@ function validateInitialEntities(
         `Person references a missing home jurisdiction: ${person.id}`,
       );
     }
+    if (person.generatorVersion !== undefined) {
+      assertNonEmptyString(person.generatorVersion, "Person generator version");
+    }
+    if (person.corpusVersion !== undefined) {
+      assertNonEmptyString(person.corpusVersion, "Person corpus version");
+    }
+    if (person.appearance !== undefined) {
+      assertNonEmptyString(person.appearance.seed, "Person appearance seed");
+      assertNonEmptyString(
+        person.appearance.recipeVersion,
+        "Person appearance recipe version",
+      );
+    }
 
     const runtimeDetailLevel = (person as { readonly detailLevel?: unknown })
       .detailLevel;

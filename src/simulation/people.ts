@@ -1,5 +1,17 @@
-import { ageOnDate, dateAtAge, isoDateFromParts, yearOf } from "./dates";
+import {
+  addDays,
+  ageOnDate,
+  dateAtAge,
+  isoDateFromParts,
+  yearOf,
+} from "./dates";
 import { createStableId } from "./ids";
+import {
+  DEFAULT_CORPUS_VERSION,
+  DEMO_NAMES_V4,
+  getNameCorpus,
+} from "./names-data";
+import { derivePersonAppearance } from "./person-appearance";
 import { SeededRng } from "./rng";
 import type {
   EducationFact,
@@ -11,37 +23,11 @@ import type {
   Person,
   PersonDetails,
   PersonFact,
+  PersonGenerationProfile,
 } from "./types";
 
-const GIVEN_NAMES = [
-  "Andre",
-  "Avery",
-  "Cameron",
-  "Elias",
-  "Jordan",
-  "Julian",
-  "Leah",
-  "Malcolm",
-  "Maya",
-  "Naomi",
-  "Priya",
-  "Sofia",
-] as const;
-
-const FAMILY_NAMES = [
-  "Bennett",
-  "Collins",
-  "Dawson",
-  "Ellis",
-  "Foster",
-  "Gaines",
-  "Harris",
-  "Kim",
-  "Morales",
-  "Patel",
-  "Reed",
-  "Turner",
-] as const;
+export const DEFAULT_PERSON_GENERATOR_VERSION = "person-v5";
+export const LEGACY_DEMO_PERSON_GENERATOR_VERSION = "demo-person-v4";
 
 const EDUCATION_PATHS = [
   {
@@ -124,6 +110,9 @@ export interface LightweightPersonInput {
   readonly currentDate: IsoDate;
   readonly homeJurisdictionId: EntityId;
   readonly birthplaceJurisdictionId?: EntityId;
+  readonly profile?: PersonGenerationProfile;
+  readonly generatorVersion?: string;
+  readonly corpusVersion?: string;
 }
 
 export function personName(person: Person): string {
@@ -139,6 +128,107 @@ export function factsForPerson(person: Person): readonly PersonFact[] {
   ];
 }
 
+function daysInMonth(year: number, month: number): number {
+  if (month === 2) {
+    const isLeap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+    return isLeap ? 29 : 28;
+  }
+  if ([4, 6, 9, 11].includes(month)) return 30;
+  return 31;
+}
+
+function generateProductionAge(rng: SeededRng): number {
+  const roll = rng.next();
+  if (roll < 0.15) {
+    return rng.integer(21, 30); // 21-29 young adult
+  } else if (roll < 0.7) {
+    return rng.integer(30, 50); // 30-49 mid career
+  } else if (roll < 0.9) {
+    return rng.integer(50, 65); // 50-64 senior career
+  } else {
+    return rng.integer(65, 76); // 65-75 elder/retirement
+  }
+}
+
+function generateProductionBirthDate(
+  currentDate: IsoDate,
+  targetAge: number,
+  rng: SeededRng,
+): IsoDate {
+  const currentYear = yearOf(currentDate);
+  const currentMonth = Number(currentDate.slice(5, 7));
+  const currentDay = Number(currentDate.slice(8, 10));
+
+  const month = rng.integer(1, 13);
+  const maxDay = daysInMonth(currentYear - targetAge, month);
+  const day = rng.integer(1, maxDay + 1);
+
+  const birthdayPassedOrToday =
+    month < currentMonth || (month === currentMonth && day <= currentDay);
+  const birthYear = birthdayPassedOrToday
+    ? currentYear - targetAge
+    : currentYear - targetAge - 1;
+
+  // Handle Feb 29 birth year adjustment if needed
+  const validMaxDay = daysInMonth(birthYear, month);
+  const safeDay = Math.min(day, validMaxDay);
+
+  return isoDateFromParts(birthYear, month, safeDay);
+}
+
+function generateStressBirthDate(
+  index: number,
+  currentDate: IsoDate,
+  rng: SeededRng,
+): IsoDate {
+  const stressCase = index % 6;
+
+  switch (stressCase) {
+    case 0: {
+      // Very young valid adult (age 18)
+      return generateProductionBirthDate(currentDate, 18, rng);
+    }
+    case 1: {
+      // Birthday is TODAY (exact birthday boundary)
+      const age = rng.integer(22, 70);
+      const currentYear = yearOf(currentDate);
+      const currentMonth = Number(currentDate.slice(5, 7));
+      const currentDay = Number(currentDate.slice(8, 10));
+      return isoDateFromParts(currentYear - age, currentMonth, currentDay);
+    }
+    case 2: {
+      // Birthday is TOMORROW (age boundary: 1 day before birthday)
+      const age = rng.integer(22, 70);
+      const tomorrow = addDays(currentDate, 1);
+      const tomorrowMonth = Number(tomorrow.slice(5, 7));
+      const tomorrowDay = Number(tomorrow.slice(8, 10));
+      const birthYear = yearOf(tomorrow) - (age + 1);
+      return isoDateFromParts(birthYear, tomorrowMonth, tomorrowDay);
+    }
+    case 3: {
+      // Leap-day birthday (Feb 29)
+      const leapYears = [
+        2004, 2000, 1996, 1992, 1988, 1984, 1980, 1976, 1972, 1968,
+      ];
+      const leapYear = rng.pick(leapYears);
+      return isoDateFromParts(leapYear, 2, 29);
+    }
+    case 4: {
+      // Older adult / senior boundary (age 88)
+      return generateProductionBirthDate(currentDate, 88, rng);
+    }
+    default: {
+      // Birthday was YESTERDAY (age boundary: 1 day after birthday)
+      const age = rng.integer(22, 70);
+      const yesterday = addDays(currentDate, -1);
+      const yesterdayMonth = Number(yesterday.slice(5, 7));
+      const yesterdayDay = Number(yesterday.slice(8, 10));
+      const birthYear = yearOf(yesterday) - age;
+      return isoDateFromParts(birthYear, yesterdayMonth, yesterdayDay);
+    }
+  }
+}
+
 export function createLightweightPerson(input: LightweightPersonInput): Person {
   if (!Number.isSafeInteger(input.index) || input.index < 0) {
     throw new Error(
@@ -146,20 +236,56 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
     );
   }
 
-  const generationKey = `demo-person-v4:${input.index}`;
+  const generatorVersion =
+    input.generatorVersion ?? DEFAULT_PERSON_GENERATOR_VERSION;
+  const corpusVersion =
+    input.corpusVersion ??
+    (generatorVersion === LEGACY_DEMO_PERSON_GENERATOR_VERSION
+      ? DEMO_NAMES_V4.version
+      : DEFAULT_CORPUS_VERSION);
+
+  const generationKey = `${generatorVersion}:${input.index}`;
   const id = createStableId("person", `${input.worldId}:${generationKey}`);
   const rng = new SeededRng(input.worldSeed).fork(generationKey);
-  const givenName = rng.pick(GIVEN_NAMES);
-  const familyOffset = rng.integer(0, FAMILY_NAMES.length);
-  const familyName = FAMILY_NAMES[
-    (familyOffset + (input.index % FAMILY_NAMES.length)) % FAMILY_NAMES.length
-  ] as string;
-  const age = rng.integer(24, 68);
-  const birthDate = isoDateFromParts(
-    yearOf(input.currentDate) - age,
-    rng.integer(1, 13),
-    rng.integer(1, 29),
-  );
+  const corpus = getNameCorpus(corpusVersion);
+
+  let givenName: string;
+  let familyName: string;
+  let birthDate: IsoDate;
+
+  if (generatorVersion === LEGACY_DEMO_PERSON_GENERATOR_VERSION) {
+    // Exact legacy algorithm preserved for backwards compatibility
+    givenName = rng.pick(corpus.givenNames);
+    const familyOffset = rng.integer(0, corpus.familyNames.length);
+    familyName = corpus.familyNames[
+      (familyOffset + (input.index % corpus.familyNames.length)) %
+        corpus.familyNames.length
+    ] as string;
+    const age = rng.integer(24, 68);
+    birthDate = isoDateFromParts(
+      yearOf(input.currentDate) - age,
+      rng.integer(1, 13),
+      rng.integer(1, 29),
+    );
+  } else {
+    // Versioned substrate generation
+    const profile = input.profile ?? "production";
+    givenName = rng.pick(corpus.givenNames);
+    familyName = rng.pick(corpus.familyNames);
+
+    if (profile === "stress") {
+      birthDate = generateStressBirthDate(input.index, input.currentDate, rng);
+    } else {
+      const targetAge = generateProductionAge(rng);
+      birthDate = generateProductionBirthDate(
+        input.currentDate,
+        targetAge,
+        rng,
+      );
+    }
+  }
+
+  const appearance = derivePersonAppearance(id);
   const birthplaceJurisdictionId =
     input.birthplaceJurisdictionId ?? input.homeJurisdictionId;
   const fullName = `${givenName} ${familyName}`;
@@ -198,10 +324,13 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
   return {
     id,
     generationKey,
+    generatorVersion,
+    corpusVersion,
     givenName,
     familyName,
     birthDate,
     homeJurisdictionId: input.homeJurisdictionId,
+    appearance,
     detailLevel: "lightweight",
     establishedFacts,
   };

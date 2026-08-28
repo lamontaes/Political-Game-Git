@@ -31,9 +31,11 @@ function requirePersonId(fixture: RunAFixture, index: number): EntityId {
   return personId;
 }
 
-export function createRunBFixture(): RunBFixture {
-  const runA = createRunAFixture();
+export function createRunBFixture(seedInput?: string): RunBFixture {
+  const runA = createRunAFixture(seedInput);
   const npcBPersonId = requirePersonId(runA, 2);
+  const npcBPerson = runA.world.people[npcBPersonId];
+  const npcBName = npcBPerson ? npcBPerson.familyName : "Reed";
   const jurisdictionId = runA.world.jurisdictionOrder[0];
   if (!jurisdictionId) {
     throw new Error("Run B fixture is missing its office jurisdiction.");
@@ -70,12 +72,11 @@ export function createRunBFixture(): RunBFixture {
     normalHearingPersonIds: [npcA.personId, npcB.personId],
     quietAmbientHearingPersonIds: [],
     privateAvailable: false,
-    privateUnavailableReason:
-      "Private isn't possible while Reed remains within plausible earshot.",
+    privateUnavailableReason: `Private isn't possible while ${npcBName} remains within plausible earshot.`,
   };
   const privateCapableRoomContext: ConversationRoomContext = {
     sceneKey: "run-b:lexington-office:private-capable",
-    locationLabel: "Shared legislative office after Reed stepped out",
+    locationLabel: `Shared legislative office after ${npcBName} stepped out`,
     jurisdictionId,
     playerPersonId: runA.playerPersonId,
     physicallyPresentPersonIds: [runA.playerPersonId, npcA.personId],

@@ -312,6 +312,13 @@ export type PersonFact =
   | EducationFact
   | OccupationFact;
 
+export interface PersonAppearance {
+  readonly seed: string;
+  readonly recipeVersion: string;
+}
+
+export type PersonGenerationProfile = "production" | "stress";
+
 export interface PersonDetails {
   readonly generatorVersion: "person-materialization-v4";
   readonly generatedFacts: readonly PersonFact[];
@@ -325,10 +332,13 @@ export interface PersonFactConstraint {
 interface PersonCore {
   readonly id: EntityId;
   readonly generationKey: string;
+  readonly generatorVersion?: string;
+  readonly corpusVersion?: string;
   readonly givenName: string;
   readonly familyName: string;
   readonly birthDate: IsoDate;
   readonly homeJurisdictionId: EntityId;
+  readonly appearance?: PersonAppearance;
   readonly establishedFacts: readonly PersonFact[];
 }
 
