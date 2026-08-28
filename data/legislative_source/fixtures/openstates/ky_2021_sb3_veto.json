@@ -1,0 +1,108 @@
+{
+  "id": "ocd-bill/3a9f1b2c-8899-44aa-99bb-112233445566",
+  "identifier": "SB 3",
+  "title": "AN ACT relating to reorganization of agricultural and rural development boards.",
+  "jurisdiction": {
+    "id": "ocd-jurisdiction/country:us/state:ky/government",
+    "name": "Kentucky",
+    "classification": "state"
+  },
+  "session": "2021RS",
+  "classification": ["bill"],
+  "from_organization": {
+    "name": "Senate",
+    "classification": "upper"
+  },
+  "openstates_url": "https://openstates.org/ky/bills/2021RS/SB3/",
+  "sources": [
+    {
+      "url": "https://apps.legislature.ky.gov/record/21rs/sb3.html",
+      "note": "official record"
+    }
+  ],
+  "actions": [
+    {
+      "date": "2021-01-05",
+      "description": "introduced in Senate",
+      "classification": ["introduction"],
+      "organization": { "classification": "upper" },
+      "order": 0
+    },
+    {
+      "date": "2021-01-08",
+      "description": "passed Senate 28-8",
+      "classification": ["passage"],
+      "organization": { "classification": "upper" },
+      "order": 1
+    },
+    {
+      "date": "2021-03-11",
+      "description": "passed House 70-22",
+      "classification": ["passage"],
+      "organization": { "classification": "lower" },
+      "order": 2
+    },
+    {
+      "date": "2021-03-15",
+      "description": "enrolled, delivered to Governor",
+      "classification": ["executive-receipt"],
+      "organization": { "classification": "executive" },
+      "order": 3
+    },
+    {
+      "date": "2021-03-24",
+      "description": "vetoed by Governor",
+      "classification": ["executive-veto"],
+      "organization": { "classification": "executive" },
+      "order": 4
+    },
+    {
+      "date": "2021-03-29",
+      "description": "Senate overridden Governor's veto, passed 27-9",
+      "classification": ["veto-override-passage"],
+      "organization": { "classification": "upper" },
+      "order": 5
+    },
+    {
+      "date": "2021-03-29",
+      "description": "House overridden Governor's veto, passed 71-23; became law over veto (Acts Chapter 160)",
+      "classification": ["veto-override-passage", "became-law", "chaptered"],
+      "organization": { "classification": "lower" },
+      "order": 6
+    }
+  ],
+  "votes": [
+    {
+      "id": "ocd-vote/ky-sb3-s-override",
+      "identifier": "Senate Veto Override",
+      "motion_text": "SB 3 - Veto Override in Senate",
+      "start_date": "2021-03-29",
+      "result": "pass",
+      "organization": { "classification": "upper" },
+      "counts": [
+        { "option": "yes", "value": 27 },
+        { "option": "no", "value": 9 }
+      ]
+    },
+    {
+      "id": "ocd-vote/ky-sb3-h-override",
+      "identifier": "House Veto Override",
+      "motion_text": "SB 3 - Veto Override in House",
+      "start_date": "2021-03-29",
+      "result": "pass",
+      "organization": { "classification": "lower" },
+      "counts": [
+        { "option": "yes", "value": 71 },
+        { "option": "no", "value": 23 }
+      ]
+    }
+  ],
+  "sponsors": [
+    {
+      "name": "Paul Hornback",
+      "entity_type": "person",
+      "primary": true,
+      "classification": "primary"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "ocd-bill/ky-2021rs-hb999-failed",
+  "identifier": "HB 999",
+  "title": "AN ACT relating to mandatory statewide local sales tax surcharges.",
+  "jurisdiction": {
+    "id": "ocd-jurisdiction/country:us/state:ky/government",
+    "name": "Kentucky",
+    "classification": "state"
+  },
+  "session": "2021RS",
+  "classification": ["bill"],
+  "from_organization": {
+    "name": "House of Representatives",
+    "classification": "lower"
+  },
+  "openstates_url": "https://openstates.org/ky/bills/2021RS/HB999/",
+  "sources": [
+    {
+      "url": "https://apps.legislature.ky.gov/record/21rs/hb999.html",
+      "note": "official record"
+    }
+  ],
+  "actions": [
+    {
+      "date": "2021-02-15",
+      "description": "introduced in House",
+      "classification": ["introduction"],
+      "organization": { "classification": "lower" },
+      "order": 0
+    },
+    {
+      "date": "2021-02-25",
+      "description": "reported favorably from committee",
+      "classification": ["committee-passage"],
+      "organization": { "classification": "lower" },
+      "order": 1
+    },
+    {
+      "date": "2021-03-05",
+      "description": "3rd reading, defeated in House 32-65",
+      "classification": ["failure", "reading-3"],
+      "organization": { "classification": "lower" },
+      "order": 2
+    }
+  ],
+  "votes": [
+    {
+      "id": "ocd-vote/ky-2021rs-hb999-fail",
+      "identifier": "House Floor Defeat",
+      "motion_text": "HB 999 - Third Reading Final Passage",
+      "start_date": "2021-03-05",
+      "result": "fail",
+      "organization": { "classification": "lower" },
+      "counts": [
+        { "option": "yes", "value": 32 },
+        { "option": "no", "value": 65 }
+      ]
+    }
+  ],
+  "sponsors": [
+    {
+      "name": "John Doe",
+      "entity_type": "person",
+      "primary": true,
+      "classification": "primary"
+    }
+  ]
+}

@@ -9,6 +9,8 @@ export default tseslint.config(
       "node_modules/**",
       "playwright-report/**",
       "test-results/**",
+      "scripts/names-compiler/**",
+      "tests/names-compiler.test.ts",
     ],
   },
   eslint.configs.recommended,

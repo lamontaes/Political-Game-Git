@@ -1,0 +1,82 @@
+{
+  "id": "ocd-bill/dc-p24-b24-0001",
+  "identifier": "B24-0001",
+  "title": "Comprehensive Policing and Justice Reform Amendment Act of 2021",
+  "jurisdiction": {
+    "id": "ocd-jurisdiction/country:us/district:dc/government",
+    "name": "District of Columbia",
+    "classification": "district"
+  },
+  "session": "24",
+  "classification": ["bill"],
+  "from_organization": {
+    "name": "Council of the District of Columbia",
+    "classification": "council"
+  },
+  "openstates_url": "https://openstates.org/dc/bills/24/B24-0001/",
+  "sources": [
+    {
+      "url": "https://lims.dccouncil.gov/Legislation/B24-0001",
+      "note": "LIMS official portal"
+    }
+  ],
+  "actions": [
+    {
+      "date": "2021-01-05",
+      "description": "Introduced in Council and referred to Committee on the Judiciary and Public Safety",
+      "classification": ["introduction", "referral-committee"],
+      "organization": { "classification": "council" },
+      "order": 0
+    },
+    {
+      "date": "2021-06-01",
+      "description": "Passed First Reading",
+      "classification": ["reading-1", "passage"],
+      "organization": { "classification": "council" },
+      "order": 1
+    },
+    {
+      "date": "2021-06-15",
+      "description": "Passed Final Reading, Roll Call Vote 13-0",
+      "classification": ["reading-3", "passage"],
+      "organization": { "classification": "council" },
+      "order": 2
+    },
+    {
+      "date": "2021-06-25",
+      "description": "Transmitted to Mayor",
+      "classification": ["executive-receipt"],
+      "organization": { "classification": "executive" },
+      "order": 3
+    },
+    {
+      "date": "2021-07-08",
+      "description": "Signed by Mayor (DC Act 24-112)",
+      "classification": ["became-law", "executive-signature", "chaptered"],
+      "organization": { "classification": "executive" },
+      "order": 4
+    }
+  ],
+  "votes": [
+    {
+      "id": "ocd-vote/dc-b24-0001-final",
+      "identifier": "Final Reading Vote",
+      "motion_text": "B24-0001 - Final Reading Approval",
+      "start_date": "2021-06-15",
+      "result": "pass",
+      "organization": { "classification": "council" },
+      "counts": [
+        { "option": "yes", "value": 13 },
+        { "option": "no", "value": 0 }
+      ]
+    }
+  ],
+  "sponsors": [
+    {
+      "name": "Charles Allen",
+      "entity_type": "person",
+      "primary": true,
+      "classification": "primary"
+    }
+  ]
+}

@@ -27,6 +27,11 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run lint` — lint
 - `npm run typecheck` — TypeScript validation
 - `npm run build` — production build
+- `npm run compile:legislative` — compile normalized legislative source corpus
+- `npm run manifest:legislative` — generate national coverage manifest
+- `npm run validate:legislative-research` — validate research episodes against corpus
+- `npm run validate:legislative` — full legislative corpus integrity validation
+- `npm run test:legislative` — focused legislative corpus tests
 - `npm run validate` — full validation suite
 
 ## Working Rules
