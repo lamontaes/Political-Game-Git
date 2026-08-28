@@ -1,5 +1,8 @@
-/* global console, process */
+/* global console, process, setTimeout, clearTimeout, URL */
 import { execSync, spawn } from "child_process";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
 function runCmd(cmd) {
   try {
@@ -12,17 +15,64 @@ function runCmd(cmd) {
   }
 }
 
-const args = process.argv.slice(2);
+function resolveViteBin() {
+  try {
+    const vitePkgUrl = import.meta.resolve("vite");
+    const binPath = fileURLToPath(new URL("../../bin/vite.js", vitePkgUrl));
+    if (fs.existsSync(binPath)) {
+      return binPath;
+    }
+  } catch {
+    // Fallback to local node_modules path
+  }
+  const localBin = path.resolve(
+    process.cwd(),
+    "node_modules",
+    "vite",
+    "bin",
+    "vite.js",
+  );
+  if (fs.existsSync(localBin)) {
+    return localBin;
+  }
+  return null;
+}
+
+const rawArgs = process.argv.slice(2);
 let port = 5173;
 let host = "127.0.0.1";
+const forwardedArgs = [];
 
-const portIdx = args.findIndex((a) => a === "--port");
-if (portIdx !== -1 && args[portIdx + 1]) {
-  port = parseInt(args[portIdx + 1], 10) || 5173;
-}
-const hostIdx = args.findIndex((a) => a === "--host");
-if (hostIdx !== -1 && args[hostIdx + 1]) {
-  host = args[hostIdx + 1];
+for (let i = 0; i < rawArgs.length; i++) {
+  const arg = rawArgs[i];
+  if (arg === "--port") {
+    if (i + 1 < rawArgs.length && !rawArgs[i + 1].startsWith("-")) {
+      i++;
+      port = parseInt(rawArgs[i], 10) || 5173;
+    }
+    continue;
+  }
+  if (arg.startsWith("--port=")) {
+    port = parseInt(arg.slice("--port=".length), 10) || 5173;
+    continue;
+  }
+  if (arg === "--host") {
+    if (i + 1 < rawArgs.length && !rawArgs[i + 1].startsWith("-")) {
+      i++;
+      host = rawArgs[i];
+    } else {
+      host = "0.0.0.0";
+    }
+    continue;
+  }
+  if (arg.startsWith("--host=")) {
+    host = arg.slice("--host=".length);
+    continue;
+  }
+  if (arg === "--strictPort") {
+    continue;
+  }
+  forwardedArgs.push(arg);
 }
 
 console.log("POLITICAL GAME DEV SERVER\n");
@@ -34,31 +84,81 @@ console.log(`Requested Port: ${port}`);
 console.log(`Launcher PID: ${process.pid}\n`);
 
 const viteArgs = [
-  "vite",
   "--host",
   host,
   "--port",
   port.toString(),
   "--strictPort",
+  ...forwardedArgs,
 ];
 
-// Forward any additional arguments that are not --host or --port (and their values)
-for (let i = 0; i < args.length; i++) {
-  const arg = args[i];
-  if (arg === "--host" || arg === "--port") {
-    i++; // skip the value too
-    continue;
-  }
-  viteArgs.push(arg);
+const viteBin = resolveViteBin();
+let child;
+if (viteBin) {
+  child = spawn(process.execPath, [viteBin, ...viteArgs], {
+    stdio: "inherit",
+  });
+} else {
+  child = spawn("npx", ["vite", ...viteArgs], {
+    stdio: "inherit",
+  });
 }
 
-const child = spawn("npx", viteArgs, { stdio: "inherit" });
+let isShuttingDown = false;
+let killEscalationTimer = null;
+
+function shutdown(signal) {
+  if (isShuttingDown) return;
+  isShuttingDown = true;
+
+  if (child && !child.killed) {
+    try {
+      child.kill(signal);
+    } catch {
+      // Child may have already exited
+    }
+
+    killEscalationTimer = setTimeout(() => {
+      try {
+        if (!child.killed) {
+          child.kill("SIGKILL");
+        }
+      } catch {
+        // ignore
+      }
+      process.exit(1);
+    }, 5000);
+    killEscalationTimer.unref();
+  }
+}
+
+process.on("SIGINT", () => shutdown("SIGINT"));
+process.on("SIGTERM", () => shutdown("SIGTERM"));
+
+process.on("exit", () => {
+  if (child && !child.killed) {
+    try {
+      child.kill("SIGTERM");
+    } catch {
+      // ignore
+    }
+  }
+});
 
 child.on("error", (err) => {
   console.error("Failed to start Vite dev server:", err);
   process.exit(1);
 });
 
-child.on("exit", (code) => {
-  process.exit(code || 0);
+child.on("exit", (code, signal) => {
+  if (killEscalationTimer) {
+    clearTimeout(killEscalationTimer);
+  }
+  if (signal === "SIGINT") {
+    process.exit(130);
+  } else if (signal === "SIGTERM") {
+    process.exit(143);
+  } else {
+    process.exit(code ?? 0);
+  }
 });
