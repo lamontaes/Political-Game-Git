@@ -2,6 +2,7 @@ import assetManifest from "../../art/manifest/asset_manifest.json";
 import type {
   RunBSceneAnchorId,
   RunBScenePersonContext,
+  RunBScenePersonVariant,
 } from "./run-b-fixture";
 import type {
   SceneCameraPolicy,
@@ -49,10 +50,12 @@ export interface AuthoredWardrobeCompatibility {
 
 export interface CharacterVisualRecipe {
   readonly appearanceRecipeId: string;
+  readonly personaId: "candidate-A01" | "candidate-B01";
   readonly assetId: string;
   readonly bodyVisualFamily: "adult-authored-illustration";
   readonly poseFamily: "seated-at-desk" | "seated-in-guest-chair";
   readonly compatibleSceneAnchors: readonly RunBSceneAnchorId[];
+  readonly compatiblePersonVariants: readonly RunBScenePersonVariant[];
   readonly root: CharacterRoot;
   readonly seatedContact: SeatedContact;
   readonly visualBounds: {
@@ -112,6 +115,7 @@ export interface OfficeVisualSceneConfiguration {
   readonly appearanceByAnchor: Readonly<
     Record<RunBSceneAnchorId, CharacterVisualRecipe>
   >;
+  readonly visualRecipes: readonly CharacterVisualRecipe[];
 }
 
 export interface ComposedCharacterVisual {
@@ -195,42 +199,46 @@ function repositoryUrls(): Readonly<Record<string, string>> {
 
 export const CHARACTER_VISUAL_RECIPES = {
   primaryDeskSeated: {
-    appearanceRecipeId: "appearance:anonymous:primary-desk-seated:v1",
+    appearanceRecipeId: "appearance:candidate-A01:primary-desk-seated:v1",
+    personaId: "candidate-A01",
     assetId: "human_candidate_A01_primary_desk_seated_v1",
     bodyVisualFamily: "adult-authored-illustration",
     poseFamily: "seated-at-desk",
     compatibleSceneAnchors: ["primary-desk-chair"],
-    root: { convention: "pelvis-hip-center", x: 0.56, y: 0.6 },
+    compatiblePersonVariants: ["primary"],
+    root: { convention: "pelvis-hip-center", x: 0.68, y: 0.54 },
     seatedContact: {
       convention: "seat-plane-at-pelvis",
-      root: { convention: "pelvis-hip-center", x: 0.56, y: 0.6 },
+      root: { convention: "pelvis-hip-center", x: 0.68, y: 0.54 },
     },
     visualBounds: {
       sourceAspectRatio: 765 / 1024,
-      widthPercent: 28,
-      interaction: { x: 0.25, y: 0.05, width: 0.68, height: 0.48 },
+      widthPercent: 25.5,
+      interaction: { x: 0.35, y: 0.05, width: 0.55, height: 0.5 },
     },
-    allowedScale: { minimum: 0.9, maximum: 1.08 },
+    allowedScale: { minimum: 0.9, maximum: 1.1 },
     deterministicSelectionKey: "office:primary-desk-chair:seated:v1",
     wardrobe: { mode: "authored-outfit", attachmentSlots: [] },
   },
   leftGuestSeated: {
-    appearanceRecipeId: "appearance:anonymous:left-guest-seated:v1",
+    appearanceRecipeId: "appearance:candidate-B01:left-guest-seated:v1",
+    personaId: "candidate-B01",
     assetId: "human_candidate_B01_left_guest_seated_v1",
     bodyVisualFamily: "adult-authored-illustration",
     poseFamily: "seated-in-guest-chair",
     compatibleSceneAnchors: ["left-guest-chair"],
-    root: { convention: "pelvis-hip-center", x: 0.55, y: 0.61 },
+    compatiblePersonVariants: ["guest"],
+    root: { convention: "pelvis-hip-center", x: 0.46, y: 0.51 },
     seatedContact: {
       convention: "seat-plane-at-pelvis",
-      root: { convention: "pelvis-hip-center", x: 0.55, y: 0.61 },
+      root: { convention: "pelvis-hip-center", x: 0.46, y: 0.51 },
     },
     visualBounds: {
       sourceAspectRatio: 765 / 1024,
-      widthPercent: 22,
-      interaction: { x: 0.25, y: 0.05, width: 0.68, height: 0.48 },
+      widthPercent: 18.5,
+      interaction: { x: 0.05, y: 0.02, width: 0.9, height: 0.5 },
     },
-    allowedScale: { minimum: 0.85, maximum: 1 },
+    allowedScale: { minimum: 0.85, maximum: 1.05 },
     deterministicSelectionKey: "office:left-guest-chair:seated:v1",
     wardrobe: { mode: "authored-outfit", attachmentSlots: [] },
   },
@@ -262,24 +270,24 @@ export const OFFICE_VISUAL_SCENE: OfficeVisualSceneConfiguration = {
     },
   ],
   documentAnchors: {
-    "working-draft": { xPercent: 70.5, yPercent: 64.2 },
-    "briefing-memo": { xPercent: 50.5, yPercent: 63.5 },
-    "civic-marker": { xPercent: 65, yPercent: 61.5 },
+    "working-draft": { xPercent: 67.0, yPercent: 55.5 },
+    "briefing-memo": { xPercent: 53.5, yPercent: 55.8 },
+    "civic-marker": { xPercent: 60.5, yPercent: 56.8 },
   },
   anchors: {
     "primary-desk-chair": {
       id: "primary-desk-chair",
-      xPercent: 77.7,
-      yPercent: 67.5,
-      scale: 1.05,
+      xPercent: 80.5,
+      yPercent: 63.5,
+      scale: 0.95,
       poseFamily: "seated-at-desk",
       depth: 2,
     },
     "left-guest-chair": {
       id: "left-guest-chair",
-      xPercent: 29.5,
-      yPercent: 70.0,
-      scale: 0.85,
+      xPercent: 28.0,
+      yPercent: 63.0,
+      scale: 0.95,
       poseFamily: "seated-in-guest-chair",
       depth: 3,
     },
@@ -295,7 +303,30 @@ export const OFFICE_VISUAL_SCENE: OfficeVisualSceneConfiguration = {
     "primary-desk-chair": CHARACTER_VISUAL_RECIPES.primaryDeskSeated,
     "left-guest-chair": CHARACTER_VISUAL_RECIPES.leftGuestSeated,
   },
+  visualRecipes: [
+    CHARACTER_VISUAL_RECIPES.primaryDeskSeated,
+    CHARACTER_VISUAL_RECIPES.leftGuestSeated,
+  ],
 };
+
+export function resolvePersonVisualRecipe(
+  person: RunBScenePersonContext,
+  anchor: SceneVisualAnchor,
+  scene: OfficeVisualSceneConfiguration = OFFICE_VISUAL_SCENE,
+): CharacterVisualRecipe {
+  const matchingRecipe = scene.visualRecipes.find(
+    (recipe) =>
+      recipe.compatiblePersonVariants.includes(person.visualVariant) &&
+      recipe.compatibleSceneAnchors.includes(anchor.id) &&
+      recipe.poseFamily === anchor.poseFamily,
+  );
+  if (!matchingRecipe) {
+    throw new Error(
+      `Person '${person.personId}' (visualVariant '${person.visualVariant}') lacks an approved visual recipe compatible with anchor '${anchor.id}' (poseFamily '${anchor.poseFamily}').`,
+    );
+  }
+  return matchingRecipe;
+}
 
 export function validateOfficeVisualScene(
   scene: OfficeVisualSceneConfiguration,
@@ -349,7 +380,10 @@ export function composeOfficeVisuals(
     environment: requireAsset(library, scene.environmentAssetId),
     characters: people.map((person) => {
       const anchor = scene.anchors[person.anchorId];
-      const recipe = scene.appearanceByAnchor[person.anchorId];
+      if (!anchor) {
+        throw new Error(`Unrecognized scene anchor '${person.anchorId}'.`);
+      }
+      const recipe = resolvePersonVisualRecipe(person, anchor, scene);
       const widthPercent = recipe.visualBounds.widthPercent * anchor.scale;
       const heightPercent =
         (widthPercent / recipe.visualBounds.sourceAspectRatio) *

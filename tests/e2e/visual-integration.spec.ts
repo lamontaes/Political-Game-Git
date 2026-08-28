@@ -154,8 +154,8 @@ for (const viewport of [
 
       const root =
         variant === "primary"
-          ? { x: 0.56, y: 0.6, anchorX: 0.777, anchorY: 0.675 }
-          : { x: 0.55, y: 0.61, anchorX: 0.295, anchorY: 0.7 };
+          ? { x: 0.68, y: 0.54, anchorX: 0.805, anchorY: 0.635 }
+          : { x: 0.46, y: 0.51, anchorX: 0.28, anchorY: 0.63 };
       expect(artBox!.x + artBox!.width * root.x).toBeCloseTo(
         stageBox!.x + stageBox!.width * root.anchorX,
         1,

@@ -87,14 +87,14 @@ describe("Stage 6.5 production visual integration", () => {
   it("uses measured chair anchors and one released furniture-only foreground mask", () => {
     expect(OFFICE_VISUAL_SCENE.anchors).toMatchObject({
       "primary-desk-chair": {
-        xPercent: 77.7,
-        yPercent: 67.5,
-        scale: 1.05,
+        xPercent: 80.5,
+        yPercent: 63.5,
+        scale: 0.95,
       },
       "left-guest-chair": {
-        xPercent: 29.5,
-        yPercent: 70.0,
-        scale: 0.85,
+        xPercent: 28.0,
+        yPercent: 63.0,
+        scale: 0.95,
       },
     });
     expect(OFFICE_VISUAL_SCENE.occluders).toEqual([
@@ -113,6 +113,18 @@ describe("Stage 6.5 production visual integration", () => {
     expect(composition.occluders[0]?.asset.assetId).toBe(
       "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
     );
+  });
+
+  it("fails closed when resolving person appearance without compatible recipe", () => {
+    const fixture = createRunBFixture();
+    const incompatiblePerson = {
+      ...fixture.scenePeople[0]!,
+      visualVariant: "guest" as const,
+      anchorId: "primary-desk-chair" as const,
+    };
+    expect(() =>
+      composeOfficeVisuals([incompatiblePerson], PRODUCTION_VISUAL_LIBRARY),
+    ).toThrow(/lacks an approved visual recipe compatible with anchor/);
   });
 
   it("repeats deterministically without mutating canonical people or World", () => {
