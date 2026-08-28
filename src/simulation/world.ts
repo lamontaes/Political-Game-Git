@@ -105,6 +105,12 @@ import {
   timeWorkHistoryRecords,
 } from "./time-work";
 import {
+  assertElectionContestIntegrity,
+  electionContestEntityAvailableAt,
+  electionContestEntityExists,
+  electionContestHistoryRecords,
+} from "./election-contests";
+import {
   assertOpenTaxonomyKey,
   assertDottedContentKey,
   BELIEF_FORMATION_REASON_NAMESPACES,
@@ -449,7 +455,8 @@ export function recordWorldEvent(
       !vitalityEntityExists(world, entityId) &&
       !evidenceEntityExists(world, entityId) &&
       !timeWorkEntityExists(world, entityId) &&
-      !futureTransitionEntityExists(world, entityId)
+      !futureTransitionEntityExists(world, entityId) &&
+      !electionContestEntityExists(world, entityId)
     ) {
       throw new Error(
         `Historical event references a missing entity: ${entityId}`,
@@ -570,6 +577,19 @@ export function recordWorldEvent(
     ) {
       throw new Error(
         `Historical event references an unavailable future-transition entity: ${entityId}`,
+      );
+    }
+    if (
+      electionContestEntityExists(world, entityId) &&
+      !electionContestEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        `Historical event references an unavailable election contest entity: ${entityId}`,
       );
     }
     if (
@@ -1257,6 +1277,7 @@ function validateHistoryIntegrity(world: World): void {
     ...vitalityHistoryRecords(world),
     ...evidenceHistoryRecords(world),
     ...timeWorkHistoryRecords(world),
+    ...electionContestHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
     ...history.events,
     ...history.memories,
@@ -1304,6 +1325,11 @@ function validateHistoryIntegrity(world: World): void {
   assertSequenceOrdered(history.perceptions, "perception");
   assertSequenceOrdered(history.temporaryStates, "temporary state");
   assertSequenceOrdered(history.decisionTraces, "decision trace");
+  assertSequenceOrdered(history.electionContests ?? [], "election contest");
+  assertSequenceOrdered(
+    history.electionContestResults ?? [],
+    "election contest result",
+  );
   const ids = new Set<EntityId>([
     world.id,
     ...world.jurisdictionOrder,
@@ -1328,6 +1354,7 @@ function validateHistoryIntegrity(world: World): void {
   assertVitalityIntegrity(world, ids);
   assertEvidenceIntegrity(world, ids);
   assertTimeWorkIntegrity(world, ids);
+  assertElectionContestIntegrity(world, ids);
   assertFutureTransitionIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
@@ -1338,6 +1365,11 @@ function validateHistoryIntegrity(world: World): void {
   assertUniqueStableKeys(history.privateBeliefs, "private belief");
   assertUniqueStableKeys(history.publicPositions, "public position");
   assertUniqueStableKeys(history.campaignCommitments, "campaign commitment");
+  assertUniqueStableKeys(history.electionContests ?? [], "election contest");
+  assertUniqueStableKeys(
+    history.electionContestResults ?? [],
+    "election contest result",
+  );
   assertUniqueStableKeys(history.principles, "principle record");
   assertUniqueStableKeys(history.subjectKnowledge, "subject knowledge");
 
@@ -1408,7 +1440,8 @@ function validateHistoryIntegrity(world: World): void {
         !vitalityEntityExists(world, involvedId) &&
         !evidenceEntityExists(world, involvedId) &&
         !timeWorkEntityExists(world, involvedId) &&
-        !futureTransitionEntityExists(world, involvedId)
+        !futureTransitionEntityExists(world, involvedId) &&
+        !electionContestEntityExists(world, involvedId)
       ) {
         throw new Error(
           `Historical event references a missing involved entity: ${event.id}`,
@@ -1529,6 +1562,19 @@ function validateHistoryIntegrity(world: World): void {
       ) {
         throw new Error(
           `Historical event references an unavailable future-transition entity: ${event.id}`,
+        );
+      }
+      if (
+        electionContestEntityExists(world, involvedId) &&
+        !electionContestEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          `Historical event references an unavailable election contest entity: ${event.id}`,
         );
       }
       if (

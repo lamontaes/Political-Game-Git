@@ -22,6 +22,7 @@ export * from "./life-queries";
 export * from "./life-sources";
 export * from "./decisions";
 export * from "./economy";
+export * from "./election-contests";
 export * from "./evidence";
 export * from "./mind";
 export * from "./mind-catalog";

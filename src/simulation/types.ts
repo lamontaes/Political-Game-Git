@@ -38,6 +38,8 @@ export type EntityKind =
   | "education-enrollment"
   | "education-enrollment-state"
   | "effect-activation"
+  | "election-contest"
+  | "election-contest-result"
   | "fact"
   | "goal"
   | "goal-state"
@@ -2756,6 +2758,80 @@ export type ControlState =
   | { readonly kind: "observer" }
   | { readonly kind: "person"; readonly personId: EntityId };
 
+export type ElectionContestStatus = "pending" | "resolved" | "cancelled";
+
+export interface ElectiveOfficeRef {
+  /** Stable semantic identifier for the office, e.g. "mayor", "council:district-1", "school-board:seat-a". */
+  readonly officeKey: string;
+  /** Human-readable title of the elective office, e.g. "Mayor", "City Council Member, District 1". */
+  readonly title: string;
+  /** Optional seat, district, or ward designation. */
+  readonly seatKey: string | null;
+  /** Open taxonomy classification linking to occupation/work semantics if applicable. */
+  readonly occupationClassification: OccupationClassification | null;
+}
+
+export interface ElectionContestProvenance {
+  readonly method: "authored" | "simulated" | "manual";
+  readonly sourceEntityIds: readonly EntityId[];
+  readonly note: string | null;
+}
+
+export interface ElectionContestRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly jurisdictionId: EntityId;
+  readonly office: ElectiveOfficeRef;
+  readonly electionDate: IsoDate;
+  readonly candidatePersonIds: readonly EntityId[];
+  readonly scheduledAt: IsoDate;
+  readonly provenance: ElectionContestProvenance;
+}
+
+export interface CandidateTally {
+  readonly candidatePersonId: EntityId;
+  readonly votes: number;
+  readonly voteShare: number;
+}
+
+export interface ElectionContestResultRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly contestId: EntityId;
+  readonly resolvedAt: IsoDate;
+  readonly winnerPersonId: EntityId;
+  readonly tallies: readonly CandidateTally[];
+  readonly outcomeEventId: EntityId;
+  readonly provenance: ElectionContestProvenance;
+}
+
+export interface ScheduleElectionContestInput {
+  readonly stableKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly office: ElectiveOfficeRef;
+  readonly electionDate: string;
+  readonly candidatePersonIds: readonly EntityId[];
+  readonly provenance: ElectionContestProvenance;
+}
+
+export interface ResolveElectionContestInput {
+  readonly stableKey?: string;
+  readonly contestId: EntityId;
+  readonly resolvedAt?: string;
+  readonly winnerPersonId?: EntityId;
+  readonly tallies?: readonly CandidateTally[];
+  readonly provenance?: ElectionContestProvenance;
+}
+
+export interface CancelElectionContestInput {
+  readonly stableKey: string;
+  readonly contestId: EntityId;
+  readonly effectiveAt: string;
+  readonly reason: string;
+}
+
 export interface HistoryStore {
   readonly nextSequence: number;
   readonly organizations: readonly Organization[];
@@ -2814,6 +2890,8 @@ export interface HistoryStore {
   readonly scheduledActivityStates: readonly ScheduledActivityStateRecord[];
   readonly workItems: readonly WorkItemRecord[];
   readonly workItemStates: readonly WorkItemStateRecord[];
+  readonly electionContests?: readonly ElectionContestRecord[];
+  readonly electionContestResults?: readonly ElectionContestResultRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];

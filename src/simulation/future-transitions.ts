@@ -33,6 +33,10 @@ import {
   vitalityEntityAvailableAt,
   vitalityEntityExists,
 } from "./vitality-integrity";
+import {
+  electionContestEntityAvailableAt,
+  electionContestEntityExists,
+} from "./election-contests";
 
 export interface ScheduleFutureDueItemInput {
   readonly stableKey: string;
@@ -694,6 +698,14 @@ function canonicalEntityAvailable(
   }
   if (vitalityEntityExists(world, id)) {
     return vitalityEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
+  }
+  if (electionContestEntityExists(world, id)) {
+    return electionContestEntityAvailableAt(
+      world,
+      id,
+      asOfDate,
+      sequenceExclusive,
+    );
   }
   const policyRecord = [
     ...world.history.policyAlternatives,
