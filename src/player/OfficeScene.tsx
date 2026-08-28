@@ -342,26 +342,28 @@ export function OfficeScene({
           aria-hidden="true"
           draggable="false"
         />
-        {visualComposition.characters.map((visual) => (
-          <img
-            key={`art-${visual.personId}`}
-            className={`scene-character-art scene-character-art--${visual.visualVariant}`}
-            src={visual.asset.url}
-            alt=""
-            aria-hidden="true"
-            draggable="false"
-            data-testid={`scene-character-art-${visual.visualVariant}`}
-            data-asset-id={visual.asset.assetId}
-            data-anchor-id={visual.anchorId}
-            data-appearance-recipe-id={visual.appearanceRecipeId}
-            style={{
-              left: `${visual.leftPercent}%`,
-              top: `${visual.topPercent}%`,
-              width: `${visual.widthPercent}%`,
-              zIndex: visual.depth,
-            }}
-          />
-        ))}
+        {visualComposition.characters.map((visual) =>
+          visual.asset ? (
+            <img
+              key={`art-${visual.personId}`}
+              className={`scene-character-art scene-character-art--${visual.visualVariant}`}
+              src={visual.asset.url}
+              alt=""
+              aria-hidden="true"
+              draggable="false"
+              data-testid={`scene-character-art-${visual.visualVariant}`}
+              data-asset-id={visual.asset.assetId}
+              data-anchor-id={visual.anchorId}
+              data-appearance-recipe-id={visual.appearanceRecipeId}
+              style={{
+                left: `${visual.leftPercent}%`,
+                top: `${visual.topPercent}%`,
+                width: `${visual.widthPercent}%`,
+                zIndex: visual.depth,
+              }}
+            />
+          ) : null,
+        )}
         {visualComposition.occluders.map((occluder) => (
           <img
             key={occluder.id}

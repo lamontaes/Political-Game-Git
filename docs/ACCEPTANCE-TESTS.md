@@ -1294,12 +1294,16 @@ art manifest and renders only when generation, QA, and runtime-release states
 are all approved/released with a valid file, hash, and provenance record.
 Missing, unreleased, or incompatible assets fail closed.
 
-### VISUAL-002 — Approved characters compose without becoming people
+### VISUAL-002 — Person owns appearance identity; anchors own only pose and geometry
 
-Given the same scene configuration and displayed people, anonymous authored
-appearance recipes resolve identically by compatible anchor and pose. Reordering
-an alternate valid fixture does not change anchor selection, and composition
-does not mutate a `Person`, `World`, trait, fact, knowledge, or history record.
+Character visual recipes resolve deterministically from the canonical person's
+owned appearance identity (`PersonAppearance.seed`) and the anchor's required
+`poseFamily`. Scene anchors declare physical constraints (pose, contact, scale,
+depth, occlusion, hitboxes) but do not own person identity. Reordering recipes
+or people in a fixture does not alter identity assignment; swapping anchors
+preserves person-owned identity while updating pose. A person lacking an
+approved recipe for the requested pose fails closed to the fallback placeholder
+path without mutating the person, world, or adopting another's appearance.
 
 ### VISUAL-003 — Production art preserves semantic play
 
@@ -1352,13 +1356,10 @@ proof repeats mask/environment alignment at 1, 1.25, and 2.
 The camera uses ordinary aspect-preserving cover and a bounded 12:5 aperture
 for super-ultrawide displays. Environment, foreground mask, characters,
 hitboxes, and scene documents share that one transform. Viewport-space UI does
-not inherit the raster transform. Exact safe-area and source-density evidence
-is recorded in
+not inherit the raster transform. Exact safe-area evidence is recorded in
 [Responsive Office Virtual Scene](systems/responsive-office-scene.md).
 
-The geometry gate passes. The raster-fidelity gate reports the approved
-1024×572 Prompt 30 master insufficient for sharp Retina display: the tested
-1512×982 logical DPR-2 checkpoint requires 3516×1964 physical source pixels.
-The A01 checkpoint requires 887×1186 against 765×1024; B01 remains sufficient
-at 712×953. No sharpening, repeated resampling, redraw, or generation is used
-to hide that deficit.
+Project art authority is established externally via `PG-E02 CLEAN` (5568×3008
+master source), ensuring no further upscaling is needed for final office
+production. Historical Prompt 30 and A01/B01 assets serve as development test
+fixtures while final production character assets remain in external production.

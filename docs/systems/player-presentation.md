@@ -323,21 +323,23 @@ geometry/opacity animation. Document mode remains an immediate smaller chip so
 it cannot sweep through or overlap the paper during entry. See [Canonical
 Sub-Day Time, Scheduled Activity, and Office Work](time-work.md).
 
-## Post-D-Lite production-art composition
+## Post-D-Lite visual composition
 
-The accepted office mechanics now render through the Packet 76 production-art
-compositor. The approved room plate belongs to the ordinary
-`council-staff-office` environment family and is one pointer-transparent, accessibility-
-hidden environment layer. Two separately released anonymous authored-pose
-recipes are selected deterministically by scene-anchor compatibility. Their
-scene anchor, pelvis/hip-center root, seated contact, visual bounds, allowed
-scale, and authored-outfit compatibility remain separate typed records. The
-authored outfit advertises no modular attachment slots; this run does not claim
-a wardrobe or rig system.
+The accepted office mechanics now render through the responsive scene-camera
+compositor. The development environment plate belongs to the ordinary
+`council-staff-office` environment family and is one pointer-transparent,
+accessibility-hidden environment layer.
+
+Character visual recipes are resolved deterministically from **person-owned
+appearance identity** and the scene anchor's required `poseFamily`. Scene
+anchors declare physical requirements (pose family, seated contact, scale
+envelope, depth, foreground occlusion, and interaction hitboxes) but do NOT own
+person identity. If a person lacks an approved recipe for the anchor's required
+pose, visual resolution fails closed into the explicit fallback placeholder path
+without mutating identity or stealing another person's appearance.
 
 The primary desk and left guest scene anchors use visual-estimate coordinates
-against one 1024×572 virtual plate. Character placement derives from
-root/contact data, not person names. `resolveSceneTransform` supplies the only
+against one 1024×572 virtual plate. `resolveSceneTransform` supplies the only
 uniform scale and camera offset to the environment, matching transparent mask,
 character rasters, semantic hitboxes, and scene documents. Ordinary ratios use
 cover; super-ultrawide ratios retain a bounded 12:5 camera with pillar space.
@@ -345,12 +347,11 @@ Menus, dossiers, navigation, status, pins, conversation, Calendar,
 Work/Pending, and full document workspaces remain viewport-space UI. See
 [Responsive Office Virtual Scene](responsive-office-scene.md).
 
-Runtime uses the deterministic 2048×1144 room derivative; the mask restores
-only the desk and chair foreground above the characters without duplicating the
-room plate. The derivative does not create source detail. The approved Prompt
-30 master fails the Retina density gate and awaits a separately approved higher-
-resolution graphics input; no presentation code sharpens or redraws it. The
-artwork never supplies identity, knowledge, simulation state, or UI text.
+Development runtime uses the deterministic 2048×1144 Prompt 30 derivative and
+historical A01/B01 sprites as test fixtures. The actual project art authority
+is established externally: `PG-E02 CLEAN` (5568×3008 source PNG) is the approved
+production office master, and new production character assets (e.g. Firefly)
+will replace the development fixtures in a subsequent asset-substitution pass.
 
 The resting shell uses the short truthful date; expansion uses the bounded
 nontruncated `Mon, Jan 5, 2026` form while the accessible label retains the full

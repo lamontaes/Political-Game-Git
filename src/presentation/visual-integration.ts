@@ -1,4 +1,8 @@
 import assetManifest from "../../art/manifest/asset_manifest.json";
+import {
+  derivePersonAppearance,
+  type PersonAppearance,
+} from "../simulation/person-appearance";
 import type {
   RunBSceneAnchorId,
   RunBScenePersonContext,
@@ -50,7 +54,15 @@ export interface AuthoredWardrobeCompatibility {
 
 export interface CharacterVisualRecipe {
   readonly appearanceRecipeId: string;
-  readonly personaId: "candidate-A01" | "candidate-B01";
+  /**
+   * Canonical person-owned appearance seed this visual recipe satisfies.
+   */
+  readonly appearanceSeed: string;
+  /**
+   * Explicit label indicating development/test fixture provenance (e.g. historical A01/B01),
+   * strictly distinct from canonical Person identity.
+   */
+  readonly devFixtureTag?: string;
   readonly assetId: string;
   readonly bodyVisualFamily: "adult-authored-illustration";
   readonly poseFamily: "seated-at-desk" | "seated-in-guest-chair";
@@ -122,7 +134,8 @@ export interface ComposedCharacterVisual {
   readonly personId: string;
   readonly anchorId: RunBSceneAnchorId;
   readonly visualVariant: RunBScenePersonVariant;
-  readonly asset: RuntimeVisualAsset;
+  readonly asset: RuntimeVisualAsset | null;
+  readonly isPlaceholder: boolean;
   readonly appearanceRecipeId: string;
   readonly leftPercent: number;
   readonly topPercent: number;
@@ -195,10 +208,22 @@ function repositoryUrls(): Readonly<Record<string, string>> {
   );
 }
 
+/**
+ * Historical development fixture appearance seeds.
+ *
+ * Explicitly used for test and development fixtures; strictly distinct from
+ * canonical Person identity.
+ */
+export const DEV_FIXTURE_APPEARANCE_SEEDS = {
+  candidateA01: "app_02b4075ba151f919",
+  candidateB01: "app_f0f2bccd24827580",
+} as const;
+
 export const CHARACTER_VISUAL_RECIPES = {
   primaryDeskSeated: {
     appearanceRecipeId: "appearance:candidate-A01:primary-desk-seated:v1",
-    personaId: "candidate-A01",
+    appearanceSeed: DEV_FIXTURE_APPEARANCE_SEEDS.candidateA01,
+    devFixtureTag: "historical-candidate-A01",
     assetId: "human_candidate_A01_primary_desk_seated_v1",
     bodyVisualFamily: "adult-authored-illustration",
     poseFamily: "seated-at-desk",
@@ -218,7 +243,8 @@ export const CHARACTER_VISUAL_RECIPES = {
   },
   leftGuestSeated: {
     appearanceRecipeId: "appearance:candidate-B01:left-guest-seated:v1",
-    personaId: "candidate-B01",
+    appearanceSeed: DEV_FIXTURE_APPEARANCE_SEEDS.candidateB01,
+    devFixtureTag: "historical-candidate-B01",
     assetId: "human_candidate_B01_left_guest_seated_v1",
     bodyVisualFamily: "adult-authored-illustration",
     poseFamily: "seated-in-guest-chair",
@@ -299,26 +325,40 @@ export const OFFICE_VISUAL_SCENE: OfficeVisualSceneConfiguration = {
   ],
 };
 
+export interface PersonAppearanceContext {
+  readonly personId: string;
+  readonly appearance?: PersonAppearance;
+}
+
+export function resolvePersonAppearance(
+  person: PersonAppearanceContext,
+): PersonAppearance {
+  return person.appearance ?? derivePersonAppearance(person.personId);
+}
+
 /**
- * Resolves a visual recipe matching the scene anchor's required pose family.
+ * Resolves a visual recipe matching BOTH the person's owned appearance identity
+ * and the scene anchor's required pose family.
  *
- * Person identity remains strictly person-owned (derived from person ID);
- * scene anchors own pose, contact, depth, and occlusion constraints.
+ * PERSON owns durable appearance identity (derived from canonical person ID or explicit appearance).
+ * SCENE ANCHOR owns pose requirements, seat contact, scale, depth, and occlusion.
+ *
+ * If no approved recipe exists for this person's appearance in the requested pose,
+ * returns null (fails closed / explicit placeholder path). Never silently substitutes
+ * another person's appearance.
  */
 export function resolvePersonVisualRecipe(
-  person: RunBScenePersonContext,
+  person: PersonAppearanceContext,
   anchor: SceneVisualAnchor,
   scene: OfficeVisualSceneConfiguration = OFFICE_VISUAL_SCENE,
-): CharacterVisualRecipe {
+): CharacterVisualRecipe | null {
+  const appearance = resolvePersonAppearance(person);
   const matchingRecipe = scene.visualRecipes.find(
-    (recipe) => recipe.poseFamily === anchor.poseFamily,
+    (recipe) =>
+      recipe.appearanceSeed === appearance.seed &&
+      recipe.poseFamily === anchor.poseFamily,
   );
-  if (!matchingRecipe) {
-    throw new Error(
-      `Person '${person.personId}' lacks an approved visual recipe compatible with anchor '${anchor.id}' (poseFamily '${anchor.poseFamily}').`,
-    );
-  }
-  return matchingRecipe;
+  return matchingRecipe ?? null;
 }
 
 export function validateOfficeVisualScene(
@@ -378,28 +418,58 @@ export function composeOfficeVisuals(
         throw new Error(`Unrecognized scene anchor '${person.anchorId}'.`);
       }
       const recipe = resolvePersonVisualRecipe(person, anchor, scene);
-      const widthPercent = recipe.visualBounds.widthPercent * anchor.scale;
-      const heightPercent =
-        (widthPercent / recipe.visualBounds.sourceAspectRatio) *
+      if (recipe && library.has(recipe.assetId)) {
+        const widthPercent = recipe.visualBounds.widthPercent * anchor.scale;
+        const heightPercent =
+          (widthPercent / recipe.visualBounds.sourceAspectRatio) *
+          (scene.plate.width / scene.plate.height);
+        const leftPercent = anchor.xPercent - recipe.root.x * widthPercent;
+        const topPercent = anchor.yPercent - recipe.root.y * heightPercent;
+        const interaction = recipe.visualBounds.interaction;
+        return {
+          personId: person.personId,
+          anchorId: person.anchorId,
+          visualVariant: person.visualVariant,
+          asset: requireAsset(library, recipe.assetId),
+          isPlaceholder: false,
+          appearanceRecipeId: recipe.appearanceRecipeId,
+          leftPercent,
+          topPercent,
+          widthPercent,
+          heightPercent,
+          hitbox: {
+            leftPercent: leftPercent + widthPercent * interaction.x,
+            topPercent: topPercent + heightPercent * interaction.y,
+            widthPercent: widthPercent * interaction.width,
+            heightPercent: heightPercent * interaction.height,
+          },
+          depth: anchor.depth,
+        };
+      }
+
+      // Explicit fallback placeholder path: fail closed on art asset without corrupting identity
+      const defaultWidthPercent = 20 * anchor.scale;
+      const defaultHeightPercent =
+        (defaultWidthPercent / (765 / 1024)) *
         (scene.plate.width / scene.plate.height);
-      const leftPercent = anchor.xPercent - recipe.root.x * widthPercent;
-      const topPercent = anchor.yPercent - recipe.root.y * heightPercent;
-      const interaction = recipe.visualBounds.interaction;
+      const defaultLeftPercent = anchor.xPercent - 0.5 * defaultWidthPercent;
+      const defaultTopPercent = anchor.yPercent - 0.5 * defaultHeightPercent;
       return {
         personId: person.personId,
         anchorId: person.anchorId,
         visualVariant: person.visualVariant,
-        asset: requireAsset(library, recipe.assetId),
-        appearanceRecipeId: recipe.appearanceRecipeId,
-        leftPercent,
-        topPercent,
-        widthPercent,
-        heightPercent,
+        asset: null,
+        isPlaceholder: true,
+        appearanceRecipeId: "placeholder:unresolved-recipe-pose",
+        leftPercent: defaultLeftPercent,
+        topPercent: defaultTopPercent,
+        widthPercent: defaultWidthPercent,
+        heightPercent: defaultHeightPercent,
         hitbox: {
-          leftPercent: leftPercent + widthPercent * interaction.x,
-          topPercent: topPercent + heightPercent * interaction.y,
-          widthPercent: widthPercent * interaction.width,
-          heightPercent: heightPercent * interaction.height,
+          leftPercent: defaultLeftPercent + defaultWidthPercent * 0.1,
+          topPercent: defaultTopPercent + defaultHeightPercent * 0.1,
+          widthPercent: defaultWidthPercent * 0.8,
+          heightPercent: defaultHeightPercent * 0.8,
         },
         depth: anchor.depth,
       };

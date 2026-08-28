@@ -1,11 +1,19 @@
 import { describe, expect, it } from "vitest";
 
-import { createRunBFixture } from "./run-b-fixture";
+import { derivePersonAppearance } from "../simulation/person-appearance";
 import {
+  createRunBFixture,
+  type RunBScenePersonContext,
+} from "./run-b-fixture";
+import {
+  CHARACTER_VISUAL_RECIPES,
   composeOfficeVisuals,
   createRuntimeVisualLibrary,
+  DEV_FIXTURE_APPEARANCE_SEEDS,
   OFFICE_VISUAL_SCENE,
   PRODUCTION_VISUAL_LIBRARY,
+  resolvePersonAppearance,
+  resolvePersonVisualRecipe,
   validateOfficeVisualScene,
   type OfficeVisualSceneConfiguration,
   type RuntimeVisualAssetRecord,
@@ -14,7 +22,7 @@ import {
 describe("Stage 6.5 visual integration contract", () => {
   const fixture = createRunBFixture();
 
-  it("composes approved released runtime visual assets deterministically", () => {
+  it("composes approved released runtime visual assets deterministically for fixture people", () => {
     const composition = composeOfficeVisuals(
       fixture.scenePeople,
       PRODUCTION_VISUAL_LIBRARY,
@@ -52,13 +60,14 @@ describe("Stage 6.5 visual integration contract", () => {
       (c) => c.anchorId === "primary-desk-chair",
     );
     expect(primary).toBeDefined();
+    expect(primary!.isPlaceholder).toBe(false);
     expect(primary!.appearanceRecipeId).toBe(
       "appearance:candidate-A01:primary-desk-seated:v1",
     );
-    expect(primary!.asset.assetId).toBe(
+    expect(primary!.asset?.assetId).toBe(
       "human_candidate_A01_primary_desk_seated_v1",
     );
-    expect(primary!.asset.hash).toBe(
+    expect(primary!.asset?.hash).toBe(
       "8e5882e26eab1c6cf966cff188bfebd4e40cd117804e87930a0b06d67ca66e43",
     );
     expect(primary!.depth).toBe(2);
@@ -75,13 +84,14 @@ describe("Stage 6.5 visual integration contract", () => {
       (c) => c.anchorId === "left-guest-chair",
     );
     expect(guest).toBeDefined();
+    expect(guest!.isPlaceholder).toBe(false);
     expect(guest!.appearanceRecipeId).toBe(
       "appearance:candidate-B01:left-guest-seated:v1",
     );
-    expect(guest!.asset.assetId).toBe(
+    expect(guest!.asset?.assetId).toBe(
       "human_candidate_B01_left_guest_seated_v1",
     );
-    expect(guest!.asset.hash).toBe(
+    expect(guest!.asset?.hash).toBe(
       "fd880e52fb191d6c32019ba451d006176ebc7762db89590c437c67586906be8d",
     );
     expect(guest!.depth).toBe(3);
@@ -93,6 +103,251 @@ describe("Stage 6.5 visual integration contract", () => {
     expect(guest!.hitbox.topPercent).toBeCloseTo(42.363, 2);
     expect(guest!.hitbox.widthPercent).toBeCloseTo(15.817, 2);
     expect(guest!.hitbox.heightPercent).toBeCloseTo(21.059, 2);
+  });
+
+  describe("Person-owned visual identity invariant regressions", () => {
+    const personA = fixture.scenePeople[0];
+    const personB = fixture.scenePeople[1];
+
+    it("1. Reordering scene.visualRecipes cannot change a Person's appearance identity", () => {
+      const reversedScene: OfficeVisualSceneConfiguration = {
+        ...OFFICE_VISUAL_SCENE,
+        visualRecipes: [
+          CHARACTER_VISUAL_RECIPES.leftGuestSeated,
+          CHARACTER_VISUAL_RECIPES.primaryDeskSeated,
+        ],
+      };
+
+      const recipeAOriginal = resolvePersonVisualRecipe(
+        personA,
+        OFFICE_VISUAL_SCENE.anchors["primary-desk-chair"],
+        OFFICE_VISUAL_SCENE,
+      );
+      const recipeAReversed = resolvePersonVisualRecipe(
+        personA,
+        reversedScene.anchors["primary-desk-chair"],
+        reversedScene,
+      );
+
+      expect(recipeAOriginal).not.toBeNull();
+      expect(recipeAReversed).not.toBeNull();
+      expect(recipeAReversed!.appearanceSeed).toBe(
+        recipeAOriginal!.appearanceSeed,
+      );
+      expect(recipeAReversed!.assetId).toBe(recipeAOriginal!.assetId);
+
+      const compOriginal = composeOfficeVisuals(
+        fixture.scenePeople,
+        PRODUCTION_VISUAL_LIBRARY,
+        OFFICE_VISUAL_SCENE,
+      );
+      const compReversed = composeOfficeVisuals(
+        fixture.scenePeople,
+        PRODUCTION_VISUAL_LIBRARY,
+        reversedScene,
+      );
+
+      expect(compReversed.characters).toEqual(compOriginal.characters);
+    });
+
+    it("2. Reordering people in the fixture cannot change which appearance belongs to each Person", () => {
+      const reorderedPeople: readonly [
+        RunBScenePersonContext,
+        RunBScenePersonContext,
+      ] = [personB, personA];
+
+      const compReordered = composeOfficeVisuals(
+        reorderedPeople,
+        PRODUCTION_VISUAL_LIBRARY,
+        OFFICE_VISUAL_SCENE,
+      );
+
+      const resolvedPersonA = compReordered.characters.find(
+        (c) => c.personId === personA.personId,
+      );
+      const resolvedPersonB = compReordered.characters.find(
+        (c) => c.personId === personB.personId,
+      );
+
+      expect(resolvedPersonA?.appearanceRecipeId).toBe(
+        "appearance:candidate-A01:primary-desk-seated:v1",
+      );
+      expect(resolvedPersonA?.asset?.assetId).toBe(
+        "human_candidate_A01_primary_desk_seated_v1",
+      );
+
+      expect(resolvedPersonB?.appearanceRecipeId).toBe(
+        "appearance:candidate-B01:left-guest-seated:v1",
+      );
+      expect(resolvedPersonB?.asset?.assetId).toBe(
+        "human_candidate_B01_left_guest_seated_v1",
+      );
+    });
+
+    it("3. Swapping two people between scene anchors does NOT swap their appearance identity", () => {
+      // Create a scene with explicit multi-pose recipes for personA and personB
+      const customScene: OfficeVisualSceneConfiguration = {
+        ...OFFICE_VISUAL_SCENE,
+        visualRecipes: [
+          CHARACTER_VISUAL_RECIPES.primaryDeskSeated,
+          {
+            ...CHARACTER_VISUAL_RECIPES.leftGuestSeated,
+            appearanceRecipeId: "appearance:candidate-A01:left-guest-seated:v1",
+            appearanceSeed: DEV_FIXTURE_APPEARANCE_SEEDS.candidateA01,
+            assetId: "human_candidate_A01_primary_desk_seated_v1",
+          },
+          {
+            ...CHARACTER_VISUAL_RECIPES.primaryDeskSeated,
+            appearanceRecipeId:
+              "appearance:candidate-B01:primary-desk-seated:v1",
+            appearanceSeed: DEV_FIXTURE_APPEARANCE_SEEDS.candidateB01,
+            assetId: "human_candidate_B01_left_guest_seated_v1",
+          },
+          CHARACTER_VISUAL_RECIPES.leftGuestSeated,
+        ],
+      };
+
+      const swappedPeople: readonly [
+        RunBScenePersonContext,
+        RunBScenePersonContext,
+      ] = [
+        {
+          ...personA,
+          anchorId: "left-guest-chair",
+          visualVariant: "guest",
+        },
+        {
+          ...personB,
+          anchorId: "primary-desk-chair",
+          visualVariant: "primary",
+        },
+      ];
+
+      const compSwapped = composeOfficeVisuals(
+        swappedPeople,
+        PRODUCTION_VISUAL_LIBRARY,
+        customScene,
+      );
+
+      const swappedA = compSwapped.characters.find(
+        (c) => c.personId === personA.personId,
+      );
+      const swappedB = compSwapped.characters.find(
+        (c) => c.personId === personB.personId,
+      );
+
+      expect(swappedA?.appearanceRecipeId).toBe(
+        "appearance:candidate-A01:left-guest-seated:v1",
+      );
+      expect(swappedA?.anchorId).toBe("left-guest-chair");
+
+      expect(swappedB?.appearanceRecipeId).toBe(
+        "appearance:candidate-B01:primary-desk-seated:v1",
+      );
+      expect(swappedB?.anchorId).toBe("primary-desk-chair");
+    });
+
+    it("4. Moving the SAME Person between two compatible poses preserves that person's appearance identity", () => {
+      const customScene: OfficeVisualSceneConfiguration = {
+        ...OFFICE_VISUAL_SCENE,
+        visualRecipes: [
+          CHARACTER_VISUAL_RECIPES.primaryDeskSeated,
+          {
+            ...CHARACTER_VISUAL_RECIPES.leftGuestSeated,
+            appearanceRecipeId: "appearance:candidate-A01:left-guest-seated:v1",
+            appearanceSeed: DEV_FIXTURE_APPEARANCE_SEEDS.candidateA01,
+            assetId: "human_candidate_A01_primary_desk_seated_v1",
+          },
+        ],
+      };
+
+      const personAtDesk: RunBScenePersonContext = {
+        ...personA,
+        anchorId: "primary-desk-chair",
+      };
+      const personAtGuest: RunBScenePersonContext = {
+        ...personA,
+        anchorId: "left-guest-chair",
+      };
+
+      const recipeDesk = resolvePersonVisualRecipe(
+        personAtDesk,
+        customScene.anchors["primary-desk-chair"],
+        customScene,
+      );
+      const recipeGuest = resolvePersonVisualRecipe(
+        personAtGuest,
+        customScene.anchors["left-guest-chair"],
+        customScene,
+      );
+
+      expect(recipeDesk?.appearanceSeed).toBe(
+        DEV_FIXTURE_APPEARANCE_SEEDS.candidateA01,
+      );
+      expect(recipeGuest?.appearanceSeed).toBe(
+        DEV_FIXTURE_APPEARANCE_SEEDS.candidateA01,
+      );
+      expect(recipeDesk?.poseFamily).toBe("seated-at-desk");
+      expect(recipeGuest?.poseFamily).toBe("seated-in-guest-chair");
+    });
+
+    it("5. A person lacking a compatible asset for the required pose fails closed and uses the explicit placeholder path", () => {
+      const unknownPerson: RunBScenePersonContext = {
+        personId: "person_unknown_unreleased_999",
+        title: "Staffer",
+        role: "Visiting aide",
+        qualitativeRead: "Unknown",
+        inferredRead: "No notes",
+        anchorId: "primary-desk-chair",
+        visualVariant: "primary",
+      };
+
+      const recipe = resolvePersonVisualRecipe(
+        unknownPerson,
+        OFFICE_VISUAL_SCENE.anchors["primary-desk-chair"],
+        OFFICE_VISUAL_SCENE,
+      );
+      expect(recipe).toBeNull();
+
+      const composition = composeOfficeVisuals(
+        [unknownPerson],
+        PRODUCTION_VISUAL_LIBRARY,
+        OFFICE_VISUAL_SCENE,
+      );
+
+      expect(composition.characters).toHaveLength(1);
+      const char = composition.characters[0]!;
+      expect(char.isPlaceholder).toBe(true);
+      expect(char.asset).toBeNull();
+      expect(char.appearanceRecipeId).toBe(
+        "placeholder:unresolved-recipe-pose",
+      );
+      expect(char.hitbox.widthPercent).toBeGreaterThan(0);
+      expect(char.hitbox.heightPercent).toBeGreaterThan(0);
+    });
+
+    it("6. Composition does not mutate Person or World", () => {
+      const worldJsonBefore = JSON.stringify(fixture.world);
+      const peopleJsonBefore = JSON.stringify(fixture.scenePeople);
+
+      composeOfficeVisuals(fixture.scenePeople, PRODUCTION_VISUAL_LIBRARY);
+
+      expect(JSON.stringify(fixture.world)).toBe(worldJsonBefore);
+      expect(JSON.stringify(fixture.scenePeople)).toBe(peopleJsonBefore);
+    });
+
+    it("7. Canonical appearance derivation is stable and person-owned", () => {
+      const appearanceA = resolvePersonAppearance(personA);
+      const appearanceB = resolvePersonAppearance(personB);
+
+      expect(appearanceA.seed).toBe(
+        derivePersonAppearance(personA.personId).seed,
+      );
+      expect(appearanceB.seed).toBe(
+        derivePersonAppearance(personB.personId).seed,
+      );
+      expect(appearanceA.seed).not.toBe(appearanceB.seed);
+    });
   });
 
   it("validates that approved scene geometry maintains non-occluded interaction safe areas", () => {

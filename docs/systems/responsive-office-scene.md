@@ -93,21 +93,22 @@ no new detail.
 | 7680×2160    | 1.25 | 5.062500 |             6480×3620 (15.8%) |       1633×2186 (46.8%) |       1312×1756 (58.3%) |
 | 7680×2160    |    2 | 5.062500 |             10368×5792 (9.9%) |       2613×3498 (29.3%) |       2099×2809 (36.5%) |
 
-## Raster-fidelity disposition
+## Raster-fidelity disposition and project art authority
 
-The responsive transform is geometrically correct, but the current Prompt 30
-master is not sufficient for sharp Retina presentation. At the tested
-1512 × 982 logical Mac-style viewport at DPR 2, the room requires
-**3516 × 1964** physical pixels; the approved 1024 × 572 master supplies only
-29.1% one-to-one coverage in each dimension. The 2048 × 1144 runtime derivative
-still contains only the original detail.
+The responsive transform is geometrically correct across all tested viewports
+and device pixel ratios.
 
-At that same Retina checkpoint A01 requires **887 × 1186** against its
-765 × 1024 master (86.3% coverage), so a larger approved A01 master is required
-for strict one-source-pixel-per-device-pixel fidelity. B01 requires
-**712 × 953** and its 765 × 1024 master is sufficient there.
+In the development test suite, the historical 1024×572 Prompt 30 master and
+historical A01/B01 sprites are used as test fixtures to verify camera math and
+occlusion layering. Coverage measurements against those historical fixtures
+demonstrate why higher-resolution source assets are needed for Retina displays.
 
-For the full automated DPR-2 matrix, the largest bounded-camera footprints are
-Prompt 30 **10368 × 5792**, A01 **2613 × 3498**, and B01 **2099 × 2809**.
-Those are coverage measurements, not an instruction to upscale or regenerate
-assets inside this repair.
+Project art authority is now established externally:
+
+- **Environment**: `PG-E02 CLEAN` is the human-approved current office
+  composition master (5568×3008 source PNG), providing full resolution
+  sufficient for a later non-enlarging crop to 4096×2288. The office does not
+  need another regeneration or upscale.
+- **Characters**: Historical B01 is retired as the final guest-chair asset.
+  New primary and guest character assets in production externally (e.g. Firefly)
+  will be integrated in a subsequent asset-substitution pass.
