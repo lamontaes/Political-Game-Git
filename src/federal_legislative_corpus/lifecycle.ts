@@ -3,6 +3,9 @@
  *
  * Infers conservative derived lifecycles from chronological Congress.gov / GovInfo actions.
  * Grounded in federal constitutional mechanics (Article I, Section 7) without gameplay procedure.
+ *
+ * Distinguishes action/motion-level outcomes (e.g. failed motions to suspend rules, failed cloture)
+ * from true measure-level terminality (explicit withdrawal, standard passage rejection without reconsideration).
  */
 
 import type {
@@ -61,44 +64,53 @@ export function inferFederalLifecycle({
   let vetoOverrideDate: string | null = null;
   let signedByPresident = false;
   let becameLawDate: string | null = null;
-  let explicitlyFailed = false;
-  let failureReason: string | null = null;
   let isWithdrawn = false;
+  let withdrawalReason: string | null = null;
+  let failedRegularPassage = false;
+  let failureReason: string | null = null;
+  let failedSuspensionMotion = false;
+  let suspensionFailureDetail: string | null = null;
   let hasCommitteeActivity = false;
 
   for (const action of sortedActions) {
     const text = normalizeText(action.rawDescription);
     const code = action.actionCode || "";
 
-    // 1. Explicit Failure or Withdrawal
+    // 1. Action/Motion-Level Failures (Procedural, non-terminal for the underlying measure)
     if (
-      text.includes("failed of passage") ||
-      text.includes("failed to pass") ||
-      text.includes("motion to suspend the rules and pass the bill failed") ||
-      text.includes(
-        "on motion to suspend the rules and pass the bill failed",
-      ) ||
-      (text.includes("motion to suspend the rules") &&
+      (text.includes("motion to suspend the rules and pass") &&
         text.includes("failed")) ||
-      text.includes("motion to override the veto of the president failed") ||
-      (text.includes("override the veto") && text.includes("failed")) ||
-      text.includes("cloture on the motion to proceed not invoked") ||
-      text.includes("motion to table agreed to") ||
-      text.includes("defeated")
+      (text.includes("on motion to suspend the rules and pass") &&
+        text.includes("failed")) ||
+      (text.includes("motion to suspend the rules") && text.includes("failed"))
     ) {
-      explicitlyFailed = true;
-      failureReason = action.rawDescription;
+      failedSuspensionMotion = true;
+      suspensionFailureDetail = action.rawDescription;
     }
+
+    // 2. Measure-Level Explicit Withdrawal
     if (
       text.includes("withdrawn by sponsor") ||
       text.includes("withdrawn in house") ||
       text.includes("withdrawn in senate")
     ) {
       isWithdrawn = true;
+      withdrawalReason = action.rawDescription;
+    }
+
+    // 3. Measure-Level Floor Defeat on Regular Passage (Non-suspension, non-veto override)
+    if (
+      (text.includes("on passage failed") ||
+        text.includes("failed of passage") ||
+        text.includes("failed to pass")) &&
+      !text.includes("suspend the rules") &&
+      !text.includes("override the veto")
+    ) {
+      failedRegularPassage = true;
       failureReason = action.rawDescription;
     }
 
-    // 2. Committee Activity
+    // 4. Committee Activity
     if (
       action.actionType === "Committee" ||
       text.includes("referred to the committee") ||
@@ -112,30 +124,43 @@ export function inferFederalLifecycle({
       hasCommitteeActivity = true;
     }
 
-    // 3. Chamber Passage & Agreement
+    // 5. Chamber Passage & Agreement (A subsequent valid passage advances the measure beyond prior procedural failure)
+    const isAffirmative =
+      !text.includes("failed") &&
+      !text.includes("rejected") &&
+      !text.includes("not agreed to") &&
+      !text.includes("not passed");
+
     if (
-      text.includes("passed house") ||
-      text.includes("passed the house") ||
-      (text.includes("on passage passed") &&
-        action.actingChamber === "house") ||
-      text.includes("agreed to in house") ||
-      code === "8000" ||
-      code === "H37300" ||
-      code === "H37100"
+      isAffirmative &&
+      (text.includes("passed house") ||
+        text.includes("passed the house") ||
+        (text.includes("on passage passed") &&
+          action.actingChamber === "house") ||
+        (text.includes("on motion to suspend the rules and pass") &&
+          text.includes("agreed to")) ||
+        (text.includes("agreed to in house") &&
+          (measureType === "hres" || measureType === "hconres")) ||
+        code === "8000" ||
+        code === "H37100")
     ) {
       passedHouse = true;
+      failedRegularPassage = false; // Superseded by affirmative passage
     }
 
     if (
-      text.includes("passed senate") ||
-      text.includes("passed the senate") ||
-      (text.includes("on passage passed") &&
-        action.actingChamber === "senate") ||
-      text.includes("agreed to in senate") ||
-      code === "17000" ||
-      code === "S17000"
+      isAffirmative &&
+      (text.includes("passed senate") ||
+        text.includes("passed the senate") ||
+        (text.includes("on passage passed") &&
+          action.actingChamber === "senate") ||
+        (text.includes("agreed to in senate") &&
+          (measureType === "sres" || measureType === "sconres")) ||
+        code === "17000" ||
+        code === "S17000")
     ) {
       passedSenate = true;
+      failedRegularPassage = false;
     }
 
     if (
@@ -154,7 +179,7 @@ export function inferFederalLifecycle({
       bothChambersAgreed = true;
     }
 
-    // 4. Presidential Presentation (only for bills and joint resolutions)
+    // 6. Presidential Presentation (only for bills and joint resolutions)
     if (
       measureType === "hr" ||
       measureType === "s" ||
@@ -171,7 +196,7 @@ export function inferFederalLifecycle({
         presentationDate = action.actionDate;
       }
 
-      // 5. Presidential Veto
+      // 7. Presidential Veto
       if (
         text.includes("vetoed by president") ||
         text.includes("vetoed by the president") ||
@@ -183,7 +208,7 @@ export function inferFederalLifecycle({
         vetoDate = action.actionDate;
       }
 
-      // 6. Veto Override Votes
+      // 8. Veto Override Votes
       if (
         presidentialVeto &&
         (text.includes("passed house over veto") ||
@@ -225,7 +250,7 @@ export function inferFederalLifecycle({
         becameLawDate = action.actionDate;
       }
 
-      // 7. Executive Signature & Enactment into Law
+      // 9. Executive Signature & Enactment into Law
       if (
         text.includes("signed by president") ||
         text.includes("became public law") ||
@@ -254,13 +279,18 @@ export function inferFederalLifecycle({
         detail: `Agreed to in ${measureType === "hres" ? "House" : "Senate"} (Simple Resolution)`,
       };
     }
-    if (explicitlyFailed || isWithdrawn) {
+    if (isWithdrawn) {
       return {
         status: "explicitly-failed-or-withdrawn",
-        detail: isWithdrawn
-          ? "Withdrawn"
-          : `Defeated in chamber: ${failureReason}`,
-        failureReason: failureReason || "Floor defeat or withdrawal",
+        detail: `Withdrawn by sponsor: ${withdrawalReason}`,
+        failureReason: withdrawalReason,
+      };
+    }
+    if (failedRegularPassage) {
+      return {
+        status: "explicitly-failed-or-withdrawn",
+        detail: `Defeated in chamber: ${failureReason}`,
+        failureReason: failureReason,
       };
     }
     if (congressSineDie) {
@@ -269,10 +299,12 @@ export function inferFederalLifecycle({
         detail: "Congress adjourned sine die without adoption",
       };
     }
-    if (hasCommitteeActivity) {
+    if (hasCommitteeActivity || failedSuspensionMotion) {
       return {
         status: "committee-activity",
-        detail: "Referred to committee / Active committee consideration",
+        detail: failedSuspensionMotion
+          ? `Pending in chamber; motion to agree failed (${suspensionFailureDetail})`
+          : "Referred to committee / Active committee consideration",
       };
     }
     return {
@@ -289,11 +321,18 @@ export function inferFederalLifecycle({
         detail: "Agreed to in both House and Senate (Concurrent Resolution)",
       };
     }
-    if (explicitlyFailed || isWithdrawn) {
+    if (isWithdrawn) {
       return {
         status: "explicitly-failed-or-withdrawn",
-        detail: isWithdrawn ? "Withdrawn" : `Defeated: ${failureReason}`,
-        failureReason: failureReason || "Floor defeat or withdrawal",
+        detail: `Withdrawn by sponsor: ${withdrawalReason}`,
+        failureReason: withdrawalReason,
+      };
+    }
+    if (failedRegularPassage && !passedHouse && !passedSenate) {
+      return {
+        status: "explicitly-failed-or-withdrawn",
+        detail: `Defeated on floor: ${failureReason}`,
+        failureReason: failureReason,
       };
     }
     if (congressSineDie) {
@@ -308,10 +347,12 @@ export function inferFederalLifecycle({
         detail: `Passed ${passedHouse ? "House" : "Senate"}; awaiting action in second chamber`,
       };
     }
-    if (hasCommitteeActivity) {
+    if (hasCommitteeActivity || failedSuspensionMotion) {
       return {
         status: "committee-activity",
-        detail: "Referred to committee / Active committee consideration",
+        detail: failedSuspensionMotion
+          ? `Active; motion to suspend rules and agree failed (${suspensionFailureDetail})`
+          : "Referred to committee / Active committee consideration",
       };
     }
     return {
@@ -339,11 +380,9 @@ export function inferFederalLifecycle({
   if (presidentialVeto) {
     return {
       status: "vetoed",
-      detail: explicitlyFailed
-        ? "Presidential veto sustained; override attempt defeated in Congress"
-        : "Vetoed by President and returned to Congress",
+      detail: "Presidential veto sustained; returned to Congress",
       vetoDate,
-      failureReason: failureReason || "Presidential veto",
+      failureReason: "Presidential veto",
     };
   }
 
@@ -368,27 +407,7 @@ export function inferFederalLifecycle({
     };
   }
 
-  // E. EXPLICITLY FAILED OR WITHDRAWN
-  if (explicitlyFailed || isWithdrawn) {
-    return {
-      status: "explicitly-failed-or-withdrawn",
-      detail: isWithdrawn
-        ? "Withdrawn"
-        : `Explicitly failed of passage: ${failureReason}`,
-      failureReason: failureReason || "Floor defeat or withdrawal",
-    };
-  }
-
-  // F. SINE DIE ADJOURNMENT (UNRESOLVED)
-  if (congressSineDie) {
-    return {
-      status: "unresolved",
-      detail:
-        "Congress adjourned sine die without final floor action or enactment",
-    };
-  }
-
-  // G. BOTH CHAMBERS PASSED
+  // E. BOTH CHAMBERS PASSED
   if (bothChambersAgreed || (passedHouse && passedSenate)) {
     return {
       status: "both-chambers-passed",
@@ -396,7 +415,7 @@ export function inferFederalLifecycle({
     };
   }
 
-  // H. SINGLE CHAMBER PASSED
+  // F. SINGLE CHAMBER PASSED
   if (passedHouse || passedSenate) {
     const chamberName = passedHouse ? "House" : "Senate";
     return {
@@ -405,15 +424,44 @@ export function inferFederalLifecycle({
     };
   }
 
-  // I. COMMITTEE ACTIVITY
-  if (hasCommitteeActivity) {
+  // G. EXPLICIT WITHDRAWAL
+  if (isWithdrawn) {
     return {
-      status: "committee-activity",
-      detail: "Referred to committee / Active committee consideration",
+      status: "explicitly-failed-or-withdrawn",
+      detail: `Withdrawn by sponsor: ${withdrawalReason}`,
+      failureReason: withdrawalReason,
     };
   }
 
-  // J. INTRODUCED
+  // H. EXPLICIT REGULAR PASSAGE DEFEAT (Without subsequent passage)
+  if (failedRegularPassage) {
+    return {
+      status: "explicitly-failed-or-withdrawn",
+      detail: `Defeated on floor passage: ${failureReason}`,
+      failureReason: failureReason,
+    };
+  }
+
+  // I. SINE DIE ADJOURNMENT (UNRESOLVED)
+  if (congressSineDie) {
+    return {
+      status: "unresolved",
+      detail:
+        "Congress adjourned sine die without final floor action or enactment",
+    };
+  }
+
+  // J. COMMITTEE ACTIVITY / NON-TERMINAL PROCEDURAL ACTION
+  if (hasCommitteeActivity || failedSuspensionMotion) {
+    return {
+      status: "committee-activity",
+      detail: failedSuspensionMotion
+        ? `Referred to committee; motion to suspend rules and pass failed (${suspensionFailureDetail})`
+        : "Referred to committee / Active committee consideration",
+    };
+  }
+
+  // K. INTRODUCED
   return {
     status: "introduced",
     detail: "Introduced in chamber of origin",

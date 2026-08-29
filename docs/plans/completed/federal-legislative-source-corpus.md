@@ -16,11 +16,13 @@ Build a reproducible, provider-specific federal source corpus for the United Sta
    - `src/federal_legislative_corpus/compiler.ts`: Deterministic corpus compiler.
    - `src/federal_legislative_corpus/manifest_builder.ts`: National federal coverage manifest builder.
    - `src/federal_legislative_corpus/validator.ts`: Comprehensive semantic, structural, and cryptographic validator.
-3. **Authentic Fixtures**:
+3. **Authentic Fixtures & Regressions**:
    - `ordinary_enacted_law_hr5376.json` (H.R. 5376, Inflation Reduction Act, Public Law 117-169)
    - `veto_unoverridden_hjres30.json` (H.J.Res. 30, Sustained Presidential Veto)
    - `veto_override_enacted_hr6395.json` (H.R. 6395, Veto Override into Public Law 116-283)
-   - `failed_floor_vote_hr.json` (H.R. 7217, Floor Defeat under suspension of rules)
+   - `failed_floor_vote_hr.json` (H.R. 7217, Failed motion to suspend rules treated as non-terminal action failure)
+   - `failed_suspension_then_passed_hr.json` (H.R. 7218, Regression fixture: failed suspension followed by affirmative passage)
+   - `withdrawn_bill_fixture.json` (H.R. 9999, Explicit sponsor withdrawal)
    - `unresolved_session_ended_s.json` (S. 1234, Sine Die Unresolved Bill)
    - `amendment_fixture_hamdt.json` (H.R. 4521 / H.Amdt. 150, Deduplication Invariant)
    - `house_roll_call_vote.json` (House Roll 420, Member Tally and Party Breakdown)
@@ -33,7 +35,7 @@ Build a reproducible, provider-specific federal source corpus for the United Sta
    - `scripts/federal-legislative/validate.ts` (`npm run validate:federal-legislative`)
    - `tests/federal_legislative_corpus.test.ts` (`npm run test:federal-legislative`)
 5. **Verification**:
-   - All 20 automated vitest tests passed.
+   - All 23 automated vitest tests passed.
    - Deterministic compilation and manifest generation verified.
    - Zero ESLint warnings/errors and full TypeScript validation (`tsc -b`).
    - Prettier formatted across repo.

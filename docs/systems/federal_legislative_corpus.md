@@ -77,37 +77,39 @@ The primary federal legislative unit representing bills and resolutions across C
 
 ## 4. Conservative Derived Lifecycle Rules (`src/federal_legislative_corpus/lifecycle.ts`)
 
-The lifecycle classifier evaluates chronological actions, text versions, and constitutional rules without procedural gameplay mechanics:
+The lifecycle classifier evaluates chronological actions, text versions, and constitutional rules without procedural gameplay mechanics. It strictly distinguishes **action/motion-level failures** (such as a failed motion to suspend the rules, failed cloture, or failed veto override) from **true measure-level terminality** (such as explicit sponsor withdrawal or regular passage defeat without reconsideration):
 
-| Derived Status                   | Criteria & Constitutional Rules                                                                                                                                               |
-| :------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `introduced`                     | Filed or introduced in originating chamber; sponsor assigned.                                                                                                                 |
-| `committee-activity`             | Referred to committee, hearings held, marked up, or reported.                                                                                                                 |
-| `chamber-passed`                 | Passed originating chamber (House or Senate). For simple resolutions (`hres`, `sres`), represents final agreed chamber adoption.                                              |
-| `both-chambers-passed`           | Agreed to by both House and Senate in identical form (or conference report adopted). For concurrent resolutions (`hconres`, `sconres`), represents final bicameral agreement. |
-| `presented-to-president`         | Enrolled bill/joint resolution delivered to the White House (Article I, Section 7). Never applied to simple or concurrent resolutions.                                        |
-| `signed-became-law`              | **Affirmative evidence required**: signed by the President or designated with an official Public Law number (e.g. `Public Law 117-169`).                                      |
-| `vetoed`                         | **Presidential veto evidenced**: returned to Congress with objections; override has not succeeded in both chambers.                                                           |
-| `veto-override`                  | **Two-thirds supermajority override**: passed both House (2/3) and Senate (2/3) over presidential veto, enacting the measure into Public Law (e.g. `Public Law 116-283`).     |
-| `explicitly-failed-or-withdrawn` | **Affirmative defeat evidenced**: failed of passage on floor vote, suspension of rules failed, motion to table agreed to, or withdrawn by sponsor.                            |
-| `unresolved`                     | Congress adjourned sine die without affirmative enactment, floor defeat, or withdrawal. Preserves unresolved status rather than fabricating failure.                          |
+| Derived Status                   | Criteria & Constitutional Rules                                                                                                                                                |
+| :------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `introduced`                     | Filed or introduced in originating chamber; sponsor assigned.                                                                                                                  |
+| `committee-activity`             | Referred to committee, hearings held, marked up, reported, or non-terminal procedural motion failed (e.g. motion to suspend rules and pass failed). Remains legally available. |
+| `chamber-passed`                 | Passed originating chamber (House or Senate). For simple resolutions (`hres`, `sres`), represents final agreed chamber adoption.                                               |
+| `both-chambers-passed`           | Agreed to by both House and Senate in identical form (or conference report adopted). For concurrent resolutions (`hconres`, `sconres`), represents final bicameral agreement.  |
+| `presented-to-president`         | Enrolled bill/joint resolution delivered to the White House (Article I, Section 7). Never applied to simple or concurrent resolutions.                                         |
+| `signed-became-law`              | **Affirmative evidence required**: signed by the President or designated with an official Public Law number (e.g. `Public Law 117-169`).                                       |
+| `vetoed`                         | **Presidential veto evidenced**: returned to Congress with objections; override has not succeeded in both chambers.                                                            |
+| `veto-override`                  | **Two-thirds supermajority override**: passed both House (2/3) and Senate (2/3) over presidential veto, enacting the measure into Public Law (e.g. `Public Law 116-283`).      |
+| `explicitly-failed-or-withdrawn` | **Affirmative terminal disposition evidenced**: withdrawn by sponsor or defeated on regular floor passage question without reconsideration or subsequent passage.              |
+| `unresolved`                     | Congress adjourned sine die without affirmative enactment, floor defeat, or withdrawal. Preserves unresolved status rather than fabricating failure.                           |
 
 ---
 
 ## 5. Fixture Suite (`data/federal_legislative_source/fixtures/`)
 
-| Fixture File                         | Type                    | Key Invariant Tested                                                                                      |
-| :----------------------------------- | :---------------------- | :-------------------------------------------------------------------------------------------------------- |
-| `ordinary_enacted_law_hr5376.json`   | H.R. 5376 (117th)       | Enacted law progression, Senate amendment concurrence, Public Law 117-169 designation.                    |
-| `veto_unoverridden_hjres30.json`     | H.J.Res. 30 (118th)     | Presidential veto sustained; House 2/3 override failed (219-200); retains `vetoed` status.                |
-| `veto_override_enacted_hr6395.json`  | H.R. 6395 (116th)       | Presidential veto overridden by House (322-87) and Senate (81-13); enacted as Public Law 116-283.         |
-| `failed_floor_vote_hr.json`          | H.R. 7217 (118th)       | Floor defeat under suspension of rules (250-180 < 2/3); classified as `explicitly-failed-or-withdrawn`.   |
-| `unresolved_session_ended_s.json`    | S. 1234 (117th)         | Senate bill introduced and died in committee at sine die adjournment; classified as `unresolved`.         |
-| `amendment_fixture_hamdt.json`       | H.R. 4521 / H.Amdt. 150 | House floor amendment parsing and duplicate amendment deduplication verification.                         |
-| `house_roll_call_vote.json`          | House Roll 420 (117th)  | House roll-call vote member tally parsing, party breakdown, and absence of fabricated Senate vote shapes. |
-| `simple_resolution_hres.json`        | H.Res. 5 (118th)        | One-chamber simple resolution rules lifecycle (never presented to President).                             |
-| `concurrent_resolution_sconres.json` | S.Con.Res. 14 (117th)   | Bicameral concurrent resolution lifecycle (agreed by both chambers, never goes to President).             |
-| `govinfo_package_sample.json`        | BILLS / PLAW packages   | GovInfo package summary ingestion, MODS metadata, and text version merging.                               |
+| Fixture File                            | Type                    | Key Invariant Tested                                                                                               |
+| :-------------------------------------- | :---------------------- | :----------------------------------------------------------------------------------------------------------------- |
+| `ordinary_enacted_law_hr5376.json`      | H.R. 5376 (117th)       | Enacted law progression, Senate amendment concurrence, Public Law 117-169 designation.                             |
+| `veto_unoverridden_hjres30.json`        | H.J.Res. 30 (118th)     | Presidential veto sustained; House 2/3 override failed (219-200); retains `vetoed` status.                         |
+| `veto_override_enacted_hr6395.json`     | H.R. 6395 (116th)       | Presidential veto overridden by House (322-87) and Senate (81-13); enacted as Public Law 116-283.                  |
+| `failed_floor_vote_hr.json`             | H.R. 7217 (118th)       | Failed motion to suspend rules (250-180 < 2/3); classified as non-terminal `committee-activity` during session.    |
+| `failed_suspension_then_passed_hr.json` | H.R. 7218 (118th)       | Regression fixture: failed suspension motion on 2024-02-06 followed by House passage on 2024-02-15 advances state. |
+| `withdrawn_bill_fixture.json`           | H.R. 9999 (118th)       | Explicit sponsor withdrawal; classified as `explicitly-failed-or-withdrawn`.                                       |
+| `unresolved_session_ended_s.json`       | S. 1234 (117th)         | Senate bill introduced and died in committee at sine die adjournment; classified as `unresolved`.                  |
+| `amendment_fixture_hamdt.json`          | H.R. 4521 / H.Amdt. 150 | House floor amendment parsing and duplicate amendment deduplication verification.                                  |
+| `house_roll_call_vote.json`             | House Roll 420 (117th)  | House roll-call vote member tally parsing, party breakdown, and absence of fabricated Senate vote shapes.          |
+| `simple_resolution_hres.json`           | H.Res. 5 (118th)        | One-chamber simple resolution rules lifecycle (never presented to President).                                      |
+| `concurrent_resolution_sconres.json`    | S.Con.Res. 14 (117th)   | Bicameral concurrent resolution lifecycle (agreed by both chambers, never goes to President).                      |
+| `govinfo_package_sample.json`           | BILLS / PLAW packages   | GovInfo package summary ingestion, MODS metadata, and text version merging.                                        |
 
 ---
 

@@ -3,7 +3,7 @@
   "generatedAt": "2026-08-28T00:00:00.000Z",
   "primarySource": "Congress.gov API",
   "secondaryDocumentSource": "GovInfo API",
-  "totalMeasures": 8,
+  "totalMeasures": 10,
   "totalEnactedLaws": 1,
   "totalVetoes": 1,
   "totalVetoOverrides": 1,
@@ -43,15 +43,15 @@
       "name": "118th United States Congress",
       "startYear": 2023,
       "endYear": 2025,
-      "measureCount": 3,
+      "measureCount": 5,
       "enactedLawCount": 0,
       "vetoCount": 1,
       "vetoOverrideCount": 0,
       "resolutionCount": 2,
       "amendmentCount": 0,
       "houseVoteCount": 0,
-      "textVersionCount": 5
+      "textVersionCount": 8
     }
   ],
-  "corpusSha256": "79471610bd625e541752aaa2ca660822172450fb63829b050e57a03f1a9d2fd6"
+  "corpusSha256": "99826620cd220e1e213c78806fe775b03bcc23d73db475204881664c773cd9b7"
 }

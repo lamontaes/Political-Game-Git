@@ -100,7 +100,10 @@
           "chamber": "house",
           "name": "House Committee on Armed Services",
           "subcommittees": [],
-          "activityTypes": ["Referred to", "Reported by"],
+          "activityTypes": [
+            "Referred to",
+            "Reported by"
+          ],
           "referralDate": "2020-03-26",
           "reportedDate": "2020-07-09"
         }
@@ -319,7 +322,10 @@
           "chamber": "house",
           "name": "House Committee on Science, Space, and Technology",
           "subcommittees": [],
-          "activityTypes": ["Referred to", "Reported by"],
+          "activityTypes": [
+            "Referred to",
+            "Reported by"
+          ],
           "referralDate": "2021-07-19",
           "reportedDate": "2022-01-19"
         }
@@ -420,8 +426,8 @@
       "publicLawNumber": null,
       "rawProviderStatus": "On passage Passed by the Yeas and Nays: 222 - 210 (Roll no. 31).",
       "derivedLifecycle": {
-        "status": "unresolved",
-        "detail": "Congress adjourned sine die without final floor action or enactment"
+        "status": "chamber-passed",
+        "detail": "Passed House; awaiting action in second chamber"
       },
       "officialCongressGovUrl": "https://www.congress.gov/bill/117th-congress/house-bill/4521",
       "govinfoPackageId": null,
@@ -430,7 +436,7 @@
         "secondaryDocumentSource": "GovInfo API",
         "retrievedAt": "2026-08-28T00:00:00.000Z",
         "schemaVersion": "1.0.0",
-        "recordSha256": "4bba7fdb0bf2b5333184195bce826afd9bc2e6630cf955a046918aa0e22ebac3"
+        "recordSha256": "96811284006827a293761224b66914adbba79c9309672d36bb70b4da69813787"
       }
     },
     {
@@ -468,7 +474,10 @@
           "chamber": "house",
           "name": "House Committee on the Budget",
           "subcommittees": [],
-          "activityTypes": ["Referred to", "Reported by"],
+          "activityTypes": [
+            "Referred to",
+            "Reported by"
+          ],
           "referralDate": "2021-09-27",
           "reportedDate": "2021-09-27"
         }
@@ -783,7 +792,9 @@
           "chamber": "senate",
           "name": "Senate Committee on Health, Education, Labor, and Pensions",
           "subcommittees": [],
-          "activityTypes": ["Referred to"],
+          "activityTypes": [
+            "Referred to"
+          ],
           "referralDate": "2021-04-20",
           "reportedDate": null
         }
@@ -995,7 +1006,9 @@
           "chamber": "house",
           "name": "House Committee on Education and the Workforce",
           "subcommittees": [],
-          "activityTypes": ["Referred to"],
+          "activityTypes": [
+            "Referred to"
+          ],
           "referralDate": "2023-02-07",
           "reportedDate": null
         }
@@ -1124,9 +1137,9 @@
       "rawProviderStatus": "The Chair directed the Clerk to notify the Senate of the action of the House. On motion to override the veto of the President Failed by the Yeas and Nays: (2/3 required): 219 - 200 (Roll no. 149).",
       "derivedLifecycle": {
         "status": "vetoed",
-        "detail": "Presidential veto sustained; override attempt defeated in Congress",
+        "detail": "Presidential veto sustained; returned to Congress",
         "vetoDate": "2023-03-20",
-        "failureReason": "The Chair directed the Clerk to notify the Senate of the action of the House. On motion to override the veto of the President Failed by the Yeas and Nays: (2/3 required): 219 - 200 (Roll no. 149)."
+        "failureReason": "Presidential veto"
       },
       "officialCongressGovUrl": "https://www.congress.gov/bill/118th-congress/house-joint-resolution/30",
       "govinfoPackageId": null,
@@ -1135,7 +1148,7 @@
         "secondaryDocumentSource": "GovInfo API",
         "retrievedAt": "2026-08-28T00:00:00.000Z",
         "schemaVersion": "1.0.0",
-        "recordSha256": "f187b3d4c59a7f458b2aea2d5bba738ab0f687447829f5c121a3d26d9a2ea716"
+        "recordSha256": "409b2e51013163a3c94f80b805c843f49e3a40b8d7321cae364876d95edc8194"
       }
     },
     {
@@ -1173,7 +1186,9 @@
           "chamber": "house",
           "name": "House Committee on Appropriations",
           "subcommittees": [],
-          "activityTypes": ["Referred to"],
+          "activityTypes": [
+            "Referred to"
+          ],
           "referralDate": "2024-02-05",
           "reportedDate": null
         }
@@ -1239,9 +1254,8 @@
       "publicLawNumber": null,
       "rawProviderStatus": "On motion to suspend the rules and pass the bill Failed by the Yeas and Nays: (2/3 required): 250 - 180 (Roll no. 38).",
       "derivedLifecycle": {
-        "status": "explicitly-failed-or-withdrawn",
-        "detail": "Explicitly failed of passage: On motion to suspend the rules and pass the bill Failed by the Yeas and Nays: (2/3 required): 250 - 180 (Roll no. 38).",
-        "failureReason": "On motion to suspend the rules and pass the bill Failed by the Yeas and Nays: (2/3 required): 250 - 180 (Roll no. 38)."
+        "status": "unresolved",
+        "detail": "Congress adjourned sine die without final floor action or enactment"
       },
       "officialCongressGovUrl": "https://www.congress.gov/bill/118th-congress/house-bill/7217",
       "govinfoPackageId": null,
@@ -1250,7 +1264,243 @@
         "secondaryDocumentSource": "GovInfo API",
         "retrievedAt": "2026-08-28T00:00:00.000Z",
         "schemaVersion": "1.0.0",
-        "recordSha256": "8ca81a748fc639e117e4603d8169f18b9f57fae3940a16ad6504354a63eb4052"
+        "recordSha256": "01f8a1a98916dbe3baf1dca00b52837604a17242f21a821c6bebddd33f311cff"
+      }
+    },
+    {
+      "measureId": "us_fed_118_hr_7218",
+      "congress": 118,
+      "measureType": "hr",
+      "measureNumber": 7218,
+      "displayNumber": "H.R. 7218",
+      "title": "A bill to provide emergency security assistance and for other purposes (Model Suspension Recovery Bill)",
+      "originChamber": "house",
+      "introducedDate": "2024-02-05",
+      "policyArea": "Armed Forces and National Security",
+      "legislativeSubjects": [
+        "Appropriations",
+        "Defense spending",
+        "Military assistance, sales, and agreements"
+      ],
+      "sponsors": [
+        {
+          "bioguideId": "C001053",
+          "fullName": "Cole, Tom",
+          "chamber": "house",
+          "party": "R",
+          "state": "OK",
+          "district": 4,
+          "isPrimary": true
+        }
+      ],
+      "committees": [
+        {
+          "systemCode": "hsap00",
+          "chamber": "house",
+          "name": "House Committee on Appropriations",
+          "subcommittees": [],
+          "activityTypes": [
+            "Referred to"
+          ],
+          "referralDate": "2024-02-05",
+          "reportedDate": null
+        }
+      ],
+      "actions": [
+        {
+          "actionId": "us_fed_118_hr_7218_act_1",
+          "sequence": 1,
+          "actionDate": "2024-02-05",
+          "actingChamber": "house",
+          "actionCode": "H11100",
+          "actionType": "IntroReferral",
+          "rawDescription": "Referred to the House Committee on Appropriations.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-bill/7218"
+        },
+        {
+          "actionId": "us_fed_118_hr_7218_act_2",
+          "sequence": 2,
+          "actionDate": "2024-02-06",
+          "actingChamber": "house",
+          "actionCode": "H37300",
+          "actionType": "Floor",
+          "rawDescription": "On motion to suspend the rules and pass the bill Failed by the Yeas and Nays: (2/3 required): 250 - 180 (Roll no. 38).",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-bill/7218"
+        },
+        {
+          "actionId": "us_fed_118_hr_7218_act_3",
+          "sequence": 3,
+          "actionDate": "2024-02-14",
+          "actingChamber": "house",
+          "actionCode": "H1L220",
+          "actionType": "Floor",
+          "rawDescription": "Rules Committee Resolution H. Res. 1000 Reported to House.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-bill/7218"
+        },
+        {
+          "actionId": "us_fed_118_hr_7218_act_4",
+          "sequence": 4,
+          "actionDate": "2024-02-15",
+          "actingChamber": "house",
+          "actionCode": "H37100",
+          "actionType": "Floor",
+          "rawDescription": "On passage Passed by the Yeas and Nays: 219 - 210 (Roll no. 45).",
+          "recordedVoteRef": {
+            "congress": 118,
+            "chamber": "house",
+            "rollNumber": 45,
+            "url": "https://clerk.house.gov/Votes/202445"
+          },
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-bill/7218"
+        }
+      ],
+      "amendments": [],
+      "textVersions": [
+        {
+          "versionCode": "ih",
+          "versionName": "Introduced in House",
+          "date": "2024-02-05",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/118/bills/hr7218/BILLS-118hr7218ih.pdf",
+              "sha256": "e549f5a95f066e0050fde4d0b40831018ddc0470f8281a68bf67044aa4e2d273"
+            }
+          ],
+          "contentSha256": "e549f5a95f066e0050fde4d0b40831018ddc0470f8281a68bf67044aa4e2d273"
+        },
+        {
+          "versionCode": "eh",
+          "versionName": "Engrossed in House",
+          "date": "2024-02-15",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/118/bills/hr7218/BILLS-118hr7218eh.pdf",
+              "sha256": "0ed8e36aeb487e926bb39817a7eb9cfbd3e3640f7ab8c77ff98d4023cd105d4f"
+            }
+          ],
+          "contentSha256": "0ed8e36aeb487e926bb39817a7eb9cfbd3e3640f7ab8c77ff98d4023cd105d4f"
+        }
+      ],
+      "houseVotes": [],
+      "publicLawNumber": null,
+      "rawProviderStatus": "On passage Passed by the Yeas and Nays: 219 - 210 (Roll no. 45).",
+      "derivedLifecycle": {
+        "status": "chamber-passed",
+        "detail": "Passed House; awaiting action in second chamber"
+      },
+      "officialCongressGovUrl": "https://www.congress.gov/bill/118th-congress/house-bill/7218",
+      "govinfoPackageId": null,
+      "provenance": {
+        "primarySource": "Congress.gov API",
+        "secondaryDocumentSource": "GovInfo API",
+        "retrievedAt": "2026-08-28T00:00:00.000Z",
+        "schemaVersion": "1.0.0",
+        "recordSha256": "d8d1030eca92bae38740fd741b2199392dea0c25576a75052a3bb54c99448e2b"
+      }
+    },
+    {
+      "measureId": "us_fed_118_hr_9999",
+      "congress": 118,
+      "measureType": "hr",
+      "measureNumber": 9999,
+      "displayNumber": "H.R. 9999",
+      "title": "A bill to establish a temporary advisory council on federal procurement standards (Model Withdrawn Bill).",
+      "originChamber": "house",
+      "introducedDate": "2023-05-10",
+      "policyArea": "Government Operations and Politics",
+      "legislativeSubjects": [
+        "Advisory bodies",
+        "Executive agency funding and organization",
+        "Public contracts and procurement"
+      ],
+      "sponsors": [
+        {
+          "bioguideId": "S001176",
+          "fullName": "Scalise, Steve",
+          "chamber": "house",
+          "party": "R",
+          "state": "LA",
+          "district": 1,
+          "isPrimary": true
+        }
+      ],
+      "committees": [
+        {
+          "systemCode": "hsgo00",
+          "chamber": "house",
+          "name": "House Committee on Oversight and Accountability",
+          "subcommittees": [],
+          "activityTypes": [
+            "Referred to"
+          ],
+          "referralDate": "2023-05-10",
+          "reportedDate": null
+        }
+      ],
+      "actions": [
+        {
+          "actionId": "us_fed_118_hr_9999_act_1",
+          "sequence": 1,
+          "actionDate": "2023-05-10",
+          "actingChamber": "house",
+          "actionCode": "H11100",
+          "actionType": "IntroReferral",
+          "rawDescription": "Referred to the House Committee on Oversight and Accountability.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-bill/9999"
+        },
+        {
+          "actionId": "us_fed_118_hr_9999_act_2",
+          "sequence": 2,
+          "actionDate": "2023-06-01",
+          "actingChamber": "house",
+          "actionCode": "H8D000",
+          "actionType": "Floor",
+          "rawDescription": "Withdrawn by sponsor in House.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-bill/9999"
+        }
+      ],
+      "amendments": [],
+      "textVersions": [
+        {
+          "versionCode": "ih",
+          "versionName": "Introduced in House",
+          "date": "2023-05-10",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/118/bills/hr9999/BILLS-118hr9999ih.pdf",
+              "sha256": "fe15285609bd6a29c8f742fb31cb90d0de4f8d293591e5a73fc298d936ce64db"
+            }
+          ],
+          "contentSha256": "fe15285609bd6a29c8f742fb31cb90d0de4f8d293591e5a73fc298d936ce64db"
+        }
+      ],
+      "houseVotes": [],
+      "publicLawNumber": null,
+      "rawProviderStatus": "Withdrawn by sponsor in House.",
+      "derivedLifecycle": {
+        "status": "explicitly-failed-or-withdrawn",
+        "detail": "Withdrawn by sponsor: Withdrawn by sponsor in House.",
+        "failureReason": "Withdrawn by sponsor in House."
+      },
+      "officialCongressGovUrl": "https://www.congress.gov/bill/118th-congress/house-bill/9999",
+      "govinfoPackageId": null,
+      "provenance": {
+        "primarySource": "Congress.gov API",
+        "secondaryDocumentSource": "GovInfo API",
+        "retrievedAt": "2026-08-28T00:00:00.000Z",
+        "schemaVersion": "1.0.0",
+        "recordSha256": "f83eef9339c998cc5412d5dc838dd4a7c470c165c29c35aff673dc8bd2a699af"
       }
     },
     {
@@ -1423,5 +1673,5 @@
       "relatedMeasureId": "us_fed_117_hr_5376"
     }
   ],
-  "corpusSha256": "79471610bd625e541752aaa2ca660822172450fb63829b050e57a03f1a9d2fd6"
+  "corpusSha256": "99826620cd220e1e213c78806fe775b03bcc23d73db475204881664c773cd9b7"
 }

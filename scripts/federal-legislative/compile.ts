@@ -32,6 +32,8 @@ export function loadAndCompileCorpus(): void {
     "veto_unoverridden_hjres30.json",
     "veto_override_enacted_hr6395.json",
     "failed_floor_vote_hr.json",
+    "failed_suspension_then_passed_hr.json",
+    "withdrawn_bill_fixture.json",
     "unresolved_session_ended_s.json",
     "amendment_fixture_hamdt.json",
     "simple_resolution_hres.json",

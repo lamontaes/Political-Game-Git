@@ -8,6 +8,9 @@
  * - Amendment deduplication
  * - Action chronological ordering & index preservation
  * - Veto vs. Veto-Override distinction
+ * - Procedural action/motion failure vs measure lifecycle non-terminality
+ * - Regression: subsequent valid passage advancing measure after failed suspension vote
+ * - True measure withdrawal & explicit disposition
  * - Provider separation & absence preservation (House roll calls vs unrecorded Senate vote shapes)
  * - Resolution lifecycles vs Public Law bills
  */
@@ -52,8 +55,14 @@ describe("Federal Legislative Source Corpus", () => {
   const vetoOverridePayload = loadFixture<CongressGovBillPayload>(
     "veto_override_enacted_hr6395.json",
   );
-  const failedBillPayload = loadFixture<CongressGovBillPayload>(
+  const failedSuspensionPayload = loadFixture<CongressGovBillPayload>(
     "failed_floor_vote_hr.json",
+  );
+  const failedSuspensionPassedPayload = loadFixture<CongressGovBillPayload>(
+    "failed_suspension_then_passed_hr.json",
+  );
+  const withdrawnPayload = loadFixture<CongressGovBillPayload>(
+    "withdrawn_bill_fixture.json",
   );
   const unresolvedBillPayload = loadFixture<CongressGovBillPayload>(
     "unresolved_session_ended_s.json",
@@ -73,6 +82,19 @@ describe("Federal Legislative Source Corpus", () => {
   const govinfoSummaries = loadFixture<GovInfoPackageSummary[]>(
     "govinfo_package_sample.json",
   );
+
+  const allBillPayloads = [
+    enactedLawPayload,
+    vetoPayload,
+    vetoOverridePayload,
+    failedSuspensionPayload,
+    failedSuspensionPassedPayload,
+    withdrawnPayload,
+    unresolvedBillPayload,
+    amendmentBillPayload,
+    simpleResPayload,
+    concurrentResPayload,
+  ];
 
   describe("1. Provenance and Hash Stability", () => {
     it("generates deterministic SHA-256 hashes regardless of object key order", () => {
@@ -102,16 +124,7 @@ describe("Federal Legislative Source Corpus", () => {
   describe("2. Deterministic Compilation & Build Idempotence", () => {
     it("produces identical bundle output across multiple compilation runs", () => {
       const input = {
-        billPayloads: [
-          enactedLawPayload,
-          vetoPayload,
-          vetoOverridePayload,
-          failedBillPayload,
-          unresolvedBillPayload,
-          amendmentBillPayload,
-          simpleResPayload,
-          concurrentResPayload,
-        ],
+        billPayloads: allBillPayloads,
         govinfoSummaries,
         houseVotePayloads: [houseVotePayload],
         generationTimestamp: "2026-08-28T00:00:00.000Z",
@@ -126,16 +139,7 @@ describe("Federal Legislative Source Corpus", () => {
 
     it("passes all integrity checks on compiled bundle", () => {
       const input = {
-        billPayloads: [
-          enactedLawPayload,
-          vetoPayload,
-          vetoOverridePayload,
-          failedBillPayload,
-          unresolvedBillPayload,
-          amendmentBillPayload,
-          simpleResPayload,
-          concurrentResPayload,
-        ],
+        billPayloads: allBillPayloads,
         govinfoSummaries,
         houseVotePayloads: [houseVotePayload],
         generationTimestamp: "2026-08-28T00:00:00.000Z",
@@ -146,7 +150,7 @@ describe("Federal Legislative Source Corpus", () => {
 
       expect(report.isValid).toBe(true);
       expect(report.errorCount).toBe(0);
-      expect(report.totalMeasuresChecked).toBe(8);
+      expect(report.totalMeasuresChecked).toBe(10);
       expect(report.totalVotesChecked).toBe(1);
     });
   });
@@ -154,6 +158,7 @@ describe("Federal Legislative Source Corpus", () => {
   describe("3. Text-Version Identity and GovInfo Enrichment", () => {
     it("correctly maps GovInfo package summaries and formats", () => {
       const summary = govinfoSummaries[0];
+      if (!summary) throw new Error("Missing fixture summary");
       const parsed = parseGovInfoTextVersion(summary);
 
       expect(parsed.versionCode).toBe("enr");
@@ -211,9 +216,9 @@ describe("Federal Legislative Source Corpus", () => {
       // amendmentBillPayload contains two identical H.Amdt 150 items
       const measure = parseCongressGovBillPayload(amendmentBillPayload);
       expect(measure.amendments.length).toBe(1);
-      expect(measure.amendments[0].amendmentNumber).toBe(150);
-      expect(measure.amendments[0].amendmentId).toBe("us_fed_117_hamdt_150");
-      expect(measure.amendments[0].isAgreedTo).toBe(true);
+      expect(measure.amendments[0]?.amendmentNumber).toBe(150);
+      expect(measure.amendments[0]?.amendmentId).toBe("us_fed_117_hamdt_150");
+      expect(measure.amendments[0]?.isAgreedTo).toBe(true);
     });
 
     it("verifies amendment parent linkage", () => {
@@ -231,12 +236,15 @@ describe("Federal Legislative Source Corpus", () => {
 
       for (let i = 0; i < measure.actions.length; i += 1) {
         const act = measure.actions[i];
+        if (!act) continue;
         expect(act.sequence).toBe(i + 1);
         expect(act.actionId).toBe(`${measure.measureId}_act_${i + 1}`);
 
         if (i > 0) {
           const prev = measure.actions[i - 1];
-          expect(act.actionDate >= prev.actionDate).toBe(true);
+          if (prev) {
+            expect(act.actionDate >= prev.actionDate).toBe(true);
+          }
         }
       }
     });
@@ -273,18 +281,55 @@ describe("Federal Legislative Source Corpus", () => {
     });
   });
 
-  describe("7. Failed Bills and Session-Ended Unresolved Status", () => {
-    it("correctly classifies floor vote defeat as explicitly-failed-or-withdrawn", () => {
-      const measure = parseCongressGovBillPayload(failedBillPayload);
-      expect(measure.derivedLifecycle.status).toBe(
-        "explicitly-failed-or-withdrawn",
+  describe("7. Procedural Action Failures vs Measure Lifecycle & Non-Terminality", () => {
+    it("treats failed motion to suspend rules as a non-terminal action failure (measure remains active in committee)", () => {
+      // H.R. 7217: Motion to suspend and pass failed 250-180 (< 2/3). The measure was NOT killed or withdrawn.
+      const measure = parseCongressGovBillPayload(failedSuspensionPayload, {
+        congressSineDie: false,
+      });
+      // During active session, the bill remains available / in committee
+      expect(measure.derivedLifecycle.status).toBe("committee-activity");
+      expect(measure.derivedLifecycle.detail).toContain(
+        "motion to suspend rules and pass failed",
       );
-      expect(measure.derivedLifecycle.failureReason).toContain(
-        "Failed by the Yeas and Nays",
+      expect(measure.derivedLifecycle.failureReason).toBeUndefined();
+    });
+
+    it("preserves unresolved status when a measure with failed suspension motion ends at sine die adjournment", () => {
+      const measure = parseCongressGovBillPayload(failedSuspensionPayload, {
+        congressSineDie: true,
+      });
+      expect(measure.derivedLifecycle.status).toBe("unresolved");
+      expect(measure.derivedLifecycle.detail).toContain(
+        "adjourned sine die without final floor action",
       );
     });
 
-    it("preserves unresolved status when session ends sine die without floor defeat or enactment", () => {
+    it("regression: advances measure lifecycle when subsequent valid passage occurs after a failed suspension vote", () => {
+      // H.R. 7218: Failed suspension vote on 2024-02-06, then passed House on 2024-02-15 under a rule
+      const measure = parseCongressGovBillPayload(
+        failedSuspensionPassedPayload,
+      );
+      expect(measure.derivedLifecycle.status).toBe("chamber-passed");
+      expect(measure.derivedLifecycle.detail).toContain(
+        "Passed House; awaiting action in second chamber",
+      );
+    });
+
+    it("correctly classifies explicit sponsor withdrawal as explicitly-failed-or-withdrawn", () => {
+      const measure = parseCongressGovBillPayload(withdrawnPayload);
+      expect(measure.derivedLifecycle.status).toBe(
+        "explicitly-failed-or-withdrawn",
+      );
+      expect(measure.derivedLifecycle.detail).toContain(
+        "Withdrawn by sponsor in House",
+      );
+      expect(measure.derivedLifecycle.failureReason).toContain(
+        "Withdrawn by sponsor in House",
+      );
+    });
+
+    it("preserves unresolved status when an introduced bill ends at sine die without floor action or enactment", () => {
       const measure = parseCongressGovBillPayload(unresolvedBillPayload, {
         congressSineDie: true,
       });
@@ -339,6 +384,7 @@ describe("Federal Legislative Source Corpus", () => {
 
       expect(bundle.houseVotes.every((v) => v.chamber === "house")).toBe(true);
       const measure = bundle.measures[0];
+      if (!measure) throw new Error("Missing compiled measure");
       const senatePassAction = measure.actions.find(
         (a) =>
           a.actingChamber === "senate" &&
@@ -353,16 +399,7 @@ describe("Federal Legislative Source Corpus", () => {
   describe("10. Coverage Manifest Generator", () => {
     it("builds accurate national federal coverage manifest", () => {
       const bundle = compileFederalLegislativeCorpus({
-        billPayloads: [
-          enactedLawPayload,
-          vetoPayload,
-          vetoOverridePayload,
-          failedBillPayload,
-          unresolvedBillPayload,
-          amendmentBillPayload,
-          simpleResPayload,
-          concurrentResPayload,
-        ],
+        billPayloads: allBillPayloads,
         houseVotePayloads: [houseVotePayload],
         generationTimestamp: "2026-08-28T00:00:00.000Z",
       });
@@ -370,7 +407,7 @@ describe("Federal Legislative Source Corpus", () => {
       const manifest = buildFederalCoverageManifest(bundle);
 
       expect(manifest.manifestVersion).toBe("1.0.0");
-      expect(manifest.totalMeasures).toBe(8);
+      expect(manifest.totalMeasures).toBe(10);
       expect(manifest.totalEnactedLaws).toBe(1);
       expect(manifest.totalVetoes).toBe(1);
       expect(manifest.totalVetoOverrides).toBe(1);
