@@ -285,7 +285,10 @@ describe("NOAA Storm Events Source Corpus", () => {
         "1950-1954_tornado_only",
       );
       expect(getCoverageEraForDate("1974-04-03T00:00:00Z")).toBe(
-        "1955-1995_severe_convective_3",
+        "1955-1992_severe_convective_publication_keyed",
+      );
+      expect(getCoverageEraForDate("1994-06-15T00:00:00Z")).toBe(
+        "1993-1995_severe_convective_unformatted_text",
       );
       expect(getCoverageEraForDate("1996-01-01T00:00:00Z")).toBe(
         "1996-present_nws_standard_48",
@@ -395,6 +398,160 @@ describe("NOAA Storm Events Source Corpus", () => {
       expect(event.damage.property.estimatedDollars).toBe(3_500_000_000);
       // Verify no simulation engine state is touched or required
       expect(typeof event).toBe("object");
+    });
+  });
+
+  describe("8. Package Scripts Regression Proof", () => {
+    it("preserves dev:identified and all preexisting baseline npm scripts", async () => {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const packageJsonPath = path.resolve(__dirname, "../package.json");
+      const pkg = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
+
+      // 1. Verify dev:identified exists and is exact
+      expect(pkg.scripts["dev:identified"]).toBe(
+        "node scripts/dev-identified.mjs",
+      );
+
+      // 2. Verify all preexisting baseline scripts remain present
+      const baselineScripts = [
+        "dev",
+        "build",
+        "preview",
+        "demo",
+        "test",
+        "test:run-a",
+        "test:run-b",
+        "test:run-c",
+        "test:run-d-lite",
+        "test:e2e",
+        "test:watch",
+        "lint",
+        "typecheck",
+        "format",
+        "format:write",
+        "intake:texas-senate",
+        "validate:art",
+        "inventory:art",
+        "qa:art",
+        "derive:office-plate",
+        "extract:chroma",
+        "validate",
+        "agent:preflight",
+        "dev:identified",
+        "stress:persons",
+      ];
+
+      for (const scriptName of baselineScripts) {
+        expect(
+          pkg.scripts[scriptName],
+          `Expected script '${scriptName}' to exist`,
+        ).toBeDefined();
+      }
+
+      // 3. Verify storm corpus additions
+      expect(pkg.scripts["compile:storm-corpus"]).toBe(
+        "node --import tsx scripts/storm-corpus/cli-compile.ts",
+      );
+      expect(pkg.scripts["validate:storm-corpus"]).toBe(
+        "node --import tsx scripts/storm-corpus/cli-validate.ts",
+      );
+      expect(pkg.scripts["manifest:storm-corpus"]).toBe(
+        "node --import tsx scripts/storm-corpus/cli-manifest.ts",
+      );
+      expect(pkg.scripts["test:storm-corpus"]).toBe(
+        "vitest run tests/storm_corpus.test.ts",
+      );
+    });
+  });
+
+  describe("9. Collection-Source Era and Provenance at 1992/1993 Boundary", () => {
+    it("strictly preserves the 1992/1993 collection-method transition in provenance and coverage eras", () => {
+      // 1950-1954: Tornado only / SELS project
+      expect(getCoverageEraForDate("1950-01-01T00:00:00Z")).toBe(
+        "1950-1954_tornado_only",
+      );
+      expect(getCoverageEraForDate("1954-12-31T23:59:59Z")).toBe(
+        "1950-1954_tornado_only",
+      );
+
+      // 1955-1992: Publication keyed
+      expect(getCoverageEraForDate("1955-01-01T00:00:00Z")).toBe(
+        "1955-1992_severe_convective_publication_keyed",
+      );
+      expect(getCoverageEraForDate("1992-12-31T23:59:59Z")).toBe(
+        "1955-1992_severe_convective_publication_keyed",
+      );
+
+      // 1993-1995: Unformatted text extraction
+      expect(getCoverageEraForDate("1993-01-01T00:00:00Z")).toBe(
+        "1993-1995_severe_convective_unformatted_text",
+      );
+      expect(getCoverageEraForDate("1995-12-31T23:59:59Z")).toBe(
+        "1993-1995_severe_convective_unformatted_text",
+      );
+
+      // 1996+: Modern all-event NWS standard
+      expect(getCoverageEraForDate("1996-01-01T00:00:00Z")).toBe(
+        "1996-present_nws_standard_48",
+      );
+      expect(getCoverageEraForDate("2026-06-01T00:00:00Z")).toBe(
+        "1996-present_nws_standard_48",
+      );
+    });
+
+    it("attaches correct collectionMethod and collectionEra in normalized event provenance", () => {
+      const event1986 = normalizeStormEvent({
+        eventId: 8601,
+        episodeId: 860,
+        eventType: "Thunderstorm Wind",
+        beginDateTime: "1986-07-11T17:30:00Z",
+        state: "KENTUCKY",
+        stateFips: 21,
+      });
+      expect(event1986.coverageEra).toBe(
+        "1955-1992_severe_convective_publication_keyed",
+      );
+      expect(event1986.provenance.collectionMethod).toBe(
+        "paper_publication_keyed",
+      );
+      expect(event1986.provenance.collectionEra).toBe(
+        "1955-1992_severe_convective_publication_keyed",
+      );
+
+      const event1994 = normalizeStormEvent({
+        eventId: 9401,
+        episodeId: 940,
+        eventType: "Hail",
+        beginDateTime: "1994-05-15T14:00:00Z",
+        state: "KENTUCKY",
+        stateFips: 21,
+      });
+      expect(event1994.coverageEra).toBe(
+        "1993-1995_severe_convective_unformatted_text",
+      );
+      expect(event1994.provenance.collectionMethod).toBe(
+        "unformatted_text_extraction",
+      );
+      expect(event1994.provenance.collectionEra).toBe(
+        "1993-1995_severe_convective_unformatted_text",
+      );
+
+      const event2022 = normalizeStormEvent({
+        eventId: 2201,
+        episodeId: 220,
+        eventType: "Flash Flood",
+        beginDateTime: "2022-07-27T22:30:00Z",
+        state: "KENTUCKY",
+        stateFips: 21,
+      });
+      expect(event2022.coverageEra).toBe("1996-present_nws_standard_48");
+      expect(event2022.provenance.collectionMethod).toBe(
+        "nws_instruction_10_1605_standard",
+      );
+      expect(event2022.provenance.collectionEra).toBe(
+        "1996-present_nws_standard_48",
+      );
     });
   });
 });

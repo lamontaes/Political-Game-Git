@@ -45,7 +45,8 @@ export function buildCoverageManifest(
 
   const allEras: StormCoverageEra[] = [
     "1950-1954_tornado_only",
-    "1955-1995_severe_convective_3",
+    "1955-1992_severe_convective_publication_keyed",
+    "1993-1995_severe_convective_unformatted_text",
     "1996-present_nws_standard_48",
   ];
 

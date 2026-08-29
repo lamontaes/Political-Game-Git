@@ -15,6 +15,7 @@ export const HISTORICAL_COVERAGE_ERAS: readonly EraCoverageDescription[] = [
   {
     era: "1950-1954_tornado_only",
     period: "1950-01-01 to 1954-12-31",
+    collectionMethod: "severe_local_storms_project",
     collectionProcedure:
       "U.S. Weather Bureau Severe Local Storms Project digital archive. Nationwide coverage limited exclusively to Tornado events.",
     coveredEventTypes: ["Tornado"],
@@ -25,10 +26,11 @@ export const HISTORICAL_COVERAGE_ERAS: readonly EraCoverageDescription[] = [
     ],
   },
   {
-    era: "1955-1995_severe_convective_3",
-    period: "1955-01-01 to 1995-12-31",
+    era: "1955-1992_severe_convective_publication_keyed",
+    period: "1955-01-01 to 1992-12-31",
+    collectionMethod: "paper_publication_keyed",
     collectionProcedure:
-      "Convective severe storm digital archive. Systematically ingested three severe hazard types: Tornado, Thunderstorm Wind, and Hail.",
+      "Convective severe storm digital archive manually keyed from official NWS monthly Storm Data paper publications. Systematically ingested three severe hazard types: Tornado, Thunderstorm Wind, and Hail.",
     coveredEventTypes: [
       "Tornado",
       "Thunderstorm Wind",
@@ -38,14 +40,36 @@ export const HISTORICAL_COVERAGE_ERAS: readonly EraCoverageDescription[] = [
       "HAIL/WIND",
     ],
     historicalCaveats: [
-      "Synoptic and hydrological events (Floods, Winter Storms, Hurricanes, Heat Waves) were documented in monthly Storm Data publications but were not systematically ingested into the bulk digital database until 1996.",
+      "Data were manually transcribed/keyed from printed Storm Data publication issues.",
+      "Floods, winter storms, and temperature extremes were documented in monthly text publications but were not systematically ingested into the bulk digital database until 1996.",
       "Damage estimates frequently utilized category bracket codes (e.g. 0-9) rather than exact dollar figures.",
       "Missing damage was frequently left blank or unestimated rather than verified zero.",
     ],
   },
   {
+    era: "1993-1995_severe_convective_unformatted_text",
+    period: "1993-01-01 to 1995-12-31",
+    collectionMethod: "unformatted_text_extraction",
+    collectionProcedure:
+      "Transition era severe storm digital archive parsed and extracted from unformatted ASCII text files and early electronic NWS office transmissions. Covered the same three convective event families: Tornado, Thunderstorm Wind, and Hail.",
+    coveredEventTypes: [
+      "Tornado",
+      "Thunderstorm Wind",
+      "Hail",
+      "TSTM WIND",
+      "THUNDERSTORM WINDS",
+      "HAIL/WIND",
+    ],
+    historicalCaveats: [
+      "Data were extracted from raw unformatted digital text transmissions rather than standardized database software.",
+      "Preserves the same 3-hazard convective scope as the 1955-1992 era prior to full 1996 modernization.",
+      "Narrative and location structures began transition toward structured fields.",
+    ],
+  },
+  {
     era: "1996-present_nws_standard_48",
     period: "1996-01-01 to Present (2026)",
+    collectionMethod: "nws_instruction_10_1605_standard",
     collectionProcedure:
       "Modernized National Weather Service Instruction 10-1605 standardized 48 distinct event types recorded across all NWS Weather Forecast Offices (WFOs).",
     coveredEventTypes: [
@@ -115,17 +139,50 @@ export const HISTORICAL_COVERAGE_ERAS: readonly EraCoverageDescription[] = [
 export const SCALE_TRANSITION_DATE_EF = "2007-02-01";
 
 /**
- * Determines the historical coverage era based on an event ISO date string.
+ * Determines the historical coverage era based on an event ISO date string,
+ * preserving the 1992/1993 collection-method boundary.
  */
 export function getCoverageEraForDate(isoDate: string): StormCoverageEra {
   const year = parseInt(isoDate.slice(0, 4), 10);
   if (year < 1955) {
     return "1950-1954_tornado_only";
   }
-  if (year < 1996) {
-    return "1955-1995_severe_convective_3";
+  if (year <= 1992) {
+    return "1955-1992_severe_convective_publication_keyed";
+  }
+  if (year <= 1995) {
+    return "1993-1995_severe_convective_unformatted_text";
   }
   return "1996-present_nws_standard_48";
+}
+
+/**
+ * Returns the source collection method for a given event date.
+ */
+export function getCollectionMethodForDate(isoDate: string) {
+  const year = parseInt(isoDate.slice(0, 4), 10);
+  if (year < 1955) {
+    return "severe_local_storms_project";
+  }
+  if (year <= 1992) {
+    return "paper_publication_keyed";
+  }
+  if (year <= 1995) {
+    return "unformatted_text_extraction";
+  }
+  return "nws_instruction_10_1605_standard";
+}
+
+/**
+ * Returns a broader analytical era string if grouping across 1955-1995.
+ */
+export function getAnalyticalEraForDate(
+  isoDate: string,
+): "1950-1954" | "1955-1995" | "1996-present" {
+  const year = parseInt(isoDate.slice(0, 4), 10);
+  if (year < 1955) return "1950-1954";
+  if (year <= 1995) return "1955-1995";
+  return "1996-present";
 }
 
 /**
@@ -259,7 +316,10 @@ export function isEventTypeExpectedInEra(
   if (era === "1950-1954_tornado_only") {
     return family === "tornado";
   }
-  if (era === "1955-1995_severe_convective_3") {
+  if (
+    era === "1955-1992_severe_convective_publication_keyed" ||
+    era === "1993-1995_severe_convective_unformatted_text"
+  ) {
     return family === "tornado" || family === "severe_storm";
   }
   return true;

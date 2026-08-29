@@ -50,11 +50,12 @@ It provides empirical baselines for future generated and seeded political incide
 
 ## 3. Historical Periods of Record & Procedural Eras
 
-| Era                                 | Date Range               | Primary Collection Procedure                            | Systematic Hazard Coverage       |
-| ----------------------------------- | ------------------------ | ------------------------------------------------------- | -------------------------------- |
-| **`1950-1954_tornado_only`**        | 1950-01-01 to 1954-12-31 | U.S. Weather Bureau Severe Local Storms Project archive | Tornado only                     |
-| **`1955-1995_severe_convective_3`** | 1955-01-01 to 1995-12-31 | Severe Convective Storms archive                        | Tornado, Thunderstorm Wind, Hail |
-| **`1996-present_nws_standard_48`**  | 1996-01-01 to Present    | NWS Instruction 10-1605 modernization across all WFOs   | 48 Standardized NWS event types  |
+| Era                                                 | Date Range               | Primary Collection Procedure                                                            | Systematic Hazard Coverage       |
+| --------------------------------------------------- | ------------------------ | --------------------------------------------------------------------------------------- | -------------------------------- |
+| **`1950-1954_tornado_only`**                        | 1950-01-01 to 1954-12-31 | U.S. Weather Bureau Severe Local Storms Project archive (`severe_local_storms_project`) | Tornado only                     |
+| **`1955-1992_severe_convective_publication_keyed`** | 1955-01-01 to 1992-12-31 | Keyed from monthly printed _Storm Data_ publications (`paper_publication_keyed`)        | Tornado, Thunderstorm Wind, Hail |
+| **`1993-1995_severe_convective_unformatted_text`**  | 1993-01-01 to 1995-12-31 | Extracted from unformatted digital text transmissions (`unformatted_text_extraction`)   | Tornado, Thunderstorm Wind, Hail |
+| **`1996-present_nws_standard_48`**                  | 1996-01-01 to Present    | Modernized NWS Instruction 10-1605 standards (`nws_instruction_10_1605_standard`)       | 48 Standardized NWS event types  |
 
 ### Key Procedural Nuances:
 

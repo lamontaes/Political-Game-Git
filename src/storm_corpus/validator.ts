@@ -232,7 +232,7 @@ function validateMissingZeroIntegrity(
 
 function validateCoverageEra(
   event: StormEventRecord,
-  errors: ValidationIssue[],
+  _errors: ValidationIssue[],
   warnings: ValidationIssue[],
 ): void {
   const year = parseInt(event.beginDateTime.slice(0, 4), 10);

@@ -10,8 +10,15 @@
 
 export type StormCoverageEra =
   | "1950-1954_tornado_only"
-  | "1955-1995_severe_convective_3"
+  | "1955-1992_severe_convective_publication_keyed"
+  | "1993-1995_severe_convective_unformatted_text"
   | "1996-present_nws_standard_48";
+
+export type StormCollectionMethod =
+  | "severe_local_storms_project"
+  | "paper_publication_keyed"
+  | "unformatted_text_extraction"
+  | "nws_instruction_10_1605_standard";
 
 export type StormEventFamily =
   | "tornado"
@@ -102,6 +109,8 @@ export interface StormProvenance {
   readonly sourceDataset: string;
   readonly sourceUrl: string;
   readonly vintage: string;
+  readonly collectionMethod: StormCollectionMethod;
+  readonly collectionEra: StormCoverageEra;
   readonly recordChecksum?: string;
 }
 
@@ -240,6 +249,7 @@ export interface DerivedAggregates {
 export interface EraCoverageDescription {
   readonly era: StormCoverageEra;
   readonly period: string;
+  readonly collectionMethod: StormCollectionMethod;
   readonly collectionProcedure: string;
   readonly coveredEventTypes: readonly string[];
   readonly historicalCaveats: readonly string[];

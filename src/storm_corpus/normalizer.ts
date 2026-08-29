@@ -6,7 +6,11 @@
  */
 
 import { createStormEpisodeId, createStormEventId } from "./ids";
-import { getCoverageEraForDate, mapEventTypeToFamily } from "./coverage";
+import {
+  getCollectionMethodForDate,
+  getCoverageEraForDate,
+  mapEventTypeToFamily,
+} from "./coverage";
 import { parseStormMagnitude } from "./magnitude";
 import type { RawMagnitudeInput } from "./magnitude";
 import { parseStormDamage } from "./damage";
@@ -114,6 +118,8 @@ export function normalizeStormEvent(
       input.sourceUrl ??
       "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
     vintage: input.vintage ?? "2026-06",
+    collectionMethod: getCollectionMethodForDate(beginDateTime),
+    collectionEra: coverageEra,
     recordChecksum: input.checksum,
   };
 
@@ -218,12 +224,17 @@ export function normalizeStormEpisode(
     }
   }
 
+  const episodeCoverageEra = getCoverageEraForDate(beginDateTime);
+  const episodeCollectionMethod = getCollectionMethodForDate(beginDateTime);
+
   const provenance: StormProvenance = {
     sourceDataset: input.sourceDataset ?? "NOAA NCEI Storm Events Database",
     sourceUrl:
       input.sourceUrl ??
       "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
     vintage: input.vintage ?? "2026-06",
+    collectionMethod: episodeCollectionMethod,
+    collectionEra: episodeCoverageEra,
   };
 
   return {

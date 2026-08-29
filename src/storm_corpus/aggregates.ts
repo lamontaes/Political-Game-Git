@@ -24,7 +24,7 @@ import type {
 export const AGGREGATE_DISCLAIMERS: readonly string[] = [
   "HISTORICAL CALIBRATION ONLY: These derived distributions reflect observed historical reports in the NOAA NCEI database (1950-2026).",
   "NO CANONICAL DAMAGE EFFECTS: Historical reported damage must not be converted directly into deterministic game state consequences without simulation modeling.",
-  "COLLECTION ERA LIMITATIONS: Event frequencies prior to 1996 reflect historical NWS collection procedures (1950-1954: tornado only; 1955-1995: severe convective 3-hazards). Zero events in earlier eras do not indicate meteorological absence.",
+  "COLLECTION ERA LIMITATIONS: Event frequencies prior to 1996 reflect historical NWS collection procedures (1950-1954: tornado only; 1955-1992: severe convective 3-hazards keyed from publications; 1993-1995: severe convective 3-hazards extracted from unformatted text). Zero events in earlier eras do not indicate meteorological absence.",
   "NO CLIMATE EXTRAPOLATION: These aggregates are strictly descriptive historical baselines and must not be used to extrapolate future climate trends.",
 ];
 
@@ -121,7 +121,8 @@ export function buildDecadalFrequencies(
       coverageCaveat =
         "Non-tornado severe weather was not collected in the 1950-1954 digital archive.";
     } else if (
-      group.era === "1955-1995_severe_convective_3" &&
+      (group.era === "1955-1992_severe_convective_publication_keyed" ||
+        group.era === "1993-1995_severe_convective_unformatted_text") &&
       !["tornado", "severe_storm"].includes(group.eventFamily)
     ) {
       coverageCaveat =

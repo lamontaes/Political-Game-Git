@@ -6,6 +6,7 @@
     {
       "era": "1950-1954_tornado_only",
       "period": "1950-01-01 to 1954-12-31",
+      "collectionMethod": "severe_local_storms_project",
       "collectionProcedure": "U.S. Weather Bureau Severe Local Storms Project digital archive. Nationwide coverage limited exclusively to Tornado events.",
       "coveredEventTypes": ["Tornado"],
       "historicalCaveats": [
@@ -15,9 +16,10 @@
       ]
     },
     {
-      "era": "1955-1995_severe_convective_3",
-      "period": "1955-01-01 to 1995-12-31",
-      "collectionProcedure": "Convective severe storm digital archive. Systematically ingested three severe hazard types: Tornado, Thunderstorm Wind, and Hail.",
+      "era": "1955-1992_severe_convective_publication_keyed",
+      "period": "1955-01-01 to 1992-12-31",
+      "collectionMethod": "paper_publication_keyed",
+      "collectionProcedure": "Convective severe storm digital archive manually keyed from official NWS monthly Storm Data paper publications. Systematically ingested three severe hazard types: Tornado, Thunderstorm Wind, and Hail.",
       "coveredEventTypes": [
         "Tornado",
         "Thunderstorm Wind",
@@ -27,14 +29,35 @@
         "HAIL/WIND"
       ],
       "historicalCaveats": [
-        "Synoptic and hydrological events (Floods, Winter Storms, Hurricanes, Heat Waves) were documented in monthly Storm Data publications but were not systematically ingested into the bulk digital database until 1996.",
+        "Data were manually transcribed/keyed from printed Storm Data publication issues.",
+        "Floods, winter storms, and temperature extremes were documented in monthly text publications but were not systematically ingested into the bulk digital database until 1996.",
         "Damage estimates frequently utilized category bracket codes (e.g. 0-9) rather than exact dollar figures.",
         "Missing damage was frequently left blank or unestimated rather than verified zero."
       ]
     },
     {
+      "era": "1993-1995_severe_convective_unformatted_text",
+      "period": "1993-01-01 to 1995-12-31",
+      "collectionMethod": "unformatted_text_extraction",
+      "collectionProcedure": "Transition era severe storm digital archive parsed and extracted from unformatted ASCII text files and early electronic NWS office transmissions. Covered the same three convective event families: Tornado, Thunderstorm Wind, and Hail.",
+      "coveredEventTypes": [
+        "Tornado",
+        "Thunderstorm Wind",
+        "Hail",
+        "TSTM WIND",
+        "THUNDERSTORM WINDS",
+        "HAIL/WIND"
+      ],
+      "historicalCaveats": [
+        "Data were extracted from raw unformatted digital text transmissions rather than standardized database software.",
+        "Preserves the same 3-hazard convective scope as the 1955-1992 era prior to full 1996 modernization.",
+        "Narrative and location structures began transition toward structured fields."
+      ]
+    },
+    {
       "era": "1996-present_nws_standard_48",
       "period": "1996-01-01 to Present (2026)",
+      "collectionMethod": "nws_instruction_10_1605_standard",
       "collectionProcedure": "Modernized National Weather Service Instruction 10-1605 standardized 48 distinct event types recorded across all NWS Weather Forecast Offices (WFOs).",
       "coveredEventTypes": [
         "Astronomical Low Tide",
@@ -121,7 +144,8 @@
       },
       "eventCountByEra": {
         "1950-1954_tornado_only": 0,
-        "1955-1995_severe_convective_3": 1,
+        "1955-1992_severe_convective_publication_keyed": 0,
+        "1993-1995_severe_convective_unformatted_text": 1,
         "1996-present_nws_standard_48": 0
       }
     },
@@ -146,7 +170,8 @@
       },
       "eventCountByEra": {
         "1950-1954_tornado_only": 0,
-        "1955-1995_severe_convective_3": 3,
+        "1955-1992_severe_convective_publication_keyed": 2,
+        "1993-1995_severe_convective_unformatted_text": 1,
         "1996-present_nws_standard_48": 7
       }
     },
@@ -171,7 +196,8 @@
       },
       "eventCountByEra": {
         "1950-1954_tornado_only": 0,
-        "1955-1995_severe_convective_3": 0,
+        "1955-1992_severe_convective_publication_keyed": 0,
+        "1993-1995_severe_convective_unformatted_text": 0,
         "1996-present_nws_standard_48": 1
       }
     },
@@ -196,7 +222,8 @@
       },
       "eventCountByEra": {
         "1950-1954_tornado_only": 0,
-        "1955-1995_severe_convective_3": 0,
+        "1955-1992_severe_convective_publication_keyed": 0,
+        "1993-1995_severe_convective_unformatted_text": 0,
         "1996-present_nws_standard_48": 1
       }
     },
@@ -221,7 +248,8 @@
       },
       "eventCountByEra": {
         "1950-1954_tornado_only": 0,
-        "1955-1995_severe_convective_3": 0,
+        "1955-1992_severe_convective_publication_keyed": 0,
+        "1993-1995_severe_convective_unformatted_text": 0,
         "1996-present_nws_standard_48": 1
       }
     },
@@ -246,7 +274,8 @@
       },
       "eventCountByEra": {
         "1950-1954_tornado_only": 1,
-        "1955-1995_severe_convective_3": 0,
+        "1955-1992_severe_convective_publication_keyed": 0,
+        "1993-1995_severe_convective_unformatted_text": 0,
         "1996-present_nws_standard_48": 1
       }
     }

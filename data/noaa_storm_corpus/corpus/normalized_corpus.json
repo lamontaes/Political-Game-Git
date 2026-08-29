@@ -74,7 +74,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "severe_local_storms_project",
+        "collectionEra": "1950-1954_tornado_only"
       }
     },
     {
@@ -83,7 +85,7 @@
       "episodeId": 500011,
       "eventType": "Tornado",
       "eventFamily": "tornado",
-      "coverageEra": "1955-1995_severe_convective_3",
+      "coverageEra": "1955-1992_severe_convective_publication_keyed",
       "beginDateTime": "1974-04-03T16:30:00Z",
       "endDateTime": "1974-04-03T17:15:00Z",
       "state": "KENTUCKY",
@@ -146,7 +148,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "paper_publication_keyed",
+        "collectionEra": "1955-1992_severe_convective_publication_keyed"
       }
     },
     {
@@ -155,7 +159,7 @@
       "episodeId": 500060,
       "eventType": "Thunderstorm Wind",
       "eventFamily": "severe_storm",
-      "coverageEra": "1955-1995_severe_convective_3",
+      "coverageEra": "1955-1992_severe_convective_publication_keyed",
       "beginDateTime": "1986-07-11T17:30:00Z",
       "endDateTime": "1986-07-11T18:00:00Z",
       "state": "KENTUCKY",
@@ -218,7 +222,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "paper_publication_keyed",
+        "collectionEra": "1955-1992_severe_convective_publication_keyed"
       }
     },
     {
@@ -227,7 +233,7 @@
       "episodeId": 500031,
       "eventType": "Blizzard",
       "eventFamily": "winter_storm",
-      "coverageEra": "1955-1995_severe_convective_3",
+      "coverageEra": "1993-1995_severe_convective_unformatted_text",
       "beginDateTime": "1994-01-17T04:00:00-05:00",
       "endDateTime": "1994-01-18T20:00:00-05:00",
       "state": "KENTUCKY",
@@ -290,7 +296,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "unformatted_text_extraction",
+        "collectionEra": "1993-1995_severe_convective_unformatted_text"
       }
     },
     {
@@ -299,7 +307,7 @@
       "episodeId": 500050,
       "eventType": "Excessive Heat",
       "eventFamily": "heat_cold",
-      "coverageEra": "1955-1995_severe_convective_3",
+      "coverageEra": "1993-1995_severe_convective_unformatted_text",
       "beginDateTime": "1995-07-12T10:00:00-05:00",
       "endDateTime": "1995-07-16T22:00:00-05:00",
       "state": "ILLINOIS",
@@ -362,7 +370,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "unformatted_text_extraction",
+        "collectionEra": "1993-1995_severe_convective_unformatted_text"
       }
     },
     {
@@ -434,7 +444,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -506,7 +518,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -578,7 +592,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -650,7 +666,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -722,7 +740,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -794,7 +814,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -866,7 +888,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -938,7 +962,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -1010,7 +1036,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -1082,7 +1110,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -1154,7 +1184,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     }
   ],
@@ -1179,7 +1211,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "severe_local_storms_project",
+        "collectionEra": "1950-1954_tornado_only"
       }
     },
     {
@@ -1202,7 +1236,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "paper_publication_keyed",
+        "collectionEra": "1955-1992_severe_convective_publication_keyed"
       }
     },
     {
@@ -1225,7 +1261,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "paper_publication_keyed",
+        "collectionEra": "1955-1992_severe_convective_publication_keyed"
       }
     },
     {
@@ -1248,7 +1286,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "unformatted_text_extraction",
+        "collectionEra": "1993-1995_severe_convective_unformatted_text"
       }
     },
     {
@@ -1271,7 +1311,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "unformatted_text_extraction",
+        "collectionEra": "1993-1995_severe_convective_unformatted_text"
       }
     },
     {
@@ -1294,7 +1336,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -1317,7 +1361,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -1340,7 +1386,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -1363,7 +1411,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -1386,7 +1436,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -1409,7 +1461,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -1432,7 +1486,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -1455,7 +1511,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -1478,7 +1536,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     },
     {
@@ -1501,7 +1561,9 @@
       "provenance": {
         "sourceDataset": "NOAA NCEI Storm Events Database",
         "sourceUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)"
+        "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+        "collectionMethod": "nws_instruction_10_1605_standard",
+        "collectionEra": "1996-present_nws_standard_48"
       }
     }
   ]
