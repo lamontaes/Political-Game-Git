@@ -28,7 +28,10 @@
     "qa:art": "node --import tsx scripts/art-asset-factory/cli-qa.ts",
     "derive:office-plate": "node --import tsx scripts/art-asset-factory/cli-office-plate-derive.ts",
     "extract:chroma": "node --import tsx scripts/art-asset-factory/cli-chroma-extract.ts",
-    "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art",
+    "compile:community": "node --import tsx scripts/community-baselines/compile-baselines.ts",
+    "validate:community": "node --import tsx scripts/community-baselines/validate-baselines.ts",
+    "test:community": "vitest run tests/community_baselines.test.ts",
+    "validate": "npm run format && npm run lint && npm run typecheck && npm run test:community && npm run validate:community && npm run build && npm run demo -- validation-seed && npm run validate:art",
     "agent:preflight": "node scripts/agent-preflight.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",
     "stress:persons": "node --import tsx src/cli/stress-persons.ts"
