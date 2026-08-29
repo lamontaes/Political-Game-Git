@@ -31,6 +31,10 @@
     "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art",
     "agent:preflight": "node scripts/agent-preflight.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",
+    "compile:housing": "node --import tsx scripts/housing-corpus/cli-compile.ts",
+    "manifest:housing": "node --import tsx scripts/housing-corpus/cli-manifest.ts",
+    "validate:housing": "node --import tsx scripts/housing-corpus/cli-validate.ts",
+    "test:housing": "vitest run tests/housing_affordability_corpus.test.ts",
     "stress:persons": "node --import tsx src/cli/stress-persons.ts"
   },
   "dependencies": {

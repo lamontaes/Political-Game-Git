@@ -1,0 +1,64 @@
+{
+  "benchmarkJurisdiction": "San Francisco, California (Expensive Metro)",
+  "geoId": "county_06075",
+  "fipsCode": "06075",
+  "stateAbbr": "CA",
+  "cbsaCode": "41860",
+  "metroName": "San Francisco HMFA",
+  "isMetropolitan": true,
+  "isTerritory": false,
+  "fmr": {
+    "vintage": "FY2024",
+    "fmr0Br": 2274,
+    "fmr1Br": 2705,
+    "fmr2Br": 3271,
+    "fmr3Br": 4057,
+    "fmr4Br": 4449,
+    "percentile": 40,
+    "isObservedMedianRent": false
+  },
+  "incomeLimits": {
+    "vintage": "FY2024",
+    "medianFamilyIncome": 182800,
+    "limits30Pct": {
+      "1": 41000,
+      "2": 46850,
+      "3": 52700,
+      "4": 58550,
+      "5": 63250,
+      "6": 67950,
+      "7": 72650,
+      "8": 77300
+    },
+    "limits50Pct": {
+      "1": 68300,
+      "2": 78050,
+      "3": 87800,
+      "4": 97550,
+      "5": 105400,
+      "6": 113200,
+      "7": 121000,
+      "8": 128800
+    },
+    "limits80Pct": {
+      "1": 109250,
+      "2": 124850,
+      "3": 140450,
+      "4": 156050,
+      "5": 168550,
+      "6": 181050,
+      "7": 193550,
+      "8": 206000
+    }
+  },
+  "chasBenchmark": {
+    "vintage": "2018-2022",
+    "tableUniverse": "occupied_housing_units",
+    "totalHouseholds": 373200,
+    "renterHouseholds": 242580,
+    "ownerHouseholds": 130620,
+    "costBurdenedHouseholds": 80160,
+    "severelyCostBurdenedHouseholds": 98560,
+    "severeCostBurdenRate": 0.2641
+  }
+}

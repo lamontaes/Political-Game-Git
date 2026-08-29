@@ -1,0 +1,64 @@
+{
+  "benchmarkJurisdiction": "Lexington-Fayette, Kentucky",
+  "geoId": "county_21067",
+  "fipsCode": "21067",
+  "stateAbbr": "KY",
+  "cbsaCode": "30460",
+  "metroName": "Lexington-Fayette KY MSA",
+  "isMetropolitan": true,
+  "isTerritory": false,
+  "fmr": {
+    "vintage": "FY2024",
+    "fmr0Br": 846,
+    "fmr1Br": 933,
+    "fmr2Br": 1158,
+    "fmr3Br": 1570,
+    "fmr4Br": 1873,
+    "percentile": 40,
+    "isObservedMedianRent": false
+  },
+  "incomeLimits": {
+    "vintage": "FY2024",
+    "medianFamilyIncome": 94900,
+    "limits30Pct": {
+      "1": 20000,
+      "2": 22850,
+      "3": 25700,
+      "4": 28550,
+      "5": 30850,
+      "6": 33150,
+      "7": 35450,
+      "8": 37700
+    },
+    "limits50Pct": {
+      "1": 33250,
+      "2": 38000,
+      "3": 42750,
+      "4": 47500,
+      "5": 51300,
+      "6": 55100,
+      "7": 58900,
+      "8": 62700
+    },
+    "limits80Pct": {
+      "1": 53200,
+      "2": 60800,
+      "3": 68400,
+      "4": 76000,
+      "5": 82100,
+      "6": 88200,
+      "7": 94250,
+      "8": 100350
+    }
+  },
+  "chasBenchmark": {
+    "vintage": "2018-2022",
+    "tableUniverse": "occupied_housing_units",
+    "totalHouseholds": 139450,
+    "renterHouseholds": 64880,
+    "ownerHouseholds": 74570,
+    "costBurdenedHouseholds": 24040,
+    "severelyCostBurdenedHouseholds": 26730,
+    "severeCostBurdenRate": 0.1917
+  }
+}

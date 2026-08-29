@@ -1,0 +1,64 @@
+{
+  "benchmarkJurisdiction": "Owsley County, Kentucky (Low-Cost Rural County)",
+  "geoId": "county_21189",
+  "fipsCode": "21189",
+  "stateAbbr": "KY",
+  "cbsaCode": null,
+  "metroName": null,
+  "isMetropolitan": false,
+  "isTerritory": false,
+  "fmr": {
+    "vintage": "FY2024",
+    "fmr0Br": 648,
+    "fmr1Br": 652,
+    "fmr2Br": 828,
+    "fmr3Br": 1050,
+    "fmr4Br": 1123,
+    "percentile": 40,
+    "isObservedMedianRent": false
+  },
+  "incomeLimits": {
+    "vintage": "FY2024",
+    "medianFamilyIncome": 44800,
+    "limits30Pct": {
+      "1": 15060,
+      "2": 19550,
+      "3": 22000,
+      "4": 24400,
+      "5": 26400,
+      "6": 28350,
+      "7": 30300,
+      "8": 32250
+    },
+    "limits50Pct": {
+      "1": 17100,
+      "2": 19550,
+      "3": 22000,
+      "4": 24400,
+      "5": 26400,
+      "6": 28350,
+      "7": 30300,
+      "8": 32250
+    },
+    "limits80Pct": {
+      "1": 27350,
+      "2": 31250,
+      "3": 35150,
+      "4": 39050,
+      "5": 42200,
+      "6": 45300,
+      "7": 48450,
+      "8": 51550
+    }
+  },
+  "chasBenchmark": {
+    "vintage": "2018-2022",
+    "tableUniverse": "occupied_housing_units",
+    "totalHouseholds": 1735,
+    "renterHouseholds": 515,
+    "ownerHouseholds": 1220,
+    "costBurdenedHouseholds": 265,
+    "severelyCostBurdenedHouseholds": 385,
+    "severeCostBurdenRate": 0.2219
+  }
+}

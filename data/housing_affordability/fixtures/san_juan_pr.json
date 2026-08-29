@@ -1,0 +1,64 @@
+{
+  "benchmarkJurisdiction": "San Juan Municipio, Puerto Rico (Territory)",
+  "geoId": "county_72127",
+  "fipsCode": "72127",
+  "stateAbbr": "PR",
+  "cbsaCode": "41980",
+  "metroName": "San Juan-Guaynabo PR HMFA",
+  "isMetropolitan": true,
+  "isTerritory": true,
+  "fmr": {
+    "vintage": "FY2024",
+    "fmr0Br": 526,
+    "fmr1Br": 553,
+    "fmr2Br": 637,
+    "fmr3Br": 787,
+    "fmr4Br": 943,
+    "percentile": 40,
+    "isObservedMedianRent": false
+  },
+  "incomeLimits": {
+    "vintage": "FY2024",
+    "medianFamilyIncome": 30800,
+    "limits30Pct": {
+      "1": 11850,
+      "2": 13550,
+      "3": 15250,
+      "4": 16900,
+      "5": 18300,
+      "6": 19650,
+      "7": 21000,
+      "8": 22350
+    },
+    "limits50Pct": {
+      "1": 11850,
+      "2": 13550,
+      "3": 15250,
+      "4": 16900,
+      "5": 18300,
+      "6": 19650,
+      "7": 21000,
+      "8": 22350
+    },
+    "limits80Pct": {
+      "1": 18950,
+      "2": 21650,
+      "3": 24350,
+      "4": 27050,
+      "5": 29250,
+      "6": 31400,
+      "7": 33550,
+      "8": 35750
+    }
+  },
+  "chasBenchmark": {
+    "vintage": "2018-2022",
+    "tableUniverse": "occupied_housing_units",
+    "totalHouseholds": 135120,
+    "renterHouseholds": 69420,
+    "ownerHouseholds": 65700,
+    "costBurdenedHouseholds": 28350,
+    "severelyCostBurdenedHouseholds": 52800,
+    "severeCostBurdenRate": 0.3908
+  }
+}

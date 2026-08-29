@@ -1,0 +1,139 @@
+fips_code,county_name,state_alpha,cbsa_code,table_id,variable,universe,ami_bracket,tenure,household_type,cost_burden,housing_problems,value,vintage
+21067,Fayette County,KY,30460,Table9,T9_est1,occupied_housing_units,le_30_pct_ami,renter,all_types,le_30_pct,all_conditions,520,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est2,occupied_housing_units,le_30_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,2820,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est3,occupied_housing_units,le_30_pct_ami,renter,all_types,gt_50_pct,all_conditions,13910,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est4,occupied_housing_units,le_30_pct_ami,owner,all_types,le_30_pct,all_conditions,450,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est5,occupied_housing_units,le_30_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,620,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est6,occupied_housing_units,le_30_pct_ami,owner,all_types,gt_50_pct,all_conditions,3020,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est7,occupied_housing_units,gt_30_le_50_pct_ami,renter,all_types,le_30_pct,all_conditions,2340,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est8,occupied_housing_units,gt_30_le_50_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,5460,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est9,occupied_housing_units,gt_30_le_50_pct_ami,renter,all_types,gt_50_pct,all_conditions,4120,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est10,occupied_housing_units,gt_30_le_50_pct_ami,owner,all_types,le_30_pct,all_conditions,1980,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est11,occupied_housing_units,gt_30_le_50_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,1820,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est12,occupied_housing_units,gt_30_le_50_pct_ami,owner,all_types,gt_50_pct,all_conditions,1150,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est13,occupied_housing_units,gt_50_le_80_pct_ami,renter,all_types,le_30_pct,all_conditions,4920,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est14,occupied_housing_units,gt_50_le_80_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,6480,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est15,occupied_housing_units,gt_50_le_80_pct_ami,renter,all_types,gt_50_pct,all_conditions,1840,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est16,occupied_housing_units,gt_50_le_80_pct_ami,owner,all_types,le_30_pct,all_conditions,6350,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est17,occupied_housing_units,gt_50_le_80_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,2320,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est18,occupied_housing_units,gt_50_le_80_pct_ami,owner,all_types,gt_50_pct,all_conditions,1020,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est19,occupied_housing_units,gt_80_le_100_pct_ami,renter,all_types,le_30_pct,all_conditions,4090,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est20,occupied_housing_units,gt_80_le_100_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,1750,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est21,occupied_housing_units,gt_80_le_100_pct_ami,renter,all_types,gt_50_pct,all_conditions,280,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est22,occupied_housing_units,gt_80_le_100_pct_ami,owner,all_types,le_30_pct,all_conditions,6550,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est23,occupied_housing_units,gt_80_le_100_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,1210,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est24,occupied_housing_units,gt_80_le_100_pct_ami,owner,all_types,gt_50_pct,all_conditions,330,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est25,occupied_housing_units,gt_100_pct_ami,renter,all_types,le_30_pct,all_conditions,14150,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est26,occupied_housing_units,gt_100_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,1890,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est27,occupied_housing_units,gt_100_pct_ami,renter,all_types,gt_50_pct,all_conditions,310,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est28,occupied_housing_units,gt_100_pct_ami,owner,all_types,le_30_pct,all_conditions,44120,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est29,occupied_housing_units,gt_100_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,2880,2018-2022
+21067,Fayette County,KY,30460,Table9,T9_est30,occupied_housing_units,gt_100_pct_ami,owner,all_types,gt_50_pct,all_conditions,750,2018-2022
+21067,Fayette County,KY,30460,Table1,T1_est1,occupied_housing_units,all_income_levels,total,all_types,all_burdens,has_1_or_more_problems,48200,2018-2022
+21067,Fayette County,KY,30460,Table1,T1_est2,occupied_housing_units,all_income_levels,total,all_types,all_burdens,has_1_or_more_severe_problems,27450,2018-2022
+21067,Fayette County,KY,30460,Table1,T1_est3,occupied_housing_units,all_income_levels,total,all_types,all_burdens,has_no_problems,91250,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est1,occupied_housing_units,le_30_pct_ami,renter,all_types,le_30_pct,all_conditions,3090,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est2,occupied_housing_units,le_30_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,7110,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est3,occupied_housing_units,le_30_pct_ami,renter,all_types,gt_50_pct,all_conditions,48220,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est4,occupied_housing_units,le_30_pct_ami,owner,all_types,le_30_pct,all_conditions,1250,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est5,occupied_housing_units,le_30_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,2180,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est6,occupied_housing_units,le_30_pct_ami,owner,all_types,gt_50_pct,all_conditions,10300,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est7,occupied_housing_units,gt_30_le_50_pct_ami,renter,all_types,le_30_pct,all_conditions,2860,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est8,occupied_housing_units,gt_30_le_50_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,10450,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est9,occupied_housing_units,gt_30_le_50_pct_ami,renter,all_types,gt_50_pct,all_conditions,14830,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est10,occupied_housing_units,gt_30_le_50_pct_ami,owner,all_types,le_30_pct,all_conditions,2850,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est11,occupied_housing_units,gt_30_le_50_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,3290,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est12,occupied_housing_units,gt_30_le_50_pct_ami,owner,all_types,gt_50_pct,all_conditions,4140,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est13,occupied_housing_units,gt_50_le_80_pct_ami,renter,all_types,le_30_pct,all_conditions,7750,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est14,occupied_housing_units,gt_50_le_80_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,14320,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est15,occupied_housing_units,gt_50_le_80_pct_ami,renter,all_types,gt_50_pct,all_conditions,9140,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est16,occupied_housing_units,gt_50_le_80_pct_ami,owner,all_types,le_30_pct,all_conditions,5410,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est17,occupied_housing_units,gt_50_le_80_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,3890,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est18,occupied_housing_units,gt_50_le_80_pct_ami,owner,all_types,gt_50_pct,all_conditions,2670,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est19,occupied_housing_units,gt_80_le_100_pct_ami,renter,all_types,le_30_pct,all_conditions,9550,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est20,occupied_housing_units,gt_80_le_100_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,8110,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est21,occupied_housing_units,gt_80_le_100_pct_ami,renter,all_types,gt_50_pct,all_conditions,2750,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est22,occupied_housing_units,gt_80_le_100_pct_ami,owner,all_types,le_30_pct,all_conditions,5620,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est23,occupied_housing_units,gt_80_le_100_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,2180,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est24,occupied_housing_units,gt_80_le_100_pct_ami,owner,all_types,gt_50_pct,all_conditions,940,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est25,occupied_housing_units,gt_100_pct_ami,renter,all_types,le_30_pct,all_conditions,85710,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est26,occupied_housing_units,gt_100_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,15280,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est27,occupied_housing_units,gt_100_pct_ami,renter,all_types,gt_50_pct,all_conditions,3410,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est28,occupied_housing_units,gt_100_pct_ami,owner,all_types,le_30_pct,all_conditions,76290,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est29,occupied_housing_units,gt_100_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,7450,2018-2022
+06075,San Francisco County,CA,41860,Table9,T9_est30,occupied_housing_units,gt_100_pct_ami,owner,all_types,gt_50_pct,all_conditions,2160,2018-2022
+06075,San Francisco County,CA,41860,Table1,T1_est1,occupied_housing_units,all_income_levels,total,all_types,all_burdens,has_1_or_more_problems,148500,2018-2022
+06075,San Francisco County,CA,41860,Table1,T1_est2,occupied_housing_units,all_income_levels,total,all_types,all_burdens,has_1_or_more_severe_problems,96350,2018-2022
+06075,San Francisco County,CA,41860,Table1,T1_est3,occupied_housing_units,all_income_levels,total,all_types,all_burdens,has_no_problems,224700,2018-2022
+21189,Owsley County,KY,,Table9,T9_est1,occupied_housing_units,le_30_pct_ami,renter,all_types,le_30_pct,all_conditions,0,2018-2022
+21189,Owsley County,KY,,Table9,T9_est2,occupied_housing_units,le_30_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,75,2018-2022
+21189,Owsley County,KY,,Table9,T9_est3,occupied_housing_units,le_30_pct_ami,renter,all_types,gt_50_pct,all_conditions,215,2018-2022
+21189,Owsley County,KY,,Table9,T9_est4,occupied_housing_units,le_30_pct_ami,owner,all_types,le_30_pct,all_conditions,190,2018-2022
+21189,Owsley County,KY,,Table9,T9_est5,occupied_housing_units,le_30_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,75,2018-2022
+21189,Owsley County,KY,,Table9,T9_est6,occupied_housing_units,le_30_pct_ami,owner,all_types,gt_50_pct,all_conditions,70,2018-2022
+21189,Owsley County,KY,,Table9,T9_est7,occupied_housing_units,gt_30_le_50_pct_ami,renter,all_types,le_30_pct,all_conditions,10,2018-2022
+21189,Owsley County,KY,,Table9,T9_est8,occupied_housing_units,gt_30_le_50_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,60,2018-2022
+21189,Owsley County,KY,,Table9,T9_est9,occupied_housing_units,gt_30_le_50_pct_ami,renter,all_types,gt_50_pct,all_conditions,35,2018-2022
+21189,Owsley County,KY,,Table9,T9_est10,occupied_housing_units,gt_30_le_50_pct_ami,owner,all_types,le_30_pct,all_conditions,135,2018-2022
+21189,Owsley County,KY,,Table9,T9_est11,occupied_housing_units,gt_30_le_50_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,35,2018-2022
+21189,Owsley County,KY,,Table9,T9_est12,occupied_housing_units,gt_30_le_50_pct_ami,owner,all_types,gt_50_pct,all_conditions,35,2018-2022
+21189,Owsley County,KY,,Table9,T9_est13,occupied_housing_units,gt_50_le_80_pct_ami,renter,all_types,le_30_pct,all_conditions,10,2018-2022
+21189,Owsley County,KY,,Table9,T9_est14,occupied_housing_units,gt_50_le_80_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,35,2018-2022
+21189,Owsley County,KY,,Table9,T9_est15,occupied_housing_units,gt_50_le_80_pct_ami,renter,all_types,gt_50_pct,all_conditions,20,2018-2022
+21189,Owsley County,KY,,Table9,T9_est16,occupied_housing_units,gt_50_le_80_pct_ami,owner,all_types,le_30_pct,all_conditions,215,2018-2022
+21189,Owsley County,KY,,Table9,T9_est17,occupied_housing_units,gt_50_le_80_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,10,2018-2022
+21189,Owsley County,KY,,Table9,T9_est18,occupied_housing_units,gt_50_le_80_pct_ami,owner,all_types,gt_50_pct,all_conditions,5,2018-2022
+21189,Owsley County,KY,,Table9,T9_est19,occupied_housing_units,gt_80_le_100_pct_ami,renter,all_types,le_30_pct,all_conditions,10,2018-2022
+21189,Owsley County,KY,,Table9,T9_est20,occupied_housing_units,gt_80_le_100_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,10,2018-2022
+21189,Owsley County,KY,,Table9,T9_est21,occupied_housing_units,gt_80_le_100_pct_ami,renter,all_types,gt_50_pct,all_conditions,0,2018-2022
+21189,Owsley County,KY,,Table9,T9_est22,occupied_housing_units,gt_80_le_100_pct_ami,owner,all_types,le_30_pct,all_conditions,115,2018-2022
+21189,Owsley County,KY,,Table9,T9_est23,occupied_housing_units,gt_80_le_100_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,5,2018-2022
+21189,Owsley County,KY,,Table9,T9_est24,occupied_housing_units,gt_80_le_100_pct_ami,owner,all_types,gt_50_pct,all_conditions,5,2018-2022
+21189,Owsley County,KY,,Table9,T9_est25,occupied_housing_units,gt_100_pct_ami,renter,all_types,le_30_pct,all_conditions,25,2018-2022
+21189,Owsley County,KY,,Table9,T9_est26,occupied_housing_units,gt_100_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,10,2018-2022
+21189,Owsley County,KY,,Table9,T9_est27,occupied_housing_units,gt_100_pct_ami,renter,all_types,gt_50_pct,all_conditions,0,2018-2022
+21189,Owsley County,KY,,Table9,T9_est28,occupied_housing_units,gt_100_pct_ami,owner,all_types,le_30_pct,all_conditions,325,2018-2022
+21189,Owsley County,KY,,Table9,T9_est29,occupied_housing_units,gt_100_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,0,2018-2022
+21189,Owsley County,KY,,Table9,T9_est30,occupied_housing_units,gt_100_pct_ami,owner,all_types,gt_50_pct,all_conditions,0,2018-2022
+21189,Owsley County,KY,,Table1,T1_est1,occupied_housing_units,all_income_levels,total,all_types,all_burdens,has_1_or_more_problems,480,2018-2022
+21189,Owsley County,KY,,Table1,T1_est2,occupied_housing_units,all_income_levels,total,all_types,all_burdens,has_1_or_more_severe_problems,375,2018-2022
+21189,Owsley County,KY,,Table1,T1_est3,occupied_housing_units,all_income_levels,total,all_types,all_burdens,has_no_problems,1255,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est1,occupied_housing_units,le_30_pct_ami,renter,all_types,le_30_pct,all_conditions,4140,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est2,occupied_housing_units,le_30_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,5620,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est3,occupied_housing_units,le_30_pct_ami,renter,all_types,gt_50_pct,all_conditions,27450,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est4,occupied_housing_units,le_30_pct_ami,owner,all_types,le_30_pct,all_conditions,6230,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est5,occupied_housing_units,le_30_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,3210,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est6,occupied_housing_units,le_30_pct_ami,owner,all_types,gt_50_pct,all_conditions,11750,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est7,occupied_housing_units,gt_30_le_50_pct_ami,renter,all_types,le_30_pct,all_conditions,1470,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est8,occupied_housing_units,gt_30_le_50_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,4890,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est9,occupied_housing_units,gt_30_le_50_pct_ami,renter,all_types,gt_50_pct,all_conditions,5120,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est10,occupied_housing_units,gt_30_le_50_pct_ami,owner,all_types,le_30_pct,all_conditions,4720,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est11,occupied_housing_units,gt_30_le_50_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,2840,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est12,occupied_housing_units,gt_30_le_50_pct_ami,owner,all_types,gt_50_pct,all_conditions,2810,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est13,occupied_housing_units,gt_50_le_80_pct_ami,renter,all_types,le_30_pct,all_conditions,2600,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est14,occupied_housing_units,gt_50_le_80_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,3940,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est15,occupied_housing_units,gt_50_le_80_pct_ami,renter,all_types,gt_50_pct,all_conditions,2670,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est16,occupied_housing_units,gt_50_le_80_pct_ami,owner,all_types,le_30_pct,all_conditions,7760,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est17,occupied_housing_units,gt_50_le_80_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,2780,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est18,occupied_housing_units,gt_50_le_80_pct_ami,owner,all_types,gt_50_pct,all_conditions,1580,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est19,occupied_housing_units,gt_80_le_100_pct_ami,renter,all_types,le_30_pct,all_conditions,1690,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est20,occupied_housing_units,gt_80_le_100_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,1120,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est21,occupied_housing_units,gt_80_le_100_pct_ami,renter,all_types,gt_50_pct,all_conditions,430,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est22,occupied_housing_units,gt_80_le_100_pct_ami,owner,all_types,le_30_pct,all_conditions,4920,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est23,occupied_housing_units,gt_80_le_100_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,1130,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est24,occupied_housing_units,gt_80_le_100_pct_ami,owner,all_types,gt_50_pct,all_conditions,350,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est25,occupied_housing_units,gt_100_pct_ami,renter,all_types,le_30_pct,all_conditions,6490,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est26,occupied_housing_units,gt_100_pct_ami,renter,all_types,gt_30_le_50_pct,all_conditions,1480,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est27,occupied_housing_units,gt_100_pct_ami,renter,all_types,gt_50_pct,all_conditions,310,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est28,occupied_housing_units,gt_100_pct_ami,owner,all_types,le_30_pct,all_conditions,13970,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est29,occupied_housing_units,gt_100_pct_ami,owner,all_types,gt_30_le_50_pct,all_conditions,1320,2018-2022
+72127,San Juan Municipio,PR,41980,Table9,T9_est30,occupied_housing_units,gt_100_pct_ami,owner,all_types,gt_50_pct,all_conditions,330,2018-2022
+72127,San Juan Municipio,PR,41980,Table1,T1_est1,occupied_housing_units,all_income_levels,total,all_types,all_burdens,has_1_or_more_problems,56180,2018-2022
+72127,San Juan Municipio,PR,41980,Table1,T1_est2,occupied_housing_units,all_income_levels,total,all_types,all_burdens,has_1_or_more_severe_problems,43980,2018-2022
+72127,San Juan Municipio,PR,41980,Table1,T1_est3,occupied_housing_units,all_income_levels,total,all_types,all_burdens,has_no_problems,78940,2018-2022
+21067,Fayette County,KY,30460,Table7,T7_est1,occupied_housing_units,le_30_pct_ami,renter,elderly_family,all_burdens,has_1_or_more_problems,1420,2018-2022
+21067,Fayette County,KY,30460,Table7,T7_est2,occupied_housing_units,le_30_pct_ami,renter,small_family,all_burdens,has_1_or_more_problems,4850,2018-2022
+21067,Fayette County,KY,30460,Table7,T7_est3,occupied_housing_units,le_30_pct_ami,renter,large_family,all_burdens,has_1_or_more_problems,1230,2018-2022
+21067,Fayette County,KY,30460,Table7,T7_est4,occupied_housing_units,le_30_pct_ami,renter,elderly_nonfamily,all_burdens,has_1_or_more_problems,2890,2018-2022
+21067,Fayette County,KY,30460,Table7,T7_est5,occupied_housing_units,le_30_pct_ami,renter,other_nonfamily,all_burdens,has_1_or_more_problems,6340,2018-2022
+21189,Owsley County,KY,,Table7,T7_suppressed,occupied_housing_units,gt_80_le_100_pct_ami,renter,large_family,all_burdens,has_1_or_more_severe_problems,S,2018-2022
