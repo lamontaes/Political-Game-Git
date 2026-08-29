@@ -1,0 +1,57 @@
+[
+  {
+    "govId": "gov-census-00000000000000",
+    "censusGovId": "00000000000000",
+    "years": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+    "metadata": {
+      "hasCensusYears": true,
+      "hasSurveyYears": true,
+      "isStrictlyUninterpolated": true,
+      "detectedDefinitionBreaks": []
+    }
+  },
+  {
+    "govId": "gov-census-18100000000000",
+    "censusGovId": "18100000000000",
+    "years": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+    "metadata": {
+      "hasCensusYears": true,
+      "hasSurveyYears": true,
+      "isStrictlyUninterpolated": true,
+      "detectedDefinitionBreaks": []
+    }
+  },
+  {
+    "govId": "gov-census-44100000000000",
+    "censusGovId": "44100000000000",
+    "years": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+    "metadata": {
+      "hasCensusYears": true,
+      "hasSurveyYears": true,
+      "isStrictlyUninterpolated": true,
+      "detectedDefinitionBreaks": []
+    }
+  },
+  {
+    "govId": "gov-census-18203400100000",
+    "censusGovId": "18203400100000",
+    "years": [2017, 2019, 2021, 2022],
+    "metadata": {
+      "hasCensusYears": true,
+      "hasSurveyYears": true,
+      "isStrictlyUninterpolated": true,
+      "detectedDefinitionBreaks": []
+    }
+  },
+  {
+    "govId": "gov-census-44322700200000",
+    "censusGovId": "44322700200000",
+    "years": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+    "metadata": {
+      "hasCensusYears": true,
+      "hasSurveyYears": true,
+      "isStrictlyUninterpolated": true,
+      "detectedDefinitionBreaks": []
+    }
+  }
+]
