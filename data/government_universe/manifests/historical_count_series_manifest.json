@@ -14,17 +14,17 @@
       "townshipGovernments": 17202,
       "specialDistrictGovernments": 12340,
       "schoolDistrictGovernments": 67355,
-      "notes": "Historical peak of school district count before national rural school consolidation."
+      "notes": "Pre-consolidation peak of independent school districts."
     },
     {
       "year": 1962,
-      "totalGovernments": 91237,
+      "totalGovernments": 91236,
       "federalGovernment": 1,
       "stateGovernments": 50,
-      "localGovernments": 91186,
+      "localGovernments": 91185,
       "countyGovernments": 3043,
-      "municipalGovernments": 18000,
-      "townshipGovernments": 17142,
+      "municipalGovernments": 17997,
+      "townshipGovernments": 17144,
       "specialDistrictGovernments": 18323,
       "schoolDistrictGovernments": 34678,
       "notes": "Rapid post-war school district consolidation and initial expansion of special districts."
@@ -51,7 +51,7 @@
       "countyGovernments": 3041,
       "municipalGovernments": 19076,
       "townshipGovernments": 16734,
-      "specialDistrictGovernments": 28588,
+      "specialDistrictGovernments": 28078,
       "schoolDistrictGovernments": 14851,
       "notes": "Steady expansion of special-purpose infrastructure and service districts."
     },
@@ -114,17 +114,17 @@
       "stateGovernments": 50,
       "localGovernments": 90837,
       "countyGovernments": 3031,
-      "municipalGovernments": 19492,
-      "townshipGovernments": 16253,
-      "specialDistrictGovernments": 39557,
-      "schoolDistrictGovernments": 12504,
-      "notes": "Authoritative 2022 Census of Governments: 90,888 total governmental entities in the United States."
+      "municipalGovernments": 19491,
+      "townshipGovernments": 16214,
+      "specialDistrictGovernments": 39555,
+      "schoolDistrictGovernments": 12546,
+      "notes": "Authoritative 2022 Census of Governments: 90,888 total governmental entities in the United States (1 Federal, 50 State, 90,837 Local)."
     }
   ],
   "majorTrends": {
-    "schoolDistrictConsolidation": "Independent school districts underwent massive consolidation, declining from 67,355 units in 1952 to 12,504 in 2022 (an 81.4% reduction).",
-    "specialDistrictGrowth": "Special district governments expanded dramatically, more than tripling from 12,340 units in 1952 to 39,558 in 2022 as communities created specialized utility, fire, housing, and resource districts.",
-    "generalPurposeStability": "County governments remained virtually constant (3,052 in 1952 vs 3,031 in 2022), while municipalities grew moderately (16,807 to 19,492) and townships slightly contracted (17,202 to 16,253)."
+    "schoolDistrictConsolidation": "Independent school districts underwent massive consolidation, declining from 67,355 units in 1952 to 12,546 in 2022 (an 81.4% reduction).",
+    "specialDistrictGrowth": "Special district governments expanded dramatically, more than tripling from 12,340 units in 1952 to 39,555 in 2022 as communities created specialized utility, fire, housing, and resource districts.",
+    "generalPurposeStability": "County governments remained virtually constant (3,052 in 1952 vs 3,031 in 2022), while municipalities grew moderately (16,807 to 19,491) and townships slightly contracted (17,202 to 16,214)."
   },
   "sha256": ""
 }

@@ -183,35 +183,43 @@ async function main(): Promise<void> {
     );
   }
 
-  // 5. Validate National Manifest totals match Census 2022 standards
+  // 5. Validate National Manifest totals match authoritative Census 2022 baseline
   if (nationalManifest) {
     assert(
       nationalManifest.totalGovernmentsNationally === 90888,
-      `National manifest total governments matches Census baseline (90,888)`,
+      `National manifest total federal, state, and local governments matches Census Table 1 baseline (90,888)`,
+    );
+    assert(
+      nationalManifest.localGovernmentsNationally === 90837,
+      `National manifest total local governments matches Census Table 2 baseline (90,837)`,
     );
     assert(
       nationalManifest.byClass.county === 3031,
       `National county count matches Census baseline (3,031)`,
     );
     assert(
-      nationalManifest.byClass.municipal === 19492,
-      `National municipal count matches Census baseline (19,492)`,
+      nationalManifest.byClass.municipal === 19491,
+      `National municipal count matches Census Table 2 baseline (19,491)`,
     );
     assert(
-      nationalManifest.byClass.township === 16253,
-      `National township count matches Census baseline (16,253)`,
+      nationalManifest.byClass.township === 16214,
+      `National township count matches Census Table 2 baseline (16,214)`,
     );
     assert(
-      nationalManifest.byClass.special_district === 39558,
-      `National special district count matches Census baseline (39,558)`,
+      nationalManifest.byClass.special_district === 39555,
+      `National special district count matches Census Table 2/8 baseline (39,555)`,
     );
     assert(
-      nationalManifest.byClass.school_district === 12504,
-      `National independent school district count matches Census baseline (12,504)`,
+      nationalManifest.byClass.school_district === 12546,
+      `National independent school district count matches Census Table 2/9 baseline (12,546)`,
     );
     assert(
-      nationalManifest.schoolSystems.dependentSchoolSystemsTotal === 1327,
-      `National dependent school systems total matches Census baseline (1,327)`,
+      nationalManifest.schoolSystems.dependentSchoolSystemsTotal === 1313,
+      `National dependent school systems total matches Census Table 9 baseline (1,313)`,
+    );
+    assert(
+      nationalManifest.schoolSystems.allOperatingPublicSchoolSystems === 13859,
+      `National all operating public school systems total matches Census Table 9 baseline (13,859)`,
     );
   }
 

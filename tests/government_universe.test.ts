@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
   buildCensusGovId,
+  CENSUS_2022_NATIONAL_SUMMARY,
+  CENSUS_2022_PROVENANCE,
   defaultAuthorityIndex,
   generateFunctionalSpecialDistrictsManifest,
   generateHistoricalCountSeriesManifest,
@@ -12,11 +14,13 @@ import {
   getStateByFips,
   getStateByPostal,
   GovernmentUniverseQuery,
+  HISTORICAL_COUNT_SERIES,
   isValidCensusGovId,
   normalizeGovernmentRecord,
   normalizeGovernmentUniverse,
   parseCensusGovId,
   REPRESENTATIVE_GOVERNMENT_UNITS,
+  SPECIAL_DISTRICT_FUNCTION_SUMMARIES,
   STATE_GOVERNMENT_SUMMARIES,
 } from "../src/government_universe/index.js";
 
@@ -298,9 +302,9 @@ describe("U.S. Government-Universe Source Layer", () => {
 
       // National manifest verifies dependent counts without confusing them as independent units
       const schoolManifest = generateSchoolSystemsManifest();
-      expect(schoolManifest.nationalSummary.independentDistricts).toBe(12504);
-      expect(schoolManifest.nationalSummary.dependentSystems).toBe(1327);
-      expect(schoolManifest.nationalSummary.totalOperatingSystems).toBe(13831);
+      expect(schoolManifest.nationalSummary.independentDistricts).toBe(12546);
+      expect(schoolManifest.nationalSummary.dependentSystems).toBe(1313);
+      expect(schoolManifest.nationalSummary.totalOperatingSystems).toBe(13859);
     });
   });
 
@@ -414,18 +418,18 @@ describe("U.S. Government-Universe Source Layer", () => {
 
       expect(manifest.totalGovernmentsNationally).toBe(90888);
       expect(manifest.stateGovernmentsNationally).toBe(50);
-      expect(manifest.localGovernmentsNationally).toBe(90838);
+      expect(manifest.localGovernmentsNationally).toBe(90837);
 
       expect(manifest.byClass.county).toBe(3031);
-      expect(manifest.byClass.municipal).toBe(19492);
-      expect(manifest.byClass.township).toBe(16253);
-      expect(manifest.byClass.special_district).toBe(39558);
-      expect(manifest.byClass.school_district).toBe(12504);
+      expect(manifest.byClass.municipal).toBe(19491);
+      expect(manifest.byClass.township).toBe(16214);
+      expect(manifest.byClass.special_district).toBe(39555);
+      expect(manifest.byClass.school_district).toBe(12546);
 
-      expect(manifest.schoolSystems.independentSchoolDistricts).toBe(12504);
-      expect(manifest.schoolSystems.dependentSchoolSystemsTotal).toBe(1327);
+      expect(manifest.schoolSystems.independentSchoolDistricts).toBe(12546);
+      expect(manifest.schoolSystems.dependentSchoolSystemsTotal).toBe(1313);
       expect(manifest.schoolSystems.allOperatingPublicSchoolSystems).toBe(
-        13831,
+        13859,
       );
       expect(manifest.sha256).toMatch(/^[a-f0-9]{64}$/);
     });
@@ -436,41 +440,45 @@ describe("U.S. Government-Universe Source Layer", () => {
       );
       expect(manifest.stateCount).toBe(51);
 
-      // Verify Illinois has the highest total local governments
+      // Verify Illinois local governments from Table 2
       const il = manifest.states.IL;
       expect(il.countyGovernments).toBe(102);
-      expect(il.townshipGovernments).toBe(1428);
-      expect(il.specialDistrictGovernments).toBe(3246);
+      expect(il.municipalGovernments).toBe(1295);
+      expect(il.townshipGovernments).toBe(1425);
+      expect(il.specialDistrictGovernments).toBe(3218);
+      expect(il.independentSchoolDistricts).toBe(890);
+      expect(il.totalLocalGovernments).toBe(6930);
 
-      // Verify Hawaii has no municipal governments and 0 independent school districts
+      // Verify Hawaii from Table 2 and Table 9
       const hi = manifest.states.HI;
-      expect(hi.municipalGovernments).toBe(0);
+      expect(hi.municipalGovernments).toBe(1);
       expect(hi.independentSchoolDistricts).toBe(0);
       expect(hi.dependentSchoolSystems.stateDependent).toBe(1);
 
       // Verify Texas has over 1,000 independent school districts
       const tx = manifest.states.TX;
-      expect(tx.independentSchoolDistricts).toBe(1073);
+      expect(tx.independentSchoolDistricts).toBe(1070);
       expect(tx.countyGovernments).toBe(254);
+      expect(tx.totalLocalGovernments).toBe(5533);
     });
 
     it("special districts functional manifest breaks down all major categories", () => {
       const manifest = generateFunctionalSpecialDistrictsManifest(
         "2024-01-01T00:00:00.000Z",
       );
-      expect(manifest.totalSpecialDistricts).toBe(39558);
-      expect(manifest.singleFunctionTotal).toBe(33605);
-      expect(manifest.multiFunctionTotal).toBe(5953);
+      expect(manifest.totalSpecialDistricts).toBe(39555);
+      expect(manifest.singleFunctionTotal).toBe(32768);
+      expect(manifest.multiFunctionTotal).toBe(6787);
 
       const fire = manifest.functions.find(
         (f) => f.functionCategory === "fire_protection",
       );
-      expect(fire?.nationalCount).toBe(6242);
+      expect(fire?.nationalCount).toBe(5957);
 
       const housing = manifest.functions.find(
         (f) => f.functionCategory === "housing_community_development",
       );
-      expect(housing?.nationalCount).toBe(3658);
+      expect(housing?.nationalCount).toBe(3304);
     });
 
     it("type classification manifest captures all 7 government classes with definitions", () => {
@@ -487,13 +495,13 @@ describe("U.S. Government-Universe Source Layer", () => {
         "school_district",
       ]);
       expect(manifest.definitions.county.nationalCount2022).toBe(3031);
-      expect(manifest.definitions.municipal.nationalCount2022).toBe(19492);
-      expect(manifest.definitions.township.nationalCount2022).toBe(16253);
+      expect(manifest.definitions.municipal.nationalCount2022).toBe(19491);
+      expect(manifest.definitions.township.nationalCount2022).toBe(16214);
       expect(manifest.definitions.special_district.nationalCount2022).toBe(
-        39558,
+        39555,
       );
       expect(manifest.definitions.school_district.nationalCount2022).toBe(
-        12504,
+        12546,
       );
       expect(manifest.definitions.state.nationalCount2022).toBe(50);
       expect(manifest.sha256).toMatch(/^[a-f0-9]{64}$/);
@@ -512,12 +520,122 @@ describe("U.S. Government-Universe Source Layer", () => {
 
       const y2022 = manifest.censusYears.find((y) => y.year === 2022);
       expect(y2022?.totalGovernments).toBe(90888);
-      expect(y2022?.schoolDistrictGovernments).toBe(12504);
-      expect(y2022?.specialDistrictGovernments).toBe(39557);
+      expect(y2022?.schoolDistrictGovernments).toBe(12546);
+      expect(y2022?.specialDistrictGovernments).toBe(39555);
+      expect(y2022?.townshipGovernments).toBe(16214);
+      expect(y2022?.municipalGovernments).toBe(19491);
+      expect(y2022?.localGovernments).toBe(90837);
 
       expect(manifest.majorTrends.schoolDistrictConsolidation).toContain(
         "81.4%",
       );
+    });
+  });
+
+  describe("Census 2022 Acquired Source Invariants & Regression Proofs", () => {
+    it("preserves exact provenance metadata and raw file checksums", () => {
+      expect(CENSUS_2022_PROVENANCE.sourceAgency).toBe("U.S. Census Bureau");
+      expect(CENSUS_2022_PROVENANCE.sourceTables.length).toBe(6);
+
+      const tableIds = CENSUS_2022_PROVENANCE.sourceTables.map(
+        (t) => t.tableId,
+      );
+      expect(tableIds).toContain("CG2200ORG01");
+      expect(tableIds).toContain("CG2200ORG02");
+      expect(tableIds).toContain("CG2200ORG03");
+      expect(tableIds).toContain("CG2200ORG04");
+      expect(tableIds).toContain("CG2200ORG08");
+      expect(tableIds).toContain("CG2200ORG09");
+
+      for (const t of CENSUS_2022_PROVENANCE.sourceTables) {
+        expect(t.sourceUrl).toContain("census.gov");
+        expect(t.vintage).toBe("2022");
+        expect(t.sha256).toMatch(/^[a-f0-9]{64}$/);
+        expect(t.zipSha256).toMatch(/^[a-f0-9]{64}$/);
+      }
+    });
+
+    it("verifies state-by-state mathematical equality for all 51 jurisdictions (C + M + T + SD + ISD = Total Local)", () => {
+      const states = Object.values(STATE_GOVERNMENT_SUMMARIES);
+      expect(states.length).toBe(51);
+
+      let aggLocal = 0;
+      let aggCounty = 0;
+      let aggMuni = 0;
+      let aggTown = 0;
+      let aggSD = 0;
+      let aggISD = 0;
+      let aggDep = 0;
+
+      for (const s of states) {
+        const computedLocal =
+          s.countyGovernments +
+          s.municipalGovernments +
+          s.townshipGovernments +
+          s.specialDistrictGovernments +
+          s.independentSchoolDistricts;
+
+        expect(computedLocal).toBe(s.totalLocalGovernments);
+        expect(s.totalGovernments).toBe(
+          s.totalLocalGovernments + s.stateGovernment,
+        );
+
+        aggLocal += s.totalLocalGovernments;
+        aggCounty += s.countyGovernments;
+        aggMuni += s.municipalGovernments;
+        aggTown += s.townshipGovernments;
+        aggSD += s.specialDistrictGovernments;
+        aggISD += s.independentSchoolDistricts;
+        aggDep += s.dependentSchoolSystems.total;
+      }
+
+      expect(aggLocal).toBe(90837);
+      expect(aggCounty).toBe(3031);
+      expect(aggMuni).toBe(19491);
+      expect(aggTown).toBe(16214);
+      expect(aggSD).toBe(39555);
+      expect(aggISD).toBe(12546);
+      expect(aggDep).toBe(1313);
+    });
+
+    it("verifies special district single-function and multi-function partition sum", () => {
+      const single = SPECIAL_DISTRICT_FUNCTION_SUMMARIES.filter(
+        (f) => !f.isMultiFunction,
+      ).reduce((sum, f) => sum + f.nationalCount, 0);
+      const multi = SPECIAL_DISTRICT_FUNCTION_SUMMARIES.filter(
+        (f) => f.isMultiFunction,
+      ).reduce((sum, f) => sum + f.nationalCount, 0);
+
+      expect(single).toBe(32768);
+      expect(multi).toBe(6787);
+      expect(single + multi).toBe(39555);
+      expect(CENSUS_2022_NATIONAL_SUMMARY.specialDistrictGovernments).toBe(
+        39555,
+      );
+    });
+
+    it("verifies national totals encompass 1 Federal + 50 State + 90,837 Local = 90,888 Total", () => {
+      expect(CENSUS_2022_NATIONAL_SUMMARY.federalGovernment).toBe(1);
+      expect(CENSUS_2022_NATIONAL_SUMMARY.stateGovernments).toBe(50);
+      expect(CENSUS_2022_NATIONAL_SUMMARY.localGovernmentsTotal).toBe(90837);
+      expect(CENSUS_2022_NATIONAL_SUMMARY.totalFedStateLocal).toBe(90888);
+    });
+
+    it("verifies historical series consistency across all 9 benchmark censuses", () => {
+      expect(HISTORICAL_COUNT_SERIES.length).toBe(9);
+      for (const row of HISTORICAL_COUNT_SERIES) {
+        expect(row.year).toBeGreaterThanOrEqual(1952);
+        expect(row.localGovernments).toBe(
+          row.countyGovernments +
+            row.municipalGovernments +
+            row.townshipGovernments +
+            row.specialDistrictGovernments +
+            row.schoolDistrictGovernments,
+        );
+        expect(row.totalGovernments).toBe(
+          row.federalGovernment + row.stateGovernments + row.localGovernments,
+        );
+      }
     });
   });
 

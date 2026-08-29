@@ -23,7 +23,7 @@
         "Independent governing body (mayor-council, council-manager, or commission form)",
         "Independent fiscal power to levy local taxes and adopt municipal budgets"
       ],
-      "nationalCount2022": 19492
+      "nationalCount2022": 19491
     },
     "township": {
       "title": "Township Governments",
@@ -33,7 +33,7 @@
         "Performs general governmental functions across rural/suburban sub-county territory",
         "Maintains independent fiscal authority separate from county fiscal control"
       ],
-      "nationalCount2022": 16253
+      "nationalCount2022": 16214
     },
     "special_district": {
       "title": "Special District Governments",
@@ -43,7 +43,7 @@
         "Fiscal independence: power to determine budget and levy taxes/user charges without prior approval by another government",
         "Administrative independence: independent governing board not completely controlled or subordinate to a single municipality or county"
       ],
-      "nationalCount2022": 39558
+      "nationalCount2022": 39555
     },
     "school_district": {
       "title": "Independent School District Governments",
@@ -53,7 +53,7 @@
         "Independently elected or appointed school board",
         "Independent fiscal authority to levy property taxes or adopt a binding budget without revision by a general-purpose local government"
       ],
-      "nationalCount2022": 12504
+      "nationalCount2022": 12546
     },
     "state": {
       "title": "State Governments",
@@ -73,5 +73,5 @@
       "nationalCount2022": 1
     }
   },
-  "sha256": "85aa1cae3714998dc77ea640c8a7a561f383ca3775fda22631ae6477ba9d6453"
+  "sha256": "0d0f6ea1ba6a62af47e95facab944bdd51cea93654138598f6481473932ac9a3"
 }

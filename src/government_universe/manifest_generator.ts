@@ -1,7 +1,8 @@
 /**
  * Manifest Generation Engine for U.S. Government-Universe
  *
- * Generates authoritative summary manifests:
+ * Generates authoritative summary manifests derived from authoritative
+ * 2022 Census of Governments organization data:
  * 1. National Universe Manifest
  * 2. State Universe Manifest
  * 3. Type Classification Manifest
@@ -21,6 +22,7 @@ import type {
   TypeClassificationManifest,
 } from "./types.js";
 import {
+  CENSUS_2022_NATIONAL_SUMMARY,
   HISTORICAL_COUNT_SERIES,
   SPECIAL_DISTRICT_FUNCTION_SUMMARIES,
   STATE_GOVERNMENT_SUMMARIES,
@@ -38,26 +40,34 @@ export function generateNationalUniverseManifest(
     schemaVersion: "1.0.0" as const,
     generatedAt,
     sourceVintage: "2022 Census of Governments",
-    totalGovernmentsNationally: 90888,
-    stateGovernmentsNationally: 50,
-    localGovernmentsNationally: 90838,
+    totalGovernmentsNationally: CENSUS_2022_NATIONAL_SUMMARY.totalFedStateLocal,
+    stateGovernmentsNationally: CENSUS_2022_NATIONAL_SUMMARY.stateGovernments,
+    localGovernmentsNationally:
+      CENSUS_2022_NATIONAL_SUMMARY.localGovernmentsTotal,
     byClass: {
-      county: 3031,
-      municipal: 19492,
-      township: 16253,
-      special_district: 39558,
-      school_district: 12504,
-      state: 50,
-      federal: 1,
+      county: CENSUS_2022_NATIONAL_SUMMARY.countyGovernments,
+      municipal: CENSUS_2022_NATIONAL_SUMMARY.municipalGovernments,
+      township: CENSUS_2022_NATIONAL_SUMMARY.townshipGovernments,
+      special_district: CENSUS_2022_NATIONAL_SUMMARY.specialDistrictGovernments,
+      school_district: CENSUS_2022_NATIONAL_SUMMARY.independentSchoolDistricts,
+      state: CENSUS_2022_NATIONAL_SUMMARY.stateGovernments,
+      federal: CENSUS_2022_NATIONAL_SUMMARY.federalGovernment,
     },
     schoolSystems: {
-      independentSchoolDistricts: 12504,
-      dependentSchoolSystemsTotal: 1327,
-      countyDependent: 377,
-      municipalDependent: 198,
-      townshipDependent: 727,
-      stateDependent: 25,
-      allOperatingPublicSchoolSystems: 13831,
+      independentSchoolDistricts:
+        CENSUS_2022_NATIONAL_SUMMARY.independentSchoolDistricts,
+      dependentSchoolSystemsTotal:
+        CENSUS_2022_NATIONAL_SUMMARY.dependentSchoolSystems.total,
+      countyDependent:
+        CENSUS_2022_NATIONAL_SUMMARY.dependentSchoolSystems.countyDependent,
+      municipalDependent:
+        CENSUS_2022_NATIONAL_SUMMARY.dependentSchoolSystems.municipalDependent,
+      townshipDependent:
+        CENSUS_2022_NATIONAL_SUMMARY.dependentSchoolSystems.townshipDependent,
+      stateDependent:
+        CENSUS_2022_NATIONAL_SUMMARY.dependentSchoolSystems.stateDependent,
+      allOperatingPublicSchoolSystems:
+        CENSUS_2022_NATIONAL_SUMMARY.totalPublicSchoolSystems,
     },
   };
 
@@ -100,7 +110,7 @@ export function generateTypeClassificationManifest(
           "Governmental character with public officers elected by voters or appointed by public officials",
           "Substantial administrative and fiscal autonomy, including independent power to determine budget, levy taxes, or issue debt without parent approval",
         ],
-        nationalCount2022: 3031,
+        nationalCount2022: CENSUS_2022_NATIONAL_SUMMARY.countyGovernments,
       },
       municipal: {
         title: "Municipal Governments",
@@ -111,7 +121,7 @@ export function generateTypeClassificationManifest(
           "Independent governing body (mayor-council, council-manager, or commission form)",
           "Independent fiscal power to levy local taxes and adopt municipal budgets",
         ],
-        nationalCount2022: 19492,
+        nationalCount2022: CENSUS_2022_NATIONAL_SUMMARY.municipalGovernments,
       },
       township: {
         title: "Township Governments",
@@ -122,7 +132,7 @@ export function generateTypeClassificationManifest(
           "Performs general governmental functions across rural/suburban sub-county territory",
           "Maintains independent fiscal authority separate from county fiscal control",
         ],
-        nationalCount2022: 16253,
+        nationalCount2022: CENSUS_2022_NATIONAL_SUMMARY.townshipGovernments,
       },
       special_district: {
         title: "Special District Governments",
@@ -133,7 +143,8 @@ export function generateTypeClassificationManifest(
           "Fiscal independence: power to determine budget and levy taxes/user charges without prior approval by another government",
           "Administrative independence: independent governing board not completely controlled or subordinate to a single municipality or county",
         ],
-        nationalCount2022: 39558,
+        nationalCount2022:
+          CENSUS_2022_NATIONAL_SUMMARY.specialDistrictGovernments,
       },
       school_district: {
         title: "Independent School District Governments",
@@ -144,7 +155,8 @@ export function generateTypeClassificationManifest(
           "Independently elected or appointed school board",
           "Independent fiscal authority to levy property taxes or adopt a binding budget without revision by a general-purpose local government",
         ],
-        nationalCount2022: 12504,
+        nationalCount2022:
+          CENSUS_2022_NATIONAL_SUMMARY.independentSchoolDistricts,
       },
       state: {
         title: "State Governments",
@@ -154,7 +166,7 @@ export function generateTypeClassificationManifest(
           "Constitutional sovereignty under the Tenth Amendment to the U.S. Constitution",
           "General legislative, executive, and judicial authority",
         ],
-        nationalCount2022: 50,
+        nationalCount2022: CENSUS_2022_NATIONAL_SUMMARY.stateGovernments,
       },
       federal: {
         title: "Federal Government",
@@ -163,7 +175,7 @@ export function generateTypeClassificationManifest(
         criteriaForIndependentStatus: [
           "National constitutional government possessing enumerated powers and supremacy in federal law",
         ],
-        nationalCount2022: 1,
+        nationalCount2022: CENSUS_2022_NATIONAL_SUMMARY.federalGovernment,
       },
     },
   };
@@ -272,11 +284,11 @@ export function generateHistoricalCountSeriesManifest(
     censusYears: [...HISTORICAL_COUNT_SERIES],
     majorTrends: {
       schoolDistrictConsolidation:
-        "Independent school districts underwent massive consolidation, declining from 67,355 units in 1952 to 12,504 in 2022 (an 81.4% reduction).",
+        "Independent school districts underwent massive consolidation, declining from 67,355 units in 1952 to 12,546 in 2022 (an 81.4% reduction).",
       specialDistrictGrowth:
-        "Special district governments expanded dramatically, more than tripling from 12,340 units in 1952 to 39,558 in 2022 as communities created specialized utility, fire, housing, and resource districts.",
+        "Special district governments expanded dramatically, more than tripling from 12,340 units in 1952 to 39,555 in 2022 as communities created specialized utility, fire, housing, and resource districts.",
       generalPurposeStability:
-        "County governments remained virtually constant (3,052 in 1952 vs 3,031 in 2022), while municipalities grew moderately (16,807 to 19,492) and townships slightly contracted (17,202 to 16,253).",
+        "County governments remained virtually constant (3,052 in 1952 vs 3,031 in 2022), while municipalities grew moderately (16,807 to 19,491) and townships slightly contracted (17,202 to 16,214).",
     },
   };
 

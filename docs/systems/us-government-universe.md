@@ -38,10 +38,10 @@ The Census Bureau recognizes **5 basic local-government classes** (plus state an
 | Class              | Type Code | 2022 National Count | Definition & Autonomy Criteria                                                                                                       |
 | :----------------- | :-------- | :------------------ | :----------------------------------------------------------------------------------------------------------------------------------- |
 | `county`           | `2`       | 3,031               | General-purpose local governments for a county geographic area (parishes in LA, organized boroughs in AK).                           |
-| `municipal`        | `3`       | 19,492              | General-purpose local governments incorporated for population concentrations (cities, boroughs, incorporated towns, villages).       |
-| `township`         | `4`       | 16,253              | General-purpose local governments for civil sub-county areas in 20 states (New England towns, NY/WI towns, Midwest civil townships). |
-| `special_district` | `5`       | 39,558              | Independent special-purpose entities with substantial fiscal and administrative autonomy.                                            |
-| `school_district`  | `6`       | 12,504              | Independent public school districts with separate boards and independent tax-levying powers.                                         |
+| `municipal`        | `3`       | 19,491              | General-purpose local governments incorporated for population concentrations (cities, boroughs, incorporated towns, villages).       |
+| `township`         | `4`       | 16,214              | General-purpose local governments for civil sub-county areas in 20 states (New England towns, NY/WI towns, Midwest civil townships). |
+| `special_district` | `5`       | 39,555              | Independent special-purpose entities with substantial fiscal and administrative autonomy.                                            |
+| `school_district`  | `6`       | 12,546              | Independent public school districts with separate boards and independent tax-levying powers.                                         |
 | `state`            | `1`       | 50                  | Sovereign constituent political entities under the Tenth Amendment.                                                                  |
 | `federal`          | `0`       | 1                   | National constitutional government of the United States.                                                                             |
 
@@ -91,11 +91,11 @@ Normalized data models in `src/government_universe/types.ts`:
 
 The compiler produces 6 authoritative summary manifests in `data/government_universe/manifests/`:
 
-1. **`national_universe_manifest.json`**: National totals across all 50 states + DC ($90,888$ total units: $50$ state governments and $90,838$ local governments).
-2. **`state_universe_manifest.json`**: Comprehensive 51-jurisdiction matrix with exact county, municipal, township, special district, and school district counts.
+1. **`national_universe_manifest.json`**: National totals across all 50 states + DC ($90,888$ total federal, state, and local units: $1$ federal, $50$ state governments, and $90,837$ local governments).
+2. **`state_universe_manifest.json`**: Comprehensive 51-jurisdiction matrix with exact county, municipal, township, special district, and school district counts derived directly from Census Table 2 and Table 9.
 3. **`type_classification_manifest.json`**: Definitions, independent status criteria, and national counts by class.
-4. **`special_districts_functional_manifest.json`**: Functional categorization of all 39,558 special districts ($33,605$ single-function and $5,953$ multi-function).
-5. **`school_systems_manifest.json`**: National and state-by-state matrix of $12,504$ independent school districts ($90.4\%$) versus $1,327$ dependent school systems ($9.6\%$).
+4. **`special_districts_functional_manifest.json`**: Functional categorization of all 39,555 special districts ($32,768$ single-function and $6,787$ multi-function) from Census Table 8.
+5. **`school_systems_manifest.json`**: National and state-by-state matrix of $12,546$ independent school districts ($90.5\%$) versus $1,313$ dependent school systems ($9.5\%$) from Census Table 9.
 6. **`historical_count_series_manifest.json`**: 70-year historical series from 1952 to 2022 documenting the $81.4\%$ drop in school districts through consolidation and the tripling of special districts.
 
 ---

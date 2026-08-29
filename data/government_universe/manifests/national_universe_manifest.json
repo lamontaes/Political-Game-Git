@@ -4,24 +4,24 @@
   "sourceVintage": "2022 Census of Governments",
   "totalGovernmentsNationally": 90888,
   "stateGovernmentsNationally": 50,
-  "localGovernmentsNationally": 90838,
+  "localGovernmentsNationally": 90837,
   "byClass": {
     "county": 3031,
-    "municipal": 19492,
-    "township": 16253,
-    "special_district": 39558,
-    "school_district": 12504,
+    "municipal": 19491,
+    "township": 16214,
+    "special_district": 39555,
+    "school_district": 12546,
     "state": 50,
     "federal": 1
   },
   "schoolSystems": {
-    "independentSchoolDistricts": 12504,
-    "dependentSchoolSystemsTotal": 1327,
-    "countyDependent": 377,
-    "municipalDependent": 198,
-    "townshipDependent": 727,
-    "stateDependent": 25,
-    "allOperatingPublicSchoolSystems": 13831
+    "independentSchoolDistricts": 12546,
+    "dependentSchoolSystemsTotal": 1313,
+    "countyDependent": 571,
+    "municipalDependent": 227,
+    "townshipDependent": 479,
+    "stateDependent": 36,
+    "allOperatingPublicSchoolSystems": 13859
   },
-  "sha256": "b8f429b9b01f0c1679b0416f98a6c40df78d5f7f77ab4e5e9a3689430a19bf36"
+  "sha256": "5ee71c95b68214c03c512067c5391a282bc5fc0d8fd5c7baf4c6e43b5b869611"
 }

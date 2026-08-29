@@ -140,6 +140,7 @@ export interface StateGovernmentSummary {
   readonly stateName: string;
   readonly stateFips: string;
   readonly totalGovernments: number;
+  readonly totalLocalGovernments: number;
   readonly countyGovernments: number;
   readonly municipalGovernments: number;
   readonly townshipGovernments: number;

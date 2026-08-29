@@ -3,43 +3,32 @@
   "generatedAt": "2024-01-01T00:00:00.000Z",
   "sourceVintage": "2022 Census of Governments",
   "nationalSummary": {
-    "independentDistricts": 12504,
-    "dependentSystems": 1327,
-    "totalOperatingSystems": 13831,
-    "independentPercentage": 90.41
+    "independentDistricts": 12546,
+    "dependentSystems": 1313,
+    "totalOperatingSystems": 13859,
+    "independentPercentage": 90.53
   },
   "byState": {
-    "AL": {
-      "state": "AL",
-      "stateName": "Alabama",
-      "independentDistricts": 0,
-      "countyDependent": 67,
-      "municipalDependent": 71,
-      "townshipDependent": 0,
-      "stateDependent": 0,
-      "totalOperatingSystems": 138,
-      "primarySystemStructure": "dependent"
-    },
     "AK": {
       "state": "AK",
       "stateName": "Alaska",
       "independentDistricts": 0,
-      "countyDependent": 18,
-      "municipalDependent": 6,
+      "countyDependent": 16,
+      "municipalDependent": 19,
       "townshipDependent": 0,
-      "stateDependent": 24,
-      "totalOperatingSystems": 48,
+      "stateDependent": 20,
+      "totalOperatingSystems": 55,
       "primarySystemStructure": "dependent"
     },
-    "AZ": {
-      "state": "AZ",
-      "stateName": "Arizona",
-      "independentDistricts": 228,
+    "AL": {
+      "state": "AL",
+      "stateName": "Alabama",
+      "independentDistricts": 138,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 228,
+      "totalOperatingSystems": 138,
       "primarySystemStructure": "independent"
     },
     "AR": {
@@ -53,26 +42,37 @@
       "totalOperatingSystems": 234,
       "primarySystemStructure": "independent"
     },
-    "CA": {
-      "state": "CA",
-      "stateName": "California",
-      "independentDistricts": 1015,
-      "countyDependent": 0,
+    "AZ": {
+      "state": "AZ",
+      "stateName": "Arizona",
+      "independentDistricts": 242,
+      "countyDependent": 12,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 1015,
-      "primarySystemStructure": "independent"
+      "totalOperatingSystems": 254,
+      "primarySystemStructure": "mixed"
+    },
+    "CA": {
+      "state": "CA",
+      "stateName": "California",
+      "independentDistricts": 1006,
+      "countyDependent": 55,
+      "municipalDependent": 0,
+      "townshipDependent": 0,
+      "stateDependent": 0,
+      "totalOperatingSystems": 1061,
+      "primarySystemStructure": "mixed"
     },
     "CO": {
       "state": "CO",
       "stateName": "Colorado",
-      "independentDistricts": 178,
+      "independentDistricts": 180,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 178,
+      "totalOperatingSystems": 180,
       "primarySystemStructure": "independent"
     },
     "CT": {
@@ -80,11 +80,22 @@
       "stateName": "Connecticut",
       "independentDistricts": 17,
       "countyDependent": 0,
-      "municipalDependent": 0,
-      "townshipDependent": 149,
+      "municipalDependent": 20,
+      "townshipDependent": 129,
       "stateDependent": 0,
       "totalOperatingSystems": 166,
       "primarySystemStructure": "mixed"
+    },
+    "DC": {
+      "state": "DC",
+      "stateName": "District of Columbia",
+      "independentDistricts": 0,
+      "countyDependent": 0,
+      "municipalDependent": 2,
+      "townshipDependent": 0,
+      "stateDependent": 0,
+      "totalOperatingSystems": 2,
+      "primarySystemStructure": "dependent"
     },
     "DE": {
       "state": "DE",
@@ -97,26 +108,15 @@
       "totalOperatingSystems": 19,
       "primarySystemStructure": "independent"
     },
-    "DC": {
-      "state": "DC",
-      "stateName": "District of Columbia",
-      "independentDistricts": 0,
-      "countyDependent": 0,
-      "municipalDependent": 1,
-      "townshipDependent": 0,
-      "stateDependent": 0,
-      "totalOperatingSystems": 1,
-      "primarySystemStructure": "dependent"
-    },
     "FL": {
       "state": "FL",
       "stateName": "Florida",
-      "independentDistricts": 67,
+      "independentDistricts": 95,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 67,
+      "totalOperatingSystems": 95,
       "primarySystemStructure": "independent"
     },
     "GA": {
@@ -141,26 +141,37 @@
       "totalOperatingSystems": 1,
       "primarySystemStructure": "dependent"
     },
-    "ID": {
-      "state": "ID",
-      "stateName": "Idaho",
-      "independentDistricts": 115,
+    "IA": {
+      "state": "IA",
+      "stateName": "Iowa",
+      "independentDistricts": 342,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 115,
+      "totalOperatingSystems": 342,
+      "primarySystemStructure": "independent"
+    },
+    "ID": {
+      "state": "ID",
+      "stateName": "Idaho",
+      "independentDistricts": 118,
+      "countyDependent": 0,
+      "municipalDependent": 0,
+      "townshipDependent": 0,
+      "stateDependent": 0,
+      "totalOperatingSystems": 118,
       "primarySystemStructure": "independent"
     },
     "IL": {
       "state": "IL",
       "stateName": "Illinois",
-      "independentDistricts": 885,
+      "independentDistricts": 890,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 885,
+      "totalOperatingSystems": 890,
       "primarySystemStructure": "independent"
     },
     "IN": {
@@ -174,26 +185,15 @@
       "totalOperatingSystems": 290,
       "primarySystemStructure": "independent"
     },
-    "IA": {
-      "state": "IA",
-      "stateName": "Iowa",
-      "independentDistricts": 342,
-      "countyDependent": 0,
-      "municipalDependent": 0,
-      "townshipDependent": 0,
-      "stateDependent": 0,
-      "totalOperatingSystems": 342,
-      "primarySystemStructure": "independent"
-    },
     "KS": {
       "state": "KS",
       "stateName": "Kansas",
-      "independentDistricts": 305,
+      "independentDistricts": 306,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 305,
+      "totalOperatingSystems": 306,
       "primarySystemStructure": "independent"
     },
     "KY": {
@@ -214,107 +214,162 @@
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
-      "stateDependent": 0,
-      "totalOperatingSystems": 69,
-      "primarySystemStructure": "independent"
+      "stateDependent": 1,
+      "totalOperatingSystems": 70,
+      "primarySystemStructure": "mixed"
     },
-    "ME": {
-      "state": "ME",
-      "stateName": "Maine",
-      "independentDistricts": 113,
-      "countyDependent": 0,
-      "municipalDependent": 0,
-      "townshipDependent": 128,
-      "stateDependent": 0,
-      "totalOperatingSystems": 241,
+    "MA": {
+      "state": "MA",
+      "stateName": "Massachusetts",
+      "independentDistricts": 85,
+      "countyDependent": 2,
+      "municipalDependent": 55,
+      "townshipDependent": 176,
+      "stateDependent": 1,
+      "totalOperatingSystems": 319,
       "primarySystemStructure": "mixed"
     },
     "MD": {
       "state": "MD",
       "stateName": "Maryland",
       "independentDistricts": 0,
-      "countyDependent": 23,
+      "countyDependent": 38,
       "municipalDependent": 1,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 24,
+      "totalOperatingSystems": 39,
       "primarySystemStructure": "dependent"
     },
-    "MA": {
-      "state": "MA",
-      "stateName": "Massachusetts",
-      "independentDistricts": 81,
+    "ME": {
+      "state": "ME",
+      "stateName": "Maine",
+      "independentDistricts": 101,
       "countyDependent": 0,
-      "municipalDependent": 20,
-      "townshipDependent": 218,
-      "stateDependent": 0,
-      "totalOperatingSystems": 319,
+      "municipalDependent": 15,
+      "townshipDependent": 146,
+      "stateDependent": 1,
+      "totalOperatingSystems": 263,
       "primarySystemStructure": "mixed"
     },
     "MI": {
       "state": "MI",
       "stateName": "Michigan",
-      "independentDistricts": 585,
+      "independentDistricts": 567,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 585,
+      "totalOperatingSystems": 567,
       "primarySystemStructure": "independent"
     },
     "MN": {
       "state": "MN",
       "stateName": "Minnesota",
-      "independentDistricts": 335,
+      "independentDistricts": 330,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 335,
-      "primarySystemStructure": "independent"
-    },
-    "MS": {
-      "state": "MS",
-      "stateName": "Mississippi",
-      "independentDistricts": 140,
-      "countyDependent": 0,
-      "municipalDependent": 0,
-      "townshipDependent": 0,
-      "stateDependent": 0,
-      "totalOperatingSystems": 140,
+      "totalOperatingSystems": 330,
       "primarySystemStructure": "independent"
     },
     "MO": {
       "state": "MO",
       "stateName": "Missouri",
-      "independentDistricts": 531,
+      "independentDistricts": 529,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
-      "stateDependent": 0,
-      "totalOperatingSystems": 531,
-      "primarySystemStructure": "independent"
+      "stateDependent": 1,
+      "totalOperatingSystems": 530,
+      "primarySystemStructure": "mixed"
+    },
+    "MS": {
+      "state": "MS",
+      "stateName": "Mississippi",
+      "independentDistricts": 150,
+      "countyDependent": 2,
+      "municipalDependent": 0,
+      "townshipDependent": 0,
+      "stateDependent": 1,
+      "totalOperatingSystems": 153,
+      "primarySystemStructure": "mixed"
     },
     "MT": {
       "state": "MT",
       "stateName": "Montana",
-      "independentDistricts": 402,
+      "independentDistricts": 310,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 402,
+      "totalOperatingSystems": 310,
+      "primarySystemStructure": "independent"
+    },
+    "NC": {
+      "state": "NC",
+      "stateName": "North Carolina",
+      "independentDistricts": 0,
+      "countyDependent": 174,
+      "municipalDependent": 0,
+      "townshipDependent": 0,
+      "stateDependent": 0,
+      "totalOperatingSystems": 174,
+      "primarySystemStructure": "dependent"
+    },
+    "ND": {
+      "state": "ND",
+      "stateName": "North Dakota",
+      "independentDistricts": 173,
+      "countyDependent": 0,
+      "municipalDependent": 0,
+      "townshipDependent": 0,
+      "stateDependent": 0,
+      "totalOperatingSystems": 173,
       "primarySystemStructure": "independent"
     },
     "NE": {
       "state": "NE",
       "stateName": "Nebraska",
-      "independentDistricts": 244,
+      "independentDistricts": 267,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 244,
+      "totalOperatingSystems": 267,
+      "primarySystemStructure": "independent"
+    },
+    "NH": {
+      "state": "NH",
+      "stateName": "New Hampshire",
+      "independentDistricts": 166,
+      "countyDependent": 1,
+      "municipalDependent": 9,
+      "townshipDependent": 0,
+      "stateDependent": 0,
+      "totalOperatingSystems": 176,
+      "primarySystemStructure": "mixed"
+    },
+    "NJ": {
+      "state": "NJ",
+      "stateName": "New Jersey",
+      "independentDistricts": 521,
+      "countyDependent": 51,
+      "municipalDependent": 16,
+      "townshipDependent": 4,
+      "stateDependent": 1,
+      "totalOperatingSystems": 593,
+      "primarySystemStructure": "mixed"
+    },
+    "NM": {
+      "state": "NM",
+      "stateName": "New Mexico",
+      "independentDistricts": 96,
+      "countyDependent": 0,
+      "municipalDependent": 0,
+      "townshipDependent": 0,
+      "stateDependent": 0,
+      "totalOperatingSystems": 96,
       "primarySystemStructure": "independent"
     },
     "NV": {
@@ -328,114 +383,59 @@
       "totalOperatingSystems": 17,
       "primarySystemStructure": "independent"
     },
-    "NH": {
-      "state": "NH",
-      "stateName": "New Hampshire",
-      "independentDistricts": 161,
-      "countyDependent": 0,
-      "municipalDependent": 2,
-      "townshipDependent": 8,
-      "stateDependent": 0,
-      "totalOperatingSystems": 171,
-      "primarySystemStructure": "mixed"
-    },
-    "NJ": {
-      "state": "NJ",
-      "stateName": "New Jersey",
-      "independentDistricts": 557,
-      "countyDependent": 0,
-      "municipalDependent": 0,
-      "townshipDependent": 30,
-      "stateDependent": 0,
-      "totalOperatingSystems": 587,
-      "primarySystemStructure": "mixed"
-    },
-    "NM": {
-      "state": "NM",
-      "stateName": "New Mexico",
-      "independentDistricts": 89,
-      "countyDependent": 0,
-      "municipalDependent": 0,
-      "townshipDependent": 0,
-      "stateDependent": 0,
-      "totalOperatingSystems": 89,
-      "primarySystemStructure": "independent"
-    },
     "NY": {
       "state": "NY",
       "stateName": "New York",
-      "independentDistricts": 674,
-      "countyDependent": 0,
-      "municipalDependent": 5,
+      "independentDistricts": 676,
+      "countyDependent": 29,
+      "municipalDependent": 9,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 679,
+      "totalOperatingSystems": 714,
       "primarySystemStructure": "mixed"
-    },
-    "NC": {
-      "state": "NC",
-      "stateName": "North Carolina",
-      "independentDistricts": 0,
-      "countyDependent": 100,
-      "municipalDependent": 15,
-      "townshipDependent": 0,
-      "stateDependent": 0,
-      "totalOperatingSystems": 115,
-      "primarySystemStructure": "dependent"
-    },
-    "ND": {
-      "state": "ND",
-      "stateName": "North Dakota",
-      "independentDistricts": 162,
-      "countyDependent": 0,
-      "municipalDependent": 0,
-      "townshipDependent": 0,
-      "stateDependent": 0,
-      "totalOperatingSystems": 162,
-      "primarySystemStructure": "independent"
     },
     "OH": {
       "state": "OH",
       "stateName": "Ohio",
-      "independentDistricts": 612,
+      "independentDistricts": 665,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 612,
+      "totalOperatingSystems": 665,
       "primarySystemStructure": "independent"
     },
     "OK": {
       "state": "OK",
       "stateName": "Oklahoma",
-      "independentDistricts": 508,
+      "independentDistricts": 539,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 508,
+      "totalOperatingSystems": 539,
       "primarySystemStructure": "independent"
     },
     "OR": {
       "state": "OR",
       "stateName": "Oregon",
-      "independentDistricts": 214,
+      "independentDistricts": 223,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 214,
+      "totalOperatingSystems": 223,
       "primarySystemStructure": "independent"
     },
     "PA": {
       "state": "PA",
       "stateName": "Pennsylvania",
-      "independentDistricts": 500,
+      "independentDistricts": 514,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 500,
+      "totalOperatingSystems": 514,
       "primarySystemStructure": "independent"
     },
     "RI": {
@@ -443,21 +443,21 @@
       "stateName": "Rhode Island",
       "independentDistricts": 4,
       "countyDependent": 0,
-      "municipalDependent": 8,
+      "municipalDependent": 6,
       "townshipDependent": 24,
-      "stateDependent": 0,
+      "stateDependent": 2,
       "totalOperatingSystems": 36,
       "primarySystemStructure": "mixed"
     },
     "SC": {
       "state": "SC",
       "stateName": "South Carolina",
-      "independentDistricts": 73,
+      "independentDistricts": 78,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 73,
+      "totalOperatingSystems": 78,
       "primarySystemStructure": "independent"
     },
     "SD": {
@@ -475,22 +475,22 @@
       "state": "TN",
       "stateName": "Tennessee",
       "independentDistricts": 14,
-      "countyDependent": 74,
-      "municipalDependent": 30,
+      "countyDependent": 91,
+      "municipalDependent": 36,
       "townshipDependent": 0,
-      "stateDependent": 0,
-      "totalOperatingSystems": 118,
+      "stateDependent": 1,
+      "totalOperatingSystems": 142,
       "primarySystemStructure": "mixed"
     },
     "TX": {
       "state": "TX",
       "stateName": "Texas",
-      "independentDistricts": 1073,
-      "countyDependent": 0,
+      "independentDistricts": 1070,
+      "countyDependent": 2,
       "municipalDependent": 1,
       "townshipDependent": 0,
-      "stateDependent": 0,
-      "totalOperatingSystems": 1074,
+      "stateDependent": 6,
+      "totalOperatingSystems": 1079,
       "primarySystemStructure": "mixed"
     },
     "UT": {
@@ -504,38 +504,49 @@
       "totalOperatingSystems": 41,
       "primarySystemStructure": "independent"
     },
-    "VT": {
-      "state": "VT",
-      "stateName": "Vermont",
-      "independentDistricts": 282,
-      "countyDependent": 0,
-      "municipalDependent": 0,
-      "townshipDependent": 170,
-      "stateDependent": 0,
-      "totalOperatingSystems": 452,
-      "primarySystemStructure": "mixed"
-    },
     "VA": {
       "state": "VA",
       "stateName": "Virginia",
-      "independentDistricts": 0,
+      "independentDistricts": 1,
       "countyDependent": 95,
       "municipalDependent": 38,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 133,
-      "primarySystemStructure": "dependent"
+      "totalOperatingSystems": 134,
+      "primarySystemStructure": "mixed"
     },
-    "WA": {
-      "state": "WA",
-      "stateName": "Washington",
-      "independentDistricts": 304,
+    "VT": {
+      "state": "VT",
+      "stateName": "Vermont",
+      "independentDistricts": 121,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 304,
+      "totalOperatingSystems": 121,
       "primarySystemStructure": "independent"
+    },
+    "WA": {
+      "state": "WA",
+      "stateName": "Washington",
+      "independentDistricts": 295,
+      "countyDependent": 0,
+      "municipalDependent": 0,
+      "townshipDependent": 0,
+      "stateDependent": 0,
+      "totalOperatingSystems": 295,
+      "primarySystemStructure": "independent"
+    },
+    "WI": {
+      "state": "WI",
+      "stateName": "Wisconsin",
+      "independentDistricts": 437,
+      "countyDependent": 3,
+      "municipalDependent": 0,
+      "townshipDependent": 0,
+      "stateDependent": 0,
+      "totalOperatingSystems": 440,
+      "primarySystemStructure": "mixed"
     },
     "WV": {
       "state": "WV",
@@ -548,28 +559,17 @@
       "totalOperatingSystems": 55,
       "primarySystemStructure": "independent"
     },
-    "WI": {
-      "state": "WI",
-      "stateName": "Wisconsin",
-      "independentDistricts": 421,
-      "countyDependent": 0,
-      "municipalDependent": 0,
-      "townshipDependent": 0,
-      "stateDependent": 0,
-      "totalOperatingSystems": 421,
-      "primarySystemStructure": "independent"
-    },
     "WY": {
       "state": "WY",
       "stateName": "Wyoming",
-      "independentDistricts": 48,
+      "independentDistricts": 55,
       "countyDependent": 0,
       "municipalDependent": 0,
       "townshipDependent": 0,
       "stateDependent": 0,
-      "totalOperatingSystems": 48,
+      "totalOperatingSystems": 55,
       "primarySystemStructure": "independent"
     }
   },
-  "sha256": "9dd59f0a62bd883aed9158aa8b87c1e474ec60813192b61d8b4aa653f609b853"
+  "sha256": "070ba600f4a0f7db51f9dbd6c9eb78afef6d563adb3182e18e14daa6c59e6de9"
 }

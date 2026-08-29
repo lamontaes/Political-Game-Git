@@ -1,9 +1,102 @@
 {
-  "schemaVersion": "1.0.0",
-  "generatedAt": "2024-01-01T00:00:00.000Z",
-  "sourceVintage": "2022 Census of Governments",
-  "stateCount": 51,
-  "states": {
+  "schemaVersion": "2.0.0",
+  "title": "U.S. Census Bureau 2022 Census of Governments Authoritative Baseline",
+  "vintage": "2022",
+  "retrievalDate": "2026-08-29",
+  "provenance": {
+    "sourceAgency": "U.S. Census Bureau",
+    "program": "Census of Governments (COG) / Government Units Survey (GUS)",
+    "sourceTables": [
+      {
+        "tableId": "CG2200ORG01",
+        "title": "Government Units by State: Census Years 1942 to 2022",
+        "rawFilename": "COG2022_CG2200ORG01_Data.xlsx",
+        "zipFilename": "cog2022_cg2200org01.zip",
+        "sourceUrl": "https://www2.census.gov/programs-surveys/gus/tables/2022/cog2022_cg2200org01.zip",
+        "vintage": "2022",
+        "retrievalDate": "2026-08-29",
+        "sha256": "c78db9c2893fc8681281356042a0715d05adf074d1e04afe5c4e703dbcdf4419",
+        "zipSha256": "111e6ce487f9d83ab572d43742e8e87b95ed3aad8d5c0c589f1d6275d826e945"
+      },
+      {
+        "tableId": "CG2200ORG02",
+        "title": "Local Governments by Type and State: 2022",
+        "rawFilename": "COG2022_CG2200ORG02_Data.xlsx",
+        "zipFilename": "cog2022_cg2200org02.zip",
+        "sourceUrl": "https://www2.census.gov/programs-surveys/gus/tables/2022/cog2022_cg2200org02.zip",
+        "vintage": "2022",
+        "retrievalDate": "2026-08-29",
+        "sha256": "96094315d632062e26db2cc4d890e9b2334e27a73fd74c4e106be5f1eba09b2a",
+        "zipSha256": "7c34fe70ed9b05fcb2851cf809823b143301e34a1444007b044ac6f152481d48"
+      },
+      {
+        "tableId": "CG2200ORG03",
+        "title": "General-Purpose Local Governments by State: Census Years 1942 to 2022",
+        "rawFilename": "COG2022_CG2200ORG03_Data.xlsx",
+        "zipFilename": "cog2022_cg2200org03.zip",
+        "sourceUrl": "https://www2.census.gov/programs-surveys/gus/tables/2022/cog2022_cg2200org03.zip",
+        "vintage": "2022",
+        "retrievalDate": "2026-08-29",
+        "sha256": "07346578c404dad02f8fbd5093f0b02678f7d89d890af649cbfdb86a820b72d2",
+        "zipSha256": "fc4248d00793af89d70160bda50d1d1493b11070daf9eb1824b3f3ec53b52ed9"
+      },
+      {
+        "tableId": "CG2200ORG04",
+        "title": "Special-Purpose Local Governments by State: Census Years 1942 to 2022",
+        "rawFilename": "COG2022_CG2200ORG04_Data.xlsx",
+        "zipFilename": "cog2022_cg2200org04.zip",
+        "sourceUrl": "https://www2.census.gov/programs-surveys/gus/tables/2022/cog2022_cg2200org04.zip",
+        "vintage": "2022",
+        "retrievalDate": "2026-08-29",
+        "sha256": "aa5e1a59068954efaafb18f660c15902038eb8d9a4bcb86c983af92fb7d93c23",
+        "zipSha256": "860687c36ef58b8308a5af71563eeac93668bf89d8247f6276c5921a995121fd"
+      },
+      {
+        "tableId": "CG2200ORG08",
+        "title": "Special District Governments by Function and State: 2022",
+        "rawFilename": "COG2022_CG2200ORG08_Data.xlsx",
+        "zipFilename": "cog2022_cg2200org08.zip",
+        "sourceUrl": "https://www2.census.gov/programs-surveys/gus/tables/2022/cog2022_cg2200org08.zip",
+        "vintage": "2022",
+        "retrievalDate": "2026-08-29",
+        "sha256": "7dd0c5c0ad9ed93f0763e4129ccea5f57ab62d5914bce25b6e6ff95958fb50da",
+        "zipSha256": "25fd58a5b8de91fac6707488db3685c023e3b84f82a0c03f899fe7ba3c959ca3"
+      },
+      {
+        "tableId": "CG2200ORG09",
+        "title": "Public School Systems by Type of Organization and State: 2022",
+        "rawFilename": "COG2022_CG2200ORG09_Data.xlsx",
+        "zipFilename": "cog2022_cg2200org09.zip",
+        "sourceUrl": "https://www2.census.gov/programs-surveys/gus/tables/2022/cog2022_cg2200org09.zip",
+        "vintage": "2022",
+        "retrievalDate": "2026-08-29",
+        "sha256": "e08277ec3a13d338ea84b5b0f7c96c970011e8f52529e10b6576fbe1c93778f5",
+        "zipSha256": "d77c12bdf6bcc16f5d2a45a0361cd5d197306cd172481481fa74c13fdfb177c9"
+      }
+    ]
+  },
+  "nationalSummary": {
+    "totalFedStateLocal": 90888,
+    "federalGovernment": 1,
+    "stateGovernments": 50,
+    "localGovernmentsTotal": 90837,
+    "countyGovernments": 3031,
+    "municipalGovernments": 19491,
+    "townshipGovernments": 16214,
+    "specialDistrictGovernments": 39555,
+    "independentSchoolDistricts": 12546,
+    "specialDistrictsSingleFunction": 32768,
+    "specialDistrictsMultiFunction": 6787,
+    "dependentSchoolSystems": {
+      "countyDependent": 571,
+      "municipalDependent": 227,
+      "townshipDependent": 479,
+      "stateDependent": 36,
+      "total": 1313
+    },
+    "totalPublicSchoolSystems": 13859
+  },
+  "stateSummaries": {
     "AK": {
       "state": "AK",
       "stateName": "Alaska",
@@ -1025,5 +1118,293 @@
       }
     }
   },
-  "sha256": "8d9a9c7fcca766053490442294d654298050e98700a761f0ead8bbf4a13848cc"
+  "specialDistrictFunctions": [
+    {
+      "functionCategory": "fire_protection",
+      "functionCodePrefixes": ["024"],
+      "description": "Fire protection",
+      "nationalCount": 5957,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "water_supply",
+      "functionCodePrefixes": ["091"],
+      "description": "Water supply",
+      "nationalCount": 3550,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "housing_community_development",
+      "functionCodePrefixes": ["050"],
+      "description": "Housing and community development",
+      "nationalCount": 3304,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "drainage_flood_control",
+      "functionCodePrefixes": ["052"],
+      "description": "Drainage and flood control",
+      "nationalCount": 3018,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "soil_water_conservation",
+      "functionCodePrefixes": ["059"],
+      "description": "Soil and water conservation",
+      "nationalCount": 2541,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "sewerage",
+      "functionCodePrefixes": ["080"],
+      "description": "Sewerage",
+      "nationalCount": 1829,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "cemeteries",
+      "functionCodePrefixes": ["000"],
+      "description": "Cemeteries",
+      "nationalCount": 1674,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "libraries",
+      "functionCodePrefixes": ["061"],
+      "description": "Libraries",
+      "nationalCount": 1668,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "natural_resources",
+      "functionCodePrefixes": ["059"],
+      "description": "Other natural resources",
+      "nationalCount": 1563,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "parks_recreation",
+      "functionCodePrefixes": ["060"],
+      "description": "Parks and recreation",
+      "nationalCount": 1457,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "other_single_function",
+      "functionCodePrefixes": ["000"],
+      "description": "Other single function districts",
+      "nationalCount": 1305,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "highways",
+      "functionCodePrefixes": ["000"],
+      "description": "Highways",
+      "nationalCount": 1173,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "health",
+      "functionCodePrefixes": ["000"],
+      "description": "Health",
+      "nationalCount": 933,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "hospitals",
+      "functionCodePrefixes": ["062"],
+      "description": "Hospitals",
+      "nationalCount": 650,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "other_utility_districts",
+      "functionCodePrefixes": ["000"],
+      "description": "Other utility districts",
+      "nationalCount": 605,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "solid_waste_management",
+      "functionCodePrefixes": ["000"],
+      "description": "Solid waste management",
+      "nationalCount": 456,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "air_transportation",
+      "functionCodePrefixes": ["000"],
+      "description": "Air transportation",
+      "nationalCount": 435,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "industrial_development",
+      "functionCodePrefixes": ["000"],
+      "description": "Industrial development and mortgage credit",
+      "nationalCount": 227,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "education",
+      "functionCodePrefixes": ["044"],
+      "description": "Education",
+      "nationalCount": 180,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "transit",
+      "functionCodePrefixes": ["094"],
+      "description": "Other transportation",
+      "nationalCount": 169,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "welfare",
+      "functionCodePrefixes": ["000"],
+      "description": "Welfare",
+      "nationalCount": 74,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "multi_function",
+      "functionCodePrefixes": ["099"],
+      "description": "Other multiple function districts",
+      "nationalCount": 5227,
+      "isMultiFunction": true
+    },
+    {
+      "functionCategory": "multi_function",
+      "functionCodePrefixes": ["099", "080", "091"],
+      "description": "Sewerage and water supply",
+      "nationalCount": 1380,
+      "isMultiFunction": true
+    },
+    {
+      "functionCategory": "multi_function",
+      "functionCodePrefixes": ["099", "059", "091"],
+      "description": "Natural resources and water supply",
+      "nationalCount": 180,
+      "isMultiFunction": true
+    }
+  ],
+  "historicalSeries": [
+    {
+      "year": 1952,
+      "totalGovernments": 116807,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 116756,
+      "countyGovernments": 3052,
+      "municipalGovernments": 16807,
+      "townshipGovernments": 17202,
+      "specialDistrictGovernments": 12340,
+      "schoolDistrictGovernments": 67355,
+      "notes": "Pre-consolidation peak of independent school districts."
+    },
+    {
+      "year": 1962,
+      "totalGovernments": 91236,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 91185,
+      "countyGovernments": 3043,
+      "municipalGovernments": 17997,
+      "townshipGovernments": 17144,
+      "specialDistrictGovernments": 18323,
+      "schoolDistrictGovernments": 34678,
+      "notes": "Rapid post-war school district consolidation and initial expansion of special districts."
+    },
+    {
+      "year": 1972,
+      "totalGovernments": 78269,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 78218,
+      "countyGovernments": 3044,
+      "municipalGovernments": 18517,
+      "townshipGovernments": 16991,
+      "specialDistrictGovernments": 23885,
+      "schoolDistrictGovernments": 15781,
+      "notes": "Special districts surpass independent school districts for the first time in U.S. history."
+    },
+    {
+      "year": 1982,
+      "totalGovernments": 81831,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 81780,
+      "countyGovernments": 3041,
+      "municipalGovernments": 19076,
+      "townshipGovernments": 16734,
+      "specialDistrictGovernments": 28078,
+      "schoolDistrictGovernments": 14851,
+      "notes": "Steady expansion of special-purpose infrastructure and service districts."
+    },
+    {
+      "year": 1992,
+      "totalGovernments": 85006,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 84955,
+      "countyGovernments": 3043,
+      "municipalGovernments": 19279,
+      "townshipGovernments": 16656,
+      "specialDistrictGovernments": 31555,
+      "schoolDistrictGovernments": 14422,
+      "notes": "Growth of suburban special districts and stabilization of municipal incorporations."
+    },
+    {
+      "year": 2002,
+      "totalGovernments": 87576,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 87525,
+      "countyGovernments": 3034,
+      "municipalGovernments": 19429,
+      "townshipGovernments": 16504,
+      "specialDistrictGovernments": 35052,
+      "schoolDistrictGovernments": 13506,
+      "notes": "Further decline in independent school districts and increase in specialized utility districts."
+    },
+    {
+      "year": 2012,
+      "totalGovernments": 90107,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 90056,
+      "countyGovernments": 3031,
+      "municipalGovernments": 19519,
+      "townshipGovernments": 16360,
+      "specialDistrictGovernments": 38266,
+      "schoolDistrictGovernments": 12880,
+      "notes": "Local governments surpass 90,000 for the first time since the early 1960s."
+    },
+    {
+      "year": 2017,
+      "totalGovernments": 90126,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 90075,
+      "countyGovernments": 3031,
+      "municipalGovernments": 19495,
+      "townshipGovernments": 16253,
+      "specialDistrictGovernments": 38542,
+      "schoolDistrictGovernments": 12754,
+      "notes": "2017 Census of Governments Organization baseline."
+    },
+    {
+      "year": 2022,
+      "totalGovernments": 90888,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 90837,
+      "countyGovernments": 3031,
+      "municipalGovernments": 19491,
+      "townshipGovernments": 16214,
+      "specialDistrictGovernments": 39555,
+      "schoolDistrictGovernments": 12546,
+      "notes": "Authoritative 2022 Census of Governments: 90,888 total governmental entities in the United States (1 Federal, 50 State, 90,837 Local)."
+    }
+  ]
 }
