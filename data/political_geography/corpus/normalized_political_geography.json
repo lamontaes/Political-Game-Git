@@ -1,0 +1,1335 @@
+{
+  "schemaVersion": "1.0.0",
+  "compiledAt": "2026-08-28T00:00:00.000Z",
+  "sourceVintages": ["2024", "2026"],
+  "totalDistricts": 24,
+  "districts": [
+    {
+      "districtId": "geo:district:2024:ky:congressional:3",
+      "geoid": "2103",
+      "districtIdentifier": "3",
+      "name": "Kentucky's 3rd Congressional District (2024 Vintage)",
+      "chamberType": "congressional",
+      "sourceVintage": "2024",
+      "state": {
+        "stateFips": "21",
+        "statePostal": "KY",
+        "stateName": "Kentucky",
+        "ansiCode": "00257404"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2024 TIGER/Line Shapefiles",
+        "series": "tl_2024_us_cd119",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2024/CD/tl_2024_us_cd119.zip",
+        "sourceFile": "tl_2024_us_cd119.shp",
+        "retrievedAt": "2024-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2024-01-01",
+        "validUntil": "2025-12-31",
+        "cycleYear": 2024,
+        "congressionalSession": 119,
+        "redistrictingCycle": "2020s-initial",
+        "isCurrent": false
+      },
+      "hierarchy": {
+        "stateFips": "21",
+        "parentJurisdictionId": "us_ky",
+        "countyFipsList": ["21111"],
+        "primaryCountyFips": "21111"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-85.98, 38.02],
+            [-85.42, 38.02],
+            [-85.42, 38.38],
+            [-85.98, 38.38],
+            [-85.98, 38.02]
+          ]
+        ]
+      },
+      "geometryHash": "a7a03a739ced09a4b457fe79fd6c7c489750ca21568364c39631cbf191f1ada8",
+      "derived": {
+        "boundingBox": [-85.98, 38.02, -85.42, 38.38],
+        "centroid": [-85.7, 38.2],
+        "areaSquareKmEstimated": 1952,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2024:ky:congressional:6",
+      "geoid": "2106",
+      "districtIdentifier": "6",
+      "name": "Kentucky's 6th Congressional District (2024 Vintage)",
+      "chamberType": "congressional",
+      "sourceVintage": "2024",
+      "state": {
+        "stateFips": "21",
+        "statePostal": "KY",
+        "stateName": "Kentucky",
+        "ansiCode": "00257404"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2024 TIGER/Line Shapefiles",
+        "series": "tl_2024_us_cd119",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2024/CD/tl_2024_us_cd119.zip",
+        "sourceFile": "tl_2024_us_cd119.shp",
+        "retrievedAt": "2024-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2024-01-01",
+        "validUntil": "2025-12-31",
+        "cycleYear": 2024,
+        "congressionalSession": 119,
+        "redistrictingCycle": "2020s-initial",
+        "isCurrent": false
+      },
+      "hierarchy": {
+        "stateFips": "21",
+        "parentJurisdictionId": "us_ky",
+        "countyFipsList": ["21017", "21049", "21067", "21073"],
+        "primaryCountyFips": "21067"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-84.72, 37.98],
+            [-84.18, 37.98],
+            [-84.18, 38.32],
+            [-84.72, 38.32],
+            [-84.72, 37.98]
+          ]
+        ]
+      },
+      "geometryHash": "9c8bb8a9d9d878f47b5fa17d9c0606ecb75072537881a9dcfcc684989e46e34b",
+      "derived": {
+        "boundingBox": [-84.72, 37.98, -84.18, 38.32],
+        "centroid": [-84.45, 38.15],
+        "areaSquareKmEstimated": 1778.93,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:dc:council_ward:2",
+      "geoid": "11002",
+      "districtIdentifier": "2",
+      "name": "District of Columbia Council Ward 2",
+      "chamberType": "council_ward",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "11",
+        "statePostal": "DC",
+        "stateName": "District of Columbia",
+        "ansiCode": "01702382"
+      },
+      "geometrySource": {
+        "sourceName": "District of Columbia Office of Planning / Board of Elections",
+        "series": "dc_council_wards_2026",
+        "sourceUrl": "https://opendata.dc.gov/datasets/ward-2026",
+        "sourceFile": "dc_wards_2026.geojson",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "Open Data DC Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": null,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "11",
+        "parentJurisdictionId": "us_dc",
+        "countyFipsList": ["11001"],
+        "primaryCountyFips": "11001"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-77.08, 38.88],
+            [-77.02, 38.88],
+            [-77.02, 38.92],
+            [-77.08, 38.92],
+            [-77.08, 38.88]
+          ]
+        ]
+      },
+      "geometryHash": "cce4036770f894bfcd8977f30089cf16b03697ee6e34b3c10f7198b950bfd874",
+      "derived": {
+        "boundingBox": [-77.08, 38.88, -77.02, 38.92],
+        "centroid": [-77.05, 38.9],
+        "areaSquareKmEstimated": 23.01,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:dc:council_ward:6",
+      "geoid": "11006",
+      "districtIdentifier": "6",
+      "name": "District of Columbia Council Ward 6",
+      "chamberType": "council_ward",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "11",
+        "statePostal": "DC",
+        "stateName": "District of Columbia",
+        "ansiCode": "01702382"
+      },
+      "geometrySource": {
+        "sourceName": "District of Columbia Office of Planning / Board of Elections",
+        "series": "dc_council_wards_2026",
+        "sourceUrl": "https://opendata.dc.gov/datasets/ward-2026",
+        "sourceFile": "dc_wards_2026.geojson",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "Open Data DC Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": null,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "11",
+        "parentJurisdictionId": "us_dc",
+        "countyFipsList": ["11001"],
+        "primaryCountyFips": "11001"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-77.02, 38.87],
+            [-76.96, 38.87],
+            [-76.96, 38.91],
+            [-77.02, 38.91],
+            [-77.02, 38.87]
+          ]
+        ]
+      },
+      "geometryHash": "c0f6dc53ad5b97e26f47d554e621557739d531e25c2223994b885625681537e7",
+      "derived": {
+        "boundingBox": [-77.02, 38.87, -76.96, 38.91],
+        "centroid": [-76.99, 38.89],
+        "areaSquareKmEstimated": 23.02,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:dc:non_voting_delegate:98",
+      "geoid": "1198",
+      "districtIdentifier": "98",
+      "name": "District of Columbia Non-Voting Delegate District",
+      "chamberType": "non_voting_delegate",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "11",
+        "statePostal": "DC",
+        "stateName": "District of Columbia",
+        "ansiCode": "01702382"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_us_cd120",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+        "sourceFile": "tl_2026_us_cd120.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": 120,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "11",
+        "parentJurisdictionId": "us_dc",
+        "countyFipsList": ["11001"],
+        "primaryCountyFips": "11001"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-77.12, 38.79],
+            [-76.9, 38.79],
+            [-76.9, 38.99],
+            [-77.12, 38.99],
+            [-77.12, 38.79]
+          ]
+        ]
+      },
+      "geometryHash": "914f7bdd3ba08ce3b178eeeb4335ba2638dd73eef0f131f20658c2b0ae870425",
+      "derived": {
+        "boundingBox": [-77.12, 38.79, -76.9, 38.99],
+        "centroid": [-77.01, 38.89],
+        "areaSquareKmEstimated": 421.96,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:ky:congressional:3",
+      "geoid": "2103",
+      "districtIdentifier": "3",
+      "name": "Kentucky's 3rd Congressional District",
+      "chamberType": "congressional",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "21",
+        "statePostal": "KY",
+        "stateName": "Kentucky",
+        "ansiCode": "00257404"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_us_cd120",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+        "sourceFile": "tl_2026_us_cd120.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": 120,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "21",
+        "parentJurisdictionId": "us_ky",
+        "countyFipsList": ["21111"],
+        "primaryCountyFips": "21111"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-85.95, 38.05],
+            [-85.45, 38.05],
+            [-85.45, 38.35],
+            [-85.95, 38.35],
+            [-85.95, 38.05]
+          ]
+        ]
+      },
+      "geometryHash": "5f2f351862d2a9c01bae41823067a00b30780c4ca1243a9aa93c68fd81a0859a",
+      "derived": {
+        "boundingBox": [-85.95, 38.05, -85.45, 38.35],
+        "centroid": [-85.7, 38.2],
+        "areaSquareKmEstimated": 1452.38,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:ky:congressional:4",
+      "geoid": "2104",
+      "districtIdentifier": "4",
+      "name": "Kentucky's 4th Congressional District",
+      "chamberType": "congressional",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "21",
+        "statePostal": "KY",
+        "stateName": "Kentucky",
+        "ansiCode": "00257404"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_us_cd120",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+        "sourceFile": "tl_2026_us_cd120.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": 120,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "21",
+        "parentJurisdictionId": "us_ky",
+        "countyFipsList": ["21015", "21037", "21117", "21191"],
+        "primaryCountyFips": "21015"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-85.45, 38.3],
+            [-84.2, 38.3],
+            [-84.2, 39.15],
+            [-85.45, 39.15],
+            [-85.45, 38.3]
+          ]
+        ]
+      },
+      "geometryHash": "d1224da9c36ddb0be2c1fb098ae4b29ee8776c40cdd2fba5966132ce18466d33",
+      "derived": {
+        "boundingBox": [-85.45, 38.3, -84.2, 39.15],
+        "centroid": [-84.825, 38.725],
+        "areaSquareKmEstimated": 10213.09,
+        "adjacentDistrictIds": ["geo:district:2026:ky:congressional:6"]
+      }
+    },
+    {
+      "districtId": "geo:district:2026:ky:congressional:6",
+      "geoid": "2106",
+      "districtIdentifier": "6",
+      "name": "Kentucky's 6th Congressional District",
+      "chamberType": "congressional",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "21",
+        "statePostal": "KY",
+        "stateName": "Kentucky",
+        "ansiCode": "00257404"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_us_cd120",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+        "sourceFile": "tl_2026_us_cd120.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": 120,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "21",
+        "parentJurisdictionId": "us_ky",
+        "countyFipsList": [
+          "21017",
+          "21049",
+          "21067",
+          "21073",
+          "21151",
+          "21239"
+        ],
+        "primaryCountyFips": "21067"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-84.7, 38],
+            [-84.2, 38],
+            [-84.2, 38.3],
+            [-84.7, 38.3],
+            [-84.7, 38]
+          ]
+        ]
+      },
+      "geometryHash": "083ba5577f942c6af5fd0fd8c49e553aa73a866d9ef1e60656f0dc0a071d5f82",
+      "derived": {
+        "boundingBox": [-84.7, 38, -84.2, 38.3],
+        "centroid": [-84.45, 38.15],
+        "areaSquareKmEstimated": 1453.38,
+        "adjacentDistrictIds": ["geo:district:2026:ky:congressional:4"]
+      }
+    },
+    {
+      "districtId": "geo:district:2026:ky:state_house:75",
+      "geoid": "21075",
+      "districtIdentifier": "75",
+      "name": "Kentucky State House District 75",
+      "chamberType": "state_house",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "21",
+        "statePostal": "KY",
+        "stateName": "Kentucky",
+        "ansiCode": "00257404"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_21_sldl",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDL/tl_2026_21_sldl.zip",
+        "sourceFile": "tl_2026_21_sldl.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": null,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "21",
+        "parentJurisdictionId": "us_ky",
+        "countyFipsList": ["21067"],
+        "primaryCountyFips": "21067"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-84.46, 38],
+            [-84.4, 38],
+            [-84.4, 38.06],
+            [-84.46, 38.06],
+            [-84.46, 38]
+          ]
+        ]
+      },
+      "geometryHash": "9467f6cfa9663619e2252d1a86973ec9620d9c0b5b8faf7a5313f2a9d2e21726",
+      "derived": {
+        "boundingBox": [-84.46, 38, -84.4, 38.06],
+        "centroid": [-84.43, 38.03],
+        "areaSquareKmEstimated": 34.94,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:ky:state_house:77",
+      "geoid": "21077",
+      "districtIdentifier": "77",
+      "name": "Kentucky State House District 77",
+      "chamberType": "state_house",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "21",
+        "statePostal": "KY",
+        "stateName": "Kentucky",
+        "ansiCode": "00257404"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_21_sldl",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDL/tl_2026_21_sldl.zip",
+        "sourceFile": "tl_2026_21_sldl.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": null,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "21",
+        "parentJurisdictionId": "us_ky",
+        "countyFipsList": ["21067"],
+        "primaryCountyFips": "21067"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-84.52, 38.04],
+            [-84.46, 38.04],
+            [-84.46, 38.1],
+            [-84.52, 38.1],
+            [-84.52, 38.04]
+          ]
+        ]
+      },
+      "geometryHash": "691410848e2d3332ef7f64855d14f287b142e0bb265f06d7dbb2a9dc68829af6",
+      "derived": {
+        "boundingBox": [-84.52, 38.04, -84.46, 38.1],
+        "centroid": [-84.49, 38.07],
+        "areaSquareKmEstimated": 34.92,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:ky:state_senate:13",
+      "geoid": "21013",
+      "districtIdentifier": "13",
+      "name": "Kentucky State Senate District 13",
+      "chamberType": "state_senate",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "21",
+        "statePostal": "KY",
+        "stateName": "Kentucky",
+        "ansiCode": "00257404"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_21_sldu",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDU/tl_2026_21_sldu.zip",
+        "sourceFile": "tl_2026_21_sldu.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": null,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "21",
+        "parentJurisdictionId": "us_ky",
+        "countyFipsList": ["21067"],
+        "primaryCountyFips": "21067"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-84.55, 38],
+            [-84.45, 38],
+            [-84.45, 38.1],
+            [-84.55, 38.1],
+            [-84.55, 38]
+          ]
+        ]
+      },
+      "geometryHash": "1277f818ff9cd32ec79c5ab92a0c30fb212b41ffebadbfe644c5331dc0b9f659",
+      "derived": {
+        "boundingBox": [-84.55, 38, -84.45, 38.1],
+        "centroid": [-84.5, 38.05],
+        "areaSquareKmEstimated": 97.02,
+        "adjacentDistrictIds": ["geo:district:2026:ky:state_senate:27"]
+      }
+    },
+    {
+      "districtId": "geo:district:2026:ky:state_senate:27",
+      "geoid": "21027",
+      "districtIdentifier": "27",
+      "name": "Kentucky State Senate District 27",
+      "chamberType": "state_senate",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "21",
+        "statePostal": "KY",
+        "stateName": "Kentucky",
+        "ansiCode": "00257404"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_21_sldu",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDU/tl_2026_21_sldu.zip",
+        "sourceFile": "tl_2026_21_sldu.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": null,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "21",
+        "parentJurisdictionId": "us_ky",
+        "countyFipsList": ["21017", "21067", "21097"],
+        "primaryCountyFips": "21017"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-84.45, 38],
+            [-84.2, 38],
+            [-84.2, 38.3],
+            [-84.45, 38.3],
+            [-84.45, 38]
+          ]
+        ]
+      },
+      "geometryHash": "9a8fb5c1e70a2e7e1d241d9d2007ad2ff80ffeb8baba53fbe77d97fe88a003bd",
+      "derived": {
+        "boundingBox": [-84.45, 38, -84.2, 38.3],
+        "centroid": [-84.325, 38.15],
+        "areaSquareKmEstimated": 726.69,
+        "adjacentDistrictIds": ["geo:district:2026:ky:state_senate:13"]
+      }
+    },
+    {
+      "districtId": "geo:district:2026:ne:congressional:1",
+      "geoid": "3101",
+      "districtIdentifier": "1",
+      "name": "Nebraska's 1st Congressional District",
+      "chamberType": "congressional",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "31",
+        "statePostal": "NE",
+        "stateName": "Nebraska",
+        "ansiCode": "01779792"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_us_cd120",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+        "sourceFile": "tl_2026_us_cd120.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": 120,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "31",
+        "parentJurisdictionId": "us_ne",
+        "countyFipsList": ["31053", "31109", "31155"],
+        "primaryCountyFips": "31109"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-97.3, 40.5],
+            [-95.8, 40.5],
+            [-95.8, 42.5],
+            [-97.3, 42.5],
+            [-97.3, 40.5]
+          ]
+        ]
+      },
+      "geometryHash": "31ff0459447c737e59eaaa8af1846690db6d75598d6b4527984d20035e5696ea",
+      "derived": {
+        "boundingBox": [-97.3, 40.5, -95.8, 42.5],
+        "centroid": [-96.55, 41.5],
+        "areaSquareKmEstimated": 27683.65,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:ne:congressional:2",
+      "geoid": "3102",
+      "districtIdentifier": "2",
+      "name": "Nebraska's 2nd Congressional District",
+      "chamberType": "congressional",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "31",
+        "statePostal": "NE",
+        "stateName": "Nebraska",
+        "ansiCode": "01779792"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_us_cd120",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+        "sourceFile": "tl_2026_us_cd120.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": 120,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "31",
+        "parentJurisdictionId": "us_ne",
+        "countyFipsList": ["31055", "31153"],
+        "primaryCountyFips": "31055"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-96.4, 41.1],
+            [-95.85, 41.1],
+            [-95.85, 41.45],
+            [-96.4, 41.45],
+            [-96.4, 41.1]
+          ]
+        ]
+      },
+      "geometryHash": "8e150094f0d0f1648b9139508631f5819ee0be03864eb91c9360f19f2159b152",
+      "derived": {
+        "boundingBox": [-96.4, 41.1, -95.85, 41.45],
+        "centroid": [-96.125, 41.275],
+        "areaSquareKmEstimated": 1782.53,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:ne:unicameral:5",
+      "geoid": "31005",
+      "districtIdentifier": "5",
+      "name": "Nebraska Legislative District 5",
+      "chamberType": "unicameral",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "31",
+        "statePostal": "NE",
+        "stateName": "Nebraska",
+        "ansiCode": "01779792"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_31_sldu",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDU/tl_2026_31_sldu.zip",
+        "sourceFile": "tl_2026_31_sldu.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": null,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "31",
+        "parentJurisdictionId": "us_ne",
+        "countyFipsList": ["31055"],
+        "primaryCountyFips": "31055"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-96, 41.18],
+            [-95.92, 41.18],
+            [-95.92, 41.25],
+            [-96, 41.25],
+            [-96, 41.18]
+          ]
+        ]
+      },
+      "geometryHash": "ea273b6f953540479230e96cd3ce00e60bbada4d9290188cfb21e2d730c6e14b",
+      "derived": {
+        "boundingBox": [-96, 41.18, -95.92, 41.25],
+        "centroid": [-95.96, 41.215],
+        "areaSquareKmEstimated": 51.9,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:ne:unicameral:46",
+      "geoid": "31046",
+      "districtIdentifier": "46",
+      "name": "Nebraska Legislative District 46",
+      "chamberType": "unicameral",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "31",
+        "statePostal": "NE",
+        "stateName": "Nebraska",
+        "ansiCode": "01779792"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_31_sldu",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDU/tl_2026_31_sldu.zip",
+        "sourceFile": "tl_2026_31_sldu.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": null,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "31",
+        "parentJurisdictionId": "us_ne",
+        "countyFipsList": ["31109"],
+        "primaryCountyFips": "31109"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-96.75, 40.8],
+            [-96.65, 40.8],
+            [-96.65, 40.88],
+            [-96.75, 40.88],
+            [-96.75, 40.8]
+          ]
+        ]
+      },
+      "geometryHash": "3acdd82f0dabf01ab690e2e269e8695a39dc8b59f4274fc6da35002e40123b19",
+      "derived": {
+        "boundingBox": [-96.75, 40.8, -96.65, 40.88],
+        "centroid": [-96.7, 40.84],
+        "areaSquareKmEstimated": 74.57,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:tx:congressional:18",
+      "geoid": "4818",
+      "districtIdentifier": "18",
+      "name": "Texas's 18th Congressional District",
+      "chamberType": "congressional",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "48",
+        "statePostal": "TX",
+        "stateName": "Texas",
+        "ansiCode": "01779801"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_us_cd120",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+        "sourceFile": "tl_2026_us_cd120.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": 120,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "48",
+        "parentJurisdictionId": "us_tx",
+        "countyFipsList": ["48201"],
+        "primaryCountyFips": "48201"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-95.48, 29.7],
+            [-95.28, 29.7],
+            [-95.28, 29.9],
+            [-95.48, 29.9],
+            [-95.48, 29.7]
+          ]
+        ]
+      },
+      "geometryHash": "807df9b9c98dc1ee2bf3596996164c491d5f59a56521541b70f3f19a87826437",
+      "derived": {
+        "boundingBox": [-95.48, 29.7, -95.28, 29.9],
+        "centroid": [-95.38, 29.8],
+        "areaSquareKmEstimated": 427.67,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:tx:congressional:30",
+      "geoid": "4830",
+      "districtIdentifier": "30",
+      "name": "Texas's 30th Congressional District",
+      "chamberType": "congressional",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "48",
+        "statePostal": "TX",
+        "stateName": "Texas",
+        "ansiCode": "01779801"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_us_cd120",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+        "sourceFile": "tl_2026_us_cd120.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": 120,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "48",
+        "parentJurisdictionId": "us_tx",
+        "countyFipsList": ["48113", "48439"],
+        "primaryCountyFips": "48113"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-96.95, 32.6],
+            [-96.7, 32.6],
+            [-96.7, 32.85],
+            [-96.95, 32.85],
+            [-96.95, 32.6]
+          ]
+        ]
+      },
+      "geometryHash": "645819f97fd396da1f417c934781e4ec509612b6d71049b9f7590d73ce16a779",
+      "derived": {
+        "boundingBox": [-96.95, 32.6, -96.7, 32.85],
+        "centroid": [-96.825, 32.725],
+        "areaSquareKmEstimated": 647.83,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:tx:congressional:37",
+      "geoid": "4837",
+      "districtIdentifier": "37",
+      "name": "Texas's 37th Congressional District",
+      "chamberType": "congressional",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "48",
+        "statePostal": "TX",
+        "stateName": "Texas",
+        "ansiCode": "01779801"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_us_cd120",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+        "sourceFile": "tl_2026_us_cd120.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": 120,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "48",
+        "parentJurisdictionId": "us_tx",
+        "countyFipsList": ["48453", "48491"],
+        "primaryCountyFips": "48453"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-97.85, 30.15],
+            [-97.65, 30.15],
+            [-97.65, 30.45],
+            [-97.85, 30.45],
+            [-97.85, 30.15]
+          ]
+        ]
+      },
+      "geometryHash": "64aa2355f3ed0565f29b56312956d5b050833d5ece53845d35b9ccf39a849213",
+      "derived": {
+        "boundingBox": [-97.85, 30.15, -97.65, 30.45],
+        "centroid": [-97.75, 30.3],
+        "areaSquareKmEstimated": 638.27,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:tx:state_house:49",
+      "geoid": "48049",
+      "districtIdentifier": "49",
+      "name": "Texas State House District 49",
+      "chamberType": "state_house",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "48",
+        "statePostal": "TX",
+        "stateName": "Texas",
+        "ansiCode": "01779801"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_48_sldl",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDL/tl_2026_48_sldl.zip",
+        "sourceFile": "tl_2026_48_sldl.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": null,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "48",
+        "parentJurisdictionId": "us_tx",
+        "countyFipsList": ["48453"],
+        "primaryCountyFips": "48453"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-97.77, 30.26],
+            [-97.71, 30.26],
+            [-97.71, 30.34],
+            [-97.77, 30.34],
+            [-97.77, 30.26]
+          ]
+        ]
+      },
+      "geometryHash": "efbdb062d4e875d546337ee53b677fe1c6d695a590250c0aac54ff771f61e79e",
+      "derived": {
+        "boundingBox": [-97.77, 30.26, -97.71, 30.34],
+        "centroid": [-97.74, 30.3],
+        "areaSquareKmEstimated": 51.06,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:tx:state_senate:14",
+      "geoid": "48014",
+      "districtIdentifier": "14",
+      "name": "Texas State Senate District 14",
+      "chamberType": "state_senate",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "48",
+        "statePostal": "TX",
+        "stateName": "Texas",
+        "ansiCode": "01779801"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_48_sldu",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDU/tl_2026_48_sldu.zip",
+        "sourceFile": "tl_2026_48_sldu.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": null,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "48",
+        "parentJurisdictionId": "us_tx",
+        "countyFipsList": ["48021", "48453"],
+        "primaryCountyFips": "48453"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-97.8, 30.2],
+            [-97.68, 30.2],
+            [-97.68, 30.38],
+            [-97.8, 30.38],
+            [-97.8, 30.2]
+          ]
+        ]
+      },
+      "geometryHash": "0c1a553a94cc290ebd7267968d75d744ad87f079d13ffd90214e420bd0708a25",
+      "derived": {
+        "boundingBox": [-97.8, 30.2, -97.68, 30.38],
+        "centroid": [-97.74, 30.29],
+        "areaSquareKmEstimated": 229.8,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:wy:congressional:al",
+      "geoid": "5600",
+      "districtIdentifier": "al",
+      "name": "Wyoming At-Large Congressional District",
+      "chamberType": "congressional",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "56",
+        "statePostal": "WY",
+        "stateName": "Wyoming",
+        "ansiCode": "01779807"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_us_cd120",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+        "sourceFile": "tl_2026_us_cd120.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": 120,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "56",
+        "parentJurisdictionId": "us_wy",
+        "countyFipsList": ["56001", "56021", "56025", "56037"],
+        "primaryCountyFips": "56021"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-111.05, 41],
+            [-104.05, 41],
+            [-104.05, 45],
+            [-111.05, 45],
+            [-111.05, 41]
+          ]
+        ]
+      },
+      "geometryHash": "03cd93984c8c39c6937545daf662661e7b1f61dc556d2bcd2e6e106defa0c86f",
+      "derived": {
+        "boundingBox": [-111.05, 41, -104.05, 45],
+        "centroid": [-107.55, 43],
+        "areaSquareKmEstimated": 252308.25,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:wy:state_house:7",
+      "geoid": "56007",
+      "districtIdentifier": "7",
+      "name": "Wyoming State House District 7",
+      "chamberType": "state_house",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "56",
+        "statePostal": "WY",
+        "stateName": "Wyoming",
+        "ansiCode": "01779807"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_56_sldl",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDL/tl_2026_56_sldl.zip",
+        "sourceFile": "tl_2026_56_sldl.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": null,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "56",
+        "parentJurisdictionId": "us_wy",
+        "countyFipsList": ["56021"],
+        "primaryCountyFips": "56021"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-104.85, 41.12],
+            [-104.75, 41.12],
+            [-104.75, 41.22],
+            [-104.85, 41.22],
+            [-104.85, 41.12]
+          ]
+        ]
+      },
+      "geometryHash": "8e2e969fdea8b936f73af7a2da6cf43483d4a10f23a3d31671e6c204b24dc742",
+      "derived": {
+        "boundingBox": [-104.85, 41.12, -104.75, 41.22],
+        "centroid": [-104.8, 41.17],
+        "areaSquareKmEstimated": 92.75,
+        "adjacentDistrictIds": []
+      }
+    },
+    {
+      "districtId": "geo:district:2026:wy:state_senate:8",
+      "geoid": "56008",
+      "districtIdentifier": "8",
+      "name": "Wyoming State Senate District 8",
+      "chamberType": "state_senate",
+      "sourceVintage": "2026",
+      "state": {
+        "stateFips": "56",
+        "statePostal": "WY",
+        "stateName": "Wyoming",
+        "ansiCode": "01779807"
+      },
+      "geometrySource": {
+        "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+        "series": "tl_2026_56_sldu",
+        "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDU/tl_2026_56_sldu.zip",
+        "sourceFile": "tl_2026_56_sldu.shp",
+        "retrievedAt": "2026-08-28T00:00:00Z",
+        "license": "U.S. Federal Government Public Domain"
+      },
+      "effectiveDateInfo": {
+        "effectiveDate": "2026-01-01",
+        "validUntil": null,
+        "cycleYear": 2026,
+        "congressionalSession": null,
+        "redistrictingCycle": "2020s-cycle",
+        "isCurrent": true
+      },
+      "hierarchy": {
+        "stateFips": "56",
+        "parentJurisdictionId": "us_wy",
+        "countyFipsList": ["56021"],
+        "primaryCountyFips": "56021"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-105, 41.1],
+            [-104.7, 41.1],
+            [-104.7, 41.3],
+            [-105, 41.3],
+            [-105, 41.1]
+          ]
+        ]
+      },
+      "geometryHash": "d0d383be144724f40f26b7ecf7c24f3a323a1465d7890059d3d9461e9a66f82d",
+      "derived": {
+        "boundingBox": [-105, 41.1, -104.7, 41.3],
+        "centroid": [-104.85, 41.2],
+        "areaSquareKmEstimated": 556.23,
+        "adjacentDistrictIds": []
+      }
+    }
+  ]
+}

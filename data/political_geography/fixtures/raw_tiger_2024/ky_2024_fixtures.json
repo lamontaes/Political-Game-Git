@@ -1,0 +1,78 @@
+[
+  {
+    "sourceVintage": "2024",
+    "stateFipsOrPostal": "KY",
+    "chamberType": "congressional",
+    "districtIdentifier": "6",
+    "name": "Kentucky's 6th Congressional District (2024 Vintage)",
+    "geoid": "2106",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-84.72, 37.98],
+          [-84.18, 37.98],
+          [-84.18, 38.32],
+          [-84.72, 38.32],
+          [-84.72, 37.98]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2024 TIGER/Line Shapefiles",
+      "series": "tl_2024_us_cd119",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2024/CD/tl_2024_us_cd119.zip",
+      "sourceFile": "tl_2024_us_cd119.shp",
+      "retrievedAt": "2024-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2024-01-01",
+      "validUntil": "2025-12-31",
+      "cycleYear": 2024,
+      "congressionalSession": 119,
+      "redistrictingCycle": "2020s-initial",
+      "isCurrent": false
+    },
+    "countyFipsList": ["21067", "21017", "21049", "21073"],
+    "primaryCountyFips": "21067"
+  },
+  {
+    "sourceVintage": "2024",
+    "stateFipsOrPostal": "KY",
+    "chamberType": "congressional",
+    "districtIdentifier": "3",
+    "name": "Kentucky's 3rd Congressional District (2024 Vintage)",
+    "geoid": "2103",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-85.98, 38.02],
+          [-85.42, 38.02],
+          [-85.42, 38.38],
+          [-85.98, 38.38],
+          [-85.98, 38.02]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2024 TIGER/Line Shapefiles",
+      "series": "tl_2024_us_cd119",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2024/CD/tl_2024_us_cd119.zip",
+      "sourceFile": "tl_2024_us_cd119.shp",
+      "retrievedAt": "2024-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2024-01-01",
+      "validUntil": "2025-12-31",
+      "cycleYear": 2024,
+      "congressionalSession": 119,
+      "redistrictingCycle": "2020s-initial",
+      "isCurrent": false
+    },
+    "countyFipsList": ["21111"],
+    "primaryCountyFips": "21111"
+  }
+]

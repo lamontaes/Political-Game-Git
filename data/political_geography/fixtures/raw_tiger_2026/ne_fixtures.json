@@ -1,0 +1,154 @@
+[
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "NE",
+    "chamberType": "congressional",
+    "districtIdentifier": "1",
+    "name": "Nebraska's 1st Congressional District",
+    "geoid": "3101",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-97.3, 40.5],
+          [-95.8, 40.5],
+          [-95.8, 42.5],
+          [-97.3, 42.5],
+          [-97.3, 40.5]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+      "series": "tl_2026_us_cd120",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+      "sourceFile": "tl_2026_us_cd120.shp",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": 120,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["31109", "31053", "31155"],
+    "primaryCountyFips": "31109"
+  },
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "NE",
+    "chamberType": "congressional",
+    "districtIdentifier": "2",
+    "name": "Nebraska's 2nd Congressional District",
+    "geoid": "3102",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-96.4, 41.1],
+          [-95.85, 41.1],
+          [-95.85, 41.45],
+          [-96.4, 41.45],
+          [-96.4, 41.1]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+      "series": "tl_2026_us_cd120",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+      "sourceFile": "tl_2026_us_cd120.shp",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": 120,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["31055", "31153"],
+    "primaryCountyFips": "31055"
+  },
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "NE",
+    "chamberType": "unicameral",
+    "districtIdentifier": "46",
+    "name": "Nebraska Legislative District 46",
+    "geoid": "31046",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-96.75, 40.8],
+          [-96.65, 40.8],
+          [-96.65, 40.88],
+          [-96.75, 40.88],
+          [-96.75, 40.8]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+      "series": "tl_2026_31_sldu",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDU/tl_2026_31_sldu.zip",
+      "sourceFile": "tl_2026_31_sldu.shp",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": null,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["31109"],
+    "primaryCountyFips": "31109"
+  },
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "NE",
+    "chamberType": "unicameral",
+    "districtIdentifier": "5",
+    "name": "Nebraska Legislative District 5",
+    "geoid": "31005",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-96.0, 41.18],
+          [-95.92, 41.18],
+          [-95.92, 41.25],
+          [-96.0, 41.25],
+          [-96.0, 41.18]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+      "series": "tl_2026_31_sldu",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDU/tl_2026_31_sldu.zip",
+      "sourceFile": "tl_2026_31_sldu.shp",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": null,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["31055"],
+    "primaryCountyFips": "31055"
+  }
+]

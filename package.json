@@ -31,6 +31,10 @@
     "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art",
     "agent:preflight": "node scripts/agent-preflight.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",
+    "compile:geography": "node --import tsx scripts/political-geography/cli-compile.ts",
+    "manifest:geography": "node --import tsx scripts/political-geography/cli-manifest.ts",
+    "validate:geography": "node --import tsx scripts/political-geography/cli-validate.ts",
+    "test:geography": "vitest run tests/political_geography.test.ts",
     "stress:persons": "node --import tsx src/cli/stress-persons.ts"
   },
   "dependencies": {

@@ -1,0 +1,268 @@
+[
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "KY",
+    "chamberType": "congressional",
+    "districtIdentifier": "6",
+    "name": "Kentucky's 6th Congressional District",
+    "geoid": "2106",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-84.7, 38.0],
+          [-84.2, 38.0],
+          [-84.2, 38.3],
+          [-84.7, 38.3],
+          [-84.7, 38.0]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+      "series": "tl_2026_us_cd120",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+      "sourceFile": "tl_2026_us_cd120.shp",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": 120,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["21067", "21017", "21049", "21073", "21151", "21239"],
+    "primaryCountyFips": "21067"
+  },
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "KY",
+    "chamberType": "congressional",
+    "districtIdentifier": "3",
+    "name": "Kentucky's 3rd Congressional District",
+    "geoid": "2103",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-85.95, 38.05],
+          [-85.45, 38.05],
+          [-85.45, 38.35],
+          [-85.95, 38.35],
+          [-85.95, 38.05]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+      "series": "tl_2026_us_cd120",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+      "sourceFile": "tl_2026_us_cd120.shp",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": 120,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["21111"],
+    "primaryCountyFips": "21111"
+  },
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "KY",
+    "chamberType": "congressional",
+    "districtIdentifier": "4",
+    "name": "Kentucky's 4th Congressional District",
+    "geoid": "2104",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-85.45, 38.3],
+          [-84.2, 38.3],
+          [-84.2, 39.15],
+          [-85.45, 39.15],
+          [-85.45, 38.3]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+      "series": "tl_2026_us_cd120",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+      "sourceFile": "tl_2026_us_cd120.shp",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": 120,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["21015", "21037", "21117", "21191"],
+    "primaryCountyFips": "21015"
+  },
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "KY",
+    "chamberType": "state_senate",
+    "districtIdentifier": "13",
+    "name": "Kentucky State Senate District 13",
+    "geoid": "21013",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-84.55, 38.0],
+          [-84.45, 38.0],
+          [-84.45, 38.1],
+          [-84.55, 38.1],
+          [-84.55, 38.0]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+      "series": "tl_2026_21_sldu",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDU/tl_2026_21_sldu.zip",
+      "sourceFile": "tl_2026_21_sldu.shp",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": null,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["21067"],
+    "primaryCountyFips": "21067"
+  },
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "KY",
+    "chamberType": "state_senate",
+    "districtIdentifier": "27",
+    "name": "Kentucky State Senate District 27",
+    "geoid": "21027",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-84.45, 38.0],
+          [-84.2, 38.0],
+          [-84.2, 38.3],
+          [-84.45, 38.3],
+          [-84.45, 38.0]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+      "series": "tl_2026_21_sldu",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDU/tl_2026_21_sldu.zip",
+      "sourceFile": "tl_2026_21_sldu.shp",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": null,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["21017", "21067", "21097"],
+    "primaryCountyFips": "21017"
+  },
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "KY",
+    "chamberType": "state_house",
+    "districtIdentifier": "77",
+    "name": "Kentucky State House District 77",
+    "geoid": "21077",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-84.52, 38.04],
+          [-84.46, 38.04],
+          [-84.46, 38.1],
+          [-84.52, 38.1],
+          [-84.52, 38.04]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+      "series": "tl_2026_21_sldl",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDL/tl_2026_21_sldl.zip",
+      "sourceFile": "tl_2026_21_sldl.shp",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": null,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["21067"],
+    "primaryCountyFips": "21067"
+  },
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "KY",
+    "chamberType": "state_house",
+    "districtIdentifier": "75",
+    "name": "Kentucky State House District 75",
+    "geoid": "21075",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-84.46, 38.0],
+          [-84.4, 38.0],
+          [-84.4, 38.06],
+          [-84.46, 38.06],
+          [-84.46, 38.0]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+      "series": "tl_2026_21_sldl",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDL/tl_2026_21_sldl.zip",
+      "sourceFile": "tl_2026_21_sldl.shp",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": null,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["21067"],
+    "primaryCountyFips": "21067"
+  }
+]

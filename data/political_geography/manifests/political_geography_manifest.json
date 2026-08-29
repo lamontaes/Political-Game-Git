@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-08-28T00:00:00.000Z",
+  "supportedVintages": ["2024", "2026"],
+  "totalDistrictsAcrossAllVintages": 24,
+  "vintages": {
+    "2024": {
+      "totalDistricts": 2,
+      "chamberCounts": {
+        "congressional": 2,
+        "state_senate": 0,
+        "state_house": 0,
+        "unicameral": 0,
+        "non_voting_delegate": 0,
+        "council_ward": 0
+      },
+      "stateCoverage": {
+        "KY": {
+          "statePostal": "KY",
+          "stateFips": "21",
+          "stateName": "Kentucky",
+          "chambersPresent": ["congressional"],
+          "districtCount": 2
+        }
+      }
+    },
+    "2026": {
+      "totalDistricts": 22,
+      "chamberCounts": {
+        "congressional": 9,
+        "state_senate": 4,
+        "state_house": 4,
+        "unicameral": 2,
+        "non_voting_delegate": 1,
+        "council_ward": 2
+      },
+      "stateCoverage": {
+        "DC": {
+          "statePostal": "DC",
+          "stateFips": "11",
+          "stateName": "District of Columbia",
+          "chambersPresent": ["council_ward", "non_voting_delegate"],
+          "districtCount": 3
+        },
+        "KY": {
+          "statePostal": "KY",
+          "stateFips": "21",
+          "stateName": "Kentucky",
+          "chambersPresent": ["congressional", "state_house", "state_senate"],
+          "districtCount": 7
+        },
+        "NE": {
+          "statePostal": "NE",
+          "stateFips": "31",
+          "stateName": "Nebraska",
+          "chambersPresent": ["congressional", "unicameral"],
+          "districtCount": 4
+        },
+        "TX": {
+          "statePostal": "TX",
+          "stateFips": "48",
+          "stateName": "Texas",
+          "chambersPresent": ["congressional", "state_house", "state_senate"],
+          "districtCount": 5
+        },
+        "WY": {
+          "statePostal": "WY",
+          "stateFips": "56",
+          "stateName": "Wyoming",
+          "chambersPresent": ["congressional", "state_house", "state_senate"],
+          "districtCount": 3
+        }
+      }
+    }
+  },
+  "integritySummary": {
+    "totalDistricts": 24,
+    "validGeometries": 24,
+    "sha256Digest": "74945e01ea112e8ab1b3f516d8156814705e553887490e25600aff0315c4c9df"
+  }
+}

@@ -1,0 +1,116 @@
+[
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "WY",
+    "chamberType": "congressional",
+    "districtIdentifier": "al",
+    "name": "Wyoming At-Large Congressional District",
+    "geoid": "5600",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-111.05, 41.0],
+          [-104.05, 41.0],
+          [-104.05, 45.0],
+          [-111.05, 45.0],
+          [-111.05, 41.0]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+      "series": "tl_2026_us_cd120",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+      "sourceFile": "tl_2026_us_cd120.shp",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": 120,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["56001", "56021", "56025", "56037"],
+    "primaryCountyFips": "56021"
+  },
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "WY",
+    "chamberType": "state_senate",
+    "districtIdentifier": "8",
+    "name": "Wyoming State Senate District 8",
+    "geoid": "56008",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-105.0, 41.1],
+          [-104.7, 41.1],
+          [-104.7, 41.3],
+          [-105.0, 41.3],
+          [-105.0, 41.1]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+      "series": "tl_2026_56_sldu",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDU/tl_2026_56_sldu.zip",
+      "sourceFile": "tl_2026_56_sldu.shp",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": null,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["56021"],
+    "primaryCountyFips": "56021"
+  },
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "WY",
+    "chamberType": "state_house",
+    "districtIdentifier": "7",
+    "name": "Wyoming State House District 7",
+    "geoid": "56007",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-104.85, 41.12],
+          [-104.75, 41.12],
+          [-104.75, 41.22],
+          [-104.85, 41.22],
+          [-104.85, 41.12]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+      "series": "tl_2026_56_sldl",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/SLDL/tl_2026_56_sldl.zip",
+      "sourceFile": "tl_2026_56_sldl.shp",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": null,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["56021"],
+    "primaryCountyFips": "56021"
+  }
+]

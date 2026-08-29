@@ -1,0 +1,116 @@
+[
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "DC",
+    "chamberType": "non_voting_delegate",
+    "districtIdentifier": "98",
+    "name": "District of Columbia Non-Voting Delegate District",
+    "geoid": "1198",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-77.12, 38.79],
+          [-76.9, 38.79],
+          [-76.9, 38.99],
+          [-77.12, 38.99],
+          [-77.12, 38.79]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "U.S. Census Bureau 2026 TIGER/Line Shapefiles",
+      "series": "tl_2026_us_cd120",
+      "sourceUrl": "https://www2.census.gov/geo/tiger/TIGER2026/CD/tl_2026_us_cd120.zip",
+      "sourceFile": "tl_2026_us_cd120.shp",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "U.S. Federal Government Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": 120,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["11001"],
+    "primaryCountyFips": "11001"
+  },
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "DC",
+    "chamberType": "council_ward",
+    "districtIdentifier": "2",
+    "name": "District of Columbia Council Ward 2",
+    "geoid": "11002",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-77.08, 38.88],
+          [-77.02, 38.88],
+          [-77.02, 38.92],
+          [-77.08, 38.92],
+          [-77.08, 38.88]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "District of Columbia Office of Planning / Board of Elections",
+      "series": "dc_council_wards_2026",
+      "sourceUrl": "https://opendata.dc.gov/datasets/ward-2026",
+      "sourceFile": "dc_wards_2026.geojson",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "Open Data DC Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": null,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["11001"],
+    "primaryCountyFips": "11001"
+  },
+  {
+    "sourceVintage": "2026",
+    "stateFipsOrPostal": "DC",
+    "chamberType": "council_ward",
+    "districtIdentifier": "6",
+    "name": "District of Columbia Council Ward 6",
+    "geoid": "11006",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-77.02, 38.87],
+          [-76.96, 38.87],
+          [-76.96, 38.91],
+          [-77.02, 38.91],
+          [-77.02, 38.87]
+        ]
+      ]
+    },
+    "geometrySource": {
+      "sourceName": "District of Columbia Office of Planning / Board of Elections",
+      "series": "dc_council_wards_2026",
+      "sourceUrl": "https://opendata.dc.gov/datasets/ward-2026",
+      "sourceFile": "dc_wards_2026.geojson",
+      "retrievedAt": "2026-08-28T00:00:00Z",
+      "license": "Open Data DC Public Domain"
+    },
+    "effectiveDateInfo": {
+      "effectiveDate": "2026-01-01",
+      "validUntil": null,
+      "cycleYear": 2026,
+      "congressionalSession": null,
+      "redistrictingCycle": "2020s-cycle",
+      "isCurrent": true
+    },
+    "countyFipsList": ["11001"],
+    "primaryCountyFips": "11001"
+  }
+]

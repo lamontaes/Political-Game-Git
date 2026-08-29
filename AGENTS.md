@@ -27,6 +27,10 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run lint` — lint
 - `npm run typecheck` — TypeScript validation
 - `npm run build` — production build
+- `npm run compile:geography` — compile normalized political geography source corpus
+- `npm run manifest:geography` — generate national geography coverage manifest
+- `npm run validate:geography` — full political geography corpus integrity validation
+- `npm run test:geography` — focused political geography corpus tests
 - `npm run validate` — full validation suite
 
 ## Working Rules
