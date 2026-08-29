@@ -1,0 +1,448 @@
+{
+  "schema_version": "2.0.0",
+  "compiler_version": "national-names-compiler-v2.0",
+  "compiled_at": "2026-08-28T00:00:00.000Z",
+  "sources": {
+    "census_2020_first_names": {
+      "agency": "U.S. Census Bureau",
+      "dataset_title": "Frequently Occurring First Names in the 2020 Census by Sex",
+      "source_url": "https://www2.census.gov/topics/genealogy/2020surnames/Names2020_FirstNames_Sex.xlsx",
+      "publication_vintage": "April 2026 release",
+      "retrieval_date": "2026-08-29",
+      "raw_filename": "Names2020_FirstNames_Sex.xlsx",
+      "raw_sha256": "b763374b9b0ea4a9496f8563721312e8572e5a45136d34244db9ffba666c3326",
+      "raw_bytes": 3018453,
+      "license": "Public Domain (U.S. Government Work, 17 U.S.C. § 105)",
+      "notes": "Complete 2020 Decennial Census first names tabulations by recorded sex for 53,615 first names."
+    },
+    "census_2020_surnames": {
+      "agency": "U.S. Census Bureau",
+      "dataset_title": "Frequently Occurring Last Names in the 2020 Census by Race and Hispanic Origin",
+      "source_url": "https://www2.census.gov/topics/genealogy/2020surnames/Names2020_LastNames_RaceHispanic.xlsx",
+      "publication_vintage": "April 2026 release",
+      "retrieval_date": "2026-08-29",
+      "raw_filename": "Names2020_LastNames_RaceHispanic.xlsx",
+      "raw_sha256": "2e773c7edd934bb340b09be46e5d991b74a65cd63f547c94f80b6e233db462b3",
+      "raw_bytes": 11359767,
+      "license": "Public Domain (U.S. Government Work, 17 U.S.C. § 105)",
+      "notes": "Complete 2020 Decennial Census surname tabulations for 156,621 last names occurring 100+ times."
+    },
+    "ssa_national_1880_2025": {
+      "agency": "Social Security Administration",
+      "dataset_title": "National Data on the Relative Frequency of Given Names (1880-2025)",
+      "source_url": "https://www.ssa.gov/oact/babynames/names.zip",
+      "publication_vintage": "March 2026 release",
+      "retrieval_date": "2026-08-29",
+      "raw_filename": "names.zip",
+      "raw_sha256": "cd78e975ed7bb358e018dd62fbe14ced89295e9581c49172ca4eedcb011b3724",
+      "raw_bytes": 7860026,
+      "license": "Public Domain (U.S. Government Work, 17 U.S.C. § 105)",
+      "notes": "Annual frequency tabulations for births in 50 states + DC from 1880 through 2025 based on Social Security card applications."
+    },
+    "ssa_state": {
+      "agency": "Social Security Administration",
+      "dataset_title": "State-Specific Data on the Relative Frequency of Given Names (1910-2025)",
+      "source_url": "https://www.ssa.gov/oact/babynames/state/namesbystate.zip",
+      "publication_vintage": "March 2026 release",
+      "retrieval_date": "2026-08-29",
+      "raw_filename": "namesbystate.zip",
+      "raw_sha256": "e8aaf58e3838ec2a2aa880635014744ba20f74941a2688ac36723acaf604d66a",
+      "raw_bytes": 24383479,
+      "license": "Public Domain (U.S. Government Work, 17 U.S.C. § 105)",
+      "notes": "State-specific frequency tables for 50 states + DC for birth years 1910-2025. Names with <5 occurrences are suppressed."
+    },
+    "ssa_territory": {
+      "agency": "Social Security Administration",
+      "dataset_title": "Territory-Specific Data on Given Names (Puerto Rico & Territories)",
+      "source_url": "https://www.ssa.gov/oact/babynames/territory/namesbyterritory.zip",
+      "publication_vintage": "March 2026 release",
+      "retrieval_date": "2026-08-29",
+      "raw_filename": "namesbyterritory.zip",
+      "raw_sha256": "0a387cfd536287d3332a7680da98286db2fab6ea67244470eae18f03086f72a9",
+      "raw_bytes": 234299,
+      "license": "Public Domain (U.S. Government Work, 17 U.S.C. § 105)",
+      "notes": "Territory-specific frequency tables for Puerto Rico (PR) and other U.S. territories (TR: AS, GU, MP, VI) from 1998-2025."
+    }
+  },
+  "summary": {
+    "total_unique_given_names": 114004,
+    "total_unique_surnames": 156621,
+    "ssa_year_range": [
+      1880,
+      2025
+    ],
+    "ssa_states": [
+      "AK",
+      "AL",
+      "AR",
+      "AZ",
+      "CA",
+      "CO",
+      "CT",
+      "DC",
+      "DE",
+      "FL",
+      "GA",
+      "HI",
+      "IA",
+      "ID",
+      "IL",
+      "IN",
+      "KS",
+      "KY",
+      "LA",
+      "MA",
+      "MD",
+      "ME",
+      "MI",
+      "MN",
+      "MO",
+      "MS",
+      "MT",
+      "NC",
+      "ND",
+      "NE",
+      "NH",
+      "NJ",
+      "NM",
+      "NV",
+      "NY",
+      "OH",
+      "OK",
+      "OR",
+      "PA",
+      "RI",
+      "SC",
+      "SD",
+      "TN",
+      "TX",
+      "UT",
+      "VA",
+      "VT",
+      "WA",
+      "WI",
+      "WV",
+      "WY"
+    ],
+    "ssa_territories": [
+      "PR",
+      "TR"
+    ]
+  },
+  "given_name_shards": {
+    "a": {
+      "file": "given-names/given_names_a.json",
+      "sha256": "bd8087cfeccfeef8bc59945f4f04821b3443b567c8e022ae3eba40ca0305e96f",
+      "record_count": 12112,
+      "size_bytes": 31482891
+    },
+    "b": {
+      "file": "given-names/given_names_b.json",
+      "sha256": "0cb2705292aadf9be31d7674a82583e6148844688b7f780821c140e5053ec74d",
+      "record_count": 4066,
+      "size_bytes": 14536730
+    },
+    "c": {
+      "file": "given-names/given_names_c.json",
+      "sha256": "f6e75669cd075c214c5b46034a085f75033026d261b54f5281bcf7c4d6ea8922",
+      "record_count": 6259,
+      "size_bytes": 22565731
+    },
+    "d": {
+      "file": "given-names/given_names_d.json",
+      "sha256": "c2d26db5a780ca60301d21b8bb4dfd4b3d34b8b1f33a2eaef47f51d26529fd7f",
+      "record_count": 7236,
+      "size_bytes": 19818774
+    },
+    "e": {
+      "file": "given-names/given_names_e.json",
+      "sha256": "ee39215a88a81cf0c88820998dd5f1d3291420463c7fde4ab231df3989cbc630",
+      "record_count": 4421,
+      "size_bytes": 15714731
+    },
+    "f": {
+      "file": "given-names/given_names_f.json",
+      "sha256": "a0067bce022f39b76335089968a5ade9263426ed26ded0f75baeecaf1bb69079",
+      "record_count": 1585,
+      "size_bytes": 5416115
+    },
+    "g": {
+      "file": "given-names/given_names_g.json",
+      "sha256": "820a8011c3c7675af8f54d39e6eab8133d6ca9885724b341816932790116db13",
+      "record_count": 2727,
+      "size_bytes": 9564919
+    },
+    "h": {
+      "file": "given-names/given_names_h.json",
+      "sha256": "f49c95d01b74a74fa4641206884a624867067b6b104194ac940b4efa50f4a33f",
+      "record_count": 2701,
+      "size_bytes": 8116190
+    },
+    "i": {
+      "file": "given-names/given_names_i.json",
+      "sha256": "7a90967e2fab9ef429c00e7fd5ce73d0a5a7a29fb1c6b022510dcb2ca77902ac",
+      "record_count": 1922,
+      "size_bytes": 4970098
+    },
+    "j": {
+      "file": "given-names/given_names_j.json",
+      "sha256": "8c3df70b73312fc02096ad2e862d11362412f6cd32562c4563683965193dee13",
+      "record_count": 8785,
+      "size_bytes": 25979204
+    },
+    "k": {
+      "file": "given-names/given_names_k.json",
+      "sha256": "2d9840c7545042c745d8c9455f9bd72c47beaf440690f91527f848c0cc77218c",
+      "record_count": 8553,
+      "size_bytes": 20760390
+    },
+    "l": {
+      "file": "given-names/given_names_l.json",
+      "sha256": "2f6d017c7bd366c31f9533fae41166d2dbbbcdc4246ffc5f17539ad0f6633c58",
+      "record_count": 6370,
+      "size_bytes": 20128224
+    },
+    "m": {
+      "file": "given-names/given_names_m.json",
+      "sha256": "042fc88b6af4cc7520c0a6c708a8520da3d4489989cac702e2e985f173861765",
+      "record_count": 8772,
+      "size_bytes": 26201318
+    },
+    "n": {
+      "file": "given-names/given_names_n.json",
+      "sha256": "8054deeeeef0be2a0882d6bbd03218ab4e98b9dd2b54894ca97304a3b2ef6281",
+      "record_count": 4284,
+      "size_bytes": 9146147
+    },
+    "o": {
+      "file": "given-names/given_names_o.json",
+      "sha256": "c9d37c5086a8479f47e4bec17d55a618846518dbb97d1246bc7a77687e9f6d27",
+      "record_count": 1522,
+      "size_bytes": 3474723
+    },
+    "p": {
+      "file": "given-names/given_names_p.json",
+      "sha256": "a52c14464b6551b7e75c51510ab8fc807827f23f2c5bfdf8a3fc4c18b0e5467c",
+      "record_count": 1950,
+      "size_bytes": 6379717
+    },
+    "q": {
+      "file": "given-names/given_names_q.json",
+      "sha256": "78ad262b85c92fa75d485360f59c912ea46a0eecc219a59fc4c4f90590e14ba5",
+      "record_count": 585,
+      "size_bytes": 823369
+    },
+    "r": {
+      "file": "given-names/given_names_r.json",
+      "sha256": "efff4f93dbbf74f6b0e022c8c87eae5c604f8cb561fd3ca1ade083755554ec3d",
+      "record_count": 5306,
+      "size_bytes": 16894854
+    },
+    "s": {
+      "file": "given-names/given_names_s.json",
+      "sha256": "645b6dfb87e1d7314db46133141c46703034a7ef62a39b89e3dc0d80e6f36a6e",
+      "record_count": 9450,
+      "size_bytes": 20869104
+    },
+    "t": {
+      "file": "given-names/given_names_t.json",
+      "sha256": "b344ce85d76f1a2f8967cd37b03009b4f77c54390ed35a8e8e7686ca5fab1bd4",
+      "record_count": 6806,
+      "size_bytes": 14952336
+    },
+    "u": {
+      "file": "given-names/given_names_u.json",
+      "sha256": "78ed7fb2ba68c760b4ea506eb23c5bd130769822d0ce35447a64561a0ccabb52",
+      "record_count": 365,
+      "size_bytes": 528998
+    },
+    "v": {
+      "file": "given-names/given_names_v.json",
+      "sha256": "dea8649212a8b82627aa088285709ded0f4cda051c4e7ba81f3bf22297de5092",
+      "record_count": 1839,
+      "size_bytes": 5219899
+    },
+    "w": {
+      "file": "given-names/given_names_w.json",
+      "sha256": "131f7b1e31a002fe2ba0bc1db263a3e908b7e8596415a7b02f4f88ea5a1bf4f9",
+      "record_count": 1290,
+      "size_bytes": 4826383
+    },
+    "x": {
+      "file": "given-names/given_names_x.json",
+      "sha256": "72422164eed01d41fcf8435042b1c47cbe3d70f37bfe41b8f9c3654c96352749",
+      "record_count": 526,
+      "size_bytes": 565189
+    },
+    "y": {
+      "file": "given-names/given_names_y.json",
+      "sha256": "fa68751197f2b23170a89e00b5aaf186fccb435294a7ae3a6c02867e5c76d2a4",
+      "record_count": 2170,
+      "size_bytes": 2654879
+    },
+    "z": {
+      "file": "given-names/given_names_z.json",
+      "sha256": "4bb97508546f4de0378f02c1c5970d2aff380381849c28321e737cc134760ca1",
+      "record_count": 2402,
+      "size_bytes": 3559872
+    }
+  },
+  "surname_shards": {
+    "a": {
+      "file": "surnames/surnames_a.json",
+      "sha256": "f0ee9ce4a006cfc3bd96cac2fdb66e01c13b178e6289994302a35099fdd60ec7",
+      "record_count": 6467,
+      "size_bytes": 2382916
+    },
+    "b": {
+      "file": "surnames/surnames_b.json",
+      "sha256": "073501e2a5babfc7541258d69bcc56ac6fa09e4877d7415b19b42f5fa00df042",
+      "record_count": 13756,
+      "size_bytes": 5077499
+    },
+    "c": {
+      "file": "surnames/surnames_c.json",
+      "sha256": "1576d123df590e95c020c404fad7b911f40320998ac32f4d133a8b8f2247e581",
+      "record_count": 10004,
+      "size_bytes": 3697875
+    },
+    "d": {
+      "file": "surnames/surnames_d.json",
+      "sha256": "fbe08a35fac514af3d93f0a85715a617b04fafbd081b0379c55e636d5a8588f0",
+      "record_count": 8824,
+      "size_bytes": 3254529
+    },
+    "e": {
+      "file": "surnames/surnames_e.json",
+      "sha256": "59c00c7db9aede2fb1368db0aca31517d1c1f5a2162b5c13836f6a2520ca04be",
+      "record_count": 3226,
+      "size_bytes": 1188118
+    },
+    "f": {
+      "file": "surnames/surnames_f.json",
+      "sha256": "71da8277791ef3a0bd8a3719af2f8c80b0e70800b40bed1f5b06ca7368e5c265",
+      "record_count": 5535,
+      "size_bytes": 2041716
+    },
+    "g": {
+      "file": "surnames/surnames_g.json",
+      "sha256": "4e2c26df816238767466fee47e48e8261e84f3813d6920112ef34c93553932e7",
+      "record_count": 8402,
+      "size_bytes": 3100704
+    },
+    "h": {
+      "file": "surnames/surnames_h.json",
+      "sha256": "6a40924d44fc1c97b79f3af0b9b931889196aa5c865906b99c7de45f76c87cef",
+      "record_count": 8479,
+      "size_bytes": 3131085
+    },
+    "i": {
+      "file": "surnames/surnames_i.json",
+      "sha256": "628e90cb77ac3330ec3917f356c44e09510e8c2c3b3a4eba9e778da7405d0c31",
+      "record_count": 1224,
+      "size_bytes": 450066
+    },
+    "j": {
+      "file": "surnames/surnames_j.json",
+      "sha256": "e7b6b50675ecb5bce72ab2f115f2532fbdd940fc94641d1d28b49a0b00e54aed",
+      "record_count": 2159,
+      "size_bytes": 795489
+    },
+    "k": {
+      "file": "surnames/surnames_k.json",
+      "sha256": "0ee2a59aecbcab9614c91eb639246949cfc601c46c53d7d4057eced40a891127",
+      "record_count": 8877,
+      "size_bytes": 3267954
+    },
+    "l": {
+      "file": "surnames/surnames_l.json",
+      "sha256": "860e863d2f1ea2c3ea1a4bfce3245e762ddc766fdb354b74c2b963f608587ef7",
+      "record_count": 8066,
+      "size_bytes": 2974848
+    },
+    "m": {
+      "file": "surnames/surnames_m.json",
+      "sha256": "8a1c5d7cc95c11bcdf31da32f22b2ec8d0a3f4e0ade18989a1d3be08519549a0",
+      "record_count": 13063,
+      "size_bytes": 4827551
+    },
+    "n": {
+      "file": "surnames/surnames_n.json",
+      "sha256": "d4b5d364e99f654081a85327f78acc0efc8e3b782dd14d6d648e85c4d8a7dd75",
+      "record_count": 3428,
+      "size_bytes": 1261914
+    },
+    "o": {
+      "file": "surnames/surnames_o.json",
+      "sha256": "ecfb570ea86740d0522e8a44c664bb0363640a07fca19c654ddc39374f7c8c3a",
+      "record_count": 2684,
+      "size_bytes": 987100
+    },
+    "p": {
+      "file": "surnames/surnames_p.json",
+      "sha256": "999ad71fbbdf1988d57692d78300ebe6e5fb25457cdf794666aadb39d5b384bd",
+      "record_count": 8220,
+      "size_bytes": 3032874
+    },
+    "q": {
+      "file": "surnames/surnames_q.json",
+      "sha256": "610073f678b42f5fdc3546e24d52b4e1b9c02574d342bf84c23483a85f33c0c4",
+      "record_count": 424,
+      "size_bytes": 156599
+    },
+    "r": {
+      "file": "surnames/surnames_r.json",
+      "sha256": "54d2380d4c7d6a7ccd969304483876cdceaf476dd2bc6743ade9b6dc7d3eb1f5",
+      "record_count": 7508,
+      "size_bytes": 2768856
+    },
+    "s": {
+      "file": "surnames/surnames_s.json",
+      "sha256": "4a913c9cacdaca04f0965b35b89453b82d33b574a78e94f67b0385ed351f9d4b",
+      "record_count": 16862,
+      "size_bytes": 6228856
+    },
+    "t": {
+      "file": "surnames/surnames_t.json",
+      "sha256": "f5ccf969c422e767e903f7d01f37ea6ff3548addf9126563cda159d95698c366",
+      "record_count": 6225,
+      "size_bytes": 2293626
+    },
+    "u": {
+      "file": "surnames/surnames_u.json",
+      "sha256": "5d969caf5eb96a778a08a1832e5947fa894ce68ca5355ff907b3f27abbf5df67",
+      "record_count": 786,
+      "size_bytes": 288342
+    },
+    "v": {
+      "file": "surnames/surnames_v.json",
+      "sha256": "dfbe7887425832bc908c5234d182579789920ff3105d97554a25b3e1f1f891d9",
+      "record_count": 4100,
+      "size_bytes": 1516124
+    },
+    "w": {
+      "file": "surnames/surnames_w.json",
+      "sha256": "e46a6767fd15838f4c87ce2c836fbbf405a41a79a08828f79b96d4787b10d8e8",
+      "record_count": 5193,
+      "size_bytes": 1919610
+    },
+    "x": {
+      "file": "surnames/surnames_x.json",
+      "sha256": "7bda59c71d43e34196f9b3afb27354a933408b45bef260d372235fe6553e5526",
+      "record_count": 44,
+      "size_bytes": 16135
+    },
+    "y": {
+      "file": "surnames/surnames_y.json",
+      "sha256": "81f86b40989a9379680343391cc991dee5c529fe8d5145c15f99c88a1beb73eb",
+      "record_count": 1056,
+      "size_bytes": 387829
+    },
+    "z": {
+      "file": "surnames/surnames_z.json",
+      "sha256": "29f4f267be4b833e2360d33b7baf52816d752fccf1d2efb2fa9f08c96b587972",
+      "record_count": 2009,
+      "size_bytes": 737821
+    }
+  }
+}

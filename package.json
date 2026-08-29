@@ -27,8 +27,11 @@
     "inventory:art": "node --import tsx scripts/art-asset-factory/cli-inventory.ts",
     "qa:art": "node --import tsx scripts/art-asset-factory/cli-qa.ts",
     "derive:office-plate": "node --import tsx scripts/art-asset-factory/cli-office-plate-derive.ts",
-    "extract:chroma": "node --import tsx scripts/art-asset-factory/cli-chroma-extract.ts",
-    "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art",
+    "acquire:names": "node --import tsx scripts/names-compiler/acquire.ts",
+    "compile:names": "node --import tsx scripts/names-compiler/cli-compile.ts",
+    "validate:names": "node --import tsx scripts/names-compiler/cli-validate.ts",
+    "test:names": "vitest run tests/names-compiler.test.ts",
+    "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art && npm run validate:names",
     "agent:preflight": "node scripts/agent-preflight.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",
     "stress:persons": "node --import tsx src/cli/stress-persons.ts"

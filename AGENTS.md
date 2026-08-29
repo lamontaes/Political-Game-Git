@@ -27,6 +27,9 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run lint` — lint
 - `npm run typecheck` — TypeScript validation
 - `npm run build` — production build
+- `npm run compile:names` — compile normalized national names dataset
+- `npm run validate:names` — validate national names dataset integrity
+- `npm run test:names` — focused national names compiler tests
 - `npm run validate` — full validation suite
 
 ## Working Rules
