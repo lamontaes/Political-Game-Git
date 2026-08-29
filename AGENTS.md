@@ -26,7 +26,10 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run test:e2e` — Playwright browser proof
 - `npm run lint` — lint
 - `npm run typecheck` — TypeScript validation
-- `npm run build` — production build
+- `npm run compile:economy` — compile normalized local economy and labor-market corpus
+- `npm run manifest:economy` — generate local economy coverage manifest
+- `npm run validate:economy` — validate local economy corpus integrity
+- `npm run test:economy` — focused local economy corpus tests
 - `npm run validate` — full validation suite
 
 ## Working Rules

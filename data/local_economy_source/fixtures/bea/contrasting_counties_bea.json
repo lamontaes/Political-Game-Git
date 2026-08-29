@@ -1,0 +1,401 @@
+{
+  "title": "BEA Regional Accounts - Contrasting Counties (Martin KY, Wayne MI, Santa Clara CA, Midland TX, Miami-Dade FL)",
+  "source": "Bureau of Economic Analysis",
+  "vintage": "bea_regional_2024_release",
+  "data": [
+    {
+      "GeoFips": "21159",
+      "GeoName": "Martin, KY",
+      "TableName": "CAGDP1",
+      "LineCode": "3",
+      "Description": "Current-dollar GDP (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "248000"
+    },
+    {
+      "GeoFips": "21159",
+      "GeoName": "Martin, KY",
+      "TableName": "CAGDP9",
+      "LineCode": "1",
+      "Description": "Real GDP (thousands of chained 2017 dollars)",
+      "Unit": "Thousands of chained 2017 dollars",
+      "TimePeriod": "2022",
+      "DataValue": "215000"
+    },
+    {
+      "GeoFips": "21159",
+      "GeoName": "Martin, KY",
+      "TableName": "CAINC1",
+      "LineCode": "10",
+      "Description": "Personal income (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "345000"
+    },
+    {
+      "GeoFips": "21159",
+      "GeoName": "Martin, KY",
+      "TableName": "CAINC1",
+      "LineCode": "20",
+      "Description": "Population (persons)",
+      "Unit": "Persons",
+      "TimePeriod": "2022",
+      "DataValue": "10850"
+    },
+    {
+      "GeoFips": "21159",
+      "GeoName": "Martin, KY",
+      "TableName": "CAINC1",
+      "LineCode": "30",
+      "Description": "Per capita personal income (dollars)",
+      "Unit": "Dollars",
+      "TimePeriod": "2022",
+      "DataValue": "31797"
+    },
+    {
+      "GeoFips": "21159",
+      "GeoName": "Martin, KY",
+      "TableName": "CAINC4",
+      "LineCode": "20",
+      "Description": "Net earnings by place of residence (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "152000"
+    },
+    {
+      "GeoFips": "21159",
+      "GeoName": "Martin, KY",
+      "TableName": "CAINC4",
+      "LineCode": "30",
+      "Description": "Personal current transfer receipts (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "168000"
+    },
+    {
+      "GeoFips": "21159",
+      "GeoName": "Martin, KY",
+      "TableName": "CAEMP25",
+      "LineCode": "10",
+      "Description": "Total employment (number of jobs)",
+      "Unit": "Number of jobs",
+      "TimePeriod": "2022",
+      "DataValue": "2850"
+    },
+    {
+      "GeoFips": "21159",
+      "GeoName": "Martin, KY",
+      "TableName": "CAEMP25",
+      "LineCode": "40",
+      "Description": "Proprietors employment (number of jobs)",
+      "Unit": "Number of jobs",
+      "TimePeriod": "2022",
+      "DataValue": "620"
+    },
+    {
+      "GeoFips": "26163",
+      "GeoName": "Wayne, MI",
+      "TableName": "CAGDP1",
+      "LineCode": "3",
+      "Description": "Current-dollar GDP (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "122450000"
+    },
+    {
+      "GeoFips": "26163",
+      "GeoName": "Wayne, MI",
+      "TableName": "CAGDP9",
+      "LineCode": "1",
+      "Description": "Real GDP (thousands of chained 2017 dollars)",
+      "Unit": "Thousands of chained 2017 dollars",
+      "TimePeriod": "2022",
+      "DataValue": "104320000"
+    },
+    {
+      "GeoFips": "26163",
+      "GeoName": "Wayne, MI",
+      "TableName": "CAINC1",
+      "LineCode": "10",
+      "Description": "Personal income (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "101250000"
+    },
+    {
+      "GeoFips": "26163",
+      "GeoName": "Wayne, MI",
+      "TableName": "CAINC1",
+      "LineCode": "20",
+      "Description": "Population (persons)",
+      "Unit": "Persons",
+      "TimePeriod": "2022",
+      "DataValue": "1765000"
+    },
+    {
+      "GeoFips": "26163",
+      "GeoName": "Wayne, MI",
+      "TableName": "CAINC1",
+      "LineCode": "30",
+      "Description": "Per capita personal income (dollars)",
+      "Unit": "Dollars",
+      "TimePeriod": "2022",
+      "DataValue": "57365"
+    },
+    {
+      "GeoFips": "26163",
+      "GeoName": "Wayne, MI",
+      "TableName": "CAINC4",
+      "LineCode": "30",
+      "Description": "Personal current transfer receipts (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "24800000"
+    },
+    {
+      "GeoFips": "26163",
+      "GeoName": "Wayne, MI",
+      "TableName": "CAEMP25",
+      "LineCode": "10",
+      "Description": "Total employment (number of jobs)",
+      "Unit": "Number of jobs",
+      "TimePeriod": "2022",
+      "DataValue": "895000"
+    },
+    {
+      "GeoFips": "26163",
+      "GeoName": "Wayne, MI",
+      "TableName": "CAINC5N",
+      "LineCode": "700",
+      "IndustryClassification": "31-33",
+      "Description": "Manufacturing earnings (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "14500000"
+    },
+    {
+      "GeoFips": "06085",
+      "GeoName": "Santa Clara, CA",
+      "TableName": "CAGDP1",
+      "LineCode": "3",
+      "Description": "Current-dollar GDP (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "425000000"
+    },
+    {
+      "GeoFips": "06085",
+      "GeoName": "Santa Clara, CA",
+      "TableName": "CAGDP9",
+      "LineCode": "1",
+      "Description": "Real GDP (thousands of chained 2017 dollars)",
+      "Unit": "Thousands of chained 2017 dollars",
+      "TimePeriod": "2022",
+      "DataValue": "372000000"
+    },
+    {
+      "GeoFips": "06085",
+      "GeoName": "Santa Clara, CA",
+      "TableName": "CAINC1",
+      "LineCode": "10",
+      "Description": "Personal income (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "298000000"
+    },
+    {
+      "GeoFips": "06085",
+      "GeoName": "Santa Clara, CA",
+      "TableName": "CAINC1",
+      "LineCode": "20",
+      "Description": "Population (persons)",
+      "Unit": "Persons",
+      "TimePeriod": "2022",
+      "DataValue": "1885000"
+    },
+    {
+      "GeoFips": "06085",
+      "GeoName": "Santa Clara, CA",
+      "TableName": "CAINC1",
+      "LineCode": "30",
+      "Description": "Per capita personal income (dollars)",
+      "Unit": "Dollars",
+      "TimePeriod": "2022",
+      "DataValue": "158090"
+    },
+    {
+      "GeoFips": "06085",
+      "GeoName": "Santa Clara, CA",
+      "TableName": "CAEMP25",
+      "LineCode": "10",
+      "Description": "Total employment (number of jobs)",
+      "Unit": "Number of jobs",
+      "TimePeriod": "2022",
+      "DataValue": "1320000"
+    },
+    {
+      "GeoFips": "06085",
+      "GeoName": "Santa Clara, CA",
+      "TableName": "CAINC5N",
+      "LineCode": "1100",
+      "IndustryClassification": "51",
+      "Description": "Information earnings (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "68500000"
+    },
+    {
+      "GeoFips": "06085",
+      "GeoName": "Santa Clara, CA",
+      "TableName": "CAINC5N",
+      "LineCode": "1400",
+      "IndustryClassification": "54",
+      "Description": "Professional, scientific, and technical services earnings (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "74200000"
+    },
+    {
+      "GeoFips": "48329",
+      "GeoName": "Midland, TX",
+      "TableName": "CAGDP1",
+      "LineCode": "3",
+      "Description": "Current-dollar GDP (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "36800000"
+    },
+    {
+      "GeoFips": "48329",
+      "GeoName": "Midland, TX",
+      "TableName": "CAGDP9",
+      "LineCode": "1",
+      "Description": "Real GDP (thousands of chained 2017 dollars)",
+      "Unit": "Thousands of chained 2017 dollars",
+      "TimePeriod": "2022",
+      "DataValue": "31500000"
+    },
+    {
+      "GeoFips": "48329",
+      "GeoName": "Midland, TX",
+      "TableName": "CAINC1",
+      "LineCode": "10",
+      "Description": "Personal income (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "21400000"
+    },
+    {
+      "GeoFips": "48329",
+      "GeoName": "Midland, TX",
+      "TableName": "CAINC1",
+      "LineCode": "20",
+      "Description": "Population (persons)",
+      "Unit": "Persons",
+      "TimePeriod": "2022",
+      "DataValue": "173000"
+    },
+    {
+      "GeoFips": "48329",
+      "GeoName": "Midland, TX",
+      "TableName": "CAINC1",
+      "LineCode": "30",
+      "Description": "Per capita personal income (dollars)",
+      "Unit": "Dollars",
+      "TimePeriod": "2022",
+      "DataValue": "123699"
+    },
+    {
+      "GeoFips": "48329",
+      "GeoName": "Midland, TX",
+      "TableName": "CAEMP25",
+      "LineCode": "10",
+      "Description": "Total employment (number of jobs)",
+      "Unit": "Number of jobs",
+      "TimePeriod": "2022",
+      "DataValue": "138000"
+    },
+    {
+      "GeoFips": "48329",
+      "GeoName": "Midland, TX",
+      "TableName": "CAINC5N",
+      "LineCode": "400",
+      "IndustryClassification": "21",
+      "Description": "Mining, quarrying, and oil and gas extraction earnings (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "7850000"
+    },
+    {
+      "GeoFips": "12086",
+      "GeoName": "Miami-Dade, FL",
+      "TableName": "CAGDP1",
+      "LineCode": "3",
+      "Description": "Current-dollar GDP (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "205000000"
+    },
+    {
+      "GeoFips": "12086",
+      "GeoName": "Miami-Dade, FL",
+      "TableName": "CAGDP9",
+      "LineCode": "1",
+      "Description": "Real GDP (thousands of chained 2017 dollars)",
+      "Unit": "Thousands of chained 2017 dollars",
+      "TimePeriod": "2022",
+      "DataValue": "174000000"
+    },
+    {
+      "GeoFips": "12086",
+      "GeoName": "Miami-Dade, FL",
+      "TableName": "CAINC1",
+      "LineCode": "10",
+      "Description": "Personal income (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "182000000"
+    },
+    {
+      "GeoFips": "12086",
+      "GeoName": "Miami-Dade, FL",
+      "TableName": "CAINC1",
+      "LineCode": "20",
+      "Description": "Population (persons)",
+      "Unit": "Persons",
+      "TimePeriod": "2022",
+      "DataValue": "2670000"
+    },
+    {
+      "GeoFips": "12086",
+      "GeoName": "Miami-Dade, FL",
+      "TableName": "CAINC1",
+      "LineCode": "30",
+      "Description": "Per capita personal income (dollars)",
+      "Unit": "Dollars",
+      "TimePeriod": "2022",
+      "DataValue": "68164"
+    },
+    {
+      "GeoFips": "12086",
+      "GeoName": "Miami-Dade, FL",
+      "TableName": "CAEMP25",
+      "LineCode": "10",
+      "Description": "Total employment (number of jobs)",
+      "Unit": "Number of jobs",
+      "TimePeriod": "2022",
+      "DataValue": "1720000"
+    },
+    {
+      "GeoFips": "12086",
+      "GeoName": "Miami-Dade, FL",
+      "TableName": "CAEMP25",
+      "LineCode": "40",
+      "Description": "Proprietors employment (number of jobs)",
+      "Unit": "Number of jobs",
+      "TimePeriod": "2022",
+      "DataValue": "480000"
+    }
+  ]
+}

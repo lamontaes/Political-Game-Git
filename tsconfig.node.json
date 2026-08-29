@@ -17,6 +17,9 @@
     "tests/e2e/**/*.ts",
     "src/cli/**/*.ts",
     "src/persistence/**/*.ts",
-    "src/simulation/**/*.ts"
+    "src/simulation/**/*.ts",
+    "src/local_economy_corpus/**/*.ts",
+    "scripts/local-economy-corpus/**/*.ts",
+    "tests/local_economy_corpus.test.ts"
   ]
 }

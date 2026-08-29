@@ -1,0 +1,157 @@
+{
+  "title": "BEA Regional Accounts - State and National Baselines (KY, CA, MI, TX, US)",
+  "source": "Bureau of Economic Analysis",
+  "vintage": "bea_regional_2024_release",
+  "data": [
+    {
+      "GeoFips": "21000",
+      "GeoName": "Kentucky",
+      "TableName": "SAGDP1",
+      "LineCode": "3",
+      "Description": "Current-dollar GDP (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "260400000"
+    },
+    {
+      "GeoFips": "21000",
+      "GeoName": "Kentucky",
+      "TableName": "SAGDP9",
+      "LineCode": "1",
+      "Description": "Real GDP (thousands of chained 2017 dollars)",
+      "Unit": "Thousands of chained 2017 dollars",
+      "TimePeriod": "2022",
+      "DataValue": "218500000"
+    },
+    {
+      "GeoFips": "21000",
+      "GeoName": "Kentucky",
+      "TableName": "SAINC1",
+      "LineCode": "10",
+      "Description": "Personal income (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "249800000"
+    },
+    {
+      "GeoFips": "21000",
+      "GeoName": "Kentucky",
+      "TableName": "SAINC1",
+      "LineCode": "20",
+      "Description": "Population (persons)",
+      "Unit": "Persons",
+      "TimePeriod": "2022",
+      "DataValue": "4512000"
+    },
+    {
+      "GeoFips": "21000",
+      "GeoName": "Kentucky",
+      "TableName": "SAINC1",
+      "LineCode": "30",
+      "Description": "Per capita personal income (dollars)",
+      "Unit": "Dollars",
+      "TimePeriod": "2022",
+      "DataValue": "55363"
+    },
+    {
+      "GeoFips": "21000",
+      "GeoName": "Kentucky",
+      "TableName": "SAEMP25",
+      "LineCode": "10",
+      "Description": "Total employment (number of jobs)",
+      "Unit": "Number of jobs",
+      "TimePeriod": "2022",
+      "DataValue": "2520000"
+    },
+    {
+      "GeoFips": "06000",
+      "GeoName": "California",
+      "TableName": "SAGDP1",
+      "LineCode": "3",
+      "Description": "Current-dollar GDP (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "3641000000"
+    },
+    {
+      "GeoFips": "06000",
+      "GeoName": "California",
+      "TableName": "SAGDP9",
+      "LineCode": "1",
+      "Description": "Real GDP (thousands of chained 2017 dollars)",
+      "Unit": "Thousands of chained 2017 dollars",
+      "TimePeriod": "2022",
+      "DataValue": "3082000000"
+    },
+    {
+      "GeoFips": "06000",
+      "GeoName": "California",
+      "TableName": "SAINC1",
+      "LineCode": "10",
+      "Description": "Personal income (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "3050000000"
+    },
+    {
+      "GeoFips": "26000",
+      "GeoName": "Michigan",
+      "TableName": "SAGDP1",
+      "LineCode": "3",
+      "Description": "Current-dollar GDP (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "620500000"
+    },
+    {
+      "GeoFips": "48000",
+      "GeoName": "Texas",
+      "TableName": "SAGDP1",
+      "LineCode": "3",
+      "Description": "Current-dollar GDP (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "2410000000"
+    },
+    {
+      "GeoFips": "00000",
+      "GeoName": "United States",
+      "TableName": "SAGDP1",
+      "LineCode": "3",
+      "Description": "Current-dollar GDP (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "25740000000"
+    },
+    {
+      "GeoFips": "00000",
+      "GeoName": "United States",
+      "TableName": "SAGDP9",
+      "LineCode": "1",
+      "Description": "Real GDP (thousands of chained 2017 dollars)",
+      "Unit": "Thousands of chained 2017 dollars",
+      "TimePeriod": "2022",
+      "DataValue": "21820000000"
+    },
+    {
+      "GeoFips": "00000",
+      "GeoName": "United States",
+      "TableName": "SAINC1",
+      "LineCode": "10",
+      "Description": "Personal income (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2022",
+      "DataValue": "21840000000"
+    },
+    {
+      "GeoFips": "00000",
+      "GeoName": "United States",
+      "TableName": "SAEMP25",
+      "LineCode": "10",
+      "Description": "Total employment (number of jobs)",
+      "Unit": "Number of jobs",
+      "TimePeriod": "2022",
+      "DataValue": "203500000"
+    }
+  ]
+}

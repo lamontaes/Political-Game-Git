@@ -1,0 +1,350 @@
+{
+  "manifestVersion": "1.0.0",
+  "generatedAt": "2026-08-28T00:00:00.000Z",
+  "compilerVersion": "local-economy-v1.0.0",
+  "totalJurisdictions": 11,
+  "totalObservations": 344,
+  "totalSeries": 336,
+  "vintages": [
+    {
+      "vintageId": "bea_regional_2024_release",
+      "provider": "bea_regional",
+      "vintageName": "BEA Regional Economic Accounts, November 2024 Comprehensive Update",
+      "releaseDate": "2024-11-14",
+      "revisionType": "comprehensive_benchmark",
+      "description": "Official BEA regional statistics covering County and State GDP, Personal Income, and Employment."
+    },
+    {
+      "vintageId": "bls_qcew_2024_annual",
+      "provider": "bls_qcew",
+      "vintageName": "BLS Quarterly Census of Employment and Wages, 2024 Final Annual Release",
+      "releaseDate": "2024-09-04",
+      "revisionType": "final_annual",
+      "description": "Official BLS QCEW employment, establishment, and wage statistics by industry and ownership."
+    }
+  ],
+  "jurisdictions": {
+    "12086": {
+      "geoFips": "12086",
+      "geoName": "Miami-Dade, FL",
+      "geoLevel": "county",
+      "stateAbbr": "FL",
+      "hasBeaRegional": true,
+      "hasQcew": true,
+      "coveredYears": [
+        2022
+      ],
+      "totalObservations": 22,
+      "categoriesPresent": [
+        "average_wage",
+        "employment",
+        "establishments",
+        "gdp",
+        "per_capita_income",
+        "personal_income",
+        "population",
+        "wages"
+      ],
+      "naicsSectorsPresent": [
+        "10",
+        "72"
+      ]
+    },
+    "21000": {
+      "geoFips": "21000",
+      "geoName": "Kentucky",
+      "geoLevel": "state",
+      "stateAbbr": "KY",
+      "hasBeaRegional": true,
+      "hasQcew": true,
+      "coveredYears": [
+        2022
+      ],
+      "totalObservations": 36,
+      "categoriesPresent": [
+        "average_wage",
+        "employment",
+        "establishments",
+        "gdp",
+        "per_capita_income",
+        "personal_income",
+        "population",
+        "wages"
+      ],
+      "naicsSectorsPresent": [
+        "10",
+        "11",
+        "21",
+        "31-33",
+        "54"
+      ]
+    },
+    "21067": {
+      "geoFips": "21067",
+      "geoName": "Fayette, KY",
+      "geoLevel": "county",
+      "stateAbbr": "KY",
+      "hasBeaRegional": true,
+      "hasQcew": true,
+      "coveredYears": [
+        2020,
+        2021,
+        2022,
+        2023
+      ],
+      "totalObservations": 115,
+      "categoriesPresent": [
+        "average_wage",
+        "earnings",
+        "employment",
+        "establishments",
+        "gdp",
+        "per_capita_income",
+        "personal_income",
+        "population",
+        "transfer_receipts",
+        "wages"
+      ],
+      "naicsSectorsPresent": [
+        "10",
+        "101",
+        "102",
+        "11",
+        "21",
+        "23",
+        "31-33",
+        "42",
+        "44-45",
+        "48-49",
+        "51",
+        "52",
+        "54",
+        "61",
+        "62",
+        "72",
+        "92"
+      ]
+    },
+    "21159": {
+      "geoFips": "21159",
+      "geoName": "Martin, KY",
+      "geoLevel": "county",
+      "stateAbbr": "KY",
+      "hasBeaRegional": true,
+      "hasQcew": true,
+      "coveredYears": [
+        2022
+      ],
+      "totalObservations": 29,
+      "categoriesPresent": [
+        "average_wage",
+        "employment",
+        "establishments",
+        "gdp",
+        "per_capita_income",
+        "personal_income",
+        "population",
+        "transfer_receipts",
+        "wages"
+      ],
+      "naicsSectorsPresent": [
+        "10",
+        "21",
+        "212"
+      ]
+    },
+    "26000": {
+      "geoFips": "26000",
+      "geoName": "Michigan",
+      "geoLevel": "state",
+      "stateAbbr": "MI",
+      "hasBeaRegional": true,
+      "hasQcew": true,
+      "coveredYears": [
+        2022
+      ],
+      "totalObservations": 6,
+      "categoriesPresent": [
+        "average_wage",
+        "employment",
+        "establishments",
+        "gdp",
+        "wages"
+      ],
+      "naicsSectorsPresent": [
+        "10"
+      ]
+    },
+    "26163": {
+      "geoFips": "26163",
+      "geoName": "Wayne, MI",
+      "geoLevel": "county",
+      "stateAbbr": "MI",
+      "hasBeaRegional": true,
+      "hasQcew": true,
+      "coveredYears": [
+        2022
+      ],
+      "totalObservations": 33,
+      "categoriesPresent": [
+        "average_wage",
+        "earnings",
+        "employment",
+        "establishments",
+        "gdp",
+        "per_capita_income",
+        "personal_income",
+        "population",
+        "transfer_receipts",
+        "wages"
+      ],
+      "naicsSectorsPresent": [
+        "10",
+        "101",
+        "102",
+        "31-33"
+      ]
+    },
+    "48000": {
+      "geoFips": "48000",
+      "geoName": "Texas",
+      "geoLevel": "state",
+      "stateAbbr": "TX",
+      "hasBeaRegional": true,
+      "hasQcew": true,
+      "coveredYears": [
+        2022
+      ],
+      "totalObservations": 6,
+      "categoriesPresent": [
+        "average_wage",
+        "employment",
+        "establishments",
+        "gdp",
+        "wages"
+      ],
+      "naicsSectorsPresent": [
+        "10"
+      ]
+    },
+    "48329": {
+      "geoFips": "48329",
+      "geoName": "Midland, TX",
+      "geoLevel": "county",
+      "stateAbbr": "TX",
+      "hasBeaRegional": true,
+      "hasQcew": true,
+      "coveredYears": [
+        2022
+      ],
+      "totalObservations": 22,
+      "categoriesPresent": [
+        "average_wage",
+        "earnings",
+        "employment",
+        "establishments",
+        "gdp",
+        "per_capita_income",
+        "personal_income",
+        "population",
+        "wages"
+      ],
+      "naicsSectorsPresent": [
+        "10",
+        "21"
+      ]
+    },
+    "00000": {
+      "geoFips": "00000",
+      "geoName": "United States",
+      "geoLevel": "national",
+      "stateAbbr": "US",
+      "hasBeaRegional": true,
+      "hasQcew": true,
+      "coveredYears": [
+        2022
+      ],
+      "totalObservations": 39,
+      "categoriesPresent": [
+        "average_wage",
+        "employment",
+        "establishments",
+        "gdp",
+        "personal_income",
+        "wages"
+      ],
+      "naicsSectorsPresent": [
+        "10",
+        "11",
+        "21",
+        "31-33",
+        "51",
+        "54"
+      ]
+    },
+    "06000": {
+      "geoFips": "06000",
+      "geoName": "California",
+      "geoLevel": "state",
+      "stateAbbr": "CA",
+      "hasBeaRegional": true,
+      "hasQcew": true,
+      "coveredYears": [
+        2022
+      ],
+      "totalObservations": 8,
+      "categoriesPresent": [
+        "average_wage",
+        "employment",
+        "establishments",
+        "gdp",
+        "personal_income",
+        "wages"
+      ],
+      "naicsSectorsPresent": [
+        "10"
+      ]
+    },
+    "06085": {
+      "geoFips": "06085",
+      "geoName": "Santa Clara, CA",
+      "geoLevel": "county",
+      "stateAbbr": "CA",
+      "hasBeaRegional": true,
+      "hasQcew": true,
+      "coveredYears": [
+        2022
+      ],
+      "totalObservations": 28,
+      "categoriesPresent": [
+        "average_wage",
+        "earnings",
+        "employment",
+        "establishments",
+        "gdp",
+        "per_capita_income",
+        "personal_income",
+        "population",
+        "wages"
+      ],
+      "naicsSectorsPresent": [
+        "10",
+        "51",
+        "54"
+      ]
+    }
+  },
+  "providers": {
+    "bea": {
+      "name": "Bureau of Economic Analysis (BEA) Regional Economic Accounts",
+      "documentationUrl": "https://www.bea.gov/data/economic-accounts/regional",
+      "apiBaseUrl": "https://apps.bea.gov/api/data"
+    },
+    "bls_qcew": {
+      "name": "Bureau of Labor Statistics (BLS) Quarterly Census of Employment and Wages",
+      "documentationUrl": "https://www.bls.gov/cew/",
+      "apiBaseUrl": "https://data.bls.gov/cew/data/api"
+    }
+  },
+  "sha256": "01a1ff2709dd4871c2a4c062638dee5b324a32c4d6022f7e1db61110b131f478"
+}

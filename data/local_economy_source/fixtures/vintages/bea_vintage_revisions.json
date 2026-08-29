@@ -1,0 +1,68 @@
+{
+  "title": "BEA Regional Vintage Revision Comparisons - Fayette County, KY 2021 GDP",
+  "description": "Demonstrates distinct tracking of Preliminary, Revised, and Comprehensive Benchmark vintages without data loss or silent collision.",
+  "vintages": [
+    {
+      "vintageId": "bea_regional_2022_preliminary",
+      "provider": "bea_regional",
+      "vintageName": "BEA Regional Accounts, December 2022 Advance/Preliminary",
+      "releaseDate": "2022-12-08",
+      "revisionType": "preliminary",
+      "description": "Advance estimate for 2021 county GDP."
+    },
+    {
+      "vintageId": "bea_regional_2023_revised",
+      "provider": "bea_regional",
+      "vintageName": "BEA Regional Accounts, December 2023 Annual Update",
+      "releaseDate": "2023-12-07",
+      "revisionType": "revised",
+      "supersedesVintageId": "bea_regional_2022_preliminary",
+      "description": "First revised annual update for 2021 county GDP."
+    },
+    {
+      "vintageId": "bea_regional_2024_comprehensive",
+      "provider": "bea_regional",
+      "vintageName": "BEA Regional Accounts, November 2024 Comprehensive Benchmark",
+      "releaseDate": "2024-11-14",
+      "revisionType": "comprehensive_benchmark",
+      "supersedesVintageId": "bea_regional_2023_revised",
+      "description": "Comprehensive 5-year benchmark update incorporating revised source data and NAICS reclassifications."
+    }
+  ],
+  "preliminaryData": [
+    {
+      "GeoFips": "21067",
+      "GeoName": "Fayette, KY",
+      "TableName": "CAGDP1",
+      "LineCode": "3",
+      "Description": "Current-dollar GDP (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2021",
+      "DataValue": "21800000"
+    }
+  ],
+  "revisedData": [
+    {
+      "GeoFips": "21067",
+      "GeoName": "Fayette, KY",
+      "TableName": "CAGDP1",
+      "LineCode": "3",
+      "Description": "Current-dollar GDP (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2021",
+      "DataValue": "22150000"
+    }
+  ],
+  "benchmarkData": [
+    {
+      "GeoFips": "21067",
+      "GeoName": "Fayette, KY",
+      "TableName": "CAGDP1",
+      "LineCode": "3",
+      "Description": "Current-dollar GDP (thousands of dollars)",
+      "Unit": "Thousands of dollars",
+      "TimePeriod": "2021",
+      "DataValue": "22420000"
+    }
+  ]
+}
