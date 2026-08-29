@@ -1,64 +1,210 @@
 {
-  "benchmarkJurisdiction": "Lexington-Fayette, Kentucky",
-  "geoId": "county_21067",
-  "fipsCode": "21067",
-  "stateAbbr": "KY",
-  "cbsaCode": "30460",
-  "metroName": "Lexington-Fayette KY MSA",
-  "isMetropolitan": true,
-  "isTerritory": false,
+  "profileId": "profile_housing_county_21067",
+  "geo": {
+    "geoId": "county_21067",
+    "name": "Fayette County",
+    "stateFips": "21",
+    "stateAbbr": "KY",
+    "countyFips": "21067",
+    "cbsaCode": "30460",
+    "metroName": null,
+    "isMetropolitan": true,
+    "isTerritory": false
+  },
+  "asOfVintage": {
+    "fmrVintage": "FY2024",
+    "ilVintage": "FY2024",
+    "chasVintage": "2018-2022"
+  },
   "fmr": {
+    "id": "us_hud_fmr_county_21067_fy2024",
+    "geo": {
+      "geoId": "county_21067",
+      "name": "Fayette County",
+      "stateFips": "21",
+      "stateAbbr": "KY",
+      "countyFips": "21067",
+      "cbsaCode": "30460",
+      "metroName": "Lexington-Fayette KY MSA",
+      "isMetropolitan": true,
+      "isTerritory": false
+    },
     "vintage": "FY2024",
-    "fmr0Br": 846,
-    "fmr1Br": 933,
-    "fmr2Br": 1158,
-    "fmr3Br": 1570,
-    "fmr4Br": 1873,
+    "fmr0Br": 802,
+    "fmr1Br": 983,
+    "fmr2Br": 1177,
+    "fmr3Br": 1599,
+    "fmr4Br": 1807,
     "percentile": 40,
-    "isObservedMedianRent": false
+    "isSmallAreaFmr": false,
+    "isObservedMedianRent": false,
+    "provenance": {
+      "source": "hud_user_fmr",
+      "vintage": "FY2024",
+      "sourceUrl": "https://www.huduser.gov/portal/datasets/fmr.html",
+      "downloadTimestamp": "2026-08-28T18:00:00.000Z",
+      "sha256": "fe8be67477dce98a16919197bdf98e82f660ee7540e4a8241fcea66bfbfea879",
+      "retrievalMethod": "download",
+      "datasetFile": "hud_fmr_fy2024.csv",
+      "areaIdentifier": "30460",
+      "fiscalYear": "2024",
+      "extractionRowKey": "fips_21067",
+      "notes": "HUD USER Fair Market Rents 40th percentile gross rent standard by bedroom size"
+    }
   },
   "incomeLimits": {
+    "id": "us_hud_il_county_21067_fy2024",
+    "geo": {
+      "geoId": "county_21067",
+      "name": "Fayette County",
+      "stateFips": "21",
+      "stateAbbr": "KY",
+      "countyFips": "21067",
+      "cbsaCode": "30460",
+      "metroName": "Lexington-Fayette KY MSA",
+      "isMetropolitan": true,
+      "isTerritory": false
+    },
     "vintage": "FY2024",
-    "medianFamilyIncome": 94900,
+    "medianFamilyIncome": 95200,
     "limits30Pct": {
       "1": 20000,
       "2": 22850,
-      "3": 25700,
-      "4": 28550,
-      "5": 30850,
-      "6": 33150,
-      "7": 35450,
-      "8": 37700
+      "3": 25820,
+      "4": 31200,
+      "5": 36580,
+      "6": 41960,
+      "7": 47340,
+      "8": 52720
     },
     "limits50Pct": {
-      "1": 33250,
-      "2": 38000,
-      "3": 42750,
-      "4": 47500,
-      "5": 51300,
-      "6": 55100,
-      "7": 58900,
-      "8": 62700
+      "1": 33350,
+      "2": 38100,
+      "3": 42850,
+      "4": 47600,
+      "5": 51450,
+      "6": 55250,
+      "7": 59050,
+      "8": 62850
     },
     "limits80Pct": {
-      "1": 53200,
-      "2": 60800,
-      "3": 68400,
-      "4": 76000,
-      "5": 82100,
-      "6": 88200,
-      "7": 94250,
-      "8": 100350
+      "1": 53350,
+      "2": 60950,
+      "3": 68550,
+      "4": 76150,
+      "5": 82250,
+      "6": 88350,
+      "7": 94450,
+      "8": 100550
+    },
+    "provenance": {
+      "source": "hud_user_il",
+      "vintage": "FY2024",
+      "sourceUrl": "https://www.huduser.gov/portal/datasets/il.html",
+      "downloadTimestamp": "2026-08-28T18:00:00.000Z",
+      "sha256": "d6e1bf7c816a631c41bb8ba6a38cfb8a4d9d9b1b4e7cd6d8ebf234d05ee16f36",
+      "retrievalMethod": "download",
+      "datasetFile": "hud_il_fy2024.csv",
+      "areaIdentifier": "30460",
+      "fiscalYear": "2024",
+      "extractionRowKey": "fips_21067",
+      "notes": "HUD USER Section 8 Income Limits by family size and Area Median Family Income"
     }
   },
-  "chasBenchmark": {
-    "vintage": "2018-2022",
-    "tableUniverse": "occupied_housing_units",
+  "chasSummary": {
     "totalHouseholds": 139450,
-    "renterHouseholds": 64880,
-    "ownerHouseholds": 74570,
-    "costBurdenedHouseholds": 24040,
-    "severelyCostBurdenedHouseholds": 26730,
-    "severeCostBurdenRate": 0.1917
+    "totalRenters": 64880,
+    "totalOwners": 74570,
+    "byAmiBracket": {
+      "le_30_pct_ami": {
+        "amiBracket": "le_30_pct_ami",
+        "totalHouseholds": 21340,
+        "renters": 17250,
+        "owners": 4090,
+        "costBurdenedCount": 3440,
+        "severelyCostBurdenedCount": 16930,
+        "costBurdenRate": 0.9545,
+        "severeCostBurdenRate": 0.7933
+      },
+      "gt_30_le_50_pct_ami": {
+        "amiBracket": "gt_30_le_50_pct_ami",
+        "totalHouseholds": 16870,
+        "renters": 11920,
+        "owners": 4950,
+        "costBurdenedCount": 7280,
+        "severelyCostBurdenedCount": 5270,
+        "costBurdenRate": 0.7439,
+        "severeCostBurdenRate": 0.3124
+      },
+      "gt_50_le_80_pct_ami": {
+        "amiBracket": "gt_50_le_80_pct_ami",
+        "totalHouseholds": 22930,
+        "renters": 13240,
+        "owners": 9690,
+        "costBurdenedCount": 8800,
+        "severelyCostBurdenedCount": 2860,
+        "costBurdenRate": 0.5085,
+        "severeCostBurdenRate": 0.1247
+      },
+      "gt_80_le_100_pct_ami": {
+        "amiBracket": "gt_80_le_100_pct_ami",
+        "totalHouseholds": 14210,
+        "renters": 6120,
+        "owners": 8090,
+        "costBurdenedCount": 2960,
+        "severelyCostBurdenedCount": 610,
+        "costBurdenRate": 0.2512,
+        "severeCostBurdenRate": 0.0429
+      },
+      "gt_100_pct_ami": {
+        "amiBracket": "gt_100_pct_ami",
+        "totalHouseholds": 64100,
+        "renters": 16350,
+        "owners": 47750,
+        "costBurdenedCount": 4770,
+        "severelyCostBurdenedCount": 1060,
+        "costBurdenRate": 0.091,
+        "severeCostBurdenRate": 0.0165
+      },
+      "all_income_levels": {
+        "amiBracket": "all_income_levels",
+        "totalHouseholds": 139450,
+        "renters": 64880,
+        "owners": 74570,
+        "costBurdenedCount": 27250,
+        "severelyCostBurdenedCount": 26730,
+        "costBurdenRate": 0.3871,
+        "severeCostBurdenRate": 0.1917
+      }
+    },
+    "costBurdenSummary": {
+      "notBurdenedCount": 85470,
+      "costBurdenedCount": 27250,
+      "severelyCostBurdenedCount": 26730,
+      "notComputedCount": 0,
+      "costBurdenRate": 0.3871,
+      "severeCostBurdenRate": 0.1917
+    },
+    "housingProblemsSummary": {
+      "has1OrMoreProblemsCount": 48200,
+      "has1OrMoreSevereProblemsCount": 27450,
+      "hasNoProblemsCount": 91250,
+      "problemsNotComputedCount": 0,
+      "housingProblemsRate": 0.3456
+    },
+    "suppressionSummary": {
+      "totalCellCount": 38,
+      "suppressedCellCount": 0,
+      "suppressedRatio": 0
+    }
+  },
+  "provenance": {
+    "source": "manual_benchmark",
+    "vintage": "2018-2022",
+    "sourceUrl": null,
+    "downloadTimestamp": "2026-08-28T18:00:00.000Z",
+    "sha256": "64cb191211aede42b6c0d69a087a6cded070f91bb16d663a6758dd6399709492",
+    "retrievalMethod": "fixture",
+    "notes": "Unified Housing Calibration Profile synthesizing HUD FMR, Income Limits, and CHAS 2018-2022 ACS"
   }
 }

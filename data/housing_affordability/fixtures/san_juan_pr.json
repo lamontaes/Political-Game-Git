@@ -1,64 +1,210 @@
 {
-  "benchmarkJurisdiction": "San Juan Municipio, Puerto Rico (Territory)",
-  "geoId": "county_72127",
-  "fipsCode": "72127",
-  "stateAbbr": "PR",
-  "cbsaCode": "41980",
-  "metroName": "San Juan-Guaynabo PR HMFA",
-  "isMetropolitan": true,
-  "isTerritory": true,
-  "fmr": {
-    "vintage": "FY2024",
-    "fmr0Br": 526,
-    "fmr1Br": 553,
-    "fmr2Br": 637,
-    "fmr3Br": 787,
-    "fmr4Br": 943,
-    "percentile": 40,
-    "isObservedMedianRent": false
+  "profileId": "profile_housing_county_72127",
+  "geo": {
+    "geoId": "county_72127",
+    "name": "San Juan Municipio",
+    "stateFips": "72",
+    "stateAbbr": "PR",
+    "countyFips": "72127",
+    "cbsaCode": "41980",
+    "metroName": null,
+    "isMetropolitan": true,
+    "isTerritory": true
   },
-  "incomeLimits": {
+  "asOfVintage": {
+    "fmrVintage": "FY2024",
+    "ilVintage": "FY2024",
+    "chasVintage": "2018-2022"
+  },
+  "fmr": {
+    "id": "us_hud_fmr_county_72127_fy2024",
+    "geo": {
+      "geoId": "county_72127",
+      "name": "San Juan Municipio",
+      "stateFips": "72",
+      "stateAbbr": "PR",
+      "countyFips": "72127",
+      "cbsaCode": "41980",
+      "metroName": "San Juan-Guaynabo PR HMFA",
+      "isMetropolitan": true,
+      "isTerritory": true
+    },
     "vintage": "FY2024",
-    "medianFamilyIncome": 30800,
-    "limits30Pct": {
-      "1": 11850,
-      "2": 13550,
-      "3": 15250,
-      "4": 16900,
-      "5": 18300,
-      "6": 19650,
-      "7": 21000,
-      "8": 22350
-    },
-    "limits50Pct": {
-      "1": 11850,
-      "2": 13550,
-      "3": 15250,
-      "4": 16900,
-      "5": 18300,
-      "6": 19650,
-      "7": 21000,
-      "8": 22350
-    },
-    "limits80Pct": {
-      "1": 18950,
-      "2": 21650,
-      "3": 24350,
-      "4": 27050,
-      "5": 29250,
-      "6": 31400,
-      "7": 33550,
-      "8": 35750
+    "fmr0Br": 556,
+    "fmr1Br": 583,
+    "fmr2Br": 668,
+    "fmr3Br": 882,
+    "fmr4Br": 1056,
+    "percentile": 40,
+    "isSmallAreaFmr": false,
+    "isObservedMedianRent": false,
+    "provenance": {
+      "source": "hud_user_fmr",
+      "vintage": "FY2024",
+      "sourceUrl": "https://www.huduser.gov/portal/datasets/fmr.html",
+      "downloadTimestamp": "2026-08-28T18:00:00.000Z",
+      "sha256": "cc313af4f91c41b715bdcaeca2efc7c573c2e12123e82fc92583085370a1a11c",
+      "retrievalMethod": "download",
+      "datasetFile": "hud_fmr_fy2024.csv",
+      "areaIdentifier": "41980",
+      "fiscalYear": "2024",
+      "extractionRowKey": "fips_72127",
+      "notes": "HUD USER Fair Market Rents 40th percentile gross rent standard by bedroom size"
     }
   },
-  "chasBenchmark": {
-    "vintage": "2018-2022",
-    "tableUniverse": "occupied_housing_units",
+  "incomeLimits": {
+    "id": "us_hud_il_county_72127_fy2024",
+    "geo": {
+      "geoId": "county_72127",
+      "name": "San Juan Municipio",
+      "stateFips": "72",
+      "stateAbbr": "PR",
+      "countyFips": "72127",
+      "cbsaCode": "41980",
+      "metroName": "San Juan-Guaynabo PR HMFA",
+      "isMetropolitan": true,
+      "isTerritory": true
+    },
+    "vintage": "FY2024",
+    "medianFamilyIncome": 35100,
+    "limits30Pct": {
+      "1": 12950,
+      "2": 14750,
+      "3": 16650,
+      "4": 18450,
+      "5": 19950,
+      "6": 21450,
+      "7": 22900,
+      "8": 24400
+    },
+    "limits50Pct": {
+      "1": 12950,
+      "2": 14750,
+      "3": 16650,
+      "4": 18450,
+      "5": 19950,
+      "6": 21450,
+      "7": 22900,
+      "8": 24400
+    },
+    "limits80Pct": {
+      "1": 20650,
+      "2": 23600,
+      "3": 26550,
+      "4": 29500,
+      "5": 31900,
+      "6": 34250,
+      "7": 36600,
+      "8": 38950
+    },
+    "provenance": {
+      "source": "hud_user_il",
+      "vintage": "FY2024",
+      "sourceUrl": "https://www.huduser.gov/portal/datasets/il.html",
+      "downloadTimestamp": "2026-08-28T18:00:00.000Z",
+      "sha256": "8bedd4926ef1293653304ef518ea7b0378af5c4e5f968f030c0995deeec84695",
+      "retrievalMethod": "download",
+      "datasetFile": "hud_il_fy2024.csv",
+      "areaIdentifier": "41980",
+      "fiscalYear": "2024",
+      "extractionRowKey": "fips_72127",
+      "notes": "HUD USER Section 8 Income Limits by family size and Area Median Family Income"
+    }
+  },
+  "chasSummary": {
     "totalHouseholds": 135120,
-    "renterHouseholds": 69420,
-    "ownerHouseholds": 65700,
-    "costBurdenedHouseholds": 28350,
-    "severelyCostBurdenedHouseholds": 52800,
-    "severeCostBurdenRate": 0.3908
+    "totalRenters": 69420,
+    "totalOwners": 65700,
+    "byAmiBracket": {
+      "le_30_pct_ami": {
+        "amiBracket": "le_30_pct_ami",
+        "totalHouseholds": 58400,
+        "renters": 37210,
+        "owners": 21190,
+        "costBurdenedCount": 8830,
+        "severelyCostBurdenedCount": 39200,
+        "costBurdenRate": 0.8224,
+        "severeCostBurdenRate": 0.6712
+      },
+      "gt_30_le_50_pct_ami": {
+        "amiBracket": "gt_30_le_50_pct_ami",
+        "totalHouseholds": 21850,
+        "renters": 11480,
+        "owners": 10370,
+        "costBurdenedCount": 7730,
+        "severelyCostBurdenedCount": 7930,
+        "costBurdenRate": 0.7167,
+        "severeCostBurdenRate": 0.3629
+      },
+      "gt_50_le_80_pct_ami": {
+        "amiBracket": "gt_50_le_80_pct_ami",
+        "totalHouseholds": 21330,
+        "renters": 9210,
+        "owners": 12120,
+        "costBurdenedCount": 6720,
+        "severelyCostBurdenedCount": 4250,
+        "costBurdenRate": 0.5143,
+        "severeCostBurdenRate": 0.1992
+      },
+      "gt_80_le_100_pct_ami": {
+        "amiBracket": "gt_80_le_100_pct_ami",
+        "totalHouseholds": 9640,
+        "renters": 3240,
+        "owners": 6400,
+        "costBurdenedCount": 2250,
+        "severelyCostBurdenedCount": 780,
+        "costBurdenRate": 0.3143,
+        "severeCostBurdenRate": 0.0809
+      },
+      "gt_100_pct_ami": {
+        "amiBracket": "gt_100_pct_ami",
+        "totalHouseholds": 23900,
+        "renters": 8280,
+        "owners": 15620,
+        "costBurdenedCount": 2800,
+        "severelyCostBurdenedCount": 640,
+        "costBurdenRate": 0.1439,
+        "severeCostBurdenRate": 0.0268
+      },
+      "all_income_levels": {
+        "amiBracket": "all_income_levels",
+        "totalHouseholds": 135120,
+        "renters": 69420,
+        "owners": 65700,
+        "costBurdenedCount": 28330,
+        "severelyCostBurdenedCount": 52800,
+        "costBurdenRate": 0.6004,
+        "severeCostBurdenRate": 0.3908
+      }
+    },
+    "costBurdenSummary": {
+      "notBurdenedCount": 53990,
+      "costBurdenedCount": 28330,
+      "severelyCostBurdenedCount": 52800,
+      "notComputedCount": 0,
+      "costBurdenRate": 0.6004,
+      "severeCostBurdenRate": 0.3908
+    },
+    "housingProblemsSummary": {
+      "has1OrMoreProblemsCount": 56180,
+      "has1OrMoreSevereProblemsCount": 43980,
+      "hasNoProblemsCount": 78940,
+      "problemsNotComputedCount": 0,
+      "housingProblemsRate": 0.4158
+    },
+    "suppressionSummary": {
+      "totalCellCount": 33,
+      "suppressedCellCount": 0,
+      "suppressedRatio": 0
+    }
+  },
+  "provenance": {
+    "source": "manual_benchmark",
+    "vintage": "2018-2022",
+    "sourceUrl": null,
+    "downloadTimestamp": "2026-08-28T18:00:00.000Z",
+    "sha256": "3e7e5b0f6a67e9c815429e519a76d161d53d4e8f282c61bed668a5114973be92",
+    "retrievalMethod": "fixture",
+    "notes": "Unified Housing Calibration Profile synthesizing HUD FMR, Income Limits, and CHAS 2018-2022 ACS"
   }
 }

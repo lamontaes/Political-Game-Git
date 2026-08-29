@@ -91,6 +91,10 @@ export interface HousingSourceProvenance {
   source: HousingDataSource;
   vintage: string; // e.g. "FY2024", "2018-2022_ACS5YR"
   sourceUrl: string | null;
+  datasetFile?: string;
+  areaIdentifier?: string;
+  fiscalYear?: string;
+  extractionRowKey?: string;
   downloadTimestamp: string;
   sha256: string;
   retrievalMethod: "api" | "download" | "fixture";

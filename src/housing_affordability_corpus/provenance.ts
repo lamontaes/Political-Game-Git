@@ -55,6 +55,12 @@ export function createProvenanceEnvelope(
   rawPayload: unknown,
   retrievalMethod: "api" | "download" | "fixture" = "download",
   notes?: string,
+  extractionMeta?: {
+    datasetFile?: string;
+    areaIdentifier?: string;
+    fiscalYear?: string;
+    extractionRowKey?: string;
+  },
 ): HousingSourceProvenance {
   const payloadHash = computeSha256(rawPayload);
   return {
@@ -64,6 +70,18 @@ export function createProvenanceEnvelope(
     downloadTimestamp: "2026-08-28T18:00:00.000Z", // Stable baseline timestamp for deterministic compilation
     sha256: payloadHash,
     retrievalMethod,
+    ...(extractionMeta?.datasetFile
+      ? { datasetFile: extractionMeta.datasetFile }
+      : {}),
+    ...(extractionMeta?.areaIdentifier
+      ? { areaIdentifier: extractionMeta.areaIdentifier }
+      : {}),
+    ...(extractionMeta?.fiscalYear
+      ? { fiscalYear: extractionMeta.fiscalYear }
+      : {}),
+    ...(extractionMeta?.extractionRowKey
+      ? { extractionRowKey: extractionMeta.extractionRowKey }
+      : {}),
     ...(notes ? { notes } : {}),
   };
 }

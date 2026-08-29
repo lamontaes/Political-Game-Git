@@ -1,64 +1,210 @@
 {
-  "benchmarkJurisdiction": "San Francisco, California (Expensive Metro)",
-  "geoId": "county_06075",
-  "fipsCode": "06075",
-  "stateAbbr": "CA",
-  "cbsaCode": "41860",
-  "metroName": "San Francisco HMFA",
-  "isMetropolitan": true,
-  "isTerritory": false,
-  "fmr": {
-    "vintage": "FY2024",
-    "fmr0Br": 2274,
-    "fmr1Br": 2705,
-    "fmr2Br": 3271,
-    "fmr3Br": 4057,
-    "fmr4Br": 4449,
-    "percentile": 40,
-    "isObservedMedianRent": false
+  "profileId": "profile_housing_county_06075",
+  "geo": {
+    "geoId": "county_06075",
+    "name": "San Francisco County",
+    "stateFips": "06",
+    "stateAbbr": "CA",
+    "countyFips": "06075",
+    "cbsaCode": "41860",
+    "metroName": null,
+    "isMetropolitan": true,
+    "isTerritory": false
   },
-  "incomeLimits": {
+  "asOfVintage": {
+    "fmrVintage": "FY2024",
+    "ilVintage": "FY2024",
+    "chasVintage": "2018-2022"
+  },
+  "fmr": {
+    "id": "us_hud_fmr_county_06075_fy2024",
+    "geo": {
+      "geoId": "county_06075",
+      "name": "San Francisco County",
+      "stateFips": "06",
+      "stateAbbr": "CA",
+      "countyFips": "06075",
+      "cbsaCode": "41860",
+      "metroName": "San Francisco HMFA",
+      "isMetropolitan": true,
+      "isTerritory": false
+    },
     "vintage": "FY2024",
-    "medianFamilyIncome": 182800,
-    "limits30Pct": {
-      "1": 41000,
-      "2": 46850,
-      "3": 52700,
-      "4": 58550,
-      "5": 63250,
-      "6": 67950,
-      "7": 72650,
-      "8": 77300
-    },
-    "limits50Pct": {
-      "1": 68300,
-      "2": 78050,
-      "3": 87800,
-      "4": 97550,
-      "5": 105400,
-      "6": 113200,
-      "7": 121000,
-      "8": 128800
-    },
-    "limits80Pct": {
-      "1": 109250,
-      "2": 124850,
-      "3": 140450,
-      "4": 156050,
-      "5": 168550,
-      "6": 181050,
-      "7": 193550,
-      "8": 206000
+    "fmr0Br": 2292,
+    "fmr1Br": 2818,
+    "fmr2Br": 3359,
+    "fmr3Br": 4112,
+    "fmr4Br": 4473,
+    "percentile": 40,
+    "isSmallAreaFmr": false,
+    "isObservedMedianRent": false,
+    "provenance": {
+      "source": "hud_user_fmr",
+      "vintage": "FY2024",
+      "sourceUrl": "https://www.huduser.gov/portal/datasets/fmr.html",
+      "downloadTimestamp": "2026-08-28T18:00:00.000Z",
+      "sha256": "c279f26b4b2555833e97da9b72c152154658092ef095cd6fc8a52a066c8f234a",
+      "retrievalMethod": "download",
+      "datasetFile": "hud_fmr_fy2024.csv",
+      "areaIdentifier": "41860",
+      "fiscalYear": "2024",
+      "extractionRowKey": "fips_06075",
+      "notes": "HUD USER Fair Market Rents 40th percentile gross rent standard by bedroom size"
     }
   },
-  "chasBenchmark": {
-    "vintage": "2018-2022",
-    "tableUniverse": "occupied_housing_units",
+  "incomeLimits": {
+    "id": "us_hud_il_county_06075_fy2024",
+    "geo": {
+      "geoId": "county_06075",
+      "name": "San Francisco County",
+      "stateFips": "06",
+      "stateAbbr": "CA",
+      "countyFips": "06075",
+      "cbsaCode": "41860",
+      "metroName": "San Francisco HMFA",
+      "isMetropolitan": true,
+      "isTerritory": false
+    },
+    "vintage": "FY2024",
+    "medianFamilyIncome": 185700,
+    "limits30Pct": {
+      "1": 41150,
+      "2": 47000,
+      "3": 52900,
+      "4": 58750,
+      "5": 63450,
+      "6": 68150,
+      "7": 72850,
+      "8": 77550
+    },
+    "limits50Pct": {
+      "1": 68550,
+      "2": 78350,
+      "3": 88150,
+      "4": 97900,
+      "5": 105750,
+      "6": 113600,
+      "7": 121400,
+      "8": 129250
+    },
+    "limits80Pct": {
+      "1": 109700,
+      "2": 125350,
+      "3": 141000,
+      "4": 156650,
+      "5": 169200,
+      "6": 181750,
+      "7": 194250,
+      "8": 206800
+    },
+    "provenance": {
+      "source": "hud_user_il",
+      "vintage": "FY2024",
+      "sourceUrl": "https://www.huduser.gov/portal/datasets/il.html",
+      "downloadTimestamp": "2026-08-28T18:00:00.000Z",
+      "sha256": "84bcc63c2433b0c63f015125fa2f414c561af71c1847ef76c63f0cf7eed6d4bd",
+      "retrievalMethod": "download",
+      "datasetFile": "hud_il_fy2024.csv",
+      "areaIdentifier": "41860",
+      "fiscalYear": "2024",
+      "extractionRowKey": "fips_06075",
+      "notes": "HUD USER Section 8 Income Limits by family size and Area Median Family Income"
+    }
+  },
+  "chasSummary": {
     "totalHouseholds": 373200,
-    "renterHouseholds": 242580,
-    "ownerHouseholds": 130620,
-    "costBurdenedHouseholds": 80160,
-    "severelyCostBurdenedHouseholds": 98560,
-    "severeCostBurdenRate": 0.2641
+    "totalRenters": 242580,
+    "totalOwners": 130620,
+    "byAmiBracket": {
+      "le_30_pct_ami": {
+        "amiBracket": "le_30_pct_ami",
+        "totalHouseholds": 72150,
+        "renters": 58420,
+        "owners": 13730,
+        "costBurdenedCount": 9290,
+        "severelyCostBurdenedCount": 58520,
+        "costBurdenRate": 0.9398,
+        "severeCostBurdenRate": 0.8111
+      },
+      "gt_30_le_50_pct_ami": {
+        "amiBracket": "gt_30_le_50_pct_ami",
+        "totalHouseholds": 38420,
+        "renters": 28140,
+        "owners": 10280,
+        "costBurdenedCount": 13740,
+        "severelyCostBurdenedCount": 18970,
+        "costBurdenRate": 0.8514,
+        "severeCostBurdenRate": 0.4938
+      },
+      "gt_50_le_80_pct_ami": {
+        "amiBracket": "gt_50_le_80_pct_ami",
+        "totalHouseholds": 43180,
+        "renters": 31210,
+        "owners": 11970,
+        "costBurdenedCount": 18210,
+        "severelyCostBurdenedCount": 11810,
+        "costBurdenRate": 0.6952,
+        "severeCostBurdenRate": 0.2735
+      },
+      "gt_80_le_100_pct_ami": {
+        "amiBracket": "gt_80_le_100_pct_ami",
+        "totalHouseholds": 29150,
+        "renters": 20410,
+        "owners": 8740,
+        "costBurdenedCount": 10290,
+        "severelyCostBurdenedCount": 3690,
+        "costBurdenRate": 0.4796,
+        "severeCostBurdenRate": 0.1266
+      },
+      "gt_100_pct_ami": {
+        "amiBracket": "gt_100_pct_ami",
+        "totalHouseholds": 190300,
+        "renters": 104400,
+        "owners": 85900,
+        "costBurdenedCount": 22730,
+        "severelyCostBurdenedCount": 5570,
+        "costBurdenRate": 0.1487,
+        "severeCostBurdenRate": 0.0293
+      },
+      "all_income_levels": {
+        "amiBracket": "all_income_levels",
+        "totalHouseholds": 373200,
+        "renters": 242580,
+        "owners": 130620,
+        "costBurdenedCount": 74260,
+        "severelyCostBurdenedCount": 98560,
+        "costBurdenRate": 0.4631,
+        "severeCostBurdenRate": 0.2641
+      }
+    },
+    "costBurdenSummary": {
+      "notBurdenedCount": 200380,
+      "costBurdenedCount": 74260,
+      "severelyCostBurdenedCount": 98560,
+      "notComputedCount": 0,
+      "costBurdenRate": 0.4631,
+      "severeCostBurdenRate": 0.2641
+    },
+    "housingProblemsSummary": {
+      "has1OrMoreProblemsCount": 148500,
+      "has1OrMoreSevereProblemsCount": 96350,
+      "hasNoProblemsCount": 224700,
+      "problemsNotComputedCount": 0,
+      "housingProblemsRate": 0.3979
+    },
+    "suppressionSummary": {
+      "totalCellCount": 33,
+      "suppressedCellCount": 0,
+      "suppressedRatio": 0
+    }
+  },
+  "provenance": {
+    "source": "manual_benchmark",
+    "vintage": "2018-2022",
+    "sourceUrl": null,
+    "downloadTimestamp": "2026-08-28T18:00:00.000Z",
+    "sha256": "ac4df39e87dba0a1c77094010038c5f3254df58c984942373c8d327c1e6e2a66",
+    "retrievalMethod": "fixture",
+    "notes": "Unified Housing Calibration Profile synthesizing HUD FMR, Income Limits, and CHAS 2018-2022 ACS"
   }
 }

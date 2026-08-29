@@ -82,6 +82,12 @@ export function normalizeFmrRecord(
     raw,
     "download",
     "HUD USER Fair Market Rents 40th percentile gross rent standard by bedroom size",
+    {
+      datasetFile: `hud_fmr_${vintage.toLowerCase()}.csv`,
+      areaIdentifier: raw.cbsaCode || raw.fipsCode,
+      fiscalYear: String(raw.year).replace("FY", ""),
+      extractionRowKey: `fips_${raw.fipsCode}`,
+    },
   );
 
   return {
@@ -123,6 +129,12 @@ export function normalizeIncomeLimitRecord(
     raw,
     "download",
     "HUD USER Section 8 Income Limits by family size and Area Median Family Income",
+    {
+      datasetFile: `hud_il_${vintage.toLowerCase()}.csv`,
+      areaIdentifier: raw.cbsaCode || raw.fipsCode,
+      fiscalYear: String(raw.year).replace("FY", ""),
+      extractionRowKey: `fips_${raw.fipsCode}`,
+    },
   );
 
   return {
@@ -161,6 +173,12 @@ export function normalizeChasRecord(
     raw,
     "download",
     `HUD CHAS 2018-2022 ACS 5-Year Tabulation ${raw.tableId} universe=${raw.tableUniverse}`,
+    {
+      datasetFile: "chas_2018_2022_extract.csv",
+      areaIdentifier: raw.cbsaCode || raw.fipsCode,
+      fiscalYear: "2018-2022",
+      extractionRowKey: `${raw.tableId}_${raw.sourceVariable}_fips_${raw.fipsCode}`,
+    },
   );
 
   return {

@@ -1,64 +1,210 @@
 {
-  "benchmarkJurisdiction": "Owsley County, Kentucky (Low-Cost Rural County)",
-  "geoId": "county_21189",
-  "fipsCode": "21189",
-  "stateAbbr": "KY",
-  "cbsaCode": null,
-  "metroName": null,
-  "isMetropolitan": false,
-  "isTerritory": false,
-  "fmr": {
-    "vintage": "FY2024",
-    "fmr0Br": 648,
-    "fmr1Br": 652,
-    "fmr2Br": 828,
-    "fmr3Br": 1050,
-    "fmr4Br": 1123,
-    "percentile": 40,
-    "isObservedMedianRent": false
+  "profileId": "profile_housing_county_21189",
+  "geo": {
+    "geoId": "county_21189",
+    "name": "Owsley County",
+    "stateFips": "21",
+    "stateAbbr": "KY",
+    "countyFips": "21189",
+    "cbsaCode": null,
+    "metroName": null,
+    "isMetropolitan": false,
+    "isTerritory": false
   },
-  "incomeLimits": {
+  "asOfVintage": {
+    "fmrVintage": "FY2024",
+    "ilVintage": "FY2024",
+    "chasVintage": "2018-2022"
+  },
+  "fmr": {
+    "id": "us_hud_fmr_county_21189_fy2024",
+    "geo": {
+      "geoId": "county_21189",
+      "name": "Owsley County",
+      "stateFips": "21",
+      "stateAbbr": "KY",
+      "countyFips": "21189",
+      "cbsaCode": null,
+      "metroName": null,
+      "isMetropolitan": false,
+      "isTerritory": false
+    },
     "vintage": "FY2024",
-    "medianFamilyIncome": 44800,
-    "limits30Pct": {
-      "1": 15060,
-      "2": 19550,
-      "3": 22000,
-      "4": 24400,
-      "5": 26400,
-      "6": 28350,
-      "7": 30300,
-      "8": 32250
-    },
-    "limits50Pct": {
-      "1": 17100,
-      "2": 19550,
-      "3": 22000,
-      "4": 24400,
-      "5": 26400,
-      "6": 28350,
-      "7": 30300,
-      "8": 32250
-    },
-    "limits80Pct": {
-      "1": 27350,
-      "2": 31250,
-      "3": 35150,
-      "4": 39050,
-      "5": 42200,
-      "6": 45300,
-      "7": 48450,
-      "8": 51550
+    "fmr0Br": 620,
+    "fmr1Br": 660,
+    "fmr2Br": 870,
+    "fmr3Br": 1200,
+    "fmr4Br": 1210,
+    "percentile": 40,
+    "isSmallAreaFmr": false,
+    "isObservedMedianRent": false,
+    "provenance": {
+      "source": "hud_user_fmr",
+      "vintage": "FY2024",
+      "sourceUrl": "https://www.huduser.gov/portal/datasets/fmr.html",
+      "downloadTimestamp": "2026-08-28T18:00:00.000Z",
+      "sha256": "0a34a50f83c4e940691cd80c47498efba319b11c9fd1d7b28c9b3623de4815f0",
+      "retrievalMethod": "download",
+      "datasetFile": "hud_fmr_fy2024.csv",
+      "areaIdentifier": "21189",
+      "fiscalYear": "2024",
+      "extractionRowKey": "fips_21189",
+      "notes": "HUD USER Fair Market Rents 40th percentile gross rent standard by bedroom size"
     }
   },
-  "chasBenchmark": {
-    "vintage": "2018-2022",
-    "tableUniverse": "occupied_housing_units",
+  "incomeLimits": {
+    "id": "us_hud_il_county_21189_fy2024",
+    "geo": {
+      "geoId": "county_21189",
+      "name": "Owsley County",
+      "stateFips": "21",
+      "stateAbbr": "KY",
+      "countyFips": "21189",
+      "cbsaCode": null,
+      "metroName": null,
+      "isMetropolitan": false,
+      "isTerritory": false
+    },
+    "vintage": "FY2024",
+    "medianFamilyIncome": 49800,
+    "limits30Pct": {
+      "1": 15060,
+      "2": 20440,
+      "3": 25820,
+      "4": 31200,
+      "5": 35450,
+      "6": 38050,
+      "7": 40700,
+      "8": 43300
+    },
+    "limits50Pct": {
+      "1": 23000,
+      "2": 26250,
+      "3": 29550,
+      "4": 32800,
+      "5": 35450,
+      "6": 38050,
+      "7": 40700,
+      "8": 43300
+    },
+    "limits80Pct": {
+      "1": 36750,
+      "2": 42000,
+      "3": 47250,
+      "4": 52500,
+      "5": 56700,
+      "6": 60900,
+      "7": 65100,
+      "8": 69300
+    },
+    "provenance": {
+      "source": "hud_user_il",
+      "vintage": "FY2024",
+      "sourceUrl": "https://www.huduser.gov/portal/datasets/il.html",
+      "downloadTimestamp": "2026-08-28T18:00:00.000Z",
+      "sha256": "9d3d16817ec54e3af4fd5091669500179b57dc5aed90b2ed799c274b31d2efc8",
+      "retrievalMethod": "download",
+      "datasetFile": "hud_il_fy2024.csv",
+      "areaIdentifier": "21189",
+      "fiscalYear": "2024",
+      "extractionRowKey": "fips_21189",
+      "notes": "HUD USER Section 8 Income Limits by family size and Area Median Family Income"
+    }
+  },
+  "chasSummary": {
     "totalHouseholds": 1735,
-    "renterHouseholds": 515,
-    "ownerHouseholds": 1220,
-    "costBurdenedHouseholds": 265,
-    "severelyCostBurdenedHouseholds": 385,
-    "severeCostBurdenRate": 0.2219
+    "totalRenters": 515,
+    "totalOwners": 1220,
+    "byAmiBracket": {
+      "le_30_pct_ami": {
+        "amiBracket": "le_30_pct_ami",
+        "totalHouseholds": 625,
+        "renters": 290,
+        "owners": 335,
+        "costBurdenedCount": 150,
+        "severelyCostBurdenedCount": 285,
+        "costBurdenRate": 0.696,
+        "severeCostBurdenRate": 0.456
+      },
+      "gt_30_le_50_pct_ami": {
+        "amiBracket": "gt_30_le_50_pct_ami",
+        "totalHouseholds": 310,
+        "renters": 105,
+        "owners": 205,
+        "costBurdenedCount": 95,
+        "severelyCostBurdenedCount": 70,
+        "costBurdenRate": 0.5323,
+        "severeCostBurdenRate": 0.2258
+      },
+      "gt_50_le_80_pct_ami": {
+        "amiBracket": "gt_50_le_80_pct_ami",
+        "totalHouseholds": 295,
+        "renters": 65,
+        "owners": 230,
+        "costBurdenedCount": 45,
+        "severelyCostBurdenedCount": 25,
+        "costBurdenRate": 0.2373,
+        "severeCostBurdenRate": 0.0847
+      },
+      "gt_80_le_100_pct_ami": {
+        "amiBracket": "gt_80_le_100_pct_ami",
+        "totalHouseholds": 145,
+        "renters": 20,
+        "owners": 125,
+        "costBurdenedCount": 15,
+        "severelyCostBurdenedCount": 5,
+        "costBurdenRate": 0.1379,
+        "severeCostBurdenRate": 0.0345
+      },
+      "gt_100_pct_ami": {
+        "amiBracket": "gt_100_pct_ami",
+        "totalHouseholds": 360,
+        "renters": 35,
+        "owners": 325,
+        "costBurdenedCount": 10,
+        "severelyCostBurdenedCount": 0,
+        "costBurdenRate": 0.0278,
+        "severeCostBurdenRate": 0
+      },
+      "all_income_levels": {
+        "amiBracket": "all_income_levels",
+        "totalHouseholds": 1735,
+        "renters": 515,
+        "owners": 1220,
+        "costBurdenedCount": 315,
+        "severelyCostBurdenedCount": 385,
+        "costBurdenRate": 0.4035,
+        "severeCostBurdenRate": 0.2219
+      }
+    },
+    "costBurdenSummary": {
+      "notBurdenedCount": 1035,
+      "costBurdenedCount": 315,
+      "severelyCostBurdenedCount": 385,
+      "notComputedCount": 0,
+      "costBurdenRate": 0.4035,
+      "severeCostBurdenRate": 0.2219
+    },
+    "housingProblemsSummary": {
+      "has1OrMoreProblemsCount": 480,
+      "has1OrMoreSevereProblemsCount": 375,
+      "hasNoProblemsCount": 1255,
+      "problemsNotComputedCount": 0,
+      "housingProblemsRate": 0.2767
+    },
+    "suppressionSummary": {
+      "totalCellCount": 34,
+      "suppressedCellCount": 1,
+      "suppressedRatio": 0.0294
+    }
+  },
+  "provenance": {
+    "source": "manual_benchmark",
+    "vintage": "2018-2022",
+    "sourceUrl": null,
+    "downloadTimestamp": "2026-08-28T18:00:00.000Z",
+    "sha256": "4d8a92669ca0519e09fc6d7b6596dffef2a93a644f5e9a45dc2725e4c13f5b56",
+    "retrievalMethod": "fixture",
+    "notes": "Unified Housing Calibration Profile synthesizing HUD FMR, Income Limits, and CHAS 2018-2022 ACS"
   }
 }

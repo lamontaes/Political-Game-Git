@@ -118,8 +118,8 @@ describe("National Housing & Affordability Source Compiler", () => {
       expect(lexingtonFmr2024).toBeDefined();
       expect(lexingtonFmr2023).toBeDefined();
       expect(lexingtonFmr2024!.id).not.toBe(lexingtonFmr2023!.id);
-      expect(lexingtonFmr2024!.fmr2Br).toBe(1158);
-      expect(lexingtonFmr2023!.fmr2Br).toBe(1029);
+      expect(lexingtonFmr2024!.fmr2Br).toBe(1177);
+      expect(lexingtonFmr2023!.fmr2Br).toBe(1025);
 
       const lexingtonIl2024 = corpus.incomeLimitRecords.find(
         (r) => r.geo.geoId === "county_21067" && r.vintage === "FY2024",
@@ -130,8 +130,8 @@ describe("National Housing & Affordability Source Compiler", () => {
 
       expect(lexingtonIl2024).toBeDefined();
       expect(lexingtonIl2023).toBeDefined();
-      expect(lexingtonIl2024!.medianFamilyIncome).toBe(94900);
-      expect(lexingtonIl2023!.medianFamilyIncome).toBe(89700);
+      expect(lexingtonIl2024!.medianFamilyIncome).toBe(95200);
+      expect(lexingtonIl2023!.medianFamilyIncome).toBe(93400);
     });
 
     it("preserves ACS 5-year vintage format for CHAS data", () => {
@@ -182,6 +182,24 @@ describe("National Housing & Affordability Source Compiler", () => {
       expect(canonicalJsonStringify(corpus1)).toBe(
         canonicalJsonStringify(corpus2),
       );
+    });
+
+    it("records full extraction metadata and row keys in record provenance", () => {
+      const corpus = compileHousingCorpus();
+      const fmr = corpus.fmrRecords[0]!;
+      expect(fmr.provenance.datasetFile).toBeDefined();
+      expect(fmr.provenance.areaIdentifier).toBeDefined();
+      expect(fmr.provenance.fiscalYear).toBeDefined();
+      expect(fmr.provenance.extractionRowKey).toBeDefined();
+      expect(fmr.provenance.sha256.length).toBe(64);
+
+      const il = corpus.incomeLimitRecords[0]!;
+      expect(il.provenance.datasetFile).toBeDefined();
+      expect(il.provenance.areaIdentifier).toBeDefined();
+
+      const chas = corpus.chasRecords[0]!;
+      expect(chas.provenance.datasetFile).toBe("chas_2018_2022_extract.csv");
+      expect(chas.provenance.extractionRowKey).toContain("Table");
     });
 
     it("passes comprehensive corpus validation suite without critical errors", () => {
@@ -237,9 +255,9 @@ describe("National Housing & Affordability Source Compiler", () => {
 
       expect(lex!.geo.name).toBe("Fayette County");
       expect(lex!.geo.stateAbbr).toBe("KY");
-      expect(lex!.fmr.fmr2Br).toBe(1158);
-      expect(lex!.incomeLimits.medianFamilyIncome).toBe(94900);
-      expect(lex!.incomeLimits.limits50Pct[4]).toBe(47500);
+      expect(lex!.fmr.fmr2Br).toBe(1177);
+      expect(lex!.incomeLimits.medianFamilyIncome).toBe(95200);
+      expect(lex!.incomeLimits.limits50Pct[4]).toBe(47600);
       expect(lex!.chasSummary.totalHouseholds).toBe(139450);
       expect(lex!.chasSummary.totalRenters).toBe(64880);
       expect(lex!.chasSummary.costBurdenSummary.severelyCostBurdenedCount).toBe(
@@ -256,9 +274,9 @@ describe("National Housing & Affordability Source Compiler", () => {
 
       expect(sf!.geo.name).toBe("San Francisco County");
       expect(sf!.geo.stateAbbr).toBe("CA");
-      expect(sf!.fmr.fmr2Br).toBe(3271);
-      expect(sf!.incomeLimits.medianFamilyIncome).toBe(182800);
-      expect(sf!.incomeLimits.limits50Pct[4]).toBe(97550);
+      expect(sf!.fmr.fmr2Br).toBe(3359);
+      expect(sf!.incomeLimits.medianFamilyIncome).toBe(185700);
+      expect(sf!.incomeLimits.limits50Pct[4]).toBe(97900);
       expect(sf!.chasSummary.totalHouseholds).toBe(373200);
       expect(sf!.chasSummary.costBurdenSummary.severelyCostBurdenedCount).toBe(
         98560,
@@ -275,8 +293,8 @@ describe("National Housing & Affordability Source Compiler", () => {
       expect(owsley!.geo.name).toBe("Owsley County");
       expect(owsley!.geo.stateAbbr).toBe("KY");
       expect(owsley!.geo.isMetropolitan).toBe(false);
-      expect(owsley!.fmr.fmr2Br).toBe(828);
-      expect(owsley!.incomeLimits.medianFamilyIncome).toBe(44800);
+      expect(owsley!.fmr.fmr2Br).toBe(870);
+      expect(owsley!.incomeLimits.medianFamilyIncome).toBe(49800);
       expect(owsley!.chasSummary.totalHouseholds).toBe(1735);
       expect(
         owsley!.chasSummary.costBurdenSummary.severelyCostBurdenedCount,
@@ -293,8 +311,8 @@ describe("National Housing & Affordability Source Compiler", () => {
       expect(sanJuan!.geo.name).toBe("San Juan Municipio");
       expect(sanJuan!.geo.stateAbbr).toBe("PR");
       expect(sanJuan!.geo.isTerritory).toBe(true);
-      expect(sanJuan!.fmr.fmr2Br).toBe(637);
-      expect(sanJuan!.incomeLimits.medianFamilyIncome).toBe(30800);
+      expect(sanJuan!.fmr.fmr2Br).toBe(668);
+      expect(sanJuan!.incomeLimits.medianFamilyIncome).toBe(35100);
       expect(sanJuan!.chasSummary.totalHouseholds).toBe(135120);
       expect(
         sanJuan!.chasSummary.costBurdenSummary.severelyCostBurdenedCount,

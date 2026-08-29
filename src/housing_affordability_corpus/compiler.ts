@@ -180,6 +180,30 @@ export function compileHousingCorpus(
     mkdirSync(outDir, { recursive: true });
   }
 
+  // Write individual benchmark profile fixtures
+  const fixturesDir = resolve(baseDir, "fixtures");
+  if (!existsSync(fixturesDir)) {
+    mkdirSync(fixturesDir, { recursive: true });
+  }
+
+  const fixtureFilenameMap: Record<string, string> = {
+    county_21067: "lexington_fayette_ky.json",
+    county_06075: "san_francisco_ca.json",
+    county_21189: "owsley_county_ky.json",
+    county_72127: "san_juan_pr.json",
+  };
+
+  for (const profile of calibrationProfiles) {
+    const filename = fixtureFilenameMap[profile.geo.geoId];
+    if (filename) {
+      writeFileSync(
+        resolve(fixturesDir, filename),
+        JSON.stringify(profile, null, 2) + "\n",
+        "utf-8",
+      );
+    }
+  }
+
   writeFileSync(
     outputFile,
     canonicalJsonStringify(compiledCorpus) + "\n",
