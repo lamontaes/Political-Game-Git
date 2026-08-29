@@ -1,0 +1,409 @@
+[
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "US",
+    "fips": "00",
+    "jurisdictionName": "United States",
+    "categoryKey": "national_cvap",
+    "surveyUniverse": "citizen_voting_age_population",
+    "sampleSizeUnweighted": 78400,
+    "weightingVariable": "PWSSWGT",
+    "retrievalDate": "2023-05-15",
+    "sourceUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-585.html",
+    "reportedRegistration": {
+      "estimateCount": 161422000,
+      "ratePercent": 69.1,
+      "standardError": 0.24,
+      "marginOfError90Percent": 0.39
+    },
+    "reportedVoting": {
+      "estimateCount": 122340000,
+      "ratePercent": 52.2,
+      "standardError": 0.26,
+      "marginOfError90Percent": 0.43
+    },
+    "demographics": {
+      "byAge": [
+        {
+          "category": "age",
+          "label": "18 to 24 years",
+          "universeCount": 27850000,
+          "registeredCount": 14210000,
+          "registeredRatePercent": 51.0,
+          "registeredRateMOE": 0.82,
+          "votedCount": 7880000,
+          "votedRatePercent": 28.3,
+          "votedRateMOE": 0.74
+        },
+        {
+          "category": "age",
+          "label": "25 to 44 years",
+          "universeCount": 81400000,
+          "registeredCount": 53200000,
+          "registeredRatePercent": 65.4,
+          "registeredRateMOE": 0.46,
+          "votedCount": 38100000,
+          "votedRatePercent": 46.8,
+          "votedRateMOE": 0.48
+        },
+        {
+          "category": "age",
+          "label": "45 to 64 years",
+          "universeCount": 74200000,
+          "registeredCount": 55800000,
+          "registeredRatePercent": 75.2,
+          "registeredRateMOE": 0.44,
+          "votedCount": 44800000,
+          "votedRatePercent": 60.4,
+          "votedRateMOE": 0.50
+        },
+        {
+          "category": "age",
+          "label": "65 years and over",
+          "universeCount": 50150000,
+          "registeredCount": 38212000,
+          "registeredRatePercent": 76.2,
+          "registeredRateMOE": 0.52,
+          "votedCount": 31560000,
+          "votedRatePercent": 62.9,
+          "votedRateMOE": 0.59
+        }
+      ],
+      "bySex": [
+        {
+          "category": "sex",
+          "label": "Male",
+          "universeCount": 112800000,
+          "registeredCount": 76100000,
+          "registeredRatePercent": 67.5,
+          "registeredRateMOE": 0.38,
+          "votedCount": 57400000,
+          "votedRatePercent": 50.9,
+          "votedRateMOE": 0.41
+        },
+        {
+          "category": "sex",
+          "label": "Female",
+          "universeCount": 120800000,
+          "registeredCount": 85322000,
+          "registeredRatePercent": 70.6,
+          "registeredRateMOE": 0.35,
+          "votedCount": 64940000,
+          "votedRatePercent": 53.8,
+          "votedRateMOE": 0.39
+        }
+      ],
+      "byRaceHispanic": [
+        {
+          "category": "race_hispanic",
+          "label": "White non-Hispanic",
+          "universeCount": 158400000,
+          "registeredCount": 115200000,
+          "registeredRatePercent": 72.7,
+          "registeredRateMOE": 0.30,
+          "votedCount": 90100000,
+          "votedRatePercent": 56.9,
+          "votedRateMOE": 0.34
+        },
+        {
+          "category": "race_hispanic",
+          "label": "Black non-Hispanic",
+          "universeCount": 29800000,
+          "registeredCount": 20400000,
+          "registeredRatePercent": 68.5,
+          "registeredRateMOE": 0.72,
+          "votedCount": 14600000,
+          "votedRatePercent": 49.0,
+          "votedRateMOE": 0.78
+        },
+        {
+          "category": "race_hispanic",
+          "label": "Hispanic of any race",
+          "universeCount": 31400000,
+          "registeredCount": 17200000,
+          "registeredRatePercent": 54.8,
+          "registeredRateMOE": 0.75,
+          "votedCount": 11200000,
+          "votedRatePercent": 35.7,
+          "votedRateMOE": 0.72
+        },
+        {
+          "category": "race_hispanic",
+          "label": "Asian non-Hispanic",
+          "universeCount": 11400000,
+          "registeredCount": 6600000,
+          "registeredRatePercent": 57.9,
+          "registeredRateMOE": 1.20,
+          "votedCount": 4900000,
+          "votedRatePercent": 43.0,
+          "votedRateMOE": 1.24
+        }
+      ],
+      "byEducation": [
+        {
+          "category": "education",
+          "label": "Less than high school graduate",
+          "universeCount": 17400000,
+          "registeredCount": 8100000,
+          "registeredRatePercent": 46.6,
+          "registeredRateMOE": 1.05,
+          "votedCount": 4800000,
+          "votedRatePercent": 27.6,
+          "votedRateMOE": 0.94
+        },
+        {
+          "category": "education",
+          "label": "High school graduate or equivalent",
+          "universeCount": 64200000,
+          "registeredCount": 39800000,
+          "registeredRatePercent": 62.0,
+          "registeredRateMOE": 0.54,
+          "votedCount": 26800000,
+          "votedRatePercent": 41.7,
+          "votedRateMOE": 0.55
+        },
+        {
+          "category": "education",
+          "label": "Some college or associate degree",
+          "universeCount": 68400000,
+          "registeredCount": 49600000,
+          "registeredRatePercent": 72.5,
+          "registeredRateMOE": 0.47,
+          "votedCount": 37200000,
+          "votedRatePercent": 54.4,
+          "votedRateMOE": 0.53
+        },
+        {
+          "category": "education",
+          "label": "Bachelor's degree or higher",
+          "universeCount": 83600000,
+          "registeredCount": 63922000,
+          "registeredRatePercent": 76.5,
+          "registeredRateMOE": 0.40,
+          "votedCount": 53540000,
+          "votedRatePercent": 64.0,
+          "votedRateMOE": 0.46
+        }
+      ],
+      "byFamilyIncome": [
+        {
+          "category": "income",
+          "label": "Under $25,000",
+          "universeCount": 24200000,
+          "registeredCount": 13400000,
+          "registeredRatePercent": 55.4,
+          "registeredRateMOE": 0.89,
+          "votedCount": 8800000,
+          "votedRatePercent": 36.4,
+          "votedRateMOE": 0.86
+        },
+        {
+          "category": "income",
+          "label": "$25,000 to $49,999",
+          "universeCount": 38400000,
+          "registeredCount": 24100000,
+          "registeredRatePercent": 62.8,
+          "registeredRateMOE": 0.68,
+          "votedCount": 16800000,
+          "votedRatePercent": 43.8,
+          "votedRateMOE": 0.70
+        },
+        {
+          "category": "income",
+          "label": "$50,000 to $74,999",
+          "universeCount": 39800000,
+          "registeredCount": 27900000,
+          "registeredRatePercent": 70.1,
+          "registeredRateMOE": 0.63,
+          "votedCount": 20800000,
+          "votedRatePercent": 52.3,
+          "votedRateMOE": 0.69
+        },
+        {
+          "category": "income",
+          "label": "$75,000 to $99,999",
+          "universeCount": 34100000,
+          "registeredCount": 25400000,
+          "registeredRatePercent": 74.5,
+          "registeredRateMOE": 0.65,
+          "votedCount": 19800000,
+          "votedRatePercent": 58.1,
+          "votedRateMOE": 0.73
+        },
+        {
+          "category": "income",
+          "label": "$100,000 to $149,999",
+          "universeCount": 44800000,
+          "registeredCount": 35200000,
+          "registeredRatePercent": 78.6,
+          "registeredRateMOE": 0.54,
+          "votedCount": 28600000,
+          "votedRatePercent": 63.8,
+          "votedRateMOE": 0.62
+        },
+        {
+          "category": "income",
+          "label": "$150,000 and over",
+          "universeCount": 52300000,
+          "registeredCount": 42800000,
+          "registeredRatePercent": 81.8,
+          "registeredRateMOE": 0.46,
+          "votedCount": 36100000,
+          "votedRatePercent": 69.0,
+          "votedRateMOE": 0.55
+        }
+      ],
+      "byDurationOfResidence": [
+        {
+          "category": "residence_duration",
+          "label": "Less than 1 year",
+          "universeCount": 31200000,
+          "registeredCount": 15800000,
+          "registeredRatePercent": 50.6,
+          "registeredRateMOE": 0.78,
+          "votedCount": 10200000,
+          "votedRatePercent": 32.7,
+          "votedRateMOE": 0.73
+        },
+        {
+          "category": "residence_duration",
+          "label": "1 to 4 years",
+          "universeCount": 78400000,
+          "registeredCount": 52400000,
+          "registeredRatePercent": 66.8,
+          "registeredRateMOE": 0.46,
+          "votedCount": 38600000,
+          "votedRatePercent": 49.2,
+          "votedRateMOE": 0.49
+        },
+        {
+          "category": "residence_duration",
+          "label": "5 years or longer",
+          "universeCount": 124000000,
+          "registeredCount": 93222000,
+          "registeredRatePercent": 75.2,
+          "registeredRateMOE": 0.34,
+          "votedCount": 73540000,
+          "votedRatePercent": 59.3,
+          "votedRateMOE": 0.38
+        }
+      ]
+    },
+    "votingMethod": {
+      "electionDayInPersonPercent": 48.7,
+      "earlyInPersonPercent": 21.6,
+      "byMailPercent": 27.8,
+      "notReportedPercent": 1.9
+    },
+    "registrationMethod": {
+      "dmvMotorVoterPercent": 39.4,
+      "byMailPercent": 12.1,
+      "inPersonElectionOfficePercent": 14.8,
+      "onlineInternetPercent": 22.3,
+      "pollingPlaceElectionDayPercent": 4.1,
+      "schoolCommunityDrivePercent": 3.8,
+      "otherPercent": 3.5
+    },
+    "reasonsForNotVoting": [
+      {
+        "reasonKey": "too_busy",
+        "label": "Too busy, conflicting work or vacation schedule",
+        "estimateCount": 10400000,
+        "percentOfNonVoters": 26.6
+      },
+      {
+        "reasonKey": "not_interested",
+        "label": "Not interested, felt vote wouldn't make a difference",
+        "estimateCount": 7100000,
+        "percentOfNonVoters": 18.2
+      },
+      {
+        "reasonKey": "illness_disability",
+        "label": "Illness or disability (own or family member)",
+        "estimateCount": 5100000,
+        "percentOfNonVoters": 13.0
+      },
+      {
+        "reasonKey": "disliked_candidates_issues",
+        "label": "Did not like candidates or campaign issues",
+        "estimateCount": 4200000,
+        "percentOfNonVoters": 10.7
+      },
+      {
+        "reasonKey": "out_of_town",
+        "label": "Out of town on election day",
+        "estimateCount": 3800000,
+        "percentOfNonVoters": 9.7
+      },
+      {
+        "reasonKey": "registration_problems",
+        "label": "Registration problems or did not receive absentee ballot",
+        "estimateCount": 2400000,
+        "percentOfNonVoters": 6.1
+      },
+      {
+        "reasonKey": "transportation_problems",
+        "label": "Transportation problems",
+        "estimateCount": 1300000,
+        "percentOfNonVoters": 3.3
+      },
+      {
+        "reasonKey": "inconvenient_polling_place",
+        "label": "Inconvenient polling place or long lines",
+        "estimateCount": 1100000,
+        "percentOfNonVoters": 2.8
+      },
+      {
+        "reasonKey": "forgot_to_vote",
+        "label": "Forgot to vote",
+        "estimateCount": 980000,
+        "percentOfNonVoters": 2.5
+      },
+      {
+        "reasonKey": "other_refused",
+        "label": "Other reason / Don't know / Refused",
+        "estimateCount": 2720000,
+        "percentOfNonVoters": 7.0
+      }
+    ],
+    "reasonsForNotRegistering": [
+      {
+        "reasonKey": "not_interested_politics",
+        "label": "Not interested in election or politics",
+        "estimateCount": 29800000,
+        "percentOfNonVoters": 41.2
+      },
+      {
+        "reasonKey": "missed_deadline",
+        "label": "Did not meet registration deadlines",
+        "estimateCount": 14200000,
+        "percentOfNonVoters": 19.6
+      },
+      {
+        "reasonKey": "vote_no_difference",
+        "label": "My vote wouldn't make a difference",
+        "estimateCount": 10800000,
+        "percentOfNonVoters": 14.9
+      },
+      {
+        "reasonKey": "permanent_disability",
+        "label": "Permanent illness or disability",
+        "estimateCount": 6800000,
+        "percentOfNonVoters": 9.4
+      },
+      {
+        "reasonKey": "did_not_know_how",
+        "label": "Did not know where or how to register",
+        "estimateCount": 3100000,
+        "percentOfNonVoters": 4.3
+      },
+      {
+        "reasonKey": "other_refused",
+        "label": "Other / Don't know / Refused",
+        "estimateCount": 7600000,
+        "percentOfNonVoters": 10.5
+      }
+    ],
+    "notes": "National November 2022 CPS Voting and Registration Supplement benchmark calibration dataset (P20-585)."
+  }
+]

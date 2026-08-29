@@ -1,0 +1,72 @@
+[
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "PR",
+    "fips": "72",
+    "jurisdictionName": "Puerto Rico",
+    "statutoryEffectiveDate": "2022-01-01",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/eavs-policy-survey",
+    "registrationPolicy": {
+      "deadlineDaysBeforeElection": 50,
+      "automaticVoterRegistration": false,
+      "onlineVoterRegistration": false,
+      "sameDayRegistration": false,
+      "sameDayRegistrationLocations": [],
+      "preregistrationAge": 18
+    },
+    "voterIdPolicy": {
+      "inPersonRequirement": "strict_photo",
+      "provisionalCureAllowed": true,
+      "acceptableIdTypes": [
+        "Tarjeta Electoral de Puerto Rico (Voter Identification Card)",
+        "Puerto Rico Real ID Driver's License",
+        "U.S. Passport"
+      ],
+      "affidavitAllowed": false
+    },
+    "earlyVotingPolicy": {
+      "inPersonEarlyVotingAllowed": true,
+      "earlyVotingWindowDays": 1,
+      "weekendVotingMandatory": false,
+      "weekendVotingAllowed": false,
+      "uniformHoursMandatory": true
+    },
+    "mailVotingPolicy": {
+      "model": "excuse_required_absentee",
+      "excusesAllowed": [
+        "military_overseas",
+        "confined_institutionalized",
+        "medical_disability",
+        "essential_worker",
+        "student_abroad"
+      ],
+      "dropBoxesAllowed": false,
+      "dropBoxMandate": null,
+      "prepaidReturnPostage": false,
+      "witnessOrNotaryRequired": false,
+      "curePeriodAllowed": true,
+      "curePeriodDays": 5,
+      "ballotTrackingAvailable": false
+    },
+    "postElectionAuditPolicy": {
+      "auditRequired": true,
+      "auditType": "traditional_percentage",
+      "statutoryTrigger": "Electoral Code of Puerto Rico (Act 58-2020) recount and canvas validation protocol"
+    },
+    "recountPolicy": {
+      "automaticRecountMarginPercent": 0.5,
+      "candidateRequestedAllowed": true,
+      "candidatePaysCostIfUnchanged": false
+    },
+    "felonDisenfranchisementPolicy": {
+      "restorationTiming": "no_disenfranchisement",
+      "description": "Puerto Rico Constitution does not disenfranchise incarcerated persons; prisoners retain voting rights and vote via special penal institution ballot procedures."
+    },
+    "governanceStructure": {
+      "chiefStateElectionOfficial": "territory_election_commission",
+      "localAdministrationStructure": "combined_clerk_board"
+    },
+    "notes": "Puerto Rico territorial election policy survey baseline under the Electoral Code (Act 58-2020), managed by Comisión Estatal de Elecciones (CEE)."
+  }
+]

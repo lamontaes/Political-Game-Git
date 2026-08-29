@@ -1,0 +1,42 @@
+[
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "WI",
+    "fips": "55",
+    "jurisdictionName": "Wisconsin",
+    "categoryKey": "state_cvap",
+    "surveyUniverse": "citizen_voting_age_population",
+    "sampleSizeUnweighted": 1540,
+    "weightingVariable": "PWSSWGT",
+    "retrievalDate": "2023-05-15",
+    "sourceUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-585.html",
+    "reportedRegistration": {
+      "estimateCount": 3380000,
+      "ratePercent": 76.8,
+      "standardError": 1.58,
+      "marginOfError90Percent": 2.60
+    },
+    "reportedVoting": {
+      "estimateCount": 2720000,
+      "ratePercent": 61.8,
+      "standardError": 1.82,
+      "marginOfError90Percent": 2.99
+    },
+    "votingMethod": {
+      "electionDayInPersonPercent": 66.8,
+      "earlyInPersonPercent": 10.9,
+      "byMailPercent": 20.8,
+      "notReportedPercent": 1.5
+    },
+    "registrationMethod": {
+      "dmvMotorVoterPercent": 14.8,
+      "byMailPercent": 6.8,
+      "inPersonElectionOfficePercent": 36.4,
+      "onlineInternetPercent": 28.2,
+      "pollingPlaceElectionDayPercent": 9.4,
+      "schoolCommunityDrivePercent": 2.1,
+      "otherPercent": 2.3
+    },
+    "notes": "Wisconsin CPS calibration (November 2022) with election-day polling place registration."
+  }
+]

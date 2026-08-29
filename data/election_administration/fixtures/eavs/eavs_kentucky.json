@@ -1,0 +1,388 @@
+[
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "KY",
+    "fips": "21",
+    "jurisdictionName": "Kentucky",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+    "sectionA": {
+      "totalRegistered": 3589813,
+      "activeRegistered": 3412500,
+      "inactiveRegistered": 177313,
+      "newRegistrationsTotal": 248102,
+      "newByMail": 24150,
+      "newInPerson": 31200,
+      "newOnline": 98450,
+      "newMotorVoter": 86102,
+      "newOther": 8200,
+      "removalsTotal": 142310,
+      "removalsMoved": 68400,
+      "removalsDeceased": 46510,
+      "removalsFelony": 11200,
+      "removalsInactivity": 14200,
+      "removalsOther": 2000
+    },
+    "sectionB": {
+      "transmitted": 5820,
+      "returned": 4150,
+      "counted": 4012,
+      "rejected": 138,
+      "rejectionRate": 0.0333,
+      "rejectionReasons": {
+        "late": 82,
+        "missingSignature": 34,
+        "other": 22
+      }
+    },
+    "sectionC": {
+      "transmitted": 54210,
+      "returned": 48920,
+      "counted": 47610,
+      "rejected": 1310,
+      "rejectionRate": 0.0268,
+      "rejectionReasons": {
+        "late": 580,
+        "missingSignature": 320,
+        "signatureMismatch": 210,
+        "missingWitnessOrNotary": "NA",
+        "missingSecrecyEnvelope": 110,
+        "other": 90
+      }
+    },
+    "sectionD": {
+      "totalParticipants": 1502420,
+      "inPersonElectionDayVotes": 1120340,
+      "inPersonEarlyVotes": 334470,
+      "mailVotesCounted": 47610,
+      "provisionalVotesCounted": 0,
+      "physicalPollingPlaces": 1712,
+      "earlyVotingLocations": 182,
+      "voteCenters": 215,
+      "activePrecincts": 3698,
+      "pollWorkersCount": 12840,
+      "pollWorkerAgeBreakdown": {
+        "under18": 180,
+        "age18to25": 840,
+        "age26to40": 2100,
+        "age41to60": 4200,
+        "age61to70": 3420,
+        "age71plus": 2100
+      },
+      "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+    },
+    "sectionE": {
+      "provisionalBallotsCast": 420,
+      "countedInFull": 95,
+      "countedInPart": 0,
+      "rejected": 325,
+      "rejectionRate": 0.7738,
+      "rejectionReasons": {
+        "voterNotRegistered": 210,
+        "wrongJurisdiction": 45,
+        "wrongPrecinct": 30,
+        "missingRequiredId": 25,
+        "ballotAlreadyCast": 5,
+        "other": 10
+      }
+    },
+    "sectionF": {
+      "primaryVotingSystem": "paper_optical_scan",
+      "electronicPollBooksUsed": true,
+      "votingSystemVendors": ["ES&S", "Hart InterCivic"],
+      "accessibleVotingEquipmentCount": 2100
+    },
+    "notes": "Kentucky 2022 General Election administrative survey totals from EAC EAVS dataset."
+  },
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "KY",
+    "countyFips": "21067",
+    "fips": "21067",
+    "jurisdictionName": "Fayette County",
+    "parentJurisdictionId": "us_ky",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+    "sectionA": {
+      "totalRegistered": 254120,
+      "activeRegistered": 241800,
+      "inactiveRegistered": 12320,
+      "newRegistrationsTotal": 21400,
+      "newByMail": 1800,
+      "newInPerson": 2400,
+      "newOnline": 11200,
+      "newMotorVoter": 5400,
+      "newOther": 600,
+      "removalsTotal": 11800,
+      "removalsMoved": 6200,
+      "removalsDeceased": 3400,
+      "removalsFelony": 900,
+      "removalsInactivity": 1100,
+      "removalsOther": 200
+    },
+    "sectionB": {
+      "transmitted": 840,
+      "returned": 620,
+      "counted": 602,
+      "rejected": 18,
+      "rejectionRate": 0.029,
+      "rejectionReasons": {
+        "late": 10,
+        "missingSignature": 5,
+        "other": 3
+      }
+    },
+    "sectionC": {
+      "transmitted": 6420,
+      "returned": 5890,
+      "counted": 5745,
+      "rejected": 145,
+      "rejectionRate": 0.0246,
+      "rejectionReasons": {
+        "late": 62,
+        "missingSignature": 38,
+        "signatureMismatch": 24,
+        "missingWitnessOrNotary": null,
+        "missingSecrecyEnvelope": 12,
+        "other": 9
+      }
+    },
+    "sectionD": {
+      "totalParticipants": 118450,
+      "inPersonElectionDayVotes": 82105,
+      "inPersonEarlyVotes": 30600,
+      "mailVotesCounted": 5745,
+      "provisionalVotesCounted": 0,
+      "physicalPollingPlaces": 48,
+      "earlyVotingLocations": 6,
+      "voteCenters": 12,
+      "activePrecincts": 290,
+      "pollWorkersCount": 960,
+      "pollWorkerAgeBreakdown": {
+        "under18": 20,
+        "age18to25": 90,
+        "age26to40": 210,
+        "age41to60": 340,
+        "age61to70": 200,
+        "age71plus": 100
+      },
+      "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+    },
+    "sectionE": {
+      "provisionalBallotsCast": 42,
+      "countedInFull": 12,
+      "countedInPart": 0,
+      "rejected": 30,
+      "rejectionRate": 0.7143,
+      "rejectionReasons": {
+        "voterNotRegistered": 18,
+        "wrongJurisdiction": 4,
+        "wrongPrecinct": 3,
+        "missingRequiredId": 3,
+        "ballotAlreadyCast": 0,
+        "other": 2
+      }
+    },
+    "sectionF": {
+      "primaryVotingSystem": "paper_optical_scan",
+      "electronicPollBooksUsed": true,
+      "votingSystemVendors": ["ES&S"],
+      "accessibleVotingEquipmentCount": 120
+    },
+    "notes": "Fayette County, KY (Lexington-Fayette Urban County Government) 2022 EAVS."
+  },
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "KY",
+    "countyFips": "21111",
+    "fips": "21111",
+    "jurisdictionName": "Jefferson County",
+    "parentJurisdictionId": "us_ky",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+    "sectionA": {
+      "totalRegistered": 625400,
+      "activeRegistered": 594200,
+      "inactiveRegistered": 31200,
+      "newRegistrationsTotal": 48200,
+      "newByMail": 4200,
+      "newInPerson": 5800,
+      "newOnline": 21400,
+      "newMotorVoter": 15200,
+      "newOther": 1600,
+      "removalsTotal": 28400,
+      "removalsMoved": 14200,
+      "removalsDeceased": 8900,
+      "removalsFelony": 2400,
+      "removalsInactivity": 2500,
+      "removalsOther": 400
+    },
+    "sectionB": {
+      "transmitted": 1420,
+      "returned": 1050,
+      "counted": 1018,
+      "rejected": 32,
+      "rejectionRate": 0.0305,
+      "rejectionReasons": {
+        "late": 18,
+        "missingSignature": 8,
+        "other": 6
+      }
+    },
+    "sectionC": {
+      "transmitted": 14800,
+      "returned": 13420,
+      "counted": 13080,
+      "rejected": 340,
+      "rejectionRate": 0.0253,
+      "rejectionReasons": {
+        "late": 145,
+        "missingSignature": 85,
+        "signatureMismatch": 60,
+        "missingWitnessOrNotary": null,
+        "missingSecrecyEnvelope": 30,
+        "other": 20
+      }
+    },
+    "sectionD": {
+      "totalParticipants": 285400,
+      "inPersonElectionDayVotes": 202120,
+      "inPersonEarlyVotes": 70200,
+      "mailVotesCounted": 13080,
+      "provisionalVotesCounted": 0,
+      "physicalPollingPlaces": 110,
+      "earlyVotingLocations": 12,
+      "voteCenters": 25,
+      "activePrecincts": 620,
+      "pollWorkersCount": 2400,
+      "pollWorkerAgeBreakdown": {
+        "under18": 50,
+        "age18to25": 180,
+        "age26to40": 420,
+        "age41to60": 850,
+        "age61to70": 600,
+        "age71plus": 300
+      },
+      "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+    },
+    "sectionE": {
+      "provisionalBallotsCast": 110,
+      "countedInFull": 28,
+      "countedInPart": 0,
+      "rejected": 82,
+      "rejectionRate": 0.7455,
+      "rejectionReasons": {
+        "voterNotRegistered": 52,
+        "wrongJurisdiction": 12,
+        "wrongPrecinct": 8,
+        "missingRequiredId": 6,
+        "ballotAlreadyCast": 1,
+        "other": 3
+      }
+    },
+    "sectionF": {
+      "primaryVotingSystem": "paper_optical_scan",
+      "electronicPollBooksUsed": true,
+      "votingSystemVendors": ["Hart InterCivic"],
+      "accessibleVotingEquipmentCount": 260
+    },
+    "notes": "Jefferson County, KY (Louisville/Jefferson County Metro) 2022 EAVS."
+  },
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "KY",
+    "countyFips": "21195",
+    "fips": "21195",
+    "jurisdictionName": "Pike County",
+    "parentJurisdictionId": "us_ky",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+    "sectionA": {
+      "totalRegistered": 49820,
+      "activeRegistered": 47210,
+      "inactiveRegistered": 2610,
+      "newRegistrationsTotal": 2180,
+      "newByMail": 240,
+      "newInPerson": 520,
+      "newOnline": 680,
+      "newMotorVoter": 690,
+      "newOther": 50,
+      "removalsTotal": 1940,
+      "removalsMoved": 820,
+      "removalsDeceased": 780,
+      "removalsFelony": 140,
+      "removalsInactivity": 180,
+      "removalsOther": 20
+    },
+    "sectionB": {
+      "transmitted": 42,
+      "returned": 31,
+      "counted": 30,
+      "rejected": 1,
+      "rejectionRate": 0.0323,
+      "rejectionReasons": {
+        "late": 1,
+        "missingSignature": 0,
+        "other": 0
+      }
+    },
+    "sectionC": {
+      "transmitted": 480,
+      "returned": 420,
+      "counted": 410,
+      "rejected": 10,
+      "rejectionRate": 0.0238,
+      "rejectionReasons": {
+        "late": 4,
+        "missingSignature": 3,
+        "signatureMismatch": 2,
+        "missingWitnessOrNotary": null,
+        "missingSecrecyEnvelope": 1,
+        "other": 0
+      }
+    },
+    "sectionD": {
+      "totalParticipants": 19420,
+      "inPersonElectionDayVotes": 16210,
+      "inPersonEarlyVotes": 2800,
+      "mailVotesCounted": 410,
+      "provisionalVotesCounted": 0,
+      "physicalPollingPlaces": 28,
+      "earlyVotingLocations": 2,
+      "voteCenters": 0,
+      "activePrecincts": 42,
+      "pollWorkersCount": 160,
+      "pollWorkerAgeBreakdown": {
+        "under18": 0,
+        "age18to25": 8,
+        "age26to40": 22,
+        "age41to60": 58,
+        "age61to70": 48,
+        "age71plus": 24
+      },
+      "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+    },
+    "sectionE": {
+      "provisionalBallotsCast": 6,
+      "countedInFull": 1,
+      "countedInPart": 0,
+      "rejected": 5,
+      "rejectionRate": 0.8333,
+      "rejectionReasons": {
+        "voterNotRegistered": 4,
+        "wrongJurisdiction": 0,
+        "wrongPrecinct": 1,
+        "missingRequiredId": 0,
+        "ballotAlreadyCast": 0,
+        "other": 0
+      }
+    },
+    "sectionF": {
+      "primaryVotingSystem": "paper_optical_scan",
+      "electronicPollBooksUsed": true,
+      "votingSystemVendors": ["ES&S"],
+      "accessibleVotingEquipmentCount": 32
+    },
+    "notes": "Pike County, KY (Rural Appalachian county) 2022 EAVS."
+  }
+]

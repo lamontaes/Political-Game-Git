@@ -1,0 +1,42 @@
+[
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "GA",
+    "fips": "13",
+    "jurisdictionName": "Georgia",
+    "categoryKey": "state_cvap",
+    "surveyUniverse": "citizen_voting_age_population",
+    "sampleSizeUnweighted": 1620,
+    "weightingVariable": "PWSSWGT",
+    "retrievalDate": "2023-05-15",
+    "sourceUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-585.html",
+    "reportedRegistration": {
+      "estimateCount": 5420000,
+      "ratePercent": 71.4,
+      "standardError": 1.68,
+      "marginOfError90Percent": 2.76
+    },
+    "reportedVoting": {
+      "estimateCount": 4120000,
+      "ratePercent": 54.3,
+      "standardError": 1.84,
+      "marginOfError90Percent": 3.03
+    },
+    "votingMethod": {
+      "electionDayInPersonPercent": 35.8,
+      "earlyInPersonPercent": 57.2,
+      "byMailPercent": 5.6,
+      "notReportedPercent": 1.4
+    },
+    "registrationMethod": {
+      "dmvMotorVoterPercent": 64.8,
+      "byMailPercent": 3.2,
+      "inPersonElectionOfficePercent": 4.8,
+      "onlineInternetPercent": 21.4,
+      "pollingPlaceElectionDayPercent": 0.0,
+      "schoolCommunityDrivePercent": 3.1,
+      "otherPercent": 2.7
+    },
+    "notes": "Georgia CPS calibration (November 2022) with high reported early in-person voting share (~57%)."
+  }
+]

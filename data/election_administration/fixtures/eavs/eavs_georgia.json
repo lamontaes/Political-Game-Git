@@ -1,0 +1,194 @@
+[
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "GA",
+    "fips": "13",
+    "jurisdictionName": "Georgia",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+    "sectionA": {
+      "totalRegistered": 7842100,
+      "activeRegistered": 7012400,
+      "inactiveRegistered": 829700,
+      "newRegistrationsTotal": 684200,
+      "newByMail": 21000,
+      "newInPerson": 34000,
+      "newOnline": 142000,
+      "newMotorVoter": 472000,
+      "newOther": 15200,
+      "removalsTotal": 242100,
+      "removalsMoved": 128400,
+      "removalsDeceased": 76200,
+      "removalsFelony": 14200,
+      "removalsInactivity": 21000,
+      "removalsOther": 2300
+    },
+    "sectionB": {
+      "transmitted": 24800,
+      "returned": 18400,
+      "counted": 17920,
+      "rejected": 480,
+      "rejectionRate": 0.0261,
+      "rejectionReasons": {
+        "late": 280,
+        "missingSignature": 120,
+        "other": 80
+      }
+    },
+    "sectionC": {
+      "transmitted": 284200,
+      "returned": 258400,
+      "counted": 252100,
+      "rejected": 6300,
+      "rejectionRate": 0.0244,
+      "rejectionReasons": {
+        "late": 2400,
+        "missingSignature": 1800,
+        "signatureMismatch": 1200,
+        "missingWitnessOrNotary": "NA",
+        "missingSecrecyEnvelope": "NA",
+        "other": 900
+      }
+    },
+    "sectionD": {
+      "totalParticipants": 3964200,
+      "inPersonElectionDayVotes": 1428100,
+      "inPersonEarlyVotes": 2284000,
+      "mailVotesCounted": 252100,
+      "provisionalVotesCounted": 0,
+      "physicalPollingPlaces": 2410,
+      "earlyVotingLocations": 384,
+      "voteCenters": 0,
+      "activePrecincts": 2710,
+      "pollWorkersCount": 24800,
+      "pollWorkerAgeBreakdown": {
+        "under18": 300,
+        "age18to25": 1400,
+        "age26to40": 3800,
+        "age41to60": 8900,
+        "age61to70": 6800,
+        "age71plus": 3600
+      },
+      "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+    },
+    "sectionE": {
+      "provisionalBallotsCast": 5420,
+      "countedInFull": 1240,
+      "countedInPart": 410,
+      "rejected": 3770,
+      "rejectionRate": 0.6956,
+      "rejectionReasons": {
+        "voterNotRegistered": 2100,
+        "wrongJurisdiction": 380,
+        "wrongPrecinct": 640,
+        "missingRequiredId": 480,
+        "ballotAlreadyCast": 20,
+        "other": 150
+      }
+    },
+    "sectionF": {
+      "primaryVotingSystem": "ballot_marking_device",
+      "electronicPollBooksUsed": true,
+      "votingSystemVendors": ["Dominion Voting Systems"],
+      "accessibleVotingEquipmentCount": 32000
+    },
+    "notes": "Georgia 2022 General Election EAVS baseline with mandatory 3-week early voting window and BMD paper audit trail."
+  },
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "GA",
+    "countyFips": "13121",
+    "fips": "13121",
+    "jurisdictionName": "Fulton County",
+    "parentJurisdictionId": "us_ga",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+    "sectionA": {
+      "totalRegistered": 854200,
+      "activeRegistered": 782400,
+      "inactiveRegistered": 71800,
+      "newRegistrationsTotal": 78400,
+      "newByMail": 3200,
+      "newInPerson": 4100,
+      "newOnline": 18400,
+      "newMotorVoter": 51200,
+      "newOther": 1500,
+      "removalsTotal": 28400,
+      "removalsMoved": 15200,
+      "removalsDeceased": 8400,
+      "removalsFelony": 1600,
+      "removalsInactivity": 2800,
+      "removalsOther": 400
+    },
+    "sectionB": {
+      "transmitted": 3800,
+      "returned": 2900,
+      "counted": 2810,
+      "rejected": 90,
+      "rejectionRate": 0.031,
+      "rejectionReasons": {
+        "late": 50,
+        "missingSignature": 25,
+        "other": 15
+      }
+    },
+    "sectionC": {
+      "transmitted": 42100,
+      "returned": 38400,
+      "counted": 37200,
+      "rejected": 1200,
+      "rejectionRate": 0.0313,
+      "rejectionReasons": {
+        "late": 480,
+        "missingSignature": 340,
+        "signatureMismatch": 260,
+        "missingWitnessOrNotary": null,
+        "missingSecrecyEnvelope": null,
+        "other": 120
+      }
+    },
+    "sectionD": {
+      "totalParticipants": 418400,
+      "inPersonElectionDayVotes": 142100,
+      "inPersonEarlyVotes": 239100,
+      "mailVotesCounted": 37200,
+      "provisionalVotesCounted": 0,
+      "physicalPollingPlaces": 248,
+      "earlyVotingLocations": 36,
+      "voteCenters": 0,
+      "activePrecincts": 385,
+      "pollWorkersCount": 3200,
+      "pollWorkerAgeBreakdown": {
+        "under18": 40,
+        "age18to25": 210,
+        "age26to40": 580,
+        "age41to60": 1150,
+        "age61to70": 820,
+        "age71plus": 400
+      },
+      "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+    },
+    "sectionE": {
+      "provisionalBallotsCast": 780,
+      "countedInFull": 190,
+      "countedInPart": 60,
+      "rejected": 530,
+      "rejectionRate": 0.6795,
+      "rejectionReasons": {
+        "voterNotRegistered": 310,
+        "wrongJurisdiction": 50,
+        "wrongPrecinct": 90,
+        "missingRequiredId": 65,
+        "ballotAlreadyCast": 5,
+        "other": 10
+      }
+    },
+    "sectionF": {
+      "primaryVotingSystem": "ballot_marking_device",
+      "electronicPollBooksUsed": true,
+      "votingSystemVendors": ["Dominion Voting Systems"],
+      "accessibleVotingEquipmentCount": 3800
+    },
+    "notes": "Fulton County, GA (Atlanta) 2022 EAVS."
+  }
+]

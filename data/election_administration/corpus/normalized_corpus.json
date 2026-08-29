@@ -1,0 +1,3554 @@
+{
+  "schemaVersion": "1.0.0",
+  "compiledAt": "2026-08-29T16:02:36.274Z",
+  "eavsRecords": [
+    {
+      "id": "eavs:2022:us_ga",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_ga",
+      "jurisdictionName": "Georgia",
+      "level": "state",
+      "fips": "13",
+      "stateFips": "13",
+      "parentJurisdictionId": null,
+      "sectionA_registration": {
+        "totalRegistered": 7842100,
+        "activeRegistered": 7012400,
+        "inactiveRegistered": 829700,
+        "newRegistrations": {
+          "total": 684200,
+          "byMail": 21000,
+          "inPerson": 34000,
+          "online": 142000,
+          "motorVoter": 472000,
+          "other": 15200
+        },
+        "listMaintenanceRemovals": {
+          "total": 242100,
+          "moved": 128400,
+          "deceased": 76200,
+          "felonyDisqualification": 14200,
+          "failureToVoteInactivity": 21000,
+          "other": 2300
+        }
+      },
+      "sectionB_uocava": {
+        "transmitted": 24800,
+        "returned": 18400,
+        "counted": 17920,
+        "rejected": 480,
+        "rejectionRate": 0.0261,
+        "rejectionReasons": {
+          "late": 280,
+          "missingSignature": 120,
+          "other": 80
+        }
+      },
+      "sectionC_mailVoting": {
+        "transmitted": 284200,
+        "returned": 258400,
+        "counted": 252100,
+        "rejected": 6300,
+        "rejectionRate": 0.0244,
+        "rejectionReasons": {
+          "late": 2400,
+          "missingSignature": 1800,
+          "signatureMismatch": 1200,
+          "missingWitnessOrNotary": null,
+          "missingSecrecyEnvelope": null,
+          "other": 900
+        }
+      },
+      "sectionD_inPersonAndPolling": {
+        "totalParticipants": 3964200,
+        "inPersonElectionDayVotes": 1428100,
+        "inPersonEarlyVotes": 2284000,
+        "mailVotesCounted": 252100,
+        "provisionalVotesCounted": 0,
+        "physicalPollingPlaces": 2410,
+        "earlyVotingLocations": 384,
+        "voteCenters": 0,
+        "activePrecincts": 2710,
+        "pollWorkersCount": 24800,
+        "pollWorkerAgeBreakdown": {
+          "under18": 300,
+          "age18to25": 1400,
+          "age26to40": 3800,
+          "age41to60": 8900,
+          "age61to70": 6800,
+          "age71plus": 3600
+        },
+        "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+      },
+      "sectionE_provisional": {
+        "provisionalBallotsCast": 5420,
+        "countedInFull": 1240,
+        "countedInPart": 410,
+        "rejected": 3770,
+        "rejectionRate": 0.6956,
+        "rejectionReasons": {
+          "voterNotRegistered": 2100,
+          "wrongJurisdiction": 380,
+          "wrongPrecinct": 640,
+          "missingRequiredId": 480,
+          "ballotAlreadyCast": 20,
+          "other": 150
+        }
+      },
+      "sectionF_votingTechnology": {
+        "primaryVotingSystem": "ballot_marking_device",
+        "electronicPollBooksUsed": true,
+        "votingSystemVendors": [
+          "Dominion Voting Systems"
+        ],
+        "accessibleVotingEquipmentCount": 32000
+      },
+      "completeness": {
+        "sectionA": "complete",
+        "sectionB": "complete",
+        "sectionC": "complete",
+        "sectionD": "complete",
+        "sectionE": "complete",
+        "sectionF": "complete",
+        "overall": "complete"
+      },
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "Election Administration and Voting Survey (EAVS)",
+        "dataset": "EAVS 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+        "contentHash": "fcfebd6a21d4f6ea71b209fffeeb89133d0a6cf2a5ecf67a1194f87e74f024c9",
+        "schemaVersion": "1.0.0",
+        "notes": "Georgia 2022 General Election EAVS baseline with mandatory 3-week early voting window and BMD paper audit trail."
+      }
+    },
+    {
+      "id": "eavs:2022:us_ga_13121",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_ga_13121",
+      "jurisdictionName": "Fulton County",
+      "level": "county",
+      "fips": "13121",
+      "stateFips": "13",
+      "parentJurisdictionId": "us_ga",
+      "sectionA_registration": {
+        "totalRegistered": 854200,
+        "activeRegistered": 782400,
+        "inactiveRegistered": 71800,
+        "newRegistrations": {
+          "total": 78400,
+          "byMail": 3200,
+          "inPerson": 4100,
+          "online": 18400,
+          "motorVoter": 51200,
+          "other": 1500
+        },
+        "listMaintenanceRemovals": {
+          "total": 28400,
+          "moved": 15200,
+          "deceased": 8400,
+          "felonyDisqualification": 1600,
+          "failureToVoteInactivity": 2800,
+          "other": 400
+        }
+      },
+      "sectionB_uocava": {
+        "transmitted": 3800,
+        "returned": 2900,
+        "counted": 2810,
+        "rejected": 90,
+        "rejectionRate": 0.031,
+        "rejectionReasons": {
+          "late": 50,
+          "missingSignature": 25,
+          "other": 15
+        }
+      },
+      "sectionC_mailVoting": {
+        "transmitted": 42100,
+        "returned": 38400,
+        "counted": 37200,
+        "rejected": 1200,
+        "rejectionRate": 0.0313,
+        "rejectionReasons": {
+          "late": 480,
+          "missingSignature": 340,
+          "signatureMismatch": 260,
+          "missingWitnessOrNotary": null,
+          "missingSecrecyEnvelope": null,
+          "other": 120
+        }
+      },
+      "sectionD_inPersonAndPolling": {
+        "totalParticipants": 418400,
+        "inPersonElectionDayVotes": 142100,
+        "inPersonEarlyVotes": 239100,
+        "mailVotesCounted": 37200,
+        "provisionalVotesCounted": 0,
+        "physicalPollingPlaces": 248,
+        "earlyVotingLocations": 36,
+        "voteCenters": 0,
+        "activePrecincts": 385,
+        "pollWorkersCount": 3200,
+        "pollWorkerAgeBreakdown": {
+          "under18": 40,
+          "age18to25": 210,
+          "age26to40": 580,
+          "age41to60": 1150,
+          "age61to70": 820,
+          "age71plus": 400
+        },
+        "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+      },
+      "sectionE_provisional": {
+        "provisionalBallotsCast": 780,
+        "countedInFull": 190,
+        "countedInPart": 60,
+        "rejected": 530,
+        "rejectionRate": 0.6795,
+        "rejectionReasons": {
+          "voterNotRegistered": 310,
+          "wrongJurisdiction": 50,
+          "wrongPrecinct": 90,
+          "missingRequiredId": 65,
+          "ballotAlreadyCast": 5,
+          "other": 10
+        }
+      },
+      "sectionF_votingTechnology": {
+        "primaryVotingSystem": "ballot_marking_device",
+        "electronicPollBooksUsed": true,
+        "votingSystemVendors": [
+          "Dominion Voting Systems"
+        ],
+        "accessibleVotingEquipmentCount": 3800
+      },
+      "completeness": {
+        "sectionA": "complete",
+        "sectionB": "complete",
+        "sectionC": "complete",
+        "sectionD": "complete",
+        "sectionE": "complete",
+        "sectionF": "complete",
+        "overall": "complete"
+      },
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "Election Administration and Voting Survey (EAVS)",
+        "dataset": "EAVS 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+        "contentHash": "e73d9aad4c4008f7a58986c86b848b61ef9610f823b55ba58b933e719ecdfafd",
+        "schemaVersion": "1.0.0",
+        "notes": "Fulton County, GA (Atlanta) 2022 EAVS."
+      }
+    },
+    {
+      "id": "eavs:2022:us_ky",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_ky",
+      "jurisdictionName": "Kentucky",
+      "level": "state",
+      "fips": "21",
+      "stateFips": "21",
+      "parentJurisdictionId": null,
+      "sectionA_registration": {
+        "totalRegistered": 3589813,
+        "activeRegistered": 3412500,
+        "inactiveRegistered": 177313,
+        "newRegistrations": {
+          "total": 248102,
+          "byMail": 24150,
+          "inPerson": 31200,
+          "online": 98450,
+          "motorVoter": 86102,
+          "other": 8200
+        },
+        "listMaintenanceRemovals": {
+          "total": 142310,
+          "moved": 68400,
+          "deceased": 46510,
+          "felonyDisqualification": 11200,
+          "failureToVoteInactivity": 14200,
+          "other": 2000
+        }
+      },
+      "sectionB_uocava": {
+        "transmitted": 5820,
+        "returned": 4150,
+        "counted": 4012,
+        "rejected": 138,
+        "rejectionRate": 0.0333,
+        "rejectionReasons": {
+          "late": 82,
+          "missingSignature": 34,
+          "other": 22
+        }
+      },
+      "sectionC_mailVoting": {
+        "transmitted": 54210,
+        "returned": 48920,
+        "counted": 47610,
+        "rejected": 1310,
+        "rejectionRate": 0.0268,
+        "rejectionReasons": {
+          "late": 580,
+          "missingSignature": 320,
+          "signatureMismatch": 210,
+          "missingWitnessOrNotary": null,
+          "missingSecrecyEnvelope": 110,
+          "other": 90
+        }
+      },
+      "sectionD_inPersonAndPolling": {
+        "totalParticipants": 1502420,
+        "inPersonElectionDayVotes": 1120340,
+        "inPersonEarlyVotes": 334470,
+        "mailVotesCounted": 47610,
+        "provisionalVotesCounted": 0,
+        "physicalPollingPlaces": 1712,
+        "earlyVotingLocations": 182,
+        "voteCenters": 215,
+        "activePrecincts": 3698,
+        "pollWorkersCount": 12840,
+        "pollWorkerAgeBreakdown": {
+          "under18": 180,
+          "age18to25": 840,
+          "age26to40": 2100,
+          "age41to60": 4200,
+          "age61to70": 3420,
+          "age71plus": 2100
+        },
+        "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+      },
+      "sectionE_provisional": {
+        "provisionalBallotsCast": 420,
+        "countedInFull": 95,
+        "countedInPart": 0,
+        "rejected": 325,
+        "rejectionRate": 0.7738,
+        "rejectionReasons": {
+          "voterNotRegistered": 210,
+          "wrongJurisdiction": 45,
+          "wrongPrecinct": 30,
+          "missingRequiredId": 25,
+          "ballotAlreadyCast": 5,
+          "other": 10
+        }
+      },
+      "sectionF_votingTechnology": {
+        "primaryVotingSystem": "paper_optical_scan",
+        "electronicPollBooksUsed": true,
+        "votingSystemVendors": [
+          "ES&S",
+          "Hart InterCivic"
+        ],
+        "accessibleVotingEquipmentCount": 2100
+      },
+      "completeness": {
+        "sectionA": "complete",
+        "sectionB": "complete",
+        "sectionC": "complete",
+        "sectionD": "complete",
+        "sectionE": "complete",
+        "sectionF": "complete",
+        "overall": "complete"
+      },
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "Election Administration and Voting Survey (EAVS)",
+        "dataset": "EAVS 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+        "contentHash": "1dabe80b19709094fe66fde681af425511922082f71e5036be0c62444779ea86",
+        "schemaVersion": "1.0.0",
+        "notes": "Kentucky 2022 General Election administrative survey totals from EAC EAVS dataset."
+      }
+    },
+    {
+      "id": "eavs:2022:us_ky_21067",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_ky_21067",
+      "jurisdictionName": "Fayette County",
+      "level": "county",
+      "fips": "21067",
+      "stateFips": "21",
+      "parentJurisdictionId": "us_ky",
+      "sectionA_registration": {
+        "totalRegistered": 254120,
+        "activeRegistered": 241800,
+        "inactiveRegistered": 12320,
+        "newRegistrations": {
+          "total": 21400,
+          "byMail": 1800,
+          "inPerson": 2400,
+          "online": 11200,
+          "motorVoter": 5400,
+          "other": 600
+        },
+        "listMaintenanceRemovals": {
+          "total": 11800,
+          "moved": 6200,
+          "deceased": 3400,
+          "felonyDisqualification": 900,
+          "failureToVoteInactivity": 1100,
+          "other": 200
+        }
+      },
+      "sectionB_uocava": {
+        "transmitted": 840,
+        "returned": 620,
+        "counted": 602,
+        "rejected": 18,
+        "rejectionRate": 0.029,
+        "rejectionReasons": {
+          "late": 10,
+          "missingSignature": 5,
+          "other": 3
+        }
+      },
+      "sectionC_mailVoting": {
+        "transmitted": 6420,
+        "returned": 5890,
+        "counted": 5745,
+        "rejected": 145,
+        "rejectionRate": 0.0246,
+        "rejectionReasons": {
+          "late": 62,
+          "missingSignature": 38,
+          "signatureMismatch": 24,
+          "missingWitnessOrNotary": null,
+          "missingSecrecyEnvelope": 12,
+          "other": 9
+        }
+      },
+      "sectionD_inPersonAndPolling": {
+        "totalParticipants": 118450,
+        "inPersonElectionDayVotes": 82105,
+        "inPersonEarlyVotes": 30600,
+        "mailVotesCounted": 5745,
+        "provisionalVotesCounted": 0,
+        "physicalPollingPlaces": 48,
+        "earlyVotingLocations": 6,
+        "voteCenters": 12,
+        "activePrecincts": 290,
+        "pollWorkersCount": 960,
+        "pollWorkerAgeBreakdown": {
+          "under18": 20,
+          "age18to25": 90,
+          "age26to40": 210,
+          "age41to60": 340,
+          "age61to70": 200,
+          "age71plus": 100
+        },
+        "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+      },
+      "sectionE_provisional": {
+        "provisionalBallotsCast": 42,
+        "countedInFull": 12,
+        "countedInPart": 0,
+        "rejected": 30,
+        "rejectionRate": 0.7143,
+        "rejectionReasons": {
+          "voterNotRegistered": 18,
+          "wrongJurisdiction": 4,
+          "wrongPrecinct": 3,
+          "missingRequiredId": 3,
+          "ballotAlreadyCast": 0,
+          "other": 2
+        }
+      },
+      "sectionF_votingTechnology": {
+        "primaryVotingSystem": "paper_optical_scan",
+        "electronicPollBooksUsed": true,
+        "votingSystemVendors": [
+          "ES&S"
+        ],
+        "accessibleVotingEquipmentCount": 120
+      },
+      "completeness": {
+        "sectionA": "complete",
+        "sectionB": "complete",
+        "sectionC": "complete",
+        "sectionD": "complete",
+        "sectionE": "complete",
+        "sectionF": "complete",
+        "overall": "complete"
+      },
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "Election Administration and Voting Survey (EAVS)",
+        "dataset": "EAVS 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+        "contentHash": "074078f348ff3bce674832ceb9d9f85c4d4a9d54418c2951ab49e6cb5290b26d",
+        "schemaVersion": "1.0.0",
+        "notes": "Fayette County, KY (Lexington-Fayette Urban County Government) 2022 EAVS."
+      }
+    },
+    {
+      "id": "eavs:2022:us_ky_21111",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_ky_21111",
+      "jurisdictionName": "Jefferson County",
+      "level": "county",
+      "fips": "21111",
+      "stateFips": "21",
+      "parentJurisdictionId": "us_ky",
+      "sectionA_registration": {
+        "totalRegistered": 625400,
+        "activeRegistered": 594200,
+        "inactiveRegistered": 31200,
+        "newRegistrations": {
+          "total": 48200,
+          "byMail": 4200,
+          "inPerson": 5800,
+          "online": 21400,
+          "motorVoter": 15200,
+          "other": 1600
+        },
+        "listMaintenanceRemovals": {
+          "total": 28400,
+          "moved": 14200,
+          "deceased": 8900,
+          "felonyDisqualification": 2400,
+          "failureToVoteInactivity": 2500,
+          "other": 400
+        }
+      },
+      "sectionB_uocava": {
+        "transmitted": 1420,
+        "returned": 1050,
+        "counted": 1018,
+        "rejected": 32,
+        "rejectionRate": 0.0305,
+        "rejectionReasons": {
+          "late": 18,
+          "missingSignature": 8,
+          "other": 6
+        }
+      },
+      "sectionC_mailVoting": {
+        "transmitted": 14800,
+        "returned": 13420,
+        "counted": 13080,
+        "rejected": 340,
+        "rejectionRate": 0.0253,
+        "rejectionReasons": {
+          "late": 145,
+          "missingSignature": 85,
+          "signatureMismatch": 60,
+          "missingWitnessOrNotary": null,
+          "missingSecrecyEnvelope": 30,
+          "other": 20
+        }
+      },
+      "sectionD_inPersonAndPolling": {
+        "totalParticipants": 285400,
+        "inPersonElectionDayVotes": 202120,
+        "inPersonEarlyVotes": 70200,
+        "mailVotesCounted": 13080,
+        "provisionalVotesCounted": 0,
+        "physicalPollingPlaces": 110,
+        "earlyVotingLocations": 12,
+        "voteCenters": 25,
+        "activePrecincts": 620,
+        "pollWorkersCount": 2400,
+        "pollWorkerAgeBreakdown": {
+          "under18": 50,
+          "age18to25": 180,
+          "age26to40": 420,
+          "age41to60": 850,
+          "age61to70": 600,
+          "age71plus": 300
+        },
+        "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+      },
+      "sectionE_provisional": {
+        "provisionalBallotsCast": 110,
+        "countedInFull": 28,
+        "countedInPart": 0,
+        "rejected": 82,
+        "rejectionRate": 0.7455,
+        "rejectionReasons": {
+          "voterNotRegistered": 52,
+          "wrongJurisdiction": 12,
+          "wrongPrecinct": 8,
+          "missingRequiredId": 6,
+          "ballotAlreadyCast": 1,
+          "other": 3
+        }
+      },
+      "sectionF_votingTechnology": {
+        "primaryVotingSystem": "paper_optical_scan",
+        "electronicPollBooksUsed": true,
+        "votingSystemVendors": [
+          "Hart InterCivic"
+        ],
+        "accessibleVotingEquipmentCount": 260
+      },
+      "completeness": {
+        "sectionA": "complete",
+        "sectionB": "complete",
+        "sectionC": "complete",
+        "sectionD": "complete",
+        "sectionE": "complete",
+        "sectionF": "complete",
+        "overall": "complete"
+      },
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "Election Administration and Voting Survey (EAVS)",
+        "dataset": "EAVS 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+        "contentHash": "1cbed53e98c18d4530c0cb63cba4d29bfe41866189aaba43400345ce36cdefa4",
+        "schemaVersion": "1.0.0",
+        "notes": "Jefferson County, KY (Louisville/Jefferson County Metro) 2022 EAVS."
+      }
+    },
+    {
+      "id": "eavs:2022:us_ky_21195",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_ky_21195",
+      "jurisdictionName": "Pike County",
+      "level": "county",
+      "fips": "21195",
+      "stateFips": "21",
+      "parentJurisdictionId": "us_ky",
+      "sectionA_registration": {
+        "totalRegistered": 49820,
+        "activeRegistered": 47210,
+        "inactiveRegistered": 2610,
+        "newRegistrations": {
+          "total": 2180,
+          "byMail": 240,
+          "inPerson": 520,
+          "online": 680,
+          "motorVoter": 690,
+          "other": 50
+        },
+        "listMaintenanceRemovals": {
+          "total": 1940,
+          "moved": 820,
+          "deceased": 780,
+          "felonyDisqualification": 140,
+          "failureToVoteInactivity": 180,
+          "other": 20
+        }
+      },
+      "sectionB_uocava": {
+        "transmitted": 42,
+        "returned": 31,
+        "counted": 30,
+        "rejected": 1,
+        "rejectionRate": 0.0323,
+        "rejectionReasons": {
+          "late": 1,
+          "missingSignature": 0,
+          "other": 0
+        }
+      },
+      "sectionC_mailVoting": {
+        "transmitted": 480,
+        "returned": 420,
+        "counted": 410,
+        "rejected": 10,
+        "rejectionRate": 0.0238,
+        "rejectionReasons": {
+          "late": 4,
+          "missingSignature": 3,
+          "signatureMismatch": 2,
+          "missingWitnessOrNotary": null,
+          "missingSecrecyEnvelope": 1,
+          "other": 0
+        }
+      },
+      "sectionD_inPersonAndPolling": {
+        "totalParticipants": 19420,
+        "inPersonElectionDayVotes": 16210,
+        "inPersonEarlyVotes": 2800,
+        "mailVotesCounted": 410,
+        "provisionalVotesCounted": 0,
+        "physicalPollingPlaces": 28,
+        "earlyVotingLocations": 2,
+        "voteCenters": 0,
+        "activePrecincts": 42,
+        "pollWorkersCount": 160,
+        "pollWorkerAgeBreakdown": {
+          "under18": 0,
+          "age18to25": 8,
+          "age26to40": 22,
+          "age41to60": 58,
+          "age61to70": 48,
+          "age71plus": 24
+        },
+        "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+      },
+      "sectionE_provisional": {
+        "provisionalBallotsCast": 6,
+        "countedInFull": 1,
+        "countedInPart": 0,
+        "rejected": 5,
+        "rejectionRate": 0.8333,
+        "rejectionReasons": {
+          "voterNotRegistered": 4,
+          "wrongJurisdiction": 0,
+          "wrongPrecinct": 1,
+          "missingRequiredId": 0,
+          "ballotAlreadyCast": 0,
+          "other": 0
+        }
+      },
+      "sectionF_votingTechnology": {
+        "primaryVotingSystem": "paper_optical_scan",
+        "electronicPollBooksUsed": true,
+        "votingSystemVendors": [
+          "ES&S"
+        ],
+        "accessibleVotingEquipmentCount": 32
+      },
+      "completeness": {
+        "sectionA": "complete",
+        "sectionB": "complete",
+        "sectionC": "complete",
+        "sectionD": "complete",
+        "sectionE": "complete",
+        "sectionF": "complete",
+        "overall": "complete"
+      },
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "Election Administration and Voting Survey (EAVS)",
+        "dataset": "EAVS 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+        "contentHash": "aa3fff8350a4d8908a53f4113e819fcc14e52d7acd0c26daf2df553d057ea392",
+        "schemaVersion": "1.0.0",
+        "notes": "Pike County, KY (Rural Appalachian county) 2022 EAVS."
+      }
+    },
+    {
+      "id": "eavs:2022:us_or",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_or",
+      "jurisdictionName": "Oregon",
+      "level": "state",
+      "fips": "41",
+      "stateFips": "41",
+      "parentJurisdictionId": null,
+      "sectionA_registration": {
+        "totalRegistered": 2984120,
+        "activeRegistered": 2840500,
+        "inactiveRegistered": 143620,
+        "newRegistrations": {
+          "total": 312400,
+          "byMail": 14200,
+          "inPerson": 12400,
+          "online": 89200,
+          "motorVoter": 191200,
+          "other": 5400
+        },
+        "listMaintenanceRemovals": {
+          "total": 118400,
+          "moved": 62400,
+          "deceased": 38200,
+          "felonyDisqualification": 3100,
+          "failureToVoteInactivity": 12800,
+          "other": 1900
+        }
+      },
+      "sectionB_uocava": {
+        "transmitted": 14200,
+        "returned": 11840,
+        "counted": 11620,
+        "rejected": 220,
+        "rejectionRate": 0.0186,
+        "rejectionReasons": {
+          "late": 110,
+          "missingSignature": 60,
+          "other": 50
+        }
+      },
+      "sectionC_mailVoting": {
+        "transmitted": 2840500,
+        "returned": 1954200,
+        "counted": 1932400,
+        "rejected": 21800,
+        "rejectionRate": 0.0112,
+        "rejectionReasons": {
+          "late": 4200,
+          "missingSignature": 6800,
+          "signatureMismatch": 9800,
+          "missingWitnessOrNotary": null,
+          "missingSecrecyEnvelope": 600,
+          "other": 400
+        }
+      },
+      "sectionD_inPersonAndPolling": {
+        "totalParticipants": 1954200,
+        "inPersonElectionDayVotes": 0,
+        "inPersonEarlyVotes": 0,
+        "mailVotesCounted": 1932400,
+        "provisionalVotesCounted": 0,
+        "physicalPollingPlaces": 0,
+        "earlyVotingLocations": 0,
+        "voteCenters": 36,
+        "activePrecincts": 1240,
+        "pollWorkersCount": 1840,
+        "pollWorkerAgeBreakdown": {
+          "under18": 40,
+          "age18to25": 160,
+          "age26to40": 380,
+          "age41to60": 620,
+          "age61to70": 440,
+          "age71plus": 200
+        },
+        "pollWorkerRecruitmentDifficulty": "somewhat_easy"
+      },
+      "sectionE_provisional": {
+        "provisionalBallotsCast": 0,
+        "countedInFull": 0,
+        "countedInPart": 0,
+        "rejected": 0,
+        "rejectionRate": 0,
+        "rejectionReasons": {
+          "voterNotRegistered": 0,
+          "wrongJurisdiction": 0,
+          "wrongPrecinct": 0,
+          "missingRequiredId": 0,
+          "ballotAlreadyCast": 0,
+          "other": 0
+        }
+      },
+      "sectionF_votingTechnology": {
+        "primaryVotingSystem": "paper_optical_scan",
+        "electronicPollBooksUsed": false,
+        "votingSystemVendors": [
+          "Clear Ballot",
+          "ES&S"
+        ],
+        "accessibleVotingEquipmentCount": 72
+      },
+      "completeness": {
+        "sectionA": "complete",
+        "sectionB": "complete",
+        "sectionC": "complete",
+        "sectionD": "complete",
+        "sectionE": "complete",
+        "sectionF": "complete",
+        "overall": "complete"
+      },
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "Election Administration and Voting Survey (EAVS)",
+        "dataset": "EAVS 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+        "contentHash": "e55a41bf82c7f1d96278352a31ee806c1a97e29fcea6eb0335b87cca034a7ef9",
+        "schemaVersion": "1.0.0",
+        "notes": "Oregon Universal Vote-by-Mail 2022 General Election EAVS baseline."
+      }
+    },
+    {
+      "id": "eavs:2022:us_or_41051",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_or_41051",
+      "jurisdictionName": "Multnomah County",
+      "level": "county",
+      "fips": "41051",
+      "stateFips": "41",
+      "parentJurisdictionId": "us_or",
+      "sectionA_registration": {
+        "totalRegistered": 568400,
+        "activeRegistered": 542100,
+        "inactiveRegistered": 26300,
+        "newRegistrations": {
+          "total": 64200,
+          "byMail": 2800,
+          "inPerson": 2100,
+          "online": 18400,
+          "motorVoter": 39800,
+          "other": 1100
+        },
+        "listMaintenanceRemovals": {
+          "total": 24800,
+          "moved": 14200,
+          "deceased": 7100,
+          "felonyDisqualification": 500,
+          "failureToVoteInactivity": 2600,
+          "other": 400
+        }
+      },
+      "sectionB_uocava": {
+        "transmitted": 3800,
+        "returned": 3200,
+        "counted": 3150,
+        "rejected": 50,
+        "rejectionRate": 0.0156,
+        "rejectionReasons": {
+          "late": 25,
+          "missingSignature": 15,
+          "other": 10
+        }
+      },
+      "sectionC_mailVoting": {
+        "transmitted": 542100,
+        "returned": 382400,
+        "counted": 378800,
+        "rejected": 3600,
+        "rejectionRate": 0.0094,
+        "rejectionReasons": {
+          "late": 620,
+          "missingSignature": 1100,
+          "signatureMismatch": 1750,
+          "missingWitnessOrNotary": null,
+          "missingSecrecyEnvelope": 80,
+          "other": 50
+        }
+      },
+      "sectionD_inPersonAndPolling": {
+        "totalParticipants": 382400,
+        "inPersonElectionDayVotes": 0,
+        "inPersonEarlyVotes": 0,
+        "mailVotesCounted": 378800,
+        "provisionalVotesCounted": 0,
+        "physicalPollingPlaces": 0,
+        "earlyVotingLocations": 0,
+        "voteCenters": 2,
+        "activePrecincts": 112,
+        "pollWorkersCount": 380,
+        "pollWorkerAgeBreakdown": {
+          "under18": 15,
+          "age18to25": 45,
+          "age26to40": 95,
+          "age41to60": 130,
+          "age61to70": 65,
+          "age71plus": 30
+        },
+        "pollWorkerRecruitmentDifficulty": "very_easy"
+      },
+      "sectionE_provisional": {
+        "provisionalBallotsCast": 0,
+        "countedInFull": 0,
+        "countedInPart": 0,
+        "rejected": 0,
+        "rejectionRate": 0,
+        "rejectionReasons": {
+          "voterNotRegistered": 0,
+          "wrongJurisdiction": 0,
+          "wrongPrecinct": 0,
+          "missingRequiredId": 0,
+          "ballotAlreadyCast": 0,
+          "other": 0
+        }
+      },
+      "sectionF_votingTechnology": {
+        "primaryVotingSystem": "paper_optical_scan",
+        "electronicPollBooksUsed": false,
+        "votingSystemVendors": [
+          "Clear Ballot"
+        ],
+        "accessibleVotingEquipmentCount": 6
+      },
+      "completeness": {
+        "sectionA": "complete",
+        "sectionB": "complete",
+        "sectionC": "complete",
+        "sectionD": "complete",
+        "sectionE": "complete",
+        "sectionF": "complete",
+        "overall": "complete"
+      },
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "Election Administration and Voting Survey (EAVS)",
+        "dataset": "EAVS 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+        "contentHash": "0f56307ee5a31741ab07a3b22e271f1622b014a9aa5aebc2e51eaaaadac563c2",
+        "schemaVersion": "1.0.0",
+        "notes": "Multnomah County, OR (Portland) 2022 EAVS."
+      }
+    },
+    {
+      "id": "eavs:2022:us_or_41039",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_or_41039",
+      "jurisdictionName": "Lane County",
+      "level": "county",
+      "fips": "41039",
+      "stateFips": "41",
+      "parentJurisdictionId": "us_or",
+      "sectionA_registration": {
+        "totalRegistered": 278500,
+        "activeRegistered": 264200,
+        "inactiveRegistered": 14300,
+        "newRegistrations": {
+          "total": 28400,
+          "byMail": 1200,
+          "inPerson": 900,
+          "online": 8400,
+          "motorVoter": 17400,
+          "other": 500
+        },
+        "listMaintenanceRemovals": {
+          "total": 10400,
+          "moved": 5800,
+          "deceased": 3400,
+          "felonyDisqualification": 200,
+          "failureToVoteInactivity": 900,
+          "other": 100
+        }
+      },
+      "sectionB_uocava": {
+        "transmitted": 1200,
+        "returned": 980,
+        "counted": 962,
+        "rejected": 18,
+        "rejectionRate": 0.0184,
+        "rejectionReasons": {
+          "late": 8,
+          "missingSignature": 6,
+          "other": 4
+        }
+      },
+      "sectionC_mailVoting": {
+        "transmitted": 264200,
+        "returned": 182100,
+        "counted": 179980,
+        "rejected": 2120,
+        "rejectionRate": 0.0116,
+        "rejectionReasons": {
+          "late": 410,
+          "missingSignature": 680,
+          "signatureMismatch": 950,
+          "missingWitnessOrNotary": null,
+          "missingSecrecyEnvelope": 50,
+          "other": 30
+        }
+      },
+      "sectionD_inPersonAndPolling": {
+        "totalParticipants": 182100,
+        "inPersonElectionDayVotes": 0,
+        "inPersonEarlyVotes": 0,
+        "mailVotesCounted": 179980,
+        "provisionalVotesCounted": 0,
+        "physicalPollingPlaces": 0,
+        "earlyVotingLocations": 0,
+        "voteCenters": 1,
+        "activePrecincts": 98,
+        "pollWorkersCount": 140,
+        "pollWorkerAgeBreakdown": {
+          "under18": 2,
+          "age18to25": 14,
+          "age26to40": 28,
+          "age41to60": 46,
+          "age61to70": 34,
+          "age71plus": 16
+        },
+        "pollWorkerRecruitmentDifficulty": "somewhat_easy"
+      },
+      "sectionE_provisional": {
+        "provisionalBallotsCast": 0,
+        "countedInFull": 0,
+        "countedInPart": 0,
+        "rejected": 0,
+        "rejectionRate": 0,
+        "rejectionReasons": {
+          "voterNotRegistered": 0,
+          "wrongJurisdiction": 0,
+          "wrongPrecinct": 0,
+          "missingRequiredId": 0,
+          "ballotAlreadyCast": 0,
+          "other": 0
+        }
+      },
+      "sectionF_votingTechnology": {
+        "primaryVotingSystem": "paper_optical_scan",
+        "electronicPollBooksUsed": false,
+        "votingSystemVendors": [
+          "ES&S"
+        ],
+        "accessibleVotingEquipmentCount": 4
+      },
+      "completeness": {
+        "sectionA": "complete",
+        "sectionB": "complete",
+        "sectionC": "complete",
+        "sectionD": "complete",
+        "sectionE": "complete",
+        "sectionF": "complete",
+        "overall": "complete"
+      },
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "Election Administration and Voting Survey (EAVS)",
+        "dataset": "EAVS 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+        "contentHash": "93aecd919ed412f3bd1bf5e9e759600cbefae20620228caebfe1053b66b81ad2",
+        "schemaVersion": "1.0.0",
+        "notes": "Lane County, OR (Eugene) 2022 EAVS."
+      }
+    },
+    {
+      "id": "eavs:2022:us_pr",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_pr",
+      "jurisdictionName": "Puerto Rico",
+      "level": "territory",
+      "fips": "72",
+      "stateFips": "72",
+      "parentJurisdictionId": null,
+      "sectionA_registration": {
+        "totalRegistered": 2355890,
+        "activeRegistered": 2355890,
+        "inactiveRegistered": 0,
+        "newRegistrations": {
+          "total": 42100,
+          "byMail": null,
+          "inPerson": 42100,
+          "online": null,
+          "motorVoter": null,
+          "other": 0
+        },
+        "listMaintenanceRemovals": {
+          "total": 28400,
+          "moved": 14200,
+          "deceased": 13800,
+          "felonyDisqualification": 0,
+          "failureToVoteInactivity": 0,
+          "other": 400
+        }
+      },
+      "sectionB_uocava": {
+        "transmitted": 1820,
+        "returned": 1450,
+        "counted": 1410,
+        "rejected": 40,
+        "rejectionRate": 0.0276,
+        "rejectionReasons": {
+          "late": 25,
+          "missingSignature": 10,
+          "other": 5
+        }
+      },
+      "sectionC_mailVoting": {
+        "transmitted": 24800,
+        "returned": 21400,
+        "counted": 20850,
+        "rejected": 550,
+        "rejectionRate": 0.0257,
+        "rejectionReasons": {
+          "late": 220,
+          "missingSignature": 160,
+          "signatureMismatch": 110,
+          "missingWitnessOrNotary": null,
+          "missingSecrecyEnvelope": 40,
+          "other": 20
+        }
+      },
+      "sectionD_inPersonAndPolling": {
+        "totalParticipants": null,
+        "inPersonElectionDayVotes": null,
+        "inPersonEarlyVotes": null,
+        "mailVotesCounted": 20850,
+        "provisionalVotesCounted": 0,
+        "physicalPollingPlaces": 1280,
+        "earlyVotingLocations": 78,
+        "voteCenters": 0,
+        "activePrecincts": 110,
+        "pollWorkersCount": 14200,
+        "pollWorkerAgeBreakdown": {
+          "under18": 0,
+          "age18to25": 950,
+          "age26to40": 2400,
+          "age41to60": 5800,
+          "age61to70": 3450,
+          "age71plus": 1600
+        },
+        "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+      },
+      "sectionE_provisional": {
+        "provisionalBallotsCast": 120,
+        "countedInFull": 34,
+        "countedInPart": 0,
+        "rejected": 86,
+        "rejectionRate": 0.7167,
+        "rejectionReasons": {
+          "voterNotRegistered": 48,
+          "wrongJurisdiction": 14,
+          "wrongPrecinct": 18,
+          "missingRequiredId": 4,
+          "ballotAlreadyCast": 0,
+          "other": 2
+        }
+      },
+      "sectionF_votingTechnology": {
+        "primaryVotingSystem": "paper_optical_scan",
+        "electronicPollBooksUsed": true,
+        "votingSystemVendors": [
+          "Dominion Voting Systems"
+        ],
+        "accessibleVotingEquipmentCount": 1300
+      },
+      "completeness": {
+        "sectionA": "complete",
+        "sectionB": "complete",
+        "sectionC": "complete",
+        "sectionD": "partial",
+        "sectionE": "complete",
+        "sectionF": "complete",
+        "overall": "complete"
+      },
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "Election Administration and Voting Survey (EAVS)",
+        "dataset": "EAVS 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+        "contentHash": "345a2891da86dda0f445a690de9aad96ad757e0c6a01f90b53eeca8d25c3ca12",
+        "schemaVersion": "1.0.0",
+        "notes": "Puerto Rico territorial election administration fixture. Federal midterm non-presidential cycle note: general island-wide elections are quadrennial (2020, 2024)."
+      }
+    },
+    {
+      "id": "eavs:2022:us_pr_72127",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_pr_72127",
+      "jurisdictionName": "San Juan Municipio",
+      "level": "county",
+      "fips": "72127",
+      "stateFips": "72",
+      "parentJurisdictionId": "us_pr",
+      "sectionA_registration": {
+        "totalRegistered": 284100,
+        "activeRegistered": 284100,
+        "inactiveRegistered": 0,
+        "newRegistrations": {
+          "total": 5200,
+          "byMail": null,
+          "inPerson": 5200,
+          "online": null,
+          "motorVoter": null,
+          "other": 0
+        },
+        "listMaintenanceRemovals": {
+          "total": 3800,
+          "moved": 2100,
+          "deceased": 1650,
+          "felonyDisqualification": 0,
+          "failureToVoteInactivity": 0,
+          "other": 50
+        }
+      },
+      "sectionB_uocava": {
+        "transmitted": 340,
+        "returned": 280,
+        "counted": 272,
+        "rejected": 8,
+        "rejectionRate": 0.0286,
+        "rejectionReasons": {
+          "late": 5,
+          "missingSignature": 2,
+          "other": 1
+        }
+      },
+      "sectionC_mailVoting": {
+        "transmitted": 4200,
+        "returned": 3650,
+        "counted": 3560,
+        "rejected": 90,
+        "rejectionRate": 0.0247,
+        "rejectionReasons": {
+          "late": 35,
+          "missingSignature": 25,
+          "signatureMismatch": 20,
+          "missingWitnessOrNotary": null,
+          "missingSecrecyEnvelope": 6,
+          "other": 4
+        }
+      },
+      "sectionD_inPersonAndPolling": {
+        "totalParticipants": null,
+        "inPersonElectionDayVotes": null,
+        "inPersonEarlyVotes": null,
+        "mailVotesCounted": 3560,
+        "provisionalVotesCounted": 0,
+        "physicalPollingPlaces": 145,
+        "earlyVotingLocations": 8,
+        "voteCenters": 0,
+        "activePrecincts": 5,
+        "pollWorkersCount": 1600,
+        "pollWorkerAgeBreakdown": {
+          "under18": 0,
+          "age18to25": 110,
+          "age26to40": 290,
+          "age41to60": 680,
+          "age61to70": 380,
+          "age71plus": 140
+        },
+        "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+      },
+      "sectionE_provisional": {
+        "provisionalBallotsCast": 22,
+        "countedInFull": 6,
+        "countedInPart": 0,
+        "rejected": 16,
+        "rejectionRate": 0.7273,
+        "rejectionReasons": {
+          "voterNotRegistered": 10,
+          "wrongJurisdiction": 2,
+          "wrongPrecinct": 3,
+          "missingRequiredId": 1,
+          "ballotAlreadyCast": 0,
+          "other": 0
+        }
+      },
+      "sectionF_votingTechnology": {
+        "primaryVotingSystem": "paper_optical_scan",
+        "electronicPollBooksUsed": true,
+        "votingSystemVendors": [
+          "Dominion Voting Systems"
+        ],
+        "accessibleVotingEquipmentCount": 150
+      },
+      "completeness": {
+        "sectionA": "complete",
+        "sectionB": "complete",
+        "sectionC": "complete",
+        "sectionD": "partial",
+        "sectionE": "complete",
+        "sectionF": "complete",
+        "overall": "complete"
+      },
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "Election Administration and Voting Survey (EAVS)",
+        "dataset": "EAVS 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+        "contentHash": "ab5b456ef876cc75812d210318d44718f6a481dbeeb13d7de85459465bcdb4da",
+        "schemaVersion": "1.0.0",
+        "notes": "San Juan Municipio, PR 2022 EAVS."
+      }
+    },
+    {
+      "id": "eavs:2022:us_wi",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_wi",
+      "jurisdictionName": "Wisconsin",
+      "level": "state",
+      "fips": "55",
+      "stateFips": "55",
+      "parentJurisdictionId": null,
+      "sectionA_registration": {
+        "totalRegistered": 3540200,
+        "activeRegistered": 3540200,
+        "inactiveRegistered": 0,
+        "newRegistrations": {
+          "total": 348200,
+          "byMail": 24000,
+          "inPerson": 142000,
+          "online": 118200,
+          "motorVoter": 48000,
+          "other": 16000
+        },
+        "listMaintenanceRemovals": {
+          "total": 98400,
+          "moved": 52100,
+          "deceased": 38400,
+          "felonyDisqualification": 3800,
+          "failureToVoteInactivity": 2800,
+          "other": 1300
+        }
+      },
+      "sectionB_uocava": {
+        "transmitted": 18400,
+        "returned": 14200,
+        "counted": 13950,
+        "rejected": 250,
+        "rejectionRate": 0.0176,
+        "rejectionReasons": {
+          "late": 140,
+          "missingSignature": 60,
+          "other": 50
+        }
+      },
+      "sectionC_mailVoting": {
+        "transmitted": 624500,
+        "returned": 589200,
+        "counted": 584100,
+        "rejected": 5100,
+        "rejectionRate": 0.0087,
+        "rejectionReasons": {
+          "late": 1800,
+          "missingSignature": 1400,
+          "signatureMismatch": null,
+          "missingWitnessOrNotary": 1650,
+          "missingSecrecyEnvelope": null,
+          "other": 250
+        }
+      },
+      "sectionD_inPersonAndPolling": {
+        "totalParticipants": 2654800,
+        "inPersonElectionDayVotes": 1782300,
+        "inPersonEarlyVotes": 288400,
+        "mailVotesCounted": 584100,
+        "provisionalVotesCounted": 0,
+        "physicalPollingPlaces": 2450,
+        "earlyVotingLocations": 720,
+        "voteCenters": 0,
+        "activePrecincts": 3720,
+        "pollWorkersCount": 28400,
+        "pollWorkerAgeBreakdown": {
+          "under18": 600,
+          "age18to25": 1900,
+          "age26to40": 4200,
+          "age41to60": 9800,
+          "age61to70": 7600,
+          "age71plus": 4300
+        },
+        "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+      },
+      "sectionE_provisional": {
+        "provisionalBallotsCast": 480,
+        "countedInFull": 92,
+        "countedInPart": 0,
+        "rejected": 388,
+        "rejectionRate": 0.8083,
+        "rejectionReasons": {
+          "voterNotRegistered": 180,
+          "wrongJurisdiction": 20,
+          "wrongPrecinct": 15,
+          "missingRequiredId": 165,
+          "ballotAlreadyCast": 0,
+          "other": 8
+        }
+      },
+      "sectionF_votingTechnology": {
+        "primaryVotingSystem": "paper_optical_scan",
+        "electronicPollBooksUsed": true,
+        "votingSystemVendors": [
+          "ES&S",
+          "Dominion Voting Systems",
+          "Command Central"
+        ],
+        "accessibleVotingEquipmentCount": 3850
+      },
+      "completeness": {
+        "sectionA": "complete",
+        "sectionB": "complete",
+        "sectionC": "complete",
+        "sectionD": "complete",
+        "sectionE": "complete",
+        "sectionF": "complete",
+        "overall": "complete"
+      },
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "Election Administration and Voting Survey (EAVS)",
+        "dataset": "EAVS 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+        "contentHash": "9145abc621403d389a679c2b43a8b388124fc8bee4569c5d99ce56f325fa97ac",
+        "schemaVersion": "1.0.0",
+        "notes": "Wisconsin decentralized election administration baseline with 1,850+ municipal clerks and same-day registration."
+      }
+    },
+    {
+      "id": "eavs:2022:us_wi_55025",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_wi_55025",
+      "jurisdictionName": "Dane County",
+      "level": "county",
+      "fips": "55025",
+      "stateFips": "55",
+      "parentJurisdictionId": "us_wi",
+      "sectionA_registration": {
+        "totalRegistered": 384500,
+        "activeRegistered": 384500,
+        "inactiveRegistered": 0,
+        "newRegistrations": {
+          "total": 42800,
+          "byMail": 2100,
+          "inPerson": 19400,
+          "online": 15200,
+          "motorVoter": 4800,
+          "other": 1300
+        },
+        "listMaintenanceRemovals": {
+          "total": 9800,
+          "moved": 5600,
+          "deceased": 3400,
+          "felonyDisqualification": 300,
+          "failureToVoteInactivity": 400,
+          "other": 100
+        }
+      },
+      "sectionB_uocava": {
+        "transmitted": 2400,
+        "returned": 1950,
+        "counted": 1920,
+        "rejected": 30,
+        "rejectionRate": 0.0154,
+        "rejectionReasons": {
+          "late": 16,
+          "missingSignature": 8,
+          "other": 6
+        }
+      },
+      "sectionC_mailVoting": {
+        "transmitted": 94500,
+        "returned": 91200,
+        "counted": 90600,
+        "rejected": 600,
+        "rejectionRate": 0.0066,
+        "rejectionReasons": {
+          "late": 180,
+          "missingSignature": 160,
+          "signatureMismatch": null,
+          "missingWitnessOrNotary": 240,
+          "missingSecrecyEnvelope": null,
+          "other": 20
+        }
+      },
+      "sectionD_inPersonAndPolling": {
+        "totalParticipants": 308400,
+        "inPersonElectionDayVotes": 162100,
+        "inPersonEarlyVotes": 55700,
+        "mailVotesCounted": 90600,
+        "provisionalVotesCounted": 0,
+        "physicalPollingPlaces": 178,
+        "earlyVotingLocations": 28,
+        "voteCenters": 0,
+        "activePrecincts": 248,
+        "pollWorkersCount": 3400,
+        "pollWorkerAgeBreakdown": {
+          "under18": 90,
+          "age18to25": 380,
+          "age26to40": 720,
+          "age41to60": 1100,
+          "age61to70": 750,
+          "age71plus": 360
+        },
+        "pollWorkerRecruitmentDifficulty": "somewhat_easy"
+      },
+      "sectionE_provisional": {
+        "provisionalBallotsCast": 48,
+        "countedInFull": 16,
+        "countedInPart": 0,
+        "rejected": 32,
+        "rejectionRate": 0.6667,
+        "rejectionReasons": {
+          "voterNotRegistered": 12,
+          "wrongJurisdiction": 2,
+          "wrongPrecinct": 1,
+          "missingRequiredId": 17,
+          "ballotAlreadyCast": 0,
+          "other": 0
+        }
+      },
+      "sectionF_votingTechnology": {
+        "primaryVotingSystem": "paper_optical_scan",
+        "electronicPollBooksUsed": true,
+        "votingSystemVendors": [
+          "ES&S"
+        ],
+        "accessibleVotingEquipmentCount": 260
+      },
+      "completeness": {
+        "sectionA": "complete",
+        "sectionB": "complete",
+        "sectionC": "complete",
+        "sectionD": "complete",
+        "sectionE": "complete",
+        "sectionF": "complete",
+        "overall": "complete"
+      },
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "Election Administration and Voting Survey (EAVS)",
+        "dataset": "EAVS 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+        "contentHash": "1a1966787dfb86165c536724599119e312d9bba87daed07560545a5193fc03b9",
+        "schemaVersion": "1.0.0",
+        "notes": "Dane County, WI (Madison) 2022 EAVS."
+      }
+    },
+    {
+      "id": "eavs:2022:us_wi_55079",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_wi_55079",
+      "jurisdictionName": "Milwaukee County",
+      "level": "county",
+      "fips": "55079",
+      "stateFips": "55",
+      "parentJurisdictionId": "us_wi",
+      "sectionA_registration": {
+        "totalRegistered": 542100,
+        "activeRegistered": 542100,
+        "inactiveRegistered": 0,
+        "newRegistrations": {
+          "total": 54100,
+          "byMail": 3800,
+          "inPerson": 22100,
+          "online": 18400,
+          "motorVoter": 7600,
+          "other": 2200
+        },
+        "listMaintenanceRemovals": {
+          "total": 19400,
+          "moved": 10800,
+          "deceased": 6800,
+          "felonyDisqualification": 1100,
+          "failureToVoteInactivity": 500,
+          "other": 200
+        }
+      },
+      "sectionB_uocava": {
+        "transmitted": 2100,
+        "returned": 1640,
+        "counted": 1605,
+        "rejected": 35,
+        "rejectionRate": 0.0213,
+        "rejectionReasons": {
+          "late": 18,
+          "missingSignature": 10,
+          "other": 7
+        }
+      },
+      "sectionC_mailVoting": {
+        "transmitted": 118400,
+        "returned": 109200,
+        "counted": 107800,
+        "rejected": 1400,
+        "rejectionRate": 0.0128,
+        "rejectionReasons": {
+          "late": 450,
+          "missingSignature": 380,
+          "signatureMismatch": null,
+          "missingWitnessOrNotary": 520,
+          "missingSecrecyEnvelope": null,
+          "other": 50
+        }
+      },
+      "sectionD_inPersonAndPolling": {
+        "totalParticipants": 394200,
+        "inPersonElectionDayVotes": 242100,
+        "inPersonEarlyVotes": 44300,
+        "mailVotesCounted": 107800,
+        "provisionalVotesCounted": 0,
+        "physicalPollingPlaces": 240,
+        "earlyVotingLocations": 14,
+        "voteCenters": 0,
+        "activePrecincts": 480,
+        "pollWorkersCount": 3800,
+        "pollWorkerAgeBreakdown": {
+          "under18": 80,
+          "age18to25": 240,
+          "age26to40": 620,
+          "age41to60": 1420,
+          "age61to70": 980,
+          "age71plus": 460
+        },
+        "pollWorkerRecruitmentDifficulty": "very_difficult"
+      },
+      "sectionE_provisional": {
+        "provisionalBallotsCast": 98,
+        "countedInFull": 18,
+        "countedInPart": 0,
+        "rejected": 80,
+        "rejectionRate": 0.8163,
+        "rejectionReasons": {
+          "voterNotRegistered": 38,
+          "wrongJurisdiction": 5,
+          "wrongPrecinct": 3,
+          "missingRequiredId": 32,
+          "ballotAlreadyCast": 0,
+          "other": 2
+        }
+      },
+      "sectionF_votingTechnology": {
+        "primaryVotingSystem": "paper_optical_scan",
+        "electronicPollBooksUsed": true,
+        "votingSystemVendors": [
+          "ES&S"
+        ],
+        "accessibleVotingEquipmentCount": 340
+      },
+      "completeness": {
+        "sectionA": "complete",
+        "sectionB": "complete",
+        "sectionC": "complete",
+        "sectionD": "complete",
+        "sectionE": "complete",
+        "sectionF": "complete",
+        "overall": "complete"
+      },
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "Election Administration and Voting Survey (EAVS)",
+        "dataset": "EAVS 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+        "contentHash": "2275b882512301ab34fdb03839b8e69d5dc943c75662163564bc81908af37237",
+        "schemaVersion": "1.0.0",
+        "notes": "Milwaukee County, WI 2022 EAVS."
+      }
+    }
+  ],
+  "policySurveys": [
+    {
+      "id": "policy_survey:2022:us_ga",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_ga",
+      "jurisdictionName": "Georgia",
+      "fips": "13",
+      "statutoryEffectiveDate": "2022-01-01",
+      "registrationPolicy": {
+        "deadlineDaysBeforeElection": 29,
+        "automaticVoterRegistration": true,
+        "onlineVoterRegistration": true,
+        "sameDayRegistration": false,
+        "sameDayRegistrationLocations": [],
+        "preregistrationAge": 17
+      },
+      "voterIdPolicy": {
+        "inPersonRequirement": "strict_photo",
+        "provisionalCureAllowed": true,
+        "acceptableIdTypes": [
+          "Georgia Driver's License",
+          "Georgia State ID Card",
+          "Valid U.S. Passport",
+          "Valid Employee Photo ID from Federal/State/Local Government",
+          "Valid U.S. Military Photo ID",
+          "Valid Tribal Photo ID"
+        ],
+        "affidavitAllowed": false
+      },
+      "earlyVotingPolicy": {
+        "inPersonEarlyVotingAllowed": true,
+        "earlyVotingWindowDays": 21,
+        "weekendVotingMandatory": true,
+        "weekendVotingAllowed": true,
+        "uniformHoursMandatory": true
+      },
+      "mailVotingPolicy": {
+        "model": "no_excuse_absentee",
+        "excusesAllowed": [],
+        "dropBoxesAllowed": true,
+        "dropBoxMandate": "capped_at_one_per_100k_active_voters_inside_early_voting_sites",
+        "prepaidReturnPostage": false,
+        "witnessOrNotaryRequired": false,
+        "curePeriodAllowed": true,
+        "curePeriodDays": 3,
+        "ballotTrackingAvailable": true
+      },
+      "postElectionAuditPolicy": {
+        "auditRequired": true,
+        "auditType": "risk_limiting",
+        "statutoryTrigger": "Mandatory statewide risk-limiting audit for one statewide contest selected by Secretary of State"
+      },
+      "recountPolicy": {
+        "automaticRecountMarginPercent": null,
+        "candidateRequestedAllowed": true,
+        "candidatePaysCostIfUnchanged": false
+      },
+      "felonDisenfranchisementPolicy": {
+        "restorationTiming": "completion_of_parole_probation",
+        "description": "Voting rights restored upon completion of full sentence for felony involving moral turpitude, including prison, parole, probation, and payment of fines."
+      },
+      "governanceStructure": {
+        "chiefStateElectionOfficial": "state_board_of_elections",
+        "localAdministrationStructure": "county_board_of_elections"
+      },
+      "completeness": "complete",
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "EAVS Policy Survey",
+        "dataset": "EAVS Policy Survey 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/eavs-policy-survey",
+        "contentHash": "1775195612613187fd58fc29bb769f43de928b980060eac8eaa7a7c7cc991842",
+        "schemaVersion": "1.0.0",
+        "notes": "Georgia Policy Survey: reflects SB 202 (2021 Election Integrity Act) with photo ID requirements for mail voting, mandatory Saturday early voting, and statewide RLAs."
+      }
+    },
+    {
+      "id": "policy_survey:2022:us_ky",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_ky",
+      "jurisdictionName": "Kentucky",
+      "fips": "21",
+      "statutoryEffectiveDate": "2022-01-01",
+      "registrationPolicy": {
+        "deadlineDaysBeforeElection": 29,
+        "automaticVoterRegistration": false,
+        "onlineVoterRegistration": true,
+        "sameDayRegistration": false,
+        "sameDayRegistrationLocations": [],
+        "preregistrationAge": 17
+      },
+      "voterIdPolicy": {
+        "inPersonRequirement": "strict_photo",
+        "provisionalCureAllowed": true,
+        "acceptableIdTypes": [
+          "Kentucky Driver's License",
+          "Kentucky State ID",
+          "U.S. Passport",
+          "Military ID",
+          "Kentucky Public University Student ID with Photo"
+        ],
+        "affidavitAllowed": true
+      },
+      "earlyVotingPolicy": {
+        "inPersonEarlyVotingAllowed": true,
+        "earlyVotingWindowDays": 3,
+        "weekendVotingMandatory": true,
+        "weekendVotingAllowed": true,
+        "uniformHoursMandatory": true
+      },
+      "mailVotingPolicy": {
+        "model": "excuse_required_absentee",
+        "excusesAllowed": [
+          "military_or_overseas",
+          "age_65_plus",
+          "disability_or_illness",
+          "student_outside_county",
+          "temporary_residence_outside_county",
+          "election_officer",
+          "incarcerated_not_convicted_of_felony"
+        ],
+        "dropBoxesAllowed": true,
+        "dropBoxMandate": "minimum_one_per_county",
+        "prepaidReturnPostage": false,
+        "witnessOrNotaryRequired": false,
+        "curePeriodAllowed": true,
+        "curePeriodDays": 3,
+        "ballotTrackingAvailable": true
+      },
+      "postElectionAuditPolicy": {
+        "auditRequired": true,
+        "auditType": "traditional_percentage",
+        "statutoryTrigger": "Random selection of counties post-certification by Attorney General / Board"
+      },
+      "recountPolicy": {
+        "automaticRecountMarginPercent": null,
+        "candidateRequestedAllowed": true,
+        "candidatePaysCostIfUnchanged": true
+      },
+      "felonDisenfranchisementPolicy": {
+        "restorationTiming": "governor_pardon_executive_order",
+        "description": "Kentucky constitutional disenfranchisement for felony convictions; non-violent offenses restored via Governor Executive Order (2019 EO 2019-003)."
+      },
+      "governanceStructure": {
+        "chiefStateElectionOfficial": "state_board_of_elections",
+        "localAdministrationStructure": "elected_county_clerk"
+      },
+      "completeness": "complete",
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "EAVS Policy Survey",
+        "dataset": "EAVS Policy Survey 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/eavs-policy-survey",
+        "contentHash": "03c48ea4f61013d25359f41606eba504dc5a764f0e3437f2582092b5a175b9c6",
+        "schemaVersion": "1.0.0",
+        "notes": "Kentucky 2022 Policy Survey: reflects post-2021 bipartisan election reform (HB 574) establishing 3 days of no-excuse in-person early voting and online portal."
+      }
+    },
+    {
+      "id": "policy_survey:2022:us_or",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_or",
+      "jurisdictionName": "Oregon",
+      "fips": "41",
+      "statutoryEffectiveDate": "2022-01-01",
+      "registrationPolicy": {
+        "deadlineDaysBeforeElection": 21,
+        "automaticVoterRegistration": true,
+        "onlineVoterRegistration": true,
+        "sameDayRegistration": false,
+        "sameDayRegistrationLocations": [],
+        "preregistrationAge": 16
+      },
+      "voterIdPolicy": {
+        "inPersonRequirement": "no_document_signature_only",
+        "provisionalCureAllowed": true,
+        "acceptableIdTypes": [
+          "Signature match against voter registration file"
+        ],
+        "affidavitAllowed": false
+      },
+      "earlyVotingPolicy": {
+        "inPersonEarlyVotingAllowed": false,
+        "earlyVotingWindowDays": null,
+        "weekendVotingMandatory": false,
+        "weekendVotingAllowed": false,
+        "uniformHoursMandatory": false
+      },
+      "mailVotingPolicy": {
+        "model": "universal_all_mail",
+        "excusesAllowed": [],
+        "dropBoxesAllowed": true,
+        "dropBoxMandate": "minimum_two_per_county_plus_population_scaling",
+        "prepaidReturnPostage": true,
+        "witnessOrNotaryRequired": false,
+        "curePeriodAllowed": true,
+        "curePeriodDays": 14,
+        "ballotTrackingAvailable": true
+      },
+      "postElectionAuditPolicy": {
+        "auditRequired": true,
+        "auditType": "traditional_percentage",
+        "statutoryTrigger": "Mandatory hand count of sample precincts/batches in each county"
+      },
+      "recountPolicy": {
+        "automaticRecountMarginPercent": 0.2,
+        "candidateRequestedAllowed": true,
+        "candidatePaysCostIfUnchanged": true
+      },
+      "felonDisenfranchisementPolicy": {
+        "restorationTiming": "immediate_upon_release",
+        "description": "Voting rights automatically restored immediately upon release from prison/incarceration."
+      },
+      "governanceStructure": {
+        "chiefStateElectionOfficial": "elected_secretary_of_state",
+        "localAdministrationStructure": "elected_county_clerk"
+      },
+      "completeness": "complete",
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "EAVS Policy Survey",
+        "dataset": "EAVS Policy Survey 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/eavs-policy-survey",
+        "contentHash": "66584ffbd9c2ce2b395cb83ea26b48c4d07c3e10cc89408121a8f8d8b76618ea",
+        "schemaVersion": "1.0.0",
+        "notes": "Oregon Policy Survey: Universal Vote-by-Mail system enacted by Measure 60 (1998) and Oregon Motor Voter automatic registration (2016)."
+      }
+    },
+    {
+      "id": "policy_survey:2022:us_pr",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_pr",
+      "jurisdictionName": "Puerto Rico",
+      "fips": "72",
+      "statutoryEffectiveDate": "2022-01-01",
+      "registrationPolicy": {
+        "deadlineDaysBeforeElection": 50,
+        "automaticVoterRegistration": false,
+        "onlineVoterRegistration": false,
+        "sameDayRegistration": false,
+        "sameDayRegistrationLocations": [],
+        "preregistrationAge": 18
+      },
+      "voterIdPolicy": {
+        "inPersonRequirement": "strict_photo",
+        "provisionalCureAllowed": true,
+        "acceptableIdTypes": [
+          "Tarjeta Electoral de Puerto Rico (Voter Identification Card)",
+          "Puerto Rico Real ID Driver's License",
+          "U.S. Passport"
+        ],
+        "affidavitAllowed": false
+      },
+      "earlyVotingPolicy": {
+        "inPersonEarlyVotingAllowed": true,
+        "earlyVotingWindowDays": 1,
+        "weekendVotingMandatory": false,
+        "weekendVotingAllowed": false,
+        "uniformHoursMandatory": true
+      },
+      "mailVotingPolicy": {
+        "model": "excuse_required_absentee",
+        "excusesAllowed": [
+          "military_overseas",
+          "confined_institutionalized",
+          "medical_disability",
+          "essential_worker",
+          "student_abroad"
+        ],
+        "dropBoxesAllowed": false,
+        "dropBoxMandate": null,
+        "prepaidReturnPostage": false,
+        "witnessOrNotaryRequired": false,
+        "curePeriodAllowed": true,
+        "curePeriodDays": 5,
+        "ballotTrackingAvailable": false
+      },
+      "postElectionAuditPolicy": {
+        "auditRequired": true,
+        "auditType": "traditional_percentage",
+        "statutoryTrigger": "Electoral Code of Puerto Rico (Act 58-2020) recount and canvas validation protocol"
+      },
+      "recountPolicy": {
+        "automaticRecountMarginPercent": 0.5,
+        "candidateRequestedAllowed": true,
+        "candidatePaysCostIfUnchanged": false
+      },
+      "felonDisenfranchisementPolicy": {
+        "restorationTiming": "no_disenfranchisement",
+        "description": "Puerto Rico Constitution does not disenfranchise incarcerated persons; prisoners retain voting rights and vote via special penal institution ballot procedures."
+      },
+      "governanceStructure": {
+        "chiefStateElectionOfficial": "territory_election_commission",
+        "localAdministrationStructure": "combined_clerk_board"
+      },
+      "completeness": "complete",
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "EAVS Policy Survey",
+        "dataset": "EAVS Policy Survey 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/eavs-policy-survey",
+        "contentHash": "ba572d30825317101ab1d5a4e686336ab70fe9173968724793bcb7d350844d86",
+        "schemaVersion": "1.0.0",
+        "notes": "Puerto Rico territorial election policy survey baseline under the Electoral Code (Act 58-2020), managed by Comisión Estatal de Elecciones (CEE)."
+      }
+    },
+    {
+      "id": "policy_survey:2022:us_wi",
+      "vintageYear": 2022,
+      "sourceType": "administrative_official",
+      "jurisdictionId": "us_wi",
+      "jurisdictionName": "Wisconsin",
+      "fips": "55",
+      "statutoryEffectiveDate": "2022-01-01",
+      "registrationPolicy": {
+        "deadlineDaysBeforeElection": 20,
+        "automaticVoterRegistration": false,
+        "onlineVoterRegistration": true,
+        "sameDayRegistration": true,
+        "sameDayRegistrationLocations": [
+          "election_day_polls",
+          "county_office"
+        ],
+        "preregistrationAge": 17
+      },
+      "voterIdPolicy": {
+        "inPersonRequirement": "strict_photo",
+        "provisionalCureAllowed": true,
+        "acceptableIdTypes": [
+          "Wisconsin DOT Driver License",
+          "Wisconsin DOT Identification Card",
+          "U.S. Uniformed Services ID",
+          "U.S. Passport",
+          "Certificate of Naturalization",
+          "Valid Student ID with Photo and Enrollment Verification"
+        ],
+        "affidavitAllowed": false
+      },
+      "earlyVotingPolicy": {
+        "inPersonEarlyVotingAllowed": true,
+        "earlyVotingWindowDays": 14,
+        "weekendVotingMandatory": false,
+        "weekendVotingAllowed": true,
+        "uniformHoursMandatory": false
+      },
+      "mailVotingPolicy": {
+        "model": "no_excuse_absentee",
+        "excusesAllowed": [],
+        "dropBoxesAllowed": false,
+        "dropBoxMandate": null,
+        "prepaidReturnPostage": false,
+        "witnessOrNotaryRequired": true,
+        "curePeriodAllowed": false,
+        "curePeriodDays": null,
+        "ballotTrackingAvailable": true
+      },
+      "postElectionAuditPolicy": {
+        "auditRequired": true,
+        "auditType": "traditional_percentage",
+        "statutoryTrigger": "Mandatory audit of selected reporting units across municipalities after general elections"
+      },
+      "recountPolicy": {
+        "automaticRecountMarginPercent": null,
+        "candidateRequestedAllowed": true,
+        "candidatePaysCostIfUnchanged": true
+      },
+      "felonDisenfranchisementPolicy": {
+        "restorationTiming": "completion_of_parole_probation",
+        "description": "Voting rights restored upon completion of entire felony sentence including parole, probation, or extended supervision ('off paper')."
+      },
+      "governanceStructure": {
+        "chiefStateElectionOfficial": "bipartite_commission",
+        "localAdministrationStructure": "municipal_clerks"
+      },
+      "completeness": "complete",
+      "provenance": {
+        "source": "U.S. Election Assistance Commission",
+        "publisher": "EAVS Policy Survey",
+        "dataset": "EAVS Policy Survey 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-06-30",
+        "sourceUrl": "https://www.eac.gov/research-and-data/eavs-policy-survey",
+        "contentHash": "d4ce3af8b4c9f0a1023b1502d1768cf778f2b350fb218f4fc8e49e4fe8c38a59",
+        "schemaVersion": "1.0.0",
+        "notes": "Wisconsin Policy Survey: decentralized municipal clerk structure (1,850+ clerks), Wisconsin Elections Commission (WEC), and election-day registration."
+      }
+    }
+  ],
+  "cpsCalibrations": [
+    {
+      "id": "cps:2022:us_ga:state_cvap",
+      "vintageYear": 2022,
+      "sourceType": "survey_sample_estimate",
+      "jurisdictionId": "us_ga",
+      "jurisdictionName": "Georgia",
+      "fips": "13",
+      "surveyUniverse": "citizen_voting_age_population",
+      "sampleSizeUnweighted": 1620,
+      "weightingVariable": "PWSSWGT",
+      "reportedRegistration": {
+        "estimateCount": 5420000,
+        "ratePercent": 71.4,
+        "standardError": 1.68,
+        "marginOfError90Percent": 2.76
+      },
+      "reportedVoting": {
+        "estimateCount": 4120000,
+        "ratePercent": 54.3,
+        "standardError": 1.84,
+        "marginOfError90Percent": 3.03
+      },
+      "votingMethod": {
+        "electionDayInPersonPercent": 35.8,
+        "earlyInPersonPercent": 57.2,
+        "byMailPercent": 5.6,
+        "notReportedPercent": 1.4
+      },
+      "registrationMethod": {
+        "dmvMotorVoterPercent": 64.8,
+        "byMailPercent": 3.2,
+        "inPersonElectionOfficePercent": 4.8,
+        "onlineInternetPercent": 21.4,
+        "pollingPlaceElectionDayPercent": 0,
+        "schoolCommunityDrivePercent": 3.1,
+        "otherPercent": 2.7
+      },
+      "methodologyNotes": "Census Bureau Current Population Survey (CPS) November Voting and Registration Supplement. Weighted using PWSSWGT. Universe: citizen_voting_age_population. Standard errors calculated using Census replicate weights/generalized variance parameters.",
+      "completeness": "complete",
+      "provenance": {
+        "source": "U.S. Census Bureau",
+        "publisher": "Current Population Survey (CPS) Voting and Registration Supplement",
+        "dataset": "CPS Voting and Registration Nov 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-05-15",
+        "sourceUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-585.html",
+        "contentHash": "be5b7509cd2b3f96f73a33d92345b3b6113681693cacab774e8f45efa0ad0f01",
+        "schemaVersion": "1.0.0",
+        "notes": "Georgia CPS calibration (November 2022) with high reported early in-person voting share (~57%)."
+      }
+    },
+    {
+      "id": "cps:2022:us_ky:state_cvap",
+      "vintageYear": 2022,
+      "sourceType": "survey_sample_estimate",
+      "jurisdictionId": "us_ky",
+      "jurisdictionName": "Kentucky",
+      "fips": "21",
+      "surveyUniverse": "citizen_voting_age_population",
+      "sampleSizeUnweighted": 1420,
+      "weightingVariable": "PWSSWGT",
+      "reportedRegistration": {
+        "estimateCount": 2480000,
+        "ratePercent": 71.8,
+        "standardError": 1.74,
+        "marginOfError90Percent": 2.86
+      },
+      "reportedVoting": {
+        "estimateCount": 1640000,
+        "ratePercent": 47.5,
+        "standardError": 1.92,
+        "marginOfError90Percent": 3.16
+      },
+      "demographics": {
+        "byAge": [
+          {
+            "category": "age",
+            "label": "18 to 24 years",
+            "universeCount": 380000,
+            "registeredCount": 198000,
+            "registeredRatePercent": 52.1,
+            "registeredRateMOE": 6.8,
+            "votedCount": 92000,
+            "votedRatePercent": 24.2,
+            "votedRateMOE": 5.8
+          },
+          {
+            "category": "age",
+            "label": "25 to 44 years",
+            "universeCount": 1120000,
+            "registeredCount": 760000,
+            "registeredRatePercent": 67.9,
+            "registeredRateMOE": 3.8,
+            "votedCount": 465000,
+            "votedRatePercent": 41.5,
+            "votedRateMOE": 4.1
+          },
+          {
+            "category": "age",
+            "label": "45 to 64 years",
+            "universeCount": 1180000,
+            "registeredCount": 912000,
+            "registeredRatePercent": 77.3,
+            "registeredRateMOE": 3.4,
+            "votedCount": 648000,
+            "votedRatePercent": 54.9,
+            "votedRateMOE": 4
+          },
+          {
+            "category": "age",
+            "label": "65 years and over",
+            "universeCount": 774000,
+            "registeredCount": 610000,
+            "registeredRatePercent": 78.8,
+            "registeredRateMOE": 4.1,
+            "votedCount": 435000,
+            "votedRatePercent": 56.2,
+            "votedRateMOE": 5
+          }
+        ],
+        "bySex": [
+          {
+            "category": "sex",
+            "label": "Male",
+            "universeCount": 1680000,
+            "registeredCount": 1180000,
+            "registeredRatePercent": 70.2,
+            "registeredRateMOE": 3.1,
+            "votedCount": 785000,
+            "votedRatePercent": 46.7,
+            "votedRateMOE": 3.4
+          },
+          {
+            "category": "sex",
+            "label": "Female",
+            "universeCount": 1774000,
+            "registeredCount": 1300000,
+            "registeredRatePercent": 73.3,
+            "registeredRateMOE": 2.9,
+            "votedCount": 855000,
+            "votedRatePercent": 48.2,
+            "votedRateMOE": 3.3
+          }
+        ],
+        "byRaceHispanic": [
+          {
+            "category": "race_hispanic",
+            "label": "White non-Hispanic",
+            "universeCount": 2980000,
+            "registeredCount": 2180000,
+            "registeredRatePercent": 73.2,
+            "registeredRateMOE": 2.2,
+            "votedCount": 1460000,
+            "votedRatePercent": 49,
+            "votedRateMOE": 2.5
+          },
+          {
+            "category": "race_hispanic",
+            "label": "Black non-Hispanic",
+            "universeCount": 285000,
+            "registeredCount": 198000,
+            "registeredRatePercent": 69.5,
+            "registeredRateMOE": 7.4,
+            "votedCount": 118000,
+            "votedRatePercent": 41.4,
+            "votedRateMOE": 8
+          }
+        ],
+        "byEducation": [
+          {
+            "category": "education",
+            "label": "High school graduate or less",
+            "universeCount": 1680000,
+            "registeredCount": 1090000,
+            "registeredRatePercent": 64.9,
+            "registeredRateMOE": 3.2,
+            "votedCount": 650000,
+            "votedRatePercent": 38.7,
+            "votedRateMOE": 3.3
+          },
+          {
+            "category": "education",
+            "label": "Some college or associate degree",
+            "universeCount": 980000,
+            "registeredCount": 735000,
+            "registeredRatePercent": 75,
+            "registeredRateMOE": 3.8,
+            "votedCount": 495000,
+            "votedRatePercent": 50.5,
+            "votedRateMOE": 4.4
+          },
+          {
+            "category": "education",
+            "label": "Bachelor's degree or higher",
+            "universeCount": 794000,
+            "registeredCount": 655000,
+            "registeredRatePercent": 82.5,
+            "registeredRateMOE": 3.6,
+            "votedCount": 495000,
+            "votedRatePercent": 62.3,
+            "votedRateMOE": 4.6
+          }
+        ]
+      },
+      "votingMethod": {
+        "electionDayInPersonPercent": 71.4,
+        "earlyInPersonPercent": 21.8,
+        "byMailPercent": 5.4,
+        "notReportedPercent": 1.4
+      },
+      "registrationMethod": {
+        "dmvMotorVoterPercent": 34.2,
+        "byMailPercent": 10.4,
+        "inPersonElectionOfficePercent": 21.6,
+        "onlineInternetPercent": 26.8,
+        "pollingPlaceElectionDayPercent": 0,
+        "schoolCommunityDrivePercent": 3.2,
+        "otherPercent": 3.8
+      },
+      "methodologyNotes": "Census Bureau Current Population Survey (CPS) November Voting and Registration Supplement. Weighted using PWSSWGT. Universe: citizen_voting_age_population. Standard errors calculated using Census replicate weights/generalized variance parameters.",
+      "completeness": "complete",
+      "provenance": {
+        "source": "U.S. Census Bureau",
+        "publisher": "Current Population Survey (CPS) Voting and Registration Supplement",
+        "dataset": "CPS Voting and Registration Nov 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-05-15",
+        "sourceUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-585.html",
+        "contentHash": "641ca99f3068345ff2b95e8f183407ecb80dbb6ef5f3630457c557b91c236c96",
+        "schemaVersion": "1.0.0",
+        "notes": "Kentucky CPS Voting and Registration Supplement calibration table (November 2022)."
+      }
+    },
+    {
+      "id": "cps:2022:us_fed:national_cvap",
+      "vintageYear": 2022,
+      "sourceType": "survey_sample_estimate",
+      "jurisdictionId": "us_fed",
+      "jurisdictionName": "United States",
+      "fips": "00",
+      "surveyUniverse": "citizen_voting_age_population",
+      "sampleSizeUnweighted": 78400,
+      "weightingVariable": "PWSSWGT",
+      "reportedRegistration": {
+        "estimateCount": 161422000,
+        "ratePercent": 69.1,
+        "standardError": 0.24,
+        "marginOfError90Percent": 0.39
+      },
+      "reportedVoting": {
+        "estimateCount": 122340000,
+        "ratePercent": 52.2,
+        "standardError": 0.26,
+        "marginOfError90Percent": 0.43
+      },
+      "demographics": {
+        "byAge": [
+          {
+            "category": "age",
+            "label": "18 to 24 years",
+            "universeCount": 27850000,
+            "registeredCount": 14210000,
+            "registeredRatePercent": 51,
+            "registeredRateMOE": 0.82,
+            "votedCount": 7880000,
+            "votedRatePercent": 28.3,
+            "votedRateMOE": 0.74
+          },
+          {
+            "category": "age",
+            "label": "25 to 44 years",
+            "universeCount": 81400000,
+            "registeredCount": 53200000,
+            "registeredRatePercent": 65.4,
+            "registeredRateMOE": 0.46,
+            "votedCount": 38100000,
+            "votedRatePercent": 46.8,
+            "votedRateMOE": 0.48
+          },
+          {
+            "category": "age",
+            "label": "45 to 64 years",
+            "universeCount": 74200000,
+            "registeredCount": 55800000,
+            "registeredRatePercent": 75.2,
+            "registeredRateMOE": 0.44,
+            "votedCount": 44800000,
+            "votedRatePercent": 60.4,
+            "votedRateMOE": 0.5
+          },
+          {
+            "category": "age",
+            "label": "65 years and over",
+            "universeCount": 50150000,
+            "registeredCount": 38212000,
+            "registeredRatePercent": 76.2,
+            "registeredRateMOE": 0.52,
+            "votedCount": 31560000,
+            "votedRatePercent": 62.9,
+            "votedRateMOE": 0.59
+          }
+        ],
+        "bySex": [
+          {
+            "category": "sex",
+            "label": "Male",
+            "universeCount": 112800000,
+            "registeredCount": 76100000,
+            "registeredRatePercent": 67.5,
+            "registeredRateMOE": 0.38,
+            "votedCount": 57400000,
+            "votedRatePercent": 50.9,
+            "votedRateMOE": 0.41
+          },
+          {
+            "category": "sex",
+            "label": "Female",
+            "universeCount": 120800000,
+            "registeredCount": 85322000,
+            "registeredRatePercent": 70.6,
+            "registeredRateMOE": 0.35,
+            "votedCount": 64940000,
+            "votedRatePercent": 53.8,
+            "votedRateMOE": 0.39
+          }
+        ],
+        "byRaceHispanic": [
+          {
+            "category": "race_hispanic",
+            "label": "White non-Hispanic",
+            "universeCount": 158400000,
+            "registeredCount": 115200000,
+            "registeredRatePercent": 72.7,
+            "registeredRateMOE": 0.3,
+            "votedCount": 90100000,
+            "votedRatePercent": 56.9,
+            "votedRateMOE": 0.34
+          },
+          {
+            "category": "race_hispanic",
+            "label": "Black non-Hispanic",
+            "universeCount": 29800000,
+            "registeredCount": 20400000,
+            "registeredRatePercent": 68.5,
+            "registeredRateMOE": 0.72,
+            "votedCount": 14600000,
+            "votedRatePercent": 49,
+            "votedRateMOE": 0.78
+          },
+          {
+            "category": "race_hispanic",
+            "label": "Hispanic of any race",
+            "universeCount": 31400000,
+            "registeredCount": 17200000,
+            "registeredRatePercent": 54.8,
+            "registeredRateMOE": 0.75,
+            "votedCount": 11200000,
+            "votedRatePercent": 35.7,
+            "votedRateMOE": 0.72
+          },
+          {
+            "category": "race_hispanic",
+            "label": "Asian non-Hispanic",
+            "universeCount": 11400000,
+            "registeredCount": 6600000,
+            "registeredRatePercent": 57.9,
+            "registeredRateMOE": 1.2,
+            "votedCount": 4900000,
+            "votedRatePercent": 43,
+            "votedRateMOE": 1.24
+          }
+        ],
+        "byEducation": [
+          {
+            "category": "education",
+            "label": "Less than high school graduate",
+            "universeCount": 17400000,
+            "registeredCount": 8100000,
+            "registeredRatePercent": 46.6,
+            "registeredRateMOE": 1.05,
+            "votedCount": 4800000,
+            "votedRatePercent": 27.6,
+            "votedRateMOE": 0.94
+          },
+          {
+            "category": "education",
+            "label": "High school graduate or equivalent",
+            "universeCount": 64200000,
+            "registeredCount": 39800000,
+            "registeredRatePercent": 62,
+            "registeredRateMOE": 0.54,
+            "votedCount": 26800000,
+            "votedRatePercent": 41.7,
+            "votedRateMOE": 0.55
+          },
+          {
+            "category": "education",
+            "label": "Some college or associate degree",
+            "universeCount": 68400000,
+            "registeredCount": 49600000,
+            "registeredRatePercent": 72.5,
+            "registeredRateMOE": 0.47,
+            "votedCount": 37200000,
+            "votedRatePercent": 54.4,
+            "votedRateMOE": 0.53
+          },
+          {
+            "category": "education",
+            "label": "Bachelor's degree or higher",
+            "universeCount": 83600000,
+            "registeredCount": 63922000,
+            "registeredRatePercent": 76.5,
+            "registeredRateMOE": 0.4,
+            "votedCount": 53540000,
+            "votedRatePercent": 64,
+            "votedRateMOE": 0.46
+          }
+        ],
+        "byFamilyIncome": [
+          {
+            "category": "income",
+            "label": "Under $25,000",
+            "universeCount": 24200000,
+            "registeredCount": 13400000,
+            "registeredRatePercent": 55.4,
+            "registeredRateMOE": 0.89,
+            "votedCount": 8800000,
+            "votedRatePercent": 36.4,
+            "votedRateMOE": 0.86
+          },
+          {
+            "category": "income",
+            "label": "$25,000 to $49,999",
+            "universeCount": 38400000,
+            "registeredCount": 24100000,
+            "registeredRatePercent": 62.8,
+            "registeredRateMOE": 0.68,
+            "votedCount": 16800000,
+            "votedRatePercent": 43.8,
+            "votedRateMOE": 0.7
+          },
+          {
+            "category": "income",
+            "label": "$50,000 to $74,999",
+            "universeCount": 39800000,
+            "registeredCount": 27900000,
+            "registeredRatePercent": 70.1,
+            "registeredRateMOE": 0.63,
+            "votedCount": 20800000,
+            "votedRatePercent": 52.3,
+            "votedRateMOE": 0.69
+          },
+          {
+            "category": "income",
+            "label": "$75,000 to $99,999",
+            "universeCount": 34100000,
+            "registeredCount": 25400000,
+            "registeredRatePercent": 74.5,
+            "registeredRateMOE": 0.65,
+            "votedCount": 19800000,
+            "votedRatePercent": 58.1,
+            "votedRateMOE": 0.73
+          },
+          {
+            "category": "income",
+            "label": "$100,000 to $149,999",
+            "universeCount": 44800000,
+            "registeredCount": 35200000,
+            "registeredRatePercent": 78.6,
+            "registeredRateMOE": 0.54,
+            "votedCount": 28600000,
+            "votedRatePercent": 63.8,
+            "votedRateMOE": 0.62
+          },
+          {
+            "category": "income",
+            "label": "$150,000 and over",
+            "universeCount": 52300000,
+            "registeredCount": 42800000,
+            "registeredRatePercent": 81.8,
+            "registeredRateMOE": 0.46,
+            "votedCount": 36100000,
+            "votedRatePercent": 69,
+            "votedRateMOE": 0.55
+          }
+        ],
+        "byDurationOfResidence": [
+          {
+            "category": "residence_duration",
+            "label": "Less than 1 year",
+            "universeCount": 31200000,
+            "registeredCount": 15800000,
+            "registeredRatePercent": 50.6,
+            "registeredRateMOE": 0.78,
+            "votedCount": 10200000,
+            "votedRatePercent": 32.7,
+            "votedRateMOE": 0.73
+          },
+          {
+            "category": "residence_duration",
+            "label": "1 to 4 years",
+            "universeCount": 78400000,
+            "registeredCount": 52400000,
+            "registeredRatePercent": 66.8,
+            "registeredRateMOE": 0.46,
+            "votedCount": 38600000,
+            "votedRatePercent": 49.2,
+            "votedRateMOE": 0.49
+          },
+          {
+            "category": "residence_duration",
+            "label": "5 years or longer",
+            "universeCount": 124000000,
+            "registeredCount": 93222000,
+            "registeredRatePercent": 75.2,
+            "registeredRateMOE": 0.34,
+            "votedCount": 73540000,
+            "votedRatePercent": 59.3,
+            "votedRateMOE": 0.38
+          }
+        ]
+      },
+      "votingMethod": {
+        "electionDayInPersonPercent": 48.7,
+        "earlyInPersonPercent": 21.6,
+        "byMailPercent": 27.8,
+        "notReportedPercent": 1.9
+      },
+      "registrationMethod": {
+        "dmvMotorVoterPercent": 39.4,
+        "byMailPercent": 12.1,
+        "inPersonElectionOfficePercent": 14.8,
+        "onlineInternetPercent": 22.3,
+        "pollingPlaceElectionDayPercent": 4.1,
+        "schoolCommunityDrivePercent": 3.8,
+        "otherPercent": 3.5
+      },
+      "reasonsForNotVoting": [
+        {
+          "reasonKey": "too_busy",
+          "label": "Too busy, conflicting work or vacation schedule",
+          "estimateCount": 10400000,
+          "percentOfNonVoters": 26.6
+        },
+        {
+          "reasonKey": "not_interested",
+          "label": "Not interested, felt vote wouldn't make a difference",
+          "estimateCount": 7100000,
+          "percentOfNonVoters": 18.2
+        },
+        {
+          "reasonKey": "illness_disability",
+          "label": "Illness or disability (own or family member)",
+          "estimateCount": 5100000,
+          "percentOfNonVoters": 13
+        },
+        {
+          "reasonKey": "disliked_candidates_issues",
+          "label": "Did not like candidates or campaign issues",
+          "estimateCount": 4200000,
+          "percentOfNonVoters": 10.7
+        },
+        {
+          "reasonKey": "out_of_town",
+          "label": "Out of town on election day",
+          "estimateCount": 3800000,
+          "percentOfNonVoters": 9.7
+        },
+        {
+          "reasonKey": "registration_problems",
+          "label": "Registration problems or did not receive absentee ballot",
+          "estimateCount": 2400000,
+          "percentOfNonVoters": 6.1
+        },
+        {
+          "reasonKey": "transportation_problems",
+          "label": "Transportation problems",
+          "estimateCount": 1300000,
+          "percentOfNonVoters": 3.3
+        },
+        {
+          "reasonKey": "inconvenient_polling_place",
+          "label": "Inconvenient polling place or long lines",
+          "estimateCount": 1100000,
+          "percentOfNonVoters": 2.8
+        },
+        {
+          "reasonKey": "forgot_to_vote",
+          "label": "Forgot to vote",
+          "estimateCount": 980000,
+          "percentOfNonVoters": 2.5
+        },
+        {
+          "reasonKey": "other_refused",
+          "label": "Other reason / Don't know / Refused",
+          "estimateCount": 2720000,
+          "percentOfNonVoters": 7
+        }
+      ],
+      "reasonsForNotRegistering": [
+        {
+          "reasonKey": "not_interested_politics",
+          "label": "Not interested in election or politics",
+          "estimateCount": 29800000,
+          "percentOfNonVoters": 41.2
+        },
+        {
+          "reasonKey": "missed_deadline",
+          "label": "Did not meet registration deadlines",
+          "estimateCount": 14200000,
+          "percentOfNonVoters": 19.6
+        },
+        {
+          "reasonKey": "vote_no_difference",
+          "label": "My vote wouldn't make a difference",
+          "estimateCount": 10800000,
+          "percentOfNonVoters": 14.9
+        },
+        {
+          "reasonKey": "permanent_disability",
+          "label": "Permanent illness or disability",
+          "estimateCount": 6800000,
+          "percentOfNonVoters": 9.4
+        },
+        {
+          "reasonKey": "did_not_know_how",
+          "label": "Did not know where or how to register",
+          "estimateCount": 3100000,
+          "percentOfNonVoters": 4.3
+        },
+        {
+          "reasonKey": "other_refused",
+          "label": "Other / Don't know / Refused",
+          "estimateCount": 7600000,
+          "percentOfNonVoters": 10.5
+        }
+      ],
+      "methodologyNotes": "Census Bureau Current Population Survey (CPS) November Voting and Registration Supplement. Weighted using PWSSWGT. Universe: citizen_voting_age_population. Standard errors calculated using Census replicate weights/generalized variance parameters.",
+      "completeness": "complete",
+      "provenance": {
+        "source": "U.S. Census Bureau",
+        "publisher": "Current Population Survey (CPS) Voting and Registration Supplement",
+        "dataset": "CPS Voting and Registration Nov 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-05-15",
+        "sourceUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-585.html",
+        "contentHash": "cb5b21405c00de101c9ef58a656ac5e7baac4b8f727ad47f8db80866bc6859c1",
+        "schemaVersion": "1.0.0",
+        "notes": "National November 2022 CPS Voting and Registration Supplement benchmark calibration dataset (P20-585)."
+      }
+    },
+    {
+      "id": "cps:2022:us_or:state_cvap",
+      "vintageYear": 2022,
+      "sourceType": "survey_sample_estimate",
+      "jurisdictionId": "us_or",
+      "jurisdictionName": "Oregon",
+      "fips": "41",
+      "surveyUniverse": "citizen_voting_age_population",
+      "sampleSizeUnweighted": 1380,
+      "weightingVariable": "PWSSWGT",
+      "reportedRegistration": {
+        "estimateCount": 2490000,
+        "ratePercent": 77.4,
+        "standardError": 1.62,
+        "marginOfError90Percent": 2.66
+      },
+      "reportedVoting": {
+        "estimateCount": 2040000,
+        "ratePercent": 63.4,
+        "standardError": 1.86,
+        "marginOfError90Percent": 3.06
+      },
+      "votingMethod": {
+        "electionDayInPersonPercent": 0,
+        "earlyInPersonPercent": 0,
+        "byMailPercent": 98.4,
+        "notReportedPercent": 1.6
+      },
+      "registrationMethod": {
+        "dmvMotorVoterPercent": 61.2,
+        "byMailPercent": 4.8,
+        "inPersonElectionOfficePercent": 3.9,
+        "onlineInternetPercent": 24.1,
+        "pollingPlaceElectionDayPercent": 0,
+        "schoolCommunityDrivePercent": 2.8,
+        "otherPercent": 3.2
+      },
+      "methodologyNotes": "Census Bureau Current Population Survey (CPS) November Voting and Registration Supplement. Weighted using PWSSWGT. Universe: citizen_voting_age_population. Standard errors calculated using Census replicate weights/generalized variance parameters.",
+      "completeness": "complete",
+      "provenance": {
+        "source": "U.S. Census Bureau",
+        "publisher": "Current Population Survey (CPS) Voting and Registration Supplement",
+        "dataset": "CPS Voting and Registration Nov 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-05-15",
+        "sourceUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-585.html",
+        "contentHash": "a52f57ec4869e022668650cefd73feb4fddeac8ef2628349fb09ca7dfb3cea59",
+        "schemaVersion": "1.0.0",
+        "notes": "Oregon CPS calibration (November 2022) demonstrating ~98% reported mail voting rate."
+      }
+    },
+    {
+      "id": "cps:2022:us_pr:territory_cvap",
+      "vintageYear": 2022,
+      "sourceType": "survey_sample_estimate",
+      "jurisdictionId": "us_pr",
+      "jurisdictionName": "Puerto Rico",
+      "fips": "72",
+      "surveyUniverse": "citizen_voting_age_population",
+      "sampleSizeUnweighted": 1,
+      "weightingVariable": "NOT_APPLICABLE",
+      "reportedRegistration": {
+        "estimateCount": 0,
+        "ratePercent": 0,
+        "standardError": 0,
+        "marginOfError90Percent": 0
+      },
+      "reportedVoting": {
+        "estimateCount": 0,
+        "ratePercent": 0,
+        "standardError": 0,
+        "marginOfError90Percent": 0
+      },
+      "methodologyNotes": "U.S. Census CPS Voting and Registration Supplement excludes Puerto Rico and island territories from its 50-state + D.C. sample frame. Territorial voting rates are not surveyed by the November CPS supplement.",
+      "completeness": "not_applicable",
+      "provenance": {
+        "source": "U.S. Census Bureau",
+        "publisher": "Current Population Survey (CPS) Voting and Registration Supplement",
+        "dataset": "CPS Voting and Registration Nov 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-05-15",
+        "sourceUrl": "https://www.census.gov/programs-surveys/cps.html",
+        "contentHash": "4c5e7234762aaad832dee35b1b083cb989a854feee59925d5e583d8835763b08",
+        "schemaVersion": "1.0.0",
+        "notes": "Territorial sample exclusion record for Puerto Rico in CPS Voting Supplement."
+      }
+    },
+    {
+      "id": "cps:2022:us_wi:state_cvap",
+      "vintageYear": 2022,
+      "sourceType": "survey_sample_estimate",
+      "jurisdictionId": "us_wi",
+      "jurisdictionName": "Wisconsin",
+      "fips": "55",
+      "surveyUniverse": "citizen_voting_age_population",
+      "sampleSizeUnweighted": 1540,
+      "weightingVariable": "PWSSWGT",
+      "reportedRegistration": {
+        "estimateCount": 3380000,
+        "ratePercent": 76.8,
+        "standardError": 1.58,
+        "marginOfError90Percent": 2.6
+      },
+      "reportedVoting": {
+        "estimateCount": 2720000,
+        "ratePercent": 61.8,
+        "standardError": 1.82,
+        "marginOfError90Percent": 2.99
+      },
+      "votingMethod": {
+        "electionDayInPersonPercent": 66.8,
+        "earlyInPersonPercent": 10.9,
+        "byMailPercent": 20.8,
+        "notReportedPercent": 1.5
+      },
+      "registrationMethod": {
+        "dmvMotorVoterPercent": 14.8,
+        "byMailPercent": 6.8,
+        "inPersonElectionOfficePercent": 36.4,
+        "onlineInternetPercent": 28.2,
+        "pollingPlaceElectionDayPercent": 9.4,
+        "schoolCommunityDrivePercent": 2.1,
+        "otherPercent": 2.3
+      },
+      "methodologyNotes": "Census Bureau Current Population Survey (CPS) November Voting and Registration Supplement. Weighted using PWSSWGT. Universe: citizen_voting_age_population. Standard errors calculated using Census replicate weights/generalized variance parameters.",
+      "completeness": "complete",
+      "provenance": {
+        "source": "U.S. Census Bureau",
+        "publisher": "Current Population Survey (CPS) Voting and Registration Supplement",
+        "dataset": "CPS Voting and Registration Nov 2022",
+        "vintageYear": 2022,
+        "retrievalDate": "2023-05-15",
+        "sourceUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-585.html",
+        "contentHash": "ae7af2f90865765dd435ec6277cf69c694465cf9d0c2452e6659eeb51d01be5a",
+        "schemaVersion": "1.0.0",
+        "notes": "Wisconsin CPS calibration (November 2022) with election-day polling place registration."
+      }
+    }
+  ],
+  "historicalSeries": [
+    {
+      "id": "historical_turnout:us_ky:1980_2024",
+      "jurisdictionId": "us_ky",
+      "jurisdictionName": "Kentucky",
+      "fips": "21",
+      "startYear": 1980,
+      "endYear": 2024,
+      "seriesEntries": [
+        {
+          "year": 1980,
+          "electionType": "presidential",
+          "votingAgePopulation": 2620000,
+          "citizenVotingAgePopulation": 2600000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 1419385,
+            "totalBallotsCounted": 1425000,
+            "vapTurnoutRatePercent": 54.2,
+            "cvapTurnoutRatePercent": 54.6,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 1540000,
+            "reportedVotedRatePercent": 59.2,
+            "marginOfError90Percent": 3.8,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "1980 Presidential election in Kentucky."
+        },
+        {
+          "year": 1992,
+          "electionType": "presidential",
+          "votingAgePopulation": 2840000,
+          "citizenVotingAgePopulation": 2810000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 1534462,
+            "totalBallotsCounted": 1540000,
+            "vapTurnoutRatePercent": 54,
+            "cvapTurnoutRatePercent": 54.6,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 1680000,
+            "reportedVotedRatePercent": 59.8,
+            "marginOfError90Percent": 3.4,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "1992 Presidential election in Kentucky."
+        },
+        {
+          "year": 2008,
+          "electionType": "presidential",
+          "votingAgePopulation": 3280000,
+          "citizenVotingAgePopulation": 3210000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 1826508,
+            "totalBallotsCounted": 1835000,
+            "vapTurnoutRatePercent": 55.7,
+            "cvapTurnoutRatePercent": 56.9,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 1960000,
+            "reportedVotedRatePercent": 61.1,
+            "marginOfError90Percent": 3.2,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "2008 Presidential election in Kentucky."
+        },
+        {
+          "year": 2016,
+          "electionType": "presidential",
+          "votingAgePopulation": 3460000,
+          "citizenVotingAgePopulation": 3380000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 1924149,
+            "totalBallotsCounted": 1955195,
+            "vapTurnoutRatePercent": 55.6,
+            "cvapTurnoutRatePercent": 56.9,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 2040000,
+            "reportedVotedRatePercent": 60.4,
+            "marginOfError90Percent": 3.1,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "2016 Presidential election in Kentucky."
+        },
+        {
+          "year": 2020,
+          "electionType": "presidential",
+          "votingAgePopulation": 3520000,
+          "citizenVotingAgePopulation": 3440000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 2136768,
+            "totalBallotsCounted": 2150954,
+            "vapTurnoutRatePercent": 60.7,
+            "cvapTurnoutRatePercent": 62.1,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 2220000,
+            "reportedVotedRatePercent": 64.5,
+            "marginOfError90Percent": 2.9,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "2020 Presidential election in Kentucky (highest raw vote count in state history)."
+        },
+        {
+          "year": 2022,
+          "electionType": "midterm",
+          "votingAgePopulation": 3540000,
+          "citizenVotingAgePopulation": 3460000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 1494540,
+            "totalBallotsCounted": 1502420,
+            "vapTurnoutRatePercent": 42.2,
+            "cvapTurnoutRatePercent": 43.2,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 1640000,
+            "reportedVotedRatePercent": 47.5,
+            "marginOfError90Percent": 3.16,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "2022 Midterm general election in Kentucky."
+        },
+        {
+          "year": 2024,
+          "electionType": "presidential",
+          "votingAgePopulation": 3570000,
+          "citizenVotingAgePopulation": 3485000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 2084000,
+            "totalBallotsCounted": 2101000,
+            "vapTurnoutRatePercent": 58.4,
+            "cvapTurnoutRatePercent": 59.8,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 2180000,
+            "reportedVotedRatePercent": 62.6,
+            "marginOfError90Percent": 3,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "2024 Presidential general election in Kentucky."
+        }
+      ],
+      "provenance": {
+        "source": "U.S. Census Bureau & EAC / Clerk of the House",
+        "publisher": "CPS Historical Table A-1 & Federal Election Results Canvass",
+        "dataset": "Historical Turnout Series 1980-2024",
+        "vintageYear": 2024,
+        "retrievalDate": "2025-01-15",
+        "sourceUrl": "https://www.elect.ky.gov/Resources/Pages/Election-Statistics.aspx",
+        "contentHash": "256cc0b5dbf70f0fe13762c9851ae9308fa5509aa988b9582127c7a521341702",
+        "schemaVersion": "1.0.0",
+        "notes": "Kentucky historical turnout series 1980-2024."
+      }
+    },
+    {
+      "id": "historical_turnout:us_fed:1964_2024",
+      "jurisdictionId": "us_fed",
+      "jurisdictionName": "United States",
+      "fips": "00",
+      "startYear": 1964,
+      "endYear": 2024,
+      "seriesEntries": [
+        {
+          "year": 1964,
+          "electionType": "presidential",
+          "votingAgePopulation": 114090000,
+          "citizenVotingAgePopulation": 110600000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 70644592,
+            "totalBallotsCounted": 70921144,
+            "vapTurnoutRatePercent": 61.9,
+            "cvapTurnoutRatePercent": 63.9,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 76700000,
+            "reportedVotedRatePercent": 69.3,
+            "marginOfError90Percent": 0.8,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "1964 Presidential General Election (Johnson vs. Goldwater)."
+        },
+        {
+          "year": 1968,
+          "electionType": "presidential",
+          "votingAgePopulation": 120328186,
+          "citizenVotingAgePopulation": 116500000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 73211875,
+            "totalBallotsCounted": 73715818,
+            "vapTurnoutRatePercent": 60.8,
+            "cvapTurnoutRatePercent": 62.8,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 79100000,
+            "reportedVotedRatePercent": 67.8,
+            "marginOfError90Percent": 0.8,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "1968 Presidential General Election (Nixon vs. Humphrey vs. Wallace)."
+        },
+        {
+          "year": 1972,
+          "electionType": "presidential",
+          "votingAgePopulation": 140776000,
+          "citizenVotingAgePopulation": 136200000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 77718554,
+            "totalBallotsCounted": 78200000,
+            "vapTurnoutRatePercent": 55.2,
+            "cvapTurnoutRatePercent": 57.1,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 85700000,
+            "reportedVotedRatePercent": 63,
+            "marginOfError90Percent": 0.7,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "1972 Presidential (26th Amendment 18-year-old vote takes effect)."
+        },
+        {
+          "year": 1980,
+          "electionType": "presidential",
+          "votingAgePopulation": 164445000,
+          "citizenVotingAgePopulation": 157000000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 86515221,
+            "totalBallotsCounted": 86900000,
+            "vapTurnoutRatePercent": 52.6,
+            "cvapTurnoutRatePercent": 55.1,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 93100000,
+            "reportedVotedRatePercent": 59.2,
+            "marginOfError90Percent": 0.6,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "1980 Presidential (Reagan vs. Carter)."
+        },
+        {
+          "year": 1984,
+          "electionType": "presidential",
+          "votingAgePopulation": 174466000,
+          "citizenVotingAgePopulation": 165000000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 92652680,
+            "totalBallotsCounted": 93100000,
+            "vapTurnoutRatePercent": 53.1,
+            "cvapTurnoutRatePercent": 56.2,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 101900000,
+            "reportedVotedRatePercent": 59.9,
+            "marginOfError90Percent": 0.6,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "1984 Presidential (Reagan vs. Mondale)."
+        },
+        {
+          "year": 1992,
+          "electionType": "presidential",
+          "votingAgePopulation": 189529000,
+          "citizenVotingAgePopulation": 178000000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 104405155,
+            "totalBallotsCounted": 104600000,
+            "vapTurnoutRatePercent": 55.1,
+            "cvapTurnoutRatePercent": 58.7,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 113900000,
+            "reportedVotedRatePercent": 61.3,
+            "marginOfError90Percent": 0.5,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "1992 Presidential (Clinton vs. Bush vs. Perot)."
+        },
+        {
+          "year": 2000,
+          "electionType": "presidential",
+          "votingAgePopulation": 205815000,
+          "citizenVotingAgePopulation": 193000000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 105421423,
+            "totalBallotsCounted": 105900000,
+            "vapTurnoutRatePercent": 51.2,
+            "cvapTurnoutRatePercent": 54.6,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 110800000,
+            "reportedVotedRatePercent": 59.5,
+            "marginOfError90Percent": 0.5,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "2000 Presidential (Bush vs. Gore)."
+        },
+        {
+          "year": 2008,
+          "electionType": "presidential",
+          "votingAgePopulation": 229945000,
+          "citizenVotingAgePopulation": 206000000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 131313820,
+            "totalBallotsCounted": 132600000,
+            "vapTurnoutRatePercent": 57.1,
+            "cvapTurnoutRatePercent": 63.7,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 131100000,
+            "reportedVotedRatePercent": 63.6,
+            "marginOfError90Percent": 0.4,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "2008 Presidential (Obama vs. McCain)."
+        },
+        {
+          "year": 2016,
+          "electionType": "presidential",
+          "votingAgePopulation": 249422000,
+          "citizenVotingAgePopulation": 224000000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 136669276,
+            "totalBallotsCounted": 138800000,
+            "vapTurnoutRatePercent": 54.8,
+            "cvapTurnoutRatePercent": 61,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 137500000,
+            "reportedVotedRatePercent": 61.4,
+            "marginOfError90Percent": 0.4,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "2016 Presidential (Trump vs. Clinton)."
+        },
+        {
+          "year": 2018,
+          "electionType": "midterm",
+          "votingAgePopulation": 253000000,
+          "citizenVotingAgePopulation": 228000000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 114000000,
+            "totalBallotsCounted": 118500000,
+            "vapTurnoutRatePercent": 46.8,
+            "cvapTurnoutRatePercent": 50,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 122600000,
+            "reportedVotedRatePercent": 53.4,
+            "marginOfError90Percent": 0.4,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "2018 Midterm general elections."
+        },
+        {
+          "year": 2020,
+          "electionType": "presidential",
+          "votingAgePopulation": 257605000,
+          "citizenVotingAgePopulation": 231590000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 158429631,
+            "totalBallotsCounted": 159633396,
+            "vapTurnoutRatePercent": 61.5,
+            "cvapTurnoutRatePercent": 68.4,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 154600000,
+            "reportedVotedRatePercent": 66.8,
+            "marginOfError90Percent": 0.4,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "2020 Presidential General Election (Biden vs. Trump) - highest certified turnout since 1900."
+        },
+        {
+          "year": 2022,
+          "electionType": "midterm",
+          "votingAgePopulation": 260500000,
+          "citizenVotingAgePopulation": 234200000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 107300000,
+            "totalBallotsCounted": 112200000,
+            "vapTurnoutRatePercent": 43.1,
+            "cvapTurnoutRatePercent": 46.8,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 122340000,
+            "reportedVotedRatePercent": 52.2,
+            "marginOfError90Percent": 0.43,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "2022 Midterm general elections."
+        },
+        {
+          "year": 2024,
+          "electionType": "presidential",
+          "votingAgePopulation": 264200000,
+          "citizenVotingAgePopulation": 237800000,
+          "officialAdministrativeTurnout": {
+            "highestOfficeVotesCast": 156300000,
+            "totalBallotsCounted": 158100000,
+            "vapTurnoutRatePercent": 59.8,
+            "cvapTurnoutRatePercent": 65.7,
+            "sourceType": "administrative_official"
+          },
+          "cpsSurveyReportedTurnout": {
+            "reportedVotedCount": 153800000,
+            "reportedVotedRatePercent": 64.7,
+            "marginOfError90Percent": 0.4,
+            "sourceType": "survey_sample_estimate"
+          },
+          "notes": "2024 Presidential General Election."
+        }
+      ],
+      "provenance": {
+        "source": "U.S. Census Bureau & EAC / Clerk of the House",
+        "publisher": "CPS Historical Table A-1 & Federal Election Results Canvass",
+        "dataset": "Historical Turnout Series 1964-2024",
+        "vintageYear": 2024,
+        "retrievalDate": "2025-01-15",
+        "sourceUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/voting-historical-time-series.html",
+        "contentHash": "69ffdb68a3b4948ccbaa7987dd91826ff4b746907d2670771d279997523f43cf",
+        "schemaVersion": "1.0.0",
+        "notes": "National longitudinal turnout series 1964-2024 comparing official administrative canvass results with Census CPS Voting and Registration Supplement estimates."
+      }
+    }
+  ],
+  "manifest": {
+    "schemaVersion": "1.0.0",
+    "generatedAt": "2026-08-29T16:02:36.274Z",
+    "summary": {
+      "totalEavsRecords": 14,
+      "totalStateEavsRecords": 5,
+      "totalCountyEavsRecords": 9,
+      "totalPolicySurveys": 5,
+      "totalCpsCalibrations": 6,
+      "totalHistoricalSeries": 2,
+      "totalJurisdictionsCovered": 15
+    },
+    "jurisdictionCoverage": [
+      {
+        "jurisdictionId": "us_fed",
+        "jurisdictionName": "United States",
+        "fips": "00",
+        "level": "national",
+        "hasEavs": false,
+        "hasPolicySurvey": false,
+        "hasCpsCalibration": true,
+        "hasHistoricalSeries": true,
+        "completenessSummary": "complete"
+      },
+      {
+        "jurisdictionId": "us_ga",
+        "jurisdictionName": "Georgia",
+        "fips": "13",
+        "level": "state",
+        "hasEavs": true,
+        "hasPolicySurvey": true,
+        "hasCpsCalibration": true,
+        "hasHistoricalSeries": false,
+        "completenessSummary": "complete"
+      },
+      {
+        "jurisdictionId": "us_ky",
+        "jurisdictionName": "Kentucky",
+        "fips": "21",
+        "level": "state",
+        "hasEavs": true,
+        "hasPolicySurvey": true,
+        "hasCpsCalibration": true,
+        "hasHistoricalSeries": true,
+        "completenessSummary": "complete"
+      },
+      {
+        "jurisdictionId": "us_or",
+        "jurisdictionName": "Oregon",
+        "fips": "41",
+        "level": "state",
+        "hasEavs": true,
+        "hasPolicySurvey": true,
+        "hasCpsCalibration": true,
+        "hasHistoricalSeries": false,
+        "completenessSummary": "complete"
+      },
+      {
+        "jurisdictionId": "us_wi",
+        "jurisdictionName": "Wisconsin",
+        "fips": "55",
+        "level": "state",
+        "hasEavs": true,
+        "hasPolicySurvey": true,
+        "hasCpsCalibration": true,
+        "hasHistoricalSeries": false,
+        "completenessSummary": "complete"
+      },
+      {
+        "jurisdictionId": "us_pr",
+        "jurisdictionName": "Puerto Rico",
+        "fips": "72",
+        "level": "territory",
+        "hasEavs": true,
+        "hasPolicySurvey": true,
+        "hasCpsCalibration": true,
+        "hasHistoricalSeries": false,
+        "completenessSummary": "complete"
+      },
+      {
+        "jurisdictionId": "us_ga_13121",
+        "jurisdictionName": "Fulton County",
+        "fips": "13121",
+        "level": "county",
+        "hasEavs": true,
+        "hasPolicySurvey": false,
+        "hasCpsCalibration": false,
+        "hasHistoricalSeries": false,
+        "completenessSummary": "complete"
+      },
+      {
+        "jurisdictionId": "us_ky_21067",
+        "jurisdictionName": "Fayette County",
+        "fips": "21067",
+        "level": "county",
+        "hasEavs": true,
+        "hasPolicySurvey": false,
+        "hasCpsCalibration": false,
+        "hasHistoricalSeries": false,
+        "completenessSummary": "complete"
+      },
+      {
+        "jurisdictionId": "us_ky_21111",
+        "jurisdictionName": "Jefferson County",
+        "fips": "21111",
+        "level": "county",
+        "hasEavs": true,
+        "hasPolicySurvey": false,
+        "hasCpsCalibration": false,
+        "hasHistoricalSeries": false,
+        "completenessSummary": "complete"
+      },
+      {
+        "jurisdictionId": "us_ky_21195",
+        "jurisdictionName": "Pike County",
+        "fips": "21195",
+        "level": "county",
+        "hasEavs": true,
+        "hasPolicySurvey": false,
+        "hasCpsCalibration": false,
+        "hasHistoricalSeries": false,
+        "completenessSummary": "complete"
+      },
+      {
+        "jurisdictionId": "us_or_41039",
+        "jurisdictionName": "Lane County",
+        "fips": "41039",
+        "level": "county",
+        "hasEavs": true,
+        "hasPolicySurvey": false,
+        "hasCpsCalibration": false,
+        "hasHistoricalSeries": false,
+        "completenessSummary": "complete"
+      },
+      {
+        "jurisdictionId": "us_or_41051",
+        "jurisdictionName": "Multnomah County",
+        "fips": "41051",
+        "level": "county",
+        "hasEavs": true,
+        "hasPolicySurvey": false,
+        "hasCpsCalibration": false,
+        "hasHistoricalSeries": false,
+        "completenessSummary": "complete"
+      },
+      {
+        "jurisdictionId": "us_pr_72127",
+        "jurisdictionName": "San Juan Municipio",
+        "fips": "72127",
+        "level": "county",
+        "hasEavs": true,
+        "hasPolicySurvey": false,
+        "hasCpsCalibration": false,
+        "hasHistoricalSeries": false,
+        "completenessSummary": "complete"
+      },
+      {
+        "jurisdictionId": "us_wi_55025",
+        "jurisdictionName": "Dane County",
+        "fips": "55025",
+        "level": "county",
+        "hasEavs": true,
+        "hasPolicySurvey": false,
+        "hasCpsCalibration": false,
+        "hasHistoricalSeries": false,
+        "completenessSummary": "complete"
+      },
+      {
+        "jurisdictionId": "us_wi_55079",
+        "jurisdictionName": "Milwaukee County",
+        "fips": "55079",
+        "level": "county",
+        "hasEavs": true,
+        "hasPolicySurvey": false,
+        "hasCpsCalibration": false,
+        "hasHistoricalSeries": false,
+        "completenessSummary": "complete"
+      }
+    ],
+    "corpusFileHashes": {
+      "normalizedCorpusSha256": "a5b888c6363682757ad472788881964e1a9eaf863424155dea42c1f17715aebb",
+      "eavsPartitionSha256": "7101fcacc9c647ae3f5726a4e908cd899e9b8316b20db9517a0a9010c6e588ce",
+      "policySurveyPartitionSha256": "4f2c581fab22b0c7a21e8c29185497ec753f453ec2f5ae19733c9967669319c2",
+      "cpsPartitionSha256": "4d80d15d6b751918a278f5b6f7f1a99f77c1511187bb9fae68e0b72a4943f684",
+      "historicalTurnoutPartitionSha256": "2cb0edfc581f3ad4a8ccb4bba23d379609f87fd66d11c05c79606c0e1ff7a427"
+    }
+  }
+}

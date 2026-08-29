@@ -1,0 +1,187 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-08-29T16:02:36.603Z",
+  "summary": {
+    "totalEavsRecords": 14,
+    "totalStateEavsRecords": 5,
+    "totalCountyEavsRecords": 9,
+    "totalPolicySurveys": 5,
+    "totalCpsCalibrations": 6,
+    "totalHistoricalSeries": 2,
+    "totalJurisdictionsCovered": 15
+  },
+  "jurisdictionCoverage": [
+    {
+      "jurisdictionId": "us_fed",
+      "jurisdictionName": "United States",
+      "fips": "00",
+      "level": "national",
+      "hasEavs": false,
+      "hasPolicySurvey": false,
+      "hasCpsCalibration": true,
+      "hasHistoricalSeries": true,
+      "completenessSummary": "complete"
+    },
+    {
+      "jurisdictionId": "us_ga",
+      "jurisdictionName": "Georgia",
+      "fips": "13",
+      "level": "state",
+      "hasEavs": true,
+      "hasPolicySurvey": true,
+      "hasCpsCalibration": true,
+      "hasHistoricalSeries": false,
+      "completenessSummary": "complete"
+    },
+    {
+      "jurisdictionId": "us_ky",
+      "jurisdictionName": "Kentucky",
+      "fips": "21",
+      "level": "state",
+      "hasEavs": true,
+      "hasPolicySurvey": true,
+      "hasCpsCalibration": true,
+      "hasHistoricalSeries": true,
+      "completenessSummary": "complete"
+    },
+    {
+      "jurisdictionId": "us_or",
+      "jurisdictionName": "Oregon",
+      "fips": "41",
+      "level": "state",
+      "hasEavs": true,
+      "hasPolicySurvey": true,
+      "hasCpsCalibration": true,
+      "hasHistoricalSeries": false,
+      "completenessSummary": "complete"
+    },
+    {
+      "jurisdictionId": "us_wi",
+      "jurisdictionName": "Wisconsin",
+      "fips": "55",
+      "level": "state",
+      "hasEavs": true,
+      "hasPolicySurvey": true,
+      "hasCpsCalibration": true,
+      "hasHistoricalSeries": false,
+      "completenessSummary": "complete"
+    },
+    {
+      "jurisdictionId": "us_pr",
+      "jurisdictionName": "Puerto Rico",
+      "fips": "72",
+      "level": "territory",
+      "hasEavs": true,
+      "hasPolicySurvey": true,
+      "hasCpsCalibration": true,
+      "hasHistoricalSeries": false,
+      "completenessSummary": "complete"
+    },
+    {
+      "jurisdictionId": "us_ga_13121",
+      "jurisdictionName": "Fulton County",
+      "fips": "13121",
+      "level": "county",
+      "hasEavs": true,
+      "hasPolicySurvey": false,
+      "hasCpsCalibration": false,
+      "hasHistoricalSeries": false,
+      "completenessSummary": "complete"
+    },
+    {
+      "jurisdictionId": "us_ky_21067",
+      "jurisdictionName": "Fayette County",
+      "fips": "21067",
+      "level": "county",
+      "hasEavs": true,
+      "hasPolicySurvey": false,
+      "hasCpsCalibration": false,
+      "hasHistoricalSeries": false,
+      "completenessSummary": "complete"
+    },
+    {
+      "jurisdictionId": "us_ky_21111",
+      "jurisdictionName": "Jefferson County",
+      "fips": "21111",
+      "level": "county",
+      "hasEavs": true,
+      "hasPolicySurvey": false,
+      "hasCpsCalibration": false,
+      "hasHistoricalSeries": false,
+      "completenessSummary": "complete"
+    },
+    {
+      "jurisdictionId": "us_ky_21195",
+      "jurisdictionName": "Pike County",
+      "fips": "21195",
+      "level": "county",
+      "hasEavs": true,
+      "hasPolicySurvey": false,
+      "hasCpsCalibration": false,
+      "hasHistoricalSeries": false,
+      "completenessSummary": "complete"
+    },
+    {
+      "jurisdictionId": "us_or_41039",
+      "jurisdictionName": "Lane County",
+      "fips": "41039",
+      "level": "county",
+      "hasEavs": true,
+      "hasPolicySurvey": false,
+      "hasCpsCalibration": false,
+      "hasHistoricalSeries": false,
+      "completenessSummary": "complete"
+    },
+    {
+      "jurisdictionId": "us_or_41051",
+      "jurisdictionName": "Multnomah County",
+      "fips": "41051",
+      "level": "county",
+      "hasEavs": true,
+      "hasPolicySurvey": false,
+      "hasCpsCalibration": false,
+      "hasHistoricalSeries": false,
+      "completenessSummary": "complete"
+    },
+    {
+      "jurisdictionId": "us_pr_72127",
+      "jurisdictionName": "San Juan Municipio",
+      "fips": "72127",
+      "level": "county",
+      "hasEavs": true,
+      "hasPolicySurvey": false,
+      "hasCpsCalibration": false,
+      "hasHistoricalSeries": false,
+      "completenessSummary": "complete"
+    },
+    {
+      "jurisdictionId": "us_wi_55025",
+      "jurisdictionName": "Dane County",
+      "fips": "55025",
+      "level": "county",
+      "hasEavs": true,
+      "hasPolicySurvey": false,
+      "hasCpsCalibration": false,
+      "hasHistoricalSeries": false,
+      "completenessSummary": "complete"
+    },
+    {
+      "jurisdictionId": "us_wi_55079",
+      "jurisdictionName": "Milwaukee County",
+      "fips": "55079",
+      "level": "county",
+      "hasEavs": true,
+      "hasPolicySurvey": false,
+      "hasCpsCalibration": false,
+      "hasHistoricalSeries": false,
+      "completenessSummary": "complete"
+    }
+  ],
+  "corpusFileHashes": {
+    "normalizedCorpusSha256": "a5b888c6363682757ad472788881964e1a9eaf863424155dea42c1f17715aebb",
+    "eavsPartitionSha256": "7101fcacc9c647ae3f5726a4e908cd899e9b8316b20db9517a0a9010c6e588ce",
+    "policySurveyPartitionSha256": "4f2c581fab22b0c7a21e8c29185497ec753f453ec2f5ae19733c9967669319c2",
+    "cpsPartitionSha256": "4d80d15d6b751918a278f5b6f7f1a99f77c1511187bb9fae68e0b72a4943f684",
+    "historicalTurnoutPartitionSha256": "2cb0edfc581f3ad4a8ccb4bba23d379609f87fd66d11c05c79606c0e1ff7a427"
+  }
+}

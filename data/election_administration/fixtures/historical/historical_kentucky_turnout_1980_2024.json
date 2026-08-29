@@ -1,0 +1,140 @@
+[
+  {
+    "stateAbbr": "KY",
+    "fips": "21",
+    "jurisdictionName": "Kentucky",
+    "startYear": 1980,
+    "endYear": 2024,
+    "retrievalDate": "2025-01-15",
+    "sourceUrl": "https://www.elect.ky.gov/Resources/Pages/Election-Statistics.aspx",
+    "seriesEntries": [
+      {
+        "year": 1980,
+        "electionType": "presidential",
+        "votingAgePopulation": 2620000,
+        "citizenVotingAgePopulation": 2600000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 1419385,
+          "totalBallotsCounted": 1425000,
+          "vapTurnoutRatePercent": 54.2,
+          "cvapTurnoutRatePercent": 54.6
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 1540000,
+          "reportedVotedRatePercent": 59.2,
+          "marginOfError90Percent": 3.8
+        },
+        "notes": "1980 Presidential election in Kentucky."
+      },
+      {
+        "year": 1992,
+        "electionType": "presidential",
+        "votingAgePopulation": 2840000,
+        "citizenVotingAgePopulation": 2810000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 1534462,
+          "totalBallotsCounted": 1540000,
+          "vapTurnoutRatePercent": 54.0,
+          "cvapTurnoutRatePercent": 54.6
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 1680000,
+          "reportedVotedRatePercent": 59.8,
+          "marginOfError90Percent": 3.4
+        },
+        "notes": "1992 Presidential election in Kentucky."
+      },
+      {
+        "year": 2008,
+        "electionType": "presidential",
+        "votingAgePopulation": 3280000,
+        "citizenVotingAgePopulation": 3210000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 1826508,
+          "totalBallotsCounted": 1835000,
+          "vapTurnoutRatePercent": 55.7,
+          "cvapTurnoutRatePercent": 56.9
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 1960000,
+          "reportedVotedRatePercent": 61.1,
+          "marginOfError90Percent": 3.2
+        },
+        "notes": "2008 Presidential election in Kentucky."
+      },
+      {
+        "year": 2016,
+        "electionType": "presidential",
+        "votingAgePopulation": 3460000,
+        "citizenVotingAgePopulation": 3380000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 1924149,
+          "totalBallotsCounted": 1955195,
+          "vapTurnoutRatePercent": 55.6,
+          "cvapTurnoutRatePercent": 56.9
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 2040000,
+          "reportedVotedRatePercent": 60.4,
+          "marginOfError90Percent": 3.1
+        },
+        "notes": "2016 Presidential election in Kentucky."
+      },
+      {
+        "year": 2020,
+        "electionType": "presidential",
+        "votingAgePopulation": 3520000,
+        "citizenVotingAgePopulation": 3440000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 2136768,
+          "totalBallotsCounted": 2150954,
+          "vapTurnoutRatePercent": 60.7,
+          "cvapTurnoutRatePercent": 62.1
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 2220000,
+          "reportedVotedRatePercent": 64.5,
+          "marginOfError90Percent": 2.9
+        },
+        "notes": "2020 Presidential election in Kentucky (highest raw vote count in state history)."
+      },
+      {
+        "year": 2022,
+        "electionType": "midterm",
+        "votingAgePopulation": 3540000,
+        "citizenVotingAgePopulation": 3460000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 1494540,
+          "totalBallotsCounted": 1502420,
+          "vapTurnoutRatePercent": 42.2,
+          "cvapTurnoutRatePercent": 43.2
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 1640000,
+          "reportedVotedRatePercent": 47.5,
+          "marginOfError90Percent": 3.16
+        },
+        "notes": "2022 Midterm general election in Kentucky."
+      },
+      {
+        "year": 2024,
+        "electionType": "presidential",
+        "votingAgePopulation": 3570000,
+        "citizenVotingAgePopulation": 3485000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 2084000,
+          "totalBallotsCounted": 2101000,
+          "vapTurnoutRatePercent": 58.4,
+          "cvapTurnoutRatePercent": 59.8
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 2180000,
+          "reportedVotedRatePercent": 62.6,
+          "marginOfError90Percent": 3.0
+        },
+        "notes": "2024 Presidential general election in Kentucky."
+      }
+    ],
+    "notes": "Kentucky historical turnout series 1980-2024."
+  }
+]

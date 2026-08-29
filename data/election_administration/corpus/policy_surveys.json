@@ -1,0 +1,400 @@
+[
+  {
+    "id": "policy_survey:2022:us_ga",
+    "vintageYear": 2022,
+    "sourceType": "administrative_official",
+    "jurisdictionId": "us_ga",
+    "jurisdictionName": "Georgia",
+    "fips": "13",
+    "statutoryEffectiveDate": "2022-01-01",
+    "registrationPolicy": {
+      "deadlineDaysBeforeElection": 29,
+      "automaticVoterRegistration": true,
+      "onlineVoterRegistration": true,
+      "sameDayRegistration": false,
+      "sameDayRegistrationLocations": [],
+      "preregistrationAge": 17
+    },
+    "voterIdPolicy": {
+      "inPersonRequirement": "strict_photo",
+      "provisionalCureAllowed": true,
+      "acceptableIdTypes": [
+        "Georgia Driver's License",
+        "Georgia State ID Card",
+        "Valid U.S. Passport",
+        "Valid Employee Photo ID from Federal/State/Local Government",
+        "Valid U.S. Military Photo ID",
+        "Valid Tribal Photo ID"
+      ],
+      "affidavitAllowed": false
+    },
+    "earlyVotingPolicy": {
+      "inPersonEarlyVotingAllowed": true,
+      "earlyVotingWindowDays": 21,
+      "weekendVotingMandatory": true,
+      "weekendVotingAllowed": true,
+      "uniformHoursMandatory": true
+    },
+    "mailVotingPolicy": {
+      "model": "no_excuse_absentee",
+      "excusesAllowed": [],
+      "dropBoxesAllowed": true,
+      "dropBoxMandate": "capped_at_one_per_100k_active_voters_inside_early_voting_sites",
+      "prepaidReturnPostage": false,
+      "witnessOrNotaryRequired": false,
+      "curePeriodAllowed": true,
+      "curePeriodDays": 3,
+      "ballotTrackingAvailable": true
+    },
+    "postElectionAuditPolicy": {
+      "auditRequired": true,
+      "auditType": "risk_limiting",
+      "statutoryTrigger": "Mandatory statewide risk-limiting audit for one statewide contest selected by Secretary of State"
+    },
+    "recountPolicy": {
+      "automaticRecountMarginPercent": null,
+      "candidateRequestedAllowed": true,
+      "candidatePaysCostIfUnchanged": false
+    },
+    "felonDisenfranchisementPolicy": {
+      "restorationTiming": "completion_of_parole_probation",
+      "description": "Voting rights restored upon completion of full sentence for felony involving moral turpitude, including prison, parole, probation, and payment of fines."
+    },
+    "governanceStructure": {
+      "chiefStateElectionOfficial": "state_board_of_elections",
+      "localAdministrationStructure": "county_board_of_elections"
+    },
+    "completeness": "complete",
+    "provenance": {
+      "source": "U.S. Election Assistance Commission",
+      "publisher": "EAVS Policy Survey",
+      "dataset": "EAVS Policy Survey 2022",
+      "vintageYear": 2022,
+      "retrievalDate": "2023-06-30",
+      "sourceUrl": "https://www.eac.gov/research-and-data/eavs-policy-survey",
+      "contentHash": "1775195612613187fd58fc29bb769f43de928b980060eac8eaa7a7c7cc991842",
+      "schemaVersion": "1.0.0",
+      "notes": "Georgia Policy Survey: reflects SB 202 (2021 Election Integrity Act) with photo ID requirements for mail voting, mandatory Saturday early voting, and statewide RLAs."
+    }
+  },
+  {
+    "id": "policy_survey:2022:us_ky",
+    "vintageYear": 2022,
+    "sourceType": "administrative_official",
+    "jurisdictionId": "us_ky",
+    "jurisdictionName": "Kentucky",
+    "fips": "21",
+    "statutoryEffectiveDate": "2022-01-01",
+    "registrationPolicy": {
+      "deadlineDaysBeforeElection": 29,
+      "automaticVoterRegistration": false,
+      "onlineVoterRegistration": true,
+      "sameDayRegistration": false,
+      "sameDayRegistrationLocations": [],
+      "preregistrationAge": 17
+    },
+    "voterIdPolicy": {
+      "inPersonRequirement": "strict_photo",
+      "provisionalCureAllowed": true,
+      "acceptableIdTypes": [
+        "Kentucky Driver's License",
+        "Kentucky State ID",
+        "U.S. Passport",
+        "Military ID",
+        "Kentucky Public University Student ID with Photo"
+      ],
+      "affidavitAllowed": true
+    },
+    "earlyVotingPolicy": {
+      "inPersonEarlyVotingAllowed": true,
+      "earlyVotingWindowDays": 3,
+      "weekendVotingMandatory": true,
+      "weekendVotingAllowed": true,
+      "uniformHoursMandatory": true
+    },
+    "mailVotingPolicy": {
+      "model": "excuse_required_absentee",
+      "excusesAllowed": [
+        "military_or_overseas",
+        "age_65_plus",
+        "disability_or_illness",
+        "student_outside_county",
+        "temporary_residence_outside_county",
+        "election_officer",
+        "incarcerated_not_convicted_of_felony"
+      ],
+      "dropBoxesAllowed": true,
+      "dropBoxMandate": "minimum_one_per_county",
+      "prepaidReturnPostage": false,
+      "witnessOrNotaryRequired": false,
+      "curePeriodAllowed": true,
+      "curePeriodDays": 3,
+      "ballotTrackingAvailable": true
+    },
+    "postElectionAuditPolicy": {
+      "auditRequired": true,
+      "auditType": "traditional_percentage",
+      "statutoryTrigger": "Random selection of counties post-certification by Attorney General / Board"
+    },
+    "recountPolicy": {
+      "automaticRecountMarginPercent": null,
+      "candidateRequestedAllowed": true,
+      "candidatePaysCostIfUnchanged": true
+    },
+    "felonDisenfranchisementPolicy": {
+      "restorationTiming": "governor_pardon_executive_order",
+      "description": "Kentucky constitutional disenfranchisement for felony convictions; non-violent offenses restored via Governor Executive Order (2019 EO 2019-003)."
+    },
+    "governanceStructure": {
+      "chiefStateElectionOfficial": "state_board_of_elections",
+      "localAdministrationStructure": "elected_county_clerk"
+    },
+    "completeness": "complete",
+    "provenance": {
+      "source": "U.S. Election Assistance Commission",
+      "publisher": "EAVS Policy Survey",
+      "dataset": "EAVS Policy Survey 2022",
+      "vintageYear": 2022,
+      "retrievalDate": "2023-06-30",
+      "sourceUrl": "https://www.eac.gov/research-and-data/eavs-policy-survey",
+      "contentHash": "03c48ea4f61013d25359f41606eba504dc5a764f0e3437f2582092b5a175b9c6",
+      "schemaVersion": "1.0.0",
+      "notes": "Kentucky 2022 Policy Survey: reflects post-2021 bipartisan election reform (HB 574) establishing 3 days of no-excuse in-person early voting and online portal."
+    }
+  },
+  {
+    "id": "policy_survey:2022:us_or",
+    "vintageYear": 2022,
+    "sourceType": "administrative_official",
+    "jurisdictionId": "us_or",
+    "jurisdictionName": "Oregon",
+    "fips": "41",
+    "statutoryEffectiveDate": "2022-01-01",
+    "registrationPolicy": {
+      "deadlineDaysBeforeElection": 21,
+      "automaticVoterRegistration": true,
+      "onlineVoterRegistration": true,
+      "sameDayRegistration": false,
+      "sameDayRegistrationLocations": [],
+      "preregistrationAge": 16
+    },
+    "voterIdPolicy": {
+      "inPersonRequirement": "no_document_signature_only",
+      "provisionalCureAllowed": true,
+      "acceptableIdTypes": [
+        "Signature match against voter registration file"
+      ],
+      "affidavitAllowed": false
+    },
+    "earlyVotingPolicy": {
+      "inPersonEarlyVotingAllowed": false,
+      "earlyVotingWindowDays": null,
+      "weekendVotingMandatory": false,
+      "weekendVotingAllowed": false,
+      "uniformHoursMandatory": false
+    },
+    "mailVotingPolicy": {
+      "model": "universal_all_mail",
+      "excusesAllowed": [],
+      "dropBoxesAllowed": true,
+      "dropBoxMandate": "minimum_two_per_county_plus_population_scaling",
+      "prepaidReturnPostage": true,
+      "witnessOrNotaryRequired": false,
+      "curePeriodAllowed": true,
+      "curePeriodDays": 14,
+      "ballotTrackingAvailable": true
+    },
+    "postElectionAuditPolicy": {
+      "auditRequired": true,
+      "auditType": "traditional_percentage",
+      "statutoryTrigger": "Mandatory hand count of sample precincts/batches in each county"
+    },
+    "recountPolicy": {
+      "automaticRecountMarginPercent": 0.2,
+      "candidateRequestedAllowed": true,
+      "candidatePaysCostIfUnchanged": true
+    },
+    "felonDisenfranchisementPolicy": {
+      "restorationTiming": "immediate_upon_release",
+      "description": "Voting rights automatically restored immediately upon release from prison/incarceration."
+    },
+    "governanceStructure": {
+      "chiefStateElectionOfficial": "elected_secretary_of_state",
+      "localAdministrationStructure": "elected_county_clerk"
+    },
+    "completeness": "complete",
+    "provenance": {
+      "source": "U.S. Election Assistance Commission",
+      "publisher": "EAVS Policy Survey",
+      "dataset": "EAVS Policy Survey 2022",
+      "vintageYear": 2022,
+      "retrievalDate": "2023-06-30",
+      "sourceUrl": "https://www.eac.gov/research-and-data/eavs-policy-survey",
+      "contentHash": "66584ffbd9c2ce2b395cb83ea26b48c4d07c3e10cc89408121a8f8d8b76618ea",
+      "schemaVersion": "1.0.0",
+      "notes": "Oregon Policy Survey: Universal Vote-by-Mail system enacted by Measure 60 (1998) and Oregon Motor Voter automatic registration (2016)."
+    }
+  },
+  {
+    "id": "policy_survey:2022:us_pr",
+    "vintageYear": 2022,
+    "sourceType": "administrative_official",
+    "jurisdictionId": "us_pr",
+    "jurisdictionName": "Puerto Rico",
+    "fips": "72",
+    "statutoryEffectiveDate": "2022-01-01",
+    "registrationPolicy": {
+      "deadlineDaysBeforeElection": 50,
+      "automaticVoterRegistration": false,
+      "onlineVoterRegistration": false,
+      "sameDayRegistration": false,
+      "sameDayRegistrationLocations": [],
+      "preregistrationAge": 18
+    },
+    "voterIdPolicy": {
+      "inPersonRequirement": "strict_photo",
+      "provisionalCureAllowed": true,
+      "acceptableIdTypes": [
+        "Tarjeta Electoral de Puerto Rico (Voter Identification Card)",
+        "Puerto Rico Real ID Driver's License",
+        "U.S. Passport"
+      ],
+      "affidavitAllowed": false
+    },
+    "earlyVotingPolicy": {
+      "inPersonEarlyVotingAllowed": true,
+      "earlyVotingWindowDays": 1,
+      "weekendVotingMandatory": false,
+      "weekendVotingAllowed": false,
+      "uniformHoursMandatory": true
+    },
+    "mailVotingPolicy": {
+      "model": "excuse_required_absentee",
+      "excusesAllowed": [
+        "military_overseas",
+        "confined_institutionalized",
+        "medical_disability",
+        "essential_worker",
+        "student_abroad"
+      ],
+      "dropBoxesAllowed": false,
+      "dropBoxMandate": null,
+      "prepaidReturnPostage": false,
+      "witnessOrNotaryRequired": false,
+      "curePeriodAllowed": true,
+      "curePeriodDays": 5,
+      "ballotTrackingAvailable": false
+    },
+    "postElectionAuditPolicy": {
+      "auditRequired": true,
+      "auditType": "traditional_percentage",
+      "statutoryTrigger": "Electoral Code of Puerto Rico (Act 58-2020) recount and canvas validation protocol"
+    },
+    "recountPolicy": {
+      "automaticRecountMarginPercent": 0.5,
+      "candidateRequestedAllowed": true,
+      "candidatePaysCostIfUnchanged": false
+    },
+    "felonDisenfranchisementPolicy": {
+      "restorationTiming": "no_disenfranchisement",
+      "description": "Puerto Rico Constitution does not disenfranchise incarcerated persons; prisoners retain voting rights and vote via special penal institution ballot procedures."
+    },
+    "governanceStructure": {
+      "chiefStateElectionOfficial": "territory_election_commission",
+      "localAdministrationStructure": "combined_clerk_board"
+    },
+    "completeness": "complete",
+    "provenance": {
+      "source": "U.S. Election Assistance Commission",
+      "publisher": "EAVS Policy Survey",
+      "dataset": "EAVS Policy Survey 2022",
+      "vintageYear": 2022,
+      "retrievalDate": "2023-06-30",
+      "sourceUrl": "https://www.eac.gov/research-and-data/eavs-policy-survey",
+      "contentHash": "ba572d30825317101ab1d5a4e686336ab70fe9173968724793bcb7d350844d86",
+      "schemaVersion": "1.0.0",
+      "notes": "Puerto Rico territorial election policy survey baseline under the Electoral Code (Act 58-2020), managed by Comisión Estatal de Elecciones (CEE)."
+    }
+  },
+  {
+    "id": "policy_survey:2022:us_wi",
+    "vintageYear": 2022,
+    "sourceType": "administrative_official",
+    "jurisdictionId": "us_wi",
+    "jurisdictionName": "Wisconsin",
+    "fips": "55",
+    "statutoryEffectiveDate": "2022-01-01",
+    "registrationPolicy": {
+      "deadlineDaysBeforeElection": 20,
+      "automaticVoterRegistration": false,
+      "onlineVoterRegistration": true,
+      "sameDayRegistration": true,
+      "sameDayRegistrationLocations": [
+        "election_day_polls",
+        "county_office"
+      ],
+      "preregistrationAge": 17
+    },
+    "voterIdPolicy": {
+      "inPersonRequirement": "strict_photo",
+      "provisionalCureAllowed": true,
+      "acceptableIdTypes": [
+        "Wisconsin DOT Driver License",
+        "Wisconsin DOT Identification Card",
+        "U.S. Uniformed Services ID",
+        "U.S. Passport",
+        "Certificate of Naturalization",
+        "Valid Student ID with Photo and Enrollment Verification"
+      ],
+      "affidavitAllowed": false
+    },
+    "earlyVotingPolicy": {
+      "inPersonEarlyVotingAllowed": true,
+      "earlyVotingWindowDays": 14,
+      "weekendVotingMandatory": false,
+      "weekendVotingAllowed": true,
+      "uniformHoursMandatory": false
+    },
+    "mailVotingPolicy": {
+      "model": "no_excuse_absentee",
+      "excusesAllowed": [],
+      "dropBoxesAllowed": false,
+      "dropBoxMandate": null,
+      "prepaidReturnPostage": false,
+      "witnessOrNotaryRequired": true,
+      "curePeriodAllowed": false,
+      "curePeriodDays": null,
+      "ballotTrackingAvailable": true
+    },
+    "postElectionAuditPolicy": {
+      "auditRequired": true,
+      "auditType": "traditional_percentage",
+      "statutoryTrigger": "Mandatory audit of selected reporting units across municipalities after general elections"
+    },
+    "recountPolicy": {
+      "automaticRecountMarginPercent": null,
+      "candidateRequestedAllowed": true,
+      "candidatePaysCostIfUnchanged": true
+    },
+    "felonDisenfranchisementPolicy": {
+      "restorationTiming": "completion_of_parole_probation",
+      "description": "Voting rights restored upon completion of entire felony sentence including parole, probation, or extended supervision ('off paper')."
+    },
+    "governanceStructure": {
+      "chiefStateElectionOfficial": "bipartite_commission",
+      "localAdministrationStructure": "municipal_clerks"
+    },
+    "completeness": "complete",
+    "provenance": {
+      "source": "U.S. Election Assistance Commission",
+      "publisher": "EAVS Policy Survey",
+      "dataset": "EAVS Policy Survey 2022",
+      "vintageYear": 2022,
+      "retrievalDate": "2023-06-30",
+      "sourceUrl": "https://www.eac.gov/research-and-data/eavs-policy-survey",
+      "contentHash": "d4ce3af8b4c9f0a1023b1502d1768cf778f2b350fb218f4fc8e49e4fe8c38a59",
+      "schemaVersion": "1.0.0",
+      "notes": "Wisconsin Policy Survey: decentralized municipal clerk structure (1,850+ clerks), Wisconsin Elections Commission (WEC), and election-day registration."
+    }
+  }
+]

@@ -27,6 +27,10 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run lint` — lint
 - `npm run typecheck` — TypeScript validation
 - `npm run build` — production build
+- `npm run compile:election-admin` — compile normalized election administration and participation corpus
+- `npm run manifest:election-admin` — generate election administration coverage manifest
+- `npm run validate:election-admin` — full election administration corpus integrity validation
+- `npm run test:election-admin` — focused election administration tests
 - `npm run validate` — full validation suite
 
 ## Working Rules

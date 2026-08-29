@@ -1,0 +1,291 @@
+[
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "OR",
+    "fips": "41",
+    "jurisdictionName": "Oregon",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+    "sectionA": {
+      "totalRegistered": 2984120,
+      "activeRegistered": 2840500,
+      "inactiveRegistered": 143620,
+      "newRegistrationsTotal": 312400,
+      "newByMail": 14200,
+      "newInPerson": 12400,
+      "newOnline": 89200,
+      "newMotorVoter": 191200,
+      "newOther": 5400,
+      "removalsTotal": 118400,
+      "removalsMoved": 62400,
+      "removalsDeceased": 38200,
+      "removalsFelony": 3100,
+      "removalsInactivity": 12800,
+      "removalsOther": 1900
+    },
+    "sectionB": {
+      "transmitted": 14200,
+      "returned": 11840,
+      "counted": 11620,
+      "rejected": 220,
+      "rejectionRate": 0.0186,
+      "rejectionReasons": {
+        "late": 110,
+        "missingSignature": 60,
+        "other": 50
+      }
+    },
+    "sectionC": {
+      "transmitted": 2840500,
+      "returned": 1954200,
+      "counted": 1932400,
+      "rejected": 21800,
+      "rejectionRate": 0.0112,
+      "rejectionReasons": {
+        "late": 4200,
+        "missingSignature": 6800,
+        "signatureMismatch": 9800,
+        "missingWitnessOrNotary": "NA",
+        "missingSecrecyEnvelope": 600,
+        "other": 400
+      }
+    },
+    "sectionD": {
+      "totalParticipants": 1954200,
+      "inPersonElectionDayVotes": 0,
+      "inPersonEarlyVotes": 0,
+      "mailVotesCounted": 1932400,
+      "provisionalVotesCounted": 0,
+      "physicalPollingPlaces": 0,
+      "earlyVotingLocations": 0,
+      "voteCenters": 36,
+      "activePrecincts": 1240,
+      "pollWorkersCount": 1840,
+      "pollWorkerAgeBreakdown": {
+        "under18": 40,
+        "age18to25": 160,
+        "age26to40": 380,
+        "age41to60": 620,
+        "age61to70": 440,
+        "age71plus": 200
+      },
+      "pollWorkerRecruitmentDifficulty": "somewhat_easy"
+    },
+    "sectionE": {
+      "provisionalBallotsCast": 0,
+      "countedInFull": 0,
+      "countedInPart": 0,
+      "rejected": 0,
+      "rejectionRate": 0,
+      "rejectionReasons": {
+        "voterNotRegistered": 0,
+        "wrongJurisdiction": 0,
+        "wrongPrecinct": 0,
+        "missingRequiredId": 0,
+        "ballotAlreadyCast": 0,
+        "other": 0
+      }
+    },
+    "sectionF": {
+      "primaryVotingSystem": "paper_optical_scan",
+      "electronicPollBooksUsed": false,
+      "votingSystemVendors": ["Clear Ballot", "ES&S"],
+      "accessibleVotingEquipmentCount": 72
+    },
+    "notes": "Oregon Universal Vote-by-Mail 2022 General Election EAVS baseline."
+  },
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "OR",
+    "countyFips": "41051",
+    "fips": "41051",
+    "jurisdictionName": "Multnomah County",
+    "parentJurisdictionId": "us_or",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+    "sectionA": {
+      "totalRegistered": 568400,
+      "activeRegistered": 542100,
+      "inactiveRegistered": 26300,
+      "newRegistrationsTotal": 64200,
+      "newByMail": 2800,
+      "newInPerson": 2100,
+      "newOnline": 18400,
+      "newMotorVoter": 39800,
+      "newOther": 1100,
+      "removalsTotal": 24800,
+      "removalsMoved": 14200,
+      "removalsDeceased": 7100,
+      "removalsFelony": 500,
+      "removalsInactivity": 2600,
+      "removalsOther": 400
+    },
+    "sectionB": {
+      "transmitted": 3800,
+      "returned": 3200,
+      "counted": 3150,
+      "rejected": 50,
+      "rejectionRate": 0.0156,
+      "rejectionReasons": {
+        "late": 25,
+        "missingSignature": 15,
+        "other": 10
+      }
+    },
+    "sectionC": {
+      "transmitted": 542100,
+      "returned": 382400,
+      "counted": 378800,
+      "rejected": 3600,
+      "rejectionRate": 0.0094,
+      "rejectionReasons": {
+        "late": 620,
+        "missingSignature": 1100,
+        "signatureMismatch": 1750,
+        "missingWitnessOrNotary": null,
+        "missingSecrecyEnvelope": 80,
+        "other": 50
+      }
+    },
+    "sectionD": {
+      "totalParticipants": 382400,
+      "inPersonElectionDayVotes": 0,
+      "inPersonEarlyVotes": 0,
+      "mailVotesCounted": 378800,
+      "provisionalVotesCounted": 0,
+      "physicalPollingPlaces": 0,
+      "earlyVotingLocations": 0,
+      "voteCenters": 2,
+      "activePrecincts": 112,
+      "pollWorkersCount": 380,
+      "pollWorkerAgeBreakdown": {
+        "under18": 15,
+        "age18to25": 45,
+        "age26to40": 95,
+        "age41to60": 130,
+        "age61to70": 65,
+        "age71plus": 30
+      },
+      "pollWorkerRecruitmentDifficulty": "very_easy"
+    },
+    "sectionE": {
+      "provisionalBallotsCast": 0,
+      "countedInFull": 0,
+      "countedInPart": 0,
+      "rejected": 0,
+      "rejectionRate": 0,
+      "rejectionReasons": {
+        "voterNotRegistered": 0,
+        "wrongJurisdiction": 0,
+        "wrongPrecinct": 0,
+        "missingRequiredId": 0,
+        "ballotAlreadyCast": 0,
+        "other": 0
+      }
+    },
+    "sectionF": {
+      "primaryVotingSystem": "paper_optical_scan",
+      "electronicPollBooksUsed": false,
+      "votingSystemVendors": ["Clear Ballot"],
+      "accessibleVotingEquipmentCount": 6
+    },
+    "notes": "Multnomah County, OR (Portland) 2022 EAVS."
+  },
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "OR",
+    "countyFips": "41039",
+    "fips": "41039",
+    "jurisdictionName": "Lane County",
+    "parentJurisdictionId": "us_or",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+    "sectionA": {
+      "totalRegistered": 278500,
+      "activeRegistered": 264200,
+      "inactiveRegistered": 14300,
+      "newRegistrationsTotal": 28400,
+      "newByMail": 1200,
+      "newInPerson": 900,
+      "newOnline": 8400,
+      "newMotorVoter": 17400,
+      "newOther": 500,
+      "removalsTotal": 10400,
+      "removalsMoved": 5800,
+      "removalsDeceased": 3400,
+      "removalsFelony": 200,
+      "removalsInactivity": 900,
+      "removalsOther": 100
+    },
+    "sectionB": {
+      "transmitted": 1200,
+      "returned": 980,
+      "counted": 962,
+      "rejected": 18,
+      "rejectionRate": 0.0184,
+      "rejectionReasons": {
+        "late": 8,
+        "missingSignature": 6,
+        "other": 4
+      }
+    },
+    "sectionC": {
+      "transmitted": 264200,
+      "returned": 182100,
+      "counted": 179980,
+      "rejected": 2120,
+      "rejectionRate": 0.0116,
+      "rejectionReasons": {
+        "late": 410,
+        "missingSignature": 680,
+        "signatureMismatch": 950,
+        "missingWitnessOrNotary": null,
+        "missingSecrecyEnvelope": 50,
+        "other": 30
+      }
+    },
+    "sectionD": {
+      "totalParticipants": 182100,
+      "inPersonElectionDayVotes": 0,
+      "inPersonEarlyVotes": 0,
+      "mailVotesCounted": 179980,
+      "provisionalVotesCounted": 0,
+      "physicalPollingPlaces": 0,
+      "earlyVotingLocations": 0,
+      "voteCenters": 1,
+      "activePrecincts": 98,
+      "pollWorkersCount": 140,
+      "pollWorkerAgeBreakdown": {
+        "under18": 2,
+        "age18to25": 14,
+        "age26to40": 28,
+        "age41to60": 46,
+        "age61to70": 34,
+        "age71plus": 16
+      },
+      "pollWorkerRecruitmentDifficulty": "somewhat_easy"
+    },
+    "sectionE": {
+      "provisionalBallotsCast": 0,
+      "countedInFull": 0,
+      "countedInPart": 0,
+      "rejected": 0,
+      "rejectionRate": 0,
+      "rejectionReasons": {
+        "voterNotRegistered": 0,
+        "wrongJurisdiction": 0,
+        "wrongPrecinct": 0,
+        "missingRequiredId": 0,
+        "ballotAlreadyCast": 0,
+        "other": 0
+      }
+    },
+    "sectionF": {
+      "primaryVotingSystem": "paper_optical_scan",
+      "electronicPollBooksUsed": false,
+      "votingSystemVendors": ["ES&S"],
+      "accessibleVotingEquipmentCount": 4
+    },
+    "notes": "Lane County, OR (Eugene) 2022 EAVS."
+  }
+]

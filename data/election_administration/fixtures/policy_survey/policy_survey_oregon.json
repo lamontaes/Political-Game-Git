@@ -1,0 +1,62 @@
+[
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "OR",
+    "fips": "41",
+    "jurisdictionName": "Oregon",
+    "statutoryEffectiveDate": "2022-01-01",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/eavs-policy-survey",
+    "registrationPolicy": {
+      "deadlineDaysBeforeElection": 21,
+      "automaticVoterRegistration": true,
+      "onlineVoterRegistration": true,
+      "sameDayRegistration": false,
+      "sameDayRegistrationLocations": [],
+      "preregistrationAge": 16
+    },
+    "voterIdPolicy": {
+      "inPersonRequirement": "no_document_signature_only",
+      "provisionalCureAllowed": true,
+      "acceptableIdTypes": ["Signature match against voter registration file"],
+      "affidavitAllowed": false
+    },
+    "earlyVotingPolicy": {
+      "inPersonEarlyVotingAllowed": false,
+      "earlyVotingWindowDays": null,
+      "weekendVotingMandatory": false,
+      "weekendVotingAllowed": false,
+      "uniformHoursMandatory": false
+    },
+    "mailVotingPolicy": {
+      "model": "universal_all_mail",
+      "excusesAllowed": [],
+      "dropBoxesAllowed": true,
+      "dropBoxMandate": "minimum_two_per_county_plus_population_scaling",
+      "prepaidReturnPostage": true,
+      "witnessOrNotaryRequired": false,
+      "curePeriodAllowed": true,
+      "curePeriodDays": 14,
+      "ballotTrackingAvailable": true
+    },
+    "postElectionAuditPolicy": {
+      "auditRequired": true,
+      "auditType": "traditional_percentage",
+      "statutoryTrigger": "Mandatory hand count of sample precincts/batches in each county"
+    },
+    "recountPolicy": {
+      "automaticRecountMarginPercent": 0.2,
+      "candidateRequestedAllowed": true,
+      "candidatePaysCostIfUnchanged": true
+    },
+    "felonDisenfranchisementPolicy": {
+      "restorationTiming": "immediate_upon_release",
+      "description": "Voting rights automatically restored immediately upon release from prison/incarceration."
+    },
+    "governanceStructure": {
+      "chiefStateElectionOfficial": "elected_secretary_of_state",
+      "localAdministrationStructure": "elected_county_clerk"
+    },
+    "notes": "Oregon Policy Survey: Universal Vote-by-Mail system enacted by Measure 60 (1998) and Oregon Motor Voter automatic registration (2016)."
+  }
+]

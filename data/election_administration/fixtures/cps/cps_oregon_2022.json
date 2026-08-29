@@ -1,0 +1,42 @@
+[
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "OR",
+    "fips": "41",
+    "jurisdictionName": "Oregon",
+    "categoryKey": "state_cvap",
+    "surveyUniverse": "citizen_voting_age_population",
+    "sampleSizeUnweighted": 1380,
+    "weightingVariable": "PWSSWGT",
+    "retrievalDate": "2023-05-15",
+    "sourceUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-585.html",
+    "reportedRegistration": {
+      "estimateCount": 2490000,
+      "ratePercent": 77.4,
+      "standardError": 1.62,
+      "marginOfError90Percent": 2.66
+    },
+    "reportedVoting": {
+      "estimateCount": 2040000,
+      "ratePercent": 63.4,
+      "standardError": 1.86,
+      "marginOfError90Percent": 3.06
+    },
+    "votingMethod": {
+      "electionDayInPersonPercent": 0.0,
+      "earlyInPersonPercent": 0.0,
+      "byMailPercent": 98.4,
+      "notReportedPercent": 1.6
+    },
+    "registrationMethod": {
+      "dmvMotorVoterPercent": 61.2,
+      "byMailPercent": 4.8,
+      "inPersonElectionOfficePercent": 3.9,
+      "onlineInternetPercent": 24.1,
+      "pollingPlaceElectionDayPercent": 0.0,
+      "schoolCommunityDrivePercent": 2.8,
+      "otherPercent": 3.2
+    },
+    "notes": "Oregon CPS calibration (November 2022) demonstrating ~98% reported mail voting rate."
+  }
+]

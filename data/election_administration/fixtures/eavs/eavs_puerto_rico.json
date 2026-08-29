@@ -1,0 +1,194 @@
+[
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "PR",
+    "fips": "72",
+    "jurisdictionName": "Puerto Rico",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+    "sectionA": {
+      "totalRegistered": 2355890,
+      "activeRegistered": 2355890,
+      "inactiveRegistered": 0,
+      "newRegistrationsTotal": 42100,
+      "newByMail": "NA",
+      "newInPerson": 42100,
+      "newOnline": "NA",
+      "newMotorVoter": "NA",
+      "newOther": 0,
+      "removalsTotal": 28400,
+      "removalsMoved": 14200,
+      "removalsDeceased": 13800,
+      "removalsFelony": 0,
+      "removalsInactivity": 0,
+      "removalsOther": 400
+    },
+    "sectionB": {
+      "transmitted": 1820,
+      "returned": 1450,
+      "counted": 1410,
+      "rejected": 40,
+      "rejectionRate": 0.0276,
+      "rejectionReasons": {
+        "late": 25,
+        "missingSignature": 10,
+        "other": 5
+      }
+    },
+    "sectionC": {
+      "transmitted": 24800,
+      "returned": 21400,
+      "counted": 20850,
+      "rejected": 550,
+      "rejectionRate": 0.0257,
+      "rejectionReasons": {
+        "late": 220,
+        "missingSignature": 160,
+        "signatureMismatch": 110,
+        "missingWitnessOrNotary": "NA",
+        "missingSecrecyEnvelope": 40,
+        "other": 20
+      }
+    },
+    "sectionD": {
+      "totalParticipants": null,
+      "inPersonElectionDayVotes": null,
+      "inPersonEarlyVotes": null,
+      "mailVotesCounted": 20850,
+      "provisionalVotesCounted": 0,
+      "physicalPollingPlaces": 1280,
+      "earlyVotingLocations": 78,
+      "voteCenters": 0,
+      "activePrecincts": 110,
+      "pollWorkersCount": 14200,
+      "pollWorkerAgeBreakdown": {
+        "under18": 0,
+        "age18to25": 950,
+        "age26to40": 2400,
+        "age41to60": 5800,
+        "age61to70": 3450,
+        "age71plus": 1600
+      },
+      "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+    },
+    "sectionE": {
+      "provisionalBallotsCast": 120,
+      "countedInFull": 34,
+      "countedInPart": 0,
+      "rejected": 86,
+      "rejectionRate": 0.7167,
+      "rejectionReasons": {
+        "voterNotRegistered": 48,
+        "wrongJurisdiction": 14,
+        "wrongPrecinct": 18,
+        "missingRequiredId": 4,
+        "ballotAlreadyCast": 0,
+        "other": 2
+      }
+    },
+    "sectionF": {
+      "primaryVotingSystem": "paper_optical_scan",
+      "electronicPollBooksUsed": true,
+      "votingSystemVendors": ["Dominion Voting Systems"],
+      "accessibleVotingEquipmentCount": 1300
+    },
+    "notes": "Puerto Rico territorial election administration fixture. Federal midterm non-presidential cycle note: general island-wide elections are quadrennial (2020, 2024)."
+  },
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "PR",
+    "countyFips": "72127",
+    "fips": "72127",
+    "jurisdictionName": "San Juan Municipio",
+    "parentJurisdictionId": "us_pr",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+    "sectionA": {
+      "totalRegistered": 284100,
+      "activeRegistered": 284100,
+      "inactiveRegistered": 0,
+      "newRegistrationsTotal": 5200,
+      "newByMail": null,
+      "newInPerson": 5200,
+      "newOnline": null,
+      "newMotorVoter": null,
+      "newOther": 0,
+      "removalsTotal": 3800,
+      "removalsMoved": 2100,
+      "removalsDeceased": 1650,
+      "removalsFelony": 0,
+      "removalsInactivity": 0,
+      "removalsOther": 50
+    },
+    "sectionB": {
+      "transmitted": 340,
+      "returned": 280,
+      "counted": 272,
+      "rejected": 8,
+      "rejectionRate": 0.0286,
+      "rejectionReasons": {
+        "late": 5,
+        "missingSignature": 2,
+        "other": 1
+      }
+    },
+    "sectionC": {
+      "transmitted": 4200,
+      "returned": 3650,
+      "counted": 3560,
+      "rejected": 90,
+      "rejectionRate": 0.0247,
+      "rejectionReasons": {
+        "late": 35,
+        "missingSignature": 25,
+        "signatureMismatch": 20,
+        "missingWitnessOrNotary": null,
+        "missingSecrecyEnvelope": 6,
+        "other": 4
+      }
+    },
+    "sectionD": {
+      "totalParticipants": null,
+      "inPersonElectionDayVotes": null,
+      "inPersonEarlyVotes": null,
+      "mailVotesCounted": 3560,
+      "provisionalVotesCounted": 0,
+      "physicalPollingPlaces": 145,
+      "earlyVotingLocations": 8,
+      "voteCenters": 0,
+      "activePrecincts": 5,
+      "pollWorkersCount": 1600,
+      "pollWorkerAgeBreakdown": {
+        "under18": 0,
+        "age18to25": 110,
+        "age26to40": 290,
+        "age41to60": 680,
+        "age61to70": 380,
+        "age71plus": 140
+      },
+      "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+    },
+    "sectionE": {
+      "provisionalBallotsCast": 22,
+      "countedInFull": 6,
+      "countedInPart": 0,
+      "rejected": 16,
+      "rejectionRate": 0.7273,
+      "rejectionReasons": {
+        "voterNotRegistered": 10,
+        "wrongJurisdiction": 2,
+        "wrongPrecinct": 3,
+        "missingRequiredId": 1,
+        "ballotAlreadyCast": 0,
+        "other": 0
+      }
+    },
+    "sectionF": {
+      "primaryVotingSystem": "paper_optical_scan",
+      "electronicPollBooksUsed": true,
+      "votingSystemVendors": ["Dominion Voting Systems"],
+      "accessibleVotingEquipmentCount": 150
+    },
+    "notes": "San Juan Municipio, PR 2022 EAVS."
+  }
+]

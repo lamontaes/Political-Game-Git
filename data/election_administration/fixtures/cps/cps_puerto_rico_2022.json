@@ -1,0 +1,29 @@
+[
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "PR",
+    "fips": "72",
+    "jurisdictionName": "Puerto Rico",
+    "categoryKey": "territory_cvap",
+    "surveyUniverse": "citizen_voting_age_population",
+    "sampleSizeUnweighted": 1,
+    "weightingVariable": "NOT_APPLICABLE",
+    "retrievalDate": "2023-05-15",
+    "sourceUrl": "https://www.census.gov/programs-surveys/cps.html",
+    "reportedRegistration": {
+      "estimateCount": 0,
+      "ratePercent": 0.0,
+      "standardError": 0.0,
+      "marginOfError90Percent": 0.0
+    },
+    "reportedVoting": {
+      "estimateCount": 0,
+      "ratePercent": 0.0,
+      "standardError": 0.0,
+      "marginOfError90Percent": 0.0
+    },
+    "methodologyNotes": "U.S. Census CPS Voting and Registration Supplement excludes Puerto Rico and island territories from its 50-state + D.C. sample frame. Territorial voting rates are not surveyed by the November CPS supplement.",
+    "completeness": "not_applicable",
+    "notes": "Territorial sample exclusion record for Puerto Rico in CPS Voting Supplement."
+  }
+]

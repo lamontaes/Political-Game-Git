@@ -31,7 +31,11 @@
     "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art",
     "agent:preflight": "node scripts/agent-preflight.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",
-    "stress:persons": "node --import tsx src/cli/stress-persons.ts"
+    "stress:persons": "node --import tsx src/cli/stress-persons.ts",
+    "compile:election-admin": "node --import tsx scripts/election-admin/compile.ts",
+    "manifest:election-admin": "node --import tsx scripts/election-admin/manifest.ts",
+    "validate:election-admin": "node --import tsx scripts/election-admin/validate.ts",
+    "test:election-admin": "vitest run tests/election_admin.test.ts"
   },
   "dependencies": {
     "react": "19.2.6",

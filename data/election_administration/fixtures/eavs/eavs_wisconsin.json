@@ -1,0 +1,291 @@
+[
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "WI",
+    "fips": "55",
+    "jurisdictionName": "Wisconsin",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+    "sectionA": {
+      "totalRegistered": 3540200,
+      "activeRegistered": 3540200,
+      "inactiveRegistered": 0,
+      "newRegistrationsTotal": 348200,
+      "newByMail": 24000,
+      "newInPerson": 142000,
+      "newOnline": 118200,
+      "newMotorVoter": 48000,
+      "newOther": 16000,
+      "removalsTotal": 98400,
+      "removalsMoved": 52100,
+      "removalsDeceased": 38400,
+      "removalsFelony": 3800,
+      "removalsInactivity": 2800,
+      "removalsOther": 1300
+    },
+    "sectionB": {
+      "transmitted": 18400,
+      "returned": 14200,
+      "counted": 13950,
+      "rejected": 250,
+      "rejectionRate": 0.0176,
+      "rejectionReasons": {
+        "late": 140,
+        "missingSignature": 60,
+        "other": 50
+      }
+    },
+    "sectionC": {
+      "transmitted": 624500,
+      "returned": 589200,
+      "counted": 584100,
+      "rejected": 5100,
+      "rejectionRate": 0.0087,
+      "rejectionReasons": {
+        "late": 1800,
+        "missingSignature": 1400,
+        "signatureMismatch": "NA",
+        "missingWitnessOrNotary": 1650,
+        "missingSecrecyEnvelope": "NA",
+        "other": 250
+      }
+    },
+    "sectionD": {
+      "totalParticipants": 2654800,
+      "inPersonElectionDayVotes": 1782300,
+      "inPersonEarlyVotes": 288400,
+      "mailVotesCounted": 584100,
+      "provisionalVotesCounted": 0,
+      "physicalPollingPlaces": 2450,
+      "earlyVotingLocations": 720,
+      "voteCenters": 0,
+      "activePrecincts": 3720,
+      "pollWorkersCount": 28400,
+      "pollWorkerAgeBreakdown": {
+        "under18": 600,
+        "age18to25": 1900,
+        "age26to40": 4200,
+        "age41to60": 9800,
+        "age61to70": 7600,
+        "age71plus": 4300
+      },
+      "pollWorkerRecruitmentDifficulty": "somewhat_difficult"
+    },
+    "sectionE": {
+      "provisionalBallotsCast": 480,
+      "countedInFull": 92,
+      "countedInPart": 0,
+      "rejected": 388,
+      "rejectionRate": 0.8083,
+      "rejectionReasons": {
+        "voterNotRegistered": 180,
+        "wrongJurisdiction": 20,
+        "wrongPrecinct": 15,
+        "missingRequiredId": 165,
+        "ballotAlreadyCast": 0,
+        "other": 8
+      }
+    },
+    "sectionF": {
+      "primaryVotingSystem": "paper_optical_scan",
+      "electronicPollBooksUsed": true,
+      "votingSystemVendors": ["ES&S", "Dominion Voting Systems", "Command Central"],
+      "accessibleVotingEquipmentCount": 3850
+    },
+    "notes": "Wisconsin decentralized election administration baseline with 1,850+ municipal clerks and same-day registration."
+  },
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "WI",
+    "countyFips": "55025",
+    "fips": "55025",
+    "jurisdictionName": "Dane County",
+    "parentJurisdictionId": "us_wi",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+    "sectionA": {
+      "totalRegistered": 384500,
+      "activeRegistered": 384500,
+      "inactiveRegistered": 0,
+      "newRegistrationsTotal": 42800,
+      "newByMail": 2100,
+      "newInPerson": 19400,
+      "newOnline": 15200,
+      "newMotorVoter": 4800,
+      "newOther": 1300,
+      "removalsTotal": 9800,
+      "removalsMoved": 5600,
+      "removalsDeceased": 3400,
+      "removalsFelony": 300,
+      "removalsInactivity": 400,
+      "removalsOther": 100
+    },
+    "sectionB": {
+      "transmitted": 2400,
+      "returned": 1950,
+      "counted": 1920,
+      "rejected": 30,
+      "rejectionRate": 0.0154,
+      "rejectionReasons": {
+        "late": 16,
+        "missingSignature": 8,
+        "other": 6
+      }
+    },
+    "sectionC": {
+      "transmitted": 94500,
+      "returned": 91200,
+      "counted": 90600,
+      "rejected": 600,
+      "rejectionRate": 0.0066,
+      "rejectionReasons": {
+        "late": 180,
+        "missingSignature": 160,
+        "signatureMismatch": null,
+        "missingWitnessOrNotary": 240,
+        "missingSecrecyEnvelope": null,
+        "other": 20
+      }
+    },
+    "sectionD": {
+      "totalParticipants": 308400,
+      "inPersonElectionDayVotes": 162100,
+      "inPersonEarlyVotes": 55700,
+      "mailVotesCounted": 90600,
+      "provisionalVotesCounted": 0,
+      "physicalPollingPlaces": 178,
+      "earlyVotingLocations": 28,
+      "voteCenters": 0,
+      "activePrecincts": 248,
+      "pollWorkersCount": 3400,
+      "pollWorkerAgeBreakdown": {
+        "under18": 90,
+        "age18to25": 380,
+        "age26to40": 720,
+        "age41to60": 1100,
+        "age61to70": 750,
+        "age71plus": 360
+      },
+      "pollWorkerRecruitmentDifficulty": "somewhat_easy"
+    },
+    "sectionE": {
+      "provisionalBallotsCast": 48,
+      "countedInFull": 16,
+      "countedInPart": 0,
+      "rejected": 32,
+      "rejectionRate": 0.6667,
+      "rejectionReasons": {
+        "voterNotRegistered": 12,
+        "wrongJurisdiction": 2,
+        "wrongPrecinct": 1,
+        "missingRequiredId": 17,
+        "ballotAlreadyCast": 0,
+        "other": 0
+      }
+    },
+    "sectionF": {
+      "primaryVotingSystem": "paper_optical_scan",
+      "electronicPollBooksUsed": true,
+      "votingSystemVendors": ["ES&S"],
+      "accessibleVotingEquipmentCount": 260
+    },
+    "notes": "Dane County, WI (Madison) 2022 EAVS."
+  },
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "WI",
+    "countyFips": "55079",
+    "fips": "55079",
+    "jurisdictionName": "Milwaukee County",
+    "parentJurisdictionId": "us_wi",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/2022-election-administration-and-voting-survey-eavs-data",
+    "sectionA": {
+      "totalRegistered": 542100,
+      "activeRegistered": 542100,
+      "inactiveRegistered": 0,
+      "newRegistrationsTotal": 54100,
+      "newByMail": 3800,
+      "newInPerson": 22100,
+      "newOnline": 18400,
+      "newMotorVoter": 7600,
+      "newOther": 2200,
+      "removalsTotal": 19400,
+      "removalsMoved": 10800,
+      "removalsDeceased": 6800,
+      "removalsFelony": 1100,
+      "removalsInactivity": 500,
+      "removalsOther": 200
+    },
+    "sectionB": {
+      "transmitted": 2100,
+      "returned": 1640,
+      "counted": 1605,
+      "rejected": 35,
+      "rejectionRate": 0.0213,
+      "rejectionReasons": {
+        "late": 18,
+        "missingSignature": 10,
+        "other": 7
+      }
+    },
+    "sectionC": {
+      "transmitted": 118400,
+      "returned": 109200,
+      "counted": 107800,
+      "rejected": 1400,
+      "rejectionRate": 0.0128,
+      "rejectionReasons": {
+        "late": 450,
+        "missingSignature": 380,
+        "signatureMismatch": null,
+        "missingWitnessOrNotary": 520,
+        "missingSecrecyEnvelope": null,
+        "other": 50
+      }
+    },
+    "sectionD": {
+      "totalParticipants": 394200,
+      "inPersonElectionDayVotes": 242100,
+      "inPersonEarlyVotes": 44300,
+      "mailVotesCounted": 107800,
+      "provisionalVotesCounted": 0,
+      "physicalPollingPlaces": 240,
+      "earlyVotingLocations": 14,
+      "voteCenters": 0,
+      "activePrecincts": 480,
+      "pollWorkersCount": 3800,
+      "pollWorkerAgeBreakdown": {
+        "under18": 80,
+        "age18to25": 240,
+        "age26to40": 620,
+        "age41to60": 1420,
+        "age61to70": 980,
+        "age71plus": 460
+      },
+      "pollWorkerRecruitmentDifficulty": "very_difficult"
+    },
+    "sectionE": {
+      "provisionalBallotsCast": 98,
+      "countedInFull": 18,
+      "countedInPart": 0,
+      "rejected": 80,
+      "rejectionRate": 0.8163,
+      "rejectionReasons": {
+        "voterNotRegistered": 38,
+        "wrongJurisdiction": 5,
+        "wrongPrecinct": 3,
+        "missingRequiredId": 32,
+        "ballotAlreadyCast": 0,
+        "other": 2
+      }
+    },
+    "sectionF": {
+      "primaryVotingSystem": "paper_optical_scan",
+      "electronicPollBooksUsed": true,
+      "votingSystemVendors": ["ES&S"],
+      "accessibleVotingEquipmentCount": 340
+    },
+    "notes": "Milwaukee County, WI 2022 EAVS."
+  }
+]

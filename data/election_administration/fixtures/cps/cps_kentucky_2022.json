@@ -1,0 +1,173 @@
+[
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "KY",
+    "fips": "21",
+    "jurisdictionName": "Kentucky",
+    "categoryKey": "state_cvap",
+    "surveyUniverse": "citizen_voting_age_population",
+    "sampleSizeUnweighted": 1420,
+    "weightingVariable": "PWSSWGT",
+    "retrievalDate": "2023-05-15",
+    "sourceUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-585.html",
+    "reportedRegistration": {
+      "estimateCount": 2480000,
+      "ratePercent": 71.8,
+      "standardError": 1.74,
+      "marginOfError90Percent": 2.86
+    },
+    "reportedVoting": {
+      "estimateCount": 1640000,
+      "ratePercent": 47.5,
+      "standardError": 1.92,
+      "marginOfError90Percent": 3.16
+    },
+    "demographics": {
+      "byAge": [
+        {
+          "category": "age",
+          "label": "18 to 24 years",
+          "universeCount": 380000,
+          "registeredCount": 198000,
+          "registeredRatePercent": 52.1,
+          "registeredRateMOE": 6.8,
+          "votedCount": 92000,
+          "votedRatePercent": 24.2,
+          "votedRateMOE": 5.8
+        },
+        {
+          "category": "age",
+          "label": "25 to 44 years",
+          "universeCount": 1120000,
+          "registeredCount": 760000,
+          "registeredRatePercent": 67.9,
+          "registeredRateMOE": 3.8,
+          "votedCount": 465000,
+          "votedRatePercent": 41.5,
+          "votedRateMOE": 4.1
+        },
+        {
+          "category": "age",
+          "label": "45 to 64 years",
+          "universeCount": 1180000,
+          "registeredCount": 912000,
+          "registeredRatePercent": 77.3,
+          "registeredRateMOE": 3.4,
+          "votedCount": 648000,
+          "votedRatePercent": 54.9,
+          "votedRateMOE": 4.0
+        },
+        {
+          "category": "age",
+          "label": "65 years and over",
+          "universeCount": 774000,
+          "registeredCount": 610000,
+          "registeredRatePercent": 78.8,
+          "registeredRateMOE": 4.1,
+          "votedCount": 435000,
+          "votedRatePercent": 56.2,
+          "votedRateMOE": 5.0
+        }
+      ],
+      "bySex": [
+        {
+          "category": "sex",
+          "label": "Male",
+          "universeCount": 1680000,
+          "registeredCount": 1180000,
+          "registeredRatePercent": 70.2,
+          "registeredRateMOE": 3.1,
+          "votedCount": 785000,
+          "votedRatePercent": 46.7,
+          "votedRateMOE": 3.4
+        },
+        {
+          "category": "sex",
+          "label": "Female",
+          "universeCount": 1774000,
+          "registeredCount": 1300000,
+          "registeredRatePercent": 73.3,
+          "registeredRateMOE": 2.9,
+          "votedCount": 855000,
+          "votedRatePercent": 48.2,
+          "votedRateMOE": 3.3
+        }
+      ],
+      "byRaceHispanic": [
+        {
+          "category": "race_hispanic",
+          "label": "White non-Hispanic",
+          "universeCount": 2980000,
+          "registeredCount": 2180000,
+          "registeredRatePercent": 73.2,
+          "registeredRateMOE": 2.2,
+          "votedCount": 1460000,
+          "votedRatePercent": 49.0,
+          "votedRateMOE": 2.5
+        },
+        {
+          "category": "race_hispanic",
+          "label": "Black non-Hispanic",
+          "universeCount": 285000,
+          "registeredCount": 198000,
+          "registeredRatePercent": 69.5,
+          "registeredRateMOE": 7.4,
+          "votedCount": 118000,
+          "votedRatePercent": 41.4,
+          "votedRateMOE": 8.0
+        }
+      ],
+      "byEducation": [
+        {
+          "category": "education",
+          "label": "High school graduate or less",
+          "universeCount": 1680000,
+          "registeredCount": 1090000,
+          "registeredRatePercent": 64.9,
+          "registeredRateMOE": 3.2,
+          "votedCount": 650000,
+          "votedRatePercent": 38.7,
+          "votedRateMOE": 3.3
+        },
+        {
+          "category": "education",
+          "label": "Some college or associate degree",
+          "universeCount": 980000,
+          "registeredCount": 735000,
+          "registeredRatePercent": 75.0,
+          "registeredRateMOE": 3.8,
+          "votedCount": 495000,
+          "votedRatePercent": 50.5,
+          "votedRateMOE": 4.4
+        },
+        {
+          "category": "education",
+          "label": "Bachelor's degree or higher",
+          "universeCount": 794000,
+          "registeredCount": 655000,
+          "registeredRatePercent": 82.5,
+          "registeredRateMOE": 3.6,
+          "votedCount": 495000,
+          "votedRatePercent": 62.3,
+          "votedRateMOE": 4.6
+        }
+      ]
+    },
+    "votingMethod": {
+      "electionDayInPersonPercent": 71.4,
+      "earlyInPersonPercent": 21.8,
+      "byMailPercent": 5.4,
+      "notReportedPercent": 1.4
+    },
+    "registrationMethod": {
+      "dmvMotorVoterPercent": 34.2,
+      "byMailPercent": 10.4,
+      "inPersonElectionOfficePercent": 21.6,
+      "onlineInternetPercent": 26.8,
+      "pollingPlaceElectionDayPercent": 0.0,
+      "schoolCommunityDrivePercent": 3.2,
+      "otherPercent": 3.8
+    },
+    "notes": "Kentucky CPS Voting and Registration Supplement calibration table (November 2022)."
+  }
+]

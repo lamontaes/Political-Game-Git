@@ -1,0 +1,69 @@
+[
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "GA",
+    "fips": "13",
+    "jurisdictionName": "Georgia",
+    "statutoryEffectiveDate": "2022-01-01",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/eavs-policy-survey",
+    "registrationPolicy": {
+      "deadlineDaysBeforeElection": 29,
+      "automaticVoterRegistration": true,
+      "onlineVoterRegistration": true,
+      "sameDayRegistration": false,
+      "sameDayRegistrationLocations": [],
+      "preregistrationAge": 17
+    },
+    "voterIdPolicy": {
+      "inPersonRequirement": "strict_photo",
+      "provisionalCureAllowed": true,
+      "acceptableIdTypes": [
+        "Georgia Driver's License",
+        "Georgia State ID Card",
+        "Valid U.S. Passport",
+        "Valid Employee Photo ID from Federal/State/Local Government",
+        "Valid U.S. Military Photo ID",
+        "Valid Tribal Photo ID"
+      ],
+      "affidavitAllowed": false
+    },
+    "earlyVotingPolicy": {
+      "inPersonEarlyVotingAllowed": true,
+      "earlyVotingWindowDays": 21,
+      "weekendVotingMandatory": true,
+      "weekendVotingAllowed": true,
+      "uniformHoursMandatory": true
+    },
+    "mailVotingPolicy": {
+      "model": "no_excuse_absentee",
+      "excusesAllowed": [],
+      "dropBoxesAllowed": true,
+      "dropBoxMandate": "capped_at_one_per_100k_active_voters_inside_early_voting_sites",
+      "prepaidReturnPostage": false,
+      "witnessOrNotaryRequired": false,
+      "curePeriodAllowed": true,
+      "curePeriodDays": 3,
+      "ballotTrackingAvailable": true
+    },
+    "postElectionAuditPolicy": {
+      "auditRequired": true,
+      "auditType": "risk_limiting",
+      "statutoryTrigger": "Mandatory statewide risk-limiting audit for one statewide contest selected by Secretary of State"
+    },
+    "recountPolicy": {
+      "automaticRecountMarginPercent": null,
+      "candidateRequestedAllowed": true,
+      "candidatePaysCostIfUnchanged": false
+    },
+    "felonDisenfranchisementPolicy": {
+      "restorationTiming": "completion_of_parole_probation",
+      "description": "Voting rights restored upon completion of full sentence for felony involving moral turpitude, including prison, parole, probation, and payment of fines."
+    },
+    "governanceStructure": {
+      "chiefStateElectionOfficial": "state_board_of_elections",
+      "localAdministrationStructure": "county_board_of_elections"
+    },
+    "notes": "Georgia Policy Survey: reflects SB 202 (2021 Election Integrity Act) with photo ID requirements for mail voting, mandatory Saturday early voting, and statewide RLAs."
+  }
+]

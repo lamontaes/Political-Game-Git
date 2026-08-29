@@ -1,0 +1,76 @@
+[
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "KY",
+    "fips": "21",
+    "jurisdictionName": "Kentucky",
+    "statutoryEffectiveDate": "2022-01-01",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/eavs-policy-survey",
+    "registrationPolicy": {
+      "deadlineDaysBeforeElection": 29,
+      "automaticVoterRegistration": false,
+      "onlineVoterRegistration": true,
+      "sameDayRegistration": false,
+      "sameDayRegistrationLocations": [],
+      "preregistrationAge": 17
+    },
+    "voterIdPolicy": {
+      "inPersonRequirement": "strict_photo",
+      "provisionalCureAllowed": true,
+      "acceptableIdTypes": [
+        "Kentucky Driver's License",
+        "Kentucky State ID",
+        "U.S. Passport",
+        "Military ID",
+        "Kentucky Public University Student ID with Photo"
+      ],
+      "affidavitAllowed": true
+    },
+    "earlyVotingPolicy": {
+      "inPersonEarlyVotingAllowed": true,
+      "earlyVotingWindowDays": 3,
+      "weekendVotingMandatory": true,
+      "weekendVotingAllowed": true,
+      "uniformHoursMandatory": true
+    },
+    "mailVotingPolicy": {
+      "model": "excuse_required_absentee",
+      "excusesAllowed": [
+        "military_or_overseas",
+        "age_65_plus",
+        "disability_or_illness",
+        "student_outside_county",
+        "temporary_residence_outside_county",
+        "election_officer",
+        "incarcerated_not_convicted_of_felony"
+      ],
+      "dropBoxesAllowed": true,
+      "dropBoxMandate": "minimum_one_per_county",
+      "prepaidReturnPostage": false,
+      "witnessOrNotaryRequired": false,
+      "curePeriodAllowed": true,
+      "curePeriodDays": 3,
+      "ballotTrackingAvailable": true
+    },
+    "postElectionAuditPolicy": {
+      "auditRequired": true,
+      "auditType": "traditional_percentage",
+      "statutoryTrigger": "Random selection of counties post-certification by Attorney General / Board"
+    },
+    "recountPolicy": {
+      "automaticRecountMarginPercent": null,
+      "candidateRequestedAllowed": true,
+      "candidatePaysCostIfUnchanged": true
+    },
+    "felonDisenfranchisementPolicy": {
+      "restorationTiming": "governor_pardon_executive_order",
+      "description": "Kentucky constitutional disenfranchisement for felony convictions; non-violent offenses restored via Governor Executive Order (2019 EO 2019-003)."
+    },
+    "governanceStructure": {
+      "chiefStateElectionOfficial": "state_board_of_elections",
+      "localAdministrationStructure": "elected_county_clerk"
+    },
+    "notes": "Kentucky 2022 Policy Survey: reflects post-2021 bipartisan election reform (HB 574) establishing 3 days of no-excuse in-person early voting and online portal."
+  }
+]

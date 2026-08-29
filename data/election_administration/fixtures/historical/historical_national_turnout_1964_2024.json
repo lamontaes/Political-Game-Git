@@ -1,0 +1,248 @@
+[
+  {
+    "stateAbbr": "US",
+    "fips": "00",
+    "jurisdictionName": "United States",
+    "startYear": 1964,
+    "endYear": 2024,
+    "retrievalDate": "2025-01-15",
+    "sourceUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/voting-historical-time-series.html",
+    "seriesEntries": [
+      {
+        "year": 1964,
+        "electionType": "presidential",
+        "votingAgePopulation": 114090000,
+        "citizenVotingAgePopulation": 110600000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 70644592,
+          "totalBallotsCounted": 70921144,
+          "vapTurnoutRatePercent": 61.9,
+          "cvapTurnoutRatePercent": 63.9
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 76700000,
+          "reportedVotedRatePercent": 69.3,
+          "marginOfError90Percent": 0.8
+        },
+        "notes": "1964 Presidential General Election (Johnson vs. Goldwater)."
+      },
+      {
+        "year": 1968,
+        "electionType": "presidential",
+        "votingAgePopulation": 120328186,
+        "citizenVotingAgePopulation": 116500000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 73211875,
+          "totalBallotsCounted": 73715818,
+          "vapTurnoutRatePercent": 60.8,
+          "cvapTurnoutRatePercent": 62.8
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 79100000,
+          "reportedVotedRatePercent": 67.8,
+          "marginOfError90Percent": 0.8
+        },
+        "notes": "1968 Presidential General Election (Nixon vs. Humphrey vs. Wallace)."
+      },
+      {
+        "year": 1972,
+        "electionType": "presidential",
+        "votingAgePopulation": 140776000,
+        "citizenVotingAgePopulation": 136200000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 77718554,
+          "totalBallotsCounted": 78200000,
+          "vapTurnoutRatePercent": 55.2,
+          "cvapTurnoutRatePercent": 57.1
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 85700000,
+          "reportedVotedRatePercent": 63.0,
+          "marginOfError90Percent": 0.7
+        },
+        "notes": "1972 Presidential (26th Amendment 18-year-old vote takes effect)."
+      },
+      {
+        "year": 1980,
+        "electionType": "presidential",
+        "votingAgePopulation": 164445000,
+        "citizenVotingAgePopulation": 157000000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 86515221,
+          "totalBallotsCounted": 86900000,
+          "vapTurnoutRatePercent": 52.6,
+          "cvapTurnoutRatePercent": 55.1
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 93100000,
+          "reportedVotedRatePercent": 59.2,
+          "marginOfError90Percent": 0.6
+        },
+        "notes": "1980 Presidential (Reagan vs. Carter)."
+      },
+      {
+        "year": 1984,
+        "electionType": "presidential",
+        "votingAgePopulation": 174466000,
+        "citizenVotingAgePopulation": 165000000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 92652680,
+          "totalBallotsCounted": 93100000,
+          "vapTurnoutRatePercent": 53.1,
+          "cvapTurnoutRatePercent": 56.2
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 101900000,
+          "reportedVotedRatePercent": 59.9,
+          "marginOfError90Percent": 0.6
+        },
+        "notes": "1984 Presidential (Reagan vs. Mondale)."
+      },
+      {
+        "year": 1992,
+        "electionType": "presidential",
+        "votingAgePopulation": 189529000,
+        "citizenVotingAgePopulation": 178000000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 104405155,
+          "totalBallotsCounted": 104600000,
+          "vapTurnoutRatePercent": 55.1,
+          "cvapTurnoutRatePercent": 58.7
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 113900000,
+          "reportedVotedRatePercent": 61.3,
+          "marginOfError90Percent": 0.5
+        },
+        "notes": "1992 Presidential (Clinton vs. Bush vs. Perot)."
+      },
+      {
+        "year": 2000,
+        "electionType": "presidential",
+        "votingAgePopulation": 205815000,
+        "citizenVotingAgePopulation": 193000000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 105421423,
+          "totalBallotsCounted": 105900000,
+          "vapTurnoutRatePercent": 51.2,
+          "cvapTurnoutRatePercent": 54.6
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 110800000,
+          "reportedVotedRatePercent": 59.5,
+          "marginOfError90Percent": 0.5
+        },
+        "notes": "2000 Presidential (Bush vs. Gore)."
+      },
+      {
+        "year": 2008,
+        "electionType": "presidential",
+        "votingAgePopulation": 229945000,
+        "citizenVotingAgePopulation": 206000000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 131313820,
+          "totalBallotsCounted": 132600000,
+          "vapTurnoutRatePercent": 57.1,
+          "cvapTurnoutRatePercent": 63.7
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 131100000,
+          "reportedVotedRatePercent": 63.6,
+          "marginOfError90Percent": 0.4
+        },
+        "notes": "2008 Presidential (Obama vs. McCain)."
+      },
+      {
+        "year": 2016,
+        "electionType": "presidential",
+        "votingAgePopulation": 249422000,
+        "citizenVotingAgePopulation": 224000000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 136669276,
+          "totalBallotsCounted": 138800000,
+          "vapTurnoutRatePercent": 54.8,
+          "cvapTurnoutRatePercent": 61.0
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 137500000,
+          "reportedVotedRatePercent": 61.4,
+          "marginOfError90Percent": 0.4
+        },
+        "notes": "2016 Presidential (Trump vs. Clinton)."
+      },
+      {
+        "year": 2018,
+        "electionType": "midterm",
+        "votingAgePopulation": 253000000,
+        "citizenVotingAgePopulation": 228000000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 114000000,
+          "totalBallotsCounted": 118500000,
+          "vapTurnoutRatePercent": 46.8,
+          "cvapTurnoutRatePercent": 50.0
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 122600000,
+          "reportedVotedRatePercent": 53.4,
+          "marginOfError90Percent": 0.4
+        },
+        "notes": "2018 Midterm general elections."
+      },
+      {
+        "year": 2020,
+        "electionType": "presidential",
+        "votingAgePopulation": 257605000,
+        "citizenVotingAgePopulation": 231590000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 158429631,
+          "totalBallotsCounted": 159633396,
+          "vapTurnoutRatePercent": 61.5,
+          "cvapTurnoutRatePercent": 68.4
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 154600000,
+          "reportedVotedRatePercent": 66.8,
+          "marginOfError90Percent": 0.4
+        },
+        "notes": "2020 Presidential General Election (Biden vs. Trump) - highest certified turnout since 1900."
+      },
+      {
+        "year": 2022,
+        "electionType": "midterm",
+        "votingAgePopulation": 260500000,
+        "citizenVotingAgePopulation": 234200000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 107300000,
+          "totalBallotsCounted": 112200000,
+          "vapTurnoutRatePercent": 43.1,
+          "cvapTurnoutRatePercent": 46.8
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 122340000,
+          "reportedVotedRatePercent": 52.2,
+          "marginOfError90Percent": 0.43
+        },
+        "notes": "2022 Midterm general elections."
+      },
+      {
+        "year": 2024,
+        "electionType": "presidential",
+        "votingAgePopulation": 264200000,
+        "citizenVotingAgePopulation": 237800000,
+        "officialAdministrativeTurnout": {
+          "highestOfficeVotesCast": 156300000,
+          "totalBallotsCounted": 158100000,
+          "vapTurnoutRatePercent": 59.8,
+          "cvapTurnoutRatePercent": 65.7
+        },
+        "cpsSurveyReportedTurnout": {
+          "reportedVotedCount": 153800000,
+          "reportedVotedRatePercent": 64.7,
+          "marginOfError90Percent": 0.4
+        },
+        "notes": "2024 Presidential General Election."
+      }
+    ],
+    "notes": "National longitudinal turnout series 1964-2024 comparing official administrative canvass results with Census CPS Voting and Registration Supplement estimates."
+  }
+]

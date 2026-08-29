@@ -1,0 +1,69 @@
+[
+  {
+    "vintageYear": 2022,
+    "stateAbbr": "WI",
+    "fips": "55",
+    "jurisdictionName": "Wisconsin",
+    "statutoryEffectiveDate": "2022-01-01",
+    "retrievalDate": "2023-06-30",
+    "sourceUrl": "https://www.eac.gov/research-and-data/eavs-policy-survey",
+    "registrationPolicy": {
+      "deadlineDaysBeforeElection": 20,
+      "automaticVoterRegistration": false,
+      "onlineVoterRegistration": true,
+      "sameDayRegistration": true,
+      "sameDayRegistrationLocations": ["election_day_polls", "county_office"],
+      "preregistrationAge": 17
+    },
+    "voterIdPolicy": {
+      "inPersonRequirement": "strict_photo",
+      "provisionalCureAllowed": true,
+      "acceptableIdTypes": [
+        "Wisconsin DOT Driver License",
+        "Wisconsin DOT Identification Card",
+        "U.S. Uniformed Services ID",
+        "U.S. Passport",
+        "Certificate of Naturalization",
+        "Valid Student ID with Photo and Enrollment Verification"
+      ],
+      "affidavitAllowed": false
+    },
+    "earlyVotingPolicy": {
+      "inPersonEarlyVotingAllowed": true,
+      "earlyVotingWindowDays": 14,
+      "weekendVotingMandatory": false,
+      "weekendVotingAllowed": true,
+      "uniformHoursMandatory": false
+    },
+    "mailVotingPolicy": {
+      "model": "no_excuse_absentee",
+      "excusesAllowed": [],
+      "dropBoxesAllowed": false,
+      "dropBoxMandate": null,
+      "prepaidReturnPostage": false,
+      "witnessOrNotaryRequired": true,
+      "curePeriodAllowed": false,
+      "curePeriodDays": null,
+      "ballotTrackingAvailable": true
+    },
+    "postElectionAuditPolicy": {
+      "auditRequired": true,
+      "auditType": "traditional_percentage",
+      "statutoryTrigger": "Mandatory audit of selected reporting units across municipalities after general elections"
+    },
+    "recountPolicy": {
+      "automaticRecountMarginPercent": null,
+      "candidateRequestedAllowed": true,
+      "candidatePaysCostIfUnchanged": true
+    },
+    "felonDisenfranchisementPolicy": {
+      "restorationTiming": "completion_of_parole_probation",
+      "description": "Voting rights restored upon completion of entire felony sentence including parole, probation, or extended supervision ('off paper')."
+    },
+    "governanceStructure": {
+      "chiefStateElectionOfficial": "bipartite_commission",
+      "localAdministrationStructure": "municipal_clerks"
+    },
+    "notes": "Wisconsin Policy Survey: decentralized municipal clerk structure (1,850+ clerks), Wisconsin Elections Commission (WEC), and election-day registration."
+  }
+]
