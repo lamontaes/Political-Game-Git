@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2024-01-01T00:00:00.000Z",
+  "sourceVintage": "2022 Census of Governments",
+  "totalSpecialDistricts": 39558,
+  "singleFunctionTotal": 33605,
+  "multiFunctionTotal": 5953,
+  "functions": [
+    {
+      "functionCategory": "fire_protection",
+      "functionCodePrefixes": ["024", "24"],
+      "description": "Fire protection and emergency services districts",
+      "nationalCount": 6242,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "housing_community_development",
+      "functionCodePrefixes": ["050", "50"],
+      "description": "Housing authorities and urban renewal/community development agencies",
+      "nationalCount": 3658,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "drainage_flood_control",
+      "functionCodePrefixes": ["052", "52"],
+      "description": "Drainage, flood control, and levee districts",
+      "nationalCount": 3490,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "water_supply",
+      "functionCodePrefixes": ["091", "91"],
+      "description": "Water supply, irrigation, and water control districts",
+      "nationalCount": 3315,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "soil_water_conservation",
+      "functionCodePrefixes": ["059", "59"],
+      "description": "Soil and water conservation districts and natural resource districts",
+      "nationalCount": 2752,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "sewerage",
+      "functionCodePrefixes": ["080", "80"],
+      "description": "Sewerage and sanitary districts",
+      "nationalCount": 2160,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "libraries",
+      "functionCodePrefixes": ["061", "61"],
+      "description": "Public library districts and library authorities",
+      "nationalCount": 1745,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "cemeteries",
+      "functionCodePrefixes": ["040", "40"],
+      "description": "Cemetery maintenance and public cemetery districts",
+      "nationalCount": 1682,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "parks_recreation",
+      "functionCodePrefixes": ["060", "60"],
+      "description": "Park districts, recreation districts, and public preservation areas",
+      "nationalCount": 1475,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "health_hospitals",
+      "functionCodePrefixes": ["062", "063", "62", "63"],
+      "description": "Hospital districts, ambulance districts, and public health authorities",
+      "nationalCount": 834,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "highways_roads",
+      "functionCodePrefixes": ["041", "41"],
+      "description": "Road and highway districts and bridge authorities",
+      "nationalCount": 742,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "airports_ports",
+      "functionCodePrefixes": ["001", "002", "01", "02"],
+      "description": "Airport authorities, port districts, and navigation districts",
+      "nationalCount": 560,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "mass_transit",
+      "functionCodePrefixes": ["094", "94"],
+      "description": "Regional transit authorities, public transit districts, and passenger rail authorities",
+      "nationalCount": 215,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "solid_waste_management",
+      "functionCodePrefixes": ["081", "81"],
+      "description": "Solid waste management districts and refuse disposal authorities",
+      "nationalCount": 185,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "electric_gas_utilities",
+      "functionCodePrefixes": ["092", "093"],
+      "description": "Public utility districts, rural electric cooperatives, and municipal power agencies",
+      "nationalCount": 140,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "other_single_function",
+      "functionCodePrefixes": ["079", "79"],
+      "description": "Mosquito abatement, weed control, parking authorities, and other single-purpose districts",
+      "nationalCount": 4410,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "multi_function",
+      "functionCodePrefixes": ["099", "098", "99", "98"],
+      "description": "Multipurpose districts (water and sewer, community services, natural resources and recreation)",
+      "nationalCount": 5953,
+      "isMultiFunction": true
+    }
+  ],
+  "sha256": "d45d7c5dc7709b22347267f5b82fc3670e6bd501c80b5a3bb15ac01dce1f7ff2"
+}

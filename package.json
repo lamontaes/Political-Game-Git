@@ -31,7 +31,11 @@
     "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art",
     "agent:preflight": "node scripts/agent-preflight.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",
-    "stress:persons": "node --import tsx src/cli/stress-persons.ts"
+    "stress:persons": "node --import tsx src/cli/stress-persons.ts",
+    "compile:government-universe": "node --import tsx scripts/government-universe/compile.ts",
+    "manifest:government-universe": "node --import tsx scripts/government-universe/manifest.ts",
+    "validate:government-universe": "node --import tsx scripts/government-universe/validate.ts",
+    "test:government-universe": "vitest run tests/government_universe.test.ts"
   },
   "dependencies": {
     "react": "19.2.6",

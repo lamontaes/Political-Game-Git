@@ -15,8 +15,11 @@
     "vite.config.ts",
     "playwright.config.ts",
     "tests/e2e/**/*.ts",
+    "tests/government_universe.test.ts",
+    "scripts/government-universe/**/*.ts",
     "src/cli/**/*.ts",
     "src/persistence/**/*.ts",
-    "src/simulation/**/*.ts"
+    "src/simulation/**/*.ts",
+    "src/government_universe/**/*.ts"
   ]
 }

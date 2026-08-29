@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2024-01-01T00:00:00.000Z",
+  "seriesTitle": "Historical Statistics on U.S. Governments (1952–2022 Census of Governments)",
+  "censusYears": [
+    {
+      "year": 1952,
+      "totalGovernments": 116807,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 116756,
+      "countyGovernments": 3052,
+      "municipalGovernments": 16807,
+      "townshipGovernments": 17202,
+      "specialDistrictGovernments": 12340,
+      "schoolDistrictGovernments": 67355,
+      "notes": "Historical peak of school district count before national rural school consolidation."
+    },
+    {
+      "year": 1962,
+      "totalGovernments": 91237,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 91186,
+      "countyGovernments": 3043,
+      "municipalGovernments": 18000,
+      "townshipGovernments": 17142,
+      "specialDistrictGovernments": 18323,
+      "schoolDistrictGovernments": 34678,
+      "notes": "Rapid post-war school district consolidation and initial expansion of special districts."
+    },
+    {
+      "year": 1972,
+      "totalGovernments": 78269,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 78218,
+      "countyGovernments": 3044,
+      "municipalGovernments": 18517,
+      "townshipGovernments": 16991,
+      "specialDistrictGovernments": 23885,
+      "schoolDistrictGovernments": 15781,
+      "notes": "Special districts surpass independent school districts for the first time in U.S. history."
+    },
+    {
+      "year": 1982,
+      "totalGovernments": 81831,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 81780,
+      "countyGovernments": 3041,
+      "municipalGovernments": 19076,
+      "townshipGovernments": 16734,
+      "specialDistrictGovernments": 28588,
+      "schoolDistrictGovernments": 14851,
+      "notes": "Steady expansion of special-purpose infrastructure and service districts."
+    },
+    {
+      "year": 1992,
+      "totalGovernments": 85006,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 84955,
+      "countyGovernments": 3043,
+      "municipalGovernments": 19279,
+      "townshipGovernments": 16656,
+      "specialDistrictGovernments": 31555,
+      "schoolDistrictGovernments": 14422,
+      "notes": "Growth of suburban special districts and stabilization of municipal incorporations."
+    },
+    {
+      "year": 2002,
+      "totalGovernments": 87576,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 87525,
+      "countyGovernments": 3034,
+      "municipalGovernments": 19429,
+      "townshipGovernments": 16504,
+      "specialDistrictGovernments": 35052,
+      "schoolDistrictGovernments": 13506,
+      "notes": "Further decline in independent school districts and increase in specialized utility districts."
+    },
+    {
+      "year": 2012,
+      "totalGovernments": 90107,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 90056,
+      "countyGovernments": 3031,
+      "municipalGovernments": 19519,
+      "townshipGovernments": 16360,
+      "specialDistrictGovernments": 38266,
+      "schoolDistrictGovernments": 12880,
+      "notes": "Local governments surpass 90,000 for the first time since the early 1960s."
+    },
+    {
+      "year": 2017,
+      "totalGovernments": 90126,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 90075,
+      "countyGovernments": 3031,
+      "municipalGovernments": 19495,
+      "townshipGovernments": 16253,
+      "specialDistrictGovernments": 38542,
+      "schoolDistrictGovernments": 12754,
+      "notes": "2017 Census of Governments Organization baseline."
+    },
+    {
+      "year": 2022,
+      "totalGovernments": 90888,
+      "federalGovernment": 1,
+      "stateGovernments": 50,
+      "localGovernments": 90837,
+      "countyGovernments": 3031,
+      "municipalGovernments": 19492,
+      "townshipGovernments": 16253,
+      "specialDistrictGovernments": 39557,
+      "schoolDistrictGovernments": 12504,
+      "notes": "Authoritative 2022 Census of Governments: 90,888 total governmental entities in the United States."
+    }
+  ],
+  "majorTrends": {
+    "schoolDistrictConsolidation": "Independent school districts underwent massive consolidation, declining from 67,355 units in 1952 to 12,504 in 2022 (an 81.4% reduction).",
+    "specialDistrictGrowth": "Special district governments expanded dramatically, more than tripling from 12,340 units in 1952 to 39,558 in 2022 as communities created specialized utility, fire, housing, and resource districts.",
+    "generalPurposeStability": "County governments remained virtually constant (3,052 in 1952 vs 3,031 in 2022), while municipalities grew moderately (16,807 to 19,492) and townships slightly contracted (17,202 to 16,253)."
+  },
+  "sha256": ""
+}
