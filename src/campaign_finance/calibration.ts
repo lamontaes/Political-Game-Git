@@ -2,7 +2,8 @@
  * Campaign Finance Calibration Calculator
  *
  * Computes deterministic calibration metrics and statistical distributions
- * from normalized FEC records using only active (non-superseded) filings.
+ * from normalized FEC records, strictly segregating empirical OpenFEC observations
+ * from synthetic test fixtures.
  */
 
 import { filterActiveFilings } from "./amendment_resolver";
@@ -59,8 +60,48 @@ function classifyFilingPhase(filing: FecFilingReport): CampaignPhase {
 export function computeCalibrationProfile(
   corpus: FecCampaignFinanceCorpus,
   vintage = "2024-OpenFEC",
+  mode: "empirical" | "synthetic_test" = "empirical",
 ): CampaignFinanceCalibrationProfile {
-  const activeFilings = filterActiveFilings(corpus.filings);
+  // Segregate empirical vs synthetic records
+  const isTargetRecord = (recordClass?: string) => {
+    if (mode === "empirical") {
+      return (
+        recordClass === "actual_openfec" ||
+        recordClass === "transformed_official"
+      );
+    }
+    return recordClass === "synthetic_fixture";
+  };
+
+  const scopedCandidates = corpus.candidates.filter((c) =>
+    isTargetRecord(c.recordClass),
+  );
+  const scopedCommittees = corpus.committees.filter((c) =>
+    isTargetRecord(c.recordClass),
+  );
+  const scopedRelationships = corpus.relationships.filter((r) =>
+    isTargetRecord(r.recordClass),
+  );
+  const scopedFilings = corpus.filings.filter((f) =>
+    isTargetRecord(f.recordClass),
+  );
+  const scopedLoans = corpus.loans.filter((l) => isTargetRecord(l.recordClass));
+  const scopedDebts = corpus.debts.filter((d) => isTargetRecord(d.recordClass));
+  const scopedIe = corpus.independentExpenditures.filter((ie) =>
+    isTargetRecord(ie.recordClass),
+  );
+
+  const actualOpenFecCount = corpus.filings.filter(
+    (f) => f.recordClass === "actual_openfec",
+  ).length;
+  const transformedOfficialCount = corpus.filings.filter(
+    (f) => f.recordClass === "transformed_official",
+  ).length;
+  const syntheticFixtureCount = corpus.filings.filter(
+    (f) => f.recordClass === "synthetic_fixture",
+  ).length;
+
+  const activeFilings = filterActiveFilings(scopedFilings);
 
   // 1. Office Fundraising Benchmarks
   const officeCandidates = new Map<
@@ -71,14 +112,14 @@ export function computeCalibrationProfile(
     >
   >();
 
-  for (const cand of corpus.candidates) {
+  for (const cand of scopedCandidates) {
     if (!officeCandidates.has(cand.office)) {
       officeCandidates.set(cand.office, new Map());
     }
   }
 
-  for (const cand of corpus.candidates) {
-    const candCommittees = corpus.committees
+  for (const cand of scopedCandidates) {
+    const candCommittees = scopedCommittees
       .filter(
         (c) =>
           c.sponsorCandidateId === cand.candidateId ||
@@ -194,11 +235,14 @@ export function computeCalibrationProfile(
     const phase = classifyFilingPhase(filing);
     const rec = filing.financialSummary.totalReceipts;
     const dis = filing.financialSummary.totalDisbursements;
-    phaseBurnBuckets[phase].receipts += rec;
-    phaseBurnBuckets[phase].disbursements += dis;
-    phaseBurnBuckets[phase].count += 1;
-    if (rec > 0) {
-      phaseBurnBuckets[phase].ratios.push(dis / rec);
+    const bucket = phaseBurnBuckets[phase];
+    if (bucket) {
+      bucket.receipts += rec;
+      bucket.disbursements += dis;
+      bucket.count += 1;
+      if (rec > 0) {
+        bucket.ratios.push(dis / rec);
+      }
     }
   }
 
@@ -225,29 +269,31 @@ export function computeCalibrationProfile(
     Object.keys(phaseBurnBuckets) as CampaignPhase[]
   ).map((phase) => {
     const bucket = phaseBurnBuckets[phase];
-    const sortedRatios = [...bucket.ratios].sort((a, b) => a - b);
+    const sortedRatios = [...(bucket?.ratios ?? [])].sort((a, b) => a - b);
     const median = computePercentile(sortedRatios, 50);
     const mean =
-      bucket.receipts > 0 ? bucket.disbursements / bucket.receipts : 0;
+      bucket && bucket.receipts > 0
+        ? bucket.disbursements / bucket.receipts
+        : 0;
 
     return {
       phase,
-      phaseLabel: phaseLabels[phase].label,
-      sampleReports: bucket.count,
+      phaseLabel: phaseLabels[phase]?.label ?? phase,
+      sampleReports: bucket?.count ?? 0,
       medianBurnRate: Math.round(median * 1000) / 1000,
       meanBurnRate: Math.round(mean * 1000) / 1000,
-      description: phaseLabels[phase].desc,
+      description: phaseLabels[phase]?.desc ?? "",
     };
   });
 
   // 3. Debt Prevalence
   const committeesWithLoans = new Set(
-    corpus.loans
+    scopedLoans
       .filter((l) => l.loanBalanceRemaining > 0)
       .map((l) => l.committeeId),
   );
   const committeesWithVendorDebts = new Set(
-    corpus.debts
+    scopedDebts
       .filter((d) => d.endingBalanceThisPeriod > 0)
       .map((d) => d.committeeId),
   );
@@ -256,18 +302,18 @@ export function computeCalibrationProfile(
     ...committeesWithVendorDebts,
   ]);
 
-  const totalCandidateLoans = corpus.loans
+  const totalCandidateLoans = scopedLoans
     .filter((l) => l.isCandidatePersonalLoan)
     .reduce((sum, l) => sum + l.loanBalanceRemaining, 0);
-  const totalVendorDebts = corpus.debts.reduce(
+  const totalVendorDebts = scopedDebts.reduce(
     (sum, d) => sum + d.endingBalanceThisPeriod,
     0,
   );
   const totalAllDebt = totalCandidateLoans + totalVendorDebts;
 
-  const totalSampleCommittees = corpus.committees.length || 1;
+  const totalSampleCommittees = scopedCommittees.length || 1;
   const debtPrevalence: DebtPrevalenceBenchmark = {
-    sampleCommittees: corpus.committees.length,
+    sampleCommittees: scopedCommittees.length,
     percentCommitteesWithDebt:
       Math.round((committeesWithAnyDebt.size / totalSampleCommittees) * 1000) /
       10,
@@ -280,7 +326,7 @@ export function computeCalibrationProfile(
       ) / 10,
     medianDebtAmountWhenPresent: Math.round(
       computePercentile(
-        corpus.filings
+        scopedFilings
           .map((f) => f.financialSummary.debtsOwedByCommittee)
           .filter((d) => d > 0)
           .sort((a, b) => a - b),
@@ -296,13 +342,13 @@ export function computeCalibrationProfile(
         ? Math.round((totalVendorDebts / totalAllDebt) * 1000) / 1000
         : 0,
     meanDebtToReceiptsRatio:
-      corpus.filings.reduce(
+      scopedFilings.reduce(
         (sum, f) => sum + f.financialSummary.totalReceipts,
         0,
       ) > 0
         ? Math.round(
             (totalAllDebt /
-              corpus.filings.reduce(
+              scopedFilings.reduce(
                 (sum, f) => sum + f.financialSummary.totalReceipts,
                 0,
               )) *
@@ -332,7 +378,7 @@ export function computeCalibrationProfile(
 
   const normDenominator = grandTotalReceipts || 1;
   const donorDistributions: DonorDistributionBenchmark = {
-    sampleCommittees: corpus.committees.length,
+    sampleCommittees: scopedCommittees.length,
     unitemizedSmallDollarShare:
       Math.round((grandUnitemized / normDenominator) * 1000) / 1000,
     itemizedIndividualShare:
@@ -350,21 +396,18 @@ export function computeCalibrationProfile(
     .filter((f) => ["F3", "F3P"].includes(f.formType))
     .reduce((sum, f) => sum + f.financialSummary.totalDisbursements, 0);
 
-  const totalIe = corpus.independentExpenditures.reduce(
-    (sum, ie) => sum + ie.amount,
-    0,
-  );
-  const supportIe = corpus.independentExpenditures
+  const totalIe = scopedIe.reduce((sum, ie) => sum + ie.amount, 0);
+  const supportIe = scopedIe
     .filter((ie) => ie.supportOppose === "S")
     .reduce((sum, ie) => sum + ie.amount, 0);
-  const opposeIe = corpus.independentExpenditures
+  const opposeIe = scopedIe
     .filter((ie) => ie.supportOppose === "O")
     .reduce((sum, ie) => sum + ie.amount, 0);
 
   const independentExpenditures: IndependentExpenditureScaleBenchmark = {
     sampleContests:
-      new Set(corpus.independentExpenditures.map((ie) => ie.candidateId))
-        .size || 1,
+      new Set(scopedIe.map((ie) => ie.candidateId)).size ||
+      (scopedIe.length > 0 ? 1 : 0),
     totalCandidateDisbursements: Math.round(candidateDisbursements),
     totalIndependentExpenditures: Math.round(totalIe),
     outsideSpendingToCandidateSpendingRatio:
@@ -378,19 +421,19 @@ export function computeCalibrationProfile(
   };
 
   // 6. Committee Relationships
-  const candidatesWithPcc = corpus.candidates.filter((c) =>
+  const candidatesWithPcc = scopedCandidates.filter((c) =>
     Boolean(c.principalCampaignCommitteeId),
   ).length;
-  const candidatesWithLeadershipPac = corpus.relationships.filter(
+  const candidatesWithLeadershipPac = scopedRelationships.filter(
     (r) => r.designation === "D",
   ).length;
-  const candidatesWithJfc = corpus.relationships.filter(
+  const candidatesWithJfc = scopedRelationships.filter(
     (r) => r.designation === "J",
   ).length;
 
-  const totalCand = corpus.candidates.length || 1;
+  const totalCand = scopedCandidates.length || 1;
   const committeeRelationships: CommitteeRelationshipBenchmark = {
-    totalCandidates: corpus.candidates.length,
+    totalCandidates: scopedCandidates.length,
     percentCandidatesWithPcc:
       Math.round((candidatesWithPcc / totalCand) * 1000) / 10,
     percentCandidatesWithLeadershipPac:
@@ -398,43 +441,50 @@ export function computeCalibrationProfile(
     percentCandidatesWithJointFundraising:
       Math.round((candidatesWithJfc / totalCand) * 1000) / 10,
     averageCommitteesPerCandidate:
-      Math.round((corpus.relationships.length / totalCand) * 100) / 100,
+      Math.round((scopedRelationships.length / totalCand) * 100) / 100,
   };
 
   // 7. Filing Cadence
-  const quarterly = corpus.filings.filter((f) =>
+  const quarterly = scopedFilings.filter((f) =>
     ["Q1", "Q2", "Q3", "YE"].includes(f.reportType),
   ).length;
-  const monthly = corpus.filings.filter((f) =>
+  const monthly = scopedFilings.filter((f) =>
     /^M[0-9]+$/.test(f.reportType),
   ).length;
-  const preBursts = corpus.filings.filter((f) =>
+  const preBursts = scopedFilings.filter((f) =>
     ["12P", "12G", "30G"].includes(f.reportType),
   ).length;
-  const fastNotices = corpus.filings.filter(
+  const fastNotices = scopedFilings.filter(
     (f) =>
       ["24", "48"].includes(f.reportType) || ["F24", "F5"].includes(f.formType),
   ).length;
-  const amendedCount = corpus.filings.filter(
+  const amendedCount = scopedFilings.filter(
     (f) => f.amendmentChain.amendmentIndicator === "A",
   ).length;
 
   const filingCadence: FilingCadenceBenchmark = {
-    totalFilings: corpus.filings.length,
+    totalFilings: scopedFilings.length,
     quarterlyFilingsCount: quarterly,
     monthlyFilingsCount: monthly,
     preElectionBurstsCount: preBursts,
     fastNoticeBurstsCount: fastNotices,
     amendmentRatePercent:
-      corpus.filings.length > 0
-        ? Math.round((amendedCount / corpus.filings.length) * 1000) / 10
+      scopedFilings.length > 0
+        ? Math.round((amendedCount / scopedFilings.length) * 1000) / 10
         : 0,
   };
 
   return {
     schemaVersion: "1.0.0",
+    calibrationMode: mode,
     vintage,
-    generatedAt: "2026-08-28T18:00:00.000Z",
+    generatedAt: "2026-08-29T12:00:00.000Z",
+    sourceCoverage: {
+      actualOpenFecFilings: actualOpenFecCount,
+      transformedOfficialFilings: transformedOfficialCount,
+      syntheticFixtureFilings: syntheticFixtureCount,
+      empiricalOnly: mode === "empirical",
+    },
     fundraisingBenchmarks,
     burnRatesByPhase,
     debtPrevalence,

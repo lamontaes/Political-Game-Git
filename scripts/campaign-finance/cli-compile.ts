@@ -1,15 +1,19 @@
 #!/usr/bin/env node
 /**
  * CLI Compiler for FEC Federal Campaign Finance Source Corpus
+ *
+ * Compiles authentic OpenFEC source records and synthetic test fixtures,
+ * builds coverage manifest with explicit source vs synthetic inventory,
+ * and derives empirical calibration benchmarks strictly isolated from synthetic fixtures.
  */
 
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  buildCampaignFinanceManifest,
   compileCampaignFinanceCorpus,
   computeCalibrationProfile,
-  buildCampaignFinanceManifest,
   type CompilerInput,
 } from "../../src/campaign_finance/index";
 
@@ -94,6 +98,18 @@ export function runCompile(): void {
     "data/campaign_finance/fixtures/independent_expenditures/outside_spending_superpac.json",
   );
 
+  const syntheticData = loadJson<{
+    candidates: CompilerInput["candidates"];
+    committees: CompilerInput["committees"];
+    relationships: CompilerInput["relationships"];
+    filings: CompilerInput["filings"];
+    receipts: CompilerInput["receipts"];
+    disbursements: CompilerInput["disbursements"];
+    loans: CompilerInput["loans"];
+    debts: CompilerInput["debts"];
+    independentExpenditures: CompilerInput["independentExpenditures"];
+  }>("data/campaign_finance/fixtures/synthetic/synthetic_test_scenarios.json");
+
   const input: CompilerInput = {
     candidates: [
       ...houseData.candidates,
@@ -101,6 +117,7 @@ export function runCompile(): void {
       ...presData.candidates,
       ...pacPartyData.candidates,
       ...ieData.candidates,
+      ...syntheticData.candidates,
     ],
     committees: [
       ...houseData.committees,
@@ -108,6 +125,7 @@ export function runCompile(): void {
       ...presData.committees,
       ...pacPartyData.committees,
       ...ieData.committees,
+      ...syntheticData.committees,
     ],
     relationships: [
       ...houseData.relationships,
@@ -115,6 +133,7 @@ export function runCompile(): void {
       ...presData.relationships,
       ...pacPartyData.relationships,
       ...ieData.relationships,
+      ...syntheticData.relationships,
     ],
     filings: [
       ...houseData.filings,
@@ -122,6 +141,7 @@ export function runCompile(): void {
       ...presData.filings,
       ...pacPartyData.filings,
       ...ieData.filings,
+      ...syntheticData.filings,
     ],
     receipts: [
       ...houseData.receipts,
@@ -129,6 +149,7 @@ export function runCompile(): void {
       ...presData.receipts,
       ...pacPartyData.receipts,
       ...ieData.receipts,
+      ...syntheticData.receipts,
     ],
     disbursements: [
       ...houseData.disbursements,
@@ -136,6 +157,7 @@ export function runCompile(): void {
       ...presData.disbursements,
       ...pacPartyData.disbursements,
       ...ieData.disbursements,
+      ...syntheticData.disbursements,
     ],
     loans: [
       ...houseData.loans,
@@ -143,6 +165,7 @@ export function runCompile(): void {
       ...presData.loans,
       ...pacPartyData.loans,
       ...ieData.loans,
+      ...syntheticData.loans,
     ],
     debts: [
       ...houseData.debts,
@@ -150,6 +173,7 @@ export function runCompile(): void {
       ...presData.debts,
       ...pacPartyData.debts,
       ...ieData.debts,
+      ...syntheticData.debts,
     ],
     independentExpenditures: [
       ...houseData.independentExpenditures,
@@ -157,11 +181,21 @@ export function runCompile(): void {
       ...presData.independentExpenditures,
       ...pacPartyData.independentExpenditures,
       ...ieData.independentExpenditures,
+      ...syntheticData.independentExpenditures,
     ],
   };
 
   const corpus = compileCampaignFinanceCorpus(input);
-  const calibration = computeCalibrationProfile(corpus);
+  const empiricalCalibration = computeCalibrationProfile(
+    corpus,
+    "2024-OpenFEC",
+    "empirical",
+  );
+  const syntheticCalibration = computeCalibrationProfile(
+    corpus,
+    "2024-OpenFEC",
+    "synthetic_test",
+  );
   const manifest = buildCampaignFinanceManifest(corpus);
 
   writeJson("data/campaign_finance/corpus/normalized_corpus.json", corpus);
@@ -171,11 +205,23 @@ export function runCompile(): void {
   );
   writeJson(
     "data/campaign_finance/calibration/calibration_benchmarks.json",
-    calibration,
+    empiricalCalibration,
+  );
+  writeJson(
+    "data/campaign_finance/calibration/synthetic_test_calibration.json",
+    syntheticCalibration,
   );
 
   console.log(`Compilation complete:`);
-  console.log(`  Candidates: ${corpus.candidates.length}`);
+  console.log(`  Total Candidates: ${corpus.candidates.length}`);
+  console.log(`    House: ${manifest.coverage.offices.houseCandidates}`);
+  console.log(`    Senate: ${manifest.coverage.offices.senateCandidates}`);
+  console.log(
+    `    Presidential: ${manifest.coverage.offices.presidentialCandidates}`,
+  );
+  console.log(
+    `    Math check passed: ${manifest.coverage.offices.mathCheckPassed}`,
+  );
   console.log(`  Committees: ${corpus.committees.length}`);
   console.log(`  Relationships: ${corpus.relationships.length}`);
   console.log(
@@ -187,6 +233,9 @@ export function runCompile(): void {
   console.log(`  Debts: ${corpus.debts.length}`);
   console.log(
     `  Independent Expenditures: ${corpus.independentExpenditures.length}`,
+  );
+  console.log(
+    `  Source vs Synthetic Inventory: ${manifest.sourceVsSyntheticInventory.aggregateAllEntities.actualOpenFec} actual, ${manifest.sourceVsSyntheticInventory.aggregateAllEntities.transformedOfficial} transformed, ${manifest.sourceVsSyntheticInventory.aggregateAllEntities.syntheticFixture} synthetic (${manifest.sourceVsSyntheticInventory.aggregateAllEntities.empiricalSharePercent}% empirical)`,
   );
   console.log(`  Corpus Checksum: ${manifest.integrity.corpusChecksum}`);
 }

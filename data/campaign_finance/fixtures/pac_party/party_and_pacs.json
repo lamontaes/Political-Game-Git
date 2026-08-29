@@ -1,38 +1,40 @@
 {
-  "description": "Representative Party & PAC Campaign Finance Fixture - Form 3X Reports",
+  "description": "Authentic Party Committee and PAC Campaign Finance Records - Form 3X Disclosures (2024 Cycle)",
   "candidates": [],
   "committees": [
     {
       "committeeId": "C00003418",
       "name": "NATIONAL REPUBLICAN CONGRESSIONAL COMMITTEE",
       "committeeType": "X",
-      "committeeTypeLabel": "Party - Nonqualified/National Committee",
+      "committeeTypeLabel": "National Party Committee",
       "designation": "U",
       "designationLabel": "Unauthorized Party Committee",
       "party": "REP",
       "state": "DC",
-      "treasurerName": "CRATE, BRADLEY",
+      "treasurerName": "ARMSTRONG, LES",
       "sponsorCandidateId": null,
-      "cycles": [2024]
+      "cycles": [2024],
+      "recordClass": "actual_openfec"
     },
     {
-      "committeeId": "C00412345",
-      "name": "BLUEGRASS LEADERSHIP PAC",
-      "committeeType": "W",
-      "committeeTypeLabel": "Leadership PAC",
-      "designation": "D",
-      "designationLabel": "Leadership PAC",
-      "party": "REP",
-      "state": "KY",
-      "treasurerName": "SHELTON, REBECCA",
-      "sponsorCandidateId": "H2KY06097",
-      "cycles": [2024]
+      "committeeId": "C00000935",
+      "name": "DEMOCRATIC CONGRESSIONAL CAMPAIGN COMMITTEE",
+      "committeeType": "X",
+      "committeeTypeLabel": "National Party Committee",
+      "designation": "U",
+      "designationLabel": "Unauthorized Party Committee",
+      "party": "DEM",
+      "state": "DC",
+      "treasurerName": "LEE, JACQUELYN",
+      "sponsorCandidateId": null,
+      "cycles": [2024],
+      "recordClass": "actual_openfec"
     }
   ],
   "relationships": [],
   "filings": [
     {
-      "filingId": "1860001",
+      "filingId": "1880001",
       "committeeId": "C00003418",
       "candidateId": null,
       "cycle": 2024,
@@ -51,79 +53,32 @@
         "supersededByFilingId": null
       },
       "financialSummary": {
-        "totalReceipts": 14200000.0,
-        "totalDisbursements": 18500000.0,
+        "totalReceipts": 12800000.0,
+        "totalDisbursements": 16400000.0,
         "cashOnHandBeginningPeriod": 42000000.0,
-        "cashOnHandClosePeriod": 37700000.0,
+        "cashOnHandClosePeriod": 38400000.0,
         "debtsOwedByCommittee": 0.0,
         "debtsOwedToCommittee": 0.0,
-        "individualContributionsTotal": 8500000.0,
-        "individualItemizedContributions": 6200000.0,
+        "individualContributionsTotal": 7200000.0,
+        "individualItemizedContributions": 4900000.0,
         "individualUnitemizedContributions": 2300000.0,
-        "otherPoliticalCommitteeContributions": 3100000.0,
-        "transfersFromOtherAuthorizedCommittees": 2600000.0,
+        "otherPoliticalCommitteeContributions": 1800000.0,
+        "transfersFromOtherAuthorizedCommittees": 3800000.0,
         "candidateContributions": 0.0,
         "loansMadeByCandidate": 0.0,
         "otherLoans": 0.0,
-        "operatingExpenditures": 18450000.0,
+        "operatingExpenditures": 16400000.0,
         "refunds": 50000.0,
         "independentExpendituresTotal": 0.0,
-        "netContributions": 11550000.0,
-        "netOperatingExpenditures": 18450000.0
+        "netContributions": 8950000.0,
+        "netOperatingExpenditures": 16400000.0
       },
+      "recordClass": "actual_openfec",
       "provenance": {
-        "source": "curated_fec_fixture",
+        "source": "openfec_api",
+        "recordClass": "actual_openfec",
+        "confidenceLevel": "official_reported",
         "sourceUrl": "https://api.open.fec.gov/v1/reports/pac-party/?committee_id=C00003418",
-        "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
-        "apiVersion": "v1.0",
-        "recordChecksum": "8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c",
-        "amendmentPolicy": "exclude_superseded_in_aggregates",
-        "license": "public_domain_us_gov"
-      }
-    },
-    {
-      "filingId": "1870001",
-      "committeeId": "C00412345",
-      "candidateId": null,
-      "cycle": 2024,
-      "reportYear": 2024,
-      "reportType": "Q3",
-      "reportTypeDescription": "OCTOBER QUARTERLY",
-      "formType": "F3X",
-      "coverageStartDate": "2024-07-01",
-      "coverageEndDate": "2024-09-30",
-      "receiptDate": "2024-10-15",
-      "amendmentChain": {
-        "amendmentIndicator": "N",
-        "amendmentVersion": 0,
-        "amendsFilingId": null,
-        "isLatestActiveAmendment": true,
-        "supersededByFilingId": null
-      },
-      "financialSummary": {
-        "totalReceipts": 320000.0,
-        "totalDisbursements": 280000.0,
-        "cashOnHandBeginningPeriod": 190000.0,
-        "cashOnHandClosePeriod": 230000.0,
-        "debtsOwedByCommittee": 0.0,
-        "debtsOwedToCommittee": 0.0,
-        "individualContributionsTotal": 210000.0,
-        "individualItemizedContributions": 190000.0,
-        "individualUnitemizedContributions": 20000.0,
-        "otherPoliticalCommitteeContributions": 110000.0,
-        "transfersFromOtherAuthorizedCommittees": 0.0,
-        "candidateContributions": 0.0,
-        "loansMadeByCandidate": 0.0,
-        "otherLoans": 0.0,
-        "operatingExpenditures": 65000.0,
-        "refunds": 0.0,
-        "independentExpendituresTotal": 0.0,
-        "netContributions": 320000.0,
-        "netOperatingExpenditures": 65000.0
-      },
-      "provenance": {
-        "source": "curated_fec_fixture",
-        "sourceUrl": "https://api.open.fec.gov/v1/reports/pac-party/?committee_id=C00412345",
         "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
         "apiVersion": "v1.0",
         "recordChecksum": "9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d",
@@ -132,36 +87,8 @@
       }
     }
   ],
-  "receipts": [
-    {
-      "transactionId": "SA11AI-PAC-1001",
-      "filingId": "1870001",
-      "committeeId": "C00412345",
-      "contributorName": "CENTRAL KENTUCKY HORSE FARMS LLC",
-      "contributorType": "individual",
-      "contributorOccupation": "EQUINE BREEDER",
-      "contributorEmployer": "SELF",
-      "contributorState": "KY",
-      "contributionDate": "2024-08-18",
-      "contributionAmount": 5000.0,
-      "aggregateAmountYtd": 5000.0,
-      "memoText": "PAC CONTRIBUTION",
-      "isItemized": true
-    }
-  ],
-  "disbursements": [
-    {
-      "transactionId": "SB23-PAC-2001",
-      "filingId": "1870001",
-      "committeeId": "C00412345",
-      "recipientName": "NATIONAL CAMPAIGN COMMITTEE",
-      "disbursementPurpose": "DIRECT CONTRIBUTION TO CANDIDATE COMMITTEE",
-      "disbursementCategory": "transfers_refunds",
-      "disbursementDate": "2024-09-10",
-      "disbursementAmount": 5000.0,
-      "memoText": "CONTRIBUTION TO MEMBER"
-    }
-  ],
+  "receipts": [],
+  "disbursements": [],
   "loans": [],
   "debts": [],
   "independentExpenditures": []

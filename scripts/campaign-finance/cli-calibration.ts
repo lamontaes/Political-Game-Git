@@ -4,7 +4,7 @@
  */
 
 import { readFileSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { CampaignFinanceCalibrationProfile } from "../../src/campaign_finance/calibration_types";
 
@@ -24,9 +24,14 @@ export function runCalibrationInspection(): void {
   );
 
   console.log("=== FEC CAMPAIGN FINANCE CALIBRATION BENCHMARKS ===");
+  console.log(`Calibration Mode: ${profile.calibrationMode.toUpperCase()}`);
   console.log(
     `Vintage: ${profile.vintage} | Generated: ${profile.generatedAt}`,
   );
+  console.log(
+    `Source Coverage: ${profile.sourceCoverage.actualOpenFecFilings} actual OpenFEC, ${profile.sourceCoverage.transformedOfficialFilings} transformed official, ${profile.sourceCoverage.syntheticFixtureFilings} synthetic (Empirical Only: ${profile.sourceCoverage.empiricalOnly})`,
+  );
+
   console.log("\n--- Office Fundraising Benchmarks ---");
   for (const b of profile.fundraisingBenchmarks) {
     console.log(

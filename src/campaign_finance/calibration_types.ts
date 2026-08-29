@@ -1,7 +1,8 @@
 /**
  * Campaign Finance Calibration Types for Simulation & Game Design
  *
- * Defines structured statistical calibration parameters derived from FEC data.
+ * Defines structured statistical calibration parameters derived from FEC data,
+ * strictly separating empirical OpenFEC observations from synthetic test fixtures.
  */
 
 import type { FecOffice } from "./types";
@@ -82,8 +83,15 @@ export interface FilingCadenceBenchmark {
 
 export interface CampaignFinanceCalibrationProfile {
   schemaVersion: string;
+  calibrationMode: "empirical" | "synthetic_test";
   vintage: string;
   generatedAt: string;
+  sourceCoverage: {
+    actualOpenFecFilings: number;
+    transformedOfficialFilings: number;
+    syntheticFixtureFilings: number;
+    empiricalOnly: boolean;
+  };
   fundraisingBenchmarks: OfficeFundraisingBenchmark[];
   burnRatesByPhase: PhaseBurnRateBenchmark[];
   debtPrevalence: DebtPrevalenceBenchmark;

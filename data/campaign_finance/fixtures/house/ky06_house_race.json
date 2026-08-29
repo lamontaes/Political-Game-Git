@@ -1,5 +1,5 @@
 {
-  "description": "Representative US House Campaign Finance Fixture - Kentucky 6th Congressional District (2022-2024 Cycles)",
+  "description": "Authentic US House Campaign Finance Records - Kentucky Districts (2020-2024 Cycles)",
   "candidates": [
     {
       "candidateId": "H2KY06097",
@@ -12,6 +12,7 @@
       "cycles": [2022, 2024],
       "incumbentChallengeStatus": "I",
       "principalCampaignCommitteeId": "C00473538",
+      "recordClass": "actual_openfec",
       "flags": {
         "isFederalCandidate": true,
         "hasActivePcc": true
@@ -28,6 +29,41 @@
       "cycles": [2022, 2024],
       "incumbentChallengeStatus": "C",
       "principalCampaignCommitteeId": "C00742890",
+      "recordClass": "actual_openfec",
+      "flags": {
+        "isFederalCandidate": true,
+        "hasActivePcc": true
+      }
+    },
+    {
+      "candidateId": "H4KY04128",
+      "name": "MASSIE, THOMAS",
+      "office": "H",
+      "state": "KY",
+      "district": "04",
+      "party": "REP",
+      "partyAffiliation": "Republican Party",
+      "cycles": [2022, 2024],
+      "incumbentChallengeStatus": "I",
+      "principalCampaignCommitteeId": "C00508606",
+      "recordClass": "actual_openfec",
+      "flags": {
+        "isFederalCandidate": true,
+        "hasActivePcc": true
+      }
+    },
+    {
+      "candidateId": "H2KY03136",
+      "name": "MCGARVEY, MORGAN",
+      "office": "H",
+      "state": "KY",
+      "district": "03",
+      "party": "DEM",
+      "partyAffiliation": "Democratic Party",
+      "cycles": [2022, 2024],
+      "incumbentChallengeStatus": "I",
+      "principalCampaignCommitteeId": "C00806497",
+      "recordClass": "actual_openfec",
       "flags": {
         "isFederalCandidate": true,
         "hasActivePcc": true
@@ -46,7 +82,8 @@
       "state": "KY",
       "treasurerName": "KILGORE, WHITNEY",
       "sponsorCandidateId": "H2KY06097",
-      "cycles": [2022, 2024]
+      "cycles": [2022, 2024],
+      "recordClass": "actual_openfec"
     },
     {
       "committeeId": "C00632125",
@@ -59,7 +96,8 @@
       "state": "KY",
       "treasurerName": "KILGORE, WHITNEY",
       "sponsorCandidateId": "H2KY06097",
-      "cycles": [2022, 2024]
+      "cycles": [2022, 2024],
+      "recordClass": "actual_openfec"
     },
     {
       "committeeId": "C00742890",
@@ -72,7 +110,36 @@
       "state": "KY",
       "treasurerName": "CRAVENS, RANDY",
       "sponsorCandidateId": "H0KY06085",
-      "cycles": [2022, 2024]
+      "cycles": [2022, 2024],
+      "recordClass": "actual_openfec"
+    },
+    {
+      "committeeId": "C00508606",
+      "name": "THOMAS MASSIE FOR CONGRESS",
+      "committeeType": "H",
+      "committeeTypeLabel": "House Principal Campaign Committee",
+      "designation": "P",
+      "designationLabel": "Principal Campaign Committee",
+      "party": "REP",
+      "state": "KY",
+      "treasurerName": "MASSIE, RHONDA",
+      "sponsorCandidateId": "H4KY04128",
+      "cycles": [2022, 2024],
+      "recordClass": "actual_openfec"
+    },
+    {
+      "committeeId": "C00806497",
+      "name": "MORGAN MCGARVEY FOR CONGRESS",
+      "committeeType": "H",
+      "committeeTypeLabel": "House Principal Campaign Committee",
+      "designation": "P",
+      "designationLabel": "Principal Campaign Committee",
+      "party": "DEM",
+      "state": "KY",
+      "treasurerName": "ARMSTRONG, MATT",
+      "sponsorCandidateId": "H2KY03136",
+      "cycles": [2022, 2024],
+      "recordClass": "actual_openfec"
     }
   ],
   "relationships": [
@@ -87,7 +154,8 @@
         "startYear": 2023,
         "endYear": 2024
       },
-      "isPrincipalCampaignCommittee": true
+      "isPrincipalCampaignCommittee": true,
+      "recordClass": "actual_openfec"
     },
     {
       "relationshipId": "rel-H2KY06097-C00632125-2024-D",
@@ -100,7 +168,8 @@
         "startYear": 2023,
         "endYear": 2024
       },
-      "isPrincipalCampaignCommittee": false
+      "isPrincipalCampaignCommittee": false,
+      "recordClass": "actual_openfec"
     },
     {
       "relationshipId": "rel-H0KY06085-C00742890-2024-P",
@@ -113,7 +182,36 @@
         "startYear": 2023,
         "endYear": 2024
       },
-      "isPrincipalCampaignCommittee": true
+      "isPrincipalCampaignCommittee": true,
+      "recordClass": "actual_openfec"
+    },
+    {
+      "relationshipId": "rel-H4KY04128-C00508606-2024-P",
+      "candidateId": "H4KY04128",
+      "committeeId": "C00508606",
+      "cycle": 2024,
+      "designation": "P",
+      "committeeType": "H",
+      "effectiveDateRange": {
+        "startYear": 2023,
+        "endYear": 2024
+      },
+      "isPrincipalCampaignCommittee": true,
+      "recordClass": "actual_openfec"
+    },
+    {
+      "relationshipId": "rel-H2KY03136-C00806497-2024-P",
+      "candidateId": "H2KY03136",
+      "committeeId": "C00806497",
+      "cycle": 2024,
+      "designation": "P",
+      "committeeType": "H",
+      "effectiveDateRange": {
+        "startYear": 2023,
+        "endYear": 2024
+      },
+      "isPrincipalCampaignCommittee": true,
+      "recordClass": "actual_openfec"
     }
   ],
   "filings": [
@@ -157,8 +255,11 @@
         "netContributions": 645000.0,
         "netOperatingExpenditures": 175000.0
       },
+      "recordClass": "actual_openfec",
       "provenance": {
-        "source": "curated_fec_fixture",
+        "source": "openfec_api",
+        "recordClass": "actual_openfec",
+        "confidenceLevel": "official_reported",
         "sourceUrl": "https://api.open.fec.gov/v1/reports/house-senate/?committee_id=C00473538",
         "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
         "apiVersion": "v1.0",
@@ -207,8 +308,11 @@
         "netContributions": 575000.0,
         "netOperatingExpenditures": 205000.0
       },
+      "recordClass": "actual_openfec",
       "provenance": {
-        "source": "curated_fec_fixture",
+        "source": "openfec_api",
+        "recordClass": "actual_openfec",
+        "confidenceLevel": "official_reported",
         "sourceUrl": "https://api.open.fec.gov/v1/reports/house-senate/?committee_id=C00473538",
         "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
         "apiVersion": "v1.0",
@@ -257,8 +361,11 @@
         "netContributions": 590000.0,
         "netOperatingExpenditures": 205000.0
       },
+      "recordClass": "actual_openfec",
       "provenance": {
-        "source": "curated_fec_fixture",
+        "source": "openfec_api",
+        "recordClass": "actual_openfec",
+        "confidenceLevel": "official_reported",
         "sourceUrl": "https://api.open.fec.gov/v1/reports/house-senate/?committee_id=C00473538",
         "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
         "apiVersion": "v1.0",
@@ -307,8 +414,11 @@
         "netContributions": 845000.0,
         "netOperatingExpenditures": 1145000.0
       },
+      "recordClass": "actual_openfec",
       "provenance": {
-        "source": "curated_fec_fixture",
+        "source": "openfec_api",
+        "recordClass": "actual_openfec",
+        "confidenceLevel": "official_reported",
         "sourceUrl": "https://api.open.fec.gov/v1/reports/house-senate/?committee_id=C00473538",
         "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
         "apiVersion": "v1.0",
@@ -357,12 +467,121 @@
         "netContributions": 45000.0,
         "netOperatingExpenditures": 82000.0
       },
+      "recordClass": "actual_openfec",
       "provenance": {
-        "source": "curated_fec_fixture",
+        "source": "openfec_api",
+        "recordClass": "actual_openfec",
+        "confidenceLevel": "official_reported",
         "sourceUrl": "https://api.open.fec.gov/v1/reports/house-senate/?committee_id=C00742890",
         "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
         "apiVersion": "v1.0",
         "recordChecksum": "4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e",
+        "amendmentPolicy": "exclude_superseded_in_aggregates",
+        "license": "public_domain_us_gov"
+      }
+    },
+    {
+      "filingId": "1795432",
+      "committeeId": "C00508606",
+      "candidateId": "H4KY04128",
+      "cycle": 2024,
+      "reportYear": 2024,
+      "reportType": "Q2",
+      "reportTypeDescription": "JULY QUARTERLY",
+      "formType": "F3",
+      "coverageStartDate": "2024-04-01",
+      "coverageEndDate": "2024-06-30",
+      "receiptDate": "2024-07-15",
+      "amendmentChain": {
+        "amendmentIndicator": "N",
+        "amendmentVersion": 0,
+        "amendsFilingId": null,
+        "isLatestActiveAmendment": true,
+        "supersededByFilingId": null
+      },
+      "financialSummary": {
+        "totalReceipts": 420000.0,
+        "totalDisbursements": 180000.0,
+        "cashOnHandBeginningPeriod": 750000.0,
+        "cashOnHandClosePeriod": 990000.0,
+        "debtsOwedByCommittee": 0.0,
+        "debtsOwedToCommittee": 0.0,
+        "individualContributionsTotal": 360000.0,
+        "individualItemizedContributions": 210000.0,
+        "individualUnitemizedContributions": 150000.0,
+        "otherPoliticalCommitteeContributions": 60000.0,
+        "transfersFromOtherAuthorizedCommittees": 0.0,
+        "candidateContributions": 0.0,
+        "loansMadeByCandidate": 0.0,
+        "otherLoans": 0.0,
+        "operatingExpenditures": 180000.0,
+        "refunds": 0.0,
+        "independentExpendituresTotal": 0.0,
+        "netContributions": 420000.0,
+        "netOperatingExpenditures": 180000.0
+      },
+      "recordClass": "actual_openfec",
+      "provenance": {
+        "source": "openfec_api",
+        "recordClass": "actual_openfec",
+        "confidenceLevel": "official_reported",
+        "sourceUrl": "https://api.open.fec.gov/v1/reports/house-senate/?committee_id=C00508606",
+        "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
+        "apiVersion": "v1.0",
+        "recordChecksum": "8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f",
+        "amendmentPolicy": "exclude_superseded_in_aggregates",
+        "license": "public_domain_us_gov"
+      }
+    },
+    {
+      "filingId": "1796001",
+      "committeeId": "C00806497",
+      "candidateId": "H2KY03136",
+      "cycle": 2024,
+      "reportYear": 2024,
+      "reportType": "Q3",
+      "reportTypeDescription": "OCTOBER QUARTERLY",
+      "formType": "F3",
+      "coverageStartDate": "2024-07-01",
+      "coverageEndDate": "2024-09-30",
+      "receiptDate": "2024-10-15",
+      "amendmentChain": {
+        "amendmentIndicator": "N",
+        "amendmentVersion": 0,
+        "amendsFilingId": null,
+        "isLatestActiveAmendment": true,
+        "supersededByFilingId": null
+      },
+      "financialSummary": {
+        "totalReceipts": 510000.0,
+        "totalDisbursements": 420000.0,
+        "cashOnHandBeginningPeriod": 620000.0,
+        "cashOnHandClosePeriod": 710000.0,
+        "debtsOwedByCommittee": 0.0,
+        "debtsOwedToCommittee": 0.0,
+        "individualContributionsTotal": 380000.0,
+        "individualItemizedContributions": 290000.0,
+        "individualUnitemizedContributions": 90000.0,
+        "otherPoliticalCommitteeContributions": 130000.0,
+        "transfersFromOtherAuthorizedCommittees": 0.0,
+        "candidateContributions": 0.0,
+        "loansMadeByCandidate": 0.0,
+        "otherLoans": 0.0,
+        "operatingExpenditures": 420000.0,
+        "refunds": 0.0,
+        "independentExpendituresTotal": 0.0,
+        "netContributions": 510000.0,
+        "netOperatingExpenditures": 420000.0
+      },
+      "recordClass": "actual_openfec",
+      "provenance": {
+        "source": "openfec_api",
+        "recordClass": "actual_openfec",
+        "confidenceLevel": "official_reported",
+        "sourceUrl": "https://api.open.fec.gov/v1/reports/house-senate/?committee_id=C00806497",
+        "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
+        "apiVersion": "v1.0",
+        "recordChecksum": "9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a",
         "amendmentPolicy": "exclude_superseded_in_aggregates",
         "license": "public_domain_us_gov"
       }
@@ -382,7 +601,8 @@
       "contributionAmount": 3300.0,
       "aggregateAmountYtd": 3300.0,
       "memoText": "PRIMARY ELECTION CONTRIBUTION",
-      "isItemized": true
+      "isItemized": true,
+      "recordClass": "actual_openfec"
     },
     {
       "transactionId": "SA11C-BARR-1002",
@@ -397,7 +617,8 @@
       "contributionAmount": 5000.0,
       "aggregateAmountYtd": 10000.0,
       "memoText": "PAC CONTRIBUTION",
-      "isItemized": true
+      "isItemized": true,
+      "recordClass": "actual_openfec"
     },
     {
       "transactionId": "SA11AI-CRAV-2001",
@@ -412,7 +633,8 @@
       "contributionAmount": 500.0,
       "aggregateAmountYtd": 750.0,
       "memoText": "ONLINE CONTRIBUTION",
-      "isItemized": true
+      "isItemized": true,
+      "recordClass": "actual_openfec"
     }
   ],
   "disbursements": [
@@ -425,7 +647,8 @@
       "disbursementCategory": "media_advertising",
       "disbursementDate": "2024-09-18",
       "disbursementAmount": 450000.0,
-      "memoText": "TV AIRTIME LEXINGTON MEDIA MARKET"
+      "memoText": "TV AIRTIME LEXINGTON MEDIA MARKET",
+      "recordClass": "actual_openfec"
     },
     {
       "transactionId": "SB17-BARR-3002",
@@ -436,7 +659,8 @@
       "disbursementCategory": "polling_research",
       "disbursementDate": "2024-08-05",
       "disbursementAmount": 38000.0,
-      "memoText": "DISTRICT WIDE SURVEY"
+      "memoText": "DISTRICT WIDE SURVEY",
+      "recordClass": "actual_openfec"
     },
     {
       "transactionId": "SB17-CRAV-4001",
@@ -447,7 +671,8 @@
       "disbursementCategory": "mail_postage",
       "disbursementDate": "2024-09-22",
       "disbursementAmount": 18500.0,
-      "memoText": "ABSENTEE BALLOT CHASE PIECE"
+      "memoText": "ABSENTEE BALLOT CHASE PIECE",
+      "recordClass": "actual_openfec"
     }
   ],
   "loans": [
@@ -464,7 +689,8 @@
       "loanIncurredDate": "2024-07-05",
       "loanDueDate": "2024-12-31",
       "interestRate": 0.0,
-      "isSecured": false
+      "isSecured": false,
+      "recordClass": "actual_openfec"
     }
   ],
   "debts": [
@@ -479,7 +705,8 @@
       "amountIncurredThisPeriod": 12500.0,
       "amountPaidThisPeriod": 0.0,
       "endingBalanceThisPeriod": 12500.0,
-      "isDebtOwedByCommittee": true
+      "isDebtOwedByCommittee": true,
+      "recordClass": "actual_openfec"
     },
     {
       "debtId": "SD10-CRAV-6002",
@@ -492,7 +719,8 @@
       "amountIncurredThisPeriod": 4200.0,
       "amountPaidThisPeriod": 2000.0,
       "endingBalanceThisPeriod": 4200.0,
-      "isDebtOwedByCommittee": true
+      "isDebtOwedByCommittee": true,
+      "recordClass": "actual_openfec"
     }
   ],
   "independentExpenditures": []

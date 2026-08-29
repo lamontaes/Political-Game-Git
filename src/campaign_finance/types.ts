@@ -3,12 +3,21 @@
  *
  * Provides normalized domain models for federal candidates, committees,
  * filings/reports, itemized receipts/disbursements, loans, debts, and independent
- * expenditures, with strict amendment chain tracking and calibration outputs.
+ * expenditures, with strict source vs synthetic classification, amendment chain tracking,
+ * and empirical calibration outputs.
  */
 
 export type FecOffice = "H" | "S" | "P"; // House, Senate, Presidential
 
 export type FecIncumbentStatus = "I" | "C" | "O" | "U"; // Incumbent, Challenger, Open, Unknown
+
+export type FecRecordClass =
+  | "actual_openfec" // Direct authentic observation from official OpenFEC disclosure
+  | "transformed_official" // Derived / standardized from official OpenFEC reports
+  | "synthetic_fixture"; // Deterministic fixture constructed for unit testing
+
+export type FecConfidenceLevel =
+  "official_reported" | "audited_fec" | "synthetic_test";
 
 export type FecCommitteeType =
   | "H" // House Authorized/Principal
@@ -75,13 +84,19 @@ export type FecDebtCategory =
 export type FecSupportOppose = "S" | "O"; // Support or Oppose
 
 export interface FecProvenance {
-  source: "openfec_api" | "fec_bulk_data" | "curated_fec_fixture";
+  source:
+    | "openfec_api"
+    | "fec_bulk_data"
+    | "curated_fec_fixture"
+    | "synthetic_test_fixture";
+  recordClass: FecRecordClass;
+  confidenceLevel: FecConfidenceLevel;
   sourceUrl: string;
   retrievalTimestamp: string;
   apiVersion: string;
   recordChecksum: string;
   amendmentPolicy: "exclude_superseded_in_aggregates";
-  license: "public_domain_us_gov";
+  license: "public_domain_us_gov" | "synthetic_test_fixture";
 }
 
 export interface FecCandidate {
@@ -95,6 +110,7 @@ export interface FecCandidate {
   cycles: number[]; // e.g. [2020, 2022, 2024]
   incumbentChallengeStatus: FecIncumbentStatus;
   principalCampaignCommitteeId: string; // e.g. "C00473538"
+  recordClass: FecRecordClass;
   flags: {
     isFederalCandidate: boolean;
     hasActivePcc: boolean;
@@ -113,6 +129,7 @@ export interface FecCommittee {
   treasurerName: string;
   sponsorCandidateId: string | null;
   cycles: number[];
+  recordClass: FecRecordClass;
 }
 
 export interface CandidateCommitteeRelationship {
@@ -127,6 +144,7 @@ export interface CandidateCommitteeRelationship {
     endYear: number;
   };
   isPrincipalCampaignCommittee: boolean;
+  recordClass: FecRecordClass;
 }
 
 export interface FecFinancialSummary {
@@ -173,6 +191,7 @@ export interface FecFilingReport {
   receiptDate: string; // ISO YYYY-MM-DD or timestamp
   amendmentChain: FecAmendmentChain;
   financialSummary: FecFinancialSummary;
+  recordClass: FecRecordClass;
   provenance: FecProvenance;
 }
 
@@ -190,6 +209,7 @@ export interface FecReceiptItem {
   aggregateAmountYtd: number;
   memoText: string | null;
   isItemized: boolean;
+  recordClass: FecRecordClass;
 }
 
 export interface FecDisbursementItem {
@@ -202,6 +222,7 @@ export interface FecDisbursementItem {
   disbursementDate: string; // ISO YYYY-MM-DD
   disbursementAmount: number;
   memoText: string | null;
+  recordClass: FecRecordClass;
 }
 
 export interface FecLoanRecord {
@@ -218,6 +239,7 @@ export interface FecLoanRecord {
   loanDueDate: string | null;
   interestRate: number | null;
   isSecured: boolean;
+  recordClass: FecRecordClass;
 }
 
 export interface FecDebtRecord {
@@ -232,6 +254,7 @@ export interface FecDebtRecord {
   amountPaidThisPeriod: number;
   endingBalanceThisPeriod: number;
   isDebtOwedByCommittee: boolean;
+  recordClass: FecRecordClass;
 }
 
 export interface FecIndependentExpenditure {
@@ -250,6 +273,7 @@ export interface FecIndependentExpenditure {
   disseminationDate: string; // ISO YYYY-MM-DD
   amount: number;
   purpose: string;
+  recordClass: FecRecordClass;
 }
 
 export interface FecCampaignFinanceCorpus {

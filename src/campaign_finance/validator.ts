@@ -2,7 +2,8 @@
  * Campaign Finance Corpus Validator
  *
  * Enforces schema compliance, ID syntax, amendment graph invariants,
- * arithmetic consistency, cycle boundaries, and zero secret leakage.
+ * arithmetic consistency, cycle boundaries, candidate office math,
+ * source-vs-synthetic classification integrity, and zero secret leakage.
  */
 
 import {
@@ -25,8 +26,18 @@ export function validateCampaignFinanceCorpus(
   const errors: string[] = [];
   const warnings: string[] = [];
 
-  // 1. Candidate Validation
+  const validRecordClasses = new Set([
+    "actual_openfec",
+    "transformed_official",
+    "synthetic_fixture",
+  ]);
+
+  // 1. Candidate Validation & Math Checks
   const candidateIds = new Set<string>();
+  let houseCount = 0;
+  let senateCount = 0;
+  let presCount = 0;
+
   for (const cand of corpus.candidates) {
     if (!isValidCandidateId(cand.candidateId)) {
       errors.push(`Invalid candidate ID format: "${cand.candidateId}"`);
@@ -40,7 +51,18 @@ export function validateCampaignFinanceCorpus(
       errors.push(
         `Candidate ${cand.candidateId} has invalid office: "${cand.office}"`,
       );
+    } else {
+      if (cand.office === "H") houseCount++;
+      else if (cand.office === "S") senateCount++;
+      else if (cand.office === "P") presCount++;
     }
+
+    if (!validRecordClasses.has(cand.recordClass)) {
+      errors.push(
+        `Candidate ${cand.candidateId} has invalid recordClass: "${cand.recordClass}"`,
+      );
+    }
+
     for (const cy of cand.cycles) {
       if (!isValidElectionCycle(cy)) {
         errors.push(
@@ -48,6 +70,13 @@ export function validateCampaignFinanceCorpus(
         );
       }
     }
+  }
+
+  // Exact math check
+  if (houseCount + senateCount + presCount !== corpus.candidates.length) {
+    errors.push(
+      `Candidate office breakdown arithmetic mismatch: House (${houseCount}) + Senate (${senateCount}) + Pres (${presCount}) !== Total (${corpus.candidates.length})`,
+    );
   }
 
   // 2. Committee Validation
@@ -60,6 +89,12 @@ export function validateCampaignFinanceCorpus(
       errors.push(`Duplicate committee ID: "${com.committeeId}"`);
     }
     committeeIds.add(com.committeeId);
+
+    if (!validRecordClasses.has(com.recordClass)) {
+      errors.push(
+        `Committee ${com.committeeId} has invalid recordClass: "${com.recordClass}"`,
+      );
+    }
 
     for (const cy of com.cycles) {
       if (!isValidElectionCycle(cy)) {
@@ -85,6 +120,11 @@ export function validateCampaignFinanceCorpus(
     if (!isValidElectionCycle(rel.cycle)) {
       errors.push(
         `Relationship ${rel.relationshipId} has invalid cycle: ${rel.cycle}`,
+      );
+    }
+    if (!validRecordClasses.has(rel.recordClass)) {
+      errors.push(
+        `Relationship ${rel.relationshipId} has invalid recordClass: "${rel.recordClass}"`,
       );
     }
   }
@@ -116,6 +156,12 @@ export function validateCampaignFinanceCorpus(
 
     if (!isValidElectionCycle(f.cycle)) {
       errors.push(`Filing ${f.filingId} has invalid cycle: ${f.cycle}`);
+    }
+
+    if (!validRecordClasses.has(f.recordClass)) {
+      errors.push(
+        `Filing ${f.filingId} has invalid recordClass: "${f.recordClass}"`,
+      );
     }
 
     // Check financial numbers
@@ -154,6 +200,11 @@ export function validateCampaignFinanceCorpus(
         `Receipt ${r.transactionId} references missing committee: ${r.committeeId}`,
       );
     }
+    if (!validRecordClasses.has(r.recordClass)) {
+      errors.push(
+        `Receipt ${r.transactionId} has invalid recordClass: "${r.recordClass}"`,
+      );
+    }
   }
 
   // 6. Itemized Disbursements
@@ -166,6 +217,11 @@ export function validateCampaignFinanceCorpus(
     if (!committeeIds.has(d.committeeId)) {
       errors.push(
         `Disbursement ${d.transactionId} references missing committee: ${d.committeeId}`,
+      );
+    }
+    if (!validRecordClasses.has(d.recordClass)) {
+      errors.push(
+        `Disbursement ${d.transactionId} has invalid recordClass: "${d.recordClass}"`,
       );
     }
   }
@@ -187,6 +243,11 @@ export function validateCampaignFinanceCorpus(
         `Loan ${loan.loanId} has negative balance: ${loan.loanBalanceRemaining}`,
       );
     }
+    if (!validRecordClasses.has(loan.recordClass)) {
+      errors.push(
+        `Loan ${loan.loanId} has invalid recordClass: "${loan.recordClass}"`,
+      );
+    }
   }
 
   for (const debt of corpus.debts) {
@@ -203,6 +264,11 @@ export function validateCampaignFinanceCorpus(
     if (debt.endingBalanceThisPeriod < 0) {
       errors.push(
         `Debt ${debt.debtId} has negative balance: ${debt.endingBalanceThisPeriod}`,
+      );
+    }
+    if (!validRecordClasses.has(debt.recordClass)) {
+      errors.push(
+        `Debt ${debt.debtId} has invalid recordClass: "${debt.recordClass}"`,
       );
     }
   }
@@ -227,6 +293,11 @@ export function validateCampaignFinanceCorpus(
     if (ie.amount <= 0) {
       errors.push(
         `Independent Expenditure ${ie.expenditureId} has non-positive amount: ${ie.amount}`,
+      );
+    }
+    if (!validRecordClasses.has(ie.recordClass)) {
+      errors.push(
+        `Independent Expenditure ${ie.expenditureId} has invalid recordClass: "${ie.recordClass}"`,
       );
     }
   }

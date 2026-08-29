@@ -1,31 +1,38 @@
 {
   "schemaVersion": "1.0.0",
+  "calibrationMode": "empirical",
   "vintage": "2024-OpenFEC",
-  "generatedAt": "2026-08-28T18:00:00.000Z",
+  "generatedAt": "2026-08-29T12:00:00.000Z",
+  "sourceCoverage": {
+    "actualOpenFecFilings": 15,
+    "transformedOfficialFilings": 0,
+    "syntheticFixtureFilings": 1,
+    "empiricalOnly": true
+  },
   "fundraisingBenchmarks": [
     {
       "office": "H",
       "category": "all",
-      "sampleSize": 2,
-      "medianReceipts": 1255000,
-      "p25Receipts": 675000,
-      "p75Receipts": 1835000,
-      "p90Receipts": 2183000,
-      "meanReceipts": 1255000,
-      "medianDisbursements": 951000,
-      "meanDisbursements": 951000
+      "sampleSize": 4,
+      "medianReceipts": 465000,
+      "p25Receipts": 338750,
+      "p75Receipts": 906250,
+      "p90Receipts": 1619500,
+      "meanReceipts": 780000,
+      "medianDisbursements": 300000,
+      "meanDisbursements": 555500
     },
     {
       "office": "H",
       "category": "incumbent",
-      "sampleSize": 1,
-      "medianReceipts": 2415000,
-      "p25Receipts": 2415000,
-      "p75Receipts": 2415000,
-      "p90Receipts": 2415000,
-      "meanReceipts": 2415000,
-      "medianDisbursements": 1820000,
-      "meanDisbursements": 1820000
+      "sampleSize": 3,
+      "medianReceipts": 510000,
+      "p25Receipts": 465000,
+      "p75Receipts": 1302500,
+      "p90Receipts": 1778000,
+      "meanReceipts": 1008333,
+      "medianDisbursements": 420000,
+      "meanDisbursements": 713333
     },
     {
       "office": "H",
@@ -42,62 +49,62 @@
     {
       "office": "S",
       "category": "all",
-      "sampleSize": 2,
-      "medianReceipts": 26250000,
-      "p25Receipts": 20925000,
-      "p75Receipts": 31575000,
-      "p90Receipts": 34770000,
-      "meanReceipts": 26250000,
-      "medianDisbursements": 30950000,
-      "meanDisbursements": 30950000
+      "sampleSize": 4,
+      "medianReceipts": 10400000,
+      "p25Receipts": 4255000,
+      "p75Receipts": 20925000,
+      "p90Receipts": 30510000,
+      "meanReceipts": 14780000,
+      "medianDisbursements": 14300000,
+      "meanDisbursements": 17145000
     },
     {
       "office": "S",
       "category": "incumbent",
-      "sampleSize": 1,
-      "medianReceipts": 15600000,
-      "p25Receipts": 15600000,
-      "p75Receipts": 15600000,
-      "p90Receipts": 15600000,
-      "meanReceipts": 15600000,
-      "medianDisbursements": 19800000,
-      "meanDisbursements": 19800000
+      "sampleSize": 2,
+      "medianReceipts": 10400000,
+      "p25Receipts": 7800000,
+      "p75Receipts": 13000000,
+      "p90Receipts": 14560000,
+      "meanReceipts": 10400000,
+      "medianDisbursements": 14300000,
+      "meanDisbursements": 14300000
     },
     {
       "office": "S",
       "category": "challenger",
-      "sampleSize": 1,
-      "medianReceipts": 36900000,
-      "p25Receipts": 36900000,
-      "p75Receipts": 36900000,
-      "p90Receipts": 36900000,
-      "meanReceipts": 36900000,
-      "medianDisbursements": 42100000,
-      "meanDisbursements": 42100000
+      "sampleSize": 2,
+      "medianReceipts": 19160000,
+      "p25Receipts": 10290000,
+      "p75Receipts": 28030000,
+      "p90Receipts": 33352000,
+      "meanReceipts": 19160000,
+      "medianDisbursements": 19990000,
+      "meanDisbursements": 19990000
     },
     {
       "office": "P",
       "category": "all",
-      "sampleSize": 1,
-      "medianReceipts": 82000000,
-      "p25Receipts": 82000000,
-      "p75Receipts": 82000000,
-      "p90Receipts": 82000000,
-      "meanReceipts": 82000000,
-      "medianDisbursements": 95000000,
-      "meanDisbursements": 95000000
+      "sampleSize": 2,
+      "medianReceipts": 49350000,
+      "p25Receipts": 46925000,
+      "p75Receipts": 51775000,
+      "p90Receipts": 53230000,
+      "meanReceipts": 49350000,
+      "medianDisbursements": 54650000,
+      "meanDisbursements": 54650000
     },
     {
       "office": "P",
-      "category": "open_seat",
-      "sampleSize": 1,
-      "medianReceipts": 82000000,
-      "p25Receipts": 82000000,
-      "p75Receipts": 82000000,
-      "p90Receipts": 82000000,
-      "meanReceipts": 82000000,
-      "medianDisbursements": 95000000,
-      "meanDisbursements": 95000000
+      "category": "incumbent",
+      "sampleSize": 2,
+      "medianReceipts": 49350000,
+      "p25Receipts": 46925000,
+      "p75Receipts": 51775000,
+      "p90Receipts": 53230000,
+      "meanReceipts": 49350000,
+      "medianDisbursements": 54650000,
+      "meanDisbursements": 54650000
     }
   ],
   "burnRatesByPhase": [
@@ -112,17 +119,17 @@
     {
       "phase": "primary_season",
       "phaseLabel": "Primary Season (Mobilization)",
-      "sampleReports": 0,
-      "medianBurnRate": 0,
-      "meanBurnRate": 0,
+      "sampleReports": 1,
+      "medianBurnRate": 0.429,
+      "meanBurnRate": 0.429,
       "description": "Primary campaign operations, early media buys, and voter contact."
     },
     {
       "phase": "general_sprint",
       "phaseLabel": "General Sprint (Peak Spend)",
-      "sampleReports": 7,
-      "medianBurnRate": 1.159,
-      "meanBurnRate": 1.18,
+      "sampleReports": 10,
+      "medianBurnRate": 1.197,
+      "meanBurnRate": 1.139,
       "description": "Heavy broadcast/digital advertising and spending down cash reserves."
     },
     {
@@ -135,44 +142,44 @@
     }
   ],
   "debtPrevalence": {
-    "sampleCommittees": 9,
-    "percentCommitteesWithDebt": 44.4,
-    "percentCommitteesWithCandidateLoans": 11.1,
-    "percentCommitteesWithVendorDebts": 44.4,
-    "medianDebtAmountWhenPresent": 152100,
-    "candidateLoanShareOfTotalDebt": 0.033,
-    "vendorDebtShareOfTotalDebt": 0.967,
-    "meanDebtToReceiptsRatio": 0.01
+    "sampleCommittees": 14,
+    "percentCommitteesWithDebt": 28.6,
+    "percentCommitteesWithCandidateLoans": 7.1,
+    "percentCommitteesWithVendorDebts": 28.6,
+    "medianDebtAmountWhenPresent": 89600,
+    "candidateLoanShareOfTotalDebt": 0.043,
+    "vendorDebtShareOfTotalDebt": 0.957,
+    "meanDebtToReceiptsRatio": 0.007
   },
   "donorDistributions": {
-    "sampleCommittees": 9,
-    "unitemizedSmallDollarShare": 0.261,
-    "itemizedIndividualShare": 0.409,
-    "pacContributionShare": 0.066,
+    "sampleCommittees": 14,
+    "unitemizedSmallDollarShare": 0.228,
+    "itemizedIndividualShare": 0.371,
+    "pacContributionShare": 0.04,
     "candidateSelfFundingShare": 0,
-    "transfersAndOtherShare": 0.263
+    "transfersAndOtherShare": 0.36
   },
   "independentExpenditures": {
     "sampleContests": 2,
-    "totalCandidateDisbursements": 158522000,
+    "totalCandidateDisbursements": 180102000,
     "totalIndependentExpenditures": 770000,
-    "outsideSpendingToCandidateSpendingRatio": 0.005,
+    "outsideSpendingToCandidateSpendingRatio": 0.004,
     "supportShareOfOutsideSpending": 0.584,
     "opposeShareOfOutsideSpending": 0.416
   },
   "committeeRelationships": {
-    "totalCandidates": 5,
+    "totalCandidates": 10,
     "percentCandidatesWithPcc": 100,
-    "percentCandidatesWithLeadershipPac": 20,
+    "percentCandidatesWithLeadershipPac": 10,
     "percentCandidatesWithJointFundraising": 0,
-    "averageCommitteesPerCandidate": 1.2
+    "averageCommitteesPerCandidate": 1.1
   },
   "filingCadence": {
-    "totalFilings": 11,
-    "quarterlyFilingsCount": 8,
-    "monthlyFilingsCount": 2,
+    "totalFilings": 15,
+    "quarterlyFilingsCount": 11,
+    "monthlyFilingsCount": 3,
     "preElectionBurstsCount": 0,
     "fastNoticeBurstsCount": 1,
-    "amendmentRatePercent": 9.1
+    "amendmentRatePercent": 6.7
   }
 }

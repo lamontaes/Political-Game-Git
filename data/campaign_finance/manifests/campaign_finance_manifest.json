@@ -1,19 +1,82 @@
 {
   "manifestVersion": "1.0.0",
-  "generatedAt": "2026-08-28T22:58:47.079Z",
+  "generatedAt": "2026-08-29T12:00:00.000Z",
   "vintage": "2024-OpenFEC-v1.0",
   "totals": {
-    "candidates": 5,
-    "committees": 9,
-    "relationships": 6,
-    "filings": 11,
-    "activeFilings": 10,
+    "candidates": 11,
+    "committees": 15,
+    "relationships": 12,
+    "filings": 16,
+    "activeFilings": 15,
     "supersededFilings": 1,
-    "receipts": 7,
-    "disbursements": 8,
+    "receipts": 6,
+    "disbursements": 6,
     "loans": 1,
     "debts": 4,
     "independentExpenditures": 2
+  },
+  "sourceVsSyntheticInventory": {
+    "candidates": {
+      "actualOpenFec": 10,
+      "transformedOfficial": 0,
+      "syntheticFixture": 1,
+      "total": 11
+    },
+    "committees": {
+      "actualOpenFec": 14,
+      "transformedOfficial": 0,
+      "syntheticFixture": 1,
+      "total": 15
+    },
+    "relationships": {
+      "actualOpenFec": 11,
+      "transformedOfficial": 0,
+      "syntheticFixture": 1,
+      "total": 12
+    },
+    "filings": {
+      "actualOpenFec": 15,
+      "transformedOfficial": 0,
+      "syntheticFixture": 1,
+      "total": 16
+    },
+    "receipts": {
+      "actualOpenFec": 6,
+      "transformedOfficial": 0,
+      "syntheticFixture": 0,
+      "total": 6
+    },
+    "disbursements": {
+      "actualOpenFec": 6,
+      "transformedOfficial": 0,
+      "syntheticFixture": 0,
+      "total": 6
+    },
+    "loans": {
+      "actualOpenFec": 1,
+      "transformedOfficial": 0,
+      "syntheticFixture": 0,
+      "total": 1
+    },
+    "debts": {
+      "actualOpenFec": 4,
+      "transformedOfficial": 0,
+      "syntheticFixture": 0,
+      "total": 4
+    },
+    "independentExpenditures": {
+      "actualOpenFec": 2,
+      "transformedOfficial": 0,
+      "syntheticFixture": 0,
+      "total": 2
+    },
+    "aggregateAllEntities": {
+      "actualOpenFec": 69,
+      "transformedOfficial": 0,
+      "syntheticFixture": 4,
+      "total": 73,
+      "empiricalSharePercent": 94.5
+    }
   },
   "coverage": {
     "cycles": [
@@ -23,29 +86,32 @@
       2026
     ],
     "offices": {
-      "houseCandidates": 2,
-      "senateCandidates": 2,
-      "presidentialCandidates": 1
+      "houseCandidates": 5,
+      "senateCandidates": 4,
+      "presidentialCandidates": 2,
+      "totalCandidates": 11,
+      "mathCheckPassed": true
     },
     "committeeTypes": {
-      "X": 1,
-      "S": 2,
-      "W": 2,
-      "H": 2,
+      "X": 2,
+      "S": 4,
+      "H": 5,
       "O": 1,
-      "P": 1
+      "W": 1,
+      "P": 2
     },
     "statesRepresented": [
       "DC",
+      "DE",
       "KY",
       "US",
       "VA"
     ]
   },
   "integrity": {
-    "corpusChecksum": "f10c5de988ce777aa9b3472948174083ac3ce62e115f6f69a0b1f7f73c37dc8d",
-    "totalActiveReceiptsVolume": 151210000,
-    "totalActiveDisbursementsVolume": 178072000,
+    "corpusChecksum": "4458b17f9b03c0356127587124abc20f1b822d659636c159df58193143bd144e",
+    "totalActiveReceiptsVolume": 173839999,
+    "totalActiveDisbursementsVolume": 197360888,
     "totalIndependentExpendituresVolume": 770000
   }
 }

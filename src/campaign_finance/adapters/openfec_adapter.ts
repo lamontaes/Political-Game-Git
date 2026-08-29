@@ -20,6 +20,7 @@ import type {
   FecIndependentExpenditure,
   FecOffice,
   FecReceiptItem,
+  FecRecordClass,
   FecSupportOppose,
 } from "../types";
 
@@ -140,7 +141,10 @@ export interface RawOpenFecIndependentExpenditure {
   expenditure_description: string;
 }
 
-export function adaptCandidate(raw: RawOpenFecCandidate): FecCandidate {
+export function adaptCandidate(
+  raw: RawOpenFecCandidate,
+  recordClass: FecRecordClass = "actual_openfec",
+): FecCandidate {
   if (!isValidCandidateId(raw.candidate_id)) {
     throw new Error(`Invalid Candidate ID format: ${raw.candidate_id}`);
   }
@@ -180,6 +184,7 @@ export function adaptCandidate(raw: RawOpenFecCandidate): FecCandidate {
     cycles,
     incumbentChallengeStatus,
     principalCampaignCommitteeId: pcc,
+    recordClass,
     flags: {
       isFederalCandidate: true,
       hasActivePcc: Boolean(pcc),
@@ -187,7 +192,10 @@ export function adaptCandidate(raw: RawOpenFecCandidate): FecCandidate {
   };
 }
 
-export function adaptCommittee(raw: RawOpenFecCommittee): FecCommittee {
+export function adaptCommittee(
+  raw: RawOpenFecCommittee,
+  recordClass: FecRecordClass = "actual_openfec",
+): FecCommittee {
   if (!isValidCommitteeId(raw.committee_id)) {
     throw new Error(`Invalid Committee ID format: ${raw.committee_id}`);
   }
@@ -245,6 +253,7 @@ export function adaptCommittee(raw: RawOpenFecCommittee): FecCommittee {
       raw.cycles && raw.cycles.length > 0
         ? [...raw.cycles].sort((a, b) => a - b)
         : [2024],
+    recordClass,
   };
 }
 
@@ -252,6 +261,7 @@ export function adaptCandidateCommitteeRelationship(
   candidate: FecCandidate,
   committee: FecCommittee,
   cycle: number,
+  recordClass: FecRecordClass = "actual_openfec",
 ): CandidateCommitteeRelationship {
   const isPcc =
     candidate.principalCampaignCommitteeId === committee.committeeId ||
@@ -268,12 +278,14 @@ export function adaptCandidateCommitteeRelationship(
       endYear: cycle,
     },
     isPrincipalCampaignCommittee: isPcc,
+    recordClass,
   };
 }
 
 export function adaptReport(
   raw: RawOpenFecReport,
   sourceUrl = "https://api.open.fec.gov/v1/reports/",
+  recordClass: FecRecordClass = "actual_openfec",
 ): FecFilingReport {
   const filingId = String(raw.file_number);
   const ind = (raw.amendment_indicator?.toUpperCase() || "N") as
@@ -348,7 +360,14 @@ export function adaptReport(
           Number(raw.operating_expenditures || totalDisbursements),
       ),
     },
-    provenance: createFecProvenance(sourceUrl, checksum, "openfec_api"),
+    recordClass,
+    provenance: createFecProvenance(
+      sourceUrl,
+      checksum,
+      "openfec_api",
+      recordClass,
+      "official_reported",
+    ),
   };
 }
 
@@ -409,6 +428,7 @@ function categorizeDisbursement(purpose: string): FecDisbursementCategory {
 
 export function adaptDisbursement(
   raw: RawOpenFecDisbursement,
+  recordClass: FecRecordClass = "actual_openfec",
 ): FecDisbursementItem {
   return {
     transactionId:
@@ -423,10 +443,14 @@ export function adaptDisbursement(
     disbursementDate: raw.disbursement_date.substring(0, 10),
     disbursementAmount: Number(raw.disbursement_amount),
     memoText: raw.memo_text || null,
+    recordClass,
   };
 }
 
-export function adaptReceipt(raw: RawOpenFecReceipt): FecReceiptItem {
+export function adaptReceipt(
+  raw: RawOpenFecReceipt,
+  recordClass: FecRecordClass = "actual_openfec",
+): FecReceiptItem {
   const entityType = raw.entity_type?.toUpperCase();
   let contributorType:
     "individual" | "pac" | "party" | "candidate" | "transfer" | "other" =
@@ -458,11 +482,13 @@ export function adaptReceipt(raw: RawOpenFecReceipt): FecReceiptItem {
     ),
     memoText: raw.memo_text || null,
     isItemized,
+    recordClass,
   };
 }
 
 export function adaptIndependentExpenditure(
   raw: RawOpenFecIndependentExpenditure,
+  recordClass: FecRecordClass = "actual_openfec",
 ): FecIndependentExpenditure {
   const office = (raw.candidate_office?.toUpperCase() ||
     raw.candidate_id?.charAt(0) ||
@@ -494,5 +520,6 @@ export function adaptIndependentExpenditure(
     ).substring(0, 10),
     amount: Number(raw.expenditure_amount),
     purpose: raw.expenditure_description.toUpperCase(),
+    recordClass,
   };
 }

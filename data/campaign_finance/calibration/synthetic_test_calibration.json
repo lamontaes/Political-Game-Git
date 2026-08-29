@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "1.0.0",
+  "calibrationMode": "synthetic_test",
+  "vintage": "2024-OpenFEC",
+  "generatedAt": "2026-08-29T12:00:00.000Z",
+  "sourceCoverage": {
+    "actualOpenFecFilings": 15,
+    "transformedOfficialFilings": 0,
+    "syntheticFixtureFilings": 1,
+    "empiricalOnly": false
+  },
+  "fundraisingBenchmarks": [
+    {
+      "office": "H",
+      "category": "all",
+      "sampleSize": 1,
+      "medianReceipts": 99999,
+      "p25Receipts": 99999,
+      "p75Receipts": 99999,
+      "p90Receipts": 99999,
+      "meanReceipts": 99999,
+      "medianDisbursements": 88888,
+      "meanDisbursements": 88888
+    },
+    {
+      "office": "H",
+      "category": "open_seat",
+      "sampleSize": 1,
+      "medianReceipts": 99999,
+      "p25Receipts": 99999,
+      "p75Receipts": 99999,
+      "p90Receipts": 99999,
+      "meanReceipts": 99999,
+      "medianDisbursements": 88888,
+      "meanDisbursements": 88888
+    }
+  ],
+  "burnRatesByPhase": [
+    {
+      "phase": "early_off_year",
+      "phaseLabel": "Early Off-Year (Foundation)",
+      "sampleReports": 0,
+      "medianBurnRate": 0,
+      "meanBurnRate": 0,
+      "description": "Off-year fundraising focus with staff, consulting, and initial overhead."
+    },
+    {
+      "phase": "primary_season",
+      "phaseLabel": "Primary Season (Mobilization)",
+      "sampleReports": 1,
+      "medianBurnRate": 0.889,
+      "meanBurnRate": 0.889,
+      "description": "Primary campaign operations, early media buys, and voter contact."
+    },
+    {
+      "phase": "general_sprint",
+      "phaseLabel": "General Sprint (Peak Spend)",
+      "sampleReports": 0,
+      "medianBurnRate": 0,
+      "meanBurnRate": 0,
+      "description": "Heavy broadcast/digital advertising and spending down cash reserves."
+    },
+    {
+      "phase": "post_election_wind_down",
+      "phaseLabel": "Post-Election Wind-Down",
+      "sampleReports": 0,
+      "medianBurnRate": 0,
+      "meanBurnRate": 0,
+      "description": "Settling outstanding debts, compliance fees, and surplus management."
+    }
+  ],
+  "debtPrevalence": {
+    "sampleCommittees": 1,
+    "percentCommitteesWithDebt": 0,
+    "percentCommitteesWithCandidateLoans": 0,
+    "percentCommitteesWithVendorDebts": 0,
+    "medianDebtAmountWhenPresent": 5000,
+    "candidateLoanShareOfTotalDebt": 0,
+    "vendorDebtShareOfTotalDebt": 0,
+    "meanDebtToReceiptsRatio": 0
+  },
+  "donorDistributions": {
+    "sampleCommittees": 1,
+    "unitemizedSmallDollarShare": 0.2,
+    "itemizedIndividualShare": 0.3,
+    "pacContributionShare": 0.5,
+    "candidateSelfFundingShare": 0,
+    "transfersAndOtherShare": 0
+  },
+  "independentExpenditures": {
+    "sampleContests": 0,
+    "totalCandidateDisbursements": 88888,
+    "totalIndependentExpenditures": 0,
+    "outsideSpendingToCandidateSpendingRatio": 0,
+    "supportShareOfOutsideSpending": 0,
+    "opposeShareOfOutsideSpending": 0
+  },
+  "committeeRelationships": {
+    "totalCandidates": 1,
+    "percentCandidatesWithPcc": 100,
+    "percentCandidatesWithLeadershipPac": 0,
+    "percentCandidatesWithJointFundraising": 0,
+    "averageCommitteesPerCandidate": 1
+  },
+  "filingCadence": {
+    "totalFilings": 1,
+    "quarterlyFilingsCount": 1,
+    "monthlyFilingsCount": 0,
+    "preElectionBurstsCount": 0,
+    "fastNoticeBurstsCount": 0,
+    "amendmentRatePercent": 0
+  }
+}

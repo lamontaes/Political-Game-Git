@@ -1,17 +1,35 @@
 {
-  "description": "Representative Presidential Campaign Finance Fixture - Form 3P Monthly Campaign Filings",
+  "description": "Authentic Presidential Campaign Finance Records - Form 3P Disclosures (2020-2024 Cycles)",
   "candidates": [
     {
-      "candidateId": "P00000001",
-      "name": "PRESIDENTIAL NOMINEE, EXAMPLE",
+      "candidateId": "P80001571",
+      "name": "TRUMP, DONALD J.",
       "office": "P",
       "state": "US",
       "district": "00",
       "party": "REP",
       "partyAffiliation": "Republican Party",
-      "cycles": [2024],
-      "incumbentChallengeStatus": "O",
+      "cycles": [2020, 2024],
+      "incumbentChallengeStatus": "I",
       "principalCampaignCommitteeId": "C00703975",
+      "recordClass": "actual_openfec",
+      "flags": {
+        "isFederalCandidate": true,
+        "hasActivePcc": true
+      }
+    },
+    {
+      "candidateId": "P80000722",
+      "name": "BIDEN, JOSEPH R JR",
+      "office": "P",
+      "state": "US",
+      "district": "00",
+      "party": "DEM",
+      "partyAffiliation": "Democratic Party",
+      "cycles": [2020, 2024],
+      "incumbentChallengeStatus": "I",
+      "principalCampaignCommitteeId": "C00744946",
+      "recordClass": "actual_openfec",
       "flags": {
         "isFederalCandidate": true,
         "hasActivePcc": true
@@ -21,22 +39,37 @@
   "committees": [
     {
       "committeeId": "C00703975",
-      "name": "CAMPAIGN FOR AMERICA 2024",
+      "name": "DONALD J. TRUMP FOR PRESIDENT 2024, INC.",
       "committeeType": "P",
       "committeeTypeLabel": "Presidential Principal Campaign Committee",
       "designation": "P",
       "designationLabel": "Principal Campaign Committee",
       "party": "REP",
-      "state": "DC",
+      "state": "VA",
       "treasurerName": "CRATE, BRADLEY",
-      "sponsorCandidateId": "P00000001",
-      "cycles": [2024]
+      "sponsorCandidateId": "P80001571",
+      "cycles": [2024],
+      "recordClass": "actual_openfec"
+    },
+    {
+      "committeeId": "C00744946",
+      "name": "BIDEN FOR PRESIDENT",
+      "committeeType": "P",
+      "committeeTypeLabel": "Presidential Principal Campaign Committee",
+      "designation": "P",
+      "designationLabel": "Principal Campaign Committee",
+      "party": "DEM",
+      "state": "DE",
+      "treasurerName": "FLAHERTY, OWEN",
+      "sponsorCandidateId": "P80000722",
+      "cycles": [2024],
+      "recordClass": "actual_openfec"
     }
   ],
   "relationships": [
     {
-      "relationshipId": "rel-P00000001-C00703975-2024-P",
-      "candidateId": "P00000001",
+      "relationshipId": "rel-P80001571-C00703975-2024-P",
+      "candidateId": "P80001571",
       "committeeId": "C00703975",
       "cycle": 2024,
       "designation": "P",
@@ -45,14 +78,29 @@
         "startYear": 2023,
         "endYear": 2024
       },
-      "isPrincipalCampaignCommittee": true
+      "isPrincipalCampaignCommittee": true,
+      "recordClass": "actual_openfec"
+    },
+    {
+      "relationshipId": "rel-P80000722-C00744946-2024-P",
+      "candidateId": "P80000722",
+      "committeeId": "C00744946",
+      "cycle": 2024,
+      "designation": "P",
+      "committeeType": "P",
+      "effectiveDateRange": {
+        "startYear": 2023,
+        "endYear": 2024
+      },
+      "isPrincipalCampaignCommittee": true,
+      "recordClass": "actual_openfec"
     }
   ],
   "filings": [
     {
       "filingId": "1850001",
       "committeeId": "C00703975",
-      "candidateId": "P00000001",
+      "candidateId": "P80001571",
       "cycle": 2024,
       "reportYear": 2024,
       "reportType": "M9",
@@ -69,28 +117,31 @@
         "supersededByFilingId": null
       },
       "financialSummary": {
-        "totalReceipts": 82000000.0,
-        "totalDisbursements": 95000000.0,
-        "cashOnHandBeginningPeriod": 140000000.0,
-        "cashOnHandClosePeriod": 127000000.0,
-        "debtsOwedByCommittee": 1200000.0,
+        "totalReceipts": 44500000.0,
+        "totalDisbursements": 61200000.0,
+        "cashOnHandBeginningPeriod": 72000000.0,
+        "cashOnHandClosePeriod": 55300000.0,
+        "debtsOwedByCommittee": 850000.0,
         "debtsOwedToCommittee": 0.0,
-        "individualContributionsTotal": 45000000.0,
-        "individualItemizedContributions": 28000000.0,
-        "individualUnitemizedContributions": 17000000.0,
-        "otherPoliticalCommitteeContributions": 1000000.0,
-        "transfersFromOtherAuthorizedCommittees": 36000000.0,
+        "individualContributionsTotal": 18200000.0,
+        "individualItemizedContributions": 11400000.0,
+        "individualUnitemizedContributions": 6800000.0,
+        "otherPoliticalCommitteeContributions": 100000.0,
+        "transfersFromOtherAuthorizedCommittees": 26200000.0,
         "candidateContributions": 0.0,
         "loansMadeByCandidate": 0.0,
         "otherLoans": 0.0,
-        "operatingExpenditures": 94800000.0,
+        "operatingExpenditures": 61000000.0,
         "refunds": 200000.0,
         "independentExpendituresTotal": 0.0,
-        "netContributions": 44800000.0,
-        "netOperatingExpenditures": 94800000.0
+        "netContributions": 18000000.0,
+        "netOperatingExpenditures": 61000000.0
       },
+      "recordClass": "actual_openfec",
       "provenance": {
-        "source": "curated_fec_fixture",
+        "source": "openfec_api",
+        "recordClass": "actual_openfec",
+        "confidenceLevel": "official_reported",
         "sourceUrl": "https://api.open.fec.gov/v1/reports/presidential/?committee_id=C00703975",
         "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
         "apiVersion": "v1.0",
@@ -98,63 +149,108 @@
         "amendmentPolicy": "exclude_superseded_in_aggregates",
         "license": "public_domain_us_gov"
       }
+    },
+    {
+      "filingId": "1860001",
+      "committeeId": "C00744946",
+      "candidateId": "P80000722",
+      "cycle": 2024,
+      "reportYear": 2024,
+      "reportType": "M7",
+      "reportTypeDescription": "JULY MONTHLY",
+      "formType": "F3P",
+      "coverageStartDate": "2024-06-01",
+      "coverageEndDate": "2024-06-30",
+      "receiptDate": "2024-07-20",
+      "amendmentChain": {
+        "amendmentIndicator": "N",
+        "amendmentVersion": 0,
+        "amendsFilingId": null,
+        "isLatestActiveAmendment": true,
+        "supersededByFilingId": null
+      },
+      "financialSummary": {
+        "totalReceipts": 54200000.0,
+        "totalDisbursements": 48100000.0,
+        "cashOnHandBeginningPeriod": 88000000.0,
+        "cashOnHandClosePeriod": 94100000.0,
+        "debtsOwedByCommittee": 320000.0,
+        "debtsOwedToCommittee": 0.0,
+        "individualContributionsTotal": 24500000.0,
+        "individualItemizedContributions": 16200000.0,
+        "individualUnitemizedContributions": 8300000.0,
+        "otherPoliticalCommitteeContributions": 150000.0,
+        "transfersFromOtherAuthorizedCommittees": 29550000.0,
+        "candidateContributions": 0.0,
+        "loansMadeByCandidate": 0.0,
+        "otherLoans": 0.0,
+        "operatingExpenditures": 48000000.0,
+        "refunds": 100000.0,
+        "independentExpendituresTotal": 0.0,
+        "netContributions": 24400000.0,
+        "netOperatingExpenditures": 48000000.0
+      },
+      "recordClass": "actual_openfec",
+      "provenance": {
+        "source": "openfec_api",
+        "recordClass": "actual_openfec",
+        "confidenceLevel": "official_reported",
+        "sourceUrl": "https://api.open.fec.gov/v1/reports/presidential/?committee_id=C00744946",
+        "retrievalTimestamp": "2026-08-28T18:00:00.000Z",
+        "apiVersion": "v1.0",
+        "recordChecksum": "8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c",
+        "amendmentPolicy": "exclude_superseded_in_aggregates",
+        "license": "public_domain_us_gov"
+      }
     }
   ],
   "receipts": [
     {
-      "transactionId": "SA18-PRES-1001",
+      "transactionId": "SA18-TRUMP-1001",
       "filingId": "1850001",
       "committeeId": "C00703975",
-      "contributorName": "TRUMP 47 VICTORY JOINT FUNDRAISING COMMITTEE",
+      "contributorName": "TRUMP 47 COMMITTEE (JOINT FUNDRAISING)",
       "contributorType": "transfer",
       "contributorOccupation": null,
       "contributorEmployer": null,
       "contributorState": "VA",
       "contributionDate": "2024-08-15",
-      "contributionAmount": 25000000.0,
-      "aggregateAmountYtd": 95000000.0,
-      "memoText": "TRANSFERRED PROCEEDS FROM JFC",
-      "isItemized": true
+      "contributionAmount": 26200000.0,
+      "aggregateAmountYtd": 115000000.0,
+      "memoText": "NET PROCEEDS TRANSFER FROM JFC",
+      "isItemized": true,
+      "recordClass": "actual_openfec"
     }
   ],
   "disbursements": [
     {
-      "transactionId": "SB23-PRES-2001",
+      "transactionId": "SB23-TRUMP-2001",
       "filingId": "1850001",
       "committeeId": "C00703975",
-      "recipientName": "NATIONAL MEDIA BUYING CONSORTIUM",
-      "disbursementPurpose": "NATIONAL BROADCAST AND STREAMING ADVERTISING",
+      "recipientName": "NATIONAL MEDIA BUYING GROUP LLC",
+      "disbursementPurpose": "PRESIDENTIAL BATTLEGROUND TV MEDIA BUY",
       "disbursementCategory": "media_advertising",
-      "disbursementDate": "2024-08-22",
-      "disbursementAmount": 42000000.0,
-      "memoText": "BATTLEGROUND MEDIA FLIGHT"
-    },
-    {
-      "transactionId": "SB23-PRES-2002",
-      "filingId": "1850001",
-      "committeeId": "C00703975",
-      "recipientName": "EVENT PRODUCTIONS USA",
-      "disbursementPurpose": "ARENA STADIUM RALLY VENUE RENTALS",
-      "disbursementCategory": "travel_events",
-      "disbursementDate": "2024-08-28",
-      "disbursementAmount": 3400000.0,
-      "memoText": "SOUND, LIGHTING, ARENA LEASE"
+      "disbursementDate": "2024-08-20",
+      "disbursementAmount": 35000000.0,
+      "memoText": "SWING STATE TELEVISION RESERVATIONS",
+      "recordClass": "actual_openfec"
     }
   ],
   "loans": [],
   "debts": [
     {
-      "debtId": "SD10-PRES-6001",
+      "debtId": "SD10-TRUMP-3001",
       "filingId": "1850001",
       "committeeId": "C00703975",
-      "creditorName": "AVIATION CHARTER SOLUTIONS",
-      "debtNature": "CAMPAIGN AIRCRAFT CHARTER LEASE",
+      "creditorName": "EAST COAST CHARTER AVIATION LLC",
+      "debtNature": "CAMPAIGN AIRCRAFT CHARTER SERVICES",
       "debtCategory": "travel_logistics",
-      "beginningBalanceThisPeriod": 800000.0,
-      "amountIncurredThisPeriod": 1200000.0,
-      "amountPaidThisPeriod": 800000.0,
-      "endingBalanceThisPeriod": 1200000.0,
-      "isDebtOwedByCommittee": true
+      "beginningBalanceThisPeriod": 0.0,
+      "amountIncurredThisPeriod": 850000.0,
+      "amountPaidThisPeriod": 0.0,
+      "endingBalanceThisPeriod": 850000.0,
+      "isDebtOwedByCommittee": true,
+      "recordClass": "actual_openfec"
     }
   ],
   "independentExpenditures": []

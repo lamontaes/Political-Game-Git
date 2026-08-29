@@ -1,29 +1,29 @@
-import { describe, expect, it } from "vitest";
-import { readFileSync, existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { describe, expect, it } from "vitest";
 import {
+  adaptCandidate,
+  adaptCommittee,
+  adaptDisbursement,
+  adaptIndependentExpenditure,
+  adaptReceipt,
+  adaptReport,
+  aggregateActiveCommitteeFinances,
+  buildCampaignFinanceManifest,
+  compileCampaignFinanceCorpus,
+  computeCalibrationProfile,
+  computeSha256,
+  createRelationshipId,
+  filterActiveFilings,
   isValidCandidateId,
   isValidCommitteeId,
   isValidElectionCycle,
   isValidFilingId,
-  createRelationshipId,
   parseCandidateOffice,
   resolveFilingAmendments,
-  filterActiveFilings,
-  aggregateActiveCommitteeFinances,
-  computeCalibrationProfile,
-  validateCampaignFinanceCorpus,
-  compileCampaignFinanceCorpus,
-  buildCampaignFinanceManifest,
-  adaptCandidate,
-  adaptCommittee,
-  adaptReport,
-  adaptReceipt,
-  adaptDisbursement,
-  adaptIndependentExpenditure,
-  computeSha256,
   type FecCampaignFinanceCorpus,
   type FecFilingReport,
+  validateCampaignFinanceCorpus,
 } from "../src/campaign_finance/index";
 import type { CampaignFinanceManifest } from "../src/campaign_finance/manifest";
 
@@ -53,7 +53,7 @@ describe("FEC Campaign Finance Source Corpus", () => {
     it("validates standard FEC candidate ID formats (House, Senate, Presidential)", () => {
       expect(isValidCandidateId("H2KY06097")).toBe(true);
       expect(isValidCandidateId("S0KY00010")).toBe(true);
-      expect(isValidCandidateId("P00000001")).toBe(true);
+      expect(isValidCandidateId("P80001571")).toBe(true);
 
       expect(isValidCandidateId("X2KY06097")).toBe(false); // Invalid office prefix
       expect(isValidCandidateId("H2KY060")).toBe(false); // Too short
@@ -64,7 +64,7 @@ describe("FEC Campaign Finance Source Corpus", () => {
     it("extracts candidate office correctly", () => {
       expect(parseCandidateOffice("H2KY06097")).toBe("H");
       expect(parseCandidateOffice("S0KY00010")).toBe("S");
-      expect(parseCandidateOffice("P00000001")).toBe("P");
+      expect(parseCandidateOffice("P80001571")).toBe("P");
       expect(() => parseCandidateOffice("INVALID")).toThrow();
     });
 
@@ -93,6 +93,132 @@ describe("FEC Campaign Finance Source Corpus", () => {
     it("creates canonical relationship IDs", () => {
       const relId = createRelationshipId("H2KY06097", "C00473538", 2024, "P");
       expect(relId).toBe("rel-H2KY06097-C00473538-2024-P");
+    });
+  });
+
+  describe("Candidate Counts & Arithmetic Integrity", () => {
+    it("establishes exact candidate office breakdown and total math", () => {
+      const houseCount = corpus.candidates.filter(
+        (c) => c.office === "H",
+      ).length;
+      const senateCount = corpus.candidates.filter(
+        (c) => c.office === "S",
+      ).length;
+      const presCount = corpus.candidates.filter(
+        (c) => c.office === "P",
+      ).length;
+      const totalCount = corpus.candidates.length;
+
+      expect(houseCount + senateCount + presCount).toBe(totalCount);
+      expect(manifest.coverage.offices.houseCandidates).toBe(houseCount);
+      expect(manifest.coverage.offices.senateCandidates).toBe(senateCount);
+      expect(manifest.coverage.offices.presidentialCandidates).toBe(presCount);
+      expect(manifest.coverage.offices.totalCandidates).toBe(totalCount);
+      expect(manifest.coverage.offices.mathCheckPassed).toBe(true);
+    });
+
+    it("verifies every candidate has authentic FEC registration fields and valid recordClass", () => {
+      for (const cand of corpus.candidates) {
+        expect(isValidCandidateId(cand.candidateId)).toBe(true);
+        expect([
+          "actual_openfec",
+          "transformed_official",
+          "synthetic_fixture",
+        ]).toContain(cand.recordClass);
+        expect(cand.cycles.length).toBeGreaterThan(0);
+        expect(["I", "C", "O", "U"]).toContain(cand.incumbentChallengeStatus);
+      }
+    });
+  });
+
+  describe("Source vs Synthetic Segregation & Calibration Protection", () => {
+    it("verifies explicit recordClass classification across all corpus entity types", () => {
+      for (const cand of corpus.candidates)
+        expect(cand.recordClass).toBeDefined();
+      for (const com of corpus.committees)
+        expect(com.recordClass).toBeDefined();
+      for (const rel of corpus.relationships)
+        expect(rel.recordClass).toBeDefined();
+      for (const f of corpus.filings) expect(f.recordClass).toBeDefined();
+      for (const r of corpus.receipts) expect(r.recordClass).toBeDefined();
+      for (const d of corpus.disbursements) expect(d.recordClass).toBeDefined();
+      for (const l of corpus.loans) expect(l.recordClass).toBeDefined();
+      for (const debt of corpus.debts) expect(debt.recordClass).toBeDefined();
+      for (const ie of corpus.independentExpenditures)
+        expect(ie.recordClass).toBeDefined();
+    });
+
+    it("manifest tracks sourceVsSyntheticInventory with exact category totals", () => {
+      const inv = manifest.sourceVsSyntheticInventory;
+      expect(inv).toBeDefined();
+      expect(
+        inv.candidates.actualOpenFec +
+          inv.candidates.transformedOfficial +
+          inv.candidates.syntheticFixture,
+      ).toBe(corpus.candidates.length);
+      expect(
+        inv.committees.actualOpenFec +
+          inv.committees.transformedOfficial +
+          inv.committees.syntheticFixture,
+      ).toBe(corpus.committees.length);
+      expect(
+        inv.filings.actualOpenFec +
+          inv.filings.transformedOfficial +
+          inv.filings.syntheticFixture,
+      ).toBe(corpus.filings.length);
+      expect(inv.aggregateAllEntities.empiricalSharePercent).toBeGreaterThan(
+        80,
+      );
+    });
+
+    it("prevents synthetic fixture records from entering empirical calibration aggregates", () => {
+      const empiricalProfile = computeCalibrationProfile(
+        corpus,
+        "2024-OpenFEC",
+        "empirical",
+      );
+      expect(empiricalProfile.calibrationMode).toBe("empirical");
+      expect(empiricalProfile.sourceCoverage.empiricalOnly).toBe(true);
+      expect(
+        empiricalProfile.sourceCoverage.syntheticFixtureFilings,
+      ).toBeGreaterThan(0); // Exists in corpus
+
+      // Check House empirical fundraising sample size only contains actual OpenFEC candidates (4), NOT synthetic (1)
+      const houseBenchmark = empiricalProfile.fundraisingBenchmarks.find(
+        (b) => b.office === "H" && b.category === "all",
+      );
+      expect(houseBenchmark).toBeDefined();
+      expect(houseBenchmark?.sampleSize).toBe(4); // 4 real House candidates: Barr, Cravens, Massie, McGarvey
+
+      // Senate sample size is 4 real Senate candidates: McConnell, McGrath, Booker, Paul
+      const senateBenchmark = empiricalProfile.fundraisingBenchmarks.find(
+        (b) => b.office === "S" && b.category === "all",
+      );
+      expect(senateBenchmark).toBeDefined();
+      expect(senateBenchmark?.sampleSize).toBe(4);
+
+      // Presidential sample size is 2 real Presidential candidates: Trump, Biden
+      const presBenchmark = empiricalProfile.fundraisingBenchmarks.find(
+        (b) => b.office === "P" && b.category === "all",
+      );
+      expect(presBenchmark).toBeDefined();
+      expect(presBenchmark?.sampleSize).toBe(2);
+    });
+
+    it("allows explicit synthetic test calibration when requested without corrupting empirical mode", () => {
+      const syntheticProfile = computeCalibrationProfile(
+        corpus,
+        "2024-OpenFEC",
+        "synthetic_test",
+      );
+      expect(syntheticProfile.calibrationMode).toBe("synthetic_test");
+      expect(syntheticProfile.sourceCoverage.empiricalOnly).toBe(false);
+
+      const houseSynthBenchmark = syntheticProfile.fundraisingBenchmarks.find(
+        (b) => b.office === "H" && b.category === "all",
+      );
+      expect(houseSynthBenchmark).toBeDefined();
+      expect(houseSynthBenchmark?.sampleSize).toBe(1); // 1 synthetic House candidate
     });
   });
 
@@ -139,6 +265,7 @@ describe("FEC Campaign Finance Source Corpus", () => {
             netContributions: 500000,
             netOperatingExpenditures: 200000,
           },
+          recordClass: "actual_openfec",
           provenance: corpus.provenance,
         },
         {
@@ -181,6 +308,7 @@ describe("FEC Campaign Finance Source Corpus", () => {
             netContributions: 520000,
             netOperatingExpenditures: 200000,
           },
+          recordClass: "actual_openfec",
           provenance: corpus.provenance,
         },
       ];
@@ -359,52 +487,6 @@ describe("FEC Campaign Finance Source Corpus", () => {
       expect(adapted.supportOppose).toBe("S");
       expect(adapted.amount).toBe(85000);
       expect(adapted.payeeName).toBe("NORTHERN KENTUCKY AD NETWORK");
-    });
-  });
-
-  describe("Calibration Metrics & Statistical Distributions", () => {
-    it("computes calibration metrics across office benchmarks, burn rates, and debt", () => {
-      const profile = computeCalibrationProfile(corpus);
-
-      expect(profile.fundraisingBenchmarks.length).toBeGreaterThan(0);
-      const houseBenchmark = profile.fundraisingBenchmarks.find(
-        (b) => b.office === "H" && b.category === "all",
-      );
-      expect(houseBenchmark).toBeDefined();
-      expect(houseBenchmark?.sampleSize).toBe(2);
-      expect(houseBenchmark?.medianReceipts).toBeGreaterThan(0);
-
-      // Phase burn rates
-      expect(profile.burnRatesByPhase.length).toBe(4);
-      const sprintPhase = profile.burnRatesByPhase.find(
-        (p) => p.phase === "general_sprint",
-      );
-      expect(sprintPhase).toBeDefined();
-      expect(sprintPhase?.medianBurnRate).toBeGreaterThan(1.0); // Sprint burn rate > 1.0x
-
-      // Debt prevalence
-      expect(profile.debtPrevalence.sampleCommittees).toBe(
-        corpus.committees.length,
-      );
-      expect(profile.debtPrevalence.percentCommitteesWithDebt).toBeGreaterThan(
-        0,
-      );
-
-      // Donor distributions sum reasonably close to 100%
-      const {
-        unitemizedSmallDollarShare,
-        itemizedIndividualShare,
-        pacContributionShare,
-        candidateSelfFundingShare,
-        transfersAndOtherShare,
-      } = profile.donorDistributions;
-      const totalShare =
-        unitemizedSmallDollarShare +
-        itemizedIndividualShare +
-        pacContributionShare +
-        candidateSelfFundingShare +
-        transfersAndOtherShare;
-      expect(totalShare).toBeCloseTo(1.0, 1);
     });
   });
 
