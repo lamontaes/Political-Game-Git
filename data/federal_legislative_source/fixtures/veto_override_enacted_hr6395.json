@@ -1,0 +1,176 @@
+{
+  "congress": 116,
+  "type": "HR",
+  "number": 6395,
+  "title": "William M. (Mac) Thornberry National Defense Authorization Act for Fiscal Year 2021",
+  "originChamber": "House",
+  "introducedDate": "2020-03-26",
+  "policyArea": {
+    "name": "Armed Forces and National Security"
+  },
+  "legislativeSubjects": [
+    "Appropriations",
+    "Armed forces and national security",
+    "Defense spending",
+    "Military procurement",
+    "Veterans' organizations and recognition"
+  ],
+  "sponsors": [
+    {
+      "bioguideId": "S000510",
+      "fullName": "Smith, Adam",
+      "firstName": "Adam",
+      "lastName": "Smith",
+      "party": "D",
+      "state": "WA",
+      "district": 9
+    }
+  ],
+  "cosponsors": [],
+  "committees": {
+    "count": 1,
+    "items": [
+      {
+        "systemCode": "hsas00",
+        "chamber": "House",
+        "name": "House Committee on Armed Services",
+        "activities": [
+          { "name": "Referred to", "date": "2020-03-26" },
+          { "name": "Reported by", "date": "2020-07-09" }
+        ]
+      }
+    ]
+  },
+  "actions": {
+    "count": 9,
+    "items": [
+      {
+        "actionDate": "2020-03-26",
+        "text": "Introduced in House and referred to Committee on Armed Services.",
+        "type": "IntroReferral",
+        "actionCode": "H11100"
+      },
+      {
+        "actionDate": "2020-07-21",
+        "text": "On passage Passed by the Yeas and Nays: 295 - 125 (Roll no. 152).",
+        "type": "Floor",
+        "actionCode": "H37100",
+        "recordedVotes": [
+          {
+            "chamber": "House",
+            "congress": 116,
+            "rollNumber": 152,
+            "sessionNumber": 2,
+            "url": "https://clerk.house.gov/Votes/2020152"
+          }
+        ]
+      },
+      {
+        "actionDate": "2020-07-23",
+        "text": "Passed Senate with an amendment by Yea-Nay Vote. 86 - 14. Record Vote Number: 140.",
+        "type": "Floor",
+        "actionCode": "17000"
+      },
+      {
+        "actionDate": "2020-12-08",
+        "text": "Conference report agreed to in House: On agreeing to the conference report Agreed to by the Yeas and Nays: 335 - 78, 1 Present (Roll no. 238).",
+        "type": "ResolvingDifferences",
+        "actionCode": "H38310",
+        "recordedVotes": [
+          {
+            "chamber": "House",
+            "congress": 116,
+            "rollNumber": 238,
+            "sessionNumber": 2,
+            "url": "https://clerk.house.gov/Votes/2020238"
+          }
+        ]
+      },
+      {
+        "actionDate": "2020-12-11",
+        "text": "Conference report agreed to in Senate: Senate agreed to conference report by Yea-Nay Vote. 84 - 13. Record Vote Number: 264.",
+        "type": "ResolvingDifferences",
+        "actionCode": "S38310"
+      },
+      {
+        "actionDate": "2020-12-11",
+        "text": "Presented to President.",
+        "type": "President",
+        "actionCode": "E20000"
+      },
+      {
+        "actionDate": "2020-12-23",
+        "text": "Vetoed by President. Message on the Veto sent to the House of Representatives.",
+        "type": "President",
+        "actionCode": "31000"
+      },
+      {
+        "actionDate": "2020-12-28",
+        "text": "Two-thirds of the Members voting having responded in the affirmative, the House passed the bill over Presidential veto by the Yeas and Nays: (2/3 required): 322 - 87 (Roll no. 253).",
+        "type": "Floor",
+        "actionCode": "H36100",
+        "recordedVotes": [
+          {
+            "chamber": "House",
+            "congress": 116,
+            "rollNumber": 253,
+            "sessionNumber": 2,
+            "url": "https://clerk.house.gov/Votes/2020253"
+          }
+        ]
+      },
+      {
+        "actionDate": "2021-01-01",
+        "text": "Passed Senate over veto: Passed Senate over presidential veto by Yea-Nay Vote. 81 - 13. Record Vote Number: 292. Became Public Law No: 116-283 over presidential veto.",
+        "type": "Floor",
+        "actionCode": "S36100"
+      }
+    ]
+  },
+  "amendments": {
+    "count": 0,
+    "items": []
+  },
+  "textVersions": {
+    "count": 3,
+    "items": [
+      {
+        "type": "ih",
+        "date": "2020-03-26",
+        "formats": [
+          {
+            "type": "PDF",
+            "url": "https://www.congress.gov/116/bills/hr6395/BILLS-116hr6395ih.pdf"
+          }
+        ]
+      },
+      {
+        "type": "enr",
+        "date": "2020-12-11",
+        "formats": [
+          {
+            "type": "PDF",
+            "url": "https://www.congress.gov/116/bills/hr6395/BILLS-116hr6395enr.pdf"
+          }
+        ]
+      },
+      {
+        "type": "pl",
+        "date": "2021-01-01",
+        "formats": [
+          {
+            "type": "PDF",
+            "url": "https://www.govinfo.gov/content/pkg/PLAW-116publ283/pdf/PLAW-116publ283.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  "laws": [
+    {
+      "number": "116-283",
+      "type": "Public Law"
+    }
+  ],
+  "url": "https://www.congress.gov/bill/116th-congress/house-bill/6395"
+}

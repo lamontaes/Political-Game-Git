@@ -1,0 +1,86 @@
+{
+  "congress": 118,
+  "type": "HRES",
+  "number": 5,
+  "title": "Adopting the Rules of the House of Representatives for the One Hundred Eighteenth Congress, and for other purposes.",
+  "originChamber": "House",
+  "introducedDate": "2023-01-09",
+  "policyArea": {
+    "name": "Congress"
+  },
+  "legislativeSubjects": [
+    "Congressional committees",
+    "House of Representatives",
+    "Legislative rules and procedure"
+  ],
+  "sponsors": [
+    {
+      "bioguideId": "S001176",
+      "fullName": "Scalise, Steve",
+      "party": "R",
+      "state": "LA",
+      "district": 1
+    }
+  ],
+  "cosponsors": [],
+  "committees": {
+    "count": 0,
+    "items": []
+  },
+  "actions": {
+    "count": 2,
+    "items": [
+      {
+        "actionDate": "2023-01-09",
+        "text": "Motion to reconsider laid on the table Agreed to without objection.",
+        "type": "Floor",
+        "actionCode": "H8D000"
+      },
+      {
+        "actionDate": "2023-01-09",
+        "text": "On agreeing to the resolution Agreed to by the Yeas and Nays: 220 - 212 (Roll no. 23).",
+        "type": "Floor",
+        "actionCode": "H37100",
+        "recordedVotes": [
+          {
+            "chamber": "House",
+            "congress": 118,
+            "rollNumber": 23,
+            "sessionNumber": 1,
+            "url": "https://clerk.house.gov/Votes/202323"
+          }
+        ]
+      }
+    ]
+  },
+  "amendments": {
+    "count": 0,
+    "items": []
+  },
+  "textVersions": {
+    "count": 2,
+    "items": [
+      {
+        "type": "ih",
+        "date": "2023-01-09",
+        "formats": [
+          {
+            "type": "PDF",
+            "url": "https://www.congress.gov/118/bills/hres5/BILLS-118hres5ih.pdf"
+          }
+        ]
+      },
+      {
+        "type": "eh",
+        "date": "2023-01-09",
+        "formats": [
+          {
+            "type": "PDF",
+            "url": "https://www.congress.gov/118/bills/hres5/BILLS-118hres5eh.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  "url": "https://www.congress.gov/bill/118th-congress/house-resolution/5"
+}
