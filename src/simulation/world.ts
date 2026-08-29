@@ -15,6 +15,12 @@ import {
   createSyntheticCausalMechanismCatalog,
 } from "./causal-effects";
 import {
+  assertCampaignIntegrity,
+  campaignEntityAvailableAt,
+  campaignEntityExists,
+  campaignHistoryRecords,
+} from "./campaigns";
+import {
   assertIncidentCatalogIntegrity,
   cloneIncidentCatalog,
   createSyntheticIncidentCatalog,
@@ -456,7 +462,8 @@ export function recordWorldEvent(
       !evidenceEntityExists(world, entityId) &&
       !timeWorkEntityExists(world, entityId) &&
       !futureTransitionEntityExists(world, entityId) &&
-      !electionContestEntityExists(world, entityId)
+      !electionContestEntityExists(world, entityId) &&
+      !campaignEntityExists(world, entityId)
     ) {
       throw new Error(
         `Historical event references a missing entity: ${entityId}`,
@@ -590,6 +597,19 @@ export function recordWorldEvent(
     ) {
       throw new Error(
         `Historical event references an unavailable election contest entity: ${entityId}`,
+      );
+    }
+    if (
+      campaignEntityExists(world, entityId) &&
+      !campaignEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        `Historical event references an unavailable campaign entity: ${entityId}`,
       );
     }
     if (
@@ -1278,6 +1298,7 @@ function validateHistoryIntegrity(world: World): void {
     ...evidenceHistoryRecords(world),
     ...timeWorkHistoryRecords(world),
     ...electionContestHistoryRecords(world),
+    ...campaignHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
     ...history.events,
     ...history.memories,
@@ -1355,6 +1376,7 @@ function validateHistoryIntegrity(world: World): void {
   assertEvidenceIntegrity(world, ids);
   assertTimeWorkIntegrity(world, ids);
   assertElectionContestIntegrity(world, ids);
+  assertCampaignIntegrity(world, ids);
   assertFutureTransitionIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
@@ -1441,7 +1463,8 @@ function validateHistoryIntegrity(world: World): void {
         !evidenceEntityExists(world, involvedId) &&
         !timeWorkEntityExists(world, involvedId) &&
         !futureTransitionEntityExists(world, involvedId) &&
-        !electionContestEntityExists(world, involvedId)
+        !electionContestEntityExists(world, involvedId) &&
+        !campaignEntityExists(world, involvedId)
       ) {
         throw new Error(
           `Historical event references a missing involved entity: ${event.id}`,
@@ -1575,6 +1598,19 @@ function validateHistoryIntegrity(world: World): void {
       ) {
         throw new Error(
           `Historical event references an unavailable election contest entity: ${event.id}`,
+        );
+      }
+      if (
+        campaignEntityExists(world, involvedId) &&
+        !campaignEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          `Historical event references an unavailable campaign entity: ${event.id}`,
         );
       }
       if (

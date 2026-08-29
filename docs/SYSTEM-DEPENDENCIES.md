@@ -777,15 +777,49 @@ and [Player Presentation and Epistemic Projection](systems/player-presentation.m
 See D-050 and
 [Canonical Sub-Day Time, Scheduled Activity, and Office Work](systems/time-work.md).
 
+## Weekend Playtest Slice E Campaign Vertical
+
+- **Owns:** bounded campaign/campaign-state identity, fundraising and outreach
+  action/result links, one campaign-aware evaluator seam, and the primary
+  council-playtest presentation flow.
+- **Consumes:** accepted Person, Jurisdiction, Organization, WorkRelationship,
+  organization-owned ResourcePosition and resource-flow accounting,
+  HistoricalEvent/relationship history, WorldMetricState and separate
+  Observation, EventKnowledge, D-Lite ScheduledActivity/time/work, the one
+  FutureDue frontier, and the accepted election contest/result API.
+- **Produces:** public filing and one person endorsement, isolated campaign
+  cash, exact campaign time use, bounded hidden support consequences, fallible
+  candidate feedback, aggregate deterministic tallies with keyed uncertainty,
+  and persistent terminal win/loss campaign state.
+- **Epistemic rule:** only observations and candidate-owned knowledge enter the
+  player projection. Hidden support state is an evaluator input, never normal
+  DOM or accessibility text.
+- **Portability:** the same domain operations run in a three-candidate Synthetic
+  Tidal Basin fixture with a different jurisdiction, office, date, timezone,
+  currency, and people; no primary-scenario name or timezone is serialized.
+- **Boundary:** this vertical is not effective election law, institutions,
+  electorates, individual voters, campaign AI, campaign-finance compliance,
+  primaries, media, debates, office assumption, governing, or the complete
+  Stage 9 campaign system.
+
+See D-053, [Elections](systems/elections.md), and
+[Weekend Playtest Slice E](plans/completed/weekend-playtest-slice-e.md).
+
 ---
 
 ## Reserved Future Cross-System Contracts
 
-These contracts constrain later stages. Run C implements only the personal/household slice of the shared resource-flow vocabulary; campaign, organization, government, fiscal-law, and civic-data systems remain deferred.
+These contracts constrain later stages. Run C implements the personal/household
+slice of the shared resource-flow vocabulary. Weekend Slice E adds only one
+bounded organization-owned campaign position and aggregate fundraising inflow;
+general organization finance, government finance, fiscal law, compliance, and
+civic-data systems remain deferred.
 
 ### Shared Resource-Flow Contract
 
-Personal/household flows now implement, and future campaign, organization, and government finance should use compatible concepts for:
+Personal/household flows and the bounded Slice E campaign inflow now implement,
+and future campaign, organization, and government finance should use compatible
+concepts for:
 
 - source;
 - recipient;
@@ -796,7 +830,12 @@ Personal/household flows now implement, and future campaign, organization, and g
 - restrictions; and
 - actual transfer or outcome.
 
-Implemented examples include employer organization to person salary, cross-household support, and person/household housing or care obligations. Donor-to-campaign contributions and government appropriations remain future systems. This is shared vocabulary, not one universal `fundingSource` field or finance root on unrelated objects.
+Implemented examples include employer organization to person salary,
+cross-household support, person/household housing or care obligations, and one
+aggregate fixture supporter source to campaign-organization inflow. Donor
+identity, contribution compliance, campaign expenditure, and government
+appropriations remain future systems. This is shared vocabulary, not one
+universal `fundingSource` field or finance root on unrelated objects.
 
 ### Fiscal Inspectability Contract
 
@@ -828,7 +867,7 @@ Real-world civic records retain enough dated provenance to inspect a concept, ex
 - **Stage 6.5 Run D-Lite:** supplies canonical zoned minute time, exact activity intervals/conflicts/travel, office work assignments/dependencies, bounded parallel staff progress, and epistemic Calendar/Work projections without replacing date-level due work, Stage 5 load, or Runs A–C.
 - **Stage 7 geography/institutions:** extend stable jurisdiction hierarchy and sourced/effective-dated definitions without changing generic simulation assumptions.
 - **Stage 8 populations:** reference propositions, geography, cues, and public records sparsely; never materialize every voter or every issue.
-- **Stage 9 campaigns:** create persistent contest/candidate/staff/message/poll identities and historical records rather than generic points.
+- **Stage 9 campaigns:** extend the bounded Slice E contest/candidate/staff/action/observation identities with autonomous, population, message, public-poll, media, finance-rule, and historical behavior rather than generic points.
 - **Stage 10 legislation:** define stable proposal, revision, provision, amendment, procedure, and action IDs; map political beliefs to specific propositions/provisions without conflating them.
 - **Stage 11 staff:** use the same `Person` and history/knowledge/relationship systems, adding stable roles, assignments, reports, and delegation records.
 - **Stage 12 archives/branches:** index existing records; add branch lineage without mutating the parent world or duplicating contradictory truth stores.

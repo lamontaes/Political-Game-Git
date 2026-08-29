@@ -927,7 +927,7 @@ function sameMoney(left: MoneyAmount, right: MoneyAmount): boolean {
 function endpointOwner(
   endpoint: ResourceEndpoint,
 ): ResourcePositionOwner | null {
-  return endpoint.kind === "organization" ? null : { ...endpoint };
+  return { ...endpoint };
 }
 
 function dateInWorld(world: World, value: string, recordId: EntityId): void {

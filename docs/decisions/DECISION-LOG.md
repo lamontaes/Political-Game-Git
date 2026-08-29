@@ -815,3 +815,48 @@ through briefing, flexible work, required travel, and the later community
 meeting. This repair adds no missed-appointment state, autonomous planning,
 Calendar redesign, recurrence, routing, Slice E, generated-person behavior, or
 Stage 7/8/9 system.
+
+## D-053 — Weekend Slice E composes a bounded campaign vertical over accepted systems
+
+- Date: 2026-08-28
+- Status: ACCEPTED
+- Supersedes: the generic placeholder outcome only for an election contest that
+  is explicitly linked to a Slice E `CampaignRecord`; no generic contest,
+  manual-result, uncontested-result, cancellation, or D-Lite rule is superseded
+
+Represent one playable candidacy with immutable campaign, campaign-action, and
+action-result roots plus append-oriented campaign state. Filing consumes the
+accepted election-contest API, ordinary public history, stable Organization and
+WorkRelationship records, one organization-owned liquid ResourcePosition, and
+exact scheduled activities. Organization becomes a valid resource-position
+owner; this does not merge campaign cash into person or household cash and does
+not authorize a campaign-finance law system.
+
+Candidate support is a scoped exact WorldMetricState hidden from normal
+presentation. Each completed fundraising or outreach activity appends a bounded
+keyed consequence and a separate fallible WorldMetricObservation, followed by a
+private feedback event and candidate-owned partial knowledge. The campaign
+projection may read that observation and knowledge but never the underlying
+state. Normal DOM presents an uncertain field memo, not true support or an
+outcome probability.
+
+Fundraising and outreach use the D-Lite activity performer and therefore spend
+canonical zoned minutes, honor earlier controlled-person commitments, progress
+staff work, and remain visible in Calendar. Fundraising uses one aggregate
+fixture source and the accepted resource flow/terms/outcome chain; it creates no
+donor identities, contribution limits, compliance, or law. A bounded person
+endorsement is an ordinary public event plus relationship interaction.
+
+At the existing election future-due frontier, only a linked active campaign uses
+the campaign-aware evaluator. Latest hidden support plus bounded keyed
+uncertainty produces deterministic aggregate tallies, and the accepted
+`resolveElectionContest` remains the sole result writer. The resulting win or
+loss closes campaign work, appends one terminal campaign state, preserves the
+person and World, and leaves ordinary office, Calendar, Work/Pending,
+conversation, and document play available. Win does not implement office
+assumption; loss never creates game over.
+
+Consequence: Slice E proves one primary council playtest and one three-candidate
+Synthetic Tidal Basin portability fixture without implementing Stage 7 law or
+institutions, Stage 8 electorates, the full Stage 9 campaign system, voter
+records, primaries, campaign AI, media, debates, districting, or governing.

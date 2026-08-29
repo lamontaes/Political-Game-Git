@@ -1,6 +1,7 @@
 export * from "./dates";
 export * from "./character-history";
 export * from "./causal-effects";
+export * from "./campaigns";
 export * from "./demo";
 export * from "./history";
 export {

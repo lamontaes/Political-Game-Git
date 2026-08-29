@@ -1363,3 +1363,59 @@ Project art authority is established externally via `PG-E02 CLEAN` (5568×3008
 master source), ensuring no further upscaling is needed for final office
 production. Historical Prompt 30 and A01/B01 assets serve as development test
 fixtures while final production character assets remain in external production.
+
+## Weekend Playtest 0.1 — Integrated Slice E
+
+### SLICE-E-001 — Filing creates durable cross-system candidacy
+
+From the normal player shell, keyboard or pointer navigation reaches Campaign.
+Filing creates one accepted election contest, public filing history, one
+campaign organization/profile, candidate and volunteer work relationships, one
+bounded public endorsement, one organization-owned zero-opening liquid
+position, exact fundraising/outreach/election-night activities, and two durable
+campaign action identities. Refiling and duplicate action completion reject.
+
+### SLICE-E-002 — Actions spend time and preserve resource ownership
+
+Fundraising and outreach perform through the accepted D-Lite activity path.
+Earlier controlled-person commitments are completed only through the canonical
+performer; the current moment, Calendar, Next Commitment, and staff work rederive
+from returned World. Fundraising appends a deterministic aggregate resource
+flow/outcome into the campaign organization's position, never player-person
+cash. Outreach appends history and no invented transfer.
+
+### SLICE-E-003 — Feedback is fallible and non-omniscient
+
+Each action appends exact hidden support state for every contest candidate and
+a separate candidate observation with nonzero keyed error, four-point margin,
+and explicit confidence. Candidate-owned partial knowledge cites the private
+field memo. The normal projection and DOM read the observation/knowledge only,
+say that the estimate may be wrong, and expose no true support or outcome
+probability.
+
+### SLICE-E-004 — Election uses one canonical result and both outcomes continue
+
+At the existing contest due frontier, a campaign-aware evaluator combines
+latest hidden support with bounded keyed uncertainty, produces valid aggregate
+tallies, and calls `resolveElectionContest`. One deterministic profile wins and
+one loses. Both persist the ordinary election result, close campaign work,
+append one terminal campaign state, preserve the World/person/history, and
+allow office, Calendar, Work/Pending, document, conversation, and navigation
+play. Loss contains no game-over state.
+
+### SLICE-E-005 — Replay, persistence, and portability hold
+
+Identical seed and ordered campaign actions serialize byte-for-byte identically.
+A fixed same-seed scenario without campaign actions loses while its full action
+history wins, proving consequence relevance without a threshold guarantee.
+JSON deserialize and Node SQLite save/load return exact Worlds. A
+three-candidate Synthetic Tidal Basin scenario uses Pacific/Honolulu, a
+different office, people, dates, and currency and serializes no Lexington,
+Kentucky, or America/New_York text.
+
+### SLICE-E-006 — Browser proof covers active, feedback, win, loss, and continuation
+
+Playwright exercises keyboard discovery and both deterministic paths. Evidence
+captures campaign active, imperfect memo, official win, official loss, and
+post-loss Calendar and Work/Pending. The same suite retains the accepted Run
+A/B/C/D-Lite and visual interaction proofs.

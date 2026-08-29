@@ -48,10 +48,16 @@ import {
   rescheduleRunDFlexibleBlock,
 } from "../presentation/run-d-lite";
 import {
+  fileRunECampaign,
+  performRunECampaignAction,
+  projectRunECampaign,
+} from "../presentation/slice-e-campaign";
+import {
   createRunDUiState,
   runDUiReducer,
 } from "../presentation/run-d-lite-state";
 import { CalendarWorkspace } from "./CalendarWorkspace";
+import { CampaignWorkspace } from "./CampaignWorkspace";
 import { ConversationStrip } from "./ConversationStrip";
 import { OfficeScene } from "./OfficeScene";
 import { PermanentShell } from "./PermanentShell";
@@ -102,6 +108,7 @@ export function PlayerOffice() {
     [seedParam],
   );
   const [world, setWorld] = useState(fixture.world);
+  const [campaignOpen, setCampaignOpen] = useState(false);
   const fixtureState = parseRunAFixtureState(
     new URLSearchParams(window.location.search).get("fixture"),
   );
@@ -137,6 +144,10 @@ export function PlayerOffice() {
     () => projectRunDLite(world, fixture),
     [fixture, world],
   );
+  const campaignProjection = useMemo(
+    () => projectRunECampaign(world, fixture),
+    [fixture, world],
+  );
   const activeConversationRoom =
     conversationState.progress &&
     isRunCLegislativeConversationProgress(conversationState.progress)
@@ -164,7 +175,9 @@ export function PlayerOffice() {
   function handleKeyDown(event: React.KeyboardEvent<HTMLElement>) {
     if (event.key !== "Escape") return;
 
-    if (planningState.selectedActivityId !== null) {
+    if (campaignOpen) {
+      setCampaignOpen(false);
+    } else if (planningState.selectedActivityId !== null) {
       planningDispatch({ type: "close-activity-detail" });
     } else if (planningState.mode !== "closed") {
       planningDispatch({ type: "close" });
@@ -252,6 +265,7 @@ export function PlayerOffice() {
   }
 
   function openWorkingDocument() {
+    setCampaignOpen(false);
     planningDispatch({ type: "close" });
     dispatch({ type: "dismiss-overlay" });
     dispatch({ type: "close-navigation" });
@@ -266,6 +280,7 @@ export function PlayerOffice() {
     mode: "calendar" | "work",
     activityId?: EntityId,
   ) {
+    setCampaignOpen(false);
     dispatch({ type: "dismiss-overlay" });
     dispatch({ type: "close-navigation" });
     dispatch({ type: "close-pin-controls" });
@@ -277,6 +292,30 @@ export function PlayerOffice() {
       type: mode === "calendar" ? "open-calendar" : "open-work",
       ...(mode === "calendar" && activityId ? { activityId } : {}),
     });
+  }
+
+  function openCampaignWorkspace() {
+    planningDispatch({ type: "close" });
+    dispatch({ type: "dismiss-overlay" });
+    dispatch({ type: "close-navigation" });
+    dispatch({ type: "close-pin-controls" });
+    documentDispatch({ type: "close" });
+    if (conversationState.mode !== "closed") {
+      conversationDispatch({ type: "close" });
+    }
+    setCampaignOpen(true);
+  }
+
+  function fileCandidacy() {
+    setWorld(fileRunECampaign(world, fixture));
+  }
+
+  function performCampaignAction(actionId: EntityId) {
+    setWorld(performRunECampaignAction(world, actionId));
+  }
+
+  function reachCampaignElection(activityId: EntityId) {
+    setWorld(performRunDScheduledActivity(world, fixture, activityId));
   }
 
   function rescheduleFlexibleBlock(choice: "valid" | "travel-conflict") {
@@ -468,6 +507,8 @@ export function PlayerOffice() {
       data-planning-workspace-open={
         planningState.mode !== "closed" ? "true" : "false"
       }
+      data-campaign-workspace-open={campaignOpen ? "true" : "false"}
+      data-campaign-phase={campaignProjection.phase}
       data-document-workspace-open={
         documentState.mode === "open" ? "true" : "false"
       }
@@ -494,6 +535,16 @@ export function PlayerOffice() {
         onDiscussProvision={discussSelectedProvision}
         onCommitRevision={commitWorkingDraftRevision}
       />
+      {campaignOpen ? (
+        <CampaignWorkspace
+          projection={campaignProjection}
+          onFile={fileCandidacy}
+          onPerformAction={performCampaignAction}
+          onReachElection={reachCampaignElection}
+          onOpenCalendar={() => openPlanningWorkspace("calendar")}
+          onClose={() => setCampaignOpen(false)}
+        />
+      ) : null}
       {planningState.mode === "calendar" ? (
         <CalendarWorkspace
           fixture={fixture}
@@ -550,7 +601,9 @@ export function PlayerOffice() {
         formattedTime={formatRunATime(world.currentMoment.minuteOfDay)}
         compactNavigation={documentState.mode === "open"}
         retreatedNavigation={
-          documentState.mode === "open" || planningState.mode !== "closed"
+          documentState.mode === "open" ||
+          planningState.mode !== "closed" ||
+          campaignOpen
         }
         nextCommitment={planningProjection.nextCommitment}
         onOpenCalendar={() => openPlanningWorkspace("calendar")}
@@ -558,6 +611,7 @@ export function PlayerOffice() {
           openPlanningWorkspace("calendar", activityId)
         }
         onOpenWorkPending={() => openPlanningWorkspace("work")}
+        onOpenCampaign={openCampaignWorkspace}
         state={state}
         dispatch={dispatch}
       />

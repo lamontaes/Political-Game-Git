@@ -4,10 +4,13 @@ import {
   assignWorkItem,
   canPersonAccess,
   controlledCommitmentsBlockingActivityPerformance,
+  campaignActionForActivity,
+  createCampaignElectionTransitionRegistry,
   createScheduledActivity,
   createWorkItem,
   makeSimulationMoment,
   performScheduledActivity,
+  performCampaignAction,
   rescheduleScheduledActivity,
   scheduledActivitiesVisibleTo,
   scheduledActivityPerformanceTiming,
@@ -467,7 +470,14 @@ export function performRunDScheduledActivity(
       "The controlled player cannot perform this scheduled activity now.",
     );
   }
-  return performScheduledActivity(world, activityId);
+  const campaignAction = campaignActionForActivity(world, activityId);
+  return campaignAction
+    ? performCampaignAction(world, campaignAction.id)
+    : performScheduledActivity(
+        world,
+        activityId,
+        createCampaignElectionTransitionRegistry(),
+      );
 }
 
 export function hiddenRunDStateIsFiltered(

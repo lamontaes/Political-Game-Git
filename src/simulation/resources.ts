@@ -640,7 +640,7 @@ export function createResourceObligation(
       "A resource flow may have only one major obligation identity.",
     );
   }
-  if (endpointPositionOwner(flow.source) === null) {
+  if (flow.source.kind === "organization") {
     throw new Error(
       "A personal obligation must be owed by a person or household.",
     );
@@ -1183,8 +1183,8 @@ function validateBasisReference(
 
 function endpointPositionOwner(
   endpoint: ResourceEndpoint,
-): ResourcePositionOwner | null {
-  return endpoint.kind === "organization" ? null : { ...endpoint };
+): ResourcePositionOwner {
+  return { ...endpoint };
 }
 
 function entityDate(

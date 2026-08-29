@@ -546,3 +546,36 @@ includes one full 9:10–3:15 regression through delegation, briefing, flexible
 work, travel, and the community meeting; its blocked attempts preserve browser
 time/history attributes and its final next commitment is the 3:30 tentative
 call.
+
+## Weekend Playtest 0.1 Slice E Boundary Audit — 2026-08-28
+
+This audit applies the Game Constitution, D-031 through D-053, the accepted
+Stage 6 baseline, Runs A–D-Lite, and the thin election substrate to the bounded
+campaign vertical.
+
+| Concern                                    | Disposition                         | Evidence and rationale                                                                                                                                                                                                                                                                                                              |
+| ------------------------------------------ | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Second election truth store                | Confirmed absent                    | Campaign records link one accepted `ElectionContestRecord`; campaign-aware evaluation calls `resolveElectionContest`, and one ordinary election result/event remains authoritative. Generic, manual, uncontested, and cancellation paths are preserved.                                                                             |
+| React-only candidacy or money              | Confirmed absent                    | Filing, campaign organization, work, action identity, resource position/flow/outcome, and terminal state are canonical append-oriented World records. UI replaces the sole World owner only after a public writer succeeds.                                                                                                         |
+| Personal/campaign resource collapse        | Corrected with smallest shared seam | `ResourcePositionOwner` accepts the already-supported organization endpoint. Campaign cash queries the organization position and cannot become the controlled person's position. Tracked organization outflows receive the same overdraft integrity check. No finance-law system was added.                                         |
+| Hidden truth versus player knowledge       | Confirmed separated                 | Exact scoped candidate support is `WorldMetricStateRecord`. A distinct observation has deterministic nonzero error and compatible uncertainty; a private event plus candidate-owned partial knowledge drives presentation. Projection contains no metric-state query, and browser proof rejects hidden/true/canonical support text. |
+| Universal action points                    | Confirmed absent                    | Fundraising and outreach are only two durable action kinds. Their bounded keyed consequences are contest/candidate scoped, append action results, and do not expose thresholds or guarantee a result. Different same-seed action history can change a loss to a win.                                                                |
+| Fake campaign time                         | Confirmed absent                    | All three campaign commitments are accepted ScheduledActivities. Action performance uses D-Lite timing, earlier-commitment guards, future-due resolution, staff progression, and ordinary completion events. Calendar sees the same roots and states.                                                                               |
+| Unstable randomness                        | Confirmed isolated                  | Initial support, fundraising amount, action effect, observation error, and election uncertainty use stable `SeededRng` forks. Canonical event currency formatting is locale independent. Same seed/actions produce byte-identical snapshots.                                                                                        |
+| Outcome integrity and provenance           | Confirmed composed                  | Aggregate tallies sum to a fixed bounded fixture electorate, winner matches max tally, and result provenance cites the due item, contest, and campaign action outcome events. Win/loss closes work and links one terminal campaign state to the canonical result.                                                                   |
+| Failure as game over                       | Confirmed rejected                  | Deterministic loss preserves World, person, relationships, history, time, knowledge, schedule, work, conversation, and document state. Browser proof opens Calendar and Work/Pending after loss and reopens the persisted result.                                                                                                   |
+| Persistence and malformed history          | Confirmed guarded                   | Campaign families join global contiguous sequence/stable-ID validation. Integrity checks cross-system identity, chronology, state supersession, uniqueness, support scopes, actions, observations/knowledge, transfers, and terminal results. JSON and SQLite round trips are exact.                                                |
+| Portability and jurisdiction leakage       | Confirmed behavioral                | The same domain loop runs with three candidates, Synthetic Tidal Basin, Harbor Steward, Pacific/Honolulu, different dates/currency/people, and no Lexington, Kentucky, or America/New_York serialization text.                                                                                                                      |
+| Accepted Runs A–D-Lite and visual baseline | Confirmed preserved                 | The full semantic and browser suites retain people, dossiers, pins, conversation/listener/knowledge, working document/provisions, canonical time, Calendar, Work/Pending, responsive scene transform, and player controls. Campaign is one additional scene-native workspace.                                                       |
+| Stage 7/8/9 and Slice F creep              | Confirmed bounded                   | No law, institution, eligibility, electorate, voter, precinct, turnout, primary, media, debate, campaign AI, districting, compliance, office assumption, or governing system was added. Lexington fixture language is explicitly a playtest placeholder.                                                                            |
+
+### Slice E disposition
+
+The focused semantic suite covers filing, campaign/staff/endorsement linkage,
+isolated treasury and fundraising flow, exact time, outreach, fallible
+observation/knowledge, duplicate guards, campaign-aware win/loss, continuation,
+byte replay, JSON, SQLite, action relevance, and alternate-jurisdiction
+portability. Playwright covers keyboard discovery and both full paths with
+native active, feedback, result, and post-loss evidence. Final exact-head full
+validation and CI remain publishing gates rather than claims made by this
+audit.

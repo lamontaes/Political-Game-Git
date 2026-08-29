@@ -115,6 +115,26 @@ remains date-level; history sequence and action sequence remain ordering/seed
 inputs, not clocks. See
 [Canonical Sub-Day Time, Scheduled Activity, and Office Work](docs/systems/time-work.md).
 
+Weekend Playtest Slice E adds one bounded campaign vertical without changing
+schema or snapshot version because the new append-oriented campaign arrays are
+optional on pre-Slice-E worlds. Filing composes the accepted election contest,
+Organization, WorkRelationship, ResourcePosition, ScheduledActivity,
+HistoricalEvent, relationship, WorldMetricState/Observation, knowledge, and
+future-transition APIs. Campaign, state, action, and action-result records own
+only the cross-system identities and consequence references those reused
+families cannot express. Organization-owned liquid positions close the smallest
+resource gap while remaining disjoint from person and household money.
+
+The presentation projection reads campaign cash, public filing/endorsement,
+scheduled-action state, canonical election results, and candidate-owned field
+memo observations/knowledge. It never queries hidden support metric state.
+Fundraising and outreach perform through the same D-Lite clock and commitment
+guards. At the accepted election due frontier, a linked active campaign uses a
+campaign-aware aggregate evaluator and still resolves through the one canonical
+contest/result writer. Terminal win/loss campaign state closes campaign work
+but preserves ordinary play. See D-053 and
+[Elections](docs/systems/elections.md).
+
 The initial domain includes:
 
 - a JSON-safe `World` with a stable ID, normalized seed, canonical zoned minute-level moment consistent with its current simulated date, entities, action sequence, generator version, and history;
@@ -128,7 +148,7 @@ The initial domain includes:
 - a separate stable mind catalog containing sparse personality-tendency and personal-value definitions without ideology or policy mappings;
 - sparse append-only personality, value, goal-state, appraisal, perception, temporary-state, and durable decision-trace records;
 - stable organizations with effective-dated profiles; actual or expected work relationships with separate role/status history; actual or expected organization-linked education and non-work participation with separate lifecycle history; temporal households and memberships; and separate kinship, partnership, care, and person-or-organization child-authority histories;
-- exact integer-minor-unit personal/household resource positions; typed person/household/organization flow endpoints; expected/effective flow terms; actual completed/partial/missed/blocked outcomes; major obligation/debt state; and structured affordability projections;
+- exact integer-minor-unit person/household/organization resource positions; typed person/household/organization flow endpoints; expected/effective flow terms; actual completed/partial/missed/blocked outcomes; major obligation/debt state; and structured affordability projections;
 - stable dwellings plus separate effective person/household occupancy and person/household/organization tenure, ownership, lease, hosting, and assignment histories;
 - an exact reduced-rational non-money quantity primitive with open units; a stable world-metric definition catalog; jurisdiction/optional-segment scopes; explicit point/interval periods; append-oriented canonical metric state and explicit non-backdated corrections; and separate source-series observation vintages with exact compatible uncertainty and non-backdated revisions;
 - a stable causal-mechanism definition catalog with exact linear/bounded response curves; append-oriented causal-process ancestry and effect activations with durable point/interval magnitude bases; distinct-root anti-double-counting queries; explicit cutoff-aware, target-period-phased aggregate metric evaluation; primitive/derived metric separation; and bounded labor, nominal/cost purchasing-power, aggregate proxy, and fiscal derivations;
@@ -139,6 +159,7 @@ The initial domain includes:
 - one stable future due-item identity with an exact closed scheduled/resolved/cancelled/blocked state vocabulary and deterministic nonserialized handlers integrated with authoritative time advancement; a scheduled due-today item is valid pending work, while a scheduled overdue item is invalid;
 - stable scheduled-activity identities with append-only exact interval state, participant conflict/flexibility/travel semantics, and ordinary completion history;
 - stable office work identities with append-only assignment, player-requirement, dependency, authored-effort, scheduling-link, and completion state;
+- bounded campaign, campaign-state, fundraising/outreach action, and action-result identities that compose organizations, work, time, resources, hidden metric truth, fallible observations/knowledge, and the canonical election contest/result history;
 - ranged time-demand profiles and qualitative deterministic load/recovery resolution over active work, care, and exceptional commitments, reusing temporary states for fatigue;
 - an explicit observer/person control state that protects a controlled person's major internal choices from autonomous application;
 - reusable query helpers over facts, event tags, age, geography, experience, relationship context, stable organization work/education/participation, households, kinship, partnership, care, child authority, exact liquid position, obligations, affordability, dwelling occupancy/tenure, qualitative relationship continuity, life load, proposition history, principles, knowledge, expertise, character mind, perception, decision traces, historical vitality/capacity, and evidence/discovery;

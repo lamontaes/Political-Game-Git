@@ -25,6 +25,30 @@ function checkPortOpen(port: number, host = "127.0.0.1"): Promise<boolean> {
   });
 }
 
+function getAvailablePort(): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const server = net.createServer();
+    server.on("error", reject);
+    server.listen(0, "127.0.0.1", () => {
+      const address = server.address();
+      if (!address || typeof address === "string") {
+        server.close();
+        reject(new Error("Could not allocate a local test port."));
+        return;
+      }
+
+      const { port } = address;
+      server.close((error) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+        resolve(port);
+      });
+    });
+  });
+}
+
 async function waitForPort(
   port: number,
   shouldBeOpen: boolean,
@@ -43,7 +67,7 @@ async function waitForPort(
 
 describe("dev:identified lifecycle and CLI forwarding", () => {
   it("prints banner and forwards custom arguments like --mode", async () => {
-    const port = 5188;
+    const port = await getAvailablePort();
     const child = spawn(
       process.execPath,
       [SCRIPT_PATH, "--port", port.toString(), "--mode", "test-proof-mode"],
@@ -89,7 +113,7 @@ describe("dev:identified lifecycle and CLI forwarding", () => {
   });
 
   it("handles --host= and --port= syntax without duplicating arguments", async () => {
-    const port = 5194;
+    const port = await getAvailablePort();
     const child = spawn(
       process.execPath,
       [SCRIPT_PATH, `--port=${port}`, "--host=127.0.0.1"],
@@ -126,7 +150,7 @@ describe("dev:identified lifecycle and CLI forwarding", () => {
   });
 
   it("terminates cleanly and frees port on SIGTERM to wrapper", async () => {
-    const port = 5189;
+    const port = await getAvailablePort();
     const child = spawn(
       process.execPath,
       [SCRIPT_PATH, "--port", port.toString()],
@@ -157,7 +181,7 @@ describe("dev:identified lifecycle and CLI forwarding", () => {
   });
 
   it("terminates cleanly and frees port on SIGINT to wrapper", async () => {
-    const port = 5190;
+    const port = await getAvailablePort();
     const child = spawn(
       process.execPath,
       [SCRIPT_PATH, "--port", port.toString()],
@@ -188,11 +212,15 @@ describe("dev:identified lifecycle and CLI forwarding", () => {
   });
 
   it("fails with non-zero exit code if requested port is occupied (--strictPort)", async () => {
-    const port = 5196;
     const dummyServer = net.createServer();
     await new Promise<void>((resolve) => {
-      dummyServer.listen(port, "127.0.0.1", () => resolve());
+      dummyServer.listen(0, "127.0.0.1", () => resolve());
     });
+    const address = dummyServer.address();
+    if (!address || typeof address === "string") {
+      throw new Error("Could not reserve a local test port.");
+    }
+    const { port } = address;
 
     const child = spawn(
       process.execPath,

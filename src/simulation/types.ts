@@ -38,6 +38,10 @@ export type EntityKind =
   | "education-enrollment"
   | "education-enrollment-state"
   | "effect-activation"
+  | "campaign"
+  | "campaign-state"
+  | "campaign-action"
+  | "campaign-action-result"
   | "election-contest"
   | "election-contest-result"
   | "fact"
@@ -2352,7 +2356,8 @@ export type ResourceEndpoint =
 
 export type ResourcePositionOwner =
   | { readonly kind: "person"; readonly personId: EntityId }
-  | { readonly kind: "household"; readonly householdId: EntityId };
+  | { readonly kind: "household"; readonly householdId: EntityId }
+  | { readonly kind: "organization"; readonly organizationId: EntityId };
 
 export type ResourceFlowBasisNamespace =
   "compensation" | "support" | "housing" | "care" | "obligation" | "custom";
@@ -2832,6 +2837,76 @@ export interface CancelElectionContestInput {
   readonly reason: string;
 }
 
+export type CampaignStatus = "active" | "won" | "lost";
+
+export interface CampaignCandidateSupportScope {
+  readonly candidatePersonId: EntityId;
+  readonly segmentKey: MetricSegmentKey;
+}
+
+export interface CampaignRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly contestId: EntityId;
+  readonly candidatePersonId: EntityId;
+  readonly jurisdictionId: EntityId;
+  readonly organizationId: EntityId;
+  readonly donorPoolOrganizationId: EntityId;
+  readonly treasuryPositionId: EntityId;
+  readonly treasuryCurrency: CurrencyCode;
+  readonly candidateWorkRelationshipId: EntityId;
+  readonly staffWorkRelationshipIds: readonly EntityId[];
+  readonly supportMetricId: EntityId;
+  readonly candidateSupportScopes: readonly CampaignCandidateSupportScope[];
+  readonly filingEventId: EntityId;
+  readonly endorsementEventId: EntityId | null;
+  readonly fundraisingActivityId: EntityId;
+  readonly outreachActivityId: EntityId;
+  readonly electionActivityId: EntityId;
+  readonly filedAt: IsoDate;
+}
+
+export interface CampaignStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly campaignId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly status: CampaignStatus;
+  readonly electionResultId: EntityId | null;
+  readonly reason: string | null;
+  readonly supersedesStateId: EntityId | null;
+}
+
+export type CampaignActionKind = "fundraising" | "outreach";
+
+export interface CampaignActionRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly campaignId: EntityId;
+  readonly kind: CampaignActionKind;
+  readonly scheduledActivityId: EntityId;
+  readonly createdAt: IsoDate;
+}
+
+export interface CampaignActionResultRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly campaignActionId: EntityId;
+  readonly completedAt: IsoDate;
+  readonly outcomeEventId: EntityId;
+  readonly resourceFlowId: EntityId | null;
+  readonly resourceOutcomeId: EntityId | null;
+  readonly raisedAmount: MoneyAmount | null;
+  readonly supportStateIds: readonly EntityId[];
+  readonly observationId: EntityId;
+  readonly feedbackEventId: EntityId;
+  readonly feedbackKnowledgeId: EntityId;
+}
+
 export interface HistoryStore {
   readonly nextSequence: number;
   readonly organizations: readonly Organization[];
@@ -2892,6 +2967,10 @@ export interface HistoryStore {
   readonly workItemStates: readonly WorkItemStateRecord[];
   readonly electionContests?: readonly ElectionContestRecord[];
   readonly electionContestResults?: readonly ElectionContestResultRecord[];
+  readonly campaigns?: readonly CampaignRecord[];
+  readonly campaignStates?: readonly CampaignStateRecord[];
+  readonly campaignActions?: readonly CampaignActionRecord[];
+  readonly campaignActionResults?: readonly CampaignActionResultRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];

@@ -14,4 +14,29 @@ Elections are contextual contests among persistent people, institutions, geograp
 - Losing is a continuing life state, not game over.
 - Observer Mode uses the same election systems without a player character.
 
-Elections are not implemented in the first build. The Stage 4 character-mind and decision architecture is a future input to candidate, voter, staff, and endorsement choices; it does not create contests, electorate behavior, polling, campaign actions, or election outcomes.
+The accepted thin election substrate supplies one canonical contest/result
+history, future-date resolution, deterministic generic outcomes, manual
+results, and terminal cancellation. Weekend Playtest Slice E composes one
+bounded player campaign over that substrate:
+
+- filing schedules or attaches to one canonical contest and records public
+  candidacy history;
+- a campaign organization owns a separate liquid position, candidate/staff
+  work relationships, and exact fundraising, outreach, and election-night
+  activities;
+- fundraising records an aggregate fixture resource flow into campaign cash;
+- action consequences update hidden candidate-support metric state while a
+  separate fallible observation and candidate-owned knowledge drive the field
+  memo;
+- a campaign-aware deterministic evaluator combines latest hidden support and
+  bounded keyed uncertainty, then calls the existing canonical contest
+  resolver with aggregate tallies; and
+- win or loss closes campaign work and persists without ending the World.
+
+This is not the full election system described above. It does not implement
+effective election law, institutions, electorates, turnout models, individual
+voters, primaries, districting, campaign AI, media, debates, campaign-finance
+compliance, or office assumption. Noncampaign, uncontested, manual-result, and
+cancelled contests retain the accepted generic substrate behavior. The Stage 4
+mind and decision architecture remains a future input to autonomous candidate,
+voter, staff, and endorsement choices.
