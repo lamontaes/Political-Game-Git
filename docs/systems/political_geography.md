@@ -107,6 +107,7 @@ Demographic data (such as ACS tables B01001, DP05, etc.) join against compiled d
 
 | Command                      | Action                                                                                                                                  |
 | :--------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run intake:geography`   | Downloads authentic Census TIGER/Line and DC GIS GeoJSON and records raw SHA-256 and provenance audit metadata.                         |
 | `npm run compile:geography`  | Compiles raw/fixture TIGER/Line sources into normalized corpus (`data/political_geography/corpus/normalized_political_geography.json`). |
 | `npm run manifest:geography` | Generates geographic coverage and integrity manifest (`data/political_geography/manifests/political_geography_manifest.json`).          |
 | `npm run validate:geography` | Executes full geometric coordinate checks, SHA-256 validation, bounding box checks, and adjacency reciprocal audits.                    |

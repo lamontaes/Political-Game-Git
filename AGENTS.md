@@ -27,6 +27,7 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run lint` — lint
 - `npm run typecheck` — TypeScript validation
 - `npm run build` — production build
+- `npm run intake:geography` — download raw Census TIGER/Line and DC GIS GeoJSON and extract authentic geometries
 - `npm run compile:geography` — compile normalized political geography source corpus
 - `npm run manifest:geography` — generate national geography coverage manifest
 - `npm run validate:geography` — full political geography corpus integrity validation
