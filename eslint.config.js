@@ -20,7 +20,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ["src/simulation/**/*.{ts,tsx}"],
+    files: ["src/simulation/**/*.{ts,tsx}", "src/storm_corpus/**/*.{ts,tsx}"],
     rules: {
       "no-restricted-imports": [
         "error",
@@ -38,7 +38,7 @@ export default tseslint.config(
                 "../main",
               ],
               message:
-                "The simulation must remain headless and independent of the React UI.",
+                "The simulation and storm corpus must remain headless and independent of the React UI.",
             },
           ],
         },

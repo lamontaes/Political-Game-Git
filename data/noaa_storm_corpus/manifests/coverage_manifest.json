@@ -1,0 +1,256 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-08-28T00:00:00.000Z",
+  "vintage": "NOAA NCEI Storm Events Database 1950-2026 (Published Month: 2026-06)",
+  "eras": [
+    {
+      "era": "1950-1954_tornado_only",
+      "period": "1950-01-01 to 1954-12-31",
+      "collectionProcedure": "U.S. Weather Bureau Severe Local Storms Project digital archive. Nationwide coverage limited exclusively to Tornado events.",
+      "coveredEventTypes": ["Tornado"],
+      "historicalCaveats": [
+        "Zero records for floods, winter storms, thunderstorm wind, or hail during 1950-1954 represent collection scope, not meteorological absence.",
+        "Tornado records in this era were retrospectively rated on the Fujita scale (F0-F5).",
+        "Geographic coordinates are often approximate or center-county based."
+      ]
+    },
+    {
+      "era": "1955-1995_severe_convective_3",
+      "period": "1955-01-01 to 1995-12-31",
+      "collectionProcedure": "Convective severe storm digital archive. Systematically ingested three severe hazard types: Tornado, Thunderstorm Wind, and Hail.",
+      "coveredEventTypes": [
+        "Tornado",
+        "Thunderstorm Wind",
+        "Hail",
+        "TSTM WIND",
+        "THUNDERSTORM WINDS",
+        "HAIL/WIND"
+      ],
+      "historicalCaveats": [
+        "Synoptic and hydrological events (Floods, Winter Storms, Hurricanes, Heat Waves) were documented in monthly Storm Data publications but were not systematically ingested into the bulk digital database until 1996.",
+        "Damage estimates frequently utilized category bracket codes (e.g. 0-9) rather than exact dollar figures.",
+        "Missing damage was frequently left blank or unestimated rather than verified zero."
+      ]
+    },
+    {
+      "era": "1996-present_nws_standard_48",
+      "period": "1996-01-01 to Present (2026)",
+      "collectionProcedure": "Modernized National Weather Service Instruction 10-1605 standardized 48 distinct event types recorded across all NWS Weather Forecast Offices (WFOs).",
+      "coveredEventTypes": [
+        "Astronomical Low Tide",
+        "Avalanche",
+        "Blizzard",
+        "Coastal Flood",
+        "Cold/Wind Chill",
+        "Debris Flow",
+        "Dense Fog",
+        "Dense Smoke",
+        "Drought",
+        "Dust Devil",
+        "Dust Storm",
+        "Excessive Heat",
+        "Extreme Cold/Wind Chill",
+        "Flash Flood",
+        "Flood",
+        "Freezing Fog",
+        "Frost/Freeze",
+        "Funnel Cloud",
+        "Hail",
+        "Heat",
+        "Heavy Rain",
+        "Heavy Snow",
+        "High Surf",
+        "High Wind",
+        "Hurricane (Typhoon)",
+        "Ice Storm",
+        "Lake-Effect Snow",
+        "Lakeshore Flood",
+        "Lightning",
+        "Marine Dense Fog",
+        "Marine Hail",
+        "Marine Heavy Freezing Spray",
+        "Marine High Wind",
+        "Marine Hurricane/Typhoon",
+        "Marine Lightning",
+        "Marine Strong Wind",
+        "Marine Thunderstorm Wind",
+        "Marine Tropical Depression",
+        "Marine Tropical Storm",
+        "Rip Current",
+        "Seiche",
+        "Sleet",
+        "Storm Surge/Tide",
+        "Strong Wind",
+        "Thunderstorm Wind",
+        "Tornado",
+        "Tropical Depression",
+        "Tropical Storm",
+        "Tsunami",
+        "Volcanic Ash",
+        "Waterspout",
+        "Wildfire",
+        "Winter Storm",
+        "Winter Weather"
+      ],
+      "historicalCaveats": [
+        "Effective February 1, 2007: Tornado ratings transitioned from the Fujita Scale (F0-F5) to the Enhanced Fujita Scale (EF0-EF5).",
+        "Convective / localized phenomena are indexed by County (CZ_TYPE = 'C'), whereas broad synoptic phenomena (winter storms, excessive heat, blizzards, hurricanes) are indexed by NWS Public Forecast Zone (CZ_TYPE = 'Z').",
+        "Casualties and damages are distinguished between Direct (caused immediately by the hazard) and Indirect (associated secondary causes)."
+      ]
+    }
+  ],
+  "jurisdictions": [
+    {
+      "stateFips": "17",
+      "stateName": "ILLINOIS",
+      "earliestEventDate": "1995-07-12T10:00:00-05:00",
+      "latestEventDate": "1995-07-12T10:00:00-05:00",
+      "totalEvents": 1,
+      "totalEpisodes": 1,
+      "eventCountByFamily": {
+        "tornado": 0,
+        "flood": 0,
+        "winter_storm": 0,
+        "tropical_hurricane": 0,
+        "heat_cold": 1,
+        "severe_storm": 0,
+        "wildfire": 0,
+        "drought_environment": 0,
+        "marine_coastal": 0,
+        "other": 0
+      },
+      "eventCountByEra": {
+        "1950-1954_tornado_only": 0,
+        "1955-1995_severe_convective_3": 1,
+        "1996-present_nws_standard_48": 0
+      }
+    },
+    {
+      "stateFips": "21",
+      "stateName": "KENTUCKY",
+      "earliestEventDate": "1974-04-03T16:30:00Z",
+      "latestEventDate": "2023-03-03T11:00:00-05:00",
+      "totalEvents": 10,
+      "totalEpisodes": 9,
+      "eventCountByFamily": {
+        "tornado": 2,
+        "flood": 3,
+        "winter_storm": 2,
+        "tropical_hurricane": 0,
+        "heat_cold": 0,
+        "severe_storm": 3,
+        "wildfire": 0,
+        "drought_environment": 0,
+        "marine_coastal": 0,
+        "other": 0
+      },
+      "eventCountByEra": {
+        "1950-1954_tornado_only": 0,
+        "1955-1995_severe_convective_3": 3,
+        "1996-present_nws_standard_48": 7
+      }
+    },
+    {
+      "stateFips": "22",
+      "stateName": "LOUISIANA",
+      "earliestEventDate": "2005-08-29T06:00:00-05:00",
+      "latestEventDate": "2005-08-29T06:00:00-05:00",
+      "totalEvents": 1,
+      "totalEpisodes": 1,
+      "eventCountByFamily": {
+        "tornado": 0,
+        "flood": 0,
+        "winter_storm": 0,
+        "tropical_hurricane": 1,
+        "heat_cold": 0,
+        "severe_storm": 0,
+        "wildfire": 0,
+        "drought_environment": 0,
+        "marine_coastal": 0,
+        "other": 0
+      },
+      "eventCountByEra": {
+        "1950-1954_tornado_only": 0,
+        "1955-1995_severe_convective_3": 0,
+        "1996-present_nws_standard_48": 1
+      }
+    },
+    {
+      "stateFips": "37",
+      "stateName": "NORTH CAROLINA",
+      "earliestEventDate": "2024-09-27T04:00:00-04:00",
+      "latestEventDate": "2024-09-27T04:00:00-04:00",
+      "totalEvents": 1,
+      "totalEpisodes": 1,
+      "eventCountByFamily": {
+        "tornado": 0,
+        "flood": 0,
+        "winter_storm": 0,
+        "tropical_hurricane": 1,
+        "heat_cold": 0,
+        "severe_storm": 0,
+        "wildfire": 0,
+        "drought_environment": 0,
+        "marine_coastal": 0,
+        "other": 0
+      },
+      "eventCountByEra": {
+        "1950-1954_tornado_only": 0,
+        "1955-1995_severe_convective_3": 0,
+        "1996-present_nws_standard_48": 1
+      }
+    },
+    {
+      "stateFips": "47",
+      "stateName": "TENNESSEE",
+      "earliestEventDate": "2010-05-01T06:00:00-05:00",
+      "latestEventDate": "2010-05-01T06:00:00-05:00",
+      "totalEvents": 1,
+      "totalEpisodes": 1,
+      "eventCountByFamily": {
+        "tornado": 0,
+        "flood": 1,
+        "winter_storm": 0,
+        "tropical_hurricane": 0,
+        "heat_cold": 0,
+        "severe_storm": 0,
+        "wildfire": 0,
+        "drought_environment": 0,
+        "marine_coastal": 0,
+        "other": 0
+      },
+      "eventCountByEra": {
+        "1950-1954_tornado_only": 0,
+        "1955-1995_severe_convective_3": 0,
+        "1996-present_nws_standard_48": 1
+      }
+    },
+    {
+      "stateFips": "48",
+      "stateName": "TEXAS",
+      "earliestEventDate": "1953-05-09T16:10:00Z",
+      "latestEventDate": "2021-02-13T12:00:00-06:00",
+      "totalEvents": 2,
+      "totalEpisodes": 2,
+      "eventCountByFamily": {
+        "tornado": 1,
+        "flood": 0,
+        "winter_storm": 0,
+        "tropical_hurricane": 0,
+        "heat_cold": 1,
+        "severe_storm": 0,
+        "wildfire": 0,
+        "drought_environment": 0,
+        "marine_coastal": 0,
+        "other": 0
+      },
+      "eventCountByEra": {
+        "1950-1954_tornado_only": 1,
+        "1955-1995_severe_convective_3": 0,
+        "1996-present_nws_standard_48": 1
+      }
+    }
+  ],
+  "totalEventsInCorpus": 16,
+  "totalEpisodesInCorpus": 15
+}

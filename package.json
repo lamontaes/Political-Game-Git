@@ -30,7 +30,10 @@
     "extract:chroma": "node --import tsx scripts/art-asset-factory/cli-chroma-extract.ts",
     "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art",
     "agent:preflight": "node scripts/agent-preflight.mjs",
-    "dev:identified": "node scripts/dev-identified.mjs",
+    "compile:storm-corpus": "node --import tsx scripts/storm-corpus/cli-compile.ts",
+    "validate:storm-corpus": "node --import tsx scripts/storm-corpus/cli-validate.ts",
+    "manifest:storm-corpus": "node --import tsx scripts/storm-corpus/cli-manifest.ts",
+    "test:storm-corpus": "vitest run tests/storm_corpus.test.ts",
     "stress:persons": "node --import tsx src/cli/stress-persons.ts"
   },
   "dependencies": {

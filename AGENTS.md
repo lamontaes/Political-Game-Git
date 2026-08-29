@@ -27,6 +27,10 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run lint` — lint
 - `npm run typecheck` — TypeScript validation
 - `npm run build` — production build
+- `npm run compile:storm-corpus` — compile normalized NOAA storm events corpus and derived aggregates
+- `npm run validate:storm-corpus` — validate storm events corpus integrity
+- `npm run manifest:storm-corpus` — inspect national and jurisdiction storm coverage manifest
+- `npm run test:storm-corpus` — focused NOAA storm events corpus tests
 - `npm run validate` — full validation suite
 
 ## Working Rules

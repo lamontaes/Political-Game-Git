@@ -1,0 +1,1656 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-08-28T00:00:00.000Z",
+  "disclaimers": [
+    "HISTORICAL CALIBRATION ONLY: These derived distributions reflect observed historical reports in the NOAA NCEI database (1950-2026).",
+    "NO CANONICAL DAMAGE EFFECTS: Historical reported damage must not be converted directly into deterministic game state consequences without simulation modeling.",
+    "COLLECTION ERA LIMITATIONS: Event frequencies prior to 1996 reflect historical NWS collection procedures (1950-1954: tornado only; 1955-1995: severe convective 3-hazards). Zero events in earlier eras do not indicate meteorological absence.",
+    "NO CLIMATE EXTRAPOLATION: These aggregates are strictly descriptive historical baselines and must not be used to extrapolate future climate trends."
+  ],
+  "decadalFrequencies": [
+    {
+      "jurisdictionKey": "17",
+      "jurisdictionName": "ILLINOIS",
+      "eventFamily": "heat_cold",
+      "decade": "1990s",
+      "coverageEra": "1955-1995_severe_convective_3",
+      "eventCount": 1,
+      "episodeCount": 1,
+      "yearsInDecadeObserved": 1,
+      "annualizedRate": 0.1,
+      "coverageCaveat": "Floods, winter storms, and temperature extremes were not systematically ingested into digital bulk records until 1996."
+    },
+    {
+      "jurisdictionKey": "21",
+      "jurisdictionName": "KENTUCKY",
+      "eventFamily": "flood",
+      "decade": "1990s",
+      "coverageEra": "1996-present_nws_standard_48",
+      "eventCount": 1,
+      "episodeCount": 1,
+      "yearsInDecadeObserved": 1,
+      "annualizedRate": 0.1,
+      "coverageCaveat": null
+    },
+    {
+      "jurisdictionKey": "21",
+      "jurisdictionName": "KENTUCKY",
+      "eventFamily": "flood",
+      "decade": "2020s",
+      "coverageEra": "1996-present_nws_standard_48",
+      "eventCount": 2,
+      "episodeCount": 1,
+      "yearsInDecadeObserved": 1,
+      "annualizedRate": 0.2,
+      "coverageCaveat": null
+    },
+    {
+      "jurisdictionKey": "21",
+      "jurisdictionName": "KENTUCKY",
+      "eventFamily": "severe_storm",
+      "decade": "1980s",
+      "coverageEra": "1955-1995_severe_convective_3",
+      "eventCount": 1,
+      "episodeCount": 1,
+      "yearsInDecadeObserved": 1,
+      "annualizedRate": 0.1,
+      "coverageCaveat": null
+    },
+    {
+      "jurisdictionKey": "21",
+      "jurisdictionName": "KENTUCKY",
+      "eventFamily": "severe_storm",
+      "decade": "2000s",
+      "coverageEra": "1996-present_nws_standard_48",
+      "eventCount": 1,
+      "episodeCount": 1,
+      "yearsInDecadeObserved": 1,
+      "annualizedRate": 0.1,
+      "coverageCaveat": null
+    },
+    {
+      "jurisdictionKey": "21",
+      "jurisdictionName": "KENTUCKY",
+      "eventFamily": "severe_storm",
+      "decade": "2020s",
+      "coverageEra": "1996-present_nws_standard_48",
+      "eventCount": 1,
+      "episodeCount": 1,
+      "yearsInDecadeObserved": 1,
+      "annualizedRate": 0.1,
+      "coverageCaveat": null
+    },
+    {
+      "jurisdictionKey": "21",
+      "jurisdictionName": "KENTUCKY",
+      "eventFamily": "tornado",
+      "decade": "1970s",
+      "coverageEra": "1955-1995_severe_convective_3",
+      "eventCount": 1,
+      "episodeCount": 1,
+      "yearsInDecadeObserved": 1,
+      "annualizedRate": 0.1,
+      "coverageCaveat": null
+    },
+    {
+      "jurisdictionKey": "21",
+      "jurisdictionName": "KENTUCKY",
+      "eventFamily": "tornado",
+      "decade": "2020s",
+      "coverageEra": "1996-present_nws_standard_48",
+      "eventCount": 1,
+      "episodeCount": 1,
+      "yearsInDecadeObserved": 1,
+      "annualizedRate": 0.1,
+      "coverageCaveat": null
+    },
+    {
+      "jurisdictionKey": "21",
+      "jurisdictionName": "KENTUCKY",
+      "eventFamily": "winter_storm",
+      "decade": "1990s",
+      "coverageEra": "1955-1995_severe_convective_3",
+      "eventCount": 1,
+      "episodeCount": 1,
+      "yearsInDecadeObserved": 1,
+      "annualizedRate": 0.1,
+      "coverageCaveat": "Floods, winter storms, and temperature extremes were not systematically ingested into digital bulk records until 1996."
+    },
+    {
+      "jurisdictionKey": "21",
+      "jurisdictionName": "KENTUCKY",
+      "eventFamily": "winter_storm",
+      "decade": "2000s",
+      "coverageEra": "1996-present_nws_standard_48",
+      "eventCount": 1,
+      "episodeCount": 1,
+      "yearsInDecadeObserved": 1,
+      "annualizedRate": 0.1,
+      "coverageCaveat": null
+    },
+    {
+      "jurisdictionKey": "22",
+      "jurisdictionName": "LOUISIANA",
+      "eventFamily": "tropical_hurricane",
+      "decade": "2000s",
+      "coverageEra": "1996-present_nws_standard_48",
+      "eventCount": 1,
+      "episodeCount": 1,
+      "yearsInDecadeObserved": 1,
+      "annualizedRate": 0.1,
+      "coverageCaveat": null
+    },
+    {
+      "jurisdictionKey": "37",
+      "jurisdictionName": "NORTH CAROLINA",
+      "eventFamily": "tropical_hurricane",
+      "decade": "2020s",
+      "coverageEra": "1996-present_nws_standard_48",
+      "eventCount": 1,
+      "episodeCount": 1,
+      "yearsInDecadeObserved": 1,
+      "annualizedRate": 0.1,
+      "coverageCaveat": null
+    },
+    {
+      "jurisdictionKey": "47",
+      "jurisdictionName": "TENNESSEE",
+      "eventFamily": "flood",
+      "decade": "2010s",
+      "coverageEra": "1996-present_nws_standard_48",
+      "eventCount": 1,
+      "episodeCount": 1,
+      "yearsInDecadeObserved": 1,
+      "annualizedRate": 0.1,
+      "coverageCaveat": null
+    },
+    {
+      "jurisdictionKey": "48",
+      "jurisdictionName": "TEXAS",
+      "eventFamily": "heat_cold",
+      "decade": "2020s",
+      "coverageEra": "1996-present_nws_standard_48",
+      "eventCount": 1,
+      "episodeCount": 1,
+      "yearsInDecadeObserved": 1,
+      "annualizedRate": 0.1,
+      "coverageCaveat": null
+    },
+    {
+      "jurisdictionKey": "48",
+      "jurisdictionName": "TEXAS",
+      "eventFamily": "tornado",
+      "decade": "1950s",
+      "coverageEra": "1950-1954_tornado_only",
+      "eventCount": 1,
+      "episodeCount": 1,
+      "yearsInDecadeObserved": 1,
+      "annualizedRate": 0.1,
+      "coverageCaveat": null
+    }
+  ],
+  "seasonalityProfiles": [
+    {
+      "jurisdictionKey": "17",
+      "eventFamily": "heat_cold",
+      "totalEvents": 1,
+      "monthlyDistribution": [
+        {
+          "month": 1,
+          "monthName": "January",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 2,
+          "monthName": "February",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 3,
+          "monthName": "March",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 4,
+          "monthName": "April",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 5,
+          "monthName": "May",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 6,
+          "monthName": "June",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 7,
+          "monthName": "July",
+          "eventCount": 1,
+          "proportion": 1
+        },
+        {
+          "month": 8,
+          "monthName": "August",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 9,
+          "monthName": "September",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 10,
+          "monthName": "October",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 11,
+          "monthName": "November",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 12,
+          "monthName": "December",
+          "eventCount": 0,
+          "proportion": 0
+        }
+      ],
+      "peakMonths": [7]
+    },
+    {
+      "jurisdictionKey": "21",
+      "eventFamily": "flood",
+      "totalEvents": 3,
+      "monthlyDistribution": [
+        {
+          "month": 1,
+          "monthName": "January",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 2,
+          "monthName": "February",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 3,
+          "monthName": "March",
+          "eventCount": 1,
+          "proportion": 0.333
+        },
+        {
+          "month": 4,
+          "monthName": "April",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 5,
+          "monthName": "May",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 6,
+          "monthName": "June",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 7,
+          "monthName": "July",
+          "eventCount": 2,
+          "proportion": 0.667
+        },
+        {
+          "month": 8,
+          "monthName": "August",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 9,
+          "monthName": "September",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 10,
+          "monthName": "October",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 11,
+          "monthName": "November",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 12,
+          "monthName": "December",
+          "eventCount": 0,
+          "proportion": 0
+        }
+      ],
+      "peakMonths": [7]
+    },
+    {
+      "jurisdictionKey": "21",
+      "eventFamily": "severe_storm",
+      "totalEvents": 3,
+      "monthlyDistribution": [
+        {
+          "month": 1,
+          "monthName": "January",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 2,
+          "monthName": "February",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 3,
+          "monthName": "March",
+          "eventCount": 1,
+          "proportion": 0.333
+        },
+        {
+          "month": 4,
+          "monthName": "April",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 5,
+          "monthName": "May",
+          "eventCount": 1,
+          "proportion": 0.333
+        },
+        {
+          "month": 6,
+          "monthName": "June",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 7,
+          "monthName": "July",
+          "eventCount": 1,
+          "proportion": 0.333
+        },
+        {
+          "month": 8,
+          "monthName": "August",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 9,
+          "monthName": "September",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 10,
+          "monthName": "October",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 11,
+          "monthName": "November",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 12,
+          "monthName": "December",
+          "eventCount": 0,
+          "proportion": 0
+        }
+      ],
+      "peakMonths": [3, 5, 7]
+    },
+    {
+      "jurisdictionKey": "21",
+      "eventFamily": "tornado",
+      "totalEvents": 2,
+      "monthlyDistribution": [
+        {
+          "month": 1,
+          "monthName": "January",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 2,
+          "monthName": "February",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 3,
+          "monthName": "March",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 4,
+          "monthName": "April",
+          "eventCount": 1,
+          "proportion": 0.5
+        },
+        {
+          "month": 5,
+          "monthName": "May",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 6,
+          "monthName": "June",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 7,
+          "monthName": "July",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 8,
+          "monthName": "August",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 9,
+          "monthName": "September",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 10,
+          "monthName": "October",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 11,
+          "monthName": "November",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 12,
+          "monthName": "December",
+          "eventCount": 1,
+          "proportion": 0.5
+        }
+      ],
+      "peakMonths": [4, 12]
+    },
+    {
+      "jurisdictionKey": "21",
+      "eventFamily": "winter_storm",
+      "totalEvents": 2,
+      "monthlyDistribution": [
+        {
+          "month": 1,
+          "monthName": "January",
+          "eventCount": 2,
+          "proportion": 1
+        },
+        {
+          "month": 2,
+          "monthName": "February",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 3,
+          "monthName": "March",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 4,
+          "monthName": "April",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 5,
+          "monthName": "May",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 6,
+          "monthName": "June",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 7,
+          "monthName": "July",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 8,
+          "monthName": "August",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 9,
+          "monthName": "September",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 10,
+          "monthName": "October",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 11,
+          "monthName": "November",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 12,
+          "monthName": "December",
+          "eventCount": 0,
+          "proportion": 0
+        }
+      ],
+      "peakMonths": [1]
+    },
+    {
+      "jurisdictionKey": "22",
+      "eventFamily": "tropical_hurricane",
+      "totalEvents": 1,
+      "monthlyDistribution": [
+        {
+          "month": 1,
+          "monthName": "January",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 2,
+          "monthName": "February",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 3,
+          "monthName": "March",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 4,
+          "monthName": "April",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 5,
+          "monthName": "May",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 6,
+          "monthName": "June",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 7,
+          "monthName": "July",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 8,
+          "monthName": "August",
+          "eventCount": 1,
+          "proportion": 1
+        },
+        {
+          "month": 9,
+          "monthName": "September",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 10,
+          "monthName": "October",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 11,
+          "monthName": "November",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 12,
+          "monthName": "December",
+          "eventCount": 0,
+          "proportion": 0
+        }
+      ],
+      "peakMonths": [8]
+    },
+    {
+      "jurisdictionKey": "37",
+      "eventFamily": "tropical_hurricane",
+      "totalEvents": 1,
+      "monthlyDistribution": [
+        {
+          "month": 1,
+          "monthName": "January",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 2,
+          "monthName": "February",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 3,
+          "monthName": "March",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 4,
+          "monthName": "April",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 5,
+          "monthName": "May",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 6,
+          "monthName": "June",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 7,
+          "monthName": "July",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 8,
+          "monthName": "August",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 9,
+          "monthName": "September",
+          "eventCount": 1,
+          "proportion": 1
+        },
+        {
+          "month": 10,
+          "monthName": "October",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 11,
+          "monthName": "November",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 12,
+          "monthName": "December",
+          "eventCount": 0,
+          "proportion": 0
+        }
+      ],
+      "peakMonths": [9]
+    },
+    {
+      "jurisdictionKey": "47",
+      "eventFamily": "flood",
+      "totalEvents": 1,
+      "monthlyDistribution": [
+        {
+          "month": 1,
+          "monthName": "January",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 2,
+          "monthName": "February",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 3,
+          "monthName": "March",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 4,
+          "monthName": "April",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 5,
+          "monthName": "May",
+          "eventCount": 1,
+          "proportion": 1
+        },
+        {
+          "month": 6,
+          "monthName": "June",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 7,
+          "monthName": "July",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 8,
+          "monthName": "August",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 9,
+          "monthName": "September",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 10,
+          "monthName": "October",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 11,
+          "monthName": "November",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 12,
+          "monthName": "December",
+          "eventCount": 0,
+          "proportion": 0
+        }
+      ],
+      "peakMonths": [5]
+    },
+    {
+      "jurisdictionKey": "48",
+      "eventFamily": "heat_cold",
+      "totalEvents": 1,
+      "monthlyDistribution": [
+        {
+          "month": 1,
+          "monthName": "January",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 2,
+          "monthName": "February",
+          "eventCount": 1,
+          "proportion": 1
+        },
+        {
+          "month": 3,
+          "monthName": "March",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 4,
+          "monthName": "April",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 5,
+          "monthName": "May",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 6,
+          "monthName": "June",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 7,
+          "monthName": "July",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 8,
+          "monthName": "August",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 9,
+          "monthName": "September",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 10,
+          "monthName": "October",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 11,
+          "monthName": "November",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 12,
+          "monthName": "December",
+          "eventCount": 0,
+          "proportion": 0
+        }
+      ],
+      "peakMonths": [2]
+    },
+    {
+      "jurisdictionKey": "48",
+      "eventFamily": "tornado",
+      "totalEvents": 1,
+      "monthlyDistribution": [
+        {
+          "month": 1,
+          "monthName": "January",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 2,
+          "monthName": "February",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 3,
+          "monthName": "March",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 4,
+          "monthName": "April",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 5,
+          "monthName": "May",
+          "eventCount": 1,
+          "proportion": 1
+        },
+        {
+          "month": 6,
+          "monthName": "June",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 7,
+          "monthName": "July",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 8,
+          "monthName": "August",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 9,
+          "monthName": "September",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 10,
+          "monthName": "October",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 11,
+          "monthName": "November",
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "month": 12,
+          "monthName": "December",
+          "eventCount": 0,
+          "proportion": 0
+        }
+      ],
+      "peakMonths": [5]
+    }
+  ],
+  "damageDistributions": [
+    {
+      "jurisdictionKey": "17",
+      "eventFamily": "heat_cold",
+      "totalEvents": 1,
+      "eventsWithReportedDamage": 1,
+      "eventsWithMissingDamage": 0,
+      "reportedDamageRate": 1,
+      "minDamageDollars": 60000000,
+      "medianDamageDollars": 60000000,
+      "p75DamageDollars": 60000000,
+      "p90DamageDollars": 60000000,
+      "p99DamageDollars": 60000000,
+      "maxDamageDollars": 60000000,
+      "damageTiers": [
+        {
+          "tierKey": "zero_or_unspecified",
+          "minDollars": 0,
+          "maxDollars": 0,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "under_10k",
+          "minDollars": 1,
+          "maxDollars": 9999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10k_to_100k",
+          "minDollars": 10000,
+          "maxDollars": 99999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "100k_to_1m",
+          "minDollars": 100000,
+          "maxDollars": 999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "1m_to_10m",
+          "minDollars": 1000000,
+          "maxDollars": 9999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10m_to_100m",
+          "minDollars": 10000000,
+          "maxDollars": 99999999,
+          "eventCount": 1,
+          "proportion": 1
+        },
+        {
+          "tierKey": "over_100m",
+          "minDollars": 100000000,
+          "maxDollars": null,
+          "eventCount": 0,
+          "proportion": 0
+        }
+      ],
+      "calibrationCaveat": "Values represent observed historical nominal dollar estimates in NOAA records. Missing damage amounts are excluded from percentile distributions."
+    },
+    {
+      "jurisdictionKey": "21",
+      "eventFamily": "flood",
+      "totalEvents": 3,
+      "eventsWithReportedDamage": 3,
+      "eventsWithMissingDamage": 0,
+      "reportedDamageRate": 1,
+      "minDamageDollars": 1250000,
+      "medianDamageDollars": 462000000,
+      "p75DamageDollars": 540000000,
+      "p90DamageDollars": 586800000,
+      "p99DamageDollars": 614880000,
+      "maxDamageDollars": 618000000,
+      "damageTiers": [
+        {
+          "tierKey": "zero_or_unspecified",
+          "minDollars": 0,
+          "maxDollars": 0,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "under_10k",
+          "minDollars": 1,
+          "maxDollars": 9999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10k_to_100k",
+          "minDollars": 10000,
+          "maxDollars": 99999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "100k_to_1m",
+          "minDollars": 100000,
+          "maxDollars": 999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "1m_to_10m",
+          "minDollars": 1000000,
+          "maxDollars": 9999999,
+          "eventCount": 1,
+          "proportion": 0.333
+        },
+        {
+          "tierKey": "10m_to_100m",
+          "minDollars": 10000000,
+          "maxDollars": 99999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "over_100m",
+          "minDollars": 100000000,
+          "maxDollars": null,
+          "eventCount": 2,
+          "proportion": 0.667
+        }
+      ],
+      "calibrationCaveat": "Values represent observed historical nominal dollar estimates in NOAA records. Missing damage amounts are excluded from percentile distributions."
+    },
+    {
+      "jurisdictionKey": "21",
+      "eventFamily": "severe_storm",
+      "totalEvents": 3,
+      "eventsWithReportedDamage": 3,
+      "eventsWithMissingDamage": 0,
+      "reportedDamageRate": 1,
+      "minDamageDollars": 75000,
+      "medianDamageDollars": 250000,
+      "p75DamageDollars": 9375000,
+      "p90DamageDollars": 14850000,
+      "p99DamageDollars": 18135000,
+      "maxDamageDollars": 18500000,
+      "damageTiers": [
+        {
+          "tierKey": "zero_or_unspecified",
+          "minDollars": 0,
+          "maxDollars": 0,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "under_10k",
+          "minDollars": 1,
+          "maxDollars": 9999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10k_to_100k",
+          "minDollars": 10000,
+          "maxDollars": 99999,
+          "eventCount": 1,
+          "proportion": 0.333
+        },
+        {
+          "tierKey": "100k_to_1m",
+          "minDollars": 100000,
+          "maxDollars": 999999,
+          "eventCount": 1,
+          "proportion": 0.333
+        },
+        {
+          "tierKey": "1m_to_10m",
+          "minDollars": 1000000,
+          "maxDollars": 9999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10m_to_100m",
+          "minDollars": 10000000,
+          "maxDollars": 99999999,
+          "eventCount": 1,
+          "proportion": 0.333
+        },
+        {
+          "tierKey": "over_100m",
+          "minDollars": 100000000,
+          "maxDollars": null,
+          "eventCount": 0,
+          "proportion": 0
+        }
+      ],
+      "calibrationCaveat": "Values represent observed historical nominal dollar estimates in NOAA records. Missing damage amounts are excluded from percentile distributions."
+    },
+    {
+      "jurisdictionKey": "21",
+      "eventFamily": "tornado",
+      "totalEvents": 2,
+      "eventsWithReportedDamage": 2,
+      "eventsWithMissingDamage": 0,
+      "reportedDamageRate": 1,
+      "minDamageDollars": 50000000,
+      "medianDamageDollars": 1797500000,
+      "p75DamageDollars": 2671250000,
+      "p90DamageDollars": 3195500000,
+      "p99DamageDollars": 3510050000,
+      "maxDamageDollars": 3545000000,
+      "damageTiers": [
+        {
+          "tierKey": "zero_or_unspecified",
+          "minDollars": 0,
+          "maxDollars": 0,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "under_10k",
+          "minDollars": 1,
+          "maxDollars": 9999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10k_to_100k",
+          "minDollars": 10000,
+          "maxDollars": 99999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "100k_to_1m",
+          "minDollars": 100000,
+          "maxDollars": 999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "1m_to_10m",
+          "minDollars": 1000000,
+          "maxDollars": 9999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10m_to_100m",
+          "minDollars": 10000000,
+          "maxDollars": 99999999,
+          "eventCount": 1,
+          "proportion": 0.5
+        },
+        {
+          "tierKey": "over_100m",
+          "minDollars": 100000000,
+          "maxDollars": null,
+          "eventCount": 1,
+          "proportion": 0.5
+        }
+      ],
+      "calibrationCaveat": "Values represent observed historical nominal dollar estimates in NOAA records. Missing damage amounts are excluded from percentile distributions."
+    },
+    {
+      "jurisdictionKey": "21",
+      "eventFamily": "winter_storm",
+      "totalEvents": 2,
+      "eventsWithReportedDamage": 2,
+      "eventsWithMissingDamage": 0,
+      "reportedDamageRate": 1,
+      "minDamageDollars": 65000000,
+      "medianDamageDollars": 125000000,
+      "p75DamageDollars": 155000000,
+      "p90DamageDollars": 173000000,
+      "p99DamageDollars": 183800000,
+      "maxDamageDollars": 185000000,
+      "damageTiers": [
+        {
+          "tierKey": "zero_or_unspecified",
+          "minDollars": 0,
+          "maxDollars": 0,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "under_10k",
+          "minDollars": 1,
+          "maxDollars": 9999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10k_to_100k",
+          "minDollars": 10000,
+          "maxDollars": 99999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "100k_to_1m",
+          "minDollars": 100000,
+          "maxDollars": 999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "1m_to_10m",
+          "minDollars": 1000000,
+          "maxDollars": 9999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10m_to_100m",
+          "minDollars": 10000000,
+          "maxDollars": 99999999,
+          "eventCount": 1,
+          "proportion": 0.5
+        },
+        {
+          "tierKey": "over_100m",
+          "minDollars": 100000000,
+          "maxDollars": null,
+          "eventCount": 1,
+          "proportion": 0.5
+        }
+      ],
+      "calibrationCaveat": "Values represent observed historical nominal dollar estimates in NOAA records. Missing damage amounts are excluded from percentile distributions."
+    },
+    {
+      "jurisdictionKey": "22",
+      "eventFamily": "tropical_hurricane",
+      "totalEvents": 1,
+      "eventsWithReportedDamage": 1,
+      "eventsWithMissingDamage": 0,
+      "reportedDamageRate": 1,
+      "minDamageDollars": 75500000000,
+      "medianDamageDollars": 75500000000,
+      "p75DamageDollars": 75500000000,
+      "p90DamageDollars": 75500000000,
+      "p99DamageDollars": 75500000000,
+      "maxDamageDollars": 75500000000,
+      "damageTiers": [
+        {
+          "tierKey": "zero_or_unspecified",
+          "minDollars": 0,
+          "maxDollars": 0,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "under_10k",
+          "minDollars": 1,
+          "maxDollars": 9999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10k_to_100k",
+          "minDollars": 10000,
+          "maxDollars": 99999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "100k_to_1m",
+          "minDollars": 100000,
+          "maxDollars": 999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "1m_to_10m",
+          "minDollars": 1000000,
+          "maxDollars": 9999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10m_to_100m",
+          "minDollars": 10000000,
+          "maxDollars": 99999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "over_100m",
+          "minDollars": 100000000,
+          "maxDollars": null,
+          "eventCount": 1,
+          "proportion": 1
+        }
+      ],
+      "calibrationCaveat": "Values represent observed historical nominal dollar estimates in NOAA records. Missing damage amounts are excluded from percentile distributions."
+    },
+    {
+      "jurisdictionKey": "37",
+      "eventFamily": "tropical_hurricane",
+      "totalEvents": 1,
+      "eventsWithReportedDamage": 1,
+      "eventsWithMissingDamage": 0,
+      "reportedDamageRate": 1,
+      "minDamageDollars": 15250000000,
+      "medianDamageDollars": 15250000000,
+      "p75DamageDollars": 15250000000,
+      "p90DamageDollars": 15250000000,
+      "p99DamageDollars": 15250000000,
+      "maxDamageDollars": 15250000000,
+      "damageTiers": [
+        {
+          "tierKey": "zero_or_unspecified",
+          "minDollars": 0,
+          "maxDollars": 0,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "under_10k",
+          "minDollars": 1,
+          "maxDollars": 9999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10k_to_100k",
+          "minDollars": 10000,
+          "maxDollars": 99999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "100k_to_1m",
+          "minDollars": 100000,
+          "maxDollars": 999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "1m_to_10m",
+          "minDollars": 1000000,
+          "maxDollars": 9999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10m_to_100m",
+          "minDollars": 10000000,
+          "maxDollars": 99999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "over_100m",
+          "minDollars": 100000000,
+          "maxDollars": null,
+          "eventCount": 1,
+          "proportion": 1
+        }
+      ],
+      "calibrationCaveat": "Values represent observed historical nominal dollar estimates in NOAA records. Missing damage amounts are excluded from percentile distributions."
+    },
+    {
+      "jurisdictionKey": "47",
+      "eventFamily": "flood",
+      "totalEvents": 1,
+      "eventsWithReportedDamage": 1,
+      "eventsWithMissingDamage": 0,
+      "reportedDamageRate": 1,
+      "minDamageDollars": 2005000000,
+      "medianDamageDollars": 2005000000,
+      "p75DamageDollars": 2005000000,
+      "p90DamageDollars": 2005000000,
+      "p99DamageDollars": 2005000000,
+      "maxDamageDollars": 2005000000,
+      "damageTiers": [
+        {
+          "tierKey": "zero_or_unspecified",
+          "minDollars": 0,
+          "maxDollars": 0,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "under_10k",
+          "minDollars": 1,
+          "maxDollars": 9999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10k_to_100k",
+          "minDollars": 10000,
+          "maxDollars": 99999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "100k_to_1m",
+          "minDollars": 100000,
+          "maxDollars": 999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "1m_to_10m",
+          "minDollars": 1000000,
+          "maxDollars": 9999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10m_to_100m",
+          "minDollars": 10000000,
+          "maxDollars": 99999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "over_100m",
+          "minDollars": 100000000,
+          "maxDollars": null,
+          "eventCount": 1,
+          "proportion": 1
+        }
+      ],
+      "calibrationCaveat": "Values represent observed historical nominal dollar estimates in NOAA records. Missing damage amounts are excluded from percentile distributions."
+    },
+    {
+      "jurisdictionKey": "48",
+      "eventFamily": "heat_cold",
+      "totalEvents": 1,
+      "eventsWithReportedDamage": 1,
+      "eventsWithMissingDamage": 0,
+      "reportedDamageRate": 1,
+      "minDamageDollars": 10600000000,
+      "medianDamageDollars": 10600000000,
+      "p75DamageDollars": 10600000000,
+      "p90DamageDollars": 10600000000,
+      "p99DamageDollars": 10600000000,
+      "maxDamageDollars": 10600000000,
+      "damageTiers": [
+        {
+          "tierKey": "zero_or_unspecified",
+          "minDollars": 0,
+          "maxDollars": 0,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "under_10k",
+          "minDollars": 1,
+          "maxDollars": 9999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10k_to_100k",
+          "minDollars": 10000,
+          "maxDollars": 99999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "100k_to_1m",
+          "minDollars": 100000,
+          "maxDollars": 999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "1m_to_10m",
+          "minDollars": 1000000,
+          "maxDollars": 9999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10m_to_100m",
+          "minDollars": 10000000,
+          "maxDollars": 99999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "over_100m",
+          "minDollars": 100000000,
+          "maxDollars": null,
+          "eventCount": 1,
+          "proportion": 1
+        }
+      ],
+      "calibrationCaveat": "Values represent observed historical nominal dollar estimates in NOAA records. Missing damage amounts are excluded from percentile distributions."
+    },
+    {
+      "jurisdictionKey": "48",
+      "eventFamily": "tornado",
+      "totalEvents": 1,
+      "eventsWithReportedDamage": 1,
+      "eventsWithMissingDamage": 0,
+      "reportedDamageRate": 1,
+      "minDamageDollars": 41000000,
+      "medianDamageDollars": 41000000,
+      "p75DamageDollars": 41000000,
+      "p90DamageDollars": 41000000,
+      "p99DamageDollars": 41000000,
+      "maxDamageDollars": 41000000,
+      "damageTiers": [
+        {
+          "tierKey": "zero_or_unspecified",
+          "minDollars": 0,
+          "maxDollars": 0,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "under_10k",
+          "minDollars": 1,
+          "maxDollars": 9999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10k_to_100k",
+          "minDollars": 10000,
+          "maxDollars": 99999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "100k_to_1m",
+          "minDollars": 100000,
+          "maxDollars": 999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "1m_to_10m",
+          "minDollars": 1000000,
+          "maxDollars": 9999999,
+          "eventCount": 0,
+          "proportion": 0
+        },
+        {
+          "tierKey": "10m_to_100m",
+          "minDollars": 10000000,
+          "maxDollars": 99999999,
+          "eventCount": 1,
+          "proportion": 1
+        },
+        {
+          "tierKey": "over_100m",
+          "minDollars": 100000000,
+          "maxDollars": null,
+          "eventCount": 0,
+          "proportion": 0
+        }
+      ],
+      "calibrationCaveat": "Values represent observed historical nominal dollar estimates in NOAA records. Missing damage amounts are excluded from percentile distributions."
+    }
+  ]
+}
