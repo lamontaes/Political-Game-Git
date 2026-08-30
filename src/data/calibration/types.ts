@@ -50,24 +50,24 @@ export type CareRecipientType =
 
 export interface HouseholdAssets {
   readonly homeOwnershipStatus: HousingTenure;
-  readonly estimatedHomeValueUsd: number;
-  readonly vehicleCount: number;
-  readonly retirementSavingsUsd: number;
-  readonly otherAssetsUsd: number;
+  readonly estimatedHomeValueUsd: number | null;
+  readonly vehicleCount: number | null;
+  readonly retirementSavingsUsd: number | null;
+  readonly otherAssetsUsd: number | null;
 }
 
 export interface HouseholdDebt {
-  readonly studentDebtUsd: number;
-  readonly medicalDebtUsd: number;
-  readonly creditCardDebtUsd: number;
-  readonly mortgageDebtUsd: number;
-  readonly totalDebtUsd: number;
+  readonly studentDebtUsd: number | null;
+  readonly medicalDebtUsd: number | null;
+  readonly creditCardDebtUsd: number | null;
+  readonly mortgageDebtUsd: number | null;
+  readonly totalDebtUsd: number | null;
 }
 
 export interface CaregiverObligations {
   readonly recipientType: CareRecipientType;
   readonly averageHoursPerWeek: number;
-  readonly financialCareSupportMonthlyUsd: number;
+  readonly financialCareSupportMonthlyUsd: number | null;
 }
 
 export type EconomicShockType =
@@ -78,7 +78,7 @@ export type EconomicShockType =
 
 export interface EconomicShockEvent {
   readonly shockType: EconomicShockType;
-  readonly estimatedFinancialImpactUsd: number;
+  readonly estimatedFinancialImpactUsd: number | null;
   readonly occurredMonthsAgo: number;
 }
 
@@ -95,7 +95,7 @@ export type WealthQuartile =
 export interface IntergenerationalContext {
   readonly parentalEducationLevel: ParentalEducationLevel;
   readonly parentalWealthQuartile: WealthQuartile;
-  readonly directFinancialSupportReceivedMonthlyUsd: number;
+  readonly directFinancialSupportReceivedMonthlyUsd: number | null;
 }
 
 /**
@@ -110,8 +110,8 @@ export interface HouseholdLifeBackgroundProfile {
   readonly householdSize: number;
   readonly parentGuardianStructure: ParentGuardianStructure;
   readonly employmentStatus: EmploymentStatus;
-  readonly annualHouseholdIncomeUsd: number;
-  readonly liquidResourcesUsd: number;
+  readonly annualHouseholdIncomeUsd: number | null;
+  readonly liquidResourcesUsd: number | null;
   readonly assets: HouseholdAssets;
   readonly debt: HouseholdDebt;
   readonly housingTenure: HousingTenure;

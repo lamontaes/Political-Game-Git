@@ -18,7 +18,7 @@ export const SYNTHETIC_TEST_FIXTURES: readonly SyntheticTestFixture[] = [
       liquidResourcesUsd: 800,
       assets: {
         homeOwnershipStatus: "rent",
-        estimatedHomeValueUsd: 0,
+        estimatedHomeValueUsd: null,
         vehicleCount: 1,
         retirementSavingsUsd: 1200,
         otherAssetsUsd: 150,
@@ -27,14 +27,14 @@ export const SYNTHETIC_TEST_FIXTURES: readonly SyntheticTestFixture[] = [
         studentDebtUsd: 14000,
         medicalDebtUsd: 6500,
         creditCardDebtUsd: 3800,
-        mortgageDebtUsd: 0,
+        mortgageDebtUsd: null,
         totalDebtUsd: 24300,
       },
       housingTenure: "rent",
       caregiving: {
         recipientType: "child",
         averageHoursPerWeek: 25,
-        financialCareSupportMonthlyUsd: 0,
+        financialCareSupportMonthlyUsd: null,
       },
       recentEconomicShocks: [
         {
@@ -46,7 +46,7 @@ export const SYNTHETIC_TEST_FIXTURES: readonly SyntheticTestFixture[] = [
       intergenerational: {
         parentalEducationLevel: "high_school_diploma",
         parentalWealthQuartile: "q1_bottom",
-        directFinancialSupportReceivedMonthlyUsd: 0,
+        directFinancialSupportReceivedMonthlyUsd: null,
       },
     },
   },
@@ -73,10 +73,10 @@ export const SYNTHETIC_TEST_FIXTURES: readonly SyntheticTestFixture[] = [
         otherAssetsUsd: 35000,
       },
       debt: {
-        studentDebtUsd: 0,
-        medicalDebtUsd: 0,
+        studentDebtUsd: null,
+        medicalDebtUsd: null,
         creditCardDebtUsd: 1200,
-        mortgageDebtUsd: 0,
+        mortgageDebtUsd: null,
         totalDebtUsd: 1200,
       },
       housingTenure: "own_outright",
@@ -117,7 +117,7 @@ export const SYNTHETIC_TEST_FIXTURES: readonly SyntheticTestFixture[] = [
       },
       debt: {
         studentDebtUsd: 22000,
-        medicalDebtUsd: 0,
+        medicalDebtUsd: null,
         creditCardDebtUsd: 8500,
         mortgageDebtUsd: 210000,
         totalDebtUsd: 240500,
@@ -126,7 +126,7 @@ export const SYNTHETIC_TEST_FIXTURES: readonly SyntheticTestFixture[] = [
       caregiving: {
         recipientType: "child",
         averageHoursPerWeek: 18,
-        financialCareSupportMonthlyUsd: 0,
+        financialCareSupportMonthlyUsd: null,
       },
       recentEconomicShocks: [
         {
@@ -138,7 +138,7 @@ export const SYNTHETIC_TEST_FIXTURES: readonly SyntheticTestFixture[] = [
       intergenerational: {
         parentalEducationLevel: "some_college_or_associates",
         parentalWealthQuartile: "q2_lower_middle",
-        directFinancialSupportReceivedMonthlyUsd: 0,
+        directFinancialSupportReceivedMonthlyUsd: null,
       },
     },
   },

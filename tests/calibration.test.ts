@@ -36,8 +36,9 @@ describe("Household / Life-Background Calibration Corpus (Reclassified Synthetic
 
     expect(profile1).toEqual(profile2);
     expect(profile1.seed).toBe(seed);
-    expect(profile1.annualHouseholdIncomeUsd).toBeGreaterThan(0);
-    expect(profile1.liquidResourcesUsd).toBeGreaterThanOrEqual(0);
+    if (profile1.annualHouseholdIncomeUsd !== null) {
+      expect(profile1.annualHouseholdIncomeUsd).toBeGreaterThan(0);
+    }
   });
 
   it("produces materially different profiles across different seeds", () => {
@@ -52,19 +53,16 @@ describe("Household / Life-Background Calibration Corpus (Reclassified Synthetic
     ).toBe(true);
   });
 
-  it("enforces structural invariants: non-negative debts, valid household size, no behavioral/ideological fields", () => {
+  it("enforces structural invariants: valid household size, no behavioral/ideological fields, explicit nulls for unsupported financial facts", () => {
     const profile = sampleHouseholdLifeBackground("invariant-check-seed");
 
     // Invariants
     expect(profile.householdSize).toBeGreaterThanOrEqual(1);
-    expect(profile.annualHouseholdIncomeUsd).toBeGreaterThan(0);
-    expect(profile.liquidResourcesUsd).toBeGreaterThanOrEqual(0);
-    expect(profile.debt.totalDebtUsd).toBe(
-      profile.debt.mortgageDebtUsd +
-        profile.debt.studentDebtUsd +
-        profile.debt.medicalDebtUsd +
-        profile.debt.creditCardDebtUsd,
-    );
+
+    // Explicitly test for null (unknown) financial fields instead of 0
+    expect(profile.liquidResourcesUsd).toBeNull();
+    expect(profile.debt.totalDebtUsd).toBeNull();
+    expect(profile.assets.estimatedHomeValueUsd).toBeNull();
 
     // Epistemic Boundary Invariant: Ensure forbidden stereotype keys are absent
     const keys = Object.keys(profile);
@@ -88,7 +86,9 @@ describe("Household / Life-Background Calibration Corpus (Reclassified Synthetic
     for (const fixture of SYNTHETIC_TEST_FIXTURES) {
       expect(fixture.kind).toBe("synthetic-fixture");
       expect(fixture.fixtureId).toBeDefined();
-      expect(fixture.profile.annualHouseholdIncomeUsd).toBeGreaterThan(0);
+      if (fixture.profile.annualHouseholdIncomeUsd !== null) {
+        expect(fixture.profile.annualHouseholdIncomeUsd).toBeGreaterThan(0);
+      }
     }
   });
 

@@ -178,13 +178,50 @@ describe("ACS PUMS Compiler Stage A & Boundary Constraints", () => {
     expect(shard.puma).not.toMatch(/[a-z]/i);
   });
 
-  it("proves deprecated synthetic fallback does not fabricate financial cash or debt", () => {
+  it("proves deprecated synthetic fallback does not fabricate financial cash or debt and preserves nulls", () => {
     const profile = sampleHouseholdLifeBackground("fallback-test");
 
-    // These must explicitly remain unresolved/0 in the synthetic fallback
-    expect(profile.liquidResourcesUsd).toBe(0);
-    expect(profile.debt.totalDebtUsd).toBe(0);
-    expect(profile.assets.estimatedHomeValueUsd).toBe(0);
-    expect(profile.assets.retirementSavingsUsd).toBe(0);
+    // These must explicitly remain unresolved/null in the synthetic fallback
+    expect(profile.liquidResourcesUsd).toBeNull();
+    expect(profile.debt.totalDebtUsd).toBeNull();
+    expect(profile.assets.estimatedHomeValueUsd).toBeNull();
+    expect(profile.assets.retirementSavingsUsd).toBeNull();
+  });
+
+  it("preserves a legitimate observed 0 and differentiates it from missing numeric fields", () => {
+    // In Acs records, sometimes numeric fields have legitimate zeros, e.g., 0 vehicles.
+    const housing: AcsHousingRecord[] = [
+      {
+        SERIALNO: "H1",
+        STATE: "21",
+        PUMA: "00100",
+        WGTP: 100,
+        NP: 1,
+        TYPEHUGQ: 1,
+        TEN: 1,
+        HINCP: 50000,
+        ADJINC: 1000000,
+        VEH: 0,
+      },
+      {
+        SERIALNO: "H2",
+        STATE: "21",
+        PUMA: "00100",
+        WGTP: 100,
+        NP: 1,
+        TYPEHUGQ: 1,
+        TEN: 1,
+        HINCP: 50000,
+        ADJINC: 1000000,
+        VEH: null,
+      },
+    ];
+
+    const { shards } = compileAcsDonorShards(housing, [], baseManifest);
+    const donor1 = shards[0].donors.find((d) => d.housing.SERIALNO === "H1");
+    const donor2 = shards[0].donors.find((d) => d.housing.SERIALNO === "H2");
+
+    expect(donor1?.housing.VEH).toBe(0); // Legitimate zero
+    expect(donor2?.housing.VEH).toBeNull(); // Missing, not coerced to zero
   });
 });
