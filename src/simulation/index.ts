@@ -21,6 +21,7 @@ export * from "./life";
 export * from "./life-eligibility";
 export * from "./life-queries";
 export * from "./life-sources";
+export * from "./life-start";
 export * from "./decisions";
 export * from "./economy";
 export * from "./election-contests";

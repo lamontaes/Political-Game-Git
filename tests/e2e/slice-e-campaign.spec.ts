@@ -1,7 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
 async function loadProfile(page: Page, seed: string) {
-  await page.goto(`/?seed=${seed}`);
+  await page.goto(`/?view=office&seed=${seed}`);
   await page.evaluate(() => window.localStorage.clear());
   await page.reload();
 }

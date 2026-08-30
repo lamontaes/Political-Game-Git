@@ -3,6 +3,7 @@ import {
   ageOnDate,
   dateAtAge,
   isoDateFromParts,
+  makeIsoDate,
   yearOf,
 } from "./dates";
 import { createStableId } from "./ids";
@@ -113,6 +114,12 @@ export interface LightweightPersonInput {
   readonly profile?: PersonGenerationProfile;
   readonly generatorVersion?: string;
   readonly corpusVersion?: string;
+  /** Optional player-authored identity. It changes no generation IDs or other people. */
+  readonly identity?: {
+    readonly givenName: string;
+    readonly familyName: string;
+    readonly birthDate: IsoDate;
+  };
 }
 
 export function personName(person: Person): string {
@@ -292,7 +299,17 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
   let familyName: string;
   let birthDate: IsoDate;
 
-  if (generatorVersion === LEGACY_DEMO_PERSON_GENERATOR_VERSION) {
+  if (input.identity) {
+    givenName = input.identity.givenName.trim();
+    familyName = input.identity.familyName.trim();
+    birthDate = makeIsoDate(input.identity.birthDate);
+    if (!givenName || !familyName) {
+      throw new Error("An authored identity requires a given and family name.");
+    }
+    if (birthDate > input.currentDate) {
+      throw new Error("An authored birth date cannot be in the future.");
+    }
+  } else if (generatorVersion === LEGACY_DEMO_PERSON_GENERATOR_VERSION) {
     // Exact legacy algorithm preserved for backwards compatibility
     givenName = rng.pick(corpus.givenNames);
     const familyOffset = rng.integer(0, corpus.familyNames.length);
@@ -329,6 +346,13 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
     input.birthplaceJurisdictionId ?? input.homeJurisdictionId;
   const fullName = `${givenName} ${familyName}`;
 
+  const factProvenance = input.identity
+    ? ({
+        method: "manual",
+        sourceEventId: null,
+        note: "Player-authored starting identity.",
+      } as const)
+    : PROCEDURAL_PROVENANCE;
   const establishedFacts: readonly PersonFact[] = [
     {
       id: createStableId("fact", `${id}:birth-date`),
@@ -337,7 +361,7 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
       occurredAt: birthDate,
       jurisdictionId: null,
       summary: `${fullName}'s birth date is established as ${birthDate}.`,
-      provenance: PROCEDURAL_PROVENANCE,
+      provenance: factProvenance,
     },
     {
       id: createStableId("fact", `${id}:birthplace`),
@@ -346,7 +370,7 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
       occurredAt: birthDate,
       jurisdictionId: birthplaceJurisdictionId,
       summary: `${fullName}'s birthplace is established in the world record.`,
-      provenance: PROCEDURAL_PROVENANCE,
+      provenance: factProvenance,
     },
     {
       id: createStableId("fact", `${id}:residence:initial`),
@@ -356,7 +380,7 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
       endedAt: null,
       jurisdictionId: input.homeJurisdictionId,
       summary: `${fullName} resides in the recorded home jurisdiction.`,
-      provenance: PROCEDURAL_PROVENANCE,
+      provenance: factProvenance,
     },
   ];
 

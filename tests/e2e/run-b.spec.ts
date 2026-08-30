@@ -1,7 +1,7 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/?view=office");
   await page.evaluate(() => window.localStorage.clear());
   await page.reload();
 });

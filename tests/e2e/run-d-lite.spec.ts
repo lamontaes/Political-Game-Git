@@ -1,7 +1,7 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/?view=office");
   await page.evaluate(() => window.localStorage.clear());
   await page.reload();
 });
@@ -354,7 +354,7 @@ test("keeps the bottom-left shell compact until pointer approach, focus, or acti
     viewport: { width: 1_440, height: 900 },
   });
   const touchPage = await touchContext.newPage();
-  await touchPage.goto("/");
+  await touchPage.goto("/?view=office");
   const touchShell = touchPage.getByTestId("navigation-cluster");
   await touchShell.tap();
   await expect(touchPage.getByTestId("navigation-flyout")).toBeVisible();

@@ -110,8 +110,8 @@ export function DeveloperViewer() {
   }
 
   return (
-    <main className="app-shell">
-      <header className="masthead">
+    <main className="developer-viewer" data-testid="developer-viewer">
+      <header className="viewer-header">
         <div>
           <p className="eyebrow">Simulation foundation · Developer tooling</p>
           <h1>Political Life Simulation</h1>

@@ -6,17 +6,17 @@ import {
   personName,
 } from "../../src/simulation";
 
-test.describe("Player Flow: Seed Parameterization & Deterministic Replay", () => {
+test.describe("Office Regression: Seed Parameterization & Deterministic Replay", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/?view=office");
     await page.evaluate(() => window.localStorage.clear());
     await page.reload();
   });
 
-  test("1. default route without seed uses accepted Run A fixture (Andre Collins)", async ({
+  test("1. explicit office route without seed uses the Run A fixture (Andre Collins)", async ({
     page,
   }) => {
-    await page.goto("/");
+    await page.goto("/?view=office");
     await expect(page.getByTestId("player-office")).toBeVisible();
     await expect(page.getByTestId("player-office")).toHaveAttribute(
       "data-simulation-date",
@@ -60,7 +60,7 @@ test.describe("Player Flow: Seed Parameterization & Deterministic Replay", () =>
   test("2. Seed A produces deterministic generated people in the player office", async ({
     page,
   }) => {
-    await page.goto("/?seed=player-seed-alpha");
+    await page.goto("/?view=office&seed=player-seed-alpha");
     await expect(page.getByTestId("player-office")).toBeVisible();
     await expect(page.getByTestId("player-office")).toHaveAttribute(
       "data-simulation-seed",
@@ -105,7 +105,7 @@ test.describe("Player Flow: Seed Parameterization & Deterministic Replay", () =>
     page,
   }) => {
     // Load Seed A first
-    await page.goto("/?seed=player-seed-alpha");
+    await page.goto("/?view=office&seed=player-seed-alpha");
     await expect(page.getByTestId("player-office")).toBeVisible();
     const scenePersonA = page.getByTestId("scene-person");
     await scenePersonA.hover();
@@ -115,7 +115,7 @@ test.describe("Player Flow: Seed Parameterization & Deterministic Replay", () =>
       .textContent();
 
     // Load Seed B
-    await page.goto("/?seed=player-seed-beta");
+    await page.goto("/?view=office&seed=player-seed-beta");
     await expect(page.getByTestId("player-office")).toBeVisible();
     await expect(page.getByTestId("player-office")).toHaveAttribute(
       "data-simulation-seed",
@@ -137,7 +137,7 @@ test.describe("Player Flow: Seed Parameterization & Deterministic Replay", () =>
     page,
   }) => {
     // Record Seed A people
-    await page.goto("/?seed=player-seed-alpha");
+    await page.goto("/?view=office&seed=player-seed-alpha");
     await expect(page.getByTestId("player-office")).toBeVisible();
     const scenePersonA = page.getByTestId("scene-person");
     await scenePersonA.hover();
@@ -154,11 +154,11 @@ test.describe("Player Flow: Seed Parameterization & Deterministic Replay", () =>
       .textContent();
 
     // Navigate to Seed B
-    await page.goto("/?seed=player-seed-beta");
+    await page.goto("/?view=office&seed=player-seed-beta");
     await expect(page.getByTestId("player-office")).toBeVisible();
 
     // Replay Seed A
-    await page.goto("/?seed=player-seed-alpha");
+    await page.goto("/?view=office&seed=player-seed-alpha");
     await expect(page.getByTestId("player-office")).toBeVisible();
     await page.getByTestId("scene-person").hover();
     const primaryNameA2 = await page
@@ -193,7 +193,9 @@ async function captureRoleFlow(page: Page, seed?: string) {
     expect(lead.corpusVersion).toBe("names-v1");
   }
   await page.goto(
-    seed === undefined ? "/" : `/?seed=${encodeURIComponent(seed)}`,
+    seed === undefined
+      ? "/?view=office"
+      : `/?view=office&seed=${encodeURIComponent(seed)}`,
   );
   const office = page.getByTestId("player-office");
   await expect(office).toBeVisible();
@@ -334,7 +336,7 @@ async function captureRoleFlow(page: Page, seed?: string) {
   return { identities, prose };
 }
 
-test("normal player route preserves default prose and exactly replays generated role text A → B → A", async ({
+test("explicit office regression route preserves fixture prose and exactly replays generated role text A → B → A", async ({
   page,
 }) => {
   test.setTimeout(90_000);

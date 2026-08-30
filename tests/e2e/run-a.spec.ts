@@ -16,14 +16,12 @@ async function hoverStyle(locator: Locator) {
 }
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/?view=office");
   await page.evaluate(() => window.localStorage.clear());
   await page.reload();
 });
 
-test("loads the player-facing office instead of only the diagnostic viewer", async ({
-  page,
-}) => {
+test("loads the explicit office regression surface", async ({ page }) => {
   await expect(page.getByTestId("player-office")).toBeVisible();
   await expect(page.getByTestId("political-office-scene")).toBeVisible();
   await expect(page.getByTestId("political-office-scene")).toHaveAttribute(
@@ -303,11 +301,11 @@ test("reproduces every named Run A fixture state by URL", async ({ page }) => {
   ] as const;
 
   for (const [fixture, testId] of expectations) {
-    await page.goto(`/?fixture=${fixture}`);
+    await page.goto(`/?view=office&fixture=${fixture}`);
     await expect(page.getByTestId(testId)).toBeVisible();
   }
 
-  await page.goto("/?fixture=mixed-pins");
+  await page.goto("/?view=office&fixture=mixed-pins");
   await expect(page.locator('[data-pin-id="person"]')).toHaveAttribute(
     "data-size",
     "expanded",

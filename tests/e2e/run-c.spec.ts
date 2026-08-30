@@ -4,7 +4,7 @@ const HIDDEN_ANALYSIS =
   "Internal sensitivity case: uptake could reduce modeled delivery to one half.";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/?view=office");
 });
 
 test("opens a readable scene-native legislative working document from the office", async ({
