@@ -50,6 +50,7 @@ export * from "./taxonomy";
 export * from "./time-work";
 export * from "./vitality";
 export * from "./vitality-catalog";
+export * from "./external-event-sources";
 export type * from "./types";
 export * from "./world";
 export * from "./world-metrics";
