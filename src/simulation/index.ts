@@ -53,3 +53,6 @@ export * from "./vitality-catalog";
 export type * from "./types";
 export * from "./world";
 export * from "./world-metrics";
+export * from "./jurisdiction-profile-types";
+export * from "./jurisdiction-profile-validator";
+export * from "./jurisdiction-profile-fixtures";

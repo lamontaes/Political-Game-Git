@@ -2936,3 +2936,5 @@ export interface World {
   readonly control: ControlState;
   readonly history: HistoryStore;
 }
+
+export * from "./jurisdiction-profile-types";
