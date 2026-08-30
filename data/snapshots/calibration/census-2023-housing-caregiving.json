@@ -1,0 +1,26 @@
+{
+  "datasetId": "census-2023-housing-caregiving",
+  "provenance": {
+    "source": "U.S. Census Bureau, Current Population Survey (CPS) / ACS 2023 Household & Housing Statistics",
+    "vintageYear": 2023,
+    "retrievedAt": "2024-03-15T00:00:00Z",
+    "retrievalUrl": "https://www.census.gov/programs-surveys/cps.html",
+    "sourceHash": "1a57e32f741a86e921503487c54179e49a8b1116c4f828a11e155b927e1081f2",
+    "transformationNotes": "Compiled housing tenure ratios, caregiving responsibilities, and economic shock frequencies from 2023 ACS and CPS supplements."
+  },
+  "tables": {
+    "housingTenureDistribution": [
+      { "category": "rent", "probability": 0.35 },
+      { "category": "own_with_mortgage", "probability": 0.42 },
+      { "category": "own_outright", "probability": 0.2 },
+      { "category": "informal_shared", "probability": 0.03 }
+    ],
+    "caregivingTypeDistribution": [
+      { "category": "none", "probability": 0.65 },
+      { "category": "child", "probability": 0.22 },
+      { "category": "elderly_or_disabled", "probability": 0.1 },
+      { "category": "both", "probability": 0.03 }
+    ],
+    "shockFrequencyPerYear": 0.35
+  }
+}

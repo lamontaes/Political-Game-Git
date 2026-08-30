@@ -1,0 +1,50 @@
+{
+  "datasetId": "scf-2022-wealth-debt",
+  "provenance": {
+    "source": "Federal Reserve Board, Survey of Consumer Finances (SCF) 2022",
+    "vintageYear": 2022,
+    "retrievedAt": "2024-03-15T00:00:00Z",
+    "retrievalUrl": "https://www.federalreserve.gov/econres/scfindex.htm",
+    "sourceHash": "8f39b1a5d2b774e1d7465f212984b39a824479e958d5113ab113063f45811b71",
+    "transformationNotes": "Derived income quintile medians for household income, liquid savings, total debt, and homeownership rates from SCF 2022 Chartbook."
+  },
+  "tables": {
+    "incomeQuintiles": [
+      {
+        "quintile": "q1",
+        "medianIncomeUsd": 21000,
+        "medianLiquidSavingsUsd": 1200,
+        "medianTotalDebtUsd": 8500,
+        "homeownershipRate": 0.32
+      },
+      {
+        "quintile": "q2",
+        "medianIncomeUsd": 42000,
+        "medianLiquidSavingsUsd": 4500,
+        "medianTotalDebtUsd": 28000,
+        "homeownershipRate": 0.51
+      },
+      {
+        "quintile": "q3",
+        "medianIncomeUsd": 70000,
+        "medianLiquidSavingsUsd": 9800,
+        "medianTotalDebtUsd": 65000,
+        "homeownershipRate": 0.68
+      },
+      {
+        "quintile": "q4",
+        "medianIncomeUsd": 115000,
+        "medianLiquidSavingsUsd": 26000,
+        "medianTotalDebtUsd": 135000,
+        "homeownershipRate": 0.81
+      },
+      {
+        "quintile": "q5",
+        "medianIncomeUsd": 250000,
+        "medianLiquidSavingsUsd": 110000,
+        "medianTotalDebtUsd": 220000,
+        "homeownershipRate": 0.91
+      }
+    ]
+  }
+}
