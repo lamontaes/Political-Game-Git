@@ -100,10 +100,7 @@ export function sampleHouseholdLifeBackground(
   );
 
   // Sample Income Quintile
-  const quintileIndex = rng.integer(
-    0,
-    dataset.tables.incomeQuintiles.length,
-  );
+  const quintileIndex = rng.integer(0, dataset.tables.incomeQuintiles.length);
   const quintileData: IncomeQuintileCalibration =
     dataset.tables.incomeQuintiles[quintileIndex]!;
 
