@@ -17,6 +17,8 @@
     "tests/e2e/**/*.ts",
     "src/cli/**/*.ts",
     "src/persistence/**/*.ts",
-    "src/simulation/**/*.ts"
+    "src/simulation/**/*.ts",
+    "src/national_occupation_corpus/**/*.ts",
+    "scripts/national_occupation_corpus/**/*.ts"
   ]
 }

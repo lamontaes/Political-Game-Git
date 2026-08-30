@@ -1,0 +1,69 @@
+{
+  "source": {
+    "title": "2018 Standard Occupational Classification (SOC) Structure",
+    "authority": "U.S. Bureau of Labor Statistics / Executive Office of the President OMB",
+    "accessUrl": "https://www.bls.gov/soc/2018/soc_2018_structure.xlsx",
+    "vintage": "2018",
+    "sha256": "4a768f7b77bb28e21975e5fb20d880486c9d09c3d4f8e6589ad15eb91f52d0b4",
+    "retrievedAt": "2026-08-30T00:00:00.000Z"
+  },
+  "majorGroupCount": 23,
+  "majorGroups": [
+    { "code": "11-0000", "title": "Management Occupations" },
+    {
+      "code": "13-0000",
+      "title": "Business and Financial Operations Occupations"
+    },
+    { "code": "15-0000", "title": "Computer and Mathematical Occupations" },
+    { "code": "17-0000", "title": "Architecture and Engineering Occupations" },
+    {
+      "code": "19-0000",
+      "title": "Life, Physical, and Social Science Occupations"
+    },
+    { "code": "21-0000", "title": "Community and Social Service Occupations" },
+    { "code": "23-0000", "title": "Legal Occupations" },
+    {
+      "code": "25-0000",
+      "title": "Educational Instruction and Library Occupations"
+    },
+    {
+      "code": "27-0000",
+      "title": "Arts, Design, Entertainment, Sports, and Media Occupations"
+    },
+    {
+      "code": "29-0000",
+      "title": "Healthcare Practitioners and Technical Occupations"
+    },
+    { "code": "31-0000", "title": "Healthcare Support Occupations" },
+    { "code": "33-0000", "title": "Protective Service Occupations" },
+    {
+      "code": "35-0000",
+      "title": "Food Preparation and Serving Related Occupations"
+    },
+    {
+      "code": "37-0000",
+      "title": "Building and Grounds Cleaning and Maintenance Occupations"
+    },
+    { "code": "39-0000", "title": "Personal Care and Service Occupations" },
+    { "code": "41-0000", "title": "Sales and Related Occupations" },
+    {
+      "code": "43-0000",
+      "title": "Office and Administrative Support Occupations"
+    },
+    {
+      "code": "45-0000",
+      "title": "Farming, Fishing, and Forestry Occupations"
+    },
+    { "code": "47-0000", "title": "Construction and Extraction Occupations" },
+    {
+      "code": "49-0000",
+      "title": "Installation, Maintenance, and Repair Occupations"
+    },
+    { "code": "51-0000", "title": "Production Occupations" },
+    {
+      "code": "53-0000",
+      "title": "Transportation and Material Moving Occupations"
+    },
+    { "code": "55-0000", "title": "Military Specific Occupations" }
+  ]
+}

@@ -1,0 +1,153 @@
+[
+  {
+    "socCode": "23-1011",
+    "onetSocCode": "23-1011.00",
+    "keyTasks": [
+      "Represent clients in court or before government agencies.",
+      "Advise and represent clients in legal proceedings.",
+      "Select jurors, argue motions, meet with judges, and question witnesses.",
+      "Interpret laws, rulings, and regulations for individuals and businesses."
+    ],
+    "requiredSkills": [
+      { "name": "Critical Thinking", "score": 85 },
+      { "name": "Active Listening", "score": 81 },
+      { "name": "Writing", "score": 85 },
+      { "name": "Speaking", "score": 85 },
+      { "name": "Legal Analysis", "score": 90 }
+    ],
+    "workActivities": [
+      "Analyzing data or information",
+      "Communicating with people outside the organization",
+      "Evaluating information to determine compliance with standards"
+    ],
+    "typicalEducation": "Doctoral or professional degree (J.D.)",
+    "workExperience": "None",
+    "onTheJobTraining": "None",
+    "attribution": {
+      "license": "CC BY 4.0",
+      "provider": "U.S. Department of Labor / Employment and Training Administration (USDOL/ETA)",
+      "datasetVersion": "O*NET 28.1 Database",
+      "notice": "This material includes information from the O*NET 28.1 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA), used under the CC BY 4.0 license."
+    }
+  },
+  {
+    "socCode": "25-2021",
+    "onetSocCode": "25-2021.00",
+    "keyTasks": [
+      "Instruct students individually and in groups, using various teaching methods.",
+      "Prepare materials and classrooms for class activities.",
+      "Establish and enforce rules for behavior and procedures for maintaining order.",
+      "Adapt teaching methods and instructional materials to meet students' varying needs."
+    ],
+    "requiredSkills": [
+      { "name": "Learning Strategies", "score": 78 },
+      { "name": "Instructing", "score": 81 },
+      { "name": "Speaking", "score": 78 },
+      { "name": "Social Perceptiveness", "score": 75 }
+    ],
+    "workActivities": [
+      "Training and teaching others",
+      "Establishing and maintaining interpersonal relationships",
+      "Organizing, planning, and prioritizing work"
+    ],
+    "typicalEducation": "Bachelor's degree",
+    "workExperience": "None",
+    "onTheJobTraining": "Internship/residency",
+    "attribution": {
+      "license": "CC BY 4.0",
+      "provider": "U.S. Department of Labor / Employment and Training Administration (USDOL/ETA)",
+      "datasetVersion": "O*NET 28.1 Database",
+      "notice": "This material includes information from the O*NET 28.1 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA), used under the CC BY 4.0 license."
+    }
+  },
+  {
+    "socCode": "15-1252",
+    "onetSocCode": "15-1252.00",
+    "keyTasks": [
+      "Analyze user needs and software requirements to determine feasibility of design.",
+      "Design, develop, and modify software systems using scientific analysis.",
+      "Store, retrieve, and manipulate data for analysis of system capabilities.",
+      "Consult with customers about software system design and maintenance."
+    ],
+    "requiredSkills": [
+      { "name": "Programming", "score": 88 },
+      { "name": "Complex Problem Solving", "score": 81 },
+      { "name": "Systems Analysis", "score": 78 },
+      { "name": "Critical Thinking", "score": 78 }
+    ],
+    "workActivities": [
+      "Interacting with computers",
+      "Thinking creatively",
+      "Analyzing data or information to solve problems"
+    ],
+    "typicalEducation": "Bachelor's degree",
+    "workExperience": "None",
+    "onTheJobTraining": "None",
+    "attribution": {
+      "license": "CC BY 4.0",
+      "provider": "U.S. Department of Labor / Employment and Training Administration (USDOL/ETA)",
+      "datasetVersion": "O*NET 28.1 Database",
+      "notice": "This material includes information from the O*NET 28.1 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA), used under the CC BY 4.0 license."
+    }
+  },
+  {
+    "socCode": "41-2031",
+    "onetSocCode": "41-2031.00",
+    "keyTasks": [
+      "Greet customers and ascertain what each customer wants or needs.",
+      "Recommend, select, and help locate or obtain merchandise based on customer needs.",
+      "Compute sales prices, total purchases, and receive and process payments.",
+      "Answer customer questions regarding the store and its merchandise."
+    ],
+    "requiredSkills": [
+      { "name": "Service Orientation", "score": 72 },
+      { "name": "Active Listening", "score": 69 },
+      { "name": "Speaking", "score": 69 },
+      { "name": "Persuasion", "score": 65 }
+    ],
+    "workActivities": [
+      "Performing for or working directly with the public",
+      "Selling or influencing others",
+      "Establishing and maintaining interpersonal relationships"
+    ],
+    "typicalEducation": "No formal educational credential",
+    "workExperience": "None",
+    "onTheJobTraining": "Short-term on-the-job training",
+    "attribution": {
+      "license": "CC BY 4.0",
+      "provider": "U.S. Department of Labor / Employment and Training Administration (USDOL/ETA)",
+      "datasetVersion": "O*NET 28.1 Database",
+      "notice": "This material includes information from the O*NET 28.1 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA), used under the CC BY 4.0 license."
+    }
+  },
+  {
+    "socCode": "29-1141",
+    "onetSocCode": "29-1141.00",
+    "keyTasks": [
+      "Assess patient health problems and needs.",
+      "Develop and implement nursing care plans.",
+      "Maintain medical records and administer medications.",
+      "Advise patients on health maintenance and disease prevention."
+    ],
+    "requiredSkills": [
+      { "name": "Active Listening", "score": 81 },
+      { "name": "Social Perceptiveness", "score": 81 },
+      { "name": "Critical Thinking", "score": 78 },
+      { "name": "Coordination", "score": 75 }
+    ],
+    "workActivities": [
+      "Assisting and caring for others",
+      "Making decisions and solving problems",
+      "Documenting/recording information"
+    ],
+    "typicalEducation": "Bachelor's degree",
+    "workExperience": "None",
+    "onTheJobTraining": "None",
+    "attribution": {
+      "license": "CC BY 4.0",
+      "provider": "U.S. Department of Labor / Employment and Training Administration (USDOL/ETA)",
+      "datasetVersion": "O*NET 28.1 Database",
+      "notice": "This material includes information from the O*NET 28.1 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA), used under the CC BY 4.0 license."
+    }
+  }
+]
