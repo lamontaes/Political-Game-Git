@@ -8,6 +8,7 @@ import {
   performLifeAction,
   summarizeLifeWorld,
 } from "./life-start";
+import type { LifeStartInput } from "./life-start";
 import { SYNTHETIC_MIND_IDS } from "./mind-catalog";
 import { createMindProvenance, recordPersonalityTendency } from "./mind";
 import { deserializeWorld, serializeWorld } from "./serialization";
@@ -20,16 +21,24 @@ function playerId(world: ReturnType<typeof createLifeStartWorld>) {
   return world.control.personId;
 }
 
+const requiredPlaces = {
+  birthplace: "lexington-kentucky",
+  hometown: "lexington-kentucky",
+  currentResidence: "lexington-kentucky",
+} as const;
+
 describe("life-start simulation foundation", () => {
   it("supports deterministic childhood, teenage, and adult dates of birth", () => {
     for (const age of [8, 16, 32]) {
       const first = createLifeStartWorld({
+        ...requiredPlaces,
         givenName: "Morgan",
         familyName: "Chen",
         startAge: age,
         seed: `age-${age}`,
       });
       const second = createLifeStartWorld({
+        ...requiredPlaces,
         givenName: "Morgan",
         familyName: "Chen",
         startAge: age,
@@ -70,6 +79,7 @@ describe("life-start simulation foundation", () => {
 
   it("leaves unchosen biography unknown and creates no canned people, jobs, or schools", () => {
     const world = createLifeStartWorld({
+      ...requiredPlaces,
       givenName: "Riley",
       familyName: "James",
       startAge: 25,
@@ -98,6 +108,7 @@ describe("life-start simulation foundation", () => {
       summary: "Riley chose to leave a long-running club.",
     };
     const sparse = createLifeStartWorld({
+      ...requiredPlaces,
       givenName: "Riley",
       familyName: "James",
       startAge: 25,
@@ -106,6 +117,7 @@ describe("life-start simulation foundation", () => {
       seed: "sparse-anchor",
     });
     const authored = createLifeStartWorld({
+      ...requiredPlaces,
       givenName: "Riley",
       familyName: "James",
       startAge: 25,
@@ -119,19 +131,22 @@ describe("life-start simulation foundation", () => {
         event.tags.includes("life.history-anchor"),
       ),
     ).toBe(false);
-    expect(
-      authored.history.events.find((event) =>
-        event.tags.includes("life.history-anchor"),
-      ),
-    ).toMatchObject({
+    const authoredAnchor = authored.history.events.find((event) =>
+      event.tags.includes("life.history-anchor"),
+    );
+    expect(authoredAnchor).toMatchObject({
       occurredAt: anchor.date,
       summary: anchor.summary,
       visibility: "private",
+      jurisdictionId: null,
+      involvedEntityIds: [playerId(authored)],
+      context: { location: null },
     });
   });
 
   it("records only subtle, low-confidence situational evidence and permits change", () => {
     const initial = createLifeStartWorld({
+      ...requiredPlaces,
       givenName: "Sam",
       familyName: "Ortiz",
       startAge: 16,
@@ -176,6 +191,7 @@ describe("life-start simulation foundation", () => {
 
   it("allows politics to be skipped and records direct beliefs without party inference", () => {
     const skipped = createLifeStartWorld({
+      ...requiredPlaces,
       givenName: "Casey",
       familyName: "Lee",
       startAge: 34,
@@ -186,6 +202,7 @@ describe("life-start simulation foundation", () => {
     expect(skipped.history.campaignCommitments).toStrictEqual([]);
 
     const answered = createLifeStartWorld({
+      ...requiredPlaces,
       givenName: "Casey",
       familyName: "Lee",
       startAge: 34,
@@ -207,6 +224,7 @@ describe("life-start simulation foundation", () => {
 
   it("creates materially different explicit household, housing, and resource starts", () => {
     const unknown = createLifeStartWorld({
+      ...requiredPlaces,
       givenName: "Taylor",
       familyName: "Ng",
       startAge: 40,
@@ -216,6 +234,7 @@ describe("life-start simulation foundation", () => {
       seed: "circumstances-unknown",
     });
     const shared = createLifeStartWorld({
+      ...requiredPlaces,
       givenName: "Taylor",
       familyName: "Ng",
       startAge: 40,
@@ -240,6 +259,7 @@ describe("life-start simulation foundation", () => {
 
   it("provides age-appropriate directions and a played consequence that unlocks follow-up", () => {
     const child = createLifeStartWorld({
+      ...requiredPlaces,
       givenName: "Jamie",
       familyName: "Patel",
       startAge: 8,
@@ -266,6 +286,7 @@ describe("life-start simulation foundation", () => {
     );
 
     const teen = createLifeStartWorld({
+      ...requiredPlaces,
       givenName: "Jamie",
       familyName: "Patel",
       startAge: 16,
@@ -276,6 +297,7 @@ describe("life-start simulation foundation", () => {
     ).toContain("community");
 
     const adult = createLifeStartWorld({
+      ...requiredPlaces,
       givenName: "Jamie",
       familyName: "Patel",
       startAge: 32,
@@ -302,5 +324,73 @@ describe("life-start simulation foundation", () => {
     const restored = deserializeWorld(serializeWorld(original));
     assertWorldIntegrity(restored);
     expect(serializeWorld(restored)).toBe(serializeWorld(original));
+    expect(summarizeLifeWorld(restored, playerId(restored))).toMatchObject({
+      birthplace: "Chicago, Illinois",
+      hometown: "Los Angeles, California",
+      currentResidence: "Lexington, Kentucky",
+    });
+  });
+
+  it("rejects missing required place roles instead of inventing a location", () => {
+    const valid: LifeStartInput = {
+      givenName: "Jordan",
+      familyName: "Reed",
+      startAge: 24,
+      ...requiredPlaces,
+    };
+    for (const [field, message] of [
+      ["birthplace", "Birthplace is required."],
+      ["hometown", "Hometown is required."],
+      ["currentResidence", "Current residence is required."],
+    ] as const) {
+      expect(() =>
+        createLifeStartWorld({
+          ...valid,
+          [field]: undefined,
+        } as unknown as LifeStartInput),
+      ).toThrow(message);
+    }
+  });
+
+  it("keeps accepted life-start validation boundaries explicit", () => {
+    const valid: LifeStartInput = {
+      givenName: "Jordan",
+      familyName: "Reed",
+      startAge: 24,
+      ...requiredPlaces,
+    };
+
+    expect(() => createLifeStartWorld({ ...valid, startAge: 5 })).toThrow(
+      /between 6 and 80/i,
+    );
+    expect(() => createLifeStartWorld({ ...valid, startAge: 81 })).toThrow(
+      /between 6 and 80/i,
+    );
+    for (const startingFundsUsd of [-1, Number.NaN, 1.5, 100_000_001]) {
+      expect(() =>
+        createLifeStartWorld({ ...valid, startingFundsUsd }),
+      ).toThrow(/whole dollar amount from 0 to 100,000,000/i);
+    }
+    expect(() =>
+      createLifeStartWorld({
+        ...valid,
+        depth: "build-my-history",
+        historyAnchors: [{ date: "1990-01-01", summary: "Before birth." }],
+      }),
+    ).toThrow(/within the character's life so far/i);
+    expect(() =>
+      createLifeStartWorld({
+        ...valid,
+        depth: "build-my-history",
+        historyAnchors: [{ date: "2026-12-31", summary: "After the start." }],
+      }),
+    ).toThrow(/within the character's life so far/i);
+    expect(() =>
+      createLifeStartWorld({
+        ...valid,
+        startAge: 16,
+        householdKind: "alone",
+      }),
+    ).toThrow(/needs a family or shared household/i);
   });
 });

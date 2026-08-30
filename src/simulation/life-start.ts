@@ -153,9 +153,9 @@ export interface LifeStartInput {
   readonly familyName: string;
   readonly startAge: number;
   readonly depth?: LifeStartDepth;
-  readonly birthplace?: LifeStartPlaceKey;
-  readonly hometown?: LifeStartPlaceKey;
-  readonly currentResidence?: LifeStartPlaceKey;
+  readonly birthplace: LifeStartPlaceKey;
+  readonly hometown: LifeStartPlaceKey;
+  readonly currentResidence: LifeStartPlaceKey;
   readonly householdKind?: LifeStartHouseholdKind;
   readonly housingKind?: LifeStartHousingKind;
   readonly startingFundsUsd?: number | null;
@@ -233,10 +233,11 @@ export function createLifeStartWorld(input: LifeStartInput): World {
       `Starting age must be between ${LIFE_START_MIN_AGE} and ${LIFE_START_MAX_AGE}.`,
     );
   }
-  const birthplace = lifeStartPlace(input.birthplace ?? "lexington-kentucky");
-  const hometown = lifeStartPlace(input.hometown ?? "lexington-kentucky");
-  const residence = lifeStartPlace(
-    input.currentResidence ?? "lexington-kentucky",
+  const birthplace = requiredLifeStartPlace(input.birthplace, "Birthplace");
+  const hometown = requiredLifeStartPlace(input.hometown, "Hometown");
+  const residence = requiredLifeStartPlace(
+    input.currentResidence,
+    "Current residence",
   );
   const depth = input.depth ?? "play-from-here";
   const householdKind =
@@ -326,7 +327,7 @@ export function createLifeStartWorld(input: LifeStartInput): World {
     });
   }
   for (const [index, anchor] of historyAnchors.entries()) {
-    world = recordHistoryAnchor(world, player.id, residence, anchor, index);
+    world = recordHistoryAnchor(world, player.id, anchor, index);
   }
   world = applySituationalEvidence(
     world,
@@ -726,7 +727,6 @@ function recordHometown(
 function recordHistoryAnchor(
   world: World,
   playerId: EntityId,
-  residence: LifeStartPlace,
   anchor: LifeStartHistoryAnchor,
   index: number,
 ): World {
@@ -742,8 +742,8 @@ function recordHistoryAnchor(
     type: "person.authored-history-anchor",
     occurredAt: date,
     recordedAt: world.currentDate,
-    jurisdictionId: residence.jurisdiction.id,
-    involvedEntityIds: [playerId, residence.jurisdiction.id],
+    jurisdictionId: null,
+    involvedEntityIds: [playerId],
     participants: [
       {
         personId: playerId,
@@ -989,6 +989,16 @@ function normalizeFunds(value: number | null | undefined): number | null {
     );
   }
   return value;
+}
+
+function requiredLifeStartPlace(
+  key: LifeStartPlaceKey | undefined,
+  label: string,
+): LifeStartPlace {
+  if (typeof key !== "string" || key.trim().length === 0) {
+    throw new Error(`${label} is required.`);
+  }
+  return lifeStartPlace(key as LifeStartPlaceKey);
 }
 
 function normalizeAnchors(

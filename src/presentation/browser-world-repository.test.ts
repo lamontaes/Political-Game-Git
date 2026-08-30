@@ -222,6 +222,8 @@ describe("browser world repository", () => {
       givenName: "Place",
       familyName: "Proof",
       startAge: 16,
+      birthplace: "lexington-kentucky",
+      hometown: "lexington-kentucky",
       currentResidence: "chicago-illinois",
       seed: "friendly-place-summary",
     });

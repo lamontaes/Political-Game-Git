@@ -1437,13 +1437,19 @@ identity and provenance. Identity-only Chicago/Los Angeles starts serialize no
 invented local political rules. Lexington retains its existing placeholder
 capability without forcing political play.
 
+All three place roles are required at the life-start TypeScript and runtime
+boundaries. A caller cannot omit one and receive an invented default or a
+substituted role.
+
 ### FIRST-SESSION-003 — Unknown biography remains unknown
 
 A default new world contains only the player person and creates no school, job,
 organization, relative, guardian, ally, relationship, move, university,
 party, public stance, campaign promise, or candidacy. `Play From Here` writes
 no prior anchors. `Build My History` writes only complete dated anchors
-explicitly entered by the player.
+explicitly entered by the player. A free-text anchor without an explicit
+location remains geographically unknown: its event jurisdiction and context
+location are null, and no current residence or other entity is inferred.
 
 ### FIRST-SESSION-004 — Setup evidence remains sparse and mutable
 
