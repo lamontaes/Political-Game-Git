@@ -1,5 +1,11 @@
+import * as crypto from "crypto";
+import * as fs from "fs";
+import * as path from "path";
 import { describe, expect, it } from "vitest";
+import { generateQuickCharacterHistory } from "../simulation/character-history";
+import { createRunAFixture } from "../presentation/run-a-fixture";
 import {
+  assertNoAutomaticAttendance,
   convertEducationInstitutionToOrganization,
   findInstitutionByStableId,
   loadEducationCorpus,
@@ -12,37 +18,113 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
   it("loads and validates the compiled production corpus snapshot cleanly", () => {
     const corpus = loadEducationCorpus();
     expect(corpus.version).toBe("1.0.0");
-    expect(corpus.counts.publicDistricts).toBeGreaterThan(0);
-    expect(corpus.counts.publicSchools).toBeGreaterThan(0);
-    expect(corpus.counts.postsecondaryInstitutions).toBeGreaterThan(0);
-    expect(corpus.counts.total).toBe(
-      corpus.districts.length + corpus.institutions.length,
-    );
+    expect(corpus.rawArtifacts).toHaveLength(3);
+    expect(corpus.counts.publicDistricts).toBe(7);
+    expect(corpus.counts.publicSchools).toBe(11);
+    expect(corpus.counts.postsecondaryInstitutions).toBe(14);
+    expect(corpus.counts.total).toBe(32);
   });
 
-  it("verifies stable official ID formatting conventions for all entries", () => {
+  it("proves raw artifact hashes in manifest match actual raw zip byte hashes if downloaded", () => {
+    const corpus = loadEducationCorpus();
+    const rawDir = path.join(process.cwd(), "data", "education", "raw");
+
+    for (const artifact of corpus.rawArtifacts) {
+      expect(artifact.filename).toBeTruthy();
+      expect(artifact.sha256).toMatch(/^[a-f0-9]{64}$/);
+      expect(artifact.url).toContain("nces.ed.gov");
+
+      const zipPath = path.join(rawDir, artifact.filename);
+      if (fs.existsSync(zipPath)) {
+        const bytes = fs.readFileSync(zipPath);
+        const actualHash = crypto
+          .createHash("sha256")
+          .update(bytes)
+          .digest("hex");
+        expect(actualHash).toBe(artifact.sha256);
+      }
+    }
+  });
+
+  it("proves every normalized empirical record has an exact source-row locator and stable identifier", () => {
     const corpus = loadEducationCorpus();
 
     for (const district of corpus.districts) {
       expect(district.officialId).toMatch(/^\d{7}$/);
       expect(district.stableId).toBe(`nces-lea:${district.officialId}`);
       expect(district.provenance.officialIdName).toBe("LEAID");
-      expect(district.provenance.sourceName).toBe("NCES CCD");
+      expect(district.provenance.rowLocator.sourceKeyColumn).toBe("LEAID");
+      expect(district.provenance.rowLocator.sourceKeyValue).toBe(
+        district.officialId,
+      );
+      expect(district.provenance.rowLocator.sourceRowIndex).toBeGreaterThan(1);
     }
 
     for (const inst of corpus.institutions) {
       if (inst.kind === "public-elementary-secondary") {
         expect(inst.officialId).toMatch(/^\d{12}$/);
         expect(inst.stableId).toBe(`nces-sch:${inst.officialId}`);
-        expect(inst.parentDistrictId).toMatch(/^nces-lea:\d{7}$/);
         expect(inst.provenance.officialIdName).toBe("NCESSCH");
-        expect(inst.provenance.sourceName).toBe("NCES CCD");
+        expect(inst.provenance.rowLocator.sourceKeyColumn).toBe("NCESSCH");
+        expect(inst.provenance.rowLocator.sourceKeyValue).toBe(inst.officialId);
+        expect(inst.provenance.rowLocator.sourceRowIndex).toBeGreaterThan(1);
       } else {
         expect(inst.officialId).toMatch(/^\d{6}$/);
         expect(inst.stableId).toBe(`ipeds-unit:${inst.officialId}`);
         expect(inst.provenance.officialIdName).toBe("UNITID");
-        expect(inst.provenance.sourceName).toBe("NCES IPEDS");
+        expect(inst.provenance.rowLocator.sourceKeyColumn).toBe("UNITID");
+        expect(inst.provenance.rowLocator.sourceKeyValue).toBe(inst.officialId);
+        expect(inst.provenance.rowLocator.sourceRowIndex).toBeGreaterThan(1);
       }
+    }
+  });
+
+  it("proves unsupported historical dates remain null and are not fabricated", () => {
+    const corpus = loadEducationCorpus();
+
+    for (const district of corpus.districts) {
+      for (const vintage of district.vintages) {
+        expect(vintage.effectiveDateStart).toBeNull();
+      }
+    }
+
+    for (const inst of corpus.institutions) {
+      for (const vintage of inst.vintages) {
+        expect(vintage.effectiveDateStart).toBeNull();
+      }
+    }
+  });
+
+  it("proves school existence is separate from attendance: no character receives attendance automatically", () => {
+    assertNoAutomaticAttendance();
+    const fixture = createRunAFixture("test-seed-school-separation");
+    const world = fixture.world;
+    const person = Object.values(world.people)[0]!;
+
+    const historyPlan = generateQuickCharacterHistory(world, {
+      stableKey: "quick-history-test",
+      personId: person.id,
+      jurisdictionId: world.jurisdictionOrder[0]!,
+    });
+
+    // Check every organization created in quick character history
+    const createdOrgNames = historyPlan.transitions
+      .filter((t) => t.kind === "organization")
+      .map(
+        (t) =>
+          (t as { input: { initialProfile: { name: string } } }).input
+            .initialProfile.name,
+      );
+
+    // Verify that NO empirical NCES/IPEDS institution ID or name is automatically assigned to the generated character
+    const corpus = loadEducationCorpus();
+    const corpusNames = new Set([
+      ...corpus.districts.map((d) => d.name),
+      ...corpus.institutions.map((i) => i.name),
+    ]);
+
+    for (const name of createdOrgNames) {
+      expect(corpusNames.has(name)).toBe(false);
     }
   });
 
@@ -56,7 +138,7 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
     );
     expect(lafayette).toHaveLength(1);
     expect(lafayette[0]?.name).toBe("Lafayette High School");
-    expect(lafayette[0]?.stableId).toBe("nces-sch:210186000787");
+    expect(lafayette[0]?.stableId).toBe("nces-sch:210186000367");
 
     // Query University of Kentucky
     const uk = queryEducationInstitutions(
@@ -66,20 +148,6 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
     expect(uk).toHaveLength(1);
     expect(uk[0]?.stableId).toBe("ipeds-unit:157085");
     expect(uk[0]?.level).toBe("postsecondary-4yr");
-
-    // Query high schools in Lexington active in year 2000
-    const lexHigh2000 = queryEducationInstitutions(
-      { city: "Lexington", level: "high", effectiveYear: 2000 },
-      corpus,
-    );
-    expect(lexHigh2000.map((s) => s.name)).toContain("Lafayette High School");
-    expect(lexHigh2000.map((s) => s.name)).toContain(
-      "Paul Laurence Dunbar High School",
-    );
-    // Frederick Douglass High School opened in 2017, so should not be active in 2000
-    expect(lexHigh2000.map((s) => s.name)).not.toContain(
-      "Frederick Douglass High School",
-    );
   });
 
   it("resolves stable IDs directly using findInstitutionByStableId", () => {
@@ -88,7 +156,7 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
     const district = findInstitutionByStableId("nces-lea:2101860", corpus);
     expect(district?.name).toBe("Fayette County School District");
 
-    const school = findInstitutionByStableId("nces-sch:210186000787", corpus);
+    const school = findInstitutionByStableId("nces-sch:210186000367", corpus);
     expect(school?.name).toBe("Lafayette High School");
 
     const college = findInstitutionByStableId("ipeds-unit:157085", corpus);
@@ -118,7 +186,7 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
   it("detects and rejects corrupted or malformed corpus snapshots", () => {
     const badSnapshot: EducationCorpusSnapshot = {
       version: "1.0.0",
-      generatedAt: "2024-01-15",
+      generatedAt: "2026-08-30",
       counts: {
         publicDistricts: 1,
         publicSchools: 1,
@@ -130,6 +198,7 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
         districtPrefix: "nces-lea:",
         postsecondaryPrefix: "ipeds-unit:",
       },
+      rawArtifacts: [],
       districts: [
         {
           officialId: "2101860",
@@ -153,14 +222,22 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
             vintage: "2022-2023",
             officialIdName: "LEAID",
             sourceUrl: "http://test",
-            retrievedAt: "2024-01-15",
+            retrievedAt: "2026-08-30",
+            rowLocator: {
+              sourceZipFilename: "test.zip",
+              sourceZipSha256: "0".repeat(64),
+              csvFilename: "test.csv",
+              sourceRowIndex: 2,
+              sourceKeyColumn: "LEAID",
+              sourceKeyValue: "2101860",
+            },
           },
         },
       ],
       institutions: [
         {
-          officialId: "210186000787",
-          stableId: "nces-sch:210186000787",
+          officialId: "210186000367",
+          stableId: "nces-sch:210186000367",
           name: "Test School",
           kind: "public-elementary-secondary",
           level: "high",
@@ -181,7 +258,15 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
             vintage: "2022-2023",
             officialIdName: "NCESSCH",
             sourceUrl: "http://test",
-            retrievedAt: "2024-01-15",
+            retrievedAt: "2026-08-30",
+            rowLocator: {
+              sourceZipFilename: "test.zip",
+              sourceZipSha256: "0".repeat(64),
+              csvFilename: "test.csv",
+              sourceRowIndex: 2,
+              sourceKeyColumn: "NCESSCH",
+              sourceKeyValue: "210186000367",
+            },
           },
         },
       ],

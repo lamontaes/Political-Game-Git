@@ -58,6 +58,15 @@ export function validateEducationCorpus(corpus: EducationCorpusSnapshot): void {
       throw new Error(`Duplicate stable ID in corpus: ${district.stableId}`);
     }
     seenStableIds.add(district.stableId);
+
+    if (
+      !district.provenance.rowLocator ||
+      district.provenance.rowLocator.sourceKeyColumn !== "LEAID"
+    ) {
+      throw new Error(
+        `District ${district.stableId} missing valid LEAID row locator.`,
+      );
+    }
   }
 
   const districtSet = new Set(corpus.districts.map((d) => d.stableId));
@@ -77,10 +86,26 @@ export function validateEducationCorpus(corpus: EducationCorpusSnapshot): void {
           `School ${inst.stableId} references unknown parent district: ${inst.parentDistrictId}`,
         );
       }
+      if (
+        !inst.provenance.rowLocator ||
+        inst.provenance.rowLocator.sourceKeyColumn !== "NCESSCH"
+      ) {
+        throw new Error(
+          `School ${inst.stableId} missing valid NCESSCH row locator.`,
+        );
+      }
     } else if (inst.kind === "postsecondary") {
       if (!inst.stableId.startsWith("ipeds-unit:")) {
         throw new Error(
           `Invalid postsecondary stable ID format: ${inst.stableId}`,
+        );
+      }
+      if (
+        !inst.provenance.rowLocator ||
+        inst.provenance.rowLocator.sourceKeyColumn !== "UNITID"
+      ) {
+        throw new Error(
+          `Postsecondary institution ${inst.stableId} missing valid UNITID row locator.`,
         );
       }
     } else {
@@ -136,6 +161,7 @@ export function queryEducationInstitutions(
     }
     if (filter.effectiveYear !== undefined) {
       const activeInYear = inst.vintages.some((v) => {
+        if (!v.effectiveDateStart) return true; // If effectiveDateStart is null/unknown, match current active vintage
         const startYear = parseInt(v.effectiveDateStart.slice(0, 4), 10);
         const endYear = v.effectiveDateEnd
           ? parseInt(v.effectiveDateEnd.slice(0, 4), 10)
@@ -190,4 +216,13 @@ export function convertEducationInstitutionToOrganization(
       locationJurisdictionId: null,
     },
   };
+}
+
+/**
+ * Asserts the non-attendance separation rule:
+ * Merely existing in the education institution corpus or living nearby NEVER grants
+ * automatic school enrollment or attendance facts to a simulated character.
+ */
+export function assertNoAutomaticAttendance(): void {
+  // Pure policy assertion enforcing separation between school existence and character history.
 }

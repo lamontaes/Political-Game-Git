@@ -1,909 +1,401 @@
+import * as crypto from "crypto";
 import * as fs from "fs";
 import * as path from "path";
+import { execSync } from "child_process";
 import type {
   EducationCorpusSnapshot,
+  EducationInstitutionRecord,
   EducationSourceProvenance,
   PostsecondaryRecord,
   PublicSchoolRecord,
+  RawArtifactManifestEntry,
   SchoolDistrictRecord,
 } from "../src/education/types";
 
-const ccdProvenance: EducationSourceProvenance = {
-  sourceName: "NCES CCD",
-  datasetName:
-    "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
-  vintage: "2022-2023",
-  officialIdName: "NCESSCH",
-  sourceUrl: "https://nces.ed.gov/ccd/pubschuniv.asp",
-  retrievedAt: "2024-01-15",
-};
+const RETRIEVAL_DATE = "2026-08-30";
 
-const ccdLeaProvenance: EducationSourceProvenance = {
-  ...ccdProvenance,
-  officialIdName: "LEAID",
-  sourceUrl: "https://nces.ed.gov/ccd/pubagency.asp",
-};
-
-const ipedsProvenance: EducationSourceProvenance = {
-  sourceName: "NCES IPEDS",
-  datasetName:
-    "Integrated Postsecondary Education Data System Institutional Characteristics / Directory",
-  vintage: "2022-2023",
-  officialIdName: "UNITID",
-  sourceUrl: "https://nces.ed.gov/ipeds/datacenter/",
-  retrievedAt: "2024-01-15",
-};
-
-const districts: SchoolDistrictRecord[] = [
+const ARTIFACT_SPECS = [
   {
-    officialId: "2101860",
-    stableId: "nces-lea:2101860",
-    name: "Fayette County School District",
-    kind: "public-district",
-    level: "district",
-    location: {
-      address: "1126 Russell Cave Rd",
-      city: "Lexington",
-      state: "KY",
-      zip: "40505",
-      fipsCounty: "21067",
-      latitude: 38.0673,
-      longitude: -84.4842,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1967-01-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Fayette County School District",
-      },
-    ],
-    provenance: ccdLeaProvenance,
+    filename: "ccd_sch_029_2223_w_0a_051023.zip",
+    csvFilename: "ccd_sch_029_2223_w_0a_051023.csv",
+    url: "https://nces.ed.gov/ccd/Data/zip/ccd_sch_029_2223_w_0a_051023.zip",
+    datasetName:
+      "NCES CCD Public Elementary/Secondary School Universe Survey Directory 2022-2023 (v.0a)",
   },
   {
-    officialId: "2102990",
-    stableId: "nces-lea:2102990",
-    name: "Jefferson County Public Schools",
-    kind: "public-district",
-    level: "district",
-    location: {
-      address: "3332 Newburg Rd",
-      city: "Louisville",
-      state: "KY",
-      zip: "40218",
-      fipsCounty: "21111",
-      latitude: 38.2045,
-      longitude: -85.6983,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1975-01-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Jefferson County Public Schools",
-      },
-    ],
-    provenance: ccdLeaProvenance,
+    filename: "ccd_lea_029_2223_w_0a_051023.zip",
+    csvFilename: "ccd_lea_029_2223_w_0a_051023.csv",
+    url: "https://nces.ed.gov/ccd/Data/zip/ccd_lea_029_2223_w_0a_051023.zip",
+    datasetName:
+      "NCES CCD Local Education Agency Universe Survey Directory 2022-2023 (v.0a)",
   },
   {
-    officialId: "2101950",
-    stableId: "nces-lea:2101950",
-    name: "Franklin County School District",
-    kind: "public-district",
-    level: "district",
-    location: {
-      address: "951 Leestown Rd",
-      city: "Frankfort",
-      state: "KY",
-      zip: "40601",
-      fipsCounty: "21073",
-      latitude: 38.2096,
-      longitude: -84.8724,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1920-01-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Franklin County School District",
-      },
-    ],
-    provenance: ccdLeaProvenance,
-  },
-  {
-    officialId: "2106360",
-    stableId: "nces-lea:2106360",
-    name: "Woodford County School District",
-    kind: "public-district",
-    level: "district",
-    location: {
-      address: "330 Normal St",
-      city: "Versailles",
-      state: "KY",
-      zip: "40383",
-      fipsCounty: "21239",
-      latitude: 38.0531,
-      longitude: -84.7302,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1920-01-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Woodford County School District",
-      },
-    ],
-    provenance: ccdLeaProvenance,
-  },
-  {
-    officialId: "2102970",
-    stableId: "nces-lea:2102970",
-    name: "Jessamine County School District",
-    kind: "public-district",
-    level: "district",
-    location: {
-      address: "871 Wilmore Rd",
-      city: "Nicholasville",
-      state: "KY",
-      zip: "40356",
-      fipsCounty: "21113",
-      latitude: 37.8804,
-      longitude: -84.5828,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1920-01-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Jessamine County School District",
-      },
-    ],
-    provenance: ccdLeaProvenance,
-  },
-  {
-    officialId: "2103570",
-    stableId: "nces-lea:2103570",
-    name: "Madison County School District",
-    kind: "public-district",
-    level: "district",
-    location: {
-      address: "301 Highland Park Dr",
-      city: "Richmond",
-      state: "KY",
-      zip: "40475",
-      fipsCounty: "21151",
-      latitude: 37.7478,
-      longitude: -84.2946,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1920-01-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Madison County School District",
-      },
-    ],
-    provenance: ccdLeaProvenance,
-  },
-  {
-    officialId: "2105220",
-    stableId: "nces-lea:2105220",
-    name: "Scott County School District",
-    kind: "public-district",
-    level: "district",
-    location: {
-      address: "2168 Frankfort Rd",
-      city: "Georgetown",
-      state: "KY",
-      zip: "40324",
-      fipsCounty: "21209",
-      latitude: 38.2098,
-      longitude: -84.5684,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1920-01-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Scott County School District",
-      },
-    ],
-    provenance: ccdLeaProvenance,
+    filename: "HD2022.zip",
+    csvFilename: "hd2022.csv",
+    url: "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+    datasetName:
+      "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)",
   },
 ];
 
-const publicSchools: PublicSchoolRecord[] = [
-  {
-    officialId: "210186000787",
-    stableId: "nces-sch:210186000787",
-    name: "Lafayette High School",
-    kind: "public-elementary-secondary",
-    level: "high",
-    parentDistrictId: "nces-lea:2101860",
-    location: {
-      address: "401 Reed Ln",
-      city: "Lexington",
-      state: "KY",
-      zip: "40503",
-      fipsCounty: "21067",
-      latitude: 38.0163,
-      longitude: -84.5262,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1939-09-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Lafayette High School",
-      },
-    ],
-    provenance: ccdProvenance,
-  },
-  {
-    officialId: "210186000786",
-    stableId: "nces-sch:210186000786",
-    name: "Henry Clay High School",
-    kind: "public-elementary-secondary",
-    level: "high",
-    parentDistrictId: "nces-lea:2101860",
-    location: {
-      address: "2100 Fontaine Rd",
-      city: "Lexington",
-      state: "KY",
-      zip: "40502",
-      fipsCounty: "21067",
-      latitude: 38.0219,
-      longitude: -84.4719,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1928-09-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Henry Clay High School",
-      },
-    ],
-    provenance: ccdProvenance,
-  },
-  {
-    officialId: "210186000785",
-    stableId: "nces-sch:210186000785",
-    name: "Bryan Station High School",
-    kind: "public-elementary-secondary",
-    level: "high",
-    parentDistrictId: "nces-lea:2101860",
-    location: {
-      address: "201 Eastin Rd",
-      city: "Lexington",
-      state: "KY",
-      zip: "40505",
-      fipsCounty: "21067",
-      latitude: 38.0581,
-      longitude: -84.4608,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1958-09-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Bryan Station High School",
-      },
-    ],
-    provenance: ccdProvenance,
-  },
-  {
-    officialId: "210186001550",
-    stableId: "nces-sch:210186001550",
-    name: "Paul Laurence Dunbar High School",
-    kind: "public-elementary-secondary",
-    level: "high",
-    parentDistrictId: "nces-lea:2101860",
-    location: {
-      address: "1600 Man o War Blvd",
-      city: "Lexington",
-      state: "KY",
-      zip: "40513",
-      fipsCounty: "21067",
-      latitude: 38.0076,
-      longitude: -84.5772,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1990-08-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Paul Laurence Dunbar High School",
-      },
-    ],
-    provenance: ccdProvenance,
-  },
-  {
-    officialId: "210186000792",
-    stableId: "nces-sch:210186000792",
-    name: "Tates Creek High School",
-    kind: "public-elementary-secondary",
-    level: "high",
-    parentDistrictId: "nces-lea:2101860",
-    location: {
-      address: "1111 Centre Pkwy",
-      city: "Lexington",
-      state: "KY",
-      zip: "40517",
-      fipsCounty: "21067",
-      latitude: 37.9868,
-      longitude: -84.4892,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1965-09-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Tates Creek High School",
-      },
-    ],
-    provenance: ccdProvenance,
-  },
-  {
-    officialId: "210186002012",
-    stableId: "nces-sch:210186002012",
-    name: "Frederick Douglass High School",
-    kind: "public-elementary-secondary",
-    level: "high",
-    parentDistrictId: "nces-lea:2101860",
-    location: {
-      address: "2000 Winchester Rd",
-      city: "Lexington",
-      state: "KY",
-      zip: "40509",
-      fipsCounty: "21067",
-      latitude: 38.0264,
-      longitude: -84.4319,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "2017-08-16",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Frederick Douglass High School",
-      },
-    ],
-    provenance: ccdProvenance,
-  },
-  {
-    officialId: "210186000784",
-    stableId: "nces-sch:210186000784",
-    name: "Beaumont Middle School",
-    kind: "public-elementary-secondary",
-    level: "middle",
-    parentDistrictId: "nces-lea:2101860",
-    location: {
-      address: "2080 Georgian Way",
-      city: "Lexington",
-      state: "KY",
-      zip: "40504",
-      fipsCounty: "21067",
-      latitude: 38.0245,
-      longitude: -84.5461,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1960-09-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Beaumont Middle School",
-      },
-    ],
-    provenance: ccdProvenance,
-  },
-  {
-    officialId: "210186000789",
-    stableId: "nces-sch:210186000789",
-    name: "Jessie M Clark Middle School",
-    kind: "public-elementary-secondary",
-    level: "middle",
-    parentDistrictId: "nces-lea:2101860",
-    location: {
-      address: "3341 Clays Mill Rd",
-      city: "Lexington",
-      state: "KY",
-      zip: "40503",
-      fipsCounty: "21067",
-      latitude: 37.9951,
-      longitude: -84.5332,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1964-09-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Jessie M Clark Middle School",
-      },
-    ],
-    provenance: ccdProvenance,
-  },
-  {
-    officialId: "210186000790",
-    stableId: "nces-sch:210186000790",
-    name: "Morton Middle School",
-    kind: "public-elementary-secondary",
-    level: "middle",
-    parentDistrictId: "nces-lea:2101860",
-    location: {
-      address: "1225 Tates Creek Rd",
-      city: "Lexington",
-      state: "KY",
-      zip: "40502",
-      fipsCounty: "21067",
-      latitude: 38.0188,
-      longitude: -84.4851,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1938-09-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Morton Middle School",
-      },
-    ],
-    provenance: ccdProvenance,
-  },
-  {
-    officialId: "210186000791",
-    stableId: "nces-sch:210186000791",
-    name: "Picadome Elementary School",
-    kind: "public-elementary-secondary",
-    level: "elementary",
-    parentDistrictId: "nces-lea:2101860",
-    location: {
-      address: "1642 Harrodsburg Rd",
-      city: "Lexington",
-      state: "KY",
-      zip: "40504",
-      fipsCounty: "21067",
-      latitude: 38.0261,
-      longitude: -84.5298,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1958-09-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Picadome Elementary School",
-      },
-    ],
-    provenance: ccdProvenance,
-  },
-  {
-    officialId: "210299001150",
-    stableId: "nces-sch:210299001150",
-    name: "DuPont Manual High School",
-    kind: "public-elementary-secondary",
-    level: "high",
-    parentDistrictId: "nces-lea:2102990",
-    location: {
-      address: "120 W Lee St",
-      city: "Louisville",
-      state: "KY",
-      zip: "40208",
-      fipsCounty: "21111",
-      latitude: 38.2231,
-      longitude: -85.7576,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1892-09-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "DuPont Manual High School",
-      },
-    ],
-    provenance: ccdProvenance,
-  },
-];
+function ensureRawArtifacts(): Record<
+  string,
+  { sha256: string; byteSize: number }
+> {
+  const rawDir = path.join(process.cwd(), "data", "education", "raw");
+  if (!fs.existsSync(rawDir)) {
+    fs.mkdirSync(rawDir, { recursive: true });
+  }
 
-const postsecondaryInstitutions: PostsecondaryRecord[] = [
-  {
-    officialId: "157085",
-    stableId: "ipeds-unit:157085",
-    name: "University of Kentucky",
-    kind: "postsecondary",
-    level: "postsecondary-4yr",
-    control: "public",
-    location: {
-      address: "410 Administration Dr",
-      city: "Lexington",
-      state: "KY",
-      zip: "40506-0003",
-      fipsCounty: "21067",
-      latitude: 38.0382,
-      longitude: -84.5044,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1865-02-22",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "University of Kentucky",
-      },
-    ],
-    provenance: ipedsProvenance,
-  },
-  {
-    officialId: "157793",
-    stableId: "ipeds-unit:157793",
-    name: "Transylvania University",
-    kind: "postsecondary",
-    level: "postsecondary-4yr",
-    control: "private-nonprofit",
-    location: {
-      address: "300 N Broadway",
-      city: "Lexington",
-      state: "KY",
-      zip: "40508-1797",
-      fipsCounty: "21067",
-      latitude: 38.0528,
-      longitude: -84.4925,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1780-01-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Transylvania University",
-      },
-    ],
-    provenance: ipedsProvenance,
-  },
-  {
-    officialId: "444899",
-    stableId: "ipeds-unit:444899",
-    name: "Bluegrass Community and Technical College",
-    kind: "postsecondary",
-    level: "postsecondary-2yr",
-    control: "public",
-    location: {
-      address: "470 Cooper Dr",
-      city: "Lexington",
-      state: "KY",
-      zip: "40506-0235",
-      fipsCounty: "21067",
-      latitude: 38.0269,
-      longitude: -84.5058,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "2004-01-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Bluegrass Community and Technical College",
-      },
-    ],
-    provenance: ipedsProvenance,
-  },
-  {
-    officialId: "157289",
-    stableId: "ipeds-unit:157289",
-    name: "University of Louisville",
-    kind: "postsecondary",
-    level: "postsecondary-4yr",
-    control: "public",
-    location: {
-      address: "2301 S 3rd St",
-      city: "Louisville",
-      state: "KY",
-      zip: "40292-0001",
-      fipsCounty: "21111",
-      latitude: 38.2155,
-      longitude: -85.7592,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1798-04-03",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "University of Louisville",
-      },
-    ],
-    provenance: ipedsProvenance,
-  },
-  {
-    officialId: "156620",
-    stableId: "ipeds-unit:156620",
-    name: "Eastern Kentucky University",
-    kind: "postsecondary",
-    level: "postsecondary-4yr",
-    control: "public",
-    location: {
-      address: "521 Lancaster Ave",
-      city: "Richmond",
-      state: "KY",
-      zip: "40475-3102",
-      fipsCounty: "21151",
-      latitude: 37.7348,
-      longitude: -84.2989,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1906-03-21",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Eastern Kentucky University",
-      },
-    ],
-    provenance: ipedsProvenance,
-  },
-  {
-    officialId: "157951",
-    stableId: "ipeds-unit:157951",
-    name: "Western Kentucky University",
-    kind: "postsecondary",
-    level: "postsecondary-4yr",
-    control: "public",
-    location: {
-      address: "1906 College Heights Blvd",
-      city: "Bowling Green",
-      state: "KY",
-      zip: "42101-1000",
-      fipsCounty: "21227",
-      latitude: 36.9856,
-      longitude: -86.4552,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1906-03-21",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Western Kentucky University",
-      },
-    ],
-    provenance: ipedsProvenance,
-  },
-  {
-    officialId: "157447",
-    stableId: "ipeds-unit:157447",
-    name: "Northern Kentucky University",
-    kind: "postsecondary",
-    level: "postsecondary-4yr",
-    control: "public",
-    location: {
-      address: "Nunn Drive",
-      city: "Highland Heights",
-      state: "KY",
-      zip: "41099",
-      fipsCounty: "21037",
-      latitude: 39.0321,
-      longitude: -84.4641,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1968-01-01",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Northern Kentucky University",
-      },
-    ],
-    provenance: ipedsProvenance,
-  },
-  {
-    officialId: "157058",
-    stableId: "ipeds-unit:157058",
-    name: "Kentucky State University",
-    kind: "postsecondary",
-    level: "postsecondary-4yr",
-    control: "public",
-    location: {
-      address: "400 E Main St",
-      city: "Frankfort",
-      state: "KY",
-      zip: "40601-2356",
-      fipsCounty: "21073",
-      latitude: 38.2014,
-      longitude: -84.8623,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1886-05-18",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Kentucky State University",
-      },
-    ],
-    provenance: ipedsProvenance,
-  },
-  {
-    officialId: "156484",
-    stableId: "ipeds-unit:156484",
-    name: "Centre College",
-    kind: "postsecondary",
-    level: "postsecondary-4yr",
-    control: "private-nonprofit",
-    location: {
-      address: "600 W Walnut St",
-      city: "Danville",
-      state: "KY",
-      zip: "40422-1394",
-      fipsCounty: "21021",
-      latitude: 37.6468,
-      longitude: -84.7788,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1819-01-21",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Centre College",
-      },
-    ],
-    provenance: ipedsProvenance,
-  },
-  {
-    officialId: "166027",
-    stableId: "ipeds-unit:166027",
-    name: "Harvard University",
-    kind: "postsecondary",
-    level: "postsecondary-4yr",
-    control: "private-nonprofit",
-    location: {
-      address: "Massachusetts Hall",
-      city: "Cambridge",
-      state: "MA",
-      zip: "02138",
-      fipsCounty: "25017",
-      latitude: 42.377,
-      longitude: -71.1167,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1636-09-08",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Harvard University",
-      },
-    ],
-    provenance: ipedsProvenance,
-  },
-  {
-    officialId: "130794",
-    stableId: "ipeds-unit:130794",
-    name: "Yale University",
-    kind: "postsecondary",
-    level: "postsecondary-4yr",
-    control: "private-nonprofit",
-    location: {
-      address: "Woodbridge Hall",
-      city: "New Haven",
-      state: "CT",
-      zip: "06520",
-      fipsCounty: "09009",
-      latitude: 41.3163,
-      longitude: -72.9223,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1701-10-09",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Yale University",
-      },
-    ],
-    provenance: ipedsProvenance,
-  },
-  {
-    officialId: "186131",
-    stableId: "ipeds-unit:186131",
-    name: "Princeton University",
-    kind: "postsecondary",
-    level: "postsecondary-4yr",
-    control: "private-nonprofit",
-    location: {
-      address: "1 Nassau Hall",
-      city: "Princeton",
-      state: "NJ",
-      zip: "08544-0015",
-      fipsCounty: "34021",
-      latitude: 40.3487,
-      longitude: -74.6593,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1746-10-22",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Princeton University",
-      },
-    ],
-    provenance: ipedsProvenance,
-  },
-  {
-    officialId: "243744",
-    stableId: "ipeds-unit:243744",
-    name: "Stanford University",
-    kind: "postsecondary",
-    level: "postsecondary-4yr",
-    control: "private-nonprofit",
-    location: {
-      address: "450 Serra Mall",
-      city: "Stanford",
-      state: "CA",
-      zip: "94305",
-      fipsCounty: "06085",
-      latitude: 37.4275,
-      longitude: -122.1697,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1885-11-11",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Stanford University",
-      },
-    ],
-    provenance: ipedsProvenance,
-  },
-  {
-    officialId: "131496",
-    stableId: "ipeds-unit:131496",
-    name: "Georgetown University",
-    kind: "postsecondary",
-    level: "postsecondary-4yr",
-    control: "private-nonprofit",
-    location: {
-      address: "37th and O Sts NW",
-      city: "Washington",
-      state: "DC",
-      zip: "20057-0001",
-      fipsCounty: "11001",
-      latitude: 38.9076,
-      longitude: -77.0723,
-    },
-    vintages: [
-      {
-        vintageYear: 2022,
-        effectiveDateStart: "1789-01-23",
-        effectiveDateEnd: null,
-        status: "open",
-        nameAtVintage: "Georgetown University",
-      },
-    ],
-    provenance: ipedsProvenance,
-  },
-];
+  const results: Record<string, { sha256: string; byteSize: number }> = {};
+
+  for (const spec of ARTIFACT_SPECS) {
+    const zipPath = path.join(rawDir, spec.filename);
+    const csvPath = path.join(rawDir, spec.csvFilename);
+
+    if (!fs.existsSync(zipPath)) {
+      console.log(`Downloading raw artifact: ${spec.url}...`);
+      execSync(`curl -s -o "${zipPath}" "${spec.url}"`);
+    }
+
+    const bytes = fs.readFileSync(zipPath);
+    const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
+    const byteSize = bytes.length;
+    results[spec.filename] = { sha256, byteSize };
+
+    if (!fs.existsSync(csvPath)) {
+      console.log(`Extracting CSV from ${spec.filename}...`);
+      execSync(`unzip -o "${zipPath}" -d "${rawDir}"`);
+    }
+  }
+
+  return results;
+}
+
+function parseCsvSimple(filePath: string): {
+  headers: string[];
+  rows: { rowIndex: number; data: Record<string, string> }[];
+} {
+  const content = fs.readFileSync(filePath, "utf8");
+  const lines = content.split(/\r?\n/);
+  if (lines.length === 0) return { headers: [], rows: [] };
+
+  const headers = parseCsvLine(lines[0]!);
+  const rows: { rowIndex: number; data: Record<string, string> }[] = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line || line.trim().length === 0) continue;
+    const values = parseCsvLine(line);
+    const data: Record<string, string> = {};
+    for (let j = 0; j < headers.length; j++) {
+      const header = headers[j];
+      if (header) {
+        data[header] = values[j] ?? "";
+      }
+    }
+    rows.push({ rowIndex: i + 1, data });
+  }
+
+  return { headers, rows };
+}
+
+function parseCsvLine(line: string): string[] {
+  const result: string[] = [];
+  let current = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    if (char === '"') {
+      if (inQuotes && line[i + 1] === '"') {
+        current += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (char === "," && !inQuotes) {
+      result.push(current.trim().replace(/^\uFEFF/, ""));
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+  result.push(current.trim().replace(/^\uFEFF/, ""));
+  return result;
+}
 
 function main() {
+  const artifactHashes = ensureRawArtifacts();
+  const rawDir = path.join(process.cwd(), "data", "education", "raw");
+
+  const rawManifest: RawArtifactManifestEntry[] = ARTIFACT_SPECS.map(
+    (spec) => ({
+      filename: spec.filename,
+      url: spec.url,
+      sha256: artifactHashes[spec.filename]!.sha256,
+      byteSize: artifactHashes[spec.filename]!.byteSize,
+      retrievedAt: RETRIEVAL_DATE,
+      datasetName: spec.datasetName,
+    }),
+  );
+
+  // Target IDs for LEAs
+  const leaTargetIds = new Set([
+    "2101860", // Fayette County
+    "2102990", // Jefferson County
+    "2102010", // Franklin County
+    "2106000", // Woodford County
+    "2103030", // Jessamine County
+    "2103720", // Madison County
+    "2105260", // Scott County
+  ]);
+
+  // Target IDs for Public Schools
+  const schTargetIds = new Set([
+    "210186000367", // Lafayette High School
+    "210186000364", // Henry Clay High School
+    "210186000389", // Bryan Station High School
+    "210186001669", // Paul Laurence Dunbar High School
+    "210186000383", // Tates Creek High School
+    "210186002459", // Frederick Douglass High School
+    "210186000353", // Beaumont Middle School
+    "210186000391", // Jessie M Clark Middle School
+    "210186000374", // Morton Middle School
+    "210186000376", // Picadome Elementary School
+    "210299000734", // duPont Manual High
+  ]);
+
+  // Target IDs for Postsecondary
+  const ipedsTargetIds = new Set([
+    "157085", // University of Kentucky
+    "157818", // Transylvania University
+    "156392", // Bluegrass Community and Technical College
+    "157289", // University of Louisville
+    "156620", // Eastern Kentucky University
+    "157951", // Western Kentucky University
+    "157447", // Northern Kentucky University
+    "157058", // Kentucky State University
+    "156408", // Centre College
+    "166027", // Harvard University
+    "130794", // Yale University
+    "186131", // Princeton University
+    "243744", // Stanford University
+    "131496", // Georgetown University
+  ]);
+
+  const districts: SchoolDistrictRecord[] = [];
+  const leaSpec = ARTIFACT_SPECS.find(
+    (s) => s.filename === "ccd_lea_029_2223_w_0a_051023.zip",
+  )!;
+  const leaCsvPath = path.join(rawDir, leaSpec.csvFilename);
+  const parsedLea = parseCsvSimple(leaCsvPath);
+
+  for (const { rowIndex, data } of parsedLea.rows) {
+    const leaid = data["LEAID"]?.trim();
+    if (leaid && leaTargetIds.has(leaid)) {
+      const name = data["LEA_NAME"]?.trim() || "";
+      const provenance: EducationSourceProvenance = {
+        sourceName: "NCES CCD",
+        datasetName: leaSpec.datasetName,
+        vintage: "2022-2023",
+        officialIdName: "LEAID",
+        sourceUrl: leaSpec.url,
+        retrievedAt: RETRIEVAL_DATE,
+        rowLocator: {
+          sourceZipFilename: leaSpec.filename,
+          sourceZipSha256: artifactHashes[leaSpec.filename]!.sha256,
+          csvFilename: leaSpec.csvFilename,
+          sourceRowIndex: rowIndex,
+          sourceKeyColumn: "LEAID",
+          sourceKeyValue: leaid,
+        },
+      };
+
+      districts.push({
+        officialId: leaid,
+        stableId: `nces-lea:${leaid}`,
+        name:
+          name.endsWith(" District") || name.endsWith(" Schools")
+            ? name
+            : `${name} School District`,
+        kind: "public-district",
+        level: "district",
+        location: {
+          address: data["LSTREET1"]?.trim() || null,
+          city: data["LCITY"]?.trim() || "",
+          state: data["LSTATE"]?.trim() || "",
+          zip: data["LZIP"]?.trim() || null,
+          fipsCounty: data["FIPST"] ? `${data["FIPST"]}` : null,
+          latitude: null,
+          longitude: null,
+        },
+        vintages: [
+          {
+            vintageYear: 2022,
+            effectiveDateStart: null, // Historical opening date is NOT provided by NCES directory
+            effectiveDateEnd: null,
+            status: "open",
+            nameAtVintage: name,
+          },
+        ],
+        provenance,
+      });
+    }
+  }
+
+  const publicSchools: PublicSchoolRecord[] = [];
+  const schSpec = ARTIFACT_SPECS.find(
+    (s) => s.filename === "ccd_sch_029_2223_w_0a_051023.zip",
+  )!;
+  const schCsvPath = path.join(rawDir, schSpec.csvFilename);
+  const parsedSch = parseCsvSimple(schCsvPath);
+
+  for (const { rowIndex, data } of parsedSch.rows) {
+    const ncessch = data["NCESSCH"]?.trim();
+    if (ncessch && schTargetIds.has(ncessch)) {
+      const schName = data["SCH_NAME"]?.trim() || "";
+      const leaid = data["LEAID"]?.trim() || "";
+      const levelCode = data["LEVEL"]?.trim();
+      let level: "elementary" | "middle" | "high" | "combined" = "high";
+      if (levelCode === "1" || schName.toLowerCase().includes("elementary")) {
+        level = "elementary";
+      } else if (
+        levelCode === "2" ||
+        schName.toLowerCase().includes("middle")
+      ) {
+        level = "middle";
+      } else if (levelCode === "3" || schName.toLowerCase().includes("high")) {
+        level = "high";
+      }
+
+      const provenance: EducationSourceProvenance = {
+        sourceName: "NCES CCD",
+        datasetName: schSpec.datasetName,
+        vintage: "2022-2023",
+        officialIdName: "NCESSCH",
+        sourceUrl: schSpec.url,
+        retrievedAt: RETRIEVAL_DATE,
+        rowLocator: {
+          sourceZipFilename: schSpec.filename,
+          sourceZipSha256: artifactHashes[schSpec.filename]!.sha256,
+          csvFilename: schSpec.csvFilename,
+          sourceRowIndex: rowIndex,
+          sourceKeyColumn: "NCESSCH",
+          sourceKeyValue: ncessch,
+        },
+      };
+
+      publicSchools.push({
+        officialId: ncessch,
+        stableId: `nces-sch:${ncessch}`,
+        name: schName,
+        kind: "public-elementary-secondary",
+        level,
+        parentDistrictId: `nces-lea:${leaid}`,
+        location: {
+          address: data["LSTREET1"]?.trim() || null,
+          city: data["LCITY"]?.trim() || "",
+          state: data["LSTATE"]?.trim() || "",
+          zip: data["LZIP"]?.trim() || null,
+          fipsCounty: data["FIPST"] ? `${data["FIPST"]}` : null,
+          latitude: null,
+          longitude: null,
+        },
+        vintages: [
+          {
+            vintageYear: 2022,
+            effectiveDateStart: null, // Historical opening date is NOT provided by NCES directory
+            effectiveDateEnd: null,
+            status: "open",
+            nameAtVintage: schName,
+          },
+        ],
+        provenance,
+      });
+    }
+  }
+
+  const postsecondaryInstitutions: PostsecondaryRecord[] = [];
+  const ipedsSpec = ARTIFACT_SPECS.find((s) => s.filename === "HD2022.zip")!;
+  const ipedsCsvPath = path.join(rawDir, ipedsSpec.csvFilename);
+  const parsedIpeds = parseCsvSimple(ipedsCsvPath);
+
+  for (const { rowIndex, data } of parsedIpeds.rows) {
+    const unitid = data["UNITID"]?.trim();
+    if (unitid && ipedsTargetIds.has(unitid)) {
+      const instName = data["INSTNM"]?.trim() || "";
+      const controlCode = data["CONTROL"]?.trim();
+      let control: "public" | "private-nonprofit" | "private-forprofit" =
+        "public";
+      if (controlCode === "2") control = "private-nonprofit";
+      if (controlCode === "3") control = "private-forprofit";
+
+      const levelCode = data["ICLEVEL"]?.trim();
+      let level:
+        | "postsecondary-4yr"
+        | "postsecondary-2yr"
+        | "postsecondary-less-than-2yr" = "postsecondary-4yr";
+      if (levelCode === "2") level = "postsecondary-2yr";
+      if (levelCode === "3") level = "postsecondary-less-than-2yr";
+
+      const provenance: EducationSourceProvenance = {
+        sourceName: "NCES IPEDS",
+        datasetName: ipedsSpec.datasetName,
+        vintage: "2022",
+        officialIdName: "UNITID",
+        sourceUrl: ipedsSpec.url,
+        retrievedAt: RETRIEVAL_DATE,
+        rowLocator: {
+          sourceZipFilename: ipedsSpec.filename,
+          sourceZipSha256: artifactHashes[ipedsSpec.filename]!.sha256,
+          csvFilename: ipedsSpec.csvFilename,
+          sourceRowIndex: rowIndex,
+          sourceKeyColumn: "UNITID",
+          sourceKeyValue: unitid,
+        },
+      };
+
+      postsecondaryInstitutions.push({
+        officialId: unitid,
+        stableId: `ipeds-unit:${unitid}`,
+        name: instName,
+        kind: "postsecondary",
+        level,
+        control,
+        location: {
+          address: data["ADDR"]?.trim() || null,
+          city: data["CITY"]?.trim() || "",
+          state: data["STABBR"]?.trim() || "",
+          zip: data["ZIP"]?.trim() || null,
+          fipsCounty: data["FIPS"] ? `${data["FIPS"]}` : null,
+          latitude: null,
+          longitude: null,
+        },
+        vintages: [
+          {
+            vintageYear: 2022,
+            effectiveDateStart: null, // Historical founding date is NOT provided by NCES IPEDS directory
+            effectiveDateEnd: null,
+            status: "open",
+            nameAtVintage: instName,
+          },
+        ],
+        provenance,
+      });
+    }
+  }
+
+  // Sort deterministically by stable ID
+  districts.sort((a, b) => a.stableId.localeCompare(b.stableId));
+  const sortedInstitutions: EducationInstitutionRecord[] = [
+    ...publicSchools,
+    ...postsecondaryInstitutions,
+  ].sort((a, b) => a.stableId.localeCompare(b.stableId));
+
   const snapshot: EducationCorpusSnapshot = {
     version: "1.0.0",
-    generatedAt: "2024-01-15",
+    generatedAt: RETRIEVAL_DATE,
     counts: {
       publicDistricts: districts.length,
       publicSchools: publicSchools.length,
@@ -918,8 +410,9 @@ function main() {
       districtPrefix: "nces-lea:",
       postsecondaryPrefix: "ipeds-unit:",
     },
+    rawArtifacts: rawManifest,
     districts,
-    institutions: [...publicSchools, ...postsecondaryInstitutions],
+    institutions: sortedInstitutions,
   };
 
   const outputDir = path.join(process.cwd(), "data", "education");
@@ -929,7 +422,7 @@ function main() {
 
   const outputPath = path.join(outputDir, "us-education-corpus.json");
   fs.writeFileSync(outputPath, JSON.stringify(snapshot, null, 2), "utf8");
-  console.log(`Education corpus successfully generated at: ${outputPath}`);
+  console.log(`Education corpus successfully compiled at: ${outputPath}`);
   console.log(
     `Counts: Districts=${snapshot.counts.publicDistricts}, Public Schools=${snapshot.counts.publicSchools}, Postsecondary=${snapshot.counts.postsecondaryInstitutions}, Total=${snapshot.counts.total}`,
   );

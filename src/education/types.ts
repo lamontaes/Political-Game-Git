@@ -1,6 +1,6 @@
 /**
  * Authoritative U.S. Education Institution Source Corpus Types
- * Sourced from NCES Common Core of Data (CCD) and NCES IPEDS.
+ * Sourced reproducibly from NCES Common Core of Data (CCD) and NCES IPEDS raw zip archives.
  */
 
 export type InstitutionKind =
@@ -31,19 +31,31 @@ export type OperatingStatusKind =
 
 export interface OperatingVintageStatus {
   readonly vintageYear: number;
-  readonly effectiveDateStart: string; // ISO date YYYY-MM-DD or YYYY
-  readonly effectiveDateEnd: string | null; // ISO date YYYY-MM-DD or YYYY, null if currently active
+  /** ISO date YYYY-MM-DD for vintage snapshot, or null if unsupported/unknown by NCES */
+  readonly effectiveDateStart: string | null;
+  /** ISO date YYYY-MM-DD or null if currently active */
+  readonly effectiveDateEnd: string | null;
   readonly status: OperatingStatusKind;
   readonly nameAtVintage: string;
 }
 
+export interface SourceRowLocator {
+  readonly sourceZipFilename: string; // e.g. "ccd_sch_029_2223_w_0a_051023.zip"
+  readonly sourceZipSha256: string; // Exact SHA-256 hash of downloaded zip bytes
+  readonly csvFilename: string; // e.g. "ccd_sch_029_2223_w_0a_051023.csv"
+  readonly sourceRowIndex: number; // 2-indexed header-relative CSV line number
+  readonly sourceKeyColumn: "NCESSCH" | "LEAID" | "UNITID";
+  readonly sourceKeyValue: string;
+}
+
 export interface EducationSourceProvenance {
   readonly sourceName: "NCES CCD" | "NCES IPEDS";
-  readonly datasetName: string; // e.g., "NCES CCD Public Elementary/Secondary School Universe Survey"
-  readonly vintage: string; // e.g., "2022-2023", "2023-2024"
+  readonly datasetName: string; // e.g., "NCES CCD Public Elementary/Secondary School Universe Survey Directory 2022-2023 (v.0a)"
+  readonly vintage: string; // e.g., "2022-2023", "2022"
   readonly officialIdName: "NCESSCH" | "LEAID" | "UNITID";
-  readonly sourceUrl: string;
-  readonly retrievedAt: string; // ISO date format YYYY-MM-DD
+  readonly sourceUrl: string; // Direct download ZIP URL
+  readonly retrievedAt: string; // ISO date format YYYY-MM-DD (e.g., "2026-08-30")
+  readonly rowLocator: SourceRowLocator;
 }
 
 export interface SchoolDistrictRecord {
@@ -58,8 +70,8 @@ export interface SchoolDistrictRecord {
 }
 
 export interface PublicSchoolRecord {
-  readonly officialId: string; // 12-digit NCES NCESSCH (e.g., "210186000787")
-  readonly stableId: string; // "nces-sch:210186000787"
+  readonly officialId: string; // 12-digit NCES NCESSCH (e.g., "210186000367")
+  readonly stableId: string; // "nces-sch:210186000367"
   readonly name: string;
   readonly kind: "public-elementary-secondary";
   readonly level: "elementary" | "middle" | "high" | "combined";
@@ -85,6 +97,15 @@ export interface PostsecondaryRecord {
 export type EducationInstitutionRecord =
   PublicSchoolRecord | PostsecondaryRecord;
 
+export interface RawArtifactManifestEntry {
+  readonly filename: string;
+  readonly url: string;
+  readonly sha256: string;
+  readonly byteSize: number;
+  readonly retrievedAt: string;
+  readonly datasetName: string;
+}
+
 export interface EducationCorpusSnapshot {
   readonly version: "1.0.0";
   readonly generatedAt: string; // ISO Date YYYY-MM-DD
@@ -99,6 +120,7 @@ export interface EducationCorpusSnapshot {
     readonly districtPrefix: "nces-lea:";
     readonly postsecondaryPrefix: "ipeds-unit:";
   };
+  readonly rawArtifacts: readonly RawArtifactManifestEntry[];
   readonly districts: readonly SchoolDistrictRecord[];
   readonly institutions: readonly EducationInstitutionRecord[];
 }

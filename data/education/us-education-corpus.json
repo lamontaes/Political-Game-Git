@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2024-01-15",
+  "generatedAt": "2026-08-30",
   "counts": {
     "publicDistricts": 7,
     "publicSchools": 11,
@@ -12,6 +12,32 @@
     "districtPrefix": "nces-lea:",
     "postsecondaryPrefix": "ipeds-unit:"
   },
+  "rawArtifacts": [
+    {
+      "filename": "ccd_sch_029_2223_w_0a_051023.zip",
+      "url": "https://nces.ed.gov/ccd/Data/zip/ccd_sch_029_2223_w_0a_051023.zip",
+      "sha256": "4238feed728fb0cb6eb8d1ca7f7389be57d46262ca6805a8f1acdadd3c06610a",
+      "byteSize": 12605610,
+      "retrievedAt": "2026-08-30",
+      "datasetName": "NCES CCD Public Elementary/Secondary School Universe Survey Directory 2022-2023 (v.0a)"
+    },
+    {
+      "filename": "ccd_lea_029_2223_w_0a_051023.zip",
+      "url": "https://nces.ed.gov/ccd/Data/zip/ccd_lea_029_2223_w_0a_051023.zip",
+      "sha256": "2bc8bb7f779dfb794997596ae8ece04e82029fb06b32601a9a8fb5bc39103174",
+      "byteSize": 2693295,
+      "retrievedAt": "2026-08-30",
+      "datasetName": "NCES CCD Local Education Agency Universe Survey Directory 2022-2023 (v.0a)"
+    },
+    {
+      "filename": "HD2022.zip",
+      "url": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+      "sha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+      "byteSize": 1053927,
+      "retrievedAt": "2026-08-30",
+      "datasetName": "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)"
+    }
+  ],
   "districts": [
     {
       "officialId": "2101860",
@@ -20,36 +46,85 @@
       "kind": "public-district",
       "level": "district",
       "location": {
-        "address": "1126 Russell Cave Rd",
+        "address": "701 East Main Street",
         "city": "Lexington",
         "state": "KY",
-        "zip": "40505",
-        "fipsCounty": "21067",
-        "latitude": 38.0673,
-        "longitude": -84.4842
+        "zip": "40502",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
       },
       "vintages": [
         {
           "vintageYear": 2022,
-          "effectiveDateStart": "1967-01-01",
+          "effectiveDateStart": null,
           "effectiveDateEnd": null,
           "status": "open",
-          "nameAtVintage": "Fayette County School District"
+          "nameAtVintage": "Fayette County"
         }
       ],
       "provenance": {
         "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
+        "datasetName": "NCES CCD Local Education Agency Universe Survey Directory 2022-2023 (v.0a)",
         "vintage": "2022-2023",
         "officialIdName": "LEAID",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubagency.asp",
-        "retrievedAt": "2024-01-15"
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_lea_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_lea_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "2bc8bb7f779dfb794997596ae8ece04e82029fb06b32601a9a8fb5bc39103174",
+          "csvFilename": "ccd_lea_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 6716,
+          "sourceKeyColumn": "LEAID",
+          "sourceKeyValue": "2101860"
+        }
+      }
+    },
+    {
+      "officialId": "2102010",
+      "stableId": "nces-lea:2102010",
+      "name": "Franklin County School District",
+      "kind": "public-district",
+      "level": "district",
+      "location": {
+        "address": "190 Kings Daughters Drive #300",
+        "city": "Frankfort",
+        "state": "KY",
+        "zip": "40601",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
+      },
+      "vintages": [
+        {
+          "vintageYear": 2022,
+          "effectiveDateStart": null,
+          "effectiveDateEnd": null,
+          "status": "open",
+          "nameAtVintage": "Franklin County"
+        }
+      ],
+      "provenance": {
+        "sourceName": "NCES CCD",
+        "datasetName": "NCES CCD Local Education Agency Universe Survey Directory 2022-2023 (v.0a)",
+        "vintage": "2022-2023",
+        "officialIdName": "LEAID",
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_lea_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_lea_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "2bc8bb7f779dfb794997596ae8ece04e82029fb06b32601a9a8fb5bc39103174",
+          "csvFilename": "ccd_lea_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 6720,
+          "sourceKeyColumn": "LEAID",
+          "sourceKeyValue": "2102010"
+        }
       }
     },
     {
       "officialId": "2102990",
       "stableId": "nces-lea:2102990",
-      "name": "Jefferson County Public Schools",
+      "name": "Jefferson County School District",
       "kind": "public-district",
       "level": "district",
       "location": {
@@ -57,97 +132,39 @@
         "city": "Louisville",
         "state": "KY",
         "zip": "40218",
-        "fipsCounty": "21111",
-        "latitude": 38.2045,
-        "longitude": -85.6983
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
       },
       "vintages": [
         {
           "vintageYear": 2022,
-          "effectiveDateStart": "1975-01-01",
+          "effectiveDateStart": null,
           "effectiveDateEnd": null,
           "status": "open",
-          "nameAtVintage": "Jefferson County Public Schools"
+          "nameAtVintage": "Jefferson County"
         }
       ],
       "provenance": {
         "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
+        "datasetName": "NCES CCD Local Education Agency Universe Survey Directory 2022-2023 (v.0a)",
         "vintage": "2022-2023",
         "officialIdName": "LEAID",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubagency.asp",
-        "retrievedAt": "2024-01-15"
-      }
-    },
-    {
-      "officialId": "2101950",
-      "stableId": "nces-lea:2101950",
-      "name": "Franklin County School District",
-      "kind": "public-district",
-      "level": "district",
-      "location": {
-        "address": "951 Leestown Rd",
-        "city": "Frankfort",
-        "state": "KY",
-        "zip": "40601",
-        "fipsCounty": "21073",
-        "latitude": 38.2096,
-        "longitude": -84.8724
-      },
-      "vintages": [
-        {
-          "vintageYear": 2022,
-          "effectiveDateStart": "1920-01-01",
-          "effectiveDateEnd": null,
-          "status": "open",
-          "nameAtVintage": "Franklin County School District"
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_lea_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_lea_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "2bc8bb7f779dfb794997596ae8ece04e82029fb06b32601a9a8fb5bc39103174",
+          "csvFilename": "ccd_lea_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 6745,
+          "sourceKeyColumn": "LEAID",
+          "sourceKeyValue": "2102990"
         }
-      ],
-      "provenance": {
-        "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
-        "vintage": "2022-2023",
-        "officialIdName": "LEAID",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubagency.asp",
-        "retrievedAt": "2024-01-15"
       }
     },
     {
-      "officialId": "2106360",
-      "stableId": "nces-lea:2106360",
-      "name": "Woodford County School District",
-      "kind": "public-district",
-      "level": "district",
-      "location": {
-        "address": "330 Normal St",
-        "city": "Versailles",
-        "state": "KY",
-        "zip": "40383",
-        "fipsCounty": "21239",
-        "latitude": 38.0531,
-        "longitude": -84.7302
-      },
-      "vintages": [
-        {
-          "vintageYear": 2022,
-          "effectiveDateStart": "1920-01-01",
-          "effectiveDateEnd": null,
-          "status": "open",
-          "nameAtVintage": "Woodford County School District"
-        }
-      ],
-      "provenance": {
-        "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
-        "vintage": "2022-2023",
-        "officialIdName": "LEAID",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubagency.asp",
-        "retrievedAt": "2024-01-15"
-      }
-    },
-    {
-      "officialId": "2102970",
-      "stableId": "nces-lea:2102970",
+      "officialId": "2103030",
+      "stableId": "nces-lea:2103030",
       "name": "Jessamine County School District",
       "kind": "public-district",
       "level": "district",
@@ -156,558 +173,265 @@
         "city": "Nicholasville",
         "state": "KY",
         "zip": "40356",
-        "fipsCounty": "21113",
-        "latitude": 37.8804,
-        "longitude": -84.5828
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
       },
       "vintages": [
         {
           "vintageYear": 2022,
-          "effectiveDateStart": "1920-01-01",
+          "effectiveDateStart": null,
           "effectiveDateEnd": null,
           "status": "open",
-          "nameAtVintage": "Jessamine County School District"
+          "nameAtVintage": "Jessamine County"
         }
       ],
       "provenance": {
         "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
+        "datasetName": "NCES CCD Local Education Agency Universe Survey Directory 2022-2023 (v.0a)",
         "vintage": "2022-2023",
         "officialIdName": "LEAID",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubagency.asp",
-        "retrievedAt": "2024-01-15"
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_lea_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_lea_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "2bc8bb7f779dfb794997596ae8ece04e82029fb06b32601a9a8fb5bc39103174",
+          "csvFilename": "ccd_lea_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 6747,
+          "sourceKeyColumn": "LEAID",
+          "sourceKeyValue": "2103030"
+        }
       }
     },
     {
-      "officialId": "2103570",
-      "stableId": "nces-lea:2103570",
+      "officialId": "2103720",
+      "stableId": "nces-lea:2103720",
       "name": "Madison County School District",
       "kind": "public-district",
       "level": "district",
       "location": {
-        "address": "301 Highland Park Dr",
+        "address": "301 Highland Park Dr.",
         "city": "Richmond",
         "state": "KY",
         "zip": "40475",
-        "fipsCounty": "21151",
-        "latitude": 37.7478,
-        "longitude": -84.2946
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
       },
       "vintages": [
         {
           "vintageYear": 2022,
-          "effectiveDateStart": "1920-01-01",
+          "effectiveDateStart": null,
           "effectiveDateEnd": null,
           "status": "open",
-          "nameAtVintage": "Madison County School District"
+          "nameAtVintage": "Madison County"
         }
       ],
       "provenance": {
         "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
+        "datasetName": "NCES CCD Local Education Agency Universe Survey Directory 2022-2023 (v.0a)",
         "vintage": "2022-2023",
         "officialIdName": "LEAID",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubagency.asp",
-        "retrievedAt": "2024-01-15"
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_lea_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_lea_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "2bc8bb7f779dfb794997596ae8ece04e82029fb06b32601a9a8fb5bc39103174",
+          "csvFilename": "ccd_lea_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 6764,
+          "sourceKeyColumn": "LEAID",
+          "sourceKeyValue": "2103720"
+        }
       }
     },
     {
-      "officialId": "2105220",
-      "stableId": "nces-lea:2105220",
+      "officialId": "2105260",
+      "stableId": "nces-lea:2105260",
       "name": "Scott County School District",
       "kind": "public-district",
       "level": "district",
       "location": {
-        "address": "2168 Frankfort Rd",
+        "address": "2168 Frankfort Pk",
         "city": "Georgetown",
         "state": "KY",
         "zip": "40324",
-        "fipsCounty": "21209",
-        "latitude": 38.2098,
-        "longitude": -84.5684
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
       },
       "vintages": [
         {
           "vintageYear": 2022,
-          "effectiveDateStart": "1920-01-01",
+          "effectiveDateStart": null,
           "effectiveDateEnd": null,
           "status": "open",
-          "nameAtVintage": "Scott County School District"
+          "nameAtVintage": "Scott County"
         }
       ],
       "provenance": {
         "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
+        "datasetName": "NCES CCD Local Education Agency Universe Survey Directory 2022-2023 (v.0a)",
         "vintage": "2022-2023",
         "officialIdName": "LEAID",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubagency.asp",
-        "retrievedAt": "2024-01-15"
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_lea_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_lea_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "2bc8bb7f779dfb794997596ae8ece04e82029fb06b32601a9a8fb5bc39103174",
+          "csvFilename": "ccd_lea_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 6809,
+          "sourceKeyColumn": "LEAID",
+          "sourceKeyValue": "2105260"
+        }
+      }
+    },
+    {
+      "officialId": "2106000",
+      "stableId": "nces-lea:2106000",
+      "name": "Woodford County School District",
+      "kind": "public-district",
+      "level": "district",
+      "location": {
+        "address": "330 Pisgah Pk",
+        "city": "Versailles",
+        "state": "KY",
+        "zip": "40383",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
+      },
+      "vintages": [
+        {
+          "vintageYear": 2022,
+          "effectiveDateStart": null,
+          "effectiveDateEnd": null,
+          "status": "open",
+          "nameAtVintage": "Woodford County"
+        }
+      ],
+      "provenance": {
+        "sourceName": "NCES CCD",
+        "datasetName": "NCES CCD Local Education Agency Universe Survey Directory 2022-2023 (v.0a)",
+        "vintage": "2022-2023",
+        "officialIdName": "LEAID",
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_lea_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_lea_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "2bc8bb7f779dfb794997596ae8ece04e82029fb06b32601a9a8fb5bc39103174",
+          "csvFilename": "ccd_lea_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 6829,
+          "sourceKeyColumn": "LEAID",
+          "sourceKeyValue": "2106000"
+        }
       }
     }
   ],
   "institutions": [
     {
-      "officialId": "210186000787",
-      "stableId": "nces-sch:210186000787",
-      "name": "Lafayette High School",
-      "kind": "public-elementary-secondary",
-      "level": "high",
-      "parentDistrictId": "nces-lea:2101860",
-      "location": {
-        "address": "401 Reed Ln",
-        "city": "Lexington",
-        "state": "KY",
-        "zip": "40503",
-        "fipsCounty": "21067",
-        "latitude": 38.0163,
-        "longitude": -84.5262
-      },
-      "vintages": [
-        {
-          "vintageYear": 2022,
-          "effectiveDateStart": "1939-09-01",
-          "effectiveDateEnd": null,
-          "status": "open",
-          "nameAtVintage": "Lafayette High School"
-        }
-      ],
-      "provenance": {
-        "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
-        "vintage": "2022-2023",
-        "officialIdName": "NCESSCH",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubschuniv.asp",
-        "retrievedAt": "2024-01-15"
-      }
-    },
-    {
-      "officialId": "210186000786",
-      "stableId": "nces-sch:210186000786",
-      "name": "Henry Clay High School",
-      "kind": "public-elementary-secondary",
-      "level": "high",
-      "parentDistrictId": "nces-lea:2101860",
-      "location": {
-        "address": "2100 Fontaine Rd",
-        "city": "Lexington",
-        "state": "KY",
-        "zip": "40502",
-        "fipsCounty": "21067",
-        "latitude": 38.0219,
-        "longitude": -84.4719
-      },
-      "vintages": [
-        {
-          "vintageYear": 2022,
-          "effectiveDateStart": "1928-09-01",
-          "effectiveDateEnd": null,
-          "status": "open",
-          "nameAtVintage": "Henry Clay High School"
-        }
-      ],
-      "provenance": {
-        "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
-        "vintage": "2022-2023",
-        "officialIdName": "NCESSCH",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubschuniv.asp",
-        "retrievedAt": "2024-01-15"
-      }
-    },
-    {
-      "officialId": "210186000785",
-      "stableId": "nces-sch:210186000785",
-      "name": "Bryan Station High School",
-      "kind": "public-elementary-secondary",
-      "level": "high",
-      "parentDistrictId": "nces-lea:2101860",
-      "location": {
-        "address": "201 Eastin Rd",
-        "city": "Lexington",
-        "state": "KY",
-        "zip": "40505",
-        "fipsCounty": "21067",
-        "latitude": 38.0581,
-        "longitude": -84.4608
-      },
-      "vintages": [
-        {
-          "vintageYear": 2022,
-          "effectiveDateStart": "1958-09-01",
-          "effectiveDateEnd": null,
-          "status": "open",
-          "nameAtVintage": "Bryan Station High School"
-        }
-      ],
-      "provenance": {
-        "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
-        "vintage": "2022-2023",
-        "officialIdName": "NCESSCH",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubschuniv.asp",
-        "retrievedAt": "2024-01-15"
-      }
-    },
-    {
-      "officialId": "210186001550",
-      "stableId": "nces-sch:210186001550",
-      "name": "Paul Laurence Dunbar High School",
-      "kind": "public-elementary-secondary",
-      "level": "high",
-      "parentDistrictId": "nces-lea:2101860",
-      "location": {
-        "address": "1600 Man o War Blvd",
-        "city": "Lexington",
-        "state": "KY",
-        "zip": "40513",
-        "fipsCounty": "21067",
-        "latitude": 38.0076,
-        "longitude": -84.5772
-      },
-      "vintages": [
-        {
-          "vintageYear": 2022,
-          "effectiveDateStart": "1990-08-01",
-          "effectiveDateEnd": null,
-          "status": "open",
-          "nameAtVintage": "Paul Laurence Dunbar High School"
-        }
-      ],
-      "provenance": {
-        "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
-        "vintage": "2022-2023",
-        "officialIdName": "NCESSCH",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubschuniv.asp",
-        "retrievedAt": "2024-01-15"
-      }
-    },
-    {
-      "officialId": "210186000792",
-      "stableId": "nces-sch:210186000792",
-      "name": "Tates Creek High School",
-      "kind": "public-elementary-secondary",
-      "level": "high",
-      "parentDistrictId": "nces-lea:2101860",
-      "location": {
-        "address": "1111 Centre Pkwy",
-        "city": "Lexington",
-        "state": "KY",
-        "zip": "40517",
-        "fipsCounty": "21067",
-        "latitude": 37.9868,
-        "longitude": -84.4892
-      },
-      "vintages": [
-        {
-          "vintageYear": 2022,
-          "effectiveDateStart": "1965-09-01",
-          "effectiveDateEnd": null,
-          "status": "open",
-          "nameAtVintage": "Tates Creek High School"
-        }
-      ],
-      "provenance": {
-        "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
-        "vintage": "2022-2023",
-        "officialIdName": "NCESSCH",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubschuniv.asp",
-        "retrievedAt": "2024-01-15"
-      }
-    },
-    {
-      "officialId": "210186002012",
-      "stableId": "nces-sch:210186002012",
-      "name": "Frederick Douglass High School",
-      "kind": "public-elementary-secondary",
-      "level": "high",
-      "parentDistrictId": "nces-lea:2101860",
-      "location": {
-        "address": "2000 Winchester Rd",
-        "city": "Lexington",
-        "state": "KY",
-        "zip": "40509",
-        "fipsCounty": "21067",
-        "latitude": 38.0264,
-        "longitude": -84.4319
-      },
-      "vintages": [
-        {
-          "vintageYear": 2022,
-          "effectiveDateStart": "2017-08-16",
-          "effectiveDateEnd": null,
-          "status": "open",
-          "nameAtVintage": "Frederick Douglass High School"
-        }
-      ],
-      "provenance": {
-        "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
-        "vintage": "2022-2023",
-        "officialIdName": "NCESSCH",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubschuniv.asp",
-        "retrievedAt": "2024-01-15"
-      }
-    },
-    {
-      "officialId": "210186000784",
-      "stableId": "nces-sch:210186000784",
-      "name": "Beaumont Middle School",
-      "kind": "public-elementary-secondary",
-      "level": "middle",
-      "parentDistrictId": "nces-lea:2101860",
-      "location": {
-        "address": "2080 Georgian Way",
-        "city": "Lexington",
-        "state": "KY",
-        "zip": "40504",
-        "fipsCounty": "21067",
-        "latitude": 38.0245,
-        "longitude": -84.5461
-      },
-      "vintages": [
-        {
-          "vintageYear": 2022,
-          "effectiveDateStart": "1960-09-01",
-          "effectiveDateEnd": null,
-          "status": "open",
-          "nameAtVintage": "Beaumont Middle School"
-        }
-      ],
-      "provenance": {
-        "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
-        "vintage": "2022-2023",
-        "officialIdName": "NCESSCH",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubschuniv.asp",
-        "retrievedAt": "2024-01-15"
-      }
-    },
-    {
-      "officialId": "210186000789",
-      "stableId": "nces-sch:210186000789",
-      "name": "Jessie M Clark Middle School",
-      "kind": "public-elementary-secondary",
-      "level": "middle",
-      "parentDistrictId": "nces-lea:2101860",
-      "location": {
-        "address": "3341 Clays Mill Rd",
-        "city": "Lexington",
-        "state": "KY",
-        "zip": "40503",
-        "fipsCounty": "21067",
-        "latitude": 37.9951,
-        "longitude": -84.5332
-      },
-      "vintages": [
-        {
-          "vintageYear": 2022,
-          "effectiveDateStart": "1964-09-01",
-          "effectiveDateEnd": null,
-          "status": "open",
-          "nameAtVintage": "Jessie M Clark Middle School"
-        }
-      ],
-      "provenance": {
-        "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
-        "vintage": "2022-2023",
-        "officialIdName": "NCESSCH",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubschuniv.asp",
-        "retrievedAt": "2024-01-15"
-      }
-    },
-    {
-      "officialId": "210186000790",
-      "stableId": "nces-sch:210186000790",
-      "name": "Morton Middle School",
-      "kind": "public-elementary-secondary",
-      "level": "middle",
-      "parentDistrictId": "nces-lea:2101860",
-      "location": {
-        "address": "1225 Tates Creek Rd",
-        "city": "Lexington",
-        "state": "KY",
-        "zip": "40502",
-        "fipsCounty": "21067",
-        "latitude": 38.0188,
-        "longitude": -84.4851
-      },
-      "vintages": [
-        {
-          "vintageYear": 2022,
-          "effectiveDateStart": "1938-09-01",
-          "effectiveDateEnd": null,
-          "status": "open",
-          "nameAtVintage": "Morton Middle School"
-        }
-      ],
-      "provenance": {
-        "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
-        "vintage": "2022-2023",
-        "officialIdName": "NCESSCH",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubschuniv.asp",
-        "retrievedAt": "2024-01-15"
-      }
-    },
-    {
-      "officialId": "210186000791",
-      "stableId": "nces-sch:210186000791",
-      "name": "Picadome Elementary School",
-      "kind": "public-elementary-secondary",
-      "level": "elementary",
-      "parentDistrictId": "nces-lea:2101860",
-      "location": {
-        "address": "1642 Harrodsburg Rd",
-        "city": "Lexington",
-        "state": "KY",
-        "zip": "40504",
-        "fipsCounty": "21067",
-        "latitude": 38.0261,
-        "longitude": -84.5298
-      },
-      "vintages": [
-        {
-          "vintageYear": 2022,
-          "effectiveDateStart": "1958-09-01",
-          "effectiveDateEnd": null,
-          "status": "open",
-          "nameAtVintage": "Picadome Elementary School"
-        }
-      ],
-      "provenance": {
-        "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
-        "vintage": "2022-2023",
-        "officialIdName": "NCESSCH",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubschuniv.asp",
-        "retrievedAt": "2024-01-15"
-      }
-    },
-    {
-      "officialId": "210299001150",
-      "stableId": "nces-sch:210299001150",
-      "name": "DuPont Manual High School",
-      "kind": "public-elementary-secondary",
-      "level": "high",
-      "parentDistrictId": "nces-lea:2102990",
-      "location": {
-        "address": "120 W Lee St",
-        "city": "Louisville",
-        "state": "KY",
-        "zip": "40208",
-        "fipsCounty": "21111",
-        "latitude": 38.2231,
-        "longitude": -85.7576
-      },
-      "vintages": [
-        {
-          "vintageYear": 2022,
-          "effectiveDateStart": "1892-09-01",
-          "effectiveDateEnd": null,
-          "status": "open",
-          "nameAtVintage": "DuPont Manual High School"
-        }
-      ],
-      "provenance": {
-        "sourceName": "NCES CCD",
-        "datasetName": "NCES Common Core of Data Public Elementary/Secondary School and Local Education Agency Universe Survey",
-        "vintage": "2022-2023",
-        "officialIdName": "NCESSCH",
-        "sourceUrl": "https://nces.ed.gov/ccd/pubschuniv.asp",
-        "retrievedAt": "2024-01-15"
-      }
-    },
-    {
-      "officialId": "157085",
-      "stableId": "ipeds-unit:157085",
-      "name": "University of Kentucky",
-      "kind": "postsecondary",
-      "level": "postsecondary-4yr",
-      "control": "public",
-      "location": {
-        "address": "410 Administration Dr",
-        "city": "Lexington",
-        "state": "KY",
-        "zip": "40506-0003",
-        "fipsCounty": "21067",
-        "latitude": 38.0382,
-        "longitude": -84.5044
-      },
-      "vintages": [
-        {
-          "vintageYear": 2022,
-          "effectiveDateStart": "1865-02-22",
-          "effectiveDateEnd": null,
-          "status": "open",
-          "nameAtVintage": "University of Kentucky"
-        }
-      ],
-      "provenance": {
-        "sourceName": "NCES IPEDS",
-        "datasetName": "Integrated Postsecondary Education Data System Institutional Characteristics / Directory",
-        "vintage": "2022-2023",
-        "officialIdName": "UNITID",
-        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/",
-        "retrievedAt": "2024-01-15"
-      }
-    },
-    {
-      "officialId": "157793",
-      "stableId": "ipeds-unit:157793",
-      "name": "Transylvania University",
+      "officialId": "130794",
+      "stableId": "ipeds-unit:130794",
+      "name": "Yale University",
       "kind": "postsecondary",
       "level": "postsecondary-4yr",
       "control": "private-nonprofit",
       "location": {
-        "address": "300 N Broadway",
-        "city": "Lexington",
-        "state": "KY",
-        "zip": "40508-1797",
-        "fipsCounty": "21067",
-        "latitude": 38.0528,
-        "longitude": -84.4925
+        "address": "Woodbridge Hall",
+        "city": "New Haven",
+        "state": "CT",
+        "zip": "06520",
+        "fipsCounty": "9",
+        "latitude": null,
+        "longitude": null
       },
       "vintages": [
         {
           "vintageYear": 2022,
-          "effectiveDateStart": "1780-01-01",
+          "effectiveDateStart": null,
           "effectiveDateEnd": null,
           "status": "open",
-          "nameAtVintage": "Transylvania University"
+          "nameAtVintage": "Yale University"
         }
       ],
       "provenance": {
         "sourceName": "NCES IPEDS",
-        "datasetName": "Integrated Postsecondary Education Data System Institutional Characteristics / Directory",
-        "vintage": "2022-2023",
+        "datasetName": "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)",
+        "vintage": "2022",
         "officialIdName": "UNITID",
-        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/",
-        "retrievedAt": "2024-01-15"
+        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "HD2022.zip",
+          "sourceZipSha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+          "csvFilename": "hd2022.csv",
+          "sourceRowIndex": 611,
+          "sourceKeyColumn": "UNITID",
+          "sourceKeyValue": "130794"
+        }
       }
     },
     {
-      "officialId": "444899",
-      "stableId": "ipeds-unit:444899",
+      "officialId": "131496",
+      "stableId": "ipeds-unit:131496",
+      "name": "Georgetown University",
+      "kind": "postsecondary",
+      "level": "postsecondary-4yr",
+      "control": "private-nonprofit",
+      "location": {
+        "address": "37th and O St NW",
+        "city": "Washington",
+        "state": "DC",
+        "zip": "20057-0001",
+        "fipsCounty": "11",
+        "latitude": null,
+        "longitude": null
+      },
+      "vintages": [
+        {
+          "vintageYear": 2022,
+          "effectiveDateStart": null,
+          "effectiveDateEnd": null,
+          "status": "open",
+          "nameAtVintage": "Georgetown University"
+        }
+      ],
+      "provenance": {
+        "sourceName": "NCES IPEDS",
+        "datasetName": "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)",
+        "vintage": "2022",
+        "officialIdName": "UNITID",
+        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "HD2022.zip",
+          "sourceZipSha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+          "csvFilename": "hd2022.csv",
+          "sourceRowIndex": 627,
+          "sourceKeyColumn": "UNITID",
+          "sourceKeyValue": "131496"
+        }
+      }
+    },
+    {
+      "officialId": "156392",
+      "stableId": "ipeds-unit:156392",
       "name": "Bluegrass Community and Technical College",
       "kind": "postsecondary",
       "level": "postsecondary-2yr",
       "control": "public",
       "location": {
-        "address": "470 Cooper Dr",
+        "address": "470 Cooper Drive",
         "city": "Lexington",
         "state": "KY",
-        "zip": "40506-0235",
-        "fipsCounty": "21067",
-        "latitude": 38.0269,
-        "longitude": -84.5058
+        "zip": "40506",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
       },
       "vintages": [
         {
           "vintageYear": 2022,
-          "effectiveDateStart": "2004-01-01",
+          "effectiveDateStart": null,
           "effectiveDateEnd": null,
           "status": "open",
           "nameAtVintage": "Bluegrass Community and Technical College"
@@ -715,45 +439,61 @@
       ],
       "provenance": {
         "sourceName": "NCES IPEDS",
-        "datasetName": "Integrated Postsecondary Education Data System Institutional Characteristics / Directory",
-        "vintage": "2022-2023",
+        "datasetName": "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)",
+        "vintage": "2022",
         "officialIdName": "UNITID",
-        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/",
-        "retrievedAt": "2024-01-15"
+        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "HD2022.zip",
+          "sourceZipSha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+          "csvFilename": "hd2022.csv",
+          "sourceRowIndex": 1233,
+          "sourceKeyColumn": "UNITID",
+          "sourceKeyValue": "156392"
+        }
       }
     },
     {
-      "officialId": "157289",
-      "stableId": "ipeds-unit:157289",
-      "name": "University of Louisville",
+      "officialId": "156408",
+      "stableId": "ipeds-unit:156408",
+      "name": "Centre College",
       "kind": "postsecondary",
       "level": "postsecondary-4yr",
-      "control": "public",
+      "control": "private-nonprofit",
       "location": {
-        "address": "2301 S 3rd St",
-        "city": "Louisville",
+        "address": "625 W Walnut St",
+        "city": "Danville",
         "state": "KY",
-        "zip": "40292-0001",
-        "fipsCounty": "21111",
-        "latitude": 38.2155,
-        "longitude": -85.7592
+        "zip": "40422-1394",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
       },
       "vintages": [
         {
           "vintageYear": 2022,
-          "effectiveDateStart": "1798-04-03",
+          "effectiveDateStart": null,
           "effectiveDateEnd": null,
           "status": "open",
-          "nameAtVintage": "University of Louisville"
+          "nameAtVintage": "Centre College"
         }
       ],
       "provenance": {
         "sourceName": "NCES IPEDS",
-        "datasetName": "Integrated Postsecondary Education Data System Institutional Characteristics / Directory",
-        "vintage": "2022-2023",
+        "datasetName": "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)",
+        "vintage": "2022",
         "officialIdName": "UNITID",
-        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/",
-        "retrievedAt": "2024-01-15"
+        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "HD2022.zip",
+          "sourceZipSha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+          "csvFilename": "hd2022.csv",
+          "sourceRowIndex": 1234,
+          "sourceKeyColumn": "UNITID",
+          "sourceKeyValue": "156408"
+        }
       }
     },
     {
@@ -768,14 +508,14 @@
         "city": "Richmond",
         "state": "KY",
         "zip": "40475-3102",
-        "fipsCounty": "21151",
-        "latitude": 37.7348,
-        "longitude": -84.2989
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
       },
       "vintages": [
         {
           "vintageYear": 2022,
-          "effectiveDateStart": "1906-03-21",
+          "effectiveDateStart": null,
           "effectiveDateEnd": null,
           "status": "open",
           "nameAtVintage": "Eastern Kentucky University"
@@ -783,45 +523,145 @@
       ],
       "provenance": {
         "sourceName": "NCES IPEDS",
-        "datasetName": "Integrated Postsecondary Education Data System Institutional Characteristics / Directory",
-        "vintage": "2022-2023",
+        "datasetName": "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)",
+        "vintage": "2022",
         "officialIdName": "UNITID",
-        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/",
-        "retrievedAt": "2024-01-15"
+        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "HD2022.zip",
+          "sourceZipSha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+          "csvFilename": "hd2022.csv",
+          "sourceRowIndex": 1239,
+          "sourceKeyColumn": "UNITID",
+          "sourceKeyValue": "156620"
+        }
       }
     },
     {
-      "officialId": "157951",
-      "stableId": "ipeds-unit:157951",
-      "name": "Western Kentucky University",
+      "officialId": "157058",
+      "stableId": "ipeds-unit:157058",
+      "name": "Kentucky State University",
       "kind": "postsecondary",
       "level": "postsecondary-4yr",
       "control": "public",
       "location": {
-        "address": "1906 College Heights Blvd",
-        "city": "Bowling Green",
+        "address": "400 East Main Street",
+        "city": "Frankfort",
         "state": "KY",
-        "zip": "42101-1000",
-        "fipsCounty": "21227",
-        "latitude": 36.9856,
-        "longitude": -86.4552
+        "zip": "40601-2355",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
       },
       "vintages": [
         {
           "vintageYear": 2022,
-          "effectiveDateStart": "1906-03-21",
+          "effectiveDateStart": null,
           "effectiveDateEnd": null,
           "status": "open",
-          "nameAtVintage": "Western Kentucky University"
+          "nameAtVintage": "Kentucky State University"
         }
       ],
       "provenance": {
         "sourceName": "NCES IPEDS",
-        "datasetName": "Integrated Postsecondary Education Data System Institutional Characteristics / Directory",
-        "vintage": "2022-2023",
+        "datasetName": "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)",
+        "vintage": "2022",
         "officialIdName": "UNITID",
-        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/",
-        "retrievedAt": "2024-01-15"
+        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "HD2022.zip",
+          "sourceZipSha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+          "csvFilename": "hd2022.csv",
+          "sourceRowIndex": 1252,
+          "sourceKeyColumn": "UNITID",
+          "sourceKeyValue": "157058"
+        }
+      }
+    },
+    {
+      "officialId": "157085",
+      "stableId": "ipeds-unit:157085",
+      "name": "University of Kentucky",
+      "kind": "postsecondary",
+      "level": "postsecondary-4yr",
+      "control": "public",
+      "location": {
+        "address": "South Limestone",
+        "city": "Lexington",
+        "state": "KY",
+        "zip": "40506-0032",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
+      },
+      "vintages": [
+        {
+          "vintageYear": 2022,
+          "effectiveDateStart": null,
+          "effectiveDateEnd": null,
+          "status": "open",
+          "nameAtVintage": "University of Kentucky"
+        }
+      ],
+      "provenance": {
+        "sourceName": "NCES IPEDS",
+        "datasetName": "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)",
+        "vintage": "2022",
+        "officialIdName": "UNITID",
+        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "HD2022.zip",
+          "sourceZipSha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+          "csvFilename": "hd2022.csv",
+          "sourceRowIndex": 1254,
+          "sourceKeyColumn": "UNITID",
+          "sourceKeyValue": "157085"
+        }
+      }
+    },
+    {
+      "officialId": "157289",
+      "stableId": "ipeds-unit:157289",
+      "name": "University of Louisville",
+      "kind": "postsecondary",
+      "level": "postsecondary-4yr",
+      "control": "public",
+      "location": {
+        "address": "2301 S 3rd St",
+        "city": "Louisville",
+        "state": "KY",
+        "zip": "40292-0001",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
+      },
+      "vintages": [
+        {
+          "vintageYear": 2022,
+          "effectiveDateStart": null,
+          "effectiveDateEnd": null,
+          "status": "open",
+          "nameAtVintage": "University of Louisville"
+        }
+      ],
+      "provenance": {
+        "sourceName": "NCES IPEDS",
+        "datasetName": "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)",
+        "vintage": "2022",
+        "officialIdName": "UNITID",
+        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "HD2022.zip",
+          "sourceZipSha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+          "csvFilename": "hd2022.csv",
+          "sourceRowIndex": 1258,
+          "sourceKeyColumn": "UNITID",
+          "sourceKeyValue": "157289"
+        }
       }
     },
     {
@@ -836,14 +676,14 @@
         "city": "Highland Heights",
         "state": "KY",
         "zip": "41099",
-        "fipsCounty": "21037",
-        "latitude": 39.0321,
-        "longitude": -84.4641
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
       },
       "vintages": [
         {
           "vintageYear": 2022,
-          "effectiveDateStart": "1968-01-01",
+          "effectiveDateStart": null,
           "effectiveDateEnd": null,
           "status": "open",
           "nameAtVintage": "Northern Kentucky University"
@@ -851,79 +691,103 @@
       ],
       "provenance": {
         "sourceName": "NCES IPEDS",
-        "datasetName": "Integrated Postsecondary Education Data System Institutional Characteristics / Directory",
-        "vintage": "2022-2023",
+        "datasetName": "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)",
+        "vintage": "2022",
         "officialIdName": "UNITID",
-        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/",
-        "retrievedAt": "2024-01-15"
-      }
-    },
-    {
-      "officialId": "157058",
-      "stableId": "ipeds-unit:157058",
-      "name": "Kentucky State University",
-      "kind": "postsecondary",
-      "level": "postsecondary-4yr",
-      "control": "public",
-      "location": {
-        "address": "400 E Main St",
-        "city": "Frankfort",
-        "state": "KY",
-        "zip": "40601-2356",
-        "fipsCounty": "21073",
-        "latitude": 38.2014,
-        "longitude": -84.8623
-      },
-      "vintages": [
-        {
-          "vintageYear": 2022,
-          "effectiveDateStart": "1886-05-18",
-          "effectiveDateEnd": null,
-          "status": "open",
-          "nameAtVintage": "Kentucky State University"
+        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "HD2022.zip",
+          "sourceZipSha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+          "csvFilename": "hd2022.csv",
+          "sourceRowIndex": 1266,
+          "sourceKeyColumn": "UNITID",
+          "sourceKeyValue": "157447"
         }
-      ],
-      "provenance": {
-        "sourceName": "NCES IPEDS",
-        "datasetName": "Integrated Postsecondary Education Data System Institutional Characteristics / Directory",
-        "vintage": "2022-2023",
-        "officialIdName": "UNITID",
-        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/",
-        "retrievedAt": "2024-01-15"
       }
     },
     {
-      "officialId": "156484",
-      "stableId": "ipeds-unit:156484",
-      "name": "Centre College",
+      "officialId": "157818",
+      "stableId": "ipeds-unit:157818",
+      "name": "Transylvania University",
       "kind": "postsecondary",
       "level": "postsecondary-4yr",
       "control": "private-nonprofit",
       "location": {
-        "address": "600 W Walnut St",
-        "city": "Danville",
+        "address": "300 N Broadway",
+        "city": "Lexington",
         "state": "KY",
-        "zip": "40422-1394",
-        "fipsCounty": "21021",
-        "latitude": 37.6468,
-        "longitude": -84.7788
+        "zip": "40508-1797",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
       },
       "vintages": [
         {
           "vintageYear": 2022,
-          "effectiveDateStart": "1819-01-21",
+          "effectiveDateStart": null,
           "effectiveDateEnd": null,
           "status": "open",
-          "nameAtVintage": "Centre College"
+          "nameAtVintage": "Transylvania University"
         }
       ],
       "provenance": {
         "sourceName": "NCES IPEDS",
-        "datasetName": "Integrated Postsecondary Education Data System Institutional Characteristics / Directory",
-        "vintage": "2022-2023",
+        "datasetName": "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)",
+        "vintage": "2022",
         "officialIdName": "UNITID",
-        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/",
-        "retrievedAt": "2024-01-15"
+        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "HD2022.zip",
+          "sourceZipSha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+          "csvFilename": "hd2022.csv",
+          "sourceRowIndex": 1280,
+          "sourceKeyColumn": "UNITID",
+          "sourceKeyValue": "157818"
+        }
+      }
+    },
+    {
+      "officialId": "157951",
+      "stableId": "ipeds-unit:157951",
+      "name": "Western Kentucky University",
+      "kind": "postsecondary",
+      "level": "postsecondary-4yr",
+      "control": "public",
+      "location": {
+        "address": "1906 College Heights Blvd",
+        "city": "Bowling Green",
+        "state": "KY",
+        "zip": "42101-1000",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
+      },
+      "vintages": [
+        {
+          "vintageYear": 2022,
+          "effectiveDateStart": null,
+          "effectiveDateEnd": null,
+          "status": "open",
+          "nameAtVintage": "Western Kentucky University"
+        }
+      ],
+      "provenance": {
+        "sourceName": "NCES IPEDS",
+        "datasetName": "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)",
+        "vintage": "2022",
+        "officialIdName": "UNITID",
+        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "HD2022.zip",
+          "sourceZipSha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+          "csvFilename": "hd2022.csv",
+          "sourceRowIndex": 1283,
+          "sourceKeyColumn": "UNITID",
+          "sourceKeyValue": "157951"
+        }
       }
     },
     {
@@ -938,14 +802,14 @@
         "city": "Cambridge",
         "state": "MA",
         "zip": "02138",
-        "fipsCounty": "25017",
-        "latitude": 42.377,
-        "longitude": -71.1167
+        "fipsCounty": "25",
+        "latitude": null,
+        "longitude": null
       },
       "vintages": [
         {
           "vintageYear": 2022,
-          "effectiveDateStart": "1636-09-08",
+          "effectiveDateStart": null,
           "effectiveDateEnd": null,
           "status": "open",
           "nameAtVintage": "Harvard University"
@@ -953,45 +817,19 @@
       ],
       "provenance": {
         "sourceName": "NCES IPEDS",
-        "datasetName": "Integrated Postsecondary Education Data System Institutional Characteristics / Directory",
-        "vintage": "2022-2023",
+        "datasetName": "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)",
+        "vintage": "2022",
         "officialIdName": "UNITID",
-        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/",
-        "retrievedAt": "2024-01-15"
-      }
-    },
-    {
-      "officialId": "130794",
-      "stableId": "ipeds-unit:130794",
-      "name": "Yale University",
-      "kind": "postsecondary",
-      "level": "postsecondary-4yr",
-      "control": "private-nonprofit",
-      "location": {
-        "address": "Woodbridge Hall",
-        "city": "New Haven",
-        "state": "CT",
-        "zip": "06520",
-        "fipsCounty": "09009",
-        "latitude": 41.3163,
-        "longitude": -72.9223
-      },
-      "vintages": [
-        {
-          "vintageYear": 2022,
-          "effectiveDateStart": "1701-10-09",
-          "effectiveDateEnd": null,
-          "status": "open",
-          "nameAtVintage": "Yale University"
+        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "HD2022.zip",
+          "sourceZipSha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+          "csvFilename": "hd2022.csv",
+          "sourceRowIndex": 1471,
+          "sourceKeyColumn": "UNITID",
+          "sourceKeyValue": "166027"
         }
-      ],
-      "provenance": {
-        "sourceName": "NCES IPEDS",
-        "datasetName": "Integrated Postsecondary Education Data System Institutional Characteristics / Directory",
-        "vintage": "2022-2023",
-        "officialIdName": "UNITID",
-        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/",
-        "retrievedAt": "2024-01-15"
       }
     },
     {
@@ -1005,15 +843,15 @@
         "address": "1 Nassau Hall",
         "city": "Princeton",
         "state": "NJ",
-        "zip": "08544-0015",
-        "fipsCounty": "34021",
-        "latitude": 40.3487,
-        "longitude": -74.6593
+        "zip": "08544-0070",
+        "fipsCounty": "34",
+        "latitude": null,
+        "longitude": null
       },
       "vintages": [
         {
           "vintageYear": 2022,
-          "effectiveDateStart": "1746-10-22",
+          "effectiveDateStart": null,
           "effectiveDateEnd": null,
           "status": "open",
           "nameAtVintage": "Princeton University"
@@ -1021,11 +859,19 @@
       ],
       "provenance": {
         "sourceName": "NCES IPEDS",
-        "datasetName": "Integrated Postsecondary Education Data System Institutional Characteristics / Directory",
-        "vintage": "2022-2023",
+        "datasetName": "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)",
+        "vintage": "2022",
         "officialIdName": "UNITID",
-        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/",
-        "retrievedAt": "2024-01-15"
+        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "HD2022.zip",
+          "sourceZipSha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+          "csvFilename": "hd2022.csv",
+          "sourceRowIndex": 2000,
+          "sourceKeyColumn": "UNITID",
+          "sourceKeyValue": "186131"
+        }
       }
     },
     {
@@ -1036,18 +882,18 @@
       "level": "postsecondary-4yr",
       "control": "private-nonprofit",
       "location": {
-        "address": "450 Serra Mall",
+        "address": null,
         "city": "Stanford",
         "state": "CA",
         "zip": "94305",
-        "fipsCounty": "06085",
-        "latitude": 37.4275,
-        "longitude": -122.1697
+        "fipsCounty": "6",
+        "latitude": null,
+        "longitude": null
       },
       "vintages": [
         {
           "vintageYear": 2022,
-          "effectiveDateStart": "1885-11-11",
+          "effectiveDateStart": null,
           "effectiveDateEnd": null,
           "status": "open",
           "nameAtVintage": "Stanford University"
@@ -1055,45 +901,481 @@
       ],
       "provenance": {
         "sourceName": "NCES IPEDS",
-        "datasetName": "Integrated Postsecondary Education Data System Institutional Characteristics / Directory",
-        "vintage": "2022-2023",
+        "datasetName": "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)",
+        "vintage": "2022",
         "officialIdName": "UNITID",
-        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/",
-        "retrievedAt": "2024-01-15"
+        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "HD2022.zip",
+          "sourceZipSha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+          "csvFilename": "hd2022.csv",
+          "sourceRowIndex": 3734,
+          "sourceKeyColumn": "UNITID",
+          "sourceKeyValue": "243744"
+        }
       }
     },
     {
-      "officialId": "131496",
-      "stableId": "ipeds-unit:131496",
-      "name": "Georgetown University",
-      "kind": "postsecondary",
-      "level": "postsecondary-4yr",
-      "control": "private-nonprofit",
+      "officialId": "210186000353",
+      "stableId": "nces-sch:210186000353",
+      "name": "Beaumont Middle School",
+      "kind": "public-elementary-secondary",
+      "level": "middle",
+      "parentDistrictId": "nces-lea:2101860",
       "location": {
-        "address": "37th and O Sts NW",
-        "city": "Washington",
-        "state": "DC",
-        "zip": "20057-0001",
-        "fipsCounty": "11001",
-        "latitude": 38.9076,
-        "longitude": -77.0723
+        "address": "2080 Georgian Way",
+        "city": "Lexington",
+        "state": "KY",
+        "zip": "40504",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
       },
       "vintages": [
         {
           "vintageYear": 2022,
-          "effectiveDateStart": "1789-01-23",
+          "effectiveDateStart": null,
           "effectiveDateEnd": null,
           "status": "open",
-          "nameAtVintage": "Georgetown University"
+          "nameAtVintage": "Beaumont Middle School"
         }
       ],
       "provenance": {
-        "sourceName": "NCES IPEDS",
-        "datasetName": "Integrated Postsecondary Education Data System Institutional Characteristics / Directory",
+        "sourceName": "NCES CCD",
+        "datasetName": "NCES CCD Public Elementary/Secondary School Universe Survey Directory 2022-2023 (v.0a)",
         "vintage": "2022-2023",
-        "officialIdName": "UNITID",
-        "sourceUrl": "https://nces.ed.gov/ipeds/datacenter/",
-        "retrievedAt": "2024-01-15"
+        "officialIdName": "NCESSCH",
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_sch_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_sch_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "4238feed728fb0cb6eb8d1ca7f7389be57d46262ca6805a8f1acdadd3c06610a",
+          "csvFilename": "ccd_sch_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 36860,
+          "sourceKeyColumn": "NCESSCH",
+          "sourceKeyValue": "210186000353"
+        }
+      }
+    },
+    {
+      "officialId": "210186000364",
+      "stableId": "nces-sch:210186000364",
+      "name": "Henry Clay High School",
+      "kind": "public-elementary-secondary",
+      "level": "high",
+      "parentDistrictId": "nces-lea:2101860",
+      "location": {
+        "address": "2100 Fontaine Rd",
+        "city": "Lexington",
+        "state": "KY",
+        "zip": "40502",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
+      },
+      "vintages": [
+        {
+          "vintageYear": 2022,
+          "effectiveDateStart": null,
+          "effectiveDateEnd": null,
+          "status": "open",
+          "nameAtVintage": "Henry Clay High School"
+        }
+      ],
+      "provenance": {
+        "sourceName": "NCES CCD",
+        "datasetName": "NCES CCD Public Elementary/Secondary School Universe Survey Directory 2022-2023 (v.0a)",
+        "vintage": "2022-2023",
+        "officialIdName": "NCESSCH",
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_sch_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_sch_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "4238feed728fb0cb6eb8d1ca7f7389be57d46262ca6805a8f1acdadd3c06610a",
+          "csvFilename": "ccd_sch_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 36869,
+          "sourceKeyColumn": "NCESSCH",
+          "sourceKeyValue": "210186000364"
+        }
+      }
+    },
+    {
+      "officialId": "210186000367",
+      "stableId": "nces-sch:210186000367",
+      "name": "Lafayette High School",
+      "kind": "public-elementary-secondary",
+      "level": "high",
+      "parentDistrictId": "nces-lea:2101860",
+      "location": {
+        "address": "401 Reed Ln",
+        "city": "Lexington",
+        "state": "KY",
+        "zip": "40503",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
+      },
+      "vintages": [
+        {
+          "vintageYear": 2022,
+          "effectiveDateStart": null,
+          "effectiveDateEnd": null,
+          "status": "open",
+          "nameAtVintage": "Lafayette High School"
+        }
+      ],
+      "provenance": {
+        "sourceName": "NCES CCD",
+        "datasetName": "NCES CCD Public Elementary/Secondary School Universe Survey Directory 2022-2023 (v.0a)",
+        "vintage": "2022-2023",
+        "officialIdName": "NCESSCH",
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_sch_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_sch_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "4238feed728fb0cb6eb8d1ca7f7389be57d46262ca6805a8f1acdadd3c06610a",
+          "csvFilename": "ccd_sch_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 36870,
+          "sourceKeyColumn": "NCESSCH",
+          "sourceKeyValue": "210186000367"
+        }
+      }
+    },
+    {
+      "officialId": "210186000374",
+      "stableId": "nces-sch:210186000374",
+      "name": "Morton Middle School",
+      "kind": "public-elementary-secondary",
+      "level": "middle",
+      "parentDistrictId": "nces-lea:2101860",
+      "location": {
+        "address": "1225 Tates Creek Pk",
+        "city": "Lexington",
+        "state": "KY",
+        "zip": "40502",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
+      },
+      "vintages": [
+        {
+          "vintageYear": 2022,
+          "effectiveDateStart": null,
+          "effectiveDateEnd": null,
+          "status": "open",
+          "nameAtVintage": "Morton Middle School"
+        }
+      ],
+      "provenance": {
+        "sourceName": "NCES CCD",
+        "datasetName": "NCES CCD Public Elementary/Secondary School Universe Survey Directory 2022-2023 (v.0a)",
+        "vintage": "2022-2023",
+        "officialIdName": "NCESSCH",
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_sch_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_sch_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "4238feed728fb0cb6eb8d1ca7f7389be57d46262ca6805a8f1acdadd3c06610a",
+          "csvFilename": "ccd_sch_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 36876,
+          "sourceKeyColumn": "NCESSCH",
+          "sourceKeyValue": "210186000374"
+        }
+      }
+    },
+    {
+      "officialId": "210186000376",
+      "stableId": "nces-sch:210186000376",
+      "name": "Picadome Elementary School",
+      "kind": "public-elementary-secondary",
+      "level": "elementary",
+      "parentDistrictId": "nces-lea:2101860",
+      "location": {
+        "address": "1642 Harrodsburg Rd",
+        "city": "Lexington",
+        "state": "KY",
+        "zip": "40504",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
+      },
+      "vintages": [
+        {
+          "vintageYear": 2022,
+          "effectiveDateStart": null,
+          "effectiveDateEnd": null,
+          "status": "open",
+          "nameAtVintage": "Picadome Elementary School"
+        }
+      ],
+      "provenance": {
+        "sourceName": "NCES CCD",
+        "datasetName": "NCES CCD Public Elementary/Secondary School Universe Survey Directory 2022-2023 (v.0a)",
+        "vintage": "2022-2023",
+        "officialIdName": "NCESSCH",
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_sch_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_sch_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "4238feed728fb0cb6eb8d1ca7f7389be57d46262ca6805a8f1acdadd3c06610a",
+          "csvFilename": "ccd_sch_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 36878,
+          "sourceKeyColumn": "NCESSCH",
+          "sourceKeyValue": "210186000376"
+        }
+      }
+    },
+    {
+      "officialId": "210186000383",
+      "stableId": "nces-sch:210186000383",
+      "name": "Tates Creek High School",
+      "kind": "public-elementary-secondary",
+      "level": "high",
+      "parentDistrictId": "nces-lea:2101860",
+      "location": {
+        "address": "1111 Centre Pkwy",
+        "city": "Lexington",
+        "state": "KY",
+        "zip": "40517",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
+      },
+      "vintages": [
+        {
+          "vintageYear": 2022,
+          "effectiveDateStart": null,
+          "effectiveDateEnd": null,
+          "status": "open",
+          "nameAtVintage": "Tates Creek High School"
+        }
+      ],
+      "provenance": {
+        "sourceName": "NCES CCD",
+        "datasetName": "NCES CCD Public Elementary/Secondary School Universe Survey Directory 2022-2023 (v.0a)",
+        "vintage": "2022-2023",
+        "officialIdName": "NCESSCH",
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_sch_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_sch_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "4238feed728fb0cb6eb8d1ca7f7389be57d46262ca6805a8f1acdadd3c06610a",
+          "csvFilename": "ccd_sch_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 36884,
+          "sourceKeyColumn": "NCESSCH",
+          "sourceKeyValue": "210186000383"
+        }
+      }
+    },
+    {
+      "officialId": "210186000389",
+      "stableId": "nces-sch:210186000389",
+      "name": "Mary Todd Elementary School",
+      "kind": "public-elementary-secondary",
+      "level": "elementary",
+      "parentDistrictId": "nces-lea:2101860",
+      "location": {
+        "address": "551 Parkside Dr",
+        "city": "Lexington",
+        "state": "KY",
+        "zip": "40505",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
+      },
+      "vintages": [
+        {
+          "vintageYear": 2022,
+          "effectiveDateStart": null,
+          "effectiveDateEnd": null,
+          "status": "open",
+          "nameAtVintage": "Mary Todd Elementary School"
+        }
+      ],
+      "provenance": {
+        "sourceName": "NCES CCD",
+        "datasetName": "NCES CCD Public Elementary/Secondary School Universe Survey Directory 2022-2023 (v.0a)",
+        "vintage": "2022-2023",
+        "officialIdName": "NCESSCH",
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_sch_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_sch_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "4238feed728fb0cb6eb8d1ca7f7389be57d46262ca6805a8f1acdadd3c06610a",
+          "csvFilename": "ccd_sch_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 36890,
+          "sourceKeyColumn": "NCESSCH",
+          "sourceKeyValue": "210186000389"
+        }
+      }
+    },
+    {
+      "officialId": "210186000391",
+      "stableId": "nces-sch:210186000391",
+      "name": "Jessie M Clark Middle School",
+      "kind": "public-elementary-secondary",
+      "level": "middle",
+      "parentDistrictId": "nces-lea:2101860",
+      "location": {
+        "address": "3341 Clays Mill Rd",
+        "city": "Lexington",
+        "state": "KY",
+        "zip": "40503",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
+      },
+      "vintages": [
+        {
+          "vintageYear": 2022,
+          "effectiveDateStart": null,
+          "effectiveDateEnd": null,
+          "status": "open",
+          "nameAtVintage": "Jessie M Clark Middle School"
+        }
+      ],
+      "provenance": {
+        "sourceName": "NCES CCD",
+        "datasetName": "NCES CCD Public Elementary/Secondary School Universe Survey Directory 2022-2023 (v.0a)",
+        "vintage": "2022-2023",
+        "officialIdName": "NCESSCH",
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_sch_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_sch_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "4238feed728fb0cb6eb8d1ca7f7389be57d46262ca6805a8f1acdadd3c06610a",
+          "csvFilename": "ccd_sch_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 36892,
+          "sourceKeyColumn": "NCESSCH",
+          "sourceKeyValue": "210186000391"
+        }
+      }
+    },
+    {
+      "officialId": "210186001669",
+      "stableId": "nces-sch:210186001669",
+      "name": "Paul Laurence Dunbar High School",
+      "kind": "public-elementary-secondary",
+      "level": "high",
+      "parentDistrictId": "nces-lea:2101860",
+      "location": {
+        "address": "1600 Man O' War Blvd",
+        "city": "Lexington",
+        "state": "KY",
+        "zip": "40513",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
+      },
+      "vintages": [
+        {
+          "vintageYear": 2022,
+          "effectiveDateStart": null,
+          "effectiveDateEnd": null,
+          "status": "open",
+          "nameAtVintage": "Paul Laurence Dunbar High School"
+        }
+      ],
+      "provenance": {
+        "sourceName": "NCES CCD",
+        "datasetName": "NCES CCD Public Elementary/Secondary School Universe Survey Directory 2022-2023 (v.0a)",
+        "vintage": "2022-2023",
+        "officialIdName": "NCESSCH",
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_sch_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_sch_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "4238feed728fb0cb6eb8d1ca7f7389be57d46262ca6805a8f1acdadd3c06610a",
+          "csvFilename": "ccd_sch_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 36906,
+          "sourceKeyColumn": "NCESSCH",
+          "sourceKeyValue": "210186001669"
+        }
+      }
+    },
+    {
+      "officialId": "210186002459",
+      "stableId": "nces-sch:210186002459",
+      "name": "Frederick Douglass High School",
+      "kind": "public-elementary-secondary",
+      "level": "high",
+      "parentDistrictId": "nces-lea:2101860",
+      "location": {
+        "address": "2000 Winchester Road",
+        "city": "Lexington",
+        "state": "KY",
+        "zip": "40509",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
+      },
+      "vintages": [
+        {
+          "vintageYear": 2022,
+          "effectiveDateStart": null,
+          "effectiveDateEnd": null,
+          "status": "open",
+          "nameAtVintage": "Frederick Douglass High School"
+        }
+      ],
+      "provenance": {
+        "sourceName": "NCES CCD",
+        "datasetName": "NCES CCD Public Elementary/Secondary School Universe Survey Directory 2022-2023 (v.0a)",
+        "vintage": "2022-2023",
+        "officialIdName": "NCESSCH",
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_sch_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_sch_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "4238feed728fb0cb6eb8d1ca7f7389be57d46262ca6805a8f1acdadd3c06610a",
+          "csvFilename": "ccd_sch_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 36932,
+          "sourceKeyColumn": "NCESSCH",
+          "sourceKeyValue": "210186002459"
+        }
+      }
+    },
+    {
+      "officialId": "210299000734",
+      "stableId": "nces-sch:210299000734",
+      "name": "duPont Manual High",
+      "kind": "public-elementary-secondary",
+      "level": "high",
+      "parentDistrictId": "nces-lea:2102990",
+      "location": {
+        "address": "120 W Lee St",
+        "city": "Louisville",
+        "state": "KY",
+        "zip": "40208",
+        "fipsCounty": "21",
+        "latitude": null,
+        "longitude": null
+      },
+      "vintages": [
+        {
+          "vintageYear": 2022,
+          "effectiveDateStart": null,
+          "effectiveDateEnd": null,
+          "status": "open",
+          "nameAtVintage": "duPont Manual High"
+        }
+      ],
+      "provenance": {
+        "sourceName": "NCES CCD",
+        "datasetName": "NCES CCD Public Elementary/Secondary School Universe Survey Directory 2022-2023 (v.0a)",
+        "vintage": "2022-2023",
+        "officialIdName": "NCESSCH",
+        "sourceUrl": "https://nces.ed.gov/ccd/Data/zip/ccd_sch_029_2223_w_0a_051023.zip",
+        "retrievedAt": "2026-08-30",
+        "rowLocator": {
+          "sourceZipFilename": "ccd_sch_029_2223_w_0a_051023.zip",
+          "sourceZipSha256": "4238feed728fb0cb6eb8d1ca7f7389be57d46262ca6805a8f1acdadd3c06610a",
+          "csvFilename": "ccd_sch_029_2223_w_0a_051023.csv",
+          "sourceRowIndex": 37241,
+          "sourceKeyColumn": "NCESSCH",
+          "sourceKeyValue": "210299000734"
+        }
       }
     }
   ]
