@@ -116,14 +116,20 @@ describe("Authoritative External Event Source Routing Foundation", () => {
   });
 
   it("filters eligible event families for a given jurisdiction and date", () => {
-    const flAugust = filterEligibleEventFamilies("FL", makeIsoDate("2026-08-15"));
+    const flAugust = filterEligibleEventFamilies(
+      "FL",
+      makeIsoDate("2026-08-15"),
+    );
     const flFamilies = flAugust.map((c) => c.eventFamily);
     expect(flFamilies).toContain("hurricane_tropical_storm");
     expect(flFamilies).toContain("major_power_disturbance");
     expect(flFamilies).toContain("wildfire");
     expect(flFamilies).toContain("public_health_emergency");
 
-    const miMarch = filterEligibleEventFamilies("MI", makeIsoDate("2026-03-15"));
+    const miMarch = filterEligibleEventFamilies(
+      "MI",
+      makeIsoDate("2026-03-15"),
+    );
     const miFamilies = miMarch.map((c) => c.eventFamily);
     expect(miFamilies).not.toContain("hurricane_tropical_storm");
     expect(miFamilies).toContain("tornado_severe_weather");
