@@ -19,9 +19,14 @@ export type InstitutionLevel =
 export interface InstitutionLocation {
   readonly address: string | null;
   readonly city: string;
-  readonly state: string;
+  readonly state: string; // 2-letter state postal abbreviation (e.g. "KY")
   readonly zip: string | null;
-  readonly fipsCounty: string | null;
+  /** 2-digit state FIPS code (e.g. "21" for KY) where represented */
+  readonly fipsState: string | null;
+  /** 5-digit state+county GEOID/FIPS code (e.g. "21067" for Fayette County, KY) or null if unknown/unsupplied */
+  readonly countyGeoid: string | null;
+  /** Official county name (e.g. "Fayette County") or null if unknown/unsupplied */
+  readonly countyName: string | null;
   readonly latitude: number | null;
   readonly longitude: number | null;
 }
@@ -31,9 +36,9 @@ export type OperatingStatusKind =
 
 export interface OperatingVintageStatus {
   readonly vintageYear: number;
-  /** ISO date YYYY-MM-DD for vintage snapshot, or null if unsupported/unknown by NCES */
+  /** ISO date YYYY-MM-DD for known vintage window start, or null if historical opening/founding date is unknown/unsupported by NCES */
   readonly effectiveDateStart: string | null;
-  /** ISO date YYYY-MM-DD or null if currently active */
+  /** ISO date YYYY-MM-DD or null if currently active/open */
   readonly effectiveDateEnd: string | null;
   readonly status: OperatingStatusKind;
   readonly nameAtVintage: string;
@@ -48,10 +53,13 @@ export interface SourceRowLocator {
   readonly sourceKeyValue: string;
 }
 
+export type ArtifactReleaseStatus = "preliminary-directory" | "final-release";
+
 export interface EducationSourceProvenance {
   readonly sourceName: "NCES CCD" | "NCES IPEDS";
   readonly datasetName: string; // e.g., "NCES CCD Public Elementary/Secondary School Universe Survey Directory 2022-2023 (v.0a)"
   readonly vintage: string; // e.g., "2022-2023", "2022"
+  readonly releaseStatus: ArtifactReleaseStatus;
   readonly officialIdName: "NCESSCH" | "LEAID" | "UNITID";
   readonly sourceUrl: string; // Direct download ZIP URL
   readonly retrievedAt: string; // ISO date format YYYY-MM-DD (e.g., "2026-08-30")
@@ -104,10 +112,12 @@ export interface RawArtifactManifestEntry {
   readonly byteSize: number;
   readonly retrievedAt: string;
   readonly datasetName: string;
+  readonly releaseStatus: ArtifactReleaseStatus;
 }
 
 export interface EducationCorpusSnapshot {
   readonly version: "1.0.0";
+  readonly corpusScope: "historical-2022-snapshot";
   readonly generatedAt: string; // ISO Date YYYY-MM-DD
   readonly counts: {
     readonly publicDistricts: number;

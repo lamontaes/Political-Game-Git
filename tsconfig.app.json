@@ -18,8 +18,13 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["vite/client", "node"]
+    "types": ["vite/client"]
   },
   "include": ["src"],
-  "exclude": ["src/cli", "src/persistence", "src/**/*.test.ts"]
+  "exclude": [
+    "src/cli",
+    "src/persistence",
+    "src/**/*.test.ts",
+    "src/education/education-node-loader.ts"
+  ]
 }

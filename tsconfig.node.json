@@ -17,6 +17,10 @@
     "tests/e2e/**/*.ts",
     "src/cli/**/*.ts",
     "src/persistence/**/*.ts",
-    "src/simulation/**/*.ts"
+    "src/simulation/**/*.ts",
+    "src/education/types.ts",
+    "src/education/education-corpus.ts",
+    "src/education/education-node-loader.ts",
+    "scripts/compile-education-corpus.ts"
   ]
 }

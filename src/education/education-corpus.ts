@@ -1,5 +1,3 @@
-import * as fs from "fs";
-import * as path from "path";
 import type { CreateOrganizationInput } from "../simulation/life";
 import type {
   LifeRecordProvenance,
@@ -12,40 +10,21 @@ import type {
   SchoolDistrictRecord,
 } from "./types";
 
-let cachedCorpus: EducationCorpusSnapshot | null = null;
-
-export function getCorpusFilePath(): string {
-  return path.join(
-    process.cwd(),
-    "data",
-    "education",
-    "us-education-corpus.json",
-  );
-}
-
-export function loadEducationCorpus(
-  filePath?: string,
-): EducationCorpusSnapshot {
-  const targetPath = filePath ?? getCorpusFilePath();
-  if (cachedCorpus && !filePath) {
-    return cachedCorpus;
-  }
-  if (!fs.existsSync(targetPath)) {
-    throw new Error(`Education corpus file missing at: ${targetPath}`);
-  }
-  const raw = fs.readFileSync(targetPath, "utf8");
-  const parsed = JSON.parse(raw) as EducationCorpusSnapshot;
-  validateEducationCorpus(parsed);
-  if (!filePath) {
-    cachedCorpus = parsed;
-  }
-  return parsed;
-}
+/**
+ * Pure, browser-safe education corpus validation, query, and bridge functions.
+ * Contains ZERO dependencies on Node built-ins (fs, path, process, etc.).
+ */
 
 export function validateEducationCorpus(corpus: EducationCorpusSnapshot): void {
   if (corpus.version !== "1.0.0") {
     throw new Error(`Unsupported corpus version: ${corpus.version}`);
   }
+  if (corpus.corpusScope !== "historical-2022-snapshot") {
+    throw new Error(
+      `Corpus scope must be 'historical-2022-snapshot', got: ${corpus.corpusScope}`,
+    );
+  }
+
   const seenStableIds = new Set<string>();
 
   for (const district of corpus.districts) {
@@ -67,6 +46,17 @@ export function validateEducationCorpus(corpus: EducationCorpusSnapshot): void {
         `District ${district.stableId} missing valid LEAID row locator.`,
       );
     }
+
+    // Geography validation: countyGeoid must NEVER equal fipsState (state FIPS is not county FIPS)
+    if (
+      district.location.fipsState &&
+      district.location.countyGeoid &&
+      district.location.countyGeoid === district.location.fipsState
+    ) {
+      throw new Error(
+        `County GEOID mismatch in ${district.stableId}: state FIPS '${district.location.fipsState}' was substituted for county GEOID.`,
+      );
+    }
   }
 
   const districtSet = new Set(corpus.districts.map((d) => d.stableId));
@@ -76,6 +66,16 @@ export function validateEducationCorpus(corpus: EducationCorpusSnapshot): void {
       throw new Error(`Duplicate stable ID in corpus: ${inst.stableId}`);
     }
     seenStableIds.add(inst.stableId);
+
+    if (
+      inst.location.fipsState &&
+      inst.location.countyGeoid &&
+      inst.location.countyGeoid === inst.location.fipsState
+    ) {
+      throw new Error(
+        `County GEOID mismatch in ${inst.stableId}: state FIPS '${inst.location.fipsState}' was substituted for county GEOID.`,
+      );
+    }
 
     if (inst.kind === "public-elementary-secondary") {
       if (!inst.stableId.startsWith("nces-sch:")) {
@@ -125,10 +125,9 @@ export function validateEducationCorpus(corpus: EducationCorpusSnapshot): void {
 
 export function queryEducationInstitutions(
   filter: QueryEducationFilter,
-  corpus?: EducationCorpusSnapshot,
+  corpus: EducationCorpusSnapshot,
 ): readonly EducationInstitutionRecord[] {
-  const data = corpus ?? loadEducationCorpus();
-  return data.institutions.filter((inst) => {
+  return corpus.institutions.filter((inst) => {
     if (filter.kind && inst.kind !== filter.kind) {
       return false;
     }
@@ -161,7 +160,11 @@ export function queryEducationInstitutions(
     }
     if (filter.effectiveYear !== undefined) {
       const activeInYear = inst.vintages.some((v) => {
-        if (!v.effectiveDateStart) return true; // If effectiveDateStart is null/unknown, match current active vintage
+        if (!v.effectiveDateStart) {
+          // Unknown historical opening date: matches ONLY if queried year matches the snapshot vintage year.
+          // Requesting an unsupported historical year (e.g. 1950 from a 2022 snapshot) CANNOT silently match!
+          return v.vintageYear === filter.effectiveYear;
+        }
         const startYear = parseInt(v.effectiveDateStart.slice(0, 4), 10);
         const endYear = v.effectiveDateEnd
           ? parseInt(v.effectiveDateEnd.slice(0, 4), 10)
@@ -178,13 +181,12 @@ export function queryEducationInstitutions(
 
 export function findInstitutionByStableId(
   stableId: string,
-  corpus?: EducationCorpusSnapshot,
+  corpus: EducationCorpusSnapshot,
 ): EducationInstitutionRecord | SchoolDistrictRecord | null {
-  const data = corpus ?? loadEducationCorpus();
   if (stableId.startsWith("nces-lea:")) {
-    return data.districts.find((d) => d.stableId === stableId) ?? null;
+    return corpus.districts.find((d) => d.stableId === stableId) ?? null;
   }
-  return data.institutions.find((i) => i.stableId === stableId) ?? null;
+  return corpus.institutions.find((i) => i.stableId === stableId) ?? null;
 }
 
 export function convertEducationInstitutionToOrganization(
@@ -213,6 +215,7 @@ export function convertEducationInstitutionToOrganization(
     initialProfile: {
       name: institution.name,
       classification,
+      // Keep locationJurisdictionId explicitly unresolved (null) until a source-backed jurisdiction join exists.
       locationJurisdictionId: null,
     },
   };

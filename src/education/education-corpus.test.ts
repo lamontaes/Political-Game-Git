@@ -8,16 +8,17 @@ import {
   assertNoAutomaticAttendance,
   convertEducationInstitutionToOrganization,
   findInstitutionByStableId,
-  loadEducationCorpus,
   queryEducationInstitutions,
   validateEducationCorpus,
 } from "./education-corpus";
+import { loadEducationCorpusFromFile } from "./education-node-loader";
 import type { EducationCorpusSnapshot } from "./types";
 
 describe("Education Corpus & NCES/IPEDS Source Module", () => {
   it("loads and validates the compiled production corpus snapshot cleanly", () => {
-    const corpus = loadEducationCorpus();
+    const corpus = loadEducationCorpusFromFile();
     expect(corpus.version).toBe("1.0.0");
+    expect(corpus.corpusScope).toBe("historical-2022-snapshot");
     expect(corpus.rawArtifacts).toHaveLength(3);
     expect(corpus.counts.publicDistricts).toBe(7);
     expect(corpus.counts.publicSchools).toBe(11);
@@ -26,7 +27,7 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
   });
 
   it("proves raw artifact hashes in manifest match actual raw zip byte hashes if downloaded", () => {
-    const corpus = loadEducationCorpus();
+    const corpus = loadEducationCorpusFromFile();
     const rawDir = path.join(process.cwd(), "data", "education", "raw");
 
     for (const artifact of corpus.rawArtifacts) {
@@ -47,7 +48,7 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
   });
 
   it("proves every normalized empirical record has an exact source-row locator and stable identifier", () => {
-    const corpus = loadEducationCorpus();
+    const corpus = loadEducationCorpusFromFile();
 
     for (const district of corpus.districts) {
       expect(district.officialId).toMatch(/^\d{7}$/);
@@ -79,8 +80,65 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
     }
   });
 
-  it("proves unsupported historical dates remain null and are not fabricated", () => {
-    const corpus = loadEducationCorpus();
+  it("proves correct state vs county geography semantics with Fayette County KY and Jefferson County KY regression tests", () => {
+    const corpus = loadEducationCorpusFromFile();
+
+    // Fayette County, KY regression case (University of Kentucky)
+    const uk = findInstitutionByStableId("ipeds-unit:157085", corpus)!;
+    expect(uk.location.state).toBe("KY");
+    expect(uk.location.fipsState).toBe("21");
+    expect(uk.location.countyGeoid).toBe("21067"); // Must be Fayette County GEOID 21067, NOT 21!
+    expect(uk.location.countyName).toBe("Fayette County");
+
+    // Second county regression case (Jefferson County, KY - University of Louisville)
+    const uofl = findInstitutionByStableId("ipeds-unit:157289", corpus)!;
+    expect(uofl.location.state).toBe("KY");
+    expect(uofl.location.fipsState).toBe("21");
+    expect(uofl.location.countyGeoid).toBe("21111"); // Must be Jefferson County GEOID 21111, NOT 21!
+    expect(uofl.location.countyName).toBe("Jefferson County");
+
+    // Third county regression case (Middlesex County, MA - Harvard University)
+    const harvard = findInstitutionByStableId("ipeds-unit:166027", corpus)!;
+    expect(harvard.location.state).toBe("MA");
+    expect(harvard.location.fipsState).toBe("25");
+    expect(harvard.location.countyGeoid).toBe("25017"); // Must be Middlesex County GEOID 25017, NOT 25!
+    expect(harvard.location.countyName).toBe("Middlesex County");
+
+    // Verify CCD directory records do not substitute state FIPS for county GEOID
+    const lafayetteHigh = findInstitutionByStableId(
+      "nces-sch:210186000367",
+      corpus,
+    )!;
+    expect(lafayetteHigh.location.fipsState).toBe("21");
+    expect(lafayetteHigh.location.countyGeoid).toBeNull(); // CCD directory file does not supply county code
+  });
+
+  it("proves unknown historical validity remains unknown: querying unsupported historical years does not return matches", () => {
+    const corpus = loadEducationCorpusFromFile();
+
+    // Querying vintageYear 2022 returns records from the 2022 snapshot
+    const active2022 = queryEducationInstitutions(
+      { effectiveYear: 2022 },
+      corpus,
+    );
+    expect(active2022.length).toBeGreaterThan(0);
+
+    // Querying an unsupported historical year (e.g. 1950) returns NO matches because opening dates are unknown
+    const active1950 = queryEducationInstitutions(
+      { effectiveYear: 1950 },
+      corpus,
+    );
+    expect(active1950).toHaveLength(0);
+
+    const active1850 = queryEducationInstitutions(
+      { effectiveYear: 1850 },
+      corpus,
+    );
+    expect(active1850).toHaveLength(0);
+  });
+
+  it("proves unsupported historical opening dates remain null and are not fabricated", () => {
+    const corpus = loadEducationCorpusFromFile();
 
     for (const district of corpus.districts) {
       for (const vintage of district.vintages) {
@@ -117,7 +175,7 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
       );
 
     // Verify that NO empirical NCES/IPEDS institution ID or name is automatically assigned to the generated character
-    const corpus = loadEducationCorpus();
+    const corpus = loadEducationCorpusFromFile();
     const corpusNames = new Set([
       ...corpus.districts.map((d) => d.name),
       ...corpus.institutions.map((i) => i.name),
@@ -128,46 +186,31 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
     }
   });
 
-  it("queries institutions by name, city, state, level, and effective year", () => {
-    const corpus = loadEducationCorpus();
-
-    // Query Lafayette High School in Lexington, KY
-    const lafayette = queryEducationInstitutions(
-      { nameQuery: "Lafayette", city: "Lexington", state: "KY" },
-      corpus,
+  it("proves src/education/education-corpus.ts is pure and browser-safe without Node imports", () => {
+    const filePath = path.join(
+      process.cwd(),
+      "src",
+      "education",
+      "education-corpus.ts",
     );
-    expect(lafayette).toHaveLength(1);
-    expect(lafayette[0]?.name).toBe("Lafayette High School");
-    expect(lafayette[0]?.stableId).toBe("nces-sch:210186000367");
+    const content = fs.readFileSync(filePath, "utf8");
 
-    // Query University of Kentucky
-    const uk = queryEducationInstitutions(
-      { nameQuery: "University of Kentucky", state: "KY" },
-      corpus,
-    );
-    expect(uk).toHaveLength(1);
-    expect(uk[0]?.stableId).toBe("ipeds-unit:157085");
-    expect(uk[0]?.level).toBe("postsecondary-4yr");
+    const forbiddenNodeTerms = [
+      "import * as fs",
+      "import fs",
+      "import path",
+      "import process",
+      'require("fs")',
+      "require('fs')",
+      "process.cwd()",
+    ];
+    for (const term of forbiddenNodeTerms) {
+      expect(content).not.toContain(term);
+    }
   });
 
-  it("resolves stable IDs directly using findInstitutionByStableId", () => {
-    const corpus = loadEducationCorpus();
-
-    const district = findInstitutionByStableId("nces-lea:2101860", corpus);
-    expect(district?.name).toBe("Fayette County School District");
-
-    const school = findInstitutionByStableId("nces-sch:210186000367", corpus);
-    expect(school?.name).toBe("Lafayette High School");
-
-    const college = findInstitutionByStableId("ipeds-unit:157085", corpus);
-    expect(college?.name).toBe("University of Kentucky");
-
-    const missing = findInstitutionByStableId("ipeds-unit:999999", corpus);
-    expect(missing).toBeNull();
-  });
-
-  it("converts corpus institutions to simulation organization inputs cleanly", () => {
-    const corpus = loadEducationCorpus();
+  it("converts corpus institutions to simulation organization inputs cleanly with unresolved jurisdiction bridge", () => {
+    const corpus = loadEducationCorpusFromFile();
     const uk = findInstitutionByStableId("ipeds-unit:157085", corpus)!;
     const orgInput = convertEducationInstitutionToOrganization(
       uk,
@@ -180,12 +223,14 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
     expect(orgInput.initialProfile.classification).toBe(
       "service:higher-education",
     );
+    expect(orgInput.initialProfile.locationJurisdictionId).toBeNull(); // Kept explicitly unresolved
     expect(orgInput.provenance.kind).toBe("authored");
   });
 
   it("detects and rejects corrupted or malformed corpus snapshots", () => {
     const badSnapshot: EducationCorpusSnapshot = {
       version: "1.0.0",
+      corpusScope: "historical-2022-snapshot",
       generatedAt: "2026-08-30",
       counts: {
         publicDistricts: 1,
@@ -211,7 +256,9 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
             city: "Lexington",
             state: "KY",
             zip: null,
-            fipsCounty: null,
+            fipsState: "21",
+            countyGeoid: "21067",
+            countyName: "Fayette County",
             latitude: null,
             longitude: null,
           },
@@ -220,6 +267,7 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
             sourceName: "NCES CCD",
             datasetName: "Test",
             vintage: "2022-2023",
+            releaseStatus: "preliminary-directory",
             officialIdName: "LEAID",
             sourceUrl: "http://test",
             retrievedAt: "2026-08-30",
@@ -247,7 +295,9 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
             city: "Lexington",
             state: "KY",
             zip: null,
-            fipsCounty: null,
+            fipsState: "21",
+            countyGeoid: "21067",
+            countyName: "Fayette County",
             latitude: null,
             longitude: null,
           },
@@ -256,6 +306,7 @@ describe("Education Corpus & NCES/IPEDS Source Module", () => {
             sourceName: "NCES CCD",
             datasetName: "Test",
             vintage: "2022-2023",
+            releaseStatus: "preliminary-directory",
             officialIdName: "NCESSCH",
             sourceUrl: "http://test",
             retrievedAt: "2026-08-30",

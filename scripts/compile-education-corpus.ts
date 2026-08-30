@@ -21,6 +21,7 @@ const ARTIFACT_SPECS = [
     url: "https://nces.ed.gov/ccd/Data/zip/ccd_sch_029_2223_w_0a_051023.zip",
     datasetName:
       "NCES CCD Public Elementary/Secondary School Universe Survey Directory 2022-2023 (v.0a)",
+    releaseStatus: "preliminary-directory" as const,
   },
   {
     filename: "ccd_lea_029_2223_w_0a_051023.zip",
@@ -28,6 +29,7 @@ const ARTIFACT_SPECS = [
     url: "https://nces.ed.gov/ccd/Data/zip/ccd_lea_029_2223_w_0a_051023.zip",
     datasetName:
       "NCES CCD Local Education Agency Universe Survey Directory 2022-2023 (v.0a)",
+    releaseStatus: "preliminary-directory" as const,
   },
   {
     filename: "HD2022.zip",
@@ -35,6 +37,7 @@ const ARTIFACT_SPECS = [
     url: "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
     datasetName:
       "NCES IPEDS Institutional Characteristics / Directory 2022 (HD2022)",
+    releaseStatus: "final-release" as const,
   },
 ];
 
@@ -137,6 +140,7 @@ function main() {
       byteSize: artifactHashes[spec.filename]!.byteSize,
       retrievedAt: RETRIEVAL_DATE,
       datasetName: spec.datasetName,
+      releaseStatus: spec.releaseStatus,
     }),
   );
 
@@ -199,6 +203,7 @@ function main() {
         sourceName: "NCES CCD",
         datasetName: leaSpec.datasetName,
         vintage: "2022-2023",
+        releaseStatus: leaSpec.releaseStatus,
         officialIdName: "LEAID",
         sourceUrl: leaSpec.url,
         retrievedAt: RETRIEVAL_DATE,
@@ -226,7 +231,9 @@ function main() {
           city: data["LCITY"]?.trim() || "",
           state: data["LSTATE"]?.trim() || "",
           zip: data["LZIP"]?.trim() || null,
-          fipsCounty: data["FIPST"] ? `${data["FIPST"]}` : null,
+          fipsState: data["FIPST"] ? `${data["FIPST"]}` : null,
+          countyGeoid: null, // CCD directory file does not supply a county GEOID field; do NOT substitute state FIPS!
+          countyName: null,
           latitude: null,
           longitude: null,
         },
@@ -273,6 +280,7 @@ function main() {
         sourceName: "NCES CCD",
         datasetName: schSpec.datasetName,
         vintage: "2022-2023",
+        releaseStatus: schSpec.releaseStatus,
         officialIdName: "NCESSCH",
         sourceUrl: schSpec.url,
         retrievedAt: RETRIEVAL_DATE,
@@ -298,7 +306,9 @@ function main() {
           city: data["LCITY"]?.trim() || "",
           state: data["LSTATE"]?.trim() || "",
           zip: data["LZIP"]?.trim() || null,
-          fipsCounty: data["FIPST"] ? `${data["FIPST"]}` : null,
+          fipsState: data["FIPST"] ? `${data["FIPST"]}` : null,
+          countyGeoid: null, // CCD directory file does not supply a county GEOID field; do NOT substitute state FIPS!
+          countyName: null,
           latitude: null,
           longitude: null,
         },
@@ -343,6 +353,7 @@ function main() {
         sourceName: "NCES IPEDS",
         datasetName: ipedsSpec.datasetName,
         vintage: "2022",
+        releaseStatus: ipedsSpec.releaseStatus,
         officialIdName: "UNITID",
         sourceUrl: ipedsSpec.url,
         retrievedAt: RETRIEVAL_DATE,
@@ -368,7 +379,9 @@ function main() {
           city: data["CITY"]?.trim() || "",
           state: data["STABBR"]?.trim() || "",
           zip: data["ZIP"]?.trim() || null,
-          fipsCounty: data["FIPS"] ? `${data["FIPS"]}` : null,
+          fipsState: data["FIPS"] ? `${data["FIPS"]}` : null,
+          countyGeoid: data["COUNTYCD"]?.trim() || null, // Exact 5-digit state+county GEOID from IPEDS
+          countyName: data["COUNTYNM"]?.trim() || null, // Exact official county name from IPEDS
           latitude: null,
           longitude: null,
         },
@@ -395,6 +408,7 @@ function main() {
 
   const snapshot: EducationCorpusSnapshot = {
     version: "1.0.0",
+    corpusScope: "historical-2022-snapshot",
     generatedAt: RETRIEVAL_DATE,
     counts: {
       publicDistricts: districts.length,
