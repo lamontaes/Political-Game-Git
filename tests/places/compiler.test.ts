@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
-import type { PlacesCorpus } from "../../scripts/places/compile-places";
 import { compilePlaces } from "../../scripts/places/compile-places";
+import type { PlacesCorpus } from "../../scripts/places/compile-places";
 
 describe("Places Compiler", () => {
   const dataDir = resolve(__dirname, "../../data/places");

@@ -14,7 +14,7 @@ const OUTPUT_FILE = resolve(DATA_DIR, "compiled-places.json");
 const PROVENANCE = {
   url: "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_place_national.zip",
   vintage: "2025",
-  retrievalDate: '2025-01-01T00:00:00.000Z', // Use execution date
+  retrievalDate: "2025-01-01T00:00:00.000Z",
   rawSha256: "15f4977a010cc42308f4d5ddc5e19f26ef63fc035f20745333a14b78aa08d3fa",
   compilerVersion: "1.0.0",
 };
@@ -86,7 +86,7 @@ export function getDisplayName(stateCode: string, sourceName: string): string {
   return cleanName(sourceName);
 }
 
-export function compilePlaces(inputFile: string, outputFile: string) {
+export function compilePlaces(inputFile: string, outputFile: string): void {
   const data = readFileSync(inputFile, "utf-8");
   const lines = data.split(/\r?\n/).filter((line) => line.trim().length > 0);
 
@@ -95,9 +95,8 @@ export function compilePlaces(inputFile: string, outputFile: string) {
 
   // USPS|GEOID|GEOIDFQ|ANSICODE|NAME|LSAD|FUNCSTAT|ALAND|AWATER|ALAND_SQMI|AWATER_SQMI|INTPTLAT|INTPTLONG
   for (let i = 1; i < lines.length; i++) {
-    // Let's split by | since it is the standard separator
     const cols = lines[i].split("|");
-    if (cols.length < 13) continue;
+    if (cols.length < 12) continue;
 
     const stateCode = cols[0].trim();
     const geoid = cols[1].trim(); // Not placeCode, wait, placeCode is the last 5 digits of GEOID usually.

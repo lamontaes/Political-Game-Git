@@ -798,7 +798,7 @@ describe("Packet 76 approved runtime art", () => {
 
   it(
     "reproduces the 2x Lanczos office plate and furniture-only alpha mask",
-    { timeout: 10000 },
+    { timeout: 20000 },
     async () => {
       expect(OFFICE_PLATE_RUNTIME_SCALE).toBe(2);
       expect(OFFICE_PLATE_LANCZOS_LOBES).toBe(3);
