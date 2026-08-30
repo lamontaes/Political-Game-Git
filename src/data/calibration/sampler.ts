@@ -1,5 +1,5 @@
 import { SeededRng } from "../../simulation/rng";
-import { compileEmpiricalCalibrationDataset } from "./compiler";
+import { compileSyntheticCalibrationBaseline } from "./compiler";
 import type {
   CaregiverObligations,
   EconomicShockEvent,
@@ -71,7 +71,7 @@ function deriveParentStructure(
 }
 
 /**
- * Deterministically samples a plausible household life-background profile from empirical aggregate distributions.
+ * Deterministically samples a plausible household life-background profile from synthetic calibration baseline distributions.
  *
  * Safety & Privacy Guarantee:
  * - Returns ONLY structural economic, asset, obligation, and household facts.
@@ -81,7 +81,7 @@ function deriveParentStructure(
 export function sampleHouseholdLifeBackground(
   seed: string,
 ): HouseholdLifeBackgroundProfile {
-  const dataset = compileEmpiricalCalibrationDataset();
+  const dataset = compileSyntheticCalibrationBaseline();
   const rng = new SeededRng(`calibration:household:${seed}`);
 
   const composition = pickWeightedCategory(

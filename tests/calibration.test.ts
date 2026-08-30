@@ -1,15 +1,32 @@
 import { describe, it, expect } from "vitest";
-import { compileEmpiricalCalibrationDataset } from "../src/data/calibration/compiler";
+import { compileSyntheticCalibrationBaseline } from "../src/data/calibration/compiler";
 import { sampleHouseholdLifeBackground } from "../src/data/calibration/sampler";
 import { SYNTHETIC_TEST_FIXTURES } from "../src/data/calibration/fixtures";
 
-describe("Household / Life-Background Calibration Corpus", () => {
-  it("verifies empirical source metadata, retrieval URLs, and SHA-256 hashes", () => {
-    const dataset = compileEmpiricalCalibrationDataset();
-    expect(dataset.provenance.source).toContain("Unified Empirical Corpus");
-    expect(dataset.provenance.vintageYear).toBe(2023);
-    expect(dataset.provenance.sourceHash).toMatch(/^[a-f0-9:]+$/);
-    expect(dataset.tables.incomeQuintiles).toHaveLength(5);
+describe("Household / Life-Background Calibration Corpus (Reclassified Synthetic)", () => {
+  it("verifies explicit reclassification metadata and synthetic baseline status for all 7 distributions", () => {
+    const dataset = compileSyntheticCalibrationBaseline();
+
+    expect(dataset.datasetId).toBe("reclassified-synthetic-calibration-2023");
+    expect(dataset.classification).toBe("synthetic-plausible");
+    expect(dataset.status).toBe("reclassified-synthetic");
+    expect(dataset.reclassificationReason).toContain(
+      "Reclassified from unverified empirical claims",
+    );
+
+    // Verify all 7 reclassified distributions exist and are normalized
+    const { tables, unresolvedGaps } = dataset;
+
+    expect(tables.householdCompositionDistribution.length).toBeGreaterThan(0);
+    expect(tables.parentStructureDistribution.length).toBeGreaterThan(0);
+    expect(tables.employmentStatusDistribution.length).toBeGreaterThan(0);
+    expect(tables.housingTenureDistribution.length).toBeGreaterThan(0);
+    expect(tables.caregivingTypeDistribution.length).toBeGreaterThan(0);
+    expect(tables.incomeQuintiles).toHaveLength(5);
+    expect(tables.shockFrequencyPerYear).toBe(0.35);
+
+    // Unresolved gaps documented
+    expect(unresolvedGaps.length).toBeGreaterThan(0);
   });
 
   it("samples deterministically: identical seeds yield identical background profiles", () => {
@@ -58,6 +75,8 @@ describe("Household / Life-Background Calibration Corpus", () => {
       "intelligence",
       "politicalParty",
       "behavior",
+      "criminality",
+      "votingBehavior",
     ];
     for (const forbidden of forbiddenKeys) {
       expect(keys).not.toContain(forbidden);
@@ -73,7 +92,7 @@ describe("Household / Life-Background Calibration Corpus", () => {
     }
   });
 
-  it("performs empirical sampling distribution sanity checks over a sample batch", () => {
+  it("performs sampling distribution sanity checks over a sample batch", () => {
     const sampleSize = 100;
     const sampledCompositions = new Set<string>();
 

@@ -1,20 +1,12 @@
 import type {
   EmpiricalCalibrationDataset,
   EmpiricalSourceProvenance,
-  HouseholdCompositionCategory,
-  ParentGuardianStructure,
-  EmploymentStatus,
-  HousingTenure,
-  CareRecipientType,
-  IncomeQuintileCalibration,
   ProbabilityBucket,
+  SyntheticCalibrationDataset,
 } from "./types";
+import { RECLASSIFIED_SYNTHETIC_CALIBRATION_DATASET } from "./synthetic-baselines";
 
-import sipp2022Raw from "../../../data/snapshots/calibration/sipp-2022-household-composition.json";
-import scf2022Raw from "../../../data/snapshots/calibration/scf-2022-wealth-debt.json";
-import census2023Raw from "../../../data/snapshots/calibration/census-2023-housing-caregiving.json";
-
-function validateProvenance(
+export function validateEmpiricalProvenance(
   provenance: EmpiricalSourceProvenance,
   label: string,
 ): void {
@@ -30,14 +22,38 @@ function validateProvenance(
   if (!provenance.retrievalUrl || typeof provenance.retrievalUrl !== "string") {
     throw new Error(`[${label}] Missing or invalid retrievalUrl field.`);
   }
-  if (!provenance.sourceHash || typeof provenance.sourceHash !== "string") {
-    throw new Error(`[${label}] Missing or invalid sourceHash field.`);
+  if (
+    !provenance.sourceRawArtifactHash ||
+    typeof provenance.sourceRawArtifactHash !== "string" ||
+    provenance.sourceRawArtifactHash.length < 64
+  ) {
+    throw new Error(
+      `[${label}] Missing or invalid sourceRawArtifactHash field. Empirical data requires full 64-character SHA-256 digest of raw source bytes.`,
+    );
   }
   if (
-    !provenance.transformationNotes ||
-    typeof provenance.transformationNotes !== "string"
+    !Array.isArray(provenance.tableOrRowIdentifiers) ||
+    provenance.tableOrRowIdentifiers.length === 0
   ) {
-    throw new Error(`[${label}] Missing or invalid transformationNotes field.`);
+    throw new Error(
+      `[${label}] Missing or invalid tableOrRowIdentifiers. Empirical data requires explicit table/row identifiers.`,
+    );
+  }
+  if (
+    !provenance.weightingAndUniverseRules ||
+    typeof provenance.weightingAndUniverseRules !== "string"
+  ) {
+    throw new Error(
+      `[${label}] Missing or invalid weightingAndUniverseRules. Empirical microdata requires explicit universe filter rules.`,
+    );
+  }
+  if (
+    !provenance.derivationFormulaCode ||
+    typeof provenance.derivationFormulaCode !== "string"
+  ) {
+    throw new Error(
+      `[${label}] Missing or invalid derivationFormulaCode. Empirical microdata requires documented derivation formula.`,
+    );
   }
 }
 
@@ -56,73 +72,78 @@ function normalizeDistribution<T extends string>(
 }
 
 /**
- * Validates raw empirical snapshots and compiles them into a unified, normalized calibration dataset.
+ * Validates and normalizes empirical calibration datasets.
+ * Throws explicit error if raw artifact bytes and row derivations are missing.
  */
-export function compileEmpiricalCalibrationDataset(): EmpiricalCalibrationDataset {
-  const sippProv = sipp2022Raw.provenance as EmpiricalSourceProvenance;
-  const scfProv = scf2022Raw.provenance as EmpiricalSourceProvenance;
-  const censusProv = census2023Raw.provenance as EmpiricalSourceProvenance;
+export function compileEmpiricalCalibrationDataset(
+  dataset: EmpiricalCalibrationDataset,
+): EmpiricalCalibrationDataset {
+  validateEmpiricalProvenance(dataset.provenance, dataset.datasetId);
 
-  validateProvenance(sippProv, "SIPP 2022");
-  validateProvenance(scfProv, "SCF 2022");
-  validateProvenance(censusProv, "Census 2023");
+  return {
+    ...dataset,
+    tables: {
+      ...dataset.tables,
+      householdCompositionDistribution: normalizeDistribution(
+        dataset.tables.householdCompositionDistribution,
+        "Household Composition",
+      ),
+      parentStructureDistribution: normalizeDistribution(
+        dataset.tables.parentStructureDistribution,
+        "Parent Structure",
+      ),
+      employmentStatusDistribution: normalizeDistribution(
+        dataset.tables.employmentStatusDistribution,
+        "Employment Status",
+      ),
+      housingTenureDistribution: normalizeDistribution(
+        dataset.tables.housingTenureDistribution,
+        "Housing Tenure",
+      ),
+      caregivingTypeDistribution: normalizeDistribution(
+        dataset.tables.caregivingTypeDistribution,
+        "Caregiving Type",
+      ),
+    },
+  };
+}
 
-  const compositionDistribution = normalizeDistribution(
-    sipp2022Raw.tables
-      .compositionDistribution as ProbabilityBucket<HouseholdCompositionCategory>[],
-    "Household Composition",
-  );
-  const parentStructureDistribution = normalizeDistribution(
-    sipp2022Raw.tables
-      .parentStructureDistribution as ProbabilityBucket<ParentGuardianStructure>[],
-    "Parent Structure",
-  );
-  const employmentStatusDistribution = normalizeDistribution(
-    sipp2022Raw.tables
-      .employmentStatusDistribution as ProbabilityBucket<EmploymentStatus>[],
-    "Employment Status",
-  );
+/**
+ * Compiles and returns the validated reclassified synthetic calibration baseline dataset.
+ */
+export function compileSyntheticCalibrationBaseline(): SyntheticCalibrationDataset {
+  const dataset = RECLASSIFIED_SYNTHETIC_CALIBRATION_DATASET;
 
-  const housingTenureDistribution = normalizeDistribution(
-    census2023Raw.tables
-      .housingTenureDistribution as ProbabilityBucket<HousingTenure>[],
-    "Housing Tenure",
-  );
-  const caregivingTypeDistribution = normalizeDistribution(
-    census2023Raw.tables
-      .caregivingTypeDistribution as ProbabilityBucket<CareRecipientType>[],
-    "Caregiving Type",
-  );
-
-  const incomeQuintiles = scf2022Raw.tables
-    .incomeQuintiles as IncomeQuintileCalibration[];
-  if (!Array.isArray(incomeQuintiles) || incomeQuintiles.length !== 5) {
+  if (dataset.status !== "reclassified-synthetic") {
     throw new Error(
-      "Income quintiles must contain exactly 5 quintile calibrations.",
+      "Synthetic calibration baseline must be explicitly marked reclassified-synthetic.",
     );
   }
 
-  const combinedProvenance: EmpiricalSourceProvenance = {
-    source: `Unified Empirical Corpus (${sippProv.source} | ${scfProv.source} | ${censusProv.source})`,
-    vintageYear: 2023,
-    retrievedAt: sippProv.retrievedAt,
-    retrievalUrl: "data/snapshots/calibration/",
-    sourceHash: `${sippProv.sourceHash.slice(0, 8)}:${scfProv.sourceHash.slice(0, 8)}:${censusProv.sourceHash.slice(0, 8)}`,
-    transformationNotes:
-      "Compiled and normalized joint empirical calibration tables from SIPP 2022, SCF 2022, and Census CPS/ACS 2023.",
-  };
-
   return {
-    datasetId: "unified-household-calibration-2023",
-    provenance: combinedProvenance,
+    ...dataset,
     tables: {
-      householdCompositionDistribution: compositionDistribution,
-      parentStructureDistribution: parentStructureDistribution,
-      employmentStatusDistribution: employmentStatusDistribution,
-      housingTenureDistribution: housingTenureDistribution,
-      caregivingTypeDistribution: caregivingTypeDistribution,
-      incomeQuintiles,
-      shockFrequencyPerYear: census2023Raw.tables.shockFrequencyPerYear,
+      ...dataset.tables,
+      householdCompositionDistribution: normalizeDistribution(
+        dataset.tables.householdCompositionDistribution,
+        "Household Composition",
+      ),
+      parentStructureDistribution: normalizeDistribution(
+        dataset.tables.parentStructureDistribution,
+        "Parent Structure",
+      ),
+      employmentStatusDistribution: normalizeDistribution(
+        dataset.tables.employmentStatusDistribution,
+        "Employment Status",
+      ),
+      housingTenureDistribution: normalizeDistribution(
+        dataset.tables.housingTenureDistribution,
+        "Housing Tenure",
+      ),
+      caregivingTypeDistribution: normalizeDistribution(
+        dataset.tables.caregivingTypeDistribution,
+        "Caregiving Type",
+      ),
     },
   };
 }

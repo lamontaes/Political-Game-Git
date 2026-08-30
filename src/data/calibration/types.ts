@@ -3,8 +3,9 @@
  *
  * This module defines schemas and data contracts for:
  * 1. Authoritative empirical aggregate source metadata and calibration tables.
- * 2. Generated simulation household life-background profiles.
- * 3. Synthetic test fixtures.
+ * 2. Reclassified synthetic baseline calibration data.
+ * 3. Generated simulation household life-background profiles.
+ * 4. Synthetic test fixtures.
  *
  * Strict Privacy & Epistemic Boundaries:
  * - Demographics and economic circumstances must NEVER be used to infer
@@ -17,8 +18,10 @@ export interface EmpiricalSourceProvenance {
   readonly vintageYear: number;
   readonly retrievedAt: string;
   readonly retrievalUrl: string;
-  readonly sourceHash: string;
-  readonly transformationNotes: string;
+  readonly sourceRawArtifactHash: string;
+  readonly tableOrRowIdentifiers: readonly string[];
+  readonly weightingAndUniverseRules: string;
+  readonly derivationFormulaCode: string;
 }
 
 export type HouseholdCompositionCategory =
@@ -133,7 +136,7 @@ export interface IncomeQuintileCalibration {
   readonly homeownershipRate: number;
 }
 
-export interface EmpiricalCalibrationTables {
+export interface CalibrationTables {
   readonly householdCompositionDistribution: readonly ProbabilityBucket<HouseholdCompositionCategory>[];
   readonly parentStructureDistribution: readonly ProbabilityBucket<ParentGuardianStructure>[];
   readonly employmentStatusDistribution: readonly ProbabilityBucket<EmploymentStatus>[];
@@ -149,7 +152,19 @@ export interface EmpiricalCalibrationTables {
 export interface EmpiricalCalibrationDataset {
   readonly datasetId: string;
   readonly provenance: EmpiricalSourceProvenance;
-  readonly tables: EmpiricalCalibrationTables;
+  readonly tables: CalibrationTables;
+}
+
+/**
+ * Reclassified synthetic calibration dataset.
+ */
+export interface SyntheticCalibrationDataset {
+  readonly datasetId: string;
+  readonly classification: "synthetic-plausible";
+  readonly status: "reclassified-synthetic";
+  readonly reclassificationReason: string;
+  readonly tables: CalibrationTables;
+  readonly unresolvedGaps: readonly string[];
 }
 
 /**
