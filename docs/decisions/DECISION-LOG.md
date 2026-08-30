@@ -860,3 +860,46 @@ Consequence: Slice E proves one primary council playtest and one three-candidate
 Synthetic Tidal Basin portability fixture without implementing Stage 7 law or
 institutions, Stage 8 electorates, the full Stage 9 campaign system, voter
 records, primaries, campaign AI, media, debates, districting, or governing.
+
+## D-054 — A new game establishes a sparse person and life before optional politics
+
+- Date: 2026-08-30
+- Status: ACCEPTED
+- Supersedes: the rejected uncommitted first-session prototype's adult presets,
+  Lexington-only setup, background/party/value/decision-style cards, fabricated
+  biography, pre-created civic goal/ally, and immediate council framing; no
+  accepted D-053 campaign or Stage 6/6.5 simulation contract is superseded
+
+A first session creates one player-controlled person in the canonical
+`World`. Starting age uses one bounded control spanning supported childhood,
+teenage, and adult ages. Birthplace, hometown, and current residence are
+independent player choices over real place identities. Player-facing name,
+source/canonical identity, and available local political capability remain
+separate; an identity-only place acquires no invented government rule.
+
+`Play From Here` establishes only the present facts required for a coherent
+start and leaves unknown prior biography absent. `Build My History` writes
+only explicit dated player-authored anchors through ordinary canonical history.
+The scripted quick-history generator is not player truth. Household and housing
+choices use their accepted systems; exact resources are written only when the
+player provides an amount. No unchosen relative, guardian, school, job,
+organization, move, or relationship is generated.
+
+Concrete situational answers may append only subtle, low-confidence,
+supersedable mind evidence. Optional policy questions write direct sparse
+private proposition beliefs with tentative/open dimensions. They never infer a
+party, political principle, public position, campaign promise, office goal, or
+candidacy. Ordinary age-appropriate actions advance canonical time and write
+events, memory, knowledge, and relevant goal/opportunity state. Politics remains
+an adult player direction, not the opening premise.
+
+The normal browser route owns Title, New Game, Continue, multiple Load entries,
+confirmed Delete Save, exact serialized IndexedDB worlds, autosave, pause, and
+Escape. The accepted office/campaign surface remains intact at
+`?view=office`, diagnostics at `?view=developer`, and neither is silently
+reimplemented inside the life start.
+
+Consequence: the first-session checkpoint supplies a truthful sparse life
+foundation and persistence shell without beginning Slice F, expanding campaign
+mechanics, claiming nationwide political rules, or merging the recovered
+branch.

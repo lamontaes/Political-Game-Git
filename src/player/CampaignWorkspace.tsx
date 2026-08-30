@@ -60,7 +60,7 @@ export function CampaignWorkspace({
     >
       <header className="campaign-workspace-header">
         <div>
-          <p>Weekend playtest · bounded council contest</p>
+          <p>Local council contest</p>
           <h2 id="campaign-workspace-title">Campaign</h2>
           <span>{statusLabel(projection.phase)}</span>
         </div>
@@ -76,8 +76,7 @@ export function CampaignWorkspace({
             <h3>Run for {projection.officeTitle}</h3>
             <p>
               File as {projection.candidateName}, establish a campaign, and
-              enter a deterministic contest against{" "}
-              {projection.rivalNames.join(", ")}.
+              enter the contest against {projection.rivalNames.join(", ")}.
             </p>
           </div>
           <dl className="campaign-filing-facts">
@@ -105,10 +104,7 @@ export function CampaignWorkspace({
           >
             File candidacy
           </button>
-          <small>
-            This is playtest fixture content, not a sourced statement of local
-            election law.
-          </small>
+          <small>Local election details shown here may change.</small>
         </div>
       ) : (
         <>
@@ -294,7 +290,7 @@ export function CampaignWorkspace({
               ) : (
                 <p className="campaign-no-feedback">
                   Staff has no field read yet. Complete a campaign action to
-                  receive a bounded, fallible estimate.
+                  receive an uncertain estimate.
                 </p>
               )}
 

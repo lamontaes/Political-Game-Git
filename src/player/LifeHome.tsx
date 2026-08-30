@@ -41,7 +41,7 @@ export function LifeHome({
           </p>
           <h1>{summary.name}</h1>
           <p className="life-home__age">
-            Age {summary.age} · {summary.lifeStage} · {summary.politicalOutlook}
+            Age {summary.age} · {summary.lifeStage}
           </p>
         </div>
         <div className="life-home__controls">
@@ -74,14 +74,11 @@ export function LifeHome({
           className="life-home__story"
           aria-labelledby="life-now-heading"
         >
-          <p className="life-kicker">Local Opportunity & Community</p>
-          <h2 id="life-now-heading">A turning point in Lexington</h2>
+          <p className="life-kicker">Your life now</p>
+          <h2 id="life-now-heading">{openingHeading(summary.age)}</h2>
           <p className="life-home__intro">
-            With upcoming local elections on the horizon in Lexington-Fayette
-            County, neighbors and community colleagues have begun talking about
-            who should represent the community. Your next choice can strengthen
-            local relationships, explore municipal priorities, or keep your
-            focus on daily work and home.
+            Nothing has put you on a required path. Choose what deserves your
+            time, and your life will grow from what you actually do.
           </p>
           <div className="life-action-grid" data-testid="life-actions">
             {actions.map((action) => (
@@ -111,20 +108,17 @@ export function LifeHome({
           <section className="life-fact-card">
             <p className="life-kicker">Home & Residence</p>
             <h2>{summary.householdLabel}</h2>
-            <p>Lexington-Fayette Urban County neighborhood.</p>
+            <p>{summary.housingLabel}</p>
           </section>
           <section className="life-fact-card">
-            <p className="life-kicker">Work & Vocation</p>
-            <h2>{summary.workLabel ?? "Independent Work"}</h2>
-            <p>{summary.educationLabel}</p>
+            <p className="life-kicker">Work & Education</p>
+            <h2>{summary.workLabel ?? "Work not established"}</h2>
+            <p>{summary.educationLabel ?? "Education not established"}</p>
           </section>
           <section className="life-fact-card">
             <p className="life-kicker">Resources</p>
             <h2>{summary.resourceLabel}</h2>
-            <p>
-              Liquid household assets available for living and civic
-              exploration.
-            </p>
+            <p>Exact resources appear only when they are known.</p>
           </section>
           <section className="life-fact-card life-fact-card--places">
             <p className="life-kicker">Location</p>
@@ -142,6 +136,15 @@ export function LifeHome({
                 <dd>{summary.currentResidence}</dd>
               </div>
             </dl>
+          </section>
+          <section className="life-fact-card">
+            <p className="life-kicker">Politics</p>
+            <h2>{summary.politicalOutlook}</h2>
+            <p>
+              {summary.politicalCapability === "available"
+                ? "Political paths remain optional."
+                : "This place is part of your life, but its specialized local political paths are not available yet."}
+            </p>
           </section>
         </aside>
       </div>
@@ -166,4 +169,10 @@ export function LifeHome({
       </section>
     </main>
   );
+}
+
+function openingHeading(age: number): string {
+  if (age < 13) return "A day that belongs to you";
+  if (age < 18) return "Choose what comes next";
+  return "Your next direction";
 }

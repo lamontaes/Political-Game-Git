@@ -2,15 +2,40 @@
 
 ## Scope
 
-The normal Run A entry point is the player-facing political-office scene. The
-first-build developer viewer remains available at `?view=developer`; its
-diagnostic access does not authorize omniscient player-facing UI.
+The normal entry point is the first-session Title/Life shell. The accepted Run
+A office remains available at `?view=office`, and the first-build developer
+viewer remains available at `?view=developer`; neither route authorizes
+omniscient player-facing UI.
+
+## First-Session Life Flow
+
+1. **Title**
+   - New Game creates a new person and life.
+   - Continue restores the most recently played exact saved world.
+   - Load lists multiple lives; Delete requires confirmation.
+2. **Create a person**
+   - Enter a name and choose one age from a compact ages 6–80 control.
+   - Choose birthplace, hometown, and current residence independently.
+   - Choose current household and optional housing/resources without inferring
+     personality, morality, ideology, work, education, or family members.
+3. **Choose history depth**
+   - Play From Here leaves unknown prior life absent.
+   - Build My History records only dated moments the player enters.
+4. **Optional questions**
+   - Concrete situations supply subtle, mutable initial evidence.
+   - Direct policy answers remain private proposition beliefs; party is neither
+     selected nor inferred, and politics can be skipped.
+5. **Enter life**
+   - Children, teenagers, and adults receive ordinary age-appropriate
+     directions. Politics is never the opening premise.
+   - A played first choice advances time, writes canonical consequence, and can
+     alter later action availability.
 
 ## Run A Player Flow
 
-1. **Enter the office**
-   - Load the deterministic political-office fixture rather than the diagnostic
-     dashboard.
+1. **Enter the office regression route**
+   - Load the accepted political-office surface at `?view=office` rather than
+     the diagnostic dashboard.
    - Keep the warm office scene visually primary, with a compact bottom-left
      time/date/location plaque and restrained right-side pins.
    - Keep the Lexington-Fayette office explicitly synthetic; do not imply a

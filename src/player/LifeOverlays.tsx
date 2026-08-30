@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import type { BrowserWorldSummary } from "../presentation/browser-world-repository";
 
@@ -82,6 +82,7 @@ interface LoadGameScreenProps {
   readonly title: string;
   readonly error: string | null;
   readonly onLoad: (saveId: string) => void;
+  readonly onDelete: (saveId: string) => void;
   readonly onBack: () => void;
 }
 
@@ -90,8 +91,11 @@ export function LoadGameScreen({
   title,
   error,
   onLoad,
+  onDelete,
   onBack,
 }: LoadGameScreenProps) {
+  const [pendingDelete, setPendingDelete] =
+    useState<BrowserWorldSummary | null>(null);
   return (
     <main className="life-library" data-testid="load-game-screen">
       <header>
@@ -116,32 +120,75 @@ export function LoadGameScreen({
       ) : (
         <div className="life-save-list">
           {saves.map((save) => (
-            <button
-              type="button"
-              className="life-save-card"
-              key={save.saveId}
-              onClick={() => onLoad(save.saveId)}
-            >
-              <span>
-                <strong>{save.playerName}</strong>
-                <small>
-                  Age {save.playerAge}
-                  {save.residence ? ` · ${save.residence.name}` : ""}
-                </small>
-              </span>
-              <span>
-                <small>Last played</small>
-                <time>
-                  {new Intl.DateTimeFormat("en-US", {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  }).format(new Date(save.lastPlayedAt))}
-                </time>
-              </span>
-            </button>
+            <article className="life-save-card" key={save.saveId}>
+              <button
+                type="button"
+                className="life-save-card__load"
+                onClick={() => onLoad(save.saveId)}
+              >
+                <span>
+                  <strong>{save.playerName}</strong>
+                  <small>
+                    Age {save.playerAge}
+                    {save.residence ? ` · ${save.residence.name}` : ""}
+                  </small>
+                </span>
+                <span>
+                  <small>Last played</small>
+                  <time>
+                    {new Intl.DateTimeFormat("en-US", {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    }).format(new Date(save.lastPlayedAt))}
+                  </time>
+                </span>
+              </button>
+              <button
+                type="button"
+                className="life-text-button life-save-card__delete"
+                aria-label={`Delete save for ${save.playerName}`}
+                onClick={() => setPendingDelete(save)}
+              >
+                Delete
+              </button>
+            </article>
           ))}
         </div>
       )}
+      {pendingDelete ? (
+        <div
+          className="life-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="delete-save-title"
+          data-testid="delete-save-confirmation"
+        >
+          <section className="life-dialog">
+            <p className="life-kicker">Delete saved life</p>
+            <h2 id="delete-save-title">Delete {pendingDelete.playerName}?</h2>
+            <p>This saved life will be removed from this device.</p>
+            <div className="life-dialog__actions">
+              <button
+                type="button"
+                className="life-button life-button--secondary"
+                onClick={() => setPendingDelete(null)}
+              >
+                Keep Save
+              </button>
+              <button
+                type="button"
+                className="life-button life-button--primary"
+                onClick={() => {
+                  onDelete(pendingDelete.saveId);
+                  setPendingDelete(null);
+                }}
+              >
+                Delete Save
+              </button>
+            </div>
+          </section>
+        </div>
+      ) : null}
     </main>
   );
 }

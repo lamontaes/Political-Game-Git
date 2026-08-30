@@ -135,6 +135,34 @@ contest/result writer. Terminal win/loss campaign state closes campaign work
 but preserves ordinary play. See D-053 and
 [Elections](docs/systems/elections.md).
 
+The First-Session Foundation Recovery changes only how a player enters that
+same canonical world. `src/simulation/life-start.ts` composes authored identity,
+independent real-place identities, household/location, optional housing and
+exact resources, sparse mutable mind evidence, optional direct private beliefs,
+ordinary events, memories, knowledge, and goals through the accepted writers.
+It generates no context people, job, school, organization, relationship,
+political principle, public position, campaign promise, party, office goal, or
+candidacy unless a later authorized and sufficiently grounded path creates one.
+`Play From Here` leaves prior biography absent; `Build My History` records
+only explicit dated player-authored event anchors and does not call the
+development quick-history generator.
+
+The embedded place adapter contains a small sourced identity fixture and keeps
+friendly display name, canonical/source name, and local political capability
+separate. All fixture jurisdictions exist as stable open jurisdiction
+identities, but only the existing Lexington placeholder advertises its
+preserved political capability. Chicago and Los Angeles assert place identity,
+time zone, and source provenance only. The adapter is deliberately shaped for a
+larger nationwide corpus without claiming that corpus has landed.
+
+The normal route now starts at a browser-persisted Title/Life shell.
+`src/presentation/browser-world-repository.ts` stores and validates the exact
+serialized `World`, coordinates serialized autosaves, lists multiple lives,
+loads the most recent life for Continue, and deletes only after player
+confirmation in the UI. `?view=office` preserves the accepted office/campaign
+regression surface and `?view=developer` preserves diagnostics. No second
+office, campaign, relationship, history, or save-world model is introduced.
+
 The initial domain includes:
 
 - a JSON-safe `World` with a stable ID, normalized seed, canonical zoned minute-level moment consistent with its current simulated date, entities, action sequence, generator version, and history;

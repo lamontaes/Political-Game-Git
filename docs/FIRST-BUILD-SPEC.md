@@ -70,10 +70,11 @@ The React viewer allows a developer to:
 
 This is diagnostic UI, not final game art or final player-facing information design.
 
-Stage 6.5 Run A now makes a separate player-facing office scene the default
-browser entry point while retaining this accepted diagnostic viewer at
-`?view=developer`. Run A does not reinterpret the diagnostic sections as player
-knowledge; it uses the separate bounded epistemic projection documented in
+The First-Session Foundation Recovery now makes Title/Life the default browser
+entry point while retaining the accepted Run A office at `?view=office` and
+this diagnostic viewer at `?view=developer`. Run A does not reinterpret the
+diagnostic sections as player knowledge; it uses the separate bounded
+epistemic projection documented in
 [Player Presentation and Epistemic Projection](systems/player-presentation.md).
 
 Stage 6.5 Run B extends that same scene with a controlled-player/two-NPC room,

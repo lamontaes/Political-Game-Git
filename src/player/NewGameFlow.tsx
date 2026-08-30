@@ -1,14 +1,20 @@
 import { useMemo, useState } from "react";
 
 import {
+  LIFE_START_MAX_AGE,
+  LIFE_START_MIN_AGE,
   LIFE_START_PLACES,
-  type LifeStartAge,
-  type LifeStartApproachKey,
-  type LifeStartBackground,
+  LIFE_START_POLICY_QUESTIONS,
+  type LifeStartDepth,
+  type LifeStartFriendAnswer,
+  type LifeStartHistoryAnchor,
+  type LifeStartHouseholdKind,
+  type LifeStartHousingKind,
   type LifeStartInput,
-  type LifeStartPartyAffiliation,
   type LifeStartPlaceKey,
-  type LifeStartValueKey,
+  type LifeStartPolicyAnswer,
+  type LifeStartPolicyKey,
+  type LifeStartRiskAnswer,
 } from "../simulation";
 
 export type NewLifeDraft = Omit<LifeStartInput, "seed">;
@@ -20,138 +26,23 @@ interface NewGameFlowProps {
   readonly onBegin: (draft: NewLifeDraft) => void;
 }
 
-const AGES: readonly {
-  key: LifeStartAge;
-  label: string;
-  description: string;
-}[] = [
-  {
-    key: 25,
-    label: "Age 25",
-    description: "Young adult beginning a career and local civic awareness.",
-  },
-  {
-    key: 32,
-    label: "Age 32",
-    description:
-      "Established professional with neighborhood ties and community roots.",
-  },
-  {
-    key: 40,
-    label: "Age 40",
-    description:
-      "Experienced leader with substantive career and community background.",
-  },
-  {
-    key: 48,
-    label: "Age 48",
-    description:
-      "Seasoned resident with deep local relationships and civic history.",
-  },
-];
+const PAGE_KEYS = [
+  "identity",
+  "places",
+  "circumstances",
+  "history",
+  "questions",
+  "review",
+] as const;
 
-const AFFILIATIONS: readonly {
-  key: LifeStartPartyAffiliation;
+const POLICY_ANSWERS: readonly {
+  value: LifeStartPolicyAnswer;
   label: string;
-  description: string;
 }[] = [
-  {
-    key: "independent",
-    label: "Independent / Unaffiliated",
-    description:
-      "Pragmatic, nonpartisan approach focused on local neighborhood priorities.",
-  },
-  {
-    key: "democratic",
-    label: "Democratic",
-    description:
-      "Focused on community investments, public services, and neighborhood equity.",
-  },
-  {
-    key: "republican",
-    label: "Republican",
-    description:
-      "Focused on fiscal responsibility, economic vitality, and local stewardship.",
-  },
-];
-
-const BACKGROUNDS: readonly {
-  key: LifeStartBackground;
-  label: string;
-  description: string;
-}[] = [
-  {
-    key: "neighborhood-advocate",
-    label: "Neighborhood Advocate",
-    description:
-      "Active in local association meetings, zoning discussions, and community concerns.",
-  },
-  {
-    key: "civic-organizer",
-    label: "Civic & Nonprofit Organizer",
-    description:
-      "Coordinates local volunteer efforts, public programs, and community initiatives.",
-  },
-  {
-    key: "local-business",
-    label: "Local Business Owner",
-    description:
-      "Manages a small enterprise in Fayette County and values vibrant local commerce.",
-  },
-  {
-    key: "public-service",
-    label: "Public Service Specialist",
-    description:
-      "Background in municipal programs, policy analysis, and community operations.",
-  },
-];
-
-const VALUES: readonly {
-  key: LifeStartValueKey;
-  label: string;
-  description: string;
-}[] = [
-  {
-    key: "service",
-    label: "Public Service",
-    description: "Show up when neighbors and community members need help.",
-  },
-  {
-    key: "fairness",
-    label: "Fairness & Integrity",
-    description:
-      "Care about transparent rules, honest process, and equal respect.",
-  },
-  {
-    key: "family",
-    label: "Family & Community",
-    description: "Protect loved ones and build long-term local stability.",
-  },
-  {
-    key: "achievement",
-    label: "Achievement & Results",
-    description:
-      "Deliver practical improvements and earned, tangible progress.",
-  },
-];
-
-const APPROACHES: readonly {
-  key: LifeStartApproachKey;
-  label: string;
-  description: string;
-}[] = [
-  {
-    key: "cautious",
-    label: "Deliberate & Careful",
-    description:
-      "Prepare thoroughly, listen closely, and protect what you have.",
-  },
-  {
-    key: "risk-seeking",
-    label: "Proactive & Bold",
-    description:
-      "Embrace worthwhile opportunities and act decisively under uncertainty.",
-  },
+  { value: "support", label: "Support" },
+  { value: "oppose", label: "Oppose" },
+  { value: "uncertain", label: "Uncertain" },
+  { value: "skip", label: "Skip" },
 ];
 
 export function NewGameFlow({
@@ -163,37 +54,85 @@ export function NewGameFlow({
   const [step, setStep] = useState(0);
   const [givenName, setGivenName] = useState("Jordan");
   const [familyName, setFamilyName] = useState("Reed");
-  const [startAge, setStartAge] = useState<LifeStartAge>(32);
-  const [partyAffiliation, setPartyAffiliation] =
-    useState<LifeStartPartyAffiliation>("independent");
-  const [background, setBackground] = useState<LifeStartBackground>(
-    "neighborhood-advocate",
-  );
-  const [declaredValue, setDeclaredValue] =
-    useState<LifeStartValueKey>("service");
-  const [declaredApproach, setDeclaredApproach] =
-    useState<LifeStartApproachKey>("cautious");
+  const [startAge, setStartAge] = useState(16);
+  const [birthplace, setBirthplace] =
+    useState<LifeStartPlaceKey>("lexington-kentucky");
+  const [hometown, setHometown] =
+    useState<LifeStartPlaceKey>("lexington-kentucky");
+  const [currentResidence, setCurrentResidence] =
+    useState<LifeStartPlaceKey>("lexington-kentucky");
+  const [householdKind, setHouseholdKind] =
+    useState<LifeStartHouseholdKind>("family");
+  const [housingKind, setHousingKind] =
+    useState<LifeStartHousingKind>("unknown");
+  const [fundsText, setFundsText] = useState("");
+  const [depth, setDepth] = useState<LifeStartDepth>("play-from-here");
+  const [historyAnchors, setHistoryAnchors] = useState<
+    readonly LifeStartHistoryAnchor[]
+  >([
+    { date: "", summary: "" },
+    { date: "", summary: "" },
+  ]);
+  const [friendAnswer, setFriendAnswer] =
+    useState<LifeStartFriendAnswer>("skip");
+  const [riskAnswer, setRiskAnswer] = useState<LifeStartRiskAnswer>("skip");
+  const [includePolitics, setIncludePolitics] = useState(false);
+  const [policyAnswers, setPolicyAnswers] = useState<
+    Readonly<Record<LifeStartPolicyKey, LifeStartPolicyAnswer>>
+  >({
+    "collective-bargaining": "skip",
+    "clean-electricity": "skip",
+  });
 
-  const steps = useMemo(
-    () => ["identity", "background", "outlook", "review"],
-    [],
-  );
-  const page = steps[step] ?? "review";
+  const page = PAGE_KEYS[step] ?? "review";
   const canContinue =
     givenName.trim().length > 0 && familyName.trim().length > 0;
+  const chosenResidence = useMemo(
+    () =>
+      LIFE_START_PLACES.find((place) => place.key === currentResidence) ??
+      LIFE_START_PLACES[0],
+    [currentResidence],
+  );
+
+  function setAge(value: number) {
+    const age = Math.max(
+      LIFE_START_MIN_AGE,
+      Math.min(LIFE_START_MAX_AGE, Math.floor(value)),
+    );
+    setStartAge(age);
+    if (age < 18 && householdKind === "alone") setHouseholdKind("family");
+  }
+
+  function setAnchor(
+    index: number,
+    field: keyof LifeStartHistoryAnchor,
+    value: string,
+  ) {
+    setHistoryAnchors((current) =>
+      current.map((anchor, anchorIndex) =>
+        anchorIndex === index ? { ...anchor, [field]: value } : anchor,
+      ),
+    );
+  }
 
   function makeDraft(): NewLifeDraft {
+    const startingFundsUsd =
+      fundsText.trim().length === 0 ? null : Number(fundsText);
     return {
       givenName: givenName.trim(),
       familyName: familyName.trim(),
       startAge,
-      partyAffiliation,
-      background,
-      birthplace: "lexington-fayette" as LifeStartPlaceKey,
-      hometown: "lexington-fayette" as LifeStartPlaceKey,
-      currentResidence: "lexington-fayette" as LifeStartPlaceKey,
-      declaredValue,
-      declaredApproach,
+      depth,
+      birthplace,
+      hometown,
+      currentResidence,
+      householdKind,
+      housingKind,
+      startingFundsUsd,
+      historyAnchors: depth === "build-my-history" ? historyAnchors : [],
+      friendAnswer,
+      riskAnswer,
+      policyAnswers: includePolitics ? policyAnswers : {},
     };
   }
 
@@ -205,15 +144,13 @@ export function NewGameFlow({
         </button>
         <div>
           <p className="life-kicker">Create a life</p>
-          <h1>
-            {page === "review" ? "Your beginning" : "Shape your character"}
-          </h1>
+          <h1>{page === "review" ? "Your beginning" : "Begin as a person"}</h1>
         </div>
         <p
           className="new-life__progress"
-          aria-label={`Step ${step + 1} of ${steps.length}`}
+          aria-label={`Step ${step + 1} of ${PAGE_KEYS.length}`}
         >
-          {step + 1} / {steps.length}
+          {step + 1} / {PAGE_KEYS.length}
         </p>
       </header>
 
@@ -221,7 +158,7 @@ export function NewGameFlow({
         {page === "identity" ? (
           <>
             <fieldset className="life-choice-group">
-              <legend>Name & Identity</legend>
+              <legend>Name</legend>
               <div className="life-form-row">
                 <label>
                   First name
@@ -243,156 +180,284 @@ export function NewGameFlow({
                 </label>
               </div>
             </fieldset>
-
             <fieldset className="life-choice-group">
-              <legend>Starting Age</legend>
-              <div className="life-choice-grid life-choice-grid--four">
-                {AGES.map((item) => (
-                  <label
-                    className="life-choice-card life-choice-card--compact"
-                    data-selected={startAge === item.key}
-                    key={item.key}
-                  >
-                    <input
-                      type="radio"
-                      name="age"
-                      value={item.key}
-                      checked={startAge === item.key}
-                      onChange={() => setStartAge(item.key)}
-                    />
-                    <span className="life-choice-card__title">
-                      {item.label}
-                    </span>
-                    <span>{item.description}</span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-
-            <fieldset className="life-choice-group">
-              <legend>Starting Scenario</legend>
-              <div className="life-place-grid">
+              <legend>Starting age</legend>
+              <p className="life-choice-group__intro">
+                Start in childhood, the teenage years, or adulthood.
+              </p>
+              <div className="life-age-control">
+                <input
+                  aria-label="Starting age"
+                  data-testid="starting-age"
+                  type="range"
+                  min={LIFE_START_MIN_AGE}
+                  max={LIFE_START_MAX_AGE}
+                  value={startAge}
+                  onChange={(event) => setAge(Number(event.target.value))}
+                />
                 <label>
-                  Location
-                  <span>Where active life begins</span>
-                  <select value="lexington-fayette" disabled>
-                    {LIFE_START_PLACES.map((place) => (
-                      <option key={place.key} value={place.key}>
-                        {place.jurisdiction.name},{" "}
-                        {place.jurisdiction.parentName}
-                      </option>
-                    ))}
-                  </select>
+                  Age
+                  <input
+                    aria-label="Starting age in years"
+                    type="number"
+                    min={LIFE_START_MIN_AGE}
+                    max={LIFE_START_MAX_AGE}
+                    value={startAge}
+                    onChange={(event) => setAge(Number(event.target.value))}
+                  />
                 </label>
               </div>
+              <p>
+                You will begin at age <strong>{startAge}</strong>.
+              </p>
             </fieldset>
           </>
         ) : null}
 
-        {page === "background" ? (
-          <>
-            <fieldset className="life-choice-group">
-              <legend>Background & Occupation</legend>
-              <div className="life-choice-grid life-choice-grid--two">
-                {BACKGROUNDS.map((item) => (
-                  <label
-                    className="life-choice-card"
-                    data-selected={background === item.key}
-                    key={item.key}
-                  >
-                    <input
-                      type="radio"
-                      name="background"
-                      value={item.key}
-                      checked={background === item.key}
-                      onChange={() => setBackground(item.key)}
-                    />
-                    <span className="life-choice-card__title">
-                      {item.label}
-                    </span>
-                    <span>{item.description}</span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-          </>
+        {page === "places" ? (
+          <fieldset className="life-choice-group">
+            <legend>Your places</legend>
+            <p className="life-choice-group__intro">
+              These can be different. Choosing a real place does not claim that
+              every local rule is already available there.
+            </p>
+            <div className="life-place-grid">
+              <PlaceSelect
+                label="Birthplace"
+                value={birthplace}
+                onChange={setBirthplace}
+              />
+              <PlaceSelect
+                label="Hometown"
+                value={hometown}
+                onChange={setHometown}
+              />
+              <PlaceSelect
+                label="Current residence"
+                value={currentResidence}
+                onChange={setCurrentResidence}
+              />
+            </div>
+            <p className="life-place-note">{chosenResidence?.description}</p>
+          </fieldset>
         ) : null}
 
-        {page === "outlook" ? (
+        {page === "circumstances" ? (
           <>
             <fieldset className="life-choice-group">
-              <legend>Political Affiliation & Perspective</legend>
+              <legend>Household</legend>
               <div className="life-choice-grid life-choice-grid--three">
-                {AFFILIATIONS.map((item) => (
-                  <label
-                    className="life-choice-card"
-                    data-selected={partyAffiliation === item.key}
-                    key={item.key}
-                  >
-                    <input
-                      type="radio"
-                      name="affiliation"
-                      value={item.key}
-                      checked={partyAffiliation === item.key}
-                      onChange={() => setPartyAffiliation(item.key)}
-                    />
-                    <span className="life-choice-card__title">
-                      {item.label}
-                    </span>
-                    <span>{item.description}</span>
-                  </label>
-                ))}
+                <Choice
+                  name="household"
+                  value="family"
+                  checked={householdKind === "family"}
+                  title="Family household"
+                  description="You live in a family household. No unchosen relatives are invented."
+                  onChange={() => setHouseholdKind("family")}
+                />
+                <Choice
+                  name="household"
+                  value="shared"
+                  checked={householdKind === "shared"}
+                  title="Shared household"
+                  description="You share a household. Other people remain unknown until established."
+                  onChange={() => setHouseholdKind("shared")}
+                />
+                {startAge >= 18 ? (
+                  <Choice
+                    name="household"
+                    value="alone"
+                    checked={householdKind === "alone"}
+                    title="Own household"
+                    description="You begin in a one-person household."
+                    onChange={() => setHouseholdKind("alone")}
+                  />
+                ) : null}
               </div>
             </fieldset>
-
             <fieldset className="life-choice-group">
-              <legend>Guiding Value</legend>
-              <div className="life-choice-grid life-choice-grid--four">
-                {VALUES.map((item) => (
-                  <label
-                    className="life-choice-card life-choice-card--compact"
-                    data-selected={declaredValue === item.key}
-                    key={item.key}
+              <legend>Housing and resources</legend>
+              <div className="life-form-row">
+                <label>
+                  Housing
+                  <select
+                    aria-label="Housing"
+                    value={housingKind}
+                    onChange={(event) =>
+                      setHousingKind(event.target.value as LifeStartHousingKind)
+                    }
                   >
-                    <input
-                      type="radio"
-                      name="value"
-                      value={item.key}
-                      checked={declaredValue === item.key}
-                      onChange={() => setDeclaredValue(item.key)}
-                    />
-                    <span className="life-choice-card__title">
-                      {item.label}
-                    </span>
-                    <span>{item.description}</span>
-                  </label>
-                ))}
+                    <option value="unknown">Leave unknown</option>
+                    <option value="family-home">Family home</option>
+                    <option value="renting">Renting</option>
+                    <option value="owning">Owned by the household</option>
+                    <option value="hosted">Hosted by someone else</option>
+                  </select>
+                </label>
+                <label>
+                  Available funds in dollars (optional)
+                  <input
+                    aria-label="Available funds in dollars"
+                    type="number"
+                    min="0"
+                    max="100000000"
+                    step="1"
+                    value={fundsText}
+                    onChange={(event) => setFundsText(event.target.value)}
+                    placeholder="Leave blank if unknown"
+                  />
+                </label>
               </div>
+              <p className="life-choice-group__intro">
+                Exact money is recorded only when you enter it. Wealth does not
+                define intelligence, morality, ideology, or personality.
+              </p>
             </fieldset>
+          </>
+        ) : null}
 
+        {page === "history" ? (
+          <>
             <fieldset className="life-choice-group">
-              <legend>Approach to Decision-Making</legend>
+              <legend>How much history?</legend>
               <div className="life-choice-grid life-choice-grid--two">
-                {APPROACHES.map((item) => (
-                  <label
-                    className="life-choice-card"
-                    data-selected={declaredApproach === item.key}
-                    key={item.key}
-                  >
-                    <input
-                      type="radio"
-                      name="approach"
-                      value={item.key}
-                      checked={declaredApproach === item.key}
-                      onChange={() => setDeclaredApproach(item.key)}
-                    />
-                    <span className="life-choice-card__title">
-                      {item.label}
-                    </span>
-                    <span>{item.description}</span>
-                  </label>
-                ))}
+                <Choice
+                  name="depth"
+                  value="play-from-here"
+                  checked={depth === "play-from-here"}
+                  title="Play From Here"
+                  description="Begin at your chosen age. Anything you did not establish can remain unknown."
+                  onChange={() => setDepth("play-from-here")}
+                />
+                <Choice
+                  name="depth"
+                  value="build-my-history"
+                  checked={depth === "build-my-history"}
+                  title="Build My History"
+                  description="Add important facts from earlier in your life before play begins."
+                  onChange={() => setDepth("build-my-history")}
+                />
               </div>
+            </fieldset>
+            {depth === "build-my-history" ? (
+              <fieldset className="life-choice-group">
+                <legend>Important moments</legend>
+                <p className="life-choice-group__intro">
+                  Add only what you want to make true. Dates and descriptions
+                  become part of your history.
+                </p>
+                {historyAnchors.map((anchor, index) => (
+                  <div className="life-history-anchor" key={index}>
+                    <label>
+                      Date
+                      <input
+                        aria-label={`History date ${index + 1}`}
+                        type="date"
+                        max="2026-01-05"
+                        value={anchor.date}
+                        onChange={(event) =>
+                          setAnchor(index, "date", event.target.value)
+                        }
+                      />
+                    </label>
+                    <label>
+                      What happened
+                      <input
+                        aria-label={`History description ${index + 1}`}
+                        maxLength={180}
+                        value={anchor.summary}
+                        onChange={(event) =>
+                          setAnchor(index, "summary", event.target.value)
+                        }
+                        placeholder="Leave blank to skip this moment"
+                      />
+                    </label>
+                  </div>
+                ))}
+              </fieldset>
+            ) : null}
+          </>
+        ) : null}
+
+        {page === "questions" ? (
+          <>
+            <fieldset className="life-choice-group">
+              <legend>A couple of situations</legend>
+              <p className="life-choice-group__intro">
+                These answers are only a first impression. Your choices during
+                play can change who you become.
+              </p>
+              <label>
+                A friend is in trouble. What matters most right now?
+                <select
+                  aria-label="Friend in trouble"
+                  value={friendAnswer}
+                  onChange={(event) =>
+                    setFriendAnswer(event.target.value as LifeStartFriendAnswer)
+                  }
+                >
+                  <option value="skip">Skip</option>
+                  <option value="truth">Tell the truth</option>
+                  <option value="loyalty">Stand by the friend</option>
+                  <option value="stay-out">Stay out of it</option>
+                </select>
+              </label>
+              <label>
+                A safe path is available, but another path could offer more.
+                <select
+                  aria-label="Safe path or risky upside"
+                  value={riskAnswer}
+                  onChange={(event) =>
+                    setRiskAnswer(event.target.value as LifeStartRiskAnswer)
+                  }
+                >
+                  <option value="skip">Skip</option>
+                  <option value="safe">Take the safer path</option>
+                  <option value="risk">Take the chance</option>
+                  <option value="learn-more">Gather more information</option>
+                </select>
+              </label>
+            </fieldset>
+            <fieldset className="life-choice-group">
+              <legend>Political views (optional)</legend>
+              <label className="life-settings-check">
+                <input
+                  type="checkbox"
+                  checked={includePolitics}
+                  onChange={(event) => setIncludePolitics(event.target.checked)}
+                />
+                <span>
+                  <strong>Answer direct policy questions</strong>
+                  <small>
+                    No party is selected or inferred. You can skip every
+                    question.
+                  </small>
+                </span>
+              </label>
+              {includePolitics
+                ? LIFE_START_POLICY_QUESTIONS.map((question) => (
+                    <label key={question.key}>
+                      {question.question}
+                      <select
+                        aria-label={question.question}
+                        value={policyAnswers[question.key]}
+                        onChange={(event) =>
+                          setPolicyAnswers((current) => ({
+                            ...current,
+                            [question.key]: event.target
+                              .value as LifeStartPolicyAnswer,
+                          }))
+                        }
+                      >
+                        {POLICY_ANSWERS.map((answer) => (
+                          <option key={answer.value} value={answer.value}>
+                            {answer.label}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  ))
+                : null}
             </fieldset>
           </>
         ) : null}
@@ -404,37 +469,41 @@ export function NewGameFlow({
               <h2>
                 {givenName.trim()} {familyName.trim()}
               </h2>
-              <p>Age {startAge} · Lexington, Kentucky</p>
+              <p>
+                Age {startAge} · {chosenResidence?.displayName}
+              </p>
             </div>
             <dl>
               <div>
-                <dt>Location</dt>
-                <dd>Lexington-Fayette, Kentucky</dd>
+                <dt>Birthplace</dt>
+                <dd>{placeLabel(birthplace)}</dd>
               </div>
               <div>
-                <dt>Background</dt>
-                <dd>{BACKGROUNDS.find((b) => b.key === background)?.label}</dd>
+                <dt>Hometown</dt>
+                <dd>{placeLabel(hometown)}</dd>
               </div>
               <div>
-                <dt>Political Outlook</dt>
+                <dt>Residence</dt>
+                <dd>{placeLabel(currentResidence)}</dd>
+              </div>
+              <div>
+                <dt>History</dt>
                 <dd>
-                  {AFFILIATIONS.find((a) => a.key === partyAffiliation)?.label}
+                  {depth === "play-from-here"
+                    ? "Play From Here"
+                    : "Build My History"}
                 </dd>
               </div>
               <div>
-                <dt>Core Value</dt>
-                <dd>{VALUES.find((v) => v.key === declaredValue)?.label}</dd>
-              </div>
-              <div>
-                <dt>Approach</dt>
+                <dt>Politics</dt>
                 <dd>
-                  {APPROACHES.find((a) => a.key === declaredApproach)?.label}
+                  {includePolitics ? "Direct answers only" : "Skipped for now"}
                 </dd>
               </div>
             </dl>
             <p className="life-review__note">
-              Your residence, occupation, local ties, and initial community
-              connections will be established in Lexington.
+              Unknown work, education, family details, and past events will
+              remain unknown. They will not be filled in for you.
             </p>
             {error ? (
               <p className="life-message life-message--error" role="alert">
@@ -470,7 +539,7 @@ export function NewGameFlow({
             className="life-button life-button--primary"
             disabled={!canContinue}
             onClick={() =>
-              setStep((value) => Math.min(steps.length - 1, value + 1))
+              setStep((value) => Math.min(PAGE_KEYS.length - 1, value + 1))
             }
           >
             Continue
@@ -478,5 +547,69 @@ export function NewGameFlow({
         )}
       </footer>
     </main>
+  );
+}
+
+function PlaceSelect({
+  label,
+  value,
+  onChange,
+}: {
+  readonly label: string;
+  readonly value: LifeStartPlaceKey;
+  readonly onChange: (value: LifeStartPlaceKey) => void;
+}) {
+  return (
+    <label>
+      {label}
+      <select
+        aria-label={label}
+        value={value}
+        onChange={(event) => onChange(event.target.value as LifeStartPlaceKey)}
+      >
+        {LIFE_START_PLACES.map((place) => (
+          <option key={place.key} value={place.key}>
+            {place.displayName}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+function Choice({
+  name,
+  value,
+  checked,
+  title,
+  description,
+  onChange,
+}: {
+  readonly name: string;
+  readonly value: string;
+  readonly checked: boolean;
+  readonly title: string;
+  readonly description: string;
+  readonly onChange: () => void;
+}) {
+  return (
+    <label className="life-choice-card" data-selected={checked}>
+      <input
+        type="radio"
+        name={name}
+        value={value}
+        checked={checked}
+        onChange={onChange}
+      />
+      <span className="life-choice-card__title">{title}</span>
+      <span>{description}</span>
+    </label>
+  );
+}
+
+function placeLabel(key: LifeStartPlaceKey): string {
+  return (
+    LIFE_START_PLACES.find((place) => place.key === key)?.displayName ??
+    "Unknown"
   );
 }

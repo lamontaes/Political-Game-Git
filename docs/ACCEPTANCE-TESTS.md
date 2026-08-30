@@ -1419,3 +1419,51 @@ Playwright exercises keyboard discovery and both deterministic paths. Evidence
 captures campaign active, imperfect memo, official win, official loss, and
 post-loss Calendar and Work/Pending. The same suite retains the accepted Run
 A/B/C/D-Lite and visual interaction proofs.
+
+## First-Session Foundation Recovery
+
+### FIRST-SESSION-001 — Title and age-diverse New Game are the default
+
+The normal `/` route opens Title with New Game, Continue, Load, and Settings.
+One compact age control supports ages 6–80. Automated and browser proof create
+an age-8 child, age-16 teenager, and age-32 adult with exact canonical ages and
+age-appropriate ordinary actions.
+
+### FIRST-SESSION-002 — Places are real, distinct, and capability-gated
+
+Birthplace, hometown, and current residence independently select Lexington,
+Chicago, or Los Angeles and project friendly names while retaining source
+identity and provenance. Identity-only Chicago/Los Angeles starts serialize no
+invented local political rules. Lexington retains its existing placeholder
+capability without forcing political play.
+
+### FIRST-SESSION-003 — Unknown biography remains unknown
+
+A default new world contains only the player person and creates no school, job,
+organization, relative, guardian, ally, relationship, move, university,
+party, public stance, campaign promise, or candidacy. `Play From Here` writes
+no prior anchors. `Build My History` writes only complete dated anchors
+explicitly entered by the player.
+
+### FIRST-SESSION-004 — Setup evidence remains sparse and mutable
+
+Situational answers create only subtle, low-confidence existing mind records
+and can be superseded through later player-choice provenance. Skipping politics
+writes no belief. Direct support/oppose/uncertain answers write matching private
+proposition beliefs and exposure only, without party, principle, public
+position, or campaign inference.
+
+### FIRST-SESSION-005 — An opening action has canonical consequence
+
+Starting a personal project advances canonical time, appends an ordinary event,
+direct memory, event knowledge, and active goal, then replaces the start action
+with a follow-up action. Reload and Continue restore that exact availability and
+history from the serialized World.
+
+### FIRST-SESSION-006 — Save management is complete
+
+IndexedDB preserves exact canonical snapshots across autosave and manual Save.
+Multiple lives appear independently in Load; Continue restores the most recent;
+Delete requires confirmation; Keep Save cancels; confirmed deletion persists
+after reload. Escape toggles pause, while `?view=office` and
+`?view=developer` preserve the accepted regression and diagnostic routes.

@@ -234,6 +234,57 @@ body:has(.life-settings-page) {
   font-size: 1.5rem;
   font-weight: 700;
 }
+.life-choice-group__intro,
+.life-place-note {
+  max-width: 58rem;
+  color: var(--life-muted);
+  line-height: 1.55;
+}
+.life-choice-group > label:not(.life-choice-card):not(.life-settings-check) {
+  display: grid;
+  gap: 0.55rem;
+  max-width: 58rem;
+  margin: 1rem 0;
+  color: var(--life-ink);
+  font-weight: 750;
+}
+.life-choice-group select,
+.life-choice-group
+  input:not([type="radio"]):not([type="checkbox"]):not([type="range"]) {
+  min-height: 3rem;
+  border: 1px solid #8f9994;
+  border-radius: 0;
+  padding: 0.7rem;
+  color: var(--life-ink);
+  background: #fffef9;
+  font: inherit;
+}
+.life-age-control {
+  display: grid;
+  grid-template-columns: minmax(16rem, 1fr) 8rem;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 52rem;
+}
+.life-age-control input[type="range"] {
+  width: 100%;
+  accent-color: var(--life-green);
+}
+.life-age-control label,
+.life-history-anchor label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--life-ink);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+.life-history-anchor {
+  display: grid;
+  grid-template-columns: 12rem 1fr;
+  gap: 1rem;
+  max-width: 58rem;
+  margin: 0.8rem 0;
+}
 .life-choice-grid {
   display: grid;
   gap: 0.8rem;
@@ -592,18 +643,36 @@ body:has(.life-settings-page) {
   margin: 2rem auto;
 }
 .life-save-card {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
-  justify-content: space-between;
   gap: 2rem;
   border: 1px solid var(--life-line);
   border-radius: 0;
-  padding: 1.2rem 1.4rem;
+  padding: 0;
   color: var(--life-ink);
   background: #fffef9;
   text-align: left;
 }
-.life-save-card:hover {
+.life-save-card:focus-within {
+  outline: 2px solid var(--life-gold);
+  outline-offset: 2px;
+}
+.life-save-card__load {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+  min-height: 5.5rem;
+  border: 0;
+  border-radius: 0;
+  padding: 1.2rem 1.4rem;
+  color: inherit;
+  background: transparent;
+  text-align: left;
+}
+.life-save-card__load:hover {
   color: #fff;
   background: var(--life-green);
 }
@@ -621,6 +690,10 @@ body:has(.life-settings-page) {
 .life-save-card small {
   color: inherit;
   opacity: 0.72;
+}
+.life-save-card__delete {
+  margin-right: 1.2rem;
+  color: #8b3325;
 }
 .life-library__empty {
   width: min(40rem, 100%);
@@ -749,9 +822,21 @@ body[data-life-motion="reduced"] * {
   }
   .life-save-card {
     align-items: flex-start;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .life-save-card__load {
+    align-items: flex-start;
     flex-direction: column;
+  }
+  .life-save-card__delete {
+    margin: 0 1.2rem 1rem;
   }
   .life-save-card span:last-child {
     justify-items: start;
+  }
+  .life-age-control,
+  .life-history-anchor {
+    grid-template-columns: 1fr;
   }
 }

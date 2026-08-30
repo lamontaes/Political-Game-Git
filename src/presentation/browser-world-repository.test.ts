@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   advanceDemoWorld,
   createDemoWorld,
+  createLifeStartWorld,
   serializeWorld,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
@@ -210,6 +211,29 @@ describe("browser world records", () => {
 });
 
 describe("browser world repository", () => {
+  it("projects a friendly real-place residence without changing the world", async () => {
+    const factory = new FakeIndexedDbFactory();
+    const repository = new BrowserWorldRepository({
+      indexedDB: factory.asFactory(),
+      now: () => new Date("2026-08-30T14:00:00.000Z"),
+      databaseName: "friendly-place-summary",
+    });
+    const world = createLifeStartWorld({
+      givenName: "Place",
+      familyName: "Proof",
+      startAge: 16,
+      currentResidence: "chicago-illinois",
+      seed: "friendly-place-summary",
+    });
+
+    const summary = await repository.save(world);
+    expect(summary.residence?.name).toBe("Chicago, Illinois");
+    expect(world.jurisdictions[summary.residence!.jurisdictionId]?.name).toBe(
+      "Chicago city, Illinois",
+    );
+    expect(await repository.load(world.id)).toStrictEqual(world);
+  });
+
   it("persists multiple worlds, preserves creation time, and sorts stably", async () => {
     const factory = new FakeIndexedDbFactory();
     const clock = clockAt("2026-08-29T14:00:00.000Z");

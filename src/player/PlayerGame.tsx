@@ -193,6 +193,19 @@ export function PlayerGame() {
     }
   }
 
+  async function handleDeleteSave(saveId: string) {
+    setErrorMessage(null);
+    try {
+      await repository.remove(saveId as EntityId);
+      const refreshed = await repository.list();
+      setSaves(refreshed);
+    } catch (err) {
+      setErrorMessage(
+        err instanceof Error ? err.message : "Unable to delete save.",
+      );
+    }
+  }
+
   function handleAction(actionKey: LifeActionKey) {
     if (!world || !playerPersonId) return;
 
@@ -278,6 +291,7 @@ export function PlayerGame() {
         title="Load Game"
         error={errorMessage}
         onLoad={handleLoadSave}
+        onDelete={handleDeleteSave}
         onBack={() => {
           setErrorMessage(null);
           setMode("title");
@@ -324,6 +338,7 @@ export function PlayerGame() {
                 title="Load another save"
                 error={errorMessage}
                 onLoad={handleLoadSave}
+                onDelete={handleDeleteSave}
                 onBack={() => setIsLoadInGame(false)}
               />
             </div>

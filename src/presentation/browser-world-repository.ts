@@ -4,6 +4,7 @@ import {
   householdMembershipsAt,
 } from "../simulation/life-queries";
 import { factsForPerson, personName } from "../simulation/people";
+import { lifeStartPlaceByJurisdictionId } from "../simulation/life-start";
 import {
   createWorldSnapshot,
   deserializeWorld,
@@ -342,7 +343,12 @@ function residenceSummary(
 ): BrowserWorldResidenceSummary | null {
   const jurisdiction = world.jurisdictions[jurisdictionId];
   return jurisdiction
-    ? { jurisdictionId: jurisdiction.id, name: jurisdiction.name }
+    ? {
+        jurisdictionId: jurisdiction.id,
+        name:
+          lifeStartPlaceByJurisdictionId(jurisdictionId)?.displayName ??
+          jurisdiction.name,
+      }
     : null;
 }
 
