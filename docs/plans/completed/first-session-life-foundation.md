@@ -78,5 +78,8 @@ Recover PR #34 after human-play rejection by replacing the forced legislative-of
 
 ## Publication
 
-Pending final commit, remote-head verification, normal push, and an open,
-unmerged recovery PR. PR #34 remains unchanged.
+Published by normal push as PR #43 from
+`codex/first-session-foundation-recovery`. PR #34 remains open and unchanged at
+`bab32269def87102c550d159f61b8d542da51c8a`. PR #43 is intentionally open and
+unmerged; exact-head CI and human product/visual acceptance remain external
+gates.
