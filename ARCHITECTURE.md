@@ -43,7 +43,9 @@ Node desktop adapter (src/persistence)
   inspectorial, conversation-session, and working-document state, deterministic
   Run A/Run B/Run C/Run D-Lite fixtures, a bounded canonical-conversation
   adapter, the provision-to-policy bridge, epistemic agenda/work projection,
-  browser persistence, and semantic scene-placement validation. It may read the
+  browser persistence, semantic scene-placement validation, and the modular
+  character component contract, validator, and deterministic recipe resolver
+  (D-053), which the art validator also imports. It may read the
   simulation and compose its public writers for explicit fixtures,
   known-analysis review, committed conversation turns, one office working-draft
   instruction, scheduling, assignment, and exact activity performance; the

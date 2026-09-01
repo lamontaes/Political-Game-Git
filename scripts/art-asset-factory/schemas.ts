@@ -1,3 +1,5 @@
+import type { CharacterComponentDefinition } from "../../src/presentation/character-components";
+
 export type MeasurementConfidence =
   | "exact"
   | "plan-derived"
@@ -67,7 +69,18 @@ export interface AssetManifestEntry {
   final_path?: string;
   hash?: string;
   requires_transparency?: boolean;
+  /**
+   * Present only when asset_type is "character-component". The definition
+   * contract lives in src/presentation/character-components.ts so the art
+   * validator and the runtime share one implementation.
+   */
+  component?: CharacterComponentDefinition;
 }
+
+export type {
+  CharacterCatalogData,
+  CharacterComponentDefinition,
+} from "../../src/presentation/character-components";
 
 export interface EnvironmentFamily {
   family_id: string;

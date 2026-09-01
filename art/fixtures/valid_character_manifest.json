@@ -1,0 +1,769 @@
+{
+  "assets": [
+    {
+      "asset_id": "body_adult_medium_seated_desk_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "adult-medium",
+        "catalog_generation": 1,
+        "layer": 20,
+        "canvas": {
+          "width": 800,
+          "height": 1200
+        },
+        "pose_family": "seated-at-desk",
+        "head_orientation": "three-quarter-left",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.6
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.18
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.45
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.6
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.95
+          }
+        ]
+      }
+    },
+    {
+      "asset_id": "body_adult_medium_standing_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "adult-medium",
+        "catalog_generation": 1,
+        "layer": 20,
+        "canvas": {
+          "width": 800,
+          "height": 1200
+        },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.6
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.18
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.45
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.6
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.95
+          }
+        ]
+      }
+    },
+    {
+      "asset_id": "body_adult_tall_seated_desk_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "adult-tall",
+        "catalog_generation": 1,
+        "layer": 20,
+        "canvas": {
+          "width": 800,
+          "height": 1300
+        },
+        "pose_family": "seated-at-desk",
+        "head_orientation": "three-quarter-left",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.58
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.15
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.43
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.58
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.96
+          }
+        ]
+      }
+    },
+    {
+      "asset_id": "head_round_tql_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "head",
+        "family": "round",
+        "catalog_generation": 1,
+        "layer": 30,
+        "canvas": {
+          "width": 240,
+          "height": 260
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.85
+        },
+        "compatible_body_families": ["adult-medium", "adult-tall"],
+        "compatible_head_orientations": ["three-quarter-left"]
+      }
+    },
+    {
+      "asset_id": "head_round_front_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "head",
+        "family": "round",
+        "catalog_generation": 1,
+        "layer": 30,
+        "canvas": {
+          "width": 240,
+          "height": 260
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.85
+        },
+        "compatible_body_families": ["adult-medium", "adult-tall"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "head_oval_tql_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "head",
+        "family": "oval",
+        "catalog_generation": 1,
+        "layer": 30,
+        "canvas": {
+          "width": 230,
+          "height": 280
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.86
+        },
+        "compatible_body_families": ["adult-medium"],
+        "compatible_head_orientations": ["three-quarter-left"]
+      }
+    },
+    {
+      "asset_id": "head_oval_front_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "head",
+        "family": "oval",
+        "catalog_generation": 1,
+        "layer": 30,
+        "canvas": {
+          "width": 230,
+          "height": 280
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.86
+        },
+        "compatible_body_families": ["adult-medium"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "hair_short_crop_front_tql_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "hair-front",
+        "family": "short-crop",
+        "catalog_generation": 1,
+        "layer": 40,
+        "canvas": {
+          "width": 260,
+          "height": 200
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "compatible_head_families": ["round", "oval"],
+        "compatible_head_orientations": ["three-quarter-left"],
+        "paired_with": "hair_short_crop_back_tql_v1"
+      }
+    },
+    {
+      "asset_id": "hair_short_crop_back_tql_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "hair-back",
+        "family": "short-crop",
+        "catalog_generation": 1,
+        "layer": 10,
+        "canvas": {
+          "width": 260,
+          "height": 200
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "compatible_head_families": ["round", "oval"],
+        "compatible_head_orientations": ["three-quarter-left"]
+      }
+    },
+    {
+      "asset_id": "hair_short_crop_front_front_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "hair-front",
+        "family": "short-crop",
+        "catalog_generation": 1,
+        "layer": 40,
+        "canvas": {
+          "width": 260,
+          "height": 200
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "compatible_head_families": ["round", "oval"],
+        "compatible_head_orientations": ["front"],
+        "paired_with": "hair_short_crop_back_front_v1"
+      }
+    },
+    {
+      "asset_id": "hair_short_crop_back_front_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "hair-back",
+        "family": "short-crop",
+        "catalog_generation": 1,
+        "layer": 10,
+        "canvas": {
+          "width": 260,
+          "height": 200
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "compatible_head_families": ["round", "oval"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "hair_long_wave_front_tql_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "hair-front",
+        "family": "long-wave",
+        "catalog_generation": 1,
+        "layer": 40,
+        "canvas": {
+          "width": 300,
+          "height": 420
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.35
+        },
+        "compatible_head_families": ["round"],
+        "compatible_head_orientations": ["three-quarter-left"],
+        "paired_with": "hair_long_wave_back_tql_v1"
+      }
+    },
+    {
+      "asset_id": "hair_long_wave_back_tql_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "hair-back",
+        "family": "long-wave",
+        "catalog_generation": 1,
+        "layer": 10,
+        "canvas": {
+          "width": 300,
+          "height": 420
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.35
+        },
+        "compatible_head_families": ["round"],
+        "compatible_head_orientations": ["three-quarter-left"]
+      }
+    },
+    {
+      "asset_id": "facial_hair_full_beard_tql_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "facial-hair",
+        "family": "full-beard",
+        "catalog_generation": 1,
+        "layer": 35,
+        "canvas": {
+          "width": 200,
+          "height": 140
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.2
+        },
+        "compatible_head_families": ["round", "oval"],
+        "compatible_head_orientations": ["three-quarter-left"]
+      }
+    },
+    {
+      "asset_id": "eyewear_round_glasses_tql_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "eyewear",
+        "family": "round-glasses",
+        "catalog_generation": 1,
+        "layer": 45,
+        "canvas": {
+          "width": 200,
+          "height": 80
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.9
+        },
+        "compatible_head_families": ["round", "oval"],
+        "compatible_head_orientations": ["three-quarter-left"]
+      }
+    },
+    {
+      "asset_id": "eyewear_round_glasses_front_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "eyewear",
+        "family": "round-glasses",
+        "catalog_generation": 1,
+        "layer": 45,
+        "canvas": {
+          "width": 200,
+          "height": 80
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.9
+        },
+        "compatible_head_families": ["round", "oval"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "top_blazer_navy_seated_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "top",
+        "family": "blazer-navy",
+        "catalog_generation": 1,
+        "layer": 25,
+        "canvas": {
+          "width": 800,
+          "height": 600
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0.1
+        },
+        "compatible_body_families": ["adult-medium", "adult-tall"],
+        "compatible_pose_families": ["seated-at-desk"]
+      }
+    },
+    {
+      "asset_id": "top_blazer_navy_standing_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "top",
+        "family": "blazer-navy",
+        "catalog_generation": 1,
+        "layer": 25,
+        "canvas": {
+          "width": 800,
+          "height": 600
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0.1
+        },
+        "compatible_body_families": ["adult-medium", "adult-tall"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "top_tee_grey_seated_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "top",
+        "family": "tee-grey",
+        "catalog_generation": 1,
+        "layer": 25,
+        "canvas": {
+          "width": 800,
+          "height": 560
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0.1
+        },
+        "compatible_body_families": ["adult-medium"],
+        "compatible_pose_families": ["seated-at-desk"]
+      }
+    },
+    {
+      "asset_id": "top_tee_grey_standing_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "top",
+        "family": "tee-grey",
+        "catalog_generation": 1,
+        "layer": 25,
+        "canvas": {
+          "width": 800,
+          "height": 560
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0.1
+        },
+        "compatible_body_families": ["adult-medium"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "bottom_slacks_charcoal_seated_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "bottom",
+        "family": "slacks-charcoal",
+        "catalog_generation": 1,
+        "layer": 22,
+        "canvas": {
+          "width": 800,
+          "height": 500
+        },
+        "attaches_to": "hips",
+        "origin": {
+          "x": 0.5,
+          "y": 0.05
+        },
+        "compatible_body_families": ["adult-medium", "adult-tall"],
+        "compatible_pose_families": ["seated-at-desk"]
+      }
+    },
+    {
+      "asset_id": "bottom_slacks_charcoal_standing_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "bottom",
+        "family": "slacks-charcoal",
+        "catalog_generation": 1,
+        "layer": 22,
+        "canvas": {
+          "width": 800,
+          "height": 500
+        },
+        "attaches_to": "hips",
+        "origin": {
+          "x": 0.5,
+          "y": 0.05
+        },
+        "compatible_body_families": ["adult-medium", "adult-tall"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "footwear_oxford_black_standing_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "footwear",
+        "family": "oxford-black",
+        "catalog_generation": 1,
+        "layer": 21,
+        "canvas": {
+          "width": 800,
+          "height": 120
+        },
+        "attaches_to": "feet",
+        "origin": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "compatible_body_families": ["adult-medium", "adult-tall"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "accessory_lapel_pin_seated_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "fixed_or_modular": "modular",
+      "variant_rules": "Fixture-only modular component definition; no raster exists.",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "requires_transparency": true,
+      "component": {
+        "kind": "accessory",
+        "family": "lapel-pin",
+        "catalog_generation": 1,
+        "layer": 26,
+        "canvas": {
+          "width": 40,
+          "height": 40
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "compatible_body_families": ["adult-medium", "adult-tall"],
+        "compatible_pose_families": ["seated-at-desk"]
+      }
+    }
+  ]
+}

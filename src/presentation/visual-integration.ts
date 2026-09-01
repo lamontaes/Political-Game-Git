@@ -1,8 +1,15 @@
 import assetManifest from "../../art/manifest/asset_manifest.json";
+import characterCatalog from "../../art/manifest/character_catalog.json";
 import {
   derivePersonAppearance,
   type PersonAppearance,
 } from "../simulation/person-appearance";
+import {
+  createCharacterComponentLibrary,
+  type CharacterAttachmentAnchor,
+  type CharacterCatalogData,
+  type CharacterComponentManifestRecord,
+} from "./character-components";
 import type {
   RunBSceneAnchorId,
   RunBScenePersonContext,
@@ -47,10 +54,29 @@ export interface SeatedContact {
   readonly root: CharacterRoot;
 }
 
+/**
+ * A flattened authored outfit has no rig: every garment is already painted
+ * into the single raster, so it exposes no attachment anchors. The type is the
+ * real attachment contract so a modular recipe can use the same field.
+ */
 export interface AuthoredWardrobeCompatibility {
   readonly mode: "authored-outfit";
-  readonly attachmentSlots: readonly [];
+  readonly attachmentSlots: readonly CharacterAttachmentAnchor[];
 }
+
+/**
+ * A modular composition owns a body rig whose attachment anchors are metadata
+ * on the body component. Declared here as the second wardrobe mode; the scene
+ * compositor does not yet consume it.
+ */
+export interface ModularWardrobeCompatibility {
+  readonly mode: "modular-composition";
+  readonly bodyFamily: string;
+  readonly attachmentSlots: readonly CharacterAttachmentAnchor[];
+}
+
+export type WardrobeCompatibility =
+  AuthoredWardrobeCompatibility | ModularWardrobeCompatibility;
 
 export interface CharacterVisualRecipe {
   readonly appearanceRecipeId: string;
@@ -80,7 +106,7 @@ export interface CharacterVisualRecipe {
   };
   readonly allowedScale: { readonly minimum: number; readonly maximum: number };
   readonly deterministicSelectionKey: string;
-  readonly wardrobe: AuthoredWardrobeCompatibility;
+  readonly wardrobe: WardrobeCompatibility;
 }
 
 export interface SceneVisualAnchor {
@@ -484,4 +510,13 @@ export function composeOfficeVisuals(
 export const PRODUCTION_VISUAL_LIBRARY = createRuntimeVisualLibrary(
   assetManifest.assets as readonly RuntimeVisualAssetRecord[],
   repositoryUrls(),
+);
+
+/**
+ * Modular component library from the same manifest plus the character catalog
+ * ledger. Empty until component art is released through the ordinary gate.
+ */
+export const PRODUCTION_CHARACTER_LIBRARY = createCharacterComponentLibrary(
+  assetManifest.assets as readonly CharacterComponentManifestRecord[],
+  characterCatalog as CharacterCatalogData,
 );
