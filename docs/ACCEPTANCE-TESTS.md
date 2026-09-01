@@ -1401,3 +1401,31 @@ layers by integer draw order with no shared layer, and draws a paired hair-back
 behind the body. Resolution and projection never mutate the person, appearance,
 or `World`, and the module imports no React, DOM, Vite, Node, or ambient
 entropy — only the simulation's `SeededRng` and `stableHash`.
+
+### VISUAL-010 — The appearance pin survives save, reload, and catalog growth
+
+A person created with a catalog generation records it on the person-owned
+appearance; a person created without one records nothing. The pin never
+changes the appearance seed. World integrity rejects a non-positive or
+non-integer pin. The pin round-trips through the JSON snapshot codec and the
+SQLite repository and replays identically from the same seed. A pinned or
+legacy (unpinned) person resolves the same identity, recipe key, and layer
+list against a library grown to a later generation, while a person pinned to
+the new generation may resolve new families and fails closed on unreleased
+art.
+
+### VISUAL-011 — Four modular characters render through one compositor and reload unchanged
+
+At `?view=character-proof`, four generated people render as complete modular
+characters with distinct recipe keys, at least five loaded image layers each,
+DOM order equal to ascending draw order, and no missing-layer placeholders.
+The reuse table shows one body used by all four, two or more heads, two or
+more hairstyles, and two or more tops. The head layer sits at the top of and
+centered on the body layer; the top layer sits inside the body. The first
+person renders again seated in a second scene with the same recipe key. The
+developer toggle shows four root markers, sixteen attachment markers, and four
+distinct scene-anchor markers as DOM overlays, and hides them again. Saving
+and reloading restores the same world ID, recipe keys, and layer asset IDs
+from browser storage; clearing returns a fresh world with the same recipes.
+The authored office path still renders A01 and B01 with no modular character
+present.

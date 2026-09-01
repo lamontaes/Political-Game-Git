@@ -317,6 +317,14 @@ export type PersonFact =
 export interface PersonAppearance {
   readonly seed: string;
   readonly recipeVersion: string;
+  /**
+   * Character catalog generation this person's appearance is pinned to.
+   * Presentation resolves the modular recipe against exactly this frozen
+   * generation so later library growth cannot change an established person.
+   * Absent on people created before pinning existed; presentation treats
+   * absence as the first generation. This is an appearance pin, not biography.
+   */
+  readonly catalogGeneration?: number;
 }
 
 export type PersonGenerationProfile = "production" | "stress";

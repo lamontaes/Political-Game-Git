@@ -863,3 +863,39 @@ implements no component art, generator, wardrobe library, normalization,
 head-angle generation, animation, or replacement of the accepted office
 characters; those remain separately gated. Canonical `Person` and `World`
 semantics are unchanged.
+
+## D-054 — The appearance catalog pin lives on the person-owned appearance record
+
+- Date: 2026-09-01
+- Status: ACCEPTED
+- Supersedes: the D-053 statement that persisting a pinned generation was
+  deferred; no identity, anchor, release-gate, or fail-closed decision is
+  superseded
+
+An established person must not change appearance when the game reloads,
+another scene displays them, or later catalog generations add content. The
+only information required to guarantee that under D-053's pure resolver is the
+catalog generation the person is pinned to, so it is recorded as the optional
+`PersonAppearance.catalogGeneration` on the existing person-owned appearance
+record. It is an appearance pin, not biography, belief, or political truth:
+the resolved families and components are never stored and are always derived.
+
+The pin is set when a person is created, from a generation the creating caller
+supplies; the simulation never reads the art manifest. Presentation reads the
+pin and never writes it: rendering, inspection, scene placement, and the
+developer proof do not mutate `World`. A person created before pinning existed
+carries no pin, and presentation resolves them against the first generation,
+which the ledger signature freezes, so legacy people are equally stable. World
+integrity rejects a non-positive or non-integer pin. The snapshot format is
+unchanged because the field is optional and additive.
+
+The first running proof composes four generated people through one DOM
+compositor from shared DEV/NON-PRODUCTION procedural components drawn by a
+repository script, shows the first person again in a second scene, and
+survives save and reload through the ordinary snapshot codec. The accepted
+authored A01/B01 office path is untouched and coexists with the modular path.
+
+Consequence: appearance stability is a property of the save, not of one
+browser session. No production component art, generator, wardrobe library,
+head-angle generation, animation, engine, office-scene consumption, Slice F,
+or campaign/election change is authorized by this decision.

@@ -363,9 +363,20 @@ those families for the anchor's pose and head orientation. Attachment anchors
 are typed metadata on the body component (`attachmentSlots` on a visual
 recipe is that contract, and authored outfits declare none). Layer projection
 places each component's declared origin on its declared body anchor in
-body-canvas units and orders layers by integer draw order. The scene
-compositor does not yet consume modular recipes; the production character
-library is an empty bootstrap. See
+body-canvas units and orders layers by integer draw order.
+
+`src/presentation/character-render-plan.ts` composes a person's pinned
+appearance (`PersonAppearance.catalogGeneration`, D-054; absent means the
+frozen first generation) with a scene-owned `ModularSceneAnchor` into
+positioned, runtime-eligible layers in plate percent units. `ModularCharacter`
+renders that plan as ordered DOM image layers inside the ordinary scene camera
+with optional developer-only root and attachment markers as DOM overlays; a
+separate scene-anchor marker keeps the three anchor concepts visibly distinct.
+The `?view=character-proof` developer route composes four generated people
+from one seeded world through that compositor, shows the first again seated
+in a second scene, and saves/restores the World through the snapshot codec in
+browser storage. The accepted office scene still renders the authored A01/B01
+recipes; it does not yet consume modular recipes. See
 [Art Assets and Runtime Release](art-assets.md).
 
 The resting shell uses the short truthful date; expansion uses the bounded
