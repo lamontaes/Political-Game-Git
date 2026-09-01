@@ -815,3 +815,51 @@ through briefing, flexible work, required travel, and the later community
 meeting. This repair adds no missed-appointment state, autonomous planning,
 Calendar redesign, recurrence, routing, Slice E, generated-person behavior, or
 Stage 7/8/9 system.
+
+## D-053 — Characters are composed deterministically from reusable components
+
+- Date: 2026-09-01
+- Status: ACCEPTED
+- Supersedes: the "asset-substitution pass" language in the Stage 6.5 art and
+  presentation documents only where it implied that every final character is
+  one flattened raster; no D-047 identity, anchor, release-gate, or fail-closed
+  decision is superseded
+
+The "asset-substitution pass" recorded after PR #13 convergence described how
+the temporary A01/B01 development fixtures would be retired. It never
+authorized a permanent one-image-per-person character pipeline, and it is not
+authority for one. The current direction is modular deterministic character
+composition:
+
+- The canonical person owns a stable appearance identity
+  (`PersonAppearance.seed` and `recipeVersion`, D-047). Presentation resolves a
+  pose-independent identity recipe from that seed through the repository
+  `SeededRng` keyed forks (D-004), one fork per slot, so later slots never
+  perturb earlier ones. No presentation code introduces a second hash or
+  selection primitive.
+- Reusable body, head, hair (front/back), facial-hair, eyewear, top, bottom,
+  footwear, and accessory components are ordinary assets in the one existing
+  art manifest, released through the existing approval, QA, hash, provenance,
+  and runtime-release gate. An append-only character catalog ledger freezes
+  each generation's membership and definitions by signature. An established
+  identity pinned to a generation is reproducible after the library grows;
+  release state affects rendering eligibility, never selection.
+- Three anchor concepts stay distinct: a scene anchor owns where a character
+  sits in a room, the pelvis-hip-center root owns where the rig meets the
+  scene, and an attachment anchor owns where a component meets the rig.
+  Attachment anchors are metadata on the body component and are never painted
+  into imagery. The empty `attachmentSlots` placeholder is replaced by that
+  typed contract.
+- Generators such as Gemini, Firefly, or fit-and-extract tools are
+  development-time asset producers recorded in provenance. Ordinary runtime
+  code owns composition; no runtime depends on a generator, network, or model.
+- No new rendering engine is authorized. The existing DOM scene camera,
+  integer depth ordering, occluder, and transform contracts remain the
+  compositor.
+
+Consequence: the repository can represent, validate, and deterministically
+resolve modular characters before any component art exists. This decision
+implements no component art, generator, wardrobe library, normalization,
+head-angle generation, animation, or replacement of the accepted office
+characters; those remain separately gated. Canonical `Person` and `World`
+semantics are unchanged.

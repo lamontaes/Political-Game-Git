@@ -1362,4 +1362,42 @@ not inherit the raster transform. Exact safe-area evidence is recorded in
 Project art authority is established externally via `PG-E02 CLEAN` (5568×3008
 master source), ensuring no further upscaling is needed for final office
 production. Historical Prompt 30 and A01/B01 assets serve as development test
-fixtures while final production character assets remain in external production.
+fixtures; final characters compose from modular components under D-053.
+
+### VISUAL-007 — Modular components pass the one art gate with a structural contract
+
+A `character-component` manifest asset validates through the existing
+approval, QA, hash, provenance, and runtime-release checks and additionally
+must declare a modular kind, family, catalog generation, integer layer, canvas
+that matches its real raster, and kind-specific rig or attachment metadata.
+Validation rejects duplicate IDs, non-modular declarations, invalid layers or
+canvases, unknown body/head/pose/orientation families, non-uniform family
+compatibility, missing roots or origins, duplicate anchors, anchors a reachable
+body does not declare, dangling or misordered hair pairs, released fronts
+paired with unreleased backs, and ledger membership or signature mismatches,
+each with a named error. The production manifest validates with the empty
+bootstrap catalog.
+
+### VISUAL-008 — Identity is person-owned, pose-independent, and frozen by generation
+
+Resolving the same appearance seed, recipe version, and catalog generation
+yields the same identity and context. Identity is identical across poses;
+context changes with pose and omits slots with no art for that pose without
+changing identity. A body family with no art for a pose fails closed with no
+components and a null projection. Incompatible head, hair, and garment
+families are never selected. Release state changes only the `released` flag.
+After a later generation adds hairstyles, garments, and accessories, every
+identity pinned to the earlier generation reproduces exactly, while an unpinned
+resolve at the new generation may legitimately differ; a rewritten or smuggled
+past generation fails validation, and a drifted established identity is
+rejected by reproduction.
+
+### VISUAL-009 — Attachment anchors are metadata and stay distinct from scene and root anchors
+
+The body component owns the pelvis-hip-center root and named attachment
+anchors; layer projection places each component's declared origin exactly on
+its declared anchor in body-canvas units, sizes it by canvas ratio, orders
+layers by integer draw order with no shared layer, and draws a paired hair-back
+behind the body. Resolution and projection never mutate the person, appearance,
+or `World`, and the module imports no React, DOM, Vite, Node, or ambient
+entropy — only the simulation's `SeededRng` and `stableHash`.

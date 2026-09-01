@@ -450,6 +450,13 @@ institution/electorate/campaign/election systems of one council race, then a
 minimum governing-term Slice F and continuation/next-cycle Slice G. Those
 slices remain separately gated and were not started by D-Lite.
 
+The modular character foundation (D-053) is a presentation/art contract that
+runs alongside that path without gating it: the repository can validate and
+deterministically resolve reusable character components from person-owned
+appearance identity, while component art, a wardrobe library, and scene
+compositor consumption remain separately gated. See
+[Art Assets and Runtime Release](systems/art-assets.md).
+
 ---
 
 ## Stage 7A — Institutions, Law, Authority, and Mutable Rules

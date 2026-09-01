@@ -1,0 +1,35 @@
+{
+  "catalog_generation": 0,
+  "slots": [
+    { "slot_id": "body", "kind": "body", "required": true },
+    { "slot_id": "head", "kind": "head", "required": true },
+    {
+      "slot_id": "hair",
+      "kind": "hair-front",
+      "required": false,
+      "presence_rate": 0.9
+    },
+    {
+      "slot_id": "facial-hair",
+      "kind": "facial-hair",
+      "required": false,
+      "presence_rate": 0.35
+    },
+    {
+      "slot_id": "eyewear",
+      "kind": "eyewear",
+      "required": false,
+      "presence_rate": 0.3
+    },
+    { "slot_id": "top", "kind": "top", "required": true },
+    { "slot_id": "bottom", "kind": "bottom", "required": true },
+    { "slot_id": "footwear", "kind": "footwear", "required": true },
+    {
+      "slot_id": "accessory",
+      "kind": "accessory",
+      "required": false,
+      "presence_rate": 0.2
+    }
+  ],
+  "generations": []
+}
