@@ -13,11 +13,19 @@ import {
 import type {
   AvailableLifeSituation,
   EntityId,
+  FormativeInterval,
   FormativePacingBand,
   LifeSituationKey,
   TeenWorkOpportunity,
   World,
 } from "../simulation";
+import {
+  companionRoleFor,
+  formativeEligibilityProvider,
+  formativeSituationAvailable,
+  formativeStepDays,
+  resolveFormativeCompanion,
+} from "./formative-context";
 
 /**
  * The growing-up years, played.
@@ -36,13 +44,6 @@ const BAND_LABELS: Readonly<Record<FormativePacingBand, string>> = {
   "early-childhood": "Early childhood",
   "middle-childhood": "Childhood",
   adolescence: "Adolescence",
-};
-
-/** How far the clock moves after one moment worth remembering. */
-const BAND_STEP_DAYS: Readonly<Record<FormativePacingBand, number>> = {
-  "early-childhood": 300,
-  "middle-childhood": 260,
-  adolescence: 200,
 };
 
 export interface FormativeSceneOption {
@@ -135,17 +136,23 @@ function nextScene(
   age: number,
   placeName: string | null,
 ): FormativeScene | null {
-  const companionId = formativeCompanion(world, personId);
+  // Offered with a companion in hand, because a situation that needs one is
+  // only real if somebody who can actually play that part exists. Passing the
+  // first other person in the world is how an eight-year-old ended up sharing
+  // a lunch table with a twenty-eight-year-old.
   const situations = availableLifeSituations(world, {
     personId,
     asOfDate: world.currentDate,
-    otherPersonId: companionId,
+    otherPersonId: personId,
   });
   // A situation is offered once. Replaying one would put the same remembered
   // sentence on the record twice, which reads as a fault rather than a life.
   // When the band has nothing left, the years simply pass.
   const pool = situations.filter(
-    (situation) => !hasPlayed(world, personId, situation.key),
+    (situation) =>
+      !hasPlayed(world, personId, situation.key) &&
+      formativeSituationAvailable(world, personId, situation.key) &&
+      canBePeopled(world, personId, situation),
   );
   if (pool.length === 0) return null;
 
@@ -154,10 +161,16 @@ function nextScene(
     `formative-scene-v1:${personId}:${played}:${world.currentDate}`,
   );
   const situation = rng.pick(pool) as AvailableLifeSituation;
-  const companion =
-    situation.needsCompanion && companionId
-      ? world.people[companionId]
-      : undefined;
+  const resolved = resolveFormativeCompanion(
+    world,
+    personId,
+    companionRoleFor(situation.key),
+  );
+  const companionId =
+    resolved && resolved.personId !== personId ? resolved.personId : null;
+  const companion = companionId
+    ? (resolved?.world ?? world).people[companionId]
+    : undefined;
 
   return {
     personName: name,
@@ -204,7 +217,28 @@ export function chooseFormativeOption(
   const staged = takingTheJob
     ? openTeenEmployer(world, jurisdictionId)
     : { world, opportunity: undefined };
-  const result = resolveLifeSituation(staged.world, {
+
+  // The companion is written into the world here rather than when the scene
+  // was drawn, because a person only exists once something actually happened
+  // with them in it.
+  const role = companionRoleFor(input.situationKey);
+  const companion = resolveFormativeCompanion(
+    staged.world,
+    input.personId,
+    role,
+  );
+  if (role !== null && companion === null) {
+    throw new Error(
+      "This moment needs someone the world cannot currently put in it.",
+    );
+  }
+  const withWorld = companion?.world ?? staged.world;
+  const otherPersonId =
+    role === null || companion === null || companion.personId === input.personId
+      ? null
+      : companion.personId;
+
+  const result = resolveLifeSituation(withWorld, {
     stableKey: `formative-play:${input.personId}:${played}:${input.situationKey}`,
     mode: "played",
     personId: input.personId,
@@ -212,13 +246,16 @@ export function chooseFormativeOption(
     optionKey: input.optionKey,
     occurredAt: world.currentDate,
     jurisdictionId,
-    otherPersonId: input.withPersonId,
+    otherPersonId,
+    // Explicit, and answerable from the world. The engine's default provider
+    // allows everything, which is right for a fixture and wrong for a game.
+    eligibilityProvider: formativeEligibilityProvider(input.situationKey),
     teenWorkOpportunity: staged.opportunity,
   });
   if (result.status === "blocked") {
     return result.world;
   }
-  return advanceToNextMoment(result.world, input.personId, interval.band);
+  return advanceToNextMoment(result.world, input.personId, interval);
 }
 
 /**
@@ -288,23 +325,20 @@ function openTeenEmployer(
 export function letTimePass(world: World, personId: EntityId): World {
   const interval = formativeIntervalAt(world, personId);
   if (!interval) throw new Error("These are no longer the formative years.");
-  return advanceToNextMoment(world, personId, interval.band);
+  return advanceToNextMoment(world, personId, interval);
 }
 
 function advanceToNextMoment(
   world: World,
   personId: EntityId,
-  band: FormativePacingBand,
+  interval: FormativeInterval,
 ): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
-  const rng = new SeededRng(world.seed).fork(
-    `formative-pacing-v1:${personId}:${world.currentDate}`,
-  );
   // Stop on the eighteenth birthday rather than stepping over it, so the last
   // year of the formative band is still playable.
   const grownUpOn = dateAtAge(person.birthDate, FORMATIVE_YEARS_END_AGE);
-  const step = BAND_STEP_DAYS[band] + rng.integer(0, 120);
+  const step = formativeStepDays(world, personId, interval);
   const remaining = daysBetween(world.currentDate, grownUpOn);
   const days = Math.min(step, Math.max(remaining, 1));
   return advanceWorld(world, days);
@@ -355,7 +389,19 @@ function hasPlayed(
   );
 }
 
-/** Someone else who is around. Used only by situations that need a second person. */
-function formativeCompanion(world: World, personId: EntityId): EntityId | null {
-  return world.personOrder.find((candidate) => candidate !== personId) ?? null;
+/**
+ * Whether the world can put the right person in this scene.
+ *
+ * Asked before the scene is offered rather than after it is chosen, so a
+ * child with no school is simply not shown a classroom, instead of being shown
+ * one and handed whoever happened to be nearby.
+ */
+function canBePeopled(
+  world: World,
+  personId: EntityId,
+  situation: AvailableLifeSituation,
+): boolean {
+  const role = companionRoleFor(situation.key);
+  if (role === null) return !situation.needsCompanion;
+  return resolveFormativeCompanion(world, personId, role) !== null;
 }

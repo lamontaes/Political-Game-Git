@@ -52,6 +52,7 @@ import {
   recordMemory,
   recordRelationshipInteraction,
 } from "./records";
+import { drawCanonicalName } from "./people";
 import { SeededRng } from "./rng";
 import { recordWorldEvent, assertWorldIntegrity, advanceWorld } from "./world";
 import {
@@ -1080,7 +1081,11 @@ export type LifeSituationKey =
   | "formative.teen-work-opportunity"
   | "formative.student-organizing"
   | "formative.belief-challenge"
-  | "formative.future-preparation";
+  | "formative.future-preparation"
+  | "formative.illness-in-the-house"
+  | "formative.money-shortfall"
+  | "formative.caring-for-someone"
+  | "formative.workplace-rule";
 
 export interface LifeSituationOption {
   readonly key: string;
@@ -1094,6 +1099,16 @@ export interface LifeSituationOption {
    * never the button text.
    */
   readonly memory: string;
+  /**
+   * What somebody else in the scene would have seen, or null when the choice
+   * was made inwardly and there was nothing to see.
+   *
+   * Knowledge is subjective. Being present is not the same as being told: a
+   * companion who watched a child decide something quietly does not thereby
+   * know what the child decided, and must never be handed that child's own
+   * remembered sentence as their own belief.
+   */
+  readonly witnessed?: string | null;
 }
 
 export interface AvailableLifeSituation {
@@ -1175,6 +1190,8 @@ const AUTHORED_SITUATIONS: readonly Omit<
         description: "Tell it straight, including your own part in it.",
         memory:
           "You said it was you before anyone worked it out, and the room went quiet in a way you did not forget.",
+        witnessed:
+          "The child said it was them before anyone had worked out who it was.",
       },
       {
         key: "stay-quiet",
@@ -1182,6 +1199,8 @@ const AUTHORED_SITUATIONS: readonly Omit<
         description: "Let the question go unanswered.",
         memory:
           "You let the question sit there unanswered, and it stayed unanswered for a long time.",
+        witnessed:
+          "The child did not answer when they were asked what had happened.",
       },
     ],
   },
@@ -1225,6 +1244,7 @@ const AUTHORED_SITUATIONS: readonly Omit<
         description: "Invite the other child to join the table.",
         memory:
           "You slid down the bench and made a space, and the table closed back up around one more person.",
+        witnessed: "They moved along the bench and made room at the table.",
       },
       {
         key: "look-away",
@@ -1232,6 +1252,7 @@ const AUTHORED_SITUATIONS: readonly Omit<
         description: "Avoid getting involved in the moment.",
         memory:
           "You looked at your food until the person holding the tray went somewhere else.",
+        witnessed: "They stayed where they were and did not look up.",
       },
     ],
   },
@@ -1247,12 +1268,14 @@ const AUTHORED_SITUATIONS: readonly Omit<
         description: "Speak directly and attempt a repair.",
         memory:
           "You said the awkward first sentence yourself, and the rest of it came easier after that.",
+        witnessed: "They spoke first, and the two of them talked it through.",
       },
       {
         key: "withdraw",
         label: "Step back",
         description: "Take space rather than force a resolution.",
         memory: "You let the silence stand. It cooled, but it did not close.",
+        witnessed: "Neither of them raised it again, and the quiet stayed.",
       },
     ],
   },
@@ -1268,6 +1291,7 @@ const AUTHORED_SITUATIONS: readonly Omit<
         description: "Follow up with the adult who offered help.",
         memory:
           "You took the help that was offered, and the thing you kept getting wrong got smaller.",
+        witnessed: "They stayed behind and took the help that was offered.",
       },
       {
         key: "decline-guidance",
@@ -1275,6 +1299,8 @@ const AUTHORED_SITUATIONS: readonly Omit<
         description: "Thank them, then try independently.",
         memory:
           "You said thank you and worked it out in your own time, slower and by yourself.",
+        witnessed:
+          "They thanked the teacher and said they would work at it on their own.",
       },
     ],
   },
@@ -1419,6 +1445,7 @@ const AUTHORED_SITUATIONS: readonly Omit<
         description: "Tell them, to their face, that you see it differently.",
         memory:
           "You told someone you respected that they were wrong, and found out both what that costs and what it does not.",
+        witnessed: "They said out loud that they saw it differently.",
       },
       {
         key: "let-it-pass",
@@ -1426,6 +1453,8 @@ const AUTHORED_SITUATIONS: readonly Omit<
         description: "Keep the disagreement to yourself for now.",
         memory:
           "You let it pass without saying anything, and kept the disagreement somewhere only you could see it.",
+        // Decided inwardly. Somebody standing there saw nothing to know.
+        witnessed: null,
       },
     ],
   },
@@ -1449,6 +1478,102 @@ const AUTHORED_SITUATIONS: readonly Omit<
         description: "Decide later, on better information.",
         memory:
           "You did not commit that year. You kept looking, and let the question stay open.",
+      },
+    ],
+  },
+  {
+    // Early childhood had nothing about a household under strain. A child does
+    // not diagnose anything; they notice the day going differently.
+    key: "formative.illness-in-the-house",
+    band: "early-childhood",
+    prose:
+      "Someone at home has been in bed for days. The mornings are quieter than they should be, and nobody has explained why.",
+    options: [
+      {
+        key: "keep-close",
+        label: "Stay near them",
+        description: "Spend the quiet hours in the same room.",
+        memory:
+          "You sat in the room with the curtains half shut, not doing much, and nobody asked you to leave.",
+      },
+      {
+        key: "keep-the-routine",
+        label: "Keep everything else going",
+        description: "Hold on to the ordinary parts of the day.",
+        memory:
+          "You kept your own mornings running exactly as they had been, because one part of the day still worked.",
+      },
+    ],
+  },
+  {
+    // Middle childhood had no money pressure at all. The early-childhood
+    // small-money situation is about having some; this is about the house not.
+    key: "formative.money-shortfall",
+    band: "middle-childhood",
+    prose:
+      "The thing that was planned for this month is not happening any more. The reason given is short, and the subject gets changed.",
+    options: [
+      {
+        key: "ask-what-happened",
+        label: "Ask what happened",
+        description: "Ask directly why the plan changed.",
+        memory:
+          "You asked why, and got an answer that was true and much shorter than the question deserved.",
+      },
+      {
+        key: "let-it-go",
+        label: "Let it go",
+        description: "Accept the change without pressing.",
+        memory:
+          "You said it was fine before anyone had to explain, and found out you were the kind of person who does that.",
+      },
+    ],
+  },
+  {
+    // Adolescence has the widest anchor budget and the least covering it, and
+    // nothing at all about carrying somebody else's needs.
+    key: "formative.caring-for-someone",
+    band: "adolescence",
+    prose:
+      "Somebody at home needs more looking after than the household can spread around, and you are old enough now for that to mean you.",
+    options: [
+      {
+        key: "take-it-on",
+        label: "Take it on",
+        description: "Carry the regular share nobody else can.",
+        memory:
+          "You took on the afternoons nobody else could cover, and they stayed yours for a long time.",
+      },
+      {
+        key: "hold-the-line",
+        label: "Say what you can manage",
+        description: "Name the limit before it becomes assumed.",
+        memory:
+          "You said what you could actually manage before it became assumed, and the household worked around the answer.",
+      },
+    ],
+  },
+  {
+    // Reachable only once there is a job, which is what makes it worth having:
+    // the first situation whose context comes from something the player did.
+    key: "formative.workplace-rule",
+    band: "adolescence",
+    prose:
+      "There is a rule at work that nobody follows, and today somebody older is telling you to follow it in front of a customer.",
+    options: [
+      {
+        key: "follow-it",
+        label: "Follow the rule",
+        description: "Do it the way you were just told to.",
+        memory:
+          "You did it the way you were told in front of everyone, and thought about it for the rest of the shift.",
+      },
+      {
+        key: "say-nobody-does",
+        label: "Say nobody does that",
+        description: "Point out that the rule is not how the place runs.",
+        memory:
+          "You said out loud that nobody actually did it that way, and learned what it costs to be right in front of a customer.",
       },
     ],
   },
@@ -1674,36 +1799,39 @@ export function resolveLifeSituation(
       },
     },
   ];
-  if (other) {
-    consequenceTransitions.push(
-      {
-        kind: "knowledge",
-        input: {
-          stableKey: `${input.stableKey}:knowledge:${other}`,
-          personId: other,
-          eventStableKey,
-          learnedAt: input.occurredAt,
-          believedSummary: option.memory,
-          accuracy: "accurate",
-          confidence: "medium",
-          source: { kind: "direct" },
-        },
+  const witnessed = option.witnessed ?? null;
+  if (other && witnessed !== null) {
+    // What they saw, not what the other person privately made of it, and
+    // partial because watching is not being told.
+    consequenceTransitions.push({
+      kind: "knowledge",
+      input: {
+        stableKey: `${input.stableKey}:knowledge:${other}`,
+        personId: other,
+        eventStableKey,
+        learnedAt: input.occurredAt,
+        believedSummary: witnessed,
+        accuracy: "partial",
+        confidence: "medium",
+        source: { kind: "direct" },
       },
-      {
-        kind: "interaction",
-        input: {
-          stableKey: `${input.stableKey}:interaction`,
-          personIds: [input.personId, other],
-          eventStableKey,
-          occurredAt: input.occurredAt,
-          kind: interactionKind(input.situationKey, input.optionKey),
-          change: interactionChange(input.optionKey),
-          significance: "meaningful",
-          summary: option.memory,
-          tags: [input.situationKey],
-        },
+    });
+    // And the exchange between them is described by what passed between them,
+    // not by what one of them privately made of it.
+    consequenceTransitions.push({
+      kind: "interaction",
+      input: {
+        stableKey: `${input.stableKey}:interaction`,
+        personIds: [input.personId, other],
+        eventStableKey,
+        occurredAt: input.occurredAt,
+        kind: interactionKind(input.situationKey, input.optionKey),
+        change: interactionChange(input.optionKey),
+        significance: "meaningful",
+        summary: witnessed,
+        tags: [input.situationKey],
       },
-    );
+    });
   }
   consequenceTransitions.push({
     kind: "appraisal",
@@ -1880,7 +2008,12 @@ export function generateQuickCharacterHistory(
       kind: "context-person",
       input: {
         stableKey: parentKey,
-        givenName: rng.pick(["Avery", "Jordan", "Morgan"]),
+        // Every canonical name comes from the versioned corpus through the
+        // seeded generator. A module keeping a private list of three first
+        // names is how a whole cast ends up sharing them.
+        ...drawCanonicalName(rng.fork("parent")),
+        // A child usually shares a name with whoever raised them. A household
+        // convention, and no claim about either of them beyond that.
         familyName: person.familyName,
         birthDate: yearsBefore(person.birthDate, 28),
         homeJurisdictionId: input.jurisdictionId,
@@ -1890,8 +2023,8 @@ export function generateQuickCharacterHistory(
       kind: "context-person",
       input: {
         stableKey: peerKey,
-        givenName: rng.pick(["Casey", "Riley", "Taylor"]),
-        familyName: rng.pick(["Bennett", "Kim", "Morales"]),
+        ...drawCanonicalName(rng.fork("peer")),
+        // Born the same year, because a peer has to actually be one.
         birthDate: age(0),
         homeJurisdictionId: input.jurisdictionId,
       },
@@ -1900,8 +2033,8 @@ export function generateQuickCharacterHistory(
       kind: "context-person",
       input: {
         stableKey: teacherKey,
-        givenName: rng.pick(["Dana", "Robin", "Sam"]),
-        familyName: rng.pick(["Cole", "Reed", "Shaw"]),
+        ...drawCanonicalName(rng.fork("teacher")),
+        // An adult, because the role requires one.
         birthDate: yearsBefore(person.birthDate, 30),
         homeJurisdictionId: input.jurisdictionId,
       },
