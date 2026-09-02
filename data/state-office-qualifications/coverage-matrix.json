@@ -1,0 +1,3152 @@
+[
+  {
+    "stateCode": "AK",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AK",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AK",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AK",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AK",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AK",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "APPOINTED_GOVERNOR",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AK",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AL",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AL",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AL",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AL",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AL",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AL",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AL",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AR",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AR",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AR",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AR",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AR",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AR",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AR",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AZ",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AZ",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AZ",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AZ",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AZ",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AZ",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "AZ",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CA",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CA",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CA",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CA",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CA",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CA",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CA",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CO",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CO",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CO",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CO",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CO",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CO",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CO",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CT",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CT",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CT",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CT",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CT",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CT",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "CT",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "DE",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "DE",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "DE",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "DE",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "DE",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "DE",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "DE",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "APPOINTED_GOVERNOR",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "FL",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "FL",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "FL",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "FL",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "FL",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "FL",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "FL",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "APPOINTED_GOVERNOR",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "GA",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "GA",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "GA",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "GA",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "GA",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "GA",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "GA",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "HI",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "HI",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "HI",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "HI",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "HI",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "HI",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "APPOINTED_GOVERNOR",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "HI",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IA",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IA",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IA",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IA",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IA",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IA",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IA",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ID",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ID",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ID",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ID",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ID",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ID",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ID",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IL",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IL",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IL",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IL",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IL",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IL",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IL",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IN",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IN",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IN",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IN",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IN",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IN",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "IN",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "KS",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "KS",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "KS",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "KS",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "KS",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "KS",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "KS",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "KY",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "KY",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "KY",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "KY",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "KY",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "KY",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "KY",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "LA",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "LA",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "LA",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "LA",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "LA",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "LA",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "LA",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MA",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MA",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MA",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MA",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MA",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MA",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MA",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MD",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MD",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MD",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MD",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MD",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MD",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MD",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "APPOINTED_GOVERNOR",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ME",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ME",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ME",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ME",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ME",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ME",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_LEGISLATURE",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ME",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_LEGISLATURE",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MI",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MI",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MI",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MI",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MI",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MI",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MI",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MN",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MN",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MN",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MN",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MN",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MN",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MN",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MO",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MO",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MO",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MO",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MO",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MO",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MO",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MS",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MS",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MS",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MS",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MS",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MS",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MS",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MT",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MT",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MT",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MT",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MT",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MT",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "MT",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NC",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NC",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NC",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NC",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NC",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NC",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NC",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ND",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ND",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ND",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ND",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ND",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ND",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "ND",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NE",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NE",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NE",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NE",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NE",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NE",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NE",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NH",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NH",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NH",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NH",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NH",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NH",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "APPOINTED_GOVERNOR",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NH",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_LEGISLATURE",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NJ",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NJ",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NJ",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NJ",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NJ",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NJ",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "APPOINTED_GOVERNOR",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NJ",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "APPOINTED_GOVERNOR",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NM",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NM",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NM",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NM",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NM",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NM",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NM",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NV",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NV",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NV",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NV",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NV",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NV",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NV",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NY",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NY",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NY",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NY",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NY",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NY",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "NY",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "APPOINTED_GOVERNOR",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OH",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OH",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OH",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OH",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OH",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OH",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OH",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OK",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OK",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OK",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OK",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OK",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OK",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OK",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "APPOINTED_GOVERNOR",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OR",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OR",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OR",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OR",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OR",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OR",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "OR",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "PA",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "PA",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "PA",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "PA",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "PA",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "PA",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "PA",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "APPOINTED_GOVERNOR",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "RI",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "RI",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "RI",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "RI",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "RI",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "RI",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "RI",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "SC",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "SC",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "SC",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "SC",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "SC",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "SC",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "SC",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "SD",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "SD",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "SD",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "SD",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "SD",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "SD",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "SD",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "TN",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "TN",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "TN",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "TN",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "TN",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "EX_OFFICIO",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "TN",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "APPOINTED_COURT",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "TN",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_LEGISLATURE",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "TX",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "TX",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "TX",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "TX",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "TX",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "TX",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "TX",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "APPOINTED_GOVERNOR",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "UT",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "UT",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "UT",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "UT",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "UT",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "UT",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "UT",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "VA",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "VA",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "VA",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "VA",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "VA",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "VA",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "VA",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "APPOINTED_GOVERNOR",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "VT",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "VT",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "VT",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "VT",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "VT",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "VT",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "VT",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WA",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WA",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WA",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WA",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WA",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WA",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WA",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WI",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WI",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WI",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WI",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WI",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WI",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WI",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WV",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WV",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WV",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WV",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WV",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "EX_OFFICIO",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WV",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WV",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WY",
+    "officeFamilyId": "STATE_LOWER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WY",
+    "officeFamilyId": "STATE_UPPER_CHAMBER",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WY",
+    "officeFamilyId": "NEBRASKA_UNICAMERAL",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WY",
+    "officeFamilyId": "GOVERNOR",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WY",
+    "officeFamilyId": "LIEUTENANT_GOVERNOR",
+    "selectionType": "OFFICE_DOES_NOT_EXIST",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "NOT_APPLICABLE",
+    "residencyStatus": "NOT_APPLICABLE",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WY",
+    "officeFamilyId": "ATTORNEY_GENERAL",
+    "selectionType": "APPOINTED_GOVERNOR",
+    "ageStatus": "NOT_APPLICABLE",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  },
+  {
+    "stateCode": "WY",
+    "officeFamilyId": "SECRETARY_OF_STATE",
+    "selectionType": "ELECTED_GENERAL",
+    "ageStatus": "KNOWN",
+    "citizenshipStatus": "KNOWN",
+    "residencyStatus": "KNOWN",
+    "normalizationReviewRequired": false
+  }
+]

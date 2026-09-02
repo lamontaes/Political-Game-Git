@@ -23,6 +23,8 @@
     "format": "prettier --check .",
     "format:write": "prettier --write .",
     "intake:texas-senate": "node --import tsx scripts/art-asset-factory/cli-intake.ts",
+    "compile:state-qualifications": "node --import tsx scripts/state-office-qualifications/compile.ts",
+    "validate:state-qualifications": "node --import tsx scripts/state-office-qualifications/validate.ts",
     "validate:art": "node --import tsx scripts/art-asset-factory/cli-validate.ts",
     "inventory:art": "node --import tsx scripts/art-asset-factory/cli-inventory.ts",
     "qa:art": "node --import tsx scripts/art-asset-factory/cli-qa.ts",

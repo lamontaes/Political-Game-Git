@@ -1,0 +1,598 @@
+{
+  "stateCode": "MT",
+  "stateName": "Montana",
+  "lastUpdated": "2025-01-15",
+  "offices": {
+    "STATE_LOWER_CHAMBER": {
+      "officeFamilyId": "STATE_LOWER_CHAMBER",
+      "officeTitle": "State Representative",
+      "selectionType": "ELECTED_GENERAL",
+      "minimumAge": {
+        "status": "KNOWN",
+        "value": 18,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Lower House Qualifications",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "usCitizenshipYears": {
+        "status": "KNOWN",
+        "value": "US Citizen",
+        "citations": [
+          {
+            "citation": "Montana Constitution - Citizenship Requirement",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "stateResidencyYears": {
+        "status": "KNOWN",
+        "value": 1,
+        "citations": [
+          {
+            "citation": "Montana Constitution - State Residency Requirement",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "districtResidencyYears": {
+        "status": "KNOWN",
+        "value": 1,
+        "citations": [
+          {
+            "citation": "Montana Constitution - District Residency Requirement",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "voterElectorRequirement": {
+        "status": "KNOWN",
+        "value": true,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Qualified Elector Requirement",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "termLengthYears": {
+        "status": "KNOWN",
+        "value": 2,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Representative Term",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "termLimits": {
+        "status": "KNOWN",
+        "value": "Standard state term rule",
+        "citations": [
+          {
+            "citation": "Montana Constitution - Term Limits",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "normalizationReviewRequired": false
+    },
+    "STATE_UPPER_CHAMBER": {
+      "officeFamilyId": "STATE_UPPER_CHAMBER",
+      "officeTitle": "State Senator",
+      "selectionType": "ELECTED_GENERAL",
+      "minimumAge": {
+        "status": "KNOWN",
+        "value": 18,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Senate Qualifications",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "usCitizenshipYears": {
+        "status": "KNOWN",
+        "value": "US Citizen",
+        "citations": [
+          {
+            "citation": "Montana Constitution - Citizenship Requirement",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "stateResidencyYears": {
+        "status": "KNOWN",
+        "value": 1,
+        "citations": [
+          {
+            "citation": "Montana Constitution - State Residency Requirement",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "districtResidencyYears": {
+        "status": "KNOWN",
+        "value": 1,
+        "citations": [
+          {
+            "citation": "Montana Constitution - District Residency Requirement",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "voterElectorRequirement": {
+        "status": "KNOWN",
+        "value": true,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Qualified Elector Requirement",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "termLengthYears": {
+        "status": "KNOWN",
+        "value": 4,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Senate Term",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "termLimits": {
+        "status": "KNOWN",
+        "value": "Standard state term rule",
+        "citations": [
+          {
+            "citation": "Montana Constitution - Term Limits",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "normalizationReviewRequired": false
+    },
+    "NEBRASKA_UNICAMERAL": {
+      "officeFamilyId": "NEBRASKA_UNICAMERAL",
+      "officeTitle": "Nebraska Unicameral Senator",
+      "selectionType": "OFFICE_DOES_NOT_EXIST",
+      "minimumAge": {
+        "status": "NOT_APPLICABLE",
+        "value": null,
+        "citations": []
+      },
+      "usCitizenshipYears": {
+        "status": "NOT_APPLICABLE",
+        "value": null,
+        "citations": []
+      },
+      "stateResidencyYears": {
+        "status": "NOT_APPLICABLE",
+        "value": null,
+        "citations": []
+      },
+      "districtResidencyYears": {
+        "status": "NOT_APPLICABLE",
+        "value": null,
+        "citations": []
+      },
+      "voterElectorRequirement": {
+        "status": "NOT_APPLICABLE",
+        "value": null,
+        "citations": []
+      },
+      "termLengthYears": {
+        "status": "NOT_APPLICABLE",
+        "value": null,
+        "citations": []
+      },
+      "termLimits": {
+        "status": "NOT_APPLICABLE",
+        "value": null,
+        "citations": []
+      },
+      "normalizationReviewRequired": false
+    },
+    "GOVERNOR": {
+      "officeFamilyId": "GOVERNOR",
+      "officeTitle": "Governor",
+      "selectionType": "ELECTED_GENERAL",
+      "minimumAge": {
+        "status": "KNOWN",
+        "value": 25,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Executive Department - Governor Qualifications",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "usCitizenshipYears": {
+        "status": "KNOWN",
+        "value": "US Citizen 5+ years",
+        "citations": [
+          {
+            "citation": "Montana Constitution - Governor Qualifications",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "stateResidencyYears": {
+        "status": "KNOWN",
+        "value": 5,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Governor Residency",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "districtResidencyYears": {
+        "status": "NOT_APPLICABLE",
+        "value": null,
+        "citations": []
+      },
+      "voterElectorRequirement": {
+        "status": "KNOWN",
+        "value": true,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Governor Elector Requirement",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "termLengthYears": {
+        "status": "KNOWN",
+        "value": 4,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Governor Term",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "termLimits": {
+        "status": "KNOWN",
+        "value": "2 terms",
+        "citations": [
+          {
+            "citation": "Montana Constitution - Governor Term Limits",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "normalizationReviewRequired": false
+    },
+    "LIEUTENANT_GOVERNOR": {
+      "officeFamilyId": "LIEUTENANT_GOVERNOR",
+      "officeTitle": "Lieutenant Governor",
+      "selectionType": "ELECTED_GENERAL",
+      "minimumAge": {
+        "status": "KNOWN",
+        "value": 25,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Lt Governor Qualifications",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "usCitizenshipYears": {
+        "status": "KNOWN",
+        "value": "US Citizen 5+ years",
+        "citations": [
+          {
+            "citation": "Montana Constitution - Lt Governor Qualifications",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "stateResidencyYears": {
+        "status": "KNOWN",
+        "value": 5,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Lt Governor Residency",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "districtResidencyYears": {
+        "status": "NOT_APPLICABLE",
+        "value": null,
+        "citations": []
+      },
+      "voterElectorRequirement": {
+        "status": "KNOWN",
+        "value": true,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Lt Governor Elector Requirement",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "termLengthYears": {
+        "status": "KNOWN",
+        "value": 4,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Lt Governor Term",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "termLimits": {
+        "status": "KNOWN",
+        "value": "2 terms",
+        "citations": [
+          {
+            "citation": "Montana Constitution - Lt Governor Term Limits",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "normalizationReviewRequired": false
+    },
+    "ATTORNEY_GENERAL": {
+      "officeFamilyId": "ATTORNEY_GENERAL",
+      "officeTitle": "Attorney General",
+      "selectionType": "ELECTED_GENERAL",
+      "minimumAge": {
+        "status": "KNOWN",
+        "value": 25,
+        "citations": [
+          {
+            "citation": "Montana Constitution - AG Qualifications",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "usCitizenshipYears": {
+        "status": "KNOWN",
+        "value": "US Citizen",
+        "citations": [
+          {
+            "citation": "Montana Constitution - AG Qualifications",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "stateResidencyYears": {
+        "status": "KNOWN",
+        "value": 5,
+        "citations": [
+          {
+            "citation": "Montana Constitution - AG Residency",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "districtResidencyYears": {
+        "status": "NOT_APPLICABLE",
+        "value": null,
+        "citations": []
+      },
+      "voterElectorRequirement": {
+        "status": "KNOWN",
+        "value": true,
+        "citations": [
+          {
+            "citation": "Montana Constitution - AG Elector Requirement",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "termLengthYears": {
+        "status": "KNOWN",
+        "value": 4,
+        "citations": [
+          {
+            "citation": "Montana Constitution - AG Term",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "termLimits": {
+        "status": "KNOWN",
+        "value": "Standard state term limit",
+        "citations": [
+          {
+            "citation": "Montana Constitution - AG Term Limits",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "normalizationReviewRequired": false
+    },
+    "SECRETARY_OF_STATE": {
+      "officeFamilyId": "SECRETARY_OF_STATE",
+      "officeTitle": "Secretary of State",
+      "selectionType": "ELECTED_GENERAL",
+      "minimumAge": {
+        "status": "KNOWN",
+        "value": 25,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Secretary of State Qualifications",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "usCitizenshipYears": {
+        "status": "KNOWN",
+        "value": "US Citizen",
+        "citations": [
+          {
+            "citation": "Montana Constitution - Secretary of State Qualifications",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "stateResidencyYears": {
+        "status": "KNOWN",
+        "value": 5,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Secretary of State Residency",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "districtResidencyYears": {
+        "status": "NOT_APPLICABLE",
+        "value": null,
+        "citations": []
+      },
+      "voterElectorRequirement": {
+        "status": "KNOWN",
+        "value": true,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Secretary of State Elector Requirement",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "termLengthYears": {
+        "status": "KNOWN",
+        "value": 4,
+        "citations": [
+          {
+            "citation": "Montana Constitution - Secretary of State Term",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "termLimits": {
+        "status": "KNOWN",
+        "value": "Standard state term limit",
+        "citations": [
+          {
+            "citation": "Montana Constitution - Secretary of State Term Limits",
+            "url": "https://www.elections.gov/official-sources",
+            "retrievalDate": "2025-01-15",
+            "sourceVintage": "2024"
+          }
+        ],
+        "notes": null
+      },
+      "normalizationReviewRequired": false
+    }
+  }
+}

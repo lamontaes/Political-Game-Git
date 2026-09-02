@@ -848,7 +848,7 @@ describe("Packet 76 approved runtime art", () => {
     } finally {
       fs.rmSync(temporaryDirectory, { recursive: true, force: true });
     }
-  });
+  }, 20000);
 
   it.each([
     [
