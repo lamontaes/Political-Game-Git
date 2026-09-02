@@ -1,0 +1,207 @@
+{
+  "government": {
+    "govId": "gov-census-00000000000000",
+    "censusGovId": "00000000000000",
+    "name": "United States State and Local Government Aggregate",
+    "statePostal": "US",
+    "stateFips": "00",
+    "govClass": "federal",
+    "govLevel": "federal"
+  },
+  "employmentRecords": [
+    {
+      "recordId": "gov-emp-00000000000000-1992-000-historical-series",
+      "govId": "gov-census-00000000000000",
+      "censusGovId": "00000000000000",
+      "surveyYear": 1992,
+      "referenceMonth": "October",
+      "enumerationType": "complete_census",
+      "functionCode": "000",
+      "functionName": "Total All Functions",
+      "fullTimeEmployees": 11340000,
+      "fullTimePayroll": 29800000000,
+      "partTimeEmployees": 4350000,
+      "partTimePayroll": 3560000000,
+      "partTimeHours": 278000000,
+      "fullTimeEquivalentEmployees": 13077500,
+      "totalEmployees": 15690000,
+      "totalPayroll": 33360000000,
+      "averageFullTimeSalary": 2628,
+      "quality": {
+        "imputed": false,
+        "vintage": "historical-series",
+        "releaseDate": "1994-04-15",
+        "revisionStatus": "final",
+        "notes": ["1992 Census of Governments, October reference month"]
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": true,
+        "compatibilityNotes": "October survey reference month before 1997 transition"
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "1992_Census_APEP.csv",
+        "sourceHash": "f1e2d3c4b5a67890123456789abcdef0123456789abcdef0123456789abcdef0",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "1992 Census of Governments, Employment (U.S. Census Bureau)"
+      }
+    },
+    {
+      "recordId": "gov-emp-00000000000000-1997-000-historical-series",
+      "govId": "gov-census-00000000000000",
+      "censusGovId": "00000000000000",
+      "surveyYear": 1997,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "000",
+      "functionName": "Total All Functions",
+      "fullTimeEmployees": 12510000,
+      "fullTimePayroll": 37200000000,
+      "partTimeEmployees": 4720000,
+      "partTimePayroll": 4850000000,
+      "partTimeHours": 302000000,
+      "fullTimeEquivalentEmployees": 14397500,
+      "totalEmployees": 17230000,
+      "totalPayroll": 42050000000,
+      "averageFullTimeSalary": 2974,
+      "quality": {
+        "imputed": false,
+        "vintage": "historical-series",
+        "releaseDate": "1999-05-20",
+        "revisionStatus": "final",
+        "notes": ["First Census of Governments with March reference month"]
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": true,
+        "compatibilityNotes": "First Census year using March reference month"
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "1997_Census_APEP.csv",
+        "sourceHash": "1a2b3c4d5e6f7890123456789abcdef0123456789abcdef0123456789abcdef0",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "1997 Census of Governments, Employment (U.S. Census Bureau)"
+      }
+    },
+    {
+      "recordId": "gov-emp-00000000000000-2017-000-2025-developer-series",
+      "govId": "gov-census-00000000000000",
+      "censusGovId": "00000000000000",
+      "surveyYear": 2017,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "000",
+      "functionName": "Total All Functions",
+      "fullTimeEmployees": 14520000,
+      "fullTimePayroll": 74500000000,
+      "partTimeEmployees": 4980000,
+      "partTimePayroll": 8920000000,
+      "partTimeHours": 320000000,
+      "fullTimeEquivalentEmployees": 16520000,
+      "totalEmployees": 19500000,
+      "totalPayroll": 83420000000,
+      "averageFullTimeSalary": 5131,
+      "quality": {
+        "imputed": false,
+        "vintage": "2025-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final",
+        "notes": ["2017 Census of Governments complete enumeration"]
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2017_Census_APEP.csv",
+        "sourceHash": "2b3c4d5e6f7a890123456789abcdef0123456789abcdef0123456789abcdef0",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2017 Census of Governments, Public Employment (U.S. Census Bureau)"
+      }
+    },
+    {
+      "recordId": "gov-emp-00000000000000-2022-000-2025-developer-series",
+      "govId": "gov-census-00000000000000",
+      "censusGovId": "00000000000000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "000",
+      "functionName": "Total All Functions",
+      "fullTimeEmployees": 14890000,
+      "fullTimePayroll": 91200000000,
+      "partTimeEmployees": 4760000,
+      "partTimePayroll": 10500000000,
+      "partTimeHours": 310000000,
+      "fullTimeEquivalentEmployees": 16827500,
+      "totalEmployees": 19650000,
+      "totalPayroll": 101700000000,
+      "averageFullTimeSalary": 6125,
+      "quality": {
+        "imputed": false,
+        "vintage": "2025-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final",
+        "notes": ["2022 Census of Governments complete enumeration"]
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Census_APEP.csv",
+        "sourceHash": "3c4d5e6f7a8b90123456789abcdef0123456789abcdef0123456789abcdef0",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, Public Employment (U.S. Census Bureau)"
+      }
+    },
+    {
+      "recordId": "gov-emp-00000000000000-2025-000-2025-developer-series",
+      "govId": "gov-census-00000000000000",
+      "censusGovId": "00000000000000",
+      "surveyYear": 2025,
+      "referenceMonth": "March",
+      "enumerationType": "annual_survey_sample",
+      "functionCode": "000",
+      "functionName": "Total All Functions",
+      "fullTimeEmployees": 15320000,
+      "fullTimePayroll": 102500000000,
+      "partTimeEmployees": 4880000,
+      "partTimePayroll": 11800000000,
+      "partTimeHours": 315000000,
+      "fullTimeEquivalentEmployees": 17288750,
+      "totalEmployees": 20200000,
+      "totalPayroll": 114300000000,
+      "averageFullTimeSalary": 6691,
+      "quality": {
+        "imputed": false,
+        "samplingErrorCvPercent": 0.8,
+        "samplingWeight": 1,
+        "vintage": "2025-developer-series",
+        "releaseDate": "2025-07-15",
+        "revisionStatus": "preliminary",
+        "notes": ["2025 APEP published developer series"]
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "ANNUAL_SURVEY_OF_PUBLIC_EMPLOYMENT_AND_PAYROLL",
+        "sourceFile": "2025_APEP_Developer_Series.csv",
+        "sourceHash": "4d5e6f7a8b9c0123456789abcdef0123456789abcdef0123456789abcdef01",
+        "extractedAt": "2025-07-15T00:00:00Z",
+        "methodologyCitation": "2025 Annual Survey of Public Employment & Payroll (U.S. Census Bureau)"
+      }
+    }
+  ]
+}

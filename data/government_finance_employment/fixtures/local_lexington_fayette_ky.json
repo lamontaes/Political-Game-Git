@@ -1,0 +1,305 @@
+{
+  "government": {
+    "govId": "gov-census-18203400100000",
+    "censusGovId": "18203400100000",
+    "name": "Lexington-Fayette Urban County Government",
+    "statePostal": "KY",
+    "stateFips": "21",
+    "countyFips": "067",
+    "govClass": "municipal",
+    "govLevel": "local",
+    "population": 322570,
+    "populationYear": 2020,
+    "isConsolidatedGovernment": true
+  },
+  "financeRecords": [
+    {
+      "recordId": "gov-fin-18203400100000-2022-2024-developer-series",
+      "govId": "gov-census-18203400100000",
+      "censusGovId": "18203400100000",
+      "fiscalYear": 2022,
+      "enumerationType": "complete_census",
+      "quality": {
+        "imputed": false,
+        "vintage": "2024-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "totalRevenue": 745000000,
+      "generalRevenue": 710000000,
+      "ownSourceRevenue": 615000000,
+      "taxes": {
+        "totalTaxes": 465000000,
+        "propertyTaxes": 85000000,
+        "generalSalesTaxes": 0,
+        "selectiveSalesTaxes": {
+          "total": 35000000,
+          "alcoholicBeverageTaxes": 6000000,
+          "insurancePremiumTaxes": 29000000
+        },
+        "individualIncomeTaxes": 295000000,
+        "corporateIncomeTaxes": 32000000,
+        "licenseTaxes": {
+          "total": 18000000,
+          "motorVehicleLicenses": 4000000,
+          "corporationLicenses": 6000000,
+          "otherLicenses": 8000000
+        },
+        "otherTaxes": {
+          "total": 0
+        }
+      },
+      "intergovernmentalRevenue": {
+        "total": 95000000,
+        "fromFederal": 52000000,
+        "fromState": 41000000,
+        "fromLocal": 2000000
+      },
+      "currentCharges": {
+        "total": 115000000,
+        "educationCharges": 0,
+        "hospitalCharges": 0,
+        "highwayChargesAndTolls": 2000000,
+        "sewerageCharges": 65000000,
+        "solidWasteManagementCharges": 32000000,
+        "parksAndRecreationCharges": 8000000,
+        "otherCharges": 8000000
+      },
+      "miscellaneousGeneralRevenue": {
+        "total": 35000000,
+        "specialAssessments": 1000000,
+        "interestEarnings": 9000000,
+        "saleOfProperty": 2000000,
+        "otherMiscellaneous": 23000000
+      },
+      "utilityRevenue": {
+        "total": 0
+      },
+      "liquorStoreRevenue": 0,
+      "insuranceTrustRevenue": {
+        "total": 35000000,
+        "employeeRetirement": 35000000
+      },
+      "totalExpenditure": 695000000,
+      "directExpenditure": 695000000,
+      "directGeneralExpenditure": 645000000,
+      "intergovernmentalExpenditure": {
+        "total": 0,
+        "toState": 0,
+        "toLocal": 0,
+        "toFederal": 0
+      },
+      "characterExpenditure": {
+        "currentOperation": 535000000,
+        "capitalOutlay": {
+          "total": 82000000,
+          "construction": 64000000,
+          "landAndExistingStructures": 4000000,
+          "equipment": 14000000
+        },
+        "assistanceAndSubsidies": 4000000,
+        "interestOnGeneralDebt": 24000000,
+        "insuranceBenefitsAndRepayments": 50000000
+      },
+      "functionalExpenditures": {
+        "policeProtection": {
+          "currentOperation": 105000000,
+          "capitalOutlay": 5000000,
+          "total": 110000000
+        },
+        "fireProtection": {
+          "currentOperation": 88000000,
+          "capitalOutlay": 4000000,
+          "total": 92000000
+        },
+        "correction": {
+          "currentOperation": 38000000,
+          "capitalOutlay": 2000000,
+          "total": 40000000
+        },
+        "highways": {
+          "currentOperation": 32000000,
+          "capitalOutlay": 25000000,
+          "total": 57000000
+        },
+        "sewerage": {
+          "currentOperation": 42000000,
+          "capitalOutlay": 32000000,
+          "total": 74000000
+        },
+        "solidWasteManagement": {
+          "currentOperation": 30000000,
+          "capitalOutlay": 3000000,
+          "total": 33000000
+        },
+        "parksAndRecreation": {
+          "currentOperation": 24000000,
+          "capitalOutlay": 6000000,
+          "total": 30000000
+        },
+        "health": {
+          "currentOperation": 18000000,
+          "capitalOutlay": 1000000,
+          "total": 19000000
+        },
+        "financialAdministration": {
+          "currentOperation": 16000000,
+          "capitalOutlay": 1000000,
+          "total": 17000000
+        },
+        "interestOnGeneralDebt": {
+          "currentOperation": 24000000,
+          "capitalOutlay": 0,
+          "total": 24000000
+        }
+      },
+      "utilityExpenditure": {
+        "total": 0
+      },
+      "liquorStoreExpenditure": 0,
+      "insuranceTrustExpenditure": 50000000,
+      "debtOutstandingEndYear": {
+        "total": 520000000,
+        "shortTermDebt": 0,
+        "longTermDebt": {
+          "total": 520000000,
+          "fullFaithAndCredit": 410000000,
+          "nonguaranteedRevenueDebt": 110000000
+        }
+      },
+      "debtIssuedDuringYear": 65000000,
+      "debtRetiredDuringYear": 42000000,
+      "cashAndSecuritiesEndYear": {
+        "total": 680000000,
+        "insuranceTrustFunds": 280000000,
+        "nonInsuranceTrustFunds": {
+          "total": 400000000,
+          "sinkingFunds": 45000000,
+          "bondFunds": 65000000,
+          "otherFunds": 290000000
+        }
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Indiv_Gov_Finances_KY.csv",
+        "sourceHash": "c5d6e7f8a9b0123456789abcdef0123456789abcdef0123456789abcdef0123",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, Individual Unit Finance: Lexington-Fayette (U.S. Census Bureau)"
+      }
+    }
+  ],
+  "employmentRecords": [
+    {
+      "recordId": "gov-emp-18203400100000-2022-000-2025-developer-series",
+      "govId": "gov-census-18203400100000",
+      "censusGovId": "18203400100000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "000",
+      "functionName": "Total All Functions",
+      "fullTimeEmployees": 3280,
+      "fullTimePayroll": 17850000,
+      "partTimeEmployees": 540,
+      "partTimePayroll": 920000,
+      "partTimeHours": 48000,
+      "fullTimeEquivalentEmployees": 3580,
+      "totalEmployees": 3820,
+      "totalPayroll": 18770000,
+      "averageFullTimeSalary": 5442,
+      "quality": {
+        "imputed": false,
+        "vintage": "2025-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Census_APEP_KY_Local.csv",
+        "sourceHash": "d6e7f8a9b0c123456789abcdef0123456789abcdef0123456789abcdef01234",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, Public Employment: Lexington-Fayette (U.S. Census Bureau)"
+      }
+    },
+    {
+      "recordId": "gov-emp-18203400100000-2022-024-2025-developer-series",
+      "govId": "gov-census-18203400100000",
+      "censusGovId": "18203400100000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "024",
+      "functionName": "Fire Protection",
+      "fullTimeEmployees": 590,
+      "fullTimePayroll": 3650000,
+      "partTimeEmployees": 0,
+      "partTimePayroll": 0,
+      "partTimeHours": 0,
+      "fullTimeEquivalentEmployees": 590,
+      "totalEmployees": 590,
+      "totalPayroll": 3650000,
+      "averageFullTimeSalary": 6186,
+      "quality": {
+        "imputed": false,
+        "vintage": "2025-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Census_APEP_KY_Local.csv",
+        "sourceHash": "d6e7f8a9b0c123456789abcdef0123456789abcdef0123456789abcdef01234",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, Public Employment: Lexington-Fayette (U.S. Census Bureau)"
+      }
+    },
+    {
+      "recordId": "gov-emp-18203400100000-2022-025-2025-developer-series",
+      "govId": "gov-census-18203400100000",
+      "censusGovId": "18203400100000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "025",
+      "functionName": "Police Protection - Sworn Officers",
+      "fullTimeEmployees": 630,
+      "fullTimePayroll": 3950000,
+      "partTimeEmployees": 10,
+      "partTimePayroll": 32000,
+      "partTimeHours": 1200,
+      "fullTimeEquivalentEmployees": 638,
+      "totalEmployees": 640,
+      "totalPayroll": 3982000,
+      "averageFullTimeSalary": 6270,
+      "quality": {
+        "imputed": false,
+        "vintage": "2025-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Census_APEP_KY_Local.csv",
+        "sourceHash": "d6e7f8a9b0c123456789abcdef0123456789abcdef0123456789abcdef01234",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, Public Employment: Lexington-Fayette (U.S. Census Bureau)"
+      }
+    }
+  ]
+}

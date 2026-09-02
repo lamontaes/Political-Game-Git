@@ -1,0 +1,212 @@
+[
+  {
+    "itemCode": "T01",
+    "category": "tax",
+    "title": "Property Taxes",
+    "description": "Taxes conditioned on ownership of property and measured by its value"
+  },
+  {
+    "itemCode": "T09",
+    "category": "tax",
+    "title": "General Sales and Gross Receipts Taxes",
+    "description": "Sales taxes applicable to sales of goods and services generally"
+  },
+  {
+    "itemCode": "T10",
+    "category": "tax",
+    "title": "Alcoholic Beverages Selective Sales Tax",
+    "description": "Selective sales and gross receipts taxes on alcoholic beverages"
+  },
+  {
+    "itemCode": "T11",
+    "category": "tax",
+    "title": "Motor Fuels Selective Sales Tax",
+    "description": "Selective sales and gross receipts taxes on gasoline and diesel fuels"
+  },
+  {
+    "itemCode": "T12",
+    "category": "tax",
+    "title": "Public Utilities Selective Sales Tax",
+    "description": "Selective taxes on gross receipts of public utility companies"
+  },
+  {
+    "itemCode": "T13",
+    "category": "tax",
+    "title": "Tobacco Products Selective Sales Tax",
+    "description": "Selective sales taxes on cigarettes and other tobacco products"
+  },
+  {
+    "itemCode": "T14",
+    "category": "tax",
+    "title": "Insurance Premiums Selective Sales Tax",
+    "description": "Taxes on gross insurance premiums received by insurance companies"
+  },
+  {
+    "itemCode": "T19",
+    "category": "tax",
+    "title": "Other Selective Sales and Gross Receipts Taxes",
+    "description": "Amusements, admissions, pari-mutuels, meals, hotel occupancy taxes"
+  },
+  {
+    "itemCode": "T20",
+    "category": "tax",
+    "title": "Alcoholic Beverages License Taxes",
+    "description": "Licenses for manufacturing, wholesaling, and retailing alcoholic beverages"
+  },
+  {
+    "itemCode": "T21",
+    "category": "tax",
+    "title": "Amusements License Taxes",
+    "description": "License taxes on theaters, bowling alleys, race tracks, exhibitions"
+  },
+  {
+    "itemCode": "T22",
+    "category": "tax",
+    "title": "Corporation in General License Taxes",
+    "description": "Franchise taxes and organization fees on business corporations"
+  },
+  {
+    "itemCode": "T24",
+    "category": "tax",
+    "title": "Motor Vehicles License Taxes",
+    "description": "Registration and license fees on automobiles, trucks, trailers, buses"
+  },
+  {
+    "itemCode": "T25",
+    "category": "tax",
+    "title": "Motor Vehicle Operators License Taxes",
+    "description": "Licenses for operating motor vehicles (driver licenses and permits)"
+  },
+  {
+    "itemCode": "T28",
+    "category": "tax",
+    "title": "Occupations and Businesses License Taxes",
+    "description": "Licenses on specific professions, trades, businesses, and occupations"
+  },
+  {
+    "itemCode": "T40",
+    "category": "tax",
+    "title": "Individual Income Taxes",
+    "description": "Taxes on net income of individuals, estates, and trusts"
+  },
+  {
+    "itemCode": "T41",
+    "category": "tax",
+    "title": "Corporation Net Income Taxes",
+    "description": "Taxes on net income of corporations and unincorporated businesses"
+  },
+  {
+    "itemCode": "T50",
+    "category": "tax",
+    "title": "Death and Gift Taxes",
+    "description": "Taxes on property transfers at death or by gift (estate, inheritance)"
+  },
+  {
+    "itemCode": "T51",
+    "category": "tax",
+    "title": "Documentary and Stock Transfer Taxes",
+    "description": "Taxes on recording deeds, mortgages, real estate conveyances, stocks"
+  },
+  {
+    "itemCode": "T53",
+    "category": "tax",
+    "title": "Severance Taxes",
+    "description": "Taxes on the extraction or severing of natural resources from soil/water"
+  },
+  {
+    "itemCode": "B01",
+    "category": "intergovernmental_revenue",
+    "title": "Intergovernmental Revenue from Federal Government",
+    "description": "Direct grants, shared revenues, and payments in lieu of taxes from Federal government"
+  },
+  {
+    "itemCode": "C01",
+    "category": "intergovernmental_revenue",
+    "title": "Intergovernmental Revenue from State Government",
+    "description": "State grants-in-aid, state shared taxes, and contingent payments to local governments"
+  },
+  {
+    "itemCode": "D01",
+    "category": "intergovernmental_revenue",
+    "title": "Intergovernmental Revenue from Local Governments",
+    "description": "Transfers, shared revenues, and payments from other local governments"
+  },
+  {
+    "itemCode": "A01",
+    "category": "current_charge",
+    "title": "Education Current Charges",
+    "description": "School lunch sales, athletic fees, book rentals, and tuition charges"
+  },
+  {
+    "itemCode": "A36",
+    "category": "current_charge",
+    "title": "Hospital Current Charges",
+    "description": "Fees from patients and private insurance for public hospital services"
+  },
+  {
+    "itemCode": "A44",
+    "category": "current_charge",
+    "title": "Highways and Toll Current Charges",
+    "description": "Toll roads, bridges, tunnels, ferries, and highway service fees"
+  },
+  {
+    "itemCode": "A80",
+    "category": "current_charge",
+    "title": "Sewerage Current Charges",
+    "description": "Sewer service fees, sewer connection fees, effluent disposal charges"
+  },
+  {
+    "itemCode": "A81",
+    "category": "current_charge",
+    "title": "Solid Waste Management Current Charges",
+    "description": "Garbage collection fees, commercial hauling fees, landfill tipping charges"
+  },
+  {
+    "itemCode": "A61",
+    "category": "current_charge",
+    "title": "Parks and Recreation Current Charges",
+    "description": "Greens fees, admission to recreational facilities, camp fees, marina slips"
+  },
+  {
+    "itemCode": "A91",
+    "category": "utility_revenue",
+    "title": "Water Supply Utility Revenue",
+    "description": "Revenue from retail and wholesale public drinking water sales"
+  },
+  {
+    "itemCode": "A92",
+    "category": "utility_revenue",
+    "title": "Electric Power Utility Revenue",
+    "description": "Revenue from retail and wholesale electric power sales"
+  },
+  {
+    "itemCode": "A93",
+    "category": "utility_revenue",
+    "title": "Gas Supply Utility Revenue",
+    "description": "Revenue from public natural gas utility distribution"
+  },
+  {
+    "itemCode": "A94",
+    "category": "utility_revenue",
+    "title": "Public Mass Transit Utility Revenue",
+    "description": "Passenger fares, passes, and transit operating revenue"
+  },
+  {
+    "itemCode": "61V",
+    "category": "debt_outstanding",
+    "title": "Short-Term Debt Outstanding",
+    "description": "Interest-bearing tax anticipation notes, bond anticipation notes, warrants due <= 1 year"
+  },
+  {
+    "itemCode": "19H",
+    "category": "debt_outstanding",
+    "title": "Long-Term Debt Outstanding - Full Faith and Credit",
+    "description": "General obligation bonds secured by unconditional taxing power of government"
+  },
+  {
+    "itemCode": "29U",
+    "category": "debt_outstanding",
+    "title": "Long-Term Debt Outstanding - Nonguaranteed / Revenue Debt",
+    "description": "Revenue bonds secured solely by pledged enterprise revenues, special assessments, or specific taxes"
+  }
+]

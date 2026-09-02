@@ -1,0 +1,204 @@
+{
+  "government": {
+    "govId": "gov-census-44222700000000",
+    "censusGovId": "44222700000000",
+    "name": "Travis County",
+    "statePostal": "TX",
+    "stateFips": "48",
+    "countyFips": "453",
+    "govClass": "county",
+    "govLevel": "local",
+    "population": 1290188,
+    "populationYear": 2020
+  },
+  "financeRecords": [
+    {
+      "recordId": "gov-fin-44222700000000-2022-2024-developer-series",
+      "govId": "gov-census-44222700000000",
+      "censusGovId": "44222700000000",
+      "fiscalYear": 2022,
+      "enumerationType": "complete_census",
+      "quality": {
+        "imputed": false,
+        "vintage": "2024-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "totalRevenue": 1180000000,
+      "generalRevenue": 1180000000,
+      "ownSourceRevenue": 1020000000,
+      "taxes": {
+        "totalTaxes": 920000000,
+        "propertyTaxes": 880000000,
+        "generalSalesTaxes": 0,
+        "selectiveSalesTaxes": {
+          "total": 12000000,
+          "alcoholicBeverageTaxes": 4000000,
+          "otherSelectiveSalesTaxes": 8000000
+        },
+        "individualIncomeTaxes": 0,
+        "corporateIncomeTaxes": 0,
+        "licenseTaxes": {
+          "total": 28000000,
+          "motorVehicleLicenses": 24000000,
+          "otherLicenses": 4000000
+        },
+        "otherTaxes": {
+          "total": 0
+        }
+      },
+      "intergovernmentalRevenue": {
+        "total": 160000000,
+        "fromFederal": 125000000,
+        "fromState": 32000000,
+        "fromLocal": 3000000
+      },
+      "currentCharges": {
+        "total": 62000000,
+        "educationCharges": 0,
+        "hospitalCharges": 0,
+        "highwayChargesAndTolls": 0,
+        "parksAndRecreationCharges": 6000000,
+        "otherCharges": 56000000
+      },
+      "miscellaneousGeneralRevenue": {
+        "total": 38000000,
+        "interestEarnings": 16000000,
+        "saleOfProperty": 2000000,
+        "otherMiscellaneous": 20000000
+      },
+      "utilityRevenue": {
+        "total": 0
+      },
+      "liquorStoreRevenue": 0,
+      "insuranceTrustRevenue": {
+        "total": 0
+      },
+      "totalExpenditure": 1050000000,
+      "directExpenditure": 1050000000,
+      "directGeneralExpenditure": 1050000000,
+      "intergovernmentalExpenditure": {
+        "total": 0,
+        "toState": 0,
+        "toLocal": 0,
+        "toFederal": 0
+      },
+      "characterExpenditure": {
+        "currentOperation": 845000000,
+        "capitalOutlay": {
+          "total": 145000000,
+          "construction": 115000000,
+          "landAndExistingStructures": 12000000,
+          "equipment": 18000000
+        },
+        "assistanceAndSubsidies": 20000000,
+        "interestOnGeneralDebt": 40000000,
+        "insuranceBenefitsAndRepayments": 0
+      },
+      "functionalExpenditures": {
+        "policeProtection": {
+          "currentOperation": 210000000,
+          "capitalOutlay": 12000000,
+          "total": 222000000
+        },
+        "correction": {
+          "currentOperation": 135000000,
+          "capitalOutlay": 8000000,
+          "total": 143000000
+        },
+        "judicialAndLegal": {
+          "currentOperation": 165000000,
+          "capitalOutlay": 6000000,
+          "total": 171000000
+        },
+        "health": {
+          "currentOperation": 110000000,
+          "capitalOutlay": 4000000,
+          "total": 114000000
+        },
+        "highways": {
+          "currentOperation": 55000000,
+          "capitalOutlay": 75000000,
+          "total": 130000000
+        },
+        "interestOnGeneralDebt": {
+          "currentOperation": 40000000,
+          "capitalOutlay": 0,
+          "total": 40000000
+        }
+      },
+      "utilityExpenditure": {
+        "total": 0
+      },
+      "liquorStoreExpenditure": 0,
+      "insuranceTrustExpenditure": 0,
+      "debtOutstandingEndYear": {
+        "total": 980000000,
+        "shortTermDebt": 0,
+        "longTermDebt": {
+          "total": 980000000,
+          "fullFaithAndCredit": 980000000,
+          "nonguaranteedRevenueDebt": 0
+        }
+      },
+      "debtIssuedDuringYear": 140000000,
+      "debtRetiredDuringYear": 85000000,
+      "cashAndSecuritiesEndYear": {
+        "total": 850000000,
+        "nonInsuranceTrustFunds": {
+          "total": 850000000,
+          "sinkingFunds": 65000000,
+          "bondFunds": 145000000,
+          "otherFunds": 640000000
+        }
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Indiv_Gov_Finances_TX.csv",
+        "sourceHash": "e7f8a9b0c1d23456789abcdef0123456789abcdef0123456789abcdef012345",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, Individual Unit Finance: Travis County (U.S. Census Bureau)"
+      }
+    }
+  ],
+  "employmentRecords": [
+    {
+      "recordId": "gov-emp-44222700000000-2022-000-2025-developer-series",
+      "govId": "gov-census-44222700000000",
+      "censusGovId": "44222700000000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "000",
+      "functionName": "Total All Functions",
+      "fullTimeEmployees": 5120,
+      "fullTimePayroll": 31400000,
+      "partTimeEmployees": 460,
+      "partTimePayroll": 980000,
+      "partTimeHours": 38000,
+      "fullTimeEquivalentEmployees": 5358,
+      "totalEmployees": 5580,
+      "totalPayroll": 32380000,
+      "averageFullTimeSalary": 6133,
+      "quality": {
+        "imputed": false,
+        "vintage": "2025-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Census_APEP_TX_Local.csv",
+        "sourceHash": "f8a9b0c1d2e3456789abcdef0123456789abcdef0123456789abcdef0123456",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, Public Employment: Travis County (U.S. Census Bureau)"
+      }
+    }
+  ]
+}
