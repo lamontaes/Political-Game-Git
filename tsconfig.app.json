@@ -21,5 +21,10 @@
     "types": ["vite/client"]
   },
   "include": ["src"],
-  "exclude": ["src/cli", "src/persistence", "src/**/*.test.ts"]
+  "exclude": [
+    "src/cli",
+    "src/persistence",
+    "src/hud_housing",
+    "src/**/*.test.ts"
+  ]
 }

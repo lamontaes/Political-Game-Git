@@ -1,0 +1,21 @@
+{
+  "corpus_name": "Official HUD Fair Market Rents and Income Limits Reference Corpus",
+  "schema_version": "1.0.0",
+  "generated_at": "2026-09-02T21:53:58.005Z",
+  "record_count": 7,
+  "fiscal_year_coverage": [
+    2025
+  ],
+  "sources": [
+    {
+      "source_name": "HUD Fair Market Rents & Income Limits Data",
+      "source_url": "https://www.huduser.gov/portal/datasets/fmr.html",
+      "retrieval_timestamp": "2026-09-02T21:30:00Z",
+      "sha256": "15a39ba6ba84bcd21e876a7e45457b51b6c5877fbeb6dadad1d2ce61e013cc32"
+    }
+  ],
+  "compiled_artifact": {
+    "path": "data/hud-housing/compiled-hud-housing.json",
+    "sha256": "a39cc2ed60e314c49d5a7db4c29fa7baef95202cbc315ba422479738d67144a4"
+  }
+}

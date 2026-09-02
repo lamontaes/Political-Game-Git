@@ -1,0 +1,201 @@
+[
+  {
+    "fiscal_year": 2025,
+    "hud_area_code": "METRO41860M41860",
+    "hud_area_name": "San Francisco, CA HUD Metro FMR Area",
+    "area_type": "HMFA",
+    "state_usps": "CA",
+    "associated_county_fips": ["06075", "06081"],
+    "rents": {
+      "rent_0br": 2350,
+      "rent_1br": 2720,
+      "rent_2br": 3310,
+      "rent_3br": 4180,
+      "rent_4br": 4620
+    },
+    "income_limits": {
+      "median_family_income": 175000,
+      "extremely_low_30pct": 46800,
+      "very_low_50pct": 78000,
+      "low_income_80pct": 124800
+    },
+    "flags": {
+      "is_small_area_fmr": true,
+      "is_state_nonmetro_median": false,
+      "has_hold_harmless_applied": false,
+      "custom_exception_status": null
+    },
+    "locator": "FY2025_CA_SAN_FRANCISCO_HMFA"
+  },
+  {
+    "fiscal_year": 2025,
+    "hud_area_code": "METRO35620M35620",
+    "hud_area_name": "New York, NY HUD Metro FMR Area",
+    "area_type": "HMFA",
+    "state_usps": "NY",
+    "associated_county_fips": [
+      "36005",
+      "36047",
+      "36061",
+      "36081",
+      "36085",
+      "36079",
+      "36119"
+    ],
+    "rents": {
+      "rent_0br": 2180,
+      "rent_1br": 2240,
+      "rent_2br": 2520,
+      "rent_3br": 3150,
+      "rent_4br": 3410
+    },
+    "income_limits": {
+      "median_family_income": 140100,
+      "extremely_low_30pct": 37250,
+      "very_low_50pct": 62050,
+      "low_income_80pct": 99300
+    },
+    "flags": {
+      "is_small_area_fmr": false,
+      "is_state_nonmetro_median": false,
+      "has_hold_harmless_applied": false,
+      "custom_exception_status": null
+    },
+    "locator": "FY2025_NY_NEW_YORK_HMFA"
+  },
+  {
+    "fiscal_year": 2025,
+    "hud_area_code": "METRO12420M12420",
+    "hud_area_name": "Austin-Round Rock, TX MSA",
+    "area_type": "METRO_MSA",
+    "state_usps": "TX",
+    "associated_county_fips": ["48021", "48209", "48453", "48491"],
+    "rents": {
+      "rent_0br": 1420,
+      "rent_1br": 1560,
+      "rent_2br": 1820,
+      "rent_3br": 2340,
+      "rent_4br": 2780
+    },
+    "income_limits": {
+      "median_family_income": 122000,
+      "extremely_low_30pct": 32800,
+      "very_low_50pct": 54650,
+      "low_income_80pct": 87450
+    },
+    "flags": {
+      "is_small_area_fmr": false,
+      "is_state_nonmetro_median": false,
+      "has_hold_harmless_applied": false,
+      "custom_exception_status": null
+    },
+    "locator": "FY2025_TX_AUSTIN_MSA"
+  },
+  {
+    "fiscal_year": 2025,
+    "hud_area_code": "NCNTY48001N48001",
+    "hud_area_name": "Anderson County, TX Non-Metro Area",
+    "area_type": "NONMETRO_COUNTY",
+    "state_usps": "TX",
+    "associated_county_fips": ["48001"],
+    "rents": {
+      "rent_0br": 760,
+      "rent_1br": 790,
+      "rent_2br": 980,
+      "rent_3br": 1320,
+      "rent_4br": 1540
+    },
+    "income_limits": {
+      "median_family_income": 68500,
+      "extremely_low_30pct": 21150,
+      "very_low_50pct": 35250,
+      "low_income_80pct": 56400
+    },
+    "flags": {
+      "is_small_area_fmr": false,
+      "is_state_nonmetro_median": true,
+      "has_hold_harmless_applied": false,
+      "custom_exception_status": null
+    },
+    "locator": "FY2025_TX_ANDERSON_NONMETRO"
+  },
+  {
+    "fiscal_year": 2025,
+    "hud_area_code": "NCNTY28001N28001",
+    "hud_area_name": "Adams County, MS Non-Metro Area",
+    "area_type": "NONMETRO_COUNTY",
+    "state_usps": "MS",
+    "associated_county_fips": ["28001"],
+    "rents": {
+      "rent_0br": 680,
+      "rent_1br": 710,
+      "rent_2br": 890,
+      "rent_3br": 1150,
+      "rent_4br": 1280
+    },
+    "income_limits": {
+      "median_family_income": 54200,
+      "extremely_low_30pct": 18200,
+      "very_low_50pct": 30300,
+      "low_income_80pct": 48500
+    },
+    "flags": {
+      "is_small_area_fmr": false,
+      "is_state_nonmetro_median": true,
+      "has_hold_harmless_applied": true,
+      "custom_exception_status": "Statutory Hold Harmless 2025"
+    },
+    "locator": "FY2025_MS_ADAMS_NONMETRO"
+  },
+  {
+    "fiscal_year": 2025,
+    "hud_area_code": "NECTA71650M71650",
+    "hud_area_name": "Boston-Cambridge-Newton, MA-NH NECTA",
+    "area_type": "NECTA",
+    "state_usps": "MA",
+    "associated_county_fips": ["25009", "25017", "25021", "25023", "25025"],
+    "rents": {
+      "rent_0br": 2050,
+      "rent_1br": 2210,
+      "rent_2br": 2690,
+      "rent_3br": 3380,
+      "rent_4br": 3720
+    },
+    "income_limits": {
+      "median_family_income": 153800,
+      "extremely_low_30pct": 41200,
+      "very_low_50pct": 68650,
+      "low_income_80pct": 103250
+    },
+    "flags": {
+      "is_small_area_fmr": true,
+      "is_state_nonmetro_median": false,
+      "has_hold_harmless_applied": false,
+      "custom_exception_status": null
+    },
+    "locator": "FY2025_MA_BOSTON_NECTA"
+  },
+  {
+    "fiscal_year": 2025,
+    "hud_area_code": "NCNTY02185N02185",
+    "hud_area_name": "North Slope Borough, AK Non-Metro Area",
+    "area_type": "NONMETRO_COUNTY",
+    "state_usps": "AK",
+    "associated_county_fips": ["02185"],
+    "rents": {
+      "rent_0br": 1250,
+      "rent_1br": 1410,
+      "rent_2br": 1780,
+      "rent_3br": 2210,
+      "rent_4br": null
+    },
+    "income_limits": null,
+    "flags": {
+      "is_small_area_fmr": false,
+      "is_state_nonmetro_median": false,
+      "has_hold_harmless_applied": false,
+      "custom_exception_status": "Remote Geographic Exception"
+    },
+    "locator": "FY2025_AK_NORTH_SLOPE"
+  }
+]

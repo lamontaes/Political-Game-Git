@@ -29,7 +29,10 @@
     "derive:office-plate": "node --import tsx scripts/art-asset-factory/cli-office-plate-derive.ts",
     "extract:chroma": "node --import tsx scripts/art-asset-factory/cli-chroma-extract.ts",
     "fixtures:dev-characters": "node --import tsx scripts/art-asset-factory/cli-dev-character-fixtures.ts",
-    "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art",
+    "compile:hud": "node --import tsx scripts/hud-housing-corpus/compile-hud.ts",
+    "validate:hud": "node --import tsx scripts/hud-housing-corpus/cli-validate.ts",
+    "test:hud": "vitest run tests/hud_housing.test.ts",
+    "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run validate:hud && npm run build && npm run demo -- validation-seed && npm run validate:art",
     "agent:preflight": "node scripts/agent-preflight.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",
     "stress:persons": "node --import tsx src/cli/stress-persons.ts"
