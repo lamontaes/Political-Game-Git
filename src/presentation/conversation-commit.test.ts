@@ -23,6 +23,7 @@ import {
   availableConversationIntents,
   commitConversationTurn,
   createConversationSessionDescriptor,
+  RUN_B_CONVERSATION_INTENTS,
 } from "./run-b-conversation";
 import {
   createHouseholdObligationProgress,
@@ -132,6 +133,87 @@ describe("A conversation writes down what it was actually about", () => {
     for (const contract of contracts) {
       expect(contract.setting).not.toMatch(/synthetic|fixture|stage-6/i);
     }
+  });
+
+  it("says what the player actually did, in the subject's own words", () => {
+    const { world, personId } = household("choice");
+    const after = say(world, personId, "raise-obligation");
+    const turn = after.history.events
+      .filter((event) => event.type === "conversation.household-turn")
+      .at(-1)!;
+
+    // The exact false record the audit reproduced: correctly typed, correctly
+    // tagged, and describing an action the player did not take.
+    expect(turn.context.choice).not.toBe(
+      "The player listened for the next relevant contribution.",
+    );
+    expect(turn.context.choice).toContain("the week's errands");
+
+    const settled = say(after, personId, "offer-to-cover");
+    const second = settled.history.events
+      .filter((event) => event.type === "conversation.household-turn")
+      .at(-1)!;
+    expect(second.context.choice).toBe(
+      "The player offered to cover the week themselves.",
+    );
+  });
+
+  it("refuses to describe an intent its subject does not offer", () => {
+    const contract = conversationCommitContract(
+      createHouseholdObligationProgress(),
+    );
+    // Better a loud refusal than a sentence about somebody listening.
+    expect(() =>
+      contract.choice("discuss-provision", {
+        addresseeName: "Someone",
+        named: () => "Someone",
+      }),
+    ).toThrow(/no record of what/i);
+  });
+
+  it("gives every subject its own account of every intent it offers", () => {
+    const context = { addresseeName: "Ada", named: () => "Ada" };
+    const written = new Set<string>();
+    for (const progress of [
+      createRunBConversationProgress(),
+      createHouseholdObligationProgress(),
+      createSchoolProjectProgress(),
+      createNeighborhoodMeetingProgress(),
+    ]) {
+      const contract = conversationCommitContract(progress);
+      for (const intent of RUN_B_CONVERSATION_INTENTS) {
+        let sentence: string;
+        try {
+          sentence = contract.choice(intent, context);
+        } catch {
+          continue; // Not this subject's intent, which is the correct answer.
+        }
+        expect(sentence.trim().length).toBeGreaterThan(0);
+        // Two subjects describing different actions with one sentence is how
+        // the universal writer went unnoticed for so long.
+        if (intent !== "listen") {
+          expect(written.has(sentence)).toBe(false);
+          written.add(sentence);
+        }
+      }
+    }
+    expect(written.size).toBeGreaterThanOrEqual(10);
+  });
+
+  it("gives the household its own reason for talking, not the office's", () => {
+    const { world, personId } = household("motivation");
+    const after = say(world, personId, "raise-obligation");
+    const turn = after.history.events
+      .filter((event) => event.type === "conversation.household-turn")
+      .at(-1)!;
+
+    // The other two sentences a turn writes into canonical context came from
+    // the same engine writer the choice did, so a conversation about the
+    // shopping recorded an office's reason for having it.
+    expect(turn.context.motivation).not.toContain("score check");
+    expect(turn.context.motivation).toContain("week");
+    expect(turn.context.motivation).not.toMatch(/briefing|provision|policy/i);
+    expect(turn.context.pressure ?? "").not.toMatch(/briefing/i);
   });
 
   it("carries five subject families, not one engine idea of talking", () => {

@@ -121,10 +121,37 @@ export type SaveOutcome =
   | { readonly status: "saved"; readonly summary: BrowserWorldSummary }
   | { readonly status: "discarded"; readonly reason: string };
 
+/**
+ * What became of an autosave, once the slot stopped moving.
+ *
+ * `saved` means this world or a newer one is durable. `discarded` means the
+ * slot was deleted. `failed` means it is still only in memory, and says so
+ * rather than letting the screen imply otherwise.
+ */
+export type AutosaveResult =
+  | { readonly status: "saved" }
+  | { readonly status: "discarded"; readonly reason: string }
+  | { readonly status: "failed"; readonly reason: string };
+
+/** What leaving found: either everything is down, or these slots are not. */
+export interface FlushResult {
+  readonly status: "settled" | "unsaved";
+  readonly unsaved: readonly EntityId[];
+  readonly reason: string | null;
+}
+
 export interface BrowserWorldRepositoryOptions {
   readonly indexedDB?: IDBFactory;
   readonly now?: () => Date;
   readonly databaseName?: string;
+  /**
+   * How many times one autosave is retried before the store reports it
+   * failed. A rejected write is usually transient — a quota prompt, an aborted
+   * transaction — and giving up on the first one is how progress was lost.
+   */
+  readonly autosaveAttempts?: number;
+  /** Injectable so tests do not sit through the backoff. */
+  readonly delay?: (milliseconds: number) => Promise<void>;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -149,6 +176,25 @@ export class BrowserSaveStore {
   /** Only advanced by a write that actually landed. */
   readonly #acknowledged = new Map<string, number>();
   #slotCounter = 0;
+  readonly #attempts: number;
+  readonly #delay: (milliseconds: number) => Promise<void>;
+
+  /**
+   * The newest world each slot owes to storage, and one drain per slot working
+   * it off. This is the whole autosave contract, and it lives here rather than
+   * in a component: the caller says what the newest world is, and the store is
+   * answerable for it reaching disk.
+   *
+   * What it replaces was a boolean in a React ref. While one write was in
+   * flight the next world was dropped on the floor — and because a ref does not
+   * re-render, nothing ever came back for it. A player could take an action,
+   * see it acknowledged, leave, and find it gone. Coalescing is right; losing
+   * the newest revision is not, and the difference is that a queue remembers
+   * what it skipped.
+   */
+  readonly #pending = new Map<string, World>();
+  readonly #settled = new Map<string, Promise<void>>();
+  readonly #failures = new Map<string, string>();
 
   constructor(options: BrowserWorldRepositoryOptions = {}) {
     const factory = options.indexedDB ?? globalThis.indexedDB;
@@ -162,18 +208,32 @@ export class BrowserSaveStore {
     this.#factory = factory;
     this.#now = options.now ?? (() => new Date());
     this.#databaseName = databaseName;
+    this.#attempts = Math.max(1, options.autosaveAttempts ?? 3);
+    this.#delay =
+      options.delay ??
+      ((milliseconds) =>
+        new Promise((resolve) => setTimeout(resolve, milliseconds)));
   }
 
   /**
    * A new slot for this world. Called twice for one world it gives two slots,
    * because keeping a life twice is a thing a player is allowed to do.
+   *
+   * The discriminator used to be the clock plus a counter that started at zero
+   * in every store instance, so two tabs keeping the same world in the same
+   * millisecond each made their "first" slot and got the same id — one game
+   * writing over another. Entropy comes from the browser's random source now,
+   * and the nonce is carried in the id alongside the hash rather than being
+   * folded into it, so two different nonces cannot produce one id however the
+   * hash behaves.
    */
   newSaveId(world: World): EntityId {
     this.#slotCounter += 1;
-    return createSaveId(
+    const nonce = randomSlotNonce();
+    return `${createSaveId(
       world.id,
-      `${nowTimestamp(this.#now)}:${this.#slotCounter}`,
-    ) as EntityId;
+      `${nowTimestamp(this.#now)}:${this.#slotCounter}:${nonce}`,
+    )}_${nonce}` as EntityId;
   }
 
   /**
@@ -279,18 +339,179 @@ export class BrowserSaveStore {
   remove(saveId: EntityId): Promise<boolean> {
     // Marked before the queue runs, so a write that is already waiting sees it.
     this.#deleted.add(saveId);
+    const acknowledged = this.#acknowledged.get(saveId);
     this.#acknowledged.delete(saveId);
     return this.#enqueue(async () => {
-      const existing = await this.#get(saveId);
-      if (existing === undefined) return false;
-      await this.#delete(saveId);
-      return true;
+      try {
+        const existing = await this.#get(saveId);
+        if (existing === undefined) return false;
+        await this.#delete(saveId);
+        // Gone for good: nothing is owed to a slot that no longer exists.
+        this.#pending.delete(saveId);
+        this.#failures.delete(saveId);
+        return true;
+      } catch (error: unknown) {
+        // The fence exists to stop a queued write resurrecting a save that is
+        // gone. Nothing is gone here, so leaving the fence up would block the
+        // slot for the rest of the session and then lose it at the next
+        // restart, when the tombstone is only in memory. Put it back, pick up
+        // anything the fence made a drain abandon, and let the caller say what
+        // happened.
+        this.#deleted.delete(saveId);
+        if (acknowledged !== undefined) {
+          this.#acknowledged.set(saveId, acknowledged);
+        }
+        if (this.#pending.has(saveId)) void this.#ensureDrain(saveId);
+        throw error;
+      }
     });
   }
 
-  /** Waits for everything asked for so far. Used when leaving the game. */
-  async flush(): Promise<void> {
+  /**
+   * Hands the store the newest world for a slot and holds it answerable for
+   * writing it.
+   *
+   * Calling this while an earlier write is still in flight is normal and is
+   * the case that used to lose data: the newer world replaces the older one in
+   * the queue and is written as soon as the drain comes back round. The
+   * returned promise settles once the slot is at or beyond this world, so a
+   * caller can report honestly rather than optimistically.
+   */
+  autosave(world: World, saveId: EntityId): Promise<AutosaveResult> {
+    if (this.#deleted.has(saveId)) {
+      return Promise.resolve({
+        status: "discarded",
+        reason: "This saved game was deleted, so it was not written again.",
+      } as const);
+    }
+    const sequence = world.actionSequence;
+    if (
+      this.#acknowledged.get(saveId) === sequence &&
+      !this.#pending.has(saveId)
+    ) {
+      return Promise.resolve({ status: "saved" } as const);
+    }
+    this.#pending.set(saveId, world);
+    this.#failures.delete(saveId);
+    const drained = this.#ensureDrain(saveId);
+    return drained.then(() => this.#resultFor(saveId, sequence));
+  }
+
+  #resultFor(saveId: EntityId, sequence: number): AutosaveResult {
+    if (this.#deleted.has(saveId)) {
+      return {
+        status: "discarded",
+        reason: "This saved game was deleted, so it was not written again.",
+      } as const;
+    }
+    const acknowledged = this.#acknowledged.get(saveId) ?? -1;
+    if (acknowledged >= sequence) return { status: "saved" } as const;
+    return {
+      status: "failed",
+      reason:
+        this.#failures.get(saveId) ?? "This game could not be saved just now.",
+    } as const;
+  }
+
+  /**
+   * Starts, or joins, the one drain working this slot off.
+   *
+   * The tail re-checks what is owed after clearing itself, which closes the
+   * gap where a world handed in as a drain was finishing could have been left
+   * with nobody coming back for it.
+   */
+  #ensureDrain(saveId: EntityId): Promise<void> {
+    const running = this.#settled.get(saveId);
+    if (running) return running;
+    const drain = this.#drain(saveId)
+      .catch(() => undefined)
+      .then(() => {
+        this.#settled.delete(saveId);
+      })
+      .then(() =>
+        this.#pending.has(saveId) && !this.#failures.has(saveId)
+          ? this.#ensureDrain(saveId)
+          : undefined,
+      );
+    this.#settled.set(saveId, drain);
+    return drain;
+  }
+
+  async #drain(saveId: EntityId): Promise<void> {
+    while (this.#pending.has(saveId)) {
+      const world = this.#pending.get(saveId)!;
+      if (this.#deleted.has(saveId)) {
+        this.#pending.delete(saveId);
+        return;
+      }
+      if ((this.#acknowledged.get(saveId) ?? -1) >= world.actionSequence) {
+        // A newer world landed while this one waited; nothing is owed for it.
+        if (this.#pending.get(saveId) === world) this.#pending.delete(saveId);
+        continue;
+      }
+      let written = false;
+      for (let attempt = 1; attempt <= this.#attempts; attempt += 1) {
+        try {
+          const outcome = await this.save(world, saveId);
+          if (outcome.status === "discarded") {
+            this.#pending.delete(saveId);
+            return;
+          }
+          written = true;
+          break;
+        } catch (error: unknown) {
+          this.#failures.set(
+            saveId,
+            error instanceof Error
+              ? error.message
+              : "This game could not be saved just now.",
+          );
+          if (attempt === this.#attempts) break;
+          // Short and increasing: a quota prompt or an aborted transaction is
+          // usually over by the next try, and hammering it is not help.
+          await this.#delay(attempt * 25);
+        }
+      }
+      // Whatever happened, this world is no longer the newest thing owed
+      // unless a newer one arrived while it was being written.
+      if (written && this.#pending.get(saveId) === world) {
+        this.#pending.delete(saveId);
+        this.#failures.delete(saveId);
+      }
+      if (!written) return;
+    }
+  }
+
+  /**
+   * Waits for the store to stop owing anything, and says what it still owes.
+   *
+   * Leaving used to call a flush that waited only for writes already enqueued
+   * and swallowed their rejections, so a player could leave on top of a world
+   * that never reached disk and be told nothing. This drains what is owed,
+   * gives a failed slot one more real attempt, and reports what did not land.
+   */
+  async flush(): Promise<FlushResult> {
+    const owed = [...this.#pending.keys()] as EntityId[];
+    // One more genuine attempt on the way out, rather than reporting a stale
+    // failure the player never had a chance to survive.
+    for (const saveId of owed) this.#failures.delete(saveId);
+    const drains = owed.map((saveId) => this.#ensureDrain(saveId));
+    const running = [...this.#settled.values()];
+    await Promise.all(
+      [...drains, ...running].map((done) => done.catch(() => undefined)),
+    );
     await this.#tail.catch(() => undefined);
+    const unsaved = [...this.#pending.keys()] as EntityId[];
+    if (unsaved.length === 0) {
+      return { status: "settled", unsaved, reason: null };
+    }
+    return {
+      status: "unsaved",
+      unsaved,
+      reason:
+        this.#failures.get(unsaved[0]!) ??
+        "This game could not be saved just now.",
+    };
   }
 
   #enqueue<T>(operation: () => Promise<T>): Promise<T> {
@@ -662,6 +883,27 @@ function compareSummaries(
     right.savedAt.localeCompare(left.savedAt) ||
     left.saveId.localeCompare(right.saveId)
   );
+}
+
+/**
+ * 128 bits from the browser's random source, hex encoded. Falls back only if a
+ * browser has no `crypto`, and says so rather than pretending the fallback is
+ * as good.
+ */
+function randomSlotNonce(): string {
+  const source = globalThis.crypto;
+  if (source && typeof source.getRandomValues === "function") {
+    const bytes = source.getRandomValues(new Uint8Array(16));
+    return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join(
+      "",
+    );
+  }
+  // Weaker, and only reachable where the platform offers nothing better.
+  return Array.from({ length: 16 }, () =>
+    Math.floor(Math.random() * 256)
+      .toString(16)
+      .padStart(2, "0"),
+  ).join("");
 }
 
 function nowTimestamp(now: () => Date): string {

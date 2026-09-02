@@ -5,6 +5,7 @@ import {
   ageOnDate,
   createScheduledActivity,
   createWorkItem,
+  formativeIntervalAt,
   lifePlaceByJurisdictionId,
   makeSimulationMoment,
   personName,
@@ -49,16 +50,43 @@ export interface OrdinaryDay {
 }
 
 /**
+ * Whether the ordinary week is this character's to run.
+ *
+ * Covering the shopping and the appointments, and deciding whether to give up
+ * an evening to a public meeting, are things a person does once nobody else is
+ * responsible for them. While the formative interval is still running they are
+ * not: a five-year-old does not carry the household week, and the game must not
+ * write down that they do. The engine already draws that line — the formative
+ * interval runs from birth to eighteen and then stops — so this reads that
+ * contract rather than inventing a second age rule beside it.
+ */
+export function ordinaryLifeAvailableFor(
+  world: World,
+  personId: EntityId,
+): boolean {
+  return formativeIntervalAt(world, personId) === null;
+}
+
+/**
  * Writes the two ordinary contexts this life starts with, once.
  *
  * Both are deliberately unglamorous and neither is legislative: a household
  * week that has to be covered by somebody, and a public meeting that is posted
  * whether or not anyone goes. They exist so the normal content sample is not
  * one transit bill.
+ *
+ * Nothing is written for a character these are not yet true of. The audit
+ * reproduced a production five-year-old carrying "The week's errands", a
+ * decision about a meeting and an evening on their calendar with themselves as
+ * the responsible person — invisible on screen, because a child renders the
+ * formative surface, and permanent in the save. The gate lives here, at the
+ * write, rather than in the one caller that happened to exist: a canonical
+ * record is not made pure by the screen that hides it.
  */
 export function openOrdinaryLife(world: World, personId: EntityId): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
+  if (!ordinaryLifeAvailableFor(world, personId)) return world;
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
   const jurisdictionId = place?.context.jurisdiction.id ?? null;
   const alreadyOpen = world.history.workItems.some(

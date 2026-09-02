@@ -108,7 +108,6 @@ export function PlayerGame() {
   const [problem, setProblem] = useState<string | null>(null);
   const [damaged, setDamaged] = useState<readonly QuarantinedSave[]>([]);
   const [savesUnavailable, setSavesUnavailable] = useState(store === null);
-  const writing = useRef(false);
 
   const refreshSaves = useCallback(async () => {
     if (!store) return;
@@ -145,27 +144,26 @@ export function PlayerGame() {
   }, [replaySetup]);
 
   // Autosave follows the world, never the other way round: a world is written
-  // only after it has already changed here. What counts as already written is
-  // the store's acknowledgement, not a hope recorded before the write — a
-  // failed save used to move that marker anyway, so the retry never came.
+  // only after it has already changed here.
+  //
+  // Durability is the store's job, not this effect's. What used to be here was
+  // a boolean ref: while one write was in flight the next world was skipped,
+  // and because a ref does not re-render, nothing came back for it — a player
+  // could act, be told it was saved, leave, and lose it. Handing the store the
+  // newest world and letting it coalesce and retry removes the whole class,
+  // rather than making the gate cleverer.
   useEffect(() => {
     if (!session || !store || session.saveId === null) return;
-    const saveId = session.saveId;
-    if (store.acknowledgedSequence(saveId) === session.world.actionSequence) {
-      return;
-    }
-    if (writing.current) return;
-    writing.current = true;
-    void store
-      .save(session.world, saveId)
-      .then((outcome) => {
-        if (outcome.status === "saved") setProblem(null);
-        return refreshSaves();
-      })
-      .catch(() => setProblem("This game could not be saved just now."))
-      .finally(() => {
-        writing.current = false;
-      });
+    let watching = true;
+    void store.autosave(session.world, session.saveId).then((result) => {
+      if (!watching) return;
+      if (result.status === "failed") setProblem(result.reason);
+      else if (result.status === "saved") setProblem(null);
+      return refreshSaves();
+    });
+    return () => {
+      watching = false;
+    };
   }, [session, store, refreshSaves]);
 
   function startPlaying(
@@ -234,7 +232,16 @@ export function PlayerGame() {
 
   async function deleteSave(saveId: EntityId) {
     if (!store) return;
-    await store.remove(saveId);
+    try {
+      await store.remove(saveId);
+    } catch {
+      // The save is still there. Saying so is the point: the store has put its
+      // own fence back, so the slot still works, and the player is not left
+      // believing something was removed when it was not.
+      setProblem("That saved game could not be removed just now.");
+      await refreshSaves();
+      return;
+    }
     if (session?.saveId === saveId) {
       // The life on screen no longer has a slot. Nothing further is written to
       // it, rather than quietly bringing the deleted save back.
@@ -248,9 +255,27 @@ export function PlayerGame() {
     setNotice("Deleted.");
   }
 
-  /** Leaving waits for whatever is still being written before it lets go. */
+  /**
+   * Leaving waits for whatever is still owed, and refuses to let go of a life
+   * that did not reach disk.
+   *
+   * The old flush waited only for writes already enqueued and swallowed their
+   * rejections, so leaving on top of an unwritten world looked exactly like
+   * leaving on top of a saved one. Now the store drains what it owes and says
+   * what it could not write; if something could not be written, the session
+   * stays on screen so the player still has it.
+   */
   async function leaveGame() {
-    if (store) await store.flush();
+    if (store) {
+      const flushed = await store.flush();
+      if (flushed.status === "unsaved") {
+        setProblem(
+          `${flushed.reason} This life is still here — leaving now would lose what is not saved.`,
+        );
+        await refreshSaves();
+        return;
+      }
+    }
     setSession(null);
     setScreen({ kind: "title" });
     setNotice(null);
@@ -324,7 +349,16 @@ export function PlayerGame() {
       notice={notice}
       problem={problem}
       onWorldChange={(world) =>
-        setSession((current) => (current ? { ...current, world } : current))
+        setSession((current) =>
+          current
+            ? // Opening is idempotent and gated on the character, so this is
+              // how an ordinary week begins the moment it becomes theirs —
+              // when a formative playthrough reaches eighteen — rather than
+              // only at boot, which would leave a grown character with an
+              // empty week until they reloaded.
+              { ...current, world: openOrdinaryLife(world, current.personId) }
+            : current,
+        )
       }
       onKeep={() => void keepThisWorld()}
       onLeave={() => void leaveGame()}
@@ -773,13 +807,35 @@ function SavesScreen({
                   </span>
                 ) : null}
                 {entry.saveId ? (
-                  <button
-                    type="button"
-                    data-testid="delete-damaged"
-                    onClick={() => onDelete(entry.saveId as EntityId)}
-                  >
-                    Remove it
-                  </button>
+                  // The same two steps a healthy save gets. These are the ones
+                  // the screen has just said may open in a later version and
+                  // are worth keeping, so a single click was the weakest guard
+                  // on the most fragile thing in the list.
+                  confirming === entry.saveId ? (
+                    <>
+                      <button
+                        type="button"
+                        data-testid="confirm-delete-damaged"
+                        onClick={() => {
+                          onDelete(entry.saveId as EntityId);
+                          setConfirming(null);
+                        }}
+                      >
+                        Remove for good
+                      </button>
+                      <button type="button" onClick={() => setConfirming(null)}>
+                        Keep it
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      type="button"
+                      data-testid="delete-damaged"
+                      onClick={() => setConfirming(entry.saveId as EntityId)}
+                    >
+                      Remove it
+                    </button>
+                  )
                 ) : null}
               </li>
             ))}

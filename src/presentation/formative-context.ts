@@ -9,6 +9,7 @@ import {
   drawCanonicalName,
 } from "../simulation";
 import type {
+  CharacterHistoryTransition,
   EntityId,
   IsoDate,
   LifeEligibilityDecision,
@@ -104,14 +105,26 @@ export function resolveFormativeCompanion(
   const enrolments = activeEducationEnrollmentsAt(world, personId);
   const enrolment = enrolments[0];
   if (!enrolment) return null;
+  const schoolId = enrolment.enrollment.organizationId;
+  if (schoolId === null) return null;
+  // Nobody joins a school before it has one, and a companion's record must not
+  // predate the enrolment that makes them a companion.
+  const joinedOn = enrolment.enrollment.startedAt as IsoDate;
 
-  const existing = findCompanion(world, personId, role, childAge);
+  const existing = findCompanion(world, personId, role, childAge, schoolId);
   if (existing !== null) return { world, personId: existing };
 
-  const stableKey = `formative-context:${role}:${enrolment.enrollment.organizationId}`;
+  const stableKey = `formative-context:${role}:${schoolId}`;
   const companionId = characterHistoryContextPersonId(world, stableKey);
   if (world.people[companionId]) {
-    return { world, personId: companionId };
+    // The same person every time is the point — a classmate is not a new
+    // stranger each lunchtime — but only while they still hold the role. If
+    // this one has left the school, they are no longer the person the scene
+    // needs, and returning them anyway is how a "teacher" ends up being
+    // somebody who does not teach here.
+    return holdsRole(world, companionId, role, schoolId, childAge)
+      ? { world, personId: companionId }
+      : null;
   }
 
   const rng = new SeededRng(world.seed).fork(`${stableKey}:${personId}`);
@@ -121,69 +134,146 @@ export function resolveFormativeCompanion(
         shiftYears(person.birthDate, rng.integer(-1, 2))
       : yearsBefore(person.birthDate, rng.integer(24, 46));
 
+  // Age made them plausible; this is what makes them true. A classmate is
+  // somebody enrolled at the same school, and a teacher is somebody employed
+  // to teach at it — facts in the world, written down, and readable by
+  // everything downstream that later says "your classmate" or "your teacher".
+  const transitions: CharacterHistoryTransition[] = [
+    {
+      kind: "context-person",
+      input: {
+        stableKey,
+        ...drawCanonicalName(rng),
+        birthDate,
+        homeJurisdictionId: person.homeJurisdictionId,
+      },
+    },
+  ];
+  if (role === "peer") {
+    transitions.push({
+      kind: "education",
+      input: {
+        stableKey: `${stableKey}:enrollment`,
+        personId: companionId,
+        organizationId: schoolId,
+        startedAt: joinedOn,
+        programKind: enrolment.enrollment.programKind,
+        // Classmates are in the same stage as the child they sit with, so the
+        // stage is read off the child's age when this school year began rather
+        // than assumed.
+        contextKind:
+          ageOnDate(person.birthDate, joinedOn) >= 14
+            ? "stage:secondary"
+            : "stage:primary",
+        provenance: CONTEXT_PROVENANCE,
+      },
+    });
+  } else {
+    transitions.push({
+      kind: "work",
+      input: {
+        stableKey: `${stableKey}:work`,
+        personId: companionId,
+        organizationId: schoolId,
+        startedAt: joinedOn,
+        kind: "employment:school-teaching",
+        compensation: "paid",
+        authority: "directs-others",
+        dependency: "dependent",
+        economicRisk: "organization-borne",
+        provenance: CONTEXT_PROVENANCE,
+        initialRole: {
+          title: "Teacher",
+          occupationClassification: "occupation:school-teacher",
+          locationJurisdictionId: person.homeJurisdictionId,
+          timeDemand: {
+            ...TEACHING_HOURS,
+            locationJurisdictionId: person.homeJurisdictionId,
+          },
+        },
+      },
+    });
+  }
+
   const next = applyCharacterHistoryPlan(world, {
     stableKey,
     mode: "quick-generated",
     personId,
-    transitions: [
-      {
-        kind: "context-person",
-        input: {
-          stableKey,
-          ...drawCanonicalName(rng),
-          birthDate,
-          homeJurisdictionId: person.homeJurisdictionId,
-        },
-      },
-    ],
+    transitions,
   }).world;
   return { world: next, personId: companionId };
 }
 
-/** Somebody already in the world who can play this part. */
+/** A school week, stated rather than borrowed from an office. */
+const TEACHING_HOURS = {
+  expectedWeekly: { minimumHours: 30, maximumHours: 45 },
+  attention: "high",
+  concurrency: "partly-concurrent",
+  scheduleRigidity: "rigid",
+  interruptibility: "non-interruptible",
+} as const;
+
+const CONTEXT_PROVENANCE = {
+  kind: "generated" as const,
+  generatorKey: "formative-context-v1",
+};
+
+/**
+ * Whether somebody actually holds the part the scene is about to give them.
+ *
+ * This is the question `findCompanion` and the stable-companion shortcut both
+ * have to answer, and answering it in one place is why they cannot drift: age
+ * is a filter, the role is the claim.
+ */
+function holdsRole(
+  world: World,
+  candidateId: EntityId,
+  role: "peer" | "teacher",
+  schoolId: EntityId,
+  childAge: number,
+): boolean {
+  const candidate = world.people[candidateId];
+  if (!candidate) return false;
+  const age = ageOnDate(candidate.birthDate, world.currentDate);
+  if (role === "peer") {
+    return (
+      Math.abs(age - childAge) <= PEER_AGE_TOLERANCE_YEARS &&
+      activeEducationEnrollmentsAt(world, candidateId).some(
+        (entry) => entry.enrollment.organizationId === schoolId,
+      )
+    );
+  }
+  return (
+    age >= 18 &&
+    age - childAge >= TEACHER_MINIMUM_AGE_GAP &&
+    activeWorkRelationshipsAt(world, candidateId).some(
+      (entry) => entry.relationship.organizationId === schoolId,
+    )
+  );
+}
+
+/**
+ * Somebody already in the world who can play this part.
+ *
+ * "Can" means holds the role, not resembles somebody who might. A similarly
+ * aged stranger used to be returned as a classmate whether or not they had ever
+ * been to this school — so a scene could name a peer the child had never sat
+ * with, and history recorded it as though they had.
+ */
 function findCompanion(
   world: World,
   personId: EntityId,
-  role: FormativeCompanionRole,
+  role: "peer" | "teacher",
   childAge: number,
+  schoolId: EntityId,
 ): EntityId | null {
   for (const candidateId of world.personOrder) {
     if (candidateId === personId) continue;
-    const candidate = world.people[candidateId];
-    if (!candidate) continue;
-    const age = ageOnDate(candidate.birthDate, world.currentDate);
-    if (
-      role === "peer" &&
-      Math.abs(age - childAge) <= PEER_AGE_TOLERANCE_YEARS
-    ) {
-      return candidateId;
-    }
-    if (
-      role === "teacher" &&
-      age >= 18 &&
-      age - childAge >= TEACHER_MINIMUM_AGE_GAP &&
-      sharesSchoolWith(world, candidateId, personId)
-    ) {
+    if (holdsRole(world, candidateId, role, schoolId, childAge)) {
       return candidateId;
     }
   }
   return null;
-}
-
-function sharesSchoolWith(
-  world: World,
-  candidateId: EntityId,
-  personId: EntityId,
-): boolean {
-  const theirs = activeEducationEnrollmentsAt(world, personId).map(
-    (entry) => entry.enrollment.organizationId,
-  );
-  return world.history.workRelationships.some(
-    (relationship) =>
-      relationship.personId === candidateId &&
-      relationship.organizationId !== null &&
-      theirs.includes(relationship.organizationId),
-  );
 }
 
 /* -------------------------------------------------------------------------- */
@@ -327,9 +417,30 @@ export function formativeStepDays(
     `formative-pacing-v2:${personId}:${interval.band}`,
   );
   const [minimum, maximum] = interval.anchorBudget;
-  const anchors = rng.integer(minimum, maximum + 1);
+  const anchors = Math.max(1, rng.integer(minimum, maximum + 1));
   const bandDays = Math.max(1, daysBetween(interval.beginsAt, interval.endsAt));
-  return Math.max(1, Math.round(bandDays / Math.max(1, anchors)));
+
+  // The band's anchors are marks laid evenly across the band, and a step is the
+  // distance from here to the next mark — not one fixed length repeated.
+  //
+  // A fixed length is what let the budget go unspent. Divide the band by its
+  // anchors, repeat that length from wherever the character happens to be, and
+  // the last step of the band lands somewhere in the next one; the days it ate
+  // there are days that band never gets to put an anchor on. Counting from the
+  // band's own start instead means a band lived from its first day gets exactly
+  // the anchors it was budgeted, and one entered part-way through gets the
+  // marks that are left — which is the honest answer for a character who was
+  // not there for the rest.
+  const elapsed = Math.min(
+    Math.max(daysBetween(interval.beginsAt, world.currentDate), 0),
+    bandDays,
+  );
+  const nextMark = Math.floor((elapsed * anchors) / bandDays) + 1;
+  const nextAt = Math.min(
+    Math.round((nextMark * bandDays) / anchors),
+    bandDays,
+  );
+  return Math.max(1, nextAt - elapsed);
 }
 
 function daysBetween(from: string, to: string): number {

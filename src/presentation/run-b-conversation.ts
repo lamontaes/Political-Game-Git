@@ -600,16 +600,21 @@ export function commitConversationTurn(
         setting: commit.setting,
       },
       socialContext: commit.socialContext,
-      pressure: conversationPressure(input.intent, currentProgress),
-      choice: conversationChoice(
-        world,
-        input.room,
-        input.intent,
-        currentProgress,
-      ),
-      motivation: isRunCLegislativeConversationProgress(currentProgress)
-        ? "Clarify legal working language and staff projection without treating either as enacted policy."
-        : "Clarify the next step without turning the exchange into a score check.",
+      pressure: commit.pressure(input.intent),
+      // Written by the subject in front of the player, in its own words.
+      choice: commit.choice(input.intent, {
+        // Addressing the room is addressing the person in it, which is the
+        // same reading the subject dialogue already uses.
+        addresseeName: shortPersonName(
+          world,
+          input.addressee === "everyone"
+            ? input.room.eligibleAddresseePersonIds[0]!
+            : input.addressee,
+        ),
+        named: (role) =>
+          shortPersonName(world, conversationRole(input.room, role)),
+      }),
+      motivation: commit.motivation,
       immediateReaction:
         resolved.dialogue ??
         "The room settled briefly; no participant added another claim.",
@@ -1835,41 +1840,6 @@ function conversationEventSummary(
   }
   const speaker = personName(world.people[responseSpeakerPersonId]!);
   return `${player} used a ${intent.replaceAll("-", " ")} approach; ${speaker} ${outcome.replaceAll("-", " ")}.`;
-}
-
-function conversationPressure(
-  intent: ConversationIntent,
-  progress: ConversationProgress,
-): string | null {
-  if (isRunCLegislativeConversationProgress(progress)) {
-    return "The office needs a clear working version while legal text and projected consequences remain distinct.";
-  }
-  if (intent === "press") return "The player asked for an immediate answer.";
-  if (intent === "request-commitment") {
-    return "The afternoon briefing creates pressure for a clear next step.";
-  }
-  return null;
-}
-
-function conversationChoice(
-  world: World,
-  room: ConversationRoomContext,
-  intent: ConversationIntent,
-  progress: ConversationProgress,
-): string {
-  if (isRunCLegislativeConversationProgress(progress)) {
-    return `The player asked ${shortPersonName(world, conversationRole(room, "briefing-lead"))} to interpret the selected working provision and compare its prepared alternative.`;
-  }
-  if (intent === "request-commitment") {
-    return "The player asked for a concrete checklist or verification commitment.";
-  }
-  if (intent === "reassure") {
-    return "The player kept the checklist recommendation narrow and evidence-led.";
-  }
-  if (intent === "press") {
-    return "The player pressed for an answer on the checklist or last case.";
-  }
-  return "The player listened for the next relevant contribution.";
 }
 
 function conversationSubjectEntityIds(

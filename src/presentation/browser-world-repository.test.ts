@@ -124,6 +124,10 @@ class FakeStorageControl {
     this.#delays.clear();
   }
 
+  clearFailures(): void {
+    this.#failures.clear();
+  }
+
   shouldFail(operation: FakeOperation): boolean {
     const remaining = this.#failures.get(operation) ?? 0;
     if (remaining <= 0) return false;
@@ -494,5 +498,175 @@ describe("Ordering, fencing and acknowledgement", () => {
     factory.control.clearDelays();
 
     expect((await store.list()).saves).toHaveLength(1);
+  });
+});
+
+describe("Autosave is answerable for the newest world, not the first one", () => {
+  function autosaveStore(clockValue = "2026-05-01T10:00:00.000Z") {
+    const factory = new FakeIndexedDbFactory();
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      now: clockAt(clockValue).now,
+      databaseName: "test-worlds",
+      // No sitting through backoff; the retry itself is what is under test.
+      delay: () => Promise.resolve(),
+    });
+    return { factory, store };
+  }
+
+  it("writes the newest revision when a later one arrives mid-write", async () => {
+    const { store, factory } = autosaveStore();
+    const world = playerWorld("coalesce");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    // The exact sequence the re-audit described: revision N is being written,
+    // the player acts again, and N+1 is handed in while N is still in flight.
+    // The boolean gate this replaces dropped N+1 on the floor — and because a
+    // ref does not re-render, nothing ever came back for it.
+    factory.control.delay("put", 5);
+    const first = store.autosave(advanceDemoWorld(world, 3), saveId);
+    const newest = advanceDemoWorld(world, 9);
+    const second = store.autosave(newest, saveId);
+    await Promise.all([first, second]);
+    factory.control.clearDelays();
+
+    expect(store.acknowledgedSequence(saveId)).toBe(newest.actionSequence);
+    const reloaded = await store.load(saveId);
+    expect(reloaded!.actionSequence).toBe(newest.actionSequence);
+  });
+
+  it("comes back for a write that failed, without being asked twice", async () => {
+    const { store, factory } = autosaveStore();
+    const world = playerWorld("retry");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    const advanced = advanceDemoWorld(world, 4);
+    factory.control.failNext("put");
+    // Nothing here calls save again. The old test proved storage worked when
+    // the caller retried by hand, which is precisely what nothing did.
+    const result = await store.autosave(advanced, saveId);
+
+    expect(result.status).toBe("saved");
+    expect(store.acknowledgedSequence(saveId)).toBe(advanced.actionSequence);
+  });
+
+  it("says a revision is not saved rather than implying it is", async () => {
+    const { store, factory } = autosaveStore();
+    const world = playerWorld("give-up");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    factory.control.failNext("put", 20);
+    const result = await store.autosave(advanceDemoWorld(world, 4), saveId);
+    expect(result.status).toBe("failed");
+    // The acknowledgement stays where it was, so nothing downstream believes
+    // the newer world is durable.
+    expect(store.acknowledgedSequence(saveId)).toBe(world.actionSequence);
+  });
+
+  it("drains what is still owed when the player leaves, and says what is not", async () => {
+    const { store, factory } = autosaveStore();
+    const world = playerWorld("leaving");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    // A world handed in and never given a chance to land before Leave.
+    factory.control.failNext("put", 20);
+    const advanced = advanceDemoWorld(world, 6);
+    const pending = store.autosave(advanced, saveId);
+    await pending;
+
+    factory.control.failNext("put", 20);
+    const stillFailing = await store.flush();
+    expect(stillFailing.status).toBe("unsaved");
+    expect(stillFailing.unsaved).toContain(saveId);
+    expect(stillFailing.reason).not.toBeNull();
+
+    // Once storage is working again, leaving writes it rather than losing it.
+    factory.control.clearFailures();
+    const settled = await store.flush();
+    expect(settled.status).toBe("settled");
+    expect((await store.load(saveId))!.actionSequence).toBe(
+      advanced.actionSequence,
+    );
+  });
+
+  it("does not write a slot the player deleted while it was owed", async () => {
+    const { store } = autosaveStore();
+    const world = playerWorld("deleted-slot");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+    await store.remove(saveId);
+
+    const result = await store.autosave(advanceDemoWorld(world, 2), saveId);
+    expect(result.status).toBe("discarded");
+    expect((await store.flush()).status).toBe("settled");
+    expect((await store.list()).saves).toHaveLength(0);
+  });
+});
+
+describe("A slot belongs to one game", () => {
+  it("gives two tabs two slots for the same world at the same instant", () => {
+    const world = playerWorld("two-tabs");
+    // One clock, one world, and each store making its first slot: the counter
+    // that used to discriminate them started at zero in both, so both tabs
+    // addressed the same slot and one game wrote over the other.
+    const ids = new Set(
+      Array.from({ length: 8 }, () => storeWith().store.newSaveId(world)),
+    );
+    expect(ids.size).toBe(8);
+  });
+
+  it("keeps two lives from the same setup in different worlds", () => {
+    const first = createNewGameWorld({
+      placeKey: "kentucky",
+      startAge: 30,
+      depth: "summarize-earlier-life",
+      startingLife: "ordinary-life",
+      household: "lives-alone",
+      seed: "identity",
+      givenName: "A",
+      familyName: null,
+    });
+    const second = createNewGameWorld({
+      placeKey: "kentucky",
+      startAge: 30,
+      depth: "summarize-earlier-life",
+      startingLife: "ordinary-life",
+      household: "lives-alone",
+      seed: "identity",
+      givenName: "B",
+      familyName: null,
+    });
+    expect(first.world.seed).not.toBe(second.world.seed);
+    expect(first.world.id).not.toBe(second.world.id);
+  });
+});
+
+describe("A delete that did not happen", () => {
+  it("leaves the slot usable and says so, rather than fencing it forever", async () => {
+    const { store, factory } = storeWith();
+    const world = playerWorld("failed-delete");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    factory.control.failNext("delete");
+    await expect(store.remove(saveId)).rejects.toThrow();
+
+    // The save is still there, so the in-memory tombstone would have blocked a
+    // slot that was never removed — and lost it at the next restart, when the
+    // tombstone is gone and the record is not.
+    expect((await store.list()).saves).toHaveLength(1);
+    const advanced = advanceDemoWorld(world, 3);
+    expect((await store.save(advanced, saveId)).status).toBe("saved");
+    expect((await store.load(saveId))!.actionSequence).toBe(
+      advanced.actionSequence,
+    );
+
+    // And a delete that does land still fences the slot.
+    expect(await store.remove(saveId)).toBe(true);
+    expect((await store.save(world, saveId)).status).toBe("discarded");
   });
 });

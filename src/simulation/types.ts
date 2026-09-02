@@ -3209,9 +3209,22 @@ export interface LegislativeEnactmentRecord {
   readonly outcomeEventId: EntityId;
 }
 
+/**
+ * Which lineage built a world, and therefore what its contents are allowed to
+ * be. A `fixture` world is a developer's diagnostic scaffold and may carry
+ * validation-only substrate; a `production` world is somebody's game and may
+ * not. The distinction is part of world identity rather than a comment,
+ * because the defect it exists to prevent was a production world silently
+ * inheriting fixture content through a default argument.
+ */
+export type WorldLineage = "production" | "fixture";
+
+/** The generator that stamped a world, one per lineage. */
+export type WorldGeneratorVersion = "demo-world-v15" | "production-world-v1";
+
 export interface World {
   readonly schemaVersion: 15;
-  readonly generatorVersion: "demo-world-v15";
+  readonly generatorVersion: WorldGeneratorVersion;
   readonly id: EntityId;
   readonly seed: string;
   readonly startedAt: IsoDate;

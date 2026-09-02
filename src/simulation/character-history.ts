@@ -1713,6 +1713,20 @@ export function resolveLifeSituation(
       return { status: "blocked", eligibility, world };
   }
   const other = input.otherPersonId ?? null;
+  // Whether anything about this choice was outward at all. An option with
+  // nothing witnessed is one the other person had no part in — they were in the
+  // room, but the thing being recorded happened where only the player could see
+  // it.
+  const witnessed = option.witnessed ?? null;
+  if (other !== null && !("witnessed" in option)) {
+    // Silence here would drop the other person from the record entirely, and
+    // an omission is not the same answer as "there was nothing to see". An
+    // option in a scene with somebody else in it has to say which.
+    throw new Error(
+      `The ${input.situationKey} situation has somebody else in it, so its "${option.key}" option must say what they witnessed, or say null for nothing.`,
+    );
+  }
+  const shared = other !== null && witnessed !== null ? other : null;
   const eventStableKey = `${input.stableKey}:event`;
   const basePlan: CharacterHistoryPlan = {
     stableKey: input.stableKey,
@@ -1727,19 +1741,26 @@ export function resolveLifeSituation(
           occurredAt: input.occurredAt,
           recordedAt: world.currentDate,
           jurisdictionId: input.jurisdictionId,
-          involvedEntityIds: [input.personId, ...(other ? [other] : [])],
+          // The event's summary is the player's own remembered sentence, so
+          // whoever is named on it is claimed to have been part of that. The
+          // audit reproduced a teacher whose own history returned "you kept it
+          // somewhere only you could see" — correctly given no knowledge of it,
+          // and still handed the sentence, because being listed as a
+          // participant is what person history reads. Somebody who witnessed
+          // nothing is not on the record of it.
+          involvedEntityIds: [input.personId, ...(shared ? [shared] : [])],
           participants: [
             {
               personId: input.personId,
               role: "agency:actor",
               detail: option.label,
             },
-            ...(other
+            ...(shared
               ? [
                   {
-                    personId: other,
+                    personId: shared,
                     role: "presence:participant" as const,
-                    detail: null,
+                    detail: witnessed,
                   },
                 ]
               : []),
@@ -1799,15 +1820,14 @@ export function resolveLifeSituation(
       },
     },
   ];
-  const witnessed = option.witnessed ?? null;
-  if (other && witnessed !== null) {
+  if (shared !== null && witnessed !== null) {
     // What they saw, not what the other person privately made of it, and
     // partial because watching is not being told.
     consequenceTransitions.push({
       kind: "knowledge",
       input: {
-        stableKey: `${input.stableKey}:knowledge:${other}`,
-        personId: other,
+        stableKey: `${input.stableKey}:knowledge:${shared}`,
+        personId: shared,
         eventStableKey,
         learnedAt: input.occurredAt,
         believedSummary: witnessed,
@@ -1822,7 +1842,7 @@ export function resolveLifeSituation(
       kind: "interaction",
       input: {
         stableKey: `${input.stableKey}:interaction`,
-        personIds: [input.personId, other],
+        personIds: [input.personId, shared],
         eventStableKey,
         occurredAt: input.occurredAt,
         kind: interactionKind(input.situationKey, input.optionKey),
@@ -1854,7 +1874,10 @@ export function resolveLifeSituation(
       ],
       interpretation: option.memory,
       confidence: "medium",
-      involvedPersonIds: other ? [other] : [],
+      // An appraisal may only name people the event it appraises involved —
+      // the engine enforces that, and it is right to. So an inward choice is
+      // appraised without naming anybody: there was nobody else in it.
+      involvedPersonIds: shared ? [shared] : [],
       supersedesAppraisalId: null,
     },
   });

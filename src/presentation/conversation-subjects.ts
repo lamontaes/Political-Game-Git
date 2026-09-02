@@ -653,6 +653,61 @@ export interface ConversationCommitContract {
   interactionKind(
     consequence: "strengthened" | "strained",
   ): RelationshipInteractionKind;
+  /**
+   * What the record says the player did.
+   *
+   * This is the last thing a turn wrote that the subject did not own. The
+   * writer knew three office intents and answered everything else with "The
+   * player listened for the next relevant contribution" — so a household turn
+   * that brought up the week was filed, correctly typed and correctly tagged,
+   * as the player having listened. A canonical record of an action nobody took
+   * is worse than no record, and a subject is the only thing that knows what
+   * its own intents mean.
+   */
+  choice(
+    intent: ConversationIntent,
+    context: ConversationChoiceContext,
+  ): string;
+  /**
+   * Why this exchange is happening at all, and what if anything is pressing on
+   * it — the other two sentences a turn writes into canonical context. They
+   * were written by the same two-branch engine writer as the choice was, so a
+   * kitchen conversation about the shopping recorded its motivation as
+   * "Clarify the next step without turning the exchange into a score check"
+   * and a household disagreement recorded no pressure it could name. Both
+   * belong to the subject for the same reason the choice does.
+   */
+  readonly motivation: string;
+  pressure(intent: ConversationIntent): string | null;
+}
+
+/** What a choice sentence may name, without reaching for the room itself. */
+export interface ConversationChoiceContext {
+  /** The short name of the person being spoken to. */
+  readonly addresseeName: string;
+  /** The short name of whoever holds a named part in this room. */
+  named(role: string): string;
+}
+
+/**
+ * Builds a subject's choice writer from its own intents, and refuses one it
+ * does not offer rather than describing it wrongly.
+ */
+function choiceWriter(
+  subject: string,
+  sentences: Readonly<
+    Record<string, (context: ConversationChoiceContext) => string>
+  >,
+): ConversationCommitContract["choice"] {
+  return (intent, context) => {
+    const write = sentences[intent];
+    if (!write) {
+      throw new Error(
+        `The ${subject} conversation has no record of what "${intent}" does.`,
+      );
+    }
+    return write(context);
+  };
 }
 
 const OFFICE_INTERACTION = (
@@ -674,6 +729,23 @@ const COMMIT_CONTRACTS: Readonly<
     socialContext: "A bounded in-room conversation during briefing work.",
     interactionTags: ["conversation.office", "relationship.shared-work"],
     interactionKind: OFFICE_INTERACTION,
+    motivation:
+      "Clarify the next step on the casework without turning the exchange into a score check.",
+    pressure: (intent) =>
+      intent === "press"
+        ? "The player asked for an immediate answer."
+        : intent === "request-commitment"
+          ? "The afternoon briefing creates pressure for a clear next step."
+          : null,
+    choice: choiceWriter("shared intake checklist", {
+      "request-commitment": () =>
+        "The player asked for a concrete checklist or verification commitment.",
+      reassure: () =>
+        "The player kept the checklist recommendation narrow and evidence-led.",
+      press: () =>
+        "The player pressed for an answer on the checklist or last case.",
+      listen: () => "The player listened for the next relevant contribution.",
+    }),
   },
   "transit-access-pilot-provision": {
     subject: "transit-access-pilot-provision",
@@ -684,6 +756,16 @@ const COMMIT_CONTRACTS: Readonly<
     socialContext: "A conversation over the wording of a legislative draft.",
     interactionTags: ["conversation.office", "relationship.shared-work"],
     interactionKind: OFFICE_INTERACTION,
+    motivation:
+      "Clarify legal working language and staff projection without treating either as enacted policy.",
+    pressure: () =>
+      "The office needs a clear working version while legal text and projected consequences remain distinct.",
+    choice: choiceWriter("working provision", {
+      "discuss-provision": ({ named }) =>
+        `The player asked ${named("briefing-lead")} to interpret the selected working provision and compare its prepared alternative.`,
+      listen: () =>
+        "The player listened while the provision was talked through.",
+    }),
   },
   "household-obligation": {
     subject: "household-obligation",
@@ -700,6 +782,24 @@ const COMMIT_CONTRACTS: Readonly<
       consequence === "strengthened"
         ? "support:shared-load"
         : "conflict:household-friction",
+    motivation:
+      "Settle who carries the week, so it does not end up carried by whoever notices last.",
+    pressure: (intent) =>
+      intent === "raise-obligation"
+        ? "The week starts whether or not anybody has said who is doing it."
+        : null,
+    choice: choiceWriter("household obligation", {
+      "raise-obligation": ({ addresseeName }) =>
+        `The player brought up the week's errands with ${addresseeName}.`,
+      "offer-to-cover": () =>
+        "The player offered to cover the week themselves.",
+      "ask-to-share": ({ addresseeName }) =>
+        `The player asked to split the week with ${addresseeName}.`,
+      "ask-for-time": ({ addresseeName }) =>
+        `The player asked ${addresseeName} to take the week this time.`,
+      listen: () =>
+        "The player left the question of who carries the week unanswered.",
+    }),
   },
   "school-project-share": {
     subject: "school-project-share",
@@ -713,6 +813,22 @@ const COMMIT_CONTRACTS: Readonly<
       consequence === "strengthened"
         ? "work:reassurance"
         : "conflict:pressed-for-answer",
+    motivation:
+      "Agree who does which part before the work is due rather than after.",
+    pressure: (intent) =>
+      intent === "ask-to-split"
+        ? "The split has to be agreed while there is still time to do the work."
+        : null,
+    choice: choiceWriter("school project share", {
+      "raise-share": ({ addresseeName }) =>
+        `The player raised how the project was being divided with ${addresseeName}.`,
+      "offer-to-do-more": () =>
+        "The player offered to take on more of the project.",
+      "ask-to-split": () =>
+        "The player asked for the project to be split more evenly.",
+      listen: () =>
+        "The player left the question of who does which part unanswered.",
+    }),
   },
   "neighborhood-meeting-notice": {
     subject: "neighborhood-meeting-notice",
@@ -727,6 +843,20 @@ const COMMIT_CONTRACTS: Readonly<
       consequence === "strengthened"
         ? "contact:neighborly"
         : "conflict:pressed-for-answer",
+    motivation:
+      "Work out whether either of them is going, while the meeting is still ahead of them.",
+    pressure: (intent) =>
+      intent === "ask-them-to-go"
+        ? "The meeting happens on its posted evening whether or not anybody goes."
+        : null,
+    choice: choiceWriter("neighborhood meeting notice", {
+      "mention-meeting": ({ addresseeName }) =>
+        `The player mentioned the posted meeting to ${addresseeName}.`,
+      "say-you-will-go": () => "The player said they would go to the meeting.",
+      "ask-them-to-go": ({ addresseeName }) =>
+        `The player asked ${addresseeName} to go to the meeting instead.`,
+      listen: () => "The player said nothing about whether anybody would go.",
+    }),
   },
 };
 

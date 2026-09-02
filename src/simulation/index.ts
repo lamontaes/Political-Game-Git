@@ -38,6 +38,7 @@ export * from "./person-stress-harness";
 export * from "./portability-fixture";
 export * from "./perception";
 export * from "./policy";
+export * from "./production-catalog";
 export * from "./policy-decision";
 export * from "./policy-semantics";
 export * from "./politics";

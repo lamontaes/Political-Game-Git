@@ -274,6 +274,89 @@ test.describe("A life is kept, and comes back", () => {
     await expect(page.getByTestId("save-entry")).toHaveCount(1);
     await expect(page.getByTestId("damaged-saves")).toBeVisible();
     await expect(page.getByTestId("damaged-entry")).toHaveCount(1);
+
+    // The screen has just said this one may open in a later version and is
+    // worth keeping. One click used to remove it anyway — the weakest guard in
+    // the list on the most fragile thing in it.
+    await page.getByTestId("delete-damaged").click();
+    await expect(page.getByTestId("damaged-entry")).toHaveCount(1);
+    await page.getByRole("button", { name: "Keep it" }).click();
+    await expect(page.getByTestId("damaged-entry")).toHaveCount(1);
+
+    await page.getByTestId("delete-damaged").click();
+    await page.getByTestId("confirm-delete-damaged").click();
+    await expect(page.getByTestId("damaged-entry")).toHaveCount(0);
+    // And the healthy game beside it is untouched.
+    await expect(page.getByTestId("save-entry")).toHaveCount(1);
+  });
+});
+
+test.describe("What is written to disk is a player's world", () => {
+  /** Reads the stored records the way a player's browser holds them. */
+  async function storedRecords(page: Page) {
+    return page.evaluate(async () => {
+      return new Promise<readonly unknown[]>((resolve) => {
+        const open = indexedDB.open("political-life-worlds", 1);
+        open.onsuccess = () => {
+          const transaction = open.result.transaction("worlds", "readonly");
+          const request = transaction.objectStore("worlds").getAll();
+          request.onsuccess = () => resolve(request.result as unknown[]);
+          request.onerror = () => resolve([]);
+        };
+        open.onerror = () => resolve([]);
+      });
+    });
+  }
+
+  test("carries no validation substrate and no child's adult week", async ({
+    page,
+  }) => {
+    await freshBrowser(page);
+    await startLife(page, { age: 7 });
+    await keepAndWait(page);
+
+    const records = await storedRecords(page);
+    expect(records).toHaveLength(1);
+    const written = JSON.stringify(records);
+
+    // The screen showed nothing wrong either time this was reproduced. What
+    // was wrong was in the file: a demo generator stamp, a synthetic policy
+    // catalog, a certain-death mortality fixture, and a seven-year-old down as
+    // the person responsible for the week's errands and an evening meeting.
+    expect(written).not.toMatch(/synthetic/i);
+    expect(written).not.toMatch(/validation-only/i);
+    expect(written).not.toMatch(/demo-world/i);
+    expect(written).toContain("production-world-v1");
+    expect(written).not.toMatch(/The week's errands/i);
+    expect(written).not.toMatch(/Whether to go to the meeting/i);
+  });
+
+  test("keeps the newest revision when the player leaves straight after acting", async ({
+    page,
+  }) => {
+    await freshBrowser(page);
+    await startLife(page, { age: 9 });
+    await keepAndWait(page);
+
+    // Act, then leave immediately: the autosave for this revision is still in
+    // flight as Leave is pressed. The revision used to be dropped and the
+    // player would come back to the world before their last move.
+    await page
+      .getByTestId("formative-options")
+      .getByRole("button")
+      .first()
+      .click();
+    await expect(page.getByTestId("formative-memories")).toBeVisible();
+    const remembered = await page.getByTestId("formative-memories").innerText();
+
+    await page.getByTestId("leave-game").click();
+    await expect(page.getByTestId("title-screen")).toBeVisible();
+    await page.reload();
+    await page.getByTestId("continue").click();
+    await expect(page.getByTestId("play-screen")).toBeVisible();
+    expect(await page.getByTestId("formative-memories").innerText()).toBe(
+      remembered,
+    );
   });
 });
 

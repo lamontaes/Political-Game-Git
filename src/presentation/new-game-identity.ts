@@ -52,9 +52,21 @@ export function canonicalSetupEncoding(setup: NewGameSetup): string {
  * The same setup always produces the same seed, which is what replay depends
  * on; any difference in any field produces a different one, which is what
  * keeps two lives from landing on the same save.
+ *
+ * That second half is by construction rather than by luck. The seed used to be
+ * a 64-bit FNV-1a digest of the setup and nothing else, so "different setups
+ * get different worlds" rested on a hash never colliding — a claim that width
+ * does not support. The digest is kept because it makes a seed recognisable at
+ * a glance, but the canonical encoding travels with it, so two seeds are equal
+ * only when the setups they came from were. The seed is internal and never
+ * shown, so its length costs the player nothing.
+ *
+ * (The RNG hashes this down to its own state, as every RNG must; that governs
+ * which numbers come out, not which world a save belongs to.)
  */
 export function worldSeedFor(setup: NewGameSetup): string {
-  return `setup-v${SETUP_ENCODING_VERSION}:${stableHash(canonicalSetupEncoding(setup))}`;
+  const encoding = canonicalSetupEncoding(setup);
+  return `setup-v${SETUP_ENCODING_VERSION}:${stableHash(encoding)}:${encoding}`;
 }
 
 /**
@@ -68,6 +80,13 @@ export function worldSeedFor(setup: NewGameSetup): string {
 export function createSaveId(worldId: string, discriminator: string): string {
   return `save_${stableHash(`save:v${SETUP_ENCODING_VERSION}:${worldId}:${discriminator}`)}`;
 }
+
+/**
+ * A digest is a label here, not a uniqueness guarantee. Callers that need two
+ * different things to have two different ids — `BrowserSaveStore.newSaveId` is
+ * the one that does — carry the distinguishing part in the id beside this,
+ * rather than trusting 64 bits of FNV-1a to keep them apart.
+ */
 
 /** A replay link that actually reproduces the world it came from. */
 export function encodeReplayDescriptor(setup: NewGameSetup): string {

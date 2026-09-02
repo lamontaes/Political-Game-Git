@@ -90,7 +90,7 @@ export function buildProductionWorld(
   const place = input.place;
   const jurisdiction = place.context.jurisdiction;
   const currentDate = place.context.initialMoment.date as IsoDate;
-  const worldId = createWorldId(input.seed);
+  const worldId = createWorldId(input.seed, "production");
 
   // Step 2 before step 1 in code, because a world is created with its people:
   // the person is built with the identity the player asked for so that no
@@ -112,6 +112,10 @@ export function buildProductionWorld(
   // handed over once the background is written, not before.
   let world = createWorld({
     seed: input.seed,
+    // Declared, not defaulted. The lineage decides the world's id namespace,
+    // its generator stamp and the catalogs it starts with, so a player's save
+    // can no longer be mistaken for — or built out of — a diagnostic fixture.
+    lineage: "production",
     currentDate,
     currentMoment: place.context.initialMoment,
     jurisdictions: [jurisdiction],

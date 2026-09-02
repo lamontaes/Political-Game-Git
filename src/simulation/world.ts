@@ -71,6 +71,15 @@ import {
   createSyntheticPolicyCatalog,
 } from "./policy";
 import {
+  assertProductionCatalogBoundary,
+  createProductionCausalMechanismCatalog,
+  createProductionIncidentCatalog,
+  createProductionMindCatalog,
+  createProductionPolicyCatalog,
+  createProductionVitalityCatalog,
+  createProductionWorldMetricCatalog,
+} from "./production-catalog";
+import {
   assertPolicySemanticsIntegrity,
   policyHistoryRecords,
   policySemanticsEntityAvailableAt,
@@ -148,6 +157,8 @@ import type {
   IncidentCatalog,
   VitalityCatalog,
   SimulationMoment,
+  WorldGeneratorVersion,
+  WorldLineage,
 } from "./types";
 
 const PERSON_FACT_KINDS: readonly PersonFactKind[] = [
@@ -237,6 +248,13 @@ const PRACTICAL_LEVELS = ["none", "indirect", "direct", "extensive"] as const;
 
 export interface CreateWorldInput {
   readonly seed: string;
+  /**
+   * Which lineage is building this world. It defaults to `fixture` so that
+   * every diagnostic scaffold keeps the identity and content it already has;
+   * production asks for its own lineage explicitly, and gets production
+   * catalogs by default rather than validation substrate.
+   */
+  readonly lineage?: WorldLineage;
   readonly currentDate: IsoDate;
   readonly currentMoment?: SimulationMoment;
   readonly jurisdictions: readonly Jurisdiction[];
@@ -265,8 +283,36 @@ function recordById<T extends { readonly id: EntityId }>(
   return result;
 }
 
-export function createWorldId(seed: string): EntityId {
-  return createStableId("world", `demo-world-v15:${normalizeSeed(seed)}`);
+/** The generator stamp for each lineage; also the world-id namespace. */
+const LINEAGE_GENERATOR_VERSION: Readonly<
+  Record<WorldLineage, WorldGeneratorVersion>
+> = {
+  fixture: "demo-world-v15",
+  production: "production-world-v1",
+};
+
+/**
+ * A world's id is namespaced by its lineage, so a production world and a
+ * fixture built from the same seed are different worlds and cannot land on
+ * each other's save.
+ */
+export function createWorldId(
+  seed: string,
+  lineage: WorldLineage = "fixture",
+): EntityId {
+  return createStableId(
+    "world",
+    `${LINEAGE_GENERATOR_VERSION[lineage]}:${normalizeSeed(seed)}`,
+  );
+}
+
+/** The lineage a world declares through the generator that stamped it. */
+export function worldLineage(world: {
+  readonly generatorVersion: WorldGeneratorVersion;
+}): WorldLineage {
+  return world.generatorVersion === "production-world-v1"
+    ? "production"
+    : "fixture";
 }
 
 export function createWorld(input: CreateWorldInput): World {
@@ -285,17 +331,41 @@ export function createWorld(input: CreateWorldInput): World {
       "Initial current date must match the simulation moment date.",
     );
   }
-  const worldId = createWorldId(seed);
-  const policyCatalog = input.policyCatalog ?? createSyntheticPolicyCatalog();
-  const mindCatalog = input.mindCatalog ?? createSyntheticMindCatalog();
+  const lineage: WorldLineage = input.lineage ?? "fixture";
+  const worldId = createWorldId(seed, lineage);
+  // The default follows the lineage rather than the other way round. That is
+  // the whole point: a caller who forgets to pass catalogs gets content that
+  // matches the kind of world they said they were building, so production can
+  // no longer inherit validation substrate by omission.
+  const production = lineage === "production";
+  const policyCatalog =
+    input.policyCatalog ??
+    (production
+      ? createProductionPolicyCatalog()
+      : createSyntheticPolicyCatalog());
+  const mindCatalog =
+    input.mindCatalog ??
+    (production ? createProductionMindCatalog() : createSyntheticMindCatalog());
   const metricCatalog =
-    input.metricCatalog ?? createSyntheticWorldMetricCatalog();
+    input.metricCatalog ??
+    (production
+      ? createProductionWorldMetricCatalog()
+      : createSyntheticWorldMetricCatalog());
   const causalMechanismCatalog =
-    input.causalMechanismCatalog ?? createSyntheticCausalMechanismCatalog();
+    input.causalMechanismCatalog ??
+    (production
+      ? createProductionCausalMechanismCatalog()
+      : createSyntheticCausalMechanismCatalog());
   const incidentCatalog =
-    input.incidentCatalog ?? createSyntheticIncidentCatalog();
+    input.incidentCatalog ??
+    (production
+      ? createProductionIncidentCatalog()
+      : createSyntheticIncidentCatalog());
   const vitalityCatalog =
-    input.vitalityCatalog ?? createSyntheticVitalityCatalog();
+    input.vitalityCatalog ??
+    (production
+      ? createProductionVitalityCatalog()
+      : createSyntheticVitalityCatalog());
   const control = input.control ?? { kind: "observer" as const };
 
   assertJsonSafe(input.jurisdictions, "jurisdictions");
@@ -331,7 +401,7 @@ export function createWorld(input: CreateWorldInput): World {
 
   const world: World = {
     schemaVersion: 15,
-    generatorVersion: "demo-world-v15",
+    generatorVersion: LINEAGE_GENERATOR_VERSION[lineage],
     id: worldId,
     seed,
     startedAt: currentDate,
@@ -359,13 +429,18 @@ export function assertWorldIntegrity(world: World): void {
   assertJsonSafe(world, "world");
   if (
     world.schemaVersion !== 15 ||
-    world.generatorVersion !== "demo-world-v15"
+    (world.generatorVersion !== "demo-world-v15" &&
+      world.generatorVersion !== "production-world-v1")
   ) {
     throw new Error("Unsupported world schema or generator version.");
   }
-  if (world.id !== createWorldId(world.seed)) {
+  const lineage = worldLineage(world);
+  if (world.id !== createWorldId(world.seed, lineage)) {
     throw new Error("World ID does not match its stable seed identity.");
   }
+  // A world that says it is somebody's game must not be carrying the engine's
+  // validation substrate, whoever built it and however it was loaded.
+  if (lineage === "production") assertProductionCatalogBoundary(world);
   const startedAt = makeIsoDate(world.startedAt);
   const currentDate = makeIsoDate(world.currentDate);
   assertSimulationMoment(world.currentMoment);

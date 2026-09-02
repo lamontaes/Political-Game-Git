@@ -5,10 +5,17 @@ import { describe, expect, it } from "vitest";
 import {
   activeWorkRelationshipsAt,
   ageOnDate,
+  assertWorldIntegrity,
+  createSyntheticPolicyCatalog,
+  createSyntheticVitalityCatalog,
+  createWorldId,
   personName,
+  serializeWorld,
+  worldLineage,
 } from "../simulation";
 import type { World } from "../simulation";
 import { createNewGameWorld } from "./new-game";
+import { openOrdinaryLife } from "./ordinary-life";
 import type { NewGameSetup } from "./new-game";
 
 /**
@@ -116,6 +123,107 @@ describe("The production world is not a renamed fixture", () => {
     visit(resolve(root, "new-game.ts"));
     visit(resolve(root, "production-world.ts"));
     expect(offences).toEqual([]);
+  });
+
+  it("saves a world with no validation substrate anywhere in it", () => {
+    // The import scan above cannot see this, and says so: it stops at the
+    // simulation package, which legitimately exports the fixture constructors.
+    // The re-audit walked straight through that gap — `createWorld` defaulted
+    // every catalog to the synthetic set, so a production five-year-old was
+    // serialized carrying generatorVersion "demo-world-v15", a policy catalog
+    // versioned "synthetic-stage-3-v2", synthetic outbreak and storm models,
+    // and a "Synthetic certain-death fixture" mortality table sourced from
+    // "synthetic-validation-only". None of it was on screen; all of it was in
+    // the save. This reads the payload instead of the imports.
+    for (const startAge of [5, 12, 34]) {
+      const { world } = start({ startAge });
+      const payload = serializeWorld(world);
+      expect({ startAge, matches: payload.match(/synthetic/gi) }).toEqual({
+        startAge,
+        matches: null,
+      });
+      expect({ startAge, matches: payload.match(/validation-only/gi) }).toEqual(
+        {
+          startAge,
+          matches: null,
+        },
+      );
+      expect({ startAge, matches: payload.match(/demo-world/gi) }).toEqual({
+        startAge,
+        matches: null,
+      });
+      expect({ startAge, matches: payload.match(/fixture/gi) }).toEqual({
+        startAge,
+        matches: null,
+      });
+    }
+  });
+
+  it("stamps a player's world as a production world, not a demo one", () => {
+    const { world } = start({ startAge: 12 });
+    expect(world.generatorVersion).toBe("production-world-v1");
+    expect(worldLineage(world)).toBe("production");
+    expect(world.policyCatalog.catalogVersion).toBe("production-policy-v1");
+    // A production world and a fixture from the same seed are different
+    // worlds, so one can never be addressed as, or land on, the other.
+    expect(world.id).not.toBe(createWorldId(world.seed, "fixture"));
+    expect(world.id).toBe(createWorldId(world.seed, "production"));
+  });
+
+  it("refuses to be a production world holding fixture content", () => {
+    const { world } = start({ startAge: 12 });
+    // Not a claim about how it is built — a claim about what may exist. A
+    // world that says it is somebody's game and carries validation substrate
+    // fails integrity rather than being written to disk.
+    expect(() =>
+      assertWorldIntegrity({
+        ...world,
+        vitalityCatalog: createSyntheticVitalityCatalog(),
+      }),
+    ).toThrow(/mortality table/i);
+    expect(() =>
+      assertWorldIntegrity({
+        ...world,
+        policyCatalog: createSyntheticPolicyCatalog(),
+      }),
+    ).toThrow(/production-policy-v1/);
+  });
+
+  it("gives a child none of the adult week the player shell opens", () => {
+    // The builder's own output was already clean; the defect was one call
+    // later. PlayerGame opened an ordinary life for whoever was starting, so a
+    // five-year-old got "The week's errands", a decision about whether to
+    // attend a public meeting, and an evening on their calendar with
+    // themselves down as the responsible person — invisible behind the
+    // formative screen and permanent in the save. This runs the same call.
+    const child = start({ startAge: 5 });
+    const opened = openOrdinaryLife(child.world, child.playerPersonId);
+    expect(opened.history.workItems).toEqual([]);
+    expect(opened.history.scheduledActivities).toEqual([]);
+    expect(
+      opened.history.events.filter((event) => event.type.startsWith("civic.")),
+    ).toEqual([]);
+    expect(opened).toBe(child.world);
+
+    // And an adult still gets theirs, so this is a gate rather than a removal.
+    const adult = start({ startAge: 34, depth: "summarize-earlier-life" });
+    const adultDay = openOrdinaryLife(adult.world, adult.playerPersonId);
+    expect(adultDay.history.workItems.length).toBeGreaterThan(0);
+  });
+
+  it("opens the ordinary week on the day it becomes the character's", () => {
+    // Seventeen is a dependent; eighteen is not. The week has to start at the
+    // boundary rather than at whichever boot happened to come after it.
+    const seventeen = start({ startAge: 17 });
+    expect(
+      openOrdinaryLife(seventeen.world, seventeen.playerPersonId).history
+        .workItems,
+    ).toEqual([]);
+    const eighteen = start({ startAge: 18 });
+    expect(
+      openOrdinaryLife(eighteen.world, eighteen.playerPersonId).history
+        .workItems.length,
+    ).toBeGreaterThan(0);
   });
 
   it("gives a child nothing an adult would have", () => {

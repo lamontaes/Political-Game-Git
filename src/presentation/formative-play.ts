@@ -339,8 +339,17 @@ function advanceToNextMoment(
   // year of the formative band is still playable.
   const grownUpOn = dateAtAge(person.birthDate, FORMATIVE_YEARS_END_AGE);
   const step = formativeStepDays(world, personId, interval);
-  const remaining = daysBetween(world.currentDate, grownUpOn);
-  const days = Math.min(step, Math.max(remaining, 1));
+  // And stop on the band boundary for the same reason. A step that began near
+  // the end of a band used to carry the character over it — spending days out
+  // of the next band without spending one of its anchors — so a childhood
+  // could reach adolescence having quietly skipped a third of middle
+  // childhood. Each band's budget is spent inside that band or not at all.
+  const untilBoundary = Math.max(
+    daysBetween(world.currentDate, interval.endsAt),
+    1,
+  );
+  const untilGrown = Math.max(daysBetween(world.currentDate, grownUpOn), 1);
+  const days = Math.min(step, untilBoundary, untilGrown);
   return advanceWorld(world, days);
 }
 
