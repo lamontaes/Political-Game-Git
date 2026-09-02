@@ -31,7 +31,12 @@ export interface PlayerCapabilities {
   readonly place: LifePlace | null;
   /** The character is young enough that the formative years are still running. */
   readonly formativeYears: boolean;
-  /** The character holds a job the game can show a workplace for. */
+  /**
+   * The character works somewhere the game has a workplace surface for. Today
+   * that means a legislative office and nothing else — an ordinary job is real
+   * in the world record, but there is no room built for it yet, and inventing
+   * one would be worse than saying so.
+   */
   readonly office: boolean;
   /** The office is legislative and the place has an accepted rule pack. */
   readonly legislation: boolean;
@@ -55,9 +60,9 @@ export function resolvePlayerCapabilities(world: World): PlayerCapabilities {
   const legislativeWork = work.find((entry) =>
     entry.relationship.kind.startsWith(LEGISLATIVE_WORK_PREFIX),
   );
-  const office = work.length > 0;
+  const office = legislativeWork !== undefined;
   const scenarioKey = place?.capabilities.legislativeScenarioKey ?? null;
-  const legislation = legislativeWork !== undefined && scenarioKey !== null;
+  const legislation = office && scenarioKey !== null;
 
   const withheld: WithheldCapability[] = [];
   if (!office) {
@@ -65,7 +70,9 @@ export function resolvePlayerCapabilities(world: World): PlayerCapabilities {
       surface: "office",
       reason: formativeYears
         ? "There is no job yet. These are still the growing-up years."
-        : "This character does not work anywhere the game can show.",
+        : work.length > 0
+          ? "This character works, but not anywhere the game has a room for yet."
+          : "This character does not work anywhere the game can show.",
     });
   }
   if (!legislation) {

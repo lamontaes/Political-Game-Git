@@ -214,7 +214,7 @@ const householdObligationSubject: ConversationSubjectPresentation<HouseholdOblig
     topicLabel: () => "At home",
     describeBriefing(world, room, progress) {
       const other = shortPersonName(world, room.eligibleAddresseePersonIds[0]!);
-      return `${other} has the same week you do, and ${progress.subjectFacts.obligation} still has to be covered by somebody. Nobody has said out loud who.`;
+      return `${other} has the same week you do, and ${progress.subjectFacts.obligation} still have to be covered by somebody. Nobody has said out loud who.`;
     },
     availableIntents(_world, room, addressee, progress) {
       if (

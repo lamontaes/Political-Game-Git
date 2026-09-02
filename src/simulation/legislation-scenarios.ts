@@ -51,9 +51,21 @@ export interface AuthoredVoteCounts {
   readonly excused?: number;
 }
 
+/**
+ * The procedure in these scenarios is sourced. The bills are not.
+ *
+ * Every measure below is written for development so the institutions have
+ * something to act on. None of them is a real bill, and the game says so on
+ * the screen rather than leaving a player to assume otherwise.
+ */
+export const AUTHORED_MEASURE_NOTICE =
+  "Written for development. The procedure is sourced; the bill is not a real one.";
+
 export interface LegislativeScenario {
   readonly scenarioKey: string;
   readonly label: string;
+  /** Always the authored notice. Present so no surface can forget to show it. */
+  readonly measureNotice: typeof AUTHORED_MEASURE_NOTICE;
   readonly world: World;
   readonly pack: LegislativeRulePack;
   readonly measureId: EntityId;
@@ -282,6 +294,12 @@ interface ScenarioBlueprint {
   readonly designation: string;
   readonly shortTitle: string;
   readonly summary: string;
+  /**
+   * Declared, not guessed from the state. Alaska overrides an appropriation at
+   * three quarters of the joint membership and anything else at two thirds, so
+   * this field decides which threshold a bill actually faces.
+   */
+  readonly subjectClass: "appropriation" | "general-policy";
   readonly nonpartisan: boolean;
   readonly votePlan: Readonly<Record<string, AuthoredVoteCounts>>;
   readonly governorAction: "signed" | "vetoed";
@@ -297,6 +315,7 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
     pack: KENTUCKY_RULE_PACK,
     designation: "HB 214",
     shortTitle: "Transit Access Pilot",
+    subjectClass: "general-policy",
     summary:
       "Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.",
     nonpartisan: false,
@@ -323,6 +342,7 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
     pack: NEBRASKA_RULE_PACK,
     designation: "LB 88",
     shortTitle: "Rural Transit Access",
+    subjectClass: "general-policy",
     summary:
       "Extends the state transit assistance formula to counties without a fixed-route provider.",
     nonpartisan: true,
@@ -346,6 +366,7 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
     pack: ALASKA_RULE_PACK,
     designation: "HB 41",
     shortTitle: "Village Transit Support",
+    subjectClass: "appropriation",
     summary:
       "Appropriates matching funds for community transit in unserved boroughs and census areas.",
     nonpartisan: false,
@@ -359,6 +380,89 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
     governorAction: "vetoed",
     governorRationale:
       "The Governor returned the whole bill, objecting that the match commits the state before the boroughs have costed their routes.",
+  },
+  {
+    // A bill the Governor simply signs. Every scenario above ends in a veto and
+    // an override, which made that look like the normal way a bill becomes law.
+    scenarioKey: "kentucky-signage",
+    label: "Kentucky General Assembly — road signage",
+    seed: "legislative-core-kentucky-signage-2026",
+    context: KENTUCKY_CONTEXT,
+    pack: KENTUCKY_RULE_PACK,
+    designation: "HB 388",
+    shortTitle: "Rural Road Sign Replacement",
+    subjectClass: "general-policy",
+    summary:
+      "Sets a replacement schedule for damaged and illegible route markers on state-maintained rural roads.",
+    nonpartisan: false,
+    votePlan: {
+      "committee:house-transportation": { yea: 13, nay: 4 },
+      "committee:senate-transportation": { yea: 9, nay: 2 },
+      "floor:house:final-passage": { yea: 74, nay: 24, absent: 2 },
+      "floor:senate:final-passage": { yea: 29, nay: 8, absent: 1 },
+      "amendment:house": { yea: 66, nay: 32, absent: 2 },
+      "amendment:senate": { yea: 26, nay: 11, absent: 1 },
+      "concurrence:house": { yea: 71, nay: 27, absent: 2 },
+    },
+    governorAction: "signed",
+    governorRationale:
+      "The Governor signed the bill, noting the schedule carries no new appropriation.",
+  },
+  {
+    // A bill that dies where most bills die. Nothing above ever fails, which
+    // made committee referral look like a formality.
+    scenarioKey: "nebraska-credentials",
+    label: "Nebraska Legislature — driver credentials",
+    seed: "legislative-core-nebraska-credentials-2026",
+    context: NEBRASKA_CONTEXT,
+    pack: NEBRASKA_RULE_PACK,
+    designation: "LB 142",
+    shortTitle: "School Transport Credential Recognition",
+    subjectClass: "general-policy",
+    summary:
+      "Would recognize school transport driver credentials issued by adjoining states for drivers already licensed here.",
+    nonpartisan: true,
+    votePlan: {
+      "committee:transportation-telecommunications": { yea: 3, nay: 5 },
+      "floor:legislature:general-file": { yea: 24, nay: 23, absent: 2 },
+      "floor:legislature:select-file": { yea: 24, nay: 23, absent: 2 },
+      "floor:legislature:final-reading": { yea: 24, nay: 23, absent: 2 },
+      "amendment:legislature": { yea: 22, nay: 25, absent: 2 },
+      "override:legislature": { yea: 24, nay: 23, absent: 2 },
+    },
+    governorAction: "vetoed",
+    governorRationale:
+      "The Governor did not reach this bill; it was not reported out of committee.",
+  },
+  {
+    // An Alaska bill that is not an appropriation, so its veto is overridden at
+    // two thirds of the joint membership rather than three quarters.
+    scenarioKey: "alaska-ferry-notice",
+    label: "Alaska State Legislature — ferry notice",
+    seed: "legislative-core-alaska-ferry-2026",
+    context: ALASKA_CONTEXT,
+    pack: ALASKA_RULE_PACK,
+    designation: "HB 77",
+    shortTitle: "Coastal Ferry Schedule Notice",
+    subjectClass: "general-policy",
+    summary:
+      "Would require advance public notice before a scheduled coastal ferry sailing is cancelled or rerouted.",
+    nonpartisan: false,
+    votePlan: {
+      "committee:house-transportation": { yea: 5, nay: 2 },
+      "committee:senate-transportation": { yea: 4, nay: 3 },
+      "floor:house:final-passage": { yea: 26, nay: 13, absent: 1 },
+      "floor:senate:final-passage": { yea: 12, nay: 8 },
+      "amendment:house": { yea: 23, nay: 16, absent: 1 },
+      "amendment:senate": { yea: 11, nay: 9 },
+      "concurrence:house": { yea: 25, nay: 14, absent: 1 },
+      // Two thirds of the sixty-member joint session is forty. An appropriation
+      // would have needed forty-five, and this bill is not one.
+      "override:joint": { yea: 41, nay: 18, absent: 1 },
+    },
+    governorAction: "vetoed",
+    governorRationale:
+      "The Governor objected that the notice period would bind operations during weather cancellations.",
   },
 ];
 
@@ -403,8 +507,7 @@ export function createLegislativeScenario(
       shortTitle: blueprint.shortTitle,
       summary: blueprint.summary,
       origin: "member-introduction",
-      subjectClass:
-        blueprint.scenarioKey === "alaska" ? "appropriation" : "general-policy",
+      subjectClass: blueprint.subjectClass,
       sponsorPersonId: playerPersonId,
     },
   );
@@ -432,6 +535,7 @@ export function createLegislativeScenario(
   return {
     scenarioKey: blueprint.scenarioKey,
     label: blueprint.label,
+    measureNotice: AUTHORED_MEASURE_NOTICE,
     world,
     pack: blueprint.pack,
     measureId: measure.id,

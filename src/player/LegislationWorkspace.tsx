@@ -27,6 +27,15 @@ function scenarioFromUrl(): string {
     : "kentucky";
 }
 
+export interface LegislationWorkspaceProps {
+  /**
+   * Which legislature to open. The game passes the one the loaded world's
+   * character actually works for; opened on its own, it falls back to the
+   * address bar so the workspace stays reachable for development.
+   */
+  readonly placeKey?: string;
+}
+
 interface SessionState {
   readonly scenario: LegislativeScenario;
   readonly world: World;
@@ -46,10 +55,13 @@ function startSession(scenarioKey: string): SessionState {
   return { scenario, world: scenario.world, source: "fresh" };
 }
 
-export function LegislationWorkspace() {
-  const [scenarioKey, setScenarioKey] = useState(scenarioFromUrl);
+export function LegislationWorkspace({
+  placeKey,
+}: LegislationWorkspaceProps = {}) {
+  const opening = placeKey ?? scenarioFromUrl();
+  const [scenarioKey, setScenarioKey] = useState(opening);
   const [session, setSession] = useState<SessionState>(() =>
-    startSession(scenarioFromUrl()),
+    startSession(opening),
   );
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
