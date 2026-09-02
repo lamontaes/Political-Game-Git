@@ -1,29 +1,7 @@
-import {
-  applyCharacterHistoryPlan,
-  assertWorldIntegrity,
-  createGeneratedWorld,
-  createOrganization,
-  createWorkRelationship,
-  addDays,
-  ageOnDate,
-  generateQuickCharacterHistory,
-  isoDateFromParts,
-  lifePlaceByKey,
-  makeIsoDate,
-  requireLifePlace,
-  yearOf,
-} from "../simulation";
-import type {
-  CharacterHistoryTransition,
-  EntityId,
-  HouseholdMembership,
-  HouseholdMembershipStateRecord,
-  IsoDate,
-  LifePlace,
-  Person,
-  PersonFact,
-  World,
-} from "../simulation";
+import { lifePlaceByKey, requireLifePlace } from "../simulation";
+import type { EntityId, LifePlace, World } from "../simulation";
+import { buildProductionWorld } from "./production-world";
+import { worldSeedFor } from "./new-game-identity";
 
 /**
  * Starting a life.
@@ -126,26 +104,7 @@ export function newGameSetupProblems(
   return problems;
 }
 
-/**
- * The seed the world is actually built from.
- *
- * A world's identity comes from the seed *and* the setup, not the seed alone.
- * Two lives started from the same seed in different places, or at different
- * ages, are different lives and must be able to sit side by side in the saved
- * games list — while the same seed with the same setup still reproduces
- * exactly, which is what replay depends on.
- */
-export function worldSeedFor(setup: NewGameSetup): string {
-  return [
-    setup.seed,
-    setup.placeKey,
-    setup.startAge,
-    setup.depth,
-    setup.startingLife,
-    setup.givenName?.trim() ?? "",
-    setup.familyName?.trim() ?? "",
-  ].join("|");
-}
+export { worldSeedFor };
 
 /** True when the formative years are actually reachable from this setup. */
 export function playsFormativeYears(setup: NewGameSetup): boolean {
@@ -158,279 +117,19 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     throw new Error(problems[0]!.message);
   }
   const place = requireLifePlace(setup.placeKey);
-  let world = createGeneratedWorld(worldSeedFor(setup), {
-    context: place.context,
+  const built = buildProductionWorld({
+    seed: worldSeedFor(setup),
+    place,
+    age: setup.startAge,
+    givenName: setup.givenName,
+    familyName: setup.familyName,
+    startingLife: setup.startingLife,
+    depth: setup.depth,
   });
-  const playerPersonId = world.personOrder[0];
-  if (!playerPersonId) {
-    throw new Error("A new world was created without anyone in it.");
-  }
-  const generated = world.people[playerPersonId];
-  if (!generated) {
-    throw new Error("A new world lost the person it just generated.");
-  }
-
-  const player = withStartingIdentity(generated, world.currentDate, setup);
-  world = { ...world, people: { ...world.people, [playerPersonId]: player } };
-
-  // Earlier life is written before the player takes the character over. The
-  // world refuses to let generated history make a major mind change for a
-  // person under player control, and it is right to: what the character became
-  // before play began is background, not a choice anyone made at the keyboard.
-  if (setup.depth === "summarize-earlier-life") {
-    world = summarizeEarlierLife(
-      world,
-      playerPersonId,
-      place.context.jurisdiction.id,
-    );
-  }
-
-  if (setup.startingLife === "legislative-office") {
-    world = employInLegislativeOffice(world, playerPersonId, place);
-  }
-
-  world = { ...world, control: { kind: "person", personId: playerPersonId } };
-  assertWorldIntegrity(world);
-  return { world, playerPersonId, place, setup };
-}
-
-/**
- * Applies the player's setup choices to the generated person.
- *
- * The generator picks a plausible adult; the setup says how old this character
- * is and, if the player typed one, what they are called. The birth-date and
- * birthplace facts are rewritten with it so the record never disagrees with
- * itself.
- */
-function withStartingIdentity(
-  person: Person,
-  currentDate: IsoDate,
-  setup: NewGameSetup,
-): Person {
-  const givenName = setup.givenName?.trim() || person.givenName;
-  const familyName = setup.familyName?.trim() || person.familyName;
-  const birthDate = birthDateForAge(
-    person.birthDate,
-    currentDate,
-    setup.startAge,
-  );
-  const fullName = `${givenName} ${familyName}`;
-  const establishedFacts: readonly PersonFact[] = person.establishedFacts.map(
-    (fact): PersonFact => {
-      if (fact.stableKey === "birth-date") {
-        return {
-          ...fact,
-          occurredAt: birthDate,
-          summary: `${fullName}'s birth date is established as ${birthDate}.`,
-        };
-      }
-      if (fact.stableKey === "birthplace") {
-        return {
-          ...fact,
-          occurredAt: birthDate,
-          summary: `${fullName}'s birthplace is established in the world record.`,
-        };
-      }
-      if (fact.stableKey === "residence:initial") {
-        return {
-          ...fact,
-          summary: `${fullName} resides in the recorded home jurisdiction.`,
-        };
-      }
-      return fact;
-    },
-  );
-  return { ...person, givenName, familyName, birthDate, establishedFacts };
-}
-
-/** Keeps the generated day and month so two ages of the same person still differ. */
-function birthDateForAge(
-  generatedBirthDate: IsoDate,
-  currentDate: IsoDate,
-  startAge: number,
-): IsoDate {
-  const [, month, day] = generatedBirthDate.split("-").map(Number);
-  const safeMonth = month && month >= 1 && month <= 12 ? month : 6;
-  const safeDay = day && day >= 1 && day <= 28 ? day : 15;
-  const candidate = isoDateFromParts(
-    yearOf(currentDate) - startAge,
-    safeMonth,
-    safeDay,
-  );
-  // A birthday later in the year than today has not happened yet, which would
-  // leave the character a year younger than the player asked for.
-  return ageOnDate(candidate, currentDate) === startAge
-    ? candidate
-    : isoDateFromParts(yearOf(currentDate) - startAge - 1, safeMonth, safeDay);
-}
-
-/**
- * Writes the years before play as canonical history instead of leaving them
- * blank.
- *
- * The generated world already puts the character in a household as of today.
- * A childhood home that runs from birth to now would mean living in two places
- * at once, which the world will not accept — so this records the move as a
- * move: the current household is closed while the childhood one is written,
- * the childhood one ends the day before play begins, and the character then
- * moves into the household they are in today.
- */
-function summarizeEarlierLife(
-  world: World,
-  personId: EntityId,
-  jurisdictionId: EntityId,
-): World {
-  const stableKey = `new-game:${personId}:earlier-life`;
-  const provenance = {
-    kind: "generated" as const,
-    generatorKey: `new-game-earlier-life-v1:${personId}`,
+  return {
+    world: built.world,
+    playerPersonId: built.playerPersonId,
+    place,
+    setup,
   };
-  const current = latestHouseholdMembership(world, personId);
-  const movedOutOn = addDays(world.currentDate, -1);
-
-  let next = world;
-  if (current) {
-    next = applyCharacterHistoryPlan(next, {
-      stableKey: `${stableKey}:set-aside-current-home`,
-      mode: "quick-generated",
-      personId,
-      transitions: [
-        {
-          kind: "household-membership-state",
-          input: {
-            stableKey: `${stableKey}:current-home:set-aside`,
-            membershipStableKey: current.membership.stableKey,
-            effectiveAt: world.currentDate,
-            status: "ended",
-            residenceRole: current.state.residenceRole,
-            kind: current.state.kind,
-            provenance,
-          },
-        },
-      ],
-    }).world;
-  }
-
-  next = applyCharacterHistoryPlan(
-    next,
-    generateQuickCharacterHistory(next, {
-      stableKey,
-      personId,
-      jurisdictionId,
-    }),
-  ).world;
-
-  const transitions: CharacterHistoryTransition[] = [
-    {
-      kind: "household-membership-state",
-      input: {
-        stableKey: `${stableKey}:childhood-home:ended`,
-        membershipStableKey: `${stableKey}:household:child`,
-        effectiveAt: movedOutOn,
-        status: "ended",
-        residenceRole: "primary",
-        kind: "resident:child",
-        provenance,
-      },
-    },
-  ];
-  if (current) {
-    transitions.push({
-      kind: "household-membership",
-      input: {
-        stableKey: `${stableKey}:moved-in`,
-        personId,
-        householdId: current.membership.householdId,
-        startedAt: world.currentDate,
-        residenceRole: current.state.residenceRole,
-        kind: current.state.kind,
-        provenance,
-      },
-    });
-  }
-  return applyCharacterHistoryPlan(next, {
-    stableKey: `${stableKey}:left-home`,
-    mode: "quick-generated",
-    personId,
-    transitions,
-  }).world;
-}
-
-/** The household the character lives in today, with the terms it is held on. */
-function latestHouseholdMembership(
-  world: World,
-  personId: EntityId,
-): {
-  readonly membership: HouseholdMembership;
-  readonly state: HouseholdMembershipStateRecord;
-} | null {
-  const memberships = world.history.householdMemberships.filter(
-    (membership) => membership.personId === personId,
-  );
-  const membership = memberships[memberships.length - 1];
-  if (!membership) return null;
-  const states = world.history.householdMembershipStates.filter(
-    (state) => state.membershipId === membership.id,
-  );
-  const state = states[states.length - 1];
-  return state ? { membership, state } : null;
-}
-
-const OFFICE_HOURS = {
-  expectedWeekly: { minimumHours: 35, maximumHours: 45 },
-  attention: "high",
-  concurrency: "partly-concurrent",
-  scheduleRigidity: "mixed",
-  interruptibility: "interruptible",
-} as const;
-
-/**
- * Puts the character on a legislative office staff. This is what makes the
- * office and legislation surfaces appear later: they read the work record, not
- * a flag someone set on the way past.
- */
-function employInLegislativeOffice(
-  world: World,
-  personId: EntityId,
-  place: LifePlace,
-): World {
-  const jurisdictionId = place.context.jurisdiction.id;
-  const startedAt = makeIsoDate(world.currentDate);
-  const provenance = {
-    kind: "generated" as const,
-    generatorKey: `new-game-office-v1:${place.key}`,
-  };
-  let next = createOrganization(world, {
-    stableKey: `new-game:${place.key}:legislative-office`,
-    formedAt: startedAt,
-    provenance,
-    initialProfile: {
-      name: `${place.displayName} legislative office`,
-      classification: "sector:government",
-      locationJurisdictionId: jurisdictionId,
-    },
-  });
-  const organization = next.history.organizations.at(-1);
-  if (!organization) {
-    throw new Error("The legislative office was not recorded.");
-  }
-  next = createWorkRelationship(next, {
-    stableKey: `new-game:${personId}:legislative-staff`,
-    personId,
-    organizationId: organization.id,
-    startedAt,
-    kind: "employment:legislative-staff",
-    compensation: "paid",
-    authority: "shared",
-    dependency: "dependent",
-    economicRisk: "organization-borne",
-    provenance,
-    initialRole: {
-      title: "Legislative staff",
-      occupationClassification: "occupation:legislative-staff",
-      locationJurisdictionId: jurisdictionId,
-      timeDemand: { ...OFFICE_HOURS, locationJurisdictionId: jurisdictionId },
-    },
-  });
-  return next;
 }
