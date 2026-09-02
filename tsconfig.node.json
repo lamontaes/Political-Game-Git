@@ -17,6 +17,7 @@
     "tests/e2e/**/*.ts",
     "src/cli/**/*.ts",
     "src/persistence/**/*.ts",
-    "src/simulation/**/*.ts"
+    "src/simulation/**/*.ts",
+    "src/federal_courts/**/*.ts"
   ]
 }

@@ -1,0 +1,3917 @@
+{
+  "dataset_id": "compiled_us_federal_courts_2026",
+  "schema_version": "1.0.0",
+  "compiled_at": "2026-09-02T21:45:10.775Z",
+  "circuits": [
+    {
+      "circuit_id": "ca1",
+      "name": "United States Court of Appeals for the First Circuit",
+      "short_name": "1st Circuit",
+      "circuit_number": 1,
+      "is_specialized_nationwide": false,
+      "headquarters_city": "Boston, MA",
+      "headquarters_courthouse": "John Joseph Moakley United States Courthouse",
+      "state_or_territory_codes": ["ME", "MA", "NH", "RI", "PR"],
+      "statutory_citation": "28 U.S.C. § 41"
+    },
+    {
+      "circuit_id": "ca2",
+      "name": "United States Court of Appeals for the Second Circuit",
+      "short_name": "2nd Circuit",
+      "circuit_number": 2,
+      "is_specialized_nationwide": false,
+      "headquarters_city": "New York, NY",
+      "headquarters_courthouse": "Thurgood Marshall United States Courthouse",
+      "state_or_territory_codes": ["CT", "NY", "VT"],
+      "statutory_citation": "28 U.S.C. § 41"
+    },
+    {
+      "circuit_id": "ca3",
+      "name": "United States Court of Appeals for the Third Circuit",
+      "short_name": "3rd Circuit",
+      "circuit_number": 3,
+      "is_specialized_nationwide": false,
+      "headquarters_city": "Philadelphia, PA",
+      "headquarters_courthouse": "James A. Byrne United States Courthouse",
+      "state_or_territory_codes": ["DE", "NJ", "PA", "VI"],
+      "statutory_citation": "28 U.S.C. § 41"
+    },
+    {
+      "circuit_id": "ca4",
+      "name": "United States Court of Appeals for the Fourth Circuit",
+      "short_name": "4th Circuit",
+      "circuit_number": 4,
+      "is_specialized_nationwide": false,
+      "headquarters_city": "Richmond, VA",
+      "headquarters_courthouse": "Lewis F. Powell Jr. United States Courthouse",
+      "state_or_territory_codes": ["MD", "NC", "SC", "VA", "WV"],
+      "statutory_citation": "28 U.S.C. § 41"
+    },
+    {
+      "circuit_id": "ca5",
+      "name": "United States Court of Appeals for the Fifth Circuit",
+      "short_name": "5th Circuit",
+      "circuit_number": 5,
+      "is_specialized_nationwide": false,
+      "headquarters_city": "New Orleans, LA",
+      "headquarters_courthouse": "John Minor Wisdom United States Court of Appeals Building",
+      "state_or_territory_codes": ["LA", "MS", "TX"],
+      "statutory_citation": "28 U.S.C. § 41"
+    },
+    {
+      "circuit_id": "ca6",
+      "name": "United States Court of Appeals for the Sixth Circuit",
+      "short_name": "6th Circuit",
+      "circuit_number": 6,
+      "is_specialized_nationwide": false,
+      "headquarters_city": "Cincinnati, OH",
+      "headquarters_courthouse": "Potter Stewart United States Courthouse",
+      "state_or_territory_codes": ["KY", "MI", "OH", "TN"],
+      "statutory_citation": "28 U.S.C. § 41"
+    },
+    {
+      "circuit_id": "ca7",
+      "name": "United States Court of Appeals for the Seventh Circuit",
+      "short_name": "7th Circuit",
+      "circuit_number": 7,
+      "is_specialized_nationwide": false,
+      "headquarters_city": "Chicago, IL",
+      "headquarters_courthouse": "Everett McKinley Dirksen United States Courthouse",
+      "state_or_territory_codes": ["IL", "IN", "WI"],
+      "statutory_citation": "28 U.S.C. § 41"
+    },
+    {
+      "circuit_id": "ca8",
+      "name": "United States Court of Appeals for the Eighth Circuit",
+      "short_name": "8th Circuit",
+      "circuit_number": 8,
+      "is_specialized_nationwide": false,
+      "headquarters_city": "St. Louis, MO",
+      "headquarters_courthouse": "Thomas F. Eagleton United States Courthouse",
+      "state_or_territory_codes": ["AR", "IA", "MN", "MO", "NE", "ND", "SD"],
+      "statutory_citation": "28 U.S.C. § 41"
+    },
+    {
+      "circuit_id": "ca9",
+      "name": "United States Court of Appeals for the Ninth Circuit",
+      "short_name": "9th Circuit",
+      "circuit_number": 9,
+      "is_specialized_nationwide": false,
+      "headquarters_city": "San Francisco, CA",
+      "headquarters_courthouse": "James R. Browning United States Court of Appeals Building",
+      "state_or_territory_codes": [
+        "AK",
+        "AZ",
+        "CA",
+        "HI",
+        "ID",
+        "MT",
+        "NV",
+        "OR",
+        "WA",
+        "GU",
+        "MP"
+      ],
+      "statutory_citation": "28 U.S.C. § 41"
+    },
+    {
+      "circuit_id": "ca10",
+      "name": "United States Court of Appeals for the Tenth Circuit",
+      "short_name": "10th Circuit",
+      "circuit_number": 10,
+      "is_specialized_nationwide": false,
+      "headquarters_city": "Denver, CO",
+      "headquarters_courthouse": "Byron White United States Courthouse",
+      "state_or_territory_codes": ["CO", "KS", "NM", "OK", "UT", "WY"],
+      "statutory_citation": "28 U.S.C. § 41"
+    },
+    {
+      "circuit_id": "ca11",
+      "name": "United States Court of Appeals for the Eleventh Circuit",
+      "short_name": "11th Circuit",
+      "circuit_number": 11,
+      "is_specialized_nationwide": false,
+      "headquarters_city": "Atlanta, GA",
+      "headquarters_courthouse": "Elbert P. Tuttle United States Court of Appeals Building",
+      "state_or_territory_codes": ["AL", "FL", "GA"],
+      "statutory_citation": "28 U.S.C. § 41"
+    },
+    {
+      "circuit_id": "cadc",
+      "name": "United States Court of Appeals for the District of Columbia Circuit",
+      "short_name": "D.C. Circuit",
+      "circuit_number": null,
+      "is_specialized_nationwide": false,
+      "headquarters_city": "Washington, DC",
+      "headquarters_courthouse": "E. Barrett Prettyman United States Courthouse",
+      "state_or_territory_codes": ["DC"],
+      "statutory_citation": "28 U.S.C. § 41"
+    },
+    {
+      "circuit_id": "cafed",
+      "name": "United States Court of Appeals for the Federal Circuit",
+      "short_name": "Federal Circuit",
+      "circuit_number": null,
+      "is_specialized_nationwide": true,
+      "headquarters_city": "Washington, DC",
+      "headquarters_courthouse": "Howard T. Markey National Courts Building",
+      "state_or_territory_codes": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "DC",
+        "PR",
+        "VI",
+        "GU",
+        "MP"
+      ],
+      "statutory_citation": "28 U.S.C. §§ 41, 1295"
+    }
+  ],
+  "districts": [
+    {
+      "district_id": "d-al-nd",
+      "name": "United States District Court for the Northern District of Alabama",
+      "short_name": "N.D. Ala.",
+      "parent_circuit_id": "ca11",
+      "state_or_territory_codes": ["AL"],
+      "fips_codes": ["01"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-al-nd",
+        "name": "United States Bankruptcy Court for the Northern District of Alabama",
+        "short_name": "N.Bankr. Ala.",
+        "parent_district_id": "d-al-nd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-al-nd-birmingham",
+          "name": "Birmingham Division",
+          "primary_courthouse_city": "Birmingham",
+          "primary_courthouse_name": "United States Courthouse - Birmingham"
+        },
+        {
+          "division_id": "d-al-nd-huntsville",
+          "name": "Huntsville Division",
+          "primary_courthouse_city": "Huntsville",
+          "primary_courthouse_name": "United States Courthouse - Huntsville"
+        },
+        {
+          "division_id": "d-al-nd-tuscaloosa",
+          "name": "Tuscaloosa Division",
+          "primary_courthouse_city": "Tuscaloosa",
+          "primary_courthouse_name": "United States Courthouse - Tuscaloosa"
+        },
+        {
+          "division_id": "d-al-nd-anniston",
+          "name": "Anniston Division",
+          "primary_courthouse_city": "Anniston",
+          "primary_courthouse_name": "United States Courthouse - Anniston"
+        },
+        {
+          "division_id": "d-al-nd-decatur",
+          "name": "Decatur Division",
+          "primary_courthouse_city": "Decatur",
+          "primary_courthouse_name": "United States Courthouse - Decatur"
+        },
+        {
+          "division_id": "d-al-nd-florence",
+          "name": "Florence Division",
+          "primary_courthouse_city": "Florence",
+          "primary_courthouse_name": "United States Courthouse - Florence"
+        },
+        {
+          "division_id": "d-al-nd-gadsden",
+          "name": "Gadsden Division",
+          "primary_courthouse_city": "Gadsden",
+          "primary_courthouse_name": "United States Courthouse - Gadsden"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-al-md",
+      "name": "United States District Court for the Middle District of Alabama",
+      "short_name": "M.D. Ala.",
+      "parent_circuit_id": "ca11",
+      "state_or_territory_codes": ["AL"],
+      "fips_codes": ["01"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-al-md",
+        "name": "United States Bankruptcy Court for the Middle District of Alabama",
+        "short_name": "M.Bankr. Ala.",
+        "parent_district_id": "d-al-md",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-al-md-montgomery",
+          "name": "Montgomery Division",
+          "primary_courthouse_city": "Montgomery",
+          "primary_courthouse_name": "United States Courthouse - Montgomery"
+        },
+        {
+          "division_id": "d-al-md-dothan",
+          "name": "Dothan Division",
+          "primary_courthouse_city": "Dothan",
+          "primary_courthouse_name": "United States Courthouse - Dothan"
+        },
+        {
+          "division_id": "d-al-md-opelika",
+          "name": "Opelika Division",
+          "primary_courthouse_city": "Opelika",
+          "primary_courthouse_name": "United States Courthouse - Opelika"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-al-sd",
+      "name": "United States District Court for the Southern District of Alabama",
+      "short_name": "S.D. Ala.",
+      "parent_circuit_id": "ca11",
+      "state_or_territory_codes": ["AL"],
+      "fips_codes": ["01"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-al-sd",
+        "name": "United States Bankruptcy Court for the Southern District of Alabama",
+        "short_name": "S.Bankr. Ala.",
+        "parent_district_id": "d-al-sd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-al-sd-mobile",
+          "name": "Mobile Division",
+          "primary_courthouse_city": "Mobile",
+          "primary_courthouse_name": "United States Courthouse - Mobile"
+        },
+        {
+          "division_id": "d-al-sd-selma",
+          "name": "Selma Division",
+          "primary_courthouse_city": "Selma",
+          "primary_courthouse_name": "United States Courthouse - Selma"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ak",
+      "name": "United States District Court for the District of Alaska",
+      "short_name": "D. Alaska",
+      "parent_circuit_id": "ca9",
+      "state_or_territory_codes": ["AK"],
+      "fips_codes": ["02"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ak",
+        "name": "United States Bankruptcy Court for the District of Alaska",
+        "short_name": "Bankr. Alaska",
+        "parent_district_id": "d-ak",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ak-anchorage",
+          "name": "Anchorage Division",
+          "primary_courthouse_city": "Anchorage",
+          "primary_courthouse_name": "United States Courthouse - Anchorage"
+        },
+        {
+          "division_id": "d-ak-fairbanks",
+          "name": "Fairbanks Division",
+          "primary_courthouse_city": "Fairbanks",
+          "primary_courthouse_name": "United States Courthouse - Fairbanks"
+        },
+        {
+          "division_id": "d-ak-juneau",
+          "name": "Juneau Division",
+          "primary_courthouse_city": "Juneau",
+          "primary_courthouse_name": "United States Courthouse - Juneau"
+        },
+        {
+          "division_id": "d-ak-ketchikan",
+          "name": "Ketchikan Division",
+          "primary_courthouse_city": "Ketchikan",
+          "primary_courthouse_name": "United States Courthouse - Ketchikan"
+        },
+        {
+          "division_id": "d-ak-nome",
+          "name": "Nome Division",
+          "primary_courthouse_city": "Nome",
+          "primary_courthouse_name": "United States Courthouse - Nome"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-az",
+      "name": "United States District Court for the District of Arizona",
+      "short_name": "D. Ariz.",
+      "parent_circuit_id": "ca9",
+      "state_or_territory_codes": ["AZ"],
+      "fips_codes": ["04"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-az",
+        "name": "United States Bankruptcy Court for the District of Arizona",
+        "short_name": "Bankr. Ariz.",
+        "parent_district_id": "d-az",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-az-phoenix",
+          "name": "Phoenix Division",
+          "primary_courthouse_city": "Phoenix",
+          "primary_courthouse_name": "United States Courthouse - Phoenix"
+        },
+        {
+          "division_id": "d-az-tucson",
+          "name": "Tucson Division",
+          "primary_courthouse_city": "Tucson",
+          "primary_courthouse_name": "United States Courthouse - Tucson"
+        },
+        {
+          "division_id": "d-az-flagstaff",
+          "name": "Flagstaff Division",
+          "primary_courthouse_city": "Flagstaff",
+          "primary_courthouse_name": "United States Courthouse - Flagstaff"
+        },
+        {
+          "division_id": "d-az-yuma",
+          "name": "Yuma Division",
+          "primary_courthouse_city": "Yuma",
+          "primary_courthouse_name": "United States Courthouse - Yuma"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ar-ed",
+      "name": "United States District Court for the Eastern District of Arkansas",
+      "short_name": "E.D. Ark.",
+      "parent_circuit_id": "ca8",
+      "state_or_territory_codes": ["AR"],
+      "fips_codes": ["05"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ar-ed",
+        "name": "United States Bankruptcy Court for the Eastern District of Arkansas",
+        "short_name": "E.Bankr. Ark.",
+        "parent_district_id": "d-ar-ed",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ar-ed-little-rock",
+          "name": "Little Rock Division",
+          "primary_courthouse_city": "Little Rock",
+          "primary_courthouse_name": "United States Courthouse - Little Rock"
+        },
+        {
+          "division_id": "d-ar-ed-helena",
+          "name": "Helena Division",
+          "primary_courthouse_city": "Helena",
+          "primary_courthouse_name": "United States Courthouse - Helena"
+        },
+        {
+          "division_id": "d-ar-ed-jonesboro",
+          "name": "Jonesboro Division",
+          "primary_courthouse_city": "Jonesboro",
+          "primary_courthouse_name": "United States Courthouse - Jonesboro"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ar-wd",
+      "name": "United States District Court for the Western District of Arkansas",
+      "short_name": "W.D. Ark.",
+      "parent_circuit_id": "ca8",
+      "state_or_territory_codes": ["AR"],
+      "fips_codes": ["05"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ar-wd",
+        "name": "United States Bankruptcy Court for the Western District of Arkansas",
+        "short_name": "W.Bankr. Ark.",
+        "parent_district_id": "d-ar-wd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ar-wd-fort-smith",
+          "name": "Fort Smith Division",
+          "primary_courthouse_city": "Fort Smith",
+          "primary_courthouse_name": "United States Courthouse - Fort Smith"
+        },
+        {
+          "division_id": "d-ar-wd-el-dorado",
+          "name": "El Dorado Division",
+          "primary_courthouse_city": "El Dorado",
+          "primary_courthouse_name": "United States Courthouse - El Dorado"
+        },
+        {
+          "division_id": "d-ar-wd-fayetteville",
+          "name": "Fayetteville Division",
+          "primary_courthouse_city": "Fayetteville",
+          "primary_courthouse_name": "United States Courthouse - Fayetteville"
+        },
+        {
+          "division_id": "d-ar-wd-harrison",
+          "name": "Harrison Division",
+          "primary_courthouse_city": "Harrison",
+          "primary_courthouse_name": "United States Courthouse - Harrison"
+        },
+        {
+          "division_id": "d-ar-wd-hot-springs",
+          "name": "Hot Springs Division",
+          "primary_courthouse_city": "Hot Springs",
+          "primary_courthouse_name": "United States Courthouse - Hot Springs"
+        },
+        {
+          "division_id": "d-ar-wd-texarkana",
+          "name": "Texarkana Division",
+          "primary_courthouse_city": "Texarkana",
+          "primary_courthouse_name": "United States Courthouse - Texarkana"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ca-nd",
+      "name": "United States District Court for the Northern District of California",
+      "short_name": "N.D. Cal.",
+      "parent_circuit_id": "ca9",
+      "state_or_territory_codes": ["CA"],
+      "fips_codes": ["06"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ca-nd",
+        "name": "United States Bankruptcy Court for the Northern District of California",
+        "short_name": "N.Bankr. Cal.",
+        "parent_district_id": "d-ca-nd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ca-nd-san-francisco",
+          "name": "San Francisco Division",
+          "primary_courthouse_city": "San Francisco",
+          "primary_courthouse_name": "United States Courthouse - San Francisco"
+        },
+        {
+          "division_id": "d-ca-nd-oakland",
+          "name": "Oakland Division",
+          "primary_courthouse_city": "Oakland",
+          "primary_courthouse_name": "United States Courthouse - Oakland"
+        },
+        {
+          "division_id": "d-ca-nd-san-jose",
+          "name": "San Jose Division",
+          "primary_courthouse_city": "San Jose",
+          "primary_courthouse_name": "United States Courthouse - San Jose"
+        },
+        {
+          "division_id": "d-ca-nd-eureka",
+          "name": "Eureka Division",
+          "primary_courthouse_city": "Eureka",
+          "primary_courthouse_name": "United States Courthouse - Eureka"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ca-ed",
+      "name": "United States District Court for the Eastern District of California",
+      "short_name": "E.D. Cal.",
+      "parent_circuit_id": "ca9",
+      "state_or_territory_codes": ["CA"],
+      "fips_codes": ["06"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ca-ed",
+        "name": "United States Bankruptcy Court for the Eastern District of California",
+        "short_name": "E.Bankr. Cal.",
+        "parent_district_id": "d-ca-ed",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ca-ed-sacramento",
+          "name": "Sacramento Division",
+          "primary_courthouse_city": "Sacramento",
+          "primary_courthouse_name": "United States Courthouse - Sacramento"
+        },
+        {
+          "division_id": "d-ca-ed-fresno",
+          "name": "Fresno Division",
+          "primary_courthouse_city": "Fresno",
+          "primary_courthouse_name": "United States Courthouse - Fresno"
+        },
+        {
+          "division_id": "d-ca-ed-bakersfield",
+          "name": "Bakersfield Division",
+          "primary_courthouse_city": "Bakersfield",
+          "primary_courthouse_name": "United States Courthouse - Bakersfield"
+        },
+        {
+          "division_id": "d-ca-ed-redding",
+          "name": "Redding Division",
+          "primary_courthouse_city": "Redding",
+          "primary_courthouse_name": "United States Courthouse - Redding"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ca-cd",
+      "name": "United States District Court for the Central District of California",
+      "short_name": "C.D. Cal.",
+      "parent_circuit_id": "ca9",
+      "state_or_territory_codes": ["CA"],
+      "fips_codes": ["06"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ca-cd",
+        "name": "United States Bankruptcy Court for the Central District of California",
+        "short_name": "C.Bankr. Cal.",
+        "parent_district_id": "d-ca-cd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ca-cd-los-angeles",
+          "name": "Los Angeles Division",
+          "primary_courthouse_city": "Los Angeles",
+          "primary_courthouse_name": "United States Courthouse - Los Angeles"
+        },
+        {
+          "division_id": "d-ca-cd-riverside",
+          "name": "Riverside Division",
+          "primary_courthouse_city": "Riverside",
+          "primary_courthouse_name": "United States Courthouse - Riverside"
+        },
+        {
+          "division_id": "d-ca-cd-santa-ana",
+          "name": "Santa Ana Division",
+          "primary_courthouse_city": "Santa Ana",
+          "primary_courthouse_name": "United States Courthouse - Santa Ana"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ca-sd",
+      "name": "United States District Court for the Southern District of California",
+      "short_name": "S.D. Cal.",
+      "parent_circuit_id": "ca9",
+      "state_or_territory_codes": ["CA"],
+      "fips_codes": ["06"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ca-sd",
+        "name": "United States Bankruptcy Court for the Southern District of California",
+        "short_name": "S.Bankr. Cal.",
+        "parent_district_id": "d-ca-sd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ca-sd-san-diego",
+          "name": "San Diego Division",
+          "primary_courthouse_city": "San Diego",
+          "primary_courthouse_name": "United States Courthouse - San Diego"
+        },
+        {
+          "division_id": "d-ca-sd-el-centro",
+          "name": "El Centro Division",
+          "primary_courthouse_city": "El Centro",
+          "primary_courthouse_name": "United States Courthouse - El Centro"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-co",
+      "name": "United States District Court for the District of Colorado",
+      "short_name": "D. Colo.",
+      "parent_circuit_id": "ca10",
+      "state_or_territory_codes": ["CO"],
+      "fips_codes": ["08"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-co",
+        "name": "United States Bankruptcy Court for the District of Colorado",
+        "short_name": "Bankr. Colo.",
+        "parent_district_id": "d-co",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-co-denver",
+          "name": "Denver Division",
+          "primary_courthouse_city": "Denver",
+          "primary_courthouse_name": "United States Courthouse - Denver"
+        },
+        {
+          "division_id": "d-co-colorado-springs",
+          "name": "Colorado Springs Division",
+          "primary_courthouse_city": "Colorado Springs",
+          "primary_courthouse_name": "United States Courthouse - Colorado Springs"
+        },
+        {
+          "division_id": "d-co-grand-junction",
+          "name": "Grand Junction Division",
+          "primary_courthouse_city": "Grand Junction",
+          "primary_courthouse_name": "United States Courthouse - Grand Junction"
+        },
+        {
+          "division_id": "d-co-durango",
+          "name": "Durango Division",
+          "primary_courthouse_city": "Durango",
+          "primary_courthouse_name": "United States Courthouse - Durango"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ct",
+      "name": "United States District Court for the District of Connecticut",
+      "short_name": "D. Conn.",
+      "parent_circuit_id": "ca2",
+      "state_or_territory_codes": ["CT"],
+      "fips_codes": ["09"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ct",
+        "name": "United States Bankruptcy Court for the District of Connecticut",
+        "short_name": "Bankr. Conn.",
+        "parent_district_id": "d-ct",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ct-hartford",
+          "name": "Hartford Division",
+          "primary_courthouse_city": "Hartford",
+          "primary_courthouse_name": "United States Courthouse - Hartford"
+        },
+        {
+          "division_id": "d-ct-bridgeport",
+          "name": "Bridgeport Division",
+          "primary_courthouse_city": "Bridgeport",
+          "primary_courthouse_name": "United States Courthouse - Bridgeport"
+        },
+        {
+          "division_id": "d-ct-new-haven",
+          "name": "New Haven Division",
+          "primary_courthouse_city": "New Haven",
+          "primary_courthouse_name": "United States Courthouse - New Haven"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-de",
+      "name": "United States District Court for the District of Delaware",
+      "short_name": "D. Del.",
+      "parent_circuit_id": "ca3",
+      "state_or_territory_codes": ["DE"],
+      "fips_codes": ["10"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-de",
+        "name": "United States Bankruptcy Court for the District of Delaware",
+        "short_name": "Bankr. Del.",
+        "parent_district_id": "d-de",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-de-wilmington",
+          "name": "Wilmington Division",
+          "primary_courthouse_city": "Wilmington",
+          "primary_courthouse_name": "United States Courthouse - Wilmington"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-dc",
+      "name": "United States District Court for the District of Columbia",
+      "short_name": "D.D.C.",
+      "parent_circuit_id": "cadc",
+      "state_or_territory_codes": ["DC"],
+      "fips_codes": ["11"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-dc",
+        "name": "United States Bankruptcy Court for the District of Columbia",
+        "short_name": "Bankr.Bankr.C.",
+        "parent_district_id": "d-dc",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-dc-washington",
+          "name": "Washington Division",
+          "primary_courthouse_city": "Washington",
+          "primary_courthouse_name": "United States Courthouse - Washington"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-fl-nd",
+      "name": "United States District Court for the Northern District of Florida",
+      "short_name": "N.D. Fla.",
+      "parent_circuit_id": "ca11",
+      "state_or_territory_codes": ["FL"],
+      "fips_codes": ["12"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-fl-nd",
+        "name": "United States Bankruptcy Court for the Northern District of Florida",
+        "short_name": "N.Bankr. Fla.",
+        "parent_district_id": "d-fl-nd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-fl-nd-tallahassee",
+          "name": "Tallahassee Division",
+          "primary_courthouse_city": "Tallahassee",
+          "primary_courthouse_name": "United States Courthouse - Tallahassee"
+        },
+        {
+          "division_id": "d-fl-nd-pensacola",
+          "name": "Pensacola Division",
+          "primary_courthouse_city": "Pensacola",
+          "primary_courthouse_name": "United States Courthouse - Pensacola"
+        },
+        {
+          "division_id": "d-fl-nd-gainesville",
+          "name": "Gainesville Division",
+          "primary_courthouse_city": "Gainesville",
+          "primary_courthouse_name": "United States Courthouse - Gainesville"
+        },
+        {
+          "division_id": "d-fl-nd-panama-city",
+          "name": "Panama City Division",
+          "primary_courthouse_city": "Panama City",
+          "primary_courthouse_name": "United States Courthouse - Panama City"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-fl-md",
+      "name": "United States District Court for the Middle District of Florida",
+      "short_name": "M.D. Fla.",
+      "parent_circuit_id": "ca11",
+      "state_or_territory_codes": ["FL"],
+      "fips_codes": ["12"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-fl-md",
+        "name": "United States Bankruptcy Court for the Middle District of Florida",
+        "short_name": "M.Bankr. Fla.",
+        "parent_district_id": "d-fl-md",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-fl-md-tampa",
+          "name": "Tampa Division",
+          "primary_courthouse_city": "Tampa",
+          "primary_courthouse_name": "United States Courthouse - Tampa"
+        },
+        {
+          "division_id": "d-fl-md-orlando",
+          "name": "Orlando Division",
+          "primary_courthouse_city": "Orlando",
+          "primary_courthouse_name": "United States Courthouse - Orlando"
+        },
+        {
+          "division_id": "d-fl-md-jacksonville",
+          "name": "Jacksonville Division",
+          "primary_courthouse_city": "Jacksonville",
+          "primary_courthouse_name": "United States Courthouse - Jacksonville"
+        },
+        {
+          "division_id": "d-fl-md-fort-myers",
+          "name": "Fort Myers Division",
+          "primary_courthouse_city": "Fort Myers",
+          "primary_courthouse_name": "United States Courthouse - Fort Myers"
+        },
+        {
+          "division_id": "d-fl-md-ocala",
+          "name": "Ocala Division",
+          "primary_courthouse_city": "Ocala",
+          "primary_courthouse_name": "United States Courthouse - Ocala"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-fl-sd",
+      "name": "United States District Court for the Southern District of Florida",
+      "short_name": "S.D. Fla.",
+      "parent_circuit_id": "ca11",
+      "state_or_territory_codes": ["FL"],
+      "fips_codes": ["12"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-fl-sd",
+        "name": "United States Bankruptcy Court for the Southern District of Florida",
+        "short_name": "S.Bankr. Fla.",
+        "parent_district_id": "d-fl-sd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-fl-sd-miami",
+          "name": "Miami Division",
+          "primary_courthouse_city": "Miami",
+          "primary_courthouse_name": "United States Courthouse - Miami"
+        },
+        {
+          "division_id": "d-fl-sd-fort-lauderdale",
+          "name": "Fort Lauderdale Division",
+          "primary_courthouse_city": "Fort Lauderdale",
+          "primary_courthouse_name": "United States Courthouse - Fort Lauderdale"
+        },
+        {
+          "division_id": "d-fl-sd-west-palm-beach",
+          "name": "West Palm Beach Division",
+          "primary_courthouse_city": "West Palm Beach",
+          "primary_courthouse_name": "United States Courthouse - West Palm Beach"
+        },
+        {
+          "division_id": "d-fl-sd-key-west",
+          "name": "Key West Division",
+          "primary_courthouse_city": "Key West",
+          "primary_courthouse_name": "United States Courthouse - Key West"
+        },
+        {
+          "division_id": "d-fl-sd-fort-pierce",
+          "name": "Fort Pierce Division",
+          "primary_courthouse_city": "Fort Pierce",
+          "primary_courthouse_name": "United States Courthouse - Fort Pierce"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ga-nd",
+      "name": "United States District Court for the Northern District of Georgia",
+      "short_name": "N.D. Ga.",
+      "parent_circuit_id": "ca11",
+      "state_or_territory_codes": ["GA"],
+      "fips_codes": ["13"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ga-nd",
+        "name": "United States Bankruptcy Court for the Northern District of Georgia",
+        "short_name": "N.Bankr. Ga.",
+        "parent_district_id": "d-ga-nd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ga-nd-atlanta",
+          "name": "Atlanta Division",
+          "primary_courthouse_city": "Atlanta",
+          "primary_courthouse_name": "United States Courthouse - Atlanta"
+        },
+        {
+          "division_id": "d-ga-nd-gainesville",
+          "name": "Gainesville Division",
+          "primary_courthouse_city": "Gainesville",
+          "primary_courthouse_name": "United States Courthouse - Gainesville"
+        },
+        {
+          "division_id": "d-ga-nd-rome",
+          "name": "Rome Division",
+          "primary_courthouse_city": "Rome",
+          "primary_courthouse_name": "United States Courthouse - Rome"
+        },
+        {
+          "division_id": "d-ga-nd-newnan",
+          "name": "Newnan Division",
+          "primary_courthouse_city": "Newnan",
+          "primary_courthouse_name": "United States Courthouse - Newnan"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ga-md",
+      "name": "United States District Court for the Middle District of Georgia",
+      "short_name": "M.D. Ga.",
+      "parent_circuit_id": "ca11",
+      "state_or_territory_codes": ["GA"],
+      "fips_codes": ["13"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ga-md",
+        "name": "United States Bankruptcy Court for the Middle District of Georgia",
+        "short_name": "M.Bankr. Ga.",
+        "parent_district_id": "d-ga-md",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ga-md-macon",
+          "name": "Macon Division",
+          "primary_courthouse_city": "Macon",
+          "primary_courthouse_name": "United States Courthouse - Macon"
+        },
+        {
+          "division_id": "d-ga-md-albany",
+          "name": "Albany Division",
+          "primary_courthouse_city": "Albany",
+          "primary_courthouse_name": "United States Courthouse - Albany"
+        },
+        {
+          "division_id": "d-ga-md-columbus",
+          "name": "Columbus Division",
+          "primary_courthouse_city": "Columbus",
+          "primary_courthouse_name": "United States Courthouse - Columbus"
+        },
+        {
+          "division_id": "d-ga-md-athens",
+          "name": "Athens Division",
+          "primary_courthouse_city": "Athens",
+          "primary_courthouse_name": "United States Courthouse - Athens"
+        },
+        {
+          "division_id": "d-ga-md-valdosta",
+          "name": "Valdosta Division",
+          "primary_courthouse_city": "Valdosta",
+          "primary_courthouse_name": "United States Courthouse - Valdosta"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ga-sd",
+      "name": "United States District Court for the Southern District of Georgia",
+      "short_name": "S.D. Ga.",
+      "parent_circuit_id": "ca11",
+      "state_or_territory_codes": ["GA"],
+      "fips_codes": ["13"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ga-sd",
+        "name": "United States Bankruptcy Court for the Southern District of Georgia",
+        "short_name": "S.Bankr. Ga.",
+        "parent_district_id": "d-ga-sd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ga-sd-savannah",
+          "name": "Savannah Division",
+          "primary_courthouse_city": "Savannah",
+          "primary_courthouse_name": "United States Courthouse - Savannah"
+        },
+        {
+          "division_id": "d-ga-sd-augusta",
+          "name": "Augusta Division",
+          "primary_courthouse_city": "Augusta",
+          "primary_courthouse_name": "United States Courthouse - Augusta"
+        },
+        {
+          "division_id": "d-ga-sd-brunswick",
+          "name": "Brunswick Division",
+          "primary_courthouse_city": "Brunswick",
+          "primary_courthouse_name": "United States Courthouse - Brunswick"
+        },
+        {
+          "division_id": "d-ga-sd-waycross",
+          "name": "Waycross Division",
+          "primary_courthouse_city": "Waycross",
+          "primary_courthouse_name": "United States Courthouse - Waycross"
+        },
+        {
+          "division_id": "d-ga-sd-dublin",
+          "name": "Dublin Division",
+          "primary_courthouse_city": "Dublin",
+          "primary_courthouse_name": "United States Courthouse - Dublin"
+        },
+        {
+          "division_id": "d-ga-sd-statesboro",
+          "name": "Statesboro Division",
+          "primary_courthouse_city": "Statesboro",
+          "primary_courthouse_name": "United States Courthouse - Statesboro"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-hi",
+      "name": "United States District Court for the District of Hawaii",
+      "short_name": "D. Haw.",
+      "parent_circuit_id": "ca9",
+      "state_or_territory_codes": ["HI"],
+      "fips_codes": ["15"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-hi",
+        "name": "United States Bankruptcy Court for the District of Hawaii",
+        "short_name": "Bankr. Haw.",
+        "parent_district_id": "d-hi",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-hi-honolulu",
+          "name": "Honolulu Division",
+          "primary_courthouse_city": "Honolulu",
+          "primary_courthouse_name": "United States Courthouse - Honolulu"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-id",
+      "name": "United States District Court for the District of Idaho",
+      "short_name": "D. Idaho",
+      "parent_circuit_id": "ca9",
+      "state_or_territory_codes": ["ID"],
+      "fips_codes": ["16"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-id",
+        "name": "United States Bankruptcy Court for the District of Idaho",
+        "short_name": "Bankr. Idaho",
+        "parent_district_id": "d-id",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-id-boise",
+          "name": "Boise Division",
+          "primary_courthouse_city": "Boise",
+          "primary_courthouse_name": "United States Courthouse - Boise"
+        },
+        {
+          "division_id": "d-id-coeur-dalene",
+          "name": "Coeur d'Alene Division",
+          "primary_courthouse_city": "Coeur d'Alene",
+          "primary_courthouse_name": "United States Courthouse - Coeur d'Alene"
+        },
+        {
+          "division_id": "d-id-moscow",
+          "name": "Moscow Division",
+          "primary_courthouse_city": "Moscow",
+          "primary_courthouse_name": "United States Courthouse - Moscow"
+        },
+        {
+          "division_id": "d-id-pocatello",
+          "name": "Pocatello Division",
+          "primary_courthouse_city": "Pocatello",
+          "primary_courthouse_name": "United States Courthouse - Pocatello"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-il-nd",
+      "name": "United States District Court for the Northern District of Illinois",
+      "short_name": "N.D. Ill.",
+      "parent_circuit_id": "ca7",
+      "state_or_territory_codes": ["IL"],
+      "fips_codes": ["17"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-il-nd",
+        "name": "United States Bankruptcy Court for the Northern District of Illinois",
+        "short_name": "N.Bankr. Ill.",
+        "parent_district_id": "d-il-nd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-il-nd-chicago",
+          "name": "Chicago Division",
+          "primary_courthouse_city": "Chicago",
+          "primary_courthouse_name": "United States Courthouse - Chicago"
+        },
+        {
+          "division_id": "d-il-nd-rockford",
+          "name": "Rockford Division",
+          "primary_courthouse_city": "Rockford",
+          "primary_courthouse_name": "United States Courthouse - Rockford"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-il-cd",
+      "name": "United States District Court for the Central District of Illinois",
+      "short_name": "C.D. Ill.",
+      "parent_circuit_id": "ca7",
+      "state_or_territory_codes": ["IL"],
+      "fips_codes": ["17"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-il-cd",
+        "name": "United States Bankruptcy Court for the Central District of Illinois",
+        "short_name": "C.Bankr. Ill.",
+        "parent_district_id": "d-il-cd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-il-cd-peoria",
+          "name": "Peoria Division",
+          "primary_courthouse_city": "Peoria",
+          "primary_courthouse_name": "United States Courthouse - Peoria"
+        },
+        {
+          "division_id": "d-il-cd-urbana",
+          "name": "Urbana Division",
+          "primary_courthouse_city": "Urbana",
+          "primary_courthouse_name": "United States Courthouse - Urbana"
+        },
+        {
+          "division_id": "d-il-cd-springfield",
+          "name": "Springfield Division",
+          "primary_courthouse_city": "Springfield",
+          "primary_courthouse_name": "United States Courthouse - Springfield"
+        },
+        {
+          "division_id": "d-il-cd-rock-island",
+          "name": "Rock Island Division",
+          "primary_courthouse_city": "Rock Island",
+          "primary_courthouse_name": "United States Courthouse - Rock Island"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-il-sd",
+      "name": "United States District Court for the Southern District of Illinois",
+      "short_name": "S.D. Ill.",
+      "parent_circuit_id": "ca7",
+      "state_or_territory_codes": ["IL"],
+      "fips_codes": ["17"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-il-sd",
+        "name": "United States Bankruptcy Court for the Southern District of Illinois",
+        "short_name": "S.Bankr. Ill.",
+        "parent_district_id": "d-il-sd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-il-sd-east-st-louis",
+          "name": "East St. Louis Division",
+          "primary_courthouse_city": "East St. Louis",
+          "primary_courthouse_name": "United States Courthouse - East St. Louis"
+        },
+        {
+          "division_id": "d-il-sd-benton",
+          "name": "Benton Division",
+          "primary_courthouse_city": "Benton",
+          "primary_courthouse_name": "United States Courthouse - Benton"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-in-nd",
+      "name": "United States District Court for the Northern District of Indiana",
+      "short_name": "N.D. Ind.",
+      "parent_circuit_id": "ca7",
+      "state_or_territory_codes": ["IN"],
+      "fips_codes": ["18"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-in-nd",
+        "name": "United States Bankruptcy Court for the Northern District of Indiana",
+        "short_name": "N.Bankr. Ind.",
+        "parent_district_id": "d-in-nd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-in-nd-south-bend",
+          "name": "South Bend Division",
+          "primary_courthouse_city": "South Bend",
+          "primary_courthouse_name": "United States Courthouse - South Bend"
+        },
+        {
+          "division_id": "d-in-nd-fort-wayne",
+          "name": "Fort Wayne Division",
+          "primary_courthouse_city": "Fort Wayne",
+          "primary_courthouse_name": "United States Courthouse - Fort Wayne"
+        },
+        {
+          "division_id": "d-in-nd-hammond",
+          "name": "Hammond Division",
+          "primary_courthouse_city": "Hammond",
+          "primary_courthouse_name": "United States Courthouse - Hammond"
+        },
+        {
+          "division_id": "d-in-nd-lafayette",
+          "name": "Lafayette Division",
+          "primary_courthouse_city": "Lafayette",
+          "primary_courthouse_name": "United States Courthouse - Lafayette"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-in-sd",
+      "name": "United States District Court for the Southern District of Indiana",
+      "short_name": "S.D. Ind.",
+      "parent_circuit_id": "ca7",
+      "state_or_territory_codes": ["IN"],
+      "fips_codes": ["18"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-in-sd",
+        "name": "United States Bankruptcy Court for the Southern District of Indiana",
+        "short_name": "S.Bankr. Ind.",
+        "parent_district_id": "d-in-sd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-in-sd-indianapolis",
+          "name": "Indianapolis Division",
+          "primary_courthouse_city": "Indianapolis",
+          "primary_courthouse_name": "United States Courthouse - Indianapolis"
+        },
+        {
+          "division_id": "d-in-sd-evansville",
+          "name": "Evansville Division",
+          "primary_courthouse_city": "Evansville",
+          "primary_courthouse_name": "United States Courthouse - Evansville"
+        },
+        {
+          "division_id": "d-in-sd-new-albany",
+          "name": "New Albany Division",
+          "primary_courthouse_city": "New Albany",
+          "primary_courthouse_name": "United States Courthouse - New Albany"
+        },
+        {
+          "division_id": "d-in-sd-terre-haute",
+          "name": "Terre Haute Division",
+          "primary_courthouse_city": "Terre Haute",
+          "primary_courthouse_name": "United States Courthouse - Terre Haute"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ia-nd",
+      "name": "United States District Court for the Northern District of Iowa",
+      "short_name": "N.D. Iowa",
+      "parent_circuit_id": "ca8",
+      "state_or_territory_codes": ["IA"],
+      "fips_codes": ["19"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ia-nd",
+        "name": "United States Bankruptcy Court for the Northern District of Iowa",
+        "short_name": "N.Bankr. Iowa",
+        "parent_district_id": "d-ia-nd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ia-nd-cedar-rapids",
+          "name": "Cedar Rapids Division",
+          "primary_courthouse_city": "Cedar Rapids",
+          "primary_courthouse_name": "United States Courthouse - Cedar Rapids"
+        },
+        {
+          "division_id": "d-ia-nd-sioux-city",
+          "name": "Sioux City Division",
+          "primary_courthouse_city": "Sioux City",
+          "primary_courthouse_name": "United States Courthouse - Sioux City"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ia-sd",
+      "name": "United States District Court for the Southern District of Iowa",
+      "short_name": "S.D. Iowa",
+      "parent_circuit_id": "ca8",
+      "state_or_territory_codes": ["IA"],
+      "fips_codes": ["19"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ia-sd",
+        "name": "United States Bankruptcy Court for the Southern District of Iowa",
+        "short_name": "S.Bankr. Iowa",
+        "parent_district_id": "d-ia-sd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ia-sd-des-moines",
+          "name": "Des Moines Division",
+          "primary_courthouse_city": "Des Moines",
+          "primary_courthouse_name": "United States Courthouse - Des Moines"
+        },
+        {
+          "division_id": "d-ia-sd-council-bluffs",
+          "name": "Council Bluffs Division",
+          "primary_courthouse_city": "Council Bluffs",
+          "primary_courthouse_name": "United States Courthouse - Council Bluffs"
+        },
+        {
+          "division_id": "d-ia-sd-davenport",
+          "name": "Davenport Division",
+          "primary_courthouse_city": "Davenport",
+          "primary_courthouse_name": "United States Courthouse - Davenport"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ks",
+      "name": "United States District Court for the District of Kansas",
+      "short_name": "D. Kan.",
+      "parent_circuit_id": "ca10",
+      "state_or_territory_codes": ["KS"],
+      "fips_codes": ["20"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ks",
+        "name": "United States Bankruptcy Court for the District of Kansas",
+        "short_name": "Bankr. Kan.",
+        "parent_district_id": "d-ks",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ks-kansas-city",
+          "name": "Kansas City Division",
+          "primary_courthouse_city": "Kansas City",
+          "primary_courthouse_name": "United States Courthouse - Kansas City"
+        },
+        {
+          "division_id": "d-ks-wichita",
+          "name": "Wichita Division",
+          "primary_courthouse_city": "Wichita",
+          "primary_courthouse_name": "United States Courthouse - Wichita"
+        },
+        {
+          "division_id": "d-ks-topeka",
+          "name": "Topeka Division",
+          "primary_courthouse_city": "Topeka",
+          "primary_courthouse_name": "United States Courthouse - Topeka"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ky-ed",
+      "name": "United States District Court for the Eastern District of Kentucky",
+      "short_name": "E.D. Ky.",
+      "parent_circuit_id": "ca6",
+      "state_or_territory_codes": ["KY"],
+      "fips_codes": ["21"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ky-ed",
+        "name": "United States Bankruptcy Court for the Eastern District of Kentucky",
+        "short_name": "E.Bankr. Ky.",
+        "parent_district_id": "d-ky-ed",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ky-ed-lexington",
+          "name": "Lexington Division",
+          "primary_courthouse_city": "Lexington",
+          "primary_courthouse_name": "United States Courthouse - Lexington"
+        },
+        {
+          "division_id": "d-ky-ed-ashland",
+          "name": "Ashland Division",
+          "primary_courthouse_city": "Ashland",
+          "primary_courthouse_name": "United States Courthouse - Ashland"
+        },
+        {
+          "division_id": "d-ky-ed-covington",
+          "name": "Covington Division",
+          "primary_courthouse_city": "Covington",
+          "primary_courthouse_name": "United States Courthouse - Covington"
+        },
+        {
+          "division_id": "d-ky-ed-frankfort",
+          "name": "Frankfort Division",
+          "primary_courthouse_city": "Frankfort",
+          "primary_courthouse_name": "United States Courthouse - Frankfort"
+        },
+        {
+          "division_id": "d-ky-ed-london",
+          "name": "London Division",
+          "primary_courthouse_city": "London",
+          "primary_courthouse_name": "United States Courthouse - London"
+        },
+        {
+          "division_id": "d-ky-ed-pikeville",
+          "name": "Pikeville Division",
+          "primary_courthouse_city": "Pikeville",
+          "primary_courthouse_name": "United States Courthouse - Pikeville"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ky-wd",
+      "name": "United States District Court for the Western District of Kentucky",
+      "short_name": "W.D. Ky.",
+      "parent_circuit_id": "ca6",
+      "state_or_territory_codes": ["KY"],
+      "fips_codes": ["21"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ky-wd",
+        "name": "United States Bankruptcy Court for the Western District of Kentucky",
+        "short_name": "W.Bankr. Ky.",
+        "parent_district_id": "d-ky-wd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ky-wd-louisville",
+          "name": "Louisville Division",
+          "primary_courthouse_city": "Louisville",
+          "primary_courthouse_name": "United States Courthouse - Louisville"
+        },
+        {
+          "division_id": "d-ky-wd-bowling-green",
+          "name": "Bowling Green Division",
+          "primary_courthouse_city": "Bowling Green",
+          "primary_courthouse_name": "United States Courthouse - Bowling Green"
+        },
+        {
+          "division_id": "d-ky-wd-owensboro",
+          "name": "Owensboro Division",
+          "primary_courthouse_city": "Owensboro",
+          "primary_courthouse_name": "United States Courthouse - Owensboro"
+        },
+        {
+          "division_id": "d-ky-wd-paducah",
+          "name": "Paducah Division",
+          "primary_courthouse_city": "Paducah",
+          "primary_courthouse_name": "United States Courthouse - Paducah"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-la-ed",
+      "name": "United States District Court for the Eastern District of Louisiana",
+      "short_name": "E.D. La.",
+      "parent_circuit_id": "ca5",
+      "state_or_territory_codes": ["LA"],
+      "fips_codes": ["22"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-la-ed",
+        "name": "United States Bankruptcy Court for the Eastern District of Louisiana",
+        "short_name": "E.Bankr. La.",
+        "parent_district_id": "d-la-ed",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-la-ed-new-orleans",
+          "name": "New Orleans Division",
+          "primary_courthouse_city": "New Orleans",
+          "primary_courthouse_name": "United States Courthouse - New Orleans"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-la-md",
+      "name": "United States District Court for the Middle District of Louisiana",
+      "short_name": "M.D. La.",
+      "parent_circuit_id": "ca5",
+      "state_or_territory_codes": ["LA"],
+      "fips_codes": ["22"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-la-md",
+        "name": "United States Bankruptcy Court for the Middle District of Louisiana",
+        "short_name": "M.Bankr. La.",
+        "parent_district_id": "d-la-md",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-la-md-baton-rouge",
+          "name": "Baton Rouge Division",
+          "primary_courthouse_city": "Baton Rouge",
+          "primary_courthouse_name": "United States Courthouse - Baton Rouge"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-la-wd",
+      "name": "United States District Court for the Western District of Louisiana",
+      "short_name": "W.D. La.",
+      "parent_circuit_id": "ca5",
+      "state_or_territory_codes": ["LA"],
+      "fips_codes": ["22"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-la-wd",
+        "name": "United States Bankruptcy Court for the Western District of Louisiana",
+        "short_name": "W.Bankr. La.",
+        "parent_district_id": "d-la-wd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-la-wd-shreveport",
+          "name": "Shreveport Division",
+          "primary_courthouse_city": "Shreveport",
+          "primary_courthouse_name": "United States Courthouse - Shreveport"
+        },
+        {
+          "division_id": "d-la-wd-alexandria",
+          "name": "Alexandria Division",
+          "primary_courthouse_city": "Alexandria",
+          "primary_courthouse_name": "United States Courthouse - Alexandria"
+        },
+        {
+          "division_id": "d-la-wd-lafayette",
+          "name": "Lafayette Division",
+          "primary_courthouse_city": "Lafayette",
+          "primary_courthouse_name": "United States Courthouse - Lafayette"
+        },
+        {
+          "division_id": "d-la-wd-lake-charles",
+          "name": "Lake Charles Division",
+          "primary_courthouse_city": "Lake Charles",
+          "primary_courthouse_name": "United States Courthouse - Lake Charles"
+        },
+        {
+          "division_id": "d-la-wd-monroe",
+          "name": "Monroe Division",
+          "primary_courthouse_city": "Monroe",
+          "primary_courthouse_name": "United States Courthouse - Monroe"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-me",
+      "name": "United States District Court for the District of Maine",
+      "short_name": "D. Me.",
+      "parent_circuit_id": "ca1",
+      "state_or_territory_codes": ["ME"],
+      "fips_codes": ["23"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-me",
+        "name": "United States Bankruptcy Court for the District of Maine",
+        "short_name": "Bankr. Me.",
+        "parent_district_id": "d-me",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-me-portland",
+          "name": "Portland Division",
+          "primary_courthouse_city": "Portland",
+          "primary_courthouse_name": "United States Courthouse - Portland"
+        },
+        {
+          "division_id": "d-me-bangor",
+          "name": "Bangor Division",
+          "primary_courthouse_city": "Bangor",
+          "primary_courthouse_name": "United States Courthouse - Bangor"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-md",
+      "name": "United States District Court for the District of Maryland",
+      "short_name": "D. Md.",
+      "parent_circuit_id": "ca4",
+      "state_or_territory_codes": ["MD"],
+      "fips_codes": ["24"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-md",
+        "name": "United States Bankruptcy Court for the District of Maryland",
+        "short_name": "Bankr. Md.",
+        "parent_district_id": "d-md",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-md-baltimore",
+          "name": "Baltimore Division",
+          "primary_courthouse_city": "Baltimore",
+          "primary_courthouse_name": "United States Courthouse - Baltimore"
+        },
+        {
+          "division_id": "d-md-greenbelt",
+          "name": "Greenbelt Division",
+          "primary_courthouse_city": "Greenbelt",
+          "primary_courthouse_name": "United States Courthouse - Greenbelt"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ma",
+      "name": "United States District Court for the District of Massachusetts",
+      "short_name": "D. Mass.",
+      "parent_circuit_id": "ca1",
+      "state_or_territory_codes": ["MA"],
+      "fips_codes": ["25"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ma",
+        "name": "United States Bankruptcy Court for the District of Massachusetts",
+        "short_name": "Bankr. Mass.",
+        "parent_district_id": "d-ma",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ma-boston",
+          "name": "Boston Division",
+          "primary_courthouse_city": "Boston",
+          "primary_courthouse_name": "United States Courthouse - Boston"
+        },
+        {
+          "division_id": "d-ma-springfield",
+          "name": "Springfield Division",
+          "primary_courthouse_city": "Springfield",
+          "primary_courthouse_name": "United States Courthouse - Springfield"
+        },
+        {
+          "division_id": "d-ma-worcester",
+          "name": "Worcester Division",
+          "primary_courthouse_city": "Worcester",
+          "primary_courthouse_name": "United States Courthouse - Worcester"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-mi-ed",
+      "name": "United States District Court for the Eastern District of Michigan",
+      "short_name": "E.D. Mich.",
+      "parent_circuit_id": "ca6",
+      "state_or_territory_codes": ["MI"],
+      "fips_codes": ["26"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-mi-ed",
+        "name": "United States Bankruptcy Court for the Eastern District of Michigan",
+        "short_name": "E.Bankr. Mich.",
+        "parent_district_id": "d-mi-ed",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-mi-ed-detroit",
+          "name": "Detroit Division",
+          "primary_courthouse_city": "Detroit",
+          "primary_courthouse_name": "United States Courthouse - Detroit"
+        },
+        {
+          "division_id": "d-mi-ed-ann-arbor",
+          "name": "Ann Arbor Division",
+          "primary_courthouse_city": "Ann Arbor",
+          "primary_courthouse_name": "United States Courthouse - Ann Arbor"
+        },
+        {
+          "division_id": "d-mi-ed-bay-city",
+          "name": "Bay City Division",
+          "primary_courthouse_city": "Bay City",
+          "primary_courthouse_name": "United States Courthouse - Bay City"
+        },
+        {
+          "division_id": "d-mi-ed-flint",
+          "name": "Flint Division",
+          "primary_courthouse_city": "Flint",
+          "primary_courthouse_name": "United States Courthouse - Flint"
+        },
+        {
+          "division_id": "d-mi-ed-port-huron",
+          "name": "Port Huron Division",
+          "primary_courthouse_city": "Port Huron",
+          "primary_courthouse_name": "United States Courthouse - Port Huron"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-mi-wd",
+      "name": "United States District Court for the Western District of Michigan",
+      "short_name": "W.D. Mich.",
+      "parent_circuit_id": "ca6",
+      "state_or_territory_codes": ["MI"],
+      "fips_codes": ["26"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-mi-wd",
+        "name": "United States Bankruptcy Court for the Western District of Michigan",
+        "short_name": "W.Bankr. Mich.",
+        "parent_district_id": "d-mi-wd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-mi-wd-grand-rapids",
+          "name": "Grand Rapids Division",
+          "primary_courthouse_city": "Grand Rapids",
+          "primary_courthouse_name": "United States Courthouse - Grand Rapids"
+        },
+        {
+          "division_id": "d-mi-wd-kalamazoo",
+          "name": "Kalamazoo Division",
+          "primary_courthouse_city": "Kalamazoo",
+          "primary_courthouse_name": "United States Courthouse - Kalamazoo"
+        },
+        {
+          "division_id": "d-mi-wd-lansing",
+          "name": "Lansing Division",
+          "primary_courthouse_city": "Lansing",
+          "primary_courthouse_name": "United States Courthouse - Lansing"
+        },
+        {
+          "division_id": "d-mi-wd-marquette",
+          "name": "Marquette Division",
+          "primary_courthouse_city": "Marquette",
+          "primary_courthouse_name": "United States Courthouse - Marquette"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-mn",
+      "name": "United States District Court for the District of Minnesota",
+      "short_name": "D. Minn.",
+      "parent_circuit_id": "ca8",
+      "state_or_territory_codes": ["MN"],
+      "fips_codes": ["27"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-mn",
+        "name": "United States Bankruptcy Court for the District of Minnesota",
+        "short_name": "Bankr. Minn.",
+        "parent_district_id": "d-mn",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-mn-minneapolis",
+          "name": "Minneapolis Division",
+          "primary_courthouse_city": "Minneapolis",
+          "primary_courthouse_name": "United States Courthouse - Minneapolis"
+        },
+        {
+          "division_id": "d-mn-st-paul",
+          "name": "St. Paul Division",
+          "primary_courthouse_city": "St. Paul",
+          "primary_courthouse_name": "United States Courthouse - St. Paul"
+        },
+        {
+          "division_id": "d-mn-duluth",
+          "name": "Duluth Division",
+          "primary_courthouse_city": "Duluth",
+          "primary_courthouse_name": "United States Courthouse - Duluth"
+        },
+        {
+          "division_id": "d-mn-fergus-falls",
+          "name": "Fergus Falls Division",
+          "primary_courthouse_city": "Fergus Falls",
+          "primary_courthouse_name": "United States Courthouse - Fergus Falls"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ms-nd",
+      "name": "United States District Court for the Northern District of Mississippi",
+      "short_name": "N.D. Miss.",
+      "parent_circuit_id": "ca5",
+      "state_or_territory_codes": ["MS"],
+      "fips_codes": ["28"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ms-nd",
+        "name": "United States Bankruptcy Court for the Northern District of Mississippi",
+        "short_name": "N.Bankr. Miss.",
+        "parent_district_id": "d-ms-nd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ms-nd-oxford",
+          "name": "Oxford Division",
+          "primary_courthouse_city": "Oxford",
+          "primary_courthouse_name": "United States Courthouse - Oxford"
+        },
+        {
+          "division_id": "d-ms-nd-aberdeen",
+          "name": "Aberdeen Division",
+          "primary_courthouse_city": "Aberdeen",
+          "primary_courthouse_name": "United States Courthouse - Aberdeen"
+        },
+        {
+          "division_id": "d-ms-nd-greenville",
+          "name": "Greenville Division",
+          "primary_courthouse_city": "Greenville",
+          "primary_courthouse_name": "United States Courthouse - Greenville"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ms-sd",
+      "name": "United States District Court for the Southern District of Mississippi",
+      "short_name": "S.D. Miss.",
+      "parent_circuit_id": "ca5",
+      "state_or_territory_codes": ["MS"],
+      "fips_codes": ["28"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ms-sd",
+        "name": "United States Bankruptcy Court for the Southern District of Mississippi",
+        "short_name": "S.Bankr. Miss.",
+        "parent_district_id": "d-ms-sd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ms-sd-jackson",
+          "name": "Jackson Division",
+          "primary_courthouse_city": "Jackson",
+          "primary_courthouse_name": "United States Courthouse - Jackson"
+        },
+        {
+          "division_id": "d-ms-sd-gulfport",
+          "name": "Gulfport Division",
+          "primary_courthouse_city": "Gulfport",
+          "primary_courthouse_name": "United States Courthouse - Gulfport"
+        },
+        {
+          "division_id": "d-ms-sd-hattiesburg",
+          "name": "Hattiesburg Division",
+          "primary_courthouse_city": "Hattiesburg",
+          "primary_courthouse_name": "United States Courthouse - Hattiesburg"
+        },
+        {
+          "division_id": "d-ms-sd-natchez",
+          "name": "Natchez Division",
+          "primary_courthouse_city": "Natchez",
+          "primary_courthouse_name": "United States Courthouse - Natchez"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-mo-ed",
+      "name": "United States District Court for the Eastern District of Missouri",
+      "short_name": "E.D. Mo.",
+      "parent_circuit_id": "ca8",
+      "state_or_territory_codes": ["MO"],
+      "fips_codes": ["29"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-mo-ed",
+        "name": "United States Bankruptcy Court for the Eastern District of Missouri",
+        "short_name": "E.Bankr. Mo.",
+        "parent_district_id": "d-mo-ed",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-mo-ed-st-louis",
+          "name": "St. Louis Division",
+          "primary_courthouse_city": "St. Louis",
+          "primary_courthouse_name": "United States Courthouse - St. Louis"
+        },
+        {
+          "division_id": "d-mo-ed-cape-girardeau",
+          "name": "Cape Girardeau Division",
+          "primary_courthouse_city": "Cape Girardeau",
+          "primary_courthouse_name": "United States Courthouse - Cape Girardeau"
+        },
+        {
+          "division_id": "d-mo-ed-hannibal",
+          "name": "Hannibal Division",
+          "primary_courthouse_city": "Hannibal",
+          "primary_courthouse_name": "United States Courthouse - Hannibal"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-mo-wd",
+      "name": "United States District Court for the Western District of Missouri",
+      "short_name": "W.D. Mo.",
+      "parent_circuit_id": "ca8",
+      "state_or_territory_codes": ["MO"],
+      "fips_codes": ["29"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-mo-wd",
+        "name": "United States Bankruptcy Court for the Western District of Missouri",
+        "short_name": "W.Bankr. Mo.",
+        "parent_district_id": "d-mo-wd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-mo-wd-kansas-city",
+          "name": "Kansas City Division",
+          "primary_courthouse_city": "Kansas City",
+          "primary_courthouse_name": "United States Courthouse - Kansas City"
+        },
+        {
+          "division_id": "d-mo-wd-jefferson-city",
+          "name": "Jefferson City Division",
+          "primary_courthouse_city": "Jefferson City",
+          "primary_courthouse_name": "United States Courthouse - Jefferson City"
+        },
+        {
+          "division_id": "d-mo-wd-joplin",
+          "name": "Joplin Division",
+          "primary_courthouse_city": "Joplin",
+          "primary_courthouse_name": "United States Courthouse - Joplin"
+        },
+        {
+          "division_id": "d-mo-wd-springfield",
+          "name": "Springfield Division",
+          "primary_courthouse_city": "Springfield",
+          "primary_courthouse_name": "United States Courthouse - Springfield"
+        },
+        {
+          "division_id": "d-mo-wd-st-joseph",
+          "name": "St. Joseph Division",
+          "primary_courthouse_city": "St. Joseph",
+          "primary_courthouse_name": "United States Courthouse - St. Joseph"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-mt",
+      "name": "United States District Court for the District of Montana",
+      "short_name": "D. Mont.",
+      "parent_circuit_id": "ca9",
+      "state_or_territory_codes": ["MT"],
+      "fips_codes": ["30"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-mt",
+        "name": "United States Bankruptcy Court for the District of Montana",
+        "short_name": "Bankr. Mont.",
+        "parent_district_id": "d-mt",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-mt-billings",
+          "name": "Billings Division",
+          "primary_courthouse_city": "Billings",
+          "primary_courthouse_name": "United States Courthouse - Billings"
+        },
+        {
+          "division_id": "d-mt-butte",
+          "name": "Butte Division",
+          "primary_courthouse_city": "Butte",
+          "primary_courthouse_name": "United States Courthouse - Butte"
+        },
+        {
+          "division_id": "d-mt-great-falls",
+          "name": "Great Falls Division",
+          "primary_courthouse_city": "Great Falls",
+          "primary_courthouse_name": "United States Courthouse - Great Falls"
+        },
+        {
+          "division_id": "d-mt-helena",
+          "name": "Helena Division",
+          "primary_courthouse_city": "Helena",
+          "primary_courthouse_name": "United States Courthouse - Helena"
+        },
+        {
+          "division_id": "d-mt-missoula",
+          "name": "Missoula Division",
+          "primary_courthouse_city": "Missoula",
+          "primary_courthouse_name": "United States Courthouse - Missoula"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ne",
+      "name": "United States District Court for the District of Nebraska",
+      "short_name": "D. Neb.",
+      "parent_circuit_id": "ca8",
+      "state_or_territory_codes": ["NE"],
+      "fips_codes": ["31"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ne",
+        "name": "United States Bankruptcy Court for the District of Nebraska",
+        "short_name": "Bankr. Neb.",
+        "parent_district_id": "d-ne",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ne-omaha",
+          "name": "Omaha Division",
+          "primary_courthouse_city": "Omaha",
+          "primary_courthouse_name": "United States Courthouse - Omaha"
+        },
+        {
+          "division_id": "d-ne-lincoln",
+          "name": "Lincoln Division",
+          "primary_courthouse_city": "Lincoln",
+          "primary_courthouse_name": "United States Courthouse - Lincoln"
+        },
+        {
+          "division_id": "d-ne-north-platte",
+          "name": "North Platte Division",
+          "primary_courthouse_city": "North Platte",
+          "primary_courthouse_name": "United States Courthouse - North Platte"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-nv",
+      "name": "United States District Court for the District of Nevada",
+      "short_name": "D. Nev.",
+      "parent_circuit_id": "ca9",
+      "state_or_territory_codes": ["NV"],
+      "fips_codes": ["32"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-nv",
+        "name": "United States Bankruptcy Court for the District of Nevada",
+        "short_name": "Bankr. Nev.",
+        "parent_district_id": "d-nv",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-nv-las-vegas",
+          "name": "Las Vegas Division",
+          "primary_courthouse_city": "Las Vegas",
+          "primary_courthouse_name": "United States Courthouse - Las Vegas"
+        },
+        {
+          "division_id": "d-nv-reno",
+          "name": "Reno Division",
+          "primary_courthouse_city": "Reno",
+          "primary_courthouse_name": "United States Courthouse - Reno"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-nh",
+      "name": "United States District Court for the District of New Hampshire",
+      "short_name": "D.N.H.",
+      "parent_circuit_id": "ca1",
+      "state_or_territory_codes": ["NH"],
+      "fips_codes": ["33"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-nh",
+        "name": "United States Bankruptcy Court for the District of New Hampshire",
+        "short_name": "Bankr.N.H.",
+        "parent_district_id": "d-nh",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-nh-concord",
+          "name": "Concord Division",
+          "primary_courthouse_city": "Concord",
+          "primary_courthouse_name": "United States Courthouse - Concord"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-nj",
+      "name": "United States District Court for the District of New Jersey",
+      "short_name": "D.N.J.",
+      "parent_circuit_id": "ca3",
+      "state_or_territory_codes": ["NJ"],
+      "fips_codes": ["34"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-nj",
+        "name": "United States Bankruptcy Court for the District of New Jersey",
+        "short_name": "Bankr.N.J.",
+        "parent_district_id": "d-nj",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-nj-newark",
+          "name": "Newark Division",
+          "primary_courthouse_city": "Newark",
+          "primary_courthouse_name": "United States Courthouse - Newark"
+        },
+        {
+          "division_id": "d-nj-camden",
+          "name": "Camden Division",
+          "primary_courthouse_city": "Camden",
+          "primary_courthouse_name": "United States Courthouse - Camden"
+        },
+        {
+          "division_id": "d-nj-trenton",
+          "name": "Trenton Division",
+          "primary_courthouse_city": "Trenton",
+          "primary_courthouse_name": "United States Courthouse - Trenton"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-nm",
+      "name": "United States District Court for the District of New Mexico",
+      "short_name": "D.N.M.",
+      "parent_circuit_id": "ca10",
+      "state_or_territory_codes": ["NM"],
+      "fips_codes": ["35"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-nm",
+        "name": "United States Bankruptcy Court for the District of New Mexico",
+        "short_name": "Bankr.N.M.",
+        "parent_district_id": "d-nm",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-nm-albuquerque",
+          "name": "Albuquerque Division",
+          "primary_courthouse_city": "Albuquerque",
+          "primary_courthouse_name": "United States Courthouse - Albuquerque"
+        },
+        {
+          "division_id": "d-nm-las-cruces",
+          "name": "Las Cruces Division",
+          "primary_courthouse_city": "Las Cruces",
+          "primary_courthouse_name": "United States Courthouse - Las Cruces"
+        },
+        {
+          "division_id": "d-nm-roswell",
+          "name": "Roswell Division",
+          "primary_courthouse_city": "Roswell",
+          "primary_courthouse_name": "United States Courthouse - Roswell"
+        },
+        {
+          "division_id": "d-nm-santa-fe",
+          "name": "Santa Fe Division",
+          "primary_courthouse_city": "Santa Fe",
+          "primary_courthouse_name": "United States Courthouse - Santa Fe"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ny-nd",
+      "name": "United States District Court for the Northern District of New York",
+      "short_name": "N.D.N.Y.",
+      "parent_circuit_id": "ca2",
+      "state_or_territory_codes": ["NY"],
+      "fips_codes": ["36"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ny-nd",
+        "name": "United States Bankruptcy Court for the Northern District of New York",
+        "short_name": "N.Bankr.N.Y.",
+        "parent_district_id": "d-ny-nd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ny-nd-albany",
+          "name": "Albany Division",
+          "primary_courthouse_city": "Albany",
+          "primary_courthouse_name": "United States Courthouse - Albany"
+        },
+        {
+          "division_id": "d-ny-nd-binghamton",
+          "name": "Binghamton Division",
+          "primary_courthouse_city": "Binghamton",
+          "primary_courthouse_name": "United States Courthouse - Binghamton"
+        },
+        {
+          "division_id": "d-ny-nd-plattsburgh",
+          "name": "Plattsburgh Division",
+          "primary_courthouse_city": "Plattsburgh",
+          "primary_courthouse_name": "United States Courthouse - Plattsburgh"
+        },
+        {
+          "division_id": "d-ny-nd-syracuse",
+          "name": "Syracuse Division",
+          "primary_courthouse_city": "Syracuse",
+          "primary_courthouse_name": "United States Courthouse - Syracuse"
+        },
+        {
+          "division_id": "d-ny-nd-utica",
+          "name": "Utica Division",
+          "primary_courthouse_city": "Utica",
+          "primary_courthouse_name": "United States Courthouse - Utica"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ny-sd",
+      "name": "United States District Court for the Southern District of New York",
+      "short_name": "S.D.N.Y.",
+      "parent_circuit_id": "ca2",
+      "state_or_territory_codes": ["NY"],
+      "fips_codes": ["36"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ny-sd",
+        "name": "United States Bankruptcy Court for the Southern District of New York",
+        "short_name": "S.Bankr.N.Y.",
+        "parent_district_id": "d-ny-sd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ny-sd-new-york",
+          "name": "New York Division",
+          "primary_courthouse_city": "New York",
+          "primary_courthouse_name": "United States Courthouse - New York"
+        },
+        {
+          "division_id": "d-ny-sd-white-plains",
+          "name": "White Plains Division",
+          "primary_courthouse_city": "White Plains",
+          "primary_courthouse_name": "United States Courthouse - White Plains"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ny-ed",
+      "name": "United States District Court for the Eastern District of New York",
+      "short_name": "E.D.N.Y.",
+      "parent_circuit_id": "ca2",
+      "state_or_territory_codes": ["NY"],
+      "fips_codes": ["36"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ny-ed",
+        "name": "United States Bankruptcy Court for the Eastern District of New York",
+        "short_name": "E.Bankr.N.Y.",
+        "parent_district_id": "d-ny-ed",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ny-ed-brooklyn",
+          "name": "Brooklyn Division",
+          "primary_courthouse_city": "Brooklyn",
+          "primary_courthouse_name": "United States Courthouse - Brooklyn"
+        },
+        {
+          "division_id": "d-ny-ed-central-islip",
+          "name": "Central Islip Division",
+          "primary_courthouse_city": "Central Islip",
+          "primary_courthouse_name": "United States Courthouse - Central Islip"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ny-wd",
+      "name": "United States District Court for the Western District of New York",
+      "short_name": "W.D.N.Y.",
+      "parent_circuit_id": "ca2",
+      "state_or_territory_codes": ["NY"],
+      "fips_codes": ["36"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ny-wd",
+        "name": "United States Bankruptcy Court for the Western District of New York",
+        "short_name": "W.Bankr.N.Y.",
+        "parent_district_id": "d-ny-wd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ny-wd-buffalo",
+          "name": "Buffalo Division",
+          "primary_courthouse_city": "Buffalo",
+          "primary_courthouse_name": "United States Courthouse - Buffalo"
+        },
+        {
+          "division_id": "d-ny-wd-rochester",
+          "name": "Rochester Division",
+          "primary_courthouse_city": "Rochester",
+          "primary_courthouse_name": "United States Courthouse - Rochester"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-nc-ed",
+      "name": "United States District Court for the Eastern District of North Carolina",
+      "short_name": "E.D.N.C.",
+      "parent_circuit_id": "ca4",
+      "state_or_territory_codes": ["NC"],
+      "fips_codes": ["37"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-nc-ed",
+        "name": "United States Bankruptcy Court for the Eastern District of North Carolina",
+        "short_name": "E.Bankr.N.C.",
+        "parent_district_id": "d-nc-ed",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-nc-ed-raleigh",
+          "name": "Raleigh Division",
+          "primary_courthouse_city": "Raleigh",
+          "primary_courthouse_name": "United States Courthouse - Raleigh"
+        },
+        {
+          "division_id": "d-nc-ed-elizabeth-city",
+          "name": "Elizabeth City Division",
+          "primary_courthouse_city": "Elizabeth City",
+          "primary_courthouse_name": "United States Courthouse - Elizabeth City"
+        },
+        {
+          "division_id": "d-nc-ed-fayetteville",
+          "name": "Fayetteville Division",
+          "primary_courthouse_city": "Fayetteville",
+          "primary_courthouse_name": "United States Courthouse - Fayetteville"
+        },
+        {
+          "division_id": "d-nc-ed-greenville",
+          "name": "Greenville Division",
+          "primary_courthouse_city": "Greenville",
+          "primary_courthouse_name": "United States Courthouse - Greenville"
+        },
+        {
+          "division_id": "d-nc-ed-new-bern",
+          "name": "New Bern Division",
+          "primary_courthouse_city": "New Bern",
+          "primary_courthouse_name": "United States Courthouse - New Bern"
+        },
+        {
+          "division_id": "d-nc-ed-wilmington",
+          "name": "Wilmington Division",
+          "primary_courthouse_city": "Wilmington",
+          "primary_courthouse_name": "United States Courthouse - Wilmington"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-nc-md",
+      "name": "United States District Court for the Middle District of North Carolina",
+      "short_name": "M.D.N.C.",
+      "parent_circuit_id": "ca4",
+      "state_or_territory_codes": ["NC"],
+      "fips_codes": ["37"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-nc-md",
+        "name": "United States Bankruptcy Court for the Middle District of North Carolina",
+        "short_name": "M.Bankr.N.C.",
+        "parent_district_id": "d-nc-md",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-nc-md-greensboro",
+          "name": "Greensboro Division",
+          "primary_courthouse_city": "Greensboro",
+          "primary_courthouse_name": "United States Courthouse - Greensboro"
+        },
+        {
+          "division_id": "d-nc-md-durham",
+          "name": "Durham Division",
+          "primary_courthouse_city": "Durham",
+          "primary_courthouse_name": "United States Courthouse - Durham"
+        },
+        {
+          "division_id": "d-nc-md-winston-salem",
+          "name": "Winston-Salem Division",
+          "primary_courthouse_city": "Winston-Salem",
+          "primary_courthouse_name": "United States Courthouse - Winston-Salem"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-nc-wd",
+      "name": "United States District Court for the Western District of North Carolina",
+      "short_name": "W.D.N.C.",
+      "parent_circuit_id": "ca4",
+      "state_or_territory_codes": ["NC"],
+      "fips_codes": ["37"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-nc-wd",
+        "name": "United States Bankruptcy Court for the Western District of North Carolina",
+        "short_name": "W.Bankr.N.C.",
+        "parent_district_id": "d-nc-wd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-nc-wd-charlotte",
+          "name": "Charlotte Division",
+          "primary_courthouse_city": "Charlotte",
+          "primary_courthouse_name": "United States Courthouse - Charlotte"
+        },
+        {
+          "division_id": "d-nc-wd-asheville",
+          "name": "Asheville Division",
+          "primary_courthouse_city": "Asheville",
+          "primary_courthouse_name": "United States Courthouse - Asheville"
+        },
+        {
+          "division_id": "d-nc-wd-statesville",
+          "name": "Statesville Division",
+          "primary_courthouse_city": "Statesville",
+          "primary_courthouse_name": "United States Courthouse - Statesville"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-nd",
+      "name": "United States District Court for the District of North Dakota",
+      "short_name": "D.N.D.",
+      "parent_circuit_id": "ca8",
+      "state_or_territory_codes": ["ND"],
+      "fips_codes": ["38"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-nd",
+        "name": "United States Bankruptcy Court for the District of North Dakota",
+        "short_name": "Bankr.N.Bankr.",
+        "parent_district_id": "d-nd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-nd-bismarck",
+          "name": "Bismarck Division",
+          "primary_courthouse_city": "Bismarck",
+          "primary_courthouse_name": "United States Courthouse - Bismarck"
+        },
+        {
+          "division_id": "d-nd-fargo",
+          "name": "Fargo Division",
+          "primary_courthouse_city": "Fargo",
+          "primary_courthouse_name": "United States Courthouse - Fargo"
+        },
+        {
+          "division_id": "d-nd-grand-forks",
+          "name": "Grand Forks Division",
+          "primary_courthouse_city": "Grand Forks",
+          "primary_courthouse_name": "United States Courthouse - Grand Forks"
+        },
+        {
+          "division_id": "d-nd-minot",
+          "name": "Minot Division",
+          "primary_courthouse_city": "Minot",
+          "primary_courthouse_name": "United States Courthouse - Minot"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-oh-nd",
+      "name": "United States District Court for the Northern District of Ohio",
+      "short_name": "N.D. Ohio",
+      "parent_circuit_id": "ca6",
+      "state_or_territory_codes": ["OH"],
+      "fips_codes": ["39"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-oh-nd",
+        "name": "United States Bankruptcy Court for the Northern District of Ohio",
+        "short_name": "N.Bankr. Ohio",
+        "parent_district_id": "d-oh-nd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-oh-nd-cleveland",
+          "name": "Cleveland Division",
+          "primary_courthouse_city": "Cleveland",
+          "primary_courthouse_name": "United States Courthouse - Cleveland"
+        },
+        {
+          "division_id": "d-oh-nd-akron",
+          "name": "Akron Division",
+          "primary_courthouse_city": "Akron",
+          "primary_courthouse_name": "United States Courthouse - Akron"
+        },
+        {
+          "division_id": "d-oh-nd-toledo",
+          "name": "Toledo Division",
+          "primary_courthouse_city": "Toledo",
+          "primary_courthouse_name": "United States Courthouse - Toledo"
+        },
+        {
+          "division_id": "d-oh-nd-youngstown",
+          "name": "Youngstown Division",
+          "primary_courthouse_city": "Youngstown",
+          "primary_courthouse_name": "United States Courthouse - Youngstown"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-oh-sd",
+      "name": "United States District Court for the Southern District of Ohio",
+      "short_name": "S.D. Ohio",
+      "parent_circuit_id": "ca6",
+      "state_or_territory_codes": ["OH"],
+      "fips_codes": ["39"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-oh-sd",
+        "name": "United States Bankruptcy Court for the Southern District of Ohio",
+        "short_name": "S.Bankr. Ohio",
+        "parent_district_id": "d-oh-sd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-oh-sd-columbus",
+          "name": "Columbus Division",
+          "primary_courthouse_city": "Columbus",
+          "primary_courthouse_name": "United States Courthouse - Columbus"
+        },
+        {
+          "division_id": "d-oh-sd-cincinnati",
+          "name": "Cincinnati Division",
+          "primary_courthouse_city": "Cincinnati",
+          "primary_courthouse_name": "United States Courthouse - Cincinnati"
+        },
+        {
+          "division_id": "d-oh-sd-dayton",
+          "name": "Dayton Division",
+          "primary_courthouse_city": "Dayton",
+          "primary_courthouse_name": "United States Courthouse - Dayton"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ok-nd",
+      "name": "United States District Court for the Northern District of Oklahoma",
+      "short_name": "N.D. Okla.",
+      "parent_circuit_id": "ca10",
+      "state_or_territory_codes": ["OK"],
+      "fips_codes": ["40"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ok-nd",
+        "name": "United States Bankruptcy Court for the Northern District of Oklahoma",
+        "short_name": "N.Bankr. Okla.",
+        "parent_district_id": "d-ok-nd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ok-nd-tulsa",
+          "name": "Tulsa Division",
+          "primary_courthouse_city": "Tulsa",
+          "primary_courthouse_name": "United States Courthouse - Tulsa"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ok-ed",
+      "name": "United States District Court for the Eastern District of Oklahoma",
+      "short_name": "E.D. Okla.",
+      "parent_circuit_id": "ca10",
+      "state_or_territory_codes": ["OK"],
+      "fips_codes": ["40"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ok-ed",
+        "name": "United States Bankruptcy Court for the Eastern District of Oklahoma",
+        "short_name": "E.Bankr. Okla.",
+        "parent_district_id": "d-ok-ed",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ok-ed-muskogee",
+          "name": "Muskogee Division",
+          "primary_courthouse_city": "Muskogee",
+          "primary_courthouse_name": "United States Courthouse - Muskogee"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ok-wd",
+      "name": "United States District Court for the Western District of Oklahoma",
+      "short_name": "W.D. Okla.",
+      "parent_circuit_id": "ca10",
+      "state_or_territory_codes": ["OK"],
+      "fips_codes": ["40"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ok-wd",
+        "name": "United States Bankruptcy Court for the Western District of Oklahoma",
+        "short_name": "W.Bankr. Okla.",
+        "parent_district_id": "d-ok-wd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ok-wd-oklahoma-city",
+          "name": "Oklahoma City Division",
+          "primary_courthouse_city": "Oklahoma City",
+          "primary_courthouse_name": "United States Courthouse - Oklahoma City"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-or",
+      "name": "United States District Court for the District of Oregon",
+      "short_name": "D. Or.",
+      "parent_circuit_id": "ca9",
+      "state_or_territory_codes": ["OR"],
+      "fips_codes": ["41"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-or",
+        "name": "United States Bankruptcy Court for the District of Oregon",
+        "short_name": "Bankr. Or.",
+        "parent_district_id": "d-or",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-or-portland",
+          "name": "Portland Division",
+          "primary_courthouse_city": "Portland",
+          "primary_courthouse_name": "United States Courthouse - Portland"
+        },
+        {
+          "division_id": "d-or-eugene",
+          "name": "Eugene Division",
+          "primary_courthouse_city": "Eugene",
+          "primary_courthouse_name": "United States Courthouse - Eugene"
+        },
+        {
+          "division_id": "d-or-medford",
+          "name": "Medford Division",
+          "primary_courthouse_city": "Medford",
+          "primary_courthouse_name": "United States Courthouse - Medford"
+        },
+        {
+          "division_id": "d-or-pendleton",
+          "name": "Pendleton Division",
+          "primary_courthouse_city": "Pendleton",
+          "primary_courthouse_name": "United States Courthouse - Pendleton"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-pa-ed",
+      "name": "United States District Court for the Eastern District of Pennsylvania",
+      "short_name": "E.D. Pa.",
+      "parent_circuit_id": "ca3",
+      "state_or_territory_codes": ["PA"],
+      "fips_codes": ["42"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-pa-ed",
+        "name": "United States Bankruptcy Court for the Eastern District of Pennsylvania",
+        "short_name": "E.Bankr. Pa.",
+        "parent_district_id": "d-pa-ed",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-pa-ed-philadelphia",
+          "name": "Philadelphia Division",
+          "primary_courthouse_city": "Philadelphia",
+          "primary_courthouse_name": "United States Courthouse - Philadelphia"
+        },
+        {
+          "division_id": "d-pa-ed-allentown",
+          "name": "Allentown Division",
+          "primary_courthouse_city": "Allentown",
+          "primary_courthouse_name": "United States Courthouse - Allentown"
+        },
+        {
+          "division_id": "d-pa-ed-reading",
+          "name": "Reading Division",
+          "primary_courthouse_city": "Reading",
+          "primary_courthouse_name": "United States Courthouse - Reading"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-pa-md",
+      "name": "United States District Court for the Middle District of Pennsylvania",
+      "short_name": "M.D. Pa.",
+      "parent_circuit_id": "ca3",
+      "state_or_territory_codes": ["PA"],
+      "fips_codes": ["42"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-pa-md",
+        "name": "United States Bankruptcy Court for the Middle District of Pennsylvania",
+        "short_name": "M.Bankr. Pa.",
+        "parent_district_id": "d-pa-md",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-pa-md-scranton",
+          "name": "Scranton Division",
+          "primary_courthouse_city": "Scranton",
+          "primary_courthouse_name": "United States Courthouse - Scranton"
+        },
+        {
+          "division_id": "d-pa-md-harrisburg",
+          "name": "Harrisburg Division",
+          "primary_courthouse_city": "Harrisburg",
+          "primary_courthouse_name": "United States Courthouse - Harrisburg"
+        },
+        {
+          "division_id": "d-pa-md-williamsport",
+          "name": "Williamsport Division",
+          "primary_courthouse_city": "Williamsport",
+          "primary_courthouse_name": "United States Courthouse - Williamsport"
+        },
+        {
+          "division_id": "d-pa-md-wilkes-barre",
+          "name": "Wilkes-Barre Division",
+          "primary_courthouse_city": "Wilkes-Barre",
+          "primary_courthouse_name": "United States Courthouse - Wilkes-Barre"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-pa-wd",
+      "name": "United States District Court for the Western District of Pennsylvania",
+      "short_name": "W.D. Pa.",
+      "parent_circuit_id": "ca3",
+      "state_or_territory_codes": ["PA"],
+      "fips_codes": ["42"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-pa-wd",
+        "name": "United States Bankruptcy Court for the Western District of Pennsylvania",
+        "short_name": "W.Bankr. Pa.",
+        "parent_district_id": "d-pa-wd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-pa-wd-pittsburgh",
+          "name": "Pittsburgh Division",
+          "primary_courthouse_city": "Pittsburgh",
+          "primary_courthouse_name": "United States Courthouse - Pittsburgh"
+        },
+        {
+          "division_id": "d-pa-wd-erie",
+          "name": "Erie Division",
+          "primary_courthouse_city": "Erie",
+          "primary_courthouse_name": "United States Courthouse - Erie"
+        },
+        {
+          "division_id": "d-pa-wd-johnstown",
+          "name": "Johnstown Division",
+          "primary_courthouse_city": "Johnstown",
+          "primary_courthouse_name": "United States Courthouse - Johnstown"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ri",
+      "name": "United States District Court for the District of Rhode Island",
+      "short_name": "D.R.I.",
+      "parent_circuit_id": "ca1",
+      "state_or_territory_codes": ["RI"],
+      "fips_codes": ["44"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ri",
+        "name": "United States Bankruptcy Court for the District of Rhode Island",
+        "short_name": "Bankr.R.I.",
+        "parent_district_id": "d-ri",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ri-providence",
+          "name": "Providence Division",
+          "primary_courthouse_city": "Providence",
+          "primary_courthouse_name": "United States Courthouse - Providence"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-sc",
+      "name": "United States District Court for the District of South Carolina",
+      "short_name": "D.S.C.",
+      "parent_circuit_id": "ca4",
+      "state_or_territory_codes": ["SC"],
+      "fips_codes": ["45"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-sc",
+        "name": "United States Bankruptcy Court for the District of South Carolina",
+        "short_name": "Bankr.S.C.",
+        "parent_district_id": "d-sc",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-sc-columbia",
+          "name": "Columbia Division",
+          "primary_courthouse_city": "Columbia",
+          "primary_courthouse_name": "United States Courthouse - Columbia"
+        },
+        {
+          "division_id": "d-sc-charleston",
+          "name": "Charleston Division",
+          "primary_courthouse_city": "Charleston",
+          "primary_courthouse_name": "United States Courthouse - Charleston"
+        },
+        {
+          "division_id": "d-sc-florence",
+          "name": "Florence Division",
+          "primary_courthouse_city": "Florence",
+          "primary_courthouse_name": "United States Courthouse - Florence"
+        },
+        {
+          "division_id": "d-sc-greenville",
+          "name": "Greenville Division",
+          "primary_courthouse_city": "Greenville",
+          "primary_courthouse_name": "United States Courthouse - Greenville"
+        },
+        {
+          "division_id": "d-sc-aiken",
+          "name": "Aiken Division",
+          "primary_courthouse_city": "Aiken",
+          "primary_courthouse_name": "United States Courthouse - Aiken"
+        },
+        {
+          "division_id": "d-sc-beaufort",
+          "name": "Beaufort Division",
+          "primary_courthouse_city": "Beaufort",
+          "primary_courthouse_name": "United States Courthouse - Beaufort"
+        },
+        {
+          "division_id": "d-sc-spartanburg",
+          "name": "Spartanburg Division",
+          "primary_courthouse_city": "Spartanburg",
+          "primary_courthouse_name": "United States Courthouse - Spartanburg"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-sd",
+      "name": "United States District Court for the District of South Dakota",
+      "short_name": "D.S.D.",
+      "parent_circuit_id": "ca8",
+      "state_or_territory_codes": ["SD"],
+      "fips_codes": ["46"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-sd",
+        "name": "United States Bankruptcy Court for the District of South Dakota",
+        "short_name": "Bankr.S.Bankr.",
+        "parent_district_id": "d-sd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-sd-sioux-falls",
+          "name": "Sioux Falls Division",
+          "primary_courthouse_city": "Sioux Falls",
+          "primary_courthouse_name": "United States Courthouse - Sioux Falls"
+        },
+        {
+          "division_id": "d-sd-rapid-city",
+          "name": "Rapid City Division",
+          "primary_courthouse_city": "Rapid City",
+          "primary_courthouse_name": "United States Courthouse - Rapid City"
+        },
+        {
+          "division_id": "d-sd-aberdeen",
+          "name": "Aberdeen Division",
+          "primary_courthouse_city": "Aberdeen",
+          "primary_courthouse_name": "United States Courthouse - Aberdeen"
+        },
+        {
+          "division_id": "d-sd-pierre",
+          "name": "Pierre Division",
+          "primary_courthouse_city": "Pierre",
+          "primary_courthouse_name": "United States Courthouse - Pierre"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-tn-ed",
+      "name": "United States District Court for the Eastern District of Tennessee",
+      "short_name": "E.D. Tenn.",
+      "parent_circuit_id": "ca6",
+      "state_or_territory_codes": ["TN"],
+      "fips_codes": ["47"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-tn-ed",
+        "name": "United States Bankruptcy Court for the Eastern District of Tennessee",
+        "short_name": "E.Bankr. Tenn.",
+        "parent_district_id": "d-tn-ed",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-tn-ed-knoxville",
+          "name": "Knoxville Division",
+          "primary_courthouse_city": "Knoxville",
+          "primary_courthouse_name": "United States Courthouse - Knoxville"
+        },
+        {
+          "division_id": "d-tn-ed-chattanooga",
+          "name": "Chattanooga Division",
+          "primary_courthouse_city": "Chattanooga",
+          "primary_courthouse_name": "United States Courthouse - Chattanooga"
+        },
+        {
+          "division_id": "d-tn-ed-greeneville",
+          "name": "Greeneville Division",
+          "primary_courthouse_city": "Greeneville",
+          "primary_courthouse_name": "United States Courthouse - Greeneville"
+        },
+        {
+          "division_id": "d-tn-ed-winchester",
+          "name": "Winchester Division",
+          "primary_courthouse_city": "Winchester",
+          "primary_courthouse_name": "United States Courthouse - Winchester"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-tn-md",
+      "name": "United States District Court for the Middle District of Tennessee",
+      "short_name": "M.D. Tenn.",
+      "parent_circuit_id": "ca6",
+      "state_or_territory_codes": ["TN"],
+      "fips_codes": ["47"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-tn-md",
+        "name": "United States Bankruptcy Court for the Middle District of Tennessee",
+        "short_name": "M.Bankr. Tenn.",
+        "parent_district_id": "d-tn-md",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-tn-md-nashville",
+          "name": "Nashville Division",
+          "primary_courthouse_city": "Nashville",
+          "primary_courthouse_name": "United States Courthouse - Nashville"
+        },
+        {
+          "division_id": "d-tn-md-columbia",
+          "name": "Columbia Division",
+          "primary_courthouse_city": "Columbia",
+          "primary_courthouse_name": "United States Courthouse - Columbia"
+        },
+        {
+          "division_id": "d-tn-md-cookeville",
+          "name": "Cookeville Division",
+          "primary_courthouse_city": "Cookeville",
+          "primary_courthouse_name": "United States Courthouse - Cookeville"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-tn-wd",
+      "name": "United States District Court for the Western District of Tennessee",
+      "short_name": "W.D. Tenn.",
+      "parent_circuit_id": "ca6",
+      "state_or_territory_codes": ["TN"],
+      "fips_codes": ["47"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-tn-wd",
+        "name": "United States Bankruptcy Court for the Western District of Tennessee",
+        "short_name": "W.Bankr. Tenn.",
+        "parent_district_id": "d-tn-wd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-tn-wd-memphis",
+          "name": "Memphis Division",
+          "primary_courthouse_city": "Memphis",
+          "primary_courthouse_name": "United States Courthouse - Memphis"
+        },
+        {
+          "division_id": "d-tn-wd-jackson",
+          "name": "Jackson Division",
+          "primary_courthouse_city": "Jackson",
+          "primary_courthouse_name": "United States Courthouse - Jackson"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-tx-nd",
+      "name": "United States District Court for the Northern District of Texas",
+      "short_name": "N.D. Tex.",
+      "parent_circuit_id": "ca5",
+      "state_or_territory_codes": ["TX"],
+      "fips_codes": ["48"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-tx-nd",
+        "name": "United States Bankruptcy Court for the Northern District of Texas",
+        "short_name": "N.Bankr. Tex.",
+        "parent_district_id": "d-tx-nd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-tx-nd-dallas",
+          "name": "Dallas Division",
+          "primary_courthouse_city": "Dallas",
+          "primary_courthouse_name": "United States Courthouse - Dallas"
+        },
+        {
+          "division_id": "d-tx-nd-fort-worth",
+          "name": "Fort Worth Division",
+          "primary_courthouse_city": "Fort Worth",
+          "primary_courthouse_name": "United States Courthouse - Fort Worth"
+        },
+        {
+          "division_id": "d-tx-nd-abilene",
+          "name": "Abilene Division",
+          "primary_courthouse_city": "Abilene",
+          "primary_courthouse_name": "United States Courthouse - Abilene"
+        },
+        {
+          "division_id": "d-tx-nd-amarillo",
+          "name": "Amarillo Division",
+          "primary_courthouse_city": "Amarillo",
+          "primary_courthouse_name": "United States Courthouse - Amarillo"
+        },
+        {
+          "division_id": "d-tx-nd-lubbock",
+          "name": "Lubbock Division",
+          "primary_courthouse_city": "Lubbock",
+          "primary_courthouse_name": "United States Courthouse - Lubbock"
+        },
+        {
+          "division_id": "d-tx-nd-san-angelo",
+          "name": "San Angelo Division",
+          "primary_courthouse_city": "San Angelo",
+          "primary_courthouse_name": "United States Courthouse - San Angelo"
+        },
+        {
+          "division_id": "d-tx-nd-wichita-falls",
+          "name": "Wichita Falls Division",
+          "primary_courthouse_city": "Wichita Falls",
+          "primary_courthouse_name": "United States Courthouse - Wichita Falls"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-tx-sd",
+      "name": "United States District Court for the Southern District of Texas",
+      "short_name": "S.D. Tex.",
+      "parent_circuit_id": "ca5",
+      "state_or_territory_codes": ["TX"],
+      "fips_codes": ["48"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-tx-sd",
+        "name": "United States Bankruptcy Court for the Southern District of Texas",
+        "short_name": "S.Bankr. Tex.",
+        "parent_district_id": "d-tx-sd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-tx-sd-houston",
+          "name": "Houston Division",
+          "primary_courthouse_city": "Houston",
+          "primary_courthouse_name": "United States Courthouse - Houston"
+        },
+        {
+          "division_id": "d-tx-sd-brownsville",
+          "name": "Brownsville Division",
+          "primary_courthouse_city": "Brownsville",
+          "primary_courthouse_name": "United States Courthouse - Brownsville"
+        },
+        {
+          "division_id": "d-tx-sd-corpus-christi",
+          "name": "Corpus Christi Division",
+          "primary_courthouse_city": "Corpus Christi",
+          "primary_courthouse_name": "United States Courthouse - Corpus Christi"
+        },
+        {
+          "division_id": "d-tx-sd-galveston",
+          "name": "Galveston Division",
+          "primary_courthouse_city": "Galveston",
+          "primary_courthouse_name": "United States Courthouse - Galveston"
+        },
+        {
+          "division_id": "d-tx-sd-laredo",
+          "name": "Laredo Division",
+          "primary_courthouse_city": "Laredo",
+          "primary_courthouse_name": "United States Courthouse - Laredo"
+        },
+        {
+          "division_id": "d-tx-sd-mcallen",
+          "name": "McAllen Division",
+          "primary_courthouse_city": "McAllen",
+          "primary_courthouse_name": "United States Courthouse - McAllen"
+        },
+        {
+          "division_id": "d-tx-sd-victoria",
+          "name": "Victoria Division",
+          "primary_courthouse_city": "Victoria",
+          "primary_courthouse_name": "United States Courthouse - Victoria"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-tx-ed",
+      "name": "United States District Court for the Eastern District of Texas",
+      "short_name": "E.D. Tex.",
+      "parent_circuit_id": "ca5",
+      "state_or_territory_codes": ["TX"],
+      "fips_codes": ["48"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-tx-ed",
+        "name": "United States Bankruptcy Court for the Eastern District of Texas",
+        "short_name": "E.Bankr. Tex.",
+        "parent_district_id": "d-tx-ed",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-tx-ed-tyler",
+          "name": "Tyler Division",
+          "primary_courthouse_city": "Tyler",
+          "primary_courthouse_name": "United States Courthouse - Tyler"
+        },
+        {
+          "division_id": "d-tx-ed-beaumont",
+          "name": "Beaumont Division",
+          "primary_courthouse_city": "Beaumont",
+          "primary_courthouse_name": "United States Courthouse - Beaumont"
+        },
+        {
+          "division_id": "d-tx-ed-lufkin",
+          "name": "Lufkin Division",
+          "primary_courthouse_city": "Lufkin",
+          "primary_courthouse_name": "United States Courthouse - Lufkin"
+        },
+        {
+          "division_id": "d-tx-ed-marshall",
+          "name": "Marshall Division",
+          "primary_courthouse_city": "Marshall",
+          "primary_courthouse_name": "United States Courthouse - Marshall"
+        },
+        {
+          "division_id": "d-tx-ed-sherman",
+          "name": "Sherman Division",
+          "primary_courthouse_city": "Sherman",
+          "primary_courthouse_name": "United States Courthouse - Sherman"
+        },
+        {
+          "division_id": "d-tx-ed-texarkana",
+          "name": "Texarkana Division",
+          "primary_courthouse_city": "Texarkana",
+          "primary_courthouse_name": "United States Courthouse - Texarkana"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-tx-wd",
+      "name": "United States District Court for the Western District of Texas",
+      "short_name": "W.D. Tex.",
+      "parent_circuit_id": "ca5",
+      "state_or_territory_codes": ["TX"],
+      "fips_codes": ["48"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-tx-wd",
+        "name": "United States Bankruptcy Court for the Western District of Texas",
+        "short_name": "W.Bankr. Tex.",
+        "parent_district_id": "d-tx-wd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-tx-wd-san-antonio",
+          "name": "San Antonio Division",
+          "primary_courthouse_city": "San Antonio",
+          "primary_courthouse_name": "United States Courthouse - San Antonio"
+        },
+        {
+          "division_id": "d-tx-wd-austin",
+          "name": "Austin Division",
+          "primary_courthouse_city": "Austin",
+          "primary_courthouse_name": "United States Courthouse - Austin"
+        },
+        {
+          "division_id": "d-tx-wd-del-rio",
+          "name": "Del Rio Division",
+          "primary_courthouse_city": "Del Rio",
+          "primary_courthouse_name": "United States Courthouse - Del Rio"
+        },
+        {
+          "division_id": "d-tx-wd-el-paso",
+          "name": "El Paso Division",
+          "primary_courthouse_city": "El Paso",
+          "primary_courthouse_name": "United States Courthouse - El Paso"
+        },
+        {
+          "division_id": "d-tx-wd-midland-odessa",
+          "name": "Midland-Odessa Division",
+          "primary_courthouse_city": "Midland-Odessa",
+          "primary_courthouse_name": "United States Courthouse - Midland-Odessa"
+        },
+        {
+          "division_id": "d-tx-wd-pecos",
+          "name": "Pecos Division",
+          "primary_courthouse_city": "Pecos",
+          "primary_courthouse_name": "United States Courthouse - Pecos"
+        },
+        {
+          "division_id": "d-tx-wd-waco",
+          "name": "Waco Division",
+          "primary_courthouse_city": "Waco",
+          "primary_courthouse_name": "United States Courthouse - Waco"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-ut",
+      "name": "United States District Court for the District of Utah",
+      "short_name": "D. Utah",
+      "parent_circuit_id": "ca10",
+      "state_or_territory_codes": ["UT"],
+      "fips_codes": ["49"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-ut",
+        "name": "United States Bankruptcy Court for the District of Utah",
+        "short_name": "Bankr. Utah",
+        "parent_district_id": "d-ut",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-ut-salt-lake-city",
+          "name": "Salt Lake City Division",
+          "primary_courthouse_city": "Salt Lake City",
+          "primary_courthouse_name": "United States Courthouse - Salt Lake City"
+        },
+        {
+          "division_id": "d-ut-st-george",
+          "name": "St. George Division",
+          "primary_courthouse_city": "St. George",
+          "primary_courthouse_name": "United States Courthouse - St. George"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-vt",
+      "name": "United States District Court for the District of Vermont",
+      "short_name": "D. Vt.",
+      "parent_circuit_id": "ca2",
+      "state_or_territory_codes": ["VT"],
+      "fips_codes": ["50"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-vt",
+        "name": "United States Bankruptcy Court for the District of Vermont",
+        "short_name": "Bankr. Vt.",
+        "parent_district_id": "d-vt",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-vt-burlington",
+          "name": "Burlington Division",
+          "primary_courthouse_city": "Burlington",
+          "primary_courthouse_name": "United States Courthouse - Burlington"
+        },
+        {
+          "division_id": "d-vt-rutland",
+          "name": "Rutland Division",
+          "primary_courthouse_city": "Rutland",
+          "primary_courthouse_name": "United States Courthouse - Rutland"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-va-ed",
+      "name": "United States District Court for the Eastern District of Virginia",
+      "short_name": "E.D. Va.",
+      "parent_circuit_id": "ca4",
+      "state_or_territory_codes": ["VA"],
+      "fips_codes": ["51"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-va-ed",
+        "name": "United States Bankruptcy Court for the Eastern District of Virginia",
+        "short_name": "E.Bankr. Va.",
+        "parent_district_id": "d-va-ed",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-va-ed-alexandria",
+          "name": "Alexandria Division",
+          "primary_courthouse_city": "Alexandria",
+          "primary_courthouse_name": "United States Courthouse - Alexandria"
+        },
+        {
+          "division_id": "d-va-ed-richmond",
+          "name": "Richmond Division",
+          "primary_courthouse_city": "Richmond",
+          "primary_courthouse_name": "United States Courthouse - Richmond"
+        },
+        {
+          "division_id": "d-va-ed-norfolk",
+          "name": "Norfolk Division",
+          "primary_courthouse_city": "Norfolk",
+          "primary_courthouse_name": "United States Courthouse - Norfolk"
+        },
+        {
+          "division_id": "d-va-ed-newport-news",
+          "name": "Newport News Division",
+          "primary_courthouse_city": "Newport News",
+          "primary_courthouse_name": "United States Courthouse - Newport News"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-va-wd",
+      "name": "United States District Court for the Western District of Virginia",
+      "short_name": "W.D. Va.",
+      "parent_circuit_id": "ca4",
+      "state_or_territory_codes": ["VA"],
+      "fips_codes": ["51"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-va-wd",
+        "name": "United States Bankruptcy Court for the Western District of Virginia",
+        "short_name": "W.Bankr. Va.",
+        "parent_district_id": "d-va-wd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-va-wd-roanoke",
+          "name": "Roanoke Division",
+          "primary_courthouse_city": "Roanoke",
+          "primary_courthouse_name": "United States Courthouse - Roanoke"
+        },
+        {
+          "division_id": "d-va-wd-abingdon",
+          "name": "Abingdon Division",
+          "primary_courthouse_city": "Abingdon",
+          "primary_courthouse_name": "United States Courthouse - Abingdon"
+        },
+        {
+          "division_id": "d-va-wd-big-stone-gap",
+          "name": "Big Stone Gap Division",
+          "primary_courthouse_city": "Big Stone Gap",
+          "primary_courthouse_name": "United States Courthouse - Big Stone Gap"
+        },
+        {
+          "division_id": "d-va-wd-charlottesville",
+          "name": "Charlottesville Division",
+          "primary_courthouse_city": "Charlottesville",
+          "primary_courthouse_name": "United States Courthouse - Charlottesville"
+        },
+        {
+          "division_id": "d-va-wd-danville",
+          "name": "Danville Division",
+          "primary_courthouse_city": "Danville",
+          "primary_courthouse_name": "United States Courthouse - Danville"
+        },
+        {
+          "division_id": "d-va-wd-harrisonburg",
+          "name": "Harrisonburg Division",
+          "primary_courthouse_city": "Harrisonburg",
+          "primary_courthouse_name": "United States Courthouse - Harrisonburg"
+        },
+        {
+          "division_id": "d-va-wd-lynchburg",
+          "name": "Lynchburg Division",
+          "primary_courthouse_city": "Lynchburg",
+          "primary_courthouse_name": "United States Courthouse - Lynchburg"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-wa-ed",
+      "name": "United States District Court for the Eastern District of Washington",
+      "short_name": "E.D. Wash.",
+      "parent_circuit_id": "ca9",
+      "state_or_territory_codes": ["WA"],
+      "fips_codes": ["53"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-wa-ed",
+        "name": "United States Bankruptcy Court for the Eastern District of Washington",
+        "short_name": "E.Bankr. Wash.",
+        "parent_district_id": "d-wa-ed",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-wa-ed-spokane",
+          "name": "Spokane Division",
+          "primary_courthouse_city": "Spokane",
+          "primary_courthouse_name": "United States Courthouse - Spokane"
+        },
+        {
+          "division_id": "d-wa-ed-yakima",
+          "name": "Yakima Division",
+          "primary_courthouse_city": "Yakima",
+          "primary_courthouse_name": "United States Courthouse - Yakima"
+        },
+        {
+          "division_id": "d-wa-ed-richland",
+          "name": "Richland Division",
+          "primary_courthouse_city": "Richland",
+          "primary_courthouse_name": "United States Courthouse - Richland"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-wa-wd",
+      "name": "United States District Court for the Western District of Washington",
+      "short_name": "W.D. Wash.",
+      "parent_circuit_id": "ca9",
+      "state_or_territory_codes": ["WA"],
+      "fips_codes": ["53"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-wa-wd",
+        "name": "United States Bankruptcy Court for the Western District of Washington",
+        "short_name": "W.Bankr. Wash.",
+        "parent_district_id": "d-wa-wd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-wa-wd-seattle",
+          "name": "Seattle Division",
+          "primary_courthouse_city": "Seattle",
+          "primary_courthouse_name": "United States Courthouse - Seattle"
+        },
+        {
+          "division_id": "d-wa-wd-tacoma",
+          "name": "Tacoma Division",
+          "primary_courthouse_city": "Tacoma",
+          "primary_courthouse_name": "United States Courthouse - Tacoma"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-wv-nd",
+      "name": "United States District Court for the Northern District of West Virginia",
+      "short_name": "N.D. W. Va.",
+      "parent_circuit_id": "ca4",
+      "state_or_territory_codes": ["WV"],
+      "fips_codes": ["54"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-wv-nd",
+        "name": "United States Bankruptcy Court for the Northern District of West Virginia",
+        "short_name": "N.Bankr. W. Va.",
+        "parent_district_id": "d-wv-nd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-wv-nd-clarksburg",
+          "name": "Clarksburg Division",
+          "primary_courthouse_city": "Clarksburg",
+          "primary_courthouse_name": "United States Courthouse - Clarksburg"
+        },
+        {
+          "division_id": "d-wv-nd-elkins",
+          "name": "Elkins Division",
+          "primary_courthouse_city": "Elkins",
+          "primary_courthouse_name": "United States Courthouse - Elkins"
+        },
+        {
+          "division_id": "d-wv-nd-martinsburg",
+          "name": "Martinsburg Division",
+          "primary_courthouse_city": "Martinsburg",
+          "primary_courthouse_name": "United States Courthouse - Martinsburg"
+        },
+        {
+          "division_id": "d-wv-nd-wheeling",
+          "name": "Wheeling Division",
+          "primary_courthouse_city": "Wheeling",
+          "primary_courthouse_name": "United States Courthouse - Wheeling"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-wv-sd",
+      "name": "United States District Court for the Southern District of West Virginia",
+      "short_name": "S.D. W. Va.",
+      "parent_circuit_id": "ca4",
+      "state_or_territory_codes": ["WV"],
+      "fips_codes": ["54"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-wv-sd",
+        "name": "United States Bankruptcy Court for the Southern District of West Virginia",
+        "short_name": "S.Bankr. W. Va.",
+        "parent_district_id": "d-wv-sd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-wv-sd-charleston",
+          "name": "Charleston Division",
+          "primary_courthouse_city": "Charleston",
+          "primary_courthouse_name": "United States Courthouse - Charleston"
+        },
+        {
+          "division_id": "d-wv-sd-beckley",
+          "name": "Beckley Division",
+          "primary_courthouse_city": "Beckley",
+          "primary_courthouse_name": "United States Courthouse - Beckley"
+        },
+        {
+          "division_id": "d-wv-sd-bluefield",
+          "name": "Bluefield Division",
+          "primary_courthouse_city": "Bluefield",
+          "primary_courthouse_name": "United States Courthouse - Bluefield"
+        },
+        {
+          "division_id": "d-wv-sd-huntington",
+          "name": "Huntington Division",
+          "primary_courthouse_city": "Huntington",
+          "primary_courthouse_name": "United States Courthouse - Huntington"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-wi-ed",
+      "name": "United States District Court for the Eastern District of Wisconsin",
+      "short_name": "E.D. Wis.",
+      "parent_circuit_id": "ca7",
+      "state_or_territory_codes": ["WI"],
+      "fips_codes": ["55"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-wi-ed",
+        "name": "United States Bankruptcy Court for the Eastern District of Wisconsin",
+        "short_name": "E.Bankr. Wis.",
+        "parent_district_id": "d-wi-ed",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-wi-ed-milwaukee",
+          "name": "Milwaukee Division",
+          "primary_courthouse_city": "Milwaukee",
+          "primary_courthouse_name": "United States Courthouse - Milwaukee"
+        },
+        {
+          "division_id": "d-wi-ed-green-bay",
+          "name": "Green Bay Division",
+          "primary_courthouse_city": "Green Bay",
+          "primary_courthouse_name": "United States Courthouse - Green Bay"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-wi-wd",
+      "name": "United States District Court for the Western District of Wisconsin",
+      "short_name": "W.D. Wis.",
+      "parent_circuit_id": "ca7",
+      "state_or_territory_codes": ["WI"],
+      "fips_codes": ["55"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-wi-wd",
+        "name": "United States Bankruptcy Court for the Western District of Wisconsin",
+        "short_name": "W.Bankr. Wis.",
+        "parent_district_id": "d-wi-wd",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-wi-wd-madison",
+          "name": "Madison Division",
+          "primary_courthouse_city": "Madison",
+          "primary_courthouse_name": "United States Courthouse - Madison"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-wy",
+      "name": "United States District Court for the District of Wyoming",
+      "short_name": "D. Wyo.",
+      "parent_circuit_id": "ca10",
+      "state_or_territory_codes": ["WY"],
+      "fips_codes": ["56"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-wy",
+        "name": "United States Bankruptcy Court for the District of Wyoming",
+        "short_name": "Bankr. Wyo.",
+        "parent_district_id": "d-wy",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-wy-cheyenne",
+          "name": "Cheyenne Division",
+          "primary_courthouse_city": "Cheyenne",
+          "primary_courthouse_name": "United States Courthouse - Cheyenne"
+        },
+        {
+          "division_id": "d-wy-casper",
+          "name": "Casper Division",
+          "primary_courthouse_city": "Casper",
+          "primary_courthouse_name": "United States Courthouse - Casper"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-pr",
+      "name": "United States District Court for the District of Puerto Rico",
+      "short_name": "D.P.R.",
+      "parent_circuit_id": "ca1",
+      "state_or_territory_codes": ["PR"],
+      "fips_codes": ["72"],
+      "constitutional_basis": "ARTICLE_III",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-pr",
+        "name": "United States Bankruptcy Court for the District of Puerto Rico",
+        "short_name": "Bankr.P.R.",
+        "parent_district_id": "d-pr",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-pr-san-juan",
+          "name": "San Juan Division",
+          "primary_courthouse_city": "San Juan",
+          "primary_courthouse_name": "United States Courthouse - San Juan"
+        }
+      ],
+      "statutory_citation": "28 U.S.C. §§ 81-131"
+    },
+    {
+      "district_id": "d-vi",
+      "name": "District Court of the Virgin Islands",
+      "short_name": "D.V.I.",
+      "parent_circuit_id": "ca3",
+      "state_or_territory_codes": ["VI"],
+      "fips_codes": ["78"],
+      "constitutional_basis": "ARTICLE_I_ORGANIC_ACT",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-vi",
+        "name": "Bankruptcy Court of the Virgin Islands",
+        "short_name": "Bankr.V.I.",
+        "parent_district_id": "d-vi",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-vi-st-thomas",
+          "name": "St. Thomas Division",
+          "primary_courthouse_city": "St. Thomas",
+          "primary_courthouse_name": "United States Courthouse - St. Thomas"
+        },
+        {
+          "division_id": "d-vi-st-croix",
+          "name": "St. Croix Division",
+          "primary_courthouse_city": "St. Croix",
+          "primary_courthouse_name": "United States Courthouse - St. Croix"
+        }
+      ],
+      "statutory_citation": "48 U.S.C. § 1611"
+    },
+    {
+      "district_id": "d-gu",
+      "name": "District Court of Guam",
+      "short_name": "D. Guam",
+      "parent_circuit_id": "ca9",
+      "state_or_territory_codes": ["GU"],
+      "fips_codes": ["66"],
+      "constitutional_basis": "ARTICLE_I_ORGANIC_ACT",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-gu",
+        "name": "Bankruptcy Court of Guam",
+        "short_name": "Bankr. Guam",
+        "parent_district_id": "d-gu",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-gu-hagåtña",
+          "name": "Hagåtña Division",
+          "primary_courthouse_city": "Hagåtña",
+          "primary_courthouse_name": "United States Courthouse - Hagåtña"
+        }
+      ],
+      "statutory_citation": "48 U.S.C. § 1424"
+    },
+    {
+      "district_id": "d-mp",
+      "name": "District Court for the Northern Mariana Islands",
+      "short_name": "D.N.M.I.",
+      "parent_circuit_id": "ca9",
+      "state_or_territory_codes": ["MP"],
+      "fips_codes": ["69"],
+      "constitutional_basis": "ARTICLE_I_ORGANIC_ACT",
+      "bankruptcy_court": {
+        "bankruptcy_court_id": "bk-d-mp",
+        "name": "Bankruptcy Court for the Northern Mariana Islands",
+        "short_name": "Bankr.N.M.I.",
+        "parent_district_id": "d-mp",
+        "statutory_citation": "28 U.S.C. § 151"
+      },
+      "divisions": [
+        {
+          "division_id": "d-mp-saipan",
+          "name": "Saipan Division",
+          "primary_courthouse_city": "Saipan",
+          "primary_courthouse_name": "United States Courthouse - Saipan"
+        }
+      ],
+      "statutory_citation": "48 U.S.C. § 1821"
+    }
+  ],
+  "provenance": {
+    "source_manifest_id": "us_federal_courts_judiciary_structure_2026",
+    "circuits_count": 13,
+    "districts_count": 94,
+    "bankruptcy_courts_count": 94,
+    "article_iii_districts_count": 91,
+    "territorial_districts_count": 3,
+    "disclaimer": "This corpus records official statutory court structures and geography. It contains no judge identities, caseload estimations, political/ideological ratings, or decision probabilities."
+  }
+}

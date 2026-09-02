@@ -1,0 +1,46 @@
+{
+  "dataset_id": "us_federal_courts_judiciary_structure_2026",
+  "title": "U.S. Federal Courts and Judicial Geography Source Corpus",
+  "vintage": "2026-03-01",
+  "retrieved_at": "2026-03-01T00:00:00.000Z",
+  "provider": "Administrative Office of the U.S. Courts / U.S. House Office of the Law Revision Counsel",
+  "authority_level": "statutory_and_official_first_party",
+  "rights_license_status": "us_government_work_public_domain",
+  "sources": [
+    {
+      "source_id": "28_usc_ch3_courts_of_appeals",
+      "citation": "28 U.S.C. Chapter 3 - Courts of Appeals (§§ 41-48)",
+      "url": "https://uscode.house.gov/browse/prelim@title28/part1/chapter3&edition=prelim",
+      "sha256": "4b68ff5836a6cf497fb2e1b12b5cd3d3448f7dcb1ad13645bb2f074a3f124611",
+      "description": "Statutory composition and territorial jurisdiction of the 13 U.S. Courts of Appeals circuits."
+    },
+    {
+      "source_id": "28_usc_ch5_district_courts",
+      "citation": "28 U.S.C. Chapter 5 - District Courts (§§ 81-131)",
+      "url": "https://uscode.house.gov/browse/prelim@title28/part1/chapter5&edition=prelim",
+      "sha256": "8f2a1b9c32d44e5110a187bc9e0a293d39572b146e91aa7954e3f169fef89e21",
+      "description": "Statutory boundaries, judicial districts, divisions, and courthouses across all 50 states, DC, and Puerto Rico."
+    },
+    {
+      "source_id": "28_usc_ch6_bankruptcy_courts",
+      "citation": "28 U.S.C. Chapter 6 - Bankruptcy Judges (§ 151)",
+      "url": "https://uscode.house.gov/browse/prelim@title28/part1/chapter6&edition=prelim",
+      "sha256": "3a70a8d6221c97aef41b3e810815c32d847ab4a3b8e7215cf1b415e9821bf6aa",
+      "description": "Statutory creation of U.S. Bankruptcy Courts as judicial units of each federal judicial district court."
+    },
+    {
+      "source_id": "organic_acts_territorial_courts",
+      "citation": "48 U.S.C. § 1611 (Virgin Islands), 48 U.S.C. § 1424 (Guam), 48 U.S.C. § 1821 (Northern Mariana Islands)",
+      "url": "https://uscode.house.gov/browse/prelim@title48&edition=prelim",
+      "sha256": "1c7df0e10b25e79fa802d33bf2a9d82136e4f321ba82d8c3629e471fa09194bb",
+      "description": "Organic acts establishing territorial district courts under Article I for US Virgin Islands, Guam, and NMI."
+    },
+    {
+      "source_id": "uscourts_gov_court_finder",
+      "citation": "Administrative Office of the U.S. Courts - Court Locator & Geographic Structure",
+      "url": "https://www.uscourts.gov/court-locator",
+      "sha256": "921827fa10b9911e3b798e4c01f6874e0d9b734898a12e5291b8a51bc029a21e",
+      "description": "Official federal court finder directory detailing court names, codes, circuits, districts, and courthouses."
+    }
+  ]
+}
