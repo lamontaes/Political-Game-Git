@@ -257,8 +257,8 @@ export function householdConversationRoom(
   const present = [personId, companionId];
   return {
     sceneKey: "ordinary-life:home",
-    briefingLeadPersonId: companionId,
-    referralVerifierPersonId: companionId,
+    // A kitchen has one other person in it, and they are not a briefing lead.
+    roles: { "the-other-person": companionId },
     locationLabel: "Home",
     jurisdictionId,
     playerPersonId: personId,

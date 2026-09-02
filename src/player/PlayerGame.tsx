@@ -33,10 +33,11 @@ import {
   describeConversationBriefingContext,
   openingConversationBeat,
 } from "../presentation/run-b-conversation";
+import { createHouseholdObligationProgress } from "../presentation/run-b-conversation-progress";
 import {
-  createHouseholdObligationProgress,
-  type ConversationProgress,
-} from "../presentation/run-b-conversation-progress";
+  conversationProgressFromHistory,
+  recordedConversationIntents,
+} from "../presentation/conversation-continuity";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import {
   readReplaySeed,
@@ -1028,11 +1029,28 @@ function HouseholdConversation({
   readonly session: Session;
   readonly onWorldChange: (world: World) => void;
 }) {
-  const [progress, setProgress] = useState<ConversationProgress>(
-    createHouseholdObligationProgress,
+  // Derived from canonical history rather than remembered here. Closing this
+  // screen and reopening it — or saving, reloading and continuing — used to
+  // put the player back at turn one of a conversation the world had already
+  // recorded them finishing.
+  const progress = useMemo(
+    () =>
+      conversationProgressFromHistory(
+        session.world,
+        session.personId,
+        "household-obligation",
+      ) ?? createHouseholdObligationProgress(),
+    [session.world, session.personId],
   );
-  // Turn ordinals start at one; the engine treats zero as a mistake.
-  const [turn, setTurn] = useState(1);
+  // Turn ordinals start at one; the engine treats zero as a mistake. The turn
+  // this is on comes from what the world has recorded, not from a counter that
+  // resets when the component does.
+  const turn =
+    recordedConversationIntents(
+      session.world,
+      session.personId,
+      "household-obligation",
+    ).length + 1;
   const [said, setSaid] = useState<string | null>(null);
   const [trouble, setTrouble] = useState<string | null>(null);
 
@@ -1088,8 +1106,6 @@ function HouseholdConversation({
                     intent: option.key,
                   });
                   onWorldChange(result.world);
-                  setProgress(result.progress);
-                  setTurn((current) => current + 1);
                   setSaid(result.presentation.beat?.dialogue ?? null);
                   setTrouble(null);
                 } catch (error) {

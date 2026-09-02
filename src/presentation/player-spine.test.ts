@@ -23,6 +23,7 @@ import {
   conversationSubjectPresentation,
 } from "./conversation-subjects";
 import { chooseFormativeOption, projectFormativeYears } from "./formative-play";
+import { createRunBFixture } from "./run-b-fixture";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
 import {
   householdConversationRoom,
@@ -341,26 +342,40 @@ describe("What people can say", () => {
     const room = householdConversationRoom(world, game.playerPersonId)!;
     const addressee = room.eligibleAddresseePersonIds[0]!;
 
-    const household = createHouseholdObligationProgress();
-    const referral = createRunBConversationProgress();
     const householdIntents = availableConversationIntents(
       world,
       room,
       addressee,
-      household,
-    ).map((option) => option.key);
-    const referralIntents = availableConversationIntents(
-      world,
-      room,
-      addressee,
-      referral,
+      createHouseholdObligationProgress(),
     ).map((option) => option.key);
 
-    // Opening a conversation at home must not offer the office's casework.
-    expect(householdIntents).not.toContain("request-commitment");
+    // Opening a conversation at home offers what belongs at home.
     expect(householdIntents).toContain("raise-obligation");
-    expect(referralIntents).toContain("request-commitment");
-    expect(referralIntents).not.toContain("raise-obligation");
+    expect(householdIntents).not.toContain("request-commitment");
+
+    // And the office's casework cannot be run in a kitchen at all: the
+    // referral subject needs a briefing lead and a referral verifier, and a
+    // household has neither. It used to get them anyway, because the room
+    // handed the same person both jobs.
+    expect(() =>
+      availableConversationIntents(
+        world,
+        room,
+        addressee,
+        createRunBConversationProgress(),
+      ),
+    ).toThrow(/Nobody in this room is the briefing-lead/i);
+
+    // The office fixture's room does have them, and offers the casework.
+    const office = createRunBFixture("subject-separation");
+    const officeIntents = availableConversationIntents(
+      office.world,
+      office.roomContext,
+      office.roomContext.eligibleAddresseePersonIds[0]!,
+      createRunBConversationProgress(),
+    ).map((option) => option.key);
+    expect(officeIntents).toContain("request-commitment");
+    expect(officeIntents).not.toContain("raise-obligation");
   });
 
   it("refuses an intent that belongs to a different subject", () => {
@@ -378,11 +393,11 @@ describe("What people can say", () => {
         commitConversationTurn(world, {
           session: createConversationSessionDescriptor(world, room),
           room,
-          progress: createRunBConversationProgress(),
+          progress: createHouseholdObligationProgress(),
           turnOrdinal: 1,
           addressee: room.eligibleAddresseePersonIds[0]!,
           audibility: "normal",
-          intent: "raise-obligation",
+          intent: "request-commitment",
         }),
       // Refused at the availability gate, before it ever reaches the subject:
       // an intent the current subject does not offer is not a thing that can

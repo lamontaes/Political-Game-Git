@@ -1,5 +1,10 @@
-import { personName } from "../simulation";
-import type { EntityId, World } from "../simulation";
+import { personName, SeededRng } from "../simulation";
+import type {
+  EntityId,
+  EventType,
+  RelationshipInteractionKind,
+  World,
+} from "../simulation";
 import {
   isHouseholdObligationConversationProgress,
   isRunBReferralConversationProgress,
@@ -9,9 +14,12 @@ import type {
   ConversationProgress,
   ConversationSubjectKey,
   HouseholdObligationConversationProgress,
+  NeighborhoodMeetingConversationProgress,
+  SchoolProjectConversationProgress,
   RunBConversationProgress,
   RunCLegislativeConversationProgress,
 } from "./run-b-conversation-progress";
+import { conversationRole } from "./run-b-conversation";
 import type {
   ConversationAddressee,
   ConversationDialogueBeat,
@@ -97,25 +105,25 @@ const referralSubject: ConversationSubjectPresentation<RunBConversationProgress>
     topicLabel: () => "Constituent services",
     describeBriefing(world, room, progress) {
       const facts = progress.subjectFacts;
-      return `Three Lexington tenants asked this office for emergency-rent help. The county could not process two referrals because each lacked a required ${facts.requiredDocument}. ${shortPersonName(world, room.referralVerifierPersonId)} is checking the third. Decide whether ${shortPersonName(world, room.briefingLeadPersonId)} should back a document checklist before future referrals.`;
+      return `Three Lexington tenants asked this office for emergency-rent help. The county could not process two referrals because each lacked a required ${facts.requiredDocument}. ${shortPersonName(world, conversationRole(room, "referral-verifier"))} is checking the third. Decide whether ${shortPersonName(world, conversationRole(room, "briefing-lead"))} should back a document checklist before future referrals.`;
     },
     availableIntents(world, room, addressee, progress, silenceIsUseful) {
       const commitmentLabel =
         addressee === "everyone"
-          ? `Ask ${shortPersonName(world, room.referralVerifierPersonId)} to check and ${shortPersonName(world, room.briefingLeadPersonId)} to decide`
+          ? `Ask ${shortPersonName(world, conversationRole(room, "referral-verifier"))} to check and ${shortPersonName(world, conversationRole(room, "briefing-lead"))} to decide`
           : addressee === room.eligibleAddresseePersonIds[0]
-            ? `Ask ${shortPersonName(world, room.briefingLeadPersonId)} to back the referral checklist`
-            : `Ask ${shortPersonName(world, room.referralVerifierPersonId)} to check the third referral`;
+            ? `Ask ${shortPersonName(world, conversationRole(room, "briefing-lead"))} to back the referral checklist`
+            : `Ask ${shortPersonName(world, conversationRole(room, "referral-verifier"))} to check the third referral`;
       const options: ConversationIntentOption[] = [
         {
           key: "request-commitment",
           label: commitmentLabel,
           description:
             addressee === room.eligibleAddresseePersonIds[0]
-              ? `Ask ${shortPersonName(world, room.briefingLeadPersonId)} to back a document checklist before staff make future county referrals.`
+              ? `Ask ${shortPersonName(world, conversationRole(room, "briefing-lead"))} to back a document checklist before staff make future county referrals.`
               : addressee === room.eligibleAddresseePersonIds[1]
-                ? `Ask ${shortPersonName(world, room.referralVerifierPersonId)} whether the third referral also lacked the required proof-of-income form.`
-                : `Ask ${shortPersonName(world, room.referralVerifierPersonId)} to check the third referral and ${shortPersonName(world, room.briefingLeadPersonId)} to decide on the staff checklist.`,
+                ? `Ask ${shortPersonName(world, conversationRole(room, "referral-verifier"))} whether the third referral also lacked the required proof-of-income form.`
+                : `Ask ${shortPersonName(world, conversationRole(room, "referral-verifier"))} to check the third referral and ${shortPersonName(world, conversationRole(room, "briefing-lead"))} to decide on the staff checklist.`,
         },
         {
           key: "reassure",
@@ -129,8 +137,8 @@ const referralSubject: ConversationSubjectPresentation<RunBConversationProgress>
           key: "press",
           label:
             addressee === room.eligibleAddresseePersonIds[0]
-              ? `Press ${shortPersonName(world, room.briefingLeadPersonId)} to back the checklist`
-              : `Press ${shortPersonName(world, room.referralVerifierPersonId)} to check the third referral now`,
+              ? `Press ${shortPersonName(world, conversationRole(room, "briefing-lead"))} to back the checklist`
+              : `Press ${shortPersonName(world, conversationRole(room, "referral-verifier"))} to check the third referral now`,
           description: "Ask for the concrete next step now.",
         });
       }
@@ -152,13 +160,13 @@ const referralSubject: ConversationSubjectPresentation<RunBConversationProgress>
         return {
           speakerPersonId: speaker.personId,
           speakerName: speaker.name,
-          dialogue: `“If ${shortPersonName(world, room.referralVerifierPersonId)} finds the third county referral also lacked the proof-of-income form, I’ll decide whether to back one document checklist for staff to use before future referrals,” ${shortPersonName(world, room.briefingLeadPersonId)} says.`,
+          dialogue: `“If ${shortPersonName(world, conversationRole(room, "referral-verifier"))} finds the third county referral also lacked the proof-of-income form, I’ll decide whether to back one document checklist for staff to use before future referrals,” ${shortPersonName(world, conversationRole(room, "briefing-lead"))} says.`,
         };
       }
       return {
         speakerPersonId: speaker.personId,
         speakerName: speaker.name,
-        dialogue: `“The county could not process our first two referrals because the proof-of-income form was missing,” ${shortPersonName(world, room.referralVerifierPersonId)} says. “I can check whether the third referral arrived without that form too.”`,
+        dialogue: `“The county could not process our first two referrals because the proof-of-income form was missing,” ${shortPersonName(world, conversationRole(room, "referral-verifier"))} says. “I can check whether the third referral arrived without that form too.”`,
       };
     },
   };
@@ -186,8 +194,8 @@ const legislativeDraftSubject: ConversationSubjectPresentation<RunCLegislativeCo
         : [
             {
               key: "discuss-provision",
-              label: `Ask ${shortPersonName(world, room.briefingLeadPersonId)} about the ${progress.subjectFacts.currentAmount} provision`,
-              description: `Ask for ${shortPersonName(world, room.briefingLeadPersonId)}'s known staff interpretation of the selected working-draft provision and prepared narrower version.`,
+              label: `Ask ${shortPersonName(world, conversationRole(room, "briefing-lead"))} about the ${progress.subjectFacts.currentAmount} provision`,
+              description: `Ask for ${shortPersonName(world, conversationRole(room, "briefing-lead"))}'s known staff interpretation of the selected working-draft provision and prepared narrower version.`,
             },
           ];
     },
@@ -198,8 +206,8 @@ const legislativeDraftSubject: ConversationSubjectPresentation<RunCLegislativeCo
         speakerName: speaker.name,
         dialogue:
           progress.phase === "discussed"
-            ? `“The prepared ${progress.subjectFacts.preparedAmount} language is still on the page for comparison,” ${shortPersonName(world, room.briefingLeadPersonId)} says. “Neither version is enacted or implemented.”`
-            : `“I have Section 3 open,” ${shortPersonName(world, room.briefingLeadPersonId)} says. “You’re looking at the ${progress.subjectFacts.currentAmount} ceiling and the prepared ${progress.subjectFacts.preparedAmount} version for the same pilot scope.”`,
+            ? `“The prepared ${progress.subjectFacts.preparedAmount} language is still on the page for comparison,” ${shortPersonName(world, conversationRole(room, "briefing-lead"))} says. “Neither version is enacted or implemented.”`
+            : `“I have Section 3 open,” ${shortPersonName(world, conversationRole(room, "briefing-lead"))} says. “You’re looking at the ${progress.subjectFacts.currentAmount} ceiling and the prepared ${progress.subjectFacts.preparedAmount} version for the same pilot scope.”`,
       };
     },
   };
@@ -290,10 +298,213 @@ function settledHouseholdLine(
 
 /* -------------------------------------------------------------------------- */
 
+/* -------------------------------------------------------------------------- */
+/* Two students and one piece of unstarted work.                               */
+/* -------------------------------------------------------------------------- */
+
+const schoolProjectSubject: ConversationSubjectPresentation<SchoolProjectConversationProgress> =
+  {
+    subject: "school-project-share",
+    topicLabel: () => "A shared project",
+    describeBriefing(world, room, progress) {
+      const other = shortPersonName(
+        world,
+        conversationRole(room, "the-other-person"),
+      );
+      return progress.phase === "settled"
+        ? `You and ${other} have sorted out ${progress.subjectFacts.work}.`
+        : `${progress.subjectFacts.work} is still not started, and it is due ${progress.subjectFacts.deadline}. ${other} has not mentioned it either.`;
+    },
+    availableIntents(world, room, addressee, progress, silenceIsUseful) {
+      if (progress.phase === "settled") return [];
+      const other = shortPersonName(
+        world,
+        conversationRole(room, "the-other-person"),
+      );
+      const options: ConversationIntentOption[] =
+        progress.phase === "opening"
+          ? [
+              {
+                key: "raise-share",
+                label: "Say nobody has started it",
+                description: `Put the unstarted part in front of ${other} rather than working around it.`,
+              },
+            ]
+          : [
+              {
+                key: "ask-to-split",
+                label: "Ask to split it",
+                description: "Take half each and say which half now.",
+              },
+              {
+                key: "offer-to-do-more",
+                label: "Offer to take it on",
+                description: "Say you will do the part nobody started.",
+              },
+            ];
+      if (silenceIsUseful) {
+        options.push({
+          key: "listen",
+          label: "Say nothing about it",
+          description: "Let it stay unmentioned for now.",
+        });
+      }
+      return options;
+    },
+    openingBeat(world, room, addressee, progress) {
+      const speaker = speakerFor(world, room, addressee);
+      return {
+        speakerPersonId: speaker.personId,
+        speakerName: speaker.name,
+        dialogue:
+          progress.phase === "settled"
+            ? `“We are fine now,” ${shortPersonName(world, speaker.personId)} says, and means it.`
+            : selectAuthoredVariant(
+                world,
+                `school-project:${speaker.personId}`,
+                [
+                  `${shortPersonName(world, speaker.personId)} is packing up, and has not mentioned the project either.`,
+                  `${shortPersonName(world, speaker.personId)} is already at the door, and the project has not come up.`,
+                  `${shortPersonName(world, speaker.personId)} zips the bag shut without either of you saying anything about it.`,
+                ],
+              ),
+      };
+    },
+  };
+
+/**
+ * Moves the school subject along. Bounded like the rest: it records who took
+ * which part of the work, and stops.
+ */
+export function advanceSchoolProject(
+  progress: SchoolProjectConversationProgress,
+  intent: ConversationIntent,
+): SchoolProjectConversationProgress {
+  switch (intent) {
+    case "raise-share":
+      return { ...progress, phase: "raised", latestProposition: null };
+    case "ask-to-split":
+      return {
+        ...progress,
+        phase: "settled",
+        share: "split",
+        latestProposition: "split-the-work",
+      };
+    case "offer-to-do-more":
+      return {
+        ...progress,
+        phase: "settled",
+        share: "taken-by-player",
+        latestProposition: "take-it-yourself",
+      };
+    case "listen":
+      return { ...progress, silenceSettled: true };
+    default:
+      throw new Error("That is not something to say about the project.");
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* A notice on a board, and a neighbour on a doorstep.                         */
+/* -------------------------------------------------------------------------- */
+
+const neighborhoodMeetingSubject: ConversationSubjectPresentation<NeighborhoodMeetingConversationProgress> =
+  {
+    subject: "neighborhood-meeting-notice",
+    topicLabel: () => "A meeting that has been posted",
+    describeBriefing(world, room, progress) {
+      const other = shortPersonName(
+        world,
+        conversationRole(room, "the-other-person"),
+      );
+      return progress.phase === "settled"
+        ? `You and ${other} have said what you are each doing about the meeting.`
+        : `There is a meeting about ${progress.subjectFacts.subject}, ${progress.subjectFacts.notice}. Nobody has to go, and nobody has said whether they will.`;
+    },
+    availableIntents(world, room, addressee, progress, silenceIsUseful) {
+      if (progress.phase === "settled") return [];
+      const options: ConversationIntentOption[] =
+        progress.phase === "opening"
+          ? [
+              {
+                key: "mention-meeting",
+                label: "Mention the notice",
+                description: "Bring it up rather than walking past it.",
+              },
+            ]
+          : [
+              {
+                key: "say-you-will-go",
+                label: "Say you will go",
+                description: "Commit your own evening to it, and say so.",
+              },
+              {
+                key: "ask-them-to-go",
+                label: "Ask whether they will go",
+                description: "Put the question back rather than answering it.",
+              },
+            ];
+      if (silenceIsUseful) {
+        options.push({
+          key: "listen",
+          label: "Leave it there",
+          description: "Say nothing more about the meeting.",
+        });
+      }
+      return options;
+    },
+    openingBeat(world, room, addressee, progress) {
+      const speaker = speakerFor(world, room, addressee);
+      return {
+        speakerPersonId: speaker.personId,
+        speakerName: speaker.name,
+        dialogue:
+          progress.phase === "settled"
+            ? `“Right,” ${shortPersonName(world, speaker.personId)} says. “That is settled, then.”`
+            : selectAuthoredVariant(world, `neighborhood:${speaker.personId}`, [
+                `${shortPersonName(world, speaker.personId)} is at the door with the post, and the notice is still on the board behind them.`,
+                `${shortPersonName(world, speaker.personId)} is bringing the bins back in, and glances at the board on the way past.`,
+                `${shortPersonName(world, speaker.personId)} is on the step with a bag of shopping, and the notice is right there beside them.`,
+              ]),
+      };
+    },
+  };
+
+/** Moves the neighbourhood subject along. Nobody here has authority over anybody. */
+export function advanceNeighborhoodMeeting(
+  progress: NeighborhoodMeetingConversationProgress,
+  intent: ConversationIntent,
+): NeighborhoodMeetingConversationProgress {
+  switch (intent) {
+    case "mention-meeting":
+      return { ...progress, phase: "raised", latestProposition: null };
+    case "say-you-will-go":
+      return {
+        ...progress,
+        phase: "settled",
+        stance: "going",
+        latestProposition: "say-you-will-go",
+      };
+    case "ask-them-to-go":
+      return {
+        ...progress,
+        phase: "settled",
+        stance: "asked-them-to-go",
+        latestProposition: "ask-them-to-go",
+      };
+    case "listen":
+      return { ...progress, silenceSettled: true };
+    default:
+      throw new Error("That is not something to say about the meeting.");
+  }
+}
+
 const SUBJECTS = {
   "shared-intake-checklist": referralSubject,
   "transit-access-pilot-provision": legislativeDraftSubject,
   "household-obligation": householdObligationSubject,
+  "school-project-share": schoolProjectSubject,
+  "neighborhood-meeting-notice": neighborhoodMeetingSubject,
 } as const;
 
 /** The presentation for whatever is currently being discussed. */
@@ -358,3 +569,155 @@ export {
   isRunBReferralConversationProgress,
   isRunCLegislativeConversationProgress,
 };
+
+/* -------------------------------------------------------------------------- */
+/* Saying the same thing more than one way.                                    */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Picks one of several authored ways to say the same thing.
+ *
+ * Variation is presentation only. Every line in a bank has to mean the same
+ * thing, because the canonical record is written from the subject's own commit
+ * contract and not from whichever sentence came out — a bank whose entries
+ * differ in substance would make the record depend on a dice roll.
+ *
+ * The choice is drawn from the world's seed and the context handed in, so one
+ * world always tells its story the same way, and two people in two households
+ * do not open with the identical sentence on the same day.
+ */
+export function selectAuthoredVariant<T>(
+  world: World,
+  context: string,
+  variants: readonly T[],
+): T {
+  if (variants.length === 0) {
+    throw new Error("An authored variation bank cannot be empty.");
+  }
+  const rng = new SeededRng(world.seed).fork(
+    `conversation-variation-v1:${context}`,
+  );
+  return variants[rng.integer(0, variants.length)] as T;
+}
+
+/* -------------------------------------------------------------------------- */
+/* What a turn writes into the record.                                         */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The canonical vocabulary a subject commits in.
+ *
+ * The engine used to write `conversation.office-turn`, tag every exchange
+ * `conversation.office`, file it under constituent services and set the scene
+ * as a "Synthetic Stage 6.5 office conversation fixture" — whatever the
+ * conversation had actually been about. A household deciding who does the
+ * shopping therefore left casework history behind, which is not a wording
+ * problem: it is the record saying something that did not happen.
+ *
+ * The room rules, the hearing rules and the commitment semantics stay general.
+ * Only this is per subject, and every subject has to say what it writes.
+ */
+export interface ConversationCommitContract {
+  readonly subject: ConversationSubjectKey;
+  /** The canonical event type a turn records. */
+  readonly eventType: EventType;
+  /** What kind of exchange this is, tagged on every turn. */
+  readonly contextTag: string;
+  /** What it was about. */
+  readonly subjectTag: string;
+  /** The scene, said the way the record should say it. */
+  readonly setting: string;
+  readonly socialContext: string;
+  readonly interactionTags: readonly string[];
+  /** How a relationship record describes a turn that went well, or badly. */
+  interactionKind(
+    consequence: "strengthened" | "strained",
+  ): RelationshipInteractionKind;
+}
+
+const OFFICE_INTERACTION = (
+  consequence: "strengthened" | "strained",
+): RelationshipInteractionKind =>
+  consequence === "strengthened"
+    ? "work:reassurance"
+    : "conflict:pressed-for-answer";
+
+const COMMIT_CONTRACTS: Readonly<
+  Record<ConversationSubjectKey, ConversationCommitContract>
+> = {
+  "shared-intake-checklist": {
+    subject: "shared-intake-checklist",
+    eventType: "conversation.office-turn",
+    contextTag: "conversation.office",
+    subjectTag: "conversation.subject.constituent-services",
+    setting: "A legislative office, during briefing work",
+    socialContext: "A bounded in-room conversation during briefing work.",
+    interactionTags: ["conversation.office", "relationship.shared-work"],
+    interactionKind: OFFICE_INTERACTION,
+  },
+  "transit-access-pilot-provision": {
+    subject: "transit-access-pilot-provision",
+    eventType: "conversation.office-turn",
+    contextTag: "conversation.office",
+    subjectTag: "conversation.subject.legislative-provision",
+    setting: "A legislative office, over a working draft",
+    socialContext: "A conversation over the wording of a legislative draft.",
+    interactionTags: ["conversation.office", "relationship.shared-work"],
+    interactionKind: OFFICE_INTERACTION,
+  },
+  "household-obligation": {
+    subject: "household-obligation",
+    eventType: "conversation.household-turn",
+    contextTag: "conversation.household",
+    subjectTag: "conversation.subject.household-obligation",
+    setting: "Home",
+    socialContext: "A conversation at home about who carries the week.",
+    interactionTags: [
+      "conversation.household",
+      "relationship.shared-household",
+    ],
+    interactionKind: (consequence) =>
+      consequence === "strengthened"
+        ? "support:shared-load"
+        : "conflict:household-friction",
+  },
+  "school-project-share": {
+    subject: "school-project-share",
+    eventType: "conversation.school-turn",
+    contextTag: "conversation.school",
+    subjectTag: "conversation.subject.school-project",
+    setting: "School, between classes",
+    socialContext: "A conversation about who does which part of shared work.",
+    interactionTags: ["conversation.school", "relationship.shared-work"],
+    interactionKind: (consequence) =>
+      consequence === "strengthened"
+        ? "work:reassurance"
+        : "conflict:pressed-for-answer",
+  },
+  "neighborhood-meeting-notice": {
+    subject: "neighborhood-meeting-notice",
+    eventType: "conversation.neighborhood-turn",
+    contextTag: "conversation.neighborhood",
+    subjectTag: "conversation.subject.neighborhood-meeting",
+    setting: "A doorstep, on the way past",
+    socialContext:
+      "A conversation between neighbours about a meeting that has been posted.",
+    interactionTags: ["conversation.neighborhood", "relationship.shared-place"],
+    interactionKind: (consequence) =>
+      consequence === "strengthened"
+        ? "contact:neighborly"
+        : "conflict:pressed-for-answer",
+  },
+};
+
+export function conversationCommitContract(
+  progress: ConversationProgress,
+): ConversationCommitContract {
+  const contract = COMMIT_CONTRACTS[progress.subject];
+  if (!contract) {
+    throw new Error(
+      `No canonical commit contract is defined for the ${progress.subject} conversation.`,
+    );
+  }
+  return contract;
+}
