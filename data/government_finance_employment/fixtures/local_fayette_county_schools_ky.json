@@ -1,0 +1,210 @@
+{
+  "government": {
+    "govId": "gov-census-18603400100000",
+    "censusGovId": "18603400100000",
+    "name": "Fayette County Public Schools",
+    "statePostal": "KY",
+    "stateFips": "21",
+    "countyFips": "067",
+    "govClass": "school_district",
+    "govLevel": "local",
+    "schoolEnrollment": 42000
+  },
+  "financeRecords": [
+    {
+      "recordId": "gov-fin-18603400100000-2022-2024-developer-series",
+      "govId": "gov-census-18603400100000",
+      "censusGovId": "18603400100000",
+      "fiscalYear": 2022,
+      "enumerationType": "complete_census",
+      "quality": {
+        "imputed": false,
+        "vintage": "2024-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "totalRevenue": 685000000,
+      "generalRevenue": 685000000,
+      "ownSourceRevenue": 365000000,
+      "taxes": {
+        "totalTaxes": 340000000,
+        "propertyTaxes": 295000000,
+        "generalSalesTaxes": 0,
+        "selectiveSalesTaxes": {
+          "total": 15000000,
+          "publicUtilityTaxes": 15000000
+        },
+        "individualIncomeTaxes": 30000000,
+        "corporateIncomeTaxes": 0,
+        "licenseTaxes": {
+          "total": 0
+        },
+        "otherTaxes": {
+          "total": 0
+        }
+      },
+      "intergovernmentalRevenue": {
+        "total": 320000000,
+        "fromFederal": 85000000,
+        "fromState": 235000000,
+        "fromLocal": 0
+      },
+      "currentCharges": {
+        "total": 12000000,
+        "educationCharges": 12000000
+      },
+      "miscellaneousGeneralRevenue": {
+        "total": 13000000,
+        "interestEarnings": 5000000,
+        "saleOfProperty": 1000000,
+        "otherMiscellaneous": 7000000
+      },
+      "utilityRevenue": {
+        "total": 0
+      },
+      "liquorStoreRevenue": 0,
+      "insuranceTrustRevenue": {
+        "total": 0
+      },
+      "totalExpenditure": 645000000,
+      "directExpenditure": 645000000,
+      "directGeneralExpenditure": 645000000,
+      "intergovernmentalExpenditure": {
+        "total": 0
+      },
+      "characterExpenditure": {
+        "currentOperation": 545000000,
+        "capitalOutlay": {
+          "total": 82000000,
+          "construction": 72000000,
+          "landAndExistingStructures": 2000000,
+          "equipment": 8000000
+        },
+        "assistanceAndSubsidies": 0,
+        "interestOnGeneralDebt": 18000000,
+        "insuranceBenefitsAndRepayments": 0
+      },
+      "functionalExpenditures": {
+        "educationElementarySecondary": {
+          "currentOperation": 545000000,
+          "capitalOutlay": 82000000,
+          "total": 627000000
+        },
+        "interestOnGeneralDebt": {
+          "currentOperation": 18000000,
+          "capitalOutlay": 0,
+          "total": 18000000
+        }
+      },
+      "utilityExpenditure": {
+        "total": 0
+      },
+      "liquorStoreExpenditure": 0,
+      "insuranceTrustExpenditure": 0,
+      "debtOutstandingEndYear": {
+        "total": 410000000,
+        "shortTermDebt": 0,
+        "longTermDebt": {
+          "total": 410000000,
+          "fullFaithAndCredit": 410000000,
+          "nonguaranteedRevenueDebt": 0
+        }
+      },
+      "debtIssuedDuringYear": 55000000,
+      "debtRetiredDuringYear": 32000000,
+      "cashAndSecuritiesEndYear": {
+        "total": 185000000,
+        "nonInsuranceTrustFunds": {
+          "total": 185000000,
+          "sinkingFunds": 28000000,
+          "bondFunds": 42000000,
+          "otherFunds": 115000000
+        }
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Indiv_Gov_Finances_KY_Schools.csv",
+        "sourceHash": "4e5f6a7b8c9d0123456789abcdef0123456789abcdef0123456789abcdef0123",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, School District Finance: Fayette County (U.S. Census Bureau)"
+      }
+    }
+  ],
+  "employmentRecords": [
+    {
+      "recordId": "gov-emp-18603400100000-2022-012-2025-developer-series",
+      "govId": "gov-census-18603400100000",
+      "censusGovId": "18603400100000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "012",
+      "functionName": "Elementary and Secondary Education - Instructional",
+      "fullTimeEmployees": 3450,
+      "fullTimePayroll": 19500000,
+      "partTimeEmployees": 320,
+      "partTimePayroll": 580000,
+      "partTimeHours": 24000,
+      "fullTimeEquivalentEmployees": 3600,
+      "totalEmployees": 3770,
+      "totalPayroll": 20080000,
+      "averageFullTimeSalary": 5652,
+      "quality": {
+        "imputed": false,
+        "vintage": "2025-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Census_APEP_KY_Schools.csv",
+        "sourceHash": "5f6a7b8c9d0e123456789abcdef0123456789abcdef0123456789abcdef01234",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, Public Employment: Fayette County Schools (U.S. Census Bureau)"
+      }
+    },
+    {
+      "recordId": "gov-emp-18603400100000-2022-014-2025-developer-series",
+      "govId": "gov-census-18603400100000",
+      "censusGovId": "18603400100000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "014",
+      "functionName": "Elementary and Secondary Education - Other",
+      "fullTimeEmployees": 2280,
+      "fullTimePayroll": 8900000,
+      "partTimeEmployees": 640,
+      "partTimePayroll": 960000,
+      "partTimeHours": 42000,
+      "fullTimeEquivalentEmployees": 2542,
+      "totalEmployees": 2920,
+      "totalPayroll": 9860000,
+      "averageFullTimeSalary": 3904,
+      "quality": {
+        "imputed": false,
+        "vintage": "2025-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Census_APEP_KY_Schools.csv",
+        "sourceHash": "5f6a7b8c9d0e123456789abcdef0123456789abcdef0123456789abcdef01234",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, Public Employment: Fayette County Schools (U.S. Census Bureau)"
+      }
+    }
+  ]
+}

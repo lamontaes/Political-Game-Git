@@ -1,0 +1,172 @@
+{
+  "government": {
+    "govId": "gov-census-44522700100000",
+    "censusGovId": "44522700100000",
+    "name": "Capital Metropolitan Transportation Authority",
+    "statePostal": "TX",
+    "stateFips": "48",
+    "countyFips": "453",
+    "govClass": "special_district",
+    "govLevel": "local"
+  },
+  "financeRecords": [
+    {
+      "recordId": "gov-fin-44522700100000-2022-2024-developer-series",
+      "govId": "gov-census-44522700100000",
+      "censusGovId": "44522700100000",
+      "fiscalYear": 2022,
+      "enumerationType": "complete_census",
+      "quality": {
+        "imputed": false,
+        "vintage": "2024-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "totalRevenue": 465000000,
+      "generalRevenue": 435000000,
+      "ownSourceRevenue": 365000000,
+      "taxes": {
+        "totalTaxes": 355000000,
+        "propertyTaxes": 0,
+        "generalSalesTaxes": 355000000,
+        "selectiveSalesTaxes": {
+          "total": 0
+        },
+        "individualIncomeTaxes": 0,
+        "corporateIncomeTaxes": 0,
+        "licenseTaxes": {
+          "total": 0
+        },
+        "otherTaxes": {
+          "total": 0
+        }
+      },
+      "intergovernmentalRevenue": {
+        "total": 70000000,
+        "fromFederal": 65000000,
+        "fromState": 5000000,
+        "fromLocal": 0
+      },
+      "currentCharges": {
+        "total": 0
+      },
+      "miscellaneousGeneralRevenue": {
+        "total": 10000000,
+        "interestEarnings": 6000000,
+        "otherMiscellaneous": 4000000
+      },
+      "utilityRevenue": {
+        "total": 30000000,
+        "transitUtility": 30000000
+      },
+      "liquorStoreRevenue": 0,
+      "insuranceTrustRevenue": {
+        "total": 0
+      },
+      "totalExpenditure": 420000000,
+      "directExpenditure": 420000000,
+      "directGeneralExpenditure": 160000000,
+      "intergovernmentalExpenditure": {
+        "total": 0
+      },
+      "characterExpenditure": {
+        "currentOperation": 125000000,
+        "capitalOutlay": {
+          "total": 30000000,
+          "construction": 18000000,
+          "landAndExistingStructures": 2000000,
+          "equipment": 10000000
+        },
+        "assistanceAndSubsidies": 0,
+        "interestOnGeneralDebt": 5000000,
+        "insuranceBenefitsAndRepayments": 0
+      },
+      "functionalExpenditures": {
+        "utilitiesTransit": {
+          "currentOperation": 210000000,
+          "capitalOutlay": 50000000,
+          "total": 260000000
+        },
+        "interestOnGeneralDebt": {
+          "currentOperation": 5000000,
+          "capitalOutlay": 0,
+          "total": 5000000
+        }
+      },
+      "utilityExpenditure": {
+        "total": 260000000,
+        "transit": 260000000
+      },
+      "liquorStoreExpenditure": 0,
+      "insuranceTrustExpenditure": 0,
+      "debtOutstandingEndYear": {
+        "total": 140000000,
+        "shortTermDebt": 0,
+        "longTermDebt": {
+          "total": 140000000,
+          "fullFaithAndCredit": 0,
+          "nonguaranteedRevenueDebt": 140000000,
+          "utilityDebt": 140000000
+        }
+      },
+      "debtIssuedDuringYear": 25000000,
+      "debtRetiredDuringYear": 12000000,
+      "cashAndSecuritiesEndYear": {
+        "total": 340000000,
+        "nonInsuranceTrustFunds": {
+          "total": 340000000,
+          "sinkingFunds": 15000000,
+          "bondFunds": 45000000,
+          "otherFunds": 280000000
+        }
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Indiv_Gov_Finances_TX_Special.csv",
+        "sourceHash": "6a7b8c9d0e1f23456789abcdef0123456789abcdef0123456789abcdef012345",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, Special District Finance: Capital Metro (U.S. Census Bureau)"
+      }
+    }
+  ],
+  "employmentRecords": [
+    {
+      "recordId": "gov-emp-44522700100000-2022-059-2025-developer-series",
+      "govId": "gov-census-44522700100000",
+      "censusGovId": "44522700100000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "059",
+      "functionName": "Transit",
+      "fullTimeEmployees": 1580,
+      "fullTimePayroll": 9850000,
+      "partTimeEmployees": 120,
+      "partTimePayroll": 240000,
+      "partTimeHours": 9500,
+      "fullTimeEquivalentEmployees": 1618,
+      "totalEmployees": 1700,
+      "totalPayroll": 10090000,
+      "averageFullTimeSalary": 6234,
+      "quality": {
+        "imputed": false,
+        "vintage": "2025-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Census_APEP_TX_Special.csv",
+        "sourceHash": "7b8c9d0e1f2a3456789abcdef0123456789abcdef0123456789abcdef0123456",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, Public Employment: Capital Metro Transit (U.S. Census Bureau)"
+      }
+    }
+  ]
+}

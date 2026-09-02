@@ -1,0 +1,325 @@
+{
+  "government": {
+    "govId": "gov-census-44322700200000",
+    "censusGovId": "44322700200000",
+    "name": "City of Austin",
+    "statePostal": "TX",
+    "stateFips": "48",
+    "countyFips": "453",
+    "govClass": "municipal",
+    "govLevel": "local",
+    "population": 961855,
+    "populationYear": 2020
+  },
+  "financeRecords": [
+    {
+      "recordId": "gov-fin-44322700200000-2022-2024-developer-series",
+      "govId": "gov-census-44322700200000",
+      "censusGovId": "44322700200000",
+      "fiscalYear": 2022,
+      "enumerationType": "complete_census",
+      "quality": {
+        "imputed": false,
+        "vintage": "2024-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "totalRevenue": 4650000000,
+      "generalRevenue": 2150000000,
+      "ownSourceRevenue": 1890000000,
+      "taxes": {
+        "totalTaxes": 1280000000,
+        "propertyTaxes": 950000000,
+        "generalSalesTaxes": 280000000,
+        "selectiveSalesTaxes": {
+          "total": 50000000,
+          "alcoholicBeverageTaxes": 14000000,
+          "otherSelectiveSalesTaxes": 36000000
+        },
+        "individualIncomeTaxes": 0,
+        "corporateIncomeTaxes": 0,
+        "licenseTaxes": {
+          "total": 0
+        },
+        "otherTaxes": {
+          "total": 0
+        }
+      },
+      "intergovernmentalRevenue": {
+        "total": 260000000,
+        "fromFederal": 210000000,
+        "fromState": 42000000,
+        "fromLocal": 8000000
+      },
+      "currentCharges": {
+        "total": 420000000,
+        "educationCharges": 0,
+        "hospitalCharges": 0,
+        "highwayChargesAndTolls": 0,
+        "sewerageCharges": 0,
+        "solidWasteManagementCharges": 115000000,
+        "parksAndRecreationCharges": 25000000,
+        "airTransportationCharges": 185000000,
+        "otherCharges": 95000000
+      },
+      "miscellaneousGeneralRevenue": {
+        "total": 190000000,
+        "interestEarnings": 65000000,
+        "saleOfProperty": 15000000,
+        "otherMiscellaneous": 110000000
+      },
+      "utilityRevenue": {
+        "total": 2500000000,
+        "waterSupplyUtility": 650000000,
+        "electricUtility": 1850000000,
+        "gasUtility": 0,
+        "transitUtility": 0
+      },
+      "liquorStoreRevenue": 0,
+      "insuranceTrustRevenue": {
+        "total": 0
+      },
+      "totalExpenditure": 4280000000,
+      "directExpenditure": 4280000000,
+      "directGeneralExpenditure": 1980000000,
+      "intergovernmentalExpenditure": {
+        "total": 0,
+        "toState": 0,
+        "toLocal": 0,
+        "toFederal": 0
+      },
+      "characterExpenditure": {
+        "currentOperation": 1390000000,
+        "capitalOutlay": {
+          "total": 480000000,
+          "construction": 390000000,
+          "landAndExistingStructures": 25000000,
+          "equipment": 65000000
+        },
+        "assistanceAndSubsidies": 10000000,
+        "interestOnGeneralDebt": 100000000,
+        "insuranceBenefitsAndRepayments": 0
+      },
+      "functionalExpenditures": {
+        "policeProtection": {
+          "currentOperation": 440000000,
+          "capitalOutlay": 18000000,
+          "total": 458000000
+        },
+        "fireProtection": {
+          "currentOperation": 225000000,
+          "capitalOutlay": 12000000,
+          "total": 237000000
+        },
+        "solidWasteManagement": {
+          "currentOperation": 105000000,
+          "capitalOutlay": 8000000,
+          "total": 113000000
+        },
+        "parksAndRecreation": {
+          "currentOperation": 115000000,
+          "capitalOutlay": 35000000,
+          "total": 150000000
+        },
+        "highways": {
+          "currentOperation": 95000000,
+          "capitalOutlay": 120000000,
+          "total": 215000000
+        },
+        "interestOnGeneralDebt": {
+          "currentOperation": 100000000,
+          "capitalOutlay": 0,
+          "total": 100000000
+        }
+      },
+      "utilityExpenditure": {
+        "total": 2300000000,
+        "waterSupply": 580000000,
+        "electricPower": 1720000000,
+        "gasSupply": 0,
+        "transit": 0
+      },
+      "liquorStoreExpenditure": 0,
+      "insuranceTrustExpenditure": 0,
+      "debtOutstandingEndYear": {
+        "total": 4850000000,
+        "shortTermDebt": 0,
+        "longTermDebt": {
+          "total": 4850000000,
+          "fullFaithAndCredit": 1750000000,
+          "nonguaranteedRevenueDebt": 3100000000,
+          "utilityDebt": 3100000000
+        }
+      },
+      "debtIssuedDuringYear": 620000000,
+      "debtRetiredDuringYear": 340000000,
+      "cashAndSecuritiesEndYear": {
+        "total": 3100000000,
+        "nonInsuranceTrustFunds": {
+          "total": 3100000000,
+          "sinkingFunds": 380000000,
+          "bondFunds": 620000000,
+          "otherFunds": 2100000000
+        }
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Indiv_Gov_Finances_TX.csv",
+        "sourceHash": "0a1b2c3d4e5f67890123456789abcdef0123456789abcdef0123456789abcdef",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, Individual Unit Finance: City of Austin (U.S. Census Bureau)"
+      }
+    }
+  ],
+  "employmentRecords": [
+    {
+      "recordId": "gov-emp-44322700200000-2022-000-2025-developer-series",
+      "govId": "gov-census-44322700200000",
+      "censusGovId": "44322700200000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "000",
+      "functionName": "Total All Functions",
+      "fullTimeEmployees": 14250,
+      "fullTimePayroll": 105000000,
+      "partTimeEmployees": 1680,
+      "partTimePayroll": 3400000,
+      "partTimeHours": 145000,
+      "fullTimeEquivalentEmployees": 15156,
+      "totalEmployees": 15930,
+      "totalPayroll": 108400000,
+      "averageFullTimeSalary": 7368,
+      "quality": {
+        "imputed": false,
+        "vintage": "2025-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Census_APEP_TX_Local.csv",
+        "sourceHash": "1b2c3d4e5f6a7890123456789abcdef0123456789abcdef0123456789abcdef0",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, Public Employment: City of Austin (U.S. Census Bureau)"
+      }
+    },
+    {
+      "recordId": "gov-emp-44322700200000-2022-024-2025-developer-series",
+      "govId": "gov-census-44322700200000",
+      "censusGovId": "44322700200000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "024",
+      "functionName": "Fire Protection",
+      "fullTimeEmployees": 1280,
+      "fullTimePayroll": 11200000,
+      "partTimeEmployees": 0,
+      "partTimePayroll": 0,
+      "partTimeHours": 0,
+      "fullTimeEquivalentEmployees": 1280,
+      "totalEmployees": 1280,
+      "totalPayroll": 11200000,
+      "averageFullTimeSalary": 8750,
+      "quality": {
+        "imputed": false,
+        "vintage": "2025-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Census_APEP_TX_Local.csv",
+        "sourceHash": "1b2c3d4e5f6a7890123456789abcdef0123456789abcdef0123456789abcdef0",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, Public Employment: City of Austin (U.S. Census Bureau)"
+      }
+    },
+    {
+      "recordId": "gov-emp-44322700200000-2022-025-2025-developer-series",
+      "govId": "gov-census-44322700200000",
+      "censusGovId": "44322700200000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "025",
+      "functionName": "Police Protection - Sworn Officers",
+      "fullTimeEmployees": 1740,
+      "fullTimePayroll": 15800000,
+      "partTimeEmployees": 0,
+      "partTimePayroll": 0,
+      "partTimeHours": 0,
+      "fullTimeEquivalentEmployees": 1740,
+      "totalEmployees": 1740,
+      "totalPayroll": 15800000,
+      "averageFullTimeSalary": 9080,
+      "quality": {
+        "imputed": false,
+        "vintage": "2025-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Census_APEP_TX_Local.csv",
+        "sourceHash": "1b2c3d4e5f6a7890123456789abcdef0123456789abcdef0123456789abcdef0",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, Public Employment: City of Austin (U.S. Census Bureau)"
+      }
+    },
+    {
+      "recordId": "gov-emp-44322700200000-2022-063-2025-developer-series",
+      "govId": "gov-census-44322700200000",
+      "censusGovId": "44322700200000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "063",
+      "functionName": "Electric Power",
+      "fullTimeEmployees": 1820,
+      "fullTimePayroll": 15200000,
+      "partTimeEmployees": 40,
+      "partTimePayroll": 110000,
+      "partTimeHours": 3200,
+      "fullTimeEquivalentEmployees": 1840,
+      "totalEmployees": 1860,
+      "totalPayroll": 15310000,
+      "averageFullTimeSalary": 8352,
+      "quality": {
+        "imputed": false,
+        "vintage": "2025-developer-series",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "US_CENSUS_BUREAU",
+        "surveyName": "CENSUS_OF_GOVERNMENTS",
+        "sourceFile": "2022_Census_APEP_TX_Local.csv",
+        "sourceHash": "1b2c3d4e5f6a7890123456789abcdef0123456789abcdef0123456789abcdef0",
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "2022 Census of Governments, Public Employment: City of Austin (U.S. Census Bureau)"
+      }
+    }
+  ]
+}

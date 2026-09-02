@@ -1,0 +1,83 @@
+{
+  "manifestVersion": "1.0.0",
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-08-29T16:09:54.336Z",
+  "sources": [
+    {
+      "id": "census-slf-2017-2024",
+      "title": "State and Local Government Finances (2017–2024 Developer Series)",
+      "publisher": "U.S. Census Bureau",
+      "program": "State and Local Government Finances",
+      "timeRange": "2017–2024",
+      "methodologyUrl": "https://www.census.gov/programs-surveys/gov-finances/technical-documentation.html",
+      "developerUrl": "https://api.census.gov/data/timeseries/govs",
+      "notes": "Includes 2017 and 2022 complete Census of Governments enumeration alongside 2018–2021 and 2023–2024 Annual Survey sample estimates."
+    },
+    {
+      "id": "census-apep-1992-2025",
+      "title": "Annual Survey of Public Employment & Payroll (1992–2025 Developer Series)",
+      "publisher": "U.S. Census Bureau",
+      "program": "Annual Survey of Public Employment & Payroll",
+      "timeRange": "1992–2025",
+      "methodologyUrl": "https://www.census.gov/programs-surveys/apes/technical-documentation.html",
+      "developerUrl": "https://api.census.gov/data/timeseries/apes",
+      "notes": "Full-time and part-time government employment, monthly payroll, and full-time equivalent staffing by government function. Reference month March (1997+) and October (pre-1997)."
+    },
+    {
+      "id": "census-cog-1992-2022",
+      "title": "Census of Governments (5-Year Complete Enumeration Series)",
+      "publisher": "U.S. Census Bureau",
+      "program": "Census of Governments",
+      "timeRange": "1992–2022 (years ending in 2 and 7)",
+      "methodologyUrl": "https://www.census.gov/programs-surveys/cog/about.html",
+      "developerUrl": "https://api.census.gov/data/timeseries/cog",
+      "notes": "Complete universe enumeration of state, county, municipal, township, special district, and school district entities."
+    }
+  ],
+  "coverage": {
+    "totalGovernments": 11,
+    "governmentsByClass": {
+      "federal": 1,
+      "state": 4,
+      "county": 1,
+      "municipal": 3,
+      "township": 0,
+      "special_district": 1,
+      "school_district": 1
+    },
+    "governmentsByState": {
+      "TX": 4,
+      "KY": 3,
+      "NY": 2,
+      "US": 1,
+      "CA": 1
+    },
+    "financeYearsAvailable": [2017, 2022, 2024],
+    "employmentYearsAvailable": [1992, 1997, 2017, 2022, 2025],
+    "totalFinanceRecords": 14,
+    "totalEmploymentRecords": 34
+  },
+  "checksums": {
+    "local_austin_city_tx.json": "6c15815d84b589856c8643ea6fd3127b06f4d0037d5016813e2c4f99bf539b15",
+    "local_capital_metro_transit_tx.json": "8577818bd24ac8d0706218de21071c92037bc65d0309ea11d30bed396e98967f",
+    "local_fayette_county_schools_ky.json": "4fd7f0fc3b2a59c145751d2a09df65339c61aa9e1c22ef551afcb009641e19c2",
+    "local_lexington_fayette_ky.json": "28cc4c0422a1da72afd0237609543acc3c9fb9b9e78e8fdfb902a9d1a13f00a1",
+    "local_new_york_city_ny.json": "b89d1ced0ea8cf78517fd223bced8c1f6274702350668b4b7debb4983e6aa571",
+    "local_travis_county_tx.json": "565528043093b8b537cf2177e17f7405ea3a9b4211f8aeb05557d4e8045d95d2",
+    "national_us_employment.json": "90a7fd56c8e4a7e3b9a780626ba3c5388ad0d568608f7a73f68f3e54ea72ec60",
+    "national_us_finance.json": "6396e60e30a4f1e693af96bc219bdce69e2c35887e4d8f95ce9e50313fc1ca22",
+    "state_california_employment.json": "49038d29660f6afc8dc7d5927f4914a4edd9f53e748673fba85d851aead43630",
+    "state_california_finance.json": "f9e5b5fe59375ff217043897466566fa54c3c149729c4dd313a2640ecd34ae49",
+    "state_kentucky_employment.json": "1247f194e879f0dd7bf41d23febe3ee6e0de299d71ac3b688274b92da93df320",
+    "state_kentucky_finance.json": "96820a01cb723d337325be7f3cd0520a67fdbd390bfa078afd80816277992cec",
+    "state_new_york_employment.json": "57e6ea298719cb981570094485a71d4be5c1ea45d362da7c9aae2bfa2d3a3ccc",
+    "state_new_york_finance.json": "a8508faa7568c026c0fe81359ae4c93d9b24b25f04722e41cc18d5a6683e08d9",
+    "state_texas_employment.json": "c378f25d5d2db036cd239c2329eef63bba8ae53549ef48801bf1c8fe424c36e5",
+    "state_texas_finance.json": "74257c65875e4a29d287c493fea5805c9987418d62bec76a06a9677f16541659"
+  },
+  "vintages": [
+    "2024-developer-series",
+    "2025-developer-series",
+    "historical-series"
+  ]
+}

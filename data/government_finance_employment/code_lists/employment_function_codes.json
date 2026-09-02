@@ -1,0 +1,188 @@
+[
+  {
+    "functionCode": "000",
+    "title": "Total All Functions",
+    "category": "total",
+    "description": "Total of all government functions combined"
+  },
+  {
+    "functionCode": "012",
+    "title": "Elementary and Secondary Education - Instructional",
+    "category": "education",
+    "description": "Teachers and instructional aides in elementary and secondary education"
+  },
+  {
+    "functionCode": "014",
+    "title": "Elementary and Secondary Education - Other",
+    "category": "education",
+    "description": "Non-instructional staff: administrators, clerical, maintenance, transportation, food service"
+  },
+  {
+    "functionCode": "018",
+    "title": "Higher Education - Instructional",
+    "category": "education",
+    "description": "Instructional faculty and academic personnel in public colleges and universities"
+  },
+  {
+    "functionCode": "019",
+    "title": "Higher Education - Other",
+    "category": "education",
+    "description": "Non-instructional personnel in public colleges and universities"
+  },
+  {
+    "functionCode": "021",
+    "title": "Other Education",
+    "category": "education",
+    "description": "Vocational-technical, special education, and state supervisory education staff"
+  },
+  {
+    "functionCode": "022",
+    "title": "Public Libraries",
+    "category": "libraries",
+    "description": "Public libraries and library systems personnel"
+  },
+  {
+    "functionCode": "024",
+    "title": "Fire Protection",
+    "category": "public_safety",
+    "description": "Firefighters, fire prevention, emergency medical technicians, and fire administration"
+  },
+  {
+    "functionCode": "025",
+    "title": "Police Protection - Sworn Officers",
+    "category": "public_safety",
+    "description": "Sworn police officers with arrest powers, patrol, investigation, and law enforcement command"
+  },
+  {
+    "functionCode": "026",
+    "title": "Police Protection - Other",
+    "category": "public_safety",
+    "description": "Non-sworn civilian police personnel: dispatchers, records, forensics, clerical, and support"
+  },
+  {
+    "functionCode": "028",
+    "title": "Correction",
+    "category": "public_safety",
+    "description": "Correctional institutions, jails, detention facilities, probation, and parole"
+  },
+  {
+    "functionCode": "030",
+    "title": "Air Transportation",
+    "category": "infrastructure",
+    "description": "Airport operation, aviation security, airfield maintenance, and airport administration"
+  },
+  {
+    "functionCode": "040",
+    "title": "Water Transportation and Terminals",
+    "category": "infrastructure",
+    "description": "Public ports, docks, harbors, canals, ferries, and water terminals"
+  },
+  {
+    "functionCode": "044",
+    "title": "Public Welfare",
+    "category": "social_services",
+    "description": "Public assistance administration, child and family services, Medicaid administration, food stamps"
+  },
+  {
+    "functionCode": "050",
+    "title": "Health",
+    "category": "health",
+    "description": "Public health clinics, disease control, immunizations, environmental health, vital statistics"
+  },
+  {
+    "functionCode": "052",
+    "title": "Hospitals",
+    "category": "health",
+    "description": "Public general and specialized hospitals, municipal medical centers"
+  },
+  {
+    "functionCode": "055",
+    "title": "Highways and Streets",
+    "category": "infrastructure",
+    "description": "Construction, maintenance, paving, traffic engineering, bridges, and toll facilities"
+  },
+  {
+    "functionCode": "059",
+    "title": "Transit",
+    "category": "utility",
+    "description": "Public bus, subway, light rail, commuter rail, and mass transportation systems"
+  },
+  {
+    "functionCode": "060",
+    "title": "Sewerage",
+    "category": "infrastructure",
+    "description": "Sanitary sewer collection, wastewater treatment plants, storm drainage maintenance"
+  },
+  {
+    "functionCode": "061",
+    "title": "Solid Waste Management",
+    "category": "infrastructure",
+    "description": "Garbage collection, recycling programs, landfills, incinerators, street sweeping"
+  },
+  {
+    "functionCode": "062",
+    "title": "Water Supply",
+    "category": "utility",
+    "description": "Public drinking water purification, distribution pipelines, meters, reservoirs"
+  },
+  {
+    "functionCode": "063",
+    "title": "Electric Power",
+    "category": "utility",
+    "description": "Municipal and state electric generation, transmission, and retail power distribution"
+  },
+  {
+    "functionCode": "064",
+    "title": "Gas Supply",
+    "category": "utility",
+    "description": "Public natural gas storage, pipeline transmission, and retail distribution systems"
+  },
+  {
+    "functionCode": "080",
+    "title": "Parks and Recreation",
+    "category": "recreation",
+    "description": "Public parks, playgrounds, recreation centers, golf courses, pools, forestry"
+  },
+  {
+    "functionCode": "089",
+    "title": "Housing and Community Development",
+    "category": "community_development",
+    "description": "Public housing authorities, urban renewal, code enforcement, planning, zoning, economic development"
+  },
+  {
+    "functionCode": "090",
+    "title": "Natural Resources",
+    "category": "natural_resources",
+    "description": "Agriculture, soil conservation, fish and wildlife, environmental protection, state forests, mineral resources"
+  },
+  {
+    "functionCode": "091",
+    "title": "Central Administration",
+    "category": "administration",
+    "description": "Chief executive (Governor, Mayor, City Manager), city council / legislature, election administration"
+  },
+  {
+    "functionCode": "092",
+    "title": "Financial Administration",
+    "category": "administration",
+    "description": "Tax assessment, tax collection, auditing, treasury, budgeting, accounting, purchasing"
+  },
+  {
+    "functionCode": "093",
+    "title": "Judicial and Legal",
+    "category": "administration",
+    "description": "State and local courts, prosecutors, public defenders, legal counsel, court clerks"
+  },
+  {
+    "functionCode": "094",
+    "title": "General Public Buildings",
+    "category": "administration",
+    "description": "Operation, maintenance, and custodial care of multipurpose government buildings"
+  },
+  {
+    "functionCode": "100",
+    "title": "All Other Functions",
+    "category": "other",
+    "description": "Unclassified, multipurpose, or minor government activities not covered elsewhere"
+  }
+]
