@@ -1,0 +1,94 @@
+{
+  "id": "ocd-bill/99887766-5544-3322-1100-aabbccddeeff",
+  "identifier": "HB 1",
+  "title": "AN ACT relating to the state of emergency response and declaring an emergency.",
+  "jurisdiction": {
+    "id": "ocd-jurisdiction/country:us/state:ky/government",
+    "name": "Kentucky",
+    "classification": "state"
+  },
+  "session": "2021SS",
+  "classification": ["bill"],
+  "from_organization": {
+    "name": "House of Representatives",
+    "classification": "lower"
+  },
+  "openstates_url": "https://openstates.org/ky/bills/2021SS/HB1/",
+  "sources": [
+    {
+      "url": "https://apps.legislature.ky.gov/record/21ss/hb1.html",
+      "note": "official record"
+    }
+  ],
+  "actions": [
+    {
+      "date": "2021-09-07",
+      "description": "convened in Extraordinary Session; introduced in House",
+      "classification": ["introduction"],
+      "organization": { "classification": "lower" },
+      "order": 0
+    },
+    {
+      "date": "2021-09-08",
+      "description": "passed House 68-19",
+      "classification": ["passage"],
+      "organization": { "classification": "lower" },
+      "order": 1
+    },
+    {
+      "date": "2021-09-09",
+      "description": "passed Senate 28-8 with amendments",
+      "classification": ["passage"],
+      "organization": { "classification": "upper" },
+      "order": 2
+    },
+    {
+      "date": "2021-09-09",
+      "description": "enrolled, delivered to Governor",
+      "classification": ["executive-receipt"],
+      "organization": { "classification": "executive" },
+      "order": 3
+    },
+    {
+      "date": "2021-09-09",
+      "description": "signed by Governor (Acts Chapter 1)",
+      "classification": ["became-law", "executive-signature", "chaptered"],
+      "organization": { "classification": "executive" },
+      "order": 4
+    }
+  ],
+  "votes": [
+    {
+      "id": "ocd-vote/ky-2021ss-hb1-h",
+      "identifier": "House Passage",
+      "motion_text": "HB 1 - Final Passage",
+      "start_date": "2021-09-08",
+      "result": "pass",
+      "organization": { "classification": "lower" },
+      "counts": [
+        { "option": "yes", "value": 68 },
+        { "option": "no", "value": 19 }
+      ]
+    },
+    {
+      "id": "ocd-vote/ky-2021ss-hb1-s",
+      "identifier": "Senate Passage",
+      "motion_text": "HB 1 - Senate Passage",
+      "start_date": "2021-09-09",
+      "result": "pass",
+      "organization": { "classification": "upper" },
+      "counts": [
+        { "option": "yes", "value": 28 },
+        { "option": "no", "value": 8 }
+      ]
+    }
+  ],
+  "sponsors": [
+    {
+      "name": "David Osborne",
+      "entity_type": "person",
+      "primary": true,
+      "classification": "primary"
+    }
+  ]
+}

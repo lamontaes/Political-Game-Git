@@ -1,0 +1,25 @@
+{
+  "episodeId": "ky_2021_hb497_truth",
+  "jurisdictionKey": "us_ky",
+  "sessionId": "2021RS",
+  "measureIdentifier": "HB 497",
+  "claimedTitle": "AN ACT relating to re-entry into society and declaring an emergency.",
+  "claimedChamberVotes": [
+    {
+      "chamber": "lower",
+      "motion": "Final Passage",
+      "yeas": 95,
+      "nays": 0
+    },
+    {
+      "chamber": "upper",
+      "motion": "Final Passage",
+      "yeas": 35,
+      "nays": 0
+    }
+  ],
+  "claimedSignedDate": "2021-04-05",
+  "claimedActsChapter": "Acts Chapter 182",
+  "claimedLifecycle": "became-law",
+  "claimedSessionType": "regular"
+}

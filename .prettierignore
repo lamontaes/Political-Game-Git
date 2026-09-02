@@ -2,4 +2,5 @@ dist
 coverage
 node_modules
 package-lock.json
-
+data/legislative_source/corpus
+data/legislative_source/manifests

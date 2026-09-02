@@ -1,0 +1,25 @@
+{
+  "episodeId": "ky_2021_hb497_flawed",
+  "jurisdictionKey": "us_ky",
+  "sessionId": "2021RS",
+  "measureIdentifier": "HB 497",
+  "claimedTitle": "AN ACT relating to criminal justice reform.",
+  "claimedChamberVotes": [
+    {
+      "chamber": "lower",
+      "motion": "Final Passage",
+      "yeas": 90,
+      "nays": 5
+    },
+    {
+      "chamber": "upper",
+      "motion": "Final Passage",
+      "yeas": 30,
+      "nays": 5
+    }
+  ],
+  "claimedSignedDate": "2021-04-10",
+  "claimedActsChapter": "Acts Chapter 99",
+  "claimedLifecycle": "became-law",
+  "claimedSessionType": "regular"
+}

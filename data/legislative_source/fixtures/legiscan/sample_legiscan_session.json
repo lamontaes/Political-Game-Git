@@ -1,0 +1,147 @@
+{
+  "bill_id": 1445123,
+  "state": "KY",
+  "state_id": 17,
+  "bill_number": "HB497",
+  "bill_type": "B",
+  "body": "H",
+  "title": "AN ACT relating to re-entry into society.",
+  "description": "Establish a certificate of employability and remove collateral consequences for licensed professions.",
+  "status": 4,
+  "status_date": "2021-04-05",
+  "url": "https://legiscan.com/KY/bill/HB497/2021",
+  "state_link": "https://apps.legislature.ky.gov/record/21rs/hb497.html",
+  "session": {
+    "session_id": 1805,
+    "state_id": 17,
+    "year_start": 2021,
+    "year_end": 2021,
+    "special": 0,
+    "session_tag": "2021 Regular Session",
+    "session_title": "2021 Regular Session",
+    "session_name": "2021 Regular Session"
+  },
+  "history": [
+    {
+      "date": "2021-02-10",
+      "action": "introduced in House",
+      "chamber": "H",
+      "chamber_id": 43,
+      "importance": 1
+    },
+    {
+      "date": "2021-03-01",
+      "action": "passed House 95-0",
+      "chamber": "H",
+      "chamber_id": 43,
+      "importance": 1
+    },
+    {
+      "date": "2021-03-12",
+      "action": "passed Senate 35-0",
+      "chamber": "S",
+      "chamber_id": 44,
+      "importance": 1
+    },
+    {
+      "date": "2021-03-15",
+      "action": "House concurred, passed 91-0",
+      "chamber": "H",
+      "chamber_id": 43,
+      "importance": 1
+    },
+    {
+      "date": "2021-04-05",
+      "action": "signed by Governor (Acts Chapter 182)",
+      "chamber": "E",
+      "chamber_id": 45,
+      "importance": 1
+    }
+  ],
+  "sponsors": [
+    {
+      "people_id": 18021,
+      "name": "Kimberly Poore Moser",
+      "sponsor_type_id": 1,
+      "sponsor_order": 1
+    }
+  ],
+  "votes": [
+    {
+      "roll_call_id": 1042301,
+      "date": "2021-03-01",
+      "desc": "House - Third Reading",
+      "yea": 95,
+      "nay": 0,
+      "nv": 0,
+      "absent": 5,
+      "total": 100,
+      "passed": 1,
+      "chamber": "H",
+      "url": "https://legiscan.com/KY/rollcall/HB497/id/1042301",
+      "state_link": "https://apps.legislature.ky.gov/record/21rs/hb497/votes.html",
+      "roll_call": [
+        {
+          "people_id": 18021,
+          "name": "Kimberly Poore Moser",
+          "vote_id": 1,
+          "vote_text": "Yea"
+        }
+      ]
+    },
+    {
+      "roll_call_id": 1042302,
+      "date": "2021-03-12",
+      "desc": "Senate - Third Reading",
+      "yea": 35,
+      "nay": 0,
+      "nv": 0,
+      "absent": 3,
+      "total": 38,
+      "passed": 1,
+      "chamber": "S",
+      "url": "https://legiscan.com/KY/rollcall/HB497/id/1042302",
+      "state_link": "https://apps.legislature.ky.gov/record/21rs/hb497/senate_votes.html",
+      "roll_call": [
+        {
+          "people_id": 19001,
+          "name": "Robert Stivers",
+          "vote_id": 1,
+          "vote_text": "Yea"
+        }
+      ]
+    },
+    {
+      "roll_call_id": 1042303,
+      "date": "2021-03-15",
+      "desc": "House - Concurrence",
+      "yea": 91,
+      "nay": 0,
+      "nv": 0,
+      "absent": 9,
+      "total": 100,
+      "passed": 1,
+      "chamber": "H",
+      "url": "https://legiscan.com/KY/rollcall/HB497/id/1042303",
+      "state_link": "https://apps.legislature.ky.gov/record/21rs/hb497/concurrence_votes.html",
+      "roll_call": [
+        {
+          "people_id": 18021,
+          "name": "Kimberly Poore Moser",
+          "vote_id": 1,
+          "vote_text": "Yea"
+        }
+      ]
+    }
+  ],
+  "texts": [
+    {
+      "doc_id": 2314567,
+      "date": "2021-02-10",
+      "type": "Introduced",
+      "mime": "application/pdf",
+      "url": "https://legiscan.com/KY/text/HB497/id/2314567",
+      "state_link": "https://apps.legislature.ky.gov/recorddocuments/bill/21RS/hb497/orig_bill.pdf"
+    }
+  ]
+}
