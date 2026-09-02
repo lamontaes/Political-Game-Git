@@ -1,0 +1,132 @@
+{
+  "manifestVersion": "1.0.0",
+  "generatedAt": "2026-08-29T16:04:11.140Z",
+  "variableRegistryCount": 82,
+  "vintages": [2022, 2023],
+  "datasets": [
+    {
+      "datasetId": "community-baselines-2022-acs5",
+      "vintage": 2022,
+      "filename": "community-baselines-2022.json",
+      "sha256": "a5c7edac63867d7926689fb16c2ea1e97b78136adfd5c82532f3fe3c4c184bf5",
+      "fileSizeBytes": 614251,
+      "recordCount": 738,
+      "geographyCount": 9,
+      "variableCount": 82,
+      "geographies": [
+        {
+          "id": "geo:county:21067",
+          "name": "County 067, State 21",
+          "level": "county"
+        },
+        {
+          "id": "geo:county:48453",
+          "name": "County 453, State 48",
+          "level": "county"
+        },
+        {
+          "id": "geo:place:2146027",
+          "name": "Place 46027, State 21",
+          "level": "place"
+        },
+        {
+          "id": "geo:place:4805000",
+          "name": "Place 05000, State 48",
+          "level": "place"
+        },
+        {
+          "id": "geo:state:21",
+          "name": "Kentucky",
+          "level": "state"
+        },
+        {
+          "id": "geo:state:48",
+          "name": "Texas",
+          "level": "state"
+        },
+        {
+          "id": "geo:tract:21067000100",
+          "name": "Census Tract 000100, County 067, State 21",
+          "level": "tract"
+        },
+        {
+          "id": "geo:tract:48453000101",
+          "name": "Census Tract 000101, County 453, State 48",
+          "level": "tract"
+        },
+        {
+          "id": "geo:us",
+          "name": "United States",
+          "level": "nation"
+        }
+      ],
+      "asOfDate": "2022-12-31",
+      "sourceAgency": "U.S. Census Bureau",
+      "datasetSeries": "American Community Survey 5-Year Estimates",
+      "license": "U.S. Government Public Domain (17 U.S.C. 105)",
+      "reviewStatus": "candidate"
+    },
+    {
+      "datasetId": "community-baselines-2023-acs5",
+      "vintage": 2023,
+      "filename": "community-baselines-2023.json",
+      "sha256": "fb7212017247eae4c97a1c5713e8c46ba990b4902102f6c2c3544dc07500f3d8",
+      "fileSizeBytes": 614253,
+      "recordCount": 738,
+      "geographyCount": 9,
+      "variableCount": 82,
+      "geographies": [
+        {
+          "id": "geo:county:21067",
+          "name": "County 067, State 21",
+          "level": "county"
+        },
+        {
+          "id": "geo:county:48453",
+          "name": "County 453, State 48",
+          "level": "county"
+        },
+        {
+          "id": "geo:place:2146027",
+          "name": "Place 46027, State 21",
+          "level": "place"
+        },
+        {
+          "id": "geo:place:4805000",
+          "name": "Place 05000, State 48",
+          "level": "place"
+        },
+        {
+          "id": "geo:state:21",
+          "name": "Kentucky",
+          "level": "state"
+        },
+        {
+          "id": "geo:state:48",
+          "name": "Texas",
+          "level": "state"
+        },
+        {
+          "id": "geo:tract:21067000100",
+          "name": "Census Tract 000100, County 067, State 21",
+          "level": "tract"
+        },
+        {
+          "id": "geo:tract:48453000101",
+          "name": "Census Tract 000101, County 453, State 48",
+          "level": "tract"
+        },
+        {
+          "id": "geo:us",
+          "name": "United States",
+          "level": "nation"
+        }
+      ],
+      "asOfDate": "2023-12-31",
+      "sourceAgency": "U.S. Census Bureau",
+      "datasetSeries": "American Community Survey 5-Year Estimates",
+      "license": "U.S. Government Public Domain (17 U.S.C. 105)",
+      "reviewStatus": "candidate"
+    }
+  ]
+}
