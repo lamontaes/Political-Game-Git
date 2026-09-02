@@ -101,7 +101,10 @@ export function requireKnown<T>(value: RuleValue<T>, label: string): T {
  * and "2/3 of members elected" are different rules with different politics.
  */
 export type VoteDenominator =
-  /** Every seat in the chamber, filled or vacant. */
+  /**
+   * Members actually elected and entitled to serve. This equals the chamber's
+   * authorised seats only when no seat is vacant; a vacancy lowers it.
+   */
   | "members-elected"
   /** Members actually present when the vote is taken. */
   | "members-present"
@@ -237,6 +240,12 @@ export interface CommitteeRule {
   readonly committeeKey: string;
   readonly name: string;
   readonly appointedMembers: number;
+  /**
+   * Where `appointedMembers` comes from. Committee sizes vary by committee and
+   * by session; a round number chosen so a scenario can seat a plausible panel
+   * is a fixture assumption and must say so rather than pose as a formal rule.
+   */
+  readonly membershipBasis: "sourced-rule" | "scenario-fixture";
   readonly reportThreshold: VoteThresholdRule;
   /** Whether the chair may decline to hear a measure at all. */
   readonly chairMayDeclineToHear: RuleValue<boolean>;

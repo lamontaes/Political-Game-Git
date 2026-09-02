@@ -3,6 +3,7 @@ import {
   chamberByKey,
   committeeByKey,
   floorStageByKey,
+  requireKnown,
   resolveRequiredVotes,
   type VoteDenominator,
 } from "./legislature-rules";
@@ -10,6 +11,7 @@ import { rulePackById } from "./legislature-rule-packs";
 import {
   measureActions,
   measurePosition,
+  replayMeasure,
   tallyDispositions,
 } from "./legislation";
 import type { EntityId, LegislativeVoteRecord, World } from "./types";
@@ -223,14 +225,15 @@ export function assertLegislationIntegrity(
       threshold =
         measure.subjectClass === "general-policy"
           ? override.threshold
-          : override.appropriationsThreshold.kind === "known"
-            ? override.appropriationsThreshold.value
-            : override.threshold;
+          : requireKnown(
+              override.appropriationsThreshold,
+              `the override threshold for a ${measure.subjectClass} measure in ${pack.displayName}`,
+            );
     } else {
       const chamber = chamberByKey(pack, vote.forum.chamberKey);
-      if (vote.eligibleMembers !== chamber.seats) {
+      if (vote.eligibleMembers > chamber.seats) {
         throw new Error(
-          `Vote ${vote.id} eligibility does not match ${chamber.name} seats.`,
+          `Vote ${vote.id} counts more members than the ${chamber.name} has seats.`,
         );
       }
       if (vote.purpose === "veto-override") {
@@ -375,6 +378,43 @@ export function assertLegislationIntegrity(
         `Executive disposition does not follow its measure: ${disposition.id}`,
       );
     }
+    // One act, one date. The disposition, the action it produced and the
+    // presentment it answers must agree about when the executive acted.
+    const measureHistory = measureActions(world, measure.id);
+    const paired = measureHistory.find(
+      (action) => action.kind === disposition.action,
+    );
+    if (!paired) {
+      throw new Error(
+        `Executive disposition has no matching '${disposition.action}' action: ${disposition.id}`,
+      );
+    }
+    if (paired.occurredAt !== disposition.actedAt) {
+      throw new Error(
+        `Executive disposition is dated ${disposition.actedAt} but its action happened on ${paired.occurredAt}: ${disposition.id}`,
+      );
+    }
+    const pairedEvent = world.history.events.find(
+      (event) => event.id === paired.eventId,
+    );
+    if (pairedEvent && pairedEvent.occurredAt !== disposition.actedAt) {
+      throw new Error(
+        `Executive disposition and its recorded event disagree about the date: ${disposition.id}`,
+      );
+    }
+    const presentment = measureHistory.find(
+      (action) => action.kind === "presented-to-executive",
+    );
+    if (!presentment) {
+      throw new Error(
+        `Executive disposition precedes any presentment: ${disposition.id}`,
+      );
+    }
+    if (disposition.actedAt < presentment.occurredAt) {
+      throw new Error(
+        `The executive cannot act on ${disposition.actedAt}, before the bill reached the desk on ${presentment.occurredAt}: ${disposition.id}`,
+      );
+    }
   }
 
   const actionsByMeasure = new Map<EntityId, number>();
@@ -431,22 +471,36 @@ export function assertLegislationIntegrity(
     if (enactment.effectiveAt !== null) {
       makeIsoDate(enactment.effectiveAt);
     }
-    if (enactment.outcome === "enacted") {
-      const measureActionList = measureActions(world, measure.id);
-      const becameLaw = measureActionList.some(
-        (action) =>
-          action.kind === "signed" || action.kind === "override-succeeded",
+  }
+
+  // A measure resolves once. Two enactment records, or an enactment record
+  // that disagrees with the history it sits on, are contradictory truth rather
+  // than two facts.
+  const enactmentsByMeasure = new Map<EntityId, number>();
+  for (const enactment of enactments) {
+    const count = (enactmentsByMeasure.get(enactment.measureId) ?? 0) + 1;
+    if (count > 1) {
+      throw new Error(
+        `A measure cannot be resolved twice: ${enactment.measureId}`,
       );
-      if (!becameLaw) {
-        throw new Error(
-          `Enactment claims law without a signature or override: ${enactment.id}`,
-        );
-      }
+    }
+    enactmentsByMeasure.set(enactment.measureId, count);
+    const derived = measurePosition(world, enactment.measureId).outcome;
+    if (derived !== enactment.outcome) {
+      throw new Error(
+        `Enactment records '${enactment.outcome}' but the measure's own history says '${derived ?? "unresolved"}': ${enactment.id}`,
+      );
     }
   }
 
-  // Every measure's derived position must replay cleanly against its pack.
+  // Every measure's history must be a legal sequence against its own rule
+  // pack: each action legal from the state immediately before it, nothing at
+  // all after a terminal action, and no reference to a chamber, committee or
+  // stage the measure was not actually in.
   for (const measure of measures) {
-    measurePosition(world, measure.id);
+    const replay = replayMeasure(world, measure.id);
+    if (replay.violations.length > 0) {
+      throw new Error(replay.violations[0]!);
+    }
   }
 }

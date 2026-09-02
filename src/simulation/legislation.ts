@@ -1,4 +1,4 @@
-import { makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createStableId } from "./ids";
 import {
@@ -20,7 +20,8 @@ import { personName } from "./people";
 import type {
   CommitteeActionRecord,
   CommitteeReferralRecord,
-  CommitteeReportKind,
+  CommitteeDisposition,
+  CommitteeRecommendation,
   EntityId,
   EventParticipant,
   ExecutiveActionKind,
@@ -63,6 +64,13 @@ import { recordWorldEvent } from "./world";
 export const COMMITTEE_HEARING_TRANSITION_KEY =
   "legislation:committee-hearing" as const;
 
+/** How a carried committee report reads in the record. */
+const REPORT_PHRASES: Readonly<Record<CommitteeRecommendation, string>> = {
+  favorable: "with the recommendation that it pass",
+  unfavorable: "with the recommendation that it not pass",
+  "without-recommendation": "without a recommendation either way",
+};
+
 // ---------------------------------------------------------------------------
 // Derived position
 // ---------------------------------------------------------------------------
@@ -90,6 +98,21 @@ export interface MeasurePosition {
   readonly floorStageKey: string | null;
   readonly terminal: boolean;
   readonly outcome: LegislativeTerminalOutcome | null;
+  /** Whether this committee has already taken testimony on the measure. */
+  readonly hearingHeld: boolean;
+  /** True once the measure has crossed to a second chamber. */
+  readonly transmitted: boolean;
+  /**
+   * True when the second chamber changed the text, which is what makes the
+   * originating chamber's agreement a required step rather than a formality.
+   */
+  readonly awaitingChamberAgreement: boolean;
+  /**
+   * The earliest date the next floor stage may be taken, where the chamber's
+   * rules require its stages to fall on separate legislative days. Null when
+   * no separation applies.
+   */
+  readonly earliestNextFloorDate: IsoDate | null;
 }
 
 const TERMINAL_PHASES: ReadonlySet<MeasurePhase> = new Set([
@@ -107,136 +130,442 @@ export function measureActions(
     .sort((a, b) => a.sequence - b.sequence);
 }
 
+// ---------------------------------------------------------------------------
+// Legal replay
+// ---------------------------------------------------------------------------
+
 /**
- * Replays a measure's actions against its rule pack to determine exactly where
- * it now sits. Pure derivation; no stored status is consulted.
+ * Replay is a state machine, not a reducer over the last action.
+ *
+ * Every action must be legal from the state immediately before it: the phase
+ * must permit that kind of action, the chamber/committee/stage it names must be
+ * the one the measure is actually in, the rule that authorises it must be
+ * known, and nothing at all may follow a terminal action. A history that
+ * violates any of that is rejected rather than quietly reduced to a plausible
+ * position.
+ */
+interface ReplayState {
+  phase: MeasurePhase;
+  chamberKey: string | null;
+  committeeKey: string | null;
+  floorStageKey: string | null;
+  outcome: LegislativeTerminalOutcome | null;
+  hearingHeld: boolean;
+  transmitted: boolean;
+  secondChamberAmended: boolean;
+  earliestNextFloorDate: IsoDate | null;
+  overrideChambersRecorded: readonly string[];
+}
+
+export interface MeasureReplay {
+  readonly position: MeasurePosition;
+  /** Empty when the whole recorded history is legal. */
+  readonly violations: readonly string[];
+}
+
+function initialState(measure: LegislativeMeasureRecord): ReplayState {
+  return {
+    phase: "drafting",
+    chamberKey: measure.originChamberKey,
+    committeeKey: null,
+    floorStageKey: null,
+    outcome: null,
+    hearingHeld: false,
+    transmitted: false,
+    secondChamberAmended: false,
+    earliestNextFloorDate: null,
+    overrideChambersRecorded: [],
+  };
+}
+
+function positionOf(state: ReplayState): MeasurePosition {
+  return {
+    phase: state.phase,
+    chamberKey: state.chamberKey,
+    committeeKey: state.committeeKey,
+    floorStageKey: state.floorStageKey,
+    terminal: TERMINAL_PHASES.has(state.phase),
+    outcome: state.outcome,
+    hearingHeld: state.hearingHeld,
+    transmitted: state.transmitted,
+    awaitingChamberAgreement: state.phase === "awaiting-concurrence",
+    earliestNextFloorDate: state.earliestNextFloorDate,
+  };
+}
+
+type StepOutcome = { ok: true } | { ok: false; reason: string };
+
+const LEGAL: StepOutcome = { ok: true };
+function illegal(reason: string): StepOutcome {
+  return { ok: false, reason };
+}
+
+function requirePhase(
+  state: ReplayState,
+  kind: LegislativeActionKind,
+  allowed: readonly MeasurePhase[],
+): StepOutcome {
+  return allowed.includes(state.phase)
+    ? LEGAL
+    : illegal(`'${kind}' cannot follow the phase '${state.phase}'`);
+}
+
+/**
+ * Applies one recorded action to the replay state, or explains why it could
+ * never legally have happened.
+ */
+function applyRecordedAction(
+  state: ReplayState,
+  action: LegislativeActionRecord,
+  pack: LegislativeRulePack,
+  measure: LegislativeMeasureRecord,
+): StepOutcome {
+  if (TERMINAL_PHASES.has(state.phase)) {
+    return illegal(
+      `'${action.kind}' was recorded after the measure had already finished as '${state.outcome}'`,
+    );
+  }
+
+  const currentChamber = (): ChamberRule | null =>
+    state.chamberKey ? chamberByKey(pack, state.chamberKey) : null;
+
+  switch (action.kind) {
+    case "introduced": {
+      const gate = requirePhase(state, action.kind, ["drafting"]);
+      if (!gate.ok) return gate;
+      const chamberKey = action.chamberKey ?? measure.originChamberKey;
+      const chamber = chamberByKey(pack, chamberKey);
+      if (!chamber.introductionAllowed) {
+        return illegal(`measures cannot be introduced in the ${chamber.name}`);
+      }
+      state.phase = "awaiting-referral";
+      state.chamberKey = chamberKey;
+      return LEGAL;
+    }
+    case "referred": {
+      const gate = requirePhase(state, action.kind, ["awaiting-referral"]);
+      if (!gate.ok) return gate;
+      const chamber = currentChamber();
+      if (!chamber) return illegal("the measure is not in a chamber");
+      if (action.chamberKey && action.chamberKey !== chamber.chamberKey) {
+        return illegal(
+          `referral names the ${action.chamberKey} while the measure is in the ${chamber.chamberKey}`,
+        );
+      }
+      if (!action.committeeKey) {
+        return illegal("a referral must name the committee it went to");
+      }
+      committeeByKey(chamber, action.committeeKey);
+      state.phase = "in-committee";
+      state.committeeKey = action.committeeKey;
+      state.hearingHeld = false;
+      return LEGAL;
+    }
+    case "committee-hearing-held": {
+      const gate = requirePhase(state, action.kind, ["in-committee"]);
+      if (!gate.ok) return gate;
+      if (action.committeeKey !== state.committeeKey) {
+        return illegal(
+          `the hearing names committee '${action.committeeKey}' but the measure is with '${state.committeeKey}'`,
+        );
+      }
+      state.hearingHeld = true;
+      return LEGAL;
+    }
+    case "committee-reported":
+    case "committee-not-reported": {
+      const gate = requirePhase(state, action.kind, ["in-committee"]);
+      if (!gate.ok) return gate;
+      if (action.committeeKey !== state.committeeKey) {
+        return illegal(
+          `the committee action names '${action.committeeKey}' but the measure is with '${state.committeeKey}'`,
+        );
+      }
+      if (action.kind === "committee-reported") {
+        state.phase = "awaiting-floor";
+        state.committeeKey = null;
+      } else {
+        state.phase = "failed";
+        state.outcome = "failed-in-committee";
+      }
+      return LEGAL;
+    }
+    case "placed-on-calendar": {
+      const gate = requirePhase(state, action.kind, ["awaiting-floor"]);
+      if (!gate.ok) return gate;
+      const chamber = currentChamber();
+      if (!chamber) return illegal("the measure is not in a chamber");
+      const first = chamber.floorStages[0];
+      if (!first) return illegal(`the ${chamber.name} declares no floor stage`);
+      if (action.floorStageKey && action.floorStageKey !== first.stageKey) {
+        return illegal(
+          `calendar placement names stage '${action.floorStageKey}' rather than the chamber's first stage`,
+        );
+      }
+      state.phase = "on-floor";
+      state.floorStageKey = first.stageKey;
+      state.earliestNextFloorDate = null;
+      return LEGAL;
+    }
+    case "amendment-adopted":
+    case "amendment-rejected": {
+      const gate = requirePhase(state, action.kind, ["on-floor"]);
+      if (!gate.ok) return gate;
+      const chamber = currentChamber();
+      if (!chamber) return illegal("the measure is not in a chamber");
+      if (action.floorStageKey !== state.floorStageKey) {
+        return illegal(
+          `the amendment names stage '${action.floorStageKey}' but the measure is at '${state.floorStageKey}'`,
+        );
+      }
+      const stage = floorStageByKey(chamber, state.floorStageKey ?? "");
+      if (!stage.amendable) {
+        return illegal(`${stage.label} does not accept amendments`);
+      }
+      const allowed = chamber.amendments.floorAmendmentsAllowed;
+      if (allowed.kind !== "known" || !allowed.value) {
+        return illegal(
+          `the ${chamber.name} does not have a resolved rule permitting floor amendments`,
+        );
+      }
+      if (
+        action.kind === "amendment-adopted" &&
+        state.transmitted &&
+        chamber.chamberKey !== measure.originChamberKey
+      ) {
+        state.secondChamberAmended = true;
+      }
+      return LEGAL;
+    }
+    case "floor-stage-passed":
+    case "floor-stage-failed": {
+      const gate = requirePhase(state, action.kind, ["on-floor"]);
+      if (!gate.ok) return gate;
+      const chamber = currentChamber();
+      if (!chamber) return illegal("the measure is not in a chamber");
+      if (action.floorStageKey !== state.floorStageKey) {
+        return illegal(
+          `the floor vote names stage '${action.floorStageKey}' but the measure is at '${state.floorStageKey}'`,
+        );
+      }
+      if (
+        state.earliestNextFloorDate !== null &&
+        action.occurredAt < state.earliestNextFloorDate
+      ) {
+        return illegal(
+          `this stage may not be taken before ${state.earliestNextFloorDate}, because the chamber's stages fall on separate legislative days`,
+        );
+      }
+      if (action.kind === "floor-stage-failed") {
+        state.phase = "failed";
+        state.outcome = "failed-on-floor";
+        return LEGAL;
+      }
+      const onward = nextFloorStageKey(chamber, state.floorStageKey ?? "");
+      if (onward) {
+        const onwardStage = floorStageByKey(chamber, onward);
+        state.floorStageKey = onward;
+        state.earliestNextFloorDate = onwardStage.separateLegislativeDayRequired
+          ? addDays(action.occurredAt, 1)
+          : null;
+        state.phase = "on-floor";
+        return LEGAL;
+      }
+      state.floorStageKey = null;
+      state.earliestNextFloorDate = null;
+      const nextChamber = nextChamberKey(pack, chamber.chamberKey);
+      if (nextChamber && !state.transmitted) {
+        state.phase = "awaiting-transmittal";
+        return LEGAL;
+      }
+      if (state.transmitted && state.secondChamberAmended) {
+        // The second chamber changed the bill. The chamber it started in has
+        // to agree to that change before there is one text to enrol.
+        state.phase = "awaiting-concurrence";
+        state.chamberKey = measure.originChamberKey;
+        return LEGAL;
+      }
+      state.phase = "awaiting-enrollment";
+      return LEGAL;
+    }
+    case "transmitted": {
+      const gate = requirePhase(state, action.kind, ["awaiting-transmittal"]);
+      if (!gate.ok) return gate;
+      if (pack.interChamber.kind !== "second-chamber") {
+        return illegal(
+          `${pack.displayName} has one chamber, so there is nowhere to transmit a measure`,
+        );
+      }
+      const onward = nextChamberKey(pack, state.chamberKey ?? "");
+      if (!onward) return illegal("there is no further chamber to receive it");
+      if (action.chamberKey !== onward) {
+        return illegal(
+          `transmittal names '${action.chamberKey}' rather than the receiving chamber '${onward}'`,
+        );
+      }
+      state.chamberKey = onward;
+      state.committeeKey = null;
+      state.floorStageKey = null;
+      state.earliestNextFloorDate = null;
+      state.transmitted = true;
+      state.secondChamberAmended = false;
+      state.phase = "awaiting-referral";
+      return LEGAL;
+    }
+    case "concurred":
+    case "concurrence-failed": {
+      const gate = requirePhase(state, action.kind, ["awaiting-concurrence"]);
+      if (!gate.ok) return gate;
+      if (pack.interChamber.kind !== "second-chamber") {
+        return illegal(
+          `${pack.displayName} has one chamber, so there is nothing to concur in`,
+        );
+      }
+      if (action.kind === "concurred") {
+        state.phase = "awaiting-enrollment";
+        state.secondChamberAmended = false;
+      } else {
+        state.phase = "failed";
+        state.outcome = "failed-concurrence";
+      }
+      return LEGAL;
+    }
+    case "enrolled": {
+      const gate = requirePhase(state, action.kind, ["awaiting-enrollment"]);
+      if (!gate.ok) return gate;
+      state.phase = "awaiting-presentation";
+      state.floorStageKey = null;
+      return LEGAL;
+    }
+    case "presented-to-executive": {
+      const gate = requirePhase(state, action.kind, ["awaiting-presentation"]);
+      if (!gate.ok) return gate;
+      const required = pack.executive.presentmentRequired;
+      if (required.kind !== "known" || !required.value) {
+        return illegal(
+          `${pack.displayName} has no resolved rule requiring presentment to the ${pack.executive.titleLabel}`,
+        );
+      }
+      state.phase = "awaiting-executive";
+      state.chamberKey = null;
+      return LEGAL;
+    }
+    case "signed": {
+      const gate = requirePhase(state, action.kind, ["awaiting-executive"]);
+      if (!gate.ok) return gate;
+      state.phase = "awaiting-enactment";
+      return LEGAL;
+    }
+    case "vetoed": {
+      const gate = requirePhase(state, action.kind, ["awaiting-executive"]);
+      if (!gate.ok) return gate;
+      state.phase = "awaiting-override";
+      return LEGAL;
+    }
+    case "override-chamber-recorded": {
+      const gate = requirePhase(state, action.kind, ["awaiting-override"]);
+      if (!gate.ok) return gate;
+      if (pack.executive.override.kind !== "each-chamber") {
+        return illegal(
+          `${pack.displayName} reconsiders a veto as one body, not chamber by chamber`,
+        );
+      }
+      if (
+        !action.chamberKey ||
+        !pack.chamberOrder.includes(action.chamberKey)
+      ) {
+        return illegal(
+          `the override vote names a chamber this legislature does not have: '${action.chamberKey}'`,
+        );
+      }
+      if (state.overrideChambersRecorded.includes(action.chamberKey)) {
+        return illegal(
+          `the ${action.chamberKey} already voted on this override`,
+        );
+      }
+      state.overrideChambersRecorded = [
+        ...state.overrideChambersRecorded,
+        action.chamberKey,
+      ];
+      // The veto stays live until every chamber has voted.
+      return LEGAL;
+    }
+    case "override-succeeded":
+    case "override-failed": {
+      const gate = requirePhase(state, action.kind, ["awaiting-override"]);
+      if (!gate.ok) return gate;
+      if (action.kind === "override-succeeded") {
+        state.phase = "awaiting-enactment";
+      } else {
+        state.phase = "failed";
+        state.outcome = "vetoed-and-sustained";
+      }
+      return LEGAL;
+    }
+    case "enacted": {
+      const gate = requirePhase(state, action.kind, ["awaiting-enactment"]);
+      if (!gate.ok) return gate;
+      state.phase = "enacted";
+      state.outcome = "enacted";
+      return LEGAL;
+    }
+    case "died-on-adjournment": {
+      const dies = pack.session.measuresDieAtAdjournment;
+      if (dies.kind !== "known" || !dies.value) {
+        return illegal(
+          `${pack.displayName} has no resolved rule under which a measure dies at adjournment`,
+        );
+      }
+      state.phase = "failed";
+      state.outcome = "died-on-adjournment";
+      return LEGAL;
+    }
+  }
+}
+
+/**
+ * Replays a measure's whole recorded history and reports both where it now
+ * sits and anything in that history that could not legally have happened.
+ */
+export function replayMeasure(
+  world: World,
+  measureId: EntityId,
+): MeasureReplay {
+  const measure = requireMeasure(world, measureId);
+  const pack = rulePackById(measure.rulePackId);
+  const state = initialState(measure);
+  const violations: string[] = [];
+
+  for (const action of measureActions(world, measureId)) {
+    let outcome: StepOutcome;
+    try {
+      outcome = applyRecordedAction(state, action, pack, measure);
+    } catch (error) {
+      outcome = illegal(
+        error instanceof Error ? error.message : "the action could not be read",
+      );
+    }
+    if (!outcome.ok) {
+      violations.push(
+        `${measure.designation}: action '${action.stableKey}' is not legal here — ${outcome.reason}.`,
+      );
+      break;
+    }
+  }
+
+  return { position: positionOf(state), violations };
+}
+
+/**
+ * Where the measure now sits. Derived by replay; no stored status is consulted.
+ * An illegal history stops the replay at the offending action — integrity
+ * checking is what refuses to accept such a history at all.
  */
 export function measurePosition(
   world: World,
   measureId: EntityId,
 ): MeasurePosition {
-  const measure = requireMeasure(world, measureId);
-  const pack = rulePackById(measure.rulePackId);
-  const actions = measureActions(world, measureId);
-
-  let phase: MeasurePhase = "drafting";
-  let chamberKey: string | null = measure.originChamberKey;
-  let committeeKey: string | null = null;
-  let floorStageKey: string | null = null;
-  let outcome: LegislativeTerminalOutcome | null = null;
-
-  for (const action of actions) {
-    switch (action.kind) {
-      case "introduced":
-        phase = "awaiting-referral";
-        chamberKey = action.chamberKey ?? chamberKey;
-        break;
-      case "referred":
-        phase = "in-committee";
-        committeeKey = action.committeeKey;
-        break;
-      case "committee-hearing-held":
-        phase = "in-committee";
-        break;
-      case "committee-reported":
-        phase = "awaiting-floor";
-        committeeKey = null;
-        break;
-      case "committee-rejected":
-        phase = "failed";
-        outcome = "failed-in-committee";
-        break;
-      case "placed-on-calendar": {
-        phase = "on-floor";
-        const chamber = chamberByKey(
-          pack,
-          chamberKey ?? measure.originChamberKey,
-        );
-        floorStageKey = chamber.floorStages[0]?.stageKey ?? null;
-        break;
-      }
-      case "amendment-adopted":
-      case "amendment-rejected":
-        break;
-      case "floor-stage-passed": {
-        const chamber = chamberByKey(
-          pack,
-          chamberKey ?? measure.originChamberKey,
-        );
-        const next = action.floorStageKey
-          ? nextFloorStageKey(chamber, action.floorStageKey)
-          : null;
-        if (next) {
-          floorStageKey = next;
-          phase = "on-floor";
-        } else {
-          floorStageKey = null;
-          const onward = nextChamberKey(pack, chamber.chamberKey);
-          phase = onward ? "awaiting-transmittal" : "awaiting-enrollment";
-        }
-        break;
-      }
-      case "floor-stage-failed":
-        phase = "failed";
-        outcome = "failed-on-floor";
-        break;
-      case "transmitted":
-        chamberKey = action.chamberKey;
-        committeeKey = null;
-        floorStageKey = null;
-        phase = "awaiting-referral";
-        break;
-      case "concurred":
-        phase = "awaiting-enrollment";
-        break;
-      case "concurrence-failed":
-        phase = "failed";
-        outcome = "failed-concurrence";
-        break;
-      case "enrolled":
-        phase = "awaiting-presentation";
-        floorStageKey = null;
-        break;
-      case "presented-to-executive":
-        phase = "awaiting-executive";
-        chamberKey = null;
-        break;
-      case "signed":
-        phase = "awaiting-enactment";
-        break;
-      case "vetoed":
-        phase = "awaiting-override";
-        break;
-      case "override-chamber-recorded":
-        // One chamber has voted; the veto stays live until every chamber has.
-        break;
-      case "override-succeeded":
-        phase = "awaiting-enactment";
-        break;
-      case "override-failed":
-        phase = "failed";
-        outcome = "vetoed-and-sustained";
-        break;
-      case "enacted":
-        phase = "enacted";
-        outcome = "enacted";
-        break;
-      case "died-on-adjournment":
-        phase = "failed";
-        outcome = "died-on-adjournment";
-        break;
-    }
-    if (TERMINAL_PHASES.has(phase)) break;
-  }
-
-  return {
-    phase,
-    chamberKey,
-    committeeKey,
-    floorStageKey,
-    terminal: TERMINAL_PHASES.has(phase),
-    outcome,
-  };
+  return replayMeasure(world, measureId).position;
 }
 
 /** The institution or actor that controls the measure's next gate. */
@@ -344,16 +673,18 @@ export function measureGate(world: World, measureId: EntityId): MeasureGate {
     case "awaiting-override": {
       const override = pack.executive.override;
       if (override.kind === "joint-session") {
-        const threshold =
-          measure.subjectClass === "general-policy"
-            ? override.threshold
-            : override.appropriationsThreshold.kind === "known"
-              ? override.appropriationsThreshold.value
-              : override.threshold;
+        // A money bill's heavier bar is a different rule. If the pack has not
+        // resolved it, the ordinary bar is not quietly shown in its place.
+        const moneyBill = measure.subjectClass !== "general-policy";
+        const threshold = moneyBill
+          ? override.appropriationsThreshold.kind === "known"
+            ? override.appropriationsThreshold.value
+            : null
+          : override.threshold;
         return {
           actorLabel: override.forumName,
           description: `Both houses sit together to reconsider the veto.`,
-          thresholdLabel: threshold.label,
+          thresholdLabel: threshold ? threshold.label : null,
         };
       }
       return {
@@ -377,55 +708,96 @@ export function measureGate(world: World, measureId: EntityId): MeasureGate {
   }
 }
 
-/** Procedural steps the rules permit next, independent of who takes them. */
+/**
+ * What a player can actually do next.
+ *
+ * These are acts and requests, never outcomes. "Ask the committee to vote" is
+ * something a sponsor does; "the committee reported favourably" is something
+ * that happens as a result, and the recorded members decide which. Where the
+ * next move belongs to somebody the player does not control — a governor with
+ * a bill on the desk — the only step is to wait for them.
+ */
+export type MeasureStepKey =
+  | "file-measure"
+  | "request-referral"
+  | "request-committee-hearing"
+  | "move-committee-report"
+  | "request-calendar-placement"
+  | "offer-amendment"
+  | "move-floor-vote"
+  | "await-next-legislative-day"
+  | "transmit-to-second-chamber"
+  | "move-concurrence"
+  | "request-enrollment"
+  | "present-to-executive"
+  | "await-executive-decision"
+  | "move-veto-override"
+  | "record-enactment";
+
+/**
+ * Steps the rules permit next. A step controlled by a rule the pack has not
+ * resolved is not offered at all: an unresolved rule never authorises an act.
+ */
 export function availableMeasureSteps(
   world: World,
   measureId: EntityId,
-): readonly LegislativeActionKind[] {
+): readonly MeasureStepKey[] {
   const measure = requireMeasure(world, measureId);
   const pack = rulePackById(measure.rulePackId);
   const position = measurePosition(world, measureId);
+
   switch (position.phase) {
     case "drafting":
-      return ["introduced"];
+      return ["file-measure"];
     case "awaiting-referral":
-      return ["referred"];
-    case "in-committee":
-      return [
-        "committee-hearing-held",
-        "committee-reported",
-        "committee-rejected",
-      ];
+      return ["request-referral"];
+    case "in-committee": {
+      const steps: MeasureStepKey[] = [];
+      if (!position.hearingHeld) steps.push("request-committee-hearing");
+      steps.push("move-committee-report");
+      return steps;
+    }
     case "awaiting-floor":
-      return ["placed-on-calendar"];
+      return ["request-calendar-placement"];
     case "on-floor": {
       const chamber = chamberByKey(pack, position.chamberKey ?? "");
       const stage = position.floorStageKey
         ? floorStageByKey(chamber, position.floorStageKey)
         : null;
-      const steps: LegislativeActionKind[] = [
-        "floor-stage-passed",
-        "floor-stage-failed",
-      ];
-      if (stage?.amendable) {
-        steps.unshift("amendment-adopted", "amendment-rejected");
+      const blocked =
+        position.earliestNextFloorDate !== null &&
+        world.currentDate < position.earliestNextFloorDate;
+      if (blocked) return ["await-next-legislative-day"];
+      const steps: MeasureStepKey[] = [];
+      const amendmentsAllowed = chamber.amendments.floorAmendmentsAllowed;
+      if (
+        stage?.amendable &&
+        amendmentsAllowed.kind === "known" &&
+        amendmentsAllowed.value
+      ) {
+        steps.push("offer-amendment");
       }
+      steps.push("move-floor-vote");
       return steps;
     }
     case "awaiting-transmittal":
-      return ["transmitted"];
+      return ["transmit-to-second-chamber"];
     case "awaiting-concurrence":
-      return ["concurred", "concurrence-failed"];
+      return ["move-concurrence"];
     case "awaiting-enrollment":
-      return ["enrolled"];
-    case "awaiting-presentation":
-      return ["presented-to-executive"];
+      return ["request-enrollment"];
+    case "awaiting-presentation": {
+      const required = pack.executive.presentmentRequired;
+      return required.kind === "known" && required.value
+        ? ["present-to-executive"]
+        : [];
+    }
     case "awaiting-executive":
-      return ["signed", "vetoed"];
+      return ["await-executive-decision"];
     case "awaiting-override":
-      return ["override-succeeded", "override-failed"];
+      return ["move-veto-override"];
     case "awaiting-enactment":
-      return ["enacted"];
+      return ["record-enactment"];
     default:
       return [];
   }
@@ -782,6 +1154,78 @@ function assertUniqueStableKey(
   }
 }
 
+/**
+ * How many members are actually elected and entitled to vote in this chamber.
+ *
+ * A chamber's authorised seats and its current membership are not the same
+ * number: a vacant seat still exists but nobody holds it, and "a majority of
+ * members elected" counts people, not desks. Callers that model a full roster
+ * may leave this out; anything modelling vacancies supplies the real count.
+ */
+export function electedMembersFor(
+  chamber: ChamberRule,
+  electedMembers?: number,
+): number {
+  if (electedMembers === undefined) return chamber.seats;
+  if (!Number.isSafeInteger(electedMembers) || electedMembers <= 0) {
+    throw new Error(
+      `The ${chamber.name} needs a positive count of elected members.`,
+    );
+  }
+  if (electedMembers > chamber.seats) {
+    throw new Error(
+      `The ${chamber.name} cannot have more members elected than its ${chamber.seats} seats.`,
+    );
+  }
+  return electedMembers;
+}
+
+/**
+ * The next free stable key under a semantic prefix for this measure.
+ *
+ * Identity is owned by the saved world, never by how many times a browser tab
+ * has been through this screen. Reloading a save and carrying on produces the
+ * same next key as never having reloaded at all.
+ */
+export function nextMeasureStableKey(
+  world: World,
+  measureId: EntityId,
+  prefix: string,
+): string {
+  if (prefix.trim().length === 0) {
+    throw new Error("A stable key prefix must not be empty.");
+  }
+  const taken = new Set<string>();
+  const families: readonly (readonly {
+    readonly measureId: EntityId;
+    readonly stableKey: string;
+  }[])[] = [
+    world.history.legislativeActions ?? [],
+    world.history.committeeReferrals ?? [],
+    world.history.committeeActions ?? [],
+    world.history.legislativeAmendments ?? [],
+    world.history.legislativeVotes ?? [],
+    world.history.executiveDispositions ?? [],
+    world.history.legislativeEnactments ?? [],
+  ];
+  for (const family of families) {
+    for (const record of family) {
+      if (record.measureId === measureId) taken.add(record.stableKey);
+    }
+  }
+  for (const item of world.history.futureDueItems ?? []) {
+    if (item.entityIds.includes(measureId)) taken.add(item.stableKey);
+  }
+  for (let n = 1; n <= taken.size + 1; n += 1) {
+    const candidate = `${prefix}:${n}`;
+    const collides = [...taken].some(
+      (key) => key === candidate || key.startsWith(`${candidate}:`),
+    );
+    if (!collides) return candidate;
+  }
+  throw new Error(`Could not derive a free stable key for '${prefix}'.`);
+}
+
 // ---------------------------------------------------------------------------
 // Writers
 // ---------------------------------------------------------------------------
@@ -1067,7 +1511,12 @@ export function committeeHearingTransitionHandler(
 export interface CommitteeDispositionInput {
   readonly stableKey: string;
   readonly measureId: EntityId;
-  readonly report: CommitteeReportKind;
+  /**
+   * What the committee recommends if the motion to report carries. Whether it
+   * carries is decided by the recorded members, not by this field: a committee
+   * that votes to report a bill it dislikes still sends it to the floor.
+   */
+  readonly recommendation: CommitteeRecommendation;
   readonly dispositions: readonly LegislativeVoteDisposition[];
   readonly presentMembers?: number | null;
   readonly rationale: string;
@@ -1137,30 +1586,29 @@ export function recordCommitteeDisposition(
     provenance: input.provenance,
   });
 
+  // The motion to report is what controls reachability. The recommendation
+  // attached to a carried report — favourable, unfavourable, or none at all —
+  // is the committee's opinion and does not stop the bill.
   const reported = vote.outcome === "passed";
-  if (reported && input.report === "unfavorable") {
-    // An unfavorable report still reaches the floor in some chambers, but the
-    // vote must match the report the caller claims.
-    throw new Error(
-      "A committee vote that carried cannot be recorded as an unfavorable report.",
-    );
-  }
+  const disposition: CommitteeDisposition = reported
+    ? { kind: "reported", recommendation: input.recommendation }
+    : { kind: "not-reported" };
 
   const withVoteWorld = appendAction(world, {
     measure,
-    kind: reported ? "committee-reported" : "committee-rejected",
-    stableKey: `${input.stableKey}:${reported ? "reported" : "rejected"}`,
+    kind: reported ? "committee-reported" : "committee-not-reported",
+    stableKey: `${input.stableKey}:${reported ? "reported" : "not-reported"}`,
     chamberKey: chamber.chamberKey,
     committeeKey: committee.committeeKey,
     floorStageKey: null,
     actorLabel: committee.name,
     rationale: input.rationale,
     summary: reported
-      ? `The ${committee.name} reported ${measure.designation} to the floor (${vote.tally.yea}-${vote.tally.nay}).`
+      ? `The ${committee.name} reported ${measure.designation} to the floor ${REPORT_PHRASES[input.recommendation]} (${vote.tally.yea}-${vote.tally.nay}).`
       : `The ${committee.name} did not report ${measure.designation} (${vote.tally.yea}-${vote.tally.nay}); it needed ${vote.requiredVotes}.`,
     eventType: reported
       ? "legislation.committee-reported"
-      : "legislation.committee-rejected",
+      : "legislation.committee-not-reported",
     tags: [
       reported ? "legislation.reported" : "legislation.failed",
       `committee:${committee.committeeKey}`,
@@ -1186,7 +1634,7 @@ export function recordCommitteeDisposition(
     measureId: measure.id,
     referralId: referral.id,
     actedAt: withVoteWorld.currentDate,
-    report: reported ? input.report : "unfavorable",
+    disposition,
     hearingHeld,
     voteId: storedVote.id,
   };
@@ -1254,6 +1702,8 @@ export interface OfferAmendmentInput {
   readonly offeredByLabel: string;
   readonly dispositions: readonly LegislativeVoteDisposition[];
   readonly presentMembers?: number | null;
+  /** Members currently elected, when the chamber is not at full strength. */
+  readonly electedMembers?: number;
   readonly provenance: LegislativeVoteProvenance;
 }
 
@@ -1278,8 +1728,14 @@ export function offerFloorAmendment(
   if (!stage.amendable) {
     throw new Error(`${stage.label} does not accept amendments.`);
   }
-  const allowed = chamber.amendments.floorAmendmentsAllowed;
-  if (allowed.kind === "known" && !allowed.value) {
+  // An unresolved or inapplicable rule is not permission. Only a rule that is
+  // known and says yes lets the chamber amend.
+  if (
+    !requireKnown(
+      chamber.amendments.floorAmendmentsAllowed,
+      `Whether the ${chamber.name} permits floor amendments`,
+    )
+  ) {
     throw new Error(`The ${chamber.name} does not permit floor amendments.`);
   }
   assertUniqueStableKey(
@@ -1296,7 +1752,7 @@ export function offerFloorAmendment(
     purpose: "amendment",
     floorStageKey: stage.stageKey,
     threshold,
-    eligibleMembers: chamber.seats,
+    eligibleMembers: electedMembersFor(chamber, input.electedMembers),
     presentMembers: input.presentMembers ?? null,
     dispositions: input.dispositions,
     provenance: input.provenance,
@@ -1347,6 +1803,8 @@ export interface FloorVoteInput {
   readonly measureId: EntityId;
   readonly dispositions: readonly LegislativeVoteDisposition[];
   readonly presentMembers?: number | null;
+  /** Members currently elected, when the chamber is not at full strength. */
+  readonly electedMembers?: number;
   readonly rationale?: string;
   readonly provenance: LegislativeVoteProvenance;
 }
@@ -1371,6 +1829,16 @@ export function takeFloorVote(world: World, input: FloorVoteInput): World {
   );
   const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
   const threshold = requireKnown(stage.vote, `${stage.label} vote threshold`);
+  // Where a chamber's stages must fall on separate legislative days, that is a
+  // rule about time, and it is enforced on the world's own clock.
+  if (
+    position.earliestNextFloorDate !== null &&
+    world.currentDate < position.earliestNextFloorDate
+  ) {
+    throw new Error(
+      `${stage.label} cannot be taken until ${position.earliestNextFloorDate}: the ${chamber.name} takes its stages on separate legislative days.`,
+    );
+  }
 
   const vote = buildVote(world, {
     stableKey: `${input.stableKey}:vote`,
@@ -1379,7 +1847,7 @@ export function takeFloorVote(world: World, input: FloorVoteInput): World {
     purpose: "floor-stage",
     floorStageKey: stage.stageKey,
     threshold,
-    eligibleMembers: chamber.seats,
+    eligibleMembers: electedMembersFor(chamber, input.electedMembers),
     presentMembers: input.presentMembers ?? null,
     dispositions: input.dispositions,
     provenance: input.provenance,
@@ -1461,6 +1929,89 @@ export function transmitMeasure(
   });
 }
 
+export interface ConcurrenceVoteInput {
+  readonly stableKey: string;
+  readonly measureId: EntityId;
+  readonly dispositions: readonly LegislativeVoteDisposition[];
+  readonly presentMembers?: number | null;
+  readonly electedMembers?: number;
+  readonly rationale?: string;
+  readonly provenance: LegislativeVoteProvenance;
+}
+
+/**
+ * Records the originating chamber's vote on the changes the second chamber
+ * made.
+ *
+ * Two chambers cannot send different texts to a governor. Where the second
+ * chamber amends a bill, the chamber it started in has to agree to that
+ * amendment before there is one bill to enrol — in Kentucky the amended bill
+ * goes back to the Rules Committee and then to the floor for concurrence
+ * (House Rule 54; Senate Rule 54; House Rule 59). Refusing to concur ends the
+ * bill here; a conference between the two chambers is not modelled.
+ */
+export function recordConcurrenceVote(
+  world: World,
+  input: ConcurrenceVoteInput,
+): World {
+  const measure = requireMeasure(world, input.measureId);
+  const position = assertPhase(
+    world,
+    input.measureId,
+    ["awaiting-concurrence"],
+    "vote on the other chamber's changes",
+  );
+  const pack = rulePackById(measure.rulePackId);
+  if (pack.interChamber.kind !== "second-chamber") {
+    throw new Error(
+      `${pack.displayName} has one chamber, so there is nothing to concur in.`,
+    );
+  }
+  const chamber = chamberByKey(
+    pack,
+    position.chamberKey ?? measure.originChamberKey,
+  );
+  const threshold = pack.interChamber.concurrenceThreshold;
+  const eligibleMembers = electedMembersFor(chamber, input.electedMembers);
+
+  const vote = buildVote(world, {
+    stableKey: `${input.stableKey}:vote`,
+    measureId: measure.id,
+    forum: { kind: "chamber", chamberKey: chamber.chamberKey },
+    purpose: "concurrence",
+    threshold,
+    eligibleMembers,
+    presentMembers: input.presentMembers ?? null,
+    dispositions: input.dispositions,
+    provenance: input.provenance,
+  });
+
+  const concurred = vote.outcome === "passed";
+  return appendAction(world, {
+    measure,
+    kind: concurred ? "concurred" : "concurrence-failed",
+    stableKey: `${input.stableKey}:${concurred ? "concurred" : "not-concurred"}`,
+    chamberKey: chamber.chamberKey,
+    committeeKey: null,
+    floorStageKey: null,
+    actorLabel: chamber.name,
+    rationale:
+      input.rationale ??
+      `Concurrence required ${vote.requiredVotes} of ${vote.denominatorValue} (${threshold.label}).`,
+    summary: concurred
+      ? `The ${chamber.name} agreed to the other chamber's changes to ${measure.designation} (${vote.tally.yea}-${vote.tally.nay}).`
+      : `The ${chamber.name} refused to accept the other chamber's changes to ${measure.designation} (${vote.tally.yea}-${vote.tally.nay}); it needed ${vote.requiredVotes}.`,
+    eventType: concurred
+      ? "legislation.measure-concurred"
+      : "legislation.measure-concurrence-failed",
+    tags: [
+      concurred ? "legislation.concurred" : "legislation.failed",
+      `chamber:${chamber.chamberKey}`,
+    ],
+    vote,
+  });
+}
+
 export interface EnrollMeasureInput {
   readonly stableKey: string;
   readonly measureId: EntityId;
@@ -1506,8 +2057,12 @@ export function presentMeasureToExecutive(
     "present the measure",
   );
   const pack = rulePackById(measure.rulePackId);
-  const required = pack.executive.presentmentRequired;
-  if (required.kind === "known" && !required.value) {
+  if (
+    !requireKnown(
+      pack.executive.presentmentRequired,
+      `Whether ${pack.displayName} presents measures to the ${pack.executive.titleLabel}`,
+    )
+  ) {
     throw new Error(
       `${pack.displayName} does not present measures to the ${pack.executive.titleLabel}.`,
     );
@@ -1532,7 +2087,6 @@ export interface ExecutiveActionInput {
   readonly measureId: EntityId;
   readonly action: Extract<ExecutiveActionKind, "signed" | "vetoed">;
   readonly rationale: string;
-  readonly actedAt?: IsoDate;
 }
 
 export function recordExecutiveAction(
@@ -1562,11 +2116,13 @@ export function recordExecutiveAction(
     stableKey: input.stableKey,
     sequence: world.history.nextSequence,
     measureId: measure.id,
-    actedAt: input.actedAt ?? world.currentDate,
+    // One executive act, one date. The disposition, the action and the event
+    // all carry the world's current date, so the record cannot say the
+    // Governor acted years before the bill existed.
+    actedAt: world.currentDate,
     action: input.action,
     actorLabel: pack.executive.titleLabel,
     rationale: input.rationale,
-    actionDeadline: null,
   };
 
   const withDisposition: World = {
@@ -1612,6 +2168,7 @@ export interface OverrideAttemptInput {
     readonly forumKey: string;
     readonly dispositions: readonly LegislativeVoteDisposition[];
     readonly presentMembers?: number | null;
+    readonly electedMembers?: number;
   }[];
   readonly rationale: string;
   readonly provenance: LegislativeVoteProvenance;
@@ -1711,7 +2268,7 @@ export function attemptVetoOverride(
       forum: { kind: "chamber", chamberKey },
       purpose: "veto-override",
       threshold: override.threshold,
-      eligibleMembers: chamber.seats,
+      eligibleMembers: electedMembersFor(chamber, entry.electedMembers),
       presentMembers: entry.presentMembers ?? null,
       dispositions: entry.dispositions,
       provenance: input.provenance,
@@ -1784,15 +2341,20 @@ export function recordEnactment(
   input: RecordEnactmentInput,
 ): World {
   const measure = requireMeasure(world, input.measureId);
-  const actions = measureActions(world, measure.id);
-  const becameLaw = actions.some(
-    (action) =>
-      action.kind === "signed" || action.kind === "override-succeeded",
+  // Being signed once is not standing authority to be enacted later. The
+  // measure must be sitting at exactly the point where enactment is the next
+  // legal step, and it can only reach that point once.
+  assertPhase(
+    world,
+    input.measureId,
+    ["awaiting-enactment"],
+    "record the measure as law",
   );
-  if (!becameLaw) {
-    throw new Error(
-      "A measure can only be enacted after it is signed or a veto is overridden.",
-    );
+  const alreadyResolved = (world.history.legislativeEnactments ?? []).some(
+    (record) => record.measureId === measure.id,
+  );
+  if (alreadyResolved) {
+    throw new Error("This measure has already been recorded as resolved.");
   }
   assertUniqueStableKey(
     world.history.legislativeEnactments,
@@ -1872,15 +2434,15 @@ export function recordAdjournmentDeath(
     throw new Error("The measure is already finished.");
   }
   const pack = rulePackById(measure.rulePackId);
-  const dies = pack.session.measuresDieAtAdjournment;
-  if (dies.kind === "known" && !dies.value) {
+  // "We do not know" and "there is no such thing here" are both refusals.
+  if (
+    !requireKnown(
+      pack.session.measuresDieAtAdjournment,
+      `Whether ${pack.displayName} measures die at adjournment`,
+    )
+  ) {
     throw new Error(
       `${pack.displayName} measures do not die at adjournment under its rules.`,
-    );
-  }
-  if (dies.kind === "unknown") {
-    throw new Error(
-      `Whether ${pack.displayName} measures die at adjournment is unresolved, so this cannot be recorded.`,
     );
   }
   return appendAction(world, {

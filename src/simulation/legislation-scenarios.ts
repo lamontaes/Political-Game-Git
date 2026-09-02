@@ -91,6 +91,10 @@ export function votePlanKeyForAmendment(chamberKey: string): string {
   return `amendment:${chamberKey}`;
 }
 
+export function votePlanKeyForConcurrence(chamberKey: string): string {
+  return `concurrence:${chamberKey}`;
+}
+
 const KENTUCKY_JURISDICTION_ID = createStableId(
   "jurisdiction",
   "definition:us-ky-commonwealth-placeholder",
@@ -297,12 +301,13 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
       "Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programmes.",
     nonpartisan: false,
     votePlan: {
-      "committee:house-standing": { yea: 10, nay: 7 },
-      "committee:senate-standing": { yea: 7, nay: 4 },
+      "committee:house-transportation": { yea: 10, nay: 7 },
+      "committee:senate-transportation": { yea: 7, nay: 4 },
       "floor:house:final-passage": { yea: 58, nay: 40, absent: 2 },
       "floor:senate:final-passage": { yea: 22, nay: 15, absent: 1 },
       "amendment:house": { yea: 61, nay: 37, absent: 2 },
       "amendment:senate": { yea: 21, nay: 16, absent: 1 },
+      "concurrence:house": { yea: 55, nay: 43, absent: 2 },
       "override:house": { yea: 56, nay: 42, absent: 2 },
       "override:senate": { yea: 21, nay: 16, absent: 1 },
     },
@@ -322,7 +327,7 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
       "Extends the state transit assistance formula to counties without a fixed-route provider.",
     nonpartisan: true,
     votePlan: {
-      "committee:standing": { yea: 6, nay: 2 },
+      "committee:transportation-telecommunications": { yea: 6, nay: 2 },
       "floor:legislature:general-file": { yea: 31, nay: 16, absent: 2 },
       "floor:legislature:select-file": { yea: 30, nay: 17, absent: 2 },
       "floor:legislature:final-reading": { yea: 30, nay: 17, absent: 2 },
@@ -345,17 +350,15 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
       "Appropriates matching funds for community transit in unserved boroughs and census areas.",
     nonpartisan: false,
     votePlan: {
-      "committee:house-standing": { yea: 4, nay: 3 },
-      "committee:senate-standing": { yea: 4, nay: 3 },
+      "committee:house-transportation": { yea: 4, nay: 3 },
+      "committee:senate-transportation": { yea: 4, nay: 3 },
       "floor:house:final-passage": { yea: 24, nay: 15, absent: 1 },
       "floor:senate:final-passage": { yea: 13, nay: 7 },
-      "amendment:house": { yea: 22, nay: 17, absent: 1 },
-      "amendment:senate": { yea: 12, nay: 8 },
       "override:joint": { yea: 45, nay: 14, absent: 1 },
     },
     governorAction: "vetoed",
     governorRationale:
-      "The Governor reduced the appropriation and returned the bill.",
+      "The Governor returned the whole bill, objecting that the match commits the state before the boroughs have costed their routes.",
   },
 ];
 

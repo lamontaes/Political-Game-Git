@@ -37,7 +37,7 @@ async function voteRows(page: Page): Promise<string[][]> {
 }
 
 test.describe("Moving a bill through a legislature", () => {
-  test("Kentucky: a bill becomes law over the governor's veto", async ({
+  test("Kentucky: the Senate changes the bill, so the House has to agree", async ({
     page,
   }) => {
     await open(page, KENTUCKY);
@@ -49,47 +49,74 @@ test.describe("Moving a bill through a legislature", () => {
       "Committee on Committees",
     );
 
-    await step(page, "referred");
-    expect(await where(page)).toContain("standing committee");
-    // Kentucky committees may decline to take a bill up, and the game says so.
+    await step(page, "request-referral");
+    expect(await where(page)).toContain("Committee on Transportation");
+    // Kentucky committees may sit on a bill, and the game says so.
     await expect(page.getByTestId("legislation-uncertainties")).toContainText(
       "can simply decline to take the bill up",
     );
     await expect(page.getByTestId("legislation-requirement")).toContainText(
-      "a majority of the committee's appointed members",
+      "a majority of the committee's membership",
     );
 
-    await step(page, "committee-hearing-held");
-    await step(page, "committee-reported");
-    await step(page, "placed-on-calendar");
+    await step(page, "request-committee-hearing");
+    await step(page, "move-committee-report");
+    await step(page, "request-calendar-placement");
     await expect(page.getByTestId("legislation-requirement")).toContainText(
-      "a majority of all members elected to the chamber",
+      "a majority of all the members elected to the chamber",
     );
 
-    await step(page, "floor-stage-passed");
+    await step(page, "move-floor-vote");
     expect(await where(page)).toContain("now goes to the Senate");
-    await step(page, "transmitted");
-    await step(page, "referred");
-    await step(page, "committee-reported");
-    await step(page, "placed-on-calendar");
-    await step(page, "floor-stage-passed");
+    await step(page, "transmit-to-second-chamber");
+    await step(page, "request-referral");
+    await step(page, "move-committee-report");
+    await step(page, "request-calendar-placement");
 
-    await step(page, "enrolled");
-    await step(page, "presented-to-executive");
-    expect(await where(page)).toContain("governor's desk");
-    // The sources do not settle what inaction means, and the game admits it.
-    await expect(page.getByTestId("legislation-uncertainties")).toContainText(
-      "not settled in our sources",
+    // The Senate changes the text before it passes it.
+    await step(page, "offer-amendment");
+    await step(page, "move-floor-vote");
+
+    // That is not the end of it: the House has to live with the change.
+    expect(await where(page)).toContain("has to decide whether to live");
+    expect(await where(page)).not.toContain("final form");
+    await expect(page.getByTestId("legislation-who")).toHaveText(
+      "House of Representatives",
     );
+    await page.screenshot({
+      path: "test-results/legislation/kentucky-concurrence.png",
+      fullPage: true,
+    });
 
-    await step(page, "signed");
+    await step(page, "move-concurrence");
+    expect(await where(page)).toContain("agreed on one bill");
+
+    await step(page, "request-enrollment");
+    await step(page, "present-to-executive");
+    expect(await where(page)).toContain("governor's desk");
+
+    // The governor's decision is not the player's to make. There is one
+    // neutral wait, and no button claiming to sign or veto.
+    await expect(page.getByTestId("legislation-options")).toHaveCount(0);
+    await expect(page.getByTestId("legislation-waiting")).toContainText(
+      "Wait for the governor's decision",
+    );
+    await expect(page.getByTestId("legislation-waiting")).not.toContainText(
+      /signs|vetoes/,
+    );
+    await page.screenshot({
+      path: "test-results/legislation/kentucky-governor-wait.png",
+      fullPage: true,
+    });
+
+    await step(page, "await-executive-decision");
     expect(await where(page)).toContain("vetoed the bill");
     await expect(page.getByTestId("legislation-requirement")).toContainText(
-      "a majority of all members elected to each house",
+      "a majority of all the members elected to each house",
     );
 
-    await step(page, "override-succeeded");
-    await step(page, "enacted");
+    await step(page, "move-veto-override");
+    await step(page, "record-enactment");
     expect(await where(page)).toBe("The bill is law.");
     await expect(page.getByTestId("legislation-workspace")).toHaveAttribute(
       "data-finished",
@@ -101,11 +128,14 @@ test.describe("Moving a bill through a legislature", () => {
     expect(
       rows.some(
         (row) =>
-          row[1] === "House of Representatives" && row[5] === "51 of 100",
+          row[1] === "House of Representatives" && row[6] === "51 of 100",
       ),
     ).toBe(true);
     expect(
-      rows.some((row) => row[1] === "Senate" && row[5] === "20 of 38"),
+      rows.some((row) => row[1] === "Senate" && row[6] === "20 of 38"),
+    ).toBe(true);
+    expect(
+      rows.some((row) => row[0] === "Accept the other chamber's changes"),
     ).toBe(true);
     expect(
       rows.filter((row) => row[0] === "Override the governor's veto"),
@@ -117,7 +147,7 @@ test.describe("Moving a bill through a legislature", () => {
     });
   });
 
-  test("Nebraska: one chamber, three floor votes, and no second house at all", async ({
+  test("Nebraska: one chamber, three floor votes on three different days", async ({
     page,
   }) => {
     await open(page, NEBRASKA);
@@ -125,46 +155,66 @@ test.describe("Moving a bill through a legislature", () => {
       "LB 88",
     );
 
-    await step(page, "referred");
-    // Nebraska guarantees a hearing, so the committee cannot skip it.
+    await step(page, "request-referral");
+    // Most bills are heard here, and the game will not promise more than that.
     await expect(page.getByTestId("legislation-uncertainties")).toContainText(
-      "guaranteed a public hearing",
+      "Most bills get a hearing here",
     );
-    await step(page, "committee-hearing-held");
-    await step(page, "committee-reported");
-    await step(page, "placed-on-calendar");
+    await step(page, "request-committee-hearing");
+    await step(page, "move-committee-report");
+    await step(page, "request-calendar-placement");
 
     expect(await where(page)).toContain("General File");
-    await step(page, "floor-stage-passed");
+    await step(page, "move-floor-vote");
     expect(await where(page)).toContain("Select File");
-    await step(page, "floor-stage-passed");
+
+    // The stages fall on separate legislative days, so the bill cannot be
+    // reached again today. Waiting is the only thing on offer.
+    await expect(page.getByTestId("legislation-options")).toHaveCount(0);
+    await expect(page.getByTestId("legislation-waiting")).toContainText(
+      "Wait for the next legislative day",
+    );
+    await page.screenshot({
+      path: "test-results/legislation/nebraska-separate-days.png",
+      fullPage: true,
+    });
+    await step(page, "await-next-legislative-day");
+    await step(page, "move-floor-vote");
+
     expect(await where(page)).toContain("Final Reading");
-    await step(page, "floor-stage-passed");
+    await step(page, "await-next-legislative-day");
+    await step(page, "move-floor-vote");
 
     // There is never a second chamber to send it to.
-    await expect(page.getByTestId("legislation-step-transmitted")).toHaveCount(
-      0,
-    );
-    expect(await where(page)).toContain("cleared the legislature");
+    await expect(
+      page.getByTestId("legislation-step-transmit-to-second-chamber"),
+    ).toHaveCount(0);
 
-    await step(page, "enrolled");
-    await step(page, "presented-to-executive");
-    await step(page, "signed");
-    await expect(page.getByTestId("legislation-requirement")).toContainText(
-      "three-fifths of all elected senators",
+    await step(page, "request-enrollment");
+    await step(page, "present-to-executive");
+    // Alaska is not the only place inaction is settled: here the bill becomes
+    // law if the Governor lets the clock run out.
+    await expect(page.getByTestId("legislation-uncertainties")).toContainText(
+      "becomes law anyway",
     );
-    await step(page, "override-succeeded");
-    await step(page, "enacted");
+    await step(page, "await-executive-decision");
+    await expect(page.getByTestId("legislation-requirement")).toContainText(
+      "three-fifths of all the senators elected",
+    );
+    await step(page, "move-veto-override");
+    await step(page, "record-enactment");
     expect(await where(page)).toBe("The bill is law.");
 
     const rows = await voteRows(page);
     const floorVotes = rows.filter((row) => row[0] === "Pass the bill");
     expect(floorVotes).toHaveLength(3);
-    for (const row of floorVotes) expect(row[5]).toBe("25 of 49");
+    for (const row of floorVotes) expect(row[6]).toBe("25 of 49");
+    // Three stages, three separate legislative days.
+    expect(new Set(floorVotes.map((row) => row[2])).size).toBe(3);
     const override = rows.find(
       (row) => row[0] === "Override the governor's veto",
     );
-    expect(override?.[5]).toBe("30 of 49");
+    expect(override?.[6]).toBe("30 of 49");
 
     await page.screenshot({
       path: "test-results/legislation/nebraska-enacted.png",
@@ -172,7 +222,7 @@ test.describe("Moving a bill through a legislature", () => {
     });
   });
 
-  test("Alaska: the veto goes to both houses sitting together", async ({
+  test("Alaska: a whole-bill veto goes to both houses sitting together", async ({
     page,
   }) => {
     await open(page, ALASKA);
@@ -180,40 +230,58 @@ test.describe("Moving a bill through a legislature", () => {
       "HB 41",
     );
 
-    await step(page, "referred");
-    await step(page, "committee-reported");
-    await step(page, "placed-on-calendar");
-    await step(page, "floor-stage-passed");
-    await step(page, "transmitted");
-    await step(page, "referred");
-    await step(page, "committee-reported");
-    await step(page, "placed-on-calendar");
-    await step(page, "floor-stage-passed");
-    await step(page, "enrolled");
-    await step(page, "presented-to-executive");
-    await step(page, "signed");
+    await step(page, "request-referral");
+    await step(page, "move-committee-report");
+    await step(page, "request-calendar-placement");
+    // Nothing read for this pack establishes the authority to amend on the
+    // floor here, so the game does not offer it.
+    await expect(
+      page.getByTestId("legislation-step-offer-amendment"),
+    ).toHaveCount(0);
+    await step(page, "move-floor-vote");
+    await step(page, "transmit-to-second-chamber");
+    await step(page, "request-referral");
+    await step(page, "move-committee-report");
+    await step(page, "request-calendar-placement");
+    await step(page, "move-floor-vote");
+    await step(page, "request-enrollment");
+    await step(page, "present-to-executive");
+    await step(page, "await-executive-decision");
+
+    // A whole bill returned, not an item struck out of it.
+    expect(await where(page)).toContain("vetoed the bill");
+    await expect(page.getByTestId("legislation-history")).toContainText(
+      "returned the whole bill",
+    );
+    await expect(page.getByTestId("legislation-history")).not.toContainText(
+      "reduced the appropriation",
+    );
 
     // One joint sitting, not two chamber votes, and a higher bar for money.
     await expect(page.getByTestId("legislation-who")).toHaveText(
       "Joint session of the Legislature",
     );
     await expect(page.getByTestId("legislation-requirement")).toContainText(
-      "three-quarters of the combined membership",
+      "three-quarters of the membership",
     );
     await expect(page.getByTestId("legislation-uncertainties")).toContainText(
       "as one body of 60",
     );
 
-    await step(page, "override-succeeded");
-    await step(page, "enacted");
+    await step(page, "move-veto-override");
+    await step(page, "record-enactment");
     expect(await where(page)).toBe("The bill is law.");
+    // Alaska's effective-date rule is settled, and the game states it.
+    await expect(page.getByTestId("legislation-uncertainties")).toContainText(
+      "ninety days after enactment",
+    );
 
     const rows = await voteRows(page);
     const override = rows.find(
       (row) => row[0] === "Override the governor's veto",
     );
     expect(override?.[1]).toBe("Joint session of the Legislature");
-    expect(override?.[5]).toBe("45 of 60");
+    expect(override?.[6]).toBe("45 of 60");
     expect(
       rows.filter((row) => row[0] === "Override the governor's veto"),
     ).toHaveLength(1);
@@ -224,30 +292,43 @@ test.describe("Moving a bill through a legislature", () => {
     });
   });
 
-  test("a bill keeps its place across save and reload", async ({ page }) => {
+  test("a bill survives two saves and reloads with several amendments", async ({
+    page,
+  }) => {
     await open(page, KENTUCKY);
-    await step(page, "referred");
-    await step(page, "committee-hearing-held");
-    await step(page, "committee-reported");
-    await step(page, "placed-on-calendar");
-    await step(page, "floor-stage-passed");
+    await step(page, "request-referral");
+    await step(page, "request-committee-hearing");
+    await step(page, "move-committee-report");
+    await step(page, "request-calendar-placement");
+
+    // Amend, save, reload, amend again, save, reload, amend a third time.
+    for (let round = 0; round < 2; round += 1) {
+      await step(page, "offer-amendment");
+      await page.getByTestId("legislation-save").click();
+      await page.reload();
+      await expect(page.getByTestId("legislation-workspace")).toHaveAttribute(
+        "data-world-source",
+        "restored",
+      );
+    }
+    await step(page, "offer-amendment");
+    await expect(page.getByTestId("legislation-error")).toHaveCount(0);
+
     const before = await where(page);
     const historyBefore = await page
       .getByTestId("legislation-history")
       .locator("li")
       .count();
-
     await page.getByTestId("legislation-save").click();
     await page.reload();
 
-    await expect(page.getByTestId("legislation-workspace")).toHaveAttribute(
-      "data-world-source",
-      "restored",
-    );
     expect(await where(page)).toBe(before);
     await expect(
       page.getByTestId("legislation-history").locator("li"),
     ).toHaveCount(historyBefore);
+    // Carrying on after the reload still works, which is what used to break.
+    await step(page, "move-floor-vote");
+    await expect(page.getByTestId("legislation-error")).toHaveCount(0);
 
     await page.screenshot({
       path: "test-results/legislation/kentucky-restored.png",
@@ -257,7 +338,7 @@ test.describe("Moving a bill through a legislature", () => {
 
   test("the player surface speaks plainly", async ({ page }) => {
     await open(page, KENTUCKY);
-    await step(page, "referred");
+    await step(page, "request-referral");
     const text = (await page.locator("main").innerText()).toLowerCase();
     for (const forbidden of [
       "run a",
@@ -269,6 +350,7 @@ test.describe("Moving a bill through a legislature", () => {
       "canonical",
       "minuteofday",
       "stablekey",
+      "not settled in our sources",
     ]) {
       expect(
         text,

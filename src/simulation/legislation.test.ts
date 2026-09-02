@@ -10,6 +10,7 @@ import {
   type LegislativeScenario,
 } from "./legislation-scenarios";
 import { SqliteWorldRepository } from "../persistence/sqlite-world-repository";
+import { daysBetween } from "./dates";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import {
   attemptVetoOverride,
@@ -43,9 +44,12 @@ import {
   assertRulePackIntegrity,
   chamberByKey,
   fractionOf,
+  knownRule,
   majorityOf,
+  notApplicableRule,
   requireKnown,
   resolveRequiredVotes,
+  unknownRule,
   type RuleSourceRef,
 } from "./legislature-rules";
 import { deserializeWorld, serializeWorld } from "./serialization";
@@ -103,7 +107,7 @@ function toFloor(
   next = recordCommitteeDisposition(next, {
     stableKey: `${chamberKey}:committee`,
     measureId: scenario.measureId,
-    report: "favorable",
+    recommendation: "favorable",
     dispositions: dispositionsFromCounts(committeeMembers(body, seats), {
       yea: committeeYea,
       nay: seats - committeeYea,
@@ -129,6 +133,7 @@ function clearFloor(
   const body = bodyForChamber(scenario, chamberKey);
   let next = world;
   for (const stage of chamber.floorStages) {
+    next = waitForFloorDay(next, scenario.measureId);
     next = takeFloorVote(next, {
       stableKey: `${chamberKey}:${stage.stageKey}`,
       measureId: scenario.measureId,
@@ -141,6 +146,17 @@ function clearFloor(
     });
   }
   return next;
+}
+
+/** Moves the world on to the first day this stage may legally be reached. */
+function waitForFloorDay(world: World, measureId: EntityId): World {
+  const until = measurePosition(world, measureId).earliestNextFloorDate;
+  if (!until || world.currentDate >= until) return world;
+  return advanceWorld(
+    world,
+    daysBetween(world.currentDate, until),
+    createFutureTransitionHandlerRegistry([]),
+  );
 }
 
 describe("Legislative rule packs", () => {
@@ -158,18 +174,19 @@ describe("Legislative rule packs", () => {
     expect(KENTUCKY_RULE_PACK.executive.inactionOutcomeInSession.kind).toBe(
       "unknown",
     );
-    // Known negative: Kentucky committees may decline to hear a bill, so the
-    // guarantee of a hearing is present and false rather than missing.
-    const kyHouse = chamberByKey(KENTUCKY_RULE_PACK, "house");
-    expect(kyHouse.referral.everyMeasureMustBeHeard).toEqual({
+    // Known negative: the Kentucky Senate's own rules provide a remedy for a
+    // committee that will not report a bill, which means a committee can sit
+    // on one. The guarantee is present and false, not missing.
+    const kySenate = chamberByKey(KENTUCKY_RULE_PACK, "senate");
+    expect(kySenate.referral.everyMeasureMustBeHeard).toEqual({
       kind: "known",
       value: false,
       source: expect.anything(),
     });
+    // Unknown: Nebraska's official explanation says *most* bills get a public
+    // hearing. "Most" is not "every", and the pack refuses to round it up.
     const neChamber = chamberByKey(NEBRASKA_RULE_PACK, "legislature");
-    expect(
-      requireKnown(neChamber.referral.everyMeasureMustBeHeard, "hearing"),
-    ).toBe(true);
+    expect(neChamber.referral.everyMeasureMustBeHeard.kind).toBe("unknown");
 
     // Reading an unknown or a not-applicable rule raises distinct errors.
     expect(() =>
@@ -329,12 +346,12 @@ describe("Kentucky bicameral path", () => {
     let world = referMeasure(scenario.world, {
       stableKey: "ref",
       measureId: scenario.measureId,
-      committeeKey: "house-standing",
+      committeeKey: "house-transportation",
     });
     world = recordCommitteeDisposition(world, {
       stableKey: "committee",
       measureId: scenario.measureId,
-      report: "unfavorable",
+      recommendation: "unfavorable",
       dispositions: dispositionsFromCounts(
         committeeMembers(bodyForChamber(scenario, "house"), 17),
         { yea: 6, nay: 11 },
@@ -434,32 +451,38 @@ describe("Kentucky bicameral path", () => {
 describe("Nebraska unicameral path", () => {
   const scenario = createLegislativeScenario("nebraska");
 
-  it("requires a public hearing before the committee may report", () => {
+  it("does not promise a hearing its sources do not promise", () => {
+    // Nebraska's official explanation says most bills get a public hearing,
+    // with exceptions. An unresolved constraint is not enforced as though it
+    // were certain, and it is not advertised to the player as a guarantee.
+    const chamber = chamberByKey(NEBRASKA_RULE_PACK, "legislature");
+    expect(chamber.referral.everyMeasureMustBeHeard.kind).toBe("unknown");
     const referred = referMeasure(scenario.world, {
       stableKey: "ref",
       measureId: scenario.measureId,
-      committeeKey: "standing",
+      committeeKey: "transportation-telecommunications",
     });
-    expect(() =>
-      recordCommitteeDisposition(referred, {
-        stableKey: "early",
-        measureId: scenario.measureId,
-        report: "favorable",
-        dispositions: dispositionsFromCounts(
-          committeeMembers(bodyForChamber(scenario, "legislature"), 8),
-          { yea: 6, nay: 2 },
-        ),
-        rationale: "Tried to report without a hearing.",
-        provenance: AUTHORED,
-      }),
-    ).toThrow(/guarantee every referred measure a public hearing/);
+    const reported = recordCommitteeDisposition(referred, {
+      stableKey: "early",
+      measureId: scenario.measureId,
+      recommendation: "favorable",
+      dispositions: dispositionsFromCounts(
+        committeeMembers(bodyForChamber(scenario, "legislature"), 8),
+        { yea: 6, nay: 2 },
+      ),
+      rationale: "The committee voted on reporting the bill.",
+      provenance: AUTHORED,
+    });
+    expect(measurePosition(reported, scenario.measureId).phase).toBe(
+      "awaiting-floor",
+    );
   });
 
   it("holds the hearing through the world clock, not a separate one", () => {
     let world = referMeasure(scenario.world, {
       stableKey: "ref",
       measureId: scenario.measureId,
-      committeeKey: "standing",
+      committeeKey: "transportation-telecommunications",
     });
     const startDate = world.currentDate;
     world = scheduleCommitteeHearing(world, {
@@ -503,6 +526,7 @@ describe("Nebraska unicameral path", () => {
       "select-file",
     );
     // Select File
+    world = waitForFloorDay(world, scenario.measureId);
     world = takeFloorVote(world, {
       stableKey: "sf",
       measureId: scenario.measureId,
@@ -513,6 +537,7 @@ describe("Nebraska unicameral path", () => {
       "final-reading",
     );
     // Final Reading
+    world = waitForFloorDay(world, scenario.measureId);
     world = takeFloorVote(world, {
       stableKey: "fr",
       measureId: scenario.measureId,
@@ -732,7 +757,7 @@ describe("Procedural discipline", () => {
         stableKey: "early",
         measureId: scenario.measureId,
       }),
-    ).toThrow(/only be enacted after it is signed or a veto is overridden/);
+    ).toThrow(/Cannot record the measure as law/);
   });
 
   it("rejects impossible vote records", () => {
@@ -787,29 +812,42 @@ describe("Procedural discipline", () => {
     expect(measurePosition(world, scenario.measureId).phase).toBe("on-floor");
   });
 
-  it("ends a measure that runs out of session", () => {
-    const world = referMeasure(scenario.world, {
-      stableKey: "ref",
-      measureId: scenario.measureId,
-      committeeKey: "house-standing",
-    });
-    const dead = recordAdjournmentDeath(world, {
-      stableKey: "sine-die",
-      measureId: scenario.measureId,
-    });
-    const position = measurePosition(dead, scenario.measureId);
-    expect(position.outcome).toBe("died-on-adjournment");
-    expect(position.terminal).toBe(true);
+  it("will not end a measure at adjournment while that rule is unresolved", () => {
+    // None of the three packs has a source establishing what becomes of a
+    // measure still pending when a session ends, so none of them can record
+    // one dying. An unresolved rule is not permission.
+    for (const key of legislativeScenarioKeys()) {
+      const other = createLegislativeScenario(key);
+      const world = referMeasure(other.world, {
+        stableKey: "ref",
+        measureId: other.measureId,
+        committeeKey: chamberByKey(other.pack, other.pack.chamberOrder[0]!)
+          .committees[0]!.committeeKey,
+      });
+      expect(() =>
+        recordAdjournmentDeath(world, {
+          stableKey: "sine-die",
+          measureId: other.measureId,
+        }),
+      ).toThrow(/is unknown in this legislature/);
+    }
   });
 
-  it("will not claim a measure died at adjournment where that rule is unresolved", () => {
-    const alaska = createLegislativeScenario("alaska");
+  it("keeps a known negative, an unknown and a not-applicable apart at the gate", () => {
+    // All three refuse, and each refuses in its own words, so a caller can
+    // never mistake one for another.
     expect(() =>
-      recordAdjournmentDeath(alaska.world, {
-        stableKey: "sine-die",
-        measureId: alaska.measureId,
-      }),
-    ).toThrow(/unresolved, so this cannot be recorded/);
+      requireKnown(knownRule(false, SOURCE), "A known negative"),
+    ).not.toThrow();
+    expect(requireKnown(knownRule(false, SOURCE), "A known negative")).toBe(
+      false,
+    );
+    expect(() => requireKnown(unknownRule("no source"), "Unsettled")).toThrow(
+      /is unknown in this legislature/,
+    );
+    expect(() =>
+      requireKnown(notApplicableRule("no such thing here"), "Absent"),
+    ).toThrow(/does not apply in this legislature/);
   });
 });
 

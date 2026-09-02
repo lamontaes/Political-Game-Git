@@ -6,10 +6,7 @@ import {
   type LegislativeScenario,
 } from "../simulation/legislation-scenarios";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
-import {
-  applyLegislativeStep,
-  resetLegislativeSessionKeys,
-} from "../presentation/legislation-session";
+import { applyLegislativeStep } from "../presentation/legislation-session";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import type { World } from "../simulation/types";
 
@@ -37,7 +34,6 @@ interface SessionState {
 }
 
 function startSession(scenarioKey: string): SessionState {
-  resetLegislativeSessionKeys();
   const scenario = createLegislativeScenario(scenarioKey);
   const saved = window.localStorage.getItem(`${STORAGE_PREFIX}${scenarioKey}`);
   if (saved) {
@@ -62,6 +58,14 @@ export function LegislationWorkspace() {
   const briefing = useMemo(
     () => projectMeasureBriefing(session.world, session.scenario.measureId),
     [session],
+  );
+  // Things you do, and things you can only wait on, are shown apart. A
+  // governor's decision is never offered as a choice you make.
+  const playerOptions = briefing.options.filter(
+    (option) => option.playerMayAct,
+  );
+  const waitingOptions = briefing.options.filter(
+    (option) => !option.playerMayAct,
   );
 
   function takeStep(stepKey: Parameters<typeof applyLegislativeStep>[2]) {
@@ -181,11 +185,31 @@ export function LegislationWorkspace() {
         </p>
       ) : null}
 
-      {briefing.options.length > 0 ? (
+      {playerOptions.length > 0 ? (
         <section className="legislation-actions">
           <h2>What you can do</h2>
           <ul data-testid="legislation-options">
-            {briefing.options.map((option) => (
+            {playerOptions.map((option) => (
+              <li key={option.actionKey}>
+                <button
+                  type="button"
+                  data-testid={`legislation-step-${option.actionKey}`}
+                  onClick={() => takeStep(option.actionKey)}
+                >
+                  {option.label}
+                </button>
+                <span>{option.detail}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {waitingOptions.length > 0 ? (
+        <section className="legislation-actions legislation-actions--waiting">
+          <h2>Out of your hands</h2>
+          <ul data-testid="legislation-waiting">
+            {waitingOptions.map((option) => (
               <li key={option.actionKey}>
                 <button
                   type="button"
@@ -292,6 +316,7 @@ export function LegislationWorkspace() {
                 <tr>
                   <th>Question</th>
                   <th>Where</th>
+                  <th>When</th>
                   <th>For</th>
                   <th>Against</th>
                   <th>Not voting</th>
@@ -305,6 +330,7 @@ export function LegislationWorkspace() {
                   <tr key={`${vote.when}-${index}`}>
                     <td>{vote.question}</td>
                     <td>{vote.where}</td>
+                    <td>{vote.when}</td>
                     <td>{vote.yea}</td>
                     <td>{vote.nay}</td>
                     <td>{vote.otherwise}</td>

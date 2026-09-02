@@ -8,6 +8,7 @@ import {
   requireMeasure,
   rulePackForMeasure,
   type MeasurePhase,
+  type MeasureStepKey,
 } from "../simulation/legislation";
 import {
   chamberByKey,
@@ -32,11 +33,14 @@ import type {
  */
 
 export interface MeasureActionOption {
-  readonly actionKey: LegislativeActionKind;
+  readonly actionKey: MeasureStepKey;
   readonly label: string;
   readonly detail: string;
   readonly actorLabel: string;
-  /** Whether the player can take or prompt this step right now. */
+  /**
+   * Whether this is the player acting, rather than the player waiting on
+   * somebody who does not answer to them.
+   */
   readonly playerMayAct: boolean;
 }
 
@@ -96,9 +100,9 @@ const PHASE_SENTENCES: Readonly<Record<MeasurePhase, string>> = {
   "awaiting-transmittal":
     "The bill has passed one chamber and is heading to the other.",
   "awaiting-concurrence":
-    "The other chamber changed the bill, and the first chamber has to decide whether to accept that.",
+    "The other chamber changed the bill, so the chamber it started in has to decide whether to live with that.",
   "awaiting-enrollment":
-    "The bill has cleared the legislature and is being put into final form.",
+    "Both sides have agreed on one bill, and it is being put into final form.",
   "awaiting-presentation": "The bill is ready to go to the governor.",
   "awaiting-executive": "The bill is on the governor's desk.",
   "awaiting-override":
@@ -114,7 +118,7 @@ const ACTION_HEADLINES: Readonly<Record<LegislativeActionKind, string>> = {
   referred: "Sent to committee",
   "committee-hearing-held": "Committee hearing held",
   "committee-reported": "Reported out of committee",
-  "committee-rejected": "Killed in committee",
+  "committee-not-reported": "Committee would not report it",
   "placed-on-calendar": "Scheduled for the floor",
   "amendment-adopted": "Amendment adopted",
   "amendment-rejected": "Amendment rejected",
@@ -134,119 +138,108 @@ const ACTION_HEADLINES: Readonly<Record<LegislativeActionKind, string>> = {
   "died-on-adjournment": "Died when the session ended",
 };
 
+/**
+ * How each step reads to the player.
+ *
+ * A label says what *you* do — file, ask, move, wait — never what an
+ * institution or another person decides. Nothing here promises an outcome: the
+ * committee, the chamber and the governor answer for themselves.
+ */
+const STEP_COPY: Readonly<
+  Record<MeasureStepKey, { readonly label: string; readonly detail: string }>
+> = {
+  "file-measure": {
+    label: "File the bill",
+    detail: "Put your bill in, and it gets a number and a chamber.",
+  },
+  "request-referral": {
+    label: "Ask for the bill to be sent to a committee",
+    detail:
+      "The referral authority decides which committee takes it; you can ask.",
+  },
+  "request-committee-hearing": {
+    label: "Ask the committee for a hearing",
+    detail:
+      "Press for a date to put the bill and its witnesses in front of the committee.",
+  },
+  "move-committee-report": {
+    label: "Ask the committee to vote on reporting the bill",
+    detail:
+      "Call for the committee's recorded vote. The members decide what it says.",
+  },
+  "request-calendar-placement": {
+    label: "Ask leadership for floor time",
+    detail: "Push to get the bill scheduled for debate.",
+  },
+  "offer-amendment": {
+    label: "Offer an amendment",
+    detail: "Put a change to the bill and let the chamber decide it.",
+  },
+  "move-floor-vote": {
+    label: "Move the question",
+    detail: "Ask the chamber to vote on the bill at the stage it has reached.",
+  },
+  "await-next-legislative-day": {
+    label: "Wait for the next legislative day",
+    detail:
+      "This chamber takes its stages on separate days, so the bill cannot be reached again today.",
+  },
+  "transmit-to-second-chamber": {
+    label: "Send the bill to the other chamber",
+    detail: "The bill has cleared this chamber and moves on.",
+  },
+  "move-concurrence": {
+    label: "Ask your chamber to accept the changes",
+    detail:
+      "The other chamber changed the bill. Your chamber votes on whether to live with it.",
+  },
+  "request-enrollment": {
+    label: "Have the bill put into final form",
+    detail: "The clerk prepares the agreed text for signature.",
+  },
+  "present-to-executive": {
+    label: "Send the bill to the governor",
+    detail: "Deliver the finished bill to the desk.",
+  },
+  "await-executive-decision": {
+    label: "Wait for the governor's decision",
+    detail:
+      "The bill is out of the legislature's hands. What happens next is the governor's to decide.",
+  },
+  "move-veto-override": {
+    label: "Move to override the veto",
+    detail: "Put the vetoed bill back to the legislature.",
+  },
+  "record-enactment": {
+    label: "Have the new law entered in the record",
+    detail: "Close the bill out as law.",
+  },
+};
+
+/**
+ * Whether the player is the one acting.
+ *
+ * Waiting on somebody else is still a thing a player does, but it is not a
+ * choice about the outcome, and the screen has to say so.
+ */
+function playerActs(step: MeasureStepKey): boolean {
+  return (
+    step !== "await-executive-decision" && step !== "await-next-legislative-day"
+  );
+}
+
 function optionFor(
-  kind: LegislativeActionKind,
+  step: MeasureStepKey,
   gateActor: string,
-): MeasureActionOption | null {
-  switch (kind) {
-    case "referred":
-      return {
-        actionKey: kind,
-        label: "Send the bill to a committee",
-        detail:
-          "Ask the referral authority to assign your bill to a committee.",
-        actorLabel: gateActor,
-        playerMayAct: true,
-      };
-    case "committee-hearing-held":
-      return {
-        actionKey: kind,
-        label: "Hold a public hearing",
-        detail: "Take testimony on the bill before the committee votes.",
-        actorLabel: gateActor,
-        playerMayAct: true,
-      };
-    case "committee-reported":
-      return {
-        actionKey: kind,
-        label: "Ask the committee to vote",
-        detail: "Call for the committee's recorded vote on reporting the bill.",
-        actorLabel: gateActor,
-        playerMayAct: true,
-      };
-    case "placed-on-calendar":
-      return {
-        actionKey: kind,
-        label: "Get the bill on the floor calendar",
-        detail: "Ask leadership to schedule the bill for debate.",
-        actorLabel: gateActor,
-        playerMayAct: true,
-      };
-    case "amendment-adopted":
-      return {
-        actionKey: kind,
-        label: "Offer an amendment",
-        detail: "Put a change to the bill to the chamber.",
-        actorLabel: gateActor,
-        playerMayAct: true,
-      };
-    case "floor-stage-passed":
-      return {
-        actionKey: kind,
-        label: "Call the vote",
-        detail: "Put the bill to the chamber at its current stage.",
-        actorLabel: gateActor,
-        playerMayAct: true,
-      };
-    case "transmitted":
-      return {
-        actionKey: kind,
-        label: "Send it to the other chamber",
-        detail: "Move the bill on to the second chamber.",
-        actorLabel: gateActor,
-        playerMayAct: true,
-      };
-    case "enrolled":
-      return {
-        actionKey: kind,
-        label: "Put the bill into final form",
-        detail: "Have the bill enrolled so it can go to the governor.",
-        actorLabel: gateActor,
-        playerMayAct: true,
-      };
-    case "presented-to-executive":
-      return {
-        actionKey: kind,
-        label: "Send the bill to the governor",
-        detail: "Deliver the finished bill for signature or veto.",
-        actorLabel: gateActor,
-        playerMayAct: true,
-      };
-    case "signed":
-      return {
-        actionKey: kind,
-        label: "The governor signs",
-        detail: "The governor approves the bill and it becomes law.",
-        actorLabel: gateActor,
-        playerMayAct: false,
-      };
-    case "vetoed":
-      return {
-        actionKey: kind,
-        label: "The governor vetoes",
-        detail: "The governor rejects the bill and returns it.",
-        actorLabel: gateActor,
-        playerMayAct: false,
-      };
-    case "enacted":
-      return {
-        actionKey: kind,
-        label: "Record the bill as law",
-        detail: "Enter the new law in the record.",
-        actorLabel: gateActor,
-        playerMayAct: true,
-      };
-    case "override-succeeded":
-      return {
-        actionKey: kind,
-        label: "Try to override the veto",
-        detail: "Put the veto to the legislature again.",
-        actorLabel: gateActor,
-        playerMayAct: true,
-      };
-    default:
-      return null;
-  }
+): MeasureActionOption {
+  const copy = STEP_COPY[step];
+  return {
+    actionKey: step,
+    label: copy.label,
+    detail: copy.detail,
+    actorLabel: gateActor,
+    playerMayAct: playerActs(step),
+  };
 }
 
 function voteSentence(vote: LegislativeVoteRecord): string {
@@ -293,15 +286,21 @@ function uncertaintiesFor(
 
   if (position.phase === "awaiting-executive") {
     const inaction = pack.executive.inactionOutcomeInSession;
-    if (inaction.kind === "unknown") {
+    if (inaction.kind === "known") {
       notes.push(
-        `What happens if the ${pack.executive.titleLabel} simply does not act is not settled in our sources, so the bill needs an actual signature or veto.`,
+        inaction.value === "becomes-law-without-signature"
+          ? `If the ${pack.executive.titleLabel} lets the time run out without doing anything, the bill becomes law anyway.`
+          : `If the ${pack.executive.titleLabel} lets the time run out without doing anything, the bill dies.`,
+      );
+    } else {
+      notes.push(
+        `Nobody has been able to tell you what happens if the ${pack.executive.titleLabel} simply sits on the bill, so plan on needing a signature.`,
       );
     }
     const window = pack.executive.actionWindowDaysInSession;
-    if (window.kind === "unknown") {
+    if (window.kind !== "known") {
       notes.push(
-        `How long the ${pack.executive.titleLabel} has to act is not settled in our sources.`,
+        `Nobody can tell you how long the ${pack.executive.titleLabel} has to make up their mind.`,
       );
     }
   }
@@ -311,9 +310,11 @@ function uncertaintiesFor(
     position.phase === "awaiting-enrollment"
   ) {
     const effective = pack.enactment.defaultEffectiveRule;
-    if (effective.kind === "unknown") {
+    if (effective.kind === "known") {
+      notes.push(effective.value);
+    } else {
       notes.push(
-        "When the new law actually takes effect is not settled in our sources, so no effective date is claimed.",
+        "Nobody can tell you when the new law would actually start to bite, so no date is being claimed.",
       );
     }
   }
@@ -323,7 +324,7 @@ function uncertaintiesFor(
     const heard = chamber.referral.everyMeasureMustBeHeard;
     if (heard.kind === "known" && heard.value) {
       notes.push(
-        `Every bill referred here is guaranteed a public hearing, so the committee cannot quietly bury it.`,
+        "Every bill referred here gets a public hearing, so the committee cannot quietly bury it.",
       );
     } else if (heard.kind === "known" && !heard.value) {
       notes.push(
@@ -331,7 +332,7 @@ function uncertaintiesFor(
       );
     } else {
       notes.push(
-        "Whether the committee must give the bill a hearing is not settled in our sources.",
+        "Most bills get a hearing here, but nobody will promise you that yours will.",
       );
     }
   }
@@ -372,6 +373,32 @@ function deadlinesFor(world: World, measureId: EntityId): readonly string[] {
   return lines;
 }
 
+/**
+ * The bar the next vote has to clear, in words.
+ *
+ * Where the rules set a heavier bar for money bills and this legislature's is
+ * unresolved, the player is told that rather than being shown the ordinary bar
+ * in its place.
+ */
+function requirementNoteFor(
+  world: World,
+  measureId: EntityId,
+  thresholdLabel: string | null,
+): string | null {
+  if (thresholdLabel) return `To carry, this needs ${thresholdLabel}.`;
+  const position = measurePosition(world, measureId);
+  if (position.phase !== "awaiting-override") return null;
+  const pack = rulePackForMeasure(world, measureId);
+  const override = pack.executive.override;
+  if (
+    override.kind === "joint-session" &&
+    override.appropriationsThreshold.kind !== "known"
+  ) {
+    return "Money bills take a heavier vote to override than ordinary ones, and nobody can tell you exactly what it is here.";
+  }
+  return null;
+}
+
 export function projectMeasureBriefing(
   world: World,
   measureId: EntityId,
@@ -399,7 +426,7 @@ export function projectMeasureBriefing(
 
   let whereItStands = PHASE_SENTENCES[position.phase];
   if (position.phase === "in-committee" && committee && chamber) {
-    whereItStands = `The bill is in the ${committee.name} of the ${chamber.name}.`;
+    whereItStands = `The bill is with the ${chamber.name}'s ${committee.name}.`;
   } else if (position.phase === "on-floor" && stage && chamber) {
     whereItStands = `The bill is on the floor of the ${chamber.name} at ${stage.label}.`;
   } else if (position.phase === "awaiting-referral" && chamber) {
@@ -415,10 +442,9 @@ export function projectMeasureBriefing(
     ? `${ACTION_HEADLINES[latest.kind]} on ${latest.occurredAt}. ${latest.rationale}`
     : null;
 
-  const steps = availableMeasureSteps(world, measureId);
-  const options = steps
-    .map((step) => optionFor(step, gate.actorLabel))
-    .filter((option): option is MeasureActionOption => option !== null);
+  const options = availableMeasureSteps(world, measureId).map((step) =>
+    optionFor(step, gate.actorLabel),
+  );
 
   const history: MeasureHistoryLine[] = actions.map((action) => {
     const vote = action.voteId ? votesById.get(action.voteId) : undefined;
@@ -477,9 +503,7 @@ export function projectMeasureBriefing(
     whatJustHappened,
     whoDecidesNext: gate.actorLabel,
     whatHappensNext: gate.description,
-    requirementNote: gate.thresholdLabel
-      ? `To carry, this needs ${gate.thresholdLabel}.`
-      : null,
+    requirementNote: requirementNoteFor(world, measureId, gate.thresholdLabel),
     options,
     deadlines: deadlinesFor(world, measureId),
     uncertainties: uncertaintiesFor(world, measureId),

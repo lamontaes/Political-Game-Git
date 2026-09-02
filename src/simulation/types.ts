@@ -2981,7 +2981,7 @@ export type LegislativeActionKind =
   | "referred"
   | "committee-hearing-held"
   | "committee-reported"
-  | "committee-rejected"
+  | "committee-not-reported"
   | "placed-on-calendar"
   | "amendment-adopted"
   | "amendment-rejected"
@@ -3037,8 +3037,34 @@ export interface CommitteeReferralRecord {
   readonly order: number;
 }
 
-export type CommitteeReportKind =
+/**
+ * What a committee recommended when it did report a measure.
+ *
+ * This is the committee's opinion, not whether the motion to report carried.
+ * Kentucky's chambers spell the forms out: a standing committee may report a
+ * bill with the expression of opinion that it should pass, that it should pass
+ * with a committee amendment or substitute, or that it *should not pass*
+ * (House Rule 46; Senate Rule 46). A "should not pass" report is still a
+ * report and still reaches the floor.
+ */
+export type CommitteeRecommendation =
   "favorable" | "unfavorable" | "without-recommendation";
+
+/**
+ * What the committee did with the measure.
+ *
+ * Reporting it and failing to report it are different institutional events
+ * with different downstream reachability, so they are different shapes rather
+ * than one field with a misleading default. Kentucky's Senate treats a
+ * committee that "fails or refuses to report a bill" as its own situation with
+ * its own remedy (Senate Rule 48).
+ */
+export type CommitteeDisposition =
+  | {
+      readonly kind: "reported";
+      readonly recommendation: CommitteeRecommendation;
+    }
+  | { readonly kind: "not-reported" };
 
 export interface CommitteeActionRecord {
   readonly id: EntityId;
@@ -3047,7 +3073,7 @@ export interface CommitteeActionRecord {
   readonly measureId: EntityId;
   readonly referralId: EntityId;
   readonly actedAt: IsoDate;
-  readonly report: CommitteeReportKind;
+  readonly disposition: CommitteeDisposition;
   readonly hearingHeld: boolean;
   readonly voteId: EntityId;
 }
@@ -3156,8 +3182,6 @@ export interface ExecutiveDispositionRecord {
   readonly action: ExecutiveActionKind;
   readonly actorLabel: string;
   readonly rationale: string;
-  /** Deadline the executive was operating under, when the rule resolved one. */
-  readonly actionDeadline: IsoDate | null;
 }
 
 export type LegislativeTerminalOutcome =
