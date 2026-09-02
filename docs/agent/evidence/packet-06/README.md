@@ -7,10 +7,10 @@ task.
 
 ## Heads captured
 
-| Target | Head | Served on |
-| --- | --- | --- |
-| `main` | `514a6f979247f7162aeca26b26f1392535e32443` | :5173 |
-| PR #53 `claude/legislative-gameplay-core` | `a9275bb9656b579bdd07330c6979872bc650b1b1` | :5174 (worktree) |
+| Target                                             | Head                                       | Served on        |
+| -------------------------------------------------- | ------------------------------------------ | ---------------- |
+| `main`                                             | `514a6f979247f7162aeca26b26f1392535e32443` | :5173            |
+| PR #53 `claude/legislative-gameplay-core`          | `a9275bb9656b579bdd07330c6979872bc650b1b1` | :5174 (worktree) |
 | PR #48 `claude/real-modular-character-integration` | `6dbb236cf3b176982a9873b4ae4ba60803d20e63` | :5175 (worktree) |
 
 Viewport 1440x900 at devicePixelRatio 1, Chromium build 1194, Playwright 1.62.1
@@ -34,10 +34,11 @@ The analysis lives in Drive, in
 ## The captures that carry findings
 
 - `main/crop-desk-person-legs.png` — the seat-contact defect. The character
-  declares `seatedContact: { convention: "seat-plane-at-pelvis", root: {0.68,
-  0.54} }`; the scene anchor declares only `xPercent 80.5, yPercent 63.5, scale
-  0.95`. The scene never declares where the chair's seat plane is, so the named
-  convention has no seat plane to be at and alignment is hand-tuned per sprite.
+  declares a `seatedContact` block naming the `seat-plane-at-pelvis` convention
+  with a root at `{0.68, 0.54}`; the scene anchor declares only `xPercent 80.5`,
+  `yPercent 63.5` and `scale 0.95`. The scene never declares where the chair's
+  seat plane is, so the named convention has no seat plane to be at and
+  alignment is hand-tuned per sprite.
 - `main/crop-guest-feet.png` — the control case. Reads correctly only because it
   was hand-tuned for that one sprite.
 - `pr48/48-01-character-proof-real.png` — gray mannequin limbs under full-colour
@@ -56,12 +57,12 @@ Four sets of captures are byte-identical. Explained in full in 06C and in the
 Drive evidence manifest; summarised here so the duplicates are not mistaken for
 capture errors:
 
-| md5 | Files | Why |
-| --- | --- | --- |
-| `bc42b8da…` | `main/01`, `main/17`, `pr53/53-06` | persistence gap (see above); PR #53 does not regress the office scene |
-| `1a77f36b…` | `main/04`, `main/16` | the "perform activity" step never fired — the control label did not match the selector |
-| `437a9e9d…` | `pr53/53-01`, `53-02`, `53-03` | first driver used step keys that did not match `MeasureStepKey`; superseded by the `53-3x` series |
-| `b11a6fe5…` | `pr53/53-22`, `53-32` | Alaska's default scenario offers no floor amendment, so both drivers took the same 16-step path |
+| md5         | Files                              | Why                                                                                               |
+| ----------- | ---------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `bc42b8da…` | `main/01`, `main/17`, `pr53/53-06` | persistence gap (see above); PR #53 does not regress the office scene                             |
+| `1a77f36b…` | `main/04`, `main/16`               | the "perform activity" step never fired — the control label did not match the selector            |
+| `437a9e9d…` | `pr53/53-01`, `53-02`, `53-03`     | first driver used step keys that did not match `MeasureStepKey`; superseded by the `53-3x` series |
+| `b11a6fe5…` | `pr53/53-22`, `53-32`              | Alaska's default scenario offers no floor amendment, so both drivers took the same 16-step path   |
 
 ## Reproducing
 
