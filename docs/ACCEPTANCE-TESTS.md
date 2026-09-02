@@ -1429,3 +1429,49 @@ and reloading restores the same world ID, recipe keys, and layer asset IDs
 from browser storage; clearing returns a fresh world with the same recipes.
 The authored office path still renders A01 and B01 with no modular character
 present.
+
+### VISUAL-012 — Real masters normalize deterministically and reproduce by hash
+
+Every source master under `art/references/masters/pg-modular/` is
+byte-identical to the hash its derivatives' provenance records. Re-running the
+intake into a scratch directory reproduces all thirty-five released
+production candidates byte-for-byte and the generation-2 ledger signature.
+Keying keeps colored content, removes neutral shadows only for components,
+and keys per row; rig measurement orders crown, brow, neck, shoulders, waist,
+root, and soles anatomically; face-gap measurement reports width, center, and
+hairline. Development fixtures carry the `development-fixture` class and
+production candidates the `production-candidate` class; an invalid class is
+rejected.
+
+### VISUAL-013 — Real modular people render, persist, and stay out of the wrong pose
+
+At `?view=character-proof&set=real`, four generated people pinned to
+generation 2 render complete from `pg_` components only: both body families,
+at least three heads, two hairstyles on the two women, three tops, and two
+bottoms, with garment derivatives matching each person's body family and DOM
+order equal to draw order. The reuse table shows each body used twice; the
+lineage table cites every component's source master. Saving and reloading
+restores the same recipe keys. The seated side view renders no layers and
+reports the missing body rather than faking a pose. The DEV set at
+`&set=dev` still renders the generation-1 fixtures. People without a pin
+resolve to generation 1 and never receive production components; people
+pinned to generation 2 never receive fixtures.
+
+### VISUAL-014 — Seated characters make chair contact
+
+A01 and B01 roots equal the seat-contact lines measured from their rasters
+within 0.01, and both lie in the lower half of the figure. The re-derived
+foreground mask leaves the primary chair back and seat transparent while the
+desk corner stays opaque, and its hash matches the released manifest. In the
+browser the guest root lands on the guest chair seat point and the primary
+root on the primary chair seat point; before/after evidence is recorded under
+`docs/agent/evidence/office-clipping-*`.
+
+### VISUAL-015 — The office seam serves flattened and modular people alike
+
+An office person with no authored recipe and no pin composes a modular
+character at the same anchor with the same depth and a real hitbox; a person
+pinned to generation 2 at a seated anchor fails closed to the placeholder
+because no real seated body exists. A01 and B01 still resolve their authored
+rasters with the recorded hashes and no modular character appears in the
+accepted office.

@@ -1,0 +1,80 @@
+{
+  "set": "PG_BLACK_FEMALE_HAIR_MASTERS_v1",
+  "count": 12,
+  "source": "713cb0e5-3fb1-4544-9f4e-d4efd2b8acf4.png",
+  "role": "Hair design masters for Scenario variant/fit workflows",
+  "assets": [
+    {
+      "id": "PG_HAIR_F_BLACK_001",
+      "file": "PG_HAIR_F_BLACK_001_SHORT_NATURAL_TAPERED_AFRO.png",
+      "status": "MASTER_DESIGN_AUTHORITY",
+      "note": "Hairstyle design/reference authority. Do not assume direct runtime overlay without fit/cleanup."
+    },
+    {
+      "id": "PG_HAIR_F_BLACK_002",
+      "file": "PG_HAIR_F_BLACK_002_ROUNDED_MEDIUM_AFRO.png",
+      "status": "MASTER_DESIGN_AUTHORITY",
+      "note": "Hairstyle design/reference authority. Do not assume direct runtime overlay without fit/cleanup."
+    },
+    {
+      "id": "PG_HAIR_F_BLACK_003",
+      "file": "PG_HAIR_F_BLACK_003_SHORT_DEFINED_TWIST_OUT.png",
+      "status": "MASTER_DESIGN_AUTHORITY",
+      "note": "Hairstyle design/reference authority. Do not assume direct runtime overlay without fit/cleanup."
+    },
+    {
+      "id": "PG_HAIR_F_BLACK_004",
+      "file": "PG_HAIR_F_BLACK_004_SHOULDER_LENGTH_NATURAL_CURLS.png",
+      "status": "MASTER_DESIGN_AUTHORITY",
+      "note": "Hairstyle design/reference authority. Do not assume direct runtime overlay without fit/cleanup."
+    },
+    {
+      "id": "PG_HAIR_F_BLACK_005",
+      "file": "PG_HAIR_F_BLACK_005_HIGH_PUFF.png",
+      "status": "MASTER_DESIGN_AUTHORITY",
+      "note": "Hairstyle design/reference authority. Do not assume direct runtime overlay without fit/cleanup."
+    },
+    {
+      "id": "PG_HAIR_F_BLACK_006",
+      "file": "PG_HAIR_F_BLACK_006_LOW_PUFF_CENTER_PART.png",
+      "status": "MASTER_DESIGN_AUTHORITY",
+      "note": "Hairstyle design/reference authority. Do not assume direct runtime overlay without fit/cleanup."
+    },
+    {
+      "id": "PG_HAIR_F_BLACK_007",
+      "file": "PG_HAIR_F_BLACK_007_SHOULDER_LENGTH_BOX_BRAIDS.png",
+      "status": "MASTER_DESIGN_AUTHORITY",
+      "note": "Hairstyle design/reference authority. Do not assume direct runtime overlay without fit/cleanup."
+    },
+    {
+      "id": "PG_HAIR_F_BLACK_008",
+      "file": "PG_HAIR_F_BLACK_008_LONG_BOX_BRAIDS.png",
+      "status": "MASTER_DESIGN_AUTHORITY",
+      "note": "Hairstyle design/reference authority. Do not assume direct runtime overlay without fit/cleanup."
+    },
+    {
+      "id": "PG_HAIR_F_BLACK_009",
+      "file": "PG_HAIR_F_BLACK_009_STRAIGHT_BACK_CORNROWS.png",
+      "status": "MASTER_DESIGN_AUTHORITY",
+      "note": "Hairstyle design/reference authority. Do not assume direct runtime overlay without fit/cleanup."
+    },
+    {
+      "id": "PG_HAIR_F_BLACK_010",
+      "file": "PG_HAIR_F_BLACK_010_CORNROWS_LOW_BUN.png",
+      "status": "MASTER_DESIGN_AUTHORITY",
+      "note": "Hairstyle design/reference authority. Do not assume direct runtime overlay without fit/cleanup."
+    },
+    {
+      "id": "PG_HAIR_F_BLACK_011",
+      "file": "PG_HAIR_F_BLACK_011_MEDIUM_TWO_STRAND_TWISTS.png",
+      "status": "MASTER_DESIGN_AUTHORITY",
+      "note": "Hairstyle design/reference authority. Do not assume direct runtime overlay without fit/cleanup."
+    },
+    {
+      "id": "PG_HAIR_F_BLACK_012",
+      "file": "PG_HAIR_F_BLACK_012_SHOULDER_LENGTH_LOCS.png",
+      "status": "MASTER_DESIGN_AUTHORITY",
+      "note": "Hairstyle design/reference authority. Do not assume direct runtime overlay without fit/cleanup."
+    }
+  ]
+}

@@ -50,7 +50,7 @@ describe("Stage 6.5 visual integration contract", () => {
       "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
     );
     expect(composition.occluders[0]?.asset.hash).toBe(
-      "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe",
+      "f2f5ae8ca3e82e13cf6fb6f8f27c654b5c95a93c6ca2c31d5c56381fdd543406",
     );
     expect(composition.occluders[0]?.depth).toBe(4);
 
@@ -73,10 +73,10 @@ describe("Stage 6.5 visual integration contract", () => {
     expect(primary!.depth).toBe(2);
     expect(primary!.widthPercent).toBeCloseTo(24.225, 2);
     expect(primary!.heightPercent).toBeCloseTo(58.051, 2);
-    expect(primary!.leftPercent).toBeCloseTo(64.027, 2);
-    expect(primary!.topPercent).toBeCloseTo(32.153, 2);
-    expect(primary!.hitbox.leftPercent).toBeCloseTo(72.506, 2);
-    expect(primary!.hitbox.topPercent).toBeCloseTo(35.055, 2);
+    expect(primary!.leftPercent).toBeCloseTo(66.918, 2);
+    expect(primary!.topPercent).toBeCloseTo(32.876, 2);
+    expect(primary!.hitbox.leftPercent).toBeCloseTo(75.397, 2);
+    expect(primary!.hitbox.topPercent).toBeCloseTo(35.779, 2);
     expect(primary!.hitbox.widthPercent).toBeCloseTo(13.324, 2);
     expect(primary!.hitbox.heightPercent).toBeCloseTo(29.025, 2);
 
@@ -97,10 +97,10 @@ describe("Stage 6.5 visual integration contract", () => {
     expect(guest!.depth).toBe(3);
     expect(guest!.widthPercent).toBeCloseTo(17.575, 2);
     expect(guest!.heightPercent).toBeCloseTo(42.117, 2);
-    expect(guest!.leftPercent).toBeCloseTo(19.915, 2);
-    expect(guest!.topPercent).toBeCloseTo(41.52, 2);
-    expect(guest!.hitbox.leftPercent).toBeCloseTo(20.794, 2);
-    expect(guest!.hitbox.topPercent).toBeCloseTo(42.363, 2);
+    expect(guest!.leftPercent).toBeCloseTo(20.365, 2);
+    expect(guest!.topPercent).toBeCloseTo(39.989, 2);
+    expect(guest!.hitbox.leftPercent).toBeCloseTo(21.244, 2);
+    expect(guest!.hitbox.topPercent).toBeCloseTo(40.831, 2);
     expect(guest!.hitbox.widthPercent).toBeCloseTo(15.817, 2);
     expect(guest!.hitbox.heightPercent).toBeCloseTo(21.059, 2);
   });
@@ -291,7 +291,7 @@ describe("Stage 6.5 visual integration contract", () => {
       expect(recipeGuest?.poseFamily).toBe("seated-in-guest-chair");
     });
 
-    it("5. A person lacking a compatible asset for the required pose fails closed and uses the explicit placeholder path", () => {
+    it("5. A person without an authored recipe resolves through the modular path, and fails closed when no body exists for the pose", () => {
       const unknownPerson: RunBScenePersonContext = {
         personId: "person_unknown_unreleased_999",
         title: "Staffer",
@@ -309,21 +309,55 @@ describe("Stage 6.5 visual integration contract", () => {
       );
       expect(recipe).toBeNull();
 
-      const composition = composeOfficeVisuals(
+      // No pin: legacy people resolve against generation 1, whose DEV
+      // fixtures include a seated body, so the ordinary seam composes a
+      // modular character at the same anchor with the same compositor.
+      const legacy = composeOfficeVisuals(
         [unknownPerson],
         PRODUCTION_VISUAL_LIBRARY,
         OFFICE_VISUAL_SCENE,
       );
+      expect(legacy.characters).toHaveLength(1);
+      const modularVisual = legacy.characters[0]!;
+      expect(modularVisual.asset).toBeNull();
+      expect(modularVisual.modular).not.toBeNull();
+      expect(modularVisual.isPlaceholder).toBe(false);
+      expect(modularVisual.modular!.catalogGeneration).toBe(1);
+      expect(modularVisual.modular!.poseFamily).toBe("seated-at-desk");
+      expect(modularVisual.modular!.layers.map((l) => l.kind)).toContain(
+        "body",
+      );
+      expect(modularVisual.appearanceRecipeId).toBe(
+        modularVisual.modular!.recipeKey,
+      );
+      expect(modularVisual.hitbox.widthPercent).toBeGreaterThan(0);
+      expect(modularVisual.depth).toBe(2);
 
-      expect(composition.characters).toHaveLength(1);
-      const char = composition.characters[0]!;
-      expect(char.isPlaceholder).toBe(true);
-      expect(char.asset).toBeNull();
-      expect(char.appearanceRecipeId).toBe(
+      // Pinned to the production generation: the real body families have no
+      // seated art yet, so the composition fails closed to the placeholder.
+      const pinnedPerson: RunBScenePersonContext = {
+        ...unknownPerson,
+        personId: "person_pinned_gen2_999",
+        appearance: derivePersonAppearance(
+          "person_pinned_gen2_999",
+          undefined,
+          2,
+        ),
+      };
+      const pinned = composeOfficeVisuals(
+        [pinnedPerson],
+        PRODUCTION_VISUAL_LIBRARY,
+        OFFICE_VISUAL_SCENE,
+      );
+      const placeholder = pinned.characters[0]!;
+      expect(placeholder.isPlaceholder).toBe(true);
+      expect(placeholder.asset).toBeNull();
+      expect(placeholder.modular).toBeNull();
+      expect(placeholder.appearanceRecipeId).toBe(
         "placeholder:unresolved-recipe-pose",
       );
-      expect(char.hitbox.widthPercent).toBeGreaterThan(0);
-      expect(char.hitbox.heightPercent).toBeGreaterThan(0);
+      expect(placeholder.hitbox.widthPercent).toBeGreaterThan(0);
+      expect(placeholder.hitbox.heightPercent).toBeGreaterThan(0);
     });
 
     it("6. Composition does not mutate Person or World", () => {

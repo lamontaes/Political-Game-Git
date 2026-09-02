@@ -19,11 +19,15 @@ interface ForegroundRegion {
 // of the authored seated figures. Coordinates are source-plate pixels.
 export const OFFICE_FOREGROUND_REGIONS: readonly ForegroundRegion[] = [
   {
+    // Ends at the primary chair's left edge (x 748). The return worktop and
+    // right cabinet beyond it sit behind the seated figure; the earlier quad
+    // that ran to x 1024 swept through the chair back and seat and painted
+    // the chair over the character's lap.
     id: "primary-desk-worktop",
     points: [
       { x: 648, y: 302 },
-      { x: 1024, y: 278 },
-      { x: 1024, y: 357 },
+      { x: 748, y: 296 },
+      { x: 748, y: 372 },
       { x: 670, y: 384 },
       { x: 648, y: 354 },
     ],
@@ -112,7 +116,7 @@ function createSamplingTable(
   });
 }
 
-function resampleLanczos(
+export function resampleLanczos(
   source: PImage.Bitmap,
   targetWidth: number,
   targetHeight: number,

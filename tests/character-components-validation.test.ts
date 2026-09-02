@@ -76,11 +76,14 @@ describe("Art validator: modular character components", () => {
       },
     );
     expect(result.errors).toEqual([]);
-    // 4 office fixtures + 16 released DEV modular components.
-    expect(result.runtimeEligibleAssetIds).toHaveLength(20);
+    // 4 office fixtures + 16 released DEV modular components + 35 real candidates.
+    expect(result.runtimeEligibleAssetIds).toHaveLength(55);
     expect(
       result.runtimeEligibleAssetIds.filter((id) => id.startsWith("dev_")),
     ).toHaveLength(16);
+    expect(
+      result.runtimeEligibleAssetIds.filter((id) => id.startsWith("pg_")),
+    ).toHaveLength(35);
   });
 
   it("requires a catalog whenever components are declared", () => {
@@ -305,7 +308,7 @@ describe("DEV modular character fixtures", () => {
         output.hash,
       );
     }
-    expect(catalog.catalog_generation).toBe(1);
+    expect(catalog.catalog_generation).toBe(2);
     expect(catalog.generations[0]!.signature).toBe(
       computeCharacterGenerationSignature(outputs),
     );

@@ -11,9 +11,12 @@ import {
   type CharacterComponentManifestRecord,
 } from "./character-components";
 import {
+  CHARACTER_PROOF_REAL_SEED,
   CHARACTER_PROOF_SCENE,
   CHARACTER_PROOF_SEED,
+  CHARACTER_PROOF_SETS,
   composeCharacterProof,
+  createCharacterProofSetWorld,
   createCharacterProofWorld,
   loadCharacterProofSnapshot,
   saveCharacterProofSnapshot,
@@ -70,52 +73,54 @@ function planFor(
   });
 }
 
-/** Production library plus one generation-2 hairstyle, garment, and accessory. */
+/** Production library plus one generation-3 hairstyle, garment, and accessory for the real families. */
 function grownProductionLibrary() {
-  const records = PRODUCTION_CHARACTER_LIBRARY.components;
-  const base: CharacterComponentManifestRecord[] = [...records.values()].map(
-    (component) => ({
-      asset_id: component.assetId,
-      asset_type: "character-component",
-      fixed_or_modular: "modular",
-      generation_status: "approved",
-      qa_status: "approved",
-      runtime_release_status: "released",
-      component: component.definition,
-    }),
-  );
+  const base: CharacterComponentManifestRecord[] = [
+    ...PRODUCTION_CHARACTER_LIBRARY.components.values(),
+  ].map((component) => ({
+    asset_id: component.assetId,
+    asset_type: "character-component",
+    fixed_or_modular: "modular",
+    generation_status: "approved",
+    qa_status: "approved",
+    runtime_release_status: "released",
+    availability: component.fixture
+      ? "development-fixture"
+      : "production-candidate",
+    component: component.definition,
+  }));
   const added: Record<string, CharacterComponentDefinition> = {
-    dev_hair_buzz_front_v2: {
+    pg_hair_f_test_v3: {
       kind: "hair-front",
-      family: "dev-buzz",
-      catalog_generation: 2,
+      family: "pg-hair-f-test",
+      catalog_generation: 3,
       layer: 40,
       canvas: { width: 200, height: 200 },
       attaches_to: "head",
       origin: { x: 0.5, y: 0.95 },
-      compatible_head_families: ["dev-oval", "dev-round"],
+      compatible_head_families: ["pg-head-f-01"],
       compatible_head_orientations: ["front"],
     },
-    dev_top_cardigan_rust_standing_v2: {
+    pg_top_test_fl_v3: {
       kind: "top",
-      family: "dev-cardigan-rust",
-      catalog_generation: 2,
+      family: "pg-top-test",
+      catalog_generation: 3,
       layer: 25,
-      canvas: { width: 400, height: 340 },
+      canvas: { width: 236, height: 250 },
       attaches_to: "torso",
       origin: { x: 0.5, y: 0 },
-      compatible_body_families: ["dev-adult"],
+      compatible_body_families: ["pg-female-lean"],
       compatible_pose_families: ["standing-neutral"],
     },
-    dev_accessory_badge_v2: {
+    pg_accessory_test_v3: {
       kind: "accessory",
-      family: "dev-badge",
-      catalog_generation: 2,
+      family: "pg-accessory-test",
+      catalog_generation: 3,
       layer: 26,
       canvas: { width: 40, height: 40 },
       attaches_to: "torso",
       origin: { x: 0.5, y: 0.5 },
-      compatible_body_families: ["dev-adult"],
+      compatible_body_families: ["pg-female-lean", "pg-male-lean"],
     },
   };
   const extra = Object.entries(added).map(
@@ -126,16 +131,17 @@ function grownProductionLibrary() {
       generation_status: "draft",
       qa_status: "pending",
       runtime_release_status: "unreleased",
+      availability: "production-candidate",
       component,
     }),
   );
   const catalog: CharacterCatalogData = {
-    catalog_generation: 2,
+    catalog_generation: 3,
     slots: PRODUCTION_CHARACTER_LIBRARY.slots,
     generations: [
       ...PRODUCTION_CHARACTER_LIBRARY.generations,
       {
-        generation: 2,
+        generation: 3,
         component_ids: Object.keys(added).sort(),
         signature: computeCharacterGenerationSignature(
           Object.entries(added).map(([assetId, definition]) => ({
@@ -150,12 +156,17 @@ function grownProductionLibrary() {
 }
 
 describe("Character render plan", () => {
-  it("uses the released dev fixture catalog at generation 1", () => {
-    expect(PRODUCTION_CHARACTER_LIBRARY.catalogGeneration).toBe(1);
-    expect(PRODUCTION_CHARACTER_LIBRARY.components.size).toBe(16);
-    for (const component of PRODUCTION_CHARACTER_LIBRARY.components.values()) {
+  it("carries the DEV fixtures at generation 1 and the production candidates at generation 2", () => {
+    expect(PRODUCTION_CHARACTER_LIBRARY.catalogGeneration).toBe(2);
+    const components = [...PRODUCTION_CHARACTER_LIBRARY.components.values()];
+    expect(components.filter((c) => c.fixture)).toHaveLength(16);
+    expect(components.filter((c) => !c.fixture)).toHaveLength(35);
+    for (const component of components) {
       expect(component.released).toBe(true);
       expect(PRODUCTION_VISUAL_LIBRARY.has(component.assetId)).toBe(true);
+      expect(component.definition.catalog_generation).toBe(
+        component.fixture ? 1 : 2,
+      );
     }
   });
 
@@ -300,7 +311,7 @@ describe("Character render plan", () => {
     it("pins new people to the current catalog generation and round-trips through the snapshot codec", () => {
       const world = createCharacterProofWorld(PRODUCTION_CHARACTER_LIBRARY);
       for (const personId of world.personOrder) {
-        expect(world.people[personId]!.appearance?.catalogGeneration).toBe(1);
+        expect(world.people[personId]!.appearance?.catalogGeneration).toBe(2);
       }
       const restored = deserializeWorld(serializeWorld(world));
       expect(restored).toEqual(world);
@@ -352,28 +363,26 @@ describe("Character render plan", () => {
 
     it("keeps established people unchanged when the catalog grows, while new people can use the new generation", () => {
       const grown = grownProductionLibrary();
-      expect(grown.catalogGeneration).toBe(2);
+      expect(grown.catalogGeneration).toBe(3);
       let sawNewContent = false;
       for (let index = 0; index < 120; index += 1) {
-        const pinnedAppearance = derivePersonAppearance(
-          `person_established_${index}`,
-          undefined,
-          1,
-        );
-        const legacyAppearance = derivePersonAppearance(
-          `person_established_${index}`,
-        );
-        const before = buildCharacterRenderPlan({
-          personId: "p",
-          appearance: pinnedAppearance,
-          anchor: STANDING,
-          plate: PLATE,
-          library: PRODUCTION_CHARACTER_LIBRARY,
-          visualLibrary: PRODUCTION_VISUAL_LIBRARY,
-        });
-        for (const appearance of [pinnedAppearance, legacyAppearance]) {
+        const id = `person_established_${index}`;
+        for (const pinnedGeneration of [1, 2]) {
+          const appearance = derivePersonAppearance(
+            id,
+            undefined,
+            pinnedGeneration,
+          );
+          const before = buildCharacterRenderPlan({
+            personId: id,
+            appearance,
+            anchor: STANDING,
+            plate: PLATE,
+            library: PRODUCTION_CHARACTER_LIBRARY,
+            visualLibrary: PRODUCTION_VISUAL_LIBRARY,
+          });
           const after = buildCharacterRenderPlan({
-            personId: "p",
+            personId: id,
             appearance,
             anchor: STANDING,
             plate: PLATE,
@@ -386,30 +395,46 @@ describe("Character render plan", () => {
             before.layers.map((l) => l.assetId),
           );
         }
-        const fresh = buildCharacterRenderPlan({
-          personId: "p",
-          appearance: derivePersonAppearance(
-            `person_established_${index}`,
-            undefined,
-            2,
-          ),
+        // Legacy (unpinned) people behave exactly like generation 1.
+        const legacy = buildCharacterRenderPlan({
+          personId: id,
+          appearance: derivePersonAppearance(id),
           anchor: STANDING,
           plate: PLATE,
           library: grown,
           visualLibrary: PRODUCTION_VISUAL_LIBRARY,
         });
-        expect(fresh.catalogGeneration).toBe(2);
-        if (fresh.layers.some((layer) => layer.assetId.endsWith("_v2"))) {
+        expect(legacy.catalogGeneration).toBe(1);
+        expect(legacy.layers.every((l) => l.assetId.startsWith("dev_"))).toBe(
+          true,
+        );
+
+        const fresh = buildCharacterRenderPlan({
+          personId: id,
+          appearance: derivePersonAppearance(id, undefined, 3),
+          anchor: STANDING,
+          plate: PLATE,
+          library: grown,
+          visualLibrary: PRODUCTION_VISUAL_LIBRARY,
+        });
+        expect(fresh.catalogGeneration).toBe(3);
+        expect(fresh.layers.every((l) => !l.assetId.startsWith("dev_"))).toBe(
+          true,
+        );
+        if (fresh.layers.some((layer) => layer.assetId.endsWith("_v3"))) {
           sawNewContent = true;
-          expect(fresh.complete).toBe(false); // unreleased gen-2 art fails closed
+          expect(fresh.complete).toBe(false); // unreleased gen-3 art fails closed
         }
       }
       expect(sawNewContent).toBe(true);
     });
   });
 
-  describe("four-character proof", () => {
-    const world = createCharacterProofWorld(PRODUCTION_CHARACTER_LIBRARY);
+  describe("four-character proof (DEV set, pinned to generation 1)", () => {
+    const world = createCharacterProofSetWorld(
+      PRODUCTION_CHARACTER_LIBRARY,
+      CHARACTER_PROOF_SETS.dev,
+    );
     const composition = composeCharacterProof(
       world,
       PRODUCTION_CHARACTER_LIBRARY,
@@ -418,6 +443,12 @@ describe("Character render plan", () => {
 
     it("renders four complete, distinct characters that recombine shared components", () => {
       expect(world.seed).toBe(CHARACTER_PROOF_SEED);
+      for (const character of composition.stage) {
+        expect(character.plan.catalogGeneration).toBe(1);
+        expect(
+          character.plan.layers.every((l) => l.assetId.startsWith("dev_")),
+        ).toBe(true);
+      }
       expect(composition.stage).toHaveLength(4);
       const keys = new Set(composition.stage.map((c) => c.plan.recipeKey));
       expect(keys.size).toBe(4);
@@ -459,6 +490,99 @@ describe("Character render plan", () => {
       expect(
         composition.side.plan.layers.some((l) => l.kind === "footwear"),
       ).toBe(false);
+    });
+  });
+
+  describe("four-character proof (real Political Game components, generation 2)", () => {
+    const world = createCharacterProofSetWorld(
+      PRODUCTION_CHARACTER_LIBRARY,
+      CHARACTER_PROOF_SETS.real,
+    );
+    const composition = composeCharacterProof(
+      world,
+      PRODUCTION_CHARACTER_LIBRARY,
+      PRODUCTION_VISUAL_LIBRARY,
+    );
+
+    it("recombines both real body families, several heads, hairstyles, and wardrobe with every layer released", () => {
+      expect(world.seed).toBe(CHARACTER_PROOF_REAL_SEED);
+      expect(composition.stage).toHaveLength(4);
+      expect(new Set(composition.stage.map((c) => c.plan.recipeKey)).size).toBe(
+        4,
+      );
+      const identities = composition.stage.map((c) => c.plan.identity);
+      expect(new Set(identities.map((i) => i.bodyFamily))).toEqual(
+        new Set(["pg-female-lean", "pg-male-lean"]),
+      );
+      expect(
+        new Set(identities.map((i) => i.headFamily)).size,
+      ).toBeGreaterThanOrEqual(3);
+      const women = identities.filter((i) => i.bodyFamily === "pg-female-lean");
+      expect(women).toHaveLength(2);
+      expect(new Set(women.map((i) => i.slots.hair)).size).toBe(2);
+      expect(
+        new Set(identities.map((i) => i.slots.top)).size,
+      ).toBeGreaterThanOrEqual(3);
+      expect(
+        new Set(identities.map((i) => i.slots.bottom)).size,
+      ).toBeGreaterThanOrEqual(2);
+      for (const character of composition.stage) {
+        expect(character.plan.catalogGeneration).toBe(2);
+        expect(character.plan.pinnedByPerson).toBe(true);
+        expect(character.plan.complete).toBe(true);
+        expect(
+          character.plan.layers.every((l) => l.assetId.startsWith("pg_")),
+        ).toBe(true);
+        expect(character.plan.layers.every((l) => l.url !== null)).toBe(true);
+        const kinds = character.plan.layers.map((l) => l.kind);
+        for (const kind of ["body", "head", "top", "bottom", "footwear"]) {
+          expect(kinds).toContain(kind);
+        }
+        if (character.plan.identity.bodyFamily === "pg-female-lean") {
+          expect(kinds).toContain("hair-front");
+          // Garment derivatives fitted to the person's own body family.
+          for (const layer of character.plan.layers) {
+            if (["top", "bottom", "footwear"].includes(layer.kind)) {
+              expect(layer.assetId).toMatch(/_fl_v1$/);
+            }
+          }
+        } else {
+          for (const layer of character.plan.layers) {
+            if (["top", "bottom", "footwear"].includes(layer.kind)) {
+              expect(layer.assetId).toMatch(/_ml_v1$/);
+            }
+          }
+        }
+      }
+      const reuse = summarizeComponentReuse(composition.stage);
+      expect(
+        reuse.find((r) => r.assetId === "pg_body_fl_standing_v1")!.usedBy,
+      ).toHaveLength(2);
+      expect(
+        reuse.find((r) => r.assetId === "pg_body_ml_standing_v1")!.usedBy,
+      ).toHaveLength(2);
+      expect(
+        reuse.filter((r) => r.usedBy.length > 1).length,
+      ).toBeGreaterThanOrEqual(2);
+      // Garment designs are shared across body families through per-family derivatives.
+      const designFamilies = composition.stage.flatMap((c) =>
+        Object.values(c.plan.identity.slots).filter(
+          (f): f is string => f !== null,
+        ),
+      );
+      const sharedDesigns = [...new Set(designFamilies)].filter(
+        (family) => designFamilies.filter((f) => f === family).length > 1,
+      );
+      expect(sharedDesigns.length).toBeGreaterThanOrEqual(3);
+    });
+
+    it("has no seated real body yet, so the seated side view fails closed rather than faking a pose", () => {
+      expect(composition.side.plan.recipeKey).toBe(
+        composition.stage[0]!.plan.recipeKey,
+      );
+      expect(composition.side.plan.layers).toEqual([]);
+      expect(composition.side.plan.complete).toBe(false);
+      expect(composition.side.plan.missing[0]).toMatch(/^body:pg-/);
     });
   });
 

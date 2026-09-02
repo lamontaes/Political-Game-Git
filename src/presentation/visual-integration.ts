@@ -8,8 +8,13 @@ import {
   createCharacterComponentLibrary,
   type CharacterAttachmentAnchor,
   type CharacterCatalogData,
+  type CharacterComponentLibrary,
   type CharacterComponentManifestRecord,
 } from "./character-components";
+import {
+  buildCharacterRenderPlan,
+  type CharacterRenderPlan,
+} from "./character-render-plan";
 import type {
   RunBSceneAnchorId,
   RunBScenePersonContext,
@@ -116,6 +121,11 @@ export interface SceneVisualAnchor {
   readonly scale: number;
   readonly poseFamily: CharacterVisualRecipe["poseFamily"];
   readonly depth: number;
+  /**
+   * Visual-estimate width of a modular body canvas at this anchor as a percent
+   * of the plate width at scale 1, used when a person has no authored recipe.
+   */
+  readonly modularBodyWidthPercent: number;
 }
 
 export interface SceneOccluder {
@@ -160,7 +170,10 @@ export interface ComposedCharacterVisual {
   readonly personId: string;
   readonly anchorId: RunBSceneAnchorId;
   readonly visualVariant: RunBScenePersonVariant;
+  /** Authored flattened raster, when an explicit recipe matched. */
   readonly asset: RuntimeVisualAsset | null;
+  /** Modular render plan, when no authored recipe matched but a body resolved. */
+  readonly modular: CharacterRenderPlan | null;
   readonly isPlaceholder: boolean;
   readonly appearanceRecipeId: string;
   readonly leftPercent: number;
@@ -253,10 +266,10 @@ export const CHARACTER_VISUAL_RECIPES = {
     assetId: "human_candidate_A01_primary_desk_seated_v1",
     bodyVisualFamily: "adult-authored-illustration",
     poseFamily: "seated-at-desk",
-    root: { convention: "pelvis-hip-center", x: 0.68, y: 0.54 },
+    root: { convention: "pelvis-hip-center", x: 0.507, y: 0.624 },
     seatedContact: {
       convention: "seat-plane-at-pelvis",
-      root: { convention: "pelvis-hip-center", x: 0.68, y: 0.54 },
+      root: { convention: "pelvis-hip-center", x: 0.507, y: 0.624 },
     },
     visualBounds: {
       sourceAspectRatio: 765 / 1024,
@@ -274,10 +287,10 @@ export const CHARACTER_VISUAL_RECIPES = {
     assetId: "human_candidate_B01_left_guest_seated_v1",
     bodyVisualFamily: "adult-authored-illustration",
     poseFamily: "seated-in-guest-chair",
-    root: { convention: "pelvis-hip-center", x: 0.46, y: 0.51 },
+    root: { convention: "pelvis-hip-center", x: 0.497, y: 0.62 },
     seatedContact: {
       convention: "seat-plane-at-pelvis",
-      root: { convention: "pelvis-hip-center", x: 0.46, y: 0.51 },
+      root: { convention: "pelvis-hip-center", x: 0.497, y: 0.62 },
     },
     visualBounds: {
       sourceAspectRatio: 765 / 1024,
@@ -300,7 +313,7 @@ export const OFFICE_VISUAL_SCENE: OfficeVisualSceneConfiguration = {
     verticalFocus: 0.75,
   },
   safeArea: { x: 86, y: 112, width: 850, height: 421 },
-  essentialContentArea: { x: 185, y: 165, width: 730, height: 353.75 },
+  essentialContentArea: { x: 185, y: 165, width: 750, height: 360 },
   uiSafeZones: [
     {
       id: "lower-shell",
@@ -323,19 +336,21 @@ export const OFFICE_VISUAL_SCENE: OfficeVisualSceneConfiguration = {
   anchors: {
     "primary-desk-chair": {
       id: "primary-desk-chair",
-      xPercent: 80.5,
-      yPercent: 63.5,
+      xPercent: 79.2,
+      yPercent: 69.1,
       scale: 0.95,
       poseFamily: "seated-at-desk",
       depth: 2,
+      modularBodyWidthPercent: 14,
     },
     "left-guest-chair": {
       id: "left-guest-chair",
-      xPercent: 28.0,
-      yPercent: 63.0,
+      xPercent: 29.1,
+      yPercent: 66.1,
       scale: 0.95,
       poseFamily: "seated-in-guest-chair",
       depth: 3,
+      modularBodyWidthPercent: 12,
     },
   },
   occluders: [
@@ -432,6 +447,7 @@ export function composeOfficeVisuals(
   people: readonly RunBScenePersonContext[],
   library: RuntimeVisualLibrary,
   scene: OfficeVisualSceneConfiguration = OFFICE_VISUAL_SCENE,
+  characterLibrary: CharacterComponentLibrary = PRODUCTION_CHARACTER_LIBRARY,
 ): OfficeVisualComposition {
   const issues = validateOfficeVisualScene(scene);
   if (issues.length > 0) throw new Error(issues.join("\n"));
@@ -457,6 +473,7 @@ export function composeOfficeVisuals(
           anchorId: person.anchorId,
           visualVariant: person.visualVariant,
           asset: requireAsset(library, recipe.assetId),
+          modular: null,
           isPlaceholder: false,
           appearanceRecipeId: recipe.appearanceRecipeId,
           leftPercent,
@@ -468,6 +485,51 @@ export function composeOfficeVisuals(
             topPercent: topPercent + heightPercent * interaction.y,
             widthPercent: widthPercent * interaction.width,
             heightPercent: heightPercent * interaction.height,
+          },
+          depth: anchor.depth,
+        };
+      }
+
+      // Ordinary modular path: an established person without an authored
+      // recipe composes from released components for this anchor's pose.
+      // The same compositor serves every scene; a missing body for the pose
+      // falls through to the explicit placeholder below.
+      const modular = buildCharacterRenderPlan({
+        personId: person.personId,
+        appearance: resolvePersonAppearance(person),
+        anchor: {
+          id: anchor.id,
+          xPercent: anchor.xPercent,
+          yPercent: anchor.yPercent,
+          scale: anchor.scale,
+          poseFamily: anchor.poseFamily,
+          depth: anchor.depth,
+          bodyWidthPercent: anchor.modularBodyWidthPercent,
+        },
+        plate: scene.plate,
+        library: characterLibrary,
+        visualLibrary: library,
+      });
+      if (modular.layers.length > 0) {
+        return {
+          personId: person.personId,
+          anchorId: person.anchorId,
+          visualVariant: person.visualVariant,
+          asset: null,
+          modular,
+          isPlaceholder: !modular.complete,
+          appearanceRecipeId: modular.recipeKey,
+          leftPercent: modular.box.leftPercent,
+          topPercent: modular.box.topPercent,
+          widthPercent: modular.box.widthPercent,
+          heightPercent: modular.box.heightPercent,
+          hitbox: {
+            leftPercent:
+              modular.box.leftPercent + modular.box.widthPercent * 0.1,
+            topPercent:
+              modular.box.topPercent + modular.box.heightPercent * 0.05,
+            widthPercent: modular.box.widthPercent * 0.8,
+            heightPercent: modular.box.heightPercent * 0.9,
           },
           depth: anchor.depth,
         };
@@ -485,6 +547,7 @@ export function composeOfficeVisuals(
         anchorId: person.anchorId,
         visualVariant: person.visualVariant,
         asset: null,
+        modular: null,
         isPlaceholder: true,
         appearanceRecipeId: "placeholder:unresolved-recipe-pose",
         leftPercent: defaultLeftPercent,

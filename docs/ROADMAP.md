@@ -455,9 +455,11 @@ runs alongside that path without gating it: the repository can validate and
 deterministically resolve reusable character components from person-owned
 appearance identity. The runtime proof (D-054) pins that identity on the
 person-owned appearance record and renders four generated people through one
-DOM compositor from DEV fixture components on a developer route. Production
-component art, a wardrobe library, and office-scene consumption remain
-separately gated. See
+DOM compositor from DEV fixture components on a developer route. The first real
+Political Game masters are normalized into generation 2 and render through the
+ordinary office seam (D-055); a seated real body, complexion-matched body
+bases, masculine hair, eyewear, and the wider wardrobe remain separately
+gated. See
 [Art Assets and Runtime Release](systems/art-assets.md).
 
 ---

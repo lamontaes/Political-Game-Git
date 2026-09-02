@@ -136,7 +136,19 @@ export interface CharacterComponentManifestRecord {
   readonly final_path?: string;
   readonly hash?: string;
   readonly component?: CharacterComponentDefinition;
+  /**
+   * Manifest-level availability class. A `development-fixture` component is
+   * eligible for identity selection only while no `production-candidate`
+   * component of the same kind exists at the resolved generation, so DEV
+   * fixtures keep serving generation-1 people and regression tests without
+   * ever being chosen for people once real components exist. Lives on the
+   * record, not the definition, so past generation signatures are unaffected.
+   */
+  readonly availability?: CharacterComponentAvailability;
 }
+
+export type CharacterComponentAvailability =
+  "development-fixture" | "production-candidate";
 
 export const CHARACTER_COMPONENT_ASSET_TYPE = "character-component";
 
@@ -172,6 +184,8 @@ export interface CharacterComponent {
   readonly definition: CharacterComponentDefinition;
   /** Runtime eligible per the existing approval + QA + release gate. */
   readonly released: boolean;
+  /** True for DEV/NON-PRODUCTION fixtures (see `availability`). */
+  readonly fixture: boolean;
 }
 
 export interface CharacterComponentLibrary {
@@ -271,6 +285,7 @@ export function createCharacterComponentLibrary(
       assetId: record.asset_id,
       definition: record.component,
       released: isRuntimeEligible(record),
+      fixture: record.availability === "development-fixture",
     });
   }
   return {
@@ -399,6 +414,15 @@ export function validateCharacterComponentLibrary(
         `Character component '${record.asset_id}' must declare fixed_or_modular 'modular'.`,
       );
     }
+    if (
+      record.availability !== undefined &&
+      record.availability !== "development-fixture" &&
+      record.availability !== "production-candidate"
+    ) {
+      errors.push(
+        `Character component '${record.asset_id}' has invalid availability '${String(record.availability)}'.`,
+      );
+    }
     if (seenIds.has(record.asset_id)) {
       errors.push(`Duplicate character component ID '${record.asset_id}'.`);
       continue;
@@ -408,6 +432,7 @@ export function validateCharacterComponentLibrary(
       assetId: record.asset_id,
       definition: record.component as CharacterComponentDefinition,
       released: isRuntimeEligible(record),
+      fixture: record.availability === "development-fixture",
     });
   }
 
@@ -760,25 +785,36 @@ export function validateCharacterComponentLibrary(
     }
   }
 
-  // Family compatibility must be uniform within one family so identity can
-  // reason about families without inspecting every pose variant.
-  const familyCompat = new Map<string, string>();
+  // Head compatibility must be uniform within one family so identity can
+  // reason about head-attached families without inspecting every variant.
+  // Body compatibility may be partitioned across members: a garment design
+  // master fitted separately to each body family keeps one family identity
+  // while context selects the derivative for the person's body.
+  const familyHeadCompat = new Map<string, string>();
+  const familyBodyMembers = new Map<string, Map<string, string[]>>();
   for (const { assetId, definition } of components) {
     if (definition.kind === "body" || !isNonEmptyString(definition.family))
       continue;
     const key = `${definition.kind}:${definition.family}`;
-    const compat = canonicalJson({
-      body: sortStrings(definition.compatible_body_families ?? []),
-      head: sortStrings(definition.compatible_head_families ?? []),
-    });
-    const previous = familyCompat.get(key);
+    const headCompat = canonicalJson(
+      sortStrings(definition.compatible_head_families ?? []),
+    );
+    const previous = familyHeadCompat.get(key);
     if (previous === undefined) {
-      familyCompat.set(key, compat);
-    } else if (previous !== compat) {
+      familyHeadCompat.set(key, headCompat);
+    } else if (previous !== headCompat) {
       errors.push(
-        `Character component '${assetId}' declares different family compatibility from other members of ${definition.kind} family '${definition.family}'.`,
+        `Character component '${assetId}' declares different head compatibility from other members of ${definition.kind} family '${definition.family}'.`,
       );
     }
+    const byBody = familyBodyMembers.get(key) ?? new Map<string, string[]>();
+    for (const bodyFamily of definition.compatible_body_families ?? []) {
+      const poseKey = `${bodyFamily}|${canonicalJson(sortStrings(definition.compatible_pose_families ?? ["*"]))}|${canonicalJson(sortStrings(definition.compatible_head_orientations ?? ["*"]))}`;
+      const members = byBody.get(poseKey) ?? [];
+      members.push(assetId);
+      byBody.set(poseKey, members);
+    }
+    familyBodyMembers.set(key, byBody);
   }
 
   // Attachment anchors must exist on every body the component can reach.
@@ -987,13 +1023,28 @@ export interface CharacterRecipe {
   readonly context: CharacterRecipeContext;
 }
 
-function componentsAtGeneration(
+/**
+ * Components eligible at a generation. Development fixtures of a kind step
+ * aside as soon as a production candidate of that kind exists at or below
+ * the generation; because a generation's membership is frozen, a person
+ * pinned to a fixture-only generation keeps resolving exactly as before.
+ */
+export function componentsAtGeneration(
   library: CharacterComponentLibrary,
   generation: number,
 ): CharacterComponent[] {
-  return [...library.components.values()]
+  const inGeneration = [...library.components.values()].filter(
+    (component) => component.definition.catalog_generation <= generation,
+  );
+  const productionKinds = new Set(
+    inGeneration
+      .filter((component) => !component.fixture)
+      .map((component) => component.definition.kind),
+  );
+  return inGeneration
     .filter(
-      (component) => component.definition.catalog_generation <= generation,
+      (component) =>
+        !component.fixture || !productionKinds.has(component.definition.kind),
     )
     .sort((a, b) =>
       a.assetId < b.assetId ? -1 : a.assetId > b.assetId ? 1 : 0,
@@ -1228,6 +1279,11 @@ export function resolveCharacterRecipe(
         (component) =>
           component.definition.kind === slot.kind &&
           component.definition.family === family &&
+          familyCompatibleWithIdentity(
+            component.definition,
+            bodyFamily,
+            headFamily,
+          ) &&
           contextCompatible(
             component.definition,
             poseFamily,

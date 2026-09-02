@@ -776,18 +776,22 @@ describe("Packet 76 approved runtime art", () => {
     expect(result.valid).toBe(true);
     expect(result.errors).toEqual([]);
     // The four Packet 76 office fixtures remain released, followed by the
-    // sixteen DEV/NON-PRODUCTION modular character components.
+    // sixteen DEV/NON-PRODUCTION modular character components and the
+    // thirty-five Political Game production candidates.
     expect(result.runtimeEligibleAssetIds.slice(0, 4)).toEqual([
       "env_lexington_council_staff_office_prompt30_v1",
       "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
       "human_candidate_A01_primary_desk_seated_v1",
       "human_candidate_B01_left_guest_seated_v1",
     ]);
-    expect(result.runtimeEligibleAssetIds).toHaveLength(20);
+    expect(result.runtimeEligibleAssetIds).toHaveLength(55);
     expect(
       result.runtimeEligibleAssetIds
         .slice(4)
-        .every((assetId: string) => assetId.startsWith("dev_")),
+        .every(
+          (assetId: string) =>
+            assetId.startsWith("dev_") || assetId.startsWith("pg_"),
+        ),
     ).toBe(true);
     const environment = manifest.assets.find(
       (asset: { asset_id: string }) =>
@@ -828,13 +832,13 @@ describe("Packet 76 approved runtime art", () => {
         sourceHeight: 572,
         runtimeWidth: 2048,
         runtimeHeight: 1144,
-        foregroundPixelCount: 269_313,
+        foregroundPixelCount: 183_443,
       });
       expect(hashArtFile(runtimePath)).toBe(
         "66678f0e91c52ca86f851ae4ba73d1a736a56be9cb7875512ab6bd1235de07f0",
       );
       expect(hashArtFile(foregroundPath)).toBe(
-        "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe",
+        "f2f5ae8ca3e82e13cf6fb6f8f27c654b5c95a93c6ca2c31d5c56381fdd543406",
       );
       expect((await parseImageMetadata(runtimePath)).hasTransparency).toBe(
         "none",

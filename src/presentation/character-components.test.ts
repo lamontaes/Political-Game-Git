@@ -276,16 +276,30 @@ describe("Modular character component contract", () => {
       );
     });
 
-    it("requires every member of a family to declare the same compatibility", () => {
+    it("requires uniform head compatibility within a family while allowing per-body-family garment derivatives", () => {
       const records = cloneRecords();
-      mutate(records, "top_blazer_navy_standing_v1", {
-        compatible_body_families: ["adult-medium"],
+      mutate(records, "hair_short_crop_front_front_v1", {
+        compatible_head_families: ["round"],
       });
       expect(
         validateCharacterComponentLibrary(records, FIXTURE_CATALOG).join("\n"),
       ).toContain(
-        "declares different family compatibility from other members of top family 'blazer-navy'",
+        "declares different head compatibility from other members of hair-front family 'short-crop'",
       );
+
+      // A garment design fitted separately per body family keeps one family.
+      const partitioned = cloneRecords();
+      mutate(partitioned, "top_blazer_navy_standing_v1", {
+        compatible_body_families: ["adult-medium"],
+      });
+      mutate(partitioned, "top_blazer_navy_seated_v1", {
+        compatible_body_families: ["adult-tall"],
+      });
+      expect(
+        validateCharacterComponentLibrary(partitioned, FIXTURE_CATALOG).filter(
+          (error) => error.includes("blazer-navy"),
+        ),
+      ).toEqual([]);
     });
 
     it("never resolves an incompatible head or hair family", () => {

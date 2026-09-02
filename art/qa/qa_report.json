@@ -210,6 +210,356 @@
     "meetsTransparencyReq": true
   },
   {
+    "file": "generated/approved/pg-modular/pg_body_fl_standing_v1.png",
+    "metadata": {
+      "width": 343,
+      "height": 960,
+      "aspectRatio": "343:960",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_body_ml_standing_v1.png",
+    "metadata": {
+      "width": 345,
+      "height": 960,
+      "aspectRatio": "23:64",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_bottom_001_straight_leg_blue_jeans_fl_v1.png",
+    "metadata": {
+      "width": 157,
+      "height": 334,
+      "aspectRatio": "157:334",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_bottom_001_straight_leg_blue_jeans_ml_v1.png",
+    "metadata": {
+      "width": 190,
+      "height": 405,
+      "aspectRatio": "38:81",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_bottom_005_dress_trousers_fl_v1.png",
+    "metadata": {
+      "width": 157,
+      "height": 324,
+      "aspectRatio": "157:324",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_bottom_005_dress_trousers_ml_v1.png",
+    "metadata": {
+      "width": 190,
+      "height": 392,
+      "aspectRatio": "95:196",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_bottom_010_a_line_knee_skirt_fl_v1.png",
+    "metadata": {
+      "width": 157,
+      "height": 221,
+      "aspectRatio": "157:221",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_bottom_010_a_line_knee_skirt_ml_v1.png",
+    "metadata": {
+      "width": 190,
+      "height": 267,
+      "aspectRatio": "190:267",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_hair_f_black_001_short_tapered_afro_v1.png",
+    "metadata": {
+      "width": 106,
+      "height": 127,
+      "aspectRatio": "106:127",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_hair_f_black_002_rounded_medium_afro_v1.png",
+    "metadata": {
+      "width": 226,
+      "height": 218,
+      "aspectRatio": "113:109",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_hair_f_black_004_shoulder_natural_curls_v1.png",
+    "metadata": {
+      "width": 278,
+      "height": 286,
+      "aspectRatio": "139:143",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_hair_f_black_005_high_puff_v1.png",
+    "metadata": {
+      "width": 109,
+      "height": 148,
+      "aspectRatio": "109:148",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_hair_f_black_007_shoulder_box_braids_v1.png",
+    "metadata": {
+      "width": 214,
+      "height": 267,
+      "aspectRatio": "214:267",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_hair_f_black_008_long_box_braids_v1.png",
+    "metadata": {
+      "width": 308,
+      "height": 375,
+      "aspectRatio": "308:375",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_hair_f_black_010_cornrows_low_bun_v1.png",
+    "metadata": {
+      "width": 109,
+      "height": 142,
+      "aspectRatio": "109:142",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_hair_f_black_012_shoulder_locs_v1.png",
+    "metadata": {
+      "width": 255,
+      "height": 282,
+      "aspectRatio": "85:94",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_head_f_01_bald_neutral_v1.png",
+    "metadata": {
+      "width": 111,
+      "height": 117,
+      "aspectRatio": "37:39",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_head_m_001_black_young_adult_v1.png",
+    "metadata": {
+      "width": 98,
+      "height": 124,
+      "aspectRatio": "49:62",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_head_m_002_white_adult_v1.png",
+    "metadata": {
+      "width": 94,
+      "height": 124,
+      "aspectRatio": "47:62",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_head_m_004_east_asian_young_adult_v1.png",
+    "metadata": {
+      "width": 102,
+      "height": 124,
+      "aspectRatio": "51:62",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_head_m_005_black_older_adult_v1.png",
+    "metadata": {
+      "width": 115,
+      "height": 124,
+      "aspectRatio": "115:124",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_shoe_001_low_top_sneakers_fl_v1.png",
+    "metadata": {
+      "width": 226,
+      "height": 142,
+      "aspectRatio": "113:71",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_shoe_001_low_top_sneakers_ml_v1.png",
+    "metadata": {
+      "width": 134,
+      "height": 84,
+      "aspectRatio": "67:42",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_shoe_004_leather_loafers_fl_v1.png",
+    "metadata": {
+      "width": 226,
+      "height": 135,
+      "aspectRatio": "226:135",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_shoe_004_leather_loafers_ml_v1.png",
+    "metadata": {
+      "width": 134,
+      "height": 80,
+      "aspectRatio": "67:40",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_shoe_009_low_practical_flats_fl_v1.png",
+    "metadata": {
+      "width": 226,
+      "height": 148,
+      "aspectRatio": "113:74",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_shoe_009_low_practical_flats_ml_v1.png",
+    "metadata": {
+      "width": 134,
+      "height": 88,
+      "aspectRatio": "67:44",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_top_001_short_sleeve_crew_tee_fl_v1.png",
+    "metadata": {
+      "width": 236,
+      "height": 252,
+      "aspectRatio": "59:63",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_top_001_short_sleeve_crew_tee_ml_v1.png",
+    "metadata": {
+      "width": 266,
+      "height": 283,
+      "aspectRatio": "266:283",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_top_005_long_sleeve_button_shirt_fl_v1.png",
+    "metadata": {
+      "width": 236,
+      "height": 287,
+      "aspectRatio": "236:287",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_top_005_long_sleeve_button_shirt_ml_v1.png",
+    "metadata": {
+      "width": 266,
+      "height": 323,
+      "aspectRatio": "14:17",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_top_006_pullover_sweater_fl_v1.png",
+    "metadata": {
+      "width": 236,
+      "height": 261,
+      "aspectRatio": "236:261",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_top_006_pullover_sweater_ml_v1.png",
+    "metadata": {
+      "width": 266,
+      "height": 294,
+      "aspectRatio": "19:21",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_top_011_structured_blazer_fl_v1.png",
+    "metadata": {
+      "width": 236,
+      "height": 287,
+      "aspectRatio": "236:287",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_top_011_structured_blazer_ml_v1.png",
+    "metadata": {
+      "width": 266,
+      "height": 324,
+      "aspectRatio": "133:162",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
     "file": "references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png",
     "metadata": {
       "width": 765,
@@ -225,6 +575,256 @@
       "width": 765,
       "height": 1024,
       "aspectRatio": "765:1024",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/bodies/PG_BODY_FEMALE_LEAN.png",
+    "metadata": {
+      "width": 1696,
+      "height": 2528,
+      "aspectRatio": "53:79",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/bodies/PG_BODY_MALE_LEAN.png",
+    "metadata": {
+      "width": 1696,
+      "height": 2528,
+      "aspectRatio": "53:79",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/bottoms/PG_BOTTOM_001_STRAIGHT_LEG_BLUE_JEANS.png",
+    "metadata": {
+      "width": 219,
+      "height": 244,
+      "aspectRatio": "219:244",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/bottoms/PG_BOTTOM_005_DRESS_TROUSERS.png",
+    "metadata": {
+      "width": 218,
+      "height": 244,
+      "aspectRatio": "109:122",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/bottoms/PG_BOTTOM_010_A_LINE_KNEE_LENGTH_SKIRT.png",
+    "metadata": {
+      "width": 219,
+      "height": 244,
+      "aspectRatio": "219:244",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/footwear/PG_SHOE_001_LOW_TOP_EVERYDAY_SNEAKERS.png",
+    "metadata": {
+      "width": 243,
+      "height": 244,
+      "aspectRatio": "243:244",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/footwear/PG_SHOE_004_LEATHER_LOAFERS.png",
+    "metadata": {
+      "width": 243,
+      "height": 244,
+      "aspectRatio": "243:244",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/footwear/PG_SHOE_009_LOW_PRACTICAL_FLATS.png",
+    "metadata": {
+      "width": 243,
+      "height": 244,
+      "aspectRatio": "243:244",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/hair/PG_HAIR_F_BLACK_001_SHORT_NATURAL_TAPERED_AFRO.png",
+    "metadata": {
+      "width": 221,
+      "height": 213,
+      "aspectRatio": "221:213",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/hair/PG_HAIR_F_BLACK_002_ROUNDED_MEDIUM_AFRO.png",
+    "metadata": {
+      "width": 220,
+      "height": 213,
+      "aspectRatio": "220:213",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/hair/PG_HAIR_F_BLACK_004_SHOULDER_LENGTH_NATURAL_CURLS.png",
+    "metadata": {
+      "width": 221,
+      "height": 213,
+      "aspectRatio": "221:213",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/hair/PG_HAIR_F_BLACK_005_HIGH_PUFF.png",
+    "metadata": {
+      "width": 220,
+      "height": 213,
+      "aspectRatio": "220:213",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/hair/PG_HAIR_F_BLACK_007_SHOULDER_LENGTH_BOX_BRAIDS.png",
+    "metadata": {
+      "width": 221,
+      "height": 213,
+      "aspectRatio": "221:213",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/hair/PG_HAIR_F_BLACK_008_LONG_BOX_BRAIDS.png",
+    "metadata": {
+      "width": 220,
+      "height": 213,
+      "aspectRatio": "220:213",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/hair/PG_HAIR_F_BLACK_010_CORNROWS_LOW_BUN.png",
+    "metadata": {
+      "width": 221,
+      "height": 213,
+      "aspectRatio": "221:213",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/hair/PG_HAIR_F_BLACK_012_SHOULDER_LENGTH_LOCS.png",
+    "metadata": {
+      "width": 221,
+      "height": 213,
+      "aspectRatio": "221:213",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/heads/PG_FACE_M_001_BLACK_YOUNG_ADULT_BALD_NEUTRAL.png",
+    "metadata": {
+      "width": 333,
+      "height": 331,
+      "aspectRatio": "333:331",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/heads/PG_FACE_M_002_WHITE_ADULT_BALD_NEUTRAL.png",
+    "metadata": {
+      "width": 333,
+      "height": 331,
+      "aspectRatio": "333:331",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/heads/PG_FACE_M_004_EAST_ASIAN_YOUNG_ADULT_BALD_NEUTRAL.png",
+    "metadata": {
+      "width": 333,
+      "height": 332,
+      "aspectRatio": "333:332",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/heads/PG_FACE_M_005_BLACK_OLDER_ADULT_BALD_NEUTRAL.png",
+    "metadata": {
+      "width": 333,
+      "height": 331,
+      "aspectRatio": "333:331",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/heads/PG_HEAD_F_SAMPLE_01_BALD_NEUTRAL.png",
+    "metadata": {
+      "width": 206,
+      "height": 307,
+      "aspectRatio": "206:307",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/tops/PG_TOP_001_SHORT_SLEEVE_CREW_TEE.png",
+    "metadata": {
+      "width": 221,
+      "height": 246,
+      "aspectRatio": "221:246",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/tops/PG_TOP_005_LONG_SLEEVE_BUTTON_SHIRT.png",
+    "metadata": {
+      "width": 220,
+      "height": 246,
+      "aspectRatio": "110:123",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/tops/PG_TOP_006_PULLOVER_SWEATER.png",
+    "metadata": {
+      "width": 221,
+      "height": 246,
+      "aspectRatio": "221:246",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/tops/PG_TOP_011_STRUCTURED_BLAZER.png",
+    "metadata": {
+      "width": 220,
+      "height": 246,
+      "aspectRatio": "110:123",
       "hasTransparency": "none"
     },
     "meetsTransparencyReq": null

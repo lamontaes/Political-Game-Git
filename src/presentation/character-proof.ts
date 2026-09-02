@@ -26,8 +26,52 @@ import type { RuntimeVisualLibrary } from "./visual-integration";
  */
 export const CHARACTER_PROOF_SEED = "modular-character-proof-2026-09-01-4";
 
+/**
+ * Real-asset proof seed: the first four generated people recombine both
+ * Political Game body families, three head masters, two Black hairstyles,
+ * three tops, and three bottoms from the generation-2 production candidates.
+ */
+export const CHARACTER_PROOF_REAL_SEED = "pg-real-character-proof-2026-09-01-3";
+
+export type CharacterProofSetId = "dev" | "real";
+
+export interface CharacterProofSet {
+  readonly id: CharacterProofSetId;
+  readonly label: string;
+  readonly seed: string;
+  /** Catalog generation the proof people are pinned to; null = library current. */
+  readonly catalogGeneration: number | null;
+}
+
+/**
+ * The DEV set stays pinned to generation 1 so the procedural fixtures remain
+ * a stable regression surface after real components arrive in generation 2.
+ */
+export const CHARACTER_PROOF_SETS: Readonly<
+  Record<CharacterProofSetId, CharacterProofSet>
+> = {
+  dev: {
+    id: "dev",
+    label: "DEV / NON-PRODUCTION fixtures (generation 1)",
+    seed: CHARACTER_PROOF_SEED,
+    catalogGeneration: 1,
+  },
+  real: {
+    id: "real",
+    label: "Political Game production candidates (generation 2)",
+    seed: CHARACTER_PROOF_REAL_SEED,
+    catalogGeneration: null,
+  },
+};
+
 export const CHARACTER_PROOF_SNAPSHOT_STORAGE_KEY =
   "political-game:character-proof:snapshot:v1";
+
+export function characterProofSnapshotKey(setId: CharacterProofSetId): string {
+  return setId === "dev"
+    ? CHARACTER_PROOF_SNAPSHOT_STORAGE_KEY
+    : `political-game:character-proof:${setId}:snapshot:v1`;
+}
 
 export interface CharacterProofSceneConfiguration {
   readonly plate: SceneSize;
@@ -103,21 +147,33 @@ export type CharacterProofWorldSource = "fresh" | "restored-snapshot";
 export function createCharacterProofWorld(
   library: CharacterComponentLibrary,
   seed = CHARACTER_PROOF_SEED,
+  catalogGeneration: number | null = null,
 ): World {
   return createGeneratedWorld(seed, {
-    appearanceCatalogGeneration: library.catalogGeneration,
+    appearanceCatalogGeneration: catalogGeneration ?? library.catalogGeneration,
   });
+}
+
+export function createCharacterProofSetWorld(
+  library: CharacterComponentLibrary,
+  set: CharacterProofSet,
+): World {
+  return createCharacterProofWorld(library, set.seed, set.catalogGeneration);
 }
 
 export function saveCharacterProofSnapshot(
   storage: StorageLike,
   world: World,
+  setId: CharacterProofSetId = "dev",
 ): void {
-  storage.setItem(CHARACTER_PROOF_SNAPSHOT_STORAGE_KEY, serializeWorld(world));
+  storage.setItem(characterProofSnapshotKey(setId), serializeWorld(world));
 }
 
-export function loadCharacterProofSnapshot(storage: StorageLike): World | null {
-  const payload = storage.getItem(CHARACTER_PROOF_SNAPSHOT_STORAGE_KEY);
+export function loadCharacterProofSnapshot(
+  storage: StorageLike,
+  setId: CharacterProofSetId = "dev",
+): World | null {
+  const payload = storage.getItem(characterProofSnapshotKey(setId));
   if (!payload) return null;
   try {
     return deserializeWorld(payload);
@@ -126,10 +182,11 @@ export function loadCharacterProofSnapshot(storage: StorageLike): World | null {
   }
 }
 
-export function clearCharacterProofSnapshot(storage: {
-  removeItem(key: string): void;
-}): void {
-  storage.removeItem(CHARACTER_PROOF_SNAPSHOT_STORAGE_KEY);
+export function clearCharacterProofSnapshot(
+  storage: { removeItem(key: string): void },
+  setId: CharacterProofSetId = "dev",
+): void {
+  storage.removeItem(characterProofSnapshotKey(setId));
 }
 
 export interface CharacterProofCharacter {

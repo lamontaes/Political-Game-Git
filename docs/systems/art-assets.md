@@ -200,3 +200,35 @@ layers inside the ordinary scene camera; anchor markers are DOM overlays. The
 of them again seated, with save/reload through the snapshot codec. The
 accepted office scene still renders the authored A01/B01 recipes and does not
 yet consume modular recipes.
+
+### Real Political Game masters (generation 2)
+
+Under D-055 the first real components are owner-supplied masters normalized
+by `scripts/art-asset-factory/pg-modular-intake.ts`
+(`npm run intake:pg-modular`). The selected masters are preserved
+byte-for-byte under `art/references/masters/pg-modular/` with their pack
+manifests; the released derivatives live under
+`art/generated/approved/pg-modular/` as `availability: "production-candidate"`
+components in catalog generation 2. Per-row neutral-background keying,
+opaque-bounds cropping, mask-derived rig measurement, fixed fit ratios, and
+Lanczos-3 resampling are the only operations; provenance records the master
+hash, keying profile, crop, scale, and fit for every derivative, and a test
+reproduces every hash and the generation signature.
+
+The candidate set is two body families (`pg-female-lean`, `pg-male-lean`
+from the gray body-geometry authorities), five bald heads (one feminine
+sample, four masculine identity masters), eight Black feminine hairstyles,
+four tops, three bottoms, and three footwear designs. Garment designs are
+fitted once per body family, so one design family yields `_fl_` and `_ml_`
+derivatives; hair attaches at the rig's `brow` anchor by its measured
+hairline, heads at the neck by their neck cut, garments at the shoulder line
+or waist, footwear at the sole line. The DEV fixtures remain in generation 1
+as `development-fixture` components and step aside wherever a production
+candidate of the same kind exists.
+
+Known asset requirements, recorded rather than faked: no seated real body
+exists (real people cannot yet sit in the office); the gray geometry
+authorities carry no complexion, so exposed skin on modular bodies renders
+gray until complexion-matched body bases exist; no masculine hairstyle,
+eyewear, or accessory master exists locally; garment compatibility is not
+gendered, so any bottom may resolve for any body family.

@@ -1,4 +1,7 @@
-import type { CharacterComponentDefinition } from "../../src/presentation/character-components";
+import type {
+  CharacterComponentAvailability,
+  CharacterComponentDefinition,
+} from "../../src/presentation/character-components";
 
 export type MeasurementConfidence =
   | "exact"
@@ -75,6 +78,8 @@ export interface AssetManifestEntry {
    * validator and the runtime share one implementation.
    */
   component?: CharacterComponentDefinition;
+  /** Character components only: development-fixture or production-candidate. */
+  availability?: CharacterComponentAvailability;
 }
 
 export type {

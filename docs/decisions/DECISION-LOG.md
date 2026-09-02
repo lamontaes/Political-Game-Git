@@ -899,3 +899,55 @@ Consequence: appearance stability is a property of the save, not of one
 browser session. No production component art, generator, wardrobe library,
 head-angle generation, animation, engine, office-scene consumption, Slice F,
 or campaign/election change is authorized by this decision.
+
+## D-055 — Real masters are normalized deterministically into the modular contract, and seated contact is measured
+
+- Date: 2026-09-01
+- Status: ACCEPTED
+- Supersedes: the D-047 visual-estimate roots and anchors for the A01/B01
+  recipes and the original primary-desk-worktop occluder polygon only; no
+  identity, catalog, release-gate, or fail-closed decision is superseded
+
+Owner-supplied Political Game masters — gray body-geometry authorities, bald
+head/face identity masters, hair-only masters with a face opening, and
+unfitted garment and footwear design masters — enter the runtime only through
+`scripts/art-asset-factory/pg-modular-intake.ts`. The intake is deterministic
+image processing: per-row neutral-background keying with optional
+neutral-shadow suppression, opaque-bounds cropping, mask-derived body rig
+measurement (crown, brow, neck, shoulder line, waist, crotch root, sole line),
+fixed fit ratios against those measurements, hairline or neck-cut origins, and
+Lanczos-3 resampling. No pixel is generated or repainted. Source masters are
+copied byte-for-byte under `art/references/masters/pg-modular/` and every
+derivative's provenance records the master path, master hash, keying profile,
+crop, scale, and fit. A garment design master fitted to more than one body
+family keeps one family identity and yields one derivative per body family;
+context selects the derivative for the person's body.
+
+Manifest records carry an `availability` class. `development-fixture`
+components remain in generation 1 and keep serving people pinned there;
+`production-candidate` components of a kind exclude fixtures of that kind
+from selection at any generation where they exist. The class lives on the
+record, not the definition, so generation signatures are unchanged.
+
+The ordinary office seam now serves every person: an authored flattened
+recipe still wins; otherwise `composeOfficeVisuals` builds a modular render
+plan for the anchor's pose through the same compositor, and a missing body
+for that pose fails closed to the placeholder. The scene code does not care
+which path produced the character.
+
+The visible seat-contact defect had two causes. The foreground occluder's
+primary-desk-worktop polygon ran to the plate edge and swept through the
+primary chair, painting the chair back and seat over the seated figure. Both
+authored roots were declared mid-torso rather than on the seat plane, so the
+figures sat a quarter of their height too low and beside their chairs. The
+polygon now ends at the chair, and the roots are the seat-contact lines
+measured from the rasters by `scripts/art-asset-factory/seated-contact.ts`;
+the anchors are the chairs' seat points. A regression test measures both.
+
+Consequence: four real people compose from two body families, five heads,
+eight hairstyles, four tops, three bottoms, and three footwear designs, and
+persist and reload unchanged. No real seated body exists, so the office cannot
+yet seat a real modular person; no complexion-matched body base exists, so
+exposed skin on modular bodies renders as the gray geometry authority; no
+eyewear or accessory master exists locally. Those are asset requirements, not
+architecture gaps, and are recorded rather than faked.

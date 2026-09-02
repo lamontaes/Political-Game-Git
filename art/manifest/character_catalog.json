@@ -1,5 +1,5 @@
 {
-  "catalog_generation": 1,
+  "catalog_generation": 2,
   "slots": [
     {
       "slot_id": "body",
@@ -73,6 +73,47 @@
         "dev_top_tee_teal_standing_v1"
       ],
       "signature": "csig_6f0c19b1dce11425"
+    },
+    {
+      "generation": 2,
+      "component_ids": [
+        "pg_body_fl_standing_v1",
+        "pg_body_ml_standing_v1",
+        "pg_bottom_001_straight_leg_blue_jeans_fl_v1",
+        "pg_bottom_001_straight_leg_blue_jeans_ml_v1",
+        "pg_bottom_005_dress_trousers_fl_v1",
+        "pg_bottom_005_dress_trousers_ml_v1",
+        "pg_bottom_010_a_line_knee_skirt_fl_v1",
+        "pg_bottom_010_a_line_knee_skirt_ml_v1",
+        "pg_hair_f_black_001_short_tapered_afro_v1",
+        "pg_hair_f_black_002_rounded_medium_afro_v1",
+        "pg_hair_f_black_004_shoulder_natural_curls_v1",
+        "pg_hair_f_black_005_high_puff_v1",
+        "pg_hair_f_black_007_shoulder_box_braids_v1",
+        "pg_hair_f_black_008_long_box_braids_v1",
+        "pg_hair_f_black_010_cornrows_low_bun_v1",
+        "pg_hair_f_black_012_shoulder_locs_v1",
+        "pg_head_f_01_bald_neutral_v1",
+        "pg_head_m_001_black_young_adult_v1",
+        "pg_head_m_002_white_adult_v1",
+        "pg_head_m_004_east_asian_young_adult_v1",
+        "pg_head_m_005_black_older_adult_v1",
+        "pg_shoe_001_low_top_sneakers_fl_v1",
+        "pg_shoe_001_low_top_sneakers_ml_v1",
+        "pg_shoe_004_leather_loafers_fl_v1",
+        "pg_shoe_004_leather_loafers_ml_v1",
+        "pg_shoe_009_low_practical_flats_fl_v1",
+        "pg_shoe_009_low_practical_flats_ml_v1",
+        "pg_top_001_short_sleeve_crew_tee_fl_v1",
+        "pg_top_001_short_sleeve_crew_tee_ml_v1",
+        "pg_top_005_long_sleeve_button_shirt_fl_v1",
+        "pg_top_005_long_sleeve_button_shirt_ml_v1",
+        "pg_top_006_pullover_sweater_fl_v1",
+        "pg_top_006_pullover_sweater_ml_v1",
+        "pg_top_011_structured_blazer_fl_v1",
+        "pg_top_011_structured_blazer_ml_v1"
+      ],
+      "signature": "csig_84ae095275c98c55"
     }
   ]
 }
