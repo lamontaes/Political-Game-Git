@@ -1,0 +1,1029 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2024-01-01T00:00:00.000Z",
+  "sourceVintage": "2022 Census of Governments",
+  "stateCount": 51,
+  "states": {
+    "AK": {
+      "state": "AK",
+      "stateName": "Alaska",
+      "stateFips": "02",
+      "totalGovernments": 182,
+      "totalLocalGovernments": 181,
+      "countyGovernments": 15,
+      "municipalGovernments": 149,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 17,
+      "independentSchoolDistricts": 0,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 55,
+        "countyDependent": 16,
+        "municipalDependent": 19,
+        "townshipDependent": 0,
+        "stateDependent": 20
+      }
+    },
+    "AL": {
+      "state": "AL",
+      "stateName": "Alabama",
+      "stateFips": "01",
+      "totalGovernments": 1209,
+      "totalLocalGovernments": 1208,
+      "countyGovernments": 67,
+      "municipalGovernments": 462,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 541,
+      "independentSchoolDistricts": 138,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "AR": {
+      "state": "AR",
+      "stateName": "Arkansas",
+      "stateFips": "05",
+      "totalGovernments": 1563,
+      "totalLocalGovernments": 1562,
+      "countyGovernments": 75,
+      "municipalGovernments": 500,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 753,
+      "independentSchoolDistricts": 234,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "AZ": {
+      "state": "AZ",
+      "stateName": "Arizona",
+      "stateFips": "04",
+      "totalGovernments": 675,
+      "totalLocalGovernments": 674,
+      "countyGovernments": 15,
+      "municipalGovernments": 91,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 326,
+      "independentSchoolDistricts": 242,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 12,
+        "countyDependent": 12,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "CA": {
+      "state": "CA",
+      "stateName": "California",
+      "stateFips": "06",
+      "totalGovernments": 4495,
+      "totalLocalGovernments": 4494,
+      "countyGovernments": 57,
+      "municipalGovernments": 482,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 2949,
+      "independentSchoolDistricts": 1006,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 55,
+        "countyDependent": 55,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "CO": {
+      "state": "CO",
+      "stateName": "Colorado",
+      "stateFips": "08",
+      "totalGovernments": 3716,
+      "totalLocalGovernments": 3715,
+      "countyGovernments": 62,
+      "municipalGovernments": 272,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 3201,
+      "independentSchoolDistricts": 180,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "CT": {
+      "state": "CT",
+      "stateName": "Connecticut",
+      "stateFips": "09",
+      "totalGovernments": 630,
+      "totalLocalGovernments": 629,
+      "countyGovernments": 0,
+      "municipalGovernments": 30,
+      "townshipGovernments": 149,
+      "specialDistrictGovernments": 433,
+      "independentSchoolDistricts": 17,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 149,
+        "countyDependent": 0,
+        "municipalDependent": 20,
+        "townshipDependent": 129,
+        "stateDependent": 0
+      }
+    },
+    "DC": {
+      "state": "DC",
+      "stateName": "District of Columbia",
+      "stateFips": "11",
+      "totalGovernments": 2,
+      "totalLocalGovernments": 2,
+      "countyGovernments": 0,
+      "municipalGovernments": 1,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 1,
+      "independentSchoolDistricts": 0,
+      "stateGovernment": 0,
+      "dependentSchoolSystems": {
+        "total": 2,
+        "countyDependent": 0,
+        "municipalDependent": 2,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "DE": {
+      "state": "DE",
+      "stateName": "Delaware",
+      "stateFips": "10",
+      "totalGovernments": 335,
+      "totalLocalGovernments": 334,
+      "countyGovernments": 3,
+      "municipalGovernments": 57,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 255,
+      "independentSchoolDistricts": 19,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "FL": {
+      "state": "FL",
+      "stateName": "Florida",
+      "stateFips": "12",
+      "totalGovernments": 1948,
+      "totalLocalGovernments": 1947,
+      "countyGovernments": 66,
+      "municipalGovernments": 412,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 1374,
+      "independentSchoolDistricts": 95,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "GA": {
+      "state": "GA",
+      "stateName": "Georgia",
+      "stateFips": "13",
+      "totalGovernments": 1380,
+      "totalLocalGovernments": 1379,
+      "countyGovernments": 152,
+      "municipalGovernments": 537,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 510,
+      "independentSchoolDistricts": 180,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "HI": {
+      "state": "HI",
+      "stateName": "Hawaii",
+      "stateFips": "15",
+      "totalGovernments": 22,
+      "totalLocalGovernments": 21,
+      "countyGovernments": 3,
+      "municipalGovernments": 1,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 17,
+      "independentSchoolDistricts": 0,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 1,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 1
+      }
+    },
+    "IA": {
+      "state": "IA",
+      "stateName": "Iowa",
+      "stateFips": "19",
+      "totalGovernments": 1827,
+      "totalLocalGovernments": 1826,
+      "countyGovernments": 99,
+      "municipalGovernments": 940,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 445,
+      "independentSchoolDistricts": 342,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "ID": {
+      "state": "ID",
+      "stateName": "Idaho",
+      "stateFips": "16",
+      "totalGovernments": 1169,
+      "totalLocalGovernments": 1168,
+      "countyGovernments": 44,
+      "municipalGovernments": 199,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 807,
+      "independentSchoolDistricts": 118,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "IL": {
+      "state": "IL",
+      "stateName": "Illinois",
+      "stateFips": "17",
+      "totalGovernments": 6931,
+      "totalLocalGovernments": 6930,
+      "countyGovernments": 102,
+      "municipalGovernments": 1295,
+      "townshipGovernments": 1425,
+      "specialDistrictGovernments": 3218,
+      "independentSchoolDistricts": 890,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "IN": {
+      "state": "IN",
+      "stateName": "Indiana",
+      "stateFips": "18",
+      "totalGovernments": 2649,
+      "totalLocalGovernments": 2648,
+      "countyGovernments": 91,
+      "municipalGovernments": 567,
+      "townshipGovernments": 1004,
+      "specialDistrictGovernments": 696,
+      "independentSchoolDistricts": 290,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "KS": {
+      "state": "KS",
+      "stateName": "Kansas",
+      "stateFips": "20",
+      "totalGovernments": 3769,
+      "totalLocalGovernments": 3768,
+      "countyGovernments": 103,
+      "municipalGovernments": 624,
+      "townshipGovernments": 1267,
+      "specialDistrictGovernments": 1468,
+      "independentSchoolDistricts": 306,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "KY": {
+      "state": "KY",
+      "stateName": "Kentucky",
+      "stateFips": "21",
+      "totalGovernments": 1308,
+      "totalLocalGovernments": 1307,
+      "countyGovernments": 118,
+      "municipalGovernments": 417,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 601,
+      "independentSchoolDistricts": 171,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "LA": {
+      "state": "LA",
+      "stateName": "Louisiana",
+      "stateFips": "22",
+      "totalGovernments": 535,
+      "totalLocalGovernments": 534,
+      "countyGovernments": 60,
+      "municipalGovernments": 304,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 101,
+      "independentSchoolDistricts": 69,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 1,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 1
+      }
+    },
+    "MA": {
+      "state": "MA",
+      "stateName": "Massachusetts",
+      "stateFips": "25",
+      "totalGovernments": 857,
+      "totalLocalGovernments": 856,
+      "countyGovernments": 5,
+      "municipalGovernments": 56,
+      "townshipGovernments": 295,
+      "specialDistrictGovernments": 415,
+      "independentSchoolDistricts": 85,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 234,
+        "countyDependent": 2,
+        "municipalDependent": 55,
+        "townshipDependent": 176,
+        "stateDependent": 1
+      }
+    },
+    "MD": {
+      "state": "MD",
+      "stateName": "Maryland",
+      "stateFips": "24",
+      "totalGovernments": 343,
+      "totalLocalGovernments": 342,
+      "countyGovernments": 23,
+      "municipalGovernments": 157,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 162,
+      "independentSchoolDistricts": 0,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 39,
+        "countyDependent": 38,
+        "municipalDependent": 1,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "ME": {
+      "state": "ME",
+      "stateName": "Maine",
+      "stateFips": "23",
+      "totalGovernments": 829,
+      "totalLocalGovernments": 828,
+      "countyGovernments": 16,
+      "municipalGovernments": 23,
+      "townshipGovernments": 461,
+      "specialDistrictGovernments": 227,
+      "independentSchoolDistricts": 101,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 162,
+        "countyDependent": 0,
+        "municipalDependent": 15,
+        "townshipDependent": 146,
+        "stateDependent": 1
+      }
+    },
+    "MI": {
+      "state": "MI",
+      "stateName": "Michigan",
+      "stateFips": "26",
+      "totalGovernments": 2861,
+      "totalLocalGovernments": 2860,
+      "countyGovernments": 83,
+      "municipalGovernments": 533,
+      "townshipGovernments": 1240,
+      "specialDistrictGovernments": 437,
+      "independentSchoolDistricts": 567,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "MN": {
+      "state": "MN",
+      "stateName": "Minnesota",
+      "stateFips": "27",
+      "totalGovernments": 3630,
+      "totalLocalGovernments": 3629,
+      "countyGovernments": 87,
+      "municipalGovernments": 854,
+      "townshipGovernments": 1779,
+      "specialDistrictGovernments": 579,
+      "independentSchoolDistricts": 330,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "MO": {
+      "state": "MO",
+      "stateName": "Missouri",
+      "stateFips": "29",
+      "totalGovernments": 3797,
+      "totalLocalGovernments": 3796,
+      "countyGovernments": 114,
+      "municipalGovernments": 943,
+      "townshipGovernments": 283,
+      "specialDistrictGovernments": 1927,
+      "independentSchoolDistricts": 529,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 1,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 1
+      }
+    },
+    "MS": {
+      "state": "MS",
+      "stateName": "Mississippi",
+      "stateFips": "28",
+      "totalGovernments": 968,
+      "totalLocalGovernments": 967,
+      "countyGovernments": 82,
+      "municipalGovernments": 298,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 437,
+      "independentSchoolDistricts": 150,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 3,
+        "countyDependent": 2,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 1
+      }
+    },
+    "MT": {
+      "state": "MT",
+      "stateName": "Montana",
+      "stateFips": "30",
+      "totalGovernments": 1229,
+      "totalLocalGovernments": 1228,
+      "countyGovernments": 54,
+      "municipalGovernments": 128,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 736,
+      "independentSchoolDistricts": 310,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "NC": {
+      "state": "NC",
+      "stateName": "North Carolina",
+      "stateFips": "37",
+      "totalGovernments": 966,
+      "totalLocalGovernments": 965,
+      "countyGovernments": 100,
+      "municipalGovernments": 552,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 313,
+      "independentSchoolDistricts": 0,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 174,
+        "countyDependent": 174,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "ND": {
+      "state": "ND",
+      "stateName": "North Dakota",
+      "stateFips": "38",
+      "totalGovernments": 2571,
+      "totalLocalGovernments": 2570,
+      "countyGovernments": 53,
+      "municipalGovernments": 356,
+      "townshipGovernments": 1305,
+      "specialDistrictGovernments": 683,
+      "independentSchoolDistricts": 173,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "NE": {
+      "state": "NE",
+      "stateName": "Nebraska",
+      "stateFips": "31",
+      "totalGovernments": 2542,
+      "totalLocalGovernments": 2541,
+      "countyGovernments": 93,
+      "municipalGovernments": 528,
+      "townshipGovernments": 350,
+      "specialDistrictGovernments": 1303,
+      "independentSchoolDistricts": 267,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "NH": {
+      "state": "NH",
+      "stateName": "New Hampshire",
+      "stateFips": "33",
+      "totalGovernments": 539,
+      "totalLocalGovernments": 538,
+      "countyGovernments": 10,
+      "municipalGovernments": 13,
+      "townshipGovernments": 221,
+      "specialDistrictGovernments": 128,
+      "independentSchoolDistricts": 166,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 10,
+        "countyDependent": 1,
+        "municipalDependent": 9,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "NJ": {
+      "state": "NJ",
+      "stateName": "New Jersey",
+      "stateFips": "34",
+      "totalGovernments": 1329,
+      "totalLocalGovernments": 1328,
+      "countyGovernments": 21,
+      "municipalGovernments": 323,
+      "townshipGovernments": 241,
+      "specialDistrictGovernments": 222,
+      "independentSchoolDistricts": 521,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 72,
+        "countyDependent": 51,
+        "municipalDependent": 16,
+        "townshipDependent": 4,
+        "stateDependent": 1
+      }
+    },
+    "NM": {
+      "state": "NM",
+      "stateName": "New Mexico",
+      "stateFips": "35",
+      "totalGovernments": 1004,
+      "totalLocalGovernments": 1003,
+      "countyGovernments": 33,
+      "municipalGovernments": 105,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 769,
+      "independentSchoolDistricts": 96,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "NV": {
+      "state": "NV",
+      "stateName": "Nevada",
+      "stateFips": "32",
+      "totalGovernments": 188,
+      "totalLocalGovernments": 187,
+      "countyGovernments": 16,
+      "municipalGovernments": 19,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 135,
+      "independentSchoolDistricts": 17,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "NY": {
+      "state": "NY",
+      "stateName": "New York",
+      "stateFips": "36",
+      "totalGovernments": 3448,
+      "totalLocalGovernments": 3447,
+      "countyGovernments": 57,
+      "municipalGovernments": 595,
+      "townshipGovernments": 930,
+      "specialDistrictGovernments": 1189,
+      "independentSchoolDistricts": 676,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 38,
+        "countyDependent": 29,
+        "municipalDependent": 9,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "OH": {
+      "state": "OH",
+      "stateName": "Ohio",
+      "stateFips": "39",
+      "totalGovernments": 3940,
+      "totalLocalGovernments": 3939,
+      "countyGovernments": 88,
+      "municipalGovernments": 926,
+      "townshipGovernments": 1308,
+      "specialDistrictGovernments": 952,
+      "independentSchoolDistricts": 665,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "OK": {
+      "state": "OK",
+      "stateName": "Oklahoma",
+      "stateFips": "40",
+      "totalGovernments": 1841,
+      "totalLocalGovernments": 1840,
+      "countyGovernments": 77,
+      "municipalGovernments": 592,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 632,
+      "independentSchoolDistricts": 539,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "OR": {
+      "state": "OR",
+      "stateName": "Oregon",
+      "stateFips": "41",
+      "totalGovernments": 1529,
+      "totalLocalGovernments": 1528,
+      "countyGovernments": 36,
+      "municipalGovernments": 240,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 1029,
+      "independentSchoolDistricts": 223,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "PA": {
+      "state": "PA",
+      "stateName": "Pennsylvania",
+      "stateFips": "42",
+      "totalGovernments": 4852,
+      "totalLocalGovernments": 4851,
+      "countyGovernments": 66,
+      "municipalGovernments": 1013,
+      "townshipGovernments": 1546,
+      "specialDistrictGovernments": 1712,
+      "independentSchoolDistricts": 514,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "RI": {
+      "state": "RI",
+      "stateName": "Rhode Island",
+      "stateFips": "44",
+      "totalGovernments": 128,
+      "totalLocalGovernments": 127,
+      "countyGovernments": 0,
+      "municipalGovernments": 8,
+      "townshipGovernments": 31,
+      "specialDistrictGovernments": 84,
+      "independentSchoolDistricts": 4,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 32,
+        "countyDependent": 0,
+        "municipalDependent": 6,
+        "townshipDependent": 24,
+        "stateDependent": 2
+      }
+    },
+    "SC": {
+      "state": "SC",
+      "stateName": "South Carolina",
+      "stateFips": "45",
+      "totalGovernments": 667,
+      "totalLocalGovernments": 666,
+      "countyGovernments": 46,
+      "municipalGovernments": 271,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 271,
+      "independentSchoolDistricts": 78,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "SD": {
+      "state": "SD",
+      "stateName": "South Dakota",
+      "stateFips": "46",
+      "totalGovernments": 1901,
+      "totalLocalGovernments": 1900,
+      "countyGovernments": 66,
+      "municipalGovernments": 310,
+      "townshipGovernments": 897,
+      "specialDistrictGovernments": 478,
+      "independentSchoolDistricts": 149,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "TN": {
+      "state": "TN",
+      "stateName": "Tennessee",
+      "stateFips": "47",
+      "totalGovernments": 903,
+      "totalLocalGovernments": 902,
+      "countyGovernments": 92,
+      "municipalGovernments": 345,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 451,
+      "independentSchoolDistricts": 14,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 128,
+        "countyDependent": 91,
+        "municipalDependent": 36,
+        "townshipDependent": 0,
+        "stateDependent": 1
+      }
+    },
+    "TX": {
+      "state": "TX",
+      "stateName": "Texas",
+      "stateFips": "48",
+      "totalGovernments": 5534,
+      "totalLocalGovernments": 5533,
+      "countyGovernments": 254,
+      "municipalGovernments": 1225,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 2984,
+      "independentSchoolDistricts": 1070,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 9,
+        "countyDependent": 2,
+        "municipalDependent": 1,
+        "townshipDependent": 0,
+        "stateDependent": 6
+      }
+    },
+    "UT": {
+      "state": "UT",
+      "stateName": "Utah",
+      "stateFips": "49",
+      "totalGovernments": 633,
+      "totalLocalGovernments": 632,
+      "countyGovernments": 29,
+      "municipalGovernments": 254,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 308,
+      "independentSchoolDistricts": 41,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "VA": {
+      "state": "VA",
+      "stateName": "Virginia",
+      "stateFips": "51",
+      "totalGovernments": 523,
+      "totalLocalGovernments": 522,
+      "countyGovernments": 95,
+      "municipalGovernments": 228,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 198,
+      "independentSchoolDistricts": 1,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 133,
+        "countyDependent": 95,
+        "municipalDependent": 38,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "VT": {
+      "state": "VT",
+      "stateName": "Vermont",
+      "stateFips": "50",
+      "totalGovernments": 575,
+      "totalLocalGovernments": 574,
+      "countyGovernments": 14,
+      "municipalGovernments": 40,
+      "townshipGovernments": 237,
+      "specialDistrictGovernments": 162,
+      "independentSchoolDistricts": 121,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "WA": {
+      "state": "WA",
+      "stateName": "Washington",
+      "stateFips": "53",
+      "totalGovernments": 1891,
+      "totalLocalGovernments": 1890,
+      "countyGovernments": 39,
+      "municipalGovernments": 281,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 1275,
+      "independentSchoolDistricts": 295,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "WI": {
+      "state": "WI",
+      "stateName": "Wisconsin",
+      "stateFips": "55",
+      "totalGovernments": 3063,
+      "totalLocalGovernments": 3062,
+      "countyGovernments": 72,
+      "municipalGovernments": 605,
+      "townshipGovernments": 1245,
+      "specialDistrictGovernments": 703,
+      "independentSchoolDistricts": 437,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 3,
+        "countyDependent": 3,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "WV": {
+      "state": "WV",
+      "stateName": "West Virginia",
+      "stateFips": "54",
+      "totalGovernments": 640,
+      "totalLocalGovernments": 639,
+      "countyGovernments": 55,
+      "municipalGovernments": 231,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 298,
+      "independentSchoolDistricts": 55,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    },
+    "WY": {
+      "state": "WY",
+      "stateName": "Wyoming",
+      "stateFips": "56",
+      "totalGovernments": 821,
+      "totalLocalGovernments": 820,
+      "countyGovernments": 23,
+      "municipalGovernments": 99,
+      "townshipGovernments": 0,
+      "specialDistrictGovernments": 643,
+      "independentSchoolDistricts": 55,
+      "stateGovernment": 1,
+      "dependentSchoolSystems": {
+        "total": 0,
+        "countyDependent": 0,
+        "municipalDependent": 0,
+        "townshipDependent": 0,
+        "stateDependent": 0
+      }
+    }
+  },
+  "sha256": "8d9a9c7fcca766053490442294d654298050e98700a761f0ead8bbf4a13848cc"
+}

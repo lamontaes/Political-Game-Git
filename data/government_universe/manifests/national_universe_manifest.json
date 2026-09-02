@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2024-01-01T00:00:00.000Z",
+  "sourceVintage": "2022 Census of Governments",
+  "totalGovernmentsNationally": 90888,
+  "stateGovernmentsNationally": 50,
+  "localGovernmentsNationally": 90837,
+  "byClass": {
+    "county": 3031,
+    "municipal": 19491,
+    "township": 16214,
+    "special_district": 39555,
+    "school_district": 12546,
+    "state": 50,
+    "federal": 1
+  },
+  "schoolSystems": {
+    "independentSchoolDistricts": 12546,
+    "dependentSchoolSystemsTotal": 1313,
+    "countyDependent": 571,
+    "municipalDependent": 227,
+    "townshipDependent": 479,
+    "stateDependent": 36,
+    "allOperatingPublicSchoolSystems": 13859
+  },
+  "sha256": "5ee71c95b68214c03c512067c5391a282bc5fc0d8fd5c7baf4c6e43b5b869611"
+}

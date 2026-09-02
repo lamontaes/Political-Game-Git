@@ -29,7 +29,11 @@
     "derive:office-plate": "node --import tsx scripts/art-asset-factory/cli-office-plate-derive.ts",
     "extract:chroma": "node --import tsx scripts/art-asset-factory/cli-chroma-extract.ts",
     "fixtures:dev-characters": "node --import tsx scripts/art-asset-factory/cli-dev-character-fixtures.ts",
-    "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art",
+    "compile:government-universe": "node --import tsx scripts/government-universe/compile.ts",
+    "manifest:government-universe": "node --import tsx scripts/government-universe/manifest.ts",
+    "validate:government-universe": "node --import tsx scripts/government-universe/validate.ts",
+    "test:government-universe": "vitest run tests/government_universe.test.ts",
+    "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art && npm run validate:government-universe",
     "agent:preflight": "node scripts/agent-preflight.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",
     "stress:persons": "node --import tsx src/cli/stress-persons.ts"

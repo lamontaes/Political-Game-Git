@@ -1,0 +1,3237 @@
+[
+  {
+    "stableSourceId": "gov-src-census-00000000000000",
+    "censusGovId": "00000000000000",
+    "officialName": "United States Government",
+    "state": "US",
+    "stateFips": "00",
+    "governmentType": "federal",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "00",
+      "censusStateCode": "00",
+      "censusTypeCode": "0",
+      "censusCountyCode": "000",
+      "censusUnitId": "000"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-05100000000000",
+    "censusGovId": "05100000000000",
+    "officialName": "State of California",
+    "state": "CA",
+    "stateFips": "06",
+    "governmentType": "state",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "06",
+      "censusStateCode": "05",
+      "censusTypeCode": "1",
+      "censusCountyCode": "000",
+      "censusUnitId": "000"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-05201900100000",
+    "censusGovId": "05201900100000",
+    "officialName": "County of Los Angeles",
+    "state": "CA",
+    "stateFips": "06",
+    "countyAssociation": {
+      "countyName": "Los Angeles County",
+      "countyFips": "06037",
+      "fipsCountyCode": "037"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "06",
+      "fipsCounty": "06037",
+      "censusStateCode": "05",
+      "censusTypeCode": "2",
+      "censusCountyCode": "019",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-05203800100000",
+    "censusGovId": "05203800100000",
+    "officialName": "City and County of San Francisco",
+    "state": "CA",
+    "stateFips": "06",
+    "countyAssociation": {
+      "countyName": "San Francisco County",
+      "countyFips": "06075",
+      "fipsCountyCode": "075"
+    },
+    "governmentType": "county",
+    "governmentSubtype": "consolidated_city_county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "06",
+      "fipsCounty": "06075",
+      "censusStateCode": "05",
+      "censusTypeCode": "2",
+      "censusCountyCode": "038",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-05300100100000",
+    "censusGovId": "05300100100000",
+    "officialName": "City of Oakland",
+    "state": "CA",
+    "stateFips": "06",
+    "countyAssociation": {
+      "countyName": "Alameda County",
+      "countyFips": "06001",
+      "fipsCountyCode": "001"
+    },
+    "placeAssociation": {
+      "placeName": "Oakland"
+    },
+    "governmentType": "municipal",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "06",
+      "fipsCounty": "06001",
+      "censusStateCode": "05",
+      "censusTypeCode": "3",
+      "censusCountyCode": "001",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-05301900100000",
+    "censusGovId": "05301900100000",
+    "officialName": "City of Los Angeles",
+    "state": "CA",
+    "stateFips": "06",
+    "countyAssociation": {
+      "countyName": "Los Angeles County",
+      "countyFips": "06037",
+      "fipsCountyCode": "037"
+    },
+    "placeAssociation": {
+      "placeName": "Los Angeles"
+    },
+    "governmentType": "municipal",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "06",
+      "fipsCounty": "06037",
+      "censusStateCode": "05",
+      "censusTypeCode": "3",
+      "censusCountyCode": "019",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-05500100109100",
+    "censusGovId": "05500100109100",
+    "officialName": "East Bay Municipal Utility District (EBMUD)",
+    "state": "CA",
+    "stateFips": "06",
+    "countyAssociation": {
+      "countyName": "Alameda County",
+      "countyFips": "06001",
+      "fipsCountyCode": "001"
+    },
+    "governmentType": "special_district",
+    "functionCategory": "water_supply",
+    "functionCode": "091",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "06",
+      "fipsCounty": "06001",
+      "censusStateCode": "05",
+      "censusTypeCode": "5",
+      "censusCountyCode": "001",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-05500100109400",
+    "censusGovId": "05500100109400",
+    "officialName": "San Francisco Bay Area Rapid Transit District (BART)",
+    "state": "CA",
+    "stateFips": "06",
+    "countyAssociation": {
+      "countyName": "Alameda County",
+      "countyFips": "06001",
+      "fipsCountyCode": "001"
+    },
+    "governmentType": "special_district",
+    "functionCategory": "mass_transit",
+    "functionCode": "094",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "06",
+      "fipsCounty": "06001",
+      "censusStateCode": "05",
+      "censusTypeCode": "5",
+      "censusCountyCode": "001",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-05601900104400",
+    "censusGovId": "05601900104400",
+    "officialName": "Los Angeles Unified School District",
+    "state": "CA",
+    "stateFips": "06",
+    "countyAssociation": {
+      "countyName": "Los Angeles County",
+      "countyFips": "06037",
+      "fipsCountyCode": "037"
+    },
+    "governmentType": "school_district",
+    "governmentSubtype": "unified_elementary_high_school_district",
+    "functionCategory": "education_elementary_secondary",
+    "functionCode": "044",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "06",
+      "fipsCounty": "06037",
+      "censusStateCode": "05",
+      "censusTypeCode": "6",
+      "censusCountyCode": "019",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-05603100104400",
+    "censusGovId": "05603100104400",
+    "officialName": "Western Placer Unified School District (Lincoln)",
+    "state": "CA",
+    "stateFips": "06",
+    "countyAssociation": {
+      "countyName": "Placer County",
+      "countyFips": "06061",
+      "fipsCountyCode": "061"
+    },
+    "governmentType": "school_district",
+    "governmentSubtype": "unified_elementary_high_school_district",
+    "functionCategory": "education_elementary_secondary",
+    "functionCode": "044",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "06",
+      "fipsCounty": "06061",
+      "censusStateCode": "05",
+      "censusTypeCode": "6",
+      "censusCountyCode": "031",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-10100000000000",
+    "censusGovId": "10100000000000",
+    "officialName": "State of Florida",
+    "state": "FL",
+    "stateFips": "12",
+    "governmentType": "state",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "12",
+      "censusStateCode": "10",
+      "censusTypeCode": "1",
+      "censusCountyCode": "000",
+      "censusUnitId": "000"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-10201300100000",
+    "censusGovId": "10201300100000",
+    "officialName": "Miami-Dade County",
+    "state": "FL",
+    "stateFips": "12",
+    "countyAssociation": {
+      "countyName": "Miami-Dade County",
+      "countyFips": "12086",
+      "fipsCountyCode": "086"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "12",
+      "fipsCounty": "12086",
+      "censusStateCode": "10",
+      "censusTypeCode": "2",
+      "censusCountyCode": "013",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-10206700100000",
+    "censusGovId": "10206700100000",
+    "officialName": "Washington County",
+    "state": "FL",
+    "stateFips": "12",
+    "countyAssociation": {
+      "countyName": "Washington County",
+      "countyFips": "12133",
+      "fipsCountyCode": "133"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "12",
+      "fipsCounty": "12133",
+      "censusStateCode": "10",
+      "censusTypeCode": "2",
+      "censusCountyCode": "067",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-10301300100000",
+    "censusGovId": "10301300100000",
+    "officialName": "City of Miami",
+    "state": "FL",
+    "stateFips": "12",
+    "countyAssociation": {
+      "countyName": "Miami-Dade County",
+      "countyFips": "12086",
+      "fipsCountyCode": "086"
+    },
+    "placeAssociation": {
+      "placeName": "Miami"
+    },
+    "governmentType": "municipal",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "12",
+      "fipsCounty": "12086",
+      "censusStateCode": "10",
+      "censusTypeCode": "3",
+      "censusCountyCode": "013",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-10505000105200",
+    "censusGovId": "10505000105200",
+    "officialName": "South Florida Water Management District",
+    "state": "FL",
+    "stateFips": "12",
+    "countyAssociation": {
+      "countyName": "Palm Beach County",
+      "countyFips": "12099",
+      "fipsCountyCode": "099"
+    },
+    "governmentType": "special_district",
+    "governmentSubtype": "water_management_district",
+    "functionCategory": "drainage_flood_control",
+    "functionCode": "052",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "12",
+      "fipsCounty": "12099",
+      "censusStateCode": "10",
+      "censusTypeCode": "5",
+      "censusCountyCode": "050",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-10601300104400",
+    "censusGovId": "10601300104400",
+    "officialName": "Miami-Dade County Public Schools",
+    "state": "FL",
+    "stateFips": "12",
+    "countyAssociation": {
+      "countyName": "Miami-Dade County",
+      "countyFips": "12086",
+      "fipsCountyCode": "086"
+    },
+    "governmentType": "school_district",
+    "governmentSubtype": "county_school_district",
+    "functionCategory": "education_elementary_secondary",
+    "functionCode": "044",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "12",
+      "fipsCounty": "12086",
+      "censusStateCode": "10",
+      "censusTypeCode": "6",
+      "censusCountyCode": "013",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-14100000000000",
+    "censusGovId": "14100000000000",
+    "officialName": "State of Illinois",
+    "state": "IL",
+    "stateFips": "17",
+    "governmentType": "state",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "17",
+      "censusStateCode": "14",
+      "censusTypeCode": "1",
+      "censusCountyCode": "000",
+      "censusUnitId": "000"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-14201600100000",
+    "censusGovId": "14201600100000",
+    "officialName": "Cook County",
+    "state": "IL",
+    "stateFips": "17",
+    "countyAssociation": {
+      "countyName": "Cook County",
+      "countyFips": "17031",
+      "fipsCountyCode": "031"
+    },
+    "governmentType": "county",
+    "governmentSubtype": "township_organized_county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "17",
+      "fipsCounty": "17031",
+      "censusStateCode": "14",
+      "censusTypeCode": "2",
+      "censusCountyCode": "016",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-14209500100000",
+    "censusGovId": "14209500100000",
+    "officialName": "Washington County",
+    "state": "IL",
+    "stateFips": "17",
+    "countyAssociation": {
+      "countyName": "Washington County",
+      "countyFips": "17189",
+      "fipsCountyCode": "189"
+    },
+    "governmentType": "county",
+    "governmentSubtype": "commission_county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "17",
+      "fipsCounty": "17189",
+      "censusStateCode": "14",
+      "censusTypeCode": "2",
+      "censusCountyCode": "095",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-14301600100000",
+    "censusGovId": "14301600100000",
+    "officialName": "City of Chicago",
+    "state": "IL",
+    "stateFips": "17",
+    "countyAssociation": {
+      "countyName": "Cook County",
+      "countyFips": "17031",
+      "fipsCountyCode": "031"
+    },
+    "placeAssociation": {
+      "placeName": "Chicago"
+    },
+    "governmentType": "municipal",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "17",
+      "fipsCounty": "17031",
+      "censusStateCode": "14",
+      "censusTypeCode": "3",
+      "censusCountyCode": "016",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-14401600100000",
+    "censusGovId": "14401600100000",
+    "officialName": "Schaumburg Township",
+    "state": "IL",
+    "stateFips": "17",
+    "countyAssociation": {
+      "countyName": "Cook County",
+      "countyFips": "17031",
+      "fipsCountyCode": "031"
+    },
+    "governmentType": "township",
+    "governmentSubtype": "civil_township",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "17",
+      "fipsCounty": "17031",
+      "censusStateCode": "14",
+      "censusTypeCode": "4",
+      "censusCountyCode": "016",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-14402200100000",
+    "censusGovId": "14402200100000",
+    "officialName": "Naperville Township",
+    "state": "IL",
+    "stateFips": "17",
+    "countyAssociation": {
+      "countyName": "DuPage County",
+      "countyFips": "17043",
+      "fipsCountyCode": "043"
+    },
+    "governmentType": "township",
+    "governmentSubtype": "civil_township",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "17",
+      "fipsCounty": "17043",
+      "censusStateCode": "14",
+      "censusTypeCode": "4",
+      "censusCountyCode": "022",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-14501600102400",
+    "censusGovId": "14501600102400",
+    "officialName": "Oakland Fire Protection District",
+    "state": "IL",
+    "stateFips": "17",
+    "countyAssociation": {
+      "countyName": "Coles County",
+      "countyFips": "17029",
+      "fipsCountyCode": "029"
+    },
+    "governmentType": "special_district",
+    "governmentSubtype": "fire_protection_district",
+    "functionCategory": "fire_protection",
+    "functionCode": "024",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "17",
+      "fipsCounty": "17029",
+      "censusStateCode": "14",
+      "censusTypeCode": "5",
+      "censusCountyCode": "016",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-14501600106000",
+    "censusGovId": "14501600106000",
+    "officialName": "Chicago Park District",
+    "state": "IL",
+    "stateFips": "17",
+    "countyAssociation": {
+      "countyName": "Cook County",
+      "countyFips": "17031",
+      "fipsCountyCode": "031"
+    },
+    "governmentType": "special_district",
+    "governmentSubtype": "park_district",
+    "functionCategory": "parks_recreation",
+    "functionCode": "060",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "17",
+      "fipsCounty": "17031",
+      "censusStateCode": "14",
+      "censusTypeCode": "5",
+      "censusCountyCode": "016",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-14501600108000",
+    "censusGovId": "14501600108000",
+    "officialName": "Metropolitan Water Reclamation District of Greater Chicago",
+    "state": "IL",
+    "stateFips": "17",
+    "countyAssociation": {
+      "countyName": "Cook County",
+      "countyFips": "17031",
+      "fipsCountyCode": "031"
+    },
+    "governmentType": "special_district",
+    "governmentSubtype": "sanitary_district",
+    "functionCategory": "sewerage",
+    "functionCode": "080",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "17",
+      "fipsCounty": "17031",
+      "censusStateCode": "14",
+      "censusTypeCode": "5",
+      "censusCountyCode": "016",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-14601600104400",
+    "censusGovId": "14601600104400",
+    "officialName": "Chicago Board of Education (Chicago Public Schools)",
+    "state": "IL",
+    "stateFips": "17",
+    "countyAssociation": {
+      "countyName": "Cook County",
+      "countyFips": "17031",
+      "fipsCountyCode": "031"
+    },
+    "governmentType": "school_district",
+    "governmentSubtype": "independent_school_district",
+    "functionCategory": "education_elementary_secondary",
+    "functionCode": "044",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "17",
+      "fipsCounty": "17031",
+      "censusStateCode": "14",
+      "censusTypeCode": "6",
+      "censusCountyCode": "016",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-14605400104400",
+    "censusGovId": "14605400104400",
+    "officialName": "Lincoln Community High School District No. 404",
+    "state": "IL",
+    "stateFips": "17",
+    "countyAssociation": {
+      "countyName": "Logan County",
+      "countyFips": "17107",
+      "fipsCountyCode": "107"
+    },
+    "governmentType": "school_district",
+    "governmentSubtype": "independent_school_district",
+    "functionCategory": "education_elementary_secondary",
+    "functionCode": "044",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "17",
+      "fipsCounty": "17107",
+      "censusStateCode": "14",
+      "censusTypeCode": "6",
+      "censusCountyCode": "054",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-18100000000000",
+    "censusGovId": "18100000000000",
+    "officialName": "Commonwealth of Kentucky",
+    "state": "KY",
+    "stateFips": "21",
+    "governmentType": "state",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "21",
+      "censusStateCode": "18",
+      "censusTypeCode": "1",
+      "censusCountyCode": "000",
+      "censusUnitId": "000"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-18203400100000",
+    "censusGovId": "18203400100000",
+    "officialName": "Lexington-Fayette Urban County Government",
+    "state": "KY",
+    "stateFips": "21",
+    "countyAssociation": {
+      "countyName": "Fayette County",
+      "countyFips": "21067",
+      "fipsCountyCode": "067"
+    },
+    "governmentType": "county",
+    "governmentSubtype": "urban_county_government",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "21",
+      "fipsCounty": "21067",
+      "censusStateCode": "18",
+      "censusTypeCode": "2",
+      "censusCountyCode": "034",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-18205600100000",
+    "censusGovId": "18205600100000",
+    "officialName": "Louisville/Jefferson County Metro Government",
+    "state": "KY",
+    "stateFips": "21",
+    "countyAssociation": {
+      "countyName": "Jefferson County",
+      "countyFips": "21111",
+      "fipsCountyCode": "111"
+    },
+    "governmentType": "county",
+    "governmentSubtype": "consolidated_local_government",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "21",
+      "fipsCounty": "21111",
+      "censusStateCode": "18",
+      "censusTypeCode": "2",
+      "censusCountyCode": "056",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-18211500100000",
+    "censusGovId": "18211500100000",
+    "officialName": "Washington County",
+    "state": "KY",
+    "stateFips": "21",
+    "countyAssociation": {
+      "countyName": "Washington County",
+      "countyFips": "21229",
+      "fipsCountyCode": "229"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "21",
+      "fipsCounty": "21229",
+      "censusStateCode": "18",
+      "censusTypeCode": "2",
+      "censusCountyCode": "115",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-18302500100000",
+    "censusGovId": "18302500100000",
+    "officialName": "City of Frankfort",
+    "state": "KY",
+    "stateFips": "21",
+    "countyAssociation": {
+      "countyName": "Franklin County",
+      "countyFips": "21073",
+      "fipsCountyCode": "073"
+    },
+    "placeAssociation": {
+      "placeName": "Frankfort"
+    },
+    "governmentType": "municipal",
+    "governmentSubtype": "home_rule_class_city",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "21",
+      "fipsCounty": "21073",
+      "censusStateCode": "18",
+      "censusTypeCode": "3",
+      "censusCountyCode": "025",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-18303400100000",
+    "censusGovId": "18303400100000",
+    "officialName": "City of Lexington",
+    "state": "KY",
+    "stateFips": "21",
+    "countyAssociation": {
+      "countyName": "Fayette County",
+      "countyFips": "21067",
+      "fipsCountyCode": "067"
+    },
+    "placeAssociation": {
+      "placeName": "Lexington"
+    },
+    "governmentType": "municipal",
+    "governmentSubtype": "home_rule_class_city",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "21",
+      "fipsCounty": "21067",
+      "censusStateCode": "18",
+      "censusTypeCode": "3",
+      "censusCountyCode": "034",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-18503400102400",
+    "censusGovId": "18503400102400",
+    "officialName": "Fayette County Fire Protection District",
+    "state": "KY",
+    "stateFips": "21",
+    "countyAssociation": {
+      "countyName": "Fayette County",
+      "countyFips": "21067",
+      "fipsCountyCode": "067"
+    },
+    "governmentType": "special_district",
+    "governmentSubtype": "fire_protection_district",
+    "functionCategory": "fire_protection",
+    "functionCode": "024",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "21",
+      "fipsCounty": "21067",
+      "censusStateCode": "18",
+      "censusTypeCode": "5",
+      "censusCountyCode": "034",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-18503400105900",
+    "censusGovId": "18503400105900",
+    "officialName": "Fayette County Conservation District",
+    "state": "KY",
+    "stateFips": "21",
+    "countyAssociation": {
+      "countyName": "Fayette County",
+      "countyFips": "21067",
+      "fipsCountyCode": "067"
+    },
+    "governmentType": "special_district",
+    "governmentSubtype": "soil_conservation_district",
+    "functionCategory": "soil_water_conservation",
+    "functionCode": "059",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "21",
+      "fipsCounty": "21067",
+      "censusStateCode": "18",
+      "censusTypeCode": "5",
+      "censusCountyCode": "034",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-18503400106100",
+    "censusGovId": "18503400106100",
+    "officialName": "Lexington Public Library District",
+    "state": "KY",
+    "stateFips": "21",
+    "countyAssociation": {
+      "countyName": "Fayette County",
+      "countyFips": "21067",
+      "fipsCountyCode": "067"
+    },
+    "governmentType": "special_district",
+    "governmentSubtype": "public_library_district",
+    "functionCategory": "libraries",
+    "functionCode": "061",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "21",
+      "fipsCounty": "21067",
+      "censusStateCode": "18",
+      "censusTypeCode": "5",
+      "censusCountyCode": "034",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-18505900108000",
+    "censusGovId": "18505900108000",
+    "officialName": "Sanitation District No. 1 of Northern Kentucky",
+    "state": "KY",
+    "stateFips": "21",
+    "countyAssociation": {
+      "countyName": "Kenton County",
+      "countyFips": "21117",
+      "fipsCountyCode": "117"
+    },
+    "governmentType": "special_district",
+    "governmentSubtype": "sanitation_district",
+    "functionCategory": "sewerage",
+    "functionCode": "080",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "21",
+      "fipsCounty": "21117",
+      "censusStateCode": "18",
+      "censusTypeCode": "5",
+      "censusCountyCode": "059",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-18603400104400",
+    "censusGovId": "18603400104400",
+    "officialName": "Fayette County Public Schools",
+    "state": "KY",
+    "stateFips": "21",
+    "countyAssociation": {
+      "countyName": "Fayette County",
+      "countyFips": "21067",
+      "fipsCountyCode": "067"
+    },
+    "governmentType": "school_district",
+    "governmentSubtype": "independent_school_district",
+    "functionCategory": "education_elementary_secondary",
+    "functionCode": "044",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "21",
+      "fipsCounty": "21067",
+      "censusStateCode": "18",
+      "censusTypeCode": "6",
+      "censusCountyCode": "034",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-18605600104400",
+    "censusGovId": "18605600104400",
+    "officialName": "Jefferson County Public Schools",
+    "state": "KY",
+    "stateFips": "21",
+    "countyAssociation": {
+      "countyName": "Jefferson County",
+      "countyFips": "21111",
+      "fipsCountyCode": "111"
+    },
+    "governmentType": "school_district",
+    "governmentSubtype": "independent_school_district",
+    "functionCategory": "education_elementary_secondary",
+    "functionCode": "044",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "21",
+      "fipsCounty": "21111",
+      "censusStateCode": "18",
+      "censusTypeCode": "6",
+      "censusCountyCode": "056",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-22100000000000",
+    "censusGovId": "22100000000000",
+    "officialName": "Commonwealth of Massachusetts",
+    "state": "MA",
+    "stateFips": "25",
+    "governmentType": "state",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "25",
+      "censusStateCode": "22",
+      "censusTypeCode": "1",
+      "censusCountyCode": "000",
+      "censusUnitId": "000"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-22301300100000",
+    "censusGovId": "22301300100000",
+    "officialName": "City of Boston",
+    "state": "MA",
+    "stateFips": "25",
+    "countyAssociation": {
+      "countyName": "Suffolk County",
+      "countyFips": "25025",
+      "fipsCountyCode": "025"
+    },
+    "placeAssociation": {
+      "placeName": "Boston"
+    },
+    "governmentType": "municipal",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "25",
+      "fipsCounty": "25025",
+      "censusStateCode": "22",
+      "censusTypeCode": "3",
+      "censusCountyCode": "013",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-22400900100000",
+    "censusGovId": "22400900100000",
+    "officialName": "Town of Concord",
+    "state": "MA",
+    "stateFips": "25",
+    "countyAssociation": {
+      "countyName": "Middlesex County",
+      "countyFips": "25017",
+      "fipsCountyCode": "017"
+    },
+    "governmentType": "township",
+    "governmentSubtype": "new_england_town",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "25",
+      "fipsCounty": "25017",
+      "censusStateCode": "22",
+      "censusTypeCode": "4",
+      "censusCountyCode": "009",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-22401100100000",
+    "censusGovId": "22401100100000",
+    "officialName": "Town of Brookline",
+    "state": "MA",
+    "stateFips": "25",
+    "countyAssociation": {
+      "countyName": "Norfolk County",
+      "countyFips": "25021",
+      "fipsCountyCode": "021"
+    },
+    "governmentType": "township",
+    "governmentSubtype": "new_england_town",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "25",
+      "fipsCounty": "25021",
+      "censusStateCode": "22",
+      "censusTypeCode": "4",
+      "censusCountyCode": "011",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-22501300109100",
+    "censusGovId": "22501300109100",
+    "officialName": "Massachusetts Water Resources Authority (MWRA)",
+    "state": "MA",
+    "stateFips": "25",
+    "countyAssociation": {
+      "countyName": "Suffolk County",
+      "countyFips": "25025",
+      "fipsCountyCode": "025"
+    },
+    "governmentType": "special_district",
+    "functionCategory": "water_supply",
+    "functionCode": "091",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "25",
+      "fipsCounty": "25025",
+      "censusStateCode": "22",
+      "censusTypeCode": "5",
+      "censusCountyCode": "013",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-22600900104400",
+    "censusGovId": "22600900104400",
+    "officialName": "Concord-Carlisle Regional School District",
+    "state": "MA",
+    "stateFips": "25",
+    "countyAssociation": {
+      "countyName": "Middlesex County",
+      "countyFips": "25017",
+      "fipsCountyCode": "017"
+    },
+    "governmentType": "school_district",
+    "governmentSubtype": "regional_school_district",
+    "functionCategory": "education_elementary_secondary",
+    "functionCode": "044",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "25",
+      "fipsCounty": "25017",
+      "censusStateCode": "22",
+      "censusTypeCode": "6",
+      "censusCountyCode": "009",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-33100000000000",
+    "censusGovId": "33100000000000",
+    "officialName": "State of New York",
+    "state": "NY",
+    "stateFips": "36",
+    "governmentType": "state",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "36",
+      "censusStateCode": "33",
+      "censusTypeCode": "1",
+      "censusCountyCode": "000",
+      "censusUnitId": "000"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-33200100100000",
+    "censusGovId": "33200100100000",
+    "officialName": "Albany County",
+    "state": "NY",
+    "stateFips": "36",
+    "countyAssociation": {
+      "countyName": "Albany County",
+      "countyFips": "36001",
+      "fipsCountyCode": "001"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "36",
+      "fipsCounty": "36001",
+      "censusStateCode": "33",
+      "censusTypeCode": "2",
+      "censusCountyCode": "001",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-33205800100000",
+    "censusGovId": "33205800100000",
+    "officialName": "Washington County",
+    "state": "NY",
+    "stateFips": "36",
+    "countyAssociation": {
+      "countyName": "Washington County",
+      "countyFips": "36115",
+      "fipsCountyCode": "115"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "36",
+      "fipsCounty": "36115",
+      "censusStateCode": "33",
+      "censusTypeCode": "2",
+      "censusCountyCode": "058",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-33303100100000",
+    "censusGovId": "33303100100000",
+    "officialName": "City of New York",
+    "state": "NY",
+    "stateFips": "36",
+    "placeAssociation": {
+      "placeName": "New York"
+    },
+    "governmentType": "municipal",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "36",
+      "censusStateCode": "33",
+      "censusTypeCode": "3",
+      "censusCountyCode": "031",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-33402800100000",
+    "censusGovId": "33402800100000",
+    "officialName": "Town of Hempstead",
+    "state": "NY",
+    "stateFips": "36",
+    "countyAssociation": {
+      "countyName": "Nassau County",
+      "countyFips": "36059",
+      "fipsCountyCode": "059"
+    },
+    "governmentType": "township",
+    "governmentSubtype": "town",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "36",
+      "fipsCounty": "36059",
+      "censusStateCode": "33",
+      "censusTypeCode": "4",
+      "censusCountyCode": "028",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-33404700100000",
+    "censusGovId": "33404700100000",
+    "officialName": "Town of Brookhaven",
+    "state": "NY",
+    "stateFips": "36",
+    "countyAssociation": {
+      "countyName": "Suffolk County",
+      "countyFips": "36103",
+      "fipsCountyCode": "103"
+    },
+    "governmentType": "township",
+    "governmentSubtype": "town",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "36",
+      "fipsCounty": "36103",
+      "censusStateCode": "33",
+      "censusTypeCode": "4",
+      "censusCountyCode": "047",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-33504700102400",
+    "censusGovId": "33504700102400",
+    "officialName": "Centereach Fire District",
+    "state": "NY",
+    "stateFips": "36",
+    "countyAssociation": {
+      "countyName": "Suffolk County",
+      "countyFips": "36103",
+      "fipsCountyCode": "103"
+    },
+    "governmentType": "special_district",
+    "governmentSubtype": "fire_district",
+    "functionCategory": "fire_protection",
+    "functionCode": "024",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "36",
+      "fipsCounty": "36103",
+      "censusStateCode": "33",
+      "censusTypeCode": "5",
+      "censusCountyCode": "047",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-33600100104400",
+    "censusGovId": "33600100104400",
+    "officialName": "Albany City School District",
+    "state": "NY",
+    "stateFips": "36",
+    "countyAssociation": {
+      "countyName": "Albany County",
+      "countyFips": "36001",
+      "fipsCountyCode": "001"
+    },
+    "governmentType": "school_district",
+    "governmentSubtype": "independent_school_district",
+    "functionCategory": "education_elementary_secondary",
+    "functionCode": "044",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "36",
+      "fipsCounty": "36001",
+      "censusStateCode": "33",
+      "censusTypeCode": "6",
+      "censusCountyCode": "001",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-36100000000000",
+    "censusGovId": "36100000000000",
+    "officialName": "State of Ohio",
+    "state": "OH",
+    "stateFips": "39",
+    "governmentType": "state",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "39",
+      "censusStateCode": "36",
+      "censusTypeCode": "1",
+      "censusCountyCode": "000",
+      "censusUnitId": "000"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-36202500100000",
+    "censusGovId": "36202500100000",
+    "officialName": "Franklin County",
+    "state": "OH",
+    "stateFips": "39",
+    "countyAssociation": {
+      "countyName": "Franklin County",
+      "countyFips": "39049",
+      "fipsCountyCode": "049"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "39",
+      "fipsCounty": "39049",
+      "censusStateCode": "36",
+      "censusTypeCode": "2",
+      "censusCountyCode": "025",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-36208400100000",
+    "censusGovId": "36208400100000",
+    "officialName": "Washington County",
+    "state": "OH",
+    "stateFips": "39",
+    "countyAssociation": {
+      "countyName": "Washington County",
+      "countyFips": "39167",
+      "fipsCountyCode": "167"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "39",
+      "fipsCounty": "39167",
+      "censusStateCode": "36",
+      "censusTypeCode": "2",
+      "censusCountyCode": "084",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-36302500100000",
+    "censusGovId": "36302500100000",
+    "officialName": "City of Columbus",
+    "state": "OH",
+    "stateFips": "39",
+    "countyAssociation": {
+      "countyName": "Franklin County",
+      "countyFips": "39049",
+      "fipsCountyCode": "049"
+    },
+    "placeAssociation": {
+      "placeName": "Columbus"
+    },
+    "governmentType": "municipal",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "39",
+      "fipsCounty": "39049",
+      "censusStateCode": "36",
+      "censusTypeCode": "3",
+      "censusCountyCode": "025",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-36402500100000",
+    "censusGovId": "36402500100000",
+    "officialName": "Franklin Township",
+    "state": "OH",
+    "stateFips": "39",
+    "countyAssociation": {
+      "countyName": "Franklin County",
+      "countyFips": "39049",
+      "fipsCountyCode": "049"
+    },
+    "governmentType": "township",
+    "governmentSubtype": "civil_township",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "39",
+      "fipsCounty": "39049",
+      "censusStateCode": "36",
+      "censusTypeCode": "4",
+      "censusCountyCode": "025",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-36408300100000",
+    "censusGovId": "36408300100000",
+    "officialName": "Franklin Township",
+    "state": "OH",
+    "stateFips": "39",
+    "countyAssociation": {
+      "countyName": "Warren County",
+      "countyFips": "39165",
+      "fipsCountyCode": "165"
+    },
+    "governmentType": "township",
+    "governmentSubtype": "civil_township",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "39",
+      "fipsCounty": "39165",
+      "censusStateCode": "36",
+      "censusTypeCode": "4",
+      "censusCountyCode": "083",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-36505700105200",
+    "censusGovId": "36505700105200",
+    "officialName": "Miami Conservancy District",
+    "state": "OH",
+    "stateFips": "39",
+    "countyAssociation": {
+      "countyName": "Montgomery County",
+      "countyFips": "39113",
+      "fipsCountyCode": "113"
+    },
+    "governmentType": "special_district",
+    "governmentSubtype": "conservancy_district",
+    "functionCategory": "drainage_flood_control",
+    "functionCode": "052",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "39",
+      "fipsCounty": "39113",
+      "censusStateCode": "36",
+      "censusTypeCode": "5",
+      "censusCountyCode": "057",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-36602500104400",
+    "censusGovId": "36602500104400",
+    "officialName": "Columbus City School District",
+    "state": "OH",
+    "stateFips": "39",
+    "countyAssociation": {
+      "countyName": "Franklin County",
+      "countyFips": "39049",
+      "fipsCountyCode": "049"
+    },
+    "governmentType": "school_district",
+    "functionCategory": "education_elementary_secondary",
+    "functionCode": "044",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "39",
+      "fipsCounty": "39049",
+      "censusStateCode": "36",
+      "censusTypeCode": "6",
+      "censusCountyCode": "025",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-39100000000000",
+    "censusGovId": "39100000000000",
+    "officialName": "Commonwealth of Pennsylvania",
+    "state": "PA",
+    "stateFips": "42",
+    "governmentType": "state",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "42",
+      "censusStateCode": "39",
+      "censusTypeCode": "1",
+      "censusCountyCode": "000",
+      "censusUnitId": "000"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-39205100100000",
+    "censusGovId": "39205100100000",
+    "officialName": "Philadelphia County",
+    "state": "PA",
+    "stateFips": "42",
+    "countyAssociation": {
+      "countyName": "Philadelphia County",
+      "countyFips": "42101",
+      "fipsCountyCode": "101"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "42",
+      "fipsCounty": "42101",
+      "censusStateCode": "39",
+      "censusTypeCode": "2",
+      "censusCountyCode": "051",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-39206300100000",
+    "censusGovId": "39206300100000",
+    "officialName": "Washington County",
+    "state": "PA",
+    "stateFips": "42",
+    "countyAssociation": {
+      "countyName": "Washington County",
+      "countyFips": "42125",
+      "fipsCountyCode": "125"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "42",
+      "fipsCounty": "42125",
+      "censusStateCode": "39",
+      "censusTypeCode": "2",
+      "censusCountyCode": "063",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-39305100100000",
+    "censusGovId": "39305100100000",
+    "officialName": "City of Philadelphia",
+    "state": "PA",
+    "stateFips": "42",
+    "countyAssociation": {
+      "countyName": "Philadelphia County",
+      "countyFips": "42101",
+      "fipsCountyCode": "101"
+    },
+    "placeAssociation": {
+      "placeName": "Philadelphia"
+    },
+    "governmentType": "municipal",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "42",
+      "fipsCounty": "42101",
+      "censusStateCode": "39",
+      "censusTypeCode": "3",
+      "censusCountyCode": "051",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-39402600100000",
+    "censusGovId": "39402600100000",
+    "officialName": "Franklin Township",
+    "state": "PA",
+    "stateFips": "42",
+    "countyAssociation": {
+      "countyName": "Fayette County",
+      "countyFips": "42051",
+      "fipsCountyCode": "051"
+    },
+    "governmentType": "township",
+    "governmentSubtype": "township_first_second_class",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "42",
+      "fipsCounty": "42051",
+      "censusStateCode": "39",
+      "censusTypeCode": "4",
+      "censusCountyCode": "026",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-39404600100000",
+    "censusGovId": "39404600100000",
+    "officialName": "Lower Merion Township",
+    "state": "PA",
+    "stateFips": "42",
+    "countyAssociation": {
+      "countyName": "Montgomery County",
+      "countyFips": "42091",
+      "fipsCountyCode": "091"
+    },
+    "governmentType": "township",
+    "governmentSubtype": "township_first_second_class",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "42",
+      "fipsCounty": "42091",
+      "censusStateCode": "39",
+      "censusTypeCode": "4",
+      "censusCountyCode": "046",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-39505100109400",
+    "censusGovId": "39505100109400",
+    "officialName": "Southeastern Pennsylvania Transportation Authority (SEPTA)",
+    "state": "PA",
+    "stateFips": "42",
+    "countyAssociation": {
+      "countyName": "Philadelphia County",
+      "countyFips": "42101",
+      "fipsCountyCode": "101"
+    },
+    "governmentType": "special_district",
+    "functionCategory": "mass_transit",
+    "functionCode": "094",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "42",
+      "fipsCounty": "42101",
+      "censusStateCode": "39",
+      "censusTypeCode": "5",
+      "censusCountyCode": "051",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-39605100104400",
+    "censusGovId": "39605100104400",
+    "officialName": "School District of Philadelphia",
+    "state": "PA",
+    "stateFips": "42",
+    "countyAssociation": {
+      "countyName": "Philadelphia County",
+      "countyFips": "42101",
+      "fipsCountyCode": "101"
+    },
+    "governmentType": "school_district",
+    "functionCategory": "education_elementary_secondary",
+    "functionCode": "044",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "42",
+      "fipsCounty": "42101",
+      "censusStateCode": "39",
+      "censusTypeCode": "6",
+      "censusCountyCode": "051",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-44100000000000",
+    "censusGovId": "44100000000000",
+    "officialName": "State of Texas",
+    "state": "TX",
+    "stateFips": "48",
+    "governmentType": "state",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "48",
+      "censusStateCode": "44",
+      "censusTypeCode": "1",
+      "censusCountyCode": "000",
+      "censusUnitId": "000"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-44205700100000",
+    "censusGovId": "44205700100000",
+    "officialName": "Dallas County",
+    "state": "TX",
+    "stateFips": "48",
+    "countyAssociation": {
+      "countyName": "Dallas County",
+      "countyFips": "48113",
+      "fipsCountyCode": "113"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "48",
+      "fipsCounty": "48113",
+      "censusStateCode": "44",
+      "censusTypeCode": "2",
+      "censusCountyCode": "057",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-44210100100000",
+    "censusGovId": "44210100100000",
+    "officialName": "Harris County",
+    "state": "TX",
+    "stateFips": "48",
+    "countyAssociation": {
+      "countyName": "Harris County",
+      "countyFips": "48201",
+      "fipsCountyCode": "201"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "48",
+      "fipsCounty": "48201",
+      "censusStateCode": "44",
+      "censusTypeCode": "2",
+      "censusCountyCode": "101",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-44222700100000",
+    "censusGovId": "44222700100000",
+    "officialName": "Travis County",
+    "state": "TX",
+    "stateFips": "48",
+    "countyAssociation": {
+      "countyName": "Travis County",
+      "countyFips": "48453",
+      "fipsCountyCode": "453"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "48",
+      "fipsCounty": "48453",
+      "censusStateCode": "44",
+      "censusTypeCode": "2",
+      "censusCountyCode": "227",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-44223900100000",
+    "censusGovId": "44223900100000",
+    "officialName": "Washington County",
+    "state": "TX",
+    "stateFips": "48",
+    "countyAssociation": {
+      "countyName": "Washington County",
+      "countyFips": "48477",
+      "fipsCountyCode": "477"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "48",
+      "fipsCounty": "48477",
+      "censusStateCode": "44",
+      "censusTypeCode": "2",
+      "censusCountyCode": "239",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-44305700100000",
+    "censusGovId": "44305700100000",
+    "officialName": "City of Dallas",
+    "state": "TX",
+    "stateFips": "48",
+    "countyAssociation": {
+      "countyName": "Dallas County",
+      "countyFips": "48113",
+      "fipsCountyCode": "113"
+    },
+    "placeAssociation": {
+      "placeName": "Dallas"
+    },
+    "governmentType": "municipal",
+    "governmentSubtype": "home_rule_municipality",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "48",
+      "fipsCounty": "48113",
+      "censusStateCode": "44",
+      "censusTypeCode": "3",
+      "censusCountyCode": "057",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-44310100100000",
+    "censusGovId": "44310100100000",
+    "officialName": "City of Houston",
+    "state": "TX",
+    "stateFips": "48",
+    "countyAssociation": {
+      "countyName": "Harris County",
+      "countyFips": "48201",
+      "fipsCountyCode": "201"
+    },
+    "placeAssociation": {
+      "placeName": "Houston"
+    },
+    "governmentType": "municipal",
+    "governmentSubtype": "home_rule_municipality",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "48",
+      "fipsCounty": "48201",
+      "censusStateCode": "44",
+      "censusTypeCode": "3",
+      "censusCountyCode": "101",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-44322700100000",
+    "censusGovId": "44322700100000",
+    "officialName": "City of Austin",
+    "state": "TX",
+    "stateFips": "48",
+    "countyAssociation": {
+      "countyName": "Travis County",
+      "countyFips": "48453",
+      "fipsCountyCode": "453"
+    },
+    "placeAssociation": {
+      "placeName": "Austin"
+    },
+    "governmentType": "municipal",
+    "governmentSubtype": "home_rule_municipality",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "48",
+      "fipsCounty": "48453",
+      "censusStateCode": "44",
+      "censusTypeCode": "3",
+      "censusCountyCode": "227",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-44505700109100",
+    "censusGovId": "44505700109100",
+    "officialName": "Dallas County Utility Reclamation District",
+    "state": "TX",
+    "stateFips": "48",
+    "countyAssociation": {
+      "countyName": "Dallas County",
+      "countyFips": "48113",
+      "fipsCountyCode": "113"
+    },
+    "governmentType": "special_district",
+    "governmentSubtype": "municipal_utility_district",
+    "functionCategory": "water_supply",
+    "functionCode": "091",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "48",
+      "fipsCounty": "48113",
+      "censusStateCode": "44",
+      "censusTypeCode": "5",
+      "censusCountyCode": "057",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-44505700109400",
+    "censusGovId": "44505700109400",
+    "officialName": "Dallas Area Rapid Transit (DART)",
+    "state": "TX",
+    "stateFips": "48",
+    "countyAssociation": {
+      "countyName": "Dallas County",
+      "countyFips": "48113",
+      "fipsCountyCode": "113"
+    },
+    "governmentType": "special_district",
+    "functionCategory": "mass_transit",
+    "functionCode": "094",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "48",
+      "fipsCounty": "48113",
+      "censusStateCode": "44",
+      "censusTypeCode": "5",
+      "censusCountyCode": "057",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-44510100102400",
+    "censusGovId": "44510100102400",
+    "officialName": "Harris County Emergency Services District No. 48",
+    "state": "TX",
+    "stateFips": "48",
+    "countyAssociation": {
+      "countyName": "Harris County",
+      "countyFips": "48201",
+      "fipsCountyCode": "201"
+    },
+    "governmentType": "special_district",
+    "governmentSubtype": "emergency_services_district",
+    "functionCategory": "fire_protection",
+    "functionCode": "024",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "48",
+      "fipsCounty": "48201",
+      "censusStateCode": "44",
+      "censusTypeCode": "5",
+      "censusCountyCode": "101",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-44510100106200",
+    "censusGovId": "44510100106200",
+    "officialName": "Harris County Hospital District (Harris Health System)",
+    "state": "TX",
+    "stateFips": "48",
+    "countyAssociation": {
+      "countyName": "Harris County",
+      "countyFips": "48201",
+      "fipsCountyCode": "201"
+    },
+    "governmentType": "special_district",
+    "governmentSubtype": "hospital_district",
+    "functionCategory": "health_hospitals",
+    "functionCode": "062",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "48",
+      "fipsCounty": "48201",
+      "censusStateCode": "44",
+      "censusTypeCode": "5",
+      "censusCountyCode": "101",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-44605700104400",
+    "censusGovId": "44605700104400",
+    "officialName": "Dallas Independent School District",
+    "state": "TX",
+    "stateFips": "48",
+    "countyAssociation": {
+      "countyName": "Dallas County",
+      "countyFips": "48113",
+      "fipsCountyCode": "113"
+    },
+    "governmentType": "school_district",
+    "governmentSubtype": "independent_school_district",
+    "functionCategory": "education_elementary_secondary",
+    "functionCode": "044",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "48",
+      "fipsCounty": "48113",
+      "censusStateCode": "44",
+      "censusTypeCode": "6",
+      "censusCountyCode": "057",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-44610100104400",
+    "censusGovId": "44610100104400",
+    "officialName": "Houston Independent School District",
+    "state": "TX",
+    "stateFips": "48",
+    "countyAssociation": {
+      "countyName": "Harris County",
+      "countyFips": "48201",
+      "fipsCountyCode": "201"
+    },
+    "governmentType": "school_district",
+    "governmentSubtype": "independent_school_district",
+    "functionCategory": "education_elementary_secondary",
+    "functionCode": "044",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "48",
+      "fipsCounty": "48201",
+      "censusStateCode": "44",
+      "censusTypeCode": "6",
+      "censusCountyCode": "101",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-44622700104400",
+    "censusGovId": "44622700104400",
+    "officialName": "Austin Independent School District",
+    "state": "TX",
+    "stateFips": "48",
+    "countyAssociation": {
+      "countyName": "Travis County",
+      "countyFips": "48453",
+      "fipsCountyCode": "453"
+    },
+    "governmentType": "school_district",
+    "governmentSubtype": "independent_school_district",
+    "functionCategory": "education_elementary_secondary",
+    "functionCode": "044",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "48",
+      "fipsCounty": "48453",
+      "censusStateCode": "44",
+      "censusTypeCode": "6",
+      "censusCountyCode": "227",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-47100000000000",
+    "censusGovId": "47100000000000",
+    "officialName": "Commonwealth of Virginia",
+    "state": "VA",
+    "stateFips": "51",
+    "governmentType": "state",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "51",
+      "censusStateCode": "47",
+      "censusTypeCode": "1",
+      "censusCountyCode": "000",
+      "censusUnitId": "000"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-47202900100000",
+    "censusGovId": "47202900100000",
+    "officialName": "Fairfax County",
+    "state": "VA",
+    "stateFips": "51",
+    "countyAssociation": {
+      "countyName": "Fairfax County",
+      "countyFips": "51059",
+      "fipsCountyCode": "059"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "51",
+      "fipsCounty": "51059",
+      "censusStateCode": "47",
+      "censusTypeCode": "2",
+      "censusCountyCode": "029",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-47209500100000",
+    "censusGovId": "47209500100000",
+    "officialName": "Washington County",
+    "state": "VA",
+    "stateFips": "51",
+    "countyAssociation": {
+      "countyName": "Washington County",
+      "countyFips": "51191",
+      "fipsCountyCode": "191"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "51",
+      "fipsCounty": "51191",
+      "censusStateCode": "47",
+      "censusTypeCode": "2",
+      "censusCountyCode": "095",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-47312800100000",
+    "censusGovId": "47312800100000",
+    "officialName": "City of Richmond",
+    "state": "VA",
+    "stateFips": "51",
+    "placeAssociation": {
+      "placeName": "Richmond"
+    },
+    "governmentType": "municipal",
+    "governmentSubtype": "independent_city",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "51",
+      "censusStateCode": "47",
+      "censusTypeCode": "3",
+      "censusCountyCode": "128",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-47312900100000",
+    "censusGovId": "47312900100000",
+    "officialName": "City of Virginia Beach",
+    "state": "VA",
+    "stateFips": "51",
+    "placeAssociation": {
+      "placeName": "Virginia Beach"
+    },
+    "governmentType": "municipal",
+    "governmentSubtype": "independent_city",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "51",
+      "censusStateCode": "47",
+      "censusTypeCode": "3",
+      "censusCountyCode": "129",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-47502900109100",
+    "censusGovId": "47502900109100",
+    "officialName": "Fairfax County Water Authority (Fairfax Water)",
+    "state": "VA",
+    "stateFips": "51",
+    "countyAssociation": {
+      "countyName": "Fairfax County",
+      "countyFips": "51059",
+      "fipsCountyCode": "059"
+    },
+    "governmentType": "special_district",
+    "functionCategory": "water_supply",
+    "functionCode": "091",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "51",
+      "fipsCounty": "51059",
+      "censusStateCode": "47",
+      "censusTypeCode": "5",
+      "censusCountyCode": "029",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-48100000000000",
+    "censusGovId": "48100000000000",
+    "officialName": "State of Washington",
+    "state": "WA",
+    "stateFips": "53",
+    "governmentType": "state",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "53",
+      "censusStateCode": "48",
+      "censusTypeCode": "1",
+      "censusCountyCode": "000",
+      "censusUnitId": "000"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-48201700100000",
+    "censusGovId": "48201700100000",
+    "officialName": "King County",
+    "state": "WA",
+    "stateFips": "53",
+    "countyAssociation": {
+      "countyName": "King County",
+      "countyFips": "53033",
+      "fipsCountyCode": "033"
+    },
+    "governmentType": "county",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "53",
+      "fipsCounty": "53033",
+      "censusStateCode": "48",
+      "censusTypeCode": "2",
+      "censusCountyCode": "017",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-48301700100000",
+    "censusGovId": "48301700100000",
+    "officialName": "City of Seattle",
+    "state": "WA",
+    "stateFips": "53",
+    "countyAssociation": {
+      "countyName": "King County",
+      "countyFips": "53033",
+      "fipsCountyCode": "033"
+    },
+    "placeAssociation": {
+      "placeName": "Seattle"
+    },
+    "governmentType": "municipal",
+    "functionCategory": "general_government",
+    "functionCode": "000",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "53",
+      "fipsCounty": "53033",
+      "censusStateCode": "48",
+      "censusTypeCode": "3",
+      "censusCountyCode": "017",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-48501700100100",
+    "censusGovId": "48501700100100",
+    "officialName": "Port of Seattle",
+    "state": "WA",
+    "stateFips": "53",
+    "countyAssociation": {
+      "countyName": "King County",
+      "countyFips": "53033",
+      "fipsCountyCode": "033"
+    },
+    "governmentType": "special_district",
+    "functionCategory": "airports_ports",
+    "functionCode": "001",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "53",
+      "fipsCounty": "53033",
+      "censusStateCode": "48",
+      "censusTypeCode": "5",
+      "censusCountyCode": "017",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  },
+  {
+    "stableSourceId": "gov-src-census-48601700104400",
+    "censusGovId": "48601700104400",
+    "officialName": "Seattle Public Schools (District No. 1)",
+    "state": "WA",
+    "stateFips": "53",
+    "countyAssociation": {
+      "countyName": "King County",
+      "countyFips": "53033",
+      "fipsCountyCode": "033"
+    },
+    "governmentType": "school_district",
+    "functionCategory": "education_elementary_secondary",
+    "functionCode": "044",
+    "activeStatus": "active",
+    "geographicIdentifiers": {
+      "fipsState": "53",
+      "fipsCounty": "53033",
+      "censusStateCode": "48",
+      "censusTypeCode": "6",
+      "censusCountyCode": "017",
+      "censusUnitId": "001"
+    },
+    "sourceVintage": "2022 Census of Governments",
+    "sourceProvenance": {
+      "sourceAgency": "U.S. Census Bureau",
+      "productTitle": "2022 Census of Governments: Government Units Survey (GUS)",
+      "sourceUrl": "https://www.census.gov/programs-surveys/gus.html",
+      "retrievalDate": "2024-01-01",
+      "contentHash": "sha256-census-gus-2022-org-v1",
+      "license": "U.S. Public Domain / CC0 Equivalent (17 U.S.C. § 105)",
+      "notes": "Authoritative local government units recognized by the U.S. Census Bureau."
+    }
+  }
+]
