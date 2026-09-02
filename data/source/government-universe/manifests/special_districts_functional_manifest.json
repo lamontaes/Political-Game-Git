@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2024-01-01T00:00:00.000Z",
+  "sourceVintage": "2022 Census of Governments",
+  "totalSpecialDistricts": 39555,
+  "singleFunctionTotal": 32768,
+  "multiFunctionTotal": 6787,
+  "functions": [
+    {
+      "functionCategory": "fire_protection",
+      "functionCodePrefixes": ["024"],
+      "description": "Fire protection",
+      "nationalCount": 5957,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "water_supply",
+      "functionCodePrefixes": ["091"],
+      "description": "Water supply",
+      "nationalCount": 3550,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "housing_community_development",
+      "functionCodePrefixes": ["050"],
+      "description": "Housing and community development",
+      "nationalCount": 3304,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "drainage_flood_control",
+      "functionCodePrefixes": ["052"],
+      "description": "Drainage and flood control",
+      "nationalCount": 3018,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "soil_water_conservation",
+      "functionCodePrefixes": ["059"],
+      "description": "Soil and water conservation",
+      "nationalCount": 2541,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "sewerage",
+      "functionCodePrefixes": ["080"],
+      "description": "Sewerage",
+      "nationalCount": 1829,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "cemeteries",
+      "functionCodePrefixes": ["000"],
+      "description": "Cemeteries",
+      "nationalCount": 1674,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "libraries",
+      "functionCodePrefixes": ["061"],
+      "description": "Libraries",
+      "nationalCount": 1668,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "natural_resources",
+      "functionCodePrefixes": ["059"],
+      "description": "Other natural resources",
+      "nationalCount": 1563,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "parks_recreation",
+      "functionCodePrefixes": ["060"],
+      "description": "Parks and recreation",
+      "nationalCount": 1457,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "other_single_function",
+      "functionCodePrefixes": ["000"],
+      "description": "Other single function districts",
+      "nationalCount": 1305,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "highways",
+      "functionCodePrefixes": ["000"],
+      "description": "Highways",
+      "nationalCount": 1173,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "health",
+      "functionCodePrefixes": ["000"],
+      "description": "Health",
+      "nationalCount": 933,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "hospitals",
+      "functionCodePrefixes": ["062"],
+      "description": "Hospitals",
+      "nationalCount": 650,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "other_utility_districts",
+      "functionCodePrefixes": ["000"],
+      "description": "Other utility districts",
+      "nationalCount": 605,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "solid_waste_management",
+      "functionCodePrefixes": ["000"],
+      "description": "Solid waste management",
+      "nationalCount": 456,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "air_transportation",
+      "functionCodePrefixes": ["000"],
+      "description": "Air transportation",
+      "nationalCount": 435,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "industrial_development",
+      "functionCodePrefixes": ["000"],
+      "description": "Industrial development and mortgage credit",
+      "nationalCount": 227,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "education",
+      "functionCodePrefixes": ["044"],
+      "description": "Education",
+      "nationalCount": 180,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "transit",
+      "functionCodePrefixes": ["094"],
+      "description": "Other transportation",
+      "nationalCount": 169,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "welfare",
+      "functionCodePrefixes": ["000"],
+      "description": "Welfare",
+      "nationalCount": 74,
+      "isMultiFunction": false
+    },
+    {
+      "functionCategory": "multi_function",
+      "functionCodePrefixes": ["099"],
+      "description": "Other multiple function districts",
+      "nationalCount": 5227,
+      "isMultiFunction": true
+    },
+    {
+      "functionCategory": "multi_function",
+      "functionCodePrefixes": ["099", "080", "091"],
+      "description": "Sewerage and water supply",
+      "nationalCount": 1380,
+      "isMultiFunction": true
+    },
+    {
+      "functionCategory": "multi_function",
+      "functionCodePrefixes": ["099", "059", "091"],
+      "description": "Natural resources and water supply",
+      "nationalCount": 180,
+      "isMultiFunction": true
+    }
+  ],
+  "sha256": "efed9e8eccdf2c87fe4e3b04408e3c7d201ec9cc2fb30202fc19d1f10313c8a3"
+}

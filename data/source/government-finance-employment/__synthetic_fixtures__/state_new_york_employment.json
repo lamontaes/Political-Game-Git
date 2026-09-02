@@ -1,0 +1,89 @@
+{
+  "__synthetic__": true,
+  "__note__": "SYNTHETIC FIXTURE - NOT A CENSUS RECORD. Illustrative values used to exercise the compiler. PR #56 shipped these carrying sourceSystem US_CENSUS_BUREAU and hand-typed sourceHash values (rotated hex walks, several not even 64 characters), which made invented numbers look like Census output. Real Census APEP / finance extracts remain an outstanding source acquisition.",
+  "government": {
+    "govId": "gov-census-33100000000000",
+    "censusGovId": "33100000000000",
+    "name": "State of New York (State Government)",
+    "statePostal": "NY",
+    "stateFips": "36",
+    "govClass": "state",
+    "govLevel": "state"
+  },
+  "employmentRecords": [
+    {
+      "recordId": "gov-emp-33100000000000-2022-000-2025-developer-series",
+      "govId": "gov-census-33100000000000",
+      "censusGovId": "33100000000000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "000",
+      "functionName": "Total All Functions",
+      "fullTimeEmployees": 224500,
+      "fullTimePayroll": 1680000000,
+      "partTimeEmployees": 64200,
+      "partTimePayroll": 182000000,
+      "partTimeHours": 3950000,
+      "fullTimeEquivalentEmployees": 249187,
+      "totalEmployees": 288700,
+      "totalPayroll": 1862000000,
+      "averageFullTimeSalary": 7483,
+      "quality": {
+        "imputed": false,
+        "vintage": "synthetic-fixture",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "SYNTHETIC_FIXTURE",
+        "surveyName": "SYNTHETIC_FIXTURE",
+        "sourceFile": "2022_Census_APEP_NY.csv",
+        "sourceHash": null,
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "SYNTHETIC FIXTURE - NOT A CENSUS RECORD. Illustrative values used to exercise the compiler. PR #56 shipped these carrying sourceSystem US_CENSUS_BUREAU and hand-typed sourceHash values (rotated hex walks, several not even 64 characters), which made invented numbers look like Census output. Real Census APEP / finance extracts remain an outstanding source acquisition."
+      }
+    },
+    {
+      "recordId": "gov-emp-33100000000000-2022-018-2025-developer-series",
+      "govId": "gov-census-33100000000000",
+      "censusGovId": "33100000000000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "018",
+      "functionName": "Higher Education - Instructional",
+      "fullTimeEmployees": 41200,
+      "fullTimePayroll": 415000000,
+      "partTimeEmployees": 24500,
+      "partTimePayroll": 82000000,
+      "partTimeHours": 1600000,
+      "fullTimeEquivalentEmployees": 51200,
+      "totalEmployees": 65700,
+      "totalPayroll": 497000000,
+      "averageFullTimeSalary": 10072,
+      "quality": {
+        "imputed": false,
+        "vintage": "synthetic-fixture",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "SYNTHETIC_FIXTURE",
+        "surveyName": "SYNTHETIC_FIXTURE",
+        "sourceFile": "2022_Census_APEP_NY.csv",
+        "sourceHash": null,
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "SYNTHETIC FIXTURE - NOT A CENSUS RECORD. Illustrative values used to exercise the compiler. PR #56 shipped these carrying sourceSystem US_CENSUS_BUREAU and hand-typed sourceHash values (rotated hex walks, several not even 64 characters), which made invented numbers look like Census output. Real Census APEP / finance extracts remain an outstanding source acquisition."
+      }
+    }
+  ]
+}

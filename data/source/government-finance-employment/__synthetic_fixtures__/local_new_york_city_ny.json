@@ -1,0 +1,284 @@
+{
+  "__synthetic__": true,
+  "__note__": "SYNTHETIC FIXTURE - NOT A CENSUS RECORD. Illustrative values used to exercise the compiler. PR #56 shipped these carrying sourceSystem US_CENSUS_BUREAU and hand-typed sourceHash values (rotated hex walks, several not even 64 characters), which made invented numbers look like Census output. Real Census APEP / finance extracts remain an outstanding source acquisition.",
+  "government": {
+    "govId": "gov-census-33303100100000",
+    "censusGovId": "33303100100000",
+    "name": "City of New York",
+    "statePostal": "NY",
+    "stateFips": "36",
+    "countyFips": "061",
+    "govClass": "municipal",
+    "govLevel": "local",
+    "population": 8804190,
+    "populationYear": 2020,
+    "isConsolidatedGovernment": true
+  },
+  "financeRecords": [
+    {
+      "recordId": "gov-fin-33303100100000-2022-2024-developer-series",
+      "govId": "gov-census-33303100100000",
+      "censusGovId": "33303100100000",
+      "fiscalYear": 2022,
+      "enumerationType": "complete_census",
+      "quality": {
+        "imputed": false,
+        "vintage": "synthetic-fixture",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "totalRevenue": 112000000000,
+      "generalRevenue": 105000000000,
+      "ownSourceRevenue": 77000000000,
+      "taxes": {
+        "totalTaxes": 68000000000,
+        "propertyTaxes": 31500000000,
+        "generalSalesTaxes": 9500000000,
+        "selectiveSalesTaxes": {
+          "total": 3500000000,
+          "alcoholicBeverageTaxes": 60000000,
+          "otherSelectiveSalesTaxes": 3440000000
+        },
+        "individualIncomeTaxes": 16500000000,
+        "corporateIncomeTaxes": 5200000000,
+        "licenseTaxes": {
+          "total": 800000000
+        },
+        "otherTaxes": {
+          "total": 1000000000
+        }
+      },
+      "intergovernmentalRevenue": {
+        "total": 28000000000,
+        "fromFederal": 12000000000,
+        "fromState": 16000000000,
+        "fromLocal": 0
+      },
+      "currentCharges": {
+        "total": 5500000000,
+        "educationCharges": 400000000,
+        "hospitalCharges": 2100000000,
+        "sewerageCharges": 1800000000,
+        "otherCharges": 1200000000
+      },
+      "miscellaneousGeneralRevenue": {
+        "total": 3500000000,
+        "interestEarnings": 950000000,
+        "saleOfProperty": 150000000,
+        "otherMiscellaneous": 2400000000
+      },
+      "utilityRevenue": {
+        "total": 2000000000,
+        "waterSupplyUtility": 2000000000
+      },
+      "liquorStoreRevenue": 0,
+      "insuranceTrustRevenue": {
+        "total": 5000000000,
+        "employeeRetirement": 5000000000
+      },
+      "totalExpenditure": 108000000000,
+      "directExpenditure": 108000000000,
+      "directGeneralExpenditure": 98500000000,
+      "intergovernmentalExpenditure": {
+        "total": 0
+      },
+      "characterExpenditure": {
+        "currentOperation": 81000000000,
+        "capitalOutlay": {
+          "total": 9500000000,
+          "construction": 7800000000,
+          "landAndExistingStructures": 400000000,
+          "equipment": 1300000000
+        },
+        "assistanceAndSubsidies": 4000000000,
+        "interestOnGeneralDebt": 4000000000,
+        "insuranceBenefitsAndRepayments": 7500000000
+      },
+      "functionalExpenditures": {
+        "educationElementarySecondary": {
+          "currentOperation": 28000000000,
+          "capitalOutlay": 2800000000,
+          "total": 30800000000
+        },
+        "publicWelfare": {
+          "currentOperation": 18500000000,
+          "capitalOutlay": 100000000,
+          "total": 18600000000
+        },
+        "policeProtection": {
+          "currentOperation": 5800000000,
+          "capitalOutlay": 250000000,
+          "total": 6050000000
+        },
+        "fireProtection": {
+          "currentOperation": 2400000000,
+          "capitalOutlay": 120000000,
+          "total": 2520000000
+        },
+        "hospitals": {
+          "currentOperation": 4800000000,
+          "capitalOutlay": 350000000,
+          "total": 5150000000
+        },
+        "health": {
+          "currentOperation": 2600000000,
+          "capitalOutlay": 100000000,
+          "total": 2700000000
+        },
+        "interestOnGeneralDebt": {
+          "currentOperation": 4000000000,
+          "capitalOutlay": 0,
+          "total": 4000000000
+        }
+      },
+      "utilityExpenditure": {
+        "total": 2000000000,
+        "waterSupply": 2000000000
+      },
+      "liquorStoreExpenditure": 0,
+      "insuranceTrustExpenditure": 7500000000,
+      "debtOutstandingEndYear": {
+        "total": 96000000000,
+        "shortTermDebt": 2000000000,
+        "longTermDebt": {
+          "total": 94000000000,
+          "fullFaithAndCredit": 41000000000,
+          "nonguaranteedRevenueDebt": 53000000000
+        }
+      },
+      "debtIssuedDuringYear": 12500000000,
+      "debtRetiredDuringYear": 8500000000,
+      "cashAndSecuritiesEndYear": {
+        "total": 285000000000,
+        "insuranceTrustFunds": 255000000000,
+        "nonInsuranceTrustFunds": {
+          "total": 30000000000,
+          "sinkingFunds": 4200000000,
+          "bondFunds": 6800000000,
+          "otherFunds": 19000000000
+        }
+      },
+      "provenance": {
+        "sourceSystem": "SYNTHETIC_FIXTURE",
+        "surveyName": "SYNTHETIC_FIXTURE",
+        "sourceFile": "2022_Indiv_Gov_Finances_NY.csv",
+        "sourceHash": null,
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "SYNTHETIC FIXTURE - NOT A CENSUS RECORD. Illustrative values used to exercise the compiler. PR #56 shipped these carrying sourceSystem US_CENSUS_BUREAU and hand-typed sourceHash values (rotated hex walks, several not even 64 characters), which made invented numbers look like Census output. Real Census APEP / finance extracts remain an outstanding source acquisition."
+      }
+    }
+  ],
+  "employmentRecords": [
+    {
+      "recordId": "gov-emp-33303100100000-2022-000-2025-developer-series",
+      "govId": "gov-census-33303100100000",
+      "censusGovId": "33303100100000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "000",
+      "functionName": "Total All Functions",
+      "fullTimeEmployees": 285400,
+      "fullTimePayroll": 2150000000,
+      "partTimeEmployees": 42100,
+      "partTimePayroll": 98000000,
+      "partTimeHours": 3200000,
+      "fullTimeEquivalentEmployees": 305400,
+      "totalEmployees": 327500,
+      "totalPayroll": 2248000000,
+      "averageFullTimeSalary": 7533,
+      "quality": {
+        "imputed": false,
+        "vintage": "synthetic-fixture",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "SYNTHETIC_FIXTURE",
+        "surveyName": "SYNTHETIC_FIXTURE",
+        "sourceFile": "2022_Census_APEP_NY_Local.csv",
+        "sourceHash": null,
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "SYNTHETIC FIXTURE - NOT A CENSUS RECORD. Illustrative values used to exercise the compiler. PR #56 shipped these carrying sourceSystem US_CENSUS_BUREAU and hand-typed sourceHash values (rotated hex walks, several not even 64 characters), which made invented numbers look like Census output. Real Census APEP / finance extracts remain an outstanding source acquisition."
+      }
+    },
+    {
+      "recordId": "gov-emp-33303100100000-2022-012-2025-developer-series",
+      "govId": "gov-census-33303100100000",
+      "censusGovId": "33303100100000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "012",
+      "functionName": "Elementary and Secondary Education - Instructional",
+      "fullTimeEmployees": 82500,
+      "fullTimePayroll": 695000000,
+      "partTimeEmployees": 8500,
+      "partTimePayroll": 24000000,
+      "partTimeHours": 650000,
+      "fullTimeEquivalentEmployees": 86562,
+      "totalEmployees": 91000,
+      "totalPayroll": 719000000,
+      "averageFullTimeSalary": 8424,
+      "quality": {
+        "imputed": false,
+        "vintage": "synthetic-fixture",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "SYNTHETIC_FIXTURE",
+        "surveyName": "SYNTHETIC_FIXTURE",
+        "sourceFile": "2022_Census_APEP_NY_Local.csv",
+        "sourceHash": null,
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "SYNTHETIC FIXTURE - NOT A CENSUS RECORD. Illustrative values used to exercise the compiler. PR #56 shipped these carrying sourceSystem US_CENSUS_BUREAU and hand-typed sourceHash values (rotated hex walks, several not even 64 characters), which made invented numbers look like Census output. Real Census APEP / finance extracts remain an outstanding source acquisition."
+      }
+    },
+    {
+      "recordId": "gov-emp-33303100100000-2022-025-2025-developer-series",
+      "govId": "gov-census-33303100100000",
+      "censusGovId": "33303100100000",
+      "surveyYear": 2022,
+      "referenceMonth": "March",
+      "enumerationType": "complete_census",
+      "functionCode": "025",
+      "functionName": "Police Protection - Sworn Officers",
+      "fullTimeEmployees": 34800,
+      "fullTimePayroll": 315000000,
+      "partTimeEmployees": 0,
+      "partTimePayroll": 0,
+      "partTimeHours": 0,
+      "fullTimeEquivalentEmployees": 34800,
+      "totalEmployees": 34800,
+      "totalPayroll": 315000000,
+      "averageFullTimeSalary": 9051,
+      "quality": {
+        "imputed": false,
+        "vintage": "synthetic-fixture",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "compatibility": {
+        "isDefinitionCompatible": true,
+        "breakInSeries": false
+      },
+      "provenance": {
+        "sourceSystem": "SYNTHETIC_FIXTURE",
+        "surveyName": "SYNTHETIC_FIXTURE",
+        "sourceFile": "2022_Census_APEP_NY_Local.csv",
+        "sourceHash": null,
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "SYNTHETIC FIXTURE - NOT A CENSUS RECORD. Illustrative values used to exercise the compiler. PR #56 shipped these carrying sourceSystem US_CENSUS_BUREAU and hand-typed sourceHash values (rotated hex walks, several not even 64 characters), which made invented numbers look like Census output. Real Census APEP / finance extracts remain an outstanding source acquisition."
+      }
+    }
+  ]
+}

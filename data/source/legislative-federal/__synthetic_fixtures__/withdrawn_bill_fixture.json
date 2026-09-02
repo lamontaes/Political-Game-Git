@@ -1,0 +1,81 @@
+{
+  "__synthetic__": true,
+  "__note__": "SYNTHETIC FIXTURE - NOT A REAL MEASURE. Placeholder bill number (H.R. 9999 / S. 1234) used to exercise withdrawal and session-expiry paths. Kept out of the compiled corpus so it cannot be read as a federal legislative record.",
+  "congress": 118,
+  "type": "HR",
+  "number": 9999,
+  "title": "A bill to establish a temporary advisory council on federal procurement standards (Model Withdrawn Bill).",
+  "originChamber": "House",
+  "introducedDate": "2023-05-10",
+  "policyArea": {
+    "name": "Government Operations and Politics"
+  },
+  "legislativeSubjects": [
+    "Advisory bodies",
+    "Executive agency funding and organization",
+    "Public contracts and procurement"
+  ],
+  "sponsors": [
+    {
+      "bioguideId": "S001176",
+      "fullName": "Scalise, Steve",
+      "party": "R",
+      "state": "LA",
+      "district": 1
+    }
+  ],
+  "cosponsors": [],
+  "committees": {
+    "count": 1,
+    "items": [
+      {
+        "systemCode": "hsgo00",
+        "chamber": "House",
+        "name": "House Committee on Oversight and Accountability",
+        "activities": [
+          {
+            "name": "Referred to",
+            "date": "2023-05-10"
+          }
+        ]
+      }
+    ]
+  },
+  "actions": {
+    "count": 2,
+    "items": [
+      {
+        "actionDate": "2023-05-10",
+        "text": "Referred to the House Committee on Oversight and Accountability.",
+        "type": "IntroReferral",
+        "actionCode": "H11100"
+      },
+      {
+        "actionDate": "2023-06-01",
+        "text": "Withdrawn by sponsor in House.",
+        "type": "Floor",
+        "actionCode": "H8D000"
+      }
+    ]
+  },
+  "amendments": {
+    "count": 0,
+    "items": []
+  },
+  "textVersions": {
+    "count": 1,
+    "items": [
+      {
+        "type": "ih",
+        "date": "2023-05-10",
+        "formats": [
+          {
+            "type": "PDF",
+            "url": "https://www.congress.gov/118/bills/hr9999/BILLS-118hr9999ih.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  "url": "https://www.congress.gov/bill/118th-congress/house-bill/9999"
+}

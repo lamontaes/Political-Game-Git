@@ -1,0 +1,309 @@
+{
+  "id": "ocd-bill/2c1b9b5f-6a78-45d2-9b2f-379e497021rs",
+  "identifier": "HB 497",
+  "title": "AN ACT relating to re-entry into society and declaring an emergency.",
+  "jurisdiction": {
+    "id": "ocd-jurisdiction/country:us/state:ky/government",
+    "name": "Kentucky",
+    "classification": "state"
+  },
+  "session": "2021RS",
+  "classification": ["bill"],
+  "subject": [
+    "Corrections and Correctional Institutions",
+    "Labor and Industry",
+    "Public Health",
+    "State Agencies"
+  ],
+  "from_organization": {
+    "name": "House of Representatives",
+    "classification": "lower"
+  },
+  "openstates_url": "https://openstates.org/ky/bills/2021RS/HB497/",
+  "sources": [
+    {
+      "url": "https://apps.legislature.ky.gov/record/21rs/hb497.html",
+      "note": "official record"
+    }
+  ],
+  "abstracts": [
+    {
+      "abstract": "Create a certificate of employability program for eligible incarcerated individuals; remove barriers to occupational licensing; provide vital documents upon release; declare an emergency."
+    }
+  ],
+  "versions": [
+    {
+      "note": "Introduced",
+      "date": "2021-02-10",
+      "links": [
+        {
+          "url": "https://apps.legislature.ky.gov/recorddocuments/bill/21RS/hb497/orig_bill.pdf",
+          "media_type": "application/pdf"
+        }
+      ]
+    },
+    {
+      "note": "Enrolled",
+      "date": "2021-03-15",
+      "links": [
+        {
+          "url": "https://apps.legislature.ky.gov/recorddocuments/bill/21RS/hb497/bill.pdf",
+          "media_type": "application/pdf"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "date": "2021-02-10",
+      "description": "introduced in House",
+      "classification": ["introduction", "filing"],
+      "organization": {
+        "name": "House of Representatives",
+        "classification": "lower"
+      },
+      "order": 0
+    },
+    {
+      "date": "2021-02-11",
+      "description": "to Committee on Committees (H)",
+      "classification": ["referral-committee"],
+      "organization": {
+        "name": "House of Representatives",
+        "classification": "lower"
+      },
+      "order": 1
+    },
+    {
+      "date": "2021-02-23",
+      "description": "to Judiciary (H)",
+      "classification": ["referral-committee"],
+      "organization": {
+        "name": "House of Representatives",
+        "classification": "lower"
+      },
+      "order": 2
+    },
+    {
+      "date": "2021-02-25",
+      "description": "reported favorably, 1st reading, to Calendar",
+      "classification": ["committee-passage", "reading-1"],
+      "organization": {
+        "name": "House of Representatives",
+        "classification": "lower"
+      },
+      "order": 3
+    },
+    {
+      "date": "2021-02-26",
+      "description": "2nd reading, to Rules",
+      "classification": ["reading-2"],
+      "organization": {
+        "name": "House of Representatives",
+        "classification": "lower"
+      },
+      "order": 4
+    },
+    {
+      "date": "2021-03-01",
+      "description": "3rd reading, passed 95-0",
+      "classification": ["passage", "reading-3"],
+      "organization": {
+        "name": "House of Representatives",
+        "classification": "lower"
+      },
+      "order": 5,
+      "sources": [
+        {
+          "url": "https://apps.legislature.ky.gov/record/21rs/hb497/votes.html",
+          "note": "House roll call"
+        }
+      ]
+    },
+    {
+      "date": "2021-03-02",
+      "description": "received in Senate",
+      "classification": ["receipt"],
+      "organization": {
+        "name": "Senate",
+        "classification": "upper"
+      },
+      "order": 6
+    },
+    {
+      "date": "2021-03-12",
+      "description": "3rd reading, passed 35-0 with Committee Substitute",
+      "classification": ["passage", "reading-3"],
+      "organization": {
+        "name": "Senate",
+        "classification": "upper"
+      },
+      "order": 7,
+      "sources": [
+        {
+          "url": "https://apps.legislature.ky.gov/record/21rs/hb497/senate_votes.html",
+          "note": "Senate roll call"
+        }
+      ]
+    },
+    {
+      "date": "2021-03-15",
+      "description": "House concurred in Senate Committee Substitute, passed 91-0",
+      "classification": ["passage"],
+      "organization": {
+        "name": "House of Representatives",
+        "classification": "lower"
+      },
+      "order": 8,
+      "sources": [
+        {
+          "url": "https://apps.legislature.ky.gov/record/21rs/hb497/concurrence_votes.html",
+          "note": "House concurrence roll call"
+        }
+      ]
+    },
+    {
+      "date": "2021-03-15",
+      "description": "enrolled, signed by Speaker of the House and President of the Senate",
+      "classification": ["passage"],
+      "organization": {
+        "name": "House of Representatives",
+        "classification": "lower"
+      },
+      "order": 9
+    },
+    {
+      "date": "2021-03-16",
+      "description": "delivered to Governor",
+      "classification": ["executive-receipt"],
+      "organization": {
+        "name": "Governor",
+        "classification": "executive"
+      },
+      "order": 10
+    },
+    {
+      "date": "2021-04-05",
+      "description": "signed by Governor (Acts Chapter 182)",
+      "classification": ["became-law", "executive-signature", "chaptered"],
+      "organization": {
+        "name": "Governor",
+        "classification": "executive"
+      },
+      "order": 11,
+      "sources": [
+        {
+          "url": "https://apps.legislature.ky.gov/law/acts/21RS/documents/0182.pdf",
+          "note": "Acts of the General Assembly Chapter 182"
+        }
+      ]
+    }
+  ],
+  "votes": [
+    {
+      "id": "ocd-vote/ky-2021rs-hb497-h-pass",
+      "identifier": "House Final Passage",
+      "motion_text": "HB 497 - Final Passage in House",
+      "start_date": "2021-03-01",
+      "result": "pass",
+      "organization": {
+        "name": "House of Representatives",
+        "classification": "lower"
+      },
+      "counts": [
+        { "option": "yes", "value": 95 },
+        { "option": "no", "value": 0 },
+        { "option": "absent", "value": 5 }
+      ],
+      "votes": [
+        {
+          "option": "yes",
+          "voter_name": "Kimberly Poore Moser",
+          "voter_id": "ocd-person/ky-moser"
+        },
+        {
+          "option": "yes",
+          "voter_name": "David Osborne",
+          "voter_id": "ocd-person/ky-osborne"
+        }
+      ],
+      "sources": [
+        {
+          "url": "https://apps.legislature.ky.gov/record/21rs/hb497/votes.html"
+        }
+      ]
+    },
+    {
+      "id": "ocd-vote/ky-2021rs-hb497-s-pass",
+      "identifier": "Senate Final Passage",
+      "motion_text": "HB 497 - Final Passage in Senate with Committee Substitute",
+      "start_date": "2021-03-12",
+      "result": "pass",
+      "organization": {
+        "name": "Senate",
+        "classification": "upper"
+      },
+      "counts": [
+        { "option": "yes", "value": 35 },
+        { "option": "no", "value": 0 },
+        { "option": "absent", "value": 3 }
+      ],
+      "votes": [
+        {
+          "option": "yes",
+          "voter_name": "Robert Stivers",
+          "voter_id": "ocd-person/ky-stivers"
+        }
+      ],
+      "sources": [
+        {
+          "url": "https://apps.legislature.ky.gov/record/21rs/hb497/senate_votes.html"
+        }
+      ]
+    },
+    {
+      "id": "ocd-vote/ky-2021rs-hb497-h-concur",
+      "identifier": "House Concurrence",
+      "motion_text": "HB 497 - House Concurrence in Senate Committee Substitute",
+      "start_date": "2021-03-15",
+      "result": "pass",
+      "organization": {
+        "name": "House of Representatives",
+        "classification": "lower"
+      },
+      "counts": [
+        { "option": "yes", "value": 91 },
+        { "option": "no", "value": 0 },
+        { "option": "absent", "value": 9 }
+      ],
+      "votes": [
+        {
+          "option": "yes",
+          "voter_name": "Kimberly Poore Moser",
+          "voter_id": "ocd-person/ky-moser"
+        }
+      ],
+      "sources": [
+        {
+          "url": "https://apps.legislature.ky.gov/record/21rs/hb497/concurrence_votes.html"
+        }
+      ]
+    }
+  ],
+  "sponsors": [
+    {
+      "name": "Kimberly Poore Moser",
+      "entity_type": "person",
+      "primary": true,
+      "classification": "primary",
+      "person_id": "ocd-person/ky-moser"
+    },
+    {
+      "name": "David Osborne",
+      "entity_type": "person",
+      "primary": false,
+      "classification": "cosponsor",
+      "person_id": "ocd-person/ky-osborne"
+    }
+  ]
+}

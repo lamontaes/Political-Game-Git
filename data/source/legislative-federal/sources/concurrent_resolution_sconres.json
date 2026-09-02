@@ -1,0 +1,98 @@
+{
+  "congress": 117,
+  "type": "SCONRES",
+  "number": 14,
+  "title": "A concurrent resolution setting forth the congressional budget for the United States Government for fiscal year 2022 and setting forth the appropriate budgetary levels for fiscal years 2023 through 2031.",
+  "originChamber": "Senate",
+  "introducedDate": "2021-08-09",
+  "policyArea": {
+    "name": "Economics and Public Finance"
+  },
+  "legislativeSubjects": [
+    "Budget deficits and national debt",
+    "Budget process",
+    "Congressional oversight",
+    "Economic performance and conditions"
+  ],
+  "sponsors": [
+    {
+      "bioguideId": "S000033",
+      "fullName": "Sanders, Bernard",
+      "party": "I",
+      "state": "VT"
+    }
+  ],
+  "cosponsors": [],
+  "committees": {
+    "count": 0,
+    "items": []
+  },
+  "actions": {
+    "count": 4,
+    "items": [
+      {
+        "actionDate": "2021-08-09",
+        "text": "Placed on Senate Legislative Calendar under General Orders. Calendar No. 120.",
+        "type": "Calendars",
+        "actionCode": "14000"
+      },
+      {
+        "actionDate": "2021-08-11",
+        "text": "Resolution agreed to in Senate with amendments by Yea-Nay Vote. 50 - 49. Record Vote Number: 357.",
+        "type": "Floor",
+        "actionCode": "17000"
+      },
+      {
+        "actionDate": "2021-08-17",
+        "text": "Held at the desk.",
+        "type": "Floor",
+        "actionCode": "H15000"
+      },
+      {
+        "actionDate": "2021-08-24",
+        "text": "On agreeing to the resolution Agreed to by the Yeas and Nays: 220 - 212 (Roll no. 258).",
+        "type": "Floor",
+        "actionCode": "H37100",
+        "recordedVotes": [
+          {
+            "chamber": "House",
+            "congress": 117,
+            "rollNumber": 258,
+            "sessionNumber": 1,
+            "url": "https://clerk.house.gov/Votes/2021258"
+          }
+        ]
+      }
+    ]
+  },
+  "amendments": {
+    "count": 0,
+    "items": []
+  },
+  "textVersions": {
+    "count": 2,
+    "items": [
+      {
+        "type": "ats",
+        "date": "2021-08-11",
+        "formats": [
+          {
+            "type": "PDF",
+            "url": "https://www.congress.gov/117/bills/sconres14/BILLS-117sconres14ats.pdf"
+          }
+        ]
+      },
+      {
+        "type": "enr",
+        "date": "2021-08-24",
+        "formats": [
+          {
+            "type": "PDF",
+            "url": "https://www.congress.gov/117/bills/sconres14/BILLS-117sconres14enr.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  "url": "https://www.congress.gov/bill/117th-congress/senate-concurrent-resolution/14"
+}

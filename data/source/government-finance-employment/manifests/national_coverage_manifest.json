@@ -1,0 +1,56 @@
+{
+  "manifestVersion": "1.0.0",
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-09-02T18:44:15.217Z",
+  "sources": [
+    {
+      "id": "census-slf-2017-2024",
+      "title": "State and Local Government Finances (2017–2024 Developer Series)",
+      "publisher": "U.S. Census Bureau",
+      "program": "State and Local Government Finances",
+      "timeRange": "2017–2024",
+      "methodologyUrl": "https://www.census.gov/programs-surveys/gov-finances/technical-documentation.html",
+      "developerUrl": "https://api.census.gov/data/timeseries/govs",
+      "notes": "Includes 2017 and 2022 complete Census of Governments enumeration alongside 2018–2021 and 2023–2024 Annual Survey sample estimates."
+    },
+    {
+      "id": "census-apep-1992-2025",
+      "title": "Annual Survey of Public Employment & Payroll (1992–2025 Developer Series)",
+      "publisher": "U.S. Census Bureau",
+      "program": "Annual Survey of Public Employment & Payroll",
+      "timeRange": "1992–2025",
+      "methodologyUrl": "https://www.census.gov/programs-surveys/apes/technical-documentation.html",
+      "developerUrl": "https://api.census.gov/data/timeseries/apes",
+      "notes": "Full-time and part-time government employment, monthly payroll, and full-time equivalent staffing by government function. Reference month March (1997+) and October (pre-1997)."
+    },
+    {
+      "id": "census-cog-1992-2022",
+      "title": "Census of Governments (5-Year Complete Enumeration Series)",
+      "publisher": "U.S. Census Bureau",
+      "program": "Census of Governments",
+      "timeRange": "1992–2022 (years ending in 2 and 7)",
+      "methodologyUrl": "https://www.census.gov/programs-surveys/cog/about.html",
+      "developerUrl": "https://api.census.gov/data/timeseries/cog",
+      "notes": "Complete universe enumeration of state, county, municipal, township, special district, and school district entities."
+    }
+  ],
+  "coverage": {
+    "totalGovernments": 0,
+    "governmentsByClass": {
+      "federal": 0,
+      "state": 0,
+      "county": 0,
+      "municipal": 0,
+      "township": 0,
+      "special_district": 0,
+      "school_district": 0
+    },
+    "governmentsByState": {},
+    "financeYearsAvailable": [],
+    "employmentYearsAvailable": [],
+    "totalFinanceRecords": 0,
+    "totalEmploymentRecords": 0
+  },
+  "checksums": {},
+  "vintages": []
+}

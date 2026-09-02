@@ -1,0 +1,90 @@
+{
+  "id": "ocd-bill/ne-107th-lb102",
+  "identifier": "LB 102",
+  "title": "Change provisions relating to the Nebraska Educational Savings Plan Trust and the achieve a better life experience program.",
+  "jurisdiction": {
+    "id": "ocd-jurisdiction/country:us/state:ne/government",
+    "name": "Nebraska",
+    "classification": "state"
+  },
+  "session": "107th",
+  "classification": ["bill"],
+  "from_organization": {
+    "name": "Nebraska Legislature",
+    "classification": "unicameral"
+  },
+  "openstates_url": "https://openstates.org/ne/bills/107th/LB102/",
+  "sources": [
+    {
+      "url": "https://nebraskalegislature.gov/bills/view_bill.php?DocumentID=43789",
+      "note": "official record"
+    }
+  ],
+  "actions": [
+    {
+      "date": "2021-01-08",
+      "description": "Date of introduction",
+      "classification": ["introduction"],
+      "organization": { "classification": "unicameral" },
+      "order": 0
+    },
+    {
+      "date": "2021-01-11",
+      "description": "Referred to Revenue Committee",
+      "classification": ["referral-committee"],
+      "organization": { "classification": "unicameral" },
+      "order": 1
+    },
+    {
+      "date": "2021-02-18",
+      "description": "Placed on General File",
+      "classification": ["reading-1"],
+      "organization": { "classification": "unicameral" },
+      "order": 2
+    },
+    {
+      "date": "2021-03-03",
+      "description": "Advanced to Select File",
+      "classification": ["reading-2"],
+      "organization": { "classification": "unicameral" },
+      "order": 3
+    },
+    {
+      "date": "2021-03-11",
+      "description": "Passed on Final Reading 47-0-2",
+      "classification": ["passage", "reading-3"],
+      "organization": { "classification": "unicameral" },
+      "order": 4
+    },
+    {
+      "date": "2021-03-17",
+      "description": "Approved by Governor",
+      "classification": ["became-law", "executive-signature"],
+      "organization": { "classification": "executive" },
+      "order": 5
+    }
+  ],
+  "votes": [
+    {
+      "id": "ocd-vote/ne-lb102-final",
+      "identifier": "Final Reading Passage",
+      "motion_text": "LB 102 - Final Reading",
+      "start_date": "2021-03-11",
+      "result": "pass",
+      "organization": { "classification": "unicameral" },
+      "counts": [
+        { "option": "yes", "value": 47 },
+        { "option": "no", "value": 0 },
+        { "option": "absent", "value": 2 }
+      ]
+    }
+  ],
+  "sponsors": [
+    {
+      "name": "Lou Ann Linehan",
+      "entity_type": "person",
+      "primary": true,
+      "classification": "primary"
+    }
+  ]
+}

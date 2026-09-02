@@ -1,0 +1,82 @@
+{
+  "__synthetic__": true,
+  "__note__": "SYNTHETIC FIXTURE - NOT A REAL MEASURE. Placeholder bill number (H.R. 9999 / S. 1234) used to exercise withdrawal and session-expiry paths. Kept out of the compiled corpus so it cannot be read as a federal legislative record.",
+  "congress": 117,
+  "type": "S",
+  "number": 1234,
+  "title": "A bill to establish federal standards for regional workforce development coordination.",
+  "originChamber": "Senate",
+  "introducedDate": "2021-04-20",
+  "policyArea": {
+    "name": "Labor and Employment"
+  },
+  "legislativeSubjects": [
+    "Employment and training programs",
+    "Labor-management relations",
+    "Vocational and technical education"
+  ],
+  "sponsors": [
+    {
+      "bioguideId": "K000384",
+      "fullName": "Kaine, Tim",
+      "party": "D",
+      "state": "VA"
+    }
+  ],
+  "cosponsors": [
+    {
+      "bioguideId": "P000449",
+      "fullName": "Portman, Rob",
+      "party": "R",
+      "state": "OH",
+      "sponsorshipDate": "2021-04-20"
+    }
+  ],
+  "committees": {
+    "count": 1,
+    "items": [
+      {
+        "systemCode": "sshr00",
+        "chamber": "Senate",
+        "name": "Senate Committee on Health, Education, Labor, and Pensions",
+        "activities": [
+          {
+            "name": "Referred to",
+            "date": "2021-04-20"
+          }
+        ]
+      }
+    ]
+  },
+  "actions": {
+    "count": 1,
+    "items": [
+      {
+        "actionDate": "2021-04-20",
+        "text": "Read twice and referred to the Committee on Health, Education, Labor, and Pensions.",
+        "type": "IntroReferral",
+        "actionCode": "10000"
+      }
+    ]
+  },
+  "amendments": {
+    "count": 0,
+    "items": []
+  },
+  "textVersions": {
+    "count": 1,
+    "items": [
+      {
+        "type": "is",
+        "date": "2021-04-20",
+        "formats": [
+          {
+            "type": "PDF",
+            "url": "https://www.congress.gov/117/bills/s1234/BILLS-117s1234is.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  "url": "https://www.congress.gov/bill/117th-congress/senate-bill/1234"
+}

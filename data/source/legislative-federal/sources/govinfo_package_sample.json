@@ -1,0 +1,51 @@
+[
+  {
+    "packageId": "BILLS-117hr5376enr",
+    "title": "An Act to provide for reconciliation pursuant to title II of S. Con. Res. 14.",
+    "collectionCode": "BILLS",
+    "collectionName": "Congressional Bills",
+    "category": "Bills and Statutes",
+    "dateIssued": "2022-08-12",
+    "lastModified": "2022-08-16T15:20:00Z",
+    "packageLink": "https://api.govinfo.gov/packages/BILLS-117hr5376enr",
+    "docClass": "HR",
+    "congress": "117",
+    "session": "2",
+    "billVersion": "enr",
+    "billNumber": "5376",
+    "billType": "hr",
+    "download": {
+      "pdfLink": "https://www.govinfo.gov/content/pkg/BILLS-117hr5376enr/pdf/BILLS-117hr5376enr.pdf",
+      "xmlLink": "https://www.govinfo.gov/content/pkg/BILLS-117hr5376enr/xml/BILLS-117hr5376enr.xml",
+      "txtLink": "https://www.govinfo.gov/content/pkg/BILLS-117hr5376enr/html/BILLS-117hr5376enr.htm",
+      "modsLink": "https://www.govinfo.gov/content/pkg/BILLS-117hr5376enr/mods.xml"
+    },
+    "references": [
+      {
+        "type": "Public Law",
+        "contents": "Public Law 117-169"
+      }
+    ]
+  },
+  {
+    "packageId": "BILLS-117hr5376pl",
+    "title": "Inflation Reduction Act of 2022",
+    "collectionCode": "PLAW",
+    "collectionName": "Public and Private Laws",
+    "category": "Bills and Statutes",
+    "dateIssued": "2022-08-16",
+    "lastModified": "2022-08-17T10:00:00Z",
+    "packageLink": "https://api.govinfo.gov/packages/PLAW-117publ169",
+    "docClass": "PUBL",
+    "congress": "117",
+    "session": "2",
+    "billVersion": "pl",
+    "billNumber": "5376",
+    "billType": "hr",
+    "download": {
+      "pdfLink": "https://www.govinfo.gov/content/pkg/PLAW-117publ169/pdf/PLAW-117publ169.pdf",
+      "xmlLink": "https://www.govinfo.gov/content/pkg/PLAW-117publ169/xml/PLAW-117publ169.xml",
+      "txtLink": "https://www.govinfo.gov/content/pkg/PLAW-117publ169/html/PLAW-117publ169.htm"
+    }
+  }
+]

@@ -1,0 +1,171 @@
+{
+  "__synthetic__": true,
+  "__note__": "SYNTHETIC FIXTURE - NOT A CENSUS RECORD. Illustrative values used to exercise the compiler. PR #56 shipped these carrying sourceSystem US_CENSUS_BUREAU and hand-typed sourceHash values (rotated hex walks, several not even 64 characters), which made invented numbers look like Census output. Real Census APEP / finance extracts remain an outstanding source acquisition.",
+  "government": {
+    "govId": "gov-census-33100000000000",
+    "censusGovId": "33100000000000",
+    "name": "State of New York (State Government)",
+    "statePostal": "NY",
+    "stateFips": "36",
+    "govClass": "state",
+    "govLevel": "state",
+    "population": 20201249,
+    "populationYear": 2020
+  },
+  "financeRecords": [
+    {
+      "recordId": "gov-fin-33100000000000-2022-2024-developer-series",
+      "govId": "gov-census-33100000000000",
+      "censusGovId": "33100000000000",
+      "fiscalYear": 2022,
+      "enumerationType": "complete_census",
+      "quality": {
+        "imputed": false,
+        "vintage": "synthetic-fixture",
+        "releaseDate": "2024-06-20",
+        "revisionStatus": "final"
+      },
+      "totalRevenue": 242000000000,
+      "generalRevenue": 218000000000,
+      "ownSourceRevenue": 138000000000,
+      "taxes": {
+        "totalTaxes": 118000000000,
+        "propertyTaxes": 0,
+        "generalSalesTaxes": 19500000000,
+        "selectiveSalesTaxes": {
+          "total": 9500000000,
+          "motorFuelTaxes": 1800000000,
+          "alcoholicBeverageTaxes": 280000000,
+          "tobaccoTaxes": 1100000000,
+          "insurancePremiumTaxes": 2400000000,
+          "otherSelectiveSalesTaxes": 3920000000
+        },
+        "individualIncomeTaxes": 72000000000,
+        "corporateIncomeTaxes": 12500000000,
+        "licenseTaxes": {
+          "total": 3500000000,
+          "motorVehicleLicenses": 1600000000,
+          "corporationLicenses": 1100000000,
+          "otherLicenses": 800000000
+        },
+        "otherTaxes": {
+          "total": 1000000000
+        }
+      },
+      "intergovernmentalRevenue": {
+        "total": 80000000000,
+        "fromFederal": 80000000000,
+        "fromState": 0,
+        "fromLocal": 0
+      },
+      "currentCharges": {
+        "total": 14000000000,
+        "educationCharges": 7200000000,
+        "hospitalCharges": 4200000000,
+        "highwayChargesAndTolls": 800000000,
+        "otherCharges": 1800000000
+      },
+      "miscellaneousGeneralRevenue": {
+        "total": 6000000000,
+        "interestEarnings": 1800000000,
+        "otherMiscellaneous": 4200000000
+      },
+      "utilityRevenue": {
+        "total": 0
+      },
+      "liquorStoreRevenue": 0,
+      "insuranceTrustRevenue": {
+        "total": 24000000000,
+        "employeeRetirement": 18000000000,
+        "unemploymentCompensation": 6000000000
+      },
+      "totalExpenditure": 235000000000,
+      "directExpenditure": 155000000000,
+      "directGeneralExpenditure": 130000000000,
+      "intergovernmentalExpenditure": {
+        "total": 80000000000,
+        "toState": 0,
+        "toLocal": 80000000000,
+        "toFederal": 0
+      },
+      "characterExpenditure": {
+        "currentOperation": 96500000000,
+        "capitalOutlay": {
+          "total": 13500000000,
+          "construction": 11200000000,
+          "landAndExistingStructures": 600000000,
+          "equipment": 1700000000
+        },
+        "assistanceAndSubsidies": 16500000000,
+        "interestOnGeneralDebt": 3500000000,
+        "insuranceBenefitsAndRepayments": 25000000000
+      },
+      "functionalExpenditures": {
+        "educationHigher": {
+          "currentOperation": 21000000000,
+          "capitalOutlay": 3200000000,
+          "total": 24200000000
+        },
+        "publicWelfare": {
+          "currentOperation": 58000000000,
+          "capitalOutlay": 300000000,
+          "total": 58300000000
+        },
+        "highways": {
+          "currentOperation": 2800000000,
+          "capitalOutlay": 7200000000,
+          "total": 10000000000
+        },
+        "correction": {
+          "currentOperation": 3800000000,
+          "capitalOutlay": 250000000,
+          "total": 405000000
+        },
+        "policeProtection": {
+          "currentOperation": 1200000000,
+          "capitalOutlay": 90000000,
+          "total": 1290000000
+        },
+        "interestOnGeneralDebt": {
+          "currentOperation": 3500000000,
+          "capitalOutlay": 0,
+          "total": 3500000000
+        }
+      },
+      "utilityExpenditure": {
+        "total": 0
+      },
+      "liquorStoreExpenditure": 0,
+      "insuranceTrustExpenditure": 25000000000,
+      "debtOutstandingEndYear": {
+        "total": 68000000000,
+        "shortTermDebt": 0,
+        "longTermDebt": {
+          "total": 68000000000,
+          "fullFaithAndCredit": 3200000000,
+          "nonguaranteedRevenueDebt": 64800000000
+        }
+      },
+      "debtIssuedDuringYear": 7500000000,
+      "debtRetiredDuringYear": 5800000000,
+      "cashAndSecuritiesEndYear": {
+        "total": 385000000000,
+        "insuranceTrustFunds": 310000000000,
+        "nonInsuranceTrustFunds": {
+          "total": 75000000000,
+          "sinkingFunds": 4200000000,
+          "bondFunds": 8800000000,
+          "otherFunds": 62000000000
+        }
+      },
+      "provenance": {
+        "sourceSystem": "SYNTHETIC_FIXTURE",
+        "surveyName": "SYNTHETIC_FIXTURE",
+        "sourceFile": "2022_State_Gov_Finances_NY.csv",
+        "sourceHash": null,
+        "extractedAt": "2024-06-20T00:00:00Z",
+        "methodologyCitation": "SYNTHETIC FIXTURE - NOT A CENSUS RECORD. Illustrative values used to exercise the compiler. PR #56 shipped these carrying sourceSystem US_CENSUS_BUREAU and hand-typed sourceHash values (rotated hex walks, several not even 64 characters), which made invented numbers look like Census output. Real Census APEP / finance extracts remain an outstanding source acquisition."
+      }
+    }
+  ]
+}

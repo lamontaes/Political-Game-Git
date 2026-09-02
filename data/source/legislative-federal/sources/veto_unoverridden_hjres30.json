@@ -1,0 +1,137 @@
+{
+  "congress": 118,
+  "type": "HJRES",
+  "number": 30,
+  "title": "Providing for congressional disapproval under chapter 8 of title 5, United States Code, of the rule submitted by the Department of Labor relating to \"Prudence and Loyalty in Selecting Plan Investments and Exercising Shareholder Rights\".",
+  "originChamber": "House",
+  "introducedDate": "2023-02-07",
+  "policyArea": {
+    "name": "Labor and Employment"
+  },
+  "legislativeSubjects": [
+    "Administrative law and regulatory procedures",
+    "Department of Labor",
+    "Employee benefits and pensions",
+    "Financial services and investments"
+  ],
+  "sponsors": [
+    {
+      "bioguideId": "B001282",
+      "fullName": "Barr, Andy",
+      "firstName": "Andy",
+      "lastName": "Barr",
+      "party": "R",
+      "state": "KY",
+      "district": 6
+    }
+  ],
+  "cosponsors": [],
+  "committees": {
+    "count": 1,
+    "items": [
+      {
+        "systemCode": "hsed00",
+        "chamber": "House",
+        "name": "House Committee on Education and the Workforce",
+        "activities": [{ "name": "Referred to", "date": "2023-02-07" }]
+      }
+    ]
+  },
+  "actions": {
+    "count": 7,
+    "items": [
+      {
+        "actionDate": "2023-02-07",
+        "text": "Referred to the House Committee on Education and the Workforce.",
+        "type": "IntroReferral",
+        "actionCode": "H11100"
+      },
+      {
+        "actionDate": "2023-02-28",
+        "text": "On passage Passed by the Yeas and Nays: 216 - 204 (Roll no. 124).",
+        "type": "Floor",
+        "actionCode": "H37100",
+        "recordedVotes": [
+          {
+            "chamber": "House",
+            "congress": 118,
+            "rollNumber": 124,
+            "sessionNumber": 1,
+            "url": "https://clerk.house.gov/Votes/2023124"
+          }
+        ]
+      },
+      {
+        "actionDate": "2023-03-01",
+        "text": "Passed Senate without amendment by Yea-Nay Vote. 50 - 46. Record Vote Number: 35.",
+        "type": "Floor",
+        "actionCode": "17000"
+      },
+      {
+        "actionDate": "2023-03-09",
+        "text": "Presented to President.",
+        "type": "President",
+        "actionCode": "E20000"
+      },
+      {
+        "actionDate": "2023-03-20",
+        "text": "Vetoed by President.",
+        "type": "President",
+        "actionCode": "31000"
+      },
+      {
+        "actionDate": "2023-03-23",
+        "text": "The Chair directed the Clerk to notify the Senate of the action of the House. On motion to override the veto of the President Failed by the Yeas and Nays: (2/3 required): 219 - 200 (Roll no. 149).",
+        "type": "Floor",
+        "actionCode": "H36100",
+        "recordedVotes": [
+          {
+            "chamber": "House",
+            "congress": 118,
+            "rollNumber": 149,
+            "sessionNumber": 1,
+            "url": "https://clerk.house.gov/Votes/2023149"
+          }
+        ]
+      }
+    ]
+  },
+  "amendments": {
+    "count": 0,
+    "items": []
+  },
+  "textVersions": {
+    "count": 2,
+    "items": [
+      {
+        "type": "ih",
+        "date": "2023-02-07",
+        "formats": [
+          {
+            "type": "Formatted Text",
+            "url": "https://www.congress.gov/118/bills/hjres30/BILLS-118hjres30ih.htm"
+          },
+          {
+            "type": "PDF",
+            "url": "https://www.congress.gov/118/bills/hjres30/BILLS-118hjres30ih.pdf"
+          }
+        ]
+      },
+      {
+        "type": "enr",
+        "date": "2023-03-01",
+        "formats": [
+          {
+            "type": "Formatted Text",
+            "url": "https://www.congress.gov/118/bills/hjres30/BILLS-118hjres30enr.htm"
+          },
+          {
+            "type": "PDF",
+            "url": "https://www.congress.gov/118/bills/hjres30/BILLS-118hjres30enr.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  "url": "https://www.congress.gov/bill/118th-congress/house-joint-resolution/30"
+}

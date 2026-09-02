@@ -1,0 +1,57 @@
+{
+  "manifestVersion": "1.0.0",
+  "generatedAt": "2026-08-28T00:00:00.000Z",
+  "primarySource": "Congress.gov API",
+  "secondaryDocumentSource": "GovInfo API",
+  "totalMeasures": 8,
+  "totalEnactedLaws": 1,
+  "totalVetoes": 1,
+  "totalVetoOverrides": 1,
+  "totalHouseVotes": 1,
+  "totalAmendments": 2,
+  "congresses": [
+    {
+      "congressNumber": 116,
+      "name": "116th United States Congress",
+      "startYear": 2019,
+      "endYear": 2021,
+      "measureCount": 1,
+      "enactedLawCount": 0,
+      "vetoCount": 0,
+      "vetoOverrideCount": 1,
+      "resolutionCount": 0,
+      "amendmentCount": 0,
+      "houseVoteCount": 0,
+      "textVersionCount": 3
+    },
+    {
+      "congressNumber": 117,
+      "name": "117th United States Congress",
+      "startYear": 2021,
+      "endYear": 2023,
+      "measureCount": 3,
+      "enactedLawCount": 1,
+      "vetoCount": 0,
+      "vetoOverrideCount": 0,
+      "resolutionCount": 1,
+      "amendmentCount": 2,
+      "houseVoteCount": 1,
+      "textVersionCount": 7
+    },
+    {
+      "congressNumber": 118,
+      "name": "118th United States Congress",
+      "startYear": 2023,
+      "endYear": 2025,
+      "measureCount": 4,
+      "enactedLawCount": 0,
+      "vetoCount": 1,
+      "vetoOverrideCount": 0,
+      "resolutionCount": 2,
+      "amendmentCount": 0,
+      "houseVoteCount": 0,
+      "textVersionCount": 7
+    }
+  ],
+  "corpusSha256": "af57289d9a462fe768977be92a91d57b347ba1764e883ee8462c6720db349326"
+}

@@ -1,0 +1,87 @@
+{
+  "id": "ocd-bill/pr-19-pc123",
+  "identifier": "PC 123",
+  "title": "Ley de Protección y Desarrollo Integral de la Niñez Temprana en Puerto Rico.",
+  "jurisdiction": {
+    "id": "ocd-jurisdiction/country:us/territory:pr/government",
+    "name": "Puerto Rico",
+    "classification": "territory"
+  },
+  "session": "19",
+  "classification": ["bill"],
+  "from_organization": {
+    "name": "Cámara de Representantes",
+    "classification": "lower"
+  },
+  "openstates_url": "https://openstates.org/pr/bills/19/PC123/",
+  "sources": [
+    {
+      "url": "https://sutra.oslpr.org/osl/esutra/Medida_Texto.aspx?id=135890",
+      "note": "SUTRA portal oficial"
+    }
+  ],
+  "actions": [
+    {
+      "date": "2021-01-14",
+      "description": "Radicado en la Cámara de Representantes",
+      "classification": ["introduction", "filing"],
+      "organization": { "classification": "lower" },
+      "order": 0
+    },
+    {
+      "date": "2021-04-20",
+      "description": "Aprobado en Votación Final en la Cámara, 46-2",
+      "classification": ["passage", "reading-3"],
+      "organization": { "classification": "lower" },
+      "order": 1
+    },
+    {
+      "date": "2021-05-18",
+      "description": "Aprobado en el Senado con enmiendas, 24-1",
+      "classification": ["passage", "reading-3"],
+      "organization": { "classification": "upper" },
+      "order": 2
+    },
+    {
+      "date": "2021-06-01",
+      "description": "Firmado por el Gobernador (Ley Núm. 45-2021)",
+      "classification": ["became-law", "executive-signature", "chaptered"],
+      "organization": { "classification": "executive" },
+      "order": 3
+    }
+  ],
+  "votes": [
+    {
+      "id": "ocd-vote/pr-pc123-camara",
+      "identifier": "Votación Final Cámara",
+      "motion_text": "PC 123 - Aprobación Final",
+      "start_date": "2021-04-20",
+      "result": "pass",
+      "organization": { "classification": "lower" },
+      "counts": [
+        { "option": "yes", "value": 46 },
+        { "option": "no", "value": 2 }
+      ]
+    },
+    {
+      "id": "ocd-vote/pr-pc123-senado",
+      "identifier": "Votación Final Senado",
+      "motion_text": "PC 123 - Aprobación Final Senado",
+      "start_date": "2021-05-18",
+      "result": "pass",
+      "organization": { "classification": "upper" },
+      "counts": [
+        { "option": "yes", "value": 24 },
+        { "option": "no", "value": 1 }
+      ]
+    }
+  ],
+  "sponsors": [
+    {
+      "name": "Rafael Hernández Montañez",
+      "entity_type": "person",
+      "primary": true,
+      "classification": "primary"
+    }
+  ]
+}

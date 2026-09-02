@@ -1,0 +1,51 @@
+[
+  {
+    "typeCode": "0",
+    "governmentClass": "federal",
+    "governmentLevel": "federal",
+    "title": "Federal Government / National Aggregate",
+    "description": "United States federal government or combined nationwide state and local total"
+  },
+  {
+    "typeCode": "1",
+    "governmentClass": "state",
+    "governmentLevel": "state",
+    "title": "State Government",
+    "description": "The primary governing body of one of the 50 states or commonwealths"
+  },
+  {
+    "typeCode": "2",
+    "governmentClass": "county",
+    "governmentLevel": "local",
+    "title": "County Government",
+    "description": "Organized county governments providing general countywide public administration (parishes in LA, boroughs in AK)"
+  },
+  {
+    "typeCode": "3",
+    "governmentClass": "municipal",
+    "governmentLevel": "local",
+    "title": "Municipal Government",
+    "description": "Incorporated cities, towns, boroughs, and villages established for general local government in defined population concentrations"
+  },
+  {
+    "typeCode": "4",
+    "governmentClass": "township",
+    "governmentLevel": "local",
+    "title": "Township / Town Government",
+    "description": "Organized governments in 20 northeastern and midwestern states providing local services outside incorporated municipalities"
+  },
+  {
+    "typeCode": "5",
+    "governmentClass": "special_district",
+    "governmentLevel": "local",
+    "title": "Special District Government",
+    "description": "Independent single-function or multi-function local authorities (water, transit, housing, fire, port, hospital, conservation)"
+  },
+  {
+    "typeCode": "6",
+    "governmentClass": "school_district",
+    "governmentLevel": "local",
+    "title": "Independent School District Government",
+    "description": "Independent local public school systems with separate fiscal and administrative autonomy"
+  }
+]
