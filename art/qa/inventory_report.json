@@ -1,5 +1,5 @@
 {
-  "totalItems": 24,
+  "totalItems": 8,
   "items": [
     {
       "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
@@ -12,70 +12,6 @@
     {
       "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
       "hash": "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43"
-    },
-    {
-      "filePath": "generated/approved/dev-modular/dev_accessory_lapel_pin_v1.png",
-      "hash": "7ff9558fe52959bac01732774a1ab60e4266a8cefaf08e2257eb2c918aec4e01"
-    },
-    {
-      "filePath": "generated/approved/dev-modular/dev_body_adult_seated_v1.png",
-      "hash": "0745485537e95df67a38c6a6f652eea177899528ec05e43590c535dea01892bb"
-    },
-    {
-      "filePath": "generated/approved/dev-modular/dev_body_adult_standing_v1.png",
-      "hash": "c5c31afd9c1c0c4c6e3a464730d23b060411ce456eecd3092150be9062a61323"
-    },
-    {
-      "filePath": "generated/approved/dev-modular/dev_bottom_slacks_charcoal_seated_v1.png",
-      "hash": "c491af2bda64bb774635acb638a2ea2ddf218958435c558ccee842903dadcb8b"
-    },
-    {
-      "filePath": "generated/approved/dev-modular/dev_bottom_slacks_charcoal_standing_v1.png",
-      "hash": "c64cffaddde109dfe7d2f32d3a9b47cebf15f30661d4e23124ebd532c3857c3c"
-    },
-    {
-      "filePath": "generated/approved/dev-modular/dev_eyewear_round_glasses_v1.png",
-      "hash": "d0cbace5549c6a261b6f153b4af59ced1f9a4babc343fdc229646d384dcd6ff3"
-    },
-    {
-      "filePath": "generated/approved/dev-modular/dev_footwear_oxford_black_v1.png",
-      "hash": "f801ce1019a7474c7e04da51776e8e386b80e104c8d1531c0cdf08a0852dded8"
-    },
-    {
-      "filePath": "generated/approved/dev-modular/dev_hair_crop_front_v1.png",
-      "hash": "007e602ea80b4662ef74c44f91ebbc33d250002bfc3c477355c83859830a4a69"
-    },
-    {
-      "filePath": "generated/approved/dev-modular/dev_hair_long_back_v1.png",
-      "hash": "e51152f49fb5bd7f8fd2ca35b24e929098d9161106fa011bb6c5707d94db623e"
-    },
-    {
-      "filePath": "generated/approved/dev-modular/dev_hair_long_front_v1.png",
-      "hash": "d0c13c8d52a6f1d8a8561a0ac94496f999b28db74e9d3635f44aa18ddab8ccad"
-    },
-    {
-      "filePath": "generated/approved/dev-modular/dev_head_oval_v1.png",
-      "hash": "8738a115839a00f49235f879ce70504173fbaf84ebdc96d7b70d88d3a842873c"
-    },
-    {
-      "filePath": "generated/approved/dev-modular/dev_head_round_v1.png",
-      "hash": "58b37b24d8bb3b60c5c23f6be154cc8952f882f7005f0cffdfadb34ed569876f"
-    },
-    {
-      "filePath": "generated/approved/dev-modular/dev_top_blazer_navy_seated_v1.png",
-      "hash": "3db8f1900ccbf51eaa49e2b094b7eb614a181714a1412fa1355d6938ad017e2a"
-    },
-    {
-      "filePath": "generated/approved/dev-modular/dev_top_blazer_navy_standing_v1.png",
-      "hash": "7613d4189ca525ea1398ed7a1f18f5591f2939fa411bd464c8ebf307bb8250f3"
-    },
-    {
-      "filePath": "generated/approved/dev-modular/dev_top_tee_teal_seated_v1.png",
-      "hash": "aaa5d3dcf7a48753accf5807894b70dafbb3ddc123bb81c262848f557359e53b"
-    },
-    {
-      "filePath": "generated/approved/dev-modular/dev_top_tee_teal_standing_v1.png",
-      "hash": "596610db55f3ba8413770cfd68e8b88c51a3879af38f00ef4fb305709d8d75eb"
     },
     {
       "filePath": "generated/approved/human_candidate_A01_primary_desk_seated_v1.png",

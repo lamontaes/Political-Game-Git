@@ -985,15 +985,6 @@ function validateInitialEntities(
         person.appearance.recipeVersion,
         "Person appearance recipe version",
       );
-      const catalogGeneration = person.appearance.catalogGeneration;
-      if (
-        catalogGeneration !== undefined &&
-        (!Number.isSafeInteger(catalogGeneration) || catalogGeneration < 1)
-      ) {
-        throw new Error(
-          `Person appearance catalog generation must be a positive integer for ${person.id}.`,
-        );
-      }
     }
 
     const runtimeDetailLevel = (person as { readonly detailLevel?: unknown })

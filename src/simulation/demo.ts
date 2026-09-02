@@ -82,8 +82,6 @@ export interface CreateScenarioWorldOptions {
   readonly corpusVersion?: string;
   readonly profile?: PersonGenerationProfile;
   readonly peopleCount?: number;
-  /** Character catalog generation to pin every generated appearance to. */
-  readonly appearanceCatalogGeneration?: number;
 }
 
 export interface CreateDemoWorldOptions extends CreateScenarioWorldOptions {
@@ -133,7 +131,6 @@ export function createScenarioWorld(
       profile: options?.profile,
       generatorVersion,
       corpusVersion,
-      appearanceCatalogGeneration: options?.appearanceCatalogGeneration,
     }),
   );
 

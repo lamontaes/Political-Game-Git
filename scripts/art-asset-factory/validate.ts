@@ -1,15 +1,9 @@
 import fs from "fs";
 import path from "path";
-import imageSize from "image-size";
-import {
-  CHARACTER_COMPONENT_ASSET_TYPE,
-  validateCharacterComponentLibrary,
-} from "../../src/presentation/character-components";
 import { hashArtFile, isArtContentHash } from "./content-hash";
 import type {
   AssetManifest,
   AssetManifestEntry,
-  CharacterCatalogData,
   EnvironmentFamiliesData,
   JurisdictionDeltasData,
   MeasurementConfidence,
@@ -25,11 +19,6 @@ export interface ValidationResult {
 
 export interface ArtValidationOptions {
   repositoryRoot?: string;
-  /**
-   * Character catalog ledger. Required whenever the manifest declares any
-   * character-component asset; an empty bootstrap catalog is valid.
-   */
-  characterCatalog?: CharacterCatalogData;
 }
 
 const VALID_CONFIDENCE_LEVELS: MeasurementConfidence[] = [
@@ -485,67 +474,10 @@ export function validateArtAssets(
     }
   }
 
-  validateCharacterComponents(
-    manifest,
-    options.characterCatalog,
-    repositoryRoot,
-    errors,
-  );
-
   return {
     valid: errors.length === 0,
     errors,
     runtimeEligibleAssetIds:
       errors.length === 0 ? runtimeReleaseCandidates : [],
   };
-}
-
-/**
- * Modular character components are ordinary manifest assets and already pass
- * the release, hash, and provenance checks above. This adds the structural
- * component/catalog contract and checks each declared canvas against the real
- * raster when a final file exists.
- */
-function validateCharacterComponents(
-  manifest: AssetManifest,
-  catalog: CharacterCatalogData | undefined,
-  repositoryRoot: string,
-  errors: string[],
-): void {
-  const componentEntries = manifest.assets.filter(
-    (asset) =>
-      asset.asset_type === CHARACTER_COMPONENT_ASSET_TYPE ||
-      asset.component !== undefined,
-  );
-  if (componentEntries.length === 0 && catalog === undefined) return;
-  if (catalog === undefined) {
-    errors.push(
-      `Manifest declares ${componentEntries.length} character component(s) but no character catalog was supplied.`,
-    );
-    return;
-  }
-
-  errors.push(...validateCharacterComponentLibrary(manifest.assets, catalog));
-
-  for (const asset of componentEntries) {
-    const canvas = asset.component?.canvas;
-    if (!canvas || !asset.final_path) continue;
-    const resolved = path.resolve(repositoryRoot, asset.final_path);
-    if (!fs.existsSync(resolved)) continue; // reported by the path checks above
-    try {
-      const measured = imageSize(resolved);
-      if (
-        measured.width !== canvas.width ||
-        measured.height !== canvas.height
-      ) {
-        errors.push(
-          `Character component '${asset.asset_id}' declares canvas ${canvas.width}x${canvas.height} but its file is ${measured.width}x${measured.height}.`,
-        );
-      }
-    } catch {
-      errors.push(
-        `Character component '${asset.asset_id}' final file could not be measured.`,
-      );
-    }
-  }
 }

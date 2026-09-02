@@ -16,18 +16,9 @@ export const DEFAULT_APPEARANCE_RECIPE_VERSION = "appearance-recipe-v1";
 export function derivePersonAppearance(
   personId: EntityId | string,
   recipeVersion = DEFAULT_APPEARANCE_RECIPE_VERSION,
-  catalogGeneration?: number,
 ): PersonAppearance {
   if (personId.trim().length === 0) {
     throw new Error("Person ID must not be empty when deriving appearance.");
-  }
-  if (
-    catalogGeneration !== undefined &&
-    (!Number.isSafeInteger(catalogGeneration) || catalogGeneration < 1)
-  ) {
-    throw new Error(
-      "Appearance catalog generation must be a positive integer when provided.",
-    );
   }
   const appearanceRng = new SeededRng(personId).fork(
     `appearance-identity:${recipeVersion}`,
@@ -36,7 +27,6 @@ export function derivePersonAppearance(
   return {
     seed,
     recipeVersion,
-    ...(catalogGeneration === undefined ? {} : { catalogGeneration }),
   };
 }
 

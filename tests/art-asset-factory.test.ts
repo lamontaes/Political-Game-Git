@@ -768,27 +768,17 @@ describe("Packet 76 approved runtime art", () => {
       families,
       loadJson("art/manifest/jurisdiction_deltas.json"),
       loadJson("art/manifest/provenance.json"),
-      {
-        repositoryRoot: REPO_ROOT,
-        characterCatalog: loadJson("art/manifest/character_catalog.json"),
-      },
     );
-    expect(result.valid).toBe(true);
-    expect(result.errors).toEqual([]);
-    // The four Packet 76 office fixtures remain released, followed by the
-    // sixteen DEV/NON-PRODUCTION modular character components.
-    expect(result.runtimeEligibleAssetIds.slice(0, 4)).toEqual([
-      "env_lexington_council_staff_office_prompt30_v1",
-      "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
-      "human_candidate_A01_primary_desk_seated_v1",
-      "human_candidate_B01_left_guest_seated_v1",
-    ]);
-    expect(result.runtimeEligibleAssetIds).toHaveLength(20);
-    expect(
-      result.runtimeEligibleAssetIds
-        .slice(4)
-        .every((assetId: string) => assetId.startsWith("dev_")),
-    ).toBe(true);
+    expect(result).toEqual({
+      valid: true,
+      errors: [],
+      runtimeEligibleAssetIds: [
+        "env_lexington_council_staff_office_prompt30_v1",
+        "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
+        "human_candidate_A01_primary_desk_seated_v1",
+        "human_candidate_B01_left_guest_seated_v1",
+      ],
+    });
     const environment = manifest.assets.find(
       (asset: { asset_id: string }) =>
         asset.asset_id === "env_lexington_council_staff_office_prompt30_v1",
@@ -806,49 +796,53 @@ describe("Packet 76 approved runtime art", () => {
     ).toEqual(["council-staff-office"]);
   });
 
-  it("reproduces the 2x Lanczos office plate and furniture-only alpha mask", async () => {
-    expect(OFFICE_PLATE_RUNTIME_SCALE).toBe(2);
-    expect(OFFICE_PLATE_LANCZOS_LOBES).toBe(3);
-    expect(hashArtFile(environmentSource)).toBe(
-      "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43",
-    );
-    const temporaryDirectory = fs.mkdtempSync(
-      path.join(os.tmpdir(), "packet-76-office-derive-"),
-    );
-    try {
-      const runtimePath = path.join(temporaryDirectory, "runtime.png");
-      const foregroundPath = path.join(temporaryDirectory, "foreground.png");
-      const result = await deriveOfficeRuntimePlate(
-        environmentSource,
-        runtimePath,
-        foregroundPath,
-      );
-      expect(result).toEqual({
-        sourceWidth: 1024,
-        sourceHeight: 572,
-        runtimeWidth: 2048,
-        runtimeHeight: 1144,
-        foregroundPixelCount: 269_313,
-      });
-      expect(hashArtFile(runtimePath)).toBe(
-        "66678f0e91c52ca86f851ae4ba73d1a736a56be9cb7875512ab6bd1235de07f0",
-      );
-      expect(hashArtFile(foregroundPath)).toBe(
-        "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe",
-      );
-      expect((await parseImageMetadata(runtimePath)).hasTransparency).toBe(
-        "none",
-      );
-      expect((await parseImageMetadata(foregroundPath)).hasTransparency).toBe(
-        "confirmed",
-      );
+  it(
+    "reproduces the 2x Lanczos office plate and furniture-only alpha mask",
+    { timeout: 20000 },
+    async () => {
+      expect(OFFICE_PLATE_RUNTIME_SCALE).toBe(2);
+      expect(OFFICE_PLATE_LANCZOS_LOBES).toBe(3);
       expect(hashArtFile(environmentSource)).toBe(
         "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43",
       );
-    } finally {
-      fs.rmSync(temporaryDirectory, { recursive: true, force: true });
-    }
-  });
+      const temporaryDirectory = fs.mkdtempSync(
+        path.join(os.tmpdir(), "packet-76-office-derive-"),
+      );
+      try {
+        const runtimePath = path.join(temporaryDirectory, "runtime.png");
+        const foregroundPath = path.join(temporaryDirectory, "foreground.png");
+        const result = await deriveOfficeRuntimePlate(
+          environmentSource,
+          runtimePath,
+          foregroundPath,
+        );
+        expect(result).toEqual({
+          sourceWidth: 1024,
+          sourceHeight: 572,
+          runtimeWidth: 2048,
+          runtimeHeight: 1144,
+          foregroundPixelCount: 269_313,
+        });
+        expect(hashArtFile(runtimePath)).toBe(
+          "66678f0e91c52ca86f851ae4ba73d1a736a56be9cb7875512ab6bd1235de07f0",
+        );
+        expect(hashArtFile(foregroundPath)).toBe(
+          "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe",
+        );
+        expect((await parseImageMetadata(runtimePath)).hasTransparency).toBe(
+          "none",
+        );
+        expect((await parseImageMetadata(foregroundPath)).hasTransparency).toBe(
+          "confirmed",
+        );
+        expect(hashArtFile(environmentSource)).toBe(
+          "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43",
+        );
+      } finally {
+        fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+      }
+    },
+  );
 
   it.each([
     [

@@ -292,7 +292,7 @@ If an answer is intentionally deferred, record the boundary rather than inventin
 
 ## Person
 
-- **Owns:** stable identity, generation key, name, birth date, home jurisdiction, detail level, established facts, optional stored materialized facts, and the person-owned appearance identity (seed, recipe version, and optional catalog-generation pin; D-047, D-054).
+- **Owns:** stable identity, generation key, name, birth date, home jurisdiction, detail level, established facts, and optional stored materialized facts.
 - **Stable IDs exposed:** `Person.id`; person fact IDs.
 - **Referenced by:** events and participants, family facts, memories, knowledge, claims, relationship interactions, proposition exposures, political records, work/education/participation/household/kinship/partnership/care/child-authority records, future staff/elections, and UI selection.
 - **Queries/APIs:** `personName`, `factsForPerson`, `createLightweightPerson`, `materializePerson`, person/history selectors.
