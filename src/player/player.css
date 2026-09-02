@@ -2041,6 +2041,10 @@
   bottom: auto;
   left: 2.7%;
   width: 16rem;
+  /* The menu is bounded so it can never grow down over the office scene as
+     destinations are added; past this height it scrolls instead. */
+  max-height: 17rem;
+  overflow-y: auto;
   border-color: rgba(204, 171, 94, 0.67);
   border-radius: 0.5rem;
   padding: 0.45rem;
@@ -2073,14 +2077,14 @@
 .nav-menu a,
 .nav-submenu button {
   display: flex;
-  min-height: 2.65rem;
+  min-height: 2.2rem;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
   border: 0;
   border-top: 1px solid rgba(206, 217, 227, 0.14);
   border-radius: 0;
-  padding: 0.65rem 0.6rem;
+  padding: 0.5rem 0.6rem;
   color: #eee4d0;
   background: rgba(15, 24, 38, 0.84);
   font-family: Georgia, "Times New Roman", serif;
@@ -3912,6 +3916,7 @@
   padding: 6px 12px;
   border: 1px solid #16233a;
   background: #f8f7f3;
+  color: #16233a;
   cursor: pointer;
 }
 
@@ -4017,6 +4022,266 @@
 .character-proof-reuse td {
   text-align: left;
   padding: 6px 10px;
+  border-bottom: 1px solid #d3d2c8;
+  vertical-align: top;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Legislation workspace                                                   */
+/* ---------------------------------------------------------------------- */
+
+.legislation {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 28px 28px 96px;
+  color: #16233a;
+  background: #efeee8;
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+}
+
+.legislation h1 {
+  margin: 4px 0 10px;
+  font-size: 1.7rem;
+  line-height: 1.2;
+}
+
+.legislation h2 {
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8a6520;
+  margin: 0 0 10px;
+}
+
+.legislation-eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #5c6779;
+  font-weight: 700;
+}
+
+.legislation-header {
+  display: flex;
+  gap: 28px;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  border-bottom: 2px solid #16233a;
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+}
+
+.legislation-summary {
+  margin: 0 0 6px;
+  max-width: 56ch;
+}
+
+.legislation-sponsor {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #5c6779;
+}
+
+.legislation-places {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.legislation-places p {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #5c6779;
+}
+
+.legislation-places button {
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 5px 11px;
+  border: 1px solid #b4b4a8;
+  background: #f8f7f3;
+  color: #16233a;
+  cursor: pointer;
+}
+
+.legislation-places button.is-current {
+  border-color: #16233a;
+  background: #16233a;
+  color: #f8f7f3;
+}
+
+.legislation-standing {
+  background: #f8f7f3;
+  border: 1px solid #b4b4a8;
+  border-left: 3px solid #8a6520;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+}
+
+.legislation-where {
+  font-size: 1.15rem;
+  margin: 0 0 10px;
+}
+
+.legislation-latest {
+  margin: 0 0 14px;
+  color: #3a4759;
+}
+
+.legislation-gate {
+  display: grid;
+  grid-template-columns: minmax(120px, auto) 1fr;
+  gap: 6px 18px;
+  margin: 0;
+}
+
+.legislation-gate dt {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5c6779;
+  padding-top: 3px;
+}
+
+.legislation-gate dd {
+  margin: 0;
+}
+
+.legislation-outcome {
+  margin: 14px 0 0;
+  font-weight: 700;
+}
+
+.legislation-message,
+.legislation-error {
+  padding: 10px 14px;
+  margin: 0 0 18px;
+  border-left: 3px solid #2c6a4a;
+  background: #dcebe1;
+  background: #dcebe1;
+}
+
+.legislation-error {
+  border-left-color: #8c3227;
+  background: #f3dcd8;
+}
+
+.legislation-actions ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.legislation-actions li {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.legislation-actions button {
+  font: inherit;
+  font-weight: 600;
+  padding: 8px 14px;
+  border: 1px solid #16233a;
+  background: #16233a;
+  color: #f8f7f3;
+  cursor: pointer;
+  min-width: 220px;
+  text-align: left;
+}
+
+.legislation-actions span {
+  color: #3a4759;
+  font-size: 0.92rem;
+}
+
+.legislation-context {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+  margin: 26px 0;
+}
+
+.legislation-context ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.93rem;
+  color: #3a4759;
+}
+
+.legislation-story ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 2px solid #d3d2c8;
+}
+
+.legislation-story li {
+  padding: 0 0 14px 18px;
+  position: relative;
+  display: grid;
+  gap: 2px;
+}
+
+.legislation-story li::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  background: #8a6520;
+  border-radius: 50%;
+}
+
+.legislation-when {
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: #5c6779;
+}
+
+.legislation-vote {
+  font-size: 0.9rem;
+  color: #2b5c82;
+}
+
+.legislation-saving {
+  display: flex;
+  gap: 10px;
+  margin: 26px 0;
+}
+
+.legislation-saving button,
+.legislation-record > button {
+  font: inherit;
+  padding: 6px 12px;
+  border: 1px solid #16233a;
+  background: #f8f7f3;
+  color: #16233a;
+  cursor: pointer;
+}
+
+.legislation-record table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 12px;
+  font-size: 0.86rem;
+  background: #f8f7f3;
+}
+
+.legislation-record th,
+.legislation-record td {
+  text-align: left;
+  padding: 6px 9px;
   border-bottom: 1px solid #d3d2c8;
   vertical-align: top;
 }

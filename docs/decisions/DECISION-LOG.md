@@ -899,3 +899,132 @@ Consequence: appearance stability is a property of the save, not of one
 browser session. No production component art, generator, wardrobe library,
 head-angle generation, animation, engine, office-scene consumption, Slice F,
 or campaign/election change is authorized by this decision.
+
+## D-056 — Legislative procedure is rule-driven, and legislative voting is a record of members
+
+- Date: 2026-09-01 (amended 2026-09-02 after independent audit)
+- Status: ACCEPTED
+- Supersedes: the `docs/systems/legislation.md` statement that legislation is
+  not implemented, for the bounded scope built here only; no Stage 6 policy,
+  election, time, or presentation decision is superseded
+
+A measure moves through an institution, and the institution comes from data.
+`src/simulation/legislature-rules.ts` defines a runtime rule contract covering
+chamber structure, sessions, introduction, referral, committees, floor stages,
+amendments, inter-chamber transit, executive presentment and veto, override
+forum, and enactment. `src/simulation/legislature-rule-packs.ts` holds packs
+compiled from the 50-state institutional research warehouse; every value cites
+the constitution, chamber rule, uniform rule or statute it came from. The
+engine holds no jurisdiction knowledge of its own, and a rule pack that
+contradicts itself is rejected before play.
+
+Three epistemic states never collapse into one another. `known` carries a
+resolved rule and its source, including a resolved negative such as a committee
+that may decline to hear a bill. `unknown` means no source settled it and is
+not zero, none or absent. `not-applicable` means the institution has no such
+concept, as with a second chamber in Nebraska. Reading an unknown rule and
+reading a not-applicable rule raise different errors, so no caller can silently
+treat one as the other, and the player surface says which is which.
+
+Those states fail closed. Only a rule that is `known` and says yes authorises
+an act: unknown and not-applicable both refuse, and a known negative refuses
+too. That holds at the writer, in the steps the player is offered, and in
+integrity checking alike, so a rule the research did not settle cannot be shown
+as permission on one path and refused on another. Where a legislature applies a
+heavier bar to money bills and that bar is unresolved, the ordinary bar is not
+displayed or validated in its place; the player is told the heavier rule exists
+and is not settled.
+
+Source metadata is part of the simulation contract, not commentary. Each
+chamber cites its own instrument — a House rule cannot establish Senate
+procedure — and `verification` is a claim about evidence rather than a
+constructor default: `verified` means the operative text of the cited section
+was read, `partial` means the section is right but only a heading or official
+summary was checked. Values a scenario needs but no source establishes, such as
+how many members sit on a committee, are marked as the scenario's rather than
+carried as institutional fact.
+
+A measure's position is never stored. `LegislativeMeasureRecord` carries
+identity; `LegislativeActionRecord` is the append-only log of consequential
+transitions; where a bill sits is derived by replaying that log against its
+rule pack. Every transition also writes an ordinary historical event, so the
+institutional story lives in the same history as everything else and survives
+save, reload and replay.
+
+That replay is a state machine, not a reducer over the last action. Each action
+must be legal from the state immediately before it; the chamber, committee and
+floor stage it names must be the ones the measure is actually in; the rule that
+authorises it must be `known`; and nothing at all may follow a terminal action.
+`assertLegislationIntegrity` refuses a history that breaks any of those, so a
+save cannot carry an impossible order of events, a bill cannot be both dead and
+law, and a measure resolves exactly once. Being signed at some point in the
+past is not standing authority to be enacted later: enactment is legal only
+from the position where enactment is the next step.
+
+Two chambers cannot send different texts to a governor. Where a second chamber
+adopts an amendment, the measure returns to the chamber it started in for a
+recorded vote on accepting that change; agreement leads to enrolment and
+refusal ends the bill. A second chamber that passes the text unchanged goes
+straight to enrolment. Conference between two chambers that will not agree
+remains unimplemented.
+
+Identity belongs to the saved world. Stable keys for new legislative records
+are derived from the measure's own recorded history, never from a counter held
+in a running process, so saving, reloading and carrying on produces the same
+next key as never having left, and two bills played in parallel cannot take
+each other's keys.
+
+Legislative voting shares nothing with the election substrate. An election
+resolves a contest through vote shares and tallies; a legislative question
+either reaches a required number of votes or does not. `LegislativeVoteRecord`
+records named members and their dispositions, the eligible membership, presence
+where the record represents it, the threshold's fraction, its denominator
+(members elected, members present, members voting, committee membership, or a
+joint sitting's combined membership) and its rounding rule. A majority is
+strictly more than half, so a majority of thirty-eight is twenty; three-fifths
+of forty-nine takes at least the fraction, so it is thirty. Integrity
+recomputes every tally, denominator and required count from the record's own
+dispositions, so a snapshot cannot claim an outcome its members did not
+produce.
+
+How a member decides is out of scope. This slice authors member decisions per
+scenario rather than inventing a legislator-behaviour model, and leaves a clean
+seam for the researched relationship, bargaining and lobbying systems. No
+step applies an unexplained numeric modifier to any tally.
+
+Legislative activity runs on the world's own clock. A committee hearing is
+scheduled through the existing future-due substrate and fires through the
+ordinary time advance; there is no second legislative calendar. A rule that
+requires a chamber's floor stages to fall on separate legislative days is
+behaviour, not decoration: the next stage cannot be reached before its earliest
+eligible date, and waiting for that day is a step the player takes on the same
+clock as the rest of their life. One executive act carries one date — the
+disposition, the action and the event all agree, and none of them may precede
+the presentment they answer. Deadlines are shown to the player but do not yet
+fire on their own, and no action deadline is claimed until calendar semantics
+exist to compute one.
+
+What a committee recommended and whether its motion to report carried are
+different facts. A committee may report a bill with the opinion that it should
+pass, that it should pass as amended, or that it should not pass, and all three
+reach the floor; a committee that will not report the bill at all is a
+different event with a different consequence, and the record shapes them
+differently rather than defaulting one into the other.
+
+The player is never offered another person's decision as a choice. Where a
+measure sits with somebody the player does not control, the only step is to
+wait, and what that person then does is revealed after the wait rather than
+selected before it.
+
+Consequence: the same engine runs three materially different institutions.
+Kentucky is ordinary bicameral and a veto falls to a majority of elected
+members in each house; Nebraska is one chamber with three separate
+constitutional floor stages, no second house and no conference at all; Alaska
+is bicameral but reconsiders a veto in one joint sitting of sixty members, at
+three-quarters for money bills. Those differences change the legal route a bill
+takes, not a label. Conference committees, calendars and deadlines as live
+constraints, automatic adjournment, executive inaction firing on its own,
+line-item and amendatory vetoes, confirmations, and the wider fifty states
+remain deliberately unimplemented. No pack currently resolves what becomes of a
+measure still pending at adjournment, so no measure can be recorded as dying
+that way until one does.

@@ -1429,3 +1429,147 @@ and reloading restores the same world ID, recipe keys, and layer asset IDs
 from browser storage; clearing returns a fresh world with the same recipes.
 The authored office path still renders A01 and B01 with no modular character
 present.
+
+### LEG-001 — Institutional rules come from data and stay internally coherent
+
+Every registered rule pack validates: chamber count matches its declared
+structure, the chamber order covers every chamber, the origin chamber permits
+introduction, each chamber has at least one floor stage with a resolved passage
+threshold, committee memberships are positive, a unicameral pack marks
+inter-chamber transit not applicable, a bicameral pack describes it, and a
+joint-session override counts against the combined membership of every chamber.
+Each pack cites at least one official instrument.
+
+### LEG-002 — Unknown, not-applicable, and a resolved negative stay distinct
+
+Nebraska's inter-chamber transit is not applicable. Kentucky's gubernatorial
+inaction outcome is unknown. Kentucky's guarantee of a committee hearing is
+known and false, while Nebraska's is known and true. Requiring an unknown rule
+and requiring a not-applicable rule raise different errors, and the player
+surface reports each in plain language rather than as an absence.
+
+### LEG-003 — Vote thresholds resolve against the right denominator and rounding
+
+A majority of thirty-eight elected members is twenty and of one hundred is
+fifty-one. Three-fifths of forty-nine is thirty. Two-thirds of sixty is forty
+and three-quarters of sixty is forty-five. A vote counted against presence
+fails when the record does not represent presence, and a vote counted against a
+joint sitting fails outside one.
+
+### LEG-004 — A measure's position is derived, and illegal steps are refused
+
+Where a bill sits is replayed from its append-only actions against its rule
+pack. Taking a floor vote before referral, presenting before enrollment, or
+recording enactment without a signature or override each fail with a message
+naming the measure's current position. A member cannot vote twice on one
+question, presence cannot be smaller than the members who acted, and a vote
+cannot record more members than are eligible.
+
+### LEG-005 — Bicameral, unicameral, and joint-session routes genuinely differ
+
+In Kentucky a bill clears one floor stage, transmits to the Senate, is referred
+and reported again, and a veto is reconsidered separately in each chamber at a
+majority of elected members. In Nebraska the same engine runs three separate
+constitutional floor stages, offers no transmittal at all, and reconsiders a
+veto at three-fifths of forty-nine. In Alaska the veto goes to one joint
+sitting of sixty, at three-quarters for an appropriation; supplying per-chamber
+forums there is refused.
+
+### LEG-006 — A committee hearing runs on the world clock
+
+Scheduling a hearing creates a future-due item; the hearing is recorded only
+when ordinary time advancement reaches its date, and the recorded action
+carries that date. Where a chamber guarantees every referred bill a hearing,
+reporting before the hearing is refused.
+
+### LEG-007 — The legislative record is durable and replayable
+
+A measure's actions, referrals, committee actions, amendments, votes,
+dispositions, and enactment round-trip exactly through the snapshot codec and
+the SQLite repository, and the derived position and vote records are identical
+after reload. The same scenario and the same member decisions replay to an
+identical world. Every action references an ordinary historical event tagged
+`legislation`.
+
+### LEG-008 — The player is told where the bill is and what they can do
+
+At `?view=legislation` the surface states where the bill stands, what just
+happened, who decides next, what happens next, and what the next vote takes, in
+plain language. It lists the steps the player can take, the timing that
+matters, and what the rules genuinely do not settle. The vote record is
+available but does not greet the player. Nothing on the surface uses internal
+vocabulary. The office shell offers a way in.
+
+### LEG-009 — An impossible history is refused, not reduced
+
+A saved world whose first legislative action could not have followed from
+drafting, whose action names a chamber the measure was never in, or which
+records anything at all after the measure finished, fails integrity with a
+message naming the offending action. A measure carries at most one resolution,
+and an enactment record that disagrees with the measure's own history is
+refused.
+
+### LEG-010 — Law is recorded once, from the one position it can be
+
+`recordEnactment` succeeds only where the measure is awaiting enactment. A
+measure that has already become law cannot be enacted again, and a measure
+still on the executive's desk cannot be enacted at all. Having been signed
+earlier is not standing authority to be enacted later.
+
+### LEG-011 — A second chamber's changes go back for agreement
+
+Where the second chamber adopts an amendment and then passes the measure, the
+measure returns to the chamber it started in for a recorded vote on accepting
+that change; agreement leads to enrolment and refusal ends the measure. Where
+the second chamber passes the text unchanged, the measure goes straight to
+enrolment with no agreement vote.
+
+### LEG-012 — Unresolved and inapplicable rules never authorise an act
+
+Amendment permission, presentment, adjournment death and a money-bill override
+threshold are all refused unless the controlling rule is known and permits it.
+Unknown and not-applicable produce different errors, and neither is offered to
+the player as an available step. A money bill whose heavier override threshold
+is unresolved is never shown or validated against the ordinary threshold.
+
+### LEG-013 — Reporting and refusing to report are different events
+
+A committee report carrying an unfavourable recommendation, or none at all,
+still reaches the floor when the motion to report carries. A motion to report
+that fails is recorded as the committee not reporting, and the measure ends
+there.
+
+### LEG-014 — Separate legislative days are enforced on the world clock
+
+Where a chamber's rules require its floor stages to fall on separate days, the
+next stage cannot be voted before its earliest eligible date; the player is
+offered a truthful wait instead, and the recorded stage votes carry different
+dates.
+
+### LEG-015 — The executive's decision is never a player choice
+
+While a measure sits with the executive, the surface offers exactly one neutral
+step — waiting — and no control that names or promises signature or veto. The
+outcome appears only after the wait.
+
+### LEG-016 — Identity survives repeated saves and parallel play
+
+Amending, saving, reloading and amending again — twice over — produces distinct
+amendment keys and identities and never fails, and play continues after the
+reload. Two measures played in step in separate worlds derive their next keys
+independently.
+
+### LEG-017 — One executive act carries one date
+
+An executive disposition, the action it produced and that action's event all
+carry the same date, that date is the world's current date, and none of them
+precedes the presentment being answered.
+
+### LEG-018 — Rule packs cite the instrument they came from
+
+Each Kentucky chamber cites its own rules rather than the other chamber's.
+Alaska's action window and inaction outcome cite Art. II Sec. 17 and its
+effective date cites Sec. 18; Uniform Rule 22 is not cited as authority for
+referral or amendment. Nebraska does not claim every bill is guaranteed a
+hearing. Committee sizes are marked as the scenario's rather than as sourced
+rules, and no source is marked verified without recording what was read.

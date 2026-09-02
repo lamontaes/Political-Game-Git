@@ -18,6 +18,7 @@ interface PermanentShellProps {
   readonly onOpenCalendar: () => void;
   readonly onOpenCalendarCommitment: (activityId: EntityId) => void;
   readonly onOpenWorkPending: () => void;
+  readonly onOpenLegislation: () => void;
   readonly state: RunAUiState;
   readonly dispatch: (action: RunAUiAction) => void;
 }
@@ -35,6 +36,7 @@ export function PermanentShell({
   onOpenCalendar,
   onOpenCalendarCommitment,
   onOpenWorkPending,
+  onOpenLegislation,
   state,
   dispatch,
 }: PermanentShellProps) {
@@ -76,6 +78,14 @@ export function PermanentShell({
                 >
                   Work / Pending
                   <small>What actually needs you</small>
+                </button>
+                <button
+                  type="button"
+                  role="menuitem"
+                  data-testid="nav-legislation"
+                  onClick={onOpenLegislation}
+                >
+                  Legislation
                 </button>
                 <button
                   type="button"
