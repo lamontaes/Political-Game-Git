@@ -14,6 +14,10 @@ import type {
   ProvenanceData,
 } from "../scripts/art-asset-factory/schemas";
 import { validateArtAssets } from "../scripts/art-asset-factory/validate";
+import {
+  DEV_CHARACTER_FIXTURE_DIRECTORY,
+  renderDevCharacterFixtures,
+} from "../scripts/art-asset-factory/dev-character-fixtures";
 import { computeCharacterGenerationSignature } from "../src/presentation/character-components";
 
 const REPO_ROOT = path.resolve(__dirname, "..");
@@ -72,7 +76,11 @@ describe("Art validator: modular character components", () => {
       },
     );
     expect(result.errors).toEqual([]);
-    expect(result.runtimeEligibleAssetIds).toHaveLength(4);
+    // 4 office fixtures + 16 released DEV modular components.
+    expect(result.runtimeEligibleAssetIds).toHaveLength(20);
+    expect(
+      result.runtimeEligibleAssetIds.filter((id) => id.startsWith("dev_")),
+    ).toHaveLength(16);
   });
 
   it("requires a catalog whenever components are declared", () => {
@@ -267,6 +275,42 @@ describe("Art validator: modular character components", () => {
     );
     expect(gate.errors.join("\n")).toContain(
       "runtime-released but lacks required provenance",
+    );
+  });
+});
+
+describe("DEV modular character fixtures", () => {
+  it("reproduce the released rasters, hashes, and catalog signature from the script", async () => {
+    const manifest = loadJson<AssetManifest>(
+      "art/manifest/asset_manifest.json",
+    );
+    const catalog = loadJson<CharacterCatalogData>(
+      "art/manifest/character_catalog.json",
+    );
+    const scratch = fs.mkdtempSync(path.join(os.tmpdir(), "dev-modular-"));
+    const outputs = await renderDevCharacterFixtures(scratch, "fixtures");
+    expect(outputs).toHaveLength(16);
+    for (const output of outputs) {
+      const released = manifest.assets.find(
+        (asset) => asset.asset_id === output.assetId,
+      );
+      expect(released, output.assetId).toBeDefined();
+      expect(released!.hash).toBe(output.hash);
+      expect(released!.runtime_release_status).toBe("released");
+      expect(released!.component).toEqual(output.definition);
+      expect(released!.final_path).toBe(
+        `${DEV_CHARACTER_FIXTURE_DIRECTORY}/${output.assetId}.png`,
+      );
+      expect(hashArtFile(path.join(REPO_ROOT, released!.final_path!))).toBe(
+        output.hash,
+      );
+    }
+    expect(catalog.catalog_generation).toBe(1);
+    expect(catalog.generations[0]!.signature).toBe(
+      computeCharacterGenerationSignature(outputs),
+    );
+    expect(catalog.generations[0]!.component_ids).toEqual(
+      outputs.map((output) => output.assetId).sort(),
     );
   });
 });

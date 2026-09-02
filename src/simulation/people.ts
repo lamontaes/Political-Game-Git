@@ -113,6 +113,12 @@ export interface LightweightPersonInput {
   readonly profile?: PersonGenerationProfile;
   readonly generatorVersion?: string;
   readonly corpusVersion?: string;
+  /**
+   * Character catalog generation to pin the new person's appearance to.
+   * Supplied by the caller that knows the current art catalog; the simulation
+   * never reads the manifest itself.
+   */
+  readonly appearanceCatalogGeneration?: number;
 }
 
 export function personName(person: Person): string {
@@ -324,7 +330,11 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
     }
   }
 
-  const appearance = derivePersonAppearance(id);
+  const appearance = derivePersonAppearance(
+    id,
+    undefined,
+    input.appearanceCatalogGeneration,
+  );
   const birthplaceJurisdictionId =
     input.birthplaceJurisdictionId ?? input.homeJurisdictionId;
   const fullName = `${givenName} ${familyName}`;

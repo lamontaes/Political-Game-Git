@@ -768,17 +768,27 @@ describe("Packet 76 approved runtime art", () => {
       families,
       loadJson("art/manifest/jurisdiction_deltas.json"),
       loadJson("art/manifest/provenance.json"),
+      {
+        repositoryRoot: REPO_ROOT,
+        characterCatalog: loadJson("art/manifest/character_catalog.json"),
+      },
     );
-    expect(result).toEqual({
-      valid: true,
-      errors: [],
-      runtimeEligibleAssetIds: [
-        "env_lexington_council_staff_office_prompt30_v1",
-        "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
-        "human_candidate_A01_primary_desk_seated_v1",
-        "human_candidate_B01_left_guest_seated_v1",
-      ],
-    });
+    expect(result.valid).toBe(true);
+    expect(result.errors).toEqual([]);
+    // The four Packet 76 office fixtures remain released, followed by the
+    // sixteen DEV/NON-PRODUCTION modular character components.
+    expect(result.runtimeEligibleAssetIds.slice(0, 4)).toEqual([
+      "env_lexington_council_staff_office_prompt30_v1",
+      "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
+      "human_candidate_A01_primary_desk_seated_v1",
+      "human_candidate_B01_left_guest_seated_v1",
+    ]);
+    expect(result.runtimeEligibleAssetIds).toHaveLength(20);
+    expect(
+      result.runtimeEligibleAssetIds
+        .slice(4)
+        .every((assetId: string) => assetId.startsWith("dev_")),
+    ).toBe(true);
     const environment = manifest.assets.find(
       (asset: { asset_id: string }) =>
         asset.asset_id === "env_lexington_council_staff_office_prompt30_v1",

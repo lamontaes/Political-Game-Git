@@ -566,3 +566,20 @@ The 23-test focused contract suite and 5-test validator suite prove schema,
 compatibility, attachment, determinism, pose-invariant identity,
 generation-pinned reproduction, and presentation-only behavior; the existing
 visual-integration and art-factory suites are unchanged and pass.
+
+## Modular Character Runtime Proof Audit — 2026-09-01
+
+This audit applies D-054 to the simulation appearance record, the presentation
+render plan, and the React compositor, and rechecks D-004, D-047, D-053, the
+frozen Stage 6 baseline, and later-stage gates.
+
+| Concern                   | Disposition        | Evidence and rationale                                                                                                                                                                                                                                                             |
+| ------------------------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Persistence boundary      | Confirmed minimal  | Only the optional `PersonAppearance.catalogGeneration` pin is added; families and components remain derived. It is set at creation from a caller-supplied generation, validated by world integrity, and round-trips through the snapshot codec and SQLite without a format change. |
+| Presentation never writes | Confirmed          | Render plans, scene placement, the proof composition, and save/restore read the World and never mutate it (JSON-equality proof). Presentation reads the pin; the simulation never reads the manifest.                                                                              |
+| Primitive reuse           | Confirmed          | The render plan reuses the D-053 resolver and projection, the D-047 release gate and URL index, and the office scene-transform contract. No second registry, hash, or engine.                                                                                                      |
+| Anchor identity           | Confirmed distinct | `ModularSceneAnchor` is scene-owned; the root comes from the body component; attachment anchors are body-rig metadata surfaced only for debugging. Markers are DOM overlays, never raster pixels.                                                                                  |
+| Fallback honesty          | Confirmed labeled  | Fixture components are named, manifested, and displayed as DEV/NON-PRODUCTION, drawn by a repository script, hash-verified, and excluded from art direction. Unreleased or missing art yields a null URL and an incomplete plan.                                                   |
+| Legacy compatibility      | Confirmed frozen   | Unpinned people resolve against generation 1, which the ledger signature freezes; the Run A/B fixtures remain unpinned and stable.                                                                                                                                                 |
+| Authored path regression  | Confirmed absent   | The office still composes A01/B01 with the recorded hashes and renders no modular character; browser proof repeats it.                                                                                                                                                             |
+| Stage 6 and scope gates   | Confirmed absent   | No campaign/election, corpus PR, Slice F, population-wide generation, asset import, generated art, head-angle, animation, or engine change.                                                                                                                                        |

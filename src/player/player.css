@@ -3793,3 +3793,230 @@
     transition: none;
   }
 }
+
+/* ---------------------------------------------------------------------- */
+/* Modular character compositor and developer proof (D-053)                */
+/* ---------------------------------------------------------------------- */
+
+.modular-character {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.modular-character-layer {
+  position: absolute;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+  image-rendering: auto;
+}
+
+.modular-character-layer--missing {
+  outline: 2px dashed rgba(200, 60, 60, 0.8);
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(200, 60, 60, 0.18),
+    rgba(200, 60, 60, 0.18) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+.character-anchor-marker,
+.scene-anchor-marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 200;
+}
+
+.character-anchor-marker--root {
+  width: 14px;
+  height: 14px;
+  border: 3px solid #c9a24b;
+  border-radius: 50%;
+  background: rgba(201, 162, 75, 0.35);
+}
+
+.character-anchor-marker--attachment {
+  width: 10px;
+  height: 10px;
+  border: 2px solid #2b5c82;
+  background: rgba(43, 92, 130, 0.35);
+}
+
+.character-anchor-marker--attachment small {
+  position: absolute;
+  left: 10px;
+  top: -4px;
+  font:
+    600 9px/1 "Public Sans",
+    system-ui,
+    sans-serif;
+  color: #2b5c82;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 1px 3px;
+}
+
+.scene-anchor-marker {
+  width: 22px;
+  height: 22px;
+  border: 2px dashed #8c3227;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.character-proof {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 28px 80px;
+  color: #16233a;
+  background: #efeee8;
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+.character-proof-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.character-proof-header h1 {
+  margin: 4px 0 8px;
+  font-size: 1.6rem;
+}
+
+.character-proof-eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a6520;
+  font-weight: 700;
+}
+
+.character-proof-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.character-proof-controls button {
+  font: inherit;
+  padding: 6px 12px;
+  border: 1px solid #16233a;
+  background: #f8f7f3;
+  cursor: pointer;
+}
+
+.character-proof-controls p {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.character-proof-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1024 / 572;
+  overflow: hidden;
+  background: linear-gradient(180deg, #d9d6cc 0%, #c4c0b3 70%, #a9a597 100%);
+  border: 1px solid #b4b4a8;
+}
+
+.character-proof-floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 62%;
+  height: 38%;
+  background: linear-gradient(180deg, #9d9989 0%, #857f6f 100%);
+}
+
+.character-proof-side {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) 1fr;
+  gap: 24px;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.character-proof-side .character-proof-stage {
+  aspect-ratio: 1024 / 572;
+}
+
+.character-proof-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.character-proof-card {
+  background: #f8f7f3;
+  border: 1px solid #b4b4a8;
+  padding: 14px 16px;
+  font-size: 0.86rem;
+}
+
+.character-proof-card h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.character-proof-card h3 small {
+  font-weight: 400;
+  color: #5c6779;
+}
+
+.character-proof-card dl {
+  margin: 0;
+}
+
+.character-proof-card dt {
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.character-proof-card dd {
+  margin: 2px 0 0;
+  word-break: break-all;
+}
+
+.character-proof-card ul,
+.character-proof-card ol {
+  margin: 4px 0 0;
+  padding-left: 18px;
+}
+
+.character-proof-card code,
+.character-proof code {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.85em;
+}
+
+.character-proof-warning {
+  color: #8c3227;
+  font-weight: 700;
+}
+
+.character-proof-reuse table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.86rem;
+  background: #f8f7f3;
+}
+
+.character-proof-reuse th,
+.character-proof-reuse td {
+  text-align: left;
+  padding: 6px 10px;
+  border-bottom: 1px solid #d3d2c8;
+  vertical-align: top;
+}

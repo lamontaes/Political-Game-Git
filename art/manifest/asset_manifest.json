@@ -85,6 +85,642 @@
       "final_path": "art/generated/approved/human_candidate_B01_left_guest_seated_v1.png",
       "hash": "fd880e52fb191d6c32019ba451d006176ebc7762db89590c437c67586906be8d",
       "requires_transparency": true
+    },
+    {
+      "asset_id": "dev_body_adult_standing_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_body_adult_standing_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular/dev_body_adult_standing_v1.png",
+      "hash": "c5c31afd9c1c0c4c6e3a464730d23b060411ce456eecd3092150be9062a61323",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "dev-adult",
+        "catalog_generation": 1,
+        "layer": 20,
+        "canvas": {
+          "width": 400,
+          "height": 800
+        },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.56
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.125
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.1625
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.55
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.965
+          }
+        ]
+      }
+    },
+    {
+      "asset_id": "dev_body_adult_seated_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_body_adult_seated_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular/dev_body_adult_seated_v1.png",
+      "hash": "0745485537e95df67a38c6a6f652eea177899528ec05e43590c535dea01892bb",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "dev-adult",
+        "catalog_generation": 1,
+        "layer": 20,
+        "canvas": {
+          "width": 400,
+          "height": 640
+        },
+        "pose_family": "seated-at-desk",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.65
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.15625
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.203125
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.625
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.955
+          }
+        ]
+      }
+    },
+    {
+      "asset_id": "dev_head_round_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_head_round_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular/dev_head_round_v1.png",
+      "hash": "58b37b24d8bb3b60c5c23f6be154cc8952f882f7005f0cffdfadb34ed569876f",
+      "requires_transparency": true,
+      "component": {
+        "kind": "head",
+        "family": "dev-round",
+        "catalog_generation": 1,
+        "layer": 30,
+        "canvas": {
+          "width": 200,
+          "height": 200
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.95
+        },
+        "compatible_body_families": ["dev-adult"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_head_oval_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_head_oval_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular/dev_head_oval_v1.png",
+      "hash": "8738a115839a00f49235f879ce70504173fbaf84ebdc96d7b70d88d3a842873c",
+      "requires_transparency": true,
+      "component": {
+        "kind": "head",
+        "family": "dev-oval",
+        "catalog_generation": 1,
+        "layer": 30,
+        "canvas": {
+          "width": 200,
+          "height": 200
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.95
+        },
+        "compatible_body_families": ["dev-adult"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_hair_crop_front_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_hair_crop_front_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular/dev_hair_crop_front_v1.png",
+      "hash": "007e602ea80b4662ef74c44f91ebbc33d250002bfc3c477355c83859830a4a69",
+      "requires_transparency": true,
+      "component": {
+        "kind": "hair-front",
+        "family": "dev-crop",
+        "catalog_generation": 1,
+        "layer": 40,
+        "canvas": {
+          "width": 200,
+          "height": 200
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.95
+        },
+        "compatible_head_families": ["dev-oval", "dev-round"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_hair_long_front_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_hair_long_front_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular/dev_hair_long_front_v1.png",
+      "hash": "d0c13c8d52a6f1d8a8561a0ac94496f999b28db74e9d3635f44aa18ddab8ccad",
+      "requires_transparency": true,
+      "component": {
+        "kind": "hair-front",
+        "family": "dev-long",
+        "catalog_generation": 1,
+        "layer": 40,
+        "canvas": {
+          "width": 200,
+          "height": 200
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.95
+        },
+        "compatible_head_families": ["dev-oval", "dev-round"],
+        "compatible_head_orientations": ["front"],
+        "paired_with": "dev_hair_long_back_v1"
+      }
+    },
+    {
+      "asset_id": "dev_hair_long_back_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_hair_long_back_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular/dev_hair_long_back_v1.png",
+      "hash": "e51152f49fb5bd7f8fd2ca35b24e929098d9161106fa011bb6c5707d94db623e",
+      "requires_transparency": true,
+      "component": {
+        "kind": "hair-back",
+        "family": "dev-long",
+        "catalog_generation": 1,
+        "layer": 10,
+        "canvas": {
+          "width": 240,
+          "height": 300
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.6333333333333333
+        },
+        "compatible_head_families": ["dev-oval", "dev-round"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_eyewear_round_glasses_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_eyewear_round_glasses_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular/dev_eyewear_round_glasses_v1.png",
+      "hash": "d0cbace5549c6a261b6f153b4af59ced1f9a4babc343fdc229646d384dcd6ff3",
+      "requires_transparency": true,
+      "component": {
+        "kind": "eyewear",
+        "family": "dev-round-glasses",
+        "catalog_generation": 1,
+        "layer": 45,
+        "canvas": {
+          "width": 200,
+          "height": 200
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.95
+        },
+        "compatible_head_families": ["dev-oval", "dev-round"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_top_blazer_navy_standing_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_top_blazer_navy_standing_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular/dev_top_blazer_navy_standing_v1.png",
+      "hash": "7613d4189ca525ea1398ed7a1f18f5591f2939fa411bd464c8ebf307bb8250f3",
+      "requires_transparency": true,
+      "component": {
+        "kind": "top",
+        "family": "dev-blazer-navy",
+        "catalog_generation": 1,
+        "layer": 25,
+        "canvas": {
+          "width": 400,
+          "height": 340
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["dev-adult"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "dev_top_blazer_navy_seated_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_top_blazer_navy_seated_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular/dev_top_blazer_navy_seated_v1.png",
+      "hash": "3db8f1900ccbf51eaa49e2b094b7eb614a181714a1412fa1355d6938ad017e2a",
+      "requires_transparency": true,
+      "component": {
+        "kind": "top",
+        "family": "dev-blazer-navy",
+        "catalog_generation": 1,
+        "layer": 25,
+        "canvas": {
+          "width": 400,
+          "height": 290
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["dev-adult"],
+        "compatible_pose_families": ["seated-at-desk"]
+      }
+    },
+    {
+      "asset_id": "dev_top_tee_teal_standing_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_top_tee_teal_standing_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular/dev_top_tee_teal_standing_v1.png",
+      "hash": "596610db55f3ba8413770cfd68e8b88c51a3879af38f00ef4fb305709d8d75eb",
+      "requires_transparency": true,
+      "component": {
+        "kind": "top",
+        "family": "dev-tee-teal",
+        "catalog_generation": 1,
+        "layer": 25,
+        "canvas": {
+          "width": 400,
+          "height": 320
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["dev-adult"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "dev_top_tee_teal_seated_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_top_tee_teal_seated_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular/dev_top_tee_teal_seated_v1.png",
+      "hash": "aaa5d3dcf7a48753accf5807894b70dafbb3ddc123bb81c262848f557359e53b",
+      "requires_transparency": true,
+      "component": {
+        "kind": "top",
+        "family": "dev-tee-teal",
+        "catalog_generation": 1,
+        "layer": 25,
+        "canvas": {
+          "width": 400,
+          "height": 280
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["dev-adult"],
+        "compatible_pose_families": ["seated-at-desk"]
+      }
+    },
+    {
+      "asset_id": "dev_bottom_slacks_charcoal_standing_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_bottom_slacks_charcoal_standing_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular/dev_bottom_slacks_charcoal_standing_v1.png",
+      "hash": "c64cffaddde109dfe7d2f32d3a9b47cebf15f30661d4e23124ebd532c3857c3c",
+      "requires_transparency": true,
+      "component": {
+        "kind": "bottom",
+        "family": "dev-slacks-charcoal",
+        "catalog_generation": 1,
+        "layer": 22,
+        "canvas": {
+          "width": 400,
+          "height": 340
+        },
+        "attaches_to": "hips",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["dev-adult"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "dev_bottom_slacks_charcoal_seated_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_bottom_slacks_charcoal_seated_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular/dev_bottom_slacks_charcoal_seated_v1.png",
+      "hash": "c491af2bda64bb774635acb638a2ea2ddf218958435c558ccee842903dadcb8b",
+      "requires_transparency": true,
+      "component": {
+        "kind": "bottom",
+        "family": "dev-slacks-charcoal",
+        "catalog_generation": 1,
+        "layer": 22,
+        "canvas": {
+          "width": 400,
+          "height": 220
+        },
+        "attaches_to": "hips",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["dev-adult"],
+        "compatible_pose_families": ["seated-at-desk"]
+      }
+    },
+    {
+      "asset_id": "dev_footwear_oxford_black_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_footwear_oxford_black_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular/dev_footwear_oxford_black_v1.png",
+      "hash": "f801ce1019a7474c7e04da51776e8e386b80e104c8d1531c0cdf08a0852dded8",
+      "requires_transparency": true,
+      "component": {
+        "kind": "footwear",
+        "family": "dev-oxford-black",
+        "catalog_generation": 1,
+        "layer": 21,
+        "canvas": {
+          "width": 400,
+          "height": 60
+        },
+        "attaches_to": "feet",
+        "origin": {
+          "x": 0.5,
+          "y": 0.25
+        },
+        "compatible_body_families": ["dev-adult"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "dev_accessory_lapel_pin_v1",
+      "asset_type": "character-component",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_accessory_lapel_pin_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular/dev_accessory_lapel_pin_v1.png",
+      "hash": "7ff9558fe52959bac01732774a1ab60e4266a8cefaf08e2257eb2c918aec4e01",
+      "requires_transparency": true,
+      "component": {
+        "kind": "accessory",
+        "family": "dev-lapel-pin",
+        "catalog_generation": 1,
+        "layer": 26,
+        "canvas": {
+          "width": 40,
+          "height": 40
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "compatible_body_families": ["dev-adult"]
+      }
     }
   ]
 }

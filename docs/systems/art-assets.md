@@ -167,7 +167,36 @@ non-modular declarations, invalid layers and canvases, unknown families,
 non-uniform family compatibility, missing or duplicate attachment metadata,
 anchors that a reachable body does not declare, dangling or misordered pairs,
 ledger mismatches, and non-deterministic or unsatisfiable recipe resolution.
-The production catalog is an empty bootstrap; the fixture library under
-`art/fixtures/valid_character_*.json` exercises the contract without any
-raster. Persisting a session's pinned generation per person is the next
-bounded step and is not implemented here.
+The fixture library under `art/fixtures/valid_character_*.json` exercises the
+contract without any raster.
+
+### Appearance pin and runtime proof
+
+Under D-054 the catalog generation a person is pinned to is stored as the
+optional `PersonAppearance.catalogGeneration`, set at creation from a
+caller-supplied generation. Presentation reads it and never writes it; an
+absent pin resolves against the frozen first generation. The pin, not the
+browser session, is what keeps an established person stable across reload,
+other scenes, and later library growth.
+
+The production catalog is at generation 1 and holds sixteen released
+**DEV / NON-PRODUCTION** modular components under
+`art/generated/approved/dev-modular/`. They are flat procedural silhouettes
+drawn deterministically by `scripts/art-asset-factory/dev-character-fixtures.ts`
+(`npm run fixtures:dev-characters`), project-owned, and hash-verifiable; the
+validator and a focused test regenerate them and compare hashes and the ledger
+signature. Their geometry, palette, and canvas sizes are fixture choices, not a
+production standard, and they must not be used as art direction.
+
+`src/presentation/character-render-plan.ts` turns a person's appearance plus a
+scene-owned `ModularSceneAnchor` (position, scale, pose, depth, and the
+visual-estimate body width at that anchor) into an ordered list of positioned,
+runtime-eligible layers in plate percent units, plus the root and attachment
+anchors for developer debugging. A resolved component that is not runtime
+eligible produces a null URL and marks the plan incomplete. The
+`ModularCharacter` React component renders that plan as ordered DOM image
+layers inside the ordinary scene camera; anchor markers are DOM overlays. The
+`?view=character-proof` developer route renders four generated people and one
+of them again seated, with save/reload through the snapshot codec. The
+accepted office scene still renders the authored A01/B01 recipes and does not
+yet consume modular recipes.
