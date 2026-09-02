@@ -246,7 +246,7 @@ function voteSentence(vote: LegislativeVoteRecord): string {
   const other =
     vote.tally.presentNotVoting + vote.tally.absent + vote.tally.excused;
   const otherPart = other > 0 ? `, ${other} not voting` : "";
-  return `${vote.tally.yea} in favour, ${vote.tally.nay} against${otherPart} — ${vote.requiredVotes} of ${vote.denominatorValue} were needed.`;
+  return `${vote.tally.yea} in favor, ${vote.tally.nay} against${otherPart} — ${vote.requiredVotes} of ${vote.denominatorValue} were needed.`;
 }
 
 function forumLabel(world: World, vote: LegislativeVoteRecord): string {
@@ -314,7 +314,7 @@ function uncertaintiesFor(
       notes.push(effective.value);
     } else {
       notes.push(
-        "Nobody can tell you when the new law would actually start to bite, so no date is being claimed.",
+        "Nobody can tell you when the new law would actually start to matter, so no date is being claimed.",
       );
     }
   }
@@ -472,9 +472,11 @@ export function projectMeasureBriefing(
 
   let outcomeNote: string | null = null;
   if (position.outcome === "enacted") {
+    // `whereItStands` already reads "The bill is law." for the enacted phase,
+    // so only add a note when the effective date says something it does not.
     outcomeNote = enactment?.effectiveAt
       ? `The bill is law and takes effect on ${enactment.effectiveAt}.`
-      : "The bill is law.";
+      : null;
   } else if (position.outcome === "failed-in-committee") {
     outcomeNote =
       "The committee refused to report the bill, and it went no further.";

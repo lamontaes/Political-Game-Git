@@ -226,7 +226,10 @@ describe("What the player is told about a bill", () => {
     const briefing = projectMeasureBriefing(world, scenario.measureId);
 
     expect(briefing.finished).toBe(true);
-    expect(briefing.outcomeNote).toBe("The bill is law.");
+    expect(briefing.whereItStands).toBe("The bill is law.");
+    // The standing panel renders `whereItStands` and `outcomeNote` together, so
+    // an outcome note that only repeated the headline would print it twice.
+    expect(briefing.outcomeNote).toBeNull();
     expect(briefing.options).toEqual([]);
     const senate = briefing.votes.find(
       (vote) => vote.where === "Senate" && vote.question === "Pass the bill",

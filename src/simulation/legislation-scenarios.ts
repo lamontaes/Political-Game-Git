@@ -298,7 +298,7 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
     designation: "HB 214",
     shortTitle: "Transit Access Pilot",
     summary:
-      "Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programmes.",
+      "Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.",
     nonpartisan: false,
     votePlan: {
       "committee:house-transportation": { yea: 10, nay: 7 },
