@@ -783,7 +783,8 @@ describe("Packet 76 approved runtime art", () => {
       "human_candidate_A01_primary_desk_seated_v1",
       "human_candidate_B01_left_guest_seated_v1",
     ]);
-    expect(result.runtimeEligibleAssetIds).toHaveLength(20);
+    // 4 office fixtures + 16 generation-1 and 30 generation-2 DEV components.
+    expect(result.runtimeEligibleAssetIds).toHaveLength(50);
     expect(
       result.runtimeEligibleAssetIds
         .slice(4)

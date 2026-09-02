@@ -5,6 +5,10 @@ import {
   CHARACTER_COMPONENT_ASSET_TYPE,
   validateCharacterComponentLibrary,
 } from "../../src/presentation/character-components";
+import {
+  evaluateMasterDimensions,
+  masterRequirementFor,
+} from "../../src/presentation/component-masters";
 import { hashArtFile, isArtContentHash } from "./content-hash";
 import type {
   AssetManifest,
@@ -44,6 +48,12 @@ const VALID_RIGHTS_STATUS = ["public-domain", "licensed", "owned", "unknown"];
 const VALID_APPROVAL_STATUS = ["approved", "rejected", "pending"];
 const VALID_GENERATION_STATUS = ["draft", "approved", "rejected", "pending"];
 const VALID_RUNTIME_RELEASE_STATUS = ["unreleased", "released"];
+const VALID_ART_CLASS = ["development-fixture", "production"];
+const VALID_TIER_DERIVATIONS = [
+  "native-master",
+  "deterministic-downscale",
+  "upscaled-development-fixture",
+];
 
 function isAllowedStatus(
   value: unknown,
@@ -312,6 +322,15 @@ export function validateArtAssets(
       );
     }
 
+    if (
+      asset.art_class !== undefined &&
+      !isAllowedStatus(asset.art_class, VALID_ART_CLASS)
+    ) {
+      errors.push(
+        `Asset '${asset.asset_id}' has invalid art_class '${asset.art_class}'.`,
+      );
+    }
+
     if (asset.family_id && !familyIds.has(asset.family_id)) {
       errors.push(
         `Asset '${asset.asset_id}' references invalid family_id '${asset.family_id}'.`,
@@ -485,6 +504,9 @@ export function validateArtAssets(
     }
   }
 
+  validateRasterTierLadders(manifest, repositoryRoot, errors);
+  validateProductionComponentMasters(manifest, repositoryRoot, errors);
+
   validateCharacterComponents(
     manifest,
     options.characterCatalog,
@@ -545,6 +567,184 @@ function validateCharacterComponents(
     } catch {
       errors.push(
         `Character component '${asset.asset_id}' final file could not be measured.`,
+      );
+    }
+  }
+}
+
+/**
+ * Raster tier ladders. A tier must exist on disk, measure exactly what it
+ * claims, hash to what it claims, and be honest about how it came to be: an
+ * upscale declares the detail it really carries, and no production asset may
+ * carry an upscaled tier at all.
+ */
+function validateRasterTierLadders(
+  manifest: AssetManifest,
+  repositoryRoot: string,
+  errors: string[],
+): void {
+  for (const asset of manifest.assets) {
+    const tiers = asset.raster_tiers;
+    if (!tiers) continue;
+    if (!Array.isArray(tiers) || tiers.length === 0) {
+      errors.push(
+        `Asset '${asset.asset_id}' declares 'raster_tiers' but it is not a non-empty array.`,
+      );
+      continue;
+    }
+
+    const artClass = asset.art_class ?? "development-fixture";
+    let previousWidth = 0;
+    let previousAspect: number | null = null;
+    let matchesFinalPath = false;
+
+    for (const tier of tiers) {
+      const label = `Asset '${asset.asset_id}' raster tier ${tier.width}`;
+      if (
+        !Number.isInteger(tier.width) ||
+        !Number.isInteger(tier.height) ||
+        tier.width <= 0 ||
+        tier.height <= 0
+      ) {
+        errors.push(`${label} must declare positive integer dimensions.`);
+        continue;
+      }
+      if (tier.width <= previousWidth) {
+        errors.push(
+          `${label} must be wider than the tier before it; a ladder is ascending and unique.`,
+        );
+      }
+      previousWidth = tier.width;
+      const aspect = tier.width / tier.height;
+      if (
+        previousAspect !== null &&
+        Math.abs(aspect - previousAspect) > 0.005
+      ) {
+        errors.push(
+          `${label} does not preserve the ladder's source aspect ratio.`,
+        );
+      }
+      previousAspect = aspect;
+
+      if (!isAllowedStatus(tier.derivation, VALID_TIER_DERIVATIONS)) {
+        errors.push(`${label} has invalid derivation '${tier.derivation}'.`);
+      }
+      if (tier.derivation === "upscaled-development-fixture") {
+        if (artClass === "production") {
+          errors.push(
+            `${label} is an upscale, which a production asset may never carry. The asset pipeline does not synthesize tiers.`,
+          );
+        }
+        if (
+          !Number.isInteger(tier.native_detail_width) ||
+          (tier.native_detail_width ?? 0) <= 0 ||
+          (tier.native_detail_width ?? 0) > tier.width
+        ) {
+          errors.push(
+            `${label} is an upscale and must declare the native_detail_width it was enlarged from.`,
+          );
+        }
+      } else if (tier.native_detail_width !== undefined) {
+        errors.push(
+          `${label} declares native_detail_width but is not an upscale.`,
+        );
+      }
+
+      if (!isArtContentHash(tier.hash)) {
+        errors.push(
+          `${label} hash must be a lowercase 64-character SHA-256 digest.`,
+        );
+        continue;
+      }
+
+      const tierAsset: AssetManifestEntry = {
+        ...asset,
+        final_path: tier.path,
+      };
+      const resolved = resolveValidFinalPath(tierAsset, repositoryRoot, errors);
+      if (!resolved) continue;
+      if (hashArtFile(resolved) !== tier.hash) {
+        errors.push(`${label} content hash does not match its file.`);
+      }
+      try {
+        const measured = imageSize(resolved);
+        if (measured.width !== tier.width || measured.height !== tier.height) {
+          errors.push(
+            `${label} declares ${tier.width}x${tier.height} but its file is ${measured.width}x${measured.height}.`,
+          );
+        }
+      } catch {
+        errors.push(`${label} file could not be measured.`);
+      }
+      if (asset.final_path === tier.path) {
+        matchesFinalPath = true;
+        if (asset.hash && asset.hash !== tier.hash) {
+          errors.push(
+            `${label} shares the asset's final_path but declares a different hash.`,
+          );
+        }
+      }
+    }
+
+    if (asset.final_path && !matchesFinalPath) {
+      errors.push(
+        `Asset '${asset.asset_id}' declares a tier ladder that does not include its own final_path '${asset.final_path}'.`,
+      );
+    }
+  }
+}
+
+/**
+ * Production character components are held to the 10A master minimums. An
+ * undersized master is rejected rather than enlarged: enlarging masters is what
+ * put soft garments next to sharp bodies in the first place.
+ *
+ * Development fixture components are exempt from the dimension floor and say so
+ * through `art_class`. They are never promoted into the production library.
+ */
+function validateProductionComponentMasters(
+  manifest: AssetManifest,
+  repositoryRoot: string,
+  errors: string[],
+): void {
+  for (const asset of manifest.assets) {
+    const component = asset.component;
+    if (!component) continue;
+    if ((asset.art_class ?? "development-fixture") !== "production") continue;
+    if (!asset.final_path) continue;
+
+    const resolved = path.resolve(repositoryRoot, asset.final_path);
+    if (!fs.existsSync(resolved)) continue; // reported by the path checks
+
+    let measured: { width?: number; height?: number };
+    try {
+      measured = imageSize(resolved);
+    } catch {
+      continue; // reported by the canvas check
+    }
+    if (measured.width === undefined || measured.height === undefined) continue;
+
+    const verdict = evaluateMasterDimensions(
+      component.kind,
+      { width: measured.width, height: measured.height },
+      component.pose_family,
+    );
+    if (!verdict.accepted) {
+      errors.push(
+        `Production character component '${asset.asset_id}' does not meet its master contract: ${verdict.reasons.join("; ")}. It would need a ${verdict.requiredUpscaleFactor.toFixed(2)}x enlargement, which the pipeline never performs.`,
+      );
+    }
+
+    const requirement = masterRequirementFor(
+      component.kind,
+      component.pose_family,
+    );
+    if (
+      component.canvas.width > measured.width ||
+      component.canvas.height > measured.height
+    ) {
+      errors.push(
+        `Production character component '${asset.asset_id}' declares a ${component.canvas.width}x${component.canvas.height} canvas larger than its ${measured.width}x${measured.height} file. ${requirement.note}`,
       );
     }
   }
