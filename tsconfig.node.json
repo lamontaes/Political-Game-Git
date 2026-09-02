@@ -17,6 +17,9 @@
     "tests/e2e/**/*.ts",
     "src/cli/**/*.ts",
     "src/persistence/**/*.ts",
-    "src/simulation/**/*.ts"
+    "src/simulation/**/*.ts",
+    "src/legislative_corpus/**/*.ts",
+    "scripts/legislative-corpus/**/*.ts",
+    "tests/legislative_corpus.test.ts"
   ]
 }

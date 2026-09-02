@@ -1,0 +1,48 @@
+{
+  "id": "ocd-bill/ky-2021rs-hb100-unresolved",
+  "identifier": "HB 100",
+  "title": "AN ACT relating to acoustic noise abatement in municipal transit corridors.",
+  "jurisdiction": {
+    "id": "ocd-jurisdiction/country:us/state:ky/government",
+    "name": "Kentucky",
+    "classification": "state"
+  },
+  "session": "2021RS",
+  "classification": ["bill"],
+  "from_organization": {
+    "name": "House of Representatives",
+    "classification": "lower"
+  },
+  "openstates_url": "https://openstates.org/ky/bills/2021RS/HB100/",
+  "sources": [
+    {
+      "url": "https://apps.legislature.ky.gov/record/21rs/hb100.html",
+      "note": "official record"
+    }
+  ],
+  "actions": [
+    {
+      "date": "2021-01-08",
+      "description": "introduced in House",
+      "classification": ["introduction", "filing"],
+      "organization": { "classification": "lower" },
+      "order": 0
+    },
+    {
+      "date": "2021-01-12",
+      "description": "to Transportation (H)",
+      "classification": ["referral-committee"],
+      "organization": { "classification": "lower" },
+      "order": 1
+    }
+  ],
+  "votes": [],
+  "sponsors": [
+    {
+      "name": "Jane Smith",
+      "entity_type": "person",
+      "primary": true,
+      "classification": "primary"
+    }
+  ]
+}
