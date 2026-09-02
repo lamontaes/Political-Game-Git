@@ -52,6 +52,17 @@ const VALID_ART_CLASS = ["development-fixture", "production"];
 const VALID_TIER_DERIVATIONS = [
   "native-master",
   "deterministic-downscale",
+  "external-upscale-derivative",
+  "upscaled-development-fixture",
+];
+
+/**
+ * Derivations whose pixel width overstates the detail behind it, and which must
+ * therefore declare `native_detail_width`. An external upscale approved with
+ * explicit lineage may ship in production; a fixture upscale may not.
+ */
+const TIER_DERIVATIONS_REQUIRING_NATIVE_DETAIL = [
+  "external-upscale-derivative",
   "upscaled-development-fixture",
 ];
 
@@ -629,24 +640,27 @@ function validateRasterTierLadders(
       if (!isAllowedStatus(tier.derivation, VALID_TIER_DERIVATIONS)) {
         errors.push(`${label} has invalid derivation '${tier.derivation}'.`);
       }
-      if (tier.derivation === "upscaled-development-fixture") {
-        if (artClass === "production") {
-          errors.push(
-            `${label} is an upscale, which a production asset may never carry. The asset pipeline does not synthesize tiers.`,
-          );
-        }
+      if (
+        tier.derivation === "upscaled-development-fixture" &&
+        artClass === "production"
+      ) {
+        errors.push(
+          `${label} was enlarged by this repository, which a production asset may never carry. The asset pipeline does not synthesize tiers; an externally upscaled master must instead be declared 'external-upscale-derivative' with its lineage.`,
+        );
+      }
+      if (TIER_DERIVATIONS_REQUIRING_NATIVE_DETAIL.includes(tier.derivation)) {
         if (
           !Number.isInteger(tier.native_detail_width) ||
           (tier.native_detail_width ?? 0) <= 0 ||
           (tier.native_detail_width ?? 0) > tier.width
         ) {
           errors.push(
-            `${label} is an upscale and must declare the native_detail_width it was enlarged from.`,
+            `${label} carries enlarged lineage and must declare the native_detail_width its detail stops at.`,
           );
         }
       } else if (tier.native_detail_width !== undefined) {
         errors.push(
-          `${label} declares native_detail_width but is not an upscale.`,
+          `${label} declares native_detail_width but its derivation claims full native detail.`,
         );
       }
 

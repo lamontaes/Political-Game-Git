@@ -4658,3 +4658,152 @@
   font-size: 0.82rem;
   color: #5c6779;
 }
+
+/* ---------------------------------------------------------------------------
+   DEVELOPMENT AUTHORING OVERLAY (?view=scene-authoring)
+
+   A developer surface, styled to stay legible over any plate rather than to
+   look like the game. Certainty is carried by colour AND by the printed label,
+   because a reviewer reading a screenshot in greyscale still has to be able to
+   tell an estimate from a measurement.
+   --------------------------------------------------------------------------- */
+
+.scene-authoring-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  background: #edeae0;
+  border: 1px solid #b4b4a8;
+}
+
+.scene-authoring-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #4a4a44;
+}
+
+.scene-authoring-controls select,
+.scene-authoring-controls input[type="text"] {
+  font-size: 0.9rem;
+  padding: 4px 6px;
+  border: 1px solid #9a9a90;
+  background: #fff;
+  min-width: 180px;
+}
+
+.scene-authoring-stage {
+  cursor: crosshair;
+}
+
+.scene-authoring-readout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px 24px;
+  margin: 10px 0 24px;
+  padding: 10px 14px;
+  background: #22252a;
+  color: #e6e2d6;
+  font-size: 0.84rem;
+}
+
+.scene-authoring-readout dt {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #a8a496;
+  margin-bottom: 2px;
+}
+
+.scene-authoring-readout dd {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  line-height: 1.5;
+}
+
+.scene-authoring-readout ul {
+  margin: 6px 0 0;
+  padding-left: 16px;
+  color: #f0c674;
+}
+
+.scene-authoring-readout em {
+  color: #a8c8e8;
+  font-style: normal;
+}
+
+.scene-authoring-capture {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  border: 2px solid #101216;
+  z-index: 90;
+}
+
+.scene-authoring-capture small {
+  position: absolute;
+  left: 13px;
+  top: -3px;
+  font-size: 9px;
+  line-height: 1;
+  white-space: nowrap;
+  background: rgb(12 14 18 / 82%);
+  color: #f2efe6;
+  padding: 1px 3px;
+}
+
+.scene-authoring-capture--verified {
+  background: #6fbf73;
+}
+
+.scene-authoring-capture--estimated {
+  background: #f0c674;
+}
+
+.scene-authoring-capture--unverified {
+  background: #c78ce0;
+}
+
+.scene-authoring-capture--unknown {
+  background: #e06c6c;
+}
+
+.scene-authoring-export {
+  margin-top: 12px;
+}
+
+.scene-authoring-export h2 {
+  font-size: 1.05rem;
+  margin: 0 0 8px;
+}
+
+.scene-authoring-export h2 small {
+  font-weight: 400;
+  color: #5a5a52;
+  font-size: 0.82rem;
+}
+
+.scene-authoring-export ol {
+  margin: 0 0 12px;
+  padding-left: 20px;
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.scene-authoring-export textarea {
+  width: 100%;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  padding: 10px;
+  border: 1px solid #b4b4a8;
+  background: #fbfaf6;
+}

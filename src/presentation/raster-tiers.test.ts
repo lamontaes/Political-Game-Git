@@ -11,6 +11,7 @@ import {
   isTierSwapPending,
   requestTierPaint,
   requiredDeviceWidthFor,
+  requiresNativeDetailWidth,
   selectRasterTier,
   tierDetailWidth,
   TIER_STEP_DOWN_DELAY_MS,
@@ -81,7 +82,7 @@ describe("raster tier ladder", () => {
       createRasterTierLadder("env_x", [
         tier(2_048, { nativeDetailWidth: 1_024 }),
       ]),
-    ).toThrow("not an upscale");
+    ).toThrow("claims full native detail");
   });
 
   it("reports an upscale's real detail rather than its pixel width", () => {
@@ -91,6 +92,36 @@ describe("raster tier ladder", () => {
     });
     expect(tierDetailWidth(upscale)).toBe(1_024);
     expect(tierDetailWidth(tier(2_048))).toBe(2_048);
+  });
+
+  it("accepts an external upscale derivative that declares its real detail", () => {
+    // A master enlarged OUTSIDE this repository and knowingly approved. The
+    // pixels are real and shippable; the detail behind them is not, and the
+    // tier says where it stops.
+    const ladder = createRasterTierLadder("env_x", [
+      tier(2_048, {
+        derivation: "external-upscale-derivative",
+        nativeDetailWidth: 1_024,
+      }),
+    ]);
+    expect(tierDetailWidth(ladder.tiers[0]!)).toBe(1_024);
+  });
+
+  it("refuses an external upscale derivative that will not say where detail stops", () => {
+    expect(() =>
+      createRasterTierLadder("env_x", [
+        tier(2_048, { derivation: "external-upscale-derivative" }),
+      ]),
+    ).toThrow("nativeDetailWidth");
+  });
+
+  it("knows which derivations must declare their real detail", () => {
+    expect(requiresNativeDetailWidth("external-upscale-derivative")).toBe(true);
+    expect(requiresNativeDetailWidth("upscaled-development-fixture")).toBe(
+      true,
+    );
+    expect(requiresNativeDetailWidth("deterministic-downscale")).toBe(false);
+    expect(requiresNativeDetailWidth("native-master")).toBe(false);
   });
 });
 

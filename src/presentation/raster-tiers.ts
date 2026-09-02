@@ -46,12 +46,37 @@ export const TIER_STEP_DOWN_DELAY_MS = 250;
  *
  * - `native-master` — the authored raster itself.
  * - `deterministic-downscale` — a reproducible reduction of a larger master.
- * - `upscaled-development-fixture` — an enlargement of a smaller source. It
- *   carries no detail beyond `nativeDetailWidth` and is only ever admissible
+ *   Its pixel width IS its detail; that is what makes the reduction honest.
+ * - `external-upscale-derivative` — a reduction of a master that was itself
+ *   enlarged OUTSIDE this repository (a Firefly upscale, a retouch pass). The
+ *   pixels are real and the tier is admissible in production, but the detail
+ *   behind them stops at `nativeDetailWidth`, which it must declare. The
+ *   repository pipeline still never enlarges anything: it only carries forward
+ *   a lineage an approver knowingly accepted.
+ * - `upscaled-development-fixture` — an enlargement performed for fixture art.
+ *   It carries no detail beyond `nativeDetailWidth` and is only ever admissible
  *   for development fixture art, never for a production plate.
  */
 export type RasterTierDerivation =
-  "native-master" | "deterministic-downscale" | "upscaled-development-fixture";
+  | "native-master"
+  | "deterministic-downscale"
+  | "external-upscale-derivative"
+  | "upscaled-development-fixture";
+
+/**
+ * The derivations whose pixel width overstates the detail behind it, and which
+ * must therefore declare `nativeDetailWidth`. Every other derivation is
+ * forbidden from declaring one, so `width` stays trustworthy by default.
+ */
+export const DERIVATIONS_REQUIRING_NATIVE_DETAIL: ReadonlySet<RasterTierDerivation> =
+  new Set(["external-upscale-derivative", "upscaled-development-fixture"]);
+
+/** Whether this derivation must state the real detail behind its pixels. */
+export function requiresNativeDetailWidth(
+  derivation: RasterTierDerivation,
+): boolean {
+  return DERIVATIONS_REQUIRING_NATIVE_DETAIL.has(derivation);
+}
 
 export interface RasterTier {
   /** Raster width in pixels. Unique and ascending within one ladder. */
@@ -63,9 +88,9 @@ export interface RasterTier {
   readonly hash: string;
   readonly derivation: RasterTierDerivation;
   /**
-   * Real detail carried by this raster, when it is less than `width`. An
-   * upscale declares the width of the source it was enlarged from; every other
-   * derivation leaves this undefined and `width` is the truth.
+   * Real detail carried by this raster, when it is less than `width`. A tier
+   * with enlarged lineage declares the width the detail actually stops at;
+   * every other derivation leaves this undefined and `width` is the truth.
    */
   readonly nativeDetailWidth?: number;
 }
@@ -168,19 +193,19 @@ export function createRasterTierLadder(
       );
     }
     if (
-      tier.derivation === "upscaled-development-fixture" &&
+      requiresNativeDetailWidth(tier.derivation) &&
       tier.nativeDetailWidth === undefined
     ) {
       throw new Error(
-        `Raster tier ladder '${assetId}' tier ${tier.width} is an upscale and must declare the nativeDetailWidth it was enlarged from.`,
+        `Raster tier ladder '${assetId}' tier ${tier.width} carries enlarged lineage ('${tier.derivation}') and must declare the nativeDetailWidth behind it.`,
       );
     }
     if (
-      tier.derivation !== "upscaled-development-fixture" &&
+      !requiresNativeDetailWidth(tier.derivation) &&
       tier.nativeDetailWidth !== undefined
     ) {
       throw new Error(
-        `Raster tier ladder '${assetId}' tier ${tier.width} declares nativeDetailWidth but is not an upscale.`,
+        `Raster tier ladder '${assetId}' tier ${tier.width} declares nativeDetailWidth but its derivation '${tier.derivation}' claims full native detail.`,
       );
     }
   }

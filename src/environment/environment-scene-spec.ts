@@ -181,8 +181,13 @@ export interface SceneRasterTierSpec {
   derivation:
     | "native-master"
     | "deterministic-downscale"
+    | "external-upscale-derivative"
     | "upscaled-development-fixture";
-  /** Real detail carried, when less than `width`. Required for an upscale. */
+  /**
+   * Real detail carried, when less than `width`. Required for any derivation
+   * with enlarged lineage, forbidden for the derivations whose pixel width is
+   * itself the truth.
+   */
   native_detail_width?: number;
 }
 
@@ -779,8 +784,19 @@ const ANCHOR_KINDS = new Set<SceneAnchorKind>([
 const RASTER_DERIVATIONS = new Set<SceneRasterTierSpec["derivation"]>([
   "native-master",
   "deterministic-downscale",
+  "external-upscale-derivative",
   "upscaled-development-fixture",
 ]);
+
+/**
+ * Derivations whose pixel width overstates the detail behind it. Mirrors
+ * `DERIVATIONS_REQUIRING_NATIVE_DETAIL` in `src/presentation/raster-tiers.ts`;
+ * this module stays dependency-free, so the two lists are kept in step by the
+ * spec tests rather than by an import.
+ */
+const DERIVATIONS_REQUIRING_NATIVE_DETAIL = new Set<
+  SceneRasterTierSpec["derivation"]
+>(["external-upscale-derivative", "upscaled-development-fixture"]);
 
 const UI_SAFE_ZONE_EDGES = new Set<SceneUiSafeZoneSpec["edge"]>([
   "bottom-left",
@@ -1058,19 +1074,21 @@ function validateRaster(value: unknown, errors: string[]): void {
         `${path}.derivation has invalid value ${describeValue(tier.derivation)}.`,
       );
     }
-    const isUpscale = tier.derivation === "upscaled-development-fixture";
-    if (isUpscale) {
+    const declaresDetail = DERIVATIONS_REQUIRING_NATIVE_DETAIL.has(
+      tier.derivation as SceneRasterTierSpec["derivation"],
+    );
+    if (declaresDetail) {
       if (
         !isPositiveNumber(tier.native_detail_width) ||
         tier.native_detail_width > tier.width
       ) {
         errors.push(
-          `${path} is an upscale and must declare the native_detail_width it was enlarged from.`,
+          `${path} carries enlarged lineage and must declare the native_detail_width its detail stops at.`,
         );
       }
     } else if (tier.native_detail_width !== undefined) {
       errors.push(
-        `${path} declares native_detail_width but is not an upscale.`,
+        `${path} declares native_detail_width but its derivation claims full native detail.`,
       );
     }
   });

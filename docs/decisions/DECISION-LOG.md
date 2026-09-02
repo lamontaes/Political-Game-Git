@@ -1116,3 +1116,82 @@ numbers printed. Player-facing degradation copy stays free of that vocabulary
 and says only what is actually being shown. Title tableau resolution exists as
 presentation-only primitives that take eligibility as caller-supplied truth,
 hold no saves and load no worlds, so no code path there can invent a biography.
+
+## D-058 — Art declares where it came from, and authoring declares what it does not know
+
+- Date: 2026-09-02
+- Status: ACCEPTED
+- Supersedes: nothing. It extends D-057, which established that scenes and people
+  are placed from declared contacts and that rasters are chosen by the screen.
+  This decision governs everything upstream of that runtime contract.
+
+Adding a room is data authoring. The pipeline between an approved picture and a
+registered scene is a set of contracts, and four of them are refusals.
+
+**The repository never enlarges a raster.** A requested tier above the master is
+skipped, the ladder is shorter, and the shortfall is stated. A 4096 file
+carrying 2048 pixels of detail is a promise the runtime cannot keep, and the
+cost is paid by whoever later assumes the number means something.
+
+**An external upscale is admissible, and must be declared.** Rejected
+alternative: banning upscaled masters outright. An externally upscaled render is
+frequently the best art available, and a ban would have meant either losing it
+or laundering it in by hand. Instead a candidate declares its lineage class and
+its native-detail state, and a declared upscale carries `nativeDetailWidth`
+forward into every tier derived from it, into the manifest, into the registry
+and into the runtime's fidelity warnings. Downscaling does not restore
+information and must not be allowed to erase the record of its absence.
+
+`RasterTierDerivation` therefore gained `external-upscale-derivative`: real
+pixels, admissible in production, detail that stops where the declaration says.
+It is deliberately distinct from `upscaled-development-fixture`, which is an
+enlargement this repository performed and which may never reach a production
+plate. Rejected alternative: allowing `nativeDetailWidth` on
+`deterministic-downscale`. That would have made a plain reduction's pixel width
+untrustworthy by default, when the whole value of that derivation is that its
+width IS its detail.
+
+**A scaffold's unknowns stay unknown.** Every value the compositor needs starts
+UNRESOLVED with a reason, and projection to a scene spec refuses while a
+blocking gap remains rather than emitting plausible defaults. A scaffold that
+quietly filled a floor line with 85 would produce a scene that registers,
+renders, and puts everyone's feet slightly through the floor in a way nobody can
+attribute to anything. `UNVERIFIED` is kept distinct from `UNKNOWN` because the
+remedies differ: one needs someone to decide, the other needs someone to check.
+
+**Nothing meaningful is read out of a filename.** Lineage, access class and
+world label are declared by a caller. Intake reads declarations, not
+directories; a file nobody declared is reported as undeclared rather than
+adopted with a plausible history.
+
+Two further separations follow.
+
+Physical art identity is not a world label. A scene family describes the room;
+what the World calls it — the player's apartment, their parents', a friend's —
+is canonical truth supplied at binding time. One apartment plate serves four
+homes across a career and one pavilion serves a childhood birthday and a
+campaign meet-and-greet, which is the whole economic argument for the split.
+Access class describes the kind of gate a place has and grants nothing: role
+eligibility tags are a search key for future progression work, and passage is
+decided from roles the World records.
+
+Baked decor is not information. Production art may be lived-in — artwork, books,
+plants, coloured paper shapes, a clock-shaped block — and must not be legible.
+Anything the simulation owns goes in a declared dynamic surface slot, because
+readable words baked into a plate are either wrong or are asserting something
+the simulation never decided, and they are frozen either way.
+
+Measured geometry is an authoring aid and never a replica claim. A number a
+source stated is `direct-published`; a number measured off a drawing is
+`scale-derived` and requires a scale resolved against a known reference span on
+that same reproduction. Marking the second as the first is a validation error.
+Evidence attaches to an archetype informed by several rooms, because what
+transfers to a generic room is proportion, not any one room's dimension.
+
+Consequence: approved masters, external QA passes and measured-geometry research
+now have a schema to arrive through, and the failure modes they would otherwise
+introduce — a soft plate believed sharp, a guessed floor line, a duplicated
+apartment, a frozen bill number, a fabricated dimension — are unrepresentable
+rather than merely discouraged. None of this is wired into PlayerGame; the
+contracts and their tests exist first so that integration stays a cheap
+decision.

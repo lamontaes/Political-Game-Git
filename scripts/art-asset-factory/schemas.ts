@@ -49,7 +49,10 @@ export interface Dimensions {
  * `src/presentation/raster-tiers.ts`; the manifest keeps snake_case fields.
  */
 export type RasterTierDerivationRecord =
-  "native-master" | "deterministic-downscale" | "upscaled-development-fixture";
+  | "native-master"
+  | "deterministic-downscale"
+  | "external-upscale-derivative"
+  | "upscaled-development-fixture";
 
 export interface RasterTierRecord {
   width: number;
@@ -60,7 +63,8 @@ export interface RasterTierRecord {
   derivation: RasterTierDerivationRecord;
   /**
    * Real detail this raster carries when it is less than `width`. Required for
-   * an upscale, forbidden otherwise, so no tier can overstate its sharpness.
+   * any derivation with enlarged lineage, forbidden otherwise, so no tier can
+   * overstate its sharpness.
    */
   native_detail_width?: number;
 }

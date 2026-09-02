@@ -1,6 +1,8 @@
 import fs from "fs";
 import * as PImage from "pureimage";
 
+import { resampleLanczos } from "./resample";
+
 export const OFFICE_PLATE_SOURCE_SIZE = { width: 1024, height: 572 } as const;
 export const OFFICE_PLATE_RUNTIME_SCALE = 2 as const;
 export const OFFICE_PLATE_LANCZOS_LOBES = 3 as const;
@@ -64,103 +66,6 @@ export interface OfficePlateDerivationResult {
   readonly runtimeWidth: number;
   readonly runtimeHeight: number;
   readonly foregroundPixelCount: number;
-}
-
-interface WeightedSample {
-  readonly index: number;
-  readonly weight: number;
-}
-
-function lanczos(distance: number, lobes: number): number {
-  const absolute = Math.abs(distance);
-  if (absolute === 0) return 1;
-  if (absolute >= lobes) return 0;
-  const piDistance = Math.PI * distance;
-  return (
-    (Math.sin(piDistance) / piDistance) *
-    (Math.sin(piDistance / lobes) / (piDistance / lobes))
-  );
-}
-
-function createSamplingTable(
-  sourceLength: number,
-  targetLength: number,
-  lobes: number,
-): readonly (readonly WeightedSample[])[] {
-  const scale = targetLength / sourceLength;
-  return Array.from({ length: targetLength }, (_, targetIndex) => {
-    const sourcePosition = (targetIndex + 0.5) / scale - 0.5;
-    const first = Math.floor(sourcePosition) - lobes + 1;
-    const combined = new Map<number, number>();
-    for (
-      let sourceIndex = first;
-      sourceIndex <= first + lobes * 2;
-      sourceIndex += 1
-    ) {
-      const boundedIndex = Math.max(0, Math.min(sourceLength - 1, sourceIndex));
-      const weight = lanczos(sourcePosition - sourceIndex, lobes);
-      combined.set(boundedIndex, (combined.get(boundedIndex) ?? 0) + weight);
-    }
-    const total = [...combined.values()].reduce(
-      (sum, weight) => sum + weight,
-      0,
-    );
-    return [...combined.entries()].map(([index, weight]) => ({
-      index,
-      weight: weight / total,
-    }));
-  });
-}
-
-function resampleLanczos(
-  source: PImage.Bitmap,
-  targetWidth: number,
-  targetHeight: number,
-  lobes: number,
-): PImage.Bitmap {
-  const horizontalSamples = createSamplingTable(
-    source.width,
-    targetWidth,
-    lobes,
-  );
-  const verticalSamples = createSamplingTable(
-    source.height,
-    targetHeight,
-    lobes,
-  );
-  const horizontal = new Float64Array(targetWidth * source.height * 4);
-
-  for (let y = 0; y < source.height; y += 1) {
-    for (let x = 0; x < targetWidth; x += 1) {
-      const targetOffset = (y * targetWidth + x) * 4;
-      for (const sample of horizontalSamples[x] ?? []) {
-        const sourceOffset = (y * source.width + sample.index) * 4;
-        for (let channel = 0; channel < 4; channel += 1) {
-          horizontal[targetOffset + channel] +=
-            (source.data[sourceOffset + channel] ?? 0) * sample.weight;
-        }
-      }
-    }
-  }
-
-  const target = PImage.make(targetWidth, targetHeight);
-  for (let y = 0; y < targetHeight; y += 1) {
-    for (let x = 0; x < targetWidth; x += 1) {
-      const targetOffset = (y * targetWidth + x) * 4;
-      for (let channel = 0; channel < 4; channel += 1) {
-        let value = 0;
-        for (const sample of verticalSamples[y] ?? []) {
-          const horizontalOffset = (sample.index * targetWidth + x) * 4;
-          value += horizontal[horizontalOffset + channel] * sample.weight;
-        }
-        target.data[targetOffset + channel] = Math.max(
-          0,
-          Math.min(255, Math.round(value)),
-        );
-      }
-    }
-  }
-  return target;
 }
 
 function pointInPolygon(point: Point, polygon: readonly Point[]): boolean {
