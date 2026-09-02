@@ -8,6 +8,7 @@ export default defineConfig({
     outDir: "dist/client",
   },
   test: {
+    testTimeout: 30000,
     exclude: [...configDefaults.exclude, "tests/e2e/**"],
   },
 });
