@@ -81,7 +81,7 @@ export function resolvePlayerCapabilities(world: World): PlayerCapabilities {
       reason:
         legislativeWork === undefined
           ? "This character does not work in a legislature."
-          : `The game has no sourced legislative procedure for ${place?.displayName ?? "this place"} yet, and will not borrow another state's.`,
+          : `Nobody has written down how ${place?.displayName ?? "this place"} makes its laws, and the game will not guess by copying another state.`,
     });
   }
 

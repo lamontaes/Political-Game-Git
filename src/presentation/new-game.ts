@@ -126,6 +126,27 @@ export function newGameSetupProblems(
   return problems;
 }
 
+/**
+ * The seed the world is actually built from.
+ *
+ * A world's identity comes from the seed *and* the setup, not the seed alone.
+ * Two lives started from the same seed in different places, or at different
+ * ages, are different lives and must be able to sit side by side in the saved
+ * games list — while the same seed with the same setup still reproduces
+ * exactly, which is what replay depends on.
+ */
+export function worldSeedFor(setup: NewGameSetup): string {
+  return [
+    setup.seed,
+    setup.placeKey,
+    setup.startAge,
+    setup.depth,
+    setup.startingLife,
+    setup.givenName?.trim() ?? "",
+    setup.familyName?.trim() ?? "",
+  ].join("|");
+}
+
 /** True when the formative years are actually reachable from this setup. */
 export function playsFormativeYears(setup: NewGameSetup): boolean {
   return setup.depth === "play-formative-years" && setup.startAge < 18;
@@ -137,7 +158,9 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     throw new Error(problems[0]!.message);
   }
   const place = requireLifePlace(setup.placeKey);
-  let world = createGeneratedWorld(setup.seed, { context: place.context });
+  let world = createGeneratedWorld(worldSeedFor(setup), {
+    context: place.context,
+  });
   const playerPersonId = world.personOrder[0];
   if (!playerPersonId) {
     throw new Error("A new world was created without anyone in it.");

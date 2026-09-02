@@ -4570,3 +4570,10 @@
   padding-top: 1.25rem;
   border-top: 1px solid #d3d3c8;
 }
+
+.legislation-authored {
+  margin: 0.35rem 0 0;
+  font-size: 0.86rem;
+  color: #5a5a4e;
+  font-style: italic;
+}

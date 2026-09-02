@@ -123,6 +123,35 @@ describe("Starting a life more than once", () => {
     expect(createEphemeralSeed(fixedRandom(0xab))).toBe("ab".repeat(16));
   });
 
+  it("keeps two lives from one seed apart, so both can be saved", () => {
+    // Found in the browser: a second new game in the same session overwrote the
+    // first, because the world's identity came from the seed alone and the
+    // seed was drawn once per session.
+    const shared = "same-seed-two-lives";
+    const kentuckyChild = createNewGameWorld(
+      setup({ seed: shared, placeKey: "kentucky", startAge: 12 }),
+    );
+    const alaskaAdult = createNewGameWorld(
+      setup({
+        seed: shared,
+        placeKey: "alaska",
+        startAge: 29,
+        depth: "summarize-earlier-life",
+      }),
+    );
+    expect(kentuckyChild.world.id).not.toBe(alaskaAdult.world.id);
+
+    // The same seed with the same setup still lands on the same world, which is
+    // what replay depends on.
+    const again = createNewGameWorld(
+      setup({ seed: shared, placeKey: "kentucky", startAge: 12 }),
+    );
+    expect(again.world.id).toBe(kentuckyChild.world.id);
+    expect(identityOf(again.world, again.playerPersonId)).toBe(
+      identityOf(kentuckyChild.world, kentuckyChild.playerPersonId),
+    );
+  });
+
   it("puts the age the player asked for on the character, not near it", () => {
     for (const startAge of [5, 9, 14, 17, 30, 64]) {
       const game = createNewGameWorld(

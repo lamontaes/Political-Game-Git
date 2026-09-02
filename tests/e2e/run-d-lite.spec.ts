@@ -177,7 +177,7 @@ test("derives truthful work groups and advances staff work during player activit
     .click();
   const detail = page.getByTestId("calendar-event-detail");
   await expect(detail).toContainText(
-    "This action waits 20 minutes until 9:30 AM, then attends the full 45-minute commitment. 65 canonical minutes elapse, advancing the clock to 10:15 AM.",
+    "This action waits 20 minutes until 9:30 AM, then attends the full 45-minute commitment. 65 minutes elapse, advancing the clock to 10:15 AM.",
   );
   await detail
     .getByRole("button", {

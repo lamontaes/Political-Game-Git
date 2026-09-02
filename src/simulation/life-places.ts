@@ -50,8 +50,13 @@ export interface LifePlaceCoverage {
   readonly placeCount: number;
   /** True only once a real place corpus backs arbitrary selection. */
   readonly supportsArbitrarySelection: false;
-  /** The exact cargo still missing, named so it can be tracked. */
+  /**
+   * The exact dependency still missing, in the words the completion report and
+   * the tracker need. Not shown to a player.
+   */
   readonly outstandingDependency: string;
+  /** The same fact, said the way a player should hear it. */
+  readonly playerNote: string;
 }
 
 /**
@@ -99,7 +104,10 @@ const PLACES: readonly LifePlace[] = [
 ];
 
 const OUTSTANDING_DEPENDENCY =
-  "A verified national place corpus. Until one is accepted, only the places above have a jurisdiction the game can honestly place a life in.";
+  "A verified national place corpus. Until one is accepted, only the places above have a jurisdiction the game can place a life in.";
+
+const PLAYER_NOTE =
+  "More places will open up as the game learns them properly. It would rather offer a few real ones than a long list it cannot stand behind.";
 
 export const acceptedLifePlaceProvider: LifePlaceProvider = {
   coverage() {
@@ -108,6 +116,7 @@ export const acceptedLifePlaceProvider: LifePlaceProvider = {
       placeCount: PLACES.length,
       supportsArbitrarySelection: false,
       outstandingDependency: OUTSTANDING_DEPENDENCY,
+      playerNote: PLAYER_NOTE,
     };
   },
   list() {

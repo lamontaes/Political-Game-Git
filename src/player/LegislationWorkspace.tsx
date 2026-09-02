@@ -122,6 +122,12 @@ export function LegislationWorkspace({
             {briefing.designation} — {briefing.shortTitle}
           </h1>
           <p className="legislation-summary">{briefing.summary}</p>
+          <p
+            className="legislation-authored"
+            data-testid="legislation-authored"
+          >
+            {session.scenario.measureNotice}
+          </p>
           {briefing.sponsorName ? (
             <p className="legislation-sponsor">
               Your bill. Sponsored by {briefing.sponsorName}.

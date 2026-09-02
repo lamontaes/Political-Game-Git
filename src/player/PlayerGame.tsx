@@ -40,6 +40,7 @@ import {
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import {
   REPLAY_SEED_PARAMETER,
+  readReplaySeed,
   resolveSessionSeed,
 } from "../presentation/session-seed";
 import { lifePlaceCoverage, lifePlaces } from "../simulation";
@@ -80,9 +81,12 @@ export function PlayerGame() {
     () => (repository ? new SerializedAutosaveCoordinator(repository) : null),
     [repository],
   );
-  const sessionSeed = useMemo(
-    () => resolveSessionSeed(window.location.search, window.crypto),
-    [],
+  // A replay seed is honoured for the whole session; otherwise every trip to
+  // the setup screen draws a new one, so starting a second life does not
+  // quietly rebuild the first.
+  const replaySeed = useMemo(() => readReplaySeed(window.location.search), []);
+  const [sessionSeed, setSessionSeed] = useState(() =>
+    resolveSessionSeed(window.location.search, window.crypto),
   );
 
   const [screen, setScreen] = useState<Screen>({ kind: "title" });
@@ -188,6 +192,9 @@ export function PlayerGame() {
         problem={problem}
         onNewGame={() => {
           setProblem(null);
+          if (replaySeed === null) {
+            setSessionSeed(resolveSessionSeed("", window.crypto));
+          }
           setScreen({ kind: "setup" });
         }}
         onContinue={() => void continueMostRecent()}
@@ -379,8 +386,7 @@ function SetupScreen({
           ))}
         </div>
         <p className="game-note" data-testid="place-coverage">
-          These are the places the game can honestly put a life in today.{" "}
-          {coverage.outstandingDependency}
+          These are the places a life can begin in today. {coverage.playerNote}
         </p>
       </section>
 
@@ -514,7 +520,7 @@ function SetupScreen({
                 ? `No sourced procedure for ${place.displayName} yet.`
                 : setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE
                   ? `Needs a character of at least ${LEGISLATIVE_OFFICE_MINIMUM_AGE}.`
-                  : "Staff to a legislature the game has rules for."}
+                  : "Staff to a state legislature."}
             </small>
           </button>
         </div>
@@ -680,7 +686,7 @@ function PlayingScreen({
               Keep this life
             </button>
           ) : null}
-          <button type="button" onClick={onLeave}>
+          <button type="button" data-testid="leave-game" onClick={onLeave}>
             Leave
           </button>
         </div>
