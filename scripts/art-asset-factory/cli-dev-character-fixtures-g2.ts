@@ -30,7 +30,10 @@ const manifestPath = path.join(
   repositoryRoot,
   "art/manifest/asset_manifest.json",
 );
-const provenancePath = path.join(repositoryRoot, "art/manifest/provenance.json");
+const provenancePath = path.join(
+  repositoryRoot,
+  "art/manifest/provenance.json",
+);
 const catalogPath = path.join(
   repositoryRoot,
   "art/manifest/character_catalog.json",

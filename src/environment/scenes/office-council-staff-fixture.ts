@@ -139,7 +139,7 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
       kind: "floor-standing",
       x_percent: 47,
       z_order: 1,
-      footprint_percent: 18,
+      footprint_percent: 20,
       allowed_pose_families: ["standing-neutral"],
       permitted_facings: ["front"],
       floor_contact: { floor_y_percent: 68, max_foot_spread_percent: 7 },

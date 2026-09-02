@@ -4285,3 +4285,376 @@
   border-bottom: 1px solid #d3d2c8;
   vertical-align: top;
 }
+
+/* ---------------------------------------------------------------------------
+   Scene and person presentation proof (?view=scene-proof)
+   DEVELOPMENT ONLY. Every rule below styles a developer surface.
+   --------------------------------------------------------------------------- */
+
+.scene-proof {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 20px 64px;
+  color: #16233a;
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+}
+
+.scene-proof-header {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(220px, 1fr);
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 28px;
+}
+
+.scene-proof-header h1 {
+  margin: 4px 0 8px;
+  font-size: 1.6rem;
+}
+
+.scene-proof-header p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.scene-proof-header label {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 0.86rem;
+}
+
+.scene-proof-context {
+  margin-bottom: 44px;
+}
+
+.scene-proof-context-copy h2 {
+  margin: 0 0 6px;
+  font-size: 1.2rem;
+}
+
+.scene-proof-context-copy p {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  max-width: 76ch;
+}
+
+.scene-proof-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #2a2c30;
+  border: 1px solid #b4b4a8;
+}
+
+.scene-proof-stage .scene-camera {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+}
+
+.scene-proof-stage .scene-environment-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.scene-proof-no-plate {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #3a3d43 0%, #2b2e33 62%, #22252a 100%);
+  color: #d8d4c8;
+}
+
+/* Kept in a corner rather than centred, so it never sits behind the people
+   the overlay is meant to explain. */
+.scene-proof-no-plate p {
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  background: rgb(12 14 18 / 70%);
+  padding: 3px 7px;
+}
+
+/* Contact, footprint and tier overlay ------------------------------------- */
+
+.scene-debug-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 900;
+  pointer-events: none;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+.scene-debug-rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 1px dashed rgb(255 214 102 / 90%);
+}
+
+.scene-debug-rule--seat {
+  border-top-color: rgb(120 214 255 / 90%);
+}
+
+.scene-debug-rule--calibration {
+  border-top-style: dotted;
+  border-top-color: rgb(255 255 255 / 55%);
+}
+
+.scene-debug-rule small,
+.scene-debug-marker small,
+.scene-debug-footprint small,
+.scene-debug-occluder small,
+.scene-debug-slot small,
+.scene-debug-box small,
+.scene-debug-facing small {
+  font-size: 9px;
+  line-height: 1;
+  white-space: nowrap;
+  background: rgb(12 14 18 / 78%);
+  color: #f2efe6;
+  padding: 1px 3px;
+}
+
+.scene-debug-rule small {
+  position: absolute;
+  left: 2px;
+  top: 1px;
+}
+
+.scene-debug-marker {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: rgb(255 94 94 / 95%);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 80%);
+}
+
+.scene-debug-marker--foot {
+  background: rgb(255 214 102 / 95%);
+}
+
+.scene-debug-marker--seated-pelvis {
+  background: rgb(120 214 255 / 95%);
+}
+
+.scene-debug-marker small {
+  position: absolute;
+  left: 10px;
+  top: -2px;
+}
+
+.scene-debug-footprint {
+  position: absolute;
+  height: 2%;
+  border: 1px solid rgb(126 255 176 / 80%);
+  border-top: none;
+}
+
+.scene-debug-footprint small {
+  position: absolute;
+  left: 0;
+  bottom: -11px;
+}
+
+.scene-debug-occluder {
+  position: absolute;
+  border: 1px solid rgb(255 138 216 / 80%);
+  background: rgb(255 138 216 / 8%);
+}
+
+.scene-debug-occluder small {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+}
+
+.scene-debug-slot {
+  position: absolute;
+  border: 1px dashed rgb(180 200 255 / 85%);
+  background: rgb(180 200 255 / 8%);
+}
+
+.scene-debug-slot small {
+  position: absolute;
+  left: 1px;
+  top: 1px;
+}
+
+.scene-debug-box {
+  position: absolute;
+  border: 1px solid rgb(126 255 176 / 85%);
+}
+
+.scene-debug-box small {
+  position: absolute;
+  left: 0;
+  top: -11px;
+}
+
+.scene-debug-hitbox {
+  position: absolute;
+  border: 1px dotted rgb(255 255 255 / 55%);
+}
+
+.scene-debug-facing {
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+.scene-debug-panel {
+  margin-top: 14px;
+  background: #14161a;
+  color: #e8e4d8;
+  padding: 12px 14px;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.scene-debug-panel h3 {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+}
+
+.scene-debug-panel dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 2px 12px;
+  margin: 0 0 10px;
+}
+
+.scene-debug-panel dt {
+  color: #9aa3b2;
+}
+
+.scene-debug-panel dd {
+  margin: 0;
+}
+
+.scene-debug-panel h4 {
+  margin: 12px 0 4px;
+  font-size: 0.82rem;
+}
+
+.scene-debug-panel h4 small {
+  color: #9aa3b2;
+  font-weight: 400;
+}
+
+.scene-debug-warnings {
+  margin: 6px 0 0;
+  padding-left: 16px;
+}
+
+.scene-debug-warnings li {
+  margin-bottom: 4px;
+}
+
+.scene-debug-warnings strong {
+  color: #ffb4b4;
+  margin-right: 4px;
+}
+
+.scene-debug-warnings code {
+  color: #ffd666;
+  margin-right: 6px;
+}
+
+.scene-debug-clean {
+  margin: 6px 0 0;
+
+  color: #7effb0;
+}
+
+.scene-debug-player-copy {
+  margin: 4px 0 0;
+  color: #d8d4c8;
+  font-style: italic;
+}
+
+.scene-debug-identity {
+  margin: 2px 0;
+  color: #9aa3b2;
+}
+
+/* Per-person cards --------------------------------------------------------- */
+
+.scene-proof-cards {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.scene-proof-cards > li {
+  background: #f8f7f3;
+  border: 1px solid #b4b4a8;
+  padding: 12px 14px;
+  font-size: 0.85rem;
+}
+
+.scene-proof-cards > li[data-complete="false"] {
+  border-left: 4px solid #b4432f;
+}
+
+.scene-proof-cards h3 {
+  margin: 0 0 6px;
+  font-size: 0.98rem;
+}
+
+.scene-proof-cards h3 small {
+  font-weight: 400;
+  color: #5c6779;
+}
+
+.scene-proof-cards p {
+  margin: 4px 0;
+}
+
+.scene-proof-derived {
+  color: #5c6779;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.76rem;
+}
+
+.scene-proof-fallback {
+  font-style: italic;
+}
+
+.scene-proof-complete {
+  color: #2f6b46;
+}
+
+.scene-proof-cards ul {
+  margin: 6px 0 0;
+  padding-left: 16px;
+  font-size: 0.78rem;
+}
+
+.scene-proof-cards ul strong {
+  color: #b4432f;
+  margin-right: 4px;
+}
+
+.scene-proof-footer {
+  border-top: 1px solid #b4b4a8;
+  padding-top: 12px;
+  font-size: 0.82rem;
+  color: #5c6779;
+}

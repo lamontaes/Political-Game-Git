@@ -49,9 +49,7 @@ export interface Dimensions {
  * `src/presentation/raster-tiers.ts`; the manifest keeps snake_case fields.
  */
 export type RasterTierDerivationRecord =
-  | "native-master"
-  | "deterministic-downscale"
-  | "upscaled-development-fixture";
+  "native-master" | "deterministic-downscale" | "upscaled-development-fixture";
 
 export interface RasterTierRecord {
   width: number;

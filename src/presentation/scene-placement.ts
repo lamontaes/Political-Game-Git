@@ -165,9 +165,7 @@ function bodyHeightPercent(
   );
 }
 
-function soleContacts(
-  contacts: CharacterBodyContacts | undefined,
-): {
+function soleContacts(contacts: CharacterBodyContacts | undefined): {
   readonly left: CharacterContactPoint;
   readonly right: CharacterContactPoint;
 } | null {
