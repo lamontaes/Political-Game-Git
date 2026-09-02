@@ -229,7 +229,9 @@ for (const viewport of [
       ).toBeLessThanOrEqual(lineMetrics.clientWidth);
     }
     const flyout = page.getByTestId("navigation-flyout");
-    await expect(flyout.getByRole("menuitem")).toHaveCount(5);
+    // Calendar, Work/Pending, Legislation, Places, Civic Reference, developer route.
+    await expect(flyout.getByRole("menuitem")).toHaveCount(6);
+    await expect(page.getByTestId("nav-legislation")).toBeVisible();
     await expect(flyout).toContainText("Calendar");
     await expect(flyout).toContainText("Work / Pending");
     await expect(flyout).toContainText("Places");
@@ -443,7 +445,7 @@ for (const viewport of RESPONSIVE_VIEWPORT_MATRIX) {
 
       await shell.click();
       const navigation = page.getByTestId("navigation-flyout");
-      await expect(navigation.getByRole("menuitem")).toHaveCount(5);
+      await expect(navigation.getByRole("menuitem")).toHaveCount(6);
       await expect(navigation).not.toContainText(/pinned|next commitment/i);
       await navigation.getByRole("menuitem", { name: /Calendar/ }).click();
       await expect(page.getByTestId("calendar-workspace")).toBeVisible();

@@ -40,6 +40,14 @@ export type EntityKind =
   | "effect-activation"
   | "election-contest"
   | "election-contest-result"
+  | "executive-disposition"
+  | "legislative-action"
+  | "legislative-amendment"
+  | "legislative-committee-action"
+  | "legislative-enactment"
+  | "legislative-measure"
+  | "legislative-referral"
+  | "legislative-vote"
   | "fact"
   | "goal"
   | "goal-state"
@@ -2900,6 +2908,14 @@ export interface HistoryStore {
   readonly workItemStates: readonly WorkItemStateRecord[];
   readonly electionContests?: readonly ElectionContestRecord[];
   readonly electionContestResults?: readonly ElectionContestResultRecord[];
+  readonly legislativeMeasures?: readonly LegislativeMeasureRecord[];
+  readonly legislativeActions?: readonly LegislativeActionRecord[];
+  readonly committeeReferrals?: readonly CommitteeReferralRecord[];
+  readonly committeeActions?: readonly CommitteeActionRecord[];
+  readonly legislativeAmendments?: readonly LegislativeAmendmentRecord[];
+  readonly legislativeVotes?: readonly LegislativeVoteRecord[];
+  readonly executiveDispositions?: readonly ExecutiveDispositionRecord[];
+  readonly legislativeEnactments?: readonly LegislativeEnactmentRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];
@@ -2920,6 +2936,253 @@ export interface HistoryStore {
   readonly perceptions: readonly PerceptionRecord[];
   readonly temporaryStates: readonly TemporaryStateRecord[];
   readonly decisionTraces: readonly DecisionTraceRecord[];
+}
+
+// ---------------------------------------------------------------------------
+// Legislation — canonical measures, procedural actions, and recorded votes
+// ---------------------------------------------------------------------------
+
+/** How a measure came to exist, for provenance rather than gameplay flavour. */
+export type LegislativeMeasureOrigin =
+  "member-introduction" | "committee-introduction" | "executive-request";
+
+/**
+ * Subject class that institutional rules actually branch on. This is not a
+ * topic taxonomy: it exists because real rules impose different thresholds on
+ * money bills than on general policy.
+ */
+export type LegislativeSubjectClass =
+  "general-policy" | "appropriation" | "revenue";
+
+export interface LegislativeMeasureRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly jurisdictionId: EntityId;
+  /** Rule pack governing this measure for its whole life. */
+  readonly rulePackId: string;
+  /** Institutional designation, e.g. "HB 214" or "LB 88". */
+  readonly designation: string;
+  readonly shortTitle: string;
+  readonly summary: string;
+  readonly origin: LegislativeMeasureOrigin;
+  readonly subjectClass: LegislativeSubjectClass;
+  readonly originChamberKey: string;
+  readonly sponsorPersonId: EntityId | null;
+  readonly introducedAt: IsoDate;
+  /** Optional link to the office working draft the measure was filed from. */
+  readonly sourceDocumentKey: string | null;
+  /** Optional links to existing quantitative policy alternatives. */
+  readonly policyAlternativeIds: readonly EntityId[];
+}
+
+export type LegislativeActionKind =
+  | "introduced"
+  | "referred"
+  | "committee-hearing-held"
+  | "committee-reported"
+  | "committee-rejected"
+  | "placed-on-calendar"
+  | "amendment-adopted"
+  | "amendment-rejected"
+  | "floor-stage-passed"
+  | "floor-stage-failed"
+  | "transmitted"
+  | "concurred"
+  | "concurrence-failed"
+  | "enrolled"
+  | "presented-to-executive"
+  | "signed"
+  | "vetoed"
+  | "override-chamber-recorded"
+  | "override-succeeded"
+  | "override-failed"
+  | "enacted"
+  | "died-on-adjournment";
+
+/**
+ * One consequential procedural transition. Actions are append-only and are the
+ * durable record of what happened to a measure and why.
+ */
+export interface LegislativeActionRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly measureId: EntityId;
+  readonly kind: LegislativeActionKind;
+  readonly occurredAt: IsoDate;
+  /** Chamber the action happened in; null for executive and joint action. */
+  readonly chamberKey: string | null;
+  readonly committeeKey: string | null;
+  readonly floorStageKey: string | null;
+  /** The actor or body responsible, in plain language. */
+  readonly actorLabel: string;
+  /** Why this happened, in plain language, for the player-facing record. */
+  readonly rationale: string;
+  readonly eventId: EntityId;
+  readonly voteId: EntityId | null;
+  readonly amendmentId: EntityId | null;
+}
+
+export interface CommitteeReferralRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly measureId: EntityId;
+  readonly chamberKey: string;
+  readonly committeeKey: string;
+  readonly referredAt: IsoDate;
+  readonly referredByLabel: string;
+  /** Position in a sequential referral chain, starting at 1. */
+  readonly order: number;
+}
+
+export type CommitteeReportKind =
+  "favorable" | "unfavorable" | "without-recommendation";
+
+export interface CommitteeActionRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly measureId: EntityId;
+  readonly referralId: EntityId;
+  readonly actedAt: IsoDate;
+  readonly report: CommitteeReportKind;
+  readonly hearingHeld: boolean;
+  readonly voteId: EntityId;
+}
+
+export type LegislativeAmendmentStatus = "adopted" | "rejected";
+
+export interface LegislativeAmendmentRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly measureId: EntityId;
+  readonly chamberKey: string;
+  readonly floorStageKey: string | null;
+  readonly offeredAt: IsoDate;
+  readonly offeredByPersonId: EntityId | null;
+  readonly offeredByLabel: string;
+  readonly description: string;
+  readonly status: LegislativeAmendmentStatus;
+  readonly voteId: EntityId;
+}
+
+export type LegislativeVoteForum =
+  | { readonly kind: "chamber"; readonly chamberKey: string }
+  | {
+      readonly kind: "committee";
+      readonly chamberKey: string;
+      readonly committeeKey: string;
+    }
+  | { readonly kind: "joint-session"; readonly forumName: string };
+
+export type LegislativeVotePurpose =
+  | "committee-report"
+  | "floor-stage"
+  | "amendment"
+  | "concurrence"
+  | "veto-override";
+
+/**
+ * How a single member disposed of a question. Legislative voting is a record of
+ * named members, never a share or a floating tally.
+ */
+export type LegislativeMemberDisposition =
+  "yea" | "nay" | "present-not-voting" | "absent" | "excused";
+
+export interface LegislativeVoteDisposition {
+  /** Stable member identity within the seated body. */
+  readonly memberKey: string;
+  /** Canonical person when the member is simulated; null otherwise. */
+  readonly personId: EntityId | null;
+  readonly disposition: LegislativeMemberDisposition;
+}
+
+export interface LegislativeVoteTally {
+  readonly yea: number;
+  readonly nay: number;
+  readonly presentNotVoting: number;
+  readonly absent: number;
+  readonly excused: number;
+}
+
+export type LegislativeVoteProvenanceMethod =
+  "member-decisions" | "authored-fixture";
+
+export interface LegislativeVoteProvenance {
+  readonly method: LegislativeVoteProvenanceMethod;
+  readonly note: string;
+  readonly sourceEntityIds: readonly EntityId[];
+}
+
+export interface LegislativeVoteRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly measureId: EntityId;
+  readonly forum: LegislativeVoteForum;
+  readonly purpose: LegislativeVotePurpose;
+  readonly floorStageKey: string | null;
+  readonly takenAt: IsoDate;
+  /** Members entitled to vote in this forum. */
+  readonly eligibleMembers: number;
+  /**
+   * Members present. Null means the record does not represent presence, which
+   * is different from nobody being present.
+   */
+  readonly presentMembers: number | null;
+  readonly dispositions: readonly LegislativeVoteDisposition[];
+  readonly tally: LegislativeVoteTally;
+  /** Plain-language statement of the rule that had to be met. */
+  readonly thresholdLabel: string;
+  readonly denominatorKind: string;
+  readonly denominatorValue: number;
+  readonly requiredVotes: number;
+  readonly outcome: "passed" | "failed";
+  readonly provenance: LegislativeVoteProvenance;
+}
+
+export type ExecutiveActionKind =
+  "signed" | "vetoed" | "line-item-vetoed" | "became-law-without-signature";
+
+export interface ExecutiveDispositionRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly measureId: EntityId;
+  readonly actedAt: IsoDate;
+  readonly action: ExecutiveActionKind;
+  readonly actorLabel: string;
+  readonly rationale: string;
+  /** Deadline the executive was operating under, when the rule resolved one. */
+  readonly actionDeadline: IsoDate | null;
+}
+
+export type LegislativeTerminalOutcome =
+  | "enacted"
+  | "failed-in-committee"
+  | "failed-on-floor"
+  | "failed-concurrence"
+  | "vetoed-and-sustained"
+  | "died-on-adjournment";
+
+export interface LegislativeEnactmentRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly measureId: EntityId;
+  readonly resolvedAt: IsoDate;
+  readonly outcome: LegislativeTerminalOutcome;
+  /** Chapter or act designation when the measure became law. */
+  readonly actDesignation: string | null;
+  /**
+   * When the act takes effect. Null means the rule pack did not resolve a
+   * default effective-date rule, which is not the same as taking effect now.
+   */
+  readonly effectiveAt: IsoDate | null;
+  readonly outcomeEventId: EntityId;
 }
 
 export interface World {

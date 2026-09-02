@@ -34,6 +34,10 @@ import {
   vitalityEntityExists,
 } from "./vitality-integrity";
 import {
+  legislationEntityAvailableAt,
+  legislationEntityExists,
+} from "./legislation";
+import {
   electionContestEntityAvailableAt,
   electionContestEntityExists,
 } from "./election-contests";
@@ -706,6 +710,9 @@ function canonicalEntityAvailable(
       asOfDate,
       sequenceExclusive,
     );
+  }
+  if (legislationEntityExists(world, id)) {
+    return legislationEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   }
   const policyRecord = [
     ...world.history.policyAlternatives,

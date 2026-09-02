@@ -445,6 +445,13 @@ campaign, election, or Lexington Slice E behavior. See D-050,
 [Canonical Sub-Day Time, Scheduled Activity, and Office Work](systems/time-work.md),
 and [Player Presentation and Epistemic Projection](systems/player-presentation.md).
 
+The legislative gameplay core (D-056) adds the first real legislating loop: a
+measure is filed, referred, heard, reported, amended, voted on stage by stage,
+transmitted where a second chamber exists, presented to the executive, vetoed
+or signed, reconsidered, and recorded as law or as failed — all driven by
+sourced institutional rule packs rather than one hard-coded legislature. It
+adds no campaign, election, lobbying, caucus, budgeting, or judicial system.
+
 The intended next critical path is Lexington MVP Slice E for the minimum
 institution/electorate/campaign/election systems of one council race, then a
 minimum governing-term Slice F and continuation/next-cycle Slice G. Those

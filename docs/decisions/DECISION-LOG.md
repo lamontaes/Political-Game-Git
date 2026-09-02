@@ -899,3 +899,69 @@ Consequence: appearance stability is a property of the save, not of one
 browser session. No production component art, generator, wardrobe library,
 head-angle generation, animation, engine, office-scene consumption, Slice F,
 or campaign/election change is authorized by this decision.
+
+## D-056 — Legislative procedure is rule-driven, and legislative voting is a record of members
+
+- Date: 2026-09-01
+- Status: ACCEPTED
+- Supersedes: the `docs/systems/legislation.md` statement that legislation is
+  not implemented, for the bounded scope built here only; no Stage 6 policy,
+  election, time, or presentation decision is superseded
+
+A measure moves through an institution, and the institution comes from data.
+`src/simulation/legislature-rules.ts` defines a runtime rule contract covering
+chamber structure, sessions, introduction, referral, committees, floor stages,
+amendments, inter-chamber transit, executive presentment and veto, override
+forum, and enactment. `src/simulation/legislature-rule-packs.ts` holds packs
+compiled from the 50-state institutional research warehouse; every value cites
+the constitution, chamber rule, uniform rule or statute it came from. The
+engine holds no jurisdiction knowledge of its own, and a rule pack that
+contradicts itself is rejected before play.
+
+Three epistemic states never collapse into one another. `known` carries a
+resolved rule and its source, including a resolved negative such as a committee
+that may decline to hear a bill. `unknown` means no source settled it and is
+not zero, none or absent. `not-applicable` means the institution has no such
+concept, as with a second chamber in Nebraska. Reading an unknown rule and
+reading a not-applicable rule raise different errors, so no caller can silently
+treat one as the other, and the player surface says which is which.
+
+A measure's position is never stored. `LegislativeMeasureRecord` carries
+identity; `LegislativeActionRecord` is the append-only log of consequential
+transitions; where a bill sits is derived by replaying that log against its
+rule pack. Every transition also writes an ordinary historical event, so the
+institutional story lives in the same history as everything else and survives
+save, reload and replay.
+
+Legislative voting shares nothing with the election substrate. An election
+resolves a contest through vote shares and tallies; a legislative question
+either reaches a required number of votes or does not. `LegislativeVoteRecord`
+records named members and their dispositions, the eligible membership, presence
+where the record represents it, the threshold's fraction, its denominator
+(members elected, members present, members voting, committee membership, or a
+joint sitting's combined membership) and its rounding rule. A majority is
+strictly more than half, so a majority of thirty-eight is twenty; three-fifths
+of forty-nine takes at least the fraction, so it is thirty. Integrity
+recomputes every tally, denominator and required count from the record's own
+dispositions, so a snapshot cannot claim an outcome its members did not
+produce.
+
+How a member decides is out of scope. This slice authors member decisions per
+scenario rather than inventing a legislator-behaviour model, and leaves a clean
+seam for the researched relationship, bargaining and lobbying systems. No
+step applies an unexplained numeric modifier to any tally.
+
+Legislative activity runs on the world's own clock. A committee hearing is
+scheduled through the existing future-due substrate and fires through the
+ordinary time advance; there is no second legislative calendar.
+
+Consequence: the same engine runs three materially different institutions.
+Kentucky is ordinary bicameral and a veto falls to a majority of elected
+members in each house; Nebraska is one chamber with three separate
+constitutional floor stages, no second house and no conference at all; Alaska
+is bicameral but reconsiders a veto in one joint sitting of sixty members, at
+three-quarters for money bills. Those differences change the legal route a bill
+takes, not a label. Conference committees, concurrence after second-chamber
+amendment, calendars and deadlines as live constraints, line-item and
+amendatory vetoes, confirmations, and the wider fifty states remain
+deliberately unimplemented.

@@ -558,6 +558,9 @@ export function PlayerOffice() {
           openPlanningWorkspace("calendar", activityId)
         }
         onOpenWorkPending={() => openPlanningWorkspace("work")}
+        onOpenLegislation={() => {
+          window.location.search = "?view=legislation";
+        }}
         state={state}
         dispatch={dispatch}
       />
