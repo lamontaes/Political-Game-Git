@@ -1,3 +1,4 @@
+import { execSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -176,7 +177,12 @@ export function compileCounties(
     records,
   };
 
-  writeFileSync(outputFile, JSON.stringify(corpus, null, 2), "utf-8");
+  writeFileSync(outputFile, JSON.stringify(corpus, null, 2) + "\n", "utf-8");
+  try {
+    execSync(`npx prettier --write "${outputFile}"`, { stdio: "ignore" });
+  } catch {
+    // Ignore if prettier is not executable in context
+  }
   console.log(`Compiled ${records.length} counties to ${outputFile}`);
   return corpus;
 }
