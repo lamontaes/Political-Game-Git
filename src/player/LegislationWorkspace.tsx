@@ -6,8 +6,12 @@ import {
   type LegislativeScenario,
 } from "../simulation/legislation-scenarios";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
+import type { MeasureBriefing } from "../presentation/legislation-projection";
 import { applyLegislativeStep } from "../presentation/legislation-session";
+import { applyLegislativeCommand } from "../presentation/legislation-world";
+import type { LegislativeAssignment } from "../presentation/legislation-world";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
+import type { MeasureStepKey } from "../simulation/legislation";
 import type { World } from "../simulation/types";
 
 /**
@@ -16,7 +20,66 @@ import type { World } from "../simulation/types";
  * It answers, in order: where is my bill, what just happened, who decides next,
  * and what can I do about it. The full vote record sits at the bottom for
  * anyone who wants it, rather than greeting the player as a spreadsheet.
+ *
+ * There are two ways in. Normal play passes the world the player is living in
+ * and gets it back changed; the bill is part of their save like everything
+ * else. The development route below keeps a world of its own so the procedure
+ * can be exercised without starting a life first. Only the second one can
+ * switch legislatures — in a game, which chamber your bills go to is a fact
+ * about your job, not a control on a screen.
  */
+
+export interface LegislationWorkspaceProps {
+  /** The world the player is living in. The only one this surface changes. */
+  readonly world: World;
+  readonly assignment: LegislativeAssignment;
+  readonly onWorldChange: (world: World) => void;
+}
+
+export function LegislationWorkspace({
+  world,
+  assignment,
+  onWorldChange,
+}: LegislationWorkspaceProps) {
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const briefing = useMemo(
+    () => projectMeasureBriefing(world, assignment.measureId),
+    [world, assignment.measureId],
+  );
+
+  function takeStep(step: MeasureStepKey) {
+    try {
+      const result = applyLegislativeCommand(world, assignment, {
+        kind: "take-step",
+        step,
+      });
+      setMessage(result.message);
+      setError(null);
+      onWorldChange(result.world);
+    } catch (caught) {
+      setError((caught as Error).message);
+    }
+  }
+
+  return (
+    <MeasureView
+      briefing={briefing}
+      notice={assignment.measureNotice}
+      placeKey={assignment.scenarioKey}
+      worldSource="save"
+      message={message}
+      error={error}
+      onStep={takeStep}
+    />
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* The development route. Its own world, its own storage, its own switching.   */
+/* None of it is reachable from normal play.                                   */
+/* -------------------------------------------------------------------------- */
 
 const STORAGE_PREFIX = "political-game:legislation:";
 
@@ -25,15 +88,6 @@ function scenarioFromUrl(): string {
   return legislativeScenarioKeys().includes(value ?? "")
     ? (value as string)
     : "kentucky";
-}
-
-export interface LegislationWorkspaceProps {
-  /**
-   * Which legislature to open. The game passes the one the loaded world's
-   * character actually works for; opened on its own, it falls back to the
-   * address bar so the workspace stays reachable for development.
-   */
-  readonly placeKey?: string;
 }
 
 interface SessionState {
@@ -55,37 +109,25 @@ function startSession(scenarioKey: string): SessionState {
   return { scenario, world: scenario.world, source: "fresh" };
 }
 
-export function LegislationWorkspace({
-  placeKey,
-}: LegislationWorkspaceProps = {}) {
-  const opening = placeKey ?? scenarioFromUrl();
-  const [scenarioKey, setScenarioKey] = useState(opening);
+export function LegislationDevRoute() {
+  const [scenarioKey, setScenarioKey] = useState(scenarioFromUrl);
   const [session, setSession] = useState<SessionState>(() =>
-    startSession(opening),
+    startSession(scenarioFromUrl()),
   );
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [showRecord, setShowRecord] = useState(false);
 
   const briefing = useMemo(
     () => projectMeasureBriefing(session.world, session.scenario.measureId),
     [session],
   );
-  // Things you do, and things you can only wait on, are shown apart. A
-  // governor's decision is never offered as a choice you make.
-  const playerOptions = briefing.options.filter(
-    (option) => option.playerMayAct,
-  );
-  const waitingOptions = briefing.options.filter(
-    (option) => !option.playerMayAct,
-  );
 
-  function takeStep(stepKey: Parameters<typeof applyLegislativeStep>[2]) {
+  function takeStep(step: MeasureStepKey) {
     try {
       const result = applyLegislativeStep(
         session.scenario,
         session.world,
-        stepKey,
+        step,
       );
       setSession({ ...session, world: result.world });
       setMessage(result.message);
@@ -107,13 +149,84 @@ export function LegislationWorkspace({
   }
 
   return (
+    <MeasureView
+      briefing={briefing}
+      notice={session.scenario.measureNotice}
+      placeKey={scenarioKey}
+      worldSource={session.source}
+      message={message}
+      error={error}
+      onStep={takeStep}
+      developer={{
+        scenarioKey,
+        onSwitchPlace: switchPlace,
+        onSave: () => {
+          window.localStorage.setItem(
+            `${STORAGE_PREFIX}${scenarioKey}`,
+            serializeWorld(session.world),
+          );
+          setMessage("Saved. Reloading will pick the bill up where it is.");
+        },
+        onRestart: () => {
+          window.localStorage.removeItem(`${STORAGE_PREFIX}${scenarioKey}`);
+          setSession(startSession(scenarioKey));
+          setMessage("Started again from the day the bill was filed.");
+          setError(null);
+        },
+      }}
+    />
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+
+interface DeveloperControls {
+  readonly scenarioKey: string;
+  readonly onSwitchPlace: (key: string) => void;
+  readonly onSave: () => void;
+  readonly onRestart: () => void;
+}
+
+interface MeasureViewProps {
+  readonly briefing: MeasureBriefing;
+  readonly notice: string;
+  readonly placeKey: string;
+  readonly worldSource: string;
+  readonly message: string | null;
+  readonly error: string | null;
+  readonly onStep: (step: MeasureStepKey) => void;
+  readonly developer?: DeveloperControls;
+}
+
+function MeasureView({
+  briefing,
+  notice,
+  placeKey,
+  worldSource,
+  message,
+  error,
+  onStep,
+  developer,
+}: MeasureViewProps) {
+  const [showRecord, setShowRecord] = useState(false);
+
+  // Things you do, and things you can only wait on, are shown apart. A
+  // governor's decision is never offered as a choice you make.
+  const playerOptions = briefing.options.filter(
+    (option) => option.playerMayAct,
+  );
+  const waitingOptions = briefing.options.filter(
+    (option) => !option.playerMayAct,
+  );
+
+  return (
     <main
       className="legislation"
       data-testid="legislation-workspace"
-      data-place={scenarioKey}
+      data-place={placeKey}
       data-phase-note={briefing.whereItStands}
       data-finished={briefing.finished ? "true" : "false"}
-      data-world-source={session.source}
+      data-world-source={worldSource}
     >
       <header className="legislation-header">
         <div>
@@ -126,28 +239,30 @@ export function LegislationWorkspace({
             className="legislation-authored"
             data-testid="legislation-authored"
           >
-            {session.scenario.measureNotice}
+            {notice}
           </p>
           {briefing.sponsorName ? (
             <p className="legislation-sponsor">
-              Your bill. Sponsored by {briefing.sponsorName}.
+              Your office's bill. Sponsored by {briefing.sponsorName}.
             </p>
           ) : null}
         </div>
-        <div className="legislation-places">
-          <p>Where you are serving</p>
-          {legislativeScenarioKeys().map((key) => (
-            <button
-              key={key}
-              type="button"
-              className={key === scenarioKey ? "is-current" : ""}
-              data-testid={`legislation-place-${key}`}
-              onClick={() => switchPlace(key)}
-            >
-              {createLegislativeScenario(key).label}
-            </button>
-          ))}
-        </div>
+        {developer ? (
+          <div className="legislation-places">
+            <p>Development route — pick a legislature</p>
+            {legislativeScenarioKeys().map((key) => (
+              <button
+                key={key}
+                type="button"
+                className={key === developer.scenarioKey ? "is-current" : ""}
+                data-testid={`legislation-place-${key}`}
+                onClick={() => developer.onSwitchPlace(key)}
+              >
+                {createLegislativeScenario(key).label}
+              </button>
+            ))}
+          </div>
+        ) : null}
       </header>
 
       <section
@@ -212,7 +327,7 @@ export function LegislationWorkspace({
                 <button
                   type="button"
                   data-testid={`legislation-step-${option.actionKey}`}
-                  onClick={() => takeStep(option.actionKey)}
+                  onClick={() => onStep(option.actionKey)}
                 >
                   {option.label}
                 </button>
@@ -232,7 +347,7 @@ export function LegislationWorkspace({
                 <button
                   type="button"
                   data-testid={`legislation-step-${option.actionKey}`}
-                  onClick={() => takeStep(option.actionKey)}
+                  onClick={() => onStep(option.actionKey)}
                 >
                   {option.label}
                 </button>
@@ -284,40 +399,31 @@ export function LegislationWorkspace({
         </ol>
       </section>
 
-      <section className="legislation-saving">
-        <button
-          type="button"
-          data-testid="legislation-save"
-          onClick={() => {
-            window.localStorage.setItem(
-              `${STORAGE_PREFIX}${scenarioKey}`,
-              serializeWorld(session.world),
-            );
-            setMessage("Saved. Reloading will pick the bill up where it is.");
-          }}
-        >
-          Save
-        </button>
-        <button
-          type="button"
-          data-testid="legislation-reload"
-          onClick={() => window.location.reload()}
-        >
-          Reload
-        </button>
-        <button
-          type="button"
-          data-testid="legislation-restart"
-          onClick={() => {
-            window.localStorage.removeItem(`${STORAGE_PREFIX}${scenarioKey}`);
-            setSession(startSession(scenarioKey));
-            setMessage("Started again from the day the bill was filed.");
-            setError(null);
-          }}
-        >
-          Start over
-        </button>
-      </section>
+      {developer ? (
+        <section className="legislation-saving">
+          <button
+            type="button"
+            data-testid="legislation-save"
+            onClick={developer.onSave}
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            data-testid="legislation-reload"
+            onClick={() => window.location.reload()}
+          >
+            Reload
+          </button>
+          <button
+            type="button"
+            data-testid="legislation-restart"
+            onClick={developer.onRestart}
+          >
+            Start over
+          </button>
+        </section>
+      ) : null}
 
       {briefing.votes.length > 0 ? (
         <section className="legislation-record">

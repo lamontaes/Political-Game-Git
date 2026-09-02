@@ -1,4 +1,4 @@
-import { LegislationWorkspace } from "./player/LegislationWorkspace";
+import { LegislationDevRoute } from "./player/LegislationWorkspace";
 import { PlayerGame } from "./player/PlayerGame";
 import { PlayerOffice } from "./player/PlayerOffice";
 import { CharacterProofView } from "./ui/CharacterProofView";
@@ -14,7 +14,7 @@ export function App() {
   const view = new URLSearchParams(window.location.search).get("view");
   if (view === "developer") return <DeveloperViewer />;
   if (view === "character-proof") return <CharacterProofView />;
-  if (view === "legislation") return <LegislationWorkspace />;
+  if (view === "legislation") return <LegislationDevRoute />;
   if (view === "office-fixture") return <PlayerOffice />;
   return <PlayerGame />;
 }

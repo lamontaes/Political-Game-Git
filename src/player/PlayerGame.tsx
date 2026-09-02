@@ -45,6 +45,10 @@ import {
 } from "../presentation/session-seed";
 import { lifePlaceCoverage, lifePlaces } from "../simulation";
 import type { EntityId, World } from "../simulation";
+import {
+  openLegislativeWork,
+  type LegislativeAssignment,
+} from "../presentation/legislation-world";
 import { LegislationWorkspace } from "./LegislationWorkspace";
 import { PersonPortrait } from "./PersonPortrait";
 
@@ -667,7 +671,31 @@ function PlayingScreen({
     () => resolvePlayerCapabilities(session.world),
     [session.world],
   );
-  const [showLegislation, setShowLegislation] = useState(false);
+  const [assignment, setAssignment] = useState<LegislativeAssignment | null>(
+    null,
+  );
+
+  /**
+   * Opening the bill puts it in this world, and the world comes back changed.
+   * Doing it here rather than inside the workspace is the point: there is one
+   * world, this screen owns it, and the surface below is handed it.
+   */
+  function openTheBill() {
+    if (assignment) {
+      setAssignment(null);
+      return;
+    }
+    const scenarioKey = capabilities.legislativeScenarioKey;
+    const jurisdictionId = capabilities.legislativeJurisdictionId;
+    if (!scenarioKey || !jurisdictionId) return;
+    const opened = openLegislativeWork(session.world, {
+      scenarioKey,
+      playerPersonId: session.personId,
+      jurisdictionId,
+    });
+    setAssignment(opened.assignment);
+    if (opened.world !== session.world) onWorldChange(opened.world);
+  }
 
   return (
     <main className="game-play" data-testid="play-screen">
@@ -711,19 +739,21 @@ function PlayingScreen({
           <h2>The office</h2>
           <p>
             {capabilities.person.givenName} works for the{" "}
-            {capabilities.place?.displayName} legislature, so what is in front
-            of the chamber is in front of them too.
+            {capabilities.workPlace?.displayName} legislature, so what is in
+            front of the chamber is in front of them too.
           </p>
           <button
             type="button"
             data-testid="open-legislation"
-            onClick={() => setShowLegislation((open) => !open)}
+            onClick={openTheBill}
           >
-            {showLegislation ? "Close the bill" : "Look at what is moving"}
+            {assignment ? "Close the bill" : "Look at what is moving"}
           </button>
-          {showLegislation ? (
+          {assignment ? (
             <LegislationWorkspace
-              placeKey={capabilities.legislativeScenarioKey}
+              world={session.world}
+              assignment={assignment}
+              onWorldChange={onWorldChange}
             />
           ) : null}
         </section>
