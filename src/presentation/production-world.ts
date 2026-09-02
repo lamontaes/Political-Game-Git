@@ -53,6 +53,9 @@ export type ProductionStartingLife = "ordinary-life" | "legislative-office";
 /** How much of the life before play is written down rather than played. */
 export type ProductionDepth = "play-formative-years" | "summarize-earlier-life";
 
+/** Whether an adult's household has anybody else in it. Asked, never guessed. */
+export type ProductionHousehold = "lives-alone" | "shares-a-home";
+
 export interface ProductionWorldInput {
   /** The full world seed, already derived from the player's setup. */
   readonly seed: string;
@@ -62,6 +65,7 @@ export interface ProductionWorldInput {
   readonly familyName: string | null;
   readonly startingLife: ProductionStartingLife;
   readonly depth: ProductionDepth;
+  readonly household: ProductionHousehold;
 }
 
 export interface ProductionWorld {
@@ -115,7 +119,13 @@ export function buildProductionWorld(
   });
 
   world = recordCreation(world, player, place, input);
-  world = establishAgeEligibleState(world, player, place, input.depth);
+  world = establishAgeEligibleState(
+    world,
+    player,
+    place,
+    input.depth,
+    input.household,
+  );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
   }
@@ -193,6 +203,7 @@ function establishAgeEligibleState(
   player: Person,
   place: LifePlace,
   depth: ProductionDepth,
+  household: ProductionHousehold,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -254,6 +265,38 @@ function establishAgeEligibleState(
         provenance: PROVENANCE,
       },
     });
+
+    if (household === "shares-a-home") {
+      // Somebody the player said was there. Their name comes from the corpus
+      // and their age from the same adult range as anyone else's; the world is
+      // not claiming anything else about who they are to each other.
+      const otherKey = `${stableKey}:housemate`;
+      const otherName = drawCanonicalName(rng);
+      transitions.push(
+        {
+          kind: "context-person",
+          input: {
+            stableKey: otherKey,
+            ...otherName,
+            birthDate: yearsBefore(player.birthDate, rng.integer(-6, 7)),
+            homeJurisdictionId: jurisdictionId,
+          },
+        },
+        {
+          kind: "household-membership",
+          input: {
+            stableKey: `${stableKey}:membership:housemate`,
+            personId: characterHistoryContextPersonId(world, otherKey),
+            householdId,
+            startedAt: world.currentDate,
+            residenceRole: "primary",
+            kind: "resident:member",
+            provenance: PROVENANCE,
+          },
+        },
+      );
+    }
+
     return applyCharacterHistoryPlan(withEarlierLife, {
       stableKey,
       mode: "quick-generated",

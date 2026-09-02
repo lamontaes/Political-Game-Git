@@ -26,6 +26,7 @@ const BASE: Omit<NewGameSetup, "seed"> = {
   startAge: 10,
   depth: "play-formative-years",
   startingLife: "ordinary-life",
+  household: "shares-a-home",
   givenName: null,
   familyName: null,
 };
@@ -185,6 +186,7 @@ describe("The production world is not a renamed fixture", () => {
       const { world, playerPersonId } = start({
         startAge,
         startingLife: "ordinary-life",
+        household: "shares-a-home",
       });
       const player = world.people[playerPersonId]!;
       expect(ageOnDate(player.birthDate, world.currentDate)).toBe(startAge);
@@ -205,6 +207,7 @@ describe("The production world is not a renamed fixture", () => {
     const { world, playerPersonId } = start({
       startAge: 30,
       startingLife: "legislative-office",
+      household: "shares-a-home",
     });
     const work = activeWorkRelationshipsAt(world, playerPersonId);
     expect(work).toHaveLength(1);

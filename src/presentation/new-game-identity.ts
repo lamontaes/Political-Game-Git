@@ -22,7 +22,7 @@ import type { NewGameSetup } from "./new-game";
  * than a reproduction of somebody's game.
  */
 
-export const SETUP_ENCODING_VERSION = 1;
+export const SETUP_ENCODING_VERSION = 2;
 export const REPLAY_DESCRIPTOR_PARAMETER = "replay";
 
 /**
@@ -38,6 +38,7 @@ export function canonicalSetupEncoding(setup: NewGameSetup): string {
     startAge: setup.startAge,
     depth: setup.depth,
     startingLife: setup.startingLife,
+    household: setup.household,
     // Absent and blank are the same choice — "generate one" — and must encode
     // identically, or the same game would get two identities.
     givenName: setup.givenName?.trim() || null,
@@ -97,6 +98,8 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
       record.depth !== "summarize-earlier-life") ||
     (record.startingLife !== "ordinary-life" &&
       record.startingLife !== "legislative-office") ||
+    (record.household !== "lives-alone" &&
+      record.household !== "shares-a-home") ||
     (record.givenName !== null && typeof record.givenName !== "string") ||
     (record.familyName !== null && typeof record.familyName !== "string")
   ) {
@@ -108,6 +111,7 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     startAge: record.startAge as number,
     depth: record.depth,
     startingLife: record.startingLife,
+    household: record.household,
     givenName: record.givenName as string | null,
     familyName: record.familyName as string | null,
   };

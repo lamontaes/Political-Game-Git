@@ -260,6 +260,7 @@ describe("What a saved game is", () => {
       startAge: 30,
       depth: "summarize-earlier-life",
       startingLife: "ordinary-life",
+      household: "shares-a-home",
       seed: "place",
       givenName: null,
       familyName: null,

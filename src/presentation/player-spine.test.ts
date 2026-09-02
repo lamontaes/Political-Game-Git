@@ -51,6 +51,7 @@ function setup(overrides: Partial<NewGameSetup> = {}): NewGameSetup {
     startAge: 12,
     depth: "play-formative-years",
     startingLife: "ordinary-life",
+    household: "shares-a-home",
     seed: "spine-test",
     givenName: null,
     familyName: null,
@@ -222,6 +223,7 @@ describe("Where the game will let a life begin", () => {
           startAge: 40,
           depth: "summarize-earlier-life",
           startingLife: "legislative-office",
+          household: "shares-a-home",
           seed: "no-borrowed-rules",
         }),
       ),
@@ -314,6 +316,7 @@ describe("What the player is allowed to reach", () => {
         startAge: 44,
         depth: "summarize-earlier-life",
         startingLife: "legislative-office",
+        household: "shares-a-home",
       }),
     );
     const capabilities = resolvePlayerCapabilities(game.world);

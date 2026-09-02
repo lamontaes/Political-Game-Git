@@ -28,6 +28,7 @@ function child(startAge: number, seed = "formative") {
     startAge,
     depth: "play-formative-years",
     startingLife: "ordinary-life",
+    household: "shares-a-home",
     seed,
     givenName: null,
     familyName: null,

@@ -25,11 +25,22 @@ export type NewGameDepth = "play-formative-years" | "summarize-earlier-life";
  */
 export type NewGameStartingLife = "ordinary-life" | "legislative-office";
 
+/**
+ * Whether anybody else is at home.
+ *
+ * The world has no way to know this and must not guess. Left to itself it
+ * either invents a housemate nobody chose, or — as it did — reaches for the
+ * nearest other person in the world and puts a parent the character moved away
+ * from decades ago in the next room. So it is asked, once, and answered.
+ */
+export type NewGameHousehold = "lives-alone" | "shares-a-home";
+
 export interface NewGameSetup {
   readonly placeKey: string;
   readonly startAge: number;
   readonly depth: NewGameDepth;
   readonly startingLife: NewGameStartingLife;
+  readonly household: NewGameHousehold;
   readonly seed: string;
   /** Blank means "generate one" rather than "leave it empty". */
   readonly givenName: string | null;
@@ -53,6 +64,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   startAge: 10,
   depth: "play-formative-years",
   startingLife: "ordinary-life",
+  household: "shares-a-home",
   givenName: null,
   familyName: null,
 };
@@ -124,6 +136,7 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     givenName: setup.givenName,
     familyName: setup.familyName,
     startingLife: setup.startingLife,
+    household: setup.household,
     depth: setup.depth,
   });
   return {

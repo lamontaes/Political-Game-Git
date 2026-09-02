@@ -31,6 +31,7 @@ const BASE: Omit<NewGameSetup, "seed"> = {
   startAge: 30,
   depth: "summarize-earlier-life",
   startingLife: "legislative-office",
+  household: "shares-a-home",
   givenName: null,
   familyName: null,
 };

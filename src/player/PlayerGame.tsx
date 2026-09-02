@@ -596,6 +596,45 @@ function SetupScreen({
         </div>
       </section>
 
+      <section>
+        <h2>Who else is at home</h2>
+        <div className="game-choices" data-testid="household-choices">
+          <button
+            type="button"
+            data-testid="lives-alone"
+            className={
+              setup.household === "lives-alone" ? "is-chosen" : undefined
+            }
+            onClick={() =>
+              setSetup((current) => ({ ...current, household: "lives-alone" }))
+            }
+          >
+            Nobody
+            <small>The character lives on their own.</small>
+          </button>
+          <button
+            type="button"
+            data-testid="shares-a-home"
+            className={
+              setup.household === "shares-a-home" ? "is-chosen" : undefined
+            }
+            onClick={() =>
+              setSetup((current) => ({
+                ...current,
+                household: "shares-a-home",
+              }))
+            }
+          >
+            Somebody else
+            <small>One other adult shares the household.</small>
+          </button>
+        </div>
+        <p className="game-note">
+          The game has no way to know this, so it asks rather than deciding. It
+          matters because a week has to be carried by somebody.
+        </p>
+      </section>
+
       {problems.length > 0 ? (
         <p className="game-problem" data-testid="setup-problem">
           {problems[0]!.message}

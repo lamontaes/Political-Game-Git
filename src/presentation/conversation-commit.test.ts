@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { deserializeWorld, serializeWorld } from "../simulation";
+import {
+  deserializeWorld,
+  householdMembershipsAt,
+  serializeWorld,
+} from "../simulation";
 import type { World } from "../simulation";
 import {
   conversationProgressFromHistory,
@@ -11,6 +15,7 @@ import {
   conversationCommitContract,
   conversationSubjectKeys,
   selectAuthoredVariant,
+  shortPersonName,
 } from "./conversation-subjects";
 import { createNewGameWorld } from "./new-game";
 import { householdConversationRoom, openOrdinaryLife } from "./ordinary-life";
@@ -42,6 +47,7 @@ function household(seed: string) {
     startAge: 34,
     depth: "summarize-earlier-life",
     startingLife: "ordinary-life",
+    household: "shares-a-home",
     seed,
     givenName: null,
     familyName: null,
@@ -218,5 +224,63 @@ describe("Saying the same thing more than one way", () => {
     expect(() => selectAuthoredVariant(world, "empty", [])).toThrow(
       /cannot be empty/i,
     );
+  });
+});
+
+describe("Who is actually in the next room", () => {
+  it("talks to somebody the character lives with, not the nearest person", () => {
+    const { world, personId, room } = household("co-resident");
+    const other = room.eligibleAddresseePersonIds[0]!;
+
+    const cutoff = {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    };
+    const mine = new Set(
+      householdMembershipsAt(world, personId, cutoff).map(
+        (entry) => entry.membership.householdId,
+      ),
+    );
+    const theirs = householdMembershipsAt(world, other, cutoff).map(
+      (entry) => entry.membership.householdId,
+    );
+    // A forty-one-year-old was holding a conversation "at home" with the
+    // parent from their own summarized childhood, a household they had
+    // already moved out of.
+    expect(theirs.some((id) => mine.has(id))).toBe(true);
+  });
+
+  it("does not offer a household conversation to somebody who lives alone", () => {
+    const game = createNewGameWorld({
+      placeKey: "kentucky",
+      startAge: 34,
+      depth: "summarize-earlier-life",
+      startingLife: "ordinary-life",
+      household: "lives-alone",
+      seed: "alone",
+      givenName: null,
+      familyName: null,
+    });
+    const world = openOrdinaryLife(game.world, game.playerPersonId);
+    // Nobody to talk to is the honest answer, and better than putting somebody
+    // who moved out decades ago in the next room.
+    expect(householdConversationRoom(world, game.playerPersonId)).toBeNull();
+  });
+
+  it("does not make the player address somebody by their own surname", () => {
+    const { world, room } = household("naming");
+    const other = room.eligibleAddresseePersonIds[0]!;
+    const player =
+      world.people[
+        world.control.kind === "person" ? world.control.personId : ""
+      ]!;
+    const shortName = shortPersonName(world, other);
+
+    if (world.people[other]!.familyName === player.familyName) {
+      // Sharing a surname is normal in a household; being called by it is how
+      // the player ended up appearing to talk to themselves.
+      expect(shortName).toBe(world.people[other]!.givenName);
+      expect(shortName).not.toBe(player.familyName);
+    }
   });
 });

@@ -24,6 +24,7 @@ const BASE: Omit<NewGameSetup, "seed"> = {
   startAge: 30,
   depth: "summarize-earlier-life",
   startingLife: "legislative-office",
+  household: "shares-a-home",
   givenName: null,
   familyName: null,
 };
@@ -101,6 +102,7 @@ describe("What a life is allowed to reach", () => {
     const { world } = start({
       startAge: 9,
       startingLife: "ordinary-life",
+      household: "shares-a-home",
       depth: "play-formative-years",
     });
     const capabilities = resolvePlayerCapabilities(world);

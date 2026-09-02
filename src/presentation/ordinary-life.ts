@@ -1,4 +1,6 @@
 import {
+  currentLifeCutoff,
+  householdMembershipsAt,
   advanceWorld,
   ageOnDate,
   createScheduledActivity,
@@ -11,6 +13,7 @@ import {
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import type { ConversationRoomContext } from "./run-b-conversation";
+import { shortPersonName } from "./conversation-subjects";
 
 /**
  * A day in an ordinary life.
@@ -163,8 +166,10 @@ export function projectOrdinaryDay(
   if (!person) throw new Error("This character is not in the world.");
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
   const placeName = place?.displayName ?? null;
-  const companionPersonId =
-    world.personOrder.find((candidate) => candidate !== personId) ?? null;
+  // The same person the conversation below is with. The day used to name the
+  // first other person in the world while the room named an actual housemate,
+  // so one screen introduced two strangers as though they were one.
+  const companionPersonId = currentHouseholdCompanion(world, personId);
   const companion = companionPersonId
     ? world.people[companionPersonId]
     : undefined;
@@ -182,7 +187,14 @@ export function projectOrdinaryDay(
     placeName,
     dateLabel: longDate(world.currentDate),
     timeLabel: clockTime(world.currentMoment.minuteOfDay),
-    opening: openingLine(placeName, pending.length, companion?.givenName),
+    // The same name the conversation below uses. Calling one person "Emmanuel"
+    // on one line and "Day" on the next leaves a player unable to tell they
+    // are the same person.
+    opening: openingLine(
+      placeName,
+      pending.length,
+      companion ? shortPersonName(world, companion.id) : undefined,
+    ),
     pending,
     companionPersonId,
     companionName: companion ? personName(companion) : null,
@@ -247,8 +259,11 @@ export function householdConversationRoom(
 ): ConversationRoomContext | null {
   const person = world.people[personId];
   if (!person) return null;
-  const companionId =
-    world.personOrder.find((candidate) => candidate !== personId) ?? null;
+  // Somebody the character actually lives with, not merely the first other
+  // person in the world. A forty-one-year-old was holding a conversation "at
+  // home" with the parent from their own summarized childhood — a household
+  // they had already moved out of.
+  const companionId = currentHouseholdCompanion(world, personId);
   if (companionId === null) return null;
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
   const jurisdictionId =
@@ -270,4 +285,35 @@ export function householdConversationRoom(
     privateAvailable: true,
     privateUnavailableReason: null,
   };
+}
+
+/**
+ * Another member of the household this person is currently in.
+ *
+ * Membership is read from the world rather than assumed, so a household with
+ * nobody else in it has no household conversation — which is the truthful
+ * outcome, and better than putting somebody who moved out decades ago in the
+ * next room.
+ */
+function currentHouseholdCompanion(
+  world: World,
+  personId: EntityId,
+): EntityId | null {
+  const cutoff = currentLifeCutoff(world);
+  const mine = householdMembershipsAt(world, personId, cutoff);
+  const householdIds = new Set(
+    mine.map((entry) => entry.membership.householdId),
+  );
+  if (householdIds.size === 0) return null;
+
+  for (const candidateId of world.personOrder) {
+    if (candidateId === personId) continue;
+    const theirs = householdMembershipsAt(world, candidateId, cutoff);
+    if (
+      theirs.some((entry) => householdIds.has(entry.membership.householdId))
+    ) {
+      return candidateId;
+    }
+  }
+  return null;
 }

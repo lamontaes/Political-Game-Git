@@ -76,9 +76,29 @@ export interface ConversationSubjectPresentation<
   ): ConversationDialogueBeat;
 }
 
+/**
+ * What to call somebody in the middle of a sentence.
+ *
+ * A surname, normally — except when it is the player's own surname too, which
+ * is exactly what happens in a household, where people usually share one. A
+ * forty-one-year-old was reading "Goodwin has the same week you do" about a
+ * relative, in a game where the player is also called Goodwin: it reads as
+ * talking to yourself. Where the surname is shared, the given name is the one
+ * that actually distinguishes them.
+ */
 export function shortPersonName(world: World, personId: EntityId): string {
   const person = world.people[personId];
   if (!person) throw new Error("This person is not in the conversation.");
+  if (world.control.kind === "person") {
+    const player = world.people[world.control.personId];
+    if (
+      player &&
+      player.id !== person.id &&
+      player.familyName === person.familyName
+    ) {
+      return person.givenName;
+    }
+  }
   return person.familyName;
 }
 
