@@ -113,7 +113,7 @@ export function validateCorpus(): void {
   copyForHash.manifest.compiledSha256 = "";
   const expectedHash = crypto
     .createHash("sha256")
-    .update(JSON.stringify(copyForHash, null, 2), "utf-8")
+    .update(JSON.stringify(copyForHash, null, 2) + "\n", "utf-8")
     .digest("hex");
 
   if (compiledSha256 !== expectedHash) {

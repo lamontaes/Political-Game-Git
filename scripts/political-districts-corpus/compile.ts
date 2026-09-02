@@ -212,8 +212,8 @@ export function compileCorpus(): PoliticalDistrictCorpusData {
     records: allRecords,
   };
 
-  // Compute deterministic payload SHA256 (canonical JSON format)
-  const canonicalJson = JSON.stringify(payloadSansHash, null, 2);
+  // Compute deterministic payload SHA256 (canonical JSON format with trailing newline)
+  const canonicalJson = JSON.stringify(payloadSansHash, null, 2) + "\n";
   const compiledSha256 = crypto
     .createHash("sha256")
     .update(canonicalJson, "utf-8")
@@ -221,7 +221,7 @@ export function compileCorpus(): PoliticalDistrictCorpusData {
 
   payloadSansHash.manifest.compiledSha256 = compiledSha256;
 
-  const finalOutputJson = JSON.stringify(payloadSansHash, null, 2);
+  const finalOutputJson = JSON.stringify(payloadSansHash, null, 2) + "\n";
 
   fs.writeFileSync(COMPILED_PATH, finalOutputJson, "utf-8");
   console.log(

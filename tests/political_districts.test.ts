@@ -214,7 +214,7 @@ describe("Official Census Political Districts Corpus", () => {
   it("7. verifies deterministic recompilation yields byte-identical JSON and SHA-256", () => {
     const freshCompiled = compileCorpus();
     const diskRaw = fs.readFileSync(COMPILED_PATH, "utf-8");
-    const freshRaw = JSON.stringify(freshCompiled, null, 2);
+    const freshRaw = JSON.stringify(freshCompiled, null, 2) + "\n";
 
     expect(freshRaw).toBe(diskRaw);
 

@@ -3,7 +3,7 @@
     "datasetName": "Official U.S. Census Bureau Political Districts Geography Corpus",
     "vintage": "2025 Census Gazetteer / 119th Congress",
     "generatedAt": "2026-09-02T20:33:00Z",
-    "compiledSha256": "8c0ba1656809a3cbad4c6368d8e84fb183fb20a066411b82c2eee3cceb6ef5d0",
+    "compiledSha256": "8770abad69edcd0386f9d3602a9bd83f20f2ff1fbc23782249b75588a4521496",
     "totalRecordCount": 7283,
     "recordCountsByType": {
       "cd": 440,
