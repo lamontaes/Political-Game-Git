@@ -1,0 +1,52 @@
+{
+  "corpusName": "BEA Regional Economic Context Corpus Sidecar",
+  "corpusVersion": "2026.1",
+  "compiledAtIso": "2026-09-02T21:47:05.915Z",
+  "compilerVersion": "1.0.0",
+  "sourceArtifacts": [
+    {
+      "artifactId": "bea_sainc1_state_personal_income_2022",
+      "sourceUrlOrApiTable": "https://apps.bea.gov/api/data?DatasetName=Regional&TableName=SAINC1",
+      "retrievalDateIso": "2026-09-02T12:00:00.000Z",
+      "sha256Hex": "76eb4f9cd05d62ac64b55a64be4c1d3136824065f30cd56a1aa52b314123b4fb",
+      "description": "BEA State Personal Income and Per Capita Personal Income (Table SAINC1, 2022)",
+      "recordCount": 4
+    },
+    {
+      "artifactId": "bea_cagdp2_county_gdp_2022",
+      "sourceUrlOrApiTable": "https://apps.bea.gov/api/data?DatasetName=Regional&TableName=CAGDP2",
+      "retrievalDateIso": "2026-09-02T12:00:00.000Z",
+      "sha256Hex": "0a3168e827b702fe1eb4edfab1ee316eb4f56b43f33a0de899f4ca09fd63abaf",
+      "description": "BEA County Real and Nominal Gross Domestic Product (Table CAGDP2, Travis County, 2022)",
+      "recordCount": 1
+    },
+    {
+      "artifactId": "bea_marpp_msa_rpp_2022",
+      "sourceUrlOrApiTable": "https://apps.bea.gov/api/data?DatasetName=Regional&TableName=MARPP",
+      "retrievalDateIso": "2026-09-02T12:00:00.000Z",
+      "sha256Hex": "947417253641e9ea2b3bfe35c20d0d226cf9dffd8b83dbb9fdb954f4d68c7186",
+      "description": "BEA Regional Price Parities by MSA (Table MARPP, Austin MSA, 2022)",
+      "recordCount": 1
+    }
+  ],
+  "totalObservations": 6,
+  "coverageByGeoLevel": {
+    "state": 3,
+    "county": 2,
+    "msa": 0,
+    "national": 1
+  },
+  "coverageByIndicator": {
+    "personal_income": 2,
+    "per_capita_personal_income": 1,
+    "gdp_nominal": 1,
+    "gdp_real": 0,
+    "population": 1,
+    "regional_price_parity": 1
+  },
+  "yearRange": {
+    "startYear": 2022,
+    "endYear": 2022
+  },
+  "checksumSha256Hex": "c606d0a5bb77b83a1d294c31c4a52a86d62b7ac76b5b04de0bb55da9879e0e48"
+}

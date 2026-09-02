@@ -1,0 +1,122 @@
+[
+  {
+    "id": "bea_obs_00000_SAINC1_10_2022",
+    "geoid": "00000",
+    "geoName": "United States",
+    "geoLevel": "national",
+    "year": 2022,
+    "indicatorCategory": "personal_income",
+    "tableId": "SAINC1",
+    "lineCode": "10",
+    "lineDescription": "Personal income (thousands of dollars)",
+    "value": 21820247000,
+    "isSuppressedOrMissing": false,
+    "unit": {
+      "unitName": "Thousands of Dollars",
+      "scaleFactor": 1000,
+      "currencyCode": "USD",
+      "valuationKind": "nominal"
+    },
+    "vintage": "2026-09-02"
+  },
+  {
+    "id": "bea_obs_12420_MARPP_1_2022",
+    "geoid": "12420",
+    "geoName": "Austin-Round Rock-Georgetown, TX (MSA)",
+    "geoLevel": "county",
+    "stateUsps": "TX (MSA)",
+    "year": 2022,
+    "indicatorCategory": "regional_price_parity",
+    "tableId": "MARPP",
+    "lineCode": "1",
+    "lineDescription": "Regional Price Parities (RPPs): All items",
+    "value": 102.4,
+    "isSuppressedOrMissing": false,
+    "unit": {
+      "unitName": "Index (100 = U.S.)",
+      "scaleFactor": 1,
+      "valuationKind": "index"
+    },
+    "vintage": "2026-09-02"
+  },
+  {
+    "id": "bea_obs_48000_SAINC1_10_2022",
+    "geoid": "48000",
+    "geoName": "Texas",
+    "geoLevel": "state",
+    "year": 2022,
+    "indicatorCategory": "personal_income",
+    "tableId": "SAINC1",
+    "lineCode": "10",
+    "lineDescription": "Personal income (thousands of dollars)",
+    "value": 1802345000,
+    "isSuppressedOrMissing": false,
+    "unit": {
+      "unitName": "Thousands of Dollars",
+      "scaleFactor": 1000,
+      "currencyCode": "USD",
+      "valuationKind": "nominal"
+    },
+    "vintage": "2026-09-02"
+  },
+  {
+    "id": "bea_obs_48000_SAINC1_20_2022",
+    "geoid": "48000",
+    "geoName": "Texas",
+    "geoLevel": "state",
+    "year": 2022,
+    "indicatorCategory": "population",
+    "tableId": "SAINC1",
+    "lineCode": "20",
+    "lineDescription": "Population (persons)",
+    "value": 30029848,
+    "isSuppressedOrMissing": false,
+    "unit": {
+      "unitName": "Persons",
+      "scaleFactor": 1,
+      "valuationKind": "headcount"
+    },
+    "vintage": "2026-09-02"
+  },
+  {
+    "id": "bea_obs_48000_SAINC1_30_2022",
+    "geoid": "48000",
+    "geoName": "Texas",
+    "geoLevel": "state",
+    "year": 2022,
+    "indicatorCategory": "per_capita_personal_income",
+    "tableId": "SAINC1",
+    "lineCode": "30",
+    "lineDescription": "Per capita personal income (dollars)",
+    "value": 60018,
+    "isSuppressedOrMissing": false,
+    "unit": {
+      "unitName": "Dollars",
+      "scaleFactor": 1,
+      "currencyCode": "USD",
+      "valuationKind": "nominal"
+    },
+    "vintage": "2026-09-02"
+  },
+  {
+    "id": "bea_obs_48453_CAGDP2_1_2022",
+    "geoid": "48453",
+    "geoName": "Travis, TX",
+    "geoLevel": "county",
+    "stateUsps": "TX",
+    "year": 2022,
+    "indicatorCategory": "gdp_nominal",
+    "tableId": "CAGDP2",
+    "lineCode": "1",
+    "lineDescription": "All industry total nominal GDP (thousands of dollars)",
+    "value": 115400000,
+    "isSuppressedOrMissing": false,
+    "unit": {
+      "unitName": "Thousands of Dollars",
+      "scaleFactor": 1000,
+      "currencyCode": "USD",
+      "valuationKind": "nominal"
+    },
+    "vintage": "2026-09-02"
+  }
+]
