@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
-  BrowserWorldRepository,
-  SerializedAutosaveCoordinator,
+  BrowserSaveStore,
   type BrowserWorldSummary,
+  type QuarantinedSave,
 } from "../presentation/browser-world-repository";
 import {
   chooseFormativeOption,
@@ -39,10 +39,13 @@ import {
 } from "../presentation/run-b-conversation-progress";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import {
-  REPLAY_SEED_PARAMETER,
   readReplaySeed,
   resolveSessionSeed,
 } from "../presentation/session-seed";
+import {
+  readReplaySetup,
+  replayDescriptorUrl,
+} from "../presentation/new-game-identity";
 import { lifePlaceCoverage, lifePlaces } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import {
@@ -71,20 +74,18 @@ interface Session {
   readonly personId: EntityId;
   /** Only set for a world that has never been saved. */
   readonly unsavedSeed: string | null;
+  /** The slot this life is kept in. A world can be kept in more than one. */
+  readonly saveId: EntityId | null;
 }
 
 export function PlayerGame() {
-  const repository = useMemo(() => {
+  const store = useMemo(() => {
     try {
-      return new BrowserWorldRepository();
+      return new BrowserSaveStore();
     } catch {
       return null;
     }
   }, []);
-  const autosave = useMemo(
-    () => (repository ? new SerializedAutosaveCoordinator(repository) : null),
-    [repository],
-  );
   // A replay seed is honoured for the whole session; otherwise every trip to
   // the setup screen draws a new one, so starting a second life does not
   // quietly rebuild the first.
@@ -93,58 +94,107 @@ export function PlayerGame() {
     resolveSessionSeed(window.location.search, window.crypto),
   );
 
+  // A replay address rebuilds the exact world it came from, rather than
+  // dropping the player on the title screen with a seed and a guess.
+  const replaySetup = useMemo(
+    () => readReplaySetup(window.location.search),
+    [],
+  );
   const [screen, setScreen] = useState<Screen>({ kind: "title" });
   const [session, setSession] = useState<Session | null>(null);
   const [saves, setSaves] = useState<readonly BrowserWorldSummary[]>([]);
   const [notice, setNotice] = useState<string | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
-  const [savesUnavailable, setSavesUnavailable] = useState(repository === null);
-  const lastSavedSequence = useRef<number | null>(null);
+  const [damaged, setDamaged] = useState<readonly QuarantinedSave[]>([]);
+  const [savesUnavailable, setSavesUnavailable] = useState(store === null);
+  const writing = useRef(false);
 
   const refreshSaves = useCallback(async () => {
-    if (!repository) return;
+    if (!store) return;
     try {
-      setSaves(await repository.list());
+      const listing = await store.list();
+      setSaves(listing.saves);
+      setDamaged(listing.damaged);
       setSavesUnavailable(false);
     } catch {
       setSavesUnavailable(true);
     }
-  }, [repository]);
+  }, [store]);
 
   useEffect(() => {
     void refreshSaves();
   }, [refreshSaves]);
 
-  // Autosave follows the world, never the other way round: a world is written
-  // only after it has already changed here.
+  const replayStarted = useRef(false);
   useEffect(() => {
-    if (!session || !autosave) return;
-    if (lastSavedSequence.current === null) return;
-    if (lastSavedSequence.current === session.world.actionSequence) return;
-    lastSavedSequence.current = session.world.actionSequence;
-    void autosave
-      .save(session.world)
-      .then(() => refreshSaves())
-      .catch(() => setProblem("This game could not be saved just now."));
-  }, [session, autosave, refreshSaves]);
+    if (replaySetup === null || replayStarted.current) return;
+    replayStarted.current = true;
+    try {
+      const game = createNewGameWorld(replaySetup);
+      startPlaying(game.world, game.playerPersonId, replaySetup.seed, null);
+    } catch (error) {
+      setProblem(
+        error instanceof Error
+          ? error.message
+          : "That replay address could not be rebuilt.",
+      );
+    }
+    // Runs once: startPlaying only sets state, and the guard above stops a
+    // re-render from starting the same replay twice.
+  }, [replaySetup]);
 
-  function startPlaying(world: World, personId: EntityId, seed: string | null) {
-    lastSavedSequence.current = seed === null ? world.actionSequence : null;
+  // Autosave follows the world, never the other way round: a world is written
+  // only after it has already changed here. What counts as already written is
+  // the store's acknowledgement, not a hope recorded before the write — a
+  // failed save used to move that marker anyway, so the retry never came.
+  useEffect(() => {
+    if (!session || !store || session.saveId === null) return;
+    const saveId = session.saveId;
+    if (store.acknowledgedSequence(saveId) === session.world.actionSequence) {
+      return;
+    }
+    if (writing.current) return;
+    writing.current = true;
+    void store
+      .save(session.world, saveId)
+      .then((outcome) => {
+        if (outcome.status === "saved") setProblem(null);
+        return refreshSaves();
+      })
+      .catch(() => setProblem("This game could not be saved just now."))
+      .finally(() => {
+        writing.current = false;
+      });
+  }, [session, store, refreshSaves]);
+
+  function startPlaying(
+    world: World,
+    personId: EntityId,
+    seed: string | null,
+    saveId: EntityId | null,
+  ) {
     setSession({
       world: openOrdinaryLife(world, personId),
       personId,
       unsavedSeed: seed,
+      saveId,
     });
     setScreen({ kind: "playing" });
     setProblem(null);
   }
 
   async function keepThisWorld() {
-    if (!session || !repository) return;
+    if (!session || !store) return;
+    // A slot of its own, so keeping this life never lands on top of another
+    // save of the same world.
+    const saveId = session.saveId ?? store.newSaveId(session.world);
     try {
-      await repository.save(session.world);
-      lastSavedSequence.current = session.world.actionSequence;
-      setSession({ ...session, unsavedSeed: null });
+      const outcome = await store.save(session.world, saveId);
+      if (outcome.status !== "saved") {
+        setProblem("This game could not be saved just now.");
+        return;
+      }
+      setSession({ ...session, unsavedSeed: null, saveId });
       setNotice("Saved.");
       await refreshSaves();
     } catch {
@@ -153,9 +203,9 @@ export function PlayerGame() {
   }
 
   async function continueMostRecent() {
-    if (!repository) return;
+    if (!store) return;
     try {
-      const recent = await repository.mostRecent();
+      const recent = await store.mostRecent();
       if (!recent) {
         setProblem("There is nothing to continue yet.");
         return;
@@ -167,14 +217,14 @@ export function PlayerGame() {
   }
 
   async function loadSave(saveId: EntityId) {
-    if (!repository) return;
+    if (!store) return;
     try {
-      const world = await repository.load(saveId);
+      const world = await store.load(saveId);
       if (!world || world.control.kind !== "person") {
         setProblem("That saved game could not be opened.");
         return;
       }
-      startPlaying(world, world.control.personId, null);
+      startPlaying(world, world.control.personId, null, saveId);
       setNotice(null);
     } catch {
       setProblem("That saved game could not be opened.");
@@ -182,10 +232,28 @@ export function PlayerGame() {
   }
 
   async function deleteSave(saveId: EntityId) {
-    if (!repository) return;
-    await repository.remove(saveId);
+    if (!store) return;
+    await store.remove(saveId);
+    if (session?.saveId === saveId) {
+      // The life on screen no longer has a slot. Nothing further is written to
+      // it, rather than quietly bringing the deleted save back.
+      setSession({
+        ...session,
+        saveId: null,
+        unsavedSeed: session.unsavedSeed,
+      });
+    }
     await refreshSaves();
     setNotice("Deleted.");
+  }
+
+  /** Leaving waits for whatever is still being written before it lets go. */
+  async function leaveGame() {
+    if (store) await store.flush();
+    setSession(null);
+    setScreen({ kind: "title" });
+    setNotice(null);
+    await refreshSaves();
   }
 
   if (screen.kind === "title") {
@@ -216,7 +284,7 @@ export function PlayerGame() {
         onBegin={(setup) => {
           try {
             const game = createNewGameWorld(setup);
-            startPlaying(game.world, game.playerPersonId, setup.seed);
+            startPlaying(game.world, game.playerPersonId, setup.seed, null);
           } catch (error) {
             setProblem(
               error instanceof Error
@@ -234,6 +302,7 @@ export function PlayerGame() {
     return (
       <SavesScreen
         saves={saves}
+        damaged={damaged}
         savesUnavailable={savesUnavailable}
         notice={notice}
         onBack={() => setScreen({ kind: "title" })}
@@ -257,11 +326,7 @@ export function PlayerGame() {
         setSession((current) => (current ? { ...current, world } : current))
       }
       onKeep={() => void keepThisWorld()}
-      onLeave={() => {
-        setSession(null);
-        setNotice(null);
-        setScreen({ kind: "title" });
-      }}
+      onLeave={() => void leaveGame()}
       savesUnavailable={savesUnavailable}
     />
   );
@@ -559,11 +624,14 @@ function SetupScreen({
           {seedOrigin === "replay"
             ? ", which was supplied to reproduce an earlier one."
             : ", drawn fresh for this session."}{" "}
-          Add{" "}
-          <code>
-            ?{REPLAY_SEED_PARAMETER}={seed}
-          </code>{" "}
-          to the address to make the same one again.
+          The seed on its own is not enough to rebuild it: the place, the age,
+          how much of the earlier life is played and any names you typed all
+          change what gets built. This address carries all of them.
+        </p>
+        <p>
+          <code data-testid="setup-replay-link">
+            {replayDescriptorUrl("", "/", setup)}
+          </code>
         </p>
       </details>
     </main>
@@ -574,6 +642,7 @@ function SetupScreen({
 
 function SavesScreen({
   saves,
+  damaged,
   savesUnavailable,
   notice,
   onBack,
@@ -581,6 +650,7 @@ function SavesScreen({
   onDelete,
 }: {
   readonly saves: readonly BrowserWorldSummary[];
+  readonly damaged: readonly QuarantinedSave[];
   readonly savesUnavailable: boolean;
   readonly notice: string | null;
   readonly onBack: () => void;
@@ -641,6 +711,42 @@ function SavesScreen({
           </li>
         ))}
       </ul>
+
+      {damaged.length > 0 ? (
+        <section className="game-saves-damaged" data-testid="damaged-saves">
+          <h2>Set aside</h2>
+          <p className="game-note">
+            These could not be opened. They are still here — nothing was thrown
+            away — and the rest of your games are unaffected.
+          </p>
+          <ul>
+            {damaged.map((entry, index) => (
+              <li
+                key={entry.saveId ?? `damaged-${index}`}
+                data-testid="damaged-entry"
+              >
+                <span>{entry.reason}</span>
+                {entry.mightBeReadableLater ? (
+                  <span className="game-note">
+                    A later version of the game may be able to open it, so it is
+                    worth keeping for now.
+                  </span>
+                ) : null}
+                {entry.saveId ? (
+                  <button
+                    type="button"
+                    data-testid="delete-damaged"
+                    onClick={() => onDelete(entry.saveId as EntityId)}
+                  >
+                    Remove it
+                  </button>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       <button type="button" onClick={onBack}>
         Back
       </button>

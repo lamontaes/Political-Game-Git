@@ -132,3 +132,18 @@ function base64UrlDecode(value: string): string {
   }
   return new TextDecoder().decode(bytes);
 }
+
+/** The setup a replay link is asking for, if the address carries a readable one. */
+export function readReplaySetup(search: string): NewGameSetup | null {
+  const value = new URLSearchParams(search).get(REPLAY_DESCRIPTOR_PARAMETER);
+  return value === null ? null : decodeReplayDescriptor(value);
+}
+
+/** The address that rebuilds this exact world, setup and all. */
+export function replayDescriptorUrl(
+  origin: string,
+  pathname: string,
+  setup: NewGameSetup,
+): string {
+  return `${origin}${pathname}?${REPLAY_DESCRIPTOR_PARAMETER}=${encodeReplayDescriptor(setup)}`;
+}

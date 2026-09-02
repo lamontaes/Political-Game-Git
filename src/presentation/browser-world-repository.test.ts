@@ -8,13 +8,23 @@ import {
 import type { EntityId, World } from "../simulation";
 import {
   BROWSER_WORLD_RECORD_KIND,
-  BrowserWorldRepository,
-  SerializedAutosaveCoordinator,
+  BrowserSaveStore,
   createBrowserWorldRecord,
+  readStoredRecord,
   validateBrowserWorldRecord,
 } from "./browser-world-repository";
 import { createNewGameWorld } from "./new-game";
 
+/**
+ * A fake IndexedDB that can be made slow or made to fail.
+ *
+ * The interesting persistence bugs are all about ordering: a delete landing
+ * between an autosave being asked for and being written, a load's metadata
+ * update landing on top of a newer save, a failed write being treated as
+ * durable. None of them reproduce against storage that always succeeds
+ * instantly, which is why the audit found them by reading rather than by
+ * running the suite.
+ */
 class FakeTransaction {
   error: DOMException | null = null;
   oncomplete: (() => void) | null = null;
@@ -22,24 +32,26 @@ class FakeTransaction {
   onabort: (() => void) | null = null;
 
   readonly #records: Map<string, unknown>;
+  readonly #control: FakeStorageControl;
 
-  constructor(records: Map<string, unknown>) {
+  constructor(records: Map<string, unknown>, control: FakeStorageControl) {
     this.#records = records;
+    this.#control = control;
   }
 
   objectStore(): IDBObjectStore {
     const store = {
       get: (key: IDBValidKey) =>
-        this.#request(() => {
+        this.#request("get", () => {
           const value = this.#records.get(String(key));
           return value === undefined ? undefined : structuredClone(value);
         }),
       getAll: () =>
-        this.#request(() =>
+        this.#request("getAll", () =>
           [...this.#records.values()].map((value) => structuredClone(value)),
         ),
       put: (value: unknown) =>
-        this.#request(() => {
+        this.#request("put", () => {
           if (
             value === null ||
             typeof value !== "object" ||
@@ -52,7 +64,7 @@ class FakeTransaction {
           return value.saveId;
         }),
       delete: (key: IDBValidKey) =>
-        this.#request(() => {
+        this.#request("delete", () => {
           this.#records.delete(String(key));
           return undefined;
         }),
@@ -60,7 +72,7 @@ class FakeTransaction {
     return store as unknown as IDBObjectStore;
   }
 
-  #request<T>(operation: () => T): IDBRequest<T> {
+  #request<T>(operation: FakeOperation, run: () => T): IDBRequest<T> {
     const request: {
       result: T;
       error: DOMException | null;
@@ -72,9 +84,12 @@ class FakeTransaction {
       onsuccess: null,
       onerror: null,
     };
-    queueMicrotask(() => {
+    const settle = () => {
       try {
-        request.result = operation();
+        if (this.#control.shouldFail(operation)) {
+          throw new Error("Fake IndexedDB was told to fail this write.");
+        }
+        request.result = run();
         request.onsuccess?.();
         queueMicrotask(() => this.oncomplete?.());
       } catch (error) {
@@ -83,20 +98,54 @@ class FakeTransaction {
         );
         request.onerror?.();
       }
-    });
+    };
+    const delay = this.#control.delayFor(operation);
+    if (delay > 0) setTimeout(settle, delay);
+    else queueMicrotask(settle);
     return request as unknown as IDBRequest<T>;
+  }
+}
+
+type FakeOperation = "get" | "getAll" | "put" | "delete";
+
+class FakeStorageControl {
+  #failures = new Map<FakeOperation, number>();
+  #delays = new Map<FakeOperation, number>();
+
+  failNext(operation: FakeOperation, times = 1): void {
+    this.#failures.set(operation, times);
+  }
+
+  delay(operation: FakeOperation, milliseconds: number): void {
+    this.#delays.set(operation, milliseconds);
+  }
+
+  clearDelays(): void {
+    this.#delays.clear();
+  }
+
+  shouldFail(operation: FakeOperation): boolean {
+    const remaining = this.#failures.get(operation) ?? 0;
+    if (remaining <= 0) return false;
+    this.#failures.set(operation, remaining - 1);
+    return true;
+  }
+
+  delayFor(operation: FakeOperation): number {
+    return this.#delays.get(operation) ?? 0;
   }
 }
 
 class FakeIndexedDbFactory {
   readonly records = new Map<string, unknown>();
+  readonly control = new FakeStorageControl();
   #hasStore = false;
 
   asFactory(): IDBFactory {
     return { open: () => this.#open() } as unknown as IDBFactory;
   }
 
-  setRaw(saveId: EntityId, value: unknown): void {
+  setRaw(saveId: string, value: unknown): void {
     this.records.set(saveId, structuredClone(value));
   }
 
@@ -110,7 +159,10 @@ class FakeIndexedDbFactory {
         return {} as IDBObjectStore;
       },
       transaction: () =>
-        new FakeTransaction(this.records) as unknown as IDBTransaction,
+        new FakeTransaction(
+          this.records,
+          this.control,
+        ) as unknown as IDBTransaction,
       close: () => undefined,
     } as unknown as IDBDatabase;
     const request: {
@@ -153,192 +205,293 @@ function playerWorld(seed: string): World {
   return { ...world, control: { kind: "person", personId } };
 }
 
+function storeWith(clockValue = "2026-05-01T10:00:00.000Z") {
+  const factory = new FakeIndexedDbFactory();
+  const clock = clockAt(clockValue);
+  const store = new BrowserSaveStore({
+    indexedDB: factory.asFactory(),
+    now: clock.now,
+    databaseName: "test-worlds",
+  });
+  return { factory, clock, store };
+}
+
 describe("What a saved game is", () => {
   it("stores the exact canonical snapshot with the player and world it belongs to", () => {
-    const world = playerWorld("browser-record");
-    const record = createBrowserWorldRecord(world, "2026-08-29T14:00:00.000Z");
-    const player =
-      world.control.kind === "person"
-        ? world.people[world.control.personId]
-        : undefined;
-
-    expect(record.kind).toBe(BROWSER_WORLD_RECORD_KIND);
-    expect(record.saveId).toBe(world.id);
-    expect(record.payload).toBe(serializeWorld(world));
-    expect(record.metadata).toMatchObject({
-      saveId: world.id,
-      worldId: world.id,
-      snapshotFormatVersion: 14,
-      worldSchemaVersion: 15,
-      worldGeneratorVersion: "demo-world-v15",
-      playerPersonId: player?.id,
-      playerName: player
-        ? `${player.givenName} ${player.familyName}`
-        : undefined,
-      currentMoment: world.currentMoment,
-      actionSequence: world.actionSequence,
-      createdAt: "2026-08-29T14:00:00.000Z",
-    });
-    expect(validateBrowserWorldRecord(record)).toStrictEqual(record);
-  });
-
-  it("refuses a record that has been tampered with or written by another version", () => {
+    const world = playerWorld("record");
     const record = createBrowserWorldRecord(
-      playerWorld("browser-corruption"),
-      "2026-08-29T14:00:00.000Z",
+      world,
+      "2026-05-01T10:00:00.000Z",
+      "2026-05-01T09:00:00.000Z",
+      "save_one" as EntityId,
     );
 
-    expect(() =>
-      validateBrowserWorldRecord({ ...record, recordVersion: 2 }),
-    ).toThrow(/version the game no longer reads/i);
-    expect(() =>
-      validateBrowserWorldRecord({ ...record, payload: "not-json" }),
-    ).toThrow(/will not load/i);
-    // A summary that disagrees with the world it claims to describe is the
-    // dangerous case: it would show the player a life that is not in the save.
-    expect(() =>
-      validateBrowserWorldRecord({
-        ...record,
-        metadata: { ...record.metadata, playerName: "Someone Else" },
-      }),
-    ).toThrow(/disagrees with its world/i);
+    expect(record.kind).toBe(BROWSER_WORLD_RECORD_KIND);
+    expect(record.payload).toBe(serializeWorld(world));
+    expect(record.metadata.worldId).toBe(world.id);
+    expect(record.metadata.saveId).toBe("save_one");
+    expect(record.metadata.actionSequence).toBe(world.actionSequence);
+    expect(validateBrowserWorldRecord(record).metadata.saveId).toBe("save_one");
+  });
+
+  it("refuses a record whose summary disagrees with its world", () => {
+    const world = playerWorld("tamper");
+    const record = createBrowserWorldRecord(
+      world,
+      "2026-05-01T10:00:00.000Z",
+      "2026-05-01T10:00:00.000Z",
+      "save_one" as EntityId,
+    );
+    const lying = {
+      ...record,
+      metadata: { ...record.metadata, playerName: "Somebody Else" },
+    };
+    const read = readStoredRecord(lying);
+    expect(read.kind).toBe("damaged");
+    if (read.kind === "damaged") {
+      expect(read.quarantine.defect).toBe("summary-disagrees");
+    }
   });
 
   it("names the place from the place provider rather than the raw record", async () => {
-    const factory = new FakeIndexedDbFactory();
-    const repository = new BrowserWorldRepository({
-      indexedDB: factory.asFactory(),
-      now: () => new Date("2026-08-30T14:00:00.000Z"),
-      databaseName: "place-summary",
-    });
+    const { store } = storeWith();
     const game = createNewGameWorld({
-      placeKey: "lexington-fayette",
+      placeKey: "kentucky",
       startAge: 30,
       depth: "summarize-earlier-life",
       startingLife: "ordinary-life",
-      seed: "place-summary",
-      givenName: "Place",
-      familyName: "Proof",
+      seed: "place",
+      givenName: null,
+      familyName: null,
     });
-
-    const summary = await repository.save(game.world);
-    expect(summary.playerName).toBe("Place Proof");
-    expect(summary.residence?.name).toBe("Lexington-Fayette, Kentucky");
-    expect(await repository.load(game.world.id)).toStrictEqual(game.world);
+    const saveId = store.newSaveId(game.world);
+    const outcome = await store.save(game.world, saveId);
+    expect(outcome.status).toBe("saved");
+    if (outcome.status === "saved") {
+      expect(outcome.summary.residence?.name).toBe("Kentucky");
+    }
   });
 });
 
-describe("Keeping more than one game", () => {
-  it("holds several saves, keeps each creation time, and orders them stably", async () => {
-    const factory = new FakeIndexedDbFactory();
-    const clock = clockAt("2026-08-29T14:00:00.000Z");
-    const repository = new BrowserWorldRepository({
-      indexedDB: factory.asFactory(),
-      now: clock.now,
-      databaseName: "repository-order-test",
-    });
-    const alpha = playerWorld("browser-alpha");
-    const beta = playerWorld("browser-beta");
+describe("A save slot is not a world", () => {
+  it("keeps two saves of one world side by side", async () => {
+    const { store } = storeWith();
+    const world = playerWorld("branch");
 
-    const alphaFirst = await repository.save(alpha);
-    clock.set("2026-08-29T14:01:00.000Z");
-    const betaFirst = await repository.save(beta);
-    expect((await repository.list()).map((save) => save.saveId)).toStrictEqual([
-      beta.id,
-      alpha.id,
-    ]);
+    const first = store.newSaveId(world);
+    const second = store.newSaveId(world);
+    expect(first).not.toBe(second);
 
-    clock.set("2026-08-29T14:02:00.000Z");
-    const alphaSecond = await repository.save(advanceDemoWorld(alpha, 7));
-    expect(alphaSecond.createdAt).toBe(alphaFirst.createdAt);
-    expect(alphaSecond.savedAt).toBe("2026-08-29T14:02:00.000Z");
-    expect(alphaSecond.snapshotId).not.toBe(alphaFirst.snapshotId);
-    expect((await repository.mostRecent())?.saveId).toBe(alpha.id);
+    await store.save(world, first);
+    await store.save(world, second);
 
-    clock.set("2026-08-29T14:03:00.000Z");
-    expect(await repository.load(beta.id)).toStrictEqual(beta);
-    const afterLoad = await repository.list();
-    expect(afterLoad[0]).toMatchObject({
-      createdAt: betaFirst.createdAt,
-      savedAt: betaFirst.savedAt,
-      lastPlayedAt: "2026-08-29T14:03:00.000Z",
-    });
+    const listing = await store.list();
+    expect(listing.saves).toHaveLength(2);
+    expect(new Set(listing.saves.map((save) => save.worldId))).toEqual(
+      new Set([world.id]),
+    );
+  });
+
+  it("holds several games, keeps each creation time, and orders them stably", async () => {
+    const { store, clock } = storeWith("2026-05-01T10:00:00.000Z");
+    const first = playerWorld("first");
+    const second = playerWorld("second");
+    const firstId = store.newSaveId(first);
+    const secondId = store.newSaveId(second);
+
+    await store.save(first, firstId);
+    clock.set("2026-05-01T11:00:00.000Z");
+    await store.save(second, secondId);
+    clock.set("2026-05-01T12:00:00.000Z");
+    await store.save(advanceDemoWorld(first, 7), firstId);
+
+    const listing = await store.list();
+    expect(listing.saves).toHaveLength(2);
+    expect(listing.saves[0]!.saveId).toBe(firstId);
+    expect(listing.saves[0]!.createdAt).toBe("2026-05-01T10:00:00.000Z");
+    expect(listing.damaged).toEqual([]);
   });
 
   it("says nothing is there rather than inventing it, and deletes what is", async () => {
-    const factory = new FakeIndexedDbFactory();
-    const repository = new BrowserWorldRepository({
-      indexedDB: factory.asFactory(),
-      now: () => new Date("2026-08-29T14:00:00.000Z"),
-      databaseName: "repository-removal",
-    });
-    const world = playerWorld("browser-remove");
-    const missingId = "world_missing" as EntityId;
+    const { store } = storeWith();
+    const world = playerWorld("delete");
 
-    expect(await repository.load(missingId)).toBeNull();
-    expect(await repository.remove(missingId)).toBe(false);
-    await repository.save(world);
-    expect(await repository.remove(world.id)).toBe(true);
-    expect(await repository.list()).toStrictEqual([]);
-  });
+    // A slot nothing was ever written to has nothing to open or remove.
+    const untouched = store.newSaveId(world);
+    expect(await store.load(untouched)).toBeNull();
+    expect(await store.remove(untouched)).toBe(false);
 
-  it("checks every record it reads back out of the browser", async () => {
-    const factory = new FakeIndexedDbFactory();
-    const world = playerWorld("browser-read-validation");
-    const valid = createBrowserWorldRecord(world, "2026-08-29T14:00:00.000Z");
-    factory.setRaw(world.id, {
-      ...valid,
-      metadata: { ...valid.metadata, worldId: "world_wrong" },
-    });
-    const repository = new BrowserWorldRepository({
-      indexedDB: factory.asFactory(),
-      now: () => new Date("2026-08-29T14:01:00.000Z"),
-      databaseName: "repository-read-validation",
-    });
-
-    await expect(repository.list()).rejects.toThrow(
-      /disagrees with its world/i,
-    );
-    await expect(repository.load(world.id)).rejects.toThrow(
-      /disagrees with its world/i,
-    );
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+    expect(await store.remove(saveId)).toBe(true);
+    expect(await store.load(saveId)).toBeNull();
+    // And a deleted slot stays deleted for the rest of the session, rather
+    // than being quietly refilled by anything still holding its id.
+    expect((await store.save(world, saveId)).status).toBe("discarded");
   });
 });
 
-describe("Autosaving while the player keeps playing", () => {
-  it("writes saves in the order they were asked for, and survives one failing", async () => {
-    const first = playerWorld("autosave-first");
-    const second = playerWorld("autosave-second");
-    const third = playerWorld("autosave-third");
-    const calls: string[] = [];
-    let releaseFirst: (() => void) | undefined;
-    const firstGate = new Promise<void>((resolve) => {
-      releaseFirst = resolve;
+describe("One damaged save does not hide the healthy ones", () => {
+  it("quarantines what it cannot read and still lists the rest", async () => {
+    const { store, factory } = storeWith();
+    const world = playerWorld("healthy");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    factory.setRaw("save_broken", {
+      kind: "something-else",
+      saveId: "save_broken",
     });
-    const target = {
-      async save(world: World) {
-        calls.push(world.seed);
-        if (world.id === first.id) await firstGate;
-        if (world.id === second.id) throw new Error("save failed");
-        return createBrowserWorldRecord(world, "2026-08-29T14:00:00.000Z")
-          .metadata;
-      },
-    };
-    const coordinator = new SerializedAutosaveCoordinator(target);
+    factory.setRaw("save_garbage", 42);
 
-    const firstSave = coordinator.save(first);
-    const failedSave = coordinator.save(second);
-    const thirdSave = coordinator.save(third);
-    await Promise.resolve();
-    // The second save has not started while the first is still in flight, so a
-    // slow write can never be overtaken by a newer one and left on top.
-    expect(calls).toStrictEqual([first.seed]);
-    releaseFirst?.();
+    const listing = await store.list();
+    // The healthy game is still there and still openable, which is the whole
+    // point: a broken record is not a broken browser.
+    expect(listing.saves.map((save) => save.saveId)).toEqual([saveId]);
+    expect(listing.damaged).toHaveLength(2);
+    expect(await store.load(saveId)).not.toBeNull();
+  });
 
-    await expect(firstSave).resolves.toMatchObject({ saveId: first.id });
-    await expect(failedSave).rejects.toThrow("save failed");
-    await expect(thirdSave).resolves.toMatchObject({ saveId: third.id });
-    await coordinator.flush();
-    expect(calls).toStrictEqual([first.seed, second.seed, third.seed]);
+  it("keeps a save from a newer version instead of calling it corrupt", async () => {
+    const { store, factory } = storeWith();
+    factory.setRaw("save_future", {
+      kind: BROWSER_WORLD_RECORD_KIND,
+      recordVersion: 99,
+      saveId: "save_future",
+      metadata: { savedAt: "2026-05-01T10:00:00.000Z" },
+      payload: "{}",
+    });
+
+    const listing = await store.list();
+    expect(listing.damaged).toHaveLength(1);
+    expect(listing.damaged[0]!.defect).toBe("unsupported-version");
+    // Told apart from damage, because the player should not be advised to
+    // delete something a later build could open.
+    expect(listing.damaged[0]!.mightBeReadableLater).toBe(true);
+    expect(listing.damaged[0]!.saveId).toBe("save_future");
+  });
+
+  it("migrates a version 1 record rather than refusing it", async () => {
+    const { store, factory } = storeWith();
+    const world = playerWorld("legacy");
+    // Version 1 used the world's id as the slot's id.
+    const record = createBrowserWorldRecord(
+      world,
+      "2026-04-01T10:00:00.000Z",
+      "2026-04-01T10:00:00.000Z",
+      world.id,
+    );
+    const legacyMetadata: Record<string, unknown> = { ...record.metadata };
+    delete legacyMetadata.worldId;
+    factory.setRaw(world.id, {
+      ...record,
+      recordVersion: 1,
+      metadata: legacyMetadata,
+    });
+
+    const listing = await store.list();
+    expect(listing.damaged).toEqual([]);
+    expect(listing.saves).toHaveLength(1);
+    expect(listing.saves[0]!.saveId).toBe(world.id);
+    expect(listing.saves[0]!.worldId).toBe(world.id);
+    expect(await store.load(world.id)).not.toBeNull();
+  });
+});
+
+describe("Ordering, fencing and acknowledgement", () => {
+  it("cannot bring a deleted save back from an autosave already in flight", async () => {
+    const { store, factory } = storeWith();
+    const world = playerWorld("resurrect");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    // The write is asked for, then the player deletes the game before it lands.
+    factory.control.delay("put", 5);
+    const writing = store.save(advanceDemoWorld(world, 7), saveId);
+    const deleting = store.remove(saveId);
+
+    const [outcome] = await Promise.all([writing, deleting]);
+    factory.control.clearDelays();
+
+    // The player's last word was "delete", so the write that was still waiting
+    // is dropped rather than recreating what they got rid of.
+    expect(outcome.status).toBe("discarded");
+    const listing = await store.list();
+    expect(listing.saves).toEqual([]);
+    expect(await store.load(saveId)).toBeNull();
+  });
+
+  it("discards a write requested before a delete it lost the race to", async () => {
+    const { store } = storeWith();
+    const world = playerWorld("fence");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    const removed = store.remove(saveId);
+    // Asked for after the delete was requested: this must not recreate it.
+    const late = store.save(advanceDemoWorld(world, 7), saveId);
+
+    await removed;
+    const outcome = await late;
+    expect(outcome.status).toBe("discarded");
+    expect(await store.load(saveId)).toBeNull();
+    expect((await store.list()).saves).toEqual([]);
+  });
+
+  it("does not treat a failed write as durable", async () => {
+    const { store, factory } = storeWith();
+    const world = playerWorld("retry");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+    expect(store.acknowledgedSequence(saveId)).toBe(world.actionSequence);
+
+    const advanced = advanceDemoWorld(world, 7);
+    factory.control.failNext("put");
+    await expect(store.save(advanced, saveId)).rejects.toThrow();
+
+    // The sequence stayed where it was, so the caller knows to try again —
+    // this is exactly what used to be lost.
+    expect(store.acknowledgedSequence(saveId)).toBe(world.actionSequence);
+    expect(store.acknowledgedSequence(saveId)).not.toBe(
+      advanced.actionSequence,
+    );
+
+    const retried = await store.save(advanced, saveId);
+    expect(retried.status).toBe("saved");
+    expect(store.acknowledgedSequence(saveId)).toBe(advanced.actionSequence);
+  });
+
+  it("keeps a load's own bookkeeping from landing on a newer save", async () => {
+    const { store, factory, clock } = storeWith();
+    const world = playerWorld("interleave");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    const advanced = advanceDemoWorld(world, 30);
+    factory.control.delay("get", 3);
+    // A load and a newer save, asked for together. The load updates
+    // last-played; the save writes a later world. Ordering decides, and the
+    // world that ends up stored must be the one written last.
+    const loading = store.load(saveId);
+    clock.set("2026-05-01T13:00:00.000Z");
+    const saving = store.save(advanced, saveId);
+    await Promise.all([loading, saving]);
+    factory.control.clearDelays();
+
+    const reloaded = await store.load(saveId);
+    expect(reloaded!.actionSequence).toBe(advanced.actionSequence);
+  });
+
+  it("waits for everything asked for when the player leaves", async () => {
+    const { store, factory } = storeWith();
+    const world = playerWorld("flush");
+    const saveId = store.newSaveId(world);
+
+    factory.control.delay("put", 5);
+    void store.save(world, saveId);
+    await store.flush();
+    factory.control.clearDelays();
+
+    expect((await store.list()).saves).toHaveLength(1);
   });
 });

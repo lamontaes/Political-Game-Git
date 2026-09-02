@@ -16,19 +16,44 @@ import type {
   SimulationMoment,
   World,
 } from "../simulation/types";
+import { createSaveId } from "./new-game-identity";
 
 /**
  * Saved games in the browser.
  *
  * A save is the canonical world snapshot and nothing else. The summary shown
  * in the load list is derived from that snapshot every time it is read, so a
- * save can never drift into telling a different story from the world inside
- * it — a record whose summary disagrees with its world is treated as corrupt
- * rather than trusted.
+ * save can never drift into telling a different story from the world inside it.
+ *
+ * Three things the audit found wrong are fixed here by construction rather
+ * than by care.
+ *
+ * *Ordering.* Only autosave used to be serialized, so a delete could land
+ * between an autosave being asked for and being written, and the save came
+ * back from the dead. Every operation that touches storage now goes through
+ * one queue, and a delete fences the slot: a write that was already waiting
+ * when the save was deleted is discarded instead of recreating it.
+ *
+ * *Acknowledgement.* A failed write used to advance the sequence the caller
+ * treated as durable, so the retry never came and the work was silently lost.
+ * A sequence is acknowledged only after the write actually lands.
+ *
+ * *Identity.* A save slot is not a world. One world can be kept twice — the
+ * same life at two points, or a deliberate branch — and those are different
+ * saves that must not overwrite each other, so a slot carries its own id and
+ * merely records which world is inside it.
+ *
+ * And one damaged record no longer hides every healthy one: records are read
+ * independently, and anything unreadable is quarantined with a reason the
+ * player can act on rather than collapsing the whole list into "storage
+ * unavailable".
  */
 
 export const BROWSER_WORLD_RECORD_KIND = "political-life-browser-world";
-export const BROWSER_WORLD_RECORD_VERSION = 1;
+/** Version 2 separated the save slot's identity from the world's. */
+export const BROWSER_WORLD_RECORD_VERSION = 2;
+/** Versions this build can read, after migration. */
+export const READABLE_RECORD_VERSIONS: readonly number[] = [1, 2];
 
 const DEFAULT_DATABASE_NAME = "political-life-worlds";
 const DATABASE_VERSION = 1;
@@ -40,12 +65,14 @@ export interface BrowserWorldResidenceSummary {
 }
 
 export interface BrowserWorldSummary {
+  /** The slot. Two saves of one world differ here and nowhere else. */
   readonly saveId: EntityId;
+  /** The world inside the slot. */
   readonly worldId: EntityId;
   readonly snapshotId: EntityId;
-  readonly snapshotFormatVersion: 14;
-  readonly worldSchemaVersion: 15;
-  readonly worldGeneratorVersion: "demo-world-v15";
+  readonly snapshotFormatVersion: number;
+  readonly worldSchemaVersion: number;
+  readonly worldGeneratorVersion: string;
   readonly playerPersonId: EntityId;
   readonly playerName: string;
   readonly playerAge: number;
@@ -65,21 +92,63 @@ export interface StoredBrowserWorldRecord {
   readonly payload: string;
 }
 
+/** Why a stored record could not be trusted, in the terms the code reasons in. */
+export type SaveDefect =
+  | "unreadable-record"
+  | "unsupported-version"
+  | "unreadable-world"
+  | "altered-after-write"
+  | "summary-disagrees";
+
+export interface QuarantinedSave {
+  /** Null when the record is damaged past the point of naming itself. */
+  readonly saveId: EntityId | null;
+  readonly defect: SaveDefect;
+  /** Said the way a player should hear it. */
+  readonly reason: string;
+  /** True when a later build might be able to read it, so deleting is a choice. */
+  readonly mightBeReadableLater: boolean;
+  readonly savedAt: string | null;
+}
+
+export interface BrowserWorldListing {
+  readonly saves: readonly BrowserWorldSummary[];
+  readonly damaged: readonly QuarantinedSave[];
+}
+
+/** What became of a write that had to wait its turn. */
+export type SaveOutcome =
+  | { readonly status: "saved"; readonly summary: BrowserWorldSummary }
+  | { readonly status: "discarded"; readonly reason: string };
+
 export interface BrowserWorldRepositoryOptions {
   readonly indexedDB?: IDBFactory;
   readonly now?: () => Date;
   readonly databaseName?: string;
 }
 
-interface BrowserWorldSaveTarget {
-  save(world: World): Promise<BrowserWorldSummary>;
-}
+/* -------------------------------------------------------------------------- */
+/* The ordered command boundary. Everything that can conflict goes through it. */
+/* -------------------------------------------------------------------------- */
 
-export class BrowserWorldRepository {
+export class BrowserSaveStore {
   readonly #factory: IDBFactory;
   readonly #now: () => Date;
   readonly #databaseName: string;
   #databasePromise: Promise<IDBDatabase> | null = null;
+
+  /** One queue. Ordering is the property, not a side effect of using it. */
+  #tail: Promise<unknown> = Promise.resolve();
+  /**
+   * Slots the player has deleted. A deleted slot stays deleted: any write to
+   * it is discarded, whether it was asked for before the delete or after it
+   * while the delete was still landing. Keeping a life again takes a new slot,
+   * so nothing legitimate is blocked by this.
+   */
+  readonly #deleted = new Set<string>();
+  /** Only advanced by a write that actually landed. */
+  readonly #acknowledged = new Map<string, number>();
+  #slotCounter = 0;
 
   constructor(options: BrowserWorldRepositoryOptions = {}) {
     const factory = options.indexedDB ?? globalThis.indexedDB;
@@ -95,62 +164,142 @@ export class BrowserWorldRepository {
     this.#databaseName = databaseName;
   }
 
-  async save(world: World): Promise<BrowserWorldSummary> {
-    const existing = await this.#get(world.id);
-    const prior =
-      existing === undefined ? null : validateBrowserWorldRecord(existing);
-    const timestamp = latestTimestamp(
-      nowTimestamp(this.#now),
-      prior?.metadata.savedAt,
-      prior?.metadata.lastPlayedAt,
-    );
-    const record = createBrowserWorldRecord(
-      world,
-      timestamp,
-      prior?.metadata.createdAt ?? timestamp,
-    );
-    await this.#put(record);
-    return cloneSummary(record.metadata);
+  /**
+   * A new slot for this world. Called twice for one world it gives two slots,
+   * because keeping a life twice is a thing a player is allowed to do.
+   */
+  newSaveId(world: World): EntityId {
+    this.#slotCounter += 1;
+    return createSaveId(
+      world.id,
+      `${nowTimestamp(this.#now)}:${this.#slotCounter}`,
+    ) as EntityId;
   }
 
-  async load(saveId: EntityId): Promise<World | null> {
-    const raw = await this.#get(saveId);
-    if (raw === undefined) return null;
-
-    const record = validateBrowserWorldRecord(raw);
-    if (record.saveId !== saveId) {
-      throw new Error("This saved game does not match the one asked for.");
-    }
-    const world = deserializeWorld(record.payload);
-    const lastPlayedAt = latestTimestamp(
-      nowTimestamp(this.#now),
-      record.metadata.savedAt,
-      record.metadata.lastPlayedAt,
-    );
-    const updated: StoredBrowserWorldRecord = {
-      ...record,
-      metadata: { ...record.metadata, lastPlayedAt },
-    };
-    await this.#put(updated);
-    return world;
+  /**
+   * The last action sequence written durably for a slot, or null if none has
+   * been. A caller decides whether to write again from this rather than from
+   * what it hoped had happened.
+   */
+  acknowledgedSequence(saveId: EntityId): number | null {
+    return this.#acknowledged.get(saveId) ?? null;
   }
 
-  async list(): Promise<readonly BrowserWorldSummary[]> {
-    const records = (await this.#getAll()).map(validateBrowserWorldRecord);
-    return records
-      .map((record) => cloneSummary(record.metadata))
-      .sort(compareSummaries);
+  save(world: World, saveId: EntityId): Promise<SaveOutcome> {
+    return this.#enqueue(async () => {
+      if (this.#deleted.has(saveId)) {
+        // Writing this now would bring back a save the player got rid of.
+        return {
+          status: "discarded",
+          reason: "This saved game was deleted, so it was not written again.",
+        } as const;
+      }
+      const existing = await this.#get(saveId);
+      const prior = existing === undefined ? null : readStoredRecord(existing);
+      const priorMetadata =
+        prior?.kind === "healthy" ? prior.record.metadata : null;
+      const timestamp = latestTimestamp(
+        nowTimestamp(this.#now),
+        priorMetadata?.savedAt,
+        priorMetadata?.lastPlayedAt,
+      );
+      const record = createBrowserWorldRecord(
+        world,
+        timestamp,
+        priorMetadata?.createdAt ?? timestamp,
+        saveId,
+      );
+      await this.#put(record);
+      // Only now is anything durable, and only now does the sequence move.
+      this.#acknowledged.set(saveId, world.actionSequence);
+      return {
+        status: "saved",
+        summary: cloneSummary(record.metadata),
+      } as const;
+    });
+  }
+
+  load(saveId: EntityId): Promise<World | null> {
+    return this.#enqueue(async () => {
+      if (this.#deleted.has(saveId)) return null;
+      const raw = await this.#get(saveId);
+      if (raw === undefined) return null;
+      const read = readStoredRecord(raw);
+      if (read.kind !== "healthy") {
+        throw new Error(read.quarantine.reason);
+      }
+      const record = read.record;
+      if (record.saveId !== saveId) {
+        throw new Error("This saved game does not match the one asked for.");
+      }
+      const world = deserializeWorld(record.payload);
+      const lastPlayedAt = latestTimestamp(
+        nowTimestamp(this.#now),
+        record.metadata.savedAt,
+        record.metadata.lastPlayedAt,
+      );
+      // The last-played stamp is part of the same ordered stream, so it cannot
+      // land on top of a newer save written a moment ago.
+      await this.#put({
+        ...record,
+        metadata: { ...record.metadata, lastPlayedAt },
+      });
+      this.#acknowledged.set(saveId, world.actionSequence);
+      return world;
+    });
+  }
+
+  list(): Promise<BrowserWorldListing> {
+    return this.#enqueue(async () => {
+      const saves: BrowserWorldSummary[] = [];
+      const damaged: QuarantinedSave[] = [];
+      // Each record is judged on its own. One damaged save used to take the
+      // whole list down with it, which told a player their storage was broken
+      // when in fact every other game was fine.
+      for (const raw of await this.#getAll()) {
+        const read = readStoredRecord(raw);
+        if (read.kind === "healthy")
+          saves.push(cloneSummary(read.record.metadata));
+        else damaged.push(read.quarantine);
+      }
+      return {
+        saves: saves.sort(compareSummaries),
+        damaged: damaged.sort((left, right) =>
+          (right.savedAt ?? "").localeCompare(left.savedAt ?? ""),
+        ),
+      };
+    });
   }
 
   async mostRecent(): Promise<BrowserWorldSummary | null> {
-    return (await this.list())[0] ?? null;
+    return (await this.list()).saves[0] ?? null;
   }
 
-  async remove(saveId: EntityId): Promise<boolean> {
-    const existing = await this.#get(saveId);
-    if (existing === undefined) return false;
-    await this.#delete(saveId);
-    return true;
+  /** Removes a slot and fences it, so nothing already in flight recreates it. */
+  remove(saveId: EntityId): Promise<boolean> {
+    // Marked before the queue runs, so a write that is already waiting sees it.
+    this.#deleted.add(saveId);
+    this.#acknowledged.delete(saveId);
+    return this.#enqueue(async () => {
+      const existing = await this.#get(saveId);
+      if (existing === undefined) return false;
+      await this.#delete(saveId);
+      return true;
+    });
+  }
+
+  /** Waits for everything asked for so far. Used when leaving the game. */
+  async flush(): Promise<void> {
+    await this.#tail.catch(() => undefined);
+  }
+
+  #enqueue<T>(operation: () => Promise<T>): Promise<T> {
+    const result = this.#tail.then(operation, operation);
+    this.#tail = result.then(
+      () => undefined,
+      () => undefined,
+    );
+    return result;
   }
 
   async #database(): Promise<IDBDatabase> {
@@ -187,37 +336,11 @@ export class BrowserWorldRepository {
   }
 }
 
-/**
- * Autosaves happen while the player keeps playing, so two of them can be in
- * flight at once. Running them in the order they were asked for stops an older
- * world from landing on top of a newer one.
- */
-export class SerializedAutosaveCoordinator {
-  readonly #target: BrowserWorldSaveTarget;
-  #tail: Promise<void> = Promise.resolve();
-
-  constructor(target: BrowserWorldSaveTarget) {
-    this.#target = target;
-  }
-
-  save(world: World): Promise<BrowserWorldSummary> {
-    const operation = this.#tail.then(() => this.#target.save(world));
-    this.#tail = operation.then(
-      () => undefined,
-      () => undefined,
-    );
-    return operation;
-  }
-
-  async flush(): Promise<void> {
-    await this.#tail;
-  }
-}
-
 export function createBrowserWorldRecord(
   world: World,
   savedAt: string,
   createdAt: string = savedAt,
+  saveId: EntityId = world.id,
 ): StoredBrowserWorldRecord {
   assertTimestamp(createdAt, "creation time");
   assertTimestamp(savedAt, "saved time");
@@ -229,7 +352,7 @@ export function createBrowserWorldRecord(
   const player = controlledPlayer(world);
   const snapshot = createWorldSnapshot(world);
   const summary: BrowserWorldSummary = {
-    saveId: world.id,
+    saveId,
     worldId: world.id,
     snapshotId: snapshot.snapshotId,
     snapshotFormatVersion: snapshot.formatVersion,
@@ -248,64 +371,183 @@ export function createBrowserWorldRecord(
   return {
     kind: BROWSER_WORLD_RECORD_KIND,
     recordVersion: BROWSER_WORLD_RECORD_VERSION,
-    saveId: world.id,
+    saveId,
     metadata: summary,
     payload: serializeWorld(world),
   };
 }
 
-export function validateBrowserWorldRecord(
-  value: unknown,
-): StoredBrowserWorldRecord {
+type ReadRecord =
+  | { readonly kind: "healthy"; readonly record: StoredBrowserWorldRecord }
+  | { readonly kind: "damaged"; readonly quarantine: QuarantinedSave };
+
+/**
+ * Reads one stored record, saying what is wrong with it rather than throwing
+ * the whole list away.
+ *
+ * The version numbers a record carries are checked by trying to read the world
+ * inside it, not by matching literals. A save whose schema this build does not
+ * know is quarantined as possibly-readable-later rather than reported as
+ * corrupt, because the two call for different things from a player.
+ */
+export function readStoredRecord(value: unknown): ReadRecord {
+  const damaged = (
+    saveId: EntityId | null,
+    defect: SaveDefect,
+    reason: string,
+    mightBeReadableLater = false,
+    savedAt: string | null = null,
+  ): ReadRecord => ({
+    kind: "damaged",
+    quarantine: { saveId, defect, reason, mightBeReadableLater, savedAt },
+  });
+
   if (!isRecord(value)) {
-    throw new Error("This saved game is damaged: it is not a record.");
+    return damaged(
+      null,
+      "unreadable-record",
+      "One saved game could not be read at all, and has been set aside.",
+    );
+  }
+  const saveId =
+    typeof value.saveId === "string" ? (value.saveId as EntityId) : null;
+  const savedAt =
+    isRecord(value.metadata) && typeof value.metadata.savedAt === "string"
+      ? value.metadata.savedAt
+      : null;
+
+  if (value.kind !== BROWSER_WORLD_RECORD_KIND) {
+    return damaged(
+      saveId,
+      "unreadable-record",
+      "One saved game is not in a form this game recognises, and has been set aside.",
+      false,
+      savedAt,
+    );
   }
   if (
-    value.kind !== BROWSER_WORLD_RECORD_KIND ||
-    value.recordVersion !== BROWSER_WORLD_RECORD_VERSION
+    typeof value.recordVersion !== "number" ||
+    !READABLE_RECORD_VERSIONS.includes(value.recordVersion)
   ) {
-    throw new Error(
-      "This saved game was written by a version the game no longer reads.",
+    return damaged(
+      saveId,
+      "unsupported-version",
+      "One saved game was written by a newer version of the game. It has been kept, not deleted.",
+      true,
+      savedAt,
     );
   }
   if (typeof value.payload !== "string") {
-    throw new Error("This saved game is damaged: the world is missing.");
+    return damaged(
+      saveId,
+      "unreadable-record",
+      "One saved game is missing the world inside it, and has been set aside.",
+      false,
+      savedAt,
+    );
   }
 
   let world: World;
   try {
     world = deserializeWorld(value.payload);
-  } catch (error) {
-    throw new Error("This saved game is damaged: the world will not load.", {
-      cause: error,
-    });
+  } catch {
+    return damaged(
+      saveId,
+      "unreadable-world",
+      "One saved game holds a world this version of the game cannot open. It has been kept, not deleted.",
+      true,
+      savedAt,
+    );
   }
   if (value.payload !== serializeWorld(world)) {
-    throw new Error(
-      "This saved game is damaged: the world was altered after it was written.",
+    return damaged(
+      saveId,
+      "altered-after-write",
+      "One saved game was changed after it was written, and has been set aside.",
+      false,
+      savedAt,
     );
   }
-  if (typeof value.saveId !== "string" || value.saveId !== world.id) {
-    throw new Error("This saved game is damaged: it names a different world.");
+
+  const migrated = migrateRecord(value, world);
+  if (migrated === null) {
+    return damaged(
+      saveId,
+      "summary-disagrees",
+      "One saved game's summary does not match the world inside it, and has been set aside.",
+      false,
+      savedAt,
+    );
   }
-  const metadata = validateMetadata(value.metadata);
+  return { kind: "healthy", record: migrated };
+}
+
+/**
+ * Brings a stored record up to the current shape, or refuses it.
+ *
+ * Version 1 records used the world's id as the slot's id, which is exactly the
+ * conflation this version fixes; they migrate by keeping that id as the slot's
+ * and naming the world separately. Nothing about the world itself changes, so
+ * a migrated save loads the same game it always did.
+ */
+function migrateRecord(
+  value: Record<string, unknown>,
+  world: World,
+): StoredBrowserWorldRecord | null {
+  if (typeof value.saveId !== "string") return null;
+  const saveId = value.saveId as EntityId;
+  const metadata = value.metadata;
+  if (!isRecord(metadata)) return null;
+  if (!validTimestamps(metadata)) return null;
+
   const expected = createBrowserWorldRecord(
     world,
-    metadata.savedAt,
-    metadata.createdAt,
+    metadata.savedAt as string,
+    metadata.createdAt as string,
+    saveId,
   ).metadata;
-  if (!sameCanonicalMetadata(metadata, expected)) {
-    throw new Error(
-      "This saved game is damaged: its summary disagrees with its world.",
-    );
-  }
+  const actual: BrowserWorldSummary = {
+    ...(metadata as unknown as BrowserWorldSummary),
+    saveId,
+    // A version 1 record predates the distinction and always held one world.
+    worldId:
+      typeof metadata.worldId === "string"
+        ? (metadata.worldId as EntityId)
+        : saveId,
+  };
+  if (!sameCanonicalMetadata(actual, expected)) return null;
+
   return {
     kind: BROWSER_WORLD_RECORD_KIND,
     recordVersion: BROWSER_WORLD_RECORD_VERSION,
-    saveId: world.id,
-    metadata: cloneSummary(metadata),
-    payload: value.payload,
+    saveId,
+    metadata: cloneSummary({ ...actual, lastPlayedAt: actual.lastPlayedAt }),
+    payload: value.payload as string,
   };
+}
+
+/** Kept for callers that want an exception rather than a quarantine record. */
+export function validateBrowserWorldRecord(
+  value: unknown,
+): StoredBrowserWorldRecord {
+  const read = readStoredRecord(value);
+  if (read.kind !== "healthy") throw new Error(read.quarantine.reason);
+  return read.record;
+}
+
+function validTimestamps(metadata: Record<string, unknown>): boolean {
+  const values = [metadata.createdAt, metadata.savedAt, metadata.lastPlayedAt];
+  for (const value of values) {
+    if (
+      typeof value !== "string" ||
+      !Number.isFinite(Date.parse(value)) ||
+      new Date(value).toISOString() !== value
+    ) {
+      return false;
+    }
+  }
+  const [createdAt, savedAt, lastPlayedAt] = values as [string, string, string];
+  return createdAt <= savedAt && savedAt <= lastPlayedAt;
 }
 
 function currentResidence(
@@ -378,52 +620,6 @@ function controlledPlayer(world: World): Person {
   return player;
 }
 
-function validateMetadata(value: unknown): BrowserWorldSummary {
-  if (!isRecord(value)) {
-    throw new Error("This saved game is damaged: its summary is missing.");
-  }
-  assertTimestamp(value.createdAt, "creation time");
-  assertTimestamp(value.savedAt, "saved time");
-  assertTimestamp(value.lastPlayedAt, "last-played time");
-  if (value.createdAt > value.savedAt || value.savedAt > value.lastPlayedAt) {
-    throw new Error("This saved game is damaged: its times run backwards.");
-  }
-  if (!isRecord(value.currentMoment)) {
-    throw new Error("This saved game is damaged: the world clock is missing.");
-  }
-  const residence = value.residence;
-  if (
-    residence !== null &&
-    (!isRecord(residence) ||
-      typeof residence.jurisdictionId !== "string" ||
-      typeof residence.name !== "string")
-  ) {
-    throw new Error("This saved game is damaged: the place is unreadable.");
-  }
-  if (
-    typeof value.saveId !== "string" ||
-    typeof value.worldId !== "string" ||
-    typeof value.snapshotId !== "string" ||
-    value.snapshotFormatVersion !== 14 ||
-    value.worldSchemaVersion !== 15 ||
-    value.worldGeneratorVersion !== "demo-world-v15" ||
-    typeof value.playerPersonId !== "string" ||
-    typeof value.playerName !== "string" ||
-    value.playerName.trim().length === 0 ||
-    !Number.isSafeInteger(value.playerAge) ||
-    (value.playerAge as number) < 0 ||
-    typeof value.currentMoment.date !== "string" ||
-    !Number.isSafeInteger(value.currentMoment.minuteOfDay) ||
-    typeof value.currentMoment.timeZone !== "string" ||
-    !Number.isSafeInteger(value.currentMoment.utcOffsetMinutes) ||
-    !Number.isSafeInteger(value.actionSequence) ||
-    (value.actionSequence as number) < 0
-  ) {
-    throw new Error("This saved game is damaged: its summary is unreadable.");
-  }
-  return value as unknown as BrowserWorldSummary;
-}
-
 function sameCanonicalMetadata(
   actual: BrowserWorldSummary,
   expected: BrowserWorldSummary,
@@ -440,10 +636,10 @@ function sameCanonicalMetadata(
     actual.playerAge === expected.playerAge &&
     actual.residence?.jurisdictionId === expected.residence?.jurisdictionId &&
     actual.residence?.name === expected.residence?.name &&
-    actual.currentMoment.date === expected.currentMoment.date &&
-    actual.currentMoment.minuteOfDay === expected.currentMoment.minuteOfDay &&
-    actual.currentMoment.timeZone === expected.currentMoment.timeZone &&
-    actual.currentMoment.utcOffsetMinutes ===
+    actual.currentMoment?.date === expected.currentMoment.date &&
+    actual.currentMoment?.minuteOfDay === expected.currentMoment.minuteOfDay &&
+    actual.currentMoment?.timeZone === expected.currentMoment.timeZone &&
+    actual.currentMoment?.utcOffsetMinutes ===
       expected.currentMoment.utcOffsetMinutes &&
     actual.actionSequence === expected.actionSequence
   );
@@ -523,9 +719,7 @@ function openDatabase(
     };
     request.onerror = () =>
       reject(
-        new Error("Saved games could not be opened.", {
-          cause: request.error,
-        }),
+        new Error("Saved games could not be opened.", { cause: request.error }),
       );
     request.onblocked = () =>
       reject(
