@@ -5,7 +5,10 @@ Newest release first.
 ## PRE-ALPHA 0.3.0 — "A Life, Not a Fixture" — CANDIDATE, NOT YET ACCEPTED
 
 _Proposed 2 September 2026. The version number is a candidate; final acceptance
-decides whether it stands._
+decides whether it stands. `package.json` deliberately still carries the
+accepted version rather than this one — a package that calls itself 0.3.0
+before 0.3.0 has been accepted is claiming something nobody has agreed to, and
+the number moves at acceptance rather than in the branch that proposes it._
 
 Opening the game now starts a game. There is a title screen, a new life to set
 up, saved games to come back to, and a childhood you actually play through

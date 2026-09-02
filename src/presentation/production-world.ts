@@ -229,15 +229,19 @@ function establishAgeEligibleState(
   ];
 
   if (!dependent) {
-    // An adult who asked for their earlier life to be written down gets the
-    // childhood first, so the household they live in today is the one they
-    // moved into rather than the only one they have ever had. Living in two
-    // primary residences at once is not a thing the world will accept, and it
-    // should not: it would be a false biography, not a bookkeeping quirk.
-    const withEarlierLife =
-      depth === "summarize-earlier-life"
-        ? summarizeEarlierLife(world, player, jurisdictionId)
-        : world;
+    // An adult gets their earlier life written down whichever depth was
+    // chosen, because for an adult there is nothing left to play: the depth
+    // option decides whether a *child* plays their formative years, and
+    // honouring it literally here left a thirty-six-year-old alone in an
+    // otherwise empty world, with no history and nobody to talk to.
+    //
+    // The childhood comes first, so the household they live in today is the
+    // one they moved into rather than the only one they have ever had. Living
+    // in two primary residences at once is not something the world will
+    // accept, and it should not: that would be a false biography, not a
+    // bookkeeping quirk.
+    void depth;
+    const withEarlierLife = summarizeEarlierLife(world, player, jurisdictionId);
     transitions.push({
       kind: "household-membership",
       input: {
@@ -477,6 +481,23 @@ function summarizeEarlierLife(
           status: "ended",
           residenceRole: "primary",
           kind: "resident:child",
+          provenance: PROVENANCE,
+        },
+      },
+      {
+        // The summarized childhood opens a part-time job at sixteen and never
+        // closes it, so an adult arrived still holding it: a thirty-four-year-old
+        // legislative staffer was also, on the record, a store assistant. It
+        // ends when they leave school, which is the only claim the summary can
+        // honestly make about when it ended.
+        kind: "work-status",
+        input: {
+          stableKey: `${stableKey}:teen-work:ended`,
+          workStableKey: `${stableKey}:work:teen`,
+          effectiveAt: dateAtAge(player.birthDate, 18),
+          status: "ended",
+          reason:
+            "The job the character had at school did not follow them out of it.",
           provenance: PROVENANCE,
         },
       },
