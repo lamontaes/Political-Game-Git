@@ -1,0 +1,55 @@
+{
+  "datasetName": "Official U.S. Census Bureau Political Districts Geography Corpus",
+  "vintage": "2025 Census Gazetteer / 119th Congress",
+  "generatedAt": "2026-09-02T20:33:00Z",
+  "sources": [
+    {
+      "sourceId": "119cd",
+      "title": "2025 Gazetteer 119th Congressional Districts National File",
+      "geographyType": "cd",
+      "vintageYear": 2025,
+      "congress": "119th Congress",
+      "publisher": "U.S. Census Bureau, Geography Division",
+      "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_119CDs_national.zip",
+      "retrievedAt": "2026-09-02T20:33:00Z",
+      "zipFileName": "2025_Gaz_119CDs_national.zip",
+      "zipSha256": "5128d74acfee9c858eef72c98fbaf13a2dc5b7ea5f8bcc763522087dafabedcb",
+      "txtFileName": "2025_Gaz_119CDs_national.txt",
+      "txtSha256": "c805b7d47c4110fff3ef111cf990eb0575cf1a23af384d5a9880cec7b19d51d4",
+      "txtSizeBytes": 35139,
+      "recordCount": 440
+    },
+    {
+      "sourceId": "sldl",
+      "title": "2025 Gazetteer State Legislative Districts Lower Chamber National File",
+      "geographyType": "sldl",
+      "vintageYear": 2025,
+      "congress": null,
+      "publisher": "U.S. Census Bureau, Geography Division",
+      "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_sldl_national.zip",
+      "retrievedAt": "2026-09-02T20:33:00Z",
+      "zipFileName": "2025_Gaz_sldl_national.zip",
+      "zipSha256": "80e1889ce84d483a82193d0fa4d983dbbe85d1fa211088bf878aeec7ffb3401f",
+      "txtFileName": "2025_Gaz_sldl_national.txt",
+      "txtSha256": "0f9fb60e5fe6238b35a4cb7830acce09051de9aa2534a99ad640cd0b7d643715",
+      "txtSizeBytes": 491844,
+      "recordCount": 4879
+    },
+    {
+      "sourceId": "sldu",
+      "title": "2025 Gazetteer State Legislative Districts Upper Chamber National File",
+      "geographyType": "sldu",
+      "vintageYear": 2025,
+      "congress": null,
+      "publisher": "U.S. Census Bureau, Geography Division",
+      "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_sldu_national.zip",
+      "retrievedAt": "2026-09-02T20:33:00Z",
+      "zipFileName": "2025_Gaz_sldu_national.zip",
+      "zipSha256": "f4500955ded8c3415c8c24c4aa9aa5beb3034f2998c081ac3ed38f27456eca08",
+      "txtFileName": "2025_Gaz_sldu_national.txt",
+      "txtSha256": "a84b69e77cc0dea28fd0fbb93154c16efd2b0648ffbd57b2d410bec85ef5e18b",
+      "txtSizeBytes": 203218,
+      "recordCount": 1964
+    }
+  ]
+}
