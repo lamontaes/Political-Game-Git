@@ -1,0 +1,92 @@
+{
+  "congress": 118,
+  "type": "HR",
+  "number": 7217,
+  "title": "Israel Security Supplemental Appropriations Act, 2024",
+  "originChamber": "House",
+  "introducedDate": "2024-02-05",
+  "policyArea": {
+    "name": "International Affairs"
+  },
+  "legislativeSubjects": [
+    "Appropriations",
+    "Defense spending",
+    "Foreign aid and international relief",
+    "Israel",
+    "Middle East",
+    "Military assistance, sales, and agreements"
+  ],
+  "sponsors": [
+    {
+      "bioguideId": "C001053",
+      "fullName": "Cole, Tom",
+      "party": "R",
+      "state": "OK",
+      "district": 4
+    }
+  ],
+  "cosponsors": [],
+  "committees": {
+    "count": 1,
+    "items": [
+      {
+        "systemCode": "hsap00",
+        "chamber": "House",
+        "name": "House Committee on Appropriations",
+        "activities": [{ "name": "Referred to", "date": "2024-02-05" }]
+      }
+    ]
+  },
+  "actions": {
+    "count": 3,
+    "items": [
+      {
+        "actionDate": "2024-02-05",
+        "text": "Referred to the Committee on Appropriations, and in addition to the Committee on the Budget.",
+        "type": "IntroReferral",
+        "actionCode": "H11100"
+      },
+      {
+        "actionDate": "2024-02-06",
+        "text": "Mr. Calvert moved to suspend the rules and pass the bill.",
+        "type": "Floor",
+        "actionCode": "H30300"
+      },
+      {
+        "actionDate": "2024-02-06",
+        "text": "On motion to suspend the rules and pass the bill Failed by the Yeas and Nays: (2/3 required): 250 - 180 (Roll no. 38).",
+        "type": "Floor",
+        "actionCode": "H37300",
+        "recordedVotes": [
+          {
+            "chamber": "House",
+            "congress": 118,
+            "rollNumber": 38,
+            "sessionNumber": 2,
+            "url": "https://clerk.house.gov/Votes/202438"
+          }
+        ]
+      }
+    ]
+  },
+  "amendments": {
+    "count": 0,
+    "items": []
+  },
+  "textVersions": {
+    "count": 1,
+    "items": [
+      {
+        "type": "ih",
+        "date": "2024-02-05",
+        "formats": [
+          {
+            "type": "PDF",
+            "url": "https://www.congress.gov/118/bills/hr7217/BILLS-118hr7217ih.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  "url": "https://www.congress.gov/bill/118th-congress/house-bill/7217"
+}

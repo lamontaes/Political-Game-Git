@@ -1,0 +1,138 @@
+{
+  "congress": 117,
+  "type": "HR",
+  "number": 4521,
+  "title": "America COMPETES Act of 2022",
+  "originChamber": "House",
+  "introducedDate": "2021-07-19",
+  "policyArea": {
+    "name": "Science, Technology, Communications"
+  },
+  "legislativeSubjects": [
+    "Advanced technology and technological innovations",
+    "Competitiveness, trade promotion, trade deficits",
+    "Research and development",
+    "Semiconductors"
+  ],
+  "sponsors": [
+    {
+      "bioguideId": "J000126",
+      "fullName": "Johnson, Eddie Bernice",
+      "party": "D",
+      "state": "TX",
+      "district": 30
+    }
+  ],
+  "cosponsors": [],
+  "committees": {
+    "count": 1,
+    "items": [
+      {
+        "systemCode": "hssy00",
+        "chamber": "House",
+        "name": "House Committee on Science, Space, and Technology",
+        "activities": [
+          { "name": "Referred to", "date": "2021-07-19" },
+          { "name": "Reported by", "date": "2022-01-19" }
+        ]
+      }
+    ]
+  },
+  "actions": {
+    "count": 3,
+    "items": [
+      {
+        "actionDate": "2021-07-19",
+        "text": "Introduced in House and referred to Committee on Science, Space, and Technology.",
+        "type": "IntroReferral",
+        "actionCode": "H11100"
+      },
+      {
+        "actionDate": "2022-02-02",
+        "text": "H.Amdt. 150 Amendment offered by Mr. Castro (TX).",
+        "type": "Floor",
+        "actionCode": "H73000"
+      },
+      {
+        "actionDate": "2022-02-04",
+        "text": "On passage Passed by the Yeas and Nays: 222 - 210 (Roll no. 31).",
+        "type": "Floor",
+        "actionCode": "H37100",
+        "recordedVotes": [
+          {
+            "chamber": "House",
+            "congress": 117,
+            "rollNumber": 31,
+            "sessionNumber": 2,
+            "url": "https://clerk.house.gov/Votes/202231"
+          }
+        ]
+      }
+    ]
+  },
+  "amendments": {
+    "count": 2,
+    "items": [
+      {
+        "amendmentNumber": 150,
+        "type": "HAMDT",
+        "congress": 117,
+        "chamber": "House",
+        "description": "An amendment numbered 126 printed in Part C of House Report 117-241 to establish a Chief Diversity Officer at the National Science Foundation.",
+        "purpose": "To create a Chief Diversity Officer at NSF.",
+        "offeredDate": "2022-02-02",
+        "status": "Agreed to in House",
+        "sponsor": {
+          "bioguideId": "C001091",
+          "fullName": "Castro, Joaquin",
+          "party": "D",
+          "state": "TX"
+        },
+        "url": "https://www.congress.gov/amendment/117th-congress/house-amendment/150"
+      },
+      {
+        "amendmentNumber": 150,
+        "type": "HAMDT",
+        "congress": 117,
+        "chamber": "House",
+        "description": "An amendment numbered 126 printed in Part C of House Report 117-241 to establish a Chief Diversity Officer at the National Science Foundation.",
+        "purpose": "To create a Chief Diversity Officer at NSF.",
+        "offeredDate": "2022-02-02",
+        "status": "Agreed to in House",
+        "sponsor": {
+          "bioguideId": "C001091",
+          "fullName": "Castro, Joaquin",
+          "party": "D",
+          "state": "TX"
+        },
+        "url": "https://www.congress.gov/amendment/117th-congress/house-amendment/150"
+      }
+    ]
+  },
+  "textVersions": {
+    "count": 2,
+    "items": [
+      {
+        "type": "ih",
+        "date": "2021-07-19",
+        "formats": [
+          {
+            "type": "PDF",
+            "url": "https://www.congress.gov/117/bills/hr4521/BILLS-117hr4521ih.pdf"
+          }
+        ]
+      },
+      {
+        "type": "eh",
+        "date": "2022-02-04",
+        "formats": [
+          {
+            "type": "PDF",
+            "url": "https://www.congress.gov/117/bills/hr4521/BILLS-117hr4521eh.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  "url": "https://www.congress.gov/bill/117th-congress/house-bill/4521"
+}

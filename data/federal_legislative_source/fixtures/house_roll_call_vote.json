@@ -1,0 +1,63 @@
+{
+  "congress": 117,
+  "sessionNumber": 2,
+  "rollNumber": 420,
+  "voteDate": "2022-08-12T16:45:00",
+  "voteQuestion": "On motion that the House agree to the Senate amendment (Inflation Reduction Act of 2022)",
+  "voteResult": "Passed",
+  "voteType": "YEA-AND-NAY",
+  "totalYea": 220,
+  "totalNay": 207,
+  "totalPresent": 0,
+  "totalNotVoting": 4,
+  "partyTotals": {
+    "Democratic": {
+      "yea": 220,
+      "nay": 0,
+      "present": 0,
+      "notVoting": 0
+    },
+    "Republican": {
+      "yea": 0,
+      "nay": 207,
+      "present": 0,
+      "notVoting": 4
+    }
+  },
+  "members": [
+    {
+      "bioguideId": "Y000062",
+      "name": "Yarmuth, John",
+      "state": "KY",
+      "party": "D",
+      "vote": "Yea"
+    },
+    {
+      "bioguideId": "P000197",
+      "name": "Pelosi, Nancy",
+      "state": "CA",
+      "party": "D",
+      "vote": "Yea"
+    },
+    {
+      "bioguideId": "M001165",
+      "name": "McCarthy, Kevin",
+      "state": "CA",
+      "party": "R",
+      "vote": "Nay"
+    },
+    {
+      "bioguideId": "S001176",
+      "name": "Scalise, Steve",
+      "state": "LA",
+      "party": "R",
+      "vote": "Nay"
+    }
+  ],
+  "bill": {
+    "congress": 117,
+    "type": "HR",
+    "number": 5376
+  },
+  "sourceUrl": "https://clerk.house.gov/Votes/2022420"
+}

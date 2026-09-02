@@ -1,0 +1,105 @@
+{
+  "congress": 118,
+  "type": "HR",
+  "number": 7218,
+  "title": "A bill to provide emergency security assistance and for other purposes (Model Suspension Recovery Bill)",
+  "originChamber": "House",
+  "introducedDate": "2024-02-05",
+  "policyArea": {
+    "name": "Armed Forces and National Security"
+  },
+  "legislativeSubjects": [
+    "Appropriations",
+    "Defense spending",
+    "Military assistance, sales, and agreements"
+  ],
+  "sponsors": [
+    {
+      "bioguideId": "C001053",
+      "fullName": "Cole, Tom",
+      "party": "R",
+      "state": "OK",
+      "district": 4
+    }
+  ],
+  "cosponsors": [],
+  "committees": {
+    "count": 1,
+    "items": [
+      {
+        "systemCode": "hsap00",
+        "chamber": "House",
+        "name": "House Committee on Appropriations",
+        "activities": [{ "name": "Referred to", "date": "2024-02-05" }]
+      }
+    ]
+  },
+  "actions": {
+    "count": 4,
+    "items": [
+      {
+        "actionDate": "2024-02-05",
+        "text": "Referred to the House Committee on Appropriations.",
+        "type": "IntroReferral",
+        "actionCode": "H11100"
+      },
+      {
+        "actionDate": "2024-02-06",
+        "text": "On motion to suspend the rules and pass the bill Failed by the Yeas and Nays: (2/3 required): 250 - 180 (Roll no. 38).",
+        "type": "Floor",
+        "actionCode": "H37300"
+      },
+      {
+        "actionDate": "2024-02-14",
+        "text": "Rules Committee Resolution H. Res. 1000 Reported to House.",
+        "type": "Floor",
+        "actionCode": "H1L220"
+      },
+      {
+        "actionDate": "2024-02-15",
+        "text": "On passage Passed by the Yeas and Nays: 219 - 210 (Roll no. 45).",
+        "type": "Floor",
+        "actionCode": "H37100",
+        "recordedVotes": [
+          {
+            "chamber": "House",
+            "congress": 118,
+            "rollNumber": 45,
+            "sessionNumber": 2,
+            "url": "https://clerk.house.gov/Votes/202445"
+          }
+        ]
+      }
+    ]
+  },
+  "amendments": {
+    "count": 0,
+    "items": []
+  },
+  "textVersions": {
+    "count": 2,
+    "items": [
+      {
+        "type": "ih",
+        "date": "2024-02-05",
+        "formats": [
+          {
+            "type": "PDF",
+            "url": "https://www.congress.gov/118/bills/hr7218/BILLS-118hr7218ih.pdf"
+          }
+        ]
+      },
+      {
+        "type": "eh",
+        "date": "2024-02-15",
+        "formats": [
+          {
+            "type": "PDF",
+            "url": "https://www.congress.gov/118/bills/hr7218/BILLS-118hr7218eh.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  "url": "https://www.congress.gov/bill/118th-congress/house-bill/7218"
+}

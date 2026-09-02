@@ -1,0 +1,1658 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-08-28T00:00:00.000Z",
+  "primarySource": "Congress.gov API",
+  "secondaryDocumentSource": "GovInfo API",
+  "congresses": [
+    {
+      "congressNumber": 116,
+      "name": "116th United States Congress",
+      "startYear": 2019,
+      "endYear": 2021,
+      "sessions": [
+        {
+          "sessionNumber": 1,
+          "startDate": "2019-01-03",
+          "endDate": "2020-01-03",
+          "sineDie": true
+        },
+        {
+          "sessionNumber": 2,
+          "startDate": "2020-01-03",
+          "endDate": "2021-01-03",
+          "sineDie": true
+        }
+      ]
+    },
+    {
+      "congressNumber": 117,
+      "name": "117th United States Congress",
+      "startYear": 2021,
+      "endYear": 2023,
+      "sessions": [
+        {
+          "sessionNumber": 1,
+          "startDate": "2021-01-03",
+          "endDate": "2022-01-03",
+          "sineDie": true
+        },
+        {
+          "sessionNumber": 2,
+          "startDate": "2022-01-03",
+          "endDate": "2023-01-03",
+          "sineDie": true
+        }
+      ]
+    },
+    {
+      "congressNumber": 118,
+      "name": "118th United States Congress",
+      "startYear": 2023,
+      "endYear": 2025,
+      "sessions": [
+        {
+          "sessionNumber": 1,
+          "startDate": "2023-01-03",
+          "endDate": "2024-01-03",
+          "sineDie": true
+        },
+        {
+          "sessionNumber": 2,
+          "startDate": "2024-01-03",
+          "endDate": "2025-01-03",
+          "sineDie": true
+        }
+      ]
+    }
+  ],
+  "measures": [
+    {
+      "measureId": "us_fed_116_hr_6395",
+      "congress": 116,
+      "measureType": "hr",
+      "measureNumber": 6395,
+      "displayNumber": "H.R. 6395",
+      "title": "William M. (Mac) Thornberry National Defense Authorization Act for Fiscal Year 2021",
+      "originChamber": "house",
+      "introducedDate": "2020-03-26",
+      "policyArea": "Armed Forces and National Security",
+      "legislativeSubjects": [
+        "Appropriations",
+        "Armed forces and national security",
+        "Defense spending",
+        "Military procurement",
+        "Veterans' organizations and recognition"
+      ],
+      "sponsors": [
+        {
+          "bioguideId": "S000510",
+          "fullName": "Smith, Adam",
+          "chamber": "house",
+          "party": "D",
+          "state": "WA",
+          "district": 9,
+          "isPrimary": true
+        }
+      ],
+      "committees": [
+        {
+          "systemCode": "hsas00",
+          "chamber": "house",
+          "name": "House Committee on Armed Services",
+          "subcommittees": [],
+          "activityTypes": ["Referred to", "Reported by"],
+          "referralDate": "2020-03-26",
+          "reportedDate": "2020-07-09"
+        }
+      ],
+      "actions": [
+        {
+          "actionId": "us_fed_116_hr_6395_act_1",
+          "sequence": 1,
+          "actionDate": "2020-03-26",
+          "actingChamber": "house",
+          "actionCode": "H11100",
+          "actionType": "IntroReferral",
+          "rawDescription": "Introduced in House and referred to Committee on Armed Services.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/116th-congress/house-bill/6395"
+        },
+        {
+          "actionId": "us_fed_116_hr_6395_act_2",
+          "sequence": 2,
+          "actionDate": "2020-07-21",
+          "actingChamber": "house",
+          "actionCode": "H37100",
+          "actionType": "Floor",
+          "rawDescription": "On passage Passed by the Yeas and Nays: 295 - 125 (Roll no. 152).",
+          "recordedVoteRef": {
+            "congress": 116,
+            "chamber": "house",
+            "rollNumber": 152,
+            "url": "https://clerk.house.gov/Votes/2020152"
+          },
+          "sourceUrl": "https://www.congress.gov/bill/116th-congress/house-bill/6395"
+        },
+        {
+          "actionId": "us_fed_116_hr_6395_act_3",
+          "sequence": 3,
+          "actionDate": "2020-07-23",
+          "actingChamber": "senate",
+          "actionCode": "17000",
+          "actionType": "Floor",
+          "rawDescription": "Passed Senate with an amendment by Yea-Nay Vote. 86 - 14. Record Vote Number: 140.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/116th-congress/house-bill/6395"
+        },
+        {
+          "actionId": "us_fed_116_hr_6395_act_4",
+          "sequence": 4,
+          "actionDate": "2020-12-08",
+          "actingChamber": "house",
+          "actionCode": "H38310",
+          "actionType": "ResolvingDifferences",
+          "rawDescription": "Conference report agreed to in House: On agreeing to the conference report Agreed to by the Yeas and Nays: 335 - 78, 1 Present (Roll no. 238).",
+          "recordedVoteRef": {
+            "congress": 116,
+            "chamber": "house",
+            "rollNumber": 238,
+            "url": "https://clerk.house.gov/Votes/2020238"
+          },
+          "sourceUrl": "https://www.congress.gov/bill/116th-congress/house-bill/6395"
+        },
+        {
+          "actionId": "us_fed_116_hr_6395_act_5",
+          "sequence": 5,
+          "actionDate": "2020-12-11",
+          "actingChamber": "senate",
+          "actionCode": "S38310",
+          "actionType": "ResolvingDifferences",
+          "rawDescription": "Conference report agreed to in Senate: Senate agreed to conference report by Yea-Nay Vote. 84 - 13. Record Vote Number: 264.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/116th-congress/house-bill/6395"
+        },
+        {
+          "actionId": "us_fed_116_hr_6395_act_6",
+          "sequence": 6,
+          "actionDate": "2020-12-11",
+          "actingChamber": "president",
+          "actionCode": "E20000",
+          "actionType": "President",
+          "rawDescription": "Presented to President.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/116th-congress/house-bill/6395"
+        },
+        {
+          "actionId": "us_fed_116_hr_6395_act_7",
+          "sequence": 7,
+          "actionDate": "2020-12-23",
+          "actingChamber": "president",
+          "actionCode": "31000",
+          "actionType": "President",
+          "rawDescription": "Vetoed by President. Message on the Veto sent to the House of Representatives.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/116th-congress/house-bill/6395"
+        },
+        {
+          "actionId": "us_fed_116_hr_6395_act_8",
+          "sequence": 8,
+          "actionDate": "2020-12-28",
+          "actingChamber": "president",
+          "actionCode": "H36100",
+          "actionType": "Floor",
+          "rawDescription": "Two-thirds of the Members voting having responded in the affirmative, the House passed the bill over Presidential veto by the Yeas and Nays: (2/3 required): 322 - 87 (Roll no. 253).",
+          "recordedVoteRef": {
+            "congress": 116,
+            "chamber": "house",
+            "rollNumber": 253,
+            "url": "https://clerk.house.gov/Votes/2020253"
+          },
+          "sourceUrl": "https://www.congress.gov/bill/116th-congress/house-bill/6395"
+        },
+        {
+          "actionId": "us_fed_116_hr_6395_act_9",
+          "sequence": 9,
+          "actionDate": "2021-01-01",
+          "actingChamber": "president",
+          "actionCode": "S36100",
+          "actionType": "Floor",
+          "rawDescription": "Passed Senate over veto: Passed Senate over presidential veto by Yea-Nay Vote. 81 - 13. Record Vote Number: 292. Became Public Law No: 116-283 over presidential veto.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/116th-congress/house-bill/6395"
+        }
+      ],
+      "amendments": [],
+      "textVersions": [
+        {
+          "versionCode": "ih",
+          "versionName": "Introduced in House",
+          "date": "2020-03-26",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/116/bills/hr6395/BILLS-116hr6395ih.pdf",
+              "sha256": "26b8f6ee1b2f70f3d2f6c739c37cd39be4b3cada017e89818e3b72be20c46322"
+            }
+          ],
+          "contentSha256": "26b8f6ee1b2f70f3d2f6c739c37cd39be4b3cada017e89818e3b72be20c46322"
+        },
+        {
+          "versionCode": "enr",
+          "versionName": "Enrolled Bill",
+          "date": "2020-12-11",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/116/bills/hr6395/BILLS-116hr6395enr.pdf",
+              "sha256": "055b3dabc1c35d75fbdff1536aa1cd6b62cce105baf02ca1425867552b1edd69"
+            }
+          ],
+          "contentSha256": "055b3dabc1c35d75fbdff1536aa1cd6b62cce105baf02ca1425867552b1edd69"
+        },
+        {
+          "versionCode": "pl",
+          "versionName": "Public Law",
+          "date": "2021-01-01",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.govinfo.gov/content/pkg/PLAW-116publ283/pdf/PLAW-116publ283.pdf",
+              "sha256": "796fad54057500fd080b3e33e6e485eee11a9b57d201ba3b8fe6be337ffa9a2c"
+            }
+          ],
+          "contentSha256": "796fad54057500fd080b3e33e6e485eee11a9b57d201ba3b8fe6be337ffa9a2c"
+        }
+      ],
+      "houseVotes": [],
+      "publicLawNumber": "Public Law 116-283",
+      "rawProviderStatus": "Passed Senate over veto: Passed Senate over presidential veto by Yea-Nay Vote. 81 - 13. Record Vote Number: 292. Became Public Law No: 116-283 over presidential veto.",
+      "derivedLifecycle": {
+        "status": "veto-override",
+        "detail": "Enacted into law over Presidential veto (Public Law 116-283)",
+        "vetoDate": "2020-12-23",
+        "vetoOverrideDate": "2021-01-01",
+        "enactmentDate": "2021-01-01"
+      },
+      "officialCongressGovUrl": "https://www.congress.gov/bill/116th-congress/house-bill/6395",
+      "govinfoPackageId": null,
+      "provenance": {
+        "primarySource": "Congress.gov API",
+        "secondaryDocumentSource": "GovInfo API",
+        "retrievedAt": "2026-08-28T00:00:00.000Z",
+        "schemaVersion": "1.0.0",
+        "recordSha256": "3599a47a5b0969f82858d0489ca3b40ffb1e3bf51a2da839c75181593ac57822"
+      }
+    },
+    {
+      "measureId": "us_fed_117_hr_4521",
+      "congress": 117,
+      "measureType": "hr",
+      "measureNumber": 4521,
+      "displayNumber": "H.R. 4521",
+      "title": "America COMPETES Act of 2022",
+      "originChamber": "house",
+      "introducedDate": "2021-07-19",
+      "policyArea": "Science, Technology, Communications",
+      "legislativeSubjects": [
+        "Advanced technology and technological innovations",
+        "Competitiveness, trade promotion, trade deficits",
+        "Research and development",
+        "Semiconductors"
+      ],
+      "sponsors": [
+        {
+          "bioguideId": "J000126",
+          "fullName": "Johnson, Eddie Bernice",
+          "chamber": "house",
+          "party": "D",
+          "state": "TX",
+          "district": 30,
+          "isPrimary": true
+        }
+      ],
+      "committees": [
+        {
+          "systemCode": "hssy00",
+          "chamber": "house",
+          "name": "House Committee on Science, Space, and Technology",
+          "subcommittees": [],
+          "activityTypes": ["Referred to", "Reported by"],
+          "referralDate": "2021-07-19",
+          "reportedDate": "2022-01-19"
+        }
+      ],
+      "actions": [
+        {
+          "actionId": "us_fed_117_hr_4521_act_1",
+          "sequence": 1,
+          "actionDate": "2021-07-19",
+          "actingChamber": "house",
+          "actionCode": "H11100",
+          "actionType": "IntroReferral",
+          "rawDescription": "Introduced in House and referred to Committee on Science, Space, and Technology.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/117th-congress/house-bill/4521"
+        },
+        {
+          "actionId": "us_fed_117_hr_4521_act_2",
+          "sequence": 2,
+          "actionDate": "2022-02-02",
+          "actingChamber": "house",
+          "actionCode": "H73000",
+          "actionType": "Floor",
+          "rawDescription": "H.Amdt. 150 Amendment offered by Mr. Castro (TX).",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/117th-congress/house-bill/4521"
+        },
+        {
+          "actionId": "us_fed_117_hr_4521_act_3",
+          "sequence": 3,
+          "actionDate": "2022-02-04",
+          "actingChamber": "house",
+          "actionCode": "H37100",
+          "actionType": "Floor",
+          "rawDescription": "On passage Passed by the Yeas and Nays: 222 - 210 (Roll no. 31).",
+          "recordedVoteRef": {
+            "congress": 117,
+            "chamber": "house",
+            "rollNumber": 31,
+            "url": "https://clerk.house.gov/Votes/202231"
+          },
+          "sourceUrl": "https://www.congress.gov/bill/117th-congress/house-bill/4521"
+        }
+      ],
+      "amendments": [
+        {
+          "amendmentId": "us_fed_117_hamdt_150",
+          "amendmentType": "hamdt",
+          "amendmentNumber": 150,
+          "congress": 117,
+          "parentMeasureId": "us_fed_117_hr_4521",
+          "chamber": "house",
+          "description": "An amendment numbered 126 printed in Part C of House Report 117-241 to establish a Chief Diversity Officer at the National Science Foundation.",
+          "purpose": "To create a Chief Diversity Officer at NSF.",
+          "sponsorBioguideId": "C001091",
+          "sponsorName": "Castro, Joaquin",
+          "sponsorParty": "D",
+          "sponsorState": "TX",
+          "offeredDate": "2022-02-02",
+          "rawStatus": "Agreed to in House",
+          "isAgreedTo": true,
+          "isFailed": false,
+          "isWithdrawn": false,
+          "sourceUrl": "https://www.congress.gov/amendment/117th-congress/house-amendment/150"
+        }
+      ],
+      "textVersions": [
+        {
+          "versionCode": "ih",
+          "versionName": "Introduced in House",
+          "date": "2021-07-19",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/117/bills/hr4521/BILLS-117hr4521ih.pdf",
+              "sha256": "df18be5b32448b93f61bf5640794d0a955969e59351ffeab2890145b86a08b7f"
+            }
+          ],
+          "contentSha256": "df18be5b32448b93f61bf5640794d0a955969e59351ffeab2890145b86a08b7f"
+        },
+        {
+          "versionCode": "eh",
+          "versionName": "Engrossed in House",
+          "date": "2022-02-04",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/117/bills/hr4521/BILLS-117hr4521eh.pdf",
+              "sha256": "f087ec8787cd11873330055114d523de3c4147df3e7d865770f0e3c164081e40"
+            }
+          ],
+          "contentSha256": "f087ec8787cd11873330055114d523de3c4147df3e7d865770f0e3c164081e40"
+        }
+      ],
+      "houseVotes": [],
+      "publicLawNumber": null,
+      "rawProviderStatus": "On passage Passed by the Yeas and Nays: 222 - 210 (Roll no. 31).",
+      "derivedLifecycle": {
+        "status": "chamber-passed",
+        "detail": "Passed House; awaiting action in second chamber"
+      },
+      "officialCongressGovUrl": "https://www.congress.gov/bill/117th-congress/house-bill/4521",
+      "govinfoPackageId": null,
+      "provenance": {
+        "primarySource": "Congress.gov API",
+        "secondaryDocumentSource": "GovInfo API",
+        "retrievedAt": "2026-08-28T00:00:00.000Z",
+        "schemaVersion": "1.0.0",
+        "recordSha256": "96811284006827a293761224b66914adbba79c9309672d36bb70b4da69813787"
+      }
+    },
+    {
+      "measureId": "us_fed_117_hr_5376",
+      "congress": 117,
+      "measureType": "hr",
+      "measureNumber": 5376,
+      "displayNumber": "H.R. 5376",
+      "title": "An Act to provide for reconciliation pursuant to title II of S. Con. Res. 14 (Inflation Reduction Act of 2022)",
+      "originChamber": "house",
+      "introducedDate": "2021-09-27",
+      "policyArea": "Taxation",
+      "legislativeSubjects": [
+        "Climate change and greenhouse gases",
+        "Energy efficiency and conservation",
+        "Health care coverage and access",
+        "Income tax credits",
+        "Prescription drugs",
+        "Sales and excise taxes"
+      ],
+      "sponsors": [
+        {
+          "bioguideId": "Y000062",
+          "fullName": "Yarmuth, John A.",
+          "chamber": "house",
+          "party": "D",
+          "state": "KY",
+          "district": 3,
+          "isPrimary": true
+        }
+      ],
+      "committees": [
+        {
+          "systemCode": "hsbu00",
+          "chamber": "house",
+          "name": "House Committee on the Budget",
+          "subcommittees": [],
+          "activityTypes": ["Referred to", "Reported by"],
+          "referralDate": "2021-09-27",
+          "reportedDate": "2021-09-27"
+        }
+      ],
+      "actions": [
+        {
+          "actionId": "us_fed_117_hr_5376_act_1",
+          "sequence": 1,
+          "actionDate": "2021-09-27",
+          "actingChamber": "house",
+          "actionCode": "H11100",
+          "actionType": "IntroReferral",
+          "rawDescription": "Introduced in House and reported by the Committee on the Budget. H. Rept. 117-130.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/117th-congress/house-bill/5376"
+        },
+        {
+          "actionId": "us_fed_117_hr_5376_act_2",
+          "sequence": 2,
+          "actionDate": "2021-11-19",
+          "actingChamber": "house",
+          "actionCode": "H37100",
+          "actionType": "Floor",
+          "rawDescription": "On passage Passed by the Yeas and Nays: 220 - 213 (Roll no. 385).",
+          "recordedVoteRef": {
+            "congress": 117,
+            "chamber": "house",
+            "rollNumber": 385,
+            "url": "https://clerk.house.gov/Votes/2021385"
+          },
+          "sourceUrl": "https://www.congress.gov/bill/117th-congress/house-bill/5376"
+        },
+        {
+          "actionId": "us_fed_117_hr_5376_act_3",
+          "sequence": 3,
+          "actionDate": "2022-08-07",
+          "actingChamber": "senate",
+          "actionCode": "17000",
+          "actionType": "Floor",
+          "rawDescription": "Passed Senate with an amendment by Yea-Nay Vote. 51 - 50. Record Vote Number: 303.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/117th-congress/house-bill/5376"
+        },
+        {
+          "actionId": "us_fed_117_hr_5376_act_4",
+          "sequence": 4,
+          "actionDate": "2022-08-12",
+          "actingChamber": "house",
+          "actionCode": "H38310",
+          "actionType": "ResolvingDifferences",
+          "rawDescription": "Resolving differences -- House actions: On motion that the House agree to the Senate amendment Agreed to by the Yeas and Nays: 220 - 207 (Roll no. 420).",
+          "recordedVoteRef": {
+            "congress": 117,
+            "chamber": "house",
+            "rollNumber": 420,
+            "url": "https://clerk.house.gov/Votes/2022420"
+          },
+          "sourceUrl": "https://www.congress.gov/bill/117th-congress/house-bill/5376"
+        },
+        {
+          "actionId": "us_fed_117_hr_5376_act_5",
+          "sequence": 5,
+          "actionDate": "2022-08-15",
+          "actingChamber": "president",
+          "actionCode": "E20000",
+          "actionType": "President",
+          "rawDescription": "Presented to President.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/117th-congress/house-bill/5376"
+        },
+        {
+          "actionId": "us_fed_117_hr_5376_act_6",
+          "sequence": 6,
+          "actionDate": "2022-08-16",
+          "actingChamber": "president",
+          "actionCode": "E30000",
+          "actionType": "President",
+          "rawDescription": "Signed by President.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/117th-congress/house-bill/5376"
+        },
+        {
+          "actionId": "us_fed_117_hr_5376_act_7",
+          "sequence": 7,
+          "actionDate": "2022-08-16",
+          "actingChamber": "house",
+          "actionCode": "36000",
+          "actionType": "President",
+          "rawDescription": "Became Public Law No: 117-169.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/117th-congress/house-bill/5376"
+        }
+      ],
+      "amendments": [
+        {
+          "amendmentId": "us_fed_117_samdt_5488",
+          "amendmentType": "samdt",
+          "amendmentNumber": 5488,
+          "congress": 117,
+          "parentMeasureId": "us_fed_117_hr_5376",
+          "chamber": "senate",
+          "description": "In the nature of a substitute.",
+          "purpose": "In the nature of a substitute.",
+          "sponsorBioguideId": "S000148",
+          "sponsorName": "Schumer, Charles E.",
+          "sponsorParty": "D",
+          "sponsorState": "NY",
+          "offeredDate": "2022-08-06",
+          "rawStatus": "Agreed to in Senate",
+          "isAgreedTo": true,
+          "isFailed": false,
+          "isWithdrawn": false,
+          "sourceUrl": null
+        }
+      ],
+      "textVersions": [
+        {
+          "versionCode": "ih",
+          "versionName": "Introduced in House",
+          "date": "2021-09-27",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "txt",
+              "url": "https://www.congress.gov/117/bills/hr5376/BILLS-117hr5376ih.htm",
+              "sha256": "f9498e7044bff817af363351514028dfb61b284c36a28fe92724a736198ebdee"
+            },
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/117/bills/hr5376/BILLS-117hr5376ih.pdf",
+              "sha256": "ec0e1b0736c77b220d46d27c0f967c008d7516551fd82fa7285b85e7e2dcc8c6"
+            },
+            {
+              "formatType": "xml",
+              "url": "https://www.congress.gov/117/bills/hr5376/BILLS-117hr5376ih.xml",
+              "sha256": "7c4590bef8d6f1b0b48c12b0a65e99abbff8047f99cee86c4783ffa75e2ede91"
+            }
+          ],
+          "contentSha256": "f9498e7044bff817af363351514028dfb61b284c36a28fe92724a736198ebdee"
+        },
+        {
+          "versionCode": "enr",
+          "versionName": "Enrolled Bill",
+          "date": "2022-08-12",
+          "govinfoPackageId": "BILLS-117hr5376enr",
+          "formats": [
+            {
+              "formatType": "txt",
+              "url": "https://www.congress.gov/117/bills/hr5376/BILLS-117hr5376enr.htm",
+              "sha256": "af7f067efb8362eb7e9b9300d3f3a8bbffc8c4fe5f376401bf345c50e8494ed6"
+            },
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/117/bills/hr5376/BILLS-117hr5376enr.pdf",
+              "sha256": "5f52144d6028a3c95ce042f1cd06d7cad01692e42793fcbab0c369a0c21140a5"
+            },
+            {
+              "formatType": "xml",
+              "url": "https://www.congress.gov/117/bills/hr5376/BILLS-117hr5376enr.xml",
+              "sha256": "877cb37666b56b1ac364d1898bfad9ab1e2a54c6228c0f41d981d1b5a9d81f3c"
+            }
+          ],
+          "contentSha256": "af7f067efb8362eb7e9b9300d3f3a8bbffc8c4fe5f376401bf345c50e8494ed6"
+        },
+        {
+          "versionCode": "pl",
+          "versionName": "Public Law",
+          "date": "2022-08-16",
+          "govinfoPackageId": "BILLS-117hr5376pl",
+          "formats": [
+            {
+              "formatType": "txt",
+              "url": "https://www.govinfo.gov/content/pkg/PLAW-117publ169/html/PLAW-117publ169.htm",
+              "sha256": "f2bea53039cc8ef860153f2d327f0288ab5334a02d874f7c02de6226051ab6af"
+            },
+            {
+              "formatType": "pdf",
+              "url": "https://www.govinfo.gov/content/pkg/PLAW-117publ169/pdf/PLAW-117publ169.pdf",
+              "sha256": "ccd60fa0f73212484cea4eae214a43b657f975e16a71d8facd35302dbc51977a"
+            },
+            {
+              "formatType": "xml",
+              "url": "https://www.govinfo.gov/content/pkg/PLAW-117publ169/xml/PLAW-117publ169.xml",
+              "sha256": "e5666a9c8c1c7bcdb73b525c270d497470c40eaa1ee8e1dfd5bff08b452c8476"
+            }
+          ],
+          "contentSha256": "f2bea53039cc8ef860153f2d327f0288ab5334a02d874f7c02de6226051ab6af"
+        }
+      ],
+      "houseVotes": [
+        {
+          "voteId": "us_fed_117_house_roll_420",
+          "congress": 117,
+          "session": 2,
+          "rollNumber": 420,
+          "chamber": "house",
+          "voteDate": "2022-08-12T16:45:00",
+          "question": "On motion that the House agree to the Senate amendment (Inflation Reduction Act of 2022)",
+          "result": "Passed",
+          "voteType": "YEA-AND-NAY",
+          "totals": {
+            "yea": 220,
+            "nay": 207,
+            "present": 0,
+            "notVoting": 4
+          },
+          "partyTotals": {
+            "Democratic": {
+              "yea": 220,
+              "nay": 0,
+              "present": 0,
+              "notVoting": 0
+            },
+            "Republican": {
+              "yea": 0,
+              "nay": 207,
+              "present": 0,
+              "notVoting": 4
+            }
+          },
+          "memberVotes": [
+            {
+              "bioguideId": "Y000062",
+              "name": "Yarmuth, John",
+              "state": "KY",
+              "party": "D",
+              "voteCast": "Yea"
+            },
+            {
+              "bioguideId": "P000197",
+              "name": "Pelosi, Nancy",
+              "state": "CA",
+              "party": "D",
+              "voteCast": "Yea"
+            },
+            {
+              "bioguideId": "M001165",
+              "name": "McCarthy, Kevin",
+              "state": "CA",
+              "party": "R",
+              "voteCast": "Nay"
+            },
+            {
+              "bioguideId": "S001176",
+              "name": "Scalise, Steve",
+              "state": "LA",
+              "party": "R",
+              "voteCast": "Nay"
+            }
+          ],
+          "officialSourceUrl": "https://clerk.house.gov/Votes/2022420",
+          "relatedMeasureId": "us_fed_117_hr_5376"
+        }
+      ],
+      "publicLawNumber": "Public Law 117-169",
+      "rawProviderStatus": "Became Public Law No: 117-169.",
+      "derivedLifecycle": {
+        "status": "signed-became-law",
+        "detail": "Became law (Public Law 117-169)",
+        "enactmentDate": "2022-08-16"
+      },
+      "officialCongressGovUrl": "https://www.congress.gov/bill/117th-congress/house-bill/5376",
+      "govinfoPackageId": "BILLS-117hr5376enr",
+      "provenance": {
+        "primarySource": "Congress.gov API",
+        "secondaryDocumentSource": "GovInfo API",
+        "retrievedAt": "2026-08-28T00:00:00.000Z",
+        "schemaVersion": "1.0.0",
+        "recordSha256": "85f9556caacc081abe61669f07004b55a679aad3d28d848c72e2db933b5de036"
+      }
+    },
+    {
+      "measureId": "us_fed_117_s_1234",
+      "congress": 117,
+      "measureType": "s",
+      "measureNumber": 1234,
+      "displayNumber": "S. 1234",
+      "title": "A bill to establish federal standards for regional workforce development coordination.",
+      "originChamber": "senate",
+      "introducedDate": "2021-04-20",
+      "policyArea": "Labor and Employment",
+      "legislativeSubjects": [
+        "Employment and training programs",
+        "Labor-management relations",
+        "Vocational and technical education"
+      ],
+      "sponsors": [
+        {
+          "bioguideId": "K000384",
+          "fullName": "Kaine, Tim",
+          "chamber": "senate",
+          "party": "D",
+          "state": "VA",
+          "district": null,
+          "isPrimary": true
+        },
+        {
+          "bioguideId": "P000449",
+          "fullName": "Portman, Rob",
+          "chamber": "senate",
+          "party": "R",
+          "state": "OH",
+          "district": null,
+          "isPrimary": false,
+          "dateCosponsored": "2021-04-20",
+          "dateWithdrawn": null
+        }
+      ],
+      "committees": [
+        {
+          "systemCode": "sshr00",
+          "chamber": "senate",
+          "name": "Senate Committee on Health, Education, Labor, and Pensions",
+          "subcommittees": [],
+          "activityTypes": ["Referred to"],
+          "referralDate": "2021-04-20",
+          "reportedDate": null
+        }
+      ],
+      "actions": [
+        {
+          "actionId": "us_fed_117_s_1234_act_1",
+          "sequence": 1,
+          "actionDate": "2021-04-20",
+          "actingChamber": "senate",
+          "actionCode": "10000",
+          "actionType": "IntroReferral",
+          "rawDescription": "Read twice and referred to the Committee on Health, Education, Labor, and Pensions.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/117th-congress/senate-bill/1234"
+        }
+      ],
+      "amendments": [],
+      "textVersions": [
+        {
+          "versionCode": "is",
+          "versionName": "Introduced in Senate",
+          "date": "2021-04-20",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/117/bills/s1234/BILLS-117s1234is.pdf",
+              "sha256": "ddc8f45bbfd21d0f3bd6cdda43e634f789101fc839c253680591c89bd81bec19"
+            }
+          ],
+          "contentSha256": "ddc8f45bbfd21d0f3bd6cdda43e634f789101fc839c253680591c89bd81bec19"
+        }
+      ],
+      "houseVotes": [],
+      "publicLawNumber": null,
+      "rawProviderStatus": "Read twice and referred to the Committee on Health, Education, Labor, and Pensions.",
+      "derivedLifecycle": {
+        "status": "unresolved",
+        "detail": "Congress adjourned sine die without final floor action or enactment"
+      },
+      "officialCongressGovUrl": "https://www.congress.gov/bill/117th-congress/senate-bill/1234",
+      "govinfoPackageId": null,
+      "provenance": {
+        "primarySource": "Congress.gov API",
+        "secondaryDocumentSource": "GovInfo API",
+        "retrievedAt": "2026-08-28T00:00:00.000Z",
+        "schemaVersion": "1.0.0",
+        "recordSha256": "b58adffd8264c3088be542dff5b8e92263c74fc2e193b2b1588d2eae351b7e3a"
+      }
+    },
+    {
+      "measureId": "us_fed_117_sconres_14",
+      "congress": 117,
+      "measureType": "sconres",
+      "measureNumber": 14,
+      "displayNumber": "S.Con.Res. 14",
+      "title": "A concurrent resolution setting forth the congressional budget for the United States Government for fiscal year 2022 and setting forth the appropriate budgetary levels for fiscal years 2023 through 2031.",
+      "originChamber": "senate",
+      "introducedDate": "2021-08-09",
+      "policyArea": "Economics and Public Finance",
+      "legislativeSubjects": [
+        "Budget deficits and national debt",
+        "Budget process",
+        "Congressional oversight",
+        "Economic performance and conditions"
+      ],
+      "sponsors": [
+        {
+          "bioguideId": "S000033",
+          "fullName": "Sanders, Bernard",
+          "chamber": "senate",
+          "party": "I",
+          "state": "VT",
+          "district": null,
+          "isPrimary": true
+        }
+      ],
+      "committees": [],
+      "actions": [
+        {
+          "actionId": "us_fed_117_sconres_14_act_1",
+          "sequence": 1,
+          "actionDate": "2021-08-09",
+          "actingChamber": "senate",
+          "actionCode": "14000",
+          "actionType": "Calendars",
+          "rawDescription": "Placed on Senate Legislative Calendar under General Orders. Calendar No. 120.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/117th-congress/senate-concurrent-resolution/14"
+        },
+        {
+          "actionId": "us_fed_117_sconres_14_act_2",
+          "sequence": 2,
+          "actionDate": "2021-08-11",
+          "actingChamber": "senate",
+          "actionCode": "17000",
+          "actionType": "Floor",
+          "rawDescription": "Resolution agreed to in Senate with amendments by Yea-Nay Vote. 50 - 49. Record Vote Number: 357.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/117th-congress/senate-concurrent-resolution/14"
+        },
+        {
+          "actionId": "us_fed_117_sconres_14_act_3",
+          "sequence": 3,
+          "actionDate": "2021-08-17",
+          "actingChamber": "house",
+          "actionCode": "H15000",
+          "actionType": "Floor",
+          "rawDescription": "Held at the desk.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/117th-congress/senate-concurrent-resolution/14"
+        },
+        {
+          "actionId": "us_fed_117_sconres_14_act_4",
+          "sequence": 4,
+          "actionDate": "2021-08-24",
+          "actingChamber": "house",
+          "actionCode": "H37100",
+          "actionType": "Floor",
+          "rawDescription": "On agreeing to the resolution Agreed to by the Yeas and Nays: 220 - 212 (Roll no. 258).",
+          "recordedVoteRef": {
+            "congress": 117,
+            "chamber": "house",
+            "rollNumber": 258,
+            "url": "https://clerk.house.gov/Votes/2021258"
+          },
+          "sourceUrl": "https://www.congress.gov/bill/117th-congress/senate-concurrent-resolution/14"
+        }
+      ],
+      "amendments": [],
+      "textVersions": [
+        {
+          "versionCode": "ats",
+          "versionName": "ats",
+          "date": "2021-08-11",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/117/bills/sconres14/BILLS-117sconres14ats.pdf",
+              "sha256": "7f84951973d7e4b9557b115cc95cd4b301dfc2e111e09bc9f8feaf97ac736729"
+            }
+          ],
+          "contentSha256": "7f84951973d7e4b9557b115cc95cd4b301dfc2e111e09bc9f8feaf97ac736729"
+        },
+        {
+          "versionCode": "enr",
+          "versionName": "Enrolled Bill",
+          "date": "2021-08-24",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/117/bills/sconres14/BILLS-117sconres14enr.pdf",
+              "sha256": "7684f42c8fcb1b8b575eb4f3c079290dcce9abf43ec3d1b58f5cf9204de26a17"
+            }
+          ],
+          "contentSha256": "7684f42c8fcb1b8b575eb4f3c079290dcce9abf43ec3d1b58f5cf9204de26a17"
+        }
+      ],
+      "houseVotes": [],
+      "publicLawNumber": null,
+      "rawProviderStatus": "On agreeing to the resolution Agreed to by the Yeas and Nays: 220 - 212 (Roll no. 258).",
+      "derivedLifecycle": {
+        "status": "both-chambers-passed",
+        "detail": "Agreed to in both House and Senate (Concurrent Resolution)"
+      },
+      "officialCongressGovUrl": "https://www.congress.gov/bill/117th-congress/senate-concurrent-resolution/14",
+      "govinfoPackageId": null,
+      "provenance": {
+        "primarySource": "Congress.gov API",
+        "secondaryDocumentSource": "GovInfo API",
+        "retrievedAt": "2026-08-28T00:00:00.000Z",
+        "schemaVersion": "1.0.0",
+        "recordSha256": "7fb397afefe9aae0959290507698b238e722e5765199e8e6cda58db08baa8a51"
+      }
+    },
+    {
+      "measureId": "us_fed_118_hjres_30",
+      "congress": 118,
+      "measureType": "hjres",
+      "measureNumber": 30,
+      "displayNumber": "H.J.Res. 30",
+      "title": "Providing for congressional disapproval under chapter 8 of title 5, United States Code, of the rule submitted by the Department of Labor relating to \"Prudence and Loyalty in Selecting Plan Investments and Exercising Shareholder Rights\".",
+      "originChamber": "house",
+      "introducedDate": "2023-02-07",
+      "policyArea": "Labor and Employment",
+      "legislativeSubjects": [
+        "Administrative law and regulatory procedures",
+        "Department of Labor",
+        "Employee benefits and pensions",
+        "Financial services and investments"
+      ],
+      "sponsors": [
+        {
+          "bioguideId": "B001282",
+          "fullName": "Barr, Andy",
+          "chamber": "house",
+          "party": "R",
+          "state": "KY",
+          "district": 6,
+          "isPrimary": true
+        }
+      ],
+      "committees": [
+        {
+          "systemCode": "hsed00",
+          "chamber": "house",
+          "name": "House Committee on Education and the Workforce",
+          "subcommittees": [],
+          "activityTypes": ["Referred to"],
+          "referralDate": "2023-02-07",
+          "reportedDate": null
+        }
+      ],
+      "actions": [
+        {
+          "actionId": "us_fed_118_hjres_30_act_1",
+          "sequence": 1,
+          "actionDate": "2023-02-07",
+          "actingChamber": "house",
+          "actionCode": "H11100",
+          "actionType": "IntroReferral",
+          "rawDescription": "Referred to the House Committee on Education and the Workforce.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-joint-resolution/30"
+        },
+        {
+          "actionId": "us_fed_118_hjres_30_act_2",
+          "sequence": 2,
+          "actionDate": "2023-02-28",
+          "actingChamber": "house",
+          "actionCode": "H37100",
+          "actionType": "Floor",
+          "rawDescription": "On passage Passed by the Yeas and Nays: 216 - 204 (Roll no. 124).",
+          "recordedVoteRef": {
+            "congress": 118,
+            "chamber": "house",
+            "rollNumber": 124,
+            "url": "https://clerk.house.gov/Votes/2023124"
+          },
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-joint-resolution/30"
+        },
+        {
+          "actionId": "us_fed_118_hjres_30_act_3",
+          "sequence": 3,
+          "actionDate": "2023-03-01",
+          "actingChamber": "senate",
+          "actionCode": "17000",
+          "actionType": "Floor",
+          "rawDescription": "Passed Senate without amendment by Yea-Nay Vote. 50 - 46. Record Vote Number: 35.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-joint-resolution/30"
+        },
+        {
+          "actionId": "us_fed_118_hjres_30_act_4",
+          "sequence": 4,
+          "actionDate": "2023-03-09",
+          "actingChamber": "president",
+          "actionCode": "E20000",
+          "actionType": "President",
+          "rawDescription": "Presented to President.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-joint-resolution/30"
+        },
+        {
+          "actionId": "us_fed_118_hjres_30_act_5",
+          "sequence": 5,
+          "actionDate": "2023-03-20",
+          "actingChamber": "president",
+          "actionCode": "31000",
+          "actionType": "President",
+          "rawDescription": "Vetoed by President.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-joint-resolution/30"
+        },
+        {
+          "actionId": "us_fed_118_hjres_30_act_6",
+          "sequence": 6,
+          "actionDate": "2023-03-23",
+          "actingChamber": "president",
+          "actionCode": "H36100",
+          "actionType": "Floor",
+          "rawDescription": "The Chair directed the Clerk to notify the Senate of the action of the House. On motion to override the veto of the President Failed by the Yeas and Nays: (2/3 required): 219 - 200 (Roll no. 149).",
+          "recordedVoteRef": {
+            "congress": 118,
+            "chamber": "house",
+            "rollNumber": 149,
+            "url": "https://clerk.house.gov/Votes/2023149"
+          },
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-joint-resolution/30"
+        }
+      ],
+      "amendments": [],
+      "textVersions": [
+        {
+          "versionCode": "ih",
+          "versionName": "Introduced in House",
+          "date": "2023-02-07",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "txt",
+              "url": "https://www.congress.gov/118/bills/hjres30/BILLS-118hjres30ih.htm",
+              "sha256": "b65f550043430bbc505f0b438bc13c59624bf16b8eb8b787f9f77e2b94cd6926"
+            },
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/118/bills/hjres30/BILLS-118hjres30ih.pdf",
+              "sha256": "a3f2376f1801efc58a6392dac31b276a8d655681f1cab578376af755cf8078fa"
+            }
+          ],
+          "contentSha256": "b65f550043430bbc505f0b438bc13c59624bf16b8eb8b787f9f77e2b94cd6926"
+        },
+        {
+          "versionCode": "enr",
+          "versionName": "Enrolled Bill",
+          "date": "2023-03-01",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "txt",
+              "url": "https://www.congress.gov/118/bills/hjres30/BILLS-118hjres30enr.htm",
+              "sha256": "f85da32cce315cad0d30d5b35456092917152728bf3e1677438f87b707e91d1a"
+            },
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/118/bills/hjres30/BILLS-118hjres30enr.pdf",
+              "sha256": "94ec84d9e649f6aa2cac84126d8ae428b68b99ff38ba88f44d0e281221ff317e"
+            }
+          ],
+          "contentSha256": "f85da32cce315cad0d30d5b35456092917152728bf3e1677438f87b707e91d1a"
+        }
+      ],
+      "houseVotes": [],
+      "publicLawNumber": null,
+      "rawProviderStatus": "The Chair directed the Clerk to notify the Senate of the action of the House. On motion to override the veto of the President Failed by the Yeas and Nays: (2/3 required): 219 - 200 (Roll no. 149).",
+      "derivedLifecycle": {
+        "status": "vetoed",
+        "detail": "Presidential veto sustained; returned to Congress",
+        "vetoDate": "2023-03-20",
+        "failureReason": "Presidential veto"
+      },
+      "officialCongressGovUrl": "https://www.congress.gov/bill/118th-congress/house-joint-resolution/30",
+      "govinfoPackageId": null,
+      "provenance": {
+        "primarySource": "Congress.gov API",
+        "secondaryDocumentSource": "GovInfo API",
+        "retrievedAt": "2026-08-28T00:00:00.000Z",
+        "schemaVersion": "1.0.0",
+        "recordSha256": "409b2e51013163a3c94f80b805c843f49e3a40b8d7321cae364876d95edc8194"
+      }
+    },
+    {
+      "measureId": "us_fed_118_hr_7217",
+      "congress": 118,
+      "measureType": "hr",
+      "measureNumber": 7217,
+      "displayNumber": "H.R. 7217",
+      "title": "Israel Security Supplemental Appropriations Act, 2024",
+      "originChamber": "house",
+      "introducedDate": "2024-02-05",
+      "policyArea": "International Affairs",
+      "legislativeSubjects": [
+        "Appropriations",
+        "Defense spending",
+        "Foreign aid and international relief",
+        "Israel",
+        "Middle East",
+        "Military assistance, sales, and agreements"
+      ],
+      "sponsors": [
+        {
+          "bioguideId": "C001053",
+          "fullName": "Cole, Tom",
+          "chamber": "house",
+          "party": "R",
+          "state": "OK",
+          "district": 4,
+          "isPrimary": true
+        }
+      ],
+      "committees": [
+        {
+          "systemCode": "hsap00",
+          "chamber": "house",
+          "name": "House Committee on Appropriations",
+          "subcommittees": [],
+          "activityTypes": ["Referred to"],
+          "referralDate": "2024-02-05",
+          "reportedDate": null
+        }
+      ],
+      "actions": [
+        {
+          "actionId": "us_fed_118_hr_7217_act_1",
+          "sequence": 1,
+          "actionDate": "2024-02-05",
+          "actingChamber": "house",
+          "actionCode": "H11100",
+          "actionType": "IntroReferral",
+          "rawDescription": "Referred to the Committee on Appropriations, and in addition to the Committee on the Budget.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-bill/7217"
+        },
+        {
+          "actionId": "us_fed_118_hr_7217_act_2",
+          "sequence": 2,
+          "actionDate": "2024-02-06",
+          "actingChamber": "house",
+          "actionCode": "H30300",
+          "actionType": "Floor",
+          "rawDescription": "Mr. Calvert moved to suspend the rules and pass the bill.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-bill/7217"
+        },
+        {
+          "actionId": "us_fed_118_hr_7217_act_3",
+          "sequence": 3,
+          "actionDate": "2024-02-06",
+          "actingChamber": "house",
+          "actionCode": "H37300",
+          "actionType": "Floor",
+          "rawDescription": "On motion to suspend the rules and pass the bill Failed by the Yeas and Nays: (2/3 required): 250 - 180 (Roll no. 38).",
+          "recordedVoteRef": {
+            "congress": 118,
+            "chamber": "house",
+            "rollNumber": 38,
+            "url": "https://clerk.house.gov/Votes/202438"
+          },
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-bill/7217"
+        }
+      ],
+      "amendments": [],
+      "textVersions": [
+        {
+          "versionCode": "ih",
+          "versionName": "Introduced in House",
+          "date": "2024-02-05",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/118/bills/hr7217/BILLS-118hr7217ih.pdf",
+              "sha256": "ad8ec4d969f434a6ad2357b7c7f1cd54acb3142d90c684e0e04d6645fb6425c2"
+            }
+          ],
+          "contentSha256": "ad8ec4d969f434a6ad2357b7c7f1cd54acb3142d90c684e0e04d6645fb6425c2"
+        }
+      ],
+      "houseVotes": [],
+      "publicLawNumber": null,
+      "rawProviderStatus": "On motion to suspend the rules and pass the bill Failed by the Yeas and Nays: (2/3 required): 250 - 180 (Roll no. 38).",
+      "derivedLifecycle": {
+        "status": "unresolved",
+        "detail": "Congress adjourned sine die without final floor action or enactment"
+      },
+      "officialCongressGovUrl": "https://www.congress.gov/bill/118th-congress/house-bill/7217",
+      "govinfoPackageId": null,
+      "provenance": {
+        "primarySource": "Congress.gov API",
+        "secondaryDocumentSource": "GovInfo API",
+        "retrievedAt": "2026-08-28T00:00:00.000Z",
+        "schemaVersion": "1.0.0",
+        "recordSha256": "01f8a1a98916dbe3baf1dca00b52837604a17242f21a821c6bebddd33f311cff"
+      }
+    },
+    {
+      "measureId": "us_fed_118_hr_7218",
+      "congress": 118,
+      "measureType": "hr",
+      "measureNumber": 7218,
+      "displayNumber": "H.R. 7218",
+      "title": "A bill to provide emergency security assistance and for other purposes (Model Suspension Recovery Bill)",
+      "originChamber": "house",
+      "introducedDate": "2024-02-05",
+      "policyArea": "Armed Forces and National Security",
+      "legislativeSubjects": [
+        "Appropriations",
+        "Defense spending",
+        "Military assistance, sales, and agreements"
+      ],
+      "sponsors": [
+        {
+          "bioguideId": "C001053",
+          "fullName": "Cole, Tom",
+          "chamber": "house",
+          "party": "R",
+          "state": "OK",
+          "district": 4,
+          "isPrimary": true
+        }
+      ],
+      "committees": [
+        {
+          "systemCode": "hsap00",
+          "chamber": "house",
+          "name": "House Committee on Appropriations",
+          "subcommittees": [],
+          "activityTypes": ["Referred to"],
+          "referralDate": "2024-02-05",
+          "reportedDate": null
+        }
+      ],
+      "actions": [
+        {
+          "actionId": "us_fed_118_hr_7218_act_1",
+          "sequence": 1,
+          "actionDate": "2024-02-05",
+          "actingChamber": "house",
+          "actionCode": "H11100",
+          "actionType": "IntroReferral",
+          "rawDescription": "Referred to the House Committee on Appropriations.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-bill/7218"
+        },
+        {
+          "actionId": "us_fed_118_hr_7218_act_2",
+          "sequence": 2,
+          "actionDate": "2024-02-06",
+          "actingChamber": "house",
+          "actionCode": "H37300",
+          "actionType": "Floor",
+          "rawDescription": "On motion to suspend the rules and pass the bill Failed by the Yeas and Nays: (2/3 required): 250 - 180 (Roll no. 38).",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-bill/7218"
+        },
+        {
+          "actionId": "us_fed_118_hr_7218_act_3",
+          "sequence": 3,
+          "actionDate": "2024-02-14",
+          "actingChamber": "house",
+          "actionCode": "H1L220",
+          "actionType": "Floor",
+          "rawDescription": "Rules Committee Resolution H. Res. 1000 Reported to House.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-bill/7218"
+        },
+        {
+          "actionId": "us_fed_118_hr_7218_act_4",
+          "sequence": 4,
+          "actionDate": "2024-02-15",
+          "actingChamber": "house",
+          "actionCode": "H37100",
+          "actionType": "Floor",
+          "rawDescription": "On passage Passed by the Yeas and Nays: 219 - 210 (Roll no. 45).",
+          "recordedVoteRef": {
+            "congress": 118,
+            "chamber": "house",
+            "rollNumber": 45,
+            "url": "https://clerk.house.gov/Votes/202445"
+          },
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-bill/7218"
+        }
+      ],
+      "amendments": [],
+      "textVersions": [
+        {
+          "versionCode": "ih",
+          "versionName": "Introduced in House",
+          "date": "2024-02-05",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/118/bills/hr7218/BILLS-118hr7218ih.pdf",
+              "sha256": "e549f5a95f066e0050fde4d0b40831018ddc0470f8281a68bf67044aa4e2d273"
+            }
+          ],
+          "contentSha256": "e549f5a95f066e0050fde4d0b40831018ddc0470f8281a68bf67044aa4e2d273"
+        },
+        {
+          "versionCode": "eh",
+          "versionName": "Engrossed in House",
+          "date": "2024-02-15",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/118/bills/hr7218/BILLS-118hr7218eh.pdf",
+              "sha256": "0ed8e36aeb487e926bb39817a7eb9cfbd3e3640f7ab8c77ff98d4023cd105d4f"
+            }
+          ],
+          "contentSha256": "0ed8e36aeb487e926bb39817a7eb9cfbd3e3640f7ab8c77ff98d4023cd105d4f"
+        }
+      ],
+      "houseVotes": [],
+      "publicLawNumber": null,
+      "rawProviderStatus": "On passage Passed by the Yeas and Nays: 219 - 210 (Roll no. 45).",
+      "derivedLifecycle": {
+        "status": "chamber-passed",
+        "detail": "Passed House; awaiting action in second chamber"
+      },
+      "officialCongressGovUrl": "https://www.congress.gov/bill/118th-congress/house-bill/7218",
+      "govinfoPackageId": null,
+      "provenance": {
+        "primarySource": "Congress.gov API",
+        "secondaryDocumentSource": "GovInfo API",
+        "retrievedAt": "2026-08-28T00:00:00.000Z",
+        "schemaVersion": "1.0.0",
+        "recordSha256": "d8d1030eca92bae38740fd741b2199392dea0c25576a75052a3bb54c99448e2b"
+      }
+    },
+    {
+      "measureId": "us_fed_118_hr_9999",
+      "congress": 118,
+      "measureType": "hr",
+      "measureNumber": 9999,
+      "displayNumber": "H.R. 9999",
+      "title": "A bill to establish a temporary advisory council on federal procurement standards (Model Withdrawn Bill).",
+      "originChamber": "house",
+      "introducedDate": "2023-05-10",
+      "policyArea": "Government Operations and Politics",
+      "legislativeSubjects": [
+        "Advisory bodies",
+        "Executive agency funding and organization",
+        "Public contracts and procurement"
+      ],
+      "sponsors": [
+        {
+          "bioguideId": "S001176",
+          "fullName": "Scalise, Steve",
+          "chamber": "house",
+          "party": "R",
+          "state": "LA",
+          "district": 1,
+          "isPrimary": true
+        }
+      ],
+      "committees": [
+        {
+          "systemCode": "hsgo00",
+          "chamber": "house",
+          "name": "House Committee on Oversight and Accountability",
+          "subcommittees": [],
+          "activityTypes": ["Referred to"],
+          "referralDate": "2023-05-10",
+          "reportedDate": null
+        }
+      ],
+      "actions": [
+        {
+          "actionId": "us_fed_118_hr_9999_act_1",
+          "sequence": 1,
+          "actionDate": "2023-05-10",
+          "actingChamber": "house",
+          "actionCode": "H11100",
+          "actionType": "IntroReferral",
+          "rawDescription": "Referred to the House Committee on Oversight and Accountability.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-bill/9999"
+        },
+        {
+          "actionId": "us_fed_118_hr_9999_act_2",
+          "sequence": 2,
+          "actionDate": "2023-06-01",
+          "actingChamber": "house",
+          "actionCode": "H8D000",
+          "actionType": "Floor",
+          "rawDescription": "Withdrawn by sponsor in House.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-bill/9999"
+        }
+      ],
+      "amendments": [],
+      "textVersions": [
+        {
+          "versionCode": "ih",
+          "versionName": "Introduced in House",
+          "date": "2023-05-10",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/118/bills/hr9999/BILLS-118hr9999ih.pdf",
+              "sha256": "fe15285609bd6a29c8f742fb31cb90d0de4f8d293591e5a73fc298d936ce64db"
+            }
+          ],
+          "contentSha256": "fe15285609bd6a29c8f742fb31cb90d0de4f8d293591e5a73fc298d936ce64db"
+        }
+      ],
+      "houseVotes": [],
+      "publicLawNumber": null,
+      "rawProviderStatus": "Withdrawn by sponsor in House.",
+      "derivedLifecycle": {
+        "status": "explicitly-failed-or-withdrawn",
+        "detail": "Withdrawn by sponsor: Withdrawn by sponsor in House.",
+        "failureReason": "Withdrawn by sponsor in House."
+      },
+      "officialCongressGovUrl": "https://www.congress.gov/bill/118th-congress/house-bill/9999",
+      "govinfoPackageId": null,
+      "provenance": {
+        "primarySource": "Congress.gov API",
+        "secondaryDocumentSource": "GovInfo API",
+        "retrievedAt": "2026-08-28T00:00:00.000Z",
+        "schemaVersion": "1.0.0",
+        "recordSha256": "f83eef9339c998cc5412d5dc838dd4a7c470c165c29c35aff673dc8bd2a699af"
+      }
+    },
+    {
+      "measureId": "us_fed_118_hres_5",
+      "congress": 118,
+      "measureType": "hres",
+      "measureNumber": 5,
+      "displayNumber": "H.Res. 5",
+      "title": "Adopting the Rules of the House of Representatives for the One Hundred Eighteenth Congress, and for other purposes.",
+      "originChamber": "house",
+      "introducedDate": "2023-01-09",
+      "policyArea": "Congress",
+      "legislativeSubjects": [
+        "Congressional committees",
+        "House of Representatives",
+        "Legislative rules and procedure"
+      ],
+      "sponsors": [
+        {
+          "bioguideId": "S001176",
+          "fullName": "Scalise, Steve",
+          "chamber": "house",
+          "party": "R",
+          "state": "LA",
+          "district": 1,
+          "isPrimary": true
+        }
+      ],
+      "committees": [],
+      "actions": [
+        {
+          "actionId": "us_fed_118_hres_5_act_1",
+          "sequence": 1,
+          "actionDate": "2023-01-09",
+          "actingChamber": "house",
+          "actionCode": "H8D000",
+          "actionType": "Floor",
+          "rawDescription": "Motion to reconsider laid on the table Agreed to without objection.",
+          "recordedVoteRef": null,
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-resolution/5"
+        },
+        {
+          "actionId": "us_fed_118_hres_5_act_2",
+          "sequence": 2,
+          "actionDate": "2023-01-09",
+          "actingChamber": "house",
+          "actionCode": "H37100",
+          "actionType": "Floor",
+          "rawDescription": "On agreeing to the resolution Agreed to by the Yeas and Nays: 220 - 212 (Roll no. 23).",
+          "recordedVoteRef": {
+            "congress": 118,
+            "chamber": "house",
+            "rollNumber": 23,
+            "url": "https://clerk.house.gov/Votes/202323"
+          },
+          "sourceUrl": "https://www.congress.gov/bill/118th-congress/house-resolution/5"
+        }
+      ],
+      "amendments": [],
+      "textVersions": [
+        {
+          "versionCode": "ih",
+          "versionName": "Introduced in House",
+          "date": "2023-01-09",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/118/bills/hres5/BILLS-118hres5ih.pdf",
+              "sha256": "93aef60801e9903f97e38b88e06b8557793ff14a8b7f1f3f3b6062bfa93c8b97"
+            }
+          ],
+          "contentSha256": "93aef60801e9903f97e38b88e06b8557793ff14a8b7f1f3f3b6062bfa93c8b97"
+        },
+        {
+          "versionCode": "eh",
+          "versionName": "Engrossed in House",
+          "date": "2023-01-09",
+          "govinfoPackageId": null,
+          "formats": [
+            {
+              "formatType": "pdf",
+              "url": "https://www.congress.gov/118/bills/hres5/BILLS-118hres5eh.pdf",
+              "sha256": "6e9e25527d56d068d05b1cc26950a1978f8c0386c3fcb157d835dcb648f72489"
+            }
+          ],
+          "contentSha256": "6e9e25527d56d068d05b1cc26950a1978f8c0386c3fcb157d835dcb648f72489"
+        }
+      ],
+      "houseVotes": [],
+      "publicLawNumber": null,
+      "rawProviderStatus": "On agreeing to the resolution Agreed to by the Yeas and Nays: 220 - 212 (Roll no. 23).",
+      "derivedLifecycle": {
+        "status": "chamber-passed",
+        "detail": "Agreed to in House (Simple Resolution)"
+      },
+      "officialCongressGovUrl": "https://www.congress.gov/bill/118th-congress/house-resolution/5",
+      "govinfoPackageId": null,
+      "provenance": {
+        "primarySource": "Congress.gov API",
+        "secondaryDocumentSource": "GovInfo API",
+        "retrievedAt": "2026-08-28T00:00:00.000Z",
+        "schemaVersion": "1.0.0",
+        "recordSha256": "5ed5a413f3dd3d3e5ddd28f792c6a95587aab44e4ade3db2f70d9da417693c29"
+      }
+    }
+  ],
+  "houseVotes": [
+    {
+      "voteId": "us_fed_117_house_roll_420",
+      "congress": 117,
+      "session": 2,
+      "rollNumber": 420,
+      "chamber": "house",
+      "voteDate": "2022-08-12T16:45:00",
+      "question": "On motion that the House agree to the Senate amendment (Inflation Reduction Act of 2022)",
+      "result": "Passed",
+      "voteType": "YEA-AND-NAY",
+      "totals": {
+        "yea": 220,
+        "nay": 207,
+        "present": 0,
+        "notVoting": 4
+      },
+      "partyTotals": {
+        "Democratic": {
+          "yea": 220,
+          "nay": 0,
+          "present": 0,
+          "notVoting": 0
+        },
+        "Republican": {
+          "yea": 0,
+          "nay": 207,
+          "present": 0,
+          "notVoting": 4
+        }
+      },
+      "memberVotes": [
+        {
+          "bioguideId": "Y000062",
+          "name": "Yarmuth, John",
+          "state": "KY",
+          "party": "D",
+          "voteCast": "Yea"
+        },
+        {
+          "bioguideId": "P000197",
+          "name": "Pelosi, Nancy",
+          "state": "CA",
+          "party": "D",
+          "voteCast": "Yea"
+        },
+        {
+          "bioguideId": "M001165",
+          "name": "McCarthy, Kevin",
+          "state": "CA",
+          "party": "R",
+          "voteCast": "Nay"
+        },
+        {
+          "bioguideId": "S001176",
+          "name": "Scalise, Steve",
+          "state": "LA",
+          "party": "R",
+          "voteCast": "Nay"
+        }
+      ],
+      "officialSourceUrl": "https://clerk.house.gov/Votes/2022420",
+      "relatedMeasureId": "us_fed_117_hr_5376"
+    }
+  ],
+  "corpusSha256": "99826620cd220e1e213c78806fe775b03bcc23d73db475204881664c773cd9b7"
+}

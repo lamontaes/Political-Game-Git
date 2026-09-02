@@ -21,5 +21,10 @@
     "types": ["vite/client"]
   },
   "include": ["src"],
-  "exclude": ["src/cli", "src/persistence", "src/**/*.test.ts"]
+  "exclude": [
+    "src/cli",
+    "src/persistence",
+    "src/federal_legislative_corpus",
+    "src/**/*.test.ts"
+  ]
 }
