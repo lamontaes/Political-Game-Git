@@ -70,7 +70,7 @@ export function sha256Hex(input: string | Uint8Array): string {
   ];
 
   for (i = 0; i < bytes.length; i++) {
-    const byte = bytes[i];
+    const byte = bytes[i] ?? 0;
     words[i >> 2] = (words[i >> 2] ?? 0) | (byte << ((3 - (i % 4)) * 8));
   }
 

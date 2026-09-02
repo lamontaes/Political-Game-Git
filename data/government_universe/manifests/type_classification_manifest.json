@@ -2,15 +2,8 @@
   "schemaVersion": "1.0.0",
   "generatedAt": "2024-01-01T00:00:00.000Z",
   "classificationSystem": "U.S. Census Bureau Government Units Classification",
-  "generalPurposeTypes": [
-    "county",
-    "municipal",
-    "township"
-  ],
-  "specialPurposeTypes": [
-    "special_district",
-    "school_district"
-  ],
+  "generalPurposeTypes": ["county", "municipal", "township"],
+  "specialPurposeTypes": ["special_district", "school_district"],
   "definitions": {
     "county": {
       "title": "County Governments",

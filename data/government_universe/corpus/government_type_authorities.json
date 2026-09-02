@@ -13,9 +13,7 @@
         "governingBodyTitle": "County Commission",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "AL Stat. Gen."
-        ]
+        "statutoryReferences": ["AL Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -25,9 +23,7 @@
         "governingBodyTitle": "City/Town Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "AL Stat. Gen."
-        ]
+        "statutoryReferences": ["AL Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -37,9 +33,7 @@
         "governingBodyTitle": "Board of Directors / Trustees",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "AL Stat. Gen."
-        ]
+        "statutoryReferences": ["AL Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All 138 public school systems in Alabama (67 county and 71 city) are classified by Census as dependent school systems of county or municipal governments because local school boards lack independent tax-levying authority.",
@@ -65,9 +59,7 @@
         "governingBodyTitle": "Borough Assembly and Borough Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "AK Stat. Gen."
-        ]
+        "statutoryReferences": ["AK Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -77,9 +69,7 @@
         "governingBodyTitle": "City Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "AK Stat. Gen."
-        ]
+        "statutoryReferences": ["AK Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -89,9 +79,7 @@
         "governingBodyTitle": "Board of Directors",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "AK Stat. Gen."
-        ]
+        "statutoryReferences": ["AK Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "In Alaska, borough and city school districts are classified as dependent agencies of their respective borough or city governments. Regional Educational Attendance Areas (REAAs) in the Unorganized Borough are funded directly by the state and classified as dependent state agencies.",
@@ -117,9 +105,7 @@
         "governingBodyTitle": "Board of Supervisors",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "AZ Stat. Gen."
-        ]
+        "statutoryReferences": ["AZ Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -129,9 +115,7 @@
         "governingBodyTitle": "City/Town Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "AZ Stat. Gen."
-        ]
+        "statutoryReferences": ["AZ Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -141,9 +125,7 @@
         "governingBodyTitle": "Board of Directors / Fire Board",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "AZ Stat. Gen."
-        ]
+        "statutoryReferences": ["AZ Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -153,9 +135,7 @@
         "governingBodyTitle": "Governing Board",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "AZ Stat. Gen."
-        ]
+        "statutoryReferences": ["AZ Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Arizona school districts (elementary, high school, and unified) are independent local governments with elected governing boards and independent budget and tax-levying authorization.",
@@ -181,9 +161,7 @@
         "governingBodyTitle": "Quorum Court (County Judge and Justices of the Peace)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "AR Stat. Gen."
-        ]
+        "statutoryReferences": ["AR Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -193,9 +171,7 @@
         "governingBodyTitle": "City Council / Board of Directors and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "AR Stat. Gen."
-        ]
+        "statutoryReferences": ["AR Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -205,9 +181,7 @@
         "governingBodyTitle": "Board of Commissioners",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "AR Stat. Gen."
-        ]
+        "statutoryReferences": ["AR Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -217,9 +191,7 @@
         "governingBodyTitle": "Board of Directors",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "AR Stat. Gen."
-        ]
+        "statutoryReferences": ["AR Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Public school districts in Arkansas are classified as independent local government units. Special improvement districts, suburban improvement districts, and fire protection districts meeting Census autonomy standards are independent units.",
@@ -245,9 +217,7 @@
         "governingBodyTitle": "Board of Supervisors (5 members)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "CA Stat. Gen."
-        ]
+        "statutoryReferences": ["CA Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -257,9 +227,7 @@
         "governingBodyTitle": "City Council and Mayor / City Manager",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "CA Stat. Gen."
-        ]
+        "statutoryReferences": ["CA Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -269,9 +237,7 @@
         "governingBodyTitle": "Board of Directors",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "CA Stat. Gen."
-        ]
+        "statutoryReferences": ["CA Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -281,9 +247,7 @@
         "governingBodyTitle": "Board of Trustees / Board of Education",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "CA Stat. Gen."
-        ]
+        "statutoryReferences": ["CA Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All California unified, elementary, high school, and community college districts are classified by Census as independent local government units. Dependent assessment districts and county service areas are classified as dependent county agencies.",
@@ -309,9 +273,7 @@
         "governingBodyTitle": "Board of County Commissioners",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "CO Stat. Gen."
-        ]
+        "statutoryReferences": ["CO Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -321,9 +283,7 @@
         "governingBodyTitle": "City Council / Town Board and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "CO Stat. Gen."
-        ]
+        "statutoryReferences": ["CO Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -333,9 +293,7 @@
         "governingBodyTitle": "Board of Directors",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "CO Stat. Gen."
-        ]
+        "statutoryReferences": ["CO Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -345,9 +303,7 @@
         "governingBodyTitle": "Board of Education",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "CO Stat. Gen."
-        ]
+        "statutoryReferences": ["CO Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Colorado Title 32 special districts (metropolitan districts, water/sanitation, fire protection) are independent local governments. All 178 operating school districts are independent units.",
@@ -373,9 +329,7 @@
         "governingBodyTitle": "City Council / Court of Burgesses and Mayor / Warden",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "CT Stat. Gen."
-        ]
+        "statutoryReferences": ["CT Stat. Gen."]
       },
       {
         "class": "township",
@@ -385,9 +339,7 @@
         "governingBodyTitle": "Town Meeting / Town Council and Board of Selectmen",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "CT Stat. Gen."
-        ]
+        "statutoryReferences": ["CT Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -397,9 +349,7 @@
         "governingBodyTitle": "Prudential Committee / District Committee",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "CT Stat. Gen."
-        ]
+        "statutoryReferences": ["CT Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -409,9 +359,7 @@
         "governingBodyTitle": "Regional Board of Education (Independent) / Local Board (Dependent)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "CT Stat. Gen."
-        ]
+        "statutoryReferences": ["CT Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Connecticut has 169 towns classified as township governments by Census. County government does not exist. Most school systems are dependent agencies of towns; only regional school districts are independent units.",
@@ -437,9 +385,7 @@
         "governingBodyTitle": "County Council / Levy Court",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "DE Stat. Gen."
-        ]
+        "statutoryReferences": ["DE Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -449,9 +395,7 @@
         "governingBodyTitle": "City/Town Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "DE Stat. Gen."
-        ]
+        "statutoryReferences": ["DE Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -461,9 +405,7 @@
         "governingBodyTitle": "Board of Commissioners",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "DE Stat. Gen."
-        ]
+        "statutoryReferences": ["DE Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -473,9 +415,7 @@
         "governingBodyTitle": "School Board",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "DE Stat. Gen."
-        ]
+        "statutoryReferences": ["DE Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Delaware's 19 school districts (16 vocational/regular and 3 county vocational) are classified as independent local governments with elected boards and taxing powers.",
@@ -501,9 +441,7 @@
         "governingBodyTitle": "Council of the District of Columbia and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "DC Stat. Gen."
-        ]
+        "statutoryReferences": ["DC Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -513,9 +451,7 @@
         "governingBodyTitle": "Board of Directors (e.g. DC Water)",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "DC Stat. Gen."
-        ]
+        "statutoryReferences": ["DC Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "The District of Columbia is classified as a municipal government by the Census Bureau for statistical comparison, with D.C. Public Schools functioning as a dependent municipal school system. Independent special authorities (e.g. District of Columbia Water and Sewer Authority - DC Water) are classified as independent special districts.",
@@ -541,9 +477,7 @@
         "governingBodyTitle": "Board of County Commissioners",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "FL Stat. Gen."
-        ]
+        "statutoryReferences": ["FL Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -553,9 +487,7 @@
         "governingBodyTitle": "City Commission / Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "FL Stat. Gen."
-        ]
+        "statutoryReferences": ["FL Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -565,9 +497,7 @@
         "governingBodyTitle": "Governing Board / Board of Supervisors",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "FL Stat. Gen."
-        ]
+        "statutoryReferences": ["FL Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -577,9 +507,7 @@
         "governingBodyTitle": "District School Board",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "FL Stat. Gen."
-        ]
+        "statutoryReferences": ["FL Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All 67 Florida county school districts are classified by Census as independent local government units because they have independently elected school boards and separate ad valorem taxing power.",
@@ -605,9 +533,7 @@
         "governingBodyTitle": "Board of Commissioners / Sole Commissioner",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "GA Stat. Gen."
-        ]
+        "statutoryReferences": ["GA Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -617,9 +543,7 @@
         "governingBodyTitle": "City Council / Commission and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "GA Stat. Gen."
-        ]
+        "statutoryReferences": ["GA Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -629,9 +553,7 @@
         "governingBodyTitle": "Authority Board",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "GA Stat. Gen."
-        ]
+        "statutoryReferences": ["GA Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -641,9 +563,7 @@
         "governingBodyTitle": "Board of Education",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "GA Stat. Gen."
-        ]
+        "statutoryReferences": ["GA Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All 180 operating public school systems in Georgia are independent local governments with constitutional authority to levy local property taxes through their boards of education.",
@@ -669,9 +589,7 @@
         "governingBodyTitle": "County Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "HI Stat. Gen."
-        ]
+        "statutoryReferences": ["HI Stat. Gen."]
       },
       {
         "class": "state",
@@ -681,9 +599,7 @@
         "governingBodyTitle": "State Legislature and Governor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "HI Stat. Gen."
-        ]
+        "statutoryReferences": ["HI Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Hawaii is the only state in the nation with no incorporated municipal governments and a single statewide public school system operated directly by state government (classified as a dependent state agency).",
@@ -709,9 +625,7 @@
         "governingBodyTitle": "Board of County Commissioners",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "ID Stat. Gen."
-        ]
+        "statutoryReferences": ["ID Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -721,9 +635,7 @@
         "governingBodyTitle": "City Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "ID Stat. Gen."
-        ]
+        "statutoryReferences": ["ID Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -733,9 +645,7 @@
         "governingBodyTitle": "Board of Commissioners / Trustees",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "ID Stat. Gen."
-        ]
+        "statutoryReferences": ["ID Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -745,9 +655,7 @@
         "governingBodyTitle": "Board of Trustees",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "ID Stat. Gen."
-        ]
+        "statutoryReferences": ["ID Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Idaho highway districts (unique to Idaho) and school districts are classified by Census as independent local government units with separate tax-levying authority.",
@@ -773,9 +681,7 @@
         "governingBodyTitle": "County Board and County Board Chair",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "55 ILCS 5/2-1001"
-        ]
+        "statutoryReferences": ["55 ILCS 5/2-1001"]
       },
       {
         "class": "municipal",
@@ -785,9 +691,7 @@
         "governingBodyTitle": "City Council / Board of Trustees and Mayor/President",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "65 ILCS 5/1-1-1"
-        ]
+        "statutoryReferences": ["65 ILCS 5/1-1-1"]
       },
       {
         "class": "township",
@@ -797,9 +701,7 @@
         "governingBodyTitle": "Township Board (Supervisor and 4 Trustees) and Annual Town Meeting",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "60 ILCS 1/1-1"
-        ]
+        "statutoryReferences": ["60 ILCS 1/1-1"]
       },
       {
         "class": "special_district",
@@ -809,9 +711,7 @@
         "governingBodyTitle": "Board of Trustees",
         "selectionMethod": "appointed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "70 ILCS 705/1"
-        ]
+        "statutoryReferences": ["70 ILCS 705/1"]
       },
       {
         "class": "school_district",
@@ -821,9 +721,7 @@
         "governingBodyTitle": "Board of Education (7 members)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "105 ILCS 5/10-1"
-        ]
+        "statutoryReferences": ["105 ILCS 5/10-1"]
       }
     ],
     "censusClassificationNotes": "Illinois civil townships (active in 85 counties) are classified as township governments. Special districts and school districts are overwhelmingly independent corporate bodies with separate taxing powers.",
@@ -849,9 +747,7 @@
         "governingBodyTitle": "Board of Commissioners (executive) and County Council (fiscal)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "IN Stat. Gen."
-        ]
+        "statutoryReferences": ["IN Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -861,9 +757,7 @@
         "governingBodyTitle": "Common Council / Town Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "IN Stat. Gen."
-        ]
+        "statutoryReferences": ["IN Stat. Gen."]
       },
       {
         "class": "township",
@@ -873,9 +767,7 @@
         "governingBodyTitle": "Township Board and Township Trustee",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "IN Stat. Gen."
-        ]
+        "statutoryReferences": ["IN Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -885,9 +777,7 @@
         "governingBodyTitle": "Board of Directors",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "IN Stat. Gen."
-        ]
+        "statutoryReferences": ["IN Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -897,9 +787,7 @@
         "governingBodyTitle": "School Board / Board of School Trustees",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "IN Stat. Gen."
-        ]
+        "statutoryReferences": ["IN Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Indiana's 1,005 civil townships are classified as township governments by Census. Indiana school corporations are independent local governments.",
@@ -925,9 +813,7 @@
         "governingBodyTitle": "Board of Supervisors",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "IA Stat. Gen."
-        ]
+        "statutoryReferences": ["IA Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -937,9 +823,7 @@
         "governingBodyTitle": "City Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "IA Stat. Gen."
-        ]
+        "statutoryReferences": ["IA Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -949,9 +833,7 @@
         "governingBodyTitle": "Board of Trustees",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "IA Stat. Gen."
-        ]
+        "statutoryReferences": ["IA Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -961,9 +843,7 @@
         "governingBodyTitle": "Board of Directors",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "IA Stat. Gen."
-        ]
+        "statutoryReferences": ["IA Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Iowa civil townships are not counted as separate township governments by the Census Bureau because they lack substantial fiscal and administrative autonomy. All public school districts are independent units.",
@@ -989,9 +869,7 @@
         "governingBodyTitle": "Board of County Commissioners",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "KS Stat. Gen."
-        ]
+        "statutoryReferences": ["KS Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -1001,9 +879,7 @@
         "governingBodyTitle": "City Commission / Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "KS Stat. Gen."
-        ]
+        "statutoryReferences": ["KS Stat. Gen."]
       },
       {
         "class": "township",
@@ -1013,9 +889,7 @@
         "governingBodyTitle": "Township Board (Trustee, Clerk, Treasurer)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "KS Stat. Gen."
-        ]
+        "statutoryReferences": ["KS Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -1025,9 +899,7 @@
         "governingBodyTitle": "Board of Directors",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "KS Stat. Gen."
-        ]
+        "statutoryReferences": ["KS Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -1037,9 +909,7 @@
         "governingBodyTitle": "Board of Education (USD)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "KS Stat. Gen."
-        ]
+        "statutoryReferences": ["KS Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Kansas civil townships in organized counties are classified as township governments by Census. Unified school districts (USDs) are independent local governments.",
@@ -1065,10 +935,7 @@
         "governingBodyTitle": "Fiscal Court (County Judge/Executive and Magistrates or County Commissioners)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "KRS 67.040",
-          "KRS 67.042"
-        ]
+        "statutoryReferences": ["KRS 67.040", "KRS 67.042"]
       },
       {
         "class": "county",
@@ -1078,9 +945,7 @@
         "governingBodyTitle": "Urban County Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "KRS 67A.010"
-        ]
+        "statutoryReferences": ["KRS 67A.010"]
       },
       {
         "class": "county",
@@ -1090,9 +955,7 @@
         "governingBodyTitle": "Metro Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "KRS 67C.101"
-        ]
+        "statutoryReferences": ["KRS 67C.101"]
       },
       {
         "class": "municipal",
@@ -1102,9 +965,7 @@
         "governingBodyTitle": "City Commission / City Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "KRS 83A.020"
-        ]
+        "statutoryReferences": ["KRS 83A.020"]
       },
       {
         "class": "special_district",
@@ -1114,9 +975,7 @@
         "governingBodyTitle": "Board of Trustees / Commissioners",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "KRS 65A.010"
-        ]
+        "statutoryReferences": ["KRS 65A.010"]
       },
       {
         "class": "school_district",
@@ -1126,10 +985,7 @@
         "governingBodyTitle": "Board of Education (5 members)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "KRS 160.160",
-          "KRS 160.200"
-        ]
+        "statutoryReferences": ["KRS 160.160", "KRS 160.200"]
       }
     ],
     "censusClassificationNotes": "All 171 operating public school districts in Kentucky (120 county districts and 51 independent city/sub-county districts) are classified by Census as independent local government units with separate elected school boards and independent tax-levying authority.",
@@ -1155,9 +1011,7 @@
         "governingBodyTitle": "Police Jury / Parish Council and Parish President",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "LA Stat. Gen."
-        ]
+        "statutoryReferences": ["LA Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -1167,9 +1021,7 @@
         "governingBodyTitle": "City/Town Council / Board of Aldermen and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "LA Stat. Gen."
-        ]
+        "statutoryReferences": ["LA Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -1179,9 +1031,7 @@
         "governingBodyTitle": "Board of Commissioners (e.g. Levee Board)",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "LA Stat. Gen."
-        ]
+        "statutoryReferences": ["LA Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -1191,9 +1041,7 @@
         "governingBodyTitle": "Parish / City School Board",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "LA Stat. Gen."
-        ]
+        "statutoryReferences": ["LA Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Louisiana parishes are primary county-equivalent local governments. The 69 public school systems (64 parish and 5 city systems) are classified as independent local governments with elected school boards and independent taxing powers.",
@@ -1219,9 +1067,7 @@
         "governingBodyTitle": "Board of County Commissioners",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "ME Stat. Gen."
-        ]
+        "statutoryReferences": ["ME Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -1231,9 +1077,7 @@
         "governingBodyTitle": "City Council and Mayor / Manager",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "ME Stat. Gen."
-        ]
+        "statutoryReferences": ["ME Stat. Gen."]
       },
       {
         "class": "township",
@@ -1243,9 +1087,7 @@
         "governingBodyTitle": "Town Meeting and Board of Selectmen",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "ME Stat. Gen."
-        ]
+        "statutoryReferences": ["ME Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -1255,9 +1097,7 @@
         "governingBodyTitle": "Board of Trustees (Water/Sewer District)",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "ME Stat. Gen."
-        ]
+        "statutoryReferences": ["ME Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -1267,9 +1107,7 @@
         "governingBodyTitle": "Regional School Board (Independent) / School Committee (Dependent)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "ME Stat. Gen."
-        ]
+        "statutoryReferences": ["ME Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Maine's 430+ towns and plantations are classified as township governments by Census. Regional School Units (RSUs) and School Administrative Districts (SADs) are independent school district governments; municipal school departments are dependent agencies.",
@@ -1295,9 +1133,7 @@
         "governingBodyTitle": "County Council / Board of County Commissioners and County Executive",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MD Stat. Gen."
-        ]
+        "statutoryReferences": ["MD Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -1307,9 +1143,7 @@
         "governingBodyTitle": "City/Town Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MD Stat. Gen."
-        ]
+        "statutoryReferences": ["MD Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -1319,9 +1153,7 @@
         "governingBodyTitle": "Commission / Authority Board (e.g. WSSC Water)",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MD Stat. Gen."
-        ]
+        "statutoryReferences": ["MD Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All 24 public school systems in Maryland (23 county school systems and Baltimore City Public Schools) are classified by Census as dependent school systems because school boards do not have independent taxing authority and rely on county/city appropriations.",
@@ -1347,9 +1179,7 @@
         "governingBodyTitle": "County Commissioners (in surviving counties)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MA Stat. Gen."
-        ]
+        "statutoryReferences": ["MA Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -1359,9 +1189,7 @@
         "governingBodyTitle": "City Council and Mayor / Manager",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MA Stat. Gen."
-        ]
+        "statutoryReferences": ["MA Stat. Gen."]
       },
       {
         "class": "township",
@@ -1371,9 +1199,7 @@
         "governingBodyTitle": "Town Meeting and Select Board",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MA Stat. Gen."
-        ]
+        "statutoryReferences": ["MA Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -1383,9 +1209,7 @@
         "governingBodyTitle": "Prudential Committee / District Commission",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MA Stat. Gen."
-        ]
+        "statutoryReferences": ["MA Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -1395,9 +1219,7 @@
         "governingBodyTitle": "Regional School Committee (Independent) / School Committee (Dependent)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MA Stat. Gen."
-        ]
+        "statutoryReferences": ["MA Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "In Massachusetts, 292 towns are classified as township governments by Census. Most municipal school systems are dependent agencies of their town or city; only regional and vocational-technical school districts are classified as independent school district governments.",
@@ -1423,9 +1245,7 @@
         "governingBodyTitle": "Board of Commissioners and County Executive / Administrator",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MI Stat. Gen."
-        ]
+        "statutoryReferences": ["MI Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -1435,9 +1255,7 @@
         "governingBodyTitle": "City Council / Commission and Mayor / Manager",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MI Stat. Gen."
-        ]
+        "statutoryReferences": ["MI Stat. Gen."]
       },
       {
         "class": "township",
@@ -1447,9 +1265,7 @@
         "governingBodyTitle": "Township Board (Supervisor, Clerk, Treasurer, Trustees)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MI Stat. Gen."
-        ]
+        "statutoryReferences": ["MI Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -1459,9 +1275,7 @@
         "governingBodyTitle": "Board of Trustees / Authority Board",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MI Stat. Gen."
-        ]
+        "statutoryReferences": ["MI Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -1471,9 +1285,7 @@
         "governingBodyTitle": "Board of Education",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MI Stat. Gen."
-        ]
+        "statutoryReferences": ["MI Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Michigan's 1,240 civil townships are classified as township governments by Census. All local school districts and intermediate school districts (ISDs) are independent local governments.",
@@ -1499,9 +1311,7 @@
         "governingBodyTitle": "Board of County Commissioners",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MN Stat. Gen."
-        ]
+        "statutoryReferences": ["MN Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -1511,9 +1321,7 @@
         "governingBodyTitle": "City Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MN Stat. Gen."
-        ]
+        "statutoryReferences": ["MN Stat. Gen."]
       },
       {
         "class": "township",
@@ -1523,9 +1331,7 @@
         "governingBodyTitle": "Town Board of Supervisors",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MN Stat. Gen."
-        ]
+        "statutoryReferences": ["MN Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -1535,9 +1341,7 @@
         "governingBodyTitle": "Board of Managers / Trustees",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MN Stat. Gen."
-        ]
+        "statutoryReferences": ["MN Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -1547,9 +1351,7 @@
         "governingBodyTitle": "School Board",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MN Stat. Gen."
-        ]
+        "statutoryReferences": ["MN Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Minnesota's 1,780+ organized towns are classified as township governments by Census. All public school districts are independent local government units.",
@@ -1575,9 +1377,7 @@
         "governingBodyTitle": "Board of Supervisors (5 members)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MS Stat. Gen."
-        ]
+        "statutoryReferences": ["MS Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -1587,9 +1387,7 @@
         "governingBodyTitle": "City Council / Board of Aldermen and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MS Stat. Gen."
-        ]
+        "statutoryReferences": ["MS Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -1599,9 +1397,7 @@
         "governingBodyTitle": "Board of Commissioners",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MS Stat. Gen."
-        ]
+        "statutoryReferences": ["MS Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -1611,9 +1407,7 @@
         "governingBodyTitle": "School Board / Board of Trustees",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MS Stat. Gen."
-        ]
+        "statutoryReferences": ["MS Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Mississippi has a mixture of independent consolidated school districts and dependent municipal/county school systems where the county board of supervisors or city council levies school taxes on behalf of the school board.",
@@ -1639,9 +1433,7 @@
         "governingBodyTitle": "County Commission (Presiding Commissioner and Associate Commissioners)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MO Stat. Gen."
-        ]
+        "statutoryReferences": ["MO Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -1651,9 +1443,7 @@
         "governingBodyTitle": "City Council / Board of Aldermen and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MO Stat. Gen."
-        ]
+        "statutoryReferences": ["MO Stat. Gen."]
       },
       {
         "class": "township",
@@ -1663,9 +1453,7 @@
         "governingBodyTitle": "Township Board of Directors (in 22 counties)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MO Stat. Gen."
-        ]
+        "statutoryReferences": ["MO Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -1675,9 +1463,7 @@
         "governingBodyTitle": "Board of Directors / Trustees",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MO Stat. Gen."
-        ]
+        "statutoryReferences": ["MO Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -1687,9 +1473,7 @@
         "governingBodyTitle": "Board of Education",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MO Stat. Gen."
-        ]
+        "statutoryReferences": ["MO Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "In 22 Missouri counties, civil townships operate with elected boards and are classified as township governments by Census. All Missouri public school districts (including St. Louis Public Schools) are independent local governments.",
@@ -1715,9 +1499,7 @@
         "governingBodyTitle": "Board of County Commissioners",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MT Stat. Gen."
-        ]
+        "statutoryReferences": ["MT Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -1727,9 +1509,7 @@
         "governingBodyTitle": "City/Town Commission / Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MT Stat. Gen."
-        ]
+        "statutoryReferences": ["MT Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -1739,9 +1519,7 @@
         "governingBodyTitle": "Board of Trustees",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MT Stat. Gen."
-        ]
+        "statutoryReferences": ["MT Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -1751,9 +1529,7 @@
         "governingBodyTitle": "Board of Trustees",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "MT Stat. Gen."
-        ]
+        "statutoryReferences": ["MT Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All Montana elementary, high school, and K-12 school districts are independent local government units with elected boards and independent budget/taxing authority.",
@@ -1779,9 +1555,7 @@
         "governingBodyTitle": "Board of Commissioners / Board of Supervisors",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NE Stat. Gen."
-        ]
+        "statutoryReferences": ["NE Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -1791,9 +1565,7 @@
         "governingBodyTitle": "City Council / Village Board and Mayor / Board Chair",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NE Stat. Gen."
-        ]
+        "statutoryReferences": ["NE Stat. Gen."]
       },
       {
         "class": "township",
@@ -1803,9 +1575,7 @@
         "governingBodyTitle": "Township Board (in 28 counties)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NE Stat. Gen."
-        ]
+        "statutoryReferences": ["NE Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -1815,9 +1585,7 @@
         "governingBodyTitle": "Board of Directors (e.g. NRD Board)",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NE Stat. Gen."
-        ]
+        "statutoryReferences": ["NE Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -1827,9 +1595,7 @@
         "governingBodyTitle": "School Board / Board of Education",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NE Stat. Gen."
-        ]
+        "statutoryReferences": ["NE Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Nebraska's 420+ civil townships in 28 supervisor counties are classified as township governments by Census. Natural Resources Districts (NRDs) are unique multipurpose special districts. All public school districts are independent units.",
@@ -1855,9 +1621,7 @@
         "governingBodyTitle": "Board of County Commissioners",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NV Stat. Gen."
-        ]
+        "statutoryReferences": ["NV Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -1867,9 +1631,7 @@
         "governingBodyTitle": "City Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NV Stat. Gen."
-        ]
+        "statutoryReferences": ["NV Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -1879,9 +1641,7 @@
         "governingBodyTitle": "Board of Trustees",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NV Stat. Gen."
-        ]
+        "statutoryReferences": ["NV Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -1891,9 +1651,7 @@
         "governingBodyTitle": "Board of School Trustees",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NV Stat. Gen."
-        ]
+        "statutoryReferences": ["NV Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All 17 Nevada school districts (one per county plus Carson City) are classified by Census as independent local government units with elected school boards and tax-levying powers.",
@@ -1919,9 +1677,7 @@
         "governingBodyTitle": "Board of County Commissioners and County Convention",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NH Stat. Gen."
-        ]
+        "statutoryReferences": ["NH Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -1931,9 +1687,7 @@
         "governingBodyTitle": "City Council and Mayor / Manager",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NH Stat. Gen."
-        ]
+        "statutoryReferences": ["NH Stat. Gen."]
       },
       {
         "class": "township",
@@ -1943,9 +1697,7 @@
         "governingBodyTitle": "Town Meeting and Board of Selectmen",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NH Stat. Gen."
-        ]
+        "statutoryReferences": ["NH Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -1955,9 +1707,7 @@
         "governingBodyTitle": "Prudential Committee / Commissioners",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NH Stat. Gen."
-        ]
+        "statutoryReferences": ["NH Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -1967,9 +1717,7 @@
         "governingBodyTitle": "School Board",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NH Stat. Gen."
-        ]
+        "statutoryReferences": ["NH Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "New Hampshire's 221 towns are classified as township governments by Census. Nearly all public school districts in New Hampshire are independent local government units with separate elected school boards and voter-approved budgets/taxes.",
@@ -1995,9 +1743,7 @@
         "governingBodyTitle": "Board of County Commissioners / County Executive",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NJ Stat. Gen."
-        ]
+        "statutoryReferences": ["NJ Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -2007,9 +1753,7 @@
         "governingBodyTitle": "City/Town/Borough Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NJ Stat. Gen."
-        ]
+        "statutoryReferences": ["NJ Stat. Gen."]
       },
       {
         "class": "township",
@@ -2019,9 +1763,7 @@
         "governingBodyTitle": "Township Committee / Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NJ Stat. Gen."
-        ]
+        "statutoryReferences": ["NJ Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -2031,9 +1773,7 @@
         "governingBodyTitle": "Board of Commissioners / Authority",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NJ Stat. Gen."
-        ]
+        "statutoryReferences": ["NJ Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -2043,9 +1783,7 @@
         "governingBodyTitle": "Board of Education",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NJ Stat. Gen."
-        ]
+        "statutoryReferences": ["NJ Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "New Jersey's 241 townships are classified as township governments by Census. Most school districts are Type II independent units with elected school boards; Type I districts (mostly in larger cities) are classified as dependent municipal school systems.",
@@ -2071,9 +1809,7 @@
         "governingBodyTitle": "Board of County Commissioners",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NM Stat. Gen."
-        ]
+        "statutoryReferences": ["NM Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -2083,9 +1819,7 @@
         "governingBodyTitle": "City/Town Council / Board of Trustees and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NM Stat. Gen."
-        ]
+        "statutoryReferences": ["NM Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -2095,9 +1829,7 @@
         "governingBodyTitle": "Board of Supervisors / Directors",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NM Stat. Gen."
-        ]
+        "statutoryReferences": ["NM Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -2107,9 +1839,7 @@
         "governingBodyTitle": "Local School Board",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NM Stat. Gen."
-        ]
+        "statutoryReferences": ["NM Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All 89 New Mexico school districts are classified by Census as independent local government units with elected school boards and property tax-levying powers.",
@@ -2135,9 +1865,7 @@
         "governingBodyTitle": "County Legislature / Board of Supervisors and County Executive",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NY Stat. Gen."
-        ]
+        "statutoryReferences": ["NY Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -2147,9 +1875,7 @@
         "governingBodyTitle": "City Council / Village Board and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NY Stat. Gen."
-        ]
+        "statutoryReferences": ["NY Stat. Gen."]
       },
       {
         "class": "township",
@@ -2159,9 +1885,7 @@
         "governingBodyTitle": "Town Board and Town Supervisor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NY Stat. Gen."
-        ]
+        "statutoryReferences": ["NY Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -2171,9 +1895,7 @@
         "governingBodyTitle": "Board of Fire Commissioners",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NY Stat. Gen."
-        ]
+        "statutoryReferences": ["NY Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -2183,9 +1905,7 @@
         "governingBodyTitle": "Board of Education",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NY Stat. Gen."
-        ]
+        "statutoryReferences": ["NY Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "New York towns are classified by Census as township governments. The Big Five city school districts (NYC, Buffalo, Rochester, Syracuse, Yonkers) are dependent municipal school systems; all other 670+ school districts are independent units.",
@@ -2211,9 +1931,7 @@
         "governingBodyTitle": "Board of County Commissioners",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NC Stat. Gen."
-        ]
+        "statutoryReferences": ["NC Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -2223,9 +1941,7 @@
         "governingBodyTitle": "City/Town Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NC Stat. Gen."
-        ]
+        "statutoryReferences": ["NC Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -2235,9 +1951,7 @@
         "governingBodyTitle": "Sanitary District Board / Board of Supervisors",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "NC Stat. Gen."
-        ]
+        "statutoryReferences": ["NC Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All 115 North Carolina local school administrative units are classified by Census as dependent school systems of county governments (or city governments in a few cases), as school boards do not have independent tax-levying authority.",
@@ -2263,9 +1977,7 @@
         "governingBodyTitle": "Board of County Commissioners",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "ND Stat. Gen."
-        ]
+        "statutoryReferences": ["ND Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -2275,9 +1987,7 @@
         "governingBodyTitle": "City Council / Commission and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "ND Stat. Gen."
-        ]
+        "statutoryReferences": ["ND Stat. Gen."]
       },
       {
         "class": "township",
@@ -2287,9 +1997,7 @@
         "governingBodyTitle": "Board of Township Supervisors",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "ND Stat. Gen."
-        ]
+        "statutoryReferences": ["ND Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -2299,9 +2007,7 @@
         "governingBodyTitle": "Board of Park Commissioners / Directors",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "ND Stat. Gen."
-        ]
+        "statutoryReferences": ["ND Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -2311,9 +2017,7 @@
         "governingBodyTitle": "School Board",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "ND Stat. Gen."
-        ]
+        "statutoryReferences": ["ND Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "North Dakota's 1,300+ organized civil townships and independent park districts are classified as independent local governments by Census. All public school districts are independent units.",
@@ -2339,9 +2043,7 @@
         "governingBodyTitle": "Board of County Commissioners (3 members)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "OH Stat. Gen."
-        ]
+        "statutoryReferences": ["OH Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -2351,9 +2053,7 @@
         "governingBodyTitle": "City/Village Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "OH Stat. Gen."
-        ]
+        "statutoryReferences": ["OH Stat. Gen."]
       },
       {
         "class": "township",
@@ -2363,9 +2063,7 @@
         "governingBodyTitle": "Board of Township Trustees (3 members) and Fiscal Officer",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "OH Stat. Gen."
-        ]
+        "statutoryReferences": ["OH Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -2375,9 +2073,7 @@
         "governingBodyTitle": "Board of Directors / Park Commissioners",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "OH Stat. Gen."
-        ]
+        "statutoryReferences": ["OH Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -2387,9 +2083,7 @@
         "governingBodyTitle": "Board of Education",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "OH Stat. Gen."
-        ]
+        "statutoryReferences": ["OH Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Ohio's 1,308 civil townships are classified as township governments by Census. All city, local, and exempted village school districts are independent local government units.",
@@ -2415,9 +2109,7 @@
         "governingBodyTitle": "Board of County Commissioners (3 members)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "OK Stat. Gen."
-        ]
+        "statutoryReferences": ["OK Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -2427,9 +2119,7 @@
         "governingBodyTitle": "City Council / Town Board of Trustees and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "OK Stat. Gen."
-        ]
+        "statutoryReferences": ["OK Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -2439,9 +2129,7 @@
         "governingBodyTitle": "Board of Directors",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "OK Stat. Gen."
-        ]
+        "statutoryReferences": ["OK Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -2451,9 +2139,7 @@
         "governingBodyTitle": "Board of Education",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "OK Stat. Gen."
-        ]
+        "statutoryReferences": ["OK Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Oklahoma independent and elementary school districts are classified by Census as independent local government units with elected school boards and dedicated millage taxing authority.",
@@ -2479,9 +2165,7 @@
         "governingBodyTitle": "Board of County Commissioners / County Court",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "OR Stat. Gen."
-        ]
+        "statutoryReferences": ["OR Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -2491,9 +2175,7 @@
         "governingBodyTitle": "City Council and Mayor / Manager",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "OR Stat. Gen."
-        ]
+        "statutoryReferences": ["OR Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -2503,9 +2185,7 @@
         "governingBodyTitle": "Board of Directors / Commissioners",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "OR Stat. Gen."
-        ]
+        "statutoryReferences": ["OR Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -2515,9 +2195,7 @@
         "governingBodyTitle": "School Board",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "OR Stat. Gen."
-        ]
+        "statutoryReferences": ["OR Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All Oregon school districts, education service districts (ESDs), and community college districts are independent local governments. Special districts operating under ORS Chapter 198 are predominantly independent taxing entities.",
@@ -2543,9 +2221,7 @@
         "governingBodyTitle": "Board of County Commissioners / County Council",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "PA Stat. Gen."
-        ]
+        "statutoryReferences": ["PA Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -2555,9 +2231,7 @@
         "governingBodyTitle": "City/Borough Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "PA Stat. Gen."
-        ]
+        "statutoryReferences": ["PA Stat. Gen."]
       },
       {
         "class": "township",
@@ -2567,9 +2241,7 @@
         "governingBodyTitle": "Board of Township Commissioners / Supervisors",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "PA Stat. Gen."
-        ]
+        "statutoryReferences": ["PA Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -2579,9 +2251,7 @@
         "governingBodyTitle": "Board of the Authority",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "PA Stat. Gen."
-        ]
+        "statutoryReferences": ["PA Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -2591,9 +2261,7 @@
         "governingBodyTitle": "Board of School Directors",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "PA Stat. Gen."
-        ]
+        "statutoryReferences": ["PA Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All 1,545 Pennsylvania townships (both First Class and Second Class) are classified as township governments by Census. 499 of 500 school districts are independent units with elected school boards.",
@@ -2619,9 +2287,7 @@
         "governingBodyTitle": "City Council and Mayor / Manager",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "RI Stat. Gen."
-        ]
+        "statutoryReferences": ["RI Stat. Gen."]
       },
       {
         "class": "township",
@@ -2631,9 +2297,7 @@
         "governingBodyTitle": "Financial Town Meeting / Town Council and Town Administrator",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "RI Stat. Gen."
-        ]
+        "statutoryReferences": ["RI Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -2643,9 +2307,7 @@
         "governingBodyTitle": "Board of Fire Commissioners",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "RI Stat. Gen."
-        ]
+        "statutoryReferences": ["RI Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -2655,9 +2317,7 @@
         "governingBodyTitle": "Regional School Committee (Independent) / School Committee (Dependent)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "RI Stat. Gen."
-        ]
+        "statutoryReferences": ["RI Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Rhode Island has 31 towns classified as township governments by Census. Counties have no governmental functions. Local school systems are dependent municipal agencies; only regional school districts are independent units.",
@@ -2683,9 +2343,7 @@
         "governingBodyTitle": "County Council",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "SC Stat. Gen."
-        ]
+        "statutoryReferences": ["SC Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -2695,9 +2353,7 @@
         "governingBodyTitle": "City/Town Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "SC Stat. Gen."
-        ]
+        "statutoryReferences": ["SC Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -2707,9 +2363,7 @@
         "governingBodyTitle": "Commission / Board of Trustees",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "SC Stat. Gen."
-        ]
+        "statutoryReferences": ["SC Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -2719,9 +2373,7 @@
         "governingBodyTitle": "Board of Trustees",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "SC Stat. Gen."
-        ]
+        "statutoryReferences": ["SC Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "South Carolina school districts are classified by Census as independent local government units with separate governing boards and statutory fiscal autonomy.",
@@ -2747,9 +2399,7 @@
         "governingBodyTitle": "Board of County Commissioners",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "SD Stat. Gen."
-        ]
+        "statutoryReferences": ["SD Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -2759,9 +2409,7 @@
         "governingBodyTitle": "City Commission / Council / Board of Trustees and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "SD Stat. Gen."
-        ]
+        "statutoryReferences": ["SD Stat. Gen."]
       },
       {
         "class": "township",
@@ -2771,9 +2419,7 @@
         "governingBodyTitle": "Board of Township Supervisors",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "SD Stat. Gen."
-        ]
+        "statutoryReferences": ["SD Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -2783,9 +2429,7 @@
         "governingBodyTitle": "Board of Directors",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "SD Stat. Gen."
-        ]
+        "statutoryReferences": ["SD Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -2795,9 +2439,7 @@
         "governingBodyTitle": "School Board",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "SD Stat. Gen."
-        ]
+        "statutoryReferences": ["SD Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "South Dakota's 900+ organized civil townships are classified as township governments by Census. All public school districts are independent local government units.",
@@ -2823,9 +2465,7 @@
         "governingBodyTitle": "Board of County Commissioners (County Legislative Body) and County Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "TN Stat. Gen."
-        ]
+        "statutoryReferences": ["TN Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -2835,9 +2475,7 @@
         "governingBodyTitle": "Board of Commissioners / City Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "TN Stat. Gen."
-        ]
+        "statutoryReferences": ["TN Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -2847,9 +2485,7 @@
         "governingBodyTitle": "Board of Commissioners (Utility District)",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "TN Stat. Gen."
-        ]
+        "statutoryReferences": ["TN Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All 140+ public school systems in Tennessee (county school systems, city school systems, and special school districts) are classified by Census as dependent school systems because school boards lack independent tax-levying authority and require county/city fiscal appropriation.",
@@ -2875,9 +2511,7 @@
         "governingBodyTitle": "Commissioners Court (County Judge and 4 Commissioners)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "Tex. Loc. Gov't Code § 81.001"
-        ]
+        "statutoryReferences": ["Tex. Loc. Gov't Code § 81.001"]
       },
       {
         "class": "municipal",
@@ -2887,9 +2521,7 @@
         "governingBodyTitle": "City Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "Tex. Loc. Gov't Code § 9.001"
-        ]
+        "statutoryReferences": ["Tex. Loc. Gov't Code § 9.001"]
       },
       {
         "class": "special_district",
@@ -2899,9 +2531,7 @@
         "governingBodyTitle": "Board of Emergency Services Commissioners",
         "selectionMethod": "appointed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "Tex. Health & Safety Code § 775.011"
-        ]
+        "statutoryReferences": ["Tex. Health & Safety Code § 775.011"]
       },
       {
         "class": "school_district",
@@ -2911,9 +2541,7 @@
         "governingBodyTitle": "Board of Trustees (7 members)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "Tex. Educ. Code § 11.051"
-        ]
+        "statutoryReferences": ["Tex. Educ. Code § 11.051"]
       }
     ],
     "censusClassificationNotes": "Texas has over 1,000 independent school districts (ISDs) which are classified as independent local governments. Special districts in Texas represent one of the largest concentrations in the country (over 2,800 units), particularly in water management and emergency services.",
@@ -2939,9 +2567,7 @@
         "governingBodyTitle": "County Commission / County Council and County Executive",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "UT Stat. Gen."
-        ]
+        "statutoryReferences": ["UT Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -2951,9 +2577,7 @@
         "governingBodyTitle": "City/Town Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "UT Stat. Gen."
-        ]
+        "statutoryReferences": ["UT Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -2963,9 +2587,7 @@
         "governingBodyTitle": "Board of Trustees",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "UT Stat. Gen."
-        ]
+        "statutoryReferences": ["UT Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -2975,9 +2597,7 @@
         "governingBodyTitle": "Local School Board",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "UT Stat. Gen."
-        ]
+        "statutoryReferences": ["UT Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All 41 Utah school districts are independent local government units with elected school boards and property tax-levying authority. Local districts organized under Title 17B are independent special districts.",
@@ -3003,9 +2623,7 @@
         "governingBodyTitle": "Assistant Judges and County Sheriff",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "VT Stat. Gen."
-        ]
+        "statutoryReferences": ["VT Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -3015,9 +2633,7 @@
         "governingBodyTitle": "City Council / Village Board and Mayor / President",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "VT Stat. Gen."
-        ]
+        "statutoryReferences": ["VT Stat. Gen."]
       },
       {
         "class": "township",
@@ -3027,9 +2643,7 @@
         "governingBodyTitle": "Town Meeting and Selectboard",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "VT Stat. Gen."
-        ]
+        "statutoryReferences": ["VT Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -3039,9 +2653,7 @@
         "governingBodyTitle": "Prudential Committee",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "VT Stat. Gen."
-        ]
+        "statutoryReferences": ["VT Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -3051,9 +2663,7 @@
         "governingBodyTitle": "School Board / Union School Board",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "VT Stat. Gen."
-        ]
+        "statutoryReferences": ["VT Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Vermont's 237 organized towns are classified as township governments by Census. Following Act 46 consolidations, most Vermont school systems operate as independent union school districts.",
@@ -3079,9 +2689,7 @@
         "governingBodyTitle": "Board of Supervisors",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "VA Stat. Gen."
-        ]
+        "statutoryReferences": ["VA Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -3091,9 +2699,7 @@
         "governingBodyTitle": "City/Town Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "VA Stat. Gen."
-        ]
+        "statutoryReferences": ["VA Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -3103,9 +2709,7 @@
         "governingBodyTitle": "Board of Authority",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "VA Stat. Gen."
-        ]
+        "statutoryReferences": ["VA Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All 130+ public school divisions in Virginia are classified by Census as dependent school systems (operated by county or city governments), as school boards lack independent tax-levying authority. Virginia's 38 independent cities are classified as municipal governments by Census while functioning as primary county-equivalent statistical and administrative units.",
@@ -3131,9 +2735,7 @@
         "governingBodyTitle": "Board of County Commissioners / County Council and County Executive",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WA Stat. Gen."
-        ]
+        "statutoryReferences": ["WA Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -3143,9 +2745,7 @@
         "governingBodyTitle": "City/Town Council and Mayor / City Manager",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WA Stat. Gen."
-        ]
+        "statutoryReferences": ["WA Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -3155,9 +2755,7 @@
         "governingBodyTitle": "Board of Commissioners",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WA Stat. Gen."
-        ]
+        "statutoryReferences": ["WA Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -3167,9 +2765,7 @@
         "governingBodyTitle": "Board of Directors",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WA Stat. Gen."
-        ]
+        "statutoryReferences": ["WA Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All 295 Washington school districts and educational service districts (ESDs) are independent local government units. Washington's public utility districts (PUDs) and port districts are prominent independent special districts.",
@@ -3195,9 +2791,7 @@
         "governingBodyTitle": "County Commission (3 commissioners)",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WV Stat. Gen."
-        ]
+        "statutoryReferences": ["WV Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -3207,9 +2801,7 @@
         "governingBodyTitle": "City Council / Town Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WV Stat. Gen."
-        ]
+        "statutoryReferences": ["WV Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -3219,9 +2811,7 @@
         "governingBodyTitle": "Public Service Board / Board of Trustees",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WV Stat. Gen."
-        ]
+        "statutoryReferences": ["WV Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -3231,9 +2821,7 @@
         "governingBodyTitle": "County Board of Education",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WV Stat. Gen."
-        ]
+        "statutoryReferences": ["WV Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All 55 county school districts in West Virginia are independent local government units with separate elected school boards and property tax-levying authority under constitutional limits.",
@@ -3259,9 +2847,7 @@
         "governingBodyTitle": "Board of Supervisors and County Executive / Administrator",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WI Stat. Gen."
-        ]
+        "statutoryReferences": ["WI Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -3271,9 +2857,7 @@
         "governingBodyTitle": "Common Council / Village Board and Mayor / President",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WI Stat. Gen."
-        ]
+        "statutoryReferences": ["WI Stat. Gen."]
       },
       {
         "class": "township",
@@ -3283,9 +2867,7 @@
         "governingBodyTitle": "Town Meeting and Town Board of Supervisors",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WI Stat. Gen."
-        ]
+        "statutoryReferences": ["WI Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -3295,9 +2877,7 @@
         "governingBodyTitle": "Commission / Board of Commissioners",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WI Stat. Gen."
-        ]
+        "statutoryReferences": ["WI Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -3307,9 +2887,7 @@
         "governingBodyTitle": "School Board",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WI Stat. Gen."
-        ]
+        "statutoryReferences": ["WI Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "Wisconsin's 1,250 organized civil towns are classified as township governments by Census. All 421 common, union high, and unified school districts (including Milwaukee Public Schools) are independent local governments.",
@@ -3335,9 +2913,7 @@
         "governingBodyTitle": "Board of County Commissioners",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WY Stat. Gen."
-        ]
+        "statutoryReferences": ["WY Stat. Gen."]
       },
       {
         "class": "municipal",
@@ -3347,9 +2923,7 @@
         "governingBodyTitle": "City/Town Council and Mayor",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WY Stat. Gen."
-        ]
+        "statutoryReferences": ["WY Stat. Gen."]
       },
       {
         "class": "special_district",
@@ -3359,9 +2933,7 @@
         "governingBodyTitle": "Board of Directors / Trustees",
         "selectionMethod": "mixed",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WY Stat. Gen."
-        ]
+        "statutoryReferences": ["WY Stat. Gen."]
       },
       {
         "class": "school_district",
@@ -3371,9 +2943,7 @@
         "governingBodyTitle": "Board of Trustees",
         "selectionMethod": "elected",
         "censusIndependenceCriteriaMet": true,
-        "statutoryReferences": [
-          "WY Stat. Gen."
-        ]
+        "statutoryReferences": ["WY Stat. Gen."]
       }
     ],
     "censusClassificationNotes": "All 48 Wyoming school districts are classified by Census as independent local government units with elected school boards and independent property taxing authority.",
