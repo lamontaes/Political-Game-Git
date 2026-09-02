@@ -279,6 +279,19 @@ export function CharacterProofView() {
               {composition.side.plan.recipeKey}
             </code>
           </p>
+          {composition.side.plan.complete ? (
+            <p data-testid="character-proof-side-status">
+              Every slot this pose needs resolved.
+            </p>
+          ) : (
+            <p
+              className="character-proof-warning"
+              data-testid="character-proof-side-status"
+            >
+              Incomplete in this pose:{" "}
+              {composition.side.plan.missing.join(", ")}
+            </p>
+          )}
         </div>
       </section>
 
