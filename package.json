@@ -22,6 +22,7 @@
     "typecheck": "tsc -b",
     "format": "prettier --check .",
     "format:write": "prettier --write .",
+    "compile:places": "npm exec tsx -- scripts/places/compile-places.ts",
     "intake:texas-senate": "node --import tsx scripts/art-asset-factory/cli-intake.ts",
     "validate:art": "node --import tsx scripts/art-asset-factory/cli-validate.ts",
     "inventory:art": "node --import tsx scripts/art-asset-factory/cli-inventory.ts",
