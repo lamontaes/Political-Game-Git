@@ -1,0 +1,150 @@
+import {
+  ALASKA_CONTEXT,
+  KENTUCKY_CONTEXT,
+  NEBRASKA_CONTEXT,
+} from "./legislation-scenarios";
+import {
+  LEXINGTON_DEMO_CONTEXT,
+  type DemoJurisdictionContext,
+} from "./demo-jurisdiction-context";
+import type { EntityId } from "./types";
+
+/**
+ * Where a life can start.
+ *
+ * The game does not yet have a national place corpus. Rather than pretend
+ * otherwise with a hand-written city list, this module states exactly which
+ * places the accepted data can support and why, and hides the rest behind an
+ * interface a real corpus can implement later without the setup screen or the
+ * world builder changing.
+ */
+
+/** What a place can offer beyond ordinary life, and on whose authority. */
+export interface LifePlaceCapabilities {
+  /**
+   * The legislative rule pack this place plays under, when one has been
+   * accepted for it. `null` means the game has no sourced procedure here, so
+   * legislative surfaces stay unavailable rather than borrowing another
+   * state's rules.
+   */
+  readonly legislativeScenarioKey: string | null;
+}
+
+export interface LifePlace {
+  readonly key: string;
+  /** What the player reads. Never a slug, an ID, or a fixture name. */
+  readonly displayName: string;
+  /** The wider place this one sits inside, when the data names one. */
+  readonly withinName: string | null;
+  readonly context: DemoJurisdictionContext;
+  readonly capabilities: LifePlaceCapabilities;
+}
+
+/**
+ * An honest statement of how much of the country the game can currently start
+ * a life in. The completion report and the setup screen both read this rather
+ * than claiming nationwide coverage.
+ */
+export interface LifePlaceCoverage {
+  readonly kind: "accepted-context-set";
+  readonly placeCount: number;
+  /** True only once a real place corpus backs arbitrary selection. */
+  readonly supportsArbitrarySelection: false;
+  /** The exact cargo still missing, named so it can be tracked. */
+  readonly outstandingDependency: string;
+}
+
+/**
+ * The seam a national gazetteer plugs into. Everything downstream — setup,
+ * world creation, save summaries — talks to this and not to the list below.
+ */
+export interface LifePlaceProvider {
+  coverage(): LifePlaceCoverage;
+  list(): readonly LifePlace[];
+  byKey(key: string): LifePlace | null;
+  byJurisdictionId(jurisdictionId: EntityId): LifePlace | null;
+}
+
+const PLACES: readonly LifePlace[] = [
+  {
+    key: "kentucky",
+    displayName: "Kentucky",
+    withinName: "United States",
+    context: KENTUCKY_CONTEXT,
+    capabilities: { legislativeScenarioKey: "kentucky" },
+  },
+  {
+    key: "nebraska",
+    displayName: "Nebraska",
+    withinName: "United States",
+    context: NEBRASKA_CONTEXT,
+    capabilities: { legislativeScenarioKey: "nebraska" },
+  },
+  {
+    key: "alaska",
+    displayName: "Alaska",
+    withinName: "United States",
+    context: ALASKA_CONTEXT,
+    capabilities: { legislativeScenarioKey: "alaska" },
+  },
+  {
+    key: "lexington-fayette",
+    displayName: "Lexington-Fayette, Kentucky",
+    withinName: "Kentucky",
+    context: LEXINGTON_DEMO_CONTEXT,
+    // The accepted rule packs are written for state legislatures. Nothing in
+    // the sources describes this city's own council, so it does not claim to.
+    capabilities: { legislativeScenarioKey: null },
+  },
+];
+
+const OUTSTANDING_DEPENDENCY =
+  "A verified national place corpus. Until one is accepted, only the places above have a jurisdiction the game can honestly place a life in.";
+
+export const acceptedLifePlaceProvider: LifePlaceProvider = {
+  coverage() {
+    return {
+      kind: "accepted-context-set",
+      placeCount: PLACES.length,
+      supportsArbitrarySelection: false,
+      outstandingDependency: OUTSTANDING_DEPENDENCY,
+    };
+  },
+  list() {
+    return PLACES;
+  },
+  byKey(key) {
+    return PLACES.find((place) => place.key === key) ?? null;
+  },
+  byJurisdictionId(jurisdictionId) {
+    return (
+      PLACES.find(
+        (place) => place.context.jurisdiction.id === jurisdictionId,
+      ) ?? null
+    );
+  },
+};
+
+export function lifePlaces(): readonly LifePlace[] {
+  return acceptedLifePlaceProvider.list();
+}
+
+export function lifePlaceByKey(key: string): LifePlace | null {
+  return acceptedLifePlaceProvider.byKey(key);
+}
+
+export function lifePlaceByJurisdictionId(
+  jurisdictionId: EntityId,
+): LifePlace | null {
+  return acceptedLifePlaceProvider.byJurisdictionId(jurisdictionId);
+}
+
+export function lifePlaceCoverage(): LifePlaceCoverage {
+  return acceptedLifePlaceProvider.coverage();
+}
+
+export function requireLifePlace(key: string): LifePlace {
+  const place = lifePlaceByKey(key);
+  if (!place) throw new Error(`No place named '${key}' is available to play.`);
+  return place;
+}

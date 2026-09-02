@@ -1068,158 +1068,428 @@ export function advanceFormativeInterval(
 export type LifeSituationKey =
   | "formative.household-transition"
   | "formative.school-entry"
+  | "formative.broken-object"
+  | "formative.small-money"
   | "formative.lunch-table"
   | "formative.friend-conflict"
   | "formative.teacher-mentor"
+  | "formative.school-rule-input"
+  | "formative.care-conflict"
   | "formative.activity-choice"
   | "formative.civic-volunteering"
   | "formative.teen-work-opportunity"
+  | "formative.student-organizing"
+  | "formative.belief-challenge"
   | "formative.future-preparation";
 
 export interface LifeSituationOption {
   readonly key: string;
+  /** The words on the button. */
   readonly label: string;
+  /** What choosing it means, before it is chosen. */
   readonly description: string;
+  /**
+   * What the person remembers afterwards, written as something that happened
+   * rather than as the instruction that produced it. The canonical record is
+   * never the button text.
+   */
+  readonly memory: string;
 }
 
 export interface AvailableLifeSituation {
   readonly key: LifeSituationKey;
   readonly band: FormativePacingBand;
+  /** The scene, before any choice exists. */
+  readonly prose: string;
   readonly options: readonly LifeSituationOption[];
+  /** True when the situation only makes sense with someone else in it. */
+  readonly needsCompanion: boolean;
 }
 
-const SITUATIONS: readonly AvailableLifeSituation[] = [
+/**
+ * The formative situations the game can currently play.
+ *
+ * Each one is authored content over the existing eligibility and consequence
+ * machinery. The research kernels these come from mostly have no defensible
+ * national arrival rate, so nothing here samples a frequency: a situation is
+ * offered when the person is in its age band and its context exists, and the
+ * player chooses from there.
+ */
+const AUTHORED_SITUATIONS: readonly Omit<
+  AvailableLifeSituation,
+  "needsCompanion"
+>[] = [
   {
     key: "formative.household-transition",
     band: "early-childhood",
+    prose:
+      "There is a new child in the house. The nights are louder, and the adults are tired in a way you have not seen before.",
     options: [
       {
         key: "settle-in",
         label: "Settle in",
         description: "Help make the new routine feel familiar.",
+        memory:
+          "The house rearranged itself around someone small and loud, and you learned the new order of the mornings before anyone explained it.",
+      },
+      {
+        key: "keep-your-corner",
+        label: "Keep to your own corner",
+        description: "Hold on to the parts of the day that are still yours.",
+        memory:
+          "You kept your own corner of the house through all the noise, and nobody made you give it up.",
       },
     ],
   },
   {
     key: "formative.school-entry",
     band: "early-childhood",
+    prose:
+      "A room of children you do not know, a coat hook with your name on it, and an adult who claps twice when it is time to listen.",
     options: [
       {
         key: "join-in",
         label: "Join in",
         description: "Take part in the new classroom routine.",
+        memory:
+          "You went in with the others on the first morning and copied what they did until it stopped feeling like copying.",
+      },
+      {
+        key: "hang-back",
+        label: "Hang back and watch",
+        description: "Learn how the room works before joining it.",
+        memory:
+          "You stayed at the edge of the room for a while, and understood how it worked before anyone had to tell you.",
+      },
+    ],
+  },
+  {
+    key: "formative.broken-object",
+    band: "early-childhood",
+    prose:
+      "Something that mattered is in pieces on the floor. An adult is in the doorway asking what happened.",
+    options: [
+      {
+        key: "say-what-happened",
+        label: "Say what happened",
+        description: "Tell it straight, including your own part in it.",
+        memory:
+          "You said it was you before anyone worked it out, and the room went quiet in a way you did not forget.",
+      },
+      {
+        key: "stay-quiet",
+        label: "Say nothing",
+        description: "Let the question go unanswered.",
+        memory:
+          "You let the question sit there unanswered, and it stayed unanswered for a long time.",
+      },
+    ],
+  },
+  {
+    key: "formative.small-money",
+    band: "early-childhood",
+    prose:
+      "A little money of your own, in a pocket, and nobody telling you what it is for.",
+    options: [
+      {
+        key: "spend",
+        label: "Spend it",
+        description: "Get the thing you want now.",
+        memory:
+          "You spent it that same week on something you wanted, and at the time you were glad you had.",
+      },
+      {
+        key: "put-it-away",
+        label: "Put it away",
+        description: "Keep it for something later.",
+        memory:
+          "You put it somewhere safe and left it there, waiting for a use you had not thought of yet.",
+      },
+      {
+        key: "share",
+        label: "Share it",
+        description: "Split it with someone else.",
+        memory: "You split it with someone, without being asked to.",
       },
     ],
   },
   {
     key: "formative.lunch-table",
     band: "middle-childhood",
+    prose:
+      "The table is full except for one gap, and someone is standing at the end of it holding a tray.",
     options: [
       {
         key: "make-room",
         label: "Make room",
         description: "Invite the other child to join the table.",
+        memory:
+          "You slid down the bench and made a space, and the table closed back up around one more person.",
       },
       {
         key: "look-away",
         label: "Look away",
         description: "Avoid getting involved in the moment.",
+        memory:
+          "You looked at your food until the person holding the tray went somewhere else.",
       },
     ],
   },
   {
     key: "formative.friend-conflict",
     band: "middle-childhood",
+    prose:
+      "Something got said that should not have been, and now the two of you are being careful with each other.",
     options: [
       {
         key: "repair",
         label: "Try to repair it",
         description: "Speak directly and attempt a repair.",
+        memory:
+          "You said the awkward first sentence yourself, and the rest of it came easier after that.",
       },
       {
         key: "withdraw",
         label: "Step back",
         description: "Take space rather than force a resolution.",
+        memory: "You let the silence stand. It cooled, but it did not close.",
       },
     ],
   },
   {
     key: "formative.teacher-mentor",
     band: "middle-childhood",
+    prose:
+      "A teacher keeps you back for a minute after the others go, and offers to help with the thing you keep getting wrong.",
     options: [
       {
         key: "accept-guidance",
         label: "Accept guidance",
         description: "Follow up with the adult who offered help.",
+        memory:
+          "You took the help that was offered, and the thing you kept getting wrong got smaller.",
       },
       {
         key: "decline-guidance",
         label: "Handle it alone",
         description: "Thank them, then try independently.",
+        memory:
+          "You said thank you and worked it out in your own time, slower and by yourself.",
+      },
+    ],
+  },
+  {
+    key: "formative.school-rule-input",
+    band: "middle-childhood",
+    prose:
+      "The school is changing a rule, and for once it is asking the people the rule is about.",
+    options: [
+      {
+        key: "speak-up",
+        label: "Say what you think",
+        description: "Give the school your actual view of the rule.",
+        memory:
+          "You said what you thought of the rule out loud, in front of people, and then watched what the school did with it.",
+      },
+      {
+        key: "leave-it-to-others",
+        label: "Leave it to others",
+        description: "Let the people who want to speak do the speaking.",
+        memory:
+          "You had a view and kept it to yourself while other people argued it out.",
+      },
+    ],
+  },
+  {
+    key: "formative.care-conflict",
+    band: "middle-childhood",
+    prose:
+      "The house needs you on the same afternoons the thing you signed up for does.",
+    options: [
+      {
+        key: "cover-at-home",
+        label: "Cover things at home",
+        description: "Be the one the household can count on.",
+        memory:
+          "You were the one at home on those afternoons, and the other thing went on without you.",
+      },
+      {
+        key: "keep-the-commitment",
+        label: "Keep the commitment",
+        description: "Hold on to what you already agreed to.",
+        memory:
+          "You kept going to it, and someone else at home covered what you did not.",
       },
     ],
   },
   {
     key: "formative.activity-choice",
     band: "adolescence",
+    prose:
+      "There is a sign-up sheet, a practice schedule, and only so many afternoons in a week.",
     options: [
       {
         key: "join",
         label: "Join the activity",
         description: "Commit time to a new group or activity.",
+        memory: "You put your name on the sheet and gave the afternoons to it.",
       },
       {
         key: "leave",
         label: "Leave the activity",
         description: "Make room for another priority.",
+        memory:
+          "You gave the afternoons back, and something else grew into the space.",
       },
     ],
   },
   {
     key: "formative.civic-volunteering",
     band: "adolescence",
+    prose:
+      "Something local needs hands on a Saturday, and someone has asked whether you are one of them.",
     options: [
       {
         key: "volunteer",
         label: "Volunteer",
         description: "Contribute time to a local effort.",
+        memory:
+          "You gave up a Saturday to it, and found out how much of the work was unglamorous.",
       },
       {
         key: "observe",
         label: "Observe first",
         description: "Learn about the work before committing.",
+        memory: "You went and watched before you agreed to anything.",
       },
     ],
   },
   {
     key: "formative.teen-work-opportunity",
     band: "adolescence",
+    prose:
+      "There is a job going. The hours are real, and the law has something to say about which of them you are allowed to work.",
     options: [
       {
         key: "accept",
         label: "Accept the opportunity",
         description: "Take on the offered role if it is permitted.",
+        memory:
+          "You took the job, and your own time stopped being entirely your own.",
       },
       {
         key: "decline",
         label: "Decline for now",
         description: "Keep the current commitments manageable.",
+        memory: "You turned the job down and kept the week you already had.",
+      },
+    ],
+  },
+  {
+    key: "formative.student-organizing",
+    band: "adolescence",
+    prose:
+      "Something at school is wrong enough that people are talking about doing something, and the talking has reached you.",
+    options: [
+      {
+        key: "help-organize",
+        label: "Help organize it",
+        description: "Put your name and your time behind it.",
+        memory:
+          "You helped organize it, learned who would actually turn up, and saw what the school did when students pushed.",
+      },
+      {
+        key: "stay-out",
+        label: "Stay out of it",
+        description: "Let it happen without you.",
+        memory:
+          "You watched it happen from outside it, and kept your own account of whether it was right.",
+      },
+    ],
+  },
+  {
+    key: "formative.belief-challenge",
+    band: "adolescence",
+    prose:
+      "Someone you respect says something you think is wrong, and says it as though it settles the matter.",
+    options: [
+      {
+        key: "say-you-disagree",
+        label: "Say you disagree",
+        description: "Tell them, to their face, that you see it differently.",
+        memory:
+          "You told someone you respected that they were wrong, and found out both what that costs and what it does not.",
+      },
+      {
+        key: "let-it-pass",
+        label: "Let it pass",
+        description: "Keep the disagreement to yourself for now.",
+        memory:
+          "You let it pass without saying anything, and kept the disagreement somewhere only you could see it.",
       },
     ],
   },
   {
     key: "formative.future-preparation",
     band: "adolescence",
+    prose:
+      "The year is running out, and people keep asking what comes after it.",
     options: [
       {
         key: "prepare",
-        label: "Prepare a next step",
+        label: "Take a concrete step",
         description:
-          "Take a concrete step toward education, training, work, or service.",
+          "Move on education, training, work, or service while there is time.",
+        memory:
+          "You took one concrete step toward what came next, before you were sure it was the right one.",
+      },
+      {
+        key: "keep-options-open",
+        label: "Keep your options open",
+        description: "Decide later, on better information.",
+        memory:
+          "You did not commit that year. You kept looking, and let the question stay open.",
       },
     ],
   },
 ];
+
+/**
+ * Options where the person held back rather than acted. They read as mixed
+ * rather than positive afterwards, and leave a short after-effect.
+ */
+const WITHDRAWN_OPTION_KEYS: readonly string[] = [
+  "look-away",
+  "withdraw",
+  "stay-quiet",
+  "leave-it-to-others",
+  "stay-out",
+  "let-it-pass",
+];
+
+/** Options that leave the other person on better terms than before. */
+const WARMING_OPTION_KEYS: readonly string[] = [
+  "repair",
+  "make-room",
+  "accept-guidance",
+  "say-what-happened",
+];
+
+/** Situations that need someone else in the scene to make any sense. */
+const SOCIAL_SITUATION_KEYS: readonly LifeSituationKey[] = [
+  "formative.broken-object",
+  "formative.lunch-table",
+  "formative.friend-conflict",
+  "formative.teacher-mentor",
+  "formative.belief-challenge",
+];
+
+const SITUATIONS: readonly AvailableLifeSituation[] = AUTHORED_SITUATIONS.map(
+  (situation) => ({
+    ...situation,
+    needsCompanion: SOCIAL_SITUATION_KEYS.includes(situation.key),
+  }),
+);
 
 export function availableLifeSituations(
   world: World,
@@ -1232,15 +1502,13 @@ export function availableLifeSituations(
   const interval = formativeIntervalAt(world, input.personId, input.asOfDate);
   if (!interval) return [];
   const otherPersonId = input.otherPersonId ?? null;
-  return SITUATIONS.filter((situation) => {
-    if (situation.band !== interval.band) return false;
-    const social = [
-      "formative.lunch-table",
-      "formative.friend-conflict",
-      "formative.teacher-mentor",
-    ].includes(situation.key);
-    return !social || (otherPersonId !== null && !!world.people[otherPersonId]);
-  });
+  const companionPresent =
+    otherPersonId !== null && !!world.people[otherPersonId];
+  return SITUATIONS.filter(
+    (situation) =>
+      situation.band === interval.band &&
+      (!situation.needsCompanion || companionPresent),
+  );
 }
 
 export interface TeenWorkOpportunity {
@@ -1354,7 +1622,7 @@ export function resolveLifeSituation(
           personFactConstraints: [],
           visibility: "limited",
           tags: [input.situationKey, `choice.${input.optionKey}`],
-          summary: `${option.label}: ${option.description}`,
+          summary: option.memory,
           context: {
             location: input.jurisdictionId
               ? {
@@ -1382,7 +1650,7 @@ export function resolveLifeSituation(
         personId: input.personId,
         eventStableKey,
         learnedAt: input.occurredAt,
-        believedSummary: `${option.label}: ${option.description}`,
+        believedSummary: option.memory,
         accuracy: "accurate",
         confidence: "high",
         source: { kind: "direct" },
@@ -1395,8 +1663,8 @@ export function resolveLifeSituation(
         personId: input.personId,
         eventStableKey,
         formedAt: input.occurredAt,
-        rememberedSummary: `${option.label}: ${option.description}`,
-        interpretation: option.description,
+        rememberedSummary: option.memory,
+        interpretation: option.memory,
         strength:
           input.situationKey === "formative.lunch-table"
             ? "strong"
@@ -1415,7 +1683,7 @@ export function resolveLifeSituation(
           personId: other,
           eventStableKey,
           learnedAt: input.occurredAt,
-          believedSummary: `${option.label}: ${option.description}`,
+          believedSummary: option.memory,
           accuracy: "accurate",
           confidence: "medium",
           source: { kind: "direct" },
@@ -1431,7 +1699,7 @@ export function resolveLifeSituation(
           kind: interactionKind(input.situationKey, input.optionKey),
           change: interactionChange(input.optionKey),
           significance: "meaningful",
-          summary: `${option.label}: ${option.description}`,
+          summary: option.memory,
           tags: [input.situationKey],
         },
       },
@@ -1450,20 +1718,19 @@ export function resolveLifeSituation(
         {
           key: "formative-choice",
           label: "A formative choice",
-          valence:
-            input.optionKey === "look-away" || input.optionKey === "withdraw"
-              ? "mixed"
-              : "positive",
+          valence: WITHDRAWN_OPTION_KEYS.includes(input.optionKey)
+            ? "mixed"
+            : "positive",
           intensity: "subtle",
         },
       ],
-      interpretation: option.description,
+      interpretation: option.memory,
       confidence: "medium",
       involvedPersonIds: other ? [other] : [],
       supersedesAppraisalId: null,
     },
   });
-  if (input.optionKey === "look-away" || input.optionKey === "withdraw") {
+  if (WITHDRAWN_OPTION_KEYS.includes(input.optionKey)) {
     consequenceTransitions.push({
       kind: "temporary-state",
       input: {
@@ -2399,6 +2666,10 @@ function interactionKind(
   option: string,
 ): RelationshipInteractionInput["kind"] {
   if (situation === "formative.teacher-mentor") return "mentorship:guidance";
+  if (situation === "formative.belief-challenge")
+    return option === "say-you-disagree"
+      ? "conflict:formative"
+      : "experience:formative";
   if (situation === "formative.friend-conflict" || option === "look-away")
     return "conflict:formative";
   return "experience:formative";
@@ -2407,11 +2678,11 @@ function interactionKind(
 function interactionChange(
   option: string,
 ): RelationshipInteractionInput["change"] {
-  return option === "repair" ||
-    option === "make-room" ||
-    option === "accept-guidance"
-    ? "strengthened"
-    : "strained";
+  if (WARMING_OPTION_KEYS.includes(option)) return "strengthened";
+  // Saying so out loud tests a relationship rather than damaging it; only
+  // pulling away or staying silent leaves it strained.
+  if (option === "say-you-disagree") return "maintained";
+  return "strained";
 }
 
 function situationEventType(

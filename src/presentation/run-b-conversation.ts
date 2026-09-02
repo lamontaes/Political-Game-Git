@@ -21,10 +21,17 @@ import type {
   World,
 } from "../simulation";
 import {
+  advanceHouseholdObligation,
+  conversationSubjectPresentation,
+} from "./conversation-subjects";
+import {
   canListenToRunBConversation,
   createRunBConversationProgress,
+  isHouseholdObligationConversationProgress,
+  isRunBReferralConversationProgress,
   isRunCLegislativeConversationProgress,
   type ConversationProgress,
+  type HouseholdObligationConversationProgress,
   type RunBConversationProgress,
   type RunBConversationProposition,
   type RunBPendingContribution,
@@ -34,12 +41,22 @@ import {
 export const RUN_B_AUDIBILITY_OPTIONS = ["normal", "quiet", "private"] as const;
 export type ConversationAudibility = (typeof RUN_B_AUDIBILITY_OPTIONS)[number];
 
+/**
+ * Everything anyone can currently mean by speaking.
+ *
+ * This list grows when a subject family is added; it is not a closed account
+ * of human intent derived from the office scenario that happened to be first.
+ */
 export const RUN_B_CONVERSATION_INTENTS = [
   "request-commitment",
   "reassure",
   "press",
   "listen",
   "discuss-provision",
+  "raise-obligation",
+  "offer-to-cover",
+  "ask-to-share",
+  "ask-for-time",
 ] as const;
 export type ConversationIntent = (typeof RUN_B_CONVERSATION_INTENTS)[number];
 
@@ -50,8 +67,11 @@ export function describeRunBBriefingContext(
   room: ConversationRoomContext,
   progress: RunBConversationProgress,
 ): string {
-  const facts = progress.subjectFacts;
-  return `Three Lexington tenants asked this office for emergency-rent help. The county could not process two referrals because each lacked a required ${facts.requiredDocument}. ${shortPersonName(world, room.referralVerifierPersonId)} is checking the third. Decide whether ${shortPersonName(world, room.briefingLeadPersonId)} should back a document checklist before future referrals.`;
+  return conversationSubjectPresentation(progress).describeBriefing(
+    world,
+    room,
+    progress,
+  );
 }
 
 export function describeConversationBriefingContext(
@@ -59,16 +79,15 @@ export function describeConversationBriefingContext(
   room: ConversationRoomContext,
   progress: ConversationProgress,
 ): string {
-  if (isRunCLegislativeConversationProgress(progress)) {
-    return `Review Section 3 of the Transit Access Pilot office working draft. The current provision states ${progress.subjectFacts.currentAmount}; a prepared version states ${progress.subjectFacts.preparedAmount} for the same eligible-rider scope.`;
-  }
-  return describeRunBBriefingContext(world, room, progress);
+  return conversationSubjectPresentation(progress).describeBriefing(
+    world,
+    room,
+    progress,
+  );
 }
 
 export function conversationTopicLabel(progress: ConversationProgress): string {
-  return isRunCLegislativeConversationProgress(progress)
-    ? "Legislative working draft"
-    : "Constituent services";
+  return conversationSubjectPresentation(progress).topicLabel(progress);
 }
 
 export interface ConversationRoomContext {
@@ -192,65 +211,21 @@ export function availableConversationIntents(
   progress: ConversationProgress,
   audibility: ConversationAudibility = "normal",
 ): readonly ConversationIntentOption[] {
-  if (isRunCLegislativeConversationProgress(progress)) {
-    if (
-      addressee !== "everyone" &&
-      addressee !== room.eligibleAddresseePersonIds[0]
-    ) {
-      return [];
-    }
-    return progress.phase === "discussed"
-      ? []
-      : [
-          {
-            key: "discuss-provision",
-            label: `Ask ${shortPersonName(world, room.briefingLeadPersonId)} about the ${progress.subjectFacts.currentAmount} provision`,
-            description: `Ask for ${shortPersonName(world, room.briefingLeadPersonId)}'s known staff interpretation of the selected working-draft provision and prepared narrower version.`,
-          },
-        ];
-  }
-  const commitmentLabel =
-    addressee === "everyone"
-      ? `Ask ${shortPersonName(world, room.referralVerifierPersonId)} to check and ${shortPersonName(world, room.briefingLeadPersonId)} to decide`
-      : addressee === room.eligibleAddresseePersonIds[0]
-        ? `Ask ${shortPersonName(world, room.briefingLeadPersonId)} to back the referral checklist`
-        : `Ask ${shortPersonName(world, room.referralVerifierPersonId)} to check the third referral`;
-  const options: ConversationIntentOption[] = [
-    {
-      key: "request-commitment",
-      label: commitmentLabel,
-      description:
-        addressee === room.eligibleAddresseePersonIds[0]
-          ? `Ask ${shortPersonName(world, room.briefingLeadPersonId)} to back a document checklist before staff make future county referrals.`
-          : addressee === room.eligibleAddresseePersonIds[1]
-            ? `Ask ${shortPersonName(world, room.referralVerifierPersonId)} whether the third referral also lacked the required proof-of-income form.`
-            : `Ask ${shortPersonName(world, room.referralVerifierPersonId)} to check the third referral and ${shortPersonName(world, room.briefingLeadPersonId)} to decide on the staff checklist.`,
-    },
-    {
-      key: "reassure",
-      label: "Limit the checklist to proof-of-income forms",
-      description:
-        "Limit the staff checklist to the document problem these referrals establish.",
-    },
-  ];
-  if (addressee !== "everyone") {
-    options.push({
-      key: "press",
-      label:
-        addressee === room.eligibleAddresseePersonIds[0]
-          ? `Press ${shortPersonName(world, room.briefingLeadPersonId)} to back the checklist`
-          : `Press ${shortPersonName(world, room.referralVerifierPersonId)} to check the third referral now`,
-      description: "Ask for the concrete next step now.",
-    });
-  }
-  if (canListenInCurrentHearingContext(room, addressee, audibility, progress)) {
-    options.push({
-      key: "listen",
-      label: "Listen",
-      description: "Stay quiet and hear what the room does next.",
-    });
-  }
-  return options;
+  // The core answers whether anyone could be heard; the subject answers whether
+  // there is anything worth hearing about.
+  const silenceIsUseful = canListenInCurrentHearingContext(
+    room,
+    addressee,
+    audibility,
+    progress,
+  );
+  return conversationSubjectPresentation(progress).availableIntents(
+    world,
+    room,
+    addressee,
+    progress,
+    silenceIsUseful,
+  );
 }
 
 export function openingConversationBeat(
@@ -260,66 +235,30 @@ export function openingConversationBeat(
   progress: ConversationProgress = createRunBConversationProgress(),
 ): ConversationDialogueBeat {
   validateAddressee(room, addressee);
-  const addresseeIds = resolveAddresseePersonIds(room, addressee);
-  const speakerPersonId = addresseeIds[0]!;
-  const speaker = world.people[speakerPersonId];
-  if (!speaker) {
-    throw new Error("Conversation opening speaker is missing from the World.");
+  if (
+    isRunBReferralConversationProgress(progress) &&
+    (progress.phase !== "opening" || progress.latestProposition !== null)
+  ) {
+    return continuingRunBReferralBeat(world, room, addressee, progress);
   }
-
-  if (isRunCLegislativeConversationProgress(progress)) {
-    return {
-      speakerPersonId,
-      speakerName: personName(speaker),
-      dialogue:
-        progress.phase === "discussed"
-          ? `“The prepared ${progress.subjectFacts.preparedAmount} language is still on the page for comparison,” ${shortPersonName(world, room.briefingLeadPersonId)} says. “Neither version is enacted or implemented.”`
-          : `“I have Section 3 open,” ${shortPersonName(world, room.briefingLeadPersonId)} says. “You’re looking at the ${progress.subjectFacts.currentAmount} ceiling and the prepared ${progress.subjectFacts.preparedAmount} version for the same pilot scope.”`,
-    };
-  }
-
-  if (progress.phase !== "opening" || progress.latestProposition !== null) {
-    return continuingConversationBeat(world, room, addressee, progress);
-  }
-
-  if (addressee === "everyone") {
-    return {
-      speakerPersonId,
-      speakerName: personName(speaker),
-      dialogue: `“If ${shortPersonName(world, room.referralVerifierPersonId)} finds the third county referral also lacked the proof-of-income form, I’ll decide whether to back one document checklist for staff to use before future referrals,” ${shortPersonName(world, room.briefingLeadPersonId)} says.`,
-    };
-  }
-  if (speakerPersonId === room.eligibleAddresseePersonIds[0]) {
-    return {
-      speakerPersonId,
-      speakerName: personName(speaker),
-      dialogue: `“If ${shortPersonName(world, room.referralVerifierPersonId)} finds the third county referral also lacked the proof-of-income form, I’ll decide whether to back one document checklist for staff to use before future referrals,” ${shortPersonName(world, room.briefingLeadPersonId)} says.`,
-    };
-  }
-  return {
-    speakerPersonId,
-    speakerName: personName(speaker),
-    dialogue: `“The county could not process our first two referrals because the proof-of-income form was missing,” ${shortPersonName(world, room.referralVerifierPersonId)} says. “I can check whether the third referral arrived without that form too.”`,
-  };
+  return conversationSubjectPresentation(progress).openingBeat(
+    world,
+    room,
+    addressee,
+    progress,
+  );
 }
 
-function continuingConversationBeat(
+/**
+ * The referral family keeps its own continuation lines, which track how far
+ * the office has actually got rather than restating the opening.
+ */
+function continuingRunBReferralBeat(
   world: World,
   room: ConversationRoomContext,
   addressee: ConversationAddressee,
-  progress: ConversationProgress,
+  progress: RunBConversationProgress,
 ): ConversationDialogueBeat {
-  if (isRunCLegislativeConversationProgress(progress)) {
-    const speakerPersonId = room.eligibleAddresseePersonIds[0]!;
-    const speaker = world.people[speakerPersonId];
-    if (!speaker)
-      throw new Error("Legislative conversation speaker is missing.");
-    return {
-      speakerPersonId,
-      speakerName: personName(speaker),
-      dialogue: `“The office copy still distinguishes the current ${progress.subjectFacts.currentAmount} text from the prepared ${progress.subjectFacts.preparedAmount} text,” ${shortPersonName(world, room.briefingLeadPersonId)} says.`,
-    };
-  }
   const primaryId = room.eligibleAddresseePersonIds[0]!;
   const secondaryId = room.eligibleAddresseePersonIds[1] ?? primaryId;
   const speakerPersonId = addressee === "everyone" ? primaryId : addressee;
@@ -844,6 +783,23 @@ function resolveNpcResponse(
       "The legislative provision subject cannot use casework intents.",
     );
   }
+  if (isHouseholdObligationConversationProgress(input.progress)) {
+    return resolveHouseholdObligationResponse(world, {
+      speakerPersonId: input.speakerPersonId,
+      intent: input.intent,
+      progress: input.progress,
+    });
+  }
+  if (
+    input.intent === "raise-obligation" ||
+    input.intent === "offer-to-cover" ||
+    input.intent === "ask-to-share" ||
+    input.intent === "ask-for-time"
+  ) {
+    throw new Error(
+      "Those are things to say at home, not about a constituent referral.",
+    );
+  }
 
   if (input.intent === "listen" && input.pendingContribution !== null) {
     return resolvePendingConversationContribution(world, {
@@ -979,6 +935,77 @@ function resolveLegislativeProvisionResponse(
   };
 }
 
+/**
+ * The other person answers about the week.
+ *
+ * Nothing here reaches for the decision machinery the office subject uses: no
+ * commitment is being extracted, and none is recorded. Two people are settling
+ * who does the shopping.
+ */
+function resolveHouseholdObligationResponse(
+  world: World,
+  input: {
+    readonly speakerPersonId: EntityId;
+    readonly intent: ConversationIntent;
+    readonly progress: HouseholdObligationConversationProgress;
+  },
+): ResolvedResponse {
+  const speaker = world.people[input.speakerPersonId];
+  if (!speaker) throw new Error("The other person in the room is missing.");
+  const shortName = speaker.familyName;
+  const errands = input.progress.subjectFacts.shortObligation;
+
+  switch (input.intent) {
+    case "raise-obligation":
+      return {
+        world,
+        outcome: "continued",
+        speakerPersonId: input.speakerPersonId,
+        dialogue: `“I know,” ${shortName} says. “I have been not-saying it too.”`,
+        perception: `${personName(speaker)} had been avoiding the same conversation.`,
+        durableDecisionRecorded: false,
+      };
+    case "offer-to-cover":
+      return {
+        world,
+        outcome: "reassured",
+        speakerPersonId: input.speakerPersonId,
+        dialogue: `“Then I owe you one,” ${shortName} says. “I mean that.”`,
+        perception: `${personName(speaker)} accepted the offer and said it counted.`,
+        durableDecisionRecorded: false,
+      };
+    case "ask-to-share":
+      return {
+        world,
+        outcome: "continued",
+        speakerPersonId: input.speakerPersonId,
+        dialogue: `“Half each works,” ${shortName} says. “Tell me which half.”`,
+        perception: `${personName(speaker)} agreed to split ${errands}.`,
+        durableDecisionRecorded: false,
+      };
+    case "ask-for-time":
+      return {
+        world,
+        outcome: "deferred",
+        speakerPersonId: input.speakerPersonId,
+        dialogue: `“Fine. I will do it,” ${shortName} says. “Not every week, though.”`,
+        perception: `${personName(speaker)} took ${errands} on, and said so with a limit attached.`,
+        durableDecisionRecorded: false,
+      };
+    case "listen":
+      return {
+        world,
+        outcome: "silence-held",
+        speakerPersonId: null,
+        dialogue: null,
+        perception: null,
+        durableDecisionRecorded: false,
+      };
+    default:
+      throw new Error("That is not something to say about the week at home.");
+  }
+}
+
 function resolvePendingConversationContribution(
   world: World,
   input: {
@@ -1044,6 +1071,9 @@ function advanceConversationProgress(
       phase: "discussed",
       latestProposition: "compare-prepared-cap",
     };
+  }
+  if (isHouseholdObligationConversationProgress(progress)) {
+    return advanceHouseholdObligation(progress, input.intent);
   }
   if (input.intent === "listen") {
     if (input.pendingContribution === null) {
@@ -1511,8 +1541,11 @@ function canListenInCurrentHearingContext(
   room: ConversationRoomContext,
   addressee: ConversationAddressee,
   audibility: ConversationAudibility,
-  progress: RunBConversationProgress,
+  progress: ConversationProgress,
 ): boolean {
+  if (!isRunBReferralConversationProgress(progress)) {
+    return !progress.silenceSettled;
+  }
   const pendingContribution = progress.pendingContributions[0] ?? null;
   if (pendingContribution === null) {
     return canListenToRunBConversation(progress);
