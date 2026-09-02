@@ -26559,9 +26559,7 @@
       "seasonal": "U",
       "srdCode": "29",
       "seriesTitle": "Unemployment Rate: St. Louis-St. Charles-Farmington, MO-IL Combined Statistical Area (U)",
-      "footnoteCodes": [
-        "A"
-      ],
+      "footnoteCodes": ["A"],
       "beginYear": 1990,
       "beginPeriod": "M01",
       "endYear": 2026,
@@ -26575,9 +26573,7 @@
       "seasonal": "U",
       "srdCode": "29",
       "seriesTitle": "Unemployment: St. Louis-St. Charles-Farmington, MO-IL Combined Statistical Area (U)",
-      "footnoteCodes": [
-        "A"
-      ],
+      "footnoteCodes": ["A"],
       "beginYear": 1990,
       "beginPeriod": "M01",
       "endYear": 2026,
@@ -26591,9 +26587,7 @@
       "seasonal": "U",
       "srdCode": "29",
       "seriesTitle": "Employment: St. Louis-St. Charles-Farmington, MO-IL Combined Statistical Area (U)",
-      "footnoteCodes": [
-        "A"
-      ],
+      "footnoteCodes": ["A"],
       "beginYear": 1990,
       "beginPeriod": "M01",
       "endYear": 2026,
@@ -26607,9 +26601,7 @@
       "seasonal": "U",
       "srdCode": "29",
       "seriesTitle": "Labor Force: St. Louis-St. Charles-Farmington, MO-IL Combined Statistical Area (U)",
-      "footnoteCodes": [
-        "A"
-      ],
+      "footnoteCodes": ["A"],
       "beginYear": 1990,
       "beginPeriod": "M01",
       "endYear": 2026,
@@ -42602,9 +42594,7 @@
       "periodName": "October",
       "value": null,
       "status": "SUPPRESSED",
-      "footnoteCodes": [
-        "X"
-      ],
+      "footnoteCodes": ["X"],
       "footnoteTexts": [
         "Data unavailable due to the 2025 lapse in appropriations."
       ]
@@ -42648,9 +42638,7 @@
       "periodName": "Annual Average",
       "value": 2.4,
       "status": "FINAL",
-      "footnoteCodes": [
-        "G"
-      ],
+      "footnoteCodes": ["G"],
       "footnoteTexts": [
         "Annual estimates for 2025 are 11-month averages that exclude October. Data for October 2025 were not collected due to the federal government shutdown."
       ]
@@ -42750,12 +42738,8 @@
       "periodName": "July",
       "value": 3.3,
       "status": "PRELIMINARY",
-      "footnoteCodes": [
-        "P"
-      ],
-      "footnoteTexts": [
-        "Preliminary."
-      ]
+      "footnoteCodes": ["P"],
+      "footnoteTexts": ["Preliminary."]
     },
     {
       "seriesId": "LAUCN010010000000004",
@@ -49264,9 +49248,7 @@
       "periodName": "October",
       "value": null,
       "status": "SUPPRESSED",
-      "footnoteCodes": [
-        "X"
-      ],
+      "footnoteCodes": ["X"],
       "footnoteTexts": [
         "Data unavailable due to the 2025 lapse in appropriations."
       ]
@@ -49310,9 +49292,7 @@
       "periodName": "Annual Average",
       "value": 707,
       "status": "FINAL",
-      "footnoteCodes": [
-        "G"
-      ],
+      "footnoteCodes": ["G"],
       "footnoteTexts": [
         "Annual estimates for 2025 are 11-month averages that exclude October. Data for October 2025 were not collected due to the federal government shutdown."
       ]
@@ -49412,12 +49392,8 @@
       "periodName": "July",
       "value": 954,
       "status": "PRELIMINARY",
-      "footnoteCodes": [
-        "P"
-      ],
-      "footnoteTexts": [
-        "Preliminary."
-      ]
+      "footnoteCodes": ["P"],
+      "footnoteTexts": ["Preliminary."]
     },
     {
       "seriesId": "LAUCN010010000000005",
@@ -55926,9 +55902,7 @@
       "periodName": "October",
       "value": null,
       "status": "SUPPRESSED",
-      "footnoteCodes": [
-        "X"
-      ],
+      "footnoteCodes": ["X"],
       "footnoteTexts": [
         "Data unavailable due to the 2025 lapse in appropriations."
       ]
@@ -55972,9 +55946,7 @@
       "periodName": "Annual Average",
       "value": 28205,
       "status": "FINAL",
-      "footnoteCodes": [
-        "G"
-      ],
+      "footnoteCodes": ["G"],
       "footnoteTexts": [
         "Annual estimates for 2025 are 11-month averages that exclude October. Data for October 2025 were not collected due to the federal government shutdown."
       ]
@@ -56074,12 +56046,8 @@
       "periodName": "July",
       "value": 27590,
       "status": "PRELIMINARY",
-      "footnoteCodes": [
-        "P"
-      ],
-      "footnoteTexts": [
-        "Preliminary."
-      ]
+      "footnoteCodes": ["P"],
+      "footnoteTexts": ["Preliminary."]
     },
     {
       "seriesId": "LAUCN010010000000006",

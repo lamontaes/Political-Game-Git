@@ -44,7 +44,9 @@ export function parseAreaTypeFile(content: string): Record<string, string> {
 
   const header = splitLine(headerLine);
   const codeIdx = header.findIndex((h) => h === "area_type_code");
-  const textIdx = header.findIndex((h) => h === "areatype_text" || h === "area_type_text");
+  const textIdx = header.findIndex(
+    (h) => h === "areatype_text" || h === "area_type_text",
+  );
 
   for (let i = 1; i < lines.length; i++) {
     const rawLine = lines[i];
@@ -143,9 +145,16 @@ export function parseAreaFile(content: string): LausArea[] {
     const areaTypeCode = fields[typeIdx >= 0 ? typeIdx : 0] || "";
     const areaCode = fields[codeIdx >= 0 ? codeIdx : 1] || "";
     const areaText = fields[textIdx >= 0 ? textIdx : 2] || "";
-    const displayLevel = parseInt(fields[levelIdx >= 0 ? levelIdx : 3] || "0", 10);
-    const selectable = (fields[selIdx >= 0 ? selIdx : 4] || "T").toUpperCase() === "T";
-    const sortSequence = parseInt(fields[sortIdx >= 0 ? sortIdx : 5] || "0", 10);
+    const displayLevel = parseInt(
+      fields[levelIdx >= 0 ? levelIdx : 3] || "0",
+      10,
+    );
+    const selectable =
+      (fields[selIdx >= 0 ? selIdx : 4] || "T").toUpperCase() === "T";
+    const sortSequence = parseInt(
+      fields[sortIdx >= 0 ? sortIdx : 5] || "0",
+      10,
+    );
 
     let stateFips: string | null = null;
     let countyFips: string | null = null;
@@ -209,12 +218,22 @@ export function parseSeriesFile(content: string): LausSeries[] {
     const areaTypeCode = fields[typeIdx >= 0 ? typeIdx : 1] || "";
     const areaCode = fields[areaIdx >= 0 ? areaIdx : 2] || "";
     const measureCode = fields[measureIdx >= 0 ? measureIdx : 3] || "";
-    const seasonal = (fields[seasonalIdx >= 0 ? seasonalIdx : 4] || "U").toUpperCase() as SeasonalAdjustment;
+    const seasonal = (
+      fields[seasonalIdx >= 0 ? seasonalIdx : 4] || "U"
+    ).toUpperCase() as SeasonalAdjustment;
     const srdCode = fields[srdIdx >= 0 ? srdIdx : 5] || "";
     const seriesTitle = fields[titleIdx >= 0 ? titleIdx : 6] || "";
     const fnRaw = fields[fnIdx >= 0 ? fnIdx : 7] || "";
-    const footnoteCodes = fnRaw ? fnRaw.split(",").map((c) => c.trim()).filter(Boolean) : [];
-    const beginYear = parseInt(fields[beginYrIdx >= 0 ? beginYrIdx : 8] || "0", 10);
+    const footnoteCodes = fnRaw
+      ? fnRaw
+          .split(",")
+          .map((c) => c.trim())
+          .filter(Boolean)
+      : [];
+    const beginYear = parseInt(
+      fields[beginYrIdx >= 0 ? beginYrIdx : 8] || "0",
+      10,
+    );
     const beginPeriod = fields[beginPerIdx >= 0 ? beginPerIdx : 9] || "M01";
     const endYear = parseInt(fields[endYrIdx >= 0 ? endYrIdx : 10] || "0", 10);
     const endPeriod = fields[endPerIdx >= 0 ? endPerIdx : 11] || "M12";
@@ -272,7 +291,12 @@ export function parseDataFile(
     const rawVal = fields[valIdx >= 0 ? valIdx : 3] || "";
     const fnRaw = fields[fnIdx >= 0 ? fnIdx : 4] || "";
 
-    const footnoteCodes = fnRaw ? fnRaw.split(",").map((c) => c.trim()).filter(Boolean) : [];
+    const footnoteCodes = fnRaw
+      ? fnRaw
+          .split(",")
+          .map((c) => c.trim())
+          .filter(Boolean)
+      : [];
     const footnoteTexts = footnotesMap
       ? footnoteCodes.map((code) => footnotesMap[code] || code)
       : [];
@@ -280,9 +304,17 @@ export function parseDataFile(
     let value: number | null = null;
     let status: ObservationStatus = "FINAL";
 
-    if (!rawVal || rawVal === "-" || rawVal.toUpperCase() === "N" || rawVal.toUpperCase() === "ND") {
+    if (
+      !rawVal ||
+      rawVal === "-" ||
+      rawVal.toUpperCase() === "N" ||
+      rawVal.toUpperCase() === "ND"
+    ) {
       value = null;
-      status = footnoteCodes.includes("N") || footnoteCodes.includes("X") ? "SUPPRESSED" : "MISSING";
+      status =
+        footnoteCodes.includes("N") || footnoteCodes.includes("X")
+          ? "SUPPRESSED"
+          : "MISSING";
     } else {
       const parsed = parseFloat(rawVal);
       if (isNaN(parsed)) {
@@ -314,7 +346,8 @@ export function parseDataFile(
       measureCode = seriesInfo.measureCode;
       seasonal = seriesInfo.seasonal;
     } else {
-      seasonal = seriesId.startsWith("LAS") || seriesId.charAt(3) === "S" ? "S" : "U";
+      seasonal =
+        seriesId.startsWith("LAS") || seriesId.charAt(3) === "S" ? "S" : "U";
       if (seriesId.length >= 20) {
         areaCode = seriesId.substring(5, 20);
         measureCode = seriesId.substring(18, 20);

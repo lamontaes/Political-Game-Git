@@ -32,14 +32,20 @@ export function queryCorpus(
   const statusList = toArray(filter.status);
 
   // Index areas matching stateFips / countyFips / areaTypeCode / areaCode
-  let matchingAreaCodes = new Set<string>();
+  const matchingAreaCodes = new Set<string>();
   let filterAreas = false;
 
-  if (filter.stateFips || filter.countyFips || areaTypeCodeList || areaCodeList) {
+  if (
+    filter.stateFips ||
+    filter.countyFips ||
+    areaTypeCodeList ||
+    areaCodeList
+  ) {
     filterAreas = true;
     for (const area of corpus.areas) {
       if (areaCodeList && !areaCodeList.includes(area.areaCode)) continue;
-      if (areaTypeCodeList && !areaTypeCodeList.includes(area.areaTypeCode)) continue;
+      if (areaTypeCodeList && !areaTypeCodeList.includes(area.areaTypeCode))
+        continue;
       if (filter.stateFips && area.stateFips !== filter.stateFips) continue;
       if (filter.countyFips && area.countyFips !== filter.countyFips) continue;
       matchingAreaCodes.add(area.areaCode);
@@ -49,8 +55,14 @@ export function queryCorpus(
   const matchedObservations: LausObservation[] = [];
   for (const obs of corpus.observations) {
     if (filterAreas && !matchingAreaCodes.has(obs.areaCode)) continue;
-    if (areaCodeList && !matchingAreaCodes.has(obs.areaCode) && !areaCodeList.includes(obs.areaCode)) continue;
-    if (areaTypeCodeList && !areaTypeCodeList.includes(obs.areaTypeCode)) continue;
+    if (
+      areaCodeList &&
+      !matchingAreaCodes.has(obs.areaCode) &&
+      !areaCodeList.includes(obs.areaCode)
+    )
+      continue;
+    if (areaTypeCodeList && !areaTypeCodeList.includes(obs.areaTypeCode))
+      continue;
     if (yearList && !yearList.includes(obs.year)) continue;
     if (periodList && !periodList.includes(obs.period)) continue;
     if (measureCodeList && !measureCodeList.includes(obs.measureCode)) continue;
@@ -60,16 +72,22 @@ export function queryCorpus(
     matchedObservations.push(obs);
   }
 
-  const matchedAreaCodeSet = new Set(matchedObservations.map((o: LausObservation) => o.areaCode));
-  const matchedAreas = corpus.areas.filter((a: LausArea) => matchedAreaCodeSet.has(a.areaCode));
+  const matchedAreaCodeSet = new Set(
+    matchedObservations.map((o: LausObservation) => o.areaCode),
+  );
+  const matchedAreas = corpus.areas.filter((a: LausArea) =>
+    matchedAreaCodeSet.has(a.areaCode),
+  );
 
-  const matchedReconciliations = corpus.reconciliations.filter((r: LausReconciliation) => {
-    if (!matchedAreaCodeSet.has(r.areaCode)) return false;
-    if (yearList && !yearList.includes(r.year)) return false;
-    if (periodList && !periodList.includes(r.period)) return false;
-    if (filter.seasonal && r.seasonal !== filter.seasonal) return false;
-    return true;
-  });
+  const matchedReconciliations = corpus.reconciliations.filter(
+    (r: LausReconciliation) => {
+      if (!matchedAreaCodeSet.has(r.areaCode)) return false;
+      if (yearList && !yearList.includes(r.year)) return false;
+      if (periodList && !periodList.includes(r.period)) return false;
+      if (filter.seasonal && r.seasonal !== filter.seasonal) return false;
+      return true;
+    },
+  );
 
   return {
     filter,
@@ -98,10 +116,18 @@ export function getAreaByFips(
   fips: string,
 ): LausArea | null {
   if (fips.length === 2) {
-    return corpus.areas.find((a: LausArea) => a.stateFips === fips && a.areaTypeCode === "A") || null;
+    return (
+      corpus.areas.find(
+        (a: LausArea) => a.stateFips === fips && a.areaTypeCode === "A",
+      ) || null
+    );
   }
   if (fips.length === 5) {
-    return corpus.areas.find((a: LausArea) => a.countyFips === fips && a.areaTypeCode === "F") || null;
+    return (
+      corpus.areas.find(
+        (a: LausArea) => a.countyFips === fips && a.areaTypeCode === "F",
+      ) || null
+    );
   }
   return null;
 }

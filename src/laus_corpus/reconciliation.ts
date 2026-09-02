@@ -44,7 +44,9 @@ export function reconcilePeriodGroup(
 
   let rateDifference: number | null = null;
   if (publishedRate !== null && calculatedRate !== null) {
-    rateDifference = Number(Math.abs(publishedRate - calculatedRate).toFixed(1));
+    rateDifference = Number(
+      Math.abs(publishedRate - calculatedRate).toFixed(1),
+    );
   }
 
   let expectedLaborForce: number | null = null;
@@ -68,7 +70,9 @@ export function reconcilePeriodGroup(
   }
   if (!matches) {
     const countsNote = `Published labor force (${laborForce}) differs from sum of employment and unemployment (${expectedLaborForce}) by ${difference}.`;
-    discrepancyNote = discrepancyNote ? `${discrepancyNote} ${countsNote}` : countsNote;
+    discrepancyNote = discrepancyNote
+      ? `${discrepancyNote} ${countsNote}`
+      : countsNote;
   }
 
   return {
@@ -95,9 +99,10 @@ export function reconcilePeriodGroup(
 /**
  * Reconciles an entire list of LAUS observations by grouping by (areaCode, year, period, seasonal).
  */
-export function reconcileCorpus(
-  observations: LausObservation[],
-): { reconciliations: LausReconciliation[]; summary: LausReconciliationSummary } {
+export function reconcileCorpus(observations: LausObservation[]): {
+  reconciliations: LausReconciliation[];
+  summary: LausReconciliationSummary;
+} {
   const groups = new Map<string, LausObservation[]>();
 
   for (const obs of observations) {

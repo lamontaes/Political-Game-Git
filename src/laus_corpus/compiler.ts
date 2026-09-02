@@ -40,9 +40,13 @@ export function compileCorpus(
   },
   options: CompileOptions = {},
 ): LausCompiledCorpus {
-  const areaTypes = rawFiles.areaType ? parseAreaTypeFile(rawFiles.areaType) : {};
+  const areaTypes = rawFiles.areaType
+    ? parseAreaTypeFile(rawFiles.areaType)
+    : {};
   const measures = rawFiles.measure ? parseMeasureFile(rawFiles.measure) : {};
-  const footnotes = rawFiles.footnote ? parseFootnoteFile(rawFiles.footnote) : {};
+  const footnotes = rawFiles.footnote
+    ? parseFootnoteFile(rawFiles.footnote)
+    : {};
 
   const areas = rawFiles.area ? parseAreaFile(rawFiles.area) : [];
   const series = rawFiles.series ? parseSeriesFile(rawFiles.series) : [];
@@ -56,11 +60,16 @@ export function compileCorpus(
     ? parseDataFile(rawFiles.data, seriesMap, footnotes)
     : [];
 
-  const { reconciliations, summary: reconciliationSummary } = reconcileCorpus(observations);
+  const { reconciliations, summary: reconciliationSummary } =
+    reconcileCorpus(observations);
 
   // Deterministic sorting
-  areas.sort((a: LausArea, b: LausArea) => a.areaCode.localeCompare(b.areaCode));
-  series.sort((a: LausSeries, b: LausSeries) => a.seriesId.localeCompare(b.seriesId));
+  areas.sort((a: LausArea, b: LausArea) =>
+    a.areaCode.localeCompare(b.areaCode),
+  );
+  series.sort((a: LausSeries, b: LausSeries) =>
+    a.seriesId.localeCompare(b.seriesId),
+  );
   observations.sort((a: LausObservation, b: LausObservation) => {
     if (a.seriesId !== b.seriesId) return a.seriesId.localeCompare(b.seriesId);
     if (a.year !== b.year) return a.year - b.year;

@@ -5,7 +5,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
-import type { LausCompiledCorpus, RawSourceArtifact } from "../../src/laus_corpus/types.ts";
+import type {
+  LausCompiledCorpus,
+  RawSourceArtifact,
+} from "../../src/laus_corpus/types.ts";
 
 const REPO_ROOT = path.resolve(import.meta.dirname, "../..");
 const RAW_DIR = path.join(REPO_ROOT, "data/laus/raw");
@@ -19,7 +22,9 @@ export function validateLausCorpus(): { valid: boolean; errors: string[] } {
   if (!fs.existsSync(manifestPath)) {
     errors.push(`Raw manifest not found at ${manifestPath}`);
   } else {
-    const artifacts: RawSourceArtifact[] = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
+    const artifacts: RawSourceArtifact[] = JSON.parse(
+      fs.readFileSync(manifestPath, "utf-8"),
+    );
     for (const art of artifacts) {
       const fullPath = path.join(REPO_ROOT, art.relativeFilePath);
       if (!fs.existsSync(fullPath)) {
@@ -27,9 +32,14 @@ export function validateLausCorpus(): { valid: boolean; errors: string[] } {
         continue;
       }
       const fileBytes = fs.readFileSync(fullPath);
-      const actualHash = crypto.createHash("sha256").update(fileBytes).digest("hex");
+      const actualHash = crypto
+        .createHash("sha256")
+        .update(fileBytes)
+        .digest("hex");
       if (actualHash !== art.sha256Hex) {
-        errors.push(`Hash mismatch for ${art.relativeFilePath}: expected ${art.sha256Hex}, got ${actualHash}`);
+        errors.push(
+          `Hash mismatch for ${art.relativeFilePath}: expected ${art.sha256Hex}, got ${actualHash}`,
+        );
       }
     }
   }
@@ -39,29 +49,39 @@ export function validateLausCorpus(): { valid: boolean; errors: string[] } {
   if (!fs.existsSync(compiledPath)) {
     errors.push(`Compiled corpus not found at ${compiledPath}`);
   } else {
-    const compiled: LausCompiledCorpus = JSON.parse(fs.readFileSync(compiledPath, "utf-8"));
+    const compiled: LausCompiledCorpus = JSON.parse(
+      fs.readFileSync(compiledPath, "utf-8"),
+    );
 
     if (compiled.manifest.corpusId !== "bls-laus-local-unemployment-v1") {
       errors.push(`Invalid corpusId: ${compiled.manifest.corpusId}`);
     }
 
     if (compiled.areas.length !== compiled.manifest.totalAreas) {
-      errors.push(`Area count mismatch: manifest says ${compiled.manifest.totalAreas}, got ${compiled.areas.length}`);
+      errors.push(
+        `Area count mismatch: manifest says ${compiled.manifest.totalAreas}, got ${compiled.areas.length}`,
+      );
     }
 
     if (compiled.series.length !== compiled.manifest.totalSeries) {
-      errors.push(`Series count mismatch: manifest says ${compiled.manifest.totalSeries}, got ${compiled.series.length}`);
+      errors.push(
+        `Series count mismatch: manifest says ${compiled.manifest.totalSeries}, got ${compiled.series.length}`,
+      );
     }
 
     if (compiled.observations.length !== compiled.manifest.totalObservations) {
-      errors.push(`Observation count mismatch: manifest says ${compiled.manifest.totalObservations}, got ${compiled.observations.length}`);
+      errors.push(
+        `Observation count mismatch: manifest says ${compiled.manifest.totalObservations}, got ${compiled.observations.length}`,
+      );
     }
 
     // Invariant check: missing/suppressed observations must never have numeric zero coerced
     for (const obs of compiled.observations) {
       if (obs.status === "MISSING" || obs.status === "SUPPRESSED") {
         if (obs.value !== null) {
-          errors.push(`Observation ${obs.seriesId} ${obs.year} ${obs.period} has status ${obs.status} but value is not null (${obs.value})`);
+          errors.push(
+            `Observation ${obs.seriesId} ${obs.year} ${obs.period} has status ${obs.status} but value is not null (${obs.value})`,
+          );
         }
       }
     }
@@ -80,7 +100,10 @@ export function validateLausCorpus(): { valid: boolean; errors: string[] } {
   return { valid, errors };
 }
 
-if (import.meta.url.endsWith(process.argv[1]) || process.argv[1]?.includes("cli-validate")) {
+if (
+  import.meta.url.endsWith(process.argv[1]) ||
+  process.argv[1]?.includes("cli-validate")
+) {
   const { valid } = validateLausCorpus();
   process.exit(valid ? 0 : 1);
 }

@@ -7,11 +7,7 @@ export const LAUS_CORPUS_VERSION = "1.0.0";
 export type SeasonalAdjustment = "S" | "U";
 
 export type ObservationStatus =
-  | "FINAL"
-  | "PRELIMINARY"
-  | "REVISED"
-  | "MISSING"
-  | "SUPPRESSED";
+  "FINAL" | "PRELIMINARY" | "REVISED" | "MISSING" | "SUPPRESSED";
 
 export interface RawSourceArtifact {
   artifactId: string;

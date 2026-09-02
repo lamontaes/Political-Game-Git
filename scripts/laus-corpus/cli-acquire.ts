@@ -58,7 +58,9 @@ async function fetchFile(url: string): Promise<Buffer> {
     },
   });
   if (!resp.ok) {
-    throw new Error(`Failed to fetch ${url}: ${resp.status} ${resp.statusText}`);
+    throw new Error(
+      `Failed to fetch ${url}: ${resp.status} ${resp.statusText}`,
+    );
   }
   const arrayBuffer = await resp.arrayBuffer();
   return Buffer.from(arrayBuffer);
@@ -87,8 +89,13 @@ export async function acquireLausCorpus(): Promise<RawSourceArtifact[]> {
       const filePath = path.join(RAW_DIR, src.fileName);
       fs.writeFileSync(filePath, contentBuffer);
 
-      const sha256Hex = crypto.createHash("sha256").update(contentBuffer).digest("hex");
-      const relativeFilePath = path.relative(REPO_ROOT, filePath).replace(/\\/g, "/");
+      const sha256Hex = crypto
+        .createHash("sha256")
+        .update(contentBuffer)
+        .digest("hex");
+      const relativeFilePath = path
+        .relative(REPO_ROOT, filePath)
+        .replace(/\\/g, "/");
 
       artifacts.push({
         artifactId: src.artifactId,
@@ -100,9 +107,13 @@ export async function acquireLausCorpus(): Promise<RawSourceArtifact[]> {
         vintage,
       });
 
-      console.log(`Saved ${src.fileName} (${contentBuffer.length} bytes, sha256: ${sha256Hex.substring(0, 12)}...)`);
+      console.log(
+        `Saved ${src.fileName} (${contentBuffer.length} bytes, sha256: ${sha256Hex.substring(0, 12)}...)`,
+      );
     } catch (err) {
-      console.warn(`Could not fetch ${src.sourceUrl}: ${err}. Using fallback cached files if available.`);
+      console.warn(
+        `Could not fetch ${src.sourceUrl}: ${err}. Using fallback cached files if available.`,
+      );
     }
   }
 
@@ -113,7 +124,10 @@ export async function acquireLausCorpus(): Promise<RawSourceArtifact[]> {
   return artifacts;
 }
 
-if (import.meta.url.endsWith(process.argv[1]) || process.argv[1]?.includes("cli-acquire")) {
+if (
+  import.meta.url.endsWith(process.argv[1]) ||
+  process.argv[1]?.includes("cli-acquire")
+) {
   acquireLausCorpus().catch((err) => {
     console.error("Acquisition failed:", err);
     process.exit(1);

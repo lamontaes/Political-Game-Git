@@ -47,11 +47,16 @@ export function runCompile(): string {
   console.log(`Areas: ${compiled.manifest.totalAreas}`);
   console.log(`Series: ${compiled.manifest.totalSeries}`);
   console.log(`Observations: ${compiled.manifest.totalObservations}`);
-  console.log(`Reconciliations: ${compiled.manifest.reconciliationSummary.totalPeriodsChecked} (${compiled.manifest.reconciliationSummary.reconciledCount} reconciled)`);
+  console.log(
+    `Reconciliations: ${compiled.manifest.reconciliationSummary.totalPeriodsChecked} (${compiled.manifest.reconciliationSummary.reconciledCount} reconciled)`,
+  );
 
   return compiledPath;
 }
 
-if (import.meta.url.endsWith(process.argv[1]) || process.argv[1]?.includes("cli-compile")) {
+if (
+  import.meta.url.endsWith(process.argv[1]) ||
+  process.argv[1]?.includes("cli-compile")
+) {
   runCompile();
 }

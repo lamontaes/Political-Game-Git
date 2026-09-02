@@ -19,11 +19,17 @@ import {
   queryCorpus,
   reconcilePeriodGroup,
 } from "../src/laus_corpus/index";
-import type { LausObservation, LausQueryResult } from "../src/laus_corpus/types";
+import type {
+  LausObservation,
+  LausQueryResult,
+} from "../src/laus_corpus/types";
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const RAW_DIR = path.join(REPO_ROOT, "data/laus/raw");
-const COMPILED_PATH = path.join(REPO_ROOT, "data/laus/compiled/laus-compiled-corpus.json");
+const COMPILED_PATH = path.join(
+  REPO_ROOT,
+  "data/laus/compiled/laus-compiled-corpus.json",
+);
 
 function loadRaw(filename: string): string {
   return fs.readFileSync(path.join(RAW_DIR, filename), "utf-8");
@@ -98,6 +104,10 @@ describe("BLS LAUS Local Unemployment Corpus", () => {
       const countyArea = getAreaByFips(compiled, "01001");
       expect(countyArea).not.toBeNull();
       expect(countyArea?.areaText).toBe("Autauga County, AL");
+
+      const areaByCode = getAreaByCode(compiled, "ST0100000000000");
+      expect(areaByCode).not.toBeNull();
+      expect(areaByCode?.areaText).toBe("Alabama");
     });
 
     it("queries observations accurately by year, period, and seasonal status", () => {
@@ -139,7 +149,10 @@ LAUCN010010000000003\t2025\tM10\t-\tN
 LAUCN010010000000003\t2025\tM11\t\t
 LAUCN010010000000003\t2025\tM12\t5.2\tP`;
 
-      const obsList = parseDataFile(sampleData, undefined, { N: "Not available.", P: "Preliminary." });
+      const obsList = parseDataFile(sampleData, undefined, {
+        N: "Not available.",
+        P: "Preliminary.",
+      });
       expect(obsList).toHaveLength(3);
 
       // Missing/Suppressed
@@ -219,7 +232,13 @@ LAUCN010010000000003\t2025\tM12\t5.2\tP`;
         },
       ];
 
-      const recon = reconcilePeriodGroup("CN0100100000000", 2024, "M01", "U", sampleObs);
+      const recon = reconcilePeriodGroup(
+        "CN0100100000000",
+        2024,
+        "M01",
+        "U",
+        sampleObs,
+      );
       expect(recon.calculatedRate).toBe(3.5);
       expect(recon.publishedRate).toBe(3.5);
       expect(recon.rateDifference).toBe(0);
@@ -239,8 +258,12 @@ LAUCN010010000000003\t2025\tM12\t5.2\tP`;
         data: loadRaw("la.data.sample"),
       };
 
-      const compiled1 = compileCorpus(rawFiles, { blsReleaseVintage: "2026-08" });
-      const compiled2 = compileCorpus(rawFiles, { blsReleaseVintage: "2026-08" });
+      const compiled1 = compileCorpus(rawFiles, {
+        blsReleaseVintage: "2026-08",
+      });
+      const compiled2 = compileCorpus(rawFiles, {
+        blsReleaseVintage: "2026-08",
+      });
 
       // Override dynamic timestamps for byte equality
       compiled1.manifest.compiledAt = "2026-09-02T00:00:00.000Z";
@@ -283,13 +306,21 @@ LAUCN010010000000003\t2025\tM12\t5.2\tP`;
   describe("Dynamic Briefing Screen Adapter", () => {
     it("builds a structured briefing card model without baking text into visual art", () => {
       const compiled = JSON.parse(fs.readFileSync(COMPILED_PATH, "utf-8"));
-      const card = buildBriefingCard(compiled, "CN0100100000000", 1990, "M01", "U");
+      const card = buildBriefingCard(
+        compiled,
+        "CN0100100000000",
+        1990,
+        "M01",
+        "U",
+      );
 
       expect(card.headline).toBe("Autauga County, AL Unemployment Briefing");
       expect(card.unemploymentRateText).toBe("6.5%");
       expect(card.seasonalAdjustmentText).toBe("Not Seasonally Adjusted");
       expect(card.reconciliationNote).toContain("Verified");
-      expect(card.provenanceDisclaimer).toContain("U.S. Bureau of Labor Statistics");
+      expect(card.provenanceDisclaimer).toContain(
+        "U.S. Bureau of Labor Statistics",
+      );
     });
   });
 });
