@@ -1,0 +1,56 @@
+[
+  {
+    "artifactId": "la_area_type",
+    "sourceUrl": "https://download.bls.gov/pub/time.series/la/la.area_type",
+    "relativeFilePath": "data/laus/raw/la.area_type",
+    "sha256Hex": "be709b0f5fa834cb905059c81630611ee994ed5da0f324a820d994dcebd4d026",
+    "bytes": 455,
+    "retrievedAt": "2026-09-02T22:31:39.627Z",
+    "vintage": "2026-08"
+  },
+  {
+    "artifactId": "la_measure",
+    "sourceUrl": "https://download.bls.gov/pub/time.series/la/la.measure",
+    "relativeFilePath": "data/laus/raw/la.measure",
+    "sha256Hex": "b43486145486a91cf5f9cb1a1109b1a2a4ca0d0c5a9a7d5e0f7178949b5dfee7",
+    "bytes": 205,
+    "retrievedAt": "2026-09-02T22:31:39.627Z",
+    "vintage": "2026-08"
+  },
+  {
+    "artifactId": "la_footnote",
+    "sourceUrl": "https://download.bls.gov/pub/time.series/la/la.footnote",
+    "relativeFilePath": "data/laus/raw/la.footnote",
+    "sha256Hex": "e68dbc2ea353d57047b57ec28ac01a4f5d06cff98a87c16fe4ab32daa2d2df34",
+    "bytes": 706,
+    "retrievedAt": "2026-09-02T22:31:39.627Z",
+    "vintage": "2026-08"
+  },
+  {
+    "artifactId": "la_area",
+    "sourceUrl": "https://download.bls.gov/pub/time.series/la/la.area",
+    "relativeFilePath": "data/laus/raw/la.area",
+    "sha256Hex": "3c4662dda93e9e51eb2ade49b4b115cb8402116f4c18bb61a63955f2645beecf",
+    "bytes": 101871,
+    "retrievedAt": "2026-09-02T22:31:39.627Z",
+    "vintage": "2026-08"
+  },
+  {
+    "artifactId": "la_series",
+    "sourceUrl": "https://download.bls.gov/pub/time.series/la/la.series",
+    "relativeFilePath": "data/laus/raw/la.series",
+    "sha256Hex": "c860b21399ae056b951e2254acc171b35490509b743309e51f0754a57655fcce",
+    "bytes": 199562,
+    "retrievedAt": "2026-09-02T22:31:39.627Z",
+    "vintage": "2026-08"
+  },
+  {
+    "artifactId": "la_data_sample",
+    "sourceUrl": "https://download.bls.gov/pub/time.series/la/la.data.64.County",
+    "relativeFilePath": "data/laus/raw/la.data.sample",
+    "sha256Hex": "8e725f04bc45aa6b9f29a609a19d1f82793e43879fb31664cf64d6706656ab27",
+    "bytes": 81025,
+    "retrievedAt": "2026-09-02T22:31:39.627Z",
+    "vintage": "2026-08"
+  }
+]

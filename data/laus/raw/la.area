@@ -1,0 +1,1500 @@
+area_type_code	area_code	area_text	display_level	selectable	sort_sequence
+A	ST0100000000000	Alabama	0	T	1
+A	ST0200000000000	Alaska	0	T	155
+A	ST0400000000000	Arizona	0	T	199
+A	ST0500000000000	Arkansas	0	T	264
+A	ST0600000000000	California	0	T	388
+A	ST0800000000000	Colorado	0	T	779
+A	ST0900000000000	Connecticut	0	T	914
+A	ST1000000000000	Delaware	0	T	1101
+A	ST1100000000000	District of Columbia	0	T	1113
+A	ST1200000000000	Florida	0	T	1120
+A	ST1300000000000	Georgia	0	T	1334
+A	ST1500000000000	Hawaii	0	T	1594
+A	ST1600000000000	Idaho	0	T	1604
+A	ST1700000000000	Illinois	0	T	1687
+A	ST1800000000000	Indiana	0	T	1974
+A	ST1900000000000	Iowa	0	T	2156
+A	ST2000000000000	Kansas	0	T	2318
+A	ST2100000000000	Kentucky	0	T	2466
+A	ST2200000000000	Louisiana	0	T	2636
+A	ST2300000000000	Maine	0	T	2742
+A	ST2400000000000	Maryland	0	T	3284
+A	ST2500000000000	Massachusetts	0	T	3333
+A	ST2600000000000	Michigan	0	T	3713
+A	ST2700000000000	Minnesota	0	T	3939
+A	ST2800000000000	Mississippi	0	T	4114
+A	ST2900000000000	Missouri	0	T	4248
+A	ST3000000000000	Montana	0	T	4440
+A	ST3100000000000	Nebraska	0	T	4512
+A	ST3200000000000	Nevada	0	T	4633
+A	ST3300000000000	New Hampshire	0	T	4669
+A	ST3400000000000	New Jersey	0	T	4930
+A	ST3500000000000	New Mexico	0	T	5072
+A	ST3600000000000	New York	0	T	5134
+A	ST3700000000000	North Carolina	0	T	5342
+A	ST3800000000000	North Dakota	0	T	5564
+A	ST3900000000000	Ohio	0	T	5637
+A	ST4000000000000	Oklahoma	0	T	5869
+A	ST4100000000000	Oregon	0	T	6008
+A	ST4200000000000	Pennsylvania	0	T	6107
+A	ST4400000000000	Rhode Island	0	T	6300
+A	ST4500000000000	South Carolina	0	T	6347
+A	ST4600000000000	South Dakota	0	T	6451
+A	ST4700000000000	Tennessee	0	T	6538
+A	ST4800000000000	Texas	0	T	6710
+A	ST4900000000000	Utah	0	T	7284
+A	ST5000000000000	Vermont	0	T	7370
+A	ST5100000000000	Virginia	0	T	7644
+A	ST5300000000000	Washington	0	T	7845
+A	ST5400000000000	West Virginia	0	T	7968
+A	ST5500000000000	Wisconsin	0	T	8055
+A	ST5600000000000	Wyoming	0	T	8207
+A	ST7200000000000	Puerto Rico	0	T	8247
+B	MT0111500000000	Anniston-Oxford, AL Metropolitan Statistical Area	0	T	2
+B	MT0112220000000	Auburn-Opelika, AL Metropolitan Statistical Area	0	T	3
+B	MT0113820000000	Birmingham, AL Metropolitan Statistical Area	0	T	4
+B	MT0119300000000	Daphne-Fairhope-Foley, AL Metropolitan Statistical Area	0	T	5
+B	MT0119460000000	Decatur, AL Metropolitan Statistical Area	0	T	6
+B	MT0120020000000	Dothan, AL Metropolitan Statistical Area	0	T	7
+B	MT0122520000000	Florence-Muscle Shoals, AL Metropolitan Statistical Area	0	T	8
+B	MT0123460000000	Gadsden, AL Metropolitan Statistical Area	0	T	9
+B	MT0126620000000	Huntsville, AL Metropolitan Statistical Area	0	T	10
+B	MT0133660000000	Mobile, AL Metropolitan Statistical Area	0	T	11
+B	MT0133860000000	Montgomery, AL Metropolitan Statistical Area	0	T	12
+B	MT0146220000000	Tuscaloosa, AL Metropolitan Statistical Area	0	T	13
+B	MT0211260000000	Anchorage, AK Metropolitan Statistical Area	0	T	156
+B	MT0221820000000	Fairbanks-College, AK Metropolitan Statistical Area	0	T	157
+B	MT0422380000000	Flagstaff, AZ Metropolitan Statistical Area	0	T	200
+B	MT0429420000000	Lake Havasu City-Kingman, AZ Metropolitan Statistical Area	0	T	201
+B	MT0438060000000	Phoenix-Mesa-Chandler, AZ Metropolitan Statistical Area	0	T	202
+B	MT0439150000000	Prescott Valley-Prescott, AZ Metropolitan Statistical Area	0	T	203
+B	MT0443420000000	Sierra Vista-Douglas, AZ Metropolitan Statistical Area	0	T	204
+B	MT0446060000000	Tucson, AZ Metropolitan Statistical Area	0	T	205
+B	MT0449740000000	Yuma, AZ Metropolitan Statistical Area	0	T	206
+B	MT0522220000000	Fayetteville-Springdale-Rogers, AR Metropolitan Statistical Area	0	T	265
+B	MT0522900000000	Fort Smith, AR-OK Metropolitan Statistical Area	0	T	266
+B	MT0526300000000	Hot Springs, AR Metropolitan Statistical Area	0	T	267
+B	MT0527860000000	Jonesboro, AR Metropolitan Statistical Area	0	T	268
+B	MT0530780000000	Little Rock-North Little Rock-Conway, AR Metropolitan Statistical Area	0	T	269
+B	MT0612540000000	Bakersfield-Delano, CA Metropolitan Statistical Area	0	T	389
+B	MT0617020000000	Chico, CA Metropolitan Statistical Area	0	T	390
+B	MT0620940000000	El Centro, CA Metropolitan Statistical Area	0	T	391
+B	MT0623420000000	Fresno, CA Metropolitan Statistical Area	0	T	392
+B	MT0625260000000	Hanford-Corcoran, CA Metropolitan Statistical Area	0	T	393
+B	MT0631080000000	Los Angeles-Long Beach-Anaheim, CA Metropolitan Statistical Area	0	T	394
+B	MT0632900000000	Merced, CA Metropolitan Statistical Area	0	T	395
+B	MT0633700000000	Modesto, CA Metropolitan Statistical Area	0	T	396
+B	MT0634900000000	Napa, CA Metropolitan Statistical Area	0	T	397
+B	MT0637100000000	Oxnard-Thousand Oaks-Ventura, CA Metropolitan Statistical Area	0	T	398
+B	MT0639820000000	Redding, CA Metropolitan Statistical Area	0	T	399
+B	MT0640140000000	Riverside-San Bernardino-Ontario, CA Metropolitan Statistical Area	0	T	400
+B	MT0640900000000	Sacramento-Roseville-Folsom, CA Metropolitan Statistical Area	0	T	401
+B	MT0641500000000	Salinas, CA Metropolitan Statistical Area	0	T	402
+B	MT0641740000000	San Diego-Chula Vista-Carlsbad, CA Metropolitan Statistical Area	0	T	403
+B	MT0641860000000	San Francisco-Oakland-Fremont, CA Metropolitan Statistical Area	0	T	404
+B	MT0641940000000	San Jose-Sunnyvale-Santa Clara, CA Metropolitan Statistical Area	0	T	405
+B	MT0642020000000	San Luis Obispo-Paso Robles, CA Metropolitan Statistical Area	0	T	406
+B	MT0642100000000	Santa Cruz-Watsonville, CA Metropolitan Statistical Area	0	T	407
+B	MT0642200000000	Santa Maria-Santa Barbara, CA Metropolitan Statistical Area	0	T	408
+B	MT0642220000000	Santa Rosa-Petaluma, CA Metropolitan Statistical Area	0	T	409
+B	MT0644700000000	Stockton-Lodi, CA Metropolitan Statistical Area	0	T	410
+B	MT0646700000000	Vallejo, CA Metropolitan Statistical Area	0	T	411
+B	MT0647300000000	Visalia, CA Metropolitan Statistical Area	0	T	412
+B	MT0649700000000	Yuba City, CA Metropolitan Statistical Area	0	T	413
+B	MT0814500000000	Boulder, CO Metropolitan Statistical Area	0	T	780
+B	MT0817820000000	Colorado Springs, CO Metropolitan Statistical Area	0	T	781
+B	MT0819740000000	Denver-Aurora-Centennial, CO Metropolitan Statistical Area	0	T	782
+B	MT0822660000000	Fort Collins-Loveland, CO Metropolitan Statistical Area	0	T	783
+B	MT0824300000000	Grand Junction, CO Metropolitan Statistical Area	0	T	784
+B	MT0824540000000	Greeley, CO Metropolitan Statistical Area	0	T	785
+B	MT0839380000000	Pueblo, CO Metropolitan Statistical Area	0	T	786
+B	MT0914860000000	Bridgeport-Stamford-Danbury, CT Metropolitan Statistical Area	0	T	915
+B	MT0925540000000	Hartford-West Hartford-East Hartford, CT Metropolitan Statistical Area	0	T	916
+B	MT0935300000000	New Haven, CT Metropolitan Statistical Area	0	T	917
+B	MT0935980000000	Norwich-New London-Willimantic, CT Metropolitan Statistical Area	0	T	918
+B	MT0947930000000	Waterbury-Shelton, CT Metropolitan Statistical Area	0	T	919
+B	MT1020100000000	Dover, DE Metropolitan Statistical Area	0	T	1102
+B	MT1147900000000	Washington-Arlington-Alexandria, DC-VA-MD-WV Metropolitan Statistical Area	0	T	1114
+B	MT1215980000000	Cape Coral-Fort Myers, FL Metropolitan Statistical Area	0	T	1121
+B	MT1218880000000	Crestview-Fort Walton Beach-Destin, FL Metropolitan Statistical Area	0	T	1122
+B	MT1219660000000	Deltona-Daytona Beach-Ormond Beach, FL Metropolitan Statistical Area	0	T	1123
+B	MT1223540000000	Gainesville, FL Metropolitan Statistical Area	0	T	1124
+B	MT1226140000000	Homosassa Springs, FL Metropolitan Statistical Area	0	T	1125
+B	MT1227260000000	Jacksonville, FL Metropolitan Statistical Area	0	T	1126
+B	MT1229460000000	Lakeland-Winter Haven, FL Metropolitan Statistical Area	0	T	1127
+B	MT1233100000000	Miami-Fort Lauderdale-West Palm Beach, FL Metropolitan Statistical Area	0	T	1128
+B	MT1234940000000	Naples-Marco Island, FL Metropolitan Statistical Area	0	T	1129
+B	MT1235840000000	North Port-Bradenton-Sarasota, FL Metropolitan Statistical Area	0	T	1130
+B	MT1236100000000	Ocala, FL Metropolitan Statistical Area	0	T	1131
+B	MT1236740000000	Orlando-Kissimmee-Sanford, FL Metropolitan Statistical Area	0	T	1132
+B	MT1237340000000	Palm Bay-Melbourne-Titusville, FL Metropolitan Statistical Area	0	T	1133
+B	MT1237460000000	Panama City-Panama City Beach, FL Metropolitan Statistical Area	0	T	1134
+B	MT1237860000000	Pensacola-Ferry Pass-Brent, FL Metropolitan Statistical Area	0	T	1135
+B	MT1238940000000	Port St. Lucie, FL Metropolitan Statistical Area	0	T	1136
+B	MT1239460000000	Punta Gorda, FL Metropolitan Statistical Area	0	T	1137
+B	MT1242680000000	Sebastian-Vero Beach-West Vero Corridor, FL Metropolitan Statistical Area	0	T	1138
+B	MT1242700000000	Sebring, FL Metropolitan Statistical Area	0	T	1139
+B	MT1245220000000	Tallahassee, FL Metropolitan Statistical Area	0	T	1140
+B	MT1245300000000	Tampa-St. Petersburg-Clearwater, FL Metropolitan Statistical Area	0	T	1141
+B	MT1248680000000	Wildwood-The Villages, FL Metropolitan Statistical Area	0	T	1142
+B	MT1310500000000	Albany, GA Metropolitan Statistical Area	0	T	1335
+B	MT1312020000000	Athens-Clarke County, GA Metropolitan Statistical Area	0	T	1336
+B	MT1312060000000	Atlanta-Sandy Springs-Roswell, GA Metropolitan Statistical Area	0	T	1337
+B	MT1312260000000	Augusta-Richmond County, GA-SC Metropolitan Statistical Area	0	T	1338
+B	MT1315260000000	Brunswick-St. Simons, GA Metropolitan Statistical Area	0	T	1339
+B	MT1317980000000	Columbus, GA-AL Metropolitan Statistical Area	0	T	1340
+B	MT1319140000000	Dalton, GA Metropolitan Statistical Area	0	T	1341
+B	MT1323580000000	Gainesville, GA Metropolitan Statistical Area	0	T	1342
+B	MT1325980000000	Hinesville, GA Metropolitan Statistical Area	0	T	1343
+B	MT1331420000000	Macon-Bibb County, GA Metropolitan Statistical Area	0	T	1344
+B	MT1340660000000	Rome, GA Metropolitan Statistical Area	0	T	1345
+B	MT1342340000000	Savannah, GA Metropolitan Statistical Area	0	T	1346
+B	MT1346660000000	Valdosta, GA Metropolitan Statistical Area	0	T	1347
+B	MT1347580000000	Warner Robins, GA Metropolitan Statistical Area	0	T	1348
+B	MT1527980000000	Kahului-Wailuku, HI Metropolitan Statistical Area	0	T	1595
+B	MT1546520000000	Urban Honolulu, HI Metropolitan Statistical Area	0	T	1596
+B	MT1614260000000	Boise City, ID Metropolitan Statistical Area	0	T	1605
+B	MT1617660000000	Coeur d'Alene, ID Metropolitan Statistical Area	0	T	1606
+B	MT1626820000000	Idaho Falls, ID Metropolitan Statistical Area	0	T	1607
+B	MT1630300000000	Lewiston, ID-WA Metropolitan Statistical Area	0	T	1608
+B	MT1638540000000	Pocatello, ID Metropolitan Statistical Area	0	T	1609
+B	MT1646300000000	Twin Falls, ID Metropolitan Statistical Area	0	T	1610
+B	MT1714010000000	Bloomington, IL Metropolitan Statistical Area	0	T	1688
+B	MT1716580000000	Champaign-Urbana, IL Metropolitan Statistical Area	0	T	1689
+B	MT1716980000000	Chicago-Naperville-Elgin, IL-IN Metropolitan Statistical Area	0	T	1690
+B	MT1719340000000	Davenport-Moline-Rock Island, IA-IL Metropolitan Statistical Area	0	T	1691
+B	MT1719500000000	Decatur, IL Metropolitan Statistical Area	0	T	1692
+B	MT1728100000000	Kankakee, IL Metropolitan Statistical Area	0	T	1693
+B	MT1737900000000	Peoria, IL Metropolitan Statistical Area	0	T	1694
+B	MT1740420000000	Rockford, IL Metropolitan Statistical Area	0	T	1695
+B	MT1744100000000	Springfield, IL Metropolitan Statistical Area	0	T	1696
+B	MT1814020000000	Bloomington, IN Metropolitan Statistical Area	0	T	1975
+B	MT1818020000000	Columbus, IN Metropolitan Statistical Area	0	T	1976
+B	MT1821140000000	Elkhart-Goshen, IN Metropolitan Statistical Area	0	T	1977
+B	MT1821780000000	Evansville, IN Metropolitan Statistical Area	0	T	1978
+B	MT1823060000000	Fort Wayne, IN Metropolitan Statistical Area	0	T	1979
+B	MT1826900000000	Indianapolis-Carmel-Greenwood, IN Metropolitan Statistical Area	0	T	1980
+B	MT1829020000000	Kokomo, IN Metropolitan Statistical Area	0	T	1981
+B	MT1829200000000	Lafayette-West Lafayette, IN Metropolitan Statistical Area	0	T	1982
+B	MT1833140000000	Michigan City-La Porte, IN Metropolitan Statistical Area	0	T	1983
+B	MT1834620000000	Muncie, IN Metropolitan Statistical Area	0	T	1984
+B	MT1843780000000	South Bend-Mishawaka, IN-MI Metropolitan Statistical Area	0	T	1985
+B	MT1845460000000	Terre Haute, IN Metropolitan Statistical Area	0	T	1986
+B	MT1911180000000	Ames, IA Metropolitan Statistical Area	0	T	2157
+B	MT1916300000000	Cedar Rapids, IA Metropolitan Statistical Area	0	T	2158
+B	MT1919780000000	Des Moines-West Des Moines, IA Metropolitan Statistical Area	0	T	2159
+B	MT1920220000000	Dubuque, IA Metropolitan Statistical Area	0	T	2160
+B	MT1926980000000	Iowa City, IA Metropolitan Statistical Area	0	T	2161
+B	MT1943580000000	Sioux City, IA-NE-SD Metropolitan Statistical Area	0	T	2162
+B	MT1947940000000	Waterloo-Cedar Falls, IA Metropolitan Statistical Area	0	T	2163
+B	MT2029940000000	Lawrence, KS Metropolitan Statistical Area	0	T	2319
+B	MT2031740000000	Manhattan, KS Metropolitan Statistical Area	0	T	2320
+B	MT2045820000000	Topeka, KS Metropolitan Statistical Area	0	T	2321
+B	MT2048620000000	Wichita, KS Metropolitan Statistical Area	0	T	2322
+B	MT2114540000000	Bowling Green, KY Metropolitan Statistical Area	0	T	2467
+B	MT2121060000000	Elizabethtown, KY Metropolitan Statistical Area	0	T	2468
+B	MT2130460000000	Lexington-Fayette, KY Metropolitan Statistical Area	0	T	2469
+B	MT2131140000000	Louisville/Jefferson County, KY-IN Metropolitan Statistical Area	0	T	2470
+B	MT2136980000000	Owensboro, KY Metropolitan Statistical Area	0	T	2471
+B	MT2137140000000	Paducah, KY-IL Metropolitan Statistical Area	0	T	2472
+B	MT2210780000000	Alexandria, LA Metropolitan Statistical Area	0	T	2637
+B	MT2212940000000	Baton Rouge, LA Metropolitan Statistical Area	0	T	2638
+B	MT2225220000000	Hammond, LA Metropolitan Statistical Area	0	T	2639
+B	MT2226380000000	Houma-Bayou Cane-Thibodaux, LA Metropolitan Statistical Area	0	T	2640
+B	MT2229180000000	Lafayette, LA Metropolitan Statistical Area	0	T	2641
+B	MT2229340000000	Lake Charles, LA Metropolitan Statistical Area	0	T	2642
+B	MT2233740000000	Monroe, LA Metropolitan Statistical Area	0	T	2643
+B	MT2235380000000	New Orleans-Metairie, LA Metropolitan Statistical Area	0	T	2644
+B	MT2243340000000	Shreveport-Bossier City, LA Metropolitan Statistical Area	0	T	2645
+B	MT2243640000000	Slidell-Mandeville-Covington, LA Metropolitan Statistical Area	0	T	2646
+B	MT2312620000000	Bangor, ME Metropolitan Statistical Area	0	T	2743
+B	MT2330340000000	Lewiston-Auburn, ME Metropolitan Statistical Area	0	T	2744
+B	MT2338860000000	Portland-South Portland, ME Metropolitan Statistical Area	0	T	2745
+B	MT2412580000000	Baltimore-Columbia-Towson, MD Metropolitan Statistical Area	0	T	3285
+B	MT2425180000000	Hagerstown-Martinsburg, MD-WV Metropolitan Statistical Area	0	T	3286
+B	MT2430500000000	Lexington Park, MD Metropolitan Statistical Area	0	T	3287
+B	MT2441540000000	Salisbury, MD Metropolitan Statistical Area	0	T	3288
+B	MT2511200000000	Amherst Town-Northampton, MA Metropolitan Statistical Area	0	T	3334
+B	MT2512700000000	Barnstable Town, MA Metropolitan Statistical Area	0	T	3335
+B	MT2514460000000	Boston-Cambridge-Newton, MA-NH Metropolitan Statistical Area	0	T	3336
+B	MT2538340000000	Pittsfield, MA Metropolitan Statistical Area	0	T	3337
+B	MT2544140000000	Springfield, MA Metropolitan Statistical Area	0	T	3338
+B	MT2549340000000	Worcester, MA Metropolitan Statistical Area	0	T	3339
+B	MT2611460000000	Ann Arbor, MI Metropolitan Statistical Area	0	T	3714
+B	MT2612980000000	Battle Creek, MI Metropolitan Statistical Area	0	T	3715
+B	MT2613020000000	Bay City, MI Metropolitan Statistical Area	0	T	3716
+B	MT2619820000000	Detroit-Warren-Dearborn, MI Metropolitan Statistical Area	0	T	3717
+B	MT2622420000000	Flint, MI Metropolitan Statistical Area	0	T	3718
+B	MT2624340000000	Grand Rapids-Wyoming-Kentwood, MI Metropolitan Statistical Area	0	T	3719
+B	MT2627100000000	Jackson, MI Metropolitan Statistical Area	0	T	3720
+B	MT2628020000000	Kalamazoo-Portage, MI Metropolitan Statistical Area	0	T	3721
+B	MT2629620000000	Lansing-East Lansing, MI Metropolitan Statistical Area	0	T	3722
+B	MT2633220000000	Midland, MI Metropolitan Statistical Area	0	T	3723
+B	MT2633780000000	Monroe, MI Metropolitan Statistical Area	0	T	3724
+B	MT2634740000000	Muskegon-Norton Shores, MI Metropolitan Statistical Area	0	T	3725
+B	MT2635660000000	Niles, MI Metropolitan Statistical Area	0	T	3726
+B	MT2640980000000	Saginaw, MI Metropolitan Statistical Area	0	T	3727
+B	MT2645900000000	Traverse City, MI Metropolitan Statistical Area	0	T	3728
+B	MT2720260000000	Duluth, MN-WI Metropolitan Statistical Area	0	T	3940
+B	MT2731860000000	Mankato, MN Metropolitan Statistical Area	0	T	3941
+B	MT2733460000000	Minneapolis-St. Paul-Bloomington, MN-WI Metropolitan Statistical Area	0	T	3942
+B	MT2740340000000	Rochester, MN Metropolitan Statistical Area	0	T	3943
+B	MT2741060000000	St. Cloud, MN Metropolitan Statistical Area	0	T	3944
+B	MT2825060000000	Gulfport-Biloxi, MS Metropolitan Statistical Area	0	T	4115
+B	MT2825620000000	Hattiesburg, MS Metropolitan Statistical Area	0	T	4116
+B	MT2827140000000	Jackson, MS Metropolitan Statistical Area	0	T	4117
+B	MT2916020000000	Cape Girardeau, MO-IL Metropolitan Statistical Area	0	T	4249
+B	MT2917860000000	Columbia, MO Metropolitan Statistical Area	0	T	4250
+B	MT2927620000000	Jefferson City, MO Metropolitan Statistical Area	0	T	4251
+B	MT2927900000000	Joplin, MO-KS Metropolitan Statistical Area	0	T	4252
+B	MT2928140000000	Kansas City, MO-KS Metropolitan Statistical Area	0	T	4253
+B	MT2941140000000	St. Joseph, MO-KS Metropolitan Statistical Area	0	T	4254
+B	MT2941180000000	St. Louis, MO-IL Metropolitan Statistical Area	0	T	4255
+B	MT2944180000000	Springfield, MO Metropolitan Statistical Area	0	T	4256
+B	MT3013740000000	Billings, MT Metropolitan Statistical Area	0	T	4441
+B	MT3014580000000	Bozeman, MT Metropolitan Statistical Area	0	T	4442
+B	MT3024500000000	Great Falls, MT Metropolitan Statistical Area	0	T	4443
+B	MT3025740000000	Helena, MT Metropolitan Statistical Area	0	T	4444
+B	MT3033540000000	Missoula, MT Metropolitan Statistical Area	0	T	4445
+B	MT3124260000000	Grand Island, NE Metropolitan Statistical Area	0	T	4513
+B	MT3130700000000	Lincoln, NE Metropolitan Statistical Area	0	T	4514
+B	MT3136540000000	Omaha, NE-IA Metropolitan Statistical Area	0	T	4515
+B	MT3216180000000	Carson City, NV Metropolitan Statistical Area	0	T	4634
+B	MT3229820000000	Las Vegas-Henderson-North Las Vegas, NV Metropolitan Statistical Area	0	T	4635
+B	MT3239900000000	Reno, NV Metropolitan Statistical Area	0	T	4636
+B	MT3331700000000	Manchester-Nashua, NH Metropolitan Statistical Area	0	T	4670
+B	MT3412100000000	Atlantic City-Hammonton, NJ Metropolitan Statistical Area	0	T	4931
+B	MT3445940000000	Trenton-Princeton, NJ Metropolitan Statistical Area	0	T	4932
+B	MT3447220000000	Vineland, NJ Metropolitan Statistical Area	0	T	4933
+B	MT3510740000000	Albuquerque, NM Metropolitan Statistical Area	0	T	5073
+B	MT3522140000000	Farmington, NM Metropolitan Statistical Area	0	T	5074
+B	MT3529740000000	Las Cruces, NM Metropolitan Statistical Area	0	T	5075
+B	MT3542140000000	Santa Fe, NM Metropolitan Statistical Area	0	T	5076
+B	MT3610580000000	Albany-Schenectady-Troy, NY Metropolitan Statistical Area	0	T	5135
+B	MT3613780000000	Binghamton, NY Metropolitan Statistical Area	0	T	5136
+B	MT3615380000000	Buffalo-Cheektowaga, NY Metropolitan Statistical Area	0	T	5137
+B	MT3621300000000	Elmira, NY Metropolitan Statistical Area	0	T	5138
+B	MT3624020000000	Glens Falls, NY Metropolitan Statistical Area	0	T	5139
+B	MT3627060000000	Ithaca, NY Metropolitan Statistical Area	0	T	5140
+B	MT3628740000000	Kingston, NY Metropolitan Statistical Area	0	T	5141
+B	MT3628880000000	Kiryas Joel-Poughkeepsie-Newburgh, NY Metropolitan Statistical Area	0	T	5142
+B	MT3635620000000	New York-Newark-Jersey City, NY-NJ Metropolitan Statistical Area	0	T	5143
+B	MT3640380000000	Rochester, NY Metropolitan Statistical Area	0	T	5144
+B	MT3645060000000	Syracuse, NY Metropolitan Statistical Area	0	T	5145
+B	MT3646540000000	Utica-Rome, NY Metropolitan Statistical Area	0	T	5146
+B	MT3648060000000	Watertown-Fort Drum, NY Metropolitan Statistical Area	0	T	5147
+B	MT3711700000000	Asheville, NC Metropolitan Statistical Area	0	T	5343
+B	MT3715500000000	Burlington, NC Metropolitan Statistical Area	0	T	5344
+B	MT3716740000000	Charlotte-Concord-Gastonia, NC-SC Metropolitan Statistical Area	0	T	5345
+B	MT3720500000000	Durham-Chapel Hill, NC Metropolitan Statistical Area	0	T	5346
+B	MT3722180000000	Fayetteville, NC Metropolitan Statistical Area	0	T	5347
+B	MT3724140000000	Goldsboro, NC Metropolitan Statistical Area	0	T	5348
+B	MT3724660000000	Greensboro-High Point, NC Metropolitan Statistical Area	0	T	5349
+B	MT3724780000000	Greenville, NC Metropolitan Statistical Area	0	T	5350
+B	MT3725860000000	Hickory-Lenoir-Morganton, NC Metropolitan Statistical Area	0	T	5351
+B	MT3727340000000	Jacksonville, NC Metropolitan Statistical Area	0	T	5352
+B	MT3738240000000	Pinehurst-Southern Pines, NC Metropolitan Statistical Area	0	T	5353
+B	MT3739580000000	Raleigh-Cary, NC Metropolitan Statistical Area	0	T	5354
+B	MT3740580000000	Rocky Mount, NC Metropolitan Statistical Area	0	T	5355
+B	MT3748900000000	Wilmington, NC Metropolitan Statistical Area	0	T	5356
+B	MT3749180000000	Winston-Salem, NC Metropolitan Statistical Area	0	T	5357
+B	MT3813900000000	Bismarck, ND Metropolitan Statistical Area	0	T	5565
+B	MT3822020000000	Fargo, ND-MN Metropolitan Statistical Area	0	T	5566
+B	MT3824220000000	Grand Forks, ND-MN Metropolitan Statistical Area	0	T	5567
+B	MT3833500000000	Minot, ND Metropolitan Statistical Area	0	T	5568
+B	MT3910420000000	Akron, OH Metropolitan Statistical Area	0	T	5638
+B	MT3915940000000	Canton-Massillon, OH Metropolitan Statistical Area	0	T	5639
+B	MT3917140000000	Cincinnati, OH-KY-IN Metropolitan Statistical Area	0	T	5640
+B	MT3917410000000	Cleveland, OH Metropolitan Statistical Area	0	T	5641
+B	MT3918140000000	Columbus, OH Metropolitan Statistical Area	0	T	5642
+B	MT3919430000000	Dayton-Kettering-Beavercreek, OH Metropolitan Statistical Area	0	T	5643
+B	MT3930620000000	Lima, OH Metropolitan Statistical Area	0	T	5644
+B	MT3931900000000	Mansfield, OH Metropolitan Statistical Area	0	T	5645
+B	MT3941780000000	Sandusky, OH Metropolitan Statistical Area	0	T	5646
+B	MT3944220000000	Springfield, OH Metropolitan Statistical Area	0	T	5647
+B	MT3945780000000	Toledo, OH Metropolitan Statistical Area	0	T	5648
+B	MT3948260000000	Weirton-Steubenville, WV-OH Metropolitan Statistical Area	0	T	5649
+B	MT3949660000000	Youngstown-Warren, OH Metropolitan Statistical Area	0	T	5650
+B	MT4021420000000	Enid, OK Metropolitan Statistical Area	0	T	5870
+B	MT4030020000000	Lawton, OK Metropolitan Statistical Area	0	T	5871
+B	MT4036420000000	Oklahoma City, OK Metropolitan Statistical Area	0	T	5872
+B	MT4046140000000	Tulsa, OK Metropolitan Statistical Area	0	T	5873
+B	MT4110540000000	Albany, OR Metropolitan Statistical Area	0	T	6009
+B	MT4113460000000	Bend, OR Metropolitan Statistical Area	0	T	6010
+B	MT4118700000000	Corvallis, OR Metropolitan Statistical Area	0	T	6011
+B	MT4121660000000	Eugene-Springfield, OR Metropolitan Statistical Area	0	T	6012
+B	MT4124420000000	Grants Pass, OR Metropolitan Statistical Area	0	T	6013
+B	MT4132780000000	Medford, OR Metropolitan Statistical Area	0	T	6014
+B	MT4138900000000	Portland-Vancouver-Hillsboro, OR-WA Metropolitan Statistical Area	0	T	6015
+B	MT4141420000000	Salem, OR Metropolitan Statistical Area	0	T	6016
+B	MT4210900000000	Allentown-Bethlehem-Easton, PA-NJ Metropolitan Statistical Area	0	T	6108
+B	MT4211020000000	Altoona, PA Metropolitan Statistical Area	0	T	6109
+B	MT4216540000000	Chambersburg, PA Metropolitan Statistical Area	0	T	6110
+B	MT4221500000000	Erie, PA Metropolitan Statistical Area	0	T	6111
+B	MT4223900000000	Gettysburg, PA Metropolitan Statistical Area	0	T	6112
+B	MT4225420000000	Harrisburg-Carlisle, PA Metropolitan Statistical Area	0	T	6113
+B	MT4227780000000	Johnstown, PA Metropolitan Statistical Area	0	T	6114
+B	MT4229540000000	Lancaster, PA Metropolitan Statistical Area	0	T	6115
+B	MT4230140000000	Lebanon, PA Metropolitan Statistical Area	0	T	6116
+B	MT4237980000000	Philadelphia-Camden-Wilmington, PA-NJ-DE-MD Metropolitan Statistical Area	0	T	6117
+B	MT4238300000000	Pittsburgh, PA Metropolitan Statistical Area	0	T	6118
+B	MT4239740000000	Reading, PA Metropolitan Statistical Area	0	T	6119
+B	MT4242540000000	Scranton--Wilkes-Barre, PA Metropolitan Statistical Area	0	T	6120
+B	MT4244300000000	State College, PA Metropolitan Statistical Area	0	T	6121
+B	MT4248700000000	Williamsport, PA Metropolitan Statistical Area	0	T	6122
+B	MT4249620000000	York-Hanover, PA Metropolitan Statistical Area	0	T	6123
+B	MT4439300000000	Providence-Warwick, RI-MA Metropolitan Statistical Area	0	T	6301
+B	MT4516700000000	Charleston-North Charleston, SC Metropolitan Statistical Area	0	T	6348
+B	MT4517900000000	Columbia, SC Metropolitan Statistical Area	0	T	6349
+B	MT4522500000000	Florence, SC Metropolitan Statistical Area	0	T	6350
+B	MT4524860000000	Greenville-Anderson-Greer, SC Metropolitan Statistical Area	0	T	6351
+B	MT4525940000000	Hilton Head Island-Bluffton-Port Royal, SC Metropolitan Statistical Area	0	T	6352
+B	MT4534820000000	Myrtle Beach-Conway-North Myrtle Beach, SC Metropolitan Statistical Area	0	T	6353
+B	MT4543900000000	Spartanburg, SC Metropolitan Statistical Area	0	T	6354
+B	MT4544940000000	Sumter, SC Metropolitan Statistical Area	0	T	6355
+B	MT4639660000000	Rapid City, SD Metropolitan Statistical Area	0	T	6452
+B	MT4643620000000	Sioux Falls, SD-MN Metropolitan Statistical Area	0	T	6453
+B	MT4716860000000	Chattanooga, TN-GA Metropolitan Statistical Area	0	T	6539
+B	MT4717300000000	Clarksville, TN-KY Metropolitan Statistical Area	0	T	6540
+B	MT4717420000000	Cleveland, TN Metropolitan Statistical Area	0	T	6541
+B	MT4727180000000	Jackson, TN Metropolitan Statistical Area	0	T	6542
+B	MT4727740000000	Johnson City, TN Metropolitan Statistical Area	0	T	6543
+B	MT4728700000000	Kingsport-Bristol, TN-VA Metropolitan Statistical Area	0	T	6544
+B	MT4728940000000	Knoxville, TN Metropolitan Statistical Area	0	T	6545
+B	MT4732820000000	Memphis, TN-MS-AR Metropolitan Statistical Area	0	T	6546
+B	MT4734100000000	Morristown, TN Metropolitan Statistical Area	0	T	6547
+B	MT4734980000000	Nashville-Davidson--Murfreesboro--Franklin, TN Metropolitan Statistical Area	0	T	6548
+B	MT4810180000000	Abilene, TX Metropolitan Statistical Area	0	T	6711
+B	MT4811100000000	Amarillo, TX Metropolitan Statistical Area	0	T	6712
+B	MT4812420000000	Austin-Round Rock-San Marcos, TX Metropolitan Statistical Area	0	T	6713
+B	MT4813140000000	Beaumont-Port Arthur, TX Metropolitan Statistical Area	0	T	6714
+B	MT4815180000000	Brownsville-Harlingen, TX Metropolitan Statistical Area	0	T	6715
+B	MT4817780000000	College Station-Bryan, TX Metropolitan Statistical Area	0	T	6716
+B	MT4818580000000	Corpus Christi, TX Metropolitan Statistical Area	0	T	6717
+B	MT4819100000000	Dallas-Fort Worth-Arlington, TX Metropolitan Statistical Area	0	T	6718
+B	MT4820580000000	Eagle Pass, TX Metropolitan Statistical Area	0	T	6719
+B	MT4821340000000	El Paso, TX Metropolitan Statistical Area	0	T	6720
+B	MT4826420000000	Houston-Pasadena-The Woodlands, TX Metropolitan Statistical Area	0	T	6721
+B	MT4828660000000	Killeen-Temple, TX Metropolitan Statistical Area	0	T	6722
+B	MT4829700000000	Laredo, TX Metropolitan Statistical Area	0	T	6723
+B	MT4830980000000	Longview, TX Metropolitan Statistical Area	0	T	6724
+B	MT4831180000000	Lubbock, TX Metropolitan Statistical Area	0	T	6725
+B	MT4832580000000	McAllen-Edinburg-Mission, TX Metropolitan Statistical Area	0	T	6726
+B	MT4833260000000	Midland, TX Metropolitan Statistical Area	0	T	6727
+B	MT4836220000000	Odessa, TX Metropolitan Statistical Area	0	T	6728
+B	MT4841660000000	San Angelo, TX Metropolitan Statistical Area	0	T	6729
+B	MT4841700000000	San Antonio-New Braunfels, TX Metropolitan Statistical Area	0	T	6730
+B	MT4843300000000	Sherman-Denison, TX Metropolitan Statistical Area	0	T	6731
+B	MT4845500000000	Texarkana, TX-AR Metropolitan Statistical Area	0	T	6732
+B	MT4846340000000	Tyler, TX Metropolitan Statistical Area	0	T	6733
+B	MT4847020000000	Victoria, TX Metropolitan Statistical Area	0	T	6734
+B	MT4847380000000	Waco, TX Metropolitan Statistical Area	0	T	6735
+B	MT4848660000000	Wichita Falls, TX Metropolitan Statistical Area	0	T	6736
+B	MT4930860000000	Logan, UT-ID Metropolitan Statistical Area	0	T	7285
+B	MT4936260000000	Ogden, UT Metropolitan Statistical Area	0	T	7286
+B	MT4939340000000	Provo-Orem-Lehi, UT Metropolitan Statistical Area	0	T	7287
+B	MT4941100000000	St. George, UT Metropolitan Statistical Area	0	T	7288
+B	MT4941620000000	Salt Lake City-Murray, UT Metropolitan Statistical Area	0	T	7289
+B	MT5015540000000	Burlington-South Burlington, VT Metropolitan Statistical Area	0	T	7371
+B	MT5113980000000	Blacksburg-Christiansburg-Radford, VA Metropolitan Statistical Area	0	T	7645
+B	MT5116820000000	Charlottesville, VA Metropolitan Statistical Area	0	T	7646
+B	MT5125500000000	Harrisonburg, VA Metropolitan Statistical Area	0	T	7647
+B	MT5131340000000	Lynchburg, VA Metropolitan Statistical Area	0	T	7648
+B	MT5140060000000	Richmond, VA Metropolitan Statistical Area	0	T	7649
+B	MT5140220000000	Roanoke, VA Metropolitan Statistical Area	0	T	7650
+B	MT5144420000000	Staunton-Stuarts Draft, VA Metropolitan Statistical Area	0	T	7651
+B	MT5147260000000	Virginia Beach-Chesapeake-Norfolk, VA-NC Metropolitan Statistical Area	0	T	7652
+B	MT5149020000000	Winchester, VA-WV Metropolitan Statistical Area	0	T	7653
+B	MT5313380000000	Bellingham, WA Metropolitan Statistical Area	0	T	7846
+B	MT5314740000000	Bremerton-Silverdale-Port Orchard, WA Metropolitan Statistical Area	0	T	7847
+B	MT5328420000000	Kennewick-Richland, WA Metropolitan Statistical Area	0	T	7848
+B	MT5331020000000	Longview-Kelso, WA Metropolitan Statistical Area	0	T	7849
+B	MT5334580000000	Mount Vernon-Anacortes, WA Metropolitan Statistical Area	0	T	7850
+B	MT5336500000000	Olympia-Lacey-Tumwater, WA Metropolitan Statistical Area	0	T	7851
+B	MT5342660000000	Seattle-Tacoma-Bellevue, WA Metropolitan Statistical Area	0	T	7852
+B	MT5344060000000	Spokane-Spokane Valley, WA Metropolitan Statistical Area	0	T	7853
+B	MT5347460000000	Walla Walla, WA Metropolitan Statistical Area	0	T	7854
+B	MT5348300000000	Wenatchee-East Wenatchee, WA Metropolitan Statistical Area	0	T	7855
+B	MT5349420000000	Yakima, WA Metropolitan Statistical Area	0	T	7856
+B	MT5413220000000	Beckley, WV Metropolitan Statistical Area	0	T	7969
+B	MT5416620000000	Charleston, WV Metropolitan Statistical Area	0	T	7970
+B	MT5426580000000	Huntington-Ashland, WV-KY-OH Metropolitan Statistical Area	0	T	7971
+B	MT5434060000000	Morgantown, WV Metropolitan Statistical Area	0	T	7972
+B	MT5437620000000	Parkersburg-Vienna, WV Metropolitan Statistical Area	0	T	7973
+B	MT5448540000000	Wheeling, WV-OH Metropolitan Statistical Area	0	T	7974
+B	MT5511540000000	Appleton, WI Metropolitan Statistical Area	0	T	8056
+B	MT5520740000000	Eau Claire, WI Metropolitan Statistical Area	0	T	8057
+B	MT5522540000000	Fond du Lac, WI Metropolitan Statistical Area	0	T	8058
+B	MT5524580000000	Green Bay, WI Metropolitan Statistical Area	0	T	8059
+B	MT5527500000000	Janesville-Beloit, WI Metropolitan Statistical Area	0	T	8060
+B	MT5528450000000	Kenosha, WI Metropolitan Statistical Area	0	T	8061
+B	MT5529100000000	La Crosse-Onalaska, WI-MN Metropolitan Statistical Area	0	T	8062
+B	MT5531540000000	Madison, WI Metropolitan Statistical Area	0	T	8063
+B	MT5533340000000	Milwaukee-Waukesha, WI Metropolitan Statistical Area	0	T	8064
+B	MT5536780000000	Oshkosh-Neenah, WI Metropolitan Statistical Area	0	T	8065
+B	MT5539540000000	Racine-Mount Pleasant, WI Metropolitan Statistical Area	0	T	8066
+B	MT5543100000000	Sheboygan, WI Metropolitan Statistical Area	0	T	8067
+B	MT5548140000000	Wausau, WI Metropolitan Statistical Area	0	T	8068
+B	MT5616220000000	Casper, WY Metropolitan Statistical Area	0	T	8208
+B	MT5616940000000	Cheyenne, WY Metropolitan Statistical Area	0	T	8209
+B	MT7210380000000	Aguadilla, PR Metropolitan Statistical Area	0	T	8248
+B	MT7211640000000	Arecibo, PR Metropolitan Statistical Area	0	T	8249
+B	MT7225020000000	Guayama, PR Metropolitan Statistical Area	0	T	8250
+B	MT7232420000000	Mayaguez, PR Metropolitan Statistical Area	0	T	8251
+B	MT7238660000000	Ponce, PR Metropolitan Statistical Area	0	T	8252
+B	MT7241980000000	San Juan-Bayamon-Caguas, PR Metropolitan Statistical Area	0	T	8253
+C	DV0611244000000	Anaheim-Santa Ana-Irvine, CA Metropolitan Division	0	T	414
+C	DV0631084000000	Los Angeles-Long Beach-Glendale, CA Metropolitan Division	0	T	415
+C	DV0636084000000	Oakland-Fremont-Berkeley, CA Metropolitan Division	0	T	416
+C	DV0641884000000	San Francisco-San Mateo-Redwood City, CA Metropolitan Division	0	T	417
+C	DV0642034000000	San Rafael, CA Metropolitan Division	0	T	418
+C	DV1048864000000	Wilmington, DE-MD-NJ Metropolitan Division	0	T	1103
+C	DV1147764000000	Washington, DC-MD Metropolitan Division	0	T	1115
+C	DV1222744000000	Fort Lauderdale-Pompano Beach-Sunrise, FL Metropolitan Division	0	T	1143
+C	DV1233124000000	Miami-Miami Beach-Kendall, FL Metropolitan Division	0	T	1144
+C	DV1241304000000	St. Petersburg-Clearwater-Largo, FL Metropolitan Division	0	T	1145
+C	DV1245294000000	Tampa, FL Metropolitan Division	0	T	1146
+C	DV1248424000000	West Palm Beach-Boca Raton-Delray Beach, FL Metropolitan Division	0	T	1147
+C	DV1312054000000	Atlanta-Sandy Springs-Roswell, GA Metropolitan Division	0	T	1349
+C	DV1331924000000	Marietta, GA Metropolitan Division	0	T	1350
+C	DV1716984000000	Chicago-Naperville-Schaumburg, IL Metropolitan Division	0	T	1697
+C	DV1720994000000	Elgin, IL Metropolitan Division	0	T	1698
+C	DV1729404000000	Lake County, IL Metropolitan Division	0	T	1699
+C	DV1829414000000	Lake County-Porter County-Jasper County, IN Metropolitan Division	0	T	1987
+C	DV2423224000000	Frederick-Gaithersburg-Bethesda, MD Metropolitan Division	0	T	3289
+C	DV2514454000000	Boston, MA Metropolitan Division	0	T	3340
+C	DV2515764000000	Cambridge-Newton-Framingham, MA Metropolitan Division	0	T	3341
+C	DV2619804000000	Detroit-Dearborn-Livonia, MI Metropolitan Division	0	T	3729
+C	DV2647664000000	Warren-Troy-Farmington Hills, MI Metropolitan Division	0	T	3730
+C	DV3340484000000	Rockingham County-Strafford County, NH Metropolitan Division	0	T	4671
+C	DV3415804000000	Camden, NJ Metropolitan Division	0	T	4934
+C	DV3429484000000	Lakewood-New Brunswick, NJ Metropolitan Division	0	T	4935
+C	DV3435084000000	Newark, NJ Metropolitan Division	0	T	4936
+C	DV3635004000000	Nassau County-Suffolk County, NY Metropolitan Division	0	T	5148
+C	DV3635614000000	New York-Jersey City-White Plains, NY-NJ Metropolitan Division	0	T	5149
+C	DV4233874000000	Montgomery County-Bucks County-Chester County, PA Metropolitan Division	0	T	6124
+C	DV4237964000000	Philadelphia, PA Metropolitan Division	0	T	6125
+C	DV4819124000000	Dallas-Plano-Irving, TX Metropolitan Division	0	T	6737
+C	DV4823104000000	Fort Worth-Arlington-Grapevine, TX Metropolitan Division	0	T	6738
+C	DV5111694000000	Arlington-Alexandria-Reston, VA-WV Metropolitan Division	0	T	7654
+C	DV5321794000000	Everett, WA Metropolitan Division	0	T	7857
+C	DV5342644000000	Seattle-Bellevue-Kent, WA Metropolitan Division	0	T	7858
+C	DV5345104000000	Tacoma-Lakewood, WA Metropolitan Division	0	T	7859
+D	MC0110700000000	Albertville, AL Micropolitan Statistical Area	0	T	14
+D	MC0110760000000	Alexander City, AL Micropolitan Statistical Area	0	T	15
+D	MC0118980000000	Cullman, AL Micropolitan Statistical Area	0	T	16
+D	MC0121460000000	Enterprise, AL Micropolitan Statistical Area	0	T	17
+D	MC0121640000000	Eufaula, AL-GA Micropolitan Statistical Area	0	T	18
+D	MC0122840000000	Fort Payne, AL Micropolitan Statistical Area	0	T	19
+D	MC0137120000000	Ozark, AL Micropolitan Statistical Area	0	T	20
+D	MC0140770000000	Russellville, AL Micropolitan Statistical Area	0	T	21
+D	MC0142460000000	Scottsboro, AL Micropolitan Statistical Area	0	T	22
+D	MC0142820000000	Selma, AL Micropolitan Statistical Area	0	T	23
+D	MC0145180000000	Talladega-Sylacauga, AL Micropolitan Statistical Area	0	T	24
+D	MC0145980000000	Troy, AL Micropolitan Statistical Area	0	T	25
+D	MC0227940000000	Juneau, AK Micropolitan Statistical Area	0	T	158
+D	MC0228540000000	Ketchikan, AK Micropolitan Statistical Area	0	T	159
+D	MC0435700000000	Nogales, AZ Micropolitan Statistical Area	0	T	207
+D	MC0437740000000	Payson, AZ Micropolitan Statistical Area	0	T	208
+D	MC0440940000000	Safford, AZ Micropolitan Statistical Area	0	T	209
+D	MC0443320000000	Show Low, AZ Micropolitan Statistical Area	0	T	210
+D	MC0511660000000	Arkadelphia, AR Micropolitan Statistical Area	0	T	270
+D	MC0512900000000	Batesville, AR Micropolitan Statistical Area	0	T	271
+D	MC0514180000000	Blytheville, AR Micropolitan Statistical Area	0	T	272
+D	MC0515780000000	Camden, AR Micropolitan Statistical Area	0	T	273
+D	MC0520980000000	El Dorado, AR Micropolitan Statistical Area	0	T	274
+D	MC0522620000000	Forrest City, AR Micropolitan Statistical Area	0	T	275
+D	MC0525460000000	Harrison, AR Micropolitan Statistical Area	0	T	276
+D	MC0531620000000	Magnolia, AR Micropolitan Statistical Area	0	T	277
+D	MC0531680000000	Malvern, AR Micropolitan Statistical Area	0	T	278
+D	MC0534260000000	Mountain Home, AR Micropolitan Statistical Area	0	T	279
+D	MC0537500000000	Paragould, AR Micropolitan Statistical Area	0	T	280
+D	MC0538220000000	Pine Bluff, AR Micropolitan Statistical Area	0	T	281
+D	MC0540780000000	Russellville, AR Micropolitan Statistical Area	0	T	282
+D	MC0542620000000	Searcy, AR Micropolitan Statistical Area	0	T	283
+D	MC0613860000000	Bishop, CA Micropolitan Statistical Area	0	T	419
+D	MC0617340000000	Clearlake, CA Micropolitan Statistical Area	0	T	420
+D	MC0618860000000	Crescent City, CA Micropolitan Statistical Area	0	T	421
+D	MC0621700000000	Eureka-Arcata, CA Micropolitan Statistical Area	0	T	422
+D	MC0639780000000	Red Bluff, CA Micropolitan Statistical Area	0	T	423
+D	MC0643760000000	Sonora, CA Micropolitan Statistical Area	0	T	424
+D	MC0645000000000	Susanville, CA Micropolitan Statistical Area	0	T	425
+D	MC0646020000000	Truckee-Grass Valley, CA Micropolitan Statistical Area	0	T	426
+D	MC0646380000000	Ukiah, CA Micropolitan Statistical Area	0	T	427
+D	MC0810480000000	Alamosa, CO Micropolitan Statistical Area	0	T	787
+D	MC0814720000000	Breckenridge, CO Micropolitan Statistical Area	0	T	788
+D	MC0815860000000	Canon City, CO Micropolitan Statistical Area	0	T	789
+D	MC0820420000000	Durango, CO Micropolitan Statistical Area	0	T	790
+D	MC0820780000000	Edwards, CO Micropolitan Statistical Area	0	T	791
+D	MC0822820000000	Fort Morgan, CO Micropolitan Statistical Area	0	T	792
+D	MC0833940000000	Montrose, CO Micropolitan Statistical Area	0	T	793
+D	MC0840090000000	Rifle, CO Micropolitan Statistical Area	0	T	794
+D	MC0844460000000	Steamboat Springs, CO Micropolitan Statistical Area	0	T	795
+D	MC0844540000000	Sterling, CO Micropolitan Statistical Area	0	T	796
+D	MC0939480000000	Putnam, CT Micropolitan Statistical Area	0	T	920
+D	MC0945860000000	Torrington, CT Micropolitan Statistical Area	0	T	921
+D	MC1042580000000	Seaford, DE Micropolitan Statistical Area	0	T	1104
+D	MC1211580000000	Arcadia, FL Micropolitan Statistical Area	0	T	1148
+D	MC1217500000000	Clewiston, FL Micropolitan Statistical Area	0	T	1149
+D	MC1228580000000	Key West-Key Largo, FL Micropolitan Statistical Area	0	T	1150
+D	MC1229380000000	Lake City, FL Micropolitan Statistical Area	0	T	1151
+D	MC1236380000000	Okeechobee, FL Micropolitan Statistical Area	0	T	1152
+D	MC1237260000000	Palatka, FL Micropolitan Statistical Area	0	T	1153
+D	MC1311140000000	Americus, GA Micropolitan Statistical Area	0	T	1351
+D	MC1312460000000	Bainbridge, GA Micropolitan Statistical Area	0	T	1352
+D	MC1315660000000	Calhoun, GA Micropolitan Statistical Area	0	T	1353
+D	MC1316340000000	Cedartown, GA Micropolitan Statistical Area	0	T	1354
+D	MC1318380000000	Cordele, GA Micropolitan Statistical Area	0	T	1355
+D	MC1318460000000	Cornelia, GA Micropolitan Statistical Area	0	T	1356
+D	MC1320060000000	Douglas, GA Micropolitan Statistical Area	0	T	1357
+D	MC1320140000000	Dublin, GA Micropolitan Statistical Area	0	T	1358
+D	MC1322340000000	Fitzgerald, GA Micropolitan Statistical Area	0	T	1359
+D	MC1327600000000	Jefferson, GA Micropolitan Statistical Area	0	T	1360
+D	MC1327700000000	Jesup, GA Micropolitan Statistical Area	0	T	1361
+D	MC1328680000000	Kingsland, GA Micropolitan Statistical Area	0	T	1362
+D	MC1329300000000	LaGrange, GA-AL Micropolitan Statistical Area	0	T	1363
+D	MC1333300000000	Milledgeville, GA Micropolitan Statistical Area	0	T	1364
+D	MC1334220000000	Moultrie, GA Micropolitan Statistical Area	0	T	1365
+D	MC1344340000000	Statesboro, GA Micropolitan Statistical Area	0	T	1366
+D	MC1344900000000	Summerville, GA Micropolitan Statistical Area	0	T	1367
+D	MC1345580000000	Thomaston, GA Micropolitan Statistical Area	0	T	1368
+D	MC1345620000000	Thomasville, GA Micropolitan Statistical Area	0	T	1369
+D	MC1345700000000	Tifton, GA Micropolitan Statistical Area	0	T	1370
+D	MC1345740000000	Toccoa, GA Micropolitan Statistical Area	0	T	1371
+D	MC1347080000000	Vidalia, GA Micropolitan Statistical Area	0	T	1372
+D	MC1348180000000	Waycross, GA Micropolitan Statistical Area	0	T	1373
+D	MC1525900000000	Hilo-Kailua, HI Micropolitan Statistical Area	0	T	1597
+D	MC1528180000000	Kapaa, HI Micropolitan Statistical Area	0	T	1598
+D	MC1613940000000	Blackfoot, ID Micropolitan Statistical Area	0	T	1611
+D	MC1615420000000	Burley, ID Micropolitan Statistical Area	0	T	1612
+D	MC1625200000000	Hailey, ID Micropolitan Statistical Area	0	T	1613
+D	MC1634140000000	Moscow, ID Micropolitan Statistical Area	0	T	1614
+D	MC1634300000000	Mountain Home, ID Micropolitan Statistical Area	0	T	1615
+D	MC1639940000000	Rexburg, ID Micropolitan Statistical Area	0	T	1616
+D	MC1641760000000	Sandpoint, ID Micropolitan Statistical Area	0	T	1617
+D	MC1715900000000	Canton, IL Micropolitan Statistical Area	0	T	1700
+D	MC1716060000000	Carbondale, IL Micropolitan Statistical Area	0	T	1701
+D	MC1716460000000	Centralia, IL Micropolitan Statistical Area	0	T	1702
+D	MC1716660000000	Charleston-Mattoon, IL Micropolitan Statistical Area	0	T	1703
+D	MC1719180000000	Danville, IL Micropolitan Statistical Area	0	T	1704
+D	MC1719940000000	Dixon, IL Micropolitan Statistical Area	0	T	1705
+D	MC1720820000000	Effingham, IL Micropolitan Statistical Area	0	T	1706
+D	MC1723300000000	Freeport, IL Micropolitan Statistical Area	0	T	1707
+D	MC1723660000000	Galesburg, IL Micropolitan Statistical Area	0	T	1708
+D	MC1727300000000	Jacksonville, IL Micropolitan Statistical Area	0	T	1709
+D	MC1730660000000	Lincoln, IL Micropolitan Statistical Area	0	T	1710
+D	MC1731380000000	Macomb, IL Micropolitan Statistical Area	0	T	1711
+D	MC1732060000000	Marion-Herrin, IL Micropolitan Statistical Area	0	T	1712
+D	MC1734500000000	Mount Vernon, IL Micropolitan Statistical Area	0	T	1713
+D	MC1736837000000	Ottawa, IL Micropolitan Statistical Area	0	T	1714
+D	MC1738700000000	Pontiac, IL Micropolitan Statistical Area	0	T	1715
+D	MC1739500000000	Quincy, IL-MO Micropolitan Statistical Area	0	T	1716
+D	MC1740300000000	Rochelle, IL Micropolitan Statistical Area	0	T	1717
+D	MC1744580000000	Sterling, IL Micropolitan Statistical Area	0	T	1718
+D	MC1745380000000	Taylorville, IL Micropolitan Statistical Area	0	T	1719
+D	MC1811420000000	Angola, IN Micropolitan Statistical Area	0	T	1988
+D	MC1812140000000	Auburn, IN Micropolitan Statistical Area	0	T	1989
+D	MC1813260000000	Bedford, IN Micropolitan Statistical Area	0	T	1990
+D	MC1818220000000	Connersville, IN Micropolitan Statistical Area	0	T	1991
+D	MC1818820000000	Crawfordsville, IN Micropolitan Statistical Area	0	T	1992
+D	MC1819540000000	Decatur, IN Micropolitan Statistical Area	0	T	1993
+D	MC1823140000000	Frankfort, IN Micropolitan Statistical Area	0	T	1994
+D	MC1824600000000	Greencastle, IN Micropolitan Statistical Area	0	T	1995
+D	MC1824700000000	Greensburg, IN Micropolitan Statistical Area	0	T	1996
+D	MC1826540000000	Huntington, IN Micropolitan Statistical Area	0	T	1997
+D	MC1827540000000	Jasper, IN Micropolitan Statistical Area	0	T	1998
+D	MC1828340000000	Kendallville, IN Micropolitan Statistical Area	0	T	1999
+D	MC1830900000000	Logansport, IN Micropolitan Statistical Area	0	T	2000
+D	MC1831500000000	Madison, IN Micropolitan Statistical Area	0	T	2001
+D	MC1831980000000	Marion, IN Micropolitan Statistical Area	0	T	2002
+D	MC1833900000000	Monticello, IN Micropolitan Statistical Area	0	T	2003
+D	MC1835220000000	New Castle, IN Micropolitan Statistical Area	0	T	2004
+D	MC1837940000000	Peru, IN Micropolitan Statistical Area	0	T	2005
+D	MC1838500000000	Plymouth, IN Micropolitan Statistical Area	0	T	2006
+D	MC1839980000000	Richmond, IN Micropolitan Statistical Area	0	T	2007
+D	MC1842980000000	Seymour, IN Micropolitan Statistical Area	0	T	2008
+D	MC1847180000000	Vincennes, IN Micropolitan Statistical Area	0	T	2009
+D	MC1847340000000	Wabash, IN Micropolitan Statistical Area	0	T	2010
+D	MC1847700000000	Warsaw, IN Micropolitan Statistical Area	0	T	2011
+D	MC1847780000000	Washington, IN Micropolitan Statistical Area	0	T	2012
+D	MC1915460000000	Burlington, IA-IL Micropolitan Statistical Area	0	T	2164
+D	MC1916140000000	Carroll, IA Micropolitan Statistical Area	0	T	2165
+D	MC1917540000000	Clinton, IA Micropolitan Statistical Area	0	T	2166
+D	MC1922700000000	Fort Dodge, IA Micropolitan Statistical Area	0	T	2167
+D	MC1922800000000	Fort Madison, IA Micropolitan Statistical Area	0	T	2168
+D	MC1930180000000	Le Mars, IA Micropolitan Statistical Area	0	T	2169
+D	MC1932260000000	Marshalltown, IA Micropolitan Statistical Area	0	T	2170
+D	MC1932380000000	Mason City, IA Micropolitan Statistical Area	0	T	2171
+D	MC1934700000000	Muscatine, IA Micropolitan Statistical Area	0	T	2172
+D	MC1936820000000	Oskaloosa, IA Micropolitan Statistical Area	0	T	2173
+D	MC1936900000000	Ottumwa, IA Micropolitan Statistical Area	0	T	2174
+D	MC1937800000000	Pella, IA Micropolitan Statistical Area	0	T	2175
+D	MC1943980000000	Spencer, IA Micropolitan Statistical Area	0	T	2176
+D	MC1944020000000	Spirit Lake, IA Micropolitan Statistical Area	0	T	2177
+D	MC1944740000000	Storm Lake, IA Micropolitan Statistical Area	0	T	2178
+D	MC2011680000000	Arkansas City-Winfield, KS Micropolitan Statistical Area	0	T	2323
+D	MC2011860000000	Atchison, KS Micropolitan Statistical Area	0	T	2324
+D	MC2019980000000	Dodge City, KS Micropolitan Statistical Area	0	T	2325
+D	MC2021380000000	Emporia, KS Micropolitan Statistical Area	0	T	2326
+D	MC2023780000000	Garden City, KS Micropolitan Statistical Area	0	T	2327
+D	MC2024460000000	Great Bend, KS Micropolitan Statistical Area	0	T	2328
+D	MC2025700000000	Hays, KS Micropolitan Statistical Area	0	T	2329
+D	MC2026740000000	Hutchinson, KS Micropolitan Statistical Area	0	T	2330
+D	MC2030580000000	Liberal, KS Micropolitan Statistical Area	0	T	2331
+D	MC2032700000000	McPherson, KS Micropolitan Statistical Area	0	T	2332
+D	MC2036840000000	Ottawa, KS Micropolitan Statistical Area	0	T	2333
+D	MC2038260000000	Pittsburg, KS Micropolitan Statistical Area	0	T	2334
+D	MC2041460000000	Salina, KS Micropolitan Statistical Area	0	T	2335
+D	MC2115820000000	Campbellsville, KY Micropolitan Statistical Area	0	T	2473
+D	MC2118340000000	Corbin, KY Micropolitan Statistical Area	0	T	2474
+D	MC2119220000000	Danville, KY Micropolitan Statistical Area	0	T	2475
+D	MC2123180000000	Frankfort, KY Micropolitan Statistical Area	0	T	2476
+D	MC2123190000000	Franklin, KY Micropolitan Statistical Area	0	T	2477
+D	MC2123980000000	Glasgow, KY Micropolitan Statistical Area	0	T	2478
+D	MC2125775000000	Henderson, KY Micropolitan Statistical Area	0	T	2479
+D	MC2131580000000	Madisonville, KY Micropolitan Statistical Area	0	T	2480
+D	MC2132460000000	Mayfield, KY Micropolitan Statistical Area	0	T	2481
+D	MC2133180000000	Middlesborough, KY Micropolitan Statistical Area	0	T	2482
+D	MC2134460000000	Mount Sterling, KY Micropolitan Statistical Area	0	T	2483
+D	MC2134660000000	Murray, KY Micropolitan Statistical Area	0	T	2484
+D	MC2138210000000	Pikeville, KY Micropolitan Statistical Area	0	T	2485
+D	MC2140080000000	Richmond-Berea, KY Micropolitan Statistical Area	0	T	2486
+D	MC2143700000000	Somerset, KY Micropolitan Statistical Area	0	T	2487
+D	MC2214220000000	Bogalusa, LA Micropolitan Statistical Area	0	T	2647
+D	MC2219760000000	DeRidder, LA Micropolitan Statistical Area	0	T	2648
+D	MC2233380000000	Minden, LA Micropolitan Statistical Area	0	T	2649
+D	MC2234020000000	Morgan City, LA Micropolitan Statistical Area	0	T	2650
+D	MC2235060000000	Natchitoches, LA Micropolitan Statistical Area	0	T	2651
+D	MC2235340000000	New Iberia, LA Micropolitan Statistical Area	0	T	2652
+D	MC2236660000000	Opelousas, LA Micropolitan Statistical Area	0	T	2653
+D	MC2240820000000	Ruston, LA Micropolitan Statistical Area	0	T	2654
+D	MC2312300000000	Augusta-Waterville, ME Micropolitan Statistical Area	0	T	2746
+D	MC2415700000000	Cambridge, MD Micropolitan Statistical Area	0	T	3290
+D	MC2419060000000	Cumberland, MD-WV Micropolitan Statistical Area	0	T	3291
+D	MC2420660000000	Easton, MD Micropolitan Statistical Area	0	T	3292
+D	MC2436180000000	Ocean Pines, MD Micropolitan Statistical Area	0	T	3293
+D	MC2524640000000	Greenfield, MA Micropolitan Statistical Area	0	T	3342
+D	MC2534880000000	Nantucket, MA Micropolitan Statistical Area	0	T	3343
+D	MC2547240000000	Vineyard Haven, MA Micropolitan Statistical Area	0	T	3344
+D	MC2610300000000	Adrian, MI Micropolitan Statistical Area	0	T	3731
+D	MC2610940000000	Alma, MI Micropolitan Statistical Area	0	T	3732
+D	MC2610980000000	Alpena, MI Micropolitan Statistical Area	0	T	3733
+D	MC2613660000000	Big Rapids, MI Micropolitan Statistical Area	0	T	3734
+D	MC2615620000000	Cadillac, MI Micropolitan Statistical Area	0	T	3735
+D	MC2617740000000	Coldwater, MI Micropolitan Statistical Area	0	T	3736
+D	MC2621540000000	Escanaba, MI Micropolitan Statistical Area	0	T	3737
+D	MC2625880000000	Hillsdale, MI Micropolitan Statistical Area	0	T	3738
+D	MC2626090000000	Holland, MI Micropolitan Statistical Area	0	T	3739
+D	MC2626340000000	Houghton, MI Micropolitan Statistical Area	0	T	3740
+D	MC2627020000000	Iron Mountain, MI-WI Micropolitan Statistical Area	0	T	3741
+D	MC2631220000000	Ludington, MI Micropolitan Statistical Area	0	T	3742
+D	MC2632100000000	Marquette, MI Micropolitan Statistical Area	0	T	3743
+D	MC2634380000000	Mount Pleasant, MI Micropolitan Statistical Area	0	T	3744
+D	MC2637020000000	Owosso, MI Micropolitan Statistical Area	0	T	3745
+D	MC2637950000000	Petoskey, MI Micropolitan Statistical Area	0	T	3746
+D	MC2642300000000	Sault Ste. Marie, MI Micropolitan Statistical Area	0	T	3747
+D	MC2644780000000	Sturgis, MI Micropolitan Statistical Area	0	T	3748
+D	MC2710660000000	Albert Lea, MN Micropolitan Statistical Area	0	T	3945
+D	MC2710820000000	Alexandria, MN Micropolitan Statistical Area	0	T	3946
+D	MC2712380000000	Austin, MN Micropolitan Statistical Area	0	T	3947
+D	MC2713420000000	Bemidji, MN Micropolitan Statistical Area	0	T	3948
+D	MC2714660000000	Brainerd, MN Micropolitan Statistical Area	0	T	3949
+D	MC2719810000000	Detroit Lakes, MN Micropolitan Statistical Area	0	T	3950
+D	MC2721860000000	Fairmont, MN Micropolitan Statistical Area	0	T	3951
+D	MC2722060000000	Faribault-Northfield, MN Micropolitan Statistical Area	0	T	3952
+D	MC2722260000000	Fergus Falls, MN Micropolitan Statistical Area	0	T	3953
+D	MC2724330000000	Grand Rapids, MN Micropolitan Statistical Area	0	T	3954
+D	MC2726780000000	Hutchinson, MN Micropolitan Statistical Area	0	T	3955
+D	MC2732140000000	Marshall, MN Micropolitan Statistical Area	0	T	3956
+D	MC2735580000000	New Ulm, MN Micropolitan Statistical Area	0	T	3957
+D	MC2736940000000	Owatonna, MN Micropolitan Statistical Area	0	T	3958
+D	MC2739860000000	Red Wing, MN Micropolitan Statistical Area	0	T	3959
+D	MC2748820000000	Willmar, MN Micropolitan Statistical Area	0	T	3960
+D	MC2749100000000	Winona, MN Micropolitan Statistical Area	0	T	3961
+D	MC2749380000000	Worthington, MN Micropolitan Statistical Area	0	T	3962
+D	MC2815020000000	Brookhaven, MS Micropolitan Statistical Area	0	T	4118
+D	MC2817260000000	Clarksdale, MS Micropolitan Statistical Area	0	T	4119
+D	MC2817380000000	Cleveland, MS Micropolitan Statistical Area	0	T	4120
+D	MC2818060000000	Columbus, MS Micropolitan Statistical Area	0	T	4121
+D	MC2818420000000	Corinth, MS Micropolitan Statistical Area	0	T	4122
+D	MC2824740000000	Greenville, MS Micropolitan Statistical Area	0	T	4123
+D	MC2824900000000	Greenwood, MS Micropolitan Statistical Area	0	T	4124
+D	MC2824980000000	Grenada, MS Micropolitan Statistical Area	0	T	4125
+D	MC2829860000000	Laurel, MS Micropolitan Statistical Area	0	T	4126
+D	MC2832620000000	McComb, MS Micropolitan Statistical Area	0	T	4127
+D	MC2832940000000	Meridian, MS Micropolitan Statistical Area	0	T	4128
+D	MC2835020000000	Natchez, MS-LA Micropolitan Statistical Area	0	T	4129
+D	MC2837060000000	Oxford, MS Micropolitan Statistical Area	0	T	4130
+D	MC2838100000000	Picayune, MS Micropolitan Statistical Area	0	T	4131
+D	MC2844260000000	Starkville, MS Micropolitan Statistical Area	0	T	4132
+D	MC2846180000000	Tupelo, MS Micropolitan Statistical Area	0	T	4133
+D	MC2846980000000	Vicksburg, MS Micropolitan Statistical Area	0	T	4134
+D	MC2914700000000	Branson, MO Micropolitan Statistical Area	0	T	4257
+D	MC2922100000000	Farmington, MO Micropolitan Statistical Area	0	T	4258
+D	MC2922780000000	Fort Leonard Wood, MO Micropolitan Statistical Area	0	T	4259
+D	MC2925300000000	Hannibal, MO Micropolitan Statistical Area	0	T	4260
+D	MC2928380000000	Kennett, MO Micropolitan Statistical Area	0	T	4261
+D	MC2928860000000	Kirksville, MO Micropolitan Statistical Area	0	T	4262
+D	MC2930060000000	Lebanon, MO Micropolitan Statistical Area	0	T	4263
+D	MC2932180000000	Marshall, MO Micropolitan Statistical Area	0	T	4264
+D	MC2932340000000	Maryville, MO Micropolitan Statistical Area	0	T	4265
+D	MC2933020000000	Mexico, MO Micropolitan Statistical Area	0	T	4266
+D	MC2933620000000	Moberly, MO Micropolitan Statistical Area	0	T	4267
+D	MC2938740000000	Poplar Bluff, MO Micropolitan Statistical Area	0	T	4268
+D	MC2940620000000	Rolla, MO Micropolitan Statistical Area	0	T	4269
+D	MC2942740000000	Sedalia, MO Micropolitan Statistical Area	0	T	4270
+D	MC2943460000000	Sikeston, MO Micropolitan Statistical Area	0	T	4271
+D	MC2947660000000	Warrensburg, MO Micropolitan Statistical Area	0	T	4272
+D	MC2948460000000	West Plains, MO Micropolitan Statistical Area	0	T	4273
+D	MC3015580000000	Butte-Silver Bow, MT Micropolitan Statistical Area	0	T	4446
+D	MC3028060000000	Kalispell, MT Micropolitan Statistical Area	0	T	4447
+D	MC3113100000000	Beatrice, NE Micropolitan Statistical Area	0	T	4516
+D	MC3118100000000	Columbus, NE Micropolitan Statistical Area	0	T	4517
+D	MC3123340000000	Fremont, NE Micropolitan Statistical Area	0	T	4518
+D	MC3125580000000	Hastings, NE Micropolitan Statistical Area	0	T	4519
+D	MC3128260000000	Kearney, NE Micropolitan Statistical Area	0	T	4520
+D	MC3130420000000	Lexington, NE Micropolitan Statistical Area	0	T	4521
+D	MC3135740000000	Norfolk, NE Micropolitan Statistical Area	0	T	4522
+D	MC3135820000000	North Platte, NE Micropolitan Statistical Area	0	T	4523
+D	MC3142420000000	Scottsbluff, NE Micropolitan Statistical Area	0	T	4524
+D	MC3221220000000	Elko, NV Micropolitan Statistical Area	0	T	4637
+D	MC3221980000000	Fallon, NV Micropolitan Statistical Area	0	T	4638
+D	MC3223820000000	Gardnerville Ranchos, NV-CA Micropolitan Statistical Area	0	T	4639
+D	MC3237220000000	Pahrump, NV Micropolitan Statistical Area	0	T	4640
+D	MC3249080000000	Winnemucca, NV Micropolitan Statistical Area	0	T	4641
+D	MC3318180000000	Concord, NH Micropolitan Statistical Area	0	T	4672
+D	MC3328300000000	Keene, NH Micropolitan Statistical Area	0	T	4673
+D	MC3329060000000	Laconia, NH Micropolitan Statistical Area	0	T	4674
+D	MC3330150000000	Lebanon-Claremont, NH-VT Micropolitan Statistical Area	0	T	4675
+D	MC3510460000000	Alamogordo, NM Micropolitan Statistical Area	0	T	5077
+D	MC3516100000000	Carlsbad-Artesia, NM Micropolitan Statistical Area	0	T	5078
+D	MC3517580000000	Clovis, NM Micropolitan Statistical Area	0	T	5079
+D	MC3519700000000	Deming, NM Micropolitan Statistical Area	0	T	5080
+D	MC3521580000000	Espanola, NM Micropolitan Statistical Area	0	T	5081
+D	MC3523700000000	Gallup, NM Micropolitan Statistical Area	0	T	5082
+D	MC3526020000000	Hobbs, NM Micropolitan Statistical Area	0	T	5083
+D	MC3529780000000	Las Vegas, NM Micropolitan Statistical Area	0	T	5084
+D	MC3531060000000	Los Alamos, NM Micropolitan Statistical Area	0	T	5085
+D	MC3540740000000	Roswell, NM Micropolitan Statistical Area	0	T	5086
+D	MC3540760000000	Ruidoso, NM Micropolitan Statistical Area	0	T	5087
+D	MC3543500000000	Silver City, NM Micropolitan Statistical Area	0	T	5088
+D	MC3545340000000	Taos, NM Micropolitan Statistical Area	0	T	5089
+D	MC3611220000000	Amsterdam, NY Micropolitan Statistical Area	0	T	5150
+D	MC3612180000000	Auburn, NY Micropolitan Statistical Area	0	T	5151
+D	MC3612860000000	Batavia, NY Micropolitan Statistical Area	0	T	5152
+D	MC3618500000000	Corning, NY Micropolitan Statistical Area	0	T	5153
+D	MC3618660000000	Cortland, NY Micropolitan Statistical Area	0	T	5154
+D	MC3624100000000	Gloversville, NY Micropolitan Statistical Area	0	T	5155
+D	MC3626460000000	Hudson, NY Micropolitan Statistical Area	0	T	5156
+D	MC3627460000000	Jamestown-Dunkirk, NY Micropolitan Statistical Area	0	T	5157
+D	MC3632390000000	Massena-Ogdensburg, NY Micropolitan Statistical Area	0	T	5158
+D	MC3633910000000	Monticello, NY Micropolitan Statistical Area	0	T	5159
+D	MC3636460000000	Olean, NY Micropolitan Statistical Area	0	T	5160
+D	MC3636580000000	Oneonta, NY Micropolitan Statistical Area	0	T	5161
+D	MC3638460000000	Plattsburgh, NY Micropolitan Statistical Area	0	T	5162
+D	MC3642900000000	Seneca Falls, NY Micropolitan Statistical Area	0	T	5163
+D	MC3710620000000	Albemarle, NC Micropolitan Statistical Area	0	T	5358
+D	MC3711360000000	Anderson Creek, NC Micropolitan Statistical Area	0	T	5359
+D	MC3714380000000	Boone, NC Micropolitan Statistical Area	0	T	5360
+D	MC3714820000000	Brevard, NC Micropolitan Statistical Area	0	T	5361
+D	MC3721020000000	Elizabeth City, NC Micropolitan Statistical Area	0	T	5362
+D	MC3722580000000	Forest City, NC Micropolitan Statistical Area	0	T	5363
+D	MC3725780000000	Henderson, NC Micropolitan Statistical Area	0	T	5364
+D	MC3728620000000	Kill Devil Hills, NC Micropolitan Statistical Area	0	T	5365
+D	MC3728820000000	Kinston, NC Micropolitan Statistical Area	0	T	5366
+D	MC3729900000000	Laurinburg, NC Micropolitan Statistical Area	0	T	5367
+D	MC3731300000000	Lumberton, NC Micropolitan Statistical Area	0	T	5368
+D	MC3732000000000	Marion, NC Micropolitan Statistical Area	0	T	5369
+D	MC3733980000000	Morehead City, NC Micropolitan Statistical Area	0	T	5370
+D	MC3734340000000	Mount Airy, NC Micropolitan Statistical Area	0	T	5371
+D	MC3735100000000	New Bern, NC Micropolitan Statistical Area	0	T	5372
+D	MC3735900000000	North Wilkesboro, NC Micropolitan Statistical Area	0	T	5373
+D	MC3740260000000	Roanoke Rapids, NC Micropolitan Statistical Area	0	T	5374
+D	MC3740460000000	Rockingham, NC Micropolitan Statistical Area	0	T	5375
+D	MC3741820000000	Sanford, NC Micropolitan Statistical Area	0	T	5376
+D	MC3743140000000	Shelby-Kings Mountain, NC Micropolitan Statistical Area	0	T	5377
+D	MC3747820000000	Washington, NC Micropolitan Statistical Area	0	T	5378
+D	MC3748200000000	Waynesville, NC Micropolitan Statistical Area	0	T	5379
+D	MC3748980000000	Wilson, NC Micropolitan Statistical Area	0	T	5380
+D	MC3819860000000	Dickinson, ND Micropolitan Statistical Area	0	T	5569
+D	MC3827420000000	Jamestown, ND Micropolitan Statistical Area	0	T	5570
+D	MC3847420000000	Wahpeton, ND-MN Micropolitan Statistical Area	0	T	5571
+D	MC3848780000000	Williston, ND Micropolitan Statistical Area	0	T	5572
+D	MC3911740000000	Ashland, OH Micropolitan Statistical Area	0	T	5651
+D	MC3911900000000	Athens, OH Micropolitan Statistical Area	0	T	5652
+D	MC3913340000000	Bellefontaine, OH Micropolitan Statistical Area	0	T	5653
+D	MC3915340000000	Bucyrus, OH Micropolitan Statistical Area	0	T	5654
+D	MC3915740000000	Cambridge, OH Micropolitan Statistical Area	0	T	5655
+D	MC3916380000000	Celina, OH Micropolitan Statistical Area	0	T	5656
+D	MC3917060000000	Chillicothe, OH Micropolitan Statistical Area	0	T	5657
+D	MC3918740000000	Coshocton, OH Micropolitan Statistical Area	0	T	5658
+D	MC3919580000000	Defiance, OH Micropolitan Statistical Area	0	T	5659
+D	MC3922300000000	Findlay, OH Micropolitan Statistical Area	0	T	5660
+D	MC3923380000000	Fremont, OH Micropolitan Statistical Area	0	T	5661
+D	MC3923680000000	Gallipolis, OH Micropolitan Statistical Area	0	T	5662
+D	MC3924820000000	Greenville, OH Micropolitan Statistical Area	0	T	5663
+D	MC3931930000000	Marietta, OH Micropolitan Statistical Area	0	T	5664
+D	MC3932020000000	Marion, OH Micropolitan Statistical Area	0	T	5665
+D	MC3934540000000	Mount Vernon, OH Micropolitan Statistical Area	0	T	5666
+D	MC3935420000000	New Philadelphia-Dover, OH Micropolitan Statistical Area	0	T	5667
+D	MC3935940000000	Norwalk, OH Micropolitan Statistical Area	0	T	5668
+D	MC3939020000000	Portsmouth, OH Micropolitan Statistical Area	0	T	5669
+D	MC3941400000000	Salem, OH Micropolitan Statistical Area	0	T	5670
+D	MC3943380000000	Sidney, OH Micropolitan Statistical Area	0	T	5671
+D	MC3945660000000	Tiffin, OH Micropolitan Statistical Area	0	T	5672
+D	MC3946500000000	Urbana, OH Micropolitan Statistical Area	0	T	5673
+D	MC3946780000000	Van Wert, OH Micropolitan Statistical Area	0	T	5674
+D	MC3947540000000	Wapakoneta, OH Micropolitan Statistical Area	0	T	5675
+D	MC3947920000000	Washington Court House, OH Micropolitan Statistical Area	0	T	5676
+D	MC3948940000000	Wilmington, OH Micropolitan Statistical Area	0	T	5677
+D	MC3949300000000	Wooster, OH Micropolitan Statistical Area	0	T	5678
+D	MC3949780000000	Zanesville, OH Micropolitan Statistical Area	0	T	5679
+D	MC4010220000000	Ada, OK Micropolitan Statistical Area	0	T	5874
+D	MC4011060000000	Altus, OK Micropolitan Statistical Area	0	T	5875
+D	MC4011620000000	Ardmore, OK Micropolitan Statistical Area	0	T	5876
+D	MC4012780000000	Bartlesville, OK Micropolitan Statistical Area	0	T	5877
+D	MC4020340000000	Duncan, OK Micropolitan Statistical Area	0	T	5878
+D	MC4020460000000	Durant, OK Micropolitan Statistical Area	0	T	5879
+D	MC4021120000000	Elk City, OK Micropolitan Statistical Area	0	T	5880
+D	MC4025100000000	Guymon, OK Micropolitan Statistical Area	0	T	5881
+D	MC4032540000000	McAlester, OK Micropolitan Statistical Area	0	T	5882
+D	MC4033060000000	Miami, OK Micropolitan Statistical Area	0	T	5883
+D	MC4034780000000	Muskogee, OK Micropolitan Statistical Area	0	T	5884
+D	MC4038620000000	Ponca City, OK Micropolitan Statistical Area	0	T	5885
+D	MC4043060000000	Shawnee, OK Micropolitan Statistical Area	0	T	5886
+D	MC4044660000000	Stillwater, OK Micropolitan Statistical Area	0	T	5887
+D	MC4045140000000	Tahlequah, OK Micropolitan Statistical Area	0	T	5888
+D	MC4048220000000	Weatherford, OK Micropolitan Statistical Area	0	T	5889
+D	MC4049260000000	Woodward, OK Micropolitan Statistical Area	0	T	5890
+D	MC4111820000000	Astoria, OR Micropolitan Statistical Area	0	T	6017
+D	MC4112520000000	Baker City, OR Micropolitan Statistical Area	0	T	6018
+D	MC4115060000000	Brookings, OR Micropolitan Statistical Area	0	T	6019
+D	MC4118300000000	Coos Bay-North Bend, OR Micropolitan Statistical Area	0	T	6020
+D	MC4125840000000	Hermiston-Pendleton, OR Micropolitan Statistical Area	0	T	6021
+D	MC4126220000000	Hood River, OR Micropolitan Statistical Area	0	T	6022
+D	MC4128900000000	Klamath Falls, OR Micropolitan Statistical Area	0	T	6023
+D	MC4129260000000	La Grande, OR Micropolitan Statistical Area	0	T	6024
+D	MC4135440000000	Newport, OR Micropolitan Statistical Area	0	T	6025
+D	MC4136620000000	Ontario, OR-ID Micropolitan Statistical Area	0	T	6026
+D	MC4140700000000	Roseburg, OR Micropolitan Statistical Area	0	T	6027
+D	MC4145520000000	The Dalles, OR Micropolitan Statistical Area	0	T	6028
+D	MC4214100000000	Bloomsburg-Berwick, PA Micropolitan Statistical Area	0	T	6126
+D	MC4214620000000	Bradford, PA Micropolitan Statistical Area	0	T	6127
+D	MC4220180000000	DuBois, PA Micropolitan Statistical Area	0	T	6128
+D	MC4220700000000	East Stroudsburg, PA Micropolitan Statistical Area	0	T	6129
+D	MC4225770000000	Hemlock Farms, PA Micropolitan Statistical Area	0	T	6130
+D	MC4225850000000	Hermitage, PA Micropolitan Statistical Area	0	T	6131
+D	MC4226500000000	Huntingdon, PA Micropolitan Statistical Area	0	T	6132
+D	MC4226860000000	Indiana, PA Micropolitan Statistical Area	0	T	6133
+D	MC4230260000000	Lewisburg, PA Micropolitan Statistical Area	0	T	6134
+D	MC4230380000000	Lewistown, PA Micropolitan Statistical Area	0	T	6135
+D	MC4230820000000	Lock Haven, PA Micropolitan Statistical Area	0	T	6136
+D	MC4232740000000	Meadville, PA Micropolitan Statistical Area	0	T	6137
+D	MC4236340000000	Oil City, PA Micropolitan Statistical Area	0	T	6138
+D	MC4239060000000	Pottsville, PA Micropolitan Statistical Area	0	T	6139
+D	MC4241260000000	St. Marys, PA Micropolitan Statistical Area	0	T	6140
+D	MC4242380000000	Sayre, PA Micropolitan Statistical Area	0	T	6141
+D	MC4242780000000	Selinsgrove, PA Micropolitan Statistical Area	0	T	6142
+D	MC4243740000000	Somerset, PA Micropolitan Statistical Area	0	T	6143
+D	MC4244980000000	Sunbury, PA Micropolitan Statistical Area	0	T	6144
+D	MC4247620000000	Warren, PA Micropolitan Statistical Area	0	T	6145
+D	MC4523500000000	Gaffney, SC Micropolitan Statistical Area	0	T	6356
+D	MC4524940000000	Greenwood, SC Micropolitan Statistical Area	0	T	6357
+D	MC4534680000000	Murrells Inlet, SC Micropolitan Statistical Area	0	T	6358
+D	MC4535140000000	Newberry, SC Micropolitan Statistical Area	0	T	6359
+D	MC4536700000000	Orangeburg, SC Micropolitan Statistical Area	0	T	6360
+D	MC4542860000000	Seneca, SC Micropolitan Statistical Area	0	T	6361
+D	MC4610100000000	Aberdeen, SD Micropolitan Statistical Area	0	T	6454
+D	MC4615100000000	Brookings, SD Micropolitan Statistical Area	0	T	6455
+D	MC4626700000000	Huron, SD Micropolitan Statistical Area	0	T	6456
+D	MC4633580000000	Mitchell, SD Micropolitan Statistical Area	0	T	6457
+D	MC4638180000000	Pierre, SD Micropolitan Statistical Area	0	T	6458
+D	MC4643940000000	Spearfish, SD Micropolitan Statistical Area	0	T	6459
+D	MC4646820000000	Vermillion, SD Micropolitan Statistical Area	0	T	6460
+D	MC4647980000000	Watertown, SD Micropolitan Statistical Area	0	T	6461
+D	MC4649460000000	Yankton, SD Micropolitan Statistical Area	0	T	6462
+D	MC4711940000000	Athens, TN Micropolitan Statistical Area	0	T	6549
+D	MC4718260000000	Cookeville, TN Micropolitan Statistical Area	0	T	6550
+D	MC4718900000000	Crossville, TN Micropolitan Statistical Area	0	T	6551
+D	MC4720540000000	Dyersburg, TN Micropolitan Statistical Area	0	T	6552
+D	MC4722190000000	Fayetteville, TN Micropolitan Statistical Area	0	T	6553
+D	MC4724620000000	Greeneville, TN Micropolitan Statistical Area	0	T	6554
+D	MC4729980000000	Lawrenceburg, TN Micropolitan Statistical Area	0	T	6555
+D	MC4730280000000	Lewisburg, TN Micropolitan Statistical Area	0	T	6556
+D	MC4732280000000	Martin, TN Micropolitan Statistical Area	0	T	6557
+D	MC4732660000000	McMinnville, TN Micropolitan Statistical Area	0	T	6558
+D	MC4735460000000	Newport, TN Micropolitan Statistical Area	0	T	6559
+D	MC4737540000000	Paris, TN Micropolitan Statistical Area	0	T	6560
+D	MC4742940000000	Sevierville, TN Micropolitan Statistical Area	0	T	6561
+D	MC4743180000000	Shelbyville, TN Micropolitan Statistical Area	0	T	6562
+D	MC4746100000000	Tullahoma-Manchester, TN Micropolitan Statistical Area	0	T	6563
+D	MC4746460000000	Union City, TN Micropolitan Statistical Area	0	T	6564
+D	MC4749010000000	Winchester, TN Micropolitan Statistical Area	0	T	6565
+D	MC4810860000000	Alice, TX Micropolitan Statistical Area	0	T	6739
+D	MC4811380000000	Andrews, TX Micropolitan Statistical Area	0	T	6740
+D	MC4811980000000	Athens, TX Micropolitan Statistical Area	0	T	6741
+D	MC4813060000000	Bay City, TX Micropolitan Statistical Area	0	T	6742
+D	MC4813300000000	Beeville, TX Micropolitan Statistical Area	0	T	6743
+D	MC4813700000000	Big Spring, TX Micropolitan Statistical Area	0	T	6744
+D	MC4814300000000	Bonham, TX Micropolitan Statistical Area	0	T	6745
+D	MC4814420000000	Borger, TX Micropolitan Statistical Area	0	T	6746
+D	MC4814780000000	Brenham, TX Micropolitan Statistical Area	0	T	6747
+D	MC4815220000000	Brownwood, TX Micropolitan Statistical Area	0	T	6748
+D	MC4818620000000	Corsicana, TX Micropolitan Statistical Area	0	T	6749
+D	MC4819620000000	Del Rio, TX Micropolitan Statistical Area	0	T	6750
+D	MC4820300000000	Dumas, TX Micropolitan Statistical Area	0	T	6751
+D	MC4820900000000	El Campo, TX Micropolitan Statistical Area	0	T	6752
+D	MC4823240000000	Fredericksburg, TX Micropolitan Statistical Area	0	T	6753
+D	MC4823620000000	Gainesville, TX Micropolitan Statistical Area	0	T	6754
+D	MC4824180000000	Granbury, TX Micropolitan Statistical Area	0	T	6755
+D	MC4825820000000	Hereford, TX Micropolitan Statistical Area	0	T	6756
+D	MC4826660000000	Huntsville, TX Micropolitan Statistical Area	0	T	6757
+D	MC4827380000000	Jacksonville, TX Micropolitan Statistical Area	0	T	6758
+D	MC4828500000000	Kerrville, TX Micropolitan Statistical Area	0	T	6759
+D	MC4828780000000	Kingsville, TX Micropolitan Statistical Area	0	T	6760
+D	MC4831260000000	Lufkin, TX Micropolitan Statistical Area	0	T	6761
+D	MC4833420000000	Mineral Wells, TX Micropolitan Statistical Area	0	T	6762
+D	MC4834420000000	Mount Pleasant, TX Micropolitan Statistical Area	0	T	6763
+D	MC4834860000000	Nacogdoches, TX Micropolitan Statistical Area	0	T	6764
+D	MC4837300000000	Palestine, TX Micropolitan Statistical Area	0	T	6765
+D	MC4837420000000	Pampa, TX Micropolitan Statistical Area	0	T	6766
+D	MC4837580000000	Paris, TX Micropolitan Statistical Area	0	T	6767
+D	MC4838380000000	Plainview, TX Micropolitan Statistical Area	0	T	6768
+D	MC4838920000000	Port Lavaca, TX Micropolitan Statistical Area	0	T	6769
+D	MC4839700000000	Raymondville, TX Micropolitan Statistical Area	0	T	6770
+D	MC4840100000000	Rio Grande City-Roma, TX Micropolitan Statistical Area	0	T	6771
+D	MC4843660000000	Snyder, TX Micropolitan Statistical Area	0	T	6772
+D	MC4844500000000	Stephenville, TX Micropolitan Statistical Area	0	T	6773
+D	MC4844860000000	Sulphur Springs, TX Micropolitan Statistical Area	0	T	6774
+D	MC4845020000000	Sweetwater, TX Micropolitan Statistical Area	0	T	6775
+D	MC4845880000000	Town of Pecos, TX Micropolitan Statistical Area	0	T	6776
+D	MC4846620000000	Uvalde, TX Micropolitan Statistical Area	0	T	6777
+D	MC4846900000000	Vernon, TX Micropolitan Statistical Area	0	T	6778
+D	MC4849820000000	Zapata, TX Micropolitan Statistical Area	0	T	6779
+D	MC4914940000000	Brigham City, UT-ID Micropolitan Statistical Area	0	T	7290
+D	MC4916260000000	Cedar City, UT Micropolitan Statistical Area	0	T	7291
+D	MC4925720000000	Heber, UT Micropolitan Statistical Area	0	T	7292
+D	MC4939220000000	Price, UT Micropolitan Statistical Area	0	T	7293
+D	MC4946860000000	Vernal, UT Micropolitan Statistical Area	0	T	7294
+D	MC5012740000000	Barre, VT Micropolitan Statistical Area	0	T	7372
+D	MC5013540000000	Bennington, VT Micropolitan Statistical Area	0	T	7373
+D	MC5014710000000	Brattleboro, VT Micropolitan Statistical Area	0	T	7374
+D	MC5040860000000	Rutland, VT Micropolitan Statistical Area	0	T	7375
+D	MC5119260000000	Danville, VA Micropolitan Statistical Area	0	T	7655
+D	MC5129470000000	Lake of the Woods, VA Micropolitan Statistical Area	0	T	7656
+D	MC5132300000000	Martinsville, VA Micropolitan Statistical Area	0	T	7657
+D	MC5310140000000	Aberdeen, WA Micropolitan Statistical Area	0	T	7860
+D	MC5316500000000	Centralia, WA Micropolitan Statistical Area	0	T	7861
+D	MC5321260000000	Ellensburg, WA Micropolitan Statistical Area	0	T	7862
+D	MC5334180000000	Moses Lake, WA Micropolitan Statistical Area	0	T	7863
+D	MC5336020000000	Oak Harbor, WA Micropolitan Statistical Area	0	T	7864
+D	MC5336830000000	Othello, WA Micropolitan Statistical Area	0	T	7865
+D	MC5338820000000	Port Angeles, WA Micropolitan Statistical Area	0	T	7866
+D	MC5339040000000	Port Townsend, WA Micropolitan Statistical Area	0	T	7867
+D	MC5339420000000	Pullman, WA Micropolitan Statistical Area	0	T	7868
+D	MC5343220000000	Shelton, WA Micropolitan Statistical Area	0	T	7869
+D	MC5414140000000	Bluefield, WV-VA Micropolitan Statistical Area	0	T	7975
+D	MC5417220000000	Clarksburg, WV Micropolitan Statistical Area	0	T	7976
+D	MC5421180000000	Elkins, WV Micropolitan Statistical Area	0	T	7977
+D	MC5421900000000	Fairmont, WV Micropolitan Statistical Area	0	T	7978
+D	MC5512660000000	Baraboo, WI Micropolitan Statistical Area	0	T	8069
+D	MC5513180000000	Beaver Dam, WI Micropolitan Statistical Area	0	T	8070
+D	MC5531820000000	Manitowoc, WI Micropolitan Statistical Area	0	T	8071
+D	MC5531940000000	Marinette, WI-MI Micropolitan Statistical Area	0	T	8072
+D	MC5532860000000	Menomonie, WI Micropolitan Statistical Area	0	T	8073
+D	MC5538420000000	Platteville, WI Micropolitan Statistical Area	0	T	8074
+D	MC5539960000000	Rice Lake, WI Micropolitan Statistical Area	0	T	8075
+D	MC5543020000000	Shawano, WI Micropolitan Statistical Area	0	T	8076
+D	MC5543890000000	Sparta, WI Micropolitan Statistical Area	0	T	8077
+D	MC5544620000000	Stevens Point-Plover, WI Micropolitan Statistical Area	0	T	8078
+D	MC5548020000000	Watertown-Fort Atkinson, WI Micropolitan Statistical Area	0	T	8079
+D	MC5548580000000	Whitewater-Elkhorn, WI Micropolitan Statistical Area	0	T	8080
+D	MC5549220000000	Wisconsin Rapids-Marshfield, WI Micropolitan Statistical Area	0	T	8081
+D	MC5617650000000	Cody, WY Micropolitan Statistical Area	0	T	8210
+D	MC5621740000000	Evanston, WY-UT Micropolitan Statistical Area	0	T	8211
+D	MC5623940000000	Gillette, WY Micropolitan Statistical Area	0	T	8212
+D	MC5627220000000	Jackson, WY-ID Micropolitan Statistical Area	0	T	8213
+D	MC5629660000000	Laramie, WY Micropolitan Statistical Area	0	T	8214
+D	MC5640180000000	Riverton, WY Micropolitan Statistical Area	0	T	8215
+D	MC5640540000000	Rock Springs, WY Micropolitan Statistical Area	0	T	8216
+D	MC5643260000000	Sheridan, WY Micropolitan Statistical Area	0	T	8217
+D	MC7217620000000	Coamo, PR Micropolitan Statistical Area	0	T	8254
+D	MC7217640000000	Coco, PR Micropolitan Statistical Area	0	T	8255
+D	MC7229720000000	Lares, PR Micropolitan Statistical Area	0	T	8256
+D	MC7246580000000	Utuado, PR Micropolitan Statistical Area	0	T	8257
+E	CA0114200000000	Birmingham-Cullman-Talladega, AL Combined Statistical Area	0	T	26
+E	CA0119400000000	Columbus-Auburn-Opelika, GA-AL Combined Statistical Area	0	T	27
+E	CA0122200000000	Dothan-Enterprise-Ozark, AL Combined Statistical Area	0	T	28
+E	CA0125000000000	Florence-Muscle Shoals-Russellville, AL Combined Statistical Area	0	T	29
+E	CA0129000000000	Huntsville-Decatur-Albertville, AL-TN Combined Statistical Area	0	T	30
+E	CA0138000000000	Mobile-Daphne-Fairhope, AL Combined Statistical Area	0	T	31
+E	CA0138800000000	Montgomery-Selma, AL Combined Statistical Area	0	T	32
+E	CA0442900000000	Phoenix-Mesa, AZ Combined Statistical Area	0	T	211
+E	CA0453600000000	Tucson-Nogales, AZ Combined Statistical Area	0	T	212
+E	CA0528400000000	Hot Springs-Malvern, AR Combined Statistical Area	0	T	284
+E	CA0530800000000	Jonesboro-Paragould, AR Combined Statistical Area	0	T	285
+E	CA0534000000000	Little Rock-North Little Rock, AR Combined Statistical Area	0	T	286
+E	CA0615200000000	Brookings-Crescent City, OR-CA Combined Statistical Area	0	T	428
+E	CA0626000000000	Fresno-Hanford-Corcoran, CA Combined Statistical Area	0	T	429
+E	CA0634800000000	Los Angeles-Long Beach, CA Combined Statistical Area	0	T	430
+E	CA0645400000000	Redding-Red Bluff, CA Combined Statistical Area	0	T	431
+E	CA0647200000000	Sacramento-Roseville, CA Combined Statistical Area	0	T	432
+E	CA0648800000000	San Jose-San Francisco-Oakland, CA Combined Statistical Area	0	T	433
+E	CA0821600000000	Denver-Aurora-Greeley, CO Combined Statistical Area	0	T	797
+E	CA0823300000000	Edwards-Rifle, CO Combined Statistical Area	0	T	798
+E	CA0844400000000	Pueblo-Canon City, CO Combined Statistical Area	0	T	799
+E	CA0940500000000	New Haven-Hartford-Waterbury, CT Combined Statistical Area	0	T	922
+E	CA1154800000000	Washington-Baltimore-Arlington, DC-MD-VA-WV-PA Combined Statistical Area	0	T	1116
+E	CA1216300000000	Cape Coral-Fort Myers-Naples, FL Combined Statistical Area	0	T	1154
+E	CA1226400000000	Gainesville-Lake City, FL Combined Statistical Area	0	T	1155
+E	CA1230000000000	Jacksonville-Kingsland-Palatka, FL-GA Combined Statistical Area	0	T	1156
+E	CA1237000000000	Miami-Port St. Lucie-Fort Lauderdale, FL Combined Statistical Area	0	T	1157
+E	CA1241200000000	North Port-Bradenton, FL Combined Statistical Area	0	T	1158
+E	CA1242200000000	Orlando-Lakeland-Deltona, FL Combined Statistical Area	0	T	1159
+E	CA1253300000000	Tallahassee-Bainbridge, FL-GA Combined Statistical Area	0	T	1160
+E	CA1312200000000	Atlanta--Athens-Clarke County--Sandy Springs, GA-AL Combined Statistical Area	0	T	1374
+E	CA1335600000000	Macon-Bibb County--Warner Robins, GA Combined Statistical Area	0	T	1375
+E	CA1349600000000	Savannah-Hinesville-Statesboro, GA Combined Statistical Area	0	T	1376
+E	CA1614700000000	Boise City-Mountain Home-Ontario, ID-OR Combined Statistical Area	0	T	1618
+E	CA1629200000000	Idaho Falls-Rexburg-Blackfoot, ID Combined Statistical Area	0	T	1619
+E	CA1714500000000	Bloomington-Pontiac, IL Combined Statistical Area	0	T	1720
+E	CA1716600000000	Carbondale-Marion-Herrin, IL Combined Statistical Area	0	T	1721
+E	CA1716900000000	Champaign-Urbana-Danville, IL Combined Statistical Area	0	T	1722
+E	CA1717600000000	Chicago-Naperville, IL-IN-WI Combined Statistical Area	0	T	1723
+E	CA1722100000000	Dixon-Sterling, IL Combined Statistical Area	0	T	1724
+E	CA1742700000000	Peoria-Canton, IL Combined Statistical Area	0	T	1725
+E	CA1744800000000	Quincy-Hannibal, IL-MO Combined Statistical Area	0	T	1726
+E	CA1746600000000	Rockford-Freeport-Rochelle, IL Combined Statistical Area	0	T	1727
+E	CA1752200000000	Springfield-Jacksonville-Lincoln, IL Combined Statistical Area	0	T	1728
+E	CA1814400000000	Bloomington-Bedford, IN Combined Statistical Area	0	T	2013
+E	CA1824100000000	Evansville-Henderson, IN-KY Combined Statistical Area	0	T	2014
+E	CA1825800000000	Fort Wayne-Huntington-Auburn, IN Combined Statistical Area	0	T	2015
+E	CA1829400000000	Indianapolis-Carmel-Muncie, IN Combined Statistical Area	0	T	2016
+E	CA1832000000000	Lafayette-West Lafayette-Frankfort, IN Combined Statistical Area	0	T	2017
+E	CA1845800000000	Richmond-Connersville, IN Combined Statistical Area	0	T	2018
+E	CA1851500000000	South Bend-Elkhart-Mishawaka, IN-MI Combined Statistical Area	0	T	2019
+E	CA1916100000000	Burlington-Fort Madison, IA-IL Combined Statistical Area	0	T	2179
+E	CA1916800000000	Cedar Rapids-Iowa City, IA Combined Statistical Area	0	T	2180
+E	CA1920900000000	Davenport-Moline, IA-IL Combined Statistical Area	0	T	2181
+E	CA1921800000000	Des Moines-West Des Moines-Ames, IA Combined Statistical Area	0	T	2182
+E	CA1951200000000	Sioux City-Le Mars, IA-NE-SD Combined Statistical Area	0	T	2183
+E	CA1951700000000	Spencer-Spirit Lake, IA Combined Statistical Area	0	T	2184
+E	CA2055600000000	Wichita-Arkansas City-Winfield, KS Combined Statistical Area	0	T	2336
+E	CA2115000000000	Bowling Green-Glasgow-Franklin, KY Combined Statistical Area	0	T	2488
+E	CA2133600000000	Lexington-Fayette--Richmond--Frankfort, KY Combined Statistical Area	0	T	2489
+E	CA2135000000000	Louisville/Jefferson County--Elizabethtown, KY-IN Combined Statistical Area	0	T	2490
+E	CA2137100000000	Middlesborough-Corbin, KY Combined Statistical Area	0	T	2491
+E	CA2142400000000	Paducah-Mayfield, KY-IL Combined Statistical Area	0	T	2492
+E	CA2213200000000	Baton Rouge-Hammond, LA Combined Statistical Area	0	T	2655
+E	CA2231800000000	Lafayette-New Iberia-Opelousas, LA Combined Statistical Area	0	T	2656
+E	CA2232400000000	Lake Charles-DeRidder, LA Combined Statistical Area	0	T	2657
+E	CA2238400000000	Monroe-Ruston, LA Combined Statistical Area	0	T	2658
+E	CA2240600000000	New Orleans-Metairie-Slidell, LA-MS Combined Statistical Area	0	T	2659
+E	CA2250800000000	Shreveport-Bossier City-Minden, LA Combined Statistical Area	0	T	2660
+E	CA2343800000000	Portland-Lewiston-South Portland, ME Combined Statistical Area	0	T	2747
+E	CA2448000000000	Salisbury-Ocean Pines, MD Combined Statistical Area	0	T	3294
+E	CA2514800000000	Boston-Worcester-Providence, MA-RI-NH Combined Statistical Area	0	T	3345
+E	CA2552100000000	Springfield-Amherst Town-Northampton, MA Combined Statistical Area	0	T	3346
+E	CA2622000000000	Detroit-Warren-Ann Arbor, MI Combined Statistical Area	0	T	3749
+E	CA2626600000000	Grand Rapids-Wyoming, MI Combined Statistical Area	0	T	3750
+E	CA2631000000000	Kalamazoo-Battle Creek-Portage, MI Combined Statistical Area	0	T	3751
+E	CA2633000000000	Lansing-East Lansing-Owosso, MI Combined Statistical Area	0	T	3752
+E	CA2636100000000	Marinette-Iron Mountain, WI-MI Combined Statistical Area	0	T	3753
+E	CA2639400000000	Mount Pleasant-Alma, MI Combined Statistical Area	0	T	3754
+E	CA2647400000000	Saginaw-Midland-Bay City, MI Combined Statistical Area	0	T	3755
+E	CA2722800000000	Duluth-Grand Rapids, MN-WI Combined Statistical Area	0	T	3963
+E	CA2735900000000	Mankato-New Ulm, MN Combined Statistical Area	0	T	3964
+E	CA2737800000000	Minneapolis-St. Paul, MN-WI Combined Statistical Area	0	T	3965
+E	CA2746200000000	Rochester-Austin-Winona, MN Combined Statistical Area	0	T	3966
+E	CA2827900000000	Hattiesburg-Laurel, MS Combined Statistical Area	0	T	4135
+E	CA2829800000000	Jackson-Vicksburg-Brookhaven, MS Combined Statistical Area	0	T	4136
+E	CA2852300000000	Starkville-Columbus, MS Combined Statistical Area	0	T	4137
+E	CA2853900000000	Tupelo-Corinth, MS Combined Statistical Area	0	T	4138
+E	CA2916400000000	Cape Girardeau-Sikeston, MO-IL Combined Statistical Area	0	T	4274
+E	CA2919000000000	Columbia-Jefferson City-Moberly, MO Combined Statistical Area	0	T	4275
+E	CA2930900000000	Joplin-Miami, MO-OK-KS Combined Statistical Area	0	T	4276
+E	CA2931200000000	Kansas City-Overland Park-Kansas City, MO-KS Combined Statistical Area	0	T	4277
+E	CA2947600000000	St. Louis-St. Charles-Farmington, MO-IL Combined Statistical Area	0	T	4278
+E	CA3133900000000	Lincoln-Beatrice, NE Combined Statistical Area	0	T	4525
+E	CA3142000000000	Omaha-Fremont, NE-IA Combined Statistical Area	0	T	4526
+E	CA3233200000000	Las Vegas-Henderson, NV Combined Statistical Area	0	T	4642
+E	CA3245600000000	Reno-Carson City-Gardnerville Ranchos, NV-CA Combined Statistical Area	0	T	4643
+E	CA3331300000000	Keene-Brattleboro, NH-VT Combined Statistical Area	0	T	4676
+E	CA3510500000000	Albuquerque-Santa Fe-Los Alamos, NM Combined Statistical Area	0	T	5090
+E	CA3610400000000	Albany-Schenectady, NY Combined Statistical Area	0	T	5164
+E	CA3616000000000	Buffalo-Cheektowaga-Olean, NY Combined Statistical Area	0	T	5165
+E	CA3623600000000	Elmira-Corning, NY Combined Statistical Area	0	T	5166
+E	CA3629600000000	Ithaca-Cortland, NY Combined Statistical Area	0	T	5167
+E	CA3640800000000	New York-Newark, NY-NJ-CT-PA Combined Statistical Area	0	T	5168
+E	CA3646400000000	Rochester-Batavia-Seneca Falls, NY Combined Statistical Area	0	T	5169
+E	CA3653200000000	Syracuse-Auburn, NY Combined Statistical Area	0	T	5170
+E	CA3712000000000	Asheville-Waynesville-Brevard, NC Combined Statistical Area	0	T	5381
+E	CA3717200000000	Charlotte-Concord, NC-SC Combined Statistical Area	0	T	5382
+E	CA3724600000000	Fayetteville-Lumberton-Pinehurst, NC Combined Statistical Area	0	T	5383
+E	CA3726800000000	Greensboro--Winston-Salem--High Point, NC Combined Statistical Area	0	T	5384
+E	CA3727400000000	Greenville-Washington, NC Combined Statistical Area	0	T	5385
+E	CA3740400000000	New Bern-Morehead City, NC Combined Statistical Area	0	T	5386
+E	CA3745000000000	Raleigh-Durham-Cary, NC Combined Statistical Area	0	T	5387
+E	CA3746800000000	Rocky Mount-Wilson-Roanoke Rapids, NC Combined Statistical Area	0	T	5388
+E	CA3824400000000	Fargo-Wahpeton, ND-MN Combined Statistical Area	0	T	5573
+E	CA3917800000000	Cincinnati-Wilmington, OH-KY-IN Combined Statistical Area	0	T	5680
+E	CA3918400000000	Cleveland-Akron-Canton, OH Combined Statistical Area	0	T	5681
+E	CA3919800000000	Columbus-Marion-Zanesville, OH Combined Statistical Area	0	T	5682
+E	CA3921200000000	Dayton-Springfield-Kettering, OH Combined Statistical Area	0	T	5683
+E	CA3924800000000	Findlay-Tiffin, OH Combined Statistical Area	0	T	5684
+E	CA3933800000000	Lima-Van Wert-Celina, OH Combined Statistical Area	0	T	5685
+E	CA3936000000000	Mansfield-Ashland-Bucyrus, OH Combined Statistical Area	0	T	5686
+E	CA3956600000000	Youngstown-Warren-Salem, OH Combined Statistical Area	0	T	5687
+E	CA4033400000000	Lawton-Duncan, OK Combined Statistical Area	0	T	5891
+E	CA4041600000000	Oklahoma City-Shawnee, OK Combined Statistical Area	0	T	5892
+E	CA4053800000000	Tulsa-Bartlesville-Muskogee, OK Combined Statistical Area	0	T	5893
+E	CA4055500000000	Weatherford-Elk City, OK Combined Statistical Area	0	T	5894
+E	CA4136600000000	Medford-Grants Pass, OR Combined Statistical Area	0	T	6029
+E	CA4144000000000	Portland-Vancouver-Salem, OR-WA Combined Statistical Area	0	T	6030
+E	CA4210600000000	Allentown-Bethlehem-East Stroudsburg, PA-NJ Combined Statistical Area	0	T	6146
+E	CA4210700000000	Altoona-Huntingdon, PA Combined Statistical Area	0	T	6147
+E	CA4214600000000	Bloomsburg-Berwick-Sunbury, PA Combined Statistical Area	0	T	6148
+E	CA4224000000000	Erie-Meadville, PA Combined Statistical Area	0	T	6149
+E	CA4227600000000	Harrisburg-York-Lebanon, PA Combined Statistical Area	0	T	6150
+E	CA4230600000000	Johnstown-Somerset, PA Combined Statistical Area	0	T	6151
+E	CA4242800000000	Philadelphia-Reading-Camden, PA-NJ-DE-MD Combined Statistical Area	0	T	6152
+E	CA4243000000000	Pittsburgh-Weirton-Steubenville, PA-OH-WV Combined Statistical Area	0	T	6153
+E	CA4252400000000	State College-DuBois, PA Combined Statistical Area	0	T	6154
+E	CA4255800000000	Williamsport-Lock Haven, PA Combined Statistical Area	0	T	6155
+E	CA4519200000000	Columbia-Sumter-Orangeburg, SC Combined Statistical Area	0	T	6362
+E	CA4527300000000	Greenville-Spartanburg-Anderson, SC Combined Statistical Area	0	T	6363
+E	CA4539600000000	Myrtle Beach-Conway, SC Combined Statistical Area	0	T	6364
+E	CA4645200000000	Rapid City-Spearfish, SD Combined Statistical Area	0	T	6463
+E	CA4717400000000	Chattanooga-Cleveland-Dalton, TN-GA-AL Combined Statistical Area	0	T	6566
+E	CA4730400000000	Johnson City-Kingsport-Bristol, TN-VA Combined Statistical Area	0	T	6567
+E	CA4731500000000	Knoxville-Morristown-Sevierville, TN Combined Statistical Area	0	T	6568
+E	CA4736800000000	Memphis-Clarksdale-Forrest City, TN-MS-AR Combined Statistical Area	0	T	6569
+E	CA4740000000000	Nashville-Davidson--Murfreesboro, TN Combined Statistical Area	0	T	6570
+E	CA4754200000000	Union City-Martin, TN Combined Statistical Area	0	T	6571
+E	CA4810100000000	Abilene-Sweetwater, TX Combined Statistical Area	0	T	6780
+E	CA4810800000000	Amarillo-Borger, TX Combined Statistical Area	0	T	6781
+E	CA4815400000000	Brownsville-Harlingen-Raymondville, TX Combined Statistical Area	0	T	6782
+E	CA4820400000000	Corpus Christi-Kingsville-Alice, TX Combined Statistical Area	0	T	6783
+E	CA4820600000000	Dallas-Fort Worth, TX-OK Combined Statistical Area	0	T	6784
+E	CA4823800000000	El Paso-Las Cruces, TX-NM Combined Statistical Area	0	T	6785
+E	CA4828800000000	Houston-Pasadena, TX Combined Statistical Area	0	T	6786
+E	CA4835200000000	Lubbock-Plainview, TX Combined Statistical Area	0	T	6787
+E	CA4836500000000	McAllen-Edinburg, TX Combined Statistical Area	0	T	6788
+E	CA4837200000000	Midland-Odessa-Andrews, TX Combined Statistical Area	0	T	6789
+E	CA4848400000000	San Antonio-New Braunfels-Kerrville, TX Combined Statistical Area	0	T	6790
+E	CA4854000000000	Tyler-Jacksonville, TX Combined Statistical Area	0	T	6791
+E	CA4854400000000	Victoria-Port Lavaca, TX Combined Statistical Area	0	T	6792
+E	CA4948200000000	Salt Lake City-Provo-Orem, UT-ID Combined Statistical Area	0	T	7295
+E	CA5016200000000	Burlington-South Burlington-Barre, VT Combined Statistical Area	0	T	7376
+E	CA5127700000000	Harrisonburg-Staunton-Stuarts Draft, VA Combined Statistical Area	0	T	7658
+E	CA5154500000000	Virginia Beach-Chesapeake, VA-NC Combined Statistical Area	0	T	7659
+E	CA5331400000000	Kennewick-Richland-Walla Walla, WA Combined Statistical Area	0	T	7870
+E	CA5339300000000	Moses Lake-Othello, WA Combined Statistical Area	0	T	7871
+E	CA5344600000000	Pullman-Moscow, WA-ID Combined Statistical Area	0	T	7872
+E	CA5350000000000	Seattle-Tacoma, WA Combined Statistical Area	0	T	7873
+E	CA5351800000000	Spokane-Spokane Valley-Coeur d'Alene, WA-ID Combined Statistical Area	0	T	7874
+E	CA5417000000000	Charleston-Huntington-Ashland, WV-OH-KY Combined Statistical Area	0	T	7979
+E	CA5424200000000	Fairmont-Clarksburg, WV Combined Statistical Area	0	T	7980
+E	CA5442500000000	Parkersburg-Marietta-Vienna, WV-OH Combined Statistical Area	0	T	7981
+E	CA5511800000000	Appleton-Oshkosh-Neenah, WI Combined Statistical Area	0	T	8082
+E	CA5523200000000	Eau Claire-Menomonie, WI Combined Statistical Area	0	T	8083
+E	CA5526700000000	Green Bay-Shawano, WI Combined Statistical Area	0	T	8084
+E	CA5531700000000	La Crosse-Onalaska-Sparta, WI-MN Combined Statistical Area	0	T	8085
+E	CA5535700000000	Madison-Janesville-Beloit, WI Combined Statistical Area	0	T	8086
+E	CA5537600000000	Milwaukee-Racine-Waukesha, WI Combined Statistical Area	0	T	8087
+E	CA5555400000000	Wausau-Stevens Point-Wisconsin Rapids, WI Combined Statistical Area	0	T	8088
+E	CA7236400000000	Mayaguez-Aguadilla, PR Combined Statistical Area	0	T	8258
+E	CA7243400000000	Ponce-Coamo, PR Combined Statistical Area	0	T	8259
+E	CA7249000000000	San Juan-Bayamon, PR Combined Statistical Area	0	T	8260
+F	CN0100100000000	Autauga County, AL	0	T	33
+F	CN0100300000000	Baldwin County, AL	0	T	34
+F	CN0100500000000	Barbour County, AL	0	T	35
+F	CN0100700000000	Bibb County, AL	0	T	36
+F	CN0100900000000	Blount County, AL	0	T	37
+F	CN0101100000000	Bullock County, AL	0	T	38
+F	CN0101300000000	Butler County, AL	0	T	39
+F	CN0101500000000	Calhoun County, AL	0	T	40
+F	CN0101700000000	Chambers County, AL	0	T	41
+F	CN0101900000000	Cherokee County, AL	0	T	42
+F	CN0102100000000	Chilton County, AL	0	T	43
+F	CN0102300000000	Choctaw County, AL	0	T	44
+F	CN0102500000000	Clarke County, AL	0	T	45
+F	CN0102700000000	Clay County, AL	0	T	46
+F	CN0102900000000	Cleburne County, AL	0	T	47
+F	CN0103100000000	Coffee County, AL	0	T	48
+F	CN0103300000000	Colbert County, AL	0	T	49
+F	CN0103500000000	Conecuh County, AL	0	T	50
+F	CN0103700000000	Coosa County, AL	0	T	51
+F	CN0103900000000	Covington County, AL	0	T	52
+F	CN0104100000000	Crenshaw County, AL	0	T	53
+F	CN0104300000000	Cullman County, AL	0	T	54
+F	CN0104500000000	Dale County, AL	0	T	55
+F	CN0104700000000	Dallas County, AL	0	T	56
+F	CN0104900000000	DeKalb County, AL	0	T	57
+F	CN0105100000000	Elmore County, AL	0	T	58
+F	CN0105300000000	Escambia County, AL	0	T	59
+F	CN0105500000000	Etowah County, AL	0	T	60
+F	CN0105700000000	Fayette County, AL	0	T	61
+F	CN0105900000000	Franklin County, AL	0	T	62
+F	CN0106100000000	Geneva County, AL	0	T	63
+F	CN0106300000000	Greene County, AL	0	T	64
+F	CN0106500000000	Hale County, AL	0	T	65
+F	CN0106700000000	Henry County, AL	0	T	66
+F	CN0106900000000	Houston County, AL	0	T	67
+F	CN0107100000000	Jackson County, AL	0	T	68
+F	CN0107300000000	Jefferson County, AL	0	T	69
+F	CN0107500000000	Lamar County, AL	0	T	70
+F	CN0107700000000	Lauderdale County, AL	0	T	71
+F	CN0107900000000	Lawrence County, AL	0	T	72
+F	CN0108100000000	Lee County, AL	0	T	73
+F	CN0108300000000	Limestone County, AL	0	T	74
+F	CN0108500000000	Lowndes County, AL	0	T	75
+F	CN0108700000000	Macon County, AL	0	T	76
+F	CN0108900000000	Madison County, AL	0	T	77
+F	CN0109100000000	Marengo County, AL	0	T	78
+F	CN0109300000000	Marion County, AL	0	T	79
+F	CN0109500000000	Marshall County, AL	0	T	80
+F	CN0109700000000	Mobile County, AL	0	T	81
+F	CN0109900000000	Monroe County, AL	0	T	82
+F	CN0110100000000	Montgomery County, AL	0	T	83
+F	CN0110300000000	Morgan County, AL	0	T	84
+F	CN0110500000000	Perry County, AL	0	T	85
+F	CN0110700000000	Pickens County, AL	0	T	86
+F	CN0110900000000	Pike County, AL	0	T	87
+F	CN0111100000000	Randolph County, AL	0	T	88
+F	CN0111300000000	Russell County, AL	0	T	89
+F	CN0111500000000	St. Clair County, AL	0	T	90
+F	CN0111700000000	Shelby County, AL	0	T	91
+F	CN0111900000000	Sumter County, AL	0	T	92
+F	CN0112100000000	Talladega County, AL	0	T	93
+F	CN0112300000000	Tallapoosa County, AL	0	T	94
+F	CN0112500000000	Tuscaloosa County, AL	0	T	95
+F	CN0112700000000	Walker County, AL	0	T	96
+F	CN0112900000000	Washington County, AL	0	T	97
+F	CN0113100000000	Wilcox County, AL	0	T	98
+F	CN0113300000000	Winston County, AL	0	T	99
+F	CN0201300000000	Aleutians East Borough, AK	0	T	160
+F	CN0201600000000	Aleutians West Census Area, AK	0	T	161
+F	CN0202000000000	Anchorage Borough/municipality, AK	0	T	162
+F	CN0205000000000	Bethel Census Area, AK	0	T	163
+F	CN0206000000000	Bristol Bay Borough, AK	0	T	164
+F	CN0206300000000	Chugach Census Area, AK	0	T	165
+F	CN0206600000000	Copper River Census Area, AK	0	T	166
+F	CN0206800000000	Denali Borough, AK	0	T	167
+F	CN0207000000000	Dillingham Census Area, AK	0	T	168
+F	CN0209000000000	Fairbanks North Star Borough, AK	0	T	169
+F	CN0210000000000	Haines Borough, AK	0	T	170
+F	CN0210500000000	Hoonah-Angoon Census Area, AK	0	T	171
+F	CN0211000000000	Juneau Borough/city, AK	0	T	172
+F	CN0212200000000	Kenai Peninsula Borough, AK	0	T	173
+F	CN0213000000000	Ketchikan Gateway Borough, AK	0	T	174
+F	CN0215000000000	Kodiak Island Borough, AK	0	T	175
+F	CN0215800000000	Kusilvak Census Area, AK	0	T	176
+F	CN0216400000000	Lake and Peninsula Borough, AK	0	T	177
+F	CN0217000000000	Matanuska-Susitna Borough, AK	0	T	178
+F	CN0218000000000	Nome Census Area, AK	0	T	179
+F	CN0218500000000	North Slope Borough, AK	0	T	180
+F	CN0218800000000	Northwest Arctic Borough, AK	0	T	181
+F	CN0219500000000	Petersburg Borough, AK	0	T	182
+F	CN0219800000000	Prince of Wales-Hyder Census Area, AK	0	T	183
+F	CN0220100000000	Prince of Wales-Outer Ketchikan Census Area, AK	0	T	184
+F	CN0222000000000	Sitka Borough/city, AK	0	T	185
+F	CN0223000000000	Skagway Municipality, AK	0	T	186
+F	CN0223200000000	Skagway-Hoonah-Angoon Census Area, AK	0	T	187
+F	CN0224000000000	Southeast Fairbanks Census Area, AK	0	T	188
+F	CN0226100000000	Valdez-Cordova Census Area, AK	0	T	189
+F	CN0227500000000	Wrangell Borough/city, AK	0	T	190
+F	CN0228000000000	Wrangell-Petersburg Census Area, AK	0	T	191
+F	CN0228200000000	Yakutat Borough/city, AK	0	T	192
+F	CN0229000000000	Yukon-Koyukuk Census Area, AK	0	T	193
+F	CN0400100000000	Apache County, AZ	0	T	213
+F	CN0400300000000	Cochise County, AZ	0	T	214
+F	CN0400500000000	Coconino County, AZ	0	T	215
+F	CN0400700000000	Gila County, AZ	0	T	216
+F	CN0400900000000	Graham County, AZ	0	T	217
+F	CN0401100000000	Greenlee County, AZ	0	T	218
+F	CN0401200000000	La Paz County, AZ	0	T	219
+F	CN0401300000000	Maricopa County, AZ	0	T	220
+F	CN0401500000000	Mohave County, AZ	0	T	221
+F	CN0401700000000	Navajo County, AZ	0	T	222
+F	CN0401900000000	Pima County, AZ	0	T	223
+F	CN0402100000000	Pinal County, AZ	0	T	224
+F	CN0402300000000	Santa Cruz County, AZ	0	T	225
+F	CN0402500000000	Yavapai County, AZ	0	T	226
+F	CN0402700000000	Yuma County, AZ	0	T	227
+F	CN0500100000000	Arkansas County, AR	0	T	287
+F	CN0500300000000	Ashley County, AR	0	T	288
+F	CN0500500000000	Baxter County, AR	0	T	289
+F	CN0500700000000	Benton County, AR	0	T	290
+F	CN0500900000000	Boone County, AR	0	T	291
+F	CN0501100000000	Bradley County, AR	0	T	292
+F	CN0501300000000	Calhoun County, AR	0	T	293
+F	CN0501500000000	Carroll County, AR	0	T	294
+F	CN0501700000000	Chicot County, AR	0	T	295
+F	CN0501900000000	Clark County, AR	0	T	296
+F	CN0502100000000	Clay County, AR	0	T	297
+F	CN0502300000000	Cleburne County, AR	0	T	298
+F	CN0502500000000	Cleveland County, AR	0	T	299
+F	CN0502700000000	Columbia County, AR	0	T	300
+F	CN0502900000000	Conway County, AR	0	T	301
+F	CN0503100000000	Craighead County, AR	0	T	302
+F	CN0503300000000	Crawford County, AR	0	T	303
+F	CN0503500000000	Crittenden County, AR	0	T	304
+F	CN0503700000000	Cross County, AR	0	T	305
+F	CN0503900000000	Dallas County, AR	0	T	306
+F	CN0504100000000	Desha County, AR	0	T	307
+F	CN0504300000000	Drew County, AR	0	T	308
+F	CN0504500000000	Faulkner County, AR	0	T	309
+F	CN0504700000000	Franklin County, AR	0	T	310
+F	CN0504900000000	Fulton County, AR	0	T	311
+F	CN0505100000000	Garland County, AR	0	T	312
+F	CN0505300000000	Grant County, AR	0	T	313
+F	CN0505500000000	Greene County, AR	0	T	314
+F	CN0505700000000	Hempstead County, AR	0	T	315
+F	CN0505900000000	Hot Spring County, AR	0	T	316
+F	CN0506100000000	Howard County, AR	0	T	317
+F	CN0506300000000	Independence County, AR	0	T	318
+F	CN0506500000000	Izard County, AR	0	T	319
+F	CN0506700000000	Jackson County, AR	0	T	320
+F	CN0506900000000	Jefferson County, AR	0	T	321
+F	CN0507100000000	Johnson County, AR	0	T	322
+F	CN0507300000000	Lafayette County, AR	0	T	323
+F	CN0507500000000	Lawrence County, AR	0	T	324
+F	CN0507700000000	Lee County, AR	0	T	325
+F	CN0507900000000	Lincoln County, AR	0	T	326
+F	CN0508100000000	Little River County, AR	0	T	327
+F	CN0508300000000	Logan County, AR	0	T	328
+F	CN0508500000000	Lonoke County, AR	0	T	329
+F	CN0508700000000	Madison County, AR	0	T	330
+F	CN0508900000000	Marion County, AR	0	T	331
+F	CN0509100000000	Miller County, AR	0	T	332
+F	CN0509300000000	Mississippi County, AR	0	T	333
+F	CN0509500000000	Monroe County, AR	0	T	334
+F	CN0509700000000	Montgomery County, AR	0	T	335
+F	CN0509900000000	Nevada County, AR	0	T	336
+F	CN0510100000000	Newton County, AR	0	T	337
+F	CN0510300000000	Ouachita County, AR	0	T	338
+F	CN0510500000000	Perry County, AR	0	T	339
+F	CN0510700000000	Phillips County, AR	0	T	340
+F	CN0510900000000	Pike County, AR	0	T	341
+F	CN0511100000000	Poinsett County, AR	0	T	342
+F	CN0511300000000	Polk County, AR	0	T	343
+F	CN0511500000000	Pope County, AR	0	T	344
+F	CN0511700000000	Prairie County, AR	0	T	345
+F	CN0511900000000	Pulaski County, AR	0	T	346
+F	CN0512100000000	Randolph County, AR	0	T	347
+F	CN0512300000000	St. Francis County, AR	0	T	348
+F	CN0512500000000	Saline County, AR	0	T	349
+F	CN0512700000000	Scott County, AR	0	T	350
+F	CN0512900000000	Searcy County, AR	0	T	351
+F	CN0513100000000	Sebastian County, AR	0	T	352
+F	CN0513300000000	Sevier County, AR	0	T	353
+F	CN0513500000000	Sharp County, AR	0	T	354
+F	CN0513700000000	Stone County, AR	0	T	355
+F	CN0513900000000	Union County, AR	0	T	356
+F	CN0514100000000	Van Buren County, AR	0	T	357
+F	CN0514300000000	Washington County, AR	0	T	358
+F	CN0514500000000	White County, AR	0	T	359
+F	CN0514700000000	Woodruff County, AR	0	T	360
+F	CN0514900000000	Yell County, AR	0	T	361
+F	CN0600100000000	Alameda County, CA	0	T	434
+F	CN0600300000000	Alpine County, CA	0	T	435
+F	CN0600500000000	Amador County, CA	0	T	436
+F	CN0600700000000	Butte County, CA	0	T	437
+F	CN0600900000000	Calaveras County, CA	0	T	438
+F	CN0601100000000	Colusa County, CA	0	T	439
+F	CN0601300000000	Contra Costa County, CA	0	T	440
+F	CN0601500000000	Del Norte County, CA	0	T	441
+F	CN0601700000000	El Dorado County, CA	0	T	442
+F	CN0601900000000	Fresno County, CA	0	T	443
+F	CN0602100000000	Glenn County, CA	0	T	444
+F	CN0602300000000	Humboldt County, CA	0	T	445
+F	CN0602500000000	Imperial County, CA	0	T	446
+F	CN0602700000000	Inyo County, CA	0	T	447
+F	CN0602900000000	Kern County, CA	0	T	448
+F	CN0603100000000	Kings County, CA	0	T	449
+F	CN0603300000000	Lake County, CA	0	T	450
+F	CN0603500000000	Lassen County, CA	0	T	451
+F	CN0603700000000	Los Angeles County, CA	0	T	452
+F	CN0603900000000	Madera County, CA	0	T	453
+F	CN0604100000000	Marin County, CA	0	T	454
+F	CN0604300000000	Mariposa County, CA	0	T	455
+F	CN0604500000000	Mendocino County, CA	0	T	456
+F	CN0604700000000	Merced County, CA	0	T	457
+F	CN0604900000000	Modoc County, CA	0	T	458
+F	CN0605100000000	Mono County, CA	0	T	459
+F	CN0605300000000	Monterey County, CA	0	T	460
+F	CN0605500000000	Napa County, CA	0	T	461
+F	CN0605700000000	Nevada County, CA	0	T	462
+F	CN0605900000000	Orange County, CA	0	T	463
+F	CN0606100000000	Placer County, CA	0	T	464
+F	CN0606300000000	Plumas County, CA	0	T	465
+F	CN0606500000000	Riverside County, CA	0	T	466
+F	CN0606700000000	Sacramento County, CA	0	T	467
+F	CN0606900000000	San Benito County, CA	0	T	468
+F	CN0607100000000	San Bernardino County, CA	0	T	469
+F	CN0607300000000	San Diego County, CA	0	T	470
+F	CN0607500000000	San Francisco County/city, CA	0	T	471
+F	CN0607700000000	San Joaquin County, CA	0	T	472
+F	CN0607900000000	San Luis Obispo County, CA	0	T	473
+F	CN0608100000000	San Mateo County, CA	0	T	474
+F	CN0608300000000	Santa Barbara County, CA	0	T	475
+F	CN0608500000000	Santa Clara County, CA	0	T	476
+F	CN0608700000000	Santa Cruz County, CA	0	T	477
+F	CN0608900000000	Shasta County, CA	0	T	478
+F	CN0609100000000	Sierra County, CA	0	T	479
+F	CN0609300000000	Siskiyou County, CA	0	T	480
+F	CN0609500000000	Solano County, CA	0	T	481
+F	CN0609700000000	Sonoma County, CA	0	T	482
+F	CN0609900000000	Stanislaus County, CA	0	T	483
+F	CN0610100000000	Sutter County, CA	0	T	484
+F	CN0610300000000	Tehama County, CA	0	T	485
+F	CN0610500000000	Trinity County, CA	0	T	486
+F	CN0610700000000	Tulare County, CA	0	T	487
+F	CN0610900000000	Tuolumne County, CA	0	T	488
+F	CN0611100000000	Ventura County, CA	0	T	489
+F	CN0611300000000	Yolo County, CA	0	T	490
+F	CN0611500000000	Yuba County, CA	0	T	491
+F	CN0800100000000	Adams County, CO	0	T	800
+F	CN0800300000000	Alamosa County, CO	0	T	801
+F	CN0800500000000	Arapahoe County, CO	0	T	802
+F	CN0800700000000	Archuleta County, CO	0	T	803
+F	CN0800900000000	Baca County, CO	0	T	804
+F	CN0801100000000	Bent County, CO	0	T	805
+F	CN0801300000000	Boulder County, CO	0	T	806
+F	CN0801400000000	Broomfield County/city, CO	0	T	807
+F	CN0801500000000	Chaffee County, CO	0	T	808
+F	CN0801700000000	Cheyenne County, CO	0	T	809
+F	CN0801900000000	Clear Creek County, CO	0	T	810
+F	CN0802100000000	Conejos County, CO	0	T	811
+F	CN0802300000000	Costilla County, CO	0	T	812
+F	CN0802500000000	Crowley County, CO	0	T	813
+F	CN0802700000000	Custer County, CO	0	T	814
+F	CN0802900000000	Delta County, CO	0	T	815
+F	CN0803100000000	Denver County/city, CO	0	T	816
+F	CN0803300000000	Dolores County, CO	0	T	817
+F	CN0803500000000	Douglas County, CO	0	T	818
+F	CN0803700000000	Eagle County, CO	0	T	819
+F	CN0803900000000	Elbert County, CO	0	T	820
+F	CN0804100000000	El Paso County, CO	0	T	821
+F	CN0804300000000	Fremont County, CO	0	T	822
+F	CN0804500000000	Garfield County, CO	0	T	823
+F	CN0804700000000	Gilpin County, CO	0	T	824
+F	CN0804900000000	Grand County, CO	0	T	825
+F	CN0805100000000	Gunnison County, CO	0	T	826
+F	CN0805300000000	Hinsdale County, CO	0	T	827
+F	CN0805500000000	Huerfano County, CO	0	T	828
+F	CN0805700000000	Jackson County, CO	0	T	829
+F	CN0805900000000	Jefferson County, CO	0	T	830
+F	CN0806100000000	Kiowa County, CO	0	T	831
+F	CN0806300000000	Kit Carson County, CO	0	T	832
+F	CN0806500000000	Lake County, CO	0	T	833
+F	CN0806700000000	La Plata County, CO	0	T	834
+F	CN0806900000000	Larimer County, CO	0	T	835
+F	CN0807100000000	Las Animas County, CO	0	T	836
+F	CN0807300000000	Lincoln County, CO	0	T	837
+F	CN0807500000000	Logan County, CO	0	T	838
+F	CN0807700000000	Mesa County, CO	0	T	839
+F	CN0807900000000	Mineral County, CO	0	T	840
+F	CN0808100000000	Moffat County, CO	0	T	841
