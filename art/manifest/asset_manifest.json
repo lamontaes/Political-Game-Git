@@ -49,7 +49,7 @@
           "width": 2048,
           "height": 1144,
           "path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
-          "hash": "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe",
+          "hash": "f2f5ae8ca3e82e13cf6fb6f8f27c654b5c95a93c6ca2c31d5c56381fdd543406",
           "derivation": "upscaled-development-fixture",
           "native_detail_width": 1024
         }
@@ -72,7 +72,7 @@
       "qa_status": "approved",
       "runtime_release_status": "released",
       "final_path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
-      "hash": "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe",
+      "hash": "f2f5ae8ca3e82e13cf6fb6f8f27c654b5c95a93c6ca2c31d5c56381fdd543406",
       "requires_transparency": true
     },
     {
@@ -175,7 +175,8 @@
             "y": 0.965
           }
         ]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_body_adult_seated_v1",
@@ -235,7 +236,8 @@
             "y": 0.955
           }
         ]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_head_round_v1",
@@ -273,7 +275,8 @@
         },
         "compatible_body_families": ["dev-adult"],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_head_oval_v1",
@@ -311,7 +314,8 @@
         },
         "compatible_body_families": ["dev-adult"],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_hair_crop_front_v1",
@@ -349,7 +353,8 @@
         },
         "compatible_head_families": ["dev-oval", "dev-round"],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_hair_long_front_v1",
@@ -388,7 +393,8 @@
         "compatible_head_families": ["dev-oval", "dev-round"],
         "compatible_head_orientations": ["front"],
         "paired_with": "dev_hair_long_back_v1"
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_hair_long_back_v1",
@@ -426,7 +432,8 @@
         },
         "compatible_head_families": ["dev-oval", "dev-round"],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_eyewear_round_glasses_v1",
@@ -464,7 +471,8 @@
         },
         "compatible_head_families": ["dev-oval", "dev-round"],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_top_blazer_navy_standing_v1",
@@ -502,7 +510,8 @@
         },
         "compatible_body_families": ["dev-adult"],
         "compatible_pose_families": ["standing-neutral"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_top_blazer_navy_seated_v1",
@@ -540,7 +549,8 @@
         },
         "compatible_body_families": ["dev-adult"],
         "compatible_pose_families": ["seated-at-desk"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_top_tee_teal_standing_v1",
@@ -578,7 +588,8 @@
         },
         "compatible_body_families": ["dev-adult"],
         "compatible_pose_families": ["standing-neutral"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_top_tee_teal_seated_v1",
@@ -616,7 +627,8 @@
         },
         "compatible_body_families": ["dev-adult"],
         "compatible_pose_families": ["seated-at-desk"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_bottom_slacks_charcoal_standing_v1",
@@ -654,7 +666,8 @@
         },
         "compatible_body_families": ["dev-adult"],
         "compatible_pose_families": ["standing-neutral"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_bottom_slacks_charcoal_seated_v1",
@@ -692,7 +705,8 @@
         },
         "compatible_body_families": ["dev-adult"],
         "compatible_pose_families": ["seated-at-desk"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_footwear_oxford_black_v1",
@@ -730,7 +744,8 @@
         },
         "compatible_body_families": ["dev-adult"],
         "compatible_pose_families": ["standing-neutral"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_accessory_lapel_pin_v1",
@@ -767,6 +782,1436 @@
           "y": 0.5
         },
         "compatible_body_families": ["dev-adult"]
+      },
+      "availability": "development-fixture"
+    },
+    {
+      "asset_id": "pg_body_fl_standing_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_body_fl_standing_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master pg-female-lean (Desktop body-geometry authority 'female lean.png'); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: the body master is an untextured gray geometry mannequin, so every skin region a garment does not cover renders gray. Gray exposed skin is not accepted production presentation."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_body_fl_standing_v1.png",
+      "hash": "451d4c441457239d8c780ac7fef87a45fd21e81c92d08f356984ce8f5c6c1cf2",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "body",
+        "family": "pg-female-lean",
+        "catalog_generation": 2,
+        "layer": 20,
+        "canvas": {
+          "width": 343,
+          "height": 960
+        },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5043731778425656,
+          "y": 0.496875
+        },
+        "attachment_anchors": [
+          {
+            "id": "crown",
+            "x": 0.5043731778425656,
+            "y": 0
+          },
+          {
+            "id": "brow",
+            "x": 0.5043731778425656,
+            "y": 0.043875
+          },
+          {
+            "id": "head",
+            "x": 0.5043731778425656,
+            "y": 0.121875
+          },
+          {
+            "id": "torso",
+            "x": 0.5043731778425656,
+            "y": 0.19791666666666666
+          },
+          {
+            "id": "hips",
+            "x": 0.5043731778425656,
+            "y": 0.3385416666666667
+          },
+          {
+            "id": "feet",
+            "x": 0.5043731778425656,
+            "y": 0.9760416666666667
+          }
+        ]
+      }
+    },
+    {
+      "asset_id": "pg_body_ml_standing_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_body_ml_standing_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master pg-male-lean (Desktop body-geometry authority 'male lean.png'); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: the body master is an untextured gray geometry mannequin, so every skin region a garment does not cover renders gray. Gray exposed skin is not accepted production presentation."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_body_ml_standing_v1.png",
+      "hash": "1ae68b62016dde6561e12620b30883f685e3447d0a44b0bcf337d18dbf19762d",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "body",
+        "family": "pg-male-lean",
+        "catalog_generation": 2,
+        "layer": 20,
+        "canvas": {
+          "width": 345,
+          "height": 960
+        },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.4985507246376812,
+          "y": 0.5395833333333333
+        },
+        "attachment_anchors": [
+          {
+            "id": "crown",
+            "x": 0.4985507246376812,
+            "y": 0
+          },
+          {
+            "id": "brow",
+            "x": 0.4985507246376812,
+            "y": 0.0465
+          },
+          {
+            "id": "head",
+            "x": 0.4985507246376812,
+            "y": 0.12916666666666668
+          },
+          {
+            "id": "torso",
+            "x": 0.4985507246376812,
+            "y": 0.203125
+          },
+          {
+            "id": "hips",
+            "x": 0.4985507246376812,
+            "y": 0.34791666666666665
+          },
+          {
+            "id": "feet",
+            "x": 0.4985507246376812,
+            "y": 0.996875
+          }
+        ]
+      }
+    },
+    {
+      "asset_id": "pg_head_f_01_bald_neutral_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_head_f_01_bald_neutral_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master 01_HEAD_SAMPLE (PG_MODULAR_FIT_PROOF_INPUT_PACK_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_head_f_01_bald_neutral_v1.png",
+      "hash": "4c396ed27ebac576875a2eec0ec1d463bf72ac7998c240f9133806f989cbe8c1",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "head",
+        "family": "pg-head-f-01",
+        "catalog_generation": 2,
+        "layer": 30,
+        "canvas": {
+          "width": 111,
+          "height": 117
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 1
+        },
+        "compatible_body_families": ["pg-female-lean"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pg_head_m_001_black_young_adult_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_head_m_001_black_young_adult_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_FACE_M_001 (PG_MASCULINE_FACE_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_head_m_001_black_young_adult_v1.png",
+      "hash": "6aa82588cd2b810fe24d77d5551ec0328778064ea455f52b3111163463814679",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "head",
+        "family": "pg-head-m-001",
+        "catalog_generation": 2,
+        "layer": 30,
+        "canvas": {
+          "width": 98,
+          "height": 124
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 1
+        },
+        "compatible_body_families": ["pg-male-lean"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pg_head_m_002_white_adult_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_head_m_002_white_adult_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_FACE_M_002 (PG_MASCULINE_FACE_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_head_m_002_white_adult_v1.png",
+      "hash": "fdeda4d2c5894699b372fb31fa6cc8121b6bf779837f2ee266fd6b4638da01f5",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "head",
+        "family": "pg-head-m-002",
+        "catalog_generation": 2,
+        "layer": 30,
+        "canvas": {
+          "width": 94,
+          "height": 124
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 1
+        },
+        "compatible_body_families": ["pg-male-lean"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pg_head_m_004_east_asian_young_adult_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_head_m_004_east_asian_young_adult_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_FACE_M_004 (PG_MASCULINE_FACE_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_head_m_004_east_asian_young_adult_v1.png",
+      "hash": "ad283a6b5034c51dc1be21f4341e2203f33f0d6d995c67f2948719a9b835cc43",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "head",
+        "family": "pg-head-m-004",
+        "catalog_generation": 2,
+        "layer": 30,
+        "canvas": {
+          "width": 102,
+          "height": 124
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 1
+        },
+        "compatible_body_families": ["pg-male-lean"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pg_head_m_005_black_older_adult_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_head_m_005_black_older_adult_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_FACE_M_005 (PG_MASCULINE_FACE_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_head_m_005_black_older_adult_v1.png",
+      "hash": "df06fcdc5f40345e64c38fa3cf4b5e54a02f39fdf1486ecc74831f8144b2d3c4",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "head",
+        "family": "pg-head-m-005",
+        "catalog_generation": 2,
+        "layer": 30,
+        "canvas": {
+          "width": 115,
+          "height": 124
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 1
+        },
+        "compatible_body_families": ["pg-male-lean"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pg_hair_f_black_001_short_tapered_afro_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_hair_f_black_001_short_tapered_afro_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_HAIR_F_BLACK_001 (PG_BLACK_FEMALE_HAIR_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_hair_f_black_001_short_tapered_afro_v1.png",
+      "hash": "7972df8aa1b69c0b051de9b8e87c3b4c10109c13e603a63b3ae3747af9f17179",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "hair-front",
+        "family": "pg-hair-f-black-001",
+        "catalog_generation": 2,
+        "layer": 40,
+        "canvas": {
+          "width": 106,
+          "height": 127
+        },
+        "attaches_to": "brow",
+        "origin": {
+          "x": 0.6,
+          "y": 0.62
+        },
+        "compatible_head_families": ["pg-head-f-01"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pg_hair_f_black_002_rounded_medium_afro_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_hair_f_black_002_rounded_medium_afro_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_HAIR_F_BLACK_002 (PG_BLACK_FEMALE_HAIR_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_hair_f_black_002_rounded_medium_afro_v1.png",
+      "hash": "a9143447ebf6decb1319f8e00fc2845aa667242c0abf6da851b4b9e0e64d0b3c",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "hair-front",
+        "family": "pg-hair-f-black-002",
+        "catalog_generation": 2,
+        "layer": 40,
+        "canvas": {
+          "width": 226,
+          "height": 218
+        },
+        "attaches_to": "brow",
+        "origin": {
+          "x": 0.5247524752475248,
+          "y": 0.48717948717948717
+        },
+        "compatible_head_families": ["pg-head-f-01"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pg_hair_f_black_004_shoulder_natural_curls_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_hair_f_black_004_shoulder_natural_curls_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_HAIR_F_BLACK_004 (PG_BLACK_FEMALE_HAIR_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_hair_f_black_004_shoulder_natural_curls_v1.png",
+      "hash": "6baa6705293a2a0656a86913900d550526b0bbb70c248e8ae2fb811454e16117",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "hair-front",
+        "family": "pg-hair-f-black-004",
+        "catalog_generation": 2,
+        "layer": 40,
+        "canvas": {
+          "width": 278,
+          "height": 286
+        },
+        "attaches_to": "brow",
+        "origin": {
+          "x": 0.5975609756097561,
+          "y": 0.26066350710900477
+        },
+        "compatible_head_families": ["pg-head-f-01"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pg_hair_f_black_005_high_puff_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_hair_f_black_005_high_puff_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_HAIR_F_BLACK_005 (PG_BLACK_FEMALE_HAIR_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_hair_f_black_005_high_puff_v1.png",
+      "hash": "2602b6379c445753b2e553215a9b5394340172ea8073ae2b79f4863d10004d7e",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "hair-front",
+        "family": "pg-hair-f-black-005",
+        "catalog_generation": 2,
+        "layer": 40,
+        "canvas": {
+          "width": 109,
+          "height": 148
+        },
+        "attaches_to": "brow",
+        "origin": {
+          "x": 0.55,
+          "y": 0.64
+        },
+        "compatible_head_families": ["pg-head-f-01"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pg_hair_f_black_007_shoulder_box_braids_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_hair_f_black_007_shoulder_box_braids_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_HAIR_F_BLACK_007 (PG_BLACK_FEMALE_HAIR_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_hair_f_black_007_shoulder_box_braids_v1.png",
+      "hash": "7723440aff2afbb59a51c76278f8614619e8a6a857394a83b68c65b9b8e4587b",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "hair-front",
+        "family": "pg-hair-f-black-007",
+        "catalog_generation": 2,
+        "layer": 40,
+        "canvas": {
+          "width": 214,
+          "height": 267
+        },
+        "attaches_to": "brow",
+        "origin": {
+          "x": 0.595679012345679,
+          "y": 0.2524752475247525
+        },
+        "compatible_head_families": ["pg-head-f-01"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pg_hair_f_black_008_long_box_braids_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_hair_f_black_008_long_box_braids_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_HAIR_F_BLACK_008 (PG_BLACK_FEMALE_HAIR_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_hair_f_black_008_long_box_braids_v1.png",
+      "hash": "443e5013e70fbd7595e74591f3ba182c85074228fa4611c164e86effcf0bc671",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "hair-front",
+        "family": "pg-hair-f-black-008",
+        "catalog_generation": 2,
+        "layer": 40,
+        "canvas": {
+          "width": 308,
+          "height": 375
+        },
+        "attaches_to": "brow",
+        "origin": {
+          "x": 0.5523255813953488,
+          "y": 0.24880382775119617
+        },
+        "compatible_head_families": ["pg-head-f-01"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pg_hair_f_black_010_cornrows_low_bun_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_hair_f_black_010_cornrows_low_bun_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_HAIR_F_BLACK_010 (PG_BLACK_FEMALE_HAIR_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_hair_f_black_010_cornrows_low_bun_v1.png",
+      "hash": "7b2e7ce133f4c4c44659b669bab3c17d83e1c19e83939e8cff452db75451e7b0",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "hair-front",
+        "family": "pg-hair-f-black-010",
+        "catalog_generation": 2,
+        "layer": 40,
+        "canvas": {
+          "width": 109,
+          "height": 142
+        },
+        "attaches_to": "brow",
+        "origin": {
+          "x": 0.5,
+          "y": 0.9
+        },
+        "compatible_head_families": ["pg-head-f-01"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pg_hair_f_black_012_shoulder_locs_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_hair_f_black_012_shoulder_locs_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_HAIR_F_BLACK_012 (PG_BLACK_FEMALE_HAIR_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_hair_f_black_012_shoulder_locs_v1.png",
+      "hash": "6b15c8f979eecc7f33ea50dcc22254a91615a8caa30aa4a5ca0f8122d7840357",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "hair-front",
+        "family": "pg-hair-f-black-012",
+        "catalog_generation": 2,
+        "layer": 40,
+        "canvas": {
+          "width": 255,
+          "height": 282
+        },
+        "attaches_to": "brow",
+        "origin": {
+          "x": 0.5666666666666667,
+          "y": 0.25125628140703515
+        },
+        "compatible_head_families": ["pg-head-f-01"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pg_top_001_short_sleeve_crew_tee_fl_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_top_001_short_sleeve_crew_tee_fl_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_TOP_001 (PG_TOP_GARMENT_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_top_001_short_sleeve_crew_tee_fl_v1.png",
+      "hash": "d3d73df985e1c55bb35d1bef41b96b8a3a31f647dcdbdca42945b3341a79fc9f",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "top",
+        "family": "pg-top-001",
+        "catalog_generation": 2,
+        "layer": 25,
+        "canvas": {
+          "width": 235,
+          "height": 250
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["pg-female-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_top_001_short_sleeve_crew_tee_ml_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_top_001_short_sleeve_crew_tee_ml_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_TOP_001 (PG_TOP_GARMENT_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_top_001_short_sleeve_crew_tee_ml_v1.png",
+      "hash": "04ebd57cd3af6e628a59a6cc050721110ba350007c4ea8b682abd275af75ed63",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "top",
+        "family": "pg-top-001",
+        "catalog_generation": 2,
+        "layer": 25,
+        "canvas": {
+          "width": 265,
+          "height": 282
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["pg-male-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_top_005_long_sleeve_button_shirt_fl_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_top_005_long_sleeve_button_shirt_fl_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_TOP_005 (PG_TOP_GARMENT_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_top_005_long_sleeve_button_shirt_fl_v1.png",
+      "hash": "d6e31a99d66bff4f5c3f3dd63f526bba1871055364f1fce1487343bb0fa9449b",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "top",
+        "family": "pg-top-005",
+        "catalog_generation": 2,
+        "layer": 25,
+        "canvas": {
+          "width": 235,
+          "height": 285
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["pg-female-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_top_005_long_sleeve_button_shirt_ml_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_top_005_long_sleeve_button_shirt_ml_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_TOP_005 (PG_TOP_GARMENT_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_top_005_long_sleeve_button_shirt_ml_v1.png",
+      "hash": "345d4d708cdb54431b8fb9eb7b74b0b76d8339052e8e13bc38b5507cbc72e692",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "top",
+        "family": "pg-top-005",
+        "catalog_generation": 2,
+        "layer": 25,
+        "canvas": {
+          "width": 265,
+          "height": 321
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["pg-male-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_top_006_pullover_sweater_fl_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_top_006_pullover_sweater_fl_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_TOP_006 (PG_TOP_GARMENT_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_top_006_pullover_sweater_fl_v1.png",
+      "hash": "e18987782b7b8391df08462bdddfcc6eaf03692676f419b947af812d9b1634c7",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "top",
+        "family": "pg-top-006",
+        "catalog_generation": 2,
+        "layer": 25,
+        "canvas": {
+          "width": 235,
+          "height": 260
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["pg-female-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_top_006_pullover_sweater_ml_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_top_006_pullover_sweater_ml_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_TOP_006 (PG_TOP_GARMENT_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_top_006_pullover_sweater_ml_v1.png",
+      "hash": "755f66616f9b56dc6eb8c57724fd24a0b78a638a26026c7b13d21fa10617323c",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "top",
+        "family": "pg-top-006",
+        "catalog_generation": 2,
+        "layer": 25,
+        "canvas": {
+          "width": 265,
+          "height": 293
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["pg-male-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_top_011_structured_blazer_fl_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_top_011_structured_blazer_fl_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_TOP_011 (PG_TOP_GARMENT_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_top_011_structured_blazer_fl_v1.png",
+      "hash": "eb387f361f1a210bc98b8920c80a07e4195a866b39cde8d2c8b3ae1da7046a05",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "top",
+        "family": "pg-top-011",
+        "catalog_generation": 2,
+        "layer": 25,
+        "canvas": {
+          "width": 235,
+          "height": 286
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["pg-female-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_top_011_structured_blazer_ml_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_top_011_structured_blazer_ml_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_TOP_011 (PG_TOP_GARMENT_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_top_011_structured_blazer_ml_v1.png",
+      "hash": "bca2c24f8a6c2c332bc86952ae16745baf23b1f4028520aa42897450472a37c2",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "top",
+        "family": "pg-top-011",
+        "catalog_generation": 2,
+        "layer": 25,
+        "canvas": {
+          "width": 265,
+          "height": 322
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["pg-male-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_bottom_001_straight_leg_blue_jeans_fl_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_bottom_001_straight_leg_blue_jeans_fl_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_BOTTOM_001 (PG_BOTTOM_GARMENT_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_bottom_001_straight_leg_blue_jeans_fl_v1.png",
+      "hash": "f2c2b32e17980cb2c01c338c8e1ae00115d79da1a13cc30bcb4e53521bef06a2",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pg-bottom-001",
+        "catalog_generation": 2,
+        "layer": 22,
+        "canvas": {
+          "width": 157,
+          "height": 334
+        },
+        "attaches_to": "hips",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["pg-female-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_bottom_001_straight_leg_blue_jeans_ml_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_bottom_001_straight_leg_blue_jeans_ml_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_BOTTOM_001 (PG_BOTTOM_GARMENT_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_bottom_001_straight_leg_blue_jeans_ml_v1.png",
+      "hash": "3a6918ca24c8c0a069d3c1f703b85a46d2fda33e53d1eba551e6f890d0807cfd",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pg-bottom-001",
+        "catalog_generation": 2,
+        "layer": 22,
+        "canvas": {
+          "width": 190,
+          "height": 405
+        },
+        "attaches_to": "hips",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["pg-male-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_bottom_005_dress_trousers_fl_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_bottom_005_dress_trousers_fl_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_BOTTOM_005 (PG_BOTTOM_GARMENT_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_bottom_005_dress_trousers_fl_v1.png",
+      "hash": "fa9059d3e64ccea9d765ab08ed08ba98c629360774e5ad8e1984988314c92e58",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pg-bottom-005",
+        "catalog_generation": 2,
+        "layer": 22,
+        "canvas": {
+          "width": 157,
+          "height": 324
+        },
+        "attaches_to": "hips",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["pg-female-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_bottom_005_dress_trousers_ml_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_bottom_005_dress_trousers_ml_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_BOTTOM_005 (PG_BOTTOM_GARMENT_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_bottom_005_dress_trousers_ml_v1.png",
+      "hash": "68b6b285841e6168da1db111440519f807cd553b0e008379dce2b45934247f58",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pg-bottom-005",
+        "catalog_generation": 2,
+        "layer": 22,
+        "canvas": {
+          "width": 190,
+          "height": 392
+        },
+        "attaches_to": "hips",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["pg-male-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_bottom_010_a_line_knee_skirt_fl_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_bottom_010_a_line_knee_skirt_fl_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_BOTTOM_010 (PG_BOTTOM_GARMENT_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_bottom_010_a_line_knee_skirt_fl_v1.png",
+      "hash": "ae75ed580d448d27a11ab646aa6e9976a34b598cf6334cd5b10d7157d67a5db2",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pg-bottom-010",
+        "catalog_generation": 2,
+        "layer": 22,
+        "canvas": {
+          "width": 157,
+          "height": 221
+        },
+        "attaches_to": "hips",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["pg-female-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_bottom_010_a_line_knee_skirt_ml_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_bottom_010_a_line_knee_skirt_ml_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_BOTTOM_010 (PG_BOTTOM_GARMENT_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_bottom_010_a_line_knee_skirt_ml_v1.png",
+      "hash": "9d54bd6796e6959f18fcb89cd1ad6bdde244268a27275a7c9b0bf1d28dfba570",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pg-bottom-010",
+        "catalog_generation": 2,
+        "layer": 22,
+        "canvas": {
+          "width": 190,
+          "height": 267
+        },
+        "attaches_to": "hips",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["pg-male-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_shoe_001_low_top_sneakers_fl_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_shoe_001_low_top_sneakers_fl_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_SHOE_001 (PG_FOOTWEAR_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_shoe_001_low_top_sneakers_fl_v1.png",
+      "hash": "f9d5514b7d7d40ddb61fc61e1dbf3eb0e1400469bc897f5cd4fb3d75b335aa3e",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pg-shoe-001",
+        "catalog_generation": 2,
+        "layer": 21,
+        "canvas": {
+          "width": 227,
+          "height": 142
+        },
+        "attaches_to": "feet",
+        "origin": {
+          "x": 0.5,
+          "y": 1
+        },
+        "compatible_body_families": ["pg-female-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_shoe_001_low_top_sneakers_ml_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_shoe_001_low_top_sneakers_ml_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_SHOE_001 (PG_FOOTWEAR_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_shoe_001_low_top_sneakers_ml_v1.png",
+      "hash": "3ffacfb507af4e2c1915869cd4e0d94c77f5fa1a72f80f990a5c648fab36f15b",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pg-shoe-001",
+        "catalog_generation": 2,
+        "layer": 21,
+        "canvas": {
+          "width": 134,
+          "height": 84
+        },
+        "attaches_to": "feet",
+        "origin": {
+          "x": 0.5,
+          "y": 1
+        },
+        "compatible_body_families": ["pg-male-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_shoe_004_leather_loafers_fl_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_shoe_004_leather_loafers_fl_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_SHOE_004 (PG_FOOTWEAR_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_shoe_004_leather_loafers_fl_v1.png",
+      "hash": "5280f7cdd54dd41b1de0dd16686c666b6b9babe627fb8e9aef1e7278a3a181ec",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pg-shoe-004",
+        "catalog_generation": 2,
+        "layer": 21,
+        "canvas": {
+          "width": 227,
+          "height": 136
+        },
+        "attaches_to": "feet",
+        "origin": {
+          "x": 0.5,
+          "y": 1
+        },
+        "compatible_body_families": ["pg-female-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_shoe_004_leather_loafers_ml_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_shoe_004_leather_loafers_ml_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_SHOE_004 (PG_FOOTWEAR_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_shoe_004_leather_loafers_ml_v1.png",
+      "hash": "9ee8149449680564593708ca79976b4dffe41cb3e66fe7f93416b7c693a58d59",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pg-shoe-004",
+        "catalog_generation": 2,
+        "layer": 21,
+        "canvas": {
+          "width": 134,
+          "height": 80
+        },
+        "attaches_to": "feet",
+        "origin": {
+          "x": 0.5,
+          "y": 1
+        },
+        "compatible_body_families": ["pg-male-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_shoe_009_low_practical_flats_fl_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_shoe_009_low_practical_flats_fl_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_SHOE_009 (PG_FOOTWEAR_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_shoe_009_low_practical_flats_fl_v1.png",
+      "hash": "79e09ee4f750d1aeea59dabdb8044b9ec30884a01a7190c12743cc27d02ee6e0",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pg-shoe-009",
+        "catalog_generation": 2,
+        "layer": 21,
+        "canvas": {
+          "width": 227,
+          "height": 148
+        },
+        "attaches_to": "feet",
+        "origin": {
+          "x": 0.5,
+          "y": 1
+        },
+        "compatible_body_families": ["pg-female-lean"],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pg_shoe_009_low_practical_flats_ml_v1",
+      "asset_type": "character-component-candidate",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_pg_shoe_009_low_practical_flats_ml_v1"],
+      "rights_note": "Owner-supplied Political Game master normalized by a repository script; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "variant_rules": "Production candidate normalized from master PG_SHOE_009 (PG_FOOTWEAR_MASTERS_v1); never a canonical Person identity. Fit ratios are visual estimates recorded in provenance.",
+      "negative_constraints": [
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Do not treat the normalized canvas size or fit ratio as a production standard.",
+        "Held UNRELEASED pending human visual acceptance: this set has no seated real-body master, and the garment masters are unfitted design art rather than art drawn onto a body."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/approved/pg-modular/pg_shoe_009_low_practical_flats_ml_v1.png",
+      "hash": "53990bdf8a0e90715548fed94ab7cc2846e622fd7e1d8c25efa474b7dfd9da9a",
+      "requires_transparency": true,
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pg-shoe-009",
+        "catalog_generation": 2,
+        "layer": 21,
+        "canvas": {
+          "width": 134,
+          "height": 88
+        },
+        "attaches_to": "feet",
+        "origin": {
+          "x": 0.5,
+          "y": 1
+        },
+        "compatible_body_families": ["pg-male-lean"],
+        "compatible_pose_families": ["standing-neutral"]
       }
     },
     {
@@ -839,7 +2284,8 @@
             "y": 0.985
           }
         }
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_body_broad_light_seated_v1",
@@ -915,7 +2361,8 @@
             "y": 0.975
           }
         }
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_body_broad_medium_warm_standing_v1",
@@ -987,7 +2434,8 @@
             "y": 0.985
           }
         }
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_body_broad_medium_warm_seated_v1",
@@ -1063,7 +2511,8 @@
             "y": 0.975
           }
         }
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_body_broad_deep_rich_standing_v1",
@@ -1135,7 +2584,8 @@
             "y": 0.985
           }
         }
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_body_broad_deep_rich_seated_v1",
@@ -1211,7 +2661,8 @@
             "y": 0.975
           }
         }
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_body_slim_light_standing_v1",
@@ -1283,7 +2734,8 @@
             "y": 0.985
           }
         }
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_body_slim_light_seated_v1",
@@ -1359,7 +2811,8 @@
             "y": 0.975
           }
         }
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_body_slim_medium_warm_standing_v1",
@@ -1431,7 +2884,8 @@
             "y": 0.985
           }
         }
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_body_slim_medium_warm_seated_v1",
@@ -1507,7 +2961,8 @@
             "y": 0.975
           }
         }
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_body_slim_deep_rich_standing_v1",
@@ -1579,7 +3034,8 @@
             "y": 0.985
           }
         }
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_body_slim_deep_rich_seated_v1",
@@ -1655,7 +3111,8 @@
             "y": 0.975
           }
         }
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_head_warm_round_v1",
@@ -1695,7 +3152,8 @@
         "complexion": "medium-warm",
         "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_head_warm_long_v1",
@@ -1735,7 +3193,8 @@
         "complexion": "medium-warm",
         "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_head_deep_oval_v1",
@@ -1775,7 +3234,8 @@
         "complexion": "deep-rich",
         "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_head_light_square_v1",
@@ -1815,7 +3275,8 @@
         "complexion": "light",
         "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_hair_crop_front_v1",
@@ -1859,7 +3320,8 @@
           "dev-g2-head-light-square"
         ],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_hair_coils_front_v1",
@@ -1903,7 +3365,8 @@
           "dev-g2-head-light-square"
         ],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_hair_long_front_v1",
@@ -1948,7 +3411,8 @@
         ],
         "compatible_head_orientations": ["front"],
         "paired_with": "dev_g2_hair_long_back_v1"
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_hair_long_back_v1",
@@ -1992,7 +3456,8 @@
           "dev-g2-head-light-square"
         ],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_top_suit_charcoal_standing_v1",
@@ -2033,7 +3498,8 @@
         "compatible_pose_families": ["standing-neutral"],
         "compatible_head_orientations": ["front"],
         "blocked_slots": ["accessory"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_top_suit_charcoal_seated_v1",
@@ -2074,7 +3540,8 @@
         "compatible_pose_families": ["seated-at-desk"],
         "compatible_head_orientations": ["front"],
         "blocked_slots": ["accessory"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_top_knit_olive_standing_v1",
@@ -2114,7 +3581,8 @@
         "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
         "compatible_pose_families": ["standing-neutral"],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_top_knit_olive_seated_v1",
@@ -2154,7 +3622,8 @@
         "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
         "compatible_pose_families": ["seated-at-desk"],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_bottom_trousers_standing_v1",
@@ -2194,7 +3663,8 @@
         "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
         "compatible_pose_families": ["standing-neutral"],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_bottom_trousers_seated_v1",
@@ -2234,7 +3704,8 @@
         "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
         "compatible_pose_families": ["seated-at-desk"],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_footwear_derby_standing_v1",
@@ -2274,7 +3745,8 @@
         "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
         "compatible_pose_families": ["standing-neutral"],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_footwear_derby_seated_v1",
@@ -2314,7 +3786,8 @@
         "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
         "compatible_pose_families": ["seated-at-desk"],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_eyewear_thin_frames_v1",
@@ -2358,7 +3831,8 @@
           "dev-g2-head-light-square"
         ],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     },
     {
       "asset_id": "dev_g2_accessory_lanyard_v1",
@@ -2397,7 +3871,8 @@
         },
         "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
         "compatible_head_orientations": ["front"]
-      }
+      },
+      "availability": "development-fixture"
     }
   ]
 }

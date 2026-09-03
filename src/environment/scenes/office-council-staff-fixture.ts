@@ -86,10 +86,18 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
 
   anchors: [
     {
+      /**
+       * The chair itself reads at 80.5% of plate width. A seated body of the
+       * accepted authored width centred there puts its right shoulder at 92.4%,
+       * outside the 91.4% guaranteed safe area, so it crops at the narrowest
+       * supported aspect. 79.2% is where a BODY has to be staged for the whole
+       * figure to survive the camera; it is a staging constraint, not a second
+       * opinion about where the furniture is.
+       */
       id: "primary-desk-chair",
       type: "seated-person",
       kind: "seat",
-      x_percent: 80.5,
+      x_percent: 79.2,
       z_order: 2,
       footprint_percent: 30,
       hitbox_percent: {
@@ -102,7 +110,7 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
       permitted_facings: ["front"],
       seat_contact: {
         seat_plane_y_percent: 63.5,
-        seat_front_x_percent: 80.5,
+        seat_front_x_percent: 79.2,
         seat_width_percent: 17,
         floor_y_percent: 84,
         seat_z_order: 1,
@@ -217,5 +225,6 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
     "Every anchor, contact, occluder region and surface slot in this scene is a visual estimate read off fixture art. None of it is plan-derived, and none of it should be copied into a production scene.",
     "The prompt30 plate's real detail is 1024x572. The 2048x1144 runtime file is a 2x resample of that same source and is registered as an upscale so the runtime reports its shortfall honestly.",
     "The guest chair's near arm has no authored alpha mask yet, so its occluder region is declared for footprint and debug purposes without a raster.",
+    "The authored B01 guest raster carries 16% of plate height between its measured pelvis and its soles, while this scene puts 21% between the guest seat plane and the guest floor line. Placing the pelvis on the seat therefore leaves the guest's feet about 5% of plate height above the floor. The measurement and the scene are both recorded as found; the figure is not stretched to close the gap, and no seated body drawn for this room exists yet.",
   ],
 };

@@ -32,7 +32,7 @@ cropping away required interaction content.
 ## Safe areas
 
 - Guaranteed scene-safe rectangle: x 86–936, y 112–533.
-- Essential-content rectangle: x 185–915, y 165–518.75.
+- Essential-content rectangle: x 185–935, y 165–525 (widened 2026-09-01 when the A01/B01 roots moved to their measured seat lines).
 - Lower viewport UI recovery zone: 620 × 120 CSS px from bottom-left.
 - Navigation flyout recovery zone: 320 × 300 CSS px from top-left.
 

@@ -1,6 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
-const PROOF_URL = "/?view=character-proof";
+const PROOF_URL = "/?view=character-proof&set=dev";
 
 async function recipeKeys(page: Page): Promise<string[]> {
   return page
@@ -36,6 +36,7 @@ test.describe("Modular character runtime proof", () => {
     const proof = page.getByTestId("character-proof");
     await expect(proof).toHaveAttribute("data-world-source", "fresh");
     await expect(proof).toHaveAttribute("data-catalog-generation", "2");
+    await expect(proof).toHaveAttribute("data-proof-set", "dev");
 
     const characters = page.getByTestId("character-proof-stage-character");
     await expect(characters).toHaveCount(4);

@@ -154,8 +154,9 @@ for (const viewport of [
 
       const root =
         variant === "primary"
-          ? { x: 0.68, y: 0.54, anchorX: 0.805, anchorY: 0.635 }
-          : { x: 0.46, y: 0.51, anchorX: 0.28, anchorY: 0.63 };
+          ? // D-055: measured seat-contact roots and chair seat-point anchors.
+            { x: 0.507, y: 0.624, anchorX: 0.792, anchorY: 0.691 }
+          : { x: 0.497, y: 0.62, anchorX: 0.291, anchorY: 0.661 };
       expect(artBox!.x + artBox!.width * root.x).toBeCloseTo(
         stageBox!.x + stageBox!.width * root.anchorX,
         1,

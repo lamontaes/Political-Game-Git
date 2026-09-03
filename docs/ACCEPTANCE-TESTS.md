@@ -1573,3 +1573,49 @@ effective date cites Sec. 18; Uniform Rule 22 is not cited as authority for
 referral or amendment. Nebraska does not claim every bill is guaranteed a
 hearing. Committee sizes are marked as the scenario's rather than as sourced
 rules, and no source is marked verified without recording what was read.
+
+### VISUAL-012 — Real masters normalize deterministically and reproduce by hash
+
+Every source master under `art/references/masters/pg-modular/` is
+byte-identical to the hash its derivatives' provenance records. Re-running the
+intake into a scratch directory reproduces all thirty-five banked production
+candidates byte-for-byte. None of them appears in any catalog generation, and
+generations 1 and 2 still carry their published members and signatures.
+Keying keeps colored content, removes neutral shadows only for components,
+and keys per row; rig measurement orders crown, brow, neck, shoulders, waist,
+root, and soles anatomically; face-gap measurement reports width, center, and
+hairline. Development fixtures carry the `development-fixture` class and
+production candidates the `production-candidate` class; an invalid class is
+rejected.
+
+### VISUAL-013 — Banked candidates compose for review, and reach nothing else
+
+At `?view=character-proof&set=real`, four generated people composed from the
+candidate review library render complete from `pg_` components only: both body families,
+at least three heads, two hairstyles on the two women, three tops, and two
+bottoms, with garment derivatives matching each person's body family and DOM
+order equal to draw order. The reuse table shows each body used twice; the
+lineage table cites every component's source master. Saving and reloading
+restores the same recipe keys. The seated side view renders no layers and
+reports the missing body rather than faking a pose. The DEV set at `&set=dev`
+renders the catalog fixtures. No banked candidate appears in the production
+character library at any generation, and no person composed from the catalog
+ever receives one.
+
+### VISUAL-014 — Seated characters make chair contact
+
+A01 and B01 roots equal the seat-contact lines measured from their rasters
+within 0.01, and both lie in the lower half of the figure. The re-derived
+foreground mask leaves the primary chair back and seat transparent while the
+desk corner stays opaque, and its hash matches the released manifest. In the
+browser the guest root lands on the guest chair seat point and the primary
+root on the primary chair seat point; before/after evidence is recorded under
+`docs/agent/evidence/office-clipping-*`.
+
+### VISUAL-015 — The office seam serves flattened and modular people alike
+
+An office person with no authored recipe and no pin composes a modular
+character at the same anchor with the same paint order and a real hitbox, and
+reports a placeholder because generation 1 has no seated footwear; the same
+person pinned to generation 2 composes complete, from fixtures only. A01 and
+B01 still resolve their authored rasters with the recorded hashes.

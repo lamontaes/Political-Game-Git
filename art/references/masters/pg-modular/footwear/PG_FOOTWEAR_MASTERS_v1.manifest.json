@@ -1,0 +1,92 @@
+{
+  "set": "PG_FOOTWEAR_MASTERS_v1",
+  "count": 12,
+  "source": "5668f008-1528-4bdb-8d4a-de20b85a4490.png",
+  "role": "Reusable footwear design masters for Scenario fitting",
+  "assets": [
+    {
+      "id": "PG_SHOE_001",
+      "file": "PG_SHOE_001_LOW_TOP_EVERYDAY_SNEAKERS.png",
+      "status": "FOOTWEAR_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit to compatible body/pose families later."
+    },
+    {
+      "id": "PG_SHOE_002",
+      "file": "PG_SHOE_002_ATHLETIC_WALKING_SHOES.png",
+      "status": "FOOTWEAR_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit to compatible body/pose families later."
+    },
+    {
+      "id": "PG_SHOE_003",
+      "file": "PG_SHOE_003_CANVAS_SNEAKERS.png",
+      "status": "FOOTWEAR_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit to compatible body/pose families later."
+    },
+    {
+      "id": "PG_SHOE_004",
+      "file": "PG_SHOE_004_LEATHER_LOAFERS.png",
+      "status": "FOOTWEAR_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit to compatible body/pose families later."
+    },
+    {
+      "id": "PG_SHOE_005",
+      "file": "PG_SHOE_005_LACE_UP_DRESS_SHOES.png",
+      "status": "FOOTWEAR_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit to compatible body/pose families later."
+    },
+    {
+      "id": "PG_SHOE_006",
+      "file": "PG_SHOE_006_PRACTICAL_ANKLE_BOOTS.png",
+      "status": "FOOTWEAR_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit to compatible body/pose families later."
+    },
+    {
+      "id": "PG_SHOE_007",
+      "file": "PG_SHOE_007_CASUAL_CHUKKA_BOOTS.png",
+      "status": "FOOTWEAR_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit to compatible body/pose families later."
+    },
+    {
+      "id": "PG_SHOE_008",
+      "file": "PG_SHOE_008_FLAT_SLIP_ON_SHOES.png",
+      "status": "FOOTWEAR_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit to compatible body/pose families later."
+    },
+    {
+      "id": "PG_SHOE_009",
+      "file": "PG_SHOE_009_LOW_PRACTICAL_FLATS.png",
+      "status": "FOOTWEAR_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit to compatible body/pose families later."
+    },
+    {
+      "id": "PG_SHOE_010",
+      "file": "PG_SHOE_010_LOW_BLOCK_HEEL_DRESS_SHOES.png",
+      "status": "FOOTWEAR_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit to compatible body/pose families later."
+    },
+    {
+      "id": "PG_SHOE_011",
+      "file": "PG_SHOE_011_EVERYDAY_SANDALS.png",
+      "status": "FOOTWEAR_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit to compatible body/pose families later."
+    },
+    {
+      "id": "PG_SHOE_012",
+      "file": "PG_SHOE_012_PRACTICAL_WINTER_BOOTS.png",
+      "status": "FOOTWEAR_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit to compatible body/pose families later."
+    }
+  ]
+}

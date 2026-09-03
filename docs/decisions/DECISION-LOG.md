@@ -1195,3 +1195,104 @@ apartment, a frozen bill number, a fabricated dimension — are unrepresentable
 rather than merely discouraged. None of this is wired into PlayerGame; the
 contracts and their tests exist first so that integration stays a cheap
 decision.
+
+## D-055 — Real masters are normalized deterministically into the modular contract, and seated contact is measured
+
+- Date: 2026-09-01
+- Status: ACCEPTED
+- Supersedes: the D-047 visual-estimate roots and anchors for the A01/B01
+  recipes and the original primary-desk-worktop occluder polygon only; no
+  identity, catalog, release-gate, or fail-closed decision is superseded
+
+Owner-supplied Political Game masters — gray body-geometry authorities, bald
+head/face identity masters, hair-only masters with a face opening, and
+unfitted garment and footwear design masters — enter the runtime only through
+`scripts/art-asset-factory/pg-modular-intake.ts`. The intake is deterministic
+image processing: per-row neutral-background keying with optional
+neutral-shadow suppression, opaque-bounds cropping, mask-derived body rig
+measurement (crown, brow, neck, shoulder line, waist, crotch root, sole line),
+fixed fit ratios against those measurements, hairline or neck-cut origins, and
+Lanczos-3 resampling. No pixel is generated or repainted. Source masters are
+copied byte-for-byte under `art/references/masters/pg-modular/` and every
+derivative's provenance records the master path, master hash, keying profile,
+crop, scale, and fit. A garment design master fitted to more than one body
+family keeps one family identity and yields one derivative per body family;
+context selects the derivative for the person's body.
+
+Manifest records carry an `availability` class. `development-fixture`
+components keep serving people; a `production-candidate` of a kind excludes
+fixtures of that kind from selection at any generation where it exists AND is
+released. The class lives on the record, not the definition, so generation
+signatures are unchanged. The release half of that test is not decoration: a
+candidate that has no drawable raster behind it would replace a person with a
+placeholder.
+
+The ordinary office seam now serves every person: an authored flattened
+recipe still wins; otherwise `composeOfficeVisuals` builds a modular render
+plan for the anchor's pose through the same compositor, and a missing body
+for that pose fails closed to the placeholder. The scene code does not care
+which path produced the character.
+
+The visible seat-contact defect had two causes. The foreground occluder's
+primary-desk-worktop polygon ran to the plate edge and swept through the
+primary chair, painting the chair back and seat over the seated figure. Both
+authored roots were declared mid-torso rather than on the seat plane, so the
+figures sat a quarter of their height too low and beside their chairs. The
+polygon now ends at the chair, and the roots are the seat-contact lines
+measured from the rasters by `scripts/art-asset-factory/seated-contact.ts`;
+the anchors are the chairs' seat points. A regression test measures both.
+
+Consequence: four real people compose from two body families, five heads,
+eight hairstyles, four tops, three bottoms, and three footwear designs, and
+persist and reload unchanged. No real seated body exists, so the office cannot
+yet seat a real modular person; no complexion-matched body base exists, so
+exposed skin on modular bodies renders as the gray geometry authority; no
+eyewear or accessory master exists locally. Those are asset requirements, not
+architecture gaps, and are recorded rather than faked.
+
+Amended by D-059: these thirty-five derivatives are banked candidates rather
+than catalog components. Everything above about the intake, the provenance,
+the seat-contact measurement and the occluder repair stands; what changed is
+that the parts do not enter a catalog generation until a person has looked at
+them.
+
+## D-059 — Banked art is not catalog art
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Amends: D-055 (the disposition of its thirty-five derivatives only; its
+  intake, provenance, measurement and occluder decisions stand)
+
+Intake produces real files, real hashes and a real component definition long
+before anyone has agreed the art is good enough to put on a person. D-055 let
+those two things happen at once: the first thirty-five normalized derivatives
+were written into catalog generation 2 and marked released, which asserted
+production quality on behalf of art nobody had accepted.
+
+Looked at, the assertion does not hold. The body masters are untextured gray
+geometry mannequins, so every skin region a garment does not cover — hands,
+neck, forearms, any leg below a skirt — renders gray; the garment masters are
+unfitted design art rather than art drawn onto a body. Both are answerable only
+by eye, and the answer is currently no.
+
+So a banked part is now a distinct thing from a catalog component. A record
+with `asset_type: "character-component-candidate"` carries its definition in
+`candidate_component`, must be `unreleased`, and belongs to no catalog
+generation. `createCharacterComponentLibrary` cannot see it, so no identity can
+resolve to it however good its hash is. `liftCandidatesForReview` builds a
+throwaway library from candidates alone, and the `?view=character-proof&set=real`
+proof composes people from that — the surface on which the art is accepted or
+rejected. Promotion is then a deliberate act: `candidate_component` becomes
+`component`, the type changes, and the part joins a NEW generation.
+
+Keeping candidates out of the catalog is what protects the frozen-generation
+guarantee. A generation's membership is signed so a saved person resolves to
+the same parts forever; admitting a component that cannot be drawn would either
+render that person as a placeholder today, or change who they look like on the
+day the art is accepted. Generations 1 and 2 still carry the exact members and
+signatures PR #74 published, and a test reproduces both.
+
+Consequence: thirty-five derivatives, twenty-five masters, five master
+manifests, the deterministic intake, the seat-contact measurement, the occluder
+repair and the recombination proof are all preserved and under test; not one of
+them can reach a player until someone says so.

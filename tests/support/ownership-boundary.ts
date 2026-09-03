@@ -1,7 +1,7 @@
 import { execFileSync } from "child_process";
 
 /**
- * The Packet 26 ownership boundary, as reusable machinery.
+ * The graphics-convergence ownership boundary, as reusable machinery.
  *
  * The rules live here rather than inside the test that applies them so a second
  * suite can drive the same code against synthetic, CI-shaped histories. A
@@ -9,8 +9,15 @@ import { execFileSync } from "child_process";
  * nobody should trust.
  */
 
-/** PR #63 head: the exact commit this branch was cut from. */
-export const BASE_COMMIT = "1a6e5f089c92db623b979bd47c8ded6a9b75b6aa";
+/**
+ * `main` at the point this branch was cut.
+ *
+ * It used to be PR #63's head, because this work was the third commit of a
+ * stack. The convergence patch replaces that stack with one branch off `main`,
+ * so the boundary now measures the whole graphics change rather than the top
+ * slice of it — a strictly wider measurement, over an unchanged FORBIDDEN list.
+ */
+export const BASE_COMMIT = "c90e35161ba827677bdf5920c4d6ae76890c25d5";
 
 export interface OwnedSurface {
   /** Matched against a repository-relative path. */
@@ -63,12 +70,19 @@ export const FORBIDDEN: readonly OwnedSurface[] = [
  * The surfaces this packet does own.
  *
  * `.github/workflows/` is here because Packet 28 directs this branch to repair
- * the deterministic-validation checkout. No other in-flight branch owns CI
- * configuration, so widening this allowlist does not relax FORBIDDEN, which is
- * what actually guards other people's systems.
+ * the deterministic-validation checkout. `src/player/OfficeScene.tsx` and
+ * `src/player/ModularCharacter.tsx` are here because re-homing PR #48's office
+ * seam means the compositor has to be able to draw a modular person: the scene
+ * that mounts it is part of the graphics surface, not part of PlayerGame.
+ * `src/player/useRasterTier.ts` is the hook that picks a raster from the tier
+ * ladder, and `PATCH_NOTES.md` is the shared changelog every packet appends to.
+ *
+ * No other in-flight branch owns any of these, and widening this allowlist does
+ * not relax FORBIDDEN, which is what actually guards other people's systems —
+ * `src/player/PlayerGame*` and persistence are still refused outright.
  */
 export const ALLOWED =
-  /^(\.github\/workflows\/|src\/authoring\/|src\/environment\/|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|AGENTS\.md)/;
+  /^(\.github\/workflows\/|src\/authoring\/|src\/environment\/|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/player\/OfficeScene\.tsx|src\/player\/ModularCharacter\.tsx|src\/player\/useRasterTier\.ts|PATCH_NOTES\.md|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|AGENTS\.md)/;
 
 function git(repositoryRoot: string, args: readonly string[]): string {
   return execFileSync("git", [...args], {

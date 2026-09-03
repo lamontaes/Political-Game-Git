@@ -6,10 +6,16 @@ import {
 } from "../simulation/person-appearance";
 import {
   createCharacterComponentLibrary,
+  liftCandidatesForReview,
   type CharacterAttachmentAnchor,
   type CharacterCatalogData,
+  type CharacterComponentLibrary,
   type CharacterComponentManifestRecord,
 } from "./character-components";
+import {
+  buildCharacterRenderPlan,
+  type CharacterRenderPlan,
+} from "./character-render-plan";
 import type {
   RunBSceneAnchorId,
   RunBScenePersonContext,
@@ -194,13 +200,23 @@ export interface OfficeVisualSceneConfiguration {
   readonly anchors: Readonly<Record<RunBSceneAnchorId, SceneVisualAnchor>>;
   readonly occluders: readonly SceneOccluder[];
   readonly visualRecipes: readonly CharacterVisualRecipe[];
+  /**
+   * How wide a normalized modular body canvas paints on this plate at scale 1,
+   * as a percentage of plate width. It belongs to the SCENE, not to an anchor:
+   * perspective already varies with the floor line, and giving each seat its
+   * own body width is how hand-tuned sprites drift apart.
+   */
+  readonly standardBodyWidthPercent: number;
 }
 
 export interface ComposedCharacterVisual {
   readonly personId: string;
   readonly anchorId: RunBSceneAnchorId;
   readonly visualVariant: RunBScenePersonVariant;
+  /** Authored flattened raster, when an explicit recipe matched. */
   readonly asset: RuntimeVisualAsset | null;
+  /** Modular render plan, when no authored recipe matched but a body resolved. */
+  readonly modular: CharacterRenderPlan | null;
   readonly isPlaceholder: boolean;
   readonly appearanceRecipeId: string;
   readonly leftPercent: number;
@@ -323,10 +339,10 @@ export const CHARACTER_VISUAL_RECIPES = {
     assetId: "human_candidate_A01_primary_desk_seated_v1",
     bodyVisualFamily: "adult-authored-illustration",
     poseFamily: "seated-at-desk",
-    root: { convention: "pelvis-hip-center", x: 0.68, y: 0.54 },
+    root: { convention: "pelvis-hip-center", x: 0.507, y: 0.624 },
     seatedContact: {
       convention: "seat-plane-at-pelvis",
-      root: { convention: "pelvis-hip-center", x: 0.68, y: 0.54 },
+      root: { convention: "pelvis-hip-center", x: 0.507, y: 0.624 },
     },
     visualBounds: {
       sourceAspectRatio: 765 / 1024,
@@ -344,10 +360,10 @@ export const CHARACTER_VISUAL_RECIPES = {
     assetId: "human_candidate_B01_left_guest_seated_v1",
     bodyVisualFamily: "adult-authored-illustration",
     poseFamily: "seated-in-guest-chair",
-    root: { convention: "pelvis-hip-center", x: 0.46, y: 0.51 },
+    root: { convention: "pelvis-hip-center", x: 0.497, y: 0.62 },
     seatedContact: {
       convention: "seat-plane-at-pelvis",
-      root: { convention: "pelvis-hip-center", x: 0.46, y: 0.51 },
+      root: { convention: "pelvis-hip-center", x: 0.497, y: 0.62 },
     },
     visualBounds: {
       sourceAspectRatio: 765 / 1024,
@@ -400,6 +416,11 @@ export function projectOfficeVisualScene(
       `Scene '${scene.sceneId}' registers no raster, so it cannot back the office composition.`,
     );
   }
+  if (scene.standardBodyWidthPercent === null) {
+    throw new Error(
+      `Scene '${scene.sceneId}' declares no standard body width, so modular people cannot be placed in it. Author the width rather than defaulting one.`,
+    );
+  }
 
   return {
     environmentAssetId: scene.raster.assetId,
@@ -429,6 +450,7 @@ export function projectOfficeVisualScene(
       CHARACTER_VISUAL_RECIPES.primaryDeskSeated,
       CHARACTER_VISUAL_RECIPES.leftGuestSeated,
     ],
+    standardBodyWidthPercent: scene.standardBodyWidthPercent,
   };
 }
 
@@ -532,6 +554,7 @@ export function composeOfficeVisuals(
   people: readonly RunBScenePersonContext[],
   library: RuntimeVisualLibrary,
   scene: OfficeVisualSceneConfiguration = OFFICE_VISUAL_SCENE,
+  characterLibrary: CharacterComponentLibrary = PRODUCTION_CHARACTER_LIBRARY,
 ): OfficeVisualComposition {
   const issues = validateOfficeVisualScene(scene);
   if (issues.length > 0) throw new Error(issues.join("\n"));
@@ -557,6 +580,7 @@ export function composeOfficeVisuals(
           anchorId: person.anchorId,
           visualVariant: person.visualVariant,
           asset: requireAsset(library, recipe.assetId),
+          modular: null,
           isPlaceholder: false,
           appearanceRecipeId: recipe.appearanceRecipeId,
           leftPercent,
@@ -568,6 +592,51 @@ export function composeOfficeVisuals(
             topPercent: topPercent + heightPercent * interaction.y,
             widthPercent: widthPercent * interaction.width,
             heightPercent: heightPercent * interaction.height,
+          },
+          zOrder: anchor.zOrder,
+        };
+      }
+
+      // Ordinary modular path: an established person without an authored
+      // recipe composes from released components for this anchor's pose.
+      // The same compositor serves every scene; a missing body for the pose
+      // falls through to the explicit placeholder below.
+      const modular = buildCharacterRenderPlan({
+        personId: person.personId,
+        appearance: resolvePersonAppearance(person),
+        anchor: {
+          id: anchor.id,
+          xPercent: anchor.xPercent,
+          yPercent: anchor.yPercent,
+          scale: anchor.scale,
+          poseFamily: anchor.poseFamily,
+          depth: anchor.zOrder,
+          bodyWidthPercent: scene.standardBodyWidthPercent,
+        },
+        plate: scene.plate,
+        library: characterLibrary,
+        visualLibrary: library,
+      });
+      if (modular.layers.length > 0) {
+        return {
+          personId: person.personId,
+          anchorId: person.anchorId,
+          visualVariant: person.visualVariant,
+          asset: null,
+          modular,
+          isPlaceholder: !modular.complete,
+          appearanceRecipeId: modular.recipeKey,
+          leftPercent: modular.box.leftPercent,
+          topPercent: modular.box.topPercent,
+          widthPercent: modular.box.widthPercent,
+          heightPercent: modular.box.heightPercent,
+          hitbox: {
+            leftPercent:
+              modular.box.leftPercent + modular.box.widthPercent * 0.1,
+            topPercent:
+              modular.box.topPercent + modular.box.heightPercent * 0.05,
+            widthPercent: modular.box.widthPercent * 0.8,
+            heightPercent: modular.box.heightPercent * 0.9,
           },
           zOrder: anchor.zOrder,
         };
@@ -585,6 +654,7 @@ export function composeOfficeVisuals(
         anchorId: person.anchorId,
         visualVariant: person.visualVariant,
         asset: null,
+        modular: null,
         isPlaceholder: true,
         appearanceRecipeId: "placeholder:unresolved-recipe-pose",
         leftPercent: defaultLeftPercent,
@@ -619,4 +689,29 @@ export const PRODUCTION_VISUAL_LIBRARY = createRuntimeVisualLibrary(
 export const PRODUCTION_CHARACTER_LIBRARY = createCharacterComponentLibrary(
   assetManifest.assets as readonly CharacterComponentManifestRecord[],
   characterCatalog as CharacterCatalogData,
+);
+
+/**
+ * DEVELOPMENT ONLY. The banked production candidates, composed so a person can
+ * look at them.
+ *
+ * These parts are not in any catalog generation and no player-facing surface
+ * can reach them; the proof view builds people out of them purely so the art
+ * can be accepted or rejected on sight. Promotion is a separate, deliberate
+ * act — see `liftCandidatesForReview`.
+ */
+const candidateReview = liftCandidatesForReview(
+  assetManifest.assets as readonly CharacterComponentManifestRecord[],
+  (characterCatalog as CharacterCatalogData).slots,
+);
+
+export const CANDIDATE_REVIEW_CHARACTER_LIBRARY =
+  createCharacterComponentLibrary(
+    candidateReview.records,
+    candidateReview.catalog,
+  );
+
+export const CANDIDATE_REVIEW_VISUAL_LIBRARY = createRuntimeVisualLibrary(
+  candidateReview.records as readonly RuntimeVisualAssetRecord[],
+  repositoryUrls(),
 );

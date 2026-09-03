@@ -177,8 +177,11 @@ describe("the office composition, now projected from the registry", () => {
       63.5,
     );
     expect(OFFICE_VISUAL_SCENE.anchors["left-guest-chair"].yPercent).toBe(63);
+    // The chair reads at 80.5% of plate width, but a body of the accepted
+    // authored width centred there crops at the narrowest supported aspect, so
+    // the anchor stages the person at 79.2%. See the fixture scene for why.
     expect(OFFICE_VISUAL_SCENE.anchors["primary-desk-chair"].xPercent).toBe(
-      80.5,
+      79.2,
     );
     expect(OFFICE_VISUAL_SCENE.anchors["left-guest-chair"].xPercent).toBe(28);
   });

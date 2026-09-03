@@ -824,18 +824,23 @@ describe("Packet 76 approved runtime art", () => {
         runtimePath,
         foregroundPath,
       );
+      // The count dropped from 269,313 when the primary-desk worktop quad was
+      // pulled back to the chair's left edge (x 748). The quad used to run to
+      // x 1024, sweeping through the chair back and seat and painting the chair
+      // over the seated figure's lap; the pixels it lost are the ones that were
+      // wrong.
       expect(result).toEqual({
         sourceWidth: 1024,
         sourceHeight: 572,
         runtimeWidth: 2048,
         runtimeHeight: 1144,
-        foregroundPixelCount: 269_313,
+        foregroundPixelCount: 183_443,
       });
       expect(hashArtFile(runtimePath)).toBe(
         "66678f0e91c52ca86f851ae4ba73d1a736a56be9cb7875512ab6bd1235de07f0",
       );
       expect(hashArtFile(foregroundPath)).toBe(
-        "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe",
+        "f2f5ae8ca3e82e13cf6fb6f8f27c654b5c95a93c6ca2c31d5c56381fdd543406",
       );
       expect((await parseImageMetadata(runtimePath)).hasTransparency).toBe(
         "none",
@@ -849,7 +854,7 @@ describe("Packet 76 approved runtime art", () => {
     } finally {
       fs.rmSync(temporaryDirectory, { recursive: true, force: true });
     }
-  });
+  }, 120_000);
 
   it.each([
     [

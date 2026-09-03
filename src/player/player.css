@@ -4807,3 +4807,26 @@
   border: 1px solid #b4b4a8;
   background: #fbfaf6;
 }
+
+/* Real-asset proof evidence strip (?view=character-proof&set=real). */
+.character-proof-evidence {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.character-proof-evidence figure {
+  margin: 0;
+}
+
+.character-proof-evidence img {
+  width: 100%;
+  height: auto;
+  border: 1px solid #b4b4a8;
+}
+
+.character-proof-evidence figcaption {
+  font-size: 0.85rem;
+  color: #5c6779;
+  margin-top: 4px;
+}

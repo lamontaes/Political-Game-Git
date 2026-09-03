@@ -3,6 +3,8 @@ import path from "path";
 import imageSize from "image-size";
 import {
   CHARACTER_COMPONENT_ASSET_TYPE,
+  CHARACTER_COMPONENT_CANDIDATE_ASSET_TYPE,
+  validateCharacterComponentCandidates,
   validateCharacterComponentLibrary,
 } from "../../src/presentation/character-components";
 import {
@@ -559,9 +561,18 @@ function validateCharacterComponents(
   }
 
   errors.push(...validateCharacterComponentLibrary(manifest.assets, catalog));
+  errors.push(...validateCharacterComponentCandidates(manifest.assets));
 
-  for (const asset of componentEntries) {
-    const canvas = asset.component?.canvas;
+  const canvasEntries = [
+    ...componentEntries,
+    ...manifest.assets.filter(
+      (asset) =>
+        asset.asset_type === CHARACTER_COMPONENT_CANDIDATE_ASSET_TYPE ||
+        asset.candidate_component !== undefined,
+    ),
+  ];
+  for (const asset of canvasEntries) {
+    const canvas = (asset.component ?? asset.candidate_component)?.canvas;
     if (!canvas || !asset.final_path) continue;
     const resolved = path.resolve(repositoryRoot, asset.final_path);
     if (!fs.existsSync(resolved)) continue; // reported by the path checks above
