@@ -25,9 +25,7 @@
       "jurisdiction_scope": "lexington-fayette-placeholder",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_env_lexington_council_staff_office_prompt30_v1"
-      ],
+      "source_refs": ["prov_env_lexington_council_staff_office_prompt30_v1"],
       "rights_note": "Owner-approved project input; external reuse rights remain unknown.",
       "fixed_or_modular": "fixed",
       "variant_rules": "Ordinary legislative or council staff-office plate; UI and character identity remain code-authored.",
@@ -83,9 +81,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_human_candidate_A01_primary_desk_seated_v1"
-      ],
+      "source_refs": ["prov_human_candidate_A01_primary_desk_seated_v1"],
       "rights_note": "Owner-approved anonymous appearance recipe; external reuse rights remain unknown.",
       "fixed_or_modular": "fixed",
       "variant_rules": "Presentation-only anonymous seated-at-desk recipe; never a canonical Person identity.",
@@ -106,9 +102,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_human_candidate_B01_left_guest_seated_v1"
-      ],
+      "source_refs": ["prov_human_candidate_B01_left_guest_seated_v1"],
       "rights_note": "Owner-approved anonymous appearance recipe; external reuse rights remain unknown.",
       "fixed_or_modular": "fixed",
       "variant_rules": "Presentation-only anonymous seated-in-guest-chair recipe; never a canonical Person identity.",
@@ -129,9 +123,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_body_adult_standing_v1"
-      ],
+      "source_refs": ["prov_dev_body_adult_standing_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
@@ -191,9 +183,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_body_adult_seated_v1"
-      ],
+      "source_refs": ["prov_dev_body_adult_seated_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
@@ -253,9 +243,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_head_round_v1"
-      ],
+      "source_refs": ["prov_dev_head_round_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
@@ -283,12 +271,8 @@
           "x": 0.5,
           "y": 0.95
         },
-        "compatible_body_families": [
-          "dev-adult"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_body_families": ["dev-adult"],
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -297,9 +281,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_head_oval_v1"
-      ],
+      "source_refs": ["prov_dev_head_oval_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
@@ -327,12 +309,8 @@
           "x": 0.5,
           "y": 0.95
         },
-        "compatible_body_families": [
-          "dev-adult"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_body_families": ["dev-adult"],
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -341,9 +319,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_hair_crop_front_v1"
-      ],
+      "source_refs": ["prov_dev_hair_crop_front_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
@@ -371,13 +347,8 @@
           "x": 0.5,
           "y": 0.95
         },
-        "compatible_head_families": [
-          "dev-oval",
-          "dev-round"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_head_families": ["dev-oval", "dev-round"],
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -386,9 +357,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_hair_long_front_v1"
-      ],
+      "source_refs": ["prov_dev_hair_long_front_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
@@ -416,13 +385,8 @@
           "x": 0.5,
           "y": 0.95
         },
-        "compatible_head_families": [
-          "dev-oval",
-          "dev-round"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ],
+        "compatible_head_families": ["dev-oval", "dev-round"],
+        "compatible_head_orientations": ["front"],
         "paired_with": "dev_hair_long_back_v1"
       }
     },
@@ -432,9 +396,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_hair_long_back_v1"
-      ],
+      "source_refs": ["prov_dev_hair_long_back_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
@@ -462,13 +424,8 @@
           "x": 0.5,
           "y": 0.6333333333333333
         },
-        "compatible_head_families": [
-          "dev-oval",
-          "dev-round"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_head_families": ["dev-oval", "dev-round"],
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -477,9 +434,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_eyewear_round_glasses_v1"
-      ],
+      "source_refs": ["prov_dev_eyewear_round_glasses_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
@@ -507,13 +462,8 @@
           "x": 0.5,
           "y": 0.95
         },
-        "compatible_head_families": [
-          "dev-oval",
-          "dev-round"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_head_families": ["dev-oval", "dev-round"],
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -522,9 +472,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_top_blazer_navy_standing_v1"
-      ],
+      "source_refs": ["prov_dev_top_blazer_navy_standing_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
@@ -552,12 +500,8 @@
           "x": 0.5,
           "y": 0
         },
-        "compatible_body_families": [
-          "dev-adult"
-        ],
-        "compatible_pose_families": [
-          "standing-neutral"
-        ]
+        "compatible_body_families": ["dev-adult"],
+        "compatible_pose_families": ["standing-neutral"]
       }
     },
     {
@@ -566,9 +510,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_top_blazer_navy_seated_v1"
-      ],
+      "source_refs": ["prov_dev_top_blazer_navy_seated_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
@@ -596,12 +538,8 @@
           "x": 0.5,
           "y": 0
         },
-        "compatible_body_families": [
-          "dev-adult"
-        ],
-        "compatible_pose_families": [
-          "seated-at-desk"
-        ]
+        "compatible_body_families": ["dev-adult"],
+        "compatible_pose_families": ["seated-at-desk"]
       }
     },
     {
@@ -610,9 +548,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_top_tee_teal_standing_v1"
-      ],
+      "source_refs": ["prov_dev_top_tee_teal_standing_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
@@ -640,12 +576,8 @@
           "x": 0.5,
           "y": 0
         },
-        "compatible_body_families": [
-          "dev-adult"
-        ],
-        "compatible_pose_families": [
-          "standing-neutral"
-        ]
+        "compatible_body_families": ["dev-adult"],
+        "compatible_pose_families": ["standing-neutral"]
       }
     },
     {
@@ -654,9 +586,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_top_tee_teal_seated_v1"
-      ],
+      "source_refs": ["prov_dev_top_tee_teal_seated_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
@@ -684,12 +614,8 @@
           "x": 0.5,
           "y": 0
         },
-        "compatible_body_families": [
-          "dev-adult"
-        ],
-        "compatible_pose_families": [
-          "seated-at-desk"
-        ]
+        "compatible_body_families": ["dev-adult"],
+        "compatible_pose_families": ["seated-at-desk"]
       }
     },
     {
@@ -698,9 +624,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_bottom_slacks_charcoal_standing_v1"
-      ],
+      "source_refs": ["prov_dev_bottom_slacks_charcoal_standing_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
@@ -728,12 +652,8 @@
           "x": 0.5,
           "y": 0
         },
-        "compatible_body_families": [
-          "dev-adult"
-        ],
-        "compatible_pose_families": [
-          "standing-neutral"
-        ]
+        "compatible_body_families": ["dev-adult"],
+        "compatible_pose_families": ["standing-neutral"]
       }
     },
     {
@@ -742,9 +662,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_bottom_slacks_charcoal_seated_v1"
-      ],
+      "source_refs": ["prov_dev_bottom_slacks_charcoal_seated_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
@@ -772,12 +690,8 @@
           "x": 0.5,
           "y": 0
         },
-        "compatible_body_families": [
-          "dev-adult"
-        ],
-        "compatible_pose_families": [
-          "seated-at-desk"
-        ]
+        "compatible_body_families": ["dev-adult"],
+        "compatible_pose_families": ["seated-at-desk"]
       }
     },
     {
@@ -786,9 +700,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_footwear_oxford_black_v1"
-      ],
+      "source_refs": ["prov_dev_footwear_oxford_black_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
@@ -816,12 +728,8 @@
           "x": 0.5,
           "y": 0.25
         },
-        "compatible_body_families": [
-          "dev-adult"
-        ],
-        "compatible_pose_families": [
-          "standing-neutral"
-        ]
+        "compatible_body_families": ["dev-adult"],
+        "compatible_pose_families": ["standing-neutral"]
       }
     },
     {
@@ -830,9 +738,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_accessory_lapel_pin_v1"
-      ],
+      "source_refs": ["prov_dev_accessory_lapel_pin_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture for runtime compositor proof only; never a canonical Person identity and never final art direction.",
@@ -860,9 +766,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "compatible_body_families": [
-          "dev-adult"
-        ]
+        "compatible_body_families": ["dev-adult"]
       }
     },
     {
@@ -871,9 +775,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_body_broad_light_standing_v1"
-      ],
+      "source_refs": ["prov_dev_g2_body_broad_light_standing_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -945,9 +847,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_body_broad_light_seated_v1"
-      ],
+      "source_refs": ["prov_dev_g2_body_broad_light_seated_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -1023,9 +923,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_body_broad_medium_warm_standing_v1"
-      ],
+      "source_refs": ["prov_dev_g2_body_broad_medium_warm_standing_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -1097,9 +995,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_body_broad_medium_warm_seated_v1"
-      ],
+      "source_refs": ["prov_dev_g2_body_broad_medium_warm_seated_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -1175,9 +1071,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_body_broad_deep_rich_standing_v1"
-      ],
+      "source_refs": ["prov_dev_g2_body_broad_deep_rich_standing_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -1249,9 +1143,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_body_broad_deep_rich_seated_v1"
-      ],
+      "source_refs": ["prov_dev_g2_body_broad_deep_rich_seated_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -1327,9 +1219,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_body_slim_light_standing_v1"
-      ],
+      "source_refs": ["prov_dev_g2_body_slim_light_standing_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -1401,9 +1291,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_body_slim_light_seated_v1"
-      ],
+      "source_refs": ["prov_dev_g2_body_slim_light_seated_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -1479,9 +1367,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_body_slim_medium_warm_standing_v1"
-      ],
+      "source_refs": ["prov_dev_g2_body_slim_medium_warm_standing_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -1553,9 +1439,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_body_slim_medium_warm_seated_v1"
-      ],
+      "source_refs": ["prov_dev_g2_body_slim_medium_warm_seated_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -1631,9 +1515,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_body_slim_deep_rich_standing_v1"
-      ],
+      "source_refs": ["prov_dev_g2_body_slim_deep_rich_standing_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -1705,9 +1587,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_body_slim_deep_rich_seated_v1"
-      ],
+      "source_refs": ["prov_dev_g2_body_slim_deep_rich_seated_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -1783,9 +1663,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_head_warm_round_v1"
-      ],
+      "source_refs": ["prov_dev_g2_head_warm_round_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -1815,13 +1693,8 @@
           "y": 0.95
         },
         "complexion": "medium-warm",
-        "compatible_body_families": [
-          "dev-g2-broad",
-          "dev-g2-slim"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -1830,9 +1703,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_head_warm_long_v1"
-      ],
+      "source_refs": ["prov_dev_g2_head_warm_long_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -1862,13 +1733,8 @@
           "y": 0.95
         },
         "complexion": "medium-warm",
-        "compatible_body_families": [
-          "dev-g2-broad",
-          "dev-g2-slim"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -1877,9 +1743,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_head_deep_oval_v1"
-      ],
+      "source_refs": ["prov_dev_g2_head_deep_oval_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -1909,13 +1773,8 @@
           "y": 0.95
         },
         "complexion": "deep-rich",
-        "compatible_body_families": [
-          "dev-g2-broad",
-          "dev-g2-slim"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -1924,9 +1783,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_head_light_square_v1"
-      ],
+      "source_refs": ["prov_dev_g2_head_light_square_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -1956,13 +1813,8 @@
           "y": 0.95
         },
         "complexion": "light",
-        "compatible_body_families": [
-          "dev-g2-broad",
-          "dev-g2-slim"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -1971,9 +1823,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_hair_crop_front_v1"
-      ],
+      "source_refs": ["prov_dev_g2_hair_crop_front_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -2008,9 +1858,7 @@
           "dev-g2-head-deep-oval",
           "dev-g2-head-light-square"
         ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -2019,9 +1867,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_hair_coils_front_v1"
-      ],
+      "source_refs": ["prov_dev_g2_hair_coils_front_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -2056,9 +1902,7 @@
           "dev-g2-head-deep-oval",
           "dev-g2-head-light-square"
         ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -2067,9 +1911,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_hair_long_front_v1"
-      ],
+      "source_refs": ["prov_dev_g2_hair_long_front_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -2104,9 +1946,7 @@
           "dev-g2-head-deep-oval",
           "dev-g2-head-light-square"
         ],
-        "compatible_head_orientations": [
-          "front"
-        ],
+        "compatible_head_orientations": ["front"],
         "paired_with": "dev_g2_hair_long_back_v1"
       }
     },
@@ -2116,9 +1956,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_hair_long_back_v1"
-      ],
+      "source_refs": ["prov_dev_g2_hair_long_back_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -2153,9 +1991,7 @@
           "dev-g2-head-deep-oval",
           "dev-g2-head-light-square"
         ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -2164,9 +2000,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_top_suit_charcoal_standing_v1"
-      ],
+      "source_refs": ["prov_dev_g2_top_suit_charcoal_standing_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -2195,19 +2029,10 @@
           "x": 0.5,
           "y": 0
         },
-        "compatible_body_families": [
-          "dev-g2-broad",
-          "dev-g2-slim"
-        ],
-        "compatible_pose_families": [
-          "standing-neutral"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ],
-        "blocked_slots": [
-          "accessory"
-        ]
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_pose_families": ["standing-neutral"],
+        "compatible_head_orientations": ["front"],
+        "blocked_slots": ["accessory"]
       }
     },
     {
@@ -2216,9 +2041,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_top_suit_charcoal_seated_v1"
-      ],
+      "source_refs": ["prov_dev_g2_top_suit_charcoal_seated_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -2247,19 +2070,10 @@
           "x": 0.5,
           "y": 0
         },
-        "compatible_body_families": [
-          "dev-g2-broad",
-          "dev-g2-slim"
-        ],
-        "compatible_pose_families": [
-          "seated-at-desk"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ],
-        "blocked_slots": [
-          "accessory"
-        ]
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_pose_families": ["seated-at-desk"],
+        "compatible_head_orientations": ["front"],
+        "blocked_slots": ["accessory"]
       }
     },
     {
@@ -2268,9 +2082,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_top_knit_olive_standing_v1"
-      ],
+      "source_refs": ["prov_dev_g2_top_knit_olive_standing_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -2299,16 +2111,9 @@
           "x": 0.5,
           "y": 0
         },
-        "compatible_body_families": [
-          "dev-g2-broad",
-          "dev-g2-slim"
-        ],
-        "compatible_pose_families": [
-          "standing-neutral"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_pose_families": ["standing-neutral"],
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -2317,9 +2122,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_top_knit_olive_seated_v1"
-      ],
+      "source_refs": ["prov_dev_g2_top_knit_olive_seated_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -2348,16 +2151,9 @@
           "x": 0.5,
           "y": 0
         },
-        "compatible_body_families": [
-          "dev-g2-broad",
-          "dev-g2-slim"
-        ],
-        "compatible_pose_families": [
-          "seated-at-desk"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_pose_families": ["seated-at-desk"],
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -2366,9 +2162,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_bottom_trousers_standing_v1"
-      ],
+      "source_refs": ["prov_dev_g2_bottom_trousers_standing_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -2397,16 +2191,9 @@
           "x": 0.5,
           "y": 0
         },
-        "compatible_body_families": [
-          "dev-g2-broad",
-          "dev-g2-slim"
-        ],
-        "compatible_pose_families": [
-          "standing-neutral"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_pose_families": ["standing-neutral"],
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -2415,9 +2202,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_bottom_trousers_seated_v1"
-      ],
+      "source_refs": ["prov_dev_g2_bottom_trousers_seated_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -2446,16 +2231,9 @@
           "x": 0.5,
           "y": 0
         },
-        "compatible_body_families": [
-          "dev-g2-broad",
-          "dev-g2-slim"
-        ],
-        "compatible_pose_families": [
-          "seated-at-desk"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_pose_families": ["seated-at-desk"],
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -2464,9 +2242,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_footwear_derby_standing_v1"
-      ],
+      "source_refs": ["prov_dev_g2_footwear_derby_standing_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -2495,16 +2271,9 @@
           "x": 0.5,
           "y": 0.25
         },
-        "compatible_body_families": [
-          "dev-g2-broad",
-          "dev-g2-slim"
-        ],
-        "compatible_pose_families": [
-          "standing-neutral"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_pose_families": ["standing-neutral"],
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -2513,9 +2282,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_footwear_derby_seated_v1"
-      ],
+      "source_refs": ["prov_dev_g2_footwear_derby_seated_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -2544,16 +2311,9 @@
           "x": 0.5,
           "y": 0.25
         },
-        "compatible_body_families": [
-          "dev-g2-broad",
-          "dev-g2-slim"
-        ],
-        "compatible_pose_families": [
-          "seated-at-desk"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_pose_families": ["seated-at-desk"],
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -2562,9 +2322,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_eyewear_thin_frames_v1"
-      ],
+      "source_refs": ["prov_dev_g2_eyewear_thin_frames_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -2599,9 +2357,7 @@
           "dev-g2-head-deep-oval",
           "dev-g2-head-light-square"
         ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -2610,9 +2366,7 @@
       "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_dev_g2_accessory_lanyard_v1"
-      ],
+      "source_refs": ["prov_dev_g2_accessory_lanyard_v1"],
       "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
       "fixed_or_modular": "modular",
       "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
@@ -2641,13 +2395,8 @@
           "x": 0.5,
           "y": 0.1
         },
-        "compatible_body_families": [
-          "dev-g2-broad",
-          "dev-g2-slim"
-        ],
-        "compatible_head_orientations": [
-          "front"
-        ]
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_head_orientations": ["front"]
       }
     },
     {
@@ -2656,9 +2405,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_body_standing_frame_a"
-      ],
+      "source_refs": ["prov_pg_master_body_standing_frame_a"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Standing body geometry authority. Source master for the 'body' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -2680,9 +2427,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_body_standing_frame_b"
-      ],
+      "source_refs": ["prov_pg_master_body_standing_frame_b"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Standing body geometry authority. Source master for the 'body' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -2704,9 +2449,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_bottom_01_straight_leg_jeans"
-      ],
+      "source_refs": ["prov_pg_master_bottom_01_straight_leg_jeans"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Lower-garment design authority. Source master for the 'bottom' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -2728,9 +2471,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_bottom_02_dress_trousers"
-      ],
+      "source_refs": ["prov_pg_master_bottom_02_dress_trousers"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Lower-garment design authority. Source master for the 'bottom' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -2752,9 +2493,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_bottom_03_a_line_knee_skirt"
-      ],
+      "source_refs": ["prov_pg_master_bottom_03_a_line_knee_skirt"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Lower-garment design authority. Source master for the 'bottom' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -2776,9 +2515,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_footwear_01_low_top_sneakers"
-      ],
+      "source_refs": ["prov_pg_master_footwear_01_low_top_sneakers"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Footwear design authority. Source master for the 'footwear' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -2800,9 +2537,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_footwear_02_leather_loafers"
-      ],
+      "source_refs": ["prov_pg_master_footwear_02_leather_loafers"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Footwear design authority. Source master for the 'footwear' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -2824,9 +2559,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_footwear_03_low_practical_flats"
-      ],
+      "source_refs": ["prov_pg_master_footwear_03_low_practical_flats"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Footwear design authority. Source master for the 'footwear' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -2848,9 +2581,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_hair_01_short_tapered_afro"
-      ],
+      "source_refs": ["prov_pg_master_hair_01_short_tapered_afro"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Hairstyle design authority. Source master for the 'hair-front' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -2872,9 +2603,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_hair_02_rounded_medium_afro"
-      ],
+      "source_refs": ["prov_pg_master_hair_02_rounded_medium_afro"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Hairstyle design authority. Source master for the 'hair-front' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -2896,9 +2625,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_hair_03_shoulder_natural_curls"
-      ],
+      "source_refs": ["prov_pg_master_hair_03_shoulder_natural_curls"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Hairstyle design authority. Source master for the 'hair-front' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -2920,9 +2647,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_hair_04_high_puff"
-      ],
+      "source_refs": ["prov_pg_master_hair_04_high_puff"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Hairstyle design authority. Source master for the 'hair-front' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -2944,9 +2669,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_hair_05_shoulder_box_braids"
-      ],
+      "source_refs": ["prov_pg_master_hair_05_shoulder_box_braids"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Hairstyle design authority. Source master for the 'hair-front' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -2968,9 +2691,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_hair_06_long_box_braids"
-      ],
+      "source_refs": ["prov_pg_master_hair_06_long_box_braids"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Hairstyle design authority. Source master for the 'hair-front' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -2992,9 +2713,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_hair_07_cornrows_low_bun"
-      ],
+      "source_refs": ["prov_pg_master_hair_07_cornrows_low_bun"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Hairstyle design authority. Source master for the 'hair-front' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -3016,9 +2735,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_hair_08_shoulder_locs"
-      ],
+      "source_refs": ["prov_pg_master_hair_08_shoulder_locs"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Hairstyle design authority. Source master for the 'hair-front' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -3040,9 +2757,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_head_01_bald_neutral"
-      ],
+      "source_refs": ["prov_pg_master_head_01_bald_neutral"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Head design authority. Source master for the 'head' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -3064,9 +2779,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_head_02_bald_neutral"
-      ],
+      "source_refs": ["prov_pg_master_head_02_bald_neutral"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Head design authority. Source master for the 'head' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -3088,9 +2801,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_head_03_bald_neutral"
-      ],
+      "source_refs": ["prov_pg_master_head_03_bald_neutral"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Head design authority. Source master for the 'head' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -3112,9 +2823,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_head_04_bald_neutral"
-      ],
+      "source_refs": ["prov_pg_master_head_04_bald_neutral"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Head design authority. Source master for the 'head' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -3136,9 +2845,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_head_05_bald_neutral"
-      ],
+      "source_refs": ["prov_pg_master_head_05_bald_neutral"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Head design authority. Source master for the 'head' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -3160,9 +2867,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_top_01_short_sleeve_crew_tee"
-      ],
+      "source_refs": ["prov_pg_master_top_01_short_sleeve_crew_tee"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Upper-garment design authority. Source master for the 'top' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -3184,9 +2889,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_top_02_long_sleeve_button_shirt"
-      ],
+      "source_refs": ["prov_pg_master_top_02_long_sleeve_button_shirt"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Upper-garment design authority. Source master for the 'top' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -3208,9 +2911,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_top_03_pullover_sweater"
-      ],
+      "source_refs": ["prov_pg_master_top_03_pullover_sweater"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Upper-garment design authority. Source master for the 'top' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",
@@ -3232,9 +2933,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_pg_master_top_04_structured_blazer"
-      ],
+      "source_refs": ["prov_pg_master_top_04_structured_blazer"],
       "rights_note": "Owner-supplied Political Game master re-homed from the superseded PR #48 branch; external reuse rights remain unknown.",
       "fixed_or_modular": "modular",
       "variant_rules": "Upper-garment design authority. Source master for the 'top' component class. It is a SOURCE, not a runtime asset: it declares no rig, no normalized canvas and no runtime release claim, and it carries no alpha.",

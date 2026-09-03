@@ -135,7 +135,11 @@ const STATUSES_REQUIRING_ART: ReadonlySet<PoseProductionStatus> = new Set([
   "development-fixture",
 ]);
 
-export const POSE_HUMAN_QA_STATES = ["approved", "pending", "rejected"] as const;
+export const POSE_HUMAN_QA_STATES = [
+  "approved",
+  "pending",
+  "rejected",
+] as const;
 export type PoseHumanQaState = (typeof POSE_HUMAN_QA_STATES)[number];
 
 /**
@@ -569,7 +573,9 @@ export function validatePoseFamilyRegistry(
         `${label} has invalid production status '${family.production_status}'.`,
       );
     }
-    if (!(POSE_HUMAN_QA_STATES as readonly string[]).includes(family.human_qa)) {
+    if (
+      !(POSE_HUMAN_QA_STATES as readonly string[]).includes(family.human_qa)
+    ) {
       errors.push(`${label} has invalid human_qa state '${family.human_qa}'.`);
     }
     if (
@@ -682,10 +688,7 @@ export function validatePoseFamilyRegistry(
         `${label} control plate path '${plate.path}' must be a repository-relative path under 'art/'.`,
       );
     }
-    if (
-      plate?.path &&
-      !plate.path.endsWith(`/${id}__${family.facing}.svg`)
-    ) {
+    if (plate?.path && !plate.path.endsWith(`/${id}__${family.facing}.svg`)) {
       errors.push(
         `${label} control plate must be named '${id}__${family.facing}.svg'; found '${plate.path}'. One plate per pose and facing, never a borrowed picture.`,
       );
@@ -799,7 +802,10 @@ function validateRegistryAgainstComponents(
         `Pose family '${family.pose_family_id}' claims production status '${family.production_status}' but no released body art declares that pose.`,
       );
     }
-    if (family.production_status === "pending-generation" && released.length > 0) {
+    if (
+      family.production_status === "pending-generation" &&
+      released.length > 0
+    ) {
       errors.push(
         `Pose family '${family.pose_family_id}' claims 'pending-generation' but ${released.length} released body component(s) already declare it: ${released.sort().join(", ")}.`,
       );

@@ -30,7 +30,11 @@ function MarkerLayer({
   markers,
   variant,
 }: {
-  readonly markers: readonly { id: string; xPercent: number; yPercent: number }[];
+  readonly markers: readonly {
+    id: string;
+    xPercent: number;
+    yPercent: number;
+  }[];
   readonly variant: "body" | "plate-contact" | "plate-landmark";
 }) {
   return (
@@ -96,7 +100,9 @@ function PoseCell({
           className="pose-proof-plate"
           data-testid="pose-proof-plate"
           style={
-            { aspectRatio: String(cell.plateAspectRatio) } satisfies CSSProperties
+            {
+              aspectRatio: String(cell.plateAspectRatio),
+            } satisfies CSSProperties
           }
         >
           {plateUrl ? (
@@ -116,7 +122,10 @@ function PoseCell({
               />
             </>
           ) : null}
-          <figcaption>Control plate · {family.nominal_canvas.width}×{family.nominal_canvas.height}</figcaption>
+          <figcaption>
+            Control plate · {family.nominal_canvas.width}×
+            {family.nominal_canvas.height}
+          </figcaption>
         </figure>
 
         <figure
@@ -154,10 +163,7 @@ function PoseCell({
               ) : null,
             )
           ) : (
-            <p
-              className="pose-proof-empty"
-              data-testid="pose-proof-empty-cell"
-            >
+            <p className="pose-proof-empty" data-testid="pose-proof-empty-cell">
               There is no picture of anyone in this pose yet.
             </p>
           )}

@@ -4697,7 +4697,9 @@
   background: #edeae0;
 }
 
-.pose-proof-coverage tr[data-covered="false"][data-priority="P0"] th[scope="row"] {
+.pose-proof-coverage
+  tr[data-covered="false"][data-priority="P0"]
+  th[scope="row"] {
   border-left: 4px solid #b4432f;
 }
 

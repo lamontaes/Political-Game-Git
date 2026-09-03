@@ -34,7 +34,9 @@ test.describe("pose and contact proof", () => {
 
     // Six registered families per person: four P0 and two P1.
     await expect(page.getByTestId("pose-proof-cell")).toHaveCount(12);
-    const p0 = page.locator('[data-testid="pose-proof-cell"][data-priority="P0"]');
+    const p0 = page.locator(
+      '[data-testid="pose-proof-cell"][data-priority="P0"]',
+    );
     await expect(p0).toHaveCount(8);
   });
 
@@ -85,7 +87,9 @@ test.describe("pose and contact proof", () => {
     ).toBeGreaterThanOrEqual(2);
     // No cell anywhere may report art outside its family's tolerance.
     await expect(
-      page.locator('[data-testid="pose-proof-cell"][data-contacts-agree="false"]'),
+      page.locator(
+        '[data-testid="pose-proof-cell"][data-contacts-agree="false"]',
+      ),
     ).toHaveCount(0);
   });
 
@@ -118,7 +122,9 @@ test.describe("pose and contact proof", () => {
   }) => {
     await openProof(page);
     const cell = page
-      .locator('[data-testid="pose-proof-cell"][data-pose-family="standing-neutral"]')
+      .locator(
+        '[data-testid="pose-proof-cell"][data-pose-family="standing-neutral"]',
+      )
       .first();
     const plate = cell.getByTestId("pose-proof-plate");
     await expect(plate.locator("img")).toBeVisible();
@@ -142,14 +148,20 @@ test.describe("pose and contact proof", () => {
 
     // Eighteen landmarks and two contacts, all drawn as overlay elements.
     await expect(
-      plate.locator('[data-testid="pose-proof-marker"][data-variant="plate-landmark"]'),
+      plate.locator(
+        '[data-testid="pose-proof-marker"][data-variant="plate-landmark"]',
+      ),
     ).toHaveCount(18);
     await expect(
-      plate.locator('[data-testid="pose-proof-marker"][data-variant="plate-contact"]'),
+      plate.locator(
+        '[data-testid="pose-proof-marker"][data-variant="plate-contact"]',
+      ),
     ).toHaveCount(2);
   });
 
-  test("hides every marker when the overlay is turned off", async ({ page }) => {
+  test("hides every marker when the overlay is turned off", async ({
+    page,
+  }) => {
     await openProof(page);
     expect(await page.getByTestId("pose-proof-marker").count()).toBeGreaterThan(
       0,

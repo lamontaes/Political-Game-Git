@@ -1,0 +1,314 @@
+{
+  "version": "asset-bank-inventory-v1",
+  "environments": {
+    "releasedPlates": [
+      {
+        "assetId": "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
+        "familyId": "council-staff-office",
+        "released": true,
+        "path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png"
+      },
+      {
+        "assetId": "env_lexington_council_staff_office_prompt30_v1",
+        "familyId": "council-staff-office",
+        "released": true,
+        "path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_runtime_2x_v1.png"
+      }
+    ],
+    "registeredFamilies": [
+      "apartment-ordinary",
+      "civic-community-meeting",
+      "council-staff-office",
+      "executive-private-office"
+    ],
+    "declaredAwaitingBytes": 7
+  },
+  "characterComponents": {
+    "releasedByKind": {
+      "accessory": 2,
+      "body": 14,
+      "bottom": 4,
+      "eyewear": 2,
+      "footwear": 3,
+      "hair-back": 2,
+      "hair-front": 5,
+      "head": 6,
+      "top": 8
+    },
+    "releasedBodyFamilies": ["dev-adult", "dev-g2-broad", "dev-g2-slim"],
+    "developmentFixtureCount": 46,
+    "productionCount": 0
+  },
+  "masters": [
+    {
+      "assetId": "pg_master_body_standing_frame_a",
+      "componentClass": "bodies",
+      "path": "art/references/masters/pg-modular/bodies/pg_master_body_standing_frame_a.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_body_standing_frame_b",
+      "componentClass": "bodies",
+      "path": "art/references/masters/pg-modular/bodies/pg_master_body_standing_frame_b.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_bottom_01_straight_leg_jeans",
+      "componentClass": "bottoms",
+      "path": "art/references/masters/pg-modular/bottoms/pg_master_bottom_01_straight_leg_jeans.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_bottom_02_dress_trousers",
+      "componentClass": "bottoms",
+      "path": "art/references/masters/pg-modular/bottoms/pg_master_bottom_02_dress_trousers.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_bottom_03_a_line_knee_skirt",
+      "componentClass": "bottoms",
+      "path": "art/references/masters/pg-modular/bottoms/pg_master_bottom_03_a_line_knee_skirt.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_footwear_01_low_top_sneakers",
+      "componentClass": "footwear",
+      "path": "art/references/masters/pg-modular/footwear/pg_master_footwear_01_low_top_sneakers.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_footwear_02_leather_loafers",
+      "componentClass": "footwear",
+      "path": "art/references/masters/pg-modular/footwear/pg_master_footwear_02_leather_loafers.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_footwear_03_low_practical_flats",
+      "componentClass": "footwear",
+      "path": "art/references/masters/pg-modular/footwear/pg_master_footwear_03_low_practical_flats.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_hair_01_short_tapered_afro",
+      "componentClass": "hair",
+      "path": "art/references/masters/pg-modular/hair/pg_master_hair_01_short_tapered_afro.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_hair_02_rounded_medium_afro",
+      "componentClass": "hair",
+      "path": "art/references/masters/pg-modular/hair/pg_master_hair_02_rounded_medium_afro.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_hair_03_shoulder_natural_curls",
+      "componentClass": "hair",
+      "path": "art/references/masters/pg-modular/hair/pg_master_hair_03_shoulder_natural_curls.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_hair_04_high_puff",
+      "componentClass": "hair",
+      "path": "art/references/masters/pg-modular/hair/pg_master_hair_04_high_puff.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_hair_05_shoulder_box_braids",
+      "componentClass": "hair",
+      "path": "art/references/masters/pg-modular/hair/pg_master_hair_05_shoulder_box_braids.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_hair_06_long_box_braids",
+      "componentClass": "hair",
+      "path": "art/references/masters/pg-modular/hair/pg_master_hair_06_long_box_braids.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_hair_07_cornrows_low_bun",
+      "componentClass": "hair",
+      "path": "art/references/masters/pg-modular/hair/pg_master_hair_07_cornrows_low_bun.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_hair_08_shoulder_locs",
+      "componentClass": "hair",
+      "path": "art/references/masters/pg-modular/hair/pg_master_hair_08_shoulder_locs.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_head_01_bald_neutral",
+      "componentClass": "heads",
+      "path": "art/references/masters/pg-modular/heads/pg_master_head_01_bald_neutral.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_head_02_bald_neutral",
+      "componentClass": "heads",
+      "path": "art/references/masters/pg-modular/heads/pg_master_head_02_bald_neutral.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_head_03_bald_neutral",
+      "componentClass": "heads",
+      "path": "art/references/masters/pg-modular/heads/pg_master_head_03_bald_neutral.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_head_04_bald_neutral",
+      "componentClass": "heads",
+      "path": "art/references/masters/pg-modular/heads/pg_master_head_04_bald_neutral.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_head_05_bald_neutral",
+      "componentClass": "heads",
+      "path": "art/references/masters/pg-modular/heads/pg_master_head_05_bald_neutral.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_top_01_short_sleeve_crew_tee",
+      "componentClass": "tops",
+      "path": "art/references/masters/pg-modular/tops/pg_master_top_01_short_sleeve_crew_tee.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_top_02_long_sleeve_button_shirt",
+      "componentClass": "tops",
+      "path": "art/references/masters/pg-modular/tops/pg_master_top_02_long_sleeve_button_shirt.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_top_03_pullover_sweater",
+      "componentClass": "tops",
+      "path": "art/references/masters/pg-modular/tops/pg_master_top_03_pullover_sweater.png",
+      "released": false
+    },
+    {
+      "assetId": "pg_master_top_04_structured_blazer",
+      "componentClass": "tops",
+      "path": "art/references/masters/pg-modular/tops/pg_master_top_04_structured_blazer.png",
+      "released": false
+    }
+  ],
+  "poseCoverage": [
+    {
+      "poseFamilyId": "seated-at-desk",
+      "priority": "P0",
+      "postureClass": "seated",
+      "productionStatus": "development-fixture",
+      "coveredBodyFamilies": ["dev-adult", "dev-g2-broad", "dev-g2-slim"],
+      "missingBodyFamilies": [],
+      "covered": true
+    },
+    {
+      "poseFamilyId": "seated-guest-neutral",
+      "priority": "P0",
+      "postureClass": "seated",
+      "productionStatus": "pending-generation",
+      "coveredBodyFamilies": [],
+      "missingBodyFamilies": ["dev-g2-broad", "dev-g2-slim"],
+      "covered": false
+    },
+    {
+      "poseFamilyId": "standing-conversational",
+      "priority": "P0",
+      "postureClass": "standing",
+      "productionStatus": "pending-generation",
+      "coveredBodyFamilies": [],
+      "missingBodyFamilies": ["dev-g2-broad", "dev-g2-slim"],
+      "covered": false
+    },
+    {
+      "poseFamilyId": "standing-listening",
+      "priority": "P1",
+      "postureClass": "standing",
+      "productionStatus": "pending-generation",
+      "coveredBodyFamilies": [],
+      "missingBodyFamilies": ["dev-g2-broad", "dev-g2-slim"],
+      "covered": false
+    },
+    {
+      "poseFamilyId": "standing-neutral",
+      "priority": "P0",
+      "postureClass": "standing",
+      "productionStatus": "development-fixture",
+      "coveredBodyFamilies": ["dev-adult", "dev-g2-broad", "dev-g2-slim"],
+      "missingBodyFamilies": [],
+      "covered": true
+    },
+    {
+      "poseFamilyId": "standing-podium-or-lectern",
+      "priority": "P1",
+      "postureClass": "podium-or-lectern",
+      "productionStatus": "pending-generation",
+      "coveredBodyFamilies": [],
+      "missingBodyFamilies": ["dev-g2-broad", "dev-g2-slim"],
+      "covered": false
+    }
+  ],
+  "generationQueue": [
+    {
+      "poseFamilyId": "seated-guest-neutral",
+      "priority": "P0",
+      "blocks": "current-gameplay",
+      "consumingAnchors": ["office-council-staff-fixture:left-guest-chair"],
+      "missingBodyFamilies": ["dev-g2-broad", "dev-g2-slim"],
+      "controlPlate": "art/pose-control-plates/seated-guest-neutral__front.svg",
+      "masterMinimum": "1530x2048",
+      "nominalCanvas": "1530x2048"
+    },
+    {
+      "poseFamilyId": "standing-conversational",
+      "priority": "P0",
+      "blocks": "later-breadth",
+      "consumingAnchors": [],
+      "missingBodyFamilies": ["dev-g2-broad", "dev-g2-slim"],
+      "controlPlate": "art/pose-control-plates/standing-conversational__front.svg",
+      "masterMinimum": "1696x2528",
+      "nominalCanvas": "1080x1920"
+    },
+    {
+      "poseFamilyId": "standing-listening",
+      "priority": "P1",
+      "blocks": "later-breadth",
+      "consumingAnchors": [],
+      "missingBodyFamilies": ["dev-g2-broad", "dev-g2-slim"],
+      "controlPlate": "art/pose-control-plates/standing-listening__front.svg",
+      "masterMinimum": "1696x2528",
+      "nominalCanvas": "1080x1920"
+    },
+    {
+      "poseFamilyId": "standing-podium-or-lectern",
+      "priority": "P1",
+      "blocks": "later-breadth",
+      "consumingAnchors": [],
+      "missingBodyFamilies": ["dev-g2-broad", "dev-g2-slim"],
+      "controlPlate": "art/pose-control-plates/standing-podium-or-lectern__front.svg",
+      "masterMinimum": "1696x2528",
+      "nominalCanvas": "1080x1920"
+    }
+  ],
+  "cargo": {
+    "rehomed": [
+      "pr48-body-masters",
+      "pr48-bottom-masters",
+      "pr48-footwear-masters",
+      "pr48-hair-front-masters",
+      "pr48-head-masters",
+      "pr48-intake-mechanics",
+      "pr48-top-masters",
+      "pr63-pr74-architecture"
+    ],
+    "rejected": [
+      "pr48-demographic-asset-ids",
+      "pr48-normalized-derivatives",
+      "pr48-stale-architecture"
+    ],
+    "archived": ["pack-universal-animation-library"],
+    "pendingVerification": [
+      "pack-office-cubicle-set",
+      "pack-universal-base-characters"
+    ]
+  }
+}

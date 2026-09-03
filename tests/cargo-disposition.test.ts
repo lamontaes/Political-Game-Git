@@ -11,7 +11,9 @@ import type { AssetManifest } from "../scripts/art-asset-factory/schemas";
 const REPO_ROOT = path.resolve(__dirname, "..");
 
 function loadJson<T>(relative: string): T {
-  return JSON.parse(fs.readFileSync(path.join(REPO_ROOT, relative), "utf8")) as T;
+  return JSON.parse(
+    fs.readFileSync(path.join(REPO_ROOT, relative), "utf8"),
+  ) as T;
 }
 
 const ledger = loadJson<CargoDispositionLedger>(
@@ -24,7 +26,9 @@ function mutate(
   change: (entry: Record<string, unknown>) => void,
 ): CargoDispositionLedger {
   const copy = JSON.parse(JSON.stringify(ledger)) as CargoDispositionLedger;
-  const entry = copy.entries.find((candidate) => candidate.entry_id === entryId);
+  const entry = copy.entries.find(
+    (candidate) => candidate.entry_id === entryId,
+  );
   if (!entry) throw new Error(`No cargo entry '${entryId}'.`);
   change(entry as unknown as Record<string, unknown>);
   return copy;
@@ -92,7 +96,8 @@ describe("cargo disposition ledger", () => {
     // A shoe may be black and a shirt may be white; a head may not.
     const forbidden =
       /(^|[_/-])(black|white|asian|caucasian|latino|hispanic|male|female)([_/-]|\.|$)/i;
-    const personClasses = /^(pg_master_(body|head|hair)|dev(_g2)?_(body|head|hair))/;
+    const personClasses =
+      /^(pg_master_(body|head|hair)|dev(_g2)?_(body|head|hair))/;
     const subjects = manifest.assets.filter(
       (asset) =>
         personClasses.test(asset.asset_id) ||

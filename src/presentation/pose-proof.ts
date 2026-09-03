@@ -212,7 +212,9 @@ function composeCell(
   const bodyEntry = recipe.context.components.find(
     (component) => component.kind === "body",
   );
-  const body = bodyEntry ? library.components.get(bodyEntry.assetId) : undefined;
+  const body = bodyEntry
+    ? library.components.get(bodyEntry.assetId)
+    : undefined;
 
   // The union of the body canvas and every layer, padded, so a head drawn
   // above the body canvas is inside the box instead of being clipped away.
@@ -399,5 +401,9 @@ export function composePoseProof(
     });
   });
 
-  return { people, coverage: reportPoseCoverage(registry, art), identityStable };
+  return {
+    people,
+    coverage: reportPoseCoverage(registry, art),
+    identityStable,
+  };
 }

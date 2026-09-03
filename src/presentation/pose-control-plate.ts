@@ -69,11 +69,13 @@ const BONES: readonly (readonly [PoseLandmarkId, PoseLandmarkId])[] = [
  * carries the leg all the way to the ground it must stand on rather than
  * stopping at the ankle and leaving the generator to invent a foot.
  */
-const FOOT_SEGMENTS: readonly (readonly [PoseLandmarkId, "leftFoot" | "rightFoot"])[] =
-  [
-    ["ankle-left", "leftFoot"],
-    ["ankle-right", "rightFoot"],
-  ];
+const FOOT_SEGMENTS: readonly (readonly [
+  PoseLandmarkId,
+  "leftFoot" | "rightFoot",
+])[] = [
+  ["ankle-left", "leftFoot"],
+  ["ankle-right", "rightFoot"],
+];
 
 /** Limb mass widths as a fraction of the figure's stature. */
 const MASS_WIDTH: ReadonlyMap<string, number> = new Map([
@@ -140,8 +142,7 @@ function geometryFor(family: PoseFamilyDefinition): PlateGeometry {
   // stature = soleY - headTopY, with headTopY = headAttachY - headHeight and
   // headHeight = stature / 7.5. Solving both gives the closed form below, so a
   // seated and a standing plate of the same person get the same head size.
-  const headHeight =
-    (soleY - headAttachY) / (HEAD_HEIGHT_STATURE_RATIO - 1);
+  const headHeight = (soleY - headAttachY) / (HEAD_HEIGHT_STATURE_RATIO - 1);
   const headWidth = headHeight * HEAD_WIDTH_RATIO;
   const headCentreY = headAttachY - headHeight / 2;
   const viewMinY = headAttachY - headHeight - height * 0.02;
@@ -198,7 +199,8 @@ export function renderPoseControlPlate(family: PoseFamilyDefinition): string {
   const planeYs: number[] = [];
   if (family.contacts.leftFoot && family.contacts.rightFoot) {
     planeYs.push(
-      Math.max(family.contacts.leftFoot.y, family.contacts.rightFoot.y) * height,
+      Math.max(family.contacts.leftFoot.y, family.contacts.rightFoot.y) *
+        height,
     );
   }
   if (family.contacts.seatedPelvis) {

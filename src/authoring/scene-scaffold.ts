@@ -23,7 +23,7 @@
  * judgements about the picture.
  */
 
-import { CIVIC_SYMBOL_POLICY } from "../environment/environment-scene-spec";
+import type { CIVIC_SYMBOL_POLICY } from "../environment/environment-scene-spec";
 import type {
   Anchor,
   EnvironmentSceneSpec,

@@ -1,0 +1,83 @@
+{
+  "requestVersion": 1,
+  "batchId": "environment-batch-2026-09-03",
+  "candidates": [
+    {
+      "asset_id": "env_community_meeting_tableau_01",
+      "file": "candidates/PG_TITLE_BG_COMMUNITY_MEETING_TABLEAU_01_5376x3024.png",
+      "target_class": "title-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "owner",
+      "approval_note": "Civic/community meeting tableau. Filename asserts 5376x3024, above the 4608px environment master floor; intake measures the real bytes rather than trusting the name. Drive 1LA55s__GoCW6Geea4J7T5PdDSiB-Ty3b. Bytes are NOT in the repository yet: place the file at the declared path and run `npm run intake:environment -- art/intake/environment-batch-2026-09-03.request.json`, which measures it and rejects it if the declaration is wrong.",
+      "family_id": "civic-community-meeting"
+    },
+    {
+      "asset_id": "env_community_meeting_hero_slot_02",
+      "file": "candidates/PG_TITLE_BG_COMMUNITY_MEETING_HERO_SLOT_02_5504x3072.png",
+      "target_class": "title-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "owner",
+      "approval_note": "Second community-meeting tableau with a deliberate hero character slot. Drive 1VoqVUpqfEbcDTFD_3tav19zhVePMbAoc. Bytes are NOT in the repository yet: place the file at the declared path and run `npm run intake:environment -- art/intake/environment-batch-2026-09-03.request.json`, which measures it and rejects it if the declaration is wrong.",
+      "family_id": "civic-community-meeting"
+    },
+    {
+      "asset_id": "env_community_meeting_hero_slot_01",
+      "file": "candidates/PG_TITLE_BG_COMMUNITY_MEETING_HERO_SLOT_01_5504x3072.jpg",
+      "target_class": "reference",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "owner",
+      "approval_note": "JPEG sibling of the hero-slot tableau. Declared as reference, not a plate: a JPEG bitstream carries no alpha and its compression is already baked in. This is the same class of mislabel Packet 45 flagged, where Firefly output was banked as .png while the bitstream was JPEG; intake reads the bitstream, not the extension, and will report the real format. Drive 1-EUuRqruB9vvvuQo9iTstf8Yj_r8OPGi. Bytes are NOT in the repository yet: place the file at the declared path and run `npm run intake:environment -- art/intake/environment-batch-2026-09-03.request.json`, which measures it and rejects it if the declaration is wrong.",
+      "family_id": "civic-community-meeting"
+    },
+    {
+      "asset_id": "env_courtroom_civic_tableau_01",
+      "file": "candidates/PG_TITLE_BG_COURTROOM_CIVIC_TABLEAU_01_5376x3024.png",
+      "target_class": "title-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "owner",
+      "approval_note": "Courtroom civic tableau from the same approved title-tableau lane. Drive 1eXGYOYVxD2_VWaDeu71aP76qoqyZ32D4. Bytes are NOT in the repository yet: place the file at the declared path and run `npm run intake:environment -- art/intake/environment-batch-2026-09-03.request.json`, which measures it and rejects it if the declaration is wrong.",
+      "family_id": "civic-community-meeting"
+    },
+    {
+      "asset_id": "env_apartment_living_room_base_01",
+      "file": "candidates/PG_STYLE_REFERENCE_SCENE_APARTMENT_APPROVED.png",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "owner",
+      "approval_note": "The approved reusable apartment living-room base: the checkpoint records candidate #3 as the selected plate because it keeps clear foreground character space, readable seating, a TV, a bookshelf, a window and an entry door on a simple stable perspective. It is the current positive reference for scene-plate philosophy. Drive 1Ke60NgqQe4ax_ZayvELXKQLddADNSK5i. Bytes are NOT in the repository yet: place the file at the declared path and run `npm run intake:environment -- art/intake/environment-batch-2026-09-03.request.json`, which measures it and rejects it if the declaration is wrong.",
+      "family_id": "apartment-ordinary"
+    },
+    {
+      "asset_id": "env_office_legacy_civic_staff_01_reference",
+      "file": "candidates/PG_SCENE_OFFICE_LEGACY_CIVIC_STAFF_01_2048x1144_REFERENCE.png",
+      "target_class": "reference",
+      "lineage_class": "reference-only",
+      "native_detail_state": "unverified",
+      "rights_status": "unknown",
+      "approved_by": "owner",
+      "approval_note": "The 2048x1144 civic staff office reference, matching the runtime derivative already registered from the Prompt 30 fixture. Declared reference-only and unverified detail because a 2048px file is below the environment master floor and its lineage above that width is not established here. Drive 1ooFum5biDsFh0tD8zgXhkPERoCWwxQFt. Bytes are NOT in the repository yet: place the file at the declared path and run `npm run intake:environment -- art/intake/environment-batch-2026-09-03.request.json`, which measures it and rejects it if the declaration is wrong.",
+      "family_id": "council-staff-office"
+    },
+    {
+      "asset_id": "env_executive_private_office_master",
+      "file": "candidates/PG-E02_CLEAN_executive_private_office_master.png",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "owner",
+      "approval_note": "PG-E02 CLEAN is the human-approved current office composition master, locally verified at 5568x3008 / 24.2MB, with enough resolution for a later non-enlarging crop to 4096x2288. The checkpoint is explicit that it must not be regenerated or upscaled. NOT LOCATED under this exact name during this audit; the verified Topaz source is banked as 'Firefly_Topaz_Firefly image 2026-08-28 15-42 2104280551 KHM.png'. Drive 1Ic0Fqx6SdIfu_vlo6weHVDCVjx_HM67D. Bytes are NOT in the repository yet: place the file at the declared path and run `npm run intake:environment -- art/intake/environment-batch-2026-09-03.request.json`, which measures it and rejects it if the declaration is wrong.",
+      "family_id": "executive-private-office"
+    }
+  ]
+}

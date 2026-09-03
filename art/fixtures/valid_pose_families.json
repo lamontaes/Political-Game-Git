@@ -1,9 +1,6 @@
 {
   "pose_registry_version": "pose-families-fixture-v1",
-  "legacy_contactless_body_families": [
-    "adult-medium",
-    "adult-tall"
-  ],
+  "legacy_contactless_body_families": ["adult-medium", "adult-tall"],
   "legacy_contactless_note": "The contract fixture has no raster at all, so its bodies declare no contacts. They exercise the structural contract and the legacy-contactless path; they are never production art.",
   "families": [
     {
@@ -110,16 +107,10 @@
           "y": 0.946
         }
       },
-      "compatible_body_families": [
-        "adult-medium",
-        "adult-tall"
-      ],
+      "compatible_body_families": ["adult-medium", "adult-tall"],
       "garment_pose_family": "standing-neutral",
       "required_footwear_state": "shoes-visible",
-      "prop_attachment_slots": [
-        "hand-left",
-        "hand-right"
-      ],
+      "prop_attachment_slots": ["hand-left", "hand-right"],
       "production_status": "pending-generation",
       "human_qa": "pending",
       "contact_verification": {
@@ -242,16 +233,10 @@
           "y": 0.939
         }
       },
-      "compatible_body_families": [
-        "adult-medium",
-        "adult-tall"
-      ],
+      "compatible_body_families": ["adult-medium", "adult-tall"],
       "garment_pose_family": "seated-at-desk",
       "required_footwear_state": "shoes-visible",
-      "prop_attachment_slots": [
-        "hand-left",
-        "hand-right"
-      ],
+      "prop_attachment_slots": ["hand-left", "hand-right"],
       "production_status": "pending-generation",
       "human_qa": "pending",
       "contact_verification": {

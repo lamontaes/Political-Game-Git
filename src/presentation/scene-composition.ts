@@ -127,7 +127,10 @@ function fromRecipeDiagnostic(
  * second vocabulary.
  */
 const POSE_GAP_DIAGNOSTIC: Readonly<
-  Record<PoseGapCode, { readonly code: SceneDiagnosticCode; readonly warning: string }>
+  Record<
+    PoseGapCode,
+    { readonly code: SceneDiagnosticCode; readonly warning: string }
+  >
 > = {
   "anchor-permits-no-registered-pose": {
     code: "pose-family-not-registered",
@@ -214,7 +217,11 @@ export function composeSceneCharacter(
   const poseFamilyId =
     resolution.poseFamily?.pose_family_id ?? provisionalPose(anchor);
   const poseFamily = resolution.poseFamily;
-  const recipe = resolvePersonCharacterRecipe(appearance, poseFamilyId, library);
+  const recipe = resolvePersonCharacterRecipe(
+    appearance,
+    poseFamilyId,
+    library,
+  );
   const projected = projectCharacterLayers(recipe, library);
 
   const diagnostics: SceneDiagnostic[] = recipe.context.diagnostics.map(

@@ -23,7 +23,8 @@ import {
   type PoseFamilyRegistryData,
 } from "./pose-families";
 
-const records = assetManifest.assets as readonly CharacterComponentManifestRecord[];
+const records =
+  assetManifest.assets as readonly CharacterComponentManifestRecord[];
 const data = poseRegistryData as PoseFamilyRegistryData;
 const registry = createPoseFamilyRegistry(data);
 const art = indexPoseArt(records);
@@ -177,8 +178,9 @@ describe("pose family registry", () => {
   it("keeps the frozen generation-1 body family exempt only by explicit record", () => {
     expect(registry.legacyContactlessBodyFamilies.has("dev-adult")).toBe(true);
     const withoutExemption = clone();
-    (withoutExemption as { legacy_contactless_body_families: string[] })
-      .legacy_contactless_body_families = [];
+    (
+      withoutExemption as { legacy_contactless_body_families: string[] }
+    ).legacy_contactless_body_families = [];
     expect(
       validatePoseFamilyRegistry(withoutExemption, records).join("\n"),
     ).toContain("is not recorded in 'legacy_contactless_body_families'");
@@ -291,7 +293,10 @@ describe("pose coverage", () => {
 
 describe("pose identity independence", () => {
   it("keeps one person's identity fixed across every pose family with art", () => {
-    const appearance = { seed: "app_pose_probe_1", recipeVersion: "appearance-recipe-v1" };
+    const appearance = {
+      seed: "app_pose_probe_1",
+      recipeVersion: "appearance-recipe-v1",
+    };
     const identities = ["standing-neutral", "seated-at-desk"].map(
       (poseFamily) =>
         JSON.stringify(

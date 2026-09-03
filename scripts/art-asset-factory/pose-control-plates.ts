@@ -10,6 +10,7 @@ import type {
   PoseFamilyRegistryData,
 } from "../../src/presentation/pose-families";
 import { hashArtFile } from "./content-hash";
+import { writeFormatted } from "./write-formatted";
 
 /**
  * Derives every pose family's control plate and records its path and hash back
@@ -76,10 +77,10 @@ export function writePoseControlPlate(
  * Regenerates every plate in the repository and rewrites the registry's
  * `control_plate` records. Returns what it wrote.
  */
-export function derivePoseControlPlates(
+export async function derivePoseControlPlates(
   repositoryRoot: string,
   registryPath: string = POSE_REGISTRY_PATH,
-): readonly PoseControlPlateOutput[] {
+): Promise<readonly PoseControlPlateOutput[]> {
   const registry = readPoseRegistry(repositoryRoot, registryPath);
   const outputs = registry.families.map((family) =>
     writePoseControlPlate(family, repositoryRoot),
@@ -98,10 +99,9 @@ export function derivePoseControlPlates(
       };
     }),
   };
-  fs.writeFileSync(
+  await writeFormatted(
     path.resolve(repositoryRoot, registryPath),
-    `${JSON.stringify(updated, null, 2)}\n`,
-    "utf8",
+    JSON.stringify(updated, null, 2),
   );
   return outputs;
 }

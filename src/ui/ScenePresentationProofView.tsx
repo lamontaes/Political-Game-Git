@@ -148,12 +148,12 @@ export function ScenePresentationProofView() {
   const composition = useMemo(
     () =>
       composeSceneProof(
-    world,
-    PRODUCTION_CHARACTER_LIBRARY,
-    PRODUCTION_VISUAL_LIBRARY,
-    PRODUCTION_POSE_REGISTRY,
-    PRODUCTION_POSE_ART,
-  ),
+        world,
+        PRODUCTION_CHARACTER_LIBRARY,
+        PRODUCTION_VISUAL_LIBRARY,
+        PRODUCTION_POSE_REGISTRY,
+        PRODUCTION_POSE_ART,
+      ),
     [world],
   );
 

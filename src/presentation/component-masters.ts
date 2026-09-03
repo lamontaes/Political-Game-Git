@@ -136,7 +136,9 @@ export function masterRequirementFor(
     : undefined;
   if (registered) {
     const seated = registered.posture_class === "seated";
-    const base = seated ? SEATED_BODY_MASTER_MINIMUM : STANDING_BODY_MASTER_MINIMUM;
+    const base = seated
+      ? SEATED_BODY_MASTER_MINIMUM
+      : STANDING_BODY_MASTER_MINIMUM;
     return {
       minimumWidth: registered.master_minimum.width,
       minimumHeight: registered.master_minimum.height,

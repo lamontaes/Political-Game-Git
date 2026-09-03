@@ -9,9 +9,7 @@ import {
   evaluateMasterDimensions,
   masterRequirementFor,
 } from "../../src/presentation/component-masters";
-import {
-  renderPoseControlPlate,
-} from "../../src/presentation/pose-control-plate";
+import { renderPoseControlPlate } from "../../src/presentation/pose-control-plate";
 import {
   validateCargoDisposition,
   type CargoDispositionLedger,

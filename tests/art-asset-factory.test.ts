@@ -805,7 +805,16 @@ describe("Packet 76 approved runtime art", () => {
       families.families.map(
         (family: { family_id: string }) => family.family_id,
       ),
-    ).toEqual(["council-staff-office"]);
+    ).toEqual([
+      "council-staff-office",
+      // The three families below are declared production-authoring targets for
+      // the approved environments whose bytes are still queued in
+      // art/intake/environment-batch-2026-09-03.request.json. A family with no
+      // released plate is a target, not coverage.
+      "apartment-ordinary",
+      "civic-community-meeting",
+      "executive-private-office",
+    ]);
   });
 
   it("reproduces the 2x Lanczos office plate and furniture-only alpha mask", async () => {

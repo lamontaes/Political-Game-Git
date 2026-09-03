@@ -158,7 +158,9 @@ export function validateCargoDisposition(
         `${label} must give a reason. A disposition without one is an assertion, not a decision.`,
       );
     }
-    if (!(CARGO_DISPOSITIONS as readonly string[]).includes(entry.disposition)) {
+    if (
+      !(CARGO_DISPOSITIONS as readonly string[]).includes(entry.disposition)
+    ) {
       errors.push(`${label} has invalid disposition '${entry.disposition}'.`);
       continue;
     }
@@ -167,9 +169,7 @@ export function validateCargoDisposition(
         entry.verified_by,
       )
     ) {
-      errors.push(
-        `${label} has invalid verified_by '${entry.verified_by}'.`,
-      );
+      errors.push(`${label} has invalid verified_by '${entry.verified_by}'.`);
       continue;
     }
     if (

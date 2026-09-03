@@ -13,9 +13,13 @@ import {
  */
 
 const repositoryRoot = path.resolve(process.cwd());
-const outputs = POSE_REGISTRY_PATHS.flatMap((registryPath) =>
-  derivePoseControlPlates(repositoryRoot, registryPath),
-);
+const outputs = (
+  await Promise.all(
+    POSE_REGISTRY_PATHS.map((registryPath) =>
+      derivePoseControlPlates(repositoryRoot, registryPath),
+    ),
+  )
+).flat();
 
 console.log(
   JSON.stringify(
