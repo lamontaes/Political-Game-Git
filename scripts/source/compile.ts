@@ -44,6 +44,10 @@ async function main(): Promise<void> {
   const only = domainFlag(process.argv.slice(2));
   for (const domain of await loadDomains()) {
     if (only && domain.domain !== only) continue;
+    if (domain.productionGate) {
+      console.log(`source:compile ${domain.domain}: gated, no production corpus — ${domain.productionGate}`);
+      continue;
+    }
     const count = compileDomainInto(domain, domainDataDir(domain.domain));
     console.log(`source:compile ${domain.domain}: ${count} records`);
   }

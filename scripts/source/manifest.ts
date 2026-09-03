@@ -36,17 +36,29 @@ export interface SourceManifestEntry {
   }[];
 }
 
+/** A domain that is wired in but compiles nothing yet, and why. */
+export interface GatedDomainEntry {
+  readonly domain: string;
+  readonly productionGate: string;
+}
+
 export interface SourceManifest {
   readonly manifestVersion: string;
   readonly domains: readonly SourceManifestEntry[];
+  readonly gatedDomains: readonly GatedDomainEntry[];
 }
 
 /** Build the manifest by reading the compiled tree at `root`. */
 export async function buildManifest(root: string): Promise<SourceManifest> {
   const domains = await loadDomains();
   const entries: SourceManifestEntry[] = [];
+  const gated: GatedDomainEntry[] = [];
 
   for (const domain of domains) {
+    if (domain.productionGate) {
+      gated.push({ domain: domain.domain, productionGate: domain.productionGate });
+      continue;
+    }
     const dir = resolve(root, domain.domain);
     const corpusText = readFileSync(resolve(dir, "corpus.json"), "utf-8");
     const manifestText = readFileSync(resolve(dir, "corpus-manifest.json"), "utf-8");
@@ -75,14 +87,16 @@ export async function buildManifest(root: string): Promise<SourceManifest> {
     });
   }
 
-  return { manifestVersion: "1", domains: entries };
+  return { manifestVersion: "1", domains: entries, gatedDomains: gated };
 }
 
 async function main(): Promise<void> {
   const root = resolve(REPO_ROOT, "data/source");
   const manifest = await buildManifest(root);
   writeText(resolve(root, "MANIFEST.json"), toCanonicalJson(manifest));
-  console.log(`source:manifest: ${manifest.domains.length} domains`);
+  console.log(
+    `source:manifest: ${manifest.domains.length} compiled domains, ${manifest.gatedDomains.length} gated`,
+  );
 }
 
 if (process.argv[1]?.endsWith("manifest.ts")) {

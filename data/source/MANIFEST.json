@@ -375,5 +375,11 @@
       "universeDescription": "Every 119th Congressional District, state legislative lower-chamber district and state legislative upper-chamber district published in the U.S. Census Bureau 2025 Gazetteer national files, including at-large, delegate and unassigned-residual records exactly as published."
     }
   ],
+  "gatedDomains": [
+    {
+      "domain": "state-office-qualifications",
+      "productionGate": "31F marks 118 of the 31A-31E research claims compiler-ready, but the substrate compiles production corpora only from artifacts it retrieved and hashed, and a research synthesis is a secondary source. Production compilation is gated on either acquiring the cited state authorities as first-party artifacts, or an explicit architecture decision to admit a declared secondary-source tier. See 31F section 8."
+    }
+  ],
   "manifestVersion": "1"
 }

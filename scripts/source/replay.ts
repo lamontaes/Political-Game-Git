@@ -30,6 +30,7 @@ export async function replay(): Promise<readonly ReplayDifference[]> {
   const differences: ReplayDifference[] = [];
   try {
     for (const domain of await loadDomains()) {
+      if (domain.productionGate) continue;
       const target = resolve(scratch, domain.domain);
       compileDomainInto(domain, target);
 

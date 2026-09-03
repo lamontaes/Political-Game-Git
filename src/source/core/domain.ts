@@ -66,6 +66,16 @@ export interface SourceDomainModule<TRecord = unknown> {
   readonly compilerVersion: string;
   readonly acquisitionPlan: AcquisitionPlan;
   readonly lockPath: string;
+  /**
+   * Why this domain compiles no production corpus, if it does not.
+   *
+   * A gated domain is fully present — its types, compiler and validator exist
+   * and its fixtures exercise them end to end — but it has no production
+   * records because something outside the code is unresolved. Recording the
+   * reason here puts it in the manifest, so a gate is a visible fact about the
+   * substrate rather than an absence somebody has to notice.
+   */
+  readonly productionGate?: string;
   compileProduction(lock: ArtifactLock): CompiledCorpus<TRecord, "production">;
   validateCorpus(corpus: CompiledCorpus<TRecord>): ValidationReport;
 }

@@ -6,7 +6,7 @@
  * directory listing.
  */
 
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 import {
   FORBIDDEN_WALL_CLOCK_KEYS,
@@ -68,6 +68,26 @@ async function main(): Promise<void> {
   let failed = false;
 
   for (const domain of await loadDomains()) {
+    if (domain.productionGate) {
+      // A gated domain must not have quietly grown a corpus.
+      const stray = resolve(domainDataDir(domain.domain), "corpus.json");
+      if (existsSync(stray)) {
+        reports.push({
+          domain: domain.domain,
+          checked: 0,
+          findings: [
+            {
+              severity: "error",
+              code: "corpus/gated-domain-has-corpus",
+              message: `${domain.domain} declares a production gate but a corpus is committed for it: ${domain.productionGate}`,
+            },
+          ],
+        });
+      } else {
+        console.log(`  gate ${domain.domain}: ${domain.productionGate}`);
+      }
+      continue;
+    }
     const dir = domainDataDir(domain.domain);
     const corpusPath = resolve(dir, "corpus.json");
     const manifestPath = resolve(dir, "corpus-manifest.json");
