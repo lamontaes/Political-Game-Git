@@ -1,0 +1,115 @@
+{
+  "domains": [
+    {
+      "artifacts": [
+        {
+          "artifactId": "census-gazetteer-2025-counties-zip",
+          "sha256": "4c90d0f805779923b5958ab13d0c1e9b99fe4932b786bfcf75dd739bb2dcb4ea",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2025-01-01",
+      "boundedSampleReason": null,
+      "canonicalSha256": "6690d71fe6b5c53a0c0713340d525017ce1025a49ce7019a3118a4df187ea5bd",
+      "compiler": {
+        "name": "counties",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "6690d71fe6b5c53a0c0713340d525017ce1025a49ce7019a3118a4df187ea5bd",
+      "corpusId": "counties",
+      "domain": "counties",
+      "isCompleteUniverse": true,
+      "recordCount": 3222,
+      "universeDescription": "Every county and county-equivalent in the U.S. Census Bureau 2025 Gazetteer counties national file: the 50 states, the District of Columbia and Puerto Rico."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "uscode-title28-119-102-zip",
+          "sha256": "33ac894ae39b3da6236f9feba91b8dfcf4f678e1ca33914df144cc75c9544aa9",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "uscode-title48-119-102-zip",
+          "sha256": "21eb65c016904bf1b15e5219bdbf5373a1bb4ed4407be9d9548ec24414a8b060",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2026-07-23",
+      "boundedSampleReason": null,
+      "canonicalSha256": "5279240356a753246ea70f26d0a7eaf0d91812c8d400ba1effab4ff70a497bf4",
+      "compiler": {
+        "name": "federal-courts",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "5279240356a753246ea70f26d0a7eaf0d91812c8d400ba1effab4ff70a497bf4",
+      "corpusId": "federal-courts",
+      "domain": "federal-courts",
+      "isCompleteUniverse": true,
+      "recordCount": 201,
+      "universeDescription": "Every United States court of appeals constituted by 28 U.S.C. § 41, every judicial district established by 28 U.S.C. ch. 5 and by the Title 48 organic acts, the statutory divisions those sections create, and the bankruptcy court 28 U.S.C. § 151 designates in each district, as the U.S. Code stands at release point 119-102."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "census-gazetteer-2025-places-zip",
+          "sha256": "49644173a453469d9bd77fb7a493b027f87567e209edaf2078aac7543ac2ee29",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2025-01-01",
+      "boundedSampleReason": null,
+      "canonicalSha256": "07835679854804dc6d998f258878646147bb4a498c6a32af1e2d9c6d66eee3c9",
+      "compiler": {
+        "name": "places",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "07835679854804dc6d998f258878646147bb4a498c6a32af1e2d9c6d66eee3c9",
+      "corpusId": "places",
+      "domain": "places",
+      "isCompleteUniverse": true,
+      "recordCount": 32350,
+      "universeDescription": "Every incorporated place and census designated place in the U.S. Census Bureau 2025 Gazetteer national places file, covering the 50 states, the District of Columbia and Puerto Rico."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "census-gazetteer-2025-119cds-zip",
+          "sha256": "5128d74acfee9c858eef72c98fbaf13a2dc5b7ea5f8bcc763522087dafabedcb",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "census-gazetteer-2025-sldl-zip",
+          "sha256": "80e1889ce84d483a82193d0fa4d983dbbe85d1fa211088bf878aeec7ffb3401f",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "census-gazetteer-2025-sldu-zip",
+          "sha256": "f4500955ded8c3415c8c24c4aa9aa5beb3034f2998c081ac3ed38f27456eca08",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2025-01-01",
+      "boundedSampleReason": null,
+      "canonicalSha256": "ee5f03e6a30ea728e6550f1ea882ac9d4caadd3e39c89ccb6a8512d73f5aef5e",
+      "compiler": {
+        "name": "political-districts",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "ee5f03e6a30ea728e6550f1ea882ac9d4caadd3e39c89ccb6a8512d73f5aef5e",
+      "corpusId": "political-districts",
+      "domain": "political-districts",
+      "isCompleteUniverse": true,
+      "recordCount": 7283,
+      "universeDescription": "Every 119th Congressional District, state legislative lower-chamber district and state legislative upper-chamber district published in the U.S. Census Bureau 2025 Gazetteer national files, including at-large, delegate and unassigned-residual records exactly as published."
+    }
+  ],
+  "manifestVersion": "1"
+}
