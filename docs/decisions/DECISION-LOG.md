@@ -1551,3 +1551,104 @@ Consequence: the office fixture's layout, occlusion rules, attachment system
 and composition are untouched. What changed is that the numbers describing the
 furniture are now read off the furniture, and the point placed on a chair is
 the point that touches it.
+
+## D-067 — The production office is a different room from the fixture, measured from its own master
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: nothing. D-055 and D-057 keep the fixture; this adds the first
+  production scene beside it.
+
+Three rounds of human visual review of "the office" were rounds of review of a
+development fixture. `office-council-staff-fixture` declares
+`presentation_status: development-fixture`, a 1024x572 prompt30 plate, and a
+2048x1144 tier registered honestly as an upscale carrying no detail past 1024.
+Its own `explicit_unknowns` say its numbers "should not be copied into a
+production scene". It was the only office surface that existed, so every
+placement repair polished it and every screenshot of it was read as the game.
+
+The canonical Drive library already held an approved master —
+`OCD_SCENE_MASTER_SHARED_WORKROOM_OFFICE_5504x3072_01.jpg`, 5504x3072 — but
+Drive is not a runtime: the runtime imports `art/**` and nothing else, so a file
+sitting in Drive is not selectable however approved it is.
+
+So the master is now IN the repository, preserved byte-for-byte under
+`art/references/masters/scene-environment/` with its Drive id and sha256
+recorded in provenance, and carried into the runtime as two Lanczos-3
+DOWNSCALES at 1376x768 and 2752x1536. Both are `deterministic-downscale`, so
+neither declares a native-detail shortfall: their pixel width is the truth.
+Nothing in this repository enlarged anything.
+
+`shared-workroom-office-production` is the scene, and every number in it was
+measured from that master. The room's tiled floor is its own ruler: a 12-inch
+commercial tile measured near and far gives the apparent size of a known length
+at two depths, which solves the horizon at 39.9% of plate height and yields
+one metre ~= 0.585 * (floor_y - 39.9)% of plate height. The floor calibration,
+the 18.42% standard body width and the cross-check on the one measurable seat
+all come out of that single relation. Nothing was transplanted from prompt30;
+a test asserts the two scenes share no plate, no ramp, no body width and no
+anchor.
+
+Only one chair in the room has a visible cushion. Every other seat is hidden
+behind a work table, so no seat plane can be measured for it, and those chairs
+are deliberately NOT declared as seat anchors rather than being given plausible
+numbers. The near table's occluder region is declared without an alpha mask,
+because nothing renders behind it yet and painting a speculative mask over a
+plate this detailed would be inventing geometry to satisfy a checklist.
+
+The production scene composes from `PRODUCTION_ONLY_CHARACTER_LIBRARY`, which
+is filtered to components that are not development fixtures. That set is empty
+today, so every anchor fails closed and the proof surface says which anchor
+failed and why. The authored A01/B01 recipes stay where they belong: on the
+fixture route, keyed to historical fixture appearance seeds, and a test forbids
+them from appearing on the production scene under any path.
+
+Consequence: `?view=production-office` is where office visual acceptance now
+happens, and it states its scene id, environment asset id, raster tier and
+derivation, production status and per-anchor rendering path on the page. A
+screenshot of it cannot be confused with a screenshot of the fixture, which is
+the confusion that cost three review cycles. `?view=office-fixture` survives,
+unchanged and clearly labelled, as regression evidence.
+
+## D-068 — A body root is not a garment attachment, and the banked bodies' anchors are not authoritative
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Amends: D-055 and D-063 (the standing of the banked candidates' attachment
+  metadata only; their disposition as unpromoted reference evidence stands)
+
+With debug anchors on, human review found the `hips` attachment anchor on both
+banked bodies reading around the lower abdomen rather than the pelvis. The
+numbers confirm it: `pg_body_ml_standing_v1` puts its pelvis root at y 0.5396
+and its `hips` anchor at y 0.3479 — the garment hip line is authored roughly a
+fifth of body height ABOVE the hip joint it is named after.
+
+This is not a labelling nit. Bottoms attach to `hips`, so every trouser, skirt
+and pair of jeans in the bank hangs from the wrong line, and any fit judgement
+made against those garments was made against a contaminated placement.
+
+The repair is NOT to move the numbers. These bodies are rejected for production
+on their own merits — untextured gray geometry is structural and reference
+evidence, never player-facing body art — and quietly correcting their anchors
+would be promotion by the back door. Their attachment coordinates are therefore
+declared non-authoritative visual estimates on the records themselves, with the
+instruction that they are not to be inherited or repaired.
+
+What is added instead is the rule the next body will be held to.
+`CHARACTER_SEMANTIC_ANCHOR_ORDER` names six points that are different things
+with different jobs, and `validateProductionBodyAnchors` enforces two facts
+about them: they descend the body in order, and the garment `hips` attachment
+sits at or below the pelvis root, because a waistband does not ride up inside
+the ribcage. The root is the rig's placement point and nothing is worn on it;
+`feet` is a floor CONTACT and not an attachment at all.
+
+A test records that both banked bodies fail this rule, and says in its own name
+that they are not to be repaired to make it pass. Every future production body
+master measures these anchors from its own raster rather than inheriting them
+from a DEV fixture or normalizing them by eye, and shows them over that raster
+on a debug proof before any wardrobe family is accepted against it.
+
+Consequence: the distinction between placement and attachment is now written
+down and checkable, the contaminated coordinates are labelled where someone
+reading the record will see them, and no rejected art moved a pixel closer to
+production.

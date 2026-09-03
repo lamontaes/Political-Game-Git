@@ -41,12 +41,29 @@ describe("asset bank inventory", () => {
     const blocking = report.generationQueue.filter(
       (row) => row.blocks === "current-gameplay",
     );
-    expect(blocking.map((row) => row.poseFamilyId)).toEqual([
+    // The production office asks for two standing families as well, and no
+    // released art answers either. The inventory reporting three gaps rather
+    // than one is the queue doing its job: a production room was added and the
+    // art it needs does not exist yet.
+    expect(blocking.map((row) => row.poseFamilyId).sort()).toEqual([
       "seated-guest-neutral",
+      "standing-conversational",
+      "standing-listening",
     ]);
-    expect(blocking[0]!.consumingAnchors).toContain(
+    const seated = blocking.find(
+      (row) => row.poseFamilyId === "seated-guest-neutral",
+    )!;
+    expect(seated.consumingAnchors).toContain(
       "office-council-staff-fixture:left-guest-chair",
     );
+    const conversational = blocking.find(
+      (row) => row.poseFamilyId === "standing-conversational",
+    )!;
+    expect(
+      conversational.consumingAnchors.some((anchor) =>
+        anchor.startsWith("shared-workroom-office-production:"),
+      ),
+    ).toBe(true);
   });
 
   it("reports no production character art as released", () => {

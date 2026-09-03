@@ -121,8 +121,9 @@ describe("Art validator: modular character components", () => {
       },
     );
     expect(result.errors).toEqual([]);
-    // 4 office fixtures + 16 generation-1 and 30 generation-2 DEV components.
-    expect(result.runtimeEligibleAssetIds).toHaveLength(50);
+    // 4 office fixtures + 16 generation-1 and 30 generation-2 DEV components,
+    // plus the released production workroom plate (D-067).
+    expect(result.runtimeEligibleAssetIds).toHaveLength(51);
     expect(
       result.runtimeEligibleAssetIds.filter((id) => id.startsWith("dev_")),
     ).toHaveLength(46);

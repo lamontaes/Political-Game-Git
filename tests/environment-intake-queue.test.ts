@@ -52,6 +52,8 @@ describe("environment production-authoring queue", () => {
         "apartment-ordinary",
         "civic-community-meeting",
         "executive-private-office",
+        // The production workroom the 5504x3072 master lives in (D-067).
+        "shared-workroom-office",
       ]),
     );
     for (const candidate of request.candidates) {

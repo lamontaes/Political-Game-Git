@@ -2,11 +2,13 @@ import { describe, expect, it } from "vitest";
 
 import { COMMITTEE_ROOM_FIXTURE_SCENE } from "../environment/scenes/committee-room-fixture";
 import { OFFICE_COUNCIL_STAFF_FIXTURE_SCENE } from "../environment/scenes/office-council-staff-fixture";
+import { SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE } from "../environment/scenes/shared-workroom-office-production";
 import { validateEnvironmentSceneSpec } from "../environment/environment-scene-spec";
 import {
   COMMITTEE_FIXTURE_SCENE_ID,
   createSceneRegistry,
   OFFICE_FIXTURE_SCENE_ID,
+  PRODUCTION_OFFICE_SCENE_ID,
   registerScene,
   requireScene,
   requireSceneAnchor,
@@ -17,6 +19,7 @@ import { OFFICE_VISUAL_SCENE } from "./visual-integration";
 describe("scene registry", () => {
   it("registers every shipped scene from a validated EnvironmentSceneSpec", () => {
     for (const spec of [
+      SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE,
       OFFICE_COUNCIL_STAFF_FIXTURE_SCENE,
       COMMITTEE_ROOM_FIXTURE_SCENE,
     ]) {
@@ -27,14 +30,64 @@ describe("scene registry", () => {
     expect([...SCENE_REGISTRY.scenes.keys()].sort()).toEqual([
       COMMITTEE_FIXTURE_SCENE_ID,
       OFFICE_FIXTURE_SCENE_ID,
+      PRODUCTION_OFFICE_SCENE_ID,
     ]);
   });
 
-  it("marks both shipped scenes as development fixtures rather than production", () => {
+  /**
+   * The registry now carries exactly one production scene and keeps the rest
+   * marked as what they are. This is the assertion that stops a fixture from
+   * quietly presenting itself as production art, which is the confusion the
+   * office review ran into.
+   */
+  it("separates the one production scene from the development fixtures", () => {
+    const production = [...SCENE_REGISTRY.scenes.values()].filter(
+      (scene) => scene.presentationStatus === "production",
+    );
+    expect(production.map((scene) => scene.sceneId)).toEqual([
+      PRODUCTION_OFFICE_SCENE_ID,
+    ]);
     for (const scene of SCENE_REGISTRY.scenes.values()) {
+      if (scene.sceneId === PRODUCTION_OFFICE_SCENE_ID) continue;
       expect(scene.presentationStatus, scene.sceneId).toBe(
         "development-fixture",
       );
+    }
+  });
+
+  /**
+   * A production plate may not rest on enlarged pixels. Both tiers here are
+   * deterministic downscales of the 5504x3072 master, so neither declares a
+   * native-detail shortfall and the pixel width is the truth.
+   */
+  it("registers the production office ladder as downscale-only", () => {
+    const scene = requireScene(SCENE_REGISTRY, PRODUCTION_OFFICE_SCENE_ID);
+    expect(scene.presentationStatus).toBe("production");
+    expect(scene.raster).not.toBeNull();
+    expect(scene.raster!.ladder.tiers.map((tier) => tier.width)).toEqual([
+      1_376, 2_752,
+    ]);
+    for (const tier of scene.raster!.ladder.tiers) {
+      expect(tier.derivation).toBe("deterministic-downscale");
+      expect(tier.nativeDetailWidth).toBeUndefined();
+    }
+  });
+
+  /**
+   * The production scene's geometry must not be the fixture's geometry. These
+   * are different rooms; sharing a number would mean one of them was assumed.
+   */
+  it("measures production geometry independently of the development fixture", () => {
+    const production = requireScene(SCENE_REGISTRY, PRODUCTION_OFFICE_SCENE_ID);
+    const fixture = requireScene(SCENE_REGISTRY, OFFICE_FIXTURE_SCENE_ID);
+    expect(production.plate).not.toEqual(fixture.plate);
+    expect(production.standardBodyWidthPercent).not.toBe(
+      fixture.standardBodyWidthPercent,
+    );
+    const productionAnchorIds = [...production.anchors.keys()].sort();
+    const fixtureAnchorIds = new Set(fixture.anchors.keys());
+    for (const id of productionAnchorIds) {
+      expect(fixtureAnchorIds.has(id), id).toBe(false);
     }
   });
 

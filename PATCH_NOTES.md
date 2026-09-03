@@ -27,6 +27,17 @@ will not put a desk-work drawing in a guest chair and hope you do not notice.
 The same descriptions produce the drawing guides the art itself is made from,
 so the picture and the maths come from one source.
 
+The game now has a real office. A high-resolution shared staff workroom — the
+approved master, not a development stand-in — is in the game's own art library
+and drawn from a picture four times sharper than the old one, with the room's
+own floor, furniture and sight-lines measured rather than borrowed from the
+placeholder room it replaces. Nobody is standing in it yet, and the game says so
+plainly instead of filling it with development mannequins: the people who belong
+in that room have not been drawn.
+
+The old placeholder office is still there, still working, and now clearly
+labelled as the development room it always was.
+
 The two people in the development office now sit in their chairs rather than
 near them. The woman at the desk was hovering above her seat and the man in the
 guest chair was cutting through his, because the game had been told the chairs

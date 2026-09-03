@@ -784,13 +784,18 @@ describe("Packet 76 approved runtime art", () => {
       "human_candidate_A01_primary_desk_seated_v1",
       "human_candidate_B01_left_guest_seated_v1",
     ]);
-    // 4 office fixtures + 16 generation-1 and 30 generation-2 DEV components.
-    expect(result.runtimeEligibleAssetIds).toHaveLength(50);
+    // 4 office fixtures + 16 generation-1 and 30 generation-2 DEV components,
+    // plus the released production workroom plate (D-067).
+    expect(result.runtimeEligibleAssetIds).toHaveLength(51);
+    // Everything past the four fixtures is a DEV component, with one
+    // exception: the production workroom plate. It is the only released asset
+    // in this repository that is production art rather than fixture art, and
+    // naming it here keeps that fact visible instead of letting a broad
+    // "starts with dev_" sweep hide the next one.
+    const beyondFixtures = result.runtimeEligibleAssetIds.slice(4);
     expect(
-      result.runtimeEligibleAssetIds
-        .slice(4)
-        .every((assetId: string) => assetId.startsWith("dev_")),
-    ).toBe(true);
+      beyondFixtures.filter((assetId: string) => !assetId.startsWith("dev_")),
+    ).toEqual(["env_shared_workroom_office_v1"]);
     const environment = manifest.assets.find(
       (asset: { asset_id: string }) =>
         asset.asset_id === "env_lexington_council_staff_office_prompt30_v1",
@@ -814,6 +819,10 @@ describe("Packet 76 approved runtime art", () => {
       "apartment-ordinary",
       "civic-community-meeting",
       "executive-private-office",
+      // The one family that is coverage rather than a target: the shared
+      // workroom has a released plate downscaled from its approved 5504x3072
+      // master (D-067).
+      "shared-workroom-office",
     ]);
   });
 

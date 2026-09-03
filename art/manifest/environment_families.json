@@ -88,6 +88,31 @@
         "No physical measurement precision is authorized by the raster plate.",
         "No jurisdiction rule or canonical simulation fact derives from visible decoration."
       ]
+    },
+    {
+      "family_id": "shared-workroom-office",
+      "room_use_category": "shared legislative or council staff workroom",
+      "typical_proportion_rules": "Scene plate supplies only visual-estimate proportions read off the plate's own tile grid and standard fixture heights; no physical dimensions are claimed.",
+      "seating_dais_logic": "Shared trestle work tables with task chairs; no dais and no fixed member seating.",
+      "public_member_separation": "Ordinary furniture separation only; no security or access rule is implied.",
+      "circulation_assumptions": "An open tiled floor runs from the kitchenette to the near foreground and stays visually clear for standing people.",
+      "camera_framing_guidance": "Wide eye-level workroom plate; the near table edge is available for character occlusion once an alpha is authored for it.",
+      "ceiling_height_category": "unknown",
+      "density_category": "shared-staff-workroom",
+      "ornament_category": "restrained-civic",
+      "reusable_prop_slots": ["working-document", "briefing-memo"],
+      "event_layer_slots": [
+        "kitchenette-standing",
+        "workroom-floor-standing",
+        "near-table-standing",
+        "left-task-chair"
+      ],
+      "negative_constraints": [
+        "No physical measurement precision is authorized by the raster plate.",
+        "No jurisdiction rule or canonical simulation fact derives from visible decoration.",
+        "Geometry for this family is measured from its own master and is never inherited from the council-staff-office development fixture."
+      ],
+      "supporting_source_references": ["prov_env_shared_workroom_office_v1"]
     }
   ]
 }

@@ -3008,7 +3008,8 @@
       "negative_constraints": [
         "Do not infer identity, knowledge, biography, or traits from the artwork.",
         "Do not treat the normalized canvas size or fit ratio as a production standard.",
-        "Held UNRELEASED pending human visual acceptance: the body master is an untextured gray geometry mannequin, so every skin region a garment does not cover renders gray. Gray exposed skin is not accepted production presentation."
+        "Held UNRELEASED pending human visual acceptance: the body master is an untextured gray geometry mannequin, so every skin region a garment does not cover renders gray. Gray exposed skin is not accepted production presentation.",
+        "Attachment anchors on this record are NON-AUTHORITATIVE visual estimates and must not be inherited by any production body. Human review found the garment 'hips' anchor sitting above the pelvis root, around the lower abdomen, which misplaces every bottom that attaches to it (D-068). This body is retained as structural/reference evidence only and is not to be repaired for promotion."
       ],
       "generation_status": "approved",
       "qa_status": "pending",
@@ -3078,7 +3079,8 @@
       "negative_constraints": [
         "Do not infer identity, knowledge, biography, or traits from the artwork.",
         "Do not treat the normalized canvas size or fit ratio as a production standard.",
-        "Held UNRELEASED pending human visual acceptance: the body master is an untextured gray geometry mannequin, so every skin region a garment does not cover renders gray. Gray exposed skin is not accepted production presentation."
+        "Held UNRELEASED pending human visual acceptance: the body master is an untextured gray geometry mannequin, so every skin region a garment does not cover renders gray. Gray exposed skin is not accepted production presentation.",
+        "Attachment anchors on this record are NON-AUTHORITATIVE visual estimates and must not be inherited by any production body. Human review found the garment 'hips' anchor sitting above the pelvis root, around the lower abdomen, which misplaces every bottom that attaches to it (D-068). This body is retained as structural/reference evidence only and is not to be repaired for promotion."
       ],
       "generation_status": "approved",
       "qa_status": "pending",
@@ -4388,6 +4390,46 @@
         "compatible_body_families": ["pg-male-lean"],
         "compatible_pose_families": ["standing-neutral"]
       }
+    },
+    {
+      "asset_id": "env_shared_workroom_office_v1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "raster_tiers": [
+        {
+          "width": 1376,
+          "height": 768,
+          "path": "art/families/shared-workroom-office/env_shared_workroom_office_v1.png",
+          "hash": "51f6a94c151815bdcbf296096b94232b24a67c31a21744af40b84742ba5e6c12",
+          "derivation": "deterministic-downscale"
+        },
+        {
+          "width": 2752,
+          "height": 1536,
+          "path": "art/families/shared-workroom-office/env_shared_workroom_office_runtime_2x_v1.png",
+          "hash": "c26094b0b62c4e3b949ae4a5e839f2331f0785b74ffacf8488baea1564398c93",
+          "derivation": "deterministic-downscale"
+        }
+      ],
+      "family_id": "shared-workroom-office",
+      "jurisdiction_scope": "unscoped-generic-workroom",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_shared_workroom_office_v1"],
+      "rights_note": "Owner-approved Our Civic Duty scene master from the canonical 4K/5K source library; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Shared staff workroom plate. Both runtime tiers are deterministic DOWNSCALES of the owner-approved 5504x3072 master; nothing in this repository enlarged it. UI, people and simulation status remain code-authored.",
+      "negative_constraints": [
+        "Do not treat depicted details as sourced jurisdiction facts.",
+        "Do not bake names, controls, clocks, documents, or simulation status into this plate.",
+        "Do not upscale either tier; the 5504x3072 master is the only enlargement source and it is preserved unmodified."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/families/shared-workroom-office/env_shared_workroom_office_runtime_2x_v1.png",
+      "hash": "c26094b0b62c4e3b949ae4a5e839f2331f0785b74ffacf8488baea1564398c93",
+      "requires_transparency": false
     }
   ]
 }

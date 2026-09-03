@@ -13,6 +13,7 @@ import {
 } from "../environment/environment-scene-spec";
 import { COMMITTEE_ROOM_FIXTURE_SCENE } from "../environment/scenes/committee-room-fixture";
 import { OFFICE_COUNCIL_STAFF_FIXTURE_SCENE } from "../environment/scenes/office-council-staff-fixture";
+import { SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE } from "../environment/scenes/shared-workroom-office-production";
 import { createRasterTierLadder, type RasterTierLadder } from "./raster-tiers";
 import type {
   SceneCameraPolicy,
@@ -289,9 +290,15 @@ export function requireSceneAnchor(
  * Production plates join this list as data when they exist.
  */
 export const SCENE_REGISTRY: SceneRegistry = createSceneRegistry([
+  SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE,
   OFFICE_COUNCIL_STAFF_FIXTURE_SCENE,
   COMMITTEE_ROOM_FIXTURE_SCENE,
 ]);
 
+/**
+ * The production office. Its geometry is measured from its own 5504x3072
+ * master; nothing is inherited from the development fixture below it.
+ */
+export const PRODUCTION_OFFICE_SCENE_ID = "shared-workroom-office-production";
 export const OFFICE_FIXTURE_SCENE_ID = "office-council-staff-fixture";
 export const COMMITTEE_FIXTURE_SCENE_ID = "committee-room-fixture";

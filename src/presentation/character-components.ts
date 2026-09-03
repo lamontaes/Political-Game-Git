@@ -244,6 +244,87 @@ export const CHARACTER_COMPONENT_ASSET_TYPE = "character-component";
  * deliberate act — `candidate_component` becomes `component`, the type changes,
  * and the component joins a NEW generation — not a status flag flipping.
  */
+/**
+ * The semantic anchor vocabulary a body raster must measure and declare.
+ *
+ * These are DIFFERENT POINTS with different jobs, and the distinction is the
+ * whole contract. Human review of the banked candidates found `hips` sitting
+ * around the lower abdomen, which is not a labelling nit: bottoms attach to
+ * `hips`, so an anchor placed there hangs every trouser, skirt and pair of
+ * jeans from the wrong line on the body.
+ *
+ * In particular `pelvis-root` and `hips` are not interchangeable and one may
+ * never be substituted for the other:
+ *
+ * - `pelvis-root` is the body's RIG ROOT — the hip JOINT centre, a point inside
+ *   the body used to place the whole figure in a scene. Nothing is worn on it.
+ * - `hips` is a GARMENT ATTACHMENT — the line on the outside of the body where
+ *   a bottom's waistband sits. It is at or below the pelvis root, never above
+ *   it, because a waistband does not ride up inside the ribcage.
+ *
+ * `feet` is a CONTACT point, not an attachment: it is where the body meets the
+ * floor, and it is what a scene's floor line is matched against.
+ */
+export const CHARACTER_SEMANTIC_ANCHOR_ORDER = [
+  "crown",
+  "brow",
+  "head",
+  "torso",
+  "hips",
+  "feet",
+] as const;
+
+export type CharacterSemanticAnchorId =
+  (typeof CHARACTER_SEMANTIC_ANCHOR_ORDER)[number];
+
+/**
+ * Checks a body's declared anchors against the semantics above.
+ *
+ * This is the gate a PRODUCTION body must pass before any wardrobe family is
+ * accepted against it. It deliberately does NOT run over the banked candidates
+ * as a promotion blocker — those bodies are rejected for production on their
+ * own merits and their anchor coordinates are non-authoritative visual
+ * estimates (D-068). It exists so the next body, measured from real art, is
+ * held to a stated rule instead of to whatever the last intake happened to do.
+ */
+export function validateProductionBodyAnchors(
+  definition: Pick<CharacterComponentDefinition, "root" | "attachment_anchors">,
+  label = "body",
+): string[] {
+  const errors: string[] = [];
+  const anchors = definition.attachment_anchors ?? [];
+  const byId = new Map(anchors.map((anchor) => [anchor.id, anchor]));
+
+  for (const id of CHARACTER_SEMANTIC_ANCHOR_ORDER) {
+    if (!byId.has(id)) {
+      errors.push(`${label} declares no '${id}' anchor.`);
+    }
+  }
+  if (errors.length > 0) return errors;
+
+  // Down the body, in order. y grows downward in raster space.
+  for (let index = 1; index < CHARACTER_SEMANTIC_ANCHOR_ORDER.length; index++) {
+    const above = CHARACTER_SEMANTIC_ANCHOR_ORDER[index - 1]!;
+    const below = CHARACTER_SEMANTIC_ANCHOR_ORDER[index]!;
+    if (byId.get(above)!.y >= byId.get(below)!.y) {
+      errors.push(
+        `${label} puts '${above}' at or below '${below}'; the semantic anchors must descend the body in order.`,
+      );
+    }
+  }
+
+  const root = definition.root;
+  if (root) {
+    const hips = byId.get("hips")!;
+    if (hips.y < root.y) {
+      errors.push(
+        `${label} puts the garment 'hips' attachment at ${hips.y.toFixed(4)}, above the pelvis root at ${root.y.toFixed(4)}. A waistband sits at or below the hip joint centre, never above it, and bottoms attach to 'hips'.`,
+      );
+    }
+  }
+  return errors;
+}
+
 export const CHARACTER_COMPONENT_CANDIDATE_ASSET_TYPE =
   "character-component-candidate";
 
