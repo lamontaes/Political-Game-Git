@@ -189,10 +189,21 @@ export function compileBlsLaus(
         : 0,
   );
 
+  /*
+   * The corpus is as of its latest observation, not the end of that year.
+   *
+   * The file runs to a month partway through its final year, and rounding the
+   * as-of up to 31 December would claim coverage of months the Bureau has not
+   * published.
+   */
   const latest = records.reduce(
-    (newest, record) => (record.year > newest ? record.year : newest),
-    String(QA_SLICE_FIRST_YEAR),
+    (newest, record) =>
+      `${record.year}-${record.period}` > newest ? `${record.year}-${record.period}` : newest,
+    `${QA_SLICE_FIRST_YEAR}-M01`,
   );
+  const [latestYear, latestPeriod] = latest.split("-") as [string, string];
+  const latestMonth = latestPeriod === "M13" ? 12 : Number(latestPeriod.slice(1));
+  const lastDay = new Date(Date.UTC(Number(latestYear), latestMonth, 0)).getUTCDate();
 
   return {
     corpus: {
@@ -233,7 +244,7 @@ export function compileBlsLaus(
           sha256: a.dataSlice.artifact.bytes.sha256,
         },
       ],
-      asOf: `${latest}-12-31`,
+      asOf: `${latestYear}-${String(latestMonth).padStart(2, "0")}-${String(lastDay).padStart(2, "0")}`,
       recordCount: records.length,
       canonicalSha256: corpusCanonicalDigest(records),
       inputClass,

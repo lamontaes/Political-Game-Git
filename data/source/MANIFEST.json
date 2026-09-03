@@ -139,7 +139,7 @@
           "storage": "derived-qa-slice"
         }
       ],
-      "asOf": "2026-12-31",
+      "asOf": "2026-07-31",
       "boundedSampleReason": "The observation file holds 248,282 rows going back to 1976, which is past the point where committing raw bytes to this repository is reasonable. It is cached rather than committed — its identity is pinned in the lock even though its bytes are not here — and the corpus compiles a QA slice of it: The header row of la.data.1.CurrentS followed by every data row whose year field is 2024 or later, in published file order, each row byte-for-byte including its trailing carriage return, with a trailing newline. Anyone who retrieves the parent can re-cut the slice and compare digests. BLS also publishes an unadjusted file covering many more areas, which is a different product and is not part of this corpus.",
       "canonicalSha256": "44ec1198c8852552cf957960b928d2c174d4a24824ffeaec4dbcc35145500ff4",
       "compiler": {

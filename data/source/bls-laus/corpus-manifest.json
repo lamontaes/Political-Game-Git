@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-12-31",
+  "asOf": "2026-07-31",
   "canonicalSha256": "44ec1198c8852552cf957960b928d2c174d4a24824ffeaec4dbcc35145500ff4",
   "compiler": {
     "name": "bls-laus",
