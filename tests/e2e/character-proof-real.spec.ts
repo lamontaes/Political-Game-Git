@@ -135,17 +135,24 @@ test.describe("Real Political Game modular characters", () => {
       .getByTestId("office-art-compositor")
       .boundingBox())!;
     const scale = stage.width / 1024;
-    // Root (seat contact) lands on the anchor: the guest chair seat at ~29.1%, 66.1%.
+    // The measured seat-contact root lands on the registered scene's own seat
+    // plane. Both numbers now come from somewhere: the root off the raster, the
+    // anchor off the scene spec. Neither was tuned until the picture looked
+    // right, which is how they used to disagree.
     expect(guestBox.x + guestBox.width * 0.497).toBeCloseTo(
-      stage.x + 1024 * 0.291 * scale,
+      stage.x + 1024 * 0.28 * scale,
       0,
     );
     expect(guestBox.y + guestBox.height * 0.62).toBeCloseTo(
-      stage.y + 572 * 0.661 * scale,
+      stage.y + 572 * 0.63 * scale,
+      0,
+    );
+    expect(primaryBox.x + primaryBox.width * 0.507).toBeCloseTo(
+      stage.x + 1024 * 0.792 * scale,
       0,
     );
     expect(primaryBox.y + primaryBox.height * 0.624).toBeCloseTo(
-      stage.y + 572 * 0.691 * scale,
+      stage.y + 572 * 0.635 * scale,
       0,
     );
     await page.screenshot({

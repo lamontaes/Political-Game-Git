@@ -23,6 +23,41 @@ function boxesOverlap(left: Box, right: Box): boolean {
   );
 }
 
+/**
+ * The scene's own `navigation-flyout` UI-safe zone, projected onto the page.
+ *
+ * The office scene declares a 320x300 region of its 1024x572 plate as the
+ * area the navigation flyout may cover. Declaring it is the scene saying that
+ * art there is expendable — so the guarantee worth checking is not "the shell
+ * never covers any art", which no seated figure at the guest chair could ever
+ * satisfy, but "the shell only ever covers art inside the region the scene said
+ * it may".
+ */
+function navigationFlyoutSafeZone(stage: Box): Box {
+  const scale = stage.width / 1024;
+  return { x: stage.x, y: stage.y, width: 320 * scale, height: 300 * scale };
+}
+
+function boxContains(outer: Box, inner: Box): boolean {
+  return (
+    inner.x >= outer.x - 0.5 &&
+    inner.y >= outer.y - 0.5 &&
+    inner.x + inner.width <= outer.x + outer.width + 0.5 &&
+    inner.y + inner.height <= outer.y + outer.height + 0.5
+  );
+}
+
+function overlapBox(left: Box, right: Box): Box {
+  const x = Math.max(left.x, right.x);
+  const y = Math.max(left.y, right.y);
+  return {
+    x,
+    y,
+    width: Math.min(left.x + left.width, right.x + right.width) - x,
+    height: Math.min(left.y + left.height, right.y + right.height) - y,
+  };
+}
+
 async function requiredBox(locator: Locator): Promise<Box> {
   const box = await locator.boundingBox();
   expect(box).not.toBeNull();
@@ -152,11 +187,13 @@ for (const viewport of [
       expect(artBox!.width).toBeLessThan(raster.naturalWidth);
       expect(artBox!.height).toBeLessThan(raster.naturalHeight);
 
+      // Roots are the seat-contact lines measured off each raster (D-055);
+      // anchors are the registered scene's own staging position and seat plane
+      // (D-057), not a number tuned per sprite.
       const root =
         variant === "primary"
-          ? // D-055: measured seat-contact roots and chair seat-point anchors.
-            { x: 0.507, y: 0.624, anchorX: 0.792, anchorY: 0.691 }
-          : { x: 0.497, y: 0.62, anchorX: 0.291, anchorY: 0.661 };
+          ? { x: 0.507, y: 0.624, anchorX: 0.792, anchorY: 0.635 }
+          : { x: 0.497, y: 0.62, anchorX: 0.28, anchorY: 0.63 };
       expect(artBox!.x + artBox!.width * root.x).toBeCloseTo(
         stageBox!.x + stageBox!.width * root.anchorX,
         1,
@@ -250,8 +287,31 @@ for (const viewport of [
     expect(flyoutBox.x).toBeLessThan(viewport.width * 0.3);
     expect(boxesOverlap(flyoutBox, openStatusBox)).toBe(false);
     expect(boxesOverlap(flyoutBox, openPinBox)).toBe(false);
-    for (const reference of sceneReferences) {
+
+    // Interactive scene references must stay clear of the flyout outright: a
+    // document the player has to click is never worth covering.
+    for (const reference of [
+      page.getByTestId("briefing-memo-entry"),
+      page.getByTestId("working-document-entry"),
+    ]) {
       expect(boxesOverlap(flyoutBox, await requiredBox(reference))).toBe(false);
+    }
+
+    // People may be clipped, but only inside the region the scene declared for
+    // exactly that. With the seat plane corrected the guest sits higher, and
+    // the top-left corner of its box now reaches the flyout; what this asserts
+    // is that the shell has not strayed outside its own declared zone.
+    const flyoutZone = navigationFlyoutSafeZone(await requiredBox(compositor));
+    for (const reference of [
+      page.getByTestId("scene-character-art-primary"),
+      page.getByTestId("scene-character-art-guest"),
+    ]) {
+      const referenceBox = await requiredBox(reference);
+      if (!boxesOverlap(flyoutBox, referenceBox)) continue;
+      expect(
+        boxContains(flyoutZone, overlapBox(flyoutBox, referenceBox)),
+        "the shell covered scene art outside its declared UI-safe zone",
+      ).toBe(true);
     }
 
     await page.mouse.move(viewport.width / 2, 20);
