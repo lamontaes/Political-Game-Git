@@ -18,6 +18,15 @@ put on a floor stands on it, and swapping one person for another does not knock
 either of them out of place. None of that is visible yet, because the art it is
 waiting for has not been made.
 
+Postures are now described the same way. Standing, sitting at a desk, sitting
+in a guest chair and standing while talking are each written down once — where
+the feet meet the floor, where the hips meet the seat, where the shoulders and
+hands sit — so a person can be asked for a posture and the game either draws
+them properly in it or says plainly that the picture does not exist yet. It
+will not put a desk-work drawing in a guest chair and hope you do not notice.
+The same descriptions produce the drawing guides the art itself is made from,
+so the picture and the maths come from one source.
+
 ## PRE-ALPHA 0.2.0 — "The Bill Becomes Law"
 
 _Revised 2 September 2026 after an independent review of the legislating build._

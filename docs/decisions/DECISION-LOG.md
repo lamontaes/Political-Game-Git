@@ -1195,3 +1195,89 @@ apartment, a frozen bill number, a fabricated dimension — are unrepresentable
 rather than merely discouraged. None of this is wired into PlayerGame; the
 contracts and their tests exist first so that integration stays a cheap
 decision.
+
+## D-056 — One pose contract, and gaps that name themselves
+
+**Decision.** A pose family is registered data with a posture class, a facing,
+a root, contacts, eighteen landmarks, compatibility, a nominal canvas, a master
+minimum, a production status, a human-QA state and a contact-verification state.
+A scene anchor asks the registry for a posture; it does not take the first pose
+any body happens to have art for.
+
+The old resolver asked "does any body have this pose". That is the wrong
+question, and it is how the office guest chair silently drew a desk-work body
+in a guest chair. The right question is "does THIS person's body family have
+art for a pose this anchor permits", and the registry can answer it because
+identity resolution is pose-independent by contract: the recipe fixes body,
+head and garment families before it looks at a pose.
+
+Substitution is deliberately narrow. It only ever happens between poses the
+anchor itself lists, because that author declared them interchangeable there,
+and it is always reported. When nothing permitted can be drawn, the compositor
+fails closed and the diagnostic names which body families do have art and which
+do not, rather than saying "missing".
+
+**Statuses are checked against the library in both directions.** A family
+claiming released art must have some; a family claiming none must have none. A
+status that could only ever flatter is not a status.
+
+**Consequence.** The generation queue is computed rather than argued about. Of
+four uncovered pose families, exactly one is blocking current gameplay, because
+exactly one is asked for by a live scene anchor.
+
+## D-057 — Structure is a control layer, not a paragraph
+
+**Decision.** Every pose family generates one deterministic control plate from
+its own landmarks: limb mass, a closed torso, the skull above the headless body
+canvas, the contact planes, the skeleton, every landmark and both contacts. The
+art validator re-derives every plate and rejects one whose landmarks moved
+without regeneration.
+
+This implements the structure-control research conclusion that exact body
+structure and final visual rendering are separate control layers. Repeated
+prose-only anatomy edits normalized toward a model's default proportions; that
+was a control-method problem, not a prompt-wording problem.
+
+A plate carries no text, because text in a control image bleeds into generated
+art. A plate is never production art: no bone line, landmark dot or contact
+ring may appear in a finished character raster. Anchor dots live in metadata and
+a developer overlay draws them from there.
+
+## D-058 — A master is a source, and a filename is not evidence
+
+**Decision.** Twenty-five source masters are re-homed from the superseded PR #48
+branch as `character-component-master` assets, permanently unreleased. Exactly
+two meet the current dimension contract; none carries alpha. The thirty-five
+normalized derivatives are rejected: they sit 3.1x to 11x below the contract,
+and the garment set was enlarged above its own master, which is precisely the
+failure the master minimums exist to prevent. Nothing is lost, because the
+masters are here and the exact derivation recipe is preserved in provenance.
+
+Identifiers are re-cut on intake. The source named heads and hair with
+demographic tokens. Complexion is art direction, never demography, and is never
+inferred from a name, so those tokens do not enter asset IDs or paths; the
+received filenames stay in provenance so the lineage remains checkable.
+Hairstyle names are kept, because a hairstyle names a hairstyle.
+
+**Consequence.** The project now holds real production-size standing body
+authority for the first time, and knows precisely what it does not hold: no
+character master with alpha, and no head, hair or garment master within reach
+of its own minimum.
+
+## D-059 — A disposition without evidence is an assertion
+
+**Decision.** What happened to superseded branch cargo and to downloaded asset
+packs is recorded in one validated ledger. A `re-homed` claim must name real
+manifest assets and must have been measured in this repository; an entry that
+was not measured must name the command that would settle it; every disposition
+must give a reason. No external pack is counted as coverage anywhere.
+
+The animation library is archived on its purpose rather than its contents: an
+animation library is motion data for a rig, and the operating rule excludes
+rigging, 3D posing and extracting frames from rigs. The base-character and
+office packs are held pending rather than rejected, because a 129MB and a 527MB
+archive were not opened and rejecting them unseen would be as unfounded as
+adopting them unseen.
+
+**Consequence.** The asset bank inventory can state coverage without any of it
+resting on something nobody checked.
