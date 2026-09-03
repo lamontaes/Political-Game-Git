@@ -17,7 +17,23 @@ import type {
   SimulationMoment,
   World,
 } from "../simulation/types";
+import {
+  BROWSER_WORLD_RECORD_KIND,
+  BROWSER_WORLD_RECORD_VERSION,
+  BROWSER_WORLD_TOMBSTONE_KIND,
+  READABLE_RECORD_VERSIONS,
+  SLOT_MESSAGES,
+  decideWrite,
+  readSlotState,
+} from "./browser-world-repository-protocol";
 import { createSaveId } from "./new-game-identity";
+
+export {
+  BROWSER_WORLD_RECORD_KIND,
+  BROWSER_WORLD_RECORD_VERSION,
+  BROWSER_WORLD_TOMBSTONE_KIND,
+  READABLE_RECORD_VERSIONS,
+};
 
 /**
  * Saved games in the browser.
@@ -26,28 +42,42 @@ import { createSaveId } from "./new-game-identity";
  * in the load list is derived from that snapshot every time it is read, so a
  * save can never drift into telling a different story from the world inside it.
  *
- * Three things the audit found wrong are fixed here by construction rather
- * than by care.
+ * What the audits found wrong is fixed here by construction rather than by
+ * care.
  *
  * *Ordering.* Only autosave used to be serialized, so a delete could land
  * between an autosave being asked for and being written, and the save came
- * back from the dead. Every operation that touches storage now goes through
- * one queue, and a delete fences the slot: a write that was already waiting
- * when the save was deleted is discarded instead of recreating it.
+ * back from the dead. Every operation that touches storage goes through one
+ * queue.
  *
  * *Acknowledgement.* A failed write used to advance what the caller treated as
  * durable, so the retry never came and the work was silently lost. Nothing is
  * acknowledged until the write actually lands.
  *
- * *Revision identity.* Durability is decided by the content identity of the
- * world and by the store's own request order — never by `World.actionSequence`.
- * That number counts advanced time, not world revisions: a conversation turn,
- * a formative beat or a legislative step writes canonical history and leaves it
+ * *Revision identity.* Durability is decided by the content of the world and
+ * by the store's own request order — never by `World.actionSequence`. That
+ * number counts advanced time, not world revisions: a conversation turn, a
+ * formative beat or a legislative step writes canonical history and leaves it
  * exactly where it was. A store that read it as a revision number saw the
  * player's new world carrying the old number, called it already durable, and
- * dropped it. Two worlds are the same world here only if they are the same
- * world; and "your write or a newer one landed" is answered from an ordinal
- * this store issues itself.
+ * dropped it.
+ *
+ * *Whose truth.* This is the one the last audit was about, and it is the
+ * reason the code below looks the way it does. Every tab builds its own store
+ * over the same IndexedDB database, so a store's memory is a belief about a
+ * shared thing, not a fact about it. Believing it was two silent data-loss
+ * bugs: two tabs each wrote an unconditional `put` and were each told `saved`,
+ * losing one canonical world; and a deletion lived in a `Set` inside one
+ * JavaScript object, so another tab neither saw it nor was stopped from
+ * writing the slot back into existence.
+ *
+ * So durability is now decided from the record on disk, inside one IndexedDB
+ * transaction that reads the slot, compares it, and writes — which the browser
+ * serializes across tabs. Every acknowledgement this store gives means the
+ * intended world is represented in the shared store, not that this tab
+ * finished a request. A writer whose belief about the slot is stale is told
+ * so, by name, instead of being allowed to overwrite work it never saw. The
+ * details of that protocol are in `browser-world-repository-protocol.ts`.
  *
  * *Identity.* A save slot is not a world. One world can be kept twice — the
  * same life at two points, or a deliberate branch — and those are different
@@ -60,15 +90,10 @@ import { createSaveId } from "./new-game-identity";
  * unavailable".
  */
 
-export const BROWSER_WORLD_RECORD_KIND = "political-life-browser-world";
-/** Version 2 separated the save slot's identity from the world's. */
-export const BROWSER_WORLD_RECORD_VERSION = 2;
-/** Versions this build can read, after migration. */
-export const READABLE_RECORD_VERSIONS: readonly number[] = [1, 2];
-
 const DEFAULT_DATABASE_NAME = "political-life-worlds";
 const DATABASE_VERSION = 1;
 const STORE_NAME = "worlds";
+const WRITE_FAILED = "This game could not be saved just now.";
 
 export interface BrowserWorldResidenceSummary {
   readonly jurisdictionId: EntityId;
@@ -99,8 +124,23 @@ export interface StoredBrowserWorldRecord {
   readonly kind: typeof BROWSER_WORLD_RECORD_KIND;
   readonly recordVersion: typeof BROWSER_WORLD_RECORD_VERSION;
   readonly saveId: EntityId;
+  /**
+   * The slot's revision, shared by every tab. It moves when the world in the
+   * slot changes and stays put when only the last-played stamp does, so
+   * opening a save does not take the slot away from a tab that is playing it.
+   */
+  readonly generation: number;
   readonly metadata: BrowserWorldSummary;
   readonly payload: string;
+}
+
+/** The durable proof that a slot was deleted, kept at the slot's own key. */
+export interface StoredBrowserWorldTombstone {
+  readonly kind: typeof BROWSER_WORLD_TOMBSTONE_KIND;
+  readonly recordVersion: typeof BROWSER_WORLD_RECORD_VERSION;
+  readonly saveId: EntityId;
+  readonly generation: number;
+  readonly deletedAt: string;
 }
 
 /** Why a stored record could not be trusted, in the terms the code reasons in. */
@@ -127,22 +167,42 @@ export interface BrowserWorldListing {
   readonly damaged: readonly QuarantinedSave[];
 }
 
-/** What became of a write that had to wait its turn. */
+/**
+ * What became of a write.
+ *
+ * `conflict` is the one the cross-tab repair added, and it is deliberately not
+ * a failure: nothing went wrong with storage, the slot simply is not this
+ * store's to write. Collapsing it into `failed` would invite a retry that can
+ * only ever destroy the other tab's world.
+ */
 export type SaveOutcome =
   | { readonly status: "saved"; readonly summary: BrowserWorldSummary }
-  | { readonly status: "discarded"; readonly reason: string };
+  | { readonly status: "discarded"; readonly reason: string }
+  | { readonly status: "conflict"; readonly reason: string };
 
 /**
  * What became of an autosave, once the slot stopped moving.
  *
- * `saved` means this world or a newer one is durable. `discarded` means the
- * slot was deleted. `failed` means it is still only in memory, and says so
- * rather than letting the screen imply otherwise.
+ * `saved` means this world, or a newer one from this store, is durable in the
+ * shared database. `discarded` means the slot was deleted — here or in another
+ * tab, and either way for good. `conflict` means another tab holds the slot.
+ * `failed` means the world is still only in memory, and says so rather than
+ * letting the screen imply otherwise.
  */
 export type AutosaveResult =
   | { readonly status: "saved" }
   | { readonly status: "discarded"; readonly reason: string }
+  | { readonly status: "conflict"; readonly reason: string }
   | { readonly status: "failed"; readonly reason: string };
+
+/** Why a slot is not settled, in the terms a shell has to act on. */
+export type UnsavedReason = "pending" | "failed" | "conflict";
+
+export interface UnsavedSlot {
+  readonly saveId: EntityId;
+  readonly kind: UnsavedReason;
+  readonly reason: string;
+}
 
 /** What leaving found: either everything is down, or these slots are not. */
 export interface FlushResult {
@@ -178,6 +238,12 @@ interface PendingWrite {
   readonly ordinal: number;
 }
 
+/** What one conditional write decided, and the record it decided about. */
+interface WriteSettlement {
+  readonly verdict: ReturnType<typeof decideWrite>;
+  readonly record?: StoredBrowserWorldRecord;
+}
+
 /* -------------------------------------------------------------------------- */
 /* The ordered command boundary. Everything that can conflict goes through it. */
 /* -------------------------------------------------------------------------- */
@@ -191,27 +257,40 @@ export class BrowserSaveStore {
   /** One queue. Ordering is the property, not a side effect of using it. */
   #tail: Promise<unknown> = Promise.resolve();
   /**
-   * Slots the player has deleted. A deleted slot stays deleted: any write to
-   * it is discarded, whether it was asked for before the delete or after it
-   * while the delete was still landing. Keeping a life again takes a new slot,
-   * so nothing legitimate is blocked by this.
+   * Slots known to hold a tombstone. This is a cache of a durable fact, not
+   * the fact itself — which is the distinction the audit found missing. A
+   * deleted slot is deleted because the database says so; this only saves the
+   * round trip, and is filled in from any tombstone this store meets, so a tab
+   * that never asked for the deletion still learns about it.
    */
   readonly #deleted = new Set<string>();
+  /**
+   * A delete this store has asked for and not yet had confirmed.
+   *
+   * Provisional, and treated as provisional: it turns away an explicit save
+   * asked for after the player said "delete", because that is the player's
+   * older word, but it never destroys a world already owed to a slot. Doing
+   * that was how a failed delete lost an autosave — the fence went up, the
+   * drain threw the owed write away, the delete then failed, and the rollback
+   * found nothing left to restart.
+   */
+  readonly #removing = new Set<string>();
+  readonly #removals = new Map<string, Promise<boolean>>();
+  /**
+   * The generation this store last saw for a slot, and therefore the one it
+   * claims to be replacing when it writes.
+   *
+   * Set by opening a save and by writes that landed — never by listing, which
+   * is a glance at the shelf and not a claim on anything, and never by a
+   * refused write, because adopting the generation that refused you is just
+   * the overwrite again with an extra step.
+   */
+  readonly #observed = new Map<string, number>();
   /**
    * What is actually on disk for a slot, named by the content identity of the
    * world rather than by anything the domain happens to count.
    *
-   * This used to be `World.actionSequence`, and that was wrong in a way no
-   * test caught. Only `advanceTime` and `advanceMinutes` move that number, so
-   * every writer that records history without advancing the clock — a
-   * conversation turn, a formative beat, a legislative step — returns a
-   * canonically different world carrying the number the previous one had. The
-   * store recognised the number, said "already durable", and the player's
-   * action was gone at the next reload. Content identity cannot make that
-   * mistake: two worlds are the same world here only if they are the same
-   * world.
-   *
-   * Set only by a write that actually landed.
+   * Set only from a verdict a transaction reached against the stored record.
    */
   readonly #durableContent = new Map<string, EntityId>();
   /**
@@ -219,8 +298,7 @@ export class BrowserSaveStore {
    *
    * Ordering is the store's own, not the domain's. A caller asking whether its
    * world reached disk is answered by "this exact content is durable, or a
-   * request made after yours is" — which is what it actually needs to know,
-   * and which no domain counter can express.
+   * request made after yours is" — which is what it actually needs to know.
    */
   readonly #durableRequest = new Map<string, number>();
   /** Monotonic, store-owned, and the only source of persistence order. */
@@ -236,17 +314,12 @@ export class BrowserSaveStore {
    * it off. This is the whole autosave contract, and it lives here rather than
    * in a component: the caller says what the newest world is, and the store is
    * answerable for it reaching disk.
-   *
-   * What it replaces was a boolean in a React ref. While one write was in
-   * flight the next world was dropped on the floor — and because a ref does not
-   * re-render, nothing ever came back for it. A player could take an action,
-   * see it acknowledged, leave, and find it gone. Coalescing is right; losing
-   * the newest revision is not, and the difference is that a queue remembers
-   * what it skipped.
    */
   readonly #pending = new Map<string, PendingWrite>();
   readonly #settled = new Map<string, Promise<void>>();
   readonly #failures = new Map<string, string>();
+  /** Slots another writer holds. Not retried, and not quietly forgotten. */
+  readonly #conflicts = new Map<string, string>();
 
   constructor(options: BrowserWorldRepositoryOptions = {}) {
     const factory = options.indexedDB ?? globalThis.indexedDB;
@@ -289,9 +362,9 @@ export class BrowserSaveStore {
   }
 
   /**
-   * The content identity of the world durably stored in a slot, or null if
-   * nothing is. A caller decides whether it still owes a write from this
-   * rather than from what it hoped had happened.
+   * The content identity of the world this store has confirmed durable in a
+   * slot, or null if it has confirmed none. Every value here was reached by
+   * comparing against the stored record, not by remembering a request.
    */
   durableContentId(saveId: EntityId): EntityId | null {
     return this.#durableContent.get(saveId) ?? null;
@@ -306,6 +379,57 @@ export class BrowserSaveStore {
     return this.#durableRequest.get(saveId) ?? null;
   }
 
+  /** The slot generation this store believes it holds, or null if none. */
+  observedGeneration(saveId: EntityId): number | null {
+    return this.#observed.get(saveId) ?? null;
+  }
+
+  /**
+   * Every slot this store owes something to, and why.
+   *
+   * The shell needs this because a tab can be closed, and closing it destroys
+   * everything that is only in memory. There was no way to ask before, so
+   * there was no guard: a player could act, watch a write fail, close the
+   * window, and lose the world with nothing having said a word. What is
+   * reported is deliberately wider than "a write is in flight" — a world that
+   * failed, and a slot lost to another tab, are both work the player has not
+   * got anywhere durable.
+   */
+  unsavedWork(): readonly UnsavedSlot[] {
+    const unsaved: UnsavedSlot[] = [];
+    for (const saveId of this.#pending.keys()) {
+      const failure = this.#failures.get(saveId);
+      unsaved.push({
+        saveId: saveId as EntityId,
+        kind: failure === undefined ? "pending" : "failed",
+        reason: failure ?? WRITE_FAILED,
+      });
+    }
+    for (const [saveId, reason] of this.#conflicts) {
+      if (this.#pending.has(saveId)) continue;
+      unsaved.push({ saveId: saveId as EntityId, kind: "conflict", reason });
+    }
+    return unsaved;
+  }
+
+  /**
+   * Says this store is no longer writing to a slot, and stops it being owed.
+   *
+   * The honest way out of a conflict. A tab that lost a slot cannot write it
+   * and must not pretend the loss did not happen, so the shell detaches the
+   * life from that slot and offers to keep it somewhere new; this is how the
+   * shell says it has done so. Without it, leaving would be refused forever
+   * over a slot nothing could ever write.
+   */
+  releaseSlot(saveId: EntityId): void {
+    this.#pending.delete(saveId);
+    this.#failures.delete(saveId);
+    this.#conflicts.delete(saveId);
+    this.#observed.delete(saveId);
+    this.#durableContent.delete(saveId);
+    this.#durableRequest.delete(saveId);
+  }
+
   /** One hash of one world, kept so the drain does not recompute it. */
   #contentId(world: World): EntityId {
     const cached = this.#contentIds.get(world);
@@ -317,65 +441,149 @@ export class BrowserSaveStore {
 
   save(world: World, saveId: EntityId): Promise<SaveOutcome> {
     return this.#enqueue(async () => {
-      if (this.#deleted.has(saveId)) {
+      if (this.#deleted.has(saveId) || this.#removing.has(saveId)) {
         // Writing this now would bring back a save the player got rid of.
         return {
           status: "discarded",
-          reason: "This saved game was deleted, so it was not written again.",
+          reason: SLOT_MESSAGES.deleted,
         } as const;
       }
-      const existing = await this.#get(saveId);
-      const prior = existing === undefined ? null : readStoredRecord(existing);
-      const priorMetadata =
-        prior?.kind === "healthy" ? prior.record.metadata : null;
-      const timestamp = latestTimestamp(
-        nowTimestamp(this.#now),
-        priorMetadata?.savedAt,
-        priorMetadata?.lastPlayedAt,
-      );
-      const record = createBrowserWorldRecord(
-        world,
-        timestamp,
-        priorMetadata?.createdAt ?? timestamp,
-        saveId,
-      );
-      await this.#put(record);
-      // Only now is anything durable, and only now does the store say so.
-      this.#durableContent.set(saveId, this.#contentId(world));
-      return {
-        status: "saved",
-        summary: cloneSummary(record.metadata),
-      } as const;
+      return this.#writeSlot(prepareWorldRecord(world), saveId);
     });
+  }
+
+  /**
+   * One conditional write, decided against the record on disk.
+   *
+   * The world is prepared before the transaction opens, so the only work
+   * inside the lock every tab shares is a comparison and a put.
+   */
+  async #writeSlot(
+    prepared: PreparedRecord,
+    saveId: EntityId,
+  ): Promise<SaveOutcome> {
+    const settled = await this.#commit<WriteSettlement>(saveId, (current) => {
+      const state = readSlotState(current);
+      const verdict = decideWrite(
+        state,
+        this.#observed.get(saveId) ?? null,
+        prepared.payload,
+      );
+      if (verdict.kind === "discarded" || verdict.kind === "conflict") {
+        return { write: null, result: { verdict } };
+      }
+      const stored = state.kind === "present" ? state : null;
+      const savedAt = latestTimestamp(
+        nowTimestamp(this.#now),
+        stored?.savedAt ?? undefined,
+        stored?.lastPlayedAt ?? undefined,
+      );
+      const createdAt = stored?.createdAt ?? savedAt;
+      const record = completeRecord(
+        prepared,
+        saveId,
+        savedAt,
+        createdAt,
+        verdict.generation,
+      );
+      if (verdict.kind === "write") {
+        return { write: record, result: { verdict, record } };
+      }
+      // Nothing is written when the bytes already match. The caller still gets
+      // a summary, and it describes the record that is actually there — the
+      // world is the same world, but its stamps are the ones it was stored
+      // with, not the ones this write would have given it.
+      return {
+        write: null,
+        result: {
+          verdict,
+          record: {
+            ...record,
+            metadata: {
+              ...record.metadata,
+              savedAt: stored?.savedAt ?? record.metadata.savedAt,
+              lastPlayedAt:
+                stored?.lastPlayedAt ?? record.metadata.lastPlayedAt,
+            },
+          },
+        },
+      };
+    });
+
+    const verdict = settled.verdict;
+    if (verdict.kind === "discarded") {
+      // A tombstone is durable authority, so this store now knows too.
+      this.#deleted.add(saveId);
+      this.#forgetSlotState(saveId);
+      return { status: "discarded", reason: verdict.reason } as const;
+    }
+    if (verdict.kind === "conflict") {
+      this.#conflicts.set(saveId, verdict.reason);
+      return { status: "conflict", reason: verdict.reason } as const;
+    }
+    // Only now is anything durable, and only now does the store say so.
+    this.#observed.set(saveId, verdict.generation);
+    this.#durableContent.set(saveId, prepared.contentId);
+    this.#conflicts.delete(saveId);
+    return {
+      status: "saved",
+      summary: cloneSummary(settled.record!.metadata),
+    } as const;
   }
 
   load(saveId: EntityId): Promise<World | null> {
     return this.#enqueue(async () => {
       if (this.#deleted.has(saveId)) return null;
       const raw = await this.#get(saveId);
-      if (raw === undefined) return null;
+      const state = readSlotState(raw);
+      if (state.kind === "deleted") {
+        this.#deleted.add(saveId);
+        this.#forgetSlotState(saveId);
+        return null;
+      }
+      if (state.kind === "absent") return null;
       const read = readStoredRecord(raw);
       if (read.kind !== "healthy") {
-        throw new Error(read.quarantine.reason);
+        throw new Error(
+          read.kind === "damaged"
+            ? read.quarantine.reason
+            : SLOT_MESSAGES.deleted,
+        );
       }
       const record = read.record;
       if (record.saveId !== saveId) {
         throw new Error("This saved game does not match the one asked for.");
       }
       const world = deserializeWorld(record.payload);
+      // Opening a save is how a tab comes to hold the slot: what it has in
+      // hand now *is* what is stored, so it may write over it. The payload was
+      // not rewritten, so what is durable is what was read.
+      this.#observed.set(saveId, record.generation);
+      this.#durableContent.set(saveId, this.#contentId(world));
+      this.#conflicts.delete(saveId);
+
       const lastPlayedAt = latestTimestamp(
         nowTimestamp(this.#now),
         record.metadata.savedAt,
         record.metadata.lastPlayedAt,
       );
-      // The last-played stamp is part of the same ordered stream, so it cannot
-      // land on top of a newer save written a moment ago.
-      await this.#put({
-        ...record,
-        metadata: { ...record.metadata, lastPlayedAt },
+      // The last-played stamp is bookkeeping, not a revision: it keeps the
+      // generation where it is, so opening a save in a second tab does not
+      // take the slot away from the tab that is playing it. And it is
+      // conditional, so it cannot land on top of a newer save.
+      await this.#commit(saveId, (current) => {
+        const now = readSlotState(current);
+        if (now.kind !== "present" || now.generation !== record.generation) {
+          return { write: null, result: undefined };
+        }
+        return {
+          write: {
+            ...record,
+            metadata: { ...record.metadata, lastPlayedAt },
+          },
+          result: undefined,
+        };
       });
-      // The payload was not rewritten, so what is durable is what was read.
-      this.#durableContent.set(saveId, this.#contentId(world));
       return world;
     });
   }
@@ -389,9 +597,18 @@ export class BrowserSaveStore {
       // when in fact every other game was fine.
       for (const raw of await this.#getAll()) {
         const read = readStoredRecord(raw);
-        if (read.kind === "healthy")
+        if (read.kind === "healthy") {
           saves.push(cloneSummary(read.record.metadata));
-        else damaged.push(read.quarantine);
+        } else if (read.kind === "deleted") {
+          // A tombstone is neither a save nor damage. Meeting one is also how
+          // a tab that never asked for the deletion finds out about it, which
+          // is worth taking: the next autosave is turned away without a round
+          // trip, rather than being told a deleted slot is fine.
+          this.#deleted.add(read.saveId);
+          this.#forgetSlotState(read.saveId);
+        } else {
+          damaged.push(read.quarantine);
+        }
       }
       return {
         saves: saves.sort(compareSummaries),
@@ -406,41 +623,71 @@ export class BrowserSaveStore {
     return (await this.list()).saves[0] ?? null;
   }
 
-  /** Removes a slot and fences it, so nothing already in flight recreates it. */
+  /**
+   * Deletes a slot for good, everywhere.
+   *
+   * The slot's key is not emptied; a tombstone is written there at a later
+   * generation. That is what makes the deletion a fact other tabs meet rather
+   * than an intention this one holds: a stale tab's next write finds the
+   * tombstone, is told the save is gone, and cannot put it back. The slot id
+   * is never reused afterwards.
+   */
   remove(saveId: EntityId): Promise<boolean> {
-    // Marked before the queue runs, so a write that is already waiting sees it.
-    this.#deleted.add(saveId);
-    const durableContent = this.#durableContent.get(saveId);
-    const durableRequest = this.#durableRequest.get(saveId);
-    this.#durableContent.delete(saveId);
-    this.#durableRequest.delete(saveId);
-    return this.#enqueue(async () => {
-      try {
-        const existing = await this.#get(saveId);
-        if (existing === undefined) return false;
-        await this.#delete(saveId);
-        // Gone for good: nothing is owed to a slot that no longer exists.
-        this.#pending.delete(saveId);
-        this.#failures.delete(saveId);
-        return true;
-      } catch (error: unknown) {
-        // The fence exists to stop a queued write resurrecting a save that is
-        // gone. Nothing is gone here, so leaving the fence up would block the
-        // slot for the rest of the session and then lose it at the next
-        // restart, when the tombstone is only in memory. Put it back, pick up
-        // anything the fence made a drain abandon, and let the caller say what
-        // happened.
-        this.#deleted.delete(saveId);
-        if (durableContent !== undefined) {
-          this.#durableContent.set(saveId, durableContent);
+    const inFlight = this.#removals.get(saveId);
+    if (inFlight) return inFlight;
+    // Provisional only: it turns away an explicit save asked for after the
+    // player said "delete". It does not touch what is already owed.
+    this.#removing.add(saveId);
+    const removal = this.#enqueue(() => this.#tombstone(saveId)).then(
+      (removed) => {
+        this.#removing.delete(saveId);
+        this.#removals.delete(saveId);
+        if (removed) {
+          this.#deleted.add(saveId);
+          this.#pending.delete(saveId);
+          this.#forgetSlotState(saveId);
         }
-        if (durableRequest !== undefined) {
-          this.#durableRequest.set(saveId, durableRequest);
-        }
+        return removed;
+      },
+      (error: unknown) => {
+        // Nothing was removed, so nothing may be treated as removed. The
+        // provisional fence comes down and the drain — which waited rather
+        // than throwing the owed world away — picks it up again.
+        this.#removing.delete(saveId);
+        this.#removals.delete(saveId);
         if (this.#pending.has(saveId)) void this.#ensureDrain(saveId);
         throw error;
-      }
+      },
+    );
+    this.#removals.set(saveId, removal);
+    return removal;
+  }
+
+  #tombstone(saveId: EntityId): Promise<boolean> {
+    if (this.#deleted.has(saveId)) return Promise.resolve(false);
+    return this.#commit(saveId, (current) => {
+      const state = readSlotState(current);
+      if (state.kind === "deleted") return { write: null, result: false };
+      if (state.kind === "absent") return { write: null, result: false };
+      // An unreadable record is deleted too: a quarantined save is exactly the
+      // one a player most wants to be rid of.
+      const tombstone: StoredBrowserWorldTombstone = {
+        kind: BROWSER_WORLD_TOMBSTONE_KIND,
+        recordVersion: BROWSER_WORLD_RECORD_VERSION,
+        saveId,
+        generation: state.generation + 1,
+        deletedAt: nowTimestamp(this.#now),
+      };
+      return { write: tombstone, result: true };
     });
+  }
+
+  #forgetSlotState(saveId: EntityId | string): void {
+    this.#failures.delete(saveId);
+    this.#conflicts.delete(saveId);
+    this.#observed.delete(saveId);
+    this.#durableContent.delete(saveId);
+    this.#durableRequest.delete(saveId);
   }
 
   /**
@@ -450,27 +697,22 @@ export class BrowserSaveStore {
    * Calling this while an earlier write is still in flight is normal and is
    * the case that used to lose data: the newer world replaces the older one in
    * the queue and is written as soon as the drain comes back round. The
-   * returned promise settles once the slot is at or beyond this world, so a
-   * caller can report honestly rather than optimistically.
+   * returned promise settles once the slot is at or beyond this world.
+   *
+   * There is no local shortcut for "I already wrote this". There used to be,
+   * and it was a lie in any tab but the one that wrote it: after another tab
+   * deleted the slot, the shortcut answered `saved` about a record that no
+   * longer existed. Every autosave now asks the database, and the answer costs
+   * one comparison when nothing has changed.
    */
   autosave(world: World, saveId: EntityId): Promise<AutosaveResult> {
     if (this.#deleted.has(saveId)) {
       return Promise.resolve({
         status: "discarded",
-        reason: "This saved game was deleted, so it was not written again.",
+        reason: SLOT_MESSAGES.deleted,
       } as const);
     }
     const content = this.#contentId(world);
-    // Exactly this world is already on disk and nothing newer is owed, so
-    // there is nothing to write. Note what this does *not* say: it compares
-    // worlds, not action sequences, so a distinct world is never mistaken for
-    // one already stored.
-    if (
-      this.#durableContent.get(saveId) === content &&
-      !this.#pending.has(saveId)
-    ) {
-      return Promise.resolve({ status: "saved" } as const);
-    }
     this.#requestCounter += 1;
     const ordinal = this.#requestCounter;
     this.#pending.set(saveId, { world, content, ordinal });
@@ -487,7 +729,7 @@ export class BrowserSaveStore {
     if (this.#deleted.has(saveId)) {
       return {
         status: "discarded",
-        reason: "This saved game was deleted, so it was not written again.",
+        reason: SLOT_MESSAGES.deleted,
       } as const;
     }
     // Two ways this request is honoured: its own world is on disk, or a
@@ -499,10 +741,13 @@ export class BrowserSaveStore {
     if ((this.#durableRequest.get(saveId) ?? -1) >= ordinal) {
       return { status: "saved" } as const;
     }
+    const conflict = this.#conflicts.get(saveId);
+    if (conflict !== undefined) {
+      return { status: "conflict", reason: conflict } as const;
+    }
     return {
       status: "failed",
-      reason:
-        this.#failures.get(saveId) ?? "This game could not be saved just now.",
+      reason: this.#failures.get(saveId) ?? WRITE_FAILED,
     } as const;
   }
 
@@ -522,7 +767,9 @@ export class BrowserSaveStore {
         this.#settled.delete(saveId);
       })
       .then(() =>
-        this.#pending.has(saveId) && !this.#failures.has(saveId)
+        this.#pending.has(saveId) &&
+        !this.#failures.has(saveId) &&
+        !this.#conflicts.has(saveId)
           ? this.#ensureDrain(saveId)
           : undefined,
       );
@@ -532,26 +779,44 @@ export class BrowserSaveStore {
 
   async #drain(saveId: EntityId): Promise<void> {
     while (this.#pending.has(saveId)) {
-      const request = this.#pending.get(saveId)!;
       if (this.#deleted.has(saveId)) {
         this.#pending.delete(saveId);
         return;
       }
-      if (this.#durableContent.get(saveId) === request.content) {
-        // This exact world is already on disk — an explicit save wrote it, or
-        // it was handed in twice. Nothing is owed for it.
-        this.#noteDurableRequest(saveId, request.ordinal);
-        if (this.#pending.get(saveId) === request) {
-          this.#pending.delete(saveId);
-          this.#failures.delete(saveId);
-        }
+      const removal = this.#removals.get(saveId);
+      if (removal !== undefined) {
+        // A delete is provisional until it commits. Waiting is the whole
+        // repair: if it commits, the loop sees the tombstone and this world is
+        // rightly discarded; if it fails, the world is still owed and still
+        // here to be written.
+        await removal.then(
+          () => undefined,
+          () => undefined,
+        );
         continue;
+      }
+      const request = this.#pending.get(saveId)!;
+      let prepared: PreparedRecord;
+      try {
+        prepared = prepareWorldRecord(request.world);
+      } catch (error: unknown) {
+        this.#failures.set(saveId, messageOf(error));
+        return;
       }
       let written = false;
       for (let attempt = 1; attempt <= this.#attempts; attempt += 1) {
         try {
-          const outcome = await this.save(request.world, saveId);
+          const outcome = await this.#enqueue(() =>
+            this.#writeSlot(prepared, saveId),
+          );
           if (outcome.status === "discarded") {
+            this.#pending.delete(saveId);
+            return;
+          }
+          if (outcome.status === "conflict") {
+            // Not a failure and not retried: trying again can only overwrite
+            // the world this store lost the slot to. It stays reported as
+            // unsaved until the shell says what to do with it.
             this.#pending.delete(saveId);
             return;
           }
@@ -559,12 +824,7 @@ export class BrowserSaveStore {
           written = true;
           break;
         } catch (error: unknown) {
-          this.#failures.set(
-            saveId,
-            error instanceof Error
-              ? error.message
-              : "This game could not be saved just now.",
-          );
+          this.#failures.set(saveId, messageOf(error));
           if (attempt === this.#attempts) break;
           // Short and increasing: a quota prompt or an aborted transaction is
           // usually over by the next try, and hammering it is not help.
@@ -593,7 +853,9 @@ export class BrowserSaveStore {
    * Leaving used to call a flush that waited only for writes already enqueued
    * and swallowed their rejections, so a player could leave on top of a world
    * that never reached disk and be told nothing. This drains what is owed,
-   * gives a failed slot one more real attempt, and reports what did not land.
+   * gives a failed slot one more real attempt, and reports what did not land —
+   * including a slot lost to another tab, which is not a storage failure but
+   * is certainly not saved.
    */
   async flush(): Promise<FlushResult> {
     const owed = [...this.#pending.keys()] as EntityId[];
@@ -602,20 +864,24 @@ export class BrowserSaveStore {
     for (const saveId of owed) this.#failures.delete(saveId);
     const drains = owed.map((saveId) => this.#ensureDrain(saveId));
     const running = [...this.#settled.values()];
+    const removals = [...this.#removals.values()];
     await Promise.all(
-      [...drains, ...running].map((done) => done.catch(() => undefined)),
+      [...drains, ...running, ...removals].map((done) =>
+        done.then(
+          () => undefined,
+          () => undefined,
+        ),
+      ),
     );
     await this.#tail.catch(() => undefined);
-    const unsaved = [...this.#pending.keys()] as EntityId[];
+    const unsaved = this.unsavedWork();
     if (unsaved.length === 0) {
-      return { status: "settled", unsaved, reason: null };
+      return { status: "settled", unsaved: [], reason: null };
     }
     return {
       status: "unsaved",
-      unsaved,
-      reason:
-        this.#failures.get(unsaved[0]!) ??
-        "This game could not be saved just now.",
+      unsaved: unsaved.map((slot) => slot.saveId),
+      reason: unsaved[0]!.reason,
     };
   }
 
@@ -651,22 +917,66 @@ export class BrowserSaveStore {
     return runRequest(database, "readonly", (store) => store.getAll());
   }
 
-  async #put(record: StoredBrowserWorldRecord): Promise<void> {
+  async #commit<T>(
+    saveId: EntityId,
+    decide: (current: unknown) => CommitDecision<T>,
+  ): Promise<T> {
     const database = await this.#database();
-    await runRequest(database, "readwrite", (store) => store.put(record));
-  }
-
-  async #delete(saveId: EntityId): Promise<void> {
-    const database = await this.#database();
-    await runRequest(database, "readwrite", (store) => store.delete(saveId));
+    return runCompareAndSwap(database, saveId, decide);
   }
 }
 
-export function createBrowserWorldRecord(
-  world: World,
+/* -------------------------------------------------------------------------- */
+/* Records.                                                                    */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Everything about a record that depends only on the world.
+ *
+ * Prepared before a transaction opens, because serializing a world is the
+ * expensive part of a save and the read-compare-write transaction is a lock
+ * every tab queues behind. What is left to do inside it is a string
+ * comparison and, at most, a put.
+ */
+interface PreparedRecord {
+  readonly payload: string;
+  readonly contentId: EntityId;
+  readonly fields: Omit<
+    BrowserWorldSummary,
+    "saveId" | "createdAt" | "savedAt" | "lastPlayedAt"
+  >;
+}
+
+function prepareWorldRecord(world: World): PreparedRecord {
+  const player = controlledPlayer(world);
+  // One snapshot, used for the summary, the payload and the content identity.
+  // `serializeWorld` is exactly `JSON.stringify(createWorldSnapshot(world))`.
+  const snapshot = createWorldSnapshot(world);
+  return {
+    payload: JSON.stringify(snapshot),
+    contentId: snapshot.snapshotId,
+    fields: {
+      worldId: world.id,
+      snapshotId: snapshot.snapshotId,
+      snapshotFormatVersion: snapshot.formatVersion,
+      worldSchemaVersion: world.schemaVersion,
+      worldGeneratorVersion: world.generatorVersion,
+      playerPersonId: player.id,
+      playerName: personName(player),
+      playerAge: ageOnDate(player.birthDate, world.currentDate),
+      residence: currentResidence(world, player),
+      currentMoment: { ...world.currentMoment },
+      actionSequence: world.actionSequence,
+    },
+  };
+}
+
+function completeRecord(
+  prepared: PreparedRecord,
+  saveId: EntityId,
   savedAt: string,
-  createdAt: string = savedAt,
-  saveId: EntityId = world.id,
+  createdAt: string,
+  generation: number,
 ): StoredBrowserWorldRecord {
   assertTimestamp(createdAt, "creation time");
   assertTimestamp(savedAt, "saved time");
@@ -675,40 +985,41 @@ export function createBrowserWorldRecord(
       "A saved game cannot have been created after it was saved.",
     );
   }
-  const player = controlledPlayer(world);
-  // One snapshot, used for both the summary and the payload. `serializeWorld`
-  // is exactly `JSON.stringify(createWorldSnapshot(world))`, and hashing the
-  // world twice per save was already wasted work before durability started
-  // asking for its content identity.
-  const snapshot = createWorldSnapshot(world);
-  const summary: BrowserWorldSummary = {
-    saveId,
-    worldId: world.id,
-    snapshotId: snapshot.snapshotId,
-    snapshotFormatVersion: snapshot.formatVersion,
-    worldSchemaVersion: world.schemaVersion,
-    worldGeneratorVersion: world.generatorVersion,
-    playerPersonId: player.id,
-    playerName: personName(player),
-    playerAge: ageOnDate(player.birthDate, world.currentDate),
-    residence: currentResidence(world, player),
-    currentMoment: { ...world.currentMoment },
-    actionSequence: world.actionSequence,
-    createdAt,
-    savedAt,
-    lastPlayedAt: savedAt,
-  };
   return {
     kind: BROWSER_WORLD_RECORD_KIND,
     recordVersion: BROWSER_WORLD_RECORD_VERSION,
     saveId,
-    metadata: summary,
-    payload: JSON.stringify(snapshot),
+    generation,
+    metadata: {
+      saveId,
+      ...prepared.fields,
+      createdAt,
+      savedAt,
+      lastPlayedAt: savedAt,
+    },
+    payload: prepared.payload,
   };
+}
+
+export function createBrowserWorldRecord(
+  world: World,
+  savedAt: string,
+  createdAt: string = savedAt,
+  saveId: EntityId = world.id,
+  generation = 1,
+): StoredBrowserWorldRecord {
+  return completeRecord(
+    prepareWorldRecord(world),
+    saveId,
+    savedAt,
+    createdAt,
+    generation,
+  );
 }
 
 type ReadRecord =
   | { readonly kind: "healthy"; readonly record: StoredBrowserWorldRecord }
+  | { readonly kind: "deleted"; readonly saveId: EntityId }
   | { readonly kind: "damaged"; readonly quarantine: QuarantinedSave };
 
 /**
@@ -745,6 +1056,12 @@ export function readStoredRecord(value: unknown): ReadRecord {
     isRecord(value.metadata) && typeof value.metadata.savedAt === "string"
       ? value.metadata.savedAt
       : null;
+
+  // The proof that a slot was deleted. Not a save, and not damage: a player
+  // should see neither a game nor a warning for a game they got rid of.
+  if (value.kind === BROWSER_WORLD_TOMBSTONE_KIND && saveId !== null) {
+    return { kind: "deleted", saveId };
+  }
 
   if (value.kind !== BROWSER_WORLD_RECORD_KIND) {
     return damaged(
@@ -816,8 +1133,11 @@ export function readStoredRecord(value: unknown): ReadRecord {
  * Brings a stored record up to the current shape, or refuses it.
  *
  * Version 1 records used the world's id as the slot's id, which is exactly the
- * conflation this version fixes; they migrate by keeping that id as the slot's
- * and naming the world separately. Nothing about the world itself changes, so
+ * conflation version 2 fixes; they migrate by keeping that id as the slot's
+ * and naming the world separately. Version 1 and 2 records predate the shared
+ * generation, so they migrate in at generation zero: the first conditional
+ * write moves them to one, and a second tab holding the same belief is refused
+ * rather than allowed to overwrite. Nothing about the world itself changes, so
  * a migrated save loads the same game it always did.
  */
 function migrateRecord(
@@ -829,12 +1149,19 @@ function migrateRecord(
   const metadata = value.metadata;
   if (!isRecord(metadata)) return null;
   if (!validTimestamps(metadata)) return null;
+  const generation =
+    typeof value.generation === "number" &&
+    Number.isInteger(value.generation) &&
+    value.generation >= 0
+      ? value.generation
+      : 0;
 
   const expected = createBrowserWorldRecord(
     world,
     metadata.savedAt as string,
     metadata.createdAt as string,
     saveId,
+    generation,
   ).metadata;
   const actual: BrowserWorldSummary = {
     ...(metadata as unknown as BrowserWorldSummary),
@@ -851,6 +1178,7 @@ function migrateRecord(
     kind: BROWSER_WORLD_RECORD_KIND,
     recordVersion: BROWSER_WORLD_RECORD_VERSION,
     saveId,
+    generation,
     metadata: cloneSummary({ ...actual, lastPlayedAt: actual.lastPlayedAt }),
     payload: value.payload as string,
   };
@@ -861,7 +1189,11 @@ export function validateBrowserWorldRecord(
   value: unknown,
 ): StoredBrowserWorldRecord {
   const read = readStoredRecord(value);
-  if (read.kind !== "healthy") throw new Error(read.quarantine.reason);
+  if (read.kind !== "healthy") {
+    throw new Error(
+      read.kind === "damaged" ? read.quarantine.reason : SLOT_MESSAGES.deleted,
+    );
+  }
   return read.record;
 }
 
@@ -1015,6 +1347,10 @@ function randomSlotNonce(): string {
   ).join("");
 }
 
+function messageOf(error: unknown): string {
+  return error instanceof Error ? error.message : WRITE_FAILED;
+}
+
 function nowTimestamp(now: () => Date): string {
   const date = now();
   if (!(date instanceof Date) || !Number.isFinite(date.getTime())) {
@@ -1122,5 +1458,91 @@ function runRequest<T>(
       reject(
         new Error("Saving was interrupted.", { cause: transaction.error }),
       );
+  });
+}
+
+interface CommitDecision<T> {
+  readonly write: unknown | null;
+  readonly result: T;
+}
+
+/**
+ * Read the slot, decide, and write — all inside one transaction.
+ *
+ * This is where cross-tab correctness actually lives. IndexedDB serializes
+ * overlapping read-write transactions on an object store, and the put below is
+ * issued synchronously from the get's success handler, so it is part of the
+ * same transaction: no other tab can observe or change the slot between the
+ * comparison and the write. A second tab racing this one does not interleave
+ * with it; it queues behind it, reads what this one wrote, and is told its own
+ * belief about the slot is out of date.
+ *
+ * `decide` must be synchronous and must not await, because awaiting would let
+ * the transaction finish and take the guarantee with it.
+ */
+function runCompareAndSwap<T>(
+  database: IDBDatabase,
+  saveId: string,
+  decide: (current: unknown) => CommitDecision<T>,
+): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(STORE_NAME, "readwrite");
+    let result: T;
+    let decided = false;
+    let settled = false;
+    const fail = (error: Error) => {
+      if (settled) return;
+      settled = true;
+      reject(error);
+    };
+
+    let store: IDBObjectStore;
+    let read: IDBRequest<unknown>;
+    try {
+      store = transaction.objectStore(STORE_NAME);
+      read = store.get(saveId);
+    } catch (error) {
+      fail(new Error("The saved game could not be read.", { cause: error }));
+      return;
+    }
+
+    read.onsuccess = () => {
+      let decision: CommitDecision<T>;
+      try {
+        decision = decide(read.result);
+      } catch (error) {
+        fail(
+          error instanceof Error
+            ? error
+            : new Error("The saved game could not be written."),
+        );
+        return;
+      }
+      result = decision.result;
+      decided = true;
+      if (decision.write === null) return;
+      try {
+        const write = store.put(decision.write);
+        write.onerror = () =>
+          fail(new Error("Saving did not finish.", { cause: write.error }));
+      } catch (error) {
+        fail(new Error("Saving did not finish.", { cause: error }));
+      }
+    };
+    read.onerror = () =>
+      fail(
+        new Error("The saved game could not be read.", { cause: read.error }),
+      );
+
+    transaction.oncomplete = () => {
+      if (settled) return;
+      settled = true;
+      if (decided) resolve(result);
+      else reject(new Error("The saved game could not be read."));
+    };
+    transaction.onerror = () =>
+      fail(new Error("Saving did not finish.", { cause: transaction.error }));
+    transaction.onabort = () =>
+      fail(new Error("Saving was interrupted.", { cause: transaction.error }));
   });
 }

@@ -4,6 +4,7 @@ import {
   advanceDemoWorld,
   createDemoWorld,
   createWorldSnapshot,
+  deserializeWorld,
   measurePosition,
   recordWorldEvent,
   serializeWorld,
@@ -16,6 +17,9 @@ import {
   readStoredRecord,
   validateBrowserWorldRecord,
 } from "./browser-world-repository";
+import type { UnsavedSlot } from "./browser-world-repository";
+import { guardUnsavedWork } from "./unsaved-work-guard";
+import type { UnloadTarget } from "./unsaved-work-guard";
 import { recordedConversationIntents } from "./conversation-continuity";
 import {
   applyLegislativeCommand,
@@ -48,10 +52,25 @@ class FakeTransaction {
 
   readonly #records: Map<string, unknown>;
   readonly #control: FakeStorageControl;
+  readonly #queue: (() => void)[] = [];
+  #active = false;
+  #running = false;
+  #settling = false;
+  #settled = false;
+  #release: (() => void) | null = null;
 
-  constructor(records: Map<string, unknown>, control: FakeStorageControl) {
+  constructor(
+    records: Map<string, unknown>,
+    control: FakeStorageControl,
+    lock: FakeTransactionLock,
+  ) {
     this.#records = records;
     this.#control = control;
+    lock.acquire((release) => {
+      this.#release = release;
+      this.#active = true;
+      this.#pump();
+    });
   }
 
   objectStore(): IDBObjectStore {
@@ -99,25 +118,94 @@ class FakeTransaction {
       onsuccess: null,
       onerror: null,
     };
-    const settle = () => {
-      try {
-        if (this.#control.shouldFail(operation)) {
-          throw new Error("Fake IndexedDB was told to fail this write.");
+    this.#queue.push(() => {
+      const settle = () => {
+        let failed = false;
+        try {
+          if (this.#control.shouldFail(operation)) {
+            throw new Error("Fake IndexedDB was told to fail this write.");
+          }
+          request.result = run();
+        } catch (error) {
+          failed = true;
+          request.error = new DOMException(
+            error instanceof Error ? error.message : "Fake IndexedDB failure",
+          );
         }
-        request.result = run();
+        if (failed) {
+          request.onerror?.();
+          this.#running = false;
+          this.#abort();
+          return;
+        }
+        // A success handler may issue another request on this transaction —
+        // which is exactly what a read-decide-write does, and the reason this
+        // fake had to grow up. Anything queued from in here runs before the
+        // transaction is allowed to complete.
         request.onsuccess?.();
-        queueMicrotask(() => this.oncomplete?.());
-      } catch (error) {
-        request.error = new DOMException(
-          error instanceof Error ? error.message : "Fake IndexedDB failure",
-        );
-        request.onerror?.();
-      }
-    };
-    const delay = this.#control.delayFor(operation);
-    if (delay > 0) setTimeout(settle, delay);
-    else queueMicrotask(settle);
+        this.#running = false;
+        this.#pump();
+      };
+      const delay = this.#control.delayFor(operation);
+      if (delay > 0) setTimeout(settle, delay);
+      else queueMicrotask(settle);
+    });
+    if (this.#active) this.#pump();
     return request as unknown as IDBRequest<T>;
+  }
+
+  #pump(): void {
+    if (!this.#active || this.#running || this.#settled) return;
+    const next = this.#queue.shift();
+    if (next) {
+      this.#running = true;
+      next();
+      return;
+    }
+    if (this.#settling) return;
+    this.#settling = true;
+    queueMicrotask(() => {
+      this.#settling = false;
+      if (this.#settled) return;
+      if (this.#running || this.#queue.length > 0) {
+        this.#pump();
+        return;
+      }
+      this.#settled = true;
+      this.oncomplete?.();
+      this.#release?.();
+    });
+  }
+
+  #abort(): void {
+    if (this.#settled) return;
+    this.#settled = true;
+    this.#queue.length = 0;
+    this.onabort?.();
+    this.#release?.();
+  }
+}
+
+/**
+ * Transactions run one at a time, the way a browser runs them.
+ *
+ * Real IndexedDB serializes overlapping read-write transactions on an object
+ * store, and that is precisely the guarantee the cross-tab repair rests on: a
+ * second tab cannot slip between another tab's read and its write. A fake that
+ * let them interleave would let a cross-tab test pass or fail for reasons no
+ * browser has, so this one takes the same lock the browser does.
+ */
+class FakeTransactionLock {
+  #tail: Promise<void> = Promise.resolve();
+
+  acquire(start: (release: () => void) => void): void {
+    const previous = this.#tail;
+    let release!: () => void;
+    const held = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    this.#tail = previous.then(() => held);
+    void previous.then(() => start(release));
   }
 }
 
@@ -125,10 +213,21 @@ type FakeOperation = "get" | "getAll" | "put" | "delete";
 
 class FakeStorageControl {
   #failures = new Map<FakeOperation, number>();
+  #skips = new Map<FakeOperation, number>();
   #delays = new Map<FakeOperation, number>();
 
-  failNext(operation: FakeOperation, times = 1): void {
+  /**
+   * Fails the next `times` occurrences of an operation, after letting `after`
+   * of them through first.
+   *
+   * `after` exists because deleting a slot writes a tombstone rather than
+   * emptying a key, so "fail the delete but not the autosave that was already
+   * owed" is now a question about which `put` — and that race is exactly the
+   * one the audit found.
+   */
+  failNext(operation: FakeOperation, times = 1, after = 0): void {
     this.#failures.set(operation, times);
+    this.#skips.set(operation, after);
   }
 
   delay(operation: FakeOperation, milliseconds: number): void {
@@ -141,11 +240,17 @@ class FakeStorageControl {
 
   clearFailures(): void {
     this.#failures.clear();
+    this.#skips.clear();
   }
 
   shouldFail(operation: FakeOperation): boolean {
     const remaining = this.#failures.get(operation) ?? 0;
     if (remaining <= 0) return false;
+    const skip = this.#skips.get(operation) ?? 0;
+    if (skip > 0) {
+      this.#skips.set(operation, skip - 1);
+      return false;
+    }
     this.#failures.set(operation, remaining - 1);
     return true;
   }
@@ -155,9 +260,15 @@ class FakeStorageControl {
   }
 }
 
+/**
+ * One database. Open it from as many stores as you like — they share the
+ * records and the transaction lock, which is what a second browser tab
+ * actually gets.
+ */
 class FakeIndexedDbFactory {
   readonly records = new Map<string, unknown>();
   readonly control = new FakeStorageControl();
+  readonly #lock = new FakeTransactionLock();
   #hasStore = false;
 
   asFactory(): IDBFactory {
@@ -181,6 +292,7 @@ class FakeIndexedDbFactory {
         new FakeTransaction(
           this.records,
           this.control,
+          this.#lock,
         ) as unknown as IDBTransaction,
       close: () => undefined,
     } as unknown as IDBDatabase;
@@ -665,12 +777,15 @@ describe("A delete that did not happen", () => {
     const saveId = store.newSaveId(world);
     await store.save(world, saveId);
 
-    factory.control.failNext("delete");
+    // Deleting a slot writes a tombstone to it rather than emptying its key,
+    // so the write is the operation that can fail. The assertions below are
+    // unchanged: a delete that did not happen must leave the slot usable.
+    factory.control.failNext("put");
     await expect(store.remove(saveId)).rejects.toThrow();
 
-    // The save is still there, so the in-memory tombstone would have blocked a
-    // slot that was never removed — and lost it at the next restart, when the
-    // tombstone is gone and the record is not.
+    // The save is still there, so a fence held only in memory would have
+    // blocked a slot that was never removed — and lost it at the next restart,
+    // when the fence is gone and the record is not.
     expect((await store.list()).saves).toHaveLength(1);
     const advanced = advanceDemoWorld(world, 3);
     expect((await store.save(advanced, saveId)).status).toBe("saved");
@@ -1006,5 +1121,589 @@ describe("A bill moved through committee survives leaving", () => {
     const after = measurePosition(reloaded!, opened.assignment.measureId);
     expect(after.phase).toBe(before.phase);
     expect(after.chamberKey).toBe(before.chamberKey);
+  });
+});
+
+/* -------------------------------------------------------------------------- */
+/* The Codex acceptance audit, reproduced.                                     */
+/*                                                                             */
+/* Everything below fails on the audited head 1d1a4f68. They are written to    */
+/* the shape of the audit's own probes: real store instances over one shared   */
+/* database, divergent worlds that deliberately keep the same actionSequence,  */
+/* and assertions about what is on disk rather than about what a store said.   */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Two stores over one database, which is what two browser tabs actually are.
+ *
+ * The audited head's "two tabs" test built eight stores over eight databases
+ * and checked that their slot ids differed. That is a true thing about ids and
+ * says nothing about concurrency: no slot was ever shared, so no write ever
+ * raced another. Sharing the factory shares the records *and* the transaction
+ * lock, so these tabs contend the way tabs do.
+ */
+function sharedDatabase(clockValue = "2026-05-01T10:00:00.000Z") {
+  const factory = new FakeIndexedDbFactory();
+  const clock = clockAt(clockValue);
+  const openTab = () =>
+    new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      now: clock.now,
+      databaseName: "test-worlds",
+      delay: () => Promise.resolve(),
+    });
+  return { factory, clock, openTab };
+}
+
+/** What is actually on disk for a slot, read the way any other tab would. */
+function storedContentId(
+  factory: FakeIndexedDbFactory,
+  saveId: EntityId,
+): EntityId | null {
+  const read = readStoredRecord(factory.records.get(saveId));
+  return read.kind === "healthy" ? read.record.metadata.snapshotId : null;
+}
+
+describe("Two tabs, one database", () => {
+  // BLOCKER 1.
+  it("lets only one of two tabs call its own divergent world durable", async () => {
+    const { factory, openTab } = sharedDatabase();
+    const tabA = openTab();
+    const tabB = openTab();
+    const world = playerWorld("two-tabs-divergent");
+    const saveId = tabA.newSaveId(world);
+
+    await tabA.save(world, saveId);
+    // Both tabs have the same life open, which is the ordinary way to get here:
+    // a second window on the same save.
+    expect(await tabB.load(saveId)).not.toBeNull();
+
+    const fromA = withRecordedEvent(world, "two-tabs:a");
+    const fromB = withRecordedEvent(world, "two-tabs:b");
+    // The premise, stated rather than assumed: two different worlds carrying
+    // one action sequence, so nothing here is rescued by that number.
+    expect(fromA.actionSequence).toBe(world.actionSequence);
+    expect(fromB.actionSequence).toBe(world.actionSequence);
+    expect(contentId(fromA)).not.toBe(contentId(fromB));
+
+    const [resultA, resultB] = await Promise.all([
+      tabA.autosave(fromA, saveId),
+      tabB.autosave(fromB, saveId),
+    ]);
+
+    // Exactly one may be told its world is durable. On the audited head both
+    // were, and one canonical world was gone with nothing having said so.
+    const statuses = [resultA.status, resultB.status].sort();
+    expect(statuses).toEqual(["conflict", "saved"]);
+
+    const winner = resultA.status === "saved" ? fromA : fromB;
+    const loser = resultA.status === "saved" ? fromB : fromA;
+    expect(storedContentId(factory, saveId)).toBe(contentId(winner));
+    expect(storedContentId(factory, saveId)).not.toBe(contentId(loser));
+
+    // And the tab that lost is not allowed to leave believing it is settled.
+    const losingTab = resultA.status === "saved" ? tabB : tabA;
+    const leaving = await losingTab.flush();
+    expect(leaving.status).toBe("unsaved");
+    expect(leaving.unsaved).toContain(saveId);
+    expect(leaving.reason).not.toBeNull();
+    expect(losingTab.unsavedWork().map((slot) => slot.kind)).toEqual([
+      "conflict",
+    ]);
+  });
+
+  it("refuses a stale tab that never opened the slot it is writing over", async () => {
+    const { factory, openTab } = sharedDatabase();
+    const tabA = openTab();
+    const tabB = openTab();
+    const world = playerWorld("two-tabs-unseen");
+    const saveId = tabA.newSaveId(world);
+    await tabA.save(world, saveId);
+
+    // Tab B knows the slot id but has never read the slot, so it has no claim
+    // on it. Writing a different world there would be a pure overwrite.
+    const strange = withRecordedEvent(playerWorld("two-tabs-other"), "other");
+    const outcome = await tabB.save(strange, saveId);
+    expect(outcome.status).toBe("conflict");
+    expect(storedContentId(factory, saveId)).toBe(contentId(world));
+  });
+
+  it("tells a tab its own world is durable when the other tab wrote exactly it", async () => {
+    const { openTab } = sharedDatabase();
+    const tabA = openTab();
+    const tabB = openTab();
+    const world = playerWorld("two-tabs-converged");
+    const saveId = tabA.newSaveId(world);
+
+    await tabA.save(world, saveId);
+    // Nothing was lost — the world tab B wanted stored is stored — so refusing
+    // here would be as dishonest as the overwrite, in the other direction.
+    expect((await tabB.autosave(world, saveId)).status).toBe("saved");
+    expect((await tabB.flush()).status).toBe("settled");
+  });
+
+  // BLOCKER 1, in the shape the same-sequence repair is tested in for one tab.
+  it("keeps N, N+1 and N+2 from one tab and refuses the stale tab throughout", async () => {
+    const { factory, openTab } = sharedDatabase();
+    const tabA = openTab();
+    const tabB = openTab();
+    const world = playerWorld("two-tabs-rapid");
+    const saveId = tabA.newSaveId(world);
+    await tabA.save(world, saveId);
+    expect(await tabB.load(saveId)).not.toBeNull();
+
+    const first = withRecordedEvent(world, "rapid-tabs:one");
+    const second = withRecordedEvent(first, "rapid-tabs:two");
+    const third = withRecordedEvent(second, "rapid-tabs:three");
+    // Not one of these advances the clock, so all four share one number.
+    expect(third.actionSequence).toBe(world.actionSequence);
+
+    factory.control.delay("put", 2);
+    const writes = await Promise.all([
+      tabA.autosave(first, saveId),
+      tabA.autosave(second, saveId),
+      tabA.autosave(third, saveId),
+    ]);
+    factory.control.clearDelays();
+    expect(writes.map((write) => write.status)).toEqual([
+      "saved",
+      "saved",
+      "saved",
+    ]);
+    expect(storedContentId(factory, saveId)).toBe(contentId(third));
+
+    // The other tab has been out of date since the first of those landed.
+    const stale = withRecordedEvent(world, "rapid-tabs:stale");
+    expect((await tabB.autosave(stale, saveId)).status).toBe("conflict");
+    expect(storedContentId(factory, saveId)).toBe(contentId(third));
+
+    // Opening the save again is how a tab legitimately catches up, and then it
+    // may write once more.
+    expect(await tabB.load(saveId)).not.toBeNull();
+    const caughtUp = withRecordedEvent(third, "rapid-tabs:caught-up");
+    expect((await tabB.autosave(caughtUp, saveId)).status).toBe("saved");
+    expect(storedContentId(factory, saveId)).toBe(contentId(caughtUp));
+    expect((await tabB.flush()).status).toBe("settled");
+  });
+
+  // BLOCKER 2.
+  it("does not let a stale tab acknowledge or resurrect a deleted save", async () => {
+    const { factory, openTab } = sharedDatabase();
+    const tabA = openTab();
+    const tabB = openTab();
+    const world = playerWorld("two-tabs-deleted");
+    const saveId = tabA.newSaveId(world);
+    await tabA.save(world, saveId);
+    expect(await tabB.load(saveId)).not.toBeNull();
+
+    expect(await tabA.remove(saveId)).toBe(true);
+    expect((await tabA.list()).saves).toHaveLength(0);
+
+    // The first violation: the audited head short-circuited an unchanged world
+    // against its own cache and said `saved` about a record that no longer
+    // existed anywhere.
+    expect((await tabB.autosave(world, saveId)).status).toBe("discarded");
+    expect((await tabB.flush()).status).toBe("settled");
+    expect((await tabB.list()).saves).toHaveLength(0);
+
+    // The second: the next genuinely new world was an unconditional put, and
+    // it brought the deleted save back.
+    const after = withRecordedEvent(world, "two-tabs:after-delete");
+    expect(after.actionSequence).toBe(world.actionSequence);
+    expect((await tabB.autosave(after, saveId)).status).toBe("discarded");
+    expect((await tabB.save(after, saveId)).status).toBe("discarded");
+    expect(await tabB.load(saveId)).toBeNull();
+    expect((await tabB.list()).saves).toHaveLength(0);
+    expect(storedContentId(factory, saveId)).toBeNull();
+
+    // A deleted slot is fenced; the life is not. Keeping it again is allowed,
+    // and takes a slot of its own.
+    const fresh = tabB.newSaveId(after);
+    expect(fresh).not.toBe(saveId);
+    expect((await tabB.save(after, fresh)).status).toBe("saved");
+    expect((await tabB.list()).saves.map((save) => save.saveId)).toEqual([
+      fresh,
+    ]);
+  });
+
+  it("carries a deletion to a tab that only ever looked at the list", async () => {
+    const { openTab } = sharedDatabase();
+    const tabA = openTab();
+    const tabB = openTab();
+    const world = playerWorld("two-tabs-listed");
+    const saveId = tabA.newSaveId(world);
+    await tabA.save(world, saveId);
+    expect(await tabB.load(saveId)).not.toBeNull();
+    expect(await tabA.remove(saveId)).toBe(true);
+
+    // A tombstone is not a saved game and not a damaged one; a player should
+    // see neither a game nor a warning for a game they got rid of.
+    const listing = await tabB.list();
+    expect(listing.saves).toEqual([]);
+    expect(listing.damaged).toEqual([]);
+    expect((await tabB.autosave(world, saveId)).status).toBe("discarded");
+  });
+
+  it("survives a delete racing a write from the other tab, either way round", async () => {
+    const { factory, openTab } = sharedDatabase();
+    const tabA = openTab();
+    const tabB = openTab();
+    const world = playerWorld("two-tabs-race");
+    const saveId = tabA.newSaveId(world);
+    await tabA.save(world, saveId);
+    expect(await tabB.load(saveId)).not.toBeNull();
+
+    const changed = withRecordedEvent(world, "two-tabs-race:one");
+    factory.control.delay("put", 2);
+    const [writing, removing] = await Promise.all([
+      tabB.autosave(changed, saveId),
+      tabA.remove(saveId),
+    ]);
+    factory.control.clearDelays();
+
+    expect(removing).toBe(true);
+    // Whichever order the two transactions took, the player's delete is the
+    // last word: nothing is on disk and nothing claims otherwise.
+    expect(["saved", "discarded"]).toContain(writing.status);
+    expect((await tabB.list()).saves).toEqual([]);
+    expect(await tabB.load(saveId)).toBeNull();
+    expect((await tabB.autosave(changed, saveId)).status).toBe("discarded");
+    expect((await tabB.flush()).status).toBe("settled");
+  });
+});
+
+/* -------------------------------------------------------------------------- */
+/* MODERATE 1 — a delete that fails must not take an owed world with it.      */
+/* -------------------------------------------------------------------------- */
+
+describe("A failed delete keeps what was already owed", () => {
+  function owedStore(clockValue = "2026-05-01T10:00:00.000Z") {
+    const factory = new FakeIndexedDbFactory();
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      now: clockAt(clockValue).now,
+      databaseName: "test-worlds",
+      delay: () => Promise.resolve(),
+    });
+    return { factory, store };
+  }
+
+  it("still writes the world a provisional delete was standing in front of", async () => {
+    const { store, factory } = owedStore();
+    const world = playerWorld("owed-through-delete");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    const changed = withRecordedEvent(world, "owed-through-delete:one");
+    expect(changed.actionSequence).toBe(world.actionSequence);
+
+    // The exact race the audit ran: a world is owed to the slot, deletion is
+    // asked for immediately behind it, and the deletion fails. On the audited
+    // head the fence went up first, the drain threw the owed world away
+    // because of it, and the rollback then found nothing to put back — so the
+    // save survived, the newest world did not, and `flush` said settled.
+    factory.control.delay("put", 2);
+    factory.control.failNext("put", 1, 1);
+    const autosaving = store.autosave(changed, saveId);
+    const removing = store.remove(saveId);
+
+    await expect(removing).rejects.toThrow();
+    expect((await autosaving).status).toBe("saved");
+    factory.control.clearDelays();
+    factory.control.clearFailures();
+
+    // The delete did not happen, so the save is still here — and it is the
+    // world the player actually had, not the older one.
+    expect((await store.flush()).status).toBe("settled");
+    expect((await store.list()).saves).toHaveLength(1);
+    expect(contentId((await store.load(saveId))!)).toBe(contentId(changed));
+  });
+
+  it("does not call itself settled while a failed delete left a world owed", async () => {
+    const { store, factory } = owedStore();
+    const world = playerWorld("owed-and-failing");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    const changed = withRecordedEvent(world, "owed-and-failing:one");
+    factory.control.failNext("put", 20);
+    expect((await store.autosave(changed, saveId)).status).toBe("failed");
+
+    // Deleting fails too. Nothing was removed, so nothing may be forgotten:
+    // the world is still owed and leaving has to say so.
+    factory.control.failNext("put", 20);
+    await expect(store.remove(saveId)).rejects.toThrow();
+    expect(store.unsavedWork().map((slot) => slot.saveId)).toEqual([saveId]);
+
+    factory.control.failNext("put", 20);
+    const leaving = await store.flush();
+    expect(leaving.status).toBe("unsaved");
+    expect(leaving.unsaved).toContain(saveId);
+
+    // And once storage works, leaving writes it rather than losing it.
+    factory.control.clearFailures();
+    expect((await store.flush()).status).toBe("settled");
+    expect(contentId((await store.load(saveId))!)).toBe(contentId(changed));
+  });
+
+  it("discards the owed world when the delete it waited for does commit", async () => {
+    const { store, factory } = owedStore();
+    const world = playerWorld("owed-then-deleted");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    const changed = withRecordedEvent(world, "owed-then-deleted:one");
+    // The first attempt at the owed world fails, so it is genuinely still owed
+    // when the delete lands behind it and the drain has to wait for it.
+    factory.control.failNext("put", 1);
+    const autosaving = store.autosave(changed, saveId);
+    const removing = store.remove(saveId);
+
+    expect(await removing).toBe(true);
+    expect((await autosaving).status).toBe("discarded");
+    expect((await store.flush()).status).toBe("settled");
+    expect((await store.list()).saves).toEqual([]);
+    expect(store.unsavedWork()).toEqual([]);
+  });
+});
+
+/* -------------------------------------------------------------------------- */
+/* MAJOR 1 — closing the tab.                                                 */
+/* -------------------------------------------------------------------------- */
+
+/** Just enough of `window` to prove what the guard does and does not do. */
+class FakeWindow implements UnloadTarget {
+  readonly #listeners = new Map<string, ((event: Event) => void)[]>();
+
+  addEventListener(type: string, listener: (event: Event) => void): void {
+    const existing = this.#listeners.get(type) ?? [];
+    existing.push(listener);
+    this.#listeners.set(type, existing);
+  }
+
+  removeEventListener(type: string, listener: (event: Event) => void): void {
+    this.#listeners.set(
+      type,
+      (this.#listeners.get(type) ?? []).filter((entry) => entry !== listener),
+    );
+  }
+
+  listenerCount(type: string): number {
+    return (this.#listeners.get(type) ?? []).length;
+  }
+
+  /** Returns whether anything asked the browser not to go through with it. */
+  dispatch(type: string): boolean {
+    let prevented = false;
+    const event = {
+      type,
+      preventDefault: () => {
+        prevented = true;
+      },
+    } as unknown as Event;
+    for (const listener of [...(this.#listeners.get(type) ?? [])]) {
+      listener(event);
+    }
+    return prevented;
+  }
+}
+
+describe("Closing the tab is a way of leaving", () => {
+  function guardedStore(clockValue = "2026-05-01T10:00:00.000Z") {
+    const factory = new FakeIndexedDbFactory();
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      now: clockAt(clockValue).now,
+      databaseName: "test-worlds",
+      delay: () => Promise.resolve(),
+    });
+    const window = new FakeWindow();
+    const seen: UnsavedSlot[][] = [];
+    const stop = guardUnsavedWork(store, window, {
+      onUnsaved: (unsaved) => seen.push([...unsaved]),
+    });
+    return { factory, store, window, seen, stop };
+  }
+
+  it("says nothing while there is nothing to say", async () => {
+    const { store, window, stop } = guardedStore();
+    const world = playerWorld("close-quiet");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+    expect((await store.autosave(world, saveId)).status).toBe("saved");
+
+    // A page that always asks is a page whose question stops meaning anything.
+    expect(window.dispatch("beforeunload")).toBe(false);
+    stop();
+    expect(window.listenerCount("beforeunload")).toBe(0);
+  });
+
+  it("stops a silent close while a write has failed", async () => {
+    const { store, factory, window, seen } = guardedStore();
+    const world = playerWorld("close-failed");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    const changed = withRecordedEvent(world, "close-failed:one");
+    factory.control.failNext("put", 20);
+    expect((await store.autosave(changed, saveId)).status).toBe("failed");
+
+    // On the audited head nothing was watching this at all: the newest world
+    // existed only in `#pending`, and closing the window destroyed it without
+    // a word. There is no promise here that an unload write lands — only that
+    // the close cannot be silent.
+    expect(window.dispatch("beforeunload")).toBe(true);
+    expect(seen.at(-1)).toEqual([
+      { saveId, kind: "failed", reason: expect.any(String) },
+    ]);
+
+    // Leaving on purpose still refuses, and once storage recovers both agree.
+    expect((await store.flush()).status).toBe("unsaved");
+    factory.control.clearFailures();
+    expect((await store.flush()).status).toBe("settled");
+    expect(window.dispatch("beforeunload")).toBe(false);
+    expect(contentId((await store.load(saveId))!)).toBe(contentId(changed));
+  });
+
+  it("stops a silent close while a slow write is still in flight", async () => {
+    const { store, factory, window } = guardedStore();
+    const world = playerWorld("close-slow");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    const changed = withRecordedEvent(world, "close-slow:one");
+    factory.control.delay("put", 20);
+    const autosaving = store.autosave(changed, saveId);
+    expect(store.unsavedWork().map((slot) => slot.kind)).toEqual(["pending"]);
+    expect(window.dispatch("beforeunload")).toBe(true);
+
+    expect((await autosaving).status).toBe("saved");
+    factory.control.clearDelays();
+    expect(window.dispatch("beforeunload")).toBe(false);
+  });
+
+  it("stops a silent close while a slot has been lost to another tab", async () => {
+    const { factory, openTab } = sharedDatabase();
+    const tabA = openTab();
+    const tabB = openTab();
+    const world = playerWorld("close-conflicted");
+    const saveId = tabA.newSaveId(world);
+    await tabA.save(world, saveId);
+    expect(await tabB.load(saveId)).not.toBeNull();
+
+    await tabA.autosave(withRecordedEvent(world, "close-conflicted:a"), saveId);
+    const losing = withRecordedEvent(world, "close-conflicted:b");
+    expect((await tabB.autosave(losing, saveId)).status).toBe("conflict");
+
+    const window = new FakeWindow();
+    guardUnsavedWork(tabB, window);
+    expect(window.dispatch("beforeunload")).toBe(true);
+
+    // Releasing the slot is the shell saying it has taken the life somewhere
+    // else — which is the only honest way out, and the only thing that quiets
+    // the guard.
+    tabB.releaseSlot(saveId);
+    expect(window.dispatch("beforeunload")).toBe(false);
+    expect((await tabB.flush()).status).toBe("settled");
+
+    const fresh = tabB.newSaveId(losing);
+    expect((await tabB.save(losing, fresh)).status).toBe("saved");
+    expect(storedContentId(factory, fresh)).toBe(contentId(losing));
+  });
+
+  it("tries once more on the way out, without claiming that it worked", async () => {
+    const { store, factory, window } = guardedStore();
+    const world = playerWorld("close-pagehide");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    const changed = withRecordedEvent(world, "close-pagehide:one");
+    factory.control.failNext("put", 20);
+    expect((await store.autosave(changed, saveId)).status).toBe("failed");
+
+    factory.control.clearFailures();
+    window.dispatch("pagehide");
+    // Best effort, and only that: the page may be gone first. What is asserted
+    // is that the attempt is made, not that a closing page can guarantee it.
+    expect((await store.flush()).status).toBe("settled");
+    expect(contentId((await store.load(saveId))!)).toBe(contentId(changed));
+  });
+});
+
+/* -------------------------------------------------------------------------- */
+/* MODERATE 2 — content identity is about content.                            */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The same world with its record maps rebuilt in the opposite insertion order.
+ *
+ * Every explicit order array and every value is left exactly as it was, so
+ * nothing semantic changes. This is what a reducer that spreads a changed
+ * person last, or a map rebuilt after a delete, produces in practice.
+ */
+function reversedRecordOrder(world: World): World {
+  const reverse = <T>(record: Record<string, T>): Record<string, T> =>
+    Object.fromEntries(Object.entries(record).reverse());
+  return {
+    ...world,
+    people: reverse(world.people),
+    jurisdictions: reverse(world.jurisdictions),
+  };
+}
+
+describe("Content identity is about content, not insertion order", () => {
+  it("gives one identity to a world whose record maps were rebuilt in another order", () => {
+    const world = playerWorld("canonical-order");
+    const reordered = reversedRecordOrder(world);
+
+    // The premise: genuinely different bytes, genuinely the same world.
+    expect(JSON.stringify(reordered)).not.toBe(JSON.stringify(world));
+    expect(Object.keys(reordered.people)).toEqual(
+      [...Object.keys(world.people)].reverse(),
+    );
+    expect(reordered.personOrder).toEqual(world.personOrder);
+
+    // On the audited head these were two different revisions of one life.
+    expect(contentId(reordered)).toBe(contentId(world));
+    expect(createWorldSnapshot(reordered).snapshotId).toBe(
+      createWorldSnapshot(world).snapshotId,
+    );
+  });
+
+  it("round-trips a reordered world under its own identity", () => {
+    const world = playerWorld("canonical-round-trip");
+    const reordered = reversedRecordOrder(world);
+    const payload = serializeWorld(reordered);
+    const restored = deserializeWorld(payload);
+    expect(restored).toStrictEqual(reordered);
+    expect(contentId(restored)).toBe(contentId(world));
+  });
+
+  it("writes exactly what it was handed, deciding that from bytes and not from a hash", async () => {
+    const factory = new FakeIndexedDbFactory();
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      now: clockAt("2026-05-01T10:00:00.000Z").now,
+      databaseName: "test-worlds",
+      delay: () => Promise.resolve(),
+    });
+    const world = playerWorld("canonical-store");
+    const reordered = reversedRecordOrder(world);
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    // Skipping durable work is the one decision a 64-bit digest must not be
+    // trusted with, so it is made on the stored bytes. These two worlds share
+    // an identity and differ in bytes, so this writes — costing one write, and
+    // never a world.
+    expect((await store.autosave(reordered, saveId)).status).toBe("saved");
+    const stored = await store.load(saveId);
+    expect(JSON.stringify(stored)).toBe(JSON.stringify(reordered));
+
+    // Handed in a second time, the bytes now match and nothing is written —
+    // proved by refusing every write for the duration.
+    factory.control.failNext("put", 20);
+    expect((await store.autosave(reordered, saveId)).status).toBe("saved");
+    factory.control.clearFailures();
   });
 });

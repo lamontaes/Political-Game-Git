@@ -1669,7 +1669,7 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
     expect(deserializeWorld(payload)).toStrictEqual(world);
     expect(
       (JSON.parse(payload) as { formatVersion: number }).formatVersion,
-    ).toBe(14);
+    ).toBe(15);
     expect(() =>
       createResourceFlow(world, {
         stableKey: "open:malformed",

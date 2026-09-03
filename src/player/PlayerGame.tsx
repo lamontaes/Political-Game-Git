@@ -5,6 +5,7 @@ import {
   type BrowserWorldSummary,
   type QuarantinedSave,
 } from "../presentation/browser-world-repository";
+import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
   chooseFormativeOption,
   letTimePass,
@@ -154,17 +155,41 @@ export function PlayerGame() {
   // rather than making the gate cleverer.
   useEffect(() => {
     if (!session || !store || session.saveId === null) return;
+    const saveId = session.saveId;
     let watching = true;
-    void store.autosave(session.world, session.saveId).then((result) => {
+    void store.autosave(session.world, saveId).then((result) => {
       if (!watching) return;
-      if (result.status === "failed") setProblem(result.reason);
-      else if (result.status === "saved") setProblem(null);
+      if (result.status === "saved") setProblem(null);
+      else if (result.status === "failed") setProblem(result.reason);
+      else {
+        // The slot is not this tab's any more: another tab deleted it, or
+        // another tab holds it and writing would destroy their world. Neither
+        // is retried and neither is hidden. The life stays on screen with no
+        // slot, which is what brings "Keep this life" back, and the store is
+        // told this shell has let the slot go so leaving is not refused over
+        // something nothing could ever write.
+        store.releaseSlot(saveId);
+        setProblem(
+          `${result.reason} This life is still here — keep it again to store it.`,
+        );
+        setSession((current) =>
+          current === null || current.saveId !== saveId
+            ? current
+            : { ...current, saveId: null },
+        );
+      }
       return refreshSaves();
     });
     return () => {
       watching = false;
     };
   }, [session, store, refreshSaves]);
+
+  // Closing the tab is a way of leaving, and it was the one nothing watched.
+  useEffect(() => {
+    if (!store) return;
+    return guardUnsavedWork(store, window);
+  }, [store]);
 
   function startPlaying(
     world: World,
@@ -190,7 +215,9 @@ export function PlayerGame() {
     try {
       const outcome = await store.save(session.world, saveId);
       if (outcome.status !== "saved") {
-        setProblem("This game could not be saved just now.");
+        // A refused slot is not a broken browser, and saying so would send the
+        // player looking for the wrong problem.
+        setProblem(outcome.reason);
         return;
       }
       setSession({ ...session, unsavedSeed: null, saveId });
@@ -244,7 +271,9 @@ export function PlayerGame() {
     }
     if (session?.saveId === saveId) {
       // The life on screen no longer has a slot. Nothing further is written to
-      // it, rather than quietly bringing the deleted save back.
+      // it, rather than quietly bringing the deleted save back — and the store
+      // is told, so nothing stays owed to a slot that is gone.
+      store.releaseSlot(saveId);
       setSession({
         ...session,
         saveId: null,
@@ -911,7 +940,7 @@ function PlayingScreen({
           }`}
         />
         <div className="game-play-actions">
-          {session.unsavedSeed !== null && !savesUnavailable ? (
+          {session.saveId === null && !savesUnavailable ? (
             <button type="button" data-testid="keep-world" onClick={onKeep}>
               Keep this life
             </button>
