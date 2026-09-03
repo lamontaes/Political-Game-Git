@@ -63,12 +63,14 @@ export const FORBIDDEN: readonly OwnedSurface[] = [
  * The surfaces this packet does own.
  *
  * `.github/workflows/` is here because Packet 28 directs this branch to repair
- * the deterministic-validation checkout. No other in-flight branch owns CI
- * configuration, so widening this allowlist does not relax FORBIDDEN, which is
- * what actually guards other people's systems.
+ * the deterministic-validation checkout. `PATCH_NOTES.md` is here because
+ * Packet 50 asks this branch to describe what it changed for a player. No other
+ * in-flight branch owns CI configuration or the player-facing changelog, so
+ * widening this allowlist does not relax FORBIDDEN, which is what actually
+ * guards other people's systems.
  */
 export const ALLOWED =
-  /^(\.github\/workflows\/|src\/authoring\/|src\/environment\/|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|AGENTS\.md)/;
+  /^(\.github\/workflows\/|src\/authoring\/|src\/environment\/|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|AGENTS\.md|PATCH_NOTES\.md)/;
 
 function git(repositoryRoot: string, args: readonly string[]): string {
   return execFileSync("git", [...args], {
