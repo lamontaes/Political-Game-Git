@@ -62,14 +62,22 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
   },
 
   /**
-   * Two calibration pairs and a linear ramp between them. At the seated floor
-   * line (84%) this yields exactly the 0.95 scale the accepted fixture used, so
-   * the number is now derived from the floor rather than tuned per sprite.
+   * Two calibration pairs and a linear ramp between them.
    *
-   * The 84% floor line is itself derived rather than picked: it is where a
-   * seated figure of the fixture sprites' proportions actually puts its feet
-   * once its pelvis is on the 63.5% seat plane. Choosing a rounder number would
-   * have made the seat and the floor disagree.
+   * The ramp itself is unchanged and was never the defect. What was wrong is
+   * what it used to be read at: an 84% floor line shared by both chairs, which
+   * was derived from the 63.5% seat plane rather than measured against the
+   * painted furniture. Deriving one unmeasured number from another made the two
+   * agree with each other and with nothing in the picture — the primary sitter
+   * had her pelvis 5.3% of plate height above the cushion she was supposed to
+   * be on, which is why she read as a person hovering in front of a chair
+   * rather than sitting in one.
+   *
+   * Both chairs are now measured off the plate raster, and each carries its own
+   * floor line because they stand at different depths. The ramp then produces a
+   * scale at which each sprite's own measured pelvis-to-sole span exactly
+   * covers its own seat-to-floor gap, so pelvis-on-cushion and soles-on-floor
+   * are satisfied together instead of traded off.
    */
   floor_calibration: {
     near: { floor_y_percent: 100, scale: 1.05 },
@@ -77,27 +85,38 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
   },
 
   /**
-   * A normalized body canvas paints 21.5% of plate width here at scale 1. With
-   * the seated floor line below, that puts a seated body's soles on the floor
-   * and its pelvis on the seat plane at the same time — the two constraints the
-   * older hand-tuned placement could not satisfy together.
+   * How wide a normalized modular body canvas paints here at scale 1, chosen so
+   * that a seated body puts its pelvis on the seat plane and its soles on the
+   * floor at the same time — the two constraints together, not one traded for
+   * the other.
+   *
+   * It moved from 21.5% because the lines it was fitted against moved. It was
+   * solved against a shared 84% floor that no chair actually stood on; re-solved
+   * against each chair's measured floor it comes out at 19.48%, and the modular
+   * seated contacts land within tolerance at both anchors again. The number is
+   * derived from the scene's geometry, so it changes when that geometry is
+   * corrected.
    */
-  standard_body_width_percent: 21.5,
+  standard_body_width_percent: 19.48,
 
   anchors: [
     {
       /**
-       * The chair itself reads at 80.5% of plate width. A seated body of the
-       * accepted authored width centred there puts its right shoulder at 92.4%,
-       * outside the 91.4% guaranteed safe area, so it crops at the narrowest
-       * supported aspect. 79.2% is where a BODY has to be staged for the whole
-       * figure to survive the camera; it is a staging constraint, not a second
-       * opinion about where the furniture is.
+       * The measured horizontal centroid of the chair's seat cushion.
+       *
+       * This used to be 79.2%, a staging compromise: the body was placed by its
+       * hip JOINT rather than by its seat contact, which pushed its visible mass
+       * right, and 79.2% was where that mass had to start for the figure to
+       * survive the camera at the narrowest supported aspect. Placing the
+       * measured contact instead removes the compromise — the body now sits on
+       * the cushion centre and its right edge lands at 87.7%, comfortably inside
+       * the 91.4% guaranteed safe area. The anchor can go back to describing
+       * where the furniture is.
        */
       id: "primary-desk-chair",
       type: "seated-person",
       kind: "seat",
-      x_percent: 79.2,
+      x_percent: 77.2,
       z_order: 2,
       footprint_percent: 30,
       hitbox_percent: {
@@ -109,10 +128,25 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
       allowed_pose_families: ["seated-at-desk"],
       permitted_facings: ["front"],
       seat_contact: {
-        seat_plane_y_percent: 63.5,
-        seat_front_x_percent: 79.2,
-        seat_width_percent: 17,
-        floor_y_percent: 84,
+        // Measured off the runtime plate. This chair's blue cushion spans
+        // y 68.4%-75.6% (back edge to front lip) and x 72.3%-84.0%. The plane
+        // is one third forward of the back edge, because a sitter with their
+        // back against the backrest rests on the rear of the seat rather than
+        // its middle; the same rule is applied to the guest chair below, so
+        // neither number is tuned to its own sprite. The old 63.5% was not on
+        // the cushion at all — it sat a third of the way up the BACKREST,
+        // which is what held the sitter above her chair.
+        seat_plane_y_percent: 70.8,
+        seat_front_x_percent: 77.2,
+        seat_width_percent: 11.13,
+        // The chair's five-star base spreads its casters across y 86.3%-94.2%
+        // as it comes toward the camera; the floor directly under the seat
+        // column reads at about 91%. At 90.01% the ramp yields scale 0.988 and
+        // A01's measured contact-to-sole span (0.3183 of its raster) lands her
+        // soles there, just behind the front casters. Seat and floor agree
+        // because both were measured off the plate, not because one was solved
+        // from the other.
+        floor_y_percent: 90.01,
         seat_z_order: 1,
         backrest_z_order: 0,
       },
@@ -121,7 +155,7 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
       id: "left-guest-chair",
       type: "seated-person",
       kind: "seat",
-      x_percent: 28,
+      x_percent: 29.2,
       z_order: 3,
       footprint_percent: 26,
       hitbox_percent: {
@@ -136,10 +170,22 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
       allowed_pose_families: ["seated-guest-neutral", "seated-at-desk"],
       permitted_facings: ["front"],
       seat_contact: {
-        seat_plane_y_percent: 63,
-        seat_front_x_percent: 28,
-        seat_width_percent: 15,
-        floor_y_percent: 84,
+        // Measured and derived the same way: this chair's cushion spans
+        // y 61.8%-65.2% and x 25.3%-33.1%, and the plane is one third forward
+        // of its back edge. The old 63% looked close enough vertically, which
+        // is exactly why the real error hid here — it was the shared 84% floor
+        // line that was wrong, and with it the scale.
+        seat_plane_y_percent: 62.93,
+        seat_front_x_percent: 29.2,
+        seat_width_percent: 7.57,
+        // This chair stands further back than the desk chair, so its floor
+        // line is higher on the plate; its wood legs meet the carpet at about
+        // 75%. At 75.17% the ramp yields scale 0.895 and B01's measured
+        // contact-to-sole span (0.3086) lands its soles there. Under the
+        // shared 84% the sprite rendered at 0.95 and drove its feet through
+        // this chair's real floor, which is the intersection that read as the
+        // chair cutting through him.
+        floor_y_percent: 75.17,
         seat_z_order: 1,
         backrest_z_order: 0,
       },

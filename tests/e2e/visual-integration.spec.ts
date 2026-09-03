@@ -187,15 +187,15 @@ for (const viewport of [
       expect(artBox!.width).toBeLessThan(raster.naturalWidth);
       expect(artBox!.height).toBeLessThan(raster.naturalHeight);
 
-      // Roots are the seat-contact lines measured off each raster (D-055);
-      // anchors are the registered scene's own staging position and seat plane
-      // (D-057), not a number tuned per sprite. This is the browser proof that
-      // the two agree: the sprite's measured pelvis lands on the chair's seat
-      // point, at real layout, in a real browser.
+      // Contacts are the seat lines measured off each raster's alpha (D-055,
+      // D-066); anchors are the cushion positions measured off the plate
+      // (D-057, D-066), not numbers tuned per sprite. This is the browser proof
+      // that the two agree: the sprite's measured seat contact lands on its own
+      // chair's cushion, at real layout, in a real browser.
       const root =
         variant === "primary"
-          ? { x: 0.507, y: 0.624, anchorX: 0.792, anchorY: 0.635 }
-          : { x: 0.497, y: 0.62, anchorX: 0.28, anchorY: 0.63 };
+          ? { x: 0.4941, y: 0.6475, anchorX: 0.772, anchorY: 0.708 }
+          : { x: 0.4941, y: 0.6543, anchorX: 0.292, anchorY: 0.6293 };
       expect(artBox!.x + artBox!.width * root.x).toBeCloseTo(
         stageBox!.x + stageBox!.width * root.anchorX,
         1,

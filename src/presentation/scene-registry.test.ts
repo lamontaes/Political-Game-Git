@@ -156,35 +156,46 @@ describe("the office composition, now projected from the registry", () => {
   });
 
   /**
-   * Anchor scale is no longer a hand-tuned constant. It is interpolated from
-   * the scene's two floor calibration pairs — and at the seated floor line that
-   * interpolation lands on exactly the 0.95 the fixture was tuned to, so the
-   * change is a change of authority, not of geometry.
+   * Anchor scale is interpolated from the scene's two floor calibration pairs.
+   *
+   * The two seats no longer share a scale, because they never shared a floor:
+   * the desk chair stands nearer the camera than the guest chair, and the
+   * single 84% line they both used to declare was derived from an unmeasured
+   * seat plane rather than read off the plate. Each anchor now carries the
+   * floor line measured under its own chair, and the ramp gives each the scale
+   * that follows from it.
    */
-  it("derives anchor scale from floor calibration and lands on the accepted value", () => {
-    for (const anchorId of [
-      "primary-desk-chair",
-      "left-guest-chair",
-    ] as const) {
-      const anchor = OFFICE_VISUAL_SCENE.anchors[anchorId];
-      expect(anchor.scale, anchorId).toBeCloseTo(0.95, 10);
-      expect(anchor.contactFloorYPercent, anchorId).toBe(84);
-    }
+  it("derives each anchor's scale from its own measured floor line", () => {
+    const primary = OFFICE_VISUAL_SCENE.anchors["primary-desk-chair"];
+    expect(primary.contactFloorYPercent).toBe(90.01);
+    expect(primary.scale).toBeCloseTo(0.9875625, 10);
+
+    const guest = OFFICE_VISUAL_SCENE.anchors["left-guest-chair"];
+    expect(guest.contactFloorYPercent).toBe(75.17);
+    expect(guest.scale).toBeCloseTo(0.8948125, 10);
+
+    // Nearer the camera is larger. The ramp is monotonic, so this ordering is
+    // a property of the geometry rather than of these two numbers.
+    expect(primary.scale).toBeGreaterThan(guest.scale);
   });
 
-  it("keeps the seat plane as the anchor's y, so seated roots land where they did", () => {
+  it("puts each anchor's seat plane on its own chair's cushion", () => {
+    // One third forward of each cushion's measured back edge: a sitter with
+    // their back against the backrest rests on the rear of the seat.
     expect(OFFICE_VISUAL_SCENE.anchors["primary-desk-chair"].yPercent).toBe(
-      63.5,
+      70.8,
     );
-    expect(OFFICE_VISUAL_SCENE.anchors["left-guest-chair"].yPercent).toBe(63);
-    // The chair reads at 80.5% of plate width, but a body of the accepted
-    // authored width centred there crops at the narrowest supported aspect.
-    // 79.2% is the staging position that keeps the whole figure inside the
-    // guaranteed safe area; the furniture did not move.
+    expect(OFFICE_VISUAL_SCENE.anchors["left-guest-chair"].yPercent).toBe(
+      62.93,
+    );
+    // Measured cushion centres. The desk chair's anchor used to sit at 79.2%,
+    // a staging offset that existed only because the body was placed by its hip
+    // joint instead of its seat contact; placing the contact removed the need
+    // for it, so the anchor can describe the furniture again.
     expect(OFFICE_VISUAL_SCENE.anchors["primary-desk-chair"].xPercent).toBe(
-      79.2,
+      77.2,
     );
-    expect(OFFICE_VISUAL_SCENE.anchors["left-guest-chair"].xPercent).toBe(28);
+    expect(OFFICE_VISUAL_SCENE.anchors["left-guest-chair"].xPercent).toBe(29.2);
   });
 
   it("only composites occluders that actually have a mask raster", () => {

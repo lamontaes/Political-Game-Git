@@ -348,7 +348,16 @@ describe("Office seated-contact repair", () => {
       );
       expect(Math.abs(recipe.root.y - measured.root.y)).toBeLessThan(0.01);
       expect(Math.abs(recipe.root.x - measured.root.x)).toBeLessThan(0.01);
-      expect(recipe.seatedContact.root).toEqual(recipe.root);
+      // The seat contact is NOT the rig root, and saying so is the point. The
+      // rig root is the hip joint; the contact is the buttock/thigh surface
+      // below it, which is what actually rests on a cushion. Placing the joint
+      // on the seat plane is what used to leave these sitters perched above
+      // their chairs.
+      expect(recipe.seatedContact.root.y).toBeGreaterThan(recipe.root.y);
+      expect(recipe.seatedContact.root.y - recipe.root.y).toBeLessThan(0.05);
+      expect(
+        Math.abs(recipe.seatedContact.root.x - recipe.root.x),
+      ).toBeLessThan(0.02);
       // The seat line sits in the lower half of the figure, never mid-torso.
       expect(recipe.root.y).toBeGreaterThan(0.58);
     }

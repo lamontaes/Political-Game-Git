@@ -71,20 +71,20 @@ describe("Stage 6.5 visual integration contract", () => {
       "8e5882e26eab1c6cf966cff188bfebd4e40cd117804e87930a0b06d67ca66e43",
     );
     expect(primary!.zOrder).toBe(2);
-    expect(primary!.widthPercent).toBeCloseTo(24.225, 2);
-    expect(primary!.heightPercent).toBeCloseTo(58.051, 2);
-    // Two changes land this figure, and they only work together. The anchor
-    // stages a body 1.3% of plate width left of the chair, and the recipe root
-    // is the pelvis measured off the raster rather than an estimate that put
-    // the seat plane through mid-torso. The result puts the right shoulder at
-    // 66.918 + 24.225 = 91.14% of plate width, just inside the 91.4% guaranteed
-    // safe area it used to cross at 92.4%.
-    expect(primary!.leftPercent).toBeCloseTo(66.918, 2);
-    expect(primary!.topPercent).toBeCloseTo(27.276, 2);
-    expect(primary!.hitbox.leftPercent).toBeCloseTo(75.397, 2);
-    expect(primary!.hitbox.topPercent).toBeCloseTo(30.179, 2);
-    expect(primary!.hitbox.widthPercent).toBeCloseTo(13.324, 2);
-    expect(primary!.hitbox.heightPercent).toBeCloseTo(29.025, 2);
+    expect(primary!.widthPercent).toBeCloseTo(25.183, 2);
+    expect(primary!.heightPercent).toBeCloseTo(60.346, 2);
+    // This figure is placed by its measured SEAT CONTACT on the measured
+    // cushion of its own chair, and sized by the floor line measured under that
+    // chair rather than by a floor both seats used to share. The result seats
+    // her on the cushion instead of holding her above it, and her right edge
+    // lands at 64.757 + 25.183 = 89.94% of plate width, inside the 91.4%
+    // guaranteed safe area.
+    expect(primary!.leftPercent).toBeCloseTo(64.757, 2);
+    expect(primary!.topPercent).toBeCloseTo(31.726, 2);
+    expect(primary!.hitbox.leftPercent).toBeCloseTo(73.571, 2);
+    expect(primary!.hitbox.topPercent).toBeCloseTo(34.743, 2);
+    expect(primary!.hitbox.widthPercent).toBeCloseTo(13.851, 2);
+    expect(primary!.hitbox.heightPercent).toBeCloseTo(30.173, 2);
 
     const guest = composition.characters.find(
       (c) => c.anchorId === "left-guest-chair",
@@ -101,14 +101,14 @@ describe("Stage 6.5 visual integration contract", () => {
       "fd880e52fb191d6c32019ba451d006176ebc7762db89590c437c67586906be8d",
     );
     expect(guest!.zOrder).toBe(3);
-    expect(guest!.widthPercent).toBeCloseTo(17.575, 2);
-    expect(guest!.heightPercent).toBeCloseTo(42.117, 2);
-    expect(guest!.leftPercent).toBeCloseTo(19.265, 2);
-    expect(guest!.topPercent).toBeCloseTo(36.889, 2);
-    expect(guest!.hitbox.leftPercent).toBeCloseTo(20.144, 2);
-    expect(guest!.hitbox.topPercent).toBeCloseTo(37.731, 2);
-    expect(guest!.hitbox.widthPercent).toBeCloseTo(15.817, 2);
-    expect(guest!.hitbox.heightPercent).toBeCloseTo(21.059, 2);
+    expect(guest!.widthPercent).toBeCloseTo(16.554, 2);
+    expect(guest!.heightPercent).toBeCloseTo(39.668, 2);
+    expect(guest!.leftPercent).toBeCloseTo(21.021, 2);
+    expect(guest!.topPercent).toBeCloseTo(36.975, 2);
+    expect(guest!.hitbox.leftPercent).toBeCloseTo(21.848, 2);
+    expect(guest!.hitbox.topPercent).toBeCloseTo(37.768, 2);
+    expect(guest!.hitbox.widthPercent).toBeCloseTo(14.899, 2);
+    expect(guest!.hitbox.heightPercent).toBeCloseTo(19.834, 2);
   });
 
   describe("Person-owned visual identity invariant regressions", () => {

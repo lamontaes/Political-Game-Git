@@ -143,24 +143,26 @@ test.describe("Real Political Game modular characters", () => {
       .getByTestId("office-art-compositor")
       .boundingBox())!;
     const scale = stage.width / 1024;
-    // The measured seat-contact root lands on the registered scene's own seat
-    // plane. Both numbers now come from somewhere: the root off the raster, the
-    // anchor off the scene spec. Neither was tuned until the picture looked
-    // right, which is how they used to disagree.
-    expect(guestBox.x + guestBox.width * 0.497).toBeCloseTo(
-      stage.x + 1024 * 0.28 * scale,
+    // The measured seat CONTACT lands on the measured cushion of its own
+    // chair. Both numbers come from somewhere: the contact off the raster's
+    // alpha, the cushion off the plate. Neither was tuned until the picture
+    // looked right, which is how they used to disagree — and placing the hip
+    // JOINT here instead of the contact is what used to leave these sitters
+    // perched above their chairs.
+    expect(guestBox.x + guestBox.width * 0.4941).toBeCloseTo(
+      stage.x + 1024 * 0.292 * scale,
       0,
     );
-    expect(guestBox.y + guestBox.height * 0.62).toBeCloseTo(
-      stage.y + 572 * 0.63 * scale,
+    expect(guestBox.y + guestBox.height * 0.6543).toBeCloseTo(
+      stage.y + 572 * 0.6293 * scale,
       0,
     );
-    expect(primaryBox.x + primaryBox.width * 0.507).toBeCloseTo(
-      stage.x + 1024 * 0.792 * scale,
+    expect(primaryBox.x + primaryBox.width * 0.4941).toBeCloseTo(
+      stage.x + 1024 * 0.772 * scale,
       0,
     );
-    expect(primaryBox.y + primaryBox.height * 0.624).toBeCloseTo(
-      stage.y + 572 * 0.635 * scale,
+    expect(primaryBox.y + primaryBox.height * 0.6475).toBeCloseTo(
+      stage.y + 572 * 0.708 * scale,
       0,
     );
     await page.screenshot({

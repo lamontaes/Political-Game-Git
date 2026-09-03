@@ -117,7 +117,10 @@ describe("standing placement from foot contacts", () => {
       standingSubject("a"),
     );
     expect(placement.scale).toBeCloseTo(0.9375, 10);
-    expect(placement.box.widthPercent).toBeCloseTo(21.5 * 0.9375, 9);
+    expect(placement.box.widthPercent).toBeCloseTo(
+      OFFICE.standardBodyWidthPercent * 0.9375,
+      9,
+    );
   });
 
   /**
@@ -226,7 +229,7 @@ describe("seated placement from the seat plane and the floor", () => {
     expect(warning!.subject).toBe("floating");
     expect(warning!.anchorId).toBe("primary-desk-chair");
     expect(warning!.message).toContain("above the floor by");
-    expect(warning!.message).toContain("84%");
+    expect(warning!.message).toContain("90.01%");
   });
 
   it("accepts a seated body whose feet reach the floor within tolerance", () => {

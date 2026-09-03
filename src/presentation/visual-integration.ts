@@ -349,9 +349,14 @@ export const CHARACTER_VISUAL_RECIPES = {
     // earlier 0.68/0.54 put the seat plane through the figure's mid-torso,
     // which is why the authored sitter floated above its chair.
     root: { convention: "pelvis-hip-center", x: 0.507, y: 0.624 },
+    // The rig root above is the hip JOINT. This is where the body actually
+    // meets the seat: the deepest point of the buttock/thigh silhouette behind
+    // the knees, measured off the raster's own alpha channel. It sits 0.0235 of
+    // raster height below the joint, which is the gap that used to hang this
+    // figure above her chair.
     seatedContact: {
       convention: "seat-plane-at-pelvis",
-      root: { convention: "pelvis-hip-center", x: 0.507, y: 0.624 },
+      root: { convention: "pelvis-hip-center", x: 0.4941, y: 0.6475 },
     },
     visualBounds: {
       sourceAspectRatio: 765 / 1024,
@@ -371,9 +376,12 @@ export const CHARACTER_VISUAL_RECIPES = {
     poseFamily: "seated-in-guest-chair",
     // Measured, as above.
     root: { convention: "pelvis-hip-center", x: 0.497, y: 0.62 },
+    // Measured the same way. B01 carries a deeper seat than A01 — 0.0343 of
+    // raster height below its hip joint — because it is drawn sitting further
+    // back into its chair.
     seatedContact: {
       convention: "seat-plane-at-pelvis",
-      root: { convention: "pelvis-hip-center", x: 0.497, y: 0.62 },
+      root: { convention: "pelvis-hip-center", x: 0.4941, y: 0.6543 },
     },
     visualBounds: {
       sourceAspectRatio: 765 / 1024,
@@ -583,8 +591,22 @@ export function composeOfficeVisuals(
         const heightPercent =
           (widthPercent / recipe.visualBounds.sourceAspectRatio) *
           (scene.plate.width / scene.plate.height);
-        const leftPercent = anchor.xPercent - recipe.root.x * widthPercent;
-        const topPercent = anchor.yPercent - recipe.root.y * heightPercent;
+        // Place the point that actually touches the chair, not the rig root.
+        //
+        // `root` is the pelvis-hip-CENTRE: a joint inside the body, a couple of
+        // percent of raster height above the surface the sitter rests on. Putting
+        // that joint on the seat plane hangs the body's contact surface below the
+        // cushion and its visible mass above it, which is why the authored sitters
+        // read as perched on their chairs rather than in them. `seatedContact.root`
+        // is the measured contact itself, and the modular path in
+        // `scene-placement.ts` has always placed seated bodies by their
+        // `seatedPelvis` contact for exactly this reason. The two paths now agree.
+        //
+        // Every authored recipe is a seated one and the type requires the
+        // contact, so there is no standing case to fall back to here.
+        const contact = recipe.seatedContact.root;
+        const leftPercent = anchor.xPercent - contact.x * widthPercent;
+        const topPercent = anchor.yPercent - contact.y * heightPercent;
         const interaction = recipe.visualBounds.interaction;
         return {
           personId: person.personId,

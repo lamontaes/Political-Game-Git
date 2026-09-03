@@ -1495,3 +1495,59 @@ manifest is JSON and cannot be held to a type,
 Consequence: the published generations, their frozen signatures, the forty-six
 development fixtures and every disposition D-063 made are unchanged. What
 changed is that the records now say what the authority always said.
+
+## D-066 — A sitter is placed by what touches the chair, and a chair is where the picture says it is
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Repairs: D-055 and D-057 (the office fixture's seat geometry only; their
+  intake, pose, contact and authoring decisions stand)
+
+Human visual review of the office fixture rejected both seated figures: the
+primary sitter read as hovering in front of her chair rather than sitting in
+it, and the guest read as intersecting his. Neither was an art defect. Both
+rasters are coherent people, and the compositor placed them exactly where the
+scene told it to. The scene was wrong in two independent ways, and each hid the
+other.
+
+**The chairs were never measured.** Both anchors declared a seat plane of about
+63% and a shared floor line of 84%. The 84% was not read off the plate at all;
+the fixture's own comment recorded that it was derived from the 63.5% seat
+plane by asking where a sprite's feet would land. One unmeasured number was
+solved from another, so the two agreed with each other and with nothing in the
+picture. Measured off the runtime plate, the desk chair's cushion occupies
+y 68.4%–75.6% and the guest chair's y 61.8%–65.2%; the old 63.5% sat a third of
+the way up the desk chair's BACKREST. The two chairs also stand at different
+depths and cannot share a floor line: the desk chair's base meets the carpet
+near 91%, the guest chair's legs near 75%.
+
+**The placement point was the wrong point.** `composeOfficeVisuals` placed each
+recipe's `root` — the pelvis-hip-CENTRE, a joint inside the body — on the seat
+plane. The thing that rests on a cushion is not that joint but the buttock and
+thigh surface a couple of percent of raster height below it. The recipes had
+declared a `seatedContact` all along and the compositor ignored it, while the
+modular path in `scene-placement.ts` has always placed seated bodies by their
+`seatedPelvis` contact. Two paths, two meanings, one of them silently wrong.
+
+So each anchor now carries its own measured cushion and its own measured floor
+line, the seat plane sits one third forward of each cushion's back edge because
+a sitter with their back against the backrest rests on the rear of the seat,
+and the compositor places the measured seat contact rather than the hip joint.
+Each sprite's contact-to-sole span then covers its own seat-to-floor gap, so
+pelvis-on-cushion and soles-on-floor hold together instead of being traded
+against one another. `standard_body_width_percent` moved from 21.5% to 19.48%
+because it is solved against those lines and the lines moved.
+
+Two consequences worth recording. The desk anchor returns from 79.2% to the
+measured cushion centre at 77.2%: the 79.2% was a staging offset that existed
+only because the body was placed by its hip joint, which pushed its visible
+mass right until it threatened the safe area. And the working-document and
+briefing-memo affordances move above the scene-person hitboxes, where the civic
+marker already sat — a correctly sized sitter's transparent hitbox now reaches
+across the desk, and it must not swallow the click that opens the paper beneath
+it. Nothing about the painted scene changes; the person button draws nothing.
+
+Consequence: the office fixture's layout, occlusion rules, attachment system
+and composition are untouched. What changed is that the numbers describing the
+furniture are now read off the furniture, and the point placed on a chair is
+the point that touches it.

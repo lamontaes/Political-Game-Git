@@ -3454,7 +3454,12 @@
     transform 120ms ease,
     box-shadow 120ms ease,
     outline 120ms ease;
-  z-index: 5;
+  /* Above the scene-person hitboxes (z-index 8), as the civic marker at 9
+     already is. These are UI entry points lying on the desk; a person's
+     transparent hitbox reaching across the desk must not swallow the click
+     that opens the document under it. Purely a hit-testing order — the person
+     button paints nothing, so nothing about the picture changes. */
+  z-index: 9;
   display: flex;
   flex-direction: column;
   align-items: center;

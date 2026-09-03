@@ -27,6 +27,14 @@ will not put a desk-work drawing in a guest chair and hope you do not notice.
 The same descriptions produce the drawing guides the art itself is made from,
 so the picture and the maths come from one source.
 
+The two people in the development office now sit in their chairs rather than
+near them. The woman at the desk was hovering above her seat and the man in the
+guest chair was cutting through his, because the game had been told the chairs
+were somewhere they are not — the numbers describing the furniture had been
+worked out from the drawings of the people instead of being read off the room.
+They are read off the room now, and a person is placed by the part of them that
+actually rests on a seat.
+
 A batch of real character art is banked here but deliberately switched off: the
 bodies are untextured gray shapes and the clothes are design drawings rather
 than clothes drawn onto a person, so nobody can wear any of it until a person
