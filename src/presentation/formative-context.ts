@@ -176,7 +176,7 @@ export function resolveFormativeCompanion(
         personId: companionId,
         organizationId: schoolId,
         startedAt: joinedOn,
-        kind: "employment:school-teaching",
+        kind: TEACHING_WORK_KIND,
         compensation: "paid",
         authority: "directs-others",
         dependency: "dependent",
@@ -184,7 +184,7 @@ export function resolveFormativeCompanion(
         provenance: CONTEXT_PROVENANCE,
         initialRole: {
           title: "Teacher",
-          occupationClassification: "occupation:school-teacher",
+          occupationClassification: TEACHING_OCCUPATION,
           locationJurisdictionId: person.homeJurisdictionId,
           timeDemand: {
             ...TEACHING_HOURS,
@@ -203,6 +203,10 @@ export function resolveFormativeCompanion(
   }).world;
   return { world: next, personId: companionId };
 }
+
+/** What being employed to teach looks like in the work record. */
+const TEACHING_WORK_KIND = "employment:school-teaching";
+const TEACHING_OCCUPATION = "occupation:school-teacher";
 
 /** A school week, stated rather than borrowed from an office. */
 const TEACHING_HOURS = {
@@ -246,8 +250,14 @@ function holdsRole(
   return (
     age >= 18 &&
     age - childAge >= TEACHER_MINIMUM_AGE_GAP &&
+    // Employed at the school, and employed to teach at it. Any job on the
+    // premises would make a caretaker into somebody who keeps you back after
+    // class, which is a different person having a different conversation.
     activeWorkRelationshipsAt(world, candidateId).some(
-      (entry) => entry.relationship.organizationId === schoolId,
+      (entry) =>
+        entry.relationship.organizationId === schoolId &&
+        (entry.relationship.kind === TEACHING_WORK_KIND ||
+          entry.role?.occupationClassification === TEACHING_OCCUPATION),
     )
   );
 }

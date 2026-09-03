@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  activeEducationEnrollmentsAt,
+  activeWorkRelationshipsAt,
   ageOnDate,
   formativeIntervalAt,
   selectPersonHistory,
@@ -326,6 +328,61 @@ describe("What the other person in the scene comes to know", () => {
       "They said out loud that they saw it differently.",
     );
     expect(theirs?.accuracy).toBe("partial");
+  });
+});
+
+describe("A companion holds the part they are given", () => {
+  it("makes a classmate somebody enrolled at the same school", () => {
+    const { world, playerPersonId } = child(10, "peer-role");
+    const resolved = resolveFormativeCompanion(world, playerPersonId, "peer");
+    expect(resolved).not.toBeNull();
+
+    const after = resolved!.world;
+    const mine = activeEducationEnrollmentsAt(after, playerPersonId).map(
+      (entry) => entry.enrollment.organizationId,
+    );
+    expect(mine.length).toBeGreaterThan(0);
+    // Age made them plausible. The audit found nothing had made them true: a
+    // similarly aged stranger was returned as a classmate with no enrolment at
+    // this school, or at any school.
+    const theirs = activeEducationEnrollmentsAt(after, resolved!.personId).map(
+      (entry) => entry.enrollment.organizationId,
+    );
+    expect(theirs.some((id) => mine.includes(id))).toBe(true);
+  });
+
+  it("makes a teacher somebody employed to teach at that school", () => {
+    const { world, playerPersonId } = child(10, "teacher-role");
+    const resolved = resolveFormativeCompanion(
+      world,
+      playerPersonId,
+      "teacher",
+    );
+    expect(resolved).not.toBeNull();
+
+    const after = resolved!.world;
+    const school = activeEducationEnrollmentsAt(after, playerPersonId)[0]!
+      .enrollment.organizationId;
+    const work = activeWorkRelationshipsAt(after, resolved!.personId).filter(
+      (entry) => entry.relationship.organizationId === school,
+    );
+    expect(work).toHaveLength(1);
+    // Employed at the school is not enough; a caretaker is not who keeps you
+    // back after class.
+    expect(work[0]!.role.occupationClassification).toBe(
+      "occupation:school-teacher",
+    );
+  });
+
+  it("gives the same child the same classmate rather than a new stranger", () => {
+    const { world, playerPersonId } = child(10, "stable-peer");
+    const first = resolveFormativeCompanion(world, playerPersonId, "peer")!;
+    const second = resolveFormativeCompanion(
+      first.world,
+      playerPersonId,
+      "peer",
+    )!;
+    expect(second.personId).toBe(first.personId);
   });
 });
 
