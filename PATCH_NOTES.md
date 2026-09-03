@@ -18,6 +18,16 @@ put on a floor stands on it, and swapping one person for another does not knock
 either of them out of place. None of that is visible yet, because the art it is
 waiting for has not been made.
 
+Six rooms have been measured — three apartments, a community meeting hall, an
+executive office and the council staff office — and the parts of them the game
+will one day change are now marked out: a television, a map on a wall, a
+placard on a lectern, papers on a desk. The small picture frames on shelves stay
+paintings, permanently, because anything the game tried to put in one would be
+too small to read. Flags and seals are recorded for every state and territory
+with the law that governs them, and none of them will ever be invented by a
+machine: where the real one is not available, the game shows nothing rather than
+something that looks close.
+
 ## PRE-ALPHA 0.2.0 — "The Bill Becomes Law"
 
 _Revised 2 September 2026 after an independent review of the legislating build._

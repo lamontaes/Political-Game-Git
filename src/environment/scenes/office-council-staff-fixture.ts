@@ -192,32 +192,84 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
     },
   ],
 
+  /**
+   * The five surfaces the geometry inspection found and promoted, and the two
+   * it refused.
+   *
+   * The map is the one that decides whether this room is reusable. The plate is
+   * painted with Lexington and Fayette County's own street grid; either that
+   * grid is replaceable or the office serves exactly one city and is a hero
+   * asset wearing a family's clothes.
+   *
+   * The two stacked wall certificates are absent on purpose. They are 3.8% by
+   * 5.9% of the plate — about 41 by 45 pixels at 1080p — and a credential drawn
+   * at that size is an illegible smear asserting a qualification. They are
+   * declared as ambient `paper-shapes` in the dynamic-surface record instead,
+   * so a later pass cannot quietly promote them.
+   *
+   * The corkboard pin is absent for the same reason, and that is a correction.
+   * The inspection promoted it; at 4.5% of plate width it is about 46 pixels
+   * across at 1080p, which is under the component width floor this repository
+   * applies and cannot hold a legible line. It is declared ambient here. The
+   * floor is ours, not the inspection's, so a human pass that disagrees can
+   * reverse this by moving one declaration.
+   */
   surface_slots: [
     {
       slot_id: "desk-working-document",
       kind: "desk-document",
       rect_percent: {
-        x_percent: 63,
-        y_percent: 52,
-        width_percent: 12,
-        height_percent: 9,
+        x_percent: 54.8,
+        y_percent: 58.5,
+        width_percent: 9.2,
+        height_percent: 5.5,
       },
       z_order: 3,
-      allowed_content_classes: ["working-draft", "briefing-memo"],
-      fallback_decoration: "an empty desk blotter",
+      allowed_content_classes: ["document-body", "bill-title", "bill-number"],
+      fallback_decoration: "a clean paper stack on the blotter",
     },
     {
-      slot_id: "wall-frame",
-      kind: "picture-frame",
+      slot_id: "wall-district-map-slot",
+      kind: "district-map",
       rect_percent: {
-        x_percent: 12,
-        y_percent: 24,
-        width_percent: 14,
+        x_percent: 58.6,
+        y_percent: 21,
+        width_percent: 12.9,
+        height_percent: 21.5,
+      },
+      z_order: 1,
+      allowed_content_classes: [
+        "map-label",
+        "jurisdiction-seal",
+        "jurisdiction-name",
+      ],
+      fallback_decoration: "a generic municipal street grid with no labels",
+    },
+    {
+      slot_id: "monitor-primary-widescreen",
+      kind: "monitor-display",
+      rect_percent: {
+        x_percent: 58.2,
+        y_percent: 41.5,
+        width_percent: 7.5,
+        height_percent: 16,
+      },
+      z_order: 2,
+      allowed_content_classes: ["document-body", "agenda", "election-result"],
+      fallback_decoration: "a dark desktop with no windows open",
+    },
+    {
+      slot_id: "monitor-secondary-portrait",
+      kind: "monitor-display",
+      rect_percent: {
+        x_percent: 68.1,
+        y_percent: 38,
+        width_percent: 5.4,
         height_percent: 18,
       },
-      z_order: 0,
-      allowed_content_classes: ["jurisdiction-seal", "neutral-art"],
-      fallback_decoration: "plain framed paper",
+      z_order: 2,
+      allowed_content_classes: ["document-body", "agenda"],
+      fallback_decoration: "a dark desktop with no windows open",
     },
   ],
 
@@ -225,6 +277,7 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
     "Every anchor, contact, occluder region and surface slot in this scene is a visual estimate read off fixture art. None of it is plan-derived, and none of it should be copied into a production scene.",
     "The prompt30 plate's real detail is 1024x572. The 2048x1144 runtime file is a 2x resample of that same source and is registered as an upscale so the runtime reports its shortfall honestly.",
     "The guest chair's near arm has no authored alpha mask yet, so its occluder region is declared for footprint and debug purposes without a raster.",
+    "The corkboard pin above the desk was promoted by the geometry inspection and is declared ambient decor here instead: at 4.5% of plate width it is roughly 46 pixels across at 1080p, below the width a runtime component needs to be legible. This is a repository judgement about a number the inspection did not rule on, and it is reversible.",
     "The authored B01 guest raster carries 16% of plate height between its measured pelvis and its soles, while this scene puts 21% between the guest seat plane and the guest floor line. Placing the pelvis on the seat therefore leaves the guest's feet about 5% of plate height above the floor. The measurement and the scene are both recorded as found; the figure is not stretched to close the gap, and no seated body drawn for this room exists yet.",
   ],
 };

@@ -31,16 +31,20 @@ silently and expensively later:
 
 ## The eight systems
 
-| System | Module                               | What it owns                                                      |
-| ------ | ------------------------------------ | ----------------------------------------------------------------- |
-| 1      | `src/authoring/asset-lineage.ts`     | What a candidate must declare before it is production cargo       |
-| 2      | `src/authoring/tier-plan.ts`         | Which rasters of the ladder may honestly be derived               |
-| 3      | `src/authoring/scene-scaffold.ts`    | A structured, exhaustively-incomplete place to author geometry    |
-| 4      | `src/authoring/measured-geometry.ts` | Provenance-backed measurements of real rooms, as an authoring aid |
-| 5      | `src/authoring/semantic-context.ts`  | Physical scene family versus canonical world label                |
-| 6      | `src/authoring/dynamic-surfaces.ts`  | Baked decor versus information the simulation owns                |
-| 7      | `src/authoring/asset-bank.ts`        | The batch QA schema an external reviewer fills in                 |
-| 8      | `src/ui/SceneAuthoringProofView.tsx` | The development overlay that reads coordinates off a plate        |
+| System | Module                                | What it owns                                                         |
+| ------ | ------------------------------------- | -------------------------------------------------------------------- |
+| 1      | `src/authoring/asset-lineage.ts`      | What a candidate must declare before it is production cargo          |
+| 2      | `src/authoring/tier-plan.ts`          | Which rasters of the ladder may honestly be derived                  |
+| 3      | `src/authoring/scene-scaffold.ts`     | A structured, exhaustively-incomplete place to author geometry       |
+| 4      | `src/authoring/measured-geometry.ts`  | Provenance-backed measurements of real rooms, as an authoring aid    |
+| 5      | `src/authoring/semantic-context.ts`   | Physical scene family versus canonical world label                   |
+| 6      | `src/authoring/dynamic-surfaces.ts`   | Baked decor versus information the simulation owns                   |
+| 7      | `src/authoring/asset-bank.ts`         | The batch QA schema an external reviewer fills in                    |
+| 8      | `src/authoring/dynamic-components.ts` | Which components a surface may host, and what it shows when empty    |
+| 9      | `src/authoring/civic-symbols.ts`      | Flags and seals as identities with citations, and their usage policy |
+| 10     | `src/authoring/external-packs.ts`     | Whether a downloaded pack is legally and technically usable          |
+| 11     | `src/authoring/generation-queue.ts`   | Which modular-person parts are missing, and which only look it       |
+| 12     | `src/ui/SceneAuthoringProofView.tsx`  | The development overlay that reads coordinates off a plate           |
 
 Everything under `src/authoring/` is pure: no filesystem, no DOM, no network.
 The filesystem half lives in `scripts/art-asset-factory/`.
@@ -153,3 +157,73 @@ chose.
   sources, scales and bases; the validator refuses fabricated precision.
 - **Jules asset intake** — the intake request format is the seam; a file with no
   declaration is reported as undeclared rather than adopted.
+
+## The legibility gate
+
+A surface may carry information only if a reader could actually take it in. The
+floor is 5% of plate height — about 54 lines at 1080p — and 5% of plate width
+for anything with axes, rows or a legend.
+
+This exists because of a specific and repeatable generative habit: models paint
+two to five small frames on every shelf and sideboard, each blank, each looking
+like an invitation. Promoting them produces a room of illegible dashboards, and
+an illegible dashboard is worse than a painted rectangle because it asserts
+something nobody can check. `slotIsPromotable` refuses them, and the refusals are
+recorded as ambient decor so a later pass cannot quietly reverse one.
+
+Two exceptions are built in, and both are about geometry rather than judgement:
+
+- A **foreshortened** surface — a document on a desk, notes on a lectern — is a
+  large physical page presenting a short rectangle to the camera. Its height
+  floor is 3%; the width floor still applies, because perspective compresses
+  height, not width.
+- An **image-only** surface — a flag, a seal, a portrait, a nameplate — carries a
+  known image or one line of text rather than a component, and has no component
+  floor at all.
+
+## The production library
+
+Six approved environment masters exist. `src/authoring/fixtures/` carries them as
+authoring records rather than research notes:
+
+- `production-scene-families.ts` — the physical identity of each room, and what
+  the World may call it. Two of the six are `jurisdiction-specific` and say so:
+  one is painted with a real city's street map, the other's window frames a real
+  capitol dome.
+- `production-scenes.ts` — scaffolds carrying measured floor ramps, seat planes,
+  staging positions and occluder rectangles. All five are deliberately
+  unregistrable: the plates are Drive-only, so there is no raster, and nobody has
+  decided a camera or a safe area, which is blocking.
+- `dynamic-surface-authoring.ts` — which surfaces the simulation owns, which stay
+  painted, and which component families each promoted surface may host.
+- `production-asset-bank.ts` — the eight files as a QA bank. Nothing is
+  dispositioned `production`, because the questions that decide it need eyes on
+  pixels at size.
+- `generation-queue.ts` — the remaining modular-person parts, each saying where
+  the art already is rather than only that it is wanted.
+
+## Civic symbols
+
+Flags, seals and arms are identities with statutory citations, not art assets.
+188 of them across 65 jurisdictions live in `art/manifest/civic_symbols.json`,
+and every one carries `asset_status: "not-acquired"`: the registry records what
+exists and where the law puts it, and the bytes are collected per jurisdiction
+when a scene actually needs them.
+
+Three rules are structural rather than advisory. There is no asset status meaning
+"generated", so an AI-drawn seal is unrepresentable. A symbol that has not been
+acquired cannot carry an asset path. And `symbolUsePermitted` refuses campaign
+and commercial contexts outright, which is the misuse state statutes name.
+
+## External packs
+
+A downloaded pack has to survive two independent questions: what the licence
+permits, and whether the files are the kind of thing this renderer draws. A CC0
+pack of rigged meshes is perfectly licensed and unusable; a set of finished
+plates with no licence file is usable and unavailable.
+
+`use-now` requires both a licence stated in a document inside the archive and at
+least one file of finished 2D art. Everything else is `archive` or `reject` with
+a reason from a closed vocabulary, and `needs-rigging-or-render` is the standing
+operating rule: no rigging, no Blender, no manual posing, and no time spent
+pulling static art out of an animation rig.

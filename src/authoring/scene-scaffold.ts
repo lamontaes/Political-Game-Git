@@ -125,6 +125,17 @@ export interface AnchorScaffold {
   readonly floorContact: ScaffoldField<SceneFloorContact>;
   /** Required for a `seat` anchor. */
   readonly seatContact: ScaffoldField<SceneSeatContact>;
+  /**
+   * The plane a seated pelvis lands on, as a percentage of plate height.
+   *
+   * Separate from `seatContact` because it is a different KIND of fact and
+   * arrives at a different time. A reviewer looking at a plate can read the
+   * seat plane off it directly; the seat's width and the paint order of its pan
+   * and backrest cannot be read at all, and are decided when the room is
+   * authored. Keeping the plane here means an inspection that measured it does
+   * not have to throw it away for lack of the other three.
+   */
+  readonly seatPlaneYPercent: ScaffoldField<number>;
   readonly allowedPoseFamilies: ScaffoldField<readonly string[]>;
   readonly permittedFacings: ScaffoldField<readonly string[]>;
 }
@@ -329,6 +340,11 @@ function createAnchorScaffold(planned: {
           `${NEEDS_MEASUREMENT} A seat contact needs the seat plane, the seat front, the seat width, the paint order of pan and backrest, AND the floor line the sitter's feet reach — a seated person's feet are on the floor, not on the chair.`,
         )
       : unresolved("Not a seat anchor.", "UNVERIFIED"),
+    seatPlaneYPercent: seatRelevant
+      ? unresolved(
+          `${NEEDS_MEASUREMENT} The plate line a seated pelvis lands on. It can be read straight off the picture, unlike the seat box around it.`,
+        )
+      : unresolved("Not a seat anchor.", "UNVERIFIED"),
     allowedPoseFamilies: unresolved(
       `${NEEDS_JUDGEMENT} Which pose families this anchor accepts.`,
     ),
@@ -437,6 +453,14 @@ export function evaluateScaffoldReadiness(
     // Exactly one contact is required, and which one depends on the kind.
     if (anchor.kind === "seat") {
       collect(gaps, `${base}.seatContact`, anchor.seatContact, true);
+      // Non-blocking: a measured plane is progress towards the contact, and
+      // reporting it as an open gap is how the next author knows what is left.
+      collect(
+        gaps,
+        `${base}.seatPlaneYPercent`,
+        anchor.seatPlaneYPercent,
+        false,
+      );
     } else if (anchor.kind === "floor-standing") {
       collect(gaps, `${base}.floorContact`, anchor.floorContact, true);
     } else {
@@ -615,4 +639,104 @@ export function resolveAnchorField<K extends keyof AnchorScaffold>(
     );
   }
   return { ...scaffold, anchors };
+}
+
+/**
+ * Settles one scene-level field.
+ *
+ * The three resolvers below exist so an authoring record can be written as a
+ * pipeline — build the empty scaffold, then settle what is actually known —
+ * rather than as one literal in which resolved and unresolved fields are
+ * indistinguishable at a glance. Every one of them demands a certainty, and
+ * none of them can settle a field the scaffold does not declare.
+ */
+export function resolveSceneField<K extends keyof SceneAuthoringScaffold>(
+  scaffold: SceneAuthoringScaffold,
+  field: K,
+  value: SceneAuthoringScaffold[K] extends ScaffoldField<infer V> ? V : never,
+  certainty: "VERIFIED" | "ESTIMATED",
+  source?: string,
+  note?: string,
+): SceneAuthoringScaffold {
+  return { ...scaffold, [field]: resolved(value, certainty, source, note) };
+}
+
+export function resolveOccluderField<K extends keyof OccluderScaffold>(
+  scaffold: SceneAuthoringScaffold,
+  occluderId: string,
+  field: K,
+  value: OccluderScaffold[K] extends ScaffoldField<infer V> ? V : never,
+  certainty: "VERIFIED" | "ESTIMATED",
+  source?: string,
+): SceneAuthoringScaffold {
+  if (!scaffold.occluders.some((occluder) => occluder.id === occluderId)) {
+    throw new Error(
+      `Scaffold '${scaffold.sceneId}' has no occluder '${occluderId}'.`,
+    );
+  }
+  return {
+    ...scaffold,
+    occluders: scaffold.occluders.map((occluder) =>
+      occluder.id === occluderId
+        ? { ...occluder, [field]: resolved(value, certainty, source) }
+        : occluder,
+    ),
+  };
+}
+
+export function resolveSurfaceSlotField<K extends keyof SurfaceSlotScaffold>(
+  scaffold: SceneAuthoringScaffold,
+  slotId: string,
+  field: K,
+  value: SurfaceSlotScaffold[K] extends ScaffoldField<infer V> ? V : never,
+  certainty: "VERIFIED" | "ESTIMATED",
+  source?: string,
+): SceneAuthoringScaffold {
+  if (!scaffold.surfaceSlots.some((slot) => slot.slotId === slotId)) {
+    throw new Error(
+      `Scaffold '${scaffold.sceneId}' has no surface slot '${slotId}'.`,
+    );
+  }
+  return {
+    ...scaffold,
+    surfaceSlots: scaffold.surfaceSlots.map((slot) =>
+      slot.slotId === slotId
+        ? { ...slot, [field]: resolved(value, certainty, source) }
+        : slot,
+    ),
+  };
+}
+
+/**
+ * The surface slots a scaffold has fully settled, as runtime slot records.
+ *
+ * Dynamic-surface and component-binding validation both want to run long before
+ * a scene can register — a slot's rectangle and content classes are settled
+ * well before anyone decides the camera. This projects just that part, and
+ * skips any slot still missing one of the four fields a slot needs to mean
+ * anything, so a half-authored slot is absent rather than half-present.
+ */
+export function surfaceSlotsFromScaffold(
+  scaffold: SceneAuthoringScaffold,
+): SceneSurfaceSlot[] {
+  const slots: SceneSurfaceSlot[] = [];
+  for (const slot of scaffold.surfaceSlots) {
+    const kind = fieldValue(slot.kind);
+    const rect = fieldValue(slot.rectPercent);
+    const zOrder = fieldValue(slot.zOrder);
+    const classes = fieldValue(slot.allowedContentClasses);
+    if (kind === null || rect === null || zOrder === null || classes === null) {
+      continue;
+    }
+    const fallback = fieldValue(slot.fallbackDecoration);
+    slots.push({
+      slot_id: slot.slotId,
+      kind,
+      rect_percent: rect,
+      z_order: zOrder,
+      allowed_content_classes: [...classes],
+      ...(fallback !== null ? { fallback_decoration: fallback } : {}),
+    });
+  }
+  return slots;
 }

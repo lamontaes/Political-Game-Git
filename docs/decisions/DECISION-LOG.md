@@ -1296,3 +1296,67 @@ Consequence: thirty-five derivatives, twenty-five masters, five master
 manifests, the deterministic intake, the seat-contact measurement, the occluder
 repair and the recombination proof are all preserved and under test; not one of
 them can reach a player until someone says so.
+
+## D-060 — A surface carries information only if it can be read, and a symbol is an identity before it is art
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Extends: D-058 (the authoring pipeline) with the four systems below; no
+  lineage, tier, scaffold or asset-bank decision is superseded
+
+The approved environment library — three apartments, a civic meeting hall, an
+executive suite and the Lexington staff office — now exists as authoring records
+rather than as research notes. Five are scaffolds carrying measured floor ramps,
+seat planes, staging positions and occluder rectangles; all five refuse to
+project, because the plates are Drive-only and nobody has decided a camera or a
+safe area. The refusal is the point: an incomplete scaffold is honest, and a
+spec with plausible numbers standing in for decisions nobody made is not.
+
+**Legibility gates promotion.** Thirteen visible frames and screens were
+inspected across the six rooms; four became runtime surfaces and nine stayed
+painted. The floor is 5% of plate height and 5% of plate width, with a 3% height
+floor for foreshortened surfaces — a document on a desk is a large page seen
+nearly flat — and no component floor at all for a surface carrying a known image
+or one line of text. Generative models paint small blank frames on every shelf,
+and promoting them yields a room of illegible dashboards; an illegible dashboard
+is worse than a rectangle of paint because it asserts something nobody can
+check. Applying the rule found one inconsistency in the inspection's own
+dispositions: the staff office corkboard pin, promoted there, is about 46 pixels
+across at 1080p and is declared ambient here, reversibly and with the number
+recorded.
+
+**A component surface says what may be drawn on it.** Twelve component families
+— a trend line, a roll call, a district map, a briefing card and eight others —
+each name the surface kinds they can honestly be drawn on and the empty state
+they fall back to. Both halves matter: a roll-call grid on a domestic television
+is a category error nothing at runtime would catch, and an empty state that
+invents a plausible docket is a lie the art keeps telling. Every fallback says
+the absence out loud.
+
+**Civic symbols are identities with citations.** 188 flags, seals and arms
+across 65 jurisdictions are recorded with their statutory authority, their
+restriction statutes and their colours, and every one is `not-acquired`: this
+repository holds no symbol artwork. Three rules are structural rather than
+advisory. There is no asset status meaning "generated", so an AI-drawn seal is
+unrepresentable rather than discouraged. A symbol that has not been acquired
+cannot carry an asset path. `symbolUsePermitted` refuses campaign and commercial
+contexts without reference to which symbol is being asked for, because the
+prohibition is about the use.
+
+**A downloaded pack answers two questions, not one.** What the licence permits
+and whether the files are the kind of thing this renderer draws are independent,
+and answering only the second is how unlicensed art gets shipped. `use-now`
+requires a licence stated in a document inside the archive AND at least one file
+of finished 2D art; anything else is archived or rejected with a reason from a
+closed vocabulary.
+
+**The generation queue says where art is, not just that it is wanted.** Most of
+what looks missing is not: it is banked here unreleased, or in Drive at the
+wrong resolution, or covered by a fixture nobody has noticed. Of 115 modular
+person assets accounted for, 58 are genuinely missing, 13 exist and fall short
+of a stated measurement, 2 exist and pass, 35 are banked here, and 7 are
+fixtures standing in silently.
+
+Consequence: adding a room is authoring data. What is still missing to ship one
+is bytes and two human judgements — a camera, and whether the art is good enough
+— and the records say which is which rather than blurring them.

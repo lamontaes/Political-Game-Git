@@ -1619,3 +1619,41 @@ character at the same anchor with the same paint order and a real hitbox, and
 reports a placeholder because generation 1 has no seated footwear; the same
 person pinned to generation 2 composes complete, from fixtures only. A01 and
 B01 still resolve their authored rasters with the recorded hashes.
+
+### VISUAL-016 — The approved library exists as authoring records, and refuses to pretend it is finished
+
+Six approved masters carry a physical scene family, and five carry a scaffold
+with measured floor calibration, seat planes, staging positions, occluder
+regions and surface slots. Every resolved measurement is marked `ESTIMATED` and
+sourced to the inspection; none is presented as plan-derived. All five scaffolds
+report `camera`, `safeArea` and `essentialContentArea` as blocking gaps and
+project to `null`, no scaffold declares a raster, no occluder declares an alpha
+mask it does not have, and every seat anchor carries the measured seat plane
+with its seat box still open.
+
+### VISUAL-017 — Small surfaces stay painted, and the rule that says so is enforced
+
+Nine inspected frames are declared ambient decor with their measured
+rectangles; eight of them fail `slotIsPromotable` on the recorded numbers.
+Binding a component to a slot below the threshold is a validation error. The
+four promoted surfaces are the three televisions, the district map, the podium
+placard, the desk documents, the executive focal frame and the flag standard,
+and no bookcase, certificate, side-table or clipped edge frame appears among
+them.
+
+### VISUAL-018 — A dynamic surface hosts only what it can honestly draw
+
+Every promoted slot binds component families that can be drawn on its kind; a
+roll-call grid on a domestic television and an agenda list on a lectern that
+takes only a briefing card are both validation errors. Windows, flags and
+portraits bind no component at all. Every one of the twelve families declares an
+empty state, the surfaces it draws on, and the inferences it must never make.
+
+### VISUAL-019 — Civic symbols are identities, and external packs answer two questions
+
+188 civic symbols across 65 jurisdictions validate, all `not-acquired`, none
+with an asset path. A record claiming generated artwork is a validation error,
+and campaign and commercial use are refused without reference to the symbol. All
+three downloaded packs validate, none is `use-now`, none harvested a file: the
+two CC0 packs are archived for needing rigging or rendering, and the office set
+is rejected for unverified rights before its contents are considered.

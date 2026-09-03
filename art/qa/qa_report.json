@@ -30,6 +30,306 @@
     "meetsTransparencyReq": null
   },
   {
+    "file": "generated/approved/dev-modular-g2/dev_g2_accessory_lanyard_v1.png",
+    "metadata": {
+      "width": 80,
+      "height": 120,
+      "aspectRatio": "2:3",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_broad_deep_rich_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 660,
+      "aspectRatio": "7:11",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_broad_deep_rich_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 840,
+      "aspectRatio": "1:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_broad_light_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 660,
+      "aspectRatio": "7:11",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_broad_light_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 840,
+      "aspectRatio": "1:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_broad_medium_warm_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 660,
+      "aspectRatio": "7:11",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_broad_medium_warm_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 840,
+      "aspectRatio": "1:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_slim_deep_rich_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 660,
+      "aspectRatio": "7:11",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_slim_deep_rich_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 840,
+      "aspectRatio": "1:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_slim_light_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 660,
+      "aspectRatio": "7:11",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_slim_light_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 840,
+      "aspectRatio": "1:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_slim_medium_warm_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 660,
+      "aspectRatio": "7:11",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_slim_medium_warm_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 840,
+      "aspectRatio": "1:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_bottom_trousers_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 240,
+      "aspectRatio": "7:4",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_bottom_trousers_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 360,
+      "aspectRatio": "7:6",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_eyewear_thin_frames_v1.png",
+    "metadata": {
+      "width": 220,
+      "height": 220,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_footwear_derby_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 64,
+      "aspectRatio": "105:16",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_footwear_derby_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 64,
+      "aspectRatio": "105:16",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_hair_coils_front_v1.png",
+    "metadata": {
+      "width": 220,
+      "height": 220,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_hair_crop_front_v1.png",
+    "metadata": {
+      "width": 220,
+      "height": 220,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_hair_long_back_v1.png",
+    "metadata": {
+      "width": 260,
+      "height": 320,
+      "aspectRatio": "13:16",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_hair_long_front_v1.png",
+    "metadata": {
+      "width": 220,
+      "height": 220,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_head_deep_oval_v1.png",
+    "metadata": {
+      "width": 220,
+      "height": 220,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_head_light_square_v1.png",
+    "metadata": {
+      "width": 220,
+      "height": 220,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_head_warm_long_v1.png",
+    "metadata": {
+      "width": 220,
+      "height": 220,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_head_warm_round_v1.png",
+    "metadata": {
+      "width": 220,
+      "height": 220,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_top_knit_olive_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 290,
+      "aspectRatio": "42:29",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_top_knit_olive_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 340,
+      "aspectRatio": "21:17",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_top_suit_charcoal_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 300,
+      "aspectRatio": "7:5",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_top_suit_charcoal_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 360,
+      "aspectRatio": "7:6",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
     "file": "generated/approved/dev-modular/dev_accessory_lapel_pin_v1.png",
     "metadata": {
       "width": 40,
@@ -422,9 +722,9 @@
   {
     "file": "generated/approved/pg-modular/pg_shoe_001_low_top_sneakers_fl_v1.png",
     "metadata": {
-      "width": 226,
+      "width": 227,
       "height": 142,
-      "aspectRatio": "113:71",
+      "aspectRatio": "227:142",
       "hasTransparency": "confirmed"
     },
     "meetsTransparencyReq": true
@@ -442,9 +742,9 @@
   {
     "file": "generated/approved/pg-modular/pg_shoe_004_leather_loafers_fl_v1.png",
     "metadata": {
-      "width": 226,
-      "height": 135,
-      "aspectRatio": "226:135",
+      "width": 227,
+      "height": 136,
+      "aspectRatio": "227:136",
       "hasTransparency": "confirmed"
     },
     "meetsTransparencyReq": true
@@ -462,9 +762,9 @@
   {
     "file": "generated/approved/pg-modular/pg_shoe_009_low_practical_flats_fl_v1.png",
     "metadata": {
-      "width": 226,
+      "width": 227,
       "height": 148,
-      "aspectRatio": "113:74",
+      "aspectRatio": "227:148",
       "hasTransparency": "confirmed"
     },
     "meetsTransparencyReq": true
@@ -482,9 +782,9 @@
   {
     "file": "generated/approved/pg-modular/pg_top_001_short_sleeve_crew_tee_fl_v1.png",
     "metadata": {
-      "width": 236,
-      "height": 252,
-      "aspectRatio": "59:63",
+      "width": 235,
+      "height": 250,
+      "aspectRatio": "47:50",
       "hasTransparency": "confirmed"
     },
     "meetsTransparencyReq": true
@@ -492,9 +792,9 @@
   {
     "file": "generated/approved/pg-modular/pg_top_001_short_sleeve_crew_tee_ml_v1.png",
     "metadata": {
-      "width": 266,
-      "height": 283,
-      "aspectRatio": "266:283",
+      "width": 265,
+      "height": 282,
+      "aspectRatio": "265:282",
       "hasTransparency": "confirmed"
     },
     "meetsTransparencyReq": true
@@ -502,9 +802,9 @@
   {
     "file": "generated/approved/pg-modular/pg_top_005_long_sleeve_button_shirt_fl_v1.png",
     "metadata": {
-      "width": 236,
-      "height": 287,
-      "aspectRatio": "236:287",
+      "width": 235,
+      "height": 285,
+      "aspectRatio": "47:57",
       "hasTransparency": "confirmed"
     },
     "meetsTransparencyReq": true
@@ -512,9 +812,9 @@
   {
     "file": "generated/approved/pg-modular/pg_top_005_long_sleeve_button_shirt_ml_v1.png",
     "metadata": {
-      "width": 266,
-      "height": 323,
-      "aspectRatio": "14:17",
+      "width": 265,
+      "height": 321,
+      "aspectRatio": "265:321",
       "hasTransparency": "confirmed"
     },
     "meetsTransparencyReq": true
@@ -522,9 +822,9 @@
   {
     "file": "generated/approved/pg-modular/pg_top_006_pullover_sweater_fl_v1.png",
     "metadata": {
-      "width": 236,
-      "height": 261,
-      "aspectRatio": "236:261",
+      "width": 235,
+      "height": 260,
+      "aspectRatio": "47:52",
       "hasTransparency": "confirmed"
     },
     "meetsTransparencyReq": true
@@ -532,9 +832,9 @@
   {
     "file": "generated/approved/pg-modular/pg_top_006_pullover_sweater_ml_v1.png",
     "metadata": {
-      "width": 266,
-      "height": 294,
-      "aspectRatio": "19:21",
+      "width": 265,
+      "height": 293,
+      "aspectRatio": "265:293",
       "hasTransparency": "confirmed"
     },
     "meetsTransparencyReq": true
@@ -542,9 +842,9 @@
   {
     "file": "generated/approved/pg-modular/pg_top_011_structured_blazer_fl_v1.png",
     "metadata": {
-      "width": 236,
-      "height": 287,
-      "aspectRatio": "236:287",
+      "width": 235,
+      "height": 286,
+      "aspectRatio": "235:286",
       "hasTransparency": "confirmed"
     },
     "meetsTransparencyReq": true
@@ -552,9 +852,9 @@
   {
     "file": "generated/approved/pg-modular/pg_top_011_structured_blazer_ml_v1.png",
     "metadata": {
-      "width": 266,
-      "height": 324,
-      "aspectRatio": "133:162",
+      "width": 265,
+      "height": 322,
+      "aspectRatio": "265:322",
       "hasTransparency": "confirmed"
     },
     "meetsTransparencyReq": true
