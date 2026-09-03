@@ -4,6 +4,8 @@ import {
   assertLifeHistorySourceAvailable,
   lifeHistoryReferenceKey,
 } from "./life-sources";
+import { legislationEntityExists } from "./legislation";
+import { legislativePoliticsEntityExists } from "./legislative-politics";
 import { lifeEntityExists } from "./life-integrity";
 import { resourceHousingEntityExists } from "./resource-integrity";
 import { factsForPerson } from "./people";
@@ -1389,6 +1391,8 @@ function entityExists(world: World, id: EntityId): boolean {
     !!world.mindCatalog.values[id] ||
     lifeEntityExists(world, id) ||
     resourceHousingEntityExists(world, id) ||
+    legislationEntityExists(world, id) ||
+    legislativePoliticsEntityExists(world, id) ||
     world.history.events.some((record) => record.id === id) ||
     world.history.goalStates.some((record) => record.goalId === id) ||
     world.history.decisionTraces.some((record) => record.decisionId === id)

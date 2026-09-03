@@ -2,6 +2,48 @@
 
 Newest release first.
 
+## UNRELEASED — "What's In It For My District"
+
+_Open for review. Not merged._
+
+Bills now have text in them, and the people around you have opinions about that
+text. A colleague can tell you what their district is missing, another can tell
+you what the session can afford, and the two of them will not be satisfied by
+the same answer.
+
+### Added
+
+- **Bills you can read.** A measure now prints as numbered sections with the
+  actual operative language. A section written for everybody and a section
+  written for one named project look different on the page and are different in
+  the record.
+- **Bargaining that changes the bill.** Ask a colleague what they want, hear a
+  concrete answer, counter with a smaller version, and put it to the chamber as
+  an amendment. If the chamber adopts it, the language is in the bill. If it
+  does not, nothing anybody said changed a word.
+- **Promises that behave like promises.** A colleague can say "I'm with you if
+  Section 4 is adopted" or "I'm a no unless it is." The game records exactly
+  what was said, to whom, and who was in earshot — and later works out for
+  itself whether the promise was kept, was never triggered, or was broken.
+  Nothing is guaranteed by having been said.
+- **Colleagues who are not the same person.** One member argues about their
+  district, another about the money. They open differently, object differently,
+  and refuse differently.
+- **A fiscal note you have to actually read.** It is filed with the bill. You
+  do not know what is in it until you open it.
+- **A line the game will not let you cross quietly.** You can offer someone
+  something for themselves, in private. It is refused, it is recorded as what
+  it is, it costs you, and it never buys a vote. Asking for a project in your
+  district is not the same act and is never described as one.
+
+### Notes
+
+- Two members of the House are drawn from this world's own people and decide
+  for themselves. The other ninety-eight seats vote as the scenario records.
+  There is no whip count and no support meter, by design.
+- The colleagues in the members' room are named and clickable but not yet
+  illustrated; the approved character art covers the two office figures.
+
 ## PRE-ALPHA 0.2.0 — "The Bill Becomes Law"
 
 _Revised 2 September 2026 after an independent review of the legislating build._

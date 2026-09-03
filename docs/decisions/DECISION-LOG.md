@@ -1028,3 +1028,61 @@ line-item and amendatory vetoes, confirmations, and the wider fifty states
 remain deliberately unimplemented. No pack currently resolves what becomes of a
 measure still pending at adjournment, so no measure can be recorded as dying
 that way until one does.
+
+## D-057 — Legislative bargaining, targeted provisions, and stated commitments
+
+The merged legislation core could move a bill and count a vote. It could not
+say what was in the bill, what anyone had promised about it, or what had been
+asked for in return, so every negotiation in the game was flavour text over a
+fixed tally. This adds the smallest layer that makes those three things
+canonical, and refuses three tempting shortcuts while doing it.
+
+A bill's text is append-only provisions rather than a mutable body of prose. A
+section changes only by recording a new version that names the one it replaces
+_and_ the amendment the chamber adopted to carry it. Integrity re-derives that
+on every snapshot, so a save cannot claim a rewritten section without the vote
+that rewrote it. The consequence is that talking never legislates: a member can
+agree to anything in a conversation and the bill is unchanged until the chamber
+says otherwise.
+
+A commitment is a claim about the future, not the future. It records who said
+it, on what question, with what stance, how firmly _in words_, under which
+typed conditions, to what audience, and who actually heard it. Whether it was
+kept is derived from later canonical events; nothing is written back over the
+statement. Firmness is deliberately not a probability, because a visible number
+would answer the question the player is supposed to be reading the room for. A
+conditional commitment binds in one direction only — "support if X" binds to
+yes once X happens and says nothing before, "oppose unless X" is its mirror —
+so a promise the player never triggered is not a broken promise.
+
+Who a provision reaches reuses the existing typed scope and adds a beneficiary
+discriminant. A particularized section must name its beneficiary and its stated
+public ground for being written narrowly. There is no `pork` flag and no
+corruption axis: targeted spending is an ordinary legislative act that has to
+be argued for, and the record carries the argument rather than a verdict.
+Separately, exchange character distinguishes policy bargaining, reciprocal
+support, coalition coordination, constituent advocacy, public-interest appeal,
+and personal inducement. Only the last means personal benefit to the
+officeholder; it is offerable, always refused, and never confused with asking
+for a road.
+
+Vote behaviour is extended for the members this world actually models and no
+further. One member's disposition on one question is derived through the
+existing decision evaluator over what is in the bill, what they have said, and
+who they have worked with — and, on an amendment, over what the amendment would
+change, so a member does not vote against the section they asked for. Seats
+without a simulated person keep their authored dispositions rather than
+acquiring a mind by proximity. There is no whip count, no certainty meter, and
+no path by which a provision buys a stated number of votes.
+
+Dialogue is content, not a bag of lines. Beats are keyed by move family and by
+the member's voice — which true thing about the bill they say first — with
+per-variant fact requirements, so a line naming an amount is never offered when
+the section states none. Selection hashes the turn's own key, so replay is word
+for word and no line depends on anything the speaker does not canonically know.
+
+Consequence: the player can be told two incompatible things by two colleagues,
+find out that satisfying one costs the other, put a named section to the
+chamber or refuse to, and later read each member's own account of how they
+voted and why. Nothing in that loop predetermines whether the bargain was
+wise, and no part of it reveals a hidden score.

@@ -816,6 +816,50 @@ Background people, organizations, courts, jurisdictions, countries, and events r
 
 Real-world civic records retain enough dated provenance to inspect a concept, explain the controlling rule, show historical versions, distinguish starting data from simulated change, and open an official source when available.
 
+## Legislative Politics: Provisions, Commitments, and Bargaining
+
+- **Owns:** canonical measure provisions with typed beneficiary reach, stated
+  legislative commitments with typed checkable conditions, recorded negotiated
+  exchanges with a character discriminant, derived commitment standing, and one
+  simulated member's derived disposition on one question.
+- **Stable IDs exposed:** `legislative-provision`, `legislative-commitment`, and
+  `legislative-negotiation` entity kinds, each in the one global history
+  sequence with the other legislative record families. `provisionKey` is a
+  section's durable identity across revisions and is what conditions and
+  negotiations name.
+- **Referenced by:** the bargaining conversation subject on the accepted Run B
+  substrate, the members'-room measure paper, the amendment and floor-vote
+  actions, focused Vitest semantics, and the bargaining Playwright proof.
+- **Canonical writers consumed:** the merged legislation core's
+  `introduceMeasure`, `referMeasure`, `scheduleCommitteeHearing`,
+  `recordCommitteeDisposition`, `placeMeasureOnCalendar`, `offerFloorAmendment`,
+  and `takeFloorVote`; ordinary `recordWorldEvent`, `recordClaim`,
+  `recordEventKnowledge`, `recordPerception`, and
+  `recordRelationshipInteraction`; the existing `evaluateDecision` and
+  `recordDurableDecisionTrace`. No new engine.
+- **Scope:** a provision applies within its own measure's jurisdiction and
+  reuses the existing `MetricScope` segment for anything narrower than everyone.
+  A particularized provision must name its beneficiary and its stated public
+  ground. No national district ontology is introduced.
+- **Epistemic boundary:** a commitment is a claim about the future. Its
+  standing is derived from later canonical events and is never written back over
+  the statement, private and limited audiences stay distinct, listeners are the
+  ones who actually heard, and a filed fiscal note grants no knowledge until it
+  is explicitly reviewed.
+- **Integrity:** a snapshot may not carry a rewritten section without the
+  adopted amendment that carried it; one amendment carries at most one section;
+  at most one live version of a section exists; a private commitment cannot have
+  a room full of listeners.
+- **Time and consequence:** conversation writes ordinary same-date history and
+  no legislative action. Only `offerFloorAmendment` and `takeFloorVote` move the
+  measure, through the existing state machine and vote arithmetic.
+- **Vote-behaviour seam:** `deriveMemberDisposition` extends only to seats held
+  by simulated people. Unmodelled seats keep authored scenario dispositions.
+  There is no whip count, certainty meter, or vote-purchase path.
+- **Temporary scaffolding:** one synthetic Kentucky HB 214 bargaining scenario
+  over the existing rule pack, with three seated simulated members. It is a
+  proof of the semantics, not a content library.
+
 ## Current and Future Connection Points
 
 - **Current Stage 4 decisions:** consume perceived facts, typed historically available life records, memories, event knowledge, relationship episodes, sparse political records, subject expertise, incentives, temporary fatigue where relevant, and keyed RNG; emit explainable evaluations and optional durable diagnostic traces separately from canonical outcomes.
@@ -829,6 +873,6 @@ Real-world civic records retain enough dated provenance to inspect a concept, ex
 - **Stage 7 geography/institutions:** extend stable jurisdiction hierarchy and sourced/effective-dated definitions without changing generic simulation assumptions.
 - **Stage 8 populations:** reference propositions, geography, cues, and public records sparsely; never materialize every voter or every issue.
 - **Stage 9 campaigns:** create persistent contest/candidate/staff/message/poll identities and historical records rather than generic points.
-- **Stage 10 legislation:** define stable proposal, revision, provision, amendment, procedure, and action IDs; map political beliefs to specific propositions/provisions without conflating them.
+- **Stage 10 legislation:** define stable proposal, revision, provision, amendment, procedure, and action IDs; map political beliefs to specific propositions/provisions without conflating them. Provision, commitment, and negotiated-exchange identities now exist and are the intended attachment points; a generalized member-vote model for a whole chamber does not.
 - **Stage 11 staff:** use the same `Person` and history/knowledge/relationship systems, adding stable roles, assignments, reports, and delegation records.
 - **Stage 12 archives/branches:** index existing records; add branch lineage without mutating the parent world or duplicating contradictory truth stores.

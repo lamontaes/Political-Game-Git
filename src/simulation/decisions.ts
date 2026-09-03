@@ -1,5 +1,7 @@
 import { appendDecisionTraceRecord } from "./history";
 import { createStableId } from "./ids";
+import { legislationEntityExists } from "./legislation";
+import { legislativePoliticsEntityExists } from "./legislative-politics";
 import { lifeEntityExists } from "./life-integrity";
 import { resourceHousingEntityExists } from "./resource-integrity";
 import { policySemanticsEntityExists } from "./policy-semantics";
@@ -664,6 +666,8 @@ function decisionSubjectExists(world: World, id: EntityId): boolean {
     !!world.mindCatalog.tendencies[id] ||
     !!world.mindCatalog.values[id] ||
     lifeEntityExists(world, id) ||
+    legislationEntityExists(world, id) ||
+    legislativePoliticsEntityExists(world, id) ||
     resourceHousingEntityExists(world, id) ||
     policySemanticsEntityExists(world, id) ||
     world.history.events.some((record) => record.id === id) ||
