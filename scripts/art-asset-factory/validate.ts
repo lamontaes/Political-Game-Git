@@ -549,7 +549,11 @@ export function validateArtAssets(
   validatePoseFamilies(manifest, options.poseFamilies, repositoryRoot, errors);
   if (options.cargoDisposition !== undefined) {
     errors.push(
-      ...validateCargoDisposition(options.cargoDisposition, manifest),
+      ...validateCargoDisposition(
+        options.cargoDisposition,
+        manifest,
+        repositoryRoot,
+      ),
     );
   }
   validateProductionComponentMasters(

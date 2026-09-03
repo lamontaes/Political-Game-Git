@@ -637,3 +637,24 @@ anti-example separation, primitive reuse with no second clock, headless core,
 and no Stage 6 or scope-gate change. Newly recorded as unimplemented: amendment
 adopted does not rewrite the bill's text, so two chambers' texts are never
 compared, and these packs are not adapter-ready for an external bill corpus.
+
+## Real Modular Asset Integration Audit — 2026-09-01 (amended 2026-09-03)
+
+This audit applies D-055 to the art intake, the character library, the office
+seam, and the seat-contact repair, and rechecks D-004, D-047, D-053, D-054,
+the frozen Stage 6 baseline, and later-stage gates. Its release conclusions are
+amended by D-063: the thirty-five derivatives are banked candidates in no
+catalog generation, not released generation-2 components. Every finding below
+about intake determinism, provenance, primitive reuse and fail-closed behaviour
+is unchanged.
+
+| Concern                 | Disposition          | Evidence and rationale                                                                                                                                                                                                                                                                                |
+| ----------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| No generated art        | Confirmed            | The intake keys, crops, measures, and resamples owner masters only; its outputs reproduce by hash from the preserved masters. No generator, recolor, redraw, or inpainting exists in the repository path.                                                                                             |
+| Provenance and rights   | Confirmed recorded   | Every derivative cites its master path and hash, keying profile, crop, scale, and fit ratio; rights stay `unknown` and are not upgraded. Pack manifests are preserved beside the masters.                                                                                                             |
+| Primitive reuse         | Confirmed            | Resampling reuses the office plate's Lanczos-3 resampler; hashing, release gating, catalog ledger, resolver, render plan, and compositor are the D-053/D-054 implementations. No parallel renderer.                                                                                                   |
+| Fixture separation      | Confirmed by policy  | `availability` on the manifest record keeps DEV fixtures in generation 1 for pinned and legacy people and excludes them wherever a production candidate of the same kind exists. Generation-1 signatures are untouched.                                                                               |
+| Ordinary seam           | Confirmed integrated | `composeOfficeVisuals` falls through authored → modular → placeholder; `OfficeScene` renders whichever the composition returns. A01/B01 unchanged by hash; a legacy person composes a DEV seated body; a generation-2 person fails closed at a seated anchor.                                         |
+| Cause-identified repair | Confirmed            | Before evidence shows the chair painted over the woman and the man below his seat. The occluder polygon and the mid-torso roots are the measured causes; both are corrected from raster and plate measurements, and a regression test pins roots to the measured seat lines and the chair to alpha 0. |
+| Pose boundary           | Confirmed not faked  | Real bodies exist only as standing-neutral; the seated proof view fails closed and the office seam produces a placeholder rather than a standing body behind a chair.                                                                                                                                 |
+| Stage 6 and scope gates | Confirmed absent     | No simulation change beyond none; no campaign/election, corpus PR, Slice F, population generation, head-angle, animation, or engine change. The large asset bank was not imported.                                                                                                                    |

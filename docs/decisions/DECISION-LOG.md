@@ -900,6 +900,66 @@ browser session. No production component art, generator, wardrobe library,
 head-angle generation, animation, engine, office-scene consumption, Slice F,
 or campaign/election change is authorized by this decision.
 
+## D-055 — Real masters are normalized deterministically into the modular contract, and seated contact is measured
+
+- Date: 2026-09-01
+- Status: ACCEPTED
+- Supersedes: the D-047 visual-estimate roots and anchors for the A01/B01
+  recipes and the original primary-desk-worktop occluder polygon only; no
+  identity, catalog, release-gate, or fail-closed decision is superseded
+
+Owner-supplied Political Game masters — gray body-geometry authorities, bald
+head/face identity masters, hair-only masters with a face opening, and
+unfitted garment and footwear design masters — enter the runtime only through
+`scripts/art-asset-factory/pg-modular-intake.ts`. The intake is deterministic
+image processing: per-row neutral-background keying with optional
+neutral-shadow suppression, opaque-bounds cropping, mask-derived body rig
+measurement (crown, brow, neck, shoulder line, waist, crotch root, sole line),
+fixed fit ratios against those measurements, hairline or neck-cut origins, and
+Lanczos-3 resampling. No pixel is generated or repainted. Source masters are
+copied byte-for-byte under `art/references/masters/pg-modular/` and every
+derivative's provenance records the master path, master hash, keying profile,
+crop, scale, and fit. A garment design master fitted to more than one body
+family keeps one family identity and yields one derivative per body family;
+context selects the derivative for the person's body.
+
+Manifest records carry an `availability` class. `development-fixture`
+components keep serving people; a `production-candidate` of a kind excludes
+fixtures of that kind from selection at any generation where it exists AND is
+released. The class lives on the record, not the definition, so generation
+signatures are unchanged. The release half of that test is not decoration: a
+candidate that has no drawable raster behind it would replace a person with a
+placeholder.
+
+The ordinary office seam now serves every person: an authored flattened
+recipe still wins; otherwise `composeOfficeVisuals` builds a modular render
+plan for the anchor's pose through the same compositor, and a missing body
+for that pose fails closed to the placeholder. The scene code does not care
+which path produced the character.
+
+The visible seat-contact defect had two causes. The foreground occluder's
+primary-desk-worktop polygon ran to the plate edge and swept through the
+primary chair, painting the chair back and seat over the seated figure. Both
+authored roots were declared mid-torso rather than on the seat plane, so the
+figures sat a quarter of their height too low and beside their chairs. The
+polygon now ends at the chair, and the roots are the seat-contact lines
+measured from the rasters by `scripts/art-asset-factory/seated-contact.ts`;
+the anchors are the chairs' seat points. A regression test measures both.
+
+Consequence: four real people compose from two body families, five heads,
+eight hairstyles, four tops, three bottoms, and three footwear designs, and
+persist and reload unchanged. No real seated body exists, so the office cannot
+yet seat a real modular person; no complexion-matched body base exists, so
+exposed skin on modular bodies renders as the gray geometry authority; no
+eyewear or accessory master exists locally. Those are asset requirements, not
+architecture gaps, and are recorded rather than faked.
+
+Amended by D-059: these thirty-five derivatives are banked candidates rather
+than catalog components. Everything above about the intake, the provenance,
+the seat-contact measurement and the occluder repair stands; what changed is
+that the parts do not enter a catalog generation until a person has looked at
+them.
+
 ## D-056 — Legislative procedure is rule-driven, and legislative voting is a record of members
 
 - Date: 2026-09-01 (amended 2026-09-02 after independent audit)
@@ -1196,7 +1256,7 @@ rather than merely discouraged. None of this is wired into PlayerGame; the
 contracts and their tests exist first so that integration stays a cheap
 decision.
 
-## D-056 — One pose contract, and gaps that name themselves
+## D-059 — One pose contract, and gaps that name themselves
 
 **Decision.** A pose family is registered data with a posture class, a facing,
 a root, contacts, eighteen landmarks, compatibility, a nominal canvas, a master
@@ -1225,7 +1285,7 @@ status that could only ever flatter is not a status.
 four uncovered pose families, exactly one is blocking current gameplay, because
 exactly one is asked for by a live scene anchor.
 
-## D-057 — Structure is a control layer, not a paragraph
+## D-060 — Structure is a control layer, not a paragraph
 
 **Decision.** Every pose family generates one deterministic control plate from
 its own landmarks: limb mass, a closed torso, the skull above the headless body
@@ -1243,7 +1303,7 @@ art. A plate is never production art: no bone line, landmark dot or contact
 ring may appear in a finished character raster. Anchor dots live in metadata and
 a developer overlay draws them from there.
 
-## D-058 — A master is a source, and a filename is not evidence
+## D-061 — A master is a source, and a filename is not evidence
 
 **Decision.** Twenty-five source masters are re-homed from the superseded PR #48
 branch as `character-component-master` assets, permanently unreleased. Exactly
@@ -1264,7 +1324,7 @@ authority for the first time, and knows precisely what it does not hold: no
 character master with alpha, and no head, hair or garment master within reach
 of its own minimum.
 
-## D-059 — A disposition without evidence is an assertion
+## D-062 — A disposition without evidence is an assertion
 
 **Decision.** What happened to superseded branch cargo and to downloaded asset
 packs is recorded in one validated ledger. A `re-homed` claim must name real
@@ -1281,3 +1341,108 @@ adopting them unseen.
 
 **Consequence.** The asset bank inventory can state coverage without any of it
 resting on something nobody checked.
+
+## D-063 — Banked art is not catalog art
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Amends: D-055 (the disposition of its thirty-five derivatives only; its
+  intake, provenance, measurement and occluder decisions stand)
+
+Intake produces real files, real hashes and a real component definition long
+before anyone has agreed the art is good enough to put on a person. D-055 let
+those two things happen at once: the first thirty-five normalized derivatives
+were written into catalog generation 2 and marked released, which asserted
+production quality on behalf of art nobody had accepted.
+
+Looked at, the assertion does not hold. The body masters are untextured gray
+geometry mannequins, so every skin region a garment does not cover — hands,
+neck, forearms, any leg below a skirt — renders gray; the garment masters are
+unfitted design art rather than art drawn onto a body. Both are answerable only
+by eye, and the answer is currently no.
+
+So a banked part is now a distinct thing from a catalog component. A record
+with `asset_type: "character-component-candidate"` carries its definition in
+`candidate_component`, must be `unreleased`, and belongs to no catalog
+generation. `createCharacterComponentLibrary` cannot see it, so no identity can
+resolve to it however good its hash is. `liftCandidatesForReview` builds a
+throwaway library from candidates alone, and the `?view=character-proof&set=real`
+proof composes people from that — the surface on which the art is accepted or
+rejected. Promotion is then a deliberate act: `candidate_component` becomes
+`component`, the type changes, and the part joins a NEW generation.
+
+Keeping candidates out of the catalog is what protects the frozen-generation
+guarantee. A generation's membership is signed so a saved person resolves to
+the same parts forever; admitting a component that cannot be drawn would either
+render that person as a placeholder today, or change who they look like on the
+day the art is accepted. Generations 1 and 2 still carry the exact members and
+signatures PR #74 published, and a test reproduces both.
+
+Consequence: thirty-five derivatives, twenty-five masters, five master
+manifests, the deterministic intake, the seat-contact measurement, the occluder
+repair and the recombination proof are all preserved and under test; not one of
+them can reach a player until someone says so.
+
+## D-064 — A surface carries information only if it can be read, and a symbol is an identity before it is art
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Extends: D-058 (the authoring pipeline) with the four systems below; no
+  lineage, tier, scaffold or asset-bank decision is superseded
+
+The approved environment library — three apartments, a civic meeting hall, an
+executive suite and the Lexington staff office — now exists as authoring records
+rather than as research notes. Five are scaffolds carrying measured floor ramps,
+seat planes, staging positions and occluder rectangles; all five refuse to
+project, because the plates are Drive-only and nobody has decided a camera or a
+safe area. The refusal is the point: an incomplete scaffold is honest, and a
+spec with plausible numbers standing in for decisions nobody made is not.
+
+**Legibility gates promotion.** Thirteen visible frames and screens were
+inspected across the six rooms; four became runtime surfaces and nine stayed
+painted. The floor is 5% of plate height and 5% of plate width, with a 3% height
+floor for foreshortened surfaces — a document on a desk is a large page seen
+nearly flat — and no component floor at all for a surface carrying a known image
+or one line of text. Generative models paint small blank frames on every shelf,
+and promoting them yields a room of illegible dashboards; an illegible dashboard
+is worse than a rectangle of paint because it asserts something nobody can
+check. Applying the rule found one inconsistency in the inspection's own
+dispositions: the staff office corkboard pin, promoted there, is about 46 pixels
+across at 1080p and is declared ambient here, reversibly and with the number
+recorded.
+
+**A component surface says what may be drawn on it.** Twelve component families
+— a trend line, a roll call, a district map, a briefing card and eight others —
+each name the surface kinds they can honestly be drawn on and the empty state
+they fall back to. Both halves matter: a roll-call grid on a domestic television
+is a category error nothing at runtime would catch, and an empty state that
+invents a plausible docket is a lie the art keeps telling. Every fallback says
+the absence out loud.
+
+**Civic symbols are identities with citations.** 188 flags, seals and arms
+across 65 jurisdictions are recorded with their statutory authority, their
+restriction statutes and their colours, and every one is `not-acquired`: this
+repository holds no symbol artwork. Three rules are structural rather than
+advisory. There is no asset status meaning "generated", so an AI-drawn seal is
+unrepresentable rather than discouraged. A symbol that has not been acquired
+cannot carry an asset path. `symbolUsePermitted` refuses campaign and commercial
+contexts without reference to which symbol is being asked for, because the
+prohibition is about the use.
+
+**A downloaded pack answers two questions, not one.** What the licence permits
+and whether the files are the kind of thing this renderer draws are independent,
+and answering only the second is how unlicensed art gets shipped. `use-now`
+requires a licence stated in a document inside the archive AND at least one file
+of finished 2D art; anything else is archived or rejected with a reason from a
+closed vocabulary.
+
+**The generation queue says where art is, not just that it is wanted.** Most of
+what looks missing is not: it is banked here unreleased, or in Drive at the
+wrong resolution, or covered by a fixture nobody has noticed. Of 115 modular
+person assets accounted for, 58 are genuinely missing, 13 exist and fall short
+of a stated measurement, 2 exist and pass, 35 are banked here, and 7 are
+fixtures standing in silently.
+
+Consequence: adding a room is authoring data. What is still missing to ship one
+is bytes and two human judgements — a camera, and whether the art is good enough
+— and the records say which is which rather than blurring them.

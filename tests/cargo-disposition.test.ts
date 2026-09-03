@@ -45,6 +45,7 @@ describe("cargo disposition ledger", () => {
       new Set([
         "pr-48",
         "pr-74",
+        "pr-80",
         "pack-universal-base-characters",
         "pack-universal-animation-library",
         "pack-office-cubicle-set",
@@ -131,11 +132,50 @@ describe("cargo disposition ledger", () => {
   });
 
   it("requires an unverified entry to say how it would be settled", () => {
+    // Every pack in the ledger has now actually been opened, so an unsettled
+    // entry has to be constructed: drop the evidence level back to
+    // metadata-only and the command becomes owed again.
     const silent = mutate("pack-universal-base-characters", (entry) => {
+      entry.verified_by = "metadata-only";
       delete entry.verify_command;
     });
     expect(validateCargoDisposition(silent, manifest).join("\n")).toContain(
       "must name the 'verify_command' that would settle it",
+    );
+  });
+
+  it("treats an archive somebody opened as settled, wherever the bytes live", () => {
+    // An inspected archive is not measured HERE and never will be — the zip is
+    // in Drive. Asking it for the command that would settle it would be asking
+    // how to re-answer a question that has an answer.
+    const inspected = ledger.entries.filter(
+      (entry) => entry.verified_by === "inspected-outside-repository",
+    );
+    expect(inspected.length).toBeGreaterThanOrEqual(3);
+    for (const entry of inspected) {
+      expect(entry.verify_command, entry.entry_id).toBeUndefined();
+      expect(entry.disposition, entry.entry_id).not.toBe(
+        "pending-verification",
+      );
+    }
+    expect(validateCargoDisposition(ledger, manifest)).toEqual([]);
+  });
+
+  it("checks a code-cargo re-home against the repository, not against prose", () => {
+    const invented = mutate("pr80-authoring-contracts", (entry) => {
+      entry.rehomed_modules = ["src/authoring/not-a-real-module.ts"];
+    });
+    expect(validateCargoDisposition(invented, manifest).join("\n")).toContain(
+      "claims re-homed module 'src/authoring/not-a-real-module.ts', which is not in the repository",
+    );
+  });
+
+  it("refuses a re-home that names neither an asset nor a module", () => {
+    const empty = mutate("pr80-authoring-contracts", (entry) => {
+      delete entry.rehomed_modules;
+    });
+    expect(validateCargoDisposition(empty, manifest).join("\n")).toContain(
+      "must name the manifest assets or the repository modules it became",
     );
   });
 

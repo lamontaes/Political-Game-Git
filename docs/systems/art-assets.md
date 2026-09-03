@@ -201,6 +201,45 @@ of them again seated, with save/reload through the snapshot codec. The
 accepted office scene still renders the authored A01/B01 recipes and does not
 yet consume modular recipes.
 
+### Real Political Game masters (banked candidates)
+
+Under D-055 the first real components are owner-supplied masters normalized
+by `scripts/art-asset-factory/pg-modular-intake.ts`
+(`npm run intake:pg-modular`). The selected masters are preserved
+byte-for-byte under `art/references/masters/pg-modular/` with their pack
+manifests; the derivatives live under `art/generated/approved/pg-modular/` as
+`asset_type: "character-component-candidate"` records — banked, hashed,
+reproducible, `unreleased`, and in NO catalog generation (D-063). Their
+definitions live in `candidate_component`, which nothing that resolves an
+identity reads. Per-row neutral-background keying,
+opaque-bounds cropping, mask-derived rig measurement, fixed fit ratios, and
+Lanczos-3 resampling are the only operations; provenance records the master
+hash, keying profile, crop, scale, and fit for every derivative, and a test
+reproduces every hash and the generation signature.
+
+The candidate set is two body families (`pg-female-lean`, `pg-male-lean`
+from the gray body-geometry authorities), five bald heads (one feminine
+sample, four masculine identity masters), eight Black feminine hairstyles,
+four tops, three bottoms, and three footwear designs. Garment designs are
+fitted once per body family, so one design family yields `_fl_` and `_ml_`
+derivatives; hair attaches at the rig's `brow` anchor by its measured
+hairline, heads at the neck by their neck cut, garments at the shoulder line
+or waist, footwear at the sole line. The DEV fixtures are the catalog, and a
+production candidate of a kind displaces them only once it is both in a
+generation and released.
+
+Review them at `?view=character-proof&set=real`, which composes four people
+from the candidate review library alone. That view is where the art is accepted
+or rejected; nothing else in the repository can reach these parts.
+
+Known asset requirements, recorded rather than faked, and the reason these
+parts are still candidates: no seated real body exists (real people cannot yet
+sit in the office); the gray geometry authorities carry no complexion and no
+measurable sole contact, so exposed skin renders gray and the bodies declare
+neither `complexion` nor `contacts`; no masculine hairstyle,
+eyewear, or accessory master exists locally; garment compatibility is not
+gendered, so any bottom may resolve for any body family.
+
 ## Pose families, masters and cargo
 
 `art/manifest/pose_families.json` is the pose contract every body component
@@ -219,7 +258,8 @@ from the superseded PR #48 branch. They are registered as
 contract; the other twenty-three sit 3.1x to 4.7x below their class minimum,
 and none of the twenty-five carries alpha. They are what to regenerate from,
 never what to ship, and the pipeline does not enlarge a master to reach a
-canvas.
+canvas. Thirty-five derivatives normalized from them are banked beside them as
+candidates; see above.
 
 Identifiers are re-cut on intake. The source named heads and hair with
 demographic tokens; complexion is art direction, never demography, and is never
@@ -242,8 +282,14 @@ stale.
 
 A scene surface slot names a closed `kind` and closed `allowed_content_classes`.
 A slot presenting anything that follows simulation state is dynamic and must
-clear a salience floor of 8% of plate width by 6% of plate height: a surface too
-small for a player to read a change on stays ambient decoration rather than
-being promoted to a screen. A slot that may present a civic seal or flag must
+clear a legibility floor of 5% of plate width by 5% of plate height — 5% of a
+1080-line viewport is 54 lines, about enough for a chart with two labelled axes
+— so a surface too small for a player to read a change on stays ambient
+decoration rather than being promoted to a screen. A surface lying nearly flat
+to the camera, like a desk document, is held to 3% of plate height instead,
+because foreshortening compresses height and not width; a surface carrying a
+known image or one line of text rather than a data component is held to the
+height floor alone. The same constants back `slotIsPromotable`, so the spec
+validator and the component binder cannot disagree. A slot that may present a civic seal or flag must
 declare `civic_symbol_policy: "canonical-source-only"`. Civic symbols come from
 their canonical source and are never generated, redrawn or approximated.

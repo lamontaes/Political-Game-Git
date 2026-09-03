@@ -1,3 +1,6 @@
+import fs from "fs";
+import path from "path";
+
 import type { AssetManifest } from "./schemas";
 
 /**
@@ -36,6 +39,17 @@ export type CargoDisposition = (typeof CARGO_DISPOSITIONS)[number];
 export const CARGO_VERIFICATION_LEVELS = [
   /** The bytes are in this repository and were measured here. */
   "measured-in-repository",
+  /**
+   * The archive was opened and read where it lives, outside this repository:
+   * entries listed, licence document located and quoted, hash recorded.
+   *
+   * Weaker than `measured-in-repository`, because nothing here can re-check it
+   * from the tree, and it will never satisfy a `re-homed` claim. Much stronger
+   * than `metadata-only`, which means nobody opened anything. Recording a real
+   * inspection as metadata-only would understate the evidence; recording it as
+   * measured-in-repository would claim bytes this repository does not hold.
+   */
+  "inspected-outside-repository",
   /** Only catalogue metadata was available: name, size, type. */
   "metadata-only",
   /** Nothing about the material was checked. */
@@ -73,8 +87,15 @@ export interface CargoEntry {
   readonly verified_by: CargoVerificationLevel;
   /** Required unless the material was measured here: how to settle it. */
   readonly verify_command?: string;
-  /** Required for `re-homed`: the manifest assets this became. */
+  /** Required for `re-homed`, unless `rehomed_modules` is given: the manifest assets this became. */
   readonly rehomed_asset_ids?: readonly string[];
+  /**
+   * Repository paths a `re-homed` entry became, when the cargo was code rather
+   * than art. A contract, a fixture and a test are cargo too, and a ledger that
+   * could only describe pictures would have to record their arrival in prose —
+   * which is the kind of claim this ledger exists to refuse. Checked to exist.
+   */
+  readonly rehomed_modules?: readonly string[];
   /** Optional measured evidence, free-form but recorded. */
   readonly measurements?: Readonly<Record<string, string | number | boolean>>;
 }
@@ -95,6 +116,7 @@ const isNonEmptyString = (value: unknown): value is string =>
 export function validateCargoDisposition(
   ledger: CargoDispositionLedger,
   manifest: AssetManifest,
+  repositoryRoot: string = process.cwd(),
 ): readonly string[] {
   const errors: string[] = [];
   if (!ledger || typeof ledger !== "object") {
@@ -184,7 +206,15 @@ export function validateCargoDisposition(
       );
     }
 
-    if (entry.verified_by !== "measured-in-repository") {
+    // A `verify_command` is what an UNSETTLED entry owes: it names the check
+    // nobody has run. An entry somebody actually opened and read is settled,
+    // whether the bytes live here or in the Drive folder they were downloaded
+    // to, and demanding a command for it would ask how to re-answer a
+    // question that has an answer.
+    const settled =
+      entry.verified_by === "measured-in-repository" ||
+      entry.verified_by === "inspected-outside-repository";
+    if (!settled) {
       if (!isNonEmptyString(entry.verify_command)) {
         errors.push(
           `${label} was not measured here and must name the 'verify_command' that would settle it.`,
@@ -192,7 +222,7 @@ export function validateCargoDisposition(
       }
     } else if (entry.verify_command !== undefined) {
       errors.push(
-        `${label} was measured here and must not also carry a verify_command.`,
+        `${label} was ${entry.verified_by} and must not also carry a verify_command.`,
       );
     }
 
@@ -202,18 +232,25 @@ export function validateCargoDisposition(
           `${label} claims material was re-homed but was only ${entry.verified_by}. Nothing is re-homed on metadata alone.`,
         );
       }
-      const rehomed = entry.rehomed_asset_ids;
-      if (!Array.isArray(rehomed) || rehomed.length === 0) {
+      const rehomed = entry.rehomed_asset_ids ?? [];
+      const modules = entry.rehomed_modules ?? [];
+      if (rehomed.length === 0 && modules.length === 0) {
         errors.push(
-          `${label} claims material was re-homed and must name the manifest assets it became.`,
+          `${label} claims material was re-homed and must name the manifest assets or the repository modules it became.`,
         );
-      } else {
-        for (const assetId of rehomed) {
-          if (!assetIds.has(assetId)) {
-            errors.push(
-              `${label} claims re-homed asset '${assetId}', which the asset manifest does not contain.`,
-            );
-          }
+      }
+      for (const assetId of rehomed) {
+        if (!assetIds.has(assetId)) {
+          errors.push(
+            `${label} claims re-homed asset '${assetId}', which the asset manifest does not contain.`,
+          );
+        }
+      }
+      for (const modulePath of modules) {
+        if (!fs.existsSync(path.resolve(repositoryRoot, modulePath))) {
+          errors.push(
+            `${label} claims re-homed module '${modulePath}', which is not in the repository.`,
+          );
         }
       }
     } else if (

@@ -22,20 +22,26 @@
     {
       "source_id": "pack-universal-base-characters",
       "kind": "external-pack",
-      "reference": "Drive 1tRZAgxipomMrrUo_mnOLGaJFcknrd9Jz \u2014 'Universal Base Characters[Standard].zip', 128,968,391 bytes",
-      "note": "Owner-downloaded free/CC0 pack, banked in Drive and not brought into the repository."
+      "reference": "Drive 1tRZAgxipomMrrUo_mnOLGaJFcknrd9Jz — 'Universal Base Characters[Standard].zip', 128,968,391 bytes",
+      "note": "Owner-downloaded pack, CC0 1.0 verified from a licence document inside the archive,, banked in Drive and not brought into the repository."
     },
     {
       "source_id": "pack-universal-animation-library",
       "kind": "external-pack",
-      "reference": "Drive 1TTCe9T-ANIr7DCUh92S2FeFaUskYpOXv \u2014 'Universal Animation Library[Standard].zip', 15,904,933 bytes",
-      "note": "Owner-downloaded free/CC0 pack, banked in Drive and not brought into the repository."
+      "reference": "Drive 1TTCe9T-ANIr7DCUh92S2FeFaUskYpOXv — 'Universal Animation Library[Standard].zip', 15,904,933 bytes",
+      "note": "Owner-downloaded pack, CC0 1.0 verified from a licence document inside the archive,, banked in Drive and not brought into the repository."
     },
     {
       "source_id": "pack-office-cubicle-set",
       "kind": "external-pack",
-      "reference": "Drive 1PZ_yNAGyk_8A7-4Iu4qsL7mWXUqEkYTP \u2014 'Office Cubicle Set.zip', 527,258,457 bytes",
-      "note": "Owner-downloaded free/CC0 office set (the 'Omie's Office Set' referenced by Packet 45), banked in Drive and not brought into the repository."
+      "reference": "Drive 1PZ_yNAGyk_8A7-4Iu4qsL7mWXUqEkYTP — 'Office Cubicle Set.zip', 527,258,457 bytes",
+      "note": "Owner-downloaded office set (the 'Omie's Office Set' referenced by Packet 45), banked in Drive and not brought into the repository. Previously noted here as free/CC0; the archive was subsequently opened and contains NO licence document, so that note was wrong and is corrected. Drive metadata corroborates the archive identity: 'Office Cubicle Set.zip', 527,258,457 bytes."
+    },
+    {
+      "source_id": "pr-80",
+      "kind": "repository-branch",
+      "reference": "lamontaes/Political-Game-Git PR #80, head 76b6e076c7419cbc7ed527931aa680b958efd19d",
+      "note": "Packet 45 graphics-production-convergence. Not a second graphics architecture: a DONOR. It finished 14 minutes after this branch's head, so its final commit carried cargo no earlier audit of it could see. Every unique item is dispositioned below."
     }
   ],
   "entries": [
@@ -233,30 +239,173 @@
       "source_id": "pack-universal-animation-library",
       "label": "Universal Animation Library [Standard]",
       "disposition": "archive",
-      "basis": ["technical", "authority"],
-      "reason": "An animation library is motion data for a rig. The user rule is explicit: no rigging, no Blender, no manual 3D posing, and no implementation time spent extracting static frames from animation rigs. Even if the archive contains renderable clips, consuming them needs the skeletal runtime this project has deliberately put on the back burner, so it is ARCHIVE / not currently useful rather than a source of pose art. No byte-level inspection was performed and none is needed to reach that conclusion: the pack's purpose, not its contents, is what disqualifies it.",
-      "verified_by": "metadata-only",
-      "verify_command": "unzip -l <pack>.zip | head -100  # then: are there finished static PNG/sprite files, or only .fbx/.anim/.prefab/.blend rig and animation data?"
+      "basis": ["technical"],
+      "reason": "Opened, confirming the conclusion reached earlier from purpose alone. 9 entries, sha256 cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724. CC0 1.0 by 'License.txt' inside the archive. Four skeletal animation files and three engine setup screenshots: there is no art in it at all, finished or otherwise. Recorded so nobody downloads it twice hoping for something else.",
+      "verified_by": "inspected-outside-repository"
     },
     {
       "entry_id": "pack-universal-base-characters",
       "source_id": "pack-universal-base-characters",
       "label": "Universal Base Characters [Standard]",
-      "disposition": "pending-verification",
+      "disposition": "archive",
       "basis": ["technical"],
-      "reason": "A base-character pack is normally rigged humanoid geometry, which the no-rigging rule excludes. It is left PENDING rather than archived because the 129MB archive was not opened: if it turns out to contain finished front-facing static character art with alpha at or above the master minimums, that would be directly usable and it would be wrong to reject it unseen. Nothing from it is used, referenced or counted as coverage until the bytes are inspected. It also cannot pass the master contract on style alone: the global Political Game visual-style lock applies to every asset class.",
-      "verified_by": "metadata-only",
-      "verify_command": "unzip -l <pack>.zip | head -100  # then: are there finished static PNG/sprite files, or only .fbx/.anim/.prefab/.blend rig and animation data?"
+      "reason": "Opened. 112 entries, sha256 fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40. CC0 1.0, stated in 'License_Standard.txt' inside the archive, so there is no rights problem at all. It is still unusable: 62 rigged FBX/glTF meshes, 47 UV texture atlases and one marketing render. Producing a single frame this compositor could draw would mean rigging, posing, lighting and rendering a mesh, which the operating rule refuses. ARCHIVE rather than REJECTED because the licence is clean and a future 3D render step would make it usable. Nothing is copied in.",
+      "verified_by": "inspected-outside-repository"
     },
     {
       "entry_id": "pack-office-cubicle-set",
       "source_id": "pack-office-cubicle-set",
       "label": "Office Cubicle Set (Omie's Office Set)",
-      "disposition": "pending-verification",
-      "basis": ["technical", "legal"],
-      "reason": "A 527MB office set is most likely engine-ready 3D props, which this compositor cannot consume without rendering. It is left PENDING rather than archived because an office set may also ship flat textures or sprite sheets that a background or prop slot could use, and because the licence terms have not been read into the repository. Nothing from it is used or counted as coverage until both the bytes and the licence are inspected; rights are recorded as unknown until then.",
-      "verified_by": "metadata-only",
-      "verify_command": "unzip -l <pack>.zip | head -100  # then: are there finished static PNG/sprite files, or only .fbx/.anim/.prefab/.blend rig and animation data?"
+      "disposition": "rejected",
+      "basis": ["legal", "technical"],
+      "reason": "Opened. 138 entries, sha256 e3fffca9529fc3627bbda2bb6d3b366058069473e8b9d621bdeb1efc31b51ac9. There is NO licence document anywhere in the archive. Under the repository's rights rule that settles it: unknown rights stay unknown, and being free to download is not evidence of a grant. REJECTED on that ground alone. Independently it is a Blender/Substance source project whose own render is flat-shaded low-poly, which is not the style the environment library is drawn in. This entry corrects an earlier note on this branch that called the pack free/CC0 without evidence; the conservative reading was taken because the evidence supports it, not because it is convenient.",
+      "verified_by": "inspected-outside-repository"
+    },
+    {
+      "entry_id": "pr80-pg-modular-candidates",
+      "source_id": "pr-80",
+      "label": "Thirty-five normalized PR #48 derivatives, banked as candidates",
+      "disposition": "re-homed",
+      "basis": ["technical", "authority"],
+      "verified_by": "measured-in-repository",
+      "reason": "The derivatives this branch's twenty-five masters were missing. Each is keyed, cropped, measured and resampled from a master by scripts/art-asset-factory/pg-modular-intake.ts and reproduces by hash from a clean run; a test regenerates all thirty-five and compares. They enter as asset_type 'character-component-candidate', unreleased, in no catalog generation, with their definitions in candidate_component, which nothing that resolves an identity reads. The intake was repointed at this branch's master filenames: all twenty-five masters are byte-identical to the donor's copies by SHA-256, so only paths changed and the outputs did not.",
+      "rehomed_asset_ids": [
+        "pg_body_fl_standing_v1",
+        "pg_body_ml_standing_v1",
+        "pg_head_f_01_bald_neutral_v1",
+        "pg_head_m_001_black_young_adult_v1",
+        "pg_head_m_002_white_adult_v1",
+        "pg_head_m_004_east_asian_young_adult_v1",
+        "pg_head_m_005_black_older_adult_v1",
+        "pg_hair_f_black_001_short_tapered_afro_v1",
+        "pg_hair_f_black_002_rounded_medium_afro_v1",
+        "pg_hair_f_black_004_shoulder_natural_curls_v1",
+        "pg_hair_f_black_005_high_puff_v1",
+        "pg_hair_f_black_007_shoulder_box_braids_v1",
+        "pg_hair_f_black_008_long_box_braids_v1",
+        "pg_hair_f_black_010_cornrows_low_bun_v1",
+        "pg_hair_f_black_012_shoulder_locs_v1",
+        "pg_top_001_short_sleeve_crew_tee_fl_v1",
+        "pg_top_001_short_sleeve_crew_tee_ml_v1",
+        "pg_top_005_long_sleeve_button_shirt_fl_v1",
+        "pg_top_005_long_sleeve_button_shirt_ml_v1",
+        "pg_top_006_pullover_sweater_fl_v1",
+        "pg_top_006_pullover_sweater_ml_v1",
+        "pg_top_011_structured_blazer_fl_v1",
+        "pg_top_011_structured_blazer_ml_v1",
+        "pg_bottom_001_straight_leg_blue_jeans_fl_v1",
+        "pg_bottom_001_straight_leg_blue_jeans_ml_v1",
+        "pg_bottom_005_dress_trousers_fl_v1",
+        "pg_bottom_005_dress_trousers_ml_v1",
+        "pg_bottom_010_a_line_knee_skirt_fl_v1",
+        "pg_bottom_010_a_line_knee_skirt_ml_v1",
+        "pg_shoe_001_low_top_sneakers_fl_v1",
+        "pg_shoe_001_low_top_sneakers_ml_v1",
+        "pg_shoe_004_leather_loafers_fl_v1",
+        "pg_shoe_004_leather_loafers_ml_v1",
+        "pg_shoe_009_low_practical_flats_fl_v1",
+        "pg_shoe_009_low_practical_flats_ml_v1"
+      ],
+      "rehomed_modules": [
+        "scripts/art-asset-factory/pg-modular-intake.ts",
+        "scripts/art-asset-factory/cli-pg-modular-intake.ts",
+        "tests/pg-modular-intake.test.ts",
+        "src/presentation/character-proof.ts",
+        "src/ui/CharacterProofView.tsx"
+      ]
+    },
+    {
+      "entry_id": "pr80-office-occluder-repair",
+      "source_id": "pr-80",
+      "label": "Foreground occluder polygon and measured seated roots",
+      "disposition": "re-homed",
+      "basis": ["technical"],
+      "verified_by": "measured-in-repository",
+      "reason": "A real defect this branch carried. The primary-desk worktop quad ran to x 1024, sweeping through the chair back and seat and painting the chair over the seated figure's lap; pulled back to the chair's left edge at x 748 the derived mask loses 85,870 pixels, and the pixels it loses are the wrong ones. The A01 and B01 roots are now measured off their rasters by measureSeatedContact rather than estimated — the old 0.68/0.54 put the seat plane through mid-torso. With the anchor restaged to 79.2% the primary figure's right shoulder lands at 91.14% of plate width, inside the 91.4% safe area it used to cross at 92.4%.",
+      "rehomed_asset_ids": [
+        "env_lexington_council_staff_office_prompt30_foreground_mask_v1"
+      ],
+      "measurements": {
+        "occluder_max_x_before": "1024",
+        "occluder_max_x_after": "748",
+        "foreground_pixels_before": "269313",
+        "foreground_pixels_after": "183443",
+        "primary_right_shoulder_percent": "91.14",
+        "guaranteed_safe_area_right_percent": "91.4"
+      },
+      "rehomed_modules": [
+        "scripts/art-asset-factory/office-plate-derive.ts",
+        "scripts/art-asset-factory/seated-contact.ts"
+      ]
+    },
+    {
+      "entry_id": "pr80-authoring-contracts",
+      "source_id": "pr-80",
+      "label": "Civic symbols, external packs, generation queue, dynamic component families",
+      "disposition": "re-homed",
+      "basis": ["technical", "authority"],
+      "verified_by": "measured-in-repository",
+      "reason": "Four contracts this branch had no equivalent of, re-homed with their tests and fixtures: the 188-entry civic-symbol registry, in which no value meaning 'generated' is representable and every symbol is honestly not-acquired; external-pack intake, which settles the three archives above; the generation queue, which says where missing art actually is rather than asking for more; and the twelve dynamic component families with their empty states and prohibited inferences. The component families were rewritten onto this branch's surface-kind vocabulary rather than admitted with their own, so there is one registry and not two.",
+      "rehomed_modules": [
+        "src/authoring/civic-symbols.ts",
+        "src/authoring/civic-symbols.test.ts",
+        "art/manifest/civic_symbols.json",
+        "src/authoring/external-packs.ts",
+        "src/authoring/external-packs.test.ts",
+        "src/authoring/fixtures/external-packs.ts",
+        "src/authoring/generation-queue.ts",
+        "src/authoring/fixtures/generation-queue.ts",
+        "src/authoring/dynamic-components.ts",
+        "src/authoring/fixtures/dynamic-surface-authoring.ts"
+      ]
+    },
+    {
+      "entry_id": "pr80-production-authoring-records",
+      "source_id": "pr-80",
+      "label": "Six approved environment families as authoring scaffolds",
+      "disposition": "re-homed",
+      "basis": ["technical"],
+      "verified_by": "measured-in-repository",
+      "reason": "The approved environment library as typed scaffolds rather than research notes. Every one is deliberately incomplete and refuses to project into a runtime spec while a blocking gap remains: no raster, because the plates are Drive-only and committing them would put unapproved bytes in the tree; no camera or safe area, because nobody has decided what a cover-fit crop may lose from these rooms; no seat boxes, because only the seat PLANE can be read off a picture. They are authoring cargo, not scenes.",
+      "rehomed_modules": [
+        "src/authoring/fixtures/production-scenes.ts",
+        "src/authoring/fixtures/production-scene-families.ts",
+        "src/authoring/fixtures/production-asset-bank.ts",
+        "src/authoring/production-library.test.ts",
+        "src/authoring/asset-inventory.test.ts"
+      ]
+    },
+    {
+      "entry_id": "pr80-scene-composition",
+      "source_id": "pr-80",
+      "label": "The donor's scene compositor and untyped surface slots",
+      "disposition": "rejected",
+      "basis": ["technical", "authority"],
+      "verified_by": "measured-in-repository",
+      "reason": "Superseded by this branch and refused. The donor picked the first anchor-permitted pose that ANY body had art for, which is exactly the substitution this branch's pose contract exists to prevent: the question is whether THIS person's body family has the pose. Its SceneSurfaceSlot typed kind as string and content classes as string[], with no civic-symbol policy and no legibility floor. Its relaxation of family-compatibility uniformity is also refused — the replacement check accumulated a per-body map and never emitted an error from it, so it dropped a real invariant and added none."
+    },
+    {
+      "entry_id": "pr80-safe-area-doc",
+      "source_id": "pr-80",
+      "label": "Widened essential-content rectangle in responsive-office-scene.md",
+      "disposition": "rejected",
+      "basis": ["technical"],
+      "verified_by": "measured-in-repository",
+      "reason": "The donor's doc widened the essential-content rectangle to x 185-935, y 165-525. The scene fixture declares x 185 y 165 width 730 height 353.75 — that is x 185-915, y 165-518.75 — and the fixture is byte-identical on both branches, so the donor's documentation contradicted its own code. This branch's existing line already matched the code and was kept."
+    },
+    {
+      "entry_id": "pr80-modular-in-scene",
+      "source_id": "pr-80",
+      "label": "The modular person seam in the office compositor",
+      "disposition": "re-homed",
+      "basis": ["technical"],
+      "verified_by": "measured-in-repository",
+      "reason": "This branch could compose a modular person and could place a person in a room, but not both: the office compositor only painted authored flattened rasters, so anyone without a hand-made recipe fell straight through to a placeholder. The donor's seam falls through authored, then modular, then placeholder, and OfficeScene mounts whichever the composition returns. Fail-closed behaviour is unchanged and now better tested: an incomplete plan still reports a placeholder, and the same test proves no layer of a composed person comes from the thirty-five banked candidates.",
+      "rehomed_modules": [
+        "src/presentation/visual-integration.ts",
+        "src/player/OfficeScene.tsx",
+        "tests/e2e/character-proof-real.spec.ts"
+      ]
     }
   ]
 }
