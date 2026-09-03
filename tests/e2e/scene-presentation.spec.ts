@@ -142,7 +142,13 @@ test.describe("scene and person presentation", () => {
       nodes.map((node) => node.getAttribute("data-slot-kind")),
     );
     expect(kinds).toContain("desk-document");
-    expect(kinds).toContain("picture-frame");
+    // The office's `picture-frame` became a wall map when the geometry
+    // inspection landed: the plate is painted with one city's street grid, so
+    // the map is the surface that has to be replaceable. `large-wall-map` and
+    // `monitor-or-screen` are the scene spec's names for what the inspection
+    // called `district-map` and `monitor-display`.
+    expect(kinds).toContain("large-wall-map");
+    expect(kinds).toContain("monitor-or-screen");
     expect(kinds).toContain("roll-call-board");
   });
 
