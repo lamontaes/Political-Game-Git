@@ -10,6 +10,7 @@ import {
   controlledCommitmentsBlockingMinuteAdvance,
   createFutureTransitionHandlerRegistry,
   createScheduledActivity,
+  createStableId,
   deserializeWorld,
   futureDueItemStateAt,
   makeSimulationMoment,
@@ -174,7 +175,7 @@ describe("Stage 6.5 Run D-Lite canonical moment", () => {
     const loaded = deserializeWorld(serializeWorld(fixture.world));
     expect(loaded).toStrictEqual(fixture.world);
     expect(loaded.schemaVersion).toBe(15);
-    expect(JSON.parse(serializeWorld(loaded)).formatVersion).toBe(14);
+    expect(JSON.parse(serializeWorld(loaded)).formatVersion).toBe(15);
     expect(loaded.history.scheduledActivities).toHaveLength(6);
     expect(loaded.history.workItems).toHaveLength(5);
   });
@@ -887,9 +888,28 @@ describe("Stage 6.5 Run D-Lite Work/Pending", () => {
 describe("generated-person D-Lite route and role compatibility", () => {
   it("preserves the accepted no-seed D-Lite serialized baseline byte for byte", () => {
     const world = createRunDLiteFixture().world;
+    // Snapshot format 15 changed the envelope — its declared version, and the
+    // derivation of `snapshotId`, which is canonical now — and nothing about
+    // the world inside it. Both hashes are asserted rather than one replacing
+    // the other: the first proves the accepted world payload is untouched, the
+    // second pins what is written today.
+    expect(
+      createHash("sha256")
+        .update(
+          JSON.stringify({
+            format: "political-life-world",
+            formatVersion: 14,
+            snapshotId: createStableId("snapshot", JSON.stringify(world)),
+            worldId: world.id,
+            savedAtWorldDate: world.currentDate,
+            world,
+          }),
+        )
+        .digest("hex"),
+    ).toBe("6de3e4b5d785f84f1aa3f6fa8894aa2c8d11a418cb75d482305b8e92464621a2");
     expect(
       createHash("sha256").update(serializeWorld(world)).digest("hex"),
-    ).toBe("6de3e4b5d785f84f1aa3f6fa8894aa2c8d11a418cb75d482305b8e92464621a2");
+    ).toBe("2051c78f9405e8ab09c210326b33b742ec6f427d4810b2c8c2207f058d3ad1fc");
   });
 
   it.each([

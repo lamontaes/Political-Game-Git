@@ -355,7 +355,7 @@ export function PlayerOffice() {
       type: "set-feedback",
       message: `${entry.activity.title} is ${updatedEntry?.state.status ?? "updated"} at ${formatRunATime(
         result.currentMoment.minuteOfDay,
-      )} after ${entry.execution.totalElapsedMinutes} canonical minutes. ${
+      )} after ${entry.execution.totalElapsedMinutes} minutes. ${
         nextCommitment
           ? `Next commitment: ${nextCommitment.activity.title} at ${formatRunATime(
               nextCommitment.state.start.minuteOfDay,

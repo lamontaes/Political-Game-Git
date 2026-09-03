@@ -4285,3 +4285,295 @@
   border-bottom: 1px solid #d3d2c8;
   vertical-align: top;
 }
+
+/* ---------------------------------------------------------------------------
+   The game: title, setup, saved games, and play.
+
+   Restrained on purpose. A scene reads first, choices sit under it, and the
+   record of what happened sits under those. Nothing here is a dashboard.
+   --------------------------------------------------------------------------- */
+
+.game-title,
+.game-setup,
+.game-saves,
+.game-play {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+  color: #16233a;
+}
+
+.game-title h1,
+.game-setup h1,
+.game-saves h1 {
+  margin: 0 0 0.35rem;
+  font-size: 2rem;
+  letter-spacing: -0.01em;
+}
+
+.game-title-line {
+  margin: 0 0 2.25rem;
+  color: #47536a;
+}
+
+.game-title-actions,
+.game-setup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-width: 26rem;
+}
+
+.game-setup-actions {
+  flex-direction: row;
+}
+
+.game-title-actions button,
+.game-choices button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  text-align: left;
+  padding: 0.85rem 1rem;
+}
+
+.game-title-actions button small,
+.game-choices button small {
+  font-weight: 400;
+  opacity: 0.82;
+}
+
+.game-setup section {
+  margin: 2rem 0;
+}
+
+.game-setup h2,
+.game-office h2,
+.game-memories h2 {
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #47536a;
+}
+
+.game-choices {
+  display: grid;
+  gap: 0.55rem;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
+.game-choices button.is-chosen {
+  background: #16233a;
+  border-color: #16233a;
+  color: #f8f7f3;
+}
+
+.game-fields {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+
+.game-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-weight: 600;
+}
+
+.game-fields input {
+  padding: 0.6rem 0.7rem;
+  border: 1px solid #b4b4a8;
+  border-radius: 0.42rem;
+  background: #fdfdfb;
+  color: #16233a;
+  font-weight: 400;
+}
+
+.game-note {
+  margin: 0.9rem 0;
+  color: #47536a;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.game-problem {
+  margin: 0.9rem 0;
+  padding: 0.7rem 0.85rem;
+  border-left: 3px solid #8a4b00;
+  background: #fdf6ec;
+  color: #5a3200;
+}
+
+.game-dev {
+  margin-top: 2.5rem;
+  color: #47536a;
+  font-size: 0.9rem;
+}
+
+.game-dev code {
+  word-break: break-all;
+}
+
+.game-saves ul {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.game-saves li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  border: 1px solid #d3d3c8;
+  border-radius: 0.5rem;
+  background: #fdfdfb;
+}
+
+.game-saves li div:first-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-saves li span {
+  color: #47536a;
+  font-size: 0.92rem;
+}
+
+.game-saves-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.game-play-header {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid #d3d3c8;
+}
+
+.game-play-header .person-portrait {
+  margin-right: auto;
+}
+
+.game-play-header span {
+  color: #47536a;
+  font-size: 0.92rem;
+}
+
+.game-play-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.game-band {
+  margin: 1.75rem 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  color: #47536a;
+}
+
+.game-scene {
+  margin: 0 0 1.25rem;
+  font-size: 1.18rem;
+  line-height: 1.62;
+}
+
+.game-pending {
+  margin: 0 0 1.4rem;
+  padding-left: 1.1rem;
+  color: #2b3648;
+  line-height: 1.6;
+}
+
+.game-memories ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.game-memories li {
+  display: grid;
+  grid-template-columns: 2.2rem 1fr;
+  gap: 0.6rem;
+  align-items: baseline;
+  line-height: 1.55;
+}
+
+.game-memories li span {
+  color: #47536a;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+}
+
+.game-memories {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #d3d3c8;
+}
+
+.game-office {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #d3d3c8;
+}
+
+.person-portrait {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0;
+}
+
+.person-portrait-mark {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  border: 1px solid #b4b4a8;
+  background: #eceade;
+  color: #16233a;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.person-portrait--large .person-portrait-mark {
+  width: 4rem;
+  height: 4rem;
+  font-size: 1.3rem;
+}
+
+.person-portrait figcaption {
+  display: flex;
+  flex-direction: column;
+}
+
+.person-portrait figcaption span {
+  color: #47536a;
+  font-size: 0.9rem;
+}
+
+.game-conversation {
+  margin-top: 2.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #d3d3c8;
+}
+
+.legislation-authored {
+  margin: 0.35rem 0 0;
+  font-size: 0.86rem;
+  color: #5a5a4e;
+  font-style: italic;
+}

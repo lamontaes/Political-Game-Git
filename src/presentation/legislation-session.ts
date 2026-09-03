@@ -27,7 +27,7 @@ import {
   votePlanKeyForConcurrence,
   votePlanKeyForFloor,
   votePlanKeyForOverride,
-  type LegislativeScenario,
+  type LegislativeProcedureContext,
 } from "../simulation/legislation-scenarios";
 import { chamberByKey, floorStageByKey } from "../simulation/legislature-rules";
 import { advanceWorld } from "../simulation/world";
@@ -60,7 +60,7 @@ export interface StepResult {
   readonly message: string;
 }
 
-function counts(scenario: LegislativeScenario, key: string) {
+function counts(scenario: LegislativeProcedureContext, key: string) {
   const plan = scenario.votePlan[key];
   if (!plan) {
     throw new Error(`This scenario has no recorded decisions for '${key}'.`);
@@ -69,7 +69,7 @@ function counts(scenario: LegislativeScenario, key: string) {
 }
 
 export function applyLegislativeStep(
-  scenario: LegislativeScenario,
+  scenario: LegislativeProcedureContext,
   world: World,
   step: MeasureStepKey,
 ): StepResult {
