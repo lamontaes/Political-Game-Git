@@ -4,8 +4,8 @@
  * #70's audited factual content is re-homed here onto first-party statutory
  * bytes. Two deliberate differences from that donor are worth naming: the
  * corpus records 142 statutory divisions rather than 317, because 317 is the
- * Administrative Office's operational division list and Title 28 establishes
- * 142; and it records no constitutional basis, because the sections
+ * Administrative Office's operational division list, which is a different fact
+ * with a different authority; and it records no constitutional basis, because the sections
  * establishing these courts do not state one.
  */
 
@@ -46,6 +46,7 @@ export type { FederalCourtRecord, JudicialDivision } from "./types";
 export {
   EXPECTED_CIRCUIT_COUNT,
   EXPECTED_DISTRICT_COURT_COUNT,
+  EXPECTED_STATUTORY_DIVISION_COUNT,
   EXPECTED_TERRITORIAL_DISTRICT_COUNT,
 } from "./validate";
 export { readSection, splitStatutoryList, textOf } from "./parse";

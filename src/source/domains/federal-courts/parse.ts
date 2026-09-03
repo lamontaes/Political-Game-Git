@@ -67,13 +67,31 @@ export function readSection(document: string, identifier: string): UslmSection {
   const headingMatch = /<heading>([\s\S]*?)<\/heading>/.exec(markup);
   const numberMatch = /<num value="([^"]+)"/.exec(markup);
 
-  const paragraphs: UslmParagraph[] = [];
+  // USLM writes an operative sentence either as a <p> or, where the drafters
+  // numbered it, as a <paragraph> wrapping <num> and <content>. Both carry real
+  // divisions — reading only <p> loses 25 of them — and a <paragraph> that
+  // contains a <p> would otherwise be counted twice, so nested ones are skipped
+  // in favour of the <p> elements inside them.
+  const collected: { at: number; className: string; text: string }[] = [];
   for (const match of markup.matchAll(/<p\b([^>]*)>([\s\S]*?)<\/p>/g)) {
     const attributes = match[1] ?? "";
     const className = /\bclass="([^"]*)"/.exec(attributes)?.[1] ?? "";
     const text = textOf(match[2] ?? "");
-    if (text !== "") paragraphs.push({ className, text });
+    if (text !== "") collected.push({ at: match.index ?? 0, className, text });
   }
+  for (const match of markup.matchAll(/<paragraph\b([^>]*)>([\s\S]*?)<\/paragraph>/g)) {
+    const body = match[2] ?? "";
+    if (/<p\b/.test(body)) continue;
+    const attributes = match[1] ?? "";
+    const className = /\bclass="([^"]*)"/.exec(attributes)?.[1] ?? "";
+    const text = textOf(body);
+    if (text !== "") collected.push({ at: match.index ?? 0, className, text });
+  }
+  collected.sort((left, right) => left.at - right.at);
+  const paragraphs: UslmParagraph[] = collected.map(({ className, text }) => ({
+    className,
+    text,
+  }));
 
   return {
     identifier,

@@ -26,6 +26,59 @@
     {
       "artifacts": [
         {
+          "artifactId": "fec-2024-candidate-master-zip",
+          "sha256": "19b2e3354c4b36195b02887a93eb16796de0aeb0ccbcb5bb67b30e8611bff176",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "fec-2024-committee-master-zip",
+          "sha256": "f20f863c90ca69419a4ca941ab885847b7e076144b7189fbb476d2aaf876e94f",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "fec-2024-candidate-committee-linkage-zip",
+          "sha256": "756a700d46ae40bc3d656e34241d3cbd2ee02e42ff0a58cefe7cf469ae82d107",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "fec-candidate-master-header-csv",
+          "sha256": "86fe00a87b53fb442608ff695a82f321f49e70718bc815a08a070a120412da0c",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "fec-committee-master-header-csv",
+          "sha256": "9b5bfd7764a5e07871d4b0bf31d05f9589eda262d02956718b5d2c272e76ab83",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "fec-linkage-header-csv",
+          "sha256": "9de902716f8c5086fc91cc7b26b675c49916e43c742693df939278cb7d91c633",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2024-12-31",
+      "boundedSampleReason": null,
+      "canonicalSha256": "0756431d5a3d6443e94c5671119191add0a55b4ece829baaaf5d1421553f2c90",
+      "compiler": {
+        "name": "fec",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "0756431d5a3d6443e94c5671119191add0a55b4ece829baaaf5d1421553f2c90",
+      "corpusId": "fec",
+      "domain": "fec",
+      "isCompleteUniverse": true,
+      "recordCount": 39355,
+      "universeDescription": "Every row of the Federal Election Commission's 2024 candidate master, committee master and candidate-committee linkage bulk files. No sampling is applied."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "uscode-title28-119-102-zip",
           "sha256": "33ac894ae39b3da6236f9feba91b8dfcf4f678e1ca33914df144cc75c9544aa9",
           "sliceOfParent": null,
@@ -40,17 +93,46 @@
       ],
       "asOf": "2026-07-23",
       "boundedSampleReason": null,
-      "canonicalSha256": "5279240356a753246ea70f26d0a7eaf0d91812c8d400ba1effab4ff70a497bf4",
+      "canonicalSha256": "ba4f90efa2b654a1fd8a563b79bdac4a5b3ad6a8043e583a5fc39a752f5b8ca7",
       "compiler": {
         "name": "federal-courts",
         "version": "1.0.0"
       },
-      "corpusFileSha256": "5279240356a753246ea70f26d0a7eaf0d91812c8d400ba1effab4ff70a497bf4",
+      "corpusFileSha256": "ba4f90efa2b654a1fd8a563b79bdac4a5b3ad6a8043e583a5fc39a752f5b8ca7",
       "corpusId": "federal-courts",
       "domain": "federal-courts",
       "isCompleteUniverse": true,
       "recordCount": 201,
       "universeDescription": "Every United States court of appeals constituted by 28 U.S.C. § 41, every judicial district established by 28 U.S.C. ch. 5 and by the Title 48 organic acts, the statutory divisions those sections create, and the bankruptcy court 28 U.S.C. § 151 designates in each district, as the U.S. Code stands at release point 119-102."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "openfema-disaster-declarations-audit-slice",
+          "sha256": "582f8ba14aa994f29b80e8fede328a01f6083030df3d6490ae229a1c52b1c306",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "openfema-disaster-declarations-universe-count",
+          "sha256": "e547f9b44112dbb6e1522a27a2b4797b1f2c1ac00523387c6d5ca455aa8344dc",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2024-09-28",
+      "boundedSampleReason": "Selection predicate, applied by the provider and recorded in the committed payload's own metadata: \"disasterNumber in (1603,3591,4085,4332,4586,4673,4724,4765,4781,4827,4830,5480,5488)\". Those disaster numbers are every number named either by PR #66's corpus or by the 30C audit that rejected it, so the slice contains the authentic record behind each of that corpus's fabricated declarations. The full entity is far too large to commit and no part of it is claimed here.",
+      "canonicalSha256": "cae38f350fb90d02fa278f157df4c74137bd5accd8a09b992f94023a9d717e5d",
+      "compiler": {
+        "name": "fema-disasters",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "cae38f350fb90d02fa278f157df4c74137bd5accd8a09b992f94023a9d717e5d",
+      "corpusId": "fema-disasters",
+      "domain": "fema-disasters",
+      "isCompleteUniverse": false,
+      "recordCount": 721,
+      "universeDescription": "Every designated-area row of the OpenFEMA DisasterDeclarationsSummaries v2 entity for the 13 disaster numbers in this domain's selection predicate. The entity held 70272 rows in total when the slice was taken."
     },
     {
       "artifacts": [

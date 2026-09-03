@@ -16,6 +16,16 @@ export const EXPECTED_DISTRICT_COURT_COUNT = 94;
 export const EXPECTED_TITLE_28_DISTRICT_COUNT = 91;
 export const EXPECTED_TERRITORIAL_DISTRICT_COUNT = 3;
 
+/**
+ * The divisions 28 U.S.C. ch. 5 actually establishes.
+ *
+ * The Administrative Office operates a larger set of divisional offices; this
+ * is the statutory count, and the two are different facts with different
+ * authorities. A corpus that reported the operational number while citing the
+ * statute would be claiming the statute says something it does not.
+ */
+export const EXPECTED_STATUTORY_DIVISION_COUNT = 117;
+
 const PROHIBITED_FIELD_TERMS = [
   "judge",
   "ideolog",
@@ -70,6 +80,33 @@ export function validateFederalCourtCorpus(
         message: `Title 48 establishes ${EXPECTED_TERRITORIAL_DISTRICT_COUNT} territorial district courts; this corpus holds ${title48.length}.`,
       });
     }
+    const divisionCount = districts.reduce(
+      (total, record) => total + (record.divisions?.length ?? 0),
+      0,
+    );
+    if (divisionCount !== EXPECTED_STATUTORY_DIVISION_COUNT) {
+      findings.push({
+        severity: "error",
+        code: "courts/division-count",
+        message: `28 U.S.C. ch. 5 establishes ${EXPECTED_STATUTORY_DIVISION_COUNT} divisions; this corpus holds ${divisionCount}.`,
+      });
+    }
+
+    // County names contain full stops. A membership list truncated at the first
+    // one loses the rest of the division, silently and plausibly.
+    const arkansasEastern = districts.find((r) => r.courtId === "d-arkansas-eastern");
+    const delta = arkansasEastern?.divisions?.find((d) =>
+      d.comprisesCounties.includes("St. Francis"),
+    );
+    if (!delta) {
+      findings.push({
+        severity: "error",
+        code: "courts/abbreviated-county-name",
+        message:
+          "28 U.S.C. § 83 assigns St. Francis County to a division of the Eastern District of Arkansas; a membership list that stops at the first full stop loses it.",
+      });
+    }
+
     const federal = circuits.find((r) => r.courtId === "ca-fed");
     if (!federal) {
       findings.push({

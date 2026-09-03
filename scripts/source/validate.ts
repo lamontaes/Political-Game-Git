@@ -29,6 +29,11 @@ function trackedSourceFiles(dir: string, found: string[] = []): string[] {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const path = resolve(dir, entry.name);
     if (entry.isDirectory()) {
+      // raw/ holds the publisher's own bytes. They are evidence, not this
+      // repository's output, and they are never edited — an API response that
+      // stamps its own run time is the provider describing its query, not a
+      // generator stamping a build.
+      if (entry.name === "raw") continue;
       trackedSourceFiles(path, found);
     } else if (entry.name.endsWith(".json")) {
       found.push(path);

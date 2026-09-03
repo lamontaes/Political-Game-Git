@@ -133,7 +133,18 @@ export function normalizeCircuits(
   return records;
 }
 
-const DIVISION_SENTENCE = /^\((\d+)\)\s+The\s+(.+?)\s+[Dd]ivision comprises the counties of\s+([\s\S]*?)(?:\.|$)/;
+/**
+ * A division sentence, in each of the forms the statute actually uses.
+ *
+ * Georgia capitalises "Counties", Texas has a division comprising a single
+ * "county of", and one California division simply "comprises Orange County".
+ * The membership list runs to the end of the sentence rather than to the first
+ * full stop, because county names contain them: St. Francis, St. Joseph and
+ * St. Mary's would each be truncated by a first-period rule.
+ */
+const DIVISION_SENTENCE =
+  /^\((\d+)\)\s+The\s+(.+?)\s+[Dd]ivision comprises\s+(?:the\s+[Cc]ount(?:ies|y)\s+of\s+)?([\s\S]+)$/;
+const COURT_SENTENCE = /\bCourt(?: for the .+?)? shall be held at\b/;
 const COURT_HELD_AT = /Court(?: for the (.+?))? shall be held at\s+([\s\S]*?)\.\s*$/;
 
 /**
@@ -203,7 +214,8 @@ export function normalizeStateDistricts(
 
     const division = DIVISION_SENTENCE.exec(paragraph.text);
     if (division) {
-      const counties = splitStatutoryList(division[3] ?? "");
+      const membership = (division[3] ?? "").split(COURT_SENTENCE)[0] ?? "";
+      const counties = splitStatutoryList(membership);
       const inlineHeld = COURT_HELD_AT.exec(paragraph.text);
       divisions.push({
         divisionName: `${division[2] ?? ""} Division`,
