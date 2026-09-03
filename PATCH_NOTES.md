@@ -16,6 +16,27 @@ before any of the politics arrives.
 
 ### Added
 
+- **A calibration before the life, and it is not a quiz.** Five situations, or
+  a longer set, or none at all. There are no right answers, nothing you pick
+  becomes part of your character's history, and the game never tells you what
+  it concluded — because a game that hands you a label has stopped being able
+  to be surprised by you. What you actually do counts for around five times
+  what you said here, so two or three real decisions in the other direction
+  settle the matter.
+- **An adult with something to do.** Thirty-five situations across the
+  household, family, care, work, money, housing, friendship, the area, civic
+  life and politics — offered because the thing they are about is already true
+  of your life, never because a die said this was the year. A life with a job
+  and a group in it is offered more than one without, which is the honest
+  answer rather than a shortfall.
+- **Moments that come back.** Something you said you would do, somebody you
+  helped, a position you took where people could hear it. Months or years
+  later it may return — and it may not, because the person moved on, the thing
+  ended, or nobody was listening. Whether they raise it is their decision, not
+  the game's.
+- **Ordinary life, kept ordinary.** A good day, a quiet evening in, a week that
+  simply worked. Roughly a third of what an adult meets asks nothing much of
+  them, which is what keeps the rest able to ask something.
 - **New game.** Choose where the life begins, how old the character is when you
   pick them up, how much of the earlier years you play rather than skip, and
   whether they already work in a legislature. Leave the name blank and you will
@@ -30,6 +51,10 @@ before any of the politics arrives.
   were on the button.
 - **Quiet years.** Not every year has a turning point in it. The ones that do
   not simply pass.
+- **Wider growing-up years.** Ten of the childhood situations gained a third
+  way through them — writing it down instead of saying it, finding somebody
+  else to go, doing both badly — because two options is a fork and three is a
+  decision.
 - **An ordinary day.** A character who does not work in a legislature still has
   a week that needs covering and a public meeting they can go to or skip.
 - **Talking at home.** The conversation system now knows what it is talking
@@ -61,6 +86,20 @@ before any of the politics arrives.
 
 ### Known issues
 
+- The longer calibration has twenty-six authored questions against a design
+  target of thirty to fifty, and fifteen of the twenty-six read as policy
+  questions rather than as life fragments. Those fifteen are ranked last, so a
+  short calibration never reaches them, and the shortfall is reported in
+  numbers rather than hidden. Closing it needs authored copy from the research
+  lane; the implementing lane is not permitted to write questionnaire text.
+- An adult whose earlier years were summarized rather than played arrives
+  already carrying a community-service participation and a civic commitment
+  from the scripted background generator, which is why a group situation can be
+  offered on the first beat. The record says it is true, so surfacing it is
+  consistent — but the generator that wrote it is development scaffolding and
+  is due to be replaced.
+- Housing situations need a tenancy the world does not yet establish for a new
+  life, so they stay unavailable rather than being offered against nothing.
 - Only four places can start a life, and none of them is a city with its own
   council. A national place corpus is the missing piece.
 - Generated people have no drawn likeness. They get initials and a name.

@@ -1,3 +1,4 @@
+import { adultLifeSituations } from "./adult-situations";
 import { addDays, ageOnDate, dateAtAge, makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import {
@@ -92,12 +93,16 @@ import type {
   TemporaryStateRecordInput,
 } from "./history";
 import type {
+  AvailableLifeSituation,
   DevelopmentProposal,
   EntityId,
+  FormativePacingBand,
   IsoDate,
   LifeEligibilityDecision,
   LifeEligibilityProvider,
   LifeRecordProvenance,
+  LifeSituationKey,
+  LifeSituationOption,
   Person,
   PersonFact,
   World,
@@ -999,9 +1004,6 @@ export function applyCharacterHistoryPlan(
   return { world: next, eventIds, contextPersonIds, developmentProposals };
 }
 
-export type FormativePacingBand =
-  "early-childhood" | "middle-childhood" | "adolescence";
-
 export interface FormativeInterval {
   readonly band: FormativePacingBand;
   readonly beginsAt: IsoDate;
@@ -1066,61 +1068,6 @@ export function advanceFormativeInterval(
   };
 }
 
-export type LifeSituationKey =
-  | "formative.household-transition"
-  | "formative.school-entry"
-  | "formative.broken-object"
-  | "formative.small-money"
-  | "formative.lunch-table"
-  | "formative.friend-conflict"
-  | "formative.teacher-mentor"
-  | "formative.school-rule-input"
-  | "formative.care-conflict"
-  | "formative.activity-choice"
-  | "formative.civic-volunteering"
-  | "formative.teen-work-opportunity"
-  | "formative.student-organizing"
-  | "formative.belief-challenge"
-  | "formative.future-preparation"
-  | "formative.illness-in-the-house"
-  | "formative.money-shortfall"
-  | "formative.caring-for-someone"
-  | "formative.workplace-rule";
-
-export interface LifeSituationOption {
-  readonly key: string;
-  /** The words on the button. */
-  readonly label: string;
-  /** What choosing it means, before it is chosen. */
-  readonly description: string;
-  /**
-   * What the person remembers afterwards, written as something that happened
-   * rather than as the instruction that produced it. The canonical record is
-   * never the button text.
-   */
-  readonly memory: string;
-  /**
-   * What somebody else in the scene would have seen, or null when the choice
-   * was made inwardly and there was nothing to see.
-   *
-   * Knowledge is subjective. Being present is not the same as being told: a
-   * companion who watched a child decide something quietly does not thereby
-   * know what the child decided, and must never be handed that child's own
-   * remembered sentence as their own belief.
-   */
-  readonly witnessed?: string | null;
-}
-
-export interface AvailableLifeSituation {
-  readonly key: LifeSituationKey;
-  readonly band: FormativePacingBand;
-  /** The scene, before any choice exists. */
-  readonly prose: string;
-  readonly options: readonly LifeSituationOption[];
-  /** True when the situation only makes sense with someone else in it. */
-  readonly needsCompanion: boolean;
-}
-
 /**
  * The formative situations the game can currently play.
  *
@@ -1153,6 +1100,14 @@ const AUTHORED_SITUATIONS: readonly Omit<
         description: "Hold on to the parts of the day that are still yours.",
         memory:
           "You kept your own corner of the house through all the noise, and nobody made you give it up.",
+      },
+      {
+        key: "make-yourself-useful",
+        label: "Make yourself useful",
+        description: "Take on one of the small jobs nobody has asked you to.",
+        memory:
+          "You took on one of the small jobs without being asked, and it stayed yours for years.",
+        stance: "engaged",
       },
     ],
   },
@@ -1254,6 +1209,17 @@ const AUTHORED_SITUATIONS: readonly Omit<
           "You looked at your food until the person holding the tray went somewhere else.",
         witnessed: "They stayed where they were and did not look up.",
       },
+      {
+        key: "go-with-them",
+        label: "Go and sit somewhere else with them",
+        description: "Leave the full table rather than squeeze one more in.",
+        memory:
+          "You got up and went and sat somewhere else with them, and the table you left noticed that too.",
+        witnessed:
+          "They got up from the full table and went and sat somewhere else with them.",
+        stance: "engaged",
+        relationalChange: "strengthened",
+      },
     ],
   },
   {
@@ -1276,6 +1242,16 @@ const AUTHORED_SITUATIONS: readonly Omit<
         description: "Take space rather than force a resolution.",
         memory: "You let the silence stand. It cooled, but it did not close.",
         witnessed: "Neither of them raised it again, and the quiet stayed.",
+      },
+      {
+        key: "ask-someone",
+        label: "Get somebody else involved",
+        description: "Bring in a third person rather than manage it alone.",
+        memory:
+          "You brought somebody else into it, which fixed it and also changed what it had been.",
+        witnessed: "They brought somebody else into it.",
+        stance: "engaged",
+        relationalChange: "maintained",
       },
     ],
   },
@@ -1324,6 +1300,14 @@ const AUTHORED_SITUATIONS: readonly Omit<
         memory:
           "You had a view and kept it to yourself while other people argued it out.",
       },
+      {
+        key: "write-it-down",
+        label: "Put it in writing",
+        description: "Say it where it has to be read rather than heard.",
+        memory:
+          "You wrote it down instead of saying it out loud, and it got further than you expected.",
+        stance: "engaged",
+      },
     ],
   },
   {
@@ -1346,6 +1330,14 @@ const AUTHORED_SITUATIONS: readonly Omit<
         memory:
           "You kept going to it, and someone else at home covered what you did not.",
       },
+      {
+        key: "do-both-badly",
+        label: "Try to do both",
+        description: "Split the afternoons and give each of them less.",
+        memory:
+          "You split the afternoons between the two of them, and neither got what it needed.",
+        stance: "engaged",
+      },
     ],
   },
   {
@@ -1367,6 +1359,14 @@ const AUTHORED_SITUATIONS: readonly Omit<
         memory:
           "You gave the afternoons back, and something else grew into the space.",
       },
+      {
+        key: "stay-smaller",
+        label: "Stay, but do less of it",
+        description: "Keep a foot in without giving it the week.",
+        memory:
+          "You stayed in it but stopped being one of the ones it relied on, and nobody said anything about that.",
+        stance: "engaged",
+      },
     ],
   },
   {
@@ -1387,6 +1387,14 @@ const AUTHORED_SITUATIONS: readonly Omit<
         label: "Observe first",
         description: "Learn about the work before committing.",
         memory: "You went and watched before you agreed to anything.",
+      },
+      {
+        key: "send-others",
+        label: "Get other people to go",
+        description: "Find the hands rather than be them.",
+        memory:
+          "You found other people to go instead of going, which worked, and which one of them mentioned later.",
+        stance: "engaged",
       },
     ],
   },
@@ -1479,6 +1487,14 @@ const AUTHORED_SITUATIONS: readonly Omit<
         memory:
           "You did not commit that year. You kept looking, and let the question stay open.",
       },
+      {
+        key: "ask-someone-who-knows",
+        label: "Ask somebody who has done it",
+        description: "Go and find out what it is actually like first.",
+        memory:
+          "You went and asked somebody who had actually done it, and what they told you was not what the school had.",
+        stance: "engaged",
+      },
     ],
   },
   {
@@ -1551,6 +1567,15 @@ const AUTHORED_SITUATIONS: readonly Omit<
         memory:
           "You said what you could actually manage before it became assumed, and the household worked around the answer.",
       },
+      {
+        key: "look-outside",
+        label: "Look for help from outside the house",
+        description:
+          "Find somebody who is not in the family to carry part of it.",
+        memory:
+          "You went looking for help outside the house, which took a long time and eventually worked.",
+        stance: "engaged",
+      },
     ],
   },
   {
@@ -1575,9 +1600,29 @@ const AUTHORED_SITUATIONS: readonly Omit<
         memory:
           "You said out loud that nobody actually did it that way, and learned what it costs to be right in front of a customer.",
       },
+      {
+        key: "say-it-after",
+        label: "Do it, then say something after",
+        description: "Not in front of the customer.",
+        memory:
+          "You did it their way in front of the customer and said what you thought once the shop was empty.",
+        stance: "engaged",
+      },
     ],
   },
 ];
+
+/**
+ * Whether the person held back rather than acted.
+ *
+ * An option that says so is believed; the key list below is what the formative
+ * bank said before options could say it themselves, and stays as the answer
+ * for those.
+ */
+function heldBack(option: LifeSituationOption, optionKey: string): boolean {
+  if (option.stance) return option.stance === "withdrawn";
+  return WITHDRAWN_OPTION_KEYS.includes(optionKey);
+}
 
 /**
  * Options where the person held back rather than acted. They read as mixed
@@ -1625,7 +1670,16 @@ export function availableLifeSituations(
   },
 ): readonly AvailableLifeSituation[] {
   const interval = formativeIntervalAt(world, input.personId, input.asOfDate);
-  if (!interval) return [];
+  // Past eighteen the question stops being "which band is this person in" and
+  // starts being "what does their world contain". The adult provider answers
+  // the second, and returning an empty list — which is what happened before it
+  // existed — was the reason an adult life had nothing in it.
+  if (!interval) {
+    return adultLifeSituations(world, {
+      personId: input.personId,
+      asOfDate: input.asOfDate,
+    });
+  }
   const otherPersonId = input.otherPersonId ?? null;
   const companionPresent =
     otherPersonId !== null && !!world.people[otherPersonId];
@@ -1845,8 +1899,12 @@ export function resolveLifeSituation(
         personIds: [input.personId, shared],
         eventStableKey,
         occurredAt: input.occurredAt,
-        kind: interactionKind(input.situationKey, input.optionKey),
-        change: interactionChange(input.optionKey),
+        kind: interactionKind(
+          input.situationKey,
+          input.optionKey,
+          option.interactionKind,
+        ),
+        change: interactionChange(input.optionKey, option.relationalChange),
         significance: "meaningful",
         summary: witnessed,
         tags: [input.situationKey],
@@ -1866,9 +1924,7 @@ export function resolveLifeSituation(
         {
           key: "formative-choice",
           label: "A formative choice",
-          valence: WITHDRAWN_OPTION_KEYS.includes(input.optionKey)
-            ? "mixed"
-            : "positive",
+          valence: heldBack(option, input.optionKey) ? "mixed" : "positive",
           intensity: "subtle",
         },
       ],
@@ -1881,7 +1937,7 @@ export function resolveLifeSituation(
       supersedesAppraisalId: null,
     },
   });
-  if (WITHDRAWN_OPTION_KEYS.includes(input.optionKey)) {
+  if (heldBack(option, input.optionKey)) {
     consequenceTransitions.push({
       kind: "temporary-state",
       input: {
@@ -2820,7 +2876,9 @@ function mindProvenanceKind(mode: CharacterHistoryMode) {
 function interactionKind(
   situation: LifeSituationKey,
   option: string,
+  declared: RelationshipInteractionInput["kind"] | undefined,
 ): RelationshipInteractionInput["kind"] {
+  if (declared) return declared;
   if (situation === "formative.teacher-mentor") return "mentorship:guidance";
   if (situation === "formative.belief-challenge")
     return option === "say-you-disagree"
@@ -2833,7 +2891,9 @@ function interactionKind(
 
 function interactionChange(
   option: string,
+  declared: RelationshipInteractionInput["change"] | undefined,
 ): RelationshipInteractionInput["change"] {
+  if (declared) return declared;
   if (WARMING_OPTION_KEYS.includes(option)) return "strengthened";
   // Saying so out loud tests a relationship rather than damaging it; only
   // pulling away or staying silent leaves it strained.
@@ -2844,7 +2904,11 @@ function interactionChange(
 function situationEventType(
   key: LifeSituationKey,
 ): HistoricalEventInput["type"] {
-  return `life.${key.slice("formative.".length)}` as HistoricalEventInput["type"];
+  // Every situation key is `<band>.<family>`, and the event is `life.<family>`
+  // whichever band it came from. Slicing a fixed prefix worked while there was
+  // one band and would have silently produced `life.adult.debt-call` once there
+  // were two.
+  return `life.${key.slice(key.indexOf(".") + 1)}` as HistoricalEventInput["type"];
 }
 
 function formativeEvent(

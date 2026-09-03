@@ -1,4 +1,11 @@
-import { stableHash } from "../simulation";
+import {
+  canonicalPriorEncoding,
+  createSetupPriorStore,
+  decodePriorEncoding,
+  stableHash,
+  SETUP_BANK_VERSION,
+} from "../simulation";
+import type { SetupAnswerRecord, SetupQuestionnairePath } from "../simulation";
 import type { NewGameSetup } from "./new-game";
 
 /**
@@ -22,13 +29,35 @@ import type { NewGameSetup } from "./new-game";
  * than a reproduction of somebody's game.
  */
 
-export const SETUP_ENCODING_VERSION = 2;
+export const SETUP_ENCODING_VERSION = 3;
 export const REPLAY_DESCRIPTOR_PARAMETER = "replay";
 
 /**
- * The setup as one canonical string. Field order is fixed here rather than
- * taken from object iteration order, so the encoding cannot drift when the
- * interface is edited.
+ * Version 3 split the setup in two, and the split is the point.
+ *
+ * A setup now has a *world half* — place, age, depth, starting life,
+ * household, names, seed — and a *priors half*, which is what the player
+ * answered at the questionnaire. Only the world half reaches `worldSeedFor`.
+ *
+ * That is not tidiness. If an answer about tax entered the world seed, it
+ * would change which household was generated, which people were in it and what
+ * they were called, so a political answer would quietly manufacture a
+ * correlated family — the exact thing the settled semantics forbid. Answers may
+ * change what the game asks you and what it offers you. They may never change
+ * who your family is, and a test holds that shut by building the same world
+ * from two opposite sets of answers and comparing the people.
+ *
+ * Both halves travel in a replay descriptor, because a replay that reproduced
+ * the world but not the calibration would not reproduce the game.
+ */
+
+/**
+ * The world half, as one canonical string.
+ *
+ * Field order is fixed here rather than taken from object iteration order, so
+ * the encoding cannot drift when the interface is edited. The questionnaire is
+ * deliberately absent: this is the input to world generation, and nothing the
+ * player answered belongs in it.
  */
 export function canonicalSetupEncoding(setup: NewGameSetup): string {
   return JSON.stringify({
@@ -88,9 +117,43 @@ export function createSaveId(worldId: string, discriminator: string): string {
  * rather than trusting 64 bits of FNV-1a to keep them apart.
  */
 
+/** The setup's answers, in the persisted shape, or an empty set. */
+export function setupPriorStoreFor(setup: NewGameSetup) {
+  return createSetupPriorStore(
+    setup.questionnaire ?? "skipped",
+    SETUP_BANK_VERSION,
+    setup.priors ?? [],
+  );
+}
+
+/**
+ * Both halves, for a link that reproduces the whole game.
+ *
+ * The priors half is written only when there is one, so a setup that answered
+ * nothing encodes exactly as it did before the questionnaire existed and
+ * round-trips back to itself rather than to itself-plus-two-empty-fields.
+ */
+export function canonicalReplayEncoding(setup: NewGameSetup): string {
+  const world = JSON.parse(canonicalSetupEncoding(setup)) as Record<
+    string,
+    unknown
+  >;
+  const answers = setup.priors ?? [];
+  const path = setup.questionnaire ?? "skipped";
+  if (path === "skipped" && answers.length === 0) {
+    return JSON.stringify(world);
+  }
+  return JSON.stringify({
+    ...world,
+    priors: JSON.parse(
+      canonicalPriorEncoding(setupPriorStoreFor(setup)),
+    ) as unknown,
+  });
+}
+
 /** A replay link that actually reproduces the world it came from. */
 export function encodeReplayDescriptor(setup: NewGameSetup): string {
-  return base64UrlEncode(canonicalSetupEncoding(setup));
+  return base64UrlEncode(canonicalReplayEncoding(setup));
 }
 
 /**
@@ -124,7 +187,7 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   ) {
     return null;
   }
-  return {
+  const base: NewGameSetup = {
     seed: record.seed,
     placeKey: record.placeKey,
     startAge: record.startAge as number,
@@ -133,6 +196,17 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     household: record.household,
     givenName: record.givenName as string | null,
     familyName: record.familyName as string | null,
+  };
+  if (record.priors === undefined) return base;
+  const priors = decodePriorEncoding(record.priors);
+  // An unreadable priors half is not a half-configured game to be salvaged:
+  // the descriptor as a whole is refused, so the caller starts a normal game
+  // rather than one calibrated by whatever survived.
+  if (priors === null) return null;
+  return {
+    ...base,
+    questionnaire: priors.path as SetupQuestionnairePath,
+    priors: priors.answers as readonly SetupAnswerRecord[],
   };
 }
 

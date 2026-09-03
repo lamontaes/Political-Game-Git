@@ -1,5 +1,6 @@
 import {
-  SeededRng,
+  LIFE_TRANSITION_HANDLERS,
+  adaptiveSelectionSeed,
   advanceWorld,
   ageOnDate,
   availableLifeSituations,
@@ -8,13 +9,16 @@ import {
   formativeIntervalAt,
   lifePlaceByJurisdictionId,
   personName,
+  playerModelFor,
   resolveLifeSituation,
+  selectSituation,
+  situationProfile,
 } from "../simulation";
 import type {
   AvailableLifeSituation,
   EntityId,
   FormativeInterval,
-  FormativePacingBand,
+  LifeSituationBand,
   LifeSituationKey,
   TeenWorkOpportunity,
   World,
@@ -40,10 +44,11 @@ import {
 
 export const FORMATIVE_YEARS_END_AGE = 18;
 
-const BAND_LABELS: Readonly<Record<FormativePacingBand, string>> = {
+const BAND_LABELS: Readonly<Record<LifeSituationBand, string>> = {
   "early-childhood": "Early childhood",
   "middle-childhood": "Childhood",
   adolescence: "Adolescence",
+  adulthood: "Adult life",
 };
 
 export interface FormativeSceneOption {
@@ -61,7 +66,7 @@ export interface FormativeMemory {
 export interface FormativeScene {
   readonly personName: string;
   readonly age: number;
-  readonly band: FormativePacingBand;
+  readonly band: LifeSituationBand;
   readonly bandLabel: string;
   readonly placeName: string | null;
   readonly situationKey: LifeSituationKey;
@@ -157,10 +162,40 @@ function nextScene(
   if (pool.length === 0) return null;
 
   const played = playedSituationCount(world, personId);
-  const rng = new SeededRng(world.seed).fork(
-    `formative-scene-v1:${personId}:${played}:${world.currentDate}`,
-  );
-  const situation = rng.pick(pool) as AvailableLifeSituation;
+  // Ranked rather than drawn. The pool is exactly what it was — hard
+  // eligibility and causal availability have already had their say — and what
+  // is added is the rest of the research's order: current relevance, how hard
+  // the moment pulls in two directions for *this* player, a novelty guard, a
+  // pacing guard, and a deterministic tie-break. Nothing here consumes the
+  // simulation's randomness, which is what makes the sequence reproducible
+  // from the save rather than from the order the browser happened to render in.
+  const history = playedSituationKeys(world, personId);
+  const selection = selectSituation({
+    selectionSeed: adaptiveSelectionSeed(world),
+    personKey: personId,
+    ordinal: played,
+    model: playerModelFor(world, personId),
+    candidates: pool.map((candidate) => {
+      const profile = situationProfile(candidate.key);
+      return {
+        key: candidate.key,
+        band: candidate.band,
+        stakes: profile.stakes,
+        tensions: profile.tensions,
+        // A formative situation is already gated by band and by context;
+        // claiming a finer relevance than that would be a number with nothing
+        // behind it.
+        relevance: 0.5,
+        followsFromHistory: candidate.key === "formative.workplace-rule",
+      };
+    }),
+    recentKeys: history.slice(-6),
+    recentStakes: history.slice(-6).map((key) => situationProfile(key).stakes),
+  });
+  if (!selection) return null;
+  const situation = pool.find(
+    (candidate) => candidate.key === selection.chosen.candidate.key,
+  ) as AvailableLifeSituation;
   const resolved = resolveFormativeCompanion(
     world,
     personId,
@@ -350,7 +385,10 @@ function advanceToNextMoment(
   );
   const untilGrown = Math.max(daysBetween(world.currentDate, grownUpOn), 1);
   const days = Math.min(step, untilBoundary, untilGrown);
-  return advanceWorld(world, days);
+  // With the handler registry, because a life that reaches adulthood may
+  // already be carrying a scheduled callback, and time refuses to step over a
+  // due item it has no handler for rather than silently losing it.
+  return advanceWorld(world, days, LIFE_TRANSITION_HANDLERS);
 }
 
 function daysBetween(from: string, to: string): number {
@@ -376,6 +414,23 @@ function formativeMemories(
       ageAtTime: ageOnDate(person.birthDate, memory.formedAt),
       summary: memory.rememberedSummary,
     }));
+}
+
+function playedSituationKeys(
+  world: World,
+  personId: EntityId,
+): readonly LifeSituationKey[] {
+  return world.history.events
+    .filter(
+      (event) =>
+        event.involvedEntityIds.includes(personId) &&
+        event.tags.some((tag) => tag.startsWith("formative.")),
+    )
+    .sort((left, right) => left.sequence - right.sequence)
+    .flatMap((event) => {
+      const key = event.tags.find((tag) => tag.startsWith("formative."));
+      return key ? [key as LifeSituationKey] : [];
+    });
 }
 
 function playedSituationCount(world: World, personId: EntityId): number {

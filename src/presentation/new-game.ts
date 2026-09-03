@@ -1,7 +1,17 @@
-import { lifePlaceByKey, requireLifePlace } from "../simulation";
-import type { EntityId, LifePlace, World } from "../simulation";
+import {
+  lifePlaceByKey,
+  questionnaireLength,
+  requireLifePlace,
+} from "../simulation";
+import type {
+  EntityId,
+  LifePlace,
+  SetupAnswerRecord,
+  SetupQuestionnairePath,
+  World,
+} from "../simulation";
 import { buildProductionWorld } from "./production-world";
-import { worldSeedFor } from "./new-game-identity";
+import { setupPriorStoreFor, worldSeedFor } from "./new-game-identity";
 
 /**
  * Starting a life.
@@ -45,6 +55,22 @@ export interface NewGameSetup {
   /** Blank means "generate one" rather than "leave it empty". */
   readonly givenName: string | null;
   readonly familyName: string | null;
+  /**
+   * Which calibration path the player took, if any.
+   *
+   * Optional, and absent means none: a setup written before the questionnaire
+   * existed is a valid setup that answered nothing, and must keep building the
+   * world it always built.
+   */
+  readonly questionnaire?: SetupQuestionnairePath;
+  /**
+   * What they answered, in the order they were asked.
+   *
+   * These are non-diegetic weak priors and nothing else. They do not enter
+   * `worldSeedFor`, they create no history, and no biography follows from
+   * them — see `new-game-identity.ts` for why the split is load-bearing.
+   */
+  readonly priors?: readonly SetupAnswerRecord[];
 }
 
 export interface NewGame {
@@ -67,6 +93,8 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   household: "shares-a-home",
   givenName: null,
   familyName: null,
+  questionnaire: "short",
+  priors: [],
 };
 
 export interface NewGameSetupProblem {
@@ -113,6 +141,14 @@ export function newGameSetupProblems(
   if (setup.seed.trim().length === 0) {
     problems.push({ field: "seed", message: "A world needs a seed." });
   }
+  const path = setup.questionnaire ?? "skipped";
+  const answered = setup.priors?.length ?? 0;
+  if (answered > questionnaireLength(path)) {
+    problems.push({
+      field: "priors",
+      message: "There are more answers here than that path ever asks for.",
+    });
+  }
   return problems;
 }
 
@@ -138,6 +174,7 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     startingLife: setup.startingLife,
     household: setup.household,
     depth: setup.depth,
+    priors: setupPriorStoreFor(setup),
   });
   return {
     world: built.world,

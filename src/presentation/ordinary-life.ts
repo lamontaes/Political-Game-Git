@@ -1,4 +1,5 @@
 import {
+  LIFE_TRANSITION_HANDLERS,
   currentLifeCutoff,
   householdMembershipsAt,
   advanceWorld,
@@ -231,7 +232,16 @@ export function projectOrdinaryDay(
 
 /** Moves an ordinary day forward. Nothing dramatic is manufactured to fill it. */
 export function passOrdinaryDays(world: World, days = 1): World {
-  return advanceWorld(world, Math.max(1, Math.trunc(days)));
+  // The handler registry travels with every advance an adult life can make.
+  // A day passed here is the same day as a day passed on the adult surface,
+  // and a callback that comes due on it must be answered rather than stepped
+  // over — time refuses to step over one it has no handler for, which is the
+  // behaviour that keeps a scheduled consequence from being lost.
+  return advanceWorld(
+    world,
+    Math.max(1, Math.trunc(days)),
+    LIFE_TRANSITION_HANDLERS,
+  );
 }
 
 function openingLine(
