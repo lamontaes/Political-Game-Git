@@ -28,6 +28,20 @@ export function serializeWorld(world: World): string {
   return JSON.stringify(createWorldSnapshot(world));
 }
 
+/**
+ * What makes one world the same world as another, for anything that stores it.
+ *
+ * This is the snapshot id — a hash of the complete serialized world — and it
+ * is the only honest answer to "have I already written this?". A domain
+ * counter is not: `actionSequence` moves when time advances and stays put
+ * when history is written, so two canonically different worlds routinely
+ * share one. Anything deciding durability from that number will call the
+ * second of them already saved and lose it.
+ */
+export function worldContentId(world: World): EntityId {
+  return createWorldSnapshot(world).snapshotId;
+}
+
 export function deserializeWorld(payload: string): World {
   let parsed: unknown;
   try {

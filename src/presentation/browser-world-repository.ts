@@ -9,6 +9,7 @@ import {
   createWorldSnapshot,
   deserializeWorld,
   serializeWorld,
+  worldContentId,
 } from "../simulation/serialization";
 import type {
   EntityId,
@@ -34,9 +35,19 @@ import { createSaveId } from "./new-game-identity";
  * one queue, and a delete fences the slot: a write that was already waiting
  * when the save was deleted is discarded instead of recreating it.
  *
- * *Acknowledgement.* A failed write used to advance the sequence the caller
- * treated as durable, so the retry never came and the work was silently lost.
- * A sequence is acknowledged only after the write actually lands.
+ * *Acknowledgement.* A failed write used to advance what the caller treated as
+ * durable, so the retry never came and the work was silently lost. Nothing is
+ * acknowledged until the write actually lands.
+ *
+ * *Revision identity.* Durability is decided by the content identity of the
+ * world and by the store's own request order — never by `World.actionSequence`.
+ * That number counts advanced time, not world revisions: a conversation turn,
+ * a formative beat or a legislative step writes canonical history and leaves it
+ * exactly where it was. A store that read it as a revision number saw the
+ * player's new world carrying the old number, called it already durable, and
+ * dropped it. Two worlds are the same world here only if they are the same
+ * world; and "your write or a newer one landed" is answered from an ordinal
+ * this store issues itself.
  *
  * *Identity.* A save slot is not a world. One world can be kept twice — the
  * same life at two points, or a deliberate branch — and those are different
@@ -154,6 +165,19 @@ export interface BrowserWorldRepositoryOptions {
   readonly delay?: (milliseconds: number) => Promise<void>;
 }
 
+/**
+ * A world a slot owes to storage, and the store's own name for the asking.
+ *
+ * `content` is what makes it that world; `ordinal` is where the request sits
+ * in the store's order. Both belong to persistence. Neither is borrowed from
+ * the simulation, which is the whole point.
+ */
+interface PendingWrite {
+  readonly world: World;
+  readonly content: EntityId;
+  readonly ordinal: number;
+}
+
 /* -------------------------------------------------------------------------- */
 /* The ordered command boundary. Everything that can conflict goes through it. */
 /* -------------------------------------------------------------------------- */
@@ -173,8 +197,36 @@ export class BrowserSaveStore {
    * so nothing legitimate is blocked by this.
    */
   readonly #deleted = new Set<string>();
-  /** Only advanced by a write that actually landed. */
-  readonly #acknowledged = new Map<string, number>();
+  /**
+   * What is actually on disk for a slot, named by the content identity of the
+   * world rather than by anything the domain happens to count.
+   *
+   * This used to be `World.actionSequence`, and that was wrong in a way no
+   * test caught. Only `advanceTime` and `advanceMinutes` move that number, so
+   * every writer that records history without advancing the clock — a
+   * conversation turn, a formative beat, a legislative step — returns a
+   * canonically different world carrying the number the previous one had. The
+   * store recognised the number, said "already durable", and the player's
+   * action was gone at the next reload. Content identity cannot make that
+   * mistake: two worlds are the same world here only if they are the same
+   * world.
+   *
+   * Set only by a write that actually landed.
+   */
+  readonly #durableContent = new Map<string, EntityId>();
+  /**
+   * The newest persistence request the slot has satisfied.
+   *
+   * Ordering is the store's own, not the domain's. A caller asking whether its
+   * world reached disk is answered by "this exact content is durable, or a
+   * request made after yours is" — which is what it actually needs to know,
+   * and which no domain counter can express.
+   */
+  readonly #durableRequest = new Map<string, number>();
+  /** Monotonic, store-owned, and the only source of persistence order. */
+  #requestCounter = 0;
+  /** Content identity is a hash of the whole world; compute it once per world. */
+  readonly #contentIds = new WeakMap<World, EntityId>();
   #slotCounter = 0;
   readonly #attempts: number;
   readonly #delay: (milliseconds: number) => Promise<void>;
@@ -192,7 +244,7 @@ export class BrowserSaveStore {
    * the newest revision is not, and the difference is that a queue remembers
    * what it skipped.
    */
-  readonly #pending = new Map<string, World>();
+  readonly #pending = new Map<string, PendingWrite>();
   readonly #settled = new Map<string, Promise<void>>();
   readonly #failures = new Map<string, string>();
 
@@ -237,12 +289,30 @@ export class BrowserSaveStore {
   }
 
   /**
-   * The last action sequence written durably for a slot, or null if none has
-   * been. A caller decides whether to write again from this rather than from
-   * what it hoped had happened.
+   * The content identity of the world durably stored in a slot, or null if
+   * nothing is. A caller decides whether it still owes a write from this
+   * rather than from what it hoped had happened.
    */
-  acknowledgedSequence(saveId: EntityId): number | null {
-    return this.#acknowledged.get(saveId) ?? null;
+  durableContentId(saveId: EntityId): EntityId | null {
+    return this.#durableContent.get(saveId) ?? null;
+  }
+
+  /**
+   * The newest persistence request this slot has satisfied, or null if none
+   * has. Store-owned and monotonic, so "my request or a newer one is durable"
+   * is a comparison rather than a guess.
+   */
+  durableRequestOrdinal(saveId: EntityId): number | null {
+    return this.#durableRequest.get(saveId) ?? null;
+  }
+
+  /** One hash of one world, kept so the drain does not recompute it. */
+  #contentId(world: World): EntityId {
+    const cached = this.#contentIds.get(world);
+    if (cached !== undefined) return cached;
+    const identity = worldContentId(world);
+    this.#contentIds.set(world, identity);
+    return identity;
   }
 
   save(world: World, saveId: EntityId): Promise<SaveOutcome> {
@@ -270,8 +340,8 @@ export class BrowserSaveStore {
         saveId,
       );
       await this.#put(record);
-      // Only now is anything durable, and only now does the sequence move.
-      this.#acknowledged.set(saveId, world.actionSequence);
+      // Only now is anything durable, and only now does the store say so.
+      this.#durableContent.set(saveId, this.#contentId(world));
       return {
         status: "saved",
         summary: cloneSummary(record.metadata),
@@ -304,7 +374,8 @@ export class BrowserSaveStore {
         ...record,
         metadata: { ...record.metadata, lastPlayedAt },
       });
-      this.#acknowledged.set(saveId, world.actionSequence);
+      // The payload was not rewritten, so what is durable is what was read.
+      this.#durableContent.set(saveId, this.#contentId(world));
       return world;
     });
   }
@@ -339,8 +410,10 @@ export class BrowserSaveStore {
   remove(saveId: EntityId): Promise<boolean> {
     // Marked before the queue runs, so a write that is already waiting sees it.
     this.#deleted.add(saveId);
-    const acknowledged = this.#acknowledged.get(saveId);
-    this.#acknowledged.delete(saveId);
+    const durableContent = this.#durableContent.get(saveId);
+    const durableRequest = this.#durableRequest.get(saveId);
+    this.#durableContent.delete(saveId);
+    this.#durableRequest.delete(saveId);
     return this.#enqueue(async () => {
       try {
         const existing = await this.#get(saveId);
@@ -358,8 +431,11 @@ export class BrowserSaveStore {
         // anything the fence made a drain abandon, and let the caller say what
         // happened.
         this.#deleted.delete(saveId);
-        if (acknowledged !== undefined) {
-          this.#acknowledged.set(saveId, acknowledged);
+        if (durableContent !== undefined) {
+          this.#durableContent.set(saveId, durableContent);
+        }
+        if (durableRequest !== undefined) {
+          this.#durableRequest.set(saveId, durableRequest);
         }
         if (this.#pending.has(saveId)) void this.#ensureDrain(saveId);
         throw error;
@@ -384,28 +460,45 @@ export class BrowserSaveStore {
         reason: "This saved game was deleted, so it was not written again.",
       } as const);
     }
-    const sequence = world.actionSequence;
+    const content = this.#contentId(world);
+    // Exactly this world is already on disk and nothing newer is owed, so
+    // there is nothing to write. Note what this does *not* say: it compares
+    // worlds, not action sequences, so a distinct world is never mistaken for
+    // one already stored.
     if (
-      this.#acknowledged.get(saveId) === sequence &&
+      this.#durableContent.get(saveId) === content &&
       !this.#pending.has(saveId)
     ) {
       return Promise.resolve({ status: "saved" } as const);
     }
-    this.#pending.set(saveId, world);
+    this.#requestCounter += 1;
+    const ordinal = this.#requestCounter;
+    this.#pending.set(saveId, { world, content, ordinal });
     this.#failures.delete(saveId);
     const drained = this.#ensureDrain(saveId);
-    return drained.then(() => this.#resultFor(saveId, sequence));
+    return drained.then(() => this.#resultFor(saveId, ordinal, content));
   }
 
-  #resultFor(saveId: EntityId, sequence: number): AutosaveResult {
+  #resultFor(
+    saveId: EntityId,
+    ordinal: number,
+    content: EntityId,
+  ): AutosaveResult {
     if (this.#deleted.has(saveId)) {
       return {
         status: "discarded",
         reason: "This saved game was deleted, so it was not written again.",
       } as const;
     }
-    const acknowledged = this.#acknowledged.get(saveId) ?? -1;
-    if (acknowledged >= sequence) return { status: "saved" } as const;
+    // Two ways this request is honoured: its own world is on disk, or a
+    // request made after it has landed and superseded it. Both mean the
+    // player has lost nothing; neither is a statement about actionSequence.
+    if (this.#durableContent.get(saveId) === content) {
+      return { status: "saved" } as const;
+    }
+    if ((this.#durableRequest.get(saveId) ?? -1) >= ordinal) {
+      return { status: "saved" } as const;
+    }
     return {
       status: "failed",
       reason:
@@ -439,24 +532,30 @@ export class BrowserSaveStore {
 
   async #drain(saveId: EntityId): Promise<void> {
     while (this.#pending.has(saveId)) {
-      const world = this.#pending.get(saveId)!;
+      const request = this.#pending.get(saveId)!;
       if (this.#deleted.has(saveId)) {
         this.#pending.delete(saveId);
         return;
       }
-      if ((this.#acknowledged.get(saveId) ?? -1) >= world.actionSequence) {
-        // A newer world landed while this one waited; nothing is owed for it.
-        if (this.#pending.get(saveId) === world) this.#pending.delete(saveId);
+      if (this.#durableContent.get(saveId) === request.content) {
+        // This exact world is already on disk — an explicit save wrote it, or
+        // it was handed in twice. Nothing is owed for it.
+        this.#noteDurableRequest(saveId, request.ordinal);
+        if (this.#pending.get(saveId) === request) {
+          this.#pending.delete(saveId);
+          this.#failures.delete(saveId);
+        }
         continue;
       }
       let written = false;
       for (let attempt = 1; attempt <= this.#attempts; attempt += 1) {
         try {
-          const outcome = await this.save(world, saveId);
+          const outcome = await this.save(request.world, saveId);
           if (outcome.status === "discarded") {
             this.#pending.delete(saveId);
             return;
           }
+          this.#noteDurableRequest(saveId, request.ordinal);
           written = true;
           break;
         } catch (error: unknown) {
@@ -474,12 +573,18 @@ export class BrowserSaveStore {
       }
       // Whatever happened, this world is no longer the newest thing owed
       // unless a newer one arrived while it was being written.
-      if (written && this.#pending.get(saveId) === world) {
+      if (written && this.#pending.get(saveId) === request) {
         this.#pending.delete(saveId);
         this.#failures.delete(saveId);
       }
       if (!written) return;
     }
+  }
+
+  /** Durability order only ever moves forward. */
+  #noteDurableRequest(saveId: EntityId, ordinal: number): void {
+    const durable = this.#durableRequest.get(saveId) ?? -1;
+    if (ordinal > durable) this.#durableRequest.set(saveId, ordinal);
   }
 
   /**
@@ -571,6 +676,10 @@ export function createBrowserWorldRecord(
     );
   }
   const player = controlledPlayer(world);
+  // One snapshot, used for both the summary and the payload. `serializeWorld`
+  // is exactly `JSON.stringify(createWorldSnapshot(world))`, and hashing the
+  // world twice per save was already wasted work before durability started
+  // asking for its content identity.
   const snapshot = createWorldSnapshot(world);
   const summary: BrowserWorldSummary = {
     saveId,
@@ -594,7 +703,7 @@ export function createBrowserWorldRecord(
     recordVersion: BROWSER_WORLD_RECORD_VERSION,
     saveId,
     metadata: summary,
-    payload: serializeWorld(world),
+    payload: JSON.stringify(snapshot),
   };
 }
 

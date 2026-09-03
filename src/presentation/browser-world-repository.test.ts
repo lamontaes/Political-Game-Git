@@ -3,6 +3,9 @@ import { describe, expect, it } from "vitest";
 import {
   advanceDemoWorld,
   createDemoWorld,
+  createWorldSnapshot,
+  measurePosition,
+  recordWorldEvent,
   serializeWorld,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
@@ -13,7 +16,19 @@ import {
   readStoredRecord,
   validateBrowserWorldRecord,
 } from "./browser-world-repository";
+import { recordedConversationIntents } from "./conversation-continuity";
+import {
+  applyLegislativeCommand,
+  openLegislativeWork,
+} from "./legislation-world";
 import { createNewGameWorld } from "./new-game";
+import { resolvePlayerCapabilities } from "./player-capabilities";
+import { householdConversationRoom, openOrdinaryLife } from "./ordinary-life";
+import {
+  commitConversationTurn,
+  createConversationSessionDescriptor,
+} from "./run-b-conversation";
+import { createHouseholdObligationProgress } from "./run-b-conversation-progress";
 
 /**
  * A fake IndexedDB that can be made slow or made to fail.
@@ -448,22 +463,20 @@ describe("Ordering, fencing and acknowledgement", () => {
     const world = playerWorld("retry");
     const saveId = store.newSaveId(world);
     await store.save(world, saveId);
-    expect(store.acknowledgedSequence(saveId)).toBe(world.actionSequence);
+    expect(store.durableContentId(saveId)).toBe(contentId(world));
 
     const advanced = advanceDemoWorld(world, 7);
     factory.control.failNext("put");
     await expect(store.save(advanced, saveId)).rejects.toThrow();
 
-    // The sequence stayed where it was, so the caller knows to try again —
+    // What is durable stayed where it was, so the caller knows to try again —
     // this is exactly what used to be lost.
-    expect(store.acknowledgedSequence(saveId)).toBe(world.actionSequence);
-    expect(store.acknowledgedSequence(saveId)).not.toBe(
-      advanced.actionSequence,
-    );
+    expect(store.durableContentId(saveId)).toBe(contentId(world));
+    expect(store.durableContentId(saveId)).not.toBe(contentId(advanced));
 
     const retried = await store.save(advanced, saveId);
     expect(retried.status).toBe("saved");
-    expect(store.acknowledgedSequence(saveId)).toBe(advanced.actionSequence);
+    expect(store.durableContentId(saveId)).toBe(contentId(advanced));
   });
 
   it("keeps a load's own bookkeeping from landing on a newer save", async () => {
@@ -531,9 +544,9 @@ describe("Autosave is answerable for the newest world, not the first one", () =>
     await Promise.all([first, second]);
     factory.control.clearDelays();
 
-    expect(store.acknowledgedSequence(saveId)).toBe(newest.actionSequence);
+    expect(store.durableContentId(saveId)).toBe(contentId(newest));
     const reloaded = await store.load(saveId);
-    expect(reloaded!.actionSequence).toBe(newest.actionSequence);
+    expect(contentId(reloaded!)).toBe(contentId(newest));
   });
 
   it("comes back for a write that failed, without being asked twice", async () => {
@@ -549,7 +562,7 @@ describe("Autosave is answerable for the newest world, not the first one", () =>
     const result = await store.autosave(advanced, saveId);
 
     expect(result.status).toBe("saved");
-    expect(store.acknowledgedSequence(saveId)).toBe(advanced.actionSequence);
+    expect(store.durableContentId(saveId)).toBe(contentId(advanced));
   });
 
   it("says a revision is not saved rather than implying it is", async () => {
@@ -563,7 +576,7 @@ describe("Autosave is answerable for the newest world, not the first one", () =>
     expect(result.status).toBe("failed");
     // The acknowledgement stays where it was, so nothing downstream believes
     // the newer world is durable.
-    expect(store.acknowledgedSequence(saveId)).toBe(world.actionSequence);
+    expect(store.durableContentId(saveId)).toBe(contentId(world));
   });
 
   it("drains what is still owed when the player leaves, and says what is not", async () => {
@@ -668,5 +681,330 @@ describe("A delete that did not happen", () => {
     // And a delete that does land still fences the slot.
     expect(await store.remove(saveId)).toBe(true);
     expect((await store.save(world, saveId)).status).toBe("discarded");
+  });
+});
+
+/* -------------------------------------------------------------------------- */
+/* Persistence revision identity.                                             */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * A canonical world change that does not advance the action sequence.
+ *
+ * `actionSequence` is not a world revision counter. Only `advanceTime` and
+ * `advanceMinutes` move it, so every writer that records history without
+ * advancing the clock — conversation turns, formative beats, legislative
+ * steps, ordinary-life bookkeeping — produces a canonically different world
+ * carrying the number the previous one had. A store that treats that number
+ * as the persistence revision will call the new world already durable and
+ * throw the player's action away.
+ */
+function withRecordedEvent(world: World, key: string): World {
+  return recordWorldEvent(world, {
+    stableKey: key,
+    type: "simulation.persistence-revision-probe",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [world.id],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: ["simulation.persistence"],
+    summary: `A canonical world change recorded as ${key}.`,
+    context: {
+      location: null,
+      socialContext: "A canonical history write that does not advance time.",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
+function contentId(world: World): EntityId {
+  return createWorldSnapshot(world).snapshotId;
+}
+
+describe("Durability is content identity and request order, not actionSequence", () => {
+  function autosaveStore(clockValue = "2026-05-01T10:00:00.000Z") {
+    const factory = new FakeIndexedDbFactory();
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      now: clockAt(clockValue).now,
+      databaseName: "test-worlds",
+      delay: () => Promise.resolve(),
+    });
+    return { factory, store };
+  }
+
+  // A. Same action sequence, different history.
+  it("writes a world whose history changed without the action sequence moving", async () => {
+    const { store } = autosaveStore();
+    const first = playerWorld("revision-identity");
+    const saveId = store.newSaveId(first);
+    await store.save(first, saveId);
+
+    const second = withRecordedEvent(first, "revision-identity:one");
+
+    // The premise, stated rather than assumed: the same number, a different
+    // world. A store that keys durability off the number cannot tell them
+    // apart; a store that keys off content can.
+    expect(second.actionSequence).toBe(first.actionSequence);
+    expect(contentId(second)).not.toBe(contentId(first));
+    expect(second.history.events.length).toBe(first.history.events.length + 1);
+
+    const result = await store.autosave(second, saveId);
+    expect(result.status).toBe("saved");
+
+    const reloaded = await store.load(saveId);
+    expect(contentId(reloaded!)).toBe(contentId(second));
+    expect(reloaded!.history.events.at(-1)!.stableKey).toBe(
+      "revision-identity:one",
+    );
+  });
+
+  it("reports what is durable as content, not as an action sequence", async () => {
+    const { store } = autosaveStore();
+    const world = playerWorld("durable-content");
+    const saveId = store.newSaveId(world);
+
+    expect(store.durableContentId(saveId)).toBeNull();
+    await store.save(world, saveId);
+    expect(store.durableContentId(saveId)).toBe(contentId(world));
+
+    const changed = withRecordedEvent(world, "durable-content:one");
+    expect(store.durableContentId(saveId)).not.toBe(contentId(changed));
+    await store.autosave(changed, saveId);
+    expect(store.durableContentId(saveId)).toBe(contentId(changed));
+  });
+
+  // C. Rapid distinct mutations, two of them sharing an action sequence.
+  it("keeps the newest requested world, not the largest action sequence", async () => {
+    const { store, factory } = autosaveStore();
+    const world = playerWorld("rapid");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    // Advanced first, so the newest request carries a *lower* action sequence
+    // than one already queued. Ordering by that number would write the wrong
+    // world and call it correct.
+    const advanced = advanceDemoWorld(world, 5);
+    const sameSequence = withRecordedEvent(world, "rapid:one");
+    const newest = withRecordedEvent(sameSequence, "rapid:two");
+    expect(newest.actionSequence).toBe(world.actionSequence);
+    expect(newest.actionSequence).toBeLessThan(advanced.actionSequence);
+
+    factory.control.delay("put", 5);
+    const writes = [
+      store.autosave(advanced, saveId),
+      store.autosave(sameSequence, saveId),
+      store.autosave(newest, saveId),
+    ];
+    const results = await Promise.all(writes);
+    factory.control.clearDelays();
+
+    expect(results.map((result) => result.status)).toEqual([
+      "saved",
+      "saved",
+      "saved",
+    ]);
+    const reloaded = await store.load(saveId);
+    expect(contentId(reloaded!)).toBe(contentId(newest));
+  });
+
+  // D. Exact duplicate.
+  it("recognises an exact duplicate as already durable without writing again", async () => {
+    const { store, factory } = autosaveStore();
+    const world = playerWorld("duplicate");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    // If the store wrote again it would fail, because storage is refusing.
+    factory.control.failNext("put", 20);
+    expect((await store.autosave(world, saveId)).status).toBe("saved");
+    expect((await store.autosave(world, saveId)).status).toBe("saved");
+    factory.control.clearFailures();
+
+    // And ordering, retry and flush are all still intact afterwards.
+    expect((await store.flush()).status).toBe("settled");
+    const changed = withRecordedEvent(world, "duplicate:one");
+    expect((await store.autosave(changed, saveId)).status).toBe("saved");
+    expect(contentId((await store.load(saveId))!)).toBe(contentId(changed));
+  });
+
+  // E. Failure and flush.
+  it("refuses to call a life saved when only the older world reached disk", async () => {
+    const { store, factory } = autosaveStore();
+    const world = playerWorld("unsaved-leave");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+
+    const changed = withRecordedEvent(world, "unsaved-leave:one");
+    expect(changed.actionSequence).toBe(world.actionSequence);
+
+    factory.control.failNext("put", 20);
+    const result = await store.autosave(changed, saveId);
+    expect(result.status).toBe("failed");
+
+    factory.control.failNext("put", 20);
+    const leaving = await store.flush();
+    expect(leaving.status).toBe("unsaved");
+    expect(leaving.unsaved).toContain(saveId);
+    // What is on disk is still the older world, and the store says so.
+    expect(store.durableContentId(saveId)).toBe(contentId(world));
+
+    factory.control.clearFailures();
+    expect((await store.flush()).status).toBe("settled");
+    expect(contentId((await store.load(saveId))!)).toBe(contentId(changed));
+  });
+
+  // F. Delete fence.
+  it("cannot resurrect a deleted slot with a distinct same-sequence world", async () => {
+    const { store } = autosaveStore();
+    const world = playerWorld("fenced");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+    expect(await store.remove(saveId)).toBe(true);
+
+    const changed = withRecordedEvent(world, "fenced:one");
+    expect(changed.actionSequence).toBe(world.actionSequence);
+    expect((await store.autosave(changed, saveId)).status).toBe("discarded");
+    expect((await store.save(changed, saveId)).status).toBe("discarded");
+    expect((await store.flush()).status).toBe("settled");
+    expect((await store.list()).saves).toHaveLength(0);
+  });
+});
+
+describe("A player's conversation survives leaving", () => {
+  // B. The real production conversation path, not a synthetic mutation.
+  it("keeps a household turn that did not advance the action sequence", async () => {
+    const factory = new FakeIndexedDbFactory();
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      now: clockAt("2026-05-01T10:00:00.000Z").now,
+      databaseName: "test-worlds",
+      delay: () => Promise.resolve(),
+    });
+
+    const game = createNewGameWorld({
+      placeKey: "kentucky",
+      startAge: 34,
+      depth: "summarize-earlier-life",
+      startingLife: "ordinary-life",
+      household: "shares-a-home",
+      seed: "conversation-durability",
+      givenName: null,
+      familyName: null,
+    });
+    const opened = openOrdinaryLife(game.world, game.playerPersonId);
+    const saveId = store.newSaveId(opened);
+    expect((await store.save(opened, saveId)).status).toBe("saved");
+
+    const room = householdConversationRoom(opened, game.playerPersonId)!;
+    const spoken = commitConversationTurn(opened, {
+      session: createConversationSessionDescriptor(opened, room),
+      room,
+      progress: createHouseholdObligationProgress(),
+      turnOrdinal: 1,
+      addressee: room.eligibleAddresseePersonIds[0]!,
+      audibility: "normal",
+      intent: "listen",
+    }).world;
+
+    // The behaviour this test is guarding against: a real player turn that
+    // leaves the action sequence exactly where it was.
+    expect(spoken.actionSequence).toBe(opened.actionSequence);
+    expect(contentId(spoken)).not.toBe(contentId(opened));
+
+    expect((await store.autosave(spoken, saveId)).status).toBe("saved");
+    expect((await store.flush()).status).toBe("settled");
+
+    const reloaded = await store.load(saveId);
+    expect(
+      recordedConversationIntents(
+        reloaded!,
+        game.playerPersonId,
+        "household-obligation",
+      ),
+    ).toHaveLength(1);
+    expect(contentId(reloaded!)).toBe(contentId(spoken));
+  });
+});
+
+describe("A bill moved through committee survives leaving", () => {
+  /**
+   * The same defect, on a second production path.
+   *
+   * Opening legislative work and taking a step both write canonical history
+   * and leave `actionSequence` exactly where it was, so under the old contract
+   * a player could move a measure to referral, through a hearing and out of
+   * committee, autosave after each step, and find on reload that none of it
+   * happened. That is not a variant of the conversation bug; it is the same
+   * bug reached through a different door, which is why the fix belongs in the
+   * store rather than in either writer.
+   */
+  it("keeps steps that did not advance the action sequence", async () => {
+    const factory = new FakeIndexedDbFactory();
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      now: clockAt("2026-05-01T10:00:00.000Z").now,
+      databaseName: "test-worlds",
+      delay: () => Promise.resolve(),
+    });
+
+    const game = createNewGameWorld({
+      placeKey: "kentucky",
+      startAge: 30,
+      depth: "summarize-earlier-life",
+      startingLife: "legislative-office",
+      household: "shares-a-home",
+      seed: "legislative-durability",
+      givenName: null,
+      familyName: null,
+    });
+    const capabilities = resolvePlayerCapabilities(game.world);
+    const saveId = store.newSaveId(game.world);
+    expect((await store.save(game.world, saveId)).status).toBe("saved");
+
+    const opened = openLegislativeWork(game.world, {
+      scenarioKey: "kentucky",
+      playerPersonId: game.playerPersonId,
+      jurisdictionId: capabilities.legislativeJurisdictionId!,
+    });
+    expect(opened.world.actionSequence).toBe(game.world.actionSequence);
+    expect((await store.autosave(opened.world, saveId)).status).toBe("saved");
+
+    let moved = opened.world;
+    const stepsThatDidNotAdvanceTheSequence: string[] = [];
+    for (const step of [
+      "request-referral",
+      "request-committee-hearing",
+      "move-committee-report",
+    ] as const) {
+      const before = moved;
+      moved = applyLegislativeCommand(moved, opened.assignment, {
+        kind: "take-step",
+        step,
+      }).world;
+      expect(contentId(moved)).not.toBe(contentId(before));
+      if (moved.actionSequence === before.actionSequence) {
+        stepsThatDidNotAdvanceTheSequence.push(step);
+      }
+      expect((await store.autosave(moved, saveId)).status).toBe("saved");
+    }
+    // Some steps advance the clock and some only write history. The ones that
+    // only write history are the ones the old contract lost, and there is at
+    // least one of them in an ordinary bill's path through committee.
+    expect(stepsThatDidNotAdvanceTheSequence.length).toBeGreaterThan(0);
+    expect((await store.flush()).status).toBe("settled");
+
+    const reloaded = await store.load(saveId);
+    expect(contentId(reloaded!)).toBe(contentId(moved));
+    const before = measurePosition(moved, opened.assignment.measureId);
+    const after = measurePosition(reloaded!, opened.assignment.measureId);
+    expect(after.phase).toBe(before.phase);
+    expect(after.chamberKey).toBe(before.chamberKey);
   });
 });
