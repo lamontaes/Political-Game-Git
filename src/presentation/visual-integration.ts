@@ -7,10 +7,16 @@ import {
 } from "../simulation/person-appearance";
 import {
   createCharacterComponentLibrary,
+  liftCandidatesForReview,
   type CharacterAttachmentAnchor,
   type CharacterCatalogData,
+  type CharacterComponentLibrary,
   type CharacterComponentManifestRecord,
 } from "./character-components";
+import {
+  buildCharacterRenderPlan,
+  type CharacterRenderPlan,
+} from "./character-render-plan";
 import type {
   RunBSceneAnchorId,
   RunBScenePersonContext,
@@ -200,13 +206,23 @@ export interface OfficeVisualSceneConfiguration {
   readonly anchors: Readonly<Record<RunBSceneAnchorId, SceneVisualAnchor>>;
   readonly occluders: readonly SceneOccluder[];
   readonly visualRecipes: readonly CharacterVisualRecipe[];
+  /**
+   * How wide a normalized modular body canvas paints on this plate at scale 1,
+   * as a percentage of plate width. It belongs to the SCENE, not to an anchor:
+   * perspective already varies with the floor line, and giving each seat its
+   * own body width is how hand-tuned sprites drift apart.
+   */
+  readonly standardBodyWidthPercent: number;
 }
 
 export interface ComposedCharacterVisual {
   readonly personId: string;
   readonly anchorId: RunBSceneAnchorId;
   readonly visualVariant: RunBScenePersonVariant;
+  /** Authored flattened raster, when an explicit recipe matched. */
   readonly asset: RuntimeVisualAsset | null;
+  /** Modular render plan, when no authored recipe matched but a body resolved. */
+  readonly modular: CharacterRenderPlan | null;
   readonly isPlaceholder: boolean;
   readonly appearanceRecipeId: string;
   readonly leftPercent: number;
@@ -411,6 +427,12 @@ export function projectOfficeVisualScene(
     );
   }
 
+  if (scene.standardBodyWidthPercent === null) {
+    throw new Error(
+      `Scene '${scene.sceneId}' declares no standard body width, so modular people cannot be placed in it. Author the width rather than defaulting one.`,
+    );
+  }
+
   return {
     environmentAssetId: scene.raster.assetId,
     plate: scene.plate,
@@ -439,6 +461,7 @@ export function projectOfficeVisualScene(
       CHARACTER_VISUAL_RECIPES.primaryDeskSeated,
       CHARACTER_VISUAL_RECIPES.leftGuestSeated,
     ],
+    standardBodyWidthPercent: scene.standardBodyWidthPercent,
   };
 }
 
@@ -542,6 +565,7 @@ export function composeOfficeVisuals(
   people: readonly RunBScenePersonContext[],
   library: RuntimeVisualLibrary,
   scene: OfficeVisualSceneConfiguration = OFFICE_VISUAL_SCENE,
+  characterLibrary: CharacterComponentLibrary = PRODUCTION_CHARACTER_LIBRARY,
 ): OfficeVisualComposition {
   const issues = validateOfficeVisualScene(scene);
   if (issues.length > 0) throw new Error(issues.join("\n"));
@@ -567,6 +591,7 @@ export function composeOfficeVisuals(
           anchorId: person.anchorId,
           visualVariant: person.visualVariant,
           asset: requireAsset(library, recipe.assetId),
+          modular: null,
           isPlaceholder: false,
           appearanceRecipeId: recipe.appearanceRecipeId,
           leftPercent,
@@ -578,6 +603,51 @@ export function composeOfficeVisuals(
             topPercent: topPercent + heightPercent * interaction.y,
             widthPercent: widthPercent * interaction.width,
             heightPercent: heightPercent * interaction.height,
+          },
+          zOrder: anchor.zOrder,
+        };
+      }
+
+      // Ordinary modular path: an established person without an authored
+      // recipe composes from released components for this anchor's pose.
+      // The same compositor serves every scene; a missing body for the pose
+      // falls through to the explicit placeholder below.
+      const modular = buildCharacterRenderPlan({
+        personId: person.personId,
+        appearance: resolvePersonAppearance(person),
+        anchor: {
+          id: anchor.id,
+          xPercent: anchor.xPercent,
+          yPercent: anchor.yPercent,
+          scale: anchor.scale,
+          poseFamily: anchor.poseFamily,
+          depth: anchor.zOrder,
+          bodyWidthPercent: scene.standardBodyWidthPercent,
+        },
+        plate: scene.plate,
+        library: characterLibrary,
+        visualLibrary: library,
+      });
+      if (modular.layers.length > 0) {
+        return {
+          personId: person.personId,
+          anchorId: person.anchorId,
+          visualVariant: person.visualVariant,
+          asset: null,
+          modular,
+          isPlaceholder: !modular.complete,
+          appearanceRecipeId: modular.recipeKey,
+          leftPercent: modular.box.leftPercent,
+          topPercent: modular.box.topPercent,
+          widthPercent: modular.box.widthPercent,
+          heightPercent: modular.box.heightPercent,
+          hitbox: {
+            leftPercent:
+              modular.box.leftPercent + modular.box.widthPercent * 0.1,
+            topPercent:
+              modular.box.topPercent + modular.box.heightPercent * 0.05,
+            widthPercent: modular.box.widthPercent * 0.8,
+            heightPercent: modular.box.heightPercent * 0.9,
           },
           zOrder: anchor.zOrder,
         };
@@ -595,6 +665,7 @@ export function composeOfficeVisuals(
         anchorId: person.anchorId,
         visualVariant: person.visualVariant,
         asset: null,
+        modular: null,
         isPlaceholder: true,
         appearanceRecipeId: "placeholder:unresolved-recipe-pose",
         leftPercent: defaultLeftPercent,
@@ -660,4 +731,29 @@ export const POSE_CONTROL_PLATE_URLS: Readonly<Record<string, string>> =
 
 export const PRODUCTION_POSE_ART = indexPoseArt(
   assetManifest.assets as readonly CharacterComponentManifestRecord[],
+);
+
+/**
+ * DEVELOPMENT ONLY. The banked production candidates, composed so a person can
+ * look at them.
+ *
+ * These parts are not in any catalog generation and no player-facing surface
+ * can reach them; the proof view builds people out of them purely so the art
+ * can be accepted or rejected on sight. Promotion is a separate, deliberate
+ * act — see `liftCandidatesForReview`.
+ */
+const candidateReview = liftCandidatesForReview(
+  assetManifest.assets as readonly CharacterComponentManifestRecord[],
+  (characterCatalog as CharacterCatalogData).slots,
+);
+
+export const CANDIDATE_REVIEW_CHARACTER_LIBRARY =
+  createCharacterComponentLibrary(
+    candidateReview.records,
+    candidateReview.catalog,
+  );
+
+export const CANDIDATE_REVIEW_VISUAL_LIBRARY = createRuntimeVisualLibrary(
+  candidateReview.records as readonly RuntimeVisualAssetRecord[],
+  repositoryUrls(),
 );

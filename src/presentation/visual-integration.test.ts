@@ -297,7 +297,7 @@ describe("Stage 6.5 visual integration contract", () => {
       expect(recipeGuest?.poseFamily).toBe("seated-in-guest-chair");
     });
 
-    it("5. A person lacking a compatible asset for the required pose fails closed and uses the explicit placeholder path", () => {
+    it("5. A person without an authored recipe resolves through the modular path, and fails closed when no body exists for the pose", () => {
       const unknownPerson: RunBScenePersonContext = {
         personId: "person_unknown_unreleased_999",
         title: "Staffer",
@@ -315,21 +315,69 @@ describe("Stage 6.5 visual integration contract", () => {
       );
       expect(recipe).toBeNull();
 
-      const composition = composeOfficeVisuals(
+      // No pin: legacy people resolve against generation 1. Its DEV fixtures
+      // have a seated body, so the ordinary seam composes a modular character
+      // at the same anchor with the same compositor — but generation 1's only
+      // footwear family was never drawn seated, so the plan is honestly
+      // incomplete and the seam reports a placeholder rather than a barefoot
+      // person it never authored.
+      const legacy = composeOfficeVisuals(
         [unknownPerson],
         PRODUCTION_VISUAL_LIBRARY,
         OFFICE_VISUAL_SCENE,
       );
-
-      expect(composition.characters).toHaveLength(1);
-      const char = composition.characters[0]!;
-      expect(char.isPlaceholder).toBe(true);
-      expect(char.asset).toBeNull();
-      expect(char.appearanceRecipeId).toBe(
-        "placeholder:unresolved-recipe-pose",
+      expect(legacy.characters).toHaveLength(1);
+      const modularVisual = legacy.characters[0]!;
+      expect(modularVisual.asset).toBeNull();
+      expect(modularVisual.modular).not.toBeNull();
+      expect(modularVisual.modular!.catalogGeneration).toBe(1);
+      expect(modularVisual.modular!.poseFamily).toBe("seated-at-desk");
+      expect(modularVisual.modular!.layers.map((l) => l.kind)).toContain(
+        "body",
       );
-      expect(char.hitbox.widthPercent).toBeGreaterThan(0);
-      expect(char.hitbox.heightPercent).toBeGreaterThan(0);
+      expect(modularVisual.isPlaceholder).toBe(true);
+      expect(
+        modularVisual.modular!.diagnostics.map((entry) => entry.code),
+      ).toContain("required-slot-empty");
+      expect(modularVisual.appearanceRecipeId).toBe(
+        modularVisual.modular!.recipeKey,
+      );
+      expect(modularVisual.hitbox.widthPercent).toBeGreaterThan(0);
+      expect(modularVisual.zOrder).toBe(2);
+
+      // Pinned to generation 2, which added seated footwear: the same seam now
+      // draws a complete person. Not one layer comes from the thirty-five
+      // banked production candidates — they are not catalog components, so
+      // identity resolution cannot reach them however good their hashes are.
+      const pinnedPerson: RunBScenePersonContext = {
+        ...unknownPerson,
+        personId: "person_pinned_gen2_999",
+        appearance: derivePersonAppearance(
+          "person_pinned_gen2_999",
+          undefined,
+          2,
+        ),
+      };
+      const pinned = composeOfficeVisuals(
+        [pinnedPerson],
+        PRODUCTION_VISUAL_LIBRARY,
+        OFFICE_VISUAL_SCENE,
+      );
+      const composed = pinned.characters[0]!;
+      expect(composed.asset).toBeNull();
+      expect(composed.modular).not.toBeNull();
+      expect(composed.modular!.catalogGeneration).toBe(2);
+      expect(composed.isPlaceholder).toBe(false);
+      expect(
+        composed.modular!.layers.filter((layer) =>
+          layer.assetId.startsWith("pg_"),
+        ),
+      ).toEqual([]);
+      expect(composed.modular!.layers.every((layer) => layer.released)).toBe(
+        true,
+      );
+      expect(composed.hitbox.widthPercent).toBeGreaterThan(0);
+      expect(composed.hitbox.heightPercent).toBeGreaterThan(0);
     });
 
     it("6. Composition does not mutate Person or World", () => {
