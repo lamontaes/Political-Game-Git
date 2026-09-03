@@ -54,7 +54,17 @@ export type SceneDiagnosticCode =
   /** The scene cannot derive a scale because it declares no calibration. */
   | "scene-declares-no-floor-calibration"
   /** The room has no plate yet. */
-  | "scene-has-no-raster";
+  | "scene-has-no-raster"
+  /** An anchor permits a pose the pose registry does not define. */
+  | "pose-family-not-registered"
+  /** A permitted pose is registered but nothing can draw it for this body. */
+  | "pose-art-missing-for-body-family"
+  /**
+   * The anchor's preferred pose could not be drawn, so the next pose the
+   * anchor itself permits was used. Substitution never reaches outside the
+   * anchor's own permitted list, and it is never silent.
+   */
+  | "preferred-pose-substituted";
 
 export interface SceneDiagnostic {
   readonly code: SceneDiagnosticCode;

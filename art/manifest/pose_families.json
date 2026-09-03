@@ -1,0 +1,791 @@
+{
+  "pose_registry_version": "pose-families-v1",
+  "legacy_contactless_body_families": [
+    "dev-adult"
+  ],
+  "legacy_contactless_note": "Body family 'dev-adult' belongs to catalog generation 1, which is frozen by its ledger signature; adding contacts to it would invalidate the signature and every identity pinned to that generation. Its bodies place by the pelvis root and the runtime reports the unverified contact (W1/W2). It is a development fixture and is never promoted to production.",
+  "families": [
+    {
+      "pose_family_id": "standing-neutral",
+      "label": "Standing, neutral",
+      "intent": "Ordinary idle, inspection and conversation. Arms relaxed and separated enough for a clean silhouette; not a model-sheet A-pose and not a gesture.",
+      "priority": "P0",
+      "posture_class": "standing",
+      "facing": "front",
+      "nominal_canvas": {
+        "width": 1080,
+        "height": 1920
+      },
+      "master_minimum": {
+        "width": 1696,
+        "height": 2528
+      },
+      "root": {
+        "x": 0.5,
+        "y": 0.55
+      },
+      "contacts": {
+        "leftFoot": {
+          "x": 0.38,
+          "y": 0.985
+        },
+        "rightFoot": {
+          "x": 0.62,
+          "y": 0.985
+        }
+      },
+      "contact_tolerance": 0.035,
+      "landmarks": {
+        "head": {
+          "x": 0.5,
+          "y": 0.114
+        },
+        "neck": {
+          "x": 0.5,
+          "y": 0.157
+        },
+        "chest": {
+          "x": 0.5,
+          "y": 0.25
+        },
+        "shoulder-left": {
+          "x": 0.226,
+          "y": 0.155
+        },
+        "shoulder-right": {
+          "x": 0.774,
+          "y": 0.155
+        },
+        "elbow-left": {
+          "x": 0.176,
+          "y": 0.377
+        },
+        "elbow-right": {
+          "x": 0.824,
+          "y": 0.377
+        },
+        "wrist-left": {
+          "x": 0.143,
+          "y": 0.527
+        },
+        "wrist-right": {
+          "x": 0.857,
+          "y": 0.527
+        },
+        "hand-left": {
+          "x": 0.136,
+          "y": 0.566
+        },
+        "hand-right": {
+          "x": 0.864,
+          "y": 0.566
+        },
+        "pelvis": {
+          "x": 0.5,
+          "y": 0.55
+        },
+        "hip-left": {
+          "x": 0.286,
+          "y": 0.548
+        },
+        "hip-right": {
+          "x": 0.714,
+          "y": 0.548
+        },
+        "knee-left": {
+          "x": 0.39,
+          "y": 0.75
+        },
+        "knee-right": {
+          "x": 0.61,
+          "y": 0.75
+        },
+        "ankle-left": {
+          "x": 0.39,
+          "y": 0.946
+        },
+        "ankle-right": {
+          "x": 0.61,
+          "y": 0.946
+        }
+      },
+      "compatible_body_families": [
+        "dev-adult",
+        "dev-g2-broad",
+        "dev-g2-slim"
+      ],
+      "garment_pose_family": "standing-neutral",
+      "required_footwear_state": "shoes-visible",
+      "prop_attachment_slots": [
+        "hand-left",
+        "hand-right"
+      ],
+      "production_status": "development-fixture",
+      "human_qa": "pending",
+      "contact_verification": {
+        "status": "measured-from-art"
+      },
+      "provenance": {
+        "derived_from": "Measured from the generation-2 development fixture standing body geometry in scripts/art-asset-factory/dev-character-fixtures-g2.ts.",
+        "generation_authority": "PG_PEOPLE_FACTORY_v4_PRODUCTION.json (Drive 1Uf6MaQg6YFsuFKNhZjIulvJy0e2fhdjJ), RUN - 4 Clean Pose Sprites"
+      },
+      "control_plate": {
+        "path": "art/pose-control-plates/standing-neutral__front.svg",
+        "hash": "69c8870f679da7d5cf8294e1f7df8949f4392358fb64af1e1bc541e1f7a8be56"
+      }
+    },
+    {
+      "pose_family_id": "standing-conversational",
+      "label": "Standing, conversational",
+      "intent": "One restrained natural hand gesture while speaking or listening in conversation. Not a speech, not a podium, not a dramatic gesture.",
+      "priority": "P0",
+      "posture_class": "standing",
+      "facing": "front",
+      "nominal_canvas": {
+        "width": 1080,
+        "height": 1920
+      },
+      "master_minimum": {
+        "width": 1696,
+        "height": 2528
+      },
+      "root": {
+        "x": 0.5,
+        "y": 0.55
+      },
+      "contacts": {
+        "leftFoot": {
+          "x": 0.38,
+          "y": 0.985
+        },
+        "rightFoot": {
+          "x": 0.62,
+          "y": 0.985
+        }
+      },
+      "contact_tolerance": 0.035,
+      "landmarks": {
+        "head": {
+          "x": 0.5,
+          "y": 0.114
+        },
+        "neck": {
+          "x": 0.5,
+          "y": 0.157
+        },
+        "chest": {
+          "x": 0.5,
+          "y": 0.25
+        },
+        "shoulder-left": {
+          "x": 0.226,
+          "y": 0.155
+        },
+        "shoulder-right": {
+          "x": 0.774,
+          "y": 0.155
+        },
+        "elbow-left": {
+          "x": 0.176,
+          "y": 0.377
+        },
+        "elbow-right": {
+          "x": 0.8,
+          "y": 0.36
+        },
+        "wrist-left": {
+          "x": 0.143,
+          "y": 0.527
+        },
+        "wrist-right": {
+          "x": 0.735,
+          "y": 0.3
+        },
+        "hand-left": {
+          "x": 0.136,
+          "y": 0.566
+        },
+        "hand-right": {
+          "x": 0.718,
+          "y": 0.281
+        },
+        "pelvis": {
+          "x": 0.5,
+          "y": 0.55
+        },
+        "hip-left": {
+          "x": 0.286,
+          "y": 0.548
+        },
+        "hip-right": {
+          "x": 0.714,
+          "y": 0.548
+        },
+        "knee-left": {
+          "x": 0.39,
+          "y": 0.75
+        },
+        "knee-right": {
+          "x": 0.61,
+          "y": 0.75
+        },
+        "ankle-left": {
+          "x": 0.39,
+          "y": 0.946
+        },
+        "ankle-right": {
+          "x": 0.61,
+          "y": 0.946
+        }
+      },
+      "compatible_body_families": [
+        "dev-g2-broad",
+        "dev-g2-slim"
+      ],
+      "garment_pose_family": "standing-conversational",
+      "required_footwear_state": "shoes-visible",
+      "prop_attachment_slots": [
+        "hand-left",
+        "hand-right"
+      ],
+      "production_status": "pending-generation",
+      "human_qa": "pending",
+      "contact_verification": {
+        "status": "declared-unverified",
+        "reason": "No body art declares this pose yet. The contacts are copied unchanged from standing-neutral so generated art must land on the same floor line; they become measured-from-art only after intake measures a real raster."
+      },
+      "provenance": {
+        "derived_from": "Derived from standing-neutral with the right arm articulated into a restrained conversational gesture; the contacts, stance and every other landmark are held fixed so the two poses are interchangeable at one anchor.",
+        "generation_authority": "PG_PEOPLE_FACTORY_v4_PRODUCTION.json (Drive 1Uf6MaQg6YFsuFKNhZjIulvJy0e2fhdjJ), RUN - 4 Clean Pose Sprites"
+      },
+      "control_plate": {
+        "path": "art/pose-control-plates/standing-conversational__front.svg",
+        "hash": "b74a4fe1f7e8e48fcff95252c86703501081c24c1fbf12134ea3b38fe525504b"
+      }
+    },
+    {
+      "pose_family_id": "seated-guest-neutral",
+      "label": "Seated, guest chair",
+      "intent": "Ordinary chair seating for meetings and interviews, hands resting naturally on the thighs, supported by an invisible chair. No furniture in the body art.",
+      "priority": "P0",
+      "posture_class": "seated",
+      "facing": "front",
+      "nominal_canvas": {
+        "width": 1530,
+        "height": 2048
+      },
+      "master_minimum": {
+        "width": 1530,
+        "height": 2048
+      },
+      "root": {
+        "x": 0.5,
+        "y": 0.62
+      },
+      "contacts": {
+        "seatedPelvis": {
+          "x": 0.5,
+          "y": 0.62
+        },
+        "leftFoot": {
+          "x": 0.37,
+          "y": 0.975
+        },
+        "rightFoot": {
+          "x": 0.63,
+          "y": 0.975
+        }
+      },
+      "contact_tolerance": 0.035,
+      "landmarks": {
+        "head": {
+          "x": 0.5,
+          "y": 0.145
+        },
+        "neck": {
+          "x": 0.5,
+          "y": 0.2
+        },
+        "chest": {
+          "x": 0.5,
+          "y": 0.303
+        },
+        "shoulder-left": {
+          "x": 0.226,
+          "y": 0.197
+        },
+        "shoulder-right": {
+          "x": 0.774,
+          "y": 0.197
+        },
+        "elbow-left": {
+          "x": 0.205,
+          "y": 0.44
+        },
+        "elbow-right": {
+          "x": 0.795,
+          "y": 0.44
+        },
+        "wrist-left": {
+          "x": 0.3,
+          "y": 0.61
+        },
+        "wrist-right": {
+          "x": 0.7,
+          "y": 0.61
+        },
+        "hand-left": {
+          "x": 0.345,
+          "y": 0.645
+        },
+        "hand-right": {
+          "x": 0.655,
+          "y": 0.645
+        },
+        "pelvis": {
+          "x": 0.5,
+          "y": 0.62
+        },
+        "hip-left": {
+          "x": 0.286,
+          "y": 0.612
+        },
+        "hip-right": {
+          "x": 0.714,
+          "y": 0.612
+        },
+        "knee-left": {
+          "x": 0.379,
+          "y": 0.736
+        },
+        "knee-right": {
+          "x": 0.621,
+          "y": 0.736
+        },
+        "ankle-left": {
+          "x": 0.379,
+          "y": 0.939
+        },
+        "ankle-right": {
+          "x": 0.621,
+          "y": 0.939
+        }
+      },
+      "compatible_body_families": [
+        "dev-g2-broad",
+        "dev-g2-slim"
+      ],
+      "garment_pose_family": "seated-guest-neutral",
+      "required_footwear_state": "shoes-visible",
+      "prop_attachment_slots": [
+        "hand-left",
+        "hand-right"
+      ],
+      "production_status": "pending-generation",
+      "human_qa": "pending",
+      "contact_verification": {
+        "status": "declared-unverified",
+        "reason": "No body art declares this pose yet. The seat plane and sole contacts are copied unchanged from seated-at-desk because the office and committee fixtures put guest chairs and desk chairs on one seat height; they become measured-from-art only after intake measures a real raster."
+      },
+      "provenance": {
+        "derived_from": "Derived from seated-at-desk with the arms lowered to rest on the thighs; the seated pelvis, sole contacts and lower body are held fixed so the two seated poses share one seat plane.",
+        "generation_authority": "PG_PEOPLE_FACTORY_v4_PRODUCTION.json (Drive 1Uf6MaQg6YFsuFKNhZjIulvJy0e2fhdjJ), RUN - 4 Clean Pose Sprites"
+      },
+      "control_plate": {
+        "path": "art/pose-control-plates/seated-guest-neutral__front.svg",
+        "hash": "b2cb6bc24b0359955b1e057e36c68f42d3e4731c0acca78f329aedcac928a0ae"
+      }
+    },
+    {
+      "pose_family_id": "seated-at-desk",
+      "label": "Seated, desk work",
+      "intent": "Office and desk posture with the forearms carried forward for work at an invisible desk. Hands in a neutral work or rest state; no desk and no chair in the body art.",
+      "priority": "P0",
+      "posture_class": "seated",
+      "facing": "front",
+      "nominal_canvas": {
+        "width": 1530,
+        "height": 2048
+      },
+      "master_minimum": {
+        "width": 1530,
+        "height": 2048
+      },
+      "root": {
+        "x": 0.5,
+        "y": 0.62
+      },
+      "contacts": {
+        "seatedPelvis": {
+          "x": 0.5,
+          "y": 0.62
+        },
+        "leftFoot": {
+          "x": 0.37,
+          "y": 0.975
+        },
+        "rightFoot": {
+          "x": 0.63,
+          "y": 0.975
+        }
+      },
+      "contact_tolerance": 0.035,
+      "landmarks": {
+        "head": {
+          "x": 0.5,
+          "y": 0.145
+        },
+        "neck": {
+          "x": 0.5,
+          "y": 0.2
+        },
+        "chest": {
+          "x": 0.5,
+          "y": 0.303
+        },
+        "shoulder-left": {
+          "x": 0.226,
+          "y": 0.197
+        },
+        "shoulder-right": {
+          "x": 0.774,
+          "y": 0.197
+        },
+        "elbow-left": {
+          "x": 0.192,
+          "y": 0.41
+        },
+        "elbow-right": {
+          "x": 0.808,
+          "y": 0.41
+        },
+        "wrist-left": {
+          "x": 0.169,
+          "y": 0.554
+        },
+        "wrist-right": {
+          "x": 0.831,
+          "y": 0.554
+        },
+        "hand-left": {
+          "x": 0.164,
+          "y": 0.591
+        },
+        "hand-right": {
+          "x": 0.836,
+          "y": 0.591
+        },
+        "pelvis": {
+          "x": 0.5,
+          "y": 0.62
+        },
+        "hip-left": {
+          "x": 0.286,
+          "y": 0.612
+        },
+        "hip-right": {
+          "x": 0.714,
+          "y": 0.612
+        },
+        "knee-left": {
+          "x": 0.379,
+          "y": 0.736
+        },
+        "knee-right": {
+          "x": 0.621,
+          "y": 0.736
+        },
+        "ankle-left": {
+          "x": 0.379,
+          "y": 0.939
+        },
+        "ankle-right": {
+          "x": 0.621,
+          "y": 0.939
+        }
+      },
+      "compatible_body_families": [
+        "dev-adult",
+        "dev-g2-broad",
+        "dev-g2-slim"
+      ],
+      "garment_pose_family": "seated-at-desk",
+      "required_footwear_state": "shoes-visible",
+      "prop_attachment_slots": [
+        "hand-left",
+        "hand-right"
+      ],
+      "production_status": "development-fixture",
+      "human_qa": "pending",
+      "contact_verification": {
+        "status": "measured-from-art"
+      },
+      "provenance": {
+        "derived_from": "Measured from the generation-2 development fixture seated body geometry in scripts/art-asset-factory/dev-character-fixtures-g2.ts.",
+        "generation_authority": "PG_PEOPLE_FACTORY_v4_PRODUCTION.json (Drive 1Uf6MaQg6YFsuFKNhZjIulvJy0e2fhdjJ), RUN - 4 Clean Pose Sprites"
+      },
+      "control_plate": {
+        "path": "art/pose-control-plates/seated-at-desk__front.svg",
+        "hash": "b631158e29b92647ecb3d2012f13321978249b7bec63fa28ae373f9f32ddc083"
+      }
+    },
+    {
+      "pose_family_id": "standing-podium-or-lectern",
+      "label": "Standing at a podium or lectern",
+      "intent": "Speech, hearing, campaign and press contexts. The lectern itself stays scene furniture; the body only carries the forward hand placement that reading from one requires.",
+      "priority": "P1",
+      "posture_class": "podium-or-lectern",
+      "facing": "front",
+      "nominal_canvas": {
+        "width": 1080,
+        "height": 1920
+      },
+      "master_minimum": {
+        "width": 1696,
+        "height": 2528
+      },
+      "root": {
+        "x": 0.5,
+        "y": 0.55
+      },
+      "contacts": {
+        "leftFoot": {
+          "x": 0.39,
+          "y": 0.985
+        },
+        "rightFoot": {
+          "x": 0.61,
+          "y": 0.985
+        }
+      },
+      "contact_tolerance": 0.035,
+      "landmarks": {
+        "head": {
+          "x": 0.5,
+          "y": 0.114
+        },
+        "neck": {
+          "x": 0.5,
+          "y": 0.157
+        },
+        "chest": {
+          "x": 0.5,
+          "y": 0.25
+        },
+        "shoulder-left": {
+          "x": 0.226,
+          "y": 0.155
+        },
+        "shoulder-right": {
+          "x": 0.774,
+          "y": 0.155
+        },
+        "elbow-left": {
+          "x": 0.215,
+          "y": 0.36
+        },
+        "elbow-right": {
+          "x": 0.785,
+          "y": 0.36
+        },
+        "wrist-left": {
+          "x": 0.3,
+          "y": 0.47
+        },
+        "wrist-right": {
+          "x": 0.7,
+          "y": 0.47
+        },
+        "hand-left": {
+          "x": 0.345,
+          "y": 0.49
+        },
+        "hand-right": {
+          "x": 0.655,
+          "y": 0.49
+        },
+        "pelvis": {
+          "x": 0.5,
+          "y": 0.55
+        },
+        "hip-left": {
+          "x": 0.286,
+          "y": 0.548
+        },
+        "hip-right": {
+          "x": 0.714,
+          "y": 0.548
+        },
+        "knee-left": {
+          "x": 0.395,
+          "y": 0.75
+        },
+        "knee-right": {
+          "x": 0.605,
+          "y": 0.75
+        },
+        "ankle-left": {
+          "x": 0.395,
+          "y": 0.946
+        },
+        "ankle-right": {
+          "x": 0.605,
+          "y": 0.946
+        }
+      },
+      "compatible_body_families": [
+        "dev-g2-broad",
+        "dev-g2-slim"
+      ],
+      "garment_pose_family": "standing-podium-or-lectern",
+      "required_footwear_state": "shoes-visible",
+      "prop_attachment_slots": [
+        "hand-left",
+        "hand-right"
+      ],
+      "production_status": "pending-generation",
+      "human_qa": "pending",
+      "contact_verification": {
+        "status": "declared-unverified",
+        "reason": "No body art declares this pose yet and no scene anchor consumes it. The contract and control plate exist so generation can start the moment a speech or hearing scene needs one."
+      },
+      "provenance": {
+        "derived_from": "Derived from standing-neutral with the forearms carried forward to a lectern reading height and a slightly narrower stance; contacts remain on the standing floor line.",
+        "generation_authority": "PG_PEOPLE_FACTORY_v4_PRODUCTION.json (Drive 1Uf6MaQg6YFsuFKNhZjIulvJy0e2fhdjJ), RUN - 4 Clean Pose Sprites"
+      },
+      "control_plate": {
+        "path": "art/pose-control-plates/standing-podium-or-lectern__front.svg",
+        "hash": "04526e9465029c7257916792ba6da6a64c4daf2076aa3ea4da0897feec0f354e"
+      }
+    },
+    {
+      "pose_family_id": "standing-listening",
+      "label": "Standing, listening or waiting",
+      "intent": "Subtle attention while being briefed or waiting to speak. Hands clasped low in front; a quieter silhouette than standing-neutral, never a deferential caricature.",
+      "priority": "P1",
+      "posture_class": "standing",
+      "facing": "front",
+      "nominal_canvas": {
+        "width": 1080,
+        "height": 1920
+      },
+      "master_minimum": {
+        "width": 1696,
+        "height": 2528
+      },
+      "root": {
+        "x": 0.5,
+        "y": 0.55
+      },
+      "contacts": {
+        "leftFoot": {
+          "x": 0.4,
+          "y": 0.985
+        },
+        "rightFoot": {
+          "x": 0.6,
+          "y": 0.985
+        }
+      },
+      "contact_tolerance": 0.035,
+      "landmarks": {
+        "head": {
+          "x": 0.5,
+          "y": 0.114
+        },
+        "neck": {
+          "x": 0.5,
+          "y": 0.157
+        },
+        "chest": {
+          "x": 0.5,
+          "y": 0.25
+        },
+        "shoulder-left": {
+          "x": 0.226,
+          "y": 0.155
+        },
+        "shoulder-right": {
+          "x": 0.774,
+          "y": 0.155
+        },
+        "elbow-left": {
+          "x": 0.2,
+          "y": 0.37
+        },
+        "elbow-right": {
+          "x": 0.8,
+          "y": 0.37
+        },
+        "wrist-left": {
+          "x": 0.42,
+          "y": 0.52
+        },
+        "wrist-right": {
+          "x": 0.58,
+          "y": 0.52
+        },
+        "hand-left": {
+          "x": 0.47,
+          "y": 0.545
+        },
+        "hand-right": {
+          "x": 0.53,
+          "y": 0.545
+        },
+        "pelvis": {
+          "x": 0.5,
+          "y": 0.55
+        },
+        "hip-left": {
+          "x": 0.286,
+          "y": 0.548
+        },
+        "hip-right": {
+          "x": 0.714,
+          "y": 0.548
+        },
+        "knee-left": {
+          "x": 0.4,
+          "y": 0.75
+        },
+        "knee-right": {
+          "x": 0.6,
+          "y": 0.75
+        },
+        "ankle-left": {
+          "x": 0.4,
+          "y": 0.946
+        },
+        "ankle-right": {
+          "x": 0.6,
+          "y": 0.946
+        }
+      },
+      "compatible_body_families": [
+        "dev-g2-broad",
+        "dev-g2-slim"
+      ],
+      "garment_pose_family": "standing-listening",
+      "required_footwear_state": "shoes-visible",
+      "prop_attachment_slots": [
+        "hand-left",
+        "hand-right"
+      ],
+      "production_status": "pending-generation",
+      "human_qa": "pending",
+      "contact_verification": {
+        "status": "declared-unverified",
+        "reason": "No body art declares this pose yet and no scene anchor consumes it. The contract and control plate exist so generation can start the moment a briefing scene needs one."
+      },
+      "provenance": {
+        "derived_from": "Derived from standing-neutral with the hands clasped low in front and a narrower stance; contacts remain on the standing floor line.",
+        "generation_authority": "PG_PEOPLE_FACTORY_v4_PRODUCTION.json (Drive 1Uf6MaQg6YFsuFKNhZjIulvJy0e2fhdjJ), RUN - 4 Clean Pose Sprites"
+      },
+      "control_plate": {
+        "path": "art/pose-control-plates/standing-listening__front.svg",
+        "hash": "b3975a3477b8dc38d75b59f556db89bb9b298d525563f00acb37b1cca4ea3023"
+      }
+    }
+  ]
+}

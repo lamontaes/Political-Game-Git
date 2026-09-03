@@ -9,6 +9,14 @@ import {
   evaluateMasterDimensions,
   masterRequirementFor,
 } from "../../src/presentation/component-masters";
+import {
+  renderPoseControlPlate,
+} from "../../src/presentation/pose-control-plate";
+import {
+  createPoseFamilyRegistry,
+  validatePoseFamilyRegistry,
+  type PoseFamilyRegistryData,
+} from "../../src/presentation/pose-families";
 import { hashArtFile, isArtContentHash } from "./content-hash";
 import type {
   AssetManifest,
@@ -34,6 +42,11 @@ export interface ArtValidationOptions {
    * character-component asset; an empty bootstrap catalog is valid.
    */
   characterCatalog?: CharacterCatalogData;
+  /**
+   * Pose family registry. Required whenever the manifest declares any body
+   * component, because a body's pose family must be a registered contract.
+   */
+  poseFamilies?: PoseFamilyRegistryData;
 }
 
 const VALID_CONFIDENCE_LEVELS: MeasurementConfidence[] = [
@@ -516,12 +529,19 @@ export function validateArtAssets(
   }
 
   validateRasterTierLadders(manifest, repositoryRoot, errors);
-  validateProductionComponentMasters(manifest, repositoryRoot, errors);
 
   validateCharacterComponents(
     manifest,
     options.characterCatalog,
     repositoryRoot,
+    errors,
+  );
+
+  validatePoseFamilies(manifest, options.poseFamilies, repositoryRoot, errors);
+  validateProductionComponentMasters(
+    manifest,
+    repositoryRoot,
+    options.poseFamilies,
     errors,
   );
 
@@ -719,8 +739,12 @@ function validateRasterTierLadders(
 function validateProductionComponentMasters(
   manifest: AssetManifest,
   repositoryRoot: string,
+  poseFamilies: PoseFamilyRegistryData | undefined,
   errors: string[],
 ): void {
+  const poseRegistry = poseFamilies
+    ? createPoseFamilyRegistry(poseFamilies)
+    : undefined;
   for (const asset of manifest.assets) {
     const component = asset.component;
     if (!component) continue;
@@ -742,6 +766,7 @@ function validateProductionComponentMasters(
       component.kind,
       { width: measured.width, height: measured.height },
       component.pose_family,
+      poseRegistry,
     );
     if (!verdict.accepted) {
       errors.push(
@@ -752,6 +777,7 @@ function validateProductionComponentMasters(
     const requirement = masterRequirementFor(
       component.kind,
       component.pose_family,
+      poseRegistry,
     );
     if (
       component.canvas.width > measured.width ||
@@ -759,6 +785,74 @@ function validateProductionComponentMasters(
     ) {
       errors.push(
         `Production character component '${asset.asset_id}' declares a ${component.canvas.width}x${component.canvas.height} canvas larger than its ${measured.width}x${measured.height} file. ${requirement.note}`,
+      );
+    }
+  }
+}
+
+/**
+ * Pose families are a registry, not assets: they are never loaded by the
+ * runtime compositor and never appear in the manifest. What is checked here is
+ * that the registry is internally coherent, that it agrees with the component
+ * library, and that every control plate on disk is exactly what the registry's
+ * own landmarks re-derive to — so a landmark edit whose plate was not
+ * regenerated is rejected rather than silently shipping a stale structure
+ * reference to an external generator.
+ */
+function validatePoseFamilies(
+  manifest: AssetManifest,
+  registry: PoseFamilyRegistryData | undefined,
+  repositoryRoot: string,
+  errors: string[],
+): void {
+  const bodyCount = manifest.assets.filter(
+    (asset) => asset.component?.kind === "body",
+  ).length;
+  if (registry === undefined) {
+    if (bodyCount > 0) {
+      errors.push(
+        `Manifest declares ${bodyCount} body component(s) but no pose family registry was supplied.`,
+      );
+    }
+    return;
+  }
+
+  errors.push(...validatePoseFamilyRegistry(registry, manifest.assets));
+
+  for (const family of registry.families ?? []) {
+    const plate = family.control_plate;
+    if (!plate?.path) continue; // reported by the registry contract
+    const resolved = path.resolve(repositoryRoot, plate.path);
+    if (!isPathInside(path.resolve(repositoryRoot, "art"), resolved)) {
+      errors.push(
+        `Pose family '${family.pose_family_id}' control plate '${plate.path}' resolves outside the art root.`,
+      );
+      continue;
+    }
+    if (!fs.existsSync(resolved)) {
+      errors.push(
+        `Pose family '${family.pose_family_id}' control plate '${plate.path}' does not exist. Run 'npm run derive:pose-plates'.`,
+      );
+      continue;
+    }
+    if (hashArtFile(resolved) !== plate.hash) {
+      errors.push(
+        `Pose family '${family.pose_family_id}' control plate '${plate.path}' does not match its recorded hash. Run 'npm run derive:pose-plates'.`,
+      );
+      continue;
+    }
+    let expected: string;
+    try {
+      expected = renderPoseControlPlate(family);
+    } catch (error) {
+      errors.push(
+        `Pose family '${family.pose_family_id}' control plate could not be re-derived: ${(error as Error).message}`,
+      );
+      continue;
+    }
+    if (fs.readFileSync(resolved, "utf8") !== expected) {
+      errors.push(
+        `Pose family '${family.pose_family_id}' control plate '${plate.path}' is not what its landmarks re-derive to. Run 'npm run derive:pose-plates'.`,
       );
     }
   }

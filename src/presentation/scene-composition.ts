@@ -8,12 +8,21 @@ import {
 } from "./character-components";
 import { resolvePersonCharacterRecipe } from "./character-render-plan";
 import {
+  resolvePoseForRequest,
+  type PoseArtIndex,
+  type PoseFamilyDefinition,
+  type PoseFamilyRegistry,
+  type PoseGap,
+  type PoseGapCode,
+} from "./pose-families";
+import {
   placeSubjectAtAnchor,
   sceneDiagnostic,
   type PlacementBox,
   type PlacementSubject,
   type ScenePlacement,
   type SceneDiagnostic,
+  type SceneDiagnosticCode,
 } from "./scene-placement";
 import type { RegisteredScene, RegisteredSceneAnchor } from "./scene-registry";
 import type { RuntimeVisualLibrary } from "./visual-integration";
@@ -47,6 +56,10 @@ export interface SceneCharacterPresentation {
   readonly displayName: string;
   readonly sceneId: string;
   readonly anchorId: string;
+  /** The pose family this anchor resolved to; null when none could be drawn. */
+  readonly poseFamily: PoseFamilyDefinition | null;
+  /** Why the pose resolution is imperfect, named. Empty when it is clean. */
+  readonly poseGaps: readonly PoseGap[];
   readonly recipe: CharacterRecipe;
   readonly placement: ScenePlacement;
   readonly box: PlacementBox;
@@ -73,6 +86,8 @@ export interface SceneCharacterRequest {
   readonly anchor: RegisteredSceneAnchor;
   readonly library: CharacterComponentLibrary;
   readonly visualLibrary: RuntimeVisualLibrary;
+  readonly poseRegistry: PoseFamilyRegistry;
+  readonly poseArt: PoseArtIndex;
 }
 
 /** Maps a recipe diagnostic onto the shared 10A warning family. */
@@ -107,28 +122,54 @@ function fromRecipeDiagnostic(
 }
 
 /**
- * Which pose to resolve at an anchor.
- *
- * An anchor may permit several poses; the library decides which of them it can
- * actually draw. Taking the first permitted pose blindly is how a seat that
- * lists a pose nobody has art for silently produces an empty person, so the
- * first permitted pose WITH ART wins, and the first permitted pose is the
- * honest fallback when the library has none of them.
+ * Maps a pose gap onto the shared scene diagnostic family, so the debug
+ * overlay shows pose gaps beside placement and slot warnings rather than in a
+ * second vocabulary.
  */
-function resolvePoseForAnchor(
-  anchor: RegisteredSceneAnchor,
-  library: CharacterComponentLibrary,
-): string {
-  const permitted = anchor.allowedPoseFamilies ?? [
-    anchor.seatContact ? "seated-at-desk" : "standing-neutral",
-  ];
-  const posesWithArt = new Set(
-    [...library.components.values()]
-      .filter((component) => component.definition.kind === "body")
-      .map((component) => component.definition.pose_family)
-      .filter((pose): pose is string => pose !== undefined),
+const POSE_GAP_DIAGNOSTIC: Readonly<
+  Record<PoseGapCode, { readonly code: SceneDiagnosticCode; readonly warning: string }>
+> = {
+  "anchor-permits-no-registered-pose": {
+    code: "pose-family-not-registered",
+    warning: "W4",
+  },
+  "no-released-art-for-permitted-pose": {
+    code: "pose-art-missing-for-body-family",
+    warning: "W4",
+  },
+  "no-art-for-body-family": {
+    code: "pose-art-missing-for-body-family",
+    warning: "W4",
+  },
+  "preferred-pose-substituted": {
+    code: "preferred-pose-substituted",
+    warning: "W4",
+  },
+  "posture-class-mismatch": {
+    code: "pose-not-permitted-at-anchor",
+    warning: "W4",
+  },
+  "facing-not-available": {
+    code: "facing-not-permitted-at-anchor",
+    warning: "W6",
+  },
+};
+
+/**
+ * The pose an anchor falls back to purely to learn a person's body family.
+ *
+ * Identity resolution is pose-independent by contract — the recipe chooses
+ * body, head and garment FAMILIES before it looks at a pose — so resolving
+ * once against any pose yields the same body family that the real pose will.
+ * That body family is what the pose resolver needs in order to answer "is
+ * there art for THIS person here", which is the question a bare
+ * "does any body have this pose" check got wrong.
+ */
+function provisionalPose(anchor: RegisteredSceneAnchor): string {
+  return (
+    anchor.allowedPoseFamilies?.[0] ??
+    (anchor.seatContact ? "seated-at-desk" : "standing-neutral")
   );
-  return permitted.find((pose) => posesWithArt.has(pose)) ?? permitted[0]!;
 }
 
 export function composeSceneCharacter(
@@ -142,16 +183,57 @@ export function composeSceneCharacter(
     anchor,
     library,
     visualLibrary,
+    poseRegistry,
+    poseArt,
   } = request;
 
-  const poseFamily = resolvePoseForAnchor(anchor, library);
-  const recipe = resolvePersonCharacterRecipe(appearance, poseFamily, library);
+  // Identity first, against a provisional pose, so the pose resolver can ask
+  // about THIS person's body family rather than about the library in general.
+  const identityProbe = resolvePersonCharacterRecipe(
+    appearance,
+    provisionalPose(anchor),
+    library,
+  );
+  const resolution = resolvePoseForRequest(
+    {
+      anchorId: anchor.id,
+      permittedPoseFamilies: anchor.allowedPoseFamilies ?? [
+        provisionalPose(anchor),
+      ],
+      permittedFacings: anchor.permittedFacings,
+      hasSeatContact: anchor.seatContact !== null,
+      bodyFamily: identityProbe.identity.bodyFamily,
+    },
+    poseRegistry,
+    poseArt,
+  );
+
+  // A pose the anchor never listed is never substituted in. When nothing
+  // permitted can be drawn we keep the anchor's preferred pose so the recipe
+  // resolves an honest empty context, and the gaps below say exactly why.
+  const poseFamilyId =
+    resolution.poseFamily?.pose_family_id ?? provisionalPose(anchor);
+  const poseFamily = resolution.poseFamily;
+  const recipe = resolvePersonCharacterRecipe(appearance, poseFamilyId, library);
   const projected = projectCharacterLayers(recipe, library);
 
   const diagnostics: SceneDiagnostic[] = recipe.context.diagnostics.map(
     (diagnostic) =>
       fromRecipeDiagnostic(diagnostic, scene.sceneId, anchor.id, personId),
   );
+  for (const gap of resolution.gaps) {
+    const mapped = POSE_GAP_DIAGNOSTIC[gap.code];
+    diagnostics.push(
+      sceneDiagnostic(
+        mapped.code,
+        mapped.warning,
+        scene.sceneId,
+        anchor.id,
+        personId,
+        gap.message,
+      ),
+    );
+  }
 
   if (scene.standardBodyWidthPercent === null) {
     diagnostics.push(
@@ -179,13 +261,15 @@ export function composeSceneCharacter(
       displayName,
       sceneId: scene.sceneId,
       anchorId: anchor.id,
+      poseFamily,
+      poseGaps: resolution.gaps,
       recipe,
       placement: placeSubjectAtAnchor(scene, anchor, {
         id: personId,
         bodyCanvas: { width: 1, height: 2 },
         root: { x: 0.5, y: 0.5 },
         bodyFamily: recipe.identity.bodyFamily,
-        poseFamily,
+        poseFamily: poseFamilyId,
         facing: null,
         referenceWidthPercent: scene.standardBodyWidthPercent ?? 1,
       }),
@@ -210,7 +294,7 @@ export function composeSceneCharacter(
       ? { contacts: bodyComponent.definition.contacts }
       : {}),
     bodyFamily: recipe.identity.bodyFamily,
-    poseFamily,
+    poseFamily: poseFamilyId,
     facing: recipe.context.headOrientation,
     referenceWidthPercent: scene.standardBodyWidthPercent ?? 1,
   };
@@ -255,6 +339,8 @@ export function composeSceneCharacter(
     displayName,
     sceneId: scene.sceneId,
     anchorId: anchor.id,
+    poseFamily,
+    poseGaps: resolution.gaps,
     recipe,
     placement,
     box: placement.box,

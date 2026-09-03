@@ -4660,6 +4660,219 @@
 }
 
 /* ---------------------------------------------------------------------------
+   POSE AND CONTACT PROOF (a section of ?view=scene-proof)
+
+   One identity per row, one registered pose family per cell: the deterministic
+   control plate beside the composed body. Every marker is a DOM overlay read
+   from metadata, so nothing here is baked into a raster.
+   --------------------------------------------------------------------------- */
+
+.pose-proof {
+  border-top: 1px solid #b4b4a8;
+  margin-top: 28px;
+  padding-top: 20px;
+}
+
+.pose-proof-coverage {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  margin: 12px 0 20px;
+}
+
+.pose-proof-coverage caption {
+  text-align: left;
+  color: #5c6779;
+  padding-bottom: 6px;
+}
+
+.pose-proof-coverage th,
+.pose-proof-coverage td {
+  border: 1px solid #b4b4a8;
+  padding: 5px 8px;
+  text-align: left;
+}
+
+.pose-proof-coverage thead th {
+  background: #edeae0;
+}
+
+.pose-proof-coverage tr[data-covered="false"][data-priority="P0"] th[scope="row"] {
+  border-left: 4px solid #b4432f;
+}
+
+.pose-proof-person {
+  margin-bottom: 26px;
+}
+
+.pose-proof-cells {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.pose-proof-cell {
+  background: #f8f7f3;
+  border: 1px solid #b4b4a8;
+  padding: 12px 14px;
+  font-size: 0.82rem;
+}
+
+.pose-proof-cell[data-drawn="false"] {
+  border-left: 4px solid #b4432f;
+}
+
+.pose-proof-cell[data-contacts-agree="false"] {
+  border-left: 4px solid #b4432f;
+}
+
+.pose-proof-cell h4 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+
+.pose-proof-cell h4 small {
+  font-weight: 400;
+  color: #5c6779;
+}
+
+.pose-proof-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.pose-proof-pair > figure {
+  /* The aspect ratio is set per cell from the plate viewport and the body
+     layer union, so a percentage overlay lands exactly where the art does. */
+  align-self: start;
+}
+
+.pose-proof-plate,
+.pose-proof-body {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 9 / 16;
+  background: #1b1b1b;
+  border: 1px solid #b4b4a8;
+  overflow: hidden;
+}
+
+.pose-proof-body {
+  background: #e6e3da;
+}
+
+.pose-proof-plate img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pose-proof-body-layer {
+  position: absolute;
+  object-fit: contain;
+  image-rendering: auto;
+}
+
+.pose-proof-plate figcaption,
+.pose-proof-body figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 2px 4px;
+  font-size: 0.62rem;
+  background: rgba(20, 20, 20, 0.72);
+  color: #f4f2ec;
+}
+
+.pose-proof-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  font-style: italic;
+  color: #5c6779;
+}
+
+.pose-proof-marker {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 400;
+}
+
+.pose-proof-marker--plate-landmark {
+  background: #4ea3ff;
+}
+
+.pose-proof-marker--plate-contact {
+  background: none;
+  border: 2px solid #ff6a3d;
+  width: 11px;
+  height: 11px;
+  margin: -5.5px 0 0 -5.5px;
+}
+
+.pose-proof-marker--body {
+  background: #2f6b46;
+  outline: 1px solid #f4f2ec;
+}
+
+.pose-proof-assets code {
+  font-size: 0.7rem;
+  color: #5c6779;
+  overflow-wrap: anywhere;
+}
+
+.pose-proof-status {
+  margin: 8px 0 0;
+  font-size: 0.76rem;
+}
+
+.pose-proof-status > div {
+  display: flex;
+  gap: 6px;
+  margin: 2px 0;
+}
+
+.pose-proof-status dt {
+  color: #5c6779;
+  flex: 0 0 auto;
+}
+
+.pose-proof-status dt::after {
+  content: ":";
+}
+
+.pose-proof-status dd {
+  margin: 0;
+}
+
+.pose-proof-gaps {
+  margin: 8px 0 0;
+  padding-left: 16px;
+  font-size: 0.76rem;
+}
+
+.pose-proof-gaps strong {
+  color: #b4432f;
+  margin-right: 4px;
+}
+
+/* ---------------------------------------------------------------------------
    DEVELOPMENT AUTHORING OVERLAY (?view=scene-authoring)
 
    A developer surface, styled to stay legible over any plate rather than to

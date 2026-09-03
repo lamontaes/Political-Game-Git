@@ -122,7 +122,10 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
         width_percent: 90,
         height_percent: 50,
       },
-      allowed_pose_families: ["seated-in-guest-chair", "seated-at-desk"],
+      // The guest chair prefers the P0 guest-seating pose. No body art
+      // declares it yet, so the runtime reports the exact gap and falls back
+      // to the one other pose this anchor itself permits.
+      allowed_pose_families: ["seated-guest-neutral", "seated-at-desk"],
       permitted_facings: ["front"],
       seat_contact: {
         seat_plane_y_percent: 63,

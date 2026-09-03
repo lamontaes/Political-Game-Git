@@ -3,16 +3,20 @@ import { describe, expect, it } from "vitest";
 import { composeSceneProof, createSceneProofWorld } from "./scene-proof";
 import {
   PRODUCTION_CHARACTER_LIBRARY,
+  PRODUCTION_POSE_ART,
+  PRODUCTION_POSE_REGISTRY,
   PRODUCTION_VISUAL_LIBRARY,
 } from "./visual-integration";
 import { CONTACT_TOLERANCE_PERCENT } from "./scene-placement";
 
 const world = createSceneProofWorld(PRODUCTION_CHARACTER_LIBRARY);
 const proof = composeSceneProof(
-  world,
-  PRODUCTION_CHARACTER_LIBRARY,
-  PRODUCTION_VISUAL_LIBRARY,
-);
+    world,
+    PRODUCTION_CHARACTER_LIBRARY,
+    PRODUCTION_VISUAL_LIBRARY,
+    PRODUCTION_POSE_REGISTRY,
+    PRODUCTION_POSE_ART,
+  );
 const everyone = proof.contexts.flatMap((context) => context.characters);
 
 describe("scene composition", () => {
@@ -183,10 +187,12 @@ describe("scene composition", () => {
 
   it("is deterministic for one world", () => {
     const again = composeSceneProof(
-      world,
-      PRODUCTION_CHARACTER_LIBRARY,
-      PRODUCTION_VISUAL_LIBRARY,
-    );
+    world,
+    PRODUCTION_CHARACTER_LIBRARY,
+    PRODUCTION_VISUAL_LIBRARY,
+    PRODUCTION_POSE_REGISTRY,
+    PRODUCTION_POSE_ART,
+  );
     expect(JSON.stringify(again.contexts.map(summarize))).toBe(
       JSON.stringify(proof.contexts.map(summarize)),
     );

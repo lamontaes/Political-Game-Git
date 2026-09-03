@@ -8,10 +8,13 @@ import {
 } from "../presentation/scene-proof";
 import {
   PRODUCTION_CHARACTER_LIBRARY,
+  PRODUCTION_POSE_ART,
+  PRODUCTION_POSE_REGISTRY,
   PRODUCTION_VISUAL_LIBRARY,
 } from "../presentation/visual-integration";
 import { useRasterTier } from "../player/useRasterTier";
 import { useSceneTransform } from "../player/useSceneTransform";
+import { PoseContactProof } from "./PoseContactProof";
 import { SceneDebugOverlay } from "./SceneDebugOverlay";
 
 /**
@@ -145,10 +148,12 @@ export function ScenePresentationProofView() {
   const composition = useMemo(
     () =>
       composeSceneProof(
-        world,
-        PRODUCTION_CHARACTER_LIBRARY,
-        PRODUCTION_VISUAL_LIBRARY,
-      ),
+    world,
+    PRODUCTION_CHARACTER_LIBRARY,
+    PRODUCTION_VISUAL_LIBRARY,
+    PRODUCTION_POSE_REGISTRY,
+    PRODUCTION_POSE_ART,
+  ),
     [world],
   );
 
@@ -264,6 +269,8 @@ export function ScenePresentationProofView() {
           </ul>
         </section>
       ))}
+
+      <PoseContactProof world={world} />
 
       <footer className="scene-proof-footer">
         <p>

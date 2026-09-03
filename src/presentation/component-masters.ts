@@ -12,6 +12,7 @@
  */
 
 import type { CharacterComponentKind } from "./character-components";
+import type { PoseFamilyRegistry } from "./pose-families";
 
 export interface MasterDimensionRequirement {
   /** Minimum source width in pixels, when the class fixes both axes. */
@@ -116,13 +117,38 @@ export const COMPONENT_MASTER_MINIMUMS: Readonly<
   },
 };
 
+/**
+ * The pose registry, when one is supplied, is the authority for a BODY's
+ * minimum master and normalized canvas: a new posture declares its own
+ * dimensions there rather than needing a new constant here. The two constants
+ * above remain the fallback for callers that have no registry loaded, and the
+ * registry's own values for the standing and seated families are exactly them.
+ */
 export function masterRequirementFor(
   kind: CharacterComponentKind,
   poseFamily?: string,
+  poseRegistry?: PoseFamilyRegistry,
 ): MasterDimensionRequirement {
-  if (kind === "body" && poseFamily === SEATED_POSE_FAMILY) {
-    return SEATED_BODY_MASTER_MINIMUM;
+  if (kind !== "body") return COMPONENT_MASTER_MINIMUMS[kind];
+
+  const registered = poseFamily
+    ? poseRegistry?.families.get(poseFamily)
+    : undefined;
+  if (registered) {
+    const seated = registered.posture_class === "seated";
+    const base = seated ? SEATED_BODY_MASTER_MINIMUM : STANDING_BODY_MASTER_MINIMUM;
+    return {
+      minimumWidth: registered.master_minimum.width,
+      minimumHeight: registered.master_minimum.height,
+      requiresAlpha: true,
+      normalized: {
+        width: registered.nominal_canvas.width,
+        height: registered.nominal_canvas.height,
+      },
+      note: base.note,
+    };
   }
+  if (poseFamily === SEATED_POSE_FAMILY) return SEATED_BODY_MASTER_MINIMUM;
   return COMPONENT_MASTER_MINIMUMS[kind];
 }
 
@@ -156,8 +182,9 @@ export function evaluateMasterDimensions(
   kind: CharacterComponentKind,
   measured: MeasuredMaster,
   poseFamily?: string,
+  poseRegistry?: PoseFamilyRegistry,
 ): MasterDimensionVerdict {
-  const requirement = masterRequirementFor(kind, poseFamily);
+  const requirement = masterRequirementFor(kind, poseFamily, poseRegistry);
   const reasons: string[] = [];
   let requiredUpscaleFactor = 1;
 

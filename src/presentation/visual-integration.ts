@@ -1,5 +1,6 @@
 import assetManifest from "../../art/manifest/asset_manifest.json";
 import characterCatalog from "../../art/manifest/character_catalog.json";
+import poseFamilies from "../../art/manifest/pose_families.json";
 import {
   derivePersonAppearance,
   type PersonAppearance,
@@ -26,6 +27,11 @@ import {
   SCENE_REGISTRY,
   type RegisteredScene,
 } from "./scene-registry";
+import {
+  createPoseFamilyRegistry,
+  indexPoseArt,
+  type PoseFamilyRegistryData,
+} from "./pose-families";
 import { resolvePerspectiveScale } from "./scene-placement";
 import type {
   SceneCameraPolicy,
@@ -619,4 +625,35 @@ export const PRODUCTION_VISUAL_LIBRARY = createRuntimeVisualLibrary(
 export const PRODUCTION_CHARACTER_LIBRARY = createCharacterComponentLibrary(
   assetManifest.assets as readonly CharacterComponentManifestRecord[],
   characterCatalog as CharacterCatalogData,
+);
+
+/**
+ * The pose-family registry and the released pose art index, from the same
+ * manifest the component library reads. A scene anchor asks the registry for a
+ * posture; the index answers which body families can actually be drawn in it.
+ */
+export const PRODUCTION_POSE_REGISTRY = createPoseFamilyRegistry(
+  poseFamilies as PoseFamilyRegistryData,
+);
+
+/**
+ * Control-plate URLs, keyed by repository path. They are AUTHORING artifacts,
+ * never composited into a character: the developer proof shows one beside a
+ * composed body so a reviewer can see that the structure and the art agree.
+ */
+const poseControlPlateUrls = import.meta.glob<string>(
+  "../../art/pose-control-plates/*.svg",
+  { eager: true, import: "default", query: "?url" },
+);
+
+export const POSE_CONTROL_PLATE_URLS: Readonly<Record<string, string>> =
+  Object.fromEntries(
+    Object.entries(poseControlPlateUrls).map(([modulePath, url]) => [
+      modulePath.replace(/^\.\.\/\.\.\//, ""),
+      url,
+    ]),
+  );
+
+export const PRODUCTION_POSE_ART = indexPoseArt(
+  assetManifest.assets as readonly CharacterComponentManifestRecord[],
 );

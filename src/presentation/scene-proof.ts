@@ -15,6 +15,7 @@ import {
   SCENE_REGISTRY,
   type RegisteredScene,
 } from "./scene-registry";
+import type { PoseArtIndex, PoseFamilyRegistry } from "./pose-families";
 import type { RuntimeVisualLibrary } from "./visual-integration";
 
 /**
@@ -86,6 +87,8 @@ function composeContext(
   placements: readonly ProofPlacement[],
   library: CharacterComponentLibrary,
   visualLibrary: RuntimeVisualLibrary,
+  poseRegistry: PoseFamilyRegistry,
+  poseArt: PoseArtIndex,
 ): SceneProofContext {
   const characters = placements.map((placement) => {
     const person = requirePerson(world, placement.personIndex);
@@ -97,6 +100,8 @@ function composeContext(
       anchor: requireSceneAnchor(scene, placement.anchorId),
       library,
       visualLibrary,
+      poseRegistry,
+      poseArt,
     });
   });
 
@@ -117,6 +122,8 @@ export function composeSceneProof(
   world: World,
   library: CharacterComponentLibrary,
   visualLibrary: RuntimeVisualLibrary,
+  poseRegistry: PoseFamilyRegistry,
+  poseArt: PoseArtIndex,
 ): SceneProofComposition {
   return {
     world,
@@ -128,6 +135,8 @@ export function composeSceneProof(
         OFFICE_PLACEMENTS,
         library,
         visualLibrary,
+        poseRegistry,
+        poseArt,
       ),
       composeContext(
         world,
@@ -136,6 +145,8 @@ export function composeSceneProof(
         COMMITTEE_PLACEMENTS,
         library,
         visualLibrary,
+        poseRegistry,
+        poseArt,
       ),
     ],
   };
