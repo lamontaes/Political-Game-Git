@@ -442,10 +442,8 @@ export type SceneSurfaceContentClass =
  * semantic — plus the flag, which is looked up per jurisdiction. `neutral-art`
  * is the only class that does not.
  */
-export const DYNAMIC_SURFACE_CONTENT_CLASSES: ReadonlySet<string> = new Set<string>([
-  ...SEMANTIC_CONTENT_CLASSES,
-  "jurisdiction-flag",
-]);
+export const DYNAMIC_SURFACE_CONTENT_CLASSES: ReadonlySet<string> =
+  new Set<string>([...SEMANTIC_CONTENT_CLASSES, "jurisdiction-flag"]);
 
 /**
  * Civic symbols. These have canonical runtime identities and legal usage

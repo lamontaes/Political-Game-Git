@@ -209,11 +209,7 @@ function completeScaffold(): SceneAuthoringScaffold {
         "overlay",
       ),
       zOrder: resolved(2, "ESTIMATED", "author"),
-      allowedContentClasses: resolved(
-        ["agenda"],
-        "ESTIMATED",
-        "author",
-      ),
+      allowedContentClasses: resolved(["agenda"], "ESTIMATED", "author"),
     })),
   };
 }

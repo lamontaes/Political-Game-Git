@@ -186,9 +186,47 @@ export interface CharacterComponentManifestRecord {
   readonly final_path?: string;
   readonly hash?: string;
   readonly component?: CharacterComponentDefinition;
+  /**
+   * Manifest-level availability class. A `development-fixture` component is
+   * eligible for identity selection only while no `production-candidate`
+   * component of the same kind exists at the resolved generation, so DEV
+   * fixtures keep serving generation-1 people and regression tests without
+   * ever being chosen for people once real components exist. Lives on the
+   * record, not the definition, so past generation signatures are unaffected.
+   */
+  readonly availability?: CharacterComponentAvailability;
+
+  /**
+   * The definition a banked candidate WOULD carry once promoted. Named
+   * differently from `component` on purpose: nothing that resolves an identity
+   * reads this field, so a candidate cannot leak into a person by accident.
+   */
+  readonly candidate_component?: CharacterComponentDefinition;
 }
 
+export type CharacterComponentAvailability =
+  "development-fixture" | "production-candidate";
+
 export const CHARACTER_COMPONENT_ASSET_TYPE = "character-component";
+
+/**
+ * A modular part that has been banked but has NOT entered the catalog.
+ *
+ * Intake produces real files, real hashes and a real definition long before
+ * anyone has agreed the art is good enough to put on a person. A candidate is
+ * that state, made explicit: its bytes, provenance and reproducibility are
+ * under test, and it is invisible to identity resolution.
+ *
+ * Keeping candidates out of the catalog is not bookkeeping. A catalog
+ * generation's membership is frozen by its signature so that a saved person
+ * keeps resolving to the same parts forever; admitting a component that cannot
+ * be drawn yet would either render that person as a placeholder now, or change
+ * who they look like on the day the art is accepted. Promotion is therefore a
+ * deliberate act — `candidate_component` becomes `component`, the type changes,
+ * and the component joins a NEW generation — not a status flag flipping.
+ */
+export const CHARACTER_COMPONENT_CANDIDATE_ASSET_TYPE =
+  "character-component-candidate";
 
 export interface CharacterSlotDefinition {
   readonly slot_id: string;
@@ -222,6 +260,8 @@ export interface CharacterComponent {
   readonly definition: CharacterComponentDefinition;
   /** Runtime eligible per the existing approval + QA + release gate. */
   readonly released: boolean;
+  /** True for DEV/NON-PRODUCTION fixtures (see `availability`). */
+  readonly fixture: boolean;
 }
 
 export interface CharacterComponentLibrary {
@@ -368,6 +408,7 @@ export function createCharacterComponentLibrary(
       assetId: record.asset_id,
       definition: record.component,
       released: isRuntimeEligible(record),
+      fixture: record.availability === "development-fixture",
     });
   }
   return {
@@ -496,6 +537,15 @@ export function validateCharacterComponentLibrary(
         `Character component '${record.asset_id}' must declare fixed_or_modular 'modular'.`,
       );
     }
+    if (
+      record.availability !== undefined &&
+      record.availability !== "development-fixture" &&
+      record.availability !== "production-candidate"
+    ) {
+      errors.push(
+        `Character component '${record.asset_id}' has invalid availability '${String(record.availability)}'.`,
+      );
+    }
     if (seenIds.has(record.asset_id)) {
       errors.push(`Duplicate character component ID '${record.asset_id}'.`);
       continue;
@@ -505,6 +555,7 @@ export function validateCharacterComponentLibrary(
       assetId: record.asset_id,
       definition: record.component as CharacterComponentDefinition,
       released: isRuntimeEligible(record),
+      fixture: record.availability === "development-fixture",
     });
   }
 
@@ -1189,13 +1240,149 @@ export interface CharacterRecipe {
   readonly context: CharacterRecipeContext;
 }
 
-function componentsAtGeneration(
+/**
+ * Lifts banked candidates into a throwaway library shape for human review.
+ *
+ * A candidate has files, hashes and a definition; what it lacks is anyone's
+ * agreement that it looks right. Reviewing it needs it composed onto a person,
+ * and composing needs a library — so this builds one, marked approved and
+ * released, containing NOTHING but the candidates.
+ *
+ * It is a development surface and never the production library. The records it
+ * returns are constructed here rather than read from the manifest, so no
+ * amount of misuse can make a candidate visible to the real catalog: the two
+ * libraries are separate objects built from disjoint sets of records.
+ */
+export function liftCandidatesForReview(
+  records: readonly CharacterComponentManifestRecord[],
+  slots: readonly CharacterSlotDefinition[],
+): {
+  readonly records: readonly CharacterComponentManifestRecord[];
+  readonly catalog: CharacterCatalogData;
+} {
+  const lifted = records
+    .filter(
+      (record) =>
+        record.asset_type === CHARACTER_COMPONENT_CANDIDATE_ASSET_TYPE &&
+        record.candidate_component !== undefined,
+    )
+    .map((record) => ({
+      ...record,
+      asset_type: CHARACTER_COMPONENT_ASSET_TYPE,
+      generation_status: "approved" as const,
+      qa_status: "approved" as const,
+      runtime_release_status: "released" as const,
+      component: record.candidate_component!,
+      candidate_component: undefined,
+    }));
+  // Candidates keep the generation number their definition declares, because
+  // that number is part of the definition being reviewed. Generations below it
+  // exist and are empty rather than renumbered, so `catalog_generation` still
+  // means "the newest generation here" and the ledger stays contiguous.
+  const highest = lifted.reduce(
+    (max, record) => Math.max(max, record.component.catalog_generation),
+    1,
+  );
+  return {
+    records: lifted,
+    catalog: {
+      catalog_generation: highest,
+      slots,
+      generations: Array.from({ length: highest }, (_, index) => {
+        const generation = index + 1;
+        const members = lifted
+          .filter(
+            (record) => record.component.catalog_generation === generation,
+          )
+          .map((record) => ({
+            assetId: record.asset_id,
+            definition: record.component,
+          }));
+        return {
+          generation,
+          component_ids: members.map((member) => member.assetId).sort(),
+          signature: computeCharacterGenerationSignature(members),
+        };
+      }),
+    },
+  };
+}
+
+/**
+ * What a banked candidate must say about itself.
+ *
+ * The rules are deliberately narrow. A candidate is not asked to be good; it is
+ * asked to be honest about not being in the catalog yet, so that "we have this
+ * art" and "a person can wear this art" stay separate claims.
+ */
+export function validateCharacterComponentCandidates(
+  records: readonly CharacterComponentManifestRecord[],
+): string[] {
+  const errors: string[] = [];
+  for (const record of records) {
+    const isCandidateType =
+      record.asset_type === CHARACTER_COMPONENT_CANDIDATE_ASSET_TYPE;
+    const hasCandidate = record.candidate_component !== undefined;
+    if (!isCandidateType && !hasCandidate) continue;
+    if (isCandidateType !== hasCandidate) {
+      errors.push(
+        `Asset '${record.asset_id}' must declare both asset_type '${CHARACTER_COMPONENT_CANDIDATE_ASSET_TYPE}' and a 'candidate_component' definition, or neither.`,
+      );
+      continue;
+    }
+    if (record.component !== undefined) {
+      errors.push(
+        `Asset '${record.asset_id}' is a banked candidate and must not also declare a catalog 'component'; promotion replaces one with the other.`,
+      );
+    }
+    if (record.runtime_release_status === "released") {
+      errors.push(
+        `Asset '${record.asset_id}' is a banked candidate, so it cannot be runtime-released; promote it into a catalog generation instead.`,
+      );
+    }
+    if (record.availability !== "production-candidate") {
+      errors.push(
+        `Asset '${record.asset_id}' is a banked candidate and must declare availability 'production-candidate'.`,
+      );
+    }
+    if (record.fixed_or_modular !== "modular") {
+      errors.push(
+        `Asset '${record.asset_id}' is a banked modular candidate and must declare fixed_or_modular 'modular'.`,
+      );
+    }
+  }
+  return errors;
+}
+
+/**
+ * Components eligible at a generation. Development fixtures of a kind step
+ * aside as soon as a RELEASED production component of that kind exists at or
+ * below the generation; because a generation's membership is frozen, a person
+ * pinned to a fixture-only generation keeps resolving exactly as before.
+ *
+ * Release is part of the test on purpose. A production candidate that has been
+ * banked but not yet visually accepted has no runtime raster behind it, so
+ * letting it displace a fixture would replace a drawn person with a
+ * placeholder. Selection still ignores release for everything else — this is
+ * the one place where "is there something real here yet" is the question being
+ * asked, and answering it wrong is visible to the player.
+ */
+export function componentsAtGeneration(
   library: CharacterComponentLibrary,
   generation: number,
 ): CharacterComponent[] {
-  return [...library.components.values()]
+  const inGeneration = [...library.components.values()].filter(
+    (component) => component.definition.catalog_generation <= generation,
+  );
+  const productionKinds = new Set(
+    inGeneration
+      .filter((component) => !component.fixture && component.released)
+      .map((component) => component.definition.kind),
+  );
+  return inGeneration
     .filter(
-      (component) => component.definition.catalog_generation <= generation,
+      (component) =>
+        !component.fixture || !productionKinds.has(component.definition.kind),
     )
     .sort((a, b) =>
       a.assetId < b.assetId ? -1 : a.assetId > b.assetId ? 1 : 0,

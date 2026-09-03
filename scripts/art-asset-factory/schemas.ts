@@ -1,4 +1,7 @@
-import type { CharacterComponentDefinition } from "../../src/presentation/character-components";
+import type {
+  CharacterComponentAvailability,
+  CharacterComponentDefinition,
+} from "../../src/presentation/character-components";
 
 export type MeasurementConfidence =
   | "exact"
@@ -114,6 +117,14 @@ export interface AssetManifestEntry {
    * validator and the runtime share one implementation.
    */
   component?: CharacterComponentDefinition;
+  /** Character components only: development-fixture or production-candidate. */
+  availability?: CharacterComponentAvailability;
+  /**
+   * Banked candidates only: the definition this part would carry once it is
+   * promoted into a catalog generation. Nothing that resolves an identity reads
+   * it, which is the point.
+   */
+  candidate_component?: CharacterComponentDefinition;
 }
 
 export type {

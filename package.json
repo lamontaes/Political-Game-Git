@@ -37,6 +37,7 @@
     "extract:chroma": "node --import tsx scripts/art-asset-factory/cli-chroma-extract.ts",
     "fixtures:dev-characters": "node --import tsx scripts/art-asset-factory/cli-dev-character-fixtures.ts",
     "fixtures:dev-characters-g2": "node --import tsx scripts/art-asset-factory/cli-dev-character-fixtures-g2.ts",
+    "intake:pg-modular": "node --import tsx scripts/art-asset-factory/cli-pg-modular-intake.ts",
     "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art",
     "agent:preflight": "node scripts/agent-preflight.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",

@@ -50,7 +50,7 @@ describe("Stage 6.5 visual integration contract", () => {
       "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
     );
     expect(composition.occluders[0]?.asset.hash).toBe(
-      "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe",
+      "f2f5ae8ca3e82e13cf6fb6f8f27c654b5c95a93c6ca2c31d5c56381fdd543406",
     );
     expect(composition.occluders[0]?.zOrder).toBe(4);
 
@@ -73,14 +73,16 @@ describe("Stage 6.5 visual integration contract", () => {
     expect(primary!.zOrder).toBe(2);
     expect(primary!.widthPercent).toBeCloseTo(24.225, 2);
     expect(primary!.heightPercent).toBeCloseTo(58.051, 2);
-    // Staged 1.3% of plate width left of the chair itself, so the seated
-    // figure's right shoulder clears the guaranteed safe area at the narrowest
-    // supported aspect instead of cropping. See the anchor comment in the
-    // office fixture.
-    expect(primary!.leftPercent).toBeCloseTo(62.727, 2);
-    expect(primary!.topPercent).toBeCloseTo(32.153, 2);
-    expect(primary!.hitbox.leftPercent).toBeCloseTo(71.206, 2);
-    expect(primary!.hitbox.topPercent).toBeCloseTo(35.055, 2);
+    // Two changes land this figure, and they only work together. The anchor
+    // stages a body 1.3% of plate width left of the chair, and the recipe root
+    // is the pelvis measured off the raster rather than an estimate that put
+    // the seat plane through mid-torso. The result puts the right shoulder at
+    // 66.918 + 24.225 = 91.14% of plate width, just inside the 91.4% guaranteed
+    // safe area it used to cross at 92.4%.
+    expect(primary!.leftPercent).toBeCloseTo(66.918, 2);
+    expect(primary!.topPercent).toBeCloseTo(27.276, 2);
+    expect(primary!.hitbox.leftPercent).toBeCloseTo(75.397, 2);
+    expect(primary!.hitbox.topPercent).toBeCloseTo(30.179, 2);
     expect(primary!.hitbox.widthPercent).toBeCloseTo(13.324, 2);
     expect(primary!.hitbox.heightPercent).toBeCloseTo(29.025, 2);
 
@@ -101,10 +103,10 @@ describe("Stage 6.5 visual integration contract", () => {
     expect(guest!.zOrder).toBe(3);
     expect(guest!.widthPercent).toBeCloseTo(17.575, 2);
     expect(guest!.heightPercent).toBeCloseTo(42.117, 2);
-    expect(guest!.leftPercent).toBeCloseTo(19.915, 2);
-    expect(guest!.topPercent).toBeCloseTo(41.52, 2);
-    expect(guest!.hitbox.leftPercent).toBeCloseTo(20.794, 2);
-    expect(guest!.hitbox.topPercent).toBeCloseTo(42.363, 2);
+    expect(guest!.leftPercent).toBeCloseTo(19.265, 2);
+    expect(guest!.topPercent).toBeCloseTo(36.889, 2);
+    expect(guest!.hitbox.leftPercent).toBeCloseTo(20.144, 2);
+    expect(guest!.hitbox.topPercent).toBeCloseTo(37.731, 2);
     expect(guest!.hitbox.widthPercent).toBeCloseTo(15.817, 2);
     expect(guest!.hitbox.heightPercent).toBeCloseTo(21.059, 2);
   });

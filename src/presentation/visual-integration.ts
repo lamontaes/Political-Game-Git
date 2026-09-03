@@ -329,10 +329,13 @@ export const CHARACTER_VISUAL_RECIPES = {
     assetId: "human_candidate_A01_primary_desk_seated_v1",
     bodyVisualFamily: "adult-authored-illustration",
     poseFamily: "seated-at-desk",
-    root: { convention: "pelvis-hip-center", x: 0.68, y: 0.54 },
+    // Measured off the raster by `measureSeatedContact`, not estimated. The
+    // earlier 0.68/0.54 put the seat plane through the figure's mid-torso,
+    // which is why the authored sitter floated above its chair.
+    root: { convention: "pelvis-hip-center", x: 0.507, y: 0.624 },
     seatedContact: {
       convention: "seat-plane-at-pelvis",
-      root: { convention: "pelvis-hip-center", x: 0.68, y: 0.54 },
+      root: { convention: "pelvis-hip-center", x: 0.507, y: 0.624 },
     },
     visualBounds: {
       sourceAspectRatio: 765 / 1024,
@@ -350,10 +353,11 @@ export const CHARACTER_VISUAL_RECIPES = {
     assetId: "human_candidate_B01_left_guest_seated_v1",
     bodyVisualFamily: "adult-authored-illustration",
     poseFamily: "seated-in-guest-chair",
-    root: { convention: "pelvis-hip-center", x: 0.46, y: 0.51 },
+    // Measured, as above.
+    root: { convention: "pelvis-hip-center", x: 0.497, y: 0.62 },
     seatedContact: {
       convention: "seat-plane-at-pelvis",
-      root: { convention: "pelvis-hip-center", x: 0.46, y: 0.51 },
+      root: { convention: "pelvis-hip-center", x: 0.497, y: 0.62 },
     },
     visualBounds: {
       sourceAspectRatio: 765 / 1024,
