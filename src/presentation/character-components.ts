@@ -54,6 +54,41 @@ const BODY_ATTACHED_KINDS: ReadonlySet<CharacterComponentKind> = new Set([
   "footwear",
 ]);
 
+/**
+ * Art complexion bands.
+ *
+ * These name ART DIRECTION, never demography. Complexion is source art on the
+ * body and head components, selected through the appearance recipe like any
+ * other component. It must never be inferred from a person's name, and no body
+ * geometry may encode race or ethnicity.
+ */
+export const CHARACTER_COMPLEXION_BANDS = [
+  "light",
+  "medium-warm",
+  "medium-cool",
+  "deep-rich",
+] as const;
+
+export type CharacterComplexion = (typeof CHARACTER_COMPLEXION_BANDS)[number];
+
+/** A point where a body meets scene geometry, normalized in the body canvas. */
+export interface CharacterContactPoint {
+  readonly x: number;
+  readonly y: number;
+}
+
+/**
+ * Where this body touches the world. The scene owns the floor line and the
+ * seat plane; the body owns the points that must land on them. Together they
+ * replace per-sprite hand tuning.
+ */
+export interface CharacterBodyContacts {
+  readonly leftFoot?: CharacterContactPoint;
+  readonly rightFoot?: CharacterContactPoint;
+  /** Seated poses only: the point that must land on the seat plane. */
+  readonly seatedPelvis?: CharacterContactPoint;
+}
+
 export interface CharacterAttachmentAnchor {
   /** Stable anchor identity such as `head`, `torso`, or `feet`. */
   readonly id: string;
@@ -124,6 +159,21 @@ export interface CharacterComponentDefinition {
 
   /** hair-front only: asset ID of the hair-back layer drawn behind the body. */
   readonly paired_with?: string;
+
+  /**
+   * Body and head only: the art complexion band this raster was drawn in. A
+   * head's complexion must equal its body's; there is no runtime recolour.
+   */
+  readonly complexion?: CharacterComplexion;
+
+  /** Body only: contact points this pose offers a scene. */
+  readonly contacts?: CharacterBodyContacts;
+
+  /**
+   * Non-body: slot IDs this component forbids while it is worn, so a garment
+   * can refuse a conflicting layer instead of drawing through it.
+   */
+  readonly blocked_slots?: readonly string[];
 }
 
 export interface CharacterComponentManifestRecord {
@@ -258,6 +308,53 @@ export function computeCharacterGenerationSignature(
   return `${CHARACTER_GENERATION_SIGNATURE_PREFIX}${stableHash(
     `character-generation-v1:${canonicalJson(payload)}`,
   )}`;
+}
+
+const COMPLEXION_BANDS: ReadonlySet<string> = new Set(
+  CHARACTER_COMPLEXION_BANDS,
+);
+
+function validateComplexion(
+  definition: CharacterComponentDefinition,
+  label: string,
+  errors: string[],
+): void {
+  if (definition.complexion === undefined) return;
+  if (!COMPLEXION_BANDS.has(definition.complexion)) {
+    errors.push(
+      `${label} declares complexion '${definition.complexion}', which is not one of ${CHARACTER_COMPLEXION_BANDS.join(", ")}.`,
+    );
+  }
+}
+
+function validateBodyContacts(
+  definition: CharacterComponentDefinition,
+  label: string,
+  errors: string[],
+): void {
+  const contacts = definition.contacts;
+  if (contacts === undefined) return;
+  if (typeof contacts !== "object") {
+    errors.push(`${label} (body) 'contacts' must be an object.`);
+    return;
+  }
+  for (const key of ["leftFoot", "rightFoot", "seatedPelvis"] as const) {
+    const point = contacts[key];
+    if (point === undefined) continue;
+    if (!isUnitInterval(point.x) || !isUnitInterval(point.y)) {
+      errors.push(
+        `${label} (body) contact '${key}' must be normalized 0..1 in the body canvas.`,
+      );
+    }
+  }
+  if (
+    (contacts.leftFoot === undefined) !==
+    (contacts.rightFoot === undefined)
+  ) {
+    errors.push(
+      `${label} (body) declares one foot contact without the other; a floor line needs both soles.`,
+    );
+  }
 }
 
 export function createCharacterComponentLibrary(
@@ -524,11 +621,14 @@ export function validateCharacterComponentLibrary(
         "compatible_pose_families",
         "compatible_head_orientations",
         "paired_with",
+        "blocked_slots",
       ] as const) {
         if (definition[forbidden] !== undefined) {
           errors.push(`${label} (body) must not declare '${forbidden}'.`);
         }
       }
+      validateComplexion(definition, label, errors);
+      validateBodyContacts(definition, label, errors);
       continue;
     }
 
@@ -548,11 +648,35 @@ export function validateCharacterComponentLibrary(
       "head_orientation",
       "root",
       "attachment_anchors",
+      "contacts",
     ] as const) {
       if (definition[forbidden] !== undefined) {
         errors.push(
           `${label} (${definition.kind}) must not declare body-only '${forbidden}'.`,
         );
+      }
+    }
+    if (definition.kind === "head") {
+      validateComplexion(definition, label, errors);
+    } else if (definition.complexion !== undefined) {
+      errors.push(
+        `${label} (${definition.kind}) must not declare 'complexion'; complexion is source art on bodies and heads only.`,
+      );
+    }
+    if (definition.blocked_slots !== undefined) {
+      if (!isStringArray(definition.blocked_slots)) {
+        errors.push(`${label} 'blocked_slots' must be a string array.`);
+      } else {
+        for (const blocked of definition.blocked_slots) {
+          const slot = catalog.slots.find((entry) => entry.slot_id === blocked);
+          if (!slot) {
+            errors.push(`${label} blocks unknown character slot '${blocked}'.`);
+          } else if (slot.required) {
+            errors.push(
+              `${label} blocks required character slot '${blocked}'; a required slot can never be left empty.`,
+            );
+          }
+        }
       }
     }
 
@@ -760,6 +884,52 @@ export function validateCharacterComponentLibrary(
     }
   }
 
+  // Complexion is a property of the head family, so identity can fix a
+  // complexion by choosing a head and the body must then agree.
+  const headFamilyComplexion = new Map<string, string | undefined>();
+  for (const { assetId, definition } of components) {
+    if (definition.kind !== "head" || !isNonEmptyString(definition.family)) {
+      continue;
+    }
+    if (!headFamilyComplexion.has(definition.family)) {
+      headFamilyComplexion.set(definition.family, definition.complexion);
+    } else if (
+      headFamilyComplexion.get(definition.family) !== definition.complexion
+    ) {
+      errors.push(
+        `Character component '${assetId}' declares complexion '${definition.complexion ?? "none"}' but other members of head family '${definition.family}' declare a different one; one head family is one complexion.`,
+      );
+    }
+  }
+
+  // A head that declares a complexion must be able to reach a body of the same
+  // complexion in every body family it claims, or the pair cannot render.
+  const bodyComplexionsByFamily = new Map<string, Set<string | undefined>>();
+  for (const { definition } of components) {
+    if (definition.kind !== "body" || !isNonEmptyString(definition.family)) {
+      continue;
+    }
+    const set =
+      bodyComplexionsByFamily.get(definition.family) ??
+      new Set<string | undefined>();
+    set.add(definition.complexion);
+    bodyComplexionsByFamily.set(definition.family, set);
+  }
+  for (const { assetId, definition } of components) {
+    if (definition.kind !== "head" || definition.complexion === undefined) {
+      continue;
+    }
+    for (const bodyFamily of definition.compatible_body_families ?? []) {
+      const available = bodyComplexionsByFamily.get(bodyFamily);
+      if (!available) continue; // unknown family is already reported above
+      if (!available.has(definition.complexion)) {
+        errors.push(
+          `Character component '${assetId}' (head, complexion '${definition.complexion}') is compatible with body family '${bodyFamily}', which has no body in that complexion; head and body complexion must match.`,
+        );
+      }
+    }
+  }
+
   // Family compatibility must be uniform within one family so identity can
   // reason about families without inspecting every pose variant.
   const familyCompat = new Map<string, string>();
@@ -957,8 +1127,38 @@ export interface CharacterRecipeRequest {
 export interface CharacterRecipeIdentity {
   readonly bodyFamily: string;
   readonly headFamily: string;
+  /**
+   * Art complexion fixed by the chosen head family. The body chosen for any
+   * pose must share it. Null when the library declares no complexions.
+   */
+  readonly complexion: CharacterComplexion | null;
   /** slot_id -> selected family, or null when an optional slot is absent. */
   readonly slots: Readonly<Record<string, string | null>>;
+}
+
+/**
+ * Why a resolved context is not a complete person. Diagnostics are data, not
+ * exceptions: the compositor still draws what resolved, the debug overlay
+ * names what did not, and a required-slot gap fails the render plan closed.
+ */
+export type CharacterRecipeDiagnosticCode =
+  /** W9: a required slot resolved no component for this context. */
+  | "required-slot-empty"
+  /** The chosen family has art, but none for this pose. */
+  | "slot-family-has-no-art-for-pose"
+  /** The chosen family has art for this pose, but not for this facing. */
+  | "slot-family-has-no-art-for-facing"
+  /** W8: another worn component forbids this slot. */
+  | "slot-conflict"
+  /** No body in the chosen family carries the identity's complexion. */
+  | "body-complexion-unavailable";
+
+export interface CharacterRecipeDiagnostic {
+  readonly code: CharacterRecipeDiagnosticCode;
+  readonly slotId: string;
+  readonly kind: CharacterComponentKind | null;
+  readonly family: string | null;
+  readonly message: string;
 }
 
 export interface ResolvedCharacterComponent {
@@ -977,6 +1177,8 @@ export interface CharacterRecipeContext {
   readonly headOrientation: string | null;
   /** Ordered by layer ascending. Slots with no art for this pose are omitted. */
   readonly components: readonly ResolvedCharacterComponent[];
+  /** Named reasons a slot is absent; empty when the person is complete. */
+  readonly diagnostics: readonly CharacterRecipeDiagnostic[];
 }
 
 export interface CharacterRecipe {
@@ -1191,17 +1393,61 @@ export function resolveCharacterRecipe(
     );
   }
 
-  const identity: CharacterRecipeIdentity = { bodyFamily, headFamily, slots };
+  // Complexion is fixed by the head family; the body must match it.
+  const complexion =
+    available.find(
+      (component) =>
+        component.definition.kind === "head" &&
+        component.definition.family === headFamily &&
+        component.definition.complexion !== undefined,
+    )?.definition.complexion ?? null;
+
+  const identity: CharacterRecipeIdentity = {
+    bodyFamily,
+    headFamily,
+    complexion,
+    slots,
+  };
+
+  const diagnostics: CharacterRecipeDiagnostic[] = [];
+  const bodySlotId =
+    library.slots.find((slot) => slot.kind === "body")?.slot_id ?? "body";
 
   // Context: pose-dependent component choice within the established families.
-  const bodyCandidates = available.filter(
+  const posedBodies = available.filter(
     (component) =>
       component.definition.kind === "body" &&
       component.definition.family === bodyFamily &&
       component.definition.pose_family === poseFamily,
   );
+  const bodyCandidates =
+    complexion === null
+      ? posedBodies
+      : posedBodies.filter(
+          (component) => component.definition.complexion === complexion,
+        );
   const resolved: ResolvedCharacterComponent[] = [];
   let headOrientation: string | null = null;
+
+  if (bodyCandidates.length === 0) {
+    if (posedBodies.length > 0 && complexion !== null) {
+      diagnostics.push({
+        code: "body-complexion-unavailable",
+        slotId: bodySlotId,
+        kind: "body",
+        family: bodyFamily,
+        message: `Body family '${bodyFamily}' has ${poseFamily} art but none in complexion '${complexion}', which head family '${headFamily}' requires.`,
+      });
+    } else {
+      diagnostics.push({
+        code: "slot-family-has-no-art-for-pose",
+        slotId: bodySlotId,
+        kind: "body",
+        family: bodyFamily,
+        message: `Body family '${bodyFamily}' has no art for pose '${poseFamily}'.`,
+      });
+    }
+  }
 
   if (bodyCandidates.length > 0) {
     const body = pickComponent(
@@ -1211,8 +1457,7 @@ export function resolveCharacterRecipe(
     );
     headOrientation = body.definition.head_orientation ?? null;
     resolved.push({
-      slotId:
-        library.slots.find((slot) => slot.kind === "body")?.slot_id ?? "body",
+      slotId: bodySlotId,
       kind: "body",
       family: bodyFamily,
       assetId: body.assetId,
@@ -1220,26 +1465,93 @@ export function resolveCharacterRecipe(
       released: body.released,
     });
 
+    // Chosen components first, so a garment can forbid a slot resolved later.
+    const chosenBySlot = new Map<string, CharacterComponent>();
     for (const slot of library.slots) {
       if (slot.kind === "body") continue;
       const family = slots[slot.slot_id];
-      if (!family) continue;
-      const candidates = available.filter(
+      if (!family) {
+        if (slot.required) {
+          diagnostics.push({
+            code: "required-slot-empty",
+            slotId: slot.slot_id,
+            kind: slot.kind,
+            family: null,
+            message: `Required slot '${slot.slot_id}' resolved no ${slot.kind} family for this identity.`,
+          });
+        }
+        continue;
+      }
+      const inFamily = available.filter(
         (component) =>
           component.definition.kind === slot.kind &&
-          component.definition.family === family &&
-          contextCompatible(
-            component.definition,
-            poseFamily,
-            headOrientation ?? "",
-          ),
+          component.definition.family === family,
       );
-      if (candidates.length === 0) continue;
-      const chosen = pickComponent(
-        rng,
-        `character-context:${version}:${slot.slot_id}:${poseFamily}:${headOrientation ?? ""}`,
-        candidates,
+      const forPose = inFamily.filter(
+        (component) =>
+          component.definition.compatible_pose_families === undefined ||
+          component.definition.compatible_pose_families.includes(poseFamily),
       );
+      const candidates = forPose.filter((component) =>
+        contextCompatible(
+          component.definition,
+          poseFamily,
+          headOrientation ?? "",
+        ),
+      );
+      if (candidates.length === 0) {
+        const code: CharacterRecipeDiagnosticCode =
+          forPose.length === 0
+            ? "slot-family-has-no-art-for-pose"
+            : "slot-family-has-no-art-for-facing";
+        const detail =
+          forPose.length === 0
+            ? `has no art for pose '${poseFamily}'`
+            : `has no art facing '${headOrientation ?? "unknown"}', which body '${body.assetId}' presents`;
+        diagnostics.push({
+          code: slot.required ? "required-slot-empty" : code,
+          slotId: slot.slot_id,
+          kind: slot.kind,
+          family,
+          message: `${slot.required ? "Required slot" : "Slot"} '${slot.slot_id}' family '${family}' ${detail}.`,
+        });
+        continue;
+      }
+      chosenBySlot.set(
+        slot.slot_id,
+        pickComponent(
+          rng,
+          `character-context:${version}:${slot.slot_id}:${poseFamily}:${headOrientation ?? ""}`,
+          candidates,
+        ),
+      );
+    }
+
+    // Blocked slots: a worn component may forbid another slot. Blocking a
+    // required slot is a validation error, so only optional layers drop here.
+    const blocked = new Map<string, string>();
+    for (const [slotId, component] of chosenBySlot) {
+      for (const target of component.definition.blocked_slots ?? []) {
+        if (!blocked.has(target)) blocked.set(target, slotId);
+      }
+    }
+
+    for (const slot of library.slots) {
+      if (slot.kind === "body") continue;
+      const chosen = chosenBySlot.get(slot.slot_id);
+      if (!chosen) continue;
+      const blockedBy = blocked.get(slot.slot_id);
+      if (blockedBy !== undefined && blockedBy !== slot.slot_id) {
+        diagnostics.push({
+          code: "slot-conflict",
+          slotId: slot.slot_id,
+          kind: slot.kind,
+          family: chosen.definition.family,
+          message: `Slot '${slot.slot_id}' is blocked by the component worn in slot '${blockedBy}'; the conflicting layer is not drawn.`,
+        });
+        continue;
+      }
+      const family = chosen.definition.family;
       const entry: ResolvedCharacterComponent = {
         slotId: slot.slot_id,
         kind: chosen.definition.kind,
@@ -1266,16 +1578,35 @@ export function resolveCharacterRecipe(
         }
       }
     }
+  } else {
+    for (const slot of library.slots) {
+      if (slot.kind === "body" || !slot.required) continue;
+      diagnostics.push({
+        code: "required-slot-empty",
+        slotId: slot.slot_id,
+        kind: slot.kind,
+        family: slots[slot.slot_id] ?? null,
+        message: `Required slot '${slot.slot_id}' cannot resolve because no body resolved for pose '${poseFamily}'.`,
+      });
+    }
   }
 
   resolved.sort((a, b) => a.layer - b.layer);
+  diagnostics.sort((a, b) =>
+    a.slotId < b.slotId ? -1 : a.slotId > b.slotId ? 1 : 0,
+  );
 
   return {
     appearanceSeed: appearance.seed,
     recipeVersion: version,
     catalogGeneration: generation,
     identity,
-    context: { poseFamily, headOrientation, components: resolved },
+    context: {
+      poseFamily,
+      headOrientation,
+      components: resolved,
+      diagnostics,
+    },
   };
 }
 

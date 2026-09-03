@@ -1028,3 +1028,170 @@ line-item and amendatory vetoes, confirmations, and the wider fifty states
 remain deliberately unimplemented. No pack currently resolves what becomes of a
 measure still pending at adjournment, so no measure can be recorded as dying
 that way until one does.
+
+## D-057 — Scenes and people are placed from declared contacts, and rasters are chosen by the screen
+
+- Date: 2026-09-02
+- Status: ACCEPTED
+- Supersedes: nothing. It extends D-053 and D-054 rather than replacing them;
+  no Stage 6 semantics, no player/save ownership, and no source-corpus decision
+  is touched.
+
+`EnvironmentSceneSpec` is the one scene contract, and the runtime now consumes
+it. `src/presentation/scene-registry.ts` validates a spec and projects it into
+what the compositor draws; the office fixture's camera, safe areas, anchors and
+occluder are read from that spec rather than from a hand-written constant. A
+second scene schema was available and was not created: the researched spec
+already carried Camera, Anchor, Occluder, Zone, calibration and grade concepts,
+and only the genuinely missing fields were added to it.
+
+A scene may register with no raster at all. That is the honest state of a room
+whose plate has not been made, and the runtime says the picture is missing
+rather than substituting another room's.
+
+Placement is computed from contacts, never tuned per sprite. A scene declares a
+floor line per anchor and, for a seat, the seat plane, front, width and the
+seat and backrest z-orders; a body declares its own soles and, for a seated
+pose, its seated pelvis. Standing puts the sole line on the floor; seated puts
+the pelvis on the seat plane and then checks the resulting soles against the
+floor the chair stands on, because a seated person's feet are on the floor and
+modelling only the pelvis is exactly why hand-placed seated sprites floated.
+A body that predates the contract still places, by its pelvis root, and the
+runtime records that its contact is unverified rather than implying it was
+checked.
+
+Authoring the seat and the floor together settles numbers that guessing would
+not. The office fixture's floor line had to be 84% of plate height, not a
+rounder figure: it is where a seated figure of those sprites' proportions
+actually puts its feet once its pelvis is on the accepted 63.5% seat plane.
+
+Perspective is a bounded linear ramp between two authored floor calibration
+pairs, clamped rather than extrapolated. It is deliberately not a projective
+camera: the generation pipeline cannot supply truthful camera intrinsics, and
+inventing them would be fabricated measurement precision. Perspective depth and
+paint order are now separate fields — depth is the floor line, order is
+`zOrder` — and people in one scene sort by floor line rather than by the order
+they were listed in. Named occluders each carry their own z-order, because a
+desk front and a chair arm occlude a seated person differently and one flat
+mask cannot say so.
+
+One asset identity owns an ordered raster tier ladder, and the screen chooses
+among them: the required device width is the painted plate times the device
+pixel ratio, and the smallest tier at or above it wins. The runtime steps up
+immediately, steps down only after 250 ms of continuous sufficiency, and keeps
+painting the current raster until its replacement has decoded. The pipeline
+never synthesizes or enlarges a tier; a raster carrying less real detail than
+its pixel width claims must declare that, and the shortfall is reported rather
+than hidden.
+
+The supported fidelity envelope is stated on required device width, not display
+width. For a viewport at or wider than the plate's aspect the two coincide; for
+a taller viewport the cover-fit camera paints wider than the screen, so a
+1920x1200 window at device pixel ratio 2 is a 3840-wide panel that still needs
+about 4297 device pixels of plate. Stating the envelope on display width would
+promise fidelity there that no 4096 tier can deliver.
+
+Fidelity acceptance is separate from geometry acceptance and is asserted rather
+than computed and discarded. The camera passes at every tested viewport and
+always did; the shipped office plate fails fidelity from 1440x900 upward, and
+conflating the two is how a soft plate kept a green suite.
+
+For people: master dimensions are enforced by component class and an undersized
+master is rejected rather than enlarged, with the enlargement it would have
+needed stated. `art_class` separates production components from frozen
+development fixture art, and fixture art is never promoted. Complexion is
+source art on bodies and heads in named art-direction bands, never a runtime
+recolour, never demographic truth, and never inferred from a person's name or
+any other property; one head family is one complexion and a head must reach a
+body of the same complexion in every body family it claims. Required slots are
+enforced at resolve time, so a person with an empty required slot is not
+complete however well the rest of them draws. A garment may block a conflicting
+optional slot, and blocking a required one is a validation error.
+
+Consequence: adding a room or a person component is data and asset authoring
+against a stable contract. Development warnings are raised as data rather than
+exceptions, so a wrong-looking person and the contract they broke appear in the
+same view — the old floating-legs defect is now a named mismatch with both
+numbers printed. Player-facing degradation copy stays free of that vocabulary
+and says only what is actually being shown. Title tableau resolution exists as
+presentation-only primitives that take eligibility as caller-supplied truth,
+hold no saves and load no worlds, so no code path there can invent a biography.
+
+## D-058 — Art declares where it came from, and authoring declares what it does not know
+
+- Date: 2026-09-02
+- Status: ACCEPTED
+- Supersedes: nothing. It extends D-057, which established that scenes and people
+  are placed from declared contacts and that rasters are chosen by the screen.
+  This decision governs everything upstream of that runtime contract.
+
+Adding a room is data authoring. The pipeline between an approved picture and a
+registered scene is a set of contracts, and four of them are refusals.
+
+**The repository never enlarges a raster.** A requested tier above the master is
+skipped, the ladder is shorter, and the shortfall is stated. A 4096 file
+carrying 2048 pixels of detail is a promise the runtime cannot keep, and the
+cost is paid by whoever later assumes the number means something.
+
+**An external upscale is admissible, and must be declared.** Rejected
+alternative: banning upscaled masters outright. An externally upscaled render is
+frequently the best art available, and a ban would have meant either losing it
+or laundering it in by hand. Instead a candidate declares its lineage class and
+its native-detail state, and a declared upscale carries `nativeDetailWidth`
+forward into every tier derived from it, into the manifest, into the registry
+and into the runtime's fidelity warnings. Downscaling does not restore
+information and must not be allowed to erase the record of its absence.
+
+`RasterTierDerivation` therefore gained `external-upscale-derivative`: real
+pixels, admissible in production, detail that stops where the declaration says.
+It is deliberately distinct from `upscaled-development-fixture`, which is an
+enlargement this repository performed and which may never reach a production
+plate. Rejected alternative: allowing `nativeDetailWidth` on
+`deterministic-downscale`. That would have made a plain reduction's pixel width
+untrustworthy by default, when the whole value of that derivation is that its
+width IS its detail.
+
+**A scaffold's unknowns stay unknown.** Every value the compositor needs starts
+UNRESOLVED with a reason, and projection to a scene spec refuses while a
+blocking gap remains rather than emitting plausible defaults. A scaffold that
+quietly filled a floor line with 85 would produce a scene that registers,
+renders, and puts everyone's feet slightly through the floor in a way nobody can
+attribute to anything. `UNVERIFIED` is kept distinct from `UNKNOWN` because the
+remedies differ: one needs someone to decide, the other needs someone to check.
+
+**Nothing meaningful is read out of a filename.** Lineage, access class and
+world label are declared by a caller. Intake reads declarations, not
+directories; a file nobody declared is reported as undeclared rather than
+adopted with a plausible history.
+
+Two further separations follow.
+
+Physical art identity is not a world label. A scene family describes the room;
+what the World calls it — the player's apartment, their parents', a friend's —
+is canonical truth supplied at binding time. One apartment plate serves four
+homes across a career and one pavilion serves a childhood birthday and a
+campaign meet-and-greet, which is the whole economic argument for the split.
+Access class describes the kind of gate a place has and grants nothing: role
+eligibility tags are a search key for future progression work, and passage is
+decided from roles the World records.
+
+Baked decor is not information. Production art may be lived-in — artwork, books,
+plants, coloured paper shapes, a clock-shaped block — and must not be legible.
+Anything the simulation owns goes in a declared dynamic surface slot, because
+readable words baked into a plate are either wrong or are asserting something
+the simulation never decided, and they are frozen either way.
+
+Measured geometry is an authoring aid and never a replica claim. A number a
+source stated is `direct-published`; a number measured off a drawing is
+`scale-derived` and requires a scale resolved against a known reference span on
+that same reproduction. Marking the second as the first is a validation error.
+Evidence attaches to an archetype informed by several rooms, because what
+transfers to a generic room is proportion, not any one room's dimension.
+
+Consequence: approved masters, external QA passes and measured-geometry research
+now have a schema to arrive through, and the failure modes they would otherwise
+introduce — a soft plate believed sharp, a guessed floor line, a duplicated
+apartment, a frozen bill number, a fabricated dimension — are unrepresentable
+rather than merely discouraged. None of this is wired into PlayerGame; the
+contracts and their tests exist first so that integration stays a cheap
+decision.

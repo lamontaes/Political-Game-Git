@@ -6,6 +6,7 @@ import { createRunBFixture } from "./run-b-fixture";
 import {
   computeCharacterGenerationSignature,
   createCharacterComponentLibrary,
+  resolveCharacterRecipe,
   type CharacterCatalogData,
   type CharacterComponentDefinition,
   type CharacterComponentManifestRecord,
@@ -150,12 +151,62 @@ function grownProductionLibrary() {
 }
 
 describe("Character render plan", () => {
-  it("uses the released dev fixture catalog at generation 1", () => {
-    expect(PRODUCTION_CHARACTER_LIBRARY.catalogGeneration).toBe(1);
-    expect(PRODUCTION_CHARACTER_LIBRARY.components.size).toBe(16);
+  it("releases every component in the dev fixture catalog", () => {
+    expect(PRODUCTION_CHARACTER_LIBRARY.catalogGeneration).toBe(2);
+    expect(PRODUCTION_CHARACTER_LIBRARY.components.size).toBe(46);
     for (const component of PRODUCTION_CHARACTER_LIBRARY.components.values()) {
       expect(component.released).toBe(true);
       expect(PRODUCTION_VISUAL_LIBRARY.has(component.assetId)).toBe(true);
+    }
+  });
+
+  it("keeps generation 1 frozen while the catalog grows", () => {
+    const generationOne = PRODUCTION_CHARACTER_LIBRARY.generations.find(
+      (generation) => generation.generation === 1,
+    );
+    expect(generationOne).toBeDefined();
+    expect(generationOne!.component_ids).toHaveLength(16);
+    expect(generationOne!.signature).toBe("csig_6f0c19b1dce11425");
+  });
+
+  /**
+   * Adding generation 2 must not reroll a single person already pinned to
+   * generation 1. These identities were captured from the accepted library
+   * before the catalog grew; they are the no-reroll contract in literal form.
+   */
+  it("resolves the exact generation-1 identities it resolved before the catalog grew", () => {
+    const frozen: Record<
+      string,
+      { head: string; hair: string | null; top: string }
+    > = {
+      app_probe_0: { head: "dev-round", hair: "dev-long", top: "dev-tee-teal" },
+      app_probe_1: {
+        head: "dev-oval",
+        hair: "dev-long",
+        top: "dev-blazer-navy",
+      },
+      app_probe_2: {
+        head: "dev-round",
+        hair: "dev-crop",
+        top: "dev-blazer-navy",
+      },
+      app_probe_5: { head: "dev-round", hair: null, top: "dev-tee-teal" },
+      app_probe_9: { head: "dev-oval", hair: "dev-long", top: "dev-tee-teal" },
+    };
+    for (const [seed, expected] of Object.entries(frozen)) {
+      const recipe = resolveCharacterRecipe(
+        {
+          appearance: { seed, recipeVersion: "appearance-recipe-v1" },
+          poseFamily: "standing-neutral",
+          catalogGeneration: 1,
+        },
+        PRODUCTION_CHARACTER_LIBRARY,
+      );
+      expect(recipe.identity.bodyFamily, seed).toBe("dev-adult");
+      expect(recipe.identity.headFamily, seed).toBe(expected.head);
+      expect(recipe.identity.slots.hair, seed).toBe(expected.hair);
+      expect(recipe.identity.slots.top, seed).toBe(expected.top);
+      expect(recipe.identity.slots.footwear, seed).toBe("dev-oxford-black");
     }
   });
 
@@ -232,10 +283,16 @@ describe("Character render plan", () => {
     const standing = planFor(3, STANDING);
     expect(seated.identity).toEqual(standing.identity);
     expect(seated.recipeKey).toBe(standing.recipeKey);
-    expect(seated.layers.some((layer) => layer.kind === "footwear")).toBe(
-      false,
-    );
-    expect(seated.complete).toBe(true);
+    // Pose selects art within an already-established identity; it never
+    // re-picks the identity. Where the chosen footwear family has no seated
+    // art the required slot is empty, and the plan refuses to call the person
+    // complete rather than presenting a barefoot figure as finished.
+    if (seated.layers.some((layer) => layer.kind === "footwear")) {
+      expect(seated.complete).toBe(true);
+    } else {
+      expect(seated.complete).toBe(false);
+      expect(seated.missing).toContain("slot:footwear");
+    }
   });
 
   it("never selects a component incompatible with the resolved body or head family", () => {
@@ -300,7 +357,7 @@ describe("Character render plan", () => {
     it("pins new people to the current catalog generation and round-trips through the snapshot codec", () => {
       const world = createCharacterProofWorld(PRODUCTION_CHARACTER_LIBRARY);
       for (const personId of world.personOrder) {
-        expect(world.people[personId]!.appearance?.catalogGeneration).toBe(1);
+        expect(world.people[personId]!.appearance?.catalogGeneration).toBe(2);
       }
       const restored = deserializeWorld(serializeWorld(world));
       expect(restored).toEqual(world);
@@ -441,13 +498,60 @@ describe("Character render plan", () => {
       expect(eyewear).toContain(false);
 
       const reuse = summarizeComponentReuse(composition.stage);
-      const body = reuse.find(
-        (row) => row.assetId === "dev_body_adult_standing_v1",
-      )!;
-      expect(body.usedBy).toEqual(["stage-1", "stage-2", "stage-3", "stage-4"]);
       expect(
         reuse.filter((row) => row.usedBy.length > 1).length,
       ).toBeGreaterThanOrEqual(3);
+      // Every stage character resolves a body, and the bodies come from the
+      // shared component library rather than one flattened raster each.
+      expect(
+        reuse.filter((row) => row.kind === "body").length,
+      ).toBeGreaterThanOrEqual(1);
+    });
+
+    /**
+     * The first proof person wears a generation-1 footwear family, which was
+     * authored for the standing pose only. Sitting them down leaves a REQUIRED
+     * slot empty, and the plan must say so rather than presenting a barefoot
+     * figure as a finished person. This is the shipped-library proof of the
+     * required-slot contract.
+     */
+    it("refuses to call a person complete when a required slot has no art for the pose", () => {
+      const side = composition.side.plan;
+      expect(side.identity.slots.footwear).toBe("dev-oxford-black");
+      expect(side.layers.some((layer) => layer.kind === "footwear")).toBe(
+        false,
+      );
+      expect(side.complete).toBe(false);
+      expect(side.missing).toContain("slot:footwear");
+      const diagnostic = side.diagnostics.find(
+        (entry) => entry.slotId === "footwear",
+      );
+      expect(diagnostic?.code).toBe("required-slot-empty");
+      expect(diagnostic?.message).toContain("seated-at-desk");
+    });
+
+    it("draws a complete seated person when the footwear family has seated art", () => {
+      const seated = composition.stage.find(
+        (character) =>
+          character.plan.identity.slots.footwear === "dev-g2-derby-oxblood",
+      );
+      expect(seated).toBeDefined();
+      const plan = buildCharacterRenderPlan({
+        personId: seated!.person.id,
+        appearance: seated!.person.appearance!,
+        anchor: CHARACTER_PROOF_SCENE.sideAnchor,
+        plate: CHARACTER_PROOF_SCENE.plate,
+        library: PRODUCTION_CHARACTER_LIBRARY,
+        visualLibrary: PRODUCTION_VISUAL_LIBRARY,
+      });
+      expect(plan.poseFamily).toBe("seated-at-desk");
+      expect(plan.layers.some((layer) => layer.kind === "footwear")).toBe(true);
+      expect(
+        plan.diagnostics.filter(
+          (entry) => entry.code === "required-slot-empty",
+        ),
+      ).toEqual([]);
+      expect(plan.complete).toBe(true);
     });
 
     it("shows the first person again in another scene with the same identity", () => {
@@ -455,10 +559,6 @@ describe("Character render plan", () => {
         composition.stage[0]!.plan.recipeKey,
       );
       expect(composition.side.plan.poseFamily).toBe("seated-at-desk");
-      expect(composition.side.plan.complete).toBe(true);
-      expect(
-        composition.side.plan.layers.some((l) => l.kind === "footwear"),
-      ).toBe(false);
     });
   });
 

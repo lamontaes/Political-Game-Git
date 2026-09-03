@@ -166,9 +166,10 @@ for (const viewport of [
       );
     }
 
-    const foreground = page.locator(
-      '[data-occluder-id="office-furniture-foreground"]',
-    );
+    // The office's single mask is now one NAMED occluder region among
+    // several, each with its own z-order. Only the region that has an
+    // authored alpha raster is composited.
+    const foreground = page.locator('[data-occluder-id="desk-front"]');
     await expect(foreground).toHaveCount(1);
     await expect(foreground).toBeVisible();
     await expect(foreground).toHaveAttribute(

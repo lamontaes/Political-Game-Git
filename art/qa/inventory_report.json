@@ -1,5 +1,5 @@
 {
-  "totalItems": 24,
+  "totalItems": 54,
   "items": [
     {
       "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
@@ -76,6 +76,126 @@
     {
       "filePath": "generated/approved/dev-modular/dev_top_tee_teal_standing_v1.png",
       "hash": "596610db55f3ba8413770cfd68e8b88c51a3879af38f00ef4fb305709d8d75eb"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_accessory_lanyard_v1.png",
+      "hash": "ddb0b0a2208d5c95dc70887663089249560ebcc1771d48c25942da5ad0d63874"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_broad_deep_rich_seated_v1.png",
+      "hash": "5a5f3d8ed6eb026198cd212028270ae0473f8d64ed6754fc026a4beed80c6638"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_broad_deep_rich_standing_v1.png",
+      "hash": "9f8c445194e2a1685615506e3d3059e3fd505411fc59682c050466c89d6208b8"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_broad_light_seated_v1.png",
+      "hash": "71582ec9cddb407ae07a3fc98aba3335b97ad1ce557f5c4099d297732b47c932"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_broad_light_standing_v1.png",
+      "hash": "2c7f657f9e525d26f16a8a20f77988bea32d0ae8fe094c37e4835a37471b27b5"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_broad_medium_warm_seated_v1.png",
+      "hash": "6a056b4e5c6fd77da98c84dbb83d76e8252cdc1af766edc8a80a51d68f8a20b7"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_broad_medium_warm_standing_v1.png",
+      "hash": "1bbaa7ada0195c10ae3b597b2c22671be183fcd9517e1e3e972e4a84f84e787e"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_slim_deep_rich_seated_v1.png",
+      "hash": "682c9f86de043dd37d44a49c80acf49450737dbd8992c590ad9ece0507cc4d92"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_slim_deep_rich_standing_v1.png",
+      "hash": "b8f644bf90d74b4c381dc3b2980c1bb1d3750a9e9d346d34a1d71584df085eac"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_slim_light_seated_v1.png",
+      "hash": "86788ea68e5a63cb458889c56b54452939dd9e90040710e4c0652009723bf2c8"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_slim_light_standing_v1.png",
+      "hash": "73bc247983b5d688a6fb8449ab6b4e4b1a833b75f5d6caed3eec90b195d94889"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_slim_medium_warm_seated_v1.png",
+      "hash": "47c827e6a823b2ff2030880ef6cc27dcd28decfd595286b1ac9095431757c624"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_slim_medium_warm_standing_v1.png",
+      "hash": "9af9c5981e24f7ad392621f27319975508bff8d2179e85ebaa73e26762b4ef3e"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_bottom_trousers_seated_v1.png",
+      "hash": "35c5f21dc3edb14feef4bd420a9450b30a17d5e34a723799231ee7a3922372dd"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_bottom_trousers_standing_v1.png",
+      "hash": "f761876022d630b56805658f7d938b0beb490739446fa7ef7b15244554665bc2"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_eyewear_thin_frames_v1.png",
+      "hash": "3a66722fa68529acb2a6a9b85e52b27a28fdb593ef2a4f0faca56282e3f9bf79"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_footwear_derby_seated_v1.png",
+      "hash": "d95896e1139662b48db5bc783089ab1d1943f888efe7e9c61b32f4d08b4dbfd4"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_footwear_derby_standing_v1.png",
+      "hash": "d93542e44e58f6f09c29bd5531190fa7a6e27b78f27760a2ca981d10cc3d7a61"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_hair_coils_front_v1.png",
+      "hash": "0ca0e62b1577896679a440e92b7cd6363329c846b845460bda9041b3fee7abae"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_hair_crop_front_v1.png",
+      "hash": "ab8357df8befe39f2270297853e56fec4b2117b0b4b7cddc5ed52e6c06a2dfe7"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_hair_long_back_v1.png",
+      "hash": "b7d2f600ccc1df304ebc4e9da8cbc06d99474e2e0239c19980dfaf1f8b1ebff0"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_hair_long_front_v1.png",
+      "hash": "925971d520e5a7b89ee551255080d05f9b4c22936a15334d3fcf03e34c550962"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_head_deep_oval_v1.png",
+      "hash": "e2982c39dd886beb92799b864af7d88f2429bc65b489ea4e2aa10740dd78e875"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_head_light_square_v1.png",
+      "hash": "c0884fb82f834b1e682718fc615e225f154ae0d11fabcd5ea5506ec5338ef763"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_head_warm_long_v1.png",
+      "hash": "5d57d37d361fa7f15b55e8e11dc9a2d9412bcb27adf251c9466f210c98ca0a7e"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_head_warm_round_v1.png",
+      "hash": "9140bb40094901b9917fb800bf153c4855fc49ff52cd8638b6031882afa924cc"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_top_knit_olive_seated_v1.png",
+      "hash": "2c40f040fb953745ea8d6ee4fe4c34cd9eb939fcf4a752494633dc26c8a6ce9e"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_top_knit_olive_standing_v1.png",
+      "hash": "94ce08e96c1c214ad42b3ebc009241f6f7e1b0f4613368c66d5cb8e6438f9c15"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_top_suit_charcoal_seated_v1.png",
+      "hash": "3803d027b8700cc2b48ff66aac7fe8039e6bbd447d2a8d4e24b4407162584ecb"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_top_suit_charcoal_standing_v1.png",
+      "hash": "988a0a8bad87577b3ed86b96c9525bc48ea346a18325afd3f24525da4d44d1ab"
     },
     {
       "filePath": "generated/approved/human_candidate_A01_primary_desk_seated_v1.png",

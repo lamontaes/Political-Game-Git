@@ -35,7 +35,7 @@ test.describe("Modular character runtime proof", () => {
   }) => {
     const proof = page.getByTestId("character-proof");
     await expect(proof).toHaveAttribute("data-world-source", "fresh");
-    await expect(proof).toHaveAttribute("data-catalog-generation", "1");
+    await expect(proof).toHaveAttribute("data-catalog-generation", "2");
 
     const characters = page.getByTestId("character-proof-stage-character");
     await expect(characters).toHaveCount(4);
@@ -68,15 +68,18 @@ test.describe("Modular character runtime proof", () => {
         usedBy: node.querySelectorAll("td")[2]?.textContent ?? "",
       })),
     );
-    const body = usage.find(
-      (row) => row.assetId === "dev_body_adult_standing_v1",
-    );
-    expect(body?.usedBy).toBe("stage-1, stage-2, stage-3, stage-4");
-    const heads = usage.filter((row) => row.assetId.startsWith("dev_head_"));
+    // Bodies now come in two frames across three complexion bands, so the
+    // four are no longer built on one shared body raster. What must still
+    // hold is that they RECOMBINE: shared components used by more than one.
+    const shared = usage.filter((row) => row.usedBy.includes(","));
+    expect(shared.length).toBeGreaterThanOrEqual(3);
+    const bodies = usage.filter((row) => row.assetId.includes("_body_"));
+    expect(bodies.length).toBeGreaterThanOrEqual(1);
+    const heads = usage.filter((row) => row.assetId.includes("_head_"));
     expect(heads.length).toBeGreaterThanOrEqual(2);
-    const hair = usage.filter((row) => row.assetId.startsWith("dev_hair_"));
+    const hair = usage.filter((row) => row.assetId.includes("_hair_"));
     expect(hair.length).toBeGreaterThanOrEqual(2);
-    const tops = usage.filter((row) => row.assetId.startsWith("dev_top_"));
+    const tops = usage.filter((row) => row.assetId.includes("_top_"));
     expect(tops.length).toBeGreaterThanOrEqual(2);
 
     // The same person seated in the second scene keeps the stage identity.
@@ -84,7 +87,15 @@ test.describe("Modular character runtime proof", () => {
     await expect(side).toHaveCount(1);
     await expect(side).toHaveAttribute("data-recipe-key", keys[0]!);
     await expect(side).toHaveAttribute("data-pose-family", "seated-at-desk");
-    await expect(side).toHaveAttribute("data-complete", "true");
+
+    // This person wears a generation-1 footwear family that was authored for
+    // the standing pose only. Sitting them down leaves a REQUIRED slot empty,
+    // and the proof reports that rather than presenting a barefoot figure as
+    // a finished person.
+    await expect(side).toHaveAttribute("data-complete", "false");
+    await expect(page.getByTestId("character-proof-side-status")).toContainText(
+      "footwear",
+    );
 
     await page.screenshot({
       path: "test-results/character-proof/stage.png",

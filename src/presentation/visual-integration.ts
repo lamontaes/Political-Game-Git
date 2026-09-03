@@ -15,6 +15,18 @@ import type {
   RunBScenePersonContext,
   RunBScenePersonVariant,
 } from "./run-b-fixture";
+import {
+  createRasterTierLadder,
+  type RasterTier,
+  type RasterTierLadder,
+} from "./raster-tiers";
+import {
+  OFFICE_FIXTURE_SCENE_ID,
+  requireScene,
+  SCENE_REGISTRY,
+  type RegisteredScene,
+} from "./scene-registry";
+import { resolvePerspectiveScale } from "./scene-placement";
 import type {
   SceneCameraPolicy,
   SceneRect,
@@ -25,6 +37,15 @@ type RuntimeAssetStatus = "draft" | "approved" | "rejected" | "pending";
 type QaStatus = "approved" | "rejected" | "pending";
 type ReleaseStatus = "released" | "unreleased";
 
+export interface RuntimeRasterTierRecord {
+  readonly width: number;
+  readonly height: number;
+  readonly path: string;
+  readonly hash: string;
+  readonly derivation: RasterTier["derivation"];
+  readonly native_detail_width?: number;
+}
+
 export interface RuntimeVisualAssetRecord {
   readonly asset_id: string;
   readonly generation_status: RuntimeAssetStatus;
@@ -32,6 +53,12 @@ export interface RuntimeVisualAssetRecord {
   readonly runtime_release_status: ReleaseStatus;
   readonly final_path?: string;
   readonly hash?: string;
+  readonly raster_tiers?: readonly RuntimeRasterTierRecord[];
+}
+
+/** One tier of an asset, with its runtime URL resolved. */
+export interface RuntimeRasterTier extends RasterTier {
+  readonly url: string;
 }
 
 export interface RuntimeVisualAsset {
@@ -39,6 +66,13 @@ export interface RuntimeVisualAsset {
   readonly finalPath: string;
   readonly hash: string;
   readonly url: string;
+  /**
+   * Ordered tier ladder, when this asset registers one. Assets that ship a
+   * single raster leave it null rather than pretending to a ladder they do not
+   * have; the runtime then paints `url` and reports the shortfall honestly.
+   */
+  readonly tierLadder: RasterTierLadder | null;
+  readonly tierUrls: ReadonlyMap<number, string>;
 }
 
 export type RuntimeVisualLibrary = ReadonlyMap<string, RuntimeVisualAsset>;
@@ -112,16 +146,22 @@ export interface CharacterVisualRecipe {
 export interface SceneVisualAnchor {
   readonly id: RunBSceneAnchorId;
   readonly xPercent: number;
+  /** The seat plane this anchor's pose contacts, in plate percent. */
   readonly yPercent: number;
+  /** Derived from the scene's floor calibration; never tuned per sprite. */
   readonly scale: number;
   readonly poseFamily: CharacterVisualRecipe["poseFamily"];
-  readonly depth: number;
+  /** Paint order. Perspective depth is `contactFloorYPercent`, not this. */
+  readonly zOrder: number;
+  /** Where on the floor this anchor sits, which is what scale is derived from. */
+  readonly contactFloorYPercent: number;
 }
 
 export interface SceneOccluder {
   readonly id: string;
   readonly assetId: string;
-  readonly depth: number;
+  /** Paint order. Named occluders each keep their own. */
+  readonly zOrder: number;
 }
 
 export interface ComposedSceneOccluder extends SceneOccluder {
@@ -173,7 +213,7 @@ export interface ComposedCharacterVisual {
     readonly widthPercent: number;
     readonly heightPercent: number;
   };
-  readonly depth: number;
+  readonly zOrder: number;
 }
 
 export interface OfficeVisualComposition {
@@ -215,11 +255,41 @@ export function createRuntimeVisualLibrary(
         `Runtime visual asset '${record.asset_id}' cannot resolve '${record.final_path}'.`,
       );
     }
+
+    let tierLadder: RasterTierLadder | null = null;
+    const tierUrls = new Map<number, string>();
+    if (record.raster_tiers && record.raster_tiers.length > 0) {
+      tierLadder = createRasterTierLadder(
+        record.asset_id,
+        record.raster_tiers.map((tier) => ({
+          width: tier.width,
+          height: tier.height,
+          path: tier.path,
+          hash: tier.hash,
+          derivation: tier.derivation,
+          ...(tier.native_detail_width !== undefined
+            ? { nativeDetailWidth: tier.native_detail_width }
+            : {}),
+        })),
+      );
+      for (const tier of tierLadder.tiers) {
+        const tierUrl = urlIndex[tier.path];
+        if (!tierUrl) {
+          throw new Error(
+            `Runtime visual asset '${record.asset_id}' cannot resolve tier ${tier.width} at '${tier.path}'.`,
+          );
+        }
+        tierUrls.set(tier.width, tierUrl);
+      }
+    }
+
     library.set(record.asset_id, {
       assetId: record.asset_id,
       finalPath: record.final_path,
       hash: record.hash,
       url,
+      tierLadder,
+      tierUrls,
     });
   }
   return library;
@@ -290,66 +360,96 @@ export const CHARACTER_VISUAL_RECIPES = {
   },
 } as const satisfies Readonly<Record<string, CharacterVisualRecipe>>;
 
-export const OFFICE_VISUAL_SCENE: OfficeVisualSceneConfiguration = {
-  environmentAssetId: "env_lexington_council_staff_office_prompt30_v1",
-  plate: { width: 1024, height: 572 },
-  camera: {
-    minimumAspectRatio: 1.5,
-    maximumAspectRatio: 12 / 5,
-    horizontalFocus: 0.5,
-    verticalFocus: 0.75,
-  },
-  safeArea: { x: 86, y: 112, width: 850, height: 421 },
-  essentialContentArea: { x: 185, y: 165, width: 730, height: 353.75 },
-  uiSafeZones: [
-    {
-      id: "lower-shell",
-      edge: "bottom-left",
-      width: 620,
-      height: 120,
+/**
+ * The office scene, projected from the registered EnvironmentSceneSpec.
+ *
+ * This is the migration 10A G3 asked for: the compositor's scene configuration
+ * is now DERIVED from `office-council-staff-fixture` in the scene registry
+ * rather than hand-written here. Anchor scale is interpolated from the scene's
+ * floor calibration instead of being tuned per sprite, and paint order is
+ * `zOrder` rather than a field that also meant perspective depth.
+ *
+ * The fixture keeps its fixture status. Its art is frozen; only where the
+ * numbers live has changed.
+ */
+export function projectOfficeVisualScene(
+  scene: RegisteredScene,
+): OfficeVisualSceneConfiguration {
+  const seatAnchor = (id: RunBSceneAnchorId): SceneVisualAnchor => {
+    const anchor = scene.anchors.get(id);
+    if (!anchor?.seatContact) {
+      throw new Error(
+        `Scene '${scene.sceneId}' must declare a seat anchor '${id}' for the office composition.`,
+      );
+    }
+    const poseFamily: CharacterVisualRecipe["poseFamily"] =
+      id === "primary-desk-chair" ? "seated-at-desk" : "seated-in-guest-chair";
+    return {
+      id,
+      xPercent: anchor.xPercent,
+      yPercent: anchor.seatContact.seat_plane_y_percent,
+      scale: resolvePerspectiveScale(scene, anchor.contactFloorYPercent),
+      poseFamily,
+      zOrder: anchor.zOrder,
+      contactFloorYPercent: anchor.contactFloorYPercent,
+    };
+  };
+
+  if (!scene.raster) {
+    throw new Error(
+      `Scene '${scene.sceneId}' registers no raster, so it cannot back the office composition.`,
+    );
+  }
+
+  return {
+    environmentAssetId: scene.raster.assetId,
+    plate: scene.plate,
+    camera: scene.camera,
+    safeArea: scene.safeArea,
+    essentialContentArea: scene.essentialContentArea,
+    uiSafeZones: scene.uiSafeZones.map((zone) => ({
+      id: zone.id,
+      edge: zone.edge,
+      width: zone.width,
+      height: zone.height,
+    })),
+    documentAnchors: OFFICE_DOCUMENT_ANCHORS,
+    anchors: {
+      "primary-desk-chair": seatAnchor("primary-desk-chair"),
+      "left-guest-chair": seatAnchor("left-guest-chair"),
     },
-    {
-      id: "navigation-flyout",
-      edge: "top-left",
-      width: 320,
-      height: 300,
-    },
-  ],
-  documentAnchors: {
-    "working-draft": { xPercent: 67.0, yPercent: 55.5 },
-    "briefing-memo": { xPercent: 53.5, yPercent: 55.8 },
-    "civic-marker": { xPercent: 60.5, yPercent: 56.8 },
-  },
-  anchors: {
-    "primary-desk-chair": {
-      id: "primary-desk-chair",
-      xPercent: 80.5,
-      yPercent: 63.5,
-      scale: 0.95,
-      poseFamily: "seated-at-desk",
-      depth: 2,
-    },
-    "left-guest-chair": {
-      id: "left-guest-chair",
-      xPercent: 28.0,
-      yPercent: 63.0,
-      scale: 0.95,
-      poseFamily: "seated-in-guest-chair",
-      depth: 3,
-    },
-  },
-  occluders: [
-    {
-      id: "office-furniture-foreground",
-      assetId: "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
-      depth: 4,
-    },
-  ],
-  visualRecipes: [
-    CHARACTER_VISUAL_RECIPES.primaryDeskSeated,
-    CHARACTER_VISUAL_RECIPES.leftGuestSeated,
-  ],
-};
+    occluders: scene.occluders
+      .filter((occluder) => occluder.assetId !== null)
+      .map((occluder) => ({
+        id: occluder.id,
+        assetId: occluder.assetId as string,
+        zOrder: occluder.zOrder,
+      })),
+    visualRecipes: [
+      CHARACTER_VISUAL_RECIPES.primaryDeskSeated,
+      CHARACTER_VISUAL_RECIPES.leftGuestSeated,
+    ],
+  };
+}
+
+/**
+ * Interactive document positions on the fixture plate. These are UI entry
+ * points rather than scene surface slots: the scene's `surface_slots` say where
+ * a document would be PAINTED, while these say where the player clicks.
+ */
+const OFFICE_DOCUMENT_ANCHORS = {
+  "working-draft": { xPercent: 67.0, yPercent: 55.5 },
+  "briefing-memo": { xPercent: 53.5, yPercent: 55.8 },
+  "civic-marker": { xPercent: 60.5, yPercent: 56.8 },
+} as const;
+
+export const OFFICE_FIXTURE_SCENE = requireScene(
+  SCENE_REGISTRY,
+  OFFICE_FIXTURE_SCENE_ID,
+);
+
+export const OFFICE_VISUAL_SCENE: OfficeVisualSceneConfiguration =
+  projectOfficeVisualScene(OFFICE_FIXTURE_SCENE);
 
 export interface PersonAppearanceContext {
   readonly personId: string;
@@ -469,7 +569,7 @@ export function composeOfficeVisuals(
             widthPercent: widthPercent * interaction.width,
             heightPercent: heightPercent * interaction.height,
           },
-          depth: anchor.depth,
+          zOrder: anchor.zOrder,
         };
       }
 
@@ -497,7 +597,7 @@ export function composeOfficeVisuals(
           widthPercent: defaultWidthPercent * 0.8,
           heightPercent: defaultHeightPercent * 0.8,
         },
-        depth: anchor.depth,
+        zOrder: anchor.zOrder,
       };
     }),
     occluders: scene.occluders.map((occluder) => ({

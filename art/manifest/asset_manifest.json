@@ -3,6 +3,24 @@
     {
       "asset_id": "env_lexington_council_staff_office_prompt30_v1",
       "asset_type": "environment-plate",
+      "art_class": "development-fixture",
+      "raster_tiers": [
+        {
+          "width": 1024,
+          "height": 572,
+          "path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
+          "hash": "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43",
+          "derivation": "native-master"
+        },
+        {
+          "width": 2048,
+          "height": 1144,
+          "path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_runtime_2x_v1.png",
+          "hash": "66678f0e91c52ca86f851ae4ba73d1a736a56be9cb7875512ab6bd1235de07f0",
+          "derivation": "upscaled-development-fixture",
+          "native_detail_width": 1024
+        }
+      ],
       "family_id": "council-staff-office",
       "jurisdiction_scope": "lexington-fayette-placeholder",
       "hero_asset": false,
@@ -25,6 +43,17 @@
     {
       "asset_id": "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
       "asset_type": "environment-foreground-mask",
+      "art_class": "development-fixture",
+      "raster_tiers": [
+        {
+          "width": 2048,
+          "height": 1144,
+          "path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
+          "hash": "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe",
+          "derivation": "upscaled-development-fixture",
+          "native_detail_width": 1024
+        }
+      ],
       "family_id": "council-staff-office",
       "jurisdiction_scope": "lexington-fayette-placeholder",
       "hero_asset": false,
@@ -49,6 +78,7 @@
     {
       "asset_id": "human_candidate_A01_primary_desk_seated_v1",
       "asset_type": "authored-character-pose",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_human_candidate_A01_primary_desk_seated_v1"],
@@ -69,6 +99,7 @@
     {
       "asset_id": "human_candidate_B01_left_guest_seated_v1",
       "asset_type": "authored-character-pose",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_human_candidate_B01_left_guest_seated_v1"],
@@ -89,6 +120,7 @@
     {
       "asset_id": "dev_body_adult_standing_v1",
       "asset_type": "character-component",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_dev_body_adult_standing_v1"],
@@ -148,6 +180,7 @@
     {
       "asset_id": "dev_body_adult_seated_v1",
       "asset_type": "character-component",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_dev_body_adult_seated_v1"],
@@ -207,6 +240,7 @@
     {
       "asset_id": "dev_head_round_v1",
       "asset_type": "character-component",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_dev_head_round_v1"],
@@ -244,6 +278,7 @@
     {
       "asset_id": "dev_head_oval_v1",
       "asset_type": "character-component",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_dev_head_oval_v1"],
@@ -281,6 +316,7 @@
     {
       "asset_id": "dev_hair_crop_front_v1",
       "asset_type": "character-component",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_dev_hair_crop_front_v1"],
@@ -318,6 +354,7 @@
     {
       "asset_id": "dev_hair_long_front_v1",
       "asset_type": "character-component",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_dev_hair_long_front_v1"],
@@ -356,6 +393,7 @@
     {
       "asset_id": "dev_hair_long_back_v1",
       "asset_type": "character-component",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_dev_hair_long_back_v1"],
@@ -393,6 +431,7 @@
     {
       "asset_id": "dev_eyewear_round_glasses_v1",
       "asset_type": "character-component",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_dev_eyewear_round_glasses_v1"],
@@ -430,6 +469,7 @@
     {
       "asset_id": "dev_top_blazer_navy_standing_v1",
       "asset_type": "character-component",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_dev_top_blazer_navy_standing_v1"],
@@ -467,6 +507,7 @@
     {
       "asset_id": "dev_top_blazer_navy_seated_v1",
       "asset_type": "character-component",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_dev_top_blazer_navy_seated_v1"],
@@ -504,6 +545,7 @@
     {
       "asset_id": "dev_top_tee_teal_standing_v1",
       "asset_type": "character-component",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_dev_top_tee_teal_standing_v1"],
@@ -541,6 +583,7 @@
     {
       "asset_id": "dev_top_tee_teal_seated_v1",
       "asset_type": "character-component",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_dev_top_tee_teal_seated_v1"],
@@ -578,6 +621,7 @@
     {
       "asset_id": "dev_bottom_slacks_charcoal_standing_v1",
       "asset_type": "character-component",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_dev_bottom_slacks_charcoal_standing_v1"],
@@ -615,6 +659,7 @@
     {
       "asset_id": "dev_bottom_slacks_charcoal_seated_v1",
       "asset_type": "character-component",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_dev_bottom_slacks_charcoal_seated_v1"],
@@ -652,6 +697,7 @@
     {
       "asset_id": "dev_footwear_oxford_black_v1",
       "asset_type": "character-component",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_dev_footwear_oxford_black_v1"],
@@ -689,6 +735,7 @@
     {
       "asset_id": "dev_accessory_lapel_pin_v1",
       "asset_type": "character-component",
+      "art_class": "development-fixture",
       "hero_asset": false,
       "reuse_allowed": true,
       "source_refs": ["prov_dev_accessory_lapel_pin_v1"],
@@ -720,6 +767,1636 @@
           "y": 0.5
         },
         "compatible_body_families": ["dev-adult"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_body_broad_light_standing_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_body_broad_light_standing_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_body_broad_light_standing_v1.png",
+      "hash": "2c7f657f9e525d26f16a8a20f77988bea32d0ae8fe094c37e4835a37471b27b5",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "dev-g2-broad",
+        "catalog_generation": 2,
+        "layer": 20,
+        "canvas": {
+          "width": 420,
+          "height": 840
+        },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "complexion": "light",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.55
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.12
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.16
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.54
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.955
+          }
+        ],
+        "contacts": {
+          "leftFoot": {
+            "x": 0.38,
+            "y": 0.985
+          },
+          "rightFoot": {
+            "x": 0.62,
+            "y": 0.985
+          }
+        }
+      }
+    },
+    {
+      "asset_id": "dev_g2_body_broad_light_seated_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_body_broad_light_seated_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_body_broad_light_seated_v1.png",
+      "hash": "71582ec9cddb407ae07a3fc98aba3335b97ad1ce557f5c4099d297732b47c932",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "dev-g2-broad",
+        "catalog_generation": 2,
+        "layer": 20,
+        "canvas": {
+          "width": 420,
+          "height": 660
+        },
+        "pose_family": "seated-at-desk",
+        "head_orientation": "front",
+        "complexion": "light",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.62
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.152
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.2
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.62
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.945
+          }
+        ],
+        "contacts": {
+          "seatedPelvis": {
+            "x": 0.5,
+            "y": 0.62
+          },
+          "leftFoot": {
+            "x": 0.37,
+            "y": 0.975
+          },
+          "rightFoot": {
+            "x": 0.63,
+            "y": 0.975
+          }
+        }
+      }
+    },
+    {
+      "asset_id": "dev_g2_body_broad_medium_warm_standing_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_body_broad_medium_warm_standing_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_body_broad_medium_warm_standing_v1.png",
+      "hash": "1bbaa7ada0195c10ae3b597b2c22671be183fcd9517e1e3e972e4a84f84e787e",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "dev-g2-broad",
+        "catalog_generation": 2,
+        "layer": 20,
+        "canvas": {
+          "width": 420,
+          "height": 840
+        },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "complexion": "medium-warm",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.55
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.12
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.16
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.54
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.955
+          }
+        ],
+        "contacts": {
+          "leftFoot": {
+            "x": 0.38,
+            "y": 0.985
+          },
+          "rightFoot": {
+            "x": 0.62,
+            "y": 0.985
+          }
+        }
+      }
+    },
+    {
+      "asset_id": "dev_g2_body_broad_medium_warm_seated_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_body_broad_medium_warm_seated_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_body_broad_medium_warm_seated_v1.png",
+      "hash": "6a056b4e5c6fd77da98c84dbb83d76e8252cdc1af766edc8a80a51d68f8a20b7",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "dev-g2-broad",
+        "catalog_generation": 2,
+        "layer": 20,
+        "canvas": {
+          "width": 420,
+          "height": 660
+        },
+        "pose_family": "seated-at-desk",
+        "head_orientation": "front",
+        "complexion": "medium-warm",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.62
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.152
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.2
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.62
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.945
+          }
+        ],
+        "contacts": {
+          "seatedPelvis": {
+            "x": 0.5,
+            "y": 0.62
+          },
+          "leftFoot": {
+            "x": 0.37,
+            "y": 0.975
+          },
+          "rightFoot": {
+            "x": 0.63,
+            "y": 0.975
+          }
+        }
+      }
+    },
+    {
+      "asset_id": "dev_g2_body_broad_deep_rich_standing_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_body_broad_deep_rich_standing_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_body_broad_deep_rich_standing_v1.png",
+      "hash": "9f8c445194e2a1685615506e3d3059e3fd505411fc59682c050466c89d6208b8",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "dev-g2-broad",
+        "catalog_generation": 2,
+        "layer": 20,
+        "canvas": {
+          "width": 420,
+          "height": 840
+        },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "complexion": "deep-rich",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.55
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.12
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.16
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.54
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.955
+          }
+        ],
+        "contacts": {
+          "leftFoot": {
+            "x": 0.38,
+            "y": 0.985
+          },
+          "rightFoot": {
+            "x": 0.62,
+            "y": 0.985
+          }
+        }
+      }
+    },
+    {
+      "asset_id": "dev_g2_body_broad_deep_rich_seated_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_body_broad_deep_rich_seated_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_body_broad_deep_rich_seated_v1.png",
+      "hash": "5a5f3d8ed6eb026198cd212028270ae0473f8d64ed6754fc026a4beed80c6638",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "dev-g2-broad",
+        "catalog_generation": 2,
+        "layer": 20,
+        "canvas": {
+          "width": 420,
+          "height": 660
+        },
+        "pose_family": "seated-at-desk",
+        "head_orientation": "front",
+        "complexion": "deep-rich",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.62
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.152
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.2
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.62
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.945
+          }
+        ],
+        "contacts": {
+          "seatedPelvis": {
+            "x": 0.5,
+            "y": 0.62
+          },
+          "leftFoot": {
+            "x": 0.37,
+            "y": 0.975
+          },
+          "rightFoot": {
+            "x": 0.63,
+            "y": 0.975
+          }
+        }
+      }
+    },
+    {
+      "asset_id": "dev_g2_body_slim_light_standing_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_body_slim_light_standing_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_body_slim_light_standing_v1.png",
+      "hash": "73bc247983b5d688a6fb8449ab6b4e4b1a833b75f5d6caed3eec90b195d94889",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "dev-g2-slim",
+        "catalog_generation": 2,
+        "layer": 20,
+        "canvas": {
+          "width": 420,
+          "height": 840
+        },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "complexion": "light",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.55
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.12
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.16
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.54
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.955
+          }
+        ],
+        "contacts": {
+          "leftFoot": {
+            "x": 0.38,
+            "y": 0.985
+          },
+          "rightFoot": {
+            "x": 0.62,
+            "y": 0.985
+          }
+        }
+      }
+    },
+    {
+      "asset_id": "dev_g2_body_slim_light_seated_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_body_slim_light_seated_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_body_slim_light_seated_v1.png",
+      "hash": "86788ea68e5a63cb458889c56b54452939dd9e90040710e4c0652009723bf2c8",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "dev-g2-slim",
+        "catalog_generation": 2,
+        "layer": 20,
+        "canvas": {
+          "width": 420,
+          "height": 660
+        },
+        "pose_family": "seated-at-desk",
+        "head_orientation": "front",
+        "complexion": "light",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.62
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.152
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.2
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.62
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.945
+          }
+        ],
+        "contacts": {
+          "seatedPelvis": {
+            "x": 0.5,
+            "y": 0.62
+          },
+          "leftFoot": {
+            "x": 0.37,
+            "y": 0.975
+          },
+          "rightFoot": {
+            "x": 0.63,
+            "y": 0.975
+          }
+        }
+      }
+    },
+    {
+      "asset_id": "dev_g2_body_slim_medium_warm_standing_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_body_slim_medium_warm_standing_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_body_slim_medium_warm_standing_v1.png",
+      "hash": "9af9c5981e24f7ad392621f27319975508bff8d2179e85ebaa73e26762b4ef3e",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "dev-g2-slim",
+        "catalog_generation": 2,
+        "layer": 20,
+        "canvas": {
+          "width": 420,
+          "height": 840
+        },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "complexion": "medium-warm",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.55
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.12
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.16
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.54
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.955
+          }
+        ],
+        "contacts": {
+          "leftFoot": {
+            "x": 0.38,
+            "y": 0.985
+          },
+          "rightFoot": {
+            "x": 0.62,
+            "y": 0.985
+          }
+        }
+      }
+    },
+    {
+      "asset_id": "dev_g2_body_slim_medium_warm_seated_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_body_slim_medium_warm_seated_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_body_slim_medium_warm_seated_v1.png",
+      "hash": "47c827e6a823b2ff2030880ef6cc27dcd28decfd595286b1ac9095431757c624",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "dev-g2-slim",
+        "catalog_generation": 2,
+        "layer": 20,
+        "canvas": {
+          "width": 420,
+          "height": 660
+        },
+        "pose_family": "seated-at-desk",
+        "head_orientation": "front",
+        "complexion": "medium-warm",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.62
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.152
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.2
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.62
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.945
+          }
+        ],
+        "contacts": {
+          "seatedPelvis": {
+            "x": 0.5,
+            "y": 0.62
+          },
+          "leftFoot": {
+            "x": 0.37,
+            "y": 0.975
+          },
+          "rightFoot": {
+            "x": 0.63,
+            "y": 0.975
+          }
+        }
+      }
+    },
+    {
+      "asset_id": "dev_g2_body_slim_deep_rich_standing_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_body_slim_deep_rich_standing_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_body_slim_deep_rich_standing_v1.png",
+      "hash": "b8f644bf90d74b4c381dc3b2980c1bb1d3750a9e9d346d34a1d71584df085eac",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "dev-g2-slim",
+        "catalog_generation": 2,
+        "layer": 20,
+        "canvas": {
+          "width": 420,
+          "height": 840
+        },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "complexion": "deep-rich",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.55
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.12
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.16
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.54
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.955
+          }
+        ],
+        "contacts": {
+          "leftFoot": {
+            "x": 0.38,
+            "y": 0.985
+          },
+          "rightFoot": {
+            "x": 0.62,
+            "y": 0.985
+          }
+        }
+      }
+    },
+    {
+      "asset_id": "dev_g2_body_slim_deep_rich_seated_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_body_slim_deep_rich_seated_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_body_slim_deep_rich_seated_v1.png",
+      "hash": "682c9f86de043dd37d44a49c80acf49450737dbd8992c590ad9ece0507cc4d92",
+      "requires_transparency": true,
+      "component": {
+        "kind": "body",
+        "family": "dev-g2-slim",
+        "catalog_generation": 2,
+        "layer": 20,
+        "canvas": {
+          "width": 420,
+          "height": 660
+        },
+        "pose_family": "seated-at-desk",
+        "head_orientation": "front",
+        "complexion": "deep-rich",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.5,
+          "y": 0.62
+        },
+        "attachment_anchors": [
+          {
+            "id": "head",
+            "x": 0.5,
+            "y": 0.152
+          },
+          {
+            "id": "torso",
+            "x": 0.5,
+            "y": 0.2
+          },
+          {
+            "id": "hips",
+            "x": 0.5,
+            "y": 0.62
+          },
+          {
+            "id": "feet",
+            "x": 0.5,
+            "y": 0.945
+          }
+        ],
+        "contacts": {
+          "seatedPelvis": {
+            "x": 0.5,
+            "y": 0.62
+          },
+          "leftFoot": {
+            "x": 0.37,
+            "y": 0.975
+          },
+          "rightFoot": {
+            "x": 0.63,
+            "y": 0.975
+          }
+        }
+      }
+    },
+    {
+      "asset_id": "dev_g2_head_warm_round_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_head_warm_round_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_head_warm_round_v1.png",
+      "hash": "9140bb40094901b9917fb800bf153c4855fc49ff52cd8638b6031882afa924cc",
+      "requires_transparency": true,
+      "component": {
+        "kind": "head",
+        "family": "dev-g2-head-warm-round",
+        "catalog_generation": 2,
+        "layer": 30,
+        "canvas": {
+          "width": 220,
+          "height": 220
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.95
+        },
+        "complexion": "medium-warm",
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_head_warm_long_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_head_warm_long_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_head_warm_long_v1.png",
+      "hash": "5d57d37d361fa7f15b55e8e11dc9a2d9412bcb27adf251c9466f210c98ca0a7e",
+      "requires_transparency": true,
+      "component": {
+        "kind": "head",
+        "family": "dev-g2-head-warm-long",
+        "catalog_generation": 2,
+        "layer": 30,
+        "canvas": {
+          "width": 220,
+          "height": 220
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.95
+        },
+        "complexion": "medium-warm",
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_head_deep_oval_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_head_deep_oval_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_head_deep_oval_v1.png",
+      "hash": "e2982c39dd886beb92799b864af7d88f2429bc65b489ea4e2aa10740dd78e875",
+      "requires_transparency": true,
+      "component": {
+        "kind": "head",
+        "family": "dev-g2-head-deep-oval",
+        "catalog_generation": 2,
+        "layer": 30,
+        "canvas": {
+          "width": 220,
+          "height": 220
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.95
+        },
+        "complexion": "deep-rich",
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_head_light_square_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_head_light_square_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_head_light_square_v1.png",
+      "hash": "c0884fb82f834b1e682718fc615e225f154ae0d11fabcd5ea5506ec5338ef763",
+      "requires_transparency": true,
+      "component": {
+        "kind": "head",
+        "family": "dev-g2-head-light-square",
+        "catalog_generation": 2,
+        "layer": 30,
+        "canvas": {
+          "width": 220,
+          "height": 220
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.95
+        },
+        "complexion": "light",
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_hair_crop_front_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_hair_crop_front_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_hair_crop_front_v1.png",
+      "hash": "ab8357df8befe39f2270297853e56fec4b2117b0b4b7cddc5ed52e6c06a2dfe7",
+      "requires_transparency": true,
+      "component": {
+        "kind": "hair-front",
+        "family": "dev-g2-hair-crop",
+        "catalog_generation": 2,
+        "layer": 40,
+        "canvas": {
+          "width": 220,
+          "height": 220
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.95
+        },
+        "compatible_head_families": [
+          "dev-g2-head-warm-round",
+          "dev-g2-head-warm-long",
+          "dev-g2-head-deep-oval",
+          "dev-g2-head-light-square"
+        ],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_hair_coils_front_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_hair_coils_front_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_hair_coils_front_v1.png",
+      "hash": "0ca0e62b1577896679a440e92b7cd6363329c846b845460bda9041b3fee7abae",
+      "requires_transparency": true,
+      "component": {
+        "kind": "hair-front",
+        "family": "dev-g2-hair-coils",
+        "catalog_generation": 2,
+        "layer": 40,
+        "canvas": {
+          "width": 220,
+          "height": 220
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.95
+        },
+        "compatible_head_families": [
+          "dev-g2-head-warm-round",
+          "dev-g2-head-warm-long",
+          "dev-g2-head-deep-oval",
+          "dev-g2-head-light-square"
+        ],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_hair_long_front_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_hair_long_front_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_hair_long_front_v1.png",
+      "hash": "925971d520e5a7b89ee551255080d05f9b4c22936a15334d3fcf03e34c550962",
+      "requires_transparency": true,
+      "component": {
+        "kind": "hair-front",
+        "family": "dev-g2-hair-long",
+        "catalog_generation": 2,
+        "layer": 40,
+        "canvas": {
+          "width": 220,
+          "height": 220
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.95
+        },
+        "compatible_head_families": [
+          "dev-g2-head-warm-round",
+          "dev-g2-head-warm-long",
+          "dev-g2-head-deep-oval",
+          "dev-g2-head-light-square"
+        ],
+        "compatible_head_orientations": ["front"],
+        "paired_with": "dev_g2_hair_long_back_v1"
+      }
+    },
+    {
+      "asset_id": "dev_g2_hair_long_back_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_hair_long_back_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_hair_long_back_v1.png",
+      "hash": "b7d2f600ccc1df304ebc4e9da8cbc06d99474e2e0239c19980dfaf1f8b1ebff0",
+      "requires_transparency": true,
+      "component": {
+        "kind": "hair-back",
+        "family": "dev-g2-hair-long",
+        "catalog_generation": 2,
+        "layer": 10,
+        "canvas": {
+          "width": 260,
+          "height": 320
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.625
+        },
+        "compatible_head_families": [
+          "dev-g2-head-warm-round",
+          "dev-g2-head-warm-long",
+          "dev-g2-head-deep-oval",
+          "dev-g2-head-light-square"
+        ],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_top_suit_charcoal_standing_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_top_suit_charcoal_standing_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_top_suit_charcoal_standing_v1.png",
+      "hash": "988a0a8bad87577b3ed86b96c9525bc48ea346a18325afd3f24525da4d44d1ab",
+      "requires_transparency": true,
+      "component": {
+        "kind": "top",
+        "family": "dev-g2-suit-charcoal",
+        "catalog_generation": 2,
+        "layer": 25,
+        "canvas": {
+          "width": 420,
+          "height": 360
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_pose_families": ["standing-neutral"],
+        "compatible_head_orientations": ["front"],
+        "blocked_slots": ["accessory"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_top_suit_charcoal_seated_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_top_suit_charcoal_seated_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_top_suit_charcoal_seated_v1.png",
+      "hash": "3803d027b8700cc2b48ff66aac7fe8039e6bbd447d2a8d4e24b4407162584ecb",
+      "requires_transparency": true,
+      "component": {
+        "kind": "top",
+        "family": "dev-g2-suit-charcoal",
+        "catalog_generation": 2,
+        "layer": 25,
+        "canvas": {
+          "width": 420,
+          "height": 300
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_pose_families": ["seated-at-desk"],
+        "compatible_head_orientations": ["front"],
+        "blocked_slots": ["accessory"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_top_knit_olive_standing_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_top_knit_olive_standing_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_top_knit_olive_standing_v1.png",
+      "hash": "94ce08e96c1c214ad42b3ebc009241f6f7e1b0f4613368c66d5cb8e6438f9c15",
+      "requires_transparency": true,
+      "component": {
+        "kind": "top",
+        "family": "dev-g2-knit-olive",
+        "catalog_generation": 2,
+        "layer": 25,
+        "canvas": {
+          "width": 420,
+          "height": 340
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_pose_families": ["standing-neutral"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_top_knit_olive_seated_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_top_knit_olive_seated_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_top_knit_olive_seated_v1.png",
+      "hash": "2c40f040fb953745ea8d6ee4fe4c34cd9eb939fcf4a752494633dc26c8a6ce9e",
+      "requires_transparency": true,
+      "component": {
+        "kind": "top",
+        "family": "dev-g2-knit-olive",
+        "catalog_generation": 2,
+        "layer": 25,
+        "canvas": {
+          "width": 420,
+          "height": 290
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_pose_families": ["seated-at-desk"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_bottom_trousers_standing_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_bottom_trousers_standing_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_bottom_trousers_standing_v1.png",
+      "hash": "f761876022d630b56805658f7d938b0beb490739446fa7ef7b15244554665bc2",
+      "requires_transparency": true,
+      "component": {
+        "kind": "bottom",
+        "family": "dev-g2-trousers-slate",
+        "catalog_generation": 2,
+        "layer": 22,
+        "canvas": {
+          "width": 420,
+          "height": 360
+        },
+        "attaches_to": "hips",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_pose_families": ["standing-neutral"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_bottom_trousers_seated_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_bottom_trousers_seated_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_bottom_trousers_seated_v1.png",
+      "hash": "35c5f21dc3edb14feef4bd420a9450b30a17d5e34a723799231ee7a3922372dd",
+      "requires_transparency": true,
+      "component": {
+        "kind": "bottom",
+        "family": "dev-g2-trousers-slate",
+        "catalog_generation": 2,
+        "layer": 22,
+        "canvas": {
+          "width": 420,
+          "height": 240
+        },
+        "attaches_to": "hips",
+        "origin": {
+          "x": 0.5,
+          "y": 0
+        },
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_pose_families": ["seated-at-desk"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_footwear_derby_standing_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_footwear_derby_standing_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_footwear_derby_standing_v1.png",
+      "hash": "d93542e44e58f6f09c29bd5531190fa7a6e27b78f27760a2ca981d10cc3d7a61",
+      "requires_transparency": true,
+      "component": {
+        "kind": "footwear",
+        "family": "dev-g2-derby-oxblood",
+        "catalog_generation": 2,
+        "layer": 21,
+        "canvas": {
+          "width": 420,
+          "height": 64
+        },
+        "attaches_to": "feet",
+        "origin": {
+          "x": 0.5,
+          "y": 0.25
+        },
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_pose_families": ["standing-neutral"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_footwear_derby_seated_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_footwear_derby_seated_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_footwear_derby_seated_v1.png",
+      "hash": "d95896e1139662b48db5bc783089ab1d1943f888efe7e9c61b32f4d08b4dbfd4",
+      "requires_transparency": true,
+      "component": {
+        "kind": "footwear",
+        "family": "dev-g2-derby-oxblood",
+        "catalog_generation": 2,
+        "layer": 21,
+        "canvas": {
+          "width": 420,
+          "height": 64
+        },
+        "attaches_to": "feet",
+        "origin": {
+          "x": 0.5,
+          "y": 0.25
+        },
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_pose_families": ["seated-at-desk"],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_eyewear_thin_frames_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_eyewear_thin_frames_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_eyewear_thin_frames_v1.png",
+      "hash": "3a66722fa68529acb2a6a9b85e52b27a28fdb593ef2a4f0faca56282e3f9bf79",
+      "requires_transparency": true,
+      "component": {
+        "kind": "eyewear",
+        "family": "dev-g2-thin-frames",
+        "catalog_generation": 2,
+        "layer": 45,
+        "canvas": {
+          "width": 220,
+          "height": 220
+        },
+        "attaches_to": "head",
+        "origin": {
+          "x": 0.5,
+          "y": 0.95
+        },
+        "compatible_head_families": [
+          "dev-g2-head-warm-round",
+          "dev-g2-head-warm-long",
+          "dev-g2-head-deep-oval",
+          "dev-g2-head-light-square"
+        ],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "dev_g2_accessory_lanyard_v1",
+      "asset_type": "character-component",
+      "art_class": "development-fixture",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_dev_g2_accessory_lanyard_v1"],
+      "rights_note": "Project-owned procedural DEV/NON-PRODUCTION fixture drawn by a repository script; not production art.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "DEV/NON-PRODUCTION modular character fixture proving the contact, complexion, required-slot and blocked-slot contracts; never a canonical Person identity and never final art direction.",
+      "negative_constraints": [
+        "Do not treat geometry, proportions, palette, or canvas size as a production standard.",
+        "Do not infer identity, knowledge, biography, or traits from the artwork.",
+        "Complexion here is art direction only and is never derived from, or evidence of, any property of a person."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/generated/approved/dev-modular-g2/dev_g2_accessory_lanyard_v1.png",
+      "hash": "ddb0b0a2208d5c95dc70887663089249560ebcc1771d48c25942da5ad0d63874",
+      "requires_transparency": true,
+      "component": {
+        "kind": "accessory",
+        "family": "dev-g2-lanyard",
+        "catalog_generation": 2,
+        "layer": 26,
+        "canvas": {
+          "width": 80,
+          "height": 120
+        },
+        "attaches_to": "torso",
+        "origin": {
+          "x": 0.5,
+          "y": 0.1
+        },
+        "compatible_body_families": ["dev-g2-broad", "dev-g2-slim"],
+        "compatible_head_orientations": ["front"]
       }
     }
   ]

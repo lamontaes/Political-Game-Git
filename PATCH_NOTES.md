@@ -2,6 +2,22 @@
 
 Newest release first.
 
+## UNRELEASED — Groundwork
+
+Nothing here changes what you can do in the game yet. It is the plumbing that
+future rooms and future people are built on, and it is worth one paragraph
+because of what it makes possible next.
+
+Backgrounds can now come in four sizes of the same picture, and the game picks
+the sharpest one your screen can actually use — so a big or a Retina display
+stops being served a small picture blown up. Nothing is ever enlarged to fill a
+gap: where a picture is too small for a screen, the game says so instead of
+pretending. Rooms and people are now described by data rather than by
+hand-placed numbers, which means a person put in a chair sits in it, a person
+put on a floor stands on it, and swapping one person for another does not knock
+either of them out of place. None of that is visible yet, because the art it is
+waiting for has not been made.
+
 ## PRE-ALPHA 0.2.0 — "The Bill Becomes Law"
 
 _Revised 2 September 2026 after an independent review of the legislating build._

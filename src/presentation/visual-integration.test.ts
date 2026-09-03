@@ -42,7 +42,7 @@ describe("Stage 6.5 visual integration contract", () => {
     );
 
     expect(composition.occluders).toHaveLength(1);
-    expect(composition.occluders[0]?.id).toBe("office-furniture-foreground");
+    expect(composition.occluders[0]?.id).toBe("desk-front");
     expect(composition.occluders[0]?.asset.assetId).toBe(
       "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
     );
@@ -52,7 +52,7 @@ describe("Stage 6.5 visual integration contract", () => {
     expect(composition.occluders[0]?.asset.hash).toBe(
       "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe",
     );
-    expect(composition.occluders[0]?.depth).toBe(4);
+    expect(composition.occluders[0]?.zOrder).toBe(4);
 
     expect(composition.characters).toHaveLength(2);
 
@@ -70,7 +70,7 @@ describe("Stage 6.5 visual integration contract", () => {
     expect(primary!.asset?.hash).toBe(
       "8e5882e26eab1c6cf966cff188bfebd4e40cd117804e87930a0b06d67ca66e43",
     );
-    expect(primary!.depth).toBe(2);
+    expect(primary!.zOrder).toBe(2);
     expect(primary!.widthPercent).toBeCloseTo(24.225, 2);
     expect(primary!.heightPercent).toBeCloseTo(58.051, 2);
     expect(primary!.leftPercent).toBeCloseTo(64.027, 2);
@@ -94,7 +94,7 @@ describe("Stage 6.5 visual integration contract", () => {
     expect(guest!.asset?.hash).toBe(
       "fd880e52fb191d6c32019ba451d006176ebc7762db89590c437c67586906be8d",
     );
-    expect(guest!.depth).toBe(3);
+    expect(guest!.zOrder).toBe(3);
     expect(guest!.widthPercent).toBeCloseTo(17.575, 2);
     expect(guest!.heightPercent).toBeCloseTo(42.117, 2);
     expect(guest!.leftPercent).toBeCloseTo(19.915, 2);
@@ -415,6 +415,8 @@ describe("Stage 6.5 visual integration contract", () => {
       finalPath: "art/exists.png",
       hash: "def",
       url: "/resolved-url",
+      tierLadder: null,
+      tierUrls: new Map(),
     });
   });
 

@@ -18,6 +18,7 @@ import {
   DEV_CHARACTER_FIXTURE_DIRECTORY,
   renderDevCharacterFixtures,
 } from "../scripts/art-asset-factory/dev-character-fixtures";
+import { renderDevG2Fixtures } from "../scripts/art-asset-factory/dev-character-fixtures-g2";
 import { computeCharacterGenerationSignature } from "../src/presentation/character-components";
 
 const REPO_ROOT = path.resolve(__dirname, "..");
@@ -76,11 +77,11 @@ describe("Art validator: modular character components", () => {
       },
     );
     expect(result.errors).toEqual([]);
-    // 4 office fixtures + 16 released DEV modular components.
-    expect(result.runtimeEligibleAssetIds).toHaveLength(20);
+    // 4 office fixtures + 16 generation-1 and 30 generation-2 DEV components.
+    expect(result.runtimeEligibleAssetIds).toHaveLength(50);
     expect(
       result.runtimeEligibleAssetIds.filter((id) => id.startsWith("dev_")),
-    ).toHaveLength(16);
+    ).toHaveLength(46);
   });
 
   it("requires a catalog whenever components are declared", () => {
@@ -305,12 +306,70 @@ describe("DEV modular character fixtures", () => {
         output.hash,
       );
     }
-    expect(catalog.catalog_generation).toBe(1);
+    // Generation 1 is FROZEN. Its membership and signature must reproduce
+    // exactly from the generation-1 script even though the catalog has grown.
+    expect(catalog.catalog_generation).toBe(2);
+    expect(catalog.generations[0]!.generation).toBe(1);
     expect(catalog.generations[0]!.signature).toBe(
       computeCharacterGenerationSignature(outputs),
     );
     expect(catalog.generations[0]!.component_ids).toEqual(
       outputs.map((output) => output.assetId).sort(),
     );
+  });
+
+  it("reproduces the generation-2 rasters, hashes, and catalog signature from its script", async () => {
+    const manifest = loadJson<AssetManifest>(
+      "art/manifest/asset_manifest.json",
+    );
+    const catalog = loadJson<CharacterCatalogData>(
+      "art/manifest/character_catalog.json",
+    );
+    const scratch = fs.mkdtempSync(path.join(os.tmpdir(), "dev-modular-g2-"));
+    const outputs = await renderDevG2Fixtures(scratch, "fixtures");
+    expect(outputs).toHaveLength(30);
+    for (const output of outputs) {
+      const released = manifest.assets.find(
+        (asset) => asset.asset_id === output.assetId,
+      );
+      expect(released, output.assetId).toBeDefined();
+      expect(released!.hash).toBe(output.hash);
+      expect(released!.art_class).toBe("development-fixture");
+      expect(released!.component).toEqual(output.definition);
+      expect(hashArtFile(path.join(REPO_ROOT, released!.final_path!))).toBe(
+        output.hash,
+      );
+    }
+    const generationTwo = catalog.generations.find(
+      (generation) => generation.generation === 2,
+    );
+    expect(generationTwo).toBeDefined();
+    expect(generationTwo!.signature).toBe(
+      computeCharacterGenerationSignature(outputs),
+    );
+    expect(generationTwo!.component_ids).toEqual(
+      outputs.map((output) => output.assetId).sort(),
+    );
+  });
+
+  it("gives every generation-2 body typed contacts and an art complexion", () => {
+    const manifest = loadJson<AssetManifest>(
+      "art/manifest/asset_manifest.json",
+    );
+    const bodies = manifest.assets.filter(
+      (asset) =>
+        asset.component?.kind === "body" &&
+        asset.component.catalog_generation === 2,
+    );
+    expect(bodies.length).toBeGreaterThan(0);
+    for (const body of bodies) {
+      const component = body.component!;
+      expect(component.complexion, body.asset_id).toBeDefined();
+      expect(component.contacts?.leftFoot, body.asset_id).toBeDefined();
+      expect(component.contacts?.rightFoot, body.asset_id).toBeDefined();
+      if (component.pose_family === "seated-at-desk") {
+        expect(component.contacts?.seatedPelvis, body.asset_id).toBeDefined();
+      }
+    }
   });
 });
