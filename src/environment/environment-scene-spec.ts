@@ -274,6 +274,77 @@ export interface Occluder {
 }
 
 /**
+ * Surfaces a scene may present something on. A closed vocabulary, because a
+ * free-text kind cannot be held to the salience rule below.
+ */
+export const SCENE_SURFACE_KINDS = [
+  "monitor-or-screen",
+  "television",
+  "monitor-or-bulletin-board",
+  "roll-call-board",
+  "large-wall-map",
+  "podium-placard",
+  "desk-document",
+  "picture-frame",
+  "civic-symbol",
+] as const;
+
+export type SceneSurfaceKind = (typeof SCENE_SURFACE_KINDS)[number];
+
+/** What a surface may present. Also closed, for the same reason. */
+export const SCENE_SURFACE_CONTENT_CLASSES = [
+  "working-draft",
+  "briefing-memo",
+  "agenda-placeholder",
+  "roll-call-tally",
+  "jurisdiction-map",
+  "jurisdiction-seal",
+  "jurisdiction-flag",
+  "name-placard",
+  "neutral-art",
+] as const;
+
+export type SceneSurfaceContentClass =
+  (typeof SCENE_SURFACE_CONTENT_CLASSES)[number];
+
+/**
+ * Content classes whose appearance follows simulation state. Only these make a
+ * surface dynamic; everything else is ambient decoration that is painted into
+ * the plate and stays there.
+ */
+export const DYNAMIC_SURFACE_CONTENT_CLASSES: ReadonlySet<string> = new Set([
+  "working-draft",
+  "briefing-memo",
+  "agenda-placeholder",
+  "roll-call-tally",
+  "jurisdiction-map",
+  "name-placard",
+]);
+
+/**
+ * Civic symbols. These have canonical runtime identities and legal usage
+ * conditions; they are never generated, and a slot that may show one has to
+ * say so explicitly.
+ */
+export const CIVIC_SYMBOL_CONTENT_CLASSES: ReadonlySet<string> = new Set([
+  "jurisdiction-seal",
+  "jurisdiction-flag",
+]);
+
+export const CIVIC_SYMBOL_POLICY = "canonical-source-only" as const;
+
+/**
+ * Salience floor for a dynamic surface, as a percentage of the plate.
+ *
+ * A surface only earns dynamic content when a player could actually read a
+ * change on it. Below this floor it stays ambient decoration: a two-centimetre
+ * framed picture on a far wall is not a screen, and promoting it to one costs
+ * runtime work for a change nobody can see.
+ */
+export const MINIMUM_DYNAMIC_SURFACE_WIDTH_PERCENT = 8;
+export const MINIMUM_DYNAMIC_SURFACE_HEIGHT_PERCENT = 6;
+
+/**
  * A presentation sink for dynamic content. Surface slots do NOT decide what
  * document, seal or tally exists: the simulation owns that, and a slot only
  * says where such a thing would be painted and what class of thing may go
@@ -281,12 +352,25 @@ export interface Occluder {
  */
 export interface SceneSurfaceSlot {
   slot_id: string;
-  kind: string;
+  kind: SceneSurfaceKind;
   rect_percent: PercentRect;
   z_order: number;
-  allowed_content_classes: string[];
+  allowed_content_classes: SceneSurfaceContentClass[];
   /** What the slot shows when nothing canonical fills it. */
   fallback_decoration?: string;
+  /**
+   * Required when the slot may present a civic symbol. The only permitted
+   * value states that the symbol comes from a canonical source; a civic seal
+   * or flag is never AI-generated, redrawn or approximated.
+   */
+  civic_symbol_policy?: typeof CIVIC_SYMBOL_POLICY;
+}
+
+/** True when this slot presents anything that follows simulation state. */
+export function isDynamicSurfaceSlot(slot: SceneSurfaceSlot): boolean {
+  return slot.allowed_content_classes.some((contentClass) =>
+    DYNAMIC_SURFACE_CONTENT_CLASSES.has(contentClass),
+  );
 }
 
 export interface EnvironmentSceneSpec {
@@ -1007,8 +1091,13 @@ function validateSurfaceSlots(
       return;
     }
     registerSceneId(entry.slot_id, path, sceneIds, errors);
-    if (!isNonEmptyString(entry.kind)) {
-      errors.push(`${path}.kind must be a non-empty string.`);
+    if (
+      typeof entry.kind !== "string" ||
+      !(SCENE_SURFACE_KINDS as readonly string[]).includes(entry.kind)
+    ) {
+      errors.push(
+        `${path}.kind must be one of ${SCENE_SURFACE_KINDS.join(", ")}; found ${describeValue(entry.kind)}.`,
+      );
     }
     validatePercentRect(entry.rect_percent, `${path}.rect_percent`, errors);
     if (!isFiniteNumber(entry.z_order)) {
@@ -1020,6 +1109,57 @@ function validateSurfaceSlots(
       errors,
       { requireNonEmpty: true },
     );
+
+    const classes = Array.isArray(entry.allowed_content_classes)
+      ? entry.allowed_content_classes.filter(
+          (value): value is string => typeof value === "string",
+        )
+      : [];
+    for (const contentClass of classes) {
+      if (
+        !(SCENE_SURFACE_CONTENT_CLASSES as readonly string[]).includes(
+          contentClass,
+        )
+      ) {
+        errors.push(
+          `${path}.allowed_content_classes contains '${contentClass}', which is not one of ${SCENE_SURFACE_CONTENT_CLASSES.join(", ")}.`,
+        );
+      }
+    }
+
+    const dynamic = classes.some((contentClass) =>
+      DYNAMIC_SURFACE_CONTENT_CLASSES.has(contentClass),
+    );
+    const rect = entry.rect_percent;
+    if (dynamic && isRecord(rect)) {
+      const width = rect.width_percent;
+      const height = rect.height_percent;
+      if (
+        isFiniteNumber(width) &&
+        isFiniteNumber(height) &&
+        (width < MINIMUM_DYNAMIC_SURFACE_WIDTH_PERCENT ||
+          height < MINIMUM_DYNAMIC_SURFACE_HEIGHT_PERCENT)
+      ) {
+        errors.push(
+          `${path} presents dynamic content on a ${width}% x ${height}% surface, below the ${MINIMUM_DYNAMIC_SURFACE_WIDTH_PERCENT}% x ${MINIMUM_DYNAMIC_SURFACE_HEIGHT_PERCENT}% salience floor. A surface too small to read a change on stays ambient decoration.`,
+        );
+      }
+    }
+
+    const civic = classes.some((contentClass) =>
+      CIVIC_SYMBOL_CONTENT_CLASSES.has(contentClass),
+    );
+    if (civic && entry.civic_symbol_policy !== CIVIC_SYMBOL_POLICY) {
+      errors.push(
+        `${path} may present a civic symbol and must declare civic_symbol_policy '${CIVIC_SYMBOL_POLICY}'. A seal or flag comes from its canonical source; it is never generated, redrawn or approximated.`,
+      );
+    }
+    if (!civic && entry.civic_symbol_policy !== undefined) {
+      errors.push(
+        `${path} declares civic_symbol_policy but presents no civic symbol class.`,
+      );
+    }
+
     validateOptionalNonEmptyString(entry, "fallback_decoration", path, errors);
   });
 }

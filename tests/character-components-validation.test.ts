@@ -19,12 +19,51 @@ import {
   renderDevCharacterFixtures,
 } from "../scripts/art-asset-factory/dev-character-fixtures";
 import { renderDevG2Fixtures } from "../scripts/art-asset-factory/dev-character-fixtures-g2";
+import { writePoseControlPlate } from "../scripts/art-asset-factory/pose-control-plates";
 import { computeCharacterGenerationSignature } from "../src/presentation/character-components";
+import type { PoseFamilyRegistryData } from "../src/presentation/pose-families";
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 
 function loadJson<T>(relPath: string): T {
   return JSON.parse(fs.readFileSync(path.join(REPO_ROOT, relPath), "utf-8"));
+}
+
+/**
+ * A minimal pose registry for a synthetic probe body: the production
+ * seated-at-desk contract, pointed at the probe's body family and its own
+ * plate directory. Built from the real registry rather than invented, so the
+ * probe is held to the same contract the production art is.
+ */
+function probePoseRegistry(
+  bodyFamilies: readonly string[],
+): PoseFamilyRegistryData {
+  const production = loadJson<PoseFamilyRegistryData>(
+    "art/manifest/pose_families.json",
+  );
+  const seated = JSON.parse(
+    JSON.stringify(
+      production.families.find(
+        (family) => family.pose_family_id === "seated-at-desk",
+      ),
+    ),
+  );
+  seated.compatible_body_families = [...bodyFamilies];
+  // The probe body IS released, so the family says so; the validator checks
+  // this claim against the library in both directions.
+  seated.production_status = "development-fixture";
+  seated.human_qa = "pending";
+  seated.control_plate = {
+    path: "art/pose-control-plates/seated-at-desk__front.svg",
+    hash: "0".repeat(64),
+  };
+  return {
+    pose_registry_version: "pose-families-probe-v1",
+    legacy_contactless_body_families: [...bodyFamilies],
+    legacy_contactless_note:
+      "The synthetic probe body has no contacts; it exists to exercise the release, hash and canvas gates rather than placement.",
+    families: [seated],
+  };
 }
 
 const EMPTY_FAMILIES: EnvironmentFamiliesData = { families: [] };
@@ -57,7 +96,11 @@ describe("Art validator: modular character components", () => {
       EMPTY_FAMILIES,
       EMPTY_DELTAS,
       EMPTY_PROVENANCE,
-      { repositoryRoot: REPO_ROOT, characterCatalog: catalog },
+      {
+        repositoryRoot: REPO_ROOT,
+        characterCatalog: catalog,
+        poseFamilies: loadJson("art/fixtures/valid_pose_families.json"),
+      },
     );
     expect(result.errors).toEqual([]);
     expect(result.valid).toBe(true);
@@ -74,6 +117,7 @@ describe("Art validator: modular character components", () => {
       {
         repositoryRoot: REPO_ROOT,
         characterCatalog: loadJson("art/manifest/character_catalog.json"),
+        poseFamilies: loadJson("art/manifest/pose_families.json"),
       },
     );
     expect(result.errors).toEqual([]);
@@ -219,12 +263,20 @@ describe("Art validator: modular character components", () => {
       ],
     };
 
+    // A body must belong to a registered pose family, so the probe carries one
+    // and derives its control plate into the same temporary root.
+    const poseFamilies = probePoseRegistry(["probe"]);
+    writePoseControlPlate(poseFamilies.families[0]!, repositoryRoot);
+    poseFamilies.families[0]!.control_plate.hash = hashArtFile(
+      path.join(repositoryRoot, poseFamilies.families[0]!.control_plate.path),
+    );
+
     const good = validateArtAssets(
       manifest,
       EMPTY_FAMILIES,
       EMPTY_DELTAS,
       provenance,
-      { repositoryRoot, characterCatalog: catalog },
+      { repositoryRoot, characterCatalog: catalog, poseFamilies },
     );
     expect(good.errors).toEqual([]);
     expect(good.runtimeEligibleAssetIds).toEqual(["body_probe_v1"]);
@@ -255,7 +307,7 @@ describe("Art validator: modular character components", () => {
       EMPTY_FAMILIES,
       EMPTY_DELTAS,
       provenance,
-      { repositoryRoot, characterCatalog: wrongCatalog },
+      { repositoryRoot, characterCatalog: wrongCatalog, poseFamilies },
     );
     expect(mismatch.errors).toContain(
       "Character component 'body_probe_v1' declares canvas 9x12 but its file is 8x12.",
@@ -269,7 +321,7 @@ describe("Art validator: modular character components", () => {
       EMPTY_FAMILIES,
       EMPTY_DELTAS,
       EMPTY_PROVENANCE,
-      { repositoryRoot, characterCatalog: catalog },
+      { repositoryRoot, characterCatalog: catalog, poseFamilies },
     );
     expect(gate.errors.join("\n")).toContain(
       "runtime content hash does not match its final file",

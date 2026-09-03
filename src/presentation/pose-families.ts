@@ -682,6 +682,14 @@ export function validatePoseFamilyRegistry(
         `${label} control plate path '${plate.path}' must be a repository-relative path under 'art/'.`,
       );
     }
+    if (
+      plate?.path &&
+      !plate.path.endsWith(`/${id}__${family.facing}.svg`)
+    ) {
+      errors.push(
+        `${label} control plate must be named '${id}__${family.facing}.svg'; found '${plate.path}'. One plate per pose and facing, never a borrowed picture.`,
+      );
+    }
     if (!plate || !CONTENT_HASH.test(plate.hash ?? "")) {
       errors.push(
         `${label} control plate hash must be a lowercase 64-character SHA-256 digest.`,

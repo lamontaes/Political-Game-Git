@@ -771,6 +771,7 @@ describe("Packet 76 approved runtime art", () => {
       {
         repositoryRoot: REPO_ROOT,
         characterCatalog: loadJson("art/manifest/character_catalog.json"),
+        poseFamilies: loadJson("art/manifest/pose_families.json"),
       },
     );
     expect(result.valid).toBe(true);

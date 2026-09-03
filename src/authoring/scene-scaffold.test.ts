@@ -202,14 +202,18 @@ function completeScaffold(): SceneAuthoringScaffold {
     ),
     surfaceSlots: base.surfaceSlots.map((slot) => ({
       ...slot,
-      kind: resolved("wall-board", "ESTIMATED", "author"),
+      kind: resolved("monitor-or-bulletin-board", "ESTIMATED", "author"),
       rectPercent: resolved(
         { x_percent: 10, y_percent: 20, width_percent: 18, height_percent: 12 },
         "ESTIMATED",
         "overlay",
       ),
       zOrder: resolved(2, "ESTIMATED", "author"),
-      allowedContentClasses: resolved(["agenda"], "ESTIMATED", "author"),
+      allowedContentClasses: resolved(
+        ["agenda-placeholder"],
+        "ESTIMATED",
+        "author",
+      ),
     })),
   };
 }

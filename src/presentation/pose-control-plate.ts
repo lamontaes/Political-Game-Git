@@ -328,7 +328,24 @@ export function projectOntoPoseControlPlate(
   };
 }
 
-/** Canonical repository path for a family's plate. */
+/** The file name a family's plate must carry: one plate per pose and facing. */
+export function poseControlPlateFileName(family: PoseFamilyDefinition): string {
+  return `${family.pose_family_id}__${family.facing}.svg`;
+}
+
+/**
+ * Where a family's plate lives.
+ *
+ * The directory comes from the family's own declared path so a second registry
+ * — the contract fixture, for instance — keeps its plates beside itself
+ * instead of overwriting the production ones. The FILE NAME is always derived,
+ * so a plate cannot be pointed at some other pose's picture.
+ */
 export function poseControlPlatePath(family: PoseFamilyDefinition): string {
-  return `${POSE_CONTROL_PLATE_DIRECTORY}/${family.pose_family_id}__${family.facing}.svg`;
+  const declared = family.control_plate?.path;
+  const directory =
+    declared && declared.includes("/")
+      ? declared.slice(0, declared.lastIndexOf("/"))
+      : POSE_CONTROL_PLATE_DIRECTORY;
+  return `${directory}/${poseControlPlateFileName(family)}`;
 }

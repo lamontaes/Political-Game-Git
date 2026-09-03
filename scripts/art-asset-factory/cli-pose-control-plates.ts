@@ -1,7 +1,10 @@
 import path from "path";
 
 import { POSE_CONTROL_PLATE_VERSION } from "../../src/presentation/pose-control-plate";
-import { derivePoseControlPlates } from "./pose-control-plates";
+import {
+  derivePoseControlPlates,
+  POSE_REGISTRY_PATHS,
+} from "./pose-control-plates";
 
 /**
  * Regenerates every pose control plate and records its hash on the registry.
@@ -9,7 +12,10 @@ import { derivePoseControlPlates } from "./pose-control-plates";
  * registry whose plates were not re-derived.
  */
 
-const outputs = derivePoseControlPlates(path.resolve(process.cwd()));
+const repositoryRoot = path.resolve(process.cwd());
+const outputs = POSE_REGISTRY_PATHS.flatMap((registryPath) =>
+  derivePoseControlPlates(repositoryRoot, registryPath),
+);
 
 console.log(
   JSON.stringify(

@@ -23,6 +23,7 @@
  * judgements about the picture.
  */
 
+import { CIVIC_SYMBOL_POLICY } from "../environment/environment-scene-spec";
 import type {
   Anchor,
   EnvironmentSceneSpec,
@@ -35,6 +36,8 @@ import type {
   SceneRasterSpec,
   SceneRect,
   SceneSeatContact,
+  SceneSurfaceContentClass,
+  SceneSurfaceKind,
   SceneSurfaceSlot,
   SceneUiSafeZoneSpec,
 } from "../environment/environment-scene-spec";
@@ -139,11 +142,19 @@ export interface OccluderScaffold {
 
 export interface SurfaceSlotScaffold {
   readonly slotId: string;
-  readonly kind: ScaffoldField<string>;
+  readonly kind: ScaffoldField<SceneSurfaceKind>;
   readonly rectPercent: ScaffoldField<PercentRect>;
   readonly zOrder: ScaffoldField<number>;
-  readonly allowedContentClasses: ScaffoldField<readonly string[]>;
+  readonly allowedContentClasses: ScaffoldField<
+    readonly SceneSurfaceContentClass[]
+  >;
   readonly fallbackDecoration: ScaffoldField<string>;
+  /**
+   * Set only when the slot may present a civic symbol. The scaffold carries it
+   * so an author cannot register a seal or flag without stating that it comes
+   * from its canonical source.
+   */
+  readonly civicSymbolPolicy: ScaffoldField<typeof CIVIC_SYMBOL_POLICY>;
 }
 
 export interface SceneAuthoringScaffold {
@@ -282,6 +293,10 @@ export function createSceneAuthoringScaffold(
       zOrder: unresolved(`${NEEDS_JUDGEMENT} Paint order for this surface.`),
       allowedContentClasses: unresolved(
         `${NEEDS_JUDGEMENT} Which simulation-owned content classes this slot accepts.`,
+      ),
+      civicSymbolPolicy: unresolved(
+        `${NEEDS_JUDGEMENT} Whether this surface may present a civic seal or flag. If it may, it comes from the canonical source and is never generated.`,
+        "UNVERIFIED",
       ),
       fallbackDecoration: unresolved(
         "No empty-state decor has been chosen. An unfilled slot shows restrained decor or nothing; it never shows placeholder information.",
@@ -537,12 +552,14 @@ export function projectScaffoldToSpec(
 
   const surfaceSlots: SceneSurfaceSlot[] = scaffold.surfaceSlots.map((slot) => {
     const fallback = fieldValue(slot.fallbackDecoration);
+    const civicPolicy = fieldValue(slot.civicSymbolPolicy);
     return {
       slot_id: slot.slotId,
       kind: fieldValue(slot.kind)!,
       rect_percent: fieldValue(slot.rectPercent)!,
       z_order: fieldValue(slot.zOrder)!,
       allowed_content_classes: [...fieldValue(slot.allowedContentClasses)!],
+      ...(civicPolicy ? { civic_symbol_policy: civicPolicy } : {}),
       ...(fallback ? { fallback_decoration: fallback } : {}),
     };
   });

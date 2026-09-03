@@ -212,6 +212,7 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 0,
       allowed_content_classes: ["jurisdiction-seal", "neutral-art"],
+      civic_symbol_policy: "canonical-source-only",
       fallback_decoration: "plain framed paper",
     },
   ],

@@ -27,6 +27,16 @@ import { hashArtFile } from "./content-hash";
 
 export const POSE_REGISTRY_PATH = "art/manifest/pose_families.json";
 
+/**
+ * Every registry whose plates this repository derives. The fixture registry is
+ * here so the contract fixture exercises the same code path as production art
+ * rather than a second, weaker one.
+ */
+export const POSE_REGISTRY_PATHS: readonly string[] = [
+  POSE_REGISTRY_PATH,
+  "art/fixtures/valid_pose_families.json",
+];
+
 export interface PoseControlPlateOutput {
   readonly poseFamilyId: string;
   readonly repositoryPath: string;
@@ -35,9 +45,10 @@ export interface PoseControlPlateOutput {
 
 export function readPoseRegistry(
   repositoryRoot: string,
+  registryPath: string = POSE_REGISTRY_PATH,
 ): PoseFamilyRegistryData {
   return JSON.parse(
-    fs.readFileSync(path.resolve(repositoryRoot, POSE_REGISTRY_PATH), "utf8"),
+    fs.readFileSync(path.resolve(repositoryRoot, registryPath), "utf8"),
   ) as PoseFamilyRegistryData;
 }
 
@@ -67,8 +78,9 @@ export function writePoseControlPlate(
  */
 export function derivePoseControlPlates(
   repositoryRoot: string,
+  registryPath: string = POSE_REGISTRY_PATH,
 ): readonly PoseControlPlateOutput[] {
-  const registry = readPoseRegistry(repositoryRoot);
+  const registry = readPoseRegistry(repositoryRoot, registryPath);
   const outputs = registry.families.map((family) =>
     writePoseControlPlate(family, repositoryRoot),
   );
@@ -87,7 +99,7 @@ export function derivePoseControlPlates(
     }),
   };
   fs.writeFileSync(
-    path.resolve(repositoryRoot, POSE_REGISTRY_PATH),
+    path.resolve(repositoryRoot, registryPath),
     `${JSON.stringify(updated, null, 2)}\n`,
     "utf8",
   );
