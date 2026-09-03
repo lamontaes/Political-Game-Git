@@ -1,0 +1,299 @@
+{
+  "ledger_version": "cargo-disposition-v1",
+  "sources": [
+    {
+      "source_id": "pr-48",
+      "kind": "repository-branch",
+      "reference": "lamontaes/Political-Game-Git PR #48, head 6dbb236cf3b176982a9873b4ae4ba60803d20e63",
+      "note": "Stale as a merge candidate: it is based on 514a6f9 and deletes the legislative core accepted into main at c90e351. Its unique production cargo is dispositioned below under Drive authority 42_POST_GRAPHICS_ACCEPTANCE_PR48_PRODUCTION_CARGO_REHOME_AUTHORITY."
+    },
+    {
+      "source_id": "pr-63",
+      "kind": "repository-branch",
+      "reference": "lamontaes/Political-Game-Git PR #63, head 1a6e5f089c92db623b979bd47c8ded6a9b75b6aa",
+      "note": "Scene and person presentation foundation, cut from accepted main. Superseded by this branch, which carries its architecture forward."
+    },
+    {
+      "source_id": "pr-74",
+      "kind": "repository-branch",
+      "reference": "lamontaes/Political-Game-Git PR #74, head b8b4dcecc7f825bcf12d064a152a29398d7e43da",
+      "note": "Asset factory, scene authoring, measured geometry and dynamic surfaces, stacked on #63. Superseded by this branch, which carries its architecture forward."
+    },
+    {
+      "source_id": "pack-universal-base-characters",
+      "kind": "external-pack",
+      "reference": "Drive 1tRZAgxipomMrrUo_mnOLGaJFcknrd9Jz \u2014 'Universal Base Characters[Standard].zip', 128,968,391 bytes",
+      "note": "Owner-downloaded free/CC0 pack, banked in Drive and not brought into the repository."
+    },
+    {
+      "source_id": "pack-universal-animation-library",
+      "kind": "external-pack",
+      "reference": "Drive 1TTCe9T-ANIr7DCUh92S2FeFaUskYpOXv \u2014 'Universal Animation Library[Standard].zip', 15,904,933 bytes",
+      "note": "Owner-downloaded free/CC0 pack, banked in Drive and not brought into the repository."
+    },
+    {
+      "source_id": "pack-office-cubicle-set",
+      "kind": "external-pack",
+      "reference": "Drive 1PZ_yNAGyk_8A7-4Iu4qsL7mWXUqEkYTP \u2014 'Office Cubicle Set.zip', 527,258,457 bytes",
+      "note": "Owner-downloaded free/CC0 office set (the 'Omie's Office Set' referenced by Packet 45), banked in Drive and not brought into the repository."
+    }
+  ],
+  "entries": [
+    {
+      "entry_id": "pr48-body-masters",
+      "source_id": "pr-48",
+      "label": "Two standing body geometry masters",
+      "disposition": "re-homed",
+      "basis": [
+        "technical",
+        "authority"
+      ],
+      "reason": "Measured here at 1696x2528, which is exactly the standing body master minimum, so these are the only character masters the project holds that meet the current dimension contract without enlargement. They carry no alpha, so they are SOURCE masters awaiting the deterministic keying step, not runtime components: they are registered approved, QA pending and unreleased.",
+      "verified_by": "measured-in-repository",
+      "rehomed_asset_ids": [
+        "pg_master_body_standing_frame_a",
+        "pg_master_body_standing_frame_b"
+      ],
+      "measurements": {
+        "measured": "1696x2528",
+        "standing_master_minimum": "1696x2528",
+        "required_enlargement": "1x",
+        "transparency": "none"
+      }
+    },
+    {
+      "entry_id": "pr48-head-masters",
+      "source_id": "pr-48",
+      "label": "Head design masters",
+      "disposition": "re-homed",
+      "basis": [
+        "technical",
+        "authority"
+      ],
+      "reason": "Measured here at 206x307, 333x331, 333x332, which is 3.08x-3.34x below the head master minimum of 1024px on the long edge, and with no alpha. They are real design authority and are re-homed as VISUAL SOURCE: they are what to regenerate from, never what to ship. The pipeline does not enlarge a master to reach its canvas, so none of these can become a released component as it stands. Their own source manifest agrees, marking them MASTER_DESIGN_AUTHORITY and warning against direct runtime overlay.",
+      "verified_by": "measured-in-repository",
+      "rehomed_asset_ids": [
+        "pg_master_head_01_bald_neutral",
+        "pg_master_head_02_bald_neutral",
+        "pg_master_head_03_bald_neutral",
+        "pg_master_head_04_bald_neutral",
+        "pg_master_head_05_bald_neutral"
+      ],
+      "measurements": {
+        "measured": "206x307, 333x331, 333x332",
+        "minimum_long_edge": 1024,
+        "required_enlargement": "3.08x-3.34x",
+        "transparency": "none"
+      }
+    },
+    {
+      "entry_id": "pr48-hair-front-masters",
+      "source_id": "pr-48",
+      "label": "Hairstyle design masters",
+      "disposition": "re-homed",
+      "basis": [
+        "technical",
+        "authority"
+      ],
+      "reason": "Measured here at 220x213, 221x213, which is 4.63x-4.65x below the hair-front master minimum of 1024px on the long edge, and with no alpha. They are real design authority and are re-homed as VISUAL SOURCE: they are what to regenerate from, never what to ship. The pipeline does not enlarge a master to reach its canvas, so none of these can become a released component as it stands. Their own source manifest agrees, marking them MASTER_DESIGN_AUTHORITY and warning against direct runtime overlay.",
+      "verified_by": "measured-in-repository",
+      "rehomed_asset_ids": [
+        "pg_master_hair_01_short_tapered_afro",
+        "pg_master_hair_02_rounded_medium_afro",
+        "pg_master_hair_03_shoulder_natural_curls",
+        "pg_master_hair_04_high_puff",
+        "pg_master_hair_05_shoulder_box_braids",
+        "pg_master_hair_06_long_box_braids",
+        "pg_master_hair_07_cornrows_low_bun",
+        "pg_master_hair_08_shoulder_locs"
+      ],
+      "measurements": {
+        "measured": "220x213, 221x213",
+        "minimum_long_edge": 1024,
+        "required_enlargement": "4.63x-4.65x",
+        "transparency": "none"
+      }
+    },
+    {
+      "entry_id": "pr48-top-masters",
+      "source_id": "pr-48",
+      "label": "Upper-garment design masters",
+      "disposition": "re-homed",
+      "basis": [
+        "technical",
+        "authority"
+      ],
+      "reason": "Measured here at 220x246, 221x246, which is 4.16x below the top master minimum of 1024px on the long edge, and with no alpha. They are real design authority and are re-homed as VISUAL SOURCE: they are what to regenerate from, never what to ship. The pipeline does not enlarge a master to reach its canvas, so none of these can become a released component as it stands. Their own source manifest agrees, marking them MASTER_DESIGN_AUTHORITY and warning against direct runtime overlay.",
+      "verified_by": "measured-in-repository",
+      "rehomed_asset_ids": [
+        "pg_master_top_01_short_sleeve_crew_tee",
+        "pg_master_top_02_long_sleeve_button_shirt",
+        "pg_master_top_03_pullover_sweater",
+        "pg_master_top_04_structured_blazer"
+      ],
+      "measurements": {
+        "measured": "220x246, 221x246",
+        "minimum_long_edge": 1024,
+        "required_enlargement": "4.16x",
+        "transparency": "none"
+      }
+    },
+    {
+      "entry_id": "pr48-bottom-masters",
+      "source_id": "pr-48",
+      "label": "Lower-garment design masters",
+      "disposition": "re-homed",
+      "basis": [
+        "technical",
+        "authority"
+      ],
+      "reason": "Measured here at 218x244, 219x244, which is 4.2x below the bottom master minimum of 1024px on the long edge, and with no alpha. They are real design authority and are re-homed as VISUAL SOURCE: they are what to regenerate from, never what to ship. The pipeline does not enlarge a master to reach its canvas, so none of these can become a released component as it stands. Their own source manifest agrees, marking them MASTER_DESIGN_AUTHORITY and warning against direct runtime overlay.",
+      "verified_by": "measured-in-repository",
+      "rehomed_asset_ids": [
+        "pg_master_bottom_01_straight_leg_jeans",
+        "pg_master_bottom_02_dress_trousers",
+        "pg_master_bottom_03_a_line_knee_skirt"
+      ],
+      "measurements": {
+        "measured": "218x244, 219x244",
+        "minimum_long_edge": 1024,
+        "required_enlargement": "4.2x",
+        "transparency": "none"
+      }
+    },
+    {
+      "entry_id": "pr48-footwear-masters",
+      "source_id": "pr-48",
+      "label": "Footwear design masters",
+      "disposition": "re-homed",
+      "basis": [
+        "technical",
+        "authority"
+      ],
+      "reason": "Measured here at 243x244, which is 4.2x below the footwear master minimum of 1024px on the long edge, and with no alpha. They are real design authority and are re-homed as VISUAL SOURCE: they are what to regenerate from, never what to ship. The pipeline does not enlarge a master to reach its canvas, so none of these can become a released component as it stands. Their own source manifest agrees, marking them MASTER_DESIGN_AUTHORITY and warning against direct runtime overlay.",
+      "verified_by": "measured-in-repository",
+      "rehomed_asset_ids": [
+        "pg_master_footwear_01_low_top_sneakers",
+        "pg_master_footwear_02_leather_loafers",
+        "pg_master_footwear_03_low_practical_flats"
+      ],
+      "measurements": {
+        "measured": "243x244",
+        "minimum_long_edge": 1024,
+        "required_enlargement": "4.2x",
+        "transparency": "none"
+      }
+    },
+    {
+      "entry_id": "pr48-normalized-derivatives",
+      "source_id": "pr-48",
+      "label": "Thirty-five normalized pg-modular component derivatives",
+      "disposition": "rejected",
+      "basis": [
+        "technical",
+        "authority"
+      ],
+      "reason": "Measured on the source branch at 94x124 to 345x960. Every one is 3.1x to 11x below the current master contract, and the garment set is worse than that: PG_TOP_011 is a 220x246 master normalized UP to 266x324, which is exactly the enlarge-a-master failure the master minimums exist to prevent. PR #48 released them; under the current contract they cannot be released. Nothing is lost by rejecting the rasters: their masters are re-homed above and their exact derivation recipe is preserved in provenance, so any of them can be re-derived. Authority 42 also refuses to preserve gray exposed-skin rendering as production presentation.",
+      "verified_by": "measured-in-repository",
+      "measurements": {
+        "derivative_size_range": "94x124 to 345x960",
+        "worst_case_enlargement_to_contract": "11x",
+        "garment_derivatives_enlarged_above_their_own_master": true
+      }
+    },
+    {
+      "entry_id": "pr48-intake-mechanics",
+      "source_id": "pr-48",
+      "label": "Deterministic pg-modular intake mechanics",
+      "disposition": "re-homed",
+      "basis": [
+        "technical"
+      ],
+      "reason": "The valuable part of the 1106-line intake script is its recipe, not its code: per-row neutral-background keying with a stated tolerance and softness, an opaque-bounds crop, a Lanczos-3 resample at a stated scale, and a rig measured from the resulting mask. That recipe is preserved verbatim in the re-homed provenance so every derivative stays reproducible. The surrounding architecture is superseded: this branch already carries chroma keying, Lanczos resampling, tier derivation, master inventory and measured geometry from #74, and duplicating them would create the second pipeline the convergence exists to remove.",
+      "verified_by": "measured-in-repository",
+      "rehomed_asset_ids": [
+        "pg_master_body_standing_frame_a",
+        "pg_master_body_standing_frame_b"
+      ],
+      "measurements": {
+        "recipe_recorded_in": "art/manifest/provenance.json (prov_pg_master_* edits_performed)",
+        "superseded_by": "scripts/art-asset-factory/chroma-extract.ts, resample.ts, tier-derive.ts, master-inventory.ts"
+      }
+    },
+    {
+      "entry_id": "pr48-demographic-asset-ids",
+      "source_id": "pr-48",
+      "label": "Demographic tokens in asset identifiers",
+      "disposition": "rejected",
+      "basis": [
+        "authority"
+      ],
+      "reason": "PR #48 named heads and hair with '_black_', '_white_' and '_east_asian_' tokens. The accepted contract says complexion is art direction, never demography, and is never inferred from a name. The received filenames are recorded in provenance so the lineage stays checkable, and the project's own identifiers are silhouette-, garment- and hairstyle-based instead. Hairstyle names such as afro, box braids, cornrows and locs are kept: they name a hairstyle, not a person.",
+      "verified_by": "measured-in-repository"
+    },
+    {
+      "entry_id": "pr48-stale-architecture",
+      "source_id": "pr-48",
+      "label": "Base state, released-status claims and deleted gameplay",
+      "disposition": "rejected",
+      "basis": [
+        "authority"
+      ],
+      "reason": "PR #48 is based on 514a6f9 and its diff against accepted main deletes the whole legislative core merged at c90e351, along with the office scene's static selection that the later environment resolver replaces. None of that is re-homed. Authority 42 is explicit that stale base and config state, duplicate superseded architecture, and any claim that the absence of seated real-body art is solved must not be preserved.",
+      "verified_by": "measured-in-repository"
+    },
+    {
+      "entry_id": "pr63-pr74-architecture",
+      "source_id": "pr-74",
+      "label": "Scene, authoring and asset-factory architecture from the #63/#74 stack",
+      "disposition": "re-homed",
+      "basis": [
+        "authority"
+      ],
+      "reason": "Both candidates are cut from accepted main and both are wanted, but as a permanent two-PR stack rather than one authority. Their trees are carried onto this single branch and superseded there: scene registry and placement, raster tiers, component masters, measured geometry, scene scaffold, semantic context, tier plans, dynamic environment surfaces, the debug overlay and both proof surfaces. The pose contract added here extends that architecture rather than duplicating it.",
+      "verified_by": "measured-in-repository",
+      "rehomed_asset_ids": [
+        "env_lexington_council_staff_office_prompt30_v1",
+        "env_lexington_council_staff_office_prompt30_foreground_mask_v1"
+      ]
+    },
+    {
+      "entry_id": "pack-universal-animation-library",
+      "source_id": "pack-universal-animation-library",
+      "label": "Universal Animation Library [Standard]",
+      "disposition": "archive",
+      "basis": [
+        "technical",
+        "authority"
+      ],
+      "reason": "An animation library is motion data for a rig. The user rule is explicit: no rigging, no Blender, no manual 3D posing, and no implementation time spent extracting static frames from animation rigs. Even if the archive contains renderable clips, consuming them needs the skeletal runtime this project has deliberately put on the back burner, so it is ARCHIVE / not currently useful rather than a source of pose art. No byte-level inspection was performed and none is needed to reach that conclusion: the pack's purpose, not its contents, is what disqualifies it.",
+      "verified_by": "metadata-only",
+      "verify_command": "unzip -l <pack>.zip | head -100  # then: are there finished static PNG/sprite files, or only .fbx/.anim/.prefab/.blend rig and animation data?"
+    },
+    {
+      "entry_id": "pack-universal-base-characters",
+      "source_id": "pack-universal-base-characters",
+      "label": "Universal Base Characters [Standard]",
+      "disposition": "pending-verification",
+      "basis": [
+        "technical"
+      ],
+      "reason": "A base-character pack is normally rigged humanoid geometry, which the no-rigging rule excludes. It is left PENDING rather than archived because the 129MB archive was not opened: if it turns out to contain finished front-facing static character art with alpha at or above the master minimums, that would be directly usable and it would be wrong to reject it unseen. Nothing from it is used, referenced or counted as coverage until the bytes are inspected. It also cannot pass the master contract on style alone: the global Political Game visual-style lock applies to every asset class.",
+      "verified_by": "metadata-only",
+      "verify_command": "unzip -l <pack>.zip | head -100  # then: are there finished static PNG/sprite files, or only .fbx/.anim/.prefab/.blend rig and animation data?"
+    },
+    {
+      "entry_id": "pack-office-cubicle-set",
+      "source_id": "pack-office-cubicle-set",
+      "label": "Office Cubicle Set (Omie's Office Set)",
+      "disposition": "pending-verification",
+      "basis": [
+        "technical",
+        "legal"
+      ],
+      "reason": "A 527MB office set is most likely engine-ready 3D props, which this compositor cannot consume without rendering. It is left PENDING rather than archived because an office set may also ship flat textures or sprite sheets that a background or prop slot could use, and because the licence terms have not been read into the repository. Nothing from it is used or counted as coverage until both the bytes and the licence are inspected; rights are recorded as unknown until then.",
+      "verified_by": "metadata-only",
+      "verify_command": "unzip -l <pack>.zip | head -100  # then: are there finished static PNG/sprite files, or only .fbx/.anim/.prefab/.blend rig and animation data?"
+    }
+  ]
+}

@@ -13,6 +13,10 @@ import {
   renderPoseControlPlate,
 } from "../../src/presentation/pose-control-plate";
 import {
+  validateCargoDisposition,
+  type CargoDispositionLedger,
+} from "./cargo-disposition";
+import {
   createPoseFamilyRegistry,
   validatePoseFamilyRegistry,
   type PoseFamilyRegistryData,
@@ -47,6 +51,11 @@ export interface ArtValidationOptions {
    * component, because a body's pose family must be a registered contract.
    */
   poseFamilies?: PoseFamilyRegistryData;
+  /**
+   * Convergence bookkeeping: what happened to the cargo on the superseded
+   * graphics branches and to the externally downloaded packs.
+   */
+  cargoDisposition?: CargoDispositionLedger;
 }
 
 const VALID_CONFIDENCE_LEVELS: MeasurementConfidence[] = [
@@ -538,6 +547,11 @@ export function validateArtAssets(
   );
 
   validatePoseFamilies(manifest, options.poseFamilies, repositoryRoot, errors);
+  if (options.cargoDisposition !== undefined) {
+    errors.push(
+      ...validateCargoDisposition(options.cargoDisposition, manifest),
+    );
+  }
   validateProductionComponentMasters(
     manifest,
     repositoryRoot,
