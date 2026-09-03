@@ -1,0 +1,54 @@
+{
+  "asOf": "2026-12-31",
+  "canonicalSha256": "44ec1198c8852552cf957960b928d2c174d4a24824ffeaec4dbcc35145500ff4",
+  "compiler": {
+    "name": "bls-laus",
+    "version": "1.0.0"
+  },
+  "corpusId": "bls-laus",
+  "coverage": {
+    "boundedSampleReason": "The observation file holds 248,282 rows going back to 1976, which is past the point where committing raw bytes to this repository is reasonable. It is cached rather than committed — its identity is pinned in the lock even though its bytes are not here — and the corpus compiles a QA slice of it: The header row of la.data.1.CurrentS followed by every data row whose year field is 2024 or later, in published file order, each row byte-for-byte including its trailing carriage return, with a trailing newline. Anyone who retrieves the parent can re-cut the slice and compare digests. BLS also publishes an unadjusted file covering many more areas, which is a different product and is not part of this corpus.",
+    "isCompleteUniverse": false,
+    "universeDescription": "Seasonally adjusted Local Area Unemployment Statistics observations for every series BLS publishes in la.data.1.CurrentS. The seven reference tables that give those series their areas, measures, periods and footnote meanings are compiled from complete files."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "bls-laus-area-type",
+      "sha256": "be709b0f5fa834cb905059c81630611ee994ed5da0f324a820d994dcebd4d026"
+    },
+    {
+      "artifactId": "bls-laus-measure",
+      "sha256": "b43486145486a91cf5f9cb1a1109b1a2a4ca0d0c5a9a7d5e0f7178949b5dfee7"
+    },
+    {
+      "artifactId": "bls-laus-footnote",
+      "sha256": "e68dbc2ea353d57047b57ec28ac01a4f5d06cff98a87c16fe4ab32daa2d2df34"
+    },
+    {
+      "artifactId": "bls-laus-period",
+      "sha256": "3a6636301c03a15da1cfa37522aeaccda45fa2bf92d325677d7b6c258ab0cd7d"
+    },
+    {
+      "artifactId": "bls-laus-state-region-division",
+      "sha256": "9adb91f291c5a8ad5d4b835eab45aaf174f049129ef1b1f7687655b1cb3af33c"
+    },
+    {
+      "artifactId": "bls-laus-area",
+      "sha256": "7f1dcbd6a2506d92d65641609cf08bd04f0a534503c6d0f23497f284dce1fc45"
+    },
+    {
+      "artifactId": "bls-laus-series",
+      "sha256": "3b8403546b73609850f5a56c89bcdabf681b73e817082497f71d0dc2608c419c"
+    },
+    {
+      "artifactId": "bls-laus-data-1-current-seasonally-adjusted-qa-slice",
+      "sha256": "ea5179fdccd9480f667b9b407ebbbee4f596015ada13e2812d67b76a8a184ddd"
+    }
+  ],
+  "parser": {
+    "name": "bls-timeseries",
+    "version": "1.0.0"
+  },
+  "recordCount": 13082
+}

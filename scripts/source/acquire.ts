@@ -31,8 +31,18 @@ import {
   loadDomains,
 } from "./registry";
 
-const USER_AGENT =
-  "PoliticalGameSourceSubstrate/1.0 (+https://github.com/lamontaes/Political-Game-Git; source acquisition)";
+/**
+ * How this client identifies itself.
+ *
+ * The `Mozilla/5.0 (compatible; Name/Version)` form is the long-standing
+ * convention for a non-browser client — the shape Googlebot and every other
+ * well-behaved crawler uses — and it names this substrate rather than
+ * pretending to be a browser. The exact shape is not cosmetic: HUD's edge
+ * answers anything without the compatible token with a challenge instead of the
+ * file, and the Bureau of Labor Statistics refuses a token carrying a URL. This
+ * one string is accepted by all seven publishers this substrate retrieves from.
+ */
+const USER_AGENT = "Mozilla/5.0 (compatible; PoliticalGameSourceSubstrateBot/1.0)";
 
 /** Fetch bytes, reporting the status and instant of the retrieval that happened. */
 async function retrieve(url: string): Promise<{
