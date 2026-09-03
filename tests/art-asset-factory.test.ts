@@ -771,6 +771,7 @@ describe("Packet 76 approved runtime art", () => {
       {
         repositoryRoot: REPO_ROOT,
         characterCatalog: loadJson("art/manifest/character_catalog.json"),
+        poseFamilies: loadJson("art/manifest/pose_families.json"),
       },
     );
     expect(result.valid).toBe(true);
@@ -783,12 +784,18 @@ describe("Packet 76 approved runtime art", () => {
       "human_candidate_A01_primary_desk_seated_v1",
       "human_candidate_B01_left_guest_seated_v1",
     ]);
-    expect(result.runtimeEligibleAssetIds).toHaveLength(20);
+    // 4 office fixtures + 16 generation-1 and 30 generation-2 DEV components,
+    // plus the released production workroom plate (D-067).
+    expect(result.runtimeEligibleAssetIds).toHaveLength(51);
+    // Everything past the four fixtures is a DEV component, with one
+    // exception: the production workroom plate. It is the only released asset
+    // in this repository that is production art rather than fixture art, and
+    // naming it here keeps that fact visible instead of letting a broad
+    // "starts with dev_" sweep hide the next one.
+    const beyondFixtures = result.runtimeEligibleAssetIds.slice(4);
     expect(
-      result.runtimeEligibleAssetIds
-        .slice(4)
-        .every((assetId: string) => assetId.startsWith("dev_")),
-    ).toBe(true);
+      beyondFixtures.filter((assetId: string) => !assetId.startsWith("dev_")),
+    ).toEqual(["env_shared_workroom_office_v1"]);
     const environment = manifest.assets.find(
       (asset: { asset_id: string }) =>
         asset.asset_id === "env_lexington_council_staff_office_prompt30_v1",
@@ -803,7 +810,20 @@ describe("Packet 76 approved runtime art", () => {
       families.families.map(
         (family: { family_id: string }) => family.family_id,
       ),
-    ).toEqual(["council-staff-office"]);
+    ).toEqual([
+      "council-staff-office",
+      // The three families below are declared production-authoring targets for
+      // the approved environments whose bytes are still queued in
+      // art/intake/environment-batch-2026-09-03.request.json. A family with no
+      // released plate is a target, not coverage.
+      "apartment-ordinary",
+      "civic-community-meeting",
+      "executive-private-office",
+      // The one family that is coverage rather than a target: the shared
+      // workroom has a released plate downscaled from its approved 5504x3072
+      // master (D-067).
+      "shared-workroom-office",
+    ]);
   });
 
   it("reproduces the 2x Lanczos office plate and furniture-only alpha mask", async () => {
@@ -823,18 +843,23 @@ describe("Packet 76 approved runtime art", () => {
         runtimePath,
         foregroundPath,
       );
+      // The count dropped from 269,313 when the primary-desk worktop quad was
+      // pulled back to the chair's left edge (x 748). The quad used to run to
+      // x 1024, sweeping through the chair back and seat and painting the chair
+      // over the seated figure's lap; the pixels it lost are the ones that were
+      // wrong.
       expect(result).toEqual({
         sourceWidth: 1024,
         sourceHeight: 572,
         runtimeWidth: 2048,
         runtimeHeight: 1144,
-        foregroundPixelCount: 269_313,
+        foregroundPixelCount: 183_443,
       });
       expect(hashArtFile(runtimePath)).toBe(
         "66678f0e91c52ca86f851ae4ba73d1a736a56be9cb7875512ab6bd1235de07f0",
       );
       expect(hashArtFile(foregroundPath)).toBe(
-        "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe",
+        "f2f5ae8ca3e82e13cf6fb6f8f27c654b5c95a93c6ca2c31d5c56381fdd543406",
       );
       expect((await parseImageMetadata(runtimePath)).hasTransparency).toBe(
         "none",
@@ -848,7 +873,7 @@ describe("Packet 76 approved runtime art", () => {
     } finally {
       fs.rmSync(temporaryDirectory, { recursive: true, force: true });
     }
-  });
+  }, 120_000);
 
   it.each([
     [

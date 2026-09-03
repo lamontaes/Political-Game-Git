@@ -376,7 +376,21 @@ The `?view=character-proof` developer route composes four generated people
 from one seeded world through that compositor, shows the first again seated
 in a second scene, and saves/restores the World through the snapshot codec in
 browser storage. The accepted office scene still renders the authored A01/B01
-recipes; it does not yet consume modular recipes. See
+recipes. Under D-055 the same `composeOfficeVisuals` now serves every person:
+an authored flattened recipe wins; otherwise the person's pinned modular
+recipe resolves for the anchor's pose through the same compositor, and a
+missing body for that pose fails closed to the placeholder. `OfficeScene`
+renders whichever the composition returns. The accepted office anchors are
+seated and no real seated body exists, so real modular people fail closed
+there today while legacy people compose the generation-1 DEV seated body.
+
+The seated-contact repair (D-055) declares the A01/B01 roots on the measured
+seat-contact line of each raster, places the two anchors on the chairs' seat
+points, and ends the foreground worktop polygon at the primary chair so the
+chair is no longer painted over the seated figure. The developer proof at
+`?view=character-proof` renders the real set by default and the DEV set at
+`&set=dev`, with source-master lineage, the office flattened/modular path
+table, and the before/after evidence. See
 [Art Assets and Runtime Release](art-assets.md).
 
 The resting shell uses the short truthful date; expansion uses the bounded

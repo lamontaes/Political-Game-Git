@@ -1,5 +1,5 @@
 {
-  "catalog_generation": 1,
+  "catalog_generation": 2,
   "slots": [
     {
       "slot_id": "body",
@@ -73,6 +73,42 @@
         "dev_top_tee_teal_standing_v1"
       ],
       "signature": "csig_6f0c19b1dce11425"
+    },
+    {
+      "generation": 2,
+      "component_ids": [
+        "dev_g2_accessory_lanyard_v1",
+        "dev_g2_body_broad_deep_rich_seated_v1",
+        "dev_g2_body_broad_deep_rich_standing_v1",
+        "dev_g2_body_broad_light_seated_v1",
+        "dev_g2_body_broad_light_standing_v1",
+        "dev_g2_body_broad_medium_warm_seated_v1",
+        "dev_g2_body_broad_medium_warm_standing_v1",
+        "dev_g2_body_slim_deep_rich_seated_v1",
+        "dev_g2_body_slim_deep_rich_standing_v1",
+        "dev_g2_body_slim_light_seated_v1",
+        "dev_g2_body_slim_light_standing_v1",
+        "dev_g2_body_slim_medium_warm_seated_v1",
+        "dev_g2_body_slim_medium_warm_standing_v1",
+        "dev_g2_bottom_trousers_seated_v1",
+        "dev_g2_bottom_trousers_standing_v1",
+        "dev_g2_eyewear_thin_frames_v1",
+        "dev_g2_footwear_derby_seated_v1",
+        "dev_g2_footwear_derby_standing_v1",
+        "dev_g2_hair_coils_front_v1",
+        "dev_g2_hair_crop_front_v1",
+        "dev_g2_hair_long_back_v1",
+        "dev_g2_hair_long_front_v1",
+        "dev_g2_head_deep_oval_v1",
+        "dev_g2_head_light_square_v1",
+        "dev_g2_head_warm_long_v1",
+        "dev_g2_head_warm_round_v1",
+        "dev_g2_top_knit_olive_seated_v1",
+        "dev_g2_top_knit_olive_standing_v1",
+        "dev_g2_top_suit_charcoal_seated_v1",
+        "dev_g2_top_suit_charcoal_standing_v1"
+      ],
+      "signature": "csig_620de59dd62c516d"
     }
   ]
 }

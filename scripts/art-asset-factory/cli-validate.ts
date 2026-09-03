@@ -20,10 +20,14 @@ const families = loadJson("art/manifest/environment_families.json");
 const deltas = loadJson("art/manifest/jurisdiction_deltas.json");
 const provenance = loadJson("art/manifest/provenance.json");
 const characterCatalog = loadJson("art/manifest/character_catalog.json");
+const poseFamilies = loadJson("art/manifest/pose_families.json");
+const cargoDisposition = loadJson("art/manifest/cargo_disposition.json");
 
 const result = validateArtAssets(manifest, families, deltas, provenance, {
   repositoryRoot: REPO_ROOT,
   characterCatalog,
+  poseFamilies,
+  cargoDisposition,
 });
 
 if (result.valid) {

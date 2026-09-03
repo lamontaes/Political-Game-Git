@@ -1,20 +1,44 @@
 import assetManifest from "../../art/manifest/asset_manifest.json";
 import characterCatalog from "../../art/manifest/character_catalog.json";
+import poseFamilies from "../../art/manifest/pose_families.json";
 import {
   derivePersonAppearance,
   type PersonAppearance,
 } from "../simulation/person-appearance";
 import {
   createCharacterComponentLibrary,
+  liftCandidatesForReview,
   type CharacterAttachmentAnchor,
   type CharacterCatalogData,
+  type CharacterComponentLibrary,
   type CharacterComponentManifestRecord,
 } from "./character-components";
+import {
+  buildCharacterRenderPlan,
+  type CharacterRenderPlan,
+} from "./character-render-plan";
 import type {
   RunBSceneAnchorId,
   RunBScenePersonContext,
   RunBScenePersonVariant,
 } from "./run-b-fixture";
+import {
+  createRasterTierLadder,
+  type RasterTier,
+  type RasterTierLadder,
+} from "./raster-tiers";
+import {
+  OFFICE_FIXTURE_SCENE_ID,
+  requireScene,
+  SCENE_REGISTRY,
+  type RegisteredScene,
+} from "./scene-registry";
+import {
+  createPoseFamilyRegistry,
+  indexPoseArt,
+  type PoseFamilyRegistryData,
+} from "./pose-families";
+import { resolvePerspectiveScale } from "./scene-placement";
 import type {
   SceneCameraPolicy,
   SceneRect,
@@ -25,6 +49,15 @@ type RuntimeAssetStatus = "draft" | "approved" | "rejected" | "pending";
 type QaStatus = "approved" | "rejected" | "pending";
 type ReleaseStatus = "released" | "unreleased";
 
+export interface RuntimeRasterTierRecord {
+  readonly width: number;
+  readonly height: number;
+  readonly path: string;
+  readonly hash: string;
+  readonly derivation: RasterTier["derivation"];
+  readonly native_detail_width?: number;
+}
+
 export interface RuntimeVisualAssetRecord {
   readonly asset_id: string;
   readonly generation_status: RuntimeAssetStatus;
@@ -32,6 +65,12 @@ export interface RuntimeVisualAssetRecord {
   readonly runtime_release_status: ReleaseStatus;
   readonly final_path?: string;
   readonly hash?: string;
+  readonly raster_tiers?: readonly RuntimeRasterTierRecord[];
+}
+
+/** One tier of an asset, with its runtime URL resolved. */
+export interface RuntimeRasterTier extends RasterTier {
+  readonly url: string;
 }
 
 export interface RuntimeVisualAsset {
@@ -39,6 +78,13 @@ export interface RuntimeVisualAsset {
   readonly finalPath: string;
   readonly hash: string;
   readonly url: string;
+  /**
+   * Ordered tier ladder, when this asset registers one. Assets that ship a
+   * single raster leave it null rather than pretending to a ladder they do not
+   * have; the runtime then paints `url` and reports the shortfall honestly.
+   */
+  readonly tierLadder: RasterTierLadder | null;
+  readonly tierUrls: ReadonlyMap<number, string>;
 }
 
 export type RuntimeVisualLibrary = ReadonlyMap<string, RuntimeVisualAsset>;
@@ -112,16 +158,22 @@ export interface CharacterVisualRecipe {
 export interface SceneVisualAnchor {
   readonly id: RunBSceneAnchorId;
   readonly xPercent: number;
+  /** The seat plane this anchor's pose contacts, in plate percent. */
   readonly yPercent: number;
+  /** Derived from the scene's floor calibration; never tuned per sprite. */
   readonly scale: number;
   readonly poseFamily: CharacterVisualRecipe["poseFamily"];
-  readonly depth: number;
+  /** Paint order. Perspective depth is `contactFloorYPercent`, not this. */
+  readonly zOrder: number;
+  /** Where on the floor this anchor sits, which is what scale is derived from. */
+  readonly contactFloorYPercent: number;
 }
 
 export interface SceneOccluder {
   readonly id: string;
   readonly assetId: string;
-  readonly depth: number;
+  /** Paint order. Named occluders each keep their own. */
+  readonly zOrder: number;
 }
 
 export interface ComposedSceneOccluder extends SceneOccluder {
@@ -154,13 +206,23 @@ export interface OfficeVisualSceneConfiguration {
   readonly anchors: Readonly<Record<RunBSceneAnchorId, SceneVisualAnchor>>;
   readonly occluders: readonly SceneOccluder[];
   readonly visualRecipes: readonly CharacterVisualRecipe[];
+  /**
+   * How wide a normalized modular body canvas paints on this plate at scale 1,
+   * as a percentage of plate width. It belongs to the SCENE, not to an anchor:
+   * perspective already varies with the floor line, and giving each seat its
+   * own body width is how hand-tuned sprites drift apart.
+   */
+  readonly standardBodyWidthPercent: number;
 }
 
 export interface ComposedCharacterVisual {
   readonly personId: string;
   readonly anchorId: RunBSceneAnchorId;
   readonly visualVariant: RunBScenePersonVariant;
+  /** Authored flattened raster, when an explicit recipe matched. */
   readonly asset: RuntimeVisualAsset | null;
+  /** Modular render plan, when no authored recipe matched but a body resolved. */
+  readonly modular: CharacterRenderPlan | null;
   readonly isPlaceholder: boolean;
   readonly appearanceRecipeId: string;
   readonly leftPercent: number;
@@ -173,7 +235,7 @@ export interface ComposedCharacterVisual {
     readonly widthPercent: number;
     readonly heightPercent: number;
   };
-  readonly depth: number;
+  readonly zOrder: number;
 }
 
 export interface OfficeVisualComposition {
@@ -215,11 +277,41 @@ export function createRuntimeVisualLibrary(
         `Runtime visual asset '${record.asset_id}' cannot resolve '${record.final_path}'.`,
       );
     }
+
+    let tierLadder: RasterTierLadder | null = null;
+    const tierUrls = new Map<number, string>();
+    if (record.raster_tiers && record.raster_tiers.length > 0) {
+      tierLadder = createRasterTierLadder(
+        record.asset_id,
+        record.raster_tiers.map((tier) => ({
+          width: tier.width,
+          height: tier.height,
+          path: tier.path,
+          hash: tier.hash,
+          derivation: tier.derivation,
+          ...(tier.native_detail_width !== undefined
+            ? { nativeDetailWidth: tier.native_detail_width }
+            : {}),
+        })),
+      );
+      for (const tier of tierLadder.tiers) {
+        const tierUrl = urlIndex[tier.path];
+        if (!tierUrl) {
+          throw new Error(
+            `Runtime visual asset '${record.asset_id}' cannot resolve tier ${tier.width} at '${tier.path}'.`,
+          );
+        }
+        tierUrls.set(tier.width, tierUrl);
+      }
+    }
+
     library.set(record.asset_id, {
       assetId: record.asset_id,
       finalPath: record.final_path,
       hash: record.hash,
       url,
+      tierLadder,
+      tierUrls,
     });
   }
   return library;
@@ -253,10 +345,18 @@ export const CHARACTER_VISUAL_RECIPES = {
     assetId: "human_candidate_A01_primary_desk_seated_v1",
     bodyVisualFamily: "adult-authored-illustration",
     poseFamily: "seated-at-desk",
-    root: { convention: "pelvis-hip-center", x: 0.68, y: 0.54 },
+    // Measured off the raster by `measureSeatedContact`, not estimated. The
+    // earlier 0.68/0.54 put the seat plane through the figure's mid-torso,
+    // which is why the authored sitter floated above its chair.
+    root: { convention: "pelvis-hip-center", x: 0.507, y: 0.624 },
+    // The rig root above is the hip JOINT. This is where the body actually
+    // meets the seat: the deepest point of the buttock/thigh silhouette behind
+    // the knees, measured off the raster's own alpha channel. It sits 0.0235 of
+    // raster height below the joint, which is the gap that used to hang this
+    // figure above her chair.
     seatedContact: {
       convention: "seat-plane-at-pelvis",
-      root: { convention: "pelvis-hip-center", x: 0.68, y: 0.54 },
+      root: { convention: "pelvis-hip-center", x: 0.4941, y: 0.6475 },
     },
     visualBounds: {
       sourceAspectRatio: 765 / 1024,
@@ -274,10 +374,14 @@ export const CHARACTER_VISUAL_RECIPES = {
     assetId: "human_candidate_B01_left_guest_seated_v1",
     bodyVisualFamily: "adult-authored-illustration",
     poseFamily: "seated-in-guest-chair",
-    root: { convention: "pelvis-hip-center", x: 0.46, y: 0.51 },
+    // Measured, as above.
+    root: { convention: "pelvis-hip-center", x: 0.497, y: 0.62 },
+    // Measured the same way. B01 carries a deeper seat than A01 — 0.0343 of
+    // raster height below its hip joint — because it is drawn sitting further
+    // back into its chair.
     seatedContact: {
       convention: "seat-plane-at-pelvis",
-      root: { convention: "pelvis-hip-center", x: 0.46, y: 0.51 },
+      root: { convention: "pelvis-hip-center", x: 0.4941, y: 0.6543 },
     },
     visualBounds: {
       sourceAspectRatio: 765 / 1024,
@@ -290,66 +394,103 @@ export const CHARACTER_VISUAL_RECIPES = {
   },
 } as const satisfies Readonly<Record<string, CharacterVisualRecipe>>;
 
-export const OFFICE_VISUAL_SCENE: OfficeVisualSceneConfiguration = {
-  environmentAssetId: "env_lexington_council_staff_office_prompt30_v1",
-  plate: { width: 1024, height: 572 },
-  camera: {
-    minimumAspectRatio: 1.5,
-    maximumAspectRatio: 12 / 5,
-    horizontalFocus: 0.5,
-    verticalFocus: 0.75,
-  },
-  safeArea: { x: 86, y: 112, width: 850, height: 421 },
-  essentialContentArea: { x: 185, y: 165, width: 730, height: 353.75 },
-  uiSafeZones: [
-    {
-      id: "lower-shell",
-      edge: "bottom-left",
-      width: 620,
-      height: 120,
+/**
+ * The office scene, projected from the registered EnvironmentSceneSpec.
+ *
+ * This is the migration 10A G3 asked for: the compositor's scene configuration
+ * is now DERIVED from `office-council-staff-fixture` in the scene registry
+ * rather than hand-written here. Anchor scale is interpolated from the scene's
+ * floor calibration instead of being tuned per sprite, and paint order is
+ * `zOrder` rather than a field that also meant perspective depth.
+ *
+ * The fixture keeps its fixture status. Its art is frozen; only where the
+ * numbers live has changed.
+ */
+export function projectOfficeVisualScene(
+  scene: RegisteredScene,
+): OfficeVisualSceneConfiguration {
+  const seatAnchor = (id: RunBSceneAnchorId): SceneVisualAnchor => {
+    const anchor = scene.anchors.get(id);
+    if (!anchor?.seatContact) {
+      throw new Error(
+        `Scene '${scene.sceneId}' must declare a seat anchor '${id}' for the office composition.`,
+      );
+    }
+    const poseFamily: CharacterVisualRecipe["poseFamily"] =
+      id === "primary-desk-chair" ? "seated-at-desk" : "seated-in-guest-chair";
+    return {
+      id,
+      xPercent: anchor.xPercent,
+      yPercent: anchor.seatContact.seat_plane_y_percent,
+      scale: resolvePerspectiveScale(scene, anchor.contactFloorYPercent),
+      poseFamily,
+      zOrder: anchor.zOrder,
+      contactFloorYPercent: anchor.contactFloorYPercent,
+    };
+  };
+
+  if (!scene.raster) {
+    throw new Error(
+      `Scene '${scene.sceneId}' registers no raster, so it cannot back the office composition.`,
+    );
+  }
+
+  if (scene.standardBodyWidthPercent === null) {
+    throw new Error(
+      `Scene '${scene.sceneId}' declares no standard body width, so modular people cannot be placed in it. Author the width rather than defaulting one.`,
+    );
+  }
+
+  return {
+    environmentAssetId: scene.raster.assetId,
+    plate: scene.plate,
+    camera: scene.camera,
+    safeArea: scene.safeArea,
+    essentialContentArea: scene.essentialContentArea,
+    uiSafeZones: scene.uiSafeZones.map((zone) => ({
+      id: zone.id,
+      edge: zone.edge,
+      width: zone.width,
+      height: zone.height,
+    })),
+    documentAnchors: OFFICE_DOCUMENT_ANCHORS,
+    anchors: {
+      "primary-desk-chair": seatAnchor("primary-desk-chair"),
+      "left-guest-chair": seatAnchor("left-guest-chair"),
     },
-    {
-      id: "navigation-flyout",
-      edge: "top-left",
-      width: 320,
-      height: 300,
-    },
-  ],
-  documentAnchors: {
-    "working-draft": { xPercent: 67.0, yPercent: 55.5 },
-    "briefing-memo": { xPercent: 53.5, yPercent: 55.8 },
-    "civic-marker": { xPercent: 60.5, yPercent: 56.8 },
-  },
-  anchors: {
-    "primary-desk-chair": {
-      id: "primary-desk-chair",
-      xPercent: 80.5,
-      yPercent: 63.5,
-      scale: 0.95,
-      poseFamily: "seated-at-desk",
-      depth: 2,
-    },
-    "left-guest-chair": {
-      id: "left-guest-chair",
-      xPercent: 28.0,
-      yPercent: 63.0,
-      scale: 0.95,
-      poseFamily: "seated-in-guest-chair",
-      depth: 3,
-    },
-  },
-  occluders: [
-    {
-      id: "office-furniture-foreground",
-      assetId: "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
-      depth: 4,
-    },
-  ],
-  visualRecipes: [
-    CHARACTER_VISUAL_RECIPES.primaryDeskSeated,
-    CHARACTER_VISUAL_RECIPES.leftGuestSeated,
-  ],
-};
+    occluders: scene.occluders
+      .filter((occluder) => occluder.assetId !== null)
+      .map((occluder) => ({
+        id: occluder.id,
+        assetId: occluder.assetId as string,
+        zOrder: occluder.zOrder,
+      })),
+    visualRecipes: [
+      CHARACTER_VISUAL_RECIPES.primaryDeskSeated,
+      CHARACTER_VISUAL_RECIPES.leftGuestSeated,
+    ],
+    standardBodyWidthPercent: scene.standardBodyWidthPercent,
+  };
+}
+
+/**
+ * Interactive document positions on the fixture plate. These are UI entry
+ * points rather than scene surface slots: the scene's `surface_slots` say where
+ * a document would be PAINTED, while these say where the player clicks.
+ */
+const OFFICE_DOCUMENT_ANCHORS = {
+  "working-draft": { xPercent: 67.0, yPercent: 55.5 },
+  "briefing-memo": { xPercent: 53.5, yPercent: 55.8 },
+  "civic-marker": { xPercent: 60.5, yPercent: 56.8 },
+} as const;
+
+export const OFFICE_FIXTURE_SCENE = requireScene(
+  SCENE_REGISTRY,
+  OFFICE_FIXTURE_SCENE_ID,
+);
+
+export const OFFICE_VISUAL_SCENE: OfficeVisualSceneConfiguration =
+  projectOfficeVisualScene(OFFICE_FIXTURE_SCENE);
 
 export interface PersonAppearanceContext {
   readonly personId: string;
@@ -432,6 +573,7 @@ export function composeOfficeVisuals(
   people: readonly RunBScenePersonContext[],
   library: RuntimeVisualLibrary,
   scene: OfficeVisualSceneConfiguration = OFFICE_VISUAL_SCENE,
+  characterLibrary: CharacterComponentLibrary = PRODUCTION_CHARACTER_LIBRARY,
 ): OfficeVisualComposition {
   const issues = validateOfficeVisualScene(scene);
   if (issues.length > 0) throw new Error(issues.join("\n"));
@@ -449,14 +591,29 @@ export function composeOfficeVisuals(
         const heightPercent =
           (widthPercent / recipe.visualBounds.sourceAspectRatio) *
           (scene.plate.width / scene.plate.height);
-        const leftPercent = anchor.xPercent - recipe.root.x * widthPercent;
-        const topPercent = anchor.yPercent - recipe.root.y * heightPercent;
+        // Place the point that actually touches the chair, not the rig root.
+        //
+        // `root` is the pelvis-hip-CENTRE: a joint inside the body, a couple of
+        // percent of raster height above the surface the sitter rests on. Putting
+        // that joint on the seat plane hangs the body's contact surface below the
+        // cushion and its visible mass above it, which is why the authored sitters
+        // read as perched on their chairs rather than in them. `seatedContact.root`
+        // is the measured contact itself, and the modular path in
+        // `scene-placement.ts` has always placed seated bodies by their
+        // `seatedPelvis` contact for exactly this reason. The two paths now agree.
+        //
+        // Every authored recipe is a seated one and the type requires the
+        // contact, so there is no standing case to fall back to here.
+        const contact = recipe.seatedContact.root;
+        const leftPercent = anchor.xPercent - contact.x * widthPercent;
+        const topPercent = anchor.yPercent - contact.y * heightPercent;
         const interaction = recipe.visualBounds.interaction;
         return {
           personId: person.personId,
           anchorId: person.anchorId,
           visualVariant: person.visualVariant,
           asset: requireAsset(library, recipe.assetId),
+          modular: null,
           isPlaceholder: false,
           appearanceRecipeId: recipe.appearanceRecipeId,
           leftPercent,
@@ -469,7 +626,52 @@ export function composeOfficeVisuals(
             widthPercent: widthPercent * interaction.width,
             heightPercent: heightPercent * interaction.height,
           },
-          depth: anchor.depth,
+          zOrder: anchor.zOrder,
+        };
+      }
+
+      // Ordinary modular path: an established person without an authored
+      // recipe composes from released components for this anchor's pose.
+      // The same compositor serves every scene; a missing body for the pose
+      // falls through to the explicit placeholder below.
+      const modular = buildCharacterRenderPlan({
+        personId: person.personId,
+        appearance: resolvePersonAppearance(person),
+        anchor: {
+          id: anchor.id,
+          xPercent: anchor.xPercent,
+          yPercent: anchor.yPercent,
+          scale: anchor.scale,
+          poseFamily: anchor.poseFamily,
+          depth: anchor.zOrder,
+          bodyWidthPercent: scene.standardBodyWidthPercent,
+        },
+        plate: scene.plate,
+        library: characterLibrary,
+        visualLibrary: library,
+      });
+      if (modular.layers.length > 0) {
+        return {
+          personId: person.personId,
+          anchorId: person.anchorId,
+          visualVariant: person.visualVariant,
+          asset: null,
+          modular,
+          isPlaceholder: !modular.complete,
+          appearanceRecipeId: modular.recipeKey,
+          leftPercent: modular.box.leftPercent,
+          topPercent: modular.box.topPercent,
+          widthPercent: modular.box.widthPercent,
+          heightPercent: modular.box.heightPercent,
+          hitbox: {
+            leftPercent:
+              modular.box.leftPercent + modular.box.widthPercent * 0.1,
+            topPercent:
+              modular.box.topPercent + modular.box.heightPercent * 0.05,
+            widthPercent: modular.box.widthPercent * 0.8,
+            heightPercent: modular.box.heightPercent * 0.9,
+          },
+          zOrder: anchor.zOrder,
         };
       }
 
@@ -485,6 +687,7 @@ export function composeOfficeVisuals(
         anchorId: person.anchorId,
         visualVariant: person.visualVariant,
         asset: null,
+        modular: null,
         isPlaceholder: true,
         appearanceRecipeId: "placeholder:unresolved-recipe-pose",
         leftPercent: defaultLeftPercent,
@@ -497,7 +700,7 @@ export function composeOfficeVisuals(
           widthPercent: defaultWidthPercent * 0.8,
           heightPercent: defaultHeightPercent * 0.8,
         },
-        depth: anchor.depth,
+        zOrder: anchor.zOrder,
       };
     }),
     occluders: scene.occluders.map((occluder) => ({
@@ -519,4 +722,60 @@ export const PRODUCTION_VISUAL_LIBRARY = createRuntimeVisualLibrary(
 export const PRODUCTION_CHARACTER_LIBRARY = createCharacterComponentLibrary(
   assetManifest.assets as readonly CharacterComponentManifestRecord[],
   characterCatalog as CharacterCatalogData,
+);
+
+/**
+ * The pose-family registry and the released pose art index, from the same
+ * manifest the component library reads. A scene anchor asks the registry for a
+ * posture; the index answers which body families can actually be drawn in it.
+ */
+export const PRODUCTION_POSE_REGISTRY = createPoseFamilyRegistry(
+  poseFamilies as PoseFamilyRegistryData,
+);
+
+/**
+ * Control-plate URLs, keyed by repository path. They are AUTHORING artifacts,
+ * never composited into a character: the developer proof shows one beside a
+ * composed body so a reviewer can see that the structure and the art agree.
+ */
+const poseControlPlateUrls = import.meta.glob<string>(
+  "../../art/pose-control-plates/*.svg",
+  { eager: true, import: "default", query: "?url" },
+);
+
+export const POSE_CONTROL_PLATE_URLS: Readonly<Record<string, string>> =
+  Object.fromEntries(
+    Object.entries(poseControlPlateUrls).map(([modulePath, url]) => [
+      modulePath.replace(/^\.\.\/\.\.\//, ""),
+      url,
+    ]),
+  );
+
+export const PRODUCTION_POSE_ART = indexPoseArt(
+  assetManifest.assets as readonly CharacterComponentManifestRecord[],
+);
+
+/**
+ * DEVELOPMENT ONLY. The banked production candidates, composed so a person can
+ * look at them.
+ *
+ * These parts are not in any catalog generation and no player-facing surface
+ * can reach them; the proof view builds people out of them purely so the art
+ * can be accepted or rejected on sight. Promotion is a separate, deliberate
+ * act — see `liftCandidatesForReview`.
+ */
+const candidateReview = liftCandidatesForReview(
+  assetManifest.assets as readonly CharacterComponentManifestRecord[],
+  (characterCatalog as CharacterCatalogData).slots,
+);
+
+export const CANDIDATE_REVIEW_CHARACTER_LIBRARY =
+  createCharacterComponentLibrary(
+    candidateReview.records,
+    candidateReview.catalog,
+  );
+
+export const CANDIDATE_REVIEW_VISUAL_LIBRARY = createRuntimeVisualLibrary(
+  candidateReview.records as readonly RuntimeVisualAssetRecord[],
+  repositoryUrls(),
 );
