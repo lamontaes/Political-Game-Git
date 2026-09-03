@@ -4,7 +4,7 @@ import * as PImage from "pureimage";
 
 import type {
   CharacterAttachmentAnchor,
-  CharacterComponentDefinition,
+  CharacterComponentCandidateDefinition,
   CharacterComponentKind,
 } from "../../src/presentation/character-components";
 import { hashArtFile } from "./content-hash";
@@ -794,7 +794,7 @@ export interface PgIntakeOutput {
   readonly kind: CharacterComponentKind;
   readonly repositoryPath: string;
   readonly hash: string;
-  readonly definition: CharacterComponentDefinition;
+  readonly definition: CharacterComponentCandidateDefinition;
   readonly master: {
     readonly repositoryPath: string;
     readonly hash: string;
@@ -893,10 +893,9 @@ async function normalizeBody(
   const fileName = `${assetId}.png`;
   const outputPath = path.join(repositoryRoot, outputDirectory, fileName);
   await writePng(outputPath, runtime);
-  const definition: CharacterComponentDefinition = {
+  const definition: CharacterComponentCandidateDefinition = {
     kind: "body",
     family: spec.familyId,
-    catalog_generation: 2,
     layer: 20,
     canvas: { width: runtime.width, height: runtime.height },
     pose_family: "standing-neutral",
@@ -1039,10 +1038,9 @@ async function normalizeComponent(
   const compatibleBodies = spec.perFamilyDerivative
     ? [body.spec.familyId]
     : [...spec.bodyFamilies];
-  const definition: CharacterComponentDefinition = {
+  const definition: CharacterComponentCandidateDefinition = {
     kind: spec.kind,
     family: spec.family,
-    catalog_generation: 2,
     layer: spec.layer,
     canvas: { width: runtime.width, height: runtime.height },
     attaches_to: attachesTo,

@@ -1446,3 +1446,52 @@ fixtures standing in silently.
 Consequence: adding a room is authoring data. What is still missing to ship one
 is bytes and two human judgements — a camera, and whether the art is good enough
 — and the records say which is which rather than blurring them.
+
+## D-065 — A banked candidate is in no generation, and says so
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Repairs: D-063 (its representation only; every disposition it made stands)
+
+D-063 said a banked candidate "belongs to no catalog generation". The records
+said otherwise: all thirty-five declared `catalog_generation: 2`, because
+`candidate_component` was typed as a full `CharacterComponentDefinition` and
+that type requires the field. The intake wrote 2 into every derivative, and the
+review lift built a generation-2 library by reading it back. Nothing leaked —
+the catalog could not see these parts and no saved person's appearance moved —
+but the schema, the generator, the tests and the prose disagreed with the
+binding contract, which an independent acceptance sweep reported.
+
+The disagreement is worth repairing rather than documenting away. A generation's
+membership is signed so a saved person resolves to the same parts forever, and a
+record that names a generation it is not in makes that signature harder to
+trust: it asserts a membership no ledger backs. "In no generation" and "in
+generation 2 but hidden" are different claims about the catalog, and only the
+first is true of art nobody has accepted.
+
+So a candidate now carries no generation at all.
+`CharacterComponentCandidateDefinition` is `CharacterComponentDefinition`
+without `catalog_generation`, derived from it so the two cannot drift, and the
+single difference between a banked part and a catalog part is the one that
+matters: membership. The field is absent rather than zero or null, because a
+candidate has no membership to state, not an empty one.
+
+A generation is assigned where admission happens and nowhere else.
+`promoteCandidateComponent` takes the generation from its caller, because
+admitting a part is an authorized decision about the catalog rather than
+something the part decides about itself. That function is the only place banked
+art is given a generation, which is what makes this decision a fact about the
+code rather than a sentence here. It writes nothing and promotes nothing; the
+thirty-five remain banked, unreleased, and awaiting the human visual acceptance
+D-063 reserves.
+
+Two consequences follow. `liftCandidatesForReview` has no number to carry over,
+so it stamps its own: the throwaway review library is one generation containing
+exactly the candidates, invented locally and never written back. And because the
+manifest is JSON and cannot be held to a type,
+`validateCharacterComponentCandidates` rejects any candidate that declares a
+`catalog_generation`, so the repair cannot quietly regress the way it arrived.
+
+Consequence: the published generations, their frozen signatures, the forty-six
+development fixtures and every disposition D-063 made are unchanged. What
+changed is that the records now say what the authority always said.

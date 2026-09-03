@@ -3019,7 +3019,6 @@
       "candidate_component": {
         "kind": "body",
         "family": "pg-female-lean",
-        "catalog_generation": 2,
         "layer": 20,
         "canvas": {
           "width": 343,
@@ -3090,7 +3089,6 @@
       "candidate_component": {
         "kind": "body",
         "family": "pg-male-lean",
-        "catalog_generation": 2,
         "layer": 20,
         "canvas": {
           "width": 345,
@@ -3161,7 +3159,6 @@
       "candidate_component": {
         "kind": "head",
         "family": "pg-head-f-01",
-        "catalog_generation": 2,
         "layer": 30,
         "canvas": {
           "width": 111,
@@ -3200,7 +3197,6 @@
       "candidate_component": {
         "kind": "head",
         "family": "pg-head-m-001",
-        "catalog_generation": 2,
         "layer": 30,
         "canvas": {
           "width": 98,
@@ -3239,7 +3235,6 @@
       "candidate_component": {
         "kind": "head",
         "family": "pg-head-m-002",
-        "catalog_generation": 2,
         "layer": 30,
         "canvas": {
           "width": 94,
@@ -3278,7 +3273,6 @@
       "candidate_component": {
         "kind": "head",
         "family": "pg-head-m-004",
-        "catalog_generation": 2,
         "layer": 30,
         "canvas": {
           "width": 102,
@@ -3317,7 +3311,6 @@
       "candidate_component": {
         "kind": "head",
         "family": "pg-head-m-005",
-        "catalog_generation": 2,
         "layer": 30,
         "canvas": {
           "width": 115,
@@ -3356,7 +3349,6 @@
       "candidate_component": {
         "kind": "hair-front",
         "family": "pg-hair-f-black-001",
-        "catalog_generation": 2,
         "layer": 40,
         "canvas": {
           "width": 106,
@@ -3395,7 +3387,6 @@
       "candidate_component": {
         "kind": "hair-front",
         "family": "pg-hair-f-black-002",
-        "catalog_generation": 2,
         "layer": 40,
         "canvas": {
           "width": 226,
@@ -3434,7 +3425,6 @@
       "candidate_component": {
         "kind": "hair-front",
         "family": "pg-hair-f-black-004",
-        "catalog_generation": 2,
         "layer": 40,
         "canvas": {
           "width": 278,
@@ -3473,7 +3463,6 @@
       "candidate_component": {
         "kind": "hair-front",
         "family": "pg-hair-f-black-005",
-        "catalog_generation": 2,
         "layer": 40,
         "canvas": {
           "width": 109,
@@ -3512,7 +3501,6 @@
       "candidate_component": {
         "kind": "hair-front",
         "family": "pg-hair-f-black-007",
-        "catalog_generation": 2,
         "layer": 40,
         "canvas": {
           "width": 214,
@@ -3551,7 +3539,6 @@
       "candidate_component": {
         "kind": "hair-front",
         "family": "pg-hair-f-black-008",
-        "catalog_generation": 2,
         "layer": 40,
         "canvas": {
           "width": 308,
@@ -3590,7 +3577,6 @@
       "candidate_component": {
         "kind": "hair-front",
         "family": "pg-hair-f-black-010",
-        "catalog_generation": 2,
         "layer": 40,
         "canvas": {
           "width": 109,
@@ -3629,7 +3615,6 @@
       "candidate_component": {
         "kind": "hair-front",
         "family": "pg-hair-f-black-012",
-        "catalog_generation": 2,
         "layer": 40,
         "canvas": {
           "width": 255,
@@ -3668,7 +3653,6 @@
       "candidate_component": {
         "kind": "top",
         "family": "pg-top-001",
-        "catalog_generation": 2,
         "layer": 25,
         "canvas": {
           "width": 235,
@@ -3707,7 +3691,6 @@
       "candidate_component": {
         "kind": "top",
         "family": "pg-top-001",
-        "catalog_generation": 2,
         "layer": 25,
         "canvas": {
           "width": 265,
@@ -3746,7 +3729,6 @@
       "candidate_component": {
         "kind": "top",
         "family": "pg-top-005",
-        "catalog_generation": 2,
         "layer": 25,
         "canvas": {
           "width": 235,
@@ -3785,7 +3767,6 @@
       "candidate_component": {
         "kind": "top",
         "family": "pg-top-005",
-        "catalog_generation": 2,
         "layer": 25,
         "canvas": {
           "width": 265,
@@ -3824,7 +3805,6 @@
       "candidate_component": {
         "kind": "top",
         "family": "pg-top-006",
-        "catalog_generation": 2,
         "layer": 25,
         "canvas": {
           "width": 235,
@@ -3863,7 +3843,6 @@
       "candidate_component": {
         "kind": "top",
         "family": "pg-top-006",
-        "catalog_generation": 2,
         "layer": 25,
         "canvas": {
           "width": 265,
@@ -3902,7 +3881,6 @@
       "candidate_component": {
         "kind": "top",
         "family": "pg-top-011",
-        "catalog_generation": 2,
         "layer": 25,
         "canvas": {
           "width": 235,
@@ -3941,7 +3919,6 @@
       "candidate_component": {
         "kind": "top",
         "family": "pg-top-011",
-        "catalog_generation": 2,
         "layer": 25,
         "canvas": {
           "width": 265,
@@ -3980,7 +3957,6 @@
       "candidate_component": {
         "kind": "bottom",
         "family": "pg-bottom-001",
-        "catalog_generation": 2,
         "layer": 22,
         "canvas": {
           "width": 157,
@@ -4019,7 +3995,6 @@
       "candidate_component": {
         "kind": "bottom",
         "family": "pg-bottom-001",
-        "catalog_generation": 2,
         "layer": 22,
         "canvas": {
           "width": 190,
@@ -4058,7 +4033,6 @@
       "candidate_component": {
         "kind": "bottom",
         "family": "pg-bottom-005",
-        "catalog_generation": 2,
         "layer": 22,
         "canvas": {
           "width": 157,
@@ -4097,7 +4071,6 @@
       "candidate_component": {
         "kind": "bottom",
         "family": "pg-bottom-005",
-        "catalog_generation": 2,
         "layer": 22,
         "canvas": {
           "width": 190,
@@ -4136,7 +4109,6 @@
       "candidate_component": {
         "kind": "bottom",
         "family": "pg-bottom-010",
-        "catalog_generation": 2,
         "layer": 22,
         "canvas": {
           "width": 157,
@@ -4175,7 +4147,6 @@
       "candidate_component": {
         "kind": "bottom",
         "family": "pg-bottom-010",
-        "catalog_generation": 2,
         "layer": 22,
         "canvas": {
           "width": 190,
@@ -4214,7 +4185,6 @@
       "candidate_component": {
         "kind": "footwear",
         "family": "pg-shoe-001",
-        "catalog_generation": 2,
         "layer": 21,
         "canvas": {
           "width": 227,
@@ -4253,7 +4223,6 @@
       "candidate_component": {
         "kind": "footwear",
         "family": "pg-shoe-001",
-        "catalog_generation": 2,
         "layer": 21,
         "canvas": {
           "width": 134,
@@ -4292,7 +4261,6 @@
       "candidate_component": {
         "kind": "footwear",
         "family": "pg-shoe-004",
-        "catalog_generation": 2,
         "layer": 21,
         "canvas": {
           "width": 227,
@@ -4331,7 +4299,6 @@
       "candidate_component": {
         "kind": "footwear",
         "family": "pg-shoe-004",
-        "catalog_generation": 2,
         "layer": 21,
         "canvas": {
           "width": 134,
@@ -4370,7 +4337,6 @@
       "candidate_component": {
         "kind": "footwear",
         "family": "pg-shoe-009",
-        "catalog_generation": 2,
         "layer": 21,
         "canvas": {
           "width": 227,
@@ -4409,7 +4375,6 @@
       "candidate_component": {
         "kind": "footwear",
         "family": "pg-shoe-009",
-        "catalog_generation": 2,
         "layer": 21,
         "canvas": {
           "width": 134,

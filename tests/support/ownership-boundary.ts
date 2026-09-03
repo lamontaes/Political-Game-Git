@@ -19,8 +19,15 @@ import { execFileSync } from "child_process";
  * either errored or reported a diff nobody should trust. Measuring from `main`
  * covers the whole graphics change rather than the top slice of it — a strictly
  * wider measurement, over an unchanged FORBIDDEN list.
+ *
+ * It moves again when `main` moves under this branch. PR #60 merged and this
+ * branch took its work in, so measuring from the old `main` counted #60's
+ * accepted files — `PlayerGame.tsx`, the conversation and legislation
+ * surfaces — as changes made here. They are not: they arrived from `main`
+ * whole and unedited. The boundary asks what THIS branch adds to the `main`
+ * it sits on, so the base is the `main` it sits on.
  */
-export const BASE_COMMIT = "c90e35161ba827677bdf5920c4d6ae76890c25d5";
+export const BASE_COMMIT = "b986fbe229ea714e2940438acebfe3c4bfc5f986";
 
 export interface OwnedSurface {
   /** Matched against a repository-relative path. */

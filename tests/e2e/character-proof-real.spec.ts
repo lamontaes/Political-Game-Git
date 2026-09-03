@@ -38,7 +38,12 @@ test.describe("Real Political Game modular characters", () => {
     for (let index = 0; index < 4; index += 1) {
       const character = characters.nth(index);
       await expect(character).toHaveAttribute("data-complete", "true");
-      await expect(character).toHaveAttribute("data-catalog-generation", "2");
+      // Generation 1 is the review library's own, invented by the lift for this
+      // throwaway surface. It used to read 2 because each candidate declared a
+      // generation-2 membership it was not in; D-065 removed the declaration,
+      // so the number here now comes from the review scaffolding rather than
+      // from the parts. Nothing about the composed people changed.
+      await expect(character).toHaveAttribute("data-catalog-generation", "1");
       const layers = character.locator("img.modular-character-layer");
       const count = await layers.count();
       expect(count).toBeGreaterThanOrEqual(5);
@@ -122,7 +127,10 @@ test.describe("Real Political Game modular characters", () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/");
+    // The office scene is the development fixture, which PR #60 moved off "/"
+    // when opening the game started a game. The seat-contact repair this test
+    // pins lives on the fixture, so the test follows it to its own route.
+    await page.goto("/?view=office-fixture");
     const guest = page.getByTestId("scene-character-art-guest");
     const primary = page.getByTestId("scene-character-art-primary");
     await expect(guest).toHaveAttribute(

@@ -200,9 +200,28 @@ export interface CharacterComponentManifestRecord {
    * The definition a banked candidate WOULD carry once promoted. Named
    * differently from `component` on purpose: nothing that resolves an identity
    * reads this field, so a candidate cannot leak into a person by accident.
+   *
+   * It carries no `catalog_generation`, because a banked candidate is in no
+   * generation (D-063, D-065). The number is not withheld for tidiness: a
+   * generation's membership is frozen by its signature, so writing one down
+   * before anyone has agreed to admit the part would name a membership that
+   * does not exist. Promotion assigns it — see `promoteCandidateComponent`.
    */
-  readonly candidate_component?: CharacterComponentDefinition;
+  readonly candidate_component?: CharacterComponentCandidateDefinition;
 }
+
+/**
+ * What a banked candidate knows about itself: everything a catalog component
+ * declares except which generation it belongs to.
+ *
+ * Deriving it from `CharacterComponentDefinition` rather than restating the
+ * fields keeps the two from drifting, and makes the single difference between
+ * a banked part and a catalog part legible in the type: membership.
+ */
+export type CharacterComponentCandidateDefinition = Omit<
+  CharacterComponentDefinition,
+  "catalog_generation"
+>;
 
 export type CharacterComponentAvailability =
   "development-fixture" | "production-candidate";
@@ -1272,39 +1291,81 @@ export function liftCandidatesForReview(
       generation_status: "approved" as const,
       qa_status: "approved" as const,
       runtime_release_status: "released" as const,
-      component: record.candidate_component!,
+      component: {
+        ...record.candidate_component!,
+        catalog_generation: CANDIDATE_REVIEW_GENERATION,
+      },
       candidate_component: undefined,
     }));
-  // Candidates keep the generation number their definition declares, because
-  // that number is part of the definition being reviewed. Generations below it
-  // exist and are empty rather than renumbered, so `catalog_generation` still
-  // means "the newest generation here" and the ledger stays contiguous.
-  const highest = lifted.reduce(
-    (max, record) => Math.max(max, record.component.catalog_generation),
-    1,
-  );
+  // The review generation is invented here and belongs to this throwaway
+  // library alone. A candidate declares no generation, so there is no number to
+  // carry over; composing one for review needs a library, a library needs a
+  // ledger, and a ledger needs a generation. Numbering them all 1 keeps that
+  // scaffolding visibly local: this is not generation 1 of the real catalog,
+  // and nothing here is written back to it.
+  const members = lifted.map((record) => ({
+    assetId: record.asset_id,
+    definition: record.component,
+  }));
   return {
     records: lifted,
     catalog: {
-      catalog_generation: highest,
+      catalog_generation: CANDIDATE_REVIEW_GENERATION,
       slots,
-      generations: Array.from({ length: highest }, (_, index) => {
-        const generation = index + 1;
-        const members = lifted
-          .filter(
-            (record) => record.component.catalog_generation === generation,
-          )
-          .map((record) => ({
-            assetId: record.asset_id,
-            definition: record.component,
-          }));
-        return {
-          generation,
+      generations: [
+        {
+          generation: CANDIDATE_REVIEW_GENERATION,
           component_ids: members.map((member) => member.assetId).sort(),
           signature: computeCharacterGenerationSignature(members),
-        };
-      }),
+        },
+      ],
     },
+  };
+}
+
+/**
+ * The generation number the review lift stamps on its throwaway library.
+ *
+ * Exported so a test can name it rather than assume it, and so nothing has to
+ * guess which number the review surface used.
+ */
+export const CANDIDATE_REVIEW_GENERATION = 1;
+
+/**
+ * Promotes one banked candidate into a catalog generation.
+ *
+ * This is the only place a generation is assigned to banked art, which is what
+ * makes "a candidate is in no generation" a fact about the code rather than a
+ * claim in prose. The caller supplies the generation because admitting a part
+ * is an authorized decision about the catalog, not something the part can
+ * decide about itself.
+ *
+ * It returns a new record and writes nothing. Promoting the thirty-five banked
+ * derivatives additionally requires the human visual acceptance D-063 reserves;
+ * none has been promoted.
+ */
+export function promoteCandidateComponent(
+  record: CharacterComponentManifestRecord,
+  generation: number,
+): CharacterComponentManifestRecord {
+  if (
+    record.asset_type !== CHARACTER_COMPONENT_CANDIDATE_ASSET_TYPE ||
+    record.candidate_component === undefined
+  ) {
+    throw new Error(
+      `Asset '${record.asset_id}' is not a banked candidate and cannot be promoted.`,
+    );
+  }
+  if (!isFiniteInteger(generation) || generation < 1) {
+    throw new Error(
+      `Asset '${record.asset_id}' must be promoted into an integer catalog generation >= 1.`,
+    );
+  }
+  const { candidate_component: candidate, ...rest } = record;
+  return {
+    ...rest,
+    asset_type: CHARACTER_COMPONENT_ASSET_TYPE,
+    component: { ...candidate, catalog_generation: generation },
   };
 }
 
@@ -1348,6 +1409,19 @@ export function validateCharacterComponentCandidates(
     if (record.fixed_or_modular !== "modular") {
       errors.push(
         `Asset '${record.asset_id}' is a banked modular candidate and must declare fixed_or_modular 'modular'.`,
+      );
+    }
+    // The manifest is JSON, so the type that forbids this field cannot reach
+    // it. Without this check a candidate could go on declaring membership of a
+    // generation it is not in, which is exactly the disagreement between the
+    // records and D-063 that D-065 repairs.
+    if (
+      (record.candidate_component as Record<string, unknown> | undefined)?.[
+        "catalog_generation"
+      ] !== undefined
+    ) {
+      errors.push(
+        `Asset '${record.asset_id}' is a banked candidate and must not declare a 'catalog_generation'; a generation is assigned only when it is promoted.`,
       );
     }
   }

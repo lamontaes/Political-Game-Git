@@ -27,6 +27,14 @@ will not put a desk-work drawing in a guest chair and hope you do not notice.
 The same descriptions produce the drawing guides the art itself is made from,
 so the picture and the maths come from one source.
 
+A batch of real character art is banked here but deliberately switched off: the
+bodies are untextured gray shapes and the clothes are design drawings rather
+than clothes drawn onto a person, so nobody can wear any of it until a person
+looks at it and says it is good enough. It is now recorded as belonging to no
+release at all, rather than to a release it was hidden inside — a small
+bookkeeping difference that keeps "we have this art" and "you can see this art"
+from ever being the same sentence.
+
 ## PRE-ALPHA 0.3.0 — "A Life, Not a Fixture" — CANDIDATE, NOT YET ACCEPTED
 
 _Proposed 2 September 2026. The version number is a candidate; final acceptance

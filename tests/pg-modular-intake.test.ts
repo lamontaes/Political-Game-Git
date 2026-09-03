@@ -29,7 +29,14 @@ import type {
   CharacterCatalogData,
   ProvenanceData,
 } from "../scripts/art-asset-factory/schemas";
-import { computeCharacterGenerationSignature } from "../src/presentation/character-components";
+import {
+  CANDIDATE_REVIEW_GENERATION,
+  computeCharacterGenerationSignature,
+  liftCandidatesForReview,
+  promoteCandidateComponent,
+  validateCharacterComponentCandidates,
+} from "../src/presentation/character-components";
+import type { CharacterComponentManifestRecord } from "../src/presentation/character-components";
 import { CHARACTER_VISUAL_RECIPES } from "../src/presentation/visual-integration";
 
 const REPO_ROOT = path.resolve(__dirname, "..");
@@ -198,6 +205,12 @@ describe("PG modular asset intake", () => {
         output.assetId,
       ).toBe(true);
       expect(released!.candidate_component).toEqual(output.definition);
+      // ...and it is in no generation, rather than declaring one it is not in.
+      // The field is absent, not zero: a candidate has no membership to state.
+      expect(released!.candidate_component).not.toHaveProperty(
+        "catalog_generation",
+      );
+      expect(output.definition).not.toHaveProperty("catalog_generation");
       expect(hashArtFile(path.join(REPO_ROOT, released!.final_path!))).toBe(
         output.hash,
       );
@@ -229,6 +242,72 @@ describe("PG modular asset intake", () => {
     // promoting the same thirty-five files it banked — not a catalog entry.
     expect(computeCharacterGenerationSignature(outputs)).toMatch(/^csig_/);
   }, 120_000);
+
+  it("keeps banked candidates out of every generation, and assigns one only at promotion", () => {
+    const candidates = (
+      manifest.assets as readonly CharacterComponentManifestRecord[]
+    ).filter((asset) => asset.candidate_component !== undefined);
+    expect(candidates).toHaveLength(35);
+
+    // The contract D-063 states and D-065 repaired: a banked part declares no
+    // membership at all. Before the repair each of these declared generation 2
+    // while the prose said they were in none, so the records and the authority
+    // disagreed about the one thing banking exists to keep straight.
+    for (const candidate of candidates) {
+      expect(candidate.candidate_component).not.toHaveProperty(
+        "catalog_generation",
+      );
+    }
+
+    // And the rule has teeth against the manifest, which is JSON and cannot be
+    // held to the type. A candidate that declares a generation is rejected.
+    expect(validateCharacterComponentCandidates(candidates)).toEqual([]);
+    const relapsed = {
+      ...candidates[0],
+      candidate_component: {
+        ...candidates[0].candidate_component!,
+        catalog_generation: 2,
+      },
+    } as CharacterComponentManifestRecord;
+    expect(validateCharacterComponentCandidates([relapsed])).toEqual([
+      `Asset '${relapsed.asset_id}' is a banked candidate and must not declare a 'catalog_generation'; a generation is assigned only when it is promoted.`,
+    ]);
+
+    // The review lift still composes them, on a generation it invents for
+    // itself rather than one read off the parts.
+    const review = liftCandidatesForReview(candidates, catalog.slots);
+    expect(review.records).toHaveLength(35);
+    expect(review.catalog.catalog_generation).toBe(CANDIDATE_REVIEW_GENERATION);
+    expect(review.catalog.generations).toHaveLength(1);
+    expect(review.catalog.generations[0].component_ids).toHaveLength(35);
+    for (const record of review.records) {
+      expect(record.component!.catalog_generation).toBe(
+        CANDIDATE_REVIEW_GENERATION,
+      );
+    }
+
+    // Promotion is where a generation is assigned, and it is the only place.
+    const promoted = promoteCandidateComponent(candidates[0], 3);
+    expect(promoted.asset_type).toBe("character-component");
+    expect(promoted.candidate_component).toBeUndefined();
+    expect(promoted.component!.catalog_generation).toBe(3);
+    // It returns a new record and promotes nothing in the repository: the
+    // thirty-five are still banked, and still await a person's eye.
+    expect(candidates[0].candidate_component).not.toHaveProperty(
+      "catalog_generation",
+    );
+    expect(
+      manifest.assets.filter(
+        (asset) => asset.asset_type === "character-component-candidate",
+      ),
+    ).toHaveLength(35);
+    expect(() => promoteCandidateComponent(promoted, 3)).toThrow(
+      /not a banked candidate/,
+    );
+    expect(() => promoteCandidateComponent(candidates[0], 0)).toThrow(
+      /generation >= 1/,
+    );
+  });
 
   it("derives body rigs whose anchors and root are ordered and inside the canvas", () => {
     for (const spec of PG_BODY_SPECS) {

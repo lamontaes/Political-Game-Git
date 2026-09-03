@@ -644,7 +644,9 @@ This audit applies D-055 to the art intake, the character library, the office
 seam, and the seat-contact repair, and rechecks D-004, D-047, D-053, D-054,
 the frozen Stage 6 baseline, and later-stage gates. Its release conclusions are
 amended by D-063: the thirty-five derivatives are banked candidates in no
-catalog generation, not released generation-2 components. Every finding below
+catalog generation, not released generation-2 components. D-065 then repaired
+the representation to match, so the records no longer declare the generation-2
+membership D-063 had already withdrawn. Every finding below
 about intake determinism, provenance, primitive reuse and fail-closed behaviour
 is unchanged.
 

@@ -1,5 +1,6 @@
 import type {
   CharacterComponentAvailability,
+  CharacterComponentCandidateDefinition,
   CharacterComponentDefinition,
 } from "../../src/presentation/character-components";
 
@@ -122,13 +123,15 @@ export interface AssetManifestEntry {
   /**
    * Banked candidates only: the definition this part would carry once it is
    * promoted into a catalog generation. Nothing that resolves an identity reads
-   * it, which is the point.
+   * it, which is the point. It declares no `catalog_generation`, because a
+   * banked part is in no generation until a promotion puts it in one (D-065).
    */
-  candidate_component?: CharacterComponentDefinition;
+  candidate_component?: CharacterComponentCandidateDefinition;
 }
 
 export type {
   CharacterCatalogData,
+  CharacterComponentCandidateDefinition,
   CharacterComponentDefinition,
 } from "../../src/presentation/character-components";
 

@@ -211,7 +211,10 @@ manifests; the derivatives live under `art/generated/approved/pg-modular/` as
 `asset_type: "character-component-candidate"` records — banked, hashed,
 reproducible, `unreleased`, and in NO catalog generation (D-063). Their
 definitions live in `candidate_component`, which nothing that resolves an
-identity reads. Per-row neutral-background keying,
+identity reads and which declares no `catalog_generation` at all: a banked part
+has no membership to state, and a generation is assigned only by
+`promoteCandidateComponent` when a promotion actually happens (D-065). Validation
+rejects a candidate that declares one. Per-row neutral-background keying,
 opaque-bounds cropping, mask-derived rig measurement, fixed fit ratios, and
 Lanczos-3 resampling are the only operations; provenance records the master
 hash, keying profile, crop, scale, and fit for every derivative, and a test
