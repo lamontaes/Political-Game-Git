@@ -1,0 +1,62 @@
+{
+  "set": "PG_MASCULINE_FACE_MASTERS_v1",
+  "count": 6,
+  "source": "f9c8a877-96a9-41dc-9e11-47b189342eae.png",
+  "role": "Reusable bald neutral masculine head/face identity masters",
+  "assets": [
+    {
+      "id": "PG_FACE_M_001",
+      "file": "PG_FACE_M_001_BLACK_YOUNG_ADULT_BALD_NEUTRAL.png",
+      "description": "Black man, approx. 25\u201335",
+      "status": "FACE_IDENTITY_MASTER",
+      "expression": "neutral",
+      "hair": "none",
+      "note": "Reusable head/face identity authority. Hair, facial hair, glasses, expressions, body and clothing are separate modular layers."
+    },
+    {
+      "id": "PG_FACE_M_002",
+      "file": "PG_FACE_M_002_WHITE_ADULT_BALD_NEUTRAL.png",
+      "description": "White man, approx. 30\u201340",
+      "status": "FACE_IDENTITY_MASTER",
+      "expression": "neutral",
+      "hair": "none",
+      "note": "Reusable head/face identity authority. Hair, facial hair, glasses, expressions, body and clothing are separate modular layers."
+    },
+    {
+      "id": "PG_FACE_M_003",
+      "file": "PG_FACE_M_003_LATINO_MIDDLE_AGED_BALD_NEUTRAL.png",
+      "description": "Latino man, approx. 40\u201350",
+      "status": "FACE_IDENTITY_MASTER",
+      "expression": "neutral",
+      "hair": "none",
+      "note": "Reusable head/face identity authority. Hair, facial hair, glasses, expressions, body and clothing are separate modular layers."
+    },
+    {
+      "id": "PG_FACE_M_004",
+      "file": "PG_FACE_M_004_EAST_ASIAN_YOUNG_ADULT_BALD_NEUTRAL.png",
+      "description": "East Asian man, approx. 25\u201335",
+      "status": "FACE_IDENTITY_MASTER",
+      "expression": "neutral",
+      "hair": "none",
+      "note": "Reusable head/face identity authority. Hair, facial hair, glasses, expressions, body and clothing are separate modular layers."
+    },
+    {
+      "id": "PG_FACE_M_005",
+      "file": "PG_FACE_M_005_BLACK_OLDER_ADULT_BALD_NEUTRAL.png",
+      "description": "Black man, approx. 55\u201370",
+      "status": "FACE_IDENTITY_MASTER",
+      "expression": "neutral",
+      "hair": "none",
+      "note": "Reusable head/face identity authority. Hair, facial hair, glasses, expressions, body and clothing are separate modular layers."
+    },
+    {
+      "id": "PG_FACE_M_006",
+      "file": "PG_FACE_M_006_WHITE_ELDER_BALD_NEUTRAL.png",
+      "description": "White man, approx. 65\u201380",
+      "status": "FACE_IDENTITY_MASTER",
+      "expression": "neutral",
+      "hair": "none",
+      "note": "Reusable head/face identity authority. Hair, facial hair, glasses, expressions, body and clothing are separate modular layers."
+    }
+  ]
+}

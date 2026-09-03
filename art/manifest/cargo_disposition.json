@@ -406,6 +406,27 @@
         "src/player/OfficeScene.tsx",
         "tests/e2e/character-proof-real.spec.ts"
       ]
+    },
+    {
+      "entry_id": "pr48-upstream-pack-manifests",
+      "source_id": "pr-48",
+      "label": "Five upstream pack manifests for the PR #48 master sets",
+      "disposition": "re-homed",
+      "basis": ["authority"],
+      "verified_by": "measured-in-repository",
+      "reason": "Preserved byte-for-byte beside the masters they describe, because they are the received records and editing them would destroy what makes them evidence. They list the masters by their UPSTREAM filenames, which this repository does not use: identifiers are re-cut on intake because the source named heads and hair with demographic tokens, and complexion is art direction, never demography. These are provenance records, not asset paths, so the lineage stays checkable without the tokens entering an asset ID.\n\nThey also carry a fact nothing else in the repository knew. Across the five sets the packs declare 54 masters and 22 were re-homed here; the other 32 exist upstream and were never collected — 9 bottoms, 9 footwear, 8 tops, 4 hairstyles and 2 faces. That is the difference between art that is missing and art that merely has not been fetched, and it is the difference between commissioning a generation and running a download.",
+      "rehomed_modules": [
+        "art/references/masters/pg-modular/bottoms/PG_BOTTOM_GARMENT_MASTERS_v1.manifest.json",
+        "art/references/masters/pg-modular/footwear/PG_FOOTWEAR_MASTERS_v1.manifest.json",
+        "art/references/masters/pg-modular/hair/PG_BLACK_FEMALE_HAIR_MASTERS_v1.manifest.json",
+        "art/references/masters/pg-modular/heads/PG_MASCULINE_FACE_MASTERS_v1.manifest.json",
+        "art/references/masters/pg-modular/tops/PG_TOP_GARMENT_MASTERS_v1.manifest.json"
+      ],
+      "measurements": {
+        "upstream_masters_declared": "54",
+        "re_homed_here": "22",
+        "upstream_not_collected": "32"
+      }
     }
   ]
 }

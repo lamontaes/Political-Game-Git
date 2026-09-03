@@ -261,6 +261,17 @@ never what to ship, and the pipeline does not enlarge a master to reach a
 canvas. Thirty-five derivatives normalized from them are banked beside them as
 candidates; see above.
 
+The five upstream pack manifests are preserved beside the masters, byte for
+byte, and they record something nothing else here knew: across the five sets
+the packs declare 54 masters and 22 were re-homed. The other 32 exist upstream
+and were simply never collected — 9 bottoms, 9 footwear, 8 tops, 4 hairstyles
+and 2 faces. That is the difference between art that is missing and art that
+has not been fetched, and it is why the generation queue distinguishes them:
+one is a commission, the other is a download. The manifests list masters by
+their received filenames, which include the demographic tokens the intake
+re-cuts away; they stay in the provenance record and never enter an asset ID
+or a path.
+
 Identifiers are re-cut on intake. The source named heads and hair with
 demographic tokens; complexion is art direction, never demography, and is never
 inferred from a name, so those tokens do not enter asset IDs or paths. The
