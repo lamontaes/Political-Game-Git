@@ -44,6 +44,73 @@ the same answer.
 - The colleagues in the members' room are named and clickable but not yet
   illustrated; the approved character art covers the two office figures.
 
+## PRE-ALPHA 0.3.0 — "A Life, Not a Fixture" — CANDIDATE, NOT YET ACCEPTED
+
+_Proposed 2 September 2026. The version number is a candidate; final acceptance
+decides whether it stands. `package.json` deliberately still carries the
+accepted version rather than this one — a package that calls itself 0.3.0
+before 0.3.0 has been accepted is claiming something nobody has agreed to, and
+the number moves at acceptance rather than in the branch that proposes it._
+
+Opening the game now starts a game. There is a title screen, a new life to set
+up, saved games to come back to, and a childhood you actually play through
+before any of the politics arrives.
+
+### Added
+
+- **New game.** Choose where the life begins, how old the character is when you
+  pick them up, how much of the earlier years you play rather than skip, and
+  whether they already work in a legislature. Leave the name blank and you will
+  be given one.
+- **Saved games.** Keep a life, come back to it, and find the same people, the
+  same history and the same face. Keep several and tell them apart at a glance.
+  Deleting one asks first.
+- **The growing-up years.** Fifteen situations across early childhood,
+  childhood and adolescence, each a described moment rather than a summarised
+  choice, and each with a real second option. Six of them are new. What the
+  character remembers afterwards is written as a memory, not as the words that
+  were on the button.
+- **Quiet years.** Not every year has a turning point in it. The ones that do
+  not simply pass.
+- **An ordinary day.** A character who does not work in a legislature still has
+  a week that needs covering and a public meeting they can go to or skip.
+- **Talking at home.** The conversation system now knows what it is talking
+  about. Settling who does the shopping runs on the same rules as an office
+  briefing and offers none of the same things to say.
+- **Three more bills to push.** A road-signage bill the governor simply signs, a
+  credential bill that dies in committee where most bills die, and an Alaska
+  ferry-notice bill that is not a spending bill — so its veto falls at 40 of 60
+  instead of 45.
+
+### Changed
+
+- **Where you start is where you live.** The game names the places it can
+  honestly begin a life in, and says more are coming rather than pretending to
+  cover the country.
+- **Politics is not compulsory.** The office and the legislature appear because
+  the character works there. A ten-year-old is not handed a bill, and when a
+  surface is missing the game says why.
+- **A legislature only plays by its own rules.** A place with no researched
+  procedure gets none, rather than quietly borrowing another state's.
+- **Bills say what they are.** Every measure now carries a line making clear the
+  procedure is researched and the bill itself is written for development.
+
+### Fixed
+
+- A second new game in one sitting no longer overwrites the first.
+- "Canonical minutes" is now just minutes.
+- The unbuilt second office no longer says it is "not available in Run A".
+
+### Known issues
+
+- Only four places can start a life, and none of them is a city with its own
+  council. A national place corpus is the missing piece.
+- Generated people have no drawn likeness. They get initials and a name.
+- The office scene, calendar, work list and working document still belong to the
+  development fixture route and have not been rebuilt on the loaded world.
+- The office referral conversation is still one topic; the new subject
+  boundary makes a second one possible but does not itself write more of them.
+
 ## PRE-ALPHA 0.2.0 — "The Bill Becomes Law"
 
 _Revised 2 September 2026 after an independent review of the legislating build._

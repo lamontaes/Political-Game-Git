@@ -170,15 +170,170 @@ export interface LegislativeBargainingProgress {
   readonly silenceSettled: boolean;
 }
 
+/**
+ * A household deciding who carries the week.
+ *
+ * The third subject family, and the one the ordinary-life spine uses. It has
+ * nothing to do with an office, which is the point: the conversation engine's
+ * room, hearing and commitment rules are general, and only the subject is not.
+ */
+export interface HouseholdObligationSubjectFacts {
+  readonly obligation: "the week's shopping and the two appointments after it";
+  readonly shortObligation: "the week's errands";
+}
+
+export type HouseholdObligationCover =
+  "unsettled" | "shared" | "taken-by-other" | "taken-by-player";
+
+export type HouseholdObligationProposition =
+  "share-the-week" | "ask-them-to-take-it" | "take-it-yourself";
+
+export interface HouseholdObligationConversationProgress {
+  readonly subject: "household-obligation";
+  readonly subjectFacts: HouseholdObligationSubjectFacts;
+  readonly phase: "opening" | "raised" | "settled";
+  readonly cover: HouseholdObligationCover;
+  readonly latestProposition: HouseholdObligationProposition | null;
+  readonly pendingContributions: readonly [];
+  readonly silenceSettled: boolean;
+}
+
+/**
+ * Two students with one piece of work between them.
+ *
+ * The fourth family, and the first that belongs to a child. It exists to prove
+ * the same point the household one does from the other end of a life: the room
+ * rules and the commitment semantics are general, and a twelve-year-old
+ * dividing a shared project is not doing constituent casework.
+ */
+export interface SchoolProjectSubjectFacts {
+  readonly work: "the part of the project nobody has started";
+  readonly deadline: "the end of next week";
+}
+
+export type SchoolProjectShare =
+  "unsettled" | "split" | "taken-by-other" | "taken-by-player";
+
+export type SchoolProjectProposition =
+  "split-the-work" | "ask-them-to-take-it" | "take-it-yourself";
+
+export interface SchoolProjectConversationProgress {
+  readonly subject: "school-project-share";
+  readonly subjectFacts: SchoolProjectSubjectFacts;
+  readonly phase: "opening" | "raised" | "settled";
+  readonly share: SchoolProjectShare;
+  readonly latestProposition: SchoolProjectProposition | null;
+  readonly pendingContributions: readonly [];
+  readonly silenceSettled: boolean;
+}
+
+/**
+ * A meeting has been posted, and a neighbour mentions it.
+ *
+ * The fifth family. Nothing in it is anyone's job, and nobody has authority
+ * over anybody: it is two people on a doorstep deciding whether a thing is
+ * worth an evening. Its whole purpose is that the engine can carry a
+ * conversation with no institution in it at all.
+ */
+export interface NeighborhoodMeetingSubjectFacts {
+  readonly subject: "a change to the bus route that runs past both houses";
+  readonly notice: "posted on the board by the door";
+}
+
+export type NeighborhoodMeetingStance =
+  "unsettled" | "going" | "not-going" | "asked-them-to-go";
+
+export type NeighborhoodMeetingProposition =
+  "say-you-will-go" | "ask-them-to-go" | "say-it-is-not-worth-it";
+
+export interface NeighborhoodMeetingConversationProgress {
+  readonly subject: "neighborhood-meeting-notice";
+  readonly subjectFacts: NeighborhoodMeetingSubjectFacts;
+  readonly phase: "opening" | "raised" | "settled";
+  readonly stance: NeighborhoodMeetingStance;
+  readonly latestProposition: NeighborhoodMeetingProposition | null;
+  readonly pendingContributions: readonly [];
+  readonly silenceSettled: boolean;
+}
+
+export function createSchoolProjectProgress(): SchoolProjectConversationProgress {
+  return {
+    subject: "school-project-share",
+    subjectFacts: {
+      work: "the part of the project nobody has started",
+      deadline: "the end of next week",
+    },
+    phase: "opening",
+    share: "unsettled",
+    latestProposition: null,
+    pendingContributions: [],
+    silenceSettled: false,
+  };
+}
+
+export function createNeighborhoodMeetingProgress(): NeighborhoodMeetingConversationProgress {
+  return {
+    subject: "neighborhood-meeting-notice",
+    subjectFacts: {
+      subject: "a change to the bus route that runs past both houses",
+      notice: "posted on the board by the door",
+    },
+    phase: "opening",
+    stance: "unsettled",
+    latestProposition: null,
+    pendingContributions: [],
+    silenceSettled: false,
+  };
+}
+
+export function isSchoolProjectConversationProgress(
+  progress: ConversationProgress,
+): progress is SchoolProjectConversationProgress {
+  return progress.subject === "school-project-share";
+}
+
+export function isNeighborhoodMeetingConversationProgress(
+  progress: ConversationProgress,
+): progress is NeighborhoodMeetingConversationProgress {
+  return progress.subject === "neighborhood-meeting-notice";
+}
+
 export type ConversationProgress =
   | RunBConversationProgress
   | RunCLegislativeConversationProgress
-  | LegislativeBargainingProgress;
+  | LegislativeBargainingProgress
+  | HouseholdObligationConversationProgress
+  | SchoolProjectConversationProgress
+  | NeighborhoodMeetingConversationProgress;
 
 export function isLegislativeBargainingProgress(
   progress: ConversationProgress,
 ): progress is LegislativeBargainingProgress {
   return progress.subject === "measure-bargaining";
+}
+
+/** Every subject family the game can currently hold a conversation about. */
+export type ConversationSubjectKey = ConversationProgress["subject"];
+
+export function createHouseholdObligationProgress(): HouseholdObligationConversationProgress {
+  return {
+    subject: "household-obligation",
+    subjectFacts: {
+      obligation: "the week's shopping and the two appointments after it",
+      shortObligation: "the week's errands",
+    },
+    phase: "opening",
+    cover: "unsettled",
+    latestProposition: null,
+    pendingContributions: [],
+    silenceSettled: false,
+  };
+}
+
+export function isHouseholdObligationConversationProgress(
+  progress: ConversationProgress,
+): progress is HouseholdObligationConversationProgress {
+  return progress.subject === "household-obligation";
 }
 
 export function createRunBConversationProgress(): RunBConversationProgress {
@@ -209,6 +364,12 @@ export function isRunCLegislativeConversationProgress(
   progress: ConversationProgress,
 ): progress is RunCLegislativeConversationProgress {
   return progress.subject === "transit-access-pilot-provision";
+}
+
+export function isRunBReferralConversationProgress(
+  progress: ConversationProgress,
+): progress is RunBConversationProgress {
+  return progress.subject === "shared-intake-checklist";
 }
 
 export function canListenToRunBConversation(

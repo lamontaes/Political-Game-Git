@@ -164,8 +164,14 @@ export function createLegislativeBargainingFixture(
   const present = [playerPersonId, advocatePersonId, guardianPersonId];
   const roomContext: ConversationRoomContext = {
     sceneKey: `bargaining:${seed}:both-present`,
-    briefingLeadPersonId: advocatePersonId,
-    referralVerifierPersonId: guardianPersonId,
+    // The parts this subject actually has. A bill on the floor has a member
+    // asking for something and a member counting the cost; it has no briefing
+    // lead and no referral verifier, and saying it does would put a
+    // caseworker's office into the record of a chamber.
+    roles: {
+      "district-advocate": advocatePersonId,
+      "fiscal-guardian": guardianPersonId,
+    },
     locationLabel: "Members' room off the House floor",
     jurisdictionId: scenario.pack.chambers[0]
       ? world.history.legislativeMeasures![0]!.jurisdictionId

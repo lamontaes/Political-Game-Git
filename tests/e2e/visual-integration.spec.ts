@@ -53,7 +53,7 @@ for (const viewport of [
     page,
   }) => {
     await page.setViewportSize(viewport);
-    await page.goto("/");
+    await page.goto("/?view=office-fixture");
     await closeConversation(page);
 
     const compositor = page.getByTestId("office-art-compositor");
@@ -315,7 +315,7 @@ for (const viewport of RESPONSIVE_VIEWPORT_MATRIX) {
       ")",
     async ({ page }) => {
       await page.setViewportSize(viewport);
-      await page.goto("/");
+      await page.goto("/?view=office-fixture");
       await closeConversation(page);
 
       const compositor = page.getByTestId("office-art-compositor");
@@ -529,7 +529,7 @@ test("keeps camera geometry and raster alignment at DPR 1, 1.25, and 2", async (
       deviceScaleFactor,
     });
     const page = await context.newPage();
-    await page.goto("/");
+    await page.goto("/?view=office-fixture");
     await closeConversation(page);
     expect(await page.evaluate(() => window.devicePixelRatio)).toBeCloseTo(
       deviceScaleFactor,
@@ -577,7 +577,7 @@ test("keeps camera geometry and raster alignment at DPR 1, 1.25, and 2", async (
 test("keeps workspace safe areas, compact date, and retreat behavior honest", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/?view=office-fixture");
   await closeConversation(page);
   const shell = page.getByTestId("navigation-cluster");
   const shellButton = page.locator(".nav-cluster-button");

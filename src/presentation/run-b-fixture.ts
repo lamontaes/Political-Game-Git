@@ -63,8 +63,10 @@ export function createRunBFixture(seedInput?: string): RunBFixture {
   ] as const;
   const roomContext: ConversationRoomContext = {
     sceneKey: "run-b:lexington-office:occupied",
-    briefingLeadPersonId: runA.scenePerson.personId,
-    referralVerifierPersonId: npcBPersonId,
+    roles: {
+      "briefing-lead": runA.scenePerson.personId,
+      "referral-verifier": npcBPersonId,
+    },
     locationLabel: "Shared legislative office",
     jurisdictionId,
     playerPersonId: runA.playerPersonId,
@@ -78,8 +80,10 @@ export function createRunBFixture(seedInput?: string): RunBFixture {
   };
   const privateCapableRoomContext: ConversationRoomContext = {
     sceneKey: "run-b:lexington-office:private-capable",
-    briefingLeadPersonId: runA.scenePerson.personId,
-    referralVerifierPersonId: npcBPersonId,
+    roles: {
+      "briefing-lead": runA.scenePerson.personId,
+      "referral-verifier": npcBPersonId,
+    },
     locationLabel: `Shared legislative office after ${npcBName} stepped out`,
     jurisdictionId,
     playerPersonId: runA.playerPersonId,

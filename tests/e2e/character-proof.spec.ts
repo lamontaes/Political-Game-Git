@@ -190,7 +190,7 @@ test.describe("Modular character runtime proof", () => {
   });
 
   test("the authored office path still renders A01/B01", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/?view=office-fixture");
     await expect(
       page.getByTestId("scene-character-art-primary"),
     ).toHaveAttribute(

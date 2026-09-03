@@ -15,6 +15,7 @@ import {
 import {
   availableConversationIntents,
   commitConversationTurn,
+  conversationRole,
   createConversationSessionDescriptor,
   describeRunBBriefingContext,
   describeConversationHearing,
@@ -1218,8 +1219,9 @@ describe("generated-person Run B role prose", () => {
     (seed) => {
       const fixture = createRunBFixture(seed);
       const { world, roomContext: room } = fixture;
-      const lead = world.people[room.briefingLeadPersonId]!;
-      const verifier = world.people[room.referralVerifierPersonId]!;
+      const lead = world.people[conversationRole(room, "briefing-lead")]!;
+      const verifier =
+        world.people[conversationRole(room, "referral-verifier")]!;
       const progress = createRunBConversationProgress();
       const briefing = describeRunBBriefingContext(world, room, progress);
       expect(briefing).toContain(`${verifier.familyName} is checking`);

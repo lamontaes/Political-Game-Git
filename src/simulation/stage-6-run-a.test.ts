@@ -1280,7 +1280,7 @@ describe("Stage 6 Run A persistence and loaded-world integrity", () => {
     expect(serializeWorld(loaded)).toBe(payload);
     expect(loaded.schemaVersion).toBe(15);
     expect(loaded.generatorVersion).toBe("demo-world-v15");
-    expect(JSON.parse(payload).formatVersion).toBe(14);
+    expect(JSON.parse(payload).formatVersion).toBe(15);
   });
 
   it("rejects corrupted persisted supersession and due-reference histories", () => {

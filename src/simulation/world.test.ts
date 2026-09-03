@@ -259,6 +259,30 @@ describe("world referential integrity & entity validation", () => {
   });
 });
 
+/**
+ * The exact envelope `serializeWorld` produced at snapshot format 14.
+ *
+ * Format 15 changed two things about the envelope and nothing about the world
+ * inside it: the declared version, and the derivation of `snapshotId`, which
+ * now hashes the canonical serialization so that a world rebuilt with its
+ * record maps in a different insertion order keeps one identity. Re-accepting
+ * a baseline hash on the strength of "the format changed" would be exactly the
+ * move that lets real content drift through unnoticed, so the historically
+ * accepted hashes are kept and still asserted — against the envelope they were
+ * taken from. Both hashes have to hold: the old one proves the world payload
+ * is unchanged, the new one pins the current bytes.
+ */
+function legacyEnvelope(world: World): string {
+  return JSON.stringify({
+    format: "political-life-world",
+    formatVersion: 14,
+    snapshotId: createStableId("snapshot", JSON.stringify(world)),
+    worldId: world.id,
+    savedAtWorldDate: world.currentDate,
+    world,
+  });
+}
+
 describe("jurisdiction portability and accepted primary fixture", () => {
   // Captured from accepted main 72416e493a686b1f44b5c03b9a41e0fe141b13b8
   // before extraction. Hash the complete persisted envelope, not just names/IDs.
@@ -267,32 +291,45 @@ describe("jurisdiction portability and accepted primary fixture", () => {
       "default legacy world",
       () => createDemoWorld(),
       "9dfc87a0cedc05b376a7eeb48313e27c8ee585736e35ae75da5b2bba6a18175b",
+      "60f51727579939e8c56d3baea9d8658cf5554a09ffaa2a83b97e3a574ce4f575",
     ],
     [
       "default generated world",
       () => createGeneratedWorld(),
       "e8960aabe5c2045d726e7634956543c0680f860de2c6df4edadfa84680de41ae",
+      "e96fe179b352c6dc51e09cf3646358aea0ed8f857f01b342b2ce8e098c37acf1",
     ],
     [
       "default replay with history and materialization",
       () => runDemoScenario().world,
       "c6166d95c2ad758c10bbf7d60631381e168568ce32fe780902c345d514a15137",
+      "0c804fa00657b77a7da267528a525e065d643c66f0a44b8e165a0ad589779f32",
     ],
     [
       "explicit legacy seed",
       () => createDemoWorld("jurisdiction-portability-legacy-proof"),
       "aff805cca9312a09de96ab60bd5c435c6372da49614979cf18b2e94a76a6630f",
+      "3749c2521290335edf444018e7c069ec0c08cf186805c68b93301cccf4f980d9",
     ],
     [
       "explicit generated seed",
       () => createGeneratedWorld("jurisdiction-portability-legacy-proof"),
       "0f4a8198520c4d87c3fde126c443d4298c6ddbe5a4fc394c5a4017bf6207aabb",
+      "fa9cf4f87e54a9ce8d4bd4f807fac4f84ed11934260bff2d83417f9a858008e5",
     ],
-  ] as const)("preserves accepted bytes for %s", (_label, construct, hash) => {
-    expect(
-      createHash("sha256").update(serializeWorld(construct())).digest("hex"),
-    ).toBe(hash);
-  });
+  ] as const)(
+    "preserves accepted bytes for %s",
+    (_label, construct, acceptedAtFormat14, hash) => {
+      const world = construct();
+      // The world payload is what was accepted; the envelope around it moved.
+      expect(
+        createHash("sha256").update(legacyEnvelope(world)).digest("hex"),
+      ).toBe(acceptedAtFormat14);
+      expect(
+        createHash("sha256").update(serializeWorld(world)).digest("hex"),
+      ).toBe(hash);
+    },
+  );
 
   it("uses one required-context constructor with no Lexington entity present", () => {
     const alternate = createPortabilityFixture();
