@@ -210,7 +210,7 @@ function completeScaffold(): SceneAuthoringScaffold {
       ),
       zOrder: resolved(2, "ESTIMATED", "author"),
       allowedContentClasses: resolved(
-        ["agenda-placeholder"],
+        ["agenda"],
         "ESTIMATED",
         "author",
       ),

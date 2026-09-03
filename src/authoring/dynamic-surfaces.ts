@@ -26,9 +26,13 @@
  * only declares where such a thing goes and what class of thing may go there.
  */
 
-import type {
-  EnvironmentSceneSpec,
-  SceneSurfaceSlot,
+import {
+  isBakedDecorClass,
+  isSemanticContentClass,
+  type BakedDecorClass,
+  type EnvironmentSceneSpec,
+  type SceneSurfaceSlot,
+  type SemanticContentClass,
 } from "../environment/environment-scene-spec";
 
 // ---------------------------------------------------------------------------
@@ -36,94 +40,29 @@ import type {
 // ---------------------------------------------------------------------------
 
 /**
- * Information the SIMULATION owns. None of it may be baked into a plate.
+ * Both vocabularies are DEFINED in `environment-scene-spec.ts` and re-exported
+ * here unchanged.
  *
- * The test for membership is simple: could this differ between two saves, two
- * jurisdictions, or two days? If yes, it is semantic and belongs in a slot.
- */
-export type SemanticContentClass =
-  | "jurisdiction-name"
-  | "jurisdiction-seal"
-  | "campaign-name"
-  | "candidate-name"
-  | "bill-number"
-  | "bill-title"
-  | "headline"
-  | "agenda"
-  | "election-result"
-  | "vote-tally"
-  | "calendar-date"
-  | "map-label"
-  | "officeholder-portrait"
-  | "officeholder-name"
-  | "briefing-slide"
-  | "document-body";
-
-export const SEMANTIC_CONTENT_CLASSES: readonly SemanticContentClass[] = [
-  "jurisdiction-name",
-  "jurisdiction-seal",
-  "campaign-name",
-  "candidate-name",
-  "bill-number",
-  "bill-title",
-  "headline",
-  "agenda",
-  "election-result",
-  "vote-tally",
-  "calendar-date",
-  "map-label",
-  "officeholder-portrait",
-  "officeholder-name",
-  "briefing-slide",
-  "document-body",
-];
-
-/**
- * Non-semantic visual texture that MAY be baked into a plate.
+ * They used to be declared in this file, and the scene spec kept a second,
+ * shorter list of its own for the same slots — `working-draft` there against
+ * `document-body` here, for the same piece of paper. A slot could then be legal
+ * in the spec and unrecognised by the binder that has to fill it, and a
+ * convergence had to pick one. The spec won because it is the lower layer: the
+ * slot being validated lives there, and an authoring contract may depend on a
+ * scene contract without the reverse being true.
  *
- * Every entry here is restrained on purpose. `paper-shapes` means blocks of
- * colour on a desk, not documents. `clock-face-block` means the shape of a
- * clock, not a time. `calendar-grid-block` means a grid on a wall, not dates.
- * The distinction is the whole contract: shape is decor, value is information.
+ * Nothing about the meanings changed. The semantic test is still "could this
+ * differ between two saves, two jurisdictions, or two days?", and baked decor
+ * is still shape without value.
  */
-export type BakedDecorClass =
-  | "wall-artwork"
-  | "books"
-  | "plants"
-  | "paper-shapes"
-  | "neutral-photograph"
-  | "shelving"
-  | "clock-face-block"
-  | "calendar-grid-block"
-  | "textiles"
-  | "furniture-detail"
-  | "lighting-fixture"
-  | "window-view";
-
-export const BAKED_DECOR_CLASSES: readonly BakedDecorClass[] = [
-  "wall-artwork",
-  "books",
-  "plants",
-  "paper-shapes",
-  "neutral-photograph",
-  "shelving",
-  "clock-face-block",
-  "calendar-grid-block",
-  "textiles",
-  "furniture-detail",
-  "lighting-fixture",
-  "window-view",
-];
-
-export function isSemanticContentClass(
-  value: string,
-): value is SemanticContentClass {
-  return (SEMANTIC_CONTENT_CLASSES as readonly string[]).includes(value);
-}
-
-export function isBakedDecorClass(value: string): value is BakedDecorClass {
-  return (BAKED_DECOR_CLASSES as readonly string[]).includes(value);
-}
+export {
+  SEMANTIC_CONTENT_CLASSES,
+  BAKED_DECOR_CLASSES,
+  isSemanticContentClass,
+  isBakedDecorClass,
+  type SemanticContentClass,
+  type BakedDecorClass,
+} from "../environment/environment-scene-spec";
 
 // ---------------------------------------------------------------------------
 // Declarations an author makes about a plate

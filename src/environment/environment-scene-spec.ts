@@ -275,7 +275,21 @@ export interface Occluder {
 
 /**
  * Surfaces a scene may present something on. A closed vocabulary, because a
- * free-text kind cannot be held to the salience rule below.
+ * free-text kind cannot be held to the legibility rule below.
+ *
+ * This is the ONLY surface-kind vocabulary in the repository. The graphics
+ * convergence found a second one growing in the authoring layer, with finer
+ * names for the same objects (`monitor-display` for a screen, `district-map`
+ * for a wall map, `roll-call-scoreboard` for a tally board). Two vocabularies
+ * for one concept is how a slot ends up valid in the spec and unknown to the
+ * component binder, so the finer names that meant something new were folded in
+ * here and the rest were retired as aliases — see
+ * `DONOR_SURFACE_KIND_ALIASES` in `src/authoring/dynamic-components.ts`.
+ *
+ * The seven kinds below the first nine came from that fold. Each describes an
+ * object the original list could not name without lying about it: notes lying
+ * flat on a lectern are not the upright placard on its front, and a portrait of
+ * whoever currently holds the office is not a picture frame with art in it.
  */
 export const SCENE_SURFACE_KINDS = [
   "monitor-or-screen",
@@ -287,20 +301,132 @@ export const SCENE_SURFACE_KINDS = [
   "desk-document",
   "picture-frame",
   "civic-symbol",
+  "podium-speech-notes",
+  "agenda-board",
+  "large-framed-chart",
+  "official-portrait-slot",
+  "office-nameplate",
+  "title-banner-safe",
+  "window-view",
 ] as const;
 
 export type SceneSurfaceKind = (typeof SCENE_SURFACE_KINDS)[number];
 
-/** What a surface may present. Also closed, for the same reason. */
-export const SCENE_SURFACE_CONTENT_CLASSES = [
-  "working-draft",
-  "briefing-memo",
-  "agenda-placeholder",
-  "roll-call-tally",
-  "jurisdiction-map",
+export function isSceneSurfaceKind(value: string): value is SceneSurfaceKind {
+  return (SCENE_SURFACE_KINDS as readonly string[]).includes(value);
+}
+
+/**
+ * Information the SIMULATION owns. None of it may be baked into a plate.
+ *
+ * The test for membership is simple: could this differ between two saves, two
+ * jurisdictions, or two days? If yes, it is semantic and belongs in a slot.
+ *
+ * This vocabulary lives here, at the bottom of the stack, because two layers
+ * need it and neither may own a private copy. The scene spec holds it so a
+ * surface slot can be validated against it; `src/authoring/dynamic-surfaces.ts`
+ * re-exports it unchanged so an author still finds it where the authoring
+ * contract is written. The graphics convergence found the two layers had grown
+ * separate lists — `working-draft` here against `document-body` there, for the
+ * same piece of paper — which is how a slot ends up legal in the spec and
+ * unrecognised by the component binder that has to fill it.
+ */
+export type SemanticContentClass =
+  | "jurisdiction-name"
+  | "jurisdiction-seal"
+  | "campaign-name"
+  | "candidate-name"
+  | "bill-number"
+  | "bill-title"
+  | "headline"
+  | "agenda"
+  | "election-result"
+  | "vote-tally"
+  | "calendar-date"
+  | "map-label"
+  | "officeholder-portrait"
+  | "officeholder-name"
+  | "briefing-slide"
+  | "document-body";
+
+export const SEMANTIC_CONTENT_CLASSES: readonly SemanticContentClass[] = [
+  "jurisdiction-name",
   "jurisdiction-seal",
+  "campaign-name",
+  "candidate-name",
+  "bill-number",
+  "bill-title",
+  "headline",
+  "agenda",
+  "election-result",
+  "vote-tally",
+  "calendar-date",
+  "map-label",
+  "officeholder-portrait",
+  "officeholder-name",
+  "briefing-slide",
+  "document-body",
+];
+
+export function isSemanticContentClass(
+  value: string,
+): value is SemanticContentClass {
+  return (SEMANTIC_CONTENT_CLASSES as readonly string[]).includes(value);
+}
+
+/**
+ * Non-semantic visual texture that MAY be baked into a plate.
+ *
+ * Every entry here is restrained on purpose. `paper-shapes` means blocks of
+ * colour on a desk, not documents. `clock-face-block` means the shape of a
+ * clock, not a time. `calendar-grid-block` means a grid on a wall, not dates.
+ * The distinction is the whole contract: shape is decor, value is information.
+ */
+export type BakedDecorClass =
+  | "wall-artwork"
+  | "books"
+  | "plants"
+  | "paper-shapes"
+  | "neutral-photograph"
+  | "shelving"
+  | "clock-face-block"
+  | "calendar-grid-block"
+  | "textiles"
+  | "furniture-detail"
+  | "lighting-fixture"
+  | "window-view";
+
+export const BAKED_DECOR_CLASSES: readonly BakedDecorClass[] = [
+  "wall-artwork",
+  "books",
+  "plants",
+  "paper-shapes",
+  "neutral-photograph",
+  "shelving",
+  "clock-face-block",
+  "calendar-grid-block",
+  "textiles",
+  "furniture-detail",
+  "lighting-fixture",
+  "window-view",
+];
+
+export function isBakedDecorClass(value: string): value is BakedDecorClass {
+  return (BAKED_DECOR_CLASSES as readonly string[]).includes(value);
+}
+
+/**
+ * What a surface slot may present. Closed, for the same reason the kinds are.
+ *
+ * It is the semantic vocabulary plus exactly two classes the scene layer needs
+ * and the simulation does not name: `jurisdiction-flag`, because a flag is a
+ * civic symbol with its own legal conditions and the semantic list only carries
+ * the seal, and `neutral-art`, the honest declaration that a frame holds a
+ * picture rather than information.
+ */
+export const SCENE_SURFACE_CONTENT_CLASSES = [
+  ...SEMANTIC_CONTENT_CLASSES,
   "jurisdiction-flag",
-  "name-placard",
   "neutral-art",
 ] as const;
 
@@ -311,14 +437,14 @@ export type SceneSurfaceContentClass =
  * Content classes whose appearance follows simulation state. Only these make a
  * surface dynamic; everything else is ambient decoration that is painted into
  * the plate and stays there.
+ *
+ * Every semantic class qualifies by construction — that is what makes it
+ * semantic — plus the flag, which is looked up per jurisdiction. `neutral-art`
+ * is the only class that does not.
  */
-export const DYNAMIC_SURFACE_CONTENT_CLASSES: ReadonlySet<string> = new Set([
-  "working-draft",
-  "briefing-memo",
-  "agenda-placeholder",
-  "roll-call-tally",
-  "jurisdiction-map",
-  "name-placard",
+export const DYNAMIC_SURFACE_CONTENT_CLASSES: ReadonlySet<string> = new Set<string>([
+  ...SEMANTIC_CONTENT_CLASSES,
+  "jurisdiction-flag",
 ]);
 
 /**
@@ -334,15 +460,70 @@ export const CIVIC_SYMBOL_CONTENT_CLASSES: ReadonlySet<string> = new Set([
 export const CIVIC_SYMBOL_POLICY = "canonical-source-only" as const;
 
 /**
- * Salience floor for a dynamic surface, as a percentage of the plate.
+ * Legibility floor for a dynamic surface, as a percentage of the plate.
  *
  * A surface only earns dynamic content when a player could actually read a
  * change on it. Below this floor it stays ambient decoration: a two-centimetre
  * framed picture on a far wall is not a screen, and promoting it to one costs
  * runtime work for a change nobody can see.
+ *
+ * The numbers are measured rather than chosen. Five percent of a 1080-line
+ * viewport is 54 lines: about enough for a chart with two labelled axes, or
+ * three rows of a docket. Five percent of plate width is the narrowest column
+ * that holds a legible label beside a value. The generative failure this guards
+ * against is specific and common — models paint two to five tiny frames on
+ * every shelf and sideboard, each blank and each looking like an invitation,
+ * and promoting them yields a room of illegible dashboards.
+ *
+ * This replaces an earlier unexplained 8% x 6% floor. It is one rule with one
+ * home: `slotIsPromotable` in the authoring layer asks the same question of the
+ * same constants, so a slot cannot pass the spec validator and fail the
+ * component binder.
  */
-export const MINIMUM_DYNAMIC_SURFACE_WIDTH_PERCENT = 8;
-export const MINIMUM_DYNAMIC_SURFACE_HEIGHT_PERCENT = 6;
+export const MINIMUM_DYNAMIC_SURFACE_WIDTH_PERCENT = 5;
+export const MINIMUM_DYNAMIC_SURFACE_HEIGHT_PERCENT = 5;
+
+/** The viewport the floor above was judged against. */
+export const LEGIBILITY_REFERENCE_VIEWPORT_HEIGHT = 1080;
+
+/**
+ * Surfaces seen nearly flat, whose screen height is compressed by perspective.
+ *
+ * A page on a desk is a large physical object presenting a short rectangle to
+ * the camera. Measuring it against the same unforeshortened height floor as a
+ * wall-mounted screen would refuse every desk document in the library, which is
+ * the wrong answer: the renderer draws into these with the plate's own skew, so
+ * a reader sees a page, not a thirty-pixel strip.
+ *
+ * The width floor still applies. Foreshortening compresses height, not width.
+ */
+export const FORESHORTENED_SURFACE_KINDS: readonly SceneSurfaceKind[] = [
+  "desk-document",
+  "podium-speech-notes",
+];
+
+/** The height floor for a surface lying nearly flat to the camera. */
+export const FORESHORTENED_MINIMUM_HEIGHT_PERCENT = 3;
+
+/**
+ * Surface kinds that carry a known image or one line of text, not a component
+ * with axes, rows or a legend. They have their own, lower bar: a nameplate is
+ * legible at a size no chart could survive.
+ */
+export const NON_COMPONENT_SURFACE_KINDS: readonly SceneSurfaceKind[] = [
+  "civic-symbol",
+  "official-portrait-slot",
+  "office-nameplate",
+  "picture-frame",
+  "window-view",
+];
+
+/** The height floor that applies to a surface of this kind. */
+export function minimumLegibleHeightPercent(kind: string): number {
+  return (FORESHORTENED_SURFACE_KINDS as readonly string[]).includes(kind)
+    ? FORESHORTENED_MINIMUM_HEIGHT_PERCENT
+    : MINIMUM_DYNAMIC_SURFACE_HEIGHT_PERCENT;
+}
 
 /**
  * A presentation sink for dynamic content. Surface slots do NOT decide what
@@ -1134,14 +1315,19 @@ function validateSurfaceSlots(
     if (dynamic && isRecord(rect)) {
       const width = rect.width_percent;
       const height = rect.height_percent;
+      const kind = typeof entry.kind === "string" ? entry.kind : "";
+      const heightFloor = minimumLegibleHeightPercent(kind);
+      const imageOnly = (
+        NON_COMPONENT_SURFACE_KINDS as readonly string[]
+      ).includes(kind);
+      const widthFloor = imageOnly ? 0 : MINIMUM_DYNAMIC_SURFACE_WIDTH_PERCENT;
       if (
         isFiniteNumber(width) &&
         isFiniteNumber(height) &&
-        (width < MINIMUM_DYNAMIC_SURFACE_WIDTH_PERCENT ||
-          height < MINIMUM_DYNAMIC_SURFACE_HEIGHT_PERCENT)
+        (width < widthFloor || height < heightFloor)
       ) {
         errors.push(
-          `${path} presents dynamic content on a ${width}% x ${height}% surface, below the ${MINIMUM_DYNAMIC_SURFACE_WIDTH_PERCENT}% x ${MINIMUM_DYNAMIC_SURFACE_HEIGHT_PERCENT}% salience floor. A surface too small to read a change on stays ambient decoration.`,
+          `${path} presents dynamic content on a ${width}% x ${height}% surface, below the ${widthFloor}% x ${heightFloor}% legibility floor for a '${kind}' (about ${Math.round((heightFloor / 100) * LEGIBILITY_REFERENCE_VIEWPORT_HEIGHT)} lines at ${LEGIBILITY_REFERENCE_VIEWPORT_HEIGHT}p). A surface too small to read a change on stays ambient decoration.`,
         );
       }
     }

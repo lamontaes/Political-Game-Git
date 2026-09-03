@@ -73,9 +73,13 @@ describe("Stage 6.5 visual integration contract", () => {
     expect(primary!.zOrder).toBe(2);
     expect(primary!.widthPercent).toBeCloseTo(24.225, 2);
     expect(primary!.heightPercent).toBeCloseTo(58.051, 2);
-    expect(primary!.leftPercent).toBeCloseTo(64.027, 2);
+    // Staged 1.3% of plate width left of the chair itself, so the seated
+    // figure's right shoulder clears the guaranteed safe area at the narrowest
+    // supported aspect instead of cropping. See the anchor comment in the
+    // office fixture.
+    expect(primary!.leftPercent).toBeCloseTo(62.727, 2);
     expect(primary!.topPercent).toBeCloseTo(32.153, 2);
-    expect(primary!.hitbox.leftPercent).toBeCloseTo(72.506, 2);
+    expect(primary!.hitbox.leftPercent).toBeCloseTo(71.206, 2);
     expect(primary!.hitbox.topPercent).toBeCloseTo(35.055, 2);
     expect(primary!.hitbox.widthPercent).toBeCloseTo(13.324, 2);
     expect(primary!.hitbox.heightPercent).toBeCloseTo(29.025, 2);

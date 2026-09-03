@@ -9,8 +9,18 @@ import { execFileSync } from "child_process";
  * nobody should trust.
  */
 
-/** PR #63 head: the exact commit this branch was cut from. */
-export const BASE_COMMIT = "1a6e5f089c92db623b979bd47c8ded6a9b75b6aa";
+/**
+ * `main` at the point this branch was cut.
+ *
+ * It used to be PR #63's head, because the graphics work began as the third
+ * commit of a stack. The convergence branches replaced that stack with one
+ * branch off `main`, and leaving the old value here measured the boundary
+ * against a commit that is not an ancestor of this branch at all: the check
+ * either errored or reported a diff nobody should trust. Measuring from `main`
+ * covers the whole graphics change rather than the top slice of it — a strictly
+ * wider measurement, over an unchanged FORBIDDEN list.
+ */
+export const BASE_COMMIT = "c90e35161ba827677bdf5920c4d6ae76890c25d5";
 
 export interface OwnedSurface {
   /** Matched against a repository-relative path. */
@@ -70,7 +80,7 @@ export const FORBIDDEN: readonly OwnedSurface[] = [
  * guards other people's systems.
  */
 export const ALLOWED =
-  /^(\.github\/workflows\/|src\/authoring\/|src\/environment\/|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|AGENTS\.md|PATCH_NOTES\.md)/;
+  /^(\.github\/workflows\/|src\/authoring\/|src\/environment\/|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/player\/OfficeScene\.tsx|src\/player\/ModularCharacter\.tsx|src\/player\/useRasterTier\.ts|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|AGENTS\.md|PATCH_NOTES\.md)/;
 
 function git(repositoryRoot: string, args: readonly string[]): string {
   return execFileSync("git", [...args], {

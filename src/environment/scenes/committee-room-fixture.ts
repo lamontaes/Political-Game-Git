@@ -134,7 +134,7 @@ export const COMMITTEE_ROOM_FIXTURE_SCENE: EnvironmentSceneSpec = {
         height_percent: 16,
       },
       z_order: 0,
-      allowed_content_classes: ["agenda-placeholder", "neutral-art"],
+      allowed_content_classes: ["agenda", "neutral-art"],
       fallback_decoration: "an empty board",
     },
     {
@@ -147,7 +147,7 @@ export const COMMITTEE_ROOM_FIXTURE_SCENE: EnvironmentSceneSpec = {
         height_percent: 20,
       },
       z_order: 0,
-      allowed_content_classes: ["roll-call-tally"],
+      allowed_content_classes: ["vote-tally", "bill-number"],
       fallback_decoration: "an unlit tally board",
     },
     {
@@ -160,7 +160,7 @@ export const COMMITTEE_ROOM_FIXTURE_SCENE: EnvironmentSceneSpec = {
         height_percent: 8,
       },
       z_order: 5,
-      allowed_content_classes: ["working-draft", "briefing-memo"],
+      allowed_content_classes: ["document-body", "briefing-slide"],
       fallback_decoration: "a bare tabletop",
     },
   ],
