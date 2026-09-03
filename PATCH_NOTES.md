@@ -44,6 +44,22 @@ the same answer.
 - The colleagues in the members' room are named and clickable but not yet
   illustrated; the approved character art covers the two office figures.
 
+Repaired after an independent audit, before review:
+
+- A colleague who says "I'm with you if you write my section in" is no longer
+  read as being against the bill while your section is still missing. They said
+  a conditional yes; the game treats it as one, and as nothing more.
+- Delivering what somebody asked for answers their objection. It does not turn
+  their objection into a promise of support they never gave.
+- Nobody is reported as having kept a promise the room never called in. If the
+  thing they asked for never happened, the promise was never owed, however the
+  vote happened to land.
+- What somebody said about passing the bill and what they said about overriding
+  a veto of it are two different positions, and holding both is not changing
+  your mind. Each is tested by its own vote.
+- A promise can only be conditioned on something the game can actually settle.
+  One condition on the list could never come true and is gone.
+
 ## PRE-ALPHA 0.3.0 — "A Life, Not a Fixture" — CANDIDATE, NOT YET ACCEPTED
 
 _Proposed 2 September 2026. The version number is a candidate; final acceptance

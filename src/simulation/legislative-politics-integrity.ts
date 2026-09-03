@@ -1,4 +1,5 @@
 import { makeIsoDate } from "./dates";
+import { isDecidableConditionKind } from "./legislative-politics";
 import type { EntityId, LegislativeCommitmentCondition, World } from "./types";
 
 /**
@@ -204,9 +205,16 @@ export function assertLegislativePoliticsIntegrity(
         `Legislative commitment references a missing holder: ${commitment.id}`,
       );
     }
-    if (!measureById.has(commitment.subject.measureId)) {
+    if (!measureById.has(commitment.subject.question.measureId)) {
       throw new Error(
         `Legislative commitment references a missing measure: ${commitment.id}`,
+      );
+    }
+    // A promise has to say which question it is about, or nothing can ever
+    // check it against the vote that answered it.
+    if (!commitment.subject.questionLabel.trim()) {
+      throw new Error(
+        `Legislative commitment names no question: ${commitment.id}`,
       );
     }
     makeIsoDate(commitment.statedAt);
@@ -225,6 +233,13 @@ export function assertLegislativePoliticsIntegrity(
       if (claim.speakerPersonId !== commitment.holderPersonId) {
         throw new Error(
           `Legislative commitment cites somebody else's words: ${commitment.id}`,
+        );
+      }
+    }
+    for (const condition of commitment.conditions) {
+      if (!isDecidableConditionKind(condition.kind)) {
+        throw new Error(
+          `Legislative commitment carries a condition nothing can decide: ${commitment.id}`,
         );
       }
     }

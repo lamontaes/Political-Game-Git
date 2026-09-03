@@ -11,6 +11,7 @@ import type {
   EntityId,
   EventParticipant,
   LegislativeCommitmentCondition,
+  LegislativeCommitmentConditionKind,
   LegislativeCommitmentFirmness,
   LegislativeCommitmentRecord,
   LegislativeCommitmentStance,
@@ -20,6 +21,8 @@ import type {
   LegislativeNegotiationRecord,
   LegislativeProvisionBeneficiary,
   LegislativeProvisionRecord,
+  LegislativeQuestionIdentity,
+  LegislativeVoteRecord,
   MetricScope,
   World,
 } from "./types";
@@ -254,6 +257,139 @@ export function describeProvisionReach(provision: {
 }
 
 // ---------------------------------------------------------------------------
+// Which question, exactly
+// ---------------------------------------------------------------------------
+
+/**
+ * One canonical identity for a legislative question, used everywhere a
+ * question has to be recognised as the same question.
+ *
+ * There are two of those places and they used to disagree. Supersession asked
+ * whether a member had said something newer about the same thing, and compared
+ * the measure and the section but not the question, so a promise about passage
+ * and a promise about the override read as the same promise and one silently
+ * replaced the other. The later-vote lookup asked which vote tested a promise,
+ * and took the first floor, concurrence or override vote on the measure, so a
+ * promise about passage could be graded against the override. Both now compare
+ * the same identity, and neither compares it by hand.
+ */
+export function legislativeQuestionKey(
+  question: LegislativeQuestionIdentity,
+): string {
+  return [
+    question.measureId,
+    question.purpose,
+    question.forumKey ?? "",
+    question.floorStageKey ?? "",
+    question.amendmentStableKey ?? "",
+    question.provisionKey ?? "",
+  ].join("|");
+}
+
+/** Whether two promises are about exactly the same question. */
+export function sameLegislativeQuestion(
+  a: LegislativeQuestionIdentity,
+  b: LegislativeQuestionIdentity,
+): boolean {
+  return legislativeQuestionKey(a) === legislativeQuestionKey(b);
+}
+
+/**
+ * Whether a question the chamber actually put is the question a promise named.
+ *
+ * The measure, the stage and the object of the question have to be the same
+ * thing: a promise about passage is not answered by the override, and a
+ * promise about one amendment is not answered by another. Forum and floor
+ * stage are refinements — a promise that named one is only answered by that
+ * one, and a promise that named neither is answered by the question it was
+ * about whichever stage of it came. Leaving them unnamed is not a claim about
+ * every chamber; it is a promise that did not distinguish them, which is how
+ * people actually talk about a bill they are voting on next.
+ */
+export function legislativeQuestionAnswers(
+  promised: LegislativeQuestionIdentity,
+  put: LegislativeQuestionIdentity,
+): boolean {
+  if (promised.measureId !== put.measureId) return false;
+  if (promised.purpose !== put.purpose) return false;
+  if (promised.amendmentStableKey !== put.amendmentStableKey) return false;
+  if (promised.provisionKey !== put.provisionKey) return false;
+  if (promised.forumKey !== null && promised.forumKey !== put.forumKey) {
+    return false;
+  }
+  if (
+    promised.floorStageKey !== null &&
+    promised.floorStageKey !== put.floorStageKey
+  ) {
+    return false;
+  }
+  return true;
+}
+
+/** The question a recorded vote actually put, in the same terms. */
+export function questionPutByVote(
+  world: World,
+  vote: LegislativeVoteRecord,
+): LegislativeQuestionIdentity {
+  const amendment =
+    vote.purpose === "amendment"
+      ? ((world.history.legislativeAmendments ?? []).find(
+          (record) => record.voteId === vote.id,
+        ) ?? null)
+      : null;
+  return {
+    measureId: vote.measureId,
+    purpose: vote.purpose,
+    forumKey: voteForumKey(vote),
+    floorStageKey: vote.floorStageKey,
+    amendmentStableKey: amendment?.stableKey ?? null,
+    provisionKey: amendment
+      ? (provisionKeyCarriedBy(world, amendment.id) ?? null)
+      : null,
+  };
+}
+
+function voteForumKey(vote: LegislativeVoteRecord): string {
+  const forum = vote.forum;
+  switch (forum.kind) {
+    case "chamber":
+      return forum.chamberKey;
+    case "committee":
+      return `${forum.chamberKey}:${forum.committeeKey}`;
+    case "joint-session":
+      return forum.forumName;
+  }
+}
+
+/** The section an adopted amendment put into the bill, when it put one. */
+function provisionKeyCarriedBy(
+  world: World,
+  amendmentId: EntityId,
+): string | null {
+  return (
+    (world.history.legislativeProvisions ?? []).find(
+      (record) => record.originAmendmentId === amendmentId,
+    )?.provisionKey ?? null
+  );
+}
+
+/** Says a question in words, for an account the player reads. */
+function questionInWords(question: LegislativeQuestionIdentity): string {
+  switch (question.purpose) {
+    case "floor-stage":
+      return "the bill's passage";
+    case "concurrence":
+      return "agreeing to the other chamber's changes";
+    case "veto-override":
+      return "the override";
+    case "committee-report":
+      return "reporting the bill out of committee";
+    case "amendment":
+      return "the amendment";
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Commitments
 // ---------------------------------------------------------------------------
 
@@ -275,7 +411,7 @@ export function recordLegislativeCommitment(
   world: World,
   input: RecordLegislativeCommitmentInput,
 ): World {
-  const measure = requireMeasure(world, input.subject.measureId);
+  const measure = requireMeasure(world, input.subject.question.measureId);
   if (!world.people[input.holderPersonId]) {
     throw new Error(
       `A legislative commitment needs a canonical holder: ${input.holderPersonId}`,
@@ -304,18 +440,18 @@ export function recordLegislativeCommitment(
       throw new Error("A spoken commitment must cite the holder's own claim.");
     }
   }
+  const questionProvisionKey = input.subject.question.provisionKey;
   if (
-    input.subject.provisionKey !== null &&
-    provisionVersions(world, measure.id, input.subject.provisionKey).length ===
-      0 &&
+    questionProvisionKey !== null &&
+    provisionVersions(world, measure.id, questionProvisionKey).length === 0 &&
     !input.conditions?.some(
       (condition) =>
         "provisionKey" in condition &&
-        condition.provisionKey === input.subject.provisionKey,
+        condition.provisionKey === questionProvisionKey,
     )
   ) {
     throw new Error(
-      `A commitment names a section the measure does not have: ${input.subject.provisionKey}`,
+      `A commitment names a section the measure does not have: ${questionProvisionKey}`,
     );
   }
   for (const personId of input.heardByPersonIds) {
@@ -335,7 +471,10 @@ export function recordLegislativeCommitment(
     stableKey: input.stableKey,
     sequence: world.history.nextSequence,
     holderPersonId: input.holderPersonId,
-    subject: { ...input.subject },
+    subject: {
+      question: { ...input.subject.question },
+      questionLabel: input.subject.questionLabel,
+    },
     stance: input.stance,
     firmness: input.firmness,
     conditions: (input.conditions ?? []).map((condition) => ({ ...condition })),
@@ -364,7 +503,7 @@ export function measureCommitments(
   measureId: EntityId,
 ): readonly LegislativeCommitmentRecord[] {
   return (world.history.legislativeCommitments ?? [])
-    .filter((record) => record.subject.measureId === measureId)
+    .filter((record) => record.subject.question.measureId === measureId)
     .slice()
     .sort((a, b) => a.sequence - b.sequence);
 }
@@ -378,7 +517,8 @@ export function commitmentsHeldBy(
     .filter(
       (record) =>
         record.holderPersonId === personId &&
-        (measureId === undefined || record.subject.measureId === measureId),
+        (measureId === undefined ||
+          record.subject.question.measureId === measureId),
     )
     .slice()
     .sort((a, b) => a.sequence - b.sequence);
@@ -395,7 +535,8 @@ export function commitmentsKnownTo(
       (record) =>
         (record.holderPersonId === listenerPersonId ||
           record.heardByPersonIds.includes(listenerPersonId)) &&
-        (measureId === undefined || record.subject.measureId === measureId),
+        (measureId === undefined ||
+          record.subject.question.measureId === measureId),
     )
     .slice()
     .sort((a, b) => a.sequence - b.sequence);
@@ -435,6 +576,66 @@ export interface LegislativeCommitmentAssessment {
   readonly account: string;
 }
 
+/**
+ * Whether a stated commitment actually binds its holder right now, and to what.
+ *
+ * This is the question that has to be answered before any other, and answering
+ * it second was the defect. "I'll support it if you write my section in" says
+ * nothing at all until the section is written in: it is not a promise to vote
+ * yes, and it is emphatically not a reason to vote no, which is what the
+ * evaluator was making of it. Its mirror, "I'm a no unless you write my section
+ * in", binds to no while the section is out and is *released* when it goes in —
+ * released to nothing, not converted into a promise of support the member never
+ * made. Support has to be promised to be owed.
+ *
+ * So conditions have a polarity that belongs to the stance:
+ *
+ * - on `oppose-unless` they release an obligation the member already has;
+ * - on everything else they activate one the member does not have yet.
+ *
+ * Undetermined is not met. A promise is owed when the world can show it is,
+ * and released when the world can show that too.
+ */
+export type LegislativeCommitmentObligation =
+  | { readonly kind: "owed"; readonly direction: "yea" | "nay" }
+  | {
+      readonly kind: "not-yet-owed";
+      readonly direction: "yea" | "nay";
+      readonly outstanding: readonly LegislativeConditionStanding[];
+    }
+  | {
+      readonly kind: "released";
+      readonly direction: "yea" | "nay";
+    }
+  | { readonly kind: "no-direction" };
+
+/** Whether a stance's conditions release an obligation or create one. */
+function conditionsRelease(stance: LegislativeCommitmentStance): boolean {
+  return stance === "oppose-unless";
+}
+
+export function commitmentObligation(
+  stance: LegislativeCommitmentStance,
+  conditions: readonly LegislativeConditionStanding[],
+): LegislativeCommitmentObligation {
+  const direction = promisedDirection(stance);
+  if (direction === null) return { kind: "no-direction" };
+  if (conditions.length === 0) return { kind: "owed", direction };
+
+  const allMet = conditions.every((condition) => condition.state === "met");
+  if (conditionsRelease(stance)) {
+    return allMet
+      ? { kind: "released", direction }
+      : { kind: "owed", direction };
+  }
+  if (allMet) return { kind: "owed", direction };
+  return {
+    kind: "not-yet-owed",
+    direction,
+    outstanding: conditions.filter((condition) => condition.state !== "met"),
+  };
+}
+
 export function assessCommitment(
   world: World,
   commitmentId: EntityId,
@@ -450,12 +651,17 @@ export function assessCommitment(
     assessCondition(world, commitment, condition),
   );
 
+  // Newer words about exactly the same question replace older ones. Words
+  // about a different question do not, which is why this compares the whole
+  // question and not the measure it belongs to.
   const superseding = (world.history.legislativeCommitments ?? []).find(
     (record) =>
       record.sequence > commitment.sequence &&
       record.holderPersonId === commitment.holderPersonId &&
-      record.subject.measureId === commitment.subject.measureId &&
-      record.subject.provisionKey === commitment.subject.provisionKey,
+      sameLegislativeQuestion(
+        record.subject.question,
+        commitment.subject.question,
+      ),
   );
   if (superseding) {
     return {
@@ -466,70 +672,80 @@ export function assessCommitment(
     };
   }
 
+  // Whether anything is owed comes first. A vote cannot honour a promise that
+  // was never in force, however neatly it happens to match: a member who votes
+  // yes while the thing they asked for is still missing has not kept a promise
+  // to vote yes, because there was no such promise to keep yet.
+  const obligation = commitmentObligation(commitment.stance, conditions);
+  const anyUnmet = conditions.some((state) => state.state === "unmet");
+
+  if (obligation.kind === "no-direction") {
+    return {
+      commitmentId,
+      standing: standingWithoutObligation(conditions, anyUnmet),
+      conditions,
+      account: `${holderName} did not promise a vote either way, so a recorded vote neither keeps nor breaks it.`,
+    };
+  }
+
+  if (obligation.kind === "not-yet-owed") {
+    const outstanding = obligation.outstanding[0]!;
+    return {
+      commitmentId,
+      standing: anyUnmet ? "conditions-unmet" : "open",
+      conditions,
+      account: anyUnmet
+        ? `What ${holderName} asked for has not happened, so the condition was not met and nothing is owed either way yet: ${outstanding.description}`
+        : `${holderName} attached a condition that nothing has settled yet, so nothing is owed either way.`,
+    };
+  }
+
+  if (obligation.kind === "released") {
+    return {
+      commitmentId,
+      standing: "conditions-met",
+      conditions,
+      account: `What ${holderName} said they needed has happened, so the objection they stated is answered and they are free either way.`,
+    };
+  }
+
   const vote = laterRecordedVoteBy(world, commitment);
-  const conditionsAllMet =
-    conditions.length > 0 && conditions.every((state) => state.state === "met");
-  const anyConditionUnmet = conditions.some((state) => state.state === "unmet");
-
   if (vote === null) {
-    if (conditions.length === 0) {
-      return {
-        commitmentId,
-        standing: "open",
-        conditions,
-        account: `${holderName} said it. Nothing has tested it yet.`,
-      };
-    }
-    if (anyConditionUnmet) {
-      return {
-        commitmentId,
-        standing: "conditions-unmet",
-        conditions,
-        account: `What ${holderName} asked for has not happened, so the condition is not answered.`,
-      };
-    }
     return {
       commitmentId,
-      standing: conditionsAllMet ? "conditions-met" : "open",
+      standing: conditions.length === 0 ? "open" : "conditions-met",
       conditions,
-      account: conditionsAllMet
-        ? `What ${holderName} asked for has happened. The commitment has not yet been tested by a vote.`
-        : `${holderName} attached a condition that nothing has settled yet.`,
+      account:
+        conditions.length === 0
+          ? `${holderName} said it. Nothing has tested it yet.`
+          : `What ${holderName} asked for has happened. The commitment has not yet been tested by a vote.`,
     };
   }
+  return vote.disposition === obligation.direction
+    ? {
+        commitmentId,
+        standing: "honored",
+        conditions,
+        account: `${holderName} voted ${vote.disposition} on ${vote.questionLabel}, which is what was said.`,
+      }
+    : {
+        commitmentId,
+        standing: "departed-from",
+        conditions,
+        account: `${holderName} voted ${vote.disposition} on ${vote.questionLabel} after saying otherwise, and every stated condition had been met.`,
+      };
+}
 
-  const promised = promisedDirection(commitment.stance);
-  if (promised === null) {
-    return {
-      commitmentId,
-      standing: "open",
-      conditions,
-      account: `${holderName} did not promise a vote either way, so the recorded vote neither keeps nor breaks it.`,
-    };
-  }
-  const matched = vote.disposition === promised;
-  if (matched) {
-    return {
-      commitmentId,
-      standing: "honored",
-      conditions,
-      account: `${holderName} voted ${vote.disposition} on ${vote.questionLabel}, which is what was said.`,
-    };
-  }
-  if (anyConditionUnmet) {
-    return {
-      commitmentId,
-      standing: "conditions-unmet",
-      conditions,
-      account: `${holderName} voted ${vote.disposition} on ${vote.questionLabel}. The commitment was conditional and the condition was not met, so it was never owed.`,
-    };
-  }
-  return {
-    commitmentId,
-    standing: "departed-from",
-    conditions,
-    account: `${holderName} voted ${vote.disposition} on ${vote.questionLabel} after saying otherwise, and every stated condition had been met.`,
-  };
+/** Where a commitment that promised no vote stands on its own conditions. */
+function standingWithoutObligation(
+  conditions: readonly LegislativeConditionStanding[],
+  anyUnmet: boolean,
+): LegislativeCommitmentStanding {
+  if (conditions.length === 0) return "open";
+  if (anyUnmet) return "conditions-unmet";
+  return conditions.every((condition) => condition.state === "met")
+    ? "conditions-met"
+    : "open";
 }
 
 // ---------------------------------------------------------------------------
@@ -829,6 +1045,38 @@ function assertUniqueProvisionKey(world: World, stableKey: string): void {
   }
 }
 
+/**
+ * Every condition the canonical world can actually decide.
+ *
+ * The list is exhaustive by construction — the compiler requires an entry per
+ * condition kind — and it exists so the promise the contract makes is one the
+ * world can keep. A condition offered but never decidable is a promise that
+ * reads as checkable and silently is not, which is how `provision-removed`
+ * survived: it was a public condition with an assessor branch and no canonical
+ * transition anywhere that could make it true for a section the bill carries.
+ * A kind that is not in this list does not get recorded.
+ */
+const DECIDABLE_CONDITION_KINDS: Readonly<
+  Record<LegislativeCommitmentConditionKind, true>
+> = {
+  "provision-adopted": true,
+  "scope-narrowed": true,
+  "fiscal-ceiling": true,
+  "analysis-delivered": true,
+  "reciprocal-support": true,
+  procedural: true,
+};
+
+export const LEGISLATIVE_COMMITMENT_CONDITION_KINDS: readonly LegislativeCommitmentConditionKind[] =
+  Object.keys(DECIDABLE_CONDITION_KINDS)
+    .slice()
+    .sort() as readonly LegislativeCommitmentConditionKind[];
+
+/** Whether the world can say yes or no to a condition of this kind. */
+export function isDecidableConditionKind(kind: string): boolean {
+  return Object.prototype.hasOwnProperty.call(DECIDABLE_CONDITION_KINDS, kind);
+}
+
 function assertConditionsWellFormed(
   conditions: readonly LegislativeCommitmentCondition[],
 ): void {
@@ -836,6 +1084,11 @@ function assertConditionsWellFormed(
   for (const condition of conditions) {
     if (!condition.key.trim() || !condition.description.trim()) {
       throw new Error("A commitment condition needs a key and a description.");
+    }
+    if (!isDecidableConditionKind(condition.kind)) {
+      throw new Error(
+        `Nothing in the world can decide a commitment condition of kind '${condition.kind}'.`,
+      );
     }
     if (keys.has(condition.key)) {
       throw new Error(`Duplicate commitment condition: ${condition.key}`);
@@ -860,7 +1113,7 @@ function assessCondition(
   commitment: LegislativeCommitmentRecord,
   condition: LegislativeCommitmentCondition,
 ): LegislativeConditionStanding {
-  const measureId = commitment.subject.measureId;
+  const measureId = commitment.subject.question.measureId;
   const base = {
     key: condition.key,
     kind: condition.kind,
@@ -881,21 +1134,6 @@ function assessCondition(
           current && current.originAmendmentId !== null
             ? "The chamber adopted an amendment carrying that language into the bill."
             : "No adopted amendment has put that language into the bill.",
-      };
-    }
-    case "provision-removed": {
-      const current = currentProvisionByKey(
-        world,
-        measureId,
-        condition.provisionKey,
-      );
-      return {
-        ...base,
-        state: current === null ? "met" : "unmet",
-        basis:
-          current === null
-            ? "The bill no longer carries that section."
-            : "The bill still carries that section.",
       };
     }
     case "scope-narrowed": {
@@ -935,8 +1173,7 @@ function assessCondition(
         return {
           ...base,
           state: "unmet",
-          basis:
-            "The bill no longer carries the section the ceiling was set on.",
+          basis: "The bill does not carry the section the ceiling was set on.",
         };
       }
       const exposure = current.fiscalExposureMinorUnits;
@@ -987,7 +1224,7 @@ function assessCondition(
           record.sequence > commitment.sequence &&
           record.holderPersonId !== commitment.holderPersonId &&
           record.heardByPersonIds.includes(commitment.holderPersonId) &&
-          measureStableKey(world, record.subject.measureId) ===
+          measureStableKey(world, record.subject.question.measureId) ===
             condition.reciprocalMeasureStableKey,
       );
       return {
@@ -1049,6 +1286,13 @@ interface LaterVote {
 /**
  * The first recorded vote on the commitment's own question that the holder
  * took part in after saying what they said.
+ *
+ * "Own question" is the whole point. This used to take the first later floor,
+ * concurrence or override vote on the measure, which meant a promise about
+ * passage could be graded against the override and a promise about one
+ * amendment against another. It now asks the same canonical identity
+ * supersession asks, so a promise is only ever tested by the question it was
+ * actually about.
  */
 function laterRecordedVoteBy(
   world: World,
@@ -1057,11 +1301,11 @@ function laterRecordedVoteBy(
   const votes = (world.history.legislativeVotes ?? [])
     .filter(
       (vote) =>
-        vote.measureId === commitment.subject.measureId &&
         vote.sequence > commitment.sequence &&
-        (vote.purpose === "floor-stage" ||
-          vote.purpose === "concurrence" ||
-          vote.purpose === "veto-override"),
+        legislativeQuestionAnswers(
+          commitment.subject.question,
+          questionPutByVote(world, vote),
+        ),
     )
     .slice()
     .sort((a, b) => a.sequence - b.sequence);
@@ -1075,12 +1319,7 @@ function laterRecordedVoteBy(
     ) {
       return {
         disposition: disposition.disposition,
-        questionLabel:
-          vote.purpose === "floor-stage"
-            ? "the bill's passage"
-            : vote.purpose === "concurrence"
-              ? "agreeing to the other chamber's changes"
-              : "the override",
+        questionLabel: questionInWords(commitment.subject.question),
       };
     }
   }

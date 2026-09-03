@@ -3328,6 +3328,15 @@ export type LegislativeCommitmentConditionKind =
  * Each shape carries what the condition is actually about, so the game can say
  * whether it has been met by looking at canonical state rather than by
  * re-reading the sentence a legislator spoke.
+ *
+ * Every condition here is one the canonical world can actually prove. There
+ * was a `provision-removed` condition, and it could not be: provisions are
+ * append-only and nothing in the accepted model strikes one, so for a section
+ * the bill carries the condition could never become met. A condition the world
+ * cannot decide is worse than a missing one — it offers a promise that reads
+ * as checkable and silently never is — so it is gone rather than faked. If
+ * striking a section is ever wanted, it is an amendment path with its own
+ * canonical transition, and the condition comes back with it.
  */
 export type LegislativeCommitmentCondition = {
   readonly key: string;
@@ -3336,10 +3345,6 @@ export type LegislativeCommitmentCondition = {
 } & (
   | {
       readonly kind: "provision-adopted";
-      readonly provisionKey: string;
-    }
-  | {
-      readonly kind: "provision-removed";
       readonly provisionKey: string;
     }
   | {
@@ -3368,10 +3373,41 @@ export type LegislativeCommitmentCondition = {
     }
 );
 
-export interface LegislativeCommitmentSubject {
+/**
+ * Exactly which legislative question something is about.
+ *
+ * A measure is asked more than one question, and they are different questions:
+ * passing a bill, agreeing to the other chamber's changes, overriding a veto
+ * and adopting one amendment to one section are four things a member can
+ * answer four different ways. Anything that matches promises to each other, or
+ * a promise to the vote that tested it, has to compare all of it — a promise
+ * about passage that gets checked against the override is not being checked.
+ *
+ * `purpose` and `measureId` are what a question always has. `provisionKey` and
+ * `amendmentStableKey` name the object of the question when it has one, which
+ * an amendment does and a passage vote does not. `forumKey` and
+ * `floorStageKey` say which chamber and which stage, and are null when the
+ * promise did not distinguish them: "I'll be with you on final passage" names
+ * a stage the speaker did not, and is answered by the passage vote that comes.
+ */
+export interface LegislativeQuestionIdentity {
   readonly measureId: EntityId;
+  /** The stage the question is put at. */
+  readonly purpose: LegislativeVotePurpose;
+  /** The chamber or committee, when the promise named one. */
+  readonly forumKey: string | null;
+  /** The floor stage, when the promise named one. */
+  readonly floorStageKey: string | null;
+  /** The amendment the question is on, when the question is an amendment. */
+  readonly amendmentStableKey: string | null;
+  /** The section the question turns on, when it turns on one. */
   readonly provisionKey: string | null;
-  /** The question actually being answered, in plain language. */
+}
+
+export interface LegislativeCommitmentSubject {
+  /** Which question, exactly. */
+  readonly question: LegislativeQuestionIdentity;
+  /** That same question in plain language, for the player to read. */
   readonly questionLabel: string;
 }
 

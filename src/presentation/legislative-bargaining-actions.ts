@@ -14,6 +14,7 @@ import {
   type AuthoredVoteCounts,
   type EntityId,
   type LegislativeMemberDisposition,
+  type LegislativeQuestionIdentity,
   type LegislativeVoteDisposition,
   type SeatedMember,
   type World,
@@ -91,9 +92,15 @@ export function offerNegotiatedAmendment(
   );
 
   const derived = deriveSimulatedMembers(world, fixture, progress, {
-    purpose: "amendment",
+    identity: {
+      measureId: fixture.measureId,
+      purpose: "amendment",
+      forumKey: chamberKey,
+      floorStageKey: position.floorStageKey,
+      amendmentStableKey: stableKey,
+      provisionKey: REQUESTED_PROVISION_KEY,
+    },
     questionLabel: `Adoption of the ${amountLabel} local match amendment`,
-    provisionKey: REQUESTED_PROVISION_KEY,
     pendingChange: {
       provisionKey: REQUESTED_PROVISION_KEY,
       beneficiaryLabels: [facts.requestedBeneficiaryLabel],
@@ -179,9 +186,17 @@ export function takeNegotiatedFloorVote(
   const body = bodyForChamber(scenario, chamberKey);
 
   const derived = deriveSimulatedMembers(world, fixture, progress, {
-    purpose: "floor-stage",
+    identity: {
+      measureId: fixture.measureId,
+      purpose: "floor-stage",
+      forumKey: chamberKey,
+      floorStageKey: stage.stageKey,
+      amendmentStableKey: null,
+      // Passing the bill is a question about the whole bill, not about any
+      // one section of it.
+      provisionKey: null,
+    },
     questionLabel: `${stage.label} of ${progress.subjectFacts.designation}`,
-    provisionKey: REQUESTED_PROVISION_KEY,
   });
 
   const next = takeFloorVote(derived.world, {
@@ -235,9 +250,8 @@ function deriveSimulatedMembers(
   fixture: LegislativeBargainingFixture,
   progress: LegislativeBargainingProgress,
   question: {
-    readonly purpose: "amendment" | "floor-stage";
+    readonly identity: LegislativeQuestionIdentity;
     readonly questionLabel: string;
-    readonly provisionKey: string | null;
     readonly pendingChange?: {
       readonly provisionKey: string;
       readonly beneficiaryLabels: readonly string[];
@@ -279,13 +293,11 @@ function deriveSimulatedMembers(
       continue;
     }
     const derived = deriveMemberDisposition(next, {
-      stableKey: `${facts.measureStableKey}:${question.purpose}:${next.history.nextSequence}:${member.personId}`,
+      stableKey: `${facts.measureStableKey}:${question.identity.purpose}:${next.history.nextSequence}:${member.personId}`,
       personId: member.personId,
       question: {
-        measureId: fixture.measureId,
-        purpose: question.purpose,
+        question: question.identity,
         questionLabel: question.questionLabel,
-        provisionKey: question.provisionKey,
         pendingChange: question.pendingChange ?? null,
       },
       localBeneficiaryLabels: member.localBeneficiaryLabels,

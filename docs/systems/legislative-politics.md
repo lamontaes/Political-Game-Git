@@ -54,15 +54,40 @@ the player is told how hedged something sounded, not how likely a hidden model
 thinks it is to hold.
 
 Conditions are typed so they can be checked against canonical state rather than
-re-read: a provision adopted or removed, a scope narrowed, a fiscal ceiling, an
-analysis delivered, reciprocal support, or a step the promise was only good
-before.
+re-read: a provision adopted, a scope narrowed, a fiscal ceiling, an analysis
+delivered, reciprocal support, or a step the promise was only good before.
+Every one of them is a condition the world can actually decide, and the list is
+exhaustive by construction — a condition kind the assessor cannot answer is
+refused at the point of recording and at snapshot validation, rather than
+offered and silently never met.
 
-A conditional commitment binds in one direction only. "I support it if you do
-X" binds to yes once X has happened and says nothing once it has not. "I oppose
-it unless you do X" is the mirror. Assessment is derived and reports `open`,
-`conditions-met`, `conditions-unmet`, `honored`, `departed-from`, or
-`superseded`, with a sentence a player may read.
+A conditional commitment binds in one direction only, and being free of it is
+not the opposite of it. "I support it if you do X" is **not owed** until X has
+happened: before that it is neither a promise to vote yes nor a reason to vote
+no, and a vote that happens to match it has not kept it. "I oppose it unless
+you do X" binds to no while X is missing and is **released** once X arrives —
+released to neutral, because being answered is not the same as having promised
+support. If the member wants what is now in the bill, the bill says so; the
+promise does not say it for them.
+
+Whether anything was owed is settled before whether it was kept. Assessment is
+derived and reports `open`, `conditions-met`, `conditions-unmet`, `honored`,
+`departed-from`, or `superseded`, with a sentence a player may read.
+
+## Which question, exactly
+
+A measure is asked more than one question. Passing a bill, agreeing to the
+other chamber's changes, overriding a veto, and adopting one amendment to one
+section are four things a member can answer four different ways, and a promise
+about one of them is not a promise about the others.
+
+One canonical identity says which: the measure, the stage the question is put
+at, the amendment or section the question turns on when it turns on one, and
+the chamber and floor stage when the promise named them. Three things compare
+it, and they all compare the same thing — whether newer words replace older
+ones, which recorded vote tested a promise, and which of a member's promises
+bear on the question in front of them. A promise that named no chamber is a
+promise that did not distinguish them, not a promise about all of them.
 
 ## Member decisions
 

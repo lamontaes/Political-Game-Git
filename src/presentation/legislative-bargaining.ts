@@ -21,6 +21,7 @@ import type {
   LegislativeCommitmentStance,
   LegislativeExchangeCharacter,
   LegislativeNegotiationDisposition,
+  LegislativeQuestionIdentity,
   World,
 } from "../simulation";
 import {
@@ -87,8 +88,32 @@ export interface BargainingCommitmentConsequence {
   readonly stance: LegislativeCommitmentStance;
   readonly firmness: LegislativeCommitmentFirmness;
   readonly conditions: readonly LegislativeCommitmentCondition[];
+  /** Exactly which question this is a promise about. */
+  readonly question: LegislativeQuestionIdentity;
   readonly questionLabel: string;
-  readonly provisionKey: string | null;
+}
+
+/**
+ * The question everything said in this room is a promise about.
+ *
+ * Every bargain here is about how the member will vote when the bill itself is
+ * called, which is a floor question on the measure and not a question on any
+ * one section — the section a promise turns on is in its conditions, where
+ * something can actually check it. Naming a section here instead would say the
+ * promise was about a vote on that section, and no such vote is ever taken.
+ * Neither chamber nor stage is named, because the member did not name one.
+ */
+function finalPassageQuestion(
+  facts: LegislativeBargainingSubjectFacts,
+): LegislativeQuestionIdentity {
+  return {
+    measureId: facts.measureId,
+    purpose: "floor-stage",
+    forumKey: null,
+    floorStageKey: null,
+    amendmentStableKey: null,
+    provisionKey: null,
+  };
 }
 
 export interface BargainingNegotiationConsequence {
@@ -522,8 +547,8 @@ function decide(
             stance,
             firmness: "qualified",
             conditions,
+            question: finalPassageQuestion(facts),
             questionLabel: `Final passage of ${facts.designation}`,
-            provisionKey: isAdvocate ? facts.requestedProvisionKey : null,
           },
           decisionTraceId: trace?.id ?? null,
         },
@@ -623,8 +648,8 @@ function decide(
                 stance: "support-if",
                 firmness: "qualified",
                 conditions,
+                question: finalPassageQuestion(facts),
                 questionLabel: `Final passage of ${facts.designation}`,
-                provisionKey: facts.requestedProvisionKey,
               }
             : null,
           decisionTraceId: trace?.id ?? null,
@@ -686,9 +711,8 @@ function decide(
           stance: willing ? "support-if" : "keep-options-open",
           firmness: willing ? "qualified" : "noncommittal",
           conditions,
+          question: finalPassageQuestion(facts),
           questionLabel: `Final passage of ${facts.designation}`,
-          provisionKey:
-            willing && isAdvocate ? facts.requestedProvisionKey : null,
         },
         decisionTraceId: trace?.id ?? null,
       },
@@ -739,8 +763,7 @@ export function recordBargainingConsequences(
       stableKey: `${input.turnKey}:commitment`,
       holderPersonId: commitment.holderPersonId,
       subject: {
-        measureId: facts.measureId,
-        provisionKey: commitment.provisionKey,
+        question: commitment.question,
         questionLabel: commitment.questionLabel,
       },
       stance: commitment.stance,

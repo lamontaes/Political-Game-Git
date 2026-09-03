@@ -2,9 +2,11 @@ import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import { requireMeasure } from "./legislation";
 import {
   assessCommitment,
+  commitmentObligation,
   commitmentsHeldBy,
   currentMeasureProvisions,
   currentProvisionByKey,
+  legislativeQuestionAnswers,
 } from "./legislative-politics";
 import { currentHistoricalCutoff } from "./queries";
 import type {
@@ -12,7 +14,7 @@ import type {
   DecisionEvaluation,
   EntityId,
   LegislativeMemberDisposition,
-  LegislativeVotePurpose,
+  LegislativeQuestionIdentity,
   World,
 } from "./types";
 
@@ -33,12 +35,16 @@ import type {
  */
 
 export interface MemberVoteQuestion {
-  readonly measureId: EntityId;
-  readonly purpose: LegislativeVotePurpose;
+  /**
+   * Exactly which question is being put.
+   *
+   * The same canonical identity a promise names, so the two can be compared:
+   * a member who said they would not join an override has not thereby said
+   * anything about whether the bill should pass.
+   */
+  readonly question: LegislativeQuestionIdentity;
   /** The question in the words the chamber puts it. */
   readonly questionLabel: string;
-  /** The section the question turns on, when it turns on one. */
-  readonly provisionKey: string | null;
   /**
    * What the question would do if it carried.
    *
@@ -105,7 +111,7 @@ export function deriveMemberDisposition(
   world: World,
   input: DeriveMemberDispositionInput,
 ): DerivedMemberDisposition {
-  const measure = requireMeasure(world, input.question.measureId);
+  const measure = requireMeasure(world, input.question.question.measureId);
   if (!world.people[input.personId]) {
     throw new Error(
       `A derived member disposition needs a canonical person: ${input.personId}`,
@@ -120,7 +126,7 @@ export function deriveMemberDisposition(
     cutoff: currentHistoricalCutoff(world),
     subject: {
       kind: "context:legislative-question",
-      key: `${measure.stableKey}:${input.question.purpose}`,
+      key: `${measure.stableKey}:${input.question.question.purpose}`,
       entityId: measure.id,
     },
     options: [...OPTIONS],
@@ -169,7 +175,8 @@ function memberConsiderations(
   input: DeriveMemberDispositionInput,
 ): readonly DecisionConsideration[] {
   const considerations: DecisionConsideration[] = [];
-  const measureId = input.question.measureId;
+  const asked = input.question.question;
+  const measureId = asked.measureId;
 
   const pending = input.question.pendingChange ?? null;
   const currentExposure = currentMeasureProvisions(world, measureId).reduce(
@@ -188,8 +195,12 @@ function memberConsiderations(
     ...(pending?.beneficiaryLabels ?? []),
   ];
 
-  // What the member has said about this bill, and whether what they asked for
-  // actually happened. A commitment weighs heavily; it does not decide.
+  // What the member has said about *this* question, and whether what they
+  // asked for actually happened. A commitment weighs heavily; it does not
+  // decide — and it only weighs on the question it was about. A member who
+  // said they would not join an override has said nothing about whether the
+  // bill should pass, and reading it as if they had was the same conflation
+  // that let a promise be graded against the wrong vote.
   for (const commitment of commitmentsHeldBy(
     world,
     input.personId,
@@ -197,78 +208,69 @@ function memberConsiderations(
   )) {
     const assessment = assessCommitment(world, commitment.id);
     if (assessment.standing === "superseded") continue;
-    const direction =
-      commitment.stance === "oppose" || commitment.stance === "oppose-unless"
-        ? "vote-nay"
-        : commitment.stance === "offer-amendment" ||
-            commitment.stance === "seek-delay" ||
-            commitment.stance === "keep-options-open"
-          ? null
-          : "vote-yea";
-    if (direction === null) continue;
-
-    const unmet = assessment.conditions.filter(
-      (condition) => condition.state === "unmet",
-    );
-    // A condition this very question would satisfy is not a broken bargain; it
-    // is the reason to vote yes.
-    const outstanding = unmet.filter(
-      (condition) =>
-        !(
-          pending !== null &&
-          (condition.kind === "provision-adopted" ||
-            condition.kind === "fiscal-ceiling") &&
-          commitment.conditions.some(
-            (source) =>
-              source.key === condition.key &&
-              "provisionKey" in source &&
-              source.provisionKey === pending.provisionKey,
-          )
-        ),
-    );
-    const conditionsUnmet = outstanding.length > 0;
     const sourceRefs = commitment.claimId
       ? ([{ kind: "claim", claimId: commitment.claimId }] as const)
       : ([{ kind: "historical-event", eventId: commitment.eventId }] as const);
 
-    // A conditional commitment binds in one direction only.
-    //
-    // "I support it if you do X" binds to yes once X has happened, and says
-    // nothing once it has not. "I oppose it unless you do X" is the mirror: it
-    // binds to no while X has not happened, and is answered once it has. The
-    // released case is not silence — the member says why they are free.
-    const binds = direction === "vote-yea" ? !conditionsUnmet : conditionsUnmet;
-    if (!binds) {
+    if (legislativeQuestionAnswers(commitment.subject.question, asked)) {
+      const obligation = commitmentObligation(
+        commitment.stance,
+        assessment.conditions,
+      );
+      // Only an obligation that is actually owed is a reason to vote.
+      //
+      // The other three outcomes are silence, deliberately. A "support if X"
+      // whose X has not happened is not owed, and the member is free — being
+      // free is not the same as being opposed, and turning it into a strong
+      // reason to vote no invented an opposition nobody stated. An "oppose
+      // unless X" whose X has happened is released, and being released from
+      // an objection is not the same as having promised support; if the
+      // member wants what is now in the bill, the bill itself says so through
+      // the considerations below, which is where an affirmative reason
+      // belongs.
+      if (obligation.kind !== "owed") continue;
       considerations.push({
-        stableKey: `member:commitment-released:${commitment.stableKey}`,
-        optionKey: direction === "vote-yea" ? "vote-nay" : "vote-yea",
+        stableKey: `member:commitment:${commitment.stableKey}`,
+        optionKey: obligation.direction === "yea" ? "vote-yea" : "vote-nay",
         sourceType: "institution:stated-commitment",
         direction: "supports",
-        importance: "strong",
-        confidence: "high",
-        explanation:
-          direction === "vote-yea"
-            ? `What the member asked for in return has not happened: ${outstanding[0]!.description}`
-            : "What the member said they needed has happened, so the objection they stated is answered.",
+        importance:
+          commitment.firmness === "explicit"
+            ? "decisive"
+            : commitment.firmness === "qualified"
+              ? "strong"
+              : commitment.firmness === "provisional"
+                ? "moderate"
+                : "slight",
+        confidence: commitment.firmness === "noncommittal" ? "low" : "high",
+        explanation: `The member has already said this much on the record: ${commitment.statement}`,
         sourceRefs: [...sourceRefs],
       });
       continue;
     }
+
+    // A different question, but one that would settle something this member
+    // said they were waiting for. That is not an obligation to vote a
+    // particular way here, and it is not recorded as one — it is the plain
+    // fact that the member asked for this section and this is the question
+    // that puts it in the bill. Without it a member votes against the very
+    // thing they asked for, on the ground that it is not there yet.
+    if (pending === null) continue;
+    const asksForThisSection = commitment.conditions.some(
+      (condition) =>
+        condition.kind === "provision-adopted" &&
+        condition.provisionKey === pending.provisionKey,
+    );
+    if (!asksForThisSection) continue;
     considerations.push({
-      stableKey: `member:commitment:${commitment.stableKey}`,
-      optionKey: direction,
+      stableKey: `member:asked-for-this-section:${commitment.stableKey}`,
+      optionKey: "vote-yea",
       sourceType: "institution:stated-commitment",
       direction: "supports",
-      importance:
-        commitment.firmness === "explicit"
-          ? "decisive"
-          : commitment.firmness === "qualified"
-            ? "strong"
-            : commitment.firmness === "provisional"
-              ? "moderate"
-              : "slight",
-      confidence: commitment.firmness === "noncommittal" ? "low" : "high",
-      explanation: `The member has already said this much on the record: ${commitment.statement}`,
+      importance: "strong",
+      confidence: "high",
+      explanation:
+        "This is the question that puts in the bill the section the member asked for.",
       sourceRefs: [...sourceRefs],
     });
   }
@@ -324,11 +326,11 @@ function memberConsiderations(
   }
 
   // Whether the question's own section survived into the bill.
-  if (input.question.provisionKey !== null && pending === null) {
+  if (asked.provisionKey !== null && pending === null) {
     const provision = currentProvisionByKey(
       world,
       measureId,
-      input.question.provisionKey,
+      asked.provisionKey,
     );
     considerations.push({
       stableKey: "member:question-section-present",

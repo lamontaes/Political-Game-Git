@@ -1086,3 +1086,57 @@ find out that satisfying one costs the other, put a named section to the
 chamber or refuse to, and later read each member's own account of how they
 voted and why. Nothing in that loop predetermines whether the bargain was
 wise, and no part of it reveals a hidden score.
+
+## D-058 — A promise binds only its own question, and only once it is owed
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Amends: D-057, which introduced stated commitments
+
+An independent audit of the first cut of D-057 reproduced six defects in the
+same place: the system was reading a promise as saying more than the person
+said. This records what a promise is now allowed to mean.
+
+**Being free of a promise is not the opposite of it.** "I support it if you do
+X" is not owed until X happens. Before that it is not a promise to vote yes,
+and — this was the reproduced defect — it is not a reason to vote no either.
+The evaluator was converting an unmet conditional yes into a strong,
+high-confidence reason to vote against, so a member who offered conditional
+support became more opposed than a member who had said nothing at all. Its
+mirror, "I oppose it unless you do X", was being read as an affirmative
+promise of support the moment X arrived. Delivering what somebody asked for
+answers their objection; it does not extract a promise they never made. Both
+cases are now neutral, and an affirmative reason has to come from the bill
+itself, where the game can point at it.
+
+**Whether a promise was owed is settled before whether it was kept.** The
+assessor compared the vote direction first, so a member could vote yes while
+the thing they conditioned on was still missing and be reported as having
+honored the promise. There was no promise yet to honor. Owed comes first;
+matching comes second.
+
+**A promise names exactly one question, and there is one canonical way to say
+which.** Passing a bill, agreeing to the other chamber's changes, overriding a
+veto, and adopting an amendment to a section are different questions. Matching
+on the measure alone let a promise about passage and a promise about the
+override supersede each other, let the first later floor, concurrence or
+override vote grade a promise it had nothing to do with, and let a promise
+about one question weigh on a member's decision about another. One identity —
+measure, stage, the amendment or section the question turns on, and the chamber
+and floor stage when the promise named them — is now compared by all three,
+rather than by three hand-written comparisons that disagreed.
+
+**A condition the world cannot decide is not offered.** `provision-removed` was
+a public condition kind with an assessor branch and no canonical transition
+anywhere that could make it true for a section the bill carries: provisions are
+append-only, and nothing strikes one. A promise conditioned on it read as
+checkable and never was. It is removed from the contract rather than faked with
+a half-removal held in the interface, and the set of condition kinds is now
+exhaustive by construction and refused at recording and at snapshot validation
+if it ever stops being. If striking a section is wanted, it is an amendment
+path with its own canonical transition, and the condition returns with it.
+
+Consequence: a member can say a conditional yes without becoming an opponent,
+can be released from an objection without becoming a supporter, can hold
+different positions on passing a bill and on overriding a veto of it, and is
+never reported as having kept or broken a promise the world never called in.
