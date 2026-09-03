@@ -1,5 +1,5 @@
 {
-  "totalItems": 114,
+  "totalItems": 117,
   "items": [
     {
       "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
@@ -12,6 +12,14 @@
     {
       "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
       "hash": "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43"
+    },
+    {
+      "filePath": "families/shared-workroom-office/env_shared_workroom_office_runtime_2x_v1.png",
+      "hash": "c26094b0b62c4e3b949ae4a5e839f2331f0785b74ffacf8488baea1564398c93"
+    },
+    {
+      "filePath": "families/shared-workroom-office/env_shared_workroom_office_v1.png",
+      "hash": "51f6a94c151815bdcbf296096b94232b24a67c31a21744af40b84742ba5e6c12"
     },
     {
       "filePath": "generated/approved/dev-modular/dev_accessory_lapel_pin_v1.png",
@@ -452,6 +460,10 @@
     {
       "filePath": "references/masters/pg-modular/tops/pg_master_top_04_structured_blazer.png",
       "hash": "d7eb87869643758793867ee75141d9677ed0073745b4df331b5732528b4db42b"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_SHARED_WORKROOM_OFFICE_5504x3072_01.jpg",
+      "hash": "eca8b886da1769d1babf132530a8a33b8d59cc8d8e6e9b8ce34f551b676af9d0"
     },
     {
       "filePath": "references/plans/texas_senate/normalized/habs_tx3326_00013a_normalized.jpg",

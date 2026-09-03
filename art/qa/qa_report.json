@@ -30,6 +30,26 @@
     "meetsTransparencyReq": null
   },
   {
+    "file": "families/shared-workroom-office/env_shared_workroom_office_runtime_2x_v1.png",
+    "metadata": {
+      "width": 2752,
+      "height": 1536,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/shared-workroom-office/env_shared_workroom_office_v1.png",
+    "metadata": {
+      "width": 1376,
+      "height": 768,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "generated/approved/dev-modular-g2/dev_g2_accessory_lanyard_v1.png",
     "metadata": {
       "width": 80,
@@ -1125,6 +1145,16 @@
       "width": 220,
       "height": 246,
       "aspectRatio": "110:123",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/scene-environment/OCD_SCENE_MASTER_SHARED_WORKROOM_OFFICE_5504x3072_01.jpg",
+    "metadata": {
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
       "hasTransparency": "none"
     },
     "meetsTransparencyReq": null
