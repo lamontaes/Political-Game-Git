@@ -35,8 +35,17 @@ export interface AcquisitionRequest {
   readonly sliceOf?: {
     readonly parentArtifactId: string;
     readonly selectionPredicate: string;
-    /** Cut the slice out of the parent's bytes, deterministically. */
-    readonly cut: (parentBytes: Buffer) => Buffer;
+    /**
+     * Cut the slice out of the parent's bytes, deterministically.
+     *
+     * `alreadyAcquired` holds every artifact retrieved earlier in this plan, by
+     * id, because a slice sometimes has to agree with a sibling — PUMS person
+     * rows are selected by the serial numbers the housing slice took.
+     */
+    readonly cut: (
+      parentBytes: Buffer,
+      alreadyAcquired: ReadonlyMap<string, Buffer>,
+    ) => Buffer;
   };
 }
 

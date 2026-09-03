@@ -65,7 +65,10 @@ async function acquireOne(
         `QA slice "${request.artifactId}" needs parent "${request.sliceOf.parentArtifactId}" acquired first.`,
       );
     }
-    const bytes = request.sliceOf.cut(parent.bytes);
+    const bytes = request.sliceOf.cut(
+      parent.bytes,
+      new Map([...alreadyAcquired].map(([id, entry]) => [id, entry.bytes])),
+    );
     if (request.localPath === null) {
       throw new Error(`QA slice "${request.artifactId}" must be committed somewhere.`);
     }
