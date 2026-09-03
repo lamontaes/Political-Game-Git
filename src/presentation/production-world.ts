@@ -21,6 +21,7 @@ import type {
   IsoDate,
   LifePlace,
   Person,
+  SetupPriorStore,
   World,
 } from "../simulation";
 
@@ -66,6 +67,15 @@ export interface ProductionWorldInput {
   readonly startingLife: ProductionStartingLife;
   readonly depth: ProductionDepth;
   readonly household: ProductionHousehold;
+  /**
+   * The questionnaire answers, carried into the world's non-diegetic corner.
+   *
+   * Deliberately *not* an input to anything in this file's four construction
+   * steps. Nothing below reads it, and a test proves that two worlds built
+   * from opposite answers have the same people with the same names in the same
+   * household — because a political answer must never manufacture a family.
+   */
+  readonly priors?: SetupPriorStore;
 }
 
 export interface ProductionWorld {
@@ -120,6 +130,7 @@ export function buildProductionWorld(
     currentMoment: place.context.initialMoment,
     jurisdictions: [jurisdiction],
     people: [player],
+    setupPriors: input.priors,
   });
 
   world = recordCreation(world, player, place, input);

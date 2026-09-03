@@ -3222,6 +3222,169 @@ export type WorldLineage = "production" | "fixture";
 /** The generator that stamped a world, one per lineage. */
 export type WorldGeneratorVersion = "demo-world-v15" | "production-world-v1";
 
+/* -------------------------------------------------------------------------- */
+/* Life situations                                                             */
+/* -------------------------------------------------------------------------- */
+
+export type FormativePacingBand =
+  "early-childhood" | "middle-childhood" | "adolescence";
+
+/**
+ * The bands a situation can belong to. Adulthood is one band rather than
+ * several because the formative bands are about developing agency, and an
+ * adult already has it; what varies after eighteen is circumstance, and
+ * circumstance is read from the world rather than from a birthday.
+ */
+export type LifeSituationBand = FormativePacingBand | "adulthood";
+
+export type FormativeLifeSituationKey =
+  | "formative.household-transition"
+  | "formative.school-entry"
+  | "formative.broken-object"
+  | "formative.small-money"
+  | "formative.lunch-table"
+  | "formative.friend-conflict"
+  | "formative.teacher-mentor"
+  | "formative.school-rule-input"
+  | "formative.care-conflict"
+  | "formative.activity-choice"
+  | "formative.civic-volunteering"
+  | "formative.teen-work-opportunity"
+  | "formative.student-organizing"
+  | "formative.belief-challenge"
+  | "formative.future-preparation"
+  | "formative.illness-in-the-house"
+  | "formative.money-shortfall"
+  | "formative.caring-for-someone"
+  | "formative.workplace-rule";
+
+/**
+ * The adult families.
+ *
+ * Keyed to opportunity rather than to a rate: an adult situation is offered
+ * because the world already contains the thing it is about — a household with
+ * somebody else in it, a job, an obligation, an incident that actually
+ * happened — and never because a die said this year was the year. The research
+ * is unambiguous that most of these have no defensible national arrival
+ * frequency, so none is claimed.
+ */
+export type AdultLifeSituationKey =
+  | "adult.household-standing"
+  | "adult.household-repair"
+  | "adult.household-money-shortfall"
+  | "adult.household-quiet-evening"
+  | "adult.family-request"
+  | "adult.care-request"
+  | "adult.partner-plan"
+  | "adult.work-rule-pressure"
+  | "adult.work-extra-hours"
+  | "adult.work-credit"
+  | "adult.work-colleague-struggling"
+  | "adult.work-offer-elsewhere"
+  | "adult.work-good-week"
+  | "adult.housing-cost-change"
+  | "adult.housing-repair-standoff"
+  | "adult.debt-call"
+  | "adult.unexpected-expense"
+  | "adult.small-windfall"
+  | "adult.friend-favour"
+  | "adult.help-with-strings"
+  | "adult.friend-in-difficulty"
+  | "adult.friend-good-news"
+  | "adult.local-dispute"
+  | "adult.community-meeting"
+  | "adult.community-building"
+  | "adult.volunteer-ask"
+  | "adult.local-issue-position"
+  | "adult.petition-ask"
+  | "adult.candidacy-approach"
+  | "adult.incident-aftermath"
+  | "adult.incident-neighbour-help"
+  | "adult.promise-comes-due"
+  | "adult.old-favour-returns"
+  | "adult.ordinary-good-day"
+  | "adult.weekend-invitation";
+
+export type LifeSituationKey =
+  FormativeLifeSituationKey | AdultLifeSituationKey;
+
+export interface LifeSituationOption {
+  readonly key: string;
+  /** The words on the button. */
+  readonly label: string;
+  /** What choosing it means, before it is chosen. */
+  readonly description: string;
+  /**
+   * What the person remembers afterwards, written as something that happened
+   * rather than as the instruction that produced it. The canonical record is
+   * never the button text.
+   */
+  readonly memory: string;
+  /**
+   * What somebody else in the scene would have seen, or null when the choice
+   * was made inwardly and there was nothing to see.
+   *
+   * Knowledge is subjective. Being present is not the same as being told: a
+   * companion who watched a child decide something quietly does not thereby
+   * know what the child decided, and must never be handed that child's own
+   * remembered sentence as their own belief.
+   */
+  readonly witnessed?: string | null;
+  /**
+   * Whether the person acted or held back.
+   *
+   * The formative bank expresses this through a list of option keys held
+   * beside it, which works while every situation is authored in one file and
+   * stops working the moment a second bank exists. Saying it on the option is
+   * the same claim, made where it can be read.
+   */
+  readonly stance?: "engaged" | "withdrawn";
+  /** What it did to the relationship, when somebody else was in the scene. */
+  readonly relationalChange?: RelationshipChange;
+  /** How the exchange itself is filed. */
+  readonly interactionKind?: RelationshipInteractionKind;
+}
+
+export interface AvailableLifeSituation {
+  readonly key: LifeSituationKey;
+  readonly band: LifeSituationBand;
+  /** The scene, before any choice exists. */
+  readonly prose: string;
+  readonly options: readonly LifeSituationOption[];
+  /** True when the situation only makes sense with someone else in it. */
+  readonly needsCompanion: boolean;
+}
+
+/**
+ * Which calibration path the player took at setup.
+ *
+ * `skipped` is a real answer and not an absence of one: a player who declined
+ * the questionnaire has told the game to work from what they do rather than
+ * from what they said, and the adaptive layer is expected to cope.
+ */
+export type SetupQuestionnairePath = "skipped" | "short" | "deep";
+
+export interface SetupAnswerRecord {
+  readonly ordinal: number;
+  readonly questionKey: string;
+  /** Null when the player skipped the item they were shown. */
+  readonly choiceId: string | null;
+}
+
+/**
+ * The non-diegetic corner of a world.
+ *
+ * Declared here beside the canonical record types so its shape is as legible
+ * as theirs, and kept out of `HistoryStore` for the same reason: it is not
+ * history. `setup-priors.ts` owns every read and write of it.
+ */
+export interface SetupPriorStore {
+  readonly version: number;
+  readonly path: SetupQuestionnairePath;
+  readonly bankVersion: string;
+  readonly answers: readonly SetupAnswerRecord[];
+}
+
 export interface World {
   readonly schemaVersion: 15;
   readonly generatorVersion: WorldGeneratorVersion;
@@ -3243,4 +3406,16 @@ export interface World {
   readonly vitalityCatalog: VitalityCatalog;
   readonly control: ControlState;
   readonly history: HistoryStore;
+  /**
+   * What the player answered at setup, kept beside the world rather than in
+   * it.
+   *
+   * Optional, and optional is load-bearing: every world written before the
+   * questionnaire existed is still exactly readable, because absent and
+   * "answered nothing" are the same state and both mean no priors. Nothing in
+   * `history` may derive from this, and no canonical query reads it — see
+   * `setup-priors.ts` for why that containment is the requirement rather than
+   * a convention.
+   */
+  readonly setupPriors?: SetupPriorStore;
 }

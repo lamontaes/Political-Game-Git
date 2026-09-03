@@ -27,6 +27,18 @@ import {
   projectOrdinaryDay,
 } from "../presentation/ordinary-life";
 import {
+  chooseAdultOption,
+  letAdultTimePass,
+  projectAdultLife,
+} from "../presentation/adult-life";
+import {
+  answerQuestionnaire,
+  endQuestionnaireEarly,
+  questionnaireContentNote,
+  questionnairePathLength,
+  questionnaireScreenFor,
+} from "../presentation/setup-questionnaire-flow";
+import {
   availableConversationIntents,
   commitConversationTurn,
   conversationTopicLabel,
@@ -68,6 +80,15 @@ import { PersonPortrait } from "./PersonPortrait";
 type Screen =
   | { readonly kind: "title" }
   | { readonly kind: "setup" }
+  /**
+   * The calibration, between choosing a life and starting one.
+   *
+   * It carries the setup rather than reading it back from the setup screen,
+   * because the answers are part of the setup by the time the world is built —
+   * and because a player who goes back and changes their age has not answered
+   * a different questionnaire.
+   */
+  | { readonly kind: "questionnaire"; readonly setup: NewGameSetup }
   | { readonly kind: "saves" }
   | { readonly kind: "playing" };
 
@@ -330,6 +351,17 @@ export function PlayerGame() {
     );
   }
 
+  function beginLife(setup: NewGameSetup) {
+    try {
+      const game = createNewGameWorld(setup);
+      startPlaying(game.world, game.playerPersonId, setup.seed, null);
+    } catch (error) {
+      setProblem(
+        error instanceof Error ? error.message : "That start did not work.",
+      );
+    }
+  }
+
   if (screen.kind === "setup") {
     return (
       <SetupScreen
@@ -337,18 +369,36 @@ export function PlayerGame() {
         seedOrigin={sessionSeed.origin}
         onBack={() => setScreen({ kind: "title" })}
         onBegin={(setup) => {
-          try {
-            const game = createNewGameWorld(setup);
-            startPlaying(game.world, game.playerPersonId, setup.seed, null);
-          } catch (error) {
-            setProblem(
-              error instanceof Error
-                ? error.message
-                : "That start did not work.",
-            );
+          setProblem(null);
+          // The calibration runs before the world is built, because its answers
+          // are part of the setup the world is built from — not because the
+          // world reads them. It never does: they go into the world's
+          // non-diegetic corner and nowhere near a generator.
+          if (questionnaireScreenFor(setup)) {
+            setScreen({ kind: "questionnaire", setup });
+            return;
           }
+          beginLife(endQuestionnaireEarly(setup));
         }}
         problem={problem}
+      />
+    );
+  }
+
+  if (screen.kind === "questionnaire") {
+    return (
+      <QuestionnaireScreenView
+        setup={screen.setup}
+        onAnswer={(choiceId) => {
+          const next = answerQuestionnaire(screen.setup, choiceId);
+          if (questionnaireScreenFor(next)) {
+            setScreen({ kind: "questionnaire", setup: next });
+            return;
+          }
+          beginLife(next);
+        }}
+        onFinishEarly={() => beginLife(endQuestionnaireEarly(screen.setup))}
+        onBack={() => setScreen({ kind: "setup" })}
       />
     );
   }
@@ -698,6 +748,76 @@ function SetupScreen({
         </p>
       </section>
 
+      <section>
+        <h2>Before you start</h2>
+        <div className="game-choices" data-testid="calibration-choices">
+          <button
+            type="button"
+            data-testid="calibration-short"
+            className={
+              setup.questionnaire === "short" ? "is-chosen" : undefined
+            }
+            onClick={() =>
+              setSetup((current) => ({
+                ...current,
+                questionnaire: "short",
+                priors: [],
+              }))
+            }
+          >
+            A few questions
+            <small>
+              {questionnairePathLength("short")} situations, quickly.
+            </small>
+          </button>
+          <button
+            type="button"
+            data-testid="calibration-deep"
+            className={setup.questionnaire === "deep" ? "is-chosen" : undefined}
+            onClick={() =>
+              setSetup((current) => ({
+                ...current,
+                questionnaire: "deep",
+                priors: [],
+              }))
+            }
+          >
+            The longer set
+            <small>
+              Up to {questionnairePathLength("deep")} situations. You can stop
+              at any point.
+            </small>
+          </button>
+          <button
+            type="button"
+            data-testid="calibration-skip"
+            className={
+              (setup.questionnaire ?? "skipped") === "skipped"
+                ? "is-chosen"
+                : undefined
+            }
+            onClick={() =>
+              setSetup((current) => ({
+                ...current,
+                questionnaire: "skipped",
+                priors: [],
+              }))
+            }
+          >
+            Straight in
+            <small>
+              Skip it; the game works out the rest from what you do.
+            </small>
+          </button>
+        </div>
+        <p className="game-note" data-testid="calibration-note">
+          These are situations, not a quiz. There are no right answers and
+          nothing you pick becomes part of your character&rsquo;s history — what
+          you actually do in the game counts for a great deal more than what you
+          say here.
+        </p>
+      </section>
+
       {problems.length > 0 ? (
         <p className="game-problem" data-testid="setup-problem">
           {problems[0]!.message}
@@ -737,6 +857,75 @@ function SetupScreen({
           </code>
         </p>
       </details>
+    </main>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The calibration.
+ *
+ * A situation, some ways of handling it, and the option not to answer. What is
+ * deliberately absent is everything a quiz would have: no progress bar framing
+ * it as a test, no score, no summary at the end, and above all no label. The
+ * game never tells a player what it has concluded about them, because a game
+ * that does has stopped being able to be surprised by them.
+ */
+function QuestionnaireScreenView({
+  setup,
+  onAnswer,
+  onFinishEarly,
+  onBack,
+}: {
+  readonly setup: NewGameSetup;
+  readonly onAnswer: (choiceId: string | null) => void;
+  readonly onFinishEarly: () => void;
+  readonly onBack: () => void;
+}) {
+  const screen = questionnaireScreenFor(setup);
+  if (!screen) return null;
+  const note = questionnaireContentNote();
+  return (
+    <main className="game-setup" data-testid="questionnaire-screen">
+      <h1>Before the life starts</h1>
+      <p className="game-band" data-testid="questionnaire-progress">
+        {screen.ordinal} of {screen.total}
+      </p>
+      <p className="game-scene" data-testid="questionnaire-prompt">
+        {screen.prompt}
+      </p>
+      <div className="game-choices" data-testid="questionnaire-options">
+        {screen.options.map((option) => (
+          <button
+            key={option.key}
+            type="button"
+            onClick={() => onAnswer(option.key)}
+          >
+            {option.text}
+          </button>
+        ))}
+      </div>
+      <div className="game-setup-actions">
+        <button type="button" onClick={onBack}>
+          Back
+        </button>
+        <button
+          type="button"
+          data-testid="questionnaire-skip"
+          onClick={() => onAnswer(null)}
+        >
+          I would rather not say
+        </button>
+        <button
+          type="button"
+          data-testid="questionnaire-finish"
+          onClick={onFinishEarly}
+        >
+          Start the life now
+        </button>
+      </div>
+      {note ? <p className="game-note">{note}</p> : null}
     </main>
   );
 }
@@ -962,7 +1151,10 @@ function PlayingScreen({
       {capabilities.formativeYears ? (
         <FormativeYearsView session={session} onWorldChange={onWorldChange} />
       ) : (
-        <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
+        <>
+          <AdultLifeView session={session} onWorldChange={onWorldChange} />
+          <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
+        </>
       )}
 
       {capabilities.legislation && capabilities.legislativeScenarioKey ? (
@@ -1078,6 +1270,95 @@ function FormativeYearsView({
               <li key={`${memory.formedAt}:${index}`}>
                 <span>{memory.ageAtTime}</span>
                 {memory.summary}
+              </li>
+            ))}
+          </ol>
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Adult life, as the player meets it.
+ *
+ * A situation, its options, and what this life remembers. What is not here is
+ * as important as what is: no indication of how much any of it will matter, no
+ * meter, no delta, no marker on the ones the selector found difficult. The
+ * player learns what a choice came to by living past it, which is the only
+ * honest way to find out.
+ */
+function AdultLifeView({
+  session,
+  onWorldChange,
+}: {
+  readonly session: Session;
+  readonly onWorldChange: (world: World) => void;
+}) {
+  const life = useMemo(
+    () => projectAdultLife(session.world, session.personId),
+    [session.world, session.personId],
+  );
+
+  return (
+    <section className="game-formative" data-testid="adult-section">
+      {life.scene ? (
+        <>
+          <p className="game-scene" data-testid="adult-prose">
+            {life.scene.prose}
+          </p>
+          {life.scene.withPersonName ? (
+            <p className="game-note">{life.scene.withPersonName} is there.</p>
+          ) : null}
+          <div className="game-choices" data-testid="adult-options">
+            {life.scene.options.map((option) => (
+              <button
+                key={option.key}
+                type="button"
+                onClick={() =>
+                  onWorldChange(
+                    chooseAdultOption(session.world, {
+                      personId: session.personId,
+                      situationKey: life.scene!.situationKey,
+                      optionKey: option.key,
+                    }),
+                  )
+                }
+              >
+                {option.label}
+                <small>{option.description}</small>
+              </button>
+            ))}
+          </div>
+        </>
+      ) : (
+        <>
+          <p className="game-scene" data-testid="adult-quiet">
+            {life.quietNote}
+          </p>
+          <div className="game-choices">
+            <button
+              type="button"
+              data-testid="adult-let-time-pass"
+              onClick={() => onWorldChange(letAdultTimePass(session.world))}
+            >
+              Let a few weeks go by
+              <small>Most of them do.</small>
+            </button>
+          </div>
+        </>
+      )}
+
+      {life.moments.length > 0 ? (
+        <div className="game-memories" data-testid="adult-moments">
+          <h2>What you remember</h2>
+          <ol>
+            {life.moments.map((moment, index) => (
+              <li key={`${moment.occurredAt}:${index}`}>
+                <span>{moment.ageAtTime}</span>
+                {moment.summary}
               </li>
             ))}
           </ol>

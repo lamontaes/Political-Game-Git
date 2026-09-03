@@ -43,7 +43,14 @@ interface LifeSetup {
   readonly office?: boolean;
 }
 
-/** Walks the setup screen the way a player does and starts the life. */
+/**
+ * Walks the setup screen the way a player does and starts the life.
+ *
+ * The calibration is declined here on purpose. These tests are about the shell
+ * — saves, capabilities, what reaches disk — and the questionnaire has its own
+ * file. Declining it is one of the three things the screen offers, so this is
+ * still a route a player takes.
+ */
 async function startLife(page: Page, setup: LifeSetup) {
   await page.getByTestId("new-game").click();
   await expect(page.getByTestId("setup-screen")).toBeVisible();
@@ -57,6 +64,7 @@ async function startLife(page: Page, setup: LifeSetup) {
   }
   await page.getByTestId("start-age").fill(String(setup.age));
   if (setup.office) await page.getByTestId("office-start").click();
+  await page.getByTestId("calibration-skip").click();
 
   await page.getByTestId("begin").click();
   await expect(page.getByTestId("play-screen")).toBeVisible();
@@ -122,6 +130,7 @@ test.describe("Opening the game opens a game", () => {
       .first()
       .click();
     await page.getByTestId("start-age").fill("24");
+    await page.getByTestId("calibration-skip").click();
 
     // The link describes the setup on screen, which is the whole point: a bare
     // seed could not rebuild a configured world.
