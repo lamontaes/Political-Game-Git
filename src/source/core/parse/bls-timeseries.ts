@@ -8,6 +8,7 @@
  * empty footnote code means "no footnote", which is a fact.
  */
 
+import { hasUtf8ByteOrderMark } from "./delimited";
 import type { ParseDefect, ParseResult } from "./errors";
 
 export interface BlsRow {
@@ -19,7 +20,7 @@ export interface BlsResult extends ParseResult<BlsRow> {
   readonly header: readonly string[];
 }
 
-const BOM = "﻿";
+const BOM = "\uFEFF";
 
 /**
  * Parse a BLS flat file into header-named rows.
@@ -31,8 +32,8 @@ const BOM = "﻿";
  */
 export function parseBlsTimeSeries(bytes: Uint8Array): BlsResult {
   let text = new TextDecoder("utf-8", { fatal: false }).decode(bytes);
-  const hadByteOrderMark = text.startsWith(BOM);
-  if (hadByteOrderMark) text = text.slice(BOM.length);
+  const hadByteOrderMark = hasUtf8ByteOrderMark(bytes);
+  if (text.startsWith(BOM)) text = text.slice(BOM.length);
 
   const lines = text.split(/\r?\n/);
   const defects: ParseDefect[] = [];

@@ -7,7 +7,11 @@
  * "strength", "viability" or "lean" field that no filing establishes.
  */
 
-import type { CompiledCorpus, ValidationFinding, ValidationReport } from "../../core/index";
+import type {
+  CompiledCorpus,
+  ValidationFinding,
+  ValidationReport,
+} from "../../core/index";
 import {
   OFFICIAL_FEC_CANDIDATE_VECTORS,
   OFFICIAL_FEC_COMMITTEE_VECTORS,
@@ -78,7 +82,11 @@ export function validateFecCorpus(
 
   for (const record of records) {
     for (const key of Object.keys(record)) {
-      if (PROHIBITED_FIELD_TERMS.some((term) => key.toLowerCase().includes(term.toLowerCase()))) {
+      if (
+        PROHIBITED_FIELD_TERMS.some((term) =>
+          key.toLowerCase().includes(term.toLowerCase()),
+        )
+      ) {
         findings.push({
           severity: "error",
           code: "fec/registration-is-not-outcome",
@@ -87,7 +95,10 @@ export function validateFecCorpus(
         });
       }
     }
-    if (record.recordKind === "candidate" && !isCandidateId(record.candidateId)) {
+    if (
+      record.recordKind === "candidate" &&
+      !isCandidateId(record.candidateId)
+    ) {
       findings.push({
         severity: "error",
         code: "fec/candidate-id-grammar",
@@ -95,7 +106,10 @@ export function validateFecCorpus(
         recordId: record.recordId,
       });
     }
-    if (record.recordKind === "committee" && !isCommitteeId(record.committeeId)) {
+    if (
+      record.recordKind === "committee" &&
+      !isCommitteeId(record.committeeId)
+    ) {
       findings.push({
         severity: "error",
         code: "fec/committee-id-grammar",
@@ -118,10 +132,12 @@ export function validateFecCorpus(
    * result the publisher's data.
    */
   const danglingCandidates = linkages.filter(
-    (record) => record.recordKind === "linkage" && !candidateIds.has(record.candidateId),
+    (record) =>
+      record.recordKind === "linkage" && !candidateIds.has(record.candidateId),
   ).length;
   const danglingCommittees = linkages.filter(
-    (record) => record.recordKind === "linkage" && !committeeIds.has(record.committeeId),
+    (record) =>
+      record.recordKind === "linkage" && !committeeIds.has(record.committeeId),
   ).length;
   if (danglingCandidates > 0 || danglingCommittees > 0) {
     findings.push({
@@ -152,7 +168,10 @@ export function validateFecCorpus(
           recordId: vector.candidateId,
         });
       }
-      if (record.officeStateCode !== vector.officeStateCode || record.officeCode !== vector.officeCode) {
+      if (
+        record.officeStateCode !== vector.officeStateCode ||
+        record.officeCode !== vector.officeCode
+      ) {
         findings.push({
           severity: "error",
           code: "fec/oracle-office",

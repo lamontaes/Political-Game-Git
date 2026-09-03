@@ -108,7 +108,9 @@ export const sourceDomain: SourceDomainModule<CountyRecord> = {
   compilerVersion: COUNTY_COMPILER_VERSION,
   acquisitionPlan: countiesAcquisition,
   lockPath: "data/source/counties/artifact-lock.json",
-  compileProduction(lock: ArtifactLock): CompiledCorpus<CountyRecord, "production"> {
+  compileProduction(
+    lock: ArtifactLock,
+  ): CompiledCorpus<CountyRecord, "production"> {
     return compileCounties(openCountyProduction(lock)) as CompiledCorpus<
       CountyRecord,
       "production"

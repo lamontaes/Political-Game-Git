@@ -24,14 +24,12 @@ import type { Evidence, Sourced } from "../../core/index";
  * which — the bug the audit found classified Austin's MSA as a county because
  * every five-digit code matched the county branch first.
  */
-export type BeaGeographyLevel = "nation" | "state" | "county" | "msa" | "region-or-aggregate";
+export type BeaGeographyLevel =
+  "nation" | "state" | "county" | "msa" | "region-or-aggregate";
 
 /** What kind of quantity a value is. Never mixed across kinds. */
 export type BeaValuationKind =
-  | "currency-amount"
-  | "currency-per-person"
-  | "headcount"
-  | "index";
+  "currency-amount" | "currency-per-person" | "headcount" | "index";
 
 export interface BeaObservationRecord {
   readonly recordId: string;

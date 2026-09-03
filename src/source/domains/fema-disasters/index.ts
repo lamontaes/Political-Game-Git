@@ -8,7 +8,10 @@
  * repository retrieved from OpenFEMA.
  */
 
-import { corpusCanonicalDigest, openProductionArtifacts } from "../../core/index";
+import {
+  corpusCanonicalDigest,
+  openProductionArtifacts,
+} from "../../core/index";
 import type {
   ArtifactLock,
   CompiledCorpus,
@@ -61,7 +64,10 @@ export function compileFemaDisasters(
   const universe = input.artifacts.universe;
 
   const envelope = parseOpenFemaEnvelope(declarations.bytes, OPENFEMA_ENTITY);
-  const universeEnvelope = parseOpenFemaEnvelope(universe.bytes, OPENFEMA_ENTITY);
+  const universeEnvelope = parseOpenFemaEnvelope(
+    universe.bytes,
+    OPENFEMA_ENTITY,
+  );
   const universeCount = universeEnvelope.metadata.count ?? null;
 
   // The payload states the filter the provider actually applied. If it is not
@@ -94,7 +100,10 @@ export function compileFemaDisasters(
           artifactId: declarations.artifact.artifactId,
           sha256: declarations.artifact.bytes.sha256,
         },
-        { artifactId: universe.artifact.artifactId, sha256: universe.artifact.bytes.sha256 },
+        {
+          artifactId: universe.artifact.artifactId,
+          sha256: universe.artifact.bytes.sha256,
+        },
       ],
       asOf: FEMA_CORPUS_AS_OF,
       recordCount: records.length,
@@ -110,7 +119,9 @@ export function compileFemaDisasters(
   } as CompiledCorpus<FemaDeclarationRecord>;
 }
 
-export function openFemaProduction(lock: ArtifactLock): ProductionInput<FemaArtifacts> {
+export function openFemaProduction(
+  lock: ArtifactLock,
+): ProductionInput<FemaArtifacts> {
   return openProductionArtifacts<FemaRole>("fema-disasters", lock, {
     declarations: DECLARATIONS_ARTIFACT,
     universe: UNIVERSE_ARTIFACT,
@@ -130,7 +141,9 @@ export const sourceDomain: SourceDomainModule<FemaDeclarationRecord> = {
       "production"
     >;
   },
-  validateCorpus(corpus: CompiledCorpus<FemaDeclarationRecord>): ValidationReport {
+  validateCorpus(
+    corpus: CompiledCorpus<FemaDeclarationRecord>,
+  ): ValidationReport {
     return validateFemaCorpus(corpus);
   },
 };

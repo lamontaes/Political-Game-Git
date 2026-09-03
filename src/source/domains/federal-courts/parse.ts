@@ -40,8 +40,11 @@ const ENTITIES: readonly (readonly [RegExp, string])[] = [
 /** Decode XML entities and collapse markup whitespace to single spaces. */
 export function textOf(markup: string): string {
   let text = markup.replace(/<[^>]+>/g, "");
-  for (const [pattern, replacement] of ENTITIES) text = text.replace(pattern, replacement);
-  text = text.replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)));
+  for (const [pattern, replacement] of ENTITIES)
+    text = text.replace(pattern, replacement);
+  text = text.replace(/&#(\d+);/g, (_, code: string) =>
+    String.fromCodePoint(Number(code)),
+  );
   text = text.replace(/&#x([0-9a-fA-F]+);/g, (_, code: string) =>
     String.fromCodePoint(parseInt(code, 16)),
   );
@@ -54,11 +57,16 @@ export function readSection(document: string, identifier: string): UslmSection {
   const marker = `identifier="${identifier}"`;
   const start = document.indexOf(marker);
   if (start === -1) {
-    throw new SourceParseError(`The title does not contain section ${identifier}.`);
+    throw new SourceParseError(
+      `The title does not contain section ${identifier}.`,
+    );
   }
   const creditAt = document.indexOf("<sourceCredit", start);
   const closeAt = document.indexOf("</section>", start);
-  const end = creditAt === -1 ? closeAt : Math.min(creditAt, closeAt === -1 ? creditAt : closeAt);
+  const end =
+    creditAt === -1
+      ? closeAt
+      : Math.min(creditAt, closeAt === -1 ? creditAt : closeAt);
   if (end === -1) {
     throw new SourceParseError(`Section ${identifier} is not terminated.`);
   }
@@ -79,7 +87,9 @@ export function readSection(document: string, identifier: string): UslmSection {
     const text = textOf(match[2] ?? "");
     if (text !== "") collected.push({ at: match.index ?? 0, className, text });
   }
-  for (const match of markup.matchAll(/<paragraph\b([^>]*)>([\s\S]*?)<\/paragraph>/g)) {
+  for (const match of markup.matchAll(
+    /<paragraph\b([^>]*)>([\s\S]*?)<\/paragraph>/g,
+  )) {
     const body = match[2] ?? "";
     if (/<p\b/.test(body)) continue;
     const attributes = match[1] ?? "";
@@ -107,10 +117,12 @@ export function readTwoColumnTable(
   section: UslmSection,
 ): readonly (readonly [string, string])[] {
   const rows: (readonly [string, string])[] = [];
-  for (const rowMatch of section.markup.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/g)) {
-    const cells = [...(rowMatch[1] ?? "").matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/g)].map(
-      (cell) => textOf(cell[1] ?? ""),
-    );
+  for (const rowMatch of section.markup.matchAll(
+    /<tr\b[^>]*>([\s\S]*?)<\/tr>/g,
+  )) {
+    const cells = [
+      ...(rowMatch[1] ?? "").matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/g),
+    ].map((cell) => textOf(cell[1] ?? ""));
     if (cells.length === 2) {
       rows.push([cells[0] as string, cells[1] as string]);
     }

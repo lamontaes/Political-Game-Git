@@ -14,7 +14,10 @@ import {
   toCanonicalJson,
   writeText,
 } from "../../src/source/core/index";
-import type { ArtifactLock, NormalizedCorpus } from "../../src/source/core/index";
+import type {
+  ArtifactLock,
+  NormalizedCorpus,
+} from "../../src/source/core/index";
 import { REPO_ROOT, domainDataDir, loadDomains } from "./registry";
 
 export interface SourceManifestEntry {
@@ -56,12 +59,18 @@ export async function buildManifest(root: string): Promise<SourceManifest> {
 
   for (const domain of domains) {
     if (domain.productionGate) {
-      gated.push({ domain: domain.domain, productionGate: domain.productionGate });
+      gated.push({
+        domain: domain.domain,
+        productionGate: domain.productionGate,
+      });
       continue;
     }
     const dir = resolve(root, domain.domain);
     const corpusText = readFileSync(resolve(dir, "corpus.json"), "utf-8");
-    const manifestText = readFileSync(resolve(dir, "corpus-manifest.json"), "utf-8");
+    const manifestText = readFileSync(
+      resolve(dir, "corpus-manifest.json"),
+      "utf-8",
+    );
     const corpus = JSON.parse(manifestText) as NormalizedCorpus;
     const lock = JSON.parse(
       readFileSync(resolve(REPO_ROOT, domain.lockPath), "utf-8"),

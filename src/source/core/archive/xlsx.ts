@@ -27,7 +27,9 @@ function decodeXmlText(text: string): string {
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&apos;/g, "'")
-    .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
+    .replace(/&#(\d+);/g, (_, code: string) =>
+      String.fromCodePoint(Number(code)),
+    )
     .replace(/&#x([0-9a-fA-F]+);/g, (_, code: string) =>
       String.fromCodePoint(parseInt(code, 16)),
     )
@@ -72,7 +74,9 @@ interface SheetEntry {
 /** Workbook sheet names paired with the part each one lives in. */
 function readSheetIndex(archive: Buffer): readonly SheetEntry[] {
   const workbook = readZipMember(archive, "xl/workbook.xml").toString("utf-8");
-  const rels = readZipMember(archive, "xl/_rels/workbook.xml.rels").toString("utf-8");
+  const rels = readZipMember(archive, "xl/_rels/workbook.xml.rels").toString(
+    "utf-8",
+  );
 
   const targetByRelId = new Map<string, string>();
   for (const match of rels.matchAll(/<Relationship\b([^>]*)\/>/g)) {
@@ -80,7 +84,10 @@ function readSheetIndex(archive: Buffer): readonly SheetEntry[] {
     const id = /\bId="([^"]+)"/.exec(attributes)?.[1];
     const target = /\bTarget="([^"]+)"/.exec(attributes)?.[1];
     if (id && target) {
-      targetByRelId.set(id, target.startsWith("/") ? target.slice(1) : `xl/${target}`);
+      targetByRelId.set(
+        id,
+        target.startsWith("/") ? target.slice(1) : `xl/${target}`,
+      );
     }
   }
 
@@ -92,7 +99,10 @@ function readSheetIndex(archive: Buffer): readonly SheetEntry[] {
     if (!name || !relId) continue;
     const path = targetByRelId.get(relId);
     if (!path) continue;
-    sheets.push({ name: decodeXmlText(name), path: path.replace(/^xl\/xl\//, "xl/") });
+    sheets.push({
+      name: decodeXmlText(name),
+      path: path.replace(/^xl\/xl\//, "xl/"),
+    });
   }
   return sheets;
 }

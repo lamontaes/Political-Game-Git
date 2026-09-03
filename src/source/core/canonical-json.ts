@@ -15,12 +15,7 @@
  */
 
 export type JsonValue =
-  | string
-  | number
-  | boolean
-  | null
-  | JsonValue[]
-  | { [key: string]: JsonValue };
+  string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
 
 function canonicalize(value: unknown): JsonValue | undefined {
   if (value === undefined) return undefined;
@@ -49,6 +44,22 @@ function canonicalize(value: unknown): JsonValue | undefined {
     return fromMap;
   }
   if (typeof value === "object") {
+    /*
+     * Only plain objects get walked.
+     *
+     * A `Date` is an object with no own enumerable keys, so a generic object
+     * branch serializes it as `{}` — silently, and that is 13B's M6 finding
+     * verbatim. The same is true of a `RegExp`, an `Error` and every class
+     * instance. Refusing anything that is not a plain object means a caller who
+     * wants a date in a corpus has to decide what string it should be, which is
+     * the decision that ought to be visible.
+     */
+    const prototype = Object.getPrototypeOf(value) as object | null;
+    if (prototype !== Object.prototype && prototype !== null) {
+      throw new Error(
+        `Canonical JSON cannot serialize a ${value.constructor?.name ?? "non-plain object"}; convert it to a value whose meaning is explicit.`,
+      );
+    }
     const record = value as Record<string, unknown>;
     const result: Record<string, JsonValue> = {};
     for (const key of Object.keys(record).sort()) {

@@ -7,7 +7,11 @@
  * a field claiming somebody pays a rent or qualifies for a programme.
  */
 
-import type { CompiledCorpus, ValidationFinding, ValidationReport } from "../../core/index";
+import type {
+  CompiledCorpus,
+  ValidationFinding,
+  ValidationReport,
+} from "../../core/index";
 import type { HudRecord } from "./types";
 
 export const EXPECTED_FMR_AREA_COUNT = 4764;
@@ -34,8 +38,12 @@ export function validateHudCorpus(
   const records = compiled.records;
   const production = compiled.corpus.inputClass === "production";
 
-  const rents = records.filter((record) => record.recordKind === "fair-market-rent");
-  const limits = records.filter((record) => record.recordKind === "income-limit");
+  const rents = records.filter(
+    (record) => record.recordKind === "fair-market-rent",
+  );
+  const limits = records.filter(
+    (record) => record.recordKind === "income-limit",
+  );
 
   if (production) {
     if (rents.length !== EXPECTED_FMR_AREA_COUNT) {
@@ -67,7 +75,11 @@ export function validateHudCorpus(
     seen.add(record.recordId);
 
     for (const key of Object.keys(record)) {
-      if (PROHIBITED_FIELD_TERMS.some((term) => key.toLowerCase().includes(term.toLowerCase()))) {
+      if (
+        PROHIBITED_FIELD_TERMS.some((term) =>
+          key.toLowerCase().includes(term.toLowerCase()),
+        )
+      ) {
         findings.push({
           severity: "error",
           code: "hud/reference-is-not-entitlement",
@@ -112,7 +124,12 @@ export function validateHudCorpus(
         const extremelyLow = record.extremelyLowIncomeLimitByFamilySize[size];
         const veryLow = record.veryLowIncomeLimitByFamilySize[size];
         const low = record.lowIncomeLimitByFamilySize[size];
-        if (extremelyLow === undefined || veryLow === undefined || low === undefined) continue;
+        if (
+          extremelyLow === undefined ||
+          veryLow === undefined ||
+          low === undefined
+        )
+          continue;
         if (extremelyLow > veryLow || veryLow > low) {
           findings.push({
             severity: "error",
@@ -130,7 +147,10 @@ export function validateHudCorpus(
   // been folded into one vintage, which is exactly the finding against #71.
   for (const record of records) {
     const keys = Object.keys(record);
-    if (keys.includes("rentByBedrooms") && keys.includes("areaMedianFamilyIncome")) {
+    if (
+      keys.includes("rentByBedrooms") &&
+      keys.includes("areaMedianFamilyIncome")
+    ) {
       findings.push({
         severity: "error",
         code: "hud/products-merged",

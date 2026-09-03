@@ -20,7 +20,12 @@
  */
 
 import { known, notApplicable, unknown } from "../../core/index";
-import type { BlsRow, Evidence, ReleaseStatus, Sourced } from "../../core/index";
+import type {
+  BlsRow,
+  Evidence,
+  ReleaseStatus,
+  Sourced,
+} from "../../core/index";
 
 /** Footnote codes that mean the observation is preliminary rather than final. */
 export const PRELIMINARY_FOOTNOTE_CODES: readonly string[] = ["P"];
@@ -50,7 +55,9 @@ export function readLausValue(
   context: LausValueContext,
 ): Sourced<number> {
   const trimmed = raw.trim();
-  const absence = context.footnoteCodes.find((code) => ABSENCE_FOOTNOTE_CODES.includes(code));
+  const absence = context.footnoteCodes.find((code) =>
+    ABSENCE_FOOTNOTE_CODES.includes(code),
+  );
 
   if (trimmed === "" || trimmed === "-") {
     const reason = absence
@@ -84,7 +91,8 @@ export function readLausValue(
 export function periodAsOf(year: string, period: string): string {
   if (period === "M13") return `${year}-12-31`;
   const month = Number(period.slice(1));
-  if (!Number.isFinite(month) || month < 1 || month > 12) return `${year}-12-31`;
+  if (!Number.isFinite(month) || month < 1 || month > 12)
+    return `${year}-12-31`;
   const lastDay = new Date(Date.UTC(Number(year), month, 0)).getUTCDate();
   return `${year}-${String(month).padStart(2, "0")}-${String(lastDay).padStart(2, "0")}`;
 }

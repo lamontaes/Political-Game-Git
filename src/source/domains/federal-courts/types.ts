@@ -18,9 +18,7 @@
 import type { Evidence } from "../../core/index";
 
 export type FederalCourtKind =
-  | "court-of-appeals"
-  | "district-court"
-  | "bankruptcy-court";
+  "court-of-appeals" | "district-court" | "bankruptcy-court";
 
 /** A statutory division of a judicial district. */
 export interface JudicialDivision {

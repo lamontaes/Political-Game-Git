@@ -28,7 +28,14 @@ export const NEBRASKA_UPPER_DISTRICT_COUNT = 49;
  * The six states that elect a single at-large representative, published with
  * district code `00`.
  */
-export const AT_LARGE_STATE_USPS: readonly string[] = ["AK", "DE", "ND", "SD", "VT", "WY"];
+export const AT_LARGE_STATE_USPS: readonly string[] = [
+  "AK",
+  "DE",
+  "ND",
+  "SD",
+  "VT",
+  "WY",
+];
 
 /**
  * District of Columbia and Puerto Rico appear in the congressional file with

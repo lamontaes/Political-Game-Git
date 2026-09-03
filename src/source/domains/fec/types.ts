@@ -77,4 +77,5 @@ export interface FecLinkageRecord {
   readonly evidence: Evidence;
 }
 
-export type FecRecord = FecCandidateRecord | FecCommitteeRecord | FecLinkageRecord;
+export type FecRecord =
+  FecCandidateRecord | FecCommitteeRecord | FecLinkageRecord;

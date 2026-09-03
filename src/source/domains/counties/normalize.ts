@@ -18,7 +18,10 @@ export interface NormalizeResult {
   readonly defects: readonly ParseDefect[];
 }
 
-function column(row: DelimitedRow, name: (typeof GAZETTEER_COUNTY_COLUMNS)[number]): string {
+function column(
+  row: DelimitedRow,
+  name: (typeof GAZETTEER_COUNTY_COLUMNS)[number],
+): string {
   return row.fields[GAZETTEER_COUNTY_COLUMNS.indexOf(name)] ?? "";
 }
 
@@ -106,11 +109,31 @@ export function normalizeCounties(
     const line = row.line;
     const geoid = requiredText(column(row, "GEOID"), "GEOID", line, defects);
     const stateUsps = requiredText(column(row, "USPS"), "USPS", line, defects);
-    const geoidFq = requiredText(column(row, "GEOIDFQ"), "GEOIDFQ", line, defects);
-    const ansiCode = requiredText(column(row, "ANSICODE"), "ANSICODE", line, defects);
+    const geoidFq = requiredText(
+      column(row, "GEOIDFQ"),
+      "GEOIDFQ",
+      line,
+      defects,
+    );
+    const ansiCode = requiredText(
+      column(row, "ANSICODE"),
+      "ANSICODE",
+      line,
+      defects,
+    );
     const sourceName = requiredText(column(row, "NAME"), "NAME", line, defects);
-    const landAreaSquareMeters = requiredNumber(column(row, "ALAND"), "ALAND", line, defects);
-    const waterAreaSquareMeters = requiredNumber(column(row, "AWATER"), "AWATER", line, defects);
+    const landAreaSquareMeters = requiredNumber(
+      column(row, "ALAND"),
+      "ALAND",
+      line,
+      defects,
+    );
+    const waterAreaSquareMeters = requiredNumber(
+      column(row, "AWATER"),
+      "AWATER",
+      line,
+      defects,
+    );
     const landAreaSquareMiles = requiredNumber(
       column(row, "ALAND_SQMI"),
       "ALAND_SQMI",
@@ -123,8 +146,18 @@ export function normalizeCounties(
       line,
       defects,
     );
-    const latitude = requiredNumber(column(row, "INTPTLAT"), "INTPTLAT", line, defects);
-    const longitude = requiredNumber(column(row, "INTPTLONG"), "INTPTLONG", line, defects);
+    const latitude = requiredNumber(
+      column(row, "INTPTLAT"),
+      "INTPTLAT",
+      line,
+      defects,
+    );
+    const longitude = requiredNumber(
+      column(row, "INTPTLONG"),
+      "INTPTLONG",
+      line,
+      defects,
+    );
 
     if (
       geoid === null ||
@@ -158,7 +191,12 @@ export function normalizeCounties(
       });
       continue;
     }
-    if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+    if (
+      latitude < -90 ||
+      latitude > 90 ||
+      longitude < -180 ||
+      longitude > 180
+    ) {
       defects.push({
         kind: "unparsable-record",
         line,
@@ -190,7 +228,9 @@ export function normalizeCounties(
     });
   }
 
-  records.sort((left, right) => (left.geoid < right.geoid ? -1 : left.geoid > right.geoid ? 1 : 0));
+  records.sort((left, right) =>
+    left.geoid < right.geoid ? -1 : left.geoid > right.geoid ? 1 : 0,
+  );
 
   const geoids = new Set<string>();
   for (const record of records) {

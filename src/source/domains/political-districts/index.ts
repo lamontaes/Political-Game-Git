@@ -30,7 +30,10 @@ import {
   STATE_UPPER_MEMBER,
   politicalDistrictsAcquisition,
 } from "./acquisition";
-import { parseGazetteerCongressional, parseGazetteerStateLegislative } from "./parse";
+import {
+  parseGazetteerCongressional,
+  parseGazetteerStateLegislative,
+} from "./parse";
 import { normalizeDistricts } from "./normalize";
 import { validatePoliticalDistrictCorpus } from "./validate";
 import type { DistrictChamber, PoliticalDistrictRecord } from "./types";
@@ -108,14 +111,24 @@ export function compilePoliticalDistricts(
   }
 
   records.sort((left, right) =>
-    left.recordId < right.recordId ? -1 : left.recordId > right.recordId ? 1 : 0,
+    left.recordId < right.recordId
+      ? -1
+      : left.recordId > right.recordId
+        ? 1
+        : 0,
   );
 
   return {
     corpus: {
       corpusId: "political-districts",
-      compiler: { name: "political-districts", version: DISTRICTS_COMPILER_VERSION },
-      parser: { name: "gazetteer-delimited", version: DISTRICTS_PARSER_VERSION },
+      compiler: {
+        name: "political-districts",
+        version: DISTRICTS_COMPILER_VERSION,
+      },
+      parser: {
+        name: "gazetteer-delimited",
+        version: DISTRICTS_PARSER_VERSION,
+      },
       inputs,
       asOf: DISTRICTS_CORPUS_AS_OF,
       recordCount: records.length,
@@ -150,10 +163,9 @@ export const sourceDomain: SourceDomainModule<PoliticalDistrictRecord> = {
   compileProduction(
     lock: ArtifactLock,
   ): CompiledCorpus<PoliticalDistrictRecord, "production"> {
-    return compilePoliticalDistricts(openDistrictProduction(lock)) as CompiledCorpus<
-      PoliticalDistrictRecord,
-      "production"
-    >;
+    return compilePoliticalDistricts(
+      openDistrictProduction(lock),
+    ) as CompiledCorpus<PoliticalDistrictRecord, "production">;
   },
   validateCorpus(
     corpus: CompiledCorpus<PoliticalDistrictRecord>,

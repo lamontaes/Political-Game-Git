@@ -49,7 +49,11 @@ export function deriveDesignatedAreaType(
   // append a metropolitan-area note after the class — "Washington (County)(in
   // (P)MSA 5520,6480)" — so the class is looked for anywhere in the string
   // rather than only at its end.
-  if (/\((county|parish|borough|municipality|municipio|census area|city)\)/i.test(area)) {
+  if (
+    /\((county|parish|borough|municipality|municipio|census area|city)\)/i.test(
+      area,
+    )
+  ) {
     return "county-or-parish";
   }
   if (lower === "statewide") return "statewide";
@@ -145,13 +149,20 @@ export function normalizeFemaDeclarations(
       providerRecordId,
       providerRecordHash: text(row.hash),
       providerLastRefresh: text(row.lastRefresh),
-      derivedDesignatedAreaType: deriveDesignatedAreaType(designatedArea, tribalRequest),
+      derivedDesignatedAreaType: deriveDesignatedAreaType(
+        designatedArea,
+        tribalRequest,
+      ),
       evidence,
     });
   });
 
   records.sort((left, right) =>
-    left.recordId < right.recordId ? -1 : left.recordId > right.recordId ? 1 : 0,
+    left.recordId < right.recordId
+      ? -1
+      : left.recordId > right.recordId
+        ? 1
+        : 0,
   );
 
   return { records, defects };

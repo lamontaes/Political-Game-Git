@@ -61,7 +61,11 @@ export function validateLausCorpus(
 
   for (const record of records) {
     for (const key of Object.keys(record)) {
-      if (PROHIBITED_FIELD_TERMS.some((term) => key.toLowerCase().includes(term.toLowerCase()))) {
+      if (
+        PROHIBITED_FIELD_TERMS.some((term) =>
+          key.toLowerCase().includes(term.toLowerCase()),
+        )
+      ) {
         findings.push({
           severity: "error",
           code: "laus/estimate-is-not-forecast",
@@ -133,7 +137,10 @@ export function validateLausCorpus(
 
     const parts: SourcedMember<number>[] = [
       { member: { memberId: `${key}|employment` }, value: employment.value },
-      { member: { memberId: `${key}|unemployment` }, value: unemployment.value },
+      {
+        member: { memberId: `${key}|unemployment` },
+        value: unemployment.value,
+      },
     ];
     const sum = sumSourced(parts);
 
@@ -151,8 +158,13 @@ export function validateLausCorpus(
       reconciled += 1;
     }
 
-    if (rate?.value.state === "KNOWN" && laborForce.value.value > 0 && unemployment.value.state === "KNOWN") {
-      const computed = (unemployment.value.value / laborForce.value.value) * 100;
+    if (
+      rate?.value.state === "KNOWN" &&
+      laborForce.value.value > 0 &&
+      unemployment.value.state === "KNOWN"
+    ) {
+      const computed =
+        (unemployment.value.value / laborForce.value.value) * 100;
       if (Math.abs(computed - rate.value.value) > RATE_TOLERANCE) {
         disagreements.push(
           `${key}: published rate ${rate.value.value} against unemployment over labour force ${computed.toFixed(3)}`,

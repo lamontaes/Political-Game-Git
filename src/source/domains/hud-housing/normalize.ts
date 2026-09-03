@@ -98,7 +98,12 @@ export function normalizeFairMarketRents(
     const rents: Record<string, number> = {};
     let complete = true;
     for (const bedrooms of ["0", "1", "2", "3", "4"]) {
-      const value = money(cell(row, at(`fmr_${bedrooms}`)), `fmr_${bedrooms}`, line, defects);
+      const value = money(
+        cell(row, at(`fmr_${bedrooms}`)),
+        `fmr_${bedrooms}`,
+        line,
+        defects,
+      );
       if (value === null) complete = false;
       else rents[bedrooms] = value;
     }
@@ -152,7 +157,12 @@ export function normalizeIncomeLimits(
       return;
     }
 
-    const median = money(cell(row, at("median2025")), "median2025", line, defects);
+    const median = money(
+      cell(row, at("median2025")),
+      "median2025",
+      line,
+      defects,
+    );
     if (median === null) return;
 
     const read = (prefix: string): Record<string, number> | null => {

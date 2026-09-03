@@ -13,7 +13,11 @@
  * there is no wall clock to write.
  */
 
-import { corpusCanonicalDigest, openProductionArtifacts, readXlsxSheet } from "../../core/index";
+import {
+  corpusCanonicalDigest,
+  openProductionArtifacts,
+  readXlsxSheet,
+} from "../../core/index";
 import type {
   ArtifactLock,
   CompiledCorpus,
@@ -94,8 +98,13 @@ export function compileHudHousing(
     );
   }
 
-  const records: HudRecord[] = [...rents.records, ...limits.records].sort((left, right) =>
-    left.recordId < right.recordId ? -1 : left.recordId > right.recordId ? 1 : 0,
+  const records: HudRecord[] = [...rents.records, ...limits.records].sort(
+    (left, right) =>
+      left.recordId < right.recordId
+        ? -1
+        : left.recordId > right.recordId
+          ? 1
+          : 0,
   );
 
   return {
@@ -128,7 +137,9 @@ export function compileHudHousing(
   } as CompiledCorpus<HudRecord>;
 }
 
-export function openHudProduction(lock: ArtifactLock): ProductionInput<HudArtifacts> {
+export function openHudProduction(
+  lock: ArtifactLock,
+): ProductionInput<HudArtifacts> {
   return openProductionArtifacts<HudRole>("hud-housing", lock, {
     fairMarketRents: FMR_ARTIFACT,
     incomeLimits: INCOME_LIMIT_ARTIFACT,
@@ -140,7 +151,9 @@ export const sourceDomain: SourceDomainModule<HudRecord> = {
   compilerVersion: HUD_COMPILER_VERSION,
   acquisitionPlan: hudHousingAcquisition,
   lockPath: "data/source/hud-housing/artifact-lock.json",
-  compileProduction(lock: ArtifactLock): CompiledCorpus<HudRecord, "production"> {
+  compileProduction(
+    lock: ArtifactLock,
+  ): CompiledCorpus<HudRecord, "production"> {
     return compileHudHousing(openHudProduction(lock)) as CompiledCorpus<
       HudRecord,
       "production"

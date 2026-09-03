@@ -52,7 +52,11 @@ function bulkRequest(
   };
 }
 
-function headerRequest(artifactId: string, file: string, description: string): AcquisitionRequest {
+function headerRequest(
+  artifactId: string,
+  file: string,
+  description: string,
+): AcquisitionRequest {
   return {
     artifactId,
     provider: "Federal Election Commission",
@@ -78,8 +82,18 @@ function headerRequest(artifactId: string, file: string, description: string): A
 export const fecAcquisition: AcquisitionPlan = {
   domain: "fec",
   requests: [
-    bulkRequest(CANDIDATE_ARTIFACT, "cn24.zip", CANDIDATE_MEMBER, "Candidate master file"),
-    bulkRequest(COMMITTEE_ARTIFACT, "cm24.zip", COMMITTEE_MEMBER, "Committee master file"),
+    bulkRequest(
+      CANDIDATE_ARTIFACT,
+      "cn24.zip",
+      CANDIDATE_MEMBER,
+      "Candidate master file",
+    ),
+    bulkRequest(
+      COMMITTEE_ARTIFACT,
+      "cm24.zip",
+      COMMITTEE_MEMBER,
+      "Committee master file",
+    ),
     bulkRequest(
       LINKAGE_ARTIFACT,
       "ccl24.zip",
@@ -96,6 +110,10 @@ export const fecAcquisition: AcquisitionPlan = {
       "cm_header_file.csv",
       "Committee master column names",
     ),
-    headerRequest(LINKAGE_HEADER_ARTIFACT, "ccl_header_file.csv", "Linkage column names"),
+    headerRequest(
+      LINKAGE_HEADER_ARTIFACT,
+      "ccl_header_file.csv",
+      "Linkage column names",
+    ),
   ],
 };

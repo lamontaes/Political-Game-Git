@@ -17,10 +17,11 @@
  * is not retrieved, not hashed and not claimed.
  */
 
-import { readZipMember } from "../../core/index";
+import { parseDelimited, readZipMember } from "../../core/index";
 import type { AcquisitionPlan } from "../../core/index";
 
-const PUMS_BASE = "https://www2.census.gov/programs-surveys/acs/data/pums/2023/1-Year";
+const PUMS_BASE =
+  "https://www2.census.gov/programs-surveys/acs/data/pums/2023/1-Year";
 const DICT_URL =
   "https://www2.census.gov/programs-surveys/acs/tech_docs/pums/data_dict/PUMS_Data_Dictionary_2023.csv";
 
@@ -28,7 +29,8 @@ export const PERSON_ARTIFACT = "census-acs-pums-2023-1yr-wy-person-zip";
 export const HOUSING_ARTIFACT = "census-acs-pums-2023-1yr-wy-housing-zip";
 export const DICTIONARY_ARTIFACT = "census-acs-pums-2023-data-dictionary-csv";
 export const PERSON_SLICE_ARTIFACT = "census-acs-pums-2023-wy-person-qa-slice";
-export const HOUSING_SLICE_ARTIFACT = "census-acs-pums-2023-wy-housing-qa-slice";
+export const HOUSING_SLICE_ARTIFACT =
+  "census-acs-pums-2023-wy-housing-qa-slice";
 
 export const PERSON_MEMBER = "psam_p56.csv";
 export const HOUSING_MEMBER = "psam_h56.csv";
@@ -47,11 +49,9 @@ export const HOUSING_MEMBER = "psam_h56.csv";
 export const QA_SLICE_HOUSING_UNITS = 200;
 export const QA_SLICE_GROUP_QUARTERS = 20;
 
-export const HOUSING_SLICE_PREDICATE =
-  `The header row of ${HOUSING_MEMBER}, followed by the first ${QA_SLICE_HOUSING_UNITS} data rows whose SERIALNO marks a housing unit (contains "HU") and the first ${QA_SLICE_GROUP_QUARTERS} whose SERIALNO marks group quarters (contains "GQ"), each stratum in published file order and each row byte-for-byte, with a trailing newline.`;
+export const HOUSING_SLICE_PREDICATE = `The header row of ${HOUSING_MEMBER}, followed by the first ${QA_SLICE_HOUSING_UNITS} data rows whose SERIALNO marks a housing unit (contains "HU") and the first ${QA_SLICE_GROUP_QUARTERS} whose SERIALNO marks group quarters (contains "GQ"), each stratum in published file order and each row byte-for-byte, with a trailing newline.`;
 
-export const PERSON_SLICE_PREDICATE =
-  `The header row of ${PERSON_MEMBER} followed by every data row whose SERIALNO appears in the housing QA slice, in published file order, byte-for-byte, with a trailing newline.`;
+export const PERSON_SLICE_PREDICATE = `The header row of ${PERSON_MEMBER} followed by every data row whose SERIALNO appears in the housing QA slice, in published file order, byte-for-byte, with a trailing newline.`;
 
 export const acsPumsAcquisition: AcquisitionPlan = {
   domain: "acs-pums",
@@ -184,34 +184,56 @@ function memberText(zipBytes: Buffer, member: string): string {
   return readZipMember(zipBytes, member).toString("utf-8");
 }
 
-/** The serial numbers the housing slice takes, read from the housing parent. */
-export function housingSliceSerials(housingZipBytes: Buffer): ReadonlySet<string> {
-  const lines = cutHousingSlice(housingZipBytes).toString("utf-8").split("\n");
-  const serialColumn = (lines[0] ?? "").split(",").indexOf("SERIALNO");
-  const serials = new Set<string>();
-  for (const line of lines.slice(1)) {
-    if (line.trim() === "") continue;
-    const serial = line.split(",")[serialColumn];
-    if (serial !== undefined && serial !== "") serials.add(serial);
+/**
+ * The serial number on each data line, read through the core CSV parser.
+ *
+ * A slice must emit the parent's bytes unchanged, so the lines themselves are
+ * never rebuilt from parsed fields — but deciding *which* lines to keep is
+ * reading the data, and reading the data goes through the parser like
+ * everywhere else. Splitting on a comma here would be the same shortcut this
+ * substrate replaced everywhere it mattered.
+ */
+function serialByLine(text: string): ReadonlyMap<number, string> {
+  const parsed = parseDelimited(Buffer.from(text, "utf-8"), {
+    delimiter: ",",
+    hasHeaderRow: true,
+    trimFields: false,
+  });
+  const column = (parsed.header ?? []).indexOf("SERIALNO");
+  const serials = new Map<number, string>();
+  if (column === -1) return serials;
+  for (const row of parsed.rows) {
+    const serial = row.fields[column];
+    if (serial !== undefined && serial !== "") serials.set(row.line, serial);
   }
   return serials;
 }
 
+/** The serial numbers the housing slice takes, read from the housing parent. */
+export function housingSliceSerials(
+  housingZipBytes: Buffer,
+): ReadonlySet<string> {
+  const text = cutHousingSlice(housingZipBytes).toString("utf-8");
+  return new Set(serialByLine(text).values());
+}
+
 /** Take the header and both strata of housing rows, in published order. */
 export function cutHousingSlice(housingZipBytes: Buffer): Buffer {
-  const lines = memberText(housingZipBytes, HOUSING_MEMBER).split("\n");
+  const text = memberText(housingZipBytes, HOUSING_MEMBER);
+  const lines = text.split("\n");
   const header = lines[0] ?? "";
-  const serialColumn = header.split(",").indexOf("SERIALNO");
+  const serials = serialByLine(text);
   const housingUnits: string[] = [];
   const groupQuarters: string[] = [];
 
-  for (const line of lines.slice(1)) {
+  for (const [index, line] of lines.slice(1).entries()) {
     if (line.trim() === "") continue;
-    const serial = line.split(",")[serialColumn] ?? "";
+    const serial = serials.get(index + 2) ?? "";
     if (serial.includes("HU")) {
       if (housingUnits.length < QA_SLICE_HOUSING_UNITS) housingUnits.push(line);
     } else if (serial.includes("GQ")) {
-      if (groupQuarters.length < QA_SLICE_GROUP_QUARTERS) groupQuarters.push(line);
+      if (groupQuarters.length < QA_SLICE_GROUP_QUARTERS)
+        groupQuarters.push(line);
     }
     if (
       housingUnits.length === QA_SLICE_HOUSING_UNITS &&
@@ -221,7 +243,10 @@ export function cutHousingSlice(housingZipBytes: Buffer): Buffer {
     }
   }
 
-  return Buffer.from(`${[header, ...housingUnits, ...groupQuarters].join("\n")}\n`, "utf-8");
+  return Buffer.from(
+    `${[header, ...housingUnits, ...groupQuarters].join("\n")}\n`,
+    "utf-8",
+  );
 }
 
 /** Take the header and every person row belonging to a sliced housing unit. */
@@ -236,13 +261,13 @@ export function cutPersonSlice(
     );
   }
   const serials = housingSliceSerials(housingZip);
-  const lines = memberText(personZipBytes, PERSON_MEMBER).split("\n");
-  const header = lines[0] ?? "";
-  const serialColumn = header.split(",").indexOf("SERIALNO");
-  const kept = [header];
-  for (const line of lines.slice(1)) {
+  const text = memberText(personZipBytes, PERSON_MEMBER);
+  const lines = text.split("\n");
+  const bySerial = serialByLine(text);
+  const kept = [lines[0] ?? ""];
+  for (const [index, line] of lines.slice(1).entries()) {
     if (line.trim() === "") continue;
-    const serial = line.split(",")[serialColumn];
+    const serial = bySerial.get(index + 2);
     if (serial !== undefined && serials.has(serial)) kept.push(line);
   }
   return Buffer.from(`${kept.join("\n")}\n`, "utf-8");

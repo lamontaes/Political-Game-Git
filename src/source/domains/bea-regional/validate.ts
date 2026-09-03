@@ -10,7 +10,11 @@
  */
 
 import { isUnresolved } from "../../core/index";
-import type { CompiledCorpus, ValidationFinding, ValidationReport } from "../../core/index";
+import type {
+  CompiledCorpus,
+  ValidationFinding,
+  ValidationReport,
+} from "../../core/index";
 import type { BeaObservationRecord } from "./types";
 
 /**
@@ -66,7 +70,10 @@ export function validateBeaCorpus(
   const units = new Map<string, Set<string>>();
 
   for (const record of records) {
-    byLevel.set(record.geographyLevel, (byLevel.get(record.geographyLevel) ?? 0) + 1);
+    byLevel.set(
+      record.geographyLevel,
+      (byLevel.get(record.geographyLevel) ?? 0) + 1,
+    );
     byTable.set(record.tableName, (byTable.get(record.tableName) ?? 0) + 1);
 
     const key = `${record.tableName}:${record.lineCode}`;
@@ -75,7 +82,11 @@ export function validateBeaCorpus(
     units.set(key, seen);
 
     for (const field of Object.keys(record)) {
-      if (PROHIBITED_FIELD_TERMS.some((term) => field.toLowerCase().includes(term.toLowerCase()))) {
+      if (
+        PROHIBITED_FIELD_TERMS.some((term) =>
+          field.toLowerCase().includes(term.toLowerCase()),
+        )
+      ) {
         findings.push({
           severity: "error",
           code: "bea/statistic-is-not-judgement",
@@ -94,7 +105,11 @@ export function validateBeaCorpus(
       });
     }
 
-    if (record.value.state === "KNOWN" && record.valuationKind === "index" && record.value.value <= 0) {
+    if (
+      record.value.state === "KNOWN" &&
+      record.valuationKind === "index" &&
+      record.value.value <= 0
+    ) {
       findings.push({
         severity: "error",
         code: "bea/impossible-index",
@@ -138,7 +153,8 @@ export function validateBeaCorpus(
       findings.push({
         severity: "error",
         code: "bea/no-counties",
-        message: "The corpus includes a county table but holds no county observation.",
+        message:
+          "The corpus includes a county table but holds no county observation.",
       });
     }
     if ((byLevel.get("state") ?? 0) === 0) {
@@ -152,7 +168,9 @@ export function validateBeaCorpus(
     // The Bureau withholds values. A corpus with no unresolved value at all,
     // over tens of thousands of observations, means suppression codes were
     // read as numbers somewhere.
-    const unresolved = records.filter((record) => isUnresolved(record.value)).length;
+    const unresolved = records.filter((record) =>
+      isUnresolved(record.value),
+    ).length;
     if (records.length > 1000 && unresolved === 0) {
       findings.push({
         severity: "warning",
@@ -165,7 +183,9 @@ export function validateBeaCorpus(
 
   if (production) {
     for (const vector of OFFICIAL_BEA_VECTORS) {
-      const record = records.find((entry) => entry.recordId.startsWith(vector.recordIdPrefix));
+      const record = records.find((entry) =>
+        entry.recordId.startsWith(vector.recordIdPrefix),
+      );
       if (!record) {
         findings.push({
           severity: "error",

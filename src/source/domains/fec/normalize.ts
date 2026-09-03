@@ -36,7 +36,11 @@ function year(value: string | null): number | null {
   return Number.isInteger(parsed) ? parsed : null;
 }
 
-function evidenceFor(artifactId: string, line: number, nativeId: string): Evidence {
+function evidenceFor(
+  artifactId: string,
+  line: number,
+  nativeId: string,
+): Evidence {
   return {
     artifactId,
     locator: { kind: "delimited-row", artifactId, line },

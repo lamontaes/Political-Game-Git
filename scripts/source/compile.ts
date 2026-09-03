@@ -8,8 +8,14 @@
 
 import { resolve } from "node:path";
 import { readFileSync } from "node:fs";
-import { assertValidArtifactLock, writeProductionCorpus } from "../../src/source/core/index";
-import type { ArtifactLock, SourceDomainModule } from "../../src/source/core/index";
+import {
+  assertValidArtifactLock,
+  writeProductionCorpus,
+} from "../../src/source/core/index";
+import type {
+  ArtifactLock,
+  SourceDomainModule,
+} from "../../src/source/core/index";
 import { REPO_ROOT, domainDataDir, domainFlag, loadDomains } from "./registry";
 
 /** Read and structurally validate one domain's pinned artifact lock. */
@@ -29,7 +35,10 @@ export function readLock(domain: SourceDomainModule): ArtifactLock {
 }
 
 /** Compile one domain into a target directory. */
-export function compileDomainInto(domain: SourceDomainModule, outputDir: string): number {
+export function compileDomainInto(
+  domain: SourceDomainModule,
+  outputDir: string,
+): number {
   const lock = readLock(domain);
   const compiled = domain.compileProduction(lock);
   writeProductionCorpus(
@@ -45,7 +54,9 @@ async function main(): Promise<void> {
   for (const domain of await loadDomains()) {
     if (only && domain.domain !== only) continue;
     if (domain.productionGate) {
-      console.log(`source:compile ${domain.domain}: gated, no production corpus — ${domain.productionGate}`);
+      console.log(
+        `source:compile ${domain.domain}: gated, no production corpus — ${domain.productionGate}`,
+      );
       continue;
     }
     const count = compileDomainInto(domain, domainDataDir(domain.domain));

@@ -25,7 +25,9 @@ export interface ArtifactVerification {
 }
 
 /** Verify every artifact in one lock whose bytes are present locally. */
-export function verifyLock(lock: ArtifactLock): readonly ArtifactVerification[] {
+export function verifyLock(
+  lock: ArtifactLock,
+): readonly ArtifactVerification[] {
   assertValidArtifactLock(lock);
   const results: ArtifactVerification[] = [];
 
@@ -107,6 +109,8 @@ export async function verifyAllArtifacts(): Promise<{
 }> {
   const all: (ArtifactVerification & { domain: string })[] = [];
   for (const domain of await loadDomains()) {
+    // A gated domain retrieves nothing, so it locks nothing.
+    if (domain.productionGate) continue;
     const lock = JSON.parse(
       readFileSync(resolve(REPO_ROOT, domain.lockPath), "utf-8"),
     ) as ArtifactLock;
@@ -114,7 +118,10 @@ export async function verifyAllArtifacts(): Promise<{
       all.push({ ...result, domain: domain.domain });
     }
   }
-  return { results: all, mismatches: all.filter((r) => r.outcome === "mismatch").length };
+  return {
+    results: all,
+    mismatches: all.filter((r) => r.outcome === "mismatch").length,
+  };
 }
 
 async function main(): Promise<void> {

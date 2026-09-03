@@ -42,7 +42,8 @@ import {
  * file, and the Bureau of Labor Statistics refuses a token carrying a URL. This
  * one string is accepted by all seven publishers this substrate retrieves from.
  */
-const USER_AGENT = "Mozilla/5.0 (compatible; PoliticalGameSourceSubstrateBot/1.0)";
+const USER_AGENT =
+  "Mozilla/5.0 (compatible; PoliticalGameSourceSubstrateBot/1.0)";
 
 /** Fetch bytes, reporting the status and instant of the retrieval that happened. */
 async function retrieve(url: string): Promise<{
@@ -66,7 +67,10 @@ function writeBytes(absolutePath: string, bytes: Buffer): void {
 
 async function acquireOne(
   request: AcquisitionRequest,
-  alreadyAcquired: ReadonlyMap<string, { artifact: RawArtifact; bytes: Buffer }>,
+  alreadyAcquired: ReadonlyMap<
+    string,
+    { artifact: RawArtifact; bytes: Buffer }
+  >,
 ): Promise<{ artifact: RawArtifact; bytes: Buffer }> {
   if (request.sliceOf) {
     const parent = alreadyAcquired.get(request.sliceOf.parentArtifactId);
@@ -80,7 +84,9 @@ async function acquireOne(
       new Map([...alreadyAcquired].map(([id, entry]) => [id, entry.bytes])),
     );
     if (request.localPath === null) {
-      throw new Error(`QA slice "${request.artifactId}" must be committed somewhere.`);
+      throw new Error(
+        `QA slice "${request.artifactId}" must be committed somewhere.`,
+      );
     }
     writeBytes(resolve(REPO_ROOT, request.localPath), bytes);
     const artifact: RawArtifact = {
@@ -120,14 +126,18 @@ async function acquireOne(
 
   const destination = request.localPath ?? request.cachePath;
   if (!destination) {
-    throw new Error(`Artifact "${request.artifactId}" declares nowhere to put its bytes.`);
+    throw new Error(
+      `Artifact "${request.artifactId}" declares nowhere to put its bytes.`,
+    );
   }
   writeBytes(resolve(REPO_ROOT, destination), bytes);
 
   let container: RawArtifact["container"];
   if (request.containerMemberPath) {
     const members = listZipMembers(bytes);
-    const member = members.find((entry) => entry.path === request.containerMemberPath);
+    const member = members.find(
+      (entry) => entry.path === request.containerMemberPath,
+    );
     if (!member) {
       throw new Error(
         `Artifact "${request.artifactId}" has no member "${request.containerMemberPath}"; it holds ${members.map((entry) => entry.path).join(", ")}.`,
@@ -147,7 +157,9 @@ async function acquireOne(
     retrieval: {
       url: request.url,
       method: request.method,
-      ...(request.requestIdentity ? { requestIdentity: request.requestIdentity } : {}),
+      ...(request.requestIdentity
+        ? { requestIdentity: request.requestIdentity }
+        : {}),
       retrievedAt,
       httpStatus,
       responseBytes: bytes.length,
@@ -188,7 +200,9 @@ async function acquireDomain(domainName: string): Promise<void> {
 
 async function main(): Promise<void> {
   const only = domainFlag(process.argv.slice(2));
-  const domains = only ? [only] : (await loadDomains()).map((domain) => domain.domain);
+  const domains = only
+    ? [only]
+    : (await loadDomains()).map((domain) => domain.domain);
   for (const domain of domains) {
     console.log(`source:acquire ${domain}`);
     await acquireDomain(domain);

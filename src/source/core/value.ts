@@ -254,9 +254,7 @@ export function notYetOperative<T>(
  * At least two claims must cite *distinct* artifacts. Two readings of one row
  * are a parser bug, not a disagreement between authorities.
  */
-export function conflicting<T>(
-  claims: readonly Claim<T>[],
-): Sourced<T> {
+export function conflicting<T>(claims: readonly Claim<T>[]): Sourced<T> {
   if (claims.length < 2) {
     throw new SourceValueError(
       `CONFLICTING requires at least two claims; got ${claims.length}.`,
@@ -299,7 +297,10 @@ export function noRequirementFound<T>(
   return {
     state: "NO_REQUIREMENT_FOUND",
     evidence: requireEvidence("NO_REQUIREMENT_FOUND", evidence),
-    scopeSearched: requireReason("NO_REQUIREMENT_FOUND scopeSearched", scopeSearched),
+    scopeSearched: requireReason(
+      "NO_REQUIREMENT_FOUND scopeSearched",
+      scopeSearched,
+    ),
   };
 }
 

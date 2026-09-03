@@ -9,7 +9,13 @@
  */
 
 import type { CompiledCorpus, ValidationReport } from "./corpus";
-import type { ArtifactLock, ArtifactRights, ArtifactPublisherFacts, ArtifactStorage, QaSliceDerivation, RetrievalMethod } from "./artifact";
+import type {
+  ArtifactLock,
+  ArtifactPublisherFacts,
+  ArtifactRights,
+  ArtifactStorage,
+  RetrievalMethod,
+} from "./artifact";
 
 /** One artifact this domain needs, and how to go and get it. */
 export interface AcquisitionRequest {

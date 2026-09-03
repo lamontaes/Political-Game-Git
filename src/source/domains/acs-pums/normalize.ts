@@ -86,7 +86,14 @@ export function readPumsRow(
   for (const name of projection) {
     const index = header.indexOf(name);
     const raw = index === -1 ? "" : (row.fields[index] ?? "");
-    values[name] = readPumsCell(dictionary, name, raw, artifactId, row.line, asOf);
+    values[name] = readPumsCell(
+      dictionary,
+      name,
+      raw,
+      artifactId,
+      row.line,
+      asOf,
+    );
   }
   return values;
 }

@@ -28,7 +28,8 @@ import type { Evidence } from "../../core/index";
  * `normalize.ts` and it has to distinguish "Cherokee (County)" in North
  * Carolina from the "Eastern Band of Cherokee Indians" in the same declaration.
  */
-export type DesignatedAreaType = "county-or-parish" | "statewide" | "tribal" | "other";
+export type DesignatedAreaType =
+  "county-or-parish" | "statewide" | "tribal" | "other";
 
 export interface FemaDeclarationRecord {
   readonly recordId: string;

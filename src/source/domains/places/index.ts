@@ -22,7 +22,11 @@ import type {
   SourceDomainModule,
   ValidationReport,
 } from "../../core/index";
-import { PLACES_TXT_MEMBER, PLACES_ZIP_ARTIFACT, placesAcquisition } from "./acquisition";
+import {
+  PLACES_TXT_MEMBER,
+  PLACES_ZIP_ARTIFACT,
+  placesAcquisition,
+} from "./acquisition";
 import { parseGazetteerPlaces } from "./parse";
 import { normalizePlaces } from "./normalize";
 import { validatePlaceCorpus } from "./validate";
@@ -31,7 +35,11 @@ import type { PlaceRecord } from "./types";
 export type { PlaceRecord } from "./types";
 export { OFFICIAL_PLACE_VECTORS } from "./identity";
 export { EXPECTED_PLACE_RECORD_COUNT } from "./validate";
-export { deriveClassSuffixes, deriveDisplayName, normalizePlaces } from "./normalize";
+export {
+  deriveClassSuffixes,
+  deriveDisplayName,
+  normalizePlaces,
+} from "./normalize";
 export { parseGazetteerPlaces } from "./parse";
 
 export const PLACE_COMPILER_VERSION = "1.0.0";
@@ -84,7 +92,9 @@ export function compilePlaces(
   } as CompiledCorpus<PlaceRecord>;
 }
 
-export function openPlaceProduction(lock: ArtifactLock): ProductionInput<PlaceArtifacts> {
+export function openPlaceProduction(
+  lock: ArtifactLock,
+): ProductionInput<PlaceArtifacts> {
   requireArtifact(lock, PLACES_ZIP_ARTIFACT);
   return openProductionArtifacts<PlaceRole>("places", lock, {
     gazetteer: PLACES_ZIP_ARTIFACT,
@@ -96,8 +106,13 @@ export const sourceDomain: SourceDomainModule<PlaceRecord> = {
   compilerVersion: PLACE_COMPILER_VERSION,
   acquisitionPlan: placesAcquisition,
   lockPath: "data/source/places/artifact-lock.json",
-  compileProduction(lock: ArtifactLock): CompiledCorpus<PlaceRecord, "production"> {
-    return compilePlaces(openPlaceProduction(lock)) as CompiledCorpus<PlaceRecord, "production">;
+  compileProduction(
+    lock: ArtifactLock,
+  ): CompiledCorpus<PlaceRecord, "production"> {
+    return compilePlaces(openPlaceProduction(lock)) as CompiledCorpus<
+      PlaceRecord,
+      "production"
+    >;
   },
   validateCorpus(corpus: CompiledCorpus<PlaceRecord>): ValidationReport {
     return validatePlaceCorpus(corpus);

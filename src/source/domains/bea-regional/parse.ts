@@ -51,7 +51,8 @@ export function parseBeaTable(
       footnoteLines.push(row.fields[0] as string);
     } else {
       defects.push({
-        kind: row.fields.length > header.length ? "row-too-wide" : "row-too-narrow",
+        kind:
+          row.fields.length > header.length ? "row-too-wide" : "row-too-narrow",
         line: row.line,
         message: `Line ${row.line} has ${row.fields.length} columns; the table declares ${header.length} and its footnotes are single-column.`,
       });
@@ -68,13 +69,17 @@ export function parseBeaTable(
 }
 
 /** Line-code descriptions from the Bureau's own table definition XML. */
-export function parseBeaTableDefinition(bytes: Uint8Array): ReadonlyMap<string, string> {
+export function parseBeaTableDefinition(
+  bytes: Uint8Array,
+): ReadonlyMap<string, string> {
   const xml = Buffer.from(bytes).toString("utf-8");
   const descriptions = new Map<string, string>();
   for (const match of xml.matchAll(/<LINE>([\s\S]*?)<\/LINE>/g)) {
     const body = match[1] ?? "";
     const code = /<Code>([\s\S]*?)<\/Code>/.exec(body)?.[1]?.trim();
-    const description = /<Description>([\s\S]*?)<\/Description>/.exec(body)?.[1]?.trim();
+    const description = /<Description>([\s\S]*?)<\/Description>/
+      .exec(body)?.[1]
+      ?.trim();
     if (code && description) descriptions.set(code, description);
   }
   return descriptions;

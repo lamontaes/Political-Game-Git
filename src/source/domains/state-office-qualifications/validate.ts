@@ -9,7 +9,11 @@
  */
 
 import { isUnresolved } from "../../core/index";
-import type { CompiledCorpus, ValidationFinding, ValidationReport } from "../../core/index";
+import type {
+  CompiledCorpus,
+  ValidationFinding,
+  ValidationReport,
+} from "../../core/index";
 import { isOfficeExistence } from "./types";
 import type { QualificationRecord } from "./types";
 
@@ -47,7 +51,10 @@ export function validateQualificationCorpus(
       }
     }
 
-    if (authority.authorityUrl === "" || !/^https?:\/\//.test(authority.authorityUrl)) {
+    if (
+      authority.authorityUrl === "" ||
+      !/^https?:\/\//.test(authority.authorityUrl)
+    ) {
       findings.push({
         severity: "error",
         code: "qualifications/no-authority-url",
@@ -96,7 +103,8 @@ export function validateQualificationCorpus(
         }
       }
       if (record.field === "STATE_RESIDENCE" && typeof value === "number") {
-        const seen = residenceByState.get(record.stateUsps) ?? new Set<string>();
+        const seen =
+          residenceByState.get(record.stateUsps) ?? new Set<string>();
         seen.add(String(value));
         residenceByState.set(record.stateUsps, seen);
       }

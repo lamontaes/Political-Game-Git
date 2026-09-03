@@ -39,7 +39,11 @@ import {
   fecAcquisition,
 } from "./acquisition";
 import { parseFecBulk, parseFecHeader } from "./parse";
-import { normalizeCandidates, normalizeCommittees, normalizeLinkages } from "./normalize";
+import {
+  normalizeCandidates,
+  normalizeCommittees,
+  normalizeLinkages,
+} from "./normalize";
 import { validateFecCorpus } from "./validate";
 import type { FecRecord } from "./types";
 
@@ -90,15 +94,24 @@ export function compileFec(
   const linkageColumns = parseFecHeader(a.linkageHeader.bytes);
 
   const candidateRows = parseFecBulk(
-    readZipMember(a.candidates.bytes, a.candidates.artifact.container?.memberPath ?? CANDIDATE_MEMBER),
+    readZipMember(
+      a.candidates.bytes,
+      a.candidates.artifact.container?.memberPath ?? CANDIDATE_MEMBER,
+    ),
     candidateColumns,
   );
   const committeeRows = parseFecBulk(
-    readZipMember(a.committees.bytes, a.committees.artifact.container?.memberPath ?? COMMITTEE_MEMBER),
+    readZipMember(
+      a.committees.bytes,
+      a.committees.artifact.container?.memberPath ?? COMMITTEE_MEMBER,
+    ),
     committeeColumns,
   );
   const linkageRows = parseFecBulk(
-    readZipMember(a.linkages.bytes, a.linkages.artifact.container?.memberPath ?? LINKAGE_MEMBER),
+    readZipMember(
+      a.linkages.bytes,
+      a.linkages.artifact.container?.memberPath ?? LINKAGE_MEMBER,
+    ),
     linkageColumns,
   );
 
@@ -136,7 +149,13 @@ export function compileFec(
     ...candidates.records,
     ...committees.records,
     ...linkages.records,
-  ].sort((left, right) => (left.recordId < right.recordId ? -1 : left.recordId > right.recordId ? 1 : 0));
+  ].sort((left, right) =>
+    left.recordId < right.recordId
+      ? -1
+      : left.recordId > right.recordId
+        ? 1
+        : 0,
+  );
 
   return {
     corpus: {
@@ -144,9 +163,18 @@ export function compileFec(
       compiler: { name: "fec", version: FEC_COMPILER_VERSION },
       parser: { name: "fec-pipe-delimited", version: FEC_PARSER_VERSION },
       inputs: [
-        { artifactId: a.candidates.artifact.artifactId, sha256: a.candidates.artifact.bytes.sha256 },
-        { artifactId: a.committees.artifact.artifactId, sha256: a.committees.artifact.bytes.sha256 },
-        { artifactId: a.linkages.artifact.artifactId, sha256: a.linkages.artifact.bytes.sha256 },
+        {
+          artifactId: a.candidates.artifact.artifactId,
+          sha256: a.candidates.artifact.bytes.sha256,
+        },
+        {
+          artifactId: a.committees.artifact.artifactId,
+          sha256: a.committees.artifact.bytes.sha256,
+        },
+        {
+          artifactId: a.linkages.artifact.artifactId,
+          sha256: a.linkages.artifact.bytes.sha256,
+        },
         {
           artifactId: a.candidateHeader.artifact.artifactId,
           sha256: a.candidateHeader.artifact.bytes.sha256,
@@ -175,7 +203,9 @@ export function compileFec(
   } as CompiledCorpus<FecRecord>;
 }
 
-export function openFecProduction(lock: ArtifactLock): ProductionInput<FecArtifacts> {
+export function openFecProduction(
+  lock: ArtifactLock,
+): ProductionInput<FecArtifacts> {
   return openProductionArtifacts<FecRole>("fec", lock, {
     candidates: CANDIDATE_ARTIFACT,
     committees: COMMITTEE_ARTIFACT,
@@ -191,8 +221,13 @@ export const sourceDomain: SourceDomainModule<FecRecord> = {
   compilerVersion: FEC_COMPILER_VERSION,
   acquisitionPlan: fecAcquisition,
   lockPath: "data/source/fec/artifact-lock.json",
-  compileProduction(lock: ArtifactLock): CompiledCorpus<FecRecord, "production"> {
-    return compileFec(openFecProduction(lock)) as CompiledCorpus<FecRecord, "production">;
+  compileProduction(
+    lock: ArtifactLock,
+  ): CompiledCorpus<FecRecord, "production"> {
+    return compileFec(openFecProduction(lock)) as CompiledCorpus<
+      FecRecord,
+      "production"
+    >;
   },
   validateCorpus(corpus: CompiledCorpus<FecRecord>): ValidationReport {
     return validateFecCorpus(corpus);

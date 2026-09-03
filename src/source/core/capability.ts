@@ -184,9 +184,7 @@ export function inputClassOf<T>(
 }
 
 /** The artifacts an input carries, whichever side it came from. */
-export function artifactsOf<T>(
-  input: ProductionInput<T> | FixtureInput<T>,
-): T {
+export function artifactsOf<T>(input: ProductionInput<T> | FixtureInput<T>): T {
   return input.artifacts;
 }
 

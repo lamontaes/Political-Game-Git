@@ -17,23 +17,32 @@
 
 import { known, notApplicable, suppressed, unknown } from "../../core/index";
 import type { DelimitedRow, Evidence, Sourced } from "../../core/index";
-import type { BeaGeographyLevel, BeaObservationRecord, BeaValuationKind } from "./types";
+import type {
+  BeaGeographyLevel,
+  BeaObservationRecord,
+  BeaValuationKind,
+} from "./types";
 
 /** The Bureau's published non-numeric value codes and what each one means. */
-export const BEA_VALUE_CODES: Readonly<Record<string, { state: string; meaning: string }>> = {
+export const BEA_VALUE_CODES: Readonly<
+  Record<string, { state: string; meaning: string }>
+> = {
   "(D)": {
     state: "SUPPRESSED",
-    meaning: "Not shown to avoid disclosure of confidential information; the estimates are included in the totals.",
+    meaning:
+      "Not shown to avoid disclosure of confidential information; the estimates are included in the totals.",
   },
   "(T)": {
     state: "SUPPRESSED",
-    meaning: "Estimate suppressed to avoid disclosure of confidential information.",
+    meaning:
+      "Estimate suppressed to avoid disclosure of confidential information.",
   },
   "(NA)": { state: "UNKNOWN", meaning: "Not available." },
   "(NM)": { state: "NOT_APPLICABLE", meaning: "Not meaningful." },
   "(L)": {
     state: "SUPPRESSED",
-    meaning: "Less than the display threshold; the estimate is included in the totals.",
+    meaning:
+      "Less than the display threshold; the estimate is included in the totals.",
   },
   "(NA)*": { state: "UNKNOWN", meaning: "Not available." },
 };
@@ -58,7 +67,11 @@ export function classifyBeaGeography(
 ): BeaGeographyLevel {
   if (geoFips === "00000") return "nation";
   if (/^\d{2}000$/.test(geoFips)) return "state";
-  if (/(Nonmetropolitan Portion|Metropolitan Portion|Far West|Great Lakes|Mideast|New England|Plains|Rocky Mountain|Southeast|Southwest)/i.test(geoName)) {
+  if (
+    /(Nonmetropolitan Portion|Metropolitan Portion|Far West|Great Lakes|Mideast|New England|Plains|Rocky Mountain|Southeast|Southwest)/i.test(
+      geoName,
+    )
+  ) {
     return "region-or-aggregate";
   }
   if (/^\d{2}9\d\d$/.test(geoFips) && product.defaultLevel === "county") {
@@ -86,7 +99,11 @@ export interface BeaNormalizeOptions {
   readonly product: BeaProductGeography;
 }
 
-function column(header: readonly string[], row: DelimitedRow, name: string): string {
+function column(
+  header: readonly string[],
+  row: DelimitedRow,
+  name: string,
+): string {
   const index = header.indexOf(name);
   return index === -1 ? "" : (row.fields[index] ?? "");
 }
@@ -166,7 +183,11 @@ export function normalizeBeaObservations(
       unit,
       valuationKind: classifyValuation(unit),
       year: options.year,
-      value: readBeaValue(column(options.header, row, options.year), options.year, evidence),
+      value: readBeaValue(
+        column(options.header, row, options.year),
+        options.year,
+        evidence,
+      ),
       evidence,
     });
   }

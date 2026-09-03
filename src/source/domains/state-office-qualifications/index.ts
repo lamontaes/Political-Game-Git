@@ -22,7 +22,6 @@
 
 import { corpusCanonicalDigest, openFixture } from "../../core/index";
 import type {
-  ArtifactLock,
   CompiledCorpus,
   FixtureInput,
   ProductionInput,
@@ -44,7 +43,11 @@ export type {
   SelectionMechanism,
 } from "./types";
 export { isOfficeExistence } from "./types";
-export { QUALIFICATION_COLUMNS, parseQualificationMatrix, matrixField } from "./parse";
+export {
+  QUALIFICATION_COLUMNS,
+  parseQualificationMatrix,
+  matrixField,
+} from "./parse";
 export { normalizeQualifications, readRequirement } from "./normalize";
 export {
   REJECTED_PLACEHOLDER_CITATIONS,
@@ -107,7 +110,12 @@ export function compileQualificationFixture(
         name: "qualification-matrix-tsv",
         version: QUALIFICATIONS_PARSER_VERSION,
       },
-      inputs: [{ artifactId: input.fixtureId, sha256: corpusCanonicalDigest([input.artifacts.matrixTsv]) }],
+      inputs: [
+        {
+          artifactId: input.fixtureId,
+          sha256: corpusCanonicalDigest([input.artifacts.matrixTsv]),
+        },
+      ],
       asOf: corpusAsOf,
       recordCount: records.length,
       canonicalSha256: corpusCanonicalDigest(records),
@@ -128,7 +136,10 @@ export function compileQualificationFixture(
 export function openQualificationFixture(
   path: string,
 ): FixtureInput<QualificationFixtureArtifacts> {
-  return openFixture<QualificationFixtureArtifacts>("state-office-qualifications", path);
+  return openFixture<QualificationFixtureArtifacts>(
+    "state-office-qualifications",
+    path,
+  );
 }
 
 export const sourceDomain: SourceDomainModule<QualificationRecord> = {
@@ -137,15 +148,18 @@ export const sourceDomain: SourceDomainModule<QualificationRecord> = {
   acquisitionPlan: { domain: "state-office-qualifications", requests: [] },
   lockPath: "data/source/state-office-qualifications/artifact-lock.json",
   productionGate: QUALIFICATIONS_PRODUCTION_GATE,
-  compileProduction(_lock: ArtifactLock): CompiledCorpus<QualificationRecord, "production"> {
+  compileProduction(): CompiledCorpus<QualificationRecord, "production"> {
     throw new Error(
       `The state-office-qualifications domain compiles no production corpus. ${QUALIFICATIONS_PRODUCTION_GATE}`,
     );
   },
-  validateCorpus(corpus: CompiledCorpus<QualificationRecord>): ValidationReport {
+  validateCorpus(
+    corpus: CompiledCorpus<QualificationRecord>,
+  ): ValidationReport {
     return validateQualificationCorpus(corpus);
   },
 };
 
 /** Narrowing helper so the unused production input type stays referenced. */
-export type QualificationProductionInput = ProductionInput<QualificationFixtureArtifacts>;
+export type QualificationProductionInput =
+  ProductionInput<QualificationFixtureArtifacts>;

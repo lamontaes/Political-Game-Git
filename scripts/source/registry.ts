@@ -31,9 +31,13 @@ export function listDomainNames(): readonly string[] {
 export async function loadDomains(): Promise<readonly SourceDomainModule[]> {
   const loaded: SourceDomainModule[] = [];
   for (const name of listDomainNames()) {
-    const moduleUrl = new URL(`../../src/source/domains/${name}/index.ts`, import.meta.url);
+    const moduleUrl = new URL(
+      `../../src/source/domains/${name}/index.ts`,
+      import.meta.url,
+    );
     const imported: unknown = await import(moduleUrl.href);
-    const candidate = (imported as { sourceDomain?: SourceDomainModule }).sourceDomain;
+    const candidate = (imported as { sourceDomain?: SourceDomainModule })
+      .sourceDomain;
     if (!candidate) {
       throw new Error(
         `src/source/domains/${name} exports no "sourceDomain". Every domain directory must be wired into the command matrix.`,

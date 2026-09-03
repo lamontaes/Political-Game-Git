@@ -35,7 +35,9 @@ function findEndOfCentralDirectory(bytes: Buffer): number {
   for (let offset = bytes.length - 22; offset >= earliest; offset -= 1) {
     if (bytes.readUInt32LE(offset) === END_OF_CENTRAL_DIRECTORY) return offset;
   }
-  throw new SourceParseError("Not a ZIP archive: no end-of-central-directory record.");
+  throw new SourceParseError(
+    "Not a ZIP archive: no end-of-central-directory record.",
+  );
 }
 
 /** List the members of a zip archive, in central-directory order. */
@@ -50,7 +52,9 @@ export function listZipMembers(archive: Buffer): readonly ZipMember[] {
     if (locator >= 0 && archive.readUInt32LE(locator) === ZIP64_END_LOCATOR) {
       const zip64Offset = Number(archive.readBigUInt64LE(locator + 8));
       if (archive.readUInt32LE(zip64Offset) !== ZIP64_END_RECORD) {
-        throw new SourceParseError("ZIP64 locator does not point at a ZIP64 record.");
+        throw new SourceParseError(
+          "ZIP64 locator does not point at a ZIP64 record.",
+        );
       }
       entryCount = Number(archive.readBigUInt64LE(zip64Offset + 32));
       directoryOffset = Number(archive.readBigUInt64LE(zip64Offset + 48));
@@ -145,7 +149,10 @@ export function readZipMemberEntry(archive: Buffer, member: ZipMember): Buffer {
   const nameLength = archive.readUInt16LE(local + 26);
   const extraLength = archive.readUInt16LE(local + 28);
   const dataStart = local + 30 + nameLength + extraLength;
-  const compressed = archive.subarray(dataStart, dataStart + member.compressedSize);
+  const compressed = archive.subarray(
+    dataStart,
+    dataStart + member.compressedSize,
+  );
 
   if (member.method === 0) return Buffer.from(compressed);
   if (member.method === 8) return inflateRawSync(compressed);

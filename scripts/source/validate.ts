@@ -94,7 +94,9 @@ async function main(): Promise<void> {
     const findings: ValidationFinding[] = [];
 
     const records = JSON.parse(readFileSync(corpusPath, "utf-8")) as unknown[];
-    const corpus = JSON.parse(readFileSync(manifestPath, "utf-8")) as NormalizedCorpus;
+    const corpus = JSON.parse(
+      readFileSync(manifestPath, "utf-8"),
+    ) as NormalizedCorpus;
     assertValidNormalizedCorpus(corpus);
 
     if (corpus.recordCount !== records.length) {
@@ -121,7 +123,9 @@ async function main(): Promise<void> {
     }
 
     const lock = readLock(domain);
-    const lockedIds = new Set(lock.artifacts.map((artifact) => artifact.artifactId));
+    const lockedIds = new Set(
+      lock.artifacts.map((artifact) => artifact.artifactId),
+    );
     for (const input of corpus.inputs) {
       if (!lockedIds.has(input.artifactId)) {
         findings.push({
@@ -130,7 +134,9 @@ async function main(): Promise<void> {
           message: `${domain.domain}: corpus cites artifact "${input.artifactId}", which is not in the lock.`,
         });
       }
-      const locked = lock.artifacts.find((a) => a.artifactId === input.artifactId);
+      const locked = lock.artifacts.find(
+        (a) => a.artifactId === input.artifactId,
+      );
       if (locked?.quarantined) {
         findings.push({
           severity: "error",
@@ -178,7 +184,9 @@ async function main(): Promise<void> {
       `  ${isClean(report) ? "ok  " : "FAIL"} ${report.domain}: ${report.checked} records, ${errors.length} errors`,
     );
     for (const finding of report.findings) {
-      console.log(`        [${finding.severity}] ${finding.code}: ${finding.message}`);
+      console.log(
+        `        [${finding.severity}] ${finding.code}: ${finding.message}`,
+      );
       if (finding.severity === "error") failed = true;
     }
   }

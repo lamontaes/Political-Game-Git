@@ -56,18 +56,31 @@ export interface DelimitedResult extends ParseResult<DelimitedRow> {
   readonly header: readonly string[] | null;
 }
 
-const BOM = "﻿";
+const BOM = "\uFEFF";
 
-/** Decode bytes in the declared encoding, reporting a BOM if one is present. */
+/** True when the bytes begin with a UTF-8 byte-order mark. */
+export function hasUtf8ByteOrderMark(bytes: Uint8Array): boolean {
+  return bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf;
+}
+
+/**
+ * Decode bytes in the declared encoding, reporting a BOM if one is present.
+ *
+ * The mark is detected from the bytes rather than from the decoded string:
+ * `TextDecoder` strips a UTF-8 BOM by default, so by the time there is a string
+ * to inspect the evidence is gone. Whether the publisher shipped one is a fact
+ * about the artifact and worth recording.
+ */
 function decode(
   bytes: Uint8Array,
   encoding: "utf-8" | "latin1",
 ): { text: string; hadBom: boolean } {
-  const text = new TextDecoder(encoding, { fatal: false }).decode(bytes);
-  if (text.startsWith(BOM)) {
-    return { text: text.slice(BOM.length), hadBom: true };
-  }
-  return { text, hadBom: false };
+  const hadBom = hasUtf8ByteOrderMark(bytes);
+  let text = new TextDecoder(encoding, { fatal: false }).decode(bytes);
+  // Latin-1 has no notion of a BOM, so those three bytes decode as characters.
+  if (text.startsWith(BOM)) text = text.slice(BOM.length);
+  else if (hadBom && encoding === "latin1") text = text.slice(3);
+  return { text, hadBom };
 }
 
 /**
@@ -135,7 +148,8 @@ export function parseDelimited(
 
     if (
       char === '"' &&
-      (field === "" || (options.allowWhitespaceBeforeQuote && field.trim() === ""))
+      (field === "" ||
+        (options.allowWhitespaceBeforeQuote && field.trim() === ""))
     ) {
       inQuotes = true;
       field = "";
@@ -191,7 +205,8 @@ export function parseDelimited(
         kept.push(row);
       } else {
         defects.push({
-          kind: row.fields.length > expected ? "row-too-wide" : "row-too-narrow",
+          kind:
+            row.fields.length > expected ? "row-too-wide" : "row-too-narrow",
           line: row.line,
           message: `Line ${row.line} has ${row.fields.length} fields; the declared width is ${expected}.`,
         });

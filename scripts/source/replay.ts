@@ -39,7 +39,10 @@ export async function replay(): Promise<readonly ReplayDifference[]> {
         const generated = resolve(target, file);
         const relative = `data/source/${domain.domain}/${file}`;
         if (!existsSync(tracked)) {
-          differences.push({ path: relative, reason: "is not tracked but was generated" });
+          differences.push({
+            path: relative,
+            reason: "is not tracked but was generated",
+          });
           continue;
         }
         const trackedText = readFileSync(tracked, "utf-8");
@@ -58,7 +61,10 @@ export async function replay(): Promise<readonly ReplayDifference[]> {
     const generatedManifest = toCanonicalJson(manifest);
     writeText(resolve(scratch, "MANIFEST.json"), generatedManifest);
     if (!existsSync(manifestPath)) {
-      differences.push({ path: "data/source/MANIFEST.json", reason: "is not tracked" });
+      differences.push({
+        path: "data/source/MANIFEST.json",
+        reason: "is not tracked",
+      });
     } else {
       const trackedManifest = readFileSync(manifestPath, "utf-8");
       if (trackedManifest !== generatedManifest) {
@@ -100,7 +106,9 @@ async function main(): Promise<void> {
     process.exitCode = 1;
     return;
   }
-  console.log("source:replay: clean; every tracked source artifact regenerates byte-identically.");
+  console.log(
+    "source:replay: clean; every tracked source artifact regenerates byte-identically.",
+  );
 }
 
 if (process.argv[1]?.endsWith("replay.ts")) {

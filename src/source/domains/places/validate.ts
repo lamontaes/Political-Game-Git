@@ -5,7 +5,11 @@
  * and from published place identifiers, not from this compiler's own output.
  */
 
-import type { CompiledCorpus, ValidationFinding, ValidationReport } from "../../core/index";
+import type {
+  CompiledCorpus,
+  ValidationFinding,
+  ValidationReport,
+} from "../../core/index";
 import { OFFICIAL_PLACE_VECTORS, isPlaceGeoid, placeGeoidFq } from "./identity";
 import type { PlaceRecord } from "./types";
 
@@ -45,7 +49,8 @@ export function validatePlaceCorpus(
       findings.push({
         severity: "error",
         code: "places/coverage",
-        message: "The places corpus compiles the complete national file and must say so.",
+        message:
+          "The places corpus compiles the complete national file and must say so.",
       });
     }
   }
@@ -95,7 +100,11 @@ export function validatePlaceCorpus(
       });
     }
     for (const key of Object.keys(record)) {
-      if (PROHIBITED_FIELD_TERMS.some((term) => key.toLowerCase().includes(term.toLowerCase()))) {
+      if (
+        PROHIBITED_FIELD_TERMS.some((term) =>
+          key.toLowerCase().includes(term.toLowerCase()),
+        )
+      ) {
         findings.push({
           severity: "error",
           code: "places/identity-is-not-authority",

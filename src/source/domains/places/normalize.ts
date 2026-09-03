@@ -28,7 +28,10 @@ export interface PlaceNormalizeResult {
   readonly classSuffixByLsad: ReadonlyMap<string, string>;
 }
 
-function column(row: DelimitedRow, name: (typeof GAZETTEER_PLACE_COLUMNS)[number]): string {
+function column(
+  row: DelimitedRow,
+  name: (typeof GAZETTEER_PLACE_COLUMNS)[number],
+): string {
   return row.fields[GAZETTEER_PLACE_COLUMNS.indexOf(name)] ?? "";
 }
 
@@ -42,13 +45,17 @@ export function deriveClassSuffixes(
   namesByLsad: ReadonlyMap<string, readonly string[]>,
 ): ReadonlyMap<string, string> {
   const suffixes = new Map<string, string>();
-  for (const [lsad, names] of [...namesByLsad].sort(([a], [b]) => (a < b ? -1 : 1))) {
+  for (const [lsad, names] of [...namesByLsad].sort(([a], [b]) =>
+    a < b ? -1 : 1,
+  )) {
     const tokenised = names.map((name) => name.split(/\s+/));
     let length = 0;
     for (;;) {
       const next = length + 1;
       if (tokenised.some((tokens) => tokens.length <= next)) break;
-      const candidates = new Set(tokenised.map((tokens) => tokens.slice(-next).join(" ")));
+      const candidates = new Set(
+        tokenised.map((tokens) => tokens.slice(-next).join(" ")),
+      );
       if (candidates.size !== 1) break;
       length = next;
     }
@@ -60,10 +67,15 @@ export function deriveClassSuffixes(
 }
 
 /** Remove a code's class description from one published name. */
-export function deriveDisplayName(sourceName: string, classSuffix: string | undefined): string {
+export function deriveDisplayName(
+  sourceName: string,
+  classSuffix: string | undefined,
+): string {
   if (!classSuffix) return sourceName;
   if (!sourceName.endsWith(` ${classSuffix}`)) return sourceName;
-  const trimmed = sourceName.slice(0, -(classSuffix.length + 1)).replace(/[\s,]+$/, "");
+  const trimmed = sourceName
+    .slice(0, -(classSuffix.length + 1))
+    .replace(/[\s,]+$/, "");
   return trimmed === "" ? sourceName : trimmed;
 }
 
@@ -132,13 +144,38 @@ export function normalizePlaces(
     const line = row.line;
     const geoid = requiredText(column(row, "GEOID"), "GEOID", line, defects);
     const stateUsps = requiredText(column(row, "USPS"), "USPS", line, defects);
-    const geoidFq = requiredText(column(row, "GEOIDFQ"), "GEOIDFQ", line, defects);
-    const ansiCode = requiredText(column(row, "ANSICODE"), "ANSICODE", line, defects);
+    const geoidFq = requiredText(
+      column(row, "GEOIDFQ"),
+      "GEOIDFQ",
+      line,
+      defects,
+    );
+    const ansiCode = requiredText(
+      column(row, "ANSICODE"),
+      "ANSICODE",
+      line,
+      defects,
+    );
     const sourceName = requiredText(column(row, "NAME"), "NAME", line, defects);
     const lsad = requiredText(column(row, "LSAD"), "LSAD", line, defects);
-    const funcstat = requiredText(column(row, "FUNCSTAT"), "FUNCSTAT", line, defects);
-    const landAreaSquareMeters = requiredNumber(column(row, "ALAND"), "ALAND", line, defects);
-    const waterAreaSquareMeters = requiredNumber(column(row, "AWATER"), "AWATER", line, defects);
+    const funcstat = requiredText(
+      column(row, "FUNCSTAT"),
+      "FUNCSTAT",
+      line,
+      defects,
+    );
+    const landAreaSquareMeters = requiredNumber(
+      column(row, "ALAND"),
+      "ALAND",
+      line,
+      defects,
+    );
+    const waterAreaSquareMeters = requiredNumber(
+      column(row, "AWATER"),
+      "AWATER",
+      line,
+      defects,
+    );
     const landAreaSquareMiles = requiredNumber(
       column(row, "ALAND_SQMI"),
       "ALAND_SQMI",
@@ -151,8 +188,18 @@ export function normalizePlaces(
       line,
       defects,
     );
-    const latitude = requiredNumber(column(row, "INTPTLAT"), "INTPTLAT", line, defects);
-    const longitude = requiredNumber(column(row, "INTPTLONG"), "INTPTLONG", line, defects);
+    const latitude = requiredNumber(
+      column(row, "INTPTLAT"),
+      "INTPTLAT",
+      line,
+      defects,
+    );
+    const longitude = requiredNumber(
+      column(row, "INTPTLONG"),
+      "INTPTLONG",
+      line,
+      defects,
+    );
 
     if (
       geoid === null ||
@@ -188,7 +235,12 @@ export function normalizePlaces(
       });
       continue;
     }
-    if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+    if (
+      latitude < -90 ||
+      latitude > 90 ||
+      longitude < -180 ||
+      longitude > 180
+    ) {
       defects.push({
         kind: "unparsable-record",
         line,
@@ -222,7 +274,9 @@ export function normalizePlaces(
     });
   }
 
-  records.sort((left, right) => (left.geoid < right.geoid ? -1 : left.geoid > right.geoid ? 1 : 0));
+  records.sort((left, right) =>
+    left.geoid < right.geoid ? -1 : left.geoid > right.geoid ? 1 : 0,
+  );
 
   const seen = new Set<string>();
   for (const record of records) {

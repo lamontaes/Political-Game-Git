@@ -69,7 +69,11 @@ export const SUBSTITUTED_TRIBAL_AREA = "Cherokee Nation";
 /** Provider values #66 rewrote by hand, checked here against the live records. */
 export const FEMA_FIELD_ORACLES: readonly {
   readonly disasterNumber: number;
-  readonly field: "incidentType" | "declarationTitle" | "iaProgramDeclared" | "incidentEndDate";
+  readonly field:
+    | "incidentType"
+    | "declarationTitle"
+    | "iaProgramDeclared"
+    | "incidentEndDate";
   readonly expected: string | boolean;
   readonly rejectedClaim: string;
 }[] = [
@@ -77,19 +81,22 @@ export const FEMA_FIELD_ORACLES: readonly {
     disasterNumber: 4586,
     field: "incidentType",
     expected: "Severe Ice Storm",
-    rejectedClaim: 'PR #66 rewrote the 2021 Texas incident type to "Winter Storm".',
+    rejectedClaim:
+      'PR #66 rewrote the 2021 Texas incident type to "Winter Storm".',
   },
   {
     disasterNumber: 4586,
     field: "incidentEndDate",
     expected: "2021-02-21T00:00:00.000Z",
-    rejectedClaim: 'PR #66 extended the 2021 Texas incident end date to "2021-03-05".',
+    rejectedClaim:
+      'PR #66 extended the 2021 Texas incident end date to "2021-03-05".',
   },
   {
     disasterNumber: 4724,
     field: "declarationTitle",
     expected: "WILDFIRES AND HIGH WINDS",
-    rejectedClaim: 'PR #66 shortened the Maui declaration title to "WILDFIRES".',
+    rejectedClaim:
+      'PR #66 shortened the Maui declaration title to "WILDFIRES".',
   },
   ...([4085, 4332, 4586, 4673, 4724] as const).map((disasterNumber) => ({
     disasterNumber,

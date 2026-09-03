@@ -39,7 +39,9 @@ export interface QualificationTable {
 }
 
 /** Parse a qualifications matrix, refusing anything that is not the shape. */
-export function parseQualificationMatrix(bytes: Uint8Array): QualificationTable {
+export function parseQualificationMatrix(
+  bytes: Uint8Array,
+): QualificationTable {
   const parsed = parseDelimited(bytes, {
     delimiter: "\t",
     hasHeaderRow: true,
@@ -70,6 +72,9 @@ export function parseQualificationMatrix(bytes: Uint8Array): QualificationTable 
 }
 
 /** Read a named column out of a matrix row. */
-export function matrixField(row: DelimitedRow, column: QualificationColumn): string {
+export function matrixField(
+  row: DelimitedRow,
+  column: QualificationColumn,
+): string {
   return row.fields[QUALIFICATION_COLUMNS.indexOf(column)] ?? "";
 }

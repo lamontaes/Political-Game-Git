@@ -13,7 +13,10 @@ import { toCanonicalJson } from "./canonical-json";
 import { SourceCapabilityError } from "./errors";
 import { sha256HexOfUtf8 } from "./hashing";
 import type { CompiledCorpus, NormalizedCorpus } from "./corpus";
-import { assertValidNormalizedCorpus, FORBIDDEN_WALL_CLOCK_KEYS } from "./corpus";
+import {
+  assertValidNormalizedCorpus,
+  FORBIDDEN_WALL_CLOCK_KEYS,
+} from "./corpus";
 
 /**
  * The canonical serialization of a corpus's records.
@@ -37,7 +40,9 @@ export function corpusCanonicalDigest<T>(records: readonly T[]): string {
 
 function assertNoWallClockKeys(value: unknown, path: string): void {
   if (Array.isArray(value)) {
-    value.forEach((entry, index) => assertNoWallClockKeys(entry, `${path}[${index}]`));
+    value.forEach((entry, index) =>
+      assertNoWallClockKeys(entry, `${path}[${index}]`),
+    );
     return;
   }
   if (typeof value !== "object" || value === null) return;
@@ -76,7 +81,10 @@ export function writeProductionCorpus<T>(
   assertNoWallClockKeys(compiled.corpus, "corpus");
 
   writeText(recordsPath, recordsJson);
-  writeText(manifestPath, toCanonicalJson(compiled.corpus satisfies NormalizedCorpus));
+  writeText(
+    manifestPath,
+    toCanonicalJson(compiled.corpus satisfies NormalizedCorpus),
+  );
 }
 
 /** Create parent directories and write text with a trailing newline preserved. */

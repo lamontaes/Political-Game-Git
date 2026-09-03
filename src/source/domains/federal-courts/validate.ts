@@ -8,7 +8,11 @@
  * than a set of states.
  */
 
-import type { CompiledCorpus, ValidationFinding, ValidationReport } from "../../core/index";
+import type {
+  CompiledCorpus,
+  ValidationFinding,
+  ValidationReport,
+} from "../../core/index";
 import type { FederalCourtRecord } from "./types";
 
 export const EXPECTED_CIRCUIT_COUNT = 13;
@@ -94,7 +98,9 @@ export function validateFederalCourtCorpus(
 
     // County names contain full stops. A membership list truncated at the first
     // one loses the rest of the division, silently and plausibly.
-    const arkansasEastern = districts.find((r) => r.courtId === "d-arkansas-eastern");
+    const arkansasEastern = districts.find(
+      (r) => r.courtId === "d-arkansas-eastern",
+    );
     const delta = arkansasEastern?.divisions?.find((d) =>
       d.comprisesCounties.includes("St. Francis"),
     );
@@ -114,7 +120,11 @@ export function validateFederalCourtCorpus(
         code: "courts/federal-circuit",
         message: "The Federal Circuit is absent from the corpus.",
       });
-    } else if (!(federal.composition ?? []).some((entry) => /Federal judicial districts/i.test(entry))) {
+    } else if (
+      !(federal.composition ?? []).some((entry) =>
+        /Federal judicial districts/i.test(entry),
+      )
+    ) {
       findings.push({
         severity: "error",
         code: "courts/federal-circuit-composition",
@@ -122,7 +132,10 @@ export function validateFederalCourtCorpus(
       });
     }
     const fifth = circuits.find((r) => r.courtId === "ca5");
-    if (fifth && !(fifth.composition ?? []).includes("District of the Canal Zone")) {
+    if (
+      fifth &&
+      !(fifth.composition ?? []).includes("District of the Canal Zone")
+    ) {
       findings.push({
         severity: "warning",
         code: "courts/composition-modernised",
@@ -146,7 +159,10 @@ export function validateFederalCourtCorpus(
     ids.add(record.courtId);
 
     if (record.courtKind === "bankruptcy-court") {
-      if (!record.parentDistrictCourtId || !districtIds.has(record.parentDistrictCourtId)) {
+      if (
+        !record.parentDistrictCourtId ||
+        !districtIds.has(record.parentDistrictCourtId)
+      ) {
         findings.push({
           severity: "error",
           code: "courts/orphan-bankruptcy-court",
@@ -155,7 +171,11 @@ export function validateFederalCourtCorpus(
         });
       }
     }
-    if (record.courtKind === "district-court" && production && record.circuitId === null) {
+    if (
+      record.courtKind === "district-court" &&
+      production &&
+      record.circuitId === null
+    ) {
       findings.push({
         severity: "error",
         code: "courts/unassigned-circuit",
@@ -164,7 +184,9 @@ export function validateFederalCourtCorpus(
       });
     }
     for (const key of Object.keys(record)) {
-      if (PROHIBITED_FIELD_TERMS.some((term) => key.toLowerCase().includes(term))) {
+      if (
+        PROHIBITED_FIELD_TERMS.some((term) => key.toLowerCase().includes(term))
+      ) {
         findings.push({
           severity: "error",
           code: "courts/identity-is-not-adjudication",

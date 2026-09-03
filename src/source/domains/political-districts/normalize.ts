@@ -86,7 +86,8 @@ export function normalizeDistricts(
     const geoid = cell(row, columns, "GEOID");
     const stateUsps = cell(row, columns, "USPS");
     const geoidFq = cell(row, columns, "GEOIDFQ");
-    const publishedName = chamber === "congressional" ? "" : cell(row, columns, "NAME");
+    const publishedName =
+      chamber === "congressional" ? "" : cell(row, columns, "NAME");
 
     if (geoid === "" || stateUsps === "" || geoidFq === "") {
       defects.push({
@@ -121,8 +122,18 @@ export function normalizeDistricts(
       continue;
     }
 
-    const landAreaSquareMeters = number(cell(row, columns, "ALAND"), "ALAND", line, defects);
-    const waterAreaSquareMeters = number(cell(row, columns, "AWATER"), "AWATER", line, defects);
+    const landAreaSquareMeters = number(
+      cell(row, columns, "ALAND"),
+      "ALAND",
+      line,
+      defects,
+    );
+    const waterAreaSquareMeters = number(
+      cell(row, columns, "AWATER"),
+      "AWATER",
+      line,
+      defects,
+    );
     const landAreaSquareMiles = number(
       cell(row, columns, "ALAND_SQMI"),
       "ALAND_SQMI",
@@ -135,8 +146,18 @@ export function normalizeDistricts(
       line,
       defects,
     );
-    const latitude = number(cell(row, columns, "INTPTLAT"), "INTPTLAT", line, defects);
-    const longitude = number(cell(row, columns, "INTPTLONG"), "INTPTLONG", line, defects);
+    const latitude = number(
+      cell(row, columns, "INTPTLAT"),
+      "INTPTLAT",
+      line,
+      defects,
+    );
+    const longitude = number(
+      cell(row, columns, "INTPTLONG"),
+      "INTPTLONG",
+      line,
+      defects,
+    );
     if (
       landAreaSquareMeters === null ||
       waterAreaSquareMeters === null ||
@@ -147,7 +168,12 @@ export function normalizeDistricts(
     ) {
       continue;
     }
-    if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+    if (
+      latitude < -90 ||
+      latitude > 90 ||
+      longitude < -180 ||
+      longitude > 180
+    ) {
       defects.push({
         kind: "unparsable-record",
         line,

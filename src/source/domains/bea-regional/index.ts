@@ -46,8 +46,17 @@ import { normalizeBeaObservations } from "./normalize";
 import { validateBeaCorpus } from "./validate";
 import type { BeaGeographyLevel, BeaObservationRecord } from "./types";
 
-export type { BeaGeographyLevel, BeaObservationRecord, BeaValuationKind } from "./types";
-export { classifyBeaGeography, classifyValuation, readBeaValue, BEA_VALUE_CODES } from "./normalize";
+export type {
+  BeaGeographyLevel,
+  BeaObservationRecord,
+  BeaValuationKind,
+} from "./types";
+export {
+  classifyBeaGeography,
+  classifyValuation,
+  readBeaValue,
+  BEA_VALUE_CODES,
+} from "./normalize";
 export { parseBeaTable, parseBeaTableDefinition } from "./parse";
 
 export const BEA_COMPILER_VERSION = "1.0.0";
@@ -127,7 +136,9 @@ export function compileBeaRegional(
     // is the product's decision, read from its own header, not a constant here.
     const year = table.years[table.years.length - 1];
     if (!year) {
-      throw new Error(`BEA table ${product.tableName} publishes no year columns.`);
+      throw new Error(
+        `BEA table ${product.tableName} publishes no year columns.`,
+      );
     }
     compiledYears.push(`${product.tableName} ${year}`);
 
@@ -154,7 +165,11 @@ export function compileBeaRegional(
   }
 
   records.sort((left, right) =>
-    left.recordId < right.recordId ? -1 : left.recordId > right.recordId ? 1 : 0,
+    left.recordId < right.recordId
+      ? -1
+      : left.recordId > right.recordId
+        ? 1
+        : 0,
   );
 
   const latestYear = compiledYears
@@ -183,7 +198,9 @@ export function compileBeaRegional(
   } as CompiledCorpus<BeaObservationRecord>;
 }
 
-export function openBeaProduction(lock: ArtifactLock): ProductionInput<BeaArtifacts> {
+export function openBeaProduction(
+  lock: ArtifactLock,
+): ProductionInput<BeaArtifacts> {
   return openProductionArtifacts<BeaRole>("bea-regional", lock, {
     countyIncome: COUNTY_INCOME_ARTIFACT,
     stateRpp: STATE_RPP_ARTIFACT,
@@ -204,7 +221,9 @@ export const sourceDomain: SourceDomainModule<BeaObservationRecord> = {
       "production"
     >;
   },
-  validateCorpus(corpus: CompiledCorpus<BeaObservationRecord>): ValidationReport {
+  validateCorpus(
+    corpus: CompiledCorpus<BeaObservationRecord>,
+  ): ValidationReport {
     return validateBeaCorpus(corpus);
   },
 };

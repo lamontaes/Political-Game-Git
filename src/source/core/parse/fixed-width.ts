@@ -7,6 +7,7 @@
  * than a silent truncation.
  */
 
+import { hasUtf8ByteOrderMark } from "./delimited";
 import type { ParseDefect, ParseResult } from "./errors";
 
 export interface FixedWidthField {
@@ -27,7 +28,7 @@ export interface FixedWidthRow {
   readonly values: Readonly<Record<string, string>>;
 }
 
-const BOM = "﻿";
+const BOM = "\uFEFF";
 
 /** Read fixed-width lines into named fields. */
 export function parseFixedWidth(
@@ -35,8 +36,8 @@ export function parseFixedWidth(
   options: FixedWidthOptions,
 ): ParseResult<FixedWidthRow> {
   let text = new TextDecoder("utf-8", { fatal: false }).decode(bytes);
-  const hadByteOrderMark = text.startsWith(BOM);
-  if (hadByteOrderMark) text = text.slice(BOM.length);
+  const hadByteOrderMark = hasUtf8ByteOrderMark(bytes);
+  if (text.startsWith(BOM)) text = text.slice(BOM.length);
 
   const requiredWidth = options.fields.reduce(
     (widest, field) => Math.max(widest, field.span[1]),
@@ -67,7 +68,9 @@ export function parseFixedWidth(
     for (const field of options.fields) {
       const cell = raw.slice(field.span[0], field.span[1]);
       values[field.name] =
-        field.trailingSpaces === "trimmed" ? cell.trim() : cell.replace(/^\s+/, "");
+        field.trailingSpaces === "trimmed"
+          ? cell.trim()
+          : cell.replace(/^\s+/, "");
     }
     rows.push({ line: lineNumber, values });
   }

@@ -6,8 +6,16 @@
  * with itself would pass on a corpus of fabricated counties (13B N2).
  */
 
-import type { CompiledCorpus, ValidationFinding, ValidationReport } from "../../core/index";
-import { OFFICIAL_COUNTY_VECTORS, countyGeoidFq, isCountyGeoid } from "./identity";
+import type {
+  CompiledCorpus,
+  ValidationFinding,
+  ValidationReport,
+} from "../../core/index";
+import {
+  OFFICIAL_COUNTY_VECTORS,
+  countyGeoidFq,
+  isCountyGeoid,
+} from "./identity";
 import type { CountyRecord } from "./types";
 
 /**
@@ -94,7 +102,11 @@ export function validateCountyCorpus(
       });
     }
     for (const key of Object.keys(record)) {
-      if (PROHIBITED_FIELD_TERMS.some((term) => key.toLowerCase().includes(term.toLowerCase()))) {
+      if (
+        PROHIBITED_FIELD_TERMS.some((term) =>
+          key.toLowerCase().includes(term.toLowerCase()),
+        )
+      ) {
         findings.push({
           severity: "error",
           code: "counties/identity-is-not-authority",

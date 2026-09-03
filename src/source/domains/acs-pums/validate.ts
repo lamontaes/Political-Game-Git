@@ -9,7 +9,11 @@
  */
 
 import { isUnresolved, presentValue } from "../../core/index";
-import type { CompiledCorpus, ValidationFinding, ValidationReport } from "../../core/index";
+import type {
+  CompiledCorpus,
+  ValidationFinding,
+  ValidationReport,
+} from "../../core/index";
 import { HOUSING_PROJECTION, PERSON_PROJECTION } from "./projection";
 import type { PumsHousingRecord } from "./types";
 
@@ -58,7 +62,9 @@ export function validatePumsCorpus(
     serials.add(record.serialNumber);
 
     for (const key of Object.keys(record)) {
-      if (PROHIBITED_FIELD_TERMS.some((term) => key.toLowerCase().includes(term))) {
+      if (
+        PROHIBITED_FIELD_TERMS.some((term) => key.toLowerCase().includes(term))
+      ) {
         findings.push({
           severity: "error",
           code: "pums/sample-is-not-behaviour",
@@ -117,7 +123,10 @@ export function validatePumsCorpus(
       // housing weight is fine by coincidence; a person weight *read from* the
       // housing column is not, and would show up as every person in a unit
       // sharing the unit's weight.
-      if (isUnresolved(person.personWeight) && person.personWeight.state === "UNKNOWN") {
+      if (
+        isUnresolved(person.personWeight) &&
+        person.personWeight.state === "UNKNOWN"
+      ) {
         findings.push({
           severity: "warning",
           code: "pums/person-weight-unresolved",
@@ -127,9 +136,19 @@ export function validatePumsCorpus(
       }
     }
 
-    const declaredPersons = presentValue(record.variables.NP ?? { state: "UNKNOWN", reason: "absent", investigated: [] });
+    const declaredPersons = presentValue(
+      record.variables.NP ?? {
+        state: "UNKNOWN",
+        reason: "absent",
+        investigated: [],
+      },
+    );
     const typeHuGq = presentValue(
-      record.variables.TYPEHUGQ ?? { state: "UNKNOWN", reason: "absent", investigated: [] },
+      record.variables.TYPEHUGQ ?? {
+        state: "UNKNOWN",
+        reason: "absent",
+        investigated: [],
+      },
     );
     if (
       typeof declaredPersons === "number" &&
@@ -150,7 +169,8 @@ export function validatePumsCorpus(
     findings.push({
       severity: "error",
       code: "pums/no-persons",
-      message: "The corpus carries no person records, so its person weights describe nothing.",
+      message:
+        "The corpus carries no person records, so its person weights describe nothing.",
     });
   }
 

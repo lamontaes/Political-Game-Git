@@ -21,9 +21,7 @@ export type RetrievalMethod = "GET" | "POST" | "bulk-download" | "api-query";
  * can compile without the full artifact — never a universe in its own right.
  */
 export type ArtifactStorage =
-  | "committed"
-  | "cached-not-committed"
-  | "derived-qa-slice";
+  "committed" | "cached-not-committed" | "derived-qa-slice";
 
 export interface ArtifactRetrieval {
   readonly url: string;
@@ -62,7 +60,8 @@ export interface ArtifactPublisherFacts {
  * applies to art assets, applied to data.
  */
 export interface ArtifactRights {
-  readonly status: "public-domain-us-government" | "declared-license" | "UNKNOWN";
+  readonly status:
+    "public-domain-us-government" | "declared-license" | "UNKNOWN";
   readonly declaredLicense: string | null;
   readonly attributionRequired: boolean | "UNKNOWN";
 }
@@ -105,13 +104,17 @@ const ISO_INSTANT = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z$/;
 /** Structural validation of one artifact record. Throws with the id named. */
 export function assertValidRawArtifact(artifact: RawArtifact): void {
   const fail = (message: string): never => {
-    throw new SourceProvenanceError(`Artifact "${artifact.artifactId}": ${message}`);
+    throw new SourceProvenanceError(
+      `Artifact "${artifact.artifactId}": ${message}`,
+    );
   };
 
   if (!artifact.artifactId.trim()) fail("has no artifactId.");
   if (!artifact.provider.trim()) fail("has no provider.");
   if (!isSha256Hex(artifact.bytes.sha256)) {
-    fail(`bytes.sha256 "${artifact.bytes.sha256}" is not a SHA-256 hex digest.`);
+    fail(
+      `bytes.sha256 "${artifact.bytes.sha256}" is not a SHA-256 hex digest.`,
+    );
   }
   if (artifact.bytes.length <= 0) fail("declares no retrieved bytes.");
   if (!ISO_INSTANT.test(artifact.retrieval.retrievedAt)) {
@@ -133,7 +136,10 @@ export function assertValidRawArtifact(artifact: RawArtifact): void {
   if (artifact.container && !isSha256Hex(artifact.container.memberSha256)) {
     fail("container.memberSha256 is not a SHA-256 hex digest.");
   }
-  if (artifact.container && artifact.container.memberSha256 === artifact.bytes.sha256) {
+  if (
+    artifact.container &&
+    artifact.container.memberSha256 === artifact.bytes.sha256
+  ) {
     fail(
       "container member digest equals the container digest; a zip and its member are different bytes.",
     );
@@ -146,13 +152,18 @@ export function assertValidRawArtifact(artifact: RawArtifact): void {
         fail("derivation.parentSha256 is not a SHA-256 hex digest.");
       }
       if (!artifact.derivation.selectionPredicate.trim()) {
-        fail("derivation names no selection predicate, so the slice cannot be re-cut.");
+        fail(
+          "derivation names no selection predicate, so the slice cannot be re-cut.",
+        );
       }
     }
   } else if (artifact.derivation) {
-    fail("declares a derivation but is not storage \"derived-qa-slice\".");
+    fail('declares a derivation but is not storage "derived-qa-slice".');
   }
-  if (artifact.storage === "cached-not-committed" && artifact.localPath !== null) {
+  if (
+    artifact.storage === "cached-not-committed" &&
+    artifact.localPath !== null
+  ) {
     fail("is cached-not-committed but declares a committed localPath.");
   }
   if (artifact.quarantined && !artifact.quarantineReason?.trim()) {
@@ -183,7 +194,10 @@ export function assertValidArtifactLock(lock: ArtifactLock): void {
 }
 
 /** Find one artifact in a lock, or throw naming what was asked for. */
-export function requireArtifact(lock: ArtifactLock, artifactId: string): RawArtifact {
+export function requireArtifact(
+  lock: ArtifactLock,
+  artifactId: string,
+): RawArtifact {
   const found = lock.artifacts.find((entry) => entry.artifactId === artifactId);
   if (!found) {
     throw new SourceProvenanceError(

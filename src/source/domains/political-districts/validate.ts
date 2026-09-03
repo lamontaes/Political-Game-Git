@@ -7,7 +7,11 @@
  * derived from it.
  */
 
-import type { CompiledCorpus, ValidationFinding, ValidationReport } from "../../core/index";
+import type {
+  CompiledCorpus,
+  ValidationFinding,
+  ValidationReport,
+} from "../../core/index";
 import {
   AT_LARGE_STATE_USPS,
   NEBRASKA_STATE_FIPS,
@@ -87,7 +91,9 @@ export function validatePoliticalDistrictCorpus(
     }
 
     for (const usps of AT_LARGE_STATE_USPS) {
-      const districts = byChamber.congressional.filter((r) => r.stateUsps === usps);
+      const districts = byChamber.congressional.filter(
+        (r) => r.stateUsps === usps,
+      );
       const atLarge = districts.filter((r) => r.districtCode === "00");
       if (atLarge.length !== 1) {
         findings.push({
@@ -100,7 +106,9 @@ export function validatePoliticalDistrictCorpus(
 
     for (const usps of ["DC", "PR"]) {
       const delegate = byChamber.congressional.filter(
-        (r) => r.stateUsps === usps && r.districtCode === NON_VOTING_DELEGATE_DISTRICT_CODE,
+        (r) =>
+          r.stateUsps === usps &&
+          r.districtCode === NON_VOTING_DELEGATE_DISTRICT_CODE,
       );
       if (delegate.length !== 1) {
         findings.push({
@@ -151,7 +159,9 @@ export function validatePoliticalDistrictCorpus(
       });
     }
     for (const key of Object.keys(record)) {
-      if (PROHIBITED_FIELD_TERMS.some((term) => key.toLowerCase().includes(term))) {
+      if (
+        PROHIBITED_FIELD_TERMS.some((term) => key.toLowerCase().includes(term))
+      ) {
         findings.push({
           severity: "error",
           code: "districts/geography-is-not-politics",

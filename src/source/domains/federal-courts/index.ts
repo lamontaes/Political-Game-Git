@@ -66,7 +66,9 @@ export type FederalCourtArtifacts = OpenedArtifacts<CourtRole>;
 
 /** Compile the federal court corpus from locked statutory bytes. */
 export function compileFederalCourts(
-  input: ProductionInput<FederalCourtArtifacts> | FixtureInput<FederalCourtArtifacts>,
+  input:
+    | ProductionInput<FederalCourtArtifacts>
+    | FixtureInput<FederalCourtArtifacts>,
 ): CompiledCorpus<FederalCourtRecord> {
   const inputClass = "lock" in input ? "production" : "fixture";
   const title28Opened = input.artifacts.title28;
@@ -81,16 +83,26 @@ export function compileFederalCourts(
     title48Opened.artifact.container?.memberPath ?? TITLE_48_MEMBER,
   ).toString("utf-8");
 
-  const circuits = normalizeCircuits(title28, title28Opened.artifact.artifactId);
+  const circuits = normalizeCircuits(
+    title28,
+    title28Opened.artifact.artifactId,
+  );
 
   const statutoryDistricts: FederalCourtRecord[] = [];
   for (const sectionNumber of DISTRICT_SECTION_NUMBERS) {
     statutoryDistricts.push(
-      ...normalizeStateDistricts(title28, sectionNumber, title28Opened.artifact.artifactId),
+      ...normalizeStateDistricts(
+        title28,
+        sectionNumber,
+        title28Opened.artifact.artifactId,
+      ),
     );
   }
   statutoryDistricts.push(
-    ...normalizeTerritorialDistricts(title48, title48Opened.artifact.artifactId),
+    ...normalizeTerritorialDistricts(
+      title48,
+      title48Opened.artifact.artifactId,
+    ),
   );
 
   const districts = assignCircuits(statutoryDistricts, circuits);
@@ -99,8 +111,9 @@ export function compileFederalCourts(
     title28Opened.artifact.artifactId,
   );
 
-  const records = [...circuits, ...districts, ...bankruptcyCourts].sort((left, right) =>
-    left.courtId < right.courtId ? -1 : left.courtId > right.courtId ? 1 : 0,
+  const records = [...circuits, ...districts, ...bankruptcyCourts].sort(
+    (left, right) =>
+      left.courtId < right.courtId ? -1 : left.courtId > right.courtId ? 1 : 0,
   );
 
   return {
@@ -124,8 +137,7 @@ export function compileFederalCourts(
       inputClass,
       coverage: {
         isCompleteUniverse: true,
-        universeDescription:
-          `Every United States court of appeals constituted by 28 U.S.C. § 41, every judicial district established by 28 U.S.C. ch. 5 and by the Title 48 organic acts, the statutory divisions those sections create, and the bankruptcy court 28 U.S.C. § 151 designates in each district, as the U.S. Code stands at release point ${USC_RELEASE_POINT}.`,
+        universeDescription: `Every United States court of appeals constituted by 28 U.S.C. § 41, every judicial district established by 28 U.S.C. ch. 5 and by the Title 48 organic acts, the statutory divisions those sections create, and the bankruptcy court 28 U.S.C. § 151 designates in each district, as the U.S. Code stands at release point ${USC_RELEASE_POINT}.`,
         boundedSampleReason: null,
       },
     },
@@ -147,11 +159,12 @@ export const sourceDomain: SourceDomainModule<FederalCourtRecord> = {
   compilerVersion: COURTS_COMPILER_VERSION,
   acquisitionPlan: federalCourtsAcquisition,
   lockPath: "data/source/federal-courts/artifact-lock.json",
-  compileProduction(lock: ArtifactLock): CompiledCorpus<FederalCourtRecord, "production"> {
-    return compileFederalCourts(openFederalCourtProduction(lock)) as CompiledCorpus<
-      FederalCourtRecord,
-      "production"
-    >;
+  compileProduction(
+    lock: ArtifactLock,
+  ): CompiledCorpus<FederalCourtRecord, "production"> {
+    return compileFederalCourts(
+      openFederalCourtProduction(lock),
+    ) as CompiledCorpus<FederalCourtRecord, "production">;
   },
   validateCorpus(corpus: CompiledCorpus<FederalCourtRecord>): ValidationReport {
     return validateFederalCourtCorpus(corpus);

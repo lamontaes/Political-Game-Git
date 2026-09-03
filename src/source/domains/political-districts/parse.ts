@@ -35,7 +35,9 @@ export const GAZETTEER_SLD_COLUMNS = [
   "INTPTLONG",
 ] as const;
 
-export function parseGazetteerCongressional(bytes: Uint8Array): DelimitedResult {
+export function parseGazetteerCongressional(
+  bytes: Uint8Array,
+): DelimitedResult {
   return parseDelimited(bytes, {
     delimiter: "|",
     hasHeaderRow: true,
@@ -44,7 +46,9 @@ export function parseGazetteerCongressional(bytes: Uint8Array): DelimitedResult 
   });
 }
 
-export function parseGazetteerStateLegislative(bytes: Uint8Array): DelimitedResult {
+export function parseGazetteerStateLegislative(
+  bytes: Uint8Array,
+): DelimitedResult {
   return parseDelimited(bytes, {
     delimiter: "|",
     hasHeaderRow: true,

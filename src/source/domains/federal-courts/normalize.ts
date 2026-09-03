@@ -82,10 +82,19 @@ function slug(value: string): string {
     .replace(/^-|-$/g, "");
 }
 
-function legalEvidence(artifactId: string, citation: string, section: string): Evidence {
+function legalEvidence(
+  artifactId: string,
+  citation: string,
+  section: string,
+): Evidence {
   return {
     artifactId,
-    locator: { kind: "legal-section", artifactId, citation, pageOrSection: section },
+    locator: {
+      kind: "legal-section",
+      artifactId,
+      citation,
+      pageOrSection: section,
+    },
   };
 }
 
@@ -145,7 +154,8 @@ export function normalizeCircuits(
 const DIVISION_SENTENCE =
   /^\((\d+)\)\s+The\s+(.+?)\s+[Dd]ivision comprises\s+(?:the\s+[Cc]ount(?:ies|y)\s+of\s+)?([\s\S]+)$/;
 const COURT_SENTENCE = /\bCourt(?: for the .+?)? shall be held at\b/;
-const COURT_HELD_AT = /Court(?: for the (.+?))? shall be held at\s+([\s\S]*?)\.\s*$/;
+const COURT_HELD_AT =
+  /Court(?: for the (.+?))? shall be held at\s+([\s\S]*?)\.\s*$/;
 
 /**
  * Read one state's judicial districts.
@@ -167,7 +177,9 @@ export function normalizeStateDistricts(
 
   const headings = section.paragraphs.filter((p) => p.className === "centered");
   const districtNames =
-    headings.length > 0 ? headings.map((p) => p.text) : [`District of ${jurisdictionName}`];
+    headings.length > 0
+      ? headings.map((p) => p.text)
+      : [`District of ${jurisdictionName}`];
 
   const records: FederalCourtRecord[] = [];
   let index = -1;
@@ -230,9 +242,14 @@ export function normalizeStateDistricts(
     if (held) {
       const forWhat = held[1] ?? "";
       const places = splitStatutoryList(held[2] ?? "");
-      const division = divisions.find((entry) => entry.divisionName === forWhat);
+      const division = divisions.find(
+        (entry) => entry.divisionName === forWhat,
+      );
       if (division && division.courtHeldAt.length === 0) {
-        divisions[divisions.indexOf(division)] = { ...division, courtHeldAt: places };
+        divisions[divisions.indexOf(division)] = {
+          ...division,
+          courtHeldAt: places,
+        };
       } else {
         heldAt.push(...places);
       }
@@ -323,7 +340,8 @@ export function assignCircuits(
       ? district
       : {
           ...district,
-          circuitId: circuitByJurisdiction.get(district.jurisdictionName ?? "") ?? null,
+          circuitId:
+            circuitByJurisdiction.get(district.jurisdictionName ?? "") ?? null,
         },
   );
 }

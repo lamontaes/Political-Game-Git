@@ -39,8 +39,10 @@ export const OPENFEMA_ENTITY = "DisasterDeclarationsSummaries";
 export const OPENFEMA_VERSION = "v2";
 const OPENFEMA_BASE = `https://www.fema.gov/api/open/${OPENFEMA_VERSION}/${OPENFEMA_ENTITY}`;
 
-export const DECLARATIONS_ARTIFACT = "openfema-disaster-declarations-audit-slice";
-export const UNIVERSE_ARTIFACT = "openfema-disaster-declarations-universe-count";
+export const DECLARATIONS_ARTIFACT =
+  "openfema-disaster-declarations-audit-slice";
+export const UNIVERSE_ARTIFACT =
+  "openfema-disaster-declarations-universe-count";
 
 /** The OData filter that is this slice's selection predicate. */
 export const AUDIT_SLICE_FILTER = `disasterNumber in (${AUDIT_SLICE_DISASTER_NUMBERS.join(",")})`;
@@ -49,8 +51,7 @@ export const DECLARATIONS_QUERY_URL =
   `${OPENFEMA_BASE}?$filter=${encodeURIComponent(AUDIT_SLICE_FILTER)}` +
   `&$orderby=id&$top=10000&$format=json`;
 
-export const UNIVERSE_QUERY_URL =
-  `${OPENFEMA_BASE}?$inlinecount=allpages&$top=1&$select=disasterNumber&$format=json`;
+export const UNIVERSE_QUERY_URL = `${OPENFEMA_BASE}?$inlinecount=allpages&$top=1&$select=disasterNumber&$format=json`;
 
 export const femaDisastersAcquisition: AcquisitionPlan = {
   domain: "fema-disasters",

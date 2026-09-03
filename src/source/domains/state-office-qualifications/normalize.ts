@@ -83,7 +83,8 @@ function requirementValue(raw: string): string | number {
 }
 
 function authorityFrom(row: DelimitedRow): CitedAuthority {
-  const derivation = matrixField(row, "direct_derived") === "DERIVED" ? "DERIVED" : "DIRECT";
+  const derivation =
+    matrixField(row, "direct_derived") === "DERIVED" ? "DERIVED" : "DIRECT";
   return {
     authorityType: matrixField(row, "authority_type"),
     legalLocator: matrixField(row, "legal_locator"),
@@ -109,9 +110,29 @@ export function readRequirement(
   authority: CitedAuthority,
   corpusAsOf: string,
 ): Sourced<string | number> {
+  /*
+   * A requirement with no effective date cannot be KNOWN.
+   *
+   * Every one of these rules took effect on some day and some of them have
+   * changed since; a value with no date cannot be applied to a moment, and
+   * dating it from the compile would be inventing the fact that matters most.
+   * So it stays unresolved and the validator reports the missing date.
+   */
+  const datable = /^\d{4}-\d{2}-\d{2}$/.test(authority.effectiveDate);
+
   switch (status) {
     case "KNOWN":
-      return known(requirementValue(rawValue), [evidence], "FINAL", authority.effectiveDate);
+      return datable
+        ? known(
+            requirementValue(rawValue),
+            [evidence],
+            "FINAL",
+            authority.effectiveDate,
+          )
+        : unknown(
+            `The research states "${rawValue}" but supplies no effective date, so the requirement cannot be placed in time.`,
+            [evidence],
+          );
     case "NOT_APPLICABLE":
       return notApplicable(
         [evidence],
@@ -127,12 +148,17 @@ export function readRequirement(
       );
     case "CREATED_NOT_YET_OPERATIVE":
     case "NOT_YET_OPERATIVE":
-      return notYetOperative(
-        requirementValue(rawValue),
-        [evidence],
-        authority.effectiveDate,
-        corpusAsOf,
-      );
+      return datable
+        ? notYetOperative(
+            requirementValue(rawValue),
+            [evidence],
+            authority.effectiveDate,
+            corpusAsOf,
+          )
+        : unknown(
+            "The research records the requirement as not yet operative but supplies no date on which it becomes so.",
+            [evidence],
+          );
     case "CONFLICTING": {
       // A conflict needs two authorities. The matrix shape carries one per row,
       // so a CONFLICTING row cannot be built here without inventing the second.
@@ -195,13 +221,31 @@ export function normalizeQualifications(
     };
 
     if (EXISTENCE_FIELD_NAMES.has(fieldName)) {
-      const exists: Sourced<boolean> =
-        status === "OFFICE_DOES_NOT_EXIST"
+      const datedExistence = /^\d{4}-\d{2}-\d{2}$/.test(
+        authority.effectiveDate,
+      );
+      const exists: Sourced<boolean> = !datedExistence
+        ? unknown(
+            `The research recorded office existence as "${status}" but supplied no effective date.`,
+            [evidence],
+          )
+        : status === "OFFICE_DOES_NOT_EXIST"
           ? known(false, [evidence], "FINAL", authority.effectiveDate)
-          : status === "CREATED_NOT_YET_OPERATIVE" || status === "NOT_YET_OPERATIVE"
-            ? notYetOperative(true, [evidence], authority.effectiveDate, corpusAsOf)
+          : status === "CREATED_NOT_YET_OPERATIVE" ||
+              status === "NOT_YET_OPERATIVE"
+            ? notYetOperative(
+                true,
+                [evidence],
+                authority.effectiveDate,
+                corpusAsOf,
+              )
             : status === "KNOWN"
-              ? known(value !== "false", [evidence], "FINAL", authority.effectiveDate)
+              ? known(
+                  value !== "false",
+                  [evidence],
+                  "FINAL",
+                  authority.effectiveDate,
+                )
               : unknown(
                   `The research recorded office existence as "${status}".`,
                   [evidence],
@@ -234,7 +278,13 @@ export function normalizeQualifications(
       stateUsps,
       officeFamily,
       field,
-      requirement: readRequirement(status, value, evidence, authority, corpusAsOf),
+      requirement: readRequirement(
+        status,
+        value,
+        evidence,
+        authority,
+        corpusAsOf,
+      ),
       citedAuthority: authority,
       normalizationReviewRequired: reviewRequired,
       evidence,
@@ -242,7 +292,11 @@ export function normalizeQualifications(
   }
 
   records.sort((left, right) =>
-    left.recordId < right.recordId ? -1 : left.recordId > right.recordId ? 1 : 0,
+    left.recordId < right.recordId
+      ? -1
+      : left.recordId > right.recordId
+        ? 1
+        : 0,
   );
 
   const seen = new Set<string>();

@@ -40,7 +40,12 @@ import {
   STATE_REGION_ARTIFACT,
   blsLausAcquisition,
 } from "./acquisition";
-import { lausField, periodAsOf, readLausValue, splitFootnoteCodes } from "./normalize";
+import {
+  lausField,
+  periodAsOf,
+  readLausValue,
+  splitFootnoteCodes,
+} from "./normalize";
 import { validateLausCorpus } from "./validate";
 import type { LausObservationRecord } from "./types";
 
@@ -130,7 +135,12 @@ export function compileBlsLaus(
 
     const evidence: Evidence = {
       artifactId,
-      locator: { kind: "delimited-row", artifactId, line: row.line, column: "value" },
+      locator: {
+        kind: "delimited-row",
+        artifactId,
+        line: row.line,
+        column: "value",
+      },
       providerNativeId: seriesId,
     };
 
@@ -172,7 +182,11 @@ export function compileBlsLaus(
   }
 
   records.sort((left, right) =>
-    left.recordId < right.recordId ? -1 : left.recordId > right.recordId ? 1 : 0,
+    left.recordId < right.recordId
+      ? -1
+      : left.recordId > right.recordId
+        ? 1
+        : 0,
   );
 
   const latest = records.reduce(
@@ -186,17 +200,38 @@ export function compileBlsLaus(
       compiler: { name: "bls-laus", version: LAUS_COMPILER_VERSION },
       parser: { name: "bls-timeseries", version: LAUS_PARSER_VERSION },
       inputs: [
-        { artifactId: a.areaType.artifact.artifactId, sha256: a.areaType.artifact.bytes.sha256 },
-        { artifactId: a.measure.artifact.artifactId, sha256: a.measure.artifact.bytes.sha256 },
-        { artifactId: a.footnote.artifact.artifactId, sha256: a.footnote.artifact.bytes.sha256 },
-        { artifactId: a.period.artifact.artifactId, sha256: a.period.artifact.bytes.sha256 },
+        {
+          artifactId: a.areaType.artifact.artifactId,
+          sha256: a.areaType.artifact.bytes.sha256,
+        },
+        {
+          artifactId: a.measure.artifact.artifactId,
+          sha256: a.measure.artifact.bytes.sha256,
+        },
+        {
+          artifactId: a.footnote.artifact.artifactId,
+          sha256: a.footnote.artifact.bytes.sha256,
+        },
+        {
+          artifactId: a.period.artifact.artifactId,
+          sha256: a.period.artifact.bytes.sha256,
+        },
         {
           artifactId: a.stateRegion.artifact.artifactId,
           sha256: a.stateRegion.artifact.bytes.sha256,
         },
-        { artifactId: a.area.artifact.artifactId, sha256: a.area.artifact.bytes.sha256 },
-        { artifactId: a.series.artifact.artifactId, sha256: a.series.artifact.bytes.sha256 },
-        { artifactId: a.dataSlice.artifact.artifactId, sha256: a.dataSlice.artifact.bytes.sha256 },
+        {
+          artifactId: a.area.artifact.artifactId,
+          sha256: a.area.artifact.bytes.sha256,
+        },
+        {
+          artifactId: a.series.artifact.artifactId,
+          sha256: a.series.artifact.bytes.sha256,
+        },
+        {
+          artifactId: a.dataSlice.artifact.artifactId,
+          sha256: a.dataSlice.artifact.bytes.sha256,
+        },
       ],
       asOf: `${latest}-12-31`,
       recordCount: records.length,
@@ -213,7 +248,9 @@ export function compileBlsLaus(
   } as CompiledCorpus<LausObservationRecord>;
 }
 
-export function openLausProduction(lock: ArtifactLock): ProductionInput<LausArtifacts> {
+export function openLausProduction(
+  lock: ArtifactLock,
+): ProductionInput<LausArtifacts> {
   return openProductionArtifacts<LausRole>("bls-laus", lock, {
     areaType: AREA_TYPE_ARTIFACT,
     measure: MEASURE_ARTIFACT,
@@ -239,7 +276,9 @@ export const sourceDomain: SourceDomainModule<LausObservationRecord> = {
       "production"
     >;
   },
-  validateCorpus(corpus: CompiledCorpus<LausObservationRecord>): ValidationReport {
+  validateCorpus(
+    corpus: CompiledCorpus<LausObservationRecord>,
+  ): ValidationReport {
     return validateLausCorpus(corpus);
   },
 };

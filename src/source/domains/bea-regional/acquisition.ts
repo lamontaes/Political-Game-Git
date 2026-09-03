@@ -27,7 +27,11 @@ export const STATE_RPP_DEFINITION = "SARPP__definition.xml";
 export const MSA_RPP_MEMBER = "MARPP_MSA_2008_2024.csv";
 export const MSA_RPP_DEFINITION = "MARPP__definition.xml";
 
-function beaRequest(artifactId: string, table: string, member: string): AcquisitionRequest {
+function beaRequest(
+  artifactId: string,
+  table: string,
+  member: string,
+): AcquisitionRequest {
   return {
     artifactId,
     provider: "U.S. Bureau of Economic Analysis, Regional Economic Accounts",

@@ -28,19 +28,25 @@ export const PERIOD_ARTIFACT = "bls-laus-period";
 export const STATE_REGION_ARTIFACT = "bls-laus-state-region-division";
 export const AREA_ARTIFACT = "bls-laus-area";
 export const SERIES_ARTIFACT = "bls-laus-series";
-export const DATA_PARENT_ARTIFACT = "bls-laus-data-1-current-seasonally-adjusted";
-export const DATA_SLICE_ARTIFACT = "bls-laus-data-1-current-seasonally-adjusted-qa-slice";
+export const DATA_PARENT_ARTIFACT =
+  "bls-laus-data-1-current-seasonally-adjusted";
+export const DATA_SLICE_ARTIFACT =
+  "bls-laus-data-1-current-seasonally-adjusted-qa-slice";
 
 /** The first year the QA slice keeps. */
 export const QA_SLICE_FIRST_YEAR = 2024;
 
-export const DATA_SLICE_PREDICATE =
-  `The header row of la.data.1.CurrentS followed by every data row whose year field is ${QA_SLICE_FIRST_YEAR} or later, in published file order, each row byte-for-byte including its trailing carriage return, with a trailing newline.`;
+export const DATA_SLICE_PREDICATE = `The header row of la.data.1.CurrentS followed by every data row whose year field is ${QA_SLICE_FIRST_YEAR} or later, in published file order, each row byte-for-byte including its trailing carriage return, with a trailing newline.`;
 
-function lausFile(artifactId: string, file: string, description: string): AcquisitionRequest {
+function lausFile(
+  artifactId: string,
+  file: string,
+  description: string,
+): AcquisitionRequest {
   return {
     artifactId,
-    provider: "U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics",
+    provider:
+      "U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics",
     url: `${LAUS_BASE}/${file}`,
     method: "GET",
     mediaType: "text/plain",
@@ -76,7 +82,8 @@ export const blsLausAcquisition: AcquisitionPlan = {
     lausFile(SERIES_ARTIFACT, "la.series", "LAUS series definitions"),
     {
       artifactId: DATA_PARENT_ARTIFACT,
-      provider: "U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics",
+      provider:
+        "U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics",
       url: `${LAUS_BASE}/la.data.1.CurrentS`,
       method: "GET",
       mediaType: "text/plain",
@@ -97,7 +104,8 @@ export const blsLausAcquisition: AcquisitionPlan = {
     },
     {
       artifactId: DATA_SLICE_ARTIFACT,
-      provider: "U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics",
+      provider:
+        "U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics",
       url: `${LAUS_BASE}/la.data.1.CurrentS`,
       method: "GET",
       mediaType: "text/plain",
@@ -127,7 +135,9 @@ export const blsLausAcquisition: AcquisitionPlan = {
 export function cutRecentYears(parentBytes: Buffer): Buffer {
   const lines = parentBytes.toString("utf-8").split("\n");
   const header = lines[0] ?? "";
-  const yearColumn = header.split("\t").findIndex((name) => name.trim() === "year");
+  const yearColumn = header
+    .split("\t")
+    .findIndex((name) => name.trim() === "year");
   const kept = [header];
   for (const line of lines.slice(1)) {
     if (line.trim() === "") continue;

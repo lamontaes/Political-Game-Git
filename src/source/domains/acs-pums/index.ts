@@ -25,10 +25,8 @@ import type {
 } from "../../core/index";
 import {
   DICTIONARY_ARTIFACT,
-  HOUSING_ARTIFACT,
   HOUSING_SLICE_ARTIFACT,
   HOUSING_SLICE_PREDICATE,
-  PERSON_ARTIFACT,
   PERSON_SLICE_ARTIFACT,
   PERSON_SLICE_PREDICATE,
   QA_SLICE_GROUP_QUARTERS,
@@ -37,12 +35,20 @@ import {
 } from "./acquisition";
 import { parsePumsDictionary } from "./dictionary";
 import { readPumsRow } from "./normalize";
-import { HOUSING_PROJECTION, PERSON_PROJECTION, UNPROJECTED_VARIABLE_NOTE } from "./projection";
+import {
+  HOUSING_PROJECTION,
+  PERSON_PROJECTION,
+  UNPROJECTED_VARIABLE_NOTE,
+} from "./projection";
 import { validatePumsCorpus } from "./validate";
 import type { PumsHousingRecord, PumsPersonRecord, PumsValue } from "./types";
 
 export type { PumsHousingRecord, PumsPersonRecord, PumsValue } from "./types";
-export { parsePumsDictionary, rangeFor, isNotApplicableFill } from "./dictionary";
+export {
+  parsePumsDictionary,
+  rangeFor,
+  isNotApplicableFill,
+} from "./dictionary";
 export { readPumsCell } from "./normalize";
 export { HOUSING_PROJECTION, PERSON_PROJECTION } from "./projection";
 export {
@@ -80,7 +86,11 @@ export function compileAcsPums(
   input: ProductionInput<PumsArtifacts> | FixtureInput<PumsArtifacts>,
 ): CompiledCorpus<PumsHousingRecord> {
   const inputClass = "lock" in input ? "production" : "fixture";
-  const { housingSlice, personSlice, dictionary: dictionaryArtifact } = input.artifacts;
+  const {
+    housingSlice,
+    personSlice,
+    dictionary: dictionaryArtifact,
+  } = input.artifacts;
 
   const dictionary = parsePumsDictionary(dictionaryArtifact.bytes);
 
@@ -165,7 +175,11 @@ export function compileAcsPums(
   });
 
   records.sort((left, right) =>
-    left.serialNumber < right.serialNumber ? -1 : left.serialNumber > right.serialNumber ? 1 : 0,
+    left.serialNumber < right.serialNumber
+      ? -1
+      : left.serialNumber > right.serialNumber
+        ? 1
+        : 0,
   );
 
   return {
@@ -178,7 +192,10 @@ export function compileAcsPums(
           artifactId: housingSlice.artifact.artifactId,
           sha256: housingSlice.artifact.bytes.sha256,
         },
-        { artifactId: personSlice.artifact.artifactId, sha256: personSlice.artifact.bytes.sha256 },
+        {
+          artifactId: personSlice.artifact.artifactId,
+          sha256: personSlice.artifact.bytes.sha256,
+        },
         {
           artifactId: dictionaryArtifact.artifact.artifactId,
           sha256: dictionaryArtifact.artifact.bytes.sha256,
@@ -199,7 +216,9 @@ export function compileAcsPums(
   } as CompiledCorpus<PumsHousingRecord>;
 }
 
-export function openPumsProduction(lock: ArtifactLock): ProductionInput<PumsArtifacts> {
+export function openPumsProduction(
+  lock: ArtifactLock,
+): ProductionInput<PumsArtifacts> {
   return openProductionArtifacts<PumsRole>("acs-pums", lock, {
     housingSlice: HOUSING_SLICE_ARTIFACT,
     personSlice: PERSON_SLICE_ARTIFACT,
@@ -212,7 +231,9 @@ export const sourceDomain: SourceDomainModule<PumsHousingRecord> = {
   compilerVersion: PUMS_COMPILER_VERSION,
   acquisitionPlan: acsPumsAcquisition,
   lockPath: "data/source/acs-pums/artifact-lock.json",
-  compileProduction(lock: ArtifactLock): CompiledCorpus<PumsHousingRecord, "production"> {
+  compileProduction(
+    lock: ArtifactLock,
+  ): CompiledCorpus<PumsHousingRecord, "production"> {
     return compileAcsPums(openPumsProduction(lock)) as CompiledCorpus<
       PumsHousingRecord,
       "production"

@@ -86,13 +86,16 @@ export function isSuppressionRange(range: PumsValueRange): boolean {
  */
 export function parsePumsDictionary(bytes: Uint8Array): PumsDictionary {
   const parsed = parseDelimited(bytes, { delimiter: ",", trimFields: true });
-  const variables = new Map<string, {
-    name: string;
-    dataType: PumsDataType;
-    length: number;
-    description: string;
-    ranges: PumsValueRange[];
-  }>();
+  const variables = new Map<
+    string,
+    {
+      name: string;
+      dataType: PumsDataType;
+      length: number;
+      description: string;
+      ranges: PumsValueRange[];
+    }
+  >();
 
   for (const row of parsed.rows) {
     const kind = row.fields[0];

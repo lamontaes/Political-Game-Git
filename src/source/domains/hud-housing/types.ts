@@ -56,7 +56,9 @@ export interface HudFairMarketRentRecord {
    *
    * Indexed by bedroom count as HUD publishes it: 0 is an efficiency.
    */
-  readonly rentByBedrooms: Readonly<Record<"0" | "1" | "2" | "3" | "4", number>>;
+  readonly rentByBedrooms: Readonly<
+    Record<"0" | "1" | "2" | "3" | "4", number>
+  >;
   readonly evidence: Evidence;
 }
 
@@ -71,7 +73,9 @@ export interface HudIncomeLimitRecord {
   /** Very low income (50% of AMFI) by family size 1-8. */
   readonly veryLowIncomeLimitByFamilySize: Readonly<Record<string, number>>;
   /** Extremely low income limit by family size 1-8. */
-  readonly extremelyLowIncomeLimitByFamilySize: Readonly<Record<string, number>>;
+  readonly extremelyLowIncomeLimitByFamilySize: Readonly<
+    Record<string, number>
+  >;
   /** Low income (80% of AMFI) by family size 1-8. */
   readonly lowIncomeLimitByFamilySize: Readonly<Record<string, number>>;
   readonly evidence: Evidence;

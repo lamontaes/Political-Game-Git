@@ -26,7 +26,10 @@ export interface NormalizedCorpus {
   readonly corpusId: string;
   readonly compiler: { readonly name: string; readonly version: string };
   readonly parser: { readonly name: string; readonly version: string };
-  readonly inputs: readonly { readonly artifactId: string; readonly sha256: string }[];
+  readonly inputs: readonly {
+    readonly artifactId: string;
+    readonly sha256: string;
+  }[];
   readonly asOf: string;
   readonly recordCount: number;
   readonly canonicalSha256: string;
@@ -88,29 +91,43 @@ export function assertValidNormalizedCorpus(corpus: NormalizedCorpus): void {
   if (!corpus.compiler.version.trim()) fail("names no compiler version.");
   if (!corpus.parser.version.trim()) fail("names no parser version.");
   if (!ISO_DATE.test(corpus.asOf)) {
-    fail(`asOf "${corpus.asOf}" is not an ISO date. It is an input, never a clock read.`);
+    fail(
+      `asOf "${corpus.asOf}" is not an ISO date. It is an input, never a clock read.`,
+    );
   }
   if (!isSha256Hex(corpus.canonicalSha256)) {
     fail("canonicalSha256 is not a SHA-256 hex digest.");
   }
   if (corpus.inputs.length === 0) {
-    fail("cites no input artifacts; a corpus with no evidence is not a corpus.");
+    fail(
+      "cites no input artifacts; a corpus with no evidence is not a corpus.",
+    );
   }
   for (const input of corpus.inputs) {
     if (!isSha256Hex(input.sha256)) {
-      fail(`input "${input.artifactId}" carries a digest that is not SHA-256 hex.`);
+      fail(
+        `input "${input.artifactId}" carries a digest that is not SHA-256 hex.`,
+      );
     }
   }
   if (corpus.recordCount < 0) fail("declares a negative record count.");
   if (!corpus.coverage.universeDescription.trim()) {
     fail("does not describe the universe its records are drawn from.");
   }
-  if (!corpus.coverage.isCompleteUniverse && !corpus.coverage.boundedSampleReason?.trim()) {
+  if (
+    !corpus.coverage.isCompleteUniverse &&
+    !corpus.coverage.boundedSampleReason?.trim()
+  ) {
     fail(
       "is a bounded sample but gives no reason; a sample that will not say why it is bounded reads as a universe.",
     );
   }
-  if (corpus.coverage.isCompleteUniverse && corpus.coverage.boundedSampleReason !== null) {
-    fail("claims a complete universe while also giving a bounded-sample reason.");
+  if (
+    corpus.coverage.isCompleteUniverse &&
+    corpus.coverage.boundedSampleReason !== null
+  ) {
+    fail(
+      "claims a complete universe while also giving a bounded-sample reason.",
+    );
   }
 }

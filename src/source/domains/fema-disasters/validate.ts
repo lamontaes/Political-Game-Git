@@ -7,7 +7,11 @@
  * assertion the audit disproved.
  */
 
-import type { CompiledCorpus, ValidationFinding, ValidationReport } from "../../core/index";
+import type {
+  CompiledCorpus,
+  ValidationFinding,
+  ValidationReport,
+} from "../../core/index";
 import {
   CHEROKEE_COUNTY_DESIGNATED_AREA,
   EASTERN_BAND_DESIGNATED_AREA,
@@ -58,7 +62,9 @@ export function validateFemaCorpus(
 
   for (const record of records) {
     for (const key of Object.keys(record)) {
-      if (PROHIBITED_FIELD_TERMS.some((term) => key.toLowerCase().includes(term))) {
+      if (
+        PROHIBITED_FIELD_TERMS.some((term) => key.toLowerCase().includes(term))
+      ) {
         findings.push({
           severity: "error",
           code: "fema/declaration-is-not-hazard",
@@ -151,7 +157,10 @@ export function validateFemaCorpus(
   const cherokeeCounty = helene.find(
     (record) => record.designatedArea === CHEROKEE_COUNTY_DESIGNATED_AREA,
   );
-  if (cherokeeCounty && cherokeeCounty.derivedDesignatedAreaType !== "county-or-parish") {
+  if (
+    cherokeeCounty &&
+    cherokeeCounty.derivedDesignatedAreaType !== "county-or-parish"
+  ) {
     findings.push({
       severity: "error",
       code: "fema/county-mistyped-as-tribal",
@@ -160,7 +169,9 @@ export function validateFemaCorpus(
     });
   }
 
-  if (records.some((record) => record.designatedArea === SUBSTITUTED_TRIBAL_AREA)) {
+  if (
+    records.some((record) => record.designatedArea === SUBSTITUTED_TRIBAL_AREA)
+  ) {
     findings.push({
       severity: "error",
       code: "fema/substituted-tribe",

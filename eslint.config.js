@@ -20,6 +20,58 @@ export default tseslint.config(
     },
   },
   {
+    // The source substrate is evidence; the running game is truth. Nothing that
+    // runs the game may read source records directly — a fact reaches the world
+    // through a named one-way adapter or not at all.
+    files: [
+      "src/simulation/**/*.{ts,tsx}",
+      "src/presentation/**/*.{ts,tsx}",
+      "src/player/**/*.{ts,tsx}",
+      "src/ui/**/*.{ts,tsx}",
+      "src/persistence/**/*.{ts,tsx}",
+      "src/cli/**/*.{ts,tsx}",
+      "src/environment/**/*.{ts,tsx}",
+    ],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: [
+                "**/source/core",
+                "**/source/core/**",
+                "**/source/domains/**",
+              ],
+              message:
+                "The source substrate is evidence, not world truth. Reach it through a named one-way adapter instead.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    // A source domain reads the core and its own files. Cross-domain
+    // relationships belong in an adapter or a crosswalk domain that declares
+    // both as inputs, not in an import.
+    files: ["src/source/domains/**/*.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["../../domains/*", "../../domains/**"],
+              message:
+                "A source domain may not import another source domain. Declare both as inputs to an adapter instead.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     files: ["src/simulation/**/*.{ts,tsx}"],
     rules: {
       "no-restricted-imports": [
