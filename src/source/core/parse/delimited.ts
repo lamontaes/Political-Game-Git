@@ -22,6 +22,28 @@ export interface DelimitedOptions {
   readonly hasHeaderRow?: boolean;
   /** Some publishers ship pipe-delimited files with padded fields. */
   readonly trimFields?: boolean;
+  /**
+   * Let a quoted field open after leading whitespace.
+   *
+   * RFC 4180 says a quote only opens a field at its first character, and by
+   * that reading BEA's ` "00000"` is the literal seven characters rather than a
+   * quoted code. BEA pads before the quote on every row of every regional
+   * table, so a reader that refuses this produces quotes inside every
+   * identifier. It is opt-in and named so that accepting the padding is a
+   * decision a domain makes about its publisher, not a silent loosening for
+   * everyone.
+   */
+  readonly allowWhitespaceBeforeQuote?: boolean;
+  /**
+   * The artifact's character encoding.
+   *
+   * Declared per domain because it is a fact about the publisher's file, and
+   * getting it wrong is quiet: BEA's county tables are Latin-1, and reading
+   * them as UTF-8 turns Doña Ana County, New Mexico into a name with a
+   * replacement character in it. Defaults to UTF-8, which is what most
+   * publishers ship.
+   */
+  readonly encoding?: "utf-8" | "latin1";
 }
 
 export interface DelimitedRow {
@@ -36,9 +58,12 @@ export interface DelimitedResult extends ParseResult<DelimitedRow> {
 
 const BOM = "﻿";
 
-/** Decode bytes as UTF-8, reporting a BOM and any replacement characters. */
-function decode(bytes: Uint8Array): { text: string; hadBom: boolean } {
-  const text = new TextDecoder("utf-8", { fatal: false }).decode(bytes);
+/** Decode bytes in the declared encoding, reporting a BOM if one is present. */
+function decode(
+  bytes: Uint8Array,
+  encoding: "utf-8" | "latin1",
+): { text: string; hadBom: boolean } {
+  const text = new TextDecoder(encoding, { fatal: false }).decode(bytes);
   if (text.startsWith(BOM)) {
     return { text: text.slice(BOM.length), hadBom: true };
   }
@@ -61,7 +86,8 @@ export function parseDelimited(
     throw new Error(`Delimiter must be one character; got "${delimiter}".`);
   }
 
-  const { text, hadBom } = decode(bytes);
+  const encoding = options.encoding ?? "utf-8";
+  const { text, hadBom } = decode(bytes, encoding);
   const rows: DelimitedRow[] = [];
   const defects: ParseDefect[] = [];
 
@@ -107,8 +133,12 @@ export function parseDelimited(
       continue;
     }
 
-    if (char === '"' && field === "") {
+    if (
+      char === '"' &&
+      (field === "" || (options.allowWhitespaceBeforeQuote && field.trim() === ""))
+    ) {
       inQuotes = true;
+      field = "";
       sawAnyCharacterInRow = true;
       continue;
     }
@@ -169,12 +199,11 @@ export function parseDelimited(
     }
   }
 
-  if (text.includes("�")) {
+  if (text.includes("\uFFFD")) {
     defects.push({
       kind: "non-utf8-byte",
       line: 0,
-      message:
-        "The artifact contains bytes that are not valid UTF-8; they decoded to replacement characters.",
+      message: `The artifact contains bytes that are not valid ${encoding}; they decoded to replacement characters. Declare the publisher's actual encoding rather than losing the characters.`,
     });
   }
 
