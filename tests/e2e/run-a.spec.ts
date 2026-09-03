@@ -16,7 +16,7 @@ async function hoverStyle(locator: Locator) {
 }
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/?view=office-fixture");
   await page.evaluate(() => window.localStorage.clear());
   await page.reload();
 });
@@ -303,11 +303,11 @@ test("reproduces every named Run A fixture state by URL", async ({ page }) => {
   ] as const;
 
   for (const [fixture, testId] of expectations) {
-    await page.goto(`/?fixture=${fixture}`);
+    await page.goto(`/?view=office-fixture&fixture=${fixture}`);
     await expect(page.getByTestId(testId)).toBeVisible();
   }
 
-  await page.goto("/?fixture=mixed-pins");
+  await page.goto("/?view=office-fixture&fixture=mixed-pins");
   await expect(page.locator('[data-pin-id="person"]')).toHaveAttribute(
     "data-size",
     "expanded",

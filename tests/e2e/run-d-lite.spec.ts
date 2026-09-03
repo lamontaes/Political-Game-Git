@@ -1,7 +1,7 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/?view=office-fixture");
   await page.evaluate(() => window.localStorage.clear());
   await page.reload();
 });
@@ -177,7 +177,7 @@ test("derives truthful work groups and advances staff work during player activit
     .click();
   const detail = page.getByTestId("calendar-event-detail");
   await expect(detail).toContainText(
-    "This action waits 20 minutes until 9:30 AM, then attends the full 45-minute commitment. 65 canonical minutes elapse, advancing the clock to 10:15 AM.",
+    "This action waits 20 minutes until 9:30 AM, then attends the full 45-minute commitment. 65 minutes elapse, advancing the clock to 10:15 AM.",
   );
   await detail
     .getByRole("button", {
@@ -354,7 +354,7 @@ test("keeps the bottom-left shell compact until pointer approach, focus, or acti
     viewport: { width: 1_440, height: 900 },
   });
   const touchPage = await touchContext.newPage();
-  await touchPage.goto("/");
+  await touchPage.goto("/?view=office-fixture");
   const touchShell = touchPage.getByTestId("navigation-cluster");
   await touchShell.tap();
   await expect(touchPage.getByTestId("navigation-flyout")).toBeVisible();

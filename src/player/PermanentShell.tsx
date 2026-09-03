@@ -132,7 +132,7 @@ export function PermanentShell({
                 </button>
                 <button type="button" role="menuitem" disabled>
                   <strong>District field office</strong>
-                  <small>Not available in Run A</small>
+                  <small>Not built yet</small>
                 </button>
               </div>
             )}

@@ -228,7 +228,7 @@ function uncheckedSnapshot(world: World): string {
   const worldPayload = JSON.stringify(world);
   return JSON.stringify({
     format: "political-life-world",
-    formatVersion: 14,
+    formatVersion: 15,
     snapshotId: createStableId("snapshot", worldPayload),
     worldId: world.id,
     savedAtWorldDate: world.currentDate,
