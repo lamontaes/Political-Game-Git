@@ -215,7 +215,7 @@
           "05_4K_SOURCE_MASTERS/05Y_REJECTED_HIGH_RES_CALIBRATION",
           "Our Civic Duty — ChatGPT Continuity/Stage 6.5 Visual Review — Render Evidence"
         ],
-        "found": "The 1672x941 illustrated master, banked and registered here. A 5568x3008 Topaz variant exists in Drive and is filed under rejected high-resolution calibration as photoreal drift.",
+        "found": "The 1672x941 illustrated master, banked and registered here. A 5568x3008 Topaz variant exists in Drive and is filed under rejected high-resolution calibration as photoreal drift. A CANDIDATE ARRIVED DURING THIS RUN: Drive root IMG_5189.JPG, 5504x3072 JPEG, uploaded 2026-09-04 14:20. Wood-panelled private study with a fireplace, a large desk, leather wingback chairs and windows onto trees — and, critically, no capitol dome, no state flag and no seal, which is what the generic requirement in this request was about. It clears the 4608px floor. Unclassified Drive-root upload with no managed copy: measured, not ingested.",
         "shortfall": "1672 is below the 4608 environment master minimum, and the only larger file is a rejected style. Neither is a production plate."
       },
       "target": {
@@ -260,8 +260,8 @@
           "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS",
           "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/10_SCENES"
         ],
-        "found": "Nothing resembling a campaign space in any bank.",
-        "shortfall": "The nearest accepted rooms are a domestic living room and a public meeting hall. Neither is a working campaign office and neither should be relabelled as one."
+        "found": "Nothing resembling a campaign space in any bank. A CANDIDATE ARRIVED DURING THIS RUN: Drive root IMG_5190.JPG, 5504x3072 JPEG, uploaded 2026-09-04 14:20. A storefront campaign office with folding tables, laptops, phones and supply boxes — the right room. It carries BAKED READABLE TEXT, which this request forbids: a 'FIELD OFFICE' window sign and 'supplies' printed on two boxes. A blank unlabelled US map outline on the whiteboard is decor rather than information and is acceptable. Unclassified Drive-root upload with no managed copy: measured, not ingested.",
+        "shortfall": "The nearest accepted rooms are a domestic living room and a public meeting hall. Neither is a working campaign office and neither should be relabelled as one. The arriving candidate is a revision away rather than a regeneration: the same room without the window sign and the printed box labels."
       },
       "target": {
         "targetClass": "environment-plate",
@@ -533,7 +533,7 @@
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS",
           "Drive root IMG_5178.PNG"
         ],
-        "found": "The 5056x3392 eight-pose sheet, measured here. Fully transparent pixels carry zero colour, so the background is clean; the defect is confined to the partially-transparent edge, where 67-80 percent of pixels per cell are green-dominant at a mean of roughly (43,79,30). It totals 8.4 percent of the figure's own opaque area.",
+        "found": "The 5056x3392 eight-pose sheet, measured here. Fully transparent pixels carry zero colour, so the background is clean; the defect is confined to the partially-transparent edge, where 67-80 percent of pixels per cell are green-dominant at a mean of roughly (43,79,30). It totals 8.4 percent of the figure's own opaque area. A CORRECTED SINGLE POSE ARRIVED DURING THIS RUN: Drive root IMG_5192.PNG, 5056x3392 RGBA, uploaded 2026-09-04 14:24. It is the standing-conversational pose from this same family with ZERO green-dominant soft-edge pixels, measured the same way — so the fix is confirmed possible and this request is now about re-exporting the remaining seven poses the same way. It is an unclassified Drive-root upload with no managed copy, so it was measured but NOT ingested.",
         "shortfall": "The approved style authority PG_STYLE_REFERENCE_CHARACTER_P005_APPROVED.png has no silhouette stroke of any colour, so this is out of family rather than house style. Removing it here would mean rewriting the colour of pixels I cannot verify the correct value of, which is a repair the pipeline should not make silently."
       },
       "target": {
@@ -553,7 +553,8 @@
       "acceptanceCriteria": [
         "Green-dominant pixels are under 2 percent of soft-edge pixels in every cell, measured the same way.",
         "The eight poses still segment into eight cells with npm run chop:source-sheet.",
-        "Body proportions still measure 6.8-7.2 heads tall standing, matching the cells banked here."
+        "Body proportions still measure 6.8-7.2 heads tall standing, matching the cells banked here.",
+        "Matches the edge quality already achieved by IMG_5192.PNG, which measured 0.00% green-dominant soft-edge pixels."
       ],
       "dependsOn": []
     },
