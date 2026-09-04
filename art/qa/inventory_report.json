@@ -1,9 +1,33 @@
 {
-  "totalItems": 24,
+  "totalItems": 168,
   "items": [
     {
+      "filePath": "families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
+      "hash": "baa3f6f965250363fdb1e376148ef0bdd7b84a36dd702a84bbe5239162c5753f"
+    },
+    {
+      "filePath": "families/apartment-ordinary/env_residence_apartment_living_ordinary_02_v1.png",
+      "hash": "8d0863e1c8423e6cb61682cbf025e1590f7bd5bf4fd964864b05d79f8e8838fe"
+    },
+    {
+      "filePath": "families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png",
+      "hash": "a1c6ed73a06ab71cd82ab9fa98f9f39228a4ffe74bbf4f8870d1d33fb55a2527"
+    },
+    {
+      "filePath": "families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_v1.png",
+      "hash": "7f40aaba49683ed011d57ff91f4bd3b202fdd39b941ab59e70b299337f7063e6"
+    },
+    {
+      "filePath": "families/civic-hearing-room/env_civic_hearing_room_runtime_2x_v1.png",
+      "hash": "30fe0f333eeef50c9938a0055b43f75ebf657174f66b445b4cfc73b5d9c5628c"
+    },
+    {
+      "filePath": "families/civic-hearing-room/env_civic_hearing_room_v1.png",
+      "hash": "d30fe81c23952b9dd98ec88b34f87952dbbec7044a8955a9c521ba10eeac9663"
+    },
+    {
       "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
-      "hash": "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe"
+      "hash": "f2f5ae8ca3e82e13cf6fb6f8f27c654b5c95a93c6ca2c31d5c56381fdd543406"
     },
     {
       "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_runtime_2x_v1.png",
@@ -12,6 +36,22 @@
     {
       "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
       "hash": "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43"
+    },
+    {
+      "filePath": "families/legislative-chamber/env_legislative_chamber_floor_runtime_2x_v1.png",
+      "hash": "184a68b7a82a3fef6e0167cde0ceb3b373484253ddd6185265c89e254a52c493"
+    },
+    {
+      "filePath": "families/legislative-chamber/env_legislative_chamber_floor_v1.png",
+      "hash": "ed0d0b9cdf433fbaea959967645568cdebda5d46aec8d6b62c8e6cd0c6ff8728"
+    },
+    {
+      "filePath": "families/shared-workroom-office/env_shared_workroom_office_runtime_2x_v1.png",
+      "hash": "c26094b0b62c4e3b949ae4a5e839f2331f0785b74ffacf8488baea1564398c93"
+    },
+    {
+      "filePath": "families/shared-workroom-office/env_shared_workroom_office_v1.png",
+      "hash": "51f6a94c151815bdcbf296096b94232b24a67c31a21744af40b84742ba5e6c12"
     },
     {
       "filePath": "generated/approved/dev-modular/dev_accessory_lapel_pin_v1.png",
@@ -78,6 +118,126 @@
       "hash": "596610db55f3ba8413770cfd68e8b88c51a3879af38f00ef4fb305709d8d75eb"
     },
     {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_accessory_lanyard_v1.png",
+      "hash": "ddb0b0a2208d5c95dc70887663089249560ebcc1771d48c25942da5ad0d63874"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_broad_deep_rich_seated_v1.png",
+      "hash": "5a5f3d8ed6eb026198cd212028270ae0473f8d64ed6754fc026a4beed80c6638"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_broad_deep_rich_standing_v1.png",
+      "hash": "9f8c445194e2a1685615506e3d3059e3fd505411fc59682c050466c89d6208b8"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_broad_light_seated_v1.png",
+      "hash": "71582ec9cddb407ae07a3fc98aba3335b97ad1ce557f5c4099d297732b47c932"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_broad_light_standing_v1.png",
+      "hash": "2c7f657f9e525d26f16a8a20f77988bea32d0ae8fe094c37e4835a37471b27b5"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_broad_medium_warm_seated_v1.png",
+      "hash": "6a056b4e5c6fd77da98c84dbb83d76e8252cdc1af766edc8a80a51d68f8a20b7"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_broad_medium_warm_standing_v1.png",
+      "hash": "1bbaa7ada0195c10ae3b597b2c22671be183fcd9517e1e3e972e4a84f84e787e"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_slim_deep_rich_seated_v1.png",
+      "hash": "682c9f86de043dd37d44a49c80acf49450737dbd8992c590ad9ece0507cc4d92"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_slim_deep_rich_standing_v1.png",
+      "hash": "b8f644bf90d74b4c381dc3b2980c1bb1d3750a9e9d346d34a1d71584df085eac"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_slim_light_seated_v1.png",
+      "hash": "86788ea68e5a63cb458889c56b54452939dd9e90040710e4c0652009723bf2c8"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_slim_light_standing_v1.png",
+      "hash": "73bc247983b5d688a6fb8449ab6b4e4b1a833b75f5d6caed3eec90b195d94889"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_slim_medium_warm_seated_v1.png",
+      "hash": "47c827e6a823b2ff2030880ef6cc27dcd28decfd595286b1ac9095431757c624"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_body_slim_medium_warm_standing_v1.png",
+      "hash": "9af9c5981e24f7ad392621f27319975508bff8d2179e85ebaa73e26762b4ef3e"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_bottom_trousers_seated_v1.png",
+      "hash": "35c5f21dc3edb14feef4bd420a9450b30a17d5e34a723799231ee7a3922372dd"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_bottom_trousers_standing_v1.png",
+      "hash": "f761876022d630b56805658f7d938b0beb490739446fa7ef7b15244554665bc2"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_eyewear_thin_frames_v1.png",
+      "hash": "3a66722fa68529acb2a6a9b85e52b27a28fdb593ef2a4f0faca56282e3f9bf79"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_footwear_derby_seated_v1.png",
+      "hash": "d95896e1139662b48db5bc783089ab1d1943f888efe7e9c61b32f4d08b4dbfd4"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_footwear_derby_standing_v1.png",
+      "hash": "d93542e44e58f6f09c29bd5531190fa7a6e27b78f27760a2ca981d10cc3d7a61"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_hair_coils_front_v1.png",
+      "hash": "0ca0e62b1577896679a440e92b7cd6363329c846b845460bda9041b3fee7abae"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_hair_crop_front_v1.png",
+      "hash": "ab8357df8befe39f2270297853e56fec4b2117b0b4b7cddc5ed52e6c06a2dfe7"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_hair_long_back_v1.png",
+      "hash": "b7d2f600ccc1df304ebc4e9da8cbc06d99474e2e0239c19980dfaf1f8b1ebff0"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_hair_long_front_v1.png",
+      "hash": "925971d520e5a7b89ee551255080d05f9b4c22936a15334d3fcf03e34c550962"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_head_deep_oval_v1.png",
+      "hash": "e2982c39dd886beb92799b864af7d88f2429bc65b489ea4e2aa10740dd78e875"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_head_light_square_v1.png",
+      "hash": "c0884fb82f834b1e682718fc615e225f154ae0d11fabcd5ea5506ec5338ef763"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_head_warm_long_v1.png",
+      "hash": "5d57d37d361fa7f15b55e8e11dc9a2d9412bcb27adf251c9466f210c98ca0a7e"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_head_warm_round_v1.png",
+      "hash": "9140bb40094901b9917fb800bf153c4855fc49ff52cd8638b6031882afa924cc"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_top_knit_olive_seated_v1.png",
+      "hash": "2c40f040fb953745ea8d6ee4fe4c34cd9eb939fcf4a752494633dc26c8a6ce9e"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_top_knit_olive_standing_v1.png",
+      "hash": "94ce08e96c1c214ad42b3ebc009241f6f7e1b0f4613368c66d5cb8e6438f9c15"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_top_suit_charcoal_seated_v1.png",
+      "hash": "3803d027b8700cc2b48ff66aac7fe8039e6bbd447d2a8d4e24b4407162584ecb"
+    },
+    {
+      "filePath": "generated/approved/dev-modular-g2/dev_g2_top_suit_charcoal_standing_v1.png",
+      "hash": "988a0a8bad87577b3ed86b96c9525bc48ea346a18325afd3f24525da4d44d1ab"
+    },
+    {
       "filePath": "generated/approved/human_candidate_A01_primary_desk_seated_v1.png",
       "hash": "8e5882e26eab1c6cf966cff188bfebd4e40cd117804e87930a0b06d67ca66e43"
     },
@@ -86,12 +246,428 @@
       "hash": "fd880e52fb191d6c32019ba451d006176ebc7762db89590c437c67586906be8d"
     },
     {
+      "filePath": "generated/approved/pg-modular/pg_body_fl_standing_v1.png",
+      "hash": "451d4c441457239d8c780ac7fef87a45fd21e81c92d08f356984ce8f5c6c1cf2"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_body_ml_standing_v1.png",
+      "hash": "1ae68b62016dde6561e12620b30883f685e3447d0a44b0bcf337d18dbf19762d"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_bottom_001_straight_leg_blue_jeans_fl_v1.png",
+      "hash": "f2c2b32e17980cb2c01c338c8e1ae00115d79da1a13cc30bcb4e53521bef06a2"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_bottom_001_straight_leg_blue_jeans_ml_v1.png",
+      "hash": "3a6918ca24c8c0a069d3c1f703b85a46d2fda33e53d1eba551e6f890d0807cfd"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_bottom_005_dress_trousers_fl_v1.png",
+      "hash": "fa9059d3e64ccea9d765ab08ed08ba98c629360774e5ad8e1984988314c92e58"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_bottom_005_dress_trousers_ml_v1.png",
+      "hash": "68b6b285841e6168da1db111440519f807cd553b0e008379dce2b45934247f58"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_bottom_010_a_line_knee_skirt_fl_v1.png",
+      "hash": "ae75ed580d448d27a11ab646aa6e9976a34b598cf6334cd5b10d7157d67a5db2"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_bottom_010_a_line_knee_skirt_ml_v1.png",
+      "hash": "9d54bd6796e6959f18fcb89cd1ad6bdde244268a27275a7c9b0bf1d28dfba570"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_hair_f_black_001_short_tapered_afro_v1.png",
+      "hash": "7972df8aa1b69c0b051de9b8e87c3b4c10109c13e603a63b3ae3747af9f17179"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_hair_f_black_002_rounded_medium_afro_v1.png",
+      "hash": "a9143447ebf6decb1319f8e00fc2845aa667242c0abf6da851b4b9e0e64d0b3c"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_hair_f_black_004_shoulder_natural_curls_v1.png",
+      "hash": "6baa6705293a2a0656a86913900d550526b0bbb70c248e8ae2fb811454e16117"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_hair_f_black_005_high_puff_v1.png",
+      "hash": "2602b6379c445753b2e553215a9b5394340172ea8073ae2b79f4863d10004d7e"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_hair_f_black_007_shoulder_box_braids_v1.png",
+      "hash": "7723440aff2afbb59a51c76278f8614619e8a6a857394a83b68c65b9b8e4587b"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_hair_f_black_008_long_box_braids_v1.png",
+      "hash": "443e5013e70fbd7595e74591f3ba182c85074228fa4611c164e86effcf0bc671"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_hair_f_black_010_cornrows_low_bun_v1.png",
+      "hash": "7b2e7ce133f4c4c44659b669bab3c17d83e1c19e83939e8cff452db75451e7b0"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_hair_f_black_012_shoulder_locs_v1.png",
+      "hash": "6b15c8f979eecc7f33ea50dcc22254a91615a8caa30aa4a5ca0f8122d7840357"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_head_f_01_bald_neutral_v1.png",
+      "hash": "4c396ed27ebac576875a2eec0ec1d463bf72ac7998c240f9133806f989cbe8c1"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_head_m_001_black_young_adult_v1.png",
+      "hash": "6aa82588cd2b810fe24d77d5551ec0328778064ea455f52b3111163463814679"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_head_m_002_white_adult_v1.png",
+      "hash": "fdeda4d2c5894699b372fb31fa6cc8121b6bf779837f2ee266fd6b4638da01f5"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_head_m_004_east_asian_young_adult_v1.png",
+      "hash": "ad283a6b5034c51dc1be21f4341e2203f33f0d6d995c67f2948719a9b835cc43"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_head_m_005_black_older_adult_v1.png",
+      "hash": "df06fcdc5f40345e64c38fa3cf4b5e54a02f39fdf1486ecc74831f8144b2d3c4"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_shoe_001_low_top_sneakers_fl_v1.png",
+      "hash": "f9d5514b7d7d40ddb61fc61e1dbf3eb0e1400469bc897f5cd4fb3d75b335aa3e"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_shoe_001_low_top_sneakers_ml_v1.png",
+      "hash": "3ffacfb507af4e2c1915869cd4e0d94c77f5fa1a72f80f990a5c648fab36f15b"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_shoe_004_leather_loafers_fl_v1.png",
+      "hash": "5280f7cdd54dd41b1de0dd16686c666b6b9babe627fb8e9aef1e7278a3a181ec"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_shoe_004_leather_loafers_ml_v1.png",
+      "hash": "9ee8149449680564593708ca79976b4dffe41cb3e66fe7f93416b7c693a58d59"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_shoe_009_low_practical_flats_fl_v1.png",
+      "hash": "79e09ee4f750d1aeea59dabdb8044b9ec30884a01a7190c12743cc27d02ee6e0"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_shoe_009_low_practical_flats_ml_v1.png",
+      "hash": "53990bdf8a0e90715548fed94ab7cc2846e622fd7e1d8c25efa474b7dfd9da9a"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_top_001_short_sleeve_crew_tee_fl_v1.png",
+      "hash": "d3d73df985e1c55bb35d1bef41b96b8a3a31f647dcdbdca42945b3341a79fc9f"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_top_001_short_sleeve_crew_tee_ml_v1.png",
+      "hash": "04ebd57cd3af6e628a59a6cc050721110ba350007c4ea8b682abd275af75ed63"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_top_005_long_sleeve_button_shirt_fl_v1.png",
+      "hash": "d6e31a99d66bff4f5c3f3dd63f526bba1871055364f1fce1487343bb0fa9449b"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_top_005_long_sleeve_button_shirt_ml_v1.png",
+      "hash": "345d4d708cdb54431b8fb9eb7b74b0b76d8339052e8e13bc38b5507cbc72e692"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_top_006_pullover_sweater_fl_v1.png",
+      "hash": "e18987782b7b8391df08462bdddfcc6eaf03692676f419b947af812d9b1634c7"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_top_006_pullover_sweater_ml_v1.png",
+      "hash": "755f66616f9b56dc6eb8c57724fd24a0b78a638a26026c7b13d21fa10617323c"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_top_011_structured_blazer_fl_v1.png",
+      "hash": "eb387f361f1a210bc98b8920c80a07e4195a866b39cde8d2c8b3ae1da7046a05"
+    },
+    {
+      "filePath": "generated/approved/pg-modular/pg_top_011_structured_blazer_ml_v1.png",
+      "hash": "bca2c24f8a6c2c332bc86952ae16745baf23b1f4028520aa42897450472a37c2"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_conversational_left_v1.png",
+      "hash": "ff0b01c141d1920996d9ed42ad9ea6ab1183c18577607d4c024032f165617d63"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_gesture_forward_v1.png",
+      "hash": "2ace9c305d9b3f0a78d114f7889c2ceaf7ec2768307fc26042386046cc87eb04"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_front_v1.png",
+      "hash": "0d2818c0e9a10c07b152e2cd692df3626bc124600407763fdcc815e1bbdcddbe"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_three_quarter_v1.png",
+      "hash": "0cd2829719006fb23b29c0219f72fdbe528a742017dcdd2f5a71975cdb14ef5d"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_a_v1.png",
+      "hash": "8de64e0aad4340c248ab65ef8988ec727338d172665550363d2c75da64cd2785"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_b_v1.png",
+      "hash": "ceb8f63c7700a5a9fdeeee73a60195dedbba2ca2afd97b5f013da26f367157fd"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_a_v1.png",
+      "hash": "333adfe7adc140b2f04be7694d6d488a574fc4379d3ae41e1f4eee33f00c6e53"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_b_v1.png",
+      "hash": "036a82bd7a1ace79f8bb3160dd9d28d021e639d7ec1106aabf2d77aaa047c702"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_black_cap_toe_oxford_v1.png",
+      "hash": "1713844c522d011a0bd3ad755c277fd2f87b68a36526382f4afda81eb5b1b6b4"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_blue_running_shoe_v1.png",
+      "hash": "f69512ed4541ab5bfca8547601d069789f2270f760dab8b07ad5142e77fc184a"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_brown_penny_loafer_v1.png",
+      "hash": "57719b1c036146bf55ba0e2f40ca445e98cce13ee18b112634077d354658ec45"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_brown_strap_sandal_v1.png",
+      "hash": "e16b256577c4426a13857d690bba6bcdfe14ebd67da82a0795640b54e368de20"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_green_ballet_flat_v1.png",
+      "hash": "95958a36091bdbf0d89cbc03dca6cd32d393169a27b051e2895eaa4aec16c88a"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_grey_court_sneaker_v1.png",
+      "hash": "524824b651675666f6be138bbe4fa2b218414474644f02759ddc6e51c54512f6"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_grey_low_block_heel_v1.png",
+      "hash": "6f297eb46aeda5114e078c01dab2f0752f050c25dbe6fe8795a011138524f968"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_navy_canvas_plimsoll_v1.png",
+      "hash": "66c9e1e4fd4396094696aae18fb27f871038ebd228be9371393974fc5ab44170"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_olive_hiking_boot_v1.png",
+      "hash": "7d1fa2bead41b8eff4cdba5299ef769ed1cc437c7007546027a831881a67ab42"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_plum_mid_block_heel_v1.png",
+      "hash": "4188109bc7d402321565594f37386b695b3803f71d33c6dcdc5e13e06e40aa0c"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_tan_work_boot_v1.png",
+      "hash": "1a014936fd0f2f898313f6a5143140fdb501320ae95eb38f85c0e2b05350d07d"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_taupe_chukka_boot_v1.png",
+      "hash": "1e8c59b6ce241bbad1a19080578eb501d0e13ffa71d4c0b96f20c82e2f3095e9"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_deep_oval_adult_v1.png",
+      "hash": "27029a3efb30ee82c456b21186923c80333e6e95efb39bda834c71e2a50159ea"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_deep_round_young_v1.png",
+      "hash": "bda4059bcd75dff0e5f657a92427e90e68f3afb3d5ddfae583a16b93cd59afd2"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_deep_square_adult_masc_v1.png",
+      "hash": "a55a87fcfb1e039763383d0ce2f6c82adfe1958a21dd7cee13f60d2d62c10506"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_long_older_v1.png",
+      "hash": "12142a09fdfc2b9d70f2546cefa995a5602c27085a6a86268d9c67c9b186f6d3"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_oval_young_fem_v1.png",
+      "hash": "bb04f14681151e5058e0106c4c3435a96ce5c11c431aa58e3b277cfaa9cf5c14"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_oval_young_v1.png",
+      "hash": "56bf27fce96fe8e990666dae57f25a83d54d2a226158e22d405e88b74bfc5f57"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_square_older_lined_v1.png",
+      "hash": "f8f38dd50094aad00c96f8348bfed6c5c64b1e2a7895d3c182e56a2322176abf"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_square_older_masc_v1.png",
+      "hash": "bdef17e63a1e237674ffb35b57f0a6edaf797d50948815db6ddaf12a487057d2"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_olive_oval_adult_v1.png",
+      "hash": "0db4d9dee34ab9d3beb5d8704e5b35d91ca41ced5feb6080b0ba773d823dd93c"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_tan_oval_adult_fem_v1.png",
+      "hash": "7e7fda0636ba46d152f940dfe9f8fc7dd45bb9fdd45cf6c2978a5bb2d4611987"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_tan_round_young_v1.png",
+      "hash": "65d1799aa56c51ce73d069d09c2eada766f9ed4990ee0659e7c7915fd8f9052f"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_tan_square_adult_masc_v1.png",
+      "hash": "2471c9feaa131f7b836622b30d23e6939939fc516e1df3ce7217620f78052df3"
+    },
+    {
       "filePath": "references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png",
       "hash": "8270689800e31006ae54497253845c3bf619ffb46b1bbc3c8d2bafd7136a7827"
     },
     {
       "filePath": "references/approved/packet76/GEMINI_OUTPUT_32_PROMPT35_human_candidate_B01_left_guest_seated_base_APPROVED_v1.png",
       "hash": "6484bfe77edd4a46f35e2572c6be37ca06ce1c98ab72af1d2b48125df0bf245a"
+    },
+    {
+      "filePath": "references/masters/body-head/OCD_CANDIDATE_HEAD_SOURCE_ADULT_DIVERSITY_12UP_3584x4800_01.png",
+      "hash": "a6d797139cd238dd791bed28e92ea5edb70c6b3fa19be72dd60784b40a4bce05"
+    },
+    {
+      "filePath": "references/masters/people-pose/OCD_CANDIDATE_PEOPLE_POSE_ADULT_FEMININE_BODY_FAMILY_8POSE_5056x3392_01.png",
+      "hash": "d6c7bc66a67bd80a2546e7be2e0723c1ae33eb0e2fb0465c6bed1a3d1fac248d"
+    },
+    {
+      "filePath": "references/masters/pg-modular/bodies/pg_master_body_standing_frame_a.png",
+      "hash": "b190b6c53d41d23621b212d58920741166fceaf421c7f662967adb99b470607d"
+    },
+    {
+      "filePath": "references/masters/pg-modular/bodies/pg_master_body_standing_frame_b.png",
+      "hash": "3df9975915c11e652ece596ed35e2c84157e1faa76fe123a9679403c489eaa49"
+    },
+    {
+      "filePath": "references/masters/pg-modular/bottoms/pg_master_bottom_01_straight_leg_jeans.png",
+      "hash": "83b8a7420d9a2bbd44620a8008a04c52838123174500926adbee1354963c3854"
+    },
+    {
+      "filePath": "references/masters/pg-modular/bottoms/pg_master_bottom_02_dress_trousers.png",
+      "hash": "a533176abb1ee03b457dcf48e16d0eaff9e42b8110f5519b0859885a12e1195b"
+    },
+    {
+      "filePath": "references/masters/pg-modular/bottoms/pg_master_bottom_03_a_line_knee_skirt.png",
+      "hash": "de80546df60a6754097e82d84066503b65c6b0e18b5ac9de815b855180e60902"
+    },
+    {
+      "filePath": "references/masters/pg-modular/footwear/pg_master_footwear_01_low_top_sneakers.png",
+      "hash": "446397950fb72f217e730229f9510f7010bd72972a70358562f6aa5c63c6f0a7"
+    },
+    {
+      "filePath": "references/masters/pg-modular/footwear/pg_master_footwear_02_leather_loafers.png",
+      "hash": "d0684557ae1ad2ffb13141372062ae9ccf3bda71b8b1018ecf6b37ddc216c46d"
+    },
+    {
+      "filePath": "references/masters/pg-modular/footwear/pg_master_footwear_03_low_practical_flats.png",
+      "hash": "105975db81d5bdc45855463c0245563b8b8af115d7c8da815eb5ce4b57ef97d7"
+    },
+    {
+      "filePath": "references/masters/pg-modular/hair/pg_master_hair_01_short_tapered_afro.png",
+      "hash": "f5fdf8f8ac5a759dc6c63259c94be8dbb91f37f7ef5ac965328efb5b2b63b199"
+    },
+    {
+      "filePath": "references/masters/pg-modular/hair/pg_master_hair_02_rounded_medium_afro.png",
+      "hash": "607a2468a564881013fdbfc33f65f4fbeb99cbc3eeed73b812c237f47f899c9b"
+    },
+    {
+      "filePath": "references/masters/pg-modular/hair/pg_master_hair_03_shoulder_natural_curls.png",
+      "hash": "ef66ccb57514fefa84281ac87463fac10bfb269be260350edd40867f709e19c6"
+    },
+    {
+      "filePath": "references/masters/pg-modular/hair/pg_master_hair_04_high_puff.png",
+      "hash": "73b9c4d37023a7bff7e95f3b7f5a1698b9105c4a48d14f2384b6fbeb9ddcb7e0"
+    },
+    {
+      "filePath": "references/masters/pg-modular/hair/pg_master_hair_05_shoulder_box_braids.png",
+      "hash": "0b6d97f8e33a76c6d8cab5654a9806a08d8c944325761fd8a8c0aca7be854bf8"
+    },
+    {
+      "filePath": "references/masters/pg-modular/hair/pg_master_hair_06_long_box_braids.png",
+      "hash": "586fe29aa71fa9136c62331a493f53b2bfc0936f045d2cfd53c978d2493722bc"
+    },
+    {
+      "filePath": "references/masters/pg-modular/hair/pg_master_hair_07_cornrows_low_bun.png",
+      "hash": "9bdb36f7ddd446ddc64ffca9a08b378bdc8282628a6ddfcfee02fd9e6596e55b"
+    },
+    {
+      "filePath": "references/masters/pg-modular/hair/pg_master_hair_08_shoulder_locs.png",
+      "hash": "71409a73e7f6c932022d8dc10dde5ffff54ad1f0942bccce96f636b41f78f722"
+    },
+    {
+      "filePath": "references/masters/pg-modular/heads/pg_master_head_01_bald_neutral.png",
+      "hash": "a245eb3484508bc8bd60db8cf23e69885416ad32eb8285c8c77f6d9b8b9b43e8"
+    },
+    {
+      "filePath": "references/masters/pg-modular/heads/pg_master_head_02_bald_neutral.png",
+      "hash": "55e511f2e464e0c7bc9808c9a3c993048e43c73cf06fc25e25180acf20c1377a"
+    },
+    {
+      "filePath": "references/masters/pg-modular/heads/pg_master_head_03_bald_neutral.png",
+      "hash": "0c232f91f94f13a819a6154fb709aefb951e38f96c327228f3f7ba26182efd90"
+    },
+    {
+      "filePath": "references/masters/pg-modular/heads/pg_master_head_04_bald_neutral.png",
+      "hash": "1de4a23339ced29a3b80a78d9f6731771b300b4d58e97281854dc3408875e198"
+    },
+    {
+      "filePath": "references/masters/pg-modular/heads/pg_master_head_05_bald_neutral.png",
+      "hash": "c79fdfb8c62d3b8aafcf0df3e4bc8567f54295d1555dccfa2159d104e17c05d1"
+    },
+    {
+      "filePath": "references/masters/pg-modular/tops/pg_master_top_01_short_sleeve_crew_tee.png",
+      "hash": "017f516056f3006f41e387f75cc68743ece7ec7b2b789d4d8bed4ef96d1826a2"
+    },
+    {
+      "filePath": "references/masters/pg-modular/tops/pg_master_top_02_long_sleeve_button_shirt.png",
+      "hash": "389a33060bd4f6208064193d209ac0a9bad81ae34dc3de92d63ee798b6aad03a"
+    },
+    {
+      "filePath": "references/masters/pg-modular/tops/pg_master_top_03_pullover_sweater.png",
+      "hash": "48fdaab6463f78a7cd708a34d0acc61301a4d977925bda5cfc77a4c8f135e5f1"
+    },
+    {
+      "filePath": "references/masters/pg-modular/tops/pg_master_top_04_structured_blazer.png",
+      "hash": "d7eb87869643758793867ee75141d9677ed0073745b4df331b5732528b4db42b"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_CANDIDATE_SCENE_GENERIC_LEGISLATIVE_CHAMBER_FLOOR_5632x3072_01.jpg",
+      "hash": "11b208cd7efa0c4aca068671fe76063ae3cba083e6a0eab43c7c83084ab2139a"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_CANONICAL_03_5504x3072.jpg",
+      "hash": "f4a97135966bcdf603efbce8f2d314e2c414816b45dbbbc1113b819557e2e5ea"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_ORDINARY_02_5504x3072.jpg",
+      "hash": "517abcf23ffff3b360d97fb715215435efcc4d5200677e6d6cdaab844fc0c8ab"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_STARTER_01_1376x768.png",
+      "hash": "7f6e59b03a50a0c14068a217ab88f77d3987cf3f549d639fbc7627a0c910aae6"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_CIVIC_HEARING_ROOM_5504x3072_01.jpg",
+      "hash": "c2021c87a073e7fd16256ca52b724afbf88f650e113a95b3c53468bac4072b70"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_COURTROOM_EMPTY_5504x3072_01.jpg",
+      "hash": "9c743c8d09a1a55a6f3490e482429ed5a8c710959fe5543a17d4d80e526f3a98"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_EXECUTIVE_PRIVATE_OFFICE_1672x941_01.png",
+      "hash": "500ea8be32dedfb5458aa334eff5939deb0b162e6f5159f42b6cf112e32bde1f"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_SHARED_WORKROOM_OFFICE_5504x3072_01.jpg",
+      "hash": "eca8b886da1769d1babf132530a8a33b8d59cc8d8e6e9b8ce34f551b676af9d0"
+    },
+    {
+      "filePath": "references/masters/scene-environment/PG_TITLE_BG_COMMUNITY_MEETING_HERO_SLOT_02_5504x3072.png",
+      "hash": "0ac5ef6ffa603d9510efb2160da38e065d0a7290352a976bc074dde779109663"
+    },
+    {
+      "filePath": "references/masters/wardrobe/OCD_CANDIDATE_WARDROBE_FOOTWEAR_SOURCE_12UP_3584x4800_01.png",
+      "hash": "fa1abe93d5abe3a0a93d580a7910fd2abf2bd9372c2e913eb5699c52a441989b"
     },
     {
       "filePath": "references/plans/texas_senate/normalized/habs_tx3326_00013a_normalized.jpg",

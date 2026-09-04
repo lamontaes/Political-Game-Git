@@ -117,14 +117,439 @@ export interface Camera {
   target_zone_id?: string;
 }
 
+/**
+ * PRESENTATION GEOMETRY CONVENTIONS
+ *
+ * Two coordinate spaces already exist in this project and both are kept:
+ *
+ * - Rectangles that bound the composition (`safe_area`,
+ *   `essential_content_area`, UI safe zones) are expressed in PLATE UNITS,
+ *   the same virtual coordinate space the camera scales.
+ * - Points and regions that pin content to the picture (anchors, contacts,
+ *   occluder regions, surface slots) are expressed as PERCENTAGES of the
+ *   plate.
+ *
+ * Both are plate-relative, so cropping the camera never moves an anchor: it
+ * only changes which part of the plate is on screen.
+ */
+
+/** A rectangle as percentages of the plate, 0..100 on each axis. */
+export interface PercentRect {
+  x_percent: number;
+  y_percent: number;
+  width_percent: number;
+  height_percent: number;
+}
+
+/** The virtual coordinate space a scene's geometry is authored in. */
+export interface ScenePlate {
+  width: number;
+  height: number;
+}
+
+export interface SceneCameraSpec {
+  minimum_aspect_ratio: number;
+  maximum_aspect_ratio: number;
+  horizontal_focus: number;
+  vertical_focus: number;
+}
+
+export interface SceneRect {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export interface SceneUiSafeZoneSpec {
+  id: string;
+  edge: "bottom-left" | "top-left" | "bottom-right" | "top-right";
+  width: number;
+  height: number;
+}
+
+/**
+ * One raster in a scene's tier ladder. The runtime chooses among these by
+ * viewport and device pixel ratio; the pipeline never synthesizes one.
+ */
+export interface SceneRasterTierSpec {
+  width: number;
+  height: number;
+  /** Repository-relative path under art/. */
+  path: string;
+  hash: string;
+  derivation:
+    | "native-master"
+    | "deterministic-downscale"
+    | "external-upscale-derivative"
+    | "upscaled-development-fixture";
+  /**
+   * Real detail carried, when less than `width`. Required for any derivation
+   * with enlarged lineage, forbidden for the derivations whose pixel width is
+   * itself the truth.
+   */
+  native_detail_width?: number;
+}
+
+export interface SceneRasterSpec {
+  asset_id: string;
+  tiers: SceneRasterTierSpec[];
+}
+
+/**
+ * One end of the floor depth ramp: at this floor line, a person of standard
+ * stature paints at this scale multiplier.
+ */
+export interface SceneFloorCalibrationPoint {
+  floor_y_percent: number;
+  scale: number;
+}
+
+/**
+ * Two calibration pairs, interpolated linearly, are the whole perspective
+ * model. A linear ramp is correct for a single-vanishing-point interior at a
+ * roughly horizontal camera, which is every plate this project plans. There is
+ * deliberately no projective camera: the generation pipeline cannot supply
+ * truthful camera intrinsics, and inventing them would be fabricated
+ * measurement precision.
+ */
+export interface SceneFloorCalibration {
+  near: SceneFloorCalibrationPoint;
+  far: SceneFloorCalibrationPoint;
+}
+
+/** Where a standing person's soles must land, and how far apart they may be. */
+export interface SceneFloorContact {
+  floor_y_percent: number;
+  /** Widest permitted distance between the two sole contacts. */
+  max_foot_spread_percent?: number;
+}
+
+/**
+ * Where a seated person meets the furniture. A seated person's feet are on the
+ * FLOOR, not on the chair, so `floor_y_percent` is required alongside the seat
+ * plane; modelling only the pelvis is precisely why hand-tuned seated sprites
+ * float.
+ */
+export interface SceneSeatContact {
+  seat_plane_y_percent: number;
+  seat_front_x_percent: number;
+  seat_width_percent: number;
+  floor_y_percent: number;
+  /** Paint order of the seat pan and of the backrest, which differ. */
+  seat_z_order: number;
+  backrest_z_order: number;
+}
+
+export type SceneAnchorKind = "floor-standing" | "seat" | "prop-surface";
+
 export interface Anchor {
   id: string;
   type: string;
+  kind?: SceneAnchorKind;
+  /** Horizontal position of the anchor as a percentage of plate width. */
+  x_percent?: number;
+  floor_contact?: SceneFloorContact;
+  seat_contact?: SceneSeatContact;
+  /** Paint order, distinct from perspective depth. Higher draws in front. */
+  z_order?: number;
+  /** Widest a body may be at this anchor, as a percentage of plate width. */
+  footprint_percent?: number;
+  /** Interactive region within the placed body box, in body-box fractions. */
+  hitbox_percent?: PercentRect;
+  allowed_body_families?: string[];
+  allowed_pose_families?: string[];
+  permitted_facings?: string[];
 }
 
 export interface Occluder {
   id: string;
   type: string;
+  /** Manifest asset supplying this region's alpha mask, when it has one. */
+  asset_id?: string;
+  /** Paint order relative to people and to other occluders. */
+  z_order?: number;
+  /** The region this occluder covers, for debug overlays and footprint checks. */
+  region_percent?: PercentRect;
+}
+
+/**
+ * Surfaces a scene may present something on. A closed vocabulary, because a
+ * free-text kind cannot be held to the legibility rule below.
+ *
+ * This is the ONLY surface-kind vocabulary in the repository. The graphics
+ * convergence found a second one growing in the authoring layer, with finer
+ * names for the same objects (`monitor-display` for a screen, `district-map`
+ * for a wall map, `roll-call-scoreboard` for a tally board). Two vocabularies
+ * for one concept is how a slot ends up valid in the spec and unknown to the
+ * component binder, so the finer names that meant something new were folded in
+ * here and the rest were retired as aliases — see
+ * `DONOR_SURFACE_KIND_ALIASES` in `src/authoring/dynamic-components.ts`.
+ *
+ * The seven kinds below the first nine came from that fold. Each describes an
+ * object the original list could not name without lying about it: notes lying
+ * flat on a lectern are not the upright placard on its front, and a portrait of
+ * whoever currently holds the office is not a picture frame with art in it.
+ */
+export const SCENE_SURFACE_KINDS = [
+  "monitor-or-screen",
+  "television",
+  "monitor-or-bulletin-board",
+  "roll-call-board",
+  "large-wall-map",
+  "podium-placard",
+  "desk-document",
+  "picture-frame",
+  "civic-symbol",
+  "podium-speech-notes",
+  "agenda-board",
+  "large-framed-chart",
+  "official-portrait-slot",
+  "office-nameplate",
+  "title-banner-safe",
+  "window-view",
+] as const;
+
+export type SceneSurfaceKind = (typeof SCENE_SURFACE_KINDS)[number];
+
+export function isSceneSurfaceKind(value: string): value is SceneSurfaceKind {
+  return (SCENE_SURFACE_KINDS as readonly string[]).includes(value);
+}
+
+/**
+ * Information the SIMULATION owns. None of it may be baked into a plate.
+ *
+ * The test for membership is simple: could this differ between two saves, two
+ * jurisdictions, or two days? If yes, it is semantic and belongs in a slot.
+ *
+ * This vocabulary lives here, at the bottom of the stack, because two layers
+ * need it and neither may own a private copy. The scene spec holds it so a
+ * surface slot can be validated against it; `src/authoring/dynamic-surfaces.ts`
+ * re-exports it unchanged so an author still finds it where the authoring
+ * contract is written. The graphics convergence found the two layers had grown
+ * separate lists — `working-draft` here against `document-body` there, for the
+ * same piece of paper — which is how a slot ends up legal in the spec and
+ * unrecognised by the component binder that has to fill it.
+ */
+export type SemanticContentClass =
+  | "jurisdiction-name"
+  | "jurisdiction-seal"
+  | "campaign-name"
+  | "candidate-name"
+  | "bill-number"
+  | "bill-title"
+  | "headline"
+  | "agenda"
+  | "election-result"
+  | "vote-tally"
+  | "calendar-date"
+  | "map-label"
+  | "officeholder-portrait"
+  | "officeholder-name"
+  | "briefing-slide"
+  | "document-body";
+
+export const SEMANTIC_CONTENT_CLASSES: readonly SemanticContentClass[] = [
+  "jurisdiction-name",
+  "jurisdiction-seal",
+  "campaign-name",
+  "candidate-name",
+  "bill-number",
+  "bill-title",
+  "headline",
+  "agenda",
+  "election-result",
+  "vote-tally",
+  "calendar-date",
+  "map-label",
+  "officeholder-portrait",
+  "officeholder-name",
+  "briefing-slide",
+  "document-body",
+];
+
+export function isSemanticContentClass(
+  value: string,
+): value is SemanticContentClass {
+  return (SEMANTIC_CONTENT_CLASSES as readonly string[]).includes(value);
+}
+
+/**
+ * Non-semantic visual texture that MAY be baked into a plate.
+ *
+ * Every entry here is restrained on purpose. `paper-shapes` means blocks of
+ * colour on a desk, not documents. `clock-face-block` means the shape of a
+ * clock, not a time. `calendar-grid-block` means a grid on a wall, not dates.
+ * The distinction is the whole contract: shape is decor, value is information.
+ */
+export type BakedDecorClass =
+  | "wall-artwork"
+  | "books"
+  | "plants"
+  | "paper-shapes"
+  | "neutral-photograph"
+  | "shelving"
+  | "clock-face-block"
+  | "calendar-grid-block"
+  | "textiles"
+  | "furniture-detail"
+  | "lighting-fixture"
+  | "window-view";
+
+export const BAKED_DECOR_CLASSES: readonly BakedDecorClass[] = [
+  "wall-artwork",
+  "books",
+  "plants",
+  "paper-shapes",
+  "neutral-photograph",
+  "shelving",
+  "clock-face-block",
+  "calendar-grid-block",
+  "textiles",
+  "furniture-detail",
+  "lighting-fixture",
+  "window-view",
+];
+
+export function isBakedDecorClass(value: string): value is BakedDecorClass {
+  return (BAKED_DECOR_CLASSES as readonly string[]).includes(value);
+}
+
+/**
+ * What a surface slot may present. Closed, for the same reason the kinds are.
+ *
+ * It is the semantic vocabulary plus exactly two classes the scene layer needs
+ * and the simulation does not name: `jurisdiction-flag`, because a flag is a
+ * civic symbol with its own legal conditions and the semantic list only carries
+ * the seal, and `neutral-art`, the honest declaration that a frame holds a
+ * picture rather than information.
+ */
+export const SCENE_SURFACE_CONTENT_CLASSES = [
+  ...SEMANTIC_CONTENT_CLASSES,
+  "jurisdiction-flag",
+  "neutral-art",
+] as const;
+
+export type SceneSurfaceContentClass =
+  (typeof SCENE_SURFACE_CONTENT_CLASSES)[number];
+
+/**
+ * Content classes whose appearance follows simulation state. Only these make a
+ * surface dynamic; everything else is ambient decoration that is painted into
+ * the plate and stays there.
+ *
+ * Every semantic class qualifies by construction — that is what makes it
+ * semantic — plus the flag, which is looked up per jurisdiction. `neutral-art`
+ * is the only class that does not.
+ */
+export const DYNAMIC_SURFACE_CONTENT_CLASSES: ReadonlySet<string> =
+  new Set<string>([...SEMANTIC_CONTENT_CLASSES, "jurisdiction-flag"]);
+
+/**
+ * Civic symbols. These have canonical runtime identities and legal usage
+ * conditions; they are never generated, and a slot that may show one has to
+ * say so explicitly.
+ */
+export const CIVIC_SYMBOL_CONTENT_CLASSES: ReadonlySet<string> = new Set([
+  "jurisdiction-seal",
+  "jurisdiction-flag",
+]);
+
+export const CIVIC_SYMBOL_POLICY = "canonical-source-only" as const;
+
+/**
+ * Legibility floor for a dynamic surface, as a percentage of the plate.
+ *
+ * A surface only earns dynamic content when a player could actually read a
+ * change on it. Below this floor it stays ambient decoration: a two-centimetre
+ * framed picture on a far wall is not a screen, and promoting it to one costs
+ * runtime work for a change nobody can see.
+ *
+ * The numbers are measured rather than chosen. Five percent of a 1080-line
+ * viewport is 54 lines: about enough for a chart with two labelled axes, or
+ * three rows of a docket. Five percent of plate width is the narrowest column
+ * that holds a legible label beside a value. The generative failure this guards
+ * against is specific and common — models paint two to five tiny frames on
+ * every shelf and sideboard, each blank and each looking like an invitation,
+ * and promoting them yields a room of illegible dashboards.
+ *
+ * This replaces an earlier unexplained 8% x 6% floor. It is one rule with one
+ * home: `slotIsPromotable` in the authoring layer asks the same question of the
+ * same constants, so a slot cannot pass the spec validator and fail the
+ * component binder.
+ */
+export const MINIMUM_DYNAMIC_SURFACE_WIDTH_PERCENT = 5;
+export const MINIMUM_DYNAMIC_SURFACE_HEIGHT_PERCENT = 5;
+
+/** The viewport the floor above was judged against. */
+export const LEGIBILITY_REFERENCE_VIEWPORT_HEIGHT = 1080;
+
+/**
+ * Surfaces seen nearly flat, whose screen height is compressed by perspective.
+ *
+ * A page on a desk is a large physical object presenting a short rectangle to
+ * the camera. Measuring it against the same unforeshortened height floor as a
+ * wall-mounted screen would refuse every desk document in the library, which is
+ * the wrong answer: the renderer draws into these with the plate's own skew, so
+ * a reader sees a page, not a thirty-pixel strip.
+ *
+ * The width floor still applies. Foreshortening compresses height, not width.
+ */
+export const FORESHORTENED_SURFACE_KINDS: readonly SceneSurfaceKind[] = [
+  "desk-document",
+  "podium-speech-notes",
+];
+
+/** The height floor for a surface lying nearly flat to the camera. */
+export const FORESHORTENED_MINIMUM_HEIGHT_PERCENT = 3;
+
+/**
+ * Surface kinds that carry a known image or one line of text, not a component
+ * with axes, rows or a legend. They have their own, lower bar: a nameplate is
+ * legible at a size no chart could survive.
+ */
+export const NON_COMPONENT_SURFACE_KINDS: readonly SceneSurfaceKind[] = [
+  "civic-symbol",
+  "official-portrait-slot",
+  "office-nameplate",
+  "picture-frame",
+  "window-view",
+];
+
+/** The height floor that applies to a surface of this kind. */
+export function minimumLegibleHeightPercent(kind: string): number {
+  return (FORESHORTENED_SURFACE_KINDS as readonly string[]).includes(kind)
+    ? FORESHORTENED_MINIMUM_HEIGHT_PERCENT
+    : MINIMUM_DYNAMIC_SURFACE_HEIGHT_PERCENT;
+}
+
+/**
+ * A presentation sink for dynamic content. Surface slots do NOT decide what
+ * document, seal or tally exists: the simulation owns that, and a slot only
+ * says where such a thing would be painted and what class of thing may go
+ * there.
+ */
+export interface SceneSurfaceSlot {
+  slot_id: string;
+  kind: SceneSurfaceKind;
+  rect_percent: PercentRect;
+  z_order: number;
+  allowed_content_classes: SceneSurfaceContentClass[];
+  /** What the slot shows when nothing canonical fills it. */
+  fallback_decoration?: string;
+  /**
+   * Required when the slot may present a civic symbol. The only permitted
+   * value states that the symbol comes from a canonical source; a civic seal
+   * or flag is never AI-generated, redrawn or approximated.
+   */
+  civic_symbol_policy?: typeof CIVIC_SYMBOL_POLICY;
+}
+
+/** True when this slot presents anything that follows simulation state. */
+export function isDynamicSurfaceSlot(slot: SceneSurfaceSlot): boolean {
+  return slot.allowed_content_classes.some((contentClass) =>
+    DYNAMIC_SURFACE_CONTENT_CLASSES.has(contentClass),
+  );
 }
 
 export interface EnvironmentSceneSpec {
@@ -150,6 +575,37 @@ export interface EnvironmentSceneSpec {
   zones?: Zone[];
   cameras?: Camera[];
   anchors?: Anchor[];
+
+  // --- Runtime presentation contract -------------------------------------
+  /** Registry key. Required for a scene the runtime compositor may register. */
+  scene_id?: string;
+  family_id?: string;
+  /** Human label used by developer surfaces. Never player-facing copy. */
+  label?: string;
+  /**
+   * Whether this scene's art is held to the production plate contract or is
+   * frozen development fixture art. Fixture scenes are legitimate regression
+   * subjects and are never presented as production masters.
+   */
+  presentation_status?: "development-fixture" | "production";
+  plate?: ScenePlate;
+  camera_policy?: SceneCameraSpec;
+  safe_area?: SceneRect;
+  essential_content_area?: SceneRect;
+  ui_safe_zones?: SceneUiSafeZoneSpec[];
+  raster?: SceneRasterSpec;
+  floor_calibration?: SceneFloorCalibration;
+  /**
+   * How wide a normalized modular body canvas paints on this plate at scale
+   * 1.0, as a percentage of plate width. Perspective then multiplies it by the
+   * scale derived from the anchor's floor line.
+   *
+   * This is the one number a scene must state to place modular people at all,
+   * because a normalized body canvas has no inherent size on a picture. It is a
+   * visual estimate per scene, not a measurement.
+   */
+  standard_body_width_percent?: number;
+  surface_slots?: SceneSurfaceSlot[];
 
   residuals?: DimensionalResidualCheck[];
   unresolved_conflicts?: string[];
@@ -225,6 +681,7 @@ const TOP_LEVEL_IDENTITY_ARRAY_FIELDS = new Set([
   "cameras",
   "anchors",
   "foreground_occlusion_objects",
+  "ui_safe_zones",
 ]);
 
 const UNORDERED_REFERENCE_ARRAY_FIELDS = new Set([
@@ -569,7 +1026,538 @@ function validateTypedIdentityArray(
     registerSceneId(entry.id, path, sceneIds, errors);
     validateOptionalNonEmptyString(entry, "type", path, errors);
     if (entry.type === undefined) errors.push(`${path}.type is required.`);
+    if (field === "anchors") {
+      validateAnchorPresentation(entry, path, errors);
+    } else {
+      validateOccluderPresentation(entry, path, errors);
+    }
   });
+}
+
+// ---------------------------------------------------------------------------
+// Runtime presentation contract
+// ---------------------------------------------------------------------------
+
+const ANCHOR_KINDS = new Set<SceneAnchorKind>([
+  "floor-standing",
+  "seat",
+  "prop-surface",
+]);
+
+const RASTER_DERIVATIONS = new Set<SceneRasterTierSpec["derivation"]>([
+  "native-master",
+  "deterministic-downscale",
+  "external-upscale-derivative",
+  "upscaled-development-fixture",
+]);
+
+/**
+ * Derivations whose pixel width overstates the detail behind it. Mirrors
+ * `DERIVATIONS_REQUIRING_NATIVE_DETAIL` in `src/presentation/raster-tiers.ts`;
+ * this module stays dependency-free, so the two lists are kept in step by the
+ * spec tests rather than by an import.
+ */
+const DERIVATIONS_REQUIRING_NATIVE_DETAIL = new Set<
+  SceneRasterTierSpec["derivation"]
+>(["external-upscale-derivative", "upscaled-development-fixture"]);
+
+const UI_SAFE_ZONE_EDGES = new Set<SceneUiSafeZoneSpec["edge"]>([
+  "bottom-left",
+  "top-left",
+  "bottom-right",
+  "top-right",
+]);
+
+const PRESENTATION_STATUSES = new Set(["development-fixture", "production"]);
+
+function isFiniteNumber(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value);
+}
+
+function isPercent(value: unknown): value is number {
+  return isFiniteNumber(value) && value >= 0 && value <= 100;
+}
+
+function isPositiveNumber(value: unknown): value is number {
+  return isFiniteNumber(value) && value > 0;
+}
+
+function validatePercentField(
+  object: Record<string, unknown>,
+  field: string,
+  path: string,
+  errors: string[],
+  required: boolean,
+): void {
+  const value = object[field];
+  if (value === undefined) {
+    if (required) errors.push(`${path}.${field} is required.`);
+    return;
+  }
+  if (!isPercent(value)) {
+    errors.push(`${path}.${field} must be a percentage between 0 and 100.`);
+  }
+}
+
+function validatePercentRect(
+  value: unknown,
+  path: string,
+  errors: string[],
+): void {
+  if (!isRecord(value)) {
+    errors.push(`${path} must be an object of plate percentages.`);
+    return;
+  }
+  for (const field of [
+    "x_percent",
+    "y_percent",
+    "width_percent",
+    "height_percent",
+  ]) {
+    validatePercentField(value, field, path, errors, true);
+  }
+}
+
+function validateSceneRectField(
+  value: unknown,
+  path: string,
+  errors: string[],
+): void {
+  if (!isRecord(value)) {
+    errors.push(`${path} must be a plate-unit rectangle.`);
+    return;
+  }
+  for (const field of ["x", "y"]) {
+    if (!isFiniteNumber(value[field])) {
+      errors.push(`${path}.${field} must be a finite number.`);
+    }
+  }
+  for (const field of ["width", "height"]) {
+    if (!isPositiveNumber(value[field])) {
+      errors.push(`${path}.${field} must be a finite positive number.`);
+    }
+  }
+}
+
+function validateAnchorPresentation(
+  entry: Record<string, unknown>,
+  path: string,
+  errors: string[],
+): void {
+  if (
+    entry.kind !== undefined &&
+    !ANCHOR_KINDS.has(entry.kind as SceneAnchorKind)
+  ) {
+    errors.push(`${path}.kind has invalid value ${describeValue(entry.kind)}.`);
+  }
+  validatePercentField(entry, "x_percent", path, errors, false);
+  validatePercentField(entry, "footprint_percent", path, errors, false);
+  if (entry.z_order !== undefined && !isFiniteNumber(entry.z_order)) {
+    errors.push(`${path}.z_order must be a finite number when present.`);
+  }
+  if (entry.hitbox_percent !== undefined) {
+    validatePercentRect(entry.hitbox_percent, `${path}.hitbox_percent`, errors);
+  }
+
+  if (entry.floor_contact !== undefined) {
+    const contact = entry.floor_contact;
+    if (!isRecord(contact)) {
+      errors.push(`${path}.floor_contact must be an object.`);
+    } else {
+      validatePercentField(
+        contact,
+        "floor_y_percent",
+        `${path}.floor_contact`,
+        errors,
+        true,
+      );
+      validatePercentField(
+        contact,
+        "max_foot_spread_percent",
+        `${path}.floor_contact`,
+        errors,
+        false,
+      );
+    }
+  }
+
+  if (entry.seat_contact !== undefined) {
+    const contact = entry.seat_contact;
+    if (!isRecord(contact)) {
+      errors.push(`${path}.seat_contact must be an object.`);
+    } else {
+      for (const field of [
+        "seat_plane_y_percent",
+        "seat_front_x_percent",
+        "seat_width_percent",
+        "floor_y_percent",
+      ]) {
+        validatePercentField(
+          contact,
+          field,
+          `${path}.seat_contact`,
+          errors,
+          true,
+        );
+      }
+      for (const field of ["seat_z_order", "backrest_z_order"]) {
+        if (!isFiniteNumber(contact[field])) {
+          errors.push(`${path}.seat_contact.${field} must be a finite number.`);
+        }
+      }
+      if (
+        isPercent(contact.seat_plane_y_percent) &&
+        isPercent(contact.floor_y_percent) &&
+        contact.floor_y_percent < contact.seat_plane_y_percent
+      ) {
+        errors.push(
+          `${path}.seat_contact places the floor above the seat plane; a seated person's feet rest below the seat.`,
+        );
+      }
+    }
+  }
+
+  if (entry.kind === "seat" && entry.seat_contact === undefined) {
+    errors.push(`${path} is a seat anchor and must declare 'seat_contact'.`);
+  }
+  if (entry.kind === "floor-standing" && entry.floor_contact === undefined) {
+    errors.push(
+      `${path} is a floor-standing anchor and must declare 'floor_contact'.`,
+    );
+  }
+
+  for (const field of [
+    "allowed_body_families",
+    "allowed_pose_families",
+    "permitted_facings",
+  ]) {
+    if (entry[field] !== undefined) {
+      validateStringArray(entry[field], `${path}.${field}`, errors, {
+        requireNonEmpty: true,
+      });
+    }
+  }
+}
+
+function validateOccluderPresentation(
+  entry: Record<string, unknown>,
+  path: string,
+  errors: string[],
+): void {
+  validateOptionalNonEmptyString(entry, "asset_id", path, errors);
+  if (entry.z_order !== undefined && !isFiniteNumber(entry.z_order)) {
+    errors.push(`${path}.z_order must be a finite number when present.`);
+  }
+  if (entry.region_percent !== undefined) {
+    validatePercentRect(entry.region_percent, `${path}.region_percent`, errors);
+  }
+}
+
+function validateSurfaceSlots(
+  value: unknown,
+  sceneIds: Map<string, string>,
+  errors: string[],
+): void {
+  if (value === undefined) return;
+  if (!Array.isArray(value)) {
+    errors.push("surface_slots must be an array when present.");
+    return;
+  }
+  value.forEach((entry, index) => {
+    const path = `surface_slots[${index}]`;
+    if (!isRecord(entry)) {
+      errors.push(`${path} must be an object.`);
+      return;
+    }
+    registerSceneId(entry.slot_id, path, sceneIds, errors);
+    if (
+      typeof entry.kind !== "string" ||
+      !(SCENE_SURFACE_KINDS as readonly string[]).includes(entry.kind)
+    ) {
+      errors.push(
+        `${path}.kind must be one of ${SCENE_SURFACE_KINDS.join(", ")}; found ${describeValue(entry.kind)}.`,
+      );
+    }
+    validatePercentRect(entry.rect_percent, `${path}.rect_percent`, errors);
+    if (!isFiniteNumber(entry.z_order)) {
+      errors.push(`${path}.z_order must be a finite number.`);
+    }
+    validateStringArray(
+      entry.allowed_content_classes,
+      `${path}.allowed_content_classes`,
+      errors,
+      { requireNonEmpty: true },
+    );
+
+    const classes = Array.isArray(entry.allowed_content_classes)
+      ? entry.allowed_content_classes.filter(
+          (value): value is string => typeof value === "string",
+        )
+      : [];
+    for (const contentClass of classes) {
+      if (
+        !(SCENE_SURFACE_CONTENT_CLASSES as readonly string[]).includes(
+          contentClass,
+        )
+      ) {
+        errors.push(
+          `${path}.allowed_content_classes contains '${contentClass}', which is not one of ${SCENE_SURFACE_CONTENT_CLASSES.join(", ")}.`,
+        );
+      }
+    }
+
+    const dynamic = classes.some((contentClass) =>
+      DYNAMIC_SURFACE_CONTENT_CLASSES.has(contentClass),
+    );
+    const rect = entry.rect_percent;
+    if (dynamic && isRecord(rect)) {
+      const width = rect.width_percent;
+      const height = rect.height_percent;
+      const kind = typeof entry.kind === "string" ? entry.kind : "";
+      const heightFloor = minimumLegibleHeightPercent(kind);
+      const imageOnly = (
+        NON_COMPONENT_SURFACE_KINDS as readonly string[]
+      ).includes(kind);
+      const widthFloor = imageOnly ? 0 : MINIMUM_DYNAMIC_SURFACE_WIDTH_PERCENT;
+      if (
+        isFiniteNumber(width) &&
+        isFiniteNumber(height) &&
+        (width < widthFloor || height < heightFloor)
+      ) {
+        errors.push(
+          `${path} presents dynamic content on a ${width}% x ${height}% surface, below the ${widthFloor}% x ${heightFloor}% legibility floor for a '${kind}' (about ${Math.round((heightFloor / 100) * LEGIBILITY_REFERENCE_VIEWPORT_HEIGHT)} lines at ${LEGIBILITY_REFERENCE_VIEWPORT_HEIGHT}p). A surface too small to read a change on stays ambient decoration.`,
+        );
+      }
+    }
+
+    const civic = classes.some((contentClass) =>
+      CIVIC_SYMBOL_CONTENT_CLASSES.has(contentClass),
+    );
+    if (civic && entry.civic_symbol_policy !== CIVIC_SYMBOL_POLICY) {
+      errors.push(
+        `${path} may present a civic symbol and must declare civic_symbol_policy '${CIVIC_SYMBOL_POLICY}'. A seal or flag comes from its canonical source; it is never generated, redrawn or approximated.`,
+      );
+    }
+    if (!civic && entry.civic_symbol_policy !== undefined) {
+      errors.push(
+        `${path} declares civic_symbol_policy but presents no civic symbol class.`,
+      );
+    }
+
+    validateOptionalNonEmptyString(entry, "fallback_decoration", path, errors);
+  });
+}
+
+function validateRaster(value: unknown, errors: string[]): void {
+  if (value === undefined) return;
+  if (!isRecord(value)) {
+    errors.push("raster must be an object when present.");
+    return;
+  }
+  if (!isNonEmptyString(value.asset_id)) {
+    errors.push("raster.asset_id must be a non-empty string.");
+  }
+  if (!Array.isArray(value.tiers) || value.tiers.length === 0) {
+    errors.push("raster.tiers must be a non-empty array.");
+    return;
+  }
+  let previousWidth = 0;
+  let previousAspect: number | null = null;
+  value.tiers.forEach((tier, index) => {
+    const path = `raster.tiers[${index}]`;
+    if (!isRecord(tier)) {
+      errors.push(`${path} must be an object.`);
+      return;
+    }
+    if (!isPositiveNumber(tier.width) || !isPositiveNumber(tier.height)) {
+      errors.push(`${path} must declare positive width and height.`);
+      return;
+    }
+    if (tier.width <= previousWidth) {
+      errors.push(`${path} must be wider than the tier before it.`);
+    }
+    previousWidth = tier.width;
+    const aspect = tier.width / tier.height;
+    if (previousAspect !== null && Math.abs(aspect - previousAspect) > 0.005) {
+      errors.push(`${path} does not preserve the ladder's source aspect.`);
+    }
+    previousAspect = aspect;
+    if (!isNonEmptyString(tier.path)) {
+      errors.push(`${path}.path must be a non-empty string.`);
+    }
+    if (!isNonEmptyString(tier.hash)) {
+      errors.push(`${path}.hash must be a non-empty string.`);
+    }
+    if (
+      typeof tier.derivation !== "string" ||
+      !RASTER_DERIVATIONS.has(
+        tier.derivation as SceneRasterTierSpec["derivation"],
+      )
+    ) {
+      errors.push(
+        `${path}.derivation has invalid value ${describeValue(tier.derivation)}.`,
+      );
+    }
+    const declaresDetail = DERIVATIONS_REQUIRING_NATIVE_DETAIL.has(
+      tier.derivation as SceneRasterTierSpec["derivation"],
+    );
+    if (declaresDetail) {
+      if (
+        !isPositiveNumber(tier.native_detail_width) ||
+        tier.native_detail_width > tier.width
+      ) {
+        errors.push(
+          `${path} carries enlarged lineage and must declare the native_detail_width its detail stops at.`,
+        );
+      }
+    } else if (tier.native_detail_width !== undefined) {
+      errors.push(
+        `${path} declares native_detail_width but its derivation claims full native detail.`,
+      );
+    }
+  });
+}
+
+function validateFloorCalibration(value: unknown, errors: string[]): void {
+  if (value === undefined) return;
+  if (!isRecord(value)) {
+    errors.push("floor_calibration must be an object when present.");
+    return;
+  }
+  for (const end of ["near", "far"] as const) {
+    const point = value[end];
+    const path = `floor_calibration.${end}`;
+    if (!isRecord(point)) {
+      errors.push(`${path} must be an object.`);
+      continue;
+    }
+    validatePercentField(point, "floor_y_percent", path, errors, true);
+    if (!isPositiveNumber(point.scale)) {
+      errors.push(`${path}.scale must be a finite positive number.`);
+    }
+  }
+  const near = value.near;
+  const far = value.far;
+  if (isRecord(near) && isRecord(far)) {
+    if (
+      isPercent(near.floor_y_percent) &&
+      isPercent(far.floor_y_percent) &&
+      near.floor_y_percent <= far.floor_y_percent
+    ) {
+      errors.push(
+        "floor_calibration.near must sit lower in the plate than floor_calibration.far; nearer floor is further down the picture.",
+      );
+    }
+    if (
+      isPositiveNumber(near.scale) &&
+      isPositiveNumber(far.scale) &&
+      near.scale <= far.scale
+    ) {
+      errors.push(
+        "floor_calibration.near must paint larger than floor_calibration.far.",
+      );
+    }
+  }
+}
+
+function validatePresentation(
+  input: Record<string, unknown>,
+  sceneIds: Map<string, string>,
+  errors: string[],
+): void {
+  for (const field of ["scene_id", "family_id", "label"]) {
+    validateOptionalNonEmptyString(input, field, "spec", errors);
+  }
+  if (
+    input.presentation_status !== undefined &&
+    !PRESENTATION_STATUSES.has(input.presentation_status as string)
+  ) {
+    errors.push(
+      `presentation_status has invalid value ${describeValue(input.presentation_status)}.`,
+    );
+  }
+  if (input.plate !== undefined) {
+    if (
+      !isRecord(input.plate) ||
+      !isPositiveNumber(input.plate.width) ||
+      !isPositiveNumber(input.plate.height)
+    ) {
+      errors.push("plate must declare positive width and height.");
+    }
+  }
+  if (input.camera_policy !== undefined) {
+    const policy = input.camera_policy;
+    if (!isRecord(policy)) {
+      errors.push("camera_policy must be an object when present.");
+    } else {
+      for (const field of ["minimum_aspect_ratio", "maximum_aspect_ratio"]) {
+        if (!isPositiveNumber(policy[field])) {
+          errors.push(`camera_policy.${field} must be a positive number.`);
+        }
+      }
+      for (const field of ["horizontal_focus", "vertical_focus"]) {
+        const value = policy[field];
+        if (!isFiniteNumber(value) || value < 0 || value > 1) {
+          errors.push(`camera_policy.${field} must be between 0 and 1.`);
+        }
+      }
+      if (
+        isPositiveNumber(policy.minimum_aspect_ratio) &&
+        isPositiveNumber(policy.maximum_aspect_ratio) &&
+        policy.maximum_aspect_ratio < policy.minimum_aspect_ratio
+      ) {
+        errors.push(
+          "camera_policy.maximum_aspect_ratio must not be below minimum_aspect_ratio.",
+        );
+      }
+    }
+  }
+  if (input.safe_area !== undefined) {
+    validateSceneRectField(input.safe_area, "safe_area", errors);
+  }
+  if (input.essential_content_area !== undefined) {
+    validateSceneRectField(
+      input.essential_content_area,
+      "essential_content_area",
+      errors,
+    );
+  }
+  if (input.ui_safe_zones !== undefined) {
+    if (!Array.isArray(input.ui_safe_zones)) {
+      errors.push("ui_safe_zones must be an array when present.");
+    } else {
+      input.ui_safe_zones.forEach((zone, index) => {
+        const path = `ui_safe_zones[${index}]`;
+        if (!isRecord(zone)) {
+          errors.push(`${path} must be an object.`);
+          return;
+        }
+        registerSceneId(zone.id, path, sceneIds, errors);
+        if (!UI_SAFE_ZONE_EDGES.has(zone.edge as SceneUiSafeZoneSpec["edge"])) {
+          errors.push(
+            `${path}.edge has invalid value ${describeValue(zone.edge)}.`,
+          );
+        }
+        for (const field of ["width", "height"]) {
+          if (!isPositiveNumber(zone[field])) {
+            errors.push(`${path}.${field} must be a positive number.`);
+          }
+        }
+      });
+    }
+  }
+  validateRaster(input.raster, errors);
+  validateFloorCalibration(input.floor_calibration, errors);
+  if (
+    input.standard_body_width_percent !== undefined &&
+    (!isPositiveNumber(input.standard_body_width_percent) ||
+      (input.standard_body_width_percent as number) > 100)
+  ) {
+    errors.push(
+      "standard_body_width_percent must be a positive percentage of plate width.",
+    );
+  }
+  validateSurfaceSlots(input.surface_slots, sceneIds, errors);
 }
 
 function validateCalibration(
@@ -867,6 +1855,8 @@ function validateEnvironmentSceneSpecInternal(
     sceneIds,
     errors,
   );
+
+  validatePresentation(input, sceneIds, errors);
 
   validateScaleEvidence(input.scale_evidence, sourceIds, errors);
   validateTemporalEvidence(input.effective_version, errors);

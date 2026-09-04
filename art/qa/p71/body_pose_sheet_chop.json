@@ -1,0 +1,229 @@
+{
+  "tool": "source-sheet-chop-v1",
+  "sourcePath": "art/references/masters/people-pose/OCD_CANDIDATE_PEOPLE_POSE_ADULT_FEMININE_BODY_FAMILY_8POSE_5056x3392_01.png",
+  "sourceSha256": "d6c7bc66a67bd80a2546e7be2e0723c1ae33eb0e2fb0465c6bed1a3d1fac248d",
+  "sourceWidth": 5056,
+  "sourceHeight": 3392,
+  "options": {
+    "alphaNoiseThreshold": 8,
+    "paddingPixels": 64,
+    "minimumGapPixels": 24,
+    "minimumComponentPixels": 20000
+  },
+  "columnBands": [
+    {
+      "start": 197,
+      "end": 990
+    },
+    {
+      "start": 1494,
+      "end": 2292
+    },
+    {
+      "start": 2796,
+      "end": 3519
+    },
+    {
+      "start": 4051,
+      "end": 4798
+    }
+  ],
+  "rowBands": [
+    {
+      "start": 75,
+      "end": 1656
+    },
+    {
+      "start": 1747,
+      "end": 3346
+    }
+  ],
+  "noisePixelsCleared": 3737548,
+  "cells": [
+    {
+      "cellId": "R1C1",
+      "row": 1,
+      "column": 1,
+      "sourceBox": {
+        "x": 197,
+        "y": 79,
+        "width": 764,
+        "height": 1575
+      },
+      "centroidNormalized": {
+        "x": 0.114413,
+        "y": 0.249003
+      },
+      "exportWidth": 892,
+      "exportHeight": 1703,
+      "opaquePixels": 562881,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 33499,
+      "softEdgePixels": 48607,
+      "outputPath": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_a_v1.png",
+      "sha256": "333adfe7adc140b2f04be7694d6d488a574fc4379d3ae41e1f4eee33f00c6e53"
+    },
+    {
+      "cellId": "R1C2",
+      "row": 1,
+      "column": 2,
+      "sourceBox": {
+        "x": 1494,
+        "y": 80,
+        "width": 736,
+        "height": 1577
+      },
+      "centroidNormalized": {
+        "x": 0.350481,
+        "y": 0.250493
+      },
+      "exportWidth": 864,
+      "exportHeight": 1705,
+      "opaquePixels": 519082,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 25958,
+      "softEdgePixels": 38869,
+      "outputPath": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_a_v1.png",
+      "sha256": "8de64e0aad4340c248ab65ef8988ec727338d172665550363d2c75da64cd2785"
+    },
+    {
+      "cellId": "R1C3",
+      "row": 1,
+      "column": 3,
+      "sourceBox": {
+        "x": 2818,
+        "y": 78,
+        "width": 702,
+        "height": 1576
+      },
+      "centroidNormalized": {
+        "x": 0.627804,
+        "y": 0.248831
+      },
+      "exportWidth": 830,
+      "exportHeight": 1704,
+      "opaquePixels": 552344,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 31898,
+      "softEdgePixels": 47480,
+      "outputPath": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_b_v1.png",
+      "sha256": "036a82bd7a1ace79f8bb3160dd9d28d021e639d7ec1106aabf2d77aaa047c702"
+    },
+    {
+      "cellId": "R1C4",
+      "row": 1,
+      "column": 4,
+      "sourceBox": {
+        "x": 4051,
+        "y": 75,
+        "width": 689,
+        "height": 1475
+      },
+      "centroidNormalized": {
+        "x": 0.871611,
+        "y": 0.241144
+      },
+      "exportWidth": 817,
+      "exportHeight": 1603,
+      "opaquePixels": 523082,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 27685,
+      "softEdgePixels": 37009,
+      "outputPath": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_three_quarter_v1.png",
+      "sha256": "0cd2829719006fb23b29c0219f72fdbe528a742017dcdd2f5a71975cdb14ef5d"
+    },
+    {
+      "cellId": "R2C1",
+      "row": 2,
+      "column": 1,
+      "sourceBox": {
+        "x": 292,
+        "y": 1747,
+        "width": 699,
+        "height": 1600
+      },
+      "centroidNormalized": {
+        "x": 0.112896,
+        "y": 0.743782
+      },
+      "exportWidth": 827,
+      "exportHeight": 1728,
+      "opaquePixels": 531026,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 27129,
+      "softEdgePixels": 39450,
+      "outputPath": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_b_v1.png",
+      "sha256": "ceb8f63c7700a5a9fdeeee73a60195dedbba2ca2afd97b5f013da26f367157fd"
+    },
+    {
+      "cellId": "R2C2",
+      "row": 2,
+      "column": 2,
+      "sourceBox": {
+        "x": 1513,
+        "y": 1827,
+        "width": 780,
+        "height": 1510
+      },
+      "centroidNormalized": {
+        "x": 0.368274,
+        "y": 0.765288
+      },
+      "exportWidth": 908,
+      "exportHeight": 1638,
+      "opaquePixels": 540775,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 23166,
+      "softEdgePixels": 33536,
+      "outputPath": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_conversational_left_v1.png",
+      "sha256": "ff0b01c141d1920996d9ed42ad9ea6ab1183c18577607d4c024032f165617d63"
+    },
+    {
+      "cellId": "R2C3",
+      "row": 2,
+      "column": 3,
+      "sourceBox": {
+        "x": 2796,
+        "y": 1834,
+        "width": 698,
+        "height": 1502
+      },
+      "centroidNormalized": {
+        "x": 0.628071,
+        "y": 0.763608
+      },
+      "exportWidth": 826,
+      "exportHeight": 1630,
+      "opaquePixels": 525765,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 26355,
+      "softEdgePixels": 33908,
+      "outputPath": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_gesture_forward_v1.png",
+      "sha256": "2ace9c305d9b3f0a78d114f7889c2ceaf7ec2768307fc26042386046cc87eb04"
+    },
+    {
+      "cellId": "R2C4",
+      "row": 2,
+      "column": 4,
+      "sourceBox": {
+        "x": 4068,
+        "y": 1834,
+        "width": 731,
+        "height": 1513
+      },
+      "centroidNormalized": {
+        "x": 0.883774,
+        "y": 0.767774
+      },
+      "exportWidth": 859,
+      "exportHeight": 1641,
+      "opaquePixels": 545250,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 29233,
+      "softEdgePixels": 36654,
+      "outputPath": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_front_v1.png",
+      "sha256": "0d2818c0e9a10c07b152e2cd692df3626bc124600407763fdcc815e1bbdcddbe"
+    }
+  ],
+  "rejectedFragments": []
+}

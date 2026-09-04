@@ -25,6 +25,7 @@ import {
   PRODUCTION_VISUAL_LIBRARY,
   type ComposedCharacterVisual,
 } from "../presentation/visual-integration";
+import { ModularCharacter } from "./ModularCharacter";
 import {
   resolveSceneTransform,
   type SceneTransform,
@@ -368,7 +369,13 @@ export function OfficeScene({
           draggable="false"
         />
         {visualComposition.characters.map((visual) =>
-          visual.asset ? (
+          visual.modular ? (
+            <ModularCharacter
+              key={`modular-${visual.personId}`}
+              plan={visual.modular}
+              testId={`scene-character-modular-${visual.visualVariant}`}
+            />
+          ) : visual.asset ? (
             <img
               key={`art-${visual.personId}`}
               className={`scene-character-art scene-character-art--${visual.visualVariant}`}
@@ -384,7 +391,7 @@ export function OfficeScene({
                 left: `${visual.leftPercent}%`,
                 top: `${visual.topPercent}%`,
                 width: `${visual.widthPercent}%`,
-                zIndex: visual.depth,
+                zIndex: visual.zOrder,
               }}
             />
           ) : null,
@@ -399,7 +406,7 @@ export function OfficeScene({
             draggable="false"
             data-occluder-id={occluder.id}
             data-asset-id={occluder.asset.assetId}
-            style={{ zIndex: occluder.depth }}
+            style={{ zIndex: occluder.zOrder }}
           />
         ))}
         {fixture.scenePeople.map((person) => {

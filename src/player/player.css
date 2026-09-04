@@ -3454,7 +3454,12 @@
     transform 120ms ease,
     box-shadow 120ms ease,
     outline 120ms ease;
-  z-index: 5;
+  /* Above the scene-person hitboxes (z-index 8), as the civic marker at 9
+     already is. These are UI entry points lying on the desk; a person's
+     transparent hitbox reaching across the desk must not swallow the click
+     that opens the document under it. Purely a hit-testing order — the person
+     button paints nothing, so nothing about the picture changes. */
+  z-index: 9;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -4880,4 +4885,1152 @@
   font-size: 0.86rem;
   color: #5a5a4e;
   font-style: italic;
+}
+
+/* ---------------------------------------------------------------------------
+   Scene and person presentation proof (?view=scene-proof)
+   DEVELOPMENT ONLY. Every rule below styles a developer surface.
+   --------------------------------------------------------------------------- */
+
+.scene-proof {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 20px 64px;
+  color: #16233a;
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+}
+
+.scene-proof-header {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(220px, 1fr);
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 28px;
+}
+
+.scene-proof-header h1 {
+  margin: 4px 0 8px;
+  font-size: 1.6rem;
+}
+
+.scene-proof-header p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.scene-proof-header label {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 0.86rem;
+}
+
+.scene-proof-context {
+  margin-bottom: 44px;
+}
+
+.scene-proof-context-copy h2 {
+  margin: 0 0 6px;
+  font-size: 1.2rem;
+}
+
+.scene-proof-context-copy p {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  max-width: 76ch;
+}
+
+.scene-proof-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #2a2c30;
+  border: 1px solid #b4b4a8;
+}
+
+.scene-proof-stage .scene-camera {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+}
+
+.scene-proof-stage .scene-environment-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.scene-proof-no-plate {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #3a3d43 0%, #2b2e33 62%, #22252a 100%);
+  color: #d8d4c8;
+}
+
+/* Kept in a corner rather than centred, so it never sits behind the people
+   the overlay is meant to explain. */
+.scene-proof-no-plate p {
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  background: rgb(12 14 18 / 70%);
+  padding: 3px 7px;
+}
+
+/* Contact, footprint and tier overlay ------------------------------------- */
+
+.scene-debug-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 900;
+  pointer-events: none;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+.scene-debug-rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 1px dashed rgb(255 214 102 / 90%);
+}
+
+.scene-debug-rule--seat {
+  border-top-color: rgb(120 214 255 / 90%);
+}
+
+.scene-debug-rule--calibration {
+  border-top-style: dotted;
+  border-top-color: rgb(255 255 255 / 55%);
+}
+
+.scene-debug-rule small,
+.scene-debug-marker small,
+.scene-debug-footprint small,
+.scene-debug-occluder small,
+.scene-debug-slot small,
+.scene-debug-box small,
+.scene-debug-facing small {
+  font-size: 9px;
+  line-height: 1;
+  white-space: nowrap;
+  background: rgb(12 14 18 / 78%);
+  color: #f2efe6;
+  padding: 1px 3px;
+}
+
+.scene-debug-rule small {
+  position: absolute;
+  left: 2px;
+  top: 1px;
+}
+
+.scene-debug-marker {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: rgb(255 94 94 / 95%);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 80%);
+}
+
+.scene-debug-marker--foot {
+  background: rgb(255 214 102 / 95%);
+}
+
+.scene-debug-marker--seated-pelvis {
+  background: rgb(120 214 255 / 95%);
+}
+
+.scene-debug-marker small {
+  position: absolute;
+  left: 10px;
+  top: -2px;
+}
+
+.scene-debug-footprint {
+  position: absolute;
+  height: 2%;
+  border: 1px solid rgb(126 255 176 / 80%);
+  border-top: none;
+}
+
+.scene-debug-footprint small {
+  position: absolute;
+  left: 0;
+  bottom: -11px;
+}
+
+.scene-debug-occluder {
+  position: absolute;
+  border: 1px solid rgb(255 138 216 / 80%);
+  background: rgb(255 138 216 / 8%);
+}
+
+.scene-debug-occluder small {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+}
+
+.scene-debug-slot {
+  position: absolute;
+  border: 1px dashed rgb(180 200 255 / 85%);
+  background: rgb(180 200 255 / 8%);
+}
+
+.scene-debug-slot small {
+  position: absolute;
+  left: 1px;
+  top: 1px;
+}
+
+.scene-debug-box {
+  position: absolute;
+  border: 1px solid rgb(126 255 176 / 85%);
+}
+
+.scene-debug-box small {
+  position: absolute;
+  left: 0;
+  top: -11px;
+}
+
+.scene-debug-hitbox {
+  position: absolute;
+  border: 1px dotted rgb(255 255 255 / 55%);
+}
+
+.scene-debug-facing {
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+.scene-debug-panel {
+  margin-top: 14px;
+  background: #14161a;
+  color: #e8e4d8;
+  padding: 12px 14px;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.scene-debug-panel h3 {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+}
+
+.scene-debug-panel dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 2px 12px;
+  margin: 0 0 10px;
+}
+
+.scene-debug-panel dt {
+  color: #9aa3b2;
+}
+
+.scene-debug-panel dd {
+  margin: 0;
+}
+
+.scene-debug-panel h4 {
+  margin: 12px 0 4px;
+  font-size: 0.82rem;
+}
+
+.scene-debug-panel h4 small {
+  color: #9aa3b2;
+  font-weight: 400;
+}
+
+.scene-debug-warnings {
+  margin: 6px 0 0;
+  padding-left: 16px;
+}
+
+.scene-debug-warnings li {
+  margin-bottom: 4px;
+}
+
+.scene-debug-warnings strong {
+  color: #ffb4b4;
+  margin-right: 4px;
+}
+
+.scene-debug-warnings code {
+  color: #ffd666;
+  margin-right: 6px;
+}
+
+.scene-debug-clean {
+  margin: 6px 0 0;
+
+  color: #7effb0;
+}
+
+.scene-debug-player-copy {
+  margin: 4px 0 0;
+  color: #d8d4c8;
+  font-style: italic;
+}
+
+.scene-debug-identity {
+  margin: 2px 0;
+  color: #9aa3b2;
+}
+
+/* Per-person cards --------------------------------------------------------- */
+
+.scene-proof-cards {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.scene-proof-cards > li {
+  background: #f8f7f3;
+  border: 1px solid #b4b4a8;
+  padding: 12px 14px;
+  font-size: 0.85rem;
+}
+
+.scene-proof-cards > li[data-complete="false"] {
+  border-left: 4px solid #b4432f;
+}
+
+.scene-proof-cards h3 {
+  margin: 0 0 6px;
+  font-size: 0.98rem;
+}
+
+.scene-proof-cards h3 small {
+  font-weight: 400;
+  color: #5c6779;
+}
+
+.scene-proof-cards p {
+  margin: 4px 0;
+}
+
+.scene-proof-derived {
+  color: #5c6779;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.76rem;
+}
+
+.scene-proof-fallback {
+  font-style: italic;
+}
+
+.scene-proof-complete {
+  color: #2f6b46;
+}
+
+.scene-proof-cards ul {
+  margin: 6px 0 0;
+  padding-left: 16px;
+  font-size: 0.78rem;
+}
+
+.scene-proof-cards ul strong {
+  color: #b4432f;
+  margin-right: 4px;
+}
+
+.scene-proof-footer {
+  border-top: 1px solid #b4b4a8;
+  padding-top: 12px;
+  font-size: 0.82rem;
+  color: #5c6779;
+}
+
+/* ---------------------------------------------------------------------------
+   POSE AND CONTACT PROOF (a section of ?view=scene-proof)
+
+   One identity per row, one registered pose family per cell: the deterministic
+   control plate beside the composed body. Every marker is a DOM overlay read
+   from metadata, so nothing here is baked into a raster.
+   --------------------------------------------------------------------------- */
+
+.pose-proof {
+  border-top: 1px solid #b4b4a8;
+  margin-top: 28px;
+  padding-top: 20px;
+}
+
+.pose-proof-coverage {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  margin: 12px 0 20px;
+}
+
+.pose-proof-coverage caption {
+  text-align: left;
+  color: #5c6779;
+  padding-bottom: 6px;
+}
+
+.pose-proof-coverage th,
+.pose-proof-coverage td {
+  border: 1px solid #b4b4a8;
+  padding: 5px 8px;
+  text-align: left;
+}
+
+.pose-proof-coverage thead th {
+  background: #edeae0;
+}
+
+.pose-proof-coverage
+  tr[data-covered="false"][data-priority="P0"]
+  th[scope="row"] {
+  border-left: 4px solid #b4432f;
+}
+
+.pose-proof-person {
+  margin-bottom: 26px;
+}
+
+.pose-proof-cells {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.pose-proof-cell {
+  background: #f8f7f3;
+  border: 1px solid #b4b4a8;
+  padding: 12px 14px;
+  font-size: 0.82rem;
+}
+
+.pose-proof-cell[data-drawn="false"] {
+  border-left: 4px solid #b4432f;
+}
+
+.pose-proof-cell[data-contacts-agree="false"] {
+  border-left: 4px solid #b4432f;
+}
+
+.pose-proof-cell h4 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+
+.pose-proof-cell h4 small {
+  font-weight: 400;
+  color: #5c6779;
+}
+
+.pose-proof-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.pose-proof-pair > figure {
+  /* The aspect ratio is set per cell from the plate viewport and the body
+     layer union, so a percentage overlay lands exactly where the art does. */
+  align-self: start;
+}
+
+.pose-proof-plate,
+.pose-proof-body {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 9 / 16;
+  background: #1b1b1b;
+  border: 1px solid #b4b4a8;
+  overflow: hidden;
+}
+
+.pose-proof-body {
+  background: #e6e3da;
+}
+
+.pose-proof-plate img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pose-proof-body-layer {
+  position: absolute;
+  object-fit: contain;
+  image-rendering: auto;
+}
+
+.pose-proof-plate figcaption,
+.pose-proof-body figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 2px 4px;
+  font-size: 0.62rem;
+  background: rgba(20, 20, 20, 0.72);
+  color: #f4f2ec;
+}
+
+.pose-proof-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  font-style: italic;
+  color: #5c6779;
+}
+
+.pose-proof-marker {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 400;
+}
+
+.pose-proof-marker--plate-landmark {
+  background: #4ea3ff;
+}
+
+.pose-proof-marker--plate-contact {
+  background: none;
+  border: 2px solid #ff6a3d;
+  width: 11px;
+  height: 11px;
+  margin: -5.5px 0 0 -5.5px;
+}
+
+.pose-proof-marker--body {
+  background: #2f6b46;
+  outline: 1px solid #f4f2ec;
+}
+
+.pose-proof-assets code {
+  font-size: 0.7rem;
+  color: #5c6779;
+  overflow-wrap: anywhere;
+}
+
+.pose-proof-status {
+  margin: 8px 0 0;
+  font-size: 0.76rem;
+}
+
+.pose-proof-status > div {
+  display: flex;
+  gap: 6px;
+  margin: 2px 0;
+}
+
+.pose-proof-status dt {
+  color: #5c6779;
+  flex: 0 0 auto;
+}
+
+.pose-proof-status dt::after {
+  content: ":";
+}
+
+.pose-proof-status dd {
+  margin: 0;
+}
+
+.pose-proof-gaps {
+  margin: 8px 0 0;
+  padding-left: 16px;
+  font-size: 0.76rem;
+}
+
+.pose-proof-gaps strong {
+  color: #b4432f;
+  margin-right: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   DEVELOPMENT AUTHORING OVERLAY (?view=scene-authoring)
+
+   A developer surface, styled to stay legible over any plate rather than to
+   look like the game. Certainty is carried by colour AND by the printed label,
+   because a reviewer reading a screenshot in greyscale still has to be able to
+   tell an estimate from a measurement.
+   --------------------------------------------------------------------------- */
+
+.scene-authoring-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  background: #edeae0;
+  border: 1px solid #b4b4a8;
+}
+
+.scene-authoring-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #4a4a44;
+}
+
+.scene-authoring-controls select,
+.scene-authoring-controls input[type="text"] {
+  font-size: 0.9rem;
+  padding: 4px 6px;
+  border: 1px solid #9a9a90;
+  background: #fff;
+  min-width: 180px;
+}
+
+.scene-authoring-stage {
+  cursor: crosshair;
+}
+
+.scene-authoring-readout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px 24px;
+  margin: 10px 0 24px;
+  padding: 10px 14px;
+  background: #22252a;
+  color: #e6e2d6;
+  font-size: 0.84rem;
+}
+
+.scene-authoring-readout dt {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #a8a496;
+  margin-bottom: 2px;
+}
+
+.scene-authoring-readout dd {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  line-height: 1.5;
+}
+
+.scene-authoring-readout ul {
+  margin: 6px 0 0;
+  padding-left: 16px;
+  color: #f0c674;
+}
+
+.scene-authoring-readout em {
+  color: #a8c8e8;
+  font-style: normal;
+}
+
+.scene-authoring-capture {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  border: 2px solid #101216;
+  z-index: 90;
+}
+
+.scene-authoring-capture small {
+  position: absolute;
+  left: 13px;
+  top: -3px;
+  font-size: 9px;
+  line-height: 1;
+  white-space: nowrap;
+  background: rgb(12 14 18 / 82%);
+  color: #f2efe6;
+  padding: 1px 3px;
+}
+
+.scene-authoring-capture--verified {
+  background: #6fbf73;
+}
+
+.scene-authoring-capture--estimated {
+  background: #f0c674;
+}
+
+.scene-authoring-capture--unverified {
+  background: #c78ce0;
+}
+
+.scene-authoring-capture--unknown {
+  background: #e06c6c;
+}
+
+.scene-authoring-export {
+  margin-top: 12px;
+}
+
+.scene-authoring-export h2 {
+  font-size: 1.05rem;
+  margin: 0 0 8px;
+}
+
+.scene-authoring-export h2 small {
+  font-weight: 400;
+  color: #5a5a52;
+  font-size: 0.82rem;
+}
+
+.scene-authoring-export ol {
+  margin: 0 0 12px;
+  padding-left: 20px;
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.scene-authoring-export textarea {
+  width: 100%;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  padding: 10px;
+  border: 1px solid #b4b4a8;
+  background: #fbfaf6;
+}
+
+/* Real-asset proof evidence strip (?view=character-proof&set=real). */
+.character-proof-evidence {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.character-proof-evidence figure {
+  margin: 0;
+}
+
+.character-proof-evidence img {
+  width: 100%;
+  height: auto;
+  border: 1px solid #b4b4a8;
+}
+
+.character-proof-evidence figcaption {
+  font-size: 0.85rem;
+  color: #5c6779;
+  margin-top: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   Production office proof (?view=production-office)
+   DEVELOPMENT ONLY. Every rule below styles a developer surface.
+
+   Separate from .scene-proof's own blocks on purpose: this surface must be
+   visually distinguishable from the development-fixture proofs at a glance, so
+   a screenshot of one is never mistaken for the other.
+   --------------------------------------------------------------------------- */
+
+.scene-proof-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 16px;
+  margin: 16px 0 20px;
+  padding: 12px 16px;
+  border: 1px solid #c4b9a4;
+  border-radius: 4px;
+  background: #f6f2e8;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.scene-proof-facts dt {
+  font-weight: 700;
+  color: #4a3f2c;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  align-self: center;
+}
+
+.scene-proof-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.scene-proof-facts code {
+  font-size: 0.8rem;
+}
+
+.production-anchor-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -100%);
+  padding: 4px 8px;
+  border: 2px dashed #b4462d;
+  border-radius: 3px;
+  background: rgba(255, 246, 240, 0.9);
+  color: #8a3520;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  line-height: 1.3;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.production-anchor-placeholder small {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 9px;
+}
+
+.scene-proof-missing {
+  padding: 24px;
+  color: #8a3520;
+  font-weight: 700;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Title tableau                                                              */
+/*                                                                            */
+/* The title screen paints a room behind itself when there is a truthful one  */
+/* to paint. Every rule below is written so that the no-art case is not a     */
+/* degraded version of the art case: with `data-has-plate="false"` the page   */
+/* is the pale sheet it has always been, and the panel below adds nothing.    */
+/* -------------------------------------------------------------------------- */
+
+.title-tableau {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  isolation: isolate;
+}
+
+.title-tableau-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.title-tableau-camera {
+  position: absolute;
+}
+
+/*
+ * A veil, not a fog.
+ *
+ * The point of the backdrop is that the room reads as a room. An even wash
+ * heavy enough to make text safe anywhere turns the picture back into the pale
+ * page this work existed to fix, so the veil here is light and the legibility
+ * is paid for locally, by the panel the copy sits on.
+ */
+.title-tableau--art .title-tableau-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgb(246 247 250 / 26%),
+    rgb(246 247 250 / 10%) 45%,
+    rgb(246 247 250 / 22%)
+  );
+}
+
+.title-tableau-content {
+  position: relative;
+  z-index: 1;
+}
+
+/*
+ * Deliberately not a person.
+ *
+ * The resolver asks for this when a character is entitled to the room but the
+ * game has no art of them. Drawing anything with a head and shoulders would be
+ * inventing a likeness, so this is a soft column standing on the anchor's own
+ * floor line: enough to say "somebody stands here", not enough to say who.
+ */
+.title-tableau-outline {
+  position: absolute;
+  width: 7%;
+  height: 34%;
+  transform: translate(-50%, -100%);
+  border-radius: 44% 44% 18% 18%;
+  background: linear-gradient(rgb(22 35 58 / 16%), rgb(22 35 58 / 26%));
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.game-title-scene {
+  margin: -1.6rem 0 2.25rem;
+  max-width: 30rem;
+  color: #55627a;
+  font-size: 0.92rem;
+}
+
+/*
+ * The copy's own ground.
+ *
+ * Anchored to the content column rather than to a viewport percentage, so it
+ * stays behind the words at any width instead of drifting off them. Buttons
+ * are deliberately left alone: they are the game's own dark green, and they
+ * read over this panel exactly as they read over the pale page.
+ */
+.title-tableau--art .game-title {
+  /* Less air than the pale page needs: every row the panel gives back is a row
+     of the room. */
+  padding: 2.25rem 1.5rem 2.25rem;
+  background: linear-gradient(
+    rgb(248 249 252 / 93%),
+    rgb(248 249 252 / 86%) 60%,
+    rgb(248 249 252 / 72%)
+  );
+  backdrop-filter: blur(3px);
+  border-radius: 0 0 1.1rem 1.1rem;
+  box-shadow: 0 1.4rem 3rem rgb(16 28 48 / 12%);
+}
+
+.title-tableau--art .game-title h1,
+.title-tableau--art .game-title-line {
+  color: #101c30;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Scene gallery — the room review route                                      */
+/* -------------------------------------------------------------------------- */
+
+.scene-gallery {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+  color: #16233a;
+}
+
+.scene-gallery header p,
+.scene-gallery section > p {
+  max-width: 46rem;
+  color: #47536a;
+}
+
+.scene-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+  align-items: start;
+  gap: 1.5rem;
+  margin: 2rem 0 3rem;
+}
+
+.scene-gallery-card {
+  border: 1px solid #d3d7e0;
+  border-radius: 0.6rem;
+  overflow: hidden;
+  background: #fbfbfd;
+}
+
+.scene-gallery-plate {
+  background: #e8eaef;
+}
+
+.scene-gallery-no-plate {
+  margin: 0;
+  padding: 3.5rem 1.25rem;
+  text-align: center;
+  color: #55627a;
+}
+
+.scene-gallery-body {
+  padding: 1rem 1.15rem 1.35rem;
+}
+
+.scene-gallery-body h3 {
+  margin: 0 0 0.3rem;
+  font-size: 1.05rem;
+}
+
+.scene-gallery-body h3 small,
+.scene-gallery-requests h4 small {
+  margin-left: 0.5rem;
+  font-weight: 400;
+  color: #6b7688;
+}
+
+.scene-gallery-body h4 {
+  margin: 1.1rem 0 0.4rem;
+  font-size: 0.86rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #55627a;
+}
+
+.scene-gallery-ids code {
+  margin-right: 0.5rem;
+  font-size: 0.76rem;
+}
+
+.scene-gallery-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.15rem 0.9rem;
+  margin: 0.6rem 0 0;
+  font-size: 0.82rem;
+}
+
+.scene-gallery-facts dt {
+  color: #6b7688;
+}
+
+.scene-gallery-facts dd {
+  margin: 0;
+}
+
+.scene-gallery-body ul,
+.scene-gallery-requests ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.84rem;
+}
+
+.scene-gallery-body li span {
+  display: block;
+  color: #55627a;
+}
+
+.scene-gallery-unknowns li {
+  margin-bottom: 0.4rem;
+  color: #55627a;
+}
+
+.scene-gallery-warning {
+  color: #8a2f2f;
+}
+
+.scene-gallery-matrix table {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+
+.scene-gallery-matrix th,
+.scene-gallery-matrix td {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid #dcdfe7;
+  text-align: left;
+  vertical-align: top;
+}
+
+.scene-gallery-matrix small {
+  color: #6b7688;
+}
+
+.scene-gallery-requests {
+  margin-top: 3rem;
+}
+
+.scene-gallery-requests li {
+  margin-bottom: 1.4rem;
+}
+
+.scene-gallery-requests h4 {
+  margin: 0 0 0.2rem;
+  font-size: 0.95rem;
+}
+
+.scene-gallery-requests p {
+  margin: 0.25rem 0;
+}
+
+.scene-gallery-shortfall {
+  color: #55627a;
+}
+
+/* Chopped source components, on the room review route. */
+.scene-gallery-intake {
+  margin-top: 3rem;
+}
+
+.scene-gallery-intake h3 {
+  margin: 1.6rem 0 0.5rem;
+  font-size: 1rem;
+}
+
+.scene-gallery-intake-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scene-gallery-intake-grid li {
+  border: 1px solid #d3d7e0;
+  border-radius: 0.5rem;
+  padding: 0.7rem;
+  background: #fbfbfd;
+  font-size: 0.78rem;
+}
+
+.scene-gallery-intake-grid img {
+  display: block;
+  width: 100%;
+  height: 9rem;
+  object-fit: contain;
+  background: #eceae4;
+  border-radius: 0.3rem;
+}
+
+.scene-gallery-intake-grid p {
+  margin: 0.4rem 0 0;
+}
+
+.scene-gallery-intake-grid li[data-disposition="PASS"] strong {
+  color: #1f5c3d;
+}
+
+.scene-gallery-intake-grid li[data-disposition="REVISE"] strong {
+  color: #8a5a1f;
+}
+
+.scene-gallery-intake-grid li[data-disposition="REJECT"] strong {
+  color: #8a2f2f;
+}
+
+.scene-gallery-intake-name code {
+  font-size: 0.7rem;
+  word-break: break-all;
+}
+
+.scene-gallery-intake-what {
+  color: #16233a;
+}
+
+.scene-gallery-intake-reason {
+  color: #55627a;
 }

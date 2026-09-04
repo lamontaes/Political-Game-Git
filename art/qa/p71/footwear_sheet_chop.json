@@ -1,0 +1,325 @@
+{
+  "tool": "source-sheet-chop-v1",
+  "sourcePath": "art/references/masters/wardrobe/OCD_CANDIDATE_WARDROBE_FOOTWEAR_SOURCE_12UP_3584x4800_01.png",
+  "sourceSha256": "fa1abe93d5abe3a0a93d580a7910fd2abf2bd9372c2e913eb5699c52a441989b",
+  "sourceWidth": 3584,
+  "sourceHeight": 4800,
+  "options": {
+    "alphaNoiseThreshold": 8,
+    "paddingPixels": 64,
+    "minimumGapPixels": 24,
+    "minimumComponentPixels": 20000
+  },
+  "columnBands": [
+    {
+      "start": 57,
+      "end": 1136
+    },
+    {
+      "start": 1270,
+      "end": 2340
+    },
+    {
+      "start": 2477,
+      "end": 3531
+    }
+  ],
+  "rowBands": [
+    {
+      "start": 248,
+      "end": 908
+    },
+    {
+      "start": 1229,
+      "end": 2085
+    },
+    {
+      "start": 2524,
+      "end": 3376
+    },
+    {
+      "start": 3768,
+      "end": 4699
+    }
+  ],
+  "noisePixelsCleared": 3906059,
+  "cells": [
+    {
+      "cellId": "R1C1",
+      "row": 1,
+      "column": 1,
+      "sourceBox": {
+        "x": 73,
+        "y": 267,
+        "width": 1040,
+        "height": 631
+      },
+      "centroidNormalized": {
+        "x": 0.15758,
+        "y": 0.123319
+      },
+      "exportWidth": 1168,
+      "exportHeight": 759,
+      "opaquePixels": 437307,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 7641,
+      "outputPath": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_grey_court_sneaker_v1.png",
+      "sha256": "524824b651675666f6be138bbe4fa2b218414474644f02759ddc6e51c54512f6"
+    },
+    {
+      "cellId": "R1C2",
+      "row": 1,
+      "column": 2,
+      "sourceBox": {
+        "x": 1282,
+        "y": 248,
+        "width": 1039,
+        "height": 661
+      },
+      "centroidNormalized": {
+        "x": 0.493115,
+        "y": 0.123125
+      },
+      "exportWidth": 1167,
+      "exportHeight": 789,
+      "opaquePixels": 448083,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 7870,
+      "outputPath": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_blue_running_shoe_v1.png",
+      "sha256": "f69512ed4541ab5bfca8547601d069789f2270f760dab8b07ad5142e77fc184a"
+    },
+    {
+      "cellId": "R1C3",
+      "row": 1,
+      "column": 3,
+      "sourceBox": {
+        "x": 2483,
+        "y": 293,
+        "width": 1044,
+        "height": 614
+      },
+      "centroidNormalized": {
+        "x": 0.830822,
+        "y": 0.126889
+      },
+      "exportWidth": 1172,
+      "exportHeight": 742,
+      "opaquePixels": 423946,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 7937,
+      "outputPath": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_navy_canvas_plimsoll_v1.png",
+      "sha256": "66c9e1e4fd4396094696aae18fb27f871038ebd228be9371393974fc5ab44170"
+    },
+    {
+      "cellId": "R2C1",
+      "row": 2,
+      "column": 1,
+      "sourceBox": {
+        "x": 75,
+        "y": 1375,
+        "width": 1051,
+        "height": 612
+      },
+      "centroidNormalized": {
+        "x": 0.156704,
+        "y": 0.353479
+      },
+      "exportWidth": 1179,
+      "exportHeight": 740,
+      "opaquePixels": 422883,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 9144,
+      "outputPath": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_brown_penny_loafer_v1.png",
+      "sha256": "57719b1c036146bf55ba0e2f40ca445e98cce13ee18b112634077d354658ec45"
+    },
+    {
+      "cellId": "R2C2",
+      "row": 2,
+      "column": 2,
+      "sourceBox": {
+        "x": 1270,
+        "y": 1382,
+        "width": 1071,
+        "height": 611
+      },
+      "centroidNormalized": {
+        "x": 0.490475,
+        "y": 0.35468
+      },
+      "exportWidth": 1199,
+      "exportHeight": 739,
+      "opaquePixels": 432790,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 9227,
+      "outputPath": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_black_cap_toe_oxford_v1.png",
+      "sha256": "1713844c522d011a0bd3ad755c277fd2f87b68a36526382f4afda81eb5b1b6b4"
+    },
+    {
+      "cellId": "R2C3",
+      "row": 2,
+      "column": 3,
+      "sourceBox": {
+        "x": 2477,
+        "y": 1229,
+        "width": 1052,
+        "height": 857
+      },
+      "centroidNormalized": {
+        "x": 0.819927,
+        "y": 0.351319
+      },
+      "exportWidth": 1180,
+      "exportHeight": 985,
+      "opaquePixels": 603658,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 10732,
+      "outputPath": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_tan_work_boot_v1.png",
+      "sha256": "1a014936fd0f2f898313f6a5143140fdb501320ae95eb38f85c0e2b05350d07d"
+    },
+    {
+      "cellId": "R3C1",
+      "row": 3,
+      "column": 1,
+      "sourceBox": {
+        "x": 57,
+        "y": 2524,
+        "width": 1080,
+        "height": 853
+      },
+      "centroidNormalized": {
+        "x": 0.150549,
+        "y": 0.619546
+      },
+      "exportWidth": 1208,
+      "exportHeight": 981,
+      "opaquePixels": 616706,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 9843,
+      "outputPath": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_taupe_chukka_boot_v1.png",
+      "sha256": "1e8c59b6ce241bbad1a19080578eb501d0e13ffa71d4c0b96f20c82e2f3095e9"
+    },
+    {
+      "cellId": "R3C2",
+      "row": 3,
+      "column": 2,
+      "sourceBox": {
+        "x": 1283,
+        "y": 2668,
+        "width": 1053,
+        "height": 632
+      },
+      "centroidNormalized": {
+        "x": 0.493701,
+        "y": 0.625564
+      },
+      "exportWidth": 1181,
+      "exportHeight": 760,
+      "opaquePixels": 428543,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 8868,
+      "outputPath": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_green_ballet_flat_v1.png",
+      "sha256": "95958a36091bdbf0d89cbc03dca6cd32d393169a27b051e2895eaa4aec16c88a"
+    },
+    {
+      "cellId": "R3C3",
+      "row": 3,
+      "column": 3,
+      "sourceBox": {
+        "x": 2477,
+        "y": 2610,
+        "width": 1055,
+        "height": 671
+      },
+      "centroidNormalized": {
+        "x": 0.824168,
+        "y": 0.619148
+      },
+      "exportWidth": 1183,
+      "exportHeight": 799,
+      "opaquePixels": 446532,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 9264,
+      "outputPath": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_grey_low_block_heel_v1.png",
+      "sha256": "6f297eb46aeda5114e078c01dab2f0752f050c25dbe6fe8795a011138524f968"
+    },
+    {
+      "cellId": "R4C1",
+      "row": 4,
+      "column": 1,
+      "sourceBox": {
+        "x": 77,
+        "y": 3977,
+        "width": 1036,
+        "height": 648
+      },
+      "centroidNormalized": {
+        "x": 0.150593,
+        "y": 0.901619
+      },
+      "exportWidth": 1164,
+      "exportHeight": 776,
+      "opaquePixels": 404678,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 10395,
+      "outputPath": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_plum_mid_block_heel_v1.png",
+      "sha256": "4188109bc7d402321565594f37386b695b3803f71d33c6dcdc5e13e06e40aa0c"
+    },
+    {
+      "cellId": "R4C2",
+      "row": 4,
+      "column": 2,
+      "sourceBox": {
+        "x": 1273,
+        "y": 4008,
+        "width": 1055,
+        "height": 663
+      },
+      "centroidNormalized": {
+        "x": 0.496763,
+        "y": 0.908498
+      },
+      "exportWidth": 1183,
+      "exportHeight": 791,
+      "opaquePixels": 450191,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 13925,
+      "outputPath": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_brown_strap_sandal_v1.png",
+      "sha256": "e16b256577c4426a13857d690bba6bcdfe14ebd67da82a0795640b54e368de20"
+    },
+    {
+      "cellId": "R4C3",
+      "row": 4,
+      "column": 3,
+      "sourceBox": {
+        "x": 2477,
+        "y": 3768,
+        "width": 1050,
+        "height": 932
+      },
+      "centroidNormalized": {
+        "x": 0.818094,
+        "y": 0.887873
+      },
+      "exportWidth": 1178,
+      "exportHeight": 1060,
+      "opaquePixels": 656281,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 10912,
+      "outputPath": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_olive_hiking_boot_v1.png",
+      "sha256": "7d1fa2bead41b8eff4cdba5299ef769ed1cc437c7007546027a831881a67ab42"
+    }
+  ],
+  "rejectedFragments": []
+}
