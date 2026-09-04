@@ -883,8 +883,17 @@ describe("Two lives differ for causal reasons, not in their names", () => {
     // people, threads and beats differ for causal reasons. They do — as soon
     // as anything happens, because what happens writes records and the records
     // are what the threads and the beats are read from.
-    const left = playedShape("shape-a", 8);
-    const right = playedShape("shape-b", 8);
+    //
+    // Twelve steps rather than eight since Packet 72. Ending the childhood
+    // authority record at eighteen — it used to stay open for life, so every
+    // adult in the game was recorded as somebody's dependent — made the adult
+    // household family reachable for the first time, and for the first few
+    // beats both lives spend themselves in it. They separate once it is used
+    // up, which is what "differ for causal reasons" means: the divergence
+    // comes from what has happened to each of them, so it needs enough of a
+    // life for something to have happened in.
+    const left = playedShape("shape-a", 12);
+    const right = playedShape("shape-b", 12);
 
     const sameThreadFamilies =
       left.threads.families.join("|") === right.threads.families.join("|");

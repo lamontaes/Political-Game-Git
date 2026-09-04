@@ -5660,3 +5660,84 @@
   color: #8a3520;
   font-weight: 700;
 }
+
+/*
+  Packet 72 — the page hierarchy the human playtest could not read.
+
+  Two problems, both semantic before they are visual. The play surface opened
+  straight into a paragraph, so nothing on the page said whose life it was or
+  what year it had reached; and the descriptive line under each choice competed
+  with the choice itself, so a screen of options read as a wall of sentences.
+
+  Nothing here is scene art. Where a person or a room goes is PR #86's, and
+  none of these rules assume a layout it has not shipped — they set type,
+  spacing and weight around content that is already on the page.
+*/
+
+.game-scene-header {
+  margin: 0 0 1.1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid #d9d5c9;
+}
+
+.game-scene-header h2 {
+  margin: 0;
+  font-size: 1.32rem;
+  letter-spacing: -0.01em;
+  color: #16233a;
+}
+
+.game-scene-header .game-band {
+  margin: 0.25rem 0 0;
+}
+
+/*
+  The line that turns a page of prose into a page with a decision on it.
+  Small, quiet and unmissable, which is the job: a reader scanning for what
+  they are being asked should land on it without reading the paragraph twice.
+*/
+.game-choices-heading {
+  margin: 1.4rem 0 0.55rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #47536a;
+}
+
+.game-fieldset {
+  margin: 1.1rem 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.game-fieldset legend {
+  padding: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #47536a;
+}
+
+.game-fieldset .game-note {
+  margin: 0.25rem 0 0.5rem;
+}
+
+/*
+  A row of short answers, rather than the full-width column the choice grid
+  gives a decision. "Female" does not need fifteen rems of button.
+*/
+.game-choices.game-choices-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+  grid-template-columns: none;
+}
+
+.game-choices.game-choices-inline button {
+  width: auto;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.94rem;
+}

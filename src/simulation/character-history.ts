@@ -2276,6 +2276,27 @@ export function generateQuickCharacterHistory(
         },
       },
       {
+        // And it ends when they grow up.
+        //
+        // It did not, before Packet 72, and nothing noticed because nothing
+        // asked. Once a stage could require that a character answers for
+        // themselves, a thirty-four-year-old with an open childhood authority
+        // record was recorded as still being somebody's dependent — so the
+        // adult household family withheld itself from every adult in the
+        // game. A childhood that never ends is a false biography, not a
+        // bookkeeping quirk.
+        kind: "authority-state",
+        input: {
+          stableKey: key("authority:ended"),
+          authorityStableKey: key("authority"),
+          effectiveAt: age(18),
+          status: "ended",
+          basisKind: "custom:family",
+          context: "Reached adulthood",
+          provenance: generated,
+        },
+      },
+      {
         kind: "education",
         input: {
           stableKey: key("education:elementary"),
