@@ -327,7 +327,9 @@ test.describe("The record is a journal, not a log down the page", () => {
     const journal = page.getByTestId("journal");
     await expect(journal).toBeVisible();
     const text = await journal.innerText();
-    expect(text).toContain("What has happened");
+    // Case-insensitive: the stylesheet uppercases the journal's section
+    // headings, and this test is about the words rather than the letterforms.
+    expect(text.toLowerCase()).toContain("what has happened");
     expect(text).not.toMatch(DEVELOPER_WORDS);
     expect(text).not.toMatch(FORECAST_WORDS);
     expect(text).not.toMatch(

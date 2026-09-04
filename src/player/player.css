@@ -4576,6 +4576,189 @@
   border-top: 1px solid #d3d3c8;
 }
 
+/* ---------------------------------------------------------------------------
+   The story surface: connective passage, scene, what is open, and the journal.
+
+   The narrative wave added these five classes and shipped them unstyled, so
+   the passage, the search field and the journal fell back to browser defaults
+   on the one screen a player spends all their time on. The visual audit found
+   it; this fixes it, and it is styling rather than art on purpose — a
+   paragraph of connective narration wants type and rhythm, not a picture.
+   --------------------------------------------------------------------------- */
+
+.game-story {
+  margin-top: 1.75rem;
+}
+
+/*
+  The bridge between the last moment and this one. Set quieter and looser than
+  the scene it introduces, so a reader takes it as the time passing rather than
+  as the thing that is happening now.
+*/
+.game-passage {
+  margin: 0 0 1.5rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid #d3d3c8;
+  color: #47536a;
+  font-size: 1.02rem;
+  line-height: 1.68;
+}
+
+/* What is still open, under the choices rather than over them. */
+.game-story .game-pending {
+  margin-top: 1.9rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid #e2e1d7;
+  list-style: none;
+  padding-left: 0;
+  color: #47536a;
+  font-size: 0.94rem;
+}
+
+.game-story .game-pending li {
+  padding-left: 0.9rem;
+  position: relative;
+}
+
+.game-story .game-pending li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #b4b4a8;
+}
+
+/*
+  The journal opens from a control rather than sitting on the page. Styled as a
+  quiet text control, because it is a way in rather than a decision.
+*/
+.game-journal-toggle {
+  margin-top: 1.75rem;
+  padding: 0.4rem 0;
+  border: 0;
+  border-bottom: 1px solid #b4b4a8;
+  border-radius: 0;
+  background: none;
+  color: #47536a;
+  font: inherit;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.game-journal-toggle:hover {
+  color: #16233a;
+  border-bottom-color: #16233a;
+}
+
+.game-journal {
+  margin-top: 1.4rem;
+  padding: 1.4rem 1.5rem 1.6rem;
+  border: 1px solid #d3d3c8;
+  border-radius: 0.5rem;
+  background: #fdfdfb;
+}
+
+.game-journal h2 {
+  margin: 0 0 0.2rem;
+  font-size: 1.25rem;
+}
+
+.game-journal h3 {
+  margin: 1.6rem 0 0.6rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #47536a;
+}
+
+.game-journal ol,
+.game-journal ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Chapters carry their own heading, so the outer list drops its numbering. */
+.game-journal > ol {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  gap: 1.1rem;
+}
+
+.game-journal > ol > li > strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-variant-numeric: tabular-nums;
+  color: #16233a;
+}
+
+.game-journal > ol ul {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  gap: 0.4rem;
+  color: #2b3648;
+}
+
+.game-journal > ol ul li {
+  padding-left: 0.9rem;
+  border-left: 2px solid #e2e1d7;
+}
+
+.game-journal button {
+  margin-top: 1.6rem;
+}
+
+/* The Start Anywhere search, above the places it filters. */
+.game-search {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-width: 22rem;
+  margin: 0 0 0.9rem;
+  font-weight: 600;
+}
+
+.game-search input {
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #b4b4a8;
+  border-radius: 0.42rem;
+  background: #fdfdfb;
+  color: #16233a;
+  font: inherit;
+  font-weight: 400;
+}
+
+/*
+  The ordinary day, which sits under the story on an adult screen. It had no
+  rule of its own and inherited nothing, so it ran flush against the beat above
+  it with no seam.
+*/
+.game-day {
+  margin-top: 2.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #d3d3c8;
+}
+
+/* Saves that could not be opened, kept visibly apart from the healthy ones. */
+.game-saves-damaged {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #d3d3c8;
+}
+
+.game-saves-damaged h2 {
+  margin: 0 0 0.4rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #47536a;
+}
+
 .legislation-authored {
   margin: 0.35rem 0 0;
   font-size: 0.86rem;
