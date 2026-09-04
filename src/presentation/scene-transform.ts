@@ -186,3 +186,72 @@ export function measureRasterFidelity(
     effectiveSourceCoverageY: nativeSource.height / requiredPhysicalHeight,
   };
 }
+
+/** The part of a transform a backdrop needs. Cropping has no safe area. */
+export interface SceneCoverTransform {
+  readonly viewport: SceneSize;
+  readonly uniformScale: number;
+  readonly xOffset: number;
+  readonly yOffset: number;
+  readonly renderedSceneWidth: number;
+  readonly renderedSceneHeight: number;
+  readonly devicePixelRatio: number;
+}
+
+/**
+ * A camera that FILLS the viewport and crops what does not fit.
+ *
+ * `resolveSceneTransform` is the gameplay camera: it keeps the safe area
+ * whole, because a person standing at an anchor has to stay on screen and a
+ * document has to stay readable. That is the right rule for a room being
+ * played in, and the wrong one for a room being looked at. On a tall phone the
+ * fitting camera leaves the picture floating in bands of empty page — which is
+ * how the title screen went from having no art at all to having art that read
+ * as a mistake.
+ *
+ * So a backdrop covers. The scene's own `horizontalFocus` and `verticalFocus`
+ * decide what survives the crop, which means the crop is still the scene
+ * author's judgement about where the picture's subject is, expressed in the
+ * same two numbers the gameplay camera reads. Nothing is composed against this
+ * transform except a marker anchored in plate percentages, which crops with the
+ * plate.
+ */
+export function resolveCoverTransform(
+  viewport: SceneSize,
+  virtualScene: SceneSize,
+  policy: SceneCameraPolicy,
+  requestedDevicePixelRatio = 1,
+): SceneCoverTransform {
+  if (
+    !validPositive(viewport.width) ||
+    !validPositive(viewport.height) ||
+    !validPositive(virtualScene.width) ||
+    !validPositive(virtualScene.height)
+  ) {
+    throw new Error("Scene and viewport dimensions must be positive numbers.");
+  }
+  const devicePixelRatio = validPositive(requestedDevicePixelRatio)
+    ? requestedDevicePixelRatio
+    : 1;
+  const uniformScale = Math.max(
+    viewport.width / virtualScene.width,
+    viewport.height / virtualScene.height,
+  );
+  const renderedSceneWidth = virtualScene.width * uniformScale;
+  const renderedSceneHeight = virtualScene.height * uniformScale;
+  return {
+    viewport,
+    uniformScale,
+    xOffset: snapToPhysicalPixel(
+      -(renderedSceneWidth - viewport.width) * policy.horizontalFocus,
+      devicePixelRatio,
+    ),
+    yOffset: snapToPhysicalPixel(
+      -(renderedSceneHeight - viewport.height) * policy.verticalFocus,
+      devicePixelRatio,
+    ),
+    renderedSceneWidth,
+    renderedSceneHeight,
+    devicePixelRatio,
+  };
+}

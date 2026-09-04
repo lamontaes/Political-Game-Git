@@ -1,0 +1,92 @@
+{
+  "set": "PG_TOP_GARMENT_MASTERS_v1",
+  "count": 12,
+  "source": "49ffc4d3-8570-4df2-80cf-f0b9ccef3a53.png",
+  "role": "Reusable top-garment design masters for Scenario body-family fitting",
+  "assets": [
+    {
+      "id": "PG_TOP_001",
+      "file": "PG_TOP_001_SHORT_SLEEVE_CREW_TEE.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat the sheet silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_TOP_002",
+      "file": "PG_TOP_002_LONG_SLEEVE_CREW_SHIRT.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat the sheet silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_TOP_003",
+      "file": "PG_TOP_003_SHORT_SLEEVE_POLO.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat the sheet silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_TOP_004",
+      "file": "PG_TOP_004_SHORT_SLEEVE_BUTTON_SHIRT.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat the sheet silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_TOP_005",
+      "file": "PG_TOP_005_LONG_SLEEVE_BUTTON_SHIRT.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat the sheet silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_TOP_006",
+      "file": "PG_TOP_006_PULLOVER_SWEATER.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat the sheet silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_TOP_007",
+      "file": "PG_TOP_007_OPEN_FRONT_CARDIGAN.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat the sheet silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_TOP_008",
+      "file": "PG_TOP_008_BUTTON_FRONT_CARDIGAN.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat the sheet silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_TOP_009",
+      "file": "PG_TOP_009_ZIP_FRONT_HOODIE.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat the sheet silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_TOP_010",
+      "file": "PG_TOP_010_QUARTER_ZIP_PULLOVER.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat the sheet silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_TOP_011",
+      "file": "PG_TOP_011_STRUCTURED_BLAZER.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat the sheet silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_TOP_012",
+      "file": "PG_TOP_012_LIGHTWEIGHT_CASUAL_JACKET.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat the sheet silhouette as canonical body fit."
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "set": "PG_BOTTOM_GARMENT_MASTERS_v1",
+  "count": 12,
+  "source": "033d5428-cb29-4bb8-ac6c-988277236021.png",
+  "role": "Reusable bottom-garment design masters for Scenario body-family fitting",
+  "assets": [
+    {
+      "id": "PG_BOTTOM_001",
+      "file": "PG_BOTTOM_001_STRAIGHT_LEG_BLUE_JEANS.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "compatibility": "Assign masculine/feminine/body-family compatibility during fitting.",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat source silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_BOTTOM_002",
+      "file": "PG_BOTTOM_002_DARK_RELAXED_FIT_JEANS.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "compatibility": "Assign masculine/feminine/body-family compatibility during fitting.",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat source silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_BOTTOM_003",
+      "file": "PG_BOTTOM_003_EVERYDAY_CHINOS.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "compatibility": "Assign masculine/feminine/body-family compatibility during fitting.",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat source silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_BOTTOM_004",
+      "file": "PG_BOTTOM_004_STRAIGHT_LEG_CASUAL_TROUSERS.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "compatibility": "Assign masculine/feminine/body-family compatibility during fitting.",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat source silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_BOTTOM_005",
+      "file": "PG_BOTTOM_005_DRESS_TROUSERS.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "compatibility": "Assign masculine/feminine/body-family compatibility during fitting.",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat source silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_BOTTOM_006",
+      "file": "PG_BOTTOM_006_RELAXED_DRAWSTRING_PANTS.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "compatibility": "Assign masculine/feminine/body-family compatibility during fitting.",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat source silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_BOTTOM_007",
+      "file": "PG_BOTTOM_007_JOGGERS.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "compatibility": "Assign masculine/feminine/body-family compatibility during fitting.",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat source silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_BOTTOM_008",
+      "file": "PG_BOTTOM_008_SWEATPANTS.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "compatibility": "Assign masculine/feminine/body-family compatibility during fitting.",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat source silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_BOTTOM_009",
+      "file": "PG_BOTTOM_009_KNEE_LENGTH_CASUAL_SHORTS.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "compatibility": "Assign masculine/feminine/body-family compatibility during fitting.",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat source silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_BOTTOM_010",
+      "file": "PG_BOTTOM_010_A_LINE_KNEE_LENGTH_SKIRT.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "compatibility": "Assign masculine/feminine/body-family compatibility during fitting.",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat source silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_BOTTOM_011",
+      "file": "PG_BOTTOM_011_STRAIGHT_KNEE_LENGTH_SKIRT.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "compatibility": "Assign masculine/feminine/body-family compatibility during fitting.",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat source silhouette as canonical body fit."
+    },
+    {
+      "id": "PG_BOTTOM_012",
+      "file": "PG_BOTTOM_012_CASUAL_MIDI_SKIRT.png",
+      "status": "GARMENT_DESIGN_MASTER",
+      "fit_status": "UNFITTED_MASTER",
+      "compatibility": "Assign masculine/feminine/body-family compatibility during fitting.",
+      "note": "Design authority only. Fit separately to compatible body families; do not treat source silhouette as canonical body fit."
+    }
+  ]
+}

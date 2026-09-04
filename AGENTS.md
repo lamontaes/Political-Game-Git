@@ -28,6 +28,10 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run typecheck` — TypeScript validation
 - `npm run build` — production build
 - `npm run validate` — full validation suite
+- `npm run intake:environment` — environment master intake with declared source lineage
+- `npm run derive:tiers` — derive the runtime raster ladder from an approved master
+- `npm run scaffold:scene` — emit a scene authoring scaffold with explicit unknowns
+- `npm run bank:art` — validate or normalize an asset-bank QA manifest
 
 ## Working Rules
 
@@ -51,6 +55,10 @@ A lower-authority document or implementation cannot silently override a higher-a
 - **No Fabricated Measurement Precision**: Never fabricate precise physical dimensions. Measurements must strictly distinguish confidence classes (e.g. `exact`, `plan-derived`, `specified`, `bounded-estimate`, `visual-estimate`). Missing measurements must remain missing, not guessed or zeroed out.
 - **Deterministic and Testable Tooling**: Prefer deterministic, inspectable, and testable tooling over opaque manual state. Generate deterministic fixture and replay outputs. Ensure art schemas are continually checked.
 - **Art-Pipeline Run Commands**: Art validation, inventory generation, and QA contact sheet generation commands have been explicitly added. Always run: `npm run validate:art`, `npm run inventory:art`, and `npm run qa:art`.
+- **Scene Authoring Pipeline**: Adding a room is authoring data, not writing scene-specific React or CSS. Environment masters enter through `npm run intake:environment` with an explicit source-lineage declaration; runtime tiers come from `npm run derive:tiers`; scene geometry starts as a `npm run scaffold:scene` scaffold whose unknowns stay explicit. See [Scene Authoring Pipeline](docs/systems/scene-authoring-pipeline.md).
+- **No Repository Upscaling; Declare External Ones**: The pipeline never enlarges a raster. An externally upscaled master (a Firefly upscale, say) is admissible as a candidate master ONLY with its lineage declared, and that declaration follows every derived tier into the manifest and the runtime. Never present an upscale as native detail, and never synthesize a tier the master cannot fill.
+- **Lived-In, Not Legible**: Baked environment art may carry restrained non-readable texture. Anything the simulation owns — jurisdiction name or seal, campaign name, bill number, headline, agenda, election result, calendar date, map label, officeholder portrait, briefing slide — belongs in a declared dynamic surface slot, never in the picture.
+- **Physical Art Identity Is Not a World Label**: A scene family describes what the art depicts; what the World calls it is supplied by the caller from canonical truth and is never inferred from a filename, a family id, or an access class. Scene access tags describe where progression might point; they grant nothing.
 - **Art-Pipeline Stop Conditions & Forbidden Changes**: Foundation-only art runs must stop when their constraints are met. Their historical Stage 6.5 ban does not override the accepted Runs A–C or authorized Run D-Lite slice. You remain forbidden from reopening accepted Stage 6 domain semantics, implementing Stage 7 systems, or generating non-fixture final output images without separate authorization.
 
 ## Coding-Agent Operations
