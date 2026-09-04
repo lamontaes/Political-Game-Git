@@ -23,10 +23,17 @@ import {
 } from "../simulation";
 import { composeConnectiveNarration, recurringPeople } from "./life-narration";
 import {
+  chooseStoryOption,
   lastRecordedMoment,
   projectStoryMoment,
   traceStorySelection,
 } from "./life-story";
+import { createNewGameWorld, type NewGameSetup } from "./new-game";
+import { worldSeedFor } from "./new-game-identity";
+import {
+  answerQuestionnaire,
+  questionnaireScreenFor,
+} from "./setup-questionnaire-flow";
 
 /**
  * What the game thinks, written down for a developer and for nobody else.
@@ -441,6 +448,25 @@ export function calibrationReportMarkdown(report: CalibrationReport): string {
   return lines.join("\n");
 }
 
+/**
+ * Where a composed sentence's claim comes from, said exactly.
+ *
+ * Three cases, and the distinction matters: a sentence backed by history
+ * records names them; one that only measures a gap between two dates says so;
+ * and one that reads the person's own fields — their age, where they live —
+ * says that instead of claiming a record it does not have.
+ */
+function provenanceOf(sentence: {
+  readonly kind: string;
+  readonly recordIds: readonly EntityId[];
+}): string {
+  if (sentence.recordIds.length > 0) {
+    return `from ${sentence.recordIds.join(", ")}`;
+  }
+  if (sentence.kind === "elapsed") return "date arithmetic only, no record";
+  return "no history record — read from the person's own fields";
+}
+
 /** The beat trace as text, for pasting into a review. */
 export function narrativeBeatTraceMarkdown(trace: NarrativeBeatTrace): string {
   const lines: string[] = [];
@@ -478,12 +504,95 @@ export function narrativeBeatTraceMarkdown(trace: NarrativeBeatTrace): string {
   lines.push(`Authored scene copy: ${trace.authoredProse || "(none)"}`);
   for (const sentence of trace.composedSentences) {
     lines.push(
-      `- Composed (${sentence.kind}): ${sentence.sentence} — ${
-        sentence.recordIds.length > 0
-          ? `from ${sentence.recordIds.join(", ")}`
-          : "date arithmetic only, no record"
-      }`,
+      `- Composed (${sentence.kind}): ${sentence.sentence} — ${provenanceOf(sentence)}`,
     );
   }
   return lines.join("\n");
+}
+
+/* -------------------------------------------------------------------------- */
+/* The whole report, for a reviewer                                            */
+/* -------------------------------------------------------------------------- */
+
+export interface LifeReportRequest {
+  readonly seed: string;
+  /** Which option to take at every calibration question, and every beat. */
+  readonly answerIndex: number;
+  readonly beats: number;
+  readonly startAge?: number;
+}
+
+/**
+ * A calibration, a run of beats, and what the life looked like afterwards.
+ *
+ * The acceptance question this answers is the one a screenshot cannot: did the
+ * calibration move the model, and was the beat on screen composed from this
+ * life or dealt off a deck. Deterministic for a given request, so a reviewer
+ * running it gets the same bytes as the completion report quotes.
+ *
+ * This is NOT the causal-trace export. That surface — the record timeline, the
+ * parent and child navigation, the machine-readable trace over stable record
+ * ids — belongs to the causal-inspector branch and is deliberately not built
+ * here. What this emits is the calibration and narrative half.
+ */
+export function lifeReportMarkdown(request: LifeReportRequest): string {
+  const base: NewGameSetup = {
+    placeKey: "kentucky",
+    startAge: request.startAge ?? 34,
+    depth: "summarize-earlier-life",
+    startingLife: "ordinary-life",
+    household: "shares-a-home",
+    seed: request.seed,
+    givenName: null,
+    familyName: null,
+    questionnaire: "deep",
+    priors: [],
+  };
+
+  let calibrated = base;
+  for (let asked = 0; asked < 80; asked += 1) {
+    const screen = questionnaireScreenFor(calibrated);
+    if (!screen) break;
+    const option =
+      screen.options[Math.min(request.answerIndex, screen.options.length - 1)];
+    if (!option) break;
+    calibrated = answerQuestionnaire(calibrated, option.key);
+  }
+
+  const game = createNewGameWorld(calibrated);
+  const worldSeed = worldSeedFor(calibrated);
+  const sections: string[] = [
+    calibrationReportMarkdown(
+      calibrationReport(game.world, worldSeed, `person:${request.seed}`),
+    ),
+  ];
+
+  let world = game.world;
+  for (let index = 0; index < request.beats; index += 1) {
+    sections.push("---");
+    sections.push(`## Beat ${index + 1} — ${world.currentDate}`);
+    sections.push(
+      narrativeBeatTraceMarkdown(
+        narrativeBeatTrace(world, game.playerPersonId),
+      ),
+    );
+    const moment = projectStoryMoment(world, game.playerPersonId);
+    const option =
+      moment.scene.options[
+        Math.min(request.answerIndex, moment.scene.options.length - 1)
+      ];
+    if (!option) break;
+    world = chooseStoryOption(world, {
+      personId: game.playerPersonId,
+      scene: moment.scene,
+      optionKey: option.key,
+    });
+  }
+
+  sections.push("---");
+  sections.push("# The life, after those beats");
+  sections.push(
+    JSON.stringify(lifeShapeReport(world, game.playerPersonId), null, 2),
+  );
+  return sections.join("\n\n");
 }
