@@ -10,6 +10,7 @@ import {
   createWorldId,
   dateAtAge,
   drawCanonicalName,
+  generatePersonIdentity,
   generateQuickCharacterHistory,
   personName,
   recordWorldEvent,
@@ -21,6 +22,7 @@ import type {
   IsoDate,
   LifePlace,
   Person,
+  PersonIdentity,
   SetupPriorStore,
   World,
 } from "../simulation";
@@ -64,6 +66,14 @@ export interface ProductionWorldInput {
   readonly age: number;
   readonly givenName: string | null;
   readonly familyName: string | null;
+  /**
+   * The gender and pronouns the player chose for their character.
+   *
+   * Absent means they did not choose, and the character's record then says
+   * nothing rather than being filled in from the name that was drawn for
+   * them. The world never guesses this, in either direction.
+   */
+  readonly identity?: PersonIdentity;
   readonly startingLife: ProductionStartingLife;
   readonly depth: ProductionDepth;
   readonly household: ProductionHousehold;
@@ -94,6 +104,21 @@ const PROVENANCE = {
   generatorKey: "production-world-v1",
 };
 
+/**
+ * A gender and pronouns for somebody this world is inventing.
+ *
+ * Drawn from a stream forked on the person's own stable key rather than from
+ * the household stream everything else here draws from. That is deliberate:
+ * taking numbers out of the shared stream would shift every name and birth
+ * date generated after it, so an addition that says nothing about anybody
+ * already in the world would silently rebuild all of them.
+ */
+function generatedIdentityFor(worldSeed: string, key: string): PersonIdentity {
+  return generatePersonIdentity(
+    new SeededRng(worldSeed).fork(`production-world-v1:identity:${key}`),
+  );
+}
+
 export function buildProductionWorld(
   input: ProductionWorldInput,
 ): ProductionWorld {
@@ -113,6 +138,7 @@ export function buildProductionWorld(
     age: input.age,
     givenName: input.givenName,
     familyName: input.familyName,
+    ...(input.identity === undefined ? {} : { identity: input.identity }),
   });
 
   // The world is assembled before anybody is playing it. Generated background
@@ -293,6 +319,7 @@ function establishAgeEligibleState(
           input: {
             stableKey: otherKey,
             ...otherName,
+            identity: generatedIdentityFor(world.seed, otherKey),
             birthDate: yearsBefore(player.birthDate, rng.integer(-6, 7)),
             homeJurisdictionId: jurisdictionId,
           },
@@ -334,6 +361,7 @@ function establishAgeEligibleState(
       input: {
         stableKey: guardianKey,
         givenName: guardianName.givenName,
+        identity: generatedIdentityFor(world.seed, guardianKey),
         // A child usually shares a name with whoever is raising them. This is a
         // household convention, not an inference about either of them.
         familyName: player.familyName,
@@ -393,6 +421,79 @@ function establishAgeEligibleState(
     },
   );
 
+  // A brother or sister, when the player said somebody else was at home.
+  //
+  // The setup screen asks whether anybody else lives here and, for a child,
+  // used to throw the answer away: every dependent household held exactly one
+  // adult, so every scene about somebody you live with was a scene about your
+  // own parent. That is how the playtest ended up with a ten-year-old deciding
+  // whether to report their guardian's late nights to somebody older.
+  //
+  // The kinship record is what makes them a sibling; without it they would be
+  // a second adult in the house, which is a different household and not the
+  // one that was asked for.
+  if (household === "shares-a-home") {
+    const siblingKey = `${stableKey}:sibling`;
+    const siblingId = characterHistoryContextPersonId(world, siblingKey);
+    const siblingName = drawCanonicalName(rng);
+    // Close enough in age to be a peer and never the same day, so "older" and
+    // "younger" are always answerable from the record.
+    const yearsApart = rng.pick([-4, -3, -2, 2, 3, 4]);
+    const siblingBirthDate = yearsBefore(player.birthDate, yearsApart);
+    // A record cannot predate either person in it, so a sibling born after the
+    // player establishes the kinship on the day the younger of them arrived.
+    const siblingKinshipDate =
+      siblingBirthDate > player.birthDate ? siblingBirthDate : player.birthDate;
+    transitions.push(
+      {
+        kind: "context-person",
+        input: {
+          stableKey: siblingKey,
+          givenName: siblingName.givenName,
+          familyName: player.familyName,
+          identity: generatedIdentityFor(world.seed, siblingKey),
+          birthDate: siblingBirthDate,
+          homeJurisdictionId: jurisdictionId,
+        },
+      },
+      {
+        kind: "household-membership",
+        input: {
+          stableKey: `${stableKey}:membership:sibling`,
+          personId: siblingId,
+          householdId,
+          startedAt: world.currentDate,
+          residenceRole: "primary",
+          kind: "resident:child",
+          provenance: PROVENANCE,
+        },
+      },
+      {
+        kind: "kinship",
+        input: {
+          stableKey: `${stableKey}:kinship:sibling`,
+          personIds: [player.id, siblingId],
+          establishedAt: siblingKinshipDate,
+          kind: "collateral:sibling",
+          provenance: PROVENANCE,
+        },
+      },
+      {
+        kind: "authority",
+        input: {
+          stableKey: `${stableKey}:authority:guardian-sibling`,
+          childPersonId: siblingId,
+          holder: { kind: "person", personId: guardianId },
+          establishedAt: siblingBirthDate,
+          kind: "parental:primary",
+          basisKind: "legal:presumed",
+          context: null,
+          provenance: PROVENANCE,
+        },
+      },
+    );
+  }
+
   if (age >= SCHOOL_ENTRY_AGE) {
     const schoolKey = `${stableKey}:school`;
     // The world does not know when the school was founded, and does not
@@ -444,6 +545,7 @@ function establishAgeEligibleState(
           input: {
             stableKey: classmateKey,
             ...classmateName,
+            identity: generatedIdentityFor(world.seed, classmateKey),
             birthDate: yearsBefore(player.birthDate, rng.integer(-1, 2)),
             homeJurisdictionId: jurisdictionId,
           },

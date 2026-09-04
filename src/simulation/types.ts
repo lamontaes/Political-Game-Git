@@ -322,6 +322,43 @@ export type PersonFact =
   | EducationFact
   | OccupationFact;
 
+/**
+ * Pronouns, as a closed set of the forms English actually needs.
+ *
+ * A key rather than a free string: the game has to conjugate around these
+ * ("she has" against "they have"), and a set it cannot conjugate is a set it
+ * would get wrong in a sentence. Three is what the language has grammatically
+ * distinct forms for, not a claim that three is how many kinds of person there
+ * are.
+ */
+export type PronounSetKey = "she-her" | "he-him" | "they-them";
+
+/**
+ * What somebody's gender is, as far as the record goes.
+ *
+ * Deliberately kept separate from `PronounSetKey`. They usually agree, and
+ * collapsing them into one field would make it impossible for them to
+ * disagree — which is a thing about real people that a record should be able
+ * to hold. `unstated` is a real value and the default: it means the world has
+ * not been told, and it must never be filled in by guessing.
+ */
+export type GenderIdentityKey = "female" | "male" | "nonbinary" | "unstated";
+
+/**
+ * A person's own gender and pronouns.
+ *
+ * Optional on a person, and absent means unknown rather than neutral-by-
+ * default: a reader that finds no identity says `they`, and says it about
+ * everybody it does not know, rather than mixing a guess into half the
+ * sentences. Never derived from a name — the name corpus carries no
+ * demographic attribute at all, by an older and deliberate decision, so a name
+ * is not evidence about this and must not be read as though it were.
+ */
+export interface PersonIdentity {
+  readonly gender: GenderIdentityKey;
+  readonly pronouns: PronounSetKey;
+}
+
 export interface PersonAppearance {
   readonly seed: string;
   readonly recipeVersion: string;
@@ -357,6 +394,15 @@ interface PersonCore {
   readonly birthDate: IsoDate;
   readonly homeJurisdictionId: EntityId;
   readonly appearance?: PersonAppearance;
+  /**
+   * Gender and pronouns, when the world has them.
+   *
+   * Absent on everybody created before this existed, which is why it is
+   * optional rather than defaulted at the type: a person the record says
+   * nothing about is a different thing from a person the record says is
+   * non-binary, and the presentation layer treats them differently.
+   */
+  readonly identity?: PersonIdentity;
   readonly establishedFacts: readonly PersonFact[];
 }
 

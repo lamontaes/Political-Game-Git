@@ -42,7 +42,15 @@ import {
   readReplaySetup,
   replayDescriptorUrl,
 } from "../presentation/new-game-identity";
-import { lifePlaceCoverage, lifePlaces } from "../simulation";
+import {
+  defaultPronounsForGender,
+  GENDER_IDENTITY_KEYS,
+  GENDER_IDENTITY_LABELS,
+  lifePlaceCoverage,
+  lifePlaces,
+  PRONOUN_SET_KEYS,
+  PRONOUN_SET_LABELS,
+} from "../simulation";
 import type { EntityId, QuestionnairePhase, World } from "../simulation";
 import {
   openLegislativeWork,
@@ -677,6 +685,74 @@ function SetupScreen({
             />
           </label>
         </div>
+
+        {/*
+          Gender, asked rather than decided.
+          The game used to have no answer to this at all — not a default, a
+          gap — so every sentence in it said "they" about everybody including
+          the character the player had just named. Asking is the fix; guessing
+          from the first name would not be, because the name corpus carries no
+          demographic attribute for anything to be guessed from.
+        */}
+        <fieldset className="game-fieldset" data-testid="gender-choices">
+          <legend>Gender</legend>
+          <div className="game-choices game-choices-inline">
+            {GENDER_IDENTITY_KEYS.map((key) => (
+              <button
+                key={key}
+                type="button"
+                data-testid={`gender-${key}`}
+                aria-pressed={(setup.gender ?? "unstated") === key}
+                className={
+                  (setup.gender ?? "unstated") === key ? "is-chosen" : undefined
+                }
+                onClick={() =>
+                  setSetup((current) => ({
+                    ...current,
+                    gender: key,
+                    // Follows the gender unless the player says otherwise
+                    // below, which is the whole reason the two are separate
+                    // fields rather than one.
+                    pronouns: defaultPronounsForGender(key),
+                  }))
+                }
+              >
+                {GENDER_IDENTITY_LABELS[key]}
+              </button>
+            ))}
+          </div>
+        </fieldset>
+
+        <fieldset className="game-fieldset" data-testid="pronoun-choices">
+          <legend>Pronouns</legend>
+          <p className="game-note">
+            What the game calls this character in a sentence.
+          </p>
+          <div className="game-choices game-choices-inline">
+            {PRONOUN_SET_KEYS.map((key) => (
+              <button
+                key={key}
+                type="button"
+                data-testid={`pronouns-${key}`}
+                aria-pressed={
+                  (setup.pronouns ??
+                    defaultPronounsForGender(setup.gender ?? "unstated")) === key
+                }
+                className={
+                  (setup.pronouns ??
+                    defaultPronounsForGender(setup.gender ?? "unstated")) === key
+                    ? "is-chosen"
+                    : undefined
+                }
+                onClick={() =>
+                  setSetup((current) => ({ ...current, pronouns: key }))
+                }
+              >
+                {PRONOUN_SET_LABELS[key]}
+              </button>
+            ))}
+          </div>
+        </fieldset>
       </section>
 
       <section>

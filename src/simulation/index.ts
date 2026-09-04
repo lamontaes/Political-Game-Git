@@ -37,6 +37,8 @@ export * from "./episode-bank";
 export * from "./names-data";
 export * from "./people";
 export * from "./person-appearance";
+export * from "./person-identity";
+export * from "./voice-bands";
 export * from "./person-stress-harness";
 export * from "./portability-fixture";
 export * from "./perception";

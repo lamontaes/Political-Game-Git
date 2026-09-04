@@ -3,9 +3,16 @@ import {
   createSetupPriorStore,
   decodePriorEncoding,
   stableHash,
+  GENDER_IDENTITY_KEYS,
+  PRONOUN_SET_KEYS,
   SETUP_BANK_VERSION,
 } from "../simulation";
-import type { SetupAnswerRecord, SetupQuestionnairePath } from "../simulation";
+import type {
+  GenderIdentityKey,
+  PronounSetKey,
+  SetupAnswerRecord,
+  SetupQuestionnairePath,
+} from "../simulation";
 import type { NewGameSetup } from "./new-game";
 
 /**
@@ -72,6 +79,16 @@ export function canonicalSetupEncoding(setup: NewGameSetup): string {
     // identically, or the same game would get two identities.
     givenName: setup.givenName?.trim() || null,
     familyName: setup.familyName?.trim() || null,
+    // Gender is a fact about the character, so it belongs to the world half
+    // and changes which world this is. It is written only when it was stated,
+    // for the same reason the priors half is: a setup that said nothing must
+    // encode exactly as it did before this field existed, or every world built
+    // before today would quietly become a different world with different
+    // people in it. An absent field means "not stated", which is what every
+    // earlier setup meant.
+    ...(setup.gender === undefined || setup.gender === "unstated"
+      ? {}
+      : { gender: setup.gender, pronouns: setup.pronouns }),
   });
 }
 
@@ -187,6 +204,21 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   ) {
     return null;
   }
+  // A descriptor written before the gender field existed carries no gender,
+  // which is exactly what "not stated" means, so it reads back as a valid
+  // setup rather than as an unreadable one. A descriptor that carries a
+  // gender must carry a usable one; half of the pair is a corrupt descriptor.
+  const gender = record.gender;
+  const pronouns = record.pronouns;
+  if (gender !== undefined || pronouns !== undefined) {
+    if (
+      !GENDER_IDENTITY_KEYS.includes(gender as GenderIdentityKey) ||
+      gender === "unstated" ||
+      !PRONOUN_SET_KEYS.includes(pronouns as PronounSetKey)
+    ) {
+      return null;
+    }
+  }
   const base: NewGameSetup = {
     seed: record.seed,
     placeKey: record.placeKey,
@@ -196,6 +228,12 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     household: record.household,
     givenName: record.givenName as string | null,
     familyName: record.familyName as string | null,
+    ...(gender === undefined
+      ? {}
+      : {
+          gender: gender as GenderIdentityKey,
+          pronouns: pronouns as PronounSetKey,
+        }),
   };
   if (record.priors === undefined) return base;
   const priors = decodePriorEncoding(record.priors);

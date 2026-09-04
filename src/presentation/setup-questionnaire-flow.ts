@@ -2,11 +2,13 @@ import {
   nextQuestionnaireStep,
   questionnaireLength,
   setupContentShortfall,
+  setupLifeContext,
   stableHash,
 } from "../simulation";
 import type {
   QuestionnairePhase,
   SetupAnswerRecord,
+  SetupLifeContext,
   SetupQuestionnairePath,
 } from "../simulation";
 import { canonicalSetupEncoding, worldSeedFor } from "./new-game-identity";
@@ -57,15 +59,39 @@ export interface QuestionnaireScreen {
  * A ceiling. The short path always reaches it; the deep path usually stops
  * well short, and the copy that uses this must say "up to" rather than a count.
  */
-export function questionnairePathCeiling(path: SetupQuestionnairePath): number {
-  return questionnaireLength(path);
+export function questionnairePathCeiling(
+  path: SetupQuestionnairePath,
+  setup?: NewGameSetup,
+): number {
+  return questionnaireLength(
+    path,
+    setup ? lifeContextFor(setup) : undefined,
+  );
+}
+
+/**
+ * The life the calibration is opening, from the setup screen's own answers.
+ *
+ * The start age is on the screen before the calibration starts, which is what
+ * makes this possible at all: a player who has said ten gets a childhood's
+ * questions rather than a landlord's.
+ */
+export function lifeContextFor(setup: NewGameSetup): SetupLifeContext {
+  return setupLifeContext({
+    startAge: setup.startAge,
+    startingLife: setup.startingLife,
+    household: setup.household,
+  });
 }
 
 /** How a path should be described before a player picks it. */
-export function questionnairePathNote(path: SetupQuestionnairePath): string {
+export function questionnairePathNote(
+  path: SetupQuestionnairePath,
+  setup?: NewGameSetup,
+): string {
   switch (path) {
     case "short":
-      return `${questionnaireLength("short")} situations, and then straight in.`;
+      return `${questionnairePathCeiling("short", setup)} situations, and then straight in.`;
     case "deep":
       return "As many as it takes. It stops on its own when it has enough, and you can start the life at any point.";
     case "skipped":
@@ -95,6 +121,7 @@ export function questionnaireScreenFor(
     personKey: personKeyFor(setup),
     depth: path,
     answers: setup.priors ?? [],
+    life: lifeContextFor(setup),
   });
   if (!step) return null;
   return {

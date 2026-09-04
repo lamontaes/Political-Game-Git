@@ -7,7 +7,9 @@ import { ageOnDate, daysBetween } from "./dates";
 import { createStableId } from "./ids";
 import { activeIncidentsAt } from "./incidents";
 import {
+  activeAuthoritiesHeldByPersonAt,
   activeCareResponsibilitiesAt,
+  activeChildAuthoritiesAt,
   activeEducationEnrollmentsAt,
   activeLifeCommitmentsAt,
   activeOrganizationParticipationsAt,
@@ -107,6 +109,44 @@ export type EpisodeFactKey =
   | "person.recurring"
   | "thread.pressing";
 
+/**
+ * What a character is actually in a position to do.
+ *
+ * Distinct from a fact and from an age, and the distinction is the repair the
+ * playtest asked for. A ten-year-old is in a household, so `household.shared`
+ * holds; they are ten, so an age gate lets them through; and neither of those
+ * says whether they are the person who decides what happens about the furnace.
+ * Somebody holds parental authority over them, and that is what settles it.
+ *
+ * Every one of these is read off a record. None of them is a difficulty
+ * setting or a permission the game grants; they are descriptions of a position
+ * the world has already put the character in.
+ */
+export type EpisodeCapabilityKey =
+  /**
+   * Nobody holds parental authority over this character, so decisions about
+   * the household are theirs to make rather than theirs to be told about.
+   */
+  | "answers-for-themselves"
+  /** An active work relationship: there is a job, with hours and a place. */
+  | "paid-work"
+  /** They hold authority or a care responsibility over somebody else. */
+  | "responsible-for-somebody"
+  /** An active education enrollment: there is a school, and they attend it. */
+  | "in-school";
+
+export interface EpisodeCapability {
+  readonly key: EpisodeCapabilityKey;
+  readonly holds: boolean;
+  readonly anchors: readonly ThreadAnchor[];
+  readonly detail: string;
+}
+
+export type EpisodeCapabilities = ReadonlyMap<
+  EpisodeCapabilityKey,
+  EpisodeCapability
+>;
+
 export interface EpisodeFact {
   readonly key: EpisodeFactKey;
   readonly holds: boolean;
@@ -116,6 +156,124 @@ export interface EpisodeFact {
 }
 
 export type EpisodeFacts = ReadonlyMap<EpisodeFactKey, EpisodeFact>;
+
+/* -------------------------------------------------------------------------- */
+/* Capabilities                                                                */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * What this character is in a position to do, and the records that say so.
+ *
+ * Every entry is present in the map whether it holds or not, with the detail
+ * either way, so a stage that was withheld can say what withheld it rather
+ * than reporting an absence.
+ */
+export function episodeCapabilities(
+  world: World,
+  personId: EntityId,
+  asOfDate: IsoDate = world.currentDate,
+): EpisodeCapabilities {
+  const capabilities = new Map<EpisodeCapabilityKey, EpisodeCapability>();
+  const person = world.people[personId];
+  if (!person) return capabilities;
+  const cutoff = currentLifeCutoff(world);
+  void asOfDate;
+
+  function record(
+    key: EpisodeCapabilityKey,
+    holds: boolean,
+    anchors: readonly ThreadAnchor[],
+    detail: string,
+  ): void {
+    capabilities.set(key, { key, holds, anchors, detail });
+  }
+
+  const authorities = activeChildAuthoritiesAt(world, personId, cutoff);
+  record(
+    "answers-for-themselves",
+    authorities.length === 0,
+    authorities.map(({ authority }) => ({
+      store: "childAuthorities" as const,
+      recordId: authority.id,
+      stableKey: authority.stableKey,
+      at: authority.establishedAt,
+      sequence: authority.sequence,
+      role: "context" as const,
+      note: "The authority record that makes somebody else responsible for them.",
+    })),
+    authorities.length === 0
+      ? "No active parental authority over them."
+      : `${authorities.length} active parental authority record(s) over them.`,
+  );
+
+  const work = activeWorkRelationshipsAt(world, personId, cutoff);
+  record(
+    "paid-work",
+    work.length > 0,
+    work.map(({ relationship }) => ({
+      store: "workRelationships" as const,
+      recordId: relationship.id,
+      stableKey: relationship.stableKey,
+      at: relationship.startedAt,
+      sequence: relationship.sequence,
+      role: "context" as const,
+      note: "The work relationship.",
+    })),
+    work.length > 0
+      ? `${work.length} active work relationship(s).`
+      : "No active work relationship.",
+  );
+
+  const held = activeAuthoritiesHeldByPersonAt(world, personId, cutoff);
+  const care = activeCareResponsibilitiesAt(world, personId, cutoff);
+  record(
+    "responsible-for-somebody",
+    held.length > 0 || care.length > 0,
+    [
+      ...held.map(({ authority }) => ({
+        store: "childAuthorities" as const,
+        recordId: authority.id,
+        stableKey: authority.stableKey,
+        at: authority.establishedAt,
+        sequence: authority.sequence,
+        role: "context" as const,
+        note: "Authority they hold over somebody else.",
+      })),
+      ...care.map(({ responsibility }) => ({
+        store: "careResponsibilities" as const,
+        recordId: responsibility.id,
+        stableKey: responsibility.stableKey,
+        at: responsibility.startedAt,
+        sequence: responsibility.sequence,
+        role: "context" as const,
+        note: "A care responsibility they carry.",
+      })),
+    ],
+    held.length > 0 || care.length > 0
+      ? `${held.length} authority and ${care.length} care record(s) they hold.`
+      : "Nobody is recorded as their responsibility.",
+  );
+
+  const school = activeEducationEnrollmentsAt(world, personId, cutoff);
+  record(
+    "in-school",
+    school.length > 0,
+    school.map(({ enrollment }) => ({
+      store: "educationEnrollments" as const,
+      recordId: enrollment.id,
+      stableKey: enrollment.stableKey,
+      at: enrollment.startedAt,
+      sequence: enrollment.sequence,
+      role: "context" as const,
+      note: "The enrollment.",
+    })),
+    school.length > 0
+      ? `${school.length} active enrollment(s).`
+      : "No active enrollment.",
+  );
+
+  return capabilities;
+}
 
 /* -------------------------------------------------------------------------- */
 /* Roles                                                                       */
@@ -129,6 +287,22 @@ export type EpisodeFacts = ReadonlyMap<EpisodeFactKey, EpisodeFact>;
 export type EpisodeRoleKey =
   /** Somebody on the same household record. */
   | "household-companion"
+  /**
+   * The adult responsible for the player, from the authority record that says
+   * so — not from "the older person in the house".
+   */
+  | "guardian"
+  /**
+   * Somebody the player lives with who is neither responsible for them nor
+   * their responsibility. A sibling, a housemate, a partner.
+   *
+   * This role exists because `household-companion` binds everybody under the
+   * roof, and for a ten-year-old that is their own parent. The playtest hit
+   * exactly that: a scene written for somebody your own age offered a child
+   * the job of deciding whether to report their guardian to an adult. A part
+   * written for a peer must be able to say it needs one.
+   */
+  | "household-peer"
   /** Somebody the kinship or partnership records name. */
   | "relative"
   /**
@@ -164,6 +338,23 @@ export type EpisodeRequirement =
   | { readonly kind: "age-at-least"; readonly age: number }
   | { readonly kind: "age-below"; readonly age: number }
   | { readonly kind: "role"; readonly role: EpisodeRoleKey }
+  /** Something the character is in a position to do, read off the record. */
+  | {
+      readonly kind: "capability";
+      readonly capability: EpisodeCapabilityKey;
+    }
+  /**
+   * Something they are deliberately NOT in a position to do.
+   *
+   * The mirror matters as much as the positive: a scene about being told what
+   * is happening rather than deciding it needs a character who does not answer
+   * for the household, and offering it to somebody who does is the same defect
+   * pointing the other way.
+   */
+  | {
+      readonly kind: "without-capability";
+      readonly capability: EpisodeCapabilityKey;
+    }
   /** A named earlier stage of THIS instance is on the record. */
   | { readonly kind: "after-stage"; readonly stage: string }
   | { readonly kind: "without-stage"; readonly stage: string }
@@ -611,12 +802,67 @@ export function episodeRoleBindings(
     });
   }
 
+  // Who is responsible for whom, before anything about who lives where. A
+  // part written for a peer must not be filled by a parent, and the only
+  // truthful way to tell them apart is the authority record that says so.
+  const guardianIds = new Set<EntityId>();
+  const dependentIds = new Set<EntityId>();
+  for (const { authority } of activeChildAuthoritiesAt(
+    world,
+    personId,
+    cutoff,
+  )) {
+    if (authority.holder.kind !== "person") continue;
+    guardianIds.add(authority.holder.personId);
+    bind(
+      "guardian",
+      authority.holder.personId,
+      `A ${authority.kind} authority record over the player.`,
+      [
+        {
+          store: "childAuthorities",
+          recordId: authority.id,
+          stableKey: authority.stableKey,
+          at: authority.establishedAt,
+          sequence: authority.sequence,
+          role: "context",
+          note: "The authority record that makes them the adult responsible.",
+        },
+      ],
+    );
+  }
+  for (const { authority } of activeAuthoritiesHeldByPersonAt(
+    world,
+    personId,
+    cutoff,
+  )) {
+    dependentIds.add(authority.childPersonId);
+  }
+
   for (const entry of householdMembershipsAt(world, personId, cutoff)) {
     for (const otherId of peopleInHouseholdAt(
       world,
       entry.membership.householdId,
       cutoff,
     )) {
+      if (!guardianIds.has(otherId) && !dependentIds.has(otherId)) {
+        bind(
+          "household-peer",
+          otherId,
+          "Resident on the same household record, with no authority either way between them.",
+          [
+            {
+              store: "householdMemberships",
+              recordId: entry.membership.id,
+              stableKey: entry.membership.stableKey,
+              at: entry.membership.startedAt,
+              sequence: entry.membership.sequence,
+              role: "context",
+              note: "The household membership that puts them under one roof.",
+            },
+          ],
+        );
+      }
       bind(
         "household-companion",
         otherId,
@@ -638,6 +884,17 @@ export function episodeRoleBindings(
 
   for (const partnership of activePartnershipsAt(world, personId, cutoff)) {
     for (const otherId of partnership.personIds) {
+      bind("household-peer", otherId, "An active partnership record.", [
+        {
+          store: "partnerships",
+          recordId: partnership.id,
+          stableKey: partnership.stableKey,
+          at: partnership.startedAt,
+          sequence: partnership.sequence,
+          role: "context",
+          note: "The partnership record.",
+        },
+      ]);
       bind("household-companion", otherId, "An active partnership record.", [
         {
           store: "partnerships",
@@ -736,7 +993,10 @@ export function episodeRoleBindings(
     bindings
       .filter(
         (binding) =>
-          binding.role === "household-companion" || binding.role === "relative",
+          binding.role === "household-companion" ||
+          binding.role === "household-peer" ||
+          binding.role === "guardian" ||
+          binding.role === "relative",
       )
       .map((binding) => binding.personId),
   );
@@ -879,6 +1139,7 @@ export function eligibleEpisodeBeats(
   if (!person) return { beats: [], exclusions: [] };
 
   const facts = episodeFacts(world, personId, asOfDate);
+  const capabilities = episodeCapabilities(world, personId, asOfDate);
   const bindings = episodeRoleBindings(world, personId, asOfDate);
   const played = playedEpisodeStages(world, personId, asOfDate);
   const age = ageOnDate(person.birthDate, asOfDate);
@@ -900,6 +1161,7 @@ export function eligibleEpisodeBeats(
           checkRequirement({
             requirement,
             facts,
+            capabilities,
             bindings,
             instanceStages,
             age,
@@ -929,6 +1191,7 @@ export function eligibleEpisodeBeats(
         const outcome = checkRequirement({
           requirement,
           facts,
+          capabilities,
           bindings,
           instanceStages,
           age,
@@ -1028,6 +1291,7 @@ function rolesUsedBy(stage: EpisodeStage): readonly EpisodeRoleKey[] {
 interface RequirementCheckInput {
   readonly requirement: EpisodeRequirement;
   readonly facts: EpisodeFacts;
+  readonly capabilities: EpisodeCapabilities;
   readonly bindings: readonly EpisodeRoleBinding[];
   readonly instanceStages: readonly PlayedEpisodeStage[];
   readonly age: number;
@@ -1041,7 +1305,15 @@ interface RequirementOutcome {
 }
 
 function checkRequirement(input: RequirementCheckInput): RequirementOutcome {
-  const { requirement, facts, bindings, instanceStages, age, asOfDate } = input;
+  const {
+    requirement,
+    facts,
+    capabilities,
+    bindings,
+    instanceStages,
+    age,
+    asOfDate,
+  } = input;
   switch (requirement.kind) {
     case "fact": {
       const fact = facts.get(requirement.fact);
@@ -1087,6 +1359,30 @@ function checkRequirement(input: RequirementCheckInput): RequirementOutcome {
         detail: binding
           ? `${requirement.role} is ${binding.personName}: ${binding.basis}`
           : `Nobody in this world can be the ${requirement.role}.`,
+      };
+    }
+    case "capability": {
+      const capability = capabilities.get(requirement.capability);
+      return {
+        satisfied: capability?.holds === true,
+        anchors: capability?.anchors ?? [],
+        detail:
+          capability?.holds === true
+            ? `${requirement.capability}: ${capability.detail}`
+            : `${requirement.capability} does not hold: ${
+                capability?.detail ?? "nothing on the record establishes it."
+              }`,
+      };
+    }
+    case "without-capability": {
+      const capability = capabilities.get(requirement.capability);
+      return {
+        satisfied: capability?.holds !== true,
+        anchors: [],
+        detail:
+          capability?.holds === true
+            ? `${requirement.capability} holds, and this stage is written for somebody it does not.`
+            : `${requirement.capability} does not hold, as required.`,
       };
     }
     case "after-stage": {

@@ -92,6 +92,7 @@ export type ThreadAnchorStore =
   | "partnerships"
   | "careResponsibilities"
   | "educationEnrollments"
+  | "childAuthorities"
   | "resourceObligations"
   | "futureDueItems"
   | "incidents";

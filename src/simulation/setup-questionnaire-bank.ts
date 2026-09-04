@@ -3,7 +3,17 @@ import type {
   DimensionNudge,
   HypothesisSupport,
 } from "./player-model";
-import { OPENING_BANK_ITEMS, OPENING_FIXED_ITEMS } from "./setup-opening-bank";
+import {
+  OPENING_BANK_ITEMS,
+  OPENING_FIXED_ITEMS,
+  requireEligibility,
+} from "./setup-opening-bank";
+import {
+  ADOLESCENCE_FIXED_ITEMS,
+  MIDDLE_CHILDHOOD_FIXED_ITEMS,
+  YOUNG_LIFE_BANK_ITEMS,
+} from "./setup-young-life-bank";
+import type { LifeVoiceBand } from "./voice-bands";
 
 /**
  * The authored setup bank.
@@ -133,18 +143,94 @@ export interface QuestionnaireOption {
   readonly ambiguity: AmbiguityDeclaration | null;
 }
 
+/**
+ * Somebody a scene needs the player to be able to imagine having.
+ *
+ * The calibration runs before any world exists, so these cannot be checked
+ * against records — they are checked against the setup. What they are for is
+ * the audit: an item that assumes a boss has said so, in a field, and can be
+ * counted.
+ */
+export type SetupRelationshipContext =
+  | "adult-at-home"
+  | "sibling"
+  | "friend"
+  | "classmate"
+  | "teacher"
+  | "neighbor"
+  | "coworker"
+  | "boss"
+  | "partner";
+
+/** Where the scene happens. Same purpose: countable, not decorative. */
+export type SetupSceneContext =
+  | "home"
+  | "school"
+  | "workplace"
+  | "street"
+  | "shop"
+  | "public-meeting"
+  | "institution";
+
+/**
+ * What has to be true of the character for an item to be honest to ask.
+ *
+ * The playtest's second finding, made checkable. A player who has said their
+ * character starts at ten was asked what to do about the household bills, and
+ * offered "Say you'll deal with the furnace" — a decision that character will
+ * never be in a position to make, on a subject the game will never hand them.
+ * A calibration that measures a player against decisions the game will not
+ * offer is measuring the wrong thing, whatever it says about them.
+ *
+ * So every item declares the bands it belongs to and what it assumes. Nothing
+ * defaults: an item with no eligibility does not compile.
+ */
+export interface QuestionnaireEligibility {
+  /** Which life stages this scene can honestly be put to. */
+  readonly bands: readonly LifeVoiceBand[];
+  /** What the character has to be in a position to do. */
+  readonly agency: readonly SetupAgencyKey[];
+  readonly relationships: readonly SetupRelationshipContext[];
+  readonly settings: readonly SetupSceneContext[];
+}
+
+/**
+ * Standing, expressed so the setup can check it before a world exists.
+ *
+ * Deliberately the same vocabulary as `EpisodeCapabilityKey`, minus the two
+ * entries that only a record can answer. The setup knows the start age, the
+ * household answer and the starting life, and that is enough for these four.
+ */
+export type SetupAgencyKey =
+  /** Nobody is responsible for them; the household decisions are theirs. */
+  | "answers-for-themselves"
+  /** Old enough to hold a job, and holding one. */
+  | "paid-work"
+  /** Old enough that somebody else could be their responsibility. */
+  | "responsible-for-somebody"
+  /** Attends a school. */
+  | "in-school";
+
 export interface QuestionnaireItem {
   readonly key: string;
   readonly source: AuthoredSource;
   readonly review: TransparencyReview;
   readonly register: QuestionnaireRegister;
-  /** 1, 2 or 3 for the mandatory openers; null for everything else. */
+  /**
+   * 1, 2 or 3 for the openers of the band this item belongs to; null for
+   * everything else. A band has its own three, so a childhood opens on a
+   * childhood.
+   */
   readonly fixedOrdinal: number | null;
   readonly prompt: string;
   readonly options: readonly QuestionnaireOption[];
   /** How much this item is worth, before the setup ceiling. On [0, 1]. */
   readonly observationWeight: number;
+  readonly eligibility: QuestionnaireEligibility;
 }
+
+/** An item before its eligibility is attached. */
+type DraftItem = Omit<QuestionnaireItem, "eligibility">;
 
 const CALIBRATION_RESEARCH =
   "Political Game Questionnaire Calibration Research";
@@ -205,7 +291,7 @@ function ambiguity(
  * fixed position is gone, so a run reaches them when the model has a reason to
  * ask rather than because they were first.
  */
-const FORMER_OPENERS: readonly QuestionnaireItem[] = [
+const FORMER_OPENERS: readonly DraftItem[] = [
   {
     key: "career_evenings",
     source: {
@@ -428,7 +514,7 @@ const FORMER_OPENERS: readonly QuestionnaireItem[] = [
 /* The everyday items                                                          */
 /* -------------------------------------------------------------------------- */
 
-const LIFE_ITEMS: readonly QuestionnaireItem[] = [
+const LIFE_ITEMS: readonly DraftItem[] = [
   {
     key: "friend_in_trouble",
     source: {
@@ -863,7 +949,7 @@ const LIFE_ITEMS: readonly QuestionnaireItem[] = [
 /* The civic items                                                             */
 /* -------------------------------------------------------------------------- */
 
-const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
+const CIVIC_ITEMS: readonly DraftItem[] = [
   {
     key: "municipal_fiscal_shortfall",
     source: {
@@ -1779,20 +1865,130 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
   },
 ];
 
-export const SETUP_QUESTIONNAIRE_BANK: readonly QuestionnaireItem[] = [
-  ...OPENING_BANK_ITEMS,
+/* -------------------------------------------------------------------------- */
+/* Withdrawn, and why                                                          */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Eighteen items a player can no longer be asked, kept where they can be read.
+ *
+ * The human playtest's first finding was that the calibration reads as
+ * generic AI-generated moral dilemmas. The three scenes they actually saw are
+ * repaired in place; these eighteen are the ones a full read of the bank found
+ * behind them, and repairing them would have meant rewriting them into
+ * different items with the same keys.
+ *
+ * **The fifteen `policy-docket` items.** Six hundred words of "hydrogeologists
+ * warn that the plant's runoff, even within minimum statutory limits, poses a
+ * cumulative long-term risk", with four options each of which states a policy
+ * position and then argues for it. The register's own definition in this file
+ * calls it "a policy question with no place and no people in it", the 60C
+ * audit flagged all fifteen, and 70A deferred them. They are a political
+ * science exam, and this is a game about a life.
+ *
+ * **The three former fixed openers.** Their options both take the action and
+ * explain the reasoning behind it — "Attend the public debate; personal
+ * commitments must yield when professional and civic achievements reach a
+ * critical turning point" — which is the one thing the opening bank's own
+ * authoring rules forbid, because a player handed the reasoning is being told
+ * what their choice meant.
+ *
+ * They are kept rather than deleted so the record shows what the bank once
+ * shipped, and so a later lane that wants to re-author them has the originals.
+ * Nothing selects from this list.
+ */
+export const WITHDRAWN_SETUP_ITEMS: readonly DraftItem[] = [
   ...FORMER_OPENERS,
-  ...LIFE_ITEMS,
   ...CIVIC_ITEMS,
 ];
 
 /**
- * The three every run opens with, in order.
+ * What the eight remaining inherited items assume.
  *
- * A life starts somewhere specific, so the calibration does too. What changes
- * after these three is decided by what the model still needs, which is why
- * only the opening is fixed.
+ * Short, plain and honestly written, if abstract — two of them carry the
+ * playtest's abstraction verdict and all eight are ranked last already. They
+ * are adult scenes: every one of them turns on a job, a public position or a
+ * decision nobody asks a child to make.
  */
-export const FIXED_OPENING_KEYS: readonly string[] = OPENING_FIXED_ITEMS.map(
-  (item) => item.key,
-);
+const INHERITED_ELIGIBILITY: Readonly<
+  Record<string, QuestionnaireEligibility>
+> = {
+  friend_in_trouble: {
+    bands: ["adult"],
+    agency: [],
+    relationships: ["friend"],
+    settings: ["institution"],
+  },
+  safe_or_risky: {
+    bands: ["adult"],
+    agency: ["answers-for-themselves"],
+    relationships: [],
+    settings: ["workplace"],
+  },
+  unfair_rule: {
+    bands: ["adult"],
+    agency: ["answers-for-themselves"],
+    relationships: [],
+    settings: ["institution"],
+  },
+  family_or_opportunity: {
+    bands: ["adult"],
+    agency: ["answers-for-themselves"],
+    relationships: ["adult-at-home"],
+    settings: ["home"],
+  },
+  public_mistake: {
+    bands: ["adult"],
+    agency: ["paid-work"],
+    relationships: ["coworker"],
+    settings: ["workplace"],
+  },
+  offered_leadership: {
+    bands: ["adult"],
+    agency: ["answers-for-themselves"],
+    relationships: ["coworker"],
+    settings: ["public-meeting"],
+  },
+  letter_of_the_rule: {
+    bands: ["adult"],
+    agency: ["answers-for-themselves"],
+    relationships: [],
+    settings: ["institution"],
+  },
+  respected_disagreement: {
+    bands: ["adult"],
+    agency: [],
+    relationships: ["coworker"],
+    settings: ["workplace"],
+  },
+};
+
+export const SETUP_QUESTIONNAIRE_BANK: readonly QuestionnaireItem[] = [
+  ...OPENING_BANK_ITEMS,
+  ...YOUNG_LIFE_BANK_ITEMS,
+  ...LIFE_ITEMS.map((entry) => ({
+    ...entry,
+    eligibility: requireEligibility(INHERITED_ELIGIBILITY, entry.key),
+  })),
+];
+
+/**
+ * The three a run opens with, for the life stage it is opening.
+ *
+ * A life starts somewhere specific, so the calibration does too — and a
+ * childhood starts somewhere a child recognises. Before Packet 72 there was
+ * one list of three, so every run whatever its age opened on a kitchen table
+ * covered in bills at eleven at night. Each band now has its own three, and
+ * what comes after them is still decided by what the model needs.
+ */
+export const FIXED_OPENING_KEYS_BY_BAND: Readonly<
+  Record<LifeVoiceBand, readonly string[]>
+> = {
+  adult: OPENING_FIXED_ITEMS.map((entry) => entry.key),
+  adolescence: ADOLESCENCE_FIXED_ITEMS.map((entry) => entry.key),
+  "middle-childhood": MIDDLE_CHILDHOOD_FIXED_ITEMS.map((entry) => entry.key),
+};
+
+/** The adult openers, kept for callers that predate the bands. */
+export const FIXED_OPENING_KEYS: readonly string[] =
+  FIXED_OPENING_KEYS_BY_BAND.adult;

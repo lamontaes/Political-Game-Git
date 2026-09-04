@@ -54,6 +54,7 @@ import {
   recordRelationshipInteraction,
 } from "./records";
 import { drawCanonicalName } from "./people";
+import { generatePersonIdentity } from "./person-identity";
 import { SeededRng } from "./rng";
 import { recordWorldEvent, assertWorldIntegrity, advanceWorld } from "./world";
 import {
@@ -105,6 +106,7 @@ import type {
   LifeSituationOption,
   Person,
   PersonFact,
+  PersonIdentity,
   World,
 } from "./types";
 
@@ -122,6 +124,16 @@ export interface CharacterHistoryContextPersonInput {
   readonly birthDate: IsoDate;
   readonly homeJurisdictionId: EntityId;
   readonly birthplaceJurisdictionId?: EntityId;
+  /**
+   * Gender and pronouns for somebody the world is inventing.
+   *
+   * Optional because the callers that had no opinion before this existed still
+   * have none, and a person the record says nothing about is written down as
+   * saying nothing rather than as neutral. Callers that generate people are
+   * expected to supply one from their own seeded stream — see
+   * `person-identity.ts` for why generating is not the same as inferring.
+   */
+  readonly identity?: PersonIdentity;
 }
 
 type WithProvenance<T> = Omit<T, "provenance"> & {
@@ -464,6 +476,7 @@ export function createCharacterHistoryContextPerson(
     familyName: input.familyName,
     birthDate,
     homeJurisdictionId: input.homeJurisdictionId,
+    ...(input.identity === undefined ? {} : { identity: input.identity }),
     detailLevel: "lightweight",
     establishedFacts: facts,
   };
@@ -2091,6 +2104,7 @@ export function generateQuickCharacterHistory(
         // seeded generator. A module keeping a private list of three first
         // names is how a whole cast ends up sharing them.
         ...drawCanonicalName(rng.fork("parent")),
+        identity: generatePersonIdentity(rng.fork("parent:identity")),
         // A child usually shares a name with whoever raised them. A household
         // convention, and no claim about either of them beyond that.
         familyName: person.familyName,
@@ -2103,6 +2117,7 @@ export function generateQuickCharacterHistory(
       input: {
         stableKey: peerKey,
         ...drawCanonicalName(rng.fork("peer")),
+        identity: generatePersonIdentity(rng.fork("peer:identity")),
         // Born the same year, because a peer has to actually be one.
         birthDate: age(0),
         homeJurisdictionId: input.jurisdictionId,
@@ -2113,6 +2128,7 @@ export function generateQuickCharacterHistory(
       input: {
         stableKey: teacherKey,
         ...drawCanonicalName(rng.fork("teacher")),
+        identity: generatePersonIdentity(rng.fork("teacher:identity")),
         // An adult, because the role requires one.
         birthDate: yearsBefore(person.birthDate, 30),
         homeJurisdictionId: input.jurisdictionId,

@@ -1,7 +1,11 @@
 import type {
   AuthoredSource,
+  QuestionnaireEligibility,
   QuestionnaireItem,
   QuestionnaireOption,
+  SetupAgencyKey,
+  SetupRelationshipContext,
+  SetupSceneContext,
   TransparencyReview,
 } from "./setup-questionnaire-bank";
 import type {
@@ -95,6 +99,14 @@ function option(
   return { key, text, nudges, hypotheses, ambiguity: declared };
 }
 
+/**
+ * An item without its eligibility, which `withEligibility` attaches below.
+ *
+ * Split so the declarations can be read in one block rather than threaded
+ * through nine hundred lines of authored prose.
+ */
+type DraftItem = Omit<QuestionnaireItem, "eligibility">;
+
 function item(
   key: string,
   register: QuestionnaireItem["register"],
@@ -103,7 +115,7 @@ function item(
   prompt: string,
   options: readonly QuestionnaireOption[],
   fixedOrdinal: number | null = null,
-): QuestionnaireItem {
+): DraftItem {
   return {
     key,
     source: { ...OPENING_AUTHORITY, reference },
@@ -128,13 +140,13 @@ function item(
  * trying to stop the game being. These three open with a kitchen, a corridor
  * and a phone call.
  */
-const OPENERS: readonly QuestionnaireItem[] = [
+const OPENERS: readonly DraftItem[] = [
   item(
     "kitchen_late",
     "lived-personal",
     "Opening 01 — the kitchen at eleven",
     1,
-    "It is eleven at night and Dana is at the kitchen table with the bills spread out, which is not where Dana usually is. You have been out. She looks up and says the thing with the furnace is worse than she told you.",
+    "It is eleven at night and Dana is at the kitchen table with the bills spread out, which is not where Dana usually is. You have been out. She looks up and says the furnace is worse than she told you — it is not a part, it is the whole unit.",
     [
       option(
         "sit-down",
@@ -159,7 +171,7 @@ const OPENERS: readonly QuestionnaireItem[] = [
       ),
       option(
         "say-youll-sort-it",
-        "Say you'll deal with the furnace",
+        "Say you will get the furnace sorted",
         [
           nudge("achievement-ambition", 0.3),
           nudge("privacy-preference", 0.25),
@@ -217,7 +229,7 @@ const OPENERS: readonly QuestionnaireItem[] = [
       ),
       option(
         "lend-him",
-        "Offer to cover the gap yourself",
+        "Put the money back for him yourself",
         [
           nudge("personal-ties", 0.5),
           nudge("risk-appetite", 0.3),
@@ -294,7 +306,7 @@ const OPENERS: readonly QuestionnaireItem[] = [
 /* Personal and household                                                      */
 /* -------------------------------------------------------------------------- */
 
-const PERSONAL: readonly QuestionnaireItem[] = [
+const PERSONAL: readonly DraftItem[] = [
   item(
     "ray_car",
     "lived-personal",
@@ -483,7 +495,7 @@ const PERSONAL: readonly QuestionnaireItem[] = [
 /* Relational and work                                                         */
 /* -------------------------------------------------------------------------- */
 
-const RELATIONAL: readonly QuestionnaireItem[] = [
+const RELATIONAL: readonly DraftItem[] = [
   item(
     "whitfield_grant",
     "lived-relational",
@@ -669,7 +681,7 @@ const RELATIONAL: readonly QuestionnaireItem[] = [
 /* Moral and everyday                                                          */
 /* -------------------------------------------------------------------------- */
 
-const MORAL: readonly QuestionnaireItem[] = [
+const MORAL: readonly DraftItem[] = [
   item(
     "the_till_and_the_kid",
     "lived-moral",
@@ -881,7 +893,7 @@ const MORAL: readonly QuestionnaireItem[] = [
 /* Civic, but lived                                                            */
 /* -------------------------------------------------------------------------- */
 
-const CIVIC_LIVED: readonly QuestionnaireItem[] = [
+const CIVIC_LIVED: readonly DraftItem[] = [
   item(
     "the_bus_route",
     "civic-lived",
@@ -1198,7 +1210,7 @@ const CIVIC_LIVED: readonly QuestionnaireItem[] = [
  * weak ones floated free of any place and the options explained themselves.
  * These keep the substance and put it on a named street with named people.
  */
-const POLICY_LIVED: readonly QuestionnaireItem[] = [
+const POLICY_LIVED: readonly DraftItem[] = [
   item(
     "the_ward_budget",
     "policy-lived",
@@ -1445,16 +1457,120 @@ const POLICY_LIVED: readonly QuestionnaireItem[] = [
 ];
 
 /* -------------------------------------------------------------------------- */
+/* What each of these assumes                                                  */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Every item in this file is an adult scene, and now says so.
+ *
+ * Before Packet 72 the bank had no way to express that, so a player who asked
+ * for a ten-year-old was handed a midnight conversation about the household
+ * bills and an option offering to have the furnace replaced. The scenes are
+ * good; they belong to somebody who pays for a furnace.
+ *
+ * The declarations are here rather than inline for one reason: gathered in a
+ * single block they can be read straight through, which is what an audit of a
+ * bank actually needs. `requireEligibility` throws on a missing key, so an item
+ * added without a declaration fails at import rather than quietly defaulting to
+ * whatever the last one said.
+ */
+function adultScene(
+  agency: readonly SetupAgencyKey[],
+  relationships: readonly SetupRelationshipContext[],
+  settings: readonly SetupSceneContext[],
+): QuestionnaireEligibility {
+  return { bands: ["adult"], agency, relationships, settings };
+}
+
+const OPENING_ELIGIBILITY: Readonly<
+  Record<string, QuestionnaireEligibility>
+> = {
+  kitchen_late: adultScene(
+    ["answers-for-themselves"],
+    ["adult-at-home"],
+    ["home"],
+  ),
+  marcus_and_the_trip_fund: adultScene([], ["friend"], ["home"]),
+  priya_reference: adultScene(["paid-work"], ["coworker"], ["workplace"]),
+  ray_car: adultScene(["answers-for-themselves"], ["sibling"], ["home"]),
+  nell_moving: adultScene(["answers-for-themselves"], ["partner"], ["home"]),
+  curtis_shift: adultScene(["paid-work"], ["coworker"], ["workplace"]),
+  money_that_arrived: adultScene(
+    ["answers-for-themselves"],
+    ["adult-at-home"],
+    ["home"],
+  ),
+  whitfield_grant: adultScene(["paid-work"], ["teacher", "boss"], ["workplace"]),
+  who_gets_the_credit: adultScene(["paid-work"], ["coworker"], ["workplace"]),
+  the_friend_who_was_wrong: adultScene(
+    [],
+    ["friend"],
+    ["public-meeting"],
+  ),
+  the_job_ray_wants: adultScene(["paid-work"], ["sibling"], ["workplace"]),
+  the_till_and_the_kid: adultScene([], [], ["shop"]),
+  the_thing_you_saw: adultScene([], [], ["street"]),
+  the_form: adultScene(
+    ["answers-for-themselves"],
+    ["adult-at-home"],
+    ["institution"],
+  ),
+  the_petition_at_the_door: adultScene(
+    ["answers-for-themselves"],
+    ["neighbor"],
+    ["home"],
+  ),
+  the_rule_and_curtis: adultScene(["paid-work"], ["coworker"], ["workplace"]),
+  the_bus_route: adultScene([], ["adult-at-home", "neighbor"], ["street"]),
+  the_yard_at_the_end: adultScene([], ["neighbor"], ["street"]),
+  the_school_place: adultScene([], ["neighbor"], ["public-meeting"]),
+  the_sold_field: adultScene([], ["neighbor"], ["street"]),
+  the_night_the_power_went: adultScene([], ["neighbor"], ["home"]),
+  the_man_at_the_meeting: adultScene([], [], ["public-meeting"]),
+  the_ward_budget: adultScene(
+    ["answers-for-themselves"],
+    ["neighbor"],
+    ["institution"],
+  ),
+  the_licence: adultScene(["answers-for-themselves"], [], ["institution"]),
+  the_inspection: adultScene(["answers-for-themselves"], [], ["institution"]),
+  the_camera: adultScene(["answers-for-themselves"], [], ["institution"]),
+  the_strike_at_the_depot: adultScene(
+    [],
+    ["friend", "partner"],
+    ["street"],
+  ),
+};
+
+export function requireEligibility(
+  table: Readonly<Record<string, QuestionnaireEligibility>>,
+  key: string,
+): QuestionnaireEligibility {
+  const found = table[key];
+  if (!found) {
+    throw new Error(
+      `Setup item ${key} has no eligibility declaration. Every item must say which life stage it belongs to; see setup-questionnaire-bank.ts.`,
+    );
+  }
+  return found;
+}
+
+function withEligibility(
+  items: readonly DraftItem[],
+): readonly QuestionnaireItem[] {
+  return items.map((entry) => ({
+    ...entry,
+    eligibility: requireEligibility(OPENING_ELIGIBILITY, entry.key),
+  }));
+}
+
+/* -------------------------------------------------------------------------- */
 /* The bank                                                                    */
 /* -------------------------------------------------------------------------- */
 
-export const OPENING_FIXED_ITEMS: readonly QuestionnaireItem[] = OPENERS;
+export const OPENING_FIXED_ITEMS: readonly QuestionnaireItem[] =
+  withEligibility(OPENERS);
 
-export const OPENING_BANK_ITEMS: readonly QuestionnaireItem[] = [
-  ...OPENERS,
-  ...PERSONAL,
-  ...RELATIONAL,
-  ...MORAL,
-  ...CIVIC_LIVED,
-  ...POLICY_LIVED,
-];
+export const OPENING_BANK_ITEMS: readonly QuestionnaireItem[] = withEligibility(
+  [...OPENERS, ...PERSONAL, ...RELATIONAL, ...MORAL, ...CIVIC_LIVED, ...POLICY_LIVED],
+);

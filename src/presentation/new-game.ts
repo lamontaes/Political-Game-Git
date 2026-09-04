@@ -1,11 +1,14 @@
 import {
+  defaultPronounsForGender,
   lifePlaceByKey,
   questionnaireLength,
   requireLifePlace,
 } from "../simulation";
 import type {
   EntityId,
+  GenderIdentityKey,
   LifePlace,
+  PronounSetKey,
   SetupAnswerRecord,
   SetupQuestionnairePath,
   World,
@@ -56,6 +59,23 @@ export interface NewGameSetup {
   readonly givenName: string | null;
   readonly familyName: string | null;
   /**
+   * The character's gender, as the player states it.
+   *
+   * `unstated` is the default and a real answer: the world then records
+   * nothing about it rather than picking. It is never inferred from the name,
+   * because the name corpus deliberately carries no demographic attribute for
+   * anything to be inferred from.
+   */
+  readonly gender?: GenderIdentityKey;
+  /**
+   * Which pronouns the game uses about them.
+   *
+   * Kept as its own field rather than derived at the point of use, so a player
+   * can pick a set that does not follow from the gender they chose. The setup
+   * screen defaults it and lets them change it.
+   */
+  readonly pronouns?: PronounSetKey;
+  /**
    * Which calibration path the player took, if any.
    *
    * Optional, and absent means none: a setup written before the questionnaire
@@ -93,6 +113,11 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   household: "shares-a-home",
   givenName: null,
   familyName: null,
+  // No pronoun default beside the gender default, deliberately: leaving it
+  // absent means it follows whatever gender is chosen, so a caller that sets
+  // only the gender cannot end up with a character whose pronouns disagree
+  // with it by accident.
+  gender: "unstated",
   questionnaire: "short",
   priors: [],
 };
@@ -171,6 +196,18 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     age: setup.startAge,
     givenName: setup.givenName,
     familyName: setup.familyName,
+    // Only a stated gender reaches the world. "Rather not say" is recorded as
+    // an absent identity rather than as a neutral one, so the record can tell
+    // the two apart.
+    ...(setup.gender === undefined || setup.gender === "unstated"
+      ? {}
+      : {
+          identity: {
+            gender: setup.gender,
+            pronouns:
+              setup.pronouns ?? defaultPronounsForGender(setup.gender),
+          },
+        }),
     startingLife: setup.startingLife,
     household: setup.household,
     depth: setup.depth,

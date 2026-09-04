@@ -9,14 +9,16 @@ import {
   type PlayerModelDimension,
 } from "./player-model";
 import {
-  FIXED_OPENING_KEYS,
+  FIXED_OPENING_KEYS_BY_BAND,
   SETUP_BANK_VERSION,
   SETUP_QUESTIONNAIRE_BANK,
   type QuestionnaireItem,
   type QuestionnaireOption,
   type QuestionnaireRegister,
+  type SetupAgencyKey,
 } from "./setup-questionnaire-bank";
 import { sha256Hex } from "./sha256";
+import { lifeVoiceBandForAge, type LifeVoiceBand } from "./voice-bands";
 import type { SetupAnswerRecord, SetupPriorStore } from "./types";
 
 /**
@@ -161,6 +163,100 @@ export function setupQuestionnaireBank(): readonly QuestionnaireItem[] {
   return SETUP_QUESTIONNAIRE_BANK;
 }
 
+/* -------------------------------------------------------------------------- */
+/* Which items belong to which life                                            */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Enough about the character to know what it is honest to ask.
+ *
+ * Everything here is known at the setup screen, before any world exists —
+ * which is the point. The calibration used to run with no idea how old the
+ * character would be, so a player who asked for a ten-year-old was asked about
+ * the household bills, a colleague's misuse of a trip fund and a professional
+ * reference to co-sign. None of those is a decision that character will ever
+ * be handed, so answering them measured the player against a life they were
+ * not about to live.
+ */
+export interface SetupLifeContext {
+  readonly band: LifeVoiceBand;
+  readonly startAge: number;
+  readonly startingLife: "ordinary-life" | "legislative-office";
+  readonly household: "lives-alone" | "shares-a-home";
+}
+
+export function setupLifeContext(input: {
+  readonly startAge: number;
+  readonly startingLife: SetupLifeContext["startingLife"];
+  readonly household: SetupLifeContext["household"];
+}): SetupLifeContext {
+  return {
+    band: lifeVoiceBandForAge(input.startAge),
+    startAge: input.startAge,
+    startingLife: input.startingLife,
+    household: input.household,
+  };
+}
+
+/**
+ * What a character at this stage is in a position to do.
+ *
+ * The record cannot be consulted — there is no world yet — so this is derived
+ * from the life stage, which is the only thing the setup actually knows. It is
+ * deliberately conservative: a fifteen-year-old *can* hold a job, so the
+ * adolescent band admits `paid-work`; a ten-year-old cannot, so the childhood
+ * band does not, and every item that assumes one is withheld.
+ */
+export function setupAgency(
+  context: SetupLifeContext,
+): ReadonlySet<SetupAgencyKey> {
+  switch (context.band) {
+    case "adult":
+      return new Set<SetupAgencyKey>([
+        "answers-for-themselves",
+        "paid-work",
+        "responsible-for-somebody",
+      ]);
+    case "adolescence":
+      return new Set<SetupAgencyKey>(["paid-work", "in-school"]);
+    case "middle-childhood":
+      return new Set<SetupAgencyKey>(["in-school"]);
+  }
+}
+
+/** True when this item can honestly be put to this character. */
+export function itemAdmissible(
+  item: QuestionnaireItem,
+  context: SetupLifeContext,
+): boolean {
+  if (!item.eligibility.bands.includes(context.band)) return false;
+  const agency = setupAgency(context);
+  return item.eligibility.agency.every((key) => agency.has(key));
+}
+
+/** Everything this character could be asked, in bank order. */
+export function admissibleQuestionnaireBank(
+  context: SetupLifeContext,
+): readonly QuestionnaireItem[] {
+  return SETUP_QUESTIONNAIRE_BANK.filter((item) =>
+    itemAdmissible(item, context),
+  );
+}
+
+/**
+ * The default context, for callers that have not been taught about bands.
+ *
+ * An adult in an ordinary life sharing a home — which is what every caller
+ * before Packet 72 was implicitly assuming, so this keeps them behaving
+ * exactly as they did.
+ */
+export const DEFAULT_SETUP_LIFE_CONTEXT: SetupLifeContext = {
+  band: "adult",
+  startAge: 34,
+  startingLife: "ordinary-life",
+  household: "shares-a-home",
+};
+
 export function questionnaireItem(key: string): QuestionnaireItem | null {
   return SETUP_QUESTIONNAIRE_BANK.find((item) => item.key === key) ?? null;
 }
@@ -180,10 +276,14 @@ export function questionnaireOption(
  * usually well below this. Callers that need to validate a recorded answer
  * list use this as the upper bound, which is exactly what it is.
  */
-export function questionnaireLength(depth: QuestionnaireDepth): number {
+export function questionnaireLength(
+  depth: QuestionnaireDepth,
+  context: SetupLifeContext = DEFAULT_SETUP_LIFE_CONTEXT,
+): number {
   if (depth === "skipped") return 0;
-  if (depth === "short") return Math.min(SHORT_PATH_LENGTH, bankSize());
-  return Math.min(DEEP_PATH_TARGET_MAXIMUM, bankSize());
+  const supply = admissibleQuestionnaireBank(context).length;
+  if (depth === "short") return Math.min(SHORT_PATH_LENGTH, supply);
+  return Math.min(DEEP_PATH_TARGET_MAXIMUM, supply);
 }
 
 /**
@@ -356,6 +456,14 @@ export interface QuestionnaireSelectionInput {
   readonly depth: QuestionnaireDepth;
   /** Answers already given, in the order they were given. */
   readonly answers: readonly SetupAnswerRecord[];
+  /**
+   * The life the calibration is opening.
+   *
+   * Optional so that callers written before life stages existed keep working
+   * unchanged, and defaulted to an adult in an ordinary life — which is what
+   * every one of them was silently assuming.
+   */
+  readonly life?: SetupLifeContext;
 }
 
 export interface QuestionnaireScoreComponents {
@@ -439,14 +547,16 @@ export interface QuestionnaireOutcome {
 export function nextQuestionnaireStep(
   input: QuestionnaireSelectionInput,
 ): QuestionnaireStep | null {
-  const totalPlanned = questionnaireLength(input.depth);
+  const life = input.life ?? DEFAULT_SETUP_LIFE_CONTEXT;
+  const totalPlanned = questionnaireLength(input.depth, life);
   const ordinal = input.answers.length + 1;
   if (ordinal > totalPlanned) return null;
 
   const asked = new Set(input.answers.map((answer) => answer.questionKey));
   const phase = questionnairePhase(input.depth, input.answers.length);
-  const fixedKey = FIXED_OPENING_KEYS[ordinal - 1];
-  if (ordinal <= FIXED_OPENING_KEYS.length && fixedKey !== undefined) {
+  const openingKeys = FIXED_OPENING_KEYS_BY_BAND[life.band];
+  const fixedKey = openingKeys[ordinal - 1];
+  if (ordinal <= openingKeys.length && fixedKey !== undefined) {
     const item = questionnaireItem(fixedKey);
     if (item && !asked.has(fixedKey)) {
       return {
@@ -479,14 +589,15 @@ export function nextQuestionnaireStep(
     const item = questionnaireItem(answer.questionKey);
     return item !== null && LIVED_REGISTERS.has(item.register);
   }).length;
-  const livedRemaining = SETUP_QUESTIONNAIRE_BANK.some(
+  const admissible = admissibleQuestionnaireBank(life);
+  const livedRemaining = admissible.some(
     (item) => !asked.has(item.key) && LIVED_REGISTERS.has(item.register),
   );
   const stillOpening =
     livedAsked < LIVED_REGISTERS_BEFORE_WIDENING && livedRemaining;
 
   const candidates: QuestionnaireCandidateScore[] = [];
-  for (const item of SETUP_QUESTIONNAIRE_BANK) {
+  for (const item of admissible) {
     if (asked.has(item.key)) continue;
     const loadings = itemDimensionLoadings(item);
     let coverage = 0;
