@@ -1,4 +1,5 @@
 import {
+  PLAYER_MODEL_DIMENSIONS,
   applyAllPlayerEvidence,
   createPlayerModel,
   disambiguationValue,
@@ -13,6 +14,7 @@ import {
   SETUP_QUESTIONNAIRE_BANK,
   type QuestionnaireItem,
   type QuestionnaireOption,
+  type QuestionnaireRegister,
 } from "./setup-questionnaire-bank";
 import { sha256Hex } from "./sha256";
 import type { SetupAnswerRecord, SetupPriorStore } from "./types";
@@ -52,14 +54,90 @@ export const SHORT_PATH_LENGTH = 5;
 /**
  * What the deep path is aiming at.
  *
- * The product target is thirty to fifty items. The authored supply is
- * twenty-six, so the deep path is currently supply-bound rather than
- * design-bound, and `setupContentShortfall()` says so in numbers instead of
- * leaving a reader to count the bank. Nothing here invents an item to close
- * the gap.
+ * The product target is thirty to fifty items. These are the bounds a run may
+ * fall between; they are NOT its length. The deep path stops when it stops
+ * learning — see `INFORMATION_GAIN_FLOOR` — so two runs of it are different
+ * lengths, which is the point. `setupContentShortfall()` still reports the
+ * authored supply against the target so a thin bank shows up as a content gap
+ * rather than as an engine that gives up early.
  */
 export const DEEP_PATH_TARGET_MINIMUM = 30;
 export const DEEP_PATH_TARGET_MAXIMUM = 50;
+
+/**
+ * How little a question has to be worth before the calibration stops asking.
+ *
+ * The deep path used to run to a fixed count, which meant it kept asking after
+ * it had stopped learning and told the player "12 of 26" while doing it. Both
+ * halves of that were wrong: a fixed length is a promise the design does not
+ * want to make, and a visible denominator turns an adaptive interview into a
+ * form with a progress bar.
+ *
+ * So the run ends when the best remaining item scores below this — that is,
+ * when nothing left in the bank would tell the model much it does not already
+ * have. The number is a design threshold and is calibrated against the scoring
+ * scale in `nextQuestionnaireStep`: coverage terms start near 1 per unobserved
+ * dimension and fall as evidence arrives, so a best-remaining score under this
+ * means every candidate is now mostly re-asking.
+ */
+export const INFORMATION_GAIN_FLOOR = 0.9;
+
+/**
+ * How much observation an axis needs before asking about it again is
+ * re-asking rather than learning.
+ *
+ * This is what makes the gain actually diminish. The ranking's coverage term is
+ * `1 / (1 + weight)`, which keeps a well-observed axis worth a third of an
+ * unobserved one forever — fine for deciding which of two questions is better,
+ * useless for deciding whether to ask another, because it never reaches zero.
+ *
+ * So the stopping rule uses a different measure of the same thing: an axis
+ * contributes to it only while it is under-observed, and contributes nothing
+ * once it is not. When every axis an item touches is covered, the item is worth
+ * nothing to the stopping rule however much it is still worth to the ranking,
+ * and the only thing that can keep a calibration going is an ambiguity the
+ * answers have not resolved — which is exactly the condition the authority
+ * names: coverage, uncertainty, competing hypotheses, and diminishing gain.
+ *
+ * The value is about four setup answers' worth of evidence on one axis, since a
+ * setup observation is capped at `MAXIMUM_SETUP_OBSERVATION_WEIGHT`.
+ */
+export const SUFFICIENT_DIMENSION_WEIGHT = 1.2;
+
+/**
+ * How many the deep path asks before the floor is allowed to end it.
+ *
+ * Without a floor of its own, a decisive opening — three answers that all load
+ * the same way — could satisfy the coverage terms early and end the
+ * calibration in five questions, which reads as the game losing interest.
+ */
+export const DEEP_PATH_MINIMUM = 12;
+
+/**
+ * When the civic and policy registers open.
+ *
+ * The authority asks for a calibration that starts personal and relational and
+ * "gradually widens into civic and policy dilemmas based partly on what the
+ * adaptive system still needs to disambiguate". This is that gate: until the
+ * lived registers have been asked about enough times, an item set in a council
+ * chamber is held back regardless of how much coverage it would buy.
+ *
+ * It is a soft gate rather than a hard phase boundary. Once the threshold is
+ * passed, registers stop mattering and the ordinary scoring decides; and if
+ * the lived supply runs out first, the gate lifts rather than ending the run,
+ * because "we have nothing left to ask you about your kitchen" is not a reason
+ * to stop calibrating.
+ */
+export const LIVED_REGISTERS_BEFORE_WIDENING = 5;
+
+const LIVED_REGISTERS: ReadonlySet<QuestionnaireRegister> = new Set([
+  "lived-personal",
+  "lived-relational",
+  "lived-moral",
+]);
+
+/** How far behind an item sits while the calibration is still in its opening. */
+export const REGISTER_GATE_PENALTY = 50;
 
 /** Subtracted per dimension shared with the immediately preceding item. */
 export const ADJACENT_OVERLAP_PENALTY = 0.25;
@@ -94,11 +172,40 @@ export function questionnaireOption(
   return item.options.find((option) => option.key === choiceId) ?? null;
 }
 
-/** How many items this path will actually present, given the authored supply. */
+/**
+ * The most this path can ask, given the authored supply.
+ *
+ * A ceiling, not a length. The short path always reaches its ceiling because
+ * it is short by design; the deep path stops when it stops learning and
+ * usually well below this. Callers that need to validate a recorded answer
+ * list use this as the upper bound, which is exactly what it is.
+ */
 export function questionnaireLength(depth: QuestionnaireDepth): number {
   if (depth === "skipped") return 0;
   if (depth === "short") return Math.min(SHORT_PATH_LENGTH, bankSize());
   return Math.min(DEEP_PATH_TARGET_MAXIMUM, bankSize());
+}
+
+/**
+ * How far through the opening a run is, in words a player may see.
+ *
+ * Deliberately coarse and deliberately not a fraction. "Question 12 of 26"
+ * both promises a length the design does not have and invites a player to
+ * treat the calibration as a form to complete. A phase says enough to reassure
+ * somebody that this ends without telling them when.
+ */
+export type QuestionnairePhase = "opening" | "widening" | "closing";
+
+export function questionnairePhase(
+  depth: QuestionnaireDepth,
+  answered: number,
+): QuestionnairePhase {
+  if (depth === "short") {
+    return answered < Math.ceil(SHORT_PATH_LENGTH / 2) ? "opening" : "closing";
+  }
+  if (answered < LIVED_REGISTERS_BEFORE_WIDENING) return "opening";
+  if (answered < DEEP_PATH_MINIMUM) return "widening";
+  return "closing";
 }
 
 function bankSize(): number {
@@ -113,7 +220,12 @@ export interface SetupContentShortfall {
   readonly bankVersion: string;
   readonly authoredItems: number;
   readonly nonTransparentItems: number;
+  /** Legible as a policy docket; ranked last. */
   readonly flaggedItems: number;
+  /** Named by the human playtest as an abstraction; also ranked last. */
+  readonly abstractionFlaggedItems: number;
+  /** How many items are written as a lived scene rather than a policy question. */
+  readonly livedRegisterItems: number;
   readonly deepTargetMinimum: number;
   readonly deepTargetMaximum: number;
   /** How many more items the deep path needs to reach its lower target. */
@@ -140,12 +252,21 @@ export function setupContentShortfall(): SetupContentShortfall {
   const flaggedItems = SETUP_QUESTIONNAIRE_BANK.filter(
     (item) => item.review.verdict === "policy-docket-flagged",
   ).length;
-  const nonTransparentItems = authoredItems - flaggedItems;
+  const abstractionFlaggedItems = SETUP_QUESTIONNAIRE_BANK.filter(
+    (item) => item.review.verdict === "playtest-abstraction-flagged",
+  ).length;
+  const nonTransparentItems =
+    authoredItems - flaggedItems - abstractionFlaggedItems;
+  const livedRegisterItems = SETUP_QUESTIONNAIRE_BANK.filter(
+    (item) => item.register !== "policy-docket",
+  ).length;
   return {
     bankVersion: SETUP_BANK_VERSION,
     authoredItems,
     nonTransparentItems,
     flaggedItems,
+    abstractionFlaggedItems,
+    livedRegisterItems,
     deepTargetMinimum: DEEP_PATH_TARGET_MINIMUM,
     deepTargetMaximum: DEEP_PATH_TARGET_MAXIMUM,
     shortOfMinimumBy: Math.max(0, DEEP_PATH_TARGET_MINIMUM - authoredItems),
@@ -153,7 +274,7 @@ export function setupContentShortfall(): SetupContentShortfall {
       0,
       DEEP_PATH_TARGET_MINIMUM - nonTransparentItems,
     ),
-    note: "The deep path is bounded by authored supply, not by the engine. Closing the gap is a content job for the research lane; the implementing lane is not authorised to write questionnaire copy.",
+    note: "The deep path is no longer bounded by authored supply: the lived opening bank closed the gap against the 30-to-50 target. What bounds a run now is how much it is still learning, so two deep runs are different lengths. The items ranked last are still ranked last, and the count of them is the remaining content debt.",
   };
 }
 
@@ -242,7 +363,19 @@ export interface QuestionnaireScoreComponents {
   readonly overlapPenalty: number;
   readonly disambiguation: number;
   readonly transparencyPenalty: number;
+  /** Held back because the calibration has not widened yet. */
+  readonly registerPenalty: number;
   readonly total: number;
+  /**
+   * What this item is worth before any ordering penalty.
+   *
+   * The stopping rule reads this rather than `total`, because an item held
+   * back by the register gate or the transparency ranking is still
+   * informative — it is merely not next. Ending a run on a penalised total
+   * would stop the calibration for a reason that has nothing to do with how
+   * much it still has to learn.
+   */
+  readonly informationValue: number;
 }
 
 export interface QuestionnaireCandidateScore {
@@ -254,7 +387,12 @@ export interface QuestionnaireCandidateScore {
 export interface QuestionnaireStep {
   readonly ordinal: number;
   readonly item: QuestionnaireItem;
+  /**
+   * The most this path could still ask. A ceiling, never a length, and never
+   * shown to a player as a denominator.
+   */
   readonly totalPlanned: number;
+  readonly phase: QuestionnairePhase;
   /**
    * Why this one, in the selector's own terms. Never shown: telling a player
    * "asked because your economic axis is unobserved" is a diagnostic label
@@ -263,6 +401,32 @@ export interface QuestionnaireStep {
   readonly reason:
     "fixed-opener" | "coverage-need" | "disambiguation" | "remaining-supply";
   readonly candidates: readonly QuestionnaireCandidateScore[];
+}
+
+/**
+ * Why a run ended, for the development calibration report.
+ *
+ * Never shown to a player: "we stopped because you had stopped surprising us"
+ * is a diagnostic about the model, and telling somebody it is how a
+ * calibration stops being able to surprise them back.
+ */
+export type QuestionnaireStopReason =
+  /** The short path asked what it asks. */
+  | "path-complete"
+  /** The bank has nothing left that has not been asked. */
+  | "supply-exhausted"
+  /** Nothing left would tell the model much it does not already have. */
+  | "information-gain-floor"
+  /** The deep path reached its ceiling. */
+  | "ceiling-reached";
+
+export interface QuestionnaireOutcome {
+  readonly stopped: QuestionnaireStopReason;
+  readonly asked: number;
+  /** The best score still on the table when it stopped. */
+  readonly bestRemainingValue: number;
+  /** Dimensions still carrying no observation at all. */
+  readonly uncoveredDimensions: readonly PlayerModelDimension[];
 }
 
 /**
@@ -280,6 +444,7 @@ export function nextQuestionnaireStep(
   if (ordinal > totalPlanned) return null;
 
   const asked = new Set(input.answers.map((answer) => answer.questionKey));
+  const phase = questionnairePhase(input.depth, input.answers.length);
   const fixedKey = FIXED_OPENING_KEYS[ordinal - 1];
   if (ordinal <= FIXED_OPENING_KEYS.length && fixedKey !== undefined) {
     const item = questionnaireItem(fixedKey);
@@ -288,6 +453,7 @@ export function nextQuestionnaireStep(
         ordinal,
         item,
         totalPlanned,
+        phase,
         reason: "fixed-opener",
         candidates: [],
       };
@@ -305,6 +471,19 @@ export function nextQuestionnaireStep(
   const previousDimensions = new Set<PlayerModelDimension>(
     previousItem ? itemDimensionLoadings(previousItem).keys() : [],
   );
+
+  // Whether the opening is over. Counted over the lived registers actually
+  // asked rather than over the ordinal, so a run whose lived supply ran out
+  // early widens rather than stalling.
+  const livedAsked = input.answers.filter((answer) => {
+    const item = questionnaireItem(answer.questionKey);
+    return item !== null && LIVED_REGISTERS.has(item.register);
+  }).length;
+  const livedRemaining = SETUP_QUESTIONNAIRE_BANK.some(
+    (item) => !asked.has(item.key) && LIVED_REGISTERS.has(item.register),
+  );
+  const stillOpening =
+    livedAsked < LIVED_REGISTERS_BEFORE_WIDENING && livedRemaining;
 
   const candidates: QuestionnaireCandidateScore[] = [];
   for (const item of SETUP_QUESTIONNAIRE_BANK) {
@@ -326,12 +505,25 @@ export function nextQuestionnaireStep(
         model,
         item.options.map((option) => option.hypotheses),
       );
-    const transparencyPenalty =
-      item.review.verdict === "policy-docket-flagged"
-        ? FLAGGED_ITEM_PENALTY
+    const transparencyPenalty = rankedLast(item) ? FLAGGED_ITEM_PENALTY : 0;
+    const registerPenalty =
+      stillOpening && !LIVED_REGISTERS.has(item.register)
+        ? REGISTER_GATE_PENALTY
         : 0;
+    // What the item is worth to the question "is there anything left to
+    // learn", before anything about where it belongs in the order. The
+    // stopping rule reads this; the ranking reads `total`.
+    const informationValue = marginalInformationValue(
+      model,
+      item,
+      disambiguation,
+    );
     const total =
-      coverage + disambiguation - overlapPenalty - transparencyPenalty;
+      coverage +
+      disambiguation -
+      overlapPenalty -
+      transparencyPenalty -
+      registerPenalty;
     candidates.push({
       item,
       components: {
@@ -339,7 +531,9 @@ export function nextQuestionnaireStep(
         overlapPenalty,
         disambiguation,
         transparencyPenalty,
+        registerPenalty,
         total,
+        informationValue,
       },
       tieBreakDigest: sha256Hex(
         questionnaireTieBreakMaterial(input, ordinal, item.key),
@@ -347,6 +541,19 @@ export function nextQuestionnaireStep(
     });
   }
   if (candidates.length === 0) return null;
+
+  // The stopping rule. A deep run past its floor ends when nothing left would
+  // tell the model much — which is what makes two deep runs different lengths,
+  // and what stops the game asking a twenty-fourth question it already knows
+  // the answer to. The short path is short by contract and does not consult it.
+  if (input.depth === "deep" && input.answers.length >= DEEP_PATH_MINIMUM) {
+    const bestValue = candidates.reduce(
+      (highest, candidate) =>
+        Math.max(highest, candidate.components.informationValue),
+      0,
+    );
+    if (bestValue < INFORMATION_GAIN_FLOOR) return null;
+  }
 
   const best = pickBest(candidates, (candidate) => candidate.components.total);
   // Whether the disambiguation term is what decided it, asked by removing the
@@ -366,7 +573,105 @@ export function nextQuestionnaireStep(
         ? "coverage-need"
         : "remaining-supply";
 
-  return { ordinal, item: best.item, totalPlanned, reason, candidates };
+  return {
+    ordinal,
+    item: best.item,
+    totalPlanned,
+    phase,
+    reason,
+    candidates,
+  };
+}
+
+/**
+ * What an item could still teach, as opposed to how good a question it is.
+ *
+ * An axis contributes only while it is under-observed, and its contribution
+ * falls linearly to nothing at `SUFFICIENT_DIMENSION_WEIGHT`. Once every axis
+ * an item touches is covered, only an unresolved ambiguity keeps it worth
+ * asking — which is what makes two deep runs different lengths: a player whose
+ * answers left explanations level gets asked more, and one who answered
+ * consistently gets asked less, without either being told so.
+ */
+function marginalInformationValue(
+  model: PlayerModel,
+  item: QuestionnaireItem,
+  disambiguation: number,
+): number {
+  let remaining = 0;
+  for (const [dimension, magnitude] of itemDimensionLoadings(item)) {
+    const weight = dimensionWeight(model, dimension);
+    if (weight >= SUFFICIENT_DIMENSION_WEIGHT) continue;
+    remaining += magnitude * (1 - weight / SUFFICIENT_DIMENSION_WEIGHT);
+  }
+  return remaining + disambiguation;
+}
+
+/**
+ * Items ranked behind everything that passed review.
+ *
+ * Two verdicts land here for different reasons — one is legible as a policy
+ * docket, the other was named by a human reviewer as an abstraction — and both
+ * mean "ask this only when there is nothing better left".
+ */
+function rankedLast(item: QuestionnaireItem): boolean {
+  return (
+    item.review.verdict === "policy-docket-flagged" ||
+    item.review.verdict === "playtest-abstraction-flagged"
+  );
+}
+
+/**
+ * Why a run of this shape ended, and what it was still uncertain about.
+ *
+ * Development-only. It answers the acceptance question the authority asks —
+ * "what caused the adaptive questionnaire to stop, and which dimensions remain
+ * uncertain" — without any of it reaching a player.
+ */
+export function questionnaireOutcome(
+  input: QuestionnaireSelectionInput,
+): QuestionnaireOutcome {
+  const asked = new Set(input.answers.map((answer) => answer.questionKey));
+  const model = modelFromSetupPriors({
+    version: 1,
+    path: input.depth,
+    bankVersion: SETUP_BANK_VERSION,
+    answers: input.answers,
+  });
+  const uncovered = PLAYER_MODEL_DIMENSIONS.filter(
+    (dimension) => dimensionWeight(model, dimension) === 0,
+  );
+  const remaining = SETUP_QUESTIONNAIRE_BANK.filter(
+    (item) => !asked.has(item.key),
+  );
+  const bestRemainingValue = remaining.reduce((highest, item) => {
+    const disambiguation =
+      DISAMBIGUATION_WEIGHT *
+      disambiguationValue(
+        model,
+        item.options.map((option) => option.hypotheses),
+      );
+    return Math.max(
+      highest,
+      marginalInformationValue(model, item, disambiguation),
+    );
+  }, 0);
+
+  const stopped: QuestionnaireStopReason =
+    remaining.length === 0
+      ? "supply-exhausted"
+      : input.depth === "short"
+        ? "path-complete"
+        : input.answers.length >= questionnaireLength(input.depth)
+          ? "ceiling-reached"
+          : "information-gain-floor";
+
+  return {
+    stopped,
+    asked: input.answers.length,
+    bestRemainingValue,
+    uncoveredDimensions: uncovered,
+  };
 }
 
 /**

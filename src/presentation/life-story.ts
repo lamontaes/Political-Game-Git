@@ -263,7 +263,10 @@ function gatherCandidates(
   world: World,
   personId: EntityId,
   formativeYears: boolean,
-): { readonly candidates: readonly Candidate[]; readonly exclusions: readonly EpisodeExclusion[] } {
+): {
+  readonly candidates: readonly Candidate[];
+  readonly exclusions: readonly EpisodeExclusion[];
+} {
   const threads = narrativeThreads(world, personId);
   const eligibility = eligibleEpisodeBeats({
     world,
@@ -277,7 +280,9 @@ function gatherCandidates(
       thread,
       candidate: {
         key: `episode:${beat.instanceKey}/${beat.stageKey}` as const,
-        band: formativeYears ? ("adolescence" as const) : ("adulthood" as const),
+        band: formativeYears
+          ? ("adolescence" as const)
+          : ("adulthood" as const),
         stakes: beat.stakes,
         tensions: beat.tensions,
         relevance: episodeRelevance(beat, thread),
@@ -312,7 +317,10 @@ function gatherCandidates(
     }
   }
 
-  return { candidates: [...episodes, ...bank], exclusions: eligibility.exclusions };
+  return {
+    candidates: [...episodes, ...bank],
+    exclusions: eligibility.exclusions,
+  };
 }
 
 export function traceStorySelection(
@@ -352,7 +360,8 @@ export function traceStorySelection(
       chosenKey: null,
       reason: null,
       candidateCount: candidates.length,
-      episodeCandidates: candidates.filter((entry) => entry.beat !== null).length,
+      episodeCandidates: candidates.filter((entry) => entry.beat !== null)
+        .length,
       bankCandidates: candidates.filter((entry) => entry.beat === null).length,
       ranked: [],
       continuedThreadKey: null,

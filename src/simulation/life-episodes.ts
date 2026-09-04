@@ -594,7 +594,9 @@ export function episodeRoleBindings(
     if (candidateId === personId) return;
     const other = world.people[candidateId];
     if (!other) return;
-    if (world.history.personDeaths.some((rec) => rec.personId === candidateId)) {
+    if (
+      world.history.personDeaths.some((rec) => rec.personId === candidateId)
+    ) {
       return;
     }
     const token = `${role}:${candidateId}`;
@@ -885,11 +887,7 @@ export function eligibleEpisodeBeats(
   const exclusions: EpisodeExclusion[] = [];
 
   for (const family of families) {
-    const instanceKey = episodeInstanceKey(
-      family.key,
-      bindings,
-      family.roles,
-    );
+    const instanceKey = episodeInstanceKey(family.key, bindings, family.roles);
     const instanceStages = played.filter(
       (entry) => entry.instanceKey === instanceKey,
     );
@@ -922,7 +920,8 @@ export function eligibleEpisodeBeats(
     for (const stage of family.stages) {
       // A stage is played once per instance. Coming round again is what a
       // later stage is for.
-      if (instanceStages.some((entry) => entry.stageKey === stage.key)) continue;
+      if (instanceStages.some((entry) => entry.stageKey === stage.key))
+        continue;
 
       const causalInputs: EpisodeCausalInput[] = [];
       let blocked = false;
@@ -1290,7 +1289,13 @@ export function playEpisodeOption(
   const companions = input.beat.bindings.map((binding) => binding.personId);
 
   const transitions: CharacterHistoryTransition[] = [
-    ...writeTransitions(world, input.personId, option, stableKey, jurisdictionId),
+    ...writeTransitions(
+      world,
+      input.personId,
+      option,
+      stableKey,
+      jurisdictionId,
+    ),
     {
       kind: "event",
       input: {

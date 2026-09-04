@@ -84,19 +84,27 @@ async function answerCalibration(page: Page, index: number, limit = 60) {
   return prompts;
 }
 
-/** Takes one adult decision, or lets time pass when there is nothing to decide. */
-async function takeOneAdultBeat(page: Page, index = 0): Promise<string> {
-  const section = page.getByTestId("adult-section");
+/** Takes one decision on the story surface, whichever kind of beat it is. */
+async function takeOneBeat(page: Page, index = 0): Promise<string> {
+  const section = page.getByTestId("story-section");
   await expect(section).toBeVisible();
-  if ((await page.getByTestId("adult-options").count()) === 0) {
-    await page.getByTestId("adult-let-time-pass").click();
-    return "";
-  }
-  const prose = await page.getByTestId("adult-prose").innerText();
-  const options = page.getByTestId("adult-options").getByRole("button");
+  const prose =
+    (await page.getByTestId("story-prose").count()) > 0
+      ? await page.getByTestId("story-prose").innerText()
+      : "";
+  const options = page.getByTestId("story-options").getByRole("button");
   const count = await options.count();
   await options.nth(Math.min(index, count - 1)).click();
   return prose;
+}
+
+/** Opens the journal and returns what it says. */
+async function readJournal(page: Page): Promise<string> {
+  await page.getByTestId("open-journal").click();
+  await expect(page.getByTestId("journal")).toBeVisible();
+  const text = await page.getByTestId("journal").innerText();
+  await page.getByTestId("open-journal").click();
+  return text;
 }
 
 async function keepAndWait(page: Page) {
@@ -115,8 +123,13 @@ test.describe("The calibration is a set of situations, not a quiz", () => {
     await openSetup(page, 33, "short");
 
     await expect(page.getByTestId("questionnaire-screen")).toBeVisible();
+    // A phase, not a fraction. "1 of 5" promised a length the deep path does
+    // not have, and a denominator turns an opening into a form.
     await expect(page.getByTestId("questionnaire-progress")).toContainText(
-      "1 of 5",
+      "Somewhere to start",
+    );
+    await expect(page.getByTestId("questionnaire-progress")).not.toContainText(
+      " of ",
     );
     const prompts = await answerCalibration(page, 0);
     expect(prompts).toHaveLength(5);
@@ -163,29 +176,31 @@ test.describe("The calibration is a set of situations, not a quiz", () => {
 
     await page.getByTestId("leave-game").click();
     await openSetup(page, 40, "deep");
-    await expect(page.getByTestId("questionnaire-progress")).toContainText(
-      "1 of ",
-    );
-    // "I would rather not say" is a real answer and moves on.
-    await page.getByTestId("questionnaire-skip").click();
-    await expect(page.getByTestId("questionnaire-progress")).toContainText(
-      "2 of ",
-    );
+    await expect(page.getByTestId("questionnaire-screen")).toBeVisible();
+    // There is no per-question decline any more. The authority removed it: a
+    // player who does not want to answer leaves through the control that
+    // starts the life, which is one honest act rather than twenty refusals.
+    await expect(page.getByTestId("questionnaire-skip")).toHaveCount(0);
+    const screen = await page.getByTestId("questionnaire-screen").innerText();
+    expect(screen).not.toMatch(/rather not say/i);
     // And the life can be started at any point.
     await page.getByTestId("questionnaire-finish").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
   });
 
-  test("offers a longer set than the quick one", async ({ page }) => {
+  test("describes the longer set without promising a length", async ({
+    page,
+  }) => {
     await freshBrowser(page);
     await page.getByTestId("new-game").click();
     await page.getByTestId("start-age").fill("31");
     const deep = await page.getByTestId("calibration-deep").innerText();
     const short = await page.getByTestId("calibration-short").innerText();
-    const deepCount = Number(/(\d+)/.exec(deep)?.[1] ?? "0");
-    const shortCount = Number(/(\d+)/.exec(short)?.[1] ?? "0");
-    expect(shortCount).toBe(5);
-    expect(deepCount).toBeGreaterThan(10);
+    expect(short).toContain("5 situations");
+    // The deep path stops when it stops learning, so it must not claim a
+    // count. Two runs of it are different lengths.
+    expect(deep).not.toMatch(/\d+ situations/);
+    expect(deep).toMatch(/as many as it takes/i);
   });
 });
 
@@ -203,17 +218,18 @@ test.describe("An adult has something to do, and it follows from their life", ()
 
     const seen: string[] = [];
     for (let beat = 0; beat < 8; beat += 1) {
-      const prose = await takeOneAdultBeat(page, beat % 3);
+      const prose = await takeOneBeat(page, beat % 3);
       if (prose) seen.push(prose);
     }
     expect(seen.length).toBeGreaterThanOrEqual(6);
     // Different situations, not the same one eight times.
     expect(new Set(seen).size).toBeGreaterThanOrEqual(5);
 
-    await expect(page.getByTestId("adult-moments")).toBeVisible();
-    const remembered = await page.getByTestId("adult-moments").innerText();
+    // The record is behind a control now rather than poured down the screen.
+    const remembered = await readJournal(page);
     expect(remembered).not.toMatch(DEVELOPER_WORDS);
-    // The record is written as things that happened, not as buttons pressed.
+    expect(remembered).not.toMatch(/WHAT YOU REMEMBER/i);
+    // Written as things that happened, not as buttons pressed.
     expect(remembered.split("\n").length).toBeGreaterThan(4);
     expect(errors).toEqual([]);
   });
@@ -221,20 +237,20 @@ test.describe("An adult has something to do, and it follows from their life", ()
   test("keeps the ordinary day beside the decision", async ({ page }) => {
     await freshBrowser(page);
     await openSetup(page, 37, "skip");
-    await expect(page.getByTestId("adult-section")).toBeVisible();
+    await expect(page.getByTestId("story-section")).toBeVisible();
     await expect(page.getByTestId("ordinary-section")).toBeVisible();
     await expect(page.getByTestId("day-pending")).toBeVisible();
     // And the household conversation the shell already had.
     await expect(page.getByTestId("household-conversation")).toBeVisible();
   });
 
-  test("shows a child the growing-up years and no adult situation", async ({
-    page,
-  }) => {
+  test("shows a child a life and no adult day surface", async ({ page }) => {
     await freshBrowser(page);
     await openSetup(page, 9, "skip");
-    await expect(page.getByTestId("formative-section")).toBeVisible();
-    await expect(page.getByTestId("adult-section")).toHaveCount(0);
+    await expect(page.getByTestId("story-section")).toBeVisible();
+    // The growing-up years and adult life share one surface; what a child does
+    // not get is the adult household day beside it.
+    await expect(page.getByTestId("ordinary-section")).toHaveCount(0);
   });
 });
 
@@ -251,7 +267,7 @@ test.describe("Nothing on screen says how much a choice will matter", () => {
     for (let beat = 0; beat < 6; beat += 1) {
       const screen = await page.getByTestId("play-screen").innerText();
       expect(screen).not.toMatch(FORECAST_WORDS);
-      await takeOneAdultBeat(page, beat % 2);
+      await takeOneBeat(page, beat % 2);
     }
     const finalScreen = await page.getByTestId("play-screen").innerText();
     expect(finalScreen).not.toMatch(FORECAST_WORDS);
@@ -262,7 +278,7 @@ test.describe("Nothing on screen says how much a choice will matter", () => {
     await freshBrowser(page);
     await openSetup(page, 36, "short");
     await answerCalibration(page, 0);
-    for (let beat = 0; beat < 4; beat += 1) await takeOneAdultBeat(page, 0);
+    for (let beat = 0; beat < 4; beat += 1) await takeOneBeat(page, 0);
     await keepAndWait(page);
 
     const written = await page.evaluate(async () => {
@@ -298,9 +314,9 @@ test.describe("A life is kept, and comes back adapting the same way", () => {
     await openSetup(page, 32, "short");
     await answerCalibration(page, 0);
 
-    for (let beat = 0; beat < 4; beat += 1) await takeOneAdultBeat(page, 0);
-    const beforeMoments = await page.getByTestId("adult-moments").innerText();
-    const beforeScene = await page.getByTestId("adult-prose").innerText();
+    for (let beat = 0; beat < 4; beat += 1) await takeOneBeat(page, 0);
+    const beforeJournal = await readJournal(page);
+    const beforeScene = await page.getByTestId("story-prose").innerText();
 
     await keepAndWait(page);
     await page.reload();
@@ -310,16 +326,13 @@ test.describe("A life is kept, and comes back adapting the same way", () => {
     // Same record, and the same next situation — which is the claim that
     // matters, because the next situation is chosen from the calibration and
     // the history together.
-    expect(await page.getByTestId("adult-moments").innerText()).toBe(
-      beforeMoments,
-    );
-    expect(await page.getByTestId("adult-prose").innerText()).toBe(beforeScene);
+    expect(await readJournal(page)).toBe(beforeJournal);
+    expect(await page.getByTestId("story-prose").innerText()).toBe(beforeScene);
 
     // And it keeps going from there rather than restarting.
-    await takeOneAdultBeat(page, 0);
-    const afterMoments = await page.getByTestId("adult-moments").innerText();
-    expect(afterMoments).not.toBe(beforeMoments);
-    expect(afterMoments).toContain(beforeMoments.split("\n")[0]!);
+    await takeOneBeat(page, 0);
+    const afterJournal = await readJournal(page);
+    expect(afterJournal).not.toBe(beforeJournal);
   });
 
   test("rebuilds a calibrated life exactly from a replay address", async ({

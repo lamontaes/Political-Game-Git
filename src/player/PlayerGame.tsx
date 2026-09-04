@@ -7,10 +7,11 @@ import {
 } from "../presentation/browser-world-repository";
 import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
-  chooseFormativeOption,
-  letTimePass,
-  projectFormativeYears,
-} from "../presentation/formative-play";
+  chooseStoryOption,
+  letStoryTimePass,
+  projectStoryMoment,
+} from "../presentation/life-story";
+import { projectLifeRecord } from "../presentation/life-record";
 import {
   DEFAULT_NEW_GAME_SETUP,
   LEGISLATIVE_OFFICE_MINIMUM_AGE,
@@ -27,15 +28,10 @@ import {
   projectOrdinaryDay,
 } from "../presentation/ordinary-life";
 import {
-  chooseAdultOption,
-  letAdultTimePass,
-  projectAdultLife,
-} from "../presentation/adult-life";
-import {
   answerQuestionnaire,
   endQuestionnaireEarly,
   questionnaireContentNote,
-  questionnairePathLength,
+  questionnairePathNote,
   questionnaireScreenFor,
 } from "../presentation/setup-questionnaire-flow";
 import {
@@ -61,7 +57,7 @@ import {
   replayDescriptorUrl,
 } from "../presentation/new-game-identity";
 import { lifePlaceCoverage, lifePlaces } from "../simulation";
-import type { EntityId, World } from "../simulation";
+import type { EntityId, QuestionnairePhase, World } from "../simulation";
 import {
   openLegislativeWork,
   type LegislativeAssignment,
@@ -90,6 +86,7 @@ type Screen =
    */
   | { readonly kind: "questionnaire"; readonly setup: NewGameSetup }
   | { readonly kind: "saves" }
+  | { readonly kind: "options" }
   | { readonly kind: "playing" };
 
 interface Session {
@@ -347,8 +344,13 @@ export function PlayerGame() {
         }}
         onContinue={() => void continueMostRecent()}
         onOpenSaves={() => setScreen({ kind: "saves" })}
+        onOpenOptions={() => setScreen({ kind: "options" })}
       />
     );
+  }
+
+  if (screen.kind === "options") {
+    return <OptionsScreen onBack={() => setScreen({ kind: "title" })} />;
   }
 
   function beginLife(setup: NewGameSetup) {
@@ -448,6 +450,17 @@ export function PlayerGame() {
 
 /* -------------------------------------------------------------------------- */
 
+/**
+ * The main menu.
+ *
+ * Our Civic Duty, and no tagline. Five controls, in the order the authority
+ * names them.
+ *
+ * Quit is present and disabled, which is the honest state rather than a
+ * missing button or a lie. There is no application shell here to quit, and the
+ * copy beside it says what would have to exist for it to work without ever
+ * mentioning a browser to a player.
+ */
 function TitleScreen({
   saves,
   savesUnavailable,
@@ -455,6 +468,7 @@ function TitleScreen({
   onNewGame,
   onContinue,
   onOpenSaves,
+  onOpenOptions,
 }: {
   readonly saves: readonly BrowserWorldSummary[];
   readonly savesUnavailable: boolean;
@@ -462,15 +476,15 @@ function TitleScreen({
   readonly onNewGame: () => void;
   readonly onContinue: () => void;
   readonly onOpenSaves: () => void;
+  readonly onOpenOptions: () => void;
 }) {
   const recent = saves[0];
   return (
     <main className="game-title" data-testid="title-screen">
-      <h1>Political Game</h1>
-      <p className="game-title-line">A life, and the places it can reach.</p>
+      <h1>Our Civic Duty</h1>
       <div className="game-title-actions">
         <button type="button" data-testid="new-game" onClick={onNewGame}>
-          New game
+          New Game
         </button>
         <button
           type="button"
@@ -492,14 +506,25 @@ function TitleScreen({
           onClick={onOpenSaves}
           disabled={saves.length === 0}
         >
-          Saved games
+          Saved Games
           {saves.length > 0 ? <small>{saves.length} saved</small> : null}
+        </button>
+        <button
+          type="button"
+          data-testid="open-options"
+          onClick={onOpenOptions}
+        >
+          Options
+        </button>
+        <button type="button" data-testid="quit" disabled>
+          Quit
+          <small>Not available in this build.</small>
         </button>
       </div>
       {savesUnavailable ? (
         <p className="game-note">
-          This browser will not let the game store anything, so a game played
-          here will not still be here later.
+          Games cannot be stored here, so a life played now will not still be
+          here later.
         </p>
       ) : null}
       {problem ? <p className="game-problem">{problem}</p> : null}
@@ -524,6 +549,24 @@ function SetupScreen({
 }) {
   const places = lifePlaces();
   const coverage = lifePlaceCoverage();
+  const [placeQuery, setPlaceQuery] = useState("");
+  const matchingPlaces = useMemo(() => {
+    const needle = placeQuery.trim().toLowerCase();
+    if (needle.length === 0) return places;
+    return places.filter((candidate) =>
+      [
+        candidate.displayName,
+        candidate.withinName ?? "",
+        // The formal jurisdiction name is searchable even though it is not
+        // shown: somebody who types the name on their tax bill should find
+        // the place they live.
+        candidate.formalName ?? "",
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(needle),
+    );
+  }, [places, placeQuery]);
   const [setup, setSetup] = useState<NewGameSetup>({
     ...DEFAULT_NEW_GAME_SETUP,
     seed,
@@ -539,9 +582,27 @@ function SetupScreen({
       <h1>A new life</h1>
 
       <section>
-        <h2>Where</h2>
+        <h2>Choose a starting place</h2>
+        {/*
+          The Start Anywhere surface, as far as the accepted data honestly
+          reaches. Searching and browsing is the interaction the feature will
+          keep once a national corpus lands: what changes then is how many rows
+          the provider returns, not this screen. Filtering a list of four is
+          not much use today and is exactly the point — the shape is here, so
+          the corpus is a data change rather than a redesign.
+        */}
+        <label className="game-search">
+          Search places
+          <input
+            type="search"
+            data-testid="place-search"
+            value={placeQuery}
+            placeholder="Type a state or a city"
+            onChange={(event) => setPlaceQuery(event.target.value)}
+          />
+        </label>
         <div className="game-choices" data-testid="place-choices">
-          {places.map((candidate) => (
+          {matchingPlaces.map((candidate) => (
             <button
               key={candidate.key}
               type="button"
@@ -561,20 +622,28 @@ function SetupScreen({
             >
               {candidate.displayName}
               <small>
+                {candidate.withinName ? `${candidate.withinName} · ` : ""}
                 {candidate.capabilities.legislativeScenarioKey
-                  ? "Legislative procedure available"
-                  : "No legislative procedure yet"}
+                  ? "A legislature you can work in"
+                  : "Everyday life only, for now"}
               </small>
             </button>
           ))}
         </div>
-        <p className="game-note" data-testid="place-coverage">
-          These are the places a life can begin in today. {coverage.playerNote}
-        </p>
+        {matchingPlaces.length === 0 ? (
+          <p className="game-note" data-testid="place-no-match">
+            Nothing here matches that yet. {coverage.playerNote}
+          </p>
+        ) : (
+          <p className="game-note" data-testid="place-coverage">
+            These are the places a life can begin in today.{" "}
+            {coverage.playerNote}
+          </p>
+        )}
       </section>
 
       <section>
-        <h2>Who</h2>
+        <h2>Your character</h2>
         <div className="game-fields">
           <label>
             First name
@@ -605,7 +674,7 @@ function SetupScreen({
             />
           </label>
           <label>
-            Age at the start
+            Starting age
             <input
               type="number"
               data-testid="start-age"
@@ -624,7 +693,7 @@ function SetupScreen({
       </section>
 
       <section>
-        <h2>How much to play</h2>
+        <h2>How you want to begin</h2>
         <div className="game-choices">
           <button
             type="button"
@@ -638,11 +707,11 @@ function SetupScreen({
               }))
             }
           >
-            Play the growing-up years
+            Start in childhood
             <small>
               {setup.startAge < 18
-                ? "Decide them one at a time from here."
-                : "Only available for a character under eighteen."}
+                ? "Shape the early years yourself, one at a time."
+                : "Only for a character under eighteen."}
             </small>
           </button>
           <button
@@ -657,14 +726,14 @@ function SetupScreen({
               }))
             }
           >
-            Start with the earlier years behind you
-            <small>They go on the record without being played.</small>
+            Begin later
+            <small>The early years are already in the past.</small>
           </button>
         </div>
       </section>
 
       <section>
-        <h2>Doing what</h2>
+        <h2>Your starting path</h2>
         <div className="game-choices">
           <button
             type="button"
@@ -678,8 +747,8 @@ function SetupScreen({
               }))
             }
           >
-            An ordinary life
-            <small>No office, no legislature.</small>
+            Everyday life
+            <small>No office. No formal political role.</small>
           </button>
           <button
             type="button"
@@ -697,20 +766,20 @@ function SetupScreen({
               }))
             }
           >
-            Working in a legislative office
+            Legislative staff
             <small>
               {place?.capabilities.legislativeScenarioKey === null
-                ? `No sourced procedure for ${place.displayName} yet.`
+                ? `${place.displayName} has no legislature you can work in yet.`
                 : setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE
-                  ? `Needs a character of at least ${LEGISLATIVE_OFFICE_MINIMUM_AGE}.`
-                  : "Staff to a state legislature."}
+                  ? `Available for characters ${LEGISLATIVE_OFFICE_MINIMUM_AGE} and older.`
+                  : "Working for a state legislature."}
             </small>
           </button>
         </div>
       </section>
 
       <section>
-        <h2>Who else is at home</h2>
+        <h2>Who you live with</h2>
         <div className="game-choices" data-testid="household-choices">
           <button
             type="button"
@@ -749,7 +818,7 @@ function SetupScreen({
       </section>
 
       <section>
-        <h2>Before you start</h2>
+        <h2>Before the story begins</h2>
         <div className="game-choices" data-testid="calibration-choices">
           <button
             type="button"
@@ -765,10 +834,8 @@ function SetupScreen({
               }))
             }
           >
-            A few questions
-            <small>
-              {questionnairePathLength("short")} situations, quickly.
-            </small>
+            A short set
+            <small>{questionnairePathNote("short")}</small>
           </button>
           <button
             type="button"
@@ -782,11 +849,8 @@ function SetupScreen({
               }))
             }
           >
-            The longer set
-            <small>
-              Up to {questionnairePathLength("deep")} situations. You can stop
-              at any point.
-            </small>
+            Full calibration
+            <small>{questionnairePathNote("deep")}</small>
           </button>
           <button
             type="button"
@@ -804,17 +868,15 @@ function SetupScreen({
               }))
             }
           >
-            Straight in
-            <small>
-              Skip it; the game works out the rest from what you do.
-            </small>
+            Start immediately
+            <small>{questionnairePathNote("skipped")}</small>
           </button>
         </div>
         <p className="game-note" data-testid="calibration-note">
-          These are situations, not a quiz. There are no right answers and
-          nothing you pick becomes part of your character&rsquo;s history — what
-          you actually do in the game counts for a great deal more than what you
-          say here.
+          These are situations, not a quiz. There are no right answers, and
+          nothing you pick here becomes part of your character&rsquo;s history.
+          What you actually do once the life starts counts for a great deal more
+          than what you say now.
         </p>
       </section>
 
@@ -839,8 +901,16 @@ function SetupScreen({
         </button>
       </div>
 
-      <details className="game-dev">
-        <summary>Reproducing this world</summary>
+      {/*
+        Reproducibility, moved off the setup surface proper.
+        A raw seed and a replay address are development tools, and the human
+        playtest read them on the New Game screen as the game showing its
+        working. They stay reachable — a bug report is worth much less without
+        them — behind a collapsed Advanced disclosure, which is where the
+        authority put them.
+      */}
+      <details className="game-dev" data-testid="setup-advanced">
+        <summary>Advanced &mdash; reproducing this world</summary>
         <p>
           This world is generated from{" "}
           <code data-testid="setup-seed">{seed}</code>
@@ -866,12 +936,27 @@ function SetupScreen({
 /**
  * The calibration.
  *
- * A situation, some ways of handling it, and the option not to answer. What is
- * deliberately absent is everything a quiz would have: no progress bar framing
- * it as a test, no score, no summary at the end, and above all no label. The
- * game never tells a player what it has concluded about them, because a game
- * that does has stopped being able to be surprised by them.
+ * A situation and some ways of handling it. What is deliberately absent is
+ * everything a quiz would have: no score, no summary at the end, and above all
+ * no label. The game never tells a player what it has concluded about them,
+ * because a game that does has stopped being able to be surprised by them.
+ *
+ * Two things left with this wave. The "1 of 26" progress line is gone, because
+ * the deep path has no fixed length any more — it stops when it stops learning
+ * — and a denominator promised one. What remains is a phase, which says that
+ * this ends without saying when.
+ *
+ * And so has "I would rather not say". Declining twenty times in a row is a
+ * worse experience than leaving, and the authority replaced it with the one
+ * control that was always the honest exit: start the life now, keeping
+ * whatever has been answered so far.
  */
+const PHASE_LINE: Readonly<Record<QuestionnairePhase, string>> = {
+  opening: "Somewhere to start",
+  widening: "A little wider",
+  closing: "Nearly there",
+};
+
 function QuestionnaireScreenView({
   setup,
   onAnswer,
@@ -888,9 +973,9 @@ function QuestionnaireScreenView({
   const note = questionnaireContentNote();
   return (
     <main className="game-setup" data-testid="questionnaire-screen">
-      <h1>Before the life starts</h1>
+      <h1>Before the story begins</h1>
       <p className="game-band" data-testid="questionnaire-progress">
-        {screen.ordinal} of {screen.total}
+        {PHASE_LINE[screen.phase]}
       </p>
       <p className="game-scene" data-testid="questionnaire-prompt">
         {screen.prompt}
@@ -912,17 +997,10 @@ function QuestionnaireScreenView({
         </button>
         <button
           type="button"
-          data-testid="questionnaire-skip"
-          onClick={() => onAnswer(null)}
-        >
-          I would rather not say
-        </button>
-        <button
-          type="button"
           data-testid="questionnaire-finish"
           onClick={onFinishEarly}
         >
-          Start the life now
+          Begin life
         </button>
       </div>
       {note ? <p className="game-note">{note}</p> : null}
@@ -1131,30 +1209,26 @@ function PlayingScreen({
         <div className="game-play-actions">
           {session.saveId === null && !savesUnavailable ? (
             <button type="button" data-testid="keep-world" onClick={onKeep}>
-              Keep this life
+              Save this life
             </button>
           ) : null}
           <button type="button" data-testid="leave-game" onClick={onLeave}>
-            Leave
+            Main menu
           </button>
         </div>
       </header>
 
       {session.unsavedSeed !== null ? (
         <p className="game-note" data-testid="unsaved-note">
-          This life has not been kept yet. Nothing is stored until you keep it.
+          This life has not been saved yet.
         </p>
       ) : null}
       {notice ? <p className="game-note">{notice}</p> : null}
       {problem ? <p className="game-problem">{problem}</p> : null}
 
-      {capabilities.formativeYears ? (
-        <FormativeYearsView session={session} onWorldChange={onWorldChange} />
-      ) : (
-        <>
-          <AdultLifeView session={session} onWorldChange={onWorldChange} />
-          <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
-        </>
+      <StoryView session={session} onWorldChange={onWorldChange} />
+      {capabilities.formativeYears ? null : (
+        <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
       )}
 
       {capabilities.legislation && capabilities.legislativeScenarioKey ? (
@@ -1180,100 +1254,124 @@ function PlayingScreen({
             />
           ) : null}
         </section>
-      ) : capabilities.formativeYears ? null : (
-        // Worth saying to an adult, who might reasonably expect a workplace.
-        // Not worth saying to a child, who obviously has no legislature.
-        <p className="game-note" data-testid="no-legislation">
-          {capabilities.withheld.find(
-            (entry) => entry.surface === "legislation",
-          )?.reason ?? ""}
-        </p>
-      )}
+      ) : null}
     </main>
   );
 }
 
 /* -------------------------------------------------------------------------- */
 
-function FormativeYearsView({
+/**
+ * One life, on one surface.
+ *
+ * This replaced two views that each drew their own card — the growing-up years
+ * and the adult bank — and drew them side by side with nothing between. What a
+ * player got was a prompt, a click, a jump in the date, and an unrelated
+ * prompt. The connective narration above the scene is the repair: it says how
+ * the life got from the last moment to this one, and it is composed from the
+ * record rather than written for the occasion.
+ *
+ * The scene below it may be a composed episode beat, a formative situation or
+ * an adult one. Which is not signalled: they are the same kind of thing to a
+ * player, and labelling them would tell somebody which moments the game thinks
+ * are important.
+ *
+ * What this life is carrying is shown as sentences about people and problems,
+ * never as a list of threads. There is no count, no standing, no family name
+ * and no machinery on this screen.
+ */
+function StoryView({
   session,
   onWorldChange,
 }: {
   readonly session: Session;
   readonly onWorldChange: (world: World) => void;
 }) {
-  const years = useMemo(
-    () => projectFormativeYears(session.world, session.personId),
+  const [journalOpen, setJournalOpen] = useState(false);
+  const moment = useMemo(
+    () => projectStoryMoment(session.world, session.personId),
     [session.world, session.personId],
   );
 
   return (
-    <section className="game-formative" data-testid="formative-section">
-      {years.scene ? (
-        <>
-          <p className="game-band" data-testid="formative-band">
-            {years.scene.bandLabel} · {years.scene.age}
-          </p>
-          <p className="game-scene" data-testid="formative-prose">
-            {years.scene.prose}
-          </p>
-          {years.scene.withPersonName ? (
-            <p className="game-note">{years.scene.withPersonName} is there.</p>
-          ) : null}
-          <div className="game-choices" data-testid="formative-options">
-            {years.scene.options.map((option) => (
-              <button
-                key={option.key}
-                type="button"
-                onClick={() =>
-                  onWorldChange(
-                    chooseFormativeOption(session.world, {
-                      personId: session.personId,
-                      situationKey: years.scene!.situationKey,
-                      optionKey: option.key,
-                      withPersonId: years.scene!.withPersonId,
-                    }),
-                  )
-                }
-              >
-                {option.label}
-                <small>{option.description}</small>
-              </button>
-            ))}
-          </div>
-        </>
-      ) : (
-        <>
-          <p className="game-scene">
-            Nothing this year that anyone would tell a story about.
-          </p>
-          <div className="game-choices">
-            <button
-              type="button"
-              data-testid="let-time-pass"
-              onClick={() =>
-                onWorldChange(letTimePass(session.world, session.personId))
-              }
-            >
-              Let the year go by
-              <small>Some of them do.</small>
-            </button>
-          </div>
-        </>
-      )}
+    <section className="game-story" data-testid="story-section">
+      {moment.connective.sentences.length > 0 ? (
+        <p className="game-passage" data-testid="story-passage">
+          {moment.connective.sentences.join(" ")}
+        </p>
+      ) : null}
 
-      {years.memories.length > 0 ? (
-        <div className="game-memories" data-testid="formative-memories">
-          <h2>What you remember</h2>
-          <ol>
-            {years.memories.map((memory, index) => (
-              <li key={`${memory.formedAt}:${index}`}>
-                <span>{memory.ageAtTime}</span>
-                {memory.summary}
-              </li>
-            ))}
-          </ol>
-        </div>
+      {moment.scene.prose.length > 0 ? (
+        <p className="game-scene" data-testid="story-prose">
+          {moment.scene.prose}
+        </p>
+      ) : null}
+
+      {moment.scene.withPeople.length > 0 ? (
+        <p className="game-note" data-testid="story-people">
+          {moment.scene.withPeople.join(" and ")}{" "}
+          {moment.scene.withPeople.length === 1 ? "is" : "are"} there.
+        </p>
+      ) : null}
+
+      <div className="game-choices" data-testid="story-options">
+        {moment.scene.options.map((option) => (
+          <button
+            key={option.key}
+            type="button"
+            onClick={() =>
+              onWorldChange(
+                chooseStoryOption(session.world, {
+                  personId: session.personId,
+                  scene: moment.scene,
+                  optionKey: option.key,
+                }),
+              )
+            }
+          >
+            {option.label}
+            <small>{option.description}</small>
+          </button>
+        ))}
+        {moment.scene.kind === "ordinary-stretch" ? null : (
+          <button
+            type="button"
+            data-testid="story-let-time-pass"
+            onClick={() =>
+              onWorldChange(letStoryTimePass(session.world, session.personId))
+            }
+          >
+            {moment.formativeYears ? "Let the year run on" : "Let time pass"}
+            <small>Come back to it when something needs you.</small>
+          </button>
+        )}
+      </div>
+
+      {moment.openThreads.length > 0 ? (
+        <ul className="game-pending" data-testid="story-open">
+          {moment.openThreads.map((thread) => (
+            <li key={thread.threadKey}>{thread.sentence}</li>
+          ))}
+        </ul>
+      ) : null}
+
+      {/*
+        The record, behind a control rather than poured down the screen.
+        It used to be an always-visible "WHAT YOU REMEMBER" list that grew with
+        every beat until it was most of the page, which is a debug log with a
+        friendly heading. Nothing underneath changed; what changed is that a
+        player now opens it when they want it.
+      */}
+      <button
+        type="button"
+        className="game-journal-toggle"
+        data-testid="open-journal"
+        onClick={() => setJournalOpen((open) => !open)}
+      >
+        {journalOpen ? "Close the journal" : "Journal"}
+      </button>
+      {journalOpen ? (
+        <JournalView session={session} onClose={() => setJournalOpen(false)} />
       ) : null}
     </section>
   );
@@ -1282,93 +1380,106 @@ function FormativeYearsView({
 /* -------------------------------------------------------------------------- */
 
 /**
- * Adult life, as the player meets it.
+ * The journal.
  *
- * A situation, its options, and what this life remembers. What is not here is
- * as important as what is: no indication of how much any of it will matter, no
- * meter, no delta, no marker on the ones the selector found difficult. The
- * player learns what a choice came to by living past it, which is the only
- * honest way to find out.
+ * A deliberate screen rather than a wall of logs, in three parts: what has
+ * happened, who is in this life, and what is still open. All three are read
+ * from the same canonical records the play surface reads; nothing is stored
+ * twice.
  */
-function AdultLifeView({
+function JournalView({
   session,
-  onWorldChange,
+  onClose,
 }: {
   readonly session: Session;
-  readonly onWorldChange: (world: World) => void;
+  readonly onClose: () => void;
 }) {
-  const life = useMemo(
-    () => projectAdultLife(session.world, session.personId),
+  const chapters = useMemo(
+    () => projectLifeRecord(session.world, session.personId),
     [session.world, session.personId],
   );
-
   return (
-    <section className="game-formative" data-testid="adult-section">
-      {life.scene ? (
-        <>
-          <p className="game-scene" data-testid="adult-prose">
-            {life.scene.prose}
-          </p>
-          {life.scene.withPersonName ? (
-            <p className="game-note">{life.scene.withPersonName} is there.</p>
-          ) : null}
-          <div className="game-choices" data-testid="adult-options">
-            {life.scene.options.map((option) => (
-              <button
-                key={option.key}
-                type="button"
-                onClick={() =>
-                  onWorldChange(
-                    chooseAdultOption(session.world, {
-                      personId: session.personId,
-                      situationKey: life.scene!.situationKey,
-                      optionKey: option.key,
-                    }),
-                  )
-                }
-              >
-                {option.label}
-                <small>{option.description}</small>
-              </button>
-            ))}
-          </div>
-        </>
+    <div className="game-journal" data-testid="journal">
+      <h2>{chapters.personName}</h2>
+      <p className="game-note">{chapters.summary}</p>
+
+      <h3>What has happened</h3>
+      {chapters.chapters.length === 0 ? (
+        <p className="game-note" data-testid="journal-empty">
+          Nothing has been written down yet. It will fill up as the life goes
+          on.
+        </p>
       ) : (
-        <>
-          <p className="game-scene" data-testid="adult-quiet">
-            {life.quietNote}
-          </p>
-          <div className="game-choices">
-            <button
-              type="button"
-              data-testid="adult-let-time-pass"
-              onClick={() => onWorldChange(letAdultTimePass(session.world))}
-            >
-              Let a few weeks go by
-              <small>Most of them do.</small>
-            </button>
-          </div>
-        </>
+        <ol data-testid="journal-entries">
+          {chapters.chapters.map((chapter) => (
+            <li key={chapter.key}>
+              <strong>{chapter.heading}</strong>
+              <ul>
+                {chapter.entries.map((entry) => (
+                  <li key={entry.key}>{entry.sentence}</li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ol>
       )}
 
-      {life.moments.length > 0 ? (
-        <div className="game-memories" data-testid="adult-moments">
-          <h2>What you remember</h2>
-          <ol>
-            {life.moments.map((moment, index) => (
-              <li key={`${moment.occurredAt}:${index}`}>
-                <span>{moment.ageAtTime}</span>
-                {moment.summary}
-              </li>
+      {chapters.people.length > 0 ? (
+        <>
+          <h3>People</h3>
+          <ul data-testid="journal-people">
+            {chapters.people.map((person) => (
+              <li key={person.personId}>{person.sentence}</li>
             ))}
-          </ol>
-        </div>
+          </ul>
+        </>
       ) : null}
-    </section>
+
+      {chapters.open.length > 0 ? (
+        <>
+          <h3>Still open</h3>
+          <ul data-testid="journal-open">
+            {chapters.open.map((entry) => (
+              <li key={entry.key}>{entry.sentence}</li>
+            ))}
+          </ul>
+        </>
+      ) : null}
+
+      <button type="button" onClick={onClose}>
+        Close
+      </button>
+    </div>
   );
 }
 
 /* -------------------------------------------------------------------------- */
+
+/**
+ * Options.
+ *
+ * Present because the main menu names it and a menu entry that goes nowhere is
+ * worse than one that says what it has. What it has today is the accessibility
+ * setting the title art actually honours and an honest note about the rest.
+ */
+function OptionsScreen({ onBack }: { readonly onBack: () => void }) {
+  return (
+    <main className="game-setup" data-testid="options-screen">
+      <h1>Options</h1>
+      <p className="game-note">
+        Motion in the game follows your system&rsquo;s reduced-motion setting,
+        so nothing here has to be switched on to make it stop.
+      </p>
+      <p className="game-note">
+        There is not much else to set yet. As the game grows the settings it
+        actually needs will appear here rather than being invented in advance.
+      </p>
+      <button type="button" onClick={onBack}>
+        Back
+      </button>
+    </main>
+  );
+}
 
 function OrdinaryDayView({
   session,

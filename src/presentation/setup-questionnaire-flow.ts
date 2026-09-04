@@ -4,7 +4,11 @@ import {
   setupContentShortfall,
   stableHash,
 } from "../simulation";
-import type { SetupAnswerRecord, SetupQuestionnairePath } from "../simulation";
+import type {
+  QuestionnairePhase,
+  SetupAnswerRecord,
+  SetupQuestionnairePath,
+} from "../simulation";
 import { canonicalSetupEncoding, worldSeedFor } from "./new-game-identity";
 import type { NewGameSetup } from "./new-game";
 
@@ -33,15 +37,40 @@ export interface QuestionnaireScreenOption {
 
 export interface QuestionnaireScreen {
   readonly ordinal: number;
-  readonly total: number;
+  /**
+   * How far through the opening this is, coarsely.
+   *
+   * There is deliberately no denominator. "12 of 26" promised a length the
+   * deep path does not have — it stops when it stops learning, so two runs are
+   * different lengths — and a visible fraction turns a set of situations into
+   * a form to complete. A phase says that this ends without saying when.
+   */
+  readonly phase: QuestionnairePhase;
   readonly questionKey: string;
   readonly prompt: string;
   readonly options: readonly QuestionnaireScreenOption[];
 }
 
-/** How many the player is in for, said before they start. */
-export function questionnairePathLength(path: SetupQuestionnairePath): number {
+/**
+ * The most a path can ask, for the setup screen's description of it.
+ *
+ * A ceiling. The short path always reaches it; the deep path usually stops
+ * well short, and the copy that uses this must say "up to" rather than a count.
+ */
+export function questionnairePathCeiling(path: SetupQuestionnairePath): number {
   return questionnaireLength(path);
+}
+
+/** How a path should be described before a player picks it. */
+export function questionnairePathNote(path: SetupQuestionnairePath): string {
+  switch (path) {
+    case "short":
+      return `${questionnaireLength("short")} situations, and then straight in.`;
+    case "deep":
+      return "As many as it takes. It stops on its own when it has enough, and you can start the life at any point.";
+    case "skipped":
+      return "Skip these and let the game learn from what you do.";
+  }
 }
 
 /** What the bank is currently short of, for anyone who asks. */
@@ -70,7 +99,7 @@ export function questionnaireScreenFor(
   if (!step) return null;
   return {
     ordinal: step.ordinal,
-    total: step.totalPlanned,
+    phase: step.phase,
     questionKey: step.item.key,
     prompt: step.item.prompt,
     options: step.item.options.map((option) => ({
@@ -87,6 +116,13 @@ export function questionnaireScreenFor(
  * the item again, and contributes nothing to any dimension — "they declined"
  * and "they were never asked" are different facts about a calibration, and both
  * are kept.
+ *
+ * No player-facing control produces one any more. The authority removed the
+ * "I would rather not say" option from the opening: a player who does not want
+ * to answer leaves through the control that starts the life, which is a
+ * different and more honest act than declining twenty times in a row. The null
+ * path stays because saves recorded before that change still contain skips,
+ * and a replay of one of those must reproduce the sequence it produced then.
  */
 export function answerQuestionnaire(
   setup: NewGameSetup,

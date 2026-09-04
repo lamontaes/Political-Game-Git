@@ -128,7 +128,10 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           key: "ask",
           label: "Ask them where they've been",
           description: "Straight out, while it is just the two of you.",
-          nudges: [nudge("personal-ties", 0.4), nudge("privacy-preference", -0.3)],
+          nudges: [
+            nudge("personal-ties", 0.4),
+            nudge("privacy-preference", -0.3),
+          ],
           aftermath: null,
           memory:
             "You asked {role:household-companion} where they had been, and got an answer that did not fit.",
@@ -150,7 +153,10 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           key: "watch",
           label: "Say nothing and keep track",
           description: "Wait until you actually know something.",
-          nudges: [nudge("privacy-preference", 0.4), nudge("decision-style", -0.2)],
+          nudges: [
+            nudge("privacy-preference", 0.4),
+            nudge("decision-style", -0.2),
+          ],
           aftermath: null,
           memory:
             "You said nothing about {role:household-companion}, and kept count of the nights.",
@@ -266,7 +272,10 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           key: "keep-watching",
           label: "Keep it to yourself",
           description: "Nothing has actually happened yet.",
-          nudges: [nudge("privacy-preference", 0.45), nudge("risk-appetite", 0.2)],
+          nudges: [
+            nudge("privacy-preference", 0.45),
+            nudge("risk-appetite", 0.2),
+          ],
           aftermath: null,
           memory:
             "You kept what you had seen about {role:household-companion} to yourself, again.",
@@ -563,8 +572,7 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
     {
       key: "nobody-left",
       when: [{ kind: "absent", fact: "person.recurring" }],
-      reason:
-        "There is no longer anybody on the record this could be about.",
+      reason: "There is no longer anybody on the record this could be about.",
     },
   ],
 };
@@ -631,8 +639,7 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
             nudge("decision-style", 0.2),
           ],
           aftermath: null,
-          memory:
-            "You said it had not been you, and stopped talking there.",
+          memory: "You said it had not been you, and stopped talking there.",
         },
       ],
     },
@@ -824,7 +831,11 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
       key: "it-was-taken-seriously",
       requires: [
         needsHouseholdCompanion,
-        { kind: "after-choice", stage: "the-first-time-it-is-said", option: "take-it-on" },
+        {
+          kind: "after-choice",
+          stage: "the-first-time-it-is-said",
+          option: "take-it-on",
+        },
         {
           kind: "days-since-stage",
           stage: "the-first-time-it-is-said",
@@ -867,7 +878,11 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
       requires: [
         needsHouseholdCompanion,
         { kind: "after-stage", stage: "the-first-time-it-is-said" },
-        { kind: "without-choice", stage: "the-first-time-it-is-said", option: "take-it-on" },
+        {
+          kind: "without-choice",
+          stage: "the-first-time-it-is-said",
+          option: "take-it-on",
+        },
         {
           kind: "days-since-stage",
           stage: "the-first-time-it-is-said",
@@ -876,7 +891,7 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
       ],
       lines: [
         "{role:household-companion} raises it again, and this time they have the specifics: dates, which weeks, what they did instead.",
-        "It is not an argument about the washing any more.",
+        "It is not an argument about the laundry any more.",
       ],
       stakes: "pressing",
       tensions: [
@@ -1004,13 +1019,12 @@ const WORK_STANDING: EpisodeFamily = {
             nudge("risk-appetite", 0.25),
           ],
           aftermath: "goodwill",
-          memory:
-            "You let it go once, and {role:colleague} saw you do it.",
+          memory: "You let it go once, and {role:colleague} saw you do it.",
         },
         {
           key: "escalate",
           label: "Put it up the line",
-          description: "It sits with somebody else, and it takes a fortnight.",
+          description: "It sits with somebody else, and it takes two weeks.",
           nudges: [
             nudge("institutional-trust", 0.4),
             nudge("decision-style", 0.25),
@@ -1018,7 +1032,7 @@ const WORK_STANDING: EpisodeFamily = {
           ],
           aftermath: null,
           memory:
-            "You put the decision up the line rather than making it, and it took a fortnight.",
+            "You put the decision up the line rather than making it, and it took two weeks.",
         },
       ],
     },
@@ -1058,8 +1072,7 @@ const WORK_STANDING: EpisodeFamily = {
             nudge("personal-ties", -0.3),
           ],
           aftermath: "grievance",
-          memory:
-            "You corrected {role:colleague}'s version of it in the room.",
+          memory: "You corrected {role:colleague}'s version of it in the room.",
         },
         {
           key: "after",
@@ -1082,8 +1095,7 @@ const WORK_STANDING: EpisodeFamily = {
             nudge("achievement-ambition", -0.15),
           ],
           aftermath: null,
-          memory:
-            "You let {role:colleague}'s version of that morning stand.",
+          memory: "You let {role:colleague}'s version of that morning stand.",
         },
       ],
     },
@@ -1258,7 +1270,8 @@ const MONEY_OWED: EpisodeFamily = {
             nudge("risk-appetite", -0.2),
           ],
           aftermath: null,
-          memory: "You cleared it early and had nothing behind you for a month.",
+          memory:
+            "You cleared it early and had nothing behind you for a month.",
         },
         {
           key: "run-it-out",
@@ -1688,7 +1701,11 @@ const NEIGHBOURHOOD: EpisodeFamily = {
     {
       key: "the-issue-got-bigger",
       requires: [
-        { kind: "after-choice", stage: "you-said-something", option: "take-the-role" },
+        {
+          kind: "after-choice",
+          stage: "you-said-something",
+          option: "take-the-role",
+        },
         { kind: "days-since-stage", stage: "you-said-something", days: 240 },
         { kind: "fact", fact: "civic.participation" },
       ],
@@ -1755,7 +1772,11 @@ const NEIGHBOURHOOD: EpisodeFamily = {
     {
       key: "it-wound-down",
       requires: [
-        { kind: "after-choice", stage: "you-said-something", option: "step-back" },
+        {
+          kind: "after-choice",
+          stage: "you-said-something",
+          option: "step-back",
+        },
         { kind: "days-since-stage", stage: "you-said-something", days: 300 },
       ],
       lines: [
@@ -1820,7 +1841,7 @@ const POLITICAL_APPROACH: EpisodeFamily = {
         { kind: "age-at-least", age: 21 },
       ],
       lines: [
-        "{role:community-member} asks whether you would meet somebody from the party that has been losing this ward for twenty years.",
+        "{role:community-member} asks whether you would meet somebody from the party that has been losing this district for twenty years.",
         "They are not asking you to join anything. They say that twice, which is once more than necessary.",
       ],
       stakes: "notable",
@@ -2045,7 +2066,7 @@ const POLITICAL_APPROACH: EpisodeFamily = {
         { kind: "fact", fact: "civic.participation" },
       ],
       lines: [
-        "The ward went the way it always goes, and the group you are still in is now dealing with the consequences of a decision nobody in it was at the table for.",
+        "The district went the way it always goes, and the group you are still in is now dealing with the consequences of a decision nobody in it was at the table for.",
         "Somebody says, not unkindly, that you had the chance.",
       ],
       stakes: "notable",

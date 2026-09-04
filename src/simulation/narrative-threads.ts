@@ -106,11 +106,7 @@ export type ThreadAnchorStore =
  * `context` is a standing fact the thread is about but which did not move.
  */
 export type ThreadAnchorRole =
-  | "origin"
-  | "continuation"
-  | "escalation"
-  | "resolution"
-  | "context";
+  "origin" | "continuation" | "escalation" | "resolution" | "context";
 
 export interface ThreadAnchor {
   readonly store: ThreadAnchorStore;
@@ -242,7 +238,9 @@ export function liveNarrativeThreads(
     moot: 5,
   };
   return narrativeThreads(world, personId, asOfDate)
-    .filter((thread) => thread.standing !== "settled" && thread.standing !== "moot")
+    .filter(
+      (thread) => thread.standing !== "settled" && thread.standing !== "moot",
+    )
     .sort((left, right) => {
       const byStanding = rank[left.standing] - rank[right.standing];
       if (byStanding !== 0) return byStanding;
@@ -447,9 +445,7 @@ function personThreads(
         asOfDate,
         forcedStanding: closing === null ? null : "moot",
         forcedReason:
-          closing === null
-            ? null
-            : `The record closes it: ${closing}`,
+          closing === null ? null : `The record closes it: ${closing}`,
       }),
     );
   }
@@ -543,7 +539,8 @@ function schoolThreads(
       },
     ];
     for (const event of eventsInvolving(world, person.id, asOfDate)) {
-      if (!event.involvedEntityIds.includes(enrollment.organizationId)) continue;
+      if (!event.involvedEntityIds.includes(enrollment.organizationId))
+        continue;
       anchors.push({
         store: "events",
         recordId: event.id,
@@ -720,15 +717,18 @@ function commitmentThreads(
   // carried by a commitment above: something was decided, and the world put a
   // date on whether it comes back.
   const carried = new Set(
-    threads.flatMap((thread) => thread.anchors.map((anchor) => anchor.recordId)),
+    threads.flatMap((thread) =>
+      thread.anchors.map((anchor) => anchor.recordId),
+    ),
   );
   for (const due of world.history.futureDueItems) {
     if (due.transitionKey !== "life:callback") continue;
     if (!due.entityIds.includes(person.id)) continue;
     if (carried.has(due.id)) continue;
-    const originId = due.provenance.kind === "simulated"
-      ? (due.provenance.sourceEntityIds[0] ?? null)
-      : null;
+    const originId =
+      due.provenance.kind === "simulated"
+        ? (due.provenance.sourceEntityIds[0] ?? null)
+        : null;
     const origin = originId
       ? (world.history.events.find((event) => event.id === originId) ?? null)
       : null;
@@ -763,11 +763,12 @@ function commitmentThreads(
         personId: person.id,
         family: "promise",
         key: `callback:${due.id}`,
-        title: counterpartIds
-          .map((id) => world.people[id])
-          .filter((candidate): candidate is Person => candidate !== undefined)
-          .map((candidate) => personName(candidate))
-          .join(" and ") || "Something decided earlier",
+        title:
+          counterpartIds
+            .map((id) => world.people[id])
+            .filter((candidate): candidate is Person => candidate !== undefined)
+            .map((candidate) => personName(candidate))
+            .join(" and ") || "Something decided earlier",
         withPersonIds: counterpartIds,
         organizationId: null,
         linkBasis: { kind: "shared-record", recordId: origin.id },

@@ -2693,9 +2693,7 @@ export function adultSituation(key: LifeSituationKey): AdultSituation | null {
  * also carry a composed episode key, or a tag read off an event. A guard that
  * only accepts what it is meant to prove is not much of a guard.
  */
-export function isAdultSituationKey(
-  key: string,
-): key is AdultLifeSituationKey {
+export function isAdultSituationKey(key: string): key is AdultLifeSituationKey {
   return key.startsWith("adult.");
 }
 

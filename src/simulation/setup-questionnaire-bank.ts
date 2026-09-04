@@ -3,6 +3,7 @@ import type {
   DimensionNudge,
   HypothesisSupport,
 } from "./player-model";
+import { OPENING_BANK_ITEMS, OPENING_FIXED_ITEMS } from "./setup-opening-bank";
 
 /**
  * The authored setup bank.
@@ -39,11 +40,32 @@ import type {
  * the research lane, not by this one. They are therefore carried with that
  * verdict recorded against them, ranked below the items that pass, and counted
  * honestly in the shortfall report. Marking them is what makes the gap
- * visible; deleting them would hide it, and rewriting them would be the
- * invention the semantics forbid.
+ * visible; deleting them would hide it.
+ *
+ * WHO MAY WRITE THIS COPY — SUPERSEDED, AND BY WHAT
+ *
+ * The paragraph above used to end "and rewriting them would be the invention
+ * the semantics forbid", and that was the standing rule until the packet that
+ * commissioned this wave. Packet 60's Section C reverses it explicitly: it
+ * hands the implementing lane the calibration, states the style direction in
+ * detail, gives per-item verdicts from the 2026-09-03 human playtest, and asks
+ * for enough authored content to prove the system in ordinary play. Section M
+ * says the same thing in one line — "Claude owns the implementation and enough
+ * authored content to prove the system".
+ *
+ * So the copy authored under that instruction exists, and it does not hide in
+ * here. It lives in `setup-opening-bank.ts`, where every item names the packet
+ * and the section it was written against, so a reader can tell at a glance
+ * which items came from the research lane and which came from this one. The
+ * items in THIS file are still research-derived and are still not rewritten,
+ * with two exceptions the playtest named as errors rather than as taste: a
+ * budget deficit that was written as "ten-million-dollar" and a grant item
+ * that referred to a "central ministry", which is not a thing any American
+ * jurisdiction has. Both are corrected in place, because leaving a factual
+ * error standing to preserve a provenance claim would be the wrong trade.
  */
 
-export const SETUP_BANK_VERSION = "pg-setup-bank-v3";
+export const SETUP_BANK_VERSION = "pg-setup-bank-v4";
 
 export interface AuthoredSource {
   /** The Drive research authority the copy came from, named as it is named there. */
@@ -60,7 +82,41 @@ export type TransparencyVerdict =
    * legible to a player who follows politics, which is the standard this
    * wave was asked to hold.
    */
-  | "policy-docket-flagged";
+  | "policy-docket-flagged"
+  /**
+   * Named by a human reviewer as too abstract to be a scene: a shape rather
+   * than a situation, with nobody in it and nothing at stake that a person
+   * could point at.
+   *
+   * Kept rather than deleted, with the verdict attached. Deleting it would
+   * hide that the bank once shipped it; rewriting it in place would lose which
+   * copy the reviewer actually saw. It is ranked behind everything that passed
+   * review, so a calibration reaches it only after exhausting the rest.
+   */
+  | "playtest-abstraction-flagged";
+
+/**
+ * What kind of moment an item is, for the widening order.
+ *
+ * The calibration is supposed to feel like the opening of a life rather than a
+ * political survey, which means the first things it asks about are a kitchen
+ * and a friend, and the civic and policy registers open later — and only as
+ * far as the model still needs them. The register is what makes that ordering
+ * expressible; see `setup-questionnaire.ts` for the gate that uses it.
+ */
+export type QuestionnaireRegister =
+  /** Money, home, time, the person themselves. */
+  | "lived-personal"
+  /** Somebody else, and what is owed between them. */
+  | "lived-relational"
+  /** A rule, a truth, or somebody's word. */
+  | "lived-moral"
+  /** A shared thing in a real place, met as a resident. */
+  | "civic-lived"
+  /** A decision about a policy, set somewhere and among people. */
+  | "policy-lived"
+  /** A policy question with no place and no people in it. */
+  | "policy-docket";
 
 export interface TransparencyReview {
   readonly verdict: TransparencyVerdict;
@@ -81,6 +137,7 @@ export interface QuestionnaireItem {
   readonly key: string;
   readonly source: AuthoredSource;
   readonly review: TransparencyReview;
+  readonly register: QuestionnaireRegister;
   /** 1, 2 or 3 for the mandatory openers; null for everything else. */
   readonly fixedOrdinal: number | null;
   readonly prompt: string;
@@ -101,6 +158,11 @@ const SITUATIONAL: TransparencyReview = {
 const POLICY_DOCKET: TransparencyReview = {
   verdict: "policy-docket-flagged",
   note: "Balanced and scenario-framed, but the axis under test is legible to a politically literate player. Carried as authored supply pending re-authoring by the research lane.",
+};
+
+const PLAYTEST_ABSTRACTION: TransparencyReview = {
+  verdict: "playtest-abstraction-flagged",
+  note: "Named in the 2026-09-03 human playtest as a generic abstraction rather than a lived situation — nobody in it, nothing specific at stake. Kept with the verdict attached and ranked behind everything that passed; the lived replacements are in `setup-opening-bank.ts`.",
 };
 
 function nudge(
@@ -127,10 +189,23 @@ function ambiguity(
 }
 
 /* -------------------------------------------------------------------------- */
-/* The fixed openers                                                           */
+/* The items that used to open every run                                       */
 /* -------------------------------------------------------------------------- */
 
-const FIXED_ITEMS: readonly QuestionnaireItem[] = [
+/**
+ * These three were the fixed openers until the human playtest.
+ *
+ * They open on a civic organization's policy initiative, a friend's
+ * exaggeration at a professional event, and an inside-or-outside question
+ * about an institution — which is a reasonable start to a political survey and
+ * a poor start to a life. The opening is now three scenes with people in them,
+ * authored in `setup-opening-bank.ts` against the same review standard.
+ *
+ * They keep their content and their weight and stay in the pool; only their
+ * fixed position is gone, so a run reaches them when the model has a reason to
+ * ask rather than because they were first.
+ */
+const FORMER_OPENERS: readonly QuestionnaireItem[] = [
   {
     key: "career_evenings",
     source: {
@@ -138,7 +213,8 @@ const FIXED_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Fixed Seed Prompts — Question 01: career_evenings",
     },
     review: SITUATIONAL,
-    fixedOrdinal: 1,
+    register: "lived-personal",
+    fixedOrdinal: null,
     observationWeight: 1,
     prompt:
       "You have spent three months preparing a comprehensive policy initiative for your civic organization. A competing organization abruptly schedules a decisive public debate tomorrow evening to challenge your findings. Simultaneously, your family is gathering for an important personal milestone that has been scheduled for months. You can attend only one.",
@@ -210,7 +286,8 @@ const FIXED_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Fixed Seed Prompts — Question 02: friend_exaggeration",
     },
     review: SITUATIONAL,
-    fixedOrdinal: 2,
+    register: "lived-relational",
+    fixedOrdinal: null,
     observationWeight: 1,
     prompt:
       "A close political ally and personal mentor has submitted a formal grant application for a vital community clinic. Reviewing the documentation privately, you notice they significantly overstated their matching funds and past performance metrics. If challenged publicly, the clinic will lose funding and your ally will face professional disgrace; if ignored, fraudulent data enters the official civic record.",
@@ -282,7 +359,8 @@ const FIXED_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Fixed Seed Prompts — Question 03: inside_outside",
     },
     review: SITUATIONAL,
-    fixedOrdinal: 3,
+    register: "lived-relational",
+    fixedOrdinal: null,
     observationWeight: 1,
     prompt:
       "A municipal board is poised to pass an ordinance that will disrupt working-class transit access across three neighborhoods. A senior official offers you a seat on an advisory commission if you agree to work quietly through regulatory amendments over the next eighteen months. Community organizers urge you instead to lead an immediate street demonstration and boycott outside the council chambers to force an emergency vote.",
@@ -358,6 +436,7 @@ const LIFE_ITEMS: readonly QuestionnaireItem[] = [
       reference: "§14D candidate questionnaire — Q1",
     },
     review: SITUATIONAL,
+    register: "lived-relational",
     fixedOrdinal: null,
     observationWeight: 0.9,
     prompt:
@@ -415,6 +494,7 @@ const LIFE_ITEMS: readonly QuestionnaireItem[] = [
       reference: "§14D candidate questionnaire — Q2",
     },
     review: SITUATIONAL,
+    register: "lived-personal",
     fixedOrdinal: null,
     observationWeight: 0.9,
     prompt:
@@ -459,7 +539,8 @@ const LIFE_ITEMS: readonly QuestionnaireItem[] = [
       sourceDocument: LIFE_RESEARCH,
       reference: "§14D candidate questionnaire — Q3",
     },
-    review: SITUATIONAL,
+    review: PLAYTEST_ABSTRACTION,
+    register: "lived-moral",
     fixedOrdinal: null,
     observationWeight: 0.9,
     prompt:
@@ -512,7 +593,8 @@ const LIFE_ITEMS: readonly QuestionnaireItem[] = [
       sourceDocument: LIFE_RESEARCH,
       reference: "§14D candidate questionnaire — Q4",
     },
-    review: SITUATIONAL,
+    review: PLAYTEST_ABSTRACTION,
+    register: "lived-personal",
     fixedOrdinal: null,
     observationWeight: 0.9,
     prompt:
@@ -565,6 +647,7 @@ const LIFE_ITEMS: readonly QuestionnaireItem[] = [
       reference: "§14D candidate questionnaire — Q5",
     },
     review: SITUATIONAL,
+    register: "lived-moral",
     fixedOrdinal: null,
     observationWeight: 0.9,
     prompt:
@@ -623,6 +706,7 @@ const LIFE_ITEMS: readonly QuestionnaireItem[] = [
       reference: "§14D candidate questionnaire — Q6",
     },
     review: SITUATIONAL,
+    register: "lived-personal",
     fixedOrdinal: null,
     observationWeight: 0.9,
     prompt: "You are offered leadership over a group you care about.",
@@ -674,6 +758,7 @@ const LIFE_ITEMS: readonly QuestionnaireItem[] = [
       reference: "§14D candidate questionnaire — Q7",
     },
     review: SITUATIONAL,
+    register: "lived-moral",
     fixedOrdinal: null,
     observationWeight: 0.9,
     prompt:
@@ -726,6 +811,7 @@ const LIFE_ITEMS: readonly QuestionnaireItem[] = [
       reference: "§14D candidate questionnaire — Q8",
     },
     review: SITUATIONAL,
+    register: "lived-relational",
     fixedOrdinal: null,
     observationWeight: 0.9,
     prompt: "A person you respect disagrees with you on something important.",
@@ -785,10 +871,11 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Core Candidate Bank — Question 04",
     },
     review: POLICY_DOCKET,
+    register: "policy-docket",
     fixedOrdinal: null,
     observationWeight: 0.85,
     prompt:
-      "A regional downturn causes a severe ten-million-dollar municipal budget deficit. Essential emergency services, road maintenance, and subsidized child care programs face immediate suspension unless new funding is secured within sixty days.",
+      "A regional downturn opens a $10 million hole in the city budget. Essential emergency services, road maintenance, and subsidized child care programs face immediate suspension unless new funding is secured within sixty days.",
     options: [
       {
         key: "a",
@@ -861,6 +948,7 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Core Candidate Bank — Question 05",
     },
     review: POLICY_DOCKET,
+    register: "policy-docket",
     fixedOrdinal: null,
     observationWeight: 0.85,
     prompt:
@@ -910,6 +998,7 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Core Candidate Bank — Question 06",
     },
     review: POLICY_DOCKET,
+    register: "policy-docket",
     fixedOrdinal: null,
     observationWeight: 0.85,
     prompt:
@@ -978,6 +1067,7 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Core Candidate Bank — Question 07",
     },
     review: POLICY_DOCKET,
+    register: "policy-docket",
     fixedOrdinal: null,
     observationWeight: 0.85,
     prompt:
@@ -1040,10 +1130,11 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Core Candidate Bank — Question 08",
     },
     review: POLICY_DOCKET,
+    register: "policy-docket",
     fixedOrdinal: null,
     observationWeight: 0.85,
     prompt:
-      "The national department of transportation offers your regional district a fifty-million-dollar modern infrastructure grant. Accepting the capital requires adopting uniform national standards for school district zoning, transit scheduling, and municipal contracting rules that contradict long-standing regional practices.",
+      "The federal transportation department offers the county a $50 million infrastructure grant. Taking it means adopting federal standards for school-district zoning, transit scheduling and municipal contracting that cut across how things have been done here for decades.",
     options: [
       {
         key: "a",
@@ -1067,7 +1158,7 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
       },
       {
         key: "c",
-        text: "Form a coalition with adjacent regional leaders to petition the central ministry for administrative waivers that preserve local flexibility while securing funding.",
+        text: "Join with neighboring counties to seek federal waivers on the conditions, and take the grant if they come through.",
         nudges: [
           nudge("governance-scale", -0.2),
           nudge("decision-style", 0.55),
@@ -1095,6 +1186,7 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Core Candidate Bank — Question 09",
     },
     review: POLICY_DOCKET,
+    register: "policy-docket",
     fixedOrdinal: null,
     observationWeight: 0.85,
     prompt:
@@ -1156,6 +1248,7 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Core Candidate Bank — Question 10",
     },
     review: POLICY_DOCKET,
+    register: "policy-docket",
     fixedOrdinal: null,
     observationWeight: 0.85,
     prompt:
@@ -1208,6 +1301,7 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Reserve Bank — Question 11",
     },
     review: POLICY_DOCKET,
+    register: "policy-docket",
     fixedOrdinal: null,
     observationWeight: 0.8,
     prompt:
@@ -1268,6 +1362,7 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Reserve Bank — Question 12",
     },
     review: POLICY_DOCKET,
+    register: "policy-docket",
     fixedOrdinal: null,
     observationWeight: 0.8,
     prompt:
@@ -1310,6 +1405,7 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Reserve Bank — Question 13",
     },
     review: POLICY_DOCKET,
+    register: "policy-docket",
     fixedOrdinal: null,
     observationWeight: 0.8,
     prompt:
@@ -1366,6 +1462,7 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Reserve Bank — Question 14",
     },
     review: POLICY_DOCKET,
+    register: "policy-docket",
     fixedOrdinal: null,
     observationWeight: 0.8,
     prompt:
@@ -1435,6 +1532,7 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Reserve Bank — Question 15",
     },
     review: POLICY_DOCKET,
+    register: "policy-docket",
     fixedOrdinal: null,
     observationWeight: 0.8,
     prompt:
@@ -1485,6 +1583,7 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Reserve Bank — Question 16",
     },
     review: POLICY_DOCKET,
+    register: "policy-docket",
     fixedOrdinal: null,
     observationWeight: 0.8,
     prompt:
@@ -1553,6 +1652,7 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Reserve Bank — Question 17",
     },
     review: POLICY_DOCKET,
+    register: "policy-docket",
     fixedOrdinal: null,
     observationWeight: 0.8,
     prompt:
@@ -1625,6 +1725,7 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
       reference: "Reserve Bank — Question 18",
     },
     review: POLICY_DOCKET,
+    register: "policy-docket",
     fixedOrdinal: null,
     observationWeight: 0.8,
     prompt:
@@ -1679,11 +1780,19 @@ const CIVIC_ITEMS: readonly QuestionnaireItem[] = [
 ];
 
 export const SETUP_QUESTIONNAIRE_BANK: readonly QuestionnaireItem[] = [
-  ...FIXED_ITEMS,
+  ...OPENING_BANK_ITEMS,
+  ...FORMER_OPENERS,
   ...LIFE_ITEMS,
   ...CIVIC_ITEMS,
 ];
 
-export const FIXED_OPENING_KEYS: readonly string[] = FIXED_ITEMS.map(
+/**
+ * The three every run opens with, in order.
+ *
+ * A life starts somewhere specific, so the calibration does too. What changes
+ * after these three is decided by what the model still needs, which is why
+ * only the opening is fixed.
+ */
+export const FIXED_OPENING_KEYS: readonly string[] = OPENING_FIXED_ITEMS.map(
   (item) => item.key,
 );

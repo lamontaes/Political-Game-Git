@@ -87,6 +87,15 @@ function watchForErrors(page: Page): string[] {
 }
 
 /** Waits until the world has actually been written before leaving or reloading. */
+/** Opens the journal, reads it, and closes it again. */
+async function readJournal(page: Page): Promise<string> {
+  await page.getByTestId("open-journal").click();
+  await expect(page.getByTestId("journal")).toBeVisible();
+  const text = await page.getByTestId("journal").innerText();
+  await page.getByTestId("open-journal").click();
+  return text;
+}
+
 async function keepAndWait(page: Page) {
   await page.getByTestId("keep-world").click();
   await expect(page.getByTestId("keep-world")).toHaveCount(0);
@@ -101,8 +110,10 @@ test.describe("Opening the game opens a game", () => {
     await expect(page.getByTestId("title-screen")).toBeVisible();
 
     await startLife(page, { age: 9 });
-    // A nine-year-old plays the growing-up years and has no office.
-    await expect(page.getByTestId("formative-section")).toBeVisible();
+    // A nine-year-old gets the story surface and has no office. The growing-up
+    // years and adult life are one surface now, so the assertion is that the
+    // life is being told rather than that a particular band's view is mounted.
+    await expect(page.getByTestId("story-section")).toBeVisible();
     await expect(page.getByTestId("office-section")).toHaveCount(0);
     expect(errors).toEqual([]);
   });
@@ -162,7 +173,7 @@ test.describe("A new life is not a renamed fixture", () => {
     await expect(page.getByTestId("office-section")).toHaveCount(0);
   });
 
-  test("shows an ordinary adult no political surfaces, and says why", async ({
+  test("shows an ordinary adult no political surfaces, and no explanation of why", async ({
     page,
   }) => {
     await freshBrowser(page);
@@ -170,9 +181,14 @@ test.describe("A new life is not a renamed fixture", () => {
 
     await expect(page.getByTestId("ordinary-section")).toBeVisible();
     await expect(page.getByTestId("office-section")).toHaveCount(0);
-    const reason = await page.getByTestId("no-legislation").innerText();
-    expect(reason.trim().length).toBeGreaterThan(0);
-    expect(reason).not.toMatch(DEVELOPER_WORDS);
+    // The surface is simply absent. It used to carry a line saying "This
+    // character does not work in a legislature", which is the game explaining
+    // its own capability gating to somebody who never asked — the authority
+    // names it as development leakage, so it is gone rather than reworded.
+    await expect(page.getByTestId("no-legislation")).toHaveCount(0);
+    const screen = await page.getByTestId("play-screen").innerText();
+    expect(screen).not.toMatch(/does not work in a legislature/i);
+    expect(screen).not.toMatch(DEVELOPER_WORDS);
   });
 
   test("gives a staffer the legislature they work in, and no other", async ({
@@ -348,24 +364,17 @@ test.describe("What is written to disk is a player's world", () => {
     await keepAndWait(page);
 
     // Act, then leave immediately: the autosave for this revision is still in
-    // flight as Leave is pressed. The revision used to be dropped and the
+    // flight as the menu is pressed. The revision used to be dropped and the
     // player would come back to the world before their last move.
-    await page
-      .getByTestId("formative-options")
-      .getByRole("button")
-      .first()
-      .click();
-    await expect(page.getByTestId("formative-memories")).toBeVisible();
-    const remembered = await page.getByTestId("formative-memories").innerText();
+    await page.getByTestId("story-options").getByRole("button").first().click();
+    const remembered = await readJournal(page);
 
     await page.getByTestId("leave-game").click();
     await expect(page.getByTestId("title-screen")).toBeVisible();
     await page.reload();
     await page.getByTestId("continue").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
-    expect(await page.getByTestId("formative-memories").innerText()).toBe(
-      remembered,
-    );
+    expect(await readJournal(page)).toBe(remembered);
   });
 });
 
@@ -375,27 +384,26 @@ test.describe("What the world records, it keeps", () => {
   }) => {
     await freshBrowser(page);
     await startLife(page, { age: 9 });
-    await expect(page.getByTestId("formative-section")).toBeVisible();
+    await expect(page.getByTestId("story-section")).toBeVisible();
 
-    await page
-      .getByTestId("formative-options")
-      .getByRole("button")
-      .first()
-      .click();
-    await expect(page.getByTestId("formative-memories")).toBeVisible();
+    await page.getByTestId("story-options").getByRole("button").first().click();
+    await page.getByTestId("open-journal").click();
+    await expect(page.getByTestId("journal-entries")).toBeVisible();
     const remembered = await page
-      .getByTestId("formative-memories")
+      .getByTestId("journal-entries")
       .getByRole("listitem")
-      .first()
+      .last()
       .innerText();
     expect(remembered.trim().length).toBeGreaterThan(0);
     expect(remembered).not.toMatch(DEVELOPER_WORDS);
+    await page.getByTestId("open-journal").click();
 
     await keepAndWait(page);
     await page.reload();
     await page.getByTestId("continue").click();
     // The same sentence the world wrote down, not a re-derived paraphrase.
-    await expect(page.getByTestId("formative-memories")).toContainText(
+    await page.getByTestId("open-journal").click();
+    await expect(page.getByTestId("journal-entries")).toContainText(
       remembered.slice(-60),
     );
   });

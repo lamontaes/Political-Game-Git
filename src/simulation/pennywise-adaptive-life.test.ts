@@ -98,25 +98,98 @@ describe("The setup bank is authored, and says what it is short of", () => {
       expect(item.prompt.length, item.key).toBeGreaterThan(40);
       expect(item.options.length, item.key).toBeGreaterThanOrEqual(3);
       for (const option of item.options) {
+        // A floor that catches a stub, and nothing more. It used to be
+        // fifteen characters, which was a reasonable guard against empty copy
+        // and became a rule against the thing the playtest asked for: "Say
+        // yes" is seven characters and is exactly the register the authority
+        // wants an option written in. The mini-essay end is guarded below,
+        // where it belongs.
         expect(option.text.length, `${item.key}:${option.key}`).toBeGreaterThan(
-          15,
+          3,
         );
       }
     }
   });
 
+  it("writes the lived opening as actions rather than as arguments", () => {
+    // The playtest's option rule, as a test. An option says what the character
+    // does; it does not also supply the reasoning, the ideology and the
+    // consequence, which is what a hundred-and-eighty character option ends up
+    // doing.
+    //
+    // Scoped to the copy authored under that rule rather than to a register,
+    // because the register says what kind of moment an item is and this is a
+    // claim about how it is written. The research-derived items predate the
+    // rule and carry their own review verdict; holding them to it here would
+    // either fail forever or push somebody into rewriting copy this lane did
+    // not author.
+    const lived = setupQuestionnaireBank().filter(
+      (item) =>
+        item.source.reference.startsWith("Opening ") ||
+        item.source.reference.startsWith("Personal —") ||
+        item.source.reference.startsWith("Relational —") ||
+        item.source.reference.startsWith("Moral —") ||
+        item.source.reference.startsWith("Civic —") ||
+        item.source.reference.startsWith("Policy —"),
+    );
+    expect(lived.length).toBeGreaterThanOrEqual(25);
+    for (const item of lived) {
+      for (const option of item.options) {
+        expect(
+          option.text.length,
+          `${item.key}:${option.key} reads as an essay rather than an action`,
+        ).toBeLessThanOrEqual(60);
+        expect(
+          option.text,
+          `${item.key}:${option.key} explains itself`,
+        ).not.toMatch(/ because | in order to | since it /i);
+      }
+    }
+  });
+
+  it("opens on lived registers before it reaches a policy docket", () => {
+    const sequence = projectQuestionnaireSequence({
+      worldSeed: WORLD_SEED,
+      personKey: PERSON_KEY,
+      depth: "deep",
+      answers: [],
+    });
+    const registers = sequence.map(
+      (key) => questionnaireItem(key)?.register ?? "policy-docket",
+    );
+    expect(registers.slice(0, 5)).not.toContain("policy-docket");
+    expect(
+      registers
+        .slice(0, 5)
+        .every((register) =>
+          ["lived-personal", "lived-relational", "lived-moral"].includes(
+            register,
+          ),
+        ),
+    ).toBe(true);
+  });
+
   it("states the deep path's content shortfall in numbers rather than running short quietly", () => {
     const shortfall = setupContentShortfall();
     expect(shortfall.authoredItems).toBe(setupQuestionnaireBank().length);
-    expect(shortfall.nonTransparentItems + shortfall.flaggedItems).toBe(
-      shortfall.authoredItems,
+    expect(
+      shortfall.nonTransparentItems +
+        shortfall.flaggedItems +
+        shortfall.abstractionFlaggedItems,
+    ).toBe(shortfall.authoredItems);
+    // The gap is closed. This assertion used to require it to be open, with a
+    // note saying that whoever closed it should come here and say so — which
+    // is what this is. The lived opening bank takes the authored supply past
+    // the lower target, so what the report now has to be honest about is the
+    // items still ranked last rather than a shortfall that no longer exists.
+    expect(shortfall.shortOfMinimumBy).toBe(0);
+    expect(shortfall.authoredItems).toBeGreaterThanOrEqual(
+      shortfall.deepTargetMinimum,
     );
-    // The target is 30 to 50 and the authored supply is smaller, so the gap
-    // must be reported rather than papered over. If somebody later closes it
-    // with real authored content this assertion is the thing that tells them
-    // to update the report.
-    expect(shortfall.shortOfMinimumBy).toBeGreaterThan(0);
-    expect(shortfall.note).toContain("not authorised to write questionnaire");
+    expect(shortfall.livedRegisterItems).toBeGreaterThan(
+      shortfall.flaggedItems + shortfall.abstractionFlaggedItems,
+    );
+    expect(shortfall.note).toContain("no longer bounded by authored supply");
   });
 
   it("keeps the short path entirely inside the copy that passed review", () => {
@@ -244,10 +317,14 @@ describe("Acceptance 1 — the same world asks the same questions in the same or
         depth,
         answers: [],
       });
+      // The openers moved. They used to be a civic organization's policy
+      // initiative, a professional event and an inside-or-outside question
+      // about an institution, which opened a life with a political survey.
+      // They are now a kitchen, a hallway and a reference somebody asked for.
       expect(sequence.slice(0, 3)).toEqual([
-        "career_evenings",
-        "friend_exaggeration",
-        "inside_outside",
+        "kitchen_late",
+        "marcus_and_the_trip_fund",
+        "priya_reference",
       ]);
     }
   });

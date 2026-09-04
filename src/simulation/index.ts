@@ -58,6 +58,7 @@ export * from "./serialization";
 export * from "./setup-priors";
 export * from "./sha256";
 export * from "./player-model";
+export * from "./setup-opening-bank";
 export * from "./setup-questionnaire-bank";
 export * from "./setup-questionnaire";
 export * from "./adult-situations";

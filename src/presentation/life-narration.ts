@@ -213,15 +213,14 @@ export function composeConnectiveNarration(
   }
 
   const threads = narrativeThreads(world, personId, until);
-  const changed = threads.filter(
-    (thread) =>
-      thread.anchors.some(
-        (anchor) =>
-          anchor.role !== "context" && anchor.at > since && anchor.at <= until,
-      ),
+  const changed = threads.filter((thread) =>
+    thread.anchors.some(
+      (anchor) =>
+        anchor.role !== "context" && anchor.at > since && anchor.at <= until,
+    ),
   );
 
-  const steady = steadyState(world, person.id, until);
+  const steady = steadyState(world, person.id);
 
   if (opening) {
     // The first thing said about a life introduces it. Where, how old, and
@@ -380,11 +379,7 @@ interface SteadyLine {
  * a person who exists: everybody has a place, and the place alone gives a
  * sentence. Everything more specific than that comes from a record.
  */
-function steadyState(
-  world: World,
-  personId: EntityId,
-  asOfDate: IsoDate,
-): readonly SteadyLine[] {
+function steadyState(world: World, personId: EntityId): readonly SteadyLine[] {
   const person = world.people[personId];
   if (!person) return [];
   const cutoff = currentLifeCutoff(world);
