@@ -7,7 +7,9 @@ import {
   type CharacterComponentLibrary,
   type CharacterRecipe,
   type CharacterRecipeIdentity,
+  type ProjectedLayerFitRefusal,
 } from "./character-components";
+import type { GarmentFitClass, GarmentFitMatrix } from "./garment-fit";
 import type { SceneSize } from "./scene-transform";
 import type { RuntimeVisualLibrary } from "./visual-integration";
 
@@ -49,6 +51,30 @@ export interface ModularSceneAnchor {
   readonly bodyWidthPercent: number;
 }
 
+/**
+ * One horizontal slice of a bounded-warp fit, in plate percent units.
+ *
+ * `clipTopPercent` and `clipBottomPercent` are the share of the drawn image to
+ * hide above and below this band, so a renderer can draw the same raster once
+ * per band and let each band show only its own rows. They are the projection's
+ * `sourceTopFraction` / `sourceBottomFraction` in the form CSS `inset()` wants.
+ */
+export interface CharacterRenderBand {
+  readonly index: number;
+  readonly leftPercent: number;
+  readonly topPercent: number;
+  readonly widthPercent: number;
+  readonly heightPercent: number;
+  readonly clipTopPercent: number;
+  readonly clipBottomPercent: number;
+}
+
+export interface CharacterRenderLayerFit {
+  readonly classification: GarmentFitClass;
+  readonly transformKind: "direct" | "affine" | "bounded-warp";
+  readonly matrix: GarmentFitMatrix;
+}
+
 export interface CharacterRenderLayer {
   readonly assetId: string;
   readonly kind: CharacterComponentKind;
@@ -63,6 +89,15 @@ export interface CharacterRenderLayer {
   readonly topPercent: number;
   readonly widthPercent: number;
   readonly heightPercent: number;
+  /** The morphology fit applied, or null under the pre-fit contract. */
+  readonly fit: CharacterRenderLayerFit | null;
+  /**
+   * Non-null only for a bounded warp. A renderer that draws bands is correct
+   * for every layer; one that draws only the rectangle is correct for every
+   * layer except these, where the rectangle is the bounding box of a shape
+   * that tapers.
+   */
+  readonly bands: readonly CharacterRenderBand[] | null;
 }
 
 export interface CharacterRenderMarker {
@@ -108,9 +143,18 @@ export interface CharacterRenderPlan {
   readonly complete: boolean;
   /**
    * What stopped this person being complete: component IDs that resolved but
-   * are not runtime eligible, a missing body, and empty required slots.
+   * are not runtime eligible, a missing body, empty required slots, and any
+   * garment the fit bank refused to place on this morphology.
    */
   readonly missing: readonly string[];
+  /**
+   * Garments this body family and pose have no usable fit for, with the reason.
+   *
+   * A refusal is not a rendering hiccup: it says the art has never been fitted
+   * to this morphology, and the honest answer is a gap rather than a garment
+   * hanging off the silhouette.
+   */
+  readonly fitRefusals: readonly ProjectedLayerFitRefusal[];
 }
 
 export interface CharacterRenderPlanRequest {
@@ -120,6 +164,18 @@ export interface CharacterRenderPlanRequest {
   readonly plate: SceneSize;
   readonly library: CharacterComponentLibrary;
   readonly visualLibrary: RuntimeVisualLibrary;
+  /**
+   * Whether the caller's renderer can draw `CharacterRenderLayer.bands`.
+   *
+   * Defaults to false, which is the truth about every renderer in this
+   * repository today: they draw one rectangle per layer. A bounded-warp fit is
+   * a set of horizontal slices, and drawing only its bounding rectangle would
+   * paint the garment at its widest band from top to bottom — a worse result
+   * than the unfitted placement the fit replaced. So a warped layer is refused
+   * unless the caller says it can carry one, and the refusal is named rather
+   * than silent.
+   */
+  readonly rendererSupportsBands?: boolean;
 }
 
 function stableIdentityKey(identity: CharacterRecipeIdentity): string {
@@ -162,8 +218,15 @@ export function resolvePersonCharacterRecipe(
 export function buildCharacterRenderPlan(
   request: CharacterRenderPlanRequest,
 ): CharacterRenderPlan {
-  const { personId, appearance, anchor, plate, library, visualLibrary } =
-    request;
+  const {
+    personId,
+    appearance,
+    anchor,
+    plate,
+    library,
+    visualLibrary,
+    rendererSupportsBands = false,
+  } = request;
   if (!(anchor.bodyWidthPercent > 0) || !(anchor.scale > 0)) {
     throw new Error(
       `Scene anchor '${anchor.id}' must declare positive bodyWidthPercent and scale.`,
@@ -201,6 +264,7 @@ export function buildCharacterRenderPlan(
       diagnostics: recipe.context.diagnostics,
       complete: false,
       missing: [`body:${recipe.identity.bodyFamily}:${anchor.poseFamily}`],
+      fitRefusals: [],
     };
   }
 
@@ -225,15 +289,26 @@ export function buildCharacterRenderPlan(
   );
 
   const missing: string[] = [];
+  const fitRefusals: ProjectedLayerFitRefusal[] = [...projected.fitRefusals];
   const layers: CharacterRenderLayer[] = projected.layers.map((layer) => {
-    const asset = layer.released ? visualLibrary.get(layer.assetId) : undefined;
+    const bandsUnrenderable =
+      layer.fit?.bands != null && !rendererSupportsBands;
+    if (bandsUnrenderable) {
+      fitRefusals.push({
+        assetId: layer.assetId,
+        code: "fit-bands-unsupported-by-renderer",
+        message: `Component '${layer.assetId}' resolves to a bounded-warp fit of ${layer.fit?.bands?.length ?? 0} bands, and this caller's renderer draws one rectangle per layer. Drawing the bounding rectangle would paint the garment at its widest band down its whole length, so the layer is withheld instead.`,
+      });
+    }
+    const drawable = layer.released && !bandsUnrenderable;
+    const asset = drawable ? visualLibrary.get(layer.assetId) : undefined;
     if (!asset) missing.push(layer.assetId);
     return {
       assetId: layer.assetId,
       kind: layer.kind,
       slotId: layer.slotId,
       layer: layer.layer,
-      released: layer.released && asset !== undefined,
+      released: drawable && asset !== undefined,
       url: asset?.url ?? null,
       hash: asset?.hash ?? null,
       attachmentAnchorId: layer.attachmentAnchorId,
@@ -241,6 +316,23 @@ export function buildCharacterRenderPlan(
       topPercent: topPercent + layer.top * heightPercent,
       widthPercent: layer.width * widthPercent,
       heightPercent: layer.height * heightPercent,
+      fit: layer.fit
+        ? {
+            classification: layer.fit.classification,
+            transformKind: layer.fit.transformKind,
+            matrix: layer.fit.matrix,
+          }
+        : null,
+      bands:
+        layer.fit?.bands?.map((band) => ({
+          index: band.index,
+          leftPercent: leftPercent + band.left * widthPercent,
+          topPercent: topPercent + band.top * heightPercent,
+          widthPercent: band.width * widthPercent,
+          heightPercent: band.height * heightPercent,
+          clipTopPercent: band.sourceTopFraction * 100,
+          clipBottomPercent: (1 - band.sourceBottomFraction) * 100,
+        })) ?? null,
     };
   });
 
@@ -273,5 +365,6 @@ export function buildCharacterRenderPlan(
     diagnostics: recipe.context.diagnostics,
     complete: missing.length === 0,
     missing,
+    fitRefusals,
   };
 }

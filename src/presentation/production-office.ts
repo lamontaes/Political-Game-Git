@@ -17,7 +17,10 @@ import {
   SCENE_REGISTRY,
   type RegisteredScene,
 } from "./scene-registry";
-import { PRODUCTION_VISUAL_LIBRARY } from "./visual-integration";
+import {
+  PRODUCTION_GARMENT_FIT_BANK,
+  PRODUCTION_VISUAL_LIBRARY,
+} from "./visual-integration";
 
 /**
  * THE PRODUCTION OFFICE.
@@ -60,6 +63,7 @@ export const PRODUCTION_ONLY_CHARACTER_LIBRARY: CharacterComponentLibrary =
       assetManifest.assets as readonly CharacterComponentManifestRecord[]
     ).filter((record) => record.availability !== "development-fixture"),
     characterCatalog as CharacterCatalogData,
+    PRODUCTION_GARMENT_FIT_BANK,
   );
 
 export type ProductionCharacterPath =

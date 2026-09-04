@@ -1840,3 +1840,76 @@ precisely the failure D-068 records.
 Consequence: chopping is measurement. The project can now take a dense sheet
 apart reproducibly, say what each cell is, and say why a good cell is still not
 shippable, without either discarding the sheet or promoting it.
+
+## D-074 — A garment is fitted to a silhouette, and a fit it does not have is a gap rather than a guess
+
+- Date: 2026-09-04
+- Status: ACCEPTED
+- Supersedes: none
+
+Packet 76 found that the proof cross-morphology garment sharing works was
+circular. `dev-g2-broad` and `dev-g2-slim` declare each other on every wearable,
+and they share a canvas and share their anchors, so the compositor computed the
+same rectangle twice and called it adaptation. The painted silhouettes differ by
+15–21%, and the olive knit hung 29 px past the slim body while nothing in the
+contract could say so: a component carries one canvas and one origin and had no
+place to put a per-family number. 76A recorded the consequence — tops and
+bottoms "SAFE ONLY WITHIN A BODY FAMILY", anything else "POSSIBLE ONLY WITH A
+CONTRACT CHANGE".
+
+The per-family number now exists, and three things about where it lives are the
+decision.
+
+It lives in its own bank, `art/manifest/garment_fit_profiles.json`, not on
+`CharacterComponentDefinition`. A generation's signature hashes the complete
+component definitions, so a fit field on a definition would rewrite the
+signature of a frozen generation and move every person pinned to it. This is the
+same reasoning that put `availability` on the manifest record (D-065).
+
+It is keyed by garment family, target body family AND pose. Dropping the body
+family is the defect above; dropping the pose would let a standing fit be
+applied to a seated raster, which is the cross-viewpoint substitution 76A §5.5
+refused for exactly the reason it refuses a front-on shoe derived from a
+three-quarter one — no transform produces geometry the source does not contain.
+
+A garment with no answer in the bank is refused, not placed. It keeps its
+unfitted geometry so a debug view can show where it would have gone, reports
+itself unreleased, and names why. It does not fall back to the old rectangle and
+it never borrows another family's profile: "no entry" and "it probably fits" are
+different facts, and one of them is a guess.
+
+The bank is derived rather than authored. `npm run derive:garment-fit` measures
+both silhouettes, takes the geometric mean of the smallest and largest required
+span ratio at the category's anchors — minimising the worst row rather than the
+average one — and writes the transform. Classification comes afterwards, from
+what that transform achieved when the real compositor placed the real rasters.
+Nothing is claimed and then confirmed.
+
+There is no rotation and no shear, and the absence is a finding. Every measured
+difference between these morphologies is a width difference along horizontal
+rows; nothing in the evidence rotates.
+
+A single affine does not solve everything, and the evidence says where it stops.
+Against a declared lean/average/heavy fixture triple whose waist moves three
+times as much as its shoulder, one scale takes a knit top from 30.0 px of
+residual to 12.1 px — better, and still 4.8% of the silhouette, outside the 3%
+bound. So there is a bounded escape hatch: a horizontal band warp with at most
+eight explicit control points, compiled to sixteen fixed bands, with stated
+limits on scale, on the step between adjacent bands and on the spread across
+them. It reaches 4.0 px. A garment that cannot be fitted inside those limits is
+classified `morphology-specific` and the art is regenerated; nothing is
+distorted indefinitely to avoid drawing it.
+
+What is measured is the PROPORTIONAL residual, not the distance from the
+garment's edge to the body's. A garment is not skin: a knit carries ease, ease is
+not error, and against the body's own outline a perfect fit can never score
+zero. Footwear is judged on whether it contains the foot and an accessory on
+whether it stays inside the silhouette, and neither is ever scaled — scaling
+them resizes the object rather than fitting it.
+
+Consequence: one canonical raster now serves every compatible adult morphology
+in the bank with a measured transform, and the categories that still need
+per-morphology art say so by name — front-on footwear, because the gap is
+viewpoint; child and adolescent bodies, because a child is not a scaled adult and
+no measured evidence of proportional compatibility exists; and any pairing that
+fails the bounds.
