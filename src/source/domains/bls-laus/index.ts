@@ -198,12 +198,17 @@ export function compileBlsLaus(
    */
   const latest = records.reduce(
     (newest, record) =>
-      `${record.year}-${record.period}` > newest ? `${record.year}-${record.period}` : newest,
+      `${record.year}-${record.period}` > newest
+        ? `${record.year}-${record.period}`
+        : newest,
     `${QA_SLICE_FIRST_YEAR}-M01`,
   );
   const [latestYear, latestPeriod] = latest.split("-") as [string, string];
-  const latestMonth = latestPeriod === "M13" ? 12 : Number(latestPeriod.slice(1));
-  const lastDay = new Date(Date.UTC(Number(latestYear), latestMonth, 0)).getUTCDate();
+  const latestMonth =
+    latestPeriod === "M13" ? 12 : Number(latestPeriod.slice(1));
+  const lastDay = new Date(
+    Date.UTC(Number(latestYear), latestMonth, 0),
+  ).getUTCDate();
 
   return {
     corpus: {
