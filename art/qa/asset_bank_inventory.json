@@ -3,6 +3,12 @@
   "environments": {
     "releasedPlates": [
       {
+        "assetId": "env_civic_hearing_room_5504x3072_v1",
+        "familyId": "civic-hearing-room",
+        "released": true,
+        "path": "art/families/civic-hearing-room/env_civic_hearing_room_runtime_2x_v1.png"
+      },
+      {
         "assetId": "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
         "familyId": "council-staff-office",
         "released": true,
@@ -15,15 +21,34 @@
         "path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_runtime_2x_v1.png"
       },
       {
+        "assetId": "env_residence_apartment_living_canonical_03_5504x3072_v1",
+        "familyId": "apartment-ordinary",
+        "released": true,
+        "path": "art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png"
+      },
+      {
+        "assetId": "env_residence_apartment_living_ordinary_02_5504x3072_v1",
+        "familyId": "apartment-ordinary",
+        "released": true,
+        "path": "art/families/apartment-ordinary/env_residence_apartment_living_ordinary_02_v1.png"
+      },
+      {
         "assetId": "env_shared_workroom_office_v1",
         "familyId": "shared-workroom-office",
         "released": true,
         "path": "art/families/shared-workroom-office/env_shared_workroom_office_runtime_2x_v1.png"
+      },
+      {
+        "assetId": "title_bg_civic_community_meeting_hero_slot_5504x3072_v1",
+        "familyId": "civic-community-meeting",
+        "released": true,
+        "path": "art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png"
       }
     ],
     "registeredFamilies": [
       "apartment-ordinary",
       "civic-community-meeting",
+      "civic-hearing-room",
       "council-staff-office",
       "executive-private-office",
       "shared-workroom-office"
@@ -261,6 +286,10 @@
       "blocks": "current-gameplay",
       "consumingAnchors": [
         "office-council-staff-fixture:left-guest-chair",
+        "residence-apartment-living-canonical-03:club-chair-seated",
+        "residence-apartment-living-canonical-03:sofa-seated",
+        "residence-apartment-living-ordinary-02:armchair-seated",
+        "residence-apartment-living-ordinary-02:sofa-seated",
         "shared-workroom-office-production:left-task-chair"
       ],
       "missingBodyFamilies": ["dev-g2-broad", "dev-g2-slim"],
@@ -273,6 +302,8 @@
       "priority": "P0",
       "blocks": "current-gameplay",
       "consumingAnchors": [
+        "residence-apartment-living-canonical-03:living-room-floor-standing",
+        "residence-apartment-living-ordinary-02:living-room-floor-standing",
         "shared-workroom-office-production:kitchenette-standing",
         "shared-workroom-office-production:workroom-floor-standing"
       ],
@@ -286,6 +317,10 @@
       "priority": "P1",
       "blocks": "current-gameplay",
       "consumingAnchors": [
+        "civic-community-meeting-title:stage-left-standing",
+        "civic-hearing-room-production:hearing-floor-standing",
+        "residence-apartment-living-canonical-03:entry-side-standing",
+        "residence-apartment-living-ordinary-02:entry-side-standing",
         "shared-workroom-office-production:near-table-standing"
       ],
       "missingBodyFamilies": ["dev-g2-broad", "dev-g2-slim"],
@@ -296,8 +331,11 @@
     {
       "poseFamilyId": "standing-podium-or-lectern",
       "priority": "P1",
-      "blocks": "later-breadth",
-      "consumingAnchors": [],
+      "blocks": "current-gameplay",
+      "consumingAnchors": [
+        "civic-community-meeting-title:podium-speaker",
+        "civic-hearing-room-production:witness-lectern-standing"
+      ],
       "missingBodyFamilies": ["dev-g2-broad", "dev-g2-slim"],
       "controlPlate": "art/pose-control-plates/standing-podium-or-lectern__front.svg",
       "masterMinimum": "1696x2528",

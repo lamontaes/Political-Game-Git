@@ -785,17 +785,25 @@ describe("Packet 76 approved runtime art", () => {
       "human_candidate_B01_left_guest_seated_v1",
     ]);
     // 4 office fixtures + 16 generation-1 and 30 generation-2 DEV components,
-    // plus the released production workroom plate (D-067).
-    expect(result.runtimeEligibleAssetIds).toHaveLength(51);
-    // Everything past the four fixtures is a DEV component, with one
-    // exception: the production workroom plate. It is the only released asset
-    // in this repository that is production art rather than fixture art, and
-    // naming it here keeps that fact visible instead of letting a broad
-    // "starts with dev_" sweep hide the next one.
+    // plus five released production environment plates.
+    expect(result.runtimeEligibleAssetIds).toHaveLength(55);
+    // Everything past the four fixtures is a DEV component except the released
+    // production plates, and those are named one by one rather than swept up
+    // by "does not start with dev_". Naming them is the point: this list is
+    // what the runtime may actually paint, and a sixth plate appearing here
+    // without a line changing in this test would be a plate nobody reviewed.
     const beyondFixtures = result.runtimeEligibleAssetIds.slice(4);
     expect(
-      beyondFixtures.filter((assetId: string) => !assetId.startsWith("dev_")),
-    ).toEqual(["env_shared_workroom_office_v1"]);
+      beyondFixtures
+        .filter((assetId: string) => !assetId.startsWith("dev_"))
+        .sort(),
+    ).toEqual([
+      "env_civic_hearing_room_5504x3072_v1",
+      "env_residence_apartment_living_canonical_03_5504x3072_v1",
+      "env_residence_apartment_living_ordinary_02_5504x3072_v1",
+      "env_shared_workroom_office_v1",
+      "title_bg_civic_community_meeting_hero_slot_5504x3072_v1",
+    ]);
     const environment = manifest.assets.find(
       (asset: { asset_id: string }) =>
         asset.asset_id === "env_lexington_council_staff_office_prompt30_v1",
@@ -812,17 +820,16 @@ describe("Packet 76 approved runtime art", () => {
       ),
     ).toEqual([
       "council-staff-office",
-      // The three families below are declared production-authoring targets for
-      // the approved environments whose bytes are still queued in
-      // art/intake/environment-batch-2026-09-03.request.json. A family with no
-      // released plate is a target, not coverage.
+      // Three of the families below now hold released plates downscaled from
+      // approved 5504x3072 masters, and one still does not. A family with no
+      // released plate is a production-authoring target, not coverage, and
+      // `executive-private-office` is the one that is still only a target: its
+      // master is banked and registered but deliberately unreleased.
       "apartment-ordinary",
       "civic-community-meeting",
       "executive-private-office",
-      // The one family that is coverage rather than a target: the shared
-      // workroom has a released plate downscaled from its approved 5504x3072
-      // master (D-067).
       "shared-workroom-office",
+      "civic-hearing-room",
     ]);
   });
 

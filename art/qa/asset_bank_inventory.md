@@ -9,13 +9,17 @@ describes; a focused test regenerates it and fails on a mismatch.
 
 ## Environments usable now
 
-| Asset                                                          | Family                 | Path                                                                                                    |
-| -------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------- |
-| env_lexington_council_staff_office_prompt30_foreground_mask_v1 | council-staff-office   | art/families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png |
-| env_lexington_council_staff_office_prompt30_v1                 | council-staff-office   | art/families/council-staff-office/env_lexington_council_staff_office_prompt30_runtime_2x_v1.png         |
-| env_shared_workroom_office_v1                                  | shared-workroom-office | art/families/shared-workroom-office/env_shared_workroom_office_runtime_2x_v1.png                        |
+| Asset                                                          | Family                  | Path                                                                                                    |
+| -------------------------------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------- |
+| env_civic_hearing_room_5504x3072_v1                            | civic-hearing-room      | art/families/civic-hearing-room/env_civic_hearing_room_runtime_2x_v1.png                                |
+| env_lexington_council_staff_office_prompt30_foreground_mask_v1 | council-staff-office    | art/families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png |
+| env_lexington_council_staff_office_prompt30_v1                 | council-staff-office    | art/families/council-staff-office/env_lexington_council_staff_office_prompt30_runtime_2x_v1.png         |
+| env_residence_apartment_living_canonical_03_5504x3072_v1       | apartment-ordinary      | art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png                      |
+| env_residence_apartment_living_ordinary_02_5504x3072_v1        | apartment-ordinary      | art/families/apartment-ordinary/env_residence_apartment_living_ordinary_02_v1.png                       |
+| env_shared_workroom_office_v1                                  | shared-workroom-office  | art/families/shared-workroom-office/env_shared_workroom_office_runtime_2x_v1.png                        |
+| title_bg_civic_community_meeting_hero_slot_5504x3072_v1        | civic-community-meeting | art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png     |
 
-Registered environment families: `apartment-ordinary`, `civic-community-meeting`, `council-staff-office`, `executive-private-office`, `shared-workroom-office`.
+Registered environment families: `apartment-ordinary`, `civic-community-meeting`, `civic-hearing-room`, `council-staff-office`, `executive-private-office`, `shared-workroom-office`.
 
 A family with no released plate is an authoring target, not coverage. 7 further environment candidates are DECLARED and awaiting bytes in `art/intake/environment-batch-2026-09-03.request.json`; none of them counts as coverage until intake measures the real file.
 
@@ -83,12 +87,12 @@ Every released component is a **DEV / NON-PRODUCTION fixture**: 46 fixture rows 
 What still needs making, ordered so anything a live scene anchor already asks
 for comes first.
 
-| Pose family                | Priority | Blocks           | Consuming anchors                                                                                                 | Missing for               | Control plate                                                 | Master minimum |
-| -------------------------- | -------- | ---------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------- | ------------------------------------------------------------- | -------------- |
-| seated-guest-neutral       | P0       | current-gameplay | office-council-staff-fixture:left-guest-chair, shared-workroom-office-production:left-task-chair                  | dev-g2-broad, dev-g2-slim | art/pose-control-plates/seated-guest-neutral__front.svg       | 1530x2048      |
-| standing-conversational    | P0       | current-gameplay | shared-workroom-office-production:kitchenette-standing, shared-workroom-office-production:workroom-floor-standing | dev-g2-broad, dev-g2-slim | art/pose-control-plates/standing-conversational__front.svg    | 1696x2528      |
-| standing-listening         | P1       | current-gameplay | shared-workroom-office-production:near-table-standing                                                             | dev-g2-broad, dev-g2-slim | art/pose-control-plates/standing-listening__front.svg         | 1696x2528      |
-| standing-podium-or-lectern | P1       | later-breadth    | —                                                                                                                 | dev-g2-broad, dev-g2-slim | art/pose-control-plates/standing-podium-or-lectern__front.svg | 1696x2528      |
+| Pose family                | Priority | Blocks           | Consuming anchors                                                                                                                                                                                                                                                                                                            | Missing for               | Control plate                                                 | Master minimum |
+| -------------------------- | -------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ------------------------------------------------------------- | -------------- |
+| seated-guest-neutral       | P0       | current-gameplay | office-council-staff-fixture:left-guest-chair, residence-apartment-living-canonical-03:club-chair-seated, residence-apartment-living-canonical-03:sofa-seated, residence-apartment-living-ordinary-02:armchair-seated, residence-apartment-living-ordinary-02:sofa-seated, shared-workroom-office-production:left-task-chair | dev-g2-broad, dev-g2-slim | art/pose-control-plates/seated-guest-neutral__front.svg       | 1530x2048      |
+| standing-conversational    | P0       | current-gameplay | residence-apartment-living-canonical-03:living-room-floor-standing, residence-apartment-living-ordinary-02:living-room-floor-standing, shared-workroom-office-production:kitchenette-standing, shared-workroom-office-production:workroom-floor-standing                                                                     | dev-g2-broad, dev-g2-slim | art/pose-control-plates/standing-conversational__front.svg    | 1696x2528      |
+| standing-listening         | P1       | current-gameplay | civic-community-meeting-title:stage-left-standing, civic-hearing-room-production:hearing-floor-standing, residence-apartment-living-canonical-03:entry-side-standing, residence-apartment-living-ordinary-02:entry-side-standing, shared-workroom-office-production:near-table-standing                                      | dev-g2-broad, dev-g2-slim | art/pose-control-plates/standing-listening__front.svg         | 1696x2528      |
+| standing-podium-or-lectern | P1       | current-gameplay | civic-community-meeting-title:podium-speaker, civic-hearing-room-production:witness-lectern-standing                                                                                                                                                                                                                         | dev-g2-broad, dev-g2-slim | art/pose-control-plates/standing-podium-or-lectern__front.svg | 1696x2528      |
 
 ## Cargo disposition
 

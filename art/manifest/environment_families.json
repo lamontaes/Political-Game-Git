@@ -113,6 +113,37 @@
         "Geometry for this family is measured from its own master and is never inherited from the council-staff-office development fixture."
       ],
       "supporting_source_references": ["prov_env_shared_workroom_office_v1"]
+    },
+    {
+      "family_id": "civic-hearing-room",
+      "room_use_category": "public committee or hearing room with a member bench and a testimony lectern",
+      "typical_proportion_rules": "Scene plate supplies only visual-estimate proportions; no physical dimensions are claimed.",
+      "seating_dais_logic": "A curved raised member bench with fixed chairs behind it, a clerk's desk inside the well, and a testimony lectern facing the bench.",
+      "public_member_separation": "The bench and the well separate members and staff from public seating. The separation is what the picture shows; it implies no access rule of its own.",
+      "circulation_assumptions": "A central aisle between the public seating blocks stays clear, as does the floor at the lectern.",
+      "camera_framing_guidance": "Wide eye-level room plate with the nearest public seating available for character occlusion.",
+      "ceiling_height_category": "unknown",
+      "density_category": "ordinary-public-hearing-room",
+      "ornament_category": "restrained-civic",
+      "reusable_prop_slots": [
+        "wall-screen",
+        "agenda-board",
+        "clerk-monitor",
+        "lectern-notes"
+      ],
+      "event_layer_slots": [
+        "witness-lectern-standing",
+        "hearing-floor-standing",
+        "clerk-desk-chair"
+      ],
+      "negative_constraints": [
+        "No physical measurement precision is authorized by the raster plate.",
+        "No jurisdiction rule or canonical simulation fact derives from visible decoration.",
+        "No bill number, tally, agenda, seal or name may be baked into a plate in this family."
+      ],
+      "supporting_source_references": [
+        "prov_env_civic_hearing_room_5504x3072_v1"
+      ]
     }
   ]
 }

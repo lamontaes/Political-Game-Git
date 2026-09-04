@@ -5412,3 +5412,104 @@
   color: #8a3520;
   font-weight: 700;
 }
+
+/* -------------------------------------------------------------------------- */
+/* Title tableau                                                              */
+/*                                                                            */
+/* The title screen paints a room behind itself when there is a truthful one  */
+/* to paint. Every rule below is written so that the no-art case is not a     */
+/* degraded version of the art case: with `data-has-plate="false"` the page   */
+/* is the pale sheet it has always been, and the panel below adds nothing.    */
+/* -------------------------------------------------------------------------- */
+
+.title-tableau {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  isolation: isolate;
+}
+
+.title-tableau-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.title-tableau-camera {
+  position: absolute;
+}
+
+/*
+ * A veil, not a fog.
+ *
+ * The point of the backdrop is that the room reads as a room. An even wash
+ * heavy enough to make text safe anywhere turns the picture back into the pale
+ * page this work existed to fix, so the veil here is light and the legibility
+ * is paid for locally, by the panel the copy sits on.
+ */
+.title-tableau--art .title-tableau-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgb(246 247 250 / 26%),
+    rgb(246 247 250 / 10%) 45%,
+    rgb(246 247 250 / 22%)
+  );
+}
+
+.title-tableau-content {
+  position: relative;
+  z-index: 1;
+}
+
+/*
+ * Deliberately not a person.
+ *
+ * The resolver asks for this when a character is entitled to the room but the
+ * game has no art of them. Drawing anything with a head and shoulders would be
+ * inventing a likeness, so this is a soft column standing on the anchor's own
+ * floor line: enough to say "somebody stands here", not enough to say who.
+ */
+.title-tableau-outline {
+  position: absolute;
+  width: 7%;
+  height: 34%;
+  transform: translate(-50%, -100%);
+  border-radius: 44% 44% 18% 18%;
+  background: linear-gradient(rgb(22 35 58 / 16%), rgb(22 35 58 / 26%));
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.game-title-scene {
+  margin: -1.6rem 0 2.25rem;
+  max-width: 30rem;
+  color: #55627a;
+  font-size: 0.92rem;
+}
+
+/*
+ * The copy's own ground.
+ *
+ * Anchored to the content column rather than to a viewport percentage, so it
+ * stays behind the words at any width instead of drifting off them. Buttons
+ * are deliberately left alone: they are the game's own dark green, and they
+ * read over this panel exactly as they read over the pale page.
+ */
+.title-tableau--art .game-title {
+  background: linear-gradient(
+    rgb(248 249 252 / 93%),
+    rgb(248 249 252 / 86%) 60%,
+    rgb(248 249 252 / 72%)
+  );
+  backdrop-filter: blur(3px);
+  border-radius: 0 0 1.1rem 1.1rem;
+  box-shadow: 0 1.4rem 3rem rgb(16 28 48 / 12%);
+}
+
+.title-tableau--art .game-title h1,
+.title-tableau--art .game-title-line {
+  color: #101c30;
+}

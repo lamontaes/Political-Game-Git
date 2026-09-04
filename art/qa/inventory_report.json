@@ -1,6 +1,30 @@
 {
-  "totalItems": 117,
+  "totalItems": 130,
   "items": [
+    {
+      "filePath": "families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
+      "hash": "baa3f6f965250363fdb1e376148ef0bdd7b84a36dd702a84bbe5239162c5753f"
+    },
+    {
+      "filePath": "families/apartment-ordinary/env_residence_apartment_living_ordinary_02_v1.png",
+      "hash": "8d0863e1c8423e6cb61682cbf025e1590f7bd5bf4fd964864b05d79f8e8838fe"
+    },
+    {
+      "filePath": "families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png",
+      "hash": "a1c6ed73a06ab71cd82ab9fa98f9f39228a4ffe74bbf4f8870d1d33fb55a2527"
+    },
+    {
+      "filePath": "families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_v1.png",
+      "hash": "7f40aaba49683ed011d57ff91f4bd3b202fdd39b941ab59e70b299337f7063e6"
+    },
+    {
+      "filePath": "families/civic-hearing-room/env_civic_hearing_room_runtime_2x_v1.png",
+      "hash": "30fe0f333eeef50c9938a0055b43f75ebf657174f66b445b4cfc73b5d9c5628c"
+    },
+    {
+      "filePath": "families/civic-hearing-room/env_civic_hearing_room_v1.png",
+      "hash": "d30fe81c23952b9dd98ec88b34f87952dbbec7044a8955a9c521ba10eeac9663"
+    },
     {
       "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
       "hash": "f2f5ae8ca3e82e13cf6fb6f8f27c654b5c95a93c6ca2c31d5c56381fdd543406"
@@ -462,8 +486,36 @@
       "hash": "d7eb87869643758793867ee75141d9677ed0073745b4df331b5732528b4db42b"
     },
     {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_CANONICAL_03_5504x3072.jpg",
+      "hash": "f4a97135966bcdf603efbce8f2d314e2c414816b45dbbbc1113b819557e2e5ea"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_ORDINARY_02_5504x3072.jpg",
+      "hash": "517abcf23ffff3b360d97fb715215435efcc4d5200677e6d6cdaab844fc0c8ab"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_STARTER_01_1376x768.png",
+      "hash": "7f6e59b03a50a0c14068a217ab88f77d3987cf3f549d639fbc7627a0c910aae6"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_CIVIC_HEARING_ROOM_5504x3072_01.jpg",
+      "hash": "c2021c87a073e7fd16256ca52b724afbf88f650e113a95b3c53468bac4072b70"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_COURTROOM_EMPTY_5504x3072_01.jpg",
+      "hash": "9c743c8d09a1a55a6f3490e482429ed5a8c710959fe5543a17d4d80e526f3a98"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_EXECUTIVE_PRIVATE_OFFICE_1672x941_01.png",
+      "hash": "500ea8be32dedfb5458aa334eff5939deb0b162e6f5159f42b6cf112e32bde1f"
+    },
+    {
       "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_SHARED_WORKROOM_OFFICE_5504x3072_01.jpg",
       "hash": "eca8b886da1769d1babf132530a8a33b8d59cc8d8e6e9b8ce34f551b676af9d0"
+    },
+    {
+      "filePath": "references/masters/scene-environment/PG_TITLE_BG_COMMUNITY_MEETING_HERO_SLOT_02_5504x3072.png",
+      "hash": "0ac5ef6ffa603d9510efb2160da38e065d0a7290352a976bc074dde779109663"
     },
     {
       "filePath": "references/plans/texas_senate/normalized/habs_tx3326_00013a_normalized.jpg",

@@ -11,8 +11,14 @@ import {
   type SceneSurfaceSlot,
   type SceneUiSafeZoneSpec,
 } from "../environment/environment-scene-spec";
+import { CIVIC_COMMUNITY_MEETING_TITLE_SCENE } from "../environment/scenes/civic-community-meeting-title-production";
+import { CIVIC_HEARING_ROOM_PRODUCTION_SCENE } from "../environment/scenes/civic-hearing-room-production";
 import { COMMITTEE_ROOM_FIXTURE_SCENE } from "../environment/scenes/committee-room-fixture";
 import { OFFICE_COUNCIL_STAFF_FIXTURE_SCENE } from "../environment/scenes/office-council-staff-fixture";
+import {
+  RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE,
+  RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE,
+} from "../environment/scenes/residence-apartment-living-production";
 import { SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE } from "../environment/scenes/shared-workroom-office-production";
 import { createRasterTierLadder, type RasterTierLadder } from "./raster-tiers";
 import type {
@@ -285,12 +291,20 @@ export function requireSceneAnchor(
 }
 
 /**
- * Every scene the runtime knows about. Both entries are development fixtures:
- * the office has frozen fixture art, the committee room has no art at all.
- * Production plates join this list as data when they exist.
+ * Every scene the runtime knows about.
+ *
+ * Five carry production plates and two are development fixtures. The fixtures
+ * are kept deliberately: the council-staff office is frozen regression
+ * evidence, and the committee room is the proof that a scene with no picture
+ * at all still registers and still says so. Adding a room is adding a spec to
+ * this list, not writing scene-specific React.
  */
 export const SCENE_REGISTRY: SceneRegistry = createSceneRegistry([
   SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE,
+  CIVIC_COMMUNITY_MEETING_TITLE_SCENE,
+  CIVIC_HEARING_ROOM_PRODUCTION_SCENE,
+  RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE,
+  RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE,
   OFFICE_COUNCIL_STAFF_FIXTURE_SCENE,
   COMMITTEE_ROOM_FIXTURE_SCENE,
 ]);
@@ -302,3 +316,22 @@ export const SCENE_REGISTRY: SceneRegistry = createSceneRegistry([
 export const PRODUCTION_OFFICE_SCENE_ID = "shared-workroom-office-production";
 export const OFFICE_FIXTURE_SCENE_ID = "office-council-staff-fixture";
 export const COMMITTEE_FIXTURE_SCENE_ID = "committee-room-fixture";
+
+/** The neutral public room the title screen composes against. */
+export const TITLE_TABLEAU_SCENE_ID = "civic-community-meeting-title";
+/** The production hearing room. Distinct from the committee fixture above. */
+export const HEARING_ROOM_SCENE_ID = "civic-hearing-room-production";
+export const DOMESTIC_CANONICAL_SCENE_ID =
+  "residence-apartment-living-canonical-03";
+export const DOMESTIC_ORDINARY_SCENE_ID =
+  "residence-apartment-living-ordinary-02";
+
+/**
+ * The domestic rooms, in the order a deterministic chooser walks them. Both
+ * are ordinary apartments and neither carries a station: which household a
+ * room stands for is canonical world truth, never a property of the plate.
+ */
+export const DOMESTIC_SCENE_IDS: readonly string[] = [
+  DOMESTIC_CANONICAL_SCENE_ID,
+  DOMESTIC_ORDINARY_SCENE_ID,
+];
