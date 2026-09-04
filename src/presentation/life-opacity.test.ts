@@ -4,7 +4,11 @@ import { fileURLToPath } from "node:url";
 
 import { describe, expect, it } from "vitest";
 
-import { EPISODE_FAMILIES, setupQuestionnaireBank } from "../simulation";
+import {
+  EPISODE_FAMILIES,
+  adultSituationBank,
+  setupQuestionnaireBank,
+} from "../simulation";
 import { projectStoryMoment } from "./life-story";
 import { projectLifeRecord } from "./life-record";
 import { openThreadRecaps } from "./life-narration";
@@ -205,6 +209,78 @@ describe("The authored copy does not explain itself", () => {
       expect(shown, item.key).not.toMatch(
         /\b(?:econ-distribution|civic-order|governance-scale|decision-style|personal-ties)\b/,
       );
+    }
+  });
+
+  /**
+   * An option description says what the choice IS. It does not say how it will
+   * turn out.
+   *
+   * The dialogue audit found exactly one violation in four hundred and
+   * thirty-six authored options — "It will probably not be raised." — which
+   * handed the player the outcome before they made the choice. One is a small
+   * number and it is also the number that matters: the whole aftermath design
+   * rests on a player not being able to tell in advance which decisions come
+   * back, and a description that tells them makes the honest zero-consequence
+   * options readable as safe.
+   *
+   * The rule is deliberately narrow. Ten shipped descriptions use "will" or
+   * "would" legitimately — "They will be annoyed", "It will take months either
+   * way", "You said you would" — because a known cost of an option is part of
+   * what the option is. What is banned is *hedged prediction of the
+   * consequence*: probably, likely, chances are, nothing will come of it. That
+   * is the game guessing on the player's behalf.
+   */
+  it("never tells the player how a choice will turn out", () => {
+    const forecast =
+      /\b(?:probably|most likely|likely to|chances are|odds are|in all likelihood)\b|\bnothing (?:much )?(?:will|would) come of\b|\b(?:will|would) (?:probably )?(?:not )?(?:come back|be raised|be remembered|be noticed|be forgotten)\b|\bno ?(?:one|body) (?:will|would) (?:notice|remember|mind|care)\b/i;
+
+    const offenders: string[] = [];
+    for (const family of EPISODE_FAMILIES) {
+      for (const stage of family.stages) {
+        for (const option of stage.options) {
+          if (forecast.test(option.description)) {
+            offenders.push(
+              `${family.key}/${stage.key} [${option.key}]: ${option.description}`,
+            );
+          }
+        }
+      }
+    }
+    for (const situation of adultSituationBank()) {
+      for (const option of situation.options) {
+        if (forecast.test(option.description)) {
+          offenders.push(
+            `${situation.key} [${option.key}]: ${option.description}`,
+          );
+        }
+      }
+    }
+    expect(offenders).toEqual([]);
+
+    // The one that shipped, and the shapes the next one is likeliest to take.
+    for (const written of [
+      "It will probably not be raised.",
+      "Nothing will come of it.",
+      "Nobody will notice either way.",
+      "Chances are it never comes up again.",
+      "This will probably be remembered.",
+    ]) {
+      expect(forecast.test(written), written).toBe(true);
+    }
+
+    // And the shipped descriptions that are about the choice, not the outcome.
+    for (const legitimate of [
+      "They will be annoyed.",
+      "It is duller and they will say so.",
+      "It costs money you would notice.",
+      "You will have to say how it got here.",
+      "It might be wrong. It will take months either way.",
+      "Say you will, and mean the standing version.",
+      "Not something you will put your name to.",
+      "You said you would.",
+    ]) {
+      expect(forecast.test(legitimate), legitimate).toBe(false);
     }
   });
 

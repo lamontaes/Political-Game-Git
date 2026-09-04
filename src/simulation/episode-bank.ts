@@ -163,7 +163,7 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
         },
         {
           key: "cover",
-          label: "Cover for them",
+          label: "Answer for them",
           description: "Answer for where they were, if anyone asks.",
           nudges: [
             nudge("personal-ties", 0.5),
@@ -221,7 +221,7 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
         },
         {
           key: "refuse",
-          label: "Refuse",
+          label: "Say you will not",
           description: "And say why.",
           nudges: [
             nudge("security-stability", 0.4),
@@ -270,7 +270,7 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
         },
         {
           key: "keep-watching",
-          label: "Keep it to yourself",
+          label: "Keep watching, say nothing",
           description: "Nothing has actually happened yet.",
           nudges: [
             nudge("privacy-preference", 0.45),
@@ -495,7 +495,7 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
         },
         {
           key: "let-it-go",
-          label: "Let it go",
+          label: "Let it lapse",
           description: "People drift. This is what that looks like.",
           nudges: [
             nudge("personal-ties", -0.3),
@@ -548,7 +548,7 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
       options: [
         {
           key: "yes",
-          label: "Say yes",
+          label: "Agree before you hear it",
           description: "Before hearing the whole of it.",
           nudges: [nudge("personal-ties", 0.5), nudge("risk-appetite", 0.3)],
           aftermath: "obligation",
@@ -569,7 +569,7 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
         },
         {
           key: "no",
-          label: "Say no",
+          label: "Turn them down",
           description: "It has been years, and this is a lot.",
           nudges: [
             nudge("security-stability", 0.4),
@@ -704,7 +704,7 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
         },
         {
           key: "take-it",
-          label: "Take it",
+          label: "Take the blame",
           description: "Whatever it costs this week.",
           nudges: [
             nudge("personal-ties", 0.4),
@@ -935,7 +935,7 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
       options: [
         {
           key: "swap",
-          label: "Swap them",
+          label: "Trade the jobs",
           description: "It costs nothing to try.",
           nudges: [nudge("personal-ties", 0.3), nudge("risk-appetite", 0.15)],
           aftermath: null,
@@ -1171,7 +1171,7 @@ const WORK_STANDING: EpisodeFamily = {
         },
         {
           key: "leave-it",
-          label: "Leave it",
+          label: "Say nothing to it",
           description: "It is a story about a morning.",
           nudges: [
             nudge("security-stability", 0.25),
@@ -1227,7 +1227,7 @@ const WORK_STANDING: EpisodeFamily = {
       options: [
         {
           key: "take-it",
-          label: "Take it",
+          label: "Take the job",
           description: "Hand your notice in this week.",
           nudges: [
             nudge("achievement-ambition", 0.5),
@@ -1239,7 +1239,7 @@ const WORK_STANDING: EpisodeFamily = {
         },
         {
           key: "decline",
-          label: "Turn it down",
+          label: "Stay where you are",
           description: "And stay where people know you.",
           nudges: [
             nudge("security-stability", 0.45),
@@ -1581,7 +1581,7 @@ const CARING: EpisodeFamily = {
         },
         {
           key: "carry-it",
-          label: "Carry it",
+          label: "Carry it quietly",
           description: "It is easier than the conversation.",
           nudges: [
             nudge("care-obligation", 0.45),
@@ -1826,7 +1826,7 @@ const NEIGHBOURHOOD: EpisodeFamily = {
       options: [
         {
           key: "take-the-role",
-          label: "Take it",
+          label: "Take the title",
           description: "It has a title and about six hours a month.",
           nudges: [
             nudge("achievement-ambition", 0.4),
@@ -1858,7 +1858,7 @@ const NEIGHBOURHOOD: EpisodeFamily = {
         },
         {
           key: "step-back",
-          label: "Step back from it",
+          label: "Stop at the building",
           description: "You came about one building.",
           nudges: [
             nudge("security-stability", 0.3),
@@ -1970,7 +1970,7 @@ const NEIGHBOURHOOD: EpisodeFamily = {
         },
         {
           key: "no",
-          label: "Say no",
+          label: "That was the last of it",
           description: "You did the building.",
           nudges: [
             nudge("security-stability", 0.3),
@@ -2095,7 +2095,7 @@ const POLITICAL_APPROACH: EpisodeFamily = {
       options: [
         {
           key: "sign",
-          label: "Sign it",
+          label: "Sign with the others",
           description: "Alongside all forty.",
           nudges: [
             nudge("decision-style", 0.35),

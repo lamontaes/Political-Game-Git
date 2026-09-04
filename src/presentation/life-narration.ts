@@ -123,7 +123,7 @@ function seasonOf(date: IsoDate): string {
 function elapsedPhrase(days: number, from: IsoDate, to: IsoDate): string {
   if (days <= 1) return "The next day";
   if (days <= 10) return "Within the week";
-  if (days <= 24) return "A fortnight or so on";
+  if (days <= 24) return "A couple of weeks on";
   if (days <= 45) return "A month later";
   if (days <= 100) {
     const season = seasonOf(to);
@@ -160,7 +160,7 @@ export interface ComposeNarrationInput {
 
 /**
  * Below this, a gap is short enough that saying what stayed the same reads as
- * padding. "A fortnight or so on" is the whole of what happened, and the
+ * padding. "A couple of weeks on" is the whole of what happened, and the
  * composer stops there rather than reciting the household again.
  */
 const STEADY_STATE_MINIMUM_DAYS = 25;

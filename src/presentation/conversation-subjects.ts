@@ -496,8 +496,8 @@ const neighborhoodMeetingSubject: ConversationSubjectPresentation<NeighborhoodMe
           progress.phase === "settled"
             ? `“Right,” ${shortPersonName(world, speaker.personId)} says. “That is settled, then.”`
             : selectAuthoredVariant(world, `neighborhood:${speaker.personId}`, [
-                `${shortPersonName(world, speaker.personId)} is at the door with the post, and the notice is still on the board behind them.`,
-                `${shortPersonName(world, speaker.personId)} is bringing the bins back in, and glances at the board on the way past.`,
+                `${shortPersonName(world, speaker.personId)} is at the door with the mail, and the notice is still on the board behind them.`,
+                `${shortPersonName(world, speaker.personId)} is wheeling the trash cans back up, and glances at the board on the way past.`,
                 `${shortPersonName(world, speaker.personId)} is on the step with a bag of shopping, and the notice is right there beside them.`,
               ]),
       };

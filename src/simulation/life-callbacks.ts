@@ -60,7 +60,7 @@ export const LIFE_CALLBACK_TRANSITION_KEY = "life:callback" as const;
  */
 const RETURN_SUMMARY: Readonly<Record<string, string>> = {
   "adult.family-request":
-    "The fortnight you did or did not give came up again, in a conversation that was about something else.",
+    "The two weeks you did or did not give came up again, in a conversation that was about something else.",
   "adult.care-request":
     "What you took on came round again, on a week that had no room for it.",
   "adult.friend-favour":
@@ -82,7 +82,7 @@ const RETURN_SUMMARY: Readonly<Record<string, string>> = {
   "adult.candidacy-approach":
     "The question about standing for something came back, and this time it was not casual.",
   "adult.incident-aftermath":
-    "What you did in the fortnight afterwards came up again, long after everybody else had stopped talking about it.",
+    "What you did in the two weeks afterwards came up again, long after everybody else had stopped talking about it.",
   "adult.incident-neighbour-help":
     "What you gave, or kept, after the flooding turned out to have been noticed.",
   "adult.promise-comes-due":

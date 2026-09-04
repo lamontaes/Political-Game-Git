@@ -565,7 +565,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     options: [
       {
         key: "fix-it",
-        label: "Deal with it",
+        label: "Fix it this afternoon",
         description: "Spend the afternoon and the money now.",
         memory:
           "You gave up an afternoon to it, and it stopped being a thing you thought about.",
@@ -689,7 +689,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "keep-it-yours",
-        label: "Keep it to yourself",
+        label: "Keep the evening",
         description: "Take the evening back for your own.",
         memory:
           "You took the evening for yourself, and it was exactly as long as you wanted it to be.",
@@ -710,7 +710,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     companion: "kin",
     stakes: "pressing",
     prose:
-      "Somebody in the family needs a fortnight of your time, and the fortnight is one you had already given to something else.",
+      "Somebody in the family needs two weeks of your time, and those two weeks are ones you had already given to something else.",
     tensions: [
       tension(
         "personal-ties",
@@ -731,11 +731,11 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     options: [
       {
         key: "go",
-        label: "Go",
-        description: "Give the fortnight and deal with the rest afterwards.",
+        label: "Give the two weeks",
+        description: "Give the two weeks and deal with the rest afterwards.",
         memory:
-          "You gave the fortnight, and what you had planned for it went without you.",
-        witnessed: "They came, and stayed the fortnight.",
+          "You gave the two weeks, and what you had planned for them went without you.",
+        witnessed: "They came, and stayed the two weeks.",
         stance: "engaged",
         relationalChange: "strengthened",
         interactionKind: "care:family",
@@ -752,7 +752,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Stay with what you had",
         description: "Hold the plan and say you cannot.",
         memory:
-          "You said you could not come, and held on to the fortnight you had already spent.",
+          "You said you could not come, and held on to the two weeks you had already spent.",
         witnessed: "They said they could not come.",
         stance: "engaged",
         relationalChange: "strained",
@@ -766,10 +766,10 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "split-it",
-        label: "Split it",
+        label: "Split the two weeks",
         description: "Half of each, and neither done properly.",
         memory:
-          "You split the fortnight down the middle, and neither half got what it needed.",
+          "You split the two weeks down the middle, and neither half got what it needed.",
         witnessed: "They came for part of it and left again.",
         stance: "engaged",
         relationalChange: "maintained",
@@ -1063,7 +1063,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "decline",
-        label: "Say no",
+        label: "Keep your week",
         description: "Keep the week you have.",
         memory:
           "You said no, plainly and without a reason attached, and kept the week you had.",
@@ -1127,7 +1127,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "let-it-go",
-        label: "Let it go",
+        label: "Let them have it",
         description: "It is not worth the room.",
         memory:
           "You let it go, and it stayed gone, and you were not sure afterwards whether that had been generosity.",
@@ -1184,7 +1184,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     options: [
       {
         key: "cover",
-        label: "Cover for them",
+        label: "Take up the slack",
         description: "Quietly take up the slack.",
         memory:
           "You covered for them without saying so, and they either did not notice or did not say.",
@@ -1277,7 +1277,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "stay",
-        label: "Stay where you are",
+        label: "Keep the job you have",
         description: "Keep the thing that already works.",
         memory:
           "You stayed, and told yourself it was the sensible one, and half meant it.",
@@ -1546,7 +1546,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     options: [
       {
         key: "handle-it",
-        label: "Deal with it",
+        label: "Replace it now",
         description: "Replace it and move on.",
         memory:
           "You replaced it and moved on, and the month was a little tighter than it had been.",
@@ -1556,7 +1556,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "make-do",
-        label: "Make do",
+        label: "Go without it",
         description: "Go without and see how long it lasts.",
         memory:
           "You went without, and it lasted much longer than anyone expected it to.",
@@ -1643,7 +1643,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     options: [
       {
         key: "do-it",
-        label: "Do it",
+        label: "Say yes and do it",
         description: "Say yes and get on with it.",
         memory:
           "You said yes without making them ask twice, and it cost you an afternoon.",
@@ -1672,7 +1672,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "decline",
-        label: "Say no",
+        label: "Tell them you cannot",
         description: "Not this one.",
         memory:
           "You said no, and it was fine, and it was slightly less fine than they said it was.",
@@ -1752,7 +1752,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "decline",
-        label: "Turn it down",
+        label: "Refuse the help",
         description: "Keep the problem, and keep the ledger clear.",
         memory:
           "You turned it down and kept the problem, and were not sure for months whether that had been pride.",
@@ -1792,7 +1792,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     options: [
       {
         key: "keep-it",
-        label: "Keep it to yourself",
+        label: "Tell nobody else",
         description: "They told you, and that is where it stops.",
         memory:
           "You kept it, because they had told you rather than anybody else, and that had to mean something.",
@@ -1830,7 +1830,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "step-back",
-        label: "Step back from it",
+        label: "Keep your distance",
         description: "This is not somewhere you can be.",
         memory:
           "You stepped back from it, and were not entirely sure afterwards whether that had been sense.",
@@ -1857,7 +1857,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     options: [
       {
         key: "go",
-        label: "Go",
+        label: "Turn up for them",
         description: "Turn up for it.",
         memory:
           "You went, and it was a good evening, and being there was most of the point.",
@@ -1963,7 +1963,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     options: [
       {
         key: "go",
-        label: "Go",
+        label: "Go to the meeting",
         description: "Give it the evening.",
         memory:
           "You gave it an evening and found out how much of the decision had already been made elsewhere.",
@@ -2026,7 +2026,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "once",
-        label: "Help once",
+        label: "Help this Saturday",
         description: "This Saturday, and no undertaking beyond it.",
         memory:
           "You helped for one Saturday and were careful not to promise a second.",
@@ -2224,7 +2224,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     options: [
       {
         key: "sign",
-        label: "Sign it",
+        label: "Add your name",
         description: "Put your name to it.",
         memory:
           "You signed it, and it was read by people who knew you, which was the point and also the cost.",
@@ -2260,7 +2260,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "refuse",
-        label: "Say no",
+        label: "Decline the petition",
         description: "Not something you will put your name to.",
         memory:
           "You said no to putting your name to it, and gave the real reason, which was worse.",
@@ -2322,7 +2322,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "say-no",
-        label: "Say no",
+        label: "Rule it out now",
         description: "Close it off, plainly.",
         memory:
           "You said no, plainly, and they asked somebody else within the month.",
@@ -2507,8 +2507,11 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "drop-it",
-        label: "Let it go",
-        description: "It will probably not be raised.",
+        label: "Leave it unsaid",
+        // Was "It will probably not be raised." — a description that told the
+        // player the outcome before they chose it, which is the one thing an
+        // option description must never do. It says what the choice is now.
+        description: "Say nothing about it, and see whether they do.",
         memory:
           "You let it go, on the assumption that it would not be raised, and it was not.",
         stance: "withdrawn",
@@ -2576,7 +2579,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "no",
-        label: "Not this",
+        label: "Not for this one",
         description: "The first one did not buy this one.",
         memory:
           "You said the first one had not bought this one, which was true, and landed badly.",
@@ -2649,7 +2652,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     options: [
       {
         key: "say-yes",
-        label: "Say yes",
+        label: "Say you will come",
         description: "Go, and see who is there.",
         memory:
           "You went, and knew about a third of the room by the end of it.",
@@ -2662,7 +2665,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "stay-in",
-        label: "Stay in",
+        label: "Keep the weekend",
         description: "Keep the weekend as it is.",
         memory: "You stayed in, and the weekend was exactly what you wanted.",
         stance: "engaged",
