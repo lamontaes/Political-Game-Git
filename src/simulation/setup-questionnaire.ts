@@ -9,6 +9,7 @@ import {
   type PlayerModelDimension,
 } from "./player-model";
 import {
+  ALL_AUTHORED_SETUP_ITEMS,
   FIXED_OPENING_KEYS_BY_BAND,
   SETUP_BANK_VERSION,
   SETUP_QUESTIONNAIRE_BANK,
@@ -257,8 +258,22 @@ export const DEFAULT_SETUP_LIFE_CONTEXT: SetupLifeContext = {
   household: "shares-a-home",
 };
 
+/**
+ * Any authored item, whether or not a player can still be asked it.
+ *
+ * Lookup and selection are deliberately different sets. A life saved before an
+ * item was withdrawn still carries an answer naming it, and reading that
+ * answer back has to produce the same evidence it always did — otherwise
+ * retiring a question would silently recalibrate every existing save. What a
+ * withdrawn item cannot do is come up again, and that is decided by
+ * `admissibleQuestionnaireBank`, not by this.
+ */
 export function questionnaireItem(key: string): QuestionnaireItem | null {
-  return SETUP_QUESTIONNAIRE_BANK.find((item) => item.key === key) ?? null;
+  return (
+    SETUP_QUESTIONNAIRE_BANK.find((item) => item.key === key) ??
+    ALL_AUTHORED_SETUP_ITEMS.find((item) => item.key === key) ??
+    null
+  );
 }
 
 export function questionnaireOption(

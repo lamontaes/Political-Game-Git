@@ -1,4 +1,4 @@
-import { SeededRng } from "./rng";
+import type { SeededRng } from "./rng";
 import type {
   GenderIdentityKey,
   Person,

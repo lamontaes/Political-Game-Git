@@ -199,7 +199,12 @@ describe("There is enough authored content to play with", () => {
             option.memory,
           ]),
         ].join(" ");
-        for (const match of text.matchAll(/\{role:([a-z-]+)\}/g)) {
+        // Every slot that names a role, not only `{role:}`. A stage whose only
+        // mention of somebody is `{they:household-peer}` still needs that role
+        // declared, and Packet 72 added five such slots.
+        for (const match of text.matchAll(
+          /\{(?:role|who|they|them|their|theirs|themselves|s|es|is|has|was|does):([a-z-]+)\}/g,
+        )) {
           expect(
             declared.has(match[1]!),
             `${family.key}/${stage.key} names the role ${match[1]} which the family does not declare`,
@@ -207,7 +212,26 @@ describe("There is enough authored content to play with", () => {
         }
         for (const match of text.matchAll(/\{([a-z]+)(?::[a-z-]+)?\}/g)) {
           expect(
-            ["self", "age", "place", "role"].includes(match[1]!),
+            [
+              "self",
+              "age",
+              "place",
+              "role",
+              // Packet 72: who somebody is, and how to refer to them without
+              // the sentence disagreeing with itself.
+              "who",
+              "they",
+              "them",
+              "their",
+              "theirs",
+              "themselves",
+              "s",
+              "es",
+              "is",
+              "has",
+              "was",
+              "does",
+            ].includes(match[1]!),
             `${family.key}/${stage.key} uses the unknown slot ${match[0]}`,
           ).toBe(true);
         }
@@ -700,7 +724,12 @@ describe("Play-proof 6 — an unremarkable earlier choice decides a later one", 
 describe("The calibration changes the model, and the world it built stays the same", () => {
   const base = setup({ seed: "ab-proof", startAge: 34, questionnaire: "deep" });
   const first = calibrate(base, 0);
-  const second = calibrate(base, 2);
+  // Answer patterns 0 and 2 both happen to stop at fifteen questions now that
+  // Packet 72 withdrew eighteen items from the reachable bank. The claim below
+  // is that different answers get different interviews, not that these two
+  // particular patterns do, so the witness moved and the claim did not: across
+  // the four patterns the bank supports, the deep path runs 14, 15, 16 and 15.
+  const second = calibrate(base, 1);
 
   it("builds the identical life from identical setup and different answers", () => {
     const left = createNewGameWorld(first);

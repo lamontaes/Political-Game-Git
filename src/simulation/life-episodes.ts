@@ -28,6 +28,8 @@ import {
   type ThreadAnchor,
 } from "./narrative-threads";
 import { personName } from "./people";
+import { describePersonContext, introducePerson } from "./person-context";
+import { personPronouns } from "./person-identity";
 import type {
   DimensionNudge,
   HypothesisSupport,
@@ -1282,7 +1284,13 @@ function rolesUsedBy(stage: EpisodeStage): readonly EpisodeRoleKey[] {
       option.memory,
     ]),
   ].join(" ");
-  for (const match of text.matchAll(/\{role:([a-z-]+)\}/g)) {
+  // Every slot that names a role counts, not only `{role:}`. A stage whose
+  // only mention of somebody is `{they:household-peer}` still needs that role
+  // bound, and before Packet 72 it would have been composed without one and
+  // thrown at substitution time.
+  for (const match of text.matchAll(
+    /\{(?:role|who|they|them|their|theirs|themselves|s|es|is|has|was|does):([a-z-]+)\}/g,
+  )) {
     roles.add(match[1] as EpisodeRoleKey);
   }
   return [...roles].sort();
@@ -1479,6 +1487,28 @@ function stageAnchor(
 /* Prose composition                                                           */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Slots that resolve against a bound person's pronouns.
+ *
+ * Deliberately no capitalised forms. A sentence that starts with a pronoun
+ * would need one, and authored copy is expected to start with a name instead —
+ * which reads better anyway, and keeps the substitution from having to know
+ * about sentence position.
+ */
+const PRONOUN_SLOTS: ReadonlySet<string> = new Set([
+  "they",
+  "them",
+  "their",
+  "theirs",
+  "themselves",
+  "s",
+  "es",
+  "is",
+  "has",
+  "was",
+  "does",
+]);
+
 interface SlotContext {
   readonly world: World;
   readonly person: Person;
@@ -1492,8 +1522,35 @@ interface SlotContext {
  * An unfilled slot is an authoring error rather than a runtime surprise: the
  * substitution throws, so a family whose copy names a role its requirements do
  * not bind fails in a test rather than reaching a player as `{role:friend}`.
+ *
+ * The pronoun and relationship slots are Packet 72's. The playtest read a
+ * scene that named Maya in the narration and then offered "Ask them where
+ * they've been" as a button — a sentence with no antecedent in it, sitting
+ * next to one that had a name. Authored copy can now say who somebody is and
+ * refer to them the way the record says, so the two agree:
+ *
+ *   `{role:household-peer}`  Aiden Spears
+ *   `{who:household-peer}`   Aiden Spears, your older brother
+ *   `{they:household-peer}`  he      `{them:...}` him
+ *   `{their:household-peer}` his     `{theirs:...}` his
+ *
+ * Everything comes from canonical records. Where the record does not say, the
+ * pronoun slots produce they/them for that person and keep producing it, so a
+ * line never mixes a guess with a fact.
  */
 export function substituteSlots(text: string, context: SlotContext): string {
+  function bindingFor(detail: unknown): EpisodeRoleBinding {
+    const binding = context.bindings.find(
+      (candidate) => candidate.role === detail,
+    );
+    if (!binding) {
+      throw new Error(
+        `Episode copy names the role ${String(detail)}, which this beat did not bind.`,
+      );
+    }
+    return binding;
+  }
+
   return text.replace(/\{([a-z]+)(?::([a-z-]+))?\}/g, (match, slot, detail) => {
     if (slot === "self") return personName(context.person);
     if (slot === "age") {
@@ -1505,16 +1562,50 @@ export function substituteSlots(text: string, context: SlotContext): string {
       );
       return place?.displayName ?? "town";
     }
-    if (slot === "role") {
-      const binding = context.bindings.find(
-        (candidate) => candidate.role === detail,
+    if (slot === "role") return bindingFor(detail).personName;
+    if (slot === "who") {
+      const binding = bindingFor(detail);
+      const described = describePersonContext(
+        context.world,
+        context.person.id,
+        binding.personId,
+        context.asOfDate,
       );
-      if (!binding) {
-        throw new Error(
-          `Episode copy names the role ${String(detail)}, which this beat did not bind.`,
-        );
+      return described ? introducePerson(described) : binding.personName;
+    }
+    if (PRONOUN_SLOTS.has(slot as string)) {
+      const binding = bindingFor(detail);
+      const pronouns = personPronouns(context.world.people[binding.personId]);
+      switch (slot) {
+        case "they":
+          return pronouns.subject;
+        case "them":
+          return pronouns.object;
+        case "their":
+          return pronouns.possessive;
+        case "theirs":
+          return pronouns.possessivePronoun;
+        case "themselves":
+          return pronouns.reflexive;
+        // Verb agreement. The reason the pronoun set is a closed vocabulary
+        // rather than three strings: "he asks" and "they ask" are different
+        // sentences, and a game that substitutes the pronoun without the verb
+        // writes one of them wrong every time.
+        case "s":
+          return pronouns.pluralVerb ? "" : "s";
+        case "es":
+          return pronouns.pluralVerb ? "" : "es";
+        case "is":
+          return pronouns.pluralVerb ? "are" : "is";
+        case "has":
+          return pronouns.pluralVerb ? "have" : "has";
+        case "was":
+          return pronouns.pluralVerb ? "were" : "was";
+        case "does":
+          return pronouns.pluralVerb ? "do" : "does";
+        default:
+          return pronouns.subject;
       }
-      return binding.personName;
     }
     throw new Error(`Episode copy uses an unknown slot: ${match}`);
   });

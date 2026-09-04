@@ -778,7 +778,10 @@ const ADOLESCENCE_ITEMS: readonly QuestionnaireItem[] = [
       option(
         "find-somewhere-else",
         "Work out where else to go",
-        [nudge("security-stability", 0.35), nudge("institutional-trust", -0.25)],
+        [
+          nudge("security-stability", 0.35),
+          nudge("institutional-trust", -0.25),
+        ],
         supports(["local.not-my-fight", 0.5]),
       ),
     ],

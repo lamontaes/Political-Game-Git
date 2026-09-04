@@ -178,17 +178,20 @@ export const BANNED_CONSTRUCTIONS: readonly BannedConstruction[] = [
  */
 export const ADULT_ONLY_AGENCY: readonly BannedConstruction[] = [
   {
-    pattern: /\b(I'?ll |you'?ll )?(deal with|sort out|handle) the (furnace|boiler|roof|rent|mortgage|bills?)\b/i,
+    pattern:
+      /\b(I'?ll |you'?ll )?(deal with|sort out|handle) the (furnace|boiler|roof|rent|mortgage|bills?)\b/i,
     instead: "a child can worry about it, ask about it, or keep out of it",
     foundIn: "setup-opening-bank: kitchen_late, option say-youll-sort-it",
   },
   {
-    pattern: /\bcover (the|it|his|her|their) (gap|shortfall|difference|rent|costs?)\b/i,
+    pattern:
+      /\bcover (the|it|his|her|their) (gap|shortfall|difference|rent|costs?)\b/i,
     instead: "a child does not have the money to cover anybody",
     foundIn: "setup-opening-bank: marcus_and_the_trip_fund, option lend-him",
   },
   {
-    pattern: /\b(sign|co-?sign|put your name to) (a |the )?(reference|application|contract|lease|petition)\b/i,
+    pattern:
+      /\b(sign|co-?sign|put your name to) (a |the )?(reference|application|contract|lease|petition)\b/i,
     instead: "a child's name is not wanted on a document",
     foundIn: "setup-opening-bank: priya_reference",
   },

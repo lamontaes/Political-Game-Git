@@ -110,9 +110,19 @@ const CARVED_OUT: readonly OwnedSurface[] = [
  * legislative conversation may exist as a subject here, but its causal
  * integration with bills stays with the legislation lane, and the carve-out
  * list below still fails this branch if it reaches for one.
+ *
+ * Packet 72 extends it again, to who a character is and who the people around
+ * them are: `person-identity` (gender and pronouns as canonical fields),
+ * `person-context` (the relationship label read off the record),
+ * `voice-bands` (the age-band copy contract), `setup-young-life-bank` (the
+ * calibration for a life that begins in childhood), and `people.ts`, which
+ * writes the player's own identity at creation. All of it is character and
+ * copy, which is this wave's, and none of it is a body family, a plate, a
+ * pose or a scene — the graphics carve-out below is untouched and still fails
+ * this branch if it reaches for one.
  */
 const OWNED =
-  /^(src\/simulation\/(narrative-threads|life-episodes|episode-bank|setup-opening-bank|setup-questionnaire|setup-questionnaire-bank|setup-priors|player-model|situation-selection|situation-profiles|adult-situations|life-callbacks|life-choice-evidence|commitment-seam|relationship-leverage|sha256|life-places|character-history|world|types|index|boundary\.test|pennywise-adaptive-life\.test)\.ts|src\/presentation\/(life-|narrative-|adult-life|formative-play|ordinary-life|new-game|setup-questionnaire-flow|production-world|adaptive-life\.test|player-spine\.test|conversation-subjects|conversation-continuity|conversation-consequences|run-b-conversation|player-conversation)|src\/player\/PlayerGame\.tsx|src\/player\/PlayerConversation\.tsx|src\/player\/player\.css|scripts\/life-report\.ts|tests\/|docs\/|ARCHITECTURE\.md|PATCH_NOTES\.md|AGENTS\.md|package\.json|package-lock\.json)/;
+  /^(src\/simulation\/(narrative-threads|life-episodes|episode-bank|setup-opening-bank|setup-questionnaire|setup-questionnaire-bank|setup-priors|player-model|situation-selection|situation-profiles|adult-situations|life-callbacks|life-choice-evidence|commitment-seam|relationship-leverage|sha256|life-places|character-history|person-identity|person-context|voice-bands|setup-young-life-bank|people|world|types|index|boundary\.test|pennywise-adaptive-life\.test)\.ts|src\/presentation\/(life-|narrative-|adult-life|formative-play|ordinary-life|new-game|setup-questionnaire-flow|production-world|adaptive-life\.test|player-spine\.test|conversation-subjects|conversation-continuity|conversation-consequences|run-b-conversation|player-conversation)|src\/player\/PlayerGame\.tsx|src\/player\/PlayerConversation\.tsx|src\/player\/player\.css|scripts\/life-report\.ts|tests\/|docs\/|ARCHITECTURE\.md|PATCH_NOTES\.md|AGENTS\.md|package\.json|package-lock\.json)/;
 
 function measuredChanges(): readonly string[] {
   if (!hasCommit(REPOSITORY_ROOT, NARRATIVE_WAVE_BASE)) {

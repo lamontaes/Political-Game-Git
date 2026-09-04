@@ -1,3 +1,4 @@
+import { ageOnDate } from "./dates";
 import {
   activeCareResponsibilitiesAt,
   activeChildAuthoritiesAt,
@@ -5,24 +6,18 @@ import {
   activeOrganizationParticipationsAt,
   activePartnershipsAt,
   activeWorkRelationshipsAt,
-  ageOnDate,
   currentLifeCutoff,
   didPeopleShareEducationOrganization,
   householdMembershipsAt,
   kinshipRelationshipsAt,
   organizationProfileAt,
   peopleInHouseholdAt,
-  personName,
-  personPronouns,
-} from "../simulation";
-import type {
-  EntityId,
-  IsoDate,
-  Person,
-  PronounSet,
-  ThreadAnchor,
-  World,
-} from "../simulation";
+} from "./life-queries";
+import type { ThreadAnchor } from "./narrative-threads";
+import { personName } from "./people";
+import { personPronouns } from "./person-identity";
+import type { PronounSet } from "./person-identity";
+import type { EntityId, IsoDate, Person, World } from "./types";
 
 /**
  * Who somebody is to you, said in four words, from the record.
@@ -426,7 +421,8 @@ function resolveHousehold(
     if (!residents.includes(subjectId)) continue;
     return {
       relationship: "who you live with",
-      basis: "Resident on the same household record, with no kinship record between them.",
+      basis:
+        "Resident on the same household record, with no kinship record between them.",
       anchors: [
         {
           store: "householdMemberships",
@@ -452,7 +448,9 @@ function resolveSchool(
   const cutoff = currentLifeCutoff(world);
   const mine = activeEducationEnrollmentsAt(world, viewerId, cutoff);
   if (mine.length === 0) return null;
-  if (!didPeopleShareEducationOrganization(world, viewerId, subjectId, cutoff)) {
+  if (
+    !didPeopleShareEducationOrganization(world, viewerId, subjectId, cutoff)
+  ) {
     return null;
   }
   const viewer = world.people[viewerId];

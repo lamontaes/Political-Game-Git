@@ -1,4 +1,6 @@
 import {
+  describePersonContext,
+  introducePerson,
   EPISODE_FAMILIES,
   LIFE_TRANSITION_HANDLERS,
   adaptiveSelectionSeed,
@@ -85,12 +87,31 @@ export interface StoryOption {
   readonly description: string;
 }
 
+/**
+ * Somebody in the scene, and who they are to the player.
+ *
+ * `withPeople` — a list of bare names — is what the play surface had, and it
+ * is why a ten-year-old's screen said "Maya Pittman is there." with no way to
+ * tell whether Maya was their mother, their sister or a stranger. The name is
+ * kept beside this for callers that only want a name; anything showing a
+ * person to a player should use `introduction`.
+ */
+export interface ScenePerson {
+  readonly personId: EntityId;
+  readonly name: string;
+  /** "your mom", "who is in your class" — or null when no record says. */
+  readonly relationship: string | null;
+  /** "Maya Pittman, your mom" — or just the name when nothing is known. */
+  readonly introduction: string;
+}
+
 export type StoryScene =
   | {
       readonly kind: "episode";
       readonly prose: string;
       readonly options: readonly StoryOption[];
       readonly withPeople: readonly string[];
+      readonly presentPeople: readonly ScenePerson[];
       readonly beat: EpisodeBeat;
     }
   | {
@@ -98,6 +119,7 @@ export type StoryScene =
       readonly prose: string;
       readonly options: readonly StoryOption[];
       readonly withPeople: readonly string[];
+      readonly presentPeople: readonly ScenePerson[];
       readonly situationKey: LifeSituationKey;
       readonly withPersonId: EntityId | null;
       readonly bandLabel: string;
@@ -107,6 +129,7 @@ export type StoryScene =
       readonly prose: string;
       readonly options: readonly StoryOption[];
       readonly withPeople: readonly string[];
+      readonly presentPeople: readonly ScenePerson[];
       readonly situationKey: LifeSituationKey;
     }
   | {
@@ -115,6 +138,7 @@ export type StoryScene =
       readonly prose: string;
       readonly options: readonly StoryOption[];
       readonly withPeople: readonly string[];
+      readonly presentPeople: readonly ScenePerson[];
     };
 
 export interface StoryMoment {
@@ -412,13 +436,23 @@ function chooseStoryScene(
         prose: winner.beat.prose,
         options: winner.beat.options,
         withPeople: winner.beat.bindings.map((binding) => binding.personName),
+        presentPeople: scenePeople(
+          world,
+          personId,
+          winner.beat.bindings.map((binding) => ({
+            personId: binding.personId,
+            name: binding.personName,
+          })),
+          world.currentDate,
+        ),
         beat: winner.beat,
       };
     }
     if (winner && !formativeYears) {
       const adult = projectAdultLife(world, personId);
       const scene = adult.scene;
-      if (scene) return adultScene(scene);
+      if (scene)
+        return adultScene(scene, sceneCompanion(world, personId, scene));
     }
   }
 
@@ -427,10 +461,20 @@ function chooseStoryScene(
   // single winner against itself would change nothing but the code path.
   if (formativeYears) {
     const years = projectFormativeYears(world, personId);
-    if (years.scene) return formativeScene(years.scene);
+    if (years.scene) {
+      return formativeScene(
+        years.scene,
+        sceneCompanion(world, personId, years.scene),
+      );
+    }
   } else {
     const adult = projectAdultLife(world, personId);
-    if (adult.scene) return adultScene(adult.scene);
+    if (adult.scene) {
+      return adultScene(
+        adult.scene,
+        sceneCompanion(world, personId, adult.scene),
+      );
+    }
   }
 
   return {
@@ -444,10 +488,89 @@ function chooseStoryScene(
       },
     ],
     withPeople: [],
+    presentPeople: [],
   };
 }
 
-function formativeScene(scene: FormativeScene): StoryScene {
+/**
+ * Who is in the scene, described from the record rather than merely named.
+ *
+ * Falls back to the name alone when the world holds no relationship, which is
+ * the honest outcome and not a bug: saying "Kenny Webb" is always available,
+ * and saying "Kenny Webb, your cousin" when no record says cousin is not.
+ */
+function scenePeople(
+  world: World,
+  personId: EntityId,
+  entries: readonly {
+    readonly personId: EntityId | null;
+    readonly name: string | null;
+  }[],
+  asOfDate: IsoDate,
+): readonly ScenePerson[] {
+  return entries.flatMap((entry) => {
+    if (entry.personId === null) {
+      return entry.name === null
+        ? []
+        : [
+            {
+              personId: entry.personId ?? ("" as EntityId),
+              name: entry.name,
+              relationship: null,
+              introduction: entry.name,
+            },
+          ];
+    }
+    const context = describePersonContext(
+      world,
+      personId,
+      entry.personId,
+      asOfDate,
+    );
+    if (!context) {
+      return entry.name === null
+        ? []
+        : [
+            {
+              personId: entry.personId,
+              name: entry.name,
+              relationship: null,
+              introduction: entry.name,
+            },
+          ];
+    }
+    return [
+      {
+        personId: context.personId,
+        name: context.name,
+        relationship: context.relationship,
+        introduction: introducePerson(context),
+      },
+    ];
+  });
+}
+
+/** The one person a formative or adult scene names, described. */
+function sceneCompanion(
+  world: World,
+  personId: EntityId,
+  scene: {
+    readonly withPersonId: EntityId | null;
+    readonly withPersonName: string | null;
+  },
+): readonly ScenePerson[] {
+  return scenePeople(
+    world,
+    personId,
+    [{ personId: scene.withPersonId, name: scene.withPersonName }],
+    world.currentDate,
+  );
+}
+
+function formativeScene(
+  scene: FormativeScene,
+  presentPeople: readonly ScenePerson[],
+): StoryScene {
   return {
     kind: "formative",
     prose: scene.prose,
@@ -457,13 +580,17 @@ function formativeScene(scene: FormativeScene): StoryScene {
       description: option.description,
     })),
     withPeople: scene.withPersonName ? [scene.withPersonName] : [],
+    presentPeople,
     situationKey: scene.situationKey,
     withPersonId: scene.withPersonId,
     bandLabel: scene.bandLabel,
   };
 }
 
-function adultScene(scene: AdultScene): StoryScene {
+function adultScene(
+  scene: AdultScene,
+  presentPeople: readonly ScenePerson[],
+): StoryScene {
   return {
     kind: "adult",
     prose: scene.prose,
@@ -473,6 +600,7 @@ function adultScene(scene: AdultScene): StoryScene {
       description: option.description,
     })),
     withPeople: scene.withPersonName ? [scene.withPersonName] : [],
+    presentPeople,
     situationKey: scene.situationKey,
   };
 }

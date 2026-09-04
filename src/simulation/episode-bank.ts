@@ -71,9 +71,28 @@ function tension(
 }
 
 const needsFamiliar: EpisodeRequirement = { kind: "role", role: "familiar" };
-const needsHouseholdCompanion: EpisodeRequirement = {
+/**
+ * Somebody you live with who is not responsible for you.
+ *
+ * The difference this makes is the whole of Packet 72's second finding. Every
+ * dependent household the world builds holds exactly one adult, so a stage
+ * asking for a "household companion" in a childhood asked for, and got, the
+ * player's own guardian — and a ten-year-old was offered the job of deciding
+ * whether to report their parent's late nights to somebody older.
+ */
+const needsHouseholdPeer: EpisodeRequirement = {
   kind: "role",
-  role: "household-companion",
+  role: "household-peer",
+};
+/** Written for somebody nobody is responsible for. */
+const answersForThemselves: EpisodeRequirement = {
+  kind: "capability",
+  capability: "answers-for-themselves",
+};
+/** Written for somebody who is still in somebody else's house. */
+const doesNotAnswerForThemselves: EpisodeRequirement = {
+  kind: "without-capability",
+  capability: "answers-for-themselves",
 };
 const needsRelative: EpisodeRequirement = { kind: "role", role: "relative" };
 const needsColleague: EpisodeRequirement = { kind: "role", role: "colleague" };
@@ -101,18 +120,19 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
   key: "home.someone-is-not-all-right",
   family: "household",
   authority: EPISODE_AUTHORITY,
-  roles: ["household-companion"],
+  roles: ["household-peer"],
   stages: [
     {
       key: "noticing",
       requires: [
-        needsHouseholdCompanion,
+        needsHouseholdPeer,
+        doesNotAnswerForThemselves,
         { kind: "age-below", age: 18 },
         { kind: "fact", fact: "household.shared" },
       ],
       lines: [
-        "{role:household-companion} has been getting in late, and the story about where changes each time.",
-        "Nobody at home has said anything about it out loud yet, which is its own kind of decision.",
+        "{who:household-peer} has come in after everyone else three nights this week, and said a different place each time.",
+        "Nobody has said anything about it at breakfast, and you have started waiting to see whether they will.",
       ],
       stakes: "ordinary",
       tensions: [
@@ -126,20 +146,22 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
       options: [
         {
           key: "ask",
-          label: "Ask them where they've been",
-          description: "Straight out, while it is just the two of you.",
+          label:
+            "Ask {role:household-peer} where {they:household-peer} {has:household-peer} been",
+          description: "When there is nobody else in the room.",
           nudges: [
             nudge("personal-ties", 0.4),
             nudge("privacy-preference", -0.3),
           ],
           aftermath: null,
           memory:
-            "You asked {role:household-companion} where they had been, and got an answer that did not fit.",
+            "You asked {role:household-peer} where {they:household-peer} had been, and got an answer that did not fit.",
         },
         {
           key: "tell-someone",
-          label: "Tell someone older",
-          description: "It stops being only yours to carry.",
+          label: "Tell a grown-up at home",
+          description:
+            "Then it is theirs to deal with, and they will know it came from you.",
           nudges: [
             nudge("care-obligation", 0.35),
             nudge("privacy-preference", -0.45),
@@ -147,11 +169,11 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           ],
           aftermath: "grievance",
           memory:
-            "You told somebody about {role:household-companion} coming in late, and they found out you had.",
+            "You told somebody at home about {role:household-peer} coming in late, and {they:household-peer} found out you had.",
         },
         {
           key: "watch",
-          label: "Say nothing and keep track",
+          label: "Say nothing, and keep count",
           description: "Wait until you actually know something.",
           nudges: [
             nudge("privacy-preference", 0.4),
@@ -159,12 +181,13 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           ],
           aftermath: null,
           memory:
-            "You said nothing about {role:household-companion}, and kept count of the nights.",
+            "You said nothing about {role:household-peer}, and kept count of the nights.",
         },
         {
           key: "cover",
-          label: "Answer for them",
-          description: "Answer for where they were, if anyone asks.",
+          label: "Back up whatever {they:household-peer} say{s:household-peer}",
+          description:
+            "If anybody asks you, you say the same thing {they:household-peer} said.",
           nudges: [
             nudge("personal-ties", 0.5),
             nudge("civic-order", -0.35),
@@ -172,20 +195,20 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           ],
           aftermath: "goodwill",
           memory:
-            "You covered for {role:household-companion} once, and they knew you had.",
+            "You backed up {role:household-peer}'s story once, and {they:household-peer} knew you had.",
         },
       ],
     },
     {
       key: "asked-directly",
       requires: [
-        needsHouseholdCompanion,
+        needsHouseholdPeer,
         { kind: "after-choice", stage: "noticing", option: "ask" },
         { kind: "days-since-stage", stage: "noticing", days: 60 },
       ],
       lines: [
-        "{role:household-companion} has not brought up the conversation again, and neither have you.",
-        "Tonight they ask you for money, and do not say what for.",
+        "{role:household-peer} has not brought up the conversation again, and neither have you.",
+        "Tonight {they:household-peer} ask{s:household-peer} you for money, and {does:household-peer} not say what for.",
       ],
       stakes: "notable",
       tensions: [
@@ -204,7 +227,7 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           nudges: [nudge("personal-ties", 0.45), nudge("risk-appetite", 0.3)],
           aftermath: "goodwill",
           memory:
-            "You gave {role:household-companion} the money and did not ask what for.",
+            "You gave {role:household-peer} the money and did not ask what for.",
         },
         {
           key: "conditions",
@@ -217,7 +240,7 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           ],
           aftermath: "obligation",
           memory:
-            "You made {role:household-companion} say what the money was for before you handed it over.",
+            "You made {role:household-peer} say what the money was for before you handed it over.",
         },
         {
           key: "refuse",
@@ -229,21 +252,20 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
             nudge("decision-style", 0.2),
           ],
           aftermath: "grievance",
-          memory:
-            "You told {role:household-companion} no, and said out loud why.",
+          memory: "You told {role:household-peer} no, and said out loud why.",
         },
       ],
     },
     {
       key: "kept-quiet-and-it-continued",
       requires: [
-        needsHouseholdCompanion,
+        needsHouseholdPeer,
         { kind: "after-choice", stage: "noticing", option: "watch" },
         { kind: "days-since-stage", stage: "noticing", days: 120 },
       ],
       lines: [
         "It has been months, and the nights have not stopped.",
-        "{role:household-companion} looks through you at breakfast now, which is new.",
+        "{role:household-peer} looks through you at breakfast now, which is new.",
       ],
       stakes: "notable",
       tensions: [
@@ -266,7 +288,7 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           ],
           aftermath: "grievance",
           memory:
-            "You finally said out loud what you had been counting about {role:household-companion}.",
+            "You finally said out loud what you had been counting about {role:household-peer}.",
         },
         {
           key: "keep-watching",
@@ -278,20 +300,20 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           ],
           aftermath: null,
           memory:
-            "You kept what you had seen about {role:household-companion} to yourself, again.",
+            "You kept what you had seen about {role:household-peer} to yourself, again.",
         },
       ],
     },
     {
       key: "it-got-worse",
       requires: [
-        needsHouseholdCompanion,
+        needsHouseholdPeer,
         { kind: "after-stage", stage: "noticing" },
         { kind: "days-since-stage", stage: "noticing", days: 400 },
         { kind: "without-choice", stage: "noticing", option: "tell-someone" },
       ],
       lines: [
-        "There is a phone call at an hour when phone calls are never good, and it is about {role:household-companion}.",
+        "There is a phone call at an hour when phone calls are never good, and it is about {role:household-peer}.",
         "By the time anybody explains it to you properly, the part where you could have said something has been over for a year.",
       ],
       stakes: "pressing",
@@ -311,7 +333,7 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           nudges: [nudge("care-obligation", 0.55), nudge("personal-ties", 0.4)],
           aftermath: "goodwill",
           memory:
-            "You went when the call came about {role:household-companion}, and you stayed.",
+            "You went when the call came about {role:household-peer}, and you stayed.",
         },
         {
           key: "handle-it",
@@ -324,7 +346,7 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           ],
           aftermath: "standing",
           memory:
-            "You took the practical end of what happened to {role:household-companion}, because nobody else was going to.",
+            "You took the practical end of what happened to {role:household-peer}, because nobody else was going to.",
         },
         {
           key: "stay-back",
@@ -336,20 +358,20 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           ],
           aftermath: "grievance",
           memory:
-            "You kept out of what happened to {role:household-companion}, and everybody noticed which way you went.",
+            "You kept out of what happened to {role:household-peer}, and everybody noticed which way you went.",
         },
       ],
     },
     {
       key: "it-steadied",
       requires: [
-        needsHouseholdCompanion,
+        needsHouseholdPeer,
         { kind: "after-stage", stage: "noticing" },
         { kind: "days-since-stage", stage: "noticing", days: 400 },
         { kind: "after-choice", stage: "noticing", option: "tell-someone" },
       ],
       lines: [
-        "{role:household-companion} is up before you most mornings now, and has been for a while.",
+        "{role:household-peer} is up before you most mornings now, and has been for a while.",
         "Neither of you has ever gone back over the year it took, and there is a version of this evening where one of you does.",
       ],
       stakes: "ordinary",
@@ -368,8 +390,7 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           description: "Say that you were the one who told.",
           nudges: [nudge("personal-ties", 0.35), nudge("decision-style", 0.3)],
           aftermath: "grievance",
-          memory:
-            "You told {role:household-companion} it had been you, in the end.",
+          memory: "You told {role:household-peer} it had been you, in the end.",
         },
         {
           key: "let-it-lie",
@@ -381,7 +402,7 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           ],
           aftermath: null,
           memory:
-            "You never told {role:household-companion} it had been you, and the mornings went on being fine.",
+            "You never told {role:household-peer} it had been you, and the mornings went on being fine.",
         },
       ],
     },
@@ -835,17 +856,18 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
   key: "home.the-week-that-does-not-balance",
   family: "household",
   authority: PLAYTEST_AUTHORITY,
-  roles: ["household-companion"],
+  roles: ["household-peer"],
   stages: [
     {
       key: "the-first-time-it-is-said",
       requires: [
-        needsHouseholdCompanion,
+        needsHouseholdPeer,
+        answersForThemselves,
         { kind: "age-at-least", age: 18 },
         { kind: "fact", fact: "household.shared" },
       ],
       lines: [
-        "{role:household-companion} says, not for the first time but for the first time out loud, that the week does not divide evenly.",
+        "{role:household-peer} says, not for the first time but for the first time out loud, that the week does not divide evenly.",
         "They are right, and they have picked a bad evening to be right on.",
       ],
       stakes: "ordinary",
@@ -869,7 +891,7 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
           ],
           aftermath: "obligation",
           memory:
-            "You named which parts of the week you would take back off {role:household-companion}.",
+            "You named which parts of the week you would take back off {role:household-peer}.",
         },
         {
           key: "explain",
@@ -881,7 +903,7 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
           ],
           aftermath: "grievance",
           memory:
-            "You told {role:household-companion} what your own week looked like instead of answering.",
+            "You told {role:household-peer} what your own week looked like instead of answering.",
         },
         {
           key: "pay-for-it",
@@ -894,7 +916,7 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
           ],
           aftermath: null,
           memory:
-            "You offered to pay somebody to take the part of the week you and {role:household-companion} were arguing about.",
+            "You offered to pay somebody to take the part of the week you and {role:household-peer} were arguing about.",
         },
         {
           key: "later",
@@ -906,14 +928,14 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
           ],
           aftermath: "obligation",
           memory:
-            "You told {role:household-companion} you would sort the week out at the weekend.",
+            "You told {role:household-peer} you would sort the week out at the weekend.",
         },
       ],
     },
     {
       key: "it-was-taken-seriously",
       requires: [
-        needsHouseholdCompanion,
+        needsHouseholdPeer,
         {
           kind: "after-choice",
           stage: "the-first-time-it-is-said",
@@ -927,7 +949,7 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
       ],
       lines: [
         "Five months on, the parts you took are still yours, and nobody has had to mention it again.",
-        "Tonight {role:household-companion} asks whether you would rather swap two of them.",
+        "Tonight {role:household-peer} asks whether you would rather swap two of them.",
       ],
       stakes: "ordinary",
       tensions: [],
@@ -940,7 +962,7 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
           nudges: [nudge("personal-ties", 0.3), nudge("risk-appetite", 0.15)],
           aftermath: null,
           memory:
-            "You and {role:household-companion} swapped two parts of the week over, and it held.",
+            "You and {role:household-peer} swapped two parts of the week over, and it held.",
         },
         {
           key: "keep",
@@ -959,7 +981,7 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
     {
       key: "it-came-back-harder",
       requires: [
-        needsHouseholdCompanion,
+        needsHouseholdPeer,
         { kind: "after-stage", stage: "the-first-time-it-is-said" },
         {
           kind: "without-choice",
@@ -973,7 +995,7 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
         },
       ],
       lines: [
-        "{role:household-companion} raises it again, and this time they have the specifics: dates, which weeks, what they did instead.",
+        "{role:household-peer} raises it again, and this time they have the specifics: dates, which weeks, what they did instead.",
         "It is not an argument about the laundry any more.",
       ],
       stakes: "pressing",
@@ -1008,7 +1030,7 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
             weeklyHours: [4, 9],
           },
           memory:
-            "You changed something real about your week after {role:household-companion} brought the dates.",
+            "You changed something real about your week after {role:household-peer} brought the dates.",
         },
         {
           key: "concede-nothing",
@@ -1021,7 +1043,7 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
           ],
           aftermath: "grievance",
           memory:
-            "You told {role:household-companion} plainly that it was not going to change.",
+            "You told {role:household-peer} plainly that it was not going to change.",
         },
         {
           key: "buy-time",
@@ -1034,7 +1056,7 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
           ],
           aftermath: "obligation",
           memory:
-            "You asked {role:household-companion} for six months, and said what would happen at the end of them.",
+            "You asked {role:household-peer} for six months, and said what would happen at the end of them.",
         },
       ],
     },

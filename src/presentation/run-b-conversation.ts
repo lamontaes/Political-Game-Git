@@ -1104,7 +1104,7 @@ function resolveNpcResponse(
  */
 const QUIET_ROOM_LINES: readonly string[] = [
   "The room settled briefly; no participant added another claim.",
-  "Nobody filled the gap, and the moment went past.",
+  "Nobody said anything, and the moment went past.",
   "It stayed unsaid, and after a while it stopped being a pause.",
   "Neither of them took it up, and the quiet did not seem to need explaining.",
 ];

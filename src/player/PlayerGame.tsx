@@ -736,11 +736,13 @@ function SetupScreen({
                 data-testid={`pronouns-${key}`}
                 aria-pressed={
                   (setup.pronouns ??
-                    defaultPronounsForGender(setup.gender ?? "unstated")) === key
+                    defaultPronounsForGender(setup.gender ?? "unstated")) ===
+                  key
                 }
                 className={
                   (setup.pronouns ??
-                    defaultPronounsForGender(setup.gender ?? "unstated")) === key
+                    defaultPronounsForGender(setup.gender ?? "unstated")) ===
+                  key
                     ? "is-chosen"
                     : undefined
                 }
@@ -1037,6 +1039,22 @@ function QuestionnaireScreenView({
   return (
     <main className="game-setup" data-testid="questionnaire-screen">
       <h1>Before the story begins</h1>
+      {/*
+        What these questions actually are, said once and plainly.
+
+        The human playtest read three of them and reported that the setup felt
+        disconnected from the character it then produced — which it is, and
+        deliberately: the calibration runs before the world exists and nothing
+        in it creates a person, a family or a history. That separation is
+        load-bearing (see `new-game-identity.ts`), and the honest fix for a
+        player who cannot tell is to tell them, rather than to fake a
+        connection the architecture forbids.
+      */}
+      <p className="game-note" data-testid="questionnaire-framing">
+        These are about you, not about the character. Nobody in them exists in
+        the game, and nothing you answer here decides who your family is — only
+        what the game asks you next, and what it offers you later.
+      </p>
       <p className="game-band" data-testid="questionnaire-progress">
         {PHASE_LINE[screen.phase]}
       </p>
@@ -1372,6 +1390,25 @@ function StoryView({
 
   return (
     <section className="game-story" data-testid="story-section">
+      {/*
+        Where and when, before anything happens in it.
+        The play surface used to open straight into narration, so the page had
+        no anchor: a reader met a paragraph about somebody, then a paragraph
+        about somebody else, with nothing saying whose life this was or what
+        year it had got to. This is semantic and textual only — the scene art
+        that will sit around it belongs to #86, and nothing here assumes a
+        layout it has not shipped.
+      */}
+      <header className="game-scene-header" data-testid="story-where">
+        <h2 data-testid="story-who">
+          {moment.personName}, {moment.age}
+        </h2>
+        <p className="game-band" data-testid="story-when">
+          {moment.dateLabel}
+          {moment.placeName ? ` · ${moment.placeName}` : ""}
+        </p>
+      </header>
+
       {moment.connective.sentences.length > 0 ? (
         <p className="game-passage" data-testid="story-passage">
           {moment.connective.sentences.join(" ")}
@@ -1384,13 +1421,26 @@ function StoryView({
         </p>
       ) : null}
 
-      {moment.scene.withPeople.length > 0 ? (
+      {/*
+        Who is here, and who they are to you.
+        This said "Maya Pittman is there." to a ten-year-old whose guardian
+        Maya was, leaving the player to guess a relationship off a shared
+        surname. The relation is read from canonical records — the authority
+        record, the kinship record, the school register — and when no record
+        establishes one, only the name is shown.
+      */}
+      {moment.scene.presentPeople.length > 0 ? (
         <p className="game-note" data-testid="story-people">
-          {moment.scene.withPeople.join(" and ")}{" "}
-          {moment.scene.withPeople.length === 1 ? "is" : "are"} there.
+          {moment.scene.presentPeople
+            .map((person) => person.introduction)
+            .join(" and ")}{" "}
+          {moment.scene.presentPeople.length === 1 ? "is" : "are"} here.
         </p>
       ) : null}
 
+      <h3 className="game-choices-heading" data-testid="story-choices-heading">
+        What do you do?
+      </h3>
       <div className="game-choices" data-testid="story-options">
         {moment.scene.options.map((option) => (
           <button
@@ -1443,9 +1493,12 @@ function StoryView({
         type="button"
         className="game-journal-toggle"
         data-testid="open-journal"
+        aria-expanded={journalOpen}
         onClick={() => setJournalOpen((open) => !open)}
       >
-        {journalOpen ? "Close the journal" : "Journal"}
+        {journalOpen
+          ? "Close the journal"
+          : "Open the journal — everything that has happened"}
       </button>
       {journalOpen ? (
         <JournalView session={session} onClose={() => setJournalOpen(false)} />

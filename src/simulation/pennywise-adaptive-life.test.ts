@@ -416,11 +416,17 @@ describe("Acceptance 8 — two explanations stay alive, and something separates 
           item.options.map((option) => option.hypotheses),
         ) > 0.5,
     );
+    // The two witnesses moved in Packet 72 and the claim did not. The items
+    // that used to carry this separation were policy-docket prose withdrawn
+    // from the reachable bank; the same hypothesis structure was re-authored
+    // as two lived scenes, so what is asserted here is still that the bank a
+    // player can actually be asked contains something that tells the two
+    // explanations apart.
     expect(separators.map((item) => item.key)).toContain(
-      "administrative_whistleblower",
+      "the_audit_on_your_desk",
     );
     expect(separators.map((item) => item.key)).toContain(
-      "public_debt_infrastructure",
+      "the_line_to_the_hospital",
     );
     // And an item that says nothing about either explanation separates nothing.
     expect(

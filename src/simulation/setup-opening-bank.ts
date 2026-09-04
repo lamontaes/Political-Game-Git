@@ -1454,6 +1454,116 @@ const POLICY_LIVED: readonly DraftItem[] = [
       ),
     ],
   ),
+
+  /*
+   * Two written to replace what Packet 72 withdrew.
+   *
+   * Eighteen policy-docket items left the reachable bank because they read as
+   * a political science exam rather than as a life. Two of them were carrying
+   * real work: they were the items that could tell "the market should decide"
+   * apart from "the state cannot be trusted to do it", which is a distinction
+   * a single mean cannot hold and the whole reason the model keeps competing
+   * hypotheses at all.
+   *
+   * These carry the same hypothesis structure in a place with people in it,
+   * so the capability survives the prose that housed it. The keys are new,
+   * because these are new items rather than the old ones reworded.
+   */
+  item(
+    "the_audit_on_your_desk",
+    "policy-lived",
+    "Policy — the printout somebody left",
+    0.95,
+    "Somebody has left a printout on your desk showing the after-school program spent two fifths of its budget on an outside consultant, and that attendance did not move. They were not supposed to give it to you, and the department will work out who did.",
+    [
+      option(
+        "the-paper",
+        "Give it to the paper",
+        [
+          nudge("institutional-trust", -0.6),
+          nudge("decision-style", -0.45),
+          nudge("privacy-preference", -0.5),
+        ],
+        supports(
+          ["trust.government-competence-doubt", 0.85],
+          ["econ.market-autonomy-conviction", 0.05],
+          ["style.public-pressure-works", 0.7],
+          ["trust.institutions-unresponsive", 0.65],
+        ),
+      ),
+      option(
+        "ask-officially",
+        "Hand it back and ask for the audit properly",
+        [nudge("institutional-trust", 0.6), nudge("civic-order", 0.35)],
+        supports(
+          ["trust.process-delivers", 0.7],
+          ["style.public-pressure-works", 0],
+        ),
+      ),
+      option(
+        "a-way-to-report-it",
+        "Push for a way to report this without being found out",
+        [nudge("institutional-trust", 0.35), nudge("decision-style", 0.45)],
+        supports(["trust.process-delivers", 0.6]),
+      ),
+      option(
+        "use-it-quietly",
+        "Use it in the budget meeting and never say where from",
+        [
+          nudge("decision-style", 0.5),
+          nudge("institutional-trust", -0.2),
+          nudge("privacy-preference", 0.55),
+        ],
+        supports(
+          ["style.avoids-confrontation", 0.5],
+          ["trust.government-competence-doubt", 0.4],
+        ),
+      ),
+    ],
+  ),
+  item(
+    "the_line_to_the_hospital",
+    "policy-lived",
+    "Policy — twenty-five years of it",
+    0.95,
+    "The transit board wants to borrow against twenty-five years of fares to run a line from the outer districts to the hospital and the university. It is the only way anybody out there reaches either without two buses. It is also a sixth of what the city can borrow for a generation.",
+    [
+      option(
+        "build-it",
+        "Borrow it and build the line",
+        [nudge("econ-distribution", 0.5), nudge("governance-scale", 0.35)],
+        supports(
+          ["econ.redistributive-conviction", 0.7],
+          ["econ.market-autonomy-conviction", 0],
+          ["trust.government-competence-doubt", 0],
+        ),
+      ),
+      option(
+        "no-debt",
+        "Do not take the debt on",
+        [nudge("econ-distribution", -0.5), nudge("security-stability", 0.35)],
+        supports(
+          ["econ.market-autonomy-conviction", 0.85],
+          ["trust.government-competence-doubt", 0.1],
+        ),
+      ),
+      option(
+        "buses-first",
+        "Run buses on the roads that already exist",
+        [nudge("decision-style", 0.4), nudge("econ-distribution", 0.15)],
+        supports(["econ.emergency-pragmatism", 0.4]),
+      ),
+      option(
+        "let-somebody-build-it",
+        "Let somebody else build it and charge fares to get it back",
+        [nudge("econ-distribution", -0.4), nudge("institutional-trust", -0.25)],
+        supports(
+          ["econ.market-autonomy-conviction", 0.6],
+          ["trust.government-competence-doubt", 0.55],
+        ),
+      ),
+    ],
+  ),
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -1482,65 +1592,70 @@ function adultScene(
   return { bands: ["adult"], agency, relationships, settings };
 }
 
-const OPENING_ELIGIBILITY: Readonly<
-  Record<string, QuestionnaireEligibility>
-> = {
-  kitchen_late: adultScene(
-    ["answers-for-themselves"],
-    ["adult-at-home"],
-    ["home"],
-  ),
-  marcus_and_the_trip_fund: adultScene([], ["friend"], ["home"]),
-  priya_reference: adultScene(["paid-work"], ["coworker"], ["workplace"]),
-  ray_car: adultScene(["answers-for-themselves"], ["sibling"], ["home"]),
-  nell_moving: adultScene(["answers-for-themselves"], ["partner"], ["home"]),
-  curtis_shift: adultScene(["paid-work"], ["coworker"], ["workplace"]),
-  money_that_arrived: adultScene(
-    ["answers-for-themselves"],
-    ["adult-at-home"],
-    ["home"],
-  ),
-  whitfield_grant: adultScene(["paid-work"], ["teacher", "boss"], ["workplace"]),
-  who_gets_the_credit: adultScene(["paid-work"], ["coworker"], ["workplace"]),
-  the_friend_who_was_wrong: adultScene(
-    [],
-    ["friend"],
-    ["public-meeting"],
-  ),
-  the_job_ray_wants: adultScene(["paid-work"], ["sibling"], ["workplace"]),
-  the_till_and_the_kid: adultScene([], [], ["shop"]),
-  the_thing_you_saw: adultScene([], [], ["street"]),
-  the_form: adultScene(
-    ["answers-for-themselves"],
-    ["adult-at-home"],
-    ["institution"],
-  ),
-  the_petition_at_the_door: adultScene(
-    ["answers-for-themselves"],
-    ["neighbor"],
-    ["home"],
-  ),
-  the_rule_and_curtis: adultScene(["paid-work"], ["coworker"], ["workplace"]),
-  the_bus_route: adultScene([], ["adult-at-home", "neighbor"], ["street"]),
-  the_yard_at_the_end: adultScene([], ["neighbor"], ["street"]),
-  the_school_place: adultScene([], ["neighbor"], ["public-meeting"]),
-  the_sold_field: adultScene([], ["neighbor"], ["street"]),
-  the_night_the_power_went: adultScene([], ["neighbor"], ["home"]),
-  the_man_at_the_meeting: adultScene([], [], ["public-meeting"]),
-  the_ward_budget: adultScene(
-    ["answers-for-themselves"],
-    ["neighbor"],
-    ["institution"],
-  ),
-  the_licence: adultScene(["answers-for-themselves"], [], ["institution"]),
-  the_inspection: adultScene(["answers-for-themselves"], [], ["institution"]),
-  the_camera: adultScene(["answers-for-themselves"], [], ["institution"]),
-  the_strike_at_the_depot: adultScene(
-    [],
-    ["friend", "partner"],
-    ["street"],
-  ),
-};
+const OPENING_ELIGIBILITY: Readonly<Record<string, QuestionnaireEligibility>> =
+  {
+    kitchen_late: adultScene(
+      ["answers-for-themselves"],
+      ["adult-at-home"],
+      ["home"],
+    ),
+    marcus_and_the_trip_fund: adultScene([], ["friend"], ["home"]),
+    priya_reference: adultScene(["paid-work"], ["coworker"], ["workplace"]),
+    ray_car: adultScene(["answers-for-themselves"], ["sibling"], ["home"]),
+    nell_moving: adultScene(["answers-for-themselves"], ["partner"], ["home"]),
+    curtis_shift: adultScene(["paid-work"], ["coworker"], ["workplace"]),
+    money_that_arrived: adultScene(
+      ["answers-for-themselves"],
+      ["adult-at-home"],
+      ["home"],
+    ),
+    whitfield_grant: adultScene(
+      ["paid-work"],
+      ["teacher", "boss"],
+      ["workplace"],
+    ),
+    who_gets_the_credit: adultScene(["paid-work"], ["coworker"], ["workplace"]),
+    the_friend_who_was_wrong: adultScene([], ["friend"], ["public-meeting"]),
+    the_job_ray_wants: adultScene(["paid-work"], ["sibling"], ["workplace"]),
+    the_till_and_the_kid: adultScene([], [], ["shop"]),
+    the_thing_you_saw: adultScene([], [], ["street"]),
+    the_form: adultScene(
+      ["answers-for-themselves"],
+      ["adult-at-home"],
+      ["institution"],
+    ),
+    the_petition_at_the_door: adultScene(
+      ["answers-for-themselves"],
+      ["neighbor"],
+      ["home"],
+    ),
+    the_rule_and_curtis: adultScene(["paid-work"], ["coworker"], ["workplace"]),
+    the_bus_route: adultScene([], ["adult-at-home", "neighbor"], ["street"]),
+    the_yard_at_the_end: adultScene([], ["neighbor"], ["street"]),
+    the_school_place: adultScene([], ["neighbor"], ["public-meeting"]),
+    the_sold_field: adultScene([], ["neighbor"], ["street"]),
+    the_night_the_power_went: adultScene([], ["neighbor"], ["home"]),
+    the_man_at_the_meeting: adultScene([], [], ["public-meeting"]),
+    the_ward_budget: adultScene(
+      ["answers-for-themselves"],
+      ["neighbor"],
+      ["institution"],
+    ),
+    the_licence: adultScene(["answers-for-themselves"], [], ["institution"]),
+    the_inspection: adultScene(["answers-for-themselves"], [], ["institution"]),
+    the_camera: adultScene(["answers-for-themselves"], [], ["institution"]),
+    the_strike_at_the_depot: adultScene([], ["friend", "partner"], ["street"]),
+    the_audit_on_your_desk: adultScene(
+      ["paid-work", "answers-for-themselves"],
+      ["coworker"],
+      ["workplace", "institution"],
+    ),
+    the_line_to_the_hospital: adultScene(
+      ["answers-for-themselves"],
+      ["neighbor"],
+      ["institution", "public-meeting"],
+    ),
+  };
 
 export function requireEligibility(
   table: Readonly<Record<string, QuestionnaireEligibility>>,
@@ -1572,5 +1687,12 @@ export const OPENING_FIXED_ITEMS: readonly QuestionnaireItem[] =
   withEligibility(OPENERS);
 
 export const OPENING_BANK_ITEMS: readonly QuestionnaireItem[] = withEligibility(
-  [...OPENERS, ...PERSONAL, ...RELATIONAL, ...MORAL, ...CIVIC_LIVED, ...POLICY_LIVED],
+  [
+    ...OPENERS,
+    ...PERSONAL,
+    ...RELATIONAL,
+    ...MORAL,
+    ...CIVIC_LIVED,
+    ...POLICY_LIVED,
+  ],
 );

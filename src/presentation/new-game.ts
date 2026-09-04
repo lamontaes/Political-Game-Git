@@ -204,8 +204,7 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
       : {
           identity: {
             gender: setup.gender,
-            pronouns:
-              setup.pronouns ?? defaultPronounsForGender(setup.gender),
+            pronouns: setup.pronouns ?? defaultPronounsForGender(setup.gender),
           },
         }),
     startingLife: setup.startingLife,

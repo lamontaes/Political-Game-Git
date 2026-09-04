@@ -63,10 +63,7 @@ export function questionnairePathCeiling(
   path: SetupQuestionnairePath,
   setup?: NewGameSetup,
 ): number {
-  return questionnaireLength(
-    path,
-    setup ? lifeContextFor(setup) : undefined,
-  );
+  return questionnaireLength(path, setup ? lifeContextFor(setup) : undefined);
 }
 
 /**

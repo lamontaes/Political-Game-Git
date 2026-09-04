@@ -1897,9 +1897,29 @@ const CIVIC_ITEMS: readonly DraftItem[] = [
  * shipped, and so a later lane that wants to re-author them has the originals.
  * Nothing selects from this list.
  */
-export const WITHDRAWN_SETUP_ITEMS: readonly DraftItem[] = [
+const WITHDRAWN_ELIGIBILITY: QuestionnaireEligibility = {
+  bands: ["adult"],
+  agency: ["answers-for-themselves"],
+  relationships: [],
+  settings: ["institution"],
+};
+
+export const WITHDRAWN_SETUP_ITEMS: readonly QuestionnaireItem[] = [
   ...FORMER_OPENERS,
   ...CIVIC_ITEMS,
+].map((entry) => ({ ...entry, eligibility: WITHDRAWN_ELIGIBILITY }));
+
+/**
+ * Everything ever authored, selectable or not.
+ *
+ * Withdrawing an item from selection must not make it unreadable. A save
+ * written before today carries answers naming these keys, and the evidence
+ * reader has to be able to look one up and say what it was worth — otherwise
+ * withdrawing eighteen questions would quietly recalibrate every existing
+ * life. Selection reads `SETUP_QUESTIONNAIRE_BANK`; lookup reads this.
+ */
+export const ALL_AUTHORED_SETUP_ITEMS: readonly QuestionnaireItem[] = [
+  ...WITHDRAWN_SETUP_ITEMS,
 ];
 
 /**
