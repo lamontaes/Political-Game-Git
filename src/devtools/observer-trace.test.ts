@@ -220,3 +220,39 @@ describe("durable decisions and their consequences", () => {
     );
   });
 });
+
+describe("private audibility", () => {
+  const privateRun = createCausalTraceFixture("private");
+  const privateFirst = traceTurn(privateRun, 0);
+  const normalFirst = traceTurn(normal, 0);
+
+  it("uses the room the accepted fixture makes private possible in", () => {
+    // The shared office refuses a private exchange outright while somebody else
+    // is within earshot, and says so. Forcing it there would test an error
+    // message rather than an audience.
+    expect(privateRun.room.privateAvailable).toBe(true);
+    expect(normal.room.privateAvailable).toBe(false);
+    expect(normal.room.privateUnavailableReason).not.toBeNull();
+  });
+
+  it("records a private audience and a private event, not merely a smaller room", () => {
+    expect(privateFirst.visibility).toBe("private");
+    expect(privateFirst.claims[0]?.audience).toBe("private");
+    expect(privateFirst.tags).toContain("conversation.audibility.private");
+
+    // The same intent at ordinary volume is recorded as limited, so the
+    // difference is a field the claim and the event carry rather than a
+    // difference in who happened to be standing there.
+    expect(normalFirst.visibility).toBe("limited");
+    expect(normalFirst.claims[0]?.audience).toBe("limited");
+    expect(normalFirst.tags).toContain("conversation.audibility.normal");
+  });
+
+  it("still writes a durable decision and a traceable claim chain", () => {
+    expect(privateFirst.decisionTraces).toHaveLength(1);
+    expect(privateFirst.claimRecipientPersonIds).toHaveLength(1);
+    const perception = privateFirst.perceptions[0];
+    expect(perception).toBeDefined();
+    expect(perception?.viaClaimId).toBe(privateFirst.claims[0]?.claimId);
+  });
+});

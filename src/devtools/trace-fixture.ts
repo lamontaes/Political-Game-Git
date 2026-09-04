@@ -29,6 +29,12 @@ import type { ObserverHistorySpan } from "./observer-trace";
  * briefing lead's decision consults their own most recent perception — which
  * exists in one run and not the other. Nothing in the inspector arranges that;
  * it falls out of the accepted conversation rules.
+ *
+ * `private` is a different kind of difference and gets a different room,
+ * because the shared office refuses a private exchange outright while somebody
+ * else is within earshot. What Private changes is what the records say the
+ * exchange was — the claim's audience and the event's visibility — rather than
+ * who was in a position to hear it.
  */
 
 export const CAUSAL_TRACE_FIXTURE_SEED = "causal-trace-observer";
@@ -84,7 +90,16 @@ export function createCausalTraceFixture(
   seedInput: string = CAUSAL_TRACE_FIXTURE_SEED,
 ): CausalTraceFixture {
   const base = createRunBFixture(seedInput);
-  const room = base.roomContext;
+  // Private is a property of the room before it is a property of a turn: the
+  // shared office refuses it outright while a second person is within earshot,
+  // and forcing it there would be testing an error message rather than an
+  // audience. The private run therefore uses the room the accepted fixture
+  // already provides for it, where the difference the records carry is the
+  // claim's audience and the event's visibility rather than the listener set.
+  const room =
+    audibility === "private"
+      ? base.privateCapableRoomContext
+      : base.roomContext;
   const briefingLeadPersonId = conversationRole(room, "briefing-lead");
   const referralVerifierPersonId = conversationRole(room, "referral-verifier");
 
@@ -112,18 +127,33 @@ export function createCausalTraceFixture(
     readonly turnOrdinal: number;
     readonly addresseePersonId: EntityId;
     readonly audibility: ConversationAudibility;
-  }[] = [
-    {
-      turnOrdinal: 1,
-      addresseePersonId: referralVerifierPersonId,
-      audibility,
-    },
-    {
-      turnOrdinal: 2,
-      addresseePersonId: briefingLeadPersonId,
-      audibility: "normal",
-    },
-  ];
+  }[] =
+    audibility === "private"
+      ? [
+          // One turn, and only one. The private-capable room exists because the
+          // referral verifier stepped out, and the first turn's response leaves
+          // a contribution owed by somebody who is no longer there — so a
+          // second turn would be testing the accepted fixture's limits rather
+          // than an audience. What Private records is the claim's audience and
+          // the event's visibility, and one turn carries both.
+          {
+            turnOrdinal: 1,
+            addresseePersonId: briefingLeadPersonId,
+            audibility: "private",
+          },
+        ]
+      : [
+          {
+            turnOrdinal: 1,
+            addresseePersonId: referralVerifierPersonId,
+            audibility,
+          },
+          {
+            turnOrdinal: 2,
+            addresseePersonId: briefingLeadPersonId,
+            audibility: "normal",
+          },
+        ];
 
   let progress = undefined as
     Parameters<typeof commitConversationTurn>[1]["progress"] | undefined;

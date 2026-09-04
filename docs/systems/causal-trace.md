@@ -160,6 +160,17 @@ The second turn's decision therefore rests on a different chain in the two
 runs. Nothing in the inspector arranges that; it falls out of the accepted
 conversation rules and is read back off the records.
 
+### Private
+
+Private is a different kind of difference and gets a different room, because
+the accepted shared office refuses a private exchange outright while a second
+person is within earshot and says why. In the room the fixture provides for it,
+Private changes what the records say the exchange _was_ rather than who could
+hear it: the claim is recorded with audience `private` instead of `limited`,
+the event with visibility `private`, and the event tag reads
+`conversation.audibility.private`. The durable decision and the claim chain are
+written exactly as before.
+
 ## Decisions and consequences
 
 A durable decision trace records the frontier it was evaluated against

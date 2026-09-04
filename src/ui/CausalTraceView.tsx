@@ -36,6 +36,7 @@ import "./causal-trace.css";
 const AUDIBILITY_OPTIONS: readonly ConversationAudibility[] = [
   "normal",
   "quiet",
+  "private",
 ];
 
 function readParam(name: string): string | null {
@@ -45,7 +46,7 @@ function readParam(name: string): string | null {
 
 function readAudibility(): ConversationAudibility {
   const value = readParam("audibility");
-  return value === "quiet" ? "quiet" : "normal";
+  return value === "quiet" || value === "private" ? value : "normal";
 }
 
 function matches(node: TraceNode, query: string): boolean {
