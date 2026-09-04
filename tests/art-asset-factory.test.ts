@@ -771,6 +771,7 @@ describe("Packet 76 approved runtime art", () => {
       {
         repositoryRoot: REPO_ROOT,
         characterCatalog: loadJson("art/manifest/character_catalog.json"),
+        poseFamilies: loadJson("art/manifest/pose_families.json"),
       },
     );
     expect(result.valid).toBe(true);
@@ -783,12 +784,27 @@ describe("Packet 76 approved runtime art", () => {
       "human_candidate_A01_primary_desk_seated_v1",
       "human_candidate_B01_left_guest_seated_v1",
     ]);
-    expect(result.runtimeEligibleAssetIds).toHaveLength(20);
+    // 4 office fixtures + 16 generation-1 and 30 generation-2 DEV components,
+    // plus six released production environment plates.
+    expect(result.runtimeEligibleAssetIds).toHaveLength(56);
+    // Everything past the four fixtures is a DEV component except the released
+    // production plates, and those are named one by one rather than swept up
+    // by "does not start with dev_". Naming them is the point: this list is
+    // what the runtime may actually paint, and a sixth plate appearing here
+    // without a line changing in this test would be a plate nobody reviewed.
+    const beyondFixtures = result.runtimeEligibleAssetIds.slice(4);
     expect(
-      result.runtimeEligibleAssetIds
-        .slice(4)
-        .every((assetId: string) => assetId.startsWith("dev_")),
-    ).toBe(true);
+      beyondFixtures
+        .filter((assetId: string) => !assetId.startsWith("dev_"))
+        .sort(),
+    ).toEqual([
+      "env_civic_hearing_room_5504x3072_v1",
+      "env_legislative_chamber_floor_5632x3072_v1",
+      "env_residence_apartment_living_canonical_03_5504x3072_v1",
+      "env_residence_apartment_living_ordinary_02_5504x3072_v1",
+      "env_shared_workroom_office_v1",
+      "title_bg_civic_community_meeting_hero_slot_5504x3072_v1",
+    ]);
     const environment = manifest.assets.find(
       (asset: { asset_id: string }) =>
         asset.asset_id === "env_lexington_council_staff_office_prompt30_v1",
@@ -803,7 +819,22 @@ describe("Packet 76 approved runtime art", () => {
       families.families.map(
         (family: { family_id: string }) => family.family_id,
       ),
-    ).toEqual(["council-staff-office"]);
+    ).toEqual([
+      "council-staff-office",
+      // Three of the families below now hold released plates downscaled from
+      // approved 5504x3072 masters, and one still does not. A family with no
+      // released plate is a production-authoring target, not coverage, and
+      // `executive-private-office` is the one that is still only a target: its
+      // master is banked and registered but deliberately unreleased.
+      "apartment-ordinary",
+      "civic-community-meeting",
+      "executive-private-office",
+      "shared-workroom-office",
+      "civic-hearing-room",
+      // The chamber, added when Packet 71's master arrived and closed the one
+      // environment request that had never had a candidate at all.
+      "legislative-chamber",
+    ]);
   });
 
   it("reproduces the 2x Lanczos office plate and furniture-only alpha mask", async () => {
@@ -823,18 +854,23 @@ describe("Packet 76 approved runtime art", () => {
         runtimePath,
         foregroundPath,
       );
+      // The count dropped from 269,313 when the primary-desk worktop quad was
+      // pulled back to the chair's left edge (x 748). The quad used to run to
+      // x 1024, sweeping through the chair back and seat and painting the chair
+      // over the seated figure's lap; the pixels it lost are the ones that were
+      // wrong.
       expect(result).toEqual({
         sourceWidth: 1024,
         sourceHeight: 572,
         runtimeWidth: 2048,
         runtimeHeight: 1144,
-        foregroundPixelCount: 269_313,
+        foregroundPixelCount: 183_443,
       });
       expect(hashArtFile(runtimePath)).toBe(
         "66678f0e91c52ca86f851ae4ba73d1a736a56be9cb7875512ab6bd1235de07f0",
       );
       expect(hashArtFile(foregroundPath)).toBe(
-        "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe",
+        "f2f5ae8ca3e82e13cf6fb6f8f27c654b5c95a93c6ca2c31d5c56381fdd543406",
       );
       expect((await parseImageMetadata(runtimePath)).hasTransparency).toBe(
         "none",
@@ -848,7 +884,7 @@ describe("Packet 76 approved runtime art", () => {
     } finally {
       fs.rmSync(temporaryDirectory, { recursive: true, force: true });
     }
-  });
+  }, 120_000);
 
   it.each([
     [

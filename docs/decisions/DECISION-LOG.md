@@ -900,6 +900,66 @@ browser session. No production component art, generator, wardrobe library,
 head-angle generation, animation, engine, office-scene consumption, Slice F,
 or campaign/election change is authorized by this decision.
 
+## D-055 — Real masters are normalized deterministically into the modular contract, and seated contact is measured
+
+- Date: 2026-09-01
+- Status: ACCEPTED
+- Supersedes: the D-047 visual-estimate roots and anchors for the A01/B01
+  recipes and the original primary-desk-worktop occluder polygon only; no
+  identity, catalog, release-gate, or fail-closed decision is superseded
+
+Owner-supplied Political Game masters — gray body-geometry authorities, bald
+head/face identity masters, hair-only masters with a face opening, and
+unfitted garment and footwear design masters — enter the runtime only through
+`scripts/art-asset-factory/pg-modular-intake.ts`. The intake is deterministic
+image processing: per-row neutral-background keying with optional
+neutral-shadow suppression, opaque-bounds cropping, mask-derived body rig
+measurement (crown, brow, neck, shoulder line, waist, crotch root, sole line),
+fixed fit ratios against those measurements, hairline or neck-cut origins, and
+Lanczos-3 resampling. No pixel is generated or repainted. Source masters are
+copied byte-for-byte under `art/references/masters/pg-modular/` and every
+derivative's provenance records the master path, master hash, keying profile,
+crop, scale, and fit. A garment design master fitted to more than one body
+family keeps one family identity and yields one derivative per body family;
+context selects the derivative for the person's body.
+
+Manifest records carry an `availability` class. `development-fixture`
+components keep serving people; a `production-candidate` of a kind excludes
+fixtures of that kind from selection at any generation where it exists AND is
+released. The class lives on the record, not the definition, so generation
+signatures are unchanged. The release half of that test is not decoration: a
+candidate that has no drawable raster behind it would replace a person with a
+placeholder.
+
+The ordinary office seam now serves every person: an authored flattened
+recipe still wins; otherwise `composeOfficeVisuals` builds a modular render
+plan for the anchor's pose through the same compositor, and a missing body
+for that pose fails closed to the placeholder. The scene code does not care
+which path produced the character.
+
+The visible seat-contact defect had two causes. The foreground occluder's
+primary-desk-worktop polygon ran to the plate edge and swept through the
+primary chair, painting the chair back and seat over the seated figure. Both
+authored roots were declared mid-torso rather than on the seat plane, so the
+figures sat a quarter of their height too low and beside their chairs. The
+polygon now ends at the chair, and the roots are the seat-contact lines
+measured from the rasters by `scripts/art-asset-factory/seated-contact.ts`;
+the anchors are the chairs' seat points. A regression test measures both.
+
+Consequence: four real people compose from two body families, five heads,
+eight hairstyles, four tops, three bottoms, and three footwear designs, and
+persist and reload unchanged. No real seated body exists, so the office cannot
+yet seat a real modular person; no complexion-matched body base exists, so
+exposed skin on modular bodies renders as the gray geometry authority; no
+eyewear or accessory master exists locally. Those are asset requirements, not
+architecture gaps, and are recorded rather than faked.
+
+Amended by D-059: these thirty-five derivatives are banked candidates rather
+than catalog components. Everything above about the intake, the provenance,
+the seat-contact measurement and the occluder repair stands; what changed is
+that the parts do not enter a catalog generation until a person has looked at
+them.
+
 ## D-056 — Legislative procedure is rule-driven, and legislative voting is a record of members
 
 - Date: 2026-09-01 (amended 2026-09-02 after independent audit)
@@ -1029,7 +1089,759 @@ remain deliberately unimplemented. No pack currently resolves what becomes of a
 measure still pending at adjournment, so no measure can be recorded as dying
 that way until one does.
 
-## D-057 — Causal tracing is a read-only projection that renders absence as UNKNOWN
+## D-057 — Scenes and people are placed from declared contacts, and rasters are chosen by the screen
+
+- Date: 2026-09-02
+- Status: ACCEPTED
+- Supersedes: nothing. It extends D-053 and D-054 rather than replacing them;
+  no Stage 6 semantics, no player/save ownership, and no source-corpus decision
+  is touched.
+
+`EnvironmentSceneSpec` is the one scene contract, and the runtime now consumes
+it. `src/presentation/scene-registry.ts` validates a spec and projects it into
+what the compositor draws; the office fixture's camera, safe areas, anchors and
+occluder are read from that spec rather than from a hand-written constant. A
+second scene schema was available and was not created: the researched spec
+already carried Camera, Anchor, Occluder, Zone, calibration and grade concepts,
+and only the genuinely missing fields were added to it.
+
+A scene may register with no raster at all. That is the honest state of a room
+whose plate has not been made, and the runtime says the picture is missing
+rather than substituting another room's.
+
+Placement is computed from contacts, never tuned per sprite. A scene declares a
+floor line per anchor and, for a seat, the seat plane, front, width and the
+seat and backrest z-orders; a body declares its own soles and, for a seated
+pose, its seated pelvis. Standing puts the sole line on the floor; seated puts
+the pelvis on the seat plane and then checks the resulting soles against the
+floor the chair stands on, because a seated person's feet are on the floor and
+modelling only the pelvis is exactly why hand-placed seated sprites floated.
+A body that predates the contract still places, by its pelvis root, and the
+runtime records that its contact is unverified rather than implying it was
+checked.
+
+Authoring the seat and the floor together settles numbers that guessing would
+not. The office fixture's floor line had to be 84% of plate height, not a
+rounder figure: it is where a seated figure of those sprites' proportions
+actually puts its feet once its pelvis is on the accepted 63.5% seat plane.
+
+Perspective is a bounded linear ramp between two authored floor calibration
+pairs, clamped rather than extrapolated. It is deliberately not a projective
+camera: the generation pipeline cannot supply truthful camera intrinsics, and
+inventing them would be fabricated measurement precision. Perspective depth and
+paint order are now separate fields — depth is the floor line, order is
+`zOrder` — and people in one scene sort by floor line rather than by the order
+they were listed in. Named occluders each carry their own z-order, because a
+desk front and a chair arm occlude a seated person differently and one flat
+mask cannot say so.
+
+One asset identity owns an ordered raster tier ladder, and the screen chooses
+among them: the required device width is the painted plate times the device
+pixel ratio, and the smallest tier at or above it wins. The runtime steps up
+immediately, steps down only after 250 ms of continuous sufficiency, and keeps
+painting the current raster until its replacement has decoded. The pipeline
+never synthesizes or enlarges a tier; a raster carrying less real detail than
+its pixel width claims must declare that, and the shortfall is reported rather
+than hidden.
+
+The supported fidelity envelope is stated on required device width, not display
+width. For a viewport at or wider than the plate's aspect the two coincide; for
+a taller viewport the cover-fit camera paints wider than the screen, so a
+1920x1200 window at device pixel ratio 2 is a 3840-wide panel that still needs
+about 4297 device pixels of plate. Stating the envelope on display width would
+promise fidelity there that no 4096 tier can deliver.
+
+Fidelity acceptance is separate from geometry acceptance and is asserted rather
+than computed and discarded. The camera passes at every tested viewport and
+always did; the shipped office plate fails fidelity from 1440x900 upward, and
+conflating the two is how a soft plate kept a green suite.
+
+For people: master dimensions are enforced by component class and an undersized
+master is rejected rather than enlarged, with the enlargement it would have
+needed stated. `art_class` separates production components from frozen
+development fixture art, and fixture art is never promoted. Complexion is
+source art on bodies and heads in named art-direction bands, never a runtime
+recolour, never demographic truth, and never inferred from a person's name or
+any other property; one head family is one complexion and a head must reach a
+body of the same complexion in every body family it claims. Required slots are
+enforced at resolve time, so a person with an empty required slot is not
+complete however well the rest of them draws. A garment may block a conflicting
+optional slot, and blocking a required one is a validation error.
+
+Consequence: adding a room or a person component is data and asset authoring
+against a stable contract. Development warnings are raised as data rather than
+exceptions, so a wrong-looking person and the contract they broke appear in the
+same view — the old floating-legs defect is now a named mismatch with both
+numbers printed. Player-facing degradation copy stays free of that vocabulary
+and says only what is actually being shown. Title tableau resolution exists as
+presentation-only primitives that take eligibility as caller-supplied truth,
+hold no saves and load no worlds, so no code path there can invent a biography.
+
+## D-058 — Art declares where it came from, and authoring declares what it does not know
+
+- Date: 2026-09-02
+- Status: ACCEPTED
+- Supersedes: nothing. It extends D-057, which established that scenes and people
+  are placed from declared contacts and that rasters are chosen by the screen.
+  This decision governs everything upstream of that runtime contract.
+
+Adding a room is data authoring. The pipeline between an approved picture and a
+registered scene is a set of contracts, and four of them are refusals.
+
+**The repository never enlarges a raster.** A requested tier above the master is
+skipped, the ladder is shorter, and the shortfall is stated. A 4096 file
+carrying 2048 pixels of detail is a promise the runtime cannot keep, and the
+cost is paid by whoever later assumes the number means something.
+
+**An external upscale is admissible, and must be declared.** Rejected
+alternative: banning upscaled masters outright. An externally upscaled render is
+frequently the best art available, and a ban would have meant either losing it
+or laundering it in by hand. Instead a candidate declares its lineage class and
+its native-detail state, and a declared upscale carries `nativeDetailWidth`
+forward into every tier derived from it, into the manifest, into the registry
+and into the runtime's fidelity warnings. Downscaling does not restore
+information and must not be allowed to erase the record of its absence.
+
+`RasterTierDerivation` therefore gained `external-upscale-derivative`: real
+pixels, admissible in production, detail that stops where the declaration says.
+It is deliberately distinct from `upscaled-development-fixture`, which is an
+enlargement this repository performed and which may never reach a production
+plate. Rejected alternative: allowing `nativeDetailWidth` on
+`deterministic-downscale`. That would have made a plain reduction's pixel width
+untrustworthy by default, when the whole value of that derivation is that its
+width IS its detail.
+
+**A scaffold's unknowns stay unknown.** Every value the compositor needs starts
+UNRESOLVED with a reason, and projection to a scene spec refuses while a
+blocking gap remains rather than emitting plausible defaults. A scaffold that
+quietly filled a floor line with 85 would produce a scene that registers,
+renders, and puts everyone's feet slightly through the floor in a way nobody can
+attribute to anything. `UNVERIFIED` is kept distinct from `UNKNOWN` because the
+remedies differ: one needs someone to decide, the other needs someone to check.
+
+**Nothing meaningful is read out of a filename.** Lineage, access class and
+world label are declared by a caller. Intake reads declarations, not
+directories; a file nobody declared is reported as undeclared rather than
+adopted with a plausible history.
+
+Two further separations follow.
+
+Physical art identity is not a world label. A scene family describes the room;
+what the World calls it — the player's apartment, their parents', a friend's —
+is canonical truth supplied at binding time. One apartment plate serves four
+homes across a career and one pavilion serves a childhood birthday and a
+campaign meet-and-greet, which is the whole economic argument for the split.
+Access class describes the kind of gate a place has and grants nothing: role
+eligibility tags are a search key for future progression work, and passage is
+decided from roles the World records.
+
+Baked decor is not information. Production art may be lived-in — artwork, books,
+plants, coloured paper shapes, a clock-shaped block — and must not be legible.
+Anything the simulation owns goes in a declared dynamic surface slot, because
+readable words baked into a plate are either wrong or are asserting something
+the simulation never decided, and they are frozen either way.
+
+Measured geometry is an authoring aid and never a replica claim. A number a
+source stated is `direct-published`; a number measured off a drawing is
+`scale-derived` and requires a scale resolved against a known reference span on
+that same reproduction. Marking the second as the first is a validation error.
+Evidence attaches to an archetype informed by several rooms, because what
+transfers to a generic room is proportion, not any one room's dimension.
+
+Consequence: approved masters, external QA passes and measured-geometry research
+now have a schema to arrive through, and the failure modes they would otherwise
+introduce — a soft plate believed sharp, a guessed floor line, a duplicated
+apartment, a frozen bill number, a fabricated dimension — are unrepresentable
+rather than merely discouraged. None of this is wired into PlayerGame; the
+contracts and their tests exist first so that integration stays a cheap
+decision.
+
+## D-059 — One pose contract, and gaps that name themselves
+
+**Decision.** A pose family is registered data with a posture class, a facing,
+a root, contacts, eighteen landmarks, compatibility, a nominal canvas, a master
+minimum, a production status, a human-QA state and a contact-verification state.
+A scene anchor asks the registry for a posture; it does not take the first pose
+any body happens to have art for.
+
+The old resolver asked "does any body have this pose". That is the wrong
+question, and it is how the office guest chair silently drew a desk-work body
+in a guest chair. The right question is "does THIS person's body family have
+art for a pose this anchor permits", and the registry can answer it because
+identity resolution is pose-independent by contract: the recipe fixes body,
+head and garment families before it looks at a pose.
+
+Substitution is deliberately narrow. It only ever happens between poses the
+anchor itself lists, because that author declared them interchangeable there,
+and it is always reported. When nothing permitted can be drawn, the compositor
+fails closed and the diagnostic names which body families do have art and which
+do not, rather than saying "missing".
+
+**Statuses are checked against the library in both directions.** A family
+claiming released art must have some; a family claiming none must have none. A
+status that could only ever flatter is not a status.
+
+**Consequence.** The generation queue is computed rather than argued about. Of
+four uncovered pose families, exactly one is blocking current gameplay, because
+exactly one is asked for by a live scene anchor.
+
+## D-060 — Structure is a control layer, not a paragraph
+
+**Decision.** Every pose family generates one deterministic control plate from
+its own landmarks: limb mass, a closed torso, the skull above the headless body
+canvas, the contact planes, the skeleton, every landmark and both contacts. The
+art validator re-derives every plate and rejects one whose landmarks moved
+without regeneration.
+
+This implements the structure-control research conclusion that exact body
+structure and final visual rendering are separate control layers. Repeated
+prose-only anatomy edits normalized toward a model's default proportions; that
+was a control-method problem, not a prompt-wording problem.
+
+A plate carries no text, because text in a control image bleeds into generated
+art. A plate is never production art: no bone line, landmark dot or contact
+ring may appear in a finished character raster. Anchor dots live in metadata and
+a developer overlay draws them from there.
+
+## D-061 — A master is a source, and a filename is not evidence
+
+**Decision.** Twenty-five source masters are re-homed from the superseded PR #48
+branch as `character-component-master` assets, permanently unreleased. Exactly
+two meet the current dimension contract; none carries alpha. The thirty-five
+normalized derivatives are rejected: they sit 3.1x to 11x below the contract,
+and the garment set was enlarged above its own master, which is precisely the
+failure the master minimums exist to prevent. Nothing is lost, because the
+masters are here and the exact derivation recipe is preserved in provenance.
+
+Identifiers are re-cut on intake. The source named heads and hair with
+demographic tokens. Complexion is art direction, never demography, and is never
+inferred from a name, so those tokens do not enter asset IDs or paths; the
+received filenames stay in provenance so the lineage remains checkable.
+Hairstyle names are kept, because a hairstyle names a hairstyle.
+
+**Consequence.** The project now holds real production-size standing body
+authority for the first time, and knows precisely what it does not hold: no
+character master with alpha, and no head, hair or garment master within reach
+of its own minimum.
+
+## D-062 — A disposition without evidence is an assertion
+
+**Decision.** What happened to superseded branch cargo and to downloaded asset
+packs is recorded in one validated ledger. A `re-homed` claim must name real
+manifest assets and must have been measured in this repository; an entry that
+was not measured must name the command that would settle it; every disposition
+must give a reason. No external pack is counted as coverage anywhere.
+
+The animation library is archived on its purpose rather than its contents: an
+animation library is motion data for a rig, and the operating rule excludes
+rigging, 3D posing and extracting frames from rigs. The base-character and
+office packs are held pending rather than rejected, because a 129MB and a 527MB
+archive were not opened and rejecting them unseen would be as unfounded as
+adopting them unseen.
+
+**Consequence.** The asset bank inventory can state coverage without any of it
+resting on something nobody checked.
+
+## D-063 — Banked art is not catalog art
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Amends: D-055 (the disposition of its thirty-five derivatives only; its
+  intake, provenance, measurement and occluder decisions stand)
+
+Intake produces real files, real hashes and a real component definition long
+before anyone has agreed the art is good enough to put on a person. D-055 let
+those two things happen at once: the first thirty-five normalized derivatives
+were written into catalog generation 2 and marked released, which asserted
+production quality on behalf of art nobody had accepted.
+
+Looked at, the assertion does not hold. The body masters are untextured gray
+geometry mannequins, so every skin region a garment does not cover — hands,
+neck, forearms, any leg below a skirt — renders gray; the garment masters are
+unfitted design art rather than art drawn onto a body. Both are answerable only
+by eye, and the answer is currently no.
+
+So a banked part is now a distinct thing from a catalog component. A record
+with `asset_type: "character-component-candidate"` carries its definition in
+`candidate_component`, must be `unreleased`, and belongs to no catalog
+generation. `createCharacterComponentLibrary` cannot see it, so no identity can
+resolve to it however good its hash is. `liftCandidatesForReview` builds a
+throwaway library from candidates alone, and the `?view=character-proof&set=real`
+proof composes people from that — the surface on which the art is accepted or
+rejected. Promotion is then a deliberate act: `candidate_component` becomes
+`component`, the type changes, and the part joins a NEW generation.
+
+Keeping candidates out of the catalog is what protects the frozen-generation
+guarantee. A generation's membership is signed so a saved person resolves to
+the same parts forever; admitting a component that cannot be drawn would either
+render that person as a placeholder today, or change who they look like on the
+day the art is accepted. Generations 1 and 2 still carry the exact members and
+signatures PR #74 published, and a test reproduces both.
+
+Consequence: thirty-five derivatives, twenty-five masters, five master
+manifests, the deterministic intake, the seat-contact measurement, the occluder
+repair and the recombination proof are all preserved and under test; not one of
+them can reach a player until someone says so.
+
+## D-064 — A surface carries information only if it can be read, and a symbol is an identity before it is art
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Extends: D-058 (the authoring pipeline) with the four systems below; no
+  lineage, tier, scaffold or asset-bank decision is superseded
+
+The approved environment library — three apartments, a civic meeting hall, an
+executive suite and the Lexington staff office — now exists as authoring records
+rather than as research notes. Five are scaffolds carrying measured floor ramps,
+seat planes, staging positions and occluder rectangles; all five refuse to
+project, because the plates are Drive-only and nobody has decided a camera or a
+safe area. The refusal is the point: an incomplete scaffold is honest, and a
+spec with plausible numbers standing in for decisions nobody made is not.
+
+**Legibility gates promotion.** Thirteen visible frames and screens were
+inspected across the six rooms; four became runtime surfaces and nine stayed
+painted. The floor is 5% of plate height and 5% of plate width, with a 3% height
+floor for foreshortened surfaces — a document on a desk is a large page seen
+nearly flat — and no component floor at all for a surface carrying a known image
+or one line of text. Generative models paint small blank frames on every shelf,
+and promoting them yields a room of illegible dashboards; an illegible dashboard
+is worse than a rectangle of paint because it asserts something nobody can
+check. Applying the rule found one inconsistency in the inspection's own
+dispositions: the staff office corkboard pin, promoted there, is about 46 pixels
+across at 1080p and is declared ambient here, reversibly and with the number
+recorded.
+
+**A component surface says what may be drawn on it.** Twelve component families
+— a trend line, a roll call, a district map, a briefing card and eight others —
+each name the surface kinds they can honestly be drawn on and the empty state
+they fall back to. Both halves matter: a roll-call grid on a domestic television
+is a category error nothing at runtime would catch, and an empty state that
+invents a plausible docket is a lie the art keeps telling. Every fallback says
+the absence out loud.
+
+**Civic symbols are identities with citations.** 188 flags, seals and arms
+across 65 jurisdictions are recorded with their statutory authority, their
+restriction statutes and their colours, and every one is `not-acquired`: this
+repository holds no symbol artwork. Three rules are structural rather than
+advisory. There is no asset status meaning "generated", so an AI-drawn seal is
+unrepresentable rather than discouraged. A symbol that has not been acquired
+cannot carry an asset path. `symbolUsePermitted` refuses campaign and commercial
+contexts without reference to which symbol is being asked for, because the
+prohibition is about the use.
+
+**A downloaded pack answers two questions, not one.** What the licence permits
+and whether the files are the kind of thing this renderer draws are independent,
+and answering only the second is how unlicensed art gets shipped. `use-now`
+requires a licence stated in a document inside the archive AND at least one file
+of finished 2D art; anything else is archived or rejected with a reason from a
+closed vocabulary.
+
+**The generation queue says where art is, not just that it is wanted.** Most of
+what looks missing is not: it is banked here unreleased, or in Drive at the
+wrong resolution, or covered by a fixture nobody has noticed. Of 115 modular
+person assets accounted for, 58 are genuinely missing, 13 exist and fall short
+of a stated measurement, 2 exist and pass, 35 are banked here, and 7 are
+fixtures standing in silently.
+
+Consequence: adding a room is authoring data. What is still missing to ship one
+is bytes and two human judgements — a camera, and whether the art is good enough
+— and the records say which is which rather than blurring them.
+
+## D-065 — A banked candidate is in no generation, and says so
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Repairs: D-063 (its representation only; every disposition it made stands)
+
+D-063 said a banked candidate "belongs to no catalog generation". The records
+said otherwise: all thirty-five declared `catalog_generation: 2`, because
+`candidate_component` was typed as a full `CharacterComponentDefinition` and
+that type requires the field. The intake wrote 2 into every derivative, and the
+review lift built a generation-2 library by reading it back. Nothing leaked —
+the catalog could not see these parts and no saved person's appearance moved —
+but the schema, the generator, the tests and the prose disagreed with the
+binding contract, which an independent acceptance sweep reported.
+
+The disagreement is worth repairing rather than documenting away. A generation's
+membership is signed so a saved person resolves to the same parts forever, and a
+record that names a generation it is not in makes that signature harder to
+trust: it asserts a membership no ledger backs. "In no generation" and "in
+generation 2 but hidden" are different claims about the catalog, and only the
+first is true of art nobody has accepted.
+
+So a candidate now carries no generation at all.
+`CharacterComponentCandidateDefinition` is `CharacterComponentDefinition`
+without `catalog_generation`, derived from it so the two cannot drift, and the
+single difference between a banked part and a catalog part is the one that
+matters: membership. The field is absent rather than zero or null, because a
+candidate has no membership to state, not an empty one.
+
+A generation is assigned where admission happens and nowhere else.
+`promoteCandidateComponent` takes the generation from its caller, because
+admitting a part is an authorized decision about the catalog rather than
+something the part decides about itself. That function is the only place banked
+art is given a generation, which is what makes this decision a fact about the
+code rather than a sentence here. It writes nothing and promotes nothing; the
+thirty-five remain banked, unreleased, and awaiting the human visual acceptance
+D-063 reserves.
+
+Two consequences follow. `liftCandidatesForReview` has no number to carry over,
+so it stamps its own: the throwaway review library is one generation containing
+exactly the candidates, invented locally and never written back. And because the
+manifest is JSON and cannot be held to a type,
+`validateCharacterComponentCandidates` rejects any candidate that declares a
+`catalog_generation`, so the repair cannot quietly regress the way it arrived.
+
+Consequence: the published generations, their frozen signatures, the forty-six
+development fixtures and every disposition D-063 made are unchanged. What
+changed is that the records now say what the authority always said.
+
+## D-066 — A sitter is placed by what touches the chair, and a chair is where the picture says it is
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Repairs: D-055 and D-057 (the office fixture's seat geometry only; their
+  intake, pose, contact and authoring decisions stand)
+
+Human visual review of the office fixture rejected both seated figures: the
+primary sitter read as hovering in front of her chair rather than sitting in
+it, and the guest read as intersecting his. Neither was an art defect. Both
+rasters are coherent people, and the compositor placed them exactly where the
+scene told it to. The scene was wrong in two independent ways, and each hid the
+other.
+
+**The chairs were never measured.** Both anchors declared a seat plane of about
+63% and a shared floor line of 84%. The 84% was not read off the plate at all;
+the fixture's own comment recorded that it was derived from the 63.5% seat
+plane by asking where a sprite's feet would land. One unmeasured number was
+solved from another, so the two agreed with each other and with nothing in the
+picture. Measured off the runtime plate, the desk chair's cushion occupies
+y 68.4%–75.6% and the guest chair's y 61.8%–65.2%; the old 63.5% sat a third of
+the way up the desk chair's BACKREST. The two chairs also stand at different
+depths and cannot share a floor line: the desk chair's base meets the carpet
+near 91%, the guest chair's legs near 75%.
+
+**The placement point was the wrong point.** `composeOfficeVisuals` placed each
+recipe's `root` — the pelvis-hip-CENTRE, a joint inside the body — on the seat
+plane. The thing that rests on a cushion is not that joint but the buttock and
+thigh surface a couple of percent of raster height below it. The recipes had
+declared a `seatedContact` all along and the compositor ignored it, while the
+modular path in `scene-placement.ts` has always placed seated bodies by their
+`seatedPelvis` contact. Two paths, two meanings, one of them silently wrong.
+
+So each anchor now carries its own measured cushion and its own measured floor
+line, the seat plane sits one third forward of each cushion's back edge because
+a sitter with their back against the backrest rests on the rear of the seat,
+and the compositor places the measured seat contact rather than the hip joint.
+Each sprite's contact-to-sole span then covers its own seat-to-floor gap, so
+pelvis-on-cushion and soles-on-floor hold together instead of being traded
+against one another. `standard_body_width_percent` moved from 21.5% to 19.48%
+because it is solved against those lines and the lines moved.
+
+Two consequences worth recording. The desk anchor returns from 79.2% to the
+measured cushion centre at 77.2%: the 79.2% was a staging offset that existed
+only because the body was placed by its hip joint, which pushed its visible
+mass right until it threatened the safe area. And the working-document and
+briefing-memo affordances move above the scene-person hitboxes, where the civic
+marker already sat — a correctly sized sitter's transparent hitbox now reaches
+across the desk, and it must not swallow the click that opens the paper beneath
+it. Nothing about the painted scene changes; the person button draws nothing.
+
+Consequence: the office fixture's layout, occlusion rules, attachment system
+and composition are untouched. What changed is that the numbers describing the
+furniture are now read off the furniture, and the point placed on a chair is
+the point that touches it.
+
+## D-067 — The production office is a different room from the fixture, measured from its own master
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: nothing. D-055 and D-057 keep the fixture; this adds the first
+  production scene beside it.
+
+Three rounds of human visual review of "the office" were rounds of review of a
+development fixture. `office-council-staff-fixture` declares
+`presentation_status: development-fixture`, a 1024x572 prompt30 plate, and a
+2048x1144 tier registered honestly as an upscale carrying no detail past 1024.
+Its own `explicit_unknowns` say its numbers "should not be copied into a
+production scene". It was the only office surface that existed, so every
+placement repair polished it and every screenshot of it was read as the game.
+
+The canonical Drive library already held an approved master —
+`OCD_SCENE_MASTER_SHARED_WORKROOM_OFFICE_5504x3072_01.jpg`, 5504x3072 — but
+Drive is not a runtime: the runtime imports `art/**` and nothing else, so a file
+sitting in Drive is not selectable however approved it is.
+
+So the master is now IN the repository, preserved byte-for-byte under
+`art/references/masters/scene-environment/` with its Drive id and sha256
+recorded in provenance, and carried into the runtime as two Lanczos-3
+DOWNSCALES at 1376x768 and 2752x1536. Both are `deterministic-downscale`, so
+neither declares a native-detail shortfall: their pixel width is the truth.
+Nothing in this repository enlarged anything.
+
+`shared-workroom-office-production` is the scene, and every number in it was
+measured from that master. The room's tiled floor is its own ruler: a 12-inch
+commercial tile measured near and far gives the apparent size of a known length
+at two depths, which solves the horizon at 39.9% of plate height and yields
+one metre ~= 0.585 * (floor_y - 39.9)% of plate height. The floor calibration,
+the 18.42% standard body width and the cross-check on the one measurable seat
+all come out of that single relation. Nothing was transplanted from prompt30;
+a test asserts the two scenes share no plate, no ramp, no body width and no
+anchor.
+
+Only one chair in the room has a visible cushion. Every other seat is hidden
+behind a work table, so no seat plane can be measured for it, and those chairs
+are deliberately NOT declared as seat anchors rather than being given plausible
+numbers. The near table's occluder region is declared without an alpha mask,
+because nothing renders behind it yet and painting a speculative mask over a
+plate this detailed would be inventing geometry to satisfy a checklist.
+
+The production scene composes from `PRODUCTION_ONLY_CHARACTER_LIBRARY`, which
+is filtered to components that are not development fixtures. That set is empty
+today, so every anchor fails closed and the proof surface says which anchor
+failed and why. The authored A01/B01 recipes stay where they belong: on the
+fixture route, keyed to historical fixture appearance seeds, and a test forbids
+them from appearing on the production scene under any path.
+
+Consequence: `?view=production-office` is where office visual acceptance now
+happens, and it states its scene id, environment asset id, raster tier and
+derivation, production status and per-anchor rendering path on the page. A
+screenshot of it cannot be confused with a screenshot of the fixture, which is
+the confusion that cost three review cycles. `?view=office-fixture` survives,
+unchanged and clearly labelled, as regression evidence.
+
+## D-068 — A body root is not a garment attachment, and the banked bodies' anchors are not authoritative
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Amends: D-055 and D-063 (the standing of the banked candidates' attachment
+  metadata only; their disposition as unpromoted reference evidence stands)
+
+With debug anchors on, human review found the `hips` attachment anchor on both
+banked bodies reading around the lower abdomen rather than the pelvis. The
+numbers confirm it: `pg_body_ml_standing_v1` puts its pelvis root at y 0.5396
+and its `hips` anchor at y 0.3479 — the garment hip line is authored roughly a
+fifth of body height ABOVE the hip joint it is named after.
+
+This is not a labelling nit. Bottoms attach to `hips`, so every trouser, skirt
+and pair of jeans in the bank hangs from the wrong line, and any fit judgement
+made against those garments was made against a contaminated placement.
+
+The repair is NOT to move the numbers. These bodies are rejected for production
+on their own merits — untextured gray geometry is structural and reference
+evidence, never player-facing body art — and quietly correcting their anchors
+would be promotion by the back door. Their attachment coordinates are therefore
+declared non-authoritative visual estimates on the records themselves, with the
+instruction that they are not to be inherited or repaired.
+
+What is added instead is the rule the next body will be held to.
+`CHARACTER_SEMANTIC_ANCHOR_ORDER` names six points that are different things
+with different jobs, and `validateProductionBodyAnchors` enforces two facts
+about them: they descend the body in order, and the garment `hips` attachment
+sits at or below the pelvis root, because a waistband does not ride up inside
+the ribcage. The root is the rig's placement point and nothing is worn on it;
+`feet` is a floor CONTACT and not an attachment at all.
+
+A test records that both banked bodies fail this rule, and says in its own name
+that they are not to be repaired to make it pass. Every future production body
+master measures these anchors from its own raster rather than inheriting them
+from a DEV fixture or normalizing them by eye, and shows them over that raster
+on a debug proof before any wardrobe family is accepted against it.
+
+Consequence: the distinction between placement and attachment is now written
+down and checkable, the contaminated coordinates are labelled where someone
+reading the record will see them, and no rejected art moved a pixel closer to
+production.
+
+## D-069 — The title screen resolves a room the way every other surface does, and can name no office
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+
+The title screen was plain markup on a pale page while `title-tableau.ts`,
+`scene-registry.ts` and `raster-tiers.ts` all existed and all passed their own
+tests. The resolver was correct and unreachable, which no unit test on the
+resolver could detect, so the first artefact of this decision is a browser test
+that fails when the front door paints nothing.
+
+The tableau an ordinary adult resolved to was the Lexington council staff
+office, because it was the only tableau in the bank. That is the
+universal-office substitution the consumer map forbids, and gating it more
+tightly is not the repair: the fact that would justify that room is which
+jurisdiction a character's job answers to, and a save summary does not carry it.
+The Lexington tableaux are therefore ABSENT from the title registry rather than
+restricted, and a test walks every capability set a summary can produce to prove
+no path reaches them.
+
+What a save summary can honestly support is an age and whether a residence is on
+record. `titleHeroFromSaveSummary` emits `adult` and `residence-known` and
+nothing else; `office` and `legislature` exist in the registry and are never
+emitted, so the tableaux gated on them cannot match. When the persistence lane
+carries canonical capability tags on the summary they belong in that one
+function, and the tableaux light up with no change to the registry or the shell.
+
+The community meeting hall is banked for its EMPTY state only. Being an adult,
+or having a job, does not mean a character has ever spoken at a public meeting;
+putting them at that lectern because the picture contains a lectern is
+presentation inventing a life. A no-save title uses one named front-door tableau
+rather than a deterministic pick, because the first screen of a game is the one
+place stable-but-arbitrary is wrong.
+
+Consequence: the title screen shows approved production art, an ordinary person
+is shown an ordinary room, a child is shown a room with their name on it and no
+figure at all, and no title can show jurisdiction-specific office art.
+
+## D-070 — A room is measured from its own raster, or it says it is not measured
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+
+Four production plates were authored in this packet. None declares a floor
+calibration or a standard body width, and that is a refusal rather than an
+omission.
+
+The two apartments and the title hall have no repeating floor unit, so their
+plates contain no ruler and any near/far pair would be a guess wearing a
+measurement's clothes. The hearing room DOES have a tiled floor, and it was
+measured: successive tile seams sit at plate y 63.7%, 69.5%, 76.6%, 85.5% and
+96.5%. Fitting those to a flat floor under a fixed camera solves a horizon near
+the very top of the frame, which the room's own walls and ceiling contradict.
+The plate is an illustration and is not drawn on one consistent perspective. The
+measurement is recorded in `explicit_unknowns` and no calibration is derived
+from it, because a ramp fitted to numbers that do not describe a camera would
+place every future person in that room wrongly and look deliberate.
+
+Three rules are now executable. A production scene either declares a calibration
+pair or says in `explicit_unknowns` that it does not. No scene declares a body
+width without the ramp that scales it, because a size with no perspective paints
+everyone the same height whatever floor they stand on. And no two rooms share a
+ramp or a body width: two rooms agreeing to three decimal places did not both
+measure out that way, one was copied, which is exactly what made the fixture's
+numbers into "the project's numbers" before D-067.
+
+Consequence: an uncalibrated production room is a stated fact rather than a
+missing field, and the first person composed into any of these rooms will be
+placed against a ramp measured for it, not inherited from another picture.
+
+## D-071 — A missing picture is a record, and a generator seed is never its name
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+
+Every gap in this project had been recorded as a sentence in a report. Sentences
+do not reconcile: nobody can ask a paragraph whether the thing it wants has
+since arrived, and when the standing queues were checked against the current
+Drive, four of their answers had changed. A hearing-room master had arrived and
+closed a gap the consumer map called permanent; an executive office master and
+two title tableaux had been moved into the rejected folder while the
+repository's intake request still listed them as approved.
+
+`asset-request.ts` makes the ask durable. Every request carries a stable
+semantic id, a lifecycle, the consumer it unblocks, what was SEARCHED before it
+was asked for, and acceptance criteria a delivery can fail. The inventory check
+is required because commissioning a second copy of something the project already
+owns is a mistake this project has made.
+
+A diffusion seed may be recorded as provenance and may never be an asset's
+identity. A seed names one roll of one model's dice: it survives no model
+upgrade, describes nothing about what the picture is for, and cannot be searched
+for by anyone asking whether the asset exists. The validator rejects a
+seed-shaped or digest-shaped request id.
+
+The return path is deliberately NOT reimplemented. `asset-lineage.ts` already
+measures a candidate and issues a disposition; `asset-bank.ts` already records
+the verification with hash, container, dimensions, transparency, style-family
+judgement and artifact flags. A second verification record would give the
+project two answers to "was this accepted".
+
+Consequence: a gap is a record with an id that survives being solved, a stale
+request is closed with a reason rather than requeued, and the queue can be
+checked against the manifest by a test rather than by a person.
+
+## D-072 — A surface says nothing unless a canonical owner fills it
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+
+Scenes declare surfaces — screens, boards, placards, documents on tables — and
+each names the classes of information it could carry. `surface-binding.ts`
+decides what appears on them, and its whole design is one refusal: presentation
+never supplies a payload.
+
+The chain is base plate, to a slot measured off that plate, to a canonical owner
+that holds the fact, to a binder, to the visible room. If the third link is
+missing the chain stops and the slot shows the decoration the scene already
+declared for it. It does not show a plausible bill number, a seal that looks
+about right, or a date because a screen is the sort of thing that has one.
+
+Today the world owns exactly one of the offered classes: the date.
+`worldSurfacePayloads` binds `calendar-date` and returns nothing for bill
+numbers, tallies, seals, headlines, portraits, agendas and results — and that is
+a description of the simulation, not a limitation of the binder. "No owner" and
+"owner with nothing" are kept as separate states, because the second is the more
+actionable of the two and collapsing them hides that a system exists and is
+empty.
+
+This matters more than it sounds. Every surface in this game is in a civic room.
+Inventing any of those classes produces a picture of a government that does not
+exist, which is indistinguishable from a simulation bug and much harder to
+notice.
+
+Consequence: 26 declared surfaces across seven rooms currently show their
+painted decoration and say why, on a review route, instead of being quietly
+blank or quietly wrong.
+
+## D-073 — A sheet is chopped by its own alpha, and a clean chop is not an approval
+
+- Date: 2026-09-04
+- Status: ACCEPTED
+- Supersedes: none
+
+Four source sheets arrived and 32 components came out of three of them. Two
+rules came out with them.
+
+The first is that the grid is never assumed. These sheets do not divide evenly
+by their column count — 3584 across three columns is 1194.67 — so a fixed
+lattice shaves a pixel off some cells and not others, and the components stop
+being reproducible from the sheet. `source-sheet-chop.ts` projects each sheet's
+own alpha onto both axes and takes a cell as the intersection of one occupied
+column band with one occupied row band. A sheet laid out differently segments
+differently with no parameter changing.
+
+Background haze is cleared first, at alpha 8 rather than the alpha 1 the hair
+intake used, and the threshold is evidence rather than taste: roughly 22% of
+every sheet sits at alpha 1..8, and sampling found 98% of it more than four
+pixels from any pixel above alpha 64. It is background, not the soft edge of
+anything. The count cleared is reported per sheet, because a cleanup nobody can
+see the size of is a cleanup nobody can check.
+
+The second rule is the one that matters more. Twenty of the 32 cells chopped
+perfectly and are still not usable. Eight adult bodies carry a green silhouette
+contour on 67-80% of their soft-edge pixels — the approved character style
+authority has no silhouette stroke of any colour, and at the ~250 plate pixels a
+body actually paints at, the rim is plainly visible. Twelve footwear pairs are
+drawn as bonded three-quarter product views while the body family stands
+front-on with its feet apart. Neither is a quality fault and neither is fixable
+by cropping differently.
+
+So the disposition vocabulary is per cell and separate from the chop: PASS,
+REVISE, REJECT, recorded in `art/qa/p71/source_intake_dispositions.json` with
+the measurement that produced it. Twelve heads PASS. Twenty cells are REVISE. No
+cell was promoted, and no body attachment anchors were authored at all, because
+D-068 requires a production body's six semantic anchors to be measured from the
+raster that actually ships — and this raster is going to be re-exported, so
+anchors measured now would be discarded, and authoring them to look complete is
+precisely the failure D-068 records.
+
+Consequence: chopping is measurement. The project can now take a dense sheet
+apart reproducibly, say what each cell is, and say why a good cell is still not
+shippable, without either discarding the sheet or promoting it.
+
+## D-074 — Causal tracing is a read-only projection that renders absence as UNKNOWN
 
 - Date: 2026-09-03
 - Status: ACCEPTED

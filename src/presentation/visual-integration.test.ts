@@ -42,7 +42,7 @@ describe("Stage 6.5 visual integration contract", () => {
     );
 
     expect(composition.occluders).toHaveLength(1);
-    expect(composition.occluders[0]?.id).toBe("office-furniture-foreground");
+    expect(composition.occluders[0]?.id).toBe("desk-front");
     expect(composition.occluders[0]?.asset.assetId).toBe(
       "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
     );
@@ -50,9 +50,9 @@ describe("Stage 6.5 visual integration contract", () => {
       "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
     );
     expect(composition.occluders[0]?.asset.hash).toBe(
-      "11a1420a6c5663ae13b744372e81558576bfb314fa5d665a1404fa677d7456fe",
+      "f2f5ae8ca3e82e13cf6fb6f8f27c654b5c95a93c6ca2c31d5c56381fdd543406",
     );
-    expect(composition.occluders[0]?.depth).toBe(4);
+    expect(composition.occluders[0]?.zOrder).toBe(4);
 
     expect(composition.characters).toHaveLength(2);
 
@@ -70,15 +70,21 @@ describe("Stage 6.5 visual integration contract", () => {
     expect(primary!.asset?.hash).toBe(
       "8e5882e26eab1c6cf966cff188bfebd4e40cd117804e87930a0b06d67ca66e43",
     );
-    expect(primary!.depth).toBe(2);
-    expect(primary!.widthPercent).toBeCloseTo(24.225, 2);
-    expect(primary!.heightPercent).toBeCloseTo(58.051, 2);
-    expect(primary!.leftPercent).toBeCloseTo(64.027, 2);
-    expect(primary!.topPercent).toBeCloseTo(32.153, 2);
-    expect(primary!.hitbox.leftPercent).toBeCloseTo(72.506, 2);
-    expect(primary!.hitbox.topPercent).toBeCloseTo(35.055, 2);
-    expect(primary!.hitbox.widthPercent).toBeCloseTo(13.324, 2);
-    expect(primary!.hitbox.heightPercent).toBeCloseTo(29.025, 2);
+    expect(primary!.zOrder).toBe(2);
+    expect(primary!.widthPercent).toBeCloseTo(25.183, 2);
+    expect(primary!.heightPercent).toBeCloseTo(60.346, 2);
+    // This figure is placed by its measured SEAT CONTACT on the measured
+    // cushion of its own chair, and sized by the floor line measured under that
+    // chair rather than by a floor both seats used to share. The result seats
+    // her on the cushion instead of holding her above it, and her right edge
+    // lands at 64.757 + 25.183 = 89.94% of plate width, inside the 91.4%
+    // guaranteed safe area.
+    expect(primary!.leftPercent).toBeCloseTo(64.757, 2);
+    expect(primary!.topPercent).toBeCloseTo(31.726, 2);
+    expect(primary!.hitbox.leftPercent).toBeCloseTo(73.571, 2);
+    expect(primary!.hitbox.topPercent).toBeCloseTo(34.743, 2);
+    expect(primary!.hitbox.widthPercent).toBeCloseTo(13.851, 2);
+    expect(primary!.hitbox.heightPercent).toBeCloseTo(30.173, 2);
 
     const guest = composition.characters.find(
       (c) => c.anchorId === "left-guest-chair",
@@ -94,15 +100,15 @@ describe("Stage 6.5 visual integration contract", () => {
     expect(guest!.asset?.hash).toBe(
       "fd880e52fb191d6c32019ba451d006176ebc7762db89590c437c67586906be8d",
     );
-    expect(guest!.depth).toBe(3);
-    expect(guest!.widthPercent).toBeCloseTo(17.575, 2);
-    expect(guest!.heightPercent).toBeCloseTo(42.117, 2);
-    expect(guest!.leftPercent).toBeCloseTo(19.915, 2);
-    expect(guest!.topPercent).toBeCloseTo(41.52, 2);
-    expect(guest!.hitbox.leftPercent).toBeCloseTo(20.794, 2);
-    expect(guest!.hitbox.topPercent).toBeCloseTo(42.363, 2);
-    expect(guest!.hitbox.widthPercent).toBeCloseTo(15.817, 2);
-    expect(guest!.hitbox.heightPercent).toBeCloseTo(21.059, 2);
+    expect(guest!.zOrder).toBe(3);
+    expect(guest!.widthPercent).toBeCloseTo(16.554, 2);
+    expect(guest!.heightPercent).toBeCloseTo(39.668, 2);
+    expect(guest!.leftPercent).toBeCloseTo(21.021, 2);
+    expect(guest!.topPercent).toBeCloseTo(36.975, 2);
+    expect(guest!.hitbox.leftPercent).toBeCloseTo(21.848, 2);
+    expect(guest!.hitbox.topPercent).toBeCloseTo(37.768, 2);
+    expect(guest!.hitbox.widthPercent).toBeCloseTo(14.899, 2);
+    expect(guest!.hitbox.heightPercent).toBeCloseTo(19.834, 2);
   });
 
   describe("Person-owned visual identity invariant regressions", () => {
@@ -291,7 +297,7 @@ describe("Stage 6.5 visual integration contract", () => {
       expect(recipeGuest?.poseFamily).toBe("seated-in-guest-chair");
     });
 
-    it("5. A person lacking a compatible asset for the required pose fails closed and uses the explicit placeholder path", () => {
+    it("5. A person without an authored recipe resolves through the modular path, and fails closed when no body exists for the pose", () => {
       const unknownPerson: RunBScenePersonContext = {
         personId: "person_unknown_unreleased_999",
         title: "Staffer",
@@ -309,21 +315,69 @@ describe("Stage 6.5 visual integration contract", () => {
       );
       expect(recipe).toBeNull();
 
-      const composition = composeOfficeVisuals(
+      // No pin: legacy people resolve against generation 1. Its DEV fixtures
+      // have a seated body, so the ordinary seam composes a modular character
+      // at the same anchor with the same compositor — but generation 1's only
+      // footwear family was never drawn seated, so the plan is honestly
+      // incomplete and the seam reports a placeholder rather than a barefoot
+      // person it never authored.
+      const legacy = composeOfficeVisuals(
         [unknownPerson],
         PRODUCTION_VISUAL_LIBRARY,
         OFFICE_VISUAL_SCENE,
       );
-
-      expect(composition.characters).toHaveLength(1);
-      const char = composition.characters[0]!;
-      expect(char.isPlaceholder).toBe(true);
-      expect(char.asset).toBeNull();
-      expect(char.appearanceRecipeId).toBe(
-        "placeholder:unresolved-recipe-pose",
+      expect(legacy.characters).toHaveLength(1);
+      const modularVisual = legacy.characters[0]!;
+      expect(modularVisual.asset).toBeNull();
+      expect(modularVisual.modular).not.toBeNull();
+      expect(modularVisual.modular!.catalogGeneration).toBe(1);
+      expect(modularVisual.modular!.poseFamily).toBe("seated-at-desk");
+      expect(modularVisual.modular!.layers.map((l) => l.kind)).toContain(
+        "body",
       );
-      expect(char.hitbox.widthPercent).toBeGreaterThan(0);
-      expect(char.hitbox.heightPercent).toBeGreaterThan(0);
+      expect(modularVisual.isPlaceholder).toBe(true);
+      expect(
+        modularVisual.modular!.diagnostics.map((entry) => entry.code),
+      ).toContain("required-slot-empty");
+      expect(modularVisual.appearanceRecipeId).toBe(
+        modularVisual.modular!.recipeKey,
+      );
+      expect(modularVisual.hitbox.widthPercent).toBeGreaterThan(0);
+      expect(modularVisual.zOrder).toBe(2);
+
+      // Pinned to generation 2, which added seated footwear: the same seam now
+      // draws a complete person. Not one layer comes from the thirty-five
+      // banked production candidates — they are not catalog components, so
+      // identity resolution cannot reach them however good their hashes are.
+      const pinnedPerson: RunBScenePersonContext = {
+        ...unknownPerson,
+        personId: "person_pinned_gen2_999",
+        appearance: derivePersonAppearance(
+          "person_pinned_gen2_999",
+          undefined,
+          2,
+        ),
+      };
+      const pinned = composeOfficeVisuals(
+        [pinnedPerson],
+        PRODUCTION_VISUAL_LIBRARY,
+        OFFICE_VISUAL_SCENE,
+      );
+      const composed = pinned.characters[0]!;
+      expect(composed.asset).toBeNull();
+      expect(composed.modular).not.toBeNull();
+      expect(composed.modular!.catalogGeneration).toBe(2);
+      expect(composed.isPlaceholder).toBe(false);
+      expect(
+        composed.modular!.layers.filter((layer) =>
+          layer.assetId.startsWith("pg_"),
+        ),
+      ).toEqual([]);
+      expect(composed.modular!.layers.every((layer) => layer.released)).toBe(
+        true,
+      );
+      expect(composed.hitbox.widthPercent).toBeGreaterThan(0);
+      expect(composed.hitbox.heightPercent).toBeGreaterThan(0);
     });
 
     it("6. Composition does not mutate Person or World", () => {
@@ -415,6 +469,8 @@ describe("Stage 6.5 visual integration contract", () => {
       finalPath: "art/exists.png",
       hash: "def",
       url: "/resolved-url",
+      tierLadder: null,
+      tierUrls: new Map(),
     });
   });
 

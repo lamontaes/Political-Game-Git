@@ -1,5 +1,65 @@
 [
   {
+    "file": "families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
+    "metadata": {
+      "width": 1376,
+      "height": 768,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/apartment-ordinary/env_residence_apartment_living_ordinary_02_v1.png",
+    "metadata": {
+      "width": 1376,
+      "height": 768,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png",
+    "metadata": {
+      "width": 2048,
+      "height": 1143,
+      "aspectRatio": "2048:1143",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_v1.png",
+    "metadata": {
+      "width": 1376,
+      "height": 768,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/civic-hearing-room/env_civic_hearing_room_runtime_2x_v1.png",
+    "metadata": {
+      "width": 2752,
+      "height": 1536,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/civic-hearing-room/env_civic_hearing_room_v1.png",
+    "metadata": {
+      "width": 1376,
+      "height": 768,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
     "metadata": {
       "width": 2048,
@@ -28,6 +88,346 @@
       "hasTransparency": "none"
     },
     "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/legislative-chamber/env_legislative_chamber_floor_runtime_2x_v1.png",
+    "metadata": {
+      "width": 2816,
+      "height": 1536,
+      "aspectRatio": "11:6",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/legislative-chamber/env_legislative_chamber_floor_v1.png",
+    "metadata": {
+      "width": 1408,
+      "height": 768,
+      "aspectRatio": "11:6",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/shared-workroom-office/env_shared_workroom_office_runtime_2x_v1.png",
+    "metadata": {
+      "width": 2752,
+      "height": 1536,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/shared-workroom-office/env_shared_workroom_office_v1.png",
+    "metadata": {
+      "width": 1376,
+      "height": 768,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_accessory_lanyard_v1.png",
+    "metadata": {
+      "width": 80,
+      "height": 120,
+      "aspectRatio": "2:3",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_broad_deep_rich_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 660,
+      "aspectRatio": "7:11",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_broad_deep_rich_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 840,
+      "aspectRatio": "1:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_broad_light_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 660,
+      "aspectRatio": "7:11",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_broad_light_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 840,
+      "aspectRatio": "1:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_broad_medium_warm_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 660,
+      "aspectRatio": "7:11",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_broad_medium_warm_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 840,
+      "aspectRatio": "1:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_slim_deep_rich_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 660,
+      "aspectRatio": "7:11",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_slim_deep_rich_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 840,
+      "aspectRatio": "1:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_slim_light_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 660,
+      "aspectRatio": "7:11",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_slim_light_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 840,
+      "aspectRatio": "1:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_slim_medium_warm_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 660,
+      "aspectRatio": "7:11",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_body_slim_medium_warm_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 840,
+      "aspectRatio": "1:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_bottom_trousers_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 240,
+      "aspectRatio": "7:4",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_bottom_trousers_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 360,
+      "aspectRatio": "7:6",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_eyewear_thin_frames_v1.png",
+    "metadata": {
+      "width": 220,
+      "height": 220,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_footwear_derby_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 64,
+      "aspectRatio": "105:16",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_footwear_derby_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 64,
+      "aspectRatio": "105:16",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_hair_coils_front_v1.png",
+    "metadata": {
+      "width": 220,
+      "height": 220,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_hair_crop_front_v1.png",
+    "metadata": {
+      "width": 220,
+      "height": 220,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_hair_long_back_v1.png",
+    "metadata": {
+      "width": 260,
+      "height": 320,
+      "aspectRatio": "13:16",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_hair_long_front_v1.png",
+    "metadata": {
+      "width": 220,
+      "height": 220,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_head_deep_oval_v1.png",
+    "metadata": {
+      "width": 220,
+      "height": 220,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_head_light_square_v1.png",
+    "metadata": {
+      "width": 220,
+      "height": 220,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_head_warm_long_v1.png",
+    "metadata": {
+      "width": 220,
+      "height": 220,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_head_warm_round_v1.png",
+    "metadata": {
+      "width": 220,
+      "height": 220,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_top_knit_olive_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 290,
+      "aspectRatio": "42:29",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_top_knit_olive_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 340,
+      "aspectRatio": "21:17",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_top_suit_charcoal_seated_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 300,
+      "aspectRatio": "7:5",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/dev-modular-g2/dev_g2_top_suit_charcoal_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 360,
+      "aspectRatio": "7:6",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
   },
   {
     "file": "generated/approved/dev-modular/dev_accessory_lapel_pin_v1.png",
@@ -210,6 +610,676 @@
     "meetsTransparencyReq": true
   },
   {
+    "file": "generated/approved/pg-modular/pg_body_fl_standing_v1.png",
+    "metadata": {
+      "width": 343,
+      "height": 960,
+      "aspectRatio": "343:960",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_body_ml_standing_v1.png",
+    "metadata": {
+      "width": 345,
+      "height": 960,
+      "aspectRatio": "23:64",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_bottom_001_straight_leg_blue_jeans_fl_v1.png",
+    "metadata": {
+      "width": 157,
+      "height": 334,
+      "aspectRatio": "157:334",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_bottom_001_straight_leg_blue_jeans_ml_v1.png",
+    "metadata": {
+      "width": 190,
+      "height": 405,
+      "aspectRatio": "38:81",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_bottom_005_dress_trousers_fl_v1.png",
+    "metadata": {
+      "width": 157,
+      "height": 324,
+      "aspectRatio": "157:324",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_bottom_005_dress_trousers_ml_v1.png",
+    "metadata": {
+      "width": 190,
+      "height": 392,
+      "aspectRatio": "95:196",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_bottom_010_a_line_knee_skirt_fl_v1.png",
+    "metadata": {
+      "width": 157,
+      "height": 221,
+      "aspectRatio": "157:221",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_bottom_010_a_line_knee_skirt_ml_v1.png",
+    "metadata": {
+      "width": 190,
+      "height": 267,
+      "aspectRatio": "190:267",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_hair_f_black_001_short_tapered_afro_v1.png",
+    "metadata": {
+      "width": 106,
+      "height": 127,
+      "aspectRatio": "106:127",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_hair_f_black_002_rounded_medium_afro_v1.png",
+    "metadata": {
+      "width": 226,
+      "height": 218,
+      "aspectRatio": "113:109",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_hair_f_black_004_shoulder_natural_curls_v1.png",
+    "metadata": {
+      "width": 278,
+      "height": 286,
+      "aspectRatio": "139:143",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_hair_f_black_005_high_puff_v1.png",
+    "metadata": {
+      "width": 109,
+      "height": 148,
+      "aspectRatio": "109:148",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_hair_f_black_007_shoulder_box_braids_v1.png",
+    "metadata": {
+      "width": 214,
+      "height": 267,
+      "aspectRatio": "214:267",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_hair_f_black_008_long_box_braids_v1.png",
+    "metadata": {
+      "width": 308,
+      "height": 375,
+      "aspectRatio": "308:375",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_hair_f_black_010_cornrows_low_bun_v1.png",
+    "metadata": {
+      "width": 109,
+      "height": 142,
+      "aspectRatio": "109:142",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_hair_f_black_012_shoulder_locs_v1.png",
+    "metadata": {
+      "width": 255,
+      "height": 282,
+      "aspectRatio": "85:94",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_head_f_01_bald_neutral_v1.png",
+    "metadata": {
+      "width": 111,
+      "height": 117,
+      "aspectRatio": "37:39",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_head_m_001_black_young_adult_v1.png",
+    "metadata": {
+      "width": 98,
+      "height": 124,
+      "aspectRatio": "49:62",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_head_m_002_white_adult_v1.png",
+    "metadata": {
+      "width": 94,
+      "height": 124,
+      "aspectRatio": "47:62",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_head_m_004_east_asian_young_adult_v1.png",
+    "metadata": {
+      "width": 102,
+      "height": 124,
+      "aspectRatio": "51:62",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_head_m_005_black_older_adult_v1.png",
+    "metadata": {
+      "width": 115,
+      "height": 124,
+      "aspectRatio": "115:124",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_shoe_001_low_top_sneakers_fl_v1.png",
+    "metadata": {
+      "width": 227,
+      "height": 142,
+      "aspectRatio": "227:142",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_shoe_001_low_top_sneakers_ml_v1.png",
+    "metadata": {
+      "width": 134,
+      "height": 84,
+      "aspectRatio": "67:42",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_shoe_004_leather_loafers_fl_v1.png",
+    "metadata": {
+      "width": 227,
+      "height": 136,
+      "aspectRatio": "227:136",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_shoe_004_leather_loafers_ml_v1.png",
+    "metadata": {
+      "width": 134,
+      "height": 80,
+      "aspectRatio": "67:40",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_shoe_009_low_practical_flats_fl_v1.png",
+    "metadata": {
+      "width": 227,
+      "height": 148,
+      "aspectRatio": "227:148",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_shoe_009_low_practical_flats_ml_v1.png",
+    "metadata": {
+      "width": 134,
+      "height": 88,
+      "aspectRatio": "67:44",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_top_001_short_sleeve_crew_tee_fl_v1.png",
+    "metadata": {
+      "width": 235,
+      "height": 250,
+      "aspectRatio": "47:50",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_top_001_short_sleeve_crew_tee_ml_v1.png",
+    "metadata": {
+      "width": 265,
+      "height": 282,
+      "aspectRatio": "265:282",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_top_005_long_sleeve_button_shirt_fl_v1.png",
+    "metadata": {
+      "width": 235,
+      "height": 285,
+      "aspectRatio": "47:57",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_top_005_long_sleeve_button_shirt_ml_v1.png",
+    "metadata": {
+      "width": 265,
+      "height": 321,
+      "aspectRatio": "265:321",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_top_006_pullover_sweater_fl_v1.png",
+    "metadata": {
+      "width": 235,
+      "height": 260,
+      "aspectRatio": "47:52",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_top_006_pullover_sweater_ml_v1.png",
+    "metadata": {
+      "width": 265,
+      "height": 293,
+      "aspectRatio": "265:293",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_top_011_structured_blazer_fl_v1.png",
+    "metadata": {
+      "width": 235,
+      "height": 286,
+      "aspectRatio": "235:286",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/approved/pg-modular/pg_top_011_structured_blazer_ml_v1.png",
+    "metadata": {
+      "width": 265,
+      "height": 322,
+      "aspectRatio": "265:322",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_conversational_left_v1.png",
+    "metadata": {
+      "width": 908,
+      "height": 1638,
+      "aspectRatio": "454:819",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_gesture_forward_v1.png",
+    "metadata": {
+      "width": 826,
+      "height": 1630,
+      "aspectRatio": "413:815",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_front_v1.png",
+    "metadata": {
+      "width": 859,
+      "height": 1641,
+      "aspectRatio": "859:1641",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_three_quarter_v1.png",
+    "metadata": {
+      "width": 817,
+      "height": 1603,
+      "aspectRatio": "817:1603",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_a_v1.png",
+    "metadata": {
+      "width": 864,
+      "height": 1705,
+      "aspectRatio": "864:1705",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_b_v1.png",
+    "metadata": {
+      "width": 827,
+      "height": 1728,
+      "aspectRatio": "827:1728",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_a_v1.png",
+    "metadata": {
+      "width": 892,
+      "height": 1703,
+      "aspectRatio": "892:1703",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_b_v1.png",
+    "metadata": {
+      "width": 830,
+      "height": 1704,
+      "aspectRatio": "415:852",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_black_cap_toe_oxford_v1.png",
+    "metadata": {
+      "width": 1199,
+      "height": 739,
+      "aspectRatio": "1199:739",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_blue_running_shoe_v1.png",
+    "metadata": {
+      "width": 1167,
+      "height": 789,
+      "aspectRatio": "389:263",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_brown_penny_loafer_v1.png",
+    "metadata": {
+      "width": 1179,
+      "height": 740,
+      "aspectRatio": "1179:740",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_brown_strap_sandal_v1.png",
+    "metadata": {
+      "width": 1183,
+      "height": 791,
+      "aspectRatio": "169:113",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_green_ballet_flat_v1.png",
+    "metadata": {
+      "width": 1181,
+      "height": 760,
+      "aspectRatio": "1181:760",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_grey_court_sneaker_v1.png",
+    "metadata": {
+      "width": 1168,
+      "height": 759,
+      "aspectRatio": "1168:759",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_grey_low_block_heel_v1.png",
+    "metadata": {
+      "width": 1183,
+      "height": 799,
+      "aspectRatio": "1183:799",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_navy_canvas_plimsoll_v1.png",
+    "metadata": {
+      "width": 1172,
+      "height": 742,
+      "aspectRatio": "586:371",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_olive_hiking_boot_v1.png",
+    "metadata": {
+      "width": 1178,
+      "height": 1060,
+      "aspectRatio": "589:530",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_plum_mid_block_heel_v1.png",
+    "metadata": {
+      "width": 1164,
+      "height": 776,
+      "aspectRatio": "3:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_tan_work_boot_v1.png",
+    "metadata": {
+      "width": 1180,
+      "height": 985,
+      "aspectRatio": "236:197",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_taupe_chukka_boot_v1.png",
+    "metadata": {
+      "width": 1208,
+      "height": 981,
+      "aspectRatio": "1208:981",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_deep_oval_adult_v1.png",
+    "metadata": {
+      "width": 806,
+      "height": 1158,
+      "aspectRatio": "403:579",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_deep_round_young_v1.png",
+    "metadata": {
+      "width": 817,
+      "height": 1157,
+      "aspectRatio": "817:1157",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_deep_square_adult_masc_v1.png",
+    "metadata": {
+      "width": 800,
+      "height": 1161,
+      "aspectRatio": "800:1161",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_long_older_v1.png",
+    "metadata": {
+      "width": 810,
+      "height": 1156,
+      "aspectRatio": "405:578",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_oval_young_fem_v1.png",
+    "metadata": {
+      "width": 801,
+      "height": 1156,
+      "aspectRatio": "801:1156",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_oval_young_v1.png",
+    "metadata": {
+      "width": 819,
+      "height": 1157,
+      "aspectRatio": "63:89",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_square_older_lined_v1.png",
+    "metadata": {
+      "width": 849,
+      "height": 1158,
+      "aspectRatio": "283:386",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_square_older_masc_v1.png",
+    "metadata": {
+      "width": 832,
+      "height": 1156,
+      "aspectRatio": "208:289",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_olive_oval_adult_v1.png",
+    "metadata": {
+      "width": 800,
+      "height": 1162,
+      "aspectRatio": "400:581",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_tan_oval_adult_fem_v1.png",
+    "metadata": {
+      "width": 830,
+      "height": 1160,
+      "aspectRatio": "83:116",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_tan_round_young_v1.png",
+    "metadata": {
+      "width": 822,
+      "height": 1165,
+      "aspectRatio": "822:1165",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_tan_square_adult_masc_v1.png",
+    "metadata": {
+      "width": 814,
+      "height": 1161,
+      "aspectRatio": "814:1161",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png",
     "metadata": {
       "width": 765,
@@ -228,6 +1298,376 @@
       "hasTransparency": "none"
     },
     "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/body-head/OCD_CANDIDATE_HEAD_SOURCE_ADULT_DIVERSITY_12UP_3584x4800_01.png",
+    "metadata": {
+      "width": 3584,
+      "height": 4800,
+      "aspectRatio": "56:75",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "references/masters/people-pose/OCD_CANDIDATE_PEOPLE_POSE_ADULT_FEMININE_BODY_FAMILY_8POSE_5056x3392_01.png",
+    "metadata": {
+      "width": 5056,
+      "height": 3392,
+      "aspectRatio": "79:53",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "references/masters/pg-modular/bodies/pg_master_body_standing_frame_a.png",
+    "metadata": {
+      "width": 1696,
+      "height": 2528,
+      "aspectRatio": "53:79",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/bodies/pg_master_body_standing_frame_b.png",
+    "metadata": {
+      "width": 1696,
+      "height": 2528,
+      "aspectRatio": "53:79",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/bottoms/pg_master_bottom_01_straight_leg_jeans.png",
+    "metadata": {
+      "width": 219,
+      "height": 244,
+      "aspectRatio": "219:244",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/bottoms/pg_master_bottom_02_dress_trousers.png",
+    "metadata": {
+      "width": 218,
+      "height": 244,
+      "aspectRatio": "109:122",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/bottoms/pg_master_bottom_03_a_line_knee_skirt.png",
+    "metadata": {
+      "width": 219,
+      "height": 244,
+      "aspectRatio": "219:244",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/footwear/pg_master_footwear_01_low_top_sneakers.png",
+    "metadata": {
+      "width": 243,
+      "height": 244,
+      "aspectRatio": "243:244",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/footwear/pg_master_footwear_02_leather_loafers.png",
+    "metadata": {
+      "width": 243,
+      "height": 244,
+      "aspectRatio": "243:244",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/footwear/pg_master_footwear_03_low_practical_flats.png",
+    "metadata": {
+      "width": 243,
+      "height": 244,
+      "aspectRatio": "243:244",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/hair/pg_master_hair_01_short_tapered_afro.png",
+    "metadata": {
+      "width": 221,
+      "height": 213,
+      "aspectRatio": "221:213",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/hair/pg_master_hair_02_rounded_medium_afro.png",
+    "metadata": {
+      "width": 220,
+      "height": 213,
+      "aspectRatio": "220:213",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/hair/pg_master_hair_03_shoulder_natural_curls.png",
+    "metadata": {
+      "width": 221,
+      "height": 213,
+      "aspectRatio": "221:213",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/hair/pg_master_hair_04_high_puff.png",
+    "metadata": {
+      "width": 220,
+      "height": 213,
+      "aspectRatio": "220:213",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/hair/pg_master_hair_05_shoulder_box_braids.png",
+    "metadata": {
+      "width": 221,
+      "height": 213,
+      "aspectRatio": "221:213",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/hair/pg_master_hair_06_long_box_braids.png",
+    "metadata": {
+      "width": 220,
+      "height": 213,
+      "aspectRatio": "220:213",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/hair/pg_master_hair_07_cornrows_low_bun.png",
+    "metadata": {
+      "width": 221,
+      "height": 213,
+      "aspectRatio": "221:213",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/hair/pg_master_hair_08_shoulder_locs.png",
+    "metadata": {
+      "width": 221,
+      "height": 213,
+      "aspectRatio": "221:213",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/heads/pg_master_head_01_bald_neutral.png",
+    "metadata": {
+      "width": 333,
+      "height": 331,
+      "aspectRatio": "333:331",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/heads/pg_master_head_02_bald_neutral.png",
+    "metadata": {
+      "width": 333,
+      "height": 331,
+      "aspectRatio": "333:331",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/heads/pg_master_head_03_bald_neutral.png",
+    "metadata": {
+      "width": 333,
+      "height": 332,
+      "aspectRatio": "333:332",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/heads/pg_master_head_04_bald_neutral.png",
+    "metadata": {
+      "width": 333,
+      "height": 331,
+      "aspectRatio": "333:331",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/heads/pg_master_head_05_bald_neutral.png",
+    "metadata": {
+      "width": 206,
+      "height": 307,
+      "aspectRatio": "206:307",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/tops/pg_master_top_01_short_sleeve_crew_tee.png",
+    "metadata": {
+      "width": 221,
+      "height": 246,
+      "aspectRatio": "221:246",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/tops/pg_master_top_02_long_sleeve_button_shirt.png",
+    "metadata": {
+      "width": 220,
+      "height": 246,
+      "aspectRatio": "110:123",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/tops/pg_master_top_03_pullover_sweater.png",
+    "metadata": {
+      "width": 221,
+      "height": 246,
+      "aspectRatio": "221:246",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/pg-modular/tops/pg_master_top_04_structured_blazer.png",
+    "metadata": {
+      "width": 220,
+      "height": 246,
+      "aspectRatio": "110:123",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/scene-environment/OCD_CANDIDATE_SCENE_GENERIC_LEGISLATIVE_CHAMBER_FLOOR_5632x3072_01.jpg",
+    "metadata": {
+      "width": 5632,
+      "height": 3072,
+      "aspectRatio": "11:6",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_CANONICAL_03_5504x3072.jpg",
+    "metadata": {
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_ORDINARY_02_5504x3072.jpg",
+    "metadata": {
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_STARTER_01_1376x768.png",
+    "metadata": {
+      "width": 1376,
+      "height": 768,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/scene-environment/OCD_SCENE_MASTER_CIVIC_HEARING_ROOM_5504x3072_01.jpg",
+    "metadata": {
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/scene-environment/OCD_SCENE_MASTER_COURTROOM_EMPTY_5504x3072_01.jpg",
+    "metadata": {
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/scene-environment/OCD_SCENE_MASTER_EXECUTIVE_PRIVATE_OFFICE_1672x941_01.png",
+    "metadata": {
+      "width": 1672,
+      "height": 941,
+      "aspectRatio": "1672:941",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/scene-environment/OCD_SCENE_MASTER_SHARED_WORKROOM_OFFICE_5504x3072_01.jpg",
+    "metadata": {
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/scene-environment/PG_TITLE_BG_COMMUNITY_MEETING_HERO_SLOT_02_5504x3072.png",
+    "metadata": {
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/wardrobe/OCD_CANDIDATE_WARDROBE_FOOTWEAR_SOURCE_12UP_3584x4800_01.png",
+    "metadata": {
+      "width": 3584,
+      "height": 4800,
+      "aspectRatio": "56:75",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
   },
   {
     "file": "references/plans/texas_senate/normalized/habs_tx3326_00013a_normalized.jpg",

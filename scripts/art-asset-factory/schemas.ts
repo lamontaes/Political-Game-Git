@@ -1,4 +1,8 @@
-import type { CharacterComponentDefinition } from "../../src/presentation/character-components";
+import type {
+  CharacterComponentAvailability,
+  CharacterComponentCandidateDefinition,
+  CharacterComponentDefinition,
+} from "../../src/presentation/character-components";
 
 export type MeasurementConfidence =
   | "exact"
@@ -44,9 +48,48 @@ export interface Dimensions {
   drawing_source_scale?: string;
 }
 
+/**
+ * How a tier raster came to exist. Mirrors `RasterTierDerivation` in
+ * `src/presentation/raster-tiers.ts`; the manifest keeps snake_case fields.
+ */
+export type RasterTierDerivationRecord =
+  | "native-master"
+  | "deterministic-downscale"
+  | "external-upscale-derivative"
+  | "upscaled-development-fixture";
+
+export interface RasterTierRecord {
+  width: number;
+  height: number;
+  /** Repository-relative POSIX path under art/. */
+  path: string;
+  hash: string;
+  derivation: RasterTierDerivationRecord;
+  /**
+   * Real detail this raster carries when it is less than `width`. Required for
+   * any derivation with enlarged lineage, forbidden otherwise, so no tier can
+   * overstate its sharpness.
+   */
+  native_detail_width?: number;
+}
+
+/**
+ * Whether an asset is held to the production master contract or is frozen
+ * development fixture art. Fixture art is exempt from the master-dimension
+ * minimums and must never be promoted to a production plate or component.
+ */
+export type ArtClass = "development-fixture" | "production";
+
 export interface AssetManifestEntry {
   asset_id: string;
   asset_type: string;
+  /** Defaults to "development-fixture" when absent. */
+  art_class?: ArtClass;
+  /**
+   * Ordered raster tier ladder under one asset identity. The runtime selects
+   * among these by viewport and device pixel ratio.
+   */
+  raster_tiers?: RasterTierRecord[];
   family_id?: string;
   jurisdiction_scope?: string;
   era_start?: number;
@@ -75,10 +118,20 @@ export interface AssetManifestEntry {
    * validator and the runtime share one implementation.
    */
   component?: CharacterComponentDefinition;
+  /** Character components only: development-fixture or production-candidate. */
+  availability?: CharacterComponentAvailability;
+  /**
+   * Banked candidates only: the definition this part would carry once it is
+   * promoted into a catalog generation. Nothing that resolves an identity reads
+   * it, which is the point. It declares no `catalog_generation`, because a
+   * banked part is in no generation until a promotion puts it in one (D-065).
+   */
+  candidate_component?: CharacterComponentCandidateDefinition;
 }
 
 export type {
   CharacterCatalogData,
+  CharacterComponentCandidateDefinition,
   CharacterComponentDefinition,
 } from "../../src/presentation/character-components";
 

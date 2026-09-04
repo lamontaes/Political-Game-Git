@@ -1,0 +1,255 @@
+{
+  "pose_registry_version": "pose-families-fixture-v1",
+  "legacy_contactless_body_families": ["adult-medium", "adult-tall"],
+  "legacy_contactless_note": "The contract fixture has no raster at all, so its bodies declare no contacts. They exercise the structural contract and the legacy-contactless path; they are never production art.",
+  "families": [
+    {
+      "pose_family_id": "standing-neutral",
+      "label": "Fixture standing, neutral",
+      "intent": "Contract fixture only. Exercises the standing posture, the front facing and the legacy-contactless exemption without any raster.",
+      "priority": "P0",
+      "posture_class": "standing",
+      "facing": "front",
+      "nominal_canvas": {
+        "width": 800,
+        "height": 1200
+      },
+      "master_minimum": {
+        "width": 1696,
+        "height": 2528
+      },
+      "root": {
+        "x": 0.5,
+        "y": 0.6
+      },
+      "contacts": {
+        "leftFoot": {
+          "x": 0.38,
+          "y": 0.985
+        },
+        "rightFoot": {
+          "x": 0.62,
+          "y": 0.985
+        }
+      },
+      "contact_tolerance": 0.035,
+      "landmarks": {
+        "head": {
+          "x": 0.5,
+          "y": 0.114
+        },
+        "neck": {
+          "x": 0.5,
+          "y": 0.157
+        },
+        "chest": {
+          "x": 0.5,
+          "y": 0.25
+        },
+        "shoulder-left": {
+          "x": 0.226,
+          "y": 0.155
+        },
+        "shoulder-right": {
+          "x": 0.774,
+          "y": 0.155
+        },
+        "elbow-left": {
+          "x": 0.176,
+          "y": 0.377
+        },
+        "elbow-right": {
+          "x": 0.824,
+          "y": 0.377
+        },
+        "wrist-left": {
+          "x": 0.143,
+          "y": 0.527
+        },
+        "wrist-right": {
+          "x": 0.857,
+          "y": 0.527
+        },
+        "hand-left": {
+          "x": 0.136,
+          "y": 0.566
+        },
+        "hand-right": {
+          "x": 0.864,
+          "y": 0.566
+        },
+        "pelvis": {
+          "x": 0.5,
+          "y": 0.6
+        },
+        "hip-left": {
+          "x": 0.286,
+          "y": 0.598
+        },
+        "hip-right": {
+          "x": 0.714,
+          "y": 0.598
+        },
+        "knee-left": {
+          "x": 0.39,
+          "y": 0.75
+        },
+        "knee-right": {
+          "x": 0.61,
+          "y": 0.75
+        },
+        "ankle-left": {
+          "x": 0.39,
+          "y": 0.946
+        },
+        "ankle-right": {
+          "x": 0.61,
+          "y": 0.946
+        }
+      },
+      "compatible_body_families": ["adult-medium", "adult-tall"],
+      "garment_pose_family": "standing-neutral",
+      "required_footwear_state": "shoes-visible",
+      "prop_attachment_slots": ["hand-left", "hand-right"],
+      "production_status": "pending-generation",
+      "human_qa": "pending",
+      "contact_verification": {
+        "status": "measured-from-art"
+      },
+      "provenance": {
+        "derived_from": "Normalized from the production standing-neutral family for the contract fixture in art/fixtures/valid_character_manifest.json.",
+        "generation_authority": "Fixture only; no external generation lane applies."
+      },
+      "control_plate": {
+        "path": "art/fixtures/pose-control-plates/standing-neutral__front.svg",
+        "hash": "6a73e05f843eecd8dac65984d94353cff0ba10fc0a0be2f3289ba7572be88af0"
+      }
+    },
+    {
+      "pose_family_id": "seated-at-desk",
+      "label": "Fixture seated, desk work",
+      "intent": "Contract fixture only. Exercises the seated posture and a three-quarter facing, so head and hair compatibility can be checked against something other than a front view.",
+      "priority": "P0",
+      "posture_class": "seated",
+      "facing": "three-quarter-left",
+      "nominal_canvas": {
+        "width": 800,
+        "height": 1200
+      },
+      "master_minimum": {
+        "width": 1530,
+        "height": 2048
+      },
+      "root": {
+        "x": 0.5,
+        "y": 0.6
+      },
+      "contacts": {
+        "seatedPelvis": {
+          "x": 0.5,
+          "y": 0.6
+        },
+        "leftFoot": {
+          "x": 0.4,
+          "y": 0.975
+        },
+        "rightFoot": {
+          "x": 0.64,
+          "y": 0.975
+        }
+      },
+      "contact_tolerance": 0.035,
+      "landmarks": {
+        "head": {
+          "x": 0.53,
+          "y": 0.145
+        },
+        "neck": {
+          "x": 0.53,
+          "y": 0.2
+        },
+        "chest": {
+          "x": 0.53,
+          "y": 0.303
+        },
+        "shoulder-left": {
+          "x": 0.3163,
+          "y": 0.197
+        },
+        "shoulder-right": {
+          "x": 0.7437,
+          "y": 0.197
+        },
+        "elbow-left": {
+          "x": 0.2898,
+          "y": 0.41
+        },
+        "elbow-right": {
+          "x": 0.7702,
+          "y": 0.41
+        },
+        "wrist-left": {
+          "x": 0.2718,
+          "y": 0.554
+        },
+        "wrist-right": {
+          "x": 0.7882,
+          "y": 0.554
+        },
+        "hand-left": {
+          "x": 0.2679,
+          "y": 0.591
+        },
+        "hand-right": {
+          "x": 0.7921,
+          "y": 0.591
+        },
+        "pelvis": {
+          "x": 0.5,
+          "y": 0.6
+        },
+        "hip-left": {
+          "x": 0.3631,
+          "y": 0.612
+        },
+        "hip-right": {
+          "x": 0.6969,
+          "y": 0.612
+        },
+        "knee-left": {
+          "x": 0.4356,
+          "y": 0.736
+        },
+        "knee-right": {
+          "x": 0.6244,
+          "y": 0.736
+        },
+        "ankle-left": {
+          "x": 0.4356,
+          "y": 0.939
+        },
+        "ankle-right": {
+          "x": 0.6244,
+          "y": 0.939
+        }
+      },
+      "compatible_body_families": ["adult-medium", "adult-tall"],
+      "garment_pose_family": "seated-at-desk",
+      "required_footwear_state": "shoes-visible",
+      "prop_attachment_slots": ["hand-left", "hand-right"],
+      "production_status": "pending-generation",
+      "human_qa": "pending",
+      "contact_verification": {
+        "status": "measured-from-art"
+      },
+      "provenance": {
+        "derived_from": "Normalized from the production seated-at-desk family and turned to three-quarter-left for the contract fixture in art/fixtures/valid_character_manifest.json.",
+        "generation_authority": "Fixture only; no external generation lane applies."
+      },
+      "control_plate": {
+        "path": "art/fixtures/pose-control-plates/seated-at-desk__three-quarter-left.svg",
+        "hash": "47d2f60a6e6a6e8bf6c6f8f9d04806e919128f52843772939a63eb5b315b9568"
+      }
+    }
+  ]
+}

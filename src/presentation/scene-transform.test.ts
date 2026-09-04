@@ -125,7 +125,10 @@ describe("responsive office virtual-scene camera", () => {
             anchor,
             OFFICE_VISUAL_SCENE,
           );
-          const root = recipe.root;
+          // The seated contact is what the compositor places on the seat
+          // plane, so it is what the projection has to agree with. `root` is
+          // the hip joint above it.
+          const root = recipe.seatedContact.root;
           const sceneRect = characterSceneRect(character);
 
           expect(

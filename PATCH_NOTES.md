@@ -2,6 +2,98 @@
 
 Newest release first.
 
+## UNRELEASED — Groundwork
+
+The game has a chamber to legislate in.
+
+A legislative chamber floor — tiered member desks, a raised rostrum with a
+lectern, public galleries above — is now in the game's own art library at full
+size, drawn from a picture four times sharper than it needs. Nothing in the room
+names a state or carries a seal, and the monitor and the papers on the near desk
+are deliberately blank: those say something only when the game genuinely knows
+what to say. Nobody is in the room yet.
+
+The first adult bodies, heads and shoes also arrived and were taken apart into
+32 separate pieces. Twelve faces came through clean. The eight bodies and the
+twelve pairs of shoes did not, for reasons that are written down rather than
+guessed at, and none of them is in the game yet. The short version: the bodies
+have a green line around them that the game's own art style does not use, and
+the shoes are drawn at an angle the bodies' feet are not standing at.
+
+The game has a picture on its front door.
+
+Opening the game used to show a pale page with three buttons on it. It now
+opens on a community meeting hall — a real room, drawn at full size, the same
+one whatever machine you open it on. If you have played before, the title shows
+you a room that fits the life you left: an ordinary adult gets their own living
+room, with their name on it. Nobody is drawn into those rooms yet, because the
+people have not been drawn, and the game says so in a sentence rather than
+putting a stranger in your living room.
+
+A child never gets an office. Neither does an adult who does not work in one.
+Which room the title shows comes from what the game actually knows about your
+character, and what it does not know it will not guess: the municipal office
+with the county map on its wall now appears only where somebody really works
+there, and it can no longer turn up as the default room for anybody with a
+saved game.
+
+Three more rooms came in with it — a second living room, a public hearing room
+with a bench and a lectern, and a courtroom that nothing uses yet. All of them
+are the full-size approved pictures, shrunk to fit rather than blown up, and
+none of them has a single readable word painted into it. Anything a room needs
+to say — a date, a bill number, a name — stays blank until the game genuinely
+knows it.
+
+Nothing here changes what you can do in the game yet. It is the plumbing that
+future rooms and future people are built on, and it is worth one paragraph
+because of what it makes possible next.
+
+Backgrounds can now come in four sizes of the same picture, and the game picks
+the sharpest one your screen can actually use — so a big or a Retina display
+stops being served a small picture blown up. Nothing is ever enlarged to fill a
+gap: where a picture is too small for a screen, the game says so instead of
+pretending. Rooms and people are now described by data rather than by
+hand-placed numbers, which means a person put in a chair sits in it, a person
+put on a floor stands on it, and swapping one person for another does not knock
+either of them out of place. None of that is visible yet, because the art it is
+waiting for has not been made.
+
+Postures are now described the same way. Standing, sitting at a desk, sitting
+in a guest chair and standing while talking are each written down once — where
+the feet meet the floor, where the hips meet the seat, where the shoulders and
+hands sit — so a person can be asked for a posture and the game either draws
+them properly in it or says plainly that the picture does not exist yet. It
+will not put a desk-work drawing in a guest chair and hope you do not notice.
+The same descriptions produce the drawing guides the art itself is made from,
+so the picture and the maths come from one source.
+
+The game now has a real office. A high-resolution shared staff workroom — the
+approved master, not a development stand-in — is in the game's own art library
+and drawn from a picture four times sharper than the old one, with the room's
+own floor, furniture and sight-lines measured rather than borrowed from the
+placeholder room it replaces. Nobody is standing in it yet, and the game says so
+plainly instead of filling it with development mannequins: the people who belong
+in that room have not been drawn.
+
+The old placeholder office is still there, still working, and now clearly
+labelled as the development room it always was.
+
+The two people in the development office now sit in their chairs rather than
+near them. The woman at the desk was hovering above her seat and the man in the
+guest chair was cutting through his, because the game had been told the chairs
+were somewhere they are not — the numbers describing the furniture had been
+worked out from the drawings of the people instead of being read off the room.
+They are read off the room now, and a person is placed by the part of them that
+actually rests on a seat.
+
+A batch of real character art is banked here but deliberately switched off: the
+bodies are untextured gray shapes and the clothes are design drawings rather
+than clothes drawn onto a person, so nobody can wear any of it until a person
+looks at it and says it is good enough. It is now recorded as belonging to no
+release at all, rather than to a release it was hidden inside — a small
+bookkeeping difference that keeps "we have this art" and "you can see this art"
+from ever being the same sentence.
+
 ## PRE-ALPHA 0.3.0 — "A Life, Not a Fixture" — CANDIDATE, NOT YET ACCEPTED
 
 _Proposed 2 September 2026. The version number is a candidate; final acceptance

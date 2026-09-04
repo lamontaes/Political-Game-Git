@@ -3,6 +3,7 @@ import {
   projectCharacterLayers,
   resolveCharacterRecipe,
   type CharacterComponentKind,
+  type CharacterRecipeDiagnostic,
   type CharacterComponentLibrary,
   type CharacterRecipe,
   type CharacterRecipeIdentity,
@@ -96,9 +97,19 @@ export interface CharacterRenderPlan {
   readonly attachmentAnchors: readonly CharacterRenderMarker[];
   /** Ordered by layer ascending; render in this order. */
   readonly layers: readonly CharacterRenderLayer[];
-  /** True when a body resolved and every layer is runtime eligible. */
+  /** Named reasons a slot resolved nothing, carried from the recipe context. */
+  readonly diagnostics: readonly CharacterRecipeDiagnostic[];
+  /**
+   * True when a body resolved, every required slot is filled, and every layer
+   * is runtime eligible. A person with an empty required slot is NOT complete,
+   * however well the rest of them draws: a figure with bare ankles is a
+   * contract failure, not an aesthetic one.
+   */
   readonly complete: boolean;
-  /** Component IDs resolved but not runtime eligible, or a missing body. */
+  /**
+   * What stopped this person being complete: component IDs that resolved but
+   * are not runtime eligible, a missing body, and empty required slots.
+   */
   readonly missing: readonly string[];
 }
 
@@ -187,6 +198,7 @@ export function buildCharacterRenderPlan(
       root: null,
       attachmentAnchors: [],
       layers: [],
+      diagnostics: recipe.context.diagnostics,
       complete: false,
       missing: [`body:${recipe.identity.bodyFamily}:${anchor.poseFamily}`],
     };
@@ -232,6 +244,13 @@ export function buildCharacterRenderPlan(
     };
   });
 
+  const emptyRequiredSlots = recipe.context.diagnostics.filter(
+    (diagnostic) => diagnostic.code === "required-slot-empty",
+  );
+  for (const diagnostic of emptyRequiredSlots) {
+    missing.push(`slot:${diagnostic.slotId}`);
+  }
+
   return {
     personId,
     appearanceSeed: appearance.seed,
@@ -251,6 +270,7 @@ export function buildCharacterRenderPlan(
     },
     attachmentAnchors,
     layers,
+    diagnostics: recipe.context.diagnostics,
     complete: missing.length === 0,
     missing,
   };
