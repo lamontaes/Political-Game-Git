@@ -5513,3 +5513,152 @@
 .title-tableau--art .game-title-line {
   color: #101c30;
 }
+
+/* -------------------------------------------------------------------------- */
+/* Scene gallery — the room review route                                      */
+/* -------------------------------------------------------------------------- */
+
+.scene-gallery {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+  color: #16233a;
+}
+
+.scene-gallery header p,
+.scene-gallery section > p {
+  max-width: 46rem;
+  color: #47536a;
+}
+
+.scene-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+  align-items: start;
+  gap: 1.5rem;
+  margin: 2rem 0 3rem;
+}
+
+.scene-gallery-card {
+  border: 1px solid #d3d7e0;
+  border-radius: 0.6rem;
+  overflow: hidden;
+  background: #fbfbfd;
+}
+
+.scene-gallery-plate {
+  background: #e8eaef;
+}
+
+.scene-gallery-no-plate {
+  margin: 0;
+  padding: 3.5rem 1.25rem;
+  text-align: center;
+  color: #55627a;
+}
+
+.scene-gallery-body {
+  padding: 1rem 1.15rem 1.35rem;
+}
+
+.scene-gallery-body h3 {
+  margin: 0 0 0.3rem;
+  font-size: 1.05rem;
+}
+
+.scene-gallery-body h3 small,
+.scene-gallery-requests h4 small {
+  margin-left: 0.5rem;
+  font-weight: 400;
+  color: #6b7688;
+}
+
+.scene-gallery-body h4 {
+  margin: 1.1rem 0 0.4rem;
+  font-size: 0.86rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #55627a;
+}
+
+.scene-gallery-ids code {
+  margin-right: 0.5rem;
+  font-size: 0.76rem;
+}
+
+.scene-gallery-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.15rem 0.9rem;
+  margin: 0.6rem 0 0;
+  font-size: 0.82rem;
+}
+
+.scene-gallery-facts dt {
+  color: #6b7688;
+}
+
+.scene-gallery-facts dd {
+  margin: 0;
+}
+
+.scene-gallery-body ul,
+.scene-gallery-requests ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.84rem;
+}
+
+.scene-gallery-body li span {
+  display: block;
+  color: #55627a;
+}
+
+.scene-gallery-unknowns li {
+  margin-bottom: 0.4rem;
+  color: #55627a;
+}
+
+.scene-gallery-warning {
+  color: #8a2f2f;
+}
+
+.scene-gallery-matrix table {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+
+.scene-gallery-matrix th,
+.scene-gallery-matrix td {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid #dcdfe7;
+  text-align: left;
+  vertical-align: top;
+}
+
+.scene-gallery-matrix small {
+  color: #6b7688;
+}
+
+.scene-gallery-requests {
+  margin-top: 3rem;
+}
+
+.scene-gallery-requests li {
+  margin-bottom: 1.4rem;
+}
+
+.scene-gallery-requests h4 {
+  margin: 0 0 0.2rem;
+  font-size: 0.95rem;
+}
+
+.scene-gallery-requests p {
+  margin: 0.25rem 0;
+}
+
+.scene-gallery-shortfall {
+  color: #55627a;
+}

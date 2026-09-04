@@ -42,6 +42,18 @@
       "kind": "repository-branch",
       "reference": "lamontaes/Political-Game-Git PR #80, head 76b6e076c7419cbc7ed527931aa680b958efd19d",
       "note": "Packet 45 graphics-production-convergence. Not a second graphics architecture: a DONOR. It finished 14 minutes after this branch's head, so its final commit carried cargo no earlier audit of it could see. Every unique item is dispositioned below."
+    },
+    {
+      "source_id": "drive-4k-source-master-library",
+      "kind": "drive-source-library",
+      "reference": "Drive 05_4K_SOURCE_MASTERS (1kZJFDKHmvDjzxrJ_9JH1TuyzDnQqq7b1), the owner's single entrypoint for high-resolution source art",
+      "note": "Established 2026-09-03, after PR #82 merged. Its 00_START_HERE document is the authority for which masters are current and which are rejected."
+    },
+    {
+      "source_id": "drive-4k-chopped-hair-masters",
+      "kind": "drive-source-library",
+      "reference": "Drive 00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/40_HAIR/40A_4K_CHOPPED_HAIR_MASTERS",
+      "note": "63 hair components chopped from seven 4096x4096 Firefly source sheets, with the owner's own manifest CSV beside them. All appeared after PR #82 merged."
     }
   ],
   "entries": [
@@ -426,6 +438,78 @@
         "upstream_masters_declared": "54",
         "re_homed_here": "22",
         "upstream_not_collected": "32"
+      }
+    },
+    {
+      "entry_id": "drive-scene-masters-2026-09-03",
+      "source_id": "drive-4k-source-master-library",
+      "label": "Five scene and title masters at 5504x3072, plus two below the production floor",
+      "disposition": "re-homed",
+      "basis": ["technical", "authority"],
+      "reason": "Found by this packet's run-start rescan of the 4K source master library. Every file was copied into the repository byte-for-byte and re-measured here: containers read from magic bytes, dimensions and sha256 recorded, and each one matched what the ingest manifest declared. Four of them carry runtime tiers derived by Lanczos-3 reduction only. Three are banked and registered but deliberately unreleased: the courtroom has no consumer, and the executive study and starter apartment are 1672px and 1376px, both below the 4608px environment master minimum.",
+      "verified_by": "measured-in-repository",
+      "rehomed_asset_ids": [
+        "title_bg_civic_community_meeting_hero_slot_5504x3072_v1",
+        "env_residence_apartment_living_canonical_03_5504x3072_v1",
+        "env_residence_apartment_living_ordinary_02_5504x3072_v1",
+        "env_civic_hearing_room_5504x3072_v1",
+        "env_courtroom_empty_5504x3072_v1",
+        "env_office_executive_private_lincoln_1672x941_v1",
+        "env_residence_apartment_living_modest_01_1376x768_v1"
+      ],
+      "measurements": {
+        "masters_banked": 7,
+        "released_with_tiers": 4,
+        "registered_unreleased": 3,
+        "enlargement_performed": "none",
+        "container_mismatches_found": "none; the two apartment upscales Packet 37A recorded as JPEG bitstreams inside .png filenames now carry .jpg extensions and their bytes are unchanged"
+      }
+    },
+    {
+      "entry_id": "drive-hair-4k-chopped-masters",
+      "source_id": "drive-4k-chopped-hair-masters",
+      "label": "63 chopped 4K hair components, production candidates",
+      "disposition": "banked-not-promoted",
+      "basis": ["technical", "authority"],
+      "reason": "Measured outside the repository and NOT promoted. Three separate reasons, each sufficient on its own. First, the owner's manifest records every one as PRODUCTION_CANDIDATE, and a candidate does not become production by existing. Second, 15 of the 63 fall below the 1024px hair minimum by between 7 and 117 pixels; the honest repair is a re-chop from the 4096px source sheet with more margin, not an enlargement of 1.01x to 1.13x, which the pipeline refuses. Third, hair composes onto a head, and no production head or body master exists, so releasing all 63 today would add nothing anyone could see. The measurement is banked at art/qa/drive_hair_master_inventory.json and is reproducible with 'npm run inventory:masters -- <folder holding the 63 PNGs>'. What is pending here is a human release decision and a re-chop of the 15 short files, NOT a measurement: the bytes were opened and read.",
+      "verified_by": "inspected-outside-repository",
+      "measurements": {
+        "files": 63,
+        "true_varying_alpha": 63,
+        "clears_hair_minimum": 48,
+        "below_hair_minimum": 15,
+        "smallest_long_edge": "907px",
+        "largest_required_enlargement": "1.13x",
+        "owner_status": "PRODUCTION_CANDIDATE for all 63; QA PASS for 60 and PASS_WITH_NOTE for 3"
+      }
+    },
+    {
+      "entry_id": "drive-hair-style-source-sheet",
+      "source_id": "drive-4k-source-master-library",
+      "label": "The 4004x4096 hair construction and style source sheet",
+      "disposition": "archive",
+      "basis": ["authority"],
+      "reason": "The library's own document names it the approved SOURCE-SHEET MODEL for hair construction: detached hair, a frontal invisible-skull opening, a clean 3x3 grid and real transparency. It is a style authority for making future hair, not a runtime asset, and it is explicitly not a restriction to the nine styles it happens to show. Nothing in the runtime should ever select it, so it stays in Drive.",
+      "verified_by": "metadata-only",
+      "verify_command": "npm run inventory:masters -- <folder holding OCD_HAIR_STYLE_SOURCE_MASTER_REFERENCE_01_4K.png>",
+      "measurements": {
+        "declared_dimensions": "4004x4096",
+        "drive_file_id": "1nMfaNOA1UKmUg9CeY-rU-pB7e6Wdlzc6"
+      }
+    },
+    {
+      "entry_id": "drive-rejected-high-res-calibration",
+      "source_id": "drive-4k-source-master-library",
+      "label": "The rejected high-resolution calibration folder",
+      "disposition": "rejected",
+      "basis": ["authority"],
+      "reason": "Recorded so no later run promotes any of it for being large. 05Y_REJECTED_HIGH_RES_CALIBRATION holds four byte-identical 24.2MB copies of the photoreal Topaz executive office, a cel-shaded community-meeting duplicate, a Pixar-style legislative title, and the 5376x3024 community meeting and courtroom tableaux. The last two matter most here: the repository's standing intake request still lists them as approved title-plate candidates, and the owner has since filed them as rejected. That request is stale, and these files were not ingested. The library's own document is explicit that resolution is not approval.",
+      "verified_by": "metadata-only",
+      "verify_command": "Read 00_START_HERE — OCD 4K SOURCE MASTER LIBRARY (Drive 1ymmqhNT-gCwhAFvEv9xqHsutkrih_jOWlB-TG-zbSSM) and list 05Y_REJECTED_HIGH_RES_CALIBRATION.",
+      "measurements": {
+        "files_in_folder": 9,
+        "largest": "24242162 bytes at 5568x3008, four identical copies",
+        "previously_queued_as_approved": "PG_TITLE_BG_COMMUNITY_MEETING_TABLEAU_01_5376x3024.png, PG_TITLE_BG_COURTROOM_CIVIC_TABLEAU_01_5376x3024.png, and the PG-E02 executive office master"
       }
     }
   ]

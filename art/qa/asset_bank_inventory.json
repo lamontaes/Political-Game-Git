@@ -344,6 +344,7 @@
   ],
   "cargo": {
     "rehomed": [
+      "drive-scene-masters-2026-09-03",
       "pr48-body-masters",
       "pr48-bottom-masters",
       "pr48-footwear-masters",
@@ -360,6 +361,7 @@
       "pr80-production-authoring-records"
     ],
     "rejected": [
+      "drive-rejected-high-res-calibration",
       "pack-office-cubicle-set",
       "pr48-demographic-asset-ids",
       "pr48-normalized-derivatives",
@@ -368,6 +370,7 @@
       "pr80-scene-composition"
     ],
     "archived": [
+      "drive-hair-style-source-sheet",
       "pack-universal-animation-library",
       "pack-universal-base-characters"
     ],

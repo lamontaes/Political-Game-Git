@@ -1,0 +1,511 @@
+{
+  "documentVersion": 1,
+  "generatedFrom": "Packet 68, reconciled against the 2026-09-03 Drive rescan and the released manifest. Hand-authored; validated by src/authoring/asset-request.ts.",
+  "requests": [
+    {
+      "requestId": "person-production-standing-body",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "queued",
+      "title": "A production standing adult body, with head, hair and wardrobe that fit it",
+      "consumer": {
+        "consumerId": "title-recent-save",
+        "runtimeComponent": "src/player/TitleTableau.tsx",
+        "playerVisibleUse": "The player's own character, standing in the room the title screen shows them."
+      },
+      "whyNeeded": "Five production rooms are registered and painting. Not one person can be composed into any of them, so every character-bearing surface falls to a room with a name on it. This is the single asset that unblocks the most surfaces at once.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/generated/approved/pg-modular/",
+          "art/generated/approved/dev-modular/",
+          "art/generated/approved/dev-modular-g2/",
+          "art/references/masters/pg-modular/"
+        ],
+        "driveLocationsSearched": [
+          "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/20_BODY_GEOMETRY",
+          "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/30_CHARACTER_CANDIDATES",
+          "05_4K_SOURCE_MASTERS/05B_BODY_HEAD_SOURCE_SHEETS",
+          "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS"
+        ],
+        "found": "46 released components, every one a development fixture. 35 banked pg-* candidates, unreleased and in no catalog generation. 05B and 05C are both empty.",
+        "shortfall": "The banked candidate bodies are gray mannequins kept as structural reference, and their attachment anchors are recorded as non-authoritative (D-068). Releasing them would put a reference mannequin on a production plate, which is the substitution the production path exists to prevent."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1536,
+        "aspectRatio": "3:4 body canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "PG_STYLE_REFERENCE_CHARACTER_P005_APPROVED.png (Drive 1YrG8hxgod8mYs3RU_4WONxKSSn9wjraK)"
+      },
+      "generationRecipe": [
+        "One adult body in a relaxed standing pose, facing the camera, whole figure inside the canvas with the feet clear of the bottom edge.",
+        "True transparency everywhere that is not the figure. No painted ground, no shadow baked into the alpha.",
+        "Neutral undergarment-level body so tops, bottoms and footwear composite over it; not a finished outfit.",
+        "Grounded semi-realistic illustrated rendering matching the style authority. Not photographic, not cartooned.",
+        "No face or hair painted into the body: the head and hair are separate components."
+      ],
+      "acceptanceCriteria": [
+        "Magic bytes are PNG and the alpha channel carries real per-pixel transparency, not a matte.",
+        "Six named semantic anchors descend the body in order, with the garment hips at or below the pelvis root.",
+        "Composes with a released head, hair, top, bottom and footwear into a complete plan with no missing layer.",
+        "Human visual approval recorded separately from intake acceptance."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "person-production-seated-body",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "queued",
+      "title": "A production seated adult body for a desk",
+      "consumer": {
+        "consumerId": "production-office",
+        "runtimeComponent": "src/ui/ProductionOfficeProofView.tsx",
+        "playerVisibleUse": "Somebody sitting at the desk in the shared staff workroom."
+      },
+      "whyNeeded": "Every seat anchor on the production office fails closed. The proof surface names the anchor and the reason, which is honest and is not a picture of anyone working.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/generated/approved/",
+          "art/references/masters/pg-modular/bodies/"
+        ],
+        "driveLocationsSearched": [
+          "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS",
+          "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/30_CHARACTER_CANDIDATES"
+        ],
+        "found": "Seated art exists only as the two authored A01/B01 fixture figures and the dev-modular seated fixtures.",
+        "shortfall": "Both are development fixtures and are forbidden on a production plate by the production office's own library filter."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1536,
+        "aspectRatio": "3:4 body canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "PG_STYLE_REFERENCE_CHARACTER_P005_APPROVED.png (Drive 1YrG8hxgod8mYs3RU_4WONxKSSn9wjraK)"
+      },
+      "generationRecipe": [
+        "The same adult body seated, thighs level, lower legs vertical, seated at a work surface rather than lounging.",
+        "The seat itself is NOT in the picture: the room supplies the chair and the seat plane.",
+        "True transparency; no chair, no desk, no shadow in the alpha.",
+        "Same rendering language and same body family as the standing body it pairs with."
+      ],
+      "acceptanceCriteria": [
+        "The pelvis root sits on the canvas where the seat plane contract expects it.",
+        "Pairs with the standing body as one body family, not two people.",
+        "Composes into a complete plan at the production office's seat anchor."
+      ],
+      "dependsOn": ["person-production-standing-body"]
+    },
+    {
+      "requestId": "person-child-body-morphology",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "Child and adolescent body morphology",
+      "consumer": {
+        "consumerId": "formative-years",
+        "runtimeComponent": "src/player/PlayerGame.tsx",
+        "playerVisibleUse": "The character during the growing-up years."
+      },
+      "whyNeeded": "The formative years are playable and every banked body is an adult. Until a child body exists the formative surfaces must stay empty of figures, because scaling an adult down produces a miniature adult rather than a child.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/generated/approved/",
+          "art/manifest/character_catalog.json"
+        ],
+        "driveLocationsSearched": [
+          "05_4K_SOURCE_MASTERS/05B_BODY_HEAD_SOURCE_SHEETS",
+          "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS",
+          "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/20_BODY_GEOMETRY"
+        ],
+        "found": "Nothing. Every banked and released body is adult proportioned.",
+        "shortfall": "Child proportions are not an adult scaled down: head-to-body ratio, limb length and mass all differ, and a scaled adult reads as uncanny rather than young."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1536,
+        "aspectRatio": "3:4 body canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "PG_STYLE_REFERENCE_CHARACTER_P005_APPROVED.png (Drive 1YrG8hxgod8mYs3RU_4WONxKSSn9wjraK)"
+      },
+      "generationRecipe": [
+        "Standing bodies at two ages that read clearly as different: roughly middle childhood and roughly mid-adolescence.",
+        "Age is carried by proportion — head-to-body ratio, limb length, shoulder width — not by shrinking an adult.",
+        "Ordinary everyday clothing appropriate to the age, nothing costumed.",
+        "True transparency; same rendering language as the adult bodies."
+      ],
+      "acceptanceCriteria": [
+        "Placed beside the adult body at the same scene scale, the difference reads as age rather than distance.",
+        "Carries the same named semantic anchors so the same compositor places it.",
+        "Human visual approval that neither reads as an adult."
+      ],
+      "dependsOn": ["person-production-standing-body"]
+    },
+    {
+      "requestId": "env-legislative-chamber-floor",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "draft",
+      "title": "A legislative chamber floor",
+      "consumer": {
+        "consumerId": "legislative-chamber-floor",
+        "runtimeComponent": "src/player/LegislationWorkspace.tsx",
+        "playerVisibleUse": "Floor debate, amendments and roll-call voting."
+      },
+      "whyNeeded": "Legislative work is the deepest surface in the game and has no room at all. It currently reads as documents, which is honest and is not a chamber.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/families/",
+          "art/references/masters/scene-environment/",
+          "art/references/plans/texas_senate/"
+        ],
+        "driveLocationsSearched": [
+          "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS",
+          "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/10_SCENES/10D_CIVIC_ROOMS"
+        ],
+        "found": "Five scene masters, none of them a chamber. 10D_CIVIC_ROOMS is empty. The Texas Senate plan intake is architectural reference, not a plate.",
+        "shortfall": "A hearing room is not a chamber: no member desks in tiers, no rostrum, no galleries."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 4608,
+        "aspectRatio": "16:9",
+        "alphaRequired": false,
+        "container": "either",
+        "styleAuthority": "OCD_SCENE_MASTER_CIVIC_HEARING_ROOM_5504x3072_01.jpg, as the nearest accepted civic interior"
+      },
+      "generationRecipe": [
+        "A generic legislative chamber seen from the floor: tiered member desks, a raised rostrum, a public gallery above.",
+        "No seal, no flag, no state name, no readable text of any kind. Every one of those is runtime content.",
+        "Empty of people. The room is the asset; the members are not.",
+        "Clear foreground floor a speaker could stand on, and a near desk edge that can carry an occluder."
+      ],
+      "acceptanceCriteria": [
+        "At least 4608 pixels of real width, verified by measurement rather than by filename.",
+        "Zero baked legible text, seals or jurisdiction identifiers.",
+        "Enough visible seat cushions to measure at least one seat plane from the raster itself."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "env-executive-office-4k-master",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "draft",
+      "title": "An executive private office at production resolution",
+      "consumer": {
+        "consumerId": "executive-private-office",
+        "runtimeComponent": "none",
+        "playerVisibleUse": "A chief executive working alone or with one aide."
+      },
+      "whyNeeded": "The illustrated executive study is the accepted look for this room and is banked, but at 1672 pixels it is below the environment master minimum and cannot become a runtime plate.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/references/masters/scene-environment/OCD_SCENE_MASTER_EXECUTIVE_PRIVATE_OFFICE_1672x941_01.png"
+        ],
+        "driveLocationsSearched": [
+          "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS",
+          "05_4K_SOURCE_MASTERS/05Y_REJECTED_HIGH_RES_CALIBRATION",
+          "Our Civic Duty — ChatGPT Continuity/Stage 6.5 Visual Review — Render Evidence"
+        ],
+        "found": "The 1672x941 illustrated master, banked and registered here. A 5568x3008 Topaz variant exists in Drive and is filed under rejected high-resolution calibration as photoreal drift.",
+        "shortfall": "1672 is below the 4608 environment master minimum, and the only larger file is a rejected style. Neither is a production plate."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 4608,
+        "aspectRatio": "16:9",
+        "alphaRequired": false,
+        "container": "either",
+        "styleAuthority": "OCD_SCENE_MASTER_EXECUTIVE_PRIVATE_OFFICE_1672x941_01.png, for composition and rendering language only"
+      },
+      "generationRecipe": [
+        "The same room at production resolution: wood-panelled private working office, a large desk facing the camera, guest chairs in the foreground, tall windows behind.",
+        "GENERIC. The banked master shows a specific capitol dome through its windows and a specific state flag; neither may be reproduced. The view is ordinary sky and trees and the flags are plain.",
+        "No seal, no nameplate, no readable document.",
+        "Illustrated, not photoreal. The photoreal pass at this resolution was already rejected."
+      ],
+      "acceptanceCriteria": [
+        "At least 4608 pixels of real width.",
+        "Contains no identifiable real building, seal or flag.",
+        "Reads as the same rendering language as the accepted apartment and workroom masters."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "env-campaign-storefront",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "draft",
+      "title": "A campaign storefront office",
+      "consumer": {
+        "consumerId": "campaign-field-office",
+        "runtimeComponent": "none",
+        "playerVisibleUse": "Volunteer intake, phone banking and turf planning."
+      },
+      "whyNeeded": "Campaign work is planned and has no room. Recording it now stops the apartment or the meeting hall being pressed into service as one later.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/families/",
+          "art/references/masters/scene-environment/"
+        ],
+        "driveLocationsSearched": [
+          "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS",
+          "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/10_SCENES"
+        ],
+        "found": "Nothing resembling a campaign space in any bank.",
+        "shortfall": "The nearest accepted rooms are a domestic living room and a public meeting hall. Neither is a working campaign office and neither should be relabelled as one."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 4608,
+        "aspectRatio": "16:9",
+        "alphaRequired": false,
+        "container": "either",
+        "styleAuthority": "OCD_SCENE_MASTER_SHARED_WORKROOM_OFFICE_5504x3072_01.jpg, as the accepted ordinary-workspace language"
+      },
+      "generationRecipe": [
+        "A rented storefront in use as a campaign office: folding tables, mismatched chairs, phones, stacked boxes, a bare wall where a banner would hang.",
+        "Blank walls and blank boards. No candidate name, no slogan, no party colour scheme, no map with places labelled.",
+        "Empty of people, with clear foreground floor.",
+        "Ordinary and slightly worn rather than glossy."
+      ],
+      "acceptanceCriteria": [
+        "At least 4608 pixels of real width.",
+        "Zero baked text, names, slogans or party identity.",
+        "At least one blank wall region large enough to carry a runtime banner."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "mask-hearing-room-public-seating",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "draft",
+      "title": "A foreground alpha mask for the hearing room's near public seating",
+      "consumer": {
+        "consumerId": "committee-hearing",
+        "runtimeComponent": "src/ui/ScenePresentationProofView.tsx",
+        "playerVisibleUse": "Somebody standing at the testimony lectern, seen past the seats in front of the camera."
+      },
+      "whyNeeded": "The hearing room's near seating sits between the camera and the lectern. Its region is measured and declared; the mask that would let a figure render behind it is not authored, because nothing renders there yet.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/families/civic-hearing-room/",
+          "art/families/council-staff-office/"
+        ],
+        "driveLocationsSearched": [
+          "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS"
+        ],
+        "found": "Only the Lexington office has an authored foreground mask, and it is that room's furniture.",
+        "shortfall": "A mask is cut from the plate it belongs to. Another room's mask is another room's furniture."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 2752,
+        "aspectRatio": "16:9",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Cut from art/families/civic-hearing-room/env_civic_hearing_room_runtime_2x_v1.png itself"
+      },
+      "generationRecipe": [
+        "Extract the near public seating block from the hearing room plate as a transparent overlay at the same pixel dimensions.",
+        "Furniture only. No floor, no wall, no part of the dais.",
+        "Derived from the plate by masking, never redrawn."
+      ],
+      "acceptanceCriteria": [
+        "Exactly matches the tier it overlays, pixel for pixel.",
+        "Every non-furniture pixel is fully transparent.",
+        "Composited back over the plate, the result is indistinguishable from the plate."
+      ],
+      "dependsOn": ["person-production-standing-body"]
+    },
+    {
+      "requestId": "env-civic-community-meeting-title-master",
+      "requestVersion": 2,
+      "priority": "P0",
+      "status": "accepted-promoted",
+      "title": "A neutral title tableau for the Home screen",
+      "consumer": {
+        "consumerId": "title-no-save",
+        "runtimeComponent": "src/player/TitleTableau.tsx",
+        "playerVisibleUse": "The first screen of the game."
+      },
+      "whyNeeded": "The title screen had no art of any kind.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": ["art/families/"],
+        "driveLocationsSearched": ["05_4K_SOURCE_MASTERS/05E_TITLE_UI_MASTERS"],
+        "found": "PG_TITLE_BG_COMMUNITY_MEETING_HERO_SLOT_02_5504x3072.png, approved.",
+        "shortfall": "None. The bytes were in Drive and had never been brought into the repository, which is not the same as existing."
+      },
+      "target": {
+        "targetClass": "title-plate",
+        "minimumWidth": 4608,
+        "aspectRatio": "16:9",
+        "alphaRequired": false,
+        "container": "png",
+        "styleAuthority": "Owner approval recorded in the 4K source master library"
+      },
+      "generationRecipe": [
+        "Already generated. Recorded so the queue explains where the title art came from."
+      ],
+      "acceptanceCriteria": [
+        "Measured at 5504x3072, true PNG, sha256 0ac5ef6ffa603d9510efb2160da38e065d0a7290352a976bc074dde779109663."
+      ],
+      "dependsOn": [],
+      "resolutionNote": "Banked at art/references/masters/scene-environment/PG_TITLE_BG_COMMUNITY_MEETING_HERO_SLOT_02_5504x3072.png and released as title_bg_civic_community_meeting_hero_slot_5504x3072_v1 with 1376 and 2048 downscale tiers."
+    },
+    {
+      "requestId": "env-domestic-living-room-4k-masters",
+      "requestVersion": 2,
+      "priority": "P0",
+      "status": "accepted-promoted",
+      "title": "Ordinary domestic living rooms at production resolution",
+      "consumer": {
+        "consumerId": "ordinary-domestic-life",
+        "runtimeComponent": "src/player/PlayerGame.tsx",
+        "playerVisibleUse": "Everyday life at home."
+      },
+      "whyNeeded": "Ordinary life is most of this game and had no room to happen in.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": ["art/families/apartment-ordinary/"],
+        "driveLocationsSearched": [
+          "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS",
+          "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/10_SCENES/10B_HOME_LIVING"
+        ],
+        "found": "Three 1376x768 originals, two of which now have 5504x3072 upscales in the source master library.",
+        "shortfall": "The 1376 originals are below the environment master minimum on their own."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 4608,
+        "aspectRatio": "16:9",
+        "alphaRequired": false,
+        "container": "either",
+        "styleAuthority": "PG_STYLE_REFERENCE_SCENE_APARTMENT_APPROVED.png"
+      },
+      "generationRecipe": [
+        "Already generated and upscaled. Recorded so the lineage of the domestic plates is one record."
+      ],
+      "acceptanceCriteria": [
+        "Both masters measured at 5504x3072 with their real container read from magic bytes, not from the extension."
+      ],
+      "dependsOn": [],
+      "resolutionNote": "Canonical 03 and ordinary 02 are banked and released with single 1376 tiers, which is where their real detail stops. Starter 01 has no 4K master and stays registered and unreleased."
+    },
+    {
+      "requestId": "env-committee-hearing-room-master",
+      "requestVersion": 2,
+      "priority": "P1",
+      "status": "accepted-promoted",
+      "title": "A committee hearing room",
+      "consumer": {
+        "consumerId": "committee-hearing",
+        "runtimeComponent": "src/ui/ScenePresentationProofView.tsx",
+        "playerVisibleUse": "A hearing the character attends or testifies at."
+      },
+      "whyNeeded": "The consumer map recorded that no production hearing master existed and that the community meeting hall must not be substituted for one.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": ["art/families/"],
+        "driveLocationsSearched": [
+          "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS"
+        ],
+        "found": "OCD_SCENE_MASTER_CIVIC_HEARING_ROOM_5504x3072_01.jpg, which postdates the consumer map.",
+        "shortfall": "None any longer. This is the request the run-start rescan closed."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 4608,
+        "aspectRatio": "16:9",
+        "alphaRequired": false,
+        "container": "either",
+        "styleAuthority": "Owner approval recorded in the 4K source master library"
+      },
+      "generationRecipe": [
+        "Already generated. Recorded because it is the clearest case for rescanning Drive before commissioning anything."
+      ],
+      "acceptanceCriteria": [
+        "A member bench, a testimony lectern and public seating, with no jurisdiction named anywhere in the room."
+      ],
+      "dependsOn": [],
+      "resolutionNote": "Released as env_civic_hearing_room_5504x3072_v1 with 1376 and 2752 tiers, and registered as civic-hearing-room-production. The committee fixture with no plate is kept beside it as the no-raster proof."
+    },
+    {
+      "requestId": "env-executive-office-clean-photoreal-master",
+      "requestVersion": 2,
+      "priority": "P2",
+      "status": "rejected",
+      "title": "The PG-E02 CLEAN executive office master at 5568x3008",
+      "consumer": {
+        "consumerId": "executive-private-office",
+        "runtimeComponent": "none",
+        "playerVisibleUse": "An executive's private study."
+      },
+      "whyNeeded": "It was the only executive office master above the resolution floor.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/intake/environment-batch-2026-09-03.request.json"
+        ],
+        "driveLocationsSearched": [
+          "05_4K_SOURCE_MASTERS/05Y_REJECTED_HIGH_RES_CALIBRATION"
+        ],
+        "found": "Four byte-identical 24.2MB copies, all filed under rejected high-resolution calibration.",
+        "shortfall": "Photoreal drift. Resolution is not a style, and a high-resolution file is not a production asset because it is large."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 4608,
+        "aspectRatio": "16:9",
+        "alphaRequired": false,
+        "container": "png",
+        "styleAuthority": "The project rendering language lock"
+      },
+      "generationRecipe": [
+        "Superseded. See env-executive-office-4k-master for the request that replaces it."
+      ],
+      "acceptanceCriteria": [
+        "Not applicable: rejected on style before measurement mattered."
+      ],
+      "dependsOn": [],
+      "resolutionNote": "Rejected. The owner moved every copy into 05Y_REJECTED_HIGH_RES_CALIBRATION after the earlier intake request was written, so the request that named it is stale and is closed here rather than requeued."
+    },
+    {
+      "requestId": "env-title-tableau-alternates-5376",
+      "requestVersion": 2,
+      "priority": "P2",
+      "status": "rejected",
+      "title": "The 5376x3024 community meeting and courtroom title tableaux",
+      "consumer": {
+        "consumerId": "title-no-save",
+        "runtimeComponent": "src/player/TitleTableau.tsx",
+        "playerVisibleUse": "Alternate title screens."
+      },
+      "whyNeeded": "They were queued as approved title plates alongside the hero-slot master.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/intake/environment-batch-2026-09-03.request.json"
+        ],
+        "driveLocationsSearched": [
+          "05_4K_SOURCE_MASTERS/05Y_REJECTED_HIGH_RES_CALIBRATION"
+        ],
+        "found": "Both files now sit under rejected high-resolution calibration, alongside a rejected cel-shaded variant and a rejected Pixar-style title.",
+        "shortfall": "Rejected for style after the intake request was written."
+      },
+      "target": {
+        "targetClass": "title-plate",
+        "minimumWidth": 4608,
+        "aspectRatio": "16:9",
+        "alphaRequired": false,
+        "container": "png",
+        "styleAuthority": "The project rendering language lock"
+      },
+      "generationRecipe": ["Superseded by the accepted hero-slot master."],
+      "acceptanceCriteria": ["Not applicable: rejected."],
+      "dependsOn": [],
+      "resolutionNote": "Rejected and closed. The standing intake request still lists them as approved title-plate candidates; that request is stale and this record is why they were not ingested."
+    }
+  ]
+}

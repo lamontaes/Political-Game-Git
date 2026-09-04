@@ -104,6 +104,10 @@ export const FORBIDDEN: readonly OwnedSurface[] = [
 /**
  * The surfaces this packet does own.
  *
+ * `.claude/launch.json` is here because the visual evidence this packet owes
+ * is taken by driving the real app, and that needs a way to start it. It
+ * configures a dev server and nothing else.
+ *
  * `.github/workflows/` is here because Packet 28 directs this branch to repair
  * the deterministic-validation checkout. `PATCH_NOTES.md` is here because
  * Packet 50 asks this branch to describe what it changed for a player. No other
@@ -112,7 +116,7 @@ export const FORBIDDEN: readonly OwnedSurface[] = [
  * guards other people's systems.
  */
 export const ALLOWED =
-  /^(\.github\/workflows\/|src\/authoring\/|src\/environment\/|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/player\/OfficeScene\.tsx|src\/player\/ModularCharacter\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/useRasterTier\.ts|src\/player\/useSceneTransform\.ts|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|AGENTS\.md|PATCH_NOTES\.md)/;
+  /^(\.claude\/launch\.json|\.github\/workflows\/|src\/authoring\/|src\/environment\/|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/player\/OfficeScene\.tsx|src\/player\/ModularCharacter\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/useRasterTier\.ts|src\/player\/useSceneTransform\.ts|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|AGENTS\.md|PATCH_NOTES\.md)/;
 
 function git(repositoryRoot: string, args: readonly string[]): string {
   return execFileSync("git", [...args], {

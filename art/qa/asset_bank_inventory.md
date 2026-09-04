@@ -96,9 +96,9 @@ for comes first.
 
 ## Cargo disposition
 
-- re-homed: `pr48-body-masters`, `pr48-bottom-masters`, `pr48-footwear-masters`, `pr48-hair-front-masters`, `pr48-head-masters`, `pr48-intake-mechanics`, `pr48-top-masters`, `pr48-upstream-pack-manifests`, `pr63-pr74-architecture`, `pr80-authoring-contracts`, `pr80-modular-in-scene`, `pr80-office-occluder-repair`, `pr80-pg-modular-candidates`, `pr80-production-authoring-records`
-- rejected: `pack-office-cubicle-set`, `pr48-demographic-asset-ids`, `pr48-normalized-derivatives`, `pr48-stale-architecture`, `pr80-safe-area-doc`, `pr80-scene-composition`
-- archived: `pack-universal-animation-library`, `pack-universal-base-characters`
+- re-homed: `drive-scene-masters-2026-09-03`, `pr48-body-masters`, `pr48-bottom-masters`, `pr48-footwear-masters`, `pr48-hair-front-masters`, `pr48-head-masters`, `pr48-intake-mechanics`, `pr48-top-masters`, `pr48-upstream-pack-manifests`, `pr63-pr74-architecture`, `pr80-authoring-contracts`, `pr80-modular-in-scene`, `pr80-office-occluder-repair`, `pr80-pg-modular-candidates`, `pr80-production-authoring-records`
+- rejected: `drive-rejected-high-res-calibration`, `pack-office-cubicle-set`, `pr48-demographic-asset-ids`, `pr48-normalized-derivatives`, `pr48-stale-architecture`, `pr80-safe-area-doc`, `pr80-scene-composition`
+- archived: `drive-hair-style-source-sheet`, `pack-universal-animation-library`, `pack-universal-base-characters`
 - pending verification: —
 
 Reasons and evidence for each are in `art/manifest/cargo_disposition.json`.
