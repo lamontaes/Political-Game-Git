@@ -584,9 +584,27 @@ export function chooseStoryOption(
   }
 }
 
-/** How long a quiet stretch runs before the game looks again. */
-export const QUIET_FORMATIVE_DAYS = 120;
-export const QUIET_ADULT_DAYS = 45;
+/**
+ * How long a quiet stretch runs before the game looks again.
+ *
+ * Four lengths rather than one, because time is allowed to pass unevenly and
+ * because a fixed step made every quiet gap read identically: forty-five days
+ * always produces "a month later", so four quiet steps in a row produced the
+ * same paragraph four times. Which length a gap gets is derived from the date
+ * it starts on, so it is stable under replay and different between gaps.
+ *
+ * These are presentation pacing and are labelled as such. Nothing here is a
+ * claim about how often anything happens to anybody.
+ */
+export const QUIET_ADULT_STEPS: readonly number[] = [31, 47, 78, 124];
+
+export function quietStepDays(from: IsoDate): number {
+  let total = 0;
+  for (const character of from) {
+    total = (total * 31 + character.charCodeAt(0)) % 100_000;
+  }
+  return QUIET_ADULT_STEPS[total % QUIET_ADULT_STEPS.length]!;
+}
 
 /**
  * Lets a stretch of ordinary time go by.
@@ -599,12 +617,12 @@ export function letStoryTimePass(world: World, personId: EntityId): World {
   if (formativeIntervalAt(world, personId) !== null) {
     return letTimePass(world, personId);
   }
-  return letAdultTimePass(world, QUIET_ADULT_DAYS);
+  return letAdultTimePass(world, quietStepDays(world.currentDate));
 }
 
 /** The date a quiet adult stretch would reach, for tests that need it. */
 export function nextQuietMoment(world: World): IsoDate {
-  return addDays(world.currentDate, QUIET_ADULT_DAYS);
+  return addDays(world.currentDate, quietStepDays(world.currentDate));
 }
 
 function longDate(date: IsoDate): string {

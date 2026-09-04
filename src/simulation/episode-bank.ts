@@ -1583,7 +1583,7 @@ const NEIGHBOURHOOD: EpisodeFamily = {
           "Going costs an evening for something that may already be decided.",
         ),
       ],
-      mayLeadTo: ["you-said-something", "you-stayed-out"],
+      mayLeadTo: ["you-said-something"],
       options: [
         {
           key: "go",
