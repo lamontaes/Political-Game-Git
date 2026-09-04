@@ -5412,3 +5412,321 @@
   color: #8a3520;
   font-weight: 700;
 }
+
+/* -------------------------------------------------------------------------- */
+/* Title tableau                                                              */
+/*                                                                            */
+/* The title screen paints a room behind itself when there is a truthful one  */
+/* to paint. Every rule below is written so that the no-art case is not a     */
+/* degraded version of the art case: with `data-has-plate="false"` the page   */
+/* is the pale sheet it has always been, and the panel below adds nothing.    */
+/* -------------------------------------------------------------------------- */
+
+.title-tableau {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  isolation: isolate;
+}
+
+.title-tableau-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.title-tableau-camera {
+  position: absolute;
+}
+
+/*
+ * A veil, not a fog.
+ *
+ * The point of the backdrop is that the room reads as a room. An even wash
+ * heavy enough to make text safe anywhere turns the picture back into the pale
+ * page this work existed to fix, so the veil here is light and the legibility
+ * is paid for locally, by the panel the copy sits on.
+ */
+.title-tableau--art .title-tableau-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgb(246 247 250 / 26%),
+    rgb(246 247 250 / 10%) 45%,
+    rgb(246 247 250 / 22%)
+  );
+}
+
+.title-tableau-content {
+  position: relative;
+  z-index: 1;
+}
+
+/*
+ * Deliberately not a person.
+ *
+ * The resolver asks for this when a character is entitled to the room but the
+ * game has no art of them. Drawing anything with a head and shoulders would be
+ * inventing a likeness, so this is a soft column standing on the anchor's own
+ * floor line: enough to say "somebody stands here", not enough to say who.
+ */
+.title-tableau-outline {
+  position: absolute;
+  width: 7%;
+  height: 34%;
+  transform: translate(-50%, -100%);
+  border-radius: 44% 44% 18% 18%;
+  background: linear-gradient(rgb(22 35 58 / 16%), rgb(22 35 58 / 26%));
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.game-title-scene {
+  margin: -1.6rem 0 2.25rem;
+  max-width: 30rem;
+  color: #55627a;
+  font-size: 0.92rem;
+}
+
+/*
+ * The copy's own ground.
+ *
+ * Anchored to the content column rather than to a viewport percentage, so it
+ * stays behind the words at any width instead of drifting off them. Buttons
+ * are deliberately left alone: they are the game's own dark green, and they
+ * read over this panel exactly as they read over the pale page.
+ */
+.title-tableau--art .game-title {
+  /* Less air than the pale page needs: every row the panel gives back is a row
+     of the room. */
+  padding: 2.25rem 1.5rem 2.25rem;
+  background: linear-gradient(
+    rgb(248 249 252 / 93%),
+    rgb(248 249 252 / 86%) 60%,
+    rgb(248 249 252 / 72%)
+  );
+  backdrop-filter: blur(3px);
+  border-radius: 0 0 1.1rem 1.1rem;
+  box-shadow: 0 1.4rem 3rem rgb(16 28 48 / 12%);
+}
+
+.title-tableau--art .game-title h1,
+.title-tableau--art .game-title-line {
+  color: #101c30;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Scene gallery — the room review route                                      */
+/* -------------------------------------------------------------------------- */
+
+.scene-gallery {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+  color: #16233a;
+}
+
+.scene-gallery header p,
+.scene-gallery section > p {
+  max-width: 46rem;
+  color: #47536a;
+}
+
+.scene-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+  align-items: start;
+  gap: 1.5rem;
+  margin: 2rem 0 3rem;
+}
+
+.scene-gallery-card {
+  border: 1px solid #d3d7e0;
+  border-radius: 0.6rem;
+  overflow: hidden;
+  background: #fbfbfd;
+}
+
+.scene-gallery-plate {
+  background: #e8eaef;
+}
+
+.scene-gallery-no-plate {
+  margin: 0;
+  padding: 3.5rem 1.25rem;
+  text-align: center;
+  color: #55627a;
+}
+
+.scene-gallery-body {
+  padding: 1rem 1.15rem 1.35rem;
+}
+
+.scene-gallery-body h3 {
+  margin: 0 0 0.3rem;
+  font-size: 1.05rem;
+}
+
+.scene-gallery-body h3 small,
+.scene-gallery-requests h4 small {
+  margin-left: 0.5rem;
+  font-weight: 400;
+  color: #6b7688;
+}
+
+.scene-gallery-body h4 {
+  margin: 1.1rem 0 0.4rem;
+  font-size: 0.86rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #55627a;
+}
+
+.scene-gallery-ids code {
+  margin-right: 0.5rem;
+  font-size: 0.76rem;
+}
+
+.scene-gallery-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.15rem 0.9rem;
+  margin: 0.6rem 0 0;
+  font-size: 0.82rem;
+}
+
+.scene-gallery-facts dt {
+  color: #6b7688;
+}
+
+.scene-gallery-facts dd {
+  margin: 0;
+}
+
+.scene-gallery-body ul,
+.scene-gallery-requests ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.84rem;
+}
+
+.scene-gallery-body li span {
+  display: block;
+  color: #55627a;
+}
+
+.scene-gallery-unknowns li {
+  margin-bottom: 0.4rem;
+  color: #55627a;
+}
+
+.scene-gallery-warning {
+  color: #8a2f2f;
+}
+
+.scene-gallery-matrix table {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+
+.scene-gallery-matrix th,
+.scene-gallery-matrix td {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid #dcdfe7;
+  text-align: left;
+  vertical-align: top;
+}
+
+.scene-gallery-matrix small {
+  color: #6b7688;
+}
+
+.scene-gallery-requests {
+  margin-top: 3rem;
+}
+
+.scene-gallery-requests li {
+  margin-bottom: 1.4rem;
+}
+
+.scene-gallery-requests h4 {
+  margin: 0 0 0.2rem;
+  font-size: 0.95rem;
+}
+
+.scene-gallery-requests p {
+  margin: 0.25rem 0;
+}
+
+.scene-gallery-shortfall {
+  color: #55627a;
+}
+
+/* Chopped source components, on the room review route. */
+.scene-gallery-intake {
+  margin-top: 3rem;
+}
+
+.scene-gallery-intake h3 {
+  margin: 1.6rem 0 0.5rem;
+  font-size: 1rem;
+}
+
+.scene-gallery-intake-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scene-gallery-intake-grid li {
+  border: 1px solid #d3d7e0;
+  border-radius: 0.5rem;
+  padding: 0.7rem;
+  background: #fbfbfd;
+  font-size: 0.78rem;
+}
+
+.scene-gallery-intake-grid img {
+  display: block;
+  width: 100%;
+  height: 9rem;
+  object-fit: contain;
+  background: #eceae4;
+  border-radius: 0.3rem;
+}
+
+.scene-gallery-intake-grid p {
+  margin: 0.4rem 0 0;
+}
+
+.scene-gallery-intake-grid li[data-disposition="PASS"] strong {
+  color: #1f5c3d;
+}
+
+.scene-gallery-intake-grid li[data-disposition="REVISE"] strong {
+  color: #8a5a1f;
+}
+
+.scene-gallery-intake-grid li[data-disposition="REJECT"] strong {
+  color: #8a2f2f;
+}
+
+.scene-gallery-intake-name code {
+  font-size: 0.7rem;
+  word-break: break-all;
+}
+
+.scene-gallery-intake-what {
+  color: #16233a;
+}
+
+.scene-gallery-intake-reason {
+  color: #55627a;
+}

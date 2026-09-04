@@ -31,7 +31,14 @@ export type TitleCapabilityTag = string;
 export interface TitleTableauDefinition {
   readonly tableauId: string;
   readonly familyId: string;
-  /** Developer-facing label. Never player copy. */
+  /**
+   * A bare noun phrase naming the room, used to BUILD player copy.
+   *
+   * It is not free-form: `resolveTitlePresentation` completes it into
+   * sentences like "<label> with nobody in it." and "<label> with <name> in
+   * it.", so a label that already says what is in the room reads as "a living
+   * room with nobody in it with nobody in it". Name the room and stop.
+   */
   readonly label: string;
   /** Scene this tableau composes against, resolved from the scene registry. */
   readonly sceneId: string;
@@ -64,6 +71,17 @@ export interface TitleHeroInput {
 export interface TitleTableauRegistry {
   readonly tableaux: readonly TitleTableauDefinition[];
   readonly neutralBank: readonly TitleTableauDefinition[];
+  /**
+   * The front door of the game: the one banked tableau shown when there is no
+   * character at all.
+   *
+   * Without it the no-save title is whatever the deterministic chooser lands
+   * on, which is stable but arbitrary — and the first screen of a game is the
+   * one place arbitrary is wrong. It applies ONLY when there is no hero; a
+   * character who falls to the neutral bank still gets a tableau chosen from
+   * their own key, so two saves do not look like the same life.
+   */
+  readonly frontDoorTableauId?: string;
 }
 
 /**
@@ -172,11 +190,22 @@ export function resolveTitlePresentation(
   const reasons: string[] = [];
 
   const neutral = (extraReasons: readonly string[]): TitlePresentation => {
-    const banked = selectTableauDeterministically(
-      registry.neutralBank.filter((tableau) => tableau.supportsNoCharacter),
-      `neutral:${assetLibraryVersion}:${hero?.heroIdentityKey ?? "no-hero"}`,
-      (tableau) => tableau.tableauId,
+    const admissible = registry.neutralBank.filter(
+      (tableau) => tableau.supportsNoCharacter,
     );
+    const frontDoor =
+      hero === null && registry.frontDoorTableauId !== undefined
+        ? (admissible.find(
+            (tableau) => tableau.tableauId === registry.frontDoorTableauId,
+          ) ?? null)
+        : null;
+    const banked =
+      frontDoor ??
+      selectTableauDeterministically(
+        admissible,
+        `neutral:${assetLibraryVersion}:${hero?.heroIdentityKey ?? "no-hero"}`,
+        (tableau) => tableau.tableauId,
+      );
     if (!banked) {
       return {
         kind: "typographic",
@@ -265,62 +294,94 @@ export function resolveTitlePresentation(
 }
 
 /**
- * The tableau definitions the presentation layer knows about today, both
- * pointed at development fixture scenes because no title plate exists yet.
- * Adding a real tableau is adding a definition and a scene, not new React.
+ * The tableaux the title screen may show today.
  *
- * NOTE FOR THE PLAYER-SPINE OWNER: nothing here reads a save. To wire the
- * recent character in, build a `TitleHeroInput` from the save summary — the
- * persisted appearance identity for the art, and the canonical capability
- * resolver's output for `capabilities` — and pass it as `hero`. Do not add
- * fields to this module to reach the save yourself.
+ * WHAT CHANGED AND WHY. Every entry used to point at a development fixture,
+ * and the one an ordinary adult resolved to was the Lexington council staff
+ * office — a room with a Fayette County map on its wall, handed to any adult
+ * with a saved game. That is exactly the universal-office substitution the
+ * consumer map forbids, so the Lexington fixture is gone from this registry
+ * altogether. It is not gated more tightly; it is absent, because the fact
+ * that would justify it — which jurisdiction this character's job answers to —
+ * is not something a title screen can know.
+ *
+ * What replaced it is production art with no jurisdiction in it: two ordinary
+ * apartment living rooms and a generic public meeting hall.
+ *
+ * Adding a tableau is adding a definition and a scene. There is still no
+ * title-specific React below this line.
+ *
+ * NOTE FOR THE PLAYER-SPINE OWNER: nothing here reads a save. Build a
+ * `TitleHeroInput` with `titleHeroFromSaveSummary` and pass it as `hero`. Do
+ * not add fields to this module to reach the save yourself.
  */
 export const TITLE_TABLEAU_REGISTRY: TitleTableauRegistry = {
   tableaux: [
     {
-      tableauId: "civic-office-standing",
-      familyId: "civic-office",
-      label: "A quiet public office",
-      sceneId: "office-council-staff-fixture",
-      heroAnchorId: "near-desk-standing",
+      /**
+       * Where an ordinary adult belongs: their own living room. It requires
+       * nothing of a life except that it is grown and lived somewhere, which
+       * is what `residence` on a save actually attests.
+       */
+      tableauId: "an-evening-at-home",
+      familyId: "apartment-ordinary",
+      label: "A living room",
+      sceneId: "residence-apartment-living-canonical-03",
+      heroAnchorId: "living-room-floor-standing",
       requiredPoseFamily: "standing-neutral",
       requiredFacing: "front",
-      requiredCapabilities: ["adult"],
+      requiredCapabilities: ["adult", "residence-known"],
       supportsNoCharacter: true,
       emptyHeroTreatment: "the room alone",
     },
     {
-      tableauId: "signing-at-a-desk",
-      familyId: "civic-office",
-      label: "A desk with work on it",
-      sceneId: "office-council-staff-fixture",
-      heroAnchorId: "primary-desk-chair",
-      requiredPoseFamily: "seated-at-desk",
+      /** The same claim, a different room, so two saves do not look alike. */
+      tableauId: "a-quiet-room-at-home",
+      familyId: "apartment-ordinary",
+      label: "A second living room",
+      sceneId: "residence-apartment-living-ordinary-02",
+      heroAnchorId: "living-room-floor-standing",
+      requiredPoseFamily: "standing-neutral",
       requiredFacing: "front",
-      requiredCapabilities: ["adult", "office"],
+      requiredCapabilities: ["adult", "residence-known"],
       supportsNoCharacter: true,
-      emptyHeroTreatment: "an empty chair",
+      emptyHeroTreatment: "the room alone",
     },
     {
-      tableauId: "committee-room-testimony",
-      familyId: "committee-room",
-      label: "A committee room before it fills",
-      sceneId: "committee-room-fixture",
-      heroAnchorId: "witness-chair",
-      requiredPoseFamily: "seated-at-desk",
+      /**
+       * A hearing is somewhere a legislator is actually expected to be, which
+       * is why this one is gated on the legislative capability rather than on
+       * merely having a job. Nothing weaker justifies standing at that lectern.
+       */
+      tableauId: "before-a-hearing",
+      familyId: "civic-hearing-room",
+      label: "A hearing room",
+      sceneId: "civic-hearing-room-production",
+      heroAnchorId: "witness-lectern-standing",
+      requiredPoseFamily: "standing-podium-or-lectern",
       requiredFacing: "front",
       requiredCapabilities: ["adult", "legislature"],
       supportsNoCharacter: true,
-      emptyHeroTreatment: "an empty witness chair",
+      emptyHeroTreatment: "an empty lectern",
     },
   ],
+
+  /**
+   * Rooms that read correctly with nobody in them.
+   *
+   * The community meeting hall is deliberately NOT in `tableaux` above. Being
+   * an adult, or having a job, does not mean a character has ever spoken at a
+   * public meeting, and putting them at that lectern because the picture has a
+   * lectern is presentation inventing a life. Empty, it is simply a civic room
+   * — which is the right thing to show before any character exists at all.
+   */
   neutralBank: [
     {
-      tableauId: "committee-room-empty",
-      familyId: "committee-room",
-      label: "A committee room before it fills",
-      sceneId: "committee-room-fixture",
-      heroAnchorId: "witness-chair",
+      tableauId: "a-community-meeting",
+      familyId: "civic-community-meeting",
+      label: "A hall set out for a community meeting",
+      sceneId: "civic-community-meeting-title",
+      heroAnchorId: "stage-left-standing",
       requiredPoseFamily: "standing-neutral",
       requiredFacing: "front",
       requiredCapabilities: [],
@@ -328,11 +389,23 @@ export const TITLE_TABLEAU_REGISTRY: TitleTableauRegistry = {
       emptyHeroTreatment: "the room alone",
     },
     {
-      tableauId: "civic-office-empty",
-      familyId: "civic-office",
-      label: "A quiet public office",
-      sceneId: "office-council-staff-fixture",
-      heroAnchorId: "near-desk-standing",
+      tableauId: "an-empty-living-room",
+      familyId: "apartment-ordinary",
+      label: "A living room",
+      sceneId: "residence-apartment-living-canonical-03",
+      heroAnchorId: "living-room-floor-standing",
+      requiredPoseFamily: "standing-neutral",
+      requiredFacing: "front",
+      requiredCapabilities: [],
+      supportsNoCharacter: true,
+      emptyHeroTreatment: "the room alone",
+    },
+    {
+      tableauId: "an-empty-hearing-room",
+      familyId: "civic-hearing-room",
+      label: "A hearing room",
+      sceneId: "civic-hearing-room-production",
+      heroAnchorId: "hearing-floor-standing",
       requiredPoseFamily: "standing-neutral",
       requiredFacing: "front",
       requiredCapabilities: [],
@@ -340,4 +413,6 @@ export const TITLE_TABLEAU_REGISTRY: TitleTableauRegistry = {
       emptyHeroTreatment: "the room alone",
     },
   ],
+
+  frontDoorTableauId: "a-community-meeting",
 };

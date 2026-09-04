@@ -41,14 +41,15 @@ describe("asset bank inventory", () => {
     const blocking = report.generationQueue.filter(
       (row) => row.blocks === "current-gameplay",
     );
-    // The production office asks for two standing families as well, and no
-    // released art answers either. The inventory reporting three gaps rather
-    // than one is the queue doing its job: a production room was added and the
-    // art it needs does not exist yet.
+    // Four gaps now, not one. Each arrived the same way: a production room was
+    // registered and the pose its anchors ask for has no released art. The
+    // lectern families came in with the title tableau and the hearing room.
+    // The queue growing when rooms are added is the queue working.
     expect(blocking.map((row) => row.poseFamilyId).sort()).toEqual([
       "seated-guest-neutral",
       "standing-conversational",
       "standing-listening",
+      "standing-podium-or-lectern",
     ]);
     const seated = blocking.find(
       (row) => row.poseFamilyId === "seated-guest-neutral",

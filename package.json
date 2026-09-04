@@ -32,6 +32,8 @@
     "derive:tiers": "node --import tsx scripts/art-asset-factory/cli-tier-derive.ts",
     "scaffold:scene": "node --import tsx scripts/art-asset-factory/cli-scene-scaffold.ts",
     "bank:art": "node --import tsx scripts/art-asset-factory/cli-asset-bank.ts",
+    "chop:source-sheet": "node --import tsx scripts/art-asset-factory/cli-source-sheet-chop.ts",
+    "derive:scene-tiers": "node --import tsx scripts/art-asset-factory/cli-scene-master-derive.ts",
     "derive:office-plate": "node --import tsx scripts/art-asset-factory/cli-office-plate-derive.ts",
     "derive:pose-plates": "node --import tsx scripts/art-asset-factory/cli-pose-control-plates.ts",
     "extract:chroma": "node --import tsx scripts/art-asset-factory/cli-chroma-extract.ts",

@@ -4,6 +4,46 @@ Newest release first.
 
 ## UNRELEASED — Groundwork
 
+The game has a chamber to legislate in.
+
+A legislative chamber floor — tiered member desks, a raised rostrum with a
+lectern, public galleries above — is now in the game's own art library at full
+size, drawn from a picture four times sharper than it needs. Nothing in the room
+names a state or carries a seal, and the monitor and the papers on the near desk
+are deliberately blank: those say something only when the game genuinely knows
+what to say. Nobody is in the room yet.
+
+The first adult bodies, heads and shoes also arrived and were taken apart into
+32 separate pieces. Twelve faces came through clean. The eight bodies and the
+twelve pairs of shoes did not, for reasons that are written down rather than
+guessed at, and none of them is in the game yet. The short version: the bodies
+have a green line around them that the game's own art style does not use, and
+the shoes are drawn at an angle the bodies' feet are not standing at.
+
+The game has a picture on its front door.
+
+Opening the game used to show a pale page with three buttons on it. It now
+opens on a community meeting hall — a real room, drawn at full size, the same
+one whatever machine you open it on. If you have played before, the title shows
+you a room that fits the life you left: an ordinary adult gets their own living
+room, with their name on it. Nobody is drawn into those rooms yet, because the
+people have not been drawn, and the game says so in a sentence rather than
+putting a stranger in your living room.
+
+A child never gets an office. Neither does an adult who does not work in one.
+Which room the title shows comes from what the game actually knows about your
+character, and what it does not know it will not guess: the municipal office
+with the county map on its wall now appears only where somebody really works
+there, and it can no longer turn up as the default room for anybody with a
+saved game.
+
+Three more rooms came in with it — a second living room, a public hearing room
+with a bench and a lectern, and a courtroom that nothing uses yet. All of them
+are the full-size approved pictures, shrunk to fit rather than blown up, and
+none of them has a single readable word painted into it. Anything a room needs
+to say — a date, a bill number, a name — stays blank until the game genuinely
+knows it.
+
 Nothing here changes what you can do in the game yet. It is the plumbing that
 future rooms and future people are built on, and it is worth one paragraph
 because of what it makes possible next.
