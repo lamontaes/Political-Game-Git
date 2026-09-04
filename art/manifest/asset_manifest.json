@@ -4430,6 +4430,345 @@
       "final_path": "art/families/shared-workroom-office/env_shared_workroom_office_runtime_2x_v1.png",
       "hash": "c26094b0b62c4e3b949ae4a5e839f2331f0785b74ffacf8488baea1564398c93",
       "requires_transparency": false
+    },
+    {
+      "asset_id": "title_bg_civic_community_meeting_hero_slot_5504x3072_v1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "raster_tiers": [
+        {
+          "width": 1376,
+          "height": 768,
+          "path": "art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_v1.png",
+          "hash": "7f40aaba49683ed011d57ff91f4bd3b202fdd39b941ab59e70b299337f7063e6",
+          "derivation": "deterministic-downscale"
+        },
+        {
+          "width": 2048,
+          "height": 1143,
+          "path": "art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png",
+          "hash": "a1c6ed73a06ab71cd82ab9fa98f9f39228a4ffe74bbf4f8870d1d33fb55a2527",
+          "derivation": "deterministic-downscale"
+        }
+      ],
+      "family_id": "civic-community-meeting",
+      "jurisdiction_scope": "unscoped-generic-public-meeting",
+      "hero_asset": true,
+      "hero_justification": "The neutral title tableau. It is the one plate the game shows before a character exists, so it must name no jurisdiction, campaign or person.",
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_title_bg_civic_community_meeting_hero_slot_5504x3072_v1"
+      ],
+      "rights_note": "Owner-approved Our Civic Duty title master from the canonical 4K/5K source library; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Generic civic meeting hall. Both runtime tiers are deterministic DOWNSCALES of the owner-approved 5504x3072 master; nothing in this repository enlarged it. The audience is painted into the plate and is decor, not characters.",
+      "negative_constraints": [
+        "Do not treat depicted details as sourced jurisdiction facts.",
+        "Do not bake names, seals, headlines, campaign identity or simulation status into this plate.",
+        "Do not use as a committee hearing room: it has no dais, member bench or witness table.",
+        "Do not use as a private domestic or bilateral conversation room.",
+        "Do not upscale either tier; the 5504x3072 master is the only enlargement source and it is preserved unmodified."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png",
+      "hash": "a1c6ed73a06ab71cd82ab9fa98f9f39228a4ffe74bbf4f8870d1d33fb55a2527",
+      "requires_transparency": false
+    },
+    {
+      "asset_id": "env_residence_apartment_living_canonical_03_5504x3072_v1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "raster_tiers": [
+        {
+          "width": 1376,
+          "height": 768,
+          "path": "art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
+          "hash": "baa3f6f965250363fdb1e376148ef0bdd7b84a36dd702a84bbe5239162c5753f",
+          "derivation": "deterministic-downscale"
+        }
+      ],
+      "family_id": "apartment-ordinary",
+      "jurisdiction_scope": "unscoped-generic-residence",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_env_residence_apartment_living_canonical_03_5504x3072_v1"
+      ],
+      "rights_note": "Owner-approved Our Civic Duty scene master from the canonical 4K/5K source library; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Ordinary apartment living room: sofa, club chair, coffee table, television and a daylight window. The single runtime tier is a deterministic DOWNSCALE of the owner-approved 5504x3072 master. That master is an external 4x upscale of a 1376-wide original, so 1376 is where its real detail stops and no larger tier was derived: a bigger one would carry bytes, not detail. Which household this room stands for is canonical world truth, bound at runtime and never a property of this file.",
+      "negative_constraints": [
+        "Do not derive a character's income, class or biography from the furniture in this plate.",
+        "Do not bake names, documents, headlines or simulation status into this plate.",
+        "Do not use as an institutional office, committee room or public venue.",
+        "Do not upscale the runtime tier; the 5504x3072 master is preserved unmodified and is the only enlargement source."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
+      "hash": "baa3f6f965250363fdb1e376148ef0bdd7b84a36dd702a84bbe5239162c5753f",
+      "requires_transparency": false
+    },
+    {
+      "asset_id": "env_residence_apartment_living_ordinary_02_5504x3072_v1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "raster_tiers": [
+        {
+          "width": 1376,
+          "height": 768,
+          "path": "art/families/apartment-ordinary/env_residence_apartment_living_ordinary_02_v1.png",
+          "hash": "8d0863e1c8423e6cb61682cbf025e1590f7bd5bf4fd964864b05d79f8e8838fe",
+          "derivation": "deterministic-downscale"
+        }
+      ],
+      "family_id": "apartment-ordinary",
+      "jurisdiction_scope": "unscoped-generic-residence",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_env_residence_apartment_living_ordinary_02_5504x3072_v1"
+      ],
+      "rights_note": "Owner-approved Our Civic Duty scene master from the canonical 4K/5K source library; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "A second ordinary apartment living room: sofa, worn armchair, radiator under the window. The single runtime tier is a deterministic DOWNSCALE of the owner-approved 5504x3072 master. That master is an external 4x upscale of a 1376-wide original, so 1376 is where its real detail stops and no larger tier was derived: a bigger one would carry bytes, not detail. Which household this room stands for is canonical world truth, bound at runtime and never a property of this file.",
+      "negative_constraints": [
+        "Do not derive a character's income, class or biography from the furniture in this plate.",
+        "Do not bake names, documents, headlines or simulation status into this plate.",
+        "Do not use as an institutional office, committee room or public venue.",
+        "Do not upscale the runtime tier; the 5504x3072 master is preserved unmodified and is the only enlargement source."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/families/apartment-ordinary/env_residence_apartment_living_ordinary_02_v1.png",
+      "hash": "8d0863e1c8423e6cb61682cbf025e1590f7bd5bf4fd964864b05d79f8e8838fe",
+      "requires_transparency": false
+    },
+    {
+      "asset_id": "env_civic_hearing_room_5504x3072_v1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "raster_tiers": [
+        {
+          "width": 1376,
+          "height": 768,
+          "path": "art/families/civic-hearing-room/env_civic_hearing_room_v1.png",
+          "hash": "d30fe81c23952b9dd98ec88b34f87952dbbec7044a8955a9c521ba10eeac9663",
+          "derivation": "deterministic-downscale"
+        },
+        {
+          "width": 2752,
+          "height": 1536,
+          "path": "art/families/civic-hearing-room/env_civic_hearing_room_runtime_2x_v1.png",
+          "hash": "30fe0f333eeef50c9938a0055b43f75ebf657174f66b445b4cfc73b5d9c5628c",
+          "derivation": "deterministic-downscale"
+        }
+      ],
+      "family_id": "civic-hearing-room",
+      "jurisdiction_scope": "unscoped-generic-hearing-room",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_civic_hearing_room_5504x3072_v1"],
+      "rights_note": "Owner-approved Our Civic Duty scene master from the canonical 4K/5K source library; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Public hearing room with a curved member bench, a testimony lectern, a clerk's desk and public seating. Both runtime tiers are deterministic DOWNSCALES of the owner-approved 5504x3072 master; nothing in this repository enlarged it.",
+      "negative_constraints": [
+        "Do not treat depicted details as sourced jurisdiction facts; nothing in this room names a place.",
+        "Do not bake bill numbers, tallies, agendas, seals or names into this plate; those belong to the declared surface slots.",
+        "Do not use as a private domestic room or as a legislative chamber floor.",
+        "Do not upscale either tier; the 5504x3072 master is preserved unmodified."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/families/civic-hearing-room/env_civic_hearing_room_runtime_2x_v1.png",
+      "hash": "30fe0f333eeef50c9938a0055b43f75ebf657174f66b445b4cfc73b5d9c5628c",
+      "requires_transparency": false
+    },
+    {
+      "asset_id": "env_courtroom_empty_5504x3072_v1",
+      "asset_type": "environment-master",
+      "art_class": "production",
+      "family_id": "civic-hearing-room",
+      "jurisdiction_scope": "unscoped-pending-review",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_courtroom_empty_5504x3072_v1"],
+      "rights_note": "Owner-approved Our Civic Duty source master; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Banked source master only. No runtime tier is derived and no scene is registered against it, so nothing can select it.",
+      "negative_constraints": [
+        "No canonical courtroom surface exists in this game. Registering the master is not permission to invent judicial gameplay so the picture has somewhere to go.",
+        "Do not derive a runtime tier from this master until a consumer and its measured geometry exist.",
+        "Do not upscale this master."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/references/masters/scene-environment/OCD_SCENE_MASTER_COURTROOM_EMPTY_5504x3072_01.jpg",
+      "hash": "9c743c8d09a1a55a6f3490e482429ed5a8c710959fe5543a17d4d80e526f3a98",
+      "requires_transparency": false
+    },
+    {
+      "asset_id": "env_office_executive_private_lincoln_1672x941_v1",
+      "asset_type": "environment-master",
+      "art_class": "production",
+      "family_id": "executive-private-office",
+      "jurisdiction_scope": "unscoped-pending-review",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_office_executive_private_lincoln_1672x941_v1"],
+      "rights_note": "Owner-approved Our Civic Duty source master; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Banked source master only. No runtime tier is derived and no scene is registered against it, so nothing can select it.",
+      "negative_constraints": [
+        "No canonical executive capability exists in this game, and at 1672px this master is below the 4608px environment master minimum. Two independent reasons it is not a runtime plate; neither is fixed by wanting the room.",
+        "Do not derive a runtime tier from this master until a consumer and its measured geometry exist.",
+        "Do not upscale this master."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/references/masters/scene-environment/OCD_SCENE_MASTER_EXECUTIVE_PRIVATE_OFFICE_1672x941_01.png",
+      "hash": "500ea8be32dedfb5458aa334eff5939deb0b162e6f5159f42b6cf112e32bde1f",
+      "requires_transparency": false
+    },
+    {
+      "asset_id": "env_residence_apartment_living_modest_01_1376x768_v1",
+      "asset_type": "environment-master",
+      "art_class": "production",
+      "family_id": "apartment-ordinary",
+      "jurisdiction_scope": "unscoped-pending-review",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_env_residence_apartment_living_modest_01_1376x768_v1"
+      ],
+      "rights_note": "Owner-approved Our Civic Duty source master; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Banked source master only. No runtime tier is derived and no scene is registered against it, so nothing can select it.",
+      "negative_constraints": [
+        "At 1376px this master is below the 4608px environment master minimum and no 4K derivative of it exists in Drive, unlike its two siblings. It becomes a runtime plate when a 4K master arrives, not before.",
+        "Do not derive a runtime tier from this master until a consumer and its measured geometry exist.",
+        "Do not upscale this master."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_STARTER_01_1376x768.png",
+      "hash": "7f6e59b03a50a0c14068a217ab88f77d3987cf3f549d639fbc7627a0c910aae6",
+      "requires_transparency": false
+    },
+    {
+      "asset_id": "env_legislative_chamber_floor_5632x3072_v1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "raster_tiers": [
+        {
+          "width": 1408,
+          "height": 768,
+          "path": "art/families/legislative-chamber/env_legislative_chamber_floor_v1.png",
+          "hash": "ed0d0b9cdf433fbaea959967645568cdebda5d46aec8d6b62c8e6cd0c6ff8728",
+          "derivation": "deterministic-downscale"
+        },
+        {
+          "width": 2816,
+          "height": 1536,
+          "path": "art/families/legislative-chamber/env_legislative_chamber_floor_runtime_2x_v1.png",
+          "hash": "184a68b7a82a3fef6e0167cde0ceb3b373484253ddd6185265c89e254a52c493",
+          "derivation": "deterministic-downscale"
+        }
+      ],
+      "family_id": "legislative-chamber",
+      "jurisdiction_scope": "unscoped-generic-chamber",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_legislative_chamber_floor_5632x3072_v1"],
+      "rights_note": "Owner-approved Our Civic Duty scene master from the canonical 4K/5K source library; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Generic legislative chamber floor: tiered member desks, a raised rostrum with a lectern, and public galleries. Both runtime tiers are deterministic DOWNSCALES of the owner-approved 5632x3072 master; nothing in this repository enlarged it.",
+      "negative_constraints": [
+        "Do not treat depicted details as sourced jurisdiction facts; nothing in this room names a place.",
+        "Do not bake bill numbers, tallies, agendas, seals, flags or names into this plate; those belong to the declared surface slots.",
+        "Do not use as a committee hearing room or a courtroom: this room has tiered member desks, a rostrum and galleries, and those rooms do not.",
+        "Do not upscale either tier; the 5632x3072 master is preserved unmodified."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/families/legislative-chamber/env_legislative_chamber_floor_runtime_2x_v1.png",
+      "hash": "184a68b7a82a3fef6e0167cde0ceb3b373484253ddd6185265c89e254a52c493",
+      "requires_transparency": false
+    },
+    {
+      "asset_id": "ocd_source_sheet_adult_feminine_body_8pose_v1",
+      "asset_type": "character-component-master",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_ocd_source_sheet_adult_feminine_body_8pose_v1"],
+      "rights_note": "Owner-approved Our Civic Duty source sheet; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "Eight adult feminine body poses in one family, chopped by npm run chop:source-sheet. The whole sheet is preserved here as the provenance every chopped cell is reproducible from.",
+      "negative_constraints": [
+        "Every chopped pose carries a green silhouette contour that the approved character style authority does not have. The cells are banked as chopped source components and NONE is promoted.",
+        "Do not treat a chopped cell as production art; chopping is measurement, not approval.",
+        "Do not enlarge this sheet or any cell taken from it."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/references/masters/people-pose/OCD_CANDIDATE_PEOPLE_POSE_ADULT_FEMININE_BODY_FAMILY_8POSE_5056x3392_01.png",
+      "hash": "d6c7bc66a67bd80a2546e7be2e0723c1ae33eb0e2fb0465c6bed1a3d1fac248d",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "ocd_source_sheet_adult_head_diversity_12up_v1",
+      "asset_type": "character-component-master",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_ocd_source_sheet_adult_head_diversity_12up_v1"],
+      "rights_note": "Owner-approved Our Civic Duty source sheet; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "Twelve bald neutral adult heads, chopped by npm run chop:source-sheet. The whole sheet is preserved here as the provenance every chopped cell is reproducible from.",
+      "negative_constraints": [
+        "Chopped and measured. Promotion waits on a released body family to attach to; a head declares the body families it fits, and none is released.",
+        "Do not treat a chopped cell as production art; chopping is measurement, not approval.",
+        "Do not enlarge this sheet or any cell taken from it."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/references/masters/body-head/OCD_CANDIDATE_HEAD_SOURCE_ADULT_DIVERSITY_12UP_3584x4800_01.png",
+      "hash": "a6d797139cd238dd791bed28e92ea5edb70c6b3fa19be72dd60784b40a4bce05",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "ocd_source_sheet_footwear_12up_v1",
+      "asset_type": "character-component-master",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_ocd_source_sheet_footwear_12up_v1"],
+      "rights_note": "Owner-approved Our Civic Duty source sheet; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "Twelve footwear pairs, chopped by npm run chop:source-sheet. The whole sheet is preserved here as the provenance every chopped cell is reproducible from.",
+      "negative_constraints": [
+        "Every pair is drawn as a bonded three-quarter product pair. The body family stands front-on with separated feet, so none of them composites onto it as delivered.",
+        "Do not treat a chopped cell as production art; chopping is measurement, not approval.",
+        "Do not enlarge this sheet or any cell taken from it."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/references/masters/wardrobe/OCD_CANDIDATE_WARDROBE_FOOTWEAR_SOURCE_12UP_3584x4800_01.png",
+      "hash": "fa1abe93d5abe3a0a93d580a7910fd2abf2bd9372c2e913eb5699c52a441989b",
+      "requires_transparency": true
     }
   ]
 }

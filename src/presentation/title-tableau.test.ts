@@ -18,7 +18,7 @@ function hero(overrides: Partial<TitleHeroInput> = {}): TitleHeroInput {
   return {
     heroIdentityKey: "hero-key-1",
     displayName: "Jeffrey Schneider",
-    capabilities: ["adult"],
+    capabilities: ["adult", "residence-known"],
     availablePoseFamilies: ["standing-neutral"],
     availableFacings: ["front"],
     ...overrides,
@@ -36,10 +36,66 @@ describe("title tableau resolution", () => {
   it("puts an eligible, art-capable hero into a tableau", () => {
     const presentation = resolveTitlePresentation({ ...BASE, hero: hero() });
     expect(presentation.kind).toBe("hero-in-tableau");
-    expect(presentation.tableau!.tableauId).toBe("civic-office-standing");
     expect(presentation.heroName).toBe("Jeffrey Schneider");
-    expect(presentation.heroAnchorId).toBe("near-desk-standing");
-    expect(presentation.scene!.sceneId).toBe("office-council-staff-fixture");
+    expect(presentation.scene!.presentationStatus).toBe("production");
+    expect(presentation.tableau!.familyId).toBe("apartment-ordinary");
+    expect(presentation.heroAnchorId).toBe(presentation.tableau!.heroAnchorId);
+  });
+
+  /**
+   * THE ANTI-UNIVERSAL-OFFICE ASSERTION.
+   *
+   * An adult with a saved game used to resolve to the Lexington council staff
+   * office — a room with a Fayette County map on its wall — because it was the
+   * only tableau in the bank. No capability a title screen can know justifies
+   * that room, so it is not in the registry at all, and this walks every
+   * reachable title for every capability set a save summary can produce to
+   * prove no path reaches it.
+   */
+  it("never shows jurisdiction-specific office art on the title", () => {
+    const capabilitySets = [
+      [],
+      ["adult"],
+      ["residence-known"],
+      ["adult", "residence-known"],
+      ["adult", "residence-known", "office"],
+      ["adult", "residence-known", "office", "legislature"],
+    ];
+    for (const capabilities of capabilitySets) {
+      for (let attempt = 0; attempt < 25; attempt += 1) {
+        const presentation = resolveTitlePresentation({
+          ...BASE,
+          hero: hero({ capabilities, heroIdentityKey: `walk-${attempt}` }),
+        });
+        expect(presentation.scene?.sceneId ?? "").not.toBe(
+          "office-council-staff-fixture",
+        );
+        for (const tier of presentation.scene?.raster?.ladder.tiers ?? []) {
+          expect(tier.path).not.toContain("lexington");
+        }
+      }
+    }
+    const noHero = resolveTitlePresentation({ ...BASE, hero: null });
+    expect(noHero.scene?.sceneId).not.toBe("office-council-staff-fixture");
+  });
+
+  /**
+   * The front door is the same room every time. A no-save title that picked a
+   * different room per library version would still be deterministic and still
+   * be wrong: it is the first thing anyone sees of this game.
+   */
+  it("shows the same room every time there is no saved game", () => {
+    for (const version of ["library-v1", "library-v2", "library-v9"]) {
+      const presentation = resolveTitlePresentation({
+        ...BASE,
+        hero: null,
+        assetLibraryVersion: version,
+      });
+      expect(presentation.tableau!.tableauId).toBe(
+        TITLE_TABLEAU_REGISTRY.frontDoorTableauId,
+      );
+      expect(presentation.scene!.raster).not.toBeNull();
+    }
   });
 
   /**
@@ -71,15 +127,61 @@ describe("title tableau resolution", () => {
     expect(presentation.reasons.join(" ")).toContain("capabilities (none)");
   });
 
-  it("opens the office desk only to a character who has an office", () => {
-    const staffer = hero({
-      capabilities: ["adult", "office", "legislature"],
-      availablePoseFamilies: ["seated-at-desk"],
-      heroIdentityKey: "staffer-1",
+  it("opens the hearing room only to a character who sits in a legislature", () => {
+    const legislator = hero({
+      capabilities: ["adult", "residence-known", "legislature"],
+      availablePoseFamilies: ["standing-podium-or-lectern"],
+      heroIdentityKey: "legislator-1",
     });
-    const presentation = resolveTitlePresentation({ ...BASE, hero: staffer });
+    const presentation = resolveTitlePresentation({
+      ...BASE,
+      hero: legislator,
+    });
     expect(presentation.kind).toBe("hero-in-tableau");
-    expect(presentation.tableau!.requiredPoseFamily).toBe("seated-at-desk");
+    expect(presentation.tableau!.tableauId).toBe("before-a-hearing");
+
+    // The same person without the legislative capability cannot reach it,
+    // however many times the chooser is asked.
+    for (let attempt = 0; attempt < 30; attempt += 1) {
+      const ordinary = resolveTitlePresentation({
+        ...BASE,
+        hero: hero({
+          availablePoseFamilies: ["standing-podium-or-lectern"],
+          heroIdentityKey: `ordinary-${attempt}`,
+        }),
+      });
+      expect(ordinary.tableau!.tableauId).not.toBe("before-a-hearing");
+    }
+  });
+
+  /**
+   * A character is never put at a lectern in front of an audience because the
+   * art has a lectern in it. The community hall is banked for its empty state
+   * only, and no capability set promotes it into a hero tableau.
+   */
+  it("keeps the community meeting hall empty of the player", () => {
+    for (const capabilities of [
+      ["adult", "residence-known"],
+      ["adult", "residence-known", "office"],
+      ["adult", "residence-known", "office", "legislature"],
+    ]) {
+      for (let attempt = 0; attempt < 20; attempt += 1) {
+        const presentation = resolveTitlePresentation({
+          ...BASE,
+          hero: hero({
+            capabilities,
+            availablePoseFamilies: [
+              "standing-neutral",
+              "standing-podium-or-lectern",
+            ],
+            heroIdentityKey: `speaker-${attempt}`,
+          }),
+        });
+        if (presentation.scene?.sceneId === "civic-community-meeting-title") {
+          expect(presentation.kind).toBe("neutral-tableau");
+        }
+      }
+    }
   });
 
   /**
@@ -126,8 +228,8 @@ describe("title tableau resolution", () => {
    */
   it("may change tableau when the library grows, and never changes the person", () => {
     const subject = hero({
-      capabilities: ["adult", "office", "legislature"],
-      availablePoseFamilies: ["standing-neutral", "seated-at-desk"],
+      capabilities: ["adult", "residence-known", "legislature"],
+      availablePoseFamilies: ["standing-neutral", "standing-podium-or-lectern"],
     });
     const first = resolveTitlePresentation({ ...BASE, hero: subject });
     const later = resolveTitlePresentation({
@@ -137,6 +239,42 @@ describe("title tableau resolution", () => {
     });
     expect(later.heroName).toBe(first.heroName);
     expect(later.kind).toBe(first.kind);
+  });
+
+  /**
+   * Labels are sentence PARTS. The resolver completes them into "<label> with
+   * nobody in it." and "<label> with <name> in it.", so a label that already
+   * describes the room's state produces "a living room with nobody in it with
+   * nobody in it" — which is exactly what the first wired title screen said.
+   */
+  it("builds copy from labels without saying anything twice", () => {
+    const everyTableau = [
+      ...TITLE_TABLEAU_REGISTRY.tableaux,
+      ...TITLE_TABLEAU_REGISTRY.neutralBank,
+    ];
+    for (const tableau of everyTableau) {
+      expect(tableau.label, tableau.tableauId).not.toMatch(
+        /\bwith\b|\bnobody\b|\bempty\b|\bin it\b/i,
+      );
+    }
+
+    for (const subject of [
+      null,
+      hero(),
+      hero({ capabilities: [] }),
+      hero({ availablePoseFamilies: [], availableFacings: [] }),
+    ]) {
+      const { description } = resolveTitlePresentation({
+        ...BASE,
+        hero: subject,
+      });
+      const words = description.toLowerCase().replace(/[.,]/g, "").split(" ");
+      for (let index = 0; index + 5 < words.length; index += 1) {
+        const phrase = words.slice(index, index + 3).join(" ");
+        const next = words.slice(index + 3, index + 6).join(" ");
+        expect(next, description).not.toBe(phrase);
+      }
+    }
   });
 
   it("writes player-facing copy that says what is on screen, not how it works", () => {
@@ -161,6 +299,7 @@ describe("title tableau resolution", () => {
       hero(),
       hero({ capabilities: [] }),
       hero({ availablePoseFamilies: [], availableFacings: [] }),
+      hero({ capabilities: ["adult", "residence-known", "legislature"] }),
     ]) {
       const presentation = resolveTitlePresentation({
         ...BASE,

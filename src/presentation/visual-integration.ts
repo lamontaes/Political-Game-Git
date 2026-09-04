@@ -244,8 +244,17 @@ export interface OfficeVisualComposition {
   readonly occluders: readonly ComposedSceneOccluder[];
 }
 
+/**
+ * Every raster the runtime may paint.
+ *
+ * `art/references/masters/**` is excluded on purpose. Those files are banked
+ * provenance — the 5504x3072 originals every runtime tier is reduced from —
+ * and nothing selects them: a released asset's `final_path` is always a tier.
+ * Globbing them anyway put tens of megabytes of source master into the shipped
+ * bundle to satisfy URLs no page ever asks for.
+ */
 const runtimeUrls = import.meta.glob<string>(
-  "../../art/**/*.{png,jpg,jpeg,webp}",
+  ["../../art/**/*.{png,jpg,jpeg,webp}", "!../../art/references/masters/**"],
   {
     eager: true,
     import: "default",

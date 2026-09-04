@@ -49,6 +49,13 @@ describe("cargo disposition ledger", () => {
         "pack-universal-base-characters",
         "pack-universal-animation-library",
         "pack-office-cubicle-set",
+        // The Drive libraries this project's art actually comes from, added
+        // when Packet 68's rescan found five scene masters and 63 hair
+        // components that had never been dispositioned anywhere.
+        "drive-4k-source-master-library",
+        "drive-4k-chopped-hair-masters",
+        // The four uploads Packet 71 delivered on 2026-09-04.
+        "drive-p71-2026-09-04-uploads",
       ]),
     );
     for (const source of ledger.sources) {

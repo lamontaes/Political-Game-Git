@@ -9,8 +9,7 @@
       "lineage_class": "original-master",
       "native_detail_state": "native",
       "rights_status": "unknown",
-      "approved_by": "owner",
-      "approval_note": "Civic/community meeting tableau. Filename asserts 5376x3024, above the 4608px environment master floor; intake measures the real bytes rather than trusting the name. Drive 1LA55s__GoCW6Geea4J7T5PdDSiB-Ty3b. Bytes are NOT in the repository yet: place the file at the declared path and run `npm run intake:environment -- art/intake/environment-batch-2026-09-03.request.json`, which measures it and rejects it if the declaration is wrong.",
+      "approval_note": "WITHDRAWN — REJECTED BY THE OWNER. This file now sits in Drive under 05_4K_SOURCE_MASTERS/05Y_REJECTED_HIGH_RES_CALIBRATION, which the source master library's own document says must never be treated as production authority. The approval recorded here predates that move and no longer holds, so the approver is removed rather than left standing. Drive 1LA55s__GoCW6Geea4J7T5PdDSiB-Ty3b, now in 05_4K_SOURCE_MASTERS/05Y_REJECTED_HIGH_RES_CALIBRATION. Reconciled 2026-09-03 by Packet 68 against the current Drive; the standing record is art/requests/asset-requests.json.",
       "family_id": "civic-community-meeting"
     },
     {
@@ -21,7 +20,7 @@
       "native_detail_state": "native",
       "rights_status": "unknown",
       "approved_by": "owner",
-      "approval_note": "Second community-meeting tableau with a deliberate hero character slot. Drive 1VoqVUpqfEbcDTFD_3tav19zhVePMbAoc. Bytes are NOT in the repository yet: place the file at the declared path and run `npm run intake:environment -- art/intake/environment-batch-2026-09-03.request.json`, which measures it and rejects it if the declaration is wrong.",
+      "approval_note": "INGESTED. The bytes are now in the repository at art/references/masters/scene-environment/PG_TITLE_BG_COMMUNITY_MEETING_HERO_SLOT_02_5504x3072.png, measured at 5504x3072 as a true PNG with sha256 0ac5ef6ffa603d9510efb2160da38e065d0a7290352a976bc074dde779109663, and released as title_bg_civic_community_meeting_hero_slot_5504x3072_v1. This entry is kept as the record of how it was asked for; running intake on it again would ingest what is already here. Drive 1VoqVUpqfEbcDTFD_3tav19zhVePMbAoc, now in 05_4K_SOURCE_MASTERS/05E_TITLE_UI_MASTERS. Reconciled 2026-09-03 by Packet 68 against the current Drive; the standing record is art/requests/asset-requests.json.",
       "family_id": "civic-community-meeting"
     },
     {
@@ -31,8 +30,7 @@
       "lineage_class": "original-master",
       "native_detail_state": "native",
       "rights_status": "unknown",
-      "approved_by": "owner",
-      "approval_note": "JPEG sibling of the hero-slot tableau. Declared as reference, not a plate: a JPEG bitstream carries no alpha and its compression is already baked in. This is the same class of mislabel Packet 45 flagged, where Firefly output was banked as .png while the bitstream was JPEG; intake reads the bitstream, not the extension, and will report the real format. Drive 1-EUuRqruB9vvvuQo9iTstf8Yj_r8OPGi. Bytes are NOT in the repository yet: place the file at the declared path and run `npm run intake:environment -- art/intake/environment-batch-2026-09-03.request.json`, which measures it and rejects it if the declaration is wrong.",
+      "approval_note": "WITHDRAWN — REJECTED BY THE OWNER. Also moved into 05Y_REJECTED_HIGH_RES_CALIBRATION, alongside a byte-identical cel-shaded duplicate. It was already declared reference-only here, because intake reads the bitstream rather than the extension and a JPEG bitstream carries no alpha; it is now not even that. Drive 1-EUuRqruB9vvvuQo9iTstf8Yj_r8OPGi, now in 05_4K_SOURCE_MASTERS/05Y_REJECTED_HIGH_RES_CALIBRATION. Reconciled 2026-09-03 by Packet 68 against the current Drive; the standing record is art/requests/asset-requests.json.",
       "family_id": "civic-community-meeting"
     },
     {
@@ -42,8 +40,7 @@
       "lineage_class": "original-master",
       "native_detail_state": "native",
       "rights_status": "unknown",
-      "approved_by": "owner",
-      "approval_note": "Courtroom civic tableau from the same approved title-tableau lane. Drive 1eXGYOYVxD2_VWaDeu71aP76qoqyZ32D4. Bytes are NOT in the repository yet: place the file at the declared path and run `npm run intake:environment -- art/intake/environment-batch-2026-09-03.request.json`, which measures it and rejects it if the declaration is wrong.",
+      "approval_note": "WITHDRAWN — REJECTED BY THE OWNER. Moved into 05Y_REJECTED_HIGH_RES_CALIBRATION. A separate and accepted courtroom master exists at 5504x3072 and is banked as env_courtroom_empty_5504x3072_v1; it is registered and deliberately unreleased, because this game has no judicial surface. Drive 1eXGYOYVxD2_VWaDeu71aP76qoqyZ32D4, now in 05_4K_SOURCE_MASTERS/05Y_REJECTED_HIGH_RES_CALIBRATION. Reconciled 2026-09-03 by Packet 68 against the current Drive; the standing record is art/requests/asset-requests.json.",
       "family_id": "civic-community-meeting"
     },
     {
@@ -54,7 +51,7 @@
       "native_detail_state": "native",
       "rights_status": "unknown",
       "approved_by": "owner",
-      "approval_note": "The approved reusable apartment living-room base: the checkpoint records candidate #3 as the selected plate because it keeps clear foreground character space, readable seating, a TV, a bookshelf, a window and an entry door on a simple stable perspective. It is the current positive reference for scene-plate philosophy. Drive 1Ke60NgqQe4ax_ZayvELXKQLddADNSK5i. Bytes are NOT in the repository yet: place the file at the declared path and run `npm run intake:environment -- art/intake/environment-batch-2026-09-03.request.json`, which measures it and rejects it if the declaration is wrong.",
+      "approval_note": "SUPERSEDED BY A 4K MASTER. This is the 1376x768 style reference for the apartment, byte-identical to PG_SCENE_HOME_APARTMENT_LIVING_03. Its 5504x3072 upscale is now banked and released as env_residence_apartment_living_canonical_03_5504x3072_v1, so the room is in the game and this entry is history rather than a queue item. The 1376 file remains the positive style reference it always was. Drive 1Ke60NgqQe4ax_ZayvELXKQLddADNSK5i, in 01_APPROVED_REFERENCES. Reconciled 2026-09-03 by Packet 68 against the current Drive; the standing record is art/requests/asset-requests.json. Bytes are NOT in the repository yet: nothing here has been measured.",
       "family_id": "apartment-ordinary"
     },
     {
@@ -65,7 +62,7 @@
       "native_detail_state": "unverified",
       "rights_status": "unknown",
       "approved_by": "owner",
-      "approval_note": "The 2048x1144 civic staff office reference, matching the runtime derivative already registered from the Prompt 30 fixture. Declared reference-only and unverified detail because a 2048px file is below the environment master floor and its lineage above that width is not established here. Drive 1ooFum5biDsFh0tD8zgXhkPERoCWwxQFt. Bytes are NOT in the repository yet: place the file at the declared path and run `npm run intake:environment -- art/intake/environment-batch-2026-09-03.request.json`, which measures it and rejects it if the declaration is wrong.",
+      "approval_note": "STILL REFERENCE ONLY, AND STILL NOT INGESTED. The 2048x1144 runtime derivative registered from the Prompt 30 fixture already covers what this file would show, and at 2048px it is below the environment master floor. Nothing about it changed in the rescan. Drive 1ooFum5biDsFh0tD8zgXhkPERoCWwxQFt, in 10_SCENES/10C_OFFICES. Reconciled 2026-09-03 by Packet 68 against the current Drive; the standing record is art/requests/asset-requests.json. Bytes are NOT in the repository yet: nothing here has been measured.",
       "family_id": "council-staff-office"
     },
     {
@@ -75,8 +72,7 @@
       "lineage_class": "original-master",
       "native_detail_state": "native",
       "rights_status": "unknown",
-      "approved_by": "owner",
-      "approval_note": "PG-E02 CLEAN is the human-approved current office composition master, locally verified at 5568x3008 / 24.2MB, with enough resolution for a later non-enlarging crop to 4096x2288. The checkpoint is explicit that it must not be regenerated or upscaled. NOT LOCATED under this exact name during this audit; the verified Topaz source is banked as 'Firefly_Topaz_Firefly image 2026-08-28 15-42 2104280551 KHM.png'. Drive 1Ic0Fqx6SdIfu_vlo6weHVDCVjx_HM67D. Bytes are NOT in the repository yet: place the file at the declared path and run `npm run intake:environment -- art/intake/environment-batch-2026-09-03.request.json`, which measures it and rejects it if the declaration is wrong.",
+      "approval_note": "WITHDRAWN — REJECTED BY THE OWNER. Four byte-identical 24.2MB copies of this master now sit in 05_4K_SOURCE_MASTERS/05Y_REJECTED_HIGH_RES_CALIBRATION as photoreal drift. The illustrated 1672x941 executive study IS banked here as env_office_executive_private_lincoln_1672x941_v1, registered and unreleased because 1672px is below the environment master floor and no canonical executive capability exists. The replacement ask is env-executive-office-4k-master. Drive 1Ic0Fqx6SdIfu_vlo6weHVDCVjx_HM67D; the located copies are in 05_4K_SOURCE_MASTERS/05Y_REJECTED_HIGH_RES_CALIBRATION. Reconciled 2026-09-03 by Packet 68 against the current Drive; the standing record is art/requests/asset-requests.json.",
       "family_id": "executive-private-office"
     }
   ]

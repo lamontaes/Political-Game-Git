@@ -34,6 +34,7 @@ import {
   questionnaireScreenFor,
 } from "../presentation/setup-questionnaire-flow";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
+import { TitleScreen } from "./TitleScreen";
 import {
   readReplaySeed,
   resolveSessionSeed,
@@ -444,88 +445,6 @@ export function PlayerGame() {
 }
 
 /* -------------------------------------------------------------------------- */
-
-/**
- * The main menu.
- *
- * Our Civic Duty, and no tagline. Five controls, in the order the authority
- * names them.
- *
- * Quit is present and disabled, which is the honest state rather than a
- * missing button or a lie. There is no application shell here to quit, and the
- * copy beside it says what would have to exist for it to work without ever
- * mentioning a browser to a player.
- */
-function TitleScreen({
-  saves,
-  savesUnavailable,
-  problem,
-  onNewGame,
-  onContinue,
-  onOpenSaves,
-  onOpenOptions,
-}: {
-  readonly saves: readonly BrowserWorldSummary[];
-  readonly savesUnavailable: boolean;
-  readonly problem: string | null;
-  readonly onNewGame: () => void;
-  readonly onContinue: () => void;
-  readonly onOpenSaves: () => void;
-  readonly onOpenOptions: () => void;
-}) {
-  const recent = saves[0];
-  return (
-    <main className="game-title" data-testid="title-screen">
-      <h1>Our Civic Duty</h1>
-      <div className="game-title-actions">
-        <button type="button" data-testid="new-game" onClick={onNewGame}>
-          New Game
-        </button>
-        <button
-          type="button"
-          data-testid="continue"
-          onClick={onContinue}
-          disabled={!recent}
-        >
-          Continue
-          {recent ? (
-            <small>
-              {recent.playerName}, {recent.playerAge}
-              {recent.residence ? ` · ${recent.residence.name}` : ""}
-            </small>
-          ) : null}
-        </button>
-        <button
-          type="button"
-          data-testid="open-saves"
-          onClick={onOpenSaves}
-          disabled={saves.length === 0}
-        >
-          Saved Games
-          {saves.length > 0 ? <small>{saves.length} saved</small> : null}
-        </button>
-        <button
-          type="button"
-          data-testid="open-options"
-          onClick={onOpenOptions}
-        >
-          Options
-        </button>
-        <button type="button" data-testid="quit" disabled>
-          Quit
-          <small>Not available in this build.</small>
-        </button>
-      </div>
-      {savesUnavailable ? (
-        <p className="game-note">
-          Games cannot be stored here, so a life played now will not still be
-          here later.
-        </p>
-      ) : null}
-      {problem ? <p className="game-problem">{problem}</p> : null}
-    </main>
-  );
-}
 
 /* -------------------------------------------------------------------------- */
 

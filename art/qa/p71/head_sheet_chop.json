@@ -1,0 +1,325 @@
+{
+  "tool": "source-sheet-chop-v1",
+  "sourcePath": "art/references/masters/body-head/OCD_CANDIDATE_HEAD_SOURCE_ADULT_DIVERSITY_12UP_3584x4800_01.png",
+  "sourceSha256": "a6d797139cd238dd791bed28e92ea5edb70c6b3fa19be72dd60784b40a4bce05",
+  "sourceWidth": 3584,
+  "sourceHeight": 4800,
+  "options": {
+    "alphaNoiseThreshold": 8,
+    "paddingPixels": 64,
+    "minimumGapPixels": 24,
+    "minimumComponentPixels": 20000
+  },
+  "columnBands": [
+    {
+      "start": 257,
+      "end": 960
+    },
+    {
+      "start": 1443,
+      "end": 2144
+    },
+    {
+      "start": 2614,
+      "end": 3334
+    }
+  ],
+  "rowBands": [
+    {
+      "start": 100,
+      "end": 1141
+    },
+    {
+      "start": 1298,
+      "end": 2330
+    },
+    {
+      "start": 2485,
+      "end": 3519
+    },
+    {
+      "start": 3673,
+      "end": 4702
+    }
+  ],
+  "noisePixelsCleared": 3762800,
+  "cells": [
+    {
+      "cellId": "R1C1",
+      "row": 1,
+      "column": 1,
+      "sourceBox": {
+        "x": 265,
+        "y": 100,
+        "width": 691,
+        "height": 1029
+      },
+      "centroidNormalized": {
+        "x": 0.170413,
+        "y": 0.12265
+      },
+      "exportWidth": 819,
+      "exportHeight": 1157,
+      "opaquePixels": 513564,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 11273,
+      "outputPath": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_light_oval_young_v1.png",
+      "sha256": "56bf27fce96fe8e990666dae57f25a83d54d2a226158e22d405e88b74bfc5f57"
+    },
+    {
+      "cellId": "R1C2",
+      "row": 1,
+      "column": 2,
+      "sourceBox": {
+        "x": 1446,
+        "y": 100,
+        "width": 694,
+        "height": 1037
+      },
+      "centroidNormalized": {
+        "x": 0.500447,
+        "y": 0.12439
+      },
+      "exportWidth": 822,
+      "exportHeight": 1165,
+      "opaquePixels": 526307,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 10458,
+      "outputPath": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_tan_round_young_v1.png",
+      "sha256": "65d1799aa56c51ce73d069d09c2eada766f9ed4990ee0659e7c7915fd8f9052f"
+    },
+    {
+      "cellId": "R1C3",
+      "row": 1,
+      "column": 3,
+      "sourceBox": {
+        "x": 2639,
+        "y": 108,
+        "width": 672,
+        "height": 1034
+      },
+      "centroidNormalized": {
+        "x": 0.830127,
+        "y": 0.124607
+      },
+      "exportWidth": 800,
+      "exportHeight": 1162,
+      "opaquePixels": 497233,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 9400,
+      "outputPath": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_olive_oval_adult_v1.png",
+      "sha256": "0db4d9dee34ab9d3beb5d8704e5b35d91ca41ced5feb6080b0ba773d823dd93c"
+    },
+    {
+      "cellId": "R2C1",
+      "row": 2,
+      "column": 1,
+      "sourceBox": {
+        "x": 267,
+        "y": 1298,
+        "width": 686,
+        "height": 1033
+      },
+      "centroidNormalized": {
+        "x": 0.170458,
+        "y": 0.374253
+      },
+      "exportWidth": 814,
+      "exportHeight": 1161,
+      "opaquePixels": 522073,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 10051,
+      "outputPath": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_tan_square_adult_masc_v1.png",
+      "sha256": "2471c9feaa131f7b836622b30d23e6939939fc516e1df3ce7217620f78052df3"
+    },
+    {
+      "cellId": "R2C2",
+      "row": 2,
+      "column": 2,
+      "sourceBox": {
+        "x": 1455,
+        "y": 1300,
+        "width": 678,
+        "height": 1030
+      },
+      "centroidNormalized": {
+        "x": 0.500671,
+        "y": 0.373312
+      },
+      "exportWidth": 806,
+      "exportHeight": 1158,
+      "opaquePixels": 506161,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 9197,
+      "outputPath": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_deep_oval_adult_v1.png",
+      "sha256": "27029a3efb30ee82c456b21186923c80333e6e95efb39bda834c71e2a50159ea"
+    },
+    {
+      "cellId": "R2C3",
+      "row": 2,
+      "column": 3,
+      "sourceBox": {
+        "x": 2634,
+        "y": 1302,
+        "width": 682,
+        "height": 1028
+      },
+      "centroidNormalized": {
+        "x": 0.830053,
+        "y": 0.373277
+      },
+      "exportWidth": 810,
+      "exportHeight": 1156,
+      "opaquePixels": 504479,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 9968,
+      "outputPath": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_light_long_older_v1.png",
+      "sha256": "12142a09fdfc2b9d70f2546cefa995a5602c27085a6a86268d9c67c9b186f6d3"
+    },
+    {
+      "cellId": "R3C1",
+      "row": 3,
+      "column": 1,
+      "sourceBox": {
+        "x": 276,
+        "y": 2489,
+        "width": 673,
+        "height": 1028
+      },
+      "centroidNormalized": {
+        "x": 0.170969,
+        "y": 0.619646
+      },
+      "exportWidth": 801,
+      "exportHeight": 1156,
+      "opaquePixels": 490834,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 9740,
+      "outputPath": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_light_oval_young_fem_v1.png",
+      "sha256": "bb04f14681151e5058e0106c4c3435a96ce5c11c431aa58e3b277cfaa9cf5c14"
+    },
+    {
+      "cellId": "R3C2",
+      "row": 3,
+      "column": 2,
+      "sourceBox": {
+        "x": 1443,
+        "y": 2488,
+        "width": 702,
+        "height": 1032
+      },
+      "centroidNormalized": {
+        "x": 0.500751,
+        "y": 0.620336
+      },
+      "exportWidth": 830,
+      "exportHeight": 1160,
+      "opaquePixels": 512107,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 9264,
+      "outputPath": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_tan_oval_adult_fem_v1.png",
+      "sha256": "7e7fda0636ba46d152f940dfe9f8fc7dd45bb9fdd45cf6c2978a5bb2d4611987"
+    },
+    {
+      "cellId": "R3C3",
+      "row": 3,
+      "column": 3,
+      "sourceBox": {
+        "x": 2639,
+        "y": 2485,
+        "width": 672,
+        "height": 1033
+      },
+      "centroidNormalized": {
+        "x": 0.830112,
+        "y": 0.621244
+      },
+      "exportWidth": 800,
+      "exportHeight": 1161,
+      "opaquePixels": 517026,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 9018,
+      "outputPath": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_deep_square_adult_masc_v1.png",
+      "sha256": "a55a87fcfb1e039763383d0ce2f6c82adfe1958a21dd7cee13f60d2d62c10506"
+    },
+    {
+      "cellId": "R4C1",
+      "row": 4,
+      "column": 1,
+      "sourceBox": {
+        "x": 257,
+        "y": 3675,
+        "width": 704,
+        "height": 1028
+      },
+      "centroidNormalized": {
+        "x": 0.170291,
+        "y": 0.869103
+      },
+      "exportWidth": 832,
+      "exportHeight": 1156,
+      "opaquePixels": 533733,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 9211,
+      "outputPath": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_light_square_older_masc_v1.png",
+      "sha256": "bdef17e63a1e237674ffb35b57f0a6edaf797d50948815db6ddaf12a487057d2"
+    },
+    {
+      "cellId": "R4C2",
+      "row": 4,
+      "column": 2,
+      "sourceBox": {
+        "x": 1448,
+        "y": 3674,
+        "width": 689,
+        "height": 1029
+      },
+      "centroidNormalized": {
+        "x": 0.500433,
+        "y": 0.868739
+      },
+      "exportWidth": 817,
+      "exportHeight": 1157,
+      "opaquePixels": 529704,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 9101,
+      "outputPath": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_deep_round_young_v1.png",
+      "sha256": "bda4059bcd75dff0e5f657a92427e90e68f3afb3d5ddfae583a16b93cd59afd2"
+    },
+    {
+      "cellId": "R4C3",
+      "row": 4,
+      "column": 3,
+      "sourceBox": {
+        "x": 2614,
+        "y": 3673,
+        "width": 721,
+        "height": 1030
+      },
+      "centroidNormalized": {
+        "x": 0.830117,
+        "y": 0.868869
+      },
+      "exportWidth": 849,
+      "exportHeight": 1158,
+      "opaquePixels": 542201,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 8728,
+      "outputPath": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_light_square_older_lined_v1.png",
+      "sha256": "f8f38dd50094aad00c96f8348bfed6c5c64b1e2a7895d3c182e56a2322176abf"
+    }
+  ],
+  "rejectedFragments": []
+}

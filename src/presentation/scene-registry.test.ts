@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 
+import { CIVIC_COMMUNITY_MEETING_TITLE_SCENE } from "../environment/scenes/civic-community-meeting-title-production";
+import { CIVIC_HEARING_ROOM_PRODUCTION_SCENE } from "../environment/scenes/civic-hearing-room-production";
 import { COMMITTEE_ROOM_FIXTURE_SCENE } from "../environment/scenes/committee-room-fixture";
+import { LEGISLATIVE_CHAMBER_PRODUCTION_SCENE } from "../environment/scenes/legislative-chamber-production";
+import {
+  RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE,
+  RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE,
+} from "../environment/scenes/residence-apartment-living-production";
 import { OFFICE_COUNCIL_STAFF_FIXTURE_SCENE } from "../environment/scenes/office-council-staff-fixture";
 import { SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE } from "../environment/scenes/shared-workroom-office-production";
 import { validateEnvironmentSceneSpec } from "../environment/environment-scene-spec";
@@ -8,7 +15,12 @@ import {
   COMMITTEE_FIXTURE_SCENE_ID,
   createSceneRegistry,
   OFFICE_FIXTURE_SCENE_ID,
+  DOMESTIC_CANONICAL_SCENE_ID,
+  DOMESTIC_ORDINARY_SCENE_ID,
+  HEARING_ROOM_SCENE_ID,
+  LEGISLATIVE_CHAMBER_SCENE_ID,
   PRODUCTION_OFFICE_SCENE_ID,
+  TITLE_TABLEAU_SCENE_ID,
   registerScene,
   requireScene,
   requireSceneAnchor,
@@ -20,6 +32,11 @@ describe("scene registry", () => {
   it("registers every shipped scene from a validated EnvironmentSceneSpec", () => {
     for (const spec of [
       SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE,
+      CIVIC_COMMUNITY_MEETING_TITLE_SCENE,
+      CIVIC_HEARING_ROOM_PRODUCTION_SCENE,
+      LEGISLATIVE_CHAMBER_PRODUCTION_SCENE,
+      RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE,
+      RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE,
       OFFICE_COUNCIL_STAFF_FIXTURE_SCENE,
       COMMITTEE_ROOM_FIXTURE_SCENE,
     ]) {
@@ -27,31 +44,162 @@ describe("scene registry", () => {
       expect(validation.errors, spec.scene_id).toEqual([]);
       expect(validation.valid).toBe(true);
     }
-    expect([...SCENE_REGISTRY.scenes.keys()].sort()).toEqual([
-      COMMITTEE_FIXTURE_SCENE_ID,
-      OFFICE_FIXTURE_SCENE_ID,
-      PRODUCTION_OFFICE_SCENE_ID,
-    ]);
+    expect([...SCENE_REGISTRY.scenes.keys()].sort()).toEqual(
+      [
+        TITLE_TABLEAU_SCENE_ID,
+        HEARING_ROOM_SCENE_ID,
+        LEGISLATIVE_CHAMBER_SCENE_ID,
+        COMMITTEE_FIXTURE_SCENE_ID,
+        OFFICE_FIXTURE_SCENE_ID,
+        DOMESTIC_CANONICAL_SCENE_ID,
+        DOMESTIC_ORDINARY_SCENE_ID,
+        PRODUCTION_OFFICE_SCENE_ID,
+      ].sort(),
+    );
   });
 
   /**
-   * The registry now carries exactly one production scene and keeps the rest
-   * marked as what they are. This is the assertion that stops a fixture from
-   * quietly presenting itself as production art, which is the confusion the
-   * office review ran into.
+   * Every scene says which it is, and the two fixtures stay fixtures. This is
+   * the assertion that stops a fixture from quietly presenting itself as
+   * production art, which is the confusion the office review ran into.
+   *
+   * A production scene must also HAVE a plate. A scene marked production with
+   * no raster would be the same claim made the other way round.
    */
-  it("separates the one production scene from the development fixtures", () => {
+  it("separates production scenes from the development fixtures", () => {
     const production = [...SCENE_REGISTRY.scenes.values()].filter(
       (scene) => scene.presentationStatus === "production",
     );
-    expect(production.map((scene) => scene.sceneId)).toEqual([
-      PRODUCTION_OFFICE_SCENE_ID,
-    ]);
+    expect(production.map((scene) => scene.sceneId).sort()).toEqual(
+      [
+        PRODUCTION_OFFICE_SCENE_ID,
+        TITLE_TABLEAU_SCENE_ID,
+        HEARING_ROOM_SCENE_ID,
+        LEGISLATIVE_CHAMBER_SCENE_ID,
+        DOMESTIC_CANONICAL_SCENE_ID,
+        DOMESTIC_ORDINARY_SCENE_ID,
+      ].sort(),
+    );
+    for (const scene of production) {
+      expect(scene.raster, scene.sceneId).not.toBeNull();
+    }
+    for (const sceneId of [
+      OFFICE_FIXTURE_SCENE_ID,
+      COMMITTEE_FIXTURE_SCENE_ID,
+    ]) {
+      expect(
+        requireScene(SCENE_REGISTRY, sceneId).presentationStatus,
+        sceneId,
+      ).toBe("development-fixture");
+    }
+  });
+
+  /**
+   * MEASURED, OR SAID TO BE UNMEASURED. Never quietly absent.
+   *
+   * A perspective ramp is the number every placement in a room rests on, and
+   * the temptation with an illustration is to fit one anyway and call the
+   * residual rounding. So a production scene either declares the pair, or its
+   * `explicit_unknowns` says in words that it does not and why. There is no
+   * third state where the field is simply missing and a reader has to guess
+   * whether anybody looked.
+   */
+  it("makes every production scene either calibrated or explicitly not", () => {
     for (const scene of SCENE_REGISTRY.scenes.values()) {
-      if (scene.sceneId === PRODUCTION_OFFICE_SCENE_ID) continue;
-      expect(scene.presentationStatus, scene.sceneId).toBe(
-        "development-fixture",
-      );
+      if (scene.presentationStatus !== "production") continue;
+      if (scene.floorCalibration !== null) continue;
+      const unknowns = (scene.spec.explicit_unknowns ?? []).join(" ");
+      expect(unknowns.toLowerCase(), scene.sceneId).toContain("calibration");
+    }
+  });
+
+  /**
+   * A body width with no ramp is a size with no perspective: it would paint
+   * every person in the room at the same height whatever floor they stood on.
+   */
+  it("declares no body width without the ramp that scales it", () => {
+    for (const scene of SCENE_REGISTRY.scenes.values()) {
+      if (scene.standardBodyWidthPercent === null) continue;
+      expect(scene.floorCalibration, scene.sceneId).not.toBeNull();
+    }
+  });
+
+  /**
+   * GEOMETRY IS MEASURED FROM THE PLATE BEING USED, NEVER TRANSPLANTED.
+   *
+   * Two rooms sharing a ramp or a body width to three decimal places did not
+   * both measure out that way; one was copied. The office production scene was
+   * added precisely because the fixture's numbers had been treated as the
+   * project's numbers, so this is the assertion that stops it recurring.
+   */
+  it("shares no measured geometry between two different rooms", () => {
+    const ramps = new Map<string, string>();
+    const widths = new Map<number, string>();
+    for (const scene of SCENE_REGISTRY.scenes.values()) {
+      if (scene.floorCalibration) {
+        const { near, far } = scene.floorCalibration;
+        const key = `${near.floor_y_percent}/${near.scale}/${far.floor_y_percent}/${far.scale}`;
+        expect(ramps.get(key), `${scene.sceneId} vs ${ramps.get(key)}`).toBe(
+          undefined,
+        );
+        ramps.set(key, scene.sceneId);
+      }
+      if (scene.standardBodyWidthPercent !== null) {
+        const width = scene.standardBodyWidthPercent;
+        expect(
+          widths.get(width),
+          `${scene.sceneId} vs ${widths.get(width)}`,
+        ).toBe(undefined);
+        widths.set(width, scene.sceneId);
+      }
+    }
+  });
+
+  /**
+   * A production plate must not be a room nobody measured a contact in. An
+   * anchor without a floor line cannot be registered at all, so the check that
+   * is worth making here is that a production room declares anchors and
+   * surfaces rather than being a picture with nothing authored against it.
+   */
+  it("authors contacts and surfaces against every production plate", () => {
+    for (const scene of SCENE_REGISTRY.scenes.values()) {
+      if (scene.presentationStatus !== "production") continue;
+      expect(scene.anchors.size, scene.sceneId).toBeGreaterThan(0);
+      expect(scene.surfaceSlots.length, scene.sceneId).toBeGreaterThan(0);
+      expect(
+        (scene.spec.explicit_unknowns ?? []).length,
+        scene.sceneId,
+      ).toBeGreaterThan(0);
+    }
+  });
+
+  /**
+   * The quarantine, asserted rather than described. The Lexington plate is
+   * jurisdiction-specific art with a Fayette County map on its wall, and the
+   * only scene entitled to it is the Lexington fixture itself.
+   */
+  it("keeps the Lexington plate out of every other scene", () => {
+    for (const scene of SCENE_REGISTRY.scenes.values()) {
+      if (scene.sceneId === OFFICE_FIXTURE_SCENE_ID) continue;
+      for (const tier of scene.raster?.ladder.tiers ?? []) {
+        expect(tier.path, scene.sceneId).not.toContain("lexington");
+        expect(tier.path, scene.sceneId).not.toContain("council-staff-office");
+      }
+    }
+  });
+
+  /**
+   * No production plate rests on enlarged pixels, and the rule is asserted
+   * across the whole registry rather than for the one scene that had it first.
+   */
+  it("registers no enlarged tier on any production scene", () => {
+    for (const scene of SCENE_REGISTRY.scenes.values()) {
+      if (scene.presentationStatus !== "production") continue;
+      for (const tier of scene.raster?.ladder.tiers ?? []) {
+        expect(tier.derivation, `${scene.sceneId} ${tier.width}`).toBe(
+          "deterministic-downscale",
+        );
+      }
     }
   });
 

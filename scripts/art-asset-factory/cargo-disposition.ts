@@ -32,6 +32,21 @@ export const CARGO_DISPOSITIONS = [
   "archive",
   "rejected",
   "pending-verification",
+  /**
+   * Measured, sound, and deliberately not brought in yet.
+   *
+   * The vocabulary above had no word for this, and the gap showed: 63 chopped
+   * hair components were opened, measured and found good, and the only
+   * dispositions available said either that nobody had checked them
+   * (`pending-verification`) or that they were superseded evidence
+   * (`archive`). Both are false. What is outstanding is a human release
+   * decision, not a measurement and not a supersession, and a ledger that
+   * cannot say so pushes the truth into prose.
+   *
+   * Like `archive` and `rejected`, it must give a reason. Unlike `re-homed`,
+   * it may claim no manifest asset, because nothing was promoted.
+   */
+  "banked-not-promoted",
 ] as const;
 
 export type CargoDisposition = (typeof CARGO_DISPOSITIONS)[number];
@@ -61,6 +76,15 @@ export type CargoVerificationLevel = (typeof CARGO_VERIFICATION_LEVELS)[number];
 export const CARGO_SOURCE_KINDS = [
   "repository-branch",
   "external-pack",
+  /**
+   * A folder in the owner's Drive that holds source art.
+   *
+   * Added because the two kinds above could not describe where most of this
+   * project's art actually comes from. A Drive library is neither a branch nor
+   * a downloaded pack, and recording one as "external-pack" would have made
+   * the ledger's own source list wrong in order to keep its schema narrow.
+   */
+  "drive-source-library",
 ] as const;
 
 export type CargoSourceKind = (typeof CARGO_SOURCE_KINDS)[number];
@@ -223,6 +247,17 @@ export function validateCargoDisposition(
     } else if (entry.verify_command !== undefined) {
       errors.push(
         `${label} was ${entry.verified_by} and must not also carry a verify_command.`,
+      );
+    }
+
+    if (
+      entry.disposition === "banked-not-promoted" &&
+      (entry.rehomed_asset_ids?.length ?? 0) +
+        (entry.rehomed_modules?.length ?? 0) >
+        0
+    ) {
+      errors.push(
+        `${label} is banked and not promoted, so it may not claim a re-homed asset or module. Nothing was promoted.`,
       );
     }
 

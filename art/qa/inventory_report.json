@@ -1,6 +1,30 @@
 {
-  "totalItems": 117,
+  "totalItems": 168,
   "items": [
+    {
+      "filePath": "families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
+      "hash": "baa3f6f965250363fdb1e376148ef0bdd7b84a36dd702a84bbe5239162c5753f"
+    },
+    {
+      "filePath": "families/apartment-ordinary/env_residence_apartment_living_ordinary_02_v1.png",
+      "hash": "8d0863e1c8423e6cb61682cbf025e1590f7bd5bf4fd964864b05d79f8e8838fe"
+    },
+    {
+      "filePath": "families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png",
+      "hash": "a1c6ed73a06ab71cd82ab9fa98f9f39228a4ffe74bbf4f8870d1d33fb55a2527"
+    },
+    {
+      "filePath": "families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_v1.png",
+      "hash": "7f40aaba49683ed011d57ff91f4bd3b202fdd39b941ab59e70b299337f7063e6"
+    },
+    {
+      "filePath": "families/civic-hearing-room/env_civic_hearing_room_runtime_2x_v1.png",
+      "hash": "30fe0f333eeef50c9938a0055b43f75ebf657174f66b445b4cfc73b5d9c5628c"
+    },
+    {
+      "filePath": "families/civic-hearing-room/env_civic_hearing_room_v1.png",
+      "hash": "d30fe81c23952b9dd98ec88b34f87952dbbec7044a8955a9c521ba10eeac9663"
+    },
     {
       "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
       "hash": "f2f5ae8ca3e82e13cf6fb6f8f27c654b5c95a93c6ca2c31d5c56381fdd543406"
@@ -12,6 +36,14 @@
     {
       "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
       "hash": "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43"
+    },
+    {
+      "filePath": "families/legislative-chamber/env_legislative_chamber_floor_runtime_2x_v1.png",
+      "hash": "184a68b7a82a3fef6e0167cde0ceb3b373484253ddd6185265c89e254a52c493"
+    },
+    {
+      "filePath": "families/legislative-chamber/env_legislative_chamber_floor_v1.png",
+      "hash": "ed0d0b9cdf433fbaea959967645568cdebda5d46aec8d6b62c8e6cd0c6ff8728"
     },
     {
       "filePath": "families/shared-workroom-office/env_shared_workroom_office_runtime_2x_v1.png",
@@ -354,12 +386,148 @@
       "hash": "bca2c24f8a6c2c332bc86952ae16745baf23b1f4028520aa42897450472a37c2"
     },
     {
+      "filePath": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_conversational_left_v1.png",
+      "hash": "ff0b01c141d1920996d9ed42ad9ea6ab1183c18577607d4c024032f165617d63"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_gesture_forward_v1.png",
+      "hash": "2ace9c305d9b3f0a78d114f7889c2ceaf7ec2768307fc26042386046cc87eb04"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_front_v1.png",
+      "hash": "0d2818c0e9a10c07b152e2cd692df3626bc124600407763fdcc815e1bbdcddbe"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_three_quarter_v1.png",
+      "hash": "0cd2829719006fb23b29c0219f72fdbe528a742017dcdd2f5a71975cdb14ef5d"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_a_v1.png",
+      "hash": "8de64e0aad4340c248ab65ef8988ec727338d172665550363d2c75da64cd2785"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_b_v1.png",
+      "hash": "ceb8f63c7700a5a9fdeeee73a60195dedbba2ca2afd97b5f013da26f367157fd"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_a_v1.png",
+      "hash": "333adfe7adc140b2f04be7694d6d488a574fc4379d3ae41e1f4eee33f00c6e53"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_b_v1.png",
+      "hash": "036a82bd7a1ace79f8bb3160dd9d28d021e639d7ec1106aabf2d77aaa047c702"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_black_cap_toe_oxford_v1.png",
+      "hash": "1713844c522d011a0bd3ad755c277fd2f87b68a36526382f4afda81eb5b1b6b4"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_blue_running_shoe_v1.png",
+      "hash": "f69512ed4541ab5bfca8547601d069789f2270f760dab8b07ad5142e77fc184a"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_brown_penny_loafer_v1.png",
+      "hash": "57719b1c036146bf55ba0e2f40ca445e98cce13ee18b112634077d354658ec45"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_brown_strap_sandal_v1.png",
+      "hash": "e16b256577c4426a13857d690bba6bcdfe14ebd67da82a0795640b54e368de20"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_green_ballet_flat_v1.png",
+      "hash": "95958a36091bdbf0d89cbc03dca6cd32d393169a27b051e2895eaa4aec16c88a"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_grey_court_sneaker_v1.png",
+      "hash": "524824b651675666f6be138bbe4fa2b218414474644f02759ddc6e51c54512f6"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_grey_low_block_heel_v1.png",
+      "hash": "6f297eb46aeda5114e078c01dab2f0752f050c25dbe6fe8795a011138524f968"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_navy_canvas_plimsoll_v1.png",
+      "hash": "66c9e1e4fd4396094696aae18fb27f871038ebd228be9371393974fc5ab44170"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_olive_hiking_boot_v1.png",
+      "hash": "7d1fa2bead41b8eff4cdba5299ef769ed1cc437c7007546027a831881a67ab42"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_plum_mid_block_heel_v1.png",
+      "hash": "4188109bc7d402321565594f37386b695b3803f71d33c6dcdc5e13e06e40aa0c"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_tan_work_boot_v1.png",
+      "hash": "1a014936fd0f2f898313f6a5143140fdb501320ae95eb38f85c0e2b05350d07d"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/footwear/ocd_footwear_taupe_chukka_boot_v1.png",
+      "hash": "1e8c59b6ce241bbad1a19080578eb501d0e13ffa71d4c0b96f20c82e2f3095e9"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_deep_oval_adult_v1.png",
+      "hash": "27029a3efb30ee82c456b21186923c80333e6e95efb39bda834c71e2a50159ea"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_deep_round_young_v1.png",
+      "hash": "bda4059bcd75dff0e5f657a92427e90e68f3afb3d5ddfae583a16b93cd59afd2"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_deep_square_adult_masc_v1.png",
+      "hash": "a55a87fcfb1e039763383d0ce2f6c82adfe1958a21dd7cee13f60d2d62c10506"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_long_older_v1.png",
+      "hash": "12142a09fdfc2b9d70f2546cefa995a5602c27085a6a86268d9c67c9b186f6d3"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_oval_young_fem_v1.png",
+      "hash": "bb04f14681151e5058e0106c4c3435a96ce5c11c431aa58e3b277cfaa9cf5c14"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_oval_young_v1.png",
+      "hash": "56bf27fce96fe8e990666dae57f25a83d54d2a226158e22d405e88b74bfc5f57"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_square_older_lined_v1.png",
+      "hash": "f8f38dd50094aad00c96f8348bfed6c5c64b1e2a7895d3c182e56a2322176abf"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_square_older_masc_v1.png",
+      "hash": "bdef17e63a1e237674ffb35b57f0a6edaf797d50948815db6ddaf12a487057d2"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_olive_oval_adult_v1.png",
+      "hash": "0db4d9dee34ab9d3beb5d8704e5b35d91ca41ced5feb6080b0ba773d823dd93c"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_tan_oval_adult_fem_v1.png",
+      "hash": "7e7fda0636ba46d152f940dfe9f8fc7dd45bb9fdd45cf6c2978a5bb2d4611987"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_tan_round_young_v1.png",
+      "hash": "65d1799aa56c51ce73d069d09c2eada766f9ed4990ee0659e7c7915fd8f9052f"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_tan_square_adult_masc_v1.png",
+      "hash": "2471c9feaa131f7b836622b30d23e6939939fc516e1df3ce7217620f78052df3"
+    },
+    {
       "filePath": "references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png",
       "hash": "8270689800e31006ae54497253845c3bf619ffb46b1bbc3c8d2bafd7136a7827"
     },
     {
       "filePath": "references/approved/packet76/GEMINI_OUTPUT_32_PROMPT35_human_candidate_B01_left_guest_seated_base_APPROVED_v1.png",
       "hash": "6484bfe77edd4a46f35e2572c6be37ca06ce1c98ab72af1d2b48125df0bf245a"
+    },
+    {
+      "filePath": "references/masters/body-head/OCD_CANDIDATE_HEAD_SOURCE_ADULT_DIVERSITY_12UP_3584x4800_01.png",
+      "hash": "a6d797139cd238dd791bed28e92ea5edb70c6b3fa19be72dd60784b40a4bce05"
+    },
+    {
+      "filePath": "references/masters/people-pose/OCD_CANDIDATE_PEOPLE_POSE_ADULT_FEMININE_BODY_FAMILY_8POSE_5056x3392_01.png",
+      "hash": "d6c7bc66a67bd80a2546e7be2e0723c1ae33eb0e2fb0465c6bed1a3d1fac248d"
     },
     {
       "filePath": "references/masters/pg-modular/bodies/pg_master_body_standing_frame_a.png",
@@ -462,8 +630,44 @@
       "hash": "d7eb87869643758793867ee75141d9677ed0073745b4df331b5732528b4db42b"
     },
     {
+      "filePath": "references/masters/scene-environment/OCD_CANDIDATE_SCENE_GENERIC_LEGISLATIVE_CHAMBER_FLOOR_5632x3072_01.jpg",
+      "hash": "11b208cd7efa0c4aca068671fe76063ae3cba083e6a0eab43c7c83084ab2139a"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_CANONICAL_03_5504x3072.jpg",
+      "hash": "f4a97135966bcdf603efbce8f2d314e2c414816b45dbbbc1113b819557e2e5ea"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_ORDINARY_02_5504x3072.jpg",
+      "hash": "517abcf23ffff3b360d97fb715215435efcc4d5200677e6d6cdaab844fc0c8ab"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_STARTER_01_1376x768.png",
+      "hash": "7f6e59b03a50a0c14068a217ab88f77d3987cf3f549d639fbc7627a0c910aae6"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_CIVIC_HEARING_ROOM_5504x3072_01.jpg",
+      "hash": "c2021c87a073e7fd16256ca52b724afbf88f650e113a95b3c53468bac4072b70"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_COURTROOM_EMPTY_5504x3072_01.jpg",
+      "hash": "9c743c8d09a1a55a6f3490e482429ed5a8c710959fe5543a17d4d80e526f3a98"
+    },
+    {
+      "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_EXECUTIVE_PRIVATE_OFFICE_1672x941_01.png",
+      "hash": "500ea8be32dedfb5458aa334eff5939deb0b162e6f5159f42b6cf112e32bde1f"
+    },
+    {
       "filePath": "references/masters/scene-environment/OCD_SCENE_MASTER_SHARED_WORKROOM_OFFICE_5504x3072_01.jpg",
       "hash": "eca8b886da1769d1babf132530a8a33b8d59cc8d8e6e9b8ce34f551b676af9d0"
+    },
+    {
+      "filePath": "references/masters/scene-environment/PG_TITLE_BG_COMMUNITY_MEETING_HERO_SLOT_02_5504x3072.png",
+      "hash": "0ac5ef6ffa603d9510efb2160da38e065d0a7290352a976bc074dde779109663"
+    },
+    {
+      "filePath": "references/masters/wardrobe/OCD_CANDIDATE_WARDROBE_FOOTWEAR_SOURCE_12UP_3584x4800_01.png",
+      "hash": "fa1abe93d5abe3a0a93d580a7910fd2abf2bd9372c2e913eb5699c52a441989b"
     },
     {
       "filePath": "references/plans/texas_senate/normalized/habs_tx3326_00013a_normalized.jpg",
