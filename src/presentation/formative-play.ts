@@ -1,11 +1,14 @@
 import {
   LIFE_TRANSITION_HANDLERS,
+  activeEducationEnrollmentsAt,
   adaptiveSelectionSeed,
   advanceWorld,
   ageOnDate,
   availableLifeSituations,
   createOrganization,
+  currentLifeCutoff,
   dateAtAge,
+  didPeopleShareEducationOrganization,
   formativeIntervalAt,
   lifePlaceByJurisdictionId,
   personName,
@@ -30,6 +33,7 @@ import {
   formativeStepDays,
   resolveFormativeCompanion,
 } from "./formative-context";
+import type { ConversationRoomContext } from "./run-b-conversation";
 
 /**
  * The growing-up years, played.
@@ -468,4 +472,74 @@ function canBePeopled(
   const role = companionRoleFor(situation.key);
   if (role === null) return !situation.needsCompanion;
   return resolveFormativeCompanion(world, personId, role) !== null;
+}
+
+/**
+ * A corridor, and somebody who is in the same class.
+ *
+ * The school subject has existed since it was written and no player has ever
+ * been able to reach it, because nothing built it a room. It needs two facts,
+ * and the world already records both: this character is enrolled somewhere
+ * right now, and so is somebody else, at the same organization, over an
+ * overlapping period.
+ *
+ * Where the world has no such person there is no conversation. A schoolmate
+ * invented for the occasion would be a person the rest of the game had never
+ * heard of.
+ */
+export function schoolConversationRoom(
+  world: World,
+  personId: EntityId,
+): ConversationRoomContext | null {
+  const person = world.people[personId];
+  if (!person) return null;
+  const cutoff = currentLifeCutoff(world);
+  const enrollments = activeEducationEnrollmentsAt(world, personId, cutoff);
+  if (enrollments.length === 0) return null;
+
+  const classmateIds = world.personOrder.filter(
+    (candidateId) =>
+      candidateId !== personId &&
+      world.people[candidateId] !== undefined &&
+      activeEducationEnrollmentsAt(world, candidateId, cutoff).length > 0 &&
+      didPeopleShareEducationOrganization(world, personId, candidateId, cutoff),
+  );
+  if (classmateIds.length === 0) return null;
+
+  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
+  const jurisdictionId =
+    place?.context.jurisdiction.id ?? person.homeJurisdictionId;
+  if (!world.jurisdictions[jurisdictionId]) return null;
+
+  const present = [personId, ...classmateIds];
+  const others = classmateIds
+    .slice(1)
+    .map((id) => world.people[id]?.givenName)
+    .filter((name): name is string => name !== undefined);
+  return {
+    sceneKey: "formative:school-corridor",
+    // The part points at somebody so the subject has a name to reach for. Which
+    // of them the player actually speaks to is the player's, below.
+    roles: { "the-other-person": classmateIds[0]! },
+    locationLabel: "School",
+    jurisdictionId,
+    playerPersonId: personId,
+    physicallyPresentPersonIds: present,
+    activeParticipantPersonIds: present,
+    // Everybody in the same class, because the world does not record which of
+    // them the player is working with. Choosing is more faithful than being
+    // assigned a partner the record never named.
+    eligibleAddresseePersonIds: classmateIds,
+    normalHearingPersonIds: present,
+    quietAmbientHearingPersonIds: [],
+    // A corridor with the rest of the class in it is not a private place. With
+    // one other pupil it is, and the reason names whoever is stopping it.
+    privateAvailable: classmateIds.length === 1,
+    privateUnavailableReason:
+      classmateIds.length === 1
+        ? null
+        : `${others.join(" and ")} ${
+            others.length > 1 ? "are" : "is"
+          } right there in the corridor.`,
+  };
 }

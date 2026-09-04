@@ -22,7 +22,6 @@ import {
   type NewGameSetup,
 } from "../presentation/new-game";
 import {
-  householdConversationRoom,
   openOrdinaryLife,
   passOrdinaryDays,
   projectOrdinaryDay,
@@ -34,19 +33,6 @@ import {
   questionnairePathNote,
   questionnaireScreenFor,
 } from "../presentation/setup-questionnaire-flow";
-import {
-  availableConversationIntents,
-  commitConversationTurn,
-  conversationTopicLabel,
-  createConversationSessionDescriptor,
-  describeConversationBriefingContext,
-  openingConversationBeat,
-} from "../presentation/run-b-conversation";
-import { createHouseholdObligationProgress } from "../presentation/run-b-conversation-progress";
-import {
-  conversationProgressFromHistory,
-  recordedConversationIntents,
-} from "../presentation/conversation-continuity";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import {
   readReplaySeed,
@@ -63,6 +49,7 @@ import {
   type LegislativeAssignment,
 } from "../presentation/legislation-world";
 import { LegislationWorkspace } from "./LegislationWorkspace";
+import { PlayerConversations } from "./PlayerConversation";
 import { PersonPortrait } from "./PersonPortrait";
 
 /**
@@ -1518,131 +1505,15 @@ function OrdinaryDayView({
           <small>Move to tomorrow.</small>
         </button>
       </div>
-      {day.companionName ? (
-        <HouseholdConversation
-          session={session}
-          onWorldChange={onWorldChange}
-        />
-      ) : null}
+      {/*
+        Every conversation this life can have, not merely the one at home. Which
+        of them appear is decided by the world rather than by this screen.
+      */}
+      <PlayerConversations
+        world={session.world}
+        personId={session.personId}
+        onWorldChange={onWorldChange}
+      />
     </section>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-
-/**
- * Talking at home.
- *
- * Runs on the same conversation engine the office uses — same room, same
- * hearing rules, same commitment semantics — with a different subject in front
- * of it. The options below are the household subject's own; none of the
- * office's casework ever appears here.
- */
-function HouseholdConversation({
-  session,
-  onWorldChange,
-}: {
-  readonly session: Session;
-  readonly onWorldChange: (world: World) => void;
-}) {
-  // Derived from canonical history rather than remembered here. Closing this
-  // screen and reopening it — or saving, reloading and continuing — used to
-  // put the player back at turn one of a conversation the world had already
-  // recorded them finishing.
-  const progress = useMemo(
-    () =>
-      conversationProgressFromHistory(
-        session.world,
-        session.personId,
-        "household-obligation",
-      ) ?? createHouseholdObligationProgress(),
-    [session.world, session.personId],
-  );
-  // Turn ordinals start at one; the engine treats zero as a mistake. The turn
-  // this is on comes from what the world has recorded, not from a counter that
-  // resets when the component does.
-  const turn =
-    recordedConversationIntents(
-      session.world,
-      session.personId,
-      "household-obligation",
-    ).length + 1;
-  const [said, setSaid] = useState<string | null>(null);
-  const [trouble, setTrouble] = useState<string | null>(null);
-
-  const room = useMemo(
-    () => householdConversationRoom(session.world, session.personId),
-    [session.world, session.personId],
-  );
-  if (!room) return null;
-  const addressee = room.eligibleAddresseePersonIds[0]!;
-  const intents = availableConversationIntents(
-    session.world,
-    room,
-    addressee,
-    progress,
-  );
-  const beat = openingConversationBeat(
-    session.world,
-    room,
-    addressee,
-    progress,
-  );
-
-  return (
-    <div className="game-conversation" data-testid="household-conversation">
-      <p className="game-band" data-testid="conversation-topic">
-        {conversationTopicLabel(progress)}
-      </p>
-      <p className="game-note" data-testid="conversation-briefing">
-        {describeConversationBriefingContext(session.world, room, progress)}
-      </p>
-      <p className="game-scene" data-testid="conversation-beat">
-        {said ?? beat.dialogue}
-      </p>
-      {trouble ? <p className="game-problem">{trouble}</p> : null}
-      {intents.length > 0 ? (
-        <div className="game-choices" data-testid="conversation-intents">
-          {intents.map((option) => (
-            <button
-              key={option.key}
-              type="button"
-              onClick={() => {
-                try {
-                  const result = commitConversationTurn(session.world, {
-                    session: createConversationSessionDescriptor(
-                      session.world,
-                      room,
-                    ),
-                    room,
-                    progress,
-                    turnOrdinal: turn,
-                    addressee,
-                    audibility: "normal",
-                    intent: option.key,
-                  });
-                  onWorldChange(result.world);
-                  setSaid(result.presentation.beat?.dialogue ?? null);
-                  setTrouble(null);
-                } catch (error) {
-                  setTrouble(
-                    error instanceof Error
-                      ? error.message
-                      : "That did not come out right.",
-                  );
-                }
-              }}
-            >
-              {option.label}
-              <small>{option.description}</small>
-            </button>
-          ))}
-        </div>
-      ) : (
-        <p className="game-note" data-testid="conversation-closed">
-          That is settled for now.
-        </p>
-      )}
-    </div>
   );
 }

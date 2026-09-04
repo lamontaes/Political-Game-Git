@@ -4577,6 +4577,71 @@
 }
 
 /* ---------------------------------------------------------------------------
+   Who you are talking to, and how loudly.
+
+   Both were constants in the component until Packet 70 — the engine had
+   modelled three volumes and any number of addressees since it was written,
+   and a player could set neither. These are chips rather than buttons because
+   they are a standing choice about the exchange, not an action inside it: the
+   row below them is what actually says something.
+   --------------------------------------------------------------------------- */
+
+.game-conversation-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.9rem 0;
+}
+
+.game-conversation-controls .game-band {
+  flex: 0 0 100%;
+  margin: 0 0 0.15rem;
+}
+
+.game-choice-chip {
+  min-height: 2.1rem;
+  padding: 0.36rem 0.78rem;
+  border: 1px solid #b7c0ba;
+  border-radius: 1.2rem;
+  color: #1c2522;
+  background: #f8f9f7;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.game-choice-chip:hover:not(:disabled) {
+  border-color: #24594d;
+  background: #eef2ee;
+}
+
+/*
+  The selected chip is carried by ground, border and weight together rather
+  than by colour alone, so it survives a monochrome print and a viewer who
+  cannot separate the two greens.
+*/
+.game-choice-chip[data-selected="true"] {
+  border-color: #183c34;
+  color: #fff;
+  background: #183c34;
+}
+
+.game-choice-chip:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/*
+  A volume this room cannot offer. Dimmed, but the reason is a sentence under
+  the row rather than a tooltip nobody opens.
+*/
+.game-choice-chip:disabled {
+  border-style: dashed;
+  color: #66716d;
+  background: transparent;
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------------------------
    The story surface: connective passage, scene, what is open, and the journal.
 
    The narrative wave added these five classes and shipped them unstyled, so

@@ -251,9 +251,12 @@ const householdObligationSubject: ConversationSubjectPresentation<HouseholdOblig
       return `${other} has the same week you do, and ${progress.subjectFacts.obligation} still have to be covered by somebody. Nobody has said out loud who.`;
     },
     availableIntents(_world, room, addressee, progress) {
+      // Any of the people who actually live here, not merely whichever one the
+      // world listed first. A household of three used to have two people in it
+      // the player could look at and not speak to.
       if (
         addressee !== "everyone" &&
-        addressee !== room.eligibleAddresseePersonIds[0]
+        !room.eligibleAddresseePersonIds.includes(addressee)
       ) {
         return [];
       }
@@ -333,13 +336,14 @@ const schoolProjectSubject: ConversationSubjectPresentation<SchoolProjectConvers
     subject: "school-project-share",
     topicLabel: () => "A shared project",
     describeBriefing(world, room, progress) {
-      const other = shortPersonName(
-        world,
-        conversationRole(room, "the-other-person"),
-      );
+      // Deliberately unnamed while it is still open. The world records who is
+      // in the class and does not record who the partner is, so the briefing
+      // stops where the record stops and the player decides who to go to.
+      void world;
+      void room;
       return progress.phase === "settled"
-        ? `You and ${other} have sorted out ${progress.subjectFacts.work}.`
-        : `${progress.subjectFacts.work} is still not started, and it is due ${progress.subjectFacts.deadline}. ${other} has not mentioned it either.`;
+        ? `The question of who does which part of ${progress.subjectFacts.work} is answered.`
+        : `${progress.subjectFacts.work} is still not started, and it is due ${progress.subjectFacts.deadline}. Nobody has said whose half is whose.`;
     },
     availableIntents(world, room, addressee, progress, silenceIsUseful) {
       if (progress.phase === "settled") return [];
@@ -560,6 +564,24 @@ export function conversationSubjectPresentation(
 
 export function conversationSubjectKeys(): readonly ConversationSubjectKey[] {
   return Object.keys(SUBJECTS) as readonly ConversationSubjectKey[];
+}
+
+/**
+ * Subjects where saying it to the room means something.
+ *
+ * A kitchen with two other people in it can be addressed as a room. A doorstep
+ * with one neighbour on it cannot: offering "say it to everyone" there would be
+ * offering to address a group of one, which is a lie about the room told by a
+ * control. Group address is therefore a property of the subject *and* of how
+ * many people the room actually has, and both have to agree.
+ */
+const GROUP_ADDRESS_SUBJECTS: ReadonlySet<string> = new Set([
+  "household-obligation",
+  "shared-intake-checklist",
+]);
+
+export function supportsGroupAddress(subject: ConversationSubjectKey): boolean {
+  return GROUP_ADDRESS_SUBJECTS.has(subject);
 }
 
 /**

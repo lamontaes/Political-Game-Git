@@ -426,6 +426,42 @@ function establishAgeEligibleState(
         },
       },
     );
+
+    // Two other children at the same school.
+    //
+    // A school with one pupil in it is not a school, and it was the reason a
+    // whole conversation subject could never be reached: the corridor exists,
+    // the enrollment exists, and there was nobody in the building to talk to.
+    // This claims exactly what a register claims — that other children attend
+    // the same school over the same years — and nothing about who they are to
+    // this child. Whether either of them becomes anybody is decided in play.
+    for (const ordinal of [1, 2]) {
+      const classmateKey = `${stableKey}:classmate:${ordinal}`;
+      const classmateName = drawCanonicalName(rng);
+      transitions.push(
+        {
+          kind: "context-person",
+          input: {
+            stableKey: classmateKey,
+            ...classmateName,
+            birthDate: yearsBefore(player.birthDate, rng.integer(-1, 2)),
+            homeJurisdictionId: jurisdictionId,
+          },
+        },
+        {
+          kind: "education",
+          input: {
+            stableKey: `${classmateKey}:enrollment`,
+            personId: characterHistoryContextPersonId(world, classmateKey),
+            organizationId: organizationIdFor(world.id, schoolKey),
+            startedAt: enrolledOn,
+            programKind: "schooling:general",
+            contextKind: age >= 14 ? "stage:secondary" : "stage:primary",
+            provenance: PROVENANCE,
+          },
+        },
+      );
+    }
   }
 
   return applyCharacterHistoryPlan(world, {
