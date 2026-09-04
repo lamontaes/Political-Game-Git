@@ -38,6 +38,10 @@ export type EntityKind =
   | "education-enrollment"
   | "education-enrollment-state"
   | "effect-activation"
+  | "campaign"
+  | "campaign-state"
+  | "campaign-action"
+  | "campaign-action-result"
   | "election-contest"
   | "election-contest-result"
   | "executive-disposition"
@@ -2366,9 +2370,20 @@ export type ResourceEndpoint =
   | { readonly kind: "household"; readonly householdId: EntityId }
   | { readonly kind: "organization"; readonly organizationId: EntityId };
 
+/**
+ * Who a balance belongs to.
+ *
+ * An organization owns money in its own right rather than through whoever runs
+ * it. A campaign treasury is the case that forced the distinction: the money is
+ * the committee's, is reported as the committee's, and does not become the
+ * candidate's personal balance because the candidate signs for it. Modelling it
+ * as a person's would have been a false statement about ownership, and a
+ * separate campaign wallet would have been a second money system.
+ */
 export type ResourcePositionOwner =
   | { readonly kind: "person"; readonly personId: EntityId }
-  | { readonly kind: "household"; readonly householdId: EntityId };
+  | { readonly kind: "household"; readonly householdId: EntityId }
+  | { readonly kind: "organization"; readonly organizationId: EntityId };
 
 export type ResourceFlowBasisNamespace =
   "compensation" | "support" | "housing" | "care" | "obligation" | "custom";
@@ -2848,6 +2863,113 @@ export interface CancelElectionContestInput {
   readonly reason: string;
 }
 
+/**
+ * Campaign records.
+ *
+ * A campaign is a thing that happened to a person, not a screen they were on.
+ * It owns the candidacy, the committee, the committee's money and the work the
+ * candidate and their volunteers did; everything else it needs already exists.
+ * The contest is the accepted election-contest substrate's, the money is the
+ * resource system's, the hours are the scheduled-activity system's, and support
+ * is a world metric. Nothing here is a second copy of any of them.
+ *
+ * The one distinction the rest of this family is built around: canonical
+ * support lives in `metricStates` and is never shown, and what the campaign
+ * believes about it lives in `metricObservations` and is wrong on purpose.
+ */
+export type CampaignStatus = "active" | "won" | "lost";
+
+/**
+ * The metric segment that carries one candidate's canonical support. Segmented
+ * per candidate because support is not a property of the contest: it is a
+ * separate quantity for each person in it, and summing them is meaningless
+ * outside the contest that defines them.
+ */
+export interface CampaignCandidateSupportScope {
+  readonly candidatePersonId: EntityId;
+  readonly segmentKey: MetricSegmentKey;
+}
+
+export interface CampaignRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly contestId: EntityId;
+  readonly candidatePersonId: EntityId;
+  readonly jurisdictionId: EntityId;
+  /** The sourced office this filing was authorized against. */
+  readonly officeKey: string;
+  /** The candidacy pack that authorized it, so the claim can be traced back. */
+  readonly candidacyPackId: string;
+  readonly organizationId: EntityId;
+  /** Where money comes from: an aggregate supporter pool, not a donor list. */
+  readonly donorPoolOrganizationId: EntityId;
+  /** Where an advertising buy goes: an aggregate vendor, not a media model. */
+  readonly advertisingVendorOrganizationId: EntityId;
+  readonly treasuryPositionId: EntityId;
+  readonly treasuryCurrency: CurrencyCode;
+  readonly candidateWorkRelationshipId: EntityId;
+  readonly staffWorkRelationshipIds: readonly EntityId[];
+  readonly supportMetricId: EntityId;
+  readonly candidateSupportScopes: readonly CampaignCandidateSupportScope[];
+  readonly filingEventId: EntityId;
+  readonly filedAt: IsoDate;
+}
+
+export interface CampaignStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly campaignId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly status: CampaignStatus;
+  readonly electionResultId: EntityId | null;
+  readonly reason: string | null;
+  readonly supersedesStateId: EntityId | null;
+}
+
+/**
+ * What a campaign can spend an afternoon on.
+ *
+ * Three, because three is what makes the choice a choice: an hour on the phones
+ * turns time into money, an hour on the doors turns time into support directly,
+ * and an advertising buy turns the money back into support without the
+ * candidate being in the room. A campaign with no money cannot advertise, and a
+ * campaign that only advertises never raises the money to.
+ */
+export type CampaignActionKind = "fundraising" | "outreach" | "advertising";
+
+export interface CampaignActionRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly campaignId: EntityId;
+  readonly kind: CampaignActionKind;
+  readonly scheduledActivityId: EntityId;
+  /** Committed when the action is scheduled. Null where it costs only time. */
+  readonly plannedSpend: MoneyAmount | null;
+  readonly createdAt: IsoDate;
+}
+
+export interface CampaignActionResultRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly campaignActionId: EntityId;
+  readonly completedAt: IsoDate;
+  readonly outcomeEventId: EntityId;
+  readonly resourceFlowId: EntityId | null;
+  readonly resourceOutcomeId: EntityId | null;
+  readonly raisedAmount: MoneyAmount | null;
+  readonly spentAmount: MoneyAmount | null;
+  /** Canonical support after the action, for every candidate in the contest. */
+  readonly supportStateIds: readonly EntityId[];
+  /** The fallible reading of it the campaign actually gets. */
+  readonly observationId: EntityId;
+  readonly feedbackEventId: EntityId;
+  readonly feedbackKnowledgeId: EntityId;
+}
+
 export interface HistoryStore {
   readonly nextSequence: number;
   readonly organizations: readonly Organization[];
@@ -2908,6 +3030,10 @@ export interface HistoryStore {
   readonly workItemStates: readonly WorkItemStateRecord[];
   readonly electionContests?: readonly ElectionContestRecord[];
   readonly electionContestResults?: readonly ElectionContestResultRecord[];
+  readonly campaigns?: readonly CampaignRecord[];
+  readonly campaignStates?: readonly CampaignStateRecord[];
+  readonly campaignActions?: readonly CampaignActionRecord[];
+  readonly campaignActionResults?: readonly CampaignActionResultRecord[];
   readonly legislativeMeasures?: readonly LegislativeMeasureRecord[];
   readonly legislativeActions?: readonly LegislativeActionRecord[];
   readonly committeeReferrals?: readonly CommitteeReferralRecord[];

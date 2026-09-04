@@ -28,6 +28,18 @@ export interface LifePlaceCapabilities {
    * state's rules.
    */
   readonly legislativeScenarioKey: string | null;
+  /**
+   * The candidacy pack that says which offices are elected here and can be
+   * stood for. `null` means no accepted source establishes an elected office in
+   * this place, so nobody can file here and the game says so plainly rather
+   * than lending the seat next door's rules.
+   *
+   * Declared rather than derived from the legislative key above. The two
+   * happen to coincide today, but "we know how a bill moves here" and "we know
+   * this seat is filled by election" are different claims with different
+   * evidence, and a place should be able to have one without the other.
+   */
+  readonly candidacyPackId: string | null;
 }
 
 export interface LifePlace {
@@ -76,21 +88,30 @@ const PLACES: readonly LifePlace[] = [
     displayName: "Kentucky",
     withinName: "United States",
     context: KENTUCKY_CONTEXT,
-    capabilities: { legislativeScenarioKey: "kentucky" },
+    capabilities: {
+      legislativeScenarioKey: "kentucky",
+      candidacyPackId: "us-ky-general-assembly-v1:candidacy",
+    },
   },
   {
     key: "nebraska",
     displayName: "Nebraska",
     withinName: "United States",
     context: NEBRASKA_CONTEXT,
-    capabilities: { legislativeScenarioKey: "nebraska" },
+    capabilities: {
+      legislativeScenarioKey: "nebraska",
+      candidacyPackId: "us-ne-legislature-v1:candidacy",
+    },
   },
   {
     key: "alaska",
     displayName: "Alaska",
     withinName: "United States",
     context: ALASKA_CONTEXT,
-    capabilities: { legislativeScenarioKey: "alaska" },
+    capabilities: {
+      legislativeScenarioKey: "alaska",
+      candidacyPackId: "us-ak-legislature-v1:candidacy",
+    },
   },
   {
     key: "lexington-fayette",
@@ -98,8 +119,11 @@ const PLACES: readonly LifePlace[] = [
     withinName: "Kentucky",
     context: LEXINGTON_DEMO_CONTEXT,
     // The accepted rule packs are written for state legislatures. Nothing in
-    // the sources describes this city's own council, so it does not claim to.
-    capabilities: { legislativeScenarioKey: null },
+    // the sources describes this city's own council, so it does not claim to —
+    // and for the same reason nobody can run for one here. A character can live
+    // a whole life in this city; they cannot stand for an office the game has
+    // never read the rules for.
+    capabilities: { legislativeScenarioKey: null, candidacyPackId: null },
   },
 ];
 
