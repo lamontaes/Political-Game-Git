@@ -16,7 +16,7 @@ merged.
 
 | Doc            | What it is                                                            | Drive                                                                                                                                |
 | -------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| **60A** (this) | What was built, validated and left unmerged                           | [1WijsgrT0Ar_VuZy-xyCFAP-kPmKid6R4uNfNO41SZPo](https://docs.google.com/document/d/1WijsgrT0Ar_VuZy-xyCFAP-kPmKid6R4uNfNO41SZPo/edit) |
+| **60A** (this) | What was built, validated and left unmerged                           | in the same Drive folder as the three below                                                                                          |
 | **60B**        | Full visual, UI and graphics coverage audit — print edition           | [1nahTWoRoklCpM2kvWwwuYQiqmXqrt6tLA72_lc8N36Q](https://docs.google.com/document/d/1nahTWoRoklCpM2kvWwwuYQiqmXqrt6tLA72_lc8N36Q/edit) |
 | **60C**        | Full dialogue, conversation, branching and copy audit — print edition | [1hOZ-bE-_gB6fhqKvEFJ4biN47Fd3-LDeXATpBlDoRcs](https://docs.google.com/document/d/1hOZ-bE-_gB6fhqKvEFJ4biN47Fd3-LDeXATpBlDoRcs/edit) |
 | **60D**        | Engine and systems field guide — owner print edition                  | [1Ay9c2BtbucI4WtPcrLA73oJPbTUgSXYv4yBV5Eu84DI](https://docs.google.com/document/d/1Ay9c2BtbucI4WtPcrLA73oJPbTUgSXYv4yBV5Eu84DI/edit) |
@@ -699,6 +699,8 @@ transform, and `npm run validate` was re-run green.
 
 ---
 
-_Report written 2026-09-04 against implementation head `479dbdb`. The branch
-tip is later: it carries this report and the removal of a Playwright scratch
-config that should never have been committed._
+_Report written 2026-09-04 against implementation head `479dbdb`, and extended
+the same day for the omnibus addendum. The branch tip is later than `479dbdb`
+by four commits that carry no gameplay change: the removal of a Playwright
+scratch config that should never have been committed, this report, the styling
+of five classes the wave had shipped unstyled, and the three audit documents._
