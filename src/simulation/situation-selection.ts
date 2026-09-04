@@ -57,8 +57,23 @@ export function adaptiveSelectionSeed(world: World): string {
 /* What the selector is given                                                  */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * What the selector may be handed.
+ *
+ * A life situation from one of the banks, or a composed episode beat. The
+ * selector treats the key as opaque — it is a novelty-window member and part
+ * of the tie-break material, and nothing else reads it — so widening it lets
+ * authored situations and composed beats be ranked against each other in ONE
+ * ranking rather than two, which is what stops a composed continuation from
+ * losing to a card simply because they were chosen by different code.
+ *
+ * The `episode:` prefix is the only shape a composed beat may take, so an
+ * episode key can never collide with a situation key from the banks.
+ */
+export type SelectableSituationKey = LifeSituationKey | `episode:${string}`;
+
 export interface SituationCandidate {
-  readonly key: LifeSituationKey;
+  readonly key: SelectableSituationKey;
   readonly band: LifeSituationBand;
   /** Internal rationing tier. Never rendered, never a consequence input. */
   readonly stakes: LifeStakesTier;
@@ -83,7 +98,7 @@ export interface SituationSelectionInput {
   readonly model: PlayerModel;
   readonly candidates: readonly SituationCandidate[];
   /** The last few keys, newest last, for the novelty guard. */
-  readonly recentKeys: readonly LifeSituationKey[];
+  readonly recentKeys: readonly SelectableSituationKey[];
   /** The last few tiers, newest last, for the pacing guard. */
   readonly recentStakes: readonly LifeStakesTier[];
 }
@@ -336,7 +351,7 @@ export function situationTieBreakMaterial(
     SituationSelectionInput,
     "selectionSeed" | "personKey" | "ordinal"
   >,
-  key: LifeSituationKey,
+  key: SelectableSituationKey,
 ): string {
   return [
     "situation-tie-break",

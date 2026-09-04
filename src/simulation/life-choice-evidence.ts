@@ -1,4 +1,5 @@
 import { adultSituation, isAdultSituationKey } from "./adult-situations";
+import { episodeOption } from "./episode-bank";
 import {
   applyPlayerEvidence,
   createPlayerModel,
@@ -306,6 +307,65 @@ export function lifeChoiceEvidence(choice: LifeChoice): PlayerEvidence | null {
   };
 }
 
+/* -------------------------------------------------------------------------- */
+/* Composed episode beats                                                      */
+/* -------------------------------------------------------------------------- */
+
+export interface EpisodeChoice {
+  readonly episodeKey: string;
+  readonly stageKey: string;
+  readonly optionKey: string;
+  readonly eventStableKey: string;
+  readonly occurredAt: string;
+}
+
+/**
+ * The choice a composed episode beat recorded, when it recorded one.
+ *
+ * Read off the three tags `playEpisodeOption` writes and nothing else writes.
+ * A beat is a played choice in exactly the sense a situation card is, so it
+ * has to reach the adaptive model the same way: if it did not, half of what a
+ * player actually did would be invisible to the layer whose whole job is
+ * noticing what they do.
+ */
+export function episodeChoiceFromEvent(
+  event: HistoricalEvent,
+): EpisodeChoice | null {
+  const episodeTag = event.tags.find((tag) => tag.startsWith("episode:"));
+  const stageTag = event.tags.find((tag) => tag.startsWith("episode-stage:"));
+  const choiceTag = event.tags.find((tag) => tag.startsWith("choice."));
+  if (!episodeTag || !stageTag || !choiceTag) return null;
+  return {
+    episodeKey: episodeTag.slice("episode:".length),
+    stageKey: stageTag.slice("episode-stage:".length),
+    optionKey: choiceTag.slice("choice.".length),
+    eventStableKey: event.stableKey,
+    occurredAt: event.occurredAt,
+  };
+}
+
+/** What a played episode beat tells the adaptive layer, at gameplay strength. */
+export function episodeChoiceEvidence(
+  choice: EpisodeChoice,
+): PlayerEvidence | null {
+  const option = episodeOption(
+    choice.episodeKey,
+    choice.stageKey,
+    choice.optionKey,
+  );
+  if (!option) return null;
+  return {
+    key: `episode-choice:${choice.eventStableKey}`,
+    strength: "enacted",
+    observationWeight: 1,
+    nudges: option.nudges,
+    hypotheses: option.hypotheses ?? [],
+    ambiguity: null,
+    recordedAt: choice.occurredAt as PlayerEvidence["recordedAt"],
+    source: `Played: ${choice.episodeKey} / ${choice.stageKey} → ${choice.optionKey}`,
+  };
+}
+
 /**
  * The model this life currently supports.
  *
@@ -322,8 +382,14 @@ export function playerModelFor(world: World, personId: EntityId): PlayerModel {
   for (const event of events) {
     if (!event.involvedEntityIds.includes(personId)) continue;
     const choice = lifeChoiceFromEvent(event);
-    if (!choice) continue;
-    const evidence = lifeChoiceEvidence(choice);
+    if (choice) {
+      const evidence = lifeChoiceEvidence(choice);
+      if (evidence) model = applyPlayerEvidence(model, evidence);
+      continue;
+    }
+    const episode = episodeChoiceFromEvent(event);
+    if (!episode) continue;
+    const evidence = episodeChoiceEvidence(episode);
     if (evidence) model = applyPlayerEvidence(model, evidence);
   }
   return model;

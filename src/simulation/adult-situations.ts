@@ -2685,8 +2685,16 @@ export function adultSituation(key: LifeSituationKey): AdultSituation | null {
   return ADULT_SITUATIONS.find((situation) => situation.key === key) ?? null;
 }
 
+/**
+ * Whether a key names an adult situation from this bank.
+ *
+ * Takes a plain string rather than a `LifeSituationKey` because the callers
+ * that most need it are narrowing something wider — a selector result that can
+ * also carry a composed episode key, or a tag read off an event. A guard that
+ * only accepts what it is meant to prove is not much of a guard.
+ */
 export function isAdultSituationKey(
-  key: LifeSituationKey,
+  key: string,
 ): key is AdultLifeSituationKey {
   return key.startsWith("adult.");
 }

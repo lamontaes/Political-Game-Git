@@ -206,8 +206,17 @@ export function selectAdultSituation(
     recentStakes: history.slice(-6).map((key) => situationProfile(key).stakes),
   });
   if (!selection) return null;
+  // Every candidate this surface offered came from the adult bank, so the
+  // winner is one of those keys. The selector's key type is wider because it
+  // also ranks composed episode beats for `life-story.ts`; narrowing here is
+  // reading back what this call site put in, and the guard says so rather
+  // than asserting it.
+  const chosenKey = selection.chosen.candidate.key;
+  if (!isAdultSituationKey(chosenKey)) {
+    throw new Error("The adult selector returned a key it was not offered.");
+  }
   return {
-    key: selection.chosen.candidate.key,
+    key: chosenKey,
     reason: selection.reason,
     stakes: selection.chosen.candidate.stakes,
     crossPressure: selection.chosen.pressure.strength,

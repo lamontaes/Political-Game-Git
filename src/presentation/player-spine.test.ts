@@ -227,7 +227,7 @@ describe("Where the game will let a life begin", () => {
           seed: "no-borrowed-rules",
         }),
       ),
-    ).toThrow(/no legislative procedure for Lexington-Fayette/i);
+    ).toThrow(/no legislative procedure for Lexington, Kentucky/i);
   });
 
   it("keeps the office fixture's Lexington copy out of a life lived elsewhere", () => {
