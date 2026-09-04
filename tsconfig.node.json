@@ -17,6 +17,7 @@
     "tests/e2e/**/*.ts",
     "src/cli/**/*.ts",
     "src/content/**/*.ts",
+    "src/environment/**/*.ts",
     "src/persistence/**/*.ts",
     "src/presentation/**/*.ts",
     "src/simulation/**/*.ts"

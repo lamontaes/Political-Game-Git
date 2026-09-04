@@ -15,6 +15,13 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
+        with:
+          # The ownership-boundary suite diffs this branch against the commit it
+          # was cut from. On a pull_request event Actions checks out the
+          # synthetic merge ref, and the default depth of 1 leaves that base
+          # commit outside the clone, so the check cannot run. Fetch the full
+          # history so history-dependent validation has something to measure.
+          fetch-depth: 0
 
       - name: Use Node 22
         uses: actions/setup-node@v7

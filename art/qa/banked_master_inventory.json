@@ -1,0 +1,261 @@
+{
+  "tool": "master-inventory-v1",
+  "measured_on": "2026-09-02",
+  "source_note": "Measured from the Drive folder 000_FIREFLY_PRODUCTION (14PptKFEIz8uDz12aV8igd2T4_60PZzdX). The candidate files are NOT in this repository: they are Drive-only paid outputs, and committing them would put unapproved art in the tree. This report is the measurement evidence. To reproduce it, download the named files into one folder and run 'npm run inventory:masters -- <folder>'.",
+  "directory": "000_FIREFLY_PRODUCTION (priority subset)",
+  "fileCount": 14,
+  "passCount": 2,
+  "failCount": 12,
+  "unmeasuredCount": 0,
+  "entries": [
+    {
+      "file": "PG-GEMINI_HAIR_WAVY_BACK_LAYER_TRUE_ALPHA_FULLCANVAS_v1.png",
+      "bytes": 1218295,
+      "hash": "7d97944ff199bcfaab55150942ab39abced0bf7eae896968aed07dd1034c6f4d",
+      "width": 1001,
+      "height": 1024,
+      "longEdge": 1024,
+      "colorType": 6,
+      "hasAlphaChannel": true,
+      "hasVaryingAlpha": true,
+      "assumedKind": "hair-back",
+      "verdict": "PASS",
+      "reasons": [],
+      "requiredUpscaleFactor": null
+    },
+    {
+      "file": "PG-GEMINI_HAIR_WAVY_FRONT_LAYER_TRUE_ALPHA_FULLCANVAS_v1.png",
+      "bytes": 754291,
+      "hash": "1af9413d96df3a8026ce69e2dc2eb4a5c22c5d46304c8c9c60e5b887792261cb",
+      "width": 1001,
+      "height": 1024,
+      "longEdge": 1024,
+      "colorType": 6,
+      "hasAlphaChannel": true,
+      "hasVaryingAlpha": true,
+      "assumedKind": "hair-front",
+      "verdict": "PASS",
+      "reasons": [],
+      "requiredUpscaleFactor": null
+    },
+    {
+      "file": "PG-HAIR_SHORT_01_BUZZ_TRUE_ALPHA.png",
+      "bytes": 60118,
+      "hash": "eadda1a3290202cd28994397005949332fa1d1d14820dd941934a1b738f0f67e",
+      "width": 247,
+      "height": 204,
+      "longEdge": 247,
+      "colorType": 6,
+      "hasAlphaChannel": true,
+      "hasVaryingAlpha": true,
+      "assumedKind": "hair-front",
+      "verdict": "FAIL",
+      "reasons": [
+        "long edge 247px is below the 1024px minimum for hair-front",
+        "True alpha, not a painted-white background; shares the head canvas origin."
+      ],
+      "requiredUpscaleFactor": 4.145748987854251
+    },
+    {
+      "file": "PG-HAIR_SHORT_02_SIDE_PART_TRUE_ALPHA.png",
+      "bytes": 75086,
+      "hash": "ccc718c145c2be131f535162b8963be38b1f271bb47062a07d8fe49e7c210850",
+      "width": 265,
+      "height": 226,
+      "longEdge": 265,
+      "colorType": 6,
+      "hasAlphaChannel": true,
+      "hasVaryingAlpha": true,
+      "assumedKind": "hair-front",
+      "verdict": "FAIL",
+      "reasons": [
+        "long edge 265px is below the 1024px minimum for hair-front",
+        "True alpha, not a painted-white background; shares the head canvas origin."
+      ],
+      "requiredUpscaleFactor": 3.8641509433962264
+    },
+    {
+      "file": "PG-HAIR_SHORT_03_TEXTURED_CROP_TRUE_ALPHA.png",
+      "bytes": 78391,
+      "hash": "0620f54c16962a8b4ba927249aef2cba574312d16091155e82cfd8d3346d13e0",
+      "width": 253,
+      "height": 227,
+      "longEdge": 253,
+      "colorType": 6,
+      "hasAlphaChannel": true,
+      "hasVaryingAlpha": true,
+      "assumedKind": "hair-front",
+      "verdict": "FAIL",
+      "reasons": [
+        "long edge 253px is below the 1024px minimum for hair-front",
+        "True alpha, not a painted-white background; shares the head canvas origin."
+      ],
+      "requiredUpscaleFactor": 4.047430830039525
+    },
+    {
+      "file": "PG-HAIR_SHORT_04_SOFT_CURLS_TRUE_ALPHA.png",
+      "bytes": 95343,
+      "hash": "efe76bd8c65ce18eab419efb7ed472ebf2e63ebf817010987651be71ce46f609",
+      "width": 280,
+      "height": 236,
+      "longEdge": 280,
+      "colorType": 6,
+      "hasAlphaChannel": true,
+      "hasVaryingAlpha": true,
+      "assumedKind": "hair-front",
+      "verdict": "FAIL",
+      "reasons": [
+        "long edge 280px is below the 1024px minimum for hair-front",
+        "True alpha, not a painted-white background; shares the head canvas origin."
+      ],
+      "requiredUpscaleFactor": 3.657142857142857
+    },
+    {
+      "file": "PG-HAIR_SHORT_05_CLOSE_COILS_TRUE_ALPHA.png",
+      "bytes": 84422,
+      "hash": "609f86e5b519ab0d31f2038b22e622a8f87f0aceafba2beb6532da9e6627b9bc",
+      "width": 264,
+      "height": 225,
+      "longEdge": 264,
+      "colorType": 6,
+      "hasAlphaChannel": true,
+      "hasVaryingAlpha": true,
+      "assumedKind": "hair-front",
+      "verdict": "FAIL",
+      "reasons": [
+        "long edge 264px is below the 1024px minimum for hair-front",
+        "True alpha, not a painted-white background; shares the head canvas origin."
+      ],
+      "requiredUpscaleFactor": 3.878787878787879
+    },
+    {
+      "file": "PG-HAIR_SHORT_06_SHORT_AFRO_TRUE_ALPHA.png",
+      "bytes": 113325,
+      "hash": "edc3daf946f426853ee29b62808fd08f738f109469ed7fd304710c31405c088e",
+      "width": 318,
+      "height": 294,
+      "longEdge": 318,
+      "colorType": 6,
+      "hasAlphaChannel": true,
+      "hasVaryingAlpha": true,
+      "assumedKind": "hair-front",
+      "verdict": "FAIL",
+      "reasons": [
+        "long edge 318px is below the 1024px minimum for hair-front",
+        "True alpha, not a painted-white background; shares the head canvas origin."
+      ],
+      "requiredUpscaleFactor": 3.220125786163522
+    },
+    {
+      "file": "PG-HAIR_SHORT_07_PIXIE_A_TRUE_ALPHA.png",
+      "bytes": 84841,
+      "hash": "29afbe79b0e237542e2c4acdaaca1a846dee5dae4b0844639e5b94065859ccb8",
+      "width": 261,
+      "height": 240,
+      "longEdge": 261,
+      "colorType": 6,
+      "hasAlphaChannel": true,
+      "hasVaryingAlpha": true,
+      "assumedKind": "hair-front",
+      "verdict": "FAIL",
+      "reasons": [
+        "long edge 261px is below the 1024px minimum for hair-front",
+        "True alpha, not a painted-white background; shares the head canvas origin."
+      ],
+      "requiredUpscaleFactor": 3.9233716475095783
+    },
+    {
+      "file": "PG-HAIR_SHORT_08_PIXIE_B_TRUE_ALPHA.png",
+      "bytes": 76763,
+      "hash": "c7001cd59c05547f3a4649d966ed011132f6f0feae3a0cfec0517f607b608780",
+      "width": 252,
+      "height": 227,
+      "longEdge": 252,
+      "colorType": 6,
+      "hasAlphaChannel": true,
+      "hasVaryingAlpha": true,
+      "assumedKind": "hair-front",
+      "verdict": "FAIL",
+      "reasons": [
+        "long edge 252px is below the 1024px minimum for hair-front",
+        "True alpha, not a painted-white background; shares the head canvas origin."
+      ],
+      "requiredUpscaleFactor": 4.063492063492063
+    },
+    {
+      "file": "PG-HAIR_SHORT_09_WAVY_CROP_TRUE_ALPHA.png",
+      "bytes": 92827,
+      "hash": "86180f4935b5280166fc9c7cfe2a7f62536d66cdc746932e40bdd6c607e1f347",
+      "width": 280,
+      "height": 240,
+      "longEdge": 280,
+      "colorType": 6,
+      "hasAlphaChannel": true,
+      "hasVaryingAlpha": true,
+      "assumedKind": "hair-front",
+      "verdict": "FAIL",
+      "reasons": [
+        "long edge 280px is below the 1024px minimum for hair-front",
+        "True alpha, not a painted-white background; shares the head canvas origin."
+      ],
+      "requiredUpscaleFactor": 3.657142857142857
+    },
+    {
+      "file": "PG-P01_DESK_seated_man_transparent_VISUAL_PASS_v1.png",
+      "bytes": 725721,
+      "hash": "ca16c228609e3226aad9382e3e1f7163026936bc98debef8cd483c15adc8a663",
+      "width": 1216,
+      "height": 1293,
+      "longEdge": 1293,
+      "colorType": 6,
+      "hasAlphaChannel": true,
+      "hasVaryingAlpha": true,
+      "assumedKind": "body",
+      "verdict": "FAIL",
+      "reasons": [
+        "width 1216px is below the 1530px minimum for body (seated-at-desk)",
+        "height 1293px is below the 2048px minimum for body (seated-at-desk)",
+        "True seated morphology with a real thigh/torso fold; no furniture in the master."
+      ],
+      "requiredUpscaleFactor": 1.5839133797370457
+    },
+    {
+      "file": "PG-P01_STANDING_A_POSE_TRANSPARENT_MASTER_PASS_v1.png",
+      "bytes": 1736592,
+      "hash": "1cc76e760a7b2cd458523e1068583fb15108445454c86947e76cfb9aebc19a29",
+      "width": 1926,
+      "height": 2048,
+      "longEdge": 2048,
+      "colorType": 6,
+      "hasAlphaChannel": true,
+      "hasVaryingAlpha": true,
+      "assumedKind": "body",
+      "verdict": "FAIL",
+      "reasons": [
+        "height 2048px is below the 2528px minimum for body (standing-neutral)",
+        "Full standing figure, feet included, no chair, desk, scene or baked shadow."
+      ],
+      "requiredUpscaleFactor": 1.234375
+    },
+    {
+      "file": "PG-RIGFIT_B_AVERAGE_MASCULINE_PASS_v1.png",
+      "bytes": 1129297,
+      "hash": "978f3db56791eb6bdf6efa678b7ff7929c851bd7808f236c7760b014dbab70c5",
+      "width": 1024,
+      "height": 1536,
+      "longEdge": 1536,
+      "colorType": 2,
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "assumedKind": "body",
+      "verdict": "FAIL",
+      "reasons": [
+        "width 1024px is below the 1696px minimum for body",
+        "height 1536px is below the 2528px minimum for body",
+        "body requires a transparent background and this master has no usable alpha channel",
+        "Full standing figure, feet included, no chair, desk, scene or baked shadow."
+      ],
+      "requiredUpscaleFactor": 1.65625
+    }
+  ]
+}

@@ -1,32 +1,82 @@
 import { useMemo, useRef, useState, type CSSProperties } from "react";
 
+import clippingAfterUrl from "../../docs/agent/evidence/office-clipping-after-1440x900.png";
+import clippingBeforeUrl from "../../docs/agent/evidence/office-clipping-before-1440x900.png";
+import provenanceData from "../../art/manifest/provenance.json";
 import {
   CHARACTER_PROOF_SCENE,
+  CHARACTER_PROOF_SETS,
   clearCharacterProofSnapshot,
   composeCharacterProof,
-  createCharacterProofWorld,
+  createCharacterProofSetWorld,
   loadCharacterProofSnapshot,
   saveCharacterProofSnapshot,
   summarizeComponentReuse,
   type CharacterProofCharacter,
+  type CharacterProofSetId,
   type CharacterProofWorldSource,
 } from "../presentation/character-proof";
+import { createRunBFixture } from "../presentation/run-b-fixture";
 import {
+  composeOfficeVisuals,
+  CANDIDATE_REVIEW_CHARACTER_LIBRARY,
+  CANDIDATE_REVIEW_VISUAL_LIBRARY,
   PRODUCTION_CHARACTER_LIBRARY,
   PRODUCTION_VISUAL_LIBRARY,
 } from "../presentation/visual-integration";
 import { ModularCharacter } from "../player/ModularCharacter";
 import { useSceneTransform } from "../player/useSceneTransform";
-import type { World } from "../simulation/types";
+import type { EntityId, World } from "../simulation/types";
 
-function initialWorld(): {
+interface ProvenanceEntryLike {
+  readonly provenance_id: string;
+  readonly asset_id?: string;
+  readonly source_url_or_path?: string;
+  readonly document_photo_plan_title?: string;
+}
+
+const PROVENANCE_BY_ASSET = new Map<string, ProvenanceEntryLike>(
+  (provenanceData.entries as ProvenanceEntryLike[])
+    .filter((entry) => entry.asset_id)
+    .map((entry) => [entry.asset_id!, entry]),
+);
+
+function proofSetFromUrl(): CharacterProofSetId {
+  const value = new URLSearchParams(window.location.search).get("set");
+  return value === "dev" ? "dev" : "real";
+}
+
+/**
+ * Which library a proof set composes from.
+ *
+ * The `real` set reviews BANKED CANDIDATES: parts that have files and hashes
+ * but are in no catalog generation, so no player-facing surface can reach them.
+ * They are composed here, and only here, so a person can decide whether the art
+ * is good enough to promote.
+ */
+function librariesFor(setId: CharacterProofSetId) {
+  return setId === "real"
+    ? {
+        characters: CANDIDATE_REVIEW_CHARACTER_LIBRARY,
+        visuals: CANDIDATE_REVIEW_VISUAL_LIBRARY,
+      }
+    : {
+        characters: PRODUCTION_CHARACTER_LIBRARY,
+        visuals: PRODUCTION_VISUAL_LIBRARY,
+      };
+}
+
+function initialWorld(setId: CharacterProofSetId): {
   readonly world: World;
   readonly source: CharacterProofWorldSource;
 } {
-  const restored = loadCharacterProofSnapshot(window.localStorage);
+  const restored = loadCharacterProofSnapshot(window.localStorage, setId);
   if (restored) return { world: restored, source: "restored-snapshot" };
   return {
-    world: createCharacterProofWorld(PRODUCTION_CHARACTER_LIBRARY),
+    world: createCharacterProofSetWorld(
+      librariesFor(setId).characters,
+      CHARACTER_PROOF_SETS[setId],
+    ),
     source: "fresh",
   };
 }
@@ -59,6 +109,10 @@ function RecipeCard({ character }: { character: CharacterProofCharacter }) {
         <dd>
           {plan.catalogGeneration}{" "}
           {plan.pinnedByPerson ? "(pinned by person)" : "(legacy default)"}
+        </dd>
+        <dt>Recipe key</dt>
+        <dd>
+          <code>{plan.recipeKey}</code>
         </dd>
         <dt>Identity</dt>
         <dd>
@@ -158,8 +212,80 @@ function ProofStage({ characters, debugAnchors, testId, label }: StageProps) {
   );
 }
 
+/** Office people through the ordinary seam: authored recipes win, else modular. */
+function OfficePathTable() {
+  const rows = useMemo(() => {
+    const fixture = createRunBFixture();
+    const guestBase = fixture.scenePeople[1];
+    const primaryBase = fixture.scenePeople[0];
+    // Two unpinned visitors without authored recipes: one at the desk chair,
+    // whose seated-at-desk pose has a generation-1 DEV body, and one at the
+    // guest chair, whose pose has no body yet and therefore fails closed.
+    const deskVisitor = {
+      ...primaryBase,
+      personId: "person_proof_visitor_desk" as EntityId,
+      title: "Visitor",
+      role: "Constituent",
+    };
+    const guestVisitor = {
+      ...guestBase,
+      personId: "person_proof_visitor_guest" as EntityId,
+      title: "Visitor",
+      role: "Constituent",
+    };
+    const composition = composeOfficeVisuals(
+      [...fixture.scenePeople, deskVisitor, guestVisitor],
+      PRODUCTION_VISUAL_LIBRARY,
+    );
+    return composition.characters.map((visual) => ({
+      personId: visual.personId,
+      anchorId: visual.anchorId,
+      path: visual.asset
+        ? "flattened (authored recipe)"
+        : visual.modular
+          ? `modular (generation ${visual.modular.catalogGeneration})`
+          : "placeholder (fail closed)",
+      detail: visual.asset
+        ? visual.asset.assetId
+        : visual.modular
+          ? visual.modular.layers.map((layer) => layer.assetId).join(", ")
+          : visual.appearanceRecipeId,
+    }));
+  }, []);
+  return (
+    <table data-testid="character-proof-paths">
+      <thead>
+        <tr>
+          <th>Person</th>
+          <th>Anchor</th>
+          <th>Path</th>
+          <th>Visual</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row) => (
+          <tr key={row.personId} data-path={row.path}>
+            <td>
+              <code>{row.personId}</code>
+            </td>
+            <td>{row.anchorId}</td>
+            <td>{row.path}</td>
+            <td>
+              <code>{row.detail}</code>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
 export function CharacterProofView() {
-  const [{ world, source }, setWorldState] = useState(initialWorld);
+  const [setId] = useState<CharacterProofSetId>(proofSetFromUrl);
+  const set = CHARACTER_PROOF_SETS[setId];
+  const [{ world, source }, setWorldState] = useState(() =>
+    initialWorld(setId),
+  );
   const [debugAnchors, setDebugAnchors] = useState(false);
   const [status, setStatus] = useState<string>(
     source === "restored-snapshot"
@@ -167,39 +293,57 @@ export function CharacterProofView() {
       : "Created a fresh seeded world.",
   );
 
+  const libraries = librariesFor(setId);
   const composition = useMemo(
-    () =>
-      composeCharacterProof(
-        world,
-        PRODUCTION_CHARACTER_LIBRARY,
-        PRODUCTION_VISUAL_LIBRARY,
-      ),
-    [world],
+    () => composeCharacterProof(world, libraries.characters, libraries.visuals),
+    [world, libraries],
   );
   const reuse = useMemo(
     () => summarizeComponentReuse([...composition.stage, composition.side]),
     [composition],
+  );
+  const lineage = useMemo(
+    () =>
+      reuse.map((row) => {
+        const entry = PROVENANCE_BY_ASSET.get(row.assetId);
+        return {
+          assetId: row.assetId,
+          kind: row.kind,
+          master: entry?.source_url_or_path ?? "—",
+          title: entry?.document_photo_plan_title ?? "—",
+        };
+      }),
+    [reuse],
   );
 
   return (
     <main
       className="character-proof"
       data-testid="character-proof"
+      data-proof-set={setId}
       data-world-source={source}
       data-world-id={world.id}
       data-world-seed={world.seed}
-      data-catalog-generation={PRODUCTION_CHARACTER_LIBRARY.catalogGeneration}
+      data-catalog-generation={libraries.characters.catalogGeneration}
     >
       <header className="character-proof-header">
         <div>
           <p className="character-proof-eyebrow">
-            Developer proof · DEV / NON-PRODUCTION fixture art
+            Developer proof · {set.label}
           </p>
           <h1>Modular character runtime proof</h1>
           <p>
             Four generated people from world <code>{world.seed}</code> rendered
-            through one compositor from shared components. Catalog generation{" "}
-            {PRODUCTION_CHARACTER_LIBRARY.catalogGeneration}.
+            through one compositor from shared components. Library generation{" "}
+            {libraries.characters.catalogGeneration}; people pinned to{" "}
+            {set.catalogGeneration ?? libraries.characters.catalogGeneration}.
+          </p>
+          <p>
+            Sets:{" "}
+            <a href="?view=character-proof&set=real">
+              real production candidates
+            </a>{" "}
+            · <a href="?view=character-proof&set=dev">DEV fixtures</a>
           </p>
         </div>
         <div className="character-proof-controls">
@@ -216,7 +360,7 @@ export function CharacterProofView() {
             type="button"
             data-testid="character-proof-save"
             onClick={() => {
-              saveCharacterProofSnapshot(window.localStorage, world);
+              saveCharacterProofSnapshot(window.localStorage, world, setId);
               setStatus(
                 "Saved the world snapshot to browser storage. Reload to restore it.",
               );
@@ -235,9 +379,9 @@ export function CharacterProofView() {
             type="button"
             data-testid="character-proof-clear"
             onClick={() => {
-              clearCharacterProofSnapshot(window.localStorage);
+              clearCharacterProofSnapshot(window.localStorage, setId);
               setWorldState({
-                world: createCharacterProofWorld(PRODUCTION_CHARACTER_LIBRARY),
+                world: createCharacterProofSetWorld(libraries.characters, set),
                 source: "fresh",
               });
               setStatus(
@@ -273,12 +417,28 @@ export function CharacterProofView() {
             {composition.side.name} at{" "}
             <code>{composition.side.plan.anchorId}</code> resolves the same
             identity key as on the stage; only the pose context changes.
+            {composition.side.plan.complete
+              ? ""
+              : " No released body exists for this pose in the person's body family, so the compositor fails closed instead of faking a seated pose."}
           </p>
           <p>
             <code data-testid="character-proof-side-recipe-key">
               {composition.side.plan.recipeKey}
             </code>
           </p>
+          {composition.side.plan.complete ? (
+            <p data-testid="character-proof-side-status">
+              Every slot this pose needs resolved.
+            </p>
+          ) : (
+            <p
+              className="character-proof-warning"
+              data-testid="character-proof-side-status"
+            >
+              Incomplete in this pose:{" "}
+              {composition.side.plan.missing.join(", ")}
+            </p>
+          )}
         </div>
       </section>
 
@@ -310,6 +470,66 @@ export function CharacterProofView() {
             ))}
           </tbody>
         </table>
+      </section>
+
+      <section className="character-proof-reuse">
+        <h2>Source-master lineage</h2>
+        <table data-testid="character-proof-lineage">
+          <thead>
+            <tr>
+              <th>Normalized component</th>
+              <th>Kind</th>
+              <th>Source master</th>
+              <th>Master record</th>
+            </tr>
+          </thead>
+          <tbody>
+            {lineage.map((row) => (
+              <tr key={row.assetId} data-asset-id={row.assetId}>
+                <td>
+                  <code>{row.assetId}</code>
+                </td>
+                <td>{row.kind}</td>
+                <td>
+                  <code>{row.master}</code>
+                </td>
+                <td>{row.title}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      <section className="character-proof-reuse">
+        <h2>Ordinary office seam: flattened vs modular</h2>
+        <p>
+          The same <code>composeOfficeVisuals</code> serves every person. An
+          explicit authored recipe still wins (A01/B01); otherwise the person's
+          modular recipe resolves for the anchor's pose, and a missing body for
+          that pose fails closed.
+        </p>
+        <OfficePathTable />
+      </section>
+
+      <section className="character-proof-reuse">
+        <h2>Office seat-contact repair</h2>
+        <p>
+          Before: the foreground occluder's worktop polygon swept through the
+          primary chair and painted it over the woman's lap, and both authored
+          roots sat mid-torso instead of on the seat line, so the man floated
+          below and beside the guest chair. After: the polygon stops at the
+          chair, and both roots are the measured seat-contact lines.
+        </p>
+        <div className="character-proof-evidence">
+          <figure>
+            <img src={clippingBeforeUrl} alt="Office before the repair" />
+            <figcaption>Before (1440×900)</figcaption>
+          </figure>
+          <figure>
+            <img src={clippingAfterUrl} alt="Office after the repair" />
+            <figcaption>After (1440×900)</figcaption>
+          </figure>
+        </div>
       </section>
     </main>
   );

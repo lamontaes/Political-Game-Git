@@ -40,6 +40,7 @@ import {
   recordedConversationIntents,
 } from "../presentation/conversation-continuity";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
+import { TitleScreen } from "./TitleScreen";
 import {
   readReplaySeed,
   resolveSessionSeed,
@@ -397,65 +398,6 @@ export function PlayerGame() {
 }
 
 /* -------------------------------------------------------------------------- */
-
-function TitleScreen({
-  saves,
-  savesUnavailable,
-  problem,
-  onNewGame,
-  onContinue,
-  onOpenSaves,
-}: {
-  readonly saves: readonly BrowserWorldSummary[];
-  readonly savesUnavailable: boolean;
-  readonly problem: string | null;
-  readonly onNewGame: () => void;
-  readonly onContinue: () => void;
-  readonly onOpenSaves: () => void;
-}) {
-  const recent = saves[0];
-  return (
-    <main className="game-title" data-testid="title-screen">
-      <h1>Political Game</h1>
-      <p className="game-title-line">A life, and the places it can reach.</p>
-      <div className="game-title-actions">
-        <button type="button" data-testid="new-game" onClick={onNewGame}>
-          New game
-        </button>
-        <button
-          type="button"
-          data-testid="continue"
-          onClick={onContinue}
-          disabled={!recent}
-        >
-          Continue
-          {recent ? (
-            <small>
-              {recent.playerName}, {recent.playerAge}
-              {recent.residence ? ` · ${recent.residence.name}` : ""}
-            </small>
-          ) : null}
-        </button>
-        <button
-          type="button"
-          data-testid="open-saves"
-          onClick={onOpenSaves}
-          disabled={saves.length === 0}
-        >
-          Saved games
-          {saves.length > 0 ? <small>{saves.length} saved</small> : null}
-        </button>
-      </div>
-      {savesUnavailable ? (
-        <p className="game-note">
-          This browser will not let the game store anything, so a game played
-          here will not still be here later.
-        </p>
-      ) : null}
-      {problem ? <p className="game-problem">{problem}</p> : null}
-    </main>
-  );
-}
 
 /* -------------------------------------------------------------------------- */
 
