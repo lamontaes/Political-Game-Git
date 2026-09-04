@@ -513,3 +513,126 @@ calibration tests, age-eligibility tests, identity and pronoun persistence
 tests, relationship-label tests, content-quality guards, childhood life-flow
 tests, the Packet 70 dialogue tests, `npm run validate`, the complete Playwright
 suite, deterministic replay, and `git diff --check`.
+
+---
+
+## 15. The #86 reconciliation
+
+Added after PR #86 was accepted and merged. §12 said what would have to happen
+before the next human play; this section records that step 4 and step 5 are
+done, and it stays inside this report rather than becoming a second one,
+because it is the same branch and the same PR.
+
+### Exact state
+
+|                       |                                                                                           |
+| --------------------- | ----------------------------------------------------------------------------------------- |
+| Accepted `main`       | `5f735da209c59647e4b877717a40fe6cc045fc24` — the merge of PR #86                          |
+| #87 head before       | `267d06b26083aee998588571ff16446b7c8ae55b`, draft, unmerged, **not mergeable** against it |
+| Reconciliation commit | `f46b068` — `git merge origin/main`, no rebase, no force-push                             |
+| #86 audit consumed    | 75A, `ACCEPT — SAFE TO MERGE`, 0 blockers / 0 majors / 0 minors / 3 notes, at `a35da54`   |
+
+### The three seams, and how each was resolved
+
+72A §12 predicted three conflict points. Two of them conflicted; the third
+merged clean, because `ScenePerson` was new on this side and #86 never touched
+the file.
+
+**`src/player/PlayerGame.tsx` — resolved to #86.** #86 moved the title screen
+out into `src/player/TitleScreen.tsx` so the graphics lane could give it a
+backdrop without permanently living inside another branch's component, and left
+behind a single import. That is the better shape and it is #86's to decide, so
+the inline component this branch had restructured is removed and the import
+stays. The call site is untouched: it already passed `onOpenOptions`, and it
+still does.
+
+**`src/player/TitleScreen.tsx` — resolved to both.** #86's component is kept
+whole: the tableau wrapper, the `resolveTitlePresentation` call, the scene
+description, the save-summary hero, the no-art case. Three repairs this branch
+had made to the same screen are re-homed into it rather than being lost with
+the file they were written in:
+
+1. the canonical product name — **Our Civic Duty**, which the routing authority
+   requires and which "Political Game" is a legacy placeholder for;
+2. no tagline, which is what the human playtest asked for;
+3. Options and Quit present, Quit disabled and honest about why, without ever
+   mentioning a browser to a player.
+
+Nothing about which room appears is decided by this branch. The graphics
+decisions stay #86's; the words stay this wave's. Both sides' browser tests
+assert their own half and both pass: `title-tableau.spec.ts` still checks that a
+decoded production raster reaches the page, and `narrative-life.spec.ts` still
+checks the five controls, the heading and the absence of the tagline.
+
+**`src/player/player.css` — resolved to both.** Both branches appended a block
+to the end of the file and the two blocks share no selector, so both are kept,
+with this branch's Packet 72 block appended last, which is where it was written
+to sit.
+
+### One test that needed the same treatment
+
+`tests/e2e/title-tableau.spec.ts` starts a life to prove the backdrop survives
+having one. Its helper filled an age and clicked `begin`; this branch had put a
+calibration between those two steps, so the helper stopped one click short of
+the play screen and three of #86's tests failed on a route change rather than on
+anything about the title. The `calibration-skip` click is added, with the reason
+in the file. Nothing the spec asserts was weakened, and no test was skipped.
+
+### The ownership base moved, and why that is not a relaxation
+
+`NARRATIVE_WAVE_BASE` was `6311dd6`, the main this branch was cut from.
+Measured from there after the merge, the check counts every file #86 shipped —
+the art bank, `src/environment/`, `src/authoring/`, the scene and tableau
+runtime — as a change made here. They are not: they arrived from `main` whole
+and unedited. The base moves to `5f735da` for exactly the reason
+`tests/support/ownership-boundary.ts` already records for the #60 and #82
+merges, and the carve-out list is unchanged: the check still fails this branch
+the moment it touches a plate, a pose, a scene or an inspector.
+
+`src/player/TitleScreen.tsx` is added to the surfaces this wave declares, with
+the seam written out beside it. It is the only #86 file this branch edits, and
+the edit is copy and two controls.
+
+### Validation at the reconciled head
+
+| Check                                                  | Result                                                                                                                                                                                                                                                                                                                                   |
+| ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run validate`                                     | **Passed** — format, lint, typecheck, build, deterministic demo replay, `validate:art`                                                                                                                                                                                                                                                   |
+| Unit and contract suite                                | **1,517 passed across 93 files**, 0 failed                                                                                                                                                                                                                                                                                               |
+| Full Playwright suite                                  | **154 passed**, 0 failed                                                                                                                                                                                                                                                                                                                 |
+| `npm run report:life -- packet76-reconcile 0 5`, twice | **Byte-identical**, 12,260 bytes                                                                                                                                                                                                                                                                                                         |
+| `npm run report:life -- packet72-replay 0 5`, twice    | **Byte-identical, 12,339 bytes — the same size §13 recorded before the merge**                                                                                                                                                                                                                                                           |
+| `tests/narrative-wave-ownership-boundary.test.ts`      | Passes against the new base; #83/#84/#85/#86 carve-outs intact                                                                                                                                                                                                                                                                           |
+| `tests/authoring-ownership-boundary.test.ts`           | Passes — the Packet 26 range is closed and unaffected                                                                                                                                                                                                                                                                                    |
+| `src/presentation/life-opacity.test.ts`                | Passes                                                                                                                                                                                                                                                                                                                                   |
+| `git diff --check`                                     | Clean                                                                                                                                                                                                                                                                                                                                    |
+| Diff inspected for recreated #86 systems               | **None.** No `art/`, no `src/environment/`, no `src/authoring/`, no `scripts/art-asset-factory/`, no `src/ui/`, no `src/App.tsx`, no scene/pose/raster/character/component/title-tableau/visual-integration presentation module, no `OfficeScene`/`ModularCharacter`/`PersonPortrait`/`useRasterTier`/`useSceneTransform`/`TitleTableau` |
+
+The second replay row is the preservation proof that matters most: the Packet 72
+life report reproduces byte-for-byte at the size §13 recorded before any of this
+happened, so taking in the graphics main changed nothing about the life the
+report describes.
+
+### Acceptance state, unchanged
+
+**PR #87 remains open, draft and unmerged. No human acceptance is claimed.**
+
+What is now true that was not: the branch is mergeable against accepted main and
+its graphics seams are resolved against #86's own components. §12's step 6 has
+run. Step 7 — the human play — is the next gate and is not requested by this
+report.
+
+What genuinely needs a human, rather than another check:
+
+- **The title screen as a whole.** #86's room behind #87's words is a
+  combination neither branch's tests can judge: legibility of the heading and
+  five controls over a painted plate, at a phone width as well as a desktop one.
+- **A ten-year-old's play, end to end**, now that the calibration, the
+  relationship labels and the age-band voice sit on top of scene art rather than
+  a pale page.
+- **Scene and person legibility together.** `ScenePerson` carries the id, name,
+  relationship and introduction for everybody in a scene, which is the join #86
+  needs; whether a face beside a name reads correctly is a visual judgement.
+- **The two known gaps §11 records** are unchanged by this merge and still
+  stand: two cold starts share a life shape, and generated first names carry no
+  gender.
