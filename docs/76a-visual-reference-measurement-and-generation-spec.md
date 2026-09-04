@@ -7,6 +7,7 @@ what must not be invented_.
 - Accepted main this run started from: `5f735da209c59647e4b877717a40fe6cc045fc24`
   (merge of PR #86).
 - Branch: `claude/post86-mass-visual-generation-command-center`.
+- Drive copy: <https://docs.google.com/document/d/1URs1VE2pSukIPX7RAzvTIK0FrmgmT9vKQI38TvqXcu0/edit>. Companions: [74 prompt pack](https://docs.google.com/document/d/1EV889hyCi73YOO_JDNgcZ9CG1enN9cWLUJM5TUMHyT8/edit) · [76B completion report](https://docs.google.com/document/d/1dOOUdVQZNvSiclGiykqlLM0DNymq0iEWiQtb0YeW30E/edit).
 - Machine-readable companions, regenerable and committed:
   - `art/qa/p76/reference_measurements.json` — `npm run measure:references`
   - `art/qa/p76/edge_despill_report.json` — `npm run despill:edges`

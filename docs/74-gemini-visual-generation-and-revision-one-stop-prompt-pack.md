@@ -4,6 +4,9 @@
 
 If a prompt says `NO REFERENCE`, attach nothing and just say `Run prompt N`.
 
+Drive copy (the one to read on a phone): <https://docs.google.com/document/d/1EV889hyCi73YOO_JDNgcZ9CG1enN9cWLUJM5TUMHyT8/edit>
+Companions: [76A measurement spec](https://docs.google.com/document/d/1URs1VE2pSukIPX7RAzvTIK0FrmgmT9vKQI38TvqXcu0/edit) · [76B completion report](https://docs.google.com/document/d/1dOOUdVQZNvSiclGiykqlLM0DNymq0iEWiQtb0YeW30E/edit)
+
 Built against accepted main `5f735da209c59647e4b877717a40fe6cc045fc24` (the
 merge of PR #86). Every measurement quoted below was read off the actual raster
 by `npm run measure:references` and is stored in

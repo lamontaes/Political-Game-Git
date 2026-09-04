@@ -3,6 +3,8 @@
 Packet: `76_CLAUDE_POST86_MASS_VISUAL_GENERATION_COMMAND_CENTER`
 (Drive `1GICdlYPVoa8dtZeVSNGFDxE1owPPCYwZ-r0v0xo4ipk`).
 
+Drive copy: <https://docs.google.com/document/d/1dOOUdVQZNvSiclGiykqlLM0DNymq0iEWiQtb0YeW30E/edit>. Companions: [74 prompt pack](https://docs.google.com/document/d/1EV889hyCi73YOO_JDNgcZ9CG1enN9cWLUJM5TUMHyT8/edit) · [76A measurement spec](https://docs.google.com/document/d/1URs1VE2pSukIPX7RAzvTIK0FrmgmT9vKQI38TvqXcu0/edit).
+
 ---
 
 ## 1. Preconditions, in the order the packet set them
@@ -53,8 +55,10 @@ classification rule for the next batch are in 76A section 4.
 
 ## 3. What changed in the repository
 
-One commit on the new branch: `c90d7e6` — _"Take the green off eight bodies
-instead of asking for eight more."_ 16 files, 7,015 insertions.
+Two commits on the new branch. `c90d7e6` — _"Take the green off eight bodies
+instead of asking for eight more"_ — is the tooling, the evidence and the
+repaired art, 16 files and 7,015 insertions. `0445044` adds the three documents
+and the regenerated art QA reports.
 
 | Path                                                  | What it is                                                                                                                                                                                                                                                                               |
 | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -319,7 +323,8 @@ In order, as sheets come back:
 ## 11. Status
 
 - Branch `claude/post86-mass-visual-generation-command-center`, cut from accepted
-  main `5f735da`, pushed with a **draft** pull request, left **unmerged**.
+  main `5f735da`, pushed. **Draft PR #88**, left **unmerged**:
+  <https://github.com/lamontaes/Political-Game-Git/pull/88>
 - PR #86 not touched. PR #87 not touched.
 - Three documents delivered: `74_GEMINI_VISUAL_GENERATION_AND_REVISION_ONE_STOP_PROMPT_PACK`,
   `76A_VISUAL_REFERENCE_MEASUREMENT_AND_GENERATION_SPEC`, and this report.
