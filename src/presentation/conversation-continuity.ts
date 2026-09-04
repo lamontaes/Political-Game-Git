@@ -190,3 +190,39 @@ export function conversationSettled(
   if (!progress) return false;
   return "phase" in progress && progress.phase === "settled";
 }
+
+/**
+ * Where the conversation currently in progress began.
+ *
+ * A session descriptor keys itself off the history frontier at the moment it is
+ * built, which is correct for opening a conversation and wrong for continuing
+ * one: rebuilt after every turn, it produced a new session key each time, and
+ * five turns of one exchange claimed to be five separate conversations. Any
+ * surface that groups by session — the journal does — then showed five entries
+ * for one evening.
+ *
+ * The frontier a continuing session needs is the one its first turn was written
+ * at, which is exactly that turn's own sequence. Returns null when there is
+ * nothing in progress, or when the last turn was on an earlier day: a
+ * conversation resumed a week later is a new conversation, and saying otherwise
+ * would put two evenings under one heading.
+ */
+export function openConversationSessionStart(
+  world: World,
+  personId: EntityId,
+  subject: ConversationSubjectKey,
+): number | null {
+  const opening = openingProgress(subject);
+  if (!opening) return null;
+  const contract = conversationCommitContract(opening);
+  const turns = world.history.events
+    .filter(
+      (event) =>
+        event.type === contract.eventType &&
+        event.tags.includes(contract.subjectTag) &&
+        event.involvedEntityIds.includes(personId) &&
+        event.occurredAt === world.currentDate,
+    )
+    .sort((left, right) => left.sequence - right.sequence);
+  return turns[0]?.sequence ?? null;
+}

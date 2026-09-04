@@ -2,6 +2,7 @@ import { personName } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import {
   conversationProgressFromHistory,
+  openConversationSessionStart,
   recordedConversationIntents,
 } from "./conversation-continuity";
 import {
@@ -260,7 +261,13 @@ export function projectPlayerConversation(
       .dialogue,
     room,
     progress,
-    session: createConversationSessionDescriptor(world, room),
+    // Continues the session the record already opened today, so five turns of
+    // one exchange stay one exchange rather than becoming five.
+    session: createConversationSessionDescriptor(
+      world,
+      room,
+      openConversationSessionStart(world, personId, subject) ?? undefined,
+    ),
     // Turn ordinals start at one and come from what the world recorded, not
     // from a counter that resets when a component does.
     turnOrdinal:

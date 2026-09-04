@@ -764,6 +764,24 @@ export interface ConversationCommitContract {
     intent: ConversationIntent,
     outcome: ConversationOutcome,
   ): ConversationAftermathSpec | null;
+  /**
+   * How the turn landed, in the subject's own words.
+   *
+   * The engine used to end every summary with `${speaker} ${outcome}` — "Cole
+   * continued", "Cole reassured" — which is the engine's vocabulary for its own
+   * states, written into canonical history and, once conversations reached the
+   * journal, onto a screen. Worse, the words are subject-relative: `deferred`
+   * means the other person put it off in an office and means they took the week
+   * on at home, so no central mapping could be right for both.
+   *
+   * A subject that returns null gets a summary of the action alone, which is
+   * always true.
+   */
+  landed?(
+    intent: ConversationIntent,
+    outcome: ConversationOutcome,
+    names: { readonly speakerName: string },
+  ): string | null;
 }
 
 /** What a choice sentence may name, without reaching for the room itself. */
@@ -960,7 +978,7 @@ const COMMIT_CONTRACTS: Readonly<
         return {
           holder: "player",
           kind: "personal:household-errands",
-          label: "Covering the week's errands at home",
+          label: "the week's errands at home",
           weeklyHours: [1, 3],
         };
       }
@@ -970,7 +988,7 @@ const COMMIT_CONTRACTS: Readonly<
         return {
           holder: "counterpart",
           kind: "personal:household-errands",
-          label: "Covering the week's errands at home",
+          label: "the week's errands at home",
           weeklyHours: [1, 3],
         };
       }
@@ -983,6 +1001,22 @@ const COMMIT_CONTRACTS: Readonly<
       intent === "ask-for-time" && outcome !== "boundary-held"
         ? "obligation"
         : null,
+    landed: (intent, outcome, { speakerName }) => {
+      switch (intent) {
+        case "raise-obligation":
+          return `${speakerName} said they had been avoiding it too.`;
+        case "offer-to-cover":
+          return `${speakerName} let them take it.`;
+        case "ask-to-share":
+          return `${speakerName} agreed to halve it.`;
+        case "ask-for-time":
+          return outcome === "boundary-held"
+            ? `${speakerName} said no.`
+            : `${speakerName} took it on.`;
+        default:
+          return null;
+      }
+    },
   },
   "school-project-share": {
     subject: "school-project-share",
@@ -1055,10 +1089,24 @@ const COMMIT_CONTRACTS: Readonly<
         ? {
             holder: "player",
             kind: "personal:school-project",
-            label: "The part of the project nobody else started",
+            label: "the part of the project nobody else started",
             weeklyHours: [1, 4],
           }
         : null,
+    landed: (intent, outcome, { speakerName }) => {
+      switch (intent) {
+        case "raise-share":
+          return `${speakerName} had thought it was somebody else's.`;
+        case "offer-to-do-more":
+          return `${speakerName} took a section of it instead.`;
+        case "ask-to-split":
+          return outcome === "boundary-held"
+            ? `${speakerName} would not agree a split.`
+            : `${speakerName} agreed which half was whose.`;
+        default:
+          return null;
+      }
+    },
   },
   "neighborhood-meeting-notice": {
     subject: "neighborhood-meeting-notice",
@@ -1130,13 +1178,27 @@ const COMMIT_CONTRACTS: Readonly<
         ? {
             holder: "player",
             kind: "civic:neighborhood-meeting",
-            label: "The neighborhood meeting you said you would go to",
+            label: "the neighborhood meeting you said you would go to",
             weeklyHours: [1, 2],
           }
         : null,
     // An evening you said out loud you would give is exactly the kind of thing
-    // a neighbour remembers whether or not you turned up.
+    // a neighbor remembers whether or not you turned up.
     aftermath: (intent) => (intent === "say-you-will-go" ? "obligation" : null),
+    landed: (intent, outcome, { speakerName }) => {
+      switch (intent) {
+        case "mention-meeting":
+          return `${speakerName} had seen the notice.`;
+        case "say-you-will-go":
+          return `${speakerName} asked to be told what came of it.`;
+        case "ask-them-to-go":
+          return outcome === "boundary-held"
+            ? `${speakerName} would not give the evening.`
+            : `${speakerName} said they would go.`;
+        default:
+          return null;
+      }
+    },
   },
 };
 

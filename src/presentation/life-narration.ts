@@ -535,6 +535,14 @@ export interface ThreadRecap {
   readonly threadKey: string;
   readonly sentence: string;
   readonly anchors: readonly ThreadAnchor[];
+  /**
+   * Whether this is something still moving or something that has gone quiet.
+   *
+   * A player can tell the two apart from the sentence itself; this is here so a
+   * surface can order or group them without reading the engine's own standing
+   * vocabulary, which must never reach a screen.
+   */
+  readonly stillMoving: boolean;
 }
 
 /**
@@ -550,20 +558,67 @@ export function openThreadRecaps(
   limit = 3,
   asOfDate: IsoDate = world.currentDate,
 ): readonly ThreadRecap[] {
-  return narrativeThreads(world, personId, asOfDate)
-    .filter(
-      (thread) =>
-        (thread.standing === "pressing" || thread.standing === "running") &&
-        thread.anchors.some((anchor) => anchor.role !== "context"),
-    )
-    .slice(0, limit)
-    .map((thread) => ({
-      threadKey: thread.key,
-      sentence: recapSentence(thread),
-      anchors: thread.anchors
-        .filter((anchor) => anchor.role !== "context")
-        .slice(-2),
-    }));
+  const named = narrativeThreads(world, personId, asOfDate).filter((thread) =>
+    thread.anchors.some((anchor) => anchor.role !== "context"),
+  );
+  const moving = named.filter(
+    (thread) => thread.standing === "pressing" || thread.standing === "running",
+  );
+  // Threads that have gone quiet are part of what a life is carrying, and
+  // leaving them out entirely meant a player could never tell the difference
+  // between something settled and something nobody has mentioned in two years.
+  // They come after the moving ones and never crowd them out.
+  const quiet = named.filter((thread) => thread.standing === "dormant");
+
+  const chosen = [
+    ...moving.slice(0, limit),
+    ...quiet.slice(0, Math.max(0, Math.min(2, limit - moving.length))),
+  ];
+  return chosen.map((thread) => ({
+    threadKey: thread.key,
+    sentence:
+      thread.standing === "dormant"
+        ? quietSentence(thread)
+        : recapSentence(thread),
+    anchors: thread.anchors
+      .filter((anchor) => anchor.role !== "context")
+      .slice(-2),
+    stillMoving: thread.standing !== "dormant",
+  }));
+}
+
+/**
+ * Something that has gone quiet, said the way a person would say it.
+ *
+ * Never "dormant". The engine's word for this is a fact about an index; what a
+ * player needs to know is that they have not heard anything for a long time,
+ * which is a different sentence and the only one that belongs on a screen.
+ */
+function quietSentence(thread: NarrativeThread): string {
+  switch (thread.family) {
+    case "household":
+      return `Whatever was going on at home with ${thread.title} has been quiet for a long time.`;
+    case "kin":
+      return `You have not heard anything from ${thread.title} in a long while.`;
+    case "companionship":
+      return `You and ${thread.title} have not spoken in a long time.`;
+    case "school":
+      return `${thread.title} stopped coming up a long time ago.`;
+    case "work":
+      return `Nothing has come from ${thread.title} for a long time.`;
+    case "money":
+      return "Nobody has said anything about what you owe for a long time.";
+    case "care":
+      return `Looking after ${thread.title} has not needed anything from you in a long while.`;
+    case "civic":
+      return `You have not been near ${thread.title} in a long time.`;
+    case "political":
+      return `Nothing has come of the business at ${thread.title} for a long time.`;
+    case "promise":
+      return `Nobody has mentioned what you said about ${thread.title} in a long time.`;
+    case "incident":
+      return "What happened has not come up again in a long time.";
+  }
 }
 
 function recapSentence(thread: NarrativeThread): string {

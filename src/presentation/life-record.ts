@@ -4,6 +4,7 @@ import {
   narrativeThreads,
   personName,
   type EntityId,
+  type HistoricalEvent,
   type IsoDate,
   type NarrativeThread,
   type ThreadAnchor,
@@ -167,6 +168,55 @@ function recordEntries(
     });
   }
 
+  // A conversation is one thing that happened, not five.
+  //
+  // Five turns at a kitchen table wrote five events, and a journal that listed
+  // them one under another read as a log of keystrokes rather than an evening.
+  // They are grouped on the session key the turns themselves carry, so the
+  // grouping is something the record establishes rather than something this
+  // projection infers from two events being near each other. Every underlying
+  // event stays anchored to the entry, so nothing is lost to a reader who wants
+  // to see the turns.
+  const conversationSessions = new Map<string, HistoricalEvent[]>();
+  for (const event of world.history.events) {
+    if (!event.involvedEntityIds.includes(personId)) continue;
+    if (event.occurredAt > world.currentDate) continue;
+    const sessionTag = event.tags.find((tag) =>
+      tag.startsWith(CONVERSATION_SESSION_TAG),
+    );
+    if (!sessionTag) continue;
+    const key = sessionTag.slice(CONVERSATION_SESSION_TAG.length);
+    const turns = conversationSessions.get(key) ?? [];
+    turns.push(event);
+    conversationSessions.set(key, turns);
+  }
+  for (const [key, turns] of conversationSessions) {
+    const ordered = [...turns].sort((left, right) =>
+      left.sequence === right.sequence
+        ? left.id.localeCompare(right.id)
+        : left.sequence - right.sequence,
+    );
+    for (const turn of ordered) seenEvents.add(turn.id);
+    const sentence = conversationSentence(ordered);
+    if (sentence === null) continue;
+    const opened = ordered[0]!;
+    entries.push({
+      key: `conversation:${key}`,
+      at: opened.occurredAt,
+      age: ageOnDate(person.birthDate, opened.occurredAt),
+      sentence,
+      anchors: ordered.map((turn) => ({
+        store: "events" as const,
+        recordId: turn.id,
+        stableKey: turn.stableKey,
+        at: turn.occurredAt,
+        sequence: turn.sequence,
+        role: "continuation" as const,
+        note: "One turn of the conversation this line is about.",
+      })),
+    });
+  }
+
   for (const event of world.history.events) {
     if (!event.involvedEntityIds.includes(personId)) continue;
     if (event.occurredAt > world.currentDate) continue;
@@ -202,6 +252,28 @@ function recordEntries(
     if (byDate !== 0) return byDate;
     return left.key.localeCompare(right.key);
   });
+}
+
+const CONVERSATION_SESSION_TAG = "conversation.session.";
+
+/**
+ * A whole exchange, in the sentences the turns themselves wrote.
+ *
+ * Composed rather than authored: the opening turn's summary says what was
+ * raised and the closing turn's says how it came out, and both are canonical
+ * text the commit contract wrote at the time. Nothing is added. A single-turn
+ * conversation is just its own summary, because "it opened and closed" is not
+ * two things.
+ */
+function conversationSentence(
+  turns: readonly HistoricalEvent[],
+): string | null {
+  const first = readable(turns[0]?.summary ?? "");
+  if (first === null) return null;
+  if (turns.length === 1) return first;
+  const last = readable(turns.at(-1)?.summary ?? "");
+  if (last === null || last === first) return first;
+  return `${first} ${last}`;
 }
 
 /**

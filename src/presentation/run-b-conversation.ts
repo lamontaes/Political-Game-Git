@@ -41,6 +41,7 @@ import type {
   ConversationOutcome,
   ConversationStanding,
 } from "./conversation-consequences";
+import type { ConversationCommitContract } from "./conversation-subjects";
 import {
   canListenToRunBConversation,
   createRunBConversationProgress,
@@ -270,13 +271,22 @@ interface ResolvedResponse {
 export function createConversationSessionDescriptor(
   world: World,
   room: ConversationRoomContext,
+  /**
+   * The frontier this conversation began at, when it is already under way.
+   *
+   * Omitted, the session starts here — which is right for opening one and wrong
+   * for continuing one, because a descriptor rebuilt after every turn keys
+   * itself differently each time and an exchange stops being one exchange.
+   */
+  startedAtHistorySequence?: number,
 ): ConversationSessionDescriptor {
   validateConversationRoom(world, room);
   const participantPersonIds = canonicalPeople(
     room,
     room.activeParticipantPersonIds,
   );
-  const startingHistorySequence = world.history.nextSequence;
+  const startingHistorySequence =
+    startedAtHistorySequence ?? world.history.nextSequence;
 
   return {
     sessionKey: conversationSessionKey(
@@ -562,6 +572,23 @@ export function commitConversationTurn(
   ]);
   const eventVisibility =
     input.audibility === "private" ? "private" : "limited";
+
+  // What this turn writes is the subject's business, not the engine's. A
+  // household deciding who does the shopping used to leave casework history.
+  const commit = conversationCommitContract(currentProgress);
+  const choiceContext = {
+    // Addressing the room is addressing the person in it, which is the same
+    // reading the subject dialogue already uses.
+    addresseeName: shortPersonName(
+      world,
+      input.addressee === "everyone"
+        ? input.room.eligibleAddresseePersonIds[0]!
+        : input.addressee,
+    ),
+    named: (role: string) =>
+      shortPersonName(world, conversationRole(input.room, role)),
+  };
+  const choiceSentence = commit.choice(input.intent, choiceContext);
   const eventSummary = conversationEventSummary(
     world,
     input.room.playerPersonId,
@@ -569,11 +596,8 @@ export function commitConversationTurn(
     input.intent,
     resolved.outcome,
     currentProgress,
+    { commit, choiceSentence },
   );
-
-  // What this turn writes is the subject's business, not the engine's. A
-  // household deciding who does the shopping used to leave casework history.
-  const commit = conversationCommitContract(currentProgress);
 
   world = recordWorldEvent(world, {
     stableKey: `${turnKey}:event`,
@@ -635,18 +659,7 @@ export function commitConversationTurn(
       socialContext: commit.socialContext,
       pressure: commit.pressure(input.intent),
       // Written by the subject in front of the player, in its own words.
-      choice: commit.choice(input.intent, {
-        // Addressing the room is addressing the person in it, which is the
-        // same reading the subject dialogue already uses.
-        addresseeName: shortPersonName(
-          world,
-          input.addressee === "everyone"
-            ? input.room.eligibleAddresseePersonIds[0]!
-            : input.addressee,
-        ),
-        named: (role) =>
-          shortPersonName(world, conversationRole(input.room, role)),
-      }),
+      choice: choiceSentence,
       motivation: commit.motivation,
       immediateReaction:
         resolved.dialogue ??
@@ -2622,6 +2635,10 @@ function conversationEventSummary(
   intent: ConversationIntent,
   outcome: ConversationSemanticResult["outcome"],
   progress: ConversationProgress,
+  subject?: {
+    readonly commit: ConversationCommitContract;
+    readonly choiceSentence: string;
+  },
 ): string {
   const player = personName(world.people[playerPersonId]!);
   if (isRunCLegislativeConversationProgress(progress)) {
@@ -2644,7 +2661,16 @@ function conversationEventSummary(
     throw new Error("A spoken conversation intent requires an NPC response.");
   }
   const speaker = personName(world.people[responseSpeakerPersonId]!);
-  return `${player} used a ${intent.replaceAll("-", " ")} approach; ${speaker} ${outcome.replaceAll("-", " ")}.`;
+  // The subject's own account of what was done and how it landed. What used to
+  // be here — "X used a raise obligation approach; Y continued" — was the
+  // engine's vocabulary for its own states, written into canonical history and,
+  // once the journal started grouping conversations, onto a screen.
+  const said = subject
+    ? subject.choiceSentence.replace(/^The player\b/, player)
+    : `${player} spoke.`;
+  const landed =
+    subject?.commit.landed?.(intent, outcome, { speakerName: speaker }) ?? null;
+  return landed ? `${said} ${landed}` : said;
 }
 
 function conversationSubjectEntityIds(
