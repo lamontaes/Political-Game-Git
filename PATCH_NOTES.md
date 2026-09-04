@@ -59,6 +59,29 @@ before any of the politics arrives.
 - "Canonical minutes" is now just minutes.
 - The unbuilt second office no longer says it is "not available in Run A".
 
+### Developer tooling
+
+_Nothing in this section is visible in the game. It is here because it changes
+what the team can see, not what a player can._
+
+- **Causal trace inspector.** A development route at `?view=causal-trace` that
+  reads a save and shows how canonical truth, what somebody said, what a
+  listener learned, what they concluded, and what they then decided actually
+  connect. Every link it draws is a field the record already carries. Where the
+  repository recorded no parent it says UNKNOWN, and where a walk stops it says
+  which of five things stopped it.
+- **Who heard it.** The same two conversation turns run quiet instead of
+  normal now demonstrably produce a different set of listeners, a different set
+  of knowledge records, a different set of perceptions, and a second-turn
+  decision resting on a different recorded chain. Audibility was already
+  causal; it is now legible.
+- **Traces you can paste into a bug report.** `npm run trace:export` writes
+  Markdown or JSON carrying the seed, world id, history frontier and content
+  hash. The same replay and the same request produce byte-identical output.
+- **Do different seeds make different lives?** `npm run compare:seeds`
+  generates several worlds and reports where they actually differ, keeping
+  structural differences apart from differences that are only a name.
+
 ### Known issues
 
 - Only four places can start a life, and none of them is a city with its own

@@ -23,6 +23,8 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run test:run-b` — focused Stage 6.5 conversation tests
 - `npm run test:run-c` — focused Stage 6.5 working-document tests
 - `npm run test:run-d-lite` — focused Stage 6.5 time/work tests
+- `npm run trace:export` — deterministic causal-trace export (development diagnostic)
+- `npm run compare:seeds` — multi-seed world comparison (development diagnostic)
 - `npm run test:e2e` — Playwright browser proof
 - `npm run lint` — lint
 - `npm run typecheck` — TypeScript validation
