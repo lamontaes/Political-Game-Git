@@ -4662,6 +4662,113 @@
       "final_path": "art/references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_STARTER_01_1376x768.png",
       "hash": "7f6e59b03a50a0c14068a217ab88f77d3987cf3f549d639fbc7627a0c910aae6",
       "requires_transparency": false
+    },
+    {
+      "asset_id": "env_legislative_chamber_floor_5632x3072_v1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "raster_tiers": [
+        {
+          "width": 1408,
+          "height": 768,
+          "path": "art/families/legislative-chamber/env_legislative_chamber_floor_v1.png",
+          "hash": "ed0d0b9cdf433fbaea959967645568cdebda5d46aec8d6b62c8e6cd0c6ff8728",
+          "derivation": "deterministic-downscale"
+        },
+        {
+          "width": 2816,
+          "height": 1536,
+          "path": "art/families/legislative-chamber/env_legislative_chamber_floor_runtime_2x_v1.png",
+          "hash": "184a68b7a82a3fef6e0167cde0ceb3b373484253ddd6185265c89e254a52c493",
+          "derivation": "deterministic-downscale"
+        }
+      ],
+      "family_id": "legislative-chamber",
+      "jurisdiction_scope": "unscoped-generic-chamber",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_legislative_chamber_floor_5632x3072_v1"],
+      "rights_note": "Owner-approved Our Civic Duty scene master from the canonical 4K/5K source library; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Generic legislative chamber floor: tiered member desks, a raised rostrum with a lectern, and public galleries. Both runtime tiers are deterministic DOWNSCALES of the owner-approved 5632x3072 master; nothing in this repository enlarged it.",
+      "negative_constraints": [
+        "Do not treat depicted details as sourced jurisdiction facts; nothing in this room names a place.",
+        "Do not bake bill numbers, tallies, agendas, seals, flags or names into this plate; those belong to the declared surface slots.",
+        "Do not use as a committee hearing room or a courtroom: this room has tiered member desks, a rostrum and galleries, and those rooms do not.",
+        "Do not upscale either tier; the 5632x3072 master is preserved unmodified."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/families/legislative-chamber/env_legislative_chamber_floor_runtime_2x_v1.png",
+      "hash": "184a68b7a82a3fef6e0167cde0ceb3b373484253ddd6185265c89e254a52c493",
+      "requires_transparency": false
+    },
+    {
+      "asset_id": "ocd_source_sheet_adult_feminine_body_8pose_v1",
+      "asset_type": "character-component-master",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_ocd_source_sheet_adult_feminine_body_8pose_v1"],
+      "rights_note": "Owner-approved Our Civic Duty source sheet; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "Eight adult feminine body poses in one family, chopped by npm run chop:source-sheet. The whole sheet is preserved here as the provenance every chopped cell is reproducible from.",
+      "negative_constraints": [
+        "Every chopped pose carries a green silhouette contour that the approved character style authority does not have. The cells are banked as chopped source components and NONE is promoted.",
+        "Do not treat a chopped cell as production art; chopping is measurement, not approval.",
+        "Do not enlarge this sheet or any cell taken from it."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/references/masters/people-pose/OCD_CANDIDATE_PEOPLE_POSE_ADULT_FEMININE_BODY_FAMILY_8POSE_5056x3392_01.png",
+      "hash": "d6c7bc66a67bd80a2546e7be2e0723c1ae33eb0e2fb0465c6bed1a3d1fac248d",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "ocd_source_sheet_adult_head_diversity_12up_v1",
+      "asset_type": "character-component-master",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_ocd_source_sheet_adult_head_diversity_12up_v1"],
+      "rights_note": "Owner-approved Our Civic Duty source sheet; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "Twelve bald neutral adult heads, chopped by npm run chop:source-sheet. The whole sheet is preserved here as the provenance every chopped cell is reproducible from.",
+      "negative_constraints": [
+        "Chopped and measured. Promotion waits on a released body family to attach to; a head declares the body families it fits, and none is released.",
+        "Do not treat a chopped cell as production art; chopping is measurement, not approval.",
+        "Do not enlarge this sheet or any cell taken from it."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/references/masters/body-head/OCD_CANDIDATE_HEAD_SOURCE_ADULT_DIVERSITY_12UP_3584x4800_01.png",
+      "hash": "a6d797139cd238dd791bed28e92ea5edb70c6b3fa19be72dd60784b40a4bce05",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "ocd_source_sheet_footwear_12up_v1",
+      "asset_type": "character-component-master",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_ocd_source_sheet_footwear_12up_v1"],
+      "rights_note": "Owner-approved Our Civic Duty source sheet; external reuse rights remain unknown.",
+      "fixed_or_modular": "modular",
+      "variant_rules": "Twelve footwear pairs, chopped by npm run chop:source-sheet. The whole sheet is preserved here as the provenance every chopped cell is reproducible from.",
+      "negative_constraints": [
+        "Every pair is drawn as a bonded three-quarter product pair. The body family stands front-on with separated feet, so none of them composites onto it as delivered.",
+        "Do not treat a chopped cell as production art; chopping is measurement, not approval.",
+        "Do not enlarge this sheet or any cell taken from it."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/references/masters/wardrobe/OCD_CANDIDATE_WARDROBE_FOOTWEAR_SOURCE_12UP_3584x4800_01.png",
+      "hash": "fa1abe93d5abe3a0a93d580a7910fd2abf2bd9372c2e913eb5699c52a441989b",
+      "requires_transparency": true
     }
   ]
 }

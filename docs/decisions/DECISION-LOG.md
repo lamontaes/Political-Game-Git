@@ -1794,3 +1794,49 @@ notice.
 Consequence: 26 declared surfaces across seven rooms currently show their
 painted decoration and say why, on a review route, instead of being quietly
 blank or quietly wrong.
+
+## D-073 — A sheet is chopped by its own alpha, and a clean chop is not an approval
+
+- Date: 2026-09-04
+- Status: ACCEPTED
+- Supersedes: none
+
+Four source sheets arrived and 32 components came out of three of them. Two
+rules came out with them.
+
+The first is that the grid is never assumed. These sheets do not divide evenly
+by their column count — 3584 across three columns is 1194.67 — so a fixed
+lattice shaves a pixel off some cells and not others, and the components stop
+being reproducible from the sheet. `source-sheet-chop.ts` projects each sheet's
+own alpha onto both axes and takes a cell as the intersection of one occupied
+column band with one occupied row band. A sheet laid out differently segments
+differently with no parameter changing.
+
+Background haze is cleared first, at alpha 8 rather than the alpha 1 the hair
+intake used, and the threshold is evidence rather than taste: roughly 22% of
+every sheet sits at alpha 1..8, and sampling found 98% of it more than four
+pixels from any pixel above alpha 64. It is background, not the soft edge of
+anything. The count cleared is reported per sheet, because a cleanup nobody can
+see the size of is a cleanup nobody can check.
+
+The second rule is the one that matters more. Twenty of the 32 cells chopped
+perfectly and are still not usable. Eight adult bodies carry a green silhouette
+contour on 67-80% of their soft-edge pixels — the approved character style
+authority has no silhouette stroke of any colour, and at the ~250 plate pixels a
+body actually paints at, the rim is plainly visible. Twelve footwear pairs are
+drawn as bonded three-quarter product views while the body family stands
+front-on with its feet apart. Neither is a quality fault and neither is fixable
+by cropping differently.
+
+So the disposition vocabulary is per cell and separate from the chop: PASS,
+REVISE, REJECT, recorded in `art/qa/p71/source_intake_dispositions.json` with
+the measurement that produced it. Twelve heads PASS. Twenty cells are REVISE. No
+cell was promoted, and no body attachment anchors were authored at all, because
+D-068 requires a production body's six semantic anchors to be measured from the
+raster that actually ships — and this raster is going to be re-exported, so
+anchors measured now would be discarded, and authoring them to look complete is
+precisely the failure D-068 records.
+
+Consequence: chopping is measurement. The project can now take a dense sheet
+apart reproducibly, say what each cell is, and say why a good cell is still not
+shippable, without either discarding the sheet or promoting it.

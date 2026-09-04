@@ -54,6 +54,12 @@
       "kind": "drive-source-library",
       "reference": "Drive 00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/40_HAIR/40A_4K_CHOPPED_HAIR_MASTERS",
       "note": "63 hair components chopped from seven 4096x4096 Firefly source sheets, with the owner's own manifest CSV beside them. All appeared after PR #82 merged."
+    },
+    {
+      "source_id": "drive-p71-2026-09-04-uploads",
+      "kind": "drive-source-library",
+      "reference": "Drive root uploads IMG_5178.PNG, IMG_5181.PNG, IMG_5176.PNG and IMG_5183.JPG of 2026-09-04, with managed copies classified into 05C, 05B, 05F and 05D respectively",
+      "note": "Each managed copy was verified byte-identical to its root original, so the duplicate provenance the packet warned about is confirmed rather than assumed and either path resolves to the same bytes."
     }
   ],
   "entries": [
@@ -510,6 +516,81 @@
         "files_in_folder": 9,
         "largest": "24242162 bytes at 5568x3008, four identical copies",
         "previously_queued_as_approved": "PG_TITLE_BG_COMMUNITY_MEETING_TABLEAU_01_5376x3024.png, PG_TITLE_BG_COURTROOM_CIVIC_TABLEAU_01_5376x3024.png, and the PG-E02 executive office master"
+      }
+    },
+    {
+      "entry_id": "drive-p71-legislative-chamber",
+      "source_id": "drive-p71-2026-09-04-uploads",
+      "label": "A generic legislative chamber floor at 5632x3072",
+      "disposition": "re-homed",
+      "basis": ["technical", "authority"],
+      "reason": "Measured in this repository: true JPEG from its magic bytes, 5632x3072, sha256 matching the managed copy and the root upload alike. It is semantically distinct from the two civic rooms already banked — tiered member desks, a raised rostrum with a lectern, and public galleries, where the hearing room has one curved bench at floor level and the courtroom has pews — so it is the chamber and not a relabelling of something already here. No seal, flag, jurisdiction name or legible word appears in it, and nobody is painted into it.",
+      "verified_by": "measured-in-repository",
+      "rehomed_asset_ids": ["env_legislative_chamber_floor_5632x3072_v1"],
+      "measurements": {
+        "master": "5632x3072 JPEG, 3572368 bytes",
+        "tiers_derived": "1408x768 and 2816x1536, both deterministic-downscale",
+        "enlargement_performed": "none",
+        "anchors_declared": 2,
+        "seat_anchors_declared": 0,
+        "floor_calibration": "not derived; the planks run along the view axis and the member rows are tiered"
+      }
+    },
+    {
+      "entry_id": "drive-p71-adult-body-pose-sheet",
+      "source_id": "drive-p71-2026-09-04-uploads",
+      "label": "Eight adult feminine body poses in one family",
+      "disposition": "banked-not-promoted",
+      "basis": ["technical"],
+      "reason": "Chopped into eight components and measured here. The body family is consistent and correct — 6.8 to 7.2 heads tall standing, one silhouette across all eight, midline stable to within 2 percent on the standing cells — and the pose mapping closes standing-neutral and standing-conversational outright and seated-guest-neutral four times over. Every cell is REVISE for one shared reason: a green contour on 67 to 80 percent of its soft-edge pixels, absent from the approved character style authority and plainly visible at the roughly 250 plate pixels a body paints at. No attachment anchors are authored, because D-068 requires them measured from the raster that ships and this one is being re-exported.",
+      "verified_by": "measured-in-repository",
+      "measurements": {
+        "cells": 8,
+        "disposition_pass": 0,
+        "disposition_revise": 8,
+        "disposition_reject": 0,
+        "background_haze_cleared": "3737548 pixels at alpha<=8, 98% of it far from any figure",
+        "fully_transparent_pixels_carrying_colour": 0,
+        "green_soft_edge_share": "67.2%-79.8% per cell, 8.4% of total figure area",
+        "lectern_pose_present": false
+      }
+    },
+    {
+      "entry_id": "drive-p71-head-diversity-sheet",
+      "source_id": "drive-p71-2026-09-04-uploads",
+      "label": "Twelve bald neutral adult heads",
+      "disposition": "banked-not-promoted",
+      "basis": ["technical", "authority"],
+      "reason": "Chopped into twelve components and measured here. All twelve PASS on their own terms: complete, front-on, cut below the neck, true alpha, no fringe of any colour, and consistent to a degree worth recording — the twelve figure heights span nine pixels and the aspects span 0.05. The diversity is real across skin tone, face structure, age and sex presentation. They are not promoted because a head declares the body families it attaches to, and no body family is released; three of the twelve are also older light-skinned masculine-presenting faces, which is mild redundancy rather than a fault.",
+      "verified_by": "measured-in-repository",
+      "measurements": {
+        "cells": 12,
+        "disposition_pass": 12,
+        "disposition_revise": 0,
+        "disposition_reject": 0,
+        "figure_height_range": "1026-1035 source px",
+        "aspect_range": "0.649-0.699",
+        "sheet_width_below_4608_floor": true,
+        "sheet_width_rejection": "not applied; Packet 71 rules resolution one QA dimension rather than an automatic rejection"
+      }
+    },
+    {
+      "entry_id": "drive-p71-footwear-sheet",
+      "source_id": "drive-p71-2026-09-04-uploads",
+      "label": "Twelve footwear pairs",
+      "disposition": "banked-not-promoted",
+      "basis": ["technical"],
+      "reason": "Chopped into twelve components and measured here. Alpha is clean, no cell carries a fringe, the camera is consistent and the twelve designs cover ordinary life properly. Every one is REVISE for the same structural reason and none for quality: each pair is a bonded three-quarter product view with the shoes overlapping, and the body family stands front-on with the feet apart and the toes toward the camera. The current contract attaches one footwear raster to a single feet anchor and its released fixture is a flat front-on strip. The camera is wrong, not the shoes.",
+      "verified_by": "measured-in-repository",
+      "measurements": {
+        "cells": 12,
+        "disposition_pass": 0,
+        "disposition_revise": 12,
+        "disposition_reject": 0,
+        "low_shoe_aspect_range": "1.57-1.75",
+        "boot_aspect_range": "1.13-1.27",
+        "sheet_width_below_4608_floor": true,
+        "sheet_width_rejection": "not applied; Packet 71 rules resolution one QA dimension rather than an automatic rejection"
       }
     }
   ]

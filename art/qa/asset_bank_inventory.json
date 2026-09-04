@@ -9,6 +9,12 @@
         "path": "art/families/civic-hearing-room/env_civic_hearing_room_runtime_2x_v1.png"
       },
       {
+        "assetId": "env_legislative_chamber_floor_5632x3072_v1",
+        "familyId": "legislative-chamber",
+        "released": true,
+        "path": "art/families/legislative-chamber/env_legislative_chamber_floor_runtime_2x_v1.png"
+      },
+      {
         "assetId": "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
         "familyId": "council-staff-office",
         "released": true,
@@ -51,6 +57,7 @@
       "civic-hearing-room",
       "council-staff-office",
       "executive-private-office",
+      "legislative-chamber",
       "shared-workroom-office"
     ],
     "declaredAwaitingBytes": 7
@@ -72,6 +79,24 @@
     "productionCount": 0
   },
   "masters": [
+    {
+      "assetId": "ocd_source_sheet_adult_feminine_body_8pose_v1",
+      "componentClass": "people-pose",
+      "path": "art/references/masters/people-pose/OCD_CANDIDATE_PEOPLE_POSE_ADULT_FEMININE_BODY_FAMILY_8POSE_5056x3392_01.png",
+      "released": false
+    },
+    {
+      "assetId": "ocd_source_sheet_adult_head_diversity_12up_v1",
+      "componentClass": "body-head",
+      "path": "art/references/masters/body-head/OCD_CANDIDATE_HEAD_SOURCE_ADULT_DIVERSITY_12UP_3584x4800_01.png",
+      "released": false
+    },
+    {
+      "assetId": "ocd_source_sheet_footwear_12up_v1",
+      "componentClass": "wardrobe",
+      "path": "art/references/masters/wardrobe/OCD_CANDIDATE_WARDROBE_FOOTWEAR_SOURCE_12UP_3584x4800_01.png",
+      "released": false
+    },
     {
       "assetId": "pg_master_body_standing_frame_a",
       "componentClass": "bodies",
@@ -302,6 +327,7 @@
       "priority": "P0",
       "blocks": "current-gameplay",
       "consumingAnchors": [
+        "legislative-chamber-production:well-floor-standing",
         "residence-apartment-living-canonical-03:living-room-floor-standing",
         "residence-apartment-living-ordinary-02:living-room-floor-standing",
         "shared-workroom-office-production:kitchenette-standing",
@@ -334,7 +360,8 @@
       "blocks": "current-gameplay",
       "consumingAnchors": [
         "civic-community-meeting-title:podium-speaker",
-        "civic-hearing-room-production:witness-lectern-standing"
+        "civic-hearing-room-production:witness-lectern-standing",
+        "legislative-chamber-production:rostrum-lectern-standing"
       ],
       "missingBodyFamilies": ["dev-g2-broad", "dev-g2-slim"],
       "controlPlate": "art/pose-control-plates/standing-podium-or-lectern__front.svg",
@@ -344,6 +371,7 @@
   ],
   "cargo": {
     "rehomed": [
+      "drive-p71-legislative-chamber",
       "drive-scene-masters-2026-09-03",
       "pr48-body-masters",
       "pr48-bottom-masters",

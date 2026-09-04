@@ -14,6 +14,7 @@ import {
 import { CIVIC_COMMUNITY_MEETING_TITLE_SCENE } from "../environment/scenes/civic-community-meeting-title-production";
 import { CIVIC_HEARING_ROOM_PRODUCTION_SCENE } from "../environment/scenes/civic-hearing-room-production";
 import { COMMITTEE_ROOM_FIXTURE_SCENE } from "../environment/scenes/committee-room-fixture";
+import { LEGISLATIVE_CHAMBER_PRODUCTION_SCENE } from "../environment/scenes/legislative-chamber-production";
 import { OFFICE_COUNCIL_STAFF_FIXTURE_SCENE } from "../environment/scenes/office-council-staff-fixture";
 import {
   RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE,
@@ -303,6 +304,7 @@ export const SCENE_REGISTRY: SceneRegistry = createSceneRegistry([
   SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE,
   CIVIC_COMMUNITY_MEETING_TITLE_SCENE,
   CIVIC_HEARING_ROOM_PRODUCTION_SCENE,
+  LEGISLATIVE_CHAMBER_PRODUCTION_SCENE,
   RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE,
   RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE,
   OFFICE_COUNCIL_STAFF_FIXTURE_SCENE,
@@ -321,6 +323,8 @@ export const COMMITTEE_FIXTURE_SCENE_ID = "committee-room-fixture";
 export const TITLE_TABLEAU_SCENE_ID = "civic-community-meeting-title";
 /** The production hearing room. Distinct from the committee fixture above. */
 export const HEARING_ROOM_SCENE_ID = "civic-hearing-room-production";
+/** The production chamber floor. Distinct from the hearing room and courtroom. */
+export const LEGISLATIVE_CHAMBER_SCENE_ID = "legislative-chamber-production";
 export const DOMESTIC_CANONICAL_SCENE_ID =
   "residence-apartment-living-canonical-03";
 export const DOMESTIC_ORDINARY_SCENE_ID =

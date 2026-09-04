@@ -56,6 +56,8 @@ describe("environment production-authoring queue", () => {
         "shared-workroom-office",
         // The production hearing room, added when its master arrived.
         "civic-hearing-room",
+        // The production chamber floor, added when Packet 71's master arrived.
+        "legislative-chamber",
       ]),
     );
     for (const candidate of request.candidates) {

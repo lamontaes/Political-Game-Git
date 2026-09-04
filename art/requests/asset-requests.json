@@ -1,12 +1,12 @@
 {
   "documentVersion": 1,
-  "generatedFrom": "Packet 68, reconciled against the 2026-09-03 Drive rescan and the released manifest. Hand-authored; validated by src/authoring/asset-request.ts.",
+  "generatedFrom": "Packet 68, reconciled against the 2026-09-03 Drive rescan and the released manifest, then extended by Packet 71's intake of the four 2026-09-04 uploads. Hand-authored; validated by src/authoring/asset-request.ts.",
   "requests": [
     {
       "requestId": "person-production-standing-body",
-      "requestVersion": 1,
+      "requestVersion": 2,
       "priority": "P0",
-      "status": "queued",
+      "status": "revision-requested",
       "title": "A production standing adult body, with head, hair and wardrobe that fit it",
       "consumer": {
         "consumerId": "title-recent-save",
@@ -27,8 +27,8 @@
           "05_4K_SOURCE_MASTERS/05B_BODY_HEAD_SOURCE_SHEETS",
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS"
         ],
-        "found": "46 released components, every one a development fixture. 35 banked pg-* candidates, unreleased and in no catalog generation. 05B and 05C are both empty.",
-        "shortfall": "The banked candidate bodies are gray mannequins kept as structural reference, and their attachment anchors are recorded as non-authoritative (D-068). Releasing them would put a reference mannequin on a production plate, which is the substitution the production path exists to prevent."
+        "found": "Four standing cells arrived on the Packet 71 body sheet — two standing-neutral and two standing-conversational — in one consistent family measured at 6.8 to 7.2 heads tall. The figures are right. The silhouette is not: it carries a green contour on 67 to 80 percent of its soft-edge pixels, which the approved style authority does not have and which is plainly visible at the ~250 plate pixels a body actually paints at.",
+        "shortfall": "The cells are banked under art/generated/candidates/ocd-p71/bodies with per-cell measurements in art/qa/p71/source_intake_dispositions.json. Every one is REVISE. No attachment anchors are authored, because D-068 requires them measured from the raster that ships and this raster is being re-exported."
       },
       "target": {
         "targetClass": "character-component",
@@ -51,13 +51,13 @@
         "Composes with a released head, hair, top, bottom and footwear into a complete plan with no missing layer.",
         "Human visual approval recorded separately from intake acceptance."
       ],
-      "dependsOn": []
+      "dependsOn": ["person-adult-body-silhouette-reexport"]
     },
     {
       "requestId": "person-production-seated-body",
-      "requestVersion": 1,
+      "requestVersion": 2,
       "priority": "P0",
-      "status": "queued",
+      "status": "revision-requested",
       "title": "A production seated adult body for a desk",
       "consumer": {
         "consumerId": "production-office",
@@ -74,8 +74,8 @@
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS",
           "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/30_CHARACTER_CANDIDATES"
         ],
-        "found": "Seated art exists only as the two authored A01/B01 fixture figures and the dev-modular seated fixtures.",
-        "shortfall": "Both are development fixtures and are forbidden on a production plate by the production office's own library filter."
+        "found": "Four seated cells arrived on the same sheet, all seated-guest-neutral, sharing the standing cells' body family. Same silhouette defect, same fix. None places its forearms at a work surface, so seated-at-desk is still only partially covered.",
+        "shortfall": "The cells are banked under art/generated/candidates/ocd-p71/bodies with per-cell measurements in art/qa/p71/source_intake_dispositions.json. Every one is REVISE. No attachment anchors are authored, because D-068 requires them measured from the raster that ships and this raster is being re-exported."
       },
       "target": {
         "targetClass": "character-component",
@@ -96,7 +96,10 @@
         "Pairs with the standing body as one body family, not two people.",
         "Composes into a complete plan at the production office's seat anchor."
       ],
-      "dependsOn": ["person-production-standing-body"]
+      "dependsOn": [
+        "person-production-standing-body",
+        "person-adult-body-silhouette-reexport"
+      ]
     },
     {
       "requestId": "person-child-body-morphology",
@@ -146,9 +149,9 @@
     },
     {
       "requestId": "env-legislative-chamber-floor",
-      "requestVersion": 1,
+      "requestVersion": 2,
       "priority": "P1",
-      "status": "draft",
+      "status": "accepted-promoted",
       "title": "A legislative chamber floor",
       "consumer": {
         "consumerId": "legislative-chamber-floor",
@@ -166,8 +169,8 @@
           "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS",
           "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/10_SCENES/10D_CIVIC_ROOMS"
         ],
-        "found": "Five scene masters, none of them a chamber. 10D_CIVIC_ROOMS is empty. The Texas Senate plan intake is architectural reference, not a plate.",
-        "shortfall": "A hearing room is not a chamber: no member desks in tiers, no rostrum, no galleries."
+        "found": "OCD_CANDIDATE_SCENE_GENERIC_LEGISLATIVE_CHAMBER_FLOOR_5632x3072_01.jpg, the managed copy of root upload IMG_5183.JPG, delivered in Packet 71 and byte-identical to that original.",
+        "shortfall": "None any longer. This is the second request a Drive rescan closed rather than a generation."
       },
       "target": {
         "targetClass": "environment-plate",
@@ -188,7 +191,8 @@
         "Zero baked legible text, seals or jurisdiction identifiers.",
         "Enough visible seat cushions to measure at least one seat plane from the raster itself."
       ],
-      "dependsOn": []
+      "dependsOn": [],
+      "resolutionNote": "Released as env_legislative_chamber_floor_5632x3072_v1 with 1408 and 2816 downscale tiers and registered as legislative-chamber-production. Tiered member desks, a raised rostrum with a lectern, and public galleries; no seal, flag, name or legible word anywhere in it. The rostrum standing anchor's contact is the platform deck rather than the well floor, recorded so a future ramp carries the step. No floor calibration is derived: the planks run along the view axis and the member rows are tiered, so the two-depth solve that calibrated the workroom cannot be run on a floor this room does not have."
     },
     {
       "requestId": "env-executive-office-4k-master",
@@ -506,6 +510,144 @@
       "acceptanceCriteria": ["Not applicable: rejected."],
       "dependsOn": [],
       "resolutionNote": "Rejected and closed. The standing intake request still lists them as approved title-plate candidates; that request is stale and this record is why they were not ingested."
+    },
+    {
+      "requestId": "person-adult-body-silhouette-reexport",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "queued",
+      "title": "Re-export the adult body sheet without the green silhouette contour",
+      "consumer": {
+        "consumerId": "title-recent-save",
+        "runtimeComponent": "src/player/TitleTableau.tsx",
+        "playerVisibleUse": "Any character standing or sitting in any of the six production rooms."
+      },
+      "whyNeeded": "This is the only thing between the project and its first usable person. The eight poses, the body family, the proportions and the alpha are all right; every cell is held back by one edge treatment.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/generated/candidates/ocd-p71/bodies/",
+          "art/references/masters/people-pose/",
+          "art/qa/p71/source_intake_dispositions.json"
+        ],
+        "driveLocationsSearched": [
+          "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS",
+          "Drive root IMG_5178.PNG"
+        ],
+        "found": "The 5056x3392 eight-pose sheet, measured here. Fully transparent pixels carry zero colour, so the background is clean; the defect is confined to the partially-transparent edge, where 67-80 percent of pixels per cell are green-dominant at a mean of roughly (43,79,30). It totals 8.4 percent of the figure's own opaque area.",
+        "shortfall": "The approved style authority PG_STYLE_REFERENCE_CHARACTER_P005_APPROVED.png has no silhouette stroke of any colour, so this is out of family rather than house style. Removing it here would mean rewriting the colour of pixels I cannot verify the correct value of, which is a repair the pipeline should not make silently."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 5056,
+        "aspectRatio": "sheet, 8 cells in a 4x2 grid",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "The Packet 71 sheet itself for body and pose; PG_STYLE_REFERENCE_CHARACTER_P005_APPROVED.png for edge treatment"
+      },
+      "generationRecipe": [
+        "Re-export the SAME eight poses from the same source, with no contour, outline or stroke on the silhouette.",
+        "Change nothing else: same body family, same mass and silhouette, same eight poses, same neutral grey bra and briefs, same bare feet, same blank head form.",
+        "Transparent background with a clean anti-aliased edge and no matte colour carried into the semi-transparent pixels.",
+        "If the green line is a deliberate style choice rather than a keying artefact, say so and the project will treat it as house style instead."
+      ],
+      "acceptanceCriteria": [
+        "Green-dominant pixels are under 2 percent of soft-edge pixels in every cell, measured the same way.",
+        "The eight poses still segment into eight cells with npm run chop:source-sheet.",
+        "Body proportions still measure 6.8-7.2 heads tall standing, matching the cells banked here."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "person-adult-lectern-pose",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "One standing-podium-or-lectern pose in the Packet 71 body family",
+      "consumer": {
+        "consumerId": "legislative-chamber-floor",
+        "runtimeComponent": "src/player/LegislationWorkspace.tsx",
+        "playerVisibleUse": "Speaking at the rostrum lectern in the chamber, or at the lectern in the hearing room or the community hall."
+      },
+      "whyNeeded": "Three production rooms now declare a lectern anchor — the chamber rostrum, the hearing room's testimony lectern and the community hall podium — and no released or candidate body can stand at any of them.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/generated/candidates/ocd-p71/bodies/",
+          "art/manifest/pose_families.json",
+          "art/pose-control-plates/"
+        ],
+        "driveLocationsSearched": [
+          "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS"
+        ],
+        "found": "Eight poses on the Packet 71 sheet, mapped cell by cell: two standing-neutral, two standing-conversational and four seated-guest-neutral. The pose control plate standing-podium-or-lectern__front.svg exists, so the contract and the drawing guide are both already here.",
+        "shortfall": "No cell stands at a lectern or rests its hands on a raised surface. This is the one adult pose the sheet does not provide."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1536,
+        "aspectRatio": "3:4 body canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "The Packet 71 eight-pose sheet, as absolute body-family authority"
+      },
+      "generationRecipe": [
+        "One full-body standing pose at a lectern, in the SAME body family as the eight-pose sheet: same adult age, same mass and silhouette, same torso-to-leg ratio, same limb thickness.",
+        "Hands resting on the top of an unseen lectern at about elbow height, weight settled evenly, square to camera.",
+        "The lectern itself is NOT drawn: the room supplies it.",
+        "Same neutral grey bra and briefs, same bare feet, same blank head form as the rest of the family.",
+        "Transparent background, no silhouette contour."
+      ],
+      "acceptanceCriteria": [
+        "Placed beside the sheet's standing-neutral cell at the same scale, it reads as the same person.",
+        "Hand height matches a lectern top, not a desk and not a rail.",
+        "Green-dominant soft-edge pixels under 2 percent."
+      ],
+      "dependsOn": ["person-adult-body-silhouette-reexport"]
+    },
+    {
+      "requestId": "footwear-front-on-pair-reexport",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "Re-render the twelve footwear pairs front-on to match the body stance",
+      "consumer": {
+        "consumerId": "title-recent-save",
+        "runtimeComponent": "src/player/TitleTableau.tsx",
+        "playerVisibleUse": "What any character has on their feet."
+      },
+      "whyNeeded": "Twelve good shoe designs arrived and none of them can go on the body the project now has.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/generated/candidates/ocd-p71/footwear/",
+          "art/references/masters/wardrobe/",
+          "art/manifest/asset_manifest.json"
+        ],
+        "driveLocationsSearched": [
+          "05_4K_SOURCE_MASTERS/05F_WARDROBE_PROP_SOURCE_SHEETS",
+          "Drive root IMG_5176.PNG"
+        ],
+        "found": "Twelve pairs, chopped and measured: sneakers, a running shoe, a plimsoll, a loafer, an oxford, a work boot, a chukka, a ballet flat, two block heels, a strap sandal and a hiking boot. Alpha is clean and no cell carries a fringe.",
+        "shortfall": "Every pair is drawn as a bonded three-quarter product view with the two shoes overlapping. The body family stands front-on with the feet apart and the toes toward the camera, and the released footwear fixture for the current contract is a flat front-on strip. The camera is wrong, not the shoes."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 3584,
+        "aspectRatio": "sheet, 12 cells in a 3x4 grid",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "The Packet 71 footwear sheet itself, for design and rendering"
+      },
+      "generationRecipe": [
+        "The SAME twelve designs, re-rendered front-on: both shoes level, side by side with a gap between them, toes toward the camera, seen from standing eye level rather than from above.",
+        "Match the separation and the toe direction of the bare feet on the Packet 71 body sheet.",
+        "One pair per cell on the same 3x4 grid, transparent background, no contour.",
+        "Do not redesign any shoe. Only the camera changes."
+      ],
+      "acceptanceCriteria": [
+        "Each pair's two shoes are separated rather than overlapping, and both are seen from the same angle.",
+        "Laid over the body sheet's bare feet at matching scale, toe direction and separation agree.",
+        "Still segments into twelve cells with npm run chop:source-sheet."
+      ],
+      "dependsOn": ["person-adult-body-silhouette-reexport"]
     }
   ]
 }

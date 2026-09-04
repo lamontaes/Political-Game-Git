@@ -5665,3 +5665,68 @@
 .scene-gallery-shortfall {
   color: #55627a;
 }
+
+/* Chopped source components, on the room review route. */
+.scene-gallery-intake {
+  margin-top: 3rem;
+}
+
+.scene-gallery-intake h3 {
+  margin: 1.6rem 0 0.5rem;
+  font-size: 1rem;
+}
+
+.scene-gallery-intake-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scene-gallery-intake-grid li {
+  border: 1px solid #d3d7e0;
+  border-radius: 0.5rem;
+  padding: 0.7rem;
+  background: #fbfbfd;
+  font-size: 0.78rem;
+}
+
+.scene-gallery-intake-grid img {
+  display: block;
+  width: 100%;
+  height: 9rem;
+  object-fit: contain;
+  background: #eceae4;
+  border-radius: 0.3rem;
+}
+
+.scene-gallery-intake-grid p {
+  margin: 0.4rem 0 0;
+}
+
+.scene-gallery-intake-grid li[data-disposition="PASS"] strong {
+  color: #1f5c3d;
+}
+
+.scene-gallery-intake-grid li[data-disposition="REVISE"] strong {
+  color: #8a5a1f;
+}
+
+.scene-gallery-intake-grid li[data-disposition="REJECT"] strong {
+  color: #8a2f2f;
+}
+
+.scene-gallery-intake-name code {
+  font-size: 0.7rem;
+  word-break: break-all;
+}
+
+.scene-gallery-intake-what {
+  color: #16233a;
+}
+
+.scene-gallery-intake-reason {
+  color: #55627a;
+}

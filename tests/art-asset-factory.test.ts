@@ -785,8 +785,8 @@ describe("Packet 76 approved runtime art", () => {
       "human_candidate_B01_left_guest_seated_v1",
     ]);
     // 4 office fixtures + 16 generation-1 and 30 generation-2 DEV components,
-    // plus five released production environment plates.
-    expect(result.runtimeEligibleAssetIds).toHaveLength(55);
+    // plus six released production environment plates.
+    expect(result.runtimeEligibleAssetIds).toHaveLength(56);
     // Everything past the four fixtures is a DEV component except the released
     // production plates, and those are named one by one rather than swept up
     // by "does not start with dev_". Naming them is the point: this list is
@@ -799,6 +799,7 @@ describe("Packet 76 approved runtime art", () => {
         .sort(),
     ).toEqual([
       "env_civic_hearing_room_5504x3072_v1",
+      "env_legislative_chamber_floor_5632x3072_v1",
       "env_residence_apartment_living_canonical_03_5504x3072_v1",
       "env_residence_apartment_living_ordinary_02_5504x3072_v1",
       "env_shared_workroom_office_v1",
@@ -830,6 +831,9 @@ describe("Packet 76 approved runtime art", () => {
       "executive-private-office",
       "shared-workroom-office",
       "civic-hearing-room",
+      // The chamber, added when Packet 71's master arrived and closed the one
+      // environment request that had never had a candidate at all.
+      "legislative-chamber",
     ]);
   });
 

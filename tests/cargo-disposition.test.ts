@@ -54,6 +54,8 @@ describe("cargo disposition ledger", () => {
         // components that had never been dispositioned anywhere.
         "drive-4k-source-master-library",
         "drive-4k-chopped-hair-masters",
+        // The four uploads Packet 71 delivered on 2026-09-04.
+        "drive-p71-2026-09-04-uploads",
       ]),
     );
     for (const source of ledger.sources) {

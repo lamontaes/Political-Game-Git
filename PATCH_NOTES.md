@@ -4,6 +4,22 @@ Newest release first.
 
 ## UNRELEASED — Groundwork
 
+The game has a chamber to legislate in.
+
+A legislative chamber floor — tiered member desks, a raised rostrum with a
+lectern, public galleries above — is now in the game's own art library at full
+size, drawn from a picture four times sharper than it needs. Nothing in the room
+names a state or carries a seal, and the monitor and the papers on the near desk
+are deliberately blank: those say something only when the game genuinely knows
+what to say. Nobody is in the room yet.
+
+The first adult bodies, heads and shoes also arrived and were taken apart into
+32 separate pieces. Twelve faces came through clean. The eight bodies and the
+twelve pairs of shoes did not, for reasons that are written down rather than
+guessed at, and none of them is in the game yet. The short version: the bodies
+have a green line around them that the game's own art style does not use, and
+the shoes are drawn at an angle the bodies' feet are not standing at.
+
 The game has a picture on its front door.
 
 Opening the game used to show a pale page with three buttons on it. It now

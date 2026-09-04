@@ -144,6 +144,28 @@
       "supporting_source_references": [
         "prov_env_civic_hearing_room_5504x3072_v1"
       ]
+    },
+    {
+      "family_id": "legislative-chamber",
+      "room_use_category": "legislative chamber floor with tiered member seating and a presiding rostrum",
+      "typical_proportion_rules": "Scene plate supplies only visual-estimate proportions; no physical dimensions are claimed.",
+      "seating_dais_logic": "Tiered rows of fixed member desks facing a raised rostrum reached by steps, with a lectern on the rostrum and public galleries above.",
+      "public_member_separation": "The galleries are physically separated from the floor. The separation is what the picture shows; it implies no access rule of its own.",
+      "circulation_assumptions": "The open well between the near desk run and the rostrum stays clear.",
+      "camera_framing_guidance": "Wide eye-level plate from the floor, with the near member desk available for character occlusion.",
+      "ceiling_height_category": "unknown",
+      "density_category": "ordinary-legislative-chamber",
+      "ornament_category": "restrained-civic",
+      "reusable_prop_slots": ["desk-monitor", "desk-document", "lectern-notes"],
+      "event_layer_slots": ["well-floor-standing", "rostrum-lectern-standing"],
+      "negative_constraints": [
+        "No physical measurement precision is authorized by the raster plate.",
+        "No jurisdiction rule or canonical simulation fact derives from visible decoration.",
+        "No bill number, tally, agenda, seal, flag or name may be baked into a plate in this family."
+      ],
+      "supporting_source_references": [
+        "prov_env_legislative_chamber_floor_5632x3072_v1"
+      ]
     }
   ]
 }

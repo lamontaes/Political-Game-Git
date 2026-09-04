@@ -1,6 +1,7 @@
 import { useMemo, type CSSProperties } from "react";
 
 import assetRequestDocument from "../../art/requests/asset-requests.json";
+import intakeDispositions from "../../art/qa/p71/source_intake_dispositions.json";
 import {
   openAssetRequests,
   summarizeAssetRequests,
@@ -211,6 +212,118 @@ function SurfaceBindings({ scene }: { readonly scene: RegisteredScene }) {
   );
 }
 
+interface IntakeCell {
+  readonly assetId: string;
+  readonly sourceCell: string;
+  readonly path: string;
+  readonly exportSize: string;
+  readonly disposition: string;
+  readonly reason: string;
+  readonly poseFamily?: string;
+  readonly poseDescription?: string;
+  readonly category?: string;
+}
+
+/**
+ * The chopped source components, with the picture beside the verdict.
+ *
+ * A per-cell disposition is only reviewable if the reviewer can see the cell.
+ * The dispositions are read from the generated intake report rather than
+ * retyped, so this surface cannot drift from what the measurement actually
+ * said.
+ */
+function SourceIntakeSection() {
+  const sheets = (
+    intakeDispositions as unknown as {
+      readonly sheets: Record<
+        string,
+        { readonly master: string; readonly cells: readonly IntakeCell[] }
+      >;
+      readonly poseFamilyCoverage: Record<string, string>;
+    }
+  ).sheets;
+  const coverage = (
+    intakeDispositions as unknown as {
+      readonly poseFamilyCoverage: Record<string, string>;
+    }
+  ).poseFamilyCoverage;
+  const labels: Record<string, string> = {
+    bodyPose: "Adult body poses",
+    headDiversity: "Adult heads",
+    footwear: "Footwear",
+  };
+
+  return (
+    <section
+      className="scene-gallery-intake"
+      data-testid="scene-gallery-intake"
+    >
+      <h2>Chopped source components</h2>
+      <p>
+        Every cell cut from an owner source sheet, with what the measurement
+        said about it. Nothing here is released: a cell that chopped cleanly is
+        a cell that chopped cleanly, which is not the same as art anybody has
+        agreed to ship.
+      </p>
+
+      {Object.entries(sheets).map(([key, sheet]) => (
+        <div
+          key={key}
+          data-testid="scene-gallery-intake-sheet"
+          data-sheet={key}
+        >
+          <h3>
+            {labels[key] ?? key} <small>{sheet.cells.length} cells</small>
+          </h3>
+          <ul className="scene-gallery-intake-grid">
+            {sheet.cells.map((cell) => (
+              <li
+                key={cell.assetId}
+                data-testid="scene-gallery-intake-cell"
+                data-asset-id={cell.assetId}
+                data-disposition={cell.disposition}
+              >
+                <img src={cellUrl(cell.path)} alt="" draggable="false" />
+                <p>
+                  <strong>{cell.disposition}</strong>{" "}
+                  <span>{cell.sourceCell}</span>
+                </p>
+                <p className="scene-gallery-intake-name">
+                  <code>{cell.assetId}</code>
+                </p>
+                <p className="scene-gallery-intake-what">
+                  {cell.poseFamily ?? cell.category ?? "head"}
+                  {cell.poseDescription ? ` — ${cell.poseDescription}` : ""}
+                </p>
+                <p className="scene-gallery-intake-reason">{cell.reason}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+
+      <h3>Which adult poses this closes</h3>
+      <ul data-testid="scene-gallery-pose-coverage">
+        {Object.entries(coverage).map(([family, verdict]) => (
+          <li key={family} data-pose-family={family}>
+            <strong>{family}</strong> {verdict}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+const candidateUrls = import.meta.glob<string>(
+  "../../art/generated/candidates/**/*.png",
+  { eager: true, import: "default", query: "?url" },
+);
+
+function cellUrl(repositoryPath: string): string {
+  const key = `../../${repositoryPath}`;
+  return candidateUrls[key] ?? "";
+}
+
 function RequestRow({ request }: { readonly request: AssetRequest }) {
   return (
     <li data-testid="scene-gallery-request" data-request-id={request.requestId}>
@@ -325,6 +438,8 @@ export function SceneGalleryView() {
           </tbody>
         </table>
       </section>
+
+      <SourceIntakeSection />
 
       <section className="scene-gallery-requests">
         <h2>What is actually missing</h2>

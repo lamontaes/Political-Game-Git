@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { CIVIC_COMMUNITY_MEETING_TITLE_SCENE } from "../environment/scenes/civic-community-meeting-title-production";
 import { CIVIC_HEARING_ROOM_PRODUCTION_SCENE } from "../environment/scenes/civic-hearing-room-production";
 import { COMMITTEE_ROOM_FIXTURE_SCENE } from "../environment/scenes/committee-room-fixture";
+import { LEGISLATIVE_CHAMBER_PRODUCTION_SCENE } from "../environment/scenes/legislative-chamber-production";
 import {
   RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE,
   RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE,
@@ -17,6 +18,7 @@ import {
   DOMESTIC_CANONICAL_SCENE_ID,
   DOMESTIC_ORDINARY_SCENE_ID,
   HEARING_ROOM_SCENE_ID,
+  LEGISLATIVE_CHAMBER_SCENE_ID,
   PRODUCTION_OFFICE_SCENE_ID,
   TITLE_TABLEAU_SCENE_ID,
   registerScene,
@@ -32,6 +34,7 @@ describe("scene registry", () => {
       SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE,
       CIVIC_COMMUNITY_MEETING_TITLE_SCENE,
       CIVIC_HEARING_ROOM_PRODUCTION_SCENE,
+      LEGISLATIVE_CHAMBER_PRODUCTION_SCENE,
       RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE,
       RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE,
       OFFICE_COUNCIL_STAFF_FIXTURE_SCENE,
@@ -45,6 +48,7 @@ describe("scene registry", () => {
       [
         TITLE_TABLEAU_SCENE_ID,
         HEARING_ROOM_SCENE_ID,
+        LEGISLATIVE_CHAMBER_SCENE_ID,
         COMMITTEE_FIXTURE_SCENE_ID,
         OFFICE_FIXTURE_SCENE_ID,
         DOMESTIC_CANONICAL_SCENE_ID,
@@ -71,6 +75,7 @@ describe("scene registry", () => {
         PRODUCTION_OFFICE_SCENE_ID,
         TITLE_TABLEAU_SCENE_ID,
         HEARING_ROOM_SCENE_ID,
+        LEGISLATIVE_CHAMBER_SCENE_ID,
         DOMESTIC_CANONICAL_SCENE_ID,
         DOMESTIC_ORDINARY_SCENE_ID,
       ].sort(),

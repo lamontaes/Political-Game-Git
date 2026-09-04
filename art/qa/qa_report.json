@@ -90,6 +90,26 @@
     "meetsTransparencyReq": null
   },
   {
+    "file": "families/legislative-chamber/env_legislative_chamber_floor_runtime_2x_v1.png",
+    "metadata": {
+      "width": 2816,
+      "height": 1536,
+      "aspectRatio": "11:6",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/legislative-chamber/env_legislative_chamber_floor_v1.png",
+    "metadata": {
+      "width": 1408,
+      "height": 768,
+      "aspectRatio": "11:6",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "families/shared-workroom-office/env_shared_workroom_office_runtime_2x_v1.png",
     "metadata": {
       "width": 2752,
@@ -940,6 +960,326 @@
     "meetsTransparencyReq": true
   },
   {
+    "file": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_conversational_left_v1.png",
+    "metadata": {
+      "width": 908,
+      "height": 1638,
+      "aspectRatio": "454:819",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_gesture_forward_v1.png",
+    "metadata": {
+      "width": 826,
+      "height": 1630,
+      "aspectRatio": "413:815",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_front_v1.png",
+    "metadata": {
+      "width": 859,
+      "height": 1641,
+      "aspectRatio": "859:1641",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_three_quarter_v1.png",
+    "metadata": {
+      "width": 817,
+      "height": 1603,
+      "aspectRatio": "817:1603",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_a_v1.png",
+    "metadata": {
+      "width": 864,
+      "height": 1705,
+      "aspectRatio": "864:1705",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_b_v1.png",
+    "metadata": {
+      "width": 827,
+      "height": 1728,
+      "aspectRatio": "827:1728",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_a_v1.png",
+    "metadata": {
+      "width": 892,
+      "height": 1703,
+      "aspectRatio": "892:1703",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_b_v1.png",
+    "metadata": {
+      "width": 830,
+      "height": 1704,
+      "aspectRatio": "415:852",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_black_cap_toe_oxford_v1.png",
+    "metadata": {
+      "width": 1199,
+      "height": 739,
+      "aspectRatio": "1199:739",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_blue_running_shoe_v1.png",
+    "metadata": {
+      "width": 1167,
+      "height": 789,
+      "aspectRatio": "389:263",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_brown_penny_loafer_v1.png",
+    "metadata": {
+      "width": 1179,
+      "height": 740,
+      "aspectRatio": "1179:740",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_brown_strap_sandal_v1.png",
+    "metadata": {
+      "width": 1183,
+      "height": 791,
+      "aspectRatio": "169:113",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_green_ballet_flat_v1.png",
+    "metadata": {
+      "width": 1181,
+      "height": 760,
+      "aspectRatio": "1181:760",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_grey_court_sneaker_v1.png",
+    "metadata": {
+      "width": 1168,
+      "height": 759,
+      "aspectRatio": "1168:759",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_grey_low_block_heel_v1.png",
+    "metadata": {
+      "width": 1183,
+      "height": 799,
+      "aspectRatio": "1183:799",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_navy_canvas_plimsoll_v1.png",
+    "metadata": {
+      "width": 1172,
+      "height": 742,
+      "aspectRatio": "586:371",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_olive_hiking_boot_v1.png",
+    "metadata": {
+      "width": 1178,
+      "height": 1060,
+      "aspectRatio": "589:530",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_plum_mid_block_heel_v1.png",
+    "metadata": {
+      "width": 1164,
+      "height": 776,
+      "aspectRatio": "3:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_tan_work_boot_v1.png",
+    "metadata": {
+      "width": 1180,
+      "height": 985,
+      "aspectRatio": "236:197",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/footwear/ocd_footwear_taupe_chukka_boot_v1.png",
+    "metadata": {
+      "width": 1208,
+      "height": 981,
+      "aspectRatio": "1208:981",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_deep_oval_adult_v1.png",
+    "metadata": {
+      "width": 806,
+      "height": 1158,
+      "aspectRatio": "403:579",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_deep_round_young_v1.png",
+    "metadata": {
+      "width": 817,
+      "height": 1157,
+      "aspectRatio": "817:1157",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_deep_square_adult_masc_v1.png",
+    "metadata": {
+      "width": 800,
+      "height": 1161,
+      "aspectRatio": "800:1161",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_long_older_v1.png",
+    "metadata": {
+      "width": 810,
+      "height": 1156,
+      "aspectRatio": "405:578",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_oval_young_fem_v1.png",
+    "metadata": {
+      "width": 801,
+      "height": 1156,
+      "aspectRatio": "801:1156",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_oval_young_v1.png",
+    "metadata": {
+      "width": 819,
+      "height": 1157,
+      "aspectRatio": "63:89",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_square_older_lined_v1.png",
+    "metadata": {
+      "width": 849,
+      "height": 1158,
+      "aspectRatio": "283:386",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_light_square_older_masc_v1.png",
+    "metadata": {
+      "width": 832,
+      "height": 1156,
+      "aspectRatio": "208:289",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_olive_oval_adult_v1.png",
+    "metadata": {
+      "width": 800,
+      "height": 1162,
+      "aspectRatio": "400:581",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_tan_oval_adult_fem_v1.png",
+    "metadata": {
+      "width": 830,
+      "height": 1160,
+      "aspectRatio": "83:116",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_tan_round_young_v1.png",
+    "metadata": {
+      "width": 822,
+      "height": 1165,
+      "aspectRatio": "822:1165",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p71/heads/ocd_head_adult_tan_square_adult_masc_v1.png",
+    "metadata": {
+      "width": 814,
+      "height": 1161,
+      "aspectRatio": "814:1161",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png",
     "metadata": {
       "width": 765,
@@ -958,6 +1298,26 @@
       "hasTransparency": "none"
     },
     "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/body-head/OCD_CANDIDATE_HEAD_SOURCE_ADULT_DIVERSITY_12UP_3584x4800_01.png",
+    "metadata": {
+      "width": 3584,
+      "height": 4800,
+      "aspectRatio": "56:75",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
+  },
+  {
+    "file": "references/masters/people-pose/OCD_CANDIDATE_PEOPLE_POSE_ADULT_FEMININE_BODY_FAMILY_8POSE_5056x3392_01.png",
+    "metadata": {
+      "width": 5056,
+      "height": 3392,
+      "aspectRatio": "79:53",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
   },
   {
     "file": "references/masters/pg-modular/bodies/pg_master_body_standing_frame_a.png",
@@ -1210,6 +1570,16 @@
     "meetsTransparencyReq": null
   },
   {
+    "file": "references/masters/scene-environment/OCD_CANDIDATE_SCENE_GENERIC_LEGISLATIVE_CHAMBER_FLOOR_5632x3072_01.jpg",
+    "metadata": {
+      "width": 5632,
+      "height": 3072,
+      "aspectRatio": "11:6",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_CANONICAL_03_5504x3072.jpg",
     "metadata": {
       "width": 5504,
@@ -1288,6 +1658,16 @@
       "hasTransparency": "none"
     },
     "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/masters/wardrobe/OCD_CANDIDATE_WARDROBE_FOOTWEAR_SOURCE_12UP_3584x4800_01.png",
+    "metadata": {
+      "width": 3584,
+      "height": 4800,
+      "aspectRatio": "56:75",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": true
   },
   {
     "file": "references/plans/texas_senate/normalized/habs_tx3326_00013a_normalized.jpg",
