@@ -101,9 +101,18 @@ const CARVED_OUT: readonly OwnedSurface[] = [
  * shell, plus the tests and documentation that describe them. Deliberately
  * narrower than "everything not carved out", so a stray edit into a system
  * nobody has claimed still shows up here.
+ *
+ * Packet 70 extended this list to the conversation system. It is a deliberate
+ * widening rather than a drift: the omnibus audit found a dialogue engine whose
+ * audibility, addressee and decision machinery normal play could not reach, and
+ * the packet that answers it gives this wave the engine, its subjects, its
+ * progress records and its production surface. Nothing carved out moved — the
+ * legislative conversation may exist as a subject here, but its causal
+ * integration with bills stays with the legislation lane, and the carve-out
+ * list below still fails this branch if it reaches for one.
  */
 const OWNED =
-  /^(src\/simulation\/(narrative-threads|life-episodes|episode-bank|setup-opening-bank|setup-questionnaire|setup-questionnaire-bank|setup-priors|player-model|situation-selection|situation-profiles|adult-situations|life-callbacks|life-choice-evidence|commitment-seam|relationship-leverage|sha256|life-places|character-history|world|types|index|boundary\.test|pennywise-adaptive-life\.test)\.ts|src\/presentation\/(life-|narrative-|adult-life|formative-play|ordinary-life|new-game|setup-questionnaire-flow|production-world|adaptive-life\.test|player-spine\.test)|src\/player\/PlayerGame\.tsx|src\/player\/player\.css|scripts\/life-report\.ts|tests\/|docs\/|ARCHITECTURE\.md|PATCH_NOTES\.md|AGENTS\.md|package\.json|package-lock\.json)/;
+  /^(src\/simulation\/(narrative-threads|life-episodes|episode-bank|setup-opening-bank|setup-questionnaire|setup-questionnaire-bank|setup-priors|player-model|situation-selection|situation-profiles|adult-situations|life-callbacks|life-choice-evidence|commitment-seam|relationship-leverage|sha256|life-places|character-history|world|types|index|boundary\.test|pennywise-adaptive-life\.test)\.ts|src\/presentation\/(life-|narrative-|adult-life|formative-play|ordinary-life|new-game|setup-questionnaire-flow|production-world|adaptive-life\.test|player-spine\.test|conversation-subjects|conversation-continuity|conversation-consequences|run-b-conversation|player-conversation)|src\/player\/PlayerGame\.tsx|src\/player\/PlayerConversation\.tsx|src\/player\/player\.css|scripts\/life-report\.ts|tests\/|docs\/|ARCHITECTURE\.md|PATCH_NOTES\.md|AGENTS\.md|package\.json|package-lock\.json)/;
 
 function measuredChanges(): readonly string[] {
   if (!hasCommit(REPOSITORY_ROOT, NARRATIVE_WAVE_BASE)) {

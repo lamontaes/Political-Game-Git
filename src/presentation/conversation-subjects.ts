@@ -21,6 +21,12 @@ import type {
 } from "./run-b-conversation-progress";
 import { conversationRole } from "./run-b-conversation";
 import type {
+  ConversationAftermathSpec,
+  ConversationCommitmentSpec,
+  ConversationOutcome,
+  ConversationRelationshipEffect,
+} from "./conversation-consequences";
+import type {
   ConversationAddressee,
   ConversationDialogueBeat,
   ConversationIntent,
@@ -399,7 +405,11 @@ const schoolProjectSubject: ConversationSubjectPresentation<SchoolProjectConvers
 export function advanceSchoolProject(
   progress: SchoolProjectConversationProgress,
   intent: ConversationIntent,
+  outcome: ConversationOutcome,
 ): SchoolProjectConversationProgress {
+  if (intent === "ask-to-split" && outcome === "boundary-held") {
+    return { ...progress, phase: "raised", latestProposition: null };
+  }
   switch (intent) {
     case "raise-share":
       return { ...progress, phase: "raised", latestProposition: null };
@@ -494,7 +504,19 @@ const neighborhoodMeetingSubject: ConversationSubjectPresentation<NeighborhoodMe
 export function advanceNeighborhoodMeeting(
   progress: NeighborhoodMeetingConversationProgress,
   intent: ConversationIntent,
+  outcome: ConversationOutcome,
 ): NeighborhoodMeetingConversationProgress {
+  // A refusal answers the question. They are not going, and the record says
+  // that rather than saying the player asked and nothing is known.
+  if (intent === "ask-them-to-go" && outcome === "boundary-held") {
+    return {
+      ...progress,
+      phase: "settled",
+      stance: "not-going",
+      latestProposition: "ask-them-to-go",
+      silenceSettled: true,
+    };
+  }
   switch (intent) {
     case "mention-meeting":
       return { ...progress, phase: "raised", latestProposition: null };
@@ -547,7 +569,14 @@ export function conversationSubjectKeys(): readonly ConversationSubjectKey[] {
 export function advanceHouseholdObligation(
   progress: HouseholdObligationConversationProgress,
   intent: ConversationIntent,
+  outcome: ConversationOutcome,
 ): HouseholdObligationConversationProgress {
+  // Being refused is not a settlement. Asking somebody to take the week and
+  // being told no leaves the week exactly where it was, and the conversation
+  // open — which is what the player can see, and what the record should say.
+  if (intent === "ask-for-time" && outcome === "boundary-held") {
+    return { ...progress, phase: "raised", latestProposition: null };
+  }
   switch (intent) {
     case "raise-obligation":
       return { ...progress, phase: "raised", latestProposition: null };
@@ -679,6 +708,40 @@ export interface ConversationCommitContract {
    */
   readonly motivation: string;
   pressure(intent: ConversationIntent): string | null;
+  /**
+   * What this exchange did to the two people in it, if anything.
+   *
+   * Takes the resolved outcome as well as the intent, because being agreed
+   * with and being refused are not the same exchange. A subject that returns
+   * null for an intent is saying that saying it changes nothing between them,
+   * which stays the common case: most of what people say to each other leaves
+   * the relationship exactly where it was.
+   */
+  relationship?(
+    intent: ConversationIntent,
+    outcome: ConversationOutcome,
+  ): ConversationRelationshipEffect | null;
+  /**
+   * What this exchange obliged somebody to, if anything.
+   *
+   * Only where the line explicitly undertakes something. "That helps" is not a
+   * commitment; "I will do it this week" is.
+   */
+  commitment?(
+    intent: ConversationIntent,
+    outcome: ConversationOutcome,
+  ): ConversationCommitmentSpec | null;
+  /**
+   * What may come back later, if anything.
+   *
+   * Almost always null, and it has to stay almost always null for the same
+   * reason the situation banks do: a game where every promise returns has
+   * promised the player a payoff for every sentence.
+   */
+  aftermath?(
+    intent: ConversationIntent,
+    outcome: ConversationOutcome,
+  ): ConversationAftermathSpec | null;
 }
 
 /** What a choice sentence may name, without reaching for the room itself. */
@@ -746,6 +809,26 @@ const COMMIT_CONTRACTS: Readonly<
         "The player pressed for an answer on the checklist or last case.",
       listen: () => "The player listened for the next relevant contribution.",
     }),
+    // The office pair the engine already had, now said by the subject that
+    // owns them rather than by a table in the middle of the engine.
+    relationship: (intent) =>
+      intent === "reassure"
+        ? {
+            kind: "work:reassurance",
+            change: "strengthened",
+            significance: "meaningful",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} kept the request narrow, strengthening the working exchange with ${otherName}.`,
+          }
+        : intent === "press"
+          ? {
+              kind: "conflict:pressed-for-answer",
+              change: "strained",
+              significance: "meaningful",
+              summary: ({ playerName, otherName }) =>
+                `${playerName} pressed for an immediate answer, straining the exchange with ${otherName}.`,
+            }
+          : null,
   },
   "transit-access-pilot-provision": {
     subject: "transit-access-pilot-provision",
@@ -800,6 +883,84 @@ const COMMIT_CONTRACTS: Readonly<
       listen: () =>
         "The player left the question of who carries the week unanswered.",
     }),
+    relationship: (intent, outcome) => {
+      switch (intent) {
+        case "raise-obligation":
+          // Saying a thing out loud is not yet a kindness or an injury. It is
+          // the two of them still being on speaking terms about it.
+          return {
+            kind: "support:shared-load",
+            change: "maintained",
+            significance: "minor",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} said out loud to ${otherName} what neither of them had been saying about the week.`,
+          };
+        case "offer-to-cover":
+          return {
+            kind: "support:shared-load",
+            change: "strengthened",
+            significance: "meaningful",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} took the week off ${otherName} without being asked to.`,
+          };
+        case "ask-to-share":
+          return {
+            kind: "support:shared-load",
+            change: "strengthened",
+            significance: "minor",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} and ${otherName} split the week between them instead of leaving it with one of them.`,
+          };
+        case "ask-for-time":
+          // The one that turns on the answer. Being taken on is a small
+          // friction; being refused is the argument neither of them wanted.
+          return outcome === "boundary-held"
+            ? {
+                kind: "conflict:household-friction",
+                change: "strained",
+                significance: "meaningful",
+                summary: ({ playerName, otherName }) =>
+                  `${playerName} asked ${otherName} to take the week, and was told no.`,
+              }
+            : {
+                kind: "conflict:household-friction",
+                change: "strained",
+                significance: "minor",
+                summary: ({ playerName, otherName }) =>
+                  `${playerName} put the week onto ${otherName}, who took it and said it was not every week.`,
+              };
+        default:
+          return null;
+      }
+    },
+    commitment: (intent, outcome) => {
+      if (intent === "offer-to-cover") {
+        return {
+          holder: "player",
+          kind: "personal:household-errands",
+          label: "Covering the week's errands at home",
+          weeklyHours: [1, 3],
+        };
+      }
+      if (intent === "ask-for-time" && outcome !== "boundary-held") {
+        // Theirs, not the player's. The player asked; the other person is the
+        // one now carrying it.
+        return {
+          holder: "counterpart",
+          kind: "personal:household-errands",
+          label: "Covering the week's errands at home",
+          weeklyHours: [1, 3],
+        };
+      }
+      return null;
+    },
+    aftermath: (intent, outcome) =>
+      // Handing your week to somebody else is the kind of thing that gets
+      // remembered. Taking theirs is finished when you have done it — which is
+      // why the more generous-looking option is the one that schedules nothing.
+      intent === "ask-for-time" && outcome !== "boundary-held"
+        ? "obligation"
+        : null,
   },
   "school-project-share": {
     subject: "school-project-share",
@@ -829,6 +990,53 @@ const COMMIT_CONTRACTS: Readonly<
       listen: () =>
         "The player left the question of who does which part unanswered.",
     }),
+    relationship: (intent, outcome) => {
+      switch (intent) {
+        case "raise-share":
+          return {
+            kind: "work:reassurance",
+            change: "maintained",
+            significance: "minor",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} put the unstarted work in front of ${otherName} rather than working around it.`,
+          };
+        case "offer-to-do-more":
+          return {
+            kind: "support:shared-load",
+            change: "strengthened",
+            significance: "meaningful",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} took the part nobody had started, and ${otherName} let them.`,
+          };
+        case "ask-to-split":
+          return outcome === "boundary-held"
+            ? {
+                kind: "conflict:pressed-for-answer",
+                change: "strained",
+                significance: "minor",
+                summary: ({ playerName, otherName }) =>
+                  `${playerName} asked for an even split and ${otherName} would not agree one.`,
+              }
+            : {
+                kind: "work:reassurance",
+                change: "strengthened",
+                significance: "minor",
+                summary: ({ playerName, otherName }) =>
+                  `${playerName} and ${otherName} agreed which half each of them was doing.`,
+              };
+        default:
+          return null;
+      }
+    },
+    commitment: (intent) =>
+      intent === "offer-to-do-more"
+        ? {
+            holder: "player",
+            kind: "personal:school-project",
+            label: "The part of the project nobody else started",
+            weeklyHours: [1, 4],
+          }
+        : null,
   },
   "neighborhood-meeting-notice": {
     subject: "neighborhood-meeting-notice",
@@ -857,6 +1065,56 @@ const COMMIT_CONTRACTS: Readonly<
         `The player asked ${addresseeName} to go to the meeting instead.`,
       listen: () => "The player said nothing about whether anybody would go.",
     }),
+    relationship: (intent, outcome) => {
+      switch (intent) {
+        case "mention-meeting":
+          return {
+            kind: "contact:neighborly",
+            change: "maintained",
+            significance: "minor",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} stopped long enough to mention the notice to ${otherName}.`,
+          };
+        case "say-you-will-go":
+          return {
+            kind: "contact:neighborly",
+            change: "strengthened",
+            significance: "minor",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} told ${otherName} they would be at the meeting.`,
+          };
+        case "ask-them-to-go":
+          return outcome === "boundary-held"
+            ? {
+                kind: "conflict:pressed-for-answer",
+                change: "strained",
+                significance: "minor",
+                summary: ({ playerName, otherName }) =>
+                  `${playerName} tried to hand the evening to ${otherName}, who was not taking it.`,
+              }
+            : {
+                kind: "contact:neighborly",
+                change: "maintained",
+                significance: "minor",
+                summary: ({ playerName, otherName }) =>
+                  `${playerName} put the meeting back to ${otherName} rather than answering it.`,
+              };
+        default:
+          return null;
+      }
+    },
+    commitment: (intent) =>
+      intent === "say-you-will-go"
+        ? {
+            holder: "player",
+            kind: "civic:neighborhood-meeting",
+            label: "The neighborhood meeting you said you would go to",
+            weeklyHours: [1, 2],
+          }
+        : null,
+    // An evening you said out loud you would give is exactly the kind of thing
+    // a neighbour remembers whether or not you turned up.
+    aftermath: (intent) => (intent === "say-you-will-go" ? "obligation" : null),
   },
 };
 

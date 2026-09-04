@@ -96,6 +96,12 @@ const RETURN_SUMMARY: Readonly<Record<string, string>> = {
   "adult.partner-plan": "The plan you settled on stopped being settled.",
   "adult.work-offer-elsewhere":
     "What you did about the offer got back to somebody it was not supposed to.",
+  "conversation.subject.household-obligation":
+    "The week you handed over turned out to have been counted, and it was raised without much warmth.",
+  "conversation.subject.neighborhood-meeting":
+    "The evening you said you would give came up again, from somebody who had noticed whether you gave it.",
+  "conversation.subject.school-project":
+    "The half of the work you agreed to was remembered rather more exactly than you remembered agreeing to it.",
 };
 
 const GENERIC_RETURN =
@@ -135,7 +141,19 @@ export interface AftermathContext {
   readonly world: World;
   readonly personId: EntityId;
   /** What was chosen. Not why it was offered. */
-  readonly situationKey: LifeSituationKey;
+  /**
+   * What produced this, said in the vocabulary of whatever produced it.
+   *
+   * Situations and episode stages name themselves with a life-situation key.
+   * A conversation names itself `conversation:<subject>`, because a promise
+   * made in a room is the same kind of thing as a promise made by pressing a
+   * button and must reach the same three questions — but calling it a
+   * situation it is not would put a word in the record that is not true.
+   *
+   * Nothing in this module branches on it. It is carried so that whatever
+   * reads the scheduled item later can say where it came from.
+   */
+  readonly situationKey: LifeSituationKey | `conversation:${string}`;
   readonly optionKey: string;
   readonly aftermath: AdultAftermathKind | null;
   readonly counterpartPersonId: EntityId | null;
@@ -341,7 +359,13 @@ export function lifeCallbackTransitionHandler(
     .find((candidate) => candidate !== personId);
 
   // Who and what the situation was about, asked again of a later world.
-  const situationTag = origin.tags.find((tag) => tag.startsWith("adult."));
+  //
+  // A conversation names itself with its subject tag rather than a situation
+  // key, because a promise made in a room is not a situation. Both are read the
+  // same way here so a callback does not have to know which produced it.
+  const situationTag =
+    origin.tags.find((tag) => tag.startsWith("adult.")) ??
+    origin.tags.find((tag) => tag.startsWith("conversation.subject."));
   if (
     situationTag === "adult.promise-comes-due" ||
     situationTag === "adult.care-request"
@@ -432,7 +456,13 @@ export function lifeCallbackTransitionHandler(
           ],
           personFactConstraints: [],
           visibility: "limited",
-          tags: ["life.callback", situationTag ?? "life.callback"],
+          // Deduplicated: an origin with no situation tag of its own used to
+          // produce ["life.callback", "life.callback"], which the world
+          // integrity check rejects. Nothing reached that path while every
+          // aftermath came from an adult situation.
+          tags: [
+            ...new Set(["life.callback", situationTag ?? "life.callback"]),
+          ],
           summary: returned,
           context: {
             location: null,
