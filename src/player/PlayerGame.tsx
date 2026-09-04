@@ -1218,6 +1218,20 @@ function PlayingScreen({
         <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
       )}
 
+      {/*
+        Every conversation this life can have, and not only in adulthood.
+        These sat inside the ordinary-day surface, which the growing-up years
+        deliberately do not render — so a fifteen-year-old could not reach any
+        conversation at all, including the one written for a school corridor.
+        Which conversations appear is decided by the world; this screen only
+        decides that a life has them at every age.
+      */}
+      <PlayerConversations
+        world={session.world}
+        personId={session.personId}
+        onWorldChange={onWorldChange}
+      />
+
       {capabilities.legislation && capabilities.legislativeScenarioKey ? (
         <section className="game-office" data-testid="office-section">
           <h2>The office</h2>
@@ -1505,15 +1519,6 @@ function OrdinaryDayView({
           <small>Move to tomorrow.</small>
         </button>
       </div>
-      {/*
-        Every conversation this life can have, not merely the one at home. Which
-        of them appear is decided by the world rather than by this screen.
-      */}
-      <PlayerConversations
-        world={session.world}
-        personId={session.personId}
-        onWorldChange={onWorldChange}
-      />
     </section>
   );
 }

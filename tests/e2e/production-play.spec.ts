@@ -413,17 +413,20 @@ test.describe("What the world records, it keeps", () => {
   }) => {
     await freshBrowser(page);
     await startLife(page, { age: 36 });
-    await expect(page.getByTestId("household-conversation")).toBeVisible();
+    // A day now offers more than one conversation, so everything below is
+    // scoped to the kitchen one rather than to whichever the page drew first.
+    const kitchen = page.getByTestId("conversation-household-obligation");
+    await expect(kitchen).toBeVisible();
 
-    const topic = await page.getByTestId("conversation-topic").innerText();
+    const topic = await kitchen.getByTestId("conversation-topic").innerText();
     expect(topic).not.toMatch(/constituent|referral|office/i);
 
-    await page
+    await kitchen
       .getByTestId("conversation-intents")
       .getByRole("button")
       .first()
       .click();
-    const afterTurn = await page
+    const afterTurn = await kitchen
       .getByTestId("conversation-briefing")
       .innerText();
     await keepAndWait(page);
@@ -432,9 +435,11 @@ test.describe("What the world records, it keeps", () => {
     await page.getByTestId("continue").click();
     // The conversation picks up where it was left, rather than reopening at
     // turn one because the screen forgot what the world remembered.
-    await expect(page.getByTestId("conversation-briefing")).toHaveText(
-      afterTurn,
-    );
+    await expect(
+      page
+        .getByTestId("conversation-household-obligation")
+        .getByTestId("conversation-briefing"),
+    ).toHaveText(afterTurn);
   });
 
   test("keeps a legislative step in the player's own save", async ({

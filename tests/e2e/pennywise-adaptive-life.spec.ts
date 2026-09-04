@@ -240,8 +240,11 @@ test.describe("An adult has something to do, and it follows from their life", ()
     await expect(page.getByTestId("story-section")).toBeVisible();
     await expect(page.getByTestId("ordinary-section")).toBeVisible();
     await expect(page.getByTestId("day-pending")).toBeVisible();
-    // And the household conversation the shell already had.
-    await expect(page.getByTestId("household-conversation")).toBeVisible();
+    // And the kitchen conversation, which is now one of several the day
+    // offers rather than the single hard-wired panel it used to be.
+    await expect(
+      page.getByTestId("conversation-household-obligation"),
+    ).toBeVisible();
   });
 
   test("shows a child a life and no adult day surface", async ({ page }) => {
