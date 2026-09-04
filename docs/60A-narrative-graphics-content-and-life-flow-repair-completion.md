@@ -6,16 +6,16 @@ under its CURRENT LAUNCH OVERRIDE of 2026-09-04.
 
 ## Exact state
 
-|                |                                                                                                |
-| -------------- | ---------------------------------------------------------------------------------------------- |
-| Repository     | `lamontaes/Political-Game-Git`                                                                 |
-| Accepted base  | `6311dd688331985d5682b39910bf2b917d46d11b` (merge of PR #82)                                   |
-| Base verified  | Fetched live from GitHub before editing; `origin/main` was at that exact SHA and had not moved |
-| Branch         | `claude/pr81-narrative-graphics-lifeflow-t8j8oe`                                               |
-| Head           | `479dbdb55373f7a1980651e49eebd4a3d7c42d9a`                                                     |
-| Pull request   | [#87](https://github.com/lamontaes/Political-Game-Git/pull/87), draft, **left unmerged**       |
-| Donor re-homed | PR #81 at `f1a29f67e621e3ee7c99fc0b5228f4f552c68464`, cherry-picked as the first commit        |
-| Diff           | 50 files changed, ~23,000 insertions                                                           |
+|                       |                                                                                                                                                                                                                |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Repository            | `lamontaes/Political-Game-Git`                                                                                                                                                                                 |
+| Accepted base         | `6311dd688331985d5682b39910bf2b917d46d11b` (merge of PR #82)                                                                                                                                                   |
+| Base verified         | Fetched live from GitHub before editing; `origin/main` was at that exact SHA and had not moved                                                                                                                 |
+| Branch                | `claude/pr81-narrative-graphics-lifeflow-t8j8oe`                                                                                                                                                               |
+| Head (implementation) | `479dbdb55373f7a1980651e49eebd4a3d7c42d9a` — the last code commit. This report and one scratch-file removal follow it, so the branch tip is later; a self-referential SHA is not something a report can carry. |
+| Pull request          | [#87](https://github.com/lamontaes/Political-Game-Git/pull/87), draft, **left unmerged**                                                                                                                       |
+| Donor re-homed        | PR #81 at `f1a29f67e621e3ee7c99fc0b5228f4f552c68464`, cherry-picked as the first commit                                                                                                                        |
+| Diff                  | 50 files changed, ~23,000 insertions                                                                                                                                                                           |
 
 ### Commits
 
@@ -595,4 +595,6 @@ not claim they are.
 
 ---
 
-_Report written 2026-09-04 against head `479dbdb`._
+_Report written 2026-09-04 against implementation head `479dbdb`. The branch
+tip is later: it carries this report and the removal of a Playwright scratch
+config that should never have been committed._
