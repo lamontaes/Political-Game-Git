@@ -1028,3 +1028,76 @@ line-item and amendatory vetoes, confirmations, and the wider fifty states
 remain deliberately unimplemented. No pack currently resolves what becomes of a
 measure still pending at adjournment, so no measure can be recorded as dying
 that way until one does.
+
+## D-057 — Authored content is described by a declarative bank contract, not re-authored
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+
+The game's authored content lives in the modules that run it: formative
+situations in `character-history.ts`, conversation subjects in
+`conversation-subjects.ts`, the ordinary week in `ordinary-life.ts`, measures in
+`legislation-scenarios.ts`, institutional procedure in
+`legislature-rule-packs.ts`, and the personality, policy, metric, causal,
+incident and mortality definitions in their own catalogs. Each describes itself
+in its own vocabulary, which is correct for the code that runs it and useless
+for reviewing what the game contains.
+
+`src/content/` describes that content and does not re-author it. Adapters read
+banks that already exist; the banks keep their own shapes, their own stable
+keys, and their authority over what they mean. A bank id is a stable dotted
+content key checked with the existing `assertDottedContentKey`; an item id is
+`${bankId}/${itemKey}` where `itemKey` is exactly the key the source bank
+already uses, because renaming existing content to satisfy an index would be
+the index changing the game.
+
+Rejected: migrating the banks into one authored content format. That would
+rewrite content this lane does not own, and would make the index the source of
+truth for content whose truth lives in the modules that run it.
+
+Rejected: a second selection or orchestration engine over the index. Selection
+stays where it already is. The index holds no world, evaluates no eligibility,
+and cannot change anything.
+
+Every dimension is either declared by the bank or explicitly undeclared with
+the reason it is. There is no third state and no default, because an index that
+quietly invents a prerequisite reviews as fact. Two undeclared dimensions are
+findings rather than gaps: formative eligibility is a predicate over a world in
+`formativeEligibilityProvider` and has no declarative form to read, and a
+conversation subject's intents come from `availableIntents(world, room,
+addressee, progress, …)` and cannot be enumerated without a world. Making either
+declarative is a change to the bank that owns it.
+
+Authority and status are read from the repository, not invented. Legislative
+rule packs are `sourced` and carry their citations, retrieval dates and
+verification statuses through into the index. Situations, subjects, the ordinary
+week and the measures are `authored` — the measures keep the notice that says
+the procedure is sourced and the bill is not real. The synthetic catalogs are
+`synthetic-fixture` and `excluded-from-production`, which is what
+`assertProductionCatalogBoundary` already enforces. The production catalogs are
+`unestablished` and appear in the index as an empty bank, because "nothing has
+been established here" is a fact about the game and belongs in a review surface
+rather than being absent from it.
+
+Nothing counts. No test and no surface asserts how much content exists, so
+authoring one more situation is never a failure, and a bank registered later is
+one adapter and one line.
+
+Both exports are deterministic. The JSON goes through `canonicalJson` for the
+same reason a world snapshot does — key order is not content — and both carry a
+content digest so two reports can be compared. An export that changed between
+two identical runs could not be diffed, and a diff is what a reviewer does with
+one.
+
+The Content Browser is a development route at `?view=content`, alongside the
+developer viewer, the character proof, the legislation workspace and the office
+fixture. Nothing player-facing links to it or imports it, and tests assert both
+the route and the one-way dependency.
+
+Consequence: what the game has written down can be read, searched and exported
+without opening the game or building a world, and Packet 60 section O's
+declarative content-bank and Content Browser obligations are discharged here
+rather than rebuilt. Extracting declarative metadata from `run-b-conversation`'s
+dialogue and from the Run-C working document remains deliberately unimplemented:
+both are world- and state-dependent renderings, not banks.
