@@ -507,11 +507,25 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
       ],
     },
     {
+      // The adult half of a childhood.
+      //
+      // This stage used to require only that the first one had been played, so
+      // it arrived identically whatever the player had done at fifteen. It now
+      // requires the choice by name: this is the version for somebody who went
+      // with them, and the version below is for somebody who did not. Two lives
+      // with the same seed and different answers at that afternoon diverge here
+      // for a reason the record can be asked about, rather than reading the
+      // same scene with a different sentence in front of it.
       key: "still-there-later",
       requires: [
         needsFamiliar,
         { kind: "age-at-least", age: 21 },
         { kind: "after-stage", stage: "the-year-you-were-inseparable" },
+        {
+          kind: "after-choice",
+          stage: "the-year-you-were-inseparable",
+          option: "go",
+        },
         {
           kind: "days-since-stage",
           stage: "the-year-you-were-inseparable",
@@ -564,6 +578,75 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
           aftermath: "grievance",
           memory:
             "You turned {role:familiar} down after all those years, and heard how it landed.",
+        },
+      ],
+    },
+    {
+      // The same years later, for somebody who did not go.
+      //
+      // Reached by `without-choice` on the same childhood afternoon, so exactly
+      // one of these two can ever open in a life. What is different is not the
+      // outcome — both can go anywhere — but what the other person leads with,
+      // which is the thing they have actually been carrying.
+      key: "the-one-you-did-not-go-with",
+      requires: [
+        needsFamiliar,
+        { kind: "age-at-least", age: 21 },
+        { kind: "after-stage", stage: "the-year-you-were-inseparable" },
+        {
+          kind: "without-choice",
+          stage: "the-year-you-were-inseparable",
+          option: "go",
+        },
+        {
+          kind: "days-since-stage",
+          stage: "the-year-you-were-inseparable",
+          days: 1200,
+        },
+      ],
+      lines: [
+        "{role:familiar} is in touch after years of nothing much, and gets to it quickly.",
+        "Somewhere in the first two minutes they bring up the afternoon you did not come, and they are laughing when they say it.",
+      ],
+      stakes: "notable",
+      tensions: [
+        tension(
+          ["personal-ties", "security-stability"],
+          [1, 1],
+          "They are asking for something, and they have brought a receipt with them.",
+        ),
+      ],
+      mayLeadTo: [],
+      options: [
+        {
+          key: "own-it",
+          label: "Agree that you did not come",
+          description: "Say it plainly, and then hear what they want.",
+          nudges: [nudge("personal-ties", 0.4), nudge("decision-style", 0.3)],
+          aftermath: null,
+          memory:
+            "You agreed with {role:familiar} that you had not come that day, and it took the edge off it.",
+        },
+        {
+          key: "say-it-was-years-ago",
+          label: "Say that was a long time ago",
+          description: "You are not doing this part again.",
+          nudges: [
+            nudge("security-stability", 0.35),
+            nudge("personal-ties", -0.25),
+          ],
+          aftermath: "grievance",
+          memory:
+            "You told {role:familiar} the afternoon they keep bringing up was a long time ago.",
+        },
+        {
+          key: "help-anyway",
+          label: "Help with whatever it is",
+          description: "Whatever they are working up to, say yes to it.",
+          nudges: [nudge("personal-ties", 0.5), nudge("care-obligation", 0.3)],
+          aftermath: "obligation",
+          memory:
+            "You helped {role:familiar} with what they had come to ask, and neither of you mentioned the afternoon again.",
         },
       ],
     },
@@ -1100,10 +1183,23 @@ const WORK_STANDING: EpisodeFamily = {
       ],
     },
     {
+      // Somebody heard how you handled it — which requires that you handled it.
+      //
+      // This stage's own prose said the offer came out of that morning while
+      // its eligibility asked only that the morning had happened, so it arrived
+      // in exactly the same words for a player who had passed the decision
+      // upwards and never made it. The `without-choice` below is the repair:
+      // put it up the line and there is nothing anybody could have heard about,
+      // and the stage under this one is what happens instead.
       key: "the-offer",
       requires: [
         { kind: "fact", fact: "work.employed" },
         { kind: "after-stage", stage: "the-rule-and-the-person" },
+        {
+          kind: "without-choice",
+          stage: "the-rule-and-the-person",
+          option: "escalate",
+        },
         {
           kind: "days-since-stage",
           stage: "the-rule-and-the-person",
@@ -1166,6 +1262,82 @@ const WORK_STANDING: EpisodeFamily = {
           aftermath: "grievance",
           memory:
             "You told your own side about the offer, and watched what they did with it.",
+        },
+      ],
+    },
+    {
+      // What happens instead, for somebody who did not decide.
+      //
+      // Reached by `after-choice` on the same morning, so exactly one of this
+      // and the offer above can open in a working life. Passing a decision
+      // upwards is a real answer with real consequences; it is just not the one
+      // that gets somebody talked about.
+      key: "it-came-back-down",
+      requires: [
+        needsColleague,
+        { kind: "fact", fact: "work.employed" },
+        {
+          kind: "after-choice",
+          stage: "the-rule-and-the-person",
+          option: "escalate",
+        },
+        {
+          kind: "days-since-stage",
+          stage: "the-rule-and-the-person",
+          days: 300,
+        },
+      ],
+      lines: [
+        "The answer came back down eventually, and it was the one you would have given.",
+        "{role:colleague} mentions, without any particular edge, that it took nine weeks and that the person it was about had stopped asking by then.",
+      ],
+      stakes: "ordinary",
+      tensions: [
+        tension(
+          ["institutional-trust", "care-obligation"],
+          [1, 1],
+          "The process worked and arrived too late to be any use to anybody.",
+        ),
+      ],
+      mayLeadTo: [],
+      options: [
+        {
+          key: "say-it-should-have-been-mine",
+          label: "Say it should not have taken nine weeks",
+          description: "To the person who can change how it is done.",
+          nudges: [
+            nudge("institutional-trust", -0.3),
+            nudge("decision-style", 0.4),
+            nudge("civic-order", 0.2),
+          ],
+          aftermath: "standing",
+          memory:
+            "You said out loud that the nine weeks had been the problem, to somebody who could do something about it.",
+        },
+        {
+          key: "decide-it-next-time",
+          label: "Decide the next one yourself",
+          description: "And do not put it up the line.",
+          nudges: [
+            nudge("decision-style", 0.45),
+            nudge("risk-appetite", 0.3),
+            nudge("institutional-trust", -0.2),
+          ],
+          aftermath: null,
+          memory:
+            "You decided that the next one like it would not be going up the line.",
+        },
+        {
+          key: "leave-the-process-alone",
+          label: "Leave the process where it is",
+          description: "It is not yours to redesign.",
+          nudges: [
+            nudge("institutional-trust", 0.35),
+            nudge("security-stability", 0.25),
+          ],
+          aftermath: null,
+          memory:
+            "You left the nine weeks alone, on the grounds that the process was not yours.",
         },
       ],
     },
