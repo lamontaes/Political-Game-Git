@@ -4,6 +4,65 @@ Canonical completion report for
 `60_CLAUDE_PR81_NARRATIVE_GRAPHICS_CONTENT_AND_LIFE_FLOW_REPAIR_MEGA_PATCH`,
 under its CURRENT LAUNCH OVERRIDE of 2026-09-04.
 
+---
+
+# OMNIBUS EXECUTIVE SUMMARY — ONE PAGE
+
+Packet 60's addendum of 2026-09-04 made this an omnibus run: one implementation
+wave plus three exhaustive print deliverables. All four are done. Nothing was
+merged.
+
+**The four documents**
+
+| Doc            | What it is                                                            | Drive                                                                                                                                |
+| -------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **60A** (this) | What was built, validated and left unmerged                           | [1WijsgrT0Ar_VuZy-xyCFAP-kPmKid6R4uNfNO41SZPo](https://docs.google.com/document/d/1WijsgrT0Ar_VuZy-xyCFAP-kPmKid6R4uNfNO41SZPo/edit) |
+| **60B**        | Full visual, UI and graphics coverage audit — print edition           | [1nahTWoRoklCpM2kvWwwuYQiqmXqrt6tLA72_lc8N36Q](https://docs.google.com/document/d/1nahTWoRoklCpM2kvWwwuYQiqmXqrt6tLA72_lc8N36Q/edit) |
+| **60C**        | Full dialogue, conversation, branching and copy audit — print edition | [1hOZ-bE-_gB6fhqKvEFJ4biN47Fd3-LDeXATpBlDoRcs](https://docs.google.com/document/d/1hOZ-bE-_gB6fhqKvEFJ4biN47Fd3-LDeXATpBlDoRcs/edit) |
+| **60D**        | Engine and systems field guide — owner print edition                  | [1Ay9c2BtbucI4WtPcrLA73oJPbTUgSXYv4yBV5Eu84DI](https://docs.google.com/document/d/1Ay9c2BtbucI4WtPcrLA73oJPbTUgSXYv4yBV5Eu84DI/edit) |
+
+Repo copies: `docs/60A-…`, `docs/60B-…`, `docs/60C-…`, `docs/60D-…`.
+
+**What the implementation wave delivered.** PR #81's Pennywise and adaptive
+machinery re-homed onto accepted main `6311dd6` as its own first commit; the
+calibration rebuilt as the opening of a life that stops on an information-gain
+floor (19 / 22 / 37 questions measured for three answer patterns); a narrative
+thread index that never infers a link from adjacency; nine multi-stage episode
+families (32 stages, 87 options) that bind real people and branch on the exact
+option chosen months earlier; connective time-passage narration; a journal;
+an options screen; and six mandatory play-proof paths proven deterministically.
+`npm run validate` green (1,423 tests / 88 files); 134 browser tests passing.
+
+**What the three audits found, in one line each.**
+
+- **60B.** The production game renders no scene art at all — every illustrated
+  surface ever built lives behind `?view=office-fixture`. Exactly **one**
+  production-class asset is released in the whole game (an office plate a player
+  cannot reach), while **25 approved production character masters sit
+  unreleased**. There are 372 hex literals and zero colour tokens, no `:active`
+  state on any control, and zero ARIA attributes in the entire production UI.
+- **60C.** Of five conversation subjects, **one is reachable in play**, and of
+  fifteen intents **two** cause an NPC to actually decide anything — both on a
+  subject the player cannot reach. Audibility is the hard-coded literal
+  `"normal"`. The authored copy itself is strong: zero interior-state
+  assertions and zero duplicate descriptions across 436 options.
+- **60D.** Of 58 record-writing functions in the simulation, roughly 22 are
+  reached in ordinary play. **Vitality, incidents, mind, politics, evidence,
+  world metrics and policy semantics are all built, integrity-checked, and
+  reached by nothing a player can do.** Nobody in this game can die.
+
+**The one honest gap this wave carries.** Two cold starts still produce lives of
+very similar shape. The cause is upstream in `generateQuickCharacterHistory`,
+which this wave does not own. It is pinned as a failing-when-fixed test rather
+than tuned away.
+
+**The single highest-value next action.** Release the 25 banked character
+component masters and merge PR #86. Neither costs new art, and together they are
+the difference between a game that shows two capital letters in a box and a game
+that shows a person in a room.
+
+---
+
 ## Exact state
 
 |                       |                                                                                                                                                                                                                |
@@ -592,6 +651,51 @@ What a human should do with it:
 
 Passing automated tests are not human visual acceptance, and this report does
 not claim they are.
+
+---
+
+# 7. The omnibus deliverables
+
+The addendum of 2026-09-04 added three required print documents to this run.
+All three are written, published to the same Drive folder as this report, and
+carried in the repository alongside it. Each labels every claim with one of the
+five states the addendum requires, and none describes an open-PR capability as
+shipped.
+
+| Document                                                       | Drive id                                                                                                                               | Repo copy                                                         |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| 60B_CLAUDE_FULL_VISUAL_UI_AND_GRAPHICS_COVERAGE_AUDIT          | [`1nahTWoRoklCpM2kvWwwuYQiqmXqrt6tLA72_lc8N36Q`](https://docs.google.com/document/d/1nahTWoRoklCpM2kvWwwuYQiqmXqrt6tLA72_lc8N36Q/edit) | `docs/60B-full-visual-ui-and-graphics-coverage-audit.md`          |
+| 60C_CLAUDE_FULL_DIALOGUE_CONVERSATION_BRANCHING_AND_COPY_AUDIT | [`1hOZ-bE-_gB6fhqKvEFJ4biN47Fd3-LDeXATpBlDoRcs`](https://docs.google.com/document/d/1hOZ-bE-_gB6fhqKvEFJ4biN47Fd3-LDeXATpBlDoRcs/edit) | `docs/60C-full-dialogue-conversation-branching-and-copy-audit.md` |
+| 60D_OUR_CIVIC_DUTY_ENGINE_AND_SYSTEMS_FIELD_GUIDE              | [`1Ay9c2BtbucI4WtPcrLA73oJPbTUgSXYv4yBV5Eu84DI`](https://docs.google.com/document/d/1Ay9c2BtbucI4WtPcrLA73oJPbTUgSXYv4yBV5Eu84DI/edit) | `docs/60D-our-civic-duty-engine-and-systems-field-guide.md`       |
+
+**60B** covers the seven-route map, six screens, control-state matrix,
+typography, colour, motion and accessibility, the 111-asset manifest census,
+scenes, poses and raster tiers; a coverage/disposition matrix over 62 numbered
+visual requirements sorted into categories A–E; a P0/P1/P2 backlog; and a final
+"IF I SAT DOWN TO GENERATE ART TOMORROW" with exact generation specifications.
+
+**60C** covers the conversation architecture field by field, a complete
+dialogue-path inventory with the four authored banks counted exactly, the nine
+episode families stage by stage, five plain-text branch diagrams tracing
+action → listeners → claim/knowledge/perception → effect → later callback with
+UNKNOWN marked wherever no link is recorded, a measured copy audit, "WHAT OUR
+DIALOGUE SYSTEM CAN DO TODAY", "WHAT IT CANNOT DO YET", "TOP 25 DIALOGUE
+IMPROVEMENTS BY PLAYER VALUE", and 15 content-expansion rules.
+
+**60D** is the owner's field guide: thirteen plain-English chapters (including
+"WHAT HAPPENS WHEN I CLICK ADVANCE TIME?", "HOW NPCS KNOW THINGS", "HOW PENNYWISE
+LEARNS ABOUT THE PLAYER", "HOW THE GAME CAN CREATE A 50-YEAR LIFE WITHOUT A
+SCRIPT", "THE ENGINE'S UNUSED MUSCLE", "WHAT WOULD BREAK IF WE DID THIS WRONG?"
+and "HOW I CAN TEST THIS GAME WITHOUT READING CODE"), eight plain-text diagrams
+A–H, a catalogue of 44 named systems described with the same eleven points each,
+and a glossary. It is written to be read without opening any source file.
+
+One defect was found by the audits and fixed inside this wave rather than filed:
+five classes this wave shipped unstyled (`game-story`, `game-passage`,
+`game-journal`, `game-journal-toggle`, `game-search`) plus two pre-existing ones
+(`game-day`, `game-saves-damaged`). `src/player/player.css` gained ~180 lines,
+one e2e assertion was made case-insensitive for the resulting uppercase
+transform, and `npm run validate` was re-run green.
 
 ---
 
