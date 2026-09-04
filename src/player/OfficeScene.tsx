@@ -188,6 +188,7 @@ function ScenePerson({
       data-anchor-id={person.anchorId}
       data-addressed={addressed ? "true" : "false"}
       data-label-suppressed={labelSuppressed ? "true" : "false"}
+      data-unillustrated={visual.asset ? "false" : "true"}
       onClick={() => onSelect(person.personId)}
     >
       <span
@@ -269,6 +270,11 @@ function CivicLearning({ learned, dispatch }: CivicLearningProps) {
   );
 }
 
+export interface SceneEntryLabel {
+  readonly label: string;
+  readonly ariaLabel: string;
+}
+
 interface OfficeSceneProps {
   readonly fixture: RunBFixture;
   readonly dossiers: Readonly<Record<string, QuickDossierProjection>>;
@@ -278,6 +284,12 @@ interface OfficeSceneProps {
   readonly onTalk: (personId: EntityId) => void;
   readonly onOpenWorkingDocument: () => void;
   readonly onOpenBriefing: () => void;
+  /** What the papers on the desk are, when the room is not the home office. */
+  readonly documentEntry?: SceneEntryLabel;
+  readonly briefingEntry?: SceneEntryLabel;
+  /** Hidden where the room has no civic concept to teach. */
+  readonly showCivicMarker?: boolean;
+  readonly sceneLabel?: string;
 }
 
 export function OfficeScene({
@@ -289,6 +301,16 @@ export function OfficeScene({
   onTalk,
   onOpenWorkingDocument,
   onOpenBriefing,
+  documentEntry = {
+    label: "Transit Access Pilot",
+    ariaLabel: "Open Working Draft — Transit Access Pilot",
+  },
+  briefingEntry = {
+    label: "Afternoon briefing",
+    ariaLabel: "Open Afternoon briefing",
+  },
+  showCivicMarker = true,
+  sceneLabel,
 }: OfficeSceneProps) {
   const learned = state.learnedConceptIds.includes(RUN_A_CIVIC_CONCEPT_ID);
   const selectedScenePerson = fixture.scenePeople.find(
@@ -314,7 +336,10 @@ export function OfficeScene({
     <section
       ref={sceneViewportRef}
       className="office-scene"
-      aria-label={`A quiet legislative office in ${fixture.locationDisplayName}`}
+      aria-label={
+        sceneLabel ??
+        `A quiet legislative office in ${fixture.locationDisplayName}`
+      }
       data-testid="political-office-scene"
     >
       <div
@@ -411,12 +436,12 @@ export function OfficeScene({
             left: `${documentAnchors["working-draft"].xPercent}%`,
             top: `${documentAnchors["working-draft"].yPercent}%`,
           }}
-          aria-label="Open Working Draft — Transit Access Pilot"
+          aria-label={documentEntry.ariaLabel}
           data-testid="working-document-entry"
           data-scene-anchor-id="working-draft"
           onClick={onOpenWorkingDocument}
         >
-          <strong>Transit Access Pilot</strong>
+          <strong>{documentEntry.label}</strong>
         </button>
 
         <button
@@ -426,15 +451,15 @@ export function OfficeScene({
             left: `${documentAnchors["briefing-memo"].xPercent}%`,
             top: `${documentAnchors["briefing-memo"].yPercent}%`,
           }}
-          aria-label="Open Afternoon briefing"
+          aria-label={briefingEntry.ariaLabel}
           data-testid="briefing-memo-entry"
           data-scene-anchor-id="briefing-memo"
           onClick={onOpenBriefing}
         >
-          <strong>Afternoon briefing</strong>
+          <strong>{briefingEntry.label}</strong>
         </button>
 
-        {!learned ? (
+        {showCivicMarker && !learned ? (
           <button
             type="button"
             className="civic-marker"

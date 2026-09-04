@@ -94,6 +94,64 @@ release at all, rather than to a release it was hidden inside — a small
 bookkeeping difference that keeps "we have this art" and "you can see this art"
 from ever being the same sentence.
 
+## UNRELEASED — "What's In It For My District"
+
+_Open for review. Not merged._
+
+Bills now have text in them, and the people around you have opinions about that
+text. A colleague can tell you what their district is missing, another can tell
+you what the session can afford, and the two of them will not be satisfied by
+the same answer.
+
+### Added
+
+- **Bills you can read.** A measure now prints as numbered sections with the
+  actual operative language. A section written for everybody and a section
+  written for one named project look different on the page and are different in
+  the record.
+- **Bargaining that changes the bill.** Ask a colleague what they want, hear a
+  concrete answer, counter with a smaller version, and put it to the chamber as
+  an amendment. If the chamber adopts it, the language is in the bill. If it
+  does not, nothing anybody said changed a word.
+- **Promises that behave like promises.** A colleague can say "I'm with you if
+  Section 4 is adopted" or "I'm a no unless it is." The game records exactly
+  what was said, to whom, and who was in earshot — and later works out for
+  itself whether the promise was kept, was never triggered, or was broken.
+  Nothing is guaranteed by having been said.
+- **Colleagues who are not the same person.** One member argues about their
+  district, another about the money. They open differently, object differently,
+  and refuse differently.
+- **A fiscal note you have to actually read.** It is filed with the bill. You
+  do not know what is in it until you open it.
+- **A line the game will not let you cross quietly.** You can offer someone
+  something for themselves, in private. It is refused, it is recorded as what
+  it is, it costs you, and it never buys a vote. Asking for a project in your
+  district is not the same act and is never described as one.
+
+### Notes
+
+- Two members of the House are drawn from this world's own people and decide
+  for themselves. The other ninety-eight seats vote as the scenario records.
+  There is no whip count and no support meter, by design.
+- The colleagues in the members' room are named and clickable but not yet
+  illustrated; the approved character art covers the two office figures.
+
+Repaired after an independent audit, before review:
+
+- A colleague who says "I'm with you if you write my section in" is no longer
+  read as being against the bill while your section is still missing. They said
+  a conditional yes; the game treats it as one, and as nothing more.
+- Delivering what somebody asked for answers their objection. It does not turn
+  their objection into a promise of support they never gave.
+- Nobody is reported as having kept a promise the room never called in. If the
+  thing they asked for never happened, the promise was never owed, however the
+  vote happened to land.
+- What somebody said about passing the bill and what they said about overriding
+  a veto of it are two different positions, and holding both is not changing
+  your mind. Each is tested by its own vote.
+- A promise can only be conditioned on something the game can actually settle.
+  One condition on the list could never come true and is gone.
+
 ## PRE-ALPHA 0.3.0 — "A Life, Not a Fixture" — CANDIDATE, NOT YET ACCEPTED
 
 _Proposed 2 September 2026. The version number is a candidate; final acceptance

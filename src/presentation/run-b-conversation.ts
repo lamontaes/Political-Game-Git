@@ -31,12 +31,14 @@ import {
   canListenToRunBConversation,
   createRunBConversationProgress,
   isHouseholdObligationConversationProgress,
+  isLegislativeBargainingProgress,
   isNeighborhoodMeetingConversationProgress,
   isSchoolProjectConversationProgress,
   isRunBReferralConversationProgress,
   isRunCLegislativeConversationProgress,
   type ConversationProgress,
   type HouseholdObligationConversationProgress,
+  type LegislativeBargainingProgress,
   type NeighborhoodMeetingConversationProgress,
   type RunBConversationProgress,
   type SchoolProjectConversationProgress,
@@ -44,6 +46,14 @@ import {
   type RunBPendingContribution,
   type RunCLegislativeConversationProgress,
 } from "./run-b-conversation-progress";
+import {
+  advanceBargainingProgress,
+  recordBargainingConsequences,
+  resolveBargainingResponse,
+  LEGISLATIVE_BARGAINING_INTENTS,
+  type BargainingConsequence,
+  type LegislativeBargainingIntent,
+} from "./legislative-bargaining";
 
 export const RUN_B_AUDIBILITY_OPTIONS = ["normal", "quiet", "private"] as const;
 export type ConversationAudibility = (typeof RUN_B_AUDIBILITY_OPTIONS)[number];
@@ -78,6 +88,7 @@ export const RUN_B_CONVERSATION_INTENTS = [
   "press",
   "listen",
   "discuss-provision",
+  ...LEGISLATIVE_BARGAINING_INTENTS,
   "raise-obligation",
   "offer-to-cover",
   "ask-to-share",
@@ -212,7 +223,14 @@ export interface ConversationSemanticResult {
     | "reassured"
     | "bystander-interjected"
     | "continued"
-    | "silence-held";
+    | "silence-held"
+    | "position-explained"
+    | "commitment-offered"
+    | "proposal-accepted"
+    | "proposal-refused"
+    | "proposal-countered"
+    | "inducement-refused"
+    | "commitment-recalled";
   readonly responseSpeakerPersonId: EntityId | null;
   readonly actualListenerPersonIds: readonly EntityId[];
   readonly claimRecipientPersonIds: readonly EntityId[];
@@ -243,6 +261,15 @@ interface ResolvedResponse {
   readonly dialogue: string | null;
   readonly perception: string | null;
   readonly durableDecisionRecorded: boolean;
+  /**
+   * What a bargaining beat owes the canonical record once the conversation's
+   * own event and claim exist. Null for every other subject.
+   */
+  readonly bargaining?: {
+    readonly consequence: BargainingConsequence;
+    readonly progress: LegislativeBargainingProgress;
+    readonly relationshipConsequence: "strengthened" | "strained" | null;
+  } | null;
 }
 
 export function createConversationSessionDescriptor(
@@ -291,6 +318,7 @@ export function availableConversationIntents(
     addressee,
     progress,
     silenceIsUseful,
+    audibility,
   );
 }
 
@@ -487,8 +515,16 @@ export function commitConversationTurn(
     !isRunCLegislativeConversationProgress(currentProgress)
       ? (currentProgress.pendingContributions[0] ?? null)
       : null;
-  const responseSpeakerPersonId =
-    input.intent === "listen" && pendingContribution === null
+  const responseSpeakerPersonId = isLegislativeBargainingProgress(
+    currentProgress,
+  )
+    ? bargainingResponseSpeaker(
+        input.room,
+        input.addressee,
+        input.intent,
+        actualListenerPersonIds,
+      )
+    : input.intent === "listen" && pendingContribution === null
       ? null
       : resolveResponseSpeaker(
           input.room,
@@ -497,6 +533,12 @@ export function commitConversationTurn(
           pendingContribution,
           actualListenerPersonIds,
         );
+  if (
+    isLegislativeBargainingProgress(currentProgress) &&
+    responseSpeakerPersonId === null
+  ) {
+    throw new Error("Nobody in earshot can answer this bargaining move.");
+  }
   if (
     input.intent === "listen" &&
     pendingContribution &&
@@ -516,6 +558,7 @@ export function commitConversationTurn(
           playerPersonId: input.room.playerPersonId,
           speakerPersonId: responseSpeakerPersonId,
           intent: input.intent,
+          audibility: input.audibility,
           groupAddressed: input.addressee === "everyone",
           previousIntent: previousConversationIntent(inputWorld, input.session),
           progress: currentProgress,
@@ -528,6 +571,7 @@ export function commitConversationTurn(
     outcome: resolved.outcome,
     responseSpeakerPersonId: resolved.speakerPersonId,
     pendingContribution,
+    bargainingProgress: resolved.bargaining?.progress ?? null,
   });
   let world = resolved.world;
   const participantPersonIds = canonicalPeople(input.room, [
@@ -600,7 +644,7 @@ export function commitConversationTurn(
         setting: commit.setting,
       },
       socialContext: commit.socialContext,
-      pressure: commit.pressure(input.intent),
+      pressure: commit.pressure(input.intent, currentProgress),
       // Written by the subject in front of the player, in its own words.
       choice: commit.choice(input.intent, {
         // Addressing the room is addressing the person in it, which is the
@@ -729,7 +773,22 @@ export function commitConversationTurn(
     }
   }
 
-  const relationshipConsequence = relationshipConsequenceFor(input.intent);
+  if (resolved.bargaining && isLegislativeBargainingProgress(currentProgress)) {
+    world = recordBargainingConsequences(world, {
+      turnKey,
+      progress: currentProgress,
+      consequence: resolved.bargaining.consequence,
+      eventId: event.id,
+      claimId: claim?.id ?? null,
+      audience: claimAudience ?? "limited",
+      listenerPersonIds: claimRecipientPersonIds,
+      statement: resolved.dialogue ?? "",
+    });
+  }
+
+  const relationshipConsequence =
+    resolved.bargaining?.relationshipConsequence ??
+    relationshipConsequenceFor(input.intent);
   if (relationshipConsequence !== null) {
     if (resolved.speakerPersonId === null) {
       throw new Error(
@@ -747,8 +806,11 @@ export function commitConversationTurn(
       kind: commit.interactionKind(relationshipConsequence),
       change: relationshipConsequence,
       significance: "meaningful",
-      summary:
-        relationshipConsequence === "strengthened"
+      summary: resolved.bargaining
+        ? relationshipConsequence === "strengthened"
+          ? `${shortPersonName(world, input.room.playerPersonId)} and ${shortPersonName(world, resolved.speakerPersonId)} found terms they could both work with on the bill.`
+          : `${shortPersonName(world, input.room.playerPersonId)} left ${shortPersonName(world, resolved.speakerPersonId)} with nothing to take back, and it landed badly.`
+        : relationshipConsequence === "strengthened"
           ? `${shortPersonName(world, input.room.playerPersonId)} kept the request narrow, strengthening the working exchange with ${shortPersonName(world, resolved.speakerPersonId)}.`
           : `${shortPersonName(world, input.room.playerPersonId)} pressed for an immediate answer, straining the exchange with ${shortPersonName(world, resolved.speakerPersonId)}.`,
       tags: commit.interactionTags,
@@ -821,6 +883,7 @@ function resolveNpcResponse(
     readonly playerPersonId: EntityId;
     readonly speakerPersonId: EntityId;
     readonly intent: ConversationIntent;
+    readonly audibility: ConversationAudibility;
     readonly groupAddressed: boolean;
     readonly previousIntent: ConversationIntent | null;
     readonly progress: ConversationProgress;
@@ -836,6 +899,44 @@ function resolveNpcResponse(
   if (!speaker) throw new Error("Conversation response speaker is missing.");
   const isPrimary =
     input.speakerPersonId === input.room.eligibleAddresseePersonIds[0];
+
+  if (isLegislativeBargainingProgress(input.progress)) {
+    if (
+      input.intent !== "listen" &&
+      !LEGISLATIVE_BARGAINING_INTENTS.includes(
+        input.intent as LegislativeBargainingIntent,
+      )
+    ) {
+      throw new Error("The bargaining subject accepts only its own moves.");
+    }
+    const response = resolveBargainingResponse(world, {
+      turnKey: input.turnKey,
+      room: input.room,
+      speakerPersonId: input.speakerPersonId,
+      intent: input.intent as LegislativeBargainingIntent | "listen",
+      audibility: input.audibility,
+      progress: input.progress,
+    });
+    return {
+      world: response.world,
+      outcome: response.outcome,
+      speakerPersonId: response.speakerPersonId,
+      dialogue: response.dialogue,
+      perception: response.perception,
+      durableDecisionRecorded: response.durableDecisionRecorded,
+      bargaining: {
+        consequence: response.consequence,
+        progress: advanceBargainingProgress(input.progress, {
+          speakerPersonId: response.speakerPersonId,
+          intent: input.intent as LegislativeBargainingIntent | "listen",
+          family: response.family,
+          outcome: response.outcome,
+          proposition: response.proposition,
+        }),
+        relationshipConsequence: response.relationshipConsequence,
+      },
+    };
+  }
 
   if (input.intent === "discuss-provision") {
     if (!isRunCLegislativeConversationProgress(input.progress)) {
@@ -984,6 +1085,7 @@ function resolveQuietRoom(world: World): ResolvedResponse {
     dialogue: null,
     perception: null,
     durableDecisionRecorded: false,
+    bargaining: null,
   };
 }
 
@@ -1258,8 +1360,17 @@ function advanceConversationProgress(
     readonly outcome: ConversationSemanticResult["outcome"];
     readonly responseSpeakerPersonId: EntityId | null;
     readonly pendingContribution: RunBPendingContribution | null;
+    readonly bargainingProgress: LegislativeBargainingProgress | null;
   },
 ): ConversationProgress {
+  if (isLegislativeBargainingProgress(progress)) {
+    if (!input.bargainingProgress) {
+      throw new Error(
+        "A bargaining turn must carry the progress its own answer produced.",
+      );
+    }
+    return input.bargainingProgress;
+  }
   if (isRunCLegislativeConversationProgress(progress)) {
     if (input.intent !== "discuss-provision") {
       throw new Error(
@@ -1721,6 +1832,30 @@ function resolveAddresseePersonIds(
     : [addressee];
 }
 
+/**
+ * Who answers a bargaining move.
+ *
+ * Staying quiet is not the same as nobody speaking: the member who is *not*
+ * being addressed uses the silence to say the thing they have been holding, if
+ * they are close enough to have followed the exchange.
+ */
+function bargainingResponseSpeaker(
+  room: ConversationRoomContext,
+  addressee: ConversationAddressee,
+  intent: ConversationIntent,
+  actualListenerPersonIds: readonly EntityId[],
+): EntityId | null {
+  if (addressee === "everyone") return null;
+  if (intent === "listen") {
+    const other = room.eligibleAddresseePersonIds.find(
+      (personId) =>
+        personId !== addressee && actualListenerPersonIds.includes(personId),
+    );
+    if (other) return other;
+  }
+  return actualListenerPersonIds.includes(addressee) ? addressee : null;
+}
+
 function resolveResponseSpeaker(
   room: ConversationRoomContext,
   intent: ConversationIntent,
@@ -1819,6 +1954,14 @@ function conversationEventSummary(
   progress: ConversationProgress,
 ): string {
   const player = personName(world.people[playerPersonId]!);
+  if (isLegislativeBargainingProgress(progress)) {
+    if (responseSpeakerPersonId === null) {
+      throw new Error("A bargaining turn requires the other member's answer.");
+    }
+    const speaker = personName(world.people[responseSpeakerPersonId]!);
+    const facts = progress.subjectFacts;
+    return `${player} and ${speaker} bargained over ${facts.designation} — ${facts.shortTitle}; ${speaker} ${outcome.replaceAll("-", " ")}.`;
+  }
   if (isRunCLegislativeConversationProgress(progress)) {
     if (intent !== "discuss-provision" || responseSpeakerPersonId === null) {
       throw new Error(
@@ -1845,6 +1988,9 @@ function conversationEventSummary(
 function conversationSubjectEntityIds(
   progress: ConversationProgress,
 ): readonly EntityId[] {
+  if (isLegislativeBargainingProgress(progress)) {
+    return [progress.subjectFacts.measureId];
+  }
   if (!isRunCLegislativeConversationProgress(progress)) return [];
   return [
     progress.subjectFacts.currentAlternativeId,

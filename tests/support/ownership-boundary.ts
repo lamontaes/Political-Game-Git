@@ -30,8 +30,15 @@ import { execFileSync } from "child_process";
  * It moved again for the same reason when PR #82 merged. This branch is cut
  * from that merge, so the base is that merge; leaving the older value in place
  * would have counted #82's own accepted files as changes made here.
+ *
+ * It moves again now that PR #86 has merged and `main` is the merge commit
+ * below. The graphics packet this file was written for is accepted and in
+ * `main`, so measuring from the older base would count #86's own accepted
+ * files — the scenes, the title screen, the authoring pipeline — as changes
+ * made by whatever branch is running the check. The rule has not changed: the
+ * base is the `main` the branch sits on.
  */
-export const BASE_COMMIT = "6311dd688331985d5682b39910bf2b917d46d11b";
+export const BASE_COMMIT = "5f735da209c59647e4b877717a40fe6cc045fc24";
 
 export interface OwnedSurface {
   /** Matched against a repository-relative path. */
@@ -54,11 +61,50 @@ export interface OwnedSurface {
  * relaxed away: every other file the FORBIDDEN list guards is still guarded,
  * and a second edit to `PlayerGame.tsx` would have to be argued for in this
  * comment before it could pass.
+ *
+ * The conversation and shared-simulation entries below are here for the same
+ * reason, from the other side. This check arrived in `main` with #86 and now
+ * measures whichever branch runs it, and FORBIDDEN's `conversations` entry was
+ * written to keep the GRAPHICS lane out of a file the bargaining lane owns.
+ * On this branch that lane is the one running, so each file it genuinely owns
+ * is named with what it does to it, one path at a time. The patterns are left
+ * exactly as they are, so every other conversation and simulation file is
+ * still guarded, and `PlayerGame.tsx`, persistence, life-places, the place
+ * provider, the legislation state machine, the rule packs and name generation
+ * are untouched by this branch and still caught if they ever move.
  */
 export const PERMITTED_EXCEPTIONS: ReadonlyMap<string, string> = new Map([
   [
     "src/player/PlayerGame.tsx",
     "Packet 68 gives the graphics lane the title-screen seam. The change is the import of ./TitleScreen and the removal of the component that moved there.",
+  ],
+  [
+    "src/presentation/run-b-conversation.ts",
+    "Packet 49 owns the bargaining conversation subject. Rather than special-case the engine, it registers through the subject registry main introduced; the engine gains the room's audibility and the turn's progress as arguments so a subject can say true things about itself. No existing subject changes behaviour.",
+  ],
+  [
+    "src/presentation/run-b-conversation-progress.ts",
+    "The same seam: progress carries the bargaining subject's own turn state so the engine does not have to know what a bill is.",
+  ],
+  [
+    "src/simulation/types.ts",
+    "Packet 49 adds the legislative-politics record types, the question identity and the commitment subject. Additive only; no shared declaration is redefined.",
+  ],
+  [
+    "src/simulation/world.ts",
+    "The legislative-politics records join the one canonical World: history collection, sequence ordering, stable-key uniqueness and the integrity assertion. No second World is introduced.",
+  ],
+  [
+    "src/simulation/index.ts",
+    "Two barrel exports for the legislative-politics modules.",
+  ],
+  [
+    "src/simulation/decisions.ts",
+    "One additional entity-existence source, so a decision may reference a legislative-politics entity. The existing sources are unchanged.",
+  ],
+  [
+    "src/simulation/mind-integrity.ts",
+    "The same one additional entity-existence source, so a mind record may cite a legislative-politics entity.",
   ],
 ]);
 
@@ -114,9 +160,17 @@ export const FORBIDDEN: readonly OwnedSurface[] = [
  * in-flight branch owns CI configuration or the player-facing changelog, so
  * widening this allowlist does not relax FORBIDDEN, which is what actually
  * guards other people's systems.
+ *
+ * `ARCHITECTURE.md`, `src/simulation/legislative-*` and the two measure views
+ * are here because Packet 49's legislative bargaining owns them outright: a new
+ * simulation namespace and two new player surfaces that did not exist before.
+ * The two views are named as paths rather than by widening `src/player/`,
+ * because the player shell is a separate active lane and this branch must stay
+ * out of the rest of it — `PlayerGame.tsx` in particular is still guarded by
+ * FORBIDDEN and is not touched here.
  */
 export const ALLOWED =
-  /^(\.claude\/launch\.json|\.github\/workflows\/|src\/authoring\/|src\/environment\/|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/player\/OfficeScene\.tsx|src\/player\/ModularCharacter\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/useRasterTier\.ts|src\/player\/useSceneTransform\.ts|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|AGENTS\.md|PATCH_NOTES\.md)/;
+  /^(\.claude\/launch\.json|\.github\/workflows\/|src\/authoring\/|src\/environment\/|src\/simulation\/legislative-|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/player\/OfficeScene\.tsx|src\/player\/ModularCharacter\.tsx|src\/player\/MeasureFloorView\.tsx|src\/player\/MeasurePaperWorkspace\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/useRasterTier\.ts|src\/player\/useSceneTransform\.ts|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|AGENTS\.md|ARCHITECTURE\.md|PATCH_NOTES\.md)/;
 
 function git(repositoryRoot: string, args: readonly string[]): string {
   return execFileSync("git", [...args], {

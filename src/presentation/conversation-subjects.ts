@@ -10,18 +10,26 @@ import {
   isRunBReferralConversationProgress,
   isRunCLegislativeConversationProgress,
 } from "./run-b-conversation-progress";
+import {
+  availableBargainingIntents,
+  bargainingOpeningBeat,
+  bargainingTopicLabel,
+  describeBargainingBriefingContext,
+} from "./legislative-bargaining";
 import type {
   ConversationProgress,
   ConversationSubjectKey,
   HouseholdObligationConversationProgress,
   NeighborhoodMeetingConversationProgress,
   SchoolProjectConversationProgress,
+  LegislativeBargainingProgress,
   RunBConversationProgress,
   RunCLegislativeConversationProgress,
 } from "./run-b-conversation-progress";
 import { conversationRole } from "./run-b-conversation";
 import type {
   ConversationAddressee,
+  ConversationAudibility,
   ConversationDialogueBeat,
   ConversationIntent,
   ConversationIntentOption,
@@ -58,7 +66,10 @@ export interface ConversationSubjectPresentation<
    *
    * `silenceIsUseful` comes from the core, which owns the room's hearing
    * rules; the subject decides only whether staying quiet means anything for
-   * what is being discussed.
+   * what is being discussed. `audibility` is here for the same reason: how
+   * quietly a thing is being said is a room fact, but whether it may be said
+   * at all at that volume belongs to the subject — an offer that only exists
+   * in private is the subject's rule, not the engine's.
    */
   availableIntents(
     world: World,
@@ -66,6 +77,7 @@ export interface ConversationSubjectPresentation<
     addressee: ConversationAddressee,
     progress: P,
     silenceIsUseful: boolean,
+    audibility: ConversationAudibility,
   ): readonly ConversationIntentOption[];
   /** The line that greets the player when the exchange is opened. */
   openingBeat(
@@ -519,9 +531,44 @@ export function advanceNeighborhoodMeeting(
   }
 }
 
+/* -------------------------------------------------------------------------- */
+/* The bill on the floor.                                                      */
+/*                                                                             */
+/* The content itself lives in ./legislative-bargaining, which is where the     */
+/* motif layer and the canonical consequences of a bargaining turn are. This    */
+/* entry is the registration, so the engine reaches it the same way it reaches  */
+/* every other subject rather than by asking what kind of conversation this is. */
+/* -------------------------------------------------------------------------- */
+
+const measureBargainingSubject: ConversationSubjectPresentation<LegislativeBargainingProgress> =
+  {
+    subject: "measure-bargaining",
+    topicLabel: () => bargainingTopicLabel(),
+    describeBriefing: (_world, _room, progress) =>
+      describeBargainingBriefingContext(progress),
+    availableIntents: (
+      world,
+      room,
+      addressee,
+      progress,
+      _silence,
+      audibility,
+    ) =>
+      availableBargainingIntents(world, room, addressee, progress, audibility),
+    openingBeat(world, room, addressee, progress) {
+      const speaker = speakerFor(world, room, addressee);
+      return {
+        speakerPersonId: speaker.personId,
+        speakerName: speaker.name,
+        dialogue: bargainingOpeningBeat(world, progress, speaker.personId),
+      };
+    },
+  };
+
 const SUBJECTS = {
   "shared-intake-checklist": referralSubject,
   "transit-access-pilot-provision": legislativeDraftSubject,
+  "measure-bargaining": measureBargainingSubject,
   "household-obligation": householdObligationSubject,
   "school-project-share": schoolProjectSubject,
   "neighborhood-meeting-notice": neighborhoodMeetingSubject,
@@ -678,7 +725,16 @@ export interface ConversationCommitContract {
    * belong to the subject for the same reason the choice does.
    */
   readonly motivation: string;
-  pressure(intent: ConversationIntent): string | null;
+  /**
+   * What is pressing on the exchange, if anything. The progress is here
+   * because pressure is often a fact about the thing being discussed rather
+   * than about the move being made: a bill that can still be amended today
+   * and cannot be tomorrow is pressure no intent can express.
+   */
+  pressure(
+    intent: ConversationIntent,
+    progress: ConversationProgress,
+  ): string | null;
 }
 
 /** What a choice sentence may name, without reaching for the room itself. */
@@ -765,6 +821,45 @@ const COMMIT_CONTRACTS: Readonly<
         `The player asked ${named("briefing-lead")} to interpret the selected working provision and compare its prepared alternative.`,
       listen: () =>
         "The player listened while the provision was talked through.",
+    }),
+  },
+  "measure-bargaining": {
+    subject: "measure-bargaining",
+    eventType: "conversation.office-turn",
+    contextTag: "conversation.office",
+    subjectTag: "conversation.subject.measure-bargaining",
+    setting: "The members' room off the chamber floor",
+    socialContext:
+      "A conversation between members about a bill that is still open to change.",
+    interactionTags: ["conversation.office", "legislation.bargaining"],
+    interactionKind: (consequence) =>
+      consequence === "strengthened"
+        ? "exchange:legislative-bargain"
+        : "conflict:over-a-bill",
+    motivation:
+      "Find out what the other member actually needs, without pretending anything said here is already in the bill.",
+    pressure: (_intent, progress) => {
+      const facts = (progress as LegislativeBargainingProgress).subjectFacts;
+      return `${facts.designation} is on the ${facts.chamberName} floor and the text can still change; after ${facts.nextStepLabel} it cannot.`;
+    },
+    choice: choiceWriter("measure bargaining", {
+      "ask-what-they-want": ({ addresseeName }) =>
+        `The player asked ${addresseeName} what they actually want out of the bill.`,
+      "offer-targeted-provision": ({ addresseeName }) =>
+        `The player offered to carry the named section ${addresseeName} asked for.`,
+      "counter-with-cap": ({ addresseeName }) =>
+        `The player countered ${addresseeName} with the same section written to a ceiling.`,
+      "refuse-request": ({ addresseeName }) =>
+        `The player declined what ${addresseeName} asked for and heard what it cost.`,
+      "request-support": ({ addresseeName }) =>
+        `The player asked ${addresseeName} where they will be when the bill is called.`,
+      "ask-for-analysis": () =>
+        "The player asked for the fiscal note to be read before anything further was said.",
+      "remind-of-commitment": ({ addresseeName }) =>
+        `The player put ${addresseeName}'s own words back in front of them.`,
+      "offer-private-inducement": ({ addresseeName }) =>
+        `The player offered ${addresseeName} a personal benefit, and it was refused.`,
+      listen: () => "The player listened for the next relevant contribution.",
     }),
   },
   "household-obligation": {

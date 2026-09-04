@@ -1,4 +1,5 @@
 import { LegislationDevRoute } from "./player/LegislationWorkspace";
+import { MeasureFloorView } from "./player/MeasureFloorView";
 import { PlayerGame } from "./player/PlayerGame";
 import { PlayerOffice } from "./player/PlayerOffice";
 import { CharacterProofView } from "./ui/CharacterProofView";
@@ -33,6 +34,7 @@ export function App() {
   if (view === "scene-proof") return <ScenePresentationProofView />;
   if (view === "scene-authoring") return <SceneAuthoringProofView />;
   if (view === "legislation") return <LegislationDevRoute />;
+  if (view === "floor") return <MeasureFloorView />;
   if (view === "office-fixture") return <PlayerOffice />;
   return <PlayerGame />;
 }
