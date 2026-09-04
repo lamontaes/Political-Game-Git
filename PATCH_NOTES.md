@@ -1,6 +1,44 @@
-# Political Game — Patch Notes
+# Our Civic Duty — Patch Notes
 
 Newest release first.
+
+## UNRELEASED — One life, told once
+
+The game has a name on its title screen: Our Civic Duty. New Game, Continue,
+Saved Games, Options and Quit, with Quit sitting there greyed out rather than
+pretending to be something it is not yet.
+
+The biggest change is one you feel rather than see a control for. Playing used
+to go: a card, a click, a jump in the date, an unrelated card. Now the years
+between the moments are told. Time passing says what happened in it — school
+carried on, the same person was in the house every evening, the group kept
+meeting — read off the record rather than made up, and a quiet stretch says what
+the life actually contained instead of "nothing this year that anyone would tell
+a story about". Time passes unevenly, the way it does.
+
+People come back. Somebody you had a conversation with at ten can be the reason
+a moment at thirty is possible, and what you did the first time decides whether
+the second time happens at all — including quiet choices that gave no sign at
+the time that they were choices. Some threads simply end: a job finishes,
+somebody moves out, an argument stops mattering. The game will not promise you
+a payoff for every decision, and most decisions do not have one.
+
+What you remember is now a journal you open, in chapters, with the people in it
+listed as people — instead of a list growing down the side of the screen with
+every beat.
+
+The opening set of situations has been rewritten. It starts in a kitchen with
+somebody you know rather than with a policy initiative, the choices are things
+you do rather than paragraphs explaining what you believe, and the longer set no
+longer says "3 of 26" because it does not have a fixed length any more. It stops
+when it has enough, which is a different number for different people. If you
+would rather not answer, you start the life; there is no per-question refusal to
+click twenty times.
+
+Smaller things: you can search for a place to start in, and somebody who lives
+in Lexington is told they live in Lexington. An ordinary adult is no longer
+informed that this character does not work in a legislature. Seeds and replay
+addresses have moved behind an Advanced disclosure, where they belong.
 
 ## UNRELEASED — Groundwork
 

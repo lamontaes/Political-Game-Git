@@ -257,6 +257,45 @@ the research classifies almost every one of these families as having none that
 is defensible. An internal stakes tier rations pacing and is never rendered,
 never serialized, and never an input to consequence.
 
+The calibration has no fixed length. It stops when the marginal information a
+remaining item would carry falls below a floor, measured against under-observed
+axes and unresolved competing explanations rather than against the ranking score
+— which never reaches zero and so could never end anything. Two players
+therefore get interviews of different lengths, and neither is shown a
+denominator.
+
+## Narrative Composition
+
+A presentation layer composes one continuous life over canonical state. It adds
+no store and no second truth.
+
+`narrative-threads.ts` is an index over `HistoryStore`. A thread is a grouping
+of records that share an identity those records explicitly carry — a counterpart
+named in the participants, an organization on the work relationship, an event id
+in a scheduled item's provenance, a stable-key prefix written by one writer.
+**Temporal adjacency is never a link.** Where the repository records no
+relationship, the index reports none, and every anchor names the store, record
+id and stable key behind it so the grouping is checkable rather than trusted.
+
+`life-episodes.ts` composes beats from reusable episode families: stages,
+requirements, roles, exits. Requirements are answered from canonical records and
+return the records that answered them, one entry per requirement, so a beat's
+causes stack and stay separable instead of collapsing into a single tag. No
+family can author a destination — escalation, recovery, dormancy and
+nothing-at-all are reached the same way, by later requirements holding or not.
+A played beat writes ordinary records tagged with family, stage and instance;
+those tags are the only mechanism by which a later stage knows an earlier one
+happened, so there is nothing to fall out of step with history.
+
+`life-narration.ts` composes the time between moments from standing records, and
+every sentence carries the records behind it. `life-story.ts` ranks composed
+beats and authored situations in one ranking, so a continuation competes with a
+stranger rather than replacing it.
+
+`life-diagnostics.ts` reports what the game concluded — calibration traces, beat
+traces, life shapes — as pure functions returning data and Markdown. It is not a
+screen and not a route, and nothing that renders may import it.
+
 See `docs/systems/adaptive-life-and-setup.md`.
 
 ## Institutions and Geography

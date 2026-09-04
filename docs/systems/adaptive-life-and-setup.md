@@ -5,10 +5,12 @@ them while it does, and — the part that needs saying most plainly — what it 
 not allowed to do with either.
 
 This document covers the setup calibration, the non-diegetic player model, the
-situation selector, the adult situation provider, and delayed callbacks. It
-does not redefine anything the mind, life, relationships, resources, incidents
-or legislation systems already own. Those systems decide what is true; this one
-decides what gets offered.
+situation selector, the adult situation provider, delayed callbacks, and — added
+by the narrative wave — the thread index, the episode families and the
+connective narration that turn those into one continuous life. It does not
+redefine anything the mind, life, relationships, resources, incidents or
+legislation systems already own. Those systems decide what is true; this one
+decides what gets offered and how it is told.
 
 ## The three rules
 
@@ -31,24 +33,49 @@ collapsed into the first.
 
 ## Setup calibration
 
-`setup-questionnaire-bank.ts` holds the authored bank. Every prompt and every
-option sentence came from a Drive research authority; none was written by the
-implementing lane, because copy is where the measurement lives. The magnitudes
-and dimension loadings _were_ derived here, from the prose direction and the
+The bank is in two halves, and which half a piece of copy is in is checkable
+from its `source`.
+
+`setup-questionnaire-bank.ts` holds the research-derived items. Every prompt and
+option sentence in it came from a Drive research authority. The magnitudes and
+dimension loadings _were_ derived here, from the prose direction and the
 research's own primary/secondary coverage matrix, and are documented as a
-reconstruction.
+reconstruction. Two of its items are corrected in place — a deficit written as
+"ten-million-dollar" and a grant item referring to a "central ministry", neither
+of which any American jurisdiction has — because leaving a factual error
+standing to preserve a provenance claim is the wrong trade.
+
+`setup-opening-bank.ts` holds the copy authored under Packet 60 Section C, which
+hands the calibration to the implementing lane and states the style direction:
+a scene rather than a question, named people who recur, options that are actions
+rather than arguments, and a third way that costs something legible. Its people
+are not biography and create nothing in any world.
+
+Every item carries a **register** — `lived-personal`, `lived-relational`,
+`lived-moral`, `civic-lived`, `policy-lived` or `policy-docket` — and the
+selector opens on the lived ones and widens into civic and policy only as the
+model needs them. Items a human review named as abstractions keep their copy and
+carry a verdict that ranks them behind everything that passed.
 
 `setup-questionnaire.ts` implements the settled selection semantics: three
 fixed openers in a fixed order; then the item that covers what the model knows
 least, penalised 0.25 per dimension shared with the previous item, credited for
 separating explanations that are still level, and tie-broken by a SHA-256 over
 world seed, person, bank, encoding version, ordinal and candidate. It consumes
-no simulation randomness. A skip records `choiceId: null`, contributes nothing,
-and still advances the ordinal.
+no simulation randomness.
 
-Two paths: a short one of five, and a longer one bounded by authored supply.
-`setupContentShortfall()` reports the gap between the design target and what has
-been authored, in numbers, rather than letting the long path quietly run short.
+**The deep path has no length.** It stops when it stops learning. The stopping
+measure is deliberately not the ranking score, which never reaches zero and so
+could never end anything: an axis contributes only while it is under-observed
+and contributes nothing past `SUFFICIENT_DIMENSION_WEIGHT`, so once every axis
+an item touches is covered, only an unresolved ambiguity keeps the run going.
+Three answer patterns on one bank give runs of nineteen, twenty-two and
+thirty-seven questions. A player is shown a phase, never a fraction, and there
+is no per-question decline — somebody who does not want to answer starts the
+life, which is one act rather than twenty refusals.
+
+`setupContentShortfall()` reports the authored supply against the design target
+and the count of items still ranked last, which is the remaining content debt.
 
 ### Where the answers live
 
@@ -97,6 +124,57 @@ puts a player's own priorities in tension — a statement about the moment — a
 says nothing about what will come of it. The two are allowed to diverge
 completely, and that divergence is the requirement rather than a defect. It is
 never rendered and never serialized, and both are pinned by tests.
+
+## Threads, episodes and the telling
+
+Three modules turn the above into a life rather than a sequence of cards.
+
+**`narrative-threads.ts` is an index, not a second history.** Every thread
+groups records already in `world.history`, and every grouping is justified by an
+identity those records explicitly carry: the same counterpart named in the
+participants, the same organization on the work relationship, the same event id
+in a scheduled item's provenance, the same stable-key prefix written by one
+writer. Two records being near each other in time is not a link and there is no
+path here that treats it as one. Each anchor names its store, record id and
+stable key, so a reader — or the causal inspector, which owns the inspection
+surface and is not rebuilt here — can check every claim against the record.
+
+A thread is allowed to be over. `standing` says which of opening, running,
+pressing, dormant, settled or moot it is, and `standingReason` says why in the
+record's own terms.
+
+**`life-episodes.ts` composes beats from families rather than dealing cards.**
+An episode family is stages, requirements, roles and exits; a beat is
+instantiated by binding roles to people the world already contains. Four rules
+hold, and the types enforce them:
+
+- every requirement is answered from a canonical record, and the records that
+  answered it come back with the beat;
+- causes stack and stay separable — `causalInputs` is a list, one entry per
+  requirement, so a beat cannot collapse into a single "because of X" tag;
+- no destination is authored: escalation, recovery, dormancy, substitution and
+  nothing-at-all are all reached the same way, by later requirements holding or
+  not holding;
+- the player model ranks and does nothing else. It is not an input to any
+  function in that file.
+
+A played beat writes ordinary canonical records tagged with the family, the
+stage and the instance. Those tags are the entire mechanism by which a later
+stage knows an earlier one happened; there is no episode store to fall out of
+step with history. `episode-bank.ts` holds the authored families.
+
+**`life-narration.ts` says what happened between the moments.** Every sentence
+is derived from a record and carries the records it came from, so "composition,
+not invention" is checkable. There is no branch that emits a contentless line: a
+person has a place, a household and an age, so a quiet stretch is described by
+what the life actually contained. Age is never a beat — a birthday appears as a
+clause alongside something else. Quiet time passes unevenly and
+deterministically, so two gaps do not read identically.
+
+`life-story.ts` puts the formative bank, the adult bank and the composed beats
+into **one** ranking, so a continuation can beat a stranger without always
+beating one. `life-record.ts` is the journal: the same records, in chapters,
+behind a control.
 
 ## Adult situations
 
@@ -147,4 +225,26 @@ remove a reading, not a system.
 - no generative-AI dependency — every word a player reads is authored or
   templated over canonical state, and the game runs with no model available;
 - no diagnostic label, ideology summary or personality type shown to a player;
-- no questionnaire copy written by the implementing lane.
+- no thread, stage, instance or standing named on any player-facing surface;
+- no causal edge drawn from adjacency — where the repository records no link,
+  the thread index reports none;
+- no second history, second commitment store, or second episode store.
+
+`life-diagnostics.ts` answers the questions the game must stay silent about —
+what the calibration moved, why a run stopped, why a beat was eligible, which
+displayed sentence is composition and which is canon. It is a set of pure
+functions returning data and Markdown, deliberately not a screen and not a
+route, and `life-opacity.test.ts` fails if anything that renders imports it.
+
+## Known gap
+
+Two cold starts still produce the same life _shape_ and differ only in their
+names: the same thread families, the same counts, the same eligible beats. The
+narrative layer is reporting that faithfully — the cause is upstream, in
+`generateQuickCharacterHistory`, which writes one fixed template for every
+summarized life and lets the seed decide only the names inside it. Varying it is
+a change to an accepted Stage 6 writer. The two lives do diverge structurally as
+soon as they are played, because what happens writes records and records are
+what threads and beats are read from, and
+`narrative-life.test.ts` pins both halves of that — including the gap, so the
+claim fails the day somebody closes it.
