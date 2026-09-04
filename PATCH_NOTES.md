@@ -4,6 +4,30 @@ Newest release first.
 
 ## UNRELEASED — Groundwork
 
+The game has a picture on its front door.
+
+Opening the game used to show a pale page with three buttons on it. It now
+opens on a community meeting hall — a real room, drawn at full size, the same
+one whatever machine you open it on. If you have played before, the title shows
+you a room that fits the life you left: an ordinary adult gets their own living
+room, with their name on it. Nobody is drawn into those rooms yet, because the
+people have not been drawn, and the game says so in a sentence rather than
+putting a stranger in your living room.
+
+A child never gets an office. Neither does an adult who does not work in one.
+Which room the title shows comes from what the game actually knows about your
+character, and what it does not know it will not guess: the municipal office
+with the county map on its wall now appears only where somebody really works
+there, and it can no longer turn up as the default room for anybody with a
+saved game.
+
+Three more rooms came in with it — a second living room, a public hearing room
+with a bench and a lectern, and a courtroom that nothing uses yet. All of them
+are the full-size approved pictures, shrunk to fit rather than blown up, and
+none of them has a single readable word painted into it. Anything a room needs
+to say — a date, a bill number, a name — stays blank until the game genuinely
+knows it.
+
 Nothing here changes what you can do in the game yet. It is the plumbing that
 future rooms and future people are built on, and it is worth one paragraph
 because of what it makes possible next.

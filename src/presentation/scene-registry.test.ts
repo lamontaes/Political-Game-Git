@@ -90,6 +90,85 @@ describe("scene registry", () => {
   });
 
   /**
+   * MEASURED, OR SAID TO BE UNMEASURED. Never quietly absent.
+   *
+   * A perspective ramp is the number every placement in a room rests on, and
+   * the temptation with an illustration is to fit one anyway and call the
+   * residual rounding. So a production scene either declares the pair, or its
+   * `explicit_unknowns` says in words that it does not and why. There is no
+   * third state where the field is simply missing and a reader has to guess
+   * whether anybody looked.
+   */
+  it("makes every production scene either calibrated or explicitly not", () => {
+    for (const scene of SCENE_REGISTRY.scenes.values()) {
+      if (scene.presentationStatus !== "production") continue;
+      if (scene.floorCalibration !== null) continue;
+      const unknowns = (scene.spec.explicit_unknowns ?? []).join(" ");
+      expect(unknowns.toLowerCase(), scene.sceneId).toContain("calibration");
+    }
+  });
+
+  /**
+   * A body width with no ramp is a size with no perspective: it would paint
+   * every person in the room at the same height whatever floor they stood on.
+   */
+  it("declares no body width without the ramp that scales it", () => {
+    for (const scene of SCENE_REGISTRY.scenes.values()) {
+      if (scene.standardBodyWidthPercent === null) continue;
+      expect(scene.floorCalibration, scene.sceneId).not.toBeNull();
+    }
+  });
+
+  /**
+   * GEOMETRY IS MEASURED FROM THE PLATE BEING USED, NEVER TRANSPLANTED.
+   *
+   * Two rooms sharing a ramp or a body width to three decimal places did not
+   * both measure out that way; one was copied. The office production scene was
+   * added precisely because the fixture's numbers had been treated as the
+   * project's numbers, so this is the assertion that stops it recurring.
+   */
+  it("shares no measured geometry between two different rooms", () => {
+    const ramps = new Map<string, string>();
+    const widths = new Map<number, string>();
+    for (const scene of SCENE_REGISTRY.scenes.values()) {
+      if (scene.floorCalibration) {
+        const { near, far } = scene.floorCalibration;
+        const key = `${near.floor_y_percent}/${near.scale}/${far.floor_y_percent}/${far.scale}`;
+        expect(ramps.get(key), `${scene.sceneId} vs ${ramps.get(key)}`).toBe(
+          undefined,
+        );
+        ramps.set(key, scene.sceneId);
+      }
+      if (scene.standardBodyWidthPercent !== null) {
+        const width = scene.standardBodyWidthPercent;
+        expect(
+          widths.get(width),
+          `${scene.sceneId} vs ${widths.get(width)}`,
+        ).toBe(undefined);
+        widths.set(width, scene.sceneId);
+      }
+    }
+  });
+
+  /**
+   * A production plate must not be a room nobody measured a contact in. An
+   * anchor without a floor line cannot be registered at all, so the check that
+   * is worth making here is that a production room declares anchors and
+   * surfaces rather than being a picture with nothing authored against it.
+   */
+  it("authors contacts and surfaces against every production plate", () => {
+    for (const scene of SCENE_REGISTRY.scenes.values()) {
+      if (scene.presentationStatus !== "production") continue;
+      expect(scene.anchors.size, scene.sceneId).toBeGreaterThan(0);
+      expect(scene.surfaceSlots.length, scene.sceneId).toBeGreaterThan(0);
+      expect(
+        (scene.spec.explicit_unknowns ?? []).length,
+        scene.sceneId,
+      ).toBeGreaterThan(0);
+    }
+  });
+
+  /**
    * The quarantine, asserted rather than described. The Lexington plate is
    * jurisdiction-specific art with a Fayette County map on its wall, and the
    * only scene entitled to it is the Lexington fixture itself.

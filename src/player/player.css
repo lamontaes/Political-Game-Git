@@ -5499,6 +5499,9 @@
  * read over this panel exactly as they read over the pale page.
  */
 .title-tableau--art .game-title {
+  /* Less air than the pale page needs: every row the panel gives back is a row
+     of the room. */
+  padding: 2.25rem 1.5rem 2.25rem;
   background: linear-gradient(
     rgb(248 249 252 / 93%),
     rgb(248 249 252 / 86%) 60%,

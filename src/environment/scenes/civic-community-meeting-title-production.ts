@@ -41,23 +41,26 @@ export const CIVIC_COMMUNITY_MEETING_TITLE_SCENE: EnvironmentSceneSpec = {
   plate: { width: 1376, height: 768 },
 
   /**
-   * Horizontal focus stays centred: the lectern is left of centre and the
-   * audience right of it, and losing either end costs the picture its subject.
-   * Vertical focus is low because the top fifth is blank wall.
+   * Focus is the subject, and the subject of this plate is the lectern at
+   * x 22%-40%, not the middle of the room. On a wide screen the difference is
+   * ten pixels; on a tall one, where a backdrop crops to a narrow vertical
+   * slice, it is the difference between showing the lectern and showing the
+   * front row's knees. Vertical focus is low because the top fifth is blank
+   * wall and it is the first thing worth losing.
    */
   camera_policy: {
     minimum_aspect_ratio: 1.5,
     maximum_aspect_ratio: 12 / 5,
-    horizontal_focus: 0.5,
+    horizontal_focus: 0.32,
     vertical_focus: 0.72,
   },
 
   /**
-   * What survives every supported aspect. At 1.5 the plate keeps x 112..1264;
-   * at 2.4 it keeps 573 rows, taken from y 195 down because the ceiling band
-   * carries nothing.
+   * What survives every supported aspect under the focus above. At 1.5 the
+   * plate loses 224 columns and keeps x 72..1224; at 2.4 it keeps 573 rows,
+   * taken from y 195 down because the ceiling band carries nothing.
    */
-  safe_area: { x: 112, y: 195, width: 1152, height: 573 },
+  safe_area: { x: 72, y: 195, width: 1152, height: 573 },
 
   /**
    * The lectern, the front rows and the floor they sit on: measured at

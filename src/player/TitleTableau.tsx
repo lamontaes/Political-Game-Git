@@ -4,7 +4,7 @@ import { requireSceneAnchor } from "../presentation/scene-registry";
 import type { TitlePresentation } from "../presentation/title-tableau";
 import { PRODUCTION_VISUAL_LIBRARY } from "../presentation/visual-integration";
 import { useRasterTier } from "./useRasterTier";
-import { useSceneTransform } from "./useSceneTransform";
+import { useSceneCoverTransform } from "./useSceneTransform";
 
 /**
  * The title screen's backdrop.
@@ -44,7 +44,8 @@ function TitleStage({
       },
     [scene],
   );
-  const transform = useSceneTransform(viewportRef, plate, camera);
+  // A backdrop covers rather than fits: see `resolveCoverTransform`.
+  const transform = useSceneCoverTransform(viewportRef, plate, camera);
 
   const environment = scene?.raster
     ? PRODUCTION_VISUAL_LIBRARY.get(scene.raster.assetId)

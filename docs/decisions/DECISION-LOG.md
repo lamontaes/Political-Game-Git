@@ -1652,3 +1652,145 @@ Consequence: the distinction between placement and attachment is now written
 down and checkable, the contaminated coordinates are labelled where someone
 reading the record will see them, and no rejected art moved a pixel closer to
 production.
+
+## D-069 — The title screen resolves a room the way every other surface does, and can name no office
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+
+The title screen was plain markup on a pale page while `title-tableau.ts`,
+`scene-registry.ts` and `raster-tiers.ts` all existed and all passed their own
+tests. The resolver was correct and unreachable, which no unit test on the
+resolver could detect, so the first artefact of this decision is a browser test
+that fails when the front door paints nothing.
+
+The tableau an ordinary adult resolved to was the Lexington council staff
+office, because it was the only tableau in the bank. That is the
+universal-office substitution the consumer map forbids, and gating it more
+tightly is not the repair: the fact that would justify that room is which
+jurisdiction a character's job answers to, and a save summary does not carry it.
+The Lexington tableaux are therefore ABSENT from the title registry rather than
+restricted, and a test walks every capability set a summary can produce to prove
+no path reaches them.
+
+What a save summary can honestly support is an age and whether a residence is on
+record. `titleHeroFromSaveSummary` emits `adult` and `residence-known` and
+nothing else; `office` and `legislature` exist in the registry and are never
+emitted, so the tableaux gated on them cannot match. When the persistence lane
+carries canonical capability tags on the summary they belong in that one
+function, and the tableaux light up with no change to the registry or the shell.
+
+The community meeting hall is banked for its EMPTY state only. Being an adult,
+or having a job, does not mean a character has ever spoken at a public meeting;
+putting them at that lectern because the picture contains a lectern is
+presentation inventing a life. A no-save title uses one named front-door tableau
+rather than a deterministic pick, because the first screen of a game is the one
+place stable-but-arbitrary is wrong.
+
+Consequence: the title screen shows approved production art, an ordinary person
+is shown an ordinary room, a child is shown a room with their name on it and no
+figure at all, and no title can show jurisdiction-specific office art.
+
+## D-070 — A room is measured from its own raster, or it says it is not measured
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+
+Four production plates were authored in this packet. None declares a floor
+calibration or a standard body width, and that is a refusal rather than an
+omission.
+
+The two apartments and the title hall have no repeating floor unit, so their
+plates contain no ruler and any near/far pair would be a guess wearing a
+measurement's clothes. The hearing room DOES have a tiled floor, and it was
+measured: successive tile seams sit at plate y 63.7%, 69.5%, 76.6%, 85.5% and
+96.5%. Fitting those to a flat floor under a fixed camera solves a horizon near
+the very top of the frame, which the room's own walls and ceiling contradict.
+The plate is an illustration and is not drawn on one consistent perspective. The
+measurement is recorded in `explicit_unknowns` and no calibration is derived
+from it, because a ramp fitted to numbers that do not describe a camera would
+place every future person in that room wrongly and look deliberate.
+
+Three rules are now executable. A production scene either declares a calibration
+pair or says in `explicit_unknowns` that it does not. No scene declares a body
+width without the ramp that scales it, because a size with no perspective paints
+everyone the same height whatever floor they stand on. And no two rooms share a
+ramp or a body width: two rooms agreeing to three decimal places did not both
+measure out that way, one was copied, which is exactly what made the fixture's
+numbers into "the project's numbers" before D-067.
+
+Consequence: an uncalibrated production room is a stated fact rather than a
+missing field, and the first person composed into any of these rooms will be
+placed against a ramp measured for it, not inherited from another picture.
+
+## D-071 — A missing picture is a record, and a generator seed is never its name
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+
+Every gap in this project had been recorded as a sentence in a report. Sentences
+do not reconcile: nobody can ask a paragraph whether the thing it wants has
+since arrived, and when the standing queues were checked against the current
+Drive, four of their answers had changed. A hearing-room master had arrived and
+closed a gap the consumer map called permanent; an executive office master and
+two title tableaux had been moved into the rejected folder while the
+repository's intake request still listed them as approved.
+
+`asset-request.ts` makes the ask durable. Every request carries a stable
+semantic id, a lifecycle, the consumer it unblocks, what was SEARCHED before it
+was asked for, and acceptance criteria a delivery can fail. The inventory check
+is required because commissioning a second copy of something the project already
+owns is a mistake this project has made.
+
+A diffusion seed may be recorded as provenance and may never be an asset's
+identity. A seed names one roll of one model's dice: it survives no model
+upgrade, describes nothing about what the picture is for, and cannot be searched
+for by anyone asking whether the asset exists. The validator rejects a
+seed-shaped or digest-shaped request id.
+
+The return path is deliberately NOT reimplemented. `asset-lineage.ts` already
+measures a candidate and issues a disposition; `asset-bank.ts` already records
+the verification with hash, container, dimensions, transparency, style-family
+judgement and artifact flags. A second verification record would give the
+project two answers to "was this accepted".
+
+Consequence: a gap is a record with an id that survives being solved, a stale
+request is closed with a reason rather than requeued, and the queue can be
+checked against the manifest by a test rather than by a person.
+
+## D-072 — A surface says nothing unless a canonical owner fills it
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+
+Scenes declare surfaces — screens, boards, placards, documents on tables — and
+each names the classes of information it could carry. `surface-binding.ts`
+decides what appears on them, and its whole design is one refusal: presentation
+never supplies a payload.
+
+The chain is base plate, to a slot measured off that plate, to a canonical owner
+that holds the fact, to a binder, to the visible room. If the third link is
+missing the chain stops and the slot shows the decoration the scene already
+declared for it. It does not show a plausible bill number, a seal that looks
+about right, or a date because a screen is the sort of thing that has one.
+
+Today the world owns exactly one of the offered classes: the date.
+`worldSurfacePayloads` binds `calendar-date` and returns nothing for bill
+numbers, tallies, seals, headlines, portraits, agendas and results — and that is
+a description of the simulation, not a limitation of the binder. "No owner" and
+"owner with nothing" are kept as separate states, because the second is the more
+actionable of the two and collapsing them hides that a system exists and is
+empty.
+
+This matters more than it sounds. Every surface in this game is in a civic room.
+Inventing any of those classes produces a picture of a government that does not
+exist, which is indistinguishable from a simulation bug and much harder to
+notice.
+
+Consequence: 26 declared surfaces across seven rooms currently show their
+painted decoration and say why, on a review route, instead of being quietly
+blank or quietly wrong.

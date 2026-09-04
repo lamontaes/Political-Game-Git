@@ -15,6 +15,11 @@ import {
   SCENE_REGISTRY,
   type RegisteredScene,
 } from "../presentation/scene-registry";
+import {
+  bindSceneSurfaces,
+  NO_SURFACE_PAYLOADS,
+  summarizeSurfaceBindings,
+} from "../presentation/surface-binding";
 import { PRODUCTION_VISUAL_LIBRARY } from "../presentation/visual-integration";
 
 /**
@@ -143,6 +148,9 @@ function SceneCard({ scene }: { readonly scene: RegisteredScene }) {
           </ul>
         )}
 
+        <h4>What this room can say</h4>
+        <SurfaceBindings scene={scene} />
+
         {(scene.spec.explicit_unknowns ?? []).length > 0 ? (
           <>
             <h4>What is not known about this room</h4>
@@ -155,6 +163,51 @@ function SceneCard({ scene }: { readonly scene: RegisteredScene }) {
         ) : null}
       </div>
     </section>
+  );
+}
+
+const BINDING_STATE_COPY: Readonly<Record<string, string>> = {
+  bound: "showing a real fact",
+  empty: "an owner exists and has nothing for this room",
+  unowned: "nothing owns this yet",
+  decorative: "decoration only",
+};
+
+/**
+ * Every declared surface, and what is actually on it.
+ *
+ * Bound with no payload provider on purpose: this route is not standing in a
+ * world, and a review surface that invented one to make its own table look
+ * full would be demonstrating the exact failure the binder prevents.
+ */
+function SurfaceBindings({ scene }: { readonly scene: RegisteredScene }) {
+  const bindings = bindSceneSurfaces(scene, NO_SURFACE_PAYLOADS);
+  const summary = summarizeSurfaceBindings(bindings);
+  if (summary.total === 0) {
+    return (
+      <p className="scene-gallery-warning">
+        This room declares no surface, so every future fact about it would have
+        to be painted in.
+      </p>
+    );
+  }
+  return (
+    <ul data-testid="scene-gallery-surfaces">
+      {bindings.map((binding) => (
+        <li
+          key={binding.slotId}
+          data-testid="scene-gallery-surface"
+          data-slot-id={binding.slotId}
+          data-binding-state={binding.state}
+        >
+          <strong>{binding.slotId}</strong>{" "}
+          <em>{BINDING_STATE_COPY[binding.state]}</em>
+          <span>
+            Shows: {binding.shows}. {binding.because}
+          </span>
+        </li>
+      ))}
+    </ul>
   );
 }
 
