@@ -77,11 +77,49 @@ describe("environment production-authoring queue", () => {
     }
   });
 
-  it("asserts no measurement, because nothing here has been measured", () => {
+  it("asserts no measurement, because this file measures nothing", () => {
     for (const candidate of request.candidates) {
       expect(candidate.source_width).toBeUndefined();
       expect(candidate.source_height).toBeUndefined();
-      expect(candidate.approval_note ?? "").toContain(
+    }
+  });
+
+  /**
+   * A batch is reconciled, not frozen. Three of these were approved when the
+   * request was written and have since been moved into the rejected
+   * high-resolution folder; leaving an owner's approval standing on a file the
+   * owner rejected is how a rejected picture gets ingested by a tool doing
+   * exactly what it was told.
+   */
+  it("keeps no approver on a candidate the owner has since rejected", () => {
+    const withdrawn = request.candidates.filter((candidate) =>
+      (candidate.approval_note ?? "").startsWith("WITHDRAWN"),
+    );
+    expect(withdrawn.length).toBeGreaterThan(0);
+    for (const candidate of withdrawn) {
+      expect(candidate.approved_by, candidate.asset_id).toBeUndefined();
+      expect(candidate.approval_note, candidate.asset_id).toContain(
+        "REJECTED BY THE OWNER",
+      );
+      expect(candidate.approval_note, candidate.asset_id).toContain(
+        "05Y_REJECTED_HIGH_RES_CALIBRATION",
+      );
+    }
+  });
+
+  /**
+   * Anything still approved and still wanted must say its bytes are not here,
+   * so the queue can never be mistaken for coverage.
+   */
+  it("says plainly which candidates are still waiting on bytes", () => {
+    const waiting = request.candidates.filter(
+      (candidate) =>
+        candidate.approved_by !== undefined &&
+        !(candidate.approval_note ?? "").startsWith("INGESTED"),
+    );
+    expect(waiting.length).toBeGreaterThan(0);
+    for (const candidate of waiting) {
+      expect(candidate.approval_note ?? "", candidate.asset_id).toContain(
         "Bytes are NOT in the repository yet",
       );
     }
