@@ -82,50 +82,66 @@ export interface LifePlaceProvider {
   byJurisdictionId(jurisdictionId: EntityId): LifePlace | null;
 }
 
-const PLACES: readonly LifePlace[] = [
-  {
-    key: "kentucky",
-    displayName: "Kentucky",
-    withinName: "United States",
-    context: KENTUCKY_CONTEXT,
-    capabilities: {
-      legislativeScenarioKey: "kentucky",
-      candidacyPackId: "us-ky-general-assembly-v1:candidacy",
+/**
+ * Built on first use rather than at module load.
+ *
+ * The contexts below come from `legislation-scenarios`, which reaches the world
+ * builder, which reaches the integrity pass, which now has a reason to ask
+ * which offices a place supports — and that question comes back here. Reading
+ * the contexts while that chain is still unwinding gets a binding that exists
+ * but is not yet initialized, and the whole app fails to start. Deferring the
+ * read to the first call means this module no longer cares what order anything
+ * was loaded in, which is the property it should have had all along.
+ */
+let places: readonly LifePlace[] | null = null;
+
+function allPlaces(): readonly LifePlace[] {
+  places ??= [
+    {
+      key: "kentucky",
+      displayName: "Kentucky",
+      withinName: "United States",
+      context: KENTUCKY_CONTEXT,
+      capabilities: {
+        legislativeScenarioKey: "kentucky",
+        candidacyPackId: "us-ky-general-assembly-v1:candidacy",
+      },
     },
-  },
-  {
-    key: "nebraska",
-    displayName: "Nebraska",
-    withinName: "United States",
-    context: NEBRASKA_CONTEXT,
-    capabilities: {
-      legislativeScenarioKey: "nebraska",
-      candidacyPackId: "us-ne-legislature-v1:candidacy",
+    {
+      key: "nebraska",
+      displayName: "Nebraska",
+      withinName: "United States",
+      context: NEBRASKA_CONTEXT,
+      capabilities: {
+        legislativeScenarioKey: "nebraska",
+        candidacyPackId: "us-ne-legislature-v1:candidacy",
+      },
     },
-  },
-  {
-    key: "alaska",
-    displayName: "Alaska",
-    withinName: "United States",
-    context: ALASKA_CONTEXT,
-    capabilities: {
-      legislativeScenarioKey: "alaska",
-      candidacyPackId: "us-ak-legislature-v1:candidacy",
+    {
+      key: "alaska",
+      displayName: "Alaska",
+      withinName: "United States",
+      context: ALASKA_CONTEXT,
+      capabilities: {
+        legislativeScenarioKey: "alaska",
+        candidacyPackId: "us-ak-legislature-v1:candidacy",
+      },
     },
-  },
-  {
-    key: "lexington-fayette",
-    displayName: "Lexington-Fayette, Kentucky",
-    withinName: "Kentucky",
-    context: LEXINGTON_DEMO_CONTEXT,
-    // The accepted rule packs are written for state legislatures. Nothing in
-    // the sources describes this city's own council, so it does not claim to —
-    // and for the same reason nobody can run for one here. A character can live
-    // a whole life in this city; they cannot stand for an office the game has
-    // never read the rules for.
-    capabilities: { legislativeScenarioKey: null, candidacyPackId: null },
-  },
-];
+    {
+      key: "lexington-fayette",
+      displayName: "Lexington-Fayette, Kentucky",
+      withinName: "Kentucky",
+      context: LEXINGTON_DEMO_CONTEXT,
+      // The accepted rule packs are written for state legislatures. Nothing in
+      // the sources describes this city's own council, so it does not claim to —
+      // and for the same reason nobody can run for one here. A character can live
+      // a whole life in this city; they cannot stand for an office the game has
+      // never read the rules for.
+      capabilities: { legislativeScenarioKey: null, candidacyPackId: null },
+    },
+  ];
+  return places;
+}
 
 const OUTSTANDING_DEPENDENCY =
   "A verified national place corpus. Until one is accepted, only the places above have a jurisdiction the game can place a life in.";
@@ -137,21 +153,21 @@ export const acceptedLifePlaceProvider: LifePlaceProvider = {
   coverage() {
     return {
       kind: "accepted-context-set",
-      placeCount: PLACES.length,
+      placeCount: allPlaces().length,
       supportsArbitrarySelection: false,
       outstandingDependency: OUTSTANDING_DEPENDENCY,
       playerNote: PLAYER_NOTE,
     };
   },
   list() {
-    return PLACES;
+    return allPlaces();
   },
   byKey(key) {
-    return PLACES.find((place) => place.key === key) ?? null;
+    return allPlaces().find((place) => place.key === key) ?? null;
   },
   byJurisdictionId(jurisdictionId) {
     return (
-      PLACES.find(
+      allPlaces().find(
         (place) => place.context.jurisdiction.id === jurisdictionId,
       ) ?? null
     );

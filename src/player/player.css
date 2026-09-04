@@ -4577,3 +4577,76 @@
   color: #5a5a4e;
   font-style: italic;
 }
+
+/* -------------------------------------------------------------------------- */
+/* Standing for something                                                      */
+/*                                                                             */
+/* Appended, and deliberately quiet. The campaign sits under the ordinary day  */
+/* in the same rule the office uses, because it is one more thing in a life     */
+/* rather than a mode the game switches into. There is no meter here on         */
+/* purpose: the only number on the screen is one somebody wrote down, and it    */
+/* is set in the same type as the sentence that admits it might be wrong.       */
+/* -------------------------------------------------------------------------- */
+
+.game-campaign {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #d3d3c8;
+}
+
+.game-campaign h2 {
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #47536a;
+}
+
+.game-campaign-authority {
+  margin: 0.35rem 0 0.9rem;
+  font-size: 0.82rem;
+  color: #5a5a4e;
+}
+
+.game-campaign-gaps {
+  margin-top: 1rem;
+  font-size: 0.84rem;
+  color: #5a5a4e;
+}
+
+.game-campaign-gaps summary {
+  cursor: pointer;
+}
+
+.game-campaign-gaps ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.game-campaign-memo {
+  margin: 1rem 0;
+  padding: 0.8rem 1rem;
+  border-left: 3px solid #b4b4a8;
+  background: #f3f1e6;
+  color: #2c3242;
+}
+
+.game-campaign-memo small {
+  display: block;
+  margin-top: 0.35rem;
+  color: #5a5a4e;
+  font-style: italic;
+}
+
+.game-campaign-log,
+.game-campaign-tallies {
+  margin: 1rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+  color: #3a3a30;
+}
+
+.game-campaign-log li,
+.game-campaign-tallies li {
+  margin-bottom: 0.35rem;
+}

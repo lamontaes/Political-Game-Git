@@ -1,4 +1,4 @@
-import { candidacyPackById } from "./candidacy";
+import { candidacyPackById } from "./candidacy-packs";
 import {
   campaignActionRecords,
   campaignActionResultRecords,
@@ -37,8 +37,7 @@ export const CAMPAIGN_ACTION_KINDS = [
 ] as const;
 
 /** The classification a campaign committee's organization profile must carry. */
-export const CAMPAIGN_ORGANIZATION_CLASSIFICATION =
-  "custom:political-campaign";
+export const CAMPAIGN_ORGANIZATION_CLASSIFICATION = "custom:political-campaign";
 
 function assertIdentity(
   ids: Set<EntityId>,
@@ -508,7 +507,9 @@ function assertCampaignMoney(
     money.currency !== campaign.treasuryCurrency ||
     money.minorUnits <= 0
   ) {
-    throw new Error(`Campaign ${action.kind} transfer is invalid: ${result.id}`);
+    throw new Error(
+      `Campaign ${action.kind} transfer is invalid: ${result.id}`,
+    );
   }
 
   // Which way the money went is the whole difference between the two, and the

@@ -76,7 +76,10 @@ export function campaignForContest(
   world: World,
   contestId: EntityId,
 ): CampaignRecord | null {
-  return campaigns(world).find((campaign) => campaign.contestId === contestId) ?? null;
+  return (
+    campaigns(world).find((campaign) => campaign.contestId === contestId) ??
+    null
+  );
 }
 
 export function campaignState(

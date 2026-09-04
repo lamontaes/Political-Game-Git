@@ -28,7 +28,11 @@ import {
 } from "./index";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
-import { canonicalSupportBasisPoints } from "./campaigns";
+import {
+  CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
+  canonicalSupportBasisPoints,
+} from "./campaigns";
+import { SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS } from "./production-catalog";
 import { canonicalJson } from "./canonical-json";
 import type { CampaignRecord, EntityId, World } from "./types";
 
@@ -39,8 +43,7 @@ function firstAdult(world: World): EntityId {
     const person = world.people[candidate];
     return (
       person !== undefined &&
-      ageOnDate(person.birthDate, world.currentDate) >=
-        GAME_ADULT_CANDIDACY_AGE
+      ageOnDate(person.birthDate, world.currentDate) >= GAME_ADULT_CANDIDACY_AGE
     );
   });
   if (!personId) throw new Error("The fixture produced no adult.");
@@ -172,9 +175,15 @@ describe("candidacy coverage is stated, never assumed", () => {
       expect(office.qualification.residency.kind).toBe("unknown");
       expect(office.qualification.termYears.kind).toBe("unknown");
       expect(office.qualification.filing.kind).toBe("unknown");
-      // The office itself is not invented: it carries the pack's own citation.
-      expect(office.source.citation.length).toBeGreaterThan(0);
+      // The office is not invented: it names the accepted pack that records
+      // it. It also does not attach one of that pack's procedural citations to
+      // the seat count, because none of them establishes it.
+      expect(office.recordedBy.packId.length).toBeGreaterThan(0);
+      expect(office.recordedBy.packName.length).toBeGreaterThan(0);
       expect(office.seats).toBeGreaterThan(0);
+      expect(office.unresolvedGaps.join(" ")).toMatch(
+        /no instrument establishing the size of the chamber/i,
+      );
       // No district geography exists, so no district is claimed.
       expect(office.office.seatKey).toBeNull();
     }
@@ -186,9 +195,13 @@ describe("candidacy coverage is stated, never assumed", () => {
     )!;
     expect(lexington.capabilities.candidacyPackId).toBeNull();
 
-    const world = createScenarioWorld("lexington-candidacy", LEXINGTON_DEMO_CONTEXT, {
-      peopleCount: 3,
-    });
+    const world = createScenarioWorld(
+      "lexington-candidacy",
+      LEXINGTON_DEMO_CONTEXT,
+      {
+        peopleCount: 3,
+      },
+    );
     const eligibility = candidacyEligibility(world, {
       personId: firstAdult(world),
       jurisdictionId: LEXINGTON_DEMO_CONTEXT.jurisdiction.id,
@@ -202,9 +215,13 @@ describe("candidacy coverage is stated, never assumed", () => {
   });
 
   it("does not borrow another state's pack to cover the gap", () => {
-    const world = createScenarioWorld("lexington-borrow", LEXINGTON_DEMO_CONTEXT, {
-      peopleCount: 3,
-    });
+    const world = createScenarioWorld(
+      "lexington-borrow",
+      LEXINGTON_DEMO_CONTEXT,
+      {
+        peopleCount: 3,
+      },
+    );
     const eligibility = candidacyEligibility(world, {
       personId: firstAdult(world),
       // Asking for a Kentucky office from a jurisdiction Kentucky's pack does
@@ -260,10 +277,12 @@ describe("filing", () => {
         officeKey: kentuckyOfficeKey(),
         electionDate: addDays(world.currentDate, 30),
         rivalPersonIds: [
-          requireElectionContest(world, campaign.contestId)
-            .candidatePersonIds.find(
-              (personId) => personId !== candidatePersonId,
-            )!,
+          requireElectionContest(
+            world,
+            campaign.contestId,
+          ).candidatePersonIds.find(
+            (personId) => personId !== candidatePersonId,
+          )!,
         ],
         existingContestId: null,
         committeeName: "Another committee",
@@ -438,6 +457,15 @@ describe("support truth and what the campaign is told about it", () => {
     expect(disagreements).toBeGreaterThan(6);
   });
 
+  it("is the one metric a production world may establish for itself", () => {
+    // The production catalog boundary names this key rather than importing it,
+    // because importing back would close a cycle. This is the check that keeps
+    // the two from drifting apart.
+    expect(SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS).toContain(
+      CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
+    );
+  });
+
   it("does not export the canonical support reader through the barrel", async () => {
     const barrel = await import("./index");
     expect("canonicalSupportBasisPoints" in barrel).toBe(false);
@@ -462,13 +490,16 @@ function playToElection(seed: string, outreachSessions: number) {
 describe("election day", () => {
   it("resolves through the ordinary time advance", () => {
     const played = playToElection("probe-3", 3);
-    const result = electionContestResult(played.world, played.campaign.contestId);
+    const result = electionContestResult(
+      played.world,
+      played.campaign.contestId,
+    );
     expect(result).not.toBeUndefined();
     expect(result!.tallies.length).toBeGreaterThanOrEqual(2);
     // The tallies are a whole distribution, not a pair of scores.
-    expect(
-      result!.tallies.reduce((sum, tally) => sum + tally.votes, 0),
-    ).toBe(10_000);
+    expect(result!.tallies.reduce((sum, tally) => sum + tally.votes, 0)).toBe(
+      10_000,
+    );
   });
 
   it("leaves a contest nobody filed for to the substrate's own handler", () => {

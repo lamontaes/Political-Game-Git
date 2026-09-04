@@ -2,6 +2,7 @@ import {
   currentLifeCutoff,
   householdMembershipsAt,
   advanceWorld,
+  createCampaignElectionTransitionRegistry,
   ageOnDate,
   createScheduledActivity,
   createWorkItem,
@@ -229,9 +230,21 @@ export function projectOrdinaryDay(
   };
 }
 
-/** Moves an ordinary day forward. Nothing dramatic is manufactured to fill it. */
+/**
+ * Moves an ordinary day forward. Nothing dramatic is manufactured to fill it.
+ *
+ * The handlers are the campaign-aware ones, which is how election day arrives:
+ * by the world reaching it while somebody gets on with their week, not because
+ * a screen offered a button marked "hold the election". A contest nobody filed
+ * for falls through to the substrate's own handler, so this changes nothing for
+ * a life with no campaign in it.
+ */
 export function passOrdinaryDays(world: World, days = 1): World {
-  return advanceWorld(world, Math.max(1, Math.trunc(days)));
+  return advanceWorld(
+    world,
+    Math.max(1, Math.trunc(days)),
+    createCampaignElectionTransitionRegistry(),
+  );
 }
 
 function openingLine(

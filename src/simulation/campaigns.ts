@@ -1,3 +1,4 @@
+import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility } from "./candidacy";
 import {
   activeCampaignForCandidate,
@@ -715,13 +716,13 @@ export function fileCampaign(
       {
         personId: input.candidatePersonId,
         role: "agency:candidate",
-        detail: `Filed for a ${option.office.title.toLowerCase()}`,
+        detail: `Filed for a ${option.office.title}`,
       },
     ],
     personFactConstraints: [],
     visibility: "public",
     tags: ["campaign.filing", "election.candidacy"],
-    summary: `${candidate.givenName} ${candidate.familyName} filed as a candidate for a ${option.office.title.toLowerCase()}.`,
+    summary: `${candidate.givenName} ${candidate.familyName} filed as a candidate for a ${option.office.title}.`,
     context: {
       location: {
         jurisdictionId: input.jurisdictionId,
@@ -787,10 +788,7 @@ export function fileCampaign(
       ...world.history,
       nextSequence: world.history.nextSequence + 2,
       campaigns: [...campaigns(world), campaignRecord],
-      campaignStates: [
-        ...(world.history.campaignStates ?? []),
-        initialState,
-      ],
+      campaignStates: [...(world.history.campaignStates ?? []), initialState],
     },
   };
   assertWorldIntegrity(world);
@@ -823,10 +821,14 @@ export function scheduleCampaignAction(
       throw new Error("An advertising buy has to commit some money.");
     }
     if (input.spend.currency !== campaign.treasuryCurrency) {
-      throw new Error("An advertising buy must be in the committee's currency.");
+      throw new Error(
+        "An advertising buy must be in the committee's currency.",
+      );
     }
   } else if (input.spend !== null) {
-    throw new Error(`A ${input.kind} session does not spend from the treasury.`);
+    throw new Error(
+      `A ${input.kind} session does not spend from the treasury.`,
+    );
   }
   const contest = requireElectionContest(world, campaign.contestId);
   if (input.plan.start.date > contest.electionDate) {
@@ -900,7 +902,10 @@ function requestedGainBasisPoints(
   // How long the session was booked for. The activity record carries what it
   // is; its state record carries when, which is the half this needs.
   const timing = scheduledActivityState(world, action.scheduledActivityId);
-  const minutes = Math.max(1, simulationMinutesBetween(timing.start, timing.end));
+  const minutes = Math.max(
+    1,
+    simulationMinutesBetween(timing.start, timing.end),
+  );
   const workers = 1 + campaign.staffWorkRelationshipIds.length;
   const base =
     action.kind === "outreach"
@@ -1427,7 +1432,9 @@ export function evaluateCampaignAwareOutcome(
     .map((candidatePersonId) => ({
       candidatePersonId,
       votes: votes[candidatePersonId]!,
-      voteShare: Number((votes[candidatePersonId]! / SUPPORT_DENOMINATOR).toFixed(4)),
+      voteShare: Number(
+        (votes[candidatePersonId]! / SUPPORT_DENOMINATOR).toFixed(4),
+      ),
     }))
     .sort(
       (left, right) =>
@@ -1435,6 +1442,92 @@ export function evaluateCampaignAwareOutcome(
         left.candidatePersonId.localeCompare(right.candidatePersonId),
     );
   return { winnerPersonId: tallies[0]!.candidatePersonId, tallies };
+}
+
+/**
+ * What winning actually gets you.
+ *
+ * A result record says who won; it does not put anybody in a chair. The seat is
+ * taken up the way every other working life in this game is recorded — an
+ * organization, a work relationship, a role in a jurisdiction — which is what
+ * makes the office real to the rest of the game rather than a status word on a
+ * campaign screen. The existing capability rules then do the rest: the surfaces
+ * that appear because somebody works in a legislature appear because they now
+ * do.
+ *
+ * Two things are deliberately not claimed. Nothing here states what a member is
+ * styled or what the seat pays, because no accepted source in this repository
+ * says. And the term starts the day the result is recorded, because no pack
+ * states when a term begins — recorded as an open question rather than dressed
+ * up as a rule.
+ */
+function seatTheWinner(
+  world: World,
+  campaign: CampaignRecord,
+  effectiveAt: string,
+  outcomeEventId: EntityId,
+): World {
+  const pack = requireCandidacyPack(campaign.candidacyPackId);
+  const contest = requireElectionContest(world, campaign.contestId);
+  // One body per legislature, not one per election. Reused across campaigns
+  // because a chamber is not created by the contest that fills a seat in it.
+  const bodyKey = `legislature:${pack.packId}`;
+  let next = world;
+  const existing = next.history.organizations.find(
+    (organization) => organization.stableKey === bodyKey,
+  );
+  if (!existing) {
+    next = createOrganization(next, {
+      stableKey: bodyKey,
+      formedAt: next.currentDate,
+      detailLevel: "lightweight",
+      provenance: {
+        kind: "authored",
+        note: `The body the accepted rule pack ${pack.legislativeRulePackId} describes.`,
+      },
+      initialProfile: {
+        name: pack.displayName,
+        classification: "sector:government",
+        locationJurisdictionId: campaign.jurisdictionId,
+      },
+    });
+  }
+  const bodyId =
+    existing?.id ??
+    next.history.organizations.find(
+      (organization) => organization.stableKey === bodyKey,
+    )!.id;
+
+  next = createWorkRelationship(next, {
+    stableKey: `${campaign.stableKey}:seat`,
+    personId: campaign.candidatePersonId,
+    organizationId: bodyId,
+    startedAt: effectiveAt,
+    // The prefix the capability rules already read to open the office and the
+    // legislative surfaces. A member is not staff, and the kind says which.
+    kind: "employment:legislative-member",
+    compensation: "paid",
+    authority: "shared",
+    dependency: "partly-dependent",
+    economicRisk: "organization-borne",
+    provenance: { kind: "simulated-event", eventId: outcomeEventId },
+    initialRole: {
+      title: contest.office.title,
+      occupationClassification:
+        contest.office.occupationClassification ?? "service:elected-legislator",
+      locationJurisdictionId: campaign.jurisdictionId,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 10, maximumHours: 45 },
+        attention: "high",
+        concurrency: "partly-concurrent",
+        scheduleRigidity: "mixed",
+        interruptibility: "limited",
+        locationJurisdictionId: campaign.jurisdictionId,
+      },
+    },
+  });
+  assertWorldIntegrity(next);
+  return next;
 }
 
 /**
@@ -1497,6 +1590,14 @@ function closeCampaignAfterElection(
       });
     }
   }
+  if (status === "won") {
+    next = seatTheWinner(
+      next,
+      campaign,
+      result.resolvedAt,
+      result.outcomeEventId,
+    );
+  }
   assertWorldIntegrity(next);
   return next;
 }
@@ -1547,7 +1648,7 @@ export function campaignElectionTransitionHandler(
     world: closed,
     status: "resolved",
     reasonKey: null,
-    context: `The contest for a ${requireElectionContest(closed, campaign.contestId).office.title.toLowerCase()} was decided.`,
+    context: `The contest for a ${requireElectionContest(closed, campaign.contestId).office.title} was decided.`,
     outcomeEventId: result.outcomeEventId,
   };
 }

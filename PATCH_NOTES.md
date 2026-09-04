@@ -35,6 +35,24 @@ before any of the politics arrives.
 - **Talking at home.** The conversation system now knows what it is talking
   about. Settling who does the shopping runs on the same rules as an office
   briefing and offers none of the same things to say.
+- **Run for something.** A character old enough, living somewhere the game has
+  read the rules for, can put their name on a ballot. A committee opens with
+  nothing in it, an opponent turns up, and there is a date to work towards.
+- **Afternoons that cost afternoons.** An hour and a half on the phones brings
+  in money. The same time on the doors changes more minds and brings in none.
+  An advertising buy spends what the committee actually raised, and cannot
+  spend what it has not. Something already on the calendar can get in the way of
+  any of them.
+- **A field memo, and nothing more certain than one.** After a session somebody
+  writes down roughly where the campaign stands, give or take four points — and
+  sometimes it is further out than that. There is no bar filling up and no
+  number to beat. What the electorate actually thinks is not on the screen and
+  cannot be reached from it.
+- **Election day, and the morning after.** The election arrives because the
+  weeks went by. Losing is a thing that happened to somebody: the committee
+  closes, it goes into the record, and the same day screen is there tomorrow.
+  Winning puts them in the seat, and the office opens because they now work
+  there.
 - **Three more bills to push.** A road-signage bill the governor simply signs, a
   credential bill that dies in committee where most bills die, and an Alaska
   ferry-notice bill that is not a spending bill — so its veto falls at 40 of 60
@@ -50,6 +68,11 @@ before any of the politics arrives.
   surface is missing the game says why.
 - **A legislature only plays by its own rules.** A place with no researched
   procedure gets none, rather than quietly borrowing another state's.
+- **And neither does a ballot.** The game knows a seat is elected because it has
+  read the instrument that creates it. It has not read who is allowed to stand
+  for one, so it applies its own adult rule and says that it is its own rather
+  than pretending to quote a law. Lexington-Fayette has a life to live and
+  nothing to run for, and says why.
 - **Bills say what they are.** Every measure now carries a line making clear the
   procedure is researched and the bill itself is written for development.
 
@@ -63,6 +86,13 @@ before any of the politics arrives.
 
 - Only four places can start a life, and none of them is a city with its own
   council. A national place corpus is the missing piece.
+- Nobody has written down who may stand for office anywhere, how long a term
+  runs, or when one begins. A candidacy is a general-election candidacy with no
+  primary, no ballot access and no campaign finance rules behind it, and a seat
+  is a seat in a chamber rather than a numbered district.
+- A campaign is the candidate alone. There are no volunteers to recruit, no
+  endorsements, no forums, and no NPC deciding to run for something.
+- The opponent turns up when you file and does not campaign back.
 - Generated people have no drawn likeness. They get initials and a name.
 - The office scene, calendar, work list and working document still belong to the
   development fixture route and have not been rebuilt on the loaded world.
