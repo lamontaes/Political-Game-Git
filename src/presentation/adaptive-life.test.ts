@@ -500,7 +500,10 @@ describe("Acceptance 12 — a callback is canonical, replayable and traceable", 
     // What an option declares is a *kind* of thing that can come back. Whether
     // it does is answered later, from the world, and the two are different
     // questions asked in different places.
-    const setup = calibrate(ADULT, 0);
+    // A household evening needs somebody else at home. On a normal start (Task
+    // E) the household is generated and may be solo, so this pins the custom
+    // route that keeps the shared home the situation is written for.
+    const setup = calibrate({ ...ADULT, startKind: "custom" }, 0);
     const { world, personId } = openLife(setup);
     const alone = chooseAdultOption(world, {
       personId,

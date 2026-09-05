@@ -233,6 +233,9 @@ describe("Where the game will let a life begin", () => {
   it("keeps the office fixture's Lexington copy out of a life lived elsewhere", () => {
     const game = createNewGameWorld(
       setup({
+        // Custom keeps the shared home the household conversation needs; a
+        // normal start (Task E) generates the household and may be solo.
+        startKind: "custom",
         seed: "nebraska-clean",
         startAge: 34,
         depth: "summarize-earlier-life",
@@ -384,6 +387,9 @@ describe("What people can say", () => {
   it("refuses an intent that belongs to a different subject", () => {
     const game = createNewGameWorld(
       setup({
+        // Custom keeps the shared home the household conversation needs; a
+        // normal start (Task E) generates the household and may be solo.
+        startKind: "custom",
         seed: "wrong-intent",
         startAge: 33,
         depth: "summarize-earlier-life",

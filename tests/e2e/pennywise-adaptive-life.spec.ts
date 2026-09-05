@@ -3,6 +3,7 @@ import { expect, test, type Page } from "@playwright/test";
 import {
   enterLife,
   fillCreator,
+  openCreator,
   openElsewhere,
   startLife as walkCreator,
 } from "./support/creator";
@@ -68,10 +69,14 @@ async function openSetup(
   page: Page,
   age: number,
   calibration: "short" | "deep" | "skip",
+  household?: "lives-alone" | "shares-a-home",
 ) {
   await walkCreator(page, {
     age,
     calibration: calibration === "skip" ? "skipped" : calibration,
+    // Pinning who is at home takes the custom route, which is where a test that
+    // needs a peer to talk to at home gets one; a normal start generates it.
+    ...(household ? { household } : {}),
   });
   await enterLife(page);
 }
@@ -198,18 +203,34 @@ test.describe("The calibration is a set of situations, not a quiz", () => {
     await expect(page.getByTestId("play-screen")).toBeVisible();
   });
 
-  test("describes the longer set without promising a length", async ({
+  test("offers two ways to answer who you are, and promises no length", async ({
     page,
   }) => {
+    // "Who are you?" is two actions now (Task J): answer a few questions, or
+    // discover through play. Neither promises a count or a fraction — a set
+    // that ends without saying when.
     await freshBrowser(page);
-    await fillCreator(page, { age: 31 });
-    const deep = await page.getByTestId("calibration-deep").innerText();
-    const short = await page.getByTestId("calibration-short").innerText();
-    expect(short).toContain("5 situations");
-    // The deep path stops when it stops learning, so it must not claim a
-    // count. Two runs of it are different lengths.
-    expect(deep).not.toMatch(/\d+ situations/);
-    expect(deep).toMatch(/as many as it takes/i);
+    await openCreator(page);
+    await page.getByTestId("start-normal").click();
+    await page.getByTestId("start-age").fill("31");
+    await page.getByTestId("creator-continue-character").click();
+    await page.getByTestId("place-search").fill("Kentu");
+    await page
+      .getByTestId("place-choices")
+      .getByRole("button", { name: /Kentucky/i })
+      .first()
+      .click();
+    await page.getByTestId("creator-continue-place").click();
+
+    await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
+    const answer = await page.getByTestId("whoareyou-answer").innerText();
+    const play = await page.getByTestId("whoareyou-play").innerText();
+    const note = await page.getByTestId("whoareyou-note").innerText();
+    expect(answer).toMatch(/answer a few questions/i);
+    expect(play).toMatch(/discover/i);
+    const all = `${answer}\n${play}\n${note}`;
+    expect(all).not.toMatch(/\d+\s*(?:situations|questions)/i);
+    expect(all).not.toMatch(/\d+\s*(?:of|\/)\s*\d+/);
   });
 });
 
@@ -245,7 +266,8 @@ test.describe("An adult has something to do, and it follows from their life", ()
 
   test("keeps the ordinary day beside the decision", async ({ page }) => {
     await freshBrowser(page);
-    await openSetup(page, 37, "skip");
+    // A shared home, so there is somebody to hold the kitchen conversation with.
+    await openSetup(page, 37, "skip", "shares-a-home");
     await expect(page.getByTestId("story-section")).toBeVisible();
     await openElsewhere(page, "day");
     await expect(page.getByTestId("ordinary-section")).toBeVisible();

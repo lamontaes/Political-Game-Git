@@ -46,15 +46,23 @@ async function freshBrowser(page: Page) {
 /** Stops on the character stage, which is where the identity assertions live. */
 async function openSetup(page: Page, age: number) {
   await openCreator(page);
+  // Character is the first step after the route now, so the identity controls
+  // are reached without touching the place search.
   await page.getByTestId("start-normal").click();
+  await expect(page.getByTestId("creator-stage-character")).toBeVisible();
+  await page.getByTestId("start-age").fill(String(age));
+}
+
+/** Picks Kentucky on the place step and advances past it. */
+async function chooseKentucky(page: Page) {
+  await expect(page.getByTestId("creator-stage-place")).toBeVisible();
   await page.getByTestId("place-search").fill("Kentu");
   await page
     .getByTestId("place-choices")
     .getByRole("button", { name: /Kentucky/i })
     .first()
     .click();
-  await expect(page.getByTestId("creator-stage-character")).toBeVisible();
-  await page.getByTestId("start-age").fill(String(age));
+  await page.getByTestId("creator-continue-place").click();
 }
 
 test.describe("A player chooses who the character is", () => {
@@ -64,16 +72,21 @@ test.describe("A player chooses who the character is", () => {
     await freshBrowser(page);
     await openSetup(page, 10);
 
+    // Three genders, and no "Leave unspecified" among them (Task G).
     const gender = page.getByTestId("gender-choices");
     await expect(gender).toBeVisible();
-    await expect(gender.getByRole("button")).toHaveCount(4);
+    await expect(gender.getByRole("button")).toHaveCount(3);
+    expect(await gender.innerText()).not.toMatch(/leave unspecified/i);
 
-    const pronouns = page.getByTestId("pronoun-choices");
-    await expect(pronouns).toBeVisible();
-    await expect(pronouns.getByRole("button")).toHaveCount(3);
-
-    // Choosing a gender moves the pronouns with it, and either can be changed.
+    // Pronouns follow the gender automatically and are not a permanent row:
+    // they live in a compact disclosure that a player only opens to override.
     await page.getByTestId("gender-female").click();
+    const disclosure = page.getByTestId("pronoun-disclosure");
+    await expect(disclosure).toContainText(/she \/ her/i);
+
+    await disclosure.locator("summary").click();
+    const pronouns = page.getByTestId("pronoun-choices");
+    await expect(pronouns.getByRole("button")).toHaveCount(3);
     await expect(page.getByTestId("pronouns-she-her")).toHaveAttribute(
       "aria-pressed",
       "true",
@@ -117,7 +130,7 @@ test.describe("A ten-year-old is asked a ten-year-old's questions", () => {
 
     await expect(page.getByTestId("questionnaire-framing")).toBeVisible();
     await expect(page.getByTestId("questionnaire-framing")).toContainText(
-      /put to you, not to your character/i,
+      /about you, not your character/i,
     );
 
     const prompts: string[] = [];
@@ -223,8 +236,8 @@ test.describe("The page says whose life this is", () => {
     await openSetup(page, 34);
     await page.getByTestId("gender-male").click();
     await page.getByTestId("creator-continue-character").click();
-    await page.getByTestId("creator-continue-life").click();
-    await page.getByTestId("calibration-skip").click();
+    await chooseKentucky(page);
+    await page.getByTestId("whoareyou-play").click();
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);

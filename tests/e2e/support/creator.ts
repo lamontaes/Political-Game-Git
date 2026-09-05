@@ -19,11 +19,19 @@ export interface CreatorLife {
   readonly place?: string;
   /** The explicit route. Defaults to the ordinary generated one. */
   readonly route?: "normal" | "custom";
-  /** Play the early years rather than summarizing them. */
+  /**
+   * Play the early years rather than summarizing them. On a normal start this
+   * is automatic below eighteen; it is only a control on the custom route.
+   */
   readonly childhood?: boolean;
+  /** Custom-start only: who is at home. A normal start generates it (Task E). */
   readonly household?: "lives-alone" | "shares-a-home";
+  /** Custom-start only: begin already working an office. */
   readonly office?: boolean;
-  /** Defaults to declining, which is one of the three things the screen offers. */
+  /**
+   * Whether to answer the "Who are you?" questions. Defaults to discovering
+   * through play, which is one of the two things the screen offers.
+   */
   readonly calibration?: "short" | "deep" | "skipped";
   /** A `gender-*` test id suffix, when the test cares. */
   readonly gender?: string;
@@ -36,7 +44,13 @@ export async function openCreator(page: Page): Promise<void> {
 }
 
 /**
- * Opens the creator and answers every stage, stopping with Begin enabled.
+ * Opens the creator and answers every step, stopping with Begin enabled.
+ *
+ * The post-#87 flow is: route → character → place → (background, on the custom
+ * route only) → who-are-you → begin. Who is at home, whether the character
+ * already works, and how much of the early life is played are the generator's
+ * to decide on a normal start (Task E), so a test that pins any of them takes
+ * the custom route automatically.
  *
  * Deliberately does not press Begin: some tests want to read the setup screen
  * first, and pressing it is one line in the caller.
@@ -47,9 +61,16 @@ export async function fillCreator(
 ): Promise<void> {
   await openCreator(page);
 
-  await page
-    .getByTestId(life.route === "custom" ? "start-custom" : "start-normal")
-    .click();
+  const custom =
+    life.route === "custom" ||
+    life.office === true ||
+    life.household !== undefined;
+  await page.getByTestId(custom ? "start-custom" : "start-normal").click();
+
+  await expect(page.getByTestId("creator-stage-character")).toBeVisible();
+  await page.getByTestId("start-age").fill(String(life.age));
+  if (life.gender) await page.getByTestId(`gender-${life.gender}`).click();
+  await page.getByTestId("creator-continue-character").click();
 
   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
   const place = life.place ?? "Kentucky";
@@ -59,33 +80,21 @@ export async function fillCreator(
     .getByRole("button", { name: new RegExp(place, "i") })
     .first()
     .click();
+  await page.getByTestId("creator-continue-place").click();
 
-  await expect(page.getByTestId("creator-stage-character")).toBeVisible();
-  await page.getByTestId("start-age").fill(String(life.age));
-  if (life.gender) await page.getByTestId(`gender-${life.gender}`).click();
-  await page.getByTestId("creator-continue-character").click();
-
-  await expect(page.getByTestId("creator-stage-life")).toBeVisible();
-  if (life.childhood) {
-    await page
-      .getByTestId("creator-stage-life")
-      .getByRole("button", { name: /Start in childhood/i })
-      .first()
-      .click();
+  if (custom) {
+    await expect(page.getByTestId("creator-stage-background")).toBeVisible();
+    if (life.childhood) await page.getByTestId("depth-childhood").click();
+    if (life.office) await page.getByTestId("office-start").click();
+    if (life.household) await page.getByTestId(life.household).click();
+    await page.getByTestId("creator-continue-background").click();
   }
-  if (life.office) await page.getByTestId("office-start").click();
-  if (life.household) await page.getByTestId(life.household).click();
-  await page.getByTestId("creator-continue-life").click();
 
-  await expect(page.getByTestId("creator-stage-calibration")).toBeVisible();
+  await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
   const calibration = life.calibration ?? "skipped";
   await page
     .getByTestId(
-      calibration === "short"
-        ? "calibration-short"
-        : calibration === "deep"
-          ? "calibration-deep"
-          : "calibration-skip",
+      calibration === "skipped" ? "whoareyou-play" : "whoareyou-answer",
     )
     .click();
   await expect(page.getByTestId("begin")).toBeEnabled();

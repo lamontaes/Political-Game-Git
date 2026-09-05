@@ -131,8 +131,9 @@ test.describe("Opening the game opens a game", () => {
 
   test("rebuilds the exact world from a replay address", async ({ page }) => {
     await freshBrowser(page);
+    // fillCreator already answers "Who are you?" (discover through play by
+    // default) and leaves Begin enabled, so there is no separate skip to press.
     await fillCreator(page, { age: 24, place: "Nebraska" });
-    await page.getByTestId("calibration-skip").click();
 
     // The link describes the setup on screen, which is the whole point: a bare
     // seed could not rebuild a configured world.

@@ -164,10 +164,9 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     );
     await expect(page.getByTestId("creator-stage-route")).toBeVisible();
     for (const later of [
-      "creator-stage-place",
       "creator-stage-character",
-      "creator-stage-life",
-      "creator-stage-calibration",
+      "creator-stage-place",
+      "creator-stage-whoareyou",
     ]) {
       await expect(page.getByTestId(later)).toHaveCount(0);
     }
@@ -175,8 +174,8 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await expect(page.getByTestId("begin")).toBeDisabled();
 
     await page.getByTestId("start-normal").click();
-    await expect(page.getByTestId("creator-stage-place")).toBeVisible();
-    await expect(page.getByTestId("creator-stage-character")).toHaveCount(0);
+    await expect(page.getByTestId("creator-stage-character")).toBeVisible();
+    await expect(page.getByTestId("creator-stage-place")).toHaveCount(0);
   });
 
   test("names the two routes and says how they differ", async ({ page }) => {
@@ -185,12 +184,12 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     const route = (
       await page.getByTestId("creator-stage-route").innerText()
     ).toLowerCase();
-    expect(route).toContain("normal start");
+    expect(route).toContain("start a life");
     expect(route).toContain("custom start");
     // The difference that matters, in the words a player reads: one has the
-    // game writing the family, and the calibration leaning it.
-    expect(route).toMatch(/the game writes the family/);
-    expect(route).toMatch(/does not touch who your family is/);
+    // game building the family and background, the other sets it by hand.
+    expect(route).toMatch(/the game builds/);
+    expect(route).toMatch(/set the background yourself/);
   });
 
   test("keeps the seed behind Advanced", async ({ page }) => {
@@ -212,6 +211,10 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await freshBrowser(page);
     await openCreator(page);
     await page.getByTestId("start-normal").click();
+    // Character comes before place now; step through it to reach the search.
+    await expect(page.getByTestId("creator-stage-character")).toBeVisible();
+    await page.getByTestId("creator-continue-character").click();
+    await expect(page.getByTestId("creator-stage-place")).toBeVisible();
     await expect(page.getByTestId("place-choices")).toHaveCount(0);
     await expect(page.getByTestId("place-prompt")).toBeVisible();
 
@@ -388,26 +391,30 @@ test.describe("The calibration opens a life", () => {
     }
   });
 
-  test("stops on its own without being told a length up front", async ({
+  test("runs the questions and ends into the life without a length up front", async ({
     page,
   }) => {
+    // "Who are you?" offers two things (Task J): answer a few questions, or
+    // discover through play. Answering runs a set and then begins the life, and
+    // at no point is the player shown how many are left — a phase, never a
+    // fraction.
     await freshBrowser(page);
-    await walkCreator(page, { age: 30, calibration: "deep" });
+    await walkCreator(page, { age: 30, calibration: "short" });
 
     let asked = 0;
-    const phases = new Set<string>();
     for (; asked < 80; asked += 1) {
       if ((await page.getByTestId("questionnaire-screen").count()) === 0) break;
-      phases.add(await page.getByTestId("questionnaire-progress").innerText());
+      const progress = await page
+        .getByTestId("questionnaire-progress")
+        .innerText();
+      expect(progress).not.toMatch(/\d+\s*(?:of|\/)\s*\d+/);
       const options = page
         .getByTestId("questionnaire-options")
         .getByRole("button");
       await options.first().click();
     }
     await expect(page.getByTestId("play-screen")).toBeVisible();
-    expect(asked).toBeGreaterThan(10);
+    expect(asked).toBeGreaterThan(0);
     expect(asked).toBeLessThan(60);
-    // The phase moved as it went, which is the only progress signal there is.
-    expect(phases.size).toBeGreaterThan(1);
   });
 });

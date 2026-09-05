@@ -228,12 +228,14 @@ export function TitleScreen({
 
   return (
     <AmbientTableau resolved={resolved}>
-      {(roomDescription) => (
+      {() => (
         <main className="game-title" data-testid="title-screen">
+          {/*
+            The room is the picture; it does not need a line telling the player
+            it is a room (Task A). The environment-description prose — "a hall …
+            with nobody in it" — is gone, and the scene stands on its own.
+          */}
           <h1>Our Civic Duty</h1>
-          <p className="game-title-scene" data-testid="title-scene-description">
-            {roomDescription}
-          </p>
           <div className="game-title-actions">
             <button type="button" data-testid="new-game" onClick={onNewGame}>
               New game

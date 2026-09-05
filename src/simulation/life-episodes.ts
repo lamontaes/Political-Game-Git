@@ -325,6 +325,13 @@ export interface EpisodeRoleBinding {
   readonly role: EpisodeRoleKey;
   readonly personId: EntityId;
   readonly personName: string;
+  /**
+   * The person's age at the date the bindings were taken, read off their own
+   * birth record. It lets a stage require not just that somebody can play a
+   * part but that they are old enough for the part to be plausible — so a
+   * scenario about a sibling out on their own is not handed to a younger child.
+   */
+  readonly age: number;
   /** Why this person can play this part, read off the record. */
   readonly basis: string;
   readonly anchors: readonly ThreadAnchor[];
@@ -340,6 +347,21 @@ export type EpisodeRequirement =
   | { readonly kind: "age-at-least"; readonly age: number }
   | { readonly kind: "age-below"; readonly age: number }
   | { readonly kind: "role"; readonly role: EpisodeRoleKey }
+  /**
+   * A role that can be filled by somebody at least this old.
+   *
+   * The plain `role` requirement asks only that somebody can play the part.
+   * This asks that somebody old enough for the part exists — the gate a
+   * scenario about an independently mobile household member needs, so a young
+   * sibling is never cast as one. It is satisfied only when a binding of the
+   * role meets the age, and the same binding is what the copy is composed
+   * around.
+   */
+  | {
+      readonly kind: "role-age-at-least";
+      readonly role: EpisodeRoleKey;
+      readonly age: number;
+    }
   /** Something the character is in a position to do, read off the record. */
   | {
       readonly kind: "capability";
@@ -799,6 +821,7 @@ export function episodeRoleBindings(
       role,
       personId: candidateId,
       personName: personName(other),
+      age: ageOnDate(other.birthDate, asOfDate),
       basis,
       anchors,
     });
@@ -1274,7 +1297,12 @@ export function eligibleEpisodeBeats(
 function rolesUsedBy(stage: EpisodeStage): readonly EpisodeRoleKey[] {
   const roles = new Set<EpisodeRoleKey>();
   for (const requirement of stage.requires) {
-    if (requirement.kind === "role") roles.add(requirement.role);
+    if (
+      requirement.kind === "role" ||
+      requirement.kind === "role-age-at-least"
+    ) {
+      roles.add(requirement.role);
+    }
   }
   const text = [
     ...stage.lines,
@@ -1367,6 +1395,20 @@ function checkRequirement(input: RequirementCheckInput): RequirementOutcome {
         detail: binding
           ? `${requirement.role} is ${binding.personName}: ${binding.basis}`
           : `Nobody in this world can be the ${requirement.role}.`,
+      };
+    }
+    case "role-age-at-least": {
+      const binding = bindings.find(
+        (candidate) =>
+          candidate.role === requirement.role &&
+          candidate.age >= requirement.age,
+      );
+      return {
+        satisfied: binding !== undefined,
+        anchors: binding?.anchors ?? [],
+        detail: binding
+          ? `${requirement.role} is ${binding.personName}, ${binding.age}, old enough (needs ${requirement.age}).`
+          : `No ${requirement.role} is at least ${requirement.age}, so this moment — which needs one who is — is not offered.`,
       };
     }
     case "capability": {

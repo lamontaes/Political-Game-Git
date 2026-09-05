@@ -2,6 +2,38 @@
 
 Newest release first.
 
+## UNRELEASED — The front door, and who's at home
+
+The title screen is a room, not a room with a caption. The line that used to
+tell you it was "a hall set out for a community meeting with nobody in it" is
+gone; the picture speaks for itself. The menu sits on the left so the room keeps
+the open side of the frame, and when the background changes it crossfades from
+one room into the next instead of flashing white between them. The slow drift is
+a touch stronger.
+
+Starting a life is no longer a form. You say who you are and where you're from,
+one step at a time, and each step you finish folds up into a line you can reopen
+— so the whole thing fits on the screen without scrolling. You pick a first
+name, a last name (leave either blank and you're given one), an age and a
+gender; the game uses the pronouns that follow, and you can change them from a
+small control if they don't fit. Where you're from shows a short, true note
+about the place rather than a status label.
+
+Who your family is, whether there's a brother or sister in the house, and the
+years behind you are not questions any more. The game builds them when you press
+Begin, from the world's own seed — some lives have a sibling, some don't. If you
+want to set that yourself, Custom Start still lets you.
+
+"Who are you?" is optional. A few questions help the game understand what
+matters to you, so the situations it puts in front of you land closer to home —
+but nothing there locks a path or decides who you become, and you can skip it
+and let the game learn from how you play.
+
+And a formative moment is grounded in who is actually there. A ten-year-old is
+no longer told that their younger sister has been coming home late from a
+different place each night; a scene about somebody out on their own is only
+offered when there's somebody at home old enough for it to be true.
+
 ## UNRELEASED — One life, told once
 
 The game has a name on its title screen: Our Civic Duty. New Game, Continue,

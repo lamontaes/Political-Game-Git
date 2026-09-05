@@ -173,9 +173,20 @@ const CARVED_OUT: readonly OwnedSurface[] = [
  * disabled-Quit controls the shell already routes. Nothing about which room
  * appears is decided here, which is the line that matters: the graphics
  * decision stays #86's and the copy stays this wave's.
+ *
+ * The post-#87 player-presentation pass (Task E) adds two consumer TEST files,
+ * and only their `.test` files, never their source. Normal Start no longer asks
+ * who is at home — the generator decides it from the seed after Begin — so two
+ * fixtures that pinned a shared household on a normal start had to move to the
+ * custom route that still honours it. The change is one `startKind: "custom"`
+ * per fixture; every assertion is unchanged, and neither source file
+ * (`browser-world-repository.ts`, owned by persistence; the conversation
+ * surfaces) is touched. Claiming the fixtures rather than their systems is what
+ * keeps that honest — the carve-out list below still fails this branch the
+ * moment it reaches for either system's source.
  */
 const OWNED =
-  /^(src\/simulation\/(narrative-threads|life-episodes|episode-bank|setup-opening-bank|setup-questionnaire|setup-questionnaire-bank|setup-priors|player-model|situation-selection|situation-profiles|adult-situations|life-callbacks|life-choice-evidence|commitment-seam|relationship-leverage|sha256|life-places|character-history|person-identity|person-context|voice-bands|setup-young-life-bank|setup-generation-inputs|people|world|types|index|boundary\.test|pennywise-adaptive-life\.test)\.ts|src\/presentation\/(life-|narrative-|title-ambient|adult-life|formative-play|ordinary-life|new-game|setup-questionnaire-flow|production-world|adaptive-life\.test|player-spine\.test|conversation-subjects|conversation-continuity|conversation-consequences|run-b-conversation|player-conversation)|src\/player\/PlayerGame\.tsx|src\/player\/PlayerConversation\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/SceneBackdrop\.tsx|src\/player\/player\.css|scripts\/life-report\.ts|tests\/|docs\/|ARCHITECTURE\.md|PATCH_NOTES\.md|AGENTS\.md|package\.json|package-lock\.json)/;
+  /^(src\/simulation\/(narrative-threads|life-episodes|episode-bank|setup-opening-bank|setup-questionnaire|setup-questionnaire-bank|setup-priors|player-model|situation-selection|situation-profiles|adult-situations|life-callbacks|life-choice-evidence|commitment-seam|relationship-leverage|sha256|life-places|character-history|person-identity|person-context|voice-bands|setup-young-life-bank|setup-generation-inputs|people|world|types|index|boundary\.test|pennywise-adaptive-life\.test)\.ts|src\/presentation\/(life-|narrative-|title-ambient|adult-life|formative-play|ordinary-life|new-game|setup-questionnaire-flow|production-world|adaptive-life\.test|player-spine\.test|browser-world-repository\.test|conversation-commit\.test|conversation-subjects|conversation-continuity|conversation-consequences|run-b-conversation|player-conversation)|src\/player\/PlayerGame\.tsx|src\/player\/PlayerConversation\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/SceneBackdrop\.tsx|src\/player\/player\.css|scripts\/life-report\.ts|tests\/|docs\/|ARCHITECTURE\.md|PATCH_NOTES\.md|AGENTS\.md|package\.json|package-lock\.json)/;
 
 function measuredChanges(): readonly string[] {
   if (!hasCommit(REPOSITORY_ROOT, NARRATIVE_WAVE_BASE)) {
