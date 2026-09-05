@@ -41,6 +41,7 @@
     "fixtures:dev-characters-g2": "node --import tsx scripts/art-asset-factory/cli-dev-character-fixtures-g2.ts",
     "fixtures:garment-fit": "node --import tsx scripts/art-asset-factory/cli-garment-fit-fixtures.ts",
     "derive:garment-fit": "node --import tsx scripts/art-asset-factory/cli-garment-fit.ts",
+    "measure:arms": "node --import tsx scripts/art-asset-factory/cli-arm-measure.ts",
     "intake:pg-modular": "node --import tsx scripts/art-asset-factory/cli-pg-modular-intake.ts",
     "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art",
     "agent:preflight": "node scripts/agent-preflight.mjs",

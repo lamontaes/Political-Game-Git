@@ -32,6 +32,7 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run derive:tiers` — derive the runtime raster ladder from an approved master
 - `npm run scaffold:scene` — emit a scene authoring scaffold with explicit unknowns
 - `npm run bank:art` — validate or normalize an asset-bank QA manifest
+- `npm run measure:arms` — measure each body raster's arms per side and pose, and say what the alpha does not contain
 
 ## Working Rules
 

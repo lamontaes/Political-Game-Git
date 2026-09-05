@@ -302,3 +302,12 @@ resolves to a warp, so nothing is withheld today.
   body family: withdraw the declaration or author the art.
 - An `affine-reusable` family may not smuggle a warp in through a profile.
 - Every transform satisfies the bank's own bounds.
+
+## Sleeves
+
+Not answered by this contract. The fit fixtures are armless, so a row's
+painted span is the torso span, and a sleeve fit needs a body whose arms were
+measured. That measurement now exists —
+[Arm and Sleeve Measurement](./arm-and-sleeve-measurement.md) — and it
+reports the upper arm fused on every body in the repository, so no sleeve
+transform is derived from it yet.
