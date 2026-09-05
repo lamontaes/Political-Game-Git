@@ -16,8 +16,11 @@ one step at a time, and each step you finish folds up into a line you can reopen
 — so the whole thing fits on the screen without scrolling. You pick a first
 name, a last name (leave either blank and you're given one), an age and a
 gender; the game uses the pronouns that follow, and you can change them from a
-small control if they don't fit. Where you're from shows a short, true note
-about the place rather than a status label.
+small control if they don't fit. Where you're from is now a search over the
+whole country — any town, city or place — with a short, true note about the one
+you pick rather than a status label. A few states also have a legislature you
+can work in; everywhere else is an ordinary life, which the game says plainly
+instead of pretending otherwise.
 
 Who your family is, whether there's a brother or sister in the house, and the
 years behind you are not questions any more. The game builds them when you press

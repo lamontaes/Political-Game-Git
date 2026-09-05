@@ -204,10 +204,10 @@ test.describe("Setting up a life reads like a game, not a form", () => {
   });
 
   test("offers no place until one is searched for", async ({ page }) => {
-    // THE DEFAULT-CARD REPAIR. The four places the accepted data reaches used
-    // to be laid out unprompted, which made a limitation read as the game's
-    // four recommended starts — Lexington among them, which is never canonical.
-    // They are found now, not offered.
+    // THE DEFAULT-CARD REPAIR, now over the national corpus. Nothing is laid out
+    // unprompted; places are found, not offered. The search reaches the whole
+    // country (PR #77), so a specific town comes back rather than a short list
+    // of recommended states.
     await freshBrowser(page);
     await openCreator(page);
     await page.getByTestId("start-normal").click();
@@ -218,20 +218,27 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await expect(page.getByTestId("place-choices")).toHaveCount(0);
     await expect(page.getByTestId("place-prompt")).toBeVisible();
 
-    await page.getByTestId("place-search").fill("nebra");
+    // A specific town is found, named with its state.
+    await page.getByTestId("place-search").fill("Ann Arbor");
+    const annArbor = page
+      .getByTestId("place-choices")
+      .getByRole("button", { name: /Ann Arbor, Michigan/i });
+    await expect(annArbor).toHaveCount(1);
+
+    // The authored Lexington is still findable, shown as a resident says it,
+    // and not duplicated by the corpus's "Lexington-Fayette" filing name.
+    await page.getByTestId("place-search").fill("Lexington");
+    const lexington = page
+      .getByTestId("place-choices")
+      .getByRole("button", { name: /Lexington, Kentucky/i });
+    await expect(lexington.first()).toBeVisible();
     await expect(
-      page.getByTestId("place-choices").getByRole("button"),
-    ).toHaveCount(1);
+      page
+        .getByTestId("place-choices")
+        .getByRole("button", { name: /Lexington-Fayette/i }),
+    ).toHaveCount(0);
 
-    // The formal jurisdiction name is searchable even though it is not shown,
-    // so somebody who types the name on their tax bill finds where they live.
-    await page.getByTestId("place-search").fill("Fayette");
-    const found = page.getByTestId("place-choices").getByRole("button");
-    await expect(found).toHaveCount(1);
-    expect(await found.first().innerText()).toContain("Lexington, Kentucky");
-    expect(await found.first().innerText()).not.toContain("Lexington-Fayette");
-
-    await page.getByTestId("place-search").fill("zzzz");
+    await page.getByTestId("place-search").fill("zzzqqqx");
     await expect(page.getByTestId("place-no-match")).toBeVisible();
   });
 });
