@@ -61,29 +61,12 @@ function toItem(blueprint: LegislativeBlueprint): ContentItem {
     lifeStages: undeclared(
       "A measure belongs to a legislature, not to a stage of anybody's life.",
     ),
-    roles: declared([
-      {
-        key: "sponsor",
-        description:
-          "A member who introduces the measure. The scenario builder uses the player; production uses whoever files it.",
-        required: true,
-      },
-      {
-        key: blueprint.pack.executive.titleLabel.toLowerCase(),
-        description: `The executive who acts on the measure at presentment; this measure is authored to be ${blueprint.governorAction}.`,
-        required: true,
-      },
-    ]),
-    prerequisites: declared([
-      {
-        key: `rule-pack:${blueprint.pack.packId}`,
-        description: `The measure runs through the ${blueprint.pack.displayName} rule pack.`,
-      },
-      {
-        key: `jurisdiction:${blueprint.context.jurisdiction.slug}`,
-        description: `The measure is filed in ${blueprint.context.jurisdiction.name}.`,
-      },
-    ]),
+    roles: undeclared(
+      "The blueprint declares no role. `sponsor` is introduced by the scenario builder at construction time — production files the measure under whoever really files it — so it is runtime behaviour rather than a declared part, and the executive who acts at presentment is the embedded rule pack's own office, reported as declared structure rather than a role this measure names.",
+    ),
+    prerequisites: undeclared(
+      "The blueprint names no offering gate. Which rule pack the measure runs through and which jurisdiction it is filed in are intrinsic to the measure — they describe what it IS, not conditions that must independently become true before it is offered — and are reported as declared structure.",
+    ),
     requiredFacts: undeclared(
       "The blueprint names no canonical fact a world must already show. What it does declare about itself — its subject class, whether the seated chamber carries caucus labels, and the notice that the bill is not a real one — describes the measure rather than gating it, and is reported as declared structure.",
     ),
@@ -133,6 +116,21 @@ function describeAttributes(
   blueprint: LegislativeBlueprint,
 ): readonly ContentAttribute[] {
   return [
+    {
+      key: `rule-pack:${blueprint.pack.packId}`,
+      label: "Rule pack",
+      description: `The measure runs through the ${blueprint.pack.displayName} rule pack.`,
+    },
+    {
+      key: `jurisdiction:${blueprint.context.jurisdiction.slug}`,
+      label: "Jurisdiction",
+      description: `The measure is filed in ${blueprint.context.jurisdiction.name}.`,
+    },
+    {
+      key: `executive-office:${blueprint.pack.executive.titleLabel.toLowerCase()}`,
+      label: "Executive at presentment",
+      description: `The measure is presented to the embedded rule pack's executive office, titled ${blueprint.pack.executive.titleLabel}.`,
+    },
     {
       key: `subject-class:${blueprint.subjectClass}`,
       label: "Subject class",

@@ -3,11 +3,11 @@ import {
   contentItemId,
   declared,
   undeclared,
+  type ContentAttribute,
   type ContentBank,
   type ContentBankId,
   type ContentFacet,
   type ContentItem,
-  type ContentRequirement,
 } from "../content-bank";
 
 const BANK_ID: ContentBankId = "content.setup-questionnaire";
@@ -74,7 +74,9 @@ function toItem(item: QuestionnaireEntry): ContentItem {
         : undeclared(
             "The item assumes no particular agency; it can be asked of any character in its bands.",
           ),
-    requiredFacts: declareAssumptions(item),
+    requiredFacts: undeclared(
+      "The questionnaire runs before any world exists, so it names no canonical world record. The people and places an item assumes are declared by its eligibility — the source itself says they 'cannot be checked against records ... they are checked against the setup' and exist 'for the audit, countable' — so they are reported as declared structure, not as facts a world must already show.",
+    ),
     slots: undeclared(
       "Prompts and option copy are authored as fixed sentences for the calibration; the bank declares no substitution slots to read.",
     ),
@@ -108,6 +110,7 @@ function toItem(item: QuestionnaireEntry): ContentItem {
             },
           ]
         : []),
+      ...assumptionAttributes(item),
     ]),
     unresolvedResearch: undeclared(
       "The questionnaire is authored from a research document and carries a transparency verdict, but records no unresolved gap of its own.",
@@ -154,26 +157,30 @@ function declareLifeStages(
   return declared([...bands].sort());
 }
 
-/** What the item assumes about the people and places around the character. */
-function declareAssumptions(
+/**
+ * What the item assumes about the people and places around the character.
+ *
+ * The source is explicit that these are not world facts: they "cannot be
+ * checked against records — they are checked against the setup", and their
+ * purpose is "the audit: an item that assumes a boss has said so, in a field,
+ * and can be counted." That is declared structure describing the item, not a
+ * canonical record a world must show, so it lives in `attributes`.
+ */
+function assumptionAttributes(
   item: QuestionnaireEntry,
-): ContentFacet<readonly ContentRequirement[]> {
-  const requirements: ContentRequirement[] = [
+): readonly ContentAttribute[] {
+  return [
     ...item.eligibility.relationships.map((relationship) => ({
       key: `relationship:${relationship}`,
+      label: "Assumed relationship",
       description: `The scene assumes the character can imagine having: a ${humanize(relationship)}.`,
     })),
     ...item.eligibility.settings.map((setting) => ({
       key: `setting:${setting}`,
+      label: "Assumed setting",
       description: `The scene is set in: a ${humanize(setting)}.`,
     })),
   ];
-  if (requirements.length === 0) {
-    return undeclared(
-      "The item assumes no particular relationship or setting to be honest to ask.",
-    );
-  }
-  return declared(requirements);
 }
 
 function firstSentence(text: string): string {

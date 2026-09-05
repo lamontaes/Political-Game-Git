@@ -85,7 +85,9 @@ function toItem(
     family: family.family,
     authority: "authored",
     status: "production",
-    lifeStages: declareLifeStages(stage),
+    lifeStages: undeclared(
+      "The episode bank declares no named life-stage or band classification. A stage may bound age through an `age-at-least`/`age-below` requirement, which is a declarative prerequisite reported under prerequisites — an arbitrary numeric age bound is not a life-stage classification, and reporting it here as well would state one source requirement twice under two meanings.",
+    ),
     roles: declareRoles(family, stage),
     prerequisites: declarePrerequisites(stage),
     requiredFacts: declareRequiredFacts(stage),
@@ -316,31 +318,6 @@ function describeRequirement(
         description: `At least ${requirement.days} day(s) have passed since the stage ${requirement.stage}.`,
       };
   }
-}
-
-/**
- * A stage's band, where its own requirements draw one.
- *
- * An `age-at-least` or `age-below` requirement is a band the stage declares in
- * years rather than a named life stage, so it is reported as the bound it
- * actually is. A stage with neither is not banded, and says so.
- */
-function declareLifeStages(
-  stage: EpisodeStageEntry,
-): ContentFacet<readonly string[]> {
-  const bounds = stage.requires.flatMap((requirement) =>
-    requirement.kind === "age-at-least"
-      ? [`age-at-least:${requirement.age}`]
-      : requirement.kind === "age-below"
-        ? [`age-below:${requirement.age}`]
-        : [],
-  );
-  if (bounds.length === 0) {
-    return undeclared(
-      "The episode bank bands nothing by named life stage, and this stage declares no age bound of its own.",
-    );
-  }
-  return declared([...bounds].sort());
 }
 
 /**

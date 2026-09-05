@@ -106,18 +106,9 @@ function toItem(pack: LegislativeRulePack): ContentItem {
     lifeStages: undeclared(
       "An institution's procedure does not belong to a stage of anybody's life.",
     ),
-    roles: declared([
-      {
-        key: "member",
-        description: `A seated member of one of the ${pack.chambers.length} chamber(s) in this pack.`,
-        required: true,
-      },
-      {
-        key: pack.executive.titleLabel.toLowerCase(),
-        description: `The executive who acts at presentment; this pack titles the office ${pack.executive.titleLabel}.`,
-        required: true,
-      },
-    ]),
+    roles: undeclared(
+      "A rule pack declares institutional structure — chambers, their order, an executive rule, a session, an enactment rule — not a ContentRole list. Its members and its executive office are participants the institution defines, and are reported as declared structure; the pack names no part a player has to be playing for the pack to make sense.",
+    ),
     prerequisites: undeclared(
       "A rule pack is the institution a measure runs through, not content that waits on a condition. The pack declares nothing that has to hold before it applies.",
     ),

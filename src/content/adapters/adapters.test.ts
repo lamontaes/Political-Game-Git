@@ -570,3 +570,144 @@ describe("adapters report what their banks actually say", () => {
     );
   });
 });
+
+describe("no adapter reports a concept its source does not declare", () => {
+  it("keeps questionnaire relationship and setting assumptions out of requiredFacts", () => {
+    // The source is explicit that these "cannot be checked against records" and
+    // exist "for the audit, countable". requiredFacts means records a WORLD must
+    // already show, and the questionnaire runs before a world exists — so they
+    // must not appear there.
+    for (const authored of SETUP_QUESTIONNAIRE_BANK) {
+      const item = itemOf(`content.setup-questionnaire/${authored.key}`);
+      expect(item.requiredFacts.kind).toBe("undeclared");
+    }
+  });
+
+  it("keeps those assumptions present as declared structure", () => {
+    // Removed from requiredFacts, not lost: each declared relationship and
+    // setting survives as an attribute.
+    for (const authored of SETUP_QUESTIONNAIRE_BANK) {
+      const item = itemOf(`content.setup-questionnaire/${authored.key}`);
+      const attributeKeys = declaredList(item.attributes).map(
+        (attribute) => attribute.key,
+      );
+      for (const relationship of authored.eligibility.relationships) {
+        expect(attributeKeys).toContain(`relationship:${relationship}`);
+      }
+      for (const setting of authored.eligibility.settings) {
+        expect(attributeKeys).toContain(`setting:${setting}`);
+      }
+    }
+  });
+
+  it("keeps questionnaire agency as a real offering gate", () => {
+    // agency is "what has to be true of the character for an item to be honest
+    // to ask" — a genuine precondition checked against the setup — so it stays a
+    // prerequisite. It is not a world fact, and is not in requiredFacts.
+    for (const authored of SETUP_QUESTIONNAIRE_BANK) {
+      const item = itemOf(`content.setup-questionnaire/${authored.key}`);
+      if (authored.eligibility.agency.length === 0) continue;
+      const prerequisiteKeys = declaredList(item.prerequisites).map(
+        (rule) => rule.key,
+      );
+      for (const agency of authored.eligibility.agency) {
+        expect(prerequisiteKeys).toContain(`agency:${agency}`);
+      }
+    }
+  });
+
+  it("does not claim an invented ContentRole for a rule pack", () => {
+    // LegislativeRulePack declares chambers, an executive rule, a session — not
+    // a role list. Its members and executive office are institutional structure.
+    for (const pack of LEGISLATIVE_RULE_PACKS) {
+      const item = itemOf(`content.legislative-rule-packs/${pack.packId}`);
+      expect(item.roles.kind).toBe("undeclared");
+      // The executive office is not lost: it stays as declared structure.
+      const attributeKeys = declaredList(item.attributes).map(
+        (attribute) => attribute.key,
+      );
+      expect(attributeKeys).toContain(`executive:${pack.executive.titleLabel}`);
+    }
+  });
+
+  it("does not claim a sponsor role a measure blueprint never declares", () => {
+    // ScenarioBlueprint has no sponsor field; the scenario builder introduces a
+    // sponsor at construction time. That is runtime behaviour, not a declared
+    // role, so roles is undeclared and no role key mentions a sponsor.
+    for (const key of legislativeScenarioKeys()) {
+      const item = itemOf(`content.legislative-measures/${key}`);
+      expect(item.roles.kind).toBe("undeclared");
+      expect(JSON.stringify(item)).not.toContain('"sponsor"');
+    }
+  });
+
+  it("does not call a measure's rule pack or jurisdiction a prerequisite", () => {
+    // Which pack a measure runs through and which jurisdiction it is filed in
+    // are intrinsic to what the measure IS, not gates that must independently
+    // become true. They are declared structure, not prerequisites.
+    for (const key of legislativeScenarioKeys()) {
+      const blueprint = legislativeBlueprint(key);
+      const item = itemOf(`content.legislative-measures/${key}`);
+      expect(item.prerequisites.kind).toBe("undeclared");
+      const attributeKeys = declaredList(item.attributes).map(
+        (attribute) => attribute.key,
+      );
+      expect(attributeKeys).toContain(`rule-pack:${blueprint.pack.packId}`);
+      expect(attributeKeys).toContain(
+        `jurisdiction:${blueprint.context.jurisdiction.slug}`,
+      );
+    }
+  });
+
+  it("keeps episode age bounds in prerequisites without duplicating them into lifeStages", () => {
+    // An arbitrary numeric age bound is a declarative requirement, not a named
+    // life-stage classification. The episode bank declares no band, so lifeStages
+    // is undeclared everywhere, and every age bound is a prerequisite instead.
+    let sawAgeBound = false;
+    for (const family of EPISODE_FAMILIES) {
+      for (const stage of family.stages) {
+        const item = itemOf(`content.episodes/${family.key}/${stage.key}`);
+        expect(item.lifeStages.kind).toBe("undeclared");
+        const prerequisiteKeys = declaredList(item.prerequisites).map(
+          (rule) => rule.key,
+        );
+        for (const requirement of stage.requires) {
+          if (requirement.kind === "age-at-least") {
+            sawAgeBound = true;
+            expect(prerequisiteKeys).toContain(
+              `age-at-least:${requirement.age}`,
+            );
+          }
+          if (requirement.kind === "age-below") {
+            sawAgeBound = true;
+            expect(prerequisiteKeys).toContain(`age-below:${requirement.age}`);
+          }
+        }
+      }
+    }
+    expect(sawAgeBound).toBe(true);
+  });
+
+  it("keeps a formative situation's band in lifeStages and not restated as a gate", () => {
+    // The band is the declared life-stage classification. It belongs in
+    // lifeStages, and must not also be reported as a prerequisite or an
+    // attribute — one source field, one semantic home.
+    for (const situation of lifeSituationCatalog()) {
+      const item = itemOf(`content.life-situations/${situation.key}`);
+      expect(item.lifeStages).toStrictEqual({
+        kind: "declared",
+        value: [situation.band],
+      });
+      const found = queryContentItems(index.items, {
+        lifeStages: [situation.band],
+      });
+      expect(found.map((candidate) => candidate.id)).toContain(item.id);
+      expect(JSON.stringify(declaredList(item.prerequisites))).not.toContain(
+        `band:${situation.band}`,
+      );
+      expect(JSON.stringify(declaredList(item.attributes))).not.toContain(
+        `band:${situation.band}`,
+      );
+    }
+  });
+});

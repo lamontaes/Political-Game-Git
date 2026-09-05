@@ -2037,18 +2037,38 @@ role, an age, a capability, a fact key or an earlier stage — so it is read and
 transcribed under each kind's own vocabulary. Reading a requirement is not
 evaluating one, and nothing here builds a world to do so.
 
-Each field means one thing and is used for only that thing. A prerequisite
-gates; a required canonical fact is a record a world must show; an option is a
-bounded choice offered to somebody; a follow-up is somewhere the content leads.
-Structure a bank declares about the thing it describes — a legislature's
-chambers and floor stages, a measure's authored member decisions, the
-disposition its executive is written to take, a conversation subject's commit
-vocabulary — is none of those, and has its own name rather than being pushed
-into whichever facet had a free slot. Citations are provenance, because that is
-what a citation is. Unresolved research is unresolved research. Life stages are
-a set, so a bank that bands an item into several keeps it declared and keeps it
-findable under each; collapsing a band set to "undeclared" said the bank was
-silent about the one thing it had gone to the trouble of writing down.
+Each field means one thing and is used for only that thing, and a fact the bank
+declares once is reported once. A prerequisite gates; a required canonical fact
+is a record a world must show; an option is a bounded choice offered to
+somebody; a follow-up is somewhere the content leads; a role is a part somebody
+plays. Structure a bank declares about the thing it describes — a legislature's
+chambers and floor stages, its members and its executive office, a measure's
+authored member decisions and the disposition its executive is written to take,
+which rule pack and jurisdiction a measure belongs to, a questionnaire item's
+assumed relationships and settings, a conversation subject's commit vocabulary —
+is none of those, and has its own name rather than being pushed into whichever
+facet had a free slot. Citations are provenance, because that is what a citation
+is. Unresolved research is unresolved research. Life stages are a set, so a bank
+that bands an item into several keeps it declared and keeps it findable under
+each; collapsing a band set to "undeclared" said the bank was silent about the
+one thing it had gone to the trouble of writing down.
+
+The test is whether the SOURCE declares the concept, never whether the concept
+is true or whether runtime code could produce it. A questionnaire's relationship
+and setting assumptions are declared, but the source says outright they "cannot
+be checked against records" — so they are declared structure, not required
+facts, because required facts are records a world must show and the questionnaire
+runs before any world exists. A measure's sponsor is introduced by the scenario
+builder at construction time; the blueprint declares no sponsor field, so no
+sponsor role is reported. A rule pack's members and executive are institutional
+participants the pack defines, not a ContentRole list it authored, so roles is
+undeclared and the institution is declared structure. Which rule pack and
+jurisdiction a measure runs through are intrinsic to what the measure is, not
+gates that must independently become true, so they are structure and not
+prerequisites. And one declaration is reported once: a formative situation's
+band is its life stage and nothing else, while an episode stage's age bound is a
+declared requirement and so a prerequisite and not a life stage, because an
+arbitrary age is not a named band.
 
 Authority and status are read from the repository, not invented. Legislative
 rule packs are `sourced` and carry their citations, retrieval dates and

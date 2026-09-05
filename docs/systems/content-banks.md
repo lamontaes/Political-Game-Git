@@ -60,18 +60,34 @@ avoid:
 - **follow-up hooks** — somewhere the item can lead;
 - **declared structure** — what the bank states about the thing the item
   describes, which is neither a gate nor an offer: a legislature's chambers and
-  floor stages, a measure's authored member decisions and the disposition its
-  executive is written to take, a conversation subject's canonical commit
-  vocabulary, a personality tendency's expressions;
+  floor stages, a measure's authored member decisions, the disposition its
+  executive is written to take, which rule pack and jurisdiction a measure
+  belongs to, an institution's own members and executive office, a questionnaire
+  item's assumed relationships and settings, a conversation subject's canonical
+  commit vocabulary, a personality tendency's expressions;
 - **unresolved research** — what a sourced bank's own compilation could not
   settle;
 - **provenance** — where a value came from, citations included.
 
 A citation is not a required fact. A floor stage is not a choice a player makes.
 An authored vote plan is not a menu. An unresolved research gap is not somewhere
-the game can lead. Each of those was true of an earlier draft of this index, and
-each made it read as more complete, and more different from the source, than it
-was.
+the game can lead. An institution's members are not a scene's cast. A measure's
+sponsor, introduced by the scenario builder at construction time, is not a role
+the blueprint declares. A questionnaire's assumed relationships — which the
+source says outright "cannot be checked against records" and exist "for the
+audit, countable" — are not canonical world facts. The rule pack and jurisdiction
+a measure belongs to describe what it _is_, not conditions that must
+independently become true before it is offered. Each of those was true of an
+earlier draft of this index, and each made it read as more complete, and more
+different from the source, than it was.
+
+**One source field, one semantic home.** A fact the bank declares once is
+reported once, in the field whose meaning it matches. A formative situation's
+band is its life stage, not also a prerequisite and an attribute. An episode
+stage's numeric age bound is a prerequisite — a declared requirement — not also a
+life stage, because an arbitrary age is not a named band. Reporting a single
+declaration twice under two meanings makes the index look richer than the source
+and invites a reader to treat one fact as two.
 
 **Life stages are a set.** A bank that bands an item into one stage declares a
 set of one; a bank that bands it into several declares all of them, and the item

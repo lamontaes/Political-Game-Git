@@ -75,21 +75,9 @@ function toItem(situation: LifeSituationEntry): ContentItem {
     status: "production",
     lifeStages: declared([situation.band]),
     roles: declared(roles),
-    prerequisites: declared([
-      {
-        key: `band:${situation.band}`,
-        description: `The character is inside the ${situation.band} formative band.`,
-      },
-      ...(situation.needsCompanion
-        ? [
-            {
-              key: "companion:present",
-              description:
-                "Somebody else has to be in the scene; the situation is not offered alone.",
-            },
-          ]
-        : []),
-    ]),
+    prerequisites: undeclared(
+      "The situation's own declared eligibility is its band — reported under life stages — and its companion requirement, reported under roles with the companion role marked required. The bank declares no further offering gate, and formative eligibility against a world is evaluated by formativeEligibilityProvider (see required facts).",
+    ),
     requiredFacts: undeclared(
       "Formative eligibility is evaluated against a world by formativeEligibilityProvider in src/presentation/formative-context.ts; the bank stores no declarative fact requirements to read.",
     ),
@@ -107,11 +95,6 @@ function toItem(situation: LifeSituationEntry): ContentItem {
       "A resolved situation writes memories and development proposals through ordinary history rather than naming a next item.",
     ),
     attributes: declared([
-      {
-        key: `band:${situation.band}`,
-        label: "Formative band",
-        description: `The situation declares itself written for the ${situation.band} band.`,
-      },
       {
         key: `needs-companion:${situation.needsCompanion}`,
         label: "Companion",
