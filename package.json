@@ -44,7 +44,8 @@
     "agent:preflight": "node scripts/agent-preflight.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",
     "stress:persons": "node --import tsx src/cli/stress-persons.ts",
-    "export:content": "node --import tsx src/cli/content-export.ts"
+    "export:content": "node --import tsx src/cli/content-export.ts",
+    "report:life": "node --import tsx scripts/life-report.ts"
   },
   "dependencies": {
     "react": "19.2.6",

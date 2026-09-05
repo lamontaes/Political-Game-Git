@@ -1,6 +1,44 @@
-# Political Game — Patch Notes
+# Our Civic Duty — Patch Notes
 
 Newest release first.
+
+## UNRELEASED — One life, told once
+
+The game has a name on its title screen: Our Civic Duty. New Game, Continue,
+Saved Games, Options and Quit, with Quit sitting there greyed out rather than
+pretending to be something it is not yet.
+
+The biggest change is one you feel rather than see a control for. Playing used
+to go: a card, a click, a jump in the date, an unrelated card. Now the years
+between the moments are told. Time passing says what happened in it — school
+carried on, the same person was in the house every evening, the group kept
+meeting — read off the record rather than made up, and a quiet stretch says what
+the life actually contained instead of "nothing this year that anyone would tell
+a story about". Time passes unevenly, the way it does.
+
+People come back. Somebody you had a conversation with at ten can be the reason
+a moment at thirty is possible, and what you did the first time decides whether
+the second time happens at all — including quiet choices that gave no sign at
+the time that they were choices. Some threads simply end: a job finishes,
+somebody moves out, an argument stops mattering. The game will not promise you
+a payoff for every decision, and most decisions do not have one.
+
+What you remember is now a journal you open, in chapters, with the people in it
+listed as people — instead of a list growing down the side of the screen with
+every beat.
+
+The opening set of situations has been rewritten. It starts in a kitchen with
+somebody you know rather than with a policy initiative, the choices are things
+you do rather than paragraphs explaining what you believe, and the longer set no
+longer says "3 of 26" because it does not have a fixed length any more. It stops
+when it has enough, which is a different number for different people. If you
+would rather not answer, you start the life; there is no per-question refusal to
+click twenty times.
+
+Smaller things: you can search for a place to start in, and somebody who lives
+in Lexington is told they live in Lexington. An ordinary adult is no longer
+informed that this character does not work in a legislature. Seeds and replay
+addresses have moved behind an Advanced disclosure, where they belong.
 
 ## UNRELEASED — Groundwork
 
@@ -108,6 +146,27 @@ before any of the politics arrives.
 
 ### Added
 
+- **A calibration before the life, and it is not a quiz.** Five situations, or
+  a longer set, or none at all. There are no right answers, nothing you pick
+  becomes part of your character's history, and the game never tells you what
+  it concluded — because a game that hands you a label has stopped being able
+  to be surprised by you. What you actually do counts for around five times
+  what you said here, so two or three real decisions in the other direction
+  settle the matter.
+- **An adult with something to do.** Thirty-five situations across the
+  household, family, care, work, money, housing, friendship, the area, civic
+  life and politics — offered because the thing they are about is already true
+  of your life, never because a die said this was the year. A life with a job
+  and a group in it is offered more than one without, which is the honest
+  answer rather than a shortfall.
+- **Moments that come back.** Something you said you would do, somebody you
+  helped, a position you took where people could hear it. Months or years
+  later it may return — and it may not, because the person moved on, the thing
+  ended, or nobody was listening. Whether they raise it is their decision, not
+  the game's.
+- **Ordinary life, kept ordinary.** A good day, a quiet evening in, a week that
+  simply worked. Roughly a third of what an adult meets asks nothing much of
+  them, which is what keeps the rest able to ask something.
 - **New game.** Choose where the life begins, how old the character is when you
   pick them up, how much of the earlier years you play rather than skip, and
   whether they already work in a legislature. Leave the name blank and you will
@@ -122,6 +181,10 @@ before any of the politics arrives.
   were on the button.
 - **Quiet years.** Not every year has a turning point in it. The ones that do
   not simply pass.
+- **Wider growing-up years.** Ten of the childhood situations gained a third
+  way through them — writing it down instead of saying it, finding somebody
+  else to go, doing both badly — because two options is a fork and three is a
+  decision.
 - **An ordinary day.** A character who does not work in a legislature still has
   a week that needs covering and a public meeting they can go to or skip.
 - **Talking at home.** The conversation system now knows what it is talking
@@ -162,6 +225,20 @@ before any of the politics arrives.
 
 ### Known issues
 
+- The longer calibration has twenty-six authored questions against a design
+  target of thirty to fifty, and fifteen of the twenty-six read as policy
+  questions rather than as life fragments. Those fifteen are ranked last, so a
+  short calibration never reaches them, and the shortfall is reported in
+  numbers rather than hidden. Closing it needs authored copy from the research
+  lane; the implementing lane is not permitted to write questionnaire text.
+- An adult whose earlier years were summarized rather than played arrives
+  already carrying a community-service participation and a civic commitment
+  from the scripted background generator, which is why a group situation can be
+  offered on the first beat. The record says it is true, so surfacing it is
+  consistent — but the generator that wrote it is development scaffolding and
+  is due to be replaced.
+- Housing situations need a tenancy the world does not yet establish for a new
+  life, so they stay unavailable rather than being offered against nothing.
 - Only four places can start a life, and none of them is a city with its own
   council. A national place corpus is the missing piece.
 - Generated people have no drawn likeness. They get initials and a name.
