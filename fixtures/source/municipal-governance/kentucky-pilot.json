@@ -1,0 +1,1242 @@
+{
+  "__fixture": true,
+  "fixtureId": "municipal-governance/kentucky-pilot",
+  "artifacts": {
+    "packs": [
+      {
+        "sourceGovernmentKey": "us-ky-lexington-fayette-ucg",
+        "state": "KY",
+        "jurisdictionDisplayName": "Lexington-Fayette Urban County Government",
+        "censusGovernmentUnitReference": {
+          "status": "UNKNOWN",
+          "reason": "Not yet reconciled to a canonical government-unit / Census key; the reconciliation is a later step and no place code is asserted here."
+        },
+        "legalBasis": {
+          "form": {
+            "status": "KNOWN",
+            "value": "URBAN_COUNTY_CONSOLIDATED",
+            "sourceKey": "krs-67a",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "KRS ch. 67A"
+          },
+          "basisType": {
+            "status": "KNOWN",
+            "value": "Urban-county government (merged city and county)",
+            "sourceKey": "krs-67a",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "KRS ch. 67A"
+          },
+          "controllingAuthority": {
+            "status": "KNOWN",
+            "value": "Kentucky Revised Statutes Chapter 67A (Urban-County Government)",
+            "sourceKey": "krs-67a",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "KRS ch. 67A"
+          },
+          "effectiveDate": {
+            "status": "KNOWN",
+            "value": "1974-01-01",
+            "sourceKey": "research-44",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "Merger of the City of Lexington and Fayette County"
+          }
+        },
+        "electedStructure": {
+          "bodyName": {
+            "status": "KNOWN",
+            "value": "Urban County Council",
+            "sourceKey": "lfucg-council",
+            "effectiveDate": "1974-01-01"
+          },
+          "executiveSelection": {
+            "status": "KNOWN",
+            "value": "Separately elected Mayor, elected at-large countywide",
+            "sourceKey": "lfucg-council",
+            "effectiveDate": "1974-01-01"
+          },
+          "bodySize": {
+            "status": "KNOWN",
+            "value": 15,
+            "sourceKey": "lfucg-council",
+            "effectiveDate": "1974-01-01"
+          },
+          "composition": {
+            "status": "KNOWN",
+            "value": {
+              "pattern": "HYBRID_DISTRICT_AT_LARGE",
+              "districtSeats": 12,
+              "atLargeSeats": 3,
+              "wardSeats": null,
+              "note": "12 single-member district councilmembers plus 3 countywide at-large members; the at-large member with the most votes serves as Vice Mayor."
+            },
+            "sourceKey": "lfucg-council",
+            "effectiveDate": "1974-01-01"
+          },
+          "presidingOffice": {
+            "status": "KNOWN",
+            "value": "Vice Mayor (the at-large councilmember receiving the most votes) presides over the Council; the Mayor is a separate executive.",
+            "sourceKey": "lfucg-council",
+            "effectiveDate": "1974-01-01"
+          },
+          "terms": [
+            {
+              "seatClass": "District Council Member",
+              "termYears": {
+                "status": "KNOWN",
+                "value": 2,
+                "sourceKey": "lfucg-council",
+                "effectiveDate": "1974-01-01"
+              },
+              "termLimit": {
+                "status": "UNKNOWN",
+                "reason": "No council term-limit rule established from a first-party source here."
+              }
+            },
+            {
+              "seatClass": "At-Large Council Member (incl. Vice Mayor)",
+              "termYears": {
+                "status": "KNOWN",
+                "value": 4,
+                "sourceKey": "lfucg-council",
+                "effectiveDate": "1974-01-01"
+              },
+              "termLimit": {
+                "status": "UNKNOWN",
+                "reason": "No council term-limit rule established from a first-party source here."
+              }
+            },
+            {
+              "seatClass": "Mayor",
+              "termYears": {
+                "status": "KNOWN",
+                "value": 4,
+                "sourceKey": "lfucg-council",
+                "effectiveDate": "1974-01-01"
+              },
+              "termLimit": {
+                "status": "UNKNOWN",
+                "reason": "Mayoral term-limit rule not established from a first-party source here."
+              }
+            }
+          ],
+          "vacancyMechanism": {
+            "status": "UNKNOWN",
+            "reason": "Council/mayoral vacancy-fill mechanism not established from a first-party charter source here.",
+            "investigatedSourceKeys": [
+              "krs-67a"
+            ]
+          }
+        },
+        "administrativeStructure": {
+          "executiveLegislativeSeparation": {
+            "status": "KNOWN",
+            "value": "SEPARATE_EXECUTIVE_AND_LEGISLATIVE",
+            "sourceKey": "research-44",
+            "effectiveDate": "1974-01-01"
+          },
+          "mayor": {
+            "status": "KNOWN",
+            "value": {
+              "title": "Mayor",
+              "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+            },
+            "sourceKey": "research-44",
+            "effectiveDate": "1974-01-01"
+          },
+          "professionalManager": {
+            "status": "UNKNOWN",
+            "reason": "LFUCG is a mayor-council urban-county: the elected Mayor is chief executive. The Council maintains a professional Council Administrator and research/budget/communications staff, and the executive branch has a Mayor-appointed Chief Administrative Officer, but neither is a council-appointed city manager acting as general chief executive, and their precise appointment/removal terms and effective dates are not established from a first-party charter here.",
+            "investigatedSourceKeys": [
+              "lfucg-council",
+              "research-44"
+            ]
+          }
+        },
+        "enumeratedPowers": [
+          {
+            "power": "ORDINANCE_ADOPTION",
+            "heldByRole": "COUNCIL",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "research-44",
+              "effectiveDate": "1974-01-01"
+            }
+          },
+          {
+            "power": "ORDINANCE_AMENDMENT",
+            "heldByRole": "COUNCIL",
+            "capability": {
+              "status": "UNKNOWN",
+              "reason": "Council amendment rule not established from a first-party source here.",
+              "investigatedSourceKeys": [
+                "lfucg-council"
+              ]
+            }
+          },
+          {
+            "power": "VETO",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "UNKNOWN",
+              "reason": "Whether the Mayor holds an ordinance veto is not established from a first-party charter/statute here.",
+              "investigatedSourceKeys": [
+                "krs-67a",
+                "lfucg-council"
+              ]
+            }
+          },
+          {
+            "power": "BUDGET_PROPOSAL",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "UNKNOWN",
+              "reason": "Executive budget-proposal authority not established from a first-party source here.",
+              "investigatedSourceKeys": [
+                "krs-67a"
+              ]
+            }
+          },
+          {
+            "power": "APPOINTMENT",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "UNKNOWN",
+              "reason": "Mayoral appointment authority (department heads / CAO) not established from a first-party source here.",
+              "investigatedSourceKeys": [
+                "lfucg-council"
+              ]
+            }
+          }
+        ],
+        "legislativeProcedure": {
+          "measureTypes": {
+            "status": "KNOWN",
+            "value": [
+              "ordinance",
+              "resolution"
+            ],
+            "sourceKey": "research-44",
+            "effectiveDate": "1974-01-01"
+          },
+          "introductionSponsorship": {
+            "status": "UNKNOWN",
+            "reason": "Introduction/sponsorship rule not sourced here."
+          },
+          "readings": {
+            "status": "UNKNOWN",
+            "reason": "Number of readings not established from a first-party source here.",
+            "investigatedSourceKeys": [
+              "krs-67a"
+            ]
+          },
+          "committeeReferral": {
+            "status": "KNOWN",
+            "value": true,
+            "sourceKey": "research-44",
+            "effectiveDate": "1974-01-01"
+          },
+          "publicHearing": {
+            "status": "UNKNOWN",
+            "reason": "Public-hearing rule not sourced here."
+          },
+          "quorum": {
+            "status": "UNKNOWN",
+            "reason": "Quorum rule not sourced here."
+          },
+          "passageThreshold": {
+            "status": "UNKNOWN",
+            "reason": "Passage threshold not sourced here."
+          },
+          "amendment": {
+            "status": "UNKNOWN",
+            "reason": "Floor amendment/motion rule not sourced here."
+          },
+          "mayoralAction": {
+            "status": "UNKNOWN",
+            "reason": "Mayoral approval/veto action on measures not sourced here.",
+            "investigatedSourceKeys": [
+              "krs-67a"
+            ]
+          },
+          "override": {
+            "status": "UNKNOWN",
+            "reason": "Override threshold not sourced here."
+          },
+          "effectivePublication": {
+            "status": "UNKNOWN",
+            "reason": "Effective-date/publication rule not sourced here.",
+            "investigatedSourceKeys": [
+              "krs-67a"
+            ]
+          }
+        },
+        "consolidation": {
+          "consolidationType": {
+            "status": "KNOWN",
+            "value": "URBAN_COUNTY",
+            "sourceKey": "krs-67a",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "KRS ch. 67A"
+          },
+          "enablingAuthority": {
+            "status": "KNOWN",
+            "value": "Kentucky Revised Statutes Chapter 67A (Urban-County Government)",
+            "sourceKey": "krs-67a",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "KRS ch. 67A"
+          },
+          "consolidationEffectiveDate": {
+            "status": "KNOWN",
+            "value": "1974-01-01",
+            "sourceKey": "research-44",
+            "effectiveDate": "1974-01-01"
+          },
+          "predecessorUnits": [
+            {
+              "name": "City of Lexington",
+              "unitKind": "city",
+              "attested": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "1974-01-01"
+              }
+            },
+            {
+              "name": "Fayette County",
+              "unitKind": "county",
+              "attested": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "1974-01-01"
+              }
+            }
+          ],
+          "retainedNestedGovernments": [],
+          "retainedCountyEquivalentOffices": [
+            {
+              "office": "Fayette County Sheriff",
+              "retainedBy": {
+                "status": "KNOWN",
+                "value": "Separately elected Kentucky constitutional county office",
+                "sourceKey": "ky-const-county-offices",
+                "effectiveDate": "1974-01-01"
+              }
+            },
+            {
+              "office": "Fayette County Clerk",
+              "retainedBy": {
+                "status": "KNOWN",
+                "value": "Separately elected Kentucky constitutional county office",
+                "sourceKey": "ky-const-county-offices",
+                "effectiveDate": "1974-01-01"
+              }
+            },
+            {
+              "office": "Property Valuation Administrator",
+              "retainedBy": {
+                "status": "KNOWN",
+                "value": "Separately elected Kentucky constitutional county office",
+                "sourceKey": "ky-const-county-offices",
+                "effectiveDate": "1974-01-01"
+              }
+            }
+          ],
+          "serviceDistricts": [],
+          "separateSchoolOrSpecialDistricts": [
+            {
+              "name": "Fayette County Public Schools",
+              "districtKind": "independent school district",
+              "separateFromGeneralGovernment": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "1974-01-01"
+              }
+            }
+          ]
+        },
+        "unresolved": [
+          "Whether any pre-1974 incorporated places within Fayette County persisted as separate governments is not represented here; the research treats LFUCG as a full city-county merger with no surviving nested municipalities.",
+          "The exhaustive allocation of retained versus merged Fayette County constitutional/administrative offices under LFUCG is not fully sourced here.",
+          "LFUCG applies differential urban-service versus rural-service areas; those service-boundary/tax rules are not represented here pending a first-party source.",
+          "Local legislative procedure (readings, quorum, thresholds, mayoral action, override, publication) is largely not sourced from first-party LFUCG charter/code text."
+        ],
+        "asOf": "2026-09-05",
+        "citedSources": [
+          {
+            "sourceKey": "lfucg-council",
+            "authorityType": "Municipal Official Website",
+            "title": "Office of the Urban County Council — City of Lexington, Kentucky",
+            "issuingAuthority": "Lexington-Fayette Urban County Government",
+            "url": "https://www.lexingtonky.gov/government/office-urban-county-council",
+            "effectiveDate": "1974-01-01",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Urban County Council of 12 district members (2-year terms) plus 3 at-large members (4-year terms), the top-polling at-large member serving as Vice Mayor."
+          },
+          {
+            "sourceKey": "krs-67a",
+            "authorityType": "Kentucky Revised Statutes",
+            "title": "KRS Chapter 67A — Urban-County Government",
+            "issuingAuthority": "Kentucky General Assembly / Legislative Research Commission",
+            "url": "https://apps.legislature.ky.gov/law/statutes/chapter.aspx?id=38290",
+            "effectiveDate": "1974-01-01",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Statutory framework authorizing urban-county government, the form under which Lexington and Fayette County merged."
+          },
+          {
+            "sourceKey": "research-44",
+            "authorityType": "Secondary Research Synthesis",
+            "title": "44_NEXT_PHASE_MUNICIPAL_GOVERNANCE_AND_ENVIRONMENT_MATRIX (Kentucky tranche)",
+            "issuingAuthority": "Project canonical Drive research corpus",
+            "url": "https://drive.google.com/file/d/1NLddpuRckHQvpjDVUjhVx_HItEubfmDUTAvzrPiBprk",
+            "effectiveDate": "2026-08-25",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Kentucky pilot structural summary: LFUCG 12 district + 3 at-large council; Louisville Metro 26 districts with retained home-rule cities; Bowling Green at-large commission + city manager."
+          },
+          {
+            "sourceKey": "ky-const-county-offices",
+            "authorityType": "Kentucky Constitution",
+            "title": "Kentucky Constitution — constitutional county offices (e.g. §§ 99, 104)",
+            "issuingAuthority": "Commonwealth of Kentucky",
+            "url": "https://apps.legislature.ky.gov/law/constitution",
+            "effectiveDate": null,
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Elected county constitutional offices (Sheriff, County Clerk, Property Valuation Administrator, County Attorney) continue as separately elected offices within a consolidated Kentucky government."
+          }
+        ]
+      },
+      {
+        "sourceGovernmentKey": "us-ky-louisville-jefferson-metro",
+        "state": "KY",
+        "jurisdictionDisplayName": "Louisville-Jefferson County Metro Government",
+        "censusGovernmentUnitReference": {
+          "status": "UNKNOWN",
+          "reason": "Not yet reconciled to a canonical government-unit / Census key; no place code is asserted here."
+        },
+        "legalBasis": {
+          "form": {
+            "status": "KNOWN",
+            "value": "METRO_CONSOLIDATED",
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2003-01-06",
+            "legalLocator": "KRS ch. 67C"
+          },
+          "basisType": {
+            "status": "KNOWN",
+            "value": "Consolidated local government (city-county merger)",
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2003-01-06",
+            "legalLocator": "KRS ch. 67C"
+          },
+          "controllingAuthority": {
+            "status": "KNOWN",
+            "value": "Kentucky Revised Statutes Chapter 67C (Consolidated Local Governments)",
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2003-01-06",
+            "legalLocator": "KRS ch. 67C"
+          },
+          "effectiveDate": {
+            "status": "KNOWN",
+            "value": "2003-01-06",
+            "sourceKey": "research-44",
+            "effectiveDate": "2003-01-06",
+            "legalLocator": "Merger of the City of Louisville and Jefferson County"
+          }
+        },
+        "electedStructure": {
+          "bodyName": {
+            "status": "KNOWN",
+            "value": "Louisville Metro Council",
+            "sourceKey": "louisville-metro",
+            "effectiveDate": "2003-01-06"
+          },
+          "executiveSelection": {
+            "status": "KNOWN",
+            "value": "Separately elected Metro Mayor, elected at-large countywide",
+            "sourceKey": "louisville-mayor",
+            "effectiveDate": "2003-01-06"
+          },
+          "bodySize": {
+            "status": "KNOWN",
+            "value": 26,
+            "sourceKey": "louisville-metro",
+            "effectiveDate": "2003-01-06"
+          },
+          "composition": {
+            "status": "KNOWN",
+            "value": {
+              "pattern": "SINGLE_MEMBER_DISTRICT",
+              "districtSeats": 26,
+              "atLargeSeats": 0,
+              "wardSeats": null,
+              "note": "26 single-member geographic districts apportioned by population across Jefferson County; no at-large seats."
+            },
+            "sourceKey": "louisville-metro",
+            "effectiveDate": "2003-01-06"
+          },
+          "presidingOffice": {
+            "status": "KNOWN",
+            "value": "Metro Council President, elected by and from the Council membership; the Mayor is a separate executive.",
+            "sourceKey": "louisville-metro",
+            "effectiveDate": "2003-01-06"
+          },
+          "terms": [
+            {
+              "seatClass": "Metro Council Member",
+              "termYears": {
+                "status": "KNOWN",
+                "value": 4,
+                "sourceKey": "louisville-metro",
+                "effectiveDate": "2003-01-06"
+              },
+              "termLimit": {
+                "status": "UNKNOWN",
+                "reason": "No council term-limit rule established from a first-party source here."
+              }
+            },
+            {
+              "seatClass": "Metro Mayor",
+              "termYears": {
+                "status": "KNOWN",
+                "value": 4,
+                "sourceKey": "louisville-mayor",
+                "effectiveDate": "2003-01-06"
+              },
+              "termLimit": {
+                "status": "UNKNOWN",
+                "reason": "Mayoral term-limit rule not established from a first-party source here.",
+                "investigatedSourceKeys": [
+                  "krs-67c"
+                ]
+              }
+            }
+          ],
+          "vacancyMechanism": {
+            "status": "UNKNOWN",
+            "reason": "Vacancy-fill mechanism not established from a first-party source here.",
+            "investigatedSourceKeys": [
+              "krs-67c"
+            ]
+          }
+        },
+        "administrativeStructure": {
+          "executiveLegislativeSeparation": {
+            "status": "KNOWN",
+            "value": "SEPARATE_EXECUTIVE_AND_LEGISLATIVE",
+            "sourceKey": "research-44",
+            "effectiveDate": "2003-01-06"
+          },
+          "mayor": {
+            "status": "KNOWN",
+            "value": {
+              "title": "Mayor",
+              "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+            },
+            "sourceKey": "louisville-mayor",
+            "effectiveDate": "2003-01-06"
+          },
+          "professionalManager": {
+            "status": "NOT_APPLICABLE",
+            "reason": "Louisville Metro is a mayor-council form under KRS 67C with the elected Mayor as chief executive; there is no appointed city manager as general chief executive.",
+            "sourceKey": "research-44"
+          }
+        },
+        "enumeratedPowers": [
+          {
+            "power": "ORDINANCE_ADOPTION",
+            "heldByRole": "COUNCIL",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "louisville-metro",
+              "effectiveDate": "2003-01-06"
+            }
+          },
+          {
+            "power": "VETO",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "UNKNOWN",
+              "reason": "Whether the Metro Mayor holds an ordinance veto (and any council override) is not established from a first-party statute here.",
+              "investigatedSourceKeys": [
+                "krs-67c",
+                "louisville-mayor"
+              ]
+            }
+          },
+          {
+            "power": "OVERRIDE",
+            "heldByRole": "COUNCIL",
+            "capability": {
+              "status": "UNKNOWN",
+              "reason": "Council veto-override threshold not established from a first-party source here.",
+              "investigatedSourceKeys": [
+                "krs-67c"
+              ]
+            }
+          },
+          {
+            "power": "BUDGET_PROPOSAL",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "UNKNOWN",
+              "reason": "Executive budget-proposal authority not established from a first-party source here.",
+              "investigatedSourceKeys": [
+                "krs-67c"
+              ]
+            }
+          },
+          {
+            "power": "APPOINTMENT",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "UNKNOWN",
+              "reason": "Mayoral appointment authority not established from a first-party source here.",
+              "investigatedSourceKeys": [
+                "louisville-mayor"
+              ]
+            }
+          }
+        ],
+        "legislativeProcedure": {
+          "measureTypes": {
+            "status": "KNOWN",
+            "value": [
+              "ordinance",
+              "resolution"
+            ],
+            "sourceKey": "louisville-metro",
+            "effectiveDate": "2003-01-06"
+          },
+          "introductionSponsorship": {
+            "status": "UNKNOWN",
+            "reason": "Introduction/sponsorship rule not sourced here."
+          },
+          "readings": {
+            "status": "UNKNOWN",
+            "reason": "Number of readings not established from a first-party source here.",
+            "investigatedSourceKeys": [
+              "krs-67c"
+            ]
+          },
+          "committeeReferral": {
+            "status": "KNOWN",
+            "value": true,
+            "sourceKey": "research-44",
+            "effectiveDate": "2003-01-06"
+          },
+          "publicHearing": {
+            "status": "UNKNOWN",
+            "reason": "Public-hearing rule not sourced here."
+          },
+          "quorum": {
+            "status": "UNKNOWN",
+            "reason": "Quorum rule not sourced here."
+          },
+          "passageThreshold": {
+            "status": "UNKNOWN",
+            "reason": "Passage threshold not sourced here."
+          },
+          "amendment": {
+            "status": "UNKNOWN",
+            "reason": "Floor amendment/motion rule not sourced here."
+          },
+          "mayoralAction": {
+            "status": "UNKNOWN",
+            "reason": "Mayoral approval/veto action on measures not sourced here.",
+            "investigatedSourceKeys": [
+              "krs-67c"
+            ]
+          },
+          "override": {
+            "status": "UNKNOWN",
+            "reason": "Override threshold not sourced here.",
+            "investigatedSourceKeys": [
+              "krs-67c"
+            ]
+          },
+          "effectivePublication": {
+            "status": "UNKNOWN",
+            "reason": "Effective-date/publication rule not sourced here.",
+            "investigatedSourceKeys": [
+              "krs-67c"
+            ]
+          }
+        },
+        "consolidation": {
+          "consolidationType": {
+            "status": "KNOWN",
+            "value": "METRO_CONSOLIDATED",
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2003-01-06",
+            "legalLocator": "KRS ch. 67C"
+          },
+          "enablingAuthority": {
+            "status": "KNOWN",
+            "value": "Kentucky Revised Statutes Chapter 67C (Consolidated Local Governments)",
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2003-01-06",
+            "legalLocator": "KRS ch. 67C"
+          },
+          "consolidationEffectiveDate": {
+            "status": "KNOWN",
+            "value": "2003-01-06",
+            "sourceKey": "research-44",
+            "effectiveDate": "2003-01-06"
+          },
+          "predecessorUnits": [
+            {
+              "name": "City of Louisville",
+              "unitKind": "city",
+              "attested": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "2003-01-06"
+              }
+            },
+            {
+              "name": "Jefferson County (Fiscal Court)",
+              "unitKind": "county",
+              "attested": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "2003-01-06"
+              }
+            }
+          ],
+          "retainedNestedGovernments": [
+            {
+              "name": "St. Matthews",
+              "governmentClass": "home-rule-class city",
+              "survivesConsolidation": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "2003-01-06"
+              }
+            },
+            {
+              "name": "Shively",
+              "governmentClass": "home-rule-class city",
+              "survivesConsolidation": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "2003-01-06"
+              }
+            },
+            {
+              "name": "Anchorage",
+              "governmentClass": "home-rule-class city",
+              "survivesConsolidation": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "2003-01-06"
+              }
+            },
+            {
+              "name": "Prospect",
+              "governmentClass": "home-rule-class city",
+              "survivesConsolidation": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "2003-01-06"
+              }
+            },
+            {
+              "name": "Jeffersontown",
+              "governmentClass": "home-rule-class city",
+              "survivesConsolidation": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "2003-01-06"
+              }
+            }
+          ],
+          "retainedCountyEquivalentOffices": [
+            {
+              "office": "Jefferson County Sheriff",
+              "retainedBy": {
+                "status": "KNOWN",
+                "value": "Separately elected Kentucky constitutional county office",
+                "sourceKey": "ky-const-county-offices",
+                "effectiveDate": "2003-01-06"
+              }
+            },
+            {
+              "office": "Jefferson County Clerk",
+              "retainedBy": {
+                "status": "KNOWN",
+                "value": "Separately elected Kentucky constitutional county office",
+                "sourceKey": "ky-const-county-offices",
+                "effectiveDate": "2003-01-06"
+              }
+            },
+            {
+              "office": "Property Valuation Administrator",
+              "retainedBy": {
+                "status": "KNOWN",
+                "value": "Separately elected Kentucky constitutional county office",
+                "sourceKey": "ky-const-county-offices",
+                "effectiveDate": "2003-01-06"
+              }
+            }
+          ],
+          "serviceDistricts": [
+            {
+              "name": "Urban Services District (former City of Louisville boundary)",
+              "note": {
+                "status": "UNKNOWN",
+                "reason": "Metro provides enhanced services within the former City of Louisville boundary funded by an urban-services-district tax; the exact current boundary and rate are not sourced here.",
+                "investigatedSourceKeys": [
+                  "louisville-metro",
+                  "research-44"
+                ]
+              }
+            }
+          ],
+          "separateSchoolOrSpecialDistricts": [
+            {
+              "name": "Jefferson County Public Schools",
+              "districtKind": "independent school district",
+              "separateFromGeneralGovernment": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "2003-01-06"
+              }
+            }
+          ]
+        },
+        "unresolved": [
+          "More than eighty incorporated home-rule cities within Jefferson County retained their separate governments after the 2003 merger; only a representative sample is enumerated here, and the full set is not exhaustively listed.",
+          "The exhaustive allocation of retained versus merged Jefferson County constitutional/administrative offices is not fully sourced here.",
+          "Local legislative procedure (readings, quorum, thresholds, mayoral veto/override, publication) is largely not sourced from first-party Metro ordinance/charter text."
+        ],
+        "asOf": "2026-09-05",
+        "citedSources": [
+          {
+            "sourceKey": "louisville-metro",
+            "authorityType": "Municipal Official Website",
+            "title": "Metro Council — Louisville Metro Government",
+            "issuingAuthority": "Louisville-Jefferson County Metro Government",
+            "url": "https://louisvilleky.gov/government/metro-council",
+            "effectiveDate": "2003-01-06",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Metro Council of 26 single-member geographic districts; standing committees; ordinances and resolutions as measure types."
+          },
+          {
+            "sourceKey": "louisville-mayor",
+            "authorityType": "Municipal Official Website",
+            "title": "Office of the Mayor — Louisville Metro Government",
+            "issuingAuthority": "Louisville-Jefferson County Metro Government",
+            "url": "https://louisvilleky.gov/government/mayor",
+            "effectiveDate": "2003-01-06",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Separately elected Metro Mayor as chief executive, physically and institutionally separate from the legislative Metro Council."
+          },
+          {
+            "sourceKey": "krs-67c",
+            "authorityType": "Kentucky Revised Statutes",
+            "title": "KRS Chapter 67C — Consolidated Local Governments",
+            "issuingAuthority": "Kentucky General Assembly / Legislative Research Commission",
+            "url": "https://apps.legislature.ky.gov/law/statutes/chapter.aspx?id=38291",
+            "effectiveDate": "2003-01-06",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Statutory framework authorizing the consolidated local government under which Louisville and Jefferson County merged effective January 6, 2003."
+          },
+          {
+            "sourceKey": "research-44",
+            "authorityType": "Secondary Research Synthesis",
+            "title": "44_NEXT_PHASE_MUNICIPAL_GOVERNANCE_AND_ENVIRONMENT_MATRIX (Kentucky tranche)",
+            "issuingAuthority": "Project canonical Drive research corpus",
+            "url": "https://drive.google.com/file/d/1NLddpuRckHQvpjDVUjhVx_HItEubfmDUTAvzrPiBprk",
+            "effectiveDate": "2026-08-25",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Kentucky pilot structural summary: LFUCG 12 district + 3 at-large council; Louisville Metro 26 districts with retained home-rule cities; Bowling Green at-large commission + city manager."
+          },
+          {
+            "sourceKey": "ky-const-county-offices",
+            "authorityType": "Kentucky Constitution",
+            "title": "Kentucky Constitution — constitutional county offices (e.g. §§ 99, 104)",
+            "issuingAuthority": "Commonwealth of Kentucky",
+            "url": "https://apps.legislature.ky.gov/law/constitution",
+            "effectiveDate": null,
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Elected county constitutional offices (Sheriff, County Clerk, Property Valuation Administrator, County Attorney) continue as separately elected offices within a consolidated Kentucky government."
+          }
+        ]
+      },
+      {
+        "sourceGovernmentKey": "us-ky-bowling-green",
+        "state": "KY",
+        "jurisdictionDisplayName": "City of Bowling Green",
+        "censusGovernmentUnitReference": {
+          "status": "UNKNOWN",
+          "reason": "Not yet reconciled to a canonical government-unit / Census key; no place code is asserted here."
+        },
+        "legalBasis": {
+          "form": {
+            "status": "KNOWN",
+            "value": "COMMISSION_MANAGER",
+            "sourceKey": "krs-83a",
+            "effectiveDate": "1980-07-15",
+            "legalLocator": "KRS 83A.150"
+          },
+          "basisType": {
+            "status": "KNOWN",
+            "value": "City manager plan: Board of Commissioners plus an appointed City Manager (KRS 83A.150)",
+            "sourceKey": "krs-83a",
+            "effectiveDate": "1980-07-15",
+            "legalLocator": "KRS 83A.150"
+          },
+          "controllingAuthority": {
+            "status": "KNOWN",
+            "value": "Kentucky Revised Statutes Chapter 83A, esp. 83A.150 (city manager plan)",
+            "sourceKey": "krs-83a",
+            "effectiveDate": "1980-07-15",
+            "legalLocator": "KRS 83A.150"
+          },
+          "effectiveDate": {
+            "status": "KNOWN",
+            "value": "1980-07-15",
+            "sourceKey": "krs-83a",
+            "effectiveDate": "1980-07-15",
+            "legalLocator": "Effective date of the current KRS Chapter 83A city-government framework"
+          }
+        },
+        "electedStructure": {
+          "bodyName": {
+            "status": "KNOWN",
+            "value": "Board of Commissioners",
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15"
+          },
+          "executiveSelection": {
+            "status": "KNOWN",
+            "value": "Mayor elected at-large; the Mayor is a member of and presides over the Board of Commissioners rather than a separate executive.",
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15"
+          },
+          "bodySize": {
+            "status": "KNOWN",
+            "value": 5,
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15"
+          },
+          "composition": {
+            "status": "KNOWN",
+            "value": {
+              "pattern": "AT_LARGE",
+              "districtSeats": 0,
+              "atLargeSeats": 5,
+              "wardSeats": null,
+              "note": "The Mayor plus four Commissioners, all elected at-large citywide with no geographic wards; the top four vote-getters in the nonpartisan commission race are elected."
+            },
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15"
+          },
+          "presidingOffice": {
+            "status": "KNOWN",
+            "value": "Mayor presides over the Board of Commissioners.",
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15"
+          },
+          "terms": [
+            {
+              "seatClass": "Commissioner",
+              "termYears": {
+                "status": "KNOWN",
+                "value": 2,
+                "sourceKey": "bgky-gov",
+                "effectiveDate": "1980-07-15"
+              },
+              "termLimit": {
+                "status": "UNKNOWN",
+                "reason": "Commissioner term-limit rule not established from a first-party source here.",
+                "investigatedSourceKeys": [
+                  "krs-83a"
+                ]
+              }
+            },
+            {
+              "seatClass": "Mayor",
+              "termYears": {
+                "status": "KNOWN",
+                "value": 4,
+                "sourceKey": "bgky-gov",
+                "effectiveDate": "1980-07-15"
+              },
+              "termLimit": {
+                "status": "KNOWN",
+                "value": "No more than three consecutive terms (KRS 83A.024/83A.040; Ky. Const. § 160)",
+                "sourceKey": "krs-83a",
+                "effectiveDate": "1980-07-15",
+                "legalLocator": "KRS 83A.040"
+              }
+            }
+          ],
+          "vacancyMechanism": {
+            "status": "UNKNOWN",
+            "reason": "Vacancy-fill mechanism not established from a first-party source here.",
+            "investigatedSourceKeys": [
+              "krs-83a"
+            ]
+          }
+        },
+        "administrativeStructure": {
+          "executiveLegislativeSeparation": {
+            "status": "KNOWN",
+            "value": "EXECUTIVE_AND_LEGISLATIVE_FUSED_IN_BODY",
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15"
+          },
+          "mayor": {
+            "status": "KNOWN",
+            "value": {
+              "title": "Mayor",
+              "structuralPosition": "PRESIDING_MEMBER_OF_BODY"
+            },
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15"
+          },
+          "professionalManager": {
+            "status": "KNOWN",
+            "value": {
+              "title": "City Manager",
+              "appointedByRole": "COMMISSION",
+              "removableByRole": "COMMISSION",
+              "statedRole": "Chief administrative officer appointed by the Board of Commissioners; carries out the Board's decisions and manages the day-to-day operations of the city."
+            },
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15",
+            "legalLocator": "KRS 83A.150"
+          }
+        },
+        "enumeratedPowers": [
+          {
+            "power": "ORDINANCE_ADOPTION",
+            "heldByRole": "COMMISSION",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "bgky-gov",
+              "effectiveDate": "1980-07-15"
+            }
+          },
+          {
+            "power": "APPOINTMENT",
+            "heldByRole": "COMMISSION",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "bgky-gov",
+              "effectiveDate": "1980-07-15"
+            }
+          },
+          {
+            "power": "DEPARTMENT_SUPERVISION",
+            "heldByRole": "CITY_MANAGER",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "bgky-gov",
+              "effectiveDate": "1980-07-15"
+            }
+          },
+          {
+            "power": "VETO",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "UNKNOWN",
+              "reason": "Whether the Mayor holds a separate veto is not established from a first-party source here; under the city manager plan all executive and legislative power is vested in the Board of Commissioners.",
+              "investigatedSourceKeys": [
+                "krs-83a",
+                "bgky-gov"
+              ]
+            }
+          },
+          {
+            "power": "EXECUTIVE_DIRECTIVE",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "UNKNOWN",
+              "reason": "Independent mayoral executive-directive authority not established from a first-party source here.",
+              "investigatedSourceKeys": [
+                "krs-83a"
+              ]
+            }
+          }
+        ],
+        "legislativeProcedure": {
+          "measureTypes": {
+            "status": "KNOWN",
+            "value": [
+              "ordinance"
+            ],
+            "sourceKey": "krs-83a",
+            "effectiveDate": "1980-07-15",
+            "legalLocator": "KRS 83A.060"
+          },
+          "introductionSponsorship": {
+            "status": "UNKNOWN",
+            "reason": "Introduction/sponsorship rule not sourced here."
+          },
+          "readings": {
+            "status": "UNKNOWN",
+            "reason": "Ordinance reading requirement not established from first-party KRS 83A.060 text here.",
+            "investigatedSourceKeys": [
+              "krs-83a"
+            ]
+          },
+          "committeeReferral": {
+            "status": "UNKNOWN",
+            "reason": "Committee-referral practice not sourced here."
+          },
+          "publicHearing": {
+            "status": "UNKNOWN",
+            "reason": "Public-hearing rule not sourced here."
+          },
+          "quorum": {
+            "status": "UNKNOWN",
+            "reason": "Quorum rule not sourced here.",
+            "investigatedSourceKeys": [
+              "krs-83a"
+            ]
+          },
+          "passageThreshold": {
+            "status": "UNKNOWN",
+            "reason": "Passage threshold not sourced here.",
+            "investigatedSourceKeys": [
+              "krs-83a"
+            ]
+          },
+          "amendment": {
+            "status": "UNKNOWN",
+            "reason": "Floor amendment/motion rule not sourced here."
+          },
+          "mayoralAction": {
+            "status": "UNKNOWN",
+            "reason": "Mayoral action on measures not sourced here.",
+            "investigatedSourceKeys": [
+              "krs-83a"
+            ]
+          },
+          "override": {
+            "status": "UNKNOWN",
+            "reason": "Override rule not sourced here."
+          },
+          "effectivePublication": {
+            "status": "UNKNOWN",
+            "reason": "Effective-date/publication rule not established from first-party KRS 83A.060 text here.",
+            "investigatedSourceKeys": [
+              "krs-83a"
+            ]
+          }
+        },
+        "consolidation": {
+          "consolidationType": {
+            "status": "KNOWN",
+            "value": "NONE",
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15"
+          },
+          "enablingAuthority": {
+            "status": "NOT_APPLICABLE",
+            "reason": "Bowling Green is a home-rule-class city, not a consolidated government.",
+            "sourceKey": "bgky-gov"
+          },
+          "consolidationEffectiveDate": {
+            "status": "NOT_APPLICABLE",
+            "reason": "Not a consolidated government; there is no consolidation effective date.",
+            "sourceKey": "bgky-gov"
+          },
+          "predecessorUnits": [],
+          "retainedNestedGovernments": [],
+          "retainedCountyEquivalentOffices": [],
+          "serviceDistricts": [],
+          "separateSchoolOrSpecialDistricts": [
+            {
+              "name": "Bowling Green Independent School District",
+              "districtKind": "independent school district",
+              "separateFromGeneralGovernment": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "1980-07-15"
+              }
+            },
+            {
+              "name": "Warren County Public Schools",
+              "districtKind": "county school district",
+              "separateFromGeneralGovernment": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "1980-07-15"
+              }
+            }
+          ]
+        },
+        "unresolved": [
+          "Bowling Green is a city within Warren County; Warren County's Fiscal Court and constitutional offices are a separate overlapping government, not part of the city, and that overlapping (non-nested) county government is not modeled as its own record here.",
+          "Bowling Green's specific date of adopting the city manager plan is not sourced here; 1980-07-15 is used as the effective date of the current KRS Chapter 83A framework, not a city-specific adoption date.",
+          "Local legislative procedure (readings, quorum, thresholds, publication) under KRS 83A.060 is not established from first-party statutory text here."
+        ],
+        "asOf": "2026-09-05",
+        "citedSources": [
+          {
+            "sourceKey": "bgky-gov",
+            "authorityType": "Municipal Official Website",
+            "title": "How Government Works — City of Bowling Green, Kentucky",
+            "issuingAuthority": "City of Bowling Green",
+            "url": "https://www.bgky.org/government/how-government-works",
+            "effectiveDate": "1980-07-15",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "City manager form under KRS 83A.150; Board of Commissioners of four Commissioners (2-year terms) plus a Mayor (4-year term, max three consecutive); all executive and legislative power vested in the Board, which appoints a City Manager as chief administrative officer."
+          },
+          {
+            "sourceKey": "krs-83a",
+            "authorityType": "Kentucky Revised Statutes",
+            "title": "KRS Chapter 83A — City Government (incl. 83A.150 city manager plan, 83A.040 terms, 83A.060 ordinances)",
+            "issuingAuthority": "Kentucky General Assembly / Legislative Research Commission",
+            "url": "https://apps.legislature.ky.gov/law/statutes/chapter.aspx?id=38300",
+            "effectiveDate": "1980-07-15",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Statutory framework for Kentucky city government forms, including the city manager plan, term lengths and term limits, and ordinance procedure."
+          },
+          {
+            "sourceKey": "research-44",
+            "authorityType": "Secondary Research Synthesis",
+            "title": "44_NEXT_PHASE_MUNICIPAL_GOVERNANCE_AND_ENVIRONMENT_MATRIX (Kentucky tranche)",
+            "issuingAuthority": "Project canonical Drive research corpus",
+            "url": "https://drive.google.com/file/d/1NLddpuRckHQvpjDVUjhVx_HItEubfmDUTAvzrPiBprk",
+            "effectiveDate": "2026-08-25",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Kentucky pilot structural summary: LFUCG 12 district + 3 at-large council; Louisville Metro 26 districts with retained home-rule cities; Bowling Green at-large commission + city manager."
+          }
+        ]
+      }
+    ]
+  }
+}
