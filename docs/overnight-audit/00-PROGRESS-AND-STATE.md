@@ -37,13 +37,19 @@ This file is my own working memory so the run survives context compaction. It is
 - **Formative bank is vague** ("the thing that was planned", "the thing you signed up for") while **episode families are concrete and good** (the little-brother thread and corridor thread show real cross-beat continuity + visible consequence — positive house-style evidence).
 - What works (clean): consequence visibility, people-presence/introductions, canon↔realization boundary, no dev/forecast leakage, no adult vocab to under-13s.
 
+## Deliverables completed (update)
+
+4. **Prose-review packet** — `scripts/prose-review-packet.ts` + `npm run packet:prose` → `prose-review-packet.html` (published private artifact `https://claude.ai/code/artifact/09a0fd60-860e-47f6-a978-b9e218ed2634`) + `prose-inventory.csv`. Verified rendering/marking/filters/both themes in-browser.
+5. **Narrative Style & Quality Authority** — `10-NARRATIVE-STYLE-AUTHORITY.md`.
+6. **Future-System Coverage Map** — `20-FUTURE-SYSTEM-COVERAGE-MAP.md`.
+7. **Graphics & Menu Readiness Map** — `30-GRAPHICS-AND-MENU-READINESS.md`.
+8. Subsystem-map workflow consumed (content-banks, new-game, ui-graphics, docs-backlog, sim-core).
+9. Gate: full `npm run test` = **1684 passing** (103 files); typecheck/eslint/prettier clean; corpus outputs added to `.prettierignore`.
+
 ## TODO (remaining sections)
 
-- [ ] Owner printable prose-review packet (HTML from prose-inventory.json) — durable IDs, GOOD/AWKWARD/BAD/WRONG-CONTEXT/REPETITIVE marks.
-- [ ] Narrative style/quality authority doc (project-specific, derived from corpus).
-- [ ] Operating-mode audit (how Claude has been used) + current best-practice research (first-party vs community) + safe improvements.
-- [ ] Future-system / backlog reconciliation map (consume subsystem-map workflow + Drive idea inbox / future-systems / roadmap).
-- [ ] Graphics/menu readiness map (consume ui-graphics subsystem map + #91 diff).
+- [ ] Operating-mode audit (how Claude has been used) + current best-practice research — research workflow `wl7wv69oj` running.
 - [ ] "Stable of stuff" owner action board (READY NOW / AFTER MERGE / SMALL BUG / RESEARCH / HUMAN-PLAY GATE / BLOCKED).
 - [ ] Owner Morning Brief + completion report; write completion artifact to Drive.
-- [ ] Static extraction of full authored banks (not just runtime-hit strings) for 100% prose coverage.
+- [ ] (Optional) Static extraction of full authored banks for 100% prose coverage; export `formativeSituationBank()`.
+- [ ] (Optional) Future-system narrative probes / content contracts (e.g. college-decision scene contract, legislative-dialogue contract).
