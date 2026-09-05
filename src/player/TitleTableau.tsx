@@ -25,8 +25,18 @@ const NO_PLATE_KINDS = new Set(["typographic"]);
 
 function TitleStage({
   presentation,
+  role,
+  drifting,
 }: {
   readonly presentation: TitlePresentation;
+  /**
+   * What this stage is doing. `showing` is the ordinary state and does not
+   * animate — a room that faded in every time the screen mounted would mean
+   * the front door of the game spends its first second and a half arriving.
+   * `arriving` and `leaving` exist only for the length of a crossfade.
+   */
+  readonly role: "showing" | "arriving" | "leaving";
+  readonly drifting: boolean;
 }) {
   const scene = presentation.scene;
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -76,15 +86,24 @@ function TitleStage({
   return (
     <div
       ref={viewportRef}
-      className="title-tableau-stage"
-      data-testid="title-tableau-stage"
+      className={`title-tableau-stage title-tableau-stage--${role}`}
+      data-testid={
+        role === "leaving"
+          ? "title-tableau-stage-leaving"
+          : "title-tableau-stage"
+      }
       data-title-kind={presentation.kind}
       data-scene-id={scene?.sceneId ?? ""}
       data-tableau-id={presentation.tableau?.tableauId ?? ""}
+      data-drifting={drifting ? "true" : "false"}
       aria-hidden="true"
     >
       <div
-        className="scene-camera title-tableau-camera"
+        className={
+          drifting
+            ? "scene-camera title-tableau-camera title-tableau-camera--drift"
+            : "scene-camera title-tableau-camera"
+        }
         data-testid="title-tableau-camera"
         data-painted-tier={tier.paintedWidth ?? ""}
         style={
@@ -126,12 +145,30 @@ function TitleStage({
   );
 }
 
+/**
+ * PACKET 77 SEAM. Three props were added and no architecture was.
+ *
+ * `leaving` is the room being replaced, painted underneath for as long as the
+ * crossfade lasts; `drifting` is the viewer's motion preference, arriving as a
+ * boolean because a component should not be reading media queries; `cycleKey`
+ * remounts the arriving stage so its fade-in animation actually runs rather
+ * than being skipped because React reused the element.
+ *
+ * The caller decides all three. Nothing here knows what a cycle is, how long a
+ * hold is, or which room comes next.
+ */
 export function TitleTableau({
   presentation,
   children,
+  leaving = null,
+  drifting = false,
+  cycleKey = "still",
 }: {
   readonly presentation: TitlePresentation;
   readonly children: ReactNode;
+  readonly leaving?: TitlePresentation | null;
+  readonly drifting?: boolean;
+  readonly cycleKey?: string;
 }) {
   const hasPlate =
     !NO_PLATE_KINDS.has(presentation.kind) &&
@@ -146,9 +183,18 @@ export function TitleTableau({
       data-testid="title-tableau"
       data-has-plate={hasPlate ? "true" : "false"}
       data-title-kind={presentation.kind}
+      data-motion={drifting ? "drift" : "reduced"}
     >
+      {leaving && !NO_PLATE_KINDS.has(leaving.kind) ? (
+        <TitleStage presentation={leaving} role="leaving" drifting={false} />
+      ) : null}
       {NO_PLATE_KINDS.has(presentation.kind) ? null : (
-        <TitleStage presentation={presentation} />
+        <TitleStage
+          key={cycleKey}
+          presentation={presentation}
+          role={leaving ? "arriving" : "showing"}
+          drifting={drifting}
+        />
       )}
       <div className="title-tableau-content">{children}</div>
     </div>

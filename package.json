@@ -43,7 +43,8 @@
     "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build && npm run demo -- validation-seed && npm run validate:art",
     "agent:preflight": "node scripts/agent-preflight.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",
-    "stress:persons": "node --import tsx src/cli/stress-persons.ts"
+    "stress:persons": "node --import tsx src/cli/stress-persons.ts",
+    "report:life": "node --import tsx scripts/life-report.ts"
   },
   "dependencies": {
     "react": "19.2.6",
