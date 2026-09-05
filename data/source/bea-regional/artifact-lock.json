@@ -1,0 +1,107 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "bea-regional-cainc1-zip",
+      "bytes": {
+        "length": 3467441,
+        "sha256": "e1465c8b0e7e75f541241fe2fa64364b784dd6d2223901f9d576c4c5d49480b5"
+      },
+      "container": {
+        "memberLength": 4314454,
+        "memberPath": "CAINC1__ALL_AREAS_1969_2024.csv",
+        "memberSha256": "98c5ef2a2d3f72e482eac5bca0544ce3114375f8908226872b4f429d0e0f2028"
+      },
+      "localPath": "data/source/bea-regional/raw/CAINC1.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Bureau of Economic Analysis, Regional Economic Accounts",
+      "publisher": {
+        "documentationUrl": "https://apps.bea.gov/regional/downloadzip.htm",
+        "releaseDate": null,
+        "schemaVersion": "BEA regional table CAINC1",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 3467441,
+        "retrievedAt": "2026-09-03T04:21:17.858Z",
+        "url": "https://apps.bea.gov/regional/zip/CAINC1.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "bea-regional-sarpp-zip",
+      "bytes": {
+        "length": 39230,
+        "sha256": "38713c6224c4c26ae020ffecd4549b82dca84f43d34f93dfdb43f4070cf011da"
+      },
+      "container": {
+        "memberLength": 50949,
+        "memberPath": "SARPP_STATE_2008_2024.csv",
+        "memberSha256": "9c0cbbf81061b6721fc31f580719b1c57489aef75b70e933ed2386b4dff79863"
+      },
+      "localPath": "data/source/bea-regional/raw/SARPP.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Bureau of Economic Analysis, Regional Economic Accounts",
+      "publisher": {
+        "documentationUrl": "https://apps.bea.gov/regional/downloadzip.htm",
+        "releaseDate": null,
+        "schemaVersion": "BEA regional table SARPP",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 39230,
+        "retrievedAt": "2026-09-03T04:21:18.582Z",
+        "url": "https://apps.bea.gov/regional/zip/SARPP.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "bea-regional-marpp-zip",
+      "bytes": {
+        "length": 146479,
+        "sha256": "5dbf2e6ac2af222cc9abc205586c9b480344d89392752eb689c3ec823a34c83e"
+      },
+      "container": {
+        "memberLength": 455899,
+        "memberPath": "MARPP_MSA_2008_2024.csv",
+        "memberSha256": "4ce7a7e2ea08ff721de83f50d8a70bb9c93956a49970462f462372aa58cee9f4"
+      },
+      "localPath": "data/source/bea-regional/raw/MARPP.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Bureau of Economic Analysis, Regional Economic Accounts",
+      "publisher": {
+        "documentationUrl": "https://apps.bea.gov/regional/downloadzip.htm",
+        "releaseDate": null,
+        "schemaVersion": "BEA regional table MARPP",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 146479,
+        "retrievedAt": "2026-09-03T04:21:18.752Z",
+        "url": "https://apps.bea.gov/regional/zip/MARPP.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "bea-regional"
+}

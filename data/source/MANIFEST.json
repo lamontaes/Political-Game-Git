@@ -1,0 +1,385 @@
+{
+  "domains": [
+    {
+      "artifacts": [
+        {
+          "artifactId": "census-acs-pums-2023-1yr-wy-housing-zip",
+          "sha256": "298cd303f2d23b7cef3a289668b92eb798ca2454249c18034807e4a69f5ccb22",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "census-acs-pums-2023-1yr-wy-person-zip",
+          "sha256": "5d050cce339aa48550cae6474b89171c4a0452f7c99252786340c9d189d29857",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "census-acs-pums-2023-data-dictionary-csv",
+          "sha256": "003cfe1616d673dc23624e8604bc97579a642971852bc9c1ef673452b3a2515b",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "census-acs-pums-2023-wy-housing-qa-slice",
+          "sha256": "b4238c249b124d59f4ca0659fbd1e404c04b3c9a8ff9a659fd6e4150c16bc980",
+          "sliceOfParent": "census-acs-pums-2023-1yr-wy-housing-zip",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-acs-pums-2023-wy-person-qa-slice",
+          "sha256": "bf16509b6585772c0066a6542ede81060b7a24208a1d83e57a71c150eceb7eaf",
+          "sliceOfParent": "census-acs-pums-2023-1yr-wy-person-zip",
+          "storage": "derived-qa-slice"
+        }
+      ],
+      "asOf": "2023-12-31",
+      "boundedSampleReason": "Two bounds, both stated. Geographically, this is Wyoming's complete 1-year product, not the nation's. Within it, the corpus compiles a QA slice of 200 housing units and 20 group-quarters records, with every person in them: The header row of psam_h56.csv, followed by the first 200 data rows whose SERIALNO marks a housing unit (contains \"HU\") and the first 20 whose SERIALNO marks group quarters (contains \"GQ\"), each stratum in published file order and each row byte-for-byte, with a trailing newline. The header row of psam_p56.csv followed by every data row whose SERIALNO appears in the housing QA slice, in published file order, byte-for-byte, with a trailing newline. Both parents are committed whole and hashed, so the slice is re-cuttable and checkable by anyone. The 80 housing replicate weights (WGTP1-WGTP80) and 80 person replicate weights (PWGTP1-PWGTP80) are present in the committed parent artifacts but are not projected into this corpus. They exist for successive-difference variance estimation, which nothing in this repository performs; projecting them would multiply the corpus several times over for values no consumer reads.",
+      "canonicalSha256": "74d68faac6ab911384136bf265dc56e8995a8988a164511d3094dac88beb7bc4",
+      "compiler": {
+        "name": "acs-pums",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "74d68faac6ab911384136bf265dc56e8995a8988a164511d3094dac88beb7bc4",
+      "corpusId": "acs-pums",
+      "domain": "acs-pums",
+      "isCompleteUniverse": false,
+      "recordCount": 220,
+      "universeDescription": "Sampled housing units and persons from the U.S. Census Bureau's 2023 American Community Survey 1-year Public Use Microdata Sample for Wyoming. PUMS is a weighted sample supporting estimates at the public use microdata area level; it is not an enumeration, and it is not national — the national product (csv_pus.zip) is roughly a gigabyte, is not retrieved here, and is not claimed."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "bea-regional-cainc1-zip",
+          "sha256": "e1465c8b0e7e75f541241fe2fa64364b784dd6d2223901f9d576c4c5d49480b5",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "bea-regional-sarpp-zip",
+          "sha256": "38713c6224c4c26ae020ffecd4549b82dca84f43d34f93dfdb43f4070cf011da",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "bea-regional-marpp-zip",
+          "sha256": "5dbf2e6ac2af222cc9abc205586c9b480344d89392752eb689c3ec823a34c83e",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2024-12-31",
+      "boundedSampleReason": "Each table is compiled for the most recent year its own header publishes (CAINC1 2024; SARPP 2024; MARPP 2024). The tables carry annual series back to 1969 and 2008 respectively, and every year of them is present in the committed artifacts; compiling all of them would produce hundreds of thousands of separately evidenced observations for a substrate that has no consumer for the series yet. Widening the bound is a recompile, not another retrieval.",
+      "canonicalSha256": "2121eba9190381c86e25ccfa8fa9031bc4d8769b813393c9bd157aea783c8ccf",
+      "compiler": {
+        "name": "bea-regional",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "2121eba9190381c86e25ccfa8fa9031bc4d8769b813393c9bd157aea783c8ccf",
+      "corpusId": "bea-regional",
+      "domain": "bea-regional",
+      "isCompleteUniverse": false,
+      "recordCount": 11832,
+      "universeDescription": "Bureau of Economic Analysis regional estimates for every area published in three tables: CAINC1 county and state personal income, SARPP state regional price parities, and MARPP metropolitan regional price parities. Every area each table publishes is present; the bound is temporal, not geographic."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "bls-laus-area-type",
+          "sha256": "be709b0f5fa834cb905059c81630611ee994ed5da0f324a820d994dcebd4d026",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "bls-laus-measure",
+          "sha256": "b43486145486a91cf5f9cb1a1109b1a2a4ca0d0c5a9a7d5e0f7178949b5dfee7",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "bls-laus-footnote",
+          "sha256": "e68dbc2ea353d57047b57ec28ac01a4f5d06cff98a87c16fe4ab32daa2d2df34",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "bls-laus-period",
+          "sha256": "3a6636301c03a15da1cfa37522aeaccda45fa2bf92d325677d7b6c258ab0cd7d",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "bls-laus-state-region-division",
+          "sha256": "9adb91f291c5a8ad5d4b835eab45aaf174f049129ef1b1f7687655b1cb3af33c",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "bls-laus-area",
+          "sha256": "7f1dcbd6a2506d92d65641609cf08bd04f0a534503c6d0f23497f284dce1fc45",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "bls-laus-series",
+          "sha256": "3b8403546b73609850f5a56c89bcdabf681b73e817082497f71d0dc2608c419c",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "bls-laus-data-1-current-seasonally-adjusted",
+          "sha256": "80b0d29bde6e36e55adb737a0c953cd39fdaa9f5736b2f9200e89cd897a0fd06",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "bls-laus-data-1-current-seasonally-adjusted-qa-slice",
+          "sha256": "ea5179fdccd9480f667b9b407ebbbee4f596015ada13e2812d67b76a8a184ddd",
+          "sliceOfParent": "bls-laus-data-1-current-seasonally-adjusted",
+          "storage": "derived-qa-slice"
+        }
+      ],
+      "asOf": "2026-07-31",
+      "boundedSampleReason": "The observation file holds 248,282 rows going back to 1976, which is past the point where committing raw bytes to this repository is reasonable. It is cached rather than committed — its identity is pinned in the lock even though its bytes are not here — and the corpus compiles a QA slice of it: The header row of la.data.1.CurrentS followed by every data row whose year field is 2024 or later, in published file order, each row byte-for-byte including its trailing carriage return, with a trailing newline. Anyone who retrieves the parent can re-cut the slice and compare digests. BLS also publishes an unadjusted file covering many more areas, which is a different product and is not part of this corpus.",
+      "canonicalSha256": "44ec1198c8852552cf957960b928d2c174d4a24824ffeaec4dbcc35145500ff4",
+      "compiler": {
+        "name": "bls-laus",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "44ec1198c8852552cf957960b928d2c174d4a24824ffeaec4dbcc35145500ff4",
+      "corpusId": "bls-laus",
+      "domain": "bls-laus",
+      "isCompleteUniverse": false,
+      "recordCount": 13082,
+      "universeDescription": "Seasonally adjusted Local Area Unemployment Statistics observations for every series BLS publishes in la.data.1.CurrentS. The seven reference tables that give those series their areas, measures, periods and footnote meanings are compiled from complete files."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "census-gazetteer-2025-counties-zip",
+          "sha256": "4c90d0f805779923b5958ab13d0c1e9b99fe4932b786bfcf75dd739bb2dcb4ea",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2025-01-01",
+      "boundedSampleReason": null,
+      "canonicalSha256": "6690d71fe6b5c53a0c0713340d525017ce1025a49ce7019a3118a4df187ea5bd",
+      "compiler": {
+        "name": "counties",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "6690d71fe6b5c53a0c0713340d525017ce1025a49ce7019a3118a4df187ea5bd",
+      "corpusId": "counties",
+      "domain": "counties",
+      "isCompleteUniverse": true,
+      "recordCount": 3222,
+      "universeDescription": "Every county and county-equivalent in the U.S. Census Bureau 2025 Gazetteer counties national file: the 50 states, the District of Columbia and Puerto Rico."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "fec-2024-candidate-master-zip",
+          "sha256": "19b2e3354c4b36195b02887a93eb16796de0aeb0ccbcb5bb67b30e8611bff176",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "fec-2024-committee-master-zip",
+          "sha256": "f20f863c90ca69419a4ca941ab885847b7e076144b7189fbb476d2aaf876e94f",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "fec-2024-candidate-committee-linkage-zip",
+          "sha256": "756a700d46ae40bc3d656e34241d3cbd2ee02e42ff0a58cefe7cf469ae82d107",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "fec-candidate-master-header-csv",
+          "sha256": "86fe00a87b53fb442608ff695a82f321f49e70718bc815a08a070a120412da0c",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "fec-committee-master-header-csv",
+          "sha256": "9b5bfd7764a5e07871d4b0bf31d05f9589eda262d02956718b5d2c272e76ab83",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "fec-linkage-header-csv",
+          "sha256": "9de902716f8c5086fc91cc7b26b675c49916e43c742693df939278cb7d91c633",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2024-12-31",
+      "boundedSampleReason": null,
+      "canonicalSha256": "0756431d5a3d6443e94c5671119191add0a55b4ece829baaaf5d1421553f2c90",
+      "compiler": {
+        "name": "fec",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "0756431d5a3d6443e94c5671119191add0a55b4ece829baaaf5d1421553f2c90",
+      "corpusId": "fec",
+      "domain": "fec",
+      "isCompleteUniverse": true,
+      "recordCount": 39355,
+      "universeDescription": "Every row of the Federal Election Commission's 2024 candidate master, committee master and candidate-committee linkage bulk files. No sampling is applied."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "uscode-title28-119-102-zip",
+          "sha256": "33ac894ae39b3da6236f9feba91b8dfcf4f678e1ca33914df144cc75c9544aa9",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "uscode-title48-119-102-zip",
+          "sha256": "21eb65c016904bf1b15e5219bdbf5373a1bb4ed4407be9d9548ec24414a8b060",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2026-07-23",
+      "boundedSampleReason": null,
+      "canonicalSha256": "ba4f90efa2b654a1fd8a563b79bdac4a5b3ad6a8043e583a5fc39a752f5b8ca7",
+      "compiler": {
+        "name": "federal-courts",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "ba4f90efa2b654a1fd8a563b79bdac4a5b3ad6a8043e583a5fc39a752f5b8ca7",
+      "corpusId": "federal-courts",
+      "domain": "federal-courts",
+      "isCompleteUniverse": true,
+      "recordCount": 201,
+      "universeDescription": "Every United States court of appeals constituted by 28 U.S.C. § 41, every judicial district established by 28 U.S.C. ch. 5 and by the Title 48 organic acts, the statutory divisions those sections create, and the bankruptcy court 28 U.S.C. § 151 designates in each district, as the U.S. Code stands at release point 119-102."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "openfema-disaster-declarations-audit-slice",
+          "sha256": "582f8ba14aa994f29b80e8fede328a01f6083030df3d6490ae229a1c52b1c306",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "openfema-disaster-declarations-universe-count",
+          "sha256": "e547f9b44112dbb6e1522a27a2b4797b1f2c1ac00523387c6d5ca455aa8344dc",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2024-09-28",
+      "boundedSampleReason": "Selection predicate, applied by the provider and recorded in the committed payload's own metadata: \"disasterNumber in (1603,3591,4085,4332,4586,4673,4724,4765,4781,4827,4830,5480,5488)\". Those disaster numbers are every number named either by PR #66's corpus or by the 30C audit that rejected it, so the slice contains the authentic record behind each of that corpus's fabricated declarations. The full entity is far too large to commit and no part of it is claimed here.",
+      "canonicalSha256": "cae38f350fb90d02fa278f157df4c74137bd5accd8a09b992f94023a9d717e5d",
+      "compiler": {
+        "name": "fema-disasters",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "cae38f350fb90d02fa278f157df4c74137bd5accd8a09b992f94023a9d717e5d",
+      "corpusId": "fema-disasters",
+      "domain": "fema-disasters",
+      "isCompleteUniverse": false,
+      "recordCount": 721,
+      "universeDescription": "Every designated-area row of the OpenFEMA DisasterDeclarationsSummaries v2 entity for the 13 disaster numbers in this domain's selection predicate. The entity held 70272 rows in total when the slice was taken."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "hud-fy2025-fair-market-rents-xlsx",
+          "sha256": "21217df7d8c5c2bd6633fe8d3deb460d7114712ac809fe1644235980240f2ab5",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "hud-fy2025-section8-income-limits-xlsx",
+          "sha256": "6767ff08bae95984d8000e13660b259fe67fabb3d2da7935e349b11d4775615d",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2025-09-30",
+      "boundedSampleReason": null,
+      "canonicalSha256": "4f8205d23b2964ba282db1399cf7b656118241c7e93c80aa84cb16597b9cd55b",
+      "compiler": {
+        "name": "hud-housing",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "4f8205d23b2964ba282db1399cf7b656118241c7e93c80aa84cb16597b9cd55b",
+      "corpusId": "hud-housing",
+      "domain": "hud-housing",
+      "isCompleteUniverse": true,
+      "recordCount": 9528,
+      "universeDescription": "Every area in HUD's FY2025 county-level Fair Market Rent file and every area in its FY2025 Section 8 Income Limits file, held as two separate products. Both are complete as published; HUD also issues Small Area Fair Market Rents by ZIP code, which is a third product and is not part of this corpus."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "census-gazetteer-2025-places-zip",
+          "sha256": "49644173a453469d9bd77fb7a493b027f87567e209edaf2078aac7543ac2ee29",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2025-01-01",
+      "boundedSampleReason": null,
+      "canonicalSha256": "07835679854804dc6d998f258878646147bb4a498c6a32af1e2d9c6d66eee3c9",
+      "compiler": {
+        "name": "places",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "07835679854804dc6d998f258878646147bb4a498c6a32af1e2d9c6d66eee3c9",
+      "corpusId": "places",
+      "domain": "places",
+      "isCompleteUniverse": true,
+      "recordCount": 32350,
+      "universeDescription": "Every incorporated place and census designated place in the U.S. Census Bureau 2025 Gazetteer national places file, covering the 50 states, the District of Columbia and Puerto Rico."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "census-gazetteer-2025-119cds-zip",
+          "sha256": "5128d74acfee9c858eef72c98fbaf13a2dc5b7ea5f8bcc763522087dafabedcb",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "census-gazetteer-2025-sldl-zip",
+          "sha256": "80e1889ce84d483a82193d0fa4d983dbbe85d1fa211088bf878aeec7ffb3401f",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "census-gazetteer-2025-sldu-zip",
+          "sha256": "f4500955ded8c3415c8c24c4aa9aa5beb3034f2998c081ac3ed38f27456eca08",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2025-01-01",
+      "boundedSampleReason": null,
+      "canonicalSha256": "ee5f03e6a30ea728e6550f1ea882ac9d4caadd3e39c89ccb6a8512d73f5aef5e",
+      "compiler": {
+        "name": "political-districts",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "ee5f03e6a30ea728e6550f1ea882ac9d4caadd3e39c89ccb6a8512d73f5aef5e",
+      "corpusId": "political-districts",
+      "domain": "political-districts",
+      "isCompleteUniverse": true,
+      "recordCount": 7283,
+      "universeDescription": "Every 119th Congressional District, state legislative lower-chamber district and state legislative upper-chamber district published in the U.S. Census Bureau 2025 Gazetteer national files, including at-large, delegate and unassigned-residual records exactly as published."
+    }
+  ],
+  "gatedDomains": [
+    {
+      "domain": "state-office-qualifications",
+      "productionGate": "31F marks 118 of the 31A-31E research claims compiler-ready, but the substrate compiles production corpora only from artifacts it retrieved and hashed, and a research synthesis is a secondary source. Production compilation is gated on either acquiring the cited state authorities as first-party artifacts, or an explicit architecture decision to admit a declared secondary-source tier. See 31F section 8."
+    }
+  ],
+  "manifestVersion": "1"
+}
