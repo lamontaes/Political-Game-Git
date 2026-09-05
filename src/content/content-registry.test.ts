@@ -135,16 +135,28 @@ describe("searching and filtering", () => {
     ).toBe(true);
   });
 
-  it("narrows by life stage using the band the bank already declares", () => {
+  it("narrows by life stage using the band the banks already declare", () => {
+    // Bands now come from more than one bank — a formative situation and a
+    // setup questionnaire item can both declare `adolescence` — so the filter
+    // is checked against every item that declares a stage, whatever bank it is
+    // in, rather than against one bank's catalog.
+    const declaredBand = (item: (typeof index.items)[number]) =>
+      item.lifeStage.kind === "declared" ? item.lifeStage.value : null;
     const bands = new Set(
-      lifeSituationCatalog().map((situation) => situation.band),
+      index.items
+        .map(declaredBand)
+        .filter((band): band is string => band !== null),
     );
+    expect(bands.size).toBeGreaterThan(0);
     for (const band of bands) {
       const found = queryContentItems(index.items, { lifeStages: [band] });
-      expect(found.length).toBe(
-        lifeSituationCatalog().filter((situation) => situation.band === band)
-          .length,
+      expect(found.map((item) => item.id).sort()).toStrictEqual(
+        index.items
+          .filter((item) => declaredBand(item) === band)
+          .map((item) => item.id)
+          .sort(),
       );
+      expect(found.length).toBeGreaterThan(0);
     }
   });
 

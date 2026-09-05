@@ -2,8 +2,10 @@ import type { ContentBankAdapter } from "../content-bank";
 import { conversationSubjectBank } from "./conversation-subjects";
 import { legislativeMeasureBank } from "./legislative-blueprints";
 import { legislativeRulePackBank } from "./legislative-rule-packs";
+import { lifeEpisodeBank } from "./life-episodes";
 import { lifeSituationBank } from "./life-situations";
 import { ordinaryLifeBank } from "./ordinary-life";
+import { setupQuestionnaireBank } from "./setup-questionnaire";
 import {
   productionCatalogBank,
   syntheticCatalogBank,
@@ -19,8 +21,10 @@ import {
  */
 export const DEFAULT_CONTENT_BANK_ADAPTERS: readonly ContentBankAdapter[] = [
   lifeSituationBank,
+  lifeEpisodeBank,
   ordinaryLifeBank,
   conversationSubjectBank,
+  setupQuestionnaireBank,
   legislativeMeasureBank,
   legislativeRulePackBank,
   productionCatalogBank,
@@ -31,8 +35,10 @@ export {
   conversationSubjectBank,
   legislativeMeasureBank,
   legislativeRulePackBank,
+  lifeEpisodeBank,
   lifeSituationBank,
   ordinaryLifeBank,
+  setupQuestionnaireBank,
   productionCatalogBank,
   syntheticCatalogBank,
 };
