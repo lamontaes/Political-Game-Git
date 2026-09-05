@@ -3,6 +3,7 @@ import { PlayerGame } from "./player/PlayerGame";
 import { PlayerOffice } from "./player/PlayerOffice";
 import { CausalTraceView } from "./ui/CausalTraceView";
 import { CharacterProofView } from "./ui/CharacterProofView";
+import { ContentBrowserView } from "./ui/ContentBrowserView";
 import { DeveloperViewer } from "./ui/DeveloperViewer";
 import { SceneAuthoringProofView } from "./ui/SceneAuthoringProofView";
 import { ProductionOfficeProofView } from "./ui/ProductionOfficeProofView";
@@ -13,9 +14,9 @@ import { ScenePresentationProofView } from "./ui/ScenePresentationProofView";
  * Normal play is the game. Everything else here is a development route kept
  * deliberately reachable: the PRODUCTION office proof, the Run-D office
  * fixture, the character proof, the scene presentation and scene authoring
- * proofs, the legislation workspace on its own, the world inspector, and the
- * causal trace inspector. None of them is what someone gets by opening the
- * game.
+ * proofs, the legislation workspace on its own, the content browser, the world
+ * inspector, and the causal trace inspector. None of them is what someone gets
+ * by opening the game.
  *
  * `scene-gallery` is the room review: every registered room with its own
  * picture, what uses it, and what is missing. It is the surface that answers
@@ -31,6 +32,7 @@ export function App() {
   if (view === "developer") return <DeveloperViewer />;
   if (view === "causal-trace") return <CausalTraceView />;
   if (view === "character-proof") return <CharacterProofView />;
+  if (view === "content") return <ContentBrowserView />;
   if (view === "production-office") return <ProductionOfficeProofView />;
   if (view === "scene-gallery") return <SceneGalleryView />;
   if (view === "scene-proof") return <ScenePresentationProofView />;
