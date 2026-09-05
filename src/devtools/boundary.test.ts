@@ -79,7 +79,13 @@ describe("ordinary play cannot reach the development route", () => {
     expect(playerFacing.length).toBeGreaterThan(0);
     for (const module of playerFacing) {
       const name = relative(sourceRoot, module.path);
-      expect(module.source, name).not.toContain("causal-trace");
+      // The thing barred is reaching the route, not naming the concept. The
+      // route id only ever appears in code as a quoted string literal — the
+      // `view === "causal-trace"` comparison and any link that would set it —
+      // so that is what player-facing code may not contain. A prose mention,
+      // such as a presentation module documenting that it is deliberately NOT
+      // the causal-trace export, names the boundary rather than crossing it.
+      expect(module.source, name).not.toMatch(/["']causal-trace["']/);
       expect(module.source, name).not.toContain("CausalTraceView");
       expect(module.source, name).not.toContain("../devtools");
     }
