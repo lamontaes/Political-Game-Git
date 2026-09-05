@@ -1112,6 +1112,13 @@ function assessCondition(
   world: World,
   commitment: LegislativeCommitmentRecord,
   condition: LegislativeCommitmentCondition,
+  /**
+   * Commitments already on the evaluation stack. A reciprocal-support
+   * condition looks at another commitment's own standing to decide whether
+   * support is really owed, and that commitment may point back; the set breaks
+   * the cycle without changing any single commitment's answer.
+   */
+  evaluating: ReadonlySet<EntityId> = new Set(),
 ): LegislativeConditionStanding {
   const measureId = commitment.subject.question.measureId;
   const base = {
@@ -1219,20 +1226,31 @@ function assessCondition(
       };
     }
     case "reciprocal-support": {
+      // The other side has to actually promise SUPPORT back, not merely say
+      // something about the measure. An "I oppose it" said later is a statement
+      // about the same measure, and it used to satisfy this condition; it must
+      // not. Support is met only by a later commitment whose own standing owes
+      // a yea on the reciprocal measure — evaluated through the same obligation
+      // model every other commitment goes through, so a bare "support" owes it,
+      // a "support-if" owes it only once its condition is met, and an "oppose"
+      // never does.
+      const nextEvaluating = new Set(evaluating).add(commitment.id);
       const reciprocal = (world.history.legislativeCommitments ?? []).find(
         (record) =>
+          !nextEvaluating.has(record.id) &&
           record.sequence > commitment.sequence &&
           record.holderPersonId !== commitment.holderPersonId &&
           record.heardByPersonIds.includes(commitment.holderPersonId) &&
           measureStableKey(world, record.subject.question.measureId) ===
-            condition.reciprocalMeasureStableKey,
+            condition.reciprocalMeasureStableKey &&
+          reciprocalCommitmentOwesSupport(world, record, nextEvaluating),
       );
       return {
         ...base,
         state: reciprocal ? "met" : "unmet",
         basis: reciprocal
-          ? "The other side has since said the same thing about the measure it asked about."
-          : "Nothing has been said back about the other measure.",
+          ? "The other side has since promised the support it asked for in return, and that promise is now owed."
+          : "No promise of support has been made back about the other measure.",
       };
     }
     case "procedural": {
@@ -1248,6 +1266,28 @@ function assessCondition(
       };
     }
   }
+}
+
+/**
+ * Whether a commitment, read on its own terms, currently owes support.
+ *
+ * "Owes support" is exactly `owed` with a `yea` direction from the obligation
+ * model — the same reading `assessCommitment` uses. A stated "support" with no
+ * conditions owes it; a "support-if" owes it only once its condition is met and
+ * is merely not-yet-owed before that; an "oppose" owes a nay and so never
+ * counts. Its conditions are assessed under the same evaluation stack, so a
+ * reciprocal chain that loops back is cut rather than followed forever.
+ */
+function reciprocalCommitmentOwesSupport(
+  world: World,
+  record: LegislativeCommitmentRecord,
+  evaluating: ReadonlySet<EntityId>,
+): boolean {
+  const conditions = record.conditions.map((condition) =>
+    assessCondition(world, record, condition, evaluating),
+  );
+  const obligation = commitmentObligation(record.stance, conditions);
+  return obligation.kind === "owed" && obligation.direction === "yea";
 }
 
 function measureStableKey(world: World, measureId: EntityId): string | null {

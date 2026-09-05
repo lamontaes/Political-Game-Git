@@ -660,3 +660,203 @@ describe("the contract only offers conditions the world can decide", () => {
     }
   });
 });
+
+// 7 --------------------------------------------------------------------------
+describe("a reciprocal-support condition is met only by promised support", () => {
+  /**
+   * The audit's rejection, made checkable. "I'll support X if you support Y"
+   * asks for a promise of SUPPORT on Y. A later "I oppose Y" is a statement
+   * about Y and used to satisfy it; it must not. The condition is met only when
+   * the other side's own commitment owes a yea on the reciprocal measure, read
+   * through the same obligation model every commitment goes through.
+   */
+
+  function measureKeyOf(world: World, measureId: EntityId): string {
+    const record = (world.history.legislativeMeasures ?? []).find(
+      (candidate) => candidate.id === measureId,
+    );
+    if (!record) throw new Error("The fixture has no such measure.");
+    return record.stableKey;
+  }
+
+  function reciprocalTo(
+    reciprocalMeasureStableKey: string,
+  ): LegislativeCommitmentCondition {
+    return {
+      key: "reciprocal",
+      kind: "reciprocal-support",
+      reciprocalMeasureStableKey,
+      description:
+        "The other side supports the measure they asked me to trade for.",
+    };
+  }
+
+  /** The state of the originating commitment's reciprocal condition, now. */
+  function reciprocalState(world: World, commitmentId: EntityId): string {
+    const assessment = assessCommitment(world, commitmentId);
+    const condition = assessment.conditions.find(
+      (candidate) => candidate.key === "reciprocal",
+    );
+    if (!condition)
+      throw new Error("The commitment has no reciprocal condition.");
+    return condition.state;
+  }
+
+  /** The player promises support conditioned on the other side reciprocating. */
+  function playerOffersTrade(
+    fixture: ReturnType<typeof createLegislativeBargainingFixture>,
+    reciprocalMeasureStableKey: string,
+  ) {
+    return say(fixture.world, {
+      key: "probe:reciprocal:origin",
+      holderPersonId: fixture.playerPersonId,
+      question: passageQuestion(fixture.measureId),
+      questionLabel: "Final passage",
+      stance: "support-if",
+      conditions: [reciprocalTo(reciprocalMeasureStableKey)],
+      statement: "I'm with you on this if you're with me on yours.",
+      heardByPersonIds: [fixture.guardianPersonId],
+    });
+  }
+
+  it("counts an explicit later promise of support", () => {
+    const fixture = createLegislativeBargainingFixture();
+    const key = measureKeyOf(fixture.world, fixture.measureId);
+    const origin = playerOffersTrade(fixture, key);
+    const back = say(origin.world, {
+      key: "probe:reciprocal:support",
+      holderPersonId: fixture.guardianPersonId,
+      question: passageQuestion(fixture.measureId),
+      questionLabel: "Final passage",
+      stance: "support",
+      statement: "Then you have my vote for it.",
+      heardByPersonIds: [fixture.playerPersonId],
+    });
+    expect(reciprocalState(back.world, origin.commitment.id)).toBe("met");
+  });
+
+  it("does not count an explicit later promise of opposition", () => {
+    const fixture = createLegislativeBargainingFixture();
+    const key = measureKeyOf(fixture.world, fixture.measureId);
+    const origin = playerOffersTrade(fixture, key);
+    const back = say(origin.world, {
+      key: "probe:reciprocal:oppose",
+      holderPersonId: fixture.guardianPersonId,
+      question: passageQuestion(fixture.measureId),
+      questionLabel: "Final passage",
+      stance: "oppose",
+      statement: "No. I am against it and I am saying so.",
+      heardByPersonIds: [fixture.playerPersonId],
+    });
+    expect(reciprocalState(back.world, origin.commitment.id)).toBe("unmet");
+  });
+
+  it("does not count a reciprocal 'support if' whose own condition is unmet", () => {
+    const fixture = createLegislativeBargainingFixture();
+    const key = measureKeyOf(fixture.world, fixture.measureId);
+    const origin = playerOffersTrade(fixture, key);
+    const back = say(origin.world, {
+      key: "probe:reciprocal:support-if-open",
+      holderPersonId: fixture.guardianPersonId,
+      question: passageQuestion(fixture.measureId),
+      questionLabel: "Final passage",
+      stance: "support-if",
+      conditions: [ANALYSIS_NEVER_DELIVERED],
+      statement: "I'll be with you when the analysis lands.",
+      heardByPersonIds: [fixture.playerPersonId],
+    });
+    // The other side has promised support only once something happens that
+    // has not happened, so no support is owed yet and the trade is not met.
+    expect(reciprocalState(back.world, origin.commitment.id)).toBe("unmet");
+  });
+
+  it("counts a reciprocal 'support if' once its own condition is met", () => {
+    const fixture = createLegislativeBargainingFixture();
+    const key = measureKeyOf(fixture.world, fixture.measureId);
+    const origin = playerOffersTrade(fixture, key);
+    const back = say(origin.world, {
+      key: "probe:reciprocal:support-if-owed",
+      holderPersonId: fixture.guardianPersonId,
+      question: passageQuestion(fixture.measureId),
+      questionLabel: "Final passage",
+      stance: "support-if",
+      // A procedural condition reads met while the vote has not been called,
+      // so the other side's support is genuinely owed right now.
+      conditions: [
+        {
+          key: "before-the-vote",
+          kind: "procedural",
+          requiredBeforeAction: "take-floor-vote",
+          description: "Good until the bill is called.",
+        },
+      ],
+      statement: "You have it, so long as we settle before the floor.",
+      heardByPersonIds: [fixture.playerPersonId],
+    });
+    // Sanity: the other side's own commitment does owe support now.
+    const theirs = assessCommitment(back.world, back.commitment.id);
+    expect(theirs.conditions.every((c) => c.state === "met")).toBe(true);
+    expect(reciprocalState(back.world, origin.commitment.id)).toBe("met");
+  });
+
+  it("does not count support promised about a different measure", () => {
+    const fixture = createLegislativeBargainingFixture();
+    // The trade is for a measure no commitment is about.
+    const origin = playerOffersTrade(fixture, "some-other-measure");
+    const back = say(origin.world, {
+      key: "probe:reciprocal:unrelated",
+      holderPersonId: fixture.guardianPersonId,
+      question: passageQuestion(fixture.measureId),
+      questionLabel: "Final passage",
+      stance: "support",
+      statement: "I support this bill of yours.",
+      heardByPersonIds: [fixture.playerPersonId],
+    });
+    expect(reciprocalState(back.world, origin.commitment.id)).toBe("unmet");
+  });
+
+  it("does not count support stated before the trade was offered", () => {
+    const fixture = createLegislativeBargainingFixture();
+    const key = measureKeyOf(fixture.world, fixture.measureId);
+    // The other side says it first; the trade is offered only afterwards.
+    const early = say(fixture.world, {
+      key: "probe:reciprocal:early-support",
+      holderPersonId: fixture.guardianPersonId,
+      question: passageQuestion(fixture.measureId),
+      questionLabel: "Final passage",
+      stance: "support",
+      statement: "For what it's worth, I'm for it.",
+      heardByPersonIds: [fixture.playerPersonId],
+    });
+    const origin = say(early.world, {
+      key: "probe:reciprocal:origin-late",
+      holderPersonId: fixture.playerPersonId,
+      question: passageQuestion(fixture.measureId),
+      questionLabel: "Final passage",
+      stance: "support-if",
+      conditions: [reciprocalTo(key)],
+      statement: "I'll be with you if you'll be with me.",
+      heardByPersonIds: [fixture.guardianPersonId],
+    });
+    // The temporal contract asks for support said back, after the offer.
+    expect(reciprocalState(origin.world, origin.commitment.id)).toBe("unmet");
+  });
+
+  it("does not let the holder satisfy their own reciprocal condition", () => {
+    const fixture = createLegislativeBargainingFixture();
+    const key = measureKeyOf(fixture.world, fixture.measureId);
+    const origin = playerOffersTrade(fixture, key);
+    // The same member later promises support about the reciprocal measure, on
+    // a different question so it does not merely supersede the offer.
+    const self = say(origin.world, {
+      key: "probe:reciprocal:self",
+      holderPersonId: fixture.playerPersonId,
+      question: overrideQuestion(fixture.measureId),
+      questionLabel: "Veto override",
+      stance: "support",
+      statement: "And I'll back it on the override too.",
+      heardByPersonIds: [fixture.guardianPersonId],
+    });
+    expect(reciprocalState(self.world, origin.commitment.id)).toBe("unmet");
+  });
+});
