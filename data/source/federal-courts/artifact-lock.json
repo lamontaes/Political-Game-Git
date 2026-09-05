@@ -1,0 +1,73 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "uscode-title28-119-102-zip",
+      "bytes": {
+        "length": 1377252,
+        "sha256": "33ac894ae39b3da6236f9feba91b8dfcf4f678e1ca33914df144cc75c9544aa9"
+      },
+      "container": {
+        "memberLength": 8633072,
+        "memberPath": "usc28.xml",
+        "memberSha256": "5a283699aae210061d08239d68cea48abf94a5ce1ef135433408f76ed959c65f"
+      },
+      "localPath": "data/source/federal-courts/raw/xml_usc28.zip",
+      "mediaType": "application/zip",
+      "provider": "Office of the Law Revision Counsel, U.S. House of Representatives",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/download/download.shtml",
+        "releaseDate": null,
+        "schemaVersion": "United States Legislative Markup (USLM)",
+        "statedVintage": "U.S. Code release point 119-102"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 1377252,
+        "retrievedAt": "2026-09-03T03:25:08.630Z",
+        "url": "https://uscode.house.gov/download/releasepoints/us/pl/119/102/xml_usc28@119-102.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "uscode-title48-119-102-zip",
+      "bytes": {
+        "length": 769327,
+        "sha256": "21eb65c016904bf1b15e5219bdbf5373a1bb4ed4407be9d9548ec24414a8b060"
+      },
+      "container": {
+        "memberLength": 4650636,
+        "memberPath": "usc48.xml",
+        "memberSha256": "e4206815ca17cb2564bc197b8cddd1491f4e62a011327d129669e5dcb4f288b5"
+      },
+      "localPath": "data/source/federal-courts/raw/xml_usc48.zip",
+      "mediaType": "application/zip",
+      "provider": "Office of the Law Revision Counsel, U.S. House of Representatives",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/download/download.shtml",
+        "releaseDate": null,
+        "schemaVersion": "United States Legislative Markup (USLM)",
+        "statedVintage": "U.S. Code release point 119-102"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 769327,
+        "retrievedAt": "2026-09-03T03:25:11.703Z",
+        "url": "https://uscode.house.gov/download/releasepoints/us/pl/119/102/xml_usc48@119-102.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "federal-courts"
+}

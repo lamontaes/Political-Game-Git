@@ -46,43 +46,46 @@ async function freshBrowser(page: Page) {
 /** Stops on the character stage, which is where the identity assertions live. */
 async function openSetup(page: Page, age: number) {
   await openCreator(page);
+  // Character is the first step after the route now, so the identity controls
+  // are reached without touching the place search.
   await page.getByTestId("start-normal").click();
+  await expect(page.getByTestId("creator-stage-character")).toBeVisible();
+  await page.getByTestId("start-age").fill(String(age));
+}
+
+/** Picks Kentucky on the place step and advances past it. */
+async function chooseKentucky(page: Page) {
+  await expect(page.getByTestId("creator-stage-place")).toBeVisible();
   await page.getByTestId("place-search").fill("Kentu");
   await page
     .getByTestId("place-choices")
     .getByRole("button", { name: /Kentucky/i })
     .first()
     .click();
-  await expect(page.getByTestId("creator-stage-character")).toBeVisible();
-  await page.getByTestId("start-age").fill(String(age));
+  await page.getByTestId("creator-continue-place").click();
 }
 
 test.describe("A player chooses who the character is", () => {
-  test("offers a gender and a set of pronouns on the setup screen", async ({
+  test("offers gender only, with no pronoun control at all", async ({
     page,
   }) => {
     await freshBrowser(page);
     await openSetup(page, 10);
 
+    // Three genders, and no "Leave unspecified" among them.
     const gender = page.getByTestId("gender-choices");
     await expect(gender).toBeVisible();
-    await expect(gender.getByRole("button")).toHaveCount(4);
+    await expect(gender.getByRole("button")).toHaveCount(3);
+    expect(await gender.innerText()).not.toMatch(/leave unspecified/i);
 
-    const pronouns = page.getByTestId("pronoun-choices");
-    await expect(pronouns).toBeVisible();
-    await expect(pronouns.getByRole("button")).toHaveCount(3);
-
-    // Choosing a gender moves the pronouns with it, and either can be changed.
+    // Owner override: Normal Start exposes gender only. There is no pronoun row,
+    // disclosure, submenu or "change pronouns" affordance anywhere in the
+    // creator; pronouns derive silently from gender.
     await page.getByTestId("gender-female").click();
-    await expect(page.getByTestId("pronouns-she-her")).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
-    await page.getByTestId("pronouns-they-them").click();
-    await expect(page.getByTestId("pronouns-they-them")).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
+    await expect(page.getByTestId("pronoun-disclosure")).toHaveCount(0);
+    await expect(page.getByTestId("pronoun-choices")).toHaveCount(0);
+    const character = page.getByTestId("creator-stage-character");
+    expect(await character.innerText()).not.toMatch(/pronoun/i);
     await expect(page.getByTestId("gender-female")).toHaveAttribute(
       "aria-pressed",
       "true",
@@ -117,7 +120,7 @@ test.describe("A ten-year-old is asked a ten-year-old's questions", () => {
 
     await expect(page.getByTestId("questionnaire-framing")).toBeVisible();
     await expect(page.getByTestId("questionnaire-framing")).toContainText(
-      /put to you, not to your character/i,
+      /about you, not your character/i,
     );
 
     const prompts: string[] = [];
@@ -173,7 +176,10 @@ test.describe("The page says whose life this is", () => {
     await startLife(page, 10);
     const where = page.getByTestId("story-where");
     await expect(where).toBeVisible();
-    await expect(page.getByTestId("story-who")).toContainText(/, 10$/);
+    // Identity is a deliberate name + age display now, not "Name, 10" prose.
+    await expect(
+      page.getByTestId("story-who").locator(".life-identity-age"),
+    ).toHaveText("10");
     const when = await page.getByTestId("story-when").innerText();
     expect(when.length).toBeGreaterThan(4);
     expect(when).not.toMatch(MACHINERY);
@@ -216,19 +222,18 @@ test.describe("The page says whose life this is", () => {
     await expect(page.getByTestId("journal")).toBeVisible();
   });
 
-  test("keeps the chosen pronouns on the character through a reload", async ({
-    page,
-  }) => {
+  test("keeps the chosen character through a reload", async ({ page }) => {
     await freshBrowser(page);
     await openSetup(page, 34);
     await page.getByTestId("gender-male").click();
     await page.getByTestId("creator-continue-character").click();
-    await page.getByTestId("creator-continue-life").click();
-    await page.getByTestId("calibration-skip").click();
+    await chooseKentucky(page);
+    await page.getByTestId("whoareyou-play").click();
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
-    const named = await page.getByTestId("story-who").innerText();
+    const who = page.getByTestId("story-who").locator(".life-identity-name");
+    const named = await who.innerText();
 
     await page.getByTestId("keep-world").click();
     // Saving is asynchronous, and the control leaving is how the screen says
@@ -238,6 +243,6 @@ test.describe("The page says whose life this is", () => {
     await page.reload();
     await page.getByTestId("continue").click();
     // A loaded save has been introduced already, so it opens on the moment.
-    await expect(page.getByTestId("story-who")).toHaveText(named);
+    await expect(who).toHaveText(named);
   });
 });

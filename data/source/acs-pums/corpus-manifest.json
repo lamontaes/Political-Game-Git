@@ -1,0 +1,34 @@
+{
+  "asOf": "2023-12-31",
+  "canonicalSha256": "74d68faac6ab911384136bf265dc56e8995a8988a164511d3094dac88beb7bc4",
+  "compiler": {
+    "name": "acs-pums",
+    "version": "1.0.0"
+  },
+  "corpusId": "acs-pums",
+  "coverage": {
+    "boundedSampleReason": "Two bounds, both stated. Geographically, this is Wyoming's complete 1-year product, not the nation's. Within it, the corpus compiles a QA slice of 200 housing units and 20 group-quarters records, with every person in them: The header row of psam_h56.csv, followed by the first 200 data rows whose SERIALNO marks a housing unit (contains \"HU\") and the first 20 whose SERIALNO marks group quarters (contains \"GQ\"), each stratum in published file order and each row byte-for-byte, with a trailing newline. The header row of psam_p56.csv followed by every data row whose SERIALNO appears in the housing QA slice, in published file order, byte-for-byte, with a trailing newline. Both parents are committed whole and hashed, so the slice is re-cuttable and checkable by anyone. The 80 housing replicate weights (WGTP1-WGTP80) and 80 person replicate weights (PWGTP1-PWGTP80) are present in the committed parent artifacts but are not projected into this corpus. They exist for successive-difference variance estimation, which nothing in this repository performs; projecting them would multiply the corpus several times over for values no consumer reads.",
+    "isCompleteUniverse": false,
+    "universeDescription": "Sampled housing units and persons from the U.S. Census Bureau's 2023 American Community Survey 1-year Public Use Microdata Sample for Wyoming. PUMS is a weighted sample supporting estimates at the public use microdata area level; it is not an enumeration, and it is not national — the national product (csv_pus.zip) is roughly a gigabyte, is not retrieved here, and is not claimed."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "census-acs-pums-2023-wy-housing-qa-slice",
+      "sha256": "b4238c249b124d59f4ca0659fbd1e404c04b3c9a8ff9a659fd6e4150c16bc980"
+    },
+    {
+      "artifactId": "census-acs-pums-2023-wy-person-qa-slice",
+      "sha256": "bf16509b6585772c0066a6542ede81060b7a24208a1d83e57a71c150eceb7eaf"
+    },
+    {
+      "artifactId": "census-acs-pums-2023-data-dictionary-csv",
+      "sha256": "003cfe1616d673dc23624e8604bc97579a642971852bc9c1ef673452b3a2515b"
+    }
+  ],
+  "parser": {
+    "name": "pums-csv",
+    "version": "1.0.0"
+  },
+  "recordCount": 220
+}

@@ -1,0 +1,39 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "census-gazetteer-2025-counties-zip",
+      "bytes": {
+        "length": 138993,
+        "sha256": "4c90d0f805779923b5958ab13d0c1e9b99fe4932b786bfcf75dd739bb2dcb4ea"
+      },
+      "container": {
+        "memberLength": 332830,
+        "memberPath": "2025_Gaz_counties_national.txt",
+        "memberSha256": "1914f0d83243362de83b8ddd298c213b1768d63d62d19464743289abd8bb35b1"
+      },
+      "localPath": "data/source/counties/raw/2025_Gaz_counties_national.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Geography Division",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html",
+        "releaseDate": null,
+        "schemaVersion": "2025 Gazetteer counties national file layout",
+        "statedVintage": "2025"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 138993,
+        "retrievedAt": "2026-09-03T03:10:49.710Z",
+        "url": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_counties_national.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "counties"
+}

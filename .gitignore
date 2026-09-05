@@ -12,3 +12,4 @@ test-results/
 .wrangler/
 
 content-export/
+.source-cache/
