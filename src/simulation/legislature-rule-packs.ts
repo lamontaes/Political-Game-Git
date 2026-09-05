@@ -2,6 +2,7 @@ import {
   fractionOf,
   knownRule,
   majorityOf,
+  notApplicableRule,
   unknownRule,
   type ChamberRule,
   type LegislativeRulePack,
@@ -13,14 +14,25 @@ import {
  * Runtime rule packs compiled from the 50-state legislative institutional
  * research warehouse. Each value cites the official instrument it came from.
  *
- * Three legislatures are packed here because they differ *structurally*, not
+ * Five legislatures are packed here because they differ *structurally*, not
  * cosmetically:
  * - Kentucky: ordinary bicameral, and a veto falls to a simple majority of
  *   elected members in each house;
  * - Nebraska: a single chamber with three separate constitutional floor stages
  *   and no second house or conference at all;
  * - Alaska: bicameral, but a veto is reconsidered by both houses sitting
- *   together as one 60-member body, with a higher bar for money bills.
+ *   together as one 60-member body, with a higher bar for money bills;
+ * - Minnesota: bicameral, a veto overridden by two-thirds of the members
+ *   elected in each house, revenue bills confined to the House of
+ *   Representatives, and a session capped at 120 legislative days;
+ * - Illinois: bicameral, a veto overridden by three-fifths of the members
+ *   elected in each house, a flat sixty-calendar-day presentment window, and a
+ *   reduction veto on appropriation items that no other pack here has.
+ *
+ * Kentucky, Nebraska and Alaska were read on 2026-09-02 (see
+ * docs/systems/legislative-rule-sources.md). Minnesota and Illinois were added
+ * on 2026-09-05 from the operative text of each state's constitution; that
+ * provenance and its retrieval method are recorded in the same document.
  *
  * Anything the research did not resolve stays `unknown`. Anything the
  * institution does not have stays `not-applicable`. Neither is treated as zero.
@@ -940,10 +952,420 @@ export const ALASKA_RULE_PACK: LegislativeRulePack = {
   ],
 };
 
+// ---------------------------------------------------------------------------
+// Minnesota and Illinois — added 2026-09-05 from first-party official sources
+//
+// Both packs are compiled from the operative text of each state's constitution
+// (article IV — the legislative article — and its passage, veto, session and
+// enactment sections). Direct network egress to revisor.mn.gov and ilga.gov was
+// blocked in the build environment, so the operative text of each cited section
+// was read through an authoritative search index of the official constitution
+// on 2026-09-05; the canonical instrument is cited as the source of record and
+// the retrieval method is documented in docs/systems/legislative-rule-sources.md.
+//
+// Every `known` value below is the constitution's own words. The chamber-rule
+// layer — committee structure, referral mechanics, discharge, conference — was
+// not read for these two states, so those fields stay `unknown` rather than
+// being copied from another state or inferred from common practice. Committees
+// are therefore empty here: the packs assert no committee the sources did not
+// establish.
+// ---------------------------------------------------------------------------
+
+const RETRIEVED_MN_IL = "2026-09-05";
+
+/** A citation to a state constitution read on the 2026-09-05 primary-source pass. */
+function constitutionSource(
+  citation: string,
+  sourceTitle: string,
+  sourceUrl: string,
+  verification: RuleVerificationStatus,
+  note: string,
+): RuleSourceRef {
+  return {
+    authority: "constitution",
+    citation,
+    sourceTitle,
+    sourceUrl,
+    retrievedAt: RETRIEVED_MN_IL,
+    verification,
+    note,
+  };
+}
+
+const MN_CONST_URL = "https://www.revisor.mn.gov/constitution/";
+const MN_CONST_TITLE = "The Constitution of the State of Minnesota";
+
+const MN_ART4_SEC22 = constitutionSource(
+  "Minn. Const. art. IV, § 22",
+  MN_CONST_TITLE,
+  MN_CONST_URL,
+  "verified",
+  'Majority vote of all members to pass a law: "No law shall be passed unless voted for by a majority of all the members elected to each house of the legislature, and the vote entered in the journal of each house."',
+);
+const MN_ART4_SEC23 = constitutionSource(
+  "Minn. Const. art. IV, § 23",
+  MN_CONST_TITLE,
+  MN_CONST_URL,
+  "verified",
+  "Approval of bills by the governor. A bill not returned within three days (Sundays excepted) after presentment becomes law unless adjournment prevents its return; a bill passed in the last three days of a session may be presented within three days after final adjournment and becomes law only if the governor signs and deposits it within fourteen days, and otherwise does not become law. The governor may veto items of appropriation while approving the rest, returning a vetoed bill or item to the house of origin; a vetoed bill, and a vetoed appropriation item, is repassed over the objections by two-thirds of the members elected to each house.",
+);
+const MN_ART4_SEC12 = constitutionSource(
+  "Minn. Const. art. IV, § 12",
+  MN_CONST_TITLE,
+  MN_CONST_URL,
+  "verified",
+  'Sessions: "The legislature shall meet at the seat of government in regular session in each biennium at the times prescribed by law for not exceeding a total of 120 legislative days. The legislature shall not meet in regular session, nor in any adjournment thereof, after the first Monday following the third Saturday in May of any year."',
+);
+const MN_ART4_SEC13 = constitutionSource(
+  "Minn. Const. art. IV, § 13",
+  MN_CONST_TITLE,
+  MN_CONST_URL,
+  "verified",
+  'Quorum: "A majority of each house constitutes a quorum to transact business, but a smaller number may adjourn from day to day and compel the attendance of absent members in the manner and under the penalties it may provide."',
+);
+const MN_ART4_SEC18 = constitutionSource(
+  "Minn. Const. art. IV, § 18",
+  MN_CONST_TITLE,
+  MN_CONST_URL,
+  "verified",
+  'Revenue bills: "All bills for raising revenue shall originate in the house of representatives, but the senate may propose and concur with the amendments as on other bills."',
+);
+const MN_ART4_SEC19 = constitutionSource(
+  "Minn. Const. art. IV, § 19",
+  MN_CONST_TITLE,
+  MN_CONST_URL,
+  "verified",
+  "Every bill is considered on three different days in each house unless, in case of urgency, two-thirds of the house where the bill is pending deem it expedient to dispense with the rule. This establishes the separate-day requirement; the intermediate reading stages are set by each house's rules.",
+);
+const MN_ART4_SEC20 = constitutionSource(
+  "Minn. Const. art. IV, § 20",
+  MN_CONST_TITLE,
+  MN_CONST_URL,
+  "verified",
+  'Enrollment: "Every bill passed by both houses shall be enrolled and signed by the presiding officer of each house." This is the point at which both chambers have agreed on one text.',
+);
+const MN_ART4_SEC7 = constitutionSource(
+  "Minn. Const. art. IV, § 7",
+  MN_CONST_TITLE,
+  MN_CONST_URL,
+  "verified",
+  'Rules of government: "Each house may determine the rules of its proceedings, sit upon its own adjournment, punish its members for disorderly behavior, and with the concurrence of two-thirds expel a member." This is the authority under which referral, committee and floor-amendment rules are made; those chamber rules were not read for this pack.',
+);
+
+/** A Minnesota chamber. Seats and names are the constitution's; committees are not read. */
+function minnesotaChamber(
+  chamberKey: string,
+  name: string,
+  seats: number,
+): ChamberRule {
+  return {
+    chamberKey,
+    name,
+    seats,
+    quorum: knownRule(
+      majorityOf("members-elected", "a majority of the house", MN_ART4_SEC13),
+      MN_ART4_SEC13,
+    ),
+    introductionAllowed: true,
+    referral: {
+      authorityLabel: "Set by each house's rules of proceedings",
+      multipleReferralAllowed: unknownRule(
+        "Whether Minnesota permits referring one bill to several committees is set by each house's rules under Minn. Const. art. IV, § 7, which were not read for this pack.",
+      ),
+      everyMeasureMustBeHeard: unknownRule(
+        "Whether every referred bill is guaranteed a hearing is set by each house's rules under Minn. Const. art. IV, § 7, which were not read for this pack.",
+      ),
+      source: MN_ART4_SEC7,
+    },
+    committees: [],
+    floorStages: [
+      {
+        stageKey: "final-passage",
+        label: "Third reading and final passage",
+        amendable: true,
+        separateLegislativeDayRequired: true,
+        vote: knownRule(
+          majorityOf(
+            "members-elected",
+            "a majority of all the members elected to the house",
+            MN_ART4_SEC22,
+          ),
+          MN_ART4_SEC22,
+        ),
+        source: MN_ART4_SEC19,
+      },
+    ],
+    amendments: {
+      floorAmendmentsAllowed: unknownRule(
+        'The authority for floor amendments is set by each house\'s rules under Minn. Const. art. IV, § 7, which were not read for this pack. Art. IV, § 18 speaks of amending revenue bills "as on other bills," but the general floor-amendment procedure is a chamber-rules matter left unresolved here.',
+      ),
+      germanenessStandard: unknownRule(
+        "Minnesota's germaneness standard is set by each house's rules under Minn. Const. art. IV, § 7, which were not read for this pack.",
+      ),
+      source: MN_ART4_SEC7,
+    },
+  };
+}
+
+export const MINNESOTA_RULE_PACK: LegislativeRulePack = {
+  packId: "us-mn-legislature-v1",
+  jurisdictionKey: "US-MN",
+  displayName: "Minnesota Legislature",
+  structure: "bicameral",
+  chambers: [
+    minnesotaChamber("house", "House of Representatives", 134),
+    minnesotaChamber("senate", "Senate", 67),
+  ],
+  chamberOrder: ["house", "senate"],
+  interChamber: {
+    kind: "second-chamber",
+    concurrenceThreshold: majorityOf(
+      "members-elected",
+      "a majority of all the members elected to the house",
+      MN_ART4_SEC22,
+    ),
+    conference: unknownRule(
+      "Minnesota resolves inter-chamber differences by conference committee under each house's rules and the joint rules, which were not read for this pack; conference is not modelled.",
+    ),
+    source: MN_ART4_SEC20,
+  },
+  executive: {
+    titleLabel: "Governor",
+    presentmentRequired: knownRule(true, MN_ART4_SEC23),
+    actionWindowDaysInSession: knownRule(3, MN_ART4_SEC23),
+    actionWindowDaysAfterAdjournment: knownRule(14, MN_ART4_SEC23),
+    inactionOutcomeInSession: knownRule(
+      "becomes-law-without-signature",
+      MN_ART4_SEC23,
+    ),
+    lineItemVeto: knownRule(true, MN_ART4_SEC23),
+    override: {
+      kind: "each-chamber",
+      threshold: fractionOf(
+        2,
+        3,
+        "members-elected",
+        "two-thirds of the members elected to each house",
+        MN_ART4_SEC23,
+      ),
+    },
+    source: MN_ART4_SEC23,
+  },
+  enactment: {
+    effectiveDateDistinctFromEnactment: unknownRule(
+      "Whether taking effect is a date distinct from enactment is set by Minn. Stat. § 645.02, which was not read for this pack.",
+    ),
+    defaultEffectiveRule: unknownRule(
+      "Minnesota's default effective date is set by Minn. Stat. § 645.02, which was not read for this pack.",
+    ),
+    source: MN_ART4_SEC22,
+  },
+  session: {
+    sessionLabel: "Regular session",
+    adjournmentRule: knownRule(
+      "The legislature meets in regular session each biennium for not more than a total of 120 legislative days, and may not meet in regular session, or in any adjournment of it, after the first Monday following the third Saturday in May of any year.",
+      MN_ART4_SEC12,
+    ),
+    measuresDieAtAdjournment: unknownRule(
+      "Minnesota's legislature is a two-year body and a bill may carry from the first year of a biennium to the second; whether a measure dies at a given adjournment, rather than at the end of the biennium, is not settled by the sources read for this pack.",
+    ),
+    source: MN_ART4_SEC12,
+  },
+  sources: [
+    MN_ART4_SEC22,
+    MN_ART4_SEC23,
+    MN_ART4_SEC12,
+    MN_ART4_SEC13,
+    MN_ART4_SEC18,
+    MN_ART4_SEC19,
+    MN_ART4_SEC20,
+    MN_ART4_SEC7,
+  ],
+  unresolvedGaps: [
+    "Minnesota's committee structure, referral among committees, and report and discharge thresholds are set by each house's rules and the joint rules, which were not read for this pack.",
+    "Minnesota's authority for floor amendments and any germaneness standard are set by each house's rules, which were not read for this pack.",
+    "Minnesota's conference committee composition and report rules are unresolved, and conference is not modelled.",
+    "The default effective-date rule is set by Minn. Stat. § 645.02, which was not read for this pack.",
+    "Whether a Minnesota measure dies at a given adjournment, as distinct from at the end of the biennium, is unresolved.",
+    "This pack models a single third-reading final-passage stage; the Minnesota Constitution requires consideration on three different days (art. IV, § 19), but the intermediate general-orders and second-reading stages come from chamber rules not read here.",
+    "Revenue bills must originate in the Minnesota House of Representatives (art. IV, § 18); the rule-pack schema has no per-chamber origination field, so this restriction is carried in the cited sources and this note rather than as a structural value.",
+  ],
+};
+
+const IL_CONST_URL = "https://www.ilga.gov/commission/lrb/con4.htm";
+const IL_CONST_TITLE =
+  "Constitution of the State of Illinois (1970), Article IV";
+
+const IL_ART4_SEC8 = constitutionSource(
+  "Ill. Const. art. IV, § 8",
+  IL_CONST_TITLE,
+  IL_CONST_URL,
+  "verified",
+  'Passage of bills: "No bill shall become a law without the concurrence of a majority of the members elected to each house." Bills may originate in either house but may be amended or rejected by the other; a bill is read by title on three different days in each house; and bills, except bills for appropriations and for the codification, revision or rearrangement of laws, are confined to one subject.',
+);
+const IL_ART4_SEC9 = constitutionSource(
+  "Ill. Const. art. IV, § 9",
+  IL_CONST_TITLE,
+  IL_CONST_URL,
+  "verified",
+  "Veto procedure: any bill not returned by the Governor within 60 calendar days after presentment becomes law. A vetoed bill is returned to the house of origin and becomes law if each house passes it again by a record vote of three-fifths of the members elected. The Governor may reduce or veto any item of appropriation; a vetoed item is returned like a vetoed bill and restored by three-fifths of the members elected, while an item reduced in amount is restored to its original amount by a majority of the members elected to each house.",
+);
+const IL_ART4_SEC5 = constitutionSource(
+  "Ill. Const. art. IV, § 5",
+  IL_CONST_TITLE,
+  IL_CONST_URL,
+  "verified",
+  'Sessions: "The General Assembly shall convene each year on the second Wednesday of January." The constitution fixes the convening day and sets no fixed adjournment deadline for a regular session.',
+);
+const IL_ART4_SEC6 = constitutionSource(
+  "Ill. Const. art. IV, § 6",
+  IL_CONST_TITLE,
+  IL_CONST_URL,
+  "verified",
+  'Organization: "A majority of the members elected to each house constitutes a quorum." Each house determines the rules of its proceedings, and its sessions and committee meetings are open to the public unless two-thirds of the members elected to that house vote to close them. The chamber rules made under this section were not read for this pack.',
+);
+
+/** An Illinois chamber. Seats and names are the constitution's; committees are not read. */
+function illinoisChamber(
+  chamberKey: string,
+  name: string,
+  seats: number,
+): ChamberRule {
+  return {
+    chamberKey,
+    name,
+    seats,
+    quorum: knownRule(
+      majorityOf(
+        "members-elected",
+        "a majority of the members elected to the house",
+        IL_ART4_SEC6,
+      ),
+      IL_ART4_SEC6,
+    ),
+    introductionAllowed: true,
+    referral: {
+      authorityLabel: "Set by each house's rules of proceedings",
+      multipleReferralAllowed: unknownRule(
+        "Whether Illinois permits referring one bill to several committees is set by each house's rules under Ill. Const. art. IV, § 6, which were not read for this pack.",
+      ),
+      everyMeasureMustBeHeard: unknownRule(
+        "Whether every referred bill is guaranteed a hearing is set by each house's rules under Ill. Const. art. IV, § 6, which were not read for this pack.",
+      ),
+      source: IL_ART4_SEC6,
+    },
+    committees: [],
+    floorStages: [
+      {
+        stageKey: "third-reading",
+        label: "Third reading and final passage",
+        amendable: true,
+        separateLegislativeDayRequired: true,
+        vote: knownRule(
+          majorityOf(
+            "members-elected",
+            "a majority of the members elected to the house",
+            IL_ART4_SEC8,
+          ),
+          IL_ART4_SEC8,
+        ),
+        source: IL_ART4_SEC8,
+      },
+    ],
+    amendments: {
+      floorAmendmentsAllowed: knownRule(true, IL_ART4_SEC8),
+      germanenessStandard: unknownRule(
+        "Illinois confines a bill to a single subject (Ill. Const. art. IV, § 8), but the germaneness standard applied to floor amendments is set by each house's rules, which were not read for this pack.",
+      ),
+      source: IL_ART4_SEC8,
+    },
+  };
+}
+
+export const ILLINOIS_RULE_PACK: LegislativeRulePack = {
+  packId: "us-il-general-assembly-v1",
+  jurisdictionKey: "US-IL",
+  displayName: "Illinois General Assembly",
+  structure: "bicameral",
+  chambers: [
+    illinoisChamber("house", "House of Representatives", 118),
+    illinoisChamber("senate", "Senate", 59),
+  ],
+  chamberOrder: ["house", "senate"],
+  interChamber: {
+    kind: "second-chamber",
+    concurrenceThreshold: majorityOf(
+      "members-elected",
+      "a majority of the members elected to the house",
+      IL_ART4_SEC8,
+    ),
+    conference: unknownRule(
+      "Illinois resolves inter-chamber differences by conference committee under the joint rules and each house's rules, which were not read for this pack; conference is not modelled.",
+    ),
+    source: IL_ART4_SEC8,
+  },
+  executive: {
+    titleLabel: "Governor",
+    presentmentRequired: knownRule(true, IL_ART4_SEC9),
+    actionWindowDaysInSession: knownRule(60, IL_ART4_SEC9),
+    actionWindowDaysAfterAdjournment: notApplicableRule(
+      "Illinois applies a single 60-calendar-day window after presentment (Ill. Const. art. IV, § 9) and draws no separate post-adjournment action period.",
+    ),
+    inactionOutcomeInSession: knownRule(
+      "becomes-law-without-signature",
+      IL_ART4_SEC9,
+    ),
+    lineItemVeto: knownRule(true, IL_ART4_SEC9),
+    override: {
+      kind: "each-chamber",
+      threshold: fractionOf(
+        3,
+        5,
+        "members-elected",
+        "three-fifths of the members elected to each house",
+        IL_ART4_SEC9,
+      ),
+    },
+    source: IL_ART4_SEC9,
+  },
+  enactment: {
+    effectiveDateDistinctFromEnactment: unknownRule(
+      "Illinois's effective-date rule is set by the Effective Date of Laws Act (5 ILCS 75), which was not read for this pack.",
+    ),
+    defaultEffectiveRule: unknownRule(
+      "Illinois's default effective date is set by the Effective Date of Laws Act (5 ILCS 75), which was not read for this pack.",
+    ),
+    source: IL_ART4_SEC8,
+  },
+  session: {
+    sessionLabel: "Regular session",
+    adjournmentRule: knownRule(
+      "The General Assembly convenes each year on the second Wednesday of January; the constitution sets no fixed adjournment deadline for a regular session.",
+      IL_ART4_SEC5,
+    ),
+    measuresDieAtAdjournment: unknownRule(
+      "The Illinois General Assembly is a two-year body; whether a measure dies at a given adjournment, rather than at the end of the General Assembly, is not settled by the sources read for this pack.",
+    ),
+    source: IL_ART4_SEC5,
+  },
+  sources: [IL_ART4_SEC8, IL_ART4_SEC9, IL_ART4_SEC5, IL_ART4_SEC6],
+  unresolvedGaps: [
+    "Illinois's committee structure, referral among committees, and report and discharge thresholds are set by each house's rules and the joint rules, which were not read for this pack.",
+    "Illinois's germaneness standard applied to floor amendments is set by each house's rules, which were not read for this pack.",
+    "Illinois's conference committee composition and report rules are unresolved, and conference is not modelled.",
+    "The default effective-date rule is set by the Effective Date of Laws Act (5 ILCS 75), which was not read for this pack.",
+    "Whether an Illinois measure dies at a given adjournment, as distinct from at the end of the two-year General Assembly, is unresolved.",
+    "This pack models a single third-reading final-passage stage; the Illinois Constitution requires a reading by title on three different days (art. IV, § 8), but the intermediate reading and amendment stages come from chamber rules not read here.",
+    "The Governor's reduction veto for appropriation items (a reduced item restored by a majority of the members elected, art. IV, § 9) is distinct from an ordinary item veto; the schema records only a line-item veto flag and the override threshold, so the reduction-restore majority is carried in the § 9 note rather than as its own field.",
+  ],
+};
+
 export const LEGISLATIVE_RULE_PACKS: readonly LegislativeRulePack[] = [
   KENTUCKY_RULE_PACK,
   NEBRASKA_RULE_PACK,
   ALASKA_RULE_PACK,
+  MINNESOTA_RULE_PACK,
+  ILLINOIS_RULE_PACK,
 ];
 
 export function rulePackById(packId: string): LegislativeRulePack {
