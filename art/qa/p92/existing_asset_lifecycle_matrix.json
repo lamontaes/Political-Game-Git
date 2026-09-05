@@ -5,6 +5,17 @@
   "baseline_accepted_main": "1d05923e549981af22b46026f26b65ab8dda7b2f",
   "branch": "claude/new-session-4owtvv",
   "note": "Evidence-first reconciliation of every relevant generated character/scene asset in the repository and the Claude/Drive asset workspace against the runtime character catalog, the asset manifest, the Packet-71/76 intake evidence and the accepted decisions D-055/D-057/D-063/D-064/D-065/D-068/D-070/D-073. It resolves the owner's apparent contradiction (visible generated art vs a dev-only runtime catalog) by proving the exact lifecycle state of each asset. No pixel was promoted or released; the runtime catalog and every manifest are byte-unchanged on this branch.",
+  "post_completion_independent_correction": {
+    "recorded_on": "2026-09-05",
+    "source": "Post-completion independent correction appended to the Drive completion doc 1q_HOGNVm78jeDkrlVS6ibSGl9uYEQO9nehzHg4khYm4.",
+    "scope": "Documentation + this matrix only. No generation, upscaling, anchor authoring, manifest promotion, or release was performed. PR #95 remains draft/unmerged; green exact-head CI does not override these evidence corrections.",
+    "corrections": [
+      "OWNER REVIEW SURFACE: '?view=character-proof&set=real' is NOT authoritative for the OCD p76 despilled feminine bodies. CharacterProofView builds the 'real' set from CANDIDATE_REVIEW_CHARACTER_LIBRARY, which liftCandidatesForReview derives from character-component-candidate records; the OCD p76 chopped/despilled bodies are not registered as candidate components. Verified in-repo: 'ocd_body_' occurs 0 times in art/manifest/asset_manifest.json and 0 times in art/manifest/character_catalog.json. The authoritative owner surfaces are art/qa/contact_sheets/index.html (verified: 24 'ocd-p76/bodies-despilled' references covering all eight asset ids) and the files under art/generated/candidates/ocd-p76/bodies-despilled/*.png. The character-proof route stays valid for the candidate-review library it actually renders (the pg-modular bank).",
+      "ANCHOR GATE UNCHANGED: the owner may accept or reject the ART of the eight despilled poses now, but D-068 anchor acceptance occurs only AFTER a production-resolution re-export. The current undersized, to-be-re-exported raster must not receive authoritative anchors.",
+      "WAVE-A PIXELS INSPECTED: the earlier 'pixel-unreachable' claim is obsolete. All five Wave-A PNGs were downloaded and visually inspected outside this Claude session. Dimensions and per-sheet consequences are recorded in drive_only_assets.",
+      "WAVE-A DISPOSITION: the four 5056x3392 4x2 sheets yield ~1264x1696 cells, below the 1696x2528 production-body floor, so they are morphology/measurement input for #89 rather than production-release-ready body masters; baked desk/chair/lectern geometry in some cells requires per-pose disposition; the fat-female file carries three poses and is a supplement, not a complete 8-pose family."
+    ]
+  },
   "three_claims_legend": {
     "A_exists": "The source/generated image exists (pixels are somewhere the project can name).",
     "B_passed_intake": "The image has passed deterministic mechanical intake/QA (chopped, measured, despilled where needed, dispositioned).",
@@ -45,7 +56,9 @@
         "HUMAN GATE (D-063-style): visual acceptance of the despilled art as promotable has not been recorded."
       ],
       "next_required_action": "Regenerate/re-export the 8-pose sheet at production resolution (>= ~6784x5056 so 4x2 cells clear 1696x2528) with a clean edge; then chop -> measure -> propose anchors (STARTING POINT) -> owner accepts anchors + art -> register candidate -> promote into a new catalog generation -> release. IMG_5192.PNG in Drive confirms the green fix is achievable but is still sheet-resolution.",
-      "used_by": "PR #90 already measures these 8 poses as real-body arm input (measurable elbow-down, upper arm fused, seated poses occluded). PR #89 wants a measured morphology body it does not yet have."
+      "used_by": "PR #90 already measures these 8 poses as real-body arm input (measurable elbow-down, upper arm fused, seated poses occluded). PR #89 wants a measured morphology body it does not yet have.",
+      "owner_review_surface": "art/qa/contact_sheets/index.html AND/OR the files under art/generated/candidates/ocd-p76/bodies-despilled/*.png. NOT '?view=character-proof&set=real' \u2014 that route renders CANDIDATE_REVIEW_CHARACTER_LIBRARY (character-component-candidate records) and these bodies are not registered as candidate components ('ocd_body_' occurs 0 times in asset_manifest.json and character_catalog.json), so it is not proof of this family.",
+      "owner_gate_split": "ART acceptance may happen NOW on the despilled rasters. D-068 ANCHOR acceptance happens only AFTER a production-resolution re-export; do not author or accept authoritative anchors on the current undersized raster (D-073)."
     },
     {
       "family": "ocd adult head-diversity 12-up",
@@ -158,7 +171,8 @@
     }
   ],
   "drive_only_assets": {
-    "tool_visibility_limit": "The Drive MCP download tool has a hard 10 MB limit and the agent proxy refuses drive.google.com; there is no exposed Drive API token. So sheets over 10 MB CANNOT be pixel-inspected or fetched into the repository in this environment. Their existence is recorded from Drive metadata (id, title, size, mimeType, upload time); no intake verdict is claimed for their pixels. This is a tool limit, not 'the art is missing.'",
+    "tool_visibility_limit_status": "RESOLVED OUTSIDE THIS CLAUDE SESSION. The historical note above describes this environment only (hard 10 MB Drive-download cap, proxy refusal of drive.google.com, no exposed Drive API token). An independent pass has since downloaded and visually inspected all five Wave-A PNGs, so the claim that they are pixel-unreachable is OBSOLETE and must not be repeated. Their measured dimensions and dispositions are recorded on the asset rows below.",
+    "tool_visibility_limit_historical": "The Drive MCP download tool has a hard 10 MB limit and the agent proxy refuses drive.google.com; there is no exposed Drive API token. So sheets over 10 MB CANNOT be pixel-inspected or fetched into the repository in this environment. Their existence is recorded from Drive metadata (id, title, size, mimeType, upload time); no intake verdict is claimed for their pixels. This is a tool limit, not 'the art is missing.'",
     "assets": [
       {
         "title": "average woman.png",
@@ -166,9 +180,13 @@
         "bytes": 11873617,
         "mime": "image/png",
         "uploaded": "2026-09-04T22:16",
-        "state": "SOURCE SHEET IN DRIVE (>10MB, not fetchable here)",
+        "state": "SOURCE SHEET IN DRIVE \u2014 PIXEL-INSPECTED, NOT INGESTED",
         "maps_to": "Pack 74 Wave A feminine ordinary/'average'",
-        "next": "Bring into repo (owner or a Drive-API-capable job) -> chop:source-sheet -> measure:references."
+        "next": "Bring into repo -> chop:source-sheet -> measure:references -> per-cell disposition. Do not promote cells as body masters at this resolution.",
+        "dimensions_measured": "5056x3392 RGBA",
+        "layout": "4x2 sheet (8 pose cells)",
+        "inspection_note": "4x2 sheet -> nominal cells ~1264x1696, BELOW the 1696x2528 production standing-body floor (and the 1530x2048 seated floor). Morphology/measurement input for #89; NOT a production-release-ready body master at this resolution.",
+        "pixel_inspected": true
       },
       {
         "title": "skinny woman.png",
@@ -176,9 +194,13 @@
         "bytes": 11597359,
         "mime": "image/png",
         "uploaded": "2026-09-04T22:16",
-        "state": "SOURCE SHEET IN DRIVE (>10MB, not fetchable here)",
+        "state": "SOURCE SHEET IN DRIVE \u2014 PIXEL-INSPECTED, NOT INGESTED",
         "maps_to": "Pack 74 Wave A feminine lean",
-        "next": "Bring into repo -> chop -> measure."
+        "next": "Bring into repo -> chop -> measure -> per-cell disposition.",
+        "dimensions_measured": "5056x3392 RGBA",
+        "layout": "4x2 sheet (8 pose cells)",
+        "inspection_note": "4x2 sheet -> nominal cells ~1264x1696, BELOW the 1696x2528 production standing-body floor (and the 1530x2048 seated floor). Morphology/measurement input for #89; NOT a production-release-ready body master at this resolution.",
+        "pixel_inspected": true
       },
       {
         "title": "older woman.png",
@@ -186,9 +208,13 @@
         "bytes": 11868933,
         "mime": "image/png",
         "uploaded": "2026-09-04T22:16",
-        "state": "SOURCE SHEET IN DRIVE (>10MB, not fetchable here)",
+        "state": "SOURCE SHEET IN DRIVE \u2014 PIXEL-INSPECTED, NOT INGESTED",
         "maps_to": "Pack 74 Wave A older adult (feminine)",
-        "next": "Bring into repo -> chop -> measure."
+        "next": "Bring into repo -> chop -> measure -> INDIVIDUAL per-pose disposition. Cells carrying baked prop geometry must NOT be automatically promoted as clean body layers.",
+        "dimensions_measured": "5056x3392 RGBA",
+        "layout": "4x2 sheet (8 pose cells)",
+        "inspection_note": "4x2 sheet -> nominal cells ~1264x1696, BELOW the 1696x2528 production standing-body floor (and the 1530x2048 seated floor). Morphology/measurement input for #89; NOT a production-release-ready body master at this resolution. VISUAL INSPECTION FOUND BAKED DESK/CHAIR/LECTERN (interaction-prop) GEOMETRY in some pose cells on this sheet.",
+        "pixel_inspected": true
       },
       {
         "title": "average man.png",
@@ -196,9 +222,13 @@
         "bytes": 11056106,
         "mime": "image/png",
         "uploaded": "2026-09-04T22:16",
-        "state": "SOURCE SHEET IN DRIVE (>10MB, not fetchable here)",
+        "state": "SOURCE SHEET IN DRIVE \u2014 PIXEL-INSPECTED, NOT INGESTED",
         "maps_to": "Pack 74 Wave A masculine ordinary",
-        "next": "Bring into repo -> chop -> measure."
+        "next": "Bring into repo -> chop -> measure -> INDIVIDUAL per-pose disposition. Cells carrying baked prop geometry must NOT be automatically promoted as clean body layers.",
+        "dimensions_measured": "5056x3392 RGBA",
+        "layout": "4x2 sheet (8 pose cells)",
+        "inspection_note": "4x2 sheet -> nominal cells ~1264x1696, BELOW the 1696x2528 production standing-body floor (and the 1530x2048 seated floor). Morphology/measurement input for #89; NOT a production-release-ready body master at this resolution. VISUAL INSPECTION FOUND BAKED DESK/CHAIR/LECTERN (interaction-prop) GEOMETRY in some pose cells on this sheet.",
+        "pixel_inspected": true
       },
       {
         "title": "additional fat female pose.png",
@@ -206,9 +236,13 @@
         "bytes": 8689612,
         "mime": "image/png",
         "uploaded": "2026-09-04T22:48",
-        "state": "SOURCE POSE IN DRIVE (<10MB but isolated; not fetched to avoid a lopsided partial intake of one pose from an otherwise inaccessible family)",
+        "state": "SUPPLEMENTAL SOURCE ART IN DRIVE \u2014 PIXEL-INSPECTED, NOT INGESTED",
         "maps_to": "Pack 74 Wave A feminine heavy (single pose)",
-        "next": "Intake together with the >10MB heavy-family sheet once the family is fetchable."
+        "next": "Bring into repo alongside the heavy-family sheet -> chop -> measure -> per-pose disposition. Treat as a supplement pending a complete family.",
+        "dimensions_measured": "4352x3904 RGBA",
+        "layout": "THREE poses (supplemental file, NOT a complete 8-pose family)",
+        "inspection_note": "Useful source art, but it carries three poses only. It is NOT a complete eight-pose family and must not be treated as one.",
+        "pixel_inspected": true
       },
       {
         "title": "IMG_5192.PNG",
@@ -293,9 +327,11 @@
     ]
   },
   "summary": {
-    "statement_A_exists": "Extensive: 8 feminine body poses (textured), 12 heads, 12 footwear, 25 pg masters + 35 candidates, plus 5 new Wave A morphology sheets in Drive (2026-09-04).",
-    "statement_B_passed_intake": "Feminine bodies chopped+measured+despilled; heads chopped+measured+PASS; footwear chopped+measured+REVISE; pg family intaken+banked. New Drive morphology sheets NOT yet intaken (not in repo; >10MB here).",
+    "statement_A_exists": "Extensive: 8 feminine body poses (textured), 12 heads, 12 footwear, 25 pg masters + 35 candidates, plus 5 Wave A morphology files in Drive (2026-09-04) \u2014 now pixel-inspected: four 5056x3392 RGBA 4x2 sheets plus a 4352x3904 RGBA three-pose supplement.",
+    "statement_B_passed_intake": "Feminine bodies chopped+measured+despilled; heads chopped+measured+PASS; footwear chopped+measured+REVISE; pg family intaken+banked. The Wave A Drive files are NOT yet intaken (not in the repo): they have been pixel-inspected but not chopped, measured or dispositioned, and their cells fall below the production body floor.",
     "statement_C_released": "ZERO production arbitrary-person bodies released. Correct: pg = human-rejected gray; ocd = undersized + unmet human anchor/visual gates; heads = non-square/underwidth + no matching body; footwear = wrong viewpoint. The runtime catalog correctly exposes only dev fixtures and fails closed.",
-    "no_missed_mechanical_step_smuggles_release": "Every production-body candidate is blocked by a genuine reason (human rejection, resolution floor, viewpoint, or an unmet human gate), not by an un-run deterministic step. No good art is wrongly withheld by a missed mechanical step that this environment could complete."
+    "no_missed_mechanical_step_smuggles_release": "Every production-body candidate is blocked by a genuine reason (human rejection, resolution floor, viewpoint, or an unmet human gate), not by an un-run deterministic step. No good art is wrongly withheld by a missed mechanical step that this environment could complete.",
+    "wave_a_disposition": "Wave A is morphology/measurement input for #89 at its current resolution, not a set of production-release-ready body masters. Per-pose disposition is required because some cells (notably older-woman and average-man) carry baked desk/chair/lectern geometry, and the fat-female file is a three-pose supplement rather than a complete family.",
+    "owner_review_surface_correction": "The OCD p76 despilled feminine bodies are reviewed via art/qa/contact_sheets/index.html and/or art/generated/candidates/ocd-p76/bodies-despilled/*.png \u2014 never via '?view=character-proof&set=real', which renders only the registered candidate-review library and does not contain them."
   }
 }

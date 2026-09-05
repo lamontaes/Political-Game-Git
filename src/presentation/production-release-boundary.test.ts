@@ -213,3 +213,37 @@ describe("B — footwear is the right size but the wrong viewpoint", () => {
     }
   });
 });
+
+describe("owner review surface — character-proof is not proof of the OCD p76 family", () => {
+  // Post-completion independent correction (2026-09-05). The 92B report first
+  // named `?view=character-proof&set=real` as a review surface for the eight
+  // despilled feminine bodies. It is not one: that route renders
+  // CANDIDATE_REVIEW_CHARACTER_LIBRARY, which liftCandidatesForReview derives
+  // from `character-component-candidate` records, and these bodies were never
+  // registered as candidate components. The gate is the contact sheet and the
+  // rasters themselves. This test keeps the two apart so the claim cannot be
+  // quietly reintroduced.
+  const ocdBodyPrefix = "ocd_body_";
+
+  it("registers no OCD body as a candidate component, so it cannot appear in the review set", () => {
+    const registered = assets.filter((record) =>
+      record.asset_id.startsWith(ocdBodyPrefix),
+    );
+    expect(registered).toEqual([]);
+  });
+
+  it("keeps every OCD body out of the candidate-review library the proof route renders", () => {
+    const inReviewSet = [
+      ...CANDIDATE_REVIEW_CHARACTER_LIBRARY.components.keys(),
+    ].filter((assetId) => assetId.startsWith(ocdBodyPrefix));
+    expect(inReviewSet).toEqual([]);
+  });
+
+  it("still has the despilled rasters the contact sheet reviews", () => {
+    // The despill report names the eight files the owner actually inspects.
+    expect(despillEntries).toHaveLength(8);
+    for (const entry of despillEntries) {
+      expect(entry.assetId.startsWith(ocdBodyPrefix)).toBe(true);
+    }
+  });
+});
