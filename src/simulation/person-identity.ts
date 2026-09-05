@@ -114,7 +114,11 @@ export const GENDER_IDENTITY_LABELS: Readonly<
   female: "Female",
   male: "Male",
   nonbinary: "Non-binary",
-  unstated: "Rather not say",
+  // The second playtest named this one: "Rather not say" is what an
+  // employment form says, and a game asking a player who their character is
+  // should not sound like one. The semantics are unchanged — no identity is
+  // stored — and only the words are different.
+  unstated: "Leave unspecified",
 };
 
 export const PRONOUN_SET_LABELS: Readonly<Record<PronounSetKey, string>> = {

@@ -34,7 +34,7 @@ import {
   type StoryMoment,
 } from "./life-story";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
-import { worldSeedFor } from "./new-game-identity";
+import { buildSeedFor, worldSeedFor } from "./new-game-identity";
 import {
   answerQuestionnaire,
   questionnaireScreenFor,
@@ -721,7 +721,7 @@ describe("Play-proof 6 — an unremarkable earlier choice decides a later one", 
 /* Pennywise — the calibration moves the model, and gameplay outweighs it      */
 /* -------------------------------------------------------------------------- */
 
-describe("The calibration changes the model, and the world it built stays the same", () => {
+describe("The calibration changes the model, and shapes the household it built", () => {
   const base = setup({ seed: "ab-proof", startAge: 34, questionnaire: "deep" });
   const first = calibrate(base, 0);
   // Answer patterns 0 and 2 both happen to stop at fifteen questions now that
@@ -731,18 +731,25 @@ describe("The calibration changes the model, and the world it built stays the sa
   // the four patterns the bank supports, the deep path runs 14, 15, 16 and 15.
   const second = calibrate(base, 1);
 
-  it("builds the identical life from identical setup and different answers", () => {
+  it("keeps the world's identity answer-independent while the interview runs", () => {
+    // SUPERSEDED CLAIM, NARROWED. This used to assert that two answer patterns
+    // built the identical life. Packet 77 made a normal start generate the
+    // family and let the calibration shape it, so the identical-life claim is
+    // gone and the claim that was actually load-bearing stays: `worldSeedFor`
+    // is read to decide which question comes next, so it must not move while
+    // the player is still answering. What moves is the build seed.
+    expect(worldSeedFor(first)).toBe(worldSeedFor(second));
+    expect(buildSeedFor(first)).not.toBe(buildSeedFor(second));
+
     const left = createNewGameWorld(first);
     const right = createNewGameWorld(second);
-    expect(worldSeedFor(first)).toBe(worldSeedFor(second));
-    expect(left.world.people[left.playerPersonId]!.givenName).toBe(
-      right.world.people[right.playerPersonId]!.givenName,
-    );
-    expect(Object.keys(left.world.people).sort()).toEqual(
-      Object.keys(right.world.people).sort(),
-    );
-    expect(left.world.history.kinshipRelationships.length).toBe(
-      right.world.history.kinshipRelationships.length,
+    // Same shape of life either way: the same number of people, the same kinds
+    // of relationship between them. The generator wrote both.
+    expect(right.world.personOrder.length).toBe(left.world.personOrder.length);
+    expect(
+      right.world.history.kinshipRelationships.map((entry) => entry.kind),
+    ).toEqual(
+      left.world.history.kinshipRelationships.map((entry) => entry.kind),
     );
   });
 
@@ -773,20 +780,23 @@ describe("The calibration changes the model, and the world it built stays the sa
     const right = createNewGameWorld(second);
     const leftTrace = traceStorySelection(left.world, left.playerPersonId);
     const rightTrace = traceStorySelection(right.world, right.playerPersonId);
-    // Same candidates — the world is the same — and the ranking differs.
-    expect(leftTrace.candidateCount).toBe(rightTrace.candidateCount);
-    const leftOrder = leftTrace.ranked.map((entry) => entry.candidate.key);
-    const rightOrder = rightTrace.ranked.map((entry) => entry.candidate.key);
-    expect(leftOrder.sort()).toEqual(rightOrder.sort());
-    const leftScores = leftTrace.ranked.map((entry) =>
-      entry.components.total.toFixed(4),
+    // This used to hold the candidate sets equal and compare only the scores,
+    // because the two lives were the same life. Since Packet 77 they are not:
+    // the calibration shapes the household, so which situations are reachable
+    // can differ too. The claim is unchanged and is now checked on both halves
+    // at once — what the game puts in front of these two players is not the
+    // same list, scored the same way, in the same order.
+    const leftRanking = leftTrace.ranked.map(
+      (entry) => `${entry.candidate.key}@${entry.components.total.toFixed(4)}`,
     );
-    const rightScores = rightTrace.ranked.map((entry) =>
-      entry.components.total.toFixed(4),
+    const rightRanking = rightTrace.ranked.map(
+      (entry) => `${entry.candidate.key}@${entry.components.total.toFixed(4)}`,
     );
+    expect(leftRanking.length).toBeGreaterThan(0);
+    expect(rightRanking.length).toBeGreaterThan(0);
     expect(
-      leftScores.join("|") !== rightScores.join("|"),
-      "two different calibrations scored every candidate identically",
+      leftRanking.join("|") !== rightRanking.join("|"),
+      "two different calibrations produced the identical ranked offering",
     ).toBe(true);
   });
 

@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  adaptiveSelectionSeed,
   auditPlayerModel,
   deserializeWorld,
+  GENERATION_LEAN_LIMIT,
+  generationInputsFor,
   playerModelFor,
   serializeWorld,
   setupPriorsOf,
@@ -18,8 +19,10 @@ import {
 import { createNewGameWorld } from "./new-game";
 import type { NewGameSetup } from "./new-game";
 import {
+  buildSeedFor,
   decodeReplayDescriptor,
   encodeReplayDescriptor,
+  setupPriorStoreFor,
   worldSeedFor,
 } from "./new-game-identity";
 import { openOrdinaryLife, projectOrdinaryDay } from "./ordinary-life";
@@ -49,6 +52,20 @@ const ADULT: NewGameSetup = {
   familyName: null,
   questionnaire: "short",
   priors: [],
+};
+
+/**
+ * A dependent start, which is where a generated family actually exists.
+ *
+ * The leans in the generation seam move a guardian's age band and a sibling's
+ * age gap, and an adult who lives alone has neither, so the divergence proofs
+ * below are written against a child. That is not a convenience: it is where
+ * the packet's "generated parents/guardians, household" lives.
+ */
+const CHILD: NewGameSetup = {
+  ...ADULT,
+  startAge: 10,
+  depth: "play-formative-years",
 };
 
 /** Walks the calibration, answering with the option at `index` each time. */
@@ -103,45 +120,145 @@ function playAdultLife(
 
 /* -------------------------------------------------------------------------- */
 
-describe("Acceptance 2 — an answer may never manufacture a family", () => {
-  it("builds the same world, the same people and the same household from opposite answers", () => {
-    const oneWay = calibrate(ADULT, 0);
-    const another = calibrate(ADULT, 3);
+describe("Acceptance 2 — an answer may shape a family and may never author one", () => {
+  /**
+   * SUPERSEDED CLAIM, DELIBERATELY INVERTED.
+   *
+   * This suite used to assert the opposite: that two opposite answer sets
+   * built the same people, the same household and the same kinship. That was
+   * the right rule while the player was understood to be answering a
+   * questionnaire beside a world the game built on its own.
+   *
+   * Packet 77 changed the product. A normal start GENERATES the parents and
+   * the household — the player never authors them — and the owner asked that
+   * the calibration shape that generation. So the rule narrowed from "answers
+   * may not change who your family is" to "answers may not AUTHOR who your
+   * family is", and this is where the narrower rule is held shut. Nothing was
+   * weakened: the test below is strictly harder to pass, because it has to
+   * show both that the household moved and that the only thing that moved it
+   * was the declared seam.
+   */
+  it("reproduces the same household from the same answers", () => {
+    const once = createNewGameWorld(calibrate(ADULT, 0));
+    const twice = createNewGameWorld(calibrate(ADULT, 0));
+    expect(twice.world.id).toBe(once.world.id);
+    expect(twice.world.seed).toBe(once.world.seed);
+    expect(twice.world.personOrder).toEqual(once.world.personOrder);
+    expect(twice.world.history.households).toEqual(
+      once.world.history.households,
+    );
+    expect(twice.world.history.kinshipRelationships).toEqual(
+      once.world.history.kinshipRelationships,
+    );
+    for (const personId of once.world.personOrder) {
+      expect(twice.world.people[personId]).toEqual(once.world.people[personId]);
+    }
+  });
+
+  it("lets opposite answers build a different household", () => {
+    const oneWay = calibrate(CHILD, 0);
+    const another = calibrate(CHILD, 3);
     expect(oneWay.priors).not.toEqual(another.priors);
+    // The world's identity is answer-independent on purpose: it is read while
+    // the interview is still running, and a seed that moved mid-interview
+    // would reshuffle the remaining questions. What moves is the build seed.
     expect(worldSeedFor(oneWay)).toBe(worldSeedFor(another));
+    expect(buildSeedFor(oneWay)).not.toBe(buildSeedFor(another));
 
     const first = createNewGameWorld(oneWay);
     const second = createNewGameWorld(another);
-    expect(second.world.id).toBe(first.world.id);
-    expect(second.world.seed).toBe(first.world.seed);
-    expect(second.world.personOrder).toEqual(first.world.personOrder);
+    // Compared by position rather than by id: person ids are derived from the
+    // world's own id, so two different worlds never share one, and a lookup by
+    // id would compare everybody against nobody and pass for the wrong reason.
+    const describe = (game: typeof first) =>
+      game.world.personOrder.map((personId) => {
+        const person = game.world.people[personId]!;
+        return `${person.givenName} ${person.familyName} ${person.birthDate}`;
+      });
+    expect(describe(second)).not.toEqual(describe(first));
+  });
 
-    for (const personId of first.world.personOrder) {
-      const here = first.world.people[personId]!;
-      const there = second.world.people[personId]!;
-      expect(there.givenName).toBe(here.givenName);
-      expect(there.familyName).toBe(here.familyName);
-      expect(there.birthDate).toBe(here.birthDate);
-      expect(there.homeJurisdictionId).toBe(here.homeJurisdictionId);
+  it("moves the household only through the declared seam", () => {
+    const oneWay = calibrate(CHILD, 0);
+    const another = calibrate(CHILD, 3);
+    const first = createNewGameWorld(oneWay);
+    const second = createNewGameWorld(another);
+
+    // SHAPED, NOT AUTHORED. The two worlds hold the same records, of the same
+    // kinds, in the same order, written by the same generator paths. What
+    // differs is what the generator drew inside them. An answer that had
+    // written a fact would show up here as a record the other world does not
+    // have.
+    expect(second.world.personOrder.length).toBe(
+      first.world.personOrder.length,
+    );
+    expect(second.world.history.households.length).toBe(
+      first.world.history.households.length,
+    );
+    expect(
+      second.world.history.householdMemberships.map((entry) => entry.kind),
+    ).toEqual(
+      first.world.history.householdMemberships.map((entry) => entry.kind),
+    );
+    expect(
+      second.world.history.kinshipRelationships.map((entry) => entry.kind),
+    ).toEqual(
+      first.world.history.kinshipRelationships.map((entry) => entry.kind),
+    );
+    expect(
+      second.world.history.childAuthorities.map((entry) => entry.kind),
+    ).toEqual(first.world.history.childAuthorities.map((entry) => entry.kind));
+
+    // And nothing a player answered is anywhere in the biography. Not the
+    // question, not the choice, not a digest of either.
+    const written = JSON.stringify({
+      people: second.world.people,
+      history: second.world.history,
+    });
+    for (const answer of another.priors ?? []) {
+      expect(written).not.toContain(answer.questionKey);
+      if (answer.choiceId) expect(written).not.toContain(answer.choiceId);
     }
-    // And the household, the kinship and the rest of the biography with it.
-    expect(second.world.history.households).toEqual(
-      first.world.history.households,
-    );
-    expect(second.world.history.householdMemberships).toEqual(
-      first.world.history.householdMemberships,
-    );
-    expect(second.world.history.kinshipRelationships).toEqual(
-      first.world.history.kinshipRelationships,
-    );
+  });
 
-    // The one thing that does differ is the ordering seed the adaptive layer
-    // uses, which is derived from the world seed *and* the answers — and is
-    // derived where it is used rather than folded into `world.seed`, which is
-    // exactly why the two worlds above are identical.
-    expect(adaptiveSelectionSeed(second.world)).not.toBe(
-      adaptiveSelectionSeed(first.world),
+  it("keeps the whole of the seam to two bounded leans", () => {
+    // The claim above rests on there being nothing else in the seam, so the
+    // shape of the seam is itself asserted. A future field added here without
+    // an argument fails this rather than passing quietly.
+    const inputs = generationInputsFor(setupPriorStoreFor(calibrate(CHILD, 3)));
+    expect(inputs).not.toBeNull();
+    expect(Object.keys(inputs!).sort()).toEqual([
+      "encoding",
+      "guardianAgeLean",
+      "siblingAgeLean",
+      "version",
+    ]);
+    expect(Math.abs(inputs!.guardianAgeLean)).toBeLessThanOrEqual(
+      GENERATION_LEAN_LIMIT,
     );
+    expect(Math.abs(inputs!.siblingAgeLean)).toBeLessThanOrEqual(
+      GENERATION_LEAN_LIMIT,
+    );
+    expect(Number.isInteger(inputs!.guardianAgeLean)).toBe(true);
+    expect(Number.isInteger(inputs!.siblingAgeLean)).toBe(true);
+    // The encoding stands for exactly those two numbers and carries nothing
+    // else that could reach the generator.
+    expect(inputs!.encoding).toBe(
+      `gen-v1:${inputs!.guardianAgeLean}:${inputs!.siblingAgeLean}`,
+    );
+  });
+
+  it("builds the world it always built when the calibration is skipped", () => {
+    // The compatibility promise: no answers means no seam, and a world built
+    // from a skipped calibration is the byte-identical world every earlier
+    // proof in this repository was written against.
+    const skipped: NewGameSetup = {
+      ...ADULT,
+      questionnaire: "skipped",
+      priors: [],
+    };
+    expect(generationInputsFor(setupPriorStoreFor(skipped))).toBeNull();
+    expect(buildSeedFor(skipped)).toBe(worldSeedFor(skipped));
   });
 
   it("writes the answers where they are, and nowhere history can see them", () => {
@@ -219,11 +336,12 @@ describe("Acceptance 1 — the same life happens in the same order", () => {
   });
 
   it("offers a different sequence to a life that was calibrated differently", () => {
-    // Same world, same people; different answers. What changes is what the
-    // game puts in front of them, which is exactly the permitted difference.
+    // Different answers, and therefore — since Packet 77 — possibly a
+    // different household as well. The claim here was only ever about what the
+    // game puts in front of a life, so the world-identity assertion that used
+    // to sit here has moved to the suite that owns it.
     const one = openLife(calibrate(ADULT, 0));
     const other = openLife(calibrate(ADULT, 3));
-    expect(other.world.id).toBe(one.world.id);
     const first = playAdultLife(one.world, one.personId, 10);
     const second = playAdultLife(other.world, other.personId, 10);
     expect(second.sequence).not.toEqual(first.sequence);

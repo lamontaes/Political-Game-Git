@@ -1,4 +1,6 @@
 import {
+  guardianAgeBand,
+  siblingAgeGaps,
   applyCharacterHistoryPlan,
   assertWorldIntegrity,
   addDays,
@@ -23,6 +25,7 @@ import type {
   LifePlace,
   Person,
   PersonIdentity,
+  SetupGenerationInputs,
   SetupPriorStore,
   World,
 } from "../simulation";
@@ -86,6 +89,14 @@ export interface ProductionWorldInput {
    * household — because a political answer must never manufacture a family.
    */
   readonly priors?: SetupPriorStore;
+  /**
+   * The one seam through which a setup answer may shape generation.
+   *
+   * Two bounded leans and nothing else — no names, no dates, no facts. Absent
+   * or null means the calibration was skipped, and the generator draws exactly
+   * the ranges it drew before this existed.
+   */
+  readonly generation?: SetupGenerationInputs | null;
 }
 
 export interface ProductionWorld {
@@ -166,6 +177,7 @@ export function buildProductionWorld(
     place,
     input.depth,
     input.household,
+    input.generation ?? null,
   );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
@@ -245,6 +257,7 @@ function establishAgeEligibleState(
   place: LifePlace,
   depth: ProductionDepth,
   household: ProductionHousehold,
+  generation: SetupGenerationInputs | null,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -353,7 +366,15 @@ function establishAgeEligibleState(
   const guardianKey = `${stableKey}:guardian`;
   const guardianId = characterHistoryContextPersonId(world, guardianKey);
   const guardianName = drawCanonicalName(rng);
-  const guardianBirthDate = yearsBefore(player.birthDate, rng.integer(24, 41));
+  // The band the guardian's age is drawn from. Unleant it is 24 to 41, exactly
+  // as it has always been; a calibration that leaned toward keeping the ground
+  // firm moves both ends later and one that leaned toward disruption moves them
+  // earlier. The generator still draws. See `setup-generation-inputs.ts`.
+  const [guardianAgeFloor, guardianAgeCeiling] = guardianAgeBand(generation);
+  const guardianBirthDate = yearsBefore(
+    player.birthDate,
+    rng.integer(guardianAgeFloor, guardianAgeCeiling),
+  );
 
   transitions.push(
     {
@@ -437,8 +458,10 @@ function establishAgeEligibleState(
     const siblingId = characterHistoryContextPersonId(world, siblingKey);
     const siblingName = drawCanonicalName(rng);
     // Close enough in age to be a peer and never the same day, so "older" and
-    // "younger" are always answerable from the record.
-    const yearsApart = rng.pick([-4, -3, -2, 2, 3, 4]);
+    // "younger" are always answerable from the record. Which side of the player
+    // the candidates sit on is tilted by the care lean; the pick is still the
+    // generator's.
+    const yearsApart = rng.pick([...siblingAgeGaps(generation)]);
     const siblingBirthDate = yearsBefore(player.birthDate, yearsApart);
     // A record cannot predate either person in it, so a sibling born after the
     // player establishes the kinship on the day the younger of them arrived.

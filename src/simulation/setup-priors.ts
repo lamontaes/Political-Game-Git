@@ -133,12 +133,17 @@ export function assertSetupPriorIntegrity(priors: SetupPriorStore): void {
 /**
  * The priors as one canonical string, for the replay descriptor.
  *
- * Kept apart from the world-generation encoding on purpose, and the separation
- * is the point rather than tidiness: if an answer about tax reached
- * `worldSeedFor`, it would change which household was generated, which people
- * were in it and what they were called — so a political answer would quietly
- * manufacture a correlated family. Answers may change what the game asks you
- * and what it offers you. They may never change who your family is.
+ * Kept apart from the world-identity encoding on purpose. `worldSeedFor` runs
+ * while the calibration is still being answered, so a seed that moved with the
+ * answers would reshuffle the remaining questions under the player and break
+ * replay; that is why this encoding is separate and why it stays separate.
+ *
+ * Packet 77 narrowed the older rule that sat here. Answers may now shape the
+ * household the generator builds, because a normal start generates the family
+ * rather than letting the player author it. What they may still never do is
+ * write a canonical fact, and the influence is not this encoding: it is the two
+ * bounded leans in `setup-generation-inputs.ts`, which are the whole of what
+ * reaches generation.
  */
 export function canonicalPriorEncoding(priors: SetupPriorStore): string {
   return canonicalJson({

@@ -1,5 +1,6 @@
 import {
   defaultPronounsForGender,
+  generationInputsFor,
   lifePlaceByKey,
   questionnaireLength,
   requireLifePlace,
@@ -14,7 +15,11 @@ import type {
   World,
 } from "../simulation";
 import { buildProductionWorld } from "./production-world";
-import { setupPriorStoreFor, worldSeedFor } from "./new-game-identity";
+import {
+  buildSeedFor,
+  setupPriorStoreFor,
+  worldSeedFor,
+} from "./new-game-identity";
 
 /**
  * Starting a life.
@@ -48,7 +53,29 @@ export type NewGameStartingLife = "ordinary-life" | "legislative-office";
  */
 export type NewGameHousehold = "lives-alone" | "shares-a-home";
 
+/**
+ * Which of the two routes into a life the player took.
+ *
+ * `normal` is the ordinary one and the default: the game generates the
+ * parents, the household and the background, and the calibration shapes that
+ * generation through the seam in `setup-generation-inputs.ts`. The player
+ * chooses the frame — where, how old, who is at home — and does not author the
+ * biography.
+ *
+ * `custom` is the explicit route, for a player who wants the details the game
+ * supports set directly rather than generated around them. Its distinguishing
+ * property is the one that matters: the calibration does not reach generation
+ * at all, so nothing a player answers moves the household. It is deliberately a
+ * narrow route today, because the explicit controls the game actually has are
+ * narrow, and offering more would be offering something that does not exist.
+ *
+ * Optional and absent means `normal`, so every setup written before this
+ * existed still means what it meant.
+ */
+export type NewGameStartKind = "normal" | "custom";
+
 export interface NewGameSetup {
+  readonly startKind?: NewGameStartKind;
   readonly placeKey: string;
   readonly startAge: number;
   readonly depth: NewGameDepth;
@@ -86,9 +113,11 @@ export interface NewGameSetup {
   /**
    * What they answered, in the order they were asked.
    *
-   * These are non-diegetic weak priors and nothing else. They do not enter
-   * `worldSeedFor`, they create no history, and no biography follows from
-   * them — see `new-game-identity.ts` for why the split is load-bearing.
+   * They stay out of `worldSeedFor`, which decides which world this is and is
+   * read while the interview is still running. Under Packet 77 they do reach
+   * the generator, through one declared seam and in one bounded form: the two
+   * leans in `setup-generation-inputs.ts`. They write no history and name
+   * nobody — see `buildSeedFor` for where the two halves meet.
    */
   readonly priors?: readonly SetupAnswerRecord[];
 }
@@ -106,6 +135,10 @@ export const MAXIMUM_START_AGE = 70;
 export const LEGISLATIVE_OFFICE_MINIMUM_AGE = 21;
 
 export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
+  startKind: "normal",
+  // A starting point for the field, not a recommendation on the screen. The
+  // creator shows no place until the player searches for one, which is what
+  // stopped the four supported places reading as the game's four defaults.
   placeKey: "kentucky",
   startAge: 10,
   depth: "play-formative-years",
@@ -190,8 +223,11 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     throw new Error(problems[0]!.message);
   }
   const place = requireLifePlace(setup.placeKey);
+  const priors = setupPriorStoreFor(setup);
   const built = buildProductionWorld({
-    seed: worldSeedFor(setup),
+    // The build seed, not the world's identity: the calibration is allowed to
+    // change what the generator draws, and never which world this is.
+    seed: buildSeedFor(setup),
     place,
     age: setup.startAge,
     givenName: setup.givenName,
@@ -210,7 +246,12 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     startingLife: setup.startingLife,
     household: setup.household,
     depth: setup.depth,
-    priors: setupPriorStoreFor(setup),
+    priors,
+    // The custom route is the one where the calibration does not shape the
+    // family. Passing null here is the whole of that difference, and it is why
+    // the two routes are genuinely distinct rather than two labels.
+    generation:
+      setup.startKind === "custom" ? null : generationInputsFor(priors),
   });
   return {
     world: built.world,

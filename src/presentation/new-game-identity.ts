@@ -1,6 +1,7 @@
 import {
   canonicalPriorEncoding,
   createSetupPriorStore,
+  generationInputsFor,
   decodePriorEncoding,
   stableHash,
   GENDER_IDENTITY_KEYS,
@@ -40,19 +41,28 @@ export const SETUP_ENCODING_VERSION = 3;
 export const REPLAY_DESCRIPTOR_PARAMETER = "replay";
 
 /**
- * Version 3 split the setup in two, and the split is the point.
+ * Version 3 split the setup in two, and the split is still the point.
  *
- * A setup now has a *world half* — place, age, depth, starting life,
- * household, names, seed — and a *priors half*, which is what the player
- * answered at the questionnaire. Only the world half reaches `worldSeedFor`.
+ * A setup has a *world half* — place, age, depth, starting life, household,
+ * names, seed — and a *priors half*, which is what the player answered at the
+ * questionnaire. Only the world half reaches `worldSeedFor`.
  *
- * That is not tidiness. If an answer about tax entered the world seed, it
- * would change which household was generated, which people were in it and what
- * they were called, so a political answer would quietly manufacture a
- * correlated family — the exact thing the settled semantics forbid. Answers may
- * change what the game asks you and what it offers you. They may never change
- * who your family is, and a test holds that shut by building the same world
- * from two opposite sets of answers and comparing the people.
+ * The reason is mechanical rather than philosophical. `worldSeedFor` is read
+ * while the calibration is still running, to decide which question comes next;
+ * a seed that moved with the answers would reshuffle the remaining questions
+ * under the player mid-interview and would not replay. So the world's IDENTITY
+ * stays answer-independent, and that has not changed.
+ *
+ * What changed in Packet 77 is what gets BUILT under that identity. A normal
+ * start generates the parents, the household and the background; the player
+ * does not author them, and the owner asked that the calibration shape that
+ * generation. `buildSeedFor` below is where the two meet: the world half decides
+ * which world this is, and the declared generation leans decide what the
+ * generator draws inside it. The old claim that answers may never change who
+ * your family is has been narrowed to the claim that answers may never AUTHOR
+ * who your family is, which is the one that was actually protecting anything —
+ * see `setup-generation-inputs.ts`, where the whole of the influence is two
+ * integers on [-2, +2].
  *
  * Both halves travel in a replay descriptor, because a replay that reproduced
  * the world but not the calibration would not reproduce the game.
@@ -89,6 +99,11 @@ export function canonicalSetupEncoding(setup: NewGameSetup): string {
     ...(setup.gender === undefined || setup.gender === "unstated"
       ? {}
       : { gender: setup.gender, pronouns: setup.pronouns }),
+    // Written only on the custom route, for the same compatibility reason as
+    // gender: a setup that said nothing must encode exactly as it did before
+    // the field existed, or every world built before today becomes a different
+    // world with different people in it. Absent means the ordinary route.
+    ...(setup.startKind === "custom" ? { startKind: "custom" } : {}),
   });
 }
 
@@ -113,6 +128,28 @@ export function canonicalSetupEncoding(setup: NewGameSetup): string {
 export function worldSeedFor(setup: NewGameSetup): string {
   const encoding = canonicalSetupEncoding(setup);
   return `setup-v${SETUP_ENCODING_VERSION}:${stableHash(encoding)}:${encoding}`;
+}
+
+/**
+ * The seed the generator actually runs on.
+ *
+ * `worldSeedFor` answers "which world is this", and must not move while the
+ * player is still answering. This answers "what does the generator draw", and
+ * must move when the answers say something different about the household.
+ *
+ * The suffix is the declared generation encoding and nothing else — not the
+ * answers, not their keys, not a digest of them. When there are no answers
+ * there is no suffix, so a setup that skipped the calibration builds the
+ * byte-identical world it built before this seam existed, which is what keeps
+ * every earlier proof about generated lives true.
+ */
+export function buildSeedFor(setup: NewGameSetup): string {
+  const worldSeed = worldSeedFor(setup);
+  // The custom route asks the game not to shape the family around the
+  // calibration, so on that route there is nothing to add.
+  if (setup.startKind === "custom") return worldSeed;
+  const inputs = generationInputsFor(setupPriorStoreFor(setup));
+  return inputs === null ? worldSeed : `${worldSeed}|${inputs.encoding}`;
 }
 
 /**
@@ -219,6 +256,12 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
       return null;
     }
   }
+  // Absent means the ordinary route, which is what every descriptor written
+  // before the field existed meant. Anything else present but unrecognised is
+  // a corrupt descriptor rather than a route to guess at.
+  if (record.startKind !== undefined && record.startKind !== "custom") {
+    return null;
+  }
   const base: NewGameSetup = {
     seed: record.seed,
     placeKey: record.placeKey,
@@ -234,6 +277,7 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
           gender: gender as GenderIdentityKey,
           pronouns: pronouns as PronounSetKey,
         }),
+    ...(record.startKind === "custom" ? { startKind: "custom" as const } : {}),
   };
   if (record.priors === undefined) return base;
   const priors = decodePriorEncoding(record.priors);

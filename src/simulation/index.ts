@@ -58,6 +58,7 @@ export * from "./resource-pressure";
 export * from "./resources";
 export * from "./rng";
 export * from "./serialization";
+export * from "./setup-generation-inputs";
 export * from "./setup-priors";
 export * from "./sha256";
 export * from "./player-model";

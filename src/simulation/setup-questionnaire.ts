@@ -225,11 +225,36 @@ export function setupAgency(
   }
 }
 
-/** True when this item can honestly be put to this character. */
+/**
+ * True when this item can honestly be asked here.
+ *
+ * WHO IS BEING ASKED, AND WHY IT CHANGES THE ANSWER.
+ *
+ * Packet 72 gated every item on the character's life stage and standing,
+ * because a player who had said "my character is ten" was being asked what to
+ * do about the household bills. That was the right fix for the complaint as it
+ * stood, and it is not the rule Packet 77 asked for. The second playtest was
+ * explicit: the calibration may put political, civic, moral and ordinary-life
+ * questions to a player whatever age their character starts at, and it does not
+ * need to roleplay a ten-year-old merely because a ten-year-old is being made.
+ *
+ * The two are reconciled by being honest about the addressee, which the screen
+ * now says in as many words: these are put to the player, not to the character.
+ * So:
+ *
+ *   - The three fixed OPENERS stay gated. They set the register a calibration
+ *     starts in, each band has its own, and opening a ten-year-old's game on a
+ *     grant application is the disconnection the first playtest reported.
+ *   - Everything after them is open. The respondent is a person with views,
+ *     not a character with standing, and withholding a question about a
+ *     colleague's expenses from them because their character is ten was
+ *     measuring the wrong thing in the other direction.
+ */
 export function itemAdmissible(
   item: QuestionnaireItem,
   context: SetupLifeContext,
 ): boolean {
+  if (item.fixedOrdinal === null) return true;
   if (!item.eligibility.bands.includes(context.band)) return false;
   const agency = setupAgency(context);
   return item.eligibility.agency.every((key) => agency.has(key));

@@ -291,7 +291,18 @@ describe("Standing decides what a life is offered", () => {
     expect(peers.length).toBeGreaterThan(0);
   });
 
-  it("offers a ten-year-old no setup question that assumes adult standing", () => {
+  it("opens a ten-year-old's calibration on a ten-year-old's three", () => {
+    // SUPERSEDED CLAIM, NARROWED. This used to require that EVERY question a
+    // ten-year-old start could be asked belonged to the childhood band, which
+    // left ten items to draw five from. Packet 77 is explicit that the
+    // calibration may put civic, moral and ordinary-life questions to a player
+    // whatever age their character starts at, because the questions are put to
+    // the player rather than to the character — which the screen now says in
+    // as many words.
+    //
+    // What survives is the half that was doing the work: the three openers set
+    // the register, and opening a ten-year-old's game on a grant application
+    // is the disconnection the first playtest reported.
     const context = setupLifeContext({
       startAge: 10,
       startingLife: "ordinary-life",
@@ -300,16 +311,19 @@ describe("Standing decides what a life is offered", () => {
     const agency = setupAgency(context);
     expect(agency.has("answers-for-themselves")).toBe(false);
     const admissible = admissibleQuestionnaireBank(context);
-    expect(admissible.length).toBeGreaterThanOrEqual(5);
-    for (const item of admissible) {
+    const openers = admissible.filter((item) => item.fixedOrdinal !== null);
+    expect(openers.length).toBeGreaterThanOrEqual(3);
+    for (const item of openers) {
       expect(item.eligibility.bands).toContain("middle-childhood");
       for (const key of item.eligibility.agency) {
         expect(
           agency.has(key),
-          `${item.key} needs ${key}, which a ten-year-old does not have`,
+          `${item.key} opens on ${key}, which a ten-year-old does not have`,
         ).toBe(true);
       }
     }
+    // And the bank a child start can reach is no longer ten items deep.
+    expect(admissible.length).toBeGreaterThan(openers.length + 10);
   });
 
   it("puts no adult-only action in a childhood option", () => {
@@ -363,36 +377,48 @@ describe("The five-question path is one life at the stage it is opening", () => 
     return keys;
   }
 
-  it("asks a child five child questions", () => {
+  it("opens a child on the childhood three, then leaves the band", () => {
     const keys = shortPath(10);
     expect(keys).toHaveLength(5);
-    for (const key of keys) {
-      const item = SETUP_QUESTIONNAIRE_BANK.find((entry) => entry.key === key)!;
+    const openers = keys
+      .slice(0, 3)
+      .map((key) =>
+        SETUP_QUESTIONNAIRE_BANK.find((entry) => entry.key === key)!,
+      );
+    for (const item of openers) {
+      expect(item.fixedOrdinal).not.toBeNull();
       expect(item.eligibility.bands).toEqual(["middle-childhood"]);
     }
+    // Packet 77: the questions after the openers are put to the player, and
+    // are not confined to a ten-year-old's house.
+    expect(new Set(keys).size).toBe(5);
   });
 
-  it("asks a fifteen-year-old adolescent questions, and different ones", () => {
+  it("opens an adolescent on their own three, not on a child's", () => {
     const child = shortPath(10);
     const teenager = shortPath(15);
     expect(teenager).toHaveLength(5);
-    expect(new Set([...child, ...teenager]).size).toBe(10);
-    for (const key of teenager) {
+    expect(teenager.slice(0, 3)).not.toEqual(child.slice(0, 3));
+    for (const key of teenager.slice(0, 3)) {
       const item = SETUP_QUESTIONNAIRE_BANK.find((entry) => entry.key === key)!;
       expect(item.eligibility.bands).toEqual(["adolescence"]);
     }
   });
 
-  it("keeps the same people running through a band's questions", () => {
-    // Not five unrelated ethics cards: the cast recurs, which is what makes
-    // five questions read as five moments from one life.
-    const prompts = shortPath(10).map(
-      (key) =>
-        SETUP_QUESTIONNAIRE_BANK.find((entry) => entry.key === key)!.prompt,
-    );
+  it("keeps the same people running through the openers", () => {
+    // The three that open a band are one life at that age, with the same
+    // people in them. Packet 77 rejects a recurring cast a player is expected
+    // to already know; these are established by the questions themselves,
+    // which is the case it allows.
+    const prompts = shortPath(10)
+      .slice(0, 3)
+      .map(
+        (key) =>
+          SETUP_QUESTIONNAIRE_BANK.find((entry) => entry.key === key)!.prompt,
+      );
     const cast = ["Dee", "Bea", "Theo", "Kenny", "Ms. Ruiz"];
-    const recurring = cast.filter(
-      (name) => prompts.filter((prompt) => prompt.includes(name)).length > 1,
+    const recurring = cast.filter((name) =>
+      prompts.some((prompt) => prompt.includes(name)),
     );
     expect(recurring.length).toBeGreaterThanOrEqual(2);
   });
