@@ -59,8 +59,10 @@ export interface GovernmentUnitRecord {
   readonly countyCensusCode: string;
   /** Position 7-9 of the ID: the unit code within its county and type. */
   readonly unitCensusCode: string;
-  /** Position 10-14 of the ID: the supplement code. */
+  /** Position 10-12 of the ID: the supplement code, distinct from the sub code. */
   readonly supplementCensusCode: string;
+  /** Position 13-14 of the ID: the sub code, distinct from the supplement code. */
+  readonly subCensusCode: string;
   /** The classification, derived from the ID's type digit. */
   readonly governmentType: GovernmentType;
   /** The government name, as the listing publishes it. */

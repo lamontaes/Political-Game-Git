@@ -71,9 +71,20 @@ export const GOVERNMENT_TYPE_BY_LABEL: Readonly<
 };
 
 /**
- * The Census government identifier is a 14-character code composed of a
- * two-digit Census state code, a one-digit government type, a three-digit
- * county code, a three-digit unit code and a five-digit supplement. The digits
+ * The Census government identifier is a 14-digit code the Government Units
+ * documentation decomposes into six components, by position:
+ *
+ *   1-2   Census state code
+ *   3     government type
+ *   4-6   county code
+ *   7-9   unit code
+ *   10-12 supplement code
+ *   13-14 sub code
+ *
+ * The supplement code (positions 10-12) and the sub code (positions 13-14) are
+ * two distinct official components, not one five-digit field: the Bureau uses
+ * the sub code to distinguish otherwise-identical units, so collapsing the two
+ * would let two different governments read as the same supplement. The digits
  * locate a unit within the Bureau's own numbering; they are not FIPS codes and
  * they are not a GEOID.
  */
@@ -84,7 +95,10 @@ export interface GovernmentIdParts {
   readonly governmentTypeCode: GovernmentTypeCode;
   readonly countyCensusCode: string;
   readonly unitCensusCode: string;
+  /** Positions 10-12: the supplement code, distinct from the sub code. */
   readonly supplementCensusCode: string;
+  /** Positions 13-14: the sub code, distinct from the supplement code. */
+  readonly subCensusCode: string;
 }
 
 /** True when a string is a well-formed 14-digit Census government ID. */
@@ -108,8 +122,28 @@ export function decomposeGovernmentId(gid: string): GovernmentIdParts | null {
     governmentTypeCode: typeCode as GovernmentTypeCode,
     countyCensusCode: gid.slice(3, 6),
     unitCensusCode: gid.slice(6, 9),
-    supplementCensusCode: gid.slice(9, 14),
+    supplementCensusCode: gid.slice(9, 12),
+    subCensusCode: gid.slice(12, 14),
   };
+}
+
+/**
+ * Reassemble the exact 14-digit government ID from its components.
+ *
+ * The concatenation is the inverse of `decomposeGovernmentId`: for any
+ * well-formed ID, `reconstructGovernmentId(decomposeGovernmentId(id)) === id`.
+ * It exists so the split of the supplement and sub codes is provably lossless —
+ * neither component may be truncated or silently merged.
+ */
+export function reconstructGovernmentId(parts: GovernmentIdParts): string {
+  return (
+    parts.stateCensusCode +
+    parts.governmentTypeCode +
+    parts.countyCensusCode +
+    parts.unitCensusCode +
+    parts.supplementCensusCode +
+    parts.subCensusCode
+  );
 }
 
 /** The government type a well-formed ID's type digit denotes. */

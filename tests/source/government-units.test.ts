@@ -24,7 +24,9 @@ import {
   FORBIDDEN_GOVERNANCE_KEYS,
   GOVERNMENT_UNITS_PRODUCTION_GATE,
   compileGovernmentUnitsFixture,
+  decomposeGovernmentId,
   openGovernmentUnitsFixture,
+  reconstructGovernmentId,
   sourceDomain,
   validateGovernmentUnitsCorpus,
 } from "../../src/source/domains/government-units/index";
@@ -288,5 +290,136 @@ describe("the production gate and command-matrix wiring", () => {
         artifacts: [],
       }),
     ).toThrow(/not in the government-units lock|is not in the/);
+  });
+});
+
+describe("the Census ID keeps the supplement code and sub code distinct", () => {
+  // Positions 10-12 are the supplement code; positions 13-14 are the sub code.
+  // These probe IDs share every other component so each twin isolates one field.
+  const SUPPLEMENT_TWIN_A = "90200106000100"; // 90 2 001 060 sup=001 sub=00
+  const SUPPLEMENT_TWIN_B = "90200106000200"; // 90 2 001 060 sup=002 sub=00
+  const SUB_TWIN_A = "90200106100301"; // 90 2 001 061 sup=003 sub=01
+  const SUB_TWIN_B = "90200106100302"; // 90 2 001 061 sup=003 sub=02
+  const PROBE_IDS = [
+    SUPPLEMENT_TWIN_A,
+    SUPPLEMENT_TWIN_B,
+    SUB_TWIN_A,
+    SUB_TWIN_B,
+  ];
+
+  const municipalRow = (id: string, name: string): string[] => [
+    id,
+    name,
+    "ZZ",
+    "",
+    "Municipal",
+    "ACTIVE",
+    "2025",
+    "",
+    "",
+  ];
+
+  function probeCorpus() {
+    return withRows(PROBE_IDS.map((id) => municipalRow(id, `Unit ${id}`)));
+  }
+
+  function probe(id: string) {
+    const found = probeCorpus().records.find(
+      (r) => r.censusGovernmentId === id,
+    );
+    if (!found) throw new Error(`probe corpus has no ${id}`);
+    return found;
+  }
+
+  it("decomposes the supplement code as three digits and the sub code as two, truncating neither", () => {
+    const parts = decomposeGovernmentId(SUB_TWIN_A);
+    expect(parts).not.toBeNull();
+    expect(parts?.supplementCensusCode).toBe("003");
+    expect(parts?.subCensusCode).toBe("01");
+    // The old defect collapsed positions 10-14 into one five-digit field; the
+    // supplement code must be exactly three digits, not five.
+    expect(parts?.supplementCensusCode).toHaveLength(3);
+    expect(parts?.subCensusCode).toHaveLength(2);
+  });
+
+  it("distinguishes two IDs that share all fields except the supplement code", () => {
+    const a = probe(SUPPLEMENT_TWIN_A);
+    const b = probe(SUPPLEMENT_TWIN_B);
+    expect(a.stateCensusCode).toBe(b.stateCensusCode);
+    expect(a.governmentTypeCode).toBe(b.governmentTypeCode);
+    expect(a.countyCensusCode).toBe(b.countyCensusCode);
+    expect(a.unitCensusCode).toBe(b.unitCensusCode);
+    expect(a.subCensusCode).toBe(b.subCensusCode); // both "00"
+    expect(a.supplementCensusCode).toBe("001");
+    expect(b.supplementCensusCode).toBe("002");
+    expect(a.supplementCensusCode).not.toBe(b.supplementCensusCode);
+  });
+
+  it("distinguishes two IDs that share all fields except the sub code", () => {
+    const a = probe(SUB_TWIN_A);
+    const b = probe(SUB_TWIN_B);
+    expect(a.stateCensusCode).toBe(b.stateCensusCode);
+    expect(a.governmentTypeCode).toBe(b.governmentTypeCode);
+    expect(a.countyCensusCode).toBe(b.countyCensusCode);
+    expect(a.unitCensusCode).toBe(b.unitCensusCode);
+    expect(a.supplementCensusCode).toBe(b.supplementCensusCode); // both "003"
+    expect(a.subCensusCode).toBe("01");
+    expect(b.subCensusCode).toBe("02");
+    expect(a.subCensusCode).not.toBe(b.subCensusCode);
+  });
+
+  it("round-trips every ID back to the exact original 14 digits", () => {
+    const ids = [
+      ...compiled().records.map((r) => r.censusGovernmentId),
+      ...PROBE_IDS,
+    ];
+    for (const id of ids) {
+      const parts = decomposeGovernmentId(id);
+      expect(parts, id).not.toBeNull();
+      if (parts) expect(reconstructGovernmentId(parts)).toBe(id);
+    }
+    // The record's own stored components reconstruct its identity key too.
+    for (const r of probeCorpus().records) {
+      expect(
+        reconstructGovernmentId({
+          stateCensusCode: r.stateCensusCode,
+          governmentTypeCode: r.governmentTypeCode,
+          countyCensusCode: r.countyCensusCode,
+          unitCensusCode: r.unitCensusCode,
+          supplementCensusCode: r.supplementCensusCode,
+          subCensusCode: r.subCensusCode,
+        }),
+      ).toBe(r.censusGovernmentId);
+    }
+  });
+
+  it("introduces no ID collision: four distinct twins become four distinct records", () => {
+    const corpus = probeCorpus();
+    expect(corpus.records).toHaveLength(14); // 10 base + 4 probes
+    const probeRecords = corpus.records.filter((r) =>
+      PROBE_IDS.includes(r.censusGovernmentId),
+    );
+    expect(probeRecords).toHaveLength(4);
+    expect(new Set(probeRecords.map((r) => r.censusGovernmentId)).size).toBe(4);
+    // The corrected decomposition keeps the validator clean — no duplicate ID
+    // and no lossless-reconstruction failure.
+    expect(isClean(validateGovernmentUnitsCorpus(corpus))).toBe(true);
+  });
+
+  it("keeps every base record's supplement three digits and sub two digits", () => {
+    for (const r of compiled().records) {
+      expect(r.supplementCensusCode).toHaveLength(3);
+      expect(r.subCensusCode).toHaveLength(2);
+    }
+  });
+
+  it("keeps blank/unknown semantics honest for the probe rows", () => {
+    // The probe municipalities supply no place GEOID, so the place crosswalk is
+    // an honest UNKNOWN with no value key — the ID split changes nothing here.
+    for (const id of PROBE_IDS) {
+      const place = probe(id).crosswalk.censusPlace;
+      expect(place.state).toBe("UNKNOWN");
+      expect(place).not.toHaveProperty("value");
+    }
   });
 });

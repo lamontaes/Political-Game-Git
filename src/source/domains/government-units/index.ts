@@ -64,6 +64,7 @@ export {
   GOVERNMENT_TYPE_BY_LABEL,
   GOVERNMENT_UNIT_GID_PATTERN,
   decomposeGovernmentId,
+  reconstructGovernmentId,
   governmentTypeOf,
   isGovernmentId,
 } from "./identity";
@@ -81,7 +82,9 @@ export {
   GOVERNMENT_UNITS_PUBLIC_USE_PAGE,
 } from "./acquisition";
 
-export const GOVERNMENT_UNITS_COMPILER_VERSION = "1.0.0";
+// 1.1.0 splits the Census government ID's supplement code (positions 10-12) and
+// sub code (positions 13-14) into distinct fields; 1.0.0 collapsed them.
+export const GOVERNMENT_UNITS_COMPILER_VERSION = "1.1.0";
 export const GOVERNMENT_UNITS_PARSER_VERSION = "1.0.0";
 
 /**

@@ -228,6 +228,7 @@ export function normalizeGovernmentUnits(
       countyCensusCode: parts.countyCensusCode,
       unitCensusCode: parts.unitCensusCode,
       supplementCensusCode: parts.supplementCensusCode,
+      subCensusCode: parts.subCensusCode,
       governmentType,
       name,
       stateUsps,

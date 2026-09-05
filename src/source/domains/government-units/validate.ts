@@ -17,6 +17,7 @@ import {
   FORBIDDEN_GOVERNANCE_KEYS,
   GOVERNMENT_TYPE_BY_CODE,
   GOVERNMENT_UNIT_GID_PATTERN,
+  reconstructGovernmentId,
 } from "./identity";
 import type { GovernmentUnitCrosswalk, GovernmentUnitRecord } from "./types";
 
@@ -72,6 +73,25 @@ export function validateGovernmentUnitsCorpus(
         severity: "error",
         code: "government-units/type-code-detached-from-id",
         message: `${id} carries a governmentTypeCode of ${record.governmentTypeCode} that is not the ID's own type digit.`,
+        recordId: id,
+      });
+    }
+    // The decomposed components — including the distinct supplement (10-12) and
+    // sub (13-14) codes — must reconstruct the exact 14-digit identity key, so
+    // neither component can be truncated or merged into the other.
+    const reconstructed = reconstructGovernmentId({
+      stateCensusCode: record.stateCensusCode,
+      governmentTypeCode: record.governmentTypeCode,
+      countyCensusCode: record.countyCensusCode,
+      unitCensusCode: record.unitCensusCode,
+      supplementCensusCode: record.supplementCensusCode,
+      subCensusCode: record.subCensusCode,
+    });
+    if (reconstructed !== id) {
+      findings.push({
+        severity: "error",
+        code: "government-units/id-components-not-lossless",
+        message: `${id} does not reconstruct from its components (${reconstructed}); the supplement and sub codes must partition the ID exactly.`,
         recordId: id,
       });
     }
