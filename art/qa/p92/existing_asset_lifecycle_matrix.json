@@ -112,7 +112,7 @@
       "A_exists": true,
       "B_passed_intake": true,
       "C_released": false,
-      "runtime_eligibility": "none (candidates invisible; reviewable only via ?view=character-proof&set=real)",
+      "runtime_eligibility": "none (candidates invisible to the runtime library; reviewable via ?view=character-proof&set=real). NOTE: that proof route IS valid for this family precisely because these 35 derivatives ARE registered character-component-candidate records and therefore appear in CANDIDATE_REVIEW_CHARACTER_LIBRARY. It is NOT valid for the OCD p76 despilled bodies, which are not registered as candidates \u2014 see post_completion_independent_correction.",
       "blockers": [
         "HUMAN REJECTION (D-063): body masters are untextured gray geometry mannequins (RGB, no alpha), so every uncovered skin region renders gray; garment masters are unfitted design art. 'Both are answerable only by eye, and the answer is currently no.'",
         "HUMAN GATE (D-068): the two banked bodies' hips attachment anchors were measured around the lower abdomen (pg_body_ml_standing_v1 hips y 0.3479 vs pelvis root y 0.5396); coordinates are declared non-authoritative and must not be inherited or repaired."
