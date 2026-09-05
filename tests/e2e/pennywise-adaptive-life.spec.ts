@@ -1,5 +1,12 @@
 import { expect, test, type Page } from "@playwright/test";
 
+import {
+  enterLife,
+  fillCreator,
+  openElsewhere,
+  startLife as walkCreator,
+} from "./support/creator";
+
 /**
  * The wave, played in a browser.
  *
@@ -62,11 +69,11 @@ async function openSetup(
   age: number,
   calibration: "short" | "deep" | "skip",
 ) {
-  await page.getByTestId("new-game").click();
-  await expect(page.getByTestId("setup-screen")).toBeVisible();
-  await page.getByTestId("start-age").fill(String(age));
-  await page.getByTestId(`calibration-${calibration}`).click();
-  await page.getByTestId("begin").click();
+  await walkCreator(page, {
+    age,
+    calibration: calibration === "skip" ? "skipped" : calibration,
+  });
+  await enterLife(page);
 }
 
 /** Answers the whole calibration, taking the option at `index` each time. */
@@ -86,6 +93,9 @@ async function answerCalibration(page: Page, index: number, limit = 60) {
 
 /** Takes one decision on the story surface, whichever kind of beat it is. */
 async function takeOneBeat(page: Page, index = 0): Promise<string> {
+  // A life that has just finished its calibration opens on the family the
+  // generator wrote. Stepping past it here keeps every caller from having to.
+  await enterLife(page);
   const section = page.getByTestId("story-section");
   await expect(section).toBeVisible();
   const prose =
@@ -192,8 +202,7 @@ test.describe("The calibration is a set of situations, not a quiz", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await page.getByTestId("new-game").click();
-    await page.getByTestId("start-age").fill("31");
+    await fillCreator(page, { age: 31 });
     const deep = await page.getByTestId("calibration-deep").innerText();
     const short = await page.getByTestId("calibration-short").innerText();
     expect(short).toContain("5 situations");
@@ -238,10 +247,12 @@ test.describe("An adult has something to do, and it follows from their life", ()
     await freshBrowser(page);
     await openSetup(page, 37, "skip");
     await expect(page.getByTestId("story-section")).toBeVisible();
+    await openElsewhere(page, "day");
     await expect(page.getByTestId("ordinary-section")).toBeVisible();
     await expect(page.getByTestId("day-pending")).toBeVisible();
     // And the kitchen conversation, which is now one of several the day
     // offers rather than the single hard-wired panel it used to be.
+    await openElsewhere(page, "people");
     await expect(
       page.getByTestId("conversation-household-obligation"),
     ).toBeVisible();
@@ -338,30 +349,32 @@ test.describe("A life is kept, and comes back adapting the same way", () => {
     expect(afterJournal).not.toBe(beforeJournal);
   });
 
-  test("rebuilds a calibrated life exactly from a replay address", async ({
+  test("rebuilds exactly the life its replay address was taken from", async ({
     page,
   }) => {
+    // SUPERSEDED CLAIM, CORRECTED. This used to take the address before the
+    // calibration was answered and then assert that the answered life and the
+    // rebuilt one held the same person, on the rule that answers could never
+    // change who anybody is. Packet 77 retired that rule: a normal start
+    // generates the household and the calibration shapes it, so an address
+    // taken before the answers describes the game as it stood before them.
+    //
+    // The claim worth keeping is the one the address actually makes — that it
+    // rebuilds the game it came from — so the address is now taken from a
+    // setup that is complete when it is taken.
     await freshBrowser(page);
-    await page.getByTestId("new-game").click();
-    await page.getByTestId("start-age").fill("28");
-    await page.getByTestId("calibration-short").click();
-    // Taken from this setup screen, before the calibration is answered, which
-    // is the point of the test: the address carries the world half, so it
-    // rebuilds this same person whatever they went on to answer.
+    await fillCreator(page, { age: 28 });
     const replay = (
       (await page.getByTestId("setup-replay-link").textContent()) ?? ""
     ).trim();
     expect(replay).toContain("replay=");
 
     await page.getByTestId("begin").click();
-    await answerCalibration(page, 1);
     await expect(page.getByTestId("play-screen")).toBeVisible();
     const before = await page.getByTestId("play-screen").innerText();
 
     await page.goto(replay);
     await expect(page.getByTestId("play-screen")).toBeVisible();
-    // The same person in the same place — the calibration changes what is
-    // asked and offered, never who anybody is.
     const identity = before.split("\n").slice(0, 2).join("\n");
     expect(await page.getByTestId("play-screen").innerText()).toContain(
       identity,

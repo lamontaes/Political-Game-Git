@@ -1,4 +1,9 @@
 import { expect, test, type Page } from "@playwright/test";
+import {
+  enterLife,
+  openElsewhere,
+  startLife as walkCreator,
+} from "./support/creator";
 
 /**
  * Talking to somebody, in a browser.
@@ -39,18 +44,12 @@ async function freshBrowser(page: Page) {
 }
 
 async function startLife(page: Page, age: number, childhood = false) {
-  await page.getByTestId("new-game").click();
-  await expect(page.getByTestId("setup-screen")).toBeVisible();
-  await page.getByTestId("start-age").fill(String(age));
-  if (childhood) {
-    await page
-      .getByRole("button", { name: /Start in childhood/i })
-      .first()
-      .click();
-  }
-  await page.getByTestId("calibration-skip").click();
-  await page.getByTestId("begin").click();
+  await walkCreator(page, { age, childhood });
   await expect(page.getByTestId("play-screen")).toBeVisible();
+  // A life opens on its current moment now. The conversations this file is
+  // about are one press away rather than stacked under it.
+  await enterLife(page);
+  await openElsewhere(page, "people");
 }
 
 test.describe("A player can choose how loudly to speak, and to whom", () => {

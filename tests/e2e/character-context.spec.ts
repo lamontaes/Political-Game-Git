@@ -1,4 +1,9 @@
 import { expect, test, type Page } from "@playwright/test";
+import {
+  enterLife,
+  openCreator,
+  startLife as walkCreator,
+} from "./support/creator";
 
 /**
  * The Packet 72 findings, in a browser.
@@ -38,9 +43,17 @@ async function freshBrowser(page: Page) {
   await page.reload();
 }
 
+/** Stops on the character stage, which is where the identity assertions live. */
 async function openSetup(page: Page, age: number) {
-  await page.getByTestId("new-game").click();
-  await expect(page.getByTestId("setup-screen")).toBeVisible();
+  await openCreator(page);
+  await page.getByTestId("start-normal").click();
+  await page.getByTestId("place-search").fill("Kentu");
+  await page
+    .getByTestId("place-choices")
+    .getByRole("button", { name: /Kentucky/i })
+    .first()
+    .click();
+  await expect(page.getByTestId("creator-stage-character")).toBeVisible();
   await page.getByTestId("start-age").fill(String(age));
 }
 
@@ -80,31 +93,36 @@ test.describe("A player chooses who the character is", () => {
 });
 
 test.describe("A ten-year-old is asked a ten-year-old's questions", () => {
-  test("puts no adult decision in the five-question opening", async ({
+  test("opens a child's calibration on a child's three, then widens", async ({
     page,
   }) => {
+    // SUPERSEDED CLAIM, NARROWED. Packet 72 held that a ten-year-old start must
+    // see no adult decision anywhere in the opening, because a player who had
+    // just said "my character is ten" was asked about a furnace bill and the
+    // game read as having lost the plot. Packet 77 says the opposite about the
+    // wider bank: the calibration may put civic, moral and ordinary-life
+    // questions to a player whatever age their character starts at.
+    //
+    // What reconciles them is the addressee, and that is what is checked here:
+    // the screen says who is being asked, the first three still belong to the
+    // character's own register, and the questions after them are not confined
+    // to it.
     await freshBrowser(page);
-    await openSetup(page, 10);
-    await page.getByTestId("gender-female").click();
-    await page.getByTestId("calibration-short").click();
-    await page.getByTestId("begin").click();
+    await walkCreator(page, {
+      age: 10,
+      gender: "female",
+      calibration: "short",
+    });
     await expect(page.getByTestId("questionnaire-screen")).toBeVisible();
 
-    // What these questions are, said before the first one.
     await expect(page.getByTestId("questionnaire-framing")).toBeVisible();
     await expect(page.getByTestId("questionnaire-framing")).toContainText(
-      /about you, not about the character/i,
+      /put to you, not to your character/i,
     );
 
-    const seen: string[] = [];
+    const prompts: string[] = [];
     for (let asked = 0; asked < 5; asked += 1) {
-      const prompt = await page.getByTestId("questionnaire-prompt").innerText();
-      const options = await page
-        .getByTestId("questionnaire-options")
-        .innerText();
-      seen.push(prompt, options);
-      expect(prompt).not.toMatch(ADULT_AGENCY);
-      expect(options).not.toMatch(ADULT_AGENCY);
+      prompts.push(await page.getByTestId("questionnaire-prompt").innerText());
       await page
         .getByTestId("questionnaire-options")
         .getByRole("button")
@@ -112,19 +130,28 @@ test.describe("A ten-year-old is asked a ten-year-old's questions", () => {
         .click();
     }
 
-    // Five questions, and the same people running through them.
-    const all = seen.join("\n");
+    // The three openers are one life at that age, with the same people in
+    // them — which is a cast the questions themselves establish rather than a
+    // cast a player is expected to already know.
+    const opening = prompts.slice(0, 3).join("\n");
+    for (const line of prompts.slice(0, 3)) {
+      expect(line).not.toMatch(ADULT_AGENCY);
+    }
     const recurring = ["Dee", "Bea", "Theo", "Kenny", "Ms. Ruiz"].filter(
-      (name) => all.split(name).length - 1 > 1,
+      (name) => opening.includes(name),
     );
     expect(recurring.length).toBeGreaterThanOrEqual(2);
+
+    // And the calibration does not stay in a ten-year-old's house. Five
+    // questions drawn from ten childhood items was the shortage the second
+    // playtest ran into; the bank is open now.
+    expect(prompts).toHaveLength(5);
+    expect(new Set(prompts).size).toBe(5);
   });
 
   test("asks an adult the adult opening instead", async ({ page }) => {
     await freshBrowser(page);
-    await openSetup(page, 34);
-    await page.getByTestId("calibration-short").click();
-    await page.getByTestId("begin").click();
+    await walkCreator(page, { age: 34, calibration: "short" });
     await expect(page.getByTestId("questionnaire-prompt")).toContainText(
       /kitchen table/i,
     );
@@ -134,11 +161,10 @@ test.describe("A ten-year-old is asked a ten-year-old's questions", () => {
 test.describe("The page says whose life this is", () => {
   async function startLife(page: Page, age: number) {
     await freshBrowser(page);
-    await openSetup(page, age);
-    await page.getByTestId("gender-female").click();
-    await page.getByTestId("calibration-skip").click();
-    await page.getByTestId("begin").click();
+    await walkCreator(page, { age, gender: "female" });
     await expect(page.getByTestId("play-screen")).toBeVisible();
+    // The generated household is introduced before the first beat now.
+    await enterLife(page);
   }
 
   test("names the character, the date and the place before the scene", async ({
@@ -196,14 +222,22 @@ test.describe("The page says whose life this is", () => {
     await freshBrowser(page);
     await openSetup(page, 34);
     await page.getByTestId("gender-male").click();
+    await page.getByTestId("creator-continue-character").click();
+    await page.getByTestId("creator-continue-life").click();
     await page.getByTestId("calibration-skip").click();
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
+    await enterLife(page);
     const named = await page.getByTestId("story-who").innerText();
 
     await page.getByTestId("keep-world").click();
+    // Saving is asynchronous, and the control leaving is how the screen says
+    // it finished. Reloading before that raced the write; every sibling spec
+    // waits here, and this one did not.
+    await expect(page.getByTestId("keep-world")).toHaveCount(0);
     await page.reload();
     await page.getByTestId("continue").click();
+    // A loaded save has been introduced already, so it opens on the moment.
     await expect(page.getByTestId("story-who")).toHaveText(named);
   });
 });

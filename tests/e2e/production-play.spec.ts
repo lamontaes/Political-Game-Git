@@ -1,4 +1,10 @@
 import { expect, test, type Page } from "@playwright/test";
+import {
+  enterLife,
+  fillCreator,
+  openElsewhere,
+  startLife as walkCreator,
+} from "./support/creator";
 
 /**
  * The game, in a browser, on the route a player actually opens.
@@ -52,22 +58,13 @@ interface LifeSetup {
  * still a route a player takes.
  */
 async function startLife(page: Page, setup: LifeSetup) {
-  await page.getByTestId("new-game").click();
-  await expect(page.getByTestId("setup-screen")).toBeVisible();
-
-  if (setup.place) {
-    await page
-      .getByTestId("place-choices")
-      .getByRole("button", { name: new RegExp(setup.place, "i") })
-      .first()
-      .click();
-  }
-  await page.getByTestId("start-age").fill(String(setup.age));
-  if (setup.office) await page.getByTestId("office-start").click();
-  await page.getByTestId("calibration-skip").click();
-
-  await page.getByTestId("begin").click();
+  await walkCreator(page, {
+    age: setup.age,
+    ...(setup.place === undefined ? {} : { place: setup.place }),
+    ...(setup.office === undefined ? {} : { office: setup.office }),
+  });
   await expect(page.getByTestId("play-screen")).toBeVisible();
+  await enterLife(page);
 }
 
 /** Every page error, so "it rendered" is not mistaken for "it worked". */
@@ -134,13 +131,7 @@ test.describe("Opening the game opens a game", () => {
 
   test("rebuilds the exact world from a replay address", async ({ page }) => {
     await freshBrowser(page);
-    await page.getByTestId("new-game").click();
-    await page
-      .getByTestId("place-choices")
-      .getByRole("button", { name: /Nebraska/i })
-      .first()
-      .click();
-    await page.getByTestId("start-age").fill("24");
+    await fillCreator(page, { age: 24, place: "Nebraska" });
     await page.getByTestId("calibration-skip").click();
 
     // The link describes the setup on screen, which is the whole point: a bare
@@ -179,6 +170,10 @@ test.describe("A new life is not a renamed fixture", () => {
     await freshBrowser(page);
     await startLife(page, { age: 41 });
 
+    // The day is one press away rather than stacked under the moment, and
+    // Work is not in the row at all for somebody who does not work in one.
+    await expect(page.getByTestId("elsewhere-work")).toHaveCount(0);
+    await openElsewhere(page, "day");
     await expect(page.getByTestId("ordinary-section")).toBeVisible();
     await expect(page.getByTestId("office-section")).toHaveCount(0);
     // The surface is simply absent. It used to carry a line saying "This
@@ -197,6 +192,7 @@ test.describe("A new life is not a renamed fixture", () => {
     await freshBrowser(page);
     await startLife(page, { age: 34, place: "Kentucky", office: true });
 
+    await openElsewhere(page, "work");
     await expect(page.getByTestId("office-section")).toBeVisible();
     await page.getByTestId("open-legislation").click();
     await expect(page.getByTestId("legislation-workspace")).toBeVisible();
@@ -413,6 +409,7 @@ test.describe("What the world records, it keeps", () => {
   }) => {
     await freshBrowser(page);
     await startLife(page, { age: 36 });
+    await openElsewhere(page, "people");
     // A day now offers more than one conversation, so everything below is
     // scoped to the kitchen one rather than to whichever the page drew first.
     const kitchen = page.getByTestId("conversation-household-obligation");
@@ -433,6 +430,7 @@ test.describe("What the world records, it keeps", () => {
 
     await page.reload();
     await page.getByTestId("continue").click();
+    await openElsewhere(page, "people");
     // The conversation picks up where it was left, rather than reopening at
     // turn one because the screen forgot what the world remembered.
     await expect(
@@ -447,6 +445,7 @@ test.describe("What the world records, it keeps", () => {
   }) => {
     await freshBrowser(page);
     await startLife(page, { age: 38, place: "Kentucky", office: true });
+    await openElsewhere(page, "work");
     await page.getByTestId("open-legislation").click();
     await page.getByTestId("legislation-step-request-referral").click();
 
@@ -455,6 +454,7 @@ test.describe("What the world records, it keeps", () => {
 
     await page.reload();
     await page.getByTestId("continue").click();
+    await openElsewhere(page, "work");
     await page.getByTestId("open-legislation").click();
     // The bill is in the save, so it is where it was left rather than back at
     // the day it was filed.

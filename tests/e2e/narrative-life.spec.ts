@@ -1,4 +1,9 @@
 import { expect, test, type Page } from "@playwright/test";
+import {
+  enterLife,
+  openCreator,
+  startLife as walkCreator,
+} from "./support/creator";
 
 /**
  * The life-flow repair, played in a browser.
@@ -68,18 +73,9 @@ function watchForErrors(page: Page): string[] {
 }
 
 async function startLife(page: Page, age: number, childhood = false) {
-  await page.getByTestId("new-game").click();
-  await expect(page.getByTestId("setup-screen")).toBeVisible();
-  await page.getByTestId("start-age").fill(String(age));
-  if (childhood) {
-    await page
-      .getByRole("button", { name: /Start in childhood/i })
-      .first()
-      .click();
-  }
-  await page.getByTestId("calibration-skip").click();
-  await page.getByTestId("begin").click();
+  await walkCreator(page, { age, childhood });
   await expect(page.getByTestId("play-screen")).toBeVisible();
+  await enterLife(page);
 }
 
 interface Beat {
@@ -154,35 +150,52 @@ test.describe("The game opens as Our Civic Duty", () => {
 /* -------------------------------------------------------------------------- */
 
 test.describe("Setting up a life reads like a game, not a form", () => {
-  test("uses the natural labels and keeps the seed behind Advanced", async ({
+  test("opens one stage at a time instead of showing the whole form", async ({
     page,
   }) => {
+    // The second playtest's finding, made checkable. What it saw was every
+    // section at once on a blank page; what a player meets now is the first
+    // decision, standing in the room the title screen was standing in.
     await freshBrowser(page);
-    await page.getByTestId("new-game").click();
-    // Compared case-insensitively: the stylesheet uppercases section headings,
-    // and this test is about the words rather than about the letterforms.
-    const screen = (
-      await page.getByTestId("setup-screen").innerText()
-    ).toLowerCase();
+    await openCreator(page);
+    await expect(page.getByTestId("title-tableau")).toHaveAttribute(
+      "data-has-plate",
+      "true",
+    );
+    await expect(page.getByTestId("creator-stage-route")).toBeVisible();
+    for (const later of [
+      "creator-stage-place",
+      "creator-stage-character",
+      "creator-stage-life",
+      "creator-stage-calibration",
+    ]) {
+      await expect(page.getByTestId(later)).toHaveCount(0);
+    }
+    // And Begin is not a thing you can press before you have decided anything.
+    await expect(page.getByTestId("begin")).toBeDisabled();
 
-    for (const heading of [
-      "Choose a starting place",
-      "Your character",
-      "Starting age",
-      "How you want to begin",
-      "Your starting path",
-      "Who you live with",
-      "Before the story begins",
-    ]) {
-      expect(screen).toContain(heading.toLowerCase());
-    }
-    for (const gone of [
-      "doing what",
-      "how much to play",
-      "who else is at home",
-    ]) {
-      expect(screen).not.toContain(gone);
-    }
+    await page.getByTestId("start-normal").click();
+    await expect(page.getByTestId("creator-stage-place")).toBeVisible();
+    await expect(page.getByTestId("creator-stage-character")).toHaveCount(0);
+  });
+
+  test("names the two routes and says how they differ", async ({ page }) => {
+    await freshBrowser(page);
+    await openCreator(page);
+    const route = (
+      await page.getByTestId("creator-stage-route").innerText()
+    ).toLowerCase();
+    expect(route).toContain("normal start");
+    expect(route).toContain("custom start");
+    // The difference that matters, in the words a player reads: one has the
+    // game writing the family, and the calibration leaning it.
+    expect(route).toMatch(/the game writes the family/);
+    expect(route).toMatch(/does not touch who your family is/);
+  });
+
+  test("keeps the seed behind Advanced", async ({ page }) => {
+    await freshBrowser(page);
+    await openCreator(page);
     // The reproducibility details are a collapsed disclosure labelled Advanced,
     // not a paragraph of seed on the New Game screen.
     const advanced = page.getByTestId("setup-advanced");
@@ -191,14 +204,16 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     expect(await advanced.locator("summary").innerText()).toMatch(/advanced/i);
   });
 
-  test("lets a player search for a place, and says so when nothing matches", async ({
-    page,
-  }) => {
+  test("offers no place until one is searched for", async ({ page }) => {
+    // THE DEFAULT-CARD REPAIR. The four places the accepted data reaches used
+    // to be laid out unprompted, which made a limitation read as the game's
+    // four recommended starts — Lexington among them, which is never canonical.
+    // They are found now, not offered.
     await freshBrowser(page);
-    await page.getByTestId("new-game").click();
-    const choices = page.getByTestId("place-choices").getByRole("button");
-    const all = await choices.count();
-    expect(all).toBeGreaterThan(1);
+    await openCreator(page);
+    await page.getByTestId("start-normal").click();
+    await expect(page.getByTestId("place-choices")).toHaveCount(0);
+    await expect(page.getByTestId("place-prompt")).toBeVisible();
 
     await page.getByTestId("place-search").fill("nebra");
     await expect(
@@ -345,10 +360,7 @@ test.describe("The calibration opens a life", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await page.getByTestId("new-game").click();
-    await page.getByTestId("start-age").fill("30");
-    await page.getByTestId("calibration-deep").click();
-    await page.getByTestId("begin").click();
+    await walkCreator(page, { age: 30, calibration: "deep" });
 
     await expect(page.getByTestId("questionnaire-screen")).toBeVisible();
     const first = await page.getByTestId("questionnaire-prompt").innerText();
@@ -380,10 +392,7 @@ test.describe("The calibration opens a life", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await page.getByTestId("new-game").click();
-    await page.getByTestId("start-age").fill("30");
-    await page.getByTestId("calibration-deep").click();
-    await page.getByTestId("begin").click();
+    await walkCreator(page, { age: 30, calibration: "deep" });
 
     let asked = 0;
     const phases = new Set<string>();

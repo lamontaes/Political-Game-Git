@@ -135,6 +135,33 @@ const CARVED_OUT: readonly OwnedSurface[] = [
  * pose or a scene — the graphics carve-out below is untouched and still fails
  * this branch if it reaches for one.
  *
+ * Packet 77 adds five, and each one is a seam the packet named rather than a
+ * surface this wave decided to take:
+ *
+ *   `src/simulation/setup-generation-inputs.ts` — the one declared route from
+ *     a setup answer to world generation. The packet asks for it explicitly;
+ *     keeping it here rather than inside the generator is what makes "two
+ *     bounded leans and nothing else" a checkable claim.
+ *   `src/presentation/title-ambient.ts` — which released rooms the front door
+ *     drifts through, and which one is showing. It decides nothing about what
+ *     a scene is or how it is painted; it reads #86's registry and #86's
+ *     library and returns an index.
+ *   `src/player/TitleTableau.tsx` — three props: the room being replaced, the
+ *     viewer's motion preference, and a key that makes the arriving room
+ *     animate. #86 owns the component and keeps owning it; the caller decides
+ *     all three and nothing here learns what a cycle is.
+ *   `src/player/SceneBackdrop.tsx` — the component #86 itself asked for, in
+ *     `scene-consumers.ts`: "the seam is one <SceneBackdrop sceneId={...}>
+ *     around the existing section". It consumes the cover transform, the tier
+ *     ladder and the registry rather than reimplementing any of them.
+ *   `src/presentation/life-scene.ts` and `life-introduction.ts` are already
+ *     inside the `life-` prefix this wave owns, and are named here only so the
+ *     list of what Packet 77 added is in one place.
+ *
+ * None of it is a plate, a pose, a body family, an anchor or a camera. The
+ * carve-out list below is unchanged and still fails this branch the moment it
+ * reaches for one.
+ *
  * The #86 reconciliation adds one path: `src/player/TitleScreen.tsx`. #86
  * moved the title screen out of `PlayerGame.tsx` so the graphics lane could
  * give it a backdrop, and this branch had repaired the same screen's copy and
@@ -148,7 +175,7 @@ const CARVED_OUT: readonly OwnedSurface[] = [
  * decision stays #86's and the copy stays this wave's.
  */
 const OWNED =
-  /^(src\/simulation\/(narrative-threads|life-episodes|episode-bank|setup-opening-bank|setup-questionnaire|setup-questionnaire-bank|setup-priors|player-model|situation-selection|situation-profiles|adult-situations|life-callbacks|life-choice-evidence|commitment-seam|relationship-leverage|sha256|life-places|character-history|person-identity|person-context|voice-bands|setup-young-life-bank|people|world|types|index|boundary\.test|pennywise-adaptive-life\.test)\.ts|src\/presentation\/(life-|narrative-|adult-life|formative-play|ordinary-life|new-game|setup-questionnaire-flow|production-world|adaptive-life\.test|player-spine\.test|conversation-subjects|conversation-continuity|conversation-consequences|run-b-conversation|player-conversation)|src\/player\/PlayerGame\.tsx|src\/player\/PlayerConversation\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/player\.css|scripts\/life-report\.ts|tests\/|docs\/|ARCHITECTURE\.md|PATCH_NOTES\.md|AGENTS\.md|package\.json|package-lock\.json)/;
+  /^(src\/simulation\/(narrative-threads|life-episodes|episode-bank|setup-opening-bank|setup-questionnaire|setup-questionnaire-bank|setup-priors|player-model|situation-selection|situation-profiles|adult-situations|life-callbacks|life-choice-evidence|commitment-seam|relationship-leverage|sha256|life-places|character-history|person-identity|person-context|voice-bands|setup-young-life-bank|setup-generation-inputs|people|world|types|index|boundary\.test|pennywise-adaptive-life\.test)\.ts|src\/presentation\/(life-|narrative-|title-ambient|adult-life|formative-play|ordinary-life|new-game|setup-questionnaire-flow|production-world|adaptive-life\.test|player-spine\.test|conversation-subjects|conversation-continuity|conversation-consequences|run-b-conversation|player-conversation)|src\/player\/PlayerGame\.tsx|src\/player\/PlayerConversation\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/SceneBackdrop\.tsx|src\/player\/player\.css|scripts\/life-report\.ts|tests\/|docs\/|ARCHITECTURE\.md|PATCH_NOTES\.md|AGENTS\.md|package\.json|package-lock\.json)/;
 
 function measuredChanges(): readonly string[] {
   if (!hasCommit(REPOSITORY_ROOT, NARRATIVE_WAVE_BASE)) {
