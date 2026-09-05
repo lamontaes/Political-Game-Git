@@ -50,6 +50,8 @@
     "agent:preflight": "node scripts/agent-preflight.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",
     "stress:persons": "node --import tsx src/cli/stress-persons.ts",
+    "despill:edges": "node --import tsx scripts/art-asset-factory/cli-edge-despill.ts",
+    "measure:references": "node --import tsx scripts/art-asset-factory/cli-measure-references.ts",
     "report:life": "node --import tsx scripts/life-report.ts"
   },
   "dependencies": {

@@ -1,0 +1,4958 @@
+{
+  "tool": "p76-reference-measurement-v1",
+  "measured_on": "2026-09-04",
+  "note": "Measurement Cards read from the rasters this repository holds. Every field carries a confidence: MEASURED means an operation with no free parameters read it off the pixels; the estimate levels mean a heuristic did, and say which one. Nothing here identifies an object — a flat rectangle is reported as a flat rectangle, not as a whiteboard. Regenerate with `npm run measure:references`.",
+  "scenes": [
+    {
+      "file": "art/references/masters/scene-environment/OCD_CANDIDATE_SCENE_GENERIC_LEGISLATIVE_CHAMBER_FLOOR_5632x3072_01.jpg",
+      "container": "jpeg",
+      "width": 5632,
+      "height": 3072,
+      "aspectRatio": "11:6",
+      "horizonY": {
+        "value": {
+          "px": 1563,
+          "percent": 50.88
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Strongest horizontal luminance transition between 15% and 85% of frame height; it beats the next candidate by 1.04x margin. This is an illustration, not a perspective construction, so treat it as where the room reads as turning rather than as a projected horizon."
+      },
+      "floorRegion": {
+        "value": {
+          "x": 0,
+          "y": 1563,
+          "width": 5632,
+          "height": 1509
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Everything below the horizon reading. A bound on where a floor can be, not a walkable region: furniture and occluders are inside it."
+      },
+      "dynamicSurfaceCandidates": {
+        "value": [
+          {
+            "x": 816,
+            "y": 0,
+            "width": 1488,
+            "height": 480
+          },
+          {
+            "x": 0,
+            "y": 1152,
+            "width": 624,
+            "height": 432
+          },
+          {
+            "x": 3600,
+            "y": 2304,
+            "width": 816,
+            "height": 288
+          },
+          {
+            "x": 1824,
+            "y": 1920,
+            "width": 576,
+            "height": 384
+          },
+          {
+            "x": 4848,
+            "y": 192,
+            "width": 288,
+            "height": 720
+          },
+          {
+            "x": 1728,
+            "y": 2496,
+            "width": 672,
+            "height": 288
+          },
+          {
+            "x": 4080,
+            "y": 2640,
+            "width": 432,
+            "height": 432
+          },
+          {
+            "x": 2208,
+            "y": 2784,
+            "width": 624,
+            "height": 288
+          },
+          {
+            "x": 0,
+            "y": 96,
+            "width": 480,
+            "height": 288
+          },
+          {
+            "x": 4752,
+            "y": 2688,
+            "width": 336,
+            "height": 384
+          },
+          {
+            "x": 0,
+            "y": 2448,
+            "width": 192,
+            "height": 624
+          },
+          {
+            "x": 864,
+            "y": 2688,
+            "width": 384,
+            "height": 288
+          }
+        ],
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Contiguous blocks of low luminance variance, largest first. These are where a monitor, whiteboard, bulletin board or blank sign is likely to be, and therefore where nothing readable may be baked. The measurement finds flatness; it does not identify the object."
+      },
+      "characterZones": {
+        "value": {
+          "foreground": {
+            "x": 0,
+            "y": 2212,
+            "width": 5632,
+            "height": 860
+          },
+          "midground": {
+            "x": 0,
+            "y": 1563,
+            "width": 5632,
+            "height": 649
+          },
+          "background": {
+            "x": 0,
+            "y": 0,
+            "width": 5632,
+            "height": 1563
+          }
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Thirds of the floor region, offered as a starting frame for anchor authoring rather than as a measurement. Real anchors are authored against the plate by hand."
+      },
+      "cameraHeightClass": {
+        "value": "standing eye level",
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Read from where the horizon estimate falls in the frame."
+      },
+      "furnitureCount": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not derivable from pixels without object recognition. Count by eye against the acceptance checklist in the generation prompt."
+      },
+      "chairTableTopology": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Chair and table topology is the failure mode this project cares most about and the one a luminance measurement cannot see. It is a human check, specified as an acceptance list in the prompt rather than pretended here."
+      },
+      "standingAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires knowing where the floor is walkable, which needs the objects identified. Authored by hand against the plate."
+      },
+      "seatedAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires a visible seat plane, which needs the seats identified. Authored by hand against the plate."
+      },
+      "occluderBounds": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires foreground/background separation this raster does not carry."
+      }
+    },
+    {
+      "file": "art/references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_CANONICAL_03_5504x3072.jpg",
+      "container": "jpeg",
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "horizonY": {
+        "value": {
+          "px": 692,
+          "percent": 22.53
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Strongest horizontal luminance transition between 15% and 85% of frame height; it beats the next candidate by 1.00x margin. This is an illustration, not a perspective construction, so treat it as where the room reads as turning rather than as a projected horizon."
+      },
+      "floorRegion": {
+        "value": {
+          "x": 0,
+          "y": 692,
+          "width": 5504,
+          "height": 2380
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Everything below the horizon reading. A bound on where a floor can be, not a walkable region: furniture and occluders are inside it."
+      },
+      "dynamicSurfaceCandidates": {
+        "value": [
+          {
+            "x": 0,
+            "y": 1872,
+            "width": 5472,
+            "height": 1200
+          },
+          {
+            "x": 0,
+            "y": 0,
+            "width": 1728,
+            "height": 1872
+          },
+          {
+            "x": 1776,
+            "y": 528,
+            "width": 2592,
+            "height": 1248
+          },
+          {
+            "x": 4416,
+            "y": 0,
+            "width": 1056,
+            "height": 2400
+          },
+          {
+            "x": 912,
+            "y": 0,
+            "width": 4224,
+            "height": 480
+          },
+          {
+            "x": 3840,
+            "y": 768,
+            "width": 432,
+            "height": 960
+          },
+          {
+            "x": 144,
+            "y": 1536,
+            "width": 336,
+            "height": 960
+          },
+          {
+            "x": 3600,
+            "y": 1920,
+            "width": 624,
+            "height": 432
+          },
+          {
+            "x": 4416,
+            "y": 720,
+            "width": 144,
+            "height": 1056
+          },
+          {
+            "x": 2592,
+            "y": 1296,
+            "width": 480,
+            "height": 288
+          },
+          {
+            "x": 2880,
+            "y": 768,
+            "width": 384,
+            "height": 240
+          },
+          {
+            "x": 0,
+            "y": 1632,
+            "width": 96,
+            "height": 960
+          }
+        ],
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Contiguous blocks of low luminance variance, largest first. These are where a monitor, whiteboard, bulletin board or blank sign is likely to be, and therefore where nothing readable may be baked. The measurement finds flatness; it does not identify the object."
+      },
+      "characterZones": {
+        "value": {
+          "foreground": {
+            "x": 0,
+            "y": 2212,
+            "width": 5504,
+            "height": 860
+          },
+          "midground": {
+            "x": 0,
+            "y": 692,
+            "width": 5504,
+            "height": 1520
+          },
+          "background": {
+            "x": 0,
+            "y": 0,
+            "width": 5504,
+            "height": 692
+          }
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Thirds of the floor region, offered as a starting frame for anchor authoring rather than as a measurement. Real anchors are authored against the plate by hand."
+      },
+      "cameraHeightClass": {
+        "value": "high / looking down into the room",
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Read from where the horizon estimate falls in the frame."
+      },
+      "furnitureCount": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not derivable from pixels without object recognition. Count by eye against the acceptance checklist in the generation prompt."
+      },
+      "chairTableTopology": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Chair and table topology is the failure mode this project cares most about and the one a luminance measurement cannot see. It is a human check, specified as an acceptance list in the prompt rather than pretended here."
+      },
+      "standingAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires knowing where the floor is walkable, which needs the objects identified. Authored by hand against the plate."
+      },
+      "seatedAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires a visible seat plane, which needs the seats identified. Authored by hand against the plate."
+      },
+      "occluderBounds": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires foreground/background separation this raster does not carry."
+      }
+    },
+    {
+      "file": "art/references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_ORDINARY_02_5504x3072.jpg",
+      "container": "jpeg",
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "horizonY": {
+        "value": {
+          "px": 475,
+          "percent": 15.46
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Strongest horizontal luminance transition between 15% and 85% of frame height; it beats the next candidate by 2.57x margin. This is an illustration, not a perspective construction, so treat it as where the room reads as turning rather than as a projected horizon."
+      },
+      "floorRegion": {
+        "value": {
+          "x": 0,
+          "y": 475,
+          "width": 5504,
+          "height": 2597
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Everything below the horizon reading. A bound on where a floor can be, not a walkable region: furniture and occluders are inside it."
+      },
+      "dynamicSurfaceCandidates": {
+        "value": [
+          {
+            "x": 0,
+            "y": 0,
+            "width": 1728,
+            "height": 2736
+          },
+          {
+            "x": 1776,
+            "y": 480,
+            "width": 2544,
+            "height": 1344
+          },
+          {
+            "x": 4368,
+            "y": 0,
+            "width": 1104,
+            "height": 2640
+          },
+          {
+            "x": 1008,
+            "y": 0,
+            "width": 3888,
+            "height": 432
+          },
+          {
+            "x": 3168,
+            "y": 2400,
+            "width": 1824,
+            "height": 672
+          },
+          {
+            "x": 4368,
+            "y": 2016,
+            "width": 1104,
+            "height": 1056
+          },
+          {
+            "x": 3264,
+            "y": 1872,
+            "width": 1056,
+            "height": 912
+          },
+          {
+            "x": 912,
+            "y": 2352,
+            "width": 960,
+            "height": 720
+          },
+          {
+            "x": 2496,
+            "y": 2160,
+            "width": 720,
+            "height": 912
+          },
+          {
+            "x": 288,
+            "y": 2064,
+            "width": 960,
+            "height": 624
+          },
+          {
+            "x": 1584,
+            "y": 2400,
+            "width": 912,
+            "height": 480
+          },
+          {
+            "x": 4800,
+            "y": 528,
+            "width": 288,
+            "height": 1392
+          }
+        ],
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Contiguous blocks of low luminance variance, largest first. These are where a monitor, whiteboard, bulletin board or blank sign is likely to be, and therefore where nothing readable may be baked. The measurement finds flatness; it does not identify the object."
+      },
+      "characterZones": {
+        "value": {
+          "foreground": {
+            "x": 0,
+            "y": 2212,
+            "width": 5504,
+            "height": 860
+          },
+          "midground": {
+            "x": 0,
+            "y": 475,
+            "width": 5504,
+            "height": 1737
+          },
+          "background": {
+            "x": 0,
+            "y": 0,
+            "width": 5504,
+            "height": 475
+          }
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Thirds of the floor region, offered as a starting frame for anchor authoring rather than as a measurement. Real anchors are authored against the plate by hand."
+      },
+      "cameraHeightClass": {
+        "value": "high / looking down into the room",
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Read from where the horizon estimate falls in the frame."
+      },
+      "furnitureCount": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not derivable from pixels without object recognition. Count by eye against the acceptance checklist in the generation prompt."
+      },
+      "chairTableTopology": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Chair and table topology is the failure mode this project cares most about and the one a luminance measurement cannot see. It is a human check, specified as an acceptance list in the prompt rather than pretended here."
+      },
+      "standingAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires knowing where the floor is walkable, which needs the objects identified. Authored by hand against the plate."
+      },
+      "seatedAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires a visible seat plane, which needs the seats identified. Authored by hand against the plate."
+      },
+      "occluderBounds": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires foreground/background separation this raster does not carry."
+      }
+    },
+    {
+      "file": "art/references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_STARTER_01_1376x768.png",
+      "container": "png",
+      "width": 1376,
+      "height": 768,
+      "aspectRatio": "43:24",
+      "horizonY": {
+        "value": {
+          "px": 404,
+          "percent": 52.6
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Strongest horizontal luminance transition between 15% and 85% of frame height; it beats the next candidate by 1.14x margin. This is an illustration, not a perspective construction, so treat it as where the room reads as turning rather than as a projected horizon."
+      },
+      "floorRegion": {
+        "value": {
+          "x": 0,
+          "y": 404,
+          "width": 1376,
+          "height": 364
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Everything below the horizon reading. A bound on where a floor can be, not a walkable region: furniture and occluders are inside it."
+      },
+      "dynamicSurfaceCandidates": {
+        "value": [
+          {
+            "x": 0,
+            "y": 0,
+            "width": 624,
+            "height": 768
+          },
+          {
+            "x": 416,
+            "y": 0,
+            "width": 960,
+            "height": 496
+          },
+          {
+            "x": 864,
+            "y": 528,
+            "width": 480,
+            "height": 240
+          },
+          {
+            "x": 224,
+            "y": 0,
+            "width": 896,
+            "height": 128
+          },
+          {
+            "x": 368,
+            "y": 544,
+            "width": 512,
+            "height": 160
+          },
+          {
+            "x": 1168,
+            "y": 112,
+            "width": 96,
+            "height": 416
+          },
+          {
+            "x": 1312,
+            "y": 304,
+            "width": 64,
+            "height": 416
+          },
+          {
+            "x": 1216,
+            "y": 256,
+            "width": 48,
+            "height": 224
+          },
+          {
+            "x": 752,
+            "y": 464,
+            "width": 112,
+            "height": 80
+          },
+          {
+            "x": 1040,
+            "y": 528,
+            "width": 80,
+            "height": 112
+          },
+          {
+            "x": 992,
+            "y": 384,
+            "width": 80,
+            "height": 96
+          },
+          {
+            "x": 592,
+            "y": 240,
+            "width": 64,
+            "height": 64
+          }
+        ],
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Contiguous blocks of low luminance variance, largest first. These are where a monitor, whiteboard, bulletin board or blank sign is likely to be, and therefore where nothing readable may be baked. The measurement finds flatness; it does not identify the object."
+      },
+      "characterZones": {
+        "value": {
+          "foreground": {
+            "x": 0,
+            "y": 553,
+            "width": 1376,
+            "height": 215
+          },
+          "midground": {
+            "x": 0,
+            "y": 404,
+            "width": 1376,
+            "height": 149
+          },
+          "background": {
+            "x": 0,
+            "y": 0,
+            "width": 1376,
+            "height": 404
+          }
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Thirds of the floor region, offered as a starting frame for anchor authoring rather than as a measurement. Real anchors are authored against the plate by hand."
+      },
+      "cameraHeightClass": {
+        "value": "standing eye level",
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Read from where the horizon estimate falls in the frame."
+      },
+      "furnitureCount": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not derivable from pixels without object recognition. Count by eye against the acceptance checklist in the generation prompt."
+      },
+      "chairTableTopology": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Chair and table topology is the failure mode this project cares most about and the one a luminance measurement cannot see. It is a human check, specified as an acceptance list in the prompt rather than pretended here."
+      },
+      "standingAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires knowing where the floor is walkable, which needs the objects identified. Authored by hand against the plate."
+      },
+      "seatedAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires a visible seat plane, which needs the seats identified. Authored by hand against the plate."
+      },
+      "occluderBounds": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires foreground/background separation this raster does not carry."
+      }
+    },
+    {
+      "file": "art/references/masters/scene-environment/OCD_SCENE_MASTER_CIVIC_HEARING_ROOM_5504x3072_01.jpg",
+      "container": "jpeg",
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "horizonY": {
+        "value": {
+          "px": 1273,
+          "percent": 41.44
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Strongest horizontal luminance transition between 15% and 85% of frame height; it beats the next candidate by 1.34x margin. This is an illustration, not a perspective construction, so treat it as where the room reads as turning rather than as a projected horizon."
+      },
+      "floorRegion": {
+        "value": {
+          "x": 0,
+          "y": 1273,
+          "width": 5504,
+          "height": 1799
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Everything below the horizon reading. A bound on where a floor can be, not a walkable region: furniture and occluders are inside it."
+      },
+      "dynamicSurfaceCandidates": {
+        "value": [
+          {
+            "x": 2736,
+            "y": 0,
+            "width": 2448,
+            "height": 1344
+          },
+          {
+            "x": 2928,
+            "y": 432,
+            "width": 1824,
+            "height": 720
+          },
+          {
+            "x": 0,
+            "y": 0,
+            "width": 816,
+            "height": 1392
+          },
+          {
+            "x": 1056,
+            "y": 48,
+            "width": 624,
+            "height": 1296
+          },
+          {
+            "x": 1776,
+            "y": 1872,
+            "width": 1008,
+            "height": 480
+          },
+          {
+            "x": 288,
+            "y": 288,
+            "width": 672,
+            "height": 672
+          },
+          {
+            "x": 1392,
+            "y": 288,
+            "width": 624,
+            "height": 432
+          },
+          {
+            "x": 5232,
+            "y": 288,
+            "width": 240,
+            "height": 1056
+          },
+          {
+            "x": 0,
+            "y": 1440,
+            "width": 816,
+            "height": 288
+          },
+          {
+            "x": 624,
+            "y": 2064,
+            "width": 432,
+            "height": 480
+          },
+          {
+            "x": 3024,
+            "y": 2784,
+            "width": 720,
+            "height": 288
+          },
+          {
+            "x": 2208,
+            "y": 480,
+            "width": 240,
+            "height": 768
+          }
+        ],
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Contiguous blocks of low luminance variance, largest first. These are where a monitor, whiteboard, bulletin board or blank sign is likely to be, and therefore where nothing readable may be baked. The measurement finds flatness; it does not identify the object."
+      },
+      "characterZones": {
+        "value": {
+          "foreground": {
+            "x": 0,
+            "y": 2212,
+            "width": 5504,
+            "height": 860
+          },
+          "midground": {
+            "x": 0,
+            "y": 1273,
+            "width": 5504,
+            "height": 939
+          },
+          "background": {
+            "x": 0,
+            "y": 0,
+            "width": 5504,
+            "height": 1273
+          }
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Thirds of the floor region, offered as a starting frame for anchor authoring rather than as a measurement. Real anchors are authored against the plate by hand."
+      },
+      "cameraHeightClass": {
+        "value": "standing eye level",
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Read from where the horizon estimate falls in the frame."
+      },
+      "furnitureCount": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not derivable from pixels without object recognition. Count by eye against the acceptance checklist in the generation prompt."
+      },
+      "chairTableTopology": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Chair and table topology is the failure mode this project cares most about and the one a luminance measurement cannot see. It is a human check, specified as an acceptance list in the prompt rather than pretended here."
+      },
+      "standingAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires knowing where the floor is walkable, which needs the objects identified. Authored by hand against the plate."
+      },
+      "seatedAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires a visible seat plane, which needs the seats identified. Authored by hand against the plate."
+      },
+      "occluderBounds": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires foreground/background separation this raster does not carry."
+      }
+    },
+    {
+      "file": "art/references/masters/scene-environment/OCD_SCENE_MASTER_COURTROOM_EMPTY_5504x3072_01.jpg",
+      "container": "jpeg",
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "horizonY": {
+        "value": {
+          "px": 1345,
+          "percent": 43.78
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Strongest horizontal luminance transition between 15% and 85% of frame height; it beats the next candidate by 1.03x margin. This is an illustration, not a perspective construction, so treat it as where the room reads as turning rather than as a projected horizon."
+      },
+      "floorRegion": {
+        "value": {
+          "x": 0,
+          "y": 1345,
+          "width": 5504,
+          "height": 1727
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Everything below the horizon reading. A bound on where a floor can be, not a walkable region: furniture and occluders are inside it."
+      },
+      "dynamicSurfaceCandidates": {
+        "value": [
+          {
+            "x": 1872,
+            "y": 1920,
+            "width": 1152,
+            "height": 672
+          },
+          {
+            "x": 3216,
+            "y": 2064,
+            "width": 864,
+            "height": 864
+          },
+          {
+            "x": 4608,
+            "y": 336,
+            "width": 864,
+            "height": 816
+          },
+          {
+            "x": 4560,
+            "y": 2112,
+            "width": 720,
+            "height": 864
+          },
+          {
+            "x": 3456,
+            "y": 336,
+            "width": 480,
+            "height": 816
+          },
+          {
+            "x": 1872,
+            "y": 2352,
+            "width": 768,
+            "height": 384
+          },
+          {
+            "x": 4272,
+            "y": 0,
+            "width": 192,
+            "height": 1152
+          },
+          {
+            "x": 336,
+            "y": 0,
+            "width": 192,
+            "height": 1104
+          },
+          {
+            "x": 1392,
+            "y": 2496,
+            "width": 336,
+            "height": 576
+          },
+          {
+            "x": 1872,
+            "y": 2736,
+            "width": 576,
+            "height": 336
+          },
+          {
+            "x": 3408,
+            "y": 2784,
+            "width": 672,
+            "height": 288
+          },
+          {
+            "x": 3072,
+            "y": 1728,
+            "width": 528,
+            "height": 336
+          }
+        ],
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Contiguous blocks of low luminance variance, largest first. These are where a monitor, whiteboard, bulletin board or blank sign is likely to be, and therefore where nothing readable may be baked. The measurement finds flatness; it does not identify the object."
+      },
+      "characterZones": {
+        "value": {
+          "foreground": {
+            "x": 0,
+            "y": 2212,
+            "width": 5504,
+            "height": 860
+          },
+          "midground": {
+            "x": 0,
+            "y": 1345,
+            "width": 5504,
+            "height": 867
+          },
+          "background": {
+            "x": 0,
+            "y": 0,
+            "width": 5504,
+            "height": 1345
+          }
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Thirds of the floor region, offered as a starting frame for anchor authoring rather than as a measurement. Real anchors are authored against the plate by hand."
+      },
+      "cameraHeightClass": {
+        "value": "standing eye level",
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Read from where the horizon estimate falls in the frame."
+      },
+      "furnitureCount": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not derivable from pixels without object recognition. Count by eye against the acceptance checklist in the generation prompt."
+      },
+      "chairTableTopology": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Chair and table topology is the failure mode this project cares most about and the one a luminance measurement cannot see. It is a human check, specified as an acceptance list in the prompt rather than pretended here."
+      },
+      "standingAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires knowing where the floor is walkable, which needs the objects identified. Authored by hand against the plate."
+      },
+      "seatedAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires a visible seat plane, which needs the seats identified. Authored by hand against the plate."
+      },
+      "occluderBounds": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires foreground/background separation this raster does not carry."
+      }
+    },
+    {
+      "file": "art/references/masters/scene-environment/OCD_SCENE_MASTER_EXECUTIVE_PRIVATE_OFFICE_1672x941_01.png",
+      "container": "png",
+      "width": 1672,
+      "height": 941,
+      "aspectRatio": "1672:941",
+      "horizonY": {
+        "value": {
+          "px": 674,
+          "percent": 71.63
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Strongest horizontal luminance transition between 15% and 85% of frame height; it beats the next candidate by 1.02x margin. This is an illustration, not a perspective construction, so treat it as where the room reads as turning rather than as a projected horizon."
+      },
+      "floorRegion": {
+        "value": {
+          "x": 0,
+          "y": 674,
+          "width": 1672,
+          "height": 267
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Everything below the horizon reading. A bound on where a floor can be, not a walkable region: furniture and occluders are inside it."
+      },
+      "dynamicSurfaceCandidates": {
+        "value": [
+          {
+            "x": 608,
+            "y": 0,
+            "width": 288,
+            "height": 400
+          },
+          {
+            "x": 640,
+            "y": 688,
+            "width": 576,
+            "height": 192
+          },
+          {
+            "x": 1216,
+            "y": 736,
+            "width": 320,
+            "height": 192
+          },
+          {
+            "x": 1344,
+            "y": 0,
+            "width": 288,
+            "height": 208
+          },
+          {
+            "x": 192,
+            "y": 768,
+            "width": 320,
+            "height": 160
+          },
+          {
+            "x": 1456,
+            "y": 560,
+            "width": 208,
+            "height": 160
+          },
+          {
+            "x": 640,
+            "y": 864,
+            "width": 368,
+            "height": 64
+          },
+          {
+            "x": 544,
+            "y": 576,
+            "width": 224,
+            "height": 96
+          },
+          {
+            "x": 1504,
+            "y": 816,
+            "width": 160,
+            "height": 112
+          },
+          {
+            "x": 912,
+            "y": 32,
+            "width": 48,
+            "height": 336
+          },
+          {
+            "x": 560,
+            "y": 448,
+            "width": 144,
+            "height": 112
+          },
+          {
+            "x": 544,
+            "y": 32,
+            "width": 32,
+            "height": 352
+          }
+        ],
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Contiguous blocks of low luminance variance, largest first. These are where a monitor, whiteboard, bulletin board or blank sign is likely to be, and therefore where nothing readable may be baked. The measurement finds flatness; it does not identify the object."
+      },
+      "characterZones": {
+        "value": {
+          "foreground": {
+            "x": 0,
+            "y": 678,
+            "width": 1672,
+            "height": 263
+          },
+          "midground": {
+            "x": 0,
+            "y": 674,
+            "width": 1672,
+            "height": 4
+          },
+          "background": {
+            "x": 0,
+            "y": 0,
+            "width": 1672,
+            "height": 674
+          }
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Thirds of the floor region, offered as a starting frame for anchor authoring rather than as a measurement. Real anchors are authored against the plate by hand."
+      },
+      "cameraHeightClass": {
+        "value": "low / near seated eye level",
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Read from where the horizon estimate falls in the frame."
+      },
+      "furnitureCount": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not derivable from pixels without object recognition. Count by eye against the acceptance checklist in the generation prompt."
+      },
+      "chairTableTopology": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Chair and table topology is the failure mode this project cares most about and the one a luminance measurement cannot see. It is a human check, specified as an acceptance list in the prompt rather than pretended here."
+      },
+      "standingAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires knowing where the floor is walkable, which needs the objects identified. Authored by hand against the plate."
+      },
+      "seatedAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires a visible seat plane, which needs the seats identified. Authored by hand against the plate."
+      },
+      "occluderBounds": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires foreground/background separation this raster does not carry."
+      }
+    },
+    {
+      "file": "art/references/masters/scene-environment/OCD_SCENE_MASTER_SHARED_WORKROOM_OFFICE_5504x3072_01.jpg",
+      "container": "jpeg",
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "horizonY": {
+        "value": {
+          "px": 1355,
+          "percent": 44.11
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Strongest horizontal luminance transition between 15% and 85% of frame height; it beats the next candidate by 1.03x margin. This is an illustration, not a perspective construction, so treat it as where the room reads as turning rather than as a projected horizon."
+      },
+      "floorRegion": {
+        "value": {
+          "x": 0,
+          "y": 1355,
+          "width": 5504,
+          "height": 1717
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Everything below the horizon reading. A bound on where a floor can be, not a walkable region: furniture and occluders are inside it."
+      },
+      "dynamicSurfaceCandidates": {
+        "value": [
+          {
+            "x": 3600,
+            "y": 192,
+            "width": 1872,
+            "height": 1296
+          },
+          {
+            "x": 4080,
+            "y": 672,
+            "width": 1392,
+            "height": 816
+          },
+          {
+            "x": 3984,
+            "y": 1488,
+            "width": 1488,
+            "height": 624
+          },
+          {
+            "x": 2352,
+            "y": 672,
+            "width": 912,
+            "height": 768
+          },
+          {
+            "x": 0,
+            "y": 0,
+            "width": 528,
+            "height": 1248
+          },
+          {
+            "x": 576,
+            "y": 768,
+            "width": 768,
+            "height": 528
+          },
+          {
+            "x": 1584,
+            "y": 864,
+            "width": 720,
+            "height": 480
+          },
+          {
+            "x": 384,
+            "y": 1584,
+            "width": 336,
+            "height": 528
+          },
+          {
+            "x": 480,
+            "y": 2832,
+            "width": 528,
+            "height": 240
+          },
+          {
+            "x": 4608,
+            "y": 1728,
+            "width": 432,
+            "height": 288
+          },
+          {
+            "x": 528,
+            "y": 2640,
+            "width": 480,
+            "height": 240
+          },
+          {
+            "x": 3984,
+            "y": 1728,
+            "width": 384,
+            "height": 288
+          }
+        ],
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Contiguous blocks of low luminance variance, largest first. These are where a monitor, whiteboard, bulletin board or blank sign is likely to be, and therefore where nothing readable may be baked. The measurement finds flatness; it does not identify the object."
+      },
+      "characterZones": {
+        "value": {
+          "foreground": {
+            "x": 0,
+            "y": 2212,
+            "width": 5504,
+            "height": 860
+          },
+          "midground": {
+            "x": 0,
+            "y": 1355,
+            "width": 5504,
+            "height": 857
+          },
+          "background": {
+            "x": 0,
+            "y": 0,
+            "width": 5504,
+            "height": 1355
+          }
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Thirds of the floor region, offered as a starting frame for anchor authoring rather than as a measurement. Real anchors are authored against the plate by hand."
+      },
+      "cameraHeightClass": {
+        "value": "standing eye level",
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Read from where the horizon estimate falls in the frame."
+      },
+      "furnitureCount": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not derivable from pixels without object recognition. Count by eye against the acceptance checklist in the generation prompt."
+      },
+      "chairTableTopology": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Chair and table topology is the failure mode this project cares most about and the one a luminance measurement cannot see. It is a human check, specified as an acceptance list in the prompt rather than pretended here."
+      },
+      "standingAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires knowing where the floor is walkable, which needs the objects identified. Authored by hand against the plate."
+      },
+      "seatedAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires a visible seat plane, which needs the seats identified. Authored by hand against the plate."
+      },
+      "occluderBounds": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires foreground/background separation this raster does not carry."
+      }
+    },
+    {
+      "file": "art/references/masters/scene-environment/PG_TITLE_BG_COMMUNITY_MEETING_HERO_SLOT_02_5504x3072.png",
+      "container": "png",
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "horizonY": {
+        "value": {
+          "px": 1049,
+          "percent": 34.15
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Strongest horizontal luminance transition between 15% and 85% of frame height; it beats the next candidate by 1.07x margin. This is an illustration, not a perspective construction, so treat it as where the room reads as turning rather than as a projected horizon."
+      },
+      "floorRegion": {
+        "value": {
+          "x": 0,
+          "y": 1049,
+          "width": 5504,
+          "height": 2023
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Everything below the horizon reading. A bound on where a floor can be, not a walkable region: furniture and occluders are inside it."
+      },
+      "dynamicSurfaceCandidates": {
+        "value": [
+          {
+            "x": 1968,
+            "y": 0,
+            "width": 2496,
+            "height": 1008
+          },
+          {
+            "x": 0,
+            "y": 0,
+            "width": 1824,
+            "height": 1056
+          },
+          {
+            "x": 0,
+            "y": 1584,
+            "width": 1440,
+            "height": 1200
+          },
+          {
+            "x": 4512,
+            "y": 0,
+            "width": 960,
+            "height": 768
+          },
+          {
+            "x": 2256,
+            "y": 2640,
+            "width": 1248,
+            "height": 432
+          },
+          {
+            "x": 1680,
+            "y": 1392,
+            "width": 288,
+            "height": 1488
+          },
+          {
+            "x": 3504,
+            "y": 1920,
+            "width": 768,
+            "height": 528
+          },
+          {
+            "x": 720,
+            "y": 1104,
+            "width": 720,
+            "height": 384
+          },
+          {
+            "x": 1488,
+            "y": 1392,
+            "width": 144,
+            "height": 1440
+          },
+          {
+            "x": 2064,
+            "y": 2448,
+            "width": 528,
+            "height": 336
+          },
+          {
+            "x": 4656,
+            "y": 1584,
+            "width": 480,
+            "height": 288
+          },
+          {
+            "x": 4128,
+            "y": 2832,
+            "width": 576,
+            "height": 240
+          }
+        ],
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Contiguous blocks of low luminance variance, largest first. These are where a monitor, whiteboard, bulletin board or blank sign is likely to be, and therefore where nothing readable may be baked. The measurement finds flatness; it does not identify the object."
+      },
+      "characterZones": {
+        "value": {
+          "foreground": {
+            "x": 0,
+            "y": 2212,
+            "width": 5504,
+            "height": 860
+          },
+          "midground": {
+            "x": 0,
+            "y": 1049,
+            "width": 5504,
+            "height": 1163
+          },
+          "background": {
+            "x": 0,
+            "y": 0,
+            "width": 5504,
+            "height": 1049
+          }
+        },
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Thirds of the floor region, offered as a starting frame for anchor authoring rather than as a measurement. Real anchors are authored against the plate by hand."
+      },
+      "cameraHeightClass": {
+        "value": "standing eye level",
+        "confidence": "WEAK_VISUAL_ESTIMATE",
+        "note": "Read from where the horizon estimate falls in the frame."
+      },
+      "furnitureCount": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not derivable from pixels without object recognition. Count by eye against the acceptance checklist in the generation prompt."
+      },
+      "chairTableTopology": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Chair and table topology is the failure mode this project cares most about and the one a luminance measurement cannot see. It is a human check, specified as an acceptance list in the prompt rather than pretended here."
+      },
+      "standingAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires knowing where the floor is walkable, which needs the objects identified. Authored by hand against the plate."
+      },
+      "seatedAnchors": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires a visible seat plane, which needs the seats identified. Authored by hand against the plate."
+      },
+      "occluderBounds": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Requires foreground/background separation this raster does not carry."
+      }
+    }
+  ],
+  "figures": [
+    {
+      "file": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_conversational_left_v1.png",
+      "width": 908,
+      "height": 1638,
+      "hasRealAlpha": true,
+      "readsAsFigure": true,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 780,
+          "height": 1510
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1573,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1510,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 92.19,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 727,
+          "width": 700
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": 452,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "First row at or below the neck reaching 92% of the widest span in the 15% of figure height beneath it. A raised arm or a wide sleeve moves it."
+      },
+      "headHeightPx": {
+        "value": 258,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Crown to the narrowest row in the band 6% to 20% of figure height below it, read as the neck."
+      },
+      "headsTall": {
+        "value": 5.85,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Figure height over head height, accepted only inside the 3.5 to 10 range a human figure occupies."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": {
+          "crown": {
+            "x": 0.4994,
+            "y": 0.0391
+          },
+          "head": {
+            "x": 0.4994,
+            "y": 0.1178
+          },
+          "torso": {
+            "x": 0.4994,
+            "y": 0.2759
+          },
+          "hips": {
+            "x": 0.4994,
+            "y": 0.5184
+          },
+          "feet": {
+            "x": 0.4994,
+            "y": 0.9603
+          }
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "A STARTING POINT ONLY. D-068 requires a production body's anchors to be measured from the raster that actually ships, by a human who can see where a waistband sits. `hips` in particular has been placed on the abdomen before, which hangs every trouser off the wrong line — these numbers must be reviewed, not adopted."
+      },
+      "softEdgeGreenPercent": {
+        "value": 69.08,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_gesture_forward_v1.png",
+      "width": 826,
+      "height": 1630,
+      "hasRealAlpha": true,
+      "readsAsFigure": true,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 698,
+          "height": 1502
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1565,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1502,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 92.15,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 726,
+          "width": 681
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": 450,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "First row at or below the neck reaching 92% of the widest span in the 15% of figure height beneath it. A raised arm or a wide sleeve moves it."
+      },
+      "headHeightPx": {
+        "value": 260,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Crown to the narrowest row in the band 6% to 20% of figure height below it, read as the neck."
+      },
+      "headsTall": {
+        "value": 5.78,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Figure height over head height, accepted only inside the 3.5 to 10 range a human figure occupies."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": {
+          "crown": {
+            "x": 0.4994,
+            "y": 0.0393
+          },
+          "head": {
+            "x": 0.4994,
+            "y": 0.119
+          },
+          "torso": {
+            "x": 0.4994,
+            "y": 0.2761
+          },
+          "hips": {
+            "x": 0.4994,
+            "y": 0.5184
+          },
+          "feet": {
+            "x": 0.4994,
+            "y": 0.9601
+          }
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "A STARTING POINT ONLY. D-068 requires a production body's anchors to be measured from the raster that actually ships, by a human who can see where a waistband sits. `hips` in particular has been placed on the abdomen before, which hangs every trouser off the wrong line — these numbers must be reviewed, not adopted."
+      },
+      "softEdgeGreenPercent": {
+        "value": 77.73,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_front_v1.png",
+      "width": 859,
+      "height": 1641,
+      "hasRealAlpha": true,
+      "readsAsFigure": true,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 731,
+          "height": 1513
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1576,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1513,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 92.2,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 969,
+          "width": 638
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": 449,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "First row at or below the neck reaching 92% of the widest span in the 15% of figure height beneath it. A raised arm or a wide sleeve moves it."
+      },
+      "headHeightPx": {
+        "value": 264,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Crown to the narrowest row in the band 6% to 20% of figure height below it, read as the neck."
+      },
+      "headsTall": {
+        "value": 5.73,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Figure height over head height, accepted only inside the 3.5 to 10 range a human figure occupies."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": {
+          "crown": {
+            "x": 0.4994,
+            "y": 0.039
+          },
+          "head": {
+            "x": 0.4994,
+            "y": 0.1194
+          },
+          "torso": {
+            "x": 0.4994,
+            "y": 0.2736
+          },
+          "hips": {
+            "x": 0.4994,
+            "y": 0.5184
+          },
+          "feet": {
+            "x": 0.4994,
+            "y": 0.9604
+          }
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "A STARTING POINT ONLY. D-068 requires a production body's anchors to be measured from the raster that actually ships, by a human who can see where a waistband sits. `hips` in particular has been placed on the abdomen before, which hangs every trouser off the wrong line — these numbers must be reviewed, not adopted."
+      },
+      "softEdgeGreenPercent": {
+        "value": 79.75,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_three_quarter_v1.png",
+      "width": 817,
+      "height": 1603,
+      "hasRealAlpha": true,
+      "readsAsFigure": true,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 689,
+          "height": 1475
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1538,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1475,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 92.01,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 929,
+          "width": 604
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": 446,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "First row at or below the neck reaching 92% of the widest span in the 15% of figure height beneath it. A raised arm or a wide sleeve moves it."
+      },
+      "headHeightPx": {
+        "value": 249,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Crown to the narrowest row in the band 6% to 20% of figure height below it, read as the neck."
+      },
+      "headsTall": {
+        "value": 5.92,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Figure height over head height, accepted only inside the 3.5 to 10 range a human figure occupies."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": {
+          "crown": {
+            "x": 0.4994,
+            "y": 0.0399
+          },
+          "head": {
+            "x": 0.4994,
+            "y": 0.1176
+          },
+          "torso": {
+            "x": 0.4994,
+            "y": 0.2782
+          },
+          "hips": {
+            "x": 0.4994,
+            "y": 0.5184
+          },
+          "feet": {
+            "x": 0.4994,
+            "y": 0.9595
+          }
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "A STARTING POINT ONLY. D-068 requires a production body's anchors to be measured from the raster that actually ships, by a human who can see where a waistband sits. `hips` in particular has been placed on the abdomen before, which hangs every trouser off the wrong line — these numbers must be reviewed, not adopted."
+      },
+      "softEdgeGreenPercent": {
+        "value": 74.81,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_a_v1.png",
+      "width": 864,
+      "height": 1705,
+      "hasRealAlpha": true,
+      "readsAsFigure": true,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 736,
+          "height": 1577
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1640,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1577,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 92.49,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 552,
+          "width": 728
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": 495,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "First row at or below the neck reaching 92% of the widest span in the 15% of figure height beneath it. A raised arm or a wide sleeve moves it."
+      },
+      "headHeightPx": {
+        "value": 237,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Crown to the narrowest row in the band 6% to 20% of figure height below it, read as the neck."
+      },
+      "headsTall": {
+        "value": 6.65,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Figure height over head height, accepted only inside the 3.5 to 10 range a human figure occupies."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": {
+          "crown": {
+            "x": 0.4994,
+            "y": 0.0375
+          },
+          "head": {
+            "x": 0.4994,
+            "y": 0.107
+          },
+          "torso": {
+            "x": 0.4994,
+            "y": 0.2903
+          },
+          "hips": {
+            "x": 0.4994,
+            "y": 0.5185
+          },
+          "feet": {
+            "x": 0.4994,
+            "y": 0.9619
+          }
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "A STARTING POINT ONLY. D-068 requires a production body's anchors to be measured from the raster that actually ships, by a human who can see where a waistband sits. `hips` in particular has been placed on the abdomen before, which hangs every trouser off the wrong line — these numbers must be reviewed, not adopted."
+      },
+      "softEdgeGreenPercent": {
+        "value": 66.78,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_b_v1.png",
+      "width": 827,
+      "height": 1728,
+      "hasRealAlpha": true,
+      "readsAsFigure": true,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 699,
+          "height": 1600
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1663,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1600,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 92.59,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 666,
+          "width": 678
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": 451,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "First row at or below the neck reaching 92% of the widest span in the 15% of figure height beneath it. A raised arm or a wide sleeve moves it."
+      },
+      "headHeightPx": {
+        "value": 230,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Crown to the narrowest row in the band 6% to 20% of figure height below it, read as the neck."
+      },
+      "headsTall": {
+        "value": 6.96,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Figure height over head height, accepted only inside the 3.5 to 10 range a human figure occupies."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": {
+          "crown": {
+            "x": 0.4994,
+            "y": 0.037
+          },
+          "head": {
+            "x": 0.4994,
+            "y": 0.1036
+          },
+          "torso": {
+            "x": 0.4994,
+            "y": 0.261
+          },
+          "hips": {
+            "x": 0.4994,
+            "y": 0.5185
+          },
+          "feet": {
+            "x": 0.4994,
+            "y": 0.9624
+          }
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "A STARTING POINT ONLY. D-068 requires a production body's anchors to be measured from the raster that actually ships, by a human who can see where a waistband sits. `hips` in particular has been placed on the abdomen before, which hangs every trouser off the wrong line — these numbers must be reviewed, not adopted."
+      },
+      "softEdgeGreenPercent": {
+        "value": 68.77,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_a_v1.png",
+      "width": 892,
+      "height": 1703,
+      "hasRealAlpha": true,
+      "readsAsFigure": true,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 764,
+          "height": 1575
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1638,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1575,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 92.48,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 870,
+          "width": 764
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": 454,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "First row at or below the neck reaching 92% of the widest span in the 15% of figure height beneath it. A raised arm or a wide sleeve moves it."
+      },
+      "headHeightPx": {
+        "value": 220,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Crown to the narrowest row in the band 6% to 20% of figure height below it, read as the neck."
+      },
+      "headsTall": {
+        "value": 7.16,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Figure height over head height, accepted only inside the 3.5 to 10 range a human figure occupies."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": {
+          "crown": {
+            "x": 0.4994,
+            "y": 0.0376
+          },
+          "head": {
+            "x": 0.4994,
+            "y": 0.1022
+          },
+          "torso": {
+            "x": 0.4994,
+            "y": 0.2666
+          },
+          "hips": {
+            "x": 0.4994,
+            "y": 0.5185
+          },
+          "feet": {
+            "x": 0.4994,
+            "y": 0.9618
+          }
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "A STARTING POINT ONLY. D-068 requires a production body's anchors to be measured from the raster that actually ships, by a human who can see where a waistband sits. `hips` in particular has been placed on the abdomen before, which hangs every trouser off the wrong line — these numbers must be reviewed, not adopted."
+      },
+      "softEdgeGreenPercent": {
+        "value": 68.92,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_b_v1.png",
+      "width": 830,
+      "height": 1704,
+      "hasRealAlpha": true,
+      "readsAsFigure": true,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 702,
+          "height": 1576
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1639,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1576,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 92.49,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 883,
+          "width": 701
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": 452,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "First row at or below the neck reaching 92% of the widest span in the 15% of figure height beneath it. A raised arm or a wide sleeve moves it."
+      },
+      "headHeightPx": {
+        "value": 231,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Crown to the narrowest row in the band 6% to 20% of figure height below it, read as the neck."
+      },
+      "headsTall": {
+        "value": 6.82,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Figure height over head height, accepted only inside the 3.5 to 10 range a human figure occupies."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": {
+          "crown": {
+            "x": 0.4994,
+            "y": 0.0376
+          },
+          "head": {
+            "x": 0.4994,
+            "y": 0.1053
+          },
+          "torso": {
+            "x": 0.4994,
+            "y": 0.2653
+          },
+          "hips": {
+            "x": 0.4994,
+            "y": 0.5185
+          },
+          "feet": {
+            "x": 0.4994,
+            "y": 0.9619
+          }
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "A STARTING POINT ONLY. D-068 requires a production body's anchors to be measured from the raster that actually ships, by a human who can see where a waistband sits. `hips` in particular has been placed on the abdomen before, which hangs every trouser off the wrong line — these numbers must be reviewed, not adopted."
+      },
+      "softEdgeGreenPercent": {
+        "value": 67.18,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_conversational_left_v1.png",
+      "width": 908,
+      "height": 1638,
+      "hasRealAlpha": true,
+      "readsAsFigure": true,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 780,
+          "height": 1510
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1573,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1510,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 92.19,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 727,
+          "width": 700
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": 452,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "First row at or below the neck reaching 92% of the widest span in the 15% of figure height beneath it. A raised arm or a wide sleeve moves it."
+      },
+      "headHeightPx": {
+        "value": 258,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Crown to the narrowest row in the band 6% to 20% of figure height below it, read as the neck."
+      },
+      "headsTall": {
+        "value": 5.85,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Figure height over head height, accepted only inside the 3.5 to 10 range a human figure occupies."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": {
+          "crown": {
+            "x": 0.4994,
+            "y": 0.0391
+          },
+          "head": {
+            "x": 0.4994,
+            "y": 0.1178
+          },
+          "torso": {
+            "x": 0.4994,
+            "y": 0.2759
+          },
+          "hips": {
+            "x": 0.4994,
+            "y": 0.5184
+          },
+          "feet": {
+            "x": 0.4994,
+            "y": 0.9603
+          }
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "A STARTING POINT ONLY. D-068 requires a production body's anchors to be measured from the raster that actually ships, by a human who can see where a waistband sits. `hips` in particular has been placed on the abdomen before, which hangs every trouser off the wrong line — these numbers must be reviewed, not adopted."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_gesture_forward_v1.png",
+      "width": 826,
+      "height": 1630,
+      "hasRealAlpha": true,
+      "readsAsFigure": true,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 698,
+          "height": 1502
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1565,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1502,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 92.15,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 726,
+          "width": 681
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": 450,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "First row at or below the neck reaching 92% of the widest span in the 15% of figure height beneath it. A raised arm or a wide sleeve moves it."
+      },
+      "headHeightPx": {
+        "value": 260,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Crown to the narrowest row in the band 6% to 20% of figure height below it, read as the neck."
+      },
+      "headsTall": {
+        "value": 5.78,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Figure height over head height, accepted only inside the 3.5 to 10 range a human figure occupies."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": {
+          "crown": {
+            "x": 0.4994,
+            "y": 0.0393
+          },
+          "head": {
+            "x": 0.4994,
+            "y": 0.119
+          },
+          "torso": {
+            "x": 0.4994,
+            "y": 0.2761
+          },
+          "hips": {
+            "x": 0.4994,
+            "y": 0.5184
+          },
+          "feet": {
+            "x": 0.4994,
+            "y": 0.9601
+          }
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "A STARTING POINT ONLY. D-068 requires a production body's anchors to be measured from the raster that actually ships, by a human who can see where a waistband sits. `hips` in particular has been placed on the abdomen before, which hangs every trouser off the wrong line — these numbers must be reviewed, not adopted."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_front_v1.png",
+      "width": 859,
+      "height": 1641,
+      "hasRealAlpha": true,
+      "readsAsFigure": true,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 731,
+          "height": 1513
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1576,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1513,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 92.2,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 969,
+          "width": 638
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": 449,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "First row at or below the neck reaching 92% of the widest span in the 15% of figure height beneath it. A raised arm or a wide sleeve moves it."
+      },
+      "headHeightPx": {
+        "value": 264,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Crown to the narrowest row in the band 6% to 20% of figure height below it, read as the neck."
+      },
+      "headsTall": {
+        "value": 5.73,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Figure height over head height, accepted only inside the 3.5 to 10 range a human figure occupies."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": {
+          "crown": {
+            "x": 0.4994,
+            "y": 0.039
+          },
+          "head": {
+            "x": 0.4994,
+            "y": 0.1194
+          },
+          "torso": {
+            "x": 0.4994,
+            "y": 0.2736
+          },
+          "hips": {
+            "x": 0.4994,
+            "y": 0.5184
+          },
+          "feet": {
+            "x": 0.4994,
+            "y": 0.9604
+          }
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "A STARTING POINT ONLY. D-068 requires a production body's anchors to be measured from the raster that actually ships, by a human who can see where a waistband sits. `hips` in particular has been placed on the abdomen before, which hangs every trouser off the wrong line — these numbers must be reviewed, not adopted."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_three_quarter_v1.png",
+      "width": 817,
+      "height": 1603,
+      "hasRealAlpha": true,
+      "readsAsFigure": true,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 689,
+          "height": 1475
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1538,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1475,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 92.01,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 929,
+          "width": 604
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": 446,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "First row at or below the neck reaching 92% of the widest span in the 15% of figure height beneath it. A raised arm or a wide sleeve moves it."
+      },
+      "headHeightPx": {
+        "value": 249,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Crown to the narrowest row in the band 6% to 20% of figure height below it, read as the neck."
+      },
+      "headsTall": {
+        "value": 5.92,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Figure height over head height, accepted only inside the 3.5 to 10 range a human figure occupies."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": {
+          "crown": {
+            "x": 0.4994,
+            "y": 0.0399
+          },
+          "head": {
+            "x": 0.4994,
+            "y": 0.1176
+          },
+          "torso": {
+            "x": 0.4994,
+            "y": 0.2782
+          },
+          "hips": {
+            "x": 0.4994,
+            "y": 0.5184
+          },
+          "feet": {
+            "x": 0.4994,
+            "y": 0.9595
+          }
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "A STARTING POINT ONLY. D-068 requires a production body's anchors to be measured from the raster that actually ships, by a human who can see where a waistband sits. `hips` in particular has been placed on the abdomen before, which hangs every trouser off the wrong line — these numbers must be reviewed, not adopted."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_conversational_a_v1.png",
+      "width": 864,
+      "height": 1705,
+      "hasRealAlpha": true,
+      "readsAsFigure": true,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 736,
+          "height": 1577
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1640,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1577,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 92.49,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 552,
+          "width": 728
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": 495,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "First row at or below the neck reaching 92% of the widest span in the 15% of figure height beneath it. A raised arm or a wide sleeve moves it."
+      },
+      "headHeightPx": {
+        "value": 237,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Crown to the narrowest row in the band 6% to 20% of figure height below it, read as the neck."
+      },
+      "headsTall": {
+        "value": 6.65,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Figure height over head height, accepted only inside the 3.5 to 10 range a human figure occupies."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": {
+          "crown": {
+            "x": 0.4994,
+            "y": 0.0375
+          },
+          "head": {
+            "x": 0.4994,
+            "y": 0.107
+          },
+          "torso": {
+            "x": 0.4994,
+            "y": 0.2903
+          },
+          "hips": {
+            "x": 0.4994,
+            "y": 0.5185
+          },
+          "feet": {
+            "x": 0.4994,
+            "y": 0.9619
+          }
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "A STARTING POINT ONLY. D-068 requires a production body's anchors to be measured from the raster that actually ships, by a human who can see where a waistband sits. `hips` in particular has been placed on the abdomen before, which hangs every trouser off the wrong line — these numbers must be reviewed, not adopted."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_conversational_b_v1.png",
+      "width": 827,
+      "height": 1728,
+      "hasRealAlpha": true,
+      "readsAsFigure": true,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 699,
+          "height": 1600
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1663,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1600,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 92.59,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 666,
+          "width": 678
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": 451,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "First row at or below the neck reaching 92% of the widest span in the 15% of figure height beneath it. A raised arm or a wide sleeve moves it."
+      },
+      "headHeightPx": {
+        "value": 230,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Crown to the narrowest row in the band 6% to 20% of figure height below it, read as the neck."
+      },
+      "headsTall": {
+        "value": 6.96,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Figure height over head height, accepted only inside the 3.5 to 10 range a human figure occupies."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": {
+          "crown": {
+            "x": 0.4994,
+            "y": 0.037
+          },
+          "head": {
+            "x": 0.4994,
+            "y": 0.1036
+          },
+          "torso": {
+            "x": 0.4994,
+            "y": 0.261
+          },
+          "hips": {
+            "x": 0.4994,
+            "y": 0.5185
+          },
+          "feet": {
+            "x": 0.4994,
+            "y": 0.9624
+          }
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "A STARTING POINT ONLY. D-068 requires a production body's anchors to be measured from the raster that actually ships, by a human who can see where a waistband sits. `hips` in particular has been placed on the abdomen before, which hangs every trouser off the wrong line — these numbers must be reviewed, not adopted."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_neutral_a_v1.png",
+      "width": 892,
+      "height": 1703,
+      "hasRealAlpha": true,
+      "readsAsFigure": true,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 764,
+          "height": 1575
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1638,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1575,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 92.48,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 870,
+          "width": 764
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": 454,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "First row at or below the neck reaching 92% of the widest span in the 15% of figure height beneath it. A raised arm or a wide sleeve moves it."
+      },
+      "headHeightPx": {
+        "value": 220,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Crown to the narrowest row in the band 6% to 20% of figure height below it, read as the neck."
+      },
+      "headsTall": {
+        "value": 7.16,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Figure height over head height, accepted only inside the 3.5 to 10 range a human figure occupies."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": {
+          "crown": {
+            "x": 0.4994,
+            "y": 0.0376
+          },
+          "head": {
+            "x": 0.4994,
+            "y": 0.1022
+          },
+          "torso": {
+            "x": 0.4994,
+            "y": 0.2666
+          },
+          "hips": {
+            "x": 0.4994,
+            "y": 0.5185
+          },
+          "feet": {
+            "x": 0.4994,
+            "y": 0.9618
+          }
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "A STARTING POINT ONLY. D-068 requires a production body's anchors to be measured from the raster that actually ships, by a human who can see where a waistband sits. `hips` in particular has been placed on the abdomen before, which hangs every trouser off the wrong line — these numbers must be reviewed, not adopted."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_neutral_b_v1.png",
+      "width": 830,
+      "height": 1704,
+      "hasRealAlpha": true,
+      "readsAsFigure": true,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 702,
+          "height": 1576
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1639,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1576,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 92.49,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 883,
+          "width": 701
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": 452,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "First row at or below the neck reaching 92% of the widest span in the 15% of figure height beneath it. A raised arm or a wide sleeve moves it."
+      },
+      "headHeightPx": {
+        "value": 231,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Crown to the narrowest row in the band 6% to 20% of figure height below it, read as the neck."
+      },
+      "headsTall": {
+        "value": 6.82,
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "Figure height over head height, accepted only inside the 3.5 to 10 range a human figure occupies."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": {
+          "crown": {
+            "x": 0.4994,
+            "y": 0.0376
+          },
+          "head": {
+            "x": 0.4994,
+            "y": 0.1053
+          },
+          "torso": {
+            "x": 0.4994,
+            "y": 0.2653
+          },
+          "hips": {
+            "x": 0.4994,
+            "y": 0.5185
+          },
+          "feet": {
+            "x": 0.4994,
+            "y": 0.9619
+          }
+        },
+        "confidence": "STRONG_VISUAL_ESTIMATE",
+        "note": "A STARTING POINT ONLY. D-068 requires a production body's anchors to be measured from the raster that actually ships, by a human who can see where a waistband sits. `hips` in particular has been placed on the abdomen before, which hangs every trouser off the wrong line — these numbers must be reviewed, not adopted."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_deep_oval_adult_v1.png",
+      "width": 806,
+      "height": 1158,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 678,
+          "height": 1030
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1093,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1030,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 88.95,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 478,
+          "width": 678
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.6 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_deep_round_young_v1.png",
+      "width": 817,
+      "height": 1157,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 689,
+          "height": 1029
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1092,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1029,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 88.94,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 484,
+          "width": 689
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.6 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_deep_square_adult_masc_v1.png",
+      "width": 800,
+      "height": 1161,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 672,
+          "height": 1033
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1096,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1033,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 88.98,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 480,
+          "width": 672
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.7 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_light_long_older_v1.png",
+      "width": 810,
+      "height": 1156,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 682,
+          "height": 1028
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1091,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1028,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 88.93,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 492,
+          "width": 682
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.6 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_light_oval_young_fem_v1.png",
+      "width": 801,
+      "height": 1156,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 673,
+          "height": 1028
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1091,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1028,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 88.93,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 485,
+          "width": 673
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.6 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_light_oval_young_v1.png",
+      "width": 819,
+      "height": 1157,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 691,
+          "height": 1029
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1092,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1029,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 88.94,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 498,
+          "width": 691
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.6 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_light_square_older_lined_v1.png",
+      "width": 849,
+      "height": 1158,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 721,
+          "height": 1030
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1093,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1030,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 88.95,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 500,
+          "width": 721
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.6 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_light_square_older_masc_v1.png",
+      "width": 832,
+      "height": 1156,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 704,
+          "height": 1028
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1091,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1028,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 88.93,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 490,
+          "width": 704
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.6 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_olive_oval_adult_v1.png",
+      "width": 800,
+      "height": 1162,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 672,
+          "height": 1034
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1097,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1034,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 88.98,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 475,
+          "width": 672
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.7 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_tan_oval_adult_fem_v1.png",
+      "width": 830,
+      "height": 1160,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 702,
+          "height": 1032
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1095,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1032,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 88.97,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 482,
+          "width": 702
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.6 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_tan_round_young_v1.png",
+      "width": 822,
+      "height": 1165,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 694,
+          "height": 1037
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1100,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1037,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 89.01,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 489,
+          "width": 694
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.7 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/heads/ocd_head_adult_tan_square_adult_masc_v1.png",
+      "width": 814,
+      "height": 1161,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 686,
+          "height": 1033
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 1096,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 1033,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 88.98,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 496,
+          "width": 686
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.7 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_black_cap_toe_oxford_v1.png",
+      "width": 1199,
+      "height": 739,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 1071,
+          "height": 611
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 674,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 611,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 82.68,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 459,
+          "width": 1067
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.5 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_blue_running_shoe_v1.png",
+      "width": 1167,
+      "height": 789,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 1039,
+          "height": 661
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 724,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 661,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 83.78,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 460,
+          "width": 1039
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.5 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_brown_penny_loafer_v1.png",
+      "width": 1179,
+      "height": 740,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 1051,
+          "height": 612
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 675,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 612,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 82.7,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 457,
+          "width": 1049
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.5 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_brown_strap_sandal_v1.png",
+      "width": 1183,
+      "height": 791,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 1055,
+          "height": 663
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 726,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 663,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 83.82,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 464,
+          "width": 1052
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.6 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_green_ballet_flat_v1.png",
+      "width": 1181,
+      "height": 760,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 1053,
+          "height": 632
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 695,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 632,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 83.16,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 417,
+          "width": 1044
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.6 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_grey_court_sneaker_v1.png",
+      "width": 1168,
+      "height": 759,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 1040,
+          "height": 631
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 694,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 631,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 83.14,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 419,
+          "width": 1038
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.6 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_grey_low_block_heel_v1.png",
+      "width": 1183,
+      "height": 799,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 1055,
+          "height": 671
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 734,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 671,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 83.98,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 494,
+          "width": 1041
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.8 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_navy_canvas_plimsoll_v1.png",
+      "width": 1172,
+      "height": 742,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 1044,
+          "height": 614
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 677,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 614,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 82.75,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 413,
+          "width": 1044
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.6 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_olive_hiking_boot_v1.png",
+      "width": 1178,
+      "height": 1060,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 1050,
+          "height": 932
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 995,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 932,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 87.92,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 715,
+          "width": 1050
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.6 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_plum_mid_block_heel_v1.png",
+      "width": 1164,
+      "height": 776,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 1036,
+          "height": 648
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 711,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 648,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 83.51,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 498,
+          "width": 1004
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.6 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_tan_work_boot_v1.png",
+      "width": 1180,
+      "height": 985,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 1052,
+          "height": 857
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 920,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 857,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 87.01,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 649,
+          "width": 1052
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.8 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    },
+    {
+      "file": "art/generated/candidates/ocd-p71/footwear/ocd_footwear_taupe_chukka_boot_v1.png",
+      "width": 1208,
+      "height": 981,
+      "hasRealAlpha": true,
+      "readsAsFigure": false,
+      "figureBox": {
+        "value": {
+          "x": 64,
+          "y": 64,
+          "width": 1080,
+          "height": 853
+        },
+        "confidence": "MEASURED",
+        "note": "Tight alpha bounds at alpha > 8."
+      },
+      "crownY": {
+        "value": 64,
+        "confidence": "MEASURED",
+        "note": "Topmost row carrying alpha."
+      },
+      "soleY": {
+        "value": 916,
+        "confidence": "MEASURED",
+        "note": "Bottommost row carrying alpha."
+      },
+      "figureHeightPx": {
+        "value": 853,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds."
+      },
+      "figureHeightPercentOfCanvas": {
+        "value": 86.95,
+        "confidence": "MEASURED",
+        "note": "Alpha bounds against the canvas."
+      },
+      "widestRow": {
+        "value": {
+          "y": 602,
+          "width": 1080
+        },
+        "confidence": "MEASURED",
+        "note": "Row with the greatest opaque span. On a gesturing pose this is an arm, not the body."
+      },
+      "shoulderY": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no shoulder line to find."
+      },
+      "headHeightPx": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: no head to measure."
+      },
+      "headsTall": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: the neck reading gives 16.7 heads tall, outside the plausible 3.5 to 10 range. This asset is measured as a shape, not as a body."
+      },
+      "clearance": {
+        "value": {
+          "left": 64,
+          "right": 64,
+          "top": 64,
+          "bottom": 64
+        },
+        "confidence": "MEASURED",
+        "note": "Transparent margin around the figure box."
+      },
+      "semanticAnchorRecommendations": {
+        "value": null,
+        "confidence": "UNKNOWN",
+        "note": "Not a figure: semantic body anchors do not apply."
+      },
+      "softEdgeGreenPercent": {
+        "value": 0,
+        "confidence": "MEASURED",
+        "note": "Green-dominant share of pixels at alpha 32..200, the same metric source-sheet-chop.ts reports."
+      }
+    }
+  ]
+}

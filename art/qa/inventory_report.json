@@ -1,5 +1,5 @@
 {
-  "totalItems": 168,
+  "totalItems": 176,
   "items": [
     {
       "filePath": "families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
@@ -512,6 +512,38 @@
     {
       "filePath": "generated/candidates/ocd-p71/heads/ocd_head_adult_tan_square_adult_masc_v1.png",
       "hash": "2471c9feaa131f7b836622b30d23e6939939fc516e1df3ce7217620f78052df3"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_conversational_left_v1.png",
+      "hash": "442fe28e13742e6e3f152c77bde0b04c57c4675bc5e5ccbd9c904a66a6f40e15"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_gesture_forward_v1.png",
+      "hash": "002d60e76ffd2e86a286c6111eabbe5b3ecde5c85d3a5bed81c2ba026013d76e"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_front_v1.png",
+      "hash": "99784955898472f1801124e3dba0911043ddc7e663e6e9397ef5075c737d982b"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_three_quarter_v1.png",
+      "hash": "bc2b3c0750c1f894010bbf5f5fff492c9185989496103dd6712927bcbfa99c79"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_conversational_a_v1.png",
+      "hash": "0f109bdef229104fe16ec139125a32e87c5979223e0d83cab3671967a7e366cc"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_conversational_b_v1.png",
+      "hash": "7f7b653efec871fd25448e79a68bbd4cea67358226a4530432bedd43edfeb371"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_neutral_a_v1.png",
+      "hash": "192820a8fe1fec3b36583a6c87c2e45cbc8ceb1d2fe479960a191f986c6aaa9b"
+    },
+    {
+      "filePath": "generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_neutral_b_v1.png",
+      "hash": "01761f913049bb3814b22a87361675e86cd085779fed1a6c7e235b8108bb276b"
     },
     {
       "filePath": "references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png",
