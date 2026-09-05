@@ -1913,3 +1913,57 @@ per-morphology art say so by name — front-on footwear, because the gap is
 viewpoint; child and adolescent bodies, because a child is not a scaled adult and
 no measured evidence of proportional compatibility exists; and any pairing that
 fails the bounds.
+
+## D-075 — An arm is measured from the alpha that contains it, and the part the alpha does not contain is reported occluded rather than estimated
+
+- Date: 2026-09-04
+- Status: ACCEPTED
+- Supersedes: none
+
+D-074 left sleeves open because its fixtures are armless and nothing in the
+repository had measured an arm. Three arm representations already existed —
+the pose registry's nominal shoulder / elbow / wrist / hand landmarks, derived
+from fixture geometry in a nominal canvas; `measureBodyRig`, which finds rows
+and no arms; and fixture arms drawn as polygons fused to the torso — and none
+of them is a reading of the body that ships.
+
+`arm-measure.ts` is that reading, and the decision is what it refuses to read.
+Where an arm hangs clear of the torso the row carries a separate opaque run,
+both edges are silhouette edges, and the segment's axis, wrist and
+cross-sections come from pixels. Where the arm lies against the torso the row
+is one run; its outer edge is a silhouette edge and its inner edge is a painted
+line, which is colour, and this contract does not read colour. Those rows are
+fused, and every inner measurement over them is `occluded` — not estimated
+from proportion, not borrowed from the other side, not borrowed from the pose
+registry.
+
+Every value carries one of five statuses and an evidence class. `measured` is
+a reading; `partially-measured` locates a region and not a joint — an elbow on
+the outer contour is on the skin, not at the joint centre, and says so;
+`ambiguous` means the silhouette was read and did not decide; `occluded` and
+`unavailable` carry no value at all. Sides are image sides, measured
+independently and never mirrored. Pose is part of the key, and the sleeve
+readiness gate refuses to compare across poses unless a caller declares them
+compatible.
+
+The measurement is deliberately strict about slices. A forearm carried across
+the body joins the torso along its upper rows, and a slice that climbs into
+those rows is declared fused even where both of the forearm's edges are
+visible, because on those rows the alpha holds one run and nothing in it says
+which pixels are forearm. That arm is reported occluded rather than measured
+from a guess about where the torso ends.
+
+What the bodies say: a hanging arm on the two real production candidates and
+the heavy Packet 71 body is measurable from the elbow down; the upper arm is
+fused on every body in the repository; every seated hands-on-thighs arm is
+occluded. So no sleeve transform is derived. A transform anchored on an
+occluded upper arm and a partially-measured elbow is the guess this decision
+exists to refuse, and the evidence names the generation that would change
+that: a lean and a heavy body in the same pose with arms held clear.
+
+Consequence: `art/qa/arm-measurements/` holds a report and overlays regenerated
+by test from the rasters; the pose registry's nominal landmarks stay control
+geometry and are shown beside the measurement as deviations; `assessSleeveFitReadiness`
+fails closed for fifteen of sixteen pairings and returns ratios, never a
+transform, for the one it passes. The runtime, the compositor, every component
+and every fit profile are unchanged.

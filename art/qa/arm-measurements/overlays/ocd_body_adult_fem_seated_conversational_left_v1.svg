@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="908" height="1638" viewBox="0 0 908 1638">
+  <title>ocd_body_adult_fem_seated_conversational_left_v1 — seated-guest-neutral — arm-measure-v1</title>
+  <image href="../../../generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_conversational_left_v1.png" xlink:href="../../../generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_conversational_left_v1.png" width="908" height="1638" />
+  <line x1="288.5" y1="322" x2="310" y2="819" stroke="#2563eb" stroke-width="3" stroke-dasharray="12 9" />
+  <line x1="0" y1="452" x2="908" y2="452" stroke="#2563eb" stroke-width="3" opacity="0.5" />
+  <polyline points="80,452 75,476 71,501 68,525 66,550 65,574 64,599 64,623 66,648 68,672 72,697 78,721 99,746 115,770 106,795 98,819" fill="none" stroke="#111827" stroke-width="3" />
+  <circle cx="80" cy="452" r="3" fill="#dc2626" />
+  <circle cx="75" cy="476" r="3" fill="#dc2626" />
+  <circle cx="71" cy="501" r="3" fill="#dc2626" />
+  <circle cx="68" cy="525" r="3" fill="#dc2626" />
+  <circle cx="66" cy="550" r="3" fill="#dc2626" />
+  <circle cx="65" cy="574" r="3" fill="#dc2626" />
+  <circle cx="64" cy="599" r="3" fill="#dc2626" />
+  <circle cx="64" cy="623" r="3" fill="#dc2626" />
+  <circle cx="66" cy="648" r="3" fill="#dc2626" />
+  <circle cx="68" cy="672" r="3" fill="#dc2626" />
+  <circle cx="72" cy="697" r="3" fill="#dc2626" />
+  <circle cx="78" cy="721" r="3" fill="#dc2626" />
+  <circle cx="99" cy="746" r="3" fill="#dc2626" />
+  <circle cx="115" cy="770" r="3" fill="#dc2626" />
+  <circle cx="106" cy="795" r="3" fill="#dc2626" />
+  <circle cx="98" cy="819" r="3" fill="#dc2626" />
+  <circle cx="80" cy="452" r="10" fill="#1f9d55" fill-opacity="0.85" stroke="#ffffff" stroke-width="2"><title>left shoulder: measured — Outer silhouette edge at the shoulder row — the first row at or below the neck reaching 92% of the widest painted width within 15% of figure height, the rule the accepted body rig uses. A silhouette shoulder, not the joint centre; on a pose whose upper arm lifts above the shoulder line the row moves with it.</title></circle>
+  <polyline points="484,452 489,473 493,494 497,515 501,537 505,558 509,579 514,600 519,621 542,642 581,663 628,684 750,706 778,727 786,748 769,769" fill="none" stroke="#111827" stroke-width="3" />
+  <circle cx="484" cy="452" r="3" fill="#dc2626" />
+  <circle cx="489" cy="473" r="3" fill="#dc2626" />
+  <circle cx="493" cy="494" r="3" fill="#dc2626" />
+  <circle cx="497" cy="515" r="3" fill="#dc2626" />
+  <circle cx="501" cy="537" r="3" fill="#dc2626" />
+  <circle cx="505" cy="558" r="3" fill="#dc2626" />
+  <circle cx="509" cy="579" r="3" fill="#dc2626" />
+  <circle cx="514" cy="600" r="3" fill="#dc2626" />
+  <circle cx="519" cy="621" r="3" fill="#dc2626" />
+  <circle cx="542" cy="642" r="3" fill="#dc2626" />
+  <circle cx="581" cy="663" r="3" fill="#dc2626" />
+  <circle cx="628" cy="684" r="3" fill="#dc2626" />
+  <circle cx="750" cy="706" r="3" fill="#dc2626" />
+  <circle cx="778" cy="727" r="3" fill="#dc2626" />
+  <circle cx="484" cy="452" r="10" fill="#1f9d55" fill-opacity="0.85" stroke="#ffffff" stroke-width="2"><title>right shoulder: measured — Outer silhouette edge at the shoulder row — the first row at or below the neck reaching 92% of the widest painted width within 15% of figure height, the rule the accepted body rig uses. A silhouette shoulder, not the joint centre; on a pose whose upper arm lifts above the shoulder line the row moves with it.</title></circle>
+  <line x1="484" y1="452" x2="485" y2="732" stroke="#d97706" stroke-width="3" />
+  <circle cx="485" cy="732" r="10" fill="#d97706" fill-opacity="0.85" stroke="#ffffff" stroke-width="2"><title>right elbow: partially-measured — Root end of the separated segment where it meets the fused silhouette. The arm is carried forward or raised, so the segment that clears the torso is the forearm and the joint lies at or inside the fused boundary; this is the nearest the alpha gets to it.</title></circle>
+  <circle cx="786" cy="751" r="10" fill="#d97706" fill-opacity="0.85" stroke="#ffffff" stroke-width="2"><title>right extremity: partially-measured — Far end of the separated segment along its principal axis. Not shown to be a hand.</title></circle>
+  <text x="12" y="32" font-family="monospace" font-size="23" fill="#111827" stroke="#ffffff" stroke-width="4" paint-order="stroke">ocd_body_adult_fem_seated_conversational_left_v1</text>
+  <text x="12" y="62" font-family="monospace" font-size="23" fill="#111827" stroke="#ffffff" stroke-width="4" paint-order="stroke">ocd-adult-feminine (unregistered) / seated-guest-neutral</text>
+  <text x="12" y="92" font-family="monospace" font-size="23" fill="#dc2626" stroke="#ffffff" stroke-width="4" paint-order="stroke">left: occluded (fused)</text>
+  <text x="12" y="122" font-family="monospace" font-size="23" fill="#111827" stroke="#ffffff" stroke-width="4" paint-order="stroke">  shoulder measured · elbow occluded · wrist occluded</text>
+  <text x="12" y="152" font-family="monospace" font-size="23" fill="#d97706" stroke="#ffffff" stroke-width="4" paint-order="stroke">right: partially-measured (raised-or-forward)</text>
+  <text x="12" y="182" font-family="monospace" font-size="23" fill="#111827" stroke="#ffffff" stroke-width="4" paint-order="stroke">  shoulder measured · elbow partially-measured · wrist ambiguous</text>
+  <text x="12" y="212" font-family="monospace" font-size="23" fill="#111827" stroke="#ffffff" stroke-width="4" paint-order="stroke">fused-row samples marked red; inner contour dashed</text>
+</svg>

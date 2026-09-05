@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="420" height="840" viewBox="0 0 420 840">
+  <title>dev_g2_body_broad_deep_rich_standing_v1 — standing-neutral — arm-measure-v1</title>
+  <image href="../../../generated/approved/dev-modular-g2/dev_g2_body_broad_deep_rich_standing_v1.png" xlink:href="../../../generated/approved/dev-modular-g2/dev_g2_body_broad_deep_rich_standing_v1.png" width="420" height="840" />
+  <line x1="209.5" y1="140" x2="209.5" y2="462" stroke="#2563eb" stroke-width="1" stroke-dasharray="4 3" />
+  <line x1="0" y1="149" x2="420" y2="149" stroke="#2563eb" stroke-width="1" opacity="0.5" />
+  <polyline points="81,149 79,171 76,193 74,215 72,237 69,259 67,281 64,303 62,326 59,348 57,370 54,392 52,414 49,436 47,458 90,480" fill="none" stroke="#111827" stroke-width="1" />
+  <circle cx="81" cy="149" r="1" fill="#dc2626" />
+  <circle cx="79" cy="171" r="1" fill="#dc2626" />
+  <circle cx="76" cy="193" r="1" fill="#dc2626" />
+  <circle cx="74" cy="215" r="1" fill="#dc2626" />
+  <circle cx="72" cy="237" r="1" fill="#dc2626" />
+  <circle cx="69" cy="259" r="1" fill="#dc2626" />
+  <circle cx="67" cy="281" r="1" fill="#dc2626" />
+  <circle cx="64" cy="303" r="1" fill="#dc2626" />
+  <circle cx="62" cy="326" r="1" fill="#dc2626" />
+  <circle cx="59" cy="348" r="1" fill="#dc2626" />
+  <circle cx="57" cy="370" r="1" fill="#dc2626" />
+  <polyline points="102,378 101,381 101,385 100,388 100,391 100,395 99,398 99,402 98,405 98,408 98,412 97,415 97,419 96,422 96,425 96,429 95,432 95,436 94,439 94,442 94,446 93,449 93,453 92,456 92,460 91,463 91,466 91,470 90,473 90,477" fill="none" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="2 2" />
+  <circle cx="81" cy="149" r="5" fill="#1f9d55" fill-opacity="0.85" stroke="#ffffff" stroke-width="1"><title>left shoulder: measured — Outer silhouette edge at the shoulder row — the first row at or below the neck reaching 92% of the widest painted width within 15% of figure height, the rule the accepted body rig uses. A silhouette shoulder, not the joint centre; on a pose whose upper arm lifts above the shoulder line the row moves with it.</title></circle>
+  <circle cx="90" cy="480" r="5" fill="#d97706" fill-opacity="0.85" stroke="#ffffff" stroke-width="1"><title>left extremity: partially-measured — Far end of the separated segment along its principal axis. Not shown to be a hand.</title></circle>
+  <polyline points="338,149 340,171 343,193 345,215 347,237 350,259 352,281 355,303 357,326 360,348 362,370 365,392 367,414 370,436 372,458 330,480" fill="none" stroke="#111827" stroke-width="1" />
+  <circle cx="338" cy="149" r="1" fill="#dc2626" />
+  <circle cx="340" cy="171" r="1" fill="#dc2626" />
+  <circle cx="343" cy="193" r="1" fill="#dc2626" />
+  <circle cx="345" cy="215" r="1" fill="#dc2626" />
+  <circle cx="347" cy="237" r="1" fill="#dc2626" />
+  <circle cx="350" cy="259" r="1" fill="#dc2626" />
+  <circle cx="352" cy="281" r="1" fill="#dc2626" />
+  <circle cx="355" cy="303" r="1" fill="#dc2626" />
+  <circle cx="357" cy="326" r="1" fill="#dc2626" />
+  <circle cx="360" cy="348" r="1" fill="#dc2626" />
+  <circle cx="362" cy="370" r="1" fill="#dc2626" />
+  <polyline points="317,378 318,381 318,385 319,388 319,391 319,395 320,398 320,402 321,405 321,408 321,412 322,415 322,419 323,422 323,426 323,429 324,432 324,436 325,439 325,443 325,446 326,449 326,453 327,456 327,460 328,463 328,466 328,470 329,473 329,477" fill="none" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="2 2" />
+  <circle cx="338" cy="149" r="5" fill="#1f9d55" fill-opacity="0.85" stroke="#ffffff" stroke-width="1"><title>right shoulder: measured — Outer silhouette edge at the shoulder row — the first row at or below the neck reaching 92% of the widest painted width within 15% of figure height, the rule the accepted body rig uses. A silhouette shoulder, not the joint centre; on a pose whose upper arm lifts above the shoulder line the row moves with it.</title></circle>
+  <circle cx="330" cy="480" r="5" fill="#d97706" fill-opacity="0.85" stroke="#ffffff" stroke-width="1"><title>right extremity: partially-measured — Far end of the separated segment along its principal axis. Not shown to be a hand.</title></circle>
+  <text x="6" y="15" font-family="monospace" font-size="11" fill="#111827" stroke="#ffffff" stroke-width="2" paint-order="stroke">dev_g2_body_broad_deep_rich_standing_v1</text>
+  <text x="6" y="30" font-family="monospace" font-size="11" fill="#111827" stroke="#ffffff" stroke-width="2" paint-order="stroke">dev-g2-broad / standing-neutral</text>
+  <text x="6" y="44" font-family="monospace" font-size="11" fill="#d97706" stroke="#ffffff" stroke-width="2" paint-order="stroke">left: partially-measured (hanging)</text>
+  <text x="6" y="58" font-family="monospace" font-size="11" fill="#111827" stroke="#ffffff" stroke-width="2" paint-order="stroke">  shoulder measured · elbow unavailable · wrist ambiguous</text>
+  <text x="6" y="73" font-family="monospace" font-size="11" fill="#d97706" stroke="#ffffff" stroke-width="2" paint-order="stroke">right: partially-measured (hanging)</text>
+  <text x="6" y="87" font-family="monospace" font-size="11" fill="#111827" stroke="#ffffff" stroke-width="2" paint-order="stroke">  shoulder measured · elbow unavailable · wrist ambiguous</text>
+  <text x="6" y="101" font-family="monospace" font-size="11" fill="#111827" stroke="#ffffff" stroke-width="2" paint-order="stroke">fused-row samples marked red; inner contour dashed</text>
+</svg>
