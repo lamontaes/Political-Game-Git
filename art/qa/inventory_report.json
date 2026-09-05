@@ -1,5 +1,5 @@
 {
-  "totalItems": 306,
+  "totalItems": 307,
   "items": [
     {
       "filePath": "families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
@@ -1008,6 +1008,10 @@
     {
       "filePath": "references/candidates/recent-drive-sweep/source-images/IMG_5189.JPG",
       "hash": "a538616176e4340aa828fa56dbc61fe18b298552d7604e889233872bbb1179aa"
+    },
+    {
+      "filePath": "references/candidates/recent-drive-sweep/source-images/IMG_5190.JPG",
+      "hash": "19f08cd8248f37bd95a8a5348f9465e52b6b986e783917cd7e21e1d18caab8cd"
     },
     {
       "filePath": "references/candidates/recent-drive-sweep/source-images/IMG_5192.PNG",

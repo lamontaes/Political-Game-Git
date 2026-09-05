@@ -5,10 +5,10 @@
   "driveQuery": "modifiedTime >= '2026-09-02T15:00:00Z' and trashed = false; item_type=image",
   "count": 286,
   "countsByClassification": {
-    "ADDITIONAL_VARIANT": 3,
+    "ADDITIONAL_VARIANT": 4,
     "ALREADY_INGESTED_EQUIVALENT": 76,
     "CORRECTED_REPLACEMENT_OF_EXISTING_SOURCE": 1,
-    "EXACT_DUPLICATE": 2,
+    "EXACT_DUPLICATE": 1,
     "NEW_PRODUCTION_SOURCE_CANDIDATE": 6,
     "REFERENCE_ONLY": 188,
     "SOURCE_SHEET_REQUIRES_CHOP": 10,
@@ -382,7 +382,7 @@
       "sha256": "42ae20cf5155126c5ecce708d724ca2b8ee9719ca2f42816312961256eeced88",
       "localMatches": [
         {
-          "localPath": "art/references/candidates/recent-drive-sweep/source-images/IMG_5207.JPG",
+          "localPath": "art/references/candidates/recent-drive-sweep/source-images/IMG_5190.JPG",
           "sha256": "42ae20cf5155126c5ecce708d724ca2b8ee9719ca2f42816312961256eeced88",
           "sourceDimensions": {
             "width": 5504,
@@ -586,10 +586,10 @@
           }
         }
       ],
-      "visualDescription": "Byte-equivalent duplicate of IMG_5207.JPG.",
+      "visualDescription": "Visually similar field-office environment variant to IMG_5207.JPG; SHA-256 proves it is not an exact duplicate.",
       "likelyAssetFamily": "environment candidate",
       "replacesOlderSource": false,
-      "classification": "EXACT_DUPLICATE",
+      "classification": "ADDITIONAL_VARIANT",
       "metadataDisposition": "PIXELS_LOCALLY_VERIFIED"
     },
     {
