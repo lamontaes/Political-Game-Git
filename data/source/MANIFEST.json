@@ -377,6 +377,10 @@
   ],
   "gatedDomains": [
     {
+      "domain": "municipal-governance",
+      "productionGate": "The municipal-governance packs are compiled from the existing Drive municipal research (42A/44/45, frontier 92I), which is a secondary synthesis, and the substrate compiles production corpora only from artifacts it retrieved and hashed. The Kentucky pilot facts were re-verified against current official/authoritative sources, but this environment's egress proxy blocks the official hosts, so the bytes could not be hash-locked as first-party artifacts. Production compilation is gated on acquiring the exact cited charters/statutes as first-party artifacts (92I Lane B), or an explicit decision to admit a declared secondary-source tier."
+    },
+    {
       "domain": "state-office-qualifications",
       "productionGate": "31F marks 118 of the 31A-31E research claims compiler-ready, but the substrate compiles production corpora only from artifacts it retrieved and hashed, and a research synthesis is a secondary source. Production compilation is gated on either acquiring the cited state authorities as first-party artifacts, or an explicit architecture decision to admit a declared secondary-source tier. See 31F section 8."
     }
