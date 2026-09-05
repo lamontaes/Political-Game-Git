@@ -1,4 +1,5 @@
 export * from "./dates";
+export * from "./canonical-json";
 export * from "./character-history";
 export * from "./causal-effects";
 export * from "./demo";

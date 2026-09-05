@@ -1912,3 +1912,77 @@ selection method and current operative status are separate facts needing
 separate evidence, and each domain's validator refuses a field whose name
 claims otherwise. Nothing in the running game imports the substrate: a fact
 reaches the world through a named one-way adapter, and no adapter exists yet.
+
+## D-075 — Causal tracing is a read-only projection that renders absence as UNKNOWN
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: renumbered from D-074 on merge of accepted main (PR #91),
+  whose source-substrate decision already occupied the D-074 slot; the
+  architecture is unchanged, only the identifier.
+
+The project can now read how canonical truth, claims, knowledge, perception,
+belief, decisions, relationships and consequences connect in a save. It reads
+them; it does not record them. `src/devtools/**` projects existing records into
+a graph whose every edge is a field the record already carries —
+`parentCausalIds`, `source.claimId`, `eventId`, a `supersedes` pointer, a mind
+source reference — and holds nothing between inspections. There is no second
+history store and no second causal graph. The downstream direction is derived
+at inspection time by reversing recorded parent edges, because the world
+records parents and not children, and persisting that reversal would turn a
+convenience into a competing source of truth.
+
+Nothing in the tool joins records by matching dates, names or text. That is the
+temptation the whole design resists: such a join produces a graph that looks
+causal and is not, and once it is in an exported trace an invented parent is
+indistinguishable from a recorded one. Where a nullable link field is null, the
+projection emits an unrecorded link naming the field and saying why nothing
+follows. Where a walk stops, it says which of five things stopped it: nothing
+was recorded, the target belongs to no registered source, the depth limit was
+reached, the edge closed a loop, or the edge reached a record another path had
+already reached. A shared ancestor is not a cycle, and reporting it as one
+would invent a loop the world does not have.
+
+Record class and truth origin are separate axes. Class answers what kind of
+record this is — canonical event, spoken claim, knowledge received, perception,
+mind state, private belief, public position, commitment, relationship change,
+decision trace, effect activation, presentation metadata. Origin reads the
+record's own provenance field and distinguishes authored and initialization
+background from simulated truth. A family carrying no provenance is
+`unrecorded`, which is not a synonym for authored, and a record the repository
+cannot justify classifying stays `unknown`.
+
+Which record families are traceable is a registration rather than a hard-coded
+list. A family becomes visible by registering a `TraceSource`; the graph logic
+knows nothing about which families exist. A registered source may not
+manufacture an edge, and may not claim a record id another source already
+produced — shadowing is rejected rather than merged, because a silent
+replacement would change what a trace means without changing anything visible
+about it. Later narrative and Pennywise trace sources register through this
+seam and require no change to the walker, index, export or UI.
+
+Absence of a record is never by itself evidence of absence in the world. The
+observer projection answers "who did not hear this" in two separately labelled
+ways: a person the event record lists as a participant who has no knowledge
+record citing the claim, and a person some caller's presence set names whom the
+event record does not list at all. The caller must state where that presence
+set came from and the trace repeats it. With no presence set supplied, the
+trace says plainly that it can only speak about recorded participants.
+
+Exports carry seed, world id, schema and generator version, history frontier
+and world content id, so a trace pasted into a bug report is something the next
+person can regenerate and diff. Identical replay plus identical request
+produces byte-identical output, through `canonicalJson` rather than a second
+serializer. The devtools boundary forbids ambient entropy for the same reason
+the simulation does.
+
+Consequence: audibility is visibly causal rather than cosmetic. The same two
+conversation turns, run quiet instead of normal, produce a different resolved
+listener set, a different set of knowledge records, a different set of
+perceptions, and a second-turn decision whose recorded chain ends somewhere
+else entirely. The tool did not arrange any of that; it read it back off the
+records. The inspector remains a development route at `?view=causal-trace`
+that ordinary play cannot reach, and opening, filtering, walking, comparing and
+exporting leave the world's canonical serialization, content hash and append
+frontier identical.

@@ -30,8 +30,15 @@ import { execFileSync } from "child_process";
  * It moved again for the same reason when PR #82 merged. This branch is cut
  * from that merge, so the base is that merge; leaving the older value in place
  * would have counted #82's own accepted files as changes made here.
+ *
+ * It moves again now that PR #86 has merged and `main` is the merge commit
+ * below. The graphics packet this file was written for is accepted and in
+ * `main`, so measuring from the older base would count #86's own accepted
+ * files — the scenes, the title screen, the authoring pipeline — as changes
+ * made by whatever branch is running the check. The rule has not changed: the
+ * base is the `main` the branch sits on.
  */
-export const BASE_COMMIT = "6311dd688331985d5682b39910bf2b917d46d11b";
+export const BASE_COMMIT = "5f735da209c59647e4b877717a40fe6cc045fc24";
 
 /**
  * Where Packet 26 stopped: its merge into `main` as PR #82.
@@ -77,6 +84,10 @@ export const PERMITTED_EXCEPTIONS: ReadonlyMap<string, string> = new Map([
   [
     "src/player/PlayerGame.tsx",
     "Packet 68 gives the graphics lane the title-screen seam. The change is the import of ./TitleScreen and the removal of the component that moved there.",
+  ],
+  [
+    "src/simulation/index.ts",
+    "Packet 66 exports ./canonical-json from the simulation barrel so the causal-trace export can reach the world's own emitter instead of writing a second serializer. The barrel gains one export line; no simulation module is modified.",
   ],
 ]);
 
@@ -132,9 +143,20 @@ export const FORBIDDEN: readonly OwnedSurface[] = [
  * in-flight branch owns CI configuration or the player-facing changelog, so
  * widening this allowlist does not relax FORBIDDEN, which is what actually
  * guards other people's systems.
+ *
+ * `src/devtools/`, `src/cli/` and `tsconfig.node.json` are here because the
+ * graphics packet merged into `main` and this check came with it, so it now
+ * measures whichever branch is running rather than only that lane. Packet 66's
+ * development causal-trace inspector owns those three surfaces outright: a new
+ * namespace, two new command-line entry points, and the project file that has
+ * to list them because the project is composite. Naming them is what keeps the
+ * rest of the list meaningful — the alternative was to stop asserting the
+ * boundary at all on any branch that is not the graphics lane. FORBIDDEN is
+ * untouched, so player, save, legislation, place and name systems are guarded
+ * exactly as before.
  */
 export const ALLOWED =
-  /^(\.claude\/launch\.json|\.github\/workflows\/|src\/authoring\/|src\/environment\/|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/player\/OfficeScene\.tsx|src\/player\/ModularCharacter\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/useRasterTier\.ts|src\/player\/useSceneTransform\.ts|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|AGENTS\.md|PATCH_NOTES\.md)/;
+  /^(\.claude\/launch\.json|\.github\/workflows\/|src\/authoring\/|src\/cli\/|src\/devtools\/|src\/environment\/|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/player\/OfficeScene\.tsx|src\/player\/ModularCharacter\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/useRasterTier\.ts|src\/player\/useSceneTransform\.ts|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|tsconfig\.node\.json|AGENTS\.md|PATCH_NOTES\.md)/;
 
 function git(repositoryRoot: string, args: readonly string[]): string {
   return execFileSync("git", [...args], {
