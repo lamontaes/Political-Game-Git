@@ -7,11 +7,14 @@ project's instruction set — do not grow it into one.
 
 ## Authority
 
-1. Repository `AGENTS.md` (imported above) and the repo documents it ranks:
-   `docs/GAME-CONSTITUTION.md`, `docs/decisions/DECISION-LOG.md`,
-   `ARCHITECTURE.md`, `docs/systems/`.
-2. For current product/ownership/task truth, read the project's canonical
-   Google Drive chain in this order:
+Truth is layered; `AGENTS.md` states the model in full.
+
+1. **Live GitHub and the live repository** own executable implementation truth.
+   `git fetch` and read `origin/main`, open PR heads, and actual CI before
+   acting. Never trust a SHA, PR number, or status you merely remember, and
+   never treat a stale local branch as current.
+2. For current product, ownership, routing, and task truth, read the project's
+   canonical Google Drive chain in this order:
    - `00_READ_FIRST — CANONICAL READ-WRITE PROTOCOL`
    - `01_CURRENT_CANONICAL_INDEX — PROJECT STATE AND SOURCE PRIORITY`
    - `04_CURRENT_DECISION_CHANGE_AND_TRACEABILITY_REGISTER`
@@ -19,11 +22,13 @@ project's instruction set — do not grow it into one.
    - `00_STAGING_INDEX`
    - the current handoff named by the canonical index, only when a
      continuation-level read is necessary.
-3. **Live GitHub and the live repository outrank remembered or local state.**
-   `git fetch` and read `origin/main`, open PR heads, and actual CI before
-   acting. Never trust a SHA, PR number, or status you merely remember, and
-   never treat a stale local branch as current. When canonical Drive controls
-   and an old repository document disagree, current Drive plus live GitHub win.
+3. **Durable technical and product authority** lives in `AGENTS.md` (imported
+   above) and the documents it ranks: `docs/GAME-CONSTITUTION.md`,
+   `docs/decisions/DECISION-LOG.md`, `ARCHITECTURE.md`, `docs/systems/`. They
+   govern how work is built and what behavior is accepted; they do not decide
+   what is currently assigned. When a repository document and current canonical
+   control disagree about what is authorized now, current Drive plus live
+   GitHub win. Historical stage and run labels are not the current frontier.
 
 The repository keeps no "current handoff" file. Continuation state lives in the
 Drive chain and in the owning plan under `docs/plans/`. Files under
