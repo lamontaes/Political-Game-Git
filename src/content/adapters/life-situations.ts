@@ -1,5 +1,4 @@
 import { lifeSituationCatalog } from "../../simulation/character-history";
-import type { AvailableLifeSituation } from "../../simulation/character-history";
 import { companionRoleFor } from "../../presentation/formative-context";
 import {
   contentItemId,
@@ -13,6 +12,13 @@ import {
 
 const BANK_ID: ContentBankId = "content.life-situations";
 const SOURCE_MODULE = "src/simulation/character-history.ts";
+
+/**
+ * One entry as the catalog returns it. Derived from the catalog itself rather
+ * than a named import, so the adapter follows wherever the situation type is
+ * defined without a second import to keep in step.
+ */
+type LifeSituationEntry = ReturnType<typeof lifeSituationCatalog>[number];
 
 /**
  * The growing-up years, as a bank.
@@ -45,7 +51,7 @@ export function lifeSituationBank(): ContentBank {
   };
 }
 
-function toItem(situation: AvailableLifeSituation): ContentItem {
+function toItem(situation: LifeSituationEntry): ContentItem {
   const companionRole = companionRoleFor(situation.key);
   const roles: readonly ContentRole[] = companionRole
     ? [
