@@ -43,6 +43,41 @@ the Packet-71/76 intake evidence and the accepted decisions.
 > This revision changed documentation and the lifecycle matrix only. No generation,
 > upscaling, anchor authoring, manifest promotion, or release was performed.
 
+> **REVISION 2 — completed Wave-A / recent-Drive cargo absorbed (2026-09-05).**
+> The Codex cargo branch `codex/wave-a-morphology-ingestion` was absorbed into this
+> branch by **fast-forward** (merge base was this PR's own head; 0 behind, 4 ahead;
+> no merge commit manufactured). It brings the Wave A morphology sheets and the
+> recent-Drive sources into the repository as candidates/reference, with a
+> **completed 286-image visual sweep** — zero metadata-only, zero uninspected, zero
+> inaccessible, zero unresolved. §9 now records that sweep, and these conclusions
+> are corrected throughout:
+>
+> - **Front-facing footwear no longer needs generation.** `shoes.png` is the
+>   corrected front-facing source; Pack 74 B2 is closed as a generation item.
+> - **The lanyard source is not absent** — it exists in `supplies` and in the older
+>   `IMG_5203.PNG`; only item-level segmentation remains a gate.
+> - **`skinny woman copy.png` is an exact duplicate**, correctly excluded and
+>   retained as provenance. It must not be deleted without owner authorization.
+> - **Front-facing clothing and fat-man / skinny-man sources exist** with
+>   candidate-stage intake evidence.
+> - **Nothing found removes the need for production-resolution body masters.**
+> - **Poses with baked chairs/desks/lecterns still need clean revision** or an
+>   explicit per-pose disposition.
+> - **`supplies` still needs an accepted item-level segmentation/layout decision**
+>   before independent accessory promotion.
+>
+> The cargo touches no `src/` file and no `art/manifest/` file: no runtime
+> composition change, no manifest promotion, no catalog change, no released pixel.
+
+> **OWNER DECISION ON THE OCD p76 FEMININE BODIES (recorded, binding).**
+>
+> - The owner **accepts the woman/body design and the eight-pose art direction.**
+> - The owner **does NOT accept the current undersized, residual-green raster as
+>   final production pixels.**
+> - **Do not author D-068 production anchors on the undersized raster.**
+> - A **production-resolution, clean-transparency re-export/regeneration remains
+>   required** before final anchor acceptance.
+
 ---
 
 ## 1. The contradiction, resolved
@@ -57,11 +92,11 @@ released room.
 **That is correct, and it is truthful.** Three claims that look like one are in
 fact three, and the project keeps them apart on purpose:
 
-|       | Claim                                                                     | Answer today                                                                                                         |
-| ----- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| **A** | The source/generated image **exists**                                     | **Yes**, extensively.                                                                                                |
-| **B** | The image has **passed mechanical intake/QA**                             | **Mostly yes** for the repo art (chopped, measured, despilled, dispositioned); **not yet** for the new Drive sheets. |
-| **C** | The image is **released and eligible for production runtime composition** | **No — for a genuine reason on every candidate, not a missed step.**                                                 |
+|       | Claim                                                                     | Answer today                                                                                                                                                                    |
+| ----- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **A** | The source/generated image **exists**                                     | **Yes**, extensively.                                                                                                                                                           |
+| **B** | The image has **passed mechanical intake/QA**                             | **Yes** — repo art was already chopped/measured/despilled/dispositioned, and the Wave A + recent-Drive sources are now ingested, chopped, measured and candidate-reviewed (§9). |
+| **C** | The image is **released and eligible for production runtime composition** | **No — for a genuine reason on every candidate, not a missed step.**                                                                                                            |
 
 No good existing art is being withheld by an un-run deterministic step that this
 environment could have completed. Every production-body candidate is blocked by a
@@ -92,7 +127,7 @@ correct placeholder and never substitutes another person's likeness
   long edge. **Undersized art is rejected, never enlarged.**
 
 A machine-checkable version of all of this now lives in
-`src/presentation/production-release-boundary.test.ts` (17 assertions, all green).
+`src/presentation/production-release-boundary.test.ts` (20 assertions, all green).
 
 ---
 
@@ -101,16 +136,16 @@ A machine-checkable version of all of this now lives in
 Full machine-readable form:
 `art/qa/p92/existing_asset_lifecycle_matrix.json`. Summary:
 
-| Family                                                                                                         | A exists  | B intake | C released  | Lifecycle state                                                              | Why not released                                                                                                                                                                                                                                                              |
-| -------------------------------------------------------------------------------------------------------------- | :-------: | :------: | :---------: | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **ocd feminine 8-pose bodies** (`ocd-p71/bodies` → `ocd-p76/bodies-despilled`)                                 |     ✓     |    ✓     |      ✗      | **DESPILLED** (green 67–80% → 0.00%, alpha + interior RGB SHA-256 identical) | **Undersized** (~1264×1696 cells vs 1696×2528 floor) **+** anchors not measured/accepted (D-068) **+** no visual acceptance                                                                                                                                                   |
-| **ocd 12 heads** (`ocd-p71/heads`)                                                                             |     ✓     |    ✓     |      ✗      | **CHOPPED + MEASURED + PASS** (12/12)                                        | Alpha-cropped 800–849 wide, not square, vs 1024² square head floor; and no matching production body exists                                                                                                                                                                    |
-| **ocd 12 footwear** (`ocd-p71/footwear`)                                                                       |     ✓     |    ✓     |      ✗      | **CHOPPED + MEASURED + REVISE**                                              | **Wrong viewpoint** — bonded three-quarter pairs, contract wants front-on; size is fine                                                                                                                                                                                       |
-| **pg-modular** (25 masters + 35 candidates)                                                                    |     ✓     |    ✓     |      ✗      | **REGISTERED CANDIDATE → REJECTED WITH REASON** (D-063)                      | Untextured **gray geometry** mannequins + unfitted garments; "the answer is currently no"; anchors non-authoritative (D-068)                                                                                                                                                  |
-| **dev-modular gen 1/2** (46)                                                                                   |     ✓     |    ✓     | dev-fixture | **RELEASED AS DEVELOPMENT FIXTURE**                                          | By design; fixtures are never promoted to the production library                                                                                                                                                                                                              |
-| **human_candidate A01/B01**                                                                                    |     ✓     |    ✓     | dev-fixture | **RELEASED FIXTURE (frozen, 765×1024)**                                      | Frozen fixture poses, not modular bodies                                                                                                                                                                                                                                      |
-| **Drive Wave A morphology sheets** (average/skinny/older woman, average man; + a 3-pose fat-female supplement) | ✓ (Drive) |    ✗     |      ✗      | **SOURCE SHEET IN DRIVE — PIXEL-INSPECTED, NOT INGESTED**                    | Now inspected (independent pass, §9): the four primary sheets are 5056×3392 RGBA 4×2, so cells are ~1264×1696 — **below the 1696×2528 body floor**; some cells carry **baked desk/chair/lectern geometry**. Useful #89 morphology input; not production-release-ready masters |
-| **Drive IMG_5202–5207**                                                                                        | ✓ (Drive) |    ✗     |      ✗      | **UNKNOWN — NEEDS OWNER PIXEL ACCESS**                                       | 76B could not inspect; several exceed the fetch limit                                                                                                                                                                                                                         |
+| Family                                                                                                                        | A exists  | B intake | C released  | Lifecycle state                                                              | Why not released                                                                                                                                                                                                                                                                                                             |
+| ----------------------------------------------------------------------------------------------------------------------------- | :-------: | :------: | :---------: | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ocd feminine 8-pose bodies** (`ocd-p71/bodies` → `ocd-p76/bodies-despilled`)                                                |     ✓     |    ✓     |      ✗      | **DESPILLED** (green 67–80% → 0.00%, alpha + interior RGB SHA-256 identical) | **Undersized** (~1264×1696 cells vs 1696×2528 floor) **+** anchors not measured/accepted (D-068) **+** no visual acceptance                                                                                                                                                                                                  |
+| **ocd 12 heads** (`ocd-p71/heads`)                                                                                            |     ✓     |    ✓     |      ✗      | **CHOPPED + MEASURED + PASS** (12/12)                                        | Alpha-cropped 800–849 wide, not square, vs 1024² square head floor; and no matching production body exists                                                                                                                                                                                                                   |
+| **ocd 12 footwear** (`ocd-p71/footwear`)                                                                                      |     ✓     |    ✓     |      ✗      | **CHOPPED + MEASURED + REVISE** (superseded as the front-on source)          | Wrong viewpoint for front-on use — bonded three-quarter pairs. **No longer a generation need:** `shoes.png` (4336×5804, CORRECTED_REPLACEMENT) is the corrected front-facing twelve-pair source, now ingested and deterministically chopped into 12 candidates. The p71 sheets stay as a future three-quarter family source. |
+| **pg-modular** (25 masters + 35 candidates)                                                                                   |     ✓     |    ✓     |      ✗      | **REGISTERED CANDIDATE → REJECTED WITH REASON** (D-063)                      | Untextured **gray geometry** mannequins + unfitted garments; "the answer is currently no"; anchors non-authoritative (D-068)                                                                                                                                                                                                 |
+| **dev-modular gen 1/2** (46)                                                                                                  |     ✓     |    ✓     | dev-fixture | **RELEASED AS DEVELOPMENT FIXTURE**                                          | By design; fixtures are never promoted to the production library                                                                                                                                                                                                                                                             |
+| **human_candidate A01/B01**                                                                                                   |     ✓     |    ✓     | dev-fixture | **RELEASED FIXTURE (frozen, 765×1024)**                                      | Frozen fixture poses, not modular bodies                                                                                                                                                                                                                                                                                     |
+| **Wave A morphology sheets** (average/skinny/older woman, average man, fat man, skinny man; + a 3-pose fat-female supplement) |     ✓     |    ✓     |      ✗      | **INGESTED — CHOPPED, MEASURED, CANDIDATE-REVIEWED** (§9)                    | Source sheets are 5056×3392, so cells fall **below the 1696×2528 body floor**: `eligibleAsProductionCharacterBody` is **false on all 111** chopped components. Useful #89 morphology evidence (51 of 111); 29 carry **baked desk/chair/lectern geometry** needing per-pose disposition                                       |
+| **Drive IMG_5202–5207**                                                                                                       | ✓ (Drive) |    ✗     |      ✗      | **UNKNOWN — NEEDS OWNER PIXEL ACCESS**                                       | 76B could not inspect; several exceed the fetch limit                                                                                                                                                                                                                                                                        |
 
 ---
 
@@ -128,9 +163,11 @@ Not "needs art." The precise next step:
   head-master canvas from the source cell (the full grid cell ~1194×1200 is
   near-square, so this is mechanical), then bank as candidate. Not player-useful
   until a production body of matching complexion exists.
-- **Footwear (12, REVISE).** **Step:** re-render the same twelve designs **front-on**
-  (Pack 74 B2). Keep the three-quarter sheets as source for a future three-quarter
-  family. This is a genuine generation need — viewpoint cannot be transformed.
+- **Footwear.** **Generation is no longer required.** `shoes.png` is the corrected
+  front-facing twelve-pair source; it is ingested, preserved and deterministically
+  chopped into 12 candidates. **Step:** the ordinary fit, anchor and human
+  acceptance gates — an intake/approval need, not a missing-art need. The p71
+  three-quarter sheets are kept as source for a future three-quarter family.
 - **pg-modular.** **Step:** none toward release. Gray geometry is structural
   reference, not player-facing body art. It is legitimate **input** to PR #89's
   morphology proof and PR #90's arm measurement, which may be _run_, not modified.
@@ -155,16 +192,18 @@ Only genuine pixel decisions are listed. Each names the images and the decision.
    **0** times in `asset_manifest.json` and `character_catalog.json`). That route
    remains useful for the candidate-review library it genuinely renders (the
    pg-modular bank), and nothing more.
-   **Decision:** is the despilled figure quality good enough to become production
-   body art _once regenerated at production resolution_? (The current rasters are
-   undersized, so this is an acceptance-in-principle of the family, not of these
-   exact bytes.) The owner may accept or reject the ART now; the anchor decision is
-   separate and comes later — see gate 2.
+   **Status: DECIDED.** The owner **accepts the woman/body design and the eight-pose
+   art direction**, and **does not accept the current undersized, residual-green
+   raster as final production pixels**. So the family is approved in principle and
+   the exact bytes are not; a production-resolution, clean-transparency
+   re-export/regeneration is required before final anchor acceptance. The anchor
+   decision stays separate — see gate 2.
 2. **Feminine body anchors — D-068 acceptance.** After a production-resolution
    re-export, the six semantic anchors (crown, brow, head, torso, hips, feet) must
    be measured from the shipping raster and shown on a debug proof for the owner to
-   accept. **Decision:** accept or correct the proposed anchors. Anchors must not be
-   authored on the current (to-be-re-exported) raster (D-073).
+   accept. **Decision:** accept or correct the proposed anchors. **Production anchors
+   must NOT be authored on the current undersized raster** (D-068/D-073) — this is
+   explicit in the owner decision recorded above.
 3. **Heads — square re-frame acceptance.** Path: `art/generated/candidates/ocd-p71/heads/*.png`.
    **Decision:** confirm the intended square head-master framing per head.
 4. **New Drive morphology sheets — pixel classification.**
@@ -173,14 +212,18 @@ Only genuine pixel decisions are listed. Each names the images and the decision.
    `older woman.png` (`1jzF9B6OCiNOayObGrAVaqej6iO9P_a10`),
    `average man.png` (`1j2gkjfVWH3fXzDNpZqI1dCSFQsV4HrBo`),
    `additional fat female pose.png` (`1UknGAET4TCu7h4CaVadfeYRC5hTTGYYq`).
-   **Now pixel-inspected** (independent pass, §9): four are 5056×3392 RGBA 4×2
-   sheets; `additional fat female pose.png` is 4352×3904 RGBA carrying **three
-   poses**, not a complete eight-pose family.
-   **Decision + action:** bring them into the repo (as IMG_5178/5181/5176 were) and
-   run the deterministic intake. The owner decision that remains is **per-pose
-   disposition**: several cells — most notably on the older-woman and average-man
-   sheets — carry **baked desk / chair / lectern (interaction-prop) geometry**, so
-   no cell may be promoted automatically as a clean body layer.
+   **Status: INGESTED.** All five are now in the repository under
+   `art/references/candidates/wave-a-morphology/source-sheets/`, chopped, measured,
+   hashed and candidate-reviewed (§9). Four are 5056×3392 RGBA 4×2 sheets;
+   `additional fat female pose.png` is 4352×3904 RGBA carrying **three poses**, not
+   a complete eight-pose family. The 8-pose `fat man.png` and `skinny man.png` came
+   in the same sweep.
+   **Decision that remains:** **per-pose disposition of the 29 baked-prop
+   components** (LECTERN 5, CHAIR 4, DESK 8, OTHER 12) — clean furniture-free
+   re-render where the pose is needed as a modular body, or an explicit decision to
+   keep it as an interaction-specific reference. No cell may be promoted
+   automatically as a clean body layer. Review surface:
+   `art/qa/p95-recent-drive-sweep/candidate-contact-sheet.html`.
 5. **Drive scene candidates.** `IMG_5189.JPG` executive office (generic, clears the
    floor) needs a **camera/floor-calibration** decision (D-070) before it can be a
    runtime plate; `IMG_5190.JPG` campaign storefront must be revised to remove baked
@@ -192,11 +235,12 @@ Only genuine pixel decisions are listed. Each names the images and the decision.
 
 Branch `claude/new-session-4owtvv`, base `1d05923`. Additive only.
 
-| Path                                                   | What it is                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/presentation/production-release-boundary.test.ts` | 17 assertions locking A/B/C apart: no production component (or body) is released; every released character component is a dev fixture; every candidate/master is unreleased; the banked candidates validate; the feminine bodies are REVISE→despilled yet below the body floor (verified through `evaluateMasterDimensions`); the twelve heads PASS but are non-square/underwidth; the twelve footwear are REVISE yet clear the size floor; and (added by the post-completion correction) no OCD body is registered as a candidate component or present in the candidate-review library, so `?view=character-proof&set=real` cannot be mistaken for proof of that family. |
-| `art/qa/p92/existing_asset_lifecycle_matrix.json`      | The full machine-readable reconciliation table (repo + Drive), deterministic.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| `docs/92b-…-completion.md`                             | This report.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| Path                                                                 | What it is                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/presentation/production-release-boundary.test.ts`               | 20 assertions locking A/B/C apart: no production component (or body) is released; every released character component is a dev fixture; every candidate/master is unreleased; the banked candidates validate; the feminine bodies are REVISE→despilled yet below the body floor (verified through `evaluateMasterDimensions`); the twelve heads PASS but are non-square/underwidth; the twelve footwear are REVISE yet clear the size floor; and (added by the post-completion correction) no OCD body is registered as a candidate component or present in the candidate-review library, so `?view=character-proof&set=real` cannot be mistaken for proof of that family.     |
+| `art/qa/p92/existing_asset_lifecycle_matrix.json`                    | The full machine-readable reconciliation table (repo + Drive), deterministic.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `docs/92b-…-completion.md`                                           | This report.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| **Absorbed cargo** (fast-forward, 4 commits, 165 added / 3 modified) | `art/references/candidates/**` source sheets and recent-Drive source images; `art/generated/candidates/wave-a-morphology/**` and `art/generated/candidates/recent-drive-sweep/**` (111 chopped candidates); `art/qa/p95-wave-a-morphology/**` and `art/qa/p95-recent-drive-sweep/**` sweep evidence (inventory, raw provider metadata, 15-page visual review, per-sheet chop reports, 111-component review, candidate contact sheet, determinism proof); `docs/95-wave-a-morphology-and-recent-drive-ingestion.md`. Regenerated: `art/qa/contact_sheets/index.html`, `art/qa/inventory_report.json`, `art/qa/qa_report.json`. **No `src/` file and no `art/manifest/` file.** |
 
 Deterministic evidence was **re-verified**, not regenerated into a diff:
 `npm run despill:edges`, `npm run measure:references` and `npm run qa:art` all
@@ -212,17 +256,31 @@ Genuinely absent, rejected, or a new-view asset after inventory:
 
 - **A production-resolution feminine body sheet** (≥ ~6784×5056) — the existing art
   is good but undersized. (P0.)
-- **Front-on footwear** (Pack 74 B2) — viewpoint, not size; not transformable.
 - **A `standing-podium-or-lectern` pose** in the same body family (Pack 74 B1) —
   three released rooms declare a lectern anchor and no body can stand at it.
 - **Child and adolescent bodies** — separate geometry; a scaled adult is not a
   child (Pack 74 C1/C2).
 - **A revised campaign storefront** without baked text (`IMG_5190` fails D-064).
-- **The Wave A morphology sheets are NOT a generation need** — they exist in Drive
-  and have now been pixel-inspected; they need **ingestion and per-pose
-  disposition**, not regeneration (see §8/§9). Their cells are below the body floor,
-  so at the current resolution they are morphology/measurement input rather than
-  production body masters.
+- **Clean, furniture-free revisions** of the poses that bake in a chair, desk or
+  lectern — 29 of the 111 chopped components — **where those poses are needed as
+  modular bodies**. Alternatively an explicit per-pose disposition keeping them as
+  interaction-specific references. (Human call; see §5.)
+- **An accepted item-level segmentation/layout decision for `supplies`** before its
+  lanyard or any other merged region can be promoted as an independent accessory.
+  The source exists; the accepted chopper resolves only 12 coarse regions, several
+  holding multiple objects.
+
+Explicitly **NOT** generation needs any more:
+
+- **Front-facing footwear is solved.** `shoes.png` is the corrected source (Pack 74
+  B2 is closed as a generation item).
+- **A lanyard/accessory source exists** — in `supplies` and in the older
+  `IMG_5203.PNG`. Do not record the lanyard source as absent.
+- **The Wave A morphology sheets are ingested**, not pending — see §9. They remain
+  morphology evidence only because of the resolution floor, which is a separate
+  need already listed above.
+- **Front-facing clothing and the fat-man / skinny-man body sources exist** and
+  carry candidate-stage intake evidence.
 
 ---
 
@@ -231,76 +289,96 @@ Genuinely absent, rejected, or a new-view asset after inventory:
 Independent jobs launchable now without duplicating #89/#90 (the durable queue is
 `art/requests/asset-requests.json`; these are the reconciled next moves):
 
-1. **Ingest the Wave A morphology sheets** (now pixel-inspected — see §9). Bring the
-   five Drive PNGs into the repo, then `chop:source-sheet` → `measure:references` →
-   **per-cell disposition**. This is pure deterministic intake and unblocks the
-   measured morphology input PR #89 explicitly says it is missing. Two constraints
-   carry into that job: the 4×2 cells are ~1264×1696 (**below** the 1696×2528 body
-   floor), so the result is morphology/measurement input, **not** a
-   production-release-ready body master; and cells carrying **baked
-   desk/chair/lectern geometry** (notably older-woman and average-man) need
-   individual disposition rather than automatic promotion as clean body layers.
-2. **Re-frame the twelve PASS heads** to square head masters and bank as candidates.
-3. **Regenerate the feminine body sheet at production resolution** (the single P0).
-4. **Intake `IMG_5189`** executive office as a plate candidate (pending the human
+1. **Regenerate body masters at production resolution** — the single remaining P0.
+   Every one of the 111 chopped Wave A / recent-Drive components reports
+   `eligibleAsProductionCharacterBody: false` because its source cell is under the
+   ~1696×2528 floor. This is the only thing between the project and a first usable
+   production person.
+2. **Human review of the candidate contact sheet**
+   (`art/qa/p95-recent-drive-sweep/candidate-contact-sheet.html`) — nothing in the
+   ingested cargo is visual acceptance.
+3. **Per-pose disposition of the 29 baked-prop components** (LECTERN 5, CHAIR 4,
+   DESK 8, OTHER 12): clean furniture-free re-render where the pose is needed as a
+   modular body, or an explicit decision to keep it as an interaction-specific
+   reference.
+4. **Decide the `supplies` item-level segmentation/layout** so the lanyard and the
+   other merged regions can become independent accessory components.
+5. **Re-frame the twelve PASS heads** to square head masters and bank as candidates.
+6. **Take the corrected footwear, clothing and accessory candidates through the
+   ordinary fit / anchor / human-acceptance gates** — an approval need, not a
+   generation need.
+7. **Intake `IMG_5189`** executive office as a plate candidate (pending the human
    camera/calibration gate).
-5. **Front-on footwear** and **lectern pose** re-renders (Pack 74 B1/B2).
+8. **A `standing-podium-or-lectern` pose** in a production-resolution body family
+   (Pack 74 B1) — still genuinely missing as clean modular art.
 
 ---
 
-## 9. Drive reconciliation and the honest tool limit
+## 9. Drive reconciliation — the completed 286-image sweep
 
-The current Drive workspace (folder `2026-09-02_PR53_LEGISLATION_AND_ASSET_HANDOFF`,
-`1zHIsZcJ7pWDbcpZTdPtsUzRJepFyokGz`; control docs: Assignment Board
-`1s0YTUaYcWpOi_MqbaXNW71-nhYrVTTd57AnNPa8pv0E`, Staging Index
-`1LqfWO3Bv8gldXOJEDM_ZlAMRh-5Okrn14CLAge75du8`, current handoff `91H…`
-`1b04xmguDz-tu6ttWR0v8rn8oQjaA32ZBUg3VupYZagM`) **does** contain new generated
-morphology sheets, uploaded 2026-09-04:
+**Superseded twice, and now closed.** This report first said the Wave A sheets could
+not be pixel-inspected here (true only of this agent sandbox: a 10 MB download cap,
+a proxy that refuses `drive.google.com`, no Drive API token). A later pass inspected
+them. A completed Codex sweep has now **inventoried, byte-verified and visually
+dispositioned every recent Drive image**, and its cargo is absorbed into this branch
+by fast-forward. Nothing is metadata-only, uninspected, inaccessible or unresolved.
 
-- `average woman.png` 11.9 MB, `skinny woman.png` 11.6 MB, `older woman.png`
-  11.9 MB, `average man.png` 11.1 MB, `additional fat female pose.png` 8.7 MB.
+Evidence: `art/qa/p95-recent-drive-sweep/drive-image-inventory.json` (+ the
+unmodified provider metadata beside it), the 15-page review surface
+`art/qa/p95-recent-drive-sweep/drive-visual-review/index.html`, the 111-component
+record `candidate-component-review.json`, the family-separated
+`candidate-contact-sheet.html`, and the rerun proof `source-sheet-determinism.json`
+(**PASS** — all 12 processed sheets byte-identical on re-chop).
 
-These are the Pack 74 Wave A bodies. They were **never brought into the
-repository** and therefore never chopped or categorized — which is exactly the gap
-the owner noticed.
+**286 images, window from `2026-09-02T15:00:00Z`. Verified counts:**
 
-**Pixel inspection: RESOLVED (superseding this report's original tool-limit
-claim).** Historically, this Claude session could not fetch them — the Drive
-download tool has a hard 10 MB cap, the agent proxy refuses `drive.google.com`, and
-no Drive API token was exposed here, so the four >10 MB sheets could not be read as
-pixels from this environment. **That limitation has since been overcome outside this
-session:** an independent pass downloaded and visually inspected all five. The claim
-that they are pixel-unreachable is therefore **obsolete** and is retained above only
-as history of this environment.
+| Classification                  | Count |
+| ------------------------------- | ----: |
+| REFERENCE_ONLY                  |   160 |
+| ALREADY_REPRESENTED             |    74 |
+| EXACT_DUPLICATE                 |    32 |
+| SOURCE_SHEET_REQUIRES_CHOP      |    10 |
+| NEW_PRODUCTION_SOURCE_CANDIDATE |     5 |
+| ADDITIONAL_VARIANT              |     4 |
+| CORRECTED_REPLACEMENT           |     1 |
+| IRRELEVANT_SCREENSHOT_OR_PHOTO  |     0 |
+| UNRESOLVED                      |     0 |
+| **Total**                       |   286 |
 
-Measured, as inspected:
+Gate: `COMPLETE_ZERO_METADATA_ONLY_OR_VISUALLY_UNINSPECTED`. Byte-verified 286/286
+(34 previously + 252 newly); visually classified 286; inaccessible 0; unresolved 0.
 
-| File                             | Dimensions     | Layout                       |
-| -------------------------------- | -------------- | ---------------------------- |
-| `average woman.png`              | 5056×3392 RGBA | 4×2 sheet                    |
-| `skinny woman.png`               | 5056×3392 RGBA | 4×2 sheet                    |
-| `older woman.png`                | 5056×3392 RGBA | 4×2 sheet                    |
-| `average man.png`                | 5056×3392 RGBA | 4×2 sheet                    |
-| `additional fat female pose.png` | 4352×3904 RGBA | **three poses** (supplement) |
+### What the sweep settled
 
-Three consequences follow, and they must not be collapsed:
-
-1. **Below the production body floor.** Each 5056×3392 4×2 sheet yields nominal
-   cells of ~1264×1696, under the accepted 1696×2528 standing-body minimum (and
-   under the 1530×2048 seated minimum). So these are **useful morphology and
-   measurement input for #89** — exactly the measured morphology it says it lacks —
-   but they are **not production-release-ready body masters at this resolution.**
-2. **Baked interaction-prop geometry.** Visual inspection found baked
-   desk / chair / lectern geometry in some pose cells, most notably on the
-   **older-woman** and **average-man** sheets. Those poses require **individual
-   disposition**; none may be automatically promoted as a clean body layer.
-3. **The fat-female file is a supplement, not a family.** It is useful source art
-   carrying three poses — not a complete eight-pose family — and should not be
-   treated as one.
-
-The next step remains to bring them into the repo (as `IMG_5178/5181/5176` already
-were for the ocd masters) and run the deterministic intake, with a per-cell
-disposition step before anything is called a body layer.
+1. **Front-facing footwear is solved.** `shoes.png` (4336×5804) is the single
+   `CORRECTED_REPLACEMENT`: the corrected front-facing twelve-pair source that
+   supersedes the angled p71 sheets for front-on use. It is preserved and
+   deterministically chopped into 12 candidates. **Pack 74 B2 is closed as a
+   generation need**; what remains is the ordinary fit/anchor/human gate.
+2. **A lanyard source exists** — in `supplies` (5516×3008, 27 staggered objects
+   including a lanyard ID badge) and in the older `IMG_5203.PNG`. The lanyard is
+   **not** absent. But the accepted chopper resolves only **12 coarse regions**,
+   several holding multiple objects, so item-level lanyard promotion waits on an
+   accepted segmentation/layout decision. No competing crop method was invented.
+3. **`skinny woman copy.png` is an exact Drive duplicate** — byte-identical to
+   `skinny woman.png`. It was correctly excluded from candidate duplication and is
+   retained as duplicate provenance evidence. **It must not be deleted without owner
+   authorization.**
+4. **Front-facing clothing and the fat-man / skinny-man bodies exist**, with
+   candidate-stage intake evidence: 12 feminine tops, 12 masculine tops, 12
+   masculine bottoms, and 8-pose `fat man.png` / `skinny man.png` sheets.
+5. **No newly found source removes the need for production-resolution body
+   masters.** All 111 chopped components report
+   `eligibleAsProductionCharacterBody: false`; every body sheet is 5056×3392, so
+   cells sit under the ~1696×2528 floor. 51 of 111 are usable as #89 morphology
+   evidence.
+6. **Baked interaction props remain a real revision need** — 29 components carry
+   them (LECTERN 5, CHAIR 4, DESK 8, OTHER 12). Dispositions:
+   `MORPHOLOGY_REFERENCE_READY` 34, `OTHER_CANDIDATE_INTAKE_ONLY` 48,
+   `REVISE_BAKED_PROP` 17, `NEEDS_HUMAN_CLASSIFICATION` 12.
+7. **Nothing was released.** The component record declares
+   `releaseStatus: CANDIDATE_REFERENCE_ONLY` and `productionPixelsReleased: false`;
+   the cargo touches **no** `src/` file and **no** `art/manifest/` file.
 
 `IMG_5192.PNG` (a green-clean single pose) confirms the edge fix is achievable; the
 repo already holds the despilled equivalents, and it is still sheet-resolution.
@@ -340,7 +418,7 @@ repo already holds the despilled equivalents, and it is still sheet-resolution.
 | `npm run qa:art`                                       | PASS — contact sheet + report regenerate byte-identically                                |
 | `npm run inventory:asset-bank`                         | PASS — 8 released plates, 9 released kinds, 28 masters, 6 pose families, 4 open requests |
 | `npm run despill:edges` / `measure:references`         | Re-run byte-identical (deterministic)                                                    |
-| `src/presentation/production-release-boundary.test.ts` | 17/17 PASS                                                                               |
+| `src/presentation/production-release-boundary.test.ts` | 20/20 PASS                                                                               |
 | `npm run validate`                                     | see PR description for the full run at the pushed head                                   |
 
 **Success condition met:** the owner can now distinguish, without ambiguity, that a

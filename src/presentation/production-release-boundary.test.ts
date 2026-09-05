@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import assetManifest from "../../art/manifest/asset_manifest.json";
 import bodyDispositions from "../../art/qa/p71/source_intake_dispositions.json";
 import despillReport from "../../art/qa/p76/edge_despill_report.json";
+import candidateComponentReview from "../../art/qa/p95-recent-drive-sweep/candidate-component-review.json";
 import {
   PRODUCTION_CHARACTER_LIBRARY,
   CANDIDATE_REVIEW_CHARACTER_LIBRARY,
@@ -60,6 +61,17 @@ interface DespillEntry {
 const despillEntries = (
   despillReport as unknown as { readonly entries: readonly DespillEntry[] }
 ).entries;
+
+interface CandidateComponent {
+  readonly choppedOutputPath: string;
+  readonly eligibleAsProductionCharacterBody: boolean;
+}
+const componentReview = candidateComponentReview as unknown as {
+  readonly releaseStatus: string;
+  readonly productionPixelsReleased: boolean;
+  readonly componentCount: number;
+  readonly components: readonly CandidateComponent[];
+};
 
 function dimsOf(exportSize: string): { width: number; height: number } {
   const [width, height] = exportSize.split("x").map((value) => Number(value));
@@ -198,7 +210,7 @@ describe("B — heads pass the chop but are not production head masters", () => 
   });
 });
 
-describe("B — footwear is the right size but the wrong viewpoint", () => {
+describe("B — the p71 footwear viewpoint gap, now superseded by a corrected source", () => {
   const footwear = sheets.footwear.cells;
 
   it("dispositioned all twelve footwear REVISE", () => {
@@ -207,9 +219,47 @@ describe("B — footwear is the right size but the wrong viewpoint", () => {
   });
 
   it("clears the 1024px long-edge floor, so the gap is viewpoint not resolution", () => {
+    // The p71 sheets are bonded three-quarter pairs, which is why they cannot
+    // serve the front-on contract. That is a viewpoint gap, not a size one — and
+    // it is NO LONGER a generation need: the corrected front-facing source
+    // (shoes.png) has since been ingested and chopped into twelve candidates
+    // under art/generated/candidates/recent-drive-sweep/front-facing-footwear/.
+    // These p71 sheets are kept as source for a future three-quarter family.
     for (const cell of footwear) {
       const { width, height } = dimsOf(cell.exportSize);
       expect(Math.max(width, height)).toBeGreaterThanOrEqual(1024);
+    }
+  });
+});
+
+describe("the absorbed Wave-A / recent-Drive cargo releases nothing", () => {
+  // The cargo brought 111 chopped components and their source sheets into the
+  // repository as candidates/reference. None of it is production art, and the
+  // component record has to keep saying so: every body cell is under the
+  // ~1696x2528 floor, so nothing there can be promoted on its own bytes.
+  it("declares candidate/reference status and no released production pixels", () => {
+    expect(componentReview.releaseStatus).toBe("CANDIDATE_REFERENCE_ONLY");
+    expect(componentReview.productionPixelsReleased).toBe(false);
+  });
+
+  it("marks every one of its components ineligible as a production body", () => {
+    expect(componentReview.components).toHaveLength(
+      componentReview.componentCount,
+    );
+    const eligible = componentReview.components.filter(
+      (component) => component.eligibleAsProductionCharacterBody,
+    );
+    expect(eligible).toEqual([]);
+  });
+
+  it("registers none of the ingested candidates in the runtime manifest", () => {
+    const ingestedIds = new Set(
+      componentReview.components.map((component) =>
+        component.choppedOutputPath.split("/").pop(),
+      ),
+    );
+    for (const record of assets) {
+      expect(ingestedIds.has(`${record.asset_id}.png`)).toBe(false);
     }
   });
 });
