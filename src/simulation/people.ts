@@ -24,6 +24,7 @@ import type {
   PersonDetails,
   PersonFact,
   PersonGenerationProfile,
+  PersonIdentity,
 } from "./types";
 
 export const DEFAULT_PERSON_GENERATOR_VERSION = "person-v5";
@@ -499,4 +500,158 @@ function subjectIdsMatchingTags(
     .filter((subject) => tags.some((tag) => subject.tags.includes(tag)))
     .map((subject) => subject.id)
     .sort();
+}
+
+/**
+ * The starting person is generated, not lifted from a fixture, and the record
+ * of where their facts came from should say so rather than inheriting the
+ * demo generator's note.
+ */
+const STARTING_PERSON_PROVENANCE = {
+  method: "procedural-placeholder",
+  sourceEventId: null,
+  note: "Generated from the player's setup at the start of a new game.",
+} as const;
+
+export const STARTING_PERSON_GENERATOR_VERSION = "starting-person-v1";
+
+export interface StartingPersonInput {
+  readonly worldId: EntityId;
+  readonly worldSeed: string;
+  readonly currentDate: IsoDate;
+  readonly homeJurisdictionId: EntityId;
+  readonly birthplaceJurisdictionId?: EntityId;
+  /** Exactly how old the person is on `currentDate`. Not a range to sample. */
+  readonly age: number;
+  /** Blank or absent means "draw one from the corpus", never "leave it empty". */
+  readonly givenName?: string | null;
+  readonly familyName?: string | null;
+  readonly corpusVersion?: string;
+  readonly appearanceCatalogGeneration?: number;
+  /**
+   * The gender and pronouns the player chose, when they chose any.
+   *
+   * Absent means they did not say, which is recorded as saying nothing rather
+   * than filled in from the name that was just drawn.
+   */
+  readonly identity?: PersonIdentity;
+}
+
+/**
+ * The person a new game is actually about.
+ *
+ * Unlike the fixture generator, this one is told the age and the names rather
+ * than inventing an adult and having them corrected afterwards. That ordering
+ * is the whole point: the id, the appearance derived from it, the birth-date
+ * fact and every summary sentence are computed once, from the identity the
+ * player asked for, so nothing downstream ever has to reconcile a person with
+ * the record of their own creation.
+ *
+ * Names the player leaves blank come from the versioned corpus through the
+ * seeded generator, the same path every other canonical name takes. A name
+ * carries no claim about anybody's background.
+ */
+export function createStartingPerson(input: StartingPersonInput): Person {
+  if (!Number.isSafeInteger(input.age) || input.age < 0 || input.age > 130) {
+    throw new Error("A starting person needs a plausible age in whole years.");
+  }
+  const corpusVersion = input.corpusVersion ?? DEFAULT_CORPUS_VERSION;
+  const generationKey = `${STARTING_PERSON_GENERATOR_VERSION}:player`;
+  const id = createStableId("person", `${input.worldId}:${generationKey}`);
+  const rng = new SeededRng(input.worldSeed).fork(generationKey);
+  const corpus = getNameCorpus(corpusVersion);
+
+  // Both names are drawn whether or not they are used, so a player who types
+  // one of them does not shift the birthday of the person they are naming.
+  const drawnGivenName = rng.pick(corpus.givenNames);
+  const drawnFamilyName = rng.pick(corpus.familyNames);
+  const givenName = input.givenName?.trim() || drawnGivenName;
+  const familyName = input.familyName?.trim() || drawnFamilyName;
+
+  const month = rng.integer(1, 13);
+  const maxDay = daysInMonth(yearOf(input.currentDate) - input.age, month);
+  const day = rng.integer(1, maxDay + 1);
+  const currentMonth = Number(input.currentDate.slice(5, 7));
+  const currentDay = Number(input.currentDate.slice(8, 10));
+  const birthdayPassedOrToday =
+    month < currentMonth || (month === currentMonth && day <= currentDay);
+  const birthDate = birthDateForSelectedAge(
+    input.currentDate,
+    input.age,
+    yearOf(input.currentDate) - input.age - (birthdayPassedOrToday ? 0 : 1),
+    month,
+    day,
+  );
+
+  const appearance = derivePersonAppearance(
+    id,
+    undefined,
+    input.appearanceCatalogGeneration,
+  );
+  const birthplaceJurisdictionId =
+    input.birthplaceJurisdictionId ?? input.homeJurisdictionId;
+  const fullName = `${givenName} ${familyName}`;
+
+  const establishedFacts: readonly PersonFact[] = [
+    {
+      id: createStableId("fact", `${id}:birth-date`),
+      stableKey: "birth-date",
+      kind: "birth-date",
+      occurredAt: birthDate,
+      jurisdictionId: null,
+      summary: `${fullName}'s birth date is established as ${birthDate}.`,
+      provenance: STARTING_PERSON_PROVENANCE,
+    },
+    {
+      id: createStableId("fact", `${id}:birthplace`),
+      stableKey: "birthplace",
+      kind: "birthplace",
+      occurredAt: birthDate,
+      jurisdictionId: birthplaceJurisdictionId,
+      summary: `${fullName}'s birthplace is established in the world record.`,
+      provenance: STARTING_PERSON_PROVENANCE,
+    },
+    {
+      id: createStableId("fact", `${id}:residence:initial`),
+      stableKey: "residence:initial",
+      kind: "residence",
+      occurredAt: input.currentDate,
+      endedAt: null,
+      jurisdictionId: input.homeJurisdictionId,
+      summary: `${fullName} resides in the recorded home jurisdiction.`,
+      provenance: STARTING_PERSON_PROVENANCE,
+    },
+  ];
+
+  return {
+    id,
+    generationKey,
+    generatorVersion: STARTING_PERSON_GENERATOR_VERSION,
+    corpusVersion,
+    givenName,
+    familyName,
+    birthDate,
+    homeJurisdictionId: input.homeJurisdictionId,
+    appearance,
+    ...(input.identity === undefined ? {} : { identity: input.identity }),
+    detailLevel: "lightweight",
+    establishedFacts,
+  };
+}
+
+/**
+ * A canonical name for someone the world needs in a supporting role — a
+ * guardian, a classmate, a teacher. It goes through the same versioned corpus
+ * and seeded generator every other name does, so no module keeps a private
+ * list of three first names to choose between.
+ */
+export function drawCanonicalName(
+  rng: SeededRng,
+  corpusVersion: string = DEFAULT_CORPUS_VERSION,
+): { readonly givenName: string; readonly familyName: string } {
+  const corpus = getNameCorpus(corpusVersion);
+  return {
+    givenName: rng.pick(corpus.givenNames),
+    familyName: rng.pick(corpus.familyNames),
+  };
 }

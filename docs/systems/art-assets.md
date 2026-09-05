@@ -200,3 +200,110 @@ layers inside the ordinary scene camera; anchor markers are DOM overlays. The
 of them again seated, with save/reload through the snapshot codec. The
 accepted office scene still renders the authored A01/B01 recipes and does not
 yet consume modular recipes.
+
+### Real Political Game masters (banked candidates)
+
+Under D-055 the first real components are owner-supplied masters normalized
+by `scripts/art-asset-factory/pg-modular-intake.ts`
+(`npm run intake:pg-modular`). The selected masters are preserved
+byte-for-byte under `art/references/masters/pg-modular/` with their pack
+manifests; the derivatives live under `art/generated/approved/pg-modular/` as
+`asset_type: "character-component-candidate"` records — banked, hashed,
+reproducible, `unreleased`, and in NO catalog generation (D-063). Their
+definitions live in `candidate_component`, which nothing that resolves an
+identity reads and which declares no `catalog_generation` at all: a banked part
+has no membership to state, and a generation is assigned only by
+`promoteCandidateComponent` when a promotion actually happens (D-065). Validation
+rejects a candidate that declares one. Per-row neutral-background keying,
+opaque-bounds cropping, mask-derived rig measurement, fixed fit ratios, and
+Lanczos-3 resampling are the only operations; provenance records the master
+hash, keying profile, crop, scale, and fit for every derivative, and a test
+reproduces every hash and the generation signature.
+
+The candidate set is two body families (`pg-female-lean`, `pg-male-lean`
+from the gray body-geometry authorities), five bald heads (one feminine
+sample, four masculine identity masters), eight Black feminine hairstyles,
+four tops, three bottoms, and three footwear designs. Garment designs are
+fitted once per body family, so one design family yields `_fl_` and `_ml_`
+derivatives; hair attaches at the rig's `brow` anchor by its measured
+hairline, heads at the neck by their neck cut, garments at the shoulder line
+or waist, footwear at the sole line. The DEV fixtures are the catalog, and a
+production candidate of a kind displaces them only once it is both in a
+generation and released.
+
+Review them at `?view=character-proof&set=real`, which composes four people
+from the candidate review library alone. That view is where the art is accepted
+or rejected; nothing else in the repository can reach these parts.
+
+Known asset requirements, recorded rather than faked, and the reason these
+parts are still candidates: no seated real body exists (real people cannot yet
+sit in the office); the gray geometry authorities carry no complexion and no
+measurable sole contact, so exposed skin renders gray and the bodies declare
+neither `complexion` nor `contacts`; no masculine hairstyle,
+eyewear, or accessory master exists locally; garment compatibility is not
+gendered, so any bottom may resolve for any body family.
+
+## Pose families, masters and cargo
+
+`art/manifest/pose_families.json` is the pose contract every body component
+answers to; `docs/systems/pose-families.md` describes it. A body whose
+`pose_family` is not registered there is a validation error, as is a body whose
+own contacts drift outside its family's tolerance, and as is a family whose
+declared production status the library contradicts in either direction. The
+body master minimums now resolve through that registry, so a new posture
+declares its own source dimensions instead of needing a new constant.
+
+`art/references/masters/pg-modular/` holds twenty-five source masters re-homed
+from the superseded PR #48 branch. They are registered as
+`character-component-master` assets: approved, QA pending, and permanently
+`unreleased`, because a master is a source and not a runtime asset. Two of them
+— the standing body authorities at 1696x2528 — meet the current dimension
+contract; the other twenty-three sit 3.1x to 4.7x below their class minimum,
+and none of the twenty-five carries alpha. They are what to regenerate from,
+never what to ship, and the pipeline does not enlarge a master to reach a
+canvas. Thirty-five derivatives normalized from them are banked beside them as
+candidates; see above.
+
+The five upstream pack manifests are preserved beside the masters, byte for
+byte, and they record something nothing else here knew: across the five sets
+the packs declare 54 masters and 22 were re-homed. The other 32 exist upstream
+and were simply never collected — 9 bottoms, 9 footwear, 8 tops, 4 hairstyles
+and 2 faces. That is the difference between art that is missing and art that
+has not been fetched, and it is why the generation queue distinguishes them:
+one is a commission, the other is a download. The manifests list masters by
+their received filenames, which include the demographic tokens the intake
+re-cuts away; they stay in the provenance record and never enter an asset ID
+or a path.
+
+Identifiers are re-cut on intake. The source named heads and hair with
+demographic tokens; complexion is art direction, never demography, and is never
+inferred from a name, so those tokens do not enter asset IDs or paths. The
+received filenames stay in provenance so the lineage remains checkable.
+
+`art/manifest/cargo_disposition.json` records what happened to the cargo on the
+superseded graphics branches and to the externally downloaded packs. Validation
+refuses a `re-homed` claim that does not name real manifest assets or that was
+not measured in this repository, and refuses any disposition without a reason;
+an entry that was not measured here must name the command that would settle it.
+No external pack is counted as coverage anywhere.
+
+`art/qa/asset_bank_inventory.md` is generated by `npm run inventory:asset-bank`
+from those registries. It is the current answer to what is usable now, what is
+covered, and what still needs making, and a test regenerates it so it cannot go
+stale.
+
+## Dynamic surfaces and civic symbols
+
+A scene surface slot names a closed `kind` and closed `allowed_content_classes`.
+A slot presenting anything that follows simulation state is dynamic and must
+clear a legibility floor of 5% of plate width by 5% of plate height — 5% of a
+1080-line viewport is 54 lines, about enough for a chart with two labelled axes
+— so a surface too small for a player to read a change on stays ambient
+decoration rather than being promoted to a screen. A surface lying nearly flat
+to the camera, like a desk document, is held to 3% of plate height instead,
+because foreshortening compresses height and not width; a surface carrying a
+known image or one line of text rather than a data component is held to the
+height floor alone. The same constants back `slotIsPromotable`, so the spec
+validator and the component binder cannot disagree. A slot that may present a civic seal or flag must
+declare `civic_symbol_policy: "canonical-source-only"`. Civic symbols come from
+their canonical source and are never generated, redrawn or approximated.

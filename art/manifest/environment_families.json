@@ -20,6 +20,152 @@
       "supporting_source_references": [
         "prov_env_lexington_council_staff_office_prompt30_v1"
       ]
+    },
+    {
+      "family_id": "apartment-ordinary",
+      "room_use_category": "ordinary private apartment living room",
+      "typical_proportion_rules": "Scene plate supplies only visual-estimate proportions; no physical dimensions are claimed.",
+      "seating_dais_logic": "Domestic seating only; no dais and no public seating.",
+      "public_member_separation": "None. A private room implies no public access rule whatsoever.",
+      "circulation_assumptions": "Clear foreground floor space for standing characters and a readable seated group.",
+      "camera_framing_guidance": "Wide eye-level room plate, deliberately under-dressed so props composite later rather than baking in.",
+      "ceiling_height_category": "unknown",
+      "density_category": "ordinary-domestic",
+      "ornament_category": "restrained-domestic",
+      "reusable_prop_slots": ["television", "wall-frame", "desk-document"],
+      "event_layer_slots": ["seated-guest", "standing-near-entry"],
+      "negative_constraints": [
+        "No physical measurement precision is authorized by the raster plate.",
+        "No jurisdiction, biography or canonical simulation fact derives from visible decoration.",
+        "No readable text, logo, political or geographic identifier is baked into the plate."
+      ]
+    },
+    {
+      "family_id": "civic-community-meeting",
+      "room_use_category": "civic or community meeting room and title tableau",
+      "typical_proportion_rules": "Scene plate supplies only visual-estimate proportions; no physical dimensions are claimed.",
+      "seating_dais_logic": "Public seating facing a front table or lectern; no raised dais is assumed.",
+      "public_member_separation": "Ordinary furniture separation between a front table and public seating.",
+      "circulation_assumptions": "A central aisle and a clear front floor area remain usable for standing characters.",
+      "camera_framing_guidance": "Wide eye-level tableau with deliberate left UI-safe spacing and a hero character slot.",
+      "ceiling_height_category": "unknown",
+      "density_category": "ordinary-civic-meeting",
+      "ornament_category": "restrained-civic",
+      "reusable_prop_slots": [
+        "monitor-or-bulletin-board",
+        "podium-placard",
+        "desk-document"
+      ],
+      "event_layer_slots": ["standing-front", "seated-public-row"],
+      "negative_constraints": [
+        "No physical measurement precision is authorized by the raster plate.",
+        "No named real room, jurisdiction or institution is depicted or implied.",
+        "Civic symbols are never generated into the plate; they are canonical runtime content in a declared slot."
+      ]
+    },
+    {
+      "family_id": "executive-private-office",
+      "room_use_category": "executive or private working office",
+      "typical_proportion_rules": "Scene plate supplies only visual-estimate proportions; no physical dimensions are claimed.",
+      "seating_dais_logic": "One desk chair and visitor seating; no dais.",
+      "public_member_separation": "Ordinary furniture separation only; no security or access rule is implied.",
+      "circulation_assumptions": "A desk-side work zone and a visitor approach remain visually clear.",
+      "camera_framing_guidance": "Wide eye-level room plate with foreground desk available for character occlusion.",
+      "ceiling_height_category": "unknown",
+      "density_category": "ordinary-executive-office",
+      "ornament_category": "restrained-civic",
+      "reusable_prop_slots": [
+        "desk-document",
+        "monitor-or-screen",
+        "wall-frame"
+      ],
+      "event_layer_slots": [
+        "primary-desk-chair",
+        "visitor-chair",
+        "standing-near-desk"
+      ],
+      "negative_constraints": [
+        "No physical measurement precision is authorized by the raster plate.",
+        "No jurisdiction rule or canonical simulation fact derives from visible decoration."
+      ]
+    },
+    {
+      "family_id": "shared-workroom-office",
+      "room_use_category": "shared legislative or council staff workroom",
+      "typical_proportion_rules": "Scene plate supplies only visual-estimate proportions read off the plate's own tile grid and standard fixture heights; no physical dimensions are claimed.",
+      "seating_dais_logic": "Shared trestle work tables with task chairs; no dais and no fixed member seating.",
+      "public_member_separation": "Ordinary furniture separation only; no security or access rule is implied.",
+      "circulation_assumptions": "An open tiled floor runs from the kitchenette to the near foreground and stays visually clear for standing people.",
+      "camera_framing_guidance": "Wide eye-level workroom plate; the near table edge is available for character occlusion once an alpha is authored for it.",
+      "ceiling_height_category": "unknown",
+      "density_category": "shared-staff-workroom",
+      "ornament_category": "restrained-civic",
+      "reusable_prop_slots": ["working-document", "briefing-memo"],
+      "event_layer_slots": [
+        "kitchenette-standing",
+        "workroom-floor-standing",
+        "near-table-standing",
+        "left-task-chair"
+      ],
+      "negative_constraints": [
+        "No physical measurement precision is authorized by the raster plate.",
+        "No jurisdiction rule or canonical simulation fact derives from visible decoration.",
+        "Geometry for this family is measured from its own master and is never inherited from the council-staff-office development fixture."
+      ],
+      "supporting_source_references": ["prov_env_shared_workroom_office_v1"]
+    },
+    {
+      "family_id": "civic-hearing-room",
+      "room_use_category": "public committee or hearing room with a member bench and a testimony lectern",
+      "typical_proportion_rules": "Scene plate supplies only visual-estimate proportions; no physical dimensions are claimed.",
+      "seating_dais_logic": "A curved raised member bench with fixed chairs behind it, a clerk's desk inside the well, and a testimony lectern facing the bench.",
+      "public_member_separation": "The bench and the well separate members and staff from public seating. The separation is what the picture shows; it implies no access rule of its own.",
+      "circulation_assumptions": "A central aisle between the public seating blocks stays clear, as does the floor at the lectern.",
+      "camera_framing_guidance": "Wide eye-level room plate with the nearest public seating available for character occlusion.",
+      "ceiling_height_category": "unknown",
+      "density_category": "ordinary-public-hearing-room",
+      "ornament_category": "restrained-civic",
+      "reusable_prop_slots": [
+        "wall-screen",
+        "agenda-board",
+        "clerk-monitor",
+        "lectern-notes"
+      ],
+      "event_layer_slots": [
+        "witness-lectern-standing",
+        "hearing-floor-standing",
+        "clerk-desk-chair"
+      ],
+      "negative_constraints": [
+        "No physical measurement precision is authorized by the raster plate.",
+        "No jurisdiction rule or canonical simulation fact derives from visible decoration.",
+        "No bill number, tally, agenda, seal or name may be baked into a plate in this family."
+      ],
+      "supporting_source_references": [
+        "prov_env_civic_hearing_room_5504x3072_v1"
+      ]
+    },
+    {
+      "family_id": "legislative-chamber",
+      "room_use_category": "legislative chamber floor with tiered member seating and a presiding rostrum",
+      "typical_proportion_rules": "Scene plate supplies only visual-estimate proportions; no physical dimensions are claimed.",
+      "seating_dais_logic": "Tiered rows of fixed member desks facing a raised rostrum reached by steps, with a lectern on the rostrum and public galleries above.",
+      "public_member_separation": "The galleries are physically separated from the floor. The separation is what the picture shows; it implies no access rule of its own.",
+      "circulation_assumptions": "The open well between the near desk run and the rostrum stays clear.",
+      "camera_framing_guidance": "Wide eye-level plate from the floor, with the near member desk available for character occlusion.",
+      "ceiling_height_category": "unknown",
+      "density_category": "ordinary-legislative-chamber",
+      "ornament_category": "restrained-civic",
+      "reusable_prop_slots": ["desk-monitor", "desk-document", "lectern-notes"],
+      "event_layer_slots": ["well-floor-standing", "rostrum-lectern-standing"],
+      "negative_constraints": [
+        "No physical measurement precision is authorized by the raster plate.",
+        "No jurisdiction rule or canonical simulation fact derives from visible decoration.",
+        "No bill number, tally, agenda, seal, flag or name may be baked into a plate in this family."
+      ],
+      "supporting_source_references": [
+        "prov_env_legislative_chamber_floor_5632x3072_v1"
+      ]
     }
   ]
 }

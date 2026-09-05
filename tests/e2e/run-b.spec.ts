@@ -1,7 +1,7 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/?view=office-fixture");
   await page.evaluate(() => window.localStorage.clear());
   await page.reload();
 });
@@ -380,9 +380,15 @@ test("presents Listen as a non-spoken action and only continues when the bounded
   await expect(listen()).toBeVisible();
 
   await listen().click();
-  await expect(strip).toContainText(
-    "The room settles. No one adds anything yet.",
-  );
+  // Nobody speaks. The sentence the room gets is chosen from several, so what
+  // is asserted here is the thing that actually matters — that no one spoke,
+  // and that a silent turn is still a turn the world recorded without anybody
+  // making a claim in it.
+  const quiet = strip.locator(".conversation-room-narration");
+  await expect(quiet).toBeVisible();
+  await expect(strip.locator(".conversation-beat blockquote")).toHaveCount(0);
+  const settled = (await quiet.innerText()).trim();
+  expect(settled.length).toBeGreaterThan(0);
   await expect(office).toHaveAttribute("data-conversation-event-count", "3");
   await expect(office).toHaveAttribute("data-conversation-claim-count", "2");
   await expect(listen()).toHaveCount(0);
@@ -391,9 +397,8 @@ test("presents Listen as a non-spoken action and only continues when the bounded
   await expect(strip).toHaveAttribute("data-conversation-mode", "history");
   let transcript = page.getByTestId("conversation-transcript");
   await expect(transcript).toContainText("(You listen.)");
-  await expect(transcript).toContainText(
-    "The room settles. No one adds anything yet.",
-  );
+  // The same sentence the room got, not a paraphrase of it.
+  await expect(transcript).toContainText(settled);
   await expect(transcript).not.toContainText("You · Say nothing");
   await expect(transcript).not.toContainText("You · Listen");
   await strip.getByRole("button", { name: "Previous" }).click();

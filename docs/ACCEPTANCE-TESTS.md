@@ -1573,3 +1573,87 @@ effective date cites Sec. 18; Uniform Rule 22 is not cited as authority for
 referral or amendment. Nebraska does not claim every bill is guaranteed a
 hearing. Committee sizes are marked as the scenario's rather than as sourced
 rules, and no source is marked verified without recording what was read.
+
+### VISUAL-012 — Real masters normalize deterministically and reproduce by hash
+
+Every source master under `art/references/masters/pg-modular/` is
+byte-identical to the hash its derivatives' provenance records. Re-running the
+intake into a scratch directory reproduces all thirty-five banked production
+candidates byte-for-byte. None of them appears in any catalog generation, and
+generations 1 and 2 still carry their published members and signatures.
+Keying keeps colored content, removes neutral shadows only for components,
+and keys per row; rig measurement orders crown, brow, neck, shoulders, waist,
+root, and soles anatomically; face-gap measurement reports width, center, and
+hairline. Development fixtures carry the `development-fixture` class and
+production candidates the `production-candidate` class; an invalid class is
+rejected.
+
+### VISUAL-013 — Banked candidates compose for review, and reach nothing else
+
+At `?view=character-proof&set=real`, four generated people composed from the
+candidate review library render complete from `pg_` components only: both body families,
+at least three heads, two hairstyles on the two women, three tops, and two
+bottoms, with garment derivatives matching each person's body family and DOM
+order equal to draw order. The reuse table shows each body used twice; the
+lineage table cites every component's source master. Saving and reloading
+restores the same recipe keys. The seated side view renders no layers and
+reports the missing body rather than faking a pose. The DEV set at `&set=dev`
+renders the catalog fixtures. No banked candidate appears in the production
+character library at any generation, and no person composed from the catalog
+ever receives one.
+
+### VISUAL-014 — Seated characters make chair contact
+
+A01 and B01 roots equal the seat-contact lines measured from their rasters
+within 0.01, and both lie in the lower half of the figure. The re-derived
+foreground mask leaves the primary chair back and seat transparent while the
+desk corner stays opaque, and its hash matches the released manifest. In the
+browser the guest root lands on the guest chair seat point and the primary
+root on the primary chair seat point; before/after evidence is recorded under
+`docs/agent/evidence/office-clipping-*`.
+
+### VISUAL-015 — The office seam serves flattened and modular people alike
+
+An office person with no authored recipe and no pin composes a modular
+character at the same anchor with the same paint order and a real hitbox, and
+reports a placeholder because generation 1 has no seated footwear; the same
+person pinned to generation 2 composes complete, from fixtures only. A01 and
+B01 still resolve their authored rasters with the recorded hashes.
+
+### VISUAL-016 — The approved library exists as authoring records, and refuses to pretend it is finished
+
+Six approved masters carry a physical scene family, and five carry a scaffold
+with measured floor calibration, seat planes, staging positions, occluder
+regions and surface slots. Every resolved measurement is marked `ESTIMATED` and
+sourced to the inspection; none is presented as plan-derived. All five scaffolds
+report `camera`, `safeArea` and `essentialContentArea` as blocking gaps and
+project to `null`, no scaffold declares a raster, no occluder declares an alpha
+mask it does not have, and every seat anchor carries the measured seat plane
+with its seat box still open.
+
+### VISUAL-017 — Small surfaces stay painted, and the rule that says so is enforced
+
+Nine inspected frames are declared ambient decor with their measured
+rectangles; eight of them fail `slotIsPromotable` on the recorded numbers.
+Binding a component to a slot below the threshold is a validation error. The
+four promoted surfaces are the three televisions, the district map, the podium
+placard, the desk documents, the executive focal frame and the flag standard,
+and no bookcase, certificate, side-table or clipped edge frame appears among
+them.
+
+### VISUAL-018 — A dynamic surface hosts only what it can honestly draw
+
+Every promoted slot binds component families that can be drawn on its kind; a
+roll-call grid on a domestic television and an agenda list on a lectern that
+takes only a briefing card are both validation errors. Windows, flags and
+portraits bind no component at all. Every one of the twelve families declares an
+empty state, the surfaces it draws on, and the inferences it must never make.
+
+### VISUAL-019 — Civic symbols are identities, and external packs answer two questions
+
+188 civic symbols across 65 jurisdictions validate, all `not-acquired`, none
+with an asset path. A record claiming generated artwork is a validation error,
+and campaign and commercial use are refused without reference to the symbol. All
+three downloaded packs validate, none is `use-now`, none harvested a file: the
+two CC0 packs are archived for needing rigging or rendering, and the office set
+is rejected for unverified rights before its contents are considered.

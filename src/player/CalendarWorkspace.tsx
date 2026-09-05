@@ -334,8 +334,8 @@ function CalendarDetail({
             {execution.waitMinutes > 0
               ? `This action waits ${execution.waitMinutes} minutes until ${formatMinute(entry.state.start.minuteOfDay)}, then ${executionPhrase(entry, execution.activityMinutes)}.`
               : `This action ${executionPhrase(entry, execution.activityMinutes)}.`}{" "}
-            {execution.totalElapsedMinutes} canonical minutes elapse, advancing
-            the clock to{" "}
+            {execution.totalElapsedMinutes} minutes elapse, advancing the clock
+            to{" "}
             {formatResultingMoment(
               execution.resultingMoment.date,
               execution.resultingMoment.minuteOfDay,

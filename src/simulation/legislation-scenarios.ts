@@ -51,9 +51,21 @@ export interface AuthoredVoteCounts {
   readonly excused?: number;
 }
 
+/**
+ * The procedure in these scenarios is sourced. The bills are not.
+ *
+ * Every measure below is written for development so the institutions have
+ * something to act on. None of them is a real bill, and the game says so on
+ * the screen rather than leaving a player to assume otherwise.
+ */
+export const AUTHORED_MEASURE_NOTICE =
+  "Written for development. The procedure is sourced; the bill is not a real one.";
+
 export interface LegislativeScenario {
   readonly scenarioKey: string;
   readonly label: string;
+  /** Always the authored notice. Present so no surface can forget to show it. */
+  readonly measureNotice: typeof AUTHORED_MEASURE_NOTICE;
   readonly world: World;
   readonly pack: LegislativeRulePack;
   readonly measureId: EntityId;
@@ -68,6 +80,25 @@ export interface LegislativeScenario {
    */
   readonly votePlan: Readonly<Record<string, AuthoredVoteCounts>>;
   /** Whether the governor signs or vetoes when the bill reaches the desk. */
+  readonly governorAction: "signed" | "vetoed";
+  readonly governorRationale: string;
+}
+
+/**
+ * What carrying out a legislative step actually needs.
+ *
+ * Deliberately not a world. The procedure, the seated members and their
+ * authored decisions are the same whether the bill is sitting in a developer
+ * scenario or in a player's own save; keeping the world out of this type is
+ * what lets production run the same rule pack against the world the player
+ * is actually living in.
+ */
+export interface LegislativeProcedureContext {
+  readonly pack: LegislativeRulePack;
+  readonly measureId: EntityId;
+  readonly bodies: readonly SeatedBody[];
+  readonly committeeMemberCount: number;
+  readonly votePlan: Readonly<Record<string, AuthoredVoteCounts>>;
   readonly governorAction: "signed" | "vetoed";
   readonly governorRationale: string;
 }
@@ -252,7 +283,7 @@ export function committeeMembers(
 }
 
 export function bodyForChamber(
-  scenario: LegislativeScenario,
+  scenario: LegislativeProcedureContext,
   chamberKey: string,
 ): SeatedBody {
   const body = scenario.bodies.find(
@@ -265,7 +296,7 @@ export function bodyForChamber(
 }
 
 /** Every seat in the legislature, for a joint sitting. */
-export function jointBody(scenario: LegislativeScenario): SeatedBody {
+export function jointBody(scenario: LegislativeProcedureContext): SeatedBody {
   return {
     chamberKey: "joint",
     chamberName: "Joint session",
@@ -282,6 +313,12 @@ interface ScenarioBlueprint {
   readonly designation: string;
   readonly shortTitle: string;
   readonly summary: string;
+  /**
+   * Declared, not guessed from the state. Alaska overrides an appropriation at
+   * three quarters of the joint membership and anything else at two thirds, so
+   * this field decides which threshold a bill actually faces.
+   */
+  readonly subjectClass: "appropriation" | "general-policy";
   readonly nonpartisan: boolean;
   readonly votePlan: Readonly<Record<string, AuthoredVoteCounts>>;
   readonly governorAction: "signed" | "vetoed";
@@ -297,6 +334,7 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
     pack: KENTUCKY_RULE_PACK,
     designation: "HB 214",
     shortTitle: "Transit Access Pilot",
+    subjectClass: "general-policy",
     summary:
       "Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.",
     nonpartisan: false,
@@ -323,6 +361,7 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
     pack: NEBRASKA_RULE_PACK,
     designation: "LB 88",
     shortTitle: "Rural Transit Access",
+    subjectClass: "general-policy",
     summary:
       "Extends the state transit assistance formula to counties without a fixed-route provider.",
     nonpartisan: true,
@@ -346,6 +385,7 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
     pack: ALASKA_RULE_PACK,
     designation: "HB 41",
     shortTitle: "Village Transit Support",
+    subjectClass: "appropriation",
     summary:
       "Appropriates matching funds for community transit in unserved boroughs and census areas.",
     nonpartisan: false,
@@ -360,7 +400,253 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
     governorRationale:
       "The Governor returned the whole bill, objecting that the match commits the state before the boroughs have costed their routes.",
   },
+  {
+    // A bill the Governor simply signs. Every scenario above ends in a veto and
+    // an override, which made that look like the normal way a bill becomes law.
+    scenarioKey: "kentucky-signage",
+    label: "Kentucky General Assembly — road signage",
+    seed: "legislative-core-kentucky-signage-2026",
+    context: KENTUCKY_CONTEXT,
+    pack: KENTUCKY_RULE_PACK,
+    designation: "HB 388",
+    shortTitle: "Rural Road Sign Replacement",
+    subjectClass: "general-policy",
+    summary:
+      "Sets a replacement schedule for damaged and illegible route markers on state-maintained rural roads.",
+    nonpartisan: false,
+    votePlan: {
+      "committee:house-transportation": { yea: 13, nay: 4 },
+      "committee:senate-transportation": { yea: 9, nay: 2 },
+      "floor:house:final-passage": { yea: 74, nay: 24, absent: 2 },
+      "floor:senate:final-passage": { yea: 29, nay: 8, absent: 1 },
+      "amendment:house": { yea: 66, nay: 32, absent: 2 },
+      "amendment:senate": { yea: 26, nay: 11, absent: 1 },
+      "concurrence:house": { yea: 71, nay: 27, absent: 2 },
+    },
+    governorAction: "signed",
+    governorRationale:
+      "The Governor signed the bill, noting the schedule carries no new appropriation.",
+  },
+  {
+    // A bill that dies where most bills die. Nothing above ever fails, which
+    // made committee referral look like a formality.
+    scenarioKey: "nebraska-credentials",
+    label: "Nebraska Legislature — driver credentials",
+    seed: "legislative-core-nebraska-credentials-2026",
+    context: NEBRASKA_CONTEXT,
+    pack: NEBRASKA_RULE_PACK,
+    designation: "LB 142",
+    shortTitle: "School Transport Credential Recognition",
+    subjectClass: "general-policy",
+    summary:
+      "Would recognize school transport driver credentials issued by adjoining states for drivers already licensed here.",
+    nonpartisan: true,
+    votePlan: {
+      "committee:transportation-telecommunications": { yea: 3, nay: 5 },
+      "floor:legislature:general-file": { yea: 24, nay: 23, absent: 2 },
+      "floor:legislature:select-file": { yea: 24, nay: 23, absent: 2 },
+      "floor:legislature:final-reading": { yea: 24, nay: 23, absent: 2 },
+      "amendment:legislature": { yea: 22, nay: 25, absent: 2 },
+      "override:legislature": { yea: 24, nay: 23, absent: 2 },
+    },
+    governorAction: "vetoed",
+    governorRationale:
+      "The Governor did not reach this bill; it was not reported out of committee.",
+  },
+  {
+    // An Alaska bill that is not an appropriation, so its veto is overridden at
+    // two thirds of the joint membership rather than three quarters.
+    scenarioKey: "alaska-ferry-notice",
+    label: "Alaska State Legislature — ferry notice",
+    seed: "legislative-core-alaska-ferry-2026",
+    context: ALASKA_CONTEXT,
+    pack: ALASKA_RULE_PACK,
+    designation: "HB 77",
+    shortTitle: "Coastal Ferry Schedule Notice",
+    subjectClass: "general-policy",
+    summary:
+      "Would require advance public notice before a scheduled coastal ferry sailing is cancelled or rerouted.",
+    nonpartisan: false,
+    votePlan: {
+      "committee:house-transportation": { yea: 5, nay: 2 },
+      "committee:senate-transportation": { yea: 4, nay: 3 },
+      "floor:house:final-passage": { yea: 26, nay: 13, absent: 1 },
+      "floor:senate:final-passage": { yea: 12, nay: 8 },
+      "amendment:house": { yea: 23, nay: 16, absent: 1 },
+      "amendment:senate": { yea: 11, nay: 9 },
+      "concurrence:house": { yea: 25, nay: 14, absent: 1 },
+      // Two thirds of the sixty-member joint session is forty. An appropriation
+      // would have needed forty-five, and this bill is not one.
+      "override:joint": { yea: 41, nay: 18, absent: 1 },
+    },
+    governorAction: "vetoed",
+    governorRationale:
+      "The Governor objected that the notice period would bind operations during weather cancellations.",
+  },
+  {
+    // A bill the two chambers never agree on. Every scenario above that reaches
+    // a second chamber ends with the origin chamber accepting the changes,
+    // which made concurrence look like a formality rather than a decision.
+    scenarioKey: "kentucky-crossing-signals",
+    label: "Kentucky General Assembly — school crossing signals",
+    seed: "legislative-core-kentucky-crossing-2026",
+    context: KENTUCKY_CONTEXT,
+    pack: KENTUCKY_RULE_PACK,
+    designation: "HB 502",
+    shortTitle: "School Crossing Signal Standards",
+    subjectClass: "general-policy",
+    summary:
+      "Would set a common standard for pedestrian crossing signals on state-maintained roads within a quarter mile of a school entrance.",
+    nonpartisan: false,
+    votePlan: {
+      "committee:house-transportation": { yea: 11, nay: 6 },
+      "committee:senate-transportation": { yea: 8, nay: 3 },
+      "floor:house:final-passage": { yea: 62, nay: 36, absent: 2 },
+      "floor:senate:final-passage": { yea: 24, nay: 13, absent: 1 },
+      "amendment:house": { yea: 48, nay: 50, absent: 2 },
+      // The Senate narrows the bill to roads it already maintains signals on.
+      "amendment:senate": { yea: 24, nay: 13, absent: 1 },
+      // Fifty-one of the hundred members elected are needed to accept the
+      // Senate's change, and the House does not have them.
+      "concurrence:house": { yea: 44, nay: 54, absent: 2 },
+      "override:house": { yea: 44, nay: 54, absent: 2 },
+      "override:senate": { yea: 24, nay: 13, absent: 1 },
+    },
+    governorAction: "vetoed",
+    governorRationale:
+      "The Governor never received this bill; the two chambers did not agree on one text.",
+  },
+  {
+    // An override that falls short, so the veto stands. Every override above
+    // succeeds, which made a veto look like a formality too.
+    scenarioKey: "nebraska-winter-clearing",
+    label: "Nebraska Legislature — winter route clearing",
+    seed: "legislative-core-nebraska-clearing-2026",
+    context: NEBRASKA_CONTEXT,
+    pack: NEBRASKA_RULE_PACK,
+    designation: "LB 219",
+    shortTitle: "Winter Route Clearing Standards",
+    subjectClass: "general-policy",
+    summary:
+      "Would set a minimum clearing standard for state-maintained routes serving school transport during winter weather.",
+    nonpartisan: true,
+    votePlan: {
+      "committee:transportation-telecommunications": { yea: 5, nay: 3 },
+      "floor:legislature:general-file": { yea: 27, nay: 20, absent: 2 },
+      "floor:legislature:select-file": { yea: 27, nay: 20, absent: 2 },
+      "floor:legislature:final-reading": { yea: 27, nay: 20, absent: 2 },
+      "amendment:legislature": { yea: 26, nay: 21, absent: 2 },
+      // Twenty-five of the forty-nine elected pass a bill; thirty are needed to
+      // override a veto. Twenty-eight is enough for one and not the other.
+      "override:legislature": { yea: 28, nay: 19, absent: 2 },
+    },
+    governorAction: "vetoed",
+    governorRationale:
+      "The Governor objected that a statewide clearing standard would bind counties with very different road mileage.",
+  },
+  {
+    // A bill voted down on the floor of the second chamber. Above, a bill that
+    // reaches a floor always passes it, so the only way to lose was committee.
+    scenarioKey: "alaska-harbor-dredging",
+    label: "Alaska State Legislature — harbor dredging",
+    seed: "legislative-core-alaska-harbor-2026",
+    context: ALASKA_CONTEXT,
+    pack: ALASKA_RULE_PACK,
+    designation: "HB 95",
+    shortTitle: "Harbor Dredging Schedule",
+    subjectClass: "general-policy",
+    summary:
+      "Would require a published dredging schedule for state-maintained small-boat harbours before each season opens.",
+    nonpartisan: false,
+    votePlan: {
+      "committee:house-transportation": { yea: 5, nay: 2 },
+      "committee:senate-transportation": { yea: 4, nay: 3 },
+      "floor:house:final-passage": { yea: 23, nay: 16, absent: 1 },
+      // Eleven of the twenty senators are needed. Nine is not eleven, and the
+      // bill goes no further — no veto, no override, no desk.
+      "floor:senate:final-passage": { yea: 9, nay: 11 },
+      "amendment:house": { yea: 21, nay: 18, absent: 1 },
+      "amendment:senate": { yea: 9, nay: 11 },
+      "override:joint": { yea: 32, nay: 27, absent: 1 },
+    },
+    governorAction: "vetoed",
+    governorRationale:
+      "The Governor never received this bill; the Senate voted it down.",
+  },
 ];
+
+/**
+ * The authored content of a scenario, with no world attached.
+ *
+ * `createLegislativeScenario` builds a whole developer world so a scenario can
+ * be played standalone. Production already has a world — the player's — and
+ * needs only the procedure and the authored decisions, so it reads this
+ * instead of constructing a fixture it would immediately throw away.
+ */
+export interface LegislativeBlueprint {
+  readonly scenarioKey: string;
+  readonly label: string;
+  readonly measureNotice: typeof AUTHORED_MEASURE_NOTICE;
+  readonly context: DemoJurisdictionContext;
+  readonly pack: LegislativeRulePack;
+  readonly designation: string;
+  readonly shortTitle: string;
+  readonly summary: string;
+  readonly subjectClass: "appropriation" | "general-policy";
+  readonly nonpartisan: boolean;
+  readonly votePlan: Readonly<Record<string, AuthoredVoteCounts>>;
+  readonly governorAction: "signed" | "vetoed";
+  readonly governorRationale: string;
+}
+
+export function legislativeBlueprint(
+  scenarioKey: string,
+): LegislativeBlueprint {
+  const blueprint = BLUEPRINTS.find(
+    (candidate) => candidate.scenarioKey === scenarioKey,
+  );
+  if (!blueprint) {
+    throw new Error(`No legislative scenario named '${scenarioKey}'.`);
+  }
+  return {
+    scenarioKey: blueprint.scenarioKey,
+    label: blueprint.label,
+    measureNotice: AUTHORED_MEASURE_NOTICE,
+    context: blueprint.context,
+    pack: blueprint.pack,
+    designation: blueprint.designation,
+    shortTitle: blueprint.shortTitle,
+    summary: blueprint.summary,
+    subjectClass: blueprint.subjectClass,
+    nonpartisan: blueprint.nonpartisan,
+    votePlan: blueprint.votePlan,
+    governorAction: blueprint.governorAction,
+    governorRationale: blueprint.governorRationale,
+  };
+}
+
+/** Seats a chamber for production, linking only members the world really has. */
+export function seatBodyForPack(
+  chamberKey: string,
+  chamberName: string,
+  seats: number,
+  linkedPeople: readonly {
+    readonly personId: EntityId;
+    readonly name: string;
+  }[],
+  nonpartisan: boolean,
+): SeatedBody {
+  return seatChamber(chamberKey, chamberName, seats, linkedPeople, nonpartisan);
+}
+
+/** The scenarios written for one place, in the order they were authored. */
+export function legislativeScenarioKeysForPlace(
+  jurisdictionId: EntityId,
+): readonly string[] {
+  return BLUEPRINTS.filter(
+    (blueprint) => blueprint.context.jurisdiction.id === jurisdictionId,
+  ).map((blueprint) => blueprint.scenarioKey);
+}
 
 export function legislativeScenarioKeys(): readonly string[] {
   return BLUEPRINTS.map((blueprint) => blueprint.scenarioKey);
@@ -403,8 +689,7 @@ export function createLegislativeScenario(
       shortTitle: blueprint.shortTitle,
       summary: blueprint.summary,
       origin: "member-introduction",
-      subjectClass:
-        blueprint.scenarioKey === "alaska" ? "appropriation" : "general-policy",
+      subjectClass: blueprint.subjectClass,
       sponsorPersonId: playerPersonId,
     },
   );
@@ -432,6 +717,7 @@ export function createLegislativeScenario(
   return {
     scenarioKey: blueprint.scenarioKey,
     label: blueprint.label,
+    measureNotice: AUTHORED_MEASURE_NOTICE,
     world,
     pack: blueprint.pack,
     measureId: measure.id,

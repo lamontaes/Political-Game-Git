@@ -425,6 +425,90 @@ describe("runtime input and shape validation", () => {
   });
 });
 
+describe("raster tier lineage", () => {
+  function withTiers(tiers: unknown): Record<string, unknown> {
+    return baseSpec({ raster: { asset_id: "env_test_plate", tiers } });
+  }
+
+  const tier = (
+    width: number,
+    extra: Record<string, unknown> = {},
+  ): Record<string, unknown> => ({
+    width,
+    height: Math.round((width * 9) / 16),
+    path: `art/generated/env_test_plate-${width}.png`,
+    hash: `${width}`.padStart(64, "0"),
+    derivation: "deterministic-downscale",
+    ...extra,
+  });
+
+  it("accepts a plain downscale ladder", () => {
+    expect(
+      validateEnvironmentSceneSpec(withTiers([tier(1_024), tier(2_048)])),
+    ).toEqual({ valid: true, errors: [] });
+  });
+
+  it("accepts an external upscale derivative that declares where detail stops", () => {
+    expect(
+      validateEnvironmentSceneSpec(
+        withTiers([
+          tier(1_024),
+          tier(2_048, {
+            derivation: "external-upscale-derivative",
+            native_detail_width: 1_024,
+          }),
+        ]),
+      ),
+    ).toEqual({ valid: true, errors: [] });
+  });
+
+  it("rejects enlarged lineage that will not say where detail stops", () => {
+    expectInvalid(
+      withTiers([tier(2_048, { derivation: "external-upscale-derivative" })]),
+      "must declare the native_detail_width",
+    );
+    expectInvalid(
+      withTiers([tier(2_048, { derivation: "upscaled-development-fixture" })]),
+      "must declare the native_detail_width",
+    );
+  });
+
+  it("rejects a declared detail width above the tier's own pixels", () => {
+    expectInvalid(
+      withTiers([
+        tier(2_048, {
+          derivation: "external-upscale-derivative",
+          native_detail_width: 4_096,
+        }),
+      ]),
+      "must declare the native_detail_width",
+    );
+  });
+
+  it("rejects a detail width on a derivation whose pixels are the truth", () => {
+    expectInvalid(
+      withTiers([tier(2_048, { native_detail_width: 1_024 })]),
+      "claims full native detail",
+    );
+    expectInvalid(
+      withTiers([
+        tier(2_048, {
+          derivation: "native-master",
+          native_detail_width: 1_024,
+        }),
+      ]),
+      "claims full native detail",
+    );
+  });
+
+  it("rejects an unrecognised derivation", () => {
+    expectInvalid(
+      withTiers([tier(2_048, { derivation: "vibes" })]),
+      "derivation has invalid value",
+    );
+  });
+});
+
 describe("source and scene reference integrity", () => {
   it("rejects empty source IDs and source types", () => {
     expectInvalid(
