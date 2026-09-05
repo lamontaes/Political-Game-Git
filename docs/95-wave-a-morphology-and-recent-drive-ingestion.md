@@ -6,6 +6,7 @@ Status: candidate/reference mechanical intake only. This cargo releases no pixel
 
 - Cargo base: PR #95 head `e9fa03b9f8c85ad2e797cad60d9c1c19f0d22736`.
 - The exact Drive query window begins `2026-09-02T15:00:00Z` and returned 286 accessible images. Complete provider metadata and reconciled classifications are in `art/qa/p95-recent-drive-sweep/drive-image-inventory.json`; the unmodified provider metadata is retained beside it.
+- Pixel dimensions and SHA-256 were locally verified for 34 recent files (including exact repository equivalents). The other 252 entries are metadata-inventoried and explicitly marked `DRIVE_METADATA_INVENTORIED_REPOSITORY_EQUIVALENT_NOT_BYTE_MATCHED`; they were not silently represented as byte- or pixel-inspected. Consequently, the amendment's every-file pixel/hash requirement remains incomplete and the cargo is not yet safe to absorb as a completed 72-hour sweep.
 - Exact source-sheet reports are in `art/qa/p95-wave-a-morphology/` and `art/qa/p95-recent-drive-sweep/`.
 - The complete 111-component measurement/disposition record is `art/qa/p95-recent-drive-sweep/candidate-component-review.json`.
 - The family-separated human review surface is `art/qa/p95-recent-drive-sweep/candidate-contact-sheet.html`.
