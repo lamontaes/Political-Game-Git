@@ -2,6 +2,22 @@
 
 Newest release first.
 
+## UNRELEASED — The life happens in the room
+
+Playing a life used to be a big card of text in the middle of the screen with
+the room behind it like wallpaper, and your family nowhere to be seen. Now the
+room is the game. It fills the screen, the moment you're in is a small panel
+over it, and the people the game generated for you — your mom, your dad, a
+brother or sister — are a standing list down the right side that you can open,
+keep pinned, or fold away. Where you are, what the date is, and the way to
+everything else sit quietly in the corner.
+
+The people in the room are shown as placed figures for now, because the finished
+character art is still being made; the names and who they are to you are real,
+and the real figures will fill those places as the art arrives. The controls
+have been redrawn too, in ink, navy and brass rather than the old flat green
+buttons.
+
 ## UNRELEASED — The front door, and who's at home
 
 The title screen is a room, not a room with a caption. The line that used to

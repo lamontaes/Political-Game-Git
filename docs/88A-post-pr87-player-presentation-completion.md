@@ -1,11 +1,61 @@
 # 88A — Post-#87 Player Presentation and Formative-Life Pass — Completion
 
 Canonical completion report for the post-#87 player-presentation / new-game /
-formative-life pork-barrel pass.
+formative-life pork-barrel pass, on PR #91 (`claude/post87-player-presentation`).
 
 A **new branch and a new PR**, cut from accepted `main`. PR #87 is left closed
 and merged; nothing here reopens it. No human acceptance is claimed — §S says
 what to retest.
+
+---
+
+## 0. Fourth human play — scene-first shell convergence
+
+The fourth play failed on the play surface: a large white card over wallpaper,
+no family in the room, People reduced to a button. This section is the
+convergence answer, on the same PR #91, after merging current `main`
+(`54ec313`, the #88 merge, tooling/evidence only).
+
+**Focus (owner-directed): the scene-first shell and People rail.** The room is
+now the surface, not a card on it:
+
+- `src/presentation/life-scene-people.ts` places the people a moment actually
+  contains on the scene registry's own anchors (seats then floor), resolved
+  through #86's `composeSceneCharacter`. No second scene model or compositor is
+  built; #89/#90 fit internals are untouched.
+- `SceneBackdrop` gained a plate-space people layer. Because **no production
+  body master is released** (the #88 despilled bodies are candidates, not
+  released), every in-scene person fails closed to a named, floor-anchored
+  placeholder — never a broken image, never another person's likeness. The day
+  a body master is released the same placement carries the real sprite.
+- `PlayingScreen` is rebuilt scene-first: the room fills the frame, the current
+  moment is a compact civic-glass panel over it (not a page-sized card), the
+  **generated household is a persistent People rail** on the right — the family
+  the fourth play never saw — with open-a-person, pin/unpin and collapse, and
+  where/when plus every secondary system live on a small corner HUD.
+- The family introduction is a scene-establishing overlay, not a white box.
+- One coherent civic control vocabulary (`ui-action`: primary / subtle / rail /
+  choice, in ink, navy and gold) replaces the flat green web buttons across the
+  shell.
+
+Proofs: `tests/scene-people-placement.test.ts` (placement + fail-closed +
+determinism) and `tests/e2e/scene-first-shell.spec.ts` (room fills the frame,
+household on the rail with relationships, moment panel is a compact panel not a
+page-sized card, open-a-person, collapse, a choice advances the life).
+
+**Known limitation caused specifically by unreleased production person art:**
+the people in the room are placeholders and the People rail carries names and
+relationships only, because zero player-facing person master has cleared its
+release gate. The shell is correct now and populates with real figures the
+moment that art lands, with no further shell change.
+
+**Deferred to a later pass on this PR (not in the owner-chosen focus):** the
+residual title-transition stutter, the creator search-results reframe, the
+Kentucky state-capability copy, the quick/detailed questionnaire split, the
+policy-question content swap, the distinct character-creation moment, the global
+button-system replacement, and driving the environment from the situation's
+location (a school scene still paints the home plate). These are recorded here
+rather than claimed.
 
 ---
 

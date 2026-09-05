@@ -311,8 +311,10 @@ test.describe("A life happens in the room the records put it in", () => {
     // Everybody named is named with what the record says they are, which is
     // the whole difference between this and "Maya Pittman is in the house".
     expect(said).toMatch(/your (mom|dad|parent|older|younger)/i);
+    // Word boundaries, so a generated surname that merely contains "tier" or
+    // "seed" as a substring is not mistaken for machinery language.
     expect(said).not.toMatch(
-      /tableau|asset|tier|registry|raster|seed|household id/i,
+      /\b(tableau|asset|tier|registry|raster|seed)\b|household id/i,
     );
 
     // And nothing else is on screen until it has been read.
