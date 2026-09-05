@@ -7,7 +7,9 @@ import {
   type CharacterComponentLibrary,
   type CharacterRecipe,
   type CharacterRecipeIdentity,
+  type ProjectedLayerFitRefusal,
 } from "./character-components";
+import type { GarmentFitClass, GarmentFitMatrix } from "./garment-fit";
 import type { SceneSize } from "./scene-transform";
 import type { RuntimeVisualLibrary } from "./visual-integration";
 
@@ -49,6 +51,40 @@ export interface ModularSceneAnchor {
   readonly bodyWidthPercent: number;
 }
 
+/**
+ * One horizontal slice of a bounded-warp fit, in plate percent units.
+ *
+ * NOT RENDERABLE. No renderer in this repository draws bands, and the
+ * projection withholds a warped layer for every consumer, so a plan only ever
+ * carries bands on a layer that is already reported unreleased. They are here
+ * for inspection: the slice each band shows, and where the WHOLE raster would
+ * sit so that exactly this band's source rows land in that slice. A future
+ * renderer that draws the full image at `image` and clips to the slice would
+ * reproduce the geometry; one that draws the full image into the slice would
+ * not, and the first head's documentation described the second.
+ */
+export interface CharacterRenderBand {
+  readonly index: number;
+  readonly leftPercent: number;
+  readonly topPercent: number;
+  readonly widthPercent: number;
+  readonly heightPercent: number;
+  readonly sourceTopFraction: number;
+  readonly sourceBottomFraction: number;
+  readonly image: {
+    readonly leftPercent: number;
+    readonly topPercent: number;
+    readonly widthPercent: number;
+    readonly heightPercent: number;
+  };
+}
+
+export interface CharacterRenderLayerFit {
+  readonly classification: GarmentFitClass;
+  readonly transformKind: "direct" | "affine" | "bounded-warp";
+  readonly matrix: GarmentFitMatrix;
+}
+
 export interface CharacterRenderLayer {
   readonly assetId: string;
   readonly kind: CharacterComponentKind;
@@ -63,6 +99,14 @@ export interface CharacterRenderLayer {
   readonly topPercent: number;
   readonly widthPercent: number;
   readonly heightPercent: number;
+  /** The morphology fit applied, or null under the pre-fit contract. */
+  readonly fit: CharacterRenderLayerFit | null;
+  /**
+   * Non-null only for a bounded warp, and then only on a layer the projection
+   * has already refused (`released: false`, `url: null`). Inspection data, not
+   * a drawing instruction.
+   */
+  readonly bands: readonly CharacterRenderBand[] | null;
 }
 
 export interface CharacterRenderMarker {
@@ -108,9 +152,18 @@ export interface CharacterRenderPlan {
   readonly complete: boolean;
   /**
    * What stopped this person being complete: component IDs that resolved but
-   * are not runtime eligible, a missing body, and empty required slots.
+   * are not runtime eligible, a missing body, empty required slots, and any
+   * garment the fit bank refused to place on this morphology.
    */
   readonly missing: readonly string[];
+  /**
+   * Garments this body family and pose have no usable fit for, with the reason.
+   *
+   * A refusal is not a rendering hiccup: it says the art has never been fitted
+   * to this morphology, and the honest answer is a gap rather than a garment
+   * hanging off the silhouette.
+   */
+  readonly fitRefusals: readonly ProjectedLayerFitRefusal[];
 }
 
 export interface CharacterRenderPlanRequest {
@@ -201,6 +254,7 @@ export function buildCharacterRenderPlan(
       diagnostics: recipe.context.diagnostics,
       complete: false,
       missing: [`body:${recipe.identity.bodyFamily}:${anchor.poseFamily}`],
+      fitRefusals: [],
     };
   }
 
@@ -225,6 +279,11 @@ export function buildCharacterRenderPlan(
   );
 
   const missing: string[] = [];
+  // Every fit refusal, including a withheld warp, is issued by the projection.
+  // This plan adds none of its own: a second boundary here would be a second
+  // place for the two to disagree.
+  const fitRefusals: readonly ProjectedLayerFitRefusal[] =
+    projected.fitRefusals;
   const layers: CharacterRenderLayer[] = projected.layers.map((layer) => {
     const asset = layer.released ? visualLibrary.get(layer.assetId) : undefined;
     if (!asset) missing.push(layer.assetId);
@@ -241,6 +300,29 @@ export function buildCharacterRenderPlan(
       topPercent: topPercent + layer.top * heightPercent,
       widthPercent: layer.width * widthPercent,
       heightPercent: layer.height * heightPercent,
+      fit: layer.fit
+        ? {
+            classification: layer.fit.classification,
+            transformKind: layer.fit.transformKind,
+            matrix: layer.fit.matrix,
+          }
+        : null,
+      bands:
+        layer.fit?.bands?.map((band) => ({
+          index: band.index,
+          leftPercent: leftPercent + band.left * widthPercent,
+          topPercent: topPercent + band.top * heightPercent,
+          widthPercent: band.width * widthPercent,
+          heightPercent: band.height * heightPercent,
+          sourceTopFraction: band.sourceTopFraction,
+          sourceBottomFraction: band.sourceBottomFraction,
+          image: {
+            leftPercent: leftPercent + band.image.left * widthPercent,
+            topPercent: topPercent + band.image.top * heightPercent,
+            widthPercent: band.image.width * widthPercent,
+            heightPercent: band.image.height * heightPercent,
+          },
+        })) ?? null,
     };
   });
 
@@ -273,5 +355,6 @@ export function buildCharacterRenderPlan(
     diagnostics: recipe.context.diagnostics,
     complete: missing.length === 0,
     missing,
+    fitRefusals,
   };
 }

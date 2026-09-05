@@ -1,0 +1,1788 @@
+{
+  "tool": "garment-fit-measure-v1",
+  "fixture_version": "garment-fit-fixtures-v1",
+  "bounds": {
+    "minScale": 0.7,
+    "maxScale": 1.45,
+    "maxTranslate": 0.12,
+    "maxWarpOffset": 0.08,
+    "maxWarpBandStep": 1.06,
+    "maxWarpScaleSpread": 1.6,
+    "maxEdgeErrorFraction": 0.03
+  },
+  "reference_rows": {
+    "standing-neutral": {
+      "shoulder": 0.1619047619047619,
+      "chest": 0.25595238095238093,
+      "waist": 0.39285714285714285,
+      "hip": 0.5416666666666666,
+      "crotch": 0.5595238095238095,
+      "knee": 0.75,
+      "ankle": 0.9345238095238095,
+      "sole": 0.9666666666666667,
+      "torso": 0.23809523809523808
+    },
+    "seated-at-desk": {
+      "shoulder": 0.2196969696969697,
+      "chest": 0.3181818181818182,
+      "waist": 0.45454545454545453,
+      "hip": 0.5757575757575758,
+      "crotch": 0.6515151515151515,
+      "knee": 0.8181818181818182,
+      "ankle": 0.9242424242424242,
+      "sole": 0.9666666666666667,
+      "torso": 0.3333333333333333
+    }
+  },
+  "note": "Worst per-side fit residual in body-canvas pixels, read from the alpha of the rasters AFTER projectCharacterLayers placed them. For tops and bottoms the residual is PROPORTIONAL: how far the garment's edge sits from where the same garment sits on the body it was drawn for, so the garment's own ease is not counted as error. Footwear is judged on whether it contains the foot; an accessory on whether it stays inside the silhouette. Regenerate with `npm run derive:garment-fit`.",
+  "bank_set": {
+    "note": "The released development components. Real rasters; the dev-g2 pair is the same one Packet 76 measured in 76A section 5.3.",
+    "cases": [
+      {
+        "garmentAssetId": "dev_g2_footwear_derby_standing_v1",
+        "garmentFamily": "dev-g2-derby-oxblood",
+        "kind": "footwear",
+        "sourceBodyFamily": "dev-g2-broad",
+        "targetBodyFamily": "dev-g2-slim",
+        "poseFamily": "standing-neutral",
+        "metric": {
+          "mode": "coverage",
+          "fromRow": 812,
+          "toRow": 839,
+          "anchors": ["sole"]
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "coverage",
+          "fromRow": 812,
+          "toRow": 839,
+          "overhangPx": 24,
+          "overhangAtRow": 818,
+          "undercoveragePx": 0,
+          "undercoverageAtRow": -1,
+          "worstPx": 0,
+          "worstAtRow": -1,
+          "worstFractionOfBodySpan": 0,
+          "rowsCompared": 16,
+          "rowsInWindow": 28
+        },
+        "affine": null,
+        "boundedWarp": null,
+        "classification": "safe-direct-reuse",
+        "evidence": "measured",
+        "reason": "Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs."
+      },
+      {
+        "garmentAssetId": "dev_g2_footwear_derby_seated_v1",
+        "garmentFamily": "dev-g2-derby-oxblood",
+        "kind": "footwear",
+        "sourceBodyFamily": "dev-g2-broad",
+        "targetBodyFamily": "dev-g2-slim",
+        "poseFamily": "seated-at-desk",
+        "metric": {
+          "mode": "coverage",
+          "fromRow": 638,
+          "toRow": 659,
+          "anchors": ["sole"]
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "coverage",
+          "fromRow": 638,
+          "toRow": 659,
+          "overhangPx": 26,
+          "overhangAtRow": 639,
+          "undercoveragePx": 0,
+          "undercoverageAtRow": -1,
+          "worstPx": 0,
+          "worstAtRow": -1,
+          "worstFractionOfBodySpan": 0,
+          "rowsCompared": 12,
+          "rowsInWindow": 22
+        },
+        "affine": null,
+        "boundedWarp": null,
+        "classification": "safe-direct-reuse",
+        "evidence": "measured",
+        "reason": "Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs."
+      },
+      {
+        "garmentAssetId": "dev_g2_top_knit_olive_standing_v1",
+        "garmentFamily": "dev-g2-knit-olive",
+        "kind": "top",
+        "sourceBodyFamily": "dev-g2-broad",
+        "targetBodyFamily": "dev-g2-slim",
+        "poseFamily": "standing-neutral",
+        "metric": {
+          "mode": "edge-match",
+          "fromRow": 136,
+          "toRow": 455,
+          "anchors": ["shoulder", "chest", "waist", "hip"]
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "edge-match",
+          "fromRow": 136,
+          "toRow": 455,
+          "overhangPx": 29,
+          "overhangAtRow": 389,
+          "undercoveragePx": 36,
+          "undercoverageAtRow": 453,
+          "worstPx": 22.99,
+          "worstAtRow": 389,
+          "worstFractionOfBodySpan": 0.0864,
+          "rowsCompared": 320,
+          "rowsInWindow": 320
+        },
+        "affine": {
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.845685,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          },
+          "anchors": ["shoulder", "waist", "hip"],
+          "ratios": {
+            "shoulder": 0.826772,
+            "waist": 0.852349,
+            "hip": 0.865031
+          },
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 136,
+            "toRow": 455,
+            "overhangPx": 4.32,
+            "overhangAtRow": 174,
+            "undercoveragePx": 52.2,
+            "undercoverageAtRow": 453,
+            "worstPx": 2.79,
+            "worstAtRow": 426,
+            "worstFractionOfBodySpan": 0.0101,
+            "rowsCompared": 320,
+            "rowsInWindow": 320
+          },
+          "withinBound": true
+        },
+        "boundedWarp": {
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              {
+                "at": 0,
+                "scaleX": 0.826772,
+                "offsetX": 0
+              },
+              {
+                "at": 0.004706,
+                "scaleX": 0.826772,
+                "offsetX": 0
+              },
+              {
+                "at": 0.575294,
+                "scaleX": 0.852349,
+                "offsetX": 0
+              },
+              {
+                "at": 0.942941,
+                "scaleX": 0.865031,
+                "offsetX": 0
+              },
+              {
+                "at": 1,
+                "scaleX": 0.865031,
+                "offsetX": 0
+              }
+            ]
+          },
+          "anchors": ["shoulder", "waist", "hip"],
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 136,
+            "toRow": 455,
+            "overhangPx": 6.17,
+            "overhangAtRow": 412,
+            "undercoveragePx": 50.3,
+            "undercoverageAtRow": 453,
+            "worstPx": 0.36,
+            "worstAtRow": 238,
+            "worstFractionOfBodySpan": 0.0016,
+            "rowsCompared": 320,
+            "rowsInWindow": 320
+          },
+          "withinBound": true
+        },
+        "classification": "affine-reusable",
+        "evidence": "measured",
+        "reason": "One axis-aligned scale brings the worst edge error from 22.99px (8.64%) to 2.79px (1.01%), inside the 3.0% bound."
+      },
+      {
+        "garmentAssetId": "dev_g2_top_knit_olive_seated_v1",
+        "garmentFamily": "dev-g2-knit-olive",
+        "kind": "top",
+        "sourceBodyFamily": "dev-g2-broad",
+        "targetBodyFamily": "dev-g2-slim",
+        "poseFamily": "seated-at-desk",
+        "metric": {
+          "mode": "edge-match",
+          "fromRow": 145,
+          "toRow": 380,
+          "anchors": ["shoulder", "chest", "waist", "hip"]
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "edge-match",
+          "fromRow": 145,
+          "toRow": 380,
+          "overhangPx": 37,
+          "overhangAtRow": 356,
+          "undercoveragePx": 0,
+          "undercoverageAtRow": -1,
+          "worstPx": 24.21,
+          "worstAtRow": 356,
+          "worstFractionOfBodySpan": 0.0953,
+          "rowsCompared": 236,
+          "rowsInWindow": 236
+        },
+        "affine": {
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.841585,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          },
+          "anchors": ["shoulder", "waist", "hip"],
+          "ratios": {
+            "shoulder": 0.828125,
+            "waist": 0.847222,
+            "hip": 0.855263
+          },
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 145,
+            "toRow": 380,
+            "overhangPx": 11.02,
+            "overhangAtRow": 356,
+            "undercoveragePx": 12.18,
+            "undercoverageAtRow": 380,
+            "worstPx": 2.11,
+            "worstAtRow": 368,
+            "worstFractionOfBodySpan": 0.0082,
+            "rowsCompared": 236,
+            "rowsInWindow": 236
+          },
+          "withinBound": true
+        },
+        "boundedWarp": {
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              {
+                "at": 0,
+                "scaleX": 0.828125,
+                "offsetX": 0
+              },
+              {
+                "at": 0.044828,
+                "scaleX": 0.828125,
+                "offsetX": 0
+              },
+              {
+                "at": 0.57931,
+                "scaleX": 0.847222,
+                "offsetX": 0
+              },
+              {
+                "at": 0.855172,
+                "scaleX": 0.855263,
+                "offsetX": 0
+              },
+              {
+                "at": 1,
+                "scaleX": 0.855263,
+                "offsetX": 0
+              }
+            ]
+          },
+          "anchors": ["shoulder", "waist", "hip"],
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 145,
+            "toRow": 380,
+            "overhangPx": 12.92,
+            "overhangAtRow": 368,
+            "undercoveragePx": 10.31,
+            "undercoverageAtRow": 380,
+            "worstPx": 1.07,
+            "worstAtRow": 222,
+            "worstFractionOfBodySpan": 0.0047,
+            "rowsCompared": 236,
+            "rowsInWindow": 236
+          },
+          "withinBound": true
+        },
+        "classification": "affine-reusable",
+        "evidence": "measured",
+        "reason": "One axis-aligned scale brings the worst edge error from 24.21px (9.53%) to 2.11px (0.82%), inside the 3.0% bound."
+      },
+      {
+        "garmentAssetId": "dev_g2_accessory_lanyard_v1",
+        "garmentFamily": "dev-g2-lanyard",
+        "kind": "accessory",
+        "sourceBodyFamily": "dev-g2-broad",
+        "targetBodyFamily": "dev-g2-slim",
+        "poseFamily": "seated-at-desk",
+        "metric": {
+          "mode": "containment",
+          "fromRow": 120,
+          "toRow": 240,
+          "anchors": []
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "containment",
+          "fromRow": 120,
+          "toRow": 240,
+          "overhangPx": 0,
+          "overhangAtRow": -1,
+          "undercoveragePx": 107,
+          "undercoverageAtRow": 190,
+          "worstPx": 0,
+          "worstAtRow": -1,
+          "worstFractionOfBodySpan": 0,
+          "rowsCompared": 114,
+          "rowsInWindow": 121
+        },
+        "affine": null,
+        "boundedWarp": null,
+        "classification": "safe-direct-reuse",
+        "evidence": "measured",
+        "reason": "Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs."
+      },
+      {
+        "garmentAssetId": "dev_g2_accessory_lanyard_v1",
+        "garmentFamily": "dev-g2-lanyard",
+        "kind": "accessory",
+        "sourceBodyFamily": "dev-g2-broad",
+        "targetBodyFamily": "dev-g2-slim",
+        "poseFamily": "standing-neutral",
+        "metric": {
+          "mode": "containment",
+          "fromRow": 122,
+          "toRow": 242,
+          "anchors": []
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "containment",
+          "fromRow": 122,
+          "toRow": 242,
+          "overhangPx": 0,
+          "overhangAtRow": -1,
+          "undercoveragePx": 108,
+          "undercoverageAtRow": 193,
+          "worstPx": 0,
+          "worstAtRow": -1,
+          "worstFractionOfBodySpan": 0,
+          "rowsCompared": 114,
+          "rowsInWindow": 121
+        },
+        "affine": null,
+        "boundedWarp": null,
+        "classification": "safe-direct-reuse",
+        "evidence": "measured",
+        "reason": "Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs."
+      },
+      {
+        "garmentAssetId": "dev_g2_top_suit_charcoal_standing_v1",
+        "garmentFamily": "dev-g2-suit-charcoal",
+        "kind": "top",
+        "sourceBodyFamily": "dev-g2-broad",
+        "targetBodyFamily": "dev-g2-slim",
+        "poseFamily": "standing-neutral",
+        "metric": {
+          "mode": "edge-match",
+          "fromRow": 136,
+          "toRow": 455,
+          "anchors": ["shoulder", "chest", "waist", "hip"]
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "edge-match",
+          "fromRow": 136,
+          "toRow": 455,
+          "overhangPx": 28,
+          "overhangAtRow": 136,
+          "undercoveragePx": 0,
+          "undercoverageAtRow": -1,
+          "worstPx": 23.04,
+          "worstAtRow": 136,
+          "worstFractionOfBodySpan": 0.1097,
+          "rowsCompared": 320,
+          "rowsInWindow": 320
+        },
+        "affine": {
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.845685,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          },
+          "anchors": ["shoulder", "waist", "hip"],
+          "ratios": {
+            "shoulder": 0.826772,
+            "waist": 0.852349,
+            "hip": 0.865031
+          },
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 136,
+            "toRow": 455,
+            "overhangPx": 7.48,
+            "overhangAtRow": 136,
+            "undercoveragePx": 0,
+            "undercoverageAtRow": -1,
+            "worstPx": 3.23,
+            "worstAtRow": 453,
+            "worstFractionOfBodySpan": 0.0115,
+            "rowsCompared": 320,
+            "rowsInWindow": 320
+          },
+          "withinBound": true
+        },
+        "boundedWarp": {
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              {
+                "at": 0,
+                "scaleX": 0.826772,
+                "offsetX": 0
+              },
+              {
+                "at": 0.004444,
+                "scaleX": 0.826772,
+                "offsetX": 0
+              },
+              {
+                "at": 0.543333,
+                "scaleX": 0.852349,
+                "offsetX": 0
+              },
+              {
+                "at": 0.890556,
+                "scaleX": 0.865031,
+                "offsetX": 0
+              },
+              {
+                "at": 1,
+                "scaleX": 0.865031,
+                "offsetX": 0
+              }
+            ]
+          },
+          "anchors": ["shoulder", "waist", "hip"],
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 136,
+            "toRow": 455,
+            "overhangPx": 5.19,
+            "overhangAtRow": 157,
+            "undercoveragePx": 0,
+            "undercoverageAtRow": -1,
+            "worstPx": 0.35,
+            "worstAtRow": 220,
+            "worstFractionOfBodySpan": 0.0015,
+            "rowsCompared": 320,
+            "rowsInWindow": 320
+          },
+          "withinBound": true
+        },
+        "classification": "affine-reusable",
+        "evidence": "measured",
+        "reason": "One axis-aligned scale brings the worst edge error from 23.04px (10.97%) to 3.23px (1.15%), inside the 3.0% bound."
+      },
+      {
+        "garmentAssetId": "dev_g2_top_suit_charcoal_seated_v1",
+        "garmentFamily": "dev-g2-suit-charcoal",
+        "kind": "top",
+        "sourceBodyFamily": "dev-g2-broad",
+        "targetBodyFamily": "dev-g2-slim",
+        "poseFamily": "seated-at-desk",
+        "metric": {
+          "mode": "edge-match",
+          "fromRow": 145,
+          "toRow": 380,
+          "anchors": ["shoulder", "chest", "waist", "hip"]
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "edge-match",
+          "fromRow": 145,
+          "toRow": 380,
+          "overhangPx": 35,
+          "overhangAtRow": 356,
+          "undercoveragePx": 0,
+          "undercoverageAtRow": -1,
+          "worstPx": 23.92,
+          "worstAtRow": 356,
+          "worstFractionOfBodySpan": 0.0942,
+          "rowsCompared": 236,
+          "rowsInWindow": 236
+        },
+        "affine": {
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.841585,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          },
+          "anchors": ["shoulder", "waist", "hip"],
+          "ratios": {
+            "shoulder": 0.828125,
+            "waist": 0.847222,
+            "hip": 0.855263
+          },
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 145,
+            "toRow": 380,
+            "overhangPx": 9.34,
+            "overhangAtRow": 356,
+            "undercoveragePx": 0,
+            "undercoverageAtRow": -1,
+            "worstPx": 2.26,
+            "worstAtRow": 379,
+            "worstFractionOfBodySpan": 0.0087,
+            "rowsCompared": 236,
+            "rowsInWindow": 236
+          },
+          "withinBound": true
+        },
+        "boundedWarp": {
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              {
+                "at": 0,
+                "scaleX": 0.828125,
+                "offsetX": 0
+              },
+              {
+                "at": 0.043333,
+                "scaleX": 0.828125,
+                "offsetX": 0
+              },
+              {
+                "at": 0.56,
+                "scaleX": 0.847222,
+                "offsetX": 0
+              },
+              {
+                "at": 0.826667,
+                "scaleX": 0.855263,
+                "offsetX": 0
+              },
+              {
+                "at": 1,
+                "scaleX": 0.855263,
+                "offsetX": 0
+              }
+            ]
+          },
+          "anchors": ["shoulder", "waist", "hip"],
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 145,
+            "toRow": 380,
+            "overhangPx": 11.26,
+            "overhangAtRow": 376,
+            "undercoveragePx": 0,
+            "undercoverageAtRow": -1,
+            "worstPx": 1.04,
+            "worstAtRow": 263,
+            "worstFractionOfBodySpan": 0.0044,
+            "rowsCompared": 236,
+            "rowsInWindow": 236
+          },
+          "withinBound": true
+        },
+        "classification": "affine-reusable",
+        "evidence": "measured",
+        "reason": "One axis-aligned scale brings the worst edge error from 23.92px (9.42%) to 2.26px (0.87%), inside the 3.0% bound."
+      },
+      {
+        "garmentAssetId": "dev_g2_bottom_trousers_standing_v1",
+        "garmentFamily": "dev-g2-trousers-slate",
+        "kind": "bottom",
+        "sourceBodyFamily": "dev-g2-broad",
+        "targetBodyFamily": "dev-g2-slim",
+        "poseFamily": "standing-neutral",
+        "metric": {
+          "mode": "edge-match",
+          "fromRow": 455,
+          "toRow": 785,
+          "anchors": ["hip", "crotch", "knee", "ankle"]
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "edge-match",
+          "fromRow": 455,
+          "toRow": 785,
+          "overhangPx": 20,
+          "overhangAtRow": 481,
+          "undercoveragePx": 44,
+          "undercoverageAtRow": 462,
+          "worstPx": 17.98,
+          "worstAtRow": 480,
+          "worstFractionOfBodySpan": 0.0913,
+          "rowsCompared": 331,
+          "rowsInWindow": 331
+        },
+        "affine": {
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.847629,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          },
+          "anchors": ["hip", "crotch", "knee", "ankle"],
+          "ratios": {
+            "hip": 0.865031,
+            "crotch": 0.865854,
+            "knee": 0.829787,
+            "ankle": 0.829787
+          },
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 455,
+            "toRow": 785,
+            "overhangPx": 5.07,
+            "overhangAtRow": 481,
+            "undercoveragePx": 58.93,
+            "undercoverageAtRow": 462,
+            "worstPx": 3.05,
+            "worstAtRow": 480,
+            "worstFractionOfBodySpan": 0.0155,
+            "rowsCompared": 331,
+            "rowsInWindow": 331
+          },
+          "withinBound": true
+        },
+        "boundedWarp": {
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              {
+                "at": 0,
+                "scaleX": 0.865031,
+                "offsetX": 0
+              },
+              {
+                "at": 0.003889,
+                "scaleX": 0.865031,
+                "offsetX": 0
+              },
+              {
+                "at": 0.045556,
+                "scaleX": 0.865854,
+                "offsetX": 0
+              },
+              {
+                "at": 0.49,
+                "scaleX": 0.829787,
+                "offsetX": 0
+              },
+              {
+                "at": 0.920556,
+                "scaleX": 0.829787,
+                "offsetX": 0
+              },
+              {
+                "at": 1,
+                "scaleX": 0.829787,
+                "offsetX": 0
+              }
+            ]
+          },
+          "anchors": ["hip", "crotch", "knee", "ankle"],
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 455,
+            "toRow": 785,
+            "overhangPx": 6.47,
+            "overhangAtRow": 481,
+            "undercoveragePx": 57.17,
+            "undercoverageAtRow": 462,
+            "worstPx": 4.45,
+            "worstAtRow": 480,
+            "worstFractionOfBodySpan": 0.0226,
+            "rowsCompared": 331,
+            "rowsInWindow": 331
+          },
+          "withinBound": true
+        },
+        "classification": "affine-reusable",
+        "evidence": "measured",
+        "reason": "One axis-aligned scale brings the worst edge error from 17.98px (9.13%) to 3.05px (1.55%), inside the 3.0% bound."
+      },
+      {
+        "garmentAssetId": "dev_g2_bottom_trousers_seated_v1",
+        "garmentFamily": "dev-g2-trousers-slate",
+        "kind": "bottom",
+        "sourceBodyFamily": "dev-g2-broad",
+        "targetBodyFamily": "dev-g2-slim",
+        "poseFamily": "seated-at-desk",
+        "metric": {
+          "mode": "edge-match",
+          "fromRow": 430,
+          "toRow": 610,
+          "anchors": ["crotch", "knee", "ankle"]
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "edge-match",
+          "fromRow": 430,
+          "toRow": 610,
+          "overhangPx": 32,
+          "overhangAtRow": 486,
+          "undercoveragePx": 0,
+          "undercoverageAtRow": -1,
+          "worstPx": 18.61,
+          "worstAtRow": 486,
+          "worstFractionOfBodySpan": 0.1135,
+          "rowsCompared": 181,
+          "rowsInWindow": 181
+        },
+        "affine": {
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.842873,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          },
+          "anchors": ["crotch", "knee", "ankle"],
+          "ratios": {
+            "crotch": 0.849057,
+            "knee": 0.836735,
+            "ankle": 0.836735
+          },
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 430,
+            "toRow": 610,
+            "overhangPx": 14.09,
+            "overhangAtRow": 486,
+            "undercoveragePx": 0,
+            "undercoverageAtRow": -1,
+            "worstPx": 0.7,
+            "worstAtRow": 430,
+            "worstFractionOfBodySpan": 0.0039,
+            "rowsCompared": 181,
+            "rowsInWindow": 181
+          },
+          "withinBound": true
+        },
+        "boundedWarp": {
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              {
+                "at": 0,
+                "scaleX": 0.849057,
+                "offsetX": 0
+              },
+              {
+                "at": 0.086667,
+                "scaleX": 0.849057,
+                "offsetX": 0
+              },
+              {
+                "at": 0.545,
+                "scaleX": 0.836735,
+                "offsetX": 0
+              },
+              {
+                "at": 0.836667,
+                "scaleX": 0.836735,
+                "offsetX": 0
+              },
+              {
+                "at": 1,
+                "scaleX": 0.836735,
+                "offsetX": 0
+              }
+            ]
+          },
+          "anchors": ["crotch", "knee", "ankle"],
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 430,
+            "toRow": 610,
+            "overhangPx": 14,
+            "overhangAtRow": 486,
+            "undercoveragePx": 0,
+            "undercoverageAtRow": -1,
+            "worstPx": 0.79,
+            "worstAtRow": 485,
+            "worstFractionOfBodySpan": 0.0044,
+            "rowsCompared": 181,
+            "rowsInWindow": 181
+          },
+          "withinBound": true
+        },
+        "classification": "affine-reusable",
+        "evidence": "measured",
+        "reason": "One axis-aligned scale brings the worst edge error from 18.61px (11.35%) to 0.7px (0.39%), inside the 3.0% bound."
+      }
+    ],
+    "body_references": [
+      {
+        "bodyFamily": "dev-adult",
+        "poseFamily": "seated-at-desk",
+        "spans": {
+          "shoulder": 0.61,
+          "chest": 0.645,
+          "waist": 0.69,
+          "hip": 0.735,
+          "crotch": 0.52,
+          "knee": 0.48,
+          "ankle": 0.48,
+          "sole": 0.52,
+          "torso": 0.65
+        },
+        "rows": {
+          "shoulder": 0.2196969696969697,
+          "chest": 0.3181818181818182,
+          "waist": 0.45454545454545453,
+          "hip": 0.5757575757575758,
+          "crotch": 0.6515151515151515,
+          "knee": 0.8181818181818182,
+          "ankle": 0.9242424242424242,
+          "sole": 0.9666666666666667,
+          "torso": 0.3333333333333333
+        }
+      },
+      {
+        "bodyFamily": "dev-adult",
+        "poseFamily": "standing-neutral",
+        "spans": {
+          "shoulder": 0.08,
+          "chest": 0.65,
+          "waist": 0.715,
+          "hip": 0.785,
+          "crotch": 0.795,
+          "knee": 0.42,
+          "ankle": 0.42,
+          "sole": 0.46,
+          "torso": 0.64
+        },
+        "rows": {
+          "shoulder": 0.1619047619047619,
+          "chest": 0.25595238095238093,
+          "waist": 0.39285714285714285,
+          "hip": 0.5416666666666666,
+          "crotch": 0.5595238095238095,
+          "knee": 0.75,
+          "ankle": 0.9345238095238095,
+          "sole": 0.9666666666666667,
+          "torso": 0.23809523809523808
+        }
+      },
+      {
+        "bodyFamily": "dev-g2-broad",
+        "poseFamily": "seated-at-desk",
+        "spans": {
+          "shoulder": 0.6095238095238096,
+          "chest": 0.6428571428571429,
+          "waist": 0.6857142857142857,
+          "hip": 0.7238095238095238,
+          "crotch": 0.5047619047619047,
+          "knee": 0.4666666666666667,
+          "ankle": 0.4666666666666667,
+          "sole": 0.49523809523809526,
+          "torso": 0.6476190476190476
+        },
+        "rows": {
+          "shoulder": 0.2196969696969697,
+          "chest": 0.3181818181818182,
+          "waist": 0.45454545454545453,
+          "hip": 0.5757575757575758,
+          "crotch": 0.6515151515151515,
+          "knee": 0.8181818181818182,
+          "ankle": 0.9242424242424242,
+          "sole": 0.9666666666666667,
+          "torso": 0.3333333333333333
+        }
+      },
+      {
+        "bodyFamily": "dev-g2-broad",
+        "poseFamily": "standing-neutral",
+        "spans": {
+          "shoulder": 0.6047619047619047,
+          "chest": 0.6476190476190476,
+          "waist": 0.7095238095238096,
+          "hip": 0.7761904761904762,
+          "crotch": 0.780952380952381,
+          "knee": 0.44761904761904764,
+          "ankle": 0.44761904761904764,
+          "sole": 0.47619047619047616,
+          "torso": 0.638095238095238
+        },
+        "rows": {
+          "shoulder": 0.1619047619047619,
+          "chest": 0.25595238095238093,
+          "waist": 0.39285714285714285,
+          "hip": 0.5416666666666666,
+          "crotch": 0.5595238095238095,
+          "knee": 0.75,
+          "ankle": 0.9345238095238095,
+          "sole": 0.9666666666666667,
+          "torso": 0.23809523809523808
+        }
+      },
+      {
+        "bodyFamily": "dev-g2-slim",
+        "poseFamily": "seated-at-desk",
+        "spans": {
+          "shoulder": 0.5047619047619047,
+          "chest": 0.5380952380952381,
+          "waist": 0.580952380952381,
+          "hip": 0.6190476190476191,
+          "crotch": 0.42857142857142855,
+          "knee": 0.3904761904761905,
+          "ankle": 0.3904761904761905,
+          "sole": 0.41904761904761906,
+          "torso": 0.5428571428571428
+        },
+        "rows": {
+          "shoulder": 0.2196969696969697,
+          "chest": 0.3181818181818182,
+          "waist": 0.45454545454545453,
+          "hip": 0.5757575757575758,
+          "crotch": 0.6515151515151515,
+          "knee": 0.8181818181818182,
+          "ankle": 0.9242424242424242,
+          "sole": 0.9666666666666667,
+          "torso": 0.3333333333333333
+        }
+      },
+      {
+        "bodyFamily": "dev-g2-slim",
+        "poseFamily": "standing-neutral",
+        "spans": {
+          "shoulder": 0.5,
+          "chest": 0.5428571428571428,
+          "waist": 0.6047619047619047,
+          "hip": 0.6714285714285714,
+          "crotch": 0.6761904761904762,
+          "knee": 0.37142857142857144,
+          "ankle": 0.37142857142857144,
+          "sole": 0.4,
+          "torso": 0.5333333333333333
+        },
+        "rows": {
+          "shoulder": 0.1619047619047619,
+          "chest": 0.25595238095238093,
+          "waist": 0.39285714285714285,
+          "hip": 0.5416666666666666,
+          "crotch": 0.5595238095238095,
+          "knee": 0.75,
+          "ankle": 0.9345238095238095,
+          "sole": 0.9666666666666667,
+          "torso": 0.23809523809523808
+        }
+      }
+    ]
+  },
+  "fixture_set": {
+    "note": "DECLARED, NOT OBSERVED. The lean / average / heavy morphology table is a stated fixture geometry in scripts/art-asset-factory/garment-fit-fixtures.ts, because no measured lean/average/heavy production body exists in this repository yet. Every conclusion below is conditional on that table. Re-point this at real morphology masters when Pack 74 wave A lands; nothing in the derivation, the bounds or the tests changes.",
+    "source_body_family": "fit-adult-average",
+    "pose_family": "standing-neutral",
+    "morphologies": [
+      {
+        "family": "fit-adult-lean",
+        "label": "lean",
+        "shoulder": 104,
+        "chest": 96,
+        "waist": 74,
+        "hip": 84,
+        "knee": 30,
+        "ankle": 21
+      },
+      {
+        "family": "fit-adult-average",
+        "label": "average",
+        "shoulder": 115,
+        "chest": 110,
+        "waist": 90,
+        "hip": 96,
+        "knee": 35,
+        "ankle": 25
+      },
+      {
+        "family": "fit-adult-heavy",
+        "label": "heavy",
+        "shoulder": 126,
+        "chest": 128,
+        "waist": 118,
+        "hip": 116,
+        "knee": 44,
+        "ankle": 30
+      }
+    ],
+    "body_references": [
+      {
+        "bodyFamily": "fit-adult-lean",
+        "poseFamily": "standing-neutral",
+        "spans": {
+          "shoulder": 0.4928571428571429,
+          "chest": 0.45714285714285713,
+          "waist": 0.3523809523809524,
+          "hip": 0.3976190476190476,
+          "crotch": 0.3761904761904762,
+          "knee": 0.30952380952380953,
+          "ankle": 0.23809523809523808,
+          "sole": 0.23333333333333334,
+          "torso": 0.4642857142857143
+        },
+        "rows": {
+          "shoulder": 0.1619047619047619,
+          "chest": 0.25595238095238093,
+          "waist": 0.39285714285714285,
+          "hip": 0.5416666666666666,
+          "crotch": 0.5595238095238095,
+          "knee": 0.75,
+          "ankle": 0.9345238095238095,
+          "sole": 0.9666666666666667,
+          "torso": 0.23809523809523808
+        }
+      },
+      {
+        "bodyFamily": "fit-adult-average",
+        "poseFamily": "standing-neutral",
+        "spans": {
+          "shoulder": 0.5452380952380952,
+          "chest": 0.5238095238095238,
+          "waist": 0.42857142857142855,
+          "hip": 0.45714285714285713,
+          "crotch": 0.43333333333333335,
+          "knee": 0.35714285714285715,
+          "ankle": 0.2785714285714286,
+          "sole": 0.2714285714285714,
+          "torso": 0.5285714285714286
+        },
+        "rows": {
+          "shoulder": 0.1619047619047619,
+          "chest": 0.25595238095238093,
+          "waist": 0.39285714285714285,
+          "hip": 0.5416666666666666,
+          "crotch": 0.5595238095238095,
+          "knee": 0.75,
+          "ankle": 0.9345238095238095,
+          "sole": 0.9666666666666667,
+          "torso": 0.23809523809523808
+        }
+      },
+      {
+        "bodyFamily": "fit-adult-heavy",
+        "poseFamily": "standing-neutral",
+        "spans": {
+          "shoulder": 0.6,
+          "chest": 0.6095238095238096,
+          "waist": 0.5619047619047619,
+          "hip": 0.5523809523809524,
+          "crotch": 0.5285714285714286,
+          "knee": 0.4380952380952381,
+          "ankle": 0.32857142857142857,
+          "sole": 0.319047619047619,
+          "torso": 0.6071428571428571
+        },
+        "rows": {
+          "shoulder": 0.1619047619047619,
+          "chest": 0.25595238095238093,
+          "waist": 0.39285714285714285,
+          "hip": 0.5416666666666666,
+          "crotch": 0.5595238095238095,
+          "knee": 0.75,
+          "ankle": 0.9345238095238095,
+          "sole": 0.9666666666666667,
+          "torso": 0.23809523809523808
+        }
+      }
+    ],
+    "cases": [
+      {
+        "garmentAssetId": "fit_top_knit_average_standing_v1",
+        "garmentFamily": "fit-knit-olive",
+        "kind": "top",
+        "sourceBodyFamily": "fit-adult-average",
+        "targetBodyFamily": "fit-adult-lean",
+        "poseFamily": "standing-neutral",
+        "metric": {
+          "mode": "edge-match",
+          "fromRow": 136,
+          "toRow": 455,
+          "anchors": ["shoulder", "chest", "waist", "hip"]
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "edge-match",
+          "fromRow": 136,
+          "toRow": 455,
+          "overhangPx": 23,
+          "overhangAtRow": 300,
+          "undercoveragePx": 0,
+          "undercoverageAtRow": -1,
+          "worstPx": 18.06,
+          "worstAtRow": 337,
+          "worstFractionOfBodySpan": 0.1212,
+          "rowsCompared": 320,
+          "rowsInWindow": 320
+        },
+        "affine": {
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.862109,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          },
+          "anchors": ["shoulder", "waist", "hip"],
+          "ratios": {
+            "shoulder": 0.90393,
+            "waist": 0.822222,
+            "hip": 0.869792
+          },
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 136,
+            "toRow": 455,
+            "overhangPx": 9.62,
+            "overhangAtRow": 329,
+            "undercoveragePx": 0.55,
+            "undercoverageAtRow": 136,
+            "worstPx": 5.97,
+            "worstAtRow": 136,
+            "worstFractionOfBodySpan": 0.0288,
+            "rowsCompared": 320,
+            "rowsInWindow": 320
+          },
+          "withinBound": true
+        },
+        "boundedWarp": {
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              {
+                "at": 0,
+                "scaleX": 0.90393,
+                "offsetX": 0
+              },
+              {
+                "at": 0.004706,
+                "scaleX": 0.90393,
+                "offsetX": 0
+              },
+              {
+                "at": 0.575294,
+                "scaleX": 0.822222,
+                "offsetX": 0
+              },
+              {
+                "at": 0.942941,
+                "scaleX": 0.869792,
+                "offsetX": 0
+              },
+              {
+                "at": 1,
+                "scaleX": 0.869792,
+                "offsetX": 0
+              }
+            ]
+          },
+          "anchors": ["shoulder", "waist", "hip"],
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 136,
+            "toRow": 455,
+            "overhangPx": 7.05,
+            "overhangAtRow": 176,
+            "undercoveragePx": 0,
+            "undercoverageAtRow": -1,
+            "worstPx": 1.88,
+            "worstAtRow": 451,
+            "worstFractionOfBodySpan": 0.0112,
+            "rowsCompared": 320,
+            "rowsInWindow": 320
+          },
+          "withinBound": true
+        },
+        "classification": "affine-reusable",
+        "evidence": "measured",
+        "reason": "One axis-aligned scale brings the worst edge error from 18.06px (12.12%) to 5.97px (2.88%), inside the 3.0% bound."
+      },
+      {
+        "garmentAssetId": "fit_top_knit_average_standing_v1",
+        "garmentFamily": "fit-knit-olive",
+        "kind": "top",
+        "sourceBodyFamily": "fit-adult-average",
+        "targetBodyFamily": "fit-adult-heavy",
+        "poseFamily": "standing-neutral",
+        "metric": {
+          "mode": "edge-match",
+          "fromRow": 136,
+          "toRow": 455,
+          "anchors": ["shoulder", "chest", "waist", "hip"]
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "edge-match",
+          "fromRow": 136,
+          "toRow": 455,
+          "overhangPx": 0,
+          "overhangAtRow": -1,
+          "undercoveragePx": 23,
+          "undercoverageAtRow": 327,
+          "worstPx": 31.17,
+          "worstAtRow": 326,
+          "worstFractionOfBodySpan": 0.1315,
+          "rowsCompared": 320,
+          "rowsInWindow": 320
+        },
+        "affine": {
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.201164,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          },
+          "anchors": ["shoulder", "waist", "hip"],
+          "ratios": {
+            "shoulder": 1.100437,
+            "waist": 1.311111,
+            "hip": 1.208333
+          },
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 136,
+            "toRow": 455,
+            "overhangPx": 19.34,
+            "overhangAtRow": 136,
+            "undercoveragePx": 3.69,
+            "undercoverageAtRow": 327,
+            "worstPx": 12.74,
+            "worstAtRow": 136,
+            "worstFractionOfBodySpan": 0.0505,
+            "rowsCompared": 320,
+            "rowsInWindow": 320
+          },
+          "withinBound": false
+        },
+        "boundedWarp": {
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              {
+                "at": 0,
+                "scaleX": 1.100437,
+                "offsetX": 0
+              },
+              {
+                "at": 0.004706,
+                "scaleX": 1.100437,
+                "offsetX": 0
+              },
+              {
+                "at": 0.575294,
+                "scaleX": 1.311111,
+                "offsetX": 0
+              },
+              {
+                "at": 0.942941,
+                "scaleX": 1.208333,
+                "offsetX": 0
+              },
+              {
+                "at": 1,
+                "scaleX": 1.208333,
+                "offsetX": 0
+              }
+            ]
+          },
+          "anchors": ["shoulder", "waist", "hip"],
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 136,
+            "toRow": 455,
+            "overhangPx": 12.27,
+            "overhangAtRow": 242,
+            "undercoveragePx": 0,
+            "undercoverageAtRow": -1,
+            "worstPx": 5.13,
+            "worstAtRow": 242,
+            "worstFractionOfBodySpan": 0.0204,
+            "rowsCompared": 320,
+            "rowsInWindow": 320
+          },
+          "withinBound": true
+        },
+        "classification": "bounded-warp-reusable",
+        "evidence": "measured",
+        "reason": "A single affine leaves 12.74px (5.05%), outside the 3.0% bound, because the morphology change is not uniform down the garment. The bounded warp reaches 5.13px (2.04%)."
+      },
+      {
+        "garmentAssetId": "fit_bottom_trousers_average_standing_v1",
+        "garmentFamily": "fit-trousers-slate",
+        "kind": "bottom",
+        "sourceBodyFamily": "fit-adult-average",
+        "targetBodyFamily": "fit-adult-lean",
+        "poseFamily": "standing-neutral",
+        "metric": {
+          "mode": "edge-match",
+          "fromRow": 455,
+          "toRow": 785,
+          "anchors": ["hip", "crotch", "knee", "ankle"]
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "edge-match",
+          "fromRow": 455,
+          "toRow": 785,
+          "overhangPx": 24,
+          "overhangAtRow": 476,
+          "undercoveragePx": 0,
+          "undercoverageAtRow": -1,
+          "worstPx": 13.78,
+          "worstAtRow": 455,
+          "worstFractionOfBodySpan": 0.0825,
+          "rowsCompared": 331,
+          "rowsInWindow": 331
+        },
+        "affine": {
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.862213,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          },
+          "anchors": ["hip", "crotch", "knee", "ankle"],
+          "ratios": {
+            "hip": 0.869792,
+            "crotch": 0.868132,
+            "knee": 0.866667,
+            "ankle": 0.854701
+          },
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 455,
+            "toRow": 785,
+            "overhangPx": 9.95,
+            "overhangAtRow": 478,
+            "undercoveragePx": 0,
+            "undercoverageAtRow": -1,
+            "worstPx": 1.81,
+            "worstAtRow": 777,
+            "worstFractionOfBodySpan": 0.018,
+            "rowsCompared": 331,
+            "rowsInWindow": 331
+          },
+          "withinBound": true
+        },
+        "boundedWarp": {
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              {
+                "at": 0,
+                "scaleX": 0.869792,
+                "offsetX": 0
+              },
+              {
+                "at": 0.003684,
+                "scaleX": 0.869792,
+                "offsetX": 0
+              },
+              {
+                "at": 0.043158,
+                "scaleX": 0.868132,
+                "offsetX": 0
+              },
+              {
+                "at": 0.464211,
+                "scaleX": 0.866667,
+                "offsetX": 0
+              },
+              {
+                "at": 0.872105,
+                "scaleX": 0.854701,
+                "offsetX": 0
+              },
+              {
+                "at": 1,
+                "scaleX": 0.854701,
+                "offsetX": 0
+              }
+            ]
+          },
+          "anchors": ["hip", "crotch", "knee", "ankle"],
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 455,
+            "toRow": 785,
+            "overhangPx": 10.6,
+            "overhangAtRow": 476,
+            "undercoveragePx": 0,
+            "undercoverageAtRow": -1,
+            "worstPx": 1.37,
+            "worstAtRow": 777,
+            "worstFractionOfBodySpan": 0.0136,
+            "rowsCompared": 331,
+            "rowsInWindow": 331
+          },
+          "withinBound": true
+        },
+        "classification": "affine-reusable",
+        "evidence": "measured",
+        "reason": "One axis-aligned scale brings the worst edge error from 13.78px (8.25%) to 1.81px (1.80%), inside the 3.0% bound."
+      },
+      {
+        "garmentAssetId": "fit_bottom_trousers_average_standing_v1",
+        "garmentFamily": "fit-trousers-slate",
+        "kind": "bottom",
+        "sourceBodyFamily": "fit-adult-average",
+        "targetBodyFamily": "fit-adult-heavy",
+        "poseFamily": "standing-neutral",
+        "metric": {
+          "mode": "edge-match",
+          "fromRow": 455,
+          "toRow": 785,
+          "anchors": ["hip", "crotch", "knee", "ankle"]
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "edge-match",
+          "fromRow": 455,
+          "toRow": 785,
+          "overhangPx": 0,
+          "overhangAtRow": -1,
+          "undercoveragePx": 14,
+          "undercoverageAtRow": 455,
+          "worstPx": 22.67,
+          "worstAtRow": 476,
+          "worstFractionOfBodySpan": 0.103,
+          "rowsCompared": 331,
+          "rowsInWindow": 331
+        },
+        "affine": {
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.202846,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          },
+          "anchors": ["hip", "crotch", "knee", "ankle"],
+          "ratios": {
+            "hip": 1.208333,
+            "crotch": 1.21978,
+            "knee": 1.226667,
+            "ankle": 1.179487
+          },
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 455,
+            "toRow": 785,
+            "overhangPx": 12.69,
+            "overhangAtRow": 473,
+            "undercoveragePx": 0,
+            "undercoverageAtRow": -1,
+            "worstPx": 3.16,
+            "worstAtRow": 531,
+            "worstFractionOfBodySpan": 0.0152,
+            "rowsCompared": 331,
+            "rowsInWindow": 331
+          },
+          "withinBound": true
+        },
+        "boundedWarp": {
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              {
+                "at": 0,
+                "scaleX": 1.208333,
+                "offsetX": 0
+              },
+              {
+                "at": 0.003684,
+                "scaleX": 1.208333,
+                "offsetX": 0
+              },
+              {
+                "at": 0.043158,
+                "scaleX": 1.21978,
+                "offsetX": 0
+              },
+              {
+                "at": 0.464211,
+                "scaleX": 1.226667,
+                "offsetX": 0
+              },
+              {
+                "at": 0.872105,
+                "scaleX": 1.179487,
+                "offsetX": 0
+              },
+              {
+                "at": 1,
+                "scaleX": 1.179487,
+                "offsetX": 0
+              }
+            ]
+          },
+          "anchors": ["hip", "crotch", "knee", "ankle"],
+          "result": {
+            "status": "measured",
+            "statusReason": null,
+            "mode": "edge-match",
+            "fromRow": 455,
+            "toRow": 785,
+            "overhangPx": 14.5,
+            "overhangAtRow": 478,
+            "undercoveragePx": 0,
+            "undercoverageAtRow": -1,
+            "worstPx": 2.13,
+            "worstAtRow": 763,
+            "worstFractionOfBodySpan": 0.0147,
+            "rowsCompared": 331,
+            "rowsInWindow": 331
+          },
+          "withinBound": true
+        },
+        "classification": "affine-reusable",
+        "evidence": "measured",
+        "reason": "One axis-aligned scale brings the worst edge error from 22.67px (10.30%) to 3.16px (1.52%), inside the 3.0% bound."
+      },
+      {
+        "garmentAssetId": "fit_footwear_derby_standing_v1",
+        "garmentFamily": "fit-derby-oxblood",
+        "kind": "footwear",
+        "sourceBodyFamily": "fit-adult-average",
+        "targetBodyFamily": "fit-adult-lean",
+        "poseFamily": "standing-neutral",
+        "metric": {
+          "mode": "coverage",
+          "fromRow": 812,
+          "toRow": 839,
+          "anchors": ["sole"]
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "coverage",
+          "fromRow": 812,
+          "toRow": 839,
+          "overhangPx": 17,
+          "overhangAtRow": 816,
+          "undercoveragePx": 0,
+          "undercoverageAtRow": -1,
+          "worstPx": 0,
+          "worstAtRow": -1,
+          "worstFractionOfBodySpan": 0,
+          "rowsCompared": 16,
+          "rowsInWindow": 28
+        },
+        "affine": null,
+        "boundedWarp": null,
+        "classification": "safe-direct-reuse",
+        "evidence": "measured",
+        "reason": "Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs."
+      },
+      {
+        "garmentAssetId": "fit_footwear_derby_standing_v1",
+        "garmentFamily": "fit-derby-oxblood",
+        "kind": "footwear",
+        "sourceBodyFamily": "fit-adult-average",
+        "targetBodyFamily": "fit-adult-heavy",
+        "poseFamily": "standing-neutral",
+        "metric": {
+          "mode": "coverage",
+          "fromRow": 812,
+          "toRow": 839,
+          "anchors": ["sole"]
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "coverage",
+          "fromRow": 812,
+          "toRow": 839,
+          "overhangPx": 0,
+          "overhangAtRow": -1,
+          "undercoveragePx": 2,
+          "undercoverageAtRow": 812,
+          "worstPx": 2,
+          "worstAtRow": 812,
+          "worstFractionOfBodySpan": 0.0149,
+          "rowsCompared": 16,
+          "rowsInWindow": 28
+        },
+        "affine": null,
+        "boundedWarp": null,
+        "classification": "safe-direct-reuse",
+        "evidence": "measured",
+        "reason": "Unfitted placement already sits within 3.0% of the target silhouette (worst 2px, 1.49%). A transform here would move art that is already where it belongs."
+      },
+      {
+        "garmentAssetId": "fit_accessory_badge_v1",
+        "garmentFamily": "fit-badge",
+        "kind": "accessory",
+        "sourceBodyFamily": "fit-adult-average",
+        "targetBodyFamily": "fit-adult-lean",
+        "poseFamily": "standing-neutral",
+        "metric": {
+          "mode": "containment",
+          "fromRow": 128,
+          "toRow": 248,
+          "anchors": []
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "containment",
+          "fromRow": 128,
+          "toRow": 248,
+          "overhangPx": 0,
+          "overhangAtRow": -1,
+          "undercoveragePx": 98,
+          "undercoverageAtRow": 130,
+          "worstPx": 0,
+          "worstAtRow": -1,
+          "worstFractionOfBodySpan": 0,
+          "rowsCompared": 112,
+          "rowsInWindow": 121
+        },
+        "affine": null,
+        "boundedWarp": null,
+        "classification": "safe-direct-reuse",
+        "evidence": "measured",
+        "reason": "Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs."
+      },
+      {
+        "garmentAssetId": "fit_accessory_badge_v1",
+        "garmentFamily": "fit-badge",
+        "kind": "accessory",
+        "sourceBodyFamily": "fit-adult-average",
+        "targetBodyFamily": "fit-adult-heavy",
+        "poseFamily": "standing-neutral",
+        "metric": {
+          "mode": "containment",
+          "fromRow": 128,
+          "toRow": 248,
+          "anchors": []
+        },
+        "unfitted": {
+          "status": "measured",
+          "statusReason": null,
+          "mode": "containment",
+          "fromRow": 128,
+          "toRow": 248,
+          "overhangPx": 0,
+          "overhangAtRow": -1,
+          "undercoveragePx": 122,
+          "undercoverageAtRow": 184,
+          "worstPx": 0,
+          "worstAtRow": -1,
+          "worstFractionOfBodySpan": 0,
+          "rowsCompared": 112,
+          "rowsInWindow": 121
+        },
+        "affine": null,
+        "boundedWarp": null,
+        "classification": "safe-direct-reuse",
+        "evidence": "measured",
+        "reason": "Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs."
+      }
+    ]
+  }
+}

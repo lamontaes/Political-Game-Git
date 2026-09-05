@@ -1,5 +1,6 @@
 import assetManifest from "../../art/manifest/asset_manifest.json";
 import characterCatalog from "../../art/manifest/character_catalog.json";
+import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
 import poseFamilies from "../../art/manifest/pose_families.json";
 import {
   derivePersonAppearance,
@@ -17,6 +18,7 @@ import {
   buildCharacterRenderPlan,
   type CharacterRenderPlan,
 } from "./character-render-plan";
+import { createGarmentFitBank, type GarmentFitBankData } from "./garment-fit";
 import type {
   RunBSceneAnchorId,
   RunBScenePersonContext,
@@ -725,12 +727,25 @@ export const PRODUCTION_VISUAL_LIBRARY = createRuntimeVisualLibrary(
 );
 
 /**
+ * The morphology fit bank, derived from measured silhouettes by
+ * `npm run derive:garment-fit`.
+ *
+ * It is loaded here rather than passed in so every consumer of the production
+ * library is held to the same fit contract. A garment with no answer in it does
+ * not fall back to the unfitted rectangle; it fails closed.
+ */
+export const PRODUCTION_GARMENT_FIT_BANK = createGarmentFitBank(
+  garmentFitProfiles as GarmentFitBankData,
+);
+
+/**
  * Modular component library from the same manifest plus the character catalog
  * ledger. Empty until component art is released through the ordinary gate.
  */
 export const PRODUCTION_CHARACTER_LIBRARY = createCharacterComponentLibrary(
   assetManifest.assets as readonly CharacterComponentManifestRecord[],
   characterCatalog as CharacterCatalogData,
+  PRODUCTION_GARMENT_FIT_BANK,
 );
 
 /**
@@ -778,6 +793,15 @@ const candidateReview = liftCandidatesForReview(
   (characterCatalog as CharacterCatalogData).slots,
 );
 
+/**
+ * Candidates are reviewed UNFITTED, on purpose.
+ *
+ * The proof view exists so a person can decide whether banked art is good
+ * enough to promote, and a fit transform would show them a garment adjusted to
+ * a body rather than the garment that was drawn. No candidate has a fit profile
+ * anyway — a profile is derived from two measured silhouettes, and a candidate
+ * body is in no generation to be measured against.
+ */
 export const CANDIDATE_REVIEW_CHARACTER_LIBRARY =
   createCharacterComponentLibrary(
     candidateReview.records,

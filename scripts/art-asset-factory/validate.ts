@@ -4,9 +4,14 @@ import imageSize from "image-size";
 import {
   CHARACTER_COMPONENT_ASSET_TYPE,
   CHARACTER_COMPONENT_CANDIDATE_ASSET_TYPE,
+  createCharacterComponentLibrary,
   validateCharacterComponentCandidates,
   validateCharacterComponentLibrary,
 } from "../../src/presentation/character-components";
+import {
+  validateGarmentFitBank,
+  type GarmentFitBankData,
+} from "../../src/presentation/garment-fit";
 import {
   evaluateMasterDimensions,
   masterRequirementFor,
@@ -46,6 +51,15 @@ export interface ArtValidationOptions {
    * character-component asset; an empty bootstrap catalog is valid.
    */
   characterCatalog?: CharacterCatalogData;
+  /**
+   * `art/manifest/garment_fit_profiles.json`.
+   *
+   * Optional so a repository with no fit bank still validates under the pre-fit
+   * contract, and checked hard the moment one exists: a bank that has drifted
+   * from the components it fits is worse than no bank, because the compositor
+   * would trust it.
+   */
+  garmentFitProfiles?: GarmentFitBankData;
   /**
    * Pose family registry. Required whenever the manifest declares any body
    * component, because a body's pose family must be a registered contract.
@@ -542,6 +556,7 @@ export function validateArtAssets(
   validateCharacterComponents(
     manifest,
     options.characterCatalog,
+    options.garmentFitProfiles,
     repositoryRoot,
     errors,
   );
@@ -580,6 +595,7 @@ export function validateArtAssets(
 function validateCharacterComponents(
   manifest: AssetManifest,
   catalog: CharacterCatalogData | undefined,
+  garmentFitProfiles: GarmentFitBankData | undefined,
   repositoryRoot: string,
   errors: string[],
 ): void {
@@ -598,6 +614,15 @@ function validateCharacterComponents(
 
   errors.push(...validateCharacterComponentLibrary(manifest.assets, catalog));
   errors.push(...validateCharacterComponentCandidates(manifest.assets));
+
+  if (garmentFitProfiles !== undefined) {
+    errors.push(
+      ...validateGarmentFitBank(
+        garmentFitProfiles,
+        createCharacterComponentLibrary(manifest.assets, catalog),
+      ),
+    );
+  }
 
   // Banked candidates are measured against their own declared canvas even
   // though nothing may draw them yet. A candidate whose bytes disagree with its
