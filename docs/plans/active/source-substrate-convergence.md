@@ -27,6 +27,45 @@ retrieved and hashed; one is wired in and gated.
 | federal-courts              | 201                         | every circuit, district, division and bankruptcy court in statute    |
 | state-office-qualifications | 0                           | gated; see 31F §8                                                    |
 
+## Reconciled onto accepted main (PR #87)
+
+This branch was brought up to the accepted `main` that is the merge of PR #87
+(`68d7d48`), by an ordinary merge of `origin/main` into the branch — no rebase,
+no force-push. The reconciliation merge commit is `0a7395f`, first-parent
+`68d56ac` (the prior #77 head) and second-parent `68d7d48`. Everything #87
+landed —
+narrative-life machinery, the player shell, New Game, the setup-generation
+seam, identity/context fixes, dialogue reachability, title ambient runtime,
+SceneBackdrop, household introduction, life-scene presentation, and the #86
+graphics components #87 consumes — survives unedited.
+
+Three files conflicted and were reconciled to preserve both lanes rather than
+choosing a side:
+
+- **`package.json`** — the union of scripts. All six `source:*` commands are
+  kept, and so are main's added scripts (`fixtures:dev-characters-g2`,
+  `intake:pg-modular`, and the art derive/inventory pipeline). `validate` keeps
+  the `source:validate` and `source:replay` gates inside its chain.
+- **`docs/decisions/DECISION-LOG.md`** — main's accepted `D-057`–`D-073` block
+  is kept whole. This branch's source-substrate decision collided with main's
+  `D-059` ("One pose contract") and is renumbered to **`D-074`**; the
+  architecture is unchanged, only the identifier.
+- **`tests/narrative-wave-ownership-boundary.test.ts`** — #87's own in-flight
+  carve-out check measured the working tree with an open head, and its docstring
+  directs whoever lands it to close the range as
+  `authoring-ownership-boundary.test.ts` is closed. #87 landed without that
+  step, so on this stacked branch it was policing this lane's `src/source` tree.
+  It is now frozen to the range #87 shipped (`5f735da..68d7d48`), which passes
+  its own OWNED/CARVED_OUT rules; it still fails if #87's own files stray.
+
+Post-reconciliation proof, all green: `source:verify-artifacts` (33 verified,
+0 mismatched, 1 absent-by-design with identity pinned), `source:compile` (10
+production domains, qualifications gated), `source:validate` (0 errors),
+`source:replay` run twice with zero tracked-byte changes, `npm run validate`
+(1,673 tests), and Playwright `test:e2e` (167 tests). The runtime still does
+not import `src/source` (`tsconfig.app` excludes it), retrieved artifact hashes
+are unchanged, and no gameplay adapter was added.
+
 ## Next, in rough order of value
 
 1. **Re-export research batch 31D with its tab delimiters intact.** 516 facts
