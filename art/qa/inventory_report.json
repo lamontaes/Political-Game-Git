@@ -1,5 +1,5 @@
 {
-  "totalItems": 307,
+  "totalItems": 322,
   "items": [
     {
       "filePath": "families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
@@ -988,6 +988,66 @@
     {
       "filePath": "generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_three_quarter_v1.png",
       "hash": "dd2e7fe5bdc314ab2b77c034c28e58dcd050138a3f759c072230dc1ec624221a"
+    },
+    {
+      "filePath": "qa/p95-recent-drive-sweep/drive-visual-review/page-01.png",
+      "hash": "846a400500d32a45143931d1651d6fc2265ab50ee80a91f63e85510864a02286"
+    },
+    {
+      "filePath": "qa/p95-recent-drive-sweep/drive-visual-review/page-02.png",
+      "hash": "a7358ba5ce0f942c1e82547e21f2ab300e3996bde70a236b87ee90738fb33330"
+    },
+    {
+      "filePath": "qa/p95-recent-drive-sweep/drive-visual-review/page-03.png",
+      "hash": "3af7ad66c460030baf90ccdefb4342cda251a2a4006104b002643d61edf41638"
+    },
+    {
+      "filePath": "qa/p95-recent-drive-sweep/drive-visual-review/page-04.png",
+      "hash": "2bb3c85911d1fa0cf3d97ee7f9a461c00300e8e288c47513490717f8e2aa788f"
+    },
+    {
+      "filePath": "qa/p95-recent-drive-sweep/drive-visual-review/page-05.png",
+      "hash": "90f17ac4d8d1c306e26321a326595bb96bd34277de47a92f32123553f3fdfd8a"
+    },
+    {
+      "filePath": "qa/p95-recent-drive-sweep/drive-visual-review/page-06.png",
+      "hash": "907ca14405e7882b67e590a9fc05f3ac8c8eccca1702b23673c577b6755ff961"
+    },
+    {
+      "filePath": "qa/p95-recent-drive-sweep/drive-visual-review/page-07.png",
+      "hash": "be7cbe0e80e30ebe28a47eefaec0490b27f0cb50ee4205c526bda34ec28bfcd4"
+    },
+    {
+      "filePath": "qa/p95-recent-drive-sweep/drive-visual-review/page-08.png",
+      "hash": "a90d3a0c31dc3aaae17bcd4b22b5cb0d68ee8c4b50050a8706a7145ef09c6b24"
+    },
+    {
+      "filePath": "qa/p95-recent-drive-sweep/drive-visual-review/page-09.png",
+      "hash": "dc8dabae0dacbea3fbaa728dcaa1101645af2f3e7cc1ecc76017c70d725253c1"
+    },
+    {
+      "filePath": "qa/p95-recent-drive-sweep/drive-visual-review/page-10.png",
+      "hash": "261369a18bee38024ead445f3ea40c444ef6e1086d05bf4a517a262ed35c6ac5"
+    },
+    {
+      "filePath": "qa/p95-recent-drive-sweep/drive-visual-review/page-11.png",
+      "hash": "274afd1bedd51cc3a5e697ca20258c9ae4b4a6b81e9de1145a509567c950f781"
+    },
+    {
+      "filePath": "qa/p95-recent-drive-sweep/drive-visual-review/page-12.png",
+      "hash": "729d7998c81d1c3298df596c9db1463afcecfe5c5cebb44d1850cbecb9519777"
+    },
+    {
+      "filePath": "qa/p95-recent-drive-sweep/drive-visual-review/page-13.png",
+      "hash": "e5e8486c7e2376bb30f057072f4cf33a60e4f609748e1a33d766e80814dc0ec3"
+    },
+    {
+      "filePath": "qa/p95-recent-drive-sweep/drive-visual-review/page-14.png",
+      "hash": "aa182c48d87a8b5c6c79784528fc17f843b906dcd9ecc0740a208cfcb069e451"
+    },
+    {
+      "filePath": "qa/p95-recent-drive-sweep/drive-visual-review/page-15.png",
+      "hash": "f8cd06c04f10f83975de9ec8b683f36544f8687b7d345eb86a7f42de19a0671b"
     },
     {
       "filePath": "references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png",

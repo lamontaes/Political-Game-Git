@@ -2470,6 +2470,156 @@
     "meetsTransparencyReq": null
   },
   {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-01.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1557,
+      "aspectRatio": "1280:1557",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-02.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-03.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-04.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-05.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1677,
+      "aspectRatio": "1280:1677",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-06.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1677,
+      "aspectRatio": "1280:1677",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-07.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-08.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-09.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-10.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-11.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-12.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-13.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-14.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-15.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1000,
+      "aspectRatio": "32:25",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png",
     "metadata": {
       "width": 765,
