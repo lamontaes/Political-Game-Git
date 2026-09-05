@@ -54,10 +54,14 @@ export interface ModularSceneAnchor {
 /**
  * One horizontal slice of a bounded-warp fit, in plate percent units.
  *
- * `clipTopPercent` and `clipBottomPercent` are the share of the drawn image to
- * hide above and below this band, so a renderer can draw the same raster once
- * per band and let each band show only its own rows. They are the projection's
- * `sourceTopFraction` / `sourceBottomFraction` in the form CSS `inset()` wants.
+ * NOT RENDERABLE. No renderer in this repository draws bands, and the
+ * projection withholds a warped layer for every consumer, so a plan only ever
+ * carries bands on a layer that is already reported unreleased. They are here
+ * for inspection: the slice each band shows, and where the WHOLE raster would
+ * sit so that exactly this band's source rows land in that slice. A future
+ * renderer that draws the full image at `image` and clips to the slice would
+ * reproduce the geometry; one that draws the full image into the slice would
+ * not, and the first head's documentation described the second.
  */
 export interface CharacterRenderBand {
   readonly index: number;
@@ -65,8 +69,14 @@ export interface CharacterRenderBand {
   readonly topPercent: number;
   readonly widthPercent: number;
   readonly heightPercent: number;
-  readonly clipTopPercent: number;
-  readonly clipBottomPercent: number;
+  readonly sourceTopFraction: number;
+  readonly sourceBottomFraction: number;
+  readonly image: {
+    readonly leftPercent: number;
+    readonly topPercent: number;
+    readonly widthPercent: number;
+    readonly heightPercent: number;
+  };
 }
 
 export interface CharacterRenderLayerFit {
@@ -92,10 +102,9 @@ export interface CharacterRenderLayer {
   /** The morphology fit applied, or null under the pre-fit contract. */
   readonly fit: CharacterRenderLayerFit | null;
   /**
-   * Non-null only for a bounded warp. A renderer that draws bands is correct
-   * for every layer; one that draws only the rectangle is correct for every
-   * layer except these, where the rectangle is the bounding box of a shape
-   * that tapers.
+   * Non-null only for a bounded warp, and then only on a layer the projection
+   * has already refused (`released: false`, `url: null`). Inspection data, not
+   * a drawing instruction.
    */
   readonly bands: readonly CharacterRenderBand[] | null;
 }
@@ -164,18 +173,6 @@ export interface CharacterRenderPlanRequest {
   readonly plate: SceneSize;
   readonly library: CharacterComponentLibrary;
   readonly visualLibrary: RuntimeVisualLibrary;
-  /**
-   * Whether the caller's renderer can draw `CharacterRenderLayer.bands`.
-   *
-   * Defaults to false, which is the truth about every renderer in this
-   * repository today: they draw one rectangle per layer. A bounded-warp fit is
-   * a set of horizontal slices, and drawing only its bounding rectangle would
-   * paint the garment at its widest band from top to bottom — a worse result
-   * than the unfitted placement the fit replaced. So a warped layer is refused
-   * unless the caller says it can carry one, and the refusal is named rather
-   * than silent.
-   */
-  readonly rendererSupportsBands?: boolean;
 }
 
 function stableIdentityKey(identity: CharacterRecipeIdentity): string {
@@ -218,15 +215,8 @@ export function resolvePersonCharacterRecipe(
 export function buildCharacterRenderPlan(
   request: CharacterRenderPlanRequest,
 ): CharacterRenderPlan {
-  const {
-    personId,
-    appearance,
-    anchor,
-    plate,
-    library,
-    visualLibrary,
-    rendererSupportsBands = false,
-  } = request;
+  const { personId, appearance, anchor, plate, library, visualLibrary } =
+    request;
   if (!(anchor.bodyWidthPercent > 0) || !(anchor.scale > 0)) {
     throw new Error(
       `Scene anchor '${anchor.id}' must declare positive bodyWidthPercent and scale.`,
@@ -289,26 +279,20 @@ export function buildCharacterRenderPlan(
   );
 
   const missing: string[] = [];
-  const fitRefusals: ProjectedLayerFitRefusal[] = [...projected.fitRefusals];
+  // Every fit refusal, including a withheld warp, is issued by the projection.
+  // This plan adds none of its own: a second boundary here would be a second
+  // place for the two to disagree.
+  const fitRefusals: readonly ProjectedLayerFitRefusal[] =
+    projected.fitRefusals;
   const layers: CharacterRenderLayer[] = projected.layers.map((layer) => {
-    const bandsUnrenderable =
-      layer.fit?.bands != null && !rendererSupportsBands;
-    if (bandsUnrenderable) {
-      fitRefusals.push({
-        assetId: layer.assetId,
-        code: "fit-bands-unsupported-by-renderer",
-        message: `Component '${layer.assetId}' resolves to a bounded-warp fit of ${layer.fit?.bands?.length ?? 0} bands, and this caller's renderer draws one rectangle per layer. Drawing the bounding rectangle would paint the garment at its widest band down its whole length, so the layer is withheld instead.`,
-      });
-    }
-    const drawable = layer.released && !bandsUnrenderable;
-    const asset = drawable ? visualLibrary.get(layer.assetId) : undefined;
+    const asset = layer.released ? visualLibrary.get(layer.assetId) : undefined;
     if (!asset) missing.push(layer.assetId);
     return {
       assetId: layer.assetId,
       kind: layer.kind,
       slotId: layer.slotId,
       layer: layer.layer,
-      released: drawable && asset !== undefined,
+      released: layer.released && asset !== undefined,
       url: asset?.url ?? null,
       hash: asset?.hash ?? null,
       attachmentAnchorId: layer.attachmentAnchorId,
@@ -330,8 +314,14 @@ export function buildCharacterRenderPlan(
           topPercent: topPercent + band.top * heightPercent,
           widthPercent: band.width * widthPercent,
           heightPercent: band.height * heightPercent,
-          clipTopPercent: band.sourceTopFraction * 100,
-          clipBottomPercent: (1 - band.sourceBottomFraction) * 100,
+          sourceTopFraction: band.sourceTopFraction,
+          sourceBottomFraction: band.sourceBottomFraction,
+          image: {
+            leftPercent: leftPercent + band.image.left * widthPercent,
+            topPercent: topPercent + band.image.top * heightPercent,
+            widthPercent: band.image.width * widthPercent,
+            heightPercent: band.image.height * heightPercent,
+          },
         })) ?? null,
     };
   });

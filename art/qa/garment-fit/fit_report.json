@@ -52,6 +52,8 @@
           "anchors": ["sole"]
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "coverage",
           "fromRow": 812,
           "toRow": 839,
@@ -62,11 +64,13 @@
           "worstPx": 0,
           "worstAtRow": -1,
           "worstFractionOfBodySpan": 0,
-          "rowsCompared": 16
+          "rowsCompared": 16,
+          "rowsInWindow": 28
         },
         "affine": null,
         "boundedWarp": null,
         "classification": "safe-direct-reuse",
+        "evidence": "measured",
         "reason": "Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs."
       },
       {
@@ -83,6 +87,8 @@
           "anchors": ["sole"]
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "coverage",
           "fromRow": 638,
           "toRow": 659,
@@ -93,11 +99,13 @@
           "worstPx": 0,
           "worstAtRow": -1,
           "worstFractionOfBodySpan": 0,
-          "rowsCompared": 12
+          "rowsCompared": 12,
+          "rowsInWindow": 22
         },
         "affine": null,
         "boundedWarp": null,
         "classification": "safe-direct-reuse",
+        "evidence": "measured",
         "reason": "Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs."
       },
       {
@@ -114,6 +122,8 @@
           "anchors": ["shoulder", "chest", "waist", "hip"]
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "edge-match",
           "fromRow": 136,
           "toRow": 455,
@@ -124,7 +134,8 @@
           "worstPx": 22.99,
           "worstAtRow": 389,
           "worstFractionOfBodySpan": 0.0864,
-          "rowsCompared": 320
+          "rowsCompared": 320,
+          "rowsInWindow": 320
         },
         "affine": {
           "transform": {
@@ -141,6 +152,8 @@
             "hip": 0.865031
           },
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 136,
             "toRow": 455,
@@ -151,7 +164,8 @@
             "worstPx": 2.79,
             "worstAtRow": 426,
             "worstFractionOfBodySpan": 0.0101,
-            "rowsCompared": 320
+            "rowsCompared": 320,
+            "rowsInWindow": 320
           },
           "withinBound": true
         },
@@ -190,6 +204,8 @@
           },
           "anchors": ["shoulder", "waist", "hip"],
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 136,
             "toRow": 455,
@@ -200,11 +216,13 @@
             "worstPx": 0.36,
             "worstAtRow": 238,
             "worstFractionOfBodySpan": 0.0016,
-            "rowsCompared": 320
+            "rowsCompared": 320,
+            "rowsInWindow": 320
           },
           "withinBound": true
         },
         "classification": "affine-reusable",
+        "evidence": "measured",
         "reason": "One axis-aligned scale brings the worst edge error from 22.99px (8.64%) to 2.79px (1.01%), inside the 3.0% bound."
       },
       {
@@ -221,6 +239,8 @@
           "anchors": ["shoulder", "chest", "waist", "hip"]
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "edge-match",
           "fromRow": 145,
           "toRow": 380,
@@ -231,7 +251,8 @@
           "worstPx": 24.21,
           "worstAtRow": 356,
           "worstFractionOfBodySpan": 0.0953,
-          "rowsCompared": 236
+          "rowsCompared": 236,
+          "rowsInWindow": 236
         },
         "affine": {
           "transform": {
@@ -248,6 +269,8 @@
             "hip": 0.855263
           },
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 145,
             "toRow": 380,
@@ -258,7 +281,8 @@
             "worstPx": 2.11,
             "worstAtRow": 368,
             "worstFractionOfBodySpan": 0.0082,
-            "rowsCompared": 236
+            "rowsCompared": 236,
+            "rowsInWindow": 236
           },
           "withinBound": true
         },
@@ -297,6 +321,8 @@
           },
           "anchors": ["shoulder", "waist", "hip"],
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 145,
             "toRow": 380,
@@ -307,11 +333,13 @@
             "worstPx": 1.07,
             "worstAtRow": 222,
             "worstFractionOfBodySpan": 0.0047,
-            "rowsCompared": 236
+            "rowsCompared": 236,
+            "rowsInWindow": 236
           },
           "withinBound": true
         },
         "classification": "affine-reusable",
+        "evidence": "measured",
         "reason": "One axis-aligned scale brings the worst edge error from 24.21px (9.53%) to 2.11px (0.82%), inside the 3.0% bound."
       },
       {
@@ -328,6 +356,8 @@
           "anchors": []
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "containment",
           "fromRow": 120,
           "toRow": 240,
@@ -338,11 +368,13 @@
           "worstPx": 0,
           "worstAtRow": -1,
           "worstFractionOfBodySpan": 0,
-          "rowsCompared": 114
+          "rowsCompared": 114,
+          "rowsInWindow": 121
         },
         "affine": null,
         "boundedWarp": null,
         "classification": "safe-direct-reuse",
+        "evidence": "measured",
         "reason": "Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs."
       },
       {
@@ -359,6 +391,8 @@
           "anchors": []
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "containment",
           "fromRow": 122,
           "toRow": 242,
@@ -369,11 +403,13 @@
           "worstPx": 0,
           "worstAtRow": -1,
           "worstFractionOfBodySpan": 0,
-          "rowsCompared": 114
+          "rowsCompared": 114,
+          "rowsInWindow": 121
         },
         "affine": null,
         "boundedWarp": null,
         "classification": "safe-direct-reuse",
+        "evidence": "measured",
         "reason": "Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs."
       },
       {
@@ -390,6 +426,8 @@
           "anchors": ["shoulder", "chest", "waist", "hip"]
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "edge-match",
           "fromRow": 136,
           "toRow": 455,
@@ -400,7 +438,8 @@
           "worstPx": 23.04,
           "worstAtRow": 136,
           "worstFractionOfBodySpan": 0.1097,
-          "rowsCompared": 320
+          "rowsCompared": 320,
+          "rowsInWindow": 320
         },
         "affine": {
           "transform": {
@@ -417,6 +456,8 @@
             "hip": 0.865031
           },
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 136,
             "toRow": 455,
@@ -427,7 +468,8 @@
             "worstPx": 3.23,
             "worstAtRow": 453,
             "worstFractionOfBodySpan": 0.0115,
-            "rowsCompared": 320
+            "rowsCompared": 320,
+            "rowsInWindow": 320
           },
           "withinBound": true
         },
@@ -466,6 +508,8 @@
           },
           "anchors": ["shoulder", "waist", "hip"],
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 136,
             "toRow": 455,
@@ -476,11 +520,13 @@
             "worstPx": 0.35,
             "worstAtRow": 220,
             "worstFractionOfBodySpan": 0.0015,
-            "rowsCompared": 320
+            "rowsCompared": 320,
+            "rowsInWindow": 320
           },
           "withinBound": true
         },
         "classification": "affine-reusable",
+        "evidence": "measured",
         "reason": "One axis-aligned scale brings the worst edge error from 23.04px (10.97%) to 3.23px (1.15%), inside the 3.0% bound."
       },
       {
@@ -497,6 +543,8 @@
           "anchors": ["shoulder", "chest", "waist", "hip"]
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "edge-match",
           "fromRow": 145,
           "toRow": 380,
@@ -507,7 +555,8 @@
           "worstPx": 23.92,
           "worstAtRow": 356,
           "worstFractionOfBodySpan": 0.0942,
-          "rowsCompared": 236
+          "rowsCompared": 236,
+          "rowsInWindow": 236
         },
         "affine": {
           "transform": {
@@ -524,6 +573,8 @@
             "hip": 0.855263
           },
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 145,
             "toRow": 380,
@@ -534,7 +585,8 @@
             "worstPx": 2.26,
             "worstAtRow": 379,
             "worstFractionOfBodySpan": 0.0087,
-            "rowsCompared": 236
+            "rowsCompared": 236,
+            "rowsInWindow": 236
           },
           "withinBound": true
         },
@@ -573,6 +625,8 @@
           },
           "anchors": ["shoulder", "waist", "hip"],
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 145,
             "toRow": 380,
@@ -583,11 +637,13 @@
             "worstPx": 1.04,
             "worstAtRow": 263,
             "worstFractionOfBodySpan": 0.0044,
-            "rowsCompared": 236
+            "rowsCompared": 236,
+            "rowsInWindow": 236
           },
           "withinBound": true
         },
         "classification": "affine-reusable",
+        "evidence": "measured",
         "reason": "One axis-aligned scale brings the worst edge error from 23.92px (9.42%) to 2.26px (0.87%), inside the 3.0% bound."
       },
       {
@@ -604,6 +660,8 @@
           "anchors": ["hip", "crotch", "knee", "ankle"]
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "edge-match",
           "fromRow": 455,
           "toRow": 785,
@@ -611,10 +669,11 @@
           "overhangAtRow": 481,
           "undercoveragePx": 44,
           "undercoverageAtRow": 462,
-          "worstPx": 17.89,
+          "worstPx": 17.98,
           "worstAtRow": 480,
-          "worstFractionOfBodySpan": 0.0908,
-          "rowsCompared": 331
+          "worstFractionOfBodySpan": 0.0913,
+          "rowsCompared": 331,
+          "rowsInWindow": 331
         },
         "affine": {
           "transform": {
@@ -632,6 +691,8 @@
             "ankle": 0.829787
           },
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 455,
             "toRow": 785,
@@ -639,10 +700,11 @@
             "overhangAtRow": 481,
             "undercoveragePx": 58.93,
             "undercoverageAtRow": 462,
-            "worstPx": 2.96,
+            "worstPx": 3.05,
             "worstAtRow": 480,
-            "worstFractionOfBodySpan": 0.015,
-            "rowsCompared": 331
+            "worstFractionOfBodySpan": 0.0155,
+            "rowsCompared": 331,
+            "rowsInWindow": 331
           },
           "withinBound": true
         },
@@ -686,6 +748,8 @@
           },
           "anchors": ["hip", "crotch", "knee", "ankle"],
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 455,
             "toRow": 785,
@@ -693,15 +757,17 @@
             "overhangAtRow": 481,
             "undercoveragePx": 57.17,
             "undercoverageAtRow": 462,
-            "worstPx": 4.36,
+            "worstPx": 4.45,
             "worstAtRow": 480,
-            "worstFractionOfBodySpan": 0.0221,
-            "rowsCompared": 331
+            "worstFractionOfBodySpan": 0.0226,
+            "rowsCompared": 331,
+            "rowsInWindow": 331
           },
           "withinBound": true
         },
         "classification": "affine-reusable",
-        "reason": "One axis-aligned scale brings the worst edge error from 17.89px (9.08%) to 2.96px (1.50%), inside the 3.0% bound."
+        "evidence": "measured",
+        "reason": "One axis-aligned scale brings the worst edge error from 17.98px (9.13%) to 3.05px (1.55%), inside the 3.0% bound."
       },
       {
         "garmentAssetId": "dev_g2_bottom_trousers_seated_v1",
@@ -717,6 +783,8 @@
           "anchors": ["crotch", "knee", "ankle"]
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "edge-match",
           "fromRow": 430,
           "toRow": 610,
@@ -727,7 +795,8 @@
           "worstPx": 18.61,
           "worstAtRow": 486,
           "worstFractionOfBodySpan": 0.1135,
-          "rowsCompared": 181
+          "rowsCompared": 181,
+          "rowsInWindow": 181
         },
         "affine": {
           "transform": {
@@ -744,6 +813,8 @@
             "ankle": 0.836735
           },
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 430,
             "toRow": 610,
@@ -754,7 +825,8 @@
             "worstPx": 0.7,
             "worstAtRow": 430,
             "worstFractionOfBodySpan": 0.0039,
-            "rowsCompared": 181
+            "rowsCompared": 181,
+            "rowsInWindow": 181
           },
           "withinBound": true
         },
@@ -793,6 +865,8 @@
           },
           "anchors": ["crotch", "knee", "ankle"],
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 430,
             "toRow": 610,
@@ -803,11 +877,13 @@
             "worstPx": 0.79,
             "worstAtRow": 485,
             "worstFractionOfBodySpan": 0.0044,
-            "rowsCompared": 181
+            "rowsCompared": 181,
+            "rowsInWindow": 181
           },
           "withinBound": true
         },
         "classification": "affine-reusable",
+        "evidence": "measured",
         "reason": "One axis-aligned scale brings the worst edge error from 18.61px (11.35%) to 0.7px (0.39%), inside the 3.0% bound."
       }
     ],
@@ -1101,6 +1177,8 @@
           "anchors": ["shoulder", "chest", "waist", "hip"]
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "edge-match",
           "fromRow": 136,
           "toRow": 455,
@@ -1108,10 +1186,11 @@
           "overhangAtRow": 300,
           "undercoveragePx": 0,
           "undercoverageAtRow": -1,
-          "worstPx": 17.16,
-          "worstAtRow": 329,
-          "worstFractionOfBodySpan": 0.1159,
-          "rowsCompared": 320
+          "worstPx": 18.06,
+          "worstAtRow": 337,
+          "worstFractionOfBodySpan": 0.1212,
+          "rowsCompared": 320,
+          "rowsInWindow": 320
         },
         "affine": {
           "transform": {
@@ -1128,6 +1207,8 @@
             "hip": 0.869792
           },
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 136,
             "toRow": 455,
@@ -1135,10 +1216,11 @@
             "overhangAtRow": 329,
             "undercoveragePx": 0.55,
             "undercoverageAtRow": 136,
-            "worstPx": 5.04,
+            "worstPx": 5.97,
             "worstAtRow": 136,
-            "worstFractionOfBodySpan": 0.0243,
-            "rowsCompared": 320
+            "worstFractionOfBodySpan": 0.0288,
+            "rowsCompared": 320,
+            "rowsInWindow": 320
           },
           "withinBound": true
         },
@@ -1177,6 +1259,8 @@
           },
           "anchors": ["shoulder", "waist", "hip"],
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 136,
             "toRow": 455,
@@ -1184,15 +1268,17 @@
             "overhangAtRow": 176,
             "undercoveragePx": 0,
             "undercoverageAtRow": -1,
-            "worstPx": 1.16,
-            "worstAtRow": 263,
-            "worstFractionOfBodySpan": 0.0066,
-            "rowsCompared": 320
+            "worstPx": 1.88,
+            "worstAtRow": 451,
+            "worstFractionOfBodySpan": 0.0112,
+            "rowsCompared": 320,
+            "rowsInWindow": 320
           },
           "withinBound": true
         },
         "classification": "affine-reusable",
-        "reason": "One axis-aligned scale brings the worst edge error from 17.16px (11.59%) to 5.04px (2.43%), inside the 3.0% bound."
+        "evidence": "measured",
+        "reason": "One axis-aligned scale brings the worst edge error from 18.06px (12.12%) to 5.97px (2.88%), inside the 3.0% bound."
       },
       {
         "garmentAssetId": "fit_top_knit_average_standing_v1",
@@ -1208,6 +1294,8 @@
           "anchors": ["shoulder", "chest", "waist", "hip"]
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "edge-match",
           "fromRow": 136,
           "toRow": 455,
@@ -1215,10 +1303,11 @@
           "overhangAtRow": -1,
           "undercoveragePx": 23,
           "undercoverageAtRow": 327,
-          "worstPx": 30.02,
-          "worstAtRow": 329,
-          "worstFractionOfBodySpan": 0.1272,
-          "rowsCompared": 320
+          "worstPx": 31.17,
+          "worstAtRow": 326,
+          "worstFractionOfBodySpan": 0.1315,
+          "rowsCompared": 320,
+          "rowsInWindow": 320
         },
         "affine": {
           "transform": {
@@ -1235,6 +1324,8 @@
             "hip": 1.208333
           },
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 136,
             "toRow": 455,
@@ -1242,10 +1333,11 @@
             "overhangAtRow": 136,
             "undercoveragePx": 3.69,
             "undercoverageAtRow": 327,
-            "worstPx": 12.14,
+            "worstPx": 12.74,
             "worstAtRow": 136,
-            "worstFractionOfBodySpan": 0.0482,
-            "rowsCompared": 320
+            "worstFractionOfBodySpan": 0.0505,
+            "rowsCompared": 320,
+            "rowsInWindow": 320
           },
           "withinBound": false
         },
@@ -1284,6 +1376,8 @@
           },
           "anchors": ["shoulder", "waist", "hip"],
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 136,
             "toRow": 455,
@@ -1291,15 +1385,17 @@
             "overhangAtRow": 242,
             "undercoveragePx": 0,
             "undercoverageAtRow": -1,
-            "worstPx": 4.02,
-            "worstAtRow": 241,
-            "worstFractionOfBodySpan": 0.016,
-            "rowsCompared": 320
+            "worstPx": 5.13,
+            "worstAtRow": 242,
+            "worstFractionOfBodySpan": 0.0204,
+            "rowsCompared": 320,
+            "rowsInWindow": 320
           },
           "withinBound": true
         },
         "classification": "bounded-warp-reusable",
-        "reason": "A single affine leaves 12.14px (4.82%), outside the 3.0% bound, because the morphology change is not uniform down the garment. The bounded warp reaches 4.02px (1.60%)."
+        "evidence": "measured",
+        "reason": "A single affine leaves 12.74px (5.05%), outside the 3.0% bound, because the morphology change is not uniform down the garment. The bounded warp reaches 5.13px (2.04%)."
       },
       {
         "garmentAssetId": "fit_bottom_trousers_average_standing_v1",
@@ -1315,6 +1411,8 @@
           "anchors": ["hip", "crotch", "knee", "ankle"]
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "edge-match",
           "fromRow": 455,
           "toRow": 785,
@@ -1322,10 +1420,11 @@
           "overhangAtRow": 476,
           "undercoveragePx": 0,
           "undercoverageAtRow": -1,
-          "worstPx": 13.6,
-          "worstAtRow": 478,
-          "worstFractionOfBodySpan": 0.0872,
-          "rowsCompared": 331
+          "worstPx": 13.78,
+          "worstAtRow": 455,
+          "worstFractionOfBodySpan": 0.0825,
+          "rowsCompared": 331,
+          "rowsInWindow": 331
         },
         "affine": {
           "transform": {
@@ -1343,6 +1442,8 @@
             "ankle": 0.854701
           },
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 455,
             "toRow": 785,
@@ -1350,10 +1451,11 @@
             "overhangAtRow": 478,
             "undercoveragePx": 0,
             "undercoverageAtRow": -1,
-            "worstPx": 1.35,
-            "worstAtRow": 486,
-            "worstFractionOfBodySpan": 0.0086,
-            "rowsCompared": 331
+            "worstPx": 1.81,
+            "worstAtRow": 777,
+            "worstFractionOfBodySpan": 0.018,
+            "rowsCompared": 331,
+            "rowsInWindow": 331
           },
           "withinBound": true
         },
@@ -1397,6 +1499,8 @@
           },
           "anchors": ["hip", "crotch", "knee", "ankle"],
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 455,
             "toRow": 785,
@@ -1404,15 +1508,17 @@
             "overhangAtRow": 476,
             "undercoveragePx": 0,
             "undercoverageAtRow": -1,
-            "worstPx": 0.92,
-            "worstAtRow": 747,
-            "worstFractionOfBodySpan": 0.0086,
-            "rowsCompared": 331
+            "worstPx": 1.37,
+            "worstAtRow": 777,
+            "worstFractionOfBodySpan": 0.0136,
+            "rowsCompared": 331,
+            "rowsInWindow": 331
           },
           "withinBound": true
         },
         "classification": "affine-reusable",
-        "reason": "One axis-aligned scale brings the worst edge error from 13.6px (8.72%) to 1.35px (0.86%), inside the 3.0% bound."
+        "evidence": "measured",
+        "reason": "One axis-aligned scale brings the worst edge error from 13.78px (8.25%) to 1.81px (1.80%), inside the 3.0% bound."
       },
       {
         "garmentAssetId": "fit_bottom_trousers_average_standing_v1",
@@ -1428,6 +1534,8 @@
           "anchors": ["hip", "crotch", "knee", "ankle"]
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "edge-match",
           "fromRow": 455,
           "toRow": 785,
@@ -1438,7 +1546,8 @@
           "worstPx": 22.67,
           "worstAtRow": 476,
           "worstFractionOfBodySpan": 0.103,
-          "rowsCompared": 331
+          "rowsCompared": 331,
+          "rowsInWindow": 331
         },
         "affine": {
           "transform": {
@@ -1456,6 +1565,8 @@
             "ankle": 1.179487
           },
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 455,
             "toRow": 785,
@@ -1463,10 +1574,11 @@
             "overhangAtRow": 473,
             "undercoveragePx": 0,
             "undercoverageAtRow": -1,
-            "worstPx": 2.57,
-            "worstAtRow": 607,
-            "worstFractionOfBodySpan": 0.0135,
-            "rowsCompared": 331
+            "worstPx": 3.16,
+            "worstAtRow": 531,
+            "worstFractionOfBodySpan": 0.0152,
+            "rowsCompared": 331,
+            "rowsInWindow": 331
           },
           "withinBound": true
         },
@@ -1510,6 +1622,8 @@
           },
           "anchors": ["hip", "crotch", "knee", "ankle"],
           "result": {
+            "status": "measured",
+            "statusReason": null,
             "mode": "edge-match",
             "fromRow": 455,
             "toRow": 785,
@@ -1517,15 +1631,17 @@
             "overhangAtRow": 478,
             "undercoveragePx": 0,
             "undercoverageAtRow": -1,
-            "worstPx": 1.35,
-            "worstAtRow": 774,
-            "worstFractionOfBodySpan": 0.0095,
-            "rowsCompared": 331
+            "worstPx": 2.13,
+            "worstAtRow": 763,
+            "worstFractionOfBodySpan": 0.0147,
+            "rowsCompared": 331,
+            "rowsInWindow": 331
           },
           "withinBound": true
         },
         "classification": "affine-reusable",
-        "reason": "One axis-aligned scale brings the worst edge error from 22.67px (10.30%) to 2.57px (1.35%), inside the 3.0% bound."
+        "evidence": "measured",
+        "reason": "One axis-aligned scale brings the worst edge error from 22.67px (10.30%) to 3.16px (1.52%), inside the 3.0% bound."
       },
       {
         "garmentAssetId": "fit_footwear_derby_standing_v1",
@@ -1541,6 +1657,8 @@
           "anchors": ["sole"]
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "coverage",
           "fromRow": 812,
           "toRow": 839,
@@ -1551,11 +1669,13 @@
           "worstPx": 0,
           "worstAtRow": -1,
           "worstFractionOfBodySpan": 0,
-          "rowsCompared": 16
+          "rowsCompared": 16,
+          "rowsInWindow": 28
         },
         "affine": null,
         "boundedWarp": null,
         "classification": "safe-direct-reuse",
+        "evidence": "measured",
         "reason": "Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs."
       },
       {
@@ -1572,6 +1692,8 @@
           "anchors": ["sole"]
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "coverage",
           "fromRow": 812,
           "toRow": 839,
@@ -1582,11 +1704,13 @@
           "worstPx": 2,
           "worstAtRow": 812,
           "worstFractionOfBodySpan": 0.0149,
-          "rowsCompared": 16
+          "rowsCompared": 16,
+          "rowsInWindow": 28
         },
         "affine": null,
         "boundedWarp": null,
         "classification": "safe-direct-reuse",
+        "evidence": "measured",
         "reason": "Unfitted placement already sits within 3.0% of the target silhouette (worst 2px, 1.49%). A transform here would move art that is already where it belongs."
       },
       {
@@ -1603,6 +1727,8 @@
           "anchors": []
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "containment",
           "fromRow": 128,
           "toRow": 248,
@@ -1613,11 +1739,13 @@
           "worstPx": 0,
           "worstAtRow": -1,
           "worstFractionOfBodySpan": 0,
-          "rowsCompared": 112
+          "rowsCompared": 112,
+          "rowsInWindow": 121
         },
         "affine": null,
         "boundedWarp": null,
         "classification": "safe-direct-reuse",
+        "evidence": "measured",
         "reason": "Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs."
       },
       {
@@ -1634,6 +1762,8 @@
           "anchors": []
         },
         "unfitted": {
+          "status": "measured",
+          "statusReason": null,
           "mode": "containment",
           "fromRow": 128,
           "toRow": 248,
@@ -1644,11 +1774,13 @@
           "worstPx": 0,
           "worstAtRow": -1,
           "worstFractionOfBodySpan": 0,
-          "rowsCompared": 112
+          "rowsCompared": 112,
+          "rowsInWindow": 121
         },
         "affine": null,
         "boundedWarp": null,
         "classification": "safe-direct-reuse",
+        "evidence": "measured",
         "reason": "Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs."
       }
     ]

@@ -2025,6 +2025,7 @@ export function reproduceCharacterRecipe(
  */
 export interface ProjectedCharacterBand {
   readonly index: number;
+  /** The slice this band shows, in body-canvas units. */
   readonly left: number;
   readonly top: number;
   readonly width: number;
@@ -2032,6 +2033,21 @@ export interface ProjectedCharacterBand {
   /** Fraction of the component raster's height this band reveals. */
   readonly sourceTopFraction: number;
   readonly sourceBottomFraction: number;
+  /**
+   * Where the WHOLE raster would be drawn so that exactly this band's source
+   * rows land in the slice above. Drawing the full image here and clipping to
+   * the slice reproduces the band; drawing the full image INTO the slice does
+   * not, because that compresses the whole raster into one sixteenth of its
+   * height. This is the metadata the first head's "clip percentages" recipe
+   * was missing, recorded so the geometry is reproducible even though nothing
+   * renders it.
+   */
+  readonly image: {
+    readonly left: number;
+    readonly top: number;
+    readonly width: number;
+    readonly height: number;
+  };
 }
 
 /**
@@ -2107,9 +2123,27 @@ export interface ProjectedCharacter {
  * downstream keeps working unchanged. A garment with no usable answer is
  * refused, not placed.
  */
+export interface ProjectCharacterLayersOptions {
+  /**
+   * Let a bounded-warp layer through as DRAWABLE.
+   *
+   * Nothing that renders may pass this. A bounded warp is a set of horizontal
+   * slices and no renderer in this repository draws slices, so the compositor
+   * withholds such a layer by default for every consumer — the projection is
+   * the one place every consumer passes through, which makes it the one place
+   * the refusal cannot be bypassed by a caller that never heard of bands.
+   *
+   * The measurement harness is the single exception: it reads the bands back
+   * out of the projection to measure what the warp would achieve, and writes
+   * that down as derivation evidence. A test keeps this option out of `src/`.
+   */
+  readonly admitUnrenderableWarps?: boolean;
+}
+
 export function projectCharacterLayers(
   recipe: CharacterRecipe,
   library: CharacterComponentLibrary,
+  options: ProjectCharacterLayersOptions = {},
 ): ProjectedCharacter | null {
   const bodyEntry = recipe.context.components.find(
     (component) => component.kind === "body",
@@ -2283,19 +2317,56 @@ export function projectCharacterLayers(
     const compiled = compileWarpBands(transform);
     const bands: ProjectedCharacterBand[] = compiled.map((band) => {
       const bandWidth = width * band.scaleX;
+      const imageLeft = anchor.x - origin.x * bandWidth + band.offsetX;
       return {
         index: band.index,
-        left: anchor.x - origin.x * bandWidth + band.offsetX,
+        left: imageLeft,
         top: fittedTop + band.fromFraction * fittedHeight,
         width: bandWidth,
         height: (band.toFraction - band.fromFraction) * fittedHeight,
         sourceTopFraction: band.fromFraction,
         sourceBottomFraction: band.toFraction,
+        image: {
+          left: imageLeft,
+          top: fittedTop,
+          width: bandWidth,
+          height: fittedHeight,
+        },
       };
     });
-    // The layer rectangle is the union of its bands, so a consumer that only
-    // knows about rectangles still gets a correct bounding box rather than a
-    // stale unfitted one.
+    // A bounded warp is NOT RENDERABLE here. The projection is the one place
+    // every consumer passes through, so the refusal is issued here, once: the
+    // layer keeps its UNFITTED rectangle (so a debug view can show where it
+    // would have gone) and is reported unreleased with a named reason. The
+    // bands ride along as derivation evidence only. No consumer that reads
+    // rectangles can paint a warp by accident, because there is no drawable
+    // warp rectangle to read.
+    if (!options.admitUnrenderableWarps) {
+      const refusal: ProjectedLayerFitRefusal = {
+        assetId: entry.assetId,
+        code: "fit-warp-not-renderable",
+        message: `Component '${entry.assetId}' resolves to a bounded-warp fit of ${bands.length} bands on body family '${bodyFamily}' in pose '${poseFamily}'. No renderer in this repository draws bands, and drawing the bounding rectangle would paint the garment at its widest band down its whole length, so the layer is withheld.`,
+      };
+      layers.push({
+        assetId: entry.assetId,
+        kind: entry.kind,
+        slotId: entry.slotId,
+        layer: entry.layer,
+        released: false,
+        attachmentAnchorId: anchor.id,
+        ...unfitted,
+        fit: {
+          classification: resolution.classification,
+          transformKind: "bounded-warp",
+          matrix: GARMENT_FIT_IDENTITY_MATRIX,
+          bands,
+        },
+        fitRefusal: refusal,
+      });
+      continue;
+    }
+    // The layer rectangle is the union of its bands, so the harness gets a
+    // correct bounding box for the shape it is about to measure.
     const unionLeft = Math.min(...bands.map((band) => band.left));
     const unionRight = Math.max(...bands.map((band) => band.left + band.width));
     layers.push({

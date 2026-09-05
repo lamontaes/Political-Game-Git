@@ -1913,3 +1913,50 @@ per-morphology art say so by name — front-on footwear, because the gap is
 viewpoint; child and adolescent bodies, because a child is not a scaled adult and
 no measured evidence of proportional compatibility exists; and any pairing that
 fails the bounds.
+
+## D-075 — The refusal lives where the geometry is made, and a limit is checked before it limits anything
+
+- Date: 2026-09-04
+- Status: ACCEPTED
+- Supersedes: none (amends D-074)
+
+An independent audit of the first D-074 head rejected it on three blockers and
+one contract defect, all reproduced before repair.
+
+**A warp could become a rectangle.** The only guard against drawing a bounded
+warp's bounding box lived in the render plan. Scene composition and the pose
+proof read projected layers directly, and a structurally valid sixteen-band warp
+came out of both as a drawable top and a drawable trouser with no bands and no
+refusal. The refusal now lives in `projectCharacterLayers`, the one place every
+consumer passes through: a warped layer is withheld there, keeps its unfitted
+rectangle, and names `fit-warp-not-renderable`. No caller declares band support
+any more, because no renderer has it; the measurement harness alone may admit a
+warp as geometry, to measure it, and a test keeps that option out of `src/`.
+A production bank may not carry a warp profile at all.
+
+**A limit that was not a number limited nothing.** `maxScale: "unlimited"`
+with a million-fold profile produced zero validation errors and resolved
+`ok: true`. Every bound is now validated for type, finiteness, sign, domain,
+envelope and coherence before any transform is compared against it, at runtime
+as well as in validation; a bank whose bounds fail refuses every governed
+garment. The transform schema is closed, so a `shearX` is refused rather than
+ignored.
+
+**No data measured as a perfect fit.** A window with no comparable rows scored
+zero, and a blank footwear raster classified as safe to share. Every measurement
+now carries a status, and only `measured` is evidence; anything else refuses to
+classify. And the residual compared spans, so a garment of the right width
+twelve pixels to one side scored zero while hanging off the body. The residual
+is now per side: each edge is held to where it would sit carrying the garment's
+own ease on the target body, so displacement, one-sided overhang and
+undercoverage all score as the pixels they are, and ease still scores zero.
+
+**The band recipe could not draw the band.** Bands carried a slice plus clip
+percentages against the whole image; drawing the whole image into the slice and
+clipping compresses it. Each band now records where the whole raster would sit
+so its own rows land in the slice, and the recipe is withdrawn.
+
+Consequence: the affine path — the only one the production bank uses — is
+unchanged in behaviour and every measured example still improves. What changed
+is that nothing downstream can draw a fit it cannot draw, nothing can widen a
+bound by misspelling it, and nothing is called a fit for want of pixels.

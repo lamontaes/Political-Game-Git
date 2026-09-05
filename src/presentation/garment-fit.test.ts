@@ -13,6 +13,8 @@ import {
   compileGarmentFitMatrix,
   compileWarpBands,
   createGarmentFitBank,
+  transformShapeErrors,
+  validateGarmentFitBounds,
   deriveAffineFit,
   deriveBoundedWarpFit,
   GARMENT_FIT_CATEGORY_ANCHORS,
@@ -24,6 +26,7 @@ import {
   type BodyFitReference,
   type GarmentFitBankData,
   type GarmentFitBoundedWarp,
+  GARMENT_FIT_BOUNDS_ENVELOPE,
 } from "./garment-fit";
 
 /**
@@ -791,5 +794,305 @@ describe("garment fit — bank validation", () => {
         library,
       ).join(" "),
     ).toContain("this build reads");
+  });
+});
+
+/* -------------------------------------------------------------------------- */
+
+describe("garment fit — malformed bounds fail closed", () => {
+  const library = libraryWith(null);
+  const withBounds = (bounds: unknown): GarmentFitBankData =>
+    ({ ...AFFINE_BANK, bounds }) as GarmentFitBankData;
+  const millionScale: GarmentFitBankData = {
+    ...AFFINE_BANK,
+    garments: AFFINE_BANK.garments.map((garment) =>
+      garment.component_family === "test-top"
+        ? {
+            ...garment,
+            profiles: [
+              {
+                ...garment.profiles[0]!,
+                transform: {
+                  kind: "affine" as const,
+                  scaleX: 1_000_000,
+                  scaleY: 1,
+                  translateX: 0,
+                  translateY: 0,
+                },
+              },
+            ],
+          }
+        : garment,
+    ),
+  };
+
+  const MALFORMED: readonly [string, unknown][] = [
+    ["a string maxScale", { maxScale: "unlimited" }],
+    ["NaN", { maxScale: Number.NaN }],
+    ["Infinity", { maxScale: Number.POSITIVE_INFINITY }],
+    ["-Infinity", { minScale: Number.NEGATIVE_INFINITY }],
+    ["null where a number is required", { maxTranslate: null }],
+    ["a negative translate limit", { maxTranslate: -0.1 }],
+    ["a zero edge-error bound", { maxEdgeErrorFraction: 0 }],
+    ["an inverted min/max", { minScale: 1.5, maxScale: 1.2 }],
+    ["a minScale at or above 1", { minScale: 1 }],
+    ["a maxScale beyond the envelope", { maxScale: 50 }],
+    [
+      "a band step larger than the spread",
+      { maxWarpBandStep: 1.9, maxWarpScaleSpread: 1.5 },
+    ],
+    ["an unknown limit", { maxShear: 0.3 }],
+    ["a nested object where a number belongs", { maxScale: { value: 2 } }],
+    ["an array instead of an object", [0.7, 1.45]],
+    ["a bare string instead of an object", "loose"],
+  ];
+
+  for (const [label, bounds] of MALFORMED) {
+    it(`refuses ${label} at validation`, () => {
+      const checked = validateGarmentFitBounds(bounds);
+      expect(checked.bounds).toBeNull();
+      expect(checked.errors.length).toBeGreaterThan(0);
+      const errors = validateGarmentFitBank(withBounds(bounds), library);
+      expect(errors.join(" ")).toMatch(/bound|unusable/);
+    });
+
+    it(`refuses ${label} at runtime even if validation was skipped`, () => {
+      const bank = createGarmentFitBank(withBounds(bounds));
+      expect(bank.bounds).toBeNull();
+      const resolved = resolveGarmentFit(
+        {
+          componentAssetId: "top_v1",
+          componentFamily: "test-top",
+          kind: "top",
+          targetBodyFamily: "fam-target",
+          poseFamily: "standing-neutral",
+        },
+        bank,
+      );
+      expect(resolved).toMatchObject({ ok: false, code: "fit-bank-invalid" });
+      // Even a safe-share garment is refused under a bank nobody has read.
+      expect(
+        resolveGarmentFit(
+          {
+            componentAssetId: "footwear_v1",
+            componentFamily: "test-footwear",
+            kind: "footwear",
+            targetBodyFamily: "fam-target",
+            poseFamily: "standing-neutral",
+          },
+          bank,
+        ),
+      ).toMatchObject({ ok: false, code: "fit-bank-invalid" });
+    });
+  }
+
+  it("refuses a million-fold scale under a string limit — the audit's probe", () => {
+    const bank: GarmentFitBankData = {
+      ...millionScale,
+      bounds: { maxScale: "unlimited" as unknown as number },
+    };
+    expect(validateGarmentFitBank(bank, library).length).toBeGreaterThan(0);
+    const resolved = resolveGarmentFit(
+      {
+        componentAssetId: "top_v1",
+        componentFamily: "test-top",
+        kind: "top",
+        targetBodyFamily: "fam-target",
+        poseFamily: "standing-neutral",
+      },
+      createGarmentFitBank(bank),
+    );
+    expect(resolved.ok).toBe(false);
+  });
+
+  it("refuses a million-fold scale under valid limits too", () => {
+    expect(validateGarmentFitBank(millionScale, library).join(" ")).toContain(
+      "outside the permitted",
+    );
+    const resolved = resolveGarmentFit(
+      {
+        componentAssetId: "top_v1",
+        componentFamily: "test-top",
+        kind: "top",
+        targetBodyFamily: "fam-target",
+        poseFamily: "standing-neutral",
+      },
+      createGarmentFitBank(millionScale),
+    );
+    expect(resolved).toMatchObject({
+      ok: false,
+      code: "fit-profile-out-of-bounds",
+    });
+  });
+
+  it("lets a bank tighten its limits but not widen past the envelope", () => {
+    expect(validateGarmentFitBounds({ maxScale: 1.2 }).bounds?.maxScale).toBe(
+      1.2,
+    );
+    expect(
+      validateGarmentFitBounds({
+        maxScale: GARMENT_FIT_BOUNDS_ENVELOPE.maxScaleCeiling + 0.01,
+      }).bounds,
+    ).toBeNull();
+    expect(validateGarmentFitBounds(undefined).bounds).toEqual(
+      GARMENT_FIT_DEFAULT_BOUNDS,
+    );
+  });
+
+  it("boundsViolations refuses every transform under malformed limits", () => {
+    const violations = boundsViolations(
+      { kind: "affine", scaleX: 1, scaleY: 1, translateX: 0, translateY: 0 },
+      { ...GARMENT_FIT_DEFAULT_BOUNDS, maxScale: Number.NaN },
+    );
+    expect(violations.join(" ")).toContain("Cannot check this transform");
+  });
+});
+
+describe("garment fit — the transform schema is closed", () => {
+  it("rejects shear, rotation and any other extra field instead of ignoring it", () => {
+    for (const extra of ["shearX", "rotation", "skewY", "matrix"]) {
+      const errors = transformShapeErrors({
+        kind: "affine",
+        scaleX: 1,
+        scaleY: 1,
+        translateX: 0,
+        translateY: 0,
+        [extra]: 0.5,
+      });
+      expect(errors.join(" ")).toContain(`does not carry a '${extra}' field`);
+    }
+  });
+
+  it("rejects a missing field rather than defaulting it", () => {
+    expect(
+      transformShapeErrors({ kind: "affine", scaleX: 1 }).join(" "),
+    ).toContain("is missing");
+  });
+
+  it("rejects an unknown kind and non-objects", () => {
+    expect(transformShapeErrors({ kind: "perspective" })[0]).toMatch(
+      /is not one of/,
+    );
+    expect(transformShapeErrors(null)[0]).toMatch(/must be an object/);
+    expect(transformShapeErrors([1, 0, 0, 1, 0, 0])[0]).toMatch(
+      /must be an object/,
+    );
+  });
+
+  it("rejects extra fields on warp control points", () => {
+    const errors = transformShapeErrors({
+      kind: "bounded-warp",
+      scaleY: 1,
+      translateY: 0,
+      controlPoints: [
+        { at: 0, scaleX: 1, offsetX: 0, rotate: 1 },
+        { at: 1, scaleX: 1, offsetX: 0 },
+      ],
+    });
+    expect(errors.join(" ")).toContain("unknown field 'rotate'");
+  });
+
+  it("refuses a sheared profile through bank validation and at runtime", () => {
+    const sheared: GarmentFitBankData = {
+      ...AFFINE_BANK,
+      garments: AFFINE_BANK.garments.map((garment) =>
+        garment.component_family === "test-top"
+          ? {
+              ...garment,
+              profiles: [
+                {
+                  ...garment.profiles[0]!,
+                  transform: {
+                    ...garment.profiles[0]!.transform,
+                    shearX: 0.4,
+                  } as never,
+                },
+              ],
+            }
+          : garment,
+      ),
+    };
+    expect(
+      validateGarmentFitBank(sheared, libraryWith(null)).join(" "),
+    ).toContain("shearX");
+    const resolved = resolveGarmentFit(
+      {
+        componentAssetId: "top_v1",
+        componentFamily: "test-top",
+        kind: "top",
+        targetBodyFamily: "fam-target",
+        poseFamily: "standing-neutral",
+      },
+      createGarmentFitBank(sheared),
+    );
+    expect(resolved).toMatchObject({
+      ok: false,
+      code: "fit-profile-out-of-bounds",
+    });
+  });
+});
+
+describe("garment fit — a bounded warp is not renderable", () => {
+  const warpBank: GarmentFitBankData = {
+    ...AFFINE_BANK,
+    garments: AFFINE_BANK.garments.map((garment) =>
+      garment.component_family === "test-top"
+        ? {
+            ...garment,
+            classification: "bounded-warp-reusable" as const,
+            profiles: [
+              {
+                ...garment.profiles[0]!,
+                transform: {
+                  kind: "bounded-warp" as const,
+                  scaleY: 1,
+                  translateY: 0,
+                  controlPoints: [
+                    { at: 0, scaleX: 0.9, offsetX: 0 },
+                    { at: 1, scaleX: 0.85, offsetX: 0 },
+                  ],
+                },
+              },
+            ],
+          }
+        : garment,
+    ),
+  };
+
+  it("is refused by bank validation so a production bank cannot depend on one", () => {
+    expect(
+      validateGarmentFitBank(warpBank, libraryWith(null)).join(" "),
+    ).toContain("NOT RENDERABLE");
+  });
+
+  it("is withheld by the projection with its unfitted rectangle and a named reason", () => {
+    const projected = projectCharacterLayers(
+      recipeOn("fam-target", "body_target"),
+      libraryWith(warpBank),
+    )!;
+    const top = projected.layers.find((layer) => layer.kind === "top")!;
+    expect(top.released).toBe(false);
+    expect(top.fitRefusal?.code).toBe("fit-warp-not-renderable");
+    expect(top.width).toBe(1);
+    expect(top.left).toBe(0);
+    expect(top.fit?.transformKind).toBe("bounded-warp");
+    expect(top.fit?.bands).toHaveLength(GARMENT_FIT_WARP_BAND_COUNT);
+    expect(projected.fullyReleased).toBe(false);
+    // The rest of the person is untouched by one garment's refusal.
+    expect(
+      projected.layers.find((layer) => layer.kind === "footwear")!.released,
+    ).toBe(true);
+  });
+
+  it("is admitted as geometry only when the harness asks", () => {
+    const projected = projectCharacterLayers(
+      recipeOn("fam-target", "body_target"),
+      libraryWith(warpBank),
+      { admitUnrenderableWarps: true },
+    )!;
+    const top = projected.layers.find((layer) => layer.kind === "top")!;
+    expect(top.fitRefusal).toBeNull();
+    expect(top.released).toBe(true);
+    expect(top.width).toBeLessThan(1);
   });
 });
