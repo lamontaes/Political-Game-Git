@@ -1,6 +1,6 @@
 # Owner Morning Brief — Overnight Ultra Code, 2026-09-05
 
-Read this first. Detail follows; the deep docs are numbered `10`–`50` in this folder.
+Read this first. Detail follows; the deep docs are numbered `10`–`60` in this folder (`10` narrative style · `20` future-system coverage · `30` graphics/menu readiness · `40` operating-mode · `50` action board · `60` future-system content contracts).
 
 **Bottom line:** the project is in good shape. I did not merge or delete anything. I built a **deterministic narrative harness + a 27-life / 260-beat prose corpus**, which **reproduced your human-play complaints exactly and localized them**; produced an **interactive prose-review packet** you can mark up; and left a **stable of launchable tasks**, a **future-system map**, a **graphics/menu readiness map**, and an **operating-mode audit** with current, verified Claude-Code guidance. Everything is on one isolated branch, fully green (1684 tests), unmerged.
 
