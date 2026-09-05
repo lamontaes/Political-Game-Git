@@ -55,6 +55,7 @@ import {
   openLegislativeWork,
   type LegislativeAssignment,
 } from "../presentation/legislation-world";
+import { CampaignWorkspace } from "./CampaignWorkspace";
 import { LegislationWorkspace } from "./LegislationWorkspace";
 import { PersonPortrait } from "./PersonPortrait";
 
@@ -937,6 +938,25 @@ function PlayingScreen({
           {capabilities.withheld.find(
             (entry) => entry.surface === "legislation",
           )?.reason ?? ""}
+        </p>
+      )}
+
+      {/*
+        Politics is a thing an ordinary life can turn into, so this sits below
+        the ordinary day rather than replacing it. A character who never files
+        never loses the rest of the screen, and one who files and loses gets it
+        all back the next morning.
+      */}
+      {capabilities.campaign ? (
+        <CampaignWorkspace
+          world={session.world}
+          personId={session.personId}
+          onWorldChange={onWorldChange}
+        />
+      ) : capabilities.formativeYears ? null : (
+        <p className="game-note" data-testid="no-campaign">
+          {capabilities.withheld.find((entry) => entry.surface === "campaign")
+            ?.reason ?? ""}
         </p>
       )}
     </main>

@@ -1,6 +1,9 @@
 import {
   activeWorkRelationshipsAt,
   ageOnDate,
+  campaignForCandidate,
+  candidacyEligibility,
+  candidacyPackForJurisdiction,
   formativeIntervalAt,
   lifePlaceByJurisdictionId,
 } from "../simulation";
@@ -15,6 +18,12 @@ import type { EntityId, LifePlace, Person, World } from "../simulation";
  * legislature the game has no sourced rules for does not get another state's
  * procedure with the name swapped.
  *
+ * Standing for office works the other way round: which ballot a person can be
+ * on is a fact about where they live, not where they work, and the game will
+ * only offer it where an accepted source establishes an elected office. A
+ * character in a city whose council nobody has written down lives an ordinary
+ * life there and is told plainly why there is nothing to run for.
+ *
  * Which legislature, specifically, comes from the job rather than the address.
  * People commute across a state line, and a staffer who moved house has not
  * changed which chamber their bills go to — reading the home jurisdiction and
@@ -25,7 +34,7 @@ import type { EntityId, LifePlace, Person, World } from "../simulation";
 export const LEGISLATIVE_WORK_PREFIX = "employment:legislative-";
 
 export interface WithheldCapability {
-  readonly surface: "office" | "legislation";
+  readonly surface: "office" | "legislation" | "campaign";
   /** Said plainly, because "nothing here" is worse than a reason. */
   readonly reason: string;
 }
@@ -62,6 +71,12 @@ export interface PlayerCapabilities {
   readonly legislativeScenarioKey: string | null;
   /** The jurisdiction the legislative surface is answerable to, when there is one. */
   readonly legislativeJurisdictionId: EntityId | null;
+  /**
+   * There is something here to run for, or something already being run. False
+   * does not mean the character is uninterested; it means the game has nothing
+   * truthful to offer them, and `withheld` says which.
+   */
+  readonly campaign: boolean;
   readonly withheld: readonly WithheldCapability[];
 }
 
@@ -101,7 +116,30 @@ export function resolvePlayerCapabilities(world: World): PlayerCapabilities {
   const scenarioKey = workPlace?.capabilities.legislativeScenarioKey ?? null;
   const legislation = office && scenarioKey !== null;
 
+  // Where they live decides the ballot, so this reads the home jurisdiction
+  // rather than the workplace the legislative surface cares about.
+  const pastOrPresentCampaign = campaignForCandidate(world, personId);
+  const candidacy = candidacyEligibility(world, {
+    personId,
+    jurisdictionId: person.homeJurisdictionId,
+    officeKey:
+      candidacyPackForJurisdiction(person.homeJurisdictionId)?.offices[0]
+        ?.officeKey ?? "",
+    alreadyACandidate: false,
+  });
+  const campaign =
+    !formativeYears && (candidacy.eligible || pastOrPresentCampaign !== null);
+
   const withheld: WithheldCapability[] = [];
+  if (!campaign) {
+    withheld.push({
+      surface: "campaign",
+      reason: formativeYears
+        ? "Running for something is a long way off yet."
+        : (candidacy.blocks[0]?.reason ??
+          "There is nothing here the game can honestly put on a ballot."),
+    });
+  }
   if (!office) {
     withheld.push({
       surface: "office",
@@ -138,6 +176,7 @@ export function resolvePlayerCapabilities(world: World): PlayerCapabilities {
     legislativeScenarioKey: legislation ? scenarioKey : null,
     legislativeJurisdictionId:
       legislation && workPlace ? workPlace.context.jurisdiction.id : null,
+    campaign,
     withheld,
   };
 }

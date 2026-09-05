@@ -1,6 +1,47 @@
 export * from "./dates";
 export * from "./character-history";
 export * from "./causal-effects";
+export * from "./candidacy-packs";
+export * from "./candidacy";
+export * from "./campaign-queries";
+/**
+ * Campaign operations are named one by one on purpose.
+ *
+ * `campaigns.ts` also exports `canonicalSupportBasisPoints`, which is the
+ * number the election is decided from and the number no player may see. Naming
+ * the exports here rather than re-exporting the module wholesale means the
+ * presentation and player layers — which import from this barrel and nowhere
+ * else — cannot reach it even by accident. A test asserts that this list still
+ * omits it.
+ */
+export {
+  CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
+  campaignActionIsStale,
+  campaignElectionTransitionHandler,
+  createCampaignElectionTransitionRegistry,
+  daysUntilElection,
+  ensureCampaignOpponents,
+  ensureCampaignSupportMetric,
+  evaluateCampaignAwareOutcome,
+  fileCampaign,
+  performCampaignAction,
+  scheduleCampaignAction,
+} from "./campaigns";
+export type {
+  CampaignActivityPlan,
+  CampaignOutcome,
+  EnsureCampaignOpponentsInput,
+  EnsuredOpponents,
+  FileCampaignInput,
+  FiledCampaignResult,
+  ScheduleCampaignActionInput,
+  ScheduledCampaignActionResult,
+} from "./campaigns";
+export {
+  CAMPAIGN_ACTION_KINDS,
+  CAMPAIGN_ORGANIZATION_CLASSIFICATION,
+  CAMPAIGN_STATUSES,
+} from "./campaign-integrity";
 export * from "./demo";
 export * from "./history";
 export {
