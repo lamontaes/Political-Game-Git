@@ -1,5 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
+import { enterLife, openElsewhere, startLife } from "./support/creator";
+
 /**
  * Standing for office, in a browser, on the route a player actually opens.
  *
@@ -34,26 +36,24 @@ async function freshBrowser(page: Page) {
   await page.reload();
 }
 
-async function startLife(page: Page, place: string, age: number) {
-  await page.getByTestId("new-game").click();
-  await expect(page.getByTestId("setup-screen")).toBeVisible();
-  await page
-    .getByTestId("place-choices")
-    .getByRole("button", { name: new RegExp(place, "i") })
-    .first()
-    .click();
-  await page.getByTestId("start-age").fill(String(age));
-  await page.getByTestId("begin").click();
+/**
+ * Starts an adult life in `place`, then opens the day.
+ *
+ * The scene-first shell keeps the day — and the campaign that sits under it —
+ * behind the HUD. Standing for office is one more thing in a life, so it is
+ * reached the same way the ordinary day is. The creator walk itself is the
+ * shared one every browser test uses, so this file does not carry its own copy.
+ */
+async function beginAdultLifeIn(page: Page, place: string) {
+  await startLife(page, { age: 34, place });
   await expect(page.getByTestId("play-screen")).toBeVisible();
-  // The scene-first shell keeps the day — and the campaign that sits under it —
-  // behind the HUD. Standing for office is one more thing in a life, so it is
-  // reached the same way the ordinary day is.
+  await enterLife(page);
   await openDay(page);
 }
 
 /** Opens the day overlay, where the ordinary day and the campaign both live. */
 async function openDay(page: Page) {
-  await page.getByTestId("elsewhere-day").click();
+  await openElsewhere(page, "day");
   await expect(page.getByTestId("ordinary-section")).toBeVisible();
 }
 
@@ -86,7 +86,7 @@ test.describe("A life can stand for something", () => {
   }) => {
     const errors = watchForErrors(page);
     await freshBrowser(page);
-    await startLife(page, "Kentucky", 34);
+    await beginAdultLifeIn(page, "Kentucky");
 
     const campaign = page.getByTestId("campaign-section");
     await expect(campaign).toBeVisible();
@@ -108,7 +108,7 @@ test.describe("A life can stand for something", () => {
   }) => {
     const errors = watchForErrors(page);
     await freshBrowser(page);
-    await startLife(page, "Lexington", 34);
+    await beginAdultLifeIn(page, "Lexington");
 
     await expect(page.getByTestId("no-campaign")).toContainText(
       /will not borrow another state/i,
@@ -129,7 +129,7 @@ test.describe("A life can stand for something", () => {
   }) => {
     const errors = watchForErrors(page);
     await freshBrowser(page);
-    await startLife(page, "Kentucky", 34);
+    await beginAdultLifeIn(page, "Kentucky");
 
     await page.getByTestId("file-candidacy").click();
     const campaign = page.getByTestId("campaign-section");
@@ -175,7 +175,7 @@ test.describe("A life can stand for something", () => {
   }) => {
     const errors = watchForErrors(page);
     await freshBrowser(page);
-    await startLife(page, "Kentucky", 34);
+    await beginAdultLifeIn(page, "Kentucky");
 
     await page.getByTestId("file-candidacy").click();
     await page.getByTestId("campaign-outreach").click();
@@ -213,7 +213,7 @@ test.describe("A life can stand for something", () => {
     } else {
       // Winning opens the office, through the ordinary work records. The work
       // surface is now its own HUD destination, so the office is reached there.
-      await page.getByTestId("elsewhere-work").click();
+      await openElsewhere(page, "work");
       await expect(page.getByTestId("office-section")).toBeVisible();
       await expect(page.getByTestId("open-legislation")).toBeVisible();
     }
@@ -224,7 +224,7 @@ test.describe("A life can stand for something", () => {
   test("keeps the campaign through a save and a reload", async ({ page }) => {
     const errors = watchForErrors(page);
     await freshBrowser(page);
-    await startLife(page, "Kentucky", 34);
+    await beginAdultLifeIn(page, "Kentucky");
 
     await page.getByTestId("file-candidacy").click();
     await page.getByTestId("campaign-fundraising").click();
@@ -238,6 +238,7 @@ test.describe("A life can stand for something", () => {
     await page.getByTestId("continue").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
     // A reload starts the shell closed; the campaign is under the day again.
+    await enterLife(page);
     await openDay(page);
     await expect(page.getByTestId("campaign-treasury")).toHaveText(
       treasury ?? "",
