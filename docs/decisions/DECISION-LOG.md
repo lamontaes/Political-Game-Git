@@ -1841,11 +1841,86 @@ Consequence: chopping is measurement. The project can now take a dense sheet
 apart reproducibly, say what each cell is, and say why a good cell is still not
 shippable, without either discarding the sheet or promoting it.
 
-## D-074 — Causal tracing is a read-only projection that renders absence as UNKNOWN
+## D-074 — Source evidence is a separate substrate, and it is built out of refusals
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: nothing on accepted main, which contained no `src/source` at all
+- Reconciled: renumbered from D-059 on merge of accepted main
+  (PR #87), whose D-057–D-073 already occupied the D-059 slot; the
+  architecture is unchanged, only the identifier.
+
+Real-world data enters this repository through one substrate, and that
+substrate is designed around what it will not represent. The failure that
+produced the rejected provenance architecture was not carelessness about facts.
+It was a design in which a fabricated fact was _representable_: a provenance
+record that took any string as a hash, a value type with a `value` field on
+states that have no value, a compiler that accepted any object, a manifest that
+stamped itself with the clock. What cannot be represented does not have to be
+caught.
+
+Two provenance records, never blended. A `RawArtifact` is evidence of a
+retrieval — a URL, an HTTP status, the instant it happened, and a SHA-256 over
+the bytes that came back. A `NormalizedCorpus` is evidence of a computation —
+which compiler at which version read which locked artifacts to produce how many
+records. A container and the member inside it carry different digests, because
+they are different bytes. `source:verify-artifacts` re-hashes what is on disk,
+so a digest that was of a URL string, of a parsed object, or simply typed by
+hand fails the first time anybody runs it.
+
+One value algebra, with eight states, five of which have no `value` key at all.
+KNOWN, HISTORICAL and NOT_YET_OPERATIVE carry a value; NOT_APPLICABLE,
+NO_REQUIREMENT_FOUND, SUPPRESSED, CONFLICTING and UNKNOWN do not have the
+field, so `?? 0` has nothing to attach to. There is no `valueOr` and no
+overload that takes a fallback: a caller who needs a display default writes it
+at the presentation boundary, where a reader can see it. Only KNOWN is present
+truth — a historical value and a not-yet-operative one both carry numbers and
+neither is the answer to "what is it now". Release status is an orthogonal
+property of a KNOWN value rather than a ninth state, because a preliminary
+number is still a number.
+
+Aggregation returns an aggregate, not a number. A sum over a set containing any
+non-KNOWN member is INCOMPLETE, names every gap and calls its number
+`partialValue`. Reconciliation refuses an incomplete component set outright
+rather than treating an absent part as zero, which is how a corpus with missing
+counts used to reconcile perfectly and wrongly.
+
+Compilers take opaque capability handles. `ProductionInput` and `FixtureInput`
+are branded with `unique symbol` keys that cannot be named outside their
+module, so a caller holding arbitrary JSON has no path to a compiler at all.
+Opening production artifacts reads bytes and compares digests; it does not
+trust filenames. Fixtures resolve only under `fixtures/source/` _and_ must
+declare themselves, because a path check alone falls to a symlink and a marker
+alone falls to a file in the right directory.
+
+Nothing tracked under `data/source/` carries a wall clock. Retrieval time is
+acquisition evidence, recorded by the retrieval that produced it; a corpus's
+`asOf` is the semantic date the publisher declares. A build-time observation is
+not a fact about the world, and it is what makes a generated artifact fail to
+regenerate. `npm run validate` compiles the whole tree into a scratch directory
+and fails on any byte that differs.
+
+Coverage is mandatory and has no default. Every corpus says whether it holds a
+complete universe, and a bounded one says why in a sentence a reader can check.
+Where an artifact is too large to commit, its identity is still pinned and a QA
+slice is cut from it by a stated predicate, with the parent's digest on the
+slice — so anyone holding the parent can re-cut it and compare.
+
+Identity is not authority. A place, county, district, court or committee record
+says what exists, what it is called and where it is. Powers, eligibility,
+selection method and current operative status are separate facts needing
+separate evidence, and each domain's validator refuses a field whose name
+claims otherwise. Nothing in the running game imports the substrate: a fact
+reaches the world through a named one-way adapter, and no adapter exists yet.
+
+## D-075 — Causal tracing is a read-only projection that renders absence as UNKNOWN
 
 - Date: 2026-09-03
 - Status: ACCEPTED
 - Supersedes: none
+- Reconciled: renumbered from D-074 on merge of accepted main (PR #91),
+  whose source-substrate decision already occupied the D-074 slot; the
+  architecture is unchanged, only the identifier.
 
 The project can now read how canonical truth, claims, knowledge, perception,
 belief, decisions, relationships and consequences connect in a save. It reads

@@ -100,18 +100,20 @@ export function buildLifeIntroduction(
   const name = personName(player);
 
   const sentences: string[] = [];
+  // Second person, addressed to the player, so the introduction reads like
+  // meeting your own life rather than a record about a stranger (Task §5/§6).
   sentences.push(
     placeName
-      ? `${name} is ${age}, and lives in ${placeName}.`
-      : `${name} is ${age}.`,
+      ? `You're ${age}, and you live in ${placeName}.`
+      : `You're ${age}.`,
   );
   if (others.length === 0) {
-    sentences.push("Nobody else is on the household record.");
+    sentences.push("You live on your own.");
   } else {
     // One line each rather than a joined list. An introduction already carries
     // a comma — "Dakota Romero, your mom" — so joining two of them with
     // another comma produces a sentence a reader has to parse twice.
-    sentences.push(others.length === 1 ? "At home:" : "At home with them:");
+    sentences.push("At home with you:");
     for (const person of others) sentences.push(person.introduction);
   }
 

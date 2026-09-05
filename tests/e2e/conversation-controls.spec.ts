@@ -44,7 +44,10 @@ async function freshBrowser(page: Page) {
 }
 
 async function startLife(page: Page, age: number, childhood = false) {
-  await walkCreator(page, { age, childhood });
+  // A shared home, because this whole file is about talking to somebody at
+  // home; a normal start (Task E) generates the household and may be solo, so
+  // pinning it takes the custom route that keeps a peer in the house.
+  await walkCreator(page, { age, childhood, household: "shares-a-home" });
   await expect(page.getByTestId("play-screen")).toBeVisible();
   // A life opens on its current moment now. The conversations this file is
   // about are one press away rather than stacked under it.

@@ -229,8 +229,8 @@ export function composeConnectiveNarration(
     const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
     say(
       place
-        ? `${personName(person)} is ${toAge}, and lives in ${place.displayName}.`
-        : `${personName(person)} is ${toAge}.`,
+        ? `You're ${toAge}, and you live in ${place.displayName}.`
+        : `You're ${toAge}.`,
       "place",
       [],
       place
@@ -260,9 +260,7 @@ export function composeConnectiveNarration(
     const crossed = toAge > fromAge;
     const opener = elapsedPhrase(days, since, until);
     say(
-      crossed
-        ? `${opener}, and ${personName(person)} is ${toAge}.`
-        : `${opener}.`,
+      crossed ? `${opener}, and you're ${toAge} now.` : `${opener}.`,
       "elapsed",
       [],
       crossed
@@ -388,7 +386,7 @@ function steadyState(world: World, personId: EntityId): readonly SteadyLine[] {
   const enrollments = activeEducationEnrollmentsAt(world, personId, cutoff);
   for (const entry of enrollments.slice(0, 1)) {
     lines.push({
-      sentence: "School carried on being the thing the week was built around.",
+      sentence: "Most weeks were built around school.",
       kind: "school",
       anchors: [
         {
@@ -409,7 +407,7 @@ function steadyState(world: World, personId: EntityId): readonly SteadyLine[] {
   for (const entry of work.slice(0, 1)) {
     lines.push({
       sentence:
-        "Work went on being work: the same shifts, the same people, the same road there.",
+        "Work stayed work — the same shifts, the same people, the same drive there.",
       kind: "work",
       anchors: [
         {
@@ -441,8 +439,8 @@ function steadyState(world: World, personId: EntityId): readonly SteadyLine[] {
     lines.push({
       sentence:
         others.length === 1
-          ? `${others[0]} was in the house every evening, and most of them were unremarkable.`
-          : `The house went on being ${listOf(others)}, and most evenings in it were unremarkable.`,
+          ? `You spent most evenings at home with ${others[0]}, and most of them were quiet.`
+          : `You spent most evenings at home with ${listOf(others)}, and most of them were quiet.`,
       kind: "household",
       anchors: [
         {
@@ -467,7 +465,7 @@ function steadyState(world: World, personId: EntityId): readonly SteadyLine[] {
   );
   for (const entry of participations.slice(0, 1)) {
     lines.push({
-      sentence: "The meetings kept happening, roughly monthly, mostly dull.",
+      sentence: "The meetings kept on, about once a month, and mostly dull.",
       kind: "civic",
       anchors: [
         {
@@ -509,7 +507,7 @@ function steadyState(world: World, personId: EntityId): readonly SteadyLine[] {
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
   lines.push({
     sentence: place
-      ? `${place.displayName} went on as it does, and so did ${personName(person)}.`
+      ? `${place.displayName} went on the way it does, and so did you.`
       : `Life went on at the same pace it had been going.`,
     kind: "place",
     anchors: [],

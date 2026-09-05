@@ -1,0 +1,46 @@
+{
+  "asOf": "2024-12-31",
+  "canonicalSha256": "0756431d5a3d6443e94c5671119191add0a55b4ece829baaaf5d1421553f2c90",
+  "compiler": {
+    "name": "fec",
+    "version": "1.0.0"
+  },
+  "corpusId": "fec",
+  "coverage": {
+    "boundedSampleReason": null,
+    "isCompleteUniverse": true,
+    "universeDescription": "Every row of the Federal Election Commission's 2024 candidate master, committee master and candidate-committee linkage bulk files. No sampling is applied."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "fec-2024-candidate-master-zip",
+      "sha256": "19b2e3354c4b36195b02887a93eb16796de0aeb0ccbcb5bb67b30e8611bff176"
+    },
+    {
+      "artifactId": "fec-2024-committee-master-zip",
+      "sha256": "f20f863c90ca69419a4ca941ab885847b7e076144b7189fbb476d2aaf876e94f"
+    },
+    {
+      "artifactId": "fec-2024-candidate-committee-linkage-zip",
+      "sha256": "756a700d46ae40bc3d656e34241d3cbd2ee02e42ff0a58cefe7cf469ae82d107"
+    },
+    {
+      "artifactId": "fec-candidate-master-header-csv",
+      "sha256": "86fe00a87b53fb442608ff695a82f321f49e70718bc815a08a070a120412da0c"
+    },
+    {
+      "artifactId": "fec-committee-master-header-csv",
+      "sha256": "9b5bfd7764a5e07871d4b0bf31d05f9589eda262d02956718b5d2c272e76ab83"
+    },
+    {
+      "artifactId": "fec-linkage-header-csv",
+      "sha256": "9de902716f8c5086fc91cc7b26b675c49916e43c742693df939278cb7d91c633"
+    }
+  ],
+  "parser": {
+    "name": "fec-pipe-delimited",
+    "version": "1.0.0"
+  },
+  "recordCount": 39355
+}
