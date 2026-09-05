@@ -10,3 +10,6 @@ test-results/
 .env.*
 !.env.example
 .wrangler/
+
+content-export/
+.source-cache/

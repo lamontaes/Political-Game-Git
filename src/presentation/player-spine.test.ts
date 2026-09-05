@@ -205,11 +205,15 @@ describe("Keeping a life", () => {
 });
 
 describe("Where the game will let a life begin", () => {
-  it("offers only places the accepted data can support, and says so", () => {
+  it("offers the accepted national corpus, and cites where it comes from", () => {
+    // The national place identity is accepted now (PR #77), so a life can start
+    // anywhere; the coverage says so and carries the source it stands on. What
+    // remains bounded is the legislative rule pack, not the places.
     const coverage = lifePlaceCoverage();
-    expect(coverage.supportsArbitrarySelection).toBe(false);
-    expect(coverage.placeCount).toBe(lifePlaces().length);
-    expect(coverage.outstandingDependency).toMatch(/national place corpus/i);
+    expect(coverage.supportsArbitrarySelection).toBe(true);
+    expect(coverage.placeCount).toBeGreaterThan(lifePlaces().length);
+    expect(coverage.provenance?.source).toMatch(/gazetteer/i);
+    expect(coverage.outstandingDependency).toMatch(/legislative rule pack/i);
     expect(lifePlaces().length).toBeGreaterThan(1);
   });
 
@@ -227,12 +231,15 @@ describe("Where the game will let a life begin", () => {
           seed: "no-borrowed-rules",
         }),
       ),
-    ).toThrow(/no legislative procedure for Lexington-Fayette/i);
+    ).toThrow(/no legislative procedure for Lexington, Kentucky/i);
   });
 
   it("keeps the office fixture's Lexington copy out of a life lived elsewhere", () => {
     const game = createNewGameWorld(
       setup({
+        // Custom keeps the shared home the household conversation needs; a
+        // normal start (Task E) generates the household and may be solo.
+        startKind: "custom",
         seed: "nebraska-clean",
         startAge: 34,
         depth: "summarize-earlier-life",
@@ -384,6 +391,9 @@ describe("What people can say", () => {
   it("refuses an intent that belongs to a different subject", () => {
     const game = createNewGameWorld(
       setup({
+        // Custom keeps the shared home the household conversation needs; a
+        // normal start (Task E) generates the household and may be solo.
+        startKind: "custom",
         seed: "wrong-intent",
         startAge: 33,
         depth: "summarize-earlier-life",

@@ -1,6 +1,8 @@
 # PG Handoff Workflow
 
-Update `docs/agent/ACTIVE-HANDOFF.md` with:
+Record the handoff in the canonical Drive current-handoff document named by the
+canonical index, and in the owning plan under `docs/plans/`. Do not create a
+repository "current handoff" file. Include:
 
 - timestamp;
 - agent/model;

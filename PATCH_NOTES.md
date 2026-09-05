@@ -1,6 +1,115 @@
-# Political Game — Patch Notes
+# Our Civic Duty — Patch Notes
 
 Newest release first.
+
+## UNRELEASED — It reads like your life now
+
+The game talks to you. "You're ten, and you live in Lexington. Most weeks were
+built around school. You spent most evenings at home with your dad." — instead
+of a narrator reciting your name and age at you. Your name and age sit together
+in a small badge at the top of the moment rather than being repeated in every
+line.
+
+Starting a life only asks for your gender now — male, female, or non-binary —
+and never for pronouns. Searching for where you're from stays put on the screen:
+a long list of matching towns scrolls on its own instead of shoving the Begin
+button off the bottom of the page.
+
+Opening People, the day, or the office now dims the room and floats a panel with
+a clear way out — a close button, the Escape key, or a click back on the room —
+and closing it drops you right back where you were.
+
+And a ten-year-old is no longer handed the household's errands to sort out with a
+parent. That is a grown-up's conversation, and the game now knows the difference.
+
+## UNRELEASED — The life happens in the room
+
+Playing a life used to be a big card of text in the middle of the screen with
+the room behind it like wallpaper, and your family nowhere to be seen. Now the
+room is the game. It fills the screen, the moment you're in is a small panel
+over it, and the people the game generated for you — your mom, your dad, a
+brother or sister — are a standing list down the right side that you can open,
+keep pinned, or fold away. Where you are, what the date is, and the way to
+everything else sit quietly in the corner.
+
+The people in the room are shown as placed figures for now, because the finished
+character art is still being made; the names and who they are to you are real,
+and the real figures will fill those places as the art arrives. The controls
+have been redrawn too, in ink, navy and brass rather than the old flat green
+buttons.
+
+## UNRELEASED — The front door, and who's at home
+
+The title screen is a room, not a room with a caption. The line that used to
+tell you it was "a hall set out for a community meeting with nobody in it" is
+gone; the picture speaks for itself. The menu sits on the left so the room keeps
+the open side of the frame, and when the background changes it crossfades from
+one room into the next instead of flashing white between them. The slow drift is
+a touch stronger.
+
+Starting a life is no longer a form. You say who you are and where you're from,
+one step at a time, and each step you finish folds up into a line you can reopen
+— so the whole thing fits on the screen without scrolling. You pick a first
+name, a last name (leave either blank and you're given one), an age and a
+gender; the game uses the pronouns that follow, and you can change them from a
+small control if they don't fit. Where you're from is now a search over the
+whole country — any town, city or place — with a short, true note about the one
+you pick rather than a status label. A few states also have a legislature you
+can work in; everywhere else is an ordinary life, which the game says plainly
+instead of pretending otherwise.
+
+Who your family is, whether there's a brother or sister in the house, and the
+years behind you are not questions any more. The game builds them when you press
+Begin, from the world's own seed — some lives have a sibling, some don't. If you
+want to set that yourself, Custom Start still lets you.
+
+"Who are you?" is optional. A few questions help the game understand what
+matters to you, so the situations it puts in front of you land closer to home —
+but nothing there locks a path or decides who you become, and you can skip it
+and let the game learn from how you play.
+
+And a formative moment is grounded in who is actually there. A ten-year-old is
+no longer told that their younger sister has been coming home late from a
+different place each night; a scene about somebody out on their own is only
+offered when there's somebody at home old enough for it to be true.
+
+## UNRELEASED — One life, told once
+
+The game has a name on its title screen: Our Civic Duty. New Game, Continue,
+Saved Games, Options and Quit, with Quit sitting there greyed out rather than
+pretending to be something it is not yet.
+
+The biggest change is one you feel rather than see a control for. Playing used
+to go: a card, a click, a jump in the date, an unrelated card. Now the years
+between the moments are told. Time passing says what happened in it — school
+carried on, the same person was in the house every evening, the group kept
+meeting — read off the record rather than made up, and a quiet stretch says what
+the life actually contained instead of "nothing this year that anyone would tell
+a story about". Time passes unevenly, the way it does.
+
+People come back. Somebody you had a conversation with at ten can be the reason
+a moment at thirty is possible, and what you did the first time decides whether
+the second time happens at all — including quiet choices that gave no sign at
+the time that they were choices. Some threads simply end: a job finishes,
+somebody moves out, an argument stops mattering. The game will not promise you
+a payoff for every decision, and most decisions do not have one.
+
+What you remember is now a journal you open, in chapters, with the people in it
+listed as people — instead of a list growing down the side of the screen with
+every beat.
+
+The opening set of situations has been rewritten. It starts in a kitchen with
+somebody you know rather than with a policy initiative, the choices are things
+you do rather than paragraphs explaining what you believe, and the longer set no
+longer says "3 of 26" because it does not have a fixed length any more. It stops
+when it has enough, which is a different number for different people. If you
+would rather not answer, you start the life; there is no per-question refusal to
+click twenty times.
+
+Smaller things: you can search for a place to start in, and somebody who lives
+in Lexington is told they live in Lexington. An ordinary adult is no longer
+informed that this character does not work in a legislature. Seeds and replay
+addresses have moved behind an Advanced disclosure, where they belong.
 
 ## UNRELEASED — Groundwork
 
@@ -108,6 +217,27 @@ before any of the politics arrives.
 
 ### Added
 
+- **A calibration before the life, and it is not a quiz.** Five situations, or
+  a longer set, or none at all. There are no right answers, nothing you pick
+  becomes part of your character's history, and the game never tells you what
+  it concluded — because a game that hands you a label has stopped being able
+  to be surprised by you. What you actually do counts for around five times
+  what you said here, so two or three real decisions in the other direction
+  settle the matter.
+- **An adult with something to do.** Thirty-five situations across the
+  household, family, care, work, money, housing, friendship, the area, civic
+  life and politics — offered because the thing they are about is already true
+  of your life, never because a die said this was the year. A life with a job
+  and a group in it is offered more than one without, which is the honest
+  answer rather than a shortfall.
+- **Moments that come back.** Something you said you would do, somebody you
+  helped, a position you took where people could hear it. Months or years
+  later it may return — and it may not, because the person moved on, the thing
+  ended, or nobody was listening. Whether they raise it is their decision, not
+  the game's.
+- **Ordinary life, kept ordinary.** A good day, a quiet evening in, a week that
+  simply worked. Roughly a third of what an adult meets asks nothing much of
+  them, which is what keeps the rest able to ask something.
 - **New game.** Choose where the life begins, how old the character is when you
   pick them up, how much of the earlier years you play rather than skip, and
   whether they already work in a legislature. Leave the name blank and you will
@@ -122,6 +252,10 @@ before any of the politics arrives.
   were on the button.
 - **Quiet years.** Not every year has a turning point in it. The ones that do
   not simply pass.
+- **Wider growing-up years.** Ten of the childhood situations gained a third
+  way through them — writing it down instead of saying it, finding somebody
+  else to go, doing both badly — because two options is a fork and three is a
+  decision.
 - **An ordinary day.** A character who does not work in a legislature still has
   a week that needs covering and a public meeting they can go to or skip.
 - **Talking at home.** The conversation system now knows what it is talking
@@ -149,6 +283,20 @@ before any of the politics arrives.
   credential bill that dies in committee where most bills die, and an Alaska
   ferry-notice bill that is not a spending bill — so its veto falls at 40 of 60
   instead of 45.
+- **A way to read what has been written.** A development-only content browser
+  at `?view=content` lists every authored bank the game registers — the
+  growing-up situations, the life episodes, the ordinary week, the conversation
+  subjects, the setup questionnaire, the bills, the sourced legislative
+  procedure and both sets of definition catalogs — and says for each one where
+  it came from, what has to be true before it can happen, and whether a player
+  can reach it at all. Where a bank does not say something, the browser says so
+  and why, rather than filling it in — and where a bank says something that is
+  neither a condition nor a choice, like a legislature's chambers or a bill's
+  authored vote counts, it is shown as what it is instead of being filed under
+  the nearest heading. Citations stay citations; unresolved research stays
+  unresolved research. One button exports the whole thing as a Markdown report
+  and as JSON. None of this is reachable from playing the game, and no content
+  was written to fill it out.
 
 ### Changed
 
@@ -174,8 +322,45 @@ before any of the politics arrives.
 - "Canonical minutes" is now just minutes.
 - The unbuilt second office no longer says it is "not available in Run A".
 
+### Developer tooling
+
+_Nothing in this section is visible in the game. It is here because it changes
+what the team can see, not what a player can._
+
+- **Causal trace inspector.** A development route at `?view=causal-trace` that
+  reads a save and shows how canonical truth, what somebody said, what a
+  listener learned, what they concluded, and what they then decided actually
+  connect. Every link it draws is a field the record already carries. Where the
+  repository recorded no parent it says UNKNOWN, and where a walk stops it says
+  which of five things stopped it.
+- **Who heard it.** The same two conversation turns run quiet instead of
+  normal now demonstrably produce a different set of listeners, a different set
+  of knowledge records, a different set of perceptions, and a second-turn
+  decision resting on a different recorded chain. Audibility was already
+  causal; it is now legible.
+- **Traces you can paste into a bug report.** `npm run trace:export` writes
+  Markdown or JSON carrying the seed, world id, history frontier and content
+  hash. The same replay and the same request produce byte-identical output.
+- **Do different seeds make different lives?** `npm run compare:seeds`
+  generates several worlds and reports where they actually differ, keeping
+  structural differences apart from differences that are only a name.
+
 ### Known issues
 
+- The longer calibration has twenty-six authored questions against a design
+  target of thirty to fifty, and fifteen of the twenty-six read as policy
+  questions rather than as life fragments. Those fifteen are ranked last, so a
+  short calibration never reaches them, and the shortfall is reported in
+  numbers rather than hidden. Closing it needs authored copy from the research
+  lane; the implementing lane is not permitted to write questionnaire text.
+- An adult whose earlier years were summarized rather than played arrives
+  already carrying a community-service participation and a civic commitment
+  from the scripted background generator, which is why a group situation can be
+  offered on the first beat. The record says it is true, so surfacing it is
+  consistent — but the generator that wrote it is development scaffolding and
+  is due to be replaced.
+- Housing situations need a tenancy the world does not yet establish for a new
+  life, so they stay unavailable rather than being offered against nothing.
 - Only four places can start a life, and none of them is a city with its own
   council. A national place corpus is the missing piece.
 - Nobody has written down who may stand for office anywhere, how long a term

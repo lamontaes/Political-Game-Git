@@ -36,6 +36,33 @@ Node desktop adapter (src/persistence)
           SQLite snapshots
 ```
 
+```text
+Source substrate (src/source), Node-only, excluded from the browser app
+
+  src/source/core            contracts, value algebra, parsers, capability boundary
+        ^
+        |
+  src/source/domains/<d>     may import core; may NOT import another domain
+        ^
+        |
+  src/source/adapters/<a>    may import domains and the simulation's public types
+        |
+        v
+  src/simulation             may NEVER import src/source
+```
+
+- The source substrate holds evidence about the real world. The simulation
+  holds the world. Evidence reaches the world only through a one-way adapter,
+  and no adapter exists yet: `src/simulation/`, `src/presentation/`,
+  `src/player/`, `src/ui/`, `src/persistence/`, `src/cli/` and
+  `src/environment/` may not import `src/source/**`, enforced by an eslint rule
+  and by a test that reads the import graph.
+- `src/source/domains/<a>` may not import `src/source/domains/<b>`. A
+  relationship between two domains lives in an adapter or a crosswalk domain
+  that declares both as inputs.
+- `src/source/core/**` imports nothing outside itself.
+- See `docs/systems/source-substrate.md` and decision D-059.
+
 - `src/simulation/` contains JSON-safe domain types, deterministic utilities, world operations, a canonical zoned minute-level moment, exact scheduled activities and office work/assignment history, policy, mind, world-metric, causal-mechanism, incident-definition, and vitality catalogs, append-oriented history, exact quantity and money primitives, separate quantitative truth and observation vintages, append-oriented causal ancestry and effect activations, explicit exact aggregate-economy/fiscal derivations, frozen quantitative policy baselines/operations/estimates and explicit implementation realization, generalized incident occurrence/state/follow-on records, bounded mortality/death/functional-capacity history, objective evidence artifacts and explicit person discovery, one date-level future-transition mechanism, sparse political and character-mind records, subjective-perception projections, the general decision evaluator and political-belief adapter, persistent organizations/work/education/participation/households/care/child-authority history, exact personal/household resource flows and housing histories, a canonical character-history plan applicator, bounded formative situations, compositional adult path helpers, meaningful relationship-history helpers, qualitative life-load resolution, a future-rule eligibility consumer, progressive entity detail, and the demo scenario.
 - `src/persistence/` contains Node-only durable-storage adapters and depends on the public simulation snapshot codec.
 - `src/cli/` contains Node-only executable entry points.
@@ -226,6 +253,77 @@ Subjective perception is built from person-owned facts, memories, event knowledg
 The decision evaluator is pure: it validates and canonically orders options, applies hard constraints before scoring, retains every supporting or opposing consideration, and allows only slight keyed random influence when at least two available options are within the close-choice window. Blocked or clearly separated options receive no random influence. Consideration source types are open semantic keys under validated `mind`, `belief`, `information`, `social`, `context`, `institution`, or `domain` namespaces. Every non-context source requires a resolvable provenance reference; context sources still require a stable key and explanation. Evaluation creates a proposal and structured explanation, not a canonical action. Consequential traces can be appended durably; routine evaluations may remain ephemeral. Domain application is separate and must create the appropriate belief or future event exactly once.
 
 The first adapter evaluates seven political-belief outcomes: no opinion, defer, conflicted, tentative support, support, tentative opposition, and opposition. The no-opinion default is an honest `context:opinion-readiness` consideration rather than a mislabeled risk. No-opinion and defer outcomes record the durable reasoning trace but create no private belief. Other NPC outcomes append or supersede the Stage 3 private-belief record and link its formation to the earlier trace. A substantive proposal supplies conviction, salience, and flexibility explicitly; the selected side does not alias those independent belief dimensions. Autonomous application rejects the currently controlled person; evaluation remains available so a future UI can present player choices.
+
+## Adaptive Selection and Setup Priors
+
+An adaptive layer chooses which of several causally plausible situations is
+offered. It ranks; it never resolves. Hard eligibility and causal availability
+are settled by the providers before a candidate reaches it, and what follows
+from a choice is decided by the domain engines from world state — not from why
+the situation was selected. That separation is enforced by the type surface:
+the aftermath decision cannot see the selector's reason or its internal stakes
+tier because neither appears in its input.
+
+The player model is non-diegetic. It is an estimate the game keeps about the
+person at the keyboard, held on fourteen latent dimensions with an accumulated
+observation weight each, and it is not biography, memory, belief or a value the
+character holds. It represents uncertainty as competing explanations rather than
+as a wide single number, so two rival readings of one choice stay alive until a
+later item separates them. It is derived from canonical history on every read
+rather than stored, which is what makes it survive a save unchanged.
+
+Setup answers are weak priors and live in one declared optional field,
+`World.setupPriors`, outside `HistoryStore`. They are excluded from
+`worldSeedFor`: the setup's world half decides world generation and the priors
+half travels only in the replay descriptor, so an answer can change what the
+game asks and offers but never who the character's family is.
+
+Situation banks are keyed to opportunity rather than to occurrence rates. No
+arrival frequency, hazard or probability appears in any content bank, because
+the research classifies almost every one of these families as having none that
+is defensible. An internal stakes tier rations pacing and is never rendered,
+never serialized, and never an input to consequence.
+
+The calibration has no fixed length. It stops when the marginal information a
+remaining item would carry falls below a floor, measured against under-observed
+axes and unresolved competing explanations rather than against the ranking score
+— which never reaches zero and so could never end anything. Two players
+therefore get interviews of different lengths, and neither is shown a
+denominator.
+
+## Narrative Composition
+
+A presentation layer composes one continuous life over canonical state. It adds
+no store and no second truth.
+
+`narrative-threads.ts` is an index over `HistoryStore`. A thread is a grouping
+of records that share an identity those records explicitly carry — a counterpart
+named in the participants, an organization on the work relationship, an event id
+in a scheduled item's provenance, a stable-key prefix written by one writer.
+**Temporal adjacency is never a link.** Where the repository records no
+relationship, the index reports none, and every anchor names the store, record
+id and stable key behind it so the grouping is checkable rather than trusted.
+
+`life-episodes.ts` composes beats from reusable episode families: stages,
+requirements, roles, exits. Requirements are answered from canonical records and
+return the records that answered them, one entry per requirement, so a beat's
+causes stack and stay separable instead of collapsing into a single tag. No
+family can author a destination — escalation, recovery, dormancy and
+nothing-at-all are reached the same way, by later requirements holding or not.
+A played beat writes ordinary records tagged with family, stage and instance;
+those tags are the only mechanism by which a later stage knows an earlier one
+happened, so there is nothing to fall out of step with history.
+
+`life-narration.ts` composes the time between moments from standing records, and
+every sentence carries the records behind it. `life-story.ts` ranks composed
+beats and authored situations in one ranking, so a continuation competes with a
+stranger rather than replacing it.
+
+`life-diagnostics.ts` reports what the game concluded — calibration traces, beat
+traces, life shapes — as pure functions returning data and Markdown. It is not a
+screen and not a route, and nothing that renders may import it.
+
+See `docs/systems/adaptive-life-and-setup.md`.
 
 ## Institutions and Geography
 

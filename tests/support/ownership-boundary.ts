@@ -40,6 +40,24 @@ import { execFileSync } from "child_process";
  */
 export const BASE_COMMIT = "5f735da209c59647e4b877717a40fe6cc045fc24";
 
+/**
+ * Where Packet 26 stopped: its merge into `main` as PR #82.
+ *
+ * The boundary above was written while Packet 26 was in flight, and it measured
+ * the working tree. That was right then and wrong the moment the packet landed:
+ * on `main` the check outlives the packet it guards and starts asserting that
+ * every LATER branch stays inside Packet 26's surfaces, which no later branch
+ * agreed to and which the routing authority frequently forbids. This narrative
+ * wave owns `src/simulation/` and `src/player/PlayerGame.tsx` outright.
+ *
+ * Pinning the head freezes the check to the range Packet 26 actually shipped,
+ * so it stays an executable claim about that packet — the reason it was written
+ * — instead of a standing constraint on work it knows nothing about. A later
+ * packet that wants a boundary of its own declares its own range; see
+ * `tests/narrative-wave-ownership-boundary.test.ts`.
+ */
+export const PACKET_26_HEAD = "6311dd688331985d5682b39910bf2b917d46d11b";
+
 export interface OwnedSurface {
   /** Matched against a repository-relative path. */
   readonly pattern: RegExp;
@@ -122,6 +140,14 @@ export const PERMITTED_EXCEPTIONS: ReadonlyMap<string, string> = new Map([
     "playwright.config.ts",
     "PLAYWRIGHT_PORT makes the e2e port overridable so concurrent worktrees do not silently share one dev server. The default is unchanged, so CI and a single checkout behave exactly as before.",
   ],
+  [
+    "src/simulation/index.ts",
+    "Packet 66 exports ./canonical-json from the simulation barrel so the causal-trace export can reach the world's own emitter instead of writing a second serializer. The barrel gains one export line; no simulation module is modified.",
+  ],
+  [
+    "src/simulation/character-history.ts",
+    "Packet 67 adds one accessor, lifeSituationCatalog(), so the content index can read the formative bank without constructing a world. No situation, key or behaviour is changed.",
+  ],
 ]);
 
 export const FORBIDDEN: readonly OwnedSurface[] = [
@@ -183,9 +209,22 @@ export const FORBIDDEN: readonly OwnedSurface[] = [
  * named as a path rather than by widening `src/player/`, because the player
  * shell is a separate active lane and this branch must stay out of the rest
  * of it.
+ *
+ * `src/devtools/`, `src/content/`, `src/cli/`, `tsconfig.node.json` and
+ * `.gitignore` are here because the graphics packet merged into `main` and this
+ * check came with it, so it now measures whichever branch is running rather
+ * than only that lane. Packet 66's development causal-trace inspector and
+ * Packet 67's declarative content bank and development Content Browser own
+ * those surfaces outright: two new namespaces, three command-line entry points,
+ * the ignore rule for the content export directory, and the project file that
+ * has to list them because the project is composite. Naming them is what keeps
+ * the rest of the list meaningful — the alternative was to stop asserting the
+ * boundary at all on any branch that is not the graphics lane. FORBIDDEN is
+ * untouched, so player, save, legislation, place and name systems are guarded
+ * exactly as before.
  */
 export const ALLOWED =
-  /^(\.claude\/launch\.json|\.github\/workflows\/|src\/authoring\/|src\/environment\/|src\/simulation\/campaign|src\/simulation\/candidacy|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/player\/OfficeScene\.tsx|src\/player\/ModularCharacter\.tsx|src\/player\/CampaignWorkspace\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/useRasterTier\.ts|src\/player\/useSceneTransform\.ts|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|AGENTS\.md|PATCH_NOTES\.md)/;
+  /^(\.claude\/launch\.json|\.github\/workflows\/|src\/authoring\/|src\/cli\/|src\/content\/|src\/devtools\/|src\/environment\/|src\/simulation\/campaign|src\/simulation\/candidacy|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/player\/OfficeScene\.tsx|src\/player\/ModularCharacter\.tsx|src\/player\/CampaignWorkspace\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/useRasterTier\.ts|src\/player\/useSceneTransform\.ts|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|tsconfig\.node\.json|\.gitignore|AGENTS\.md|PATCH_NOTES\.md)/;
 
 function git(repositoryRoot: string, args: readonly string[]): string {
   return execFileSync("git", [...args], {
@@ -210,16 +249,26 @@ export function hasCommit(repositoryRoot: string, commit: string): boolean {
 /**
  * Paths that differ between `baseCommit` and the current working tree.
  *
- * Returns null — rather than an empty list — when the base commit is missing,
- * so a shallow clone reports that it could not measure instead of reporting
- * that nothing moved.
+ * Returns null — rather than an empty list — when either commit is missing, so
+ * a shallow clone reports that it could not measure instead of reporting that
+ * nothing moved.
+ *
+ * With no `headCommit` the comparison runs against the working tree, which is
+ * what an in-flight packet wants. Passing one freezes the comparison to a
+ * finished range, which is what a landed packet wants.
  */
 export function changedFilesSince(
   repositoryRoot: string,
   baseCommit: string = BASE_COMMIT,
+  headCommit?: string,
 ): readonly string[] | null {
   if (!hasCommit(repositoryRoot, baseCommit)) return null;
-  return git(repositoryRoot, ["diff", "--name-only", baseCommit, "--"])
+  if (headCommit !== undefined && !hasCommit(repositoryRoot, headCommit)) {
+    return null;
+  }
+  const range =
+    headCommit === undefined ? [baseCommit] : [baseCommit, headCommit];
+  return git(repositoryRoot, ["diff", "--name-only", ...range, "--"])
     .split("\n")
     .map((line) => line.trim())
     .filter(Boolean);

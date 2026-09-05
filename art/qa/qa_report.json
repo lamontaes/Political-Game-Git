@@ -1280,6 +1280,86 @@
     "meetsTransparencyReq": null
   },
   {
+    "file": "generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_conversational_left_v1.png",
+    "metadata": {
+      "width": 908,
+      "height": 1638,
+      "aspectRatio": "454:819",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_gesture_forward_v1.png",
+    "metadata": {
+      "width": 826,
+      "height": 1630,
+      "aspectRatio": "413:815",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_front_v1.png",
+    "metadata": {
+      "width": 859,
+      "height": 1641,
+      "aspectRatio": "859:1641",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_three_quarter_v1.png",
+    "metadata": {
+      "width": 817,
+      "height": 1603,
+      "aspectRatio": "817:1603",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_conversational_a_v1.png",
+    "metadata": {
+      "width": 864,
+      "height": 1705,
+      "aspectRatio": "864:1705",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_conversational_b_v1.png",
+    "metadata": {
+      "width": 827,
+      "height": 1728,
+      "aspectRatio": "827:1728",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_neutral_a_v1.png",
+    "metadata": {
+      "width": 892,
+      "height": 1703,
+      "aspectRatio": "892:1703",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_neutral_b_v1.png",
+    "metadata": {
+      "width": 830,
+      "height": 1704,
+      "aspectRatio": "415:852",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png",
     "metadata": {
       "width": 765,

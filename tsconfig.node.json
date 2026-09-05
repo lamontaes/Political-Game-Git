@@ -9,14 +9,22 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
-    "types": ["node"]
+    "types": ["node", "vite/client"]
   },
   "include": [
-    "vite.config.ts",
     "playwright.config.ts",
-    "tests/e2e/**/*.ts",
+    "scripts/source/**/*.ts",
     "src/cli/**/*.ts",
+    "src/content/**/*.ts",
+    "src/devtools/**/*.ts",
+    "src/environment/**/*.ts",
     "src/persistence/**/*.ts",
-    "src/simulation/**/*.ts"
-  ]
+    "src/presentation/**/*.ts",
+    "src/simulation/**/*.ts",
+    "src/source/**/*.ts",
+    "tests/e2e/**/*.ts",
+    "tests/source/**/*.ts",
+    "vite.config.ts"
+  ],
+  "exclude": ["src/presentation/**/*.test.ts"]
 }

@@ -27,13 +27,17 @@ import {
   resolveElectionContest,
   scheduleElectionContest,
 } from "./election-contests";
-import { createFutureTransitionHandlerRegistry } from "./future-transitions";
+import {
+  composeFutureTransitionHandlerRegistries,
+  createFutureTransitionHandlerRegistry,
+} from "./future-transitions";
 import { createStableId, stableHash } from "./ids";
 import {
   createOrganization,
   createWorkRelationship,
   recordWorkStatus,
 } from "./life";
+import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
 import { workStatusHistory } from "./life-queries";
 import { drawCanonicalName } from "./people";
 import { createExactQuantity } from "./quantity";
@@ -1654,9 +1658,16 @@ export function campaignElectionTransitionHandler(
 }
 
 export function createCampaignElectionTransitionRegistry(): FutureTransitionHandlerRegistry {
-  return createFutureTransitionHandlerRegistry([
-    [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
-  ]);
+  // A campaign is one more thing in a life, not a mode the world switches into,
+  // so an advance that carries the election handler must also carry the ordinary
+  // life handlers: election day and a promised conversation can fall due on the
+  // same day, and time refuses to step over a due item it has no handler for.
+  return composeFutureTransitionHandlerRegistries(
+    createFutureTransitionHandlerRegistry([
+      [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
+    ]),
+    LIFE_TRANSITION_HANDLERS,
+  );
 }
 
 /** Days between now and the contest, for a surface that wants to say so. */

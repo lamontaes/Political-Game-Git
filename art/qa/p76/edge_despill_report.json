@@ -1,0 +1,686 @@
+{
+  "tool": "p76-edge-despill-v1",
+  "measured_on": "2026-09-04",
+  "note": "Deterministic green-edge despill over the Packet 71 body candidates. Alpha is never written, so the silhouette digest before and after must match; interior pixels at alpha >= 250 are never read as targets because the measurement found zero contamination there. Regenerate with `npm run despill:edges`.",
+  "options": {
+    "greenDominanceThreshold": 24,
+    "interiorAlpha": 250,
+    "maxBoundaryDistance": 8,
+    "reconstructionRadius": 14,
+    "reconstructionSamples": 6
+  },
+  "entries": [
+    {
+      "assetId": "ocd_body_adult_fem_seated_conversational_left_v1",
+      "source": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_conversational_left_v1.png",
+      "output": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_conversational_left_v1.png",
+      "sourceSha256": "ff0b01c141d1920996d9ed42ad9ea6ab1183c18577607d4c024032f165617d63",
+      "outputSha256": "442fe28e13742e6e3f152c77bde0b04c57c4675bc5e5ccbd9c904a66a6f40e15",
+      "disposition": "SALVAGEABLE BY DETERMINISTIC DESPILL",
+      "report": {
+        "width": 908,
+        "height": 1638,
+        "options": {
+          "greenDominanceThreshold": 24,
+          "interiorAlpha": 250,
+          "maxBoundaryDistance": 8,
+          "reconstructionRadius": 14,
+          "reconstructionSamples": 6
+        },
+        "figurePixels": 540775,
+        "before": [
+          {
+            "band": "1-31",
+            "pixels": 7295,
+            "greenDominant": 7287
+          },
+          {
+            "band": "32-200",
+            "pixels": 33536,
+            "greenDominant": 23166
+          },
+          {
+            "band": "201-249",
+            "pixels": 22131,
+            "greenDominant": 1106
+          },
+          {
+            "band": "250+",
+            "pixels": 477813,
+            "greenDominant": 1
+          }
+        ],
+        "after": [
+          {
+            "band": "1-31",
+            "pixels": 7295,
+            "greenDominant": 0
+          },
+          {
+            "band": "32-200",
+            "pixels": 33536,
+            "greenDominant": 0
+          },
+          {
+            "band": "201-249",
+            "pixels": 22131,
+            "greenDominant": 0
+          },
+          {
+            "band": "250+",
+            "pixels": 477813,
+            "greenDominant": 1
+          }
+        ],
+        "softEdgeGreenPercentBefore": 69.07800572519083,
+        "softEdgeGreenPercentAfter": 0,
+        "pixelsReconstructed": 31559,
+        "pixelsClampFallback": 0,
+        "pixelsLeftAsMaterial": 0,
+        "materialGreenInteriorPixels": 1,
+        "materialGreenFloor": 239,
+        "boundaryGateApplied": false,
+        "interiorRgbSha256Before": "7961216de09d9c4aa84f9d59d2ad07336cfd0d3e5bbf899ca41ab258946fa543",
+        "interiorRgbSha256After": "7961216de09d9c4aa84f9d59d2ad07336cfd0d3e5bbf899ca41ab258946fa543",
+        "maxChannelDelta": 190,
+        "alphaSha256Before": "36fff3fdb2848e48b64cf93c0f48f84a57051f752fc907c747e7f72555293239",
+        "alphaSha256After": "36fff3fdb2848e48b64cf93c0f48f84a57051f752fc907c747e7f72555293239",
+        "treatedByFigureBand": {
+          "head 0-15%": 3854,
+          "torso 15-55%": 11905,
+          "hands and hips 55-70%": 4261,
+          "legs 70-92%": 7198,
+          "feet 92-100%": 4341
+        }
+      }
+    },
+    {
+      "assetId": "ocd_body_adult_fem_seated_gesture_forward_v1",
+      "source": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_gesture_forward_v1.png",
+      "output": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_gesture_forward_v1.png",
+      "sourceSha256": "2ace9c305d9b3f0a78d114f7889c2ceaf7ec2768307fc26042386046cc87eb04",
+      "outputSha256": "002d60e76ffd2e86a286c6111eabbe5b3ecde5c85d3a5bed81c2ba026013d76e",
+      "disposition": "SALVAGEABLE BY DETERMINISTIC DESPILL",
+      "report": {
+        "width": 826,
+        "height": 1630,
+        "options": {
+          "greenDominanceThreshold": 24,
+          "interiorAlpha": 250,
+          "maxBoundaryDistance": 8,
+          "reconstructionRadius": 14,
+          "reconstructionSamples": 6
+        },
+        "figurePixels": 525765,
+        "before": [
+          {
+            "band": "1-31",
+            "pixels": 8608,
+            "greenDominant": 8608
+          },
+          {
+            "band": "32-200",
+            "pixels": 33908,
+            "greenDominant": 26355
+          },
+          {
+            "band": "201-249",
+            "pixels": 26298,
+            "greenDominant": 1487
+          },
+          {
+            "band": "250+",
+            "pixels": 456951,
+            "greenDominant": 0
+          }
+        ],
+        "after": [
+          {
+            "band": "1-31",
+            "pixels": 8608,
+            "greenDominant": 0
+          },
+          {
+            "band": "32-200",
+            "pixels": 33908,
+            "greenDominant": 0
+          },
+          {
+            "band": "201-249",
+            "pixels": 26298,
+            "greenDominant": 0
+          },
+          {
+            "band": "250+",
+            "pixels": 456951,
+            "greenDominant": 0
+          }
+        ],
+        "softEdgeGreenPercentBefore": 77.72502064409579,
+        "softEdgeGreenPercentAfter": 0,
+        "pixelsReconstructed": 36441,
+        "pixelsClampFallback": 9,
+        "pixelsLeftAsMaterial": 0,
+        "materialGreenInteriorPixels": 0,
+        "materialGreenFloor": 228,
+        "boundaryGateApplied": false,
+        "interiorRgbSha256Before": "612702b01d442f711c66249934a183fccd0e4073258f1d8c275776c024974f46",
+        "interiorRgbSha256After": "612702b01d442f711c66249934a183fccd0e4073258f1d8c275776c024974f46",
+        "maxChannelDelta": 200,
+        "alphaSha256Before": "bc1c6e8c34b4d78c77b7d3726b1c158c63400a29e537608f38ae496f44fd2340",
+        "alphaSha256After": "bc1c6e8c34b4d78c77b7d3726b1c158c63400a29e537608f38ae496f44fd2340",
+        "treatedByFigureBand": {
+          "head 0-15%": 4487,
+          "torso 15-55%": 14055,
+          "hands and hips 55-70%": 4801,
+          "legs 70-92%": 8371,
+          "feet 92-100%": 4736
+        }
+      }
+    },
+    {
+      "assetId": "ocd_body_adult_fem_seated_guest_front_v1",
+      "source": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_front_v1.png",
+      "output": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_front_v1.png",
+      "sourceSha256": "0d2818c0e9a10c07b152e2cd692df3626bc124600407763fdcc815e1bbdcddbe",
+      "outputSha256": "99784955898472f1801124e3dba0911043ddc7e663e6e9397ef5075c737d982b",
+      "disposition": "SALVAGEABLE BY DETERMINISTIC DESPILL",
+      "report": {
+        "width": 859,
+        "height": 1641,
+        "options": {
+          "greenDominanceThreshold": 24,
+          "interiorAlpha": 250,
+          "maxBoundaryDistance": 8,
+          "reconstructionRadius": 14,
+          "reconstructionSamples": 6
+        },
+        "figurePixels": 545250,
+        "before": [
+          {
+            "band": "1-31",
+            "pixels": 11089,
+            "greenDominant": 11089
+          },
+          {
+            "band": "32-200",
+            "pixels": 36654,
+            "greenDominant": 29233
+          },
+          {
+            "band": "201-249",
+            "pixels": 26586,
+            "greenDominant": 1372
+          },
+          {
+            "band": "250+",
+            "pixels": 470921,
+            "greenDominant": 0
+          }
+        ],
+        "after": [
+          {
+            "band": "1-31",
+            "pixels": 11089,
+            "greenDominant": 0
+          },
+          {
+            "band": "32-200",
+            "pixels": 36654,
+            "greenDominant": 0
+          },
+          {
+            "band": "201-249",
+            "pixels": 26586,
+            "greenDominant": 0
+          },
+          {
+            "band": "250+",
+            "pixels": 470921,
+            "greenDominant": 0
+          }
+        ],
+        "softEdgeGreenPercentBefore": 79.75391498881433,
+        "softEdgeGreenPercentAfter": 0,
+        "pixelsReconstructed": 41558,
+        "pixelsClampFallback": 136,
+        "pixelsLeftAsMaterial": 0,
+        "materialGreenInteriorPixels": 0,
+        "materialGreenFloor": 235,
+        "boundaryGateApplied": false,
+        "interiorRgbSha256Before": "5b8e74cd876acccbff707495bb8a978e9871d1c28496b43e7e9d3da70411f0f9",
+        "interiorRgbSha256After": "5b8e74cd876acccbff707495bb8a978e9871d1c28496b43e7e9d3da70411f0f9",
+        "maxChannelDelta": 203,
+        "alphaSha256Before": "e5635fecedb8e8a8b6c62577774a87ebfd5d3fa60f6787a57c2d6c2dfa7500eb",
+        "alphaSha256After": "e5635fecedb8e8a8b6c62577774a87ebfd5d3fa60f6787a57c2d6c2dfa7500eb",
+        "treatedByFigureBand": {
+          "head 0-15%": 5514,
+          "torso 15-55%": 13834,
+          "hands and hips 55-70%": 5758,
+          "legs 70-92%": 10664,
+          "feet 92-100%": 5924
+        }
+      }
+    },
+    {
+      "assetId": "ocd_body_adult_fem_seated_guest_three_quarter_v1",
+      "source": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_three_quarter_v1.png",
+      "output": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_three_quarter_v1.png",
+      "sourceSha256": "0cd2829719006fb23b29c0219f72fdbe528a742017dcdd2f5a71975cdb14ef5d",
+      "outputSha256": "bc2b3c0750c1f894010bbf5f5fff492c9185989496103dd6712927bcbfa99c79",
+      "disposition": "SALVAGEABLE BY DETERMINISTIC DESPILL",
+      "report": {
+        "width": 817,
+        "height": 1603,
+        "options": {
+          "greenDominanceThreshold": 24,
+          "interiorAlpha": 250,
+          "maxBoundaryDistance": 8,
+          "reconstructionRadius": 14,
+          "reconstructionSamples": 6
+        },
+        "figurePixels": 523082,
+        "before": [
+          {
+            "band": "1-31",
+            "pixels": 10716,
+            "greenDominant": 10716
+          },
+          {
+            "band": "32-200",
+            "pixels": 37009,
+            "greenDominant": 27685
+          },
+          {
+            "band": "201-249",
+            "pixels": 25309,
+            "greenDominant": 1191
+          },
+          {
+            "band": "250+",
+            "pixels": 450048,
+            "greenDominant": 0
+          }
+        ],
+        "after": [
+          {
+            "band": "1-31",
+            "pixels": 10716,
+            "greenDominant": 0
+          },
+          {
+            "band": "32-200",
+            "pixels": 37009,
+            "greenDominant": 0
+          },
+          {
+            "band": "201-249",
+            "pixels": 25309,
+            "greenDominant": 0
+          },
+          {
+            "band": "250+",
+            "pixels": 450048,
+            "greenDominant": 0
+          }
+        ],
+        "softEdgeGreenPercentBefore": 74.80612823907698,
+        "softEdgeGreenPercentAfter": 0,
+        "pixelsReconstructed": 39218,
+        "pixelsClampFallback": 374,
+        "pixelsLeftAsMaterial": 0,
+        "materialGreenInteriorPixels": 0,
+        "materialGreenFloor": 225,
+        "boundaryGateApplied": false,
+        "interiorRgbSha256Before": "9631418b15cc195da25d7827148795c4c7566e4d4de7af4ccb5ea5857d2ba2cd",
+        "interiorRgbSha256After": "9631418b15cc195da25d7827148795c4c7566e4d4de7af4ccb5ea5857d2ba2cd",
+        "maxChannelDelta": 200,
+        "alphaSha256Before": "e3a48786b99608b922d65c264d2b0fcb452cc0f0cb672723e50b727b214d0b96",
+        "alphaSha256After": "e3a48786b99608b922d65c264d2b0fcb452cc0f0cb672723e50b727b214d0b96",
+        "treatedByFigureBand": {
+          "head 0-15%": 5528,
+          "torso 15-55%": 14087,
+          "hands and hips 55-70%": 5667,
+          "legs 70-92%": 9614,
+          "feet 92-100%": 4696
+        }
+      }
+    },
+    {
+      "assetId": "ocd_body_adult_fem_standing_conversational_a_v1",
+      "source": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_a_v1.png",
+      "output": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_conversational_a_v1.png",
+      "sourceSha256": "8de64e0aad4340c248ab65ef8988ec727338d172665550363d2c75da64cd2785",
+      "outputSha256": "0f109bdef229104fe16ec139125a32e87c5979223e0d83cab3671967a7e366cc",
+      "disposition": "SALVAGEABLE BY DETERMINISTIC DESPILL",
+      "report": {
+        "width": 864,
+        "height": 1705,
+        "options": {
+          "greenDominanceThreshold": 24,
+          "interiorAlpha": 250,
+          "maxBoundaryDistance": 8,
+          "reconstructionRadius": 14,
+          "reconstructionSamples": 6
+        },
+        "figurePixels": 519082,
+        "before": [
+          {
+            "band": "1-31",
+            "pixels": 8221,
+            "greenDominant": 8221
+          },
+          {
+            "band": "32-200",
+            "pixels": 38869,
+            "greenDominant": 25958
+          },
+          {
+            "band": "201-249",
+            "pixels": 22238,
+            "greenDominant": 926
+          },
+          {
+            "band": "250+",
+            "pixels": 449754,
+            "greenDominant": 0
+          }
+        ],
+        "after": [
+          {
+            "band": "1-31",
+            "pixels": 8221,
+            "greenDominant": 0
+          },
+          {
+            "band": "32-200",
+            "pixels": 38869,
+            "greenDominant": 0
+          },
+          {
+            "band": "201-249",
+            "pixels": 22238,
+            "greenDominant": 0
+          },
+          {
+            "band": "250+",
+            "pixels": 449754,
+            "greenDominant": 0
+          }
+        ],
+        "softEdgeGreenPercentBefore": 66.7832977437032,
+        "softEdgeGreenPercentAfter": 0,
+        "pixelsReconstructed": 35058,
+        "pixelsClampFallback": 47,
+        "pixelsLeftAsMaterial": 0,
+        "materialGreenInteriorPixels": 0,
+        "materialGreenFloor": 225,
+        "boundaryGateApplied": false,
+        "interiorRgbSha256Before": "c2f49572c493df670a30c27a752ed4d8e1e42f3ae77d9ec0c937b96dd9a0c6bf",
+        "interiorRgbSha256After": "c2f49572c493df670a30c27a752ed4d8e1e42f3ae77d9ec0c937b96dd9a0c6bf",
+        "maxChannelDelta": 211,
+        "alphaSha256Before": "a6eaccd4732895768547fc36b11f337cdeeaba5cdb988f56376e976e8306bdb4",
+        "alphaSha256After": "a6eaccd4732895768547fc36b11f337cdeeaba5cdb988f56376e976e8306bdb4",
+        "treatedByFigureBand": {
+          "head 0-15%": 4465,
+          "torso 15-55%": 13909,
+          "hands and hips 55-70%": 3579,
+          "legs 70-92%": 8199,
+          "feet 92-100%": 4953
+        }
+      }
+    },
+    {
+      "assetId": "ocd_body_adult_fem_standing_conversational_b_v1",
+      "source": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_b_v1.png",
+      "output": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_conversational_b_v1.png",
+      "sourceSha256": "ceb8f63c7700a5a9fdeeee73a60195dedbba2ca2afd97b5f013da26f367157fd",
+      "outputSha256": "7f7b653efec871fd25448e79a68bbd4cea67358226a4530432bedd43edfeb371",
+      "disposition": "SALVAGEABLE BY DETERMINISTIC DESPILL",
+      "report": {
+        "width": 827,
+        "height": 1728,
+        "options": {
+          "greenDominanceThreshold": 24,
+          "interiorAlpha": 250,
+          "maxBoundaryDistance": 8,
+          "reconstructionRadius": 14,
+          "reconstructionSamples": 6
+        },
+        "figurePixels": 531026,
+        "before": [
+          {
+            "band": "1-31",
+            "pixels": 8790,
+            "greenDominant": 8790
+          },
+          {
+            "band": "32-200",
+            "pixels": 39450,
+            "greenDominant": 27129
+          },
+          {
+            "band": "201-249",
+            "pixels": 25665,
+            "greenDominant": 1231
+          },
+          {
+            "band": "250+",
+            "pixels": 457121,
+            "greenDominant": 0
+          }
+        ],
+        "after": [
+          {
+            "band": "1-31",
+            "pixels": 8790,
+            "greenDominant": 0
+          },
+          {
+            "band": "32-200",
+            "pixels": 39450,
+            "greenDominant": 0
+          },
+          {
+            "band": "201-249",
+            "pixels": 25665,
+            "greenDominant": 0
+          },
+          {
+            "band": "250+",
+            "pixels": 457121,
+            "greenDominant": 0
+          }
+        ],
+        "softEdgeGreenPercentBefore": 68.7680608365019,
+        "softEdgeGreenPercentAfter": 0,
+        "pixelsReconstructed": 37150,
+        "pixelsClampFallback": 0,
+        "pixelsLeftAsMaterial": 0,
+        "materialGreenInteriorPixels": 0,
+        "materialGreenFloor": 229,
+        "boundaryGateApplied": false,
+        "interiorRgbSha256Before": "d1bd83edbbb83a78b13a0805763cbabb4bcd4fe1255333f4436d5785ff4234b1",
+        "interiorRgbSha256After": "d1bd83edbbb83a78b13a0805763cbabb4bcd4fe1255333f4436d5785ff4234b1",
+        "maxChannelDelta": 191,
+        "alphaSha256Before": "bfc495d926a949152f6e7fe838d2568d29a467abd3b951006948a05095fddd5f",
+        "alphaSha256After": "bfc495d926a949152f6e7fe838d2568d29a467abd3b951006948a05095fddd5f",
+        "treatedByFigureBand": {
+          "head 0-15%": 4631,
+          "torso 15-55%": 14536,
+          "hands and hips 55-70%": 4900,
+          "legs 70-92%": 8490,
+          "feet 92-100%": 4593
+        }
+      }
+    },
+    {
+      "assetId": "ocd_body_adult_fem_standing_neutral_a_v1",
+      "source": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_a_v1.png",
+      "output": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_neutral_a_v1.png",
+      "sourceSha256": "333adfe7adc140b2f04be7694d6d488a574fc4379d3ae41e1f4eee33f00c6e53",
+      "outputSha256": "192820a8fe1fec3b36583a6c87c2e45cbc8ceb1d2fe479960a191f986c6aaa9b",
+      "disposition": "SALVAGEABLE BY DETERMINISTIC DESPILL",
+      "report": {
+        "width": 892,
+        "height": 1703,
+        "options": {
+          "greenDominanceThreshold": 24,
+          "interiorAlpha": 250,
+          "maxBoundaryDistance": 8,
+          "reconstructionRadius": 14,
+          "reconstructionSamples": 6
+        },
+        "figurePixels": 562881,
+        "before": [
+          {
+            "band": "1-31",
+            "pixels": 10800,
+            "greenDominant": 10800
+          },
+          {
+            "band": "32-200",
+            "pixels": 48607,
+            "greenDominant": 33499
+          },
+          {
+            "band": "201-249",
+            "pixels": 30448,
+            "greenDominant": 1396
+          },
+          {
+            "band": "250+",
+            "pixels": 473026,
+            "greenDominant": 0
+          }
+        ],
+        "after": [
+          {
+            "band": "1-31",
+            "pixels": 10800,
+            "greenDominant": 0
+          },
+          {
+            "band": "32-200",
+            "pixels": 48607,
+            "greenDominant": 0
+          },
+          {
+            "band": "201-249",
+            "pixels": 30448,
+            "greenDominant": 0
+          },
+          {
+            "band": "250+",
+            "pixels": 473026,
+            "greenDominant": 0
+          }
+        ],
+        "softEdgeGreenPercentBefore": 68.91805706996934,
+        "softEdgeGreenPercentAfter": 0,
+        "pixelsReconstructed": 45517,
+        "pixelsClampFallback": 178,
+        "pixelsLeftAsMaterial": 0,
+        "materialGreenInteriorPixels": 0,
+        "materialGreenFloor": 237,
+        "boundaryGateApplied": false,
+        "interiorRgbSha256Before": "abefc049d771764f3767f97b94f2def79cc51abe5a436d217bc69b993e344a1c",
+        "interiorRgbSha256After": "abefc049d771764f3767f97b94f2def79cc51abe5a436d217bc69b993e344a1c",
+        "maxChannelDelta": 202,
+        "alphaSha256Before": "38d9be6422fbb90ce9dcd1a75d010594759f1c8ba3056cff06c9b3ae38b26615",
+        "alphaSha256After": "38d9be6422fbb90ce9dcd1a75d010594759f1c8ba3056cff06c9b3ae38b26615",
+        "treatedByFigureBand": {
+          "head 0-15%": 4696,
+          "torso 15-55%": 21748,
+          "hands and hips 55-70%": 5776,
+          "legs 70-92%": 8788,
+          "feet 92-100%": 4687
+        }
+      }
+    },
+    {
+      "assetId": "ocd_body_adult_fem_standing_neutral_b_v1",
+      "source": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_b_v1.png",
+      "output": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_neutral_b_v1.png",
+      "sourceSha256": "036a82bd7a1ace79f8bb3160dd9d28d021e639d7ec1106aabf2d77aaa047c702",
+      "outputSha256": "01761f913049bb3814b22a87361675e86cd085779fed1a6c7e235b8108bb276b",
+      "disposition": "SALVAGEABLE BY DETERMINISTIC DESPILL",
+      "report": {
+        "width": 830,
+        "height": 1704,
+        "options": {
+          "greenDominanceThreshold": 24,
+          "interiorAlpha": 250,
+          "maxBoundaryDistance": 8,
+          "reconstructionRadius": 14,
+          "reconstructionSamples": 6
+        },
+        "figurePixels": 552344,
+        "before": [
+          {
+            "band": "1-31",
+            "pixels": 10291,
+            "greenDominant": 10291
+          },
+          {
+            "band": "32-200",
+            "pixels": 47480,
+            "greenDominant": 31898
+          },
+          {
+            "band": "201-249",
+            "pixels": 27940,
+            "greenDominant": 1324
+          },
+          {
+            "band": "250+",
+            "pixels": 466633,
+            "greenDominant": 0
+          }
+        ],
+        "after": [
+          {
+            "band": "1-31",
+            "pixels": 10291,
+            "greenDominant": 0
+          },
+          {
+            "band": "32-200",
+            "pixels": 47480,
+            "greenDominant": 0
+          },
+          {
+            "band": "201-249",
+            "pixels": 27940,
+            "greenDominant": 0
+          },
+          {
+            "band": "250+",
+            "pixels": 466633,
+            "greenDominant": 0
+          }
+        ],
+        "softEdgeGreenPercentBefore": 67.18197135636058,
+        "softEdgeGreenPercentAfter": 0,
+        "pixelsReconstructed": 43358,
+        "pixelsClampFallback": 155,
+        "pixelsLeftAsMaterial": 0,
+        "materialGreenInteriorPixels": 0,
+        "materialGreenFloor": 233,
+        "boundaryGateApplied": false,
+        "interiorRgbSha256Before": "0d22ba5569a35cb0de660dbdfb24f470e8b9b913827183d9ee6b7e92083d8c35",
+        "interiorRgbSha256After": "0d22ba5569a35cb0de660dbdfb24f470e8b9b913827183d9ee6b7e92083d8c35",
+        "maxChannelDelta": 197,
+        "alphaSha256Before": "00fbc5b984d3e9133c231969f22ad0db41bb4a4b3497c129117374dc4aac2a2f",
+        "alphaSha256After": "00fbc5b984d3e9133c231969f22ad0db41bb4a4b3497c129117374dc4aac2a2f",
+        "treatedByFigureBand": {
+          "head 0-15%": 4557,
+          "torso 15-55%": 20153,
+          "hands and hips 55-70%": 5343,
+          "legs 70-92%": 8615,
+          "feet 92-100%": 4845
+        }
+      }
+    }
+  ]
+}

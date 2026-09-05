@@ -45,6 +45,16 @@ async function startLife(page: Page, place: string, age: number) {
   await page.getByTestId("start-age").fill(String(age));
   await page.getByTestId("begin").click();
   await expect(page.getByTestId("play-screen")).toBeVisible();
+  // The scene-first shell keeps the day — and the campaign that sits under it —
+  // behind the HUD. Standing for office is one more thing in a life, so it is
+  // reached the same way the ordinary day is.
+  await openDay(page);
+}
+
+/** Opens the day overlay, where the ordinary day and the campaign both live. */
+async function openDay(page: Page) {
+  await page.getByTestId("elsewhere-day").click();
+  await expect(page.getByTestId("ordinary-section")).toBeVisible();
 }
 
 function watchForErrors(page: Page): string[] {
@@ -201,7 +211,9 @@ test.describe("A life can stand for something", () => {
       // And it opens no office it did not earn.
       await expect(page.getByTestId("office-section")).toHaveCount(0);
     } else {
-      // Winning opens the office, through the ordinary work records.
+      // Winning opens the office, through the ordinary work records. The work
+      // surface is now its own HUD destination, so the office is reached there.
+      await page.getByTestId("elsewhere-work").click();
       await expect(page.getByTestId("office-section")).toBeVisible();
       await expect(page.getByTestId("open-legislation")).toBeVisible();
     }
@@ -225,6 +237,8 @@ test.describe("A life can stand for something", () => {
 
     await page.getByTestId("continue").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
+    // A reload starts the shell closed; the campaign is under the day again.
+    await openDay(page);
     await expect(page.getByTestId("campaign-treasury")).toHaveText(
       treasury ?? "",
     );
