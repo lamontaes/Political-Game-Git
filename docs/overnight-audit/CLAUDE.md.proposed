@@ -1,0 +1,31 @@
+<!--
+  PROPOSAL — not active. To adopt: move this file to the repository root as
+  `CLAUDE.md`. Claude Code auto-loads a root CLAUDE.md at the start of every
+  session; it does NOT guarantee to auto-load AGENTS.md. This bridge guarantees
+  every session starts on the project's real authority chain. Kept deliberately
+  short (first-party guidance: a bloated CLAUDE.md gets ignored). It adds no new
+  rules — AGENTS.md and the Drive chain remain the authority.
+-->
+
+# Our Civic Duty — session grounding
+
+@AGENTS.md
+
+## Before substantive work
+
+1. **Live GitHub is executable truth** for `main`, open PR heads, exact CI state, and mergeability — fetch it; never trust a remembered or local SHA. Compare against `origin/main` (a stale local `main` has caused version confusion before).
+2. **Authority chain** (read order): the Google Drive canonical control folder — `00_READ_FIRST` → `01_CURRENT_CANONICAL_INDEX` → `04_DECISION_CHANGE_AND_TRACEABILITY_REGISTER` → `00_CURRENT_ASSIGNMENT_BOARD` → `91H` master-chat handoff → append-only ledger only for chronology. Repo docs (`docs/GAME-CONSTITUTION.md`, `docs/decisions/DECISION-LOG.md`, `docs/systems/*`) are the technical/product authority.
+3. **One writer per branch/PR.** Use isolated worktrees; run `npm run agent:preflight`; verify workspace, branch, local SHA, upstream SHA before editing.
+
+## Verifying work
+
+- `npm run validate` is the full gate. `npm run test` / `typecheck` / `lint` / `format` for focused checks. `npm run corpus:narrative` emits a narrative-quality lint delta.
+- Green CI ≠ human visual/play acceptance. Semantic visible controls need real pointer + keyboard tests. Completion reports carry exact SHA, git state, tests actually run, remaining defects, and acceptance state.
+
+## Overnight-audit outputs (2026-09-05)
+
+`docs/overnight-audit/` — action board (`50`), narrative style authority (`10`), future-system coverage map (`20`), graphics/menu readiness (`30`), operating-mode audit (`40`), and the deterministic prose corpus + review packet under `corpus/`.
+
+## Don't
+
+Solve recurring process problems by enlarging prompts — encode a must-happen-every-time step as a hook, and sometimes-relevant knowledge as a skill. Do not reopen frozen Stage 6 semantics or invent a new art direction. Missing person art fails closed. Narration defaults to natural second person; prose realizes canonical truth and never invents it.
