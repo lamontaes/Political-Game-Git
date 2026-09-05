@@ -84,7 +84,11 @@ export async function fillCreator(
 
   if (custom) {
     await expect(page.getByTestId("creator-stage-background")).toBeVisible();
+    // A custom child plays the early years; a custom adult summarizes them, so
+    // the world is built as an adult household rather than one still in its
+    // formative-years shape.
     if (life.childhood) await page.getByTestId("depth-childhood").click();
+    else if (life.age >= 18) await page.getByTestId("depth-later").click();
     if (life.office) await page.getByTestId("office-start").click();
     if (life.household) await page.getByTestId(life.household).click();
     await page.getByTestId("creator-continue-background").click();

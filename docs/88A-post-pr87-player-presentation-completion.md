@@ -59,6 +59,49 @@ rather than claimed.
 
 ---
 
+## 0.1 Fifth human play — coherence repair
+
+The fifth play called the core direction a win and asked for coherence: prose,
+sequencing, viewport behaviour, People usability, and formative-life semantics.
+Addressed on the same PR #91:
+
+- **Narrative voice (§5):** narration is second person. The connective opener is
+  now "You're 10, and you live in …"; the stiff third-person lines ("School
+  carried on being…", "The house went on being … unremarkable", "has the same
+  week you do") are rewritten in `life-narration.ts` / `life-introduction.ts` /
+  `conversation-subjects.ts`. Identity is a deliberate name + age badge, not
+  "Name, 10" repeated in prose.
+- **Pronoun UI removed (§2, owner override):** Normal Start exposes gender only.
+  The pronoun disclosure is gone; pronouns derive silently from gender.
+- **Viewport lock (§3):** the creator is bounded to the viewport and a long
+  place search (the Bloomington defect) scrolls internally instead of pushing
+  Begin/Next below the fold. Proved at 1536×1024, 1440×900 and 1280×720.
+- **People close (§4/§14):** secondary surfaces are framed panels over a dimmed
+  room with an obvious way out — a close X, Escape and click-outside — and
+  closing leaves the moment untouched. The HUD and People rail stay usable while
+  a panel is open. The white full-page takeover is gone.
+- **Age/role semantics (§7):** a dependent child is no longer handed the adult
+  "who carries the week" household negotiation; `householdConversationRoom`
+  refuses it when somebody still holds authority over the character.
+- **Establishing frame (§6, partial):** the moment opens on a second-person
+  connective ("You're 10. Most weeks were built around school. You spent most
+  evenings at home with …") before the first dilemma.
+
+Proofs: `tests/fifth-play-repair.test.ts` (second-person voice + the child
+household-conversation gate) and `tests/e2e/fifth-play-repair.spec.ts` (viewport
+place search, People close via X and Escape with the moment preserved).
+
+**Deferred on this PR, with reasons:** driving the environment from a situation's
+location (§9) needs a per-situation location tag and released school/civic art;
+until school art exists the only honest alternative to the home plate is a
+neutral background that would strip the room from most childhood content — a
+worse trade than the current backdrop, so it awaits an owner call. Visible
+choice-consequence over a childhood (§12), the adult-transition beat (§13), the
+richer contextual situation construction (§8), the clicking-rhythm quality (§11)
+and the global button-system replacement remain deferred.
+
+---
+
 ## 1. Exact state
 
 |              |                                                                                            |

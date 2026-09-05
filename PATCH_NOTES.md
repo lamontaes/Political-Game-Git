@@ -2,6 +2,26 @@
 
 Newest release first.
 
+## UNRELEASED — It reads like your life now
+
+The game talks to you. "You're ten, and you live in Lexington. Most weeks were
+built around school. You spent most evenings at home with your dad." — instead
+of a narrator reciting your name and age at you. Your name and age sit together
+in a small badge at the top of the moment rather than being repeated in every
+line.
+
+Starting a life only asks for your gender now — male, female, or non-binary —
+and never for pronouns. Searching for where you're from stays put on the screen:
+a long list of matching towns scrolls on its own instead of shoving the Begin
+button off the bottom of the page.
+
+Opening People, the day, or the office now dims the room and floats a panel with
+a clear way out — a close button, the Escape key, or a click back on the room —
+and closing it drops you right back where you were.
+
+And a ten-year-old is no longer handed the household's errands to sort out with a
+parent. That is a grown-up's conversation, and the game now knows the difference.
+
 ## UNRELEASED — The life happens in the room
 
 Playing a life used to be a big card of text in the middle of the screen with

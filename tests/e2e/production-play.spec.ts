@@ -47,6 +47,9 @@ interface LifeSetup {
   readonly age: number;
   readonly place?: string;
   readonly office?: boolean;
+  /** Pins who is at home, so a test that needs a housemate is not left to the
+   * generator's coin flip (a normal start may come out solo). */
+  readonly household?: "lives-alone" | "shares-a-home";
 }
 
 /**
@@ -62,6 +65,7 @@ async function startLife(page: Page, setup: LifeSetup) {
     age: setup.age,
     ...(setup.place === undefined ? {} : { place: setup.place }),
     ...(setup.office === undefined ? {} : { office: setup.office }),
+    ...(setup.household === undefined ? {} : { household: setup.household }),
   });
   await expect(page.getByTestId("play-screen")).toBeVisible();
   await enterLife(page);
@@ -409,7 +413,9 @@ test.describe("What the world records, it keeps", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 36 });
+    // A shared home, so there is somebody to hold the kitchen conversation with;
+    // a normal start (Task E) generates the household and may be solo.
+    await startLife(page, { age: 36, household: "shares-a-home" });
     await openElsewhere(page, "people");
     // A day now offers more than one conversation, so everything below is
     // scoped to the kitchen one rather than to whichever the page drew first.
