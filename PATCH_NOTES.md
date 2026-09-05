@@ -265,6 +265,20 @@ before any of the politics arrives.
   credential bill that dies in committee where most bills die, and an Alaska
   ferry-notice bill that is not a spending bill — so its veto falls at 40 of 60
   instead of 45.
+- **A way to read what has been written.** A development-only content browser
+  at `?view=content` lists every authored bank the game registers — the
+  growing-up situations, the life episodes, the ordinary week, the conversation
+  subjects, the setup questionnaire, the bills, the sourced legislative
+  procedure and both sets of definition catalogs — and says for each one where
+  it came from, what has to be true before it can happen, and whether a player
+  can reach it at all. Where a bank does not say something, the browser says so
+  and why, rather than filling it in — and where a bank says something that is
+  neither a condition nor a choice, like a legislature's chambers or a bill's
+  authored vote counts, it is shown as what it is instead of being filed under
+  the nearest heading. Citations stay citations; unresolved research stays
+  unresolved research. One button exports the whole thing as a Markdown report
+  and as JSON. None of this is reachable from playing the game, and no content
+  was written to fill it out.
 
 ### Changed
 
@@ -284,6 +298,29 @@ before any of the politics arrives.
 - A second new game in one sitting no longer overwrites the first.
 - "Canonical minutes" is now just minutes.
 - The unbuilt second office no longer says it is "not available in Run A".
+
+### Developer tooling
+
+_Nothing in this section is visible in the game. It is here because it changes
+what the team can see, not what a player can._
+
+- **Causal trace inspector.** A development route at `?view=causal-trace` that
+  reads a save and shows how canonical truth, what somebody said, what a
+  listener learned, what they concluded, and what they then decided actually
+  connect. Every link it draws is a field the record already carries. Where the
+  repository recorded no parent it says UNKNOWN, and where a walk stops it says
+  which of five things stopped it.
+- **Who heard it.** The same two conversation turns run quiet instead of
+  normal now demonstrably produce a different set of listeners, a different set
+  of knowledge records, a different set of perceptions, and a second-turn
+  decision resting on a different recorded chain. Audibility was already
+  causal; it is now legible.
+- **Traces you can paste into a bug report.** `npm run trace:export` writes
+  Markdown or JSON carrying the seed, world id, history frontier and content
+  hash. The same replay and the same request produce byte-identical output.
+- **Do different seeds make different lives?** `npm run compare:seeds`
+  generates several worlds and reports where they actually differ, keeping
+  structural differences apart from differences that are only a name.
 
 ### Known issues
 

@@ -1,0 +1,170 @@
+/*
+ * Diagnostic chrome, deliberately plain.
+ *
+ * This surface is a development tool and should look like one. Making it
+ * resemble the game would be an invitation to screenshot it into a design
+ * discussion, and worse, would blur the line the whole feature depends on:
+ * what the player sees is the game, and this is not it.
+ */
+
+.causal-trace {
+  padding: 1.5rem;
+  max-width: 90rem;
+  margin: 0 auto;
+  font-size: 0.875rem;
+}
+
+.causal-trace__banner {
+  border: 1px solid #8a6d3b;
+  background: #fdf6e3;
+  color: #6b4f16;
+  padding: 0.6rem 0.9rem;
+  border-radius: 0.35rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.causal-trace h1 {
+  font-size: 1.35rem;
+  margin: 0 0 0.35rem;
+}
+
+.causal-trace h2 {
+  font-size: 1rem;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.causal-trace h3 {
+  font-size: 0.9rem;
+  margin: 1rem 0 0.35rem;
+}
+
+.causal-trace__identity {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.25rem 1rem;
+  margin: 0 0 1rem;
+  padding: 0.75rem;
+  border: 1px solid #c6cec8;
+  border-radius: 0.35rem;
+  background: #f4f7f4;
+}
+
+.causal-trace__identity div {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.causal-trace__identity dt {
+  font-weight: 600;
+  margin: 0;
+}
+
+.causal-trace__identity dd {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  overflow-wrap: anywhere;
+}
+
+.causal-trace__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.causal-trace__controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-weight: 600;
+}
+
+.causal-trace__columns {
+  display: grid;
+  grid-template-columns: minmax(18rem, 24rem) 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.causal-trace__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 32rem;
+  overflow-y: auto;
+  border: 1px solid #c6cec8;
+  border-radius: 0.35rem;
+}
+
+.causal-trace__list li + li {
+  border-top: 1px solid #dde3de;
+}
+
+.causal-trace__record {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  padding: 0.45rem 0.6rem;
+  cursor: pointer;
+  font: inherit;
+}
+
+.causal-trace__record:hover {
+  background: #eef3ee;
+}
+
+.causal-trace__record[aria-current="true"] {
+  background: #dce8de;
+  font-weight: 600;
+}
+
+.causal-trace__record code {
+  overflow-wrap: anywhere;
+}
+
+.causal-trace__class {
+  display: inline-block;
+  min-width: 11rem;
+  color: #3d554a;
+}
+
+.causal-trace table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+.causal-trace th,
+.causal-trace td {
+  border: 1px solid #d5dcd6;
+  padding: 0.3rem 0.45rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.causal-trace th {
+  background: #eef3ee;
+}
+
+.causal-trace__unknown {
+  color: #8a3b10;
+  font-weight: 600;
+}
+
+.causal-trace__export {
+  width: 100%;
+  min-height: 16rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+  white-space: pre;
+  overflow: auto;
+}
+
+.causal-trace__empty {
+  color: #55605a;
+  font-style: italic;
+}
