@@ -11,3 +11,6 @@ test-results/
 !.env.example
 .wrangler/
 .source-cache/
+
+# ignore the node_modules symlink (overnight worktree) as well as the dir
+/node_modules
