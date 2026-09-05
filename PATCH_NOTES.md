@@ -267,13 +267,18 @@ before any of the politics arrives.
   instead of 45.
 - **A way to read what has been written.** A development-only content browser
   at `?view=content` lists every authored bank the game registers — the
-  growing-up situations, the ordinary week, the conversation subjects, the
-  bills, the sourced legislative procedure and the definition catalogs — and
-  says for each one where it came from, what has to be true before it can
-  happen, and whether a player can reach it at all. Where a bank does not say
-  something, the browser says so and why, rather than filling it in. One button
-  exports the whole thing as a Markdown report and as JSON. None of this is
-  reachable from playing the game, and no content was written to fill it out.
+  growing-up situations, the life episodes, the ordinary week, the conversation
+  subjects, the setup questionnaire, the bills, the sourced legislative
+  procedure and both sets of definition catalogs — and says for each one where
+  it came from, what has to be true before it can happen, and whether a player
+  can reach it at all. Where a bank does not say something, the browser says so
+  and why, rather than filling it in — and where a bank says something that is
+  neither a condition nor a choice, like a legislature's chambers or a bill's
+  authored vote counts, it is shown as what it is instead of being filed under
+  the nearest heading. Citations stay citations; unresolved research stays
+  unresolved research. One button exports the whole thing as a Markdown report
+  and as JSON. None of this is reachable from playing the game, and no content
+  was written to fill it out.
 
 ### Changed
 

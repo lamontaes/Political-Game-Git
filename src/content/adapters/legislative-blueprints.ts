@@ -8,6 +8,7 @@ import {
   contentItemId,
   declared,
   undeclared,
+  type ContentAttribute,
   type ContentBank,
   type ContentBankId,
   type ContentItem,
@@ -47,7 +48,6 @@ export function legislativeMeasureBank(): ContentBank {
 }
 
 function toItem(blueprint: LegislativeBlueprint): ContentItem {
-  const votePlanKeys = Object.keys(blueprint.votePlan).sort();
   return {
     id: contentItemId(BANK_ID, blueprint.scenarioKey),
     bankId: BANK_ID,
@@ -58,7 +58,7 @@ function toItem(blueprint: LegislativeBlueprint): ContentItem {
     family: blueprint.pack.packId,
     authority: "authored",
     status: "production",
-    lifeStage: undeclared(
+    lifeStages: undeclared(
       "A measure belongs to a legislature, not to a stage of anybody's life.",
     ),
     roles: declared([
@@ -84,38 +84,22 @@ function toItem(blueprint: LegislativeBlueprint): ContentItem {
         description: `The measure is filed in ${blueprint.context.jurisdiction.name}.`,
       },
     ]),
-    requiredFacts: declared([
-      {
-        key: `subject-class:${blueprint.subjectClass}`,
-        description: `The measure is classified as ${blueprint.subjectClass}, which is what a money-bill threshold reads.`,
-      },
-      {
-        key: `nonpartisan:${blueprint.nonpartisan}`,
-        description: blueprint.nonpartisan
-          ? "The seated chamber carries no caucus labels."
-          : "The seated chamber carries descriptive caucus labels that hold no mechanical weight.",
-      },
-      {
-        key: "measure-notice",
-        description: AUTHORED_MEASURE_NOTICE,
-      },
-    ]),
+    requiredFacts: undeclared(
+      "The blueprint names no canonical fact a world must already show. What it does declare about itself — its subject class, whether the seated chamber carries caucus labels, and the notice that the bill is not a real one — describes the measure rather than gating it, and is reported as declared structure.",
+    ),
     slots: undeclared(
       "Designation, short title and summary are authored strings; the blueprint declares no substitution slots.",
     ),
-    options: declared(
-      votePlanKeys.map((key) => ({
-        key,
-        label: key,
-        description: describeVoteCounts(blueprint, key),
-      })),
+    options: undeclared(
+      "The measure offers nobody a bounded choice. Its votePlan is authored member decisions — how the seated chamber is written to vote — which is data about what the NPCs do, not a menu the player picks from, and it is reported as declared structure.",
     ),
-    followUps: declared([
-      {
-        key: `executive:${blueprint.governorAction}`,
-        description: blueprint.governorRationale,
-      },
-    ]),
+    followUps: undeclared(
+      "The blueprint names no content this measure leads to. The disposition its executive is authored to take is an outcome the measure is written to reach, not somewhere a reader can go next, and it is reported as declared structure.",
+    ),
+    attributes: declared(describeAttributes(blueprint)),
+    unresolvedResearch: undeclared(
+      "A measure is authored for the game rather than compiled from an instrument. The procedure it runs through is sourced and records its own gaps; the bill does not.",
+    ),
     tags: [
       `pack:${blueprint.pack.packId}`,
       `subject-class:${blueprint.subjectClass}`,
@@ -130,8 +114,55 @@ function toItem(blueprint: LegislativeBlueprint): ContentItem {
       retrievedAt: null,
       verification: null,
       note: AUTHORED_MEASURE_NOTICE,
+      sources: [],
     },
   };
+}
+
+/**
+ * What the blueprint says about the measure itself.
+ *
+ * The vote plan is here rather than in `options` because it is not a choice
+ * anybody is offered: it is how many seated members are authored to vote each
+ * way on each question, which is the chamber's behaviour written down. The
+ * executive disposition is here rather than in `followUps` for the same kind of
+ * reason — it is the outcome this measure is written to reach, not a link to
+ * further content — and it keeps the authored rationale beside it.
+ */
+function describeAttributes(
+  blueprint: LegislativeBlueprint,
+): readonly ContentAttribute[] {
+  return [
+    {
+      key: `subject-class:${blueprint.subjectClass}`,
+      label: "Subject class",
+      description: `The measure is classified as ${blueprint.subjectClass}, which is what a money-bill threshold reads.`,
+    },
+    {
+      key: `nonpartisan:${blueprint.nonpartisan}`,
+      label: "Caucus labels",
+      description: blueprint.nonpartisan
+        ? "The seated chamber carries no caucus labels."
+        : "The seated chamber carries descriptive caucus labels that hold no mechanical weight.",
+    },
+    {
+      key: "measure-notice",
+      label: "Authored-measure notice",
+      description: AUTHORED_MEASURE_NOTICE,
+    },
+    {
+      key: `executive-disposition:${blueprint.governorAction}`,
+      label: "Authored executive disposition",
+      description: `The measure is authored to be ${blueprint.governorAction} at presentment. ${blueprint.governorRationale}`,
+    },
+    ...Object.keys(blueprint.votePlan)
+      .sort()
+      .map((key) => ({
+        key: `vote-plan:${key}`,
+        label: `Authored member decisions — ${key}`,
+        description: describeVoteCounts(blueprint, key),
+      })),
+  ];
 }
 
 function describeVoteCounts(

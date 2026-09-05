@@ -115,22 +115,26 @@ export interface ContentQuery {
 }
 
 export type ContentDimension =
-  | "lifeStage"
+  | "lifeStages"
   | "roles"
   | "prerequisites"
   | "requiredFacts"
   | "slots"
   | "options"
-  | "followUps";
+  | "followUps"
+  | "attributes"
+  | "unresolvedResearch";
 
 export const CONTENT_DIMENSIONS: readonly ContentDimension[] = [
-  "lifeStage",
+  "lifeStages",
   "roles",
   "prerequisites",
   "requiredFacts",
   "slots",
   "options",
   "followUps",
+  "attributes",
+  "unresolvedResearch",
 ];
 
 export function queryContentItems(
@@ -146,12 +150,9 @@ export function queryContentItems(
     if (!matches(query.authorities, [item.authority])) return false;
     if (!matches(query.statuses, [item.status])) return false;
     if (!matches(query.tags, item.tags)) return false;
-    if (
-      !matches(
-        query.lifeStages,
-        item.lifeStage.kind === "declared" ? [item.lifeStage.value] : [],
-      )
-    ) {
+    // A banded item is discoverable under every band it declares, so an item
+    // honest in two life stages is found by a filter on either of them.
+    if (!matches(query.lifeStages, declaredList(item.lifeStages))) {
       return false;
     }
     if (
@@ -186,7 +187,7 @@ function matches(
 /** Everything an item says about itself, lowercased, for substring search. */
 export function searchableText(item: ContentItem): string {
   const facetText = [
-    item.lifeStage.kind === "declared" ? item.lifeStage.value : "",
+    ...declaredList(item.lifeStages),
     ...declaredList(item.roles).flatMap((role) => [role.key, role.description]),
     ...declaredList(item.prerequisites).flatMap((rule) => [
       rule.key,
@@ -201,6 +202,15 @@ export function searchableText(item: ContentItem): string {
       option.key,
       option.label,
       option.description,
+    ]),
+    ...declaredList(item.attributes).flatMap((attribute) => [
+      attribute.key,
+      attribute.label,
+      attribute.description,
+    ]),
+    ...declaredList(item.unresolvedResearch).flatMap((gap) => [
+      gap.key,
+      gap.description,
     ]),
     ...declaredList(item.followUps).flatMap((hook) => [
       hook.key,
@@ -245,9 +255,7 @@ export function contentFacetOptions(
     domains: distinct(items.map((item) => item.domain)),
     families: distinct(items.map((item) => item.family)),
     lifeStages: distinct(
-      items.flatMap((item) =>
-        item.lifeStage.kind === "declared" ? [item.lifeStage.value] : [],
-      ),
+      items.flatMap((item) => [...declaredList(item.lifeStages)]),
     ),
     roles: distinct(
       items.flatMap((item) => declaredList(item.roles).map((role) => role.key)),

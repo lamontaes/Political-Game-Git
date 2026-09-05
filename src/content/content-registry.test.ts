@@ -14,6 +14,48 @@ import {
   queryContentItems,
 } from "./content-registry";
 import { contentIndex } from "./index";
+import {
+  declared,
+  undeclared,
+  type ContentBankId,
+  type ContentItem,
+} from "./content-bank";
+
+/** A minimal item, so the REPRESENTATION can be tested without authoring content. */
+function testItem(itemKey: string, bands: readonly string[]): ContentItem {
+  const bankId: ContentBankId = "test.bands";
+  return {
+    id: `${bankId}/${itemKey}`,
+    bankId,
+    itemKey,
+    title: itemKey,
+    summary: "Written for this test.",
+    domain: "test",
+    family: "test",
+    authority: "authored",
+    status: "production",
+    lifeStages: declared([...bands].sort()),
+    roles: declared([]),
+    prerequisites: declared([]),
+    requiredFacts: declared([]),
+    slots: declared([]),
+    options: declared([]),
+    followUps: declared([]),
+    attributes: declared([]),
+    unresolvedResearch: undeclared("nothing compiled here"),
+    tags: [],
+    provenance: {
+      sourceModule: "src/test.ts",
+      sourceSymbol: "TEST",
+      citation: null,
+      sourceUrl: null,
+      retrievedAt: null,
+      verification: null,
+      note: null,
+      sources: [],
+    },
+  };
+}
 
 const index = contentIndex();
 
@@ -94,6 +136,45 @@ describe("the content index", () => {
     expect(indexed.length).toBeGreaterThan(0);
   });
 
+  it("registers a new bank without any count changing anywhere", () => {
+    // Open-ended registration, asserted rather than assumed: adding a bank adds
+    // its items and nothing in the contract has a threshold to update.
+    const before = contentIndex();
+    const extra = new ContentBankRegistry()
+      .registerAll(DEFAULT_CONTENT_BANK_ADAPTERS)
+      .register(() => ({
+        id: "test.late-arrival" as ContentBankId,
+        title: "A bank registered later",
+        description: "Registered after the defaults, as Packet 60 would.",
+        domain: "test",
+        authority: "authored" as const,
+        status: "production" as const,
+        sourceModule: "src/test.ts",
+        items: [testItem("late", ["young-adult"])].map((item) => ({
+          ...item,
+          id: "test.late-arrival/late",
+          bankId: "test.late-arrival" as ContentBankId,
+        })),
+      }))
+      .build();
+    expect(extra.banks.length).toBe(before.banks.length + 1);
+    expect(extra.items.length).toBe(before.items.length + 1);
+  });
+
+  it("does not mutate the banks it reads", () => {
+    // The index is a read. Building it twice, and querying and exporting in
+    // between, must leave every source bank exactly as it was.
+    const first = JSON.stringify(contentIndex());
+    const built = contentIndex();
+    queryContentItems(built.items, {
+      text: "meeting",
+      lifeStages: ["adolescence"],
+    });
+    contentFacetOptions(built.items);
+    const second = JSON.stringify(contentIndex());
+    expect(second).toBe(first);
+  });
+
   it("reports an empty production catalog as an empty bank, not as a missing one", () => {
     const bank = index.banks.find(
       (candidate) => candidate.id === "content.production-catalogs",
@@ -135,24 +216,43 @@ describe("searching and filtering", () => {
     ).toBe(true);
   });
 
+  it("finds an item declaring several bands under every one of them", () => {
+    // The representation, tested without waiting for somebody to author a
+    // two-band item. A band set used to collapse to `undeclared` the moment it
+    // held more than one band, which made the item unfindable under either.
+    const both = testItem("both", ["adolescence", "young-adult"]);
+    const one = testItem("one", ["adolescence"]);
+    const items = [both, one];
+    expect(
+      queryContentItems(items, { lifeStages: ["adolescence"] }).map(
+        (item) => item.id,
+      ),
+    ).toStrictEqual([both.id, one.id]);
+    expect(
+      queryContentItems(items, { lifeStages: ["young-adult"] }).map(
+        (item) => item.id,
+      ),
+    ).toStrictEqual([both.id]);
+    expect(contentFacetOptions(items).lifeStages).toStrictEqual([
+      "adolescence",
+      "young-adult",
+    ]);
+  });
+
   it("narrows by life stage using the band the banks already declare", () => {
     // Bands now come from more than one bank — a formative situation and a
-    // setup questionnaire item can both declare `adolescence` — so the filter
-    // is checked against every item that declares a stage, whatever bank it is
-    // in, rather than against one bank's catalog.
-    const declaredBand = (item: (typeof index.items)[number]) =>
-      item.lifeStage.kind === "declared" ? item.lifeStage.value : null;
-    const bands = new Set(
-      index.items
-        .map(declaredBand)
-        .filter((band): band is string => band !== null),
-    );
+    // setup questionnaire item can both declare `adolescence` — and an item
+    // may declare several, so the filter is checked against every band every
+    // item declares, whatever bank it is in.
+    const declaredBands = (item: (typeof index.items)[number]) =>
+      item.lifeStages.kind === "declared" ? item.lifeStages.value : [];
+    const bands = new Set(index.items.flatMap(declaredBands));
     expect(bands.size).toBeGreaterThan(0);
     for (const band of bands) {
       const found = queryContentItems(index.items, { lifeStages: [band] });
       expect(found.map((item) => item.id).sort()).toStrictEqual(
         index.items
-          .filter((item) => declaredBand(item) === band)
+          .filter((item) => declaredBands(item).includes(band))
           .map((item) => item.id)
           .sort(),
       );

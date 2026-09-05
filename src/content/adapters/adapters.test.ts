@@ -16,6 +16,7 @@ import { SETUP_QUESTIONNAIRE_BANK } from "../../simulation/setup-questionnaire-b
 import { createSyntheticVitalityCatalog } from "../../simulation/vitality-catalog";
 import { declaredList } from "../content-bank";
 import { contentIndex } from "../index";
+import { queryContentItems } from "../content-registry";
 import {
   conversationSubjectBank,
   legislativeMeasureBank,
@@ -40,9 +41,9 @@ describe("adapters report what their banks actually say", () => {
     for (const situation of lifeSituationCatalog()) {
       const item = itemOf(`content.life-situations/${situation.key}`);
       expect(item.summary).toBe(situation.prose);
-      expect(item.lifeStage).toStrictEqual({
+      expect(item.lifeStages).toStrictEqual({
         kind: "declared",
-        value: situation.band,
+        value: [situation.band],
       });
       expect(
         declaredList(item.options).map((option) => option.key),
@@ -77,9 +78,15 @@ describe("adapters report what their banks actually say", () => {
       expect(item.summary).toBe(contract.socialContext);
       expect(item.family).toBe(contract.contextTag);
       expect(item.tags).toContain(contract.subjectTag);
+      // The commit contract is the vocabulary a turn is RECORDED in. It is
+      // reported as declared structure, not as a canonical fact a world has to
+      // show before the subject may be offered — the contract states no such
+      // condition, and claiming one made the index read as if a conversation
+      // required its own event type to already exist.
       expect(
-        declaredList(item.requiredFacts).map((fact) => fact.key),
+        declaredList(item.attributes).map((attribute) => attribute.key),
       ).toContain(`event-type:${contract.eventType}`);
+      expect(item.requiredFacts.kind).toBe("undeclared");
     }
   });
 
@@ -98,9 +105,13 @@ describe("adapters report what their banks actually say", () => {
       expect(item.summary).toBe(blueprint.summary);
       expect(item.authority).toBe("authored");
       expect(item.provenance.note).toBe(AUTHORED_MEASURE_NOTICE);
+      // The notice describes the measure — the bill is not a real one — and is
+      // carried as declared structure and as provenance. It is not a fact a
+      // world has to show for the measure to be offered.
       expect(
-        declaredList(item.requiredFacts).map((fact) => fact.description),
+        declaredList(item.attributes).map((attribute) => attribute.description),
       ).toContain(AUTHORED_MEASURE_NOTICE);
+      expect(item.requiredFacts.kind).toBe("undeclared");
     }
   });
 
@@ -118,19 +129,84 @@ describe("adapters report what their banks actually say", () => {
       expect(item.provenance.citation).toBe(primary.citation);
       expect(item.provenance.retrievedAt).toBe(primary.retrievedAt);
       expect(item.provenance.verification).toBe(primary.verification);
+      // Every cited instrument survives, and survives as PROVENANCE. A
+      // citation is evidence of where a value came from; reporting it as a
+      // required fact said the legislature needed its own footnote to be true.
       expect(
-        declaredList(item.requiredFacts).length,
+        item.provenance.sources.length,
         "every cited source is reported",
       ).toBe(pack.sources.length);
+      expect(
+        item.provenance.sources.map((source) => source.citation),
+      ).toStrictEqual(pack.sources.map((source) => source.citation));
+      for (const [index, source] of pack.sources.entries()) {
+        const reported = item.provenance.sources[index]!;
+        expect(reported.sourceTitle).toBe(source.sourceTitle);
+        expect(reported.sourceUrl).toBe(source.sourceUrl);
+        expect(reported.retrievedAt).toBe(source.retrievedAt);
+        expect(reported.authority).toBe(source.authority);
+        expect(reported.verification).toBe(source.verification);
+      }
+      expect(item.requiredFacts.kind).toBe("undeclared");
     }
   });
 
   it("carries a rule pack's unresolved research forward as unresolved", () => {
     for (const pack of LEGISLATIVE_RULE_PACKS) {
       const item = itemOf(`content.legislative-rule-packs/${pack.packId}`);
+      // Unresolved research is reported under its own name. It is not a
+      // follow-up: nothing leads to a gap in what anybody knows, and calling it
+      // one said the game had somewhere to go where the research had stopped.
       expect(
-        declaredList(item.followUps).map((hook) => hook.description),
+        declaredList(item.unresolvedResearch).map((gap) => gap.description),
       ).toStrictEqual([...pack.unresolvedGaps]);
+      expect(item.followUps.kind).toBe("undeclared");
+      if (pack.unresolvedGaps.length > 0) {
+        expect(item.unresolvedResearch.kind).toBe("declared");
+      }
+    }
+  });
+
+  it("does not offer a floor stage as a choice anybody makes", () => {
+    // A floor stage is procedure the chamber runs a measure through. Reporting
+    // it as an option said a player picks one off a list, which no surface in
+    // the game does. It survives as declared institutional structure.
+    for (const pack of LEGISLATIVE_RULE_PACKS) {
+      const item = itemOf(`content.legislative-rule-packs/${pack.packId}`);
+      expect(item.options.kind).toBe("undeclared");
+      const attributeKeys = declaredList(item.attributes).map(
+        (attribute) => attribute.key,
+      );
+      for (const chamber of pack.chambers) {
+        expect(attributeKeys).toContain(`chamber:${chamber.chamberKey}`);
+        for (const stage of chamber.floorStages) {
+          expect(attributeKeys).toContain(
+            `floor-stage:${chamber.chamberKey}:${stage.stageKey}`,
+          );
+        }
+      }
+    }
+  });
+
+  it("does not offer an authored vote plan as a choice anybody makes", () => {
+    // votePlan is how the seated members are authored to vote. It is data about
+    // what the NPCs do, not a menu the player is given.
+    for (const key of legislativeScenarioKeys()) {
+      const blueprint = legislativeBlueprint(key);
+      const item = itemOf(`content.legislative-measures/${key}`);
+      expect(item.options.kind).toBe("undeclared");
+      const attributeKeys = declaredList(item.attributes).map(
+        (attribute) => attribute.key,
+      );
+      for (const question of Object.keys(blueprint.votePlan)) {
+        expect(attributeKeys).toContain(`vote-plan:${question}`);
+      }
+      // The executive disposition is an outcome the measure is written to
+      // reach, not a link to further content.
+      expect(item.followUps.kind).toBe("undeclared");
+      expect(attributeKeys).toContain(
+        `executive-disposition:${blueprint.governorAction}`,
+      );
     }
   });
 
@@ -143,6 +219,66 @@ describe("adapters report what their banks actually say", () => {
     expect(ordinaryLifeBank().items.length).toBe(
       ORDINARY_LIFE_WORK_ITEMS.length,
     );
+  });
+
+  it("claims no household-obligation follow-up for the public meeting", () => {
+    // The link was invented. `household-obligation` appears nowhere in
+    // src/presentation/ordinary-life.ts, and it was reported as a follow-up of
+    // BOTH work items — which was plainly false of a public meeting somebody
+    // can attend or skip.
+    const meeting = itemOf(
+      "content.ordinary-life/ordinary-life:public-meeting",
+    );
+    expect(meeting.followUps.kind).toBe("undeclared");
+    expect(JSON.stringify(meeting)).not.toContain("household-obligation");
+  });
+
+  it("claims nothing for the ordinary week that the authored item does not say", () => {
+    // OrdinaryLifeWorkItemDefinition declares a key, a title and a summary.
+    // The formative gate, the assignment, the decision requirement and the
+    // effort are all written by openOrdinaryLife from a world at creation
+    // time — the same class of procedural fact as formative eligibility, and
+    // held to the same rule.
+    for (const definition of ORDINARY_LIFE_WORK_ITEMS) {
+      const item = itemOf(`content.ordinary-life/${definition.key}`);
+      expect(item.followUps.kind).toBe("undeclared");
+      expect(item.lifeStages.kind).toBe("undeclared");
+      expect(item.roles.kind).toBe("undeclared");
+      expect(item.prerequisites.kind).toBe("undeclared");
+      expect(item.requiredFacts.kind).toBe("undeclared");
+      if (item.prerequisites.kind === "undeclared") {
+        expect(item.prerequisites.reason).toContain("ordinaryLifeAvailableFor");
+      }
+      if (item.lifeStages.kind === "undeclared") {
+        expect(item.lifeStages.reason).toContain("formativeIntervalAt");
+      }
+    }
+  });
+
+  it("declares a questionnaire item's bands whenever its source declares any", () => {
+    // `eligibility.bands` is a SET on the source type. Every item in the bank
+    // happens to name one band today, and nothing here asserts that: the rule
+    // is that whatever the source declares is reported as declared, so an item
+    // authored into two bands tomorrow stays declared and stays findable
+    // rather than silently becoming undeclared and unreachable by either band.
+    for (const authored of SETUP_QUESTIONNAIRE_BANK) {
+      const item = itemOf(`content.setup-questionnaire/${authored.key}`);
+      if (authored.eligibility.bands.length === 0) {
+        expect(item.lifeStages.kind).toBe("undeclared");
+        continue;
+      }
+      expect(item.lifeStages).toStrictEqual({
+        kind: "declared",
+        value: [...authored.eligibility.bands].sort(),
+      });
+      for (const band of authored.eligibility.bands) {
+        const found = queryContentItems(index.items, { lifeStages: [band] });
+        expect(
+          found.map((candidate) => candidate.id),
+          `${authored.key} is findable under ${band}`,
+        ).toContain(item.id);
+      }
+    }
   });
 
   it("indexes synthetic catalog definitions under their own stable keys", () => {
@@ -175,13 +311,185 @@ describe("adapters report what their banks actually say", () => {
     }
   });
 
-  it("does not paraphrase the world-evaluated episode eligibility rule", () => {
-    const family = EPISODE_FAMILIES[0]!;
-    const stage = family.stages[0]!;
-    const item = itemOf(`content.episodes/${family.key}/${stage.key}`);
-    expect(item.prerequisites.kind).toBe("undeclared");
-    if (item.prerequisites.kind === "undeclared") {
-      expect(item.prerequisites.reason).toContain("eligibleEpisodeBeats");
+  it("reports an episode stage's own declared requirements", () => {
+    // `stage.requires` is data — the bank's own header says so — and every
+    // member of EpisodeRequirement names a role, an age, a capability, a fact
+    // key or an earlier stage. Reading it is not evaluating it: nothing here
+    // builds a world or asks whether a requirement holds.
+    let sawOne = false;
+    for (const family of EPISODE_FAMILIES) {
+      for (const stage of family.stages) {
+        const item = itemOf(`content.episodes/${family.key}/${stage.key}`);
+        const reported = new Set([
+          ...declaredList(item.prerequisites).map((rule) => rule.key),
+          ...declaredList(item.requiredFacts).map((rule) => rule.key),
+        ]);
+        for (const requirement of stage.requires) {
+          sawOne = true;
+          const prefix = `${requirement.kind}:`;
+          expect(
+            [...reported].some((key) => key.startsWith(prefix)),
+            `${family.key}/${stage.key} reports its ${requirement.kind} requirement`,
+          ).toBe(true);
+        }
+        if (stage.requires.length === 0) {
+          expect(item.prerequisites.kind).toBe("undeclared");
+        }
+      }
+    }
+    expect(sawOne).toBe(true);
+  });
+
+  it("keeps a fact requirement apart from every other kind", () => {
+    for (const family of EPISODE_FAMILIES) {
+      for (const stage of family.stages) {
+        const item = itemOf(`content.episodes/${family.key}/${stage.key}`);
+        const factKeys = stage.requires.flatMap((requirement) =>
+          requirement.kind === "fact"
+            ? [`fact:${requirement.fact}`]
+            : requirement.kind === "absent"
+              ? [`absent:${requirement.fact}`]
+              : [],
+        );
+        expect(
+          [...declaredList(item.requiredFacts)].map((rule) => rule.key).sort(),
+        ).toStrictEqual([...factKeys].sort());
+      }
+    }
+  });
+
+  it("distinguishes two stages whose requirements differ", () => {
+    // The point of reading requirements at all: two stages of one family must
+    // not read identically when the bank wrote them differently.
+    const requirementSets = new Map<string, string>();
+    for (const family of EPISODE_FAMILIES) {
+      for (const stage of family.stages) {
+        const item = itemOf(`content.episodes/${family.key}/${stage.key}`);
+        const signature = [
+          ...declaredList(item.prerequisites).map((rule) => rule.key),
+          ...declaredList(item.requiredFacts).map((rule) => rule.key),
+        ]
+          .sort()
+          .join("|");
+        requirementSets.set(`${family.key}/${stage.key}`, signature);
+      }
+    }
+    for (const family of EPISODE_FAMILIES) {
+      for (const left of family.stages) {
+        for (const right of family.stages) {
+          if (left.key === right.key) continue;
+          const sameSource =
+            JSON.stringify([...left.requires].sort()) ===
+            JSON.stringify([...right.requires].sort());
+          if (sameSource) continue;
+          expect(
+            requirementSets.get(`${family.key}/${left.key}`),
+            `${family.key}: ${left.key} and ${right.key} declare different requirements and must not read the same`,
+          ).not.toBe(requirementSets.get(`${family.key}/${right.key}`));
+        }
+      }
+    }
+  });
+
+  it("never labels a role an episode stage cannot open without as optional", () => {
+    // Two things make a role required and both are read off the stage: a role
+    // requirement, or a slot in the authored copy. substituteSlots throws on a
+    // role the beat did not bind, so a named role is not optional.
+    for (const family of EPISODE_FAMILIES) {
+      for (const stage of family.stages) {
+        const item = itemOf(`content.episodes/${family.key}/${stage.key}`);
+        const roles = declaredList(item.roles);
+        const requiredByRule = stage.requires.flatMap((requirement) =>
+          requirement.kind === "role" ||
+          requirement.kind === "role-age-at-least"
+            ? [requirement.role]
+            : [],
+        );
+        for (const role of requiredByRule) {
+          const reported = roles.find((candidate) => candidate.key === role);
+          expect(
+            reported,
+            `${family.key}/${stage.key} reports ${role}`,
+          ).toBeDefined();
+          expect(
+            reported!.required,
+            `${family.key}/${stage.key} requires ${role}`,
+          ).toBe(true);
+        }
+        const copy = [
+          ...stage.lines,
+          ...stage.options.flatMap((option) => [
+            option.label,
+            option.description,
+            option.memory,
+          ]),
+        ].join(" ");
+        for (const role of family.roles) {
+          if (!copy.includes(`:${role}}`)) continue;
+          const reported = roles.find((candidate) => candidate.key === role);
+          expect(
+            reported!.required,
+            `${family.key}/${stage.key} names ${role} in its copy and cannot render without it`,
+          ).toBe(true);
+        }
+      }
+    }
+  });
+
+  it("keeps a role-age-at-least requirement from reading as a plain role", () => {
+    // The whole reason that kind exists is that `role` was not enough: a young
+    // sibling was cast as an independently mobile teenager. The age has to
+    // survive into the index or the distinction is lost again.
+    const aged = EPISODE_FAMILIES.flatMap((family) =>
+      family.stages.flatMap((stage) =>
+        stage.requires
+          .filter((requirement) => requirement.kind === "role-age-at-least")
+          .map((requirement) => ({ family, stage, requirement })),
+      ),
+    );
+    expect(aged.length).toBeGreaterThan(0);
+    for (const { family, stage, requirement } of aged) {
+      if (requirement.kind !== "role-age-at-least") continue;
+      const item = itemOf(`content.episodes/${family.key}/${stage.key}`);
+      expect(
+        declaredList(item.prerequisites).map((rule) => rule.key),
+      ).toContain(`role-age-at-least:${requirement.role}:${requirement.age}`);
+    }
+  });
+
+  it("leaves every world-evaluated dimension unknown across the whole index", () => {
+    // The rule the lane turns on, checked in one place. Reading a declarative
+    // requirement off a bank is not the same as deciding whether it holds, and
+    // nothing here decides: formative eligibility, a conversation's available
+    // intents and the ordinary week's gate are all predicates over a world, and
+    // all three stay undeclared with the reason naming where the rule runs.
+    const formative = itemOf(
+      `content.life-situations/${lifeSituationCatalog()[0]!.key}`,
+    );
+    expect(formative.requiredFacts.kind).toBe("undeclared");
+    if (formative.requiredFacts.kind === "undeclared") {
+      expect(formative.requiredFacts.reason).toContain(
+        "formativeEligibilityProvider",
+      );
+    }
+    const subject = itemOf(
+      "content.conversation-subjects/household-obligation",
+    );
+    expect(subject.options.kind).toBe("undeclared");
+    if (subject.options.kind === "undeclared") {
+      expect(subject.options.reason).toContain("availableIntents");
+    }
+    const week = itemOf(
+      "content.ordinary-life/ordinary-life:household-errands",
+    );
+    expect(week.prerequisites.kind).toBe("undeclared");
+
+    // And no adapter reports an eligibility VERDICT anywhere: the index never
+    // says a stage is or is not offered, only what the stage asks for.
+    for (const item of index.items) {
+      for (const rule of declaredList(item.prerequisites)) {
+        expect(rule.key).not.toMatch(/^(eligible|ineligible|offered):/);
+      }
     }
   });
 
@@ -226,15 +534,11 @@ describe("adapters report what their banks actually say", () => {
       expect(item.provenance.citation).toBe(authored.source.reference);
       expect(item.provenance.verification).toBe(authored.review.verdict);
       expect(item.provenance.note).toContain(authored.source.sourceDocument);
-      // A single-band item declares its band; a multi-band one names the set.
-      if (authored.eligibility.bands.length === 1) {
-        expect(item.lifeStage).toStrictEqual({
-          kind: "declared",
-          value: authored.eligibility.bands[0],
-        });
-      } else {
-        expect(item.lifeStage.kind).toBe("undeclared");
-      }
+      // Every band the item declares is declared, however many there are.
+      expect(item.lifeStages).toStrictEqual({
+        kind: "declared",
+        value: [...authored.eligibility.bands].sort(),
+      });
     }
   });
 

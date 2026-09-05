@@ -122,7 +122,9 @@ function itemSection(item: ContentItem): readonly string[] {
   lines.push(`- Family: ${item.family}`);
   lines.push(`- Authority: ${item.authority}`);
   lines.push(`- Status: ${item.status}`);
-  lines.push(`- Life stage: ${facetLine(item.lifeStage, (value) => value)}`);
+  lines.push(
+    `- Life stages: ${facetLine(item.lifeStages, (bands) => bands.join(", "))}`,
+  );
   lines.push(
     `- Tags: ${item.tags.length > 0 ? item.tags.map((tag) => `\`${tag}\``).join(", ") : "none"}`,
   );
@@ -143,6 +145,15 @@ function itemSection(item: ContentItem): readonly string[] {
   }
   if (item.provenance.note) {
     lines.push(`- Note: ${item.provenance.note}`);
+  }
+  for (const source of item.provenance.sources) {
+    const url = source.sourceUrl ? ` (${source.sourceUrl})` : "";
+    const retrieved = source.retrievedAt
+      ? `, retrieved ${source.retrievedAt}`
+      : "";
+    lines.push(
+      `- Cited source: ${source.sourceTitle}, ${source.citation}${url} — ${source.authority}, ${source.verification}${retrieved}.`,
+    );
   }
   lines.push("");
 
@@ -188,6 +199,21 @@ function itemSection(item: ContentItem): readonly string[] {
       "Follow-up hooks",
       item.followUps,
       (hook) => `\`${hook.key}\` — ${hook.description}`,
+    ),
+  );
+  lines.push(
+    ...facetBlock(
+      "Declared structure",
+      item.attributes,
+      (attribute) =>
+        `\`${attribute.key}\` — **${attribute.label}** — ${attribute.description}`,
+    ),
+  );
+  lines.push(
+    ...facetBlock(
+      "Unresolved research",
+      item.unresolvedResearch,
+      (gap) => `\`${gap.key}\` — ${gap.description}`,
     ),
   );
   return lines;

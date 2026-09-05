@@ -42,12 +42,41 @@ Each item reports:
 - **domain** and **thread/family** — where it sits;
 - **authority** — where its claim to exist comes from;
 - **status** — where it can be reached;
-- **life stage**, **speaker/role requirements**, **prerequisites**, **required
-  canonical facts**, **variable/name slots**, **options** and **follow-up
-  hooks**;
+- **life stages**, **speaker/role requirements**, **prerequisites**, **required
+  canonical facts**, **variable/name slots**, **options**, **follow-up hooks**,
+  **declared structure** and **unresolved research**;
 - **tags**;
 - **provenance** — the source module and exported symbol, plus the citation,
-  URL, retrieval date and verification status where the bank carries them.
+  URL, retrieval date and verification status where the bank carries them, and
+  the full list of cited instruments where a bank cites several.
+
+Each of those names one concept and means only that concept. The distinction is
+load-bearing, and getting it wrong is the failure mode this layer exists to
+avoid:
+
+- **prerequisites** — what must hold before the item is offered;
+- **required canonical facts** — records a world must already show;
+- **options** — a bounded choice the item offers somebody;
+- **follow-up hooks** — somewhere the item can lead;
+- **declared structure** — what the bank states about the thing the item
+  describes, which is neither a gate nor an offer: a legislature's chambers and
+  floor stages, a measure's authored member decisions and the disposition its
+  executive is written to take, a conversation subject's canonical commit
+  vocabulary, a personality tendency's expressions;
+- **unresolved research** — what a sourced bank's own compilation could not
+  settle;
+- **provenance** — where a value came from, citations included.
+
+A citation is not a required fact. A floor stage is not a choice a player makes.
+An authored vote plan is not a menu. An unresolved research gap is not somewhere
+the game can lead. Each of those was true of an earlier draft of this index, and
+each made it read as more complete, and more different from the source, than it
+was.
+
+**Life stages are a set.** A bank that bands an item into one stage declares a
+set of one; a bank that bands it into several declares all of them, and the item
+is findable under each. Reporting a multi-band item as _undeclared_ would say the
+bank was silent about exactly the thing it wrote down.
 
 ### Authority
 
@@ -75,8 +104,11 @@ There is no third state and no default, because an index that quietly invents a
 prerequisite is worse than one that admits it does not know: the invented one
 reviews as fact.
 
-Undeclared is not a gap to be filled by this layer. It is a finding. Two of
-them are worth naming:
+Undeclared is not a gap to be filled by this layer. It is a finding, and the
+rule is about what the SOURCE declares rather than about what code could
+compute. A dimension a runtime function could work out from a world is still
+undeclared here, because the bank did not write it down. Four of them are worth
+naming:
 
 - **Formative eligibility is procedural, not declarative.**
   `formativeEligibilityProvider` answers whether a character is at a school, has
@@ -88,6 +120,40 @@ them are worth naming:
   sentences a turn records are closures over those intents. There is no
   enumerable list to index. Making one declarative is a change to the
   conversation bank, not something this index may do on its behalf.
+- **The ordinary week's gate is procedural.** `OrdinaryLifeWorkItemDefinition`
+  declares a key, a title and a summary — that is the whole bank.
+  `ordinaryLifeAvailableFor` asks `formativeIntervalAt` against a world, and
+  `openOrdinaryLife` writes the assignment, the decision requirement, the effort
+  and the focus at the moment it creates the work item. None of that is
+  declared, so none of it is reported as declared, and the module names no
+  follow-up from either work item to anything else.
+- **An episode stage's requirements ARE declarative, and are read.**
+  `stage.requires` is data: every `EpisodeRequirement` names a role, an age, a
+  capability, a fact key or an earlier stage, and the episode bank's own header
+  calls itself declarative. So they are transcribed under each kind's own
+  vocabulary. Reading a requirement is not evaluating one — `eligibleEpisodeBeats`
+  does that against a world, and nothing in this layer builds one — which is why
+  the transcription cannot drift from the rule that runs: there is no second
+  rule here to drift.
+
+## Banks indexed
+
+Nine adapters are registered in `src/content/adapters/index.ts`, in this order:
+
+| Bank                             | Source                                   | Authority         | Status                   |
+| -------------------------------- | ---------------------------------------- | ----------------- | ------------------------ |
+| `content.life-situations`        | `simulation/character-history.ts`        | authored          | production               |
+| `content.episodes`               | `simulation/episode-bank.ts`             | authored          | production               |
+| `content.ordinary-life`          | `presentation/ordinary-life.ts`          | authored          | production               |
+| `content.conversation-subjects`  | `presentation/conversation-subjects.ts`  | authored          | production               |
+| `content.setup-questionnaire`    | `simulation/setup-questionnaire-bank.ts` | authored          | production               |
+| `content.legislative-measures`   | `simulation/legislation-scenarios.ts`    | authored          | production               |
+| `content.legislative-rule-packs` | `simulation/legislature-rule-packs.ts`   | sourced           | production               |
+| `content.production-catalogs`    | `simulation/production-catalog.ts`       | unestablished     | production               |
+| `content.synthetic-catalogs`     | the `createSynthetic*Catalog` modules    | synthetic-fixture | excluded-from-production |
+
+No item count appears here, in the code, or in any test. A bank holds what its
+source holds; authoring one more situation changes a number nobody wrote down.
 
 ## Registry and adapters
 

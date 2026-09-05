@@ -73,7 +73,7 @@ function toItem(situation: LifeSituationEntry): ContentItem {
     family: situation.key.split(".")[0] ?? "formative",
     authority: "authored",
     status: "production",
-    lifeStage: declared(situation.band),
+    lifeStages: declared([situation.band]),
     roles: declared(roles),
     prerequisites: declared([
       {
@@ -106,6 +106,23 @@ function toItem(situation: LifeSituationEntry): ContentItem {
     followUps: undeclared(
       "A resolved situation writes memories and development proposals through ordinary history rather than naming a next item.",
     ),
+    attributes: declared([
+      {
+        key: `band:${situation.band}`,
+        label: "Formative band",
+        description: `The situation declares itself written for the ${situation.band} band.`,
+      },
+      {
+        key: `needs-companion:${situation.needsCompanion}`,
+        label: "Companion",
+        description: situation.needsCompanion
+          ? "The situation declares that it is not offered alone."
+          : "The situation declares that it can be played alone.",
+      },
+    ]),
+    unresolvedResearch: undeclared(
+      "Formative situations are authored for the game rather than compiled from an instrument, so they record no unresolved research.",
+    ),
     tags: [
       `band:${situation.band}`,
       situation.needsCompanion ? "companion:required" : "companion:not-needed",
@@ -119,6 +136,7 @@ function toItem(situation: LifeSituationEntry): ContentItem {
       retrievedAt: null,
       verification: null,
       note: "Authored for the game. The research kernels these come from mostly have no defensible arrival rate, so nothing here samples a frequency.",
+      sources: [],
     },
   };
 }

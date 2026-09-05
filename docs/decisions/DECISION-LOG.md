@@ -2023,12 +2023,32 @@ and cannot change anything.
 
 Every dimension is either declared by the bank or explicitly undeclared with
 the reason it is. There is no third state and no default, because an index that
-quietly invents a prerequisite reviews as fact. Two undeclared dimensions are
-findings rather than gaps: formative eligibility is a predicate over a world in
-`formativeEligibilityProvider` and has no declarative form to read, and a
-conversation subject's intents come from `availableIntents(world, room,
-addressee, progress, …)` and cannot be enumerated without a world. Making either
-declarative is a change to the bank that owns it.
+quietly invents a prerequisite reviews as fact. The test is what the SOURCE
+declares, never what runtime code could compute: a value a function could work
+out from a world is undeclared here, because the bank did not write it down.
+Formative eligibility is a predicate over a world in
+`formativeEligibilityProvider`; a conversation subject's intents come from
+`availableIntents(world, room, addressee, progress, …)`; the ordinary week's
+gate is `ordinaryLifeAvailableFor` asking `formativeIntervalAt`, and everything
+else about an ordinary work item is written by `openOrdinaryLife` from a world
+at creation time. All of those are findings rather than gaps. An episode
+stage's `requires`, by contrast, IS data — every `EpisodeRequirement` names a
+role, an age, a capability, a fact key or an earlier stage — so it is read and
+transcribed under each kind's own vocabulary. Reading a requirement is not
+evaluating one, and nothing here builds a world to do so.
+
+Each field means one thing and is used for only that thing. A prerequisite
+gates; a required canonical fact is a record a world must show; an option is a
+bounded choice offered to somebody; a follow-up is somewhere the content leads.
+Structure a bank declares about the thing it describes — a legislature's
+chambers and floor stages, a measure's authored member decisions, the
+disposition its executive is written to take, a conversation subject's commit
+vocabulary — is none of those, and has its own name rather than being pushed
+into whichever facet had a free slot. Citations are provenance, because that is
+what a citation is. Unresolved research is unresolved research. Life stages are
+a set, so a bank that bands an item into several keeps it declared and keeps it
+findable under each; collapsing a band set to "undeclared" said the bank was
+silent about the one thing it had gone to the trouble of writing down.
 
 Authority and status are read from the repository, not invented. Legislative
 rule packs are `sourced` and carry their citations, retrieval dates and

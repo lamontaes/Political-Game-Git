@@ -127,6 +127,63 @@ export interface ContentFollowUp {
 }
 
 /**
+ * Something the bank states about the thing an item describes.
+ *
+ * The four facets above each answer a question about *offering* the item: what
+ * has to hold first, what part somebody plays, what choice it presents, where
+ * it can lead. Some banks declare structure that answers none of those and is
+ * still the substance of what they wrote down — a legislature's chambers and
+ * floor stages, a measure's authored member decisions and the disposition its
+ * executive is written to take, a conversation subject's canonical commit
+ * vocabulary, a personality tendency's expressions.
+ *
+ * That structure used to be pushed into whichever facet had a free slot, which
+ * made an index that read as if a citation were a required fact and a floor
+ * stage were a choice a player is offered. It has its own name here instead,
+ * meaning exactly what it says: declared structure, belonging to the described
+ * thing, that is neither a gate nor an offer.
+ */
+export interface ContentAttribute {
+  readonly key: string;
+  readonly label: string;
+  readonly description: string;
+}
+
+/**
+ * Research the bank itself records as unsettled.
+ *
+ * Only a `sourced` bank has these, and only because it went looking: a rule
+ * pack's `unresolvedGaps` are the questions its compilation could not answer
+ * from the instrument it cites. They are not follow-up hooks — nothing leads
+ * to them, and no player reaches them — and calling them one made the index
+ * claim the game had somewhere to go where in fact the research had stopped.
+ * Kept under their own name, they stay what they are: known holes, reported.
+ */
+export interface ContentUnresolvedGap {
+  readonly key: string;
+  readonly description: string;
+}
+
+/**
+ * One instrument a sourced item was compiled from.
+ *
+ * A pack cites several. The single citation fields on `ContentProvenance` name
+ * the first for a summary line; this list is all of them, so a reviewer can
+ * check any claim the pack makes rather than only the one that happened to be
+ * first. Citations are evidence of where a value came from, which is what
+ * provenance means — they are not facts the content requires to be offered.
+ */
+export interface ContentSourceRef {
+  readonly citation: string;
+  readonly sourceTitle: string;
+  readonly sourceUrl: string | null;
+  readonly retrievedAt: string | null;
+  readonly authority: string;
+  readonly verification: string;
+  readonly note: string | null;
+}
+
+/**
  * Where the item is written down, and what the bank claims about its origin.
  *
  * `sourceModule` and `sourceSymbol` are the answer to "where did it come
@@ -143,6 +200,14 @@ export interface ContentProvenance {
   readonly retrievedAt: string | null;
   readonly verification: string | null;
   readonly note: string | null;
+  /**
+   * Every instrument the item was compiled from, where it was compiled at all.
+   *
+   * Empty for an authored bank, which cites nothing because it describes
+   * nowhere real. A sourced bank fills it, and the fields above summarise its
+   * first entry.
+   */
+  readonly sources: readonly ContentSourceRef[];
 }
 
 export interface ContentItem {
@@ -166,14 +231,27 @@ export interface ContentItem {
   readonly family: string;
   readonly authority: ContentAuthority;
   readonly status: ContentStatus;
-  /** The life stage the item belongs to, where the bank bands its content. */
-  readonly lifeStage: ContentFacet<string>;
+  /**
+   * The life stages the item belongs to, where the bank bands its content.
+   *
+   * A set rather than a single stage, because more than one bank bands an item
+   * into several: a setup questionnaire item declares `eligibility.bands`, and
+   * reporting a two-band item as *undeclared* said the bank was silent about
+   * exactly the thing it had gone to the trouble of writing down. A bank that
+   * bands into one stage declares a set of one, which filters identically and
+   * needs no special case anywhere.
+   */
+  readonly lifeStages: ContentFacet<readonly string[]>;
   readonly roles: ContentFacet<readonly ContentRole[]>;
   readonly prerequisites: ContentFacet<readonly ContentRequirement[]>;
   readonly requiredFacts: ContentFacet<readonly ContentRequirement[]>;
   readonly slots: ContentFacet<readonly ContentSlot[]>;
   readonly options: ContentFacet<readonly ContentOption[]>;
   readonly followUps: ContentFacet<readonly ContentFollowUp[]>;
+  /** Declared structure that is neither a gate on the item nor an offer it makes. */
+  readonly attributes: ContentFacet<readonly ContentAttribute[]>;
+  /** What the bank's own research left unsettled. Sourced banks only. */
+  readonly unresolvedResearch: ContentFacet<readonly ContentUnresolvedGap[]>;
   readonly tags: readonly string[];
   readonly provenance: ContentProvenance;
 }

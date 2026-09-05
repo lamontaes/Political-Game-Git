@@ -59,7 +59,7 @@ function toItem(item: QuestionnaireEntry): ContentItem {
     family: item.register,
     authority: "authored",
     status: "production",
-    lifeStage: declareLifeStage(bands),
+    lifeStages: declareLifeStages(bands),
     roles: undeclared(
       "A questionnaire item is answered by the player alone; it casts no scene role. The people an item assumes are read from its eligibility relationships instead.",
     ),
@@ -88,6 +88,30 @@ function toItem(item: QuestionnaireEntry): ContentItem {
     followUps: undeclared(
       "An answer feeds the adaptive profile and, through setup-generation-inputs, world generation; the bank names no next item to follow.",
     ),
+    attributes: declared([
+      {
+        key: `register:${item.register}`,
+        label: "Register",
+        description: `The item is written in the ${item.register} register.`,
+      },
+      {
+        key: `review:${item.review.verdict}`,
+        label: "Transparency review",
+        description: item.review.note,
+      },
+      ...(item.fixedOrdinal !== null
+        ? [
+            {
+              key: `fixed-opener:${item.fixedOrdinal}`,
+              label: "Fixed opener",
+              description: `The item is pinned to opening position ${item.fixedOrdinal} rather than selected.`,
+            },
+          ]
+        : []),
+    ]),
+    unresolvedResearch: undeclared(
+      "The questionnaire is authored from a research document and carries a transparency verdict, but records no unresolved gap of its own.",
+    ),
     tags: [
       `register:${item.register}`,
       `review:${item.review.verdict}`,
@@ -104,23 +128,30 @@ function toItem(item: QuestionnaireEntry): ContentItem {
       retrievedAt: null,
       verification: item.review.verdict,
       note: `Authored from ${item.source.sourceDocument}. Transparency review: ${item.review.note}`,
+      sources: [],
     },
   };
 }
 
 /**
- * The band an item belongs to, where it belongs to exactly one.
+ * The bands the item declares itself eligible in.
  *
- * Most items are honest for a single life stage; those declare it, so a
- * life-stage filter finds them. An item eligible in several bands declares a
- * band set rather than a single stage, so its life stage is reported undeclared
- * with the set named, and each band is still carried as a tag either way.
+ * `eligibility.bands` is a set on purpose: an item honest for both adolescence
+ * and young adulthood says so. This used to report any item with more than one
+ * band as *undeclared*, which inverted the truth — the bank is at its most
+ * explicit exactly where the index claimed it was silent, and a two-band item
+ * could not be found under either of its bands. A band set is declared as a
+ * band set, and an item is discoverable under every band it names.
  */
-function declareLifeStage(bands: readonly string[]): ContentFacet<string> {
-  if (bands.length === 1 && bands[0]) return declared(bands[0]);
-  return undeclared(
-    `The item is eligible across several life stages (${bands.join(", ") || "none declared"}); the bank declares a band set rather than a single stage.`,
-  );
+function declareLifeStages(
+  bands: readonly string[],
+): ContentFacet<readonly string[]> {
+  if (bands.length === 0) {
+    return undeclared(
+      "The item declares no band; its eligibility names no life stage to read.",
+    );
+  }
+  return declared([...bands].sort());
 }
 
 /** What the item assumes about the people and places around the character. */

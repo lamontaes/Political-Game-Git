@@ -316,12 +316,12 @@ function Detail({ item }: { readonly item: ContentItem }) {
         <dd data-testid="content-browser-detail-authority">{item.authority}</dd>
         <dt>Status</dt>
         <dd data-testid="content-browser-detail-status">{item.status}</dd>
-        <dt>Life stage</dt>
+        <dt>Life stages</dt>
         <dd>
-          {item.lifeStage.kind === "declared" ? (
-            item.lifeStage.value
+          {item.lifeStages.kind === "declared" ? (
+            item.lifeStages.value.join(", ")
           ) : (
-            <Undeclared reason={item.lifeStage.reason} />
+            <Undeclared reason={item.lifeStages.reason} />
           )}
         </dd>
         <dt>Source</dt>
@@ -400,6 +400,32 @@ function Detail({ item }: { readonly item: ContentItem }) {
         facet={item.followUps}
         write={(hook) => `${hook.key} — ${hook.description}`}
       />
+      <Facet
+        heading="Declared structure"
+        facet={item.attributes}
+        write={(attribute) =>
+          `${attribute.key} — ${attribute.label} — ${attribute.description}`
+        }
+      />
+      <Facet
+        heading="Unresolved research"
+        facet={item.unresolvedResearch}
+        write={(gap) => `${gap.key} — ${gap.description}`}
+      />
+      {item.provenance.sources.length > 0 ? (
+        <section className="content-browser__facet">
+          <h3>Cited sources</h3>
+          <ul>
+            {item.provenance.sources.map((source) => (
+              <li key={source.citation}>
+                {source.sourceTitle}, {source.citation} — {source.authority},{" "}
+                {source.verification}
+                {source.retrievedAt ? `, retrieved ${source.retrievedAt}` : ""}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
     </article>
   );
 }

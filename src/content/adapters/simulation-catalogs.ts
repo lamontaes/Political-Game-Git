@@ -27,6 +27,7 @@ import {
   type ContentAuthority,
   type ContentBank,
   type ContentBankId,
+  type ContentAttribute,
   type ContentItem,
   type ContentRequirement,
   type ContentStatus,
@@ -132,7 +133,24 @@ interface CatalogEntry {
   readonly itemKey: string;
   readonly title: string;
   readonly summary: string;
-  readonly facts: readonly ContentRequirement[];
+  /**
+   * What the definition says about itself: a tendency's expressions, a
+   * proposition's parameters, a subject's scope, a metric's aggregation note.
+   *
+   * These used to be reported as the item's *required facts*, which claimed a
+   * world had to show them before the definition applied. They are the
+   * definition's own content, so they are reported as declared structure.
+   */
+  readonly attributes: readonly ContentAttribute[];
+  /**
+   * Rules that genuinely gate the definition, where the catalog has any.
+   *
+   * Only the incident catalog does: an incident definition carries
+   * `prerequisites` and `blockers`, which are conditions on whether it can
+   * occur at all. Everything else in these catalogs is available whenever its
+   * catalog is.
+   */
+  readonly prerequisites: readonly ContentRequirement[];
   readonly tags: readonly string[];
 }
 
@@ -154,22 +172,36 @@ function catalogItems(
     family: entry.family,
     authority,
     status,
-    lifeStage: undeclared(
+    lifeStages: undeclared(
       "A catalog definition is a reference for records to point at, not a moment in a life.",
     ),
     roles: undeclared(
       "A catalog definition names no speaker and no part for anybody to play.",
     ),
-    prerequisites: undeclared(
-      "A definition is available whenever the catalog carrying it is; nothing gates one item behind another.",
+    prerequisites:
+      entry.prerequisites.length > 0
+        ? declared(entry.prerequisites)
+        : undeclared(
+            "A definition is available whenever the catalog carrying it is; this one declares no rule gating it.",
+          ),
+    requiredFacts: undeclared(
+      "A definition names no canonical fact a world must already show. What it declares about itself is reported as declared structure.",
     ),
-    requiredFacts: declared(entry.facts),
     slots: undeclared(
       "Names and descriptions are fixed strings with no substitution slots.",
     ),
     options: undeclared("A definition offers no choice."),
     followUps: undeclared(
       "Consequences are recorded through ordinary evidence and causal history rather than named here.",
+    ),
+    attributes:
+      entry.attributes.length > 0
+        ? declared(entry.attributes)
+        : undeclared(
+            "This definition carries a name and a description and declares no further structure.",
+          ),
+    unresolvedResearch: undeclared(
+      "The definition catalogs are built in code rather than compiled from an instrument, so they record no unresolved research.",
     ),
     tags: [`catalog:${entry.family}`, ...entry.tags],
     provenance: {
@@ -180,6 +212,7 @@ function catalogItems(
       retrievedAt: null,
       verification: null,
       note,
+      sources: [],
     },
   }));
 }
@@ -196,10 +229,12 @@ function collectEntries(catalogs: CatalogSet): readonly CatalogEntry[] {
       itemKey: `personality-tendency/${definition.stableKey}`,
       title: definition.name,
       summary: definition.description,
-      facts: definition.expressions.map((expression) => ({
+      attributes: definition.expressions.map((expression) => ({
         key: `expression:${expression.key}`,
-        description: `${expression.label} — ${expression.description}`,
+        label: expression.label,
+        description: expression.description,
       })),
+      prerequisites: [],
       tags: [`catalog-version:${catalogs.mind.catalogVersion}`],
     });
   }
@@ -213,7 +248,8 @@ function collectEntries(catalogs: CatalogSet): readonly CatalogEntry[] {
       itemKey: `personal-value/${definition.stableKey}`,
       title: definition.name,
       summary: definition.description,
-      facts: [],
+      attributes: [],
+      prerequisites: [],
       tags: [`catalog-version:${catalogs.mind.catalogVersion}`],
     });
   }
@@ -227,7 +263,8 @@ function collectEntries(catalogs: CatalogSet): readonly CatalogEntry[] {
       itemKey: `policy-domain/${definition.stableKey}`,
       title: definition.name,
       summary: definition.description,
-      facts: [],
+      attributes: [],
+      prerequisites: [],
       tags: [`catalog-version:${catalogs.policy.catalogVersion}`],
     });
   }
@@ -241,12 +278,14 @@ function collectEntries(catalogs: CatalogSet): readonly CatalogEntry[] {
       itemKey: `policy-issue/${definition.stableKey}`,
       title: definition.name,
       summary: definition.description,
-      facts: [
+      attributes: [
         {
           key: "domain",
+          label: "Policy domain",
           description: `Belongs to the policy domain ${definition.domainId}.`,
         },
       ],
+      prerequisites: [],
       tags: [`catalog-version:${catalogs.policy.catalogVersion}`],
     });
   }
@@ -260,10 +299,12 @@ function collectEntries(catalogs: CatalogSet): readonly CatalogEntry[] {
       itemKey: `policy-proposition/${definition.stableKey}`,
       title: definition.name,
       summary: definition.question,
-      facts: definition.parameters.map((parameter) => ({
+      attributes: definition.parameters.map((parameter) => ({
         key: `parameter:${parameter.key}`,
+        label: parameter.key,
         description: parameter.value,
       })),
+      prerequisites: [],
       tags: [
         `catalog-version:${catalogs.policy.catalogVersion}`,
         ...definition.tags,
@@ -280,9 +321,14 @@ function collectEntries(catalogs: CatalogSet): readonly CatalogEntry[] {
       itemKey: `knowledge-subject/${definition.stableKey}`,
       title: definition.name,
       summary: definition.description,
-      facts: [
-        { key: "scope", description: `Subject scope: ${definition.scope}.` },
+      attributes: [
+        {
+          key: "scope",
+          label: "Scope",
+          description: `Subject scope: ${definition.scope}.`,
+        },
       ],
+      prerequisites: [],
       tags: [
         `catalog-version:${catalogs.policy.catalogVersion}`,
         ...definition.tags,
@@ -299,7 +345,8 @@ function collectEntries(catalogs: CatalogSet): readonly CatalogEntry[] {
       itemKey: `political-principle/${definition.stableKey}`,
       title: definition.name,
       summary: definition.description,
-      facts: [],
+      attributes: [],
+      prerequisites: [],
       tags: [`catalog-version:${catalogs.policy.catalogVersion}`],
     });
   }
@@ -313,13 +360,19 @@ function collectEntries(catalogs: CatalogSet): readonly CatalogEntry[] {
       itemKey: `world-metric/${definition.stableKey}`,
       title: definition.name,
       summary: definition.description,
-      facts: [
+      attributes: [
         {
           key: "measure-nature",
+          label: "Measure nature",
           description: `Measured as ${definition.measureNature} over a ${definition.referencePeriodKind} reference period.`,
         },
-        { key: "aggregation", description: definition.aggregationNote },
+        {
+          key: "aggregation",
+          label: "Aggregation",
+          description: definition.aggregationNote,
+        },
       ],
+      prerequisites: [],
       tags: [
         `catalog-version:${catalogs.metrics.catalogVersion}`,
         `metric-domain:${definition.domainKey}`,
@@ -336,12 +389,14 @@ function collectEntries(catalogs: CatalogSet): readonly CatalogEntry[] {
       itemKey: `causal-mechanism/${definition.stableKey}`,
       title: definition.name,
       summary: definition.description,
-      facts: [
+      attributes: [
         {
           key: "response-curve",
+          label: "Response curve",
           description: `Responds along a ${definition.responseCurve.kind} curve.`,
         },
       ],
+      prerequisites: [],
       tags: [
         `catalog-version:${catalogs.causal.catalogVersion}`,
         `metric-domain:${definition.domainKey}`,
@@ -359,7 +414,14 @@ function collectEntries(catalogs: CatalogSet): readonly CatalogEntry[] {
       itemKey: `incident/${definition.stableKey}`,
       title: definition.label,
       summary: definition.description,
-      facts: [
+      attributes: [
+        {
+          key: `incident-kind:${definition.incidentKind}`,
+          label: "Incident kind",
+          description: `The definition declares its kind as ${definition.incidentKind}, occurring ${definition.occurrenceMode}.`,
+        },
+      ],
+      prerequisites: [
         ...definition.prerequisites.map((rule) => ({
           key: `prerequisite:${rule.stableKey}`,
           description: `A ${rule.kind} rule must be satisfied.`,
@@ -387,12 +449,14 @@ function collectEntries(catalogs: CatalogSet): readonly CatalogEntry[] {
       itemKey: `mortality-table/${definition.stableKey}`,
       title: definition.label,
       summary: definition.description,
-      facts: [
+      attributes: [
         {
           key: "source-key",
+          label: "Rate source",
           description: `Rates are sourced as ${definition.sourceKey}.`,
         },
       ],
+      prerequisites: [],
       tags: [
         `catalog-version:${catalogs.vitality.catalogVersion}`,
         `vitality-source:${definition.sourceKey}`,

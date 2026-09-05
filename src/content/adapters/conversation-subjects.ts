@@ -62,28 +62,18 @@ function toItem(subject: ConversationSubjectKey): ContentItem {
     family: contract.contextTag,
     authority: "authored",
     status: "production",
-    lifeStage: undeclared(
+    lifeStages: undeclared(
       "A conversation subject is offered by the room it belongs to, and the bank bands nothing by age.",
     ),
     roles: undeclared(
       "Named parts are asked for by a subject's own dialogue through conversationRole at the moment it speaks; the contract declares no role list.",
     ),
-    prerequisites: declared([
-      {
-        key: `room:${contract.contextTag}`,
-        description: `The room has to be one this subject belongs to; a turn is recorded as ${contract.contextTag}.`,
-      },
-    ]),
-    requiredFacts: declared([
-      {
-        key: `event-type:${contract.eventType}`,
-        description: `Every turn writes a canonical ${contract.eventType} event.`,
-      },
-      {
-        key: `setting:${contract.setting}`,
-        description: `The record describes the scene as: ${contract.setting}`,
-      },
-    ]),
+    prerequisites: undeclared(
+      "The commit contract declares the vocabulary a turn is recorded in, not a condition that has to hold before the subject is offered. Which subjects a room offers is decided by the conversation surface against a world.",
+    ),
+    requiredFacts: undeclared(
+      "The contract names no canonical fact a world must already show. The event type and setting it declares describe what a turn WRITES, not what has to be true first, and are reported as declared structure.",
+    ),
     slots: undeclared(
       "Choice sentences are written by closures over a ConversationChoiceContext, so the bank exposes no enumerable slot list.",
     ),
@@ -92,6 +82,31 @@ function toItem(subject: ConversationSubjectKey): ContentItem {
     ),
     followUps: undeclared(
       "A subject advances its own bounded progress and does not name a following content item.",
+    ),
+    attributes: declared([
+      {
+        key: `event-type:${contract.eventType}`,
+        label: "Canonical event type",
+        description: `Every turn on this subject writes a canonical ${contract.eventType} event.`,
+      },
+      {
+        key: `context-tag:${contract.contextTag}`,
+        label: "Context tag",
+        description: `A turn is tagged ${contract.contextTag} in the record.`,
+      },
+      {
+        key: `subject-tag:${contract.subjectTag}`,
+        label: "Subject tag",
+        description: `A turn is tagged ${contract.subjectTag} in the record.`,
+      },
+      {
+        key: `setting:${contract.setting}`,
+        label: "Setting, in the record's own words",
+        description: contract.setting,
+      },
+    ]),
+    unresolvedResearch: undeclared(
+      "Conversation subjects are authored for the game rather than compiled from an instrument, so they record no unresolved research.",
     ),
     tags: [
       contract.contextTag,
@@ -106,6 +121,7 @@ function toItem(subject: ConversationSubjectKey): ContentItem {
       retrievedAt: null,
       verification: null,
       note: contract.motivation,
+      sources: [],
     },
   };
 }
