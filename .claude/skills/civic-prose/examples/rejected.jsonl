@@ -1,0 +1,16 @@
+{"id":"r-001","text":"The furnace is still the furnace.","why":"Internal/abstract shorthand escaping into player prose.","rule":"no-system-label-leakage"}
+{"id":"r-002","text":"Eight hundred dollars arrives that nothing is already claiming.","why":"Unnatural abstract wording; money framed from the ledger's viewpoint.","rule":"natural-english"}
+{"id":"r-003","text":"Something decided earlier...","why":"Internal state/label leakage.","rule":"no-system-label-leakage"}
+{"id":"r-004","text":"The half of the week you agreed to hold.","why":"System-state phrasing leaking into narrative.","rule":"no-system-label-leakage"}
+{"id":"r-005","text":"The thing... / the week... / something...","why":"Vague pointer where the concrete referent is available.","rule":"no-system-label-leakage"}
+{"id":"r-006","text":"Money is tight at home.","why":"Asserts knowledge the character has not actually acquired.","rule":"character-knowledge"}
+{"id":"r-007","text":"Vote no and risk angering leadership.","why":"Uncertain predicted consequence attached to a choice label.","rule":"no-consequence-prediction"}
+{"id":"r-008","text":"Against your instincts, you keep your voice down.","why":"Trait-driven internal narration overriding the player's explicit choice.","rule":"choice-outranks-trait"}
+{"id":"r-009","text":"[artificially childlike wording because the character is young]","why":"Age operates through knowledge, capability, authority, and noticed detail — never diction.","rule":"age-not-diction"}
+{"id":"r-010","text":"[dramatic payoff for every traced memory, repaid favor, or minor event]","why":"Importance must be canonical, not engine-causal.","rule":"earned-weight"}
+{"id":"r-011","text":"At 9:07, your phone rings. It's your mom.","why":"Cinematic suspense by default for a serious event (a death); owner prefers grounded directness.","rule":"no-default-suspense"}
+{"id":"r-012","text":"Don't answer.","why":"Collapses politically meaningful behavior — silence vs. evasion are distinct actions when the distinction matters.","rule":"action-clarity"}
+{"id":"r-013","text":"Marcus, your friend and caucus leader, asks you for the vote.","why":"Repeated relationship re-explanation for an established recurring character.","rule":"familiarity"}
+{"id":"r-014","text":"A month later. / School continued... / The house went on...","why":"Mechanical or synonym-cycled transitions; NO PROSE is often the right treatment.","rule":"transition-discipline"}
+{"id":"r-015","text":"You've been knocking doors for three hours.","why":"Campaign-insider jargon as default narrative register; legal only in professional dialogue.","rule":"register"}
+{"id":"r-016","text":"This reminds you of...","why":"Prose forced to explain a causal connection merely because the engine can trace it.","rule":"memory-salience"}
