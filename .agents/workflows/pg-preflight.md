@@ -2,7 +2,8 @@
 
 1. run `npm run agent:preflight`;
 2. read `AGENTS.md`;
-3. read `docs/agent/ACTIVE-HANDOFF.md` if present;
+3. read root `CLAUDE.md` and the current handoff named by the canonical Drive
+   index;
 4. fetch origin;
 5. identify:
    - absolute workspace;

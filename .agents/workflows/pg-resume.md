@@ -1,6 +1,7 @@
 # PG Resume Workflow
 
-- read `ACTIVE-HANDOFF.md` first;
+- read root `CLAUDE.md` and the canonical Drive current-control chain first
+  (the repo no longer carries a current handoff file);
 - fetch origin;
 - verify expected SHA ancestry;
 - confirm intended worktree and branch;

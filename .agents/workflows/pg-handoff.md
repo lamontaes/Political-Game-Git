@@ -1,6 +1,6 @@
 # PG Handoff Workflow
 
-Update `docs/agent/ACTIVE-HANDOFF.md` with:
+Update the current handoff named by the canonical Drive index with:
 
 - timestamp;
 - agent/model;
