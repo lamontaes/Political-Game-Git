@@ -89,6 +89,10 @@ export const PERMITTED_EXCEPTIONS: ReadonlyMap<string, string> = new Map([
     "src/simulation/index.ts",
     "Packet 66 exports ./canonical-json from the simulation barrel so the causal-trace export can reach the world's own emitter instead of writing a second serializer. The barrel gains one export line; no simulation module is modified.",
   ],
+  [
+    "src/simulation/character-history.ts",
+    "Packet 67 adds one accessor, lifeSituationCatalog(), so the content index can read the formative bank without constructing a world. No situation, key or behaviour is changed.",
+  ],
 ]);
 
 export const FORBIDDEN: readonly OwnedSurface[] = [
@@ -144,19 +148,21 @@ export const FORBIDDEN: readonly OwnedSurface[] = [
  * widening this allowlist does not relax FORBIDDEN, which is what actually
  * guards other people's systems.
  *
- * `src/devtools/`, `src/cli/` and `tsconfig.node.json` are here because the
- * graphics packet merged into `main` and this check came with it, so it now
- * measures whichever branch is running rather than only that lane. Packet 66's
- * development causal-trace inspector owns those three surfaces outright: a new
- * namespace, two new command-line entry points, and the project file that has
- * to list them because the project is composite. Naming them is what keeps the
- * rest of the list meaningful — the alternative was to stop asserting the
+ * `src/devtools/`, `src/content/`, `src/cli/`, `tsconfig.node.json` and
+ * `.gitignore` are here because the graphics packet merged into `main` and this
+ * check came with it, so it now measures whichever branch is running rather
+ * than only that lane. Packet 66's development causal-trace inspector and
+ * Packet 67's declarative content bank and development Content Browser own
+ * those surfaces outright: two new namespaces, three command-line entry points,
+ * the ignore rule for the content export directory, and the project file that
+ * has to list them because the project is composite. Naming them is what keeps
+ * the rest of the list meaningful — the alternative was to stop asserting the
  * boundary at all on any branch that is not the graphics lane. FORBIDDEN is
  * untouched, so player, save, legislation, place and name systems are guarded
  * exactly as before.
  */
 export const ALLOWED =
-  /^(\.claude\/launch\.json|\.github\/workflows\/|src\/authoring\/|src\/cli\/|src\/devtools\/|src\/environment\/|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/player\/OfficeScene\.tsx|src\/player\/ModularCharacter\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/useRasterTier\.ts|src\/player\/useSceneTransform\.ts|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|tsconfig\.node\.json|AGENTS\.md|PATCH_NOTES\.md)/;
+  /^(\.claude\/launch\.json|\.github\/workflows\/|src\/authoring\/|src\/cli\/|src\/content\/|src\/devtools\/|src\/environment\/|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/player\/OfficeScene\.tsx|src\/player\/ModularCharacter\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/useRasterTier\.ts|src\/player\/useSceneTransform\.ts|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|tsconfig\.node\.json|\.gitignore|AGENTS\.md|PATCH_NOTES\.md)/;
 
 function git(repositoryRoot: string, args: readonly string[]): string {
   return execFileSync("git", [...args], {

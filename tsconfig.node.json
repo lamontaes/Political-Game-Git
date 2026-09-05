@@ -15,6 +15,7 @@
     "playwright.config.ts",
     "scripts/source/**/*.ts",
     "src/cli/**/*.ts",
+    "src/content/**/*.ts",
     "src/devtools/**/*.ts",
     "src/environment/**/*.ts",
     "src/persistence/**/*.ts",
