@@ -1,6 +1,11 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import {
+  EPISODE_FAMILIES,
+  adultSituationBank,
+  setupQuestionnaireBank,
+} from "../src/simulation";
+import {
   DEFAULT_NEW_GAME_SETUP,
   type NewGameSetup,
 } from "../src/presentation/new-game";
@@ -428,6 +433,7 @@ interface DistinctEntry {
   readonly id: string;
   readonly kind: string;
   readonly text: string;
+  readonly source: "played" | "bank";
   occurrences: number;
   readonly contexts: {
     age: number;
@@ -438,6 +444,145 @@ interface DistinctEntry {
   }[];
   recordBacked: boolean | null;
   lintCategories: string[];
+}
+
+/**
+ * Every authored player-facing string lifted straight from the banks the game
+ * can enumerate statically (episodes, adult situations, and the setup
+ * questionnaire). Slots like {who:household-peer} are left unfilled — the owner
+ * is reviewing the authored template, not one realization of it. This is what
+ * takes the review corpus from "what a playthrough happened to hit" toward the
+ * whole authored surface. (The 20-entry formative bank is a private const and
+ * is NOT reachable here yet — see RN-1 in the action board.)
+ */
+function staticBankInventory(): ProseInventoryItem[] {
+  const items: ProseInventoryItem[] = [];
+  const base = {
+    date: "",
+    place: null,
+    present: [],
+    personName: "",
+    source: "bank" as const,
+  };
+
+  for (const family of EPISODE_FAMILIES) {
+    for (const stage of family.stages) {
+      const label = `bank:episode:${family.key}/${stage.key}`;
+      const prose = stage.lines.join(" ").trim();
+      if (prose.length > 0) {
+        items.push({
+          localKey: label,
+          kind: "authored-scene",
+          text: prose,
+          sceneKind: "episode",
+          age: 0,
+          configLabel: label,
+          recordBacked: null,
+          ...base,
+        });
+      }
+      for (const option of stage.options) {
+        const text = option.description
+          ? `${option.label} — ${option.description}`
+          : option.label;
+        items.push({
+          localKey: `${label}#${option.key}`,
+          kind: "choice",
+          text,
+          sceneKind: "episode",
+          age: 0,
+          configLabel: label,
+          recordBacked: null,
+          ...base,
+        });
+        if (option.memory && option.memory.trim().length > 0) {
+          items.push({
+            localKey: `${label}#${option.key}.memory`,
+            kind: "authored-scene",
+            text: option.memory.trim(),
+            sceneKind: "episode-memory",
+            age: 0,
+            configLabel: label,
+            recordBacked: null,
+            ...base,
+          });
+        }
+      }
+    }
+  }
+
+  for (const situation of adultSituationBank()) {
+    const label = `bank:adult:${situation.key}`;
+    if (situation.prose.trim().length > 0) {
+      items.push({
+        localKey: label,
+        kind: "authored-scene",
+        text: situation.prose.trim(),
+        sceneKind: "adult",
+        age: 0,
+        configLabel: label,
+        recordBacked: null,
+        ...base,
+      });
+    }
+    for (const option of situation.options) {
+      const text = option.description
+        ? `${option.label} — ${option.description}`
+        : option.label;
+      items.push({
+        localKey: `${label}#${option.key}`,
+        kind: "choice",
+        text,
+        sceneKind: "adult",
+        age: 0,
+        configLabel: label,
+        recordBacked: null,
+        ...base,
+      });
+      if (option.memory && option.memory.trim().length > 0) {
+        items.push({
+          localKey: `${label}#${option.key}.memory`,
+          kind: "authored-scene",
+          text: option.memory.trim(),
+          sceneKind: "adult-memory",
+          age: 0,
+          configLabel: label,
+          recordBacked: null,
+          ...base,
+        });
+      }
+    }
+  }
+
+  for (const item of setupQuestionnaireBank()) {
+    const label = `bank:calibration:${item.key}`;
+    if (item.prompt.trim().length > 0) {
+      items.push({
+        localKey: label,
+        kind: "authored-scene",
+        text: item.prompt.trim(),
+        sceneKind: `calibration:${item.register}`,
+        age: 0,
+        configLabel: label,
+        recordBacked: null,
+        ...base,
+      });
+    }
+    for (const option of item.options) {
+      items.push({
+        localKey: `${label}#${option.key}`,
+        kind: "choice",
+        text: option.text,
+        sceneKind: `calibration:${item.register}`,
+        age: 0,
+        configLabel: label,
+        recordBacked: null,
+        ...base,
+      });
+    }
+  }
+
+  return items;
 }
 
 function main(): void {
@@ -471,6 +616,12 @@ function main(): void {
     }
   }
 
+  // Played strings come first (so their ids stay stable); then the static
+  // authored-bank templates that a playthrough may never have reached.
+  const bankItems = staticBankInventory();
+  for (const item of bankItems) allInventory.push(item);
+  const playedCount = allInventory.length - bankItems.length;
+
   // --- transcripts.md -------------------------------------------------------
   const md: string[] = [
     "# Deterministic Playthrough Corpus — Our Civic Duty",
@@ -492,13 +643,14 @@ function main(): void {
   const distinct = new Map<string, DistinctEntry>();
   const order: string[] = [];
   for (const item of allInventory) {
-    const key = `${item.kind}:::${item.text}`;
+    const key = `${item.source}:::${item.kind}:::${item.text}`;
     let entry = distinct.get(key);
     if (!entry) {
       entry = {
         id: "",
         kind: item.kind,
         text: item.text,
+        source: item.source,
         occurrences: 0,
         contexts: [],
         recordBacked: item.recordBacked,
@@ -531,7 +683,12 @@ function main(): void {
   for (const kind of kindsOrder) {
     const entriesOfKind = order
       .map((key) => distinct.get(key)!)
-      .filter((entry) => entry.kind === kind);
+      .filter((entry) => entry.kind === kind)
+      // Played strings first so their speakable ids stay stable when the static
+      // bank templates are added or change; templates take the higher numbers.
+      .sort((left, right) =>
+        left.source === right.source ? 0 : left.source === "played" ? -1 : 1,
+      );
     for (const entry of entriesOfKind) {
       counter += 1;
       const prefix = kindPrefix[kind] ?? "X";
@@ -539,6 +696,7 @@ function main(): void {
       finalDistinct.push(entry);
     }
   }
+  const bankDistinct = finalDistinct.filter((e) => e.source === "bank").length;
 
   writeFileSync(
     join(OUT_DIR, "prose-inventory.json"),
@@ -548,7 +706,10 @@ function main(): void {
         lives: MATRIX.length,
         beats: totalBeats,
         distinctStrings: finalDistinct.length,
+        distinctPlayed: finalDistinct.length - bankDistinct,
+        distinctBankTemplates: bankDistinct,
         proseInstances: allInventory.length,
+        playedInstances: playedCount,
         items: finalDistinct,
       },
       null,
@@ -619,7 +780,7 @@ function main(): void {
       `Wrote corpus to ${OUT_DIR}`,
       `  lives: ${MATRIX.length}`,
       `  beats: ${totalBeats}`,
-      `  distinct player-facing strings: ${finalDistinct.length}`,
+      `  distinct player-facing strings: ${finalDistinct.length} (${finalDistinct.length - bankDistinct} played + ${bankDistinct} bank templates)`,
       `  prose instances: ${allInventory.length}`,
       `  lint findings: ${totalFindings}`,
       ...sorted.map(([category, list]) => `    ${category}: ${list.length}`),

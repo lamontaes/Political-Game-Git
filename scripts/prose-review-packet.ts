@@ -24,6 +24,7 @@ interface InventoryItem {
   readonly id: string;
   readonly kind: string;
   readonly text: string;
+  readonly source: "played" | "bank";
   readonly occurrences: number;
   readonly recordBacked: boolean | null;
   readonly lintCategories: readonly string[];
@@ -55,6 +56,7 @@ const KIND_LABEL: Record<string, string> = {
 };
 
 function ageRange(item: InventoryItem): string {
+  if (item.source === "bank") return "authored template";
   const ages = item.contexts.map((context) => context.age);
   const min = Math.min(...ages);
   const max = Math.max(...ages);
@@ -68,7 +70,7 @@ function csvCell(text: string): string {
 /* ------------------------------- the CSV --------------------------------- */
 
 const csvRows = [
-  "id,kind,text,occurrences,age_range,place,scene,present,flags,mark,notes",
+  "id,kind,source,text,occurrences,age_range,place,scene,present,flags,mark,notes",
 ];
 for (const item of inventory.items) {
   const context = item.contexts[0];
@@ -76,6 +78,7 @@ for (const item of inventory.items) {
     [
       item.id,
       KIND_LABEL[item.kind] ?? item.kind,
+      item.source,
       csvCell(item.text),
       String(item.occurrences),
       ageRange(item),
@@ -98,6 +101,7 @@ const pageData = inventory.items.map((item) => {
   return {
     id: item.id,
     kind: item.kind,
+    source: item.source,
     text: item.text,
     occ: item.occurrences,
     ageRange: ageRange(item),
@@ -119,6 +123,12 @@ for (const item of inventory.items) {
 }
 const flaggedTotal = inventory.items.filter(
   (item) => item.lintCategories.length > 0,
+).length;
+const playedTotal = inventory.items.filter(
+  (item) => item.source === "played",
+).length;
+const bankTotal = inventory.items.filter(
+  (item) => item.source === "bank",
 ).length;
 
 const STYLE = `
@@ -256,6 +266,7 @@ button.action:hover { filter: brightness(0.97); }
   color: var(--ink-faint);
 }
 .chip.occ { font-family: "IBM Plex Mono", monospace; }
+.chip.template { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
 .flag {
   font-size: 0.68rem; padding: 0.1rem 0.45rem; border-radius: 999px;
   background: var(--flag-bg); color: var(--flag-ink); border: 1px solid transparent;
@@ -310,13 +321,14 @@ const SCRIPT = `
   try { marks = JSON.parse(localStorage.getItem(STORE_KEY) || "{}") || {}; } catch (e) { marks = {}; }
   function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(marks)); } catch (e) {} }
 
-  var state = { kind: "all", flag: "all", q: "", unmarkedOnly: false };
+  var state = { kind: "all", flag: "all", source: "all", q: "", unmarkedOnly: false };
   var root = document.getElementById("list");
 
   function markCount() { return Object.keys(marks).filter(function (k) { return marks[k] && marks[k].m; }).length; }
 
   function matches(item) {
     if (state.kind !== "all" && item.kind !== state.kind) return false;
+    if (state.source !== "all" && item.source !== state.source) return false;
     if (state.flag === "flagged" && item.flags.length === 0) return false;
     if (state.flag !== "all" && state.flag !== "flagged" && item.flags.indexOf(state.flag) === -1) return false;
     if (state.unmarkedOnly && marks[item.id] && marks[item.id].m) return false;
@@ -349,6 +361,7 @@ const SCRIPT = `
     top.appendChild(el("span", "id", item.id));
     top.appendChild(el("span", "chip", KIND_LABEL[item.kind] || item.kind));
     if (item.occ > 1) top.appendChild(el("span", "chip occ", "×" + item.occ));
+    if (item.source === "bank") top.appendChild(el("span", "chip template", "template"));
     item.flags.forEach(function (f) { top.appendChild(el("span", "flag", f)); });
     wrap.appendChild(top);
 
@@ -441,6 +454,13 @@ const SCRIPT = `
       render();
     });
   });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-source]"), function (b) {
+    b.addEventListener("click", function () {
+      state.source = b.getAttribute("data-source");
+      Array.prototype.forEach.call(document.querySelectorAll("[data-source]"), function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
   document.getElementById("unmarked").addEventListener("change", function (e) { state.unmarkedOnly = e.target.checked; render(); });
 
   document.getElementById("copy").addEventListener("click", function () {
@@ -502,11 +522,11 @@ const html = `<meta charset="utf-8">
   <header class="masthead">
     <p class="eyebrow">Our Civic Duty · Prose Reading Copy</p>
     <h1>Every line the game says to a player, for marking</h1>
-    <p class="lede">A deterministic reading copy of ${inventory.distinctStrings} distinct player-facing lines, drawn from ${inventory.lives} canonical lives (${inventory.beats} beats) on accepted <code>main</code>. Each line carries a speakable id — say &ldquo;S&#8209;0002 good&rdquo; or &ldquo;N&#8209;0216 bad&rdquo; and it can be ingested later. Marks are saved in this browser. Nothing here judges the writing; you do.</p>
+    <p class="lede">A deterministic reading copy of ${inventory.distinctStrings} distinct player-facing lines: ${playedTotal} as a player actually reads them across ${inventory.lives} canonical lives (${inventory.beats} beats), plus ${bankTotal} authored bank <em>templates</em> (episodes, adult situations, calibration) with their {slots} unfilled, so the whole authored surface is reviewable — all on accepted <code>main</code>. Each line carries a speakable id — say &ldquo;S&#8209;0002 good&rdquo; or &ldquo;N&#8209;0216 bad&rdquo; and it can be ingested later. Marks are saved in this browser. Nothing here judges the writing; you do.</p>
     <div class="stats">
-      <div class="stat"><div class="n">${inventory.lives}</div><div class="l">lives</div></div>
-      <div class="stat"><div class="n">${inventory.beats}</div><div class="l">beats</div></div>
       <div class="stat"><div class="n">${inventory.distinctStrings}</div><div class="l">distinct lines</div></div>
+      <div class="stat"><div class="n">${playedTotal}</div><div class="l">played</div></div>
+      <div class="stat"><div class="n">${bankTotal}</div><div class="l">templates</div></div>
       <div class="stat"><div class="n">${flaggedTotal}</div><div class="l">lint-flagged</div></div>
       <div class="stat progress"><div class="n"><span id="marked-n">0</span></div><div class="l">you marked</div></div>
     </div>
@@ -520,6 +540,11 @@ const html = `<meta charset="utf-8">
       ${segButton("data-kind", "choice", "Choices", false)}
       ${segButton("data-kind", "connective", "Narration", false)}
       ${segButton("data-kind", "thread-recap", "Threads", false)}
+    </div>
+    <div class="seg" role="group" aria-label="Source">
+      ${segButton("data-source", "all", "All", true)}
+      ${segButton("data-source", "played", `Played (${playedTotal})`, false)}
+      ${segButton("data-source", "bank", `Templates (${bankTotal})`, false)}
     </div>
     <div class="seg" role="group" aria-label="Flags">
       ${segButton("data-flag", "all", "All", true)}

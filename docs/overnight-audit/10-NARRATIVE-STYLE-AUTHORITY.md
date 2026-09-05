@@ -92,7 +92,7 @@ Good news: the audit found **no virtue-button choices** in the episode or adult 
 
 ## 7. Scenarios must be concrete, not "the thing that was planned"
 
-18 vague-referent findings, all from the **formative bank** (only ~20 situations, `AUTHORED_SITUATIONS`, `character-history.ts`). Examples: _"The thing that was planned for this month is not happening any more."_ and _"The house needs you on the same afternoons the thing you signed up for does."_ Compare the concrete episode families ("the corridor", "the little brother's late nights"). A scenario that names its stakes only as "the thing"/"the plan" gives the player nothing to picture. **Rewrite the formative bank to episode-family concreteness, and expand it — it is the weakest, thinnest, vaguest bank.**
+18 vague-referent findings, all from the **formative bank** (only ~20 situations, `AUTHORED_SITUATIONS`, `character-history.ts` — the one authored bank not yet in the review packet, since it is a private const; the episode/adult/calibration banks are fully covered, 720 templates). Examples: _"The thing that was planned for this month is not happening any more."_ and _"The house needs you on the same afternoons the thing you signed up for does."_ Compare the concrete episode families ("the corridor", "the little brother's late nights"). A scenario that names its stakes only as "the thing"/"the plan" gives the player nothing to picture. **Rewrite the formative bank to episode-family concreteness, and expand it — it is the weakest, thinnest, vaguest bank.**
 
 ---
 

@@ -13,7 +13,7 @@ Read this first. Detail follows; the deep docs are numbered `10`–`50` in this 
 **2. What did I actually implement (real code, verified)?**
 
 - A **deterministic playthrough harness** (`src/presentation/playthrough-transcript.ts`) that drives the _real_ player projection into a readable transcript + a contextualized prose inventory + a narrative lint. Pure, deterministic, and kept out of the play surface (guard test extended).
-- A **matrix corpus generator** (`npm run corpus:narrative`) → `docs/overnight-audit/corpus/`: `transcripts.md` (27 lives, 260 beats), `prose-inventory.json` (443 distinct player-facing strings with durable speakable IDs), `lint-summary.md` (418 findings).
+- A **matrix corpus generator** (`npm run corpus:narrative`) → `docs/overnight-audit/corpus/`: `transcripts.md` (27 lives, 260 beats), `prose-inventory.json` (**1163 distinct player-facing strings** with durable speakable IDs — 443 as a player reads them + 720 authored-bank templates statically extracted from the episode, adult, and calibration banks), `lint-summary.md` (418 findings).
 - A **prose-review packet generator** (`npm run packet:prose`) → an interactive, printable review page **published as a private artifact** (link in Q9) + `prose-inventory.csv`.
 - Tests: a determinism/behavior test for the harness. **Full suite: 1684 passing** (typecheck/eslint/prettier clean).
 - A proposed root **`CLAUDE.md` bridge** (as a proposal file, not activated).
@@ -28,10 +28,10 @@ Read this first. Detail follows; the deep docs are numbered `10`–`50` in this 
 
 **4. What can I launch immediately?** (full packets in `50-ACTION-BOARD.md` §1)
 
-- **RN-1** Export `formativeSituationBank()` + test (closes a harness gap).
-- **RN-2** Extend the corpus tool to statically extract 100% of authored banks (currently ~half are covered).
+- **RN-1** Export `formativeSituationBank()` + test — the last un-covered bank (the 20-situation formative bank is a private const); everything else is now in the corpus.
 - **RN-3** Additive docs reconciliation (record the narrative wave in the DECISION-LOG; mark stale `ACTIVE-HANDOFF`/roadmap items superseded).
 - **RN-4** Record an `EpisodeExclusion` when a role can't bind (observability).
+- (RN-2, static extraction of the authored banks, was **completed during the run** — the corpus now covers the episode, adult, and calibration banks; only the private formative bank remains, gated on RN-1.)
 
 **5. What is waiting on #91 or another merge?** (`50` §2)
 
@@ -59,7 +59,7 @@ Read this first. Detail follows; the deep docs are numbered `10`–`50` in this 
 3. The **formative bank is thin (~20), vague ("the thing that was planned"), and not age-scaled** (ages 5–7 have no true content; episodes fire identically at 5 and 10).
 4. Calibration age-mismatch (Q6 decision).
 
-**9. Where is the printable prose review packet?** Private artifact: **https://claude.ai/code/artifact/09a0fd60-860e-47f6-a978-b9e218ed2634** — every distinct line by speakable ID, filter by lint flag, mark GOOD/AWKWARD/BAD/WRONG-CONTEXT/REPETITIVE, "Copy marks" to export, and print-to-PDF ready. Editable master: `docs/overnight-audit/prose-inventory.csv`.
+**9. Where is the printable prose review packet?** Private artifact: **https://claude.ai/code/artifact/09a0fd60-860e-47f6-a978-b9e218ed2634** — all **1163** distinct lines by speakable ID; filter by **Played vs Template** and by lint flag; mark GOOD/AWKWARD/BAD/WRONG-CONTEXT/REPETITIVE; "Copy marks" to export; print-to-PDF ready. Editable master: `docs/overnight-audit/prose-inventory.csv`.
 
 **10. Where is the deterministic playthrough corpus?** `docs/overnight-audit/corpus/transcripts.md` (readable), `prose-inventory.json` (machine), `lint-summary.md` (diagnostics). Regenerate anytime with `npm run corpus:narrative` — byte-identical.
 
@@ -79,6 +79,6 @@ Read this first. Detail follows; the deep docs are numbered `10`–`50` in this 
 - **Tests run:** `npm run typecheck` (clean), `npm run test` (**1684 passing, 103 files**), eslint + prettier clean on the tree, `npm run corpus:narrative` + `npm run packet:prose` (deterministic).
 - **Artifacts:** the corpus (3 files), the prose-inventory JSON/CSV, the review-packet HTML (published private artifact), six synthesis docs, a proposed `CLAUDE.md`.
 - **Verified in-browser:** the review packet renders, marks, filters, and both themes work.
-- **Not done / deliberately deferred:** static extraction of the _full_ authored banks (only playthrough-hit strings are in the corpus so far — RN-2); future-system narrative _content contracts_ (design-ready but not written); any change to `main` or an active PR; PDF generation (the artifact prints to PDF directly).
+- **Not done / deliberately deferred:** static extraction of the **formative** bank (it is a private const — RN-1; the episode, adult, and calibration banks ARE now extracted, 720 templates); future-system narrative _content contracts_ (design-ready but not written); any change to `main` or an active PR; PDF generation (the artifact prints to PDF directly).
 
 **Determinism/honesty notes:** the corpus is generated on `main`, so it audits #87's shipped narrative, not #91's new formative content — regenerate against post-#91 `main` after #91 merges. The narrative lint is **diagnostic only**; your marks on the review packet are the real quality signal.

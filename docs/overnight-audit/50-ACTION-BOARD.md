@@ -19,11 +19,9 @@ These are additive, reversible, don't overlap an active feature PR, and are usef
 - **Overlap:** low; touches sim-core. If #83 (declarative content) is actively editing `character-history.ts`, coordinate; otherwise safe.
 - **Size:** XS. **Validation:** typecheck + a test asserting count/shape; then it can feed a static-extraction pass in the corpus tool.
 
-### RN-2 — Extend the narrative corpus tool to statically extract 100% of authored banks
+### RN-2 — Statically extract the authored banks into the corpus — **DONE during this run**
 
-- **Accomplishes:** the current corpus (443 distinct strings) only covers what playthroughs _hit_ (~half the ~900 authored strings). Add a static walk of `EPISODE_FAMILIES`, `adultSituationBank()`, `formativeSituationBank()` (after RN-1), and the setup banks, so the review packet covers the whole bank.
-- **Files:** `scripts/narrative-corpus.ts`, `scripts/prose-review-packet.ts`, `src/presentation/playthrough-transcript.ts` (this run's additive tooling — no feature overlap).
-- **Overlap:** none (my overnight branch owns these). **Size:** S. **Validation:** re-run `corpus:narrative` + `packet:prose`, diff counts.
+- **Done:** the corpus now walks `EPISODE_FAMILIES`, `adultSituationBank()`, and `setupQuestionnaireBank()` statically, adding **720 authored-bank templates** to the review packet (total **1163** distinct strings, filterable Played vs Template). **Remaining:** the formative bank, which is a private const — do RN-1 first, then add `formativeSituationBank()` to `staticBankInventory()` in `scripts/narrative-corpus.ts`. **Size of remainder:** XS.
 
 ### RN-3 — Docs reconciliation (additive only; delete nothing)
 

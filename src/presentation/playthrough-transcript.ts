@@ -445,6 +445,12 @@ export interface ProseInventoryItem {
   readonly personName: string;
   /** For connective sentences only: whether a canonical record backs it. */
   readonly recordBacked: boolean | null;
+  /**
+   * Where the string came from. "played" = rendered in a real playthrough (with
+   * canonical values filled in). "bank" = an authored template lifted straight
+   * from a content bank (slots like {who:household-peer} left unfilled).
+   */
+  readonly source: "played" | "bank";
 }
 
 /** Every distinct player-facing string a transcript produced, with context. */
@@ -455,6 +461,7 @@ export function transcriptToInventory(
   const base = {
     configLabel: transcript.label,
     personName: transcript.personName,
+    source: "played" as const,
   };
   for (const beat of transcript.beats) {
     const context = {
