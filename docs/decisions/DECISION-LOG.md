@@ -2102,3 +2102,52 @@ declarative content-bank and Content Browser obligations are discharged here
 rather than rebuilt. Extracting declarative metadata from `run-b-conversation`'s
 dialogue and from the Run-C working document remains deliberately unimplemented:
 both are world- and state-dependent renderings, not banks.
+
+## D-077 — Executive authority is a referenced rule substrate, populated only to researched depth
+
+- Date: 2026-09-05
+- Status: ACCEPTED
+- Supersedes: none
+
+Introduce `src/simulation/executive-authority-rules.ts` (the contract, readers
+and integrity validator) and `src/simulation/executive-authority-rule-packs.ts`
+(the jurisdiction data) as a data-and-readers substrate for executive powers and
+constraints, alongside the legislative rule packs. It reuses the legislature
+contract's `RuleValue` known / unknown / not-applicable semantics and sources
+every value.
+
+Bill-presentment facts — presentment, action windows, inaction outcome,
+line-item veto and override — are NOT restated. They remain owned by
+`LegislativeRulePack.executive`, and an executive pack references the legislative
+pack by id; `resolvePresentmentAuthority` resolves them from that pack and fails
+closed when no pack is referenced. No second copy of the veto exists.
+
+Corpus boundary, recorded because it constrains what the packs may claim:
+
+- The intended `92H` executive-governing research packet does not exist in the
+  Drive chain, and no federal-executive or Wisconsin executive research exists.
+  Confirmed by direct search, not assumed.
+- The five state packs (KY, NE, AK, MN, IL) are built from the 92A
+  jurisdiction-authority wave, which resolved only office identity, the
+  separately-elected officers, and appointment/confirmation authority. The other
+  nine dimensions (removal, special session, executive orders, reorganization,
+  emergency declaration, clemency, budget submission, administrative duty,
+  militia command) stay `unknown` in every state pack.
+- The federal pack rests on U.S. Constitution Article II. Its clauses are
+  `known` but their sources are marked `unresolved`: the operative text was not
+  independently retrieved for this pack. Federal statutory dimensions stay
+  `unknown`.
+- Wisconsin is deliberately not packed. Building it would require inventing
+  state-constitutional citations, which this repository does not do. It is
+  carried as an explicit gap in `UNRESEARCHED_JURISDICTIONS`.
+
+Rejected alternatives: fabricating federal, Wisconsin, or the nine unresearched
+state dimensions from model knowledge to fill the intended corpus (violates the
+no-fabricated-sourcing rule); and adding the 92H product ideas that are not
+accepted primitives — a veto-deterrence, legal-risk, morale, competence,
+loyalty, confirmability or "strong executive" score. None of those are encoded.
+
+Consequence: the substrate is reusable across jurisdictions and grows by adding
+sourced data, never by widening the engine; a later executive-governance
+research pass fills the unknown dimensions and adds Wisconsin without any schema
+change.
