@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 
-import { companionRoleFor } from "../presentation/formative-context";
 import { conversationSubjectKeys } from "../presentation/conversation-subjects";
 import { ORDINARY_LIFE_WORK_ITEMS } from "../presentation/ordinary-life";
 import { lifeSituationCatalog } from "../simulation/character-history";
@@ -260,14 +259,28 @@ describe("searching and filtering", () => {
     }
   });
 
-  it("narrows by the speaker or role a scene requires", () => {
-    const teacherScenes = lifeSituationCatalog().filter(
-      (situation) => companionRoleFor(situation.key) === "teacher",
+  it("narrows by the generic companion role a situation declares", () => {
+    // A formative situation declares only THAT a companion is needed
+    // (needsCompanion), not which part they play, so the role a filter finds it
+    // by is the generic `companion`. The specific peer/teacher/household-adult
+    // roles live in the presentation layer and are not indexed.
+    const companionScenes = lifeSituationCatalog().filter(
+      (situation) => situation.needsCompanion,
     );
-    const found = queryContentItems(index.items, { roles: ["teacher"] });
+    expect(companionScenes.length).toBeGreaterThan(0);
+    const found = queryContentItems(index.items, {
+      bankIds: ["content.life-situations"],
+      roles: ["companion"],
+    });
     expect(found.map((item) => item.itemKey).sort()).toStrictEqual(
-      teacherScenes.map((situation) => situation.key).sort(),
+      companionScenes.map((situation) => situation.key).sort(),
     );
+    // The specialised roles are not a filterable dimension of the index at all.
+    for (const role of ["peer", "teacher", "household-adult"]) {
+      expect(queryContentItems(index.items, { roles: [role] })).toStrictEqual(
+        [],
+      );
+    }
   });
 
   it("finds an item by its own content id", () => {

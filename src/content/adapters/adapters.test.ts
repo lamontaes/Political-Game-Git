@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+
 import { describe, expect, it } from "vitest";
 
 import { conversationCommitContract } from "../../presentation/conversation-subjects";
@@ -48,11 +51,18 @@ describe("adapters report what their banks actually say", () => {
       expect(
         declaredList(item.options).map((option) => option.key),
       ).toStrictEqual(situation.options.map((option) => option.key));
-      expect(declaredList(item.roles).map((role) => role.key)).toStrictEqual(
-        companionRoleFor(situation.key)
-          ? [companionRoleFor(situation.key)]
-          : [],
-      );
+      // Casting is read from the source's own `needsCompanion` alone: a generic
+      // required `companion` where one is needed, undeclared where none is. The
+      // specific part comes from a presentation-layer mapping the source does
+      // not own, so it is not reported here.
+      if (situation.needsCompanion) {
+        expect(declaredList(item.roles).map((role) => role.key)).toStrictEqual([
+          "companion",
+        ]);
+        expect(declaredList(item.roles)[0]?.required).toBe(true);
+      } else {
+        expect(item.roles.kind).toBe("undeclared");
+      }
     }
   });
 
@@ -686,6 +696,70 @@ describe("no adapter reports a concept its source does not declare", () => {
       }
     }
     expect(sawAgeBound).toBe(true);
+  });
+
+  it("reads life-situation casting only from the source's own needsCompanion", () => {
+    // The adapter must not depend on companionRoleFor: the specific companion
+    // part (peer, teacher, household-adult) comes from a presentation-layer
+    // runtime mapping, not from lifeSituationCatalog, which the item names as its
+    // source. So the adapter file imports nothing from formative-context, and no
+    // indexed life-situation role carries a specialised key.
+    const adapterSource = readFileSync(
+      fileURLToPath(new URL("./life-situations.ts", import.meta.url)),
+      "utf8",
+    );
+    // No import statement pulls from the presentation layer, and the runtime
+    // mapping is never called. (The doc comment may name them to explain why
+    // they are avoided, so match import/call syntax rather than the bare word.)
+    const importLines = adapterSource
+      .split("\n")
+      .filter((line) => /^\s*import\b/.test(line));
+    for (const line of importLines) {
+      expect(line).not.toContain("formative-context");
+      expect(line).not.toContain("companionRoleFor");
+    }
+    expect(adapterSource).not.toContain("companionRoleFor(");
+
+    const SPECIFIC_ROLES = ["peer", "teacher", "household-adult"];
+    for (const situation of lifeSituationCatalog()) {
+      const item = itemOf(`content.life-situations/${situation.key}`);
+      for (const role of declaredList(item.roles)) {
+        expect(SPECIFIC_ROLES).not.toContain(role.key);
+      }
+      // needsCompanion is preserved, both as a role (when true) and as the
+      // needs-companion attribute (always).
+      const attributeKeys = declaredList(item.attributes).map(
+        (attribute) => attribute.key,
+      );
+      expect(attributeKeys).toContain(
+        `needs-companion:${situation.needsCompanion}`,
+      );
+      if (situation.needsCompanion) {
+        expect(declaredList(item.roles).map((role) => role.key)).toStrictEqual([
+          "companion",
+        ]);
+      } else {
+        expect(item.roles.kind).toBe("undeclared");
+      }
+      // Band, prose and options remain source-identical.
+      expect(item.lifeStages).toStrictEqual({
+        kind: "declared",
+        value: [situation.band],
+      });
+      expect(item.summary).toBe(situation.prose);
+      expect(
+        declaredList(item.options).map((option) => option.key),
+      ).toStrictEqual(situation.options.map((option) => option.key));
+    }
+  });
+
+  it("leaves the formative runtime companion mapping untouched", () => {
+    // The specific casting is still valid runtime behaviour where it belongs:
+    // companionRoleFor keeps returning the specialised roles. The repair only
+    // stops the declarative bank from surfacing them.
+    expect(companionRoleFor("formative.lunch-table")).toBe("peer");
+    expect(companionRoleFor("formative.teacher-mentor")).toBe("teacher");
+    expect(companionRoleFor("formative.broken-object")).toBe("household-adult");
   });
 
   it("keeps a formative situation's band in lifeStages and not restated as a gate", () => {
