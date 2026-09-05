@@ -620,7 +620,7 @@ export function narrativeLint(transcript: Transcript): readonly LintFinding[] {
         beatIndex: beat.index,
         detail:
           "Scenario names its stakes only as 'the thing'/'the plan' — nothing concrete to picture.",
-        text: prose.slice(0, 140),
+        text: prose,
       });
     }
 
@@ -630,7 +630,7 @@ export function narrativeLint(transcript: Transcript): readonly LintFinding[] {
         beatIndex: beat.index,
         detail:
           "A decided beat that changed nothing a later beat could surface.",
-        text: beat.authoredProse.trim().slice(0, 120),
+        text: beat.authoredProse.trim(),
       });
     }
 
@@ -645,7 +645,7 @@ export function narrativeLint(transcript: Transcript): readonly LintFinding[] {
         category: "vocative-binding",
         beatIndex: beat.index,
         detail: `Scene opens by addressing '${vocative[1]}' then says 'your' — a bound-role vocative smell.`,
-        text: prose.slice(0, 140),
+        text: prose,
       });
     }
 
@@ -662,7 +662,7 @@ export function narrativeLint(transcript: Transcript): readonly LintFinding[] {
           category: "unintroduced-person",
           beatIndex: beat.index,
           detail: `'${name}' appears in scene prose but is not among the present people.`,
-          text: prose.slice(0, 140),
+          text: prose,
         });
         introduced.add(name); // one report per name per beat
       }
@@ -682,7 +682,7 @@ export function narrativeLint(transcript: Transcript): readonly LintFinding[] {
           category: "age-vocabulary",
           beatIndex: beat.index,
           detail: `Adult vocabulary '${hit[0]}' offered to a ${beat.age}-year-old.`,
-          text: prose.slice(0, 140),
+          text: prose,
         });
       }
     }

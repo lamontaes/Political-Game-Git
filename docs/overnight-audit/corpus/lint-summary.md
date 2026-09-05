@@ -184,28 +184,28 @@ Diagnostic only. These are signals for human review, never canonical quality jud
 ## `vocative-binding` — 13
 
 - beat 1: [KY · age 5 · shares-a-home · deep] Scene opens by addressing 'Ibrahim Rocha' then says 'your' — a bound-role vocative smell.
-  - “Ibrahim Rocha, your older sister has come in after everyone else three nights this week, and said a different place each time. Nobody has sa”
+  - “Ibrahim Rocha, your older sister has come in after everyone else three nights this week, and said a different place each time. Nobody has said anything about it”
 - beat 1: [KY · age 8 · shares-a-home · short] Scene opens by addressing 'Miranda Rosario' then says 'your' — a bound-role vocative smell.
-  - “Miranda Rosario, your younger sister has come in after everyone else three nights this week, and said a different place each time. Nobody ha”
+  - “Miranda Rosario, your younger sister has come in after everyone else three nights this week, and said a different place each time. Nobody has said anything abou”
 - beat 2: [KY · age 10 · shares-a-home · deep] Scene opens by addressing 'Deborah Perez' then says 'your' — a bound-role vocative smell.
-  - “Deborah Perez, your younger brother has come in after everyone else three nights this week, and said a different place each time. Nobody has”
+  - “Deborah Perez, your younger brother has come in after everyone else three nights this week, and said a different place each time. Nobody has said anything about”
 - beat 2: [KY · age 10 · shares-a-home · deep (fixed col 0)] Scene opens by addressing 'Deborah Perez' then says 'your' — a bound-role vocative smell.
-  - “Deborah Perez, your younger brother has come in after everyone else three nights this week, and said a different place each time. Nobody has”
+  - “Deborah Perez, your younger brother has come in after everyone else three nights this week, and said a different place each time. Nobody has said anything about”
 - beat 1: [AK · age 12 · shares-a-home · deep] Scene opens by addressing 'Amara Stephens' then says 'your' — a bound-role vocative smell.
-  - “Amara Stephens, your younger brother has come in after everyone else three nights this week, and said a different place each time. Nobody ha”
+  - “Amara Stephens, your younger brother has come in after everyone else three nights this week, and said a different place each time. Nobody has said anything abou”
 - beat 1: [Lexington · age 13 · shares-a-home · short] Scene opens by addressing 'Raymond Wilcox' then says 'your' — a bound-role vocative smell.
-  - “Raymond Wilcox, your younger brother has come in after everyone else three nights this week, and said a different place each time. Nobody ha”
+  - “Raymond Wilcox, your younger brother has come in after everyone else three nights this week, and said a different place each time. Nobody has said anything abou”
 - beat 1: [NE · age 16 · shares-a-home · deep] Scene opens by addressing 'Noah Vinson' then says 'your' — a bound-role vocative smell.
-  - “Noah Vinson, your younger brother has come in after everyone else three nights this week, and said a different place each time. Nobody has s”
+  - “Noah Vinson, your younger brother has come in after everyone else three nights this week, and said a different place each time. Nobody has said anything about i”
 - beat 1: [AK · age 16 · shares-a-home · short] Scene opens by addressing 'Malik Pollard' then says 'your' — a bound-role vocative smell.
-  - “Malik Pollard, your younger brother has come in after everyone else three nights this week, and said a different place each time. Nobody has”
+  - “Malik Pollard, your younger brother has come in after everyone else three nights this week, and said a different place each time. Nobody has said anything about”
 - beat 1: [KY · age 16 · summarize-earlier · deep] Scene opens by addressing 'Logan Roberts' then says 'your' — a bound-role vocative smell.
-  - “Logan Roberts, your younger sister has come in after everyone else three nights this week, and said a different place each time. Nobody has ”
+  - “Logan Roberts, your younger sister has come in after everyone else three nights this week, and said a different place each time. Nobody has said anything about ”
 - beat 1: [KY · age 10 · seed A] Scene opens by addressing 'Kian Keller' then says 'your' — a bound-role vocative smell.
-  - “Kian Keller, your younger sister has come in after everyone else three nights this week, and said a different place each time. Nobody has sa”
+  - “Kian Keller, your younger sister has come in after everyone else three nights this week, and said a different place each time. Nobody has said anything about it”
 - beat 2: [KY · age 10 · seed B] Scene opens by addressing 'Bianca Turner' then says 'your' — a bound-role vocative smell.
-  - “Bianca Turner, your younger brother has come in after everyone else three nights this week, and said a different place each time. Nobody has”
+  - “Bianca Turner, your younger brother has come in after everyone else three nights this week, and said a different place each time. Nobody has said anything about”
 - beat 1: [KY · age 10 · seed C] Scene opens by addressing 'Erica Lopez' then says 'your' — a bound-role vocative smell.
-  - “Erica Lopez, your younger brother has come in after everyone else three nights this week, and said a different place each time. Nobody has s”
+  - “Erica Lopez, your younger brother has come in after everyone else three nights this week, and said a different place each time. Nobody has said anything about i”
 - beat 1: [KY · age 10 · questionnaire skipped] Scene opens by addressing 'Charlotte Harrington' then says 'your' — a bound-role vocative smell.
-  - “Charlotte Harrington, your younger sister has come in after everyone else three nights this week, and said a different place each time. Nobo”
+  - “Charlotte Harrington, your younger sister has come in after everyone else three nights this week, and said a different place each time. Nobody has said anything”

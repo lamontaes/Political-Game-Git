@@ -437,6 +437,7 @@ interface DistinctEntry {
     present: readonly string[];
   }[];
   recordBacked: boolean | null;
+  lintCategories: string[];
 }
 
 function main(): void {
@@ -445,6 +446,7 @@ function main(): void {
   const transcripts: Transcript[] = [];
   const allInventory: ProseInventoryItem[] = [];
   const lintByCategory = new Map<string, LintFinding[]>();
+  const textToCategories = new Map<string, Set<string>>();
   let totalBeats = 0;
 
   for (const cell of MATRIX) {
@@ -463,6 +465,9 @@ function main(): void {
       const list = lintByCategory.get(finding.category) ?? [];
       list.push({ ...finding, detail: `[${cell.label}] ${finding.detail}` });
       lintByCategory.set(finding.category, list);
+      const cats = textToCategories.get(finding.text) ?? new Set<string>();
+      cats.add(finding.category);
+      textToCategories.set(finding.text, cats);
     }
   }
 
@@ -497,6 +502,7 @@ function main(): void {
         occurrences: 0,
         contexts: [],
         recordBacked: item.recordBacked,
+        lintCategories: [...(textToCategories.get(item.text) ?? [])].sort(),
       };
       distinct.set(key, entry);
       order.push(key);

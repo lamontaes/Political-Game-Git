@@ -53,6 +53,7 @@
     "despill:edges": "node --import tsx scripts/art-asset-factory/cli-edge-despill.ts",
     "measure:references": "node --import tsx scripts/art-asset-factory/cli-measure-references.ts",
     "report:life": "node --import tsx scripts/life-report.ts",
+    "packet:prose": "node --import tsx scripts/prose-review-packet.ts",
     "corpus:narrative": "node --import tsx scripts/narrative-corpus.ts"
   },
   "dependencies": {
