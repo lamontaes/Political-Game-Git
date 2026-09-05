@@ -1,7 +1,7 @@
 import path from "path";
 import { describe, expect, it } from "vitest";
 
-import { changedFilesSince, hasCommit } from "./support/ownership-boundary";
+import { changedFilesSince } from "./support/ownership-boundary";
 
 /**
  * This wave's carve-outs, as an executable check.
@@ -28,10 +28,14 @@ import { changedFilesSince, hasCommit } from "./support/ownership-boundary";
  * than passing quietly: a boundary check that silently no-ops is worse than
  * none. CI fetches full history for that reason.
  *
- * The head is deliberately open — this packet is in flight, so its head is the
- * working tree. When it lands, whoever lands it closes the range the way
- * `tests/authoring-ownership-boundary.test.ts` is closed, so the check keeps
- * describing this packet instead of constraining the next one.
+ * The head is closed now that this packet has landed. While it was in flight
+ * the head was the working tree, which was right then and wrong the moment it
+ * merged: on `main` that reading turns every LATER branch into a suspect, so a
+ * branch that takes this `main` in and adds its own art or pipeline fails a
+ * check it never agreed to. Pinning the head to the merge freezes the range to
+ * what this packet actually shipped — the way
+ * `tests/authoring-ownership-boundary.test.ts` closes Packet 26 — so the check
+ * keeps describing this packet instead of constraining the next one.
  */
 
 const REPOSITORY_ROOT = path.resolve(__dirname, "..");
@@ -53,7 +57,19 @@ const REPOSITORY_ROOT = path.resolve(__dirname, "..");
  */
 export const NARRATIVE_WAVE_BASE = "5f735da209c59647e4b877717a40fe6cc045fc24";
 
-const MISSING_BASE = `Base commit ${NARRATIVE_WAVE_BASE} is not in this clone, so the carve-outs could not be checked. Fetch full history before trusting this suite.`;
+/**
+ * Where this wave stopped: its merge into `main` as PR #87.
+ *
+ * The base above is the `main` this branch was cut from; this is the `main` the
+ * wave became. Measuring `BASE..HEAD` freezes the check to the range PR #87
+ * actually shipped, so it stays an executable claim about this packet rather
+ * than a standing constraint on every branch that later takes this `main` in. A
+ * subsequent packet that wants a boundary of its own declares its own range;
+ * see how `tests/authoring-ownership-boundary.test.ts` pins Packet 26.
+ */
+export const NARRATIVE_WAVE_HEAD = "68d7d48ee09aa7ea1a13a2d152f4f1129669ade5";
+
+const MISSING_RANGE = `PR #87 shipped as ${NARRATIVE_WAVE_BASE}..${NARRATIVE_WAVE_HEAD}, and one of those commits is not in this clone, so the carve-outs could not be checked. Fetch full history before trusting this suite.`;
 
 interface OwnedSurface {
   readonly pattern: RegExp;
@@ -178,11 +194,12 @@ const OWNED =
   /^(src\/simulation\/(narrative-threads|life-episodes|episode-bank|setup-opening-bank|setup-questionnaire|setup-questionnaire-bank|setup-priors|player-model|situation-selection|situation-profiles|adult-situations|life-callbacks|life-choice-evidence|commitment-seam|relationship-leverage|sha256|life-places|character-history|person-identity|person-context|voice-bands|setup-young-life-bank|setup-generation-inputs|people|world|types|index|boundary\.test|pennywise-adaptive-life\.test)\.ts|src\/presentation\/(life-|narrative-|title-ambient|adult-life|formative-play|ordinary-life|new-game|setup-questionnaire-flow|production-world|adaptive-life\.test|player-spine\.test|conversation-subjects|conversation-continuity|conversation-consequences|run-b-conversation|player-conversation)|src\/player\/PlayerGame\.tsx|src\/player\/PlayerConversation\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/SceneBackdrop\.tsx|src\/player\/player\.css|scripts\/life-report\.ts|tests\/|docs\/|ARCHITECTURE\.md|PATCH_NOTES\.md|AGENTS\.md|package\.json|package-lock\.json)/;
 
 function measuredChanges(): readonly string[] {
-  if (!hasCommit(REPOSITORY_ROOT, NARRATIVE_WAVE_BASE)) {
-    throw new Error(MISSING_BASE);
-  }
-  const files = changedFilesSince(REPOSITORY_ROOT, NARRATIVE_WAVE_BASE);
-  if (files === null) throw new Error(MISSING_BASE);
+  const files = changedFilesSince(
+    REPOSITORY_ROOT,
+    NARRATIVE_WAVE_BASE,
+    NARRATIVE_WAVE_HEAD,
+  );
+  if (files === null) throw new Error(MISSING_RANGE);
   return files;
 }
 
