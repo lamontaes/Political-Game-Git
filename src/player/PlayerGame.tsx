@@ -49,8 +49,9 @@ import {
   defaultPronounsForGender,
   GENDER_IDENTITY_KEYS,
   GENDER_IDENTITY_LABELS,
+  lifePlaceByKey,
   lifePlaceCoverage,
-  lifePlaces,
+  lifePlaceSearch,
   PRONOUN_SET_KEYS,
   PRONOUN_SET_LABELS,
 } from "../simulation";
@@ -538,33 +539,20 @@ function SetupScreen({
   readonly onBegin: (setup: NewGameSetup) => void;
   readonly problem: string | null;
 }) {
-  const places = lifePlaces();
   const coverage = lifePlaceCoverage();
   const [placeQuery, setPlaceQuery] = useState("");
   /**
-   * Nothing until somebody asks for something.
+   * Nothing until somebody asks for something, and then the national corpus.
    *
-   * This is the whole of the default-card repair: with an empty query the list
-   * is empty, so the four places the game supports are found rather than
-   * offered, and none of them is centred as canonical.
+   * With an empty query the list is empty, so nothing reads as a recommended
+   * default. Once the player types, the search runs over the accepted national
+   * place identity (PR #77) and returns a bounded page of matches — anywhere in
+   * the country, found rather than offered.
    */
-  const matchingPlaces = useMemo(() => {
-    const needle = placeQuery.trim().toLowerCase();
-    if (needle.length === 0) return [];
-    return places.filter((candidate) =>
-      [
-        candidate.displayName,
-        candidate.withinName ?? "",
-        // The formal jurisdiction name is searchable even though it is not
-        // shown: somebody who types the name on their tax bill should find
-        // the place they live.
-        candidate.formalName ?? "",
-      ]
-        .join(" ")
-        .toLowerCase()
-        .includes(needle),
-    );
-  }, [places, placeQuery]);
+  const matchingPlaces = useMemo(
+    () => lifePlaceSearch(placeQuery, 12),
+    [placeQuery],
+  );
   const [setup, setSetup] = useState<NewGameSetup>({
     ...DEFAULT_NEW_GAME_SETUP,
     seed,
@@ -592,7 +580,7 @@ function SetupScreen({
   const reopen = (step: CreatorStep) => setCurrent(step);
 
   const problems = newGameSetupProblems(setup);
-  const place = places.find((candidate) => candidate.key === setup.placeKey);
+  const place = lifePlaceByKey(setup.placeKey);
   const officeAvailable =
     place?.capabilities.legislativeScenarioKey !== null &&
     setup.startAge >= LEGISLATIVE_OFFICE_MINIMUM_AGE;

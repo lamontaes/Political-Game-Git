@@ -17,6 +17,7 @@
     "source:manifest": "node --import tsx scripts/source/manifest.ts",
     "source:validate": "node --import tsx scripts/source/validate.ts",
     "source:replay": "node --import tsx scripts/source/replay.ts",
+    "export:life-places": "node --import tsx scripts/source/export-life-places.ts",
     "test": "vitest run",
     "test:run-a": "vitest run src/presentation/run-a.test.ts",
     "test:run-b": "vitest run src/presentation/run-b-conversation.test.ts",
