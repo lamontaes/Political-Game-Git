@@ -32,8 +32,23 @@ export interface LifePlaceCapabilities {
 
 export interface LifePlace {
   readonly key: string;
-  /** What the player reads. Never a slug, an ID, or a fixture name. */
+  /**
+   * What the player reads. Never a slug, an ID, or a fixture name.
+   *
+   * This is how somebody who lives there says where they live, which is not
+   * always what the jurisdiction is legally called. A player told they are in
+   * "Lexington-Fayette" is being shown a filing name; they live in Lexington.
+   */
   readonly displayName: string;
+  /**
+   * The jurisdiction's formal name, where it differs from the one a resident
+   * uses. Null when the two are the same.
+   *
+   * Kept beside the display name rather than instead of it so that a legal or
+   * data view can still show the exact label the sources use, and so that
+   * nothing has to guess which of the two a surface wanted.
+   */
+  readonly formalName: string | null;
   /** The wider place this one sits inside, when the data names one. */
   readonly withinName: string | null;
   readonly context: DemoJurisdictionContext;
@@ -74,6 +89,7 @@ const PLACES: readonly LifePlace[] = [
   {
     key: "kentucky",
     displayName: "Kentucky",
+    formalName: null,
     withinName: "United States",
     context: KENTUCKY_CONTEXT,
     capabilities: { legislativeScenarioKey: "kentucky" },
@@ -81,6 +97,7 @@ const PLACES: readonly LifePlace[] = [
   {
     key: "nebraska",
     displayName: "Nebraska",
+    formalName: null,
     withinName: "United States",
     context: NEBRASKA_CONTEXT,
     capabilities: { legislativeScenarioKey: "nebraska" },
@@ -88,13 +105,19 @@ const PLACES: readonly LifePlace[] = [
   {
     key: "alaska",
     displayName: "Alaska",
+    formalName: null,
     withinName: "United States",
     context: ALASKA_CONTEXT,
     capabilities: { legislativeScenarioKey: "alaska" },
   },
   {
     key: "lexington-fayette",
-    displayName: "Lexington-Fayette, Kentucky",
+    // Nobody who lives there calls it Lexington-Fayette. That is the merged
+    // city-county's filing name, and the human playtest flagged it on the
+    // setup screen as one of the places the game sounded like a database.
+    // The formal label stays available for a legal or data view.
+    displayName: "Lexington, Kentucky",
+    formalName: "Lexington-Fayette, Kentucky",
     withinName: "Kentucky",
     context: LEXINGTON_DEMO_CONTEXT,
     // The accepted rule packs are written for state legislatures. Nothing in

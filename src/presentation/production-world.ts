@@ -1,4 +1,6 @@
 import {
+  guardianAgeBand,
+  siblingAgeGaps,
   applyCharacterHistoryPlan,
   assertWorldIntegrity,
   addDays,
@@ -10,6 +12,7 @@ import {
   createWorldId,
   dateAtAge,
   drawCanonicalName,
+  generatePersonIdentity,
   generateQuickCharacterHistory,
   personName,
   recordWorldEvent,
@@ -21,6 +24,9 @@ import type {
   IsoDate,
   LifePlace,
   Person,
+  PersonIdentity,
+  SetupGenerationInputs,
+  SetupPriorStore,
   World,
 } from "../simulation";
 
@@ -63,9 +69,34 @@ export interface ProductionWorldInput {
   readonly age: number;
   readonly givenName: string | null;
   readonly familyName: string | null;
+  /**
+   * The gender and pronouns the player chose for their character.
+   *
+   * Absent means they did not choose, and the character's record then says
+   * nothing rather than being filled in from the name that was drawn for
+   * them. The world never guesses this, in either direction.
+   */
+  readonly identity?: PersonIdentity;
   readonly startingLife: ProductionStartingLife;
   readonly depth: ProductionDepth;
   readonly household: ProductionHousehold;
+  /**
+   * The questionnaire answers, carried into the world's non-diegetic corner.
+   *
+   * Deliberately *not* an input to anything in this file's four construction
+   * steps. Nothing below reads it, and a test proves that two worlds built
+   * from opposite answers have the same people with the same names in the same
+   * household — because a political answer must never manufacture a family.
+   */
+  readonly priors?: SetupPriorStore;
+  /**
+   * The one seam through which a setup answer may shape generation.
+   *
+   * Two bounded leans and nothing else — no names, no dates, no facts. Absent
+   * or null means the calibration was skipped, and the generator draws exactly
+   * the ranges it drew before this existed.
+   */
+  readonly generation?: SetupGenerationInputs | null;
 }
 
 export interface ProductionWorld {
@@ -83,6 +114,21 @@ const PROVENANCE = {
   kind: "generated" as const,
   generatorKey: "production-world-v1",
 };
+
+/**
+ * A gender and pronouns for somebody this world is inventing.
+ *
+ * Drawn from a stream forked on the person's own stable key rather than from
+ * the household stream everything else here draws from. That is deliberate:
+ * taking numbers out of the shared stream would shift every name and birth
+ * date generated after it, so an addition that says nothing about anybody
+ * already in the world would silently rebuild all of them.
+ */
+function generatedIdentityFor(worldSeed: string, key: string): PersonIdentity {
+  return generatePersonIdentity(
+    new SeededRng(worldSeed).fork(`production-world-v1:identity:${key}`),
+  );
+}
 
 export function buildProductionWorld(
   input: ProductionWorldInput,
@@ -103,6 +149,7 @@ export function buildProductionWorld(
     age: input.age,
     givenName: input.givenName,
     familyName: input.familyName,
+    ...(input.identity === undefined ? {} : { identity: input.identity }),
   });
 
   // The world is assembled before anybody is playing it. Generated background
@@ -120,6 +167,7 @@ export function buildProductionWorld(
     currentMoment: place.context.initialMoment,
     jurisdictions: [jurisdiction],
     people: [player],
+    setupPriors: input.priors,
   });
 
   world = recordCreation(world, player, place, input);
@@ -129,6 +177,7 @@ export function buildProductionWorld(
     place,
     input.depth,
     input.household,
+    input.generation ?? null,
   );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
@@ -208,6 +257,7 @@ function establishAgeEligibleState(
   place: LifePlace,
   depth: ProductionDepth,
   household: ProductionHousehold,
+  generation: SetupGenerationInputs | null,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -282,6 +332,7 @@ function establishAgeEligibleState(
           input: {
             stableKey: otherKey,
             ...otherName,
+            identity: generatedIdentityFor(world.seed, otherKey),
             birthDate: yearsBefore(player.birthDate, rng.integer(-6, 7)),
             homeJurisdictionId: jurisdictionId,
           },
@@ -315,7 +366,15 @@ function establishAgeEligibleState(
   const guardianKey = `${stableKey}:guardian`;
   const guardianId = characterHistoryContextPersonId(world, guardianKey);
   const guardianName = drawCanonicalName(rng);
-  const guardianBirthDate = yearsBefore(player.birthDate, rng.integer(24, 41));
+  // The band the guardian's age is drawn from. Unleant it is 24 to 41, exactly
+  // as it has always been; a calibration that leaned toward keeping the ground
+  // firm moves both ends later and one that leaned toward disruption moves them
+  // earlier. The generator still draws. See `setup-generation-inputs.ts`.
+  const [guardianAgeFloor, guardianAgeCeiling] = guardianAgeBand(generation);
+  const guardianBirthDate = yearsBefore(
+    player.birthDate,
+    rng.integer(guardianAgeFloor, guardianAgeCeiling),
+  );
 
   transitions.push(
     {
@@ -323,6 +382,7 @@ function establishAgeEligibleState(
       input: {
         stableKey: guardianKey,
         givenName: guardianName.givenName,
+        identity: generatedIdentityFor(world.seed, guardianKey),
         // A child usually shares a name with whoever is raising them. This is a
         // household convention, not an inference about either of them.
         familyName: player.familyName,
@@ -382,6 +442,81 @@ function establishAgeEligibleState(
     },
   );
 
+  // A brother or sister, when the player said somebody else was at home.
+  //
+  // The setup screen asks whether anybody else lives here and, for a child,
+  // used to throw the answer away: every dependent household held exactly one
+  // adult, so every scene about somebody you live with was a scene about your
+  // own parent. That is how the playtest ended up with a ten-year-old deciding
+  // whether to report their guardian's late nights to somebody older.
+  //
+  // The kinship record is what makes them a sibling; without it they would be
+  // a second adult in the house, which is a different household and not the
+  // one that was asked for.
+  if (household === "shares-a-home") {
+    const siblingKey = `${stableKey}:sibling`;
+    const siblingId = characterHistoryContextPersonId(world, siblingKey);
+    const siblingName = drawCanonicalName(rng);
+    // Close enough in age to be a peer and never the same day, so "older" and
+    // "younger" are always answerable from the record. Which side of the player
+    // the candidates sit on is tilted by the care lean; the pick is still the
+    // generator's.
+    const yearsApart = rng.pick([...siblingAgeGaps(generation)]);
+    const siblingBirthDate = yearsBefore(player.birthDate, yearsApart);
+    // A record cannot predate either person in it, so a sibling born after the
+    // player establishes the kinship on the day the younger of them arrived.
+    const siblingKinshipDate =
+      siblingBirthDate > player.birthDate ? siblingBirthDate : player.birthDate;
+    transitions.push(
+      {
+        kind: "context-person",
+        input: {
+          stableKey: siblingKey,
+          givenName: siblingName.givenName,
+          familyName: player.familyName,
+          identity: generatedIdentityFor(world.seed, siblingKey),
+          birthDate: siblingBirthDate,
+          homeJurisdictionId: jurisdictionId,
+        },
+      },
+      {
+        kind: "household-membership",
+        input: {
+          stableKey: `${stableKey}:membership:sibling`,
+          personId: siblingId,
+          householdId,
+          startedAt: world.currentDate,
+          residenceRole: "primary",
+          kind: "resident:child",
+          provenance: PROVENANCE,
+        },
+      },
+      {
+        kind: "kinship",
+        input: {
+          stableKey: `${stableKey}:kinship:sibling`,
+          personIds: [player.id, siblingId],
+          establishedAt: siblingKinshipDate,
+          kind: "collateral:sibling",
+          provenance: PROVENANCE,
+        },
+      },
+      {
+        kind: "authority",
+        input: {
+          stableKey: `${stableKey}:authority:guardian-sibling`,
+          childPersonId: siblingId,
+          holder: { kind: "person", personId: guardianId },
+          establishedAt: siblingBirthDate,
+          kind: "parental:primary",
+          basisKind: "legal:presumed",
+          context: null,
+          provenance: PROVENANCE,
+        },
+      },
+    );
+  }
+
   if (age >= SCHOOL_ENTRY_AGE) {
     const schoolKey = `${stableKey}:school`;
     // The world does not know when the school was founded, and does not
@@ -415,6 +550,43 @@ function establishAgeEligibleState(
         },
       },
     );
+
+    // Two other children at the same school.
+    //
+    // A school with one pupil in it is not a school, and it was the reason a
+    // whole conversation subject could never be reached: the corridor exists,
+    // the enrollment exists, and there was nobody in the building to talk to.
+    // This claims exactly what a register claims — that other children attend
+    // the same school over the same years — and nothing about who they are to
+    // this child. Whether either of them becomes anybody is decided in play.
+    for (const ordinal of [1, 2]) {
+      const classmateKey = `${stableKey}:classmate:${ordinal}`;
+      const classmateName = drawCanonicalName(rng);
+      transitions.push(
+        {
+          kind: "context-person",
+          input: {
+            stableKey: classmateKey,
+            ...classmateName,
+            identity: generatedIdentityFor(world.seed, classmateKey),
+            birthDate: yearsBefore(player.birthDate, rng.integer(-1, 2)),
+            homeJurisdictionId: jurisdictionId,
+          },
+        },
+        {
+          kind: "education",
+          input: {
+            stableKey: `${classmateKey}:enrollment`,
+            personId: characterHistoryContextPersonId(world, classmateKey),
+            organizationId: organizationIdFor(world.id, schoolKey),
+            startedAt: enrolledOn,
+            programKind: "schooling:general",
+            contextKind: age >= 14 ? "stage:secondary" : "stage:primary",
+            provenance: PROVENANCE,
+          },
+        },
+      );
+    }
   }
 
   return applyCharacterHistoryPlan(world, {
