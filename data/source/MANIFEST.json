@@ -377,6 +377,10 @@
   ],
   "gatedDomains": [
     {
+      "domain": "judicial-office-selection",
+      "productionGate": "The 92G judicial research (JUDICIAL_ROLE_GAMEPLAY_AND_INSTITUTIONAL_RESEARCH, 2026-09-05) is a research synthesis, a secondary source. The substrate compiles production corpora only from artifacts it retrieved and hashed, so production is gated on either acquiring the cited first-party authorities (the U.S. Constitution and the constitutions of Kentucky, Texas, Missouri and Virginia) as first-party artifacts, or an explicit architecture decision to admit a declared secondary-source tier. The prose report itself is never promoted into first-party authority."
+    },
+    {
       "domain": "state-office-qualifications",
       "productionGate": "31F marks 118 of the 31A-31E research claims compiler-ready, but the substrate compiles production corpora only from artifacts it retrieved and hashed, and a research synthesis is a secondary source. Production compilation is gated on either acquiring the cited state authorities as first-party artifacts, or an explicit architecture decision to admit a declared secondary-source tier. See 31F section 8."
     }
