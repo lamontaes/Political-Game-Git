@@ -5677,6 +5677,17 @@
   isolation: isolate;
 }
 
+/*
+ * When a room is actually painted, the layer behind the stages is a deep
+ * neutral rather than the pale page — so if a frame ever slips between an
+ * outgoing room being removed and an incoming one painting, what shows is dark,
+ * not the white flash the transition must never produce. The no-art case is
+ * untouched and stays the pale sheet it has always been.
+ */
+.title-tableau[data-has-plate="true"] {
+  background: #0f1420;
+}
+
 .title-tableau-stage {
   position: absolute;
   inset: 0;
@@ -5698,21 +5709,35 @@
  * counter.
  *
  * The drift is deliberately slow and small — a little under a minute end to
- * end, six percent of scale — because the brief was a room that breathes, not
- * a camera move. It rides the image rather than the camera element, which
- * already carries the cover transform and must not be fought over.
+ * end — because the brief was a room that breathes, not a camera move. It
+ * rides the image rather than the camera element, which already carries the
+ * cover transform and must not be fought over. Task B asks for roughly ten
+ * percent more perceived movement: the scale and pan amplitudes are up about a
+ * tenth and the cycle is a little quicker.
+ *
+ * The transition is a true image-to-image crossfade, not a wash. The outgoing
+ * room stays fully opaque underneath while the incoming one fades in on top of
+ * it, so at every instant one opaque room or the other (and, in the middle,
+ * both) covers the screen. Nothing transparent is ever on screen, so the pale
+ * page behind can never show through as the white flash the third playtest
+ * saw. The outgoing stage is simply removed once the incoming has arrived.
  */
 .title-tableau-stage--arriving {
   animation: title-ambient-in 1600ms ease both;
 }
 
+/*
+ * No fade-out. The leaving room holds at full opacity beneath the arriving one
+ * for the length of the crossfade and is then unmounted — which is what makes
+ * this a crossfade rather than a dissolve through the background.
+ */
 .title-tableau-stage--leaving {
-  animation: title-ambient-out 1600ms ease both;
+  opacity: 1;
 }
 
 .title-tableau-camera--drift .scene-environment-art {
   transform-origin: 50% 55%;
-  animation: title-ambient-drift 48s ease-in-out infinite alternate;
+  animation: title-ambient-drift 44s ease-in-out infinite alternate;
 }
 
 @keyframes title-ambient-in {
@@ -5725,23 +5750,13 @@
   }
 }
 
-@keyframes title-ambient-out {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
 @keyframes title-ambient-drift {
   from {
     transform: scale(1) translate3d(0, 0, 0);
   }
 
   to {
-    transform: scale(1.06) translate3d(-1.2%, -0.8%, 0);
+    transform: scale(1.066) translate3d(-1.32%, -0.88%, 0);
   }
 }
 
@@ -5838,7 +5853,9 @@
 .title-tableau--art .title-tableau-content {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  /* Controls belong on the left of the scene (Task C/R), so the room keeps the
+     larger, open side of the frame. */
+  justify-content: flex-start;
   min-height: 100vh;
   min-height: 100dvh;
   padding: 2rem clamp(1rem, 4vw, 3.5rem);
@@ -5896,57 +5913,75 @@
 }
 
 /*
- * The creator, standing in the same room.
+ * The creator, standing in the same room — a restrained panel on the left, not
+ * a form on a sheet.
  *
- * The second playtest reported New Game "breaking to a blank standalone form",
- * and continuity of place is most of the repair: the creator and the
- * calibration are panels on the same drifting room the title is a panel on.
- * They are wider than the title's panel because they carry a decision rather
- * than a menu, and centred rather than held to one side because at that width
- * there is no side left to hold them to.
+ * The third playtest reported the creator still reading as a website form on a
+ * big opaque white card. Two things answer that. It is held to the LEFT rather
+ * than centred, so the room keeps the open side of the frame. And it is one
+ * frosted column, not a rounded card: the backing is light enough to read dark
+ * text against a lit room but transparent enough that the environment is still
+ * present behind it.
  *
- * The panel scrolls inside itself. As the stages open, the content grows past
- * the viewport, and a panel that grew the page instead would take the room off
- * the screen — which is the failure this whole section exists to undo.
- */
-.title-tableau--art .game-creator {
-  width: min(38rem, 100%);
-  max-width: none;
-
-  /* A viewport unit rather than a percentage: the flex parent's height is
-     auto, so a percentage here resolves against nothing and the panel grows
-     past the screen — which is how the first pass at this ended up scrolling
-     the room off the top. */
-  max-height: 88dvh;
-  margin: 0;
-  overflow-y: auto;
-  padding: 1.75rem 1.6rem 2rem;
-  background: linear-gradient(rgb(248 249 252 / 95%), rgb(248 249 252 / 91%));
-  backdrop-filter: blur(6px);
-  border-radius: 1rem;
-  box-shadow: 0 1.4rem 3rem rgb(16 28 48 / 22%);
-}
-
-/*
- * Centred rather than held to one side. The right-hand bias is for the title's
- * short menu, where the point is to leave the room the wider half of the
- * frame; a panel carrying a decision is wide enough that pinning it to an edge
- * only crowds that edge.
+ * It does not scroll. Only the active step and the collapsed one-line summaries
+ * of the finished steps are on screen at once, so the panel stays short enough
+ * to fit the viewport without the internal scroll the old accumulating form
+ * needed.
  */
 .title-tableau--art .title-tableau-content:has(.game-creator) {
-  justify-content: center;
+  justify-content: flex-start;
+}
+
+.title-tableau--art .game-creator {
+  width: min(30rem, 100%);
+  max-width: none;
+  margin: 0;
+
+  /* The creator is bounded to the viewport (Task §3): it never grows the page
+     past the frame. A step's own content — the place search results — scrolls
+     internally instead, so Begin/Next are never pushed below the fold. */
+  max-height: 90dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.5rem clamp(1.1rem, 2.4vw, 1.7rem) 1.6rem;
+  background: linear-gradient(
+    100deg,
+    rgb(247 249 252 / 90%),
+    rgb(247 249 252 / 74%)
+  );
+  backdrop-filter: blur(4px);
+  border-left: 3px solid rgb(22 35 58 / 55%);
+  border-radius: 0 0.7rem 0.7rem 0;
+  box-shadow: 0 1rem 2.4rem rgb(16 28 48 / 16%);
+}
+
+/* The place results are a bounded, internally-scrolling list so a long search
+   (a common town name across many states) never moves the panel or the room,
+   and the selected place's context and Next stay in view. */
+.title-tableau--art .game-creator [data-testid="place-choices"] {
+  max-height: 32vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .title-tableau--art .game-creator h1 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
+  margin: 0.25rem 0 1rem;
+}
+
+/* Sentence case, not the shouted all-caps the base setup screen uses: a person
+   asking who you are should not read like a form heading (Task F/P). */
+.title-tableau--art .game-creator h2 {
+  text-transform: none;
+  letter-spacing: normal;
+  color: #16233a;
+  font-size: 1.1rem;
+  margin: 0.2rem 0 0.6rem;
 }
 
 .title-tableau--art .game-creator section {
-  margin: 1.4rem 0 0;
-}
-
-.title-tableau--art .game-creator section:first-of-type {
-  margin-top: 1rem;
+  margin: 0.6rem 0 0;
+  animation: creator-stage-in 220ms ease both;
 }
 
 .title-tableau--art .game-creator h3 {
@@ -5959,13 +5994,79 @@
 }
 
 /*
- * A stage that has just opened says so by arriving rather than by appearing.
- * It is the same 240ms the rest of the shell uses, and it is the whole of the
- * "progressive" in progressive reveal — the sections are ordinary markup that
- * was not there a moment ago.
+ * A finished step, collapsed to a line. It reads as a breadcrumb the player can
+ * reopen, not as a control block: full width, quiet, with the value it holds on
+ * the left and a "Change" affordance on the right.
  */
-.title-tableau--art .game-creator section {
-  animation: creator-stage-in 240ms ease both;
+.creator-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  margin: 0.3rem 0 0;
+  padding: 0.45rem 0.7rem;
+  text-align: left;
+  background: rgb(22 35 58 / 6%);
+  border: 1px solid rgb(22 35 58 / 12%);
+  border-radius: 0.5rem;
+  color: #16233a;
+  font: inherit;
+  cursor: pointer;
+}
+
+.creator-summary:hover,
+.creator-summary:focus-visible {
+  background: rgb(22 35 58 / 11%);
+}
+
+.creator-summary-value {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.creator-summary-edit {
+  font-size: 0.78rem;
+  color: #55627a;
+  flex: none;
+}
+
+/* A muted, non-card explanation line — for the name hint and the place facts. */
+.game-hint {
+  margin: 0.35rem 0 0;
+  color: #55627a;
+  font-size: 0.85rem;
+}
+
+/*
+ * Pronouns, tucked into a disclosure rather than shown as a permanent row.
+ * They follow the chosen gender automatically; this is only opened by a player
+ * whose pronouns do not.
+ */
+.game-disclosure {
+  margin-top: 0.7rem;
+}
+
+.game-disclosure > summary {
+  cursor: pointer;
+  color: #16233a;
+  font-size: 0.9rem;
+  padding: 0.2rem 0;
+}
+
+.game-disclosure > summary:focus-visible {
+  outline: 2px solid #16233a;
+  outline-offset: 2px;
+}
+
+.creator-place-context {
+  margin-top: 0.8rem;
+}
+
+.creator-place-name {
+  margin: 0;
+  font-weight: 600;
+  color: #16233a;
 }
 
 .game-creator-next {
@@ -5990,10 +6091,20 @@
   }
 }
 
+/*
+ * On a phone there is no side to hold the panel to, so it spans the width and
+ * sits at the bottom where a thumb is.
+ */
 @media (width <= 52rem) {
+  .title-tableau--art .title-tableau-content:has(.game-creator) {
+    align-items: flex-end;
+    justify-content: center;
+  }
+
   .title-tableau--art .game-creator {
     width: 100%;
-    max-height: 92vh;
+    border-left: none;
+    border-radius: 0.7rem;
   }
 }
 
@@ -6402,4 +6513,655 @@
   width: auto;
   padding: 0.45rem 0.9rem;
   font-size: 0.94rem;
+}
+
+/* ========================================================================== */
+/* The scene-first life shell (Packet 88+ convergence).                       */
+/*                                                                            */
+/* The room is the surface: the plate fills the viewport, the generated       */
+/* household stands on its own anchors, the current moment is a compact       */
+/* civic-glass panel over it, the household is a rail on the right, and        */
+/* everything else is a small plaque in the corner. Nothing here is a large    */
+/* opaque white card, and no control is a flat green rectangle.               */
+/* ========================================================================== */
+
+/* One coherent control vocabulary: civic glass, ink and gold, not web green. */
+.ui-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.4rem;
+  padding: 0.55rem 0.9rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--run-a-ink);
+  background: linear-gradient(180deg, rgb(24 37 58 / 92%), rgb(13 20 32 / 94%));
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.55rem;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.ui-action:hover:not(:disabled) {
+  border-color: var(--run-a-gold);
+  background: linear-gradient(180deg, rgb(31 46 71 / 95%), rgb(18 29 46 / 96%));
+}
+
+.ui-action:focus-visible {
+  outline: 3px solid var(--run-a-focus);
+  outline-offset: 2px;
+}
+
+.ui-action:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ui-action[aria-pressed="true"] {
+  border-color: var(--run-a-gold);
+  box-shadow: inset 0 0 0 1px var(--run-a-gold);
+  color: #fff;
+}
+
+.ui-action--primary {
+  color: #14203a;
+  background: linear-gradient(180deg, #e7c778, var(--run-a-gold));
+  border-color: #a8842f;
+  font-weight: 700;
+}
+
+.ui-action--primary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #eed08a, #cda350);
+  border-color: #8a6a22;
+}
+
+.ui-action--subtle {
+  background: none;
+  border-color: transparent;
+  color: var(--run-a-muted);
+  font-weight: 600;
+}
+
+.ui-action--subtle:hover:not(:disabled) {
+  color: var(--run-a-ink);
+  background: rgb(245 235 212 / 8%);
+  border-color: transparent;
+}
+
+.ui-action--rail {
+  padding: 0.42rem 0.72rem;
+  font-size: 0.9rem;
+}
+
+.ui-action--choice {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.16rem;
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+}
+
+.ui-action--choice small {
+  font-weight: 400;
+  opacity: 0.82;
+  font-size: 0.85rem;
+}
+
+.ui-action--quiet {
+  opacity: 0.9;
+  border-style: dashed;
+}
+
+/* The shell owns the whole viewport; the room is fixed behind it.
+ *
+ * The z-index and isolation establish a stacking context so the fixed plate,
+ * painted at z-index -1, stays behind the shell's own content but IN FRONT of
+ * the page's opaque background. Without it the room drops behind the body
+ * colour and the scene reads as a blank wall. */
+.life-shell {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* The room shows through: no white card, just a soft scrim toward the bottom
+   where the panel and HUD sit, so text stays readable without hiding people. */
+.life-shell .scene-backdrop--art .scene-backdrop-stage::after {
+  background: linear-gradient(
+    rgb(11 19 32 / 6%),
+    rgb(11 19 32 / 4%) 42%,
+    rgb(11 19 32 / 52%)
+  );
+}
+
+.life-shell .scene-backdrop--art .scene-backdrop-content {
+  background: none;
+  padding: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  border-radius: 0;
+}
+
+/* The moment (and the intro) float at the bottom-centre over the room. */
+.life-shell .scene-backdrop-content {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem 1.4rem;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.life-shell .scene-backdrop-content > * {
+  pointer-events: auto;
+}
+
+/* --- People standing in the room --------------------------------------- */
+
+.scene-backdrop-people {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.scene-person-token {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* The fail-closed placeholder: a soft, floor-anchored presence, not a broken
+   image and not somebody else's likeness. It is replaced by real layers the
+   day a body master is released. */
+.scene-person-figure {
+  width: 62%;
+  height: 100%;
+  border-radius: 46% 46% 20% 20% / 60% 60% 12% 12%;
+  background: linear-gradient(180deg, rgb(26 40 63 / 62%), rgb(13 20 32 / 74%));
+  box-shadow:
+    inset 0 2px 6px rgb(245 235 212 / 14%),
+    0 6px 18px rgb(8 13 22 / 42%);
+  border: 1px solid rgb(218 198 153 / 30%);
+}
+
+.scene-person-figure--seated {
+  height: 82%;
+  border-radius: 44% 44% 26% 26% / 52% 52% 16% 16%;
+}
+
+.scene-person-art {
+  position: absolute;
+}
+
+.scene-person-plate {
+  margin-top: 0.3rem;
+  padding: 0.16rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.15;
+  color: var(--run-a-ink);
+  background: rgb(11 19 32 / 78%);
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.4rem;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  backdrop-filter: blur(2px);
+}
+
+.scene-person-plate strong {
+  font-size: 0.85rem;
+}
+
+.scene-person-plate small {
+  color: var(--run-a-muted);
+  font-size: 0.72rem;
+}
+
+/* --- The scene-establishing intro (Task 9) ----------------------------- */
+
+.life-exposition {
+  width: min(38rem, 100%);
+  margin-bottom: 0.5rem;
+  padding: 1.2rem 1.4rem 1.3rem;
+  color: var(--run-a-ink);
+  background: linear-gradient(180deg, rgb(18 29 46 / 88%), rgb(11 19 32 / 92%));
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.9rem;
+  box-shadow: 0 1.2rem 3rem rgb(8 13 22 / 42%);
+  backdrop-filter: blur(4px);
+}
+
+.life-exposition-kicker {
+  margin: 0 0 0.6rem;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--run-a-gold);
+}
+
+.life-exposition-line {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.life-exposition .ui-action {
+  margin-top: 0.7rem;
+}
+
+/* --- The compact moment panel ------------------------------------------ */
+
+.life-moment {
+  width: min(42rem, 100%);
+  max-height: min(56vh, 32rem);
+  overflow-y: auto;
+  padding: 1rem 1.2rem 1.1rem;
+  color: var(--run-a-ink);
+  background: linear-gradient(180deg, rgb(18 29 46 / 90%), rgb(11 19 32 / 93%));
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.9rem;
+  box-shadow: 0 1.2rem 3rem rgb(8 13 22 / 46%);
+  backdrop-filter: blur(5px);
+}
+
+.life-moment .game-scene-header {
+  margin-bottom: 0.5rem;
+}
+
+.life-moment h2,
+.life-moment .game-scene {
+  color: var(--run-a-ink);
+}
+
+.life-moment h2 {
+  font-size: 1.12rem;
+}
+
+/* A deliberate identity line — the name, then the age as a small badge — rather
+   than "Name, 10" repeated in the prose (Task §5). */
+.life-identity {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.life-identity-name {
+  font-weight: 700;
+}
+
+.life-identity-age {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #14203a;
+  background: var(--run-a-gold);
+  border-radius: 0.4rem;
+  padding: 0.06rem 0.42rem;
+  align-self: center;
+}
+
+.life-moment .game-band {
+  color: var(--run-a-muted);
+}
+
+.life-moment .game-passage {
+  color: var(--run-a-muted);
+  font-style: italic;
+}
+
+.life-moment .game-note {
+  color: var(--run-a-muted);
+}
+
+.life-moment .game-choices-heading {
+  color: var(--run-a-gold);
+  margin-top: 0.7rem;
+}
+
+.life-moment .life-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  grid-template-columns: none;
+}
+
+.life-moment .game-pending {
+  color: var(--run-a-muted);
+}
+
+.life-moment .game-journal-toggle {
+  margin-top: 0.7rem;
+  color: var(--run-a-gold);
+  border-bottom-color: var(--run-a-line);
+}
+
+.life-moment .game-journal-toggle:hover {
+  color: var(--run-a-ink);
+  border-bottom-color: var(--run-a-gold);
+}
+
+/* --- The persistent People rail ---------------------------------------- */
+
+.life-rail {
+  position: fixed;
+  top: 4.5rem;
+  right: 1rem;
+  width: 13.5rem;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.6rem;
+  color: var(--run-a-ink);
+  background: linear-gradient(180deg, rgb(18 29 46 / 82%), rgb(11 19 32 / 88%));
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.8rem;
+  box-shadow: 0 1rem 2.6rem rgb(8 13 22 / 40%);
+  backdrop-filter: blur(5px);
+  /* Above the overlay scrim, so the rail stays usable — and a secondary surface
+     can be switched or dismissed — while a panel is open. On desktop the rail
+     and the centred panel do not overlap. */
+  z-index: 6;
+}
+
+.life-rail--collapsed {
+  width: auto;
+}
+
+.life-rail-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background: none;
+  border: 0;
+  color: var(--run-a-gold);
+  font: inherit;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  padding: 0.15rem 0.2rem;
+}
+
+.life-rail-toggle:focus-visible {
+  outline: 3px solid var(--run-a-focus);
+  outline-offset: 2px;
+}
+
+.life-rail-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  overflow-y: auto;
+}
+
+.life-rail-item {
+  display: flex;
+  align-items: stretch;
+  gap: 0.3rem;
+}
+
+.life-pin {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.4rem;
+  background: rgb(245 235 212 / 6%);
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  color: var(--run-a-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.life-pin:hover,
+.life-pin:focus-visible {
+  border-color: var(--run-a-gold);
+  background: rgb(245 235 212 / 11%);
+  outline: none;
+}
+
+.life-pin-mark {
+  flex: none;
+  width: 1.9rem;
+  height: 1.9rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #22344f, #131d2e);
+  border: 1px solid var(--run-a-line);
+  color: var(--run-a-ink);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.life-pin-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  min-width: 0;
+}
+
+.life-pin-copy strong {
+  font-size: 0.86rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.life-pin-copy small {
+  color: var(--run-a-muted);
+  font-size: 0.74rem;
+}
+
+.life-pin-hold {
+  flex: none;
+  width: 1.9rem;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  color: var(--run-a-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.life-pin-hold[aria-pressed="true"] {
+  color: var(--run-a-gold);
+}
+
+.life-pin-hold:hover,
+.life-pin-hold:focus-visible {
+  border-color: var(--run-a-gold);
+  color: var(--run-a-gold);
+  outline: none;
+}
+
+/* --- The compact bottom-left HUD --------------------------------------- */
+
+.life-hud {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  width: min(20rem, 60vw);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  /* Above the overlay scrim, so its controls stay usable while a panel is open
+     (see .life-rail). */
+  z-index: 6;
+}
+
+.life-hud-plaque {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.7rem;
+}
+
+.life-hud-plaque .person-portrait {
+  margin: 0;
+}
+
+.life-hud-clock {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.life-hud-clock strong {
+  color: var(--run-a-ink);
+  font-size: 0.94rem;
+}
+
+.life-hud-clock span {
+  color: var(--run-a-muted);
+  font-size: 0.8rem;
+}
+
+.life-hud-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.life-hud-note {
+  margin: 0;
+  padding: 0.4rem 0.6rem;
+  color: var(--run-a-ink);
+  background: rgb(11 19 32 / 82%);
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.life-hud-note--problem {
+  border-color: #b4642f;
+}
+
+/* --- Secondary systems, opened over the room --------------------------- */
+
+/* A dimmed room behind the panel: the scene is still there, focus is on the
+   surface, and a click here closes it. */
+.life-overlay-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgb(8 13 22 / 48%);
+  backdrop-filter: blur(1.5px);
+}
+
+.life-overlay {
+  display: flex;
+  flex-direction: column;
+  width: min(46rem, 100%);
+  max-height: 86vh;
+  color: #16233a;
+  background: linear-gradient(rgb(248 249 252 / 98%), rgb(244 246 250 / 96%));
+  border: 1px solid var(--run-a-line);
+  border-top: 3px solid var(--run-a-gold);
+  border-radius: 0.8rem;
+  box-shadow: 0 1.4rem 3.4rem rgb(8 13 22 / 52%);
+  overflow: hidden;
+}
+
+/* The titled header carries the one thing the fifth play found missing: an
+   obvious close. */
+.life-overlay-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0.9rem 0.6rem;
+  border-bottom: 1px solid rgb(22 35 58 / 12%);
+  background: linear-gradient(180deg, rgb(18 29 46 / 96%), rgb(13 20 32 / 96%));
+  color: var(--run-a-ink);
+}
+
+.life-overlay-head h2 {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  color: var(--run-a-ink);
+}
+
+.life-overlay-body {
+  padding: 1rem 1.2rem 1.3rem;
+  overflow-y: auto;
+}
+
+.ui-icon-button {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  background: rgb(245 235 212 / 8%);
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.45rem;
+  color: var(--run-a-ink);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.ui-icon-button:hover,
+.ui-icon-button:focus-visible {
+  border-color: var(--run-a-gold);
+  color: var(--run-a-gold);
+  outline: none;
+}
+
+.ui-icon-button:focus-visible {
+  outline: 3px solid var(--run-a-focus);
+  outline-offset: 2px;
+}
+
+/* On a phone the fixed rail/HUD stack instead of floating over the room. */
+@media (width <= 52rem) {
+  .life-rail {
+    position: static;
+    width: auto;
+    max-height: none;
+    margin: 0.6rem auto 0;
+  }
+
+  .life-hud {
+    position: static;
+    width: auto;
+    margin: 0.6rem auto 0;
+  }
+
+  .life-shell .scene-backdrop-content {
+    position: static;
+    padding: 0.8rem 0.8rem 1rem;
+  }
+
+  .life-moment,
+  .life-exposition {
+    width: 100%;
+  }
 }

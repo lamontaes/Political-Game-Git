@@ -248,7 +248,7 @@ const householdObligationSubject: ConversationSubjectPresentation<HouseholdOblig
     topicLabel: () => "At home",
     describeBriefing(world, room, progress) {
       const other = shortPersonName(world, room.eligibleAddresseePersonIds[0]!);
-      return `${other} has the same week you do, and ${progress.subjectFacts.obligation} still have to be covered by somebody. Nobody has said out loud who.`;
+      return `The week's ${progress.subjectFacts.obligation} still have to be covered, and it is on you and ${other} both. Neither of you has said who takes what.`;
     },
     availableIntents(_world, room, addressee, progress) {
       // Any of the people who actually live here, not merely whichever one the
@@ -300,7 +300,7 @@ const householdObligationSubject: ConversationSubjectPresentation<HouseholdOblig
           ? settledHouseholdLine(progress, speaker.name)
           : progress.phase === "raised"
             ? `“So it is on both of us,” ${shortPersonName(world, speaker.personId)} says. “Say what you can actually do.”`
-            : `${shortPersonName(world, speaker.personId)} is looking at the same week you are, and has not said anything about it yet.`;
+            : `${shortPersonName(world, speaker.personId)} is in the kitchen too, and hasn't brought up the week yet.`;
       return {
         speakerPersonId: speaker.personId,
         speakerName: speaker.name,

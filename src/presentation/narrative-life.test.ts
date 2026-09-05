@@ -683,6 +683,12 @@ describe("Play-proof 6 — an unremarkable earlier choice decides a later one", 
     // the presentation of the first beat said so.
     const quiet = play(
       setup({
+        // Custom keeps the older sibling this chain needs: on the custom route
+        // seed "proof-6" puts a fourteen-year-old at home, old enough for the
+        // "coming in late" beat to be about them. A normal start (Task E)
+        // generates the household, and the beat is now gated on a peer old
+        // enough to be out on their own — see `role-age-at-least`.
+        startKind: "custom",
         startAge: 10,
         depth: "play-formative-years",
         seed: "proof-6",
@@ -702,6 +708,12 @@ describe("Play-proof 6 — an unremarkable earlier choice decides a later one", 
 
     const loud = play(
       setup({
+        // Custom keeps the older sibling this chain needs: on the custom route
+        // seed "proof-6" puts a fourteen-year-old at home, old enough for the
+        // "coming in late" beat to be about them. A normal start (Task E)
+        // generates the household, and the beat is now gated on a peer old
+        // enough to be out on their own — see `role-age-at-least`.
+        startKind: "custom",
         startAge: 10,
         depth: "play-formative-years",
         seed: "proof-6",

@@ -4,6 +4,7 @@ import {
   lifePlaceByKey,
   questionnaireLength,
   requireLifePlace,
+  stableHash,
 } from "../simulation";
 import type {
   EntityId,
@@ -46,10 +47,13 @@ export type NewGameStartingLife = "ordinary-life" | "legislative-office";
 /**
  * Whether anybody else is at home.
  *
- * The world has no way to know this and must not guess. Left to itself it
- * either invents a housemate nobody chose, or — as it did — reaches for the
- * nearest other person in the world and puts a parent the character moved away
- * from decades ago in the next room. So it is asked, once, and answered.
+ * On a NORMAL start this is not asked. Who a person is born beside is a fact of
+ * the life the game generates, not a frame the player sets, so the generator
+ * decides it from the world's own seed (`generatedHouseholdFor`) — some lives
+ * get a sibling, some do not — and the player meets the household after Begin
+ * rather than composing it before. A CUSTOM start is the explicit route where
+ * this is set directly; there the world takes the answer as given rather than
+ * drawing it.
  */
 export type NewGameHousehold = "lives-alone" | "shares-a-home";
 
@@ -214,7 +218,51 @@ export { worldSeedFor };
 
 /** True when the formative years are actually reachable from this setup. */
 export function playsFormativeYears(setup: NewGameSetup): boolean {
-  return setup.depth === "play-formative-years" && setup.startAge < 18;
+  return resolvedDepth(setup) === "play-formative-years" && setup.startAge < 18;
+}
+
+const NORMAL_START_SHARES_A_HOME_THRESHOLD = 62;
+
+/**
+ * Who is at home, for a normal start, drawn from the world's own seed.
+ *
+ * A normal start does not ask this; the generator decides it. It is derived
+ * from `worldSeedFor` — the world's identity, not the build seed — so the
+ * calibration cannot move it: on a normal start the answers lean the ages of
+ * the people the world writes, never whether there is a sibling at all. The
+ * same world always resolves to the same household, so replays reproduce it.
+ */
+export function generatedHouseholdFor(setup: NewGameSetup): NewGameHousehold {
+  const digest = stableHash(`household:v1\n${worldSeedFor(setup)}`);
+  const bucket = Number.parseInt(digest.slice(0, 8), 16) % 100;
+  return bucket < NORMAL_START_SHARES_A_HOME_THRESHOLD
+    ? "shares-a-home"
+    : "lives-alone";
+}
+
+/**
+ * The household the world is actually built with.
+ *
+ * Custom takes the player's answer; normal takes the generated one.
+ */
+export function resolvedHousehold(setup: NewGameSetup): NewGameHousehold {
+  return setup.startKind === "custom"
+    ? setup.household
+    : generatedHouseholdFor(setup);
+}
+
+/**
+ * How much of the earlier life is played.
+ *
+ * Custom takes the player's answer; normal derives it from the starting age —
+ * a character young enough to have unplayed formative years plays them, an
+ * adult starts where they are — rather than making it a separate question.
+ */
+export function resolvedDepth(setup: NewGameSetup): NewGameDepth {
+  if (setup.startKind === "custom") return setup.depth;
+  return setup.startAge < 18
+    ? "play-formative-years"
+    : "summarize-earlier-life";
 }
 
 export function createNewGameWorld(setup: NewGameSetup): NewGame {
@@ -243,9 +291,14 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
             pronouns: setup.pronouns ?? defaultPronounsForGender(setup.gender),
           },
         }),
+    // On a normal start the household and the depth are the generator's to
+    // decide, not the player's — see Task E. Custom keeps the explicit
+    // answers. The starting role stays as the setup carries it: the normal
+    // creator offers no office, so a normal start is already `ordinary-life`,
+    // and a life reaches work through play rather than beginning in one.
     startingLife: setup.startingLife,
-    household: setup.household,
-    depth: setup.depth,
+    household: resolvedHousehold(setup),
+    depth: resolvedDepth(setup),
     priors,
     // The custom route is the one where the calibration does not shape the
     // family. Passing null here is the whole of that difference, and it is why

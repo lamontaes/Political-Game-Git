@@ -47,10 +47,10 @@ test.describe("The title is a room with a menu on it", () => {
     test(`puts no text on top of other text at ${viewport.name}`, async ({
       page,
     }) => {
-      // THE OVERLAP. The room description sat on a negative top margin left
-      // behind by a tagline that had been removed, so it printed over the
-      // title. Boxes rather than pixels: two elements overlap when their
-      // rectangles intersect, and no rendering opinion is needed to say so.
+      // The environment-description line is gone (Task A), so there is no longer
+      // a second block of text that can print over the title at all. What is
+      // still checkable — and was part of the same finding — is that the title
+      // heading is on screen and the page never scrolls sideways.
       await page.setViewportSize({
         width: viewport.width,
         height: viewport.height,
@@ -61,15 +61,9 @@ test.describe("The title is a room with a menu on it", () => {
       const heading = await page
         .locator('[data-testid="title-screen"] h1')
         .boundingBox();
-      const description = await page
-        .getByTestId("title-scene-description")
-        .boundingBox();
       expect(heading).not.toBeNull();
-      expect(description).not.toBeNull();
-      expect(
-        description!.y,
-        "the room description is printing over the title",
-      ).toBeGreaterThanOrEqual(heading!.y + heading!.height);
+      // The empty-room caption must be gone, not merely moved.
+      await expect(page.getByTestId("title-scene-description")).toHaveCount(0);
 
       // And the page itself does not scroll sideways at either width.
       const overflow = await page.evaluate(
@@ -81,18 +75,19 @@ test.describe("The title is a room with a menu on it", () => {
     });
   }
 
-  test("leaves the room the larger part of a desktop frame", async ({
+  test("leaves the room the larger part of a desktop frame, menu on the left", async ({
     page,
   }) => {
-    // THE OVERSIZED MENU. What the human saw was a wide centred sheet over the
-    // environment. What the packet asked for is a compact panel to one side.
+    // THE OVERSIZED MENU, and its side. The human saw a wide sheet over the
+    // environment; the packet asks for a compact panel, and the post-#87 pass
+    // (Task C/R) puts it on the LEFT so the open side of the room is kept.
     await page.setViewportSize({ width: 1440, height: 900 });
     await freshBrowser(page);
     const panel = await page.getByTestId("title-screen").boundingBox();
     expect(panel).not.toBeNull();
     expect(panel!.width / 1440).toBeLessThan(0.34);
-    // Right-biased: its centre sits in the right-hand half of the frame.
-    expect(panel!.x + panel!.width / 2).toBeGreaterThan(1440 / 2);
+    // Left-biased: its centre sits in the left-hand half of the frame.
+    expect(panel!.x + panel!.width / 2).toBeLessThan(1440 / 2);
 
     // Five controls, all of them reachable from the keyboard.
     for (const control of [
@@ -148,6 +143,49 @@ test.describe("The title is a room with a menu on it", () => {
         ),
       )
       .toBeGreaterThan(0);
+  });
+
+  test("crossfades one room into the next without a white wash", async ({
+    page,
+  }) => {
+    // THE FLASH. The transition read as a white camera flash because both rooms
+    // faded through the pale page at once (Task B). The fix is a true
+    // image-to-image crossfade: the outgoing room holds at full opacity beneath
+    // the incoming one, so at every instant an opaque room covers the screen.
+    await page.clock.install();
+    await freshBrowser(page);
+    await expect(page.getByTestId("title-tableau")).toHaveAttribute(
+      "data-has-plate",
+      "true",
+    );
+
+    // Cross the fifteen-second beat so a room is arriving over the one it
+    // replaces.
+    await page.clock.fastForward(15_500);
+
+    const leaving = page.getByTestId("title-tableau-stage-leaving");
+    await expect(leaving).toHaveCount(1);
+
+    // The crux: the outgoing room is fully opaque, not fading to transparent —
+    // so the page behind it (and the white it would flash) can never show.
+    const leavingOpacity = await leaving.evaluate((node) =>
+      Number(getComputedStyle(node as Element).opacity),
+    );
+    expect(leavingOpacity).toBe(1);
+
+    // And two real, decoded plates overlap during the transition rather than
+    // both vanishing behind a wash.
+    const decodedPlates = await page
+      .getByTestId("title-tableau-plate")
+      .evaluateAll(
+        (images) =>
+          images.filter(
+            (image) =>
+              (image as HTMLImageElement).complete &&
+              (image as HTMLImageElement).naturalWidth > 0,
+          ).length,
+      );
+    expect(decodedPlates).toBeGreaterThanOrEqual(2);
   });
 
   test("consumes no world and no randomness while it drifts", async ({
@@ -273,8 +311,10 @@ test.describe("A life happens in the room the records put it in", () => {
     // Everybody named is named with what the record says they are, which is
     // the whole difference between this and "Maya Pittman is in the house".
     expect(said).toMatch(/your (mom|dad|parent|older|younger)/i);
+    // Word boundaries, so a generated surname that merely contains "tier" or
+    // "seed" as a substring is not mistaken for machinery language.
     expect(said).not.toMatch(
-      /tableau|asset|tier|registry|raster|seed|household id/i,
+      /\b(tableau|asset|tier|registry|raster|seed)\b|household id/i,
     );
 
     // And nothing else is on screen until it has been read.
@@ -314,12 +354,13 @@ test.describe("A life happens in the room the records put it in", () => {
     await expect(page.getByTestId("office-section")).toHaveCount(0);
     await expect(page.getByTestId("conversations")).toHaveCount(0);
 
-    const elsewhere = page.getByTestId("life-elsewhere");
-    await expect(elsewhere).toBeVisible();
+    // The secondary systems live on the corner HUD now, not stacked under the
+    // moment. Opening People shows the conversations over the room; closing it
+    // puts them away, so the wall cannot rebuild itself.
+    await expect(page.getByTestId("life-hud")).toBeVisible();
     await page.getByTestId("elsewhere-people").click();
     await expect(page.getByTestId("conversations")).toBeVisible();
-    // And pressing it again puts it away, so the wall cannot rebuild itself.
-    await page.getByTestId("elsewhere-people").click();
+    await page.getByTestId("people-overlay-close").click();
     await expect(page.getByTestId("conversations")).toHaveCount(0);
   });
 
@@ -332,7 +373,8 @@ test.describe("A life happens in the room the records put it in", () => {
     const room = await page
       .getByTestId("scene-backdrop")
       .getAttribute("data-scene-id");
-    const moment = await page.getByTestId("story-who").innerText();
+    const who = page.getByTestId("story-who").locator(".life-identity-name");
+    const moment = await who.innerText();
 
     await page.getByTestId("keep-world").click();
     await expect(page.getByTestId("keep-world")).toHaveCount(0);
@@ -341,7 +383,7 @@ test.describe("A life happens in the room the records put it in", () => {
 
     // A saved life has been introduced already, so it opens on its moment.
     await expect(page.getByTestId("life-introduction")).toHaveCount(0);
-    await expect(page.getByTestId("story-who")).toHaveText(moment);
+    await expect(who).toHaveText(moment);
     await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
       "data-scene-id",
       room ?? "",

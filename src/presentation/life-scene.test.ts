@@ -131,7 +131,12 @@ describe("What the game says about the family it wrote", () => {
     )!;
     expect(introduction.age).toBe(34);
     const said = introduction.sentences.join(" ");
-    expect(said).toContain(introduction.personName);
+    // Second person, addressed to the player (Task §5). The name is shown as a
+    // deliberate identity chip on the play screen rather than narrated back at
+    // the player, so the introduction states the age and the place and speaks
+    // to "you" — the record still carries the name for whoever needs it.
+    expect(introduction.personName.length).toBeGreaterThan(0);
+    expect(said).toMatch(/\byou\b/i);
     expect(said).toContain("34");
     // No machinery, and nothing about how any of it was decided.
     expect(said).not.toMatch(
@@ -152,9 +157,9 @@ describe("What the game says about the family it wrote", () => {
     };
     const introduction = buildLifeIntroduction(emptied, game.playerPersonId)!;
     expect(introduction.household).toEqual([]);
-    expect(introduction.sentences.join(" ")).toMatch(
-      /nobody else is on the household record/i,
-    );
+    // A household on record with nobody else in it: the honest thing to say is
+    // that you live alone, not to invent a family to fill the screen (Task §6).
+    expect(introduction.sentences.join(" ")).toMatch(/on your own/i);
   });
 
   it("introduces nobody at all when there is no household", () => {

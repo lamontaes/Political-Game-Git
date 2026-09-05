@@ -1,5 +1,6 @@
 import {
   LIFE_TRANSITION_HANDLERS,
+  activeChildAuthoritiesAt,
   currentLifeCutoff,
   householdMembershipsAt,
   advanceWorld,
@@ -305,6 +306,13 @@ export function householdConversationRoom(
 ): ConversationRoomContext | null {
   const person = world.people[personId];
   if (!person) return null;
+  // This is an adult household negotiation — who carries the week's errands —
+  // and it must not be handed to a dependent child. The fifth human play was a
+  // ten-year-old asked to settle the household logistics with a parent. A
+  // character somebody else still holds authority over does not have this
+  // conversation; refusing is more honest than casting a child as the manager
+  // of the house.
+  if (activeChildAuthoritiesAt(world, personId).length > 0) return null;
   // People the character actually lives with, not merely other people in the
   // world. A forty-one-year-old was holding a conversation "at home" with the
   // parent from their own summarized childhood — a household they had already

@@ -84,6 +84,23 @@ const needsHouseholdPeer: EpisodeRequirement = {
   kind: "role",
   role: "household-peer",
 };
+/**
+ * A household peer old enough to be out on their own.
+ *
+ * The third playtest was handed a ten-year-old whose *younger* sister was
+ * "coming in after everyone else, a different place each time" — a young child
+ * cast as an independently mobile teenager because the stage asked only that a
+ * household peer exist, not that they were old enough for what the stage says
+ * they are doing. This asks for both. Where the only peer is a younger child
+ * the scenario is simply not offered, and something the records can actually
+ * ground is offered instead.
+ */
+const MOBILE_PEER_MINIMUM_AGE = 13;
+const needsMobileHouseholdPeer: EpisodeRequirement = {
+  kind: "role-age-at-least",
+  role: "household-peer",
+  age: MOBILE_PEER_MINIMUM_AGE,
+};
 /** Written for somebody nobody is responsible for. */
 const answersForThemselves: EpisodeRequirement = {
   kind: "capability",
@@ -126,6 +143,9 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
       key: "noticing",
       requires: [
         needsHouseholdPeer,
+        // The peer is the one who is out and about, so the peer — not only the
+        // player — has to be old enough for that to be plausible.
+        needsMobileHouseholdPeer,
         doesNotAnswerForThemselves,
         { kind: "age-below", age: 18 },
         { kind: "fact", fact: "household.shared" },
