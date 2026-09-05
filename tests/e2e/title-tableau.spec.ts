@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { enterLife, startLife as walkCreator } from "./support/creator";
 
 /**
  * The Home/Title screen, on the route a player actually opens.
@@ -52,16 +53,12 @@ async function paintedPlate(page: Page) {
 }
 
 async function startAndKeepALife(page: Page, age: number) {
-  await page.getByTestId("new-game").click();
-  await expect(page.getByTestId("setup-screen")).toBeVisible();
-  await page.getByTestId("start-age").fill(String(age));
-  // The setup screen grew a calibration between choosing an age and beginning,
-  // so a life now starts one click further along. Nothing this file asserts
-  // depends on how it is answered — only that a life exists to give the title
-  // a room — so it is skipped rather than played.
-  await page.getByTestId("calibration-skip").click();
-  await page.getByTestId("begin").click();
+  // Nothing this file asserts depends on how the creator is answered — only
+  // that a life exists to give the title a room — so the shared walk takes its
+  // defaults and declines the calibration.
+  await walkCreator(page, { age });
   await expect(page.getByTestId("play-screen")).toBeVisible();
+  await enterLife(page);
   await page.getByTestId("keep-world").click();
   await expect(page.getByTestId("keep-world")).toHaveCount(0);
   await page.getByTestId("leave-game").click();
