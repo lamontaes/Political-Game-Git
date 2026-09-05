@@ -24,14 +24,15 @@ import { changedFilesSince, hasCommit } from "./support/ownership-boundary";
  * branch adds to the `main` it sits on and fails naming any path that belongs
  * to one of those four.
  *
- * If the base commit is not in this clone every assertion here fails rather
- * than passing quietly: a boundary check that silently no-ops is worse than
- * none. CI fetches full history for that reason.
+ * If either end of the range is not in this clone every assertion here fails
+ * rather than passing quietly: a boundary check that silently no-ops is worse
+ * than none. CI fetches full history for that reason.
  *
- * The head is deliberately open — this packet is in flight, so its head is the
- * working tree. When it lands, whoever lands it closes the range the way
- * `tests/authoring-ownership-boundary.test.ts` is closed, so the check keeps
- * describing this packet instead of constraining the next one.
+ * The head was deliberately open while this packet was in flight, measuring the
+ * working tree. It landed as the merge of PR #87, and this check is now closed
+ * to the range it actually shipped — the way `tests/authoring-ownership-boundary.test.ts`
+ * is closed — so it keeps describing this packet instead of constraining the
+ * next one. See `NARRATIVE_WAVE_HEAD` for why the closure happened when it did.
  */
 
 const REPOSITORY_ROOT = path.resolve(__dirname, "..");
@@ -53,7 +54,26 @@ const REPOSITORY_ROOT = path.resolve(__dirname, "..");
  */
 export const NARRATIVE_WAVE_BASE = "5f735da209c59647e4b877717a40fe6cc045fc24";
 
-const MISSING_BASE = `Base commit ${NARRATIVE_WAVE_BASE} is not in this clone, so the carve-outs could not be checked. Fetch full history before trusting this suite.`;
+/**
+ * Where this narrative wave stopped: its merge into `main` as PR #87.
+ *
+ * The head above was written while the packet was in flight, and it measured
+ * the working tree. That was right then and wrong the moment the packet landed:
+ * on `main` the check outlives the packet it guards and starts asserting that
+ * every LATER branch stays inside this wave's surfaces, which no later branch
+ * agreed to. The source-substrate reconciliation is the first branch to take
+ * this `main` in, and its `src/source/**` tree and its two tsconfig entries are
+ * exactly the "next packet" this check was never meant to police.
+ *
+ * Pinning the head freezes the check to the range PR #87 actually shipped, so it
+ * stays an executable claim about this wave — the reason it was written —
+ * instead of a standing constraint on work it knows nothing about. The frozen
+ * range still fails the moment this wave's own shipped files stray; it simply no
+ * longer speaks for a source lane that declares its own boundary elsewhere.
+ */
+export const NARRATIVE_WAVE_HEAD = "68d7d48ee09aa7ea1a13a2d152f4f1129669ade5";
+
+const MISSING_RANGE = `The narrative wave shipped as ${NARRATIVE_WAVE_BASE}..${NARRATIVE_WAVE_HEAD}, and one of those commits is not in this clone, so the carve-outs could not be checked. Fetch full history before trusting this suite.`;
 
 interface OwnedSurface {
   readonly pattern: RegExp;
@@ -189,11 +209,18 @@ const OWNED =
   /^(src\/simulation\/(narrative-threads|life-episodes|episode-bank|setup-opening-bank|setup-questionnaire|setup-questionnaire-bank|setup-priors|player-model|situation-selection|situation-profiles|adult-situations|life-callbacks|life-choice-evidence|commitment-seam|relationship-leverage|sha256|life-places|character-history|person-identity|person-context|voice-bands|setup-young-life-bank|setup-generation-inputs|people|world|types|index|boundary\.test|pennywise-adaptive-life\.test)\.ts|src\/presentation\/(life-|narrative-|title-ambient|adult-life|formative-play|ordinary-life|new-game|setup-questionnaire-flow|production-world|adaptive-life\.test|player-spine\.test|browser-world-repository\.test|conversation-commit\.test|conversation-subjects|conversation-continuity|conversation-consequences|run-b-conversation|player-conversation)|src\/player\/PlayerGame\.tsx|src\/player\/PlayerConversation\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/SceneBackdrop\.tsx|src\/player\/player\.css|scripts\/life-report\.ts|tests\/|docs\/|ARCHITECTURE\.md|PATCH_NOTES\.md|AGENTS\.md|package\.json|package-lock\.json)/;
 
 function measuredChanges(): readonly string[] {
-  if (!hasCommit(REPOSITORY_ROOT, NARRATIVE_WAVE_BASE)) {
-    throw new Error(MISSING_BASE);
+  if (
+    !hasCommit(REPOSITORY_ROOT, NARRATIVE_WAVE_BASE) ||
+    !hasCommit(REPOSITORY_ROOT, NARRATIVE_WAVE_HEAD)
+  ) {
+    throw new Error(MISSING_RANGE);
   }
-  const files = changedFilesSince(REPOSITORY_ROOT, NARRATIVE_WAVE_BASE);
-  if (files === null) throw new Error(MISSING_BASE);
+  const files = changedFilesSince(
+    REPOSITORY_ROOT,
+    NARRATIVE_WAVE_BASE,
+    NARRATIVE_WAVE_HEAD,
+  );
+  if (files === null) throw new Error(MISSING_RANGE);
   return files;
 }
 

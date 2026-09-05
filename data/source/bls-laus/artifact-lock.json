@@ -1,0 +1,271 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "bls-laus-area-type",
+      "bytes": {
+        "length": 455,
+        "sha256": "be709b0f5fa834cb905059c81630611ee994ed5da0f324a820d994dcebd4d026"
+      },
+      "localPath": "data/source/bls-laus/raw/la.area_type",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics",
+      "publisher": {
+        "documentationUrl": "https://www.bls.gov/lau/",
+        "releaseDate": null,
+        "schemaVersion": "LAUS area type codes",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 455,
+        "retrievedAt": "2026-09-03T04:30:39.229Z",
+        "url": "https://download.bls.gov/pub/time.series/la/la.area_type"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "bls-laus-measure",
+      "bytes": {
+        "length": 205,
+        "sha256": "b43486145486a91cf5f9cb1a1109b1a2a4ca0d0c5a9a7d5e0f7178949b5dfee7"
+      },
+      "localPath": "data/source/bls-laus/raw/la.measure",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics",
+      "publisher": {
+        "documentationUrl": "https://www.bls.gov/lau/",
+        "releaseDate": null,
+        "schemaVersion": "LAUS measure codes",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 205,
+        "retrievedAt": "2026-09-03T04:30:39.276Z",
+        "url": "https://download.bls.gov/pub/time.series/la/la.measure"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "bls-laus-footnote",
+      "bytes": {
+        "length": 706,
+        "sha256": "e68dbc2ea353d57047b57ec28ac01a4f5d06cff98a87c16fe4ab32daa2d2df34"
+      },
+      "localPath": "data/source/bls-laus/raw/la.footnote",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics",
+      "publisher": {
+        "documentationUrl": "https://www.bls.gov/lau/",
+        "releaseDate": null,
+        "schemaVersion": "LAUS footnote codes",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 706,
+        "retrievedAt": "2026-09-03T04:30:39.321Z",
+        "url": "https://download.bls.gov/pub/time.series/la/la.footnote"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "bls-laus-period",
+      "bytes": {
+        "length": 252,
+        "sha256": "3a6636301c03a15da1cfa37522aeaccda45fa2bf92d325677d7b6c258ab0cd7d"
+      },
+      "localPath": "data/source/bls-laus/raw/la.period",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics",
+      "publisher": {
+        "documentationUrl": "https://www.bls.gov/lau/",
+        "releaseDate": null,
+        "schemaVersion": "LAUS period codes",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 252,
+        "retrievedAt": "2026-09-03T04:30:39.460Z",
+        "url": "https://download.bls.gov/pub/time.series/la/la.period"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "bls-laus-state-region-division",
+      "bytes": {
+        "length": 765,
+        "sha256": "9adb91f291c5a8ad5d4b835eab45aaf174f049129ef1b1f7687655b1cb3af33c"
+      },
+      "localPath": "data/source/bls-laus/raw/la.state_region_division",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics",
+      "publisher": {
+        "documentationUrl": "https://www.bls.gov/lau/",
+        "releaseDate": null,
+        "schemaVersion": "LAUS state, region and division codes",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 765,
+        "retrievedAt": "2026-09-03T04:30:39.586Z",
+        "url": "https://download.bls.gov/pub/time.series/la/la.state_region_division"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "bls-laus-area",
+      "bytes": {
+        "length": 439599,
+        "sha256": "7f1dcbd6a2506d92d65641609cf08bd04f0a534503c6d0f23497f284dce1fc45"
+      },
+      "localPath": "data/source/bls-laus/raw/la.area",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics",
+      "publisher": {
+        "documentationUrl": "https://www.bls.gov/lau/",
+        "releaseDate": null,
+        "schemaVersion": "LAUS area codes and names",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 439599,
+        "retrievedAt": "2026-09-03T04:30:39.646Z",
+        "url": "https://download.bls.gov/pub/time.series/la/la.area"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "bls-laus-series",
+      "bytes": {
+        "length": 4086542,
+        "sha256": "3b8403546b73609850f5a56c89bcdabf681b73e817082497f71d0dc2608c419c"
+      },
+      "localPath": "data/source/bls-laus/raw/la.series",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics",
+      "publisher": {
+        "documentationUrl": "https://www.bls.gov/lau/",
+        "releaseDate": null,
+        "schemaVersion": "LAUS series definitions",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 4086542,
+        "retrievedAt": "2026-09-03T04:30:39.761Z",
+        "url": "https://download.bls.gov/pub/time.series/la/la.series"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "bls-laus-data-1-current-seasonally-adjusted",
+      "bytes": {
+        "length": 13656382,
+        "sha256": "80b0d29bde6e36e55adb737a0c953cd39fdaa9f5736b2f9200e89cd897a0fd06"
+      },
+      "localPath": null,
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics",
+      "publisher": {
+        "documentationUrl": "https://www.bls.gov/lau/",
+        "releaseDate": null,
+        "schemaVersion": "LAUS current seasonally adjusted observations",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 13656382,
+        "retrievedAt": "2026-09-03T04:30:39.876Z",
+        "url": "https://download.bls.gov/pub/time.series/la/la.data.1.CurrentS"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "bls-laus-data-1-current-seasonally-adjusted-qa-slice",
+      "bytes": {
+        "length": 720366,
+        "sha256": "ea5179fdccd9480f667b9b407ebbbee4f596015ada13e2812d67b76a8a184ddd"
+      },
+      "derivation": {
+        "parentArtifactId": "bls-laus-data-1-current-seasonally-adjusted",
+        "parentSha256": "80b0d29bde6e36e55adb737a0c953cd39fdaa9f5736b2f9200e89cd897a0fd06",
+        "selectionPredicate": "The header row of la.data.1.CurrentS followed by every data row whose year field is 2024 or later, in published file order, each row byte-for-byte including its trailing carriage return, with a trailing newline."
+      },
+      "localPath": "data/source/bls-laus/raw/la.data.1.CurrentS.qa-slice",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics",
+      "publisher": {
+        "documentationUrl": "https://www.bls.gov/lau/",
+        "releaseDate": null,
+        "schemaVersion": "LAUS current seasonally adjusted observations",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 720366,
+        "retrievedAt": "2026-09-03T04:30:39.876Z",
+        "url": "https://download.bls.gov/pub/time.series/la/la.data.1.CurrentS"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    }
+  ],
+  "domain": "bls-laus"
+}

@@ -12,11 +12,14 @@
     "types": ["node"]
   },
   "include": [
-    "vite.config.ts",
     "playwright.config.ts",
-    "tests/e2e/**/*.ts",
+    "scripts/source/**/*.ts",
     "src/cli/**/*.ts",
     "src/persistence/**/*.ts",
-    "src/simulation/**/*.ts"
+    "src/simulation/**/*.ts",
+    "src/source/**/*.ts",
+    "tests/e2e/**/*.ts",
+    "tests/source/**/*.ts",
+    "vite.config.ts"
   ]
 }
