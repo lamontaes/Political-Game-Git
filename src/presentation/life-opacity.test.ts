@@ -48,7 +48,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
  * `traceStorySelection` returns it and is called by tests and by
  * `life-diagnostics` and by nothing that renders.
  */
-const DIAGNOSTIC_MODULES = ["life-diagnostics"];
+const DIAGNOSTIC_MODULES = ["life-diagnostics", "playthrough-transcript"];
 
 /** Surfaces a player actually sees. */
 const PLAYER_SURFACES = [
