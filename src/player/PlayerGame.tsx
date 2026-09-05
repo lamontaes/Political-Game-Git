@@ -10,6 +10,7 @@ import {
   chooseStoryOption,
   letStoryTimePass,
   projectStoryMoment,
+  type StoryMoment,
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
 import {
@@ -33,8 +34,12 @@ import {
   questionnaireScreenFor,
 } from "../presentation/setup-questionnaire-flow";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
-import { buildLifeIntroduction } from "../presentation/life-introduction";
+import {
+  buildLifeIntroduction,
+  type IntroducedPerson,
+} from "../presentation/life-introduction";
 import { resolveLifeScene } from "../presentation/life-scene";
+import { planLifeScenePeople } from "../presentation/life-scene-people";
 import { SceneBackdrop } from "./SceneBackdrop";
 import { AmbientTableau, TitleScreen } from "./TitleScreen";
 import {
@@ -1434,6 +1439,21 @@ function PlayingScreen({
     [session.world, session.personId],
   );
 
+  // The current moment, resolved here as well as inside the moment panel, so
+  // the people it says are present can be stood in the room and listed on the
+  // rail. It is a pure, memoized projection, so computing it twice costs
+  // nothing and keeps the panel self-contained.
+  const moment = useMemo(
+    () => projectStoryMoment(session.world, session.personId),
+    [session.world, session.personId],
+  );
+
+  const scenePeople = useMemo(
+    () =>
+      planLifeScenePeople(session.world, moment.scene.presentPeople, sceneId),
+    [session.world, moment.scene.presentPeople, sceneId],
+  );
+
   const elsewhere = useMemo(() => {
     const entries: { key: "day" | "people" | "work"; label: string }[] = [];
     if (!capabilities.formativeYears) {
@@ -1473,124 +1493,91 @@ function PlayingScreen({
   }
 
   return (
-    <main className="game-play" data-testid="play-screen">
-      <header className="game-play-header">
-        <PersonPortrait
-          world={session.world}
-          personId={session.personId}
-          size="small"
-          note={`${capabilities.age}${
-            capabilities.place ? ` · ${capabilities.place.displayName}` : ""
-          }`}
-        />
-        <div className="game-play-actions">
-          {session.saveId === null && !savesUnavailable ? (
-            <button type="button" data-testid="keep-world" onClick={onKeep}>
-              Save this life
-            </button>
-          ) : null}
-          <button type="button" data-testid="leave-game" onClick={onLeave}>
-            Main menu
-          </button>
-        </div>
-      </header>
+    <main
+      className="life-shell"
+      data-testid="play-screen"
+      data-scene-id={sceneId ?? ""}
+    >
+      {/*
+        THE ROOM IS THE SURFACE.
 
-      {session.unsavedSeed !== null ? (
-        <p className="game-note" data-testid="unsaved-note">
-          This life has not been saved yet.
-        </p>
-      ) : null}
-      {notice ? <p className="game-note">{notice}</p> : null}
-      {problem ? <p className="game-problem">{problem}</p> : null}
-
-      {!introduced && introduction ? (
-        <SceneBackdrop sceneId={sceneId}>
-          <section
-            className="game-introduction"
-            data-testid="life-introduction"
-          >
-            <h2>Where this starts</h2>
+        The fourth playtest reported being handed a large white card over
+        wallpaper, with no family in the room and People reduced to a button.
+        The repair is structural: the scene — with the generated household
+        standing on its own anchors — is the whole surface, the current moment
+        is a compact panel over it, the household is a persistent rail on the
+        right, and everything else is a small HUD in the corner.
+      */}
+      <SceneBackdrop sceneId={sceneId} people={scenePeople}>
+        {!introduced && introduction ? (
+          <section className="life-exposition" data-testid="life-introduction">
+            <p className="life-exposition-kicker">Where this starts</p>
             {introduction.sentences.map((sentence) => (
-              <p key={sentence} className="game-scene">
+              <p key={sentence} className="life-exposition-line">
                 {sentence}
               </p>
             ))}
             <button
               type="button"
+              className="ui-action ui-action--primary"
               data-testid="introduction-continue"
               onClick={() => setIntroduced(true)}
             >
-              Continue
+              Step inside
             </button>
           </section>
-        </SceneBackdrop>
-      ) : null}
-
-      {/*
-        THE ONE PRIMARY MOMENT.
-
-        The second playtest was handed "AT HOME", a meeting, a shared project,
-        addressee controls and audibility controls all at once, and reported
-        being dropped into a dashboard. Nothing was removed to answer that —
-        every system below is still reachable — but only one thing is in front
-        of the player at a time, and the thing in front of them is the scene
-        they are in. It stands in the room the records say they are in, which
-        is the other half of the same complaint.
-      */}
-      {introduced || !introduction ? (
-        <SceneBackdrop sceneId={sceneId}>
+        ) : (
           <StoryView session={session} onWorldChange={onWorldChange} />
-        </SceneBackdrop>
-      ) : null}
+        )}
+      </SceneBackdrop>
 
-      {(introduced || !introduction) && elsewhere.length > 0 ? (
-        <nav className="game-elsewhere" data-testid="life-elsewhere">
-          <h2>Elsewhere in this life</h2>
-          <div className="game-choices game-choices-inline">
-            {elsewhere.map((entry) => (
-              <button
-                key={entry.key}
-                type="button"
-                data-testid={`elsewhere-${entry.key}`}
-                aria-pressed={open === entry.key}
-                className={open === entry.key ? "is-chosen" : undefined}
-                onClick={() =>
-                  setOpen((current) =>
-                    current === entry.key ? null : entry.key,
-                  )
-                }
-              >
-                {entry.label}
-              </button>
-            ))}
-          </div>
-        </nav>
-      ) : null}
+      <LifePeopleRail
+        moment={moment}
+        household={introduction?.household ?? []}
+        onOpenPerson={() => setOpen("people")}
+      />
+
+      <LifeHud
+        world={session.world}
+        personId={session.personId}
+        name={moment.personName}
+        age={moment.age}
+        dateLabel={moment.dateLabel}
+        placeName={moment.placeName}
+        elsewhere={elsewhere}
+        open={open}
+        onToggle={(key) => setOpen((current) => (current === key ? null : key))}
+        canSave={session.saveId === null && !savesUnavailable}
+        onKeep={onKeep}
+        onLeave={onLeave}
+        unsaved={session.unsavedSeed !== null}
+        notice={notice}
+        problem={problem}
+      />
 
       {open === "day" ? (
-        <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
+        <section className="life-overlay" data-testid="day-overlay">
+          <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
+        </section>
       ) : null}
 
-      {/*
-        Every conversation this life can have, and not only in adulthood.
-        These sat inside the ordinary-day surface, which the growing-up years
-        deliberately do not render — so a fifteen-year-old could not reach any
-        conversation at all, including the one written for a school corridor.
-        Which conversations appear is decided by the world; this screen only
-        decides that a life has them at every age.
-      */}
       {open === "people" ? (
-        <PlayerConversations
-          world={session.world}
-          personId={session.personId}
-          onWorldChange={onWorldChange}
-        />
+        <section className="life-overlay" data-testid="people-overlay">
+          <PlayerConversations
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+          />
+        </section>
       ) : null}
 
       {open === "work" &&
       capabilities.legislation &&
       capabilities.legislativeScenarioKey ? (
-        <section className="game-office" data-testid="office-section">
+        <section
+          className="life-overlay game-office"
+          data-testid="office-section"
+        >
           <h2>The office</h2>
           <p>
             {capabilities.person.givenName} works for the{" "}
@@ -1599,6 +1586,7 @@ function PlayingScreen({
           </p>
           <button
             type="button"
+            className="ui-action"
             data-testid="open-legislation"
             onClick={openTheBill}
           >
@@ -1614,6 +1602,261 @@ function PlayingScreen({
         </section>
       ) : null}
     </main>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The persistent People rail.
+ *
+ * Who is in this moment and who has been through the life recently, kept on the
+ * right of the room rather than hidden behind a button. Present people are
+ * pinned by default and cannot be removed while they are in the room; recurring
+ * people can be pinned to keep them, or left to fall off as the life moves on.
+ * Selecting anybody opens the conversation surface, which is where a
+ * relationship is actually acted on.
+ */
+function LifePeopleRail({
+  moment,
+  household,
+  onOpenPerson,
+}: {
+  readonly moment: StoryMoment;
+  readonly household: readonly IntroducedPerson[];
+  readonly onOpenPerson: (personId: EntityId) => void;
+}) {
+  const [collapsed, setCollapsed] = useState(false);
+  const [pinned, setPinned] = useState<readonly EntityId[]>([]);
+
+  type RailPerson = {
+    readonly personId: EntityId;
+    readonly name: string;
+    readonly relationship: string | null;
+    readonly present: boolean;
+  };
+  const people: RailPerson[] = [];
+  const seen = new Set<EntityId>();
+  // Who is literally in the room this moment comes first and is pinned.
+  for (const person of moment.scene.presentPeople) {
+    seen.add(person.personId);
+    people.push({
+      personId: person.personId,
+      name: person.name,
+      relationship: person.relationship,
+      present: true,
+    });
+  }
+  // The generated household is the life's standing cast, so it is always here
+  // even when nobody is in the current scene — the family the fourth play said
+  // it never saw.
+  for (const member of household) {
+    if (seen.has(member.personId)) continue;
+    seen.add(member.personId);
+    people.push({
+      personId: member.personId,
+      name: member.introduction.split(", ")[0] ?? member.introduction,
+      relationship: member.relationship,
+      present: false,
+    });
+  }
+  // Then anyone else this life keeps coming back to.
+  for (const person of moment.people) {
+    if (seen.has(person.personId)) continue;
+    seen.add(person.personId);
+    people.push({
+      personId: person.personId,
+      name: person.name,
+      relationship: null,
+      present: false,
+    });
+  }
+
+  if (people.length === 0) return null;
+
+  return (
+    <aside
+      className={`life-rail${collapsed ? " life-rail--collapsed" : ""}`}
+      data-testid="people-rail"
+      aria-label="People in this life"
+    >
+      <button
+        type="button"
+        className="life-rail-toggle"
+        data-testid="people-rail-toggle"
+        aria-expanded={!collapsed}
+        onClick={() => setCollapsed((value) => !value)}
+      >
+        <span className="life-rail-title">People</span>
+        <span aria-hidden="true">{collapsed ? "▸" : "▾"}</span>
+      </button>
+      {!collapsed ? (
+        <ul className="life-rail-list">
+          {people.map((person) => {
+            const isPinned = person.present || pinned.includes(person.personId);
+            return (
+              <li key={person.personId} className="life-rail-item">
+                <button
+                  type="button"
+                  className="life-pin"
+                  data-testid={`rail-person-${person.personId}`}
+                  data-present={person.present ? "true" : "false"}
+                  onClick={() => onOpenPerson(person.personId)}
+                >
+                  <span className="life-pin-mark" aria-hidden="true">
+                    {railInitials(person.name)}
+                  </span>
+                  <span className="life-pin-copy">
+                    <strong>{person.name}</strong>
+                    {person.relationship ? (
+                      <small>{person.relationship}</small>
+                    ) : person.present ? (
+                      <small>here now</small>
+                    ) : null}
+                  </span>
+                </button>
+                {!person.present ? (
+                  <button
+                    type="button"
+                    className="life-pin-hold"
+                    data-testid={`rail-pin-${person.personId}`}
+                    aria-pressed={isPinned}
+                    aria-label={isPinned ? "Unpin" : "Pin"}
+                    onClick={() =>
+                      setPinned((current) =>
+                        current.includes(person.personId)
+                          ? current.filter((id) => id !== person.personId)
+                          : [...current, person.personId],
+                      )
+                    }
+                  >
+                    {isPinned ? "★" : "☆"}
+                  </button>
+                ) : null}
+              </li>
+            );
+          })}
+        </ul>
+      ) : null}
+    </aside>
+  );
+}
+
+function railInitials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  const first = parts[0]?.[0] ?? "";
+  const last = parts.length > 1 ? (parts[parts.length - 1]?.[0] ?? "") : "";
+  return `${first}${last}`.toUpperCase() || "?";
+}
+
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The compact HUD: where and when the life is, and the way to everything else.
+ *
+ * A small translucent plaque in the corner rather than a header across the top,
+ * so the room keeps the frame. It carries the date and place, the player's own
+ * name, and the row of secondary surfaces — the day, the people, the office —
+ * plus saving and leaving, none of them competing with the moment.
+ */
+function LifeHud({
+  world,
+  personId,
+  name,
+  age,
+  dateLabel,
+  placeName,
+  elsewhere,
+  open,
+  onToggle,
+  canSave,
+  onKeep,
+  onLeave,
+  unsaved,
+  notice,
+  problem,
+}: {
+  readonly world: World;
+  readonly personId: EntityId;
+  readonly name: string;
+  readonly age: number;
+  readonly dateLabel: string;
+  readonly placeName: string | null;
+  readonly elsewhere: readonly {
+    key: "day" | "people" | "work";
+    label: string;
+  }[];
+  readonly open: "day" | "people" | "work" | null;
+  readonly onToggle: (key: "day" | "people" | "work") => void;
+  readonly canSave: boolean;
+  readonly onKeep: () => void;
+  readonly onLeave: () => void;
+  readonly unsaved: boolean;
+  readonly notice: string | null;
+  readonly problem: string | null;
+}) {
+  return (
+    <div className="life-hud" data-testid="life-hud">
+      {notice ? (
+        <p className="life-hud-note" role="status">
+          {notice}
+        </p>
+      ) : null}
+      {problem ? (
+        <p className="life-hud-note life-hud-note--problem" role="status">
+          {problem}
+        </p>
+      ) : null}
+      <div className="life-hud-plaque civic-glass">
+        <PersonPortrait
+          world={world}
+          personId={personId}
+          size="small"
+          note={`${age}${placeName ? ` · ${placeName}` : ""}`}
+        />
+        <div className="life-hud-clock">
+          <strong>{name}</strong>
+          <span>{dateLabel}</span>
+        </div>
+      </div>
+      <nav className="life-hud-nav" aria-label="Elsewhere in this life">
+        {elsewhere.map((entry) => (
+          <button
+            key={entry.key}
+            type="button"
+            className="ui-action ui-action--rail"
+            data-testid={`elsewhere-${entry.key}`}
+            aria-pressed={open === entry.key}
+            onClick={() => onToggle(entry.key)}
+          >
+            {entry.label}
+          </button>
+        ))}
+        {canSave ? (
+          <button
+            type="button"
+            className="ui-action ui-action--rail"
+            data-testid="keep-world"
+            onClick={onKeep}
+          >
+            Save this life
+          </button>
+        ) : null}
+        <button
+          type="button"
+          className="ui-action ui-action--subtle"
+          data-testid="leave-game"
+          onClick={onLeave}
+        >
+          Main menu
+        </button>
+      </nav>
+      {unsaved ? (
+        <p className="life-hud-note" data-testid="unsaved-note">
+          This life has not been saved yet.
+        </p>
+      ) : null}
+    </div>
   );
 }
 
@@ -1652,7 +1895,7 @@ function StoryView({
   );
 
   return (
-    <section className="game-story" data-testid="story-section">
+    <section className="game-story life-moment" data-testid="story-section">
       {/*
         Where and when, before anything happens in it.
         The play surface used to open straight into narration, so the page had
@@ -1704,11 +1947,12 @@ function StoryView({
       <h3 className="game-choices-heading" data-testid="story-choices-heading">
         What do you do?
       </h3>
-      <div className="game-choices" data-testid="story-options">
+      <div className="game-choices life-choices" data-testid="story-options">
         {moment.scene.options.map((option) => (
           <button
             key={option.key}
             type="button"
+            className="ui-action ui-action--choice"
             onClick={() =>
               onWorldChange(
                 chooseStoryOption(session.world, {
@@ -1726,6 +1970,7 @@ function StoryView({
         {moment.scene.kind === "ordinary-stretch" ? null : (
           <button
             type="button"
+            className="ui-action ui-action--choice ui-action--quiet"
             data-testid="story-let-time-pass"
             onClick={() =>
               onWorldChange(letStoryTimePass(session.world, session.personId))

@@ -352,11 +352,12 @@ test.describe("A life happens in the room the records put it in", () => {
     await expect(page.getByTestId("office-section")).toHaveCount(0);
     await expect(page.getByTestId("conversations")).toHaveCount(0);
 
-    const elsewhere = page.getByTestId("life-elsewhere");
-    await expect(elsewhere).toBeVisible();
+    // The secondary systems live on the corner HUD now, not stacked under the
+    // moment. Opening People shows the conversations over the room; closing it
+    // puts them away, so the wall cannot rebuild itself.
+    await expect(page.getByTestId("life-hud")).toBeVisible();
     await page.getByTestId("elsewhere-people").click();
     await expect(page.getByTestId("conversations")).toBeVisible();
-    // And pressing it again puts it away, so the wall cannot rebuild itself.
     await page.getByTestId("elsewhere-people").click();
     await expect(page.getByTestId("conversations")).toHaveCount(0);
   });

@@ -6498,3 +6498,564 @@
   padding: 0.45rem 0.9rem;
   font-size: 0.94rem;
 }
+
+/* ========================================================================== */
+/* The scene-first life shell (Packet 88+ convergence).                       */
+/*                                                                            */
+/* The room is the surface: the plate fills the viewport, the generated       */
+/* household stands on its own anchors, the current moment is a compact       */
+/* civic-glass panel over it, the household is a rail on the right, and        */
+/* everything else is a small plaque in the corner. Nothing here is a large    */
+/* opaque white card, and no control is a flat green rectangle.               */
+/* ========================================================================== */
+
+/* One coherent control vocabulary: civic glass, ink and gold, not web green. */
+.ui-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.4rem;
+  padding: 0.55rem 0.9rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--run-a-ink);
+  background: linear-gradient(180deg, rgb(24 37 58 / 92%), rgb(13 20 32 / 94%));
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.55rem;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.ui-action:hover:not(:disabled) {
+  border-color: var(--run-a-gold);
+  background: linear-gradient(180deg, rgb(31 46 71 / 95%), rgb(18 29 46 / 96%));
+}
+
+.ui-action:focus-visible {
+  outline: 3px solid var(--run-a-focus);
+  outline-offset: 2px;
+}
+
+.ui-action:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ui-action[aria-pressed="true"] {
+  border-color: var(--run-a-gold);
+  box-shadow: inset 0 0 0 1px var(--run-a-gold);
+  color: #fff;
+}
+
+.ui-action--primary {
+  color: #14203a;
+  background: linear-gradient(180deg, #e7c778, var(--run-a-gold));
+  border-color: #a8842f;
+  font-weight: 700;
+}
+
+.ui-action--primary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #eed08a, #cda350);
+  border-color: #8a6a22;
+}
+
+.ui-action--subtle {
+  background: none;
+  border-color: transparent;
+  color: var(--run-a-muted);
+  font-weight: 600;
+}
+
+.ui-action--subtle:hover:not(:disabled) {
+  color: var(--run-a-ink);
+  background: rgb(245 235 212 / 8%);
+  border-color: transparent;
+}
+
+.ui-action--rail {
+  padding: 0.42rem 0.72rem;
+  font-size: 0.9rem;
+}
+
+.ui-action--choice {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.16rem;
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+}
+
+.ui-action--choice small {
+  font-weight: 400;
+  opacity: 0.82;
+  font-size: 0.85rem;
+}
+
+.ui-action--quiet {
+  opacity: 0.9;
+  border-style: dashed;
+}
+
+/* The shell owns the whole viewport; the room is fixed behind it.
+ *
+ * The z-index and isolation establish a stacking context so the fixed plate,
+ * painted at z-index -1, stays behind the shell's own content but IN FRONT of
+ * the page's opaque background. Without it the room drops behind the body
+ * colour and the scene reads as a blank wall. */
+.life-shell {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* The room shows through: no white card, just a soft scrim toward the bottom
+   where the panel and HUD sit, so text stays readable without hiding people. */
+.life-shell .scene-backdrop--art .scene-backdrop-stage::after {
+  background: linear-gradient(
+    rgb(11 19 32 / 6%),
+    rgb(11 19 32 / 4%) 42%,
+    rgb(11 19 32 / 52%)
+  );
+}
+
+.life-shell .scene-backdrop--art .scene-backdrop-content {
+  background: none;
+  padding: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  border-radius: 0;
+}
+
+/* The moment (and the intro) float at the bottom-centre over the room. */
+.life-shell .scene-backdrop-content {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem 1.4rem;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.life-shell .scene-backdrop-content > * {
+  pointer-events: auto;
+}
+
+/* --- People standing in the room --------------------------------------- */
+
+.scene-backdrop-people {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.scene-person-token {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* The fail-closed placeholder: a soft, floor-anchored presence, not a broken
+   image and not somebody else's likeness. It is replaced by real layers the
+   day a body master is released. */
+.scene-person-figure {
+  width: 62%;
+  height: 100%;
+  border-radius: 46% 46% 20% 20% / 60% 60% 12% 12%;
+  background: linear-gradient(180deg, rgb(26 40 63 / 62%), rgb(13 20 32 / 74%));
+  box-shadow:
+    inset 0 2px 6px rgb(245 235 212 / 14%),
+    0 6px 18px rgb(8 13 22 / 42%);
+  border: 1px solid rgb(218 198 153 / 30%);
+}
+
+.scene-person-figure--seated {
+  height: 82%;
+  border-radius: 44% 44% 26% 26% / 52% 52% 16% 16%;
+}
+
+.scene-person-art {
+  position: absolute;
+}
+
+.scene-person-plate {
+  margin-top: 0.3rem;
+  padding: 0.16rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.15;
+  color: var(--run-a-ink);
+  background: rgb(11 19 32 / 78%);
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.4rem;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  backdrop-filter: blur(2px);
+}
+
+.scene-person-plate strong {
+  font-size: 0.85rem;
+}
+
+.scene-person-plate small {
+  color: var(--run-a-muted);
+  font-size: 0.72rem;
+}
+
+/* --- The scene-establishing intro (Task 9) ----------------------------- */
+
+.life-exposition {
+  width: min(38rem, 100%);
+  margin-bottom: 0.5rem;
+  padding: 1.2rem 1.4rem 1.3rem;
+  color: var(--run-a-ink);
+  background: linear-gradient(180deg, rgb(18 29 46 / 88%), rgb(11 19 32 / 92%));
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.9rem;
+  box-shadow: 0 1.2rem 3rem rgb(8 13 22 / 42%);
+  backdrop-filter: blur(4px);
+}
+
+.life-exposition-kicker {
+  margin: 0 0 0.6rem;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--run-a-gold);
+}
+
+.life-exposition-line {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.life-exposition .ui-action {
+  margin-top: 0.7rem;
+}
+
+/* --- The compact moment panel ------------------------------------------ */
+
+.life-moment {
+  width: min(42rem, 100%);
+  max-height: min(56vh, 32rem);
+  overflow-y: auto;
+  padding: 1rem 1.2rem 1.1rem;
+  color: var(--run-a-ink);
+  background: linear-gradient(180deg, rgb(18 29 46 / 90%), rgb(11 19 32 / 93%));
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.9rem;
+  box-shadow: 0 1.2rem 3rem rgb(8 13 22 / 46%);
+  backdrop-filter: blur(5px);
+}
+
+.life-moment .game-scene-header {
+  margin-bottom: 0.5rem;
+}
+
+.life-moment h2,
+.life-moment .game-scene {
+  color: var(--run-a-ink);
+}
+
+.life-moment h2 {
+  font-size: 1.12rem;
+}
+
+.life-moment .game-band {
+  color: var(--run-a-muted);
+}
+
+.life-moment .game-passage {
+  color: var(--run-a-muted);
+  font-style: italic;
+}
+
+.life-moment .game-note {
+  color: var(--run-a-muted);
+}
+
+.life-moment .game-choices-heading {
+  color: var(--run-a-gold);
+  margin-top: 0.7rem;
+}
+
+.life-moment .life-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  grid-template-columns: none;
+}
+
+.life-moment .game-pending {
+  color: var(--run-a-muted);
+}
+
+.life-moment .game-journal-toggle {
+  margin-top: 0.7rem;
+  color: var(--run-a-gold);
+  border-bottom-color: var(--run-a-line);
+}
+
+.life-moment .game-journal-toggle:hover {
+  color: var(--run-a-ink);
+  border-bottom-color: var(--run-a-gold);
+}
+
+/* --- The persistent People rail ---------------------------------------- */
+
+.life-rail {
+  position: fixed;
+  top: 4.5rem;
+  right: 1rem;
+  width: 13.5rem;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.6rem;
+  color: var(--run-a-ink);
+  background: linear-gradient(180deg, rgb(18 29 46 / 82%), rgb(11 19 32 / 88%));
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.8rem;
+  box-shadow: 0 1rem 2.6rem rgb(8 13 22 / 40%);
+  backdrop-filter: blur(5px);
+  z-index: 3;
+}
+
+.life-rail--collapsed {
+  width: auto;
+}
+
+.life-rail-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background: none;
+  border: 0;
+  color: var(--run-a-gold);
+  font: inherit;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  padding: 0.15rem 0.2rem;
+}
+
+.life-rail-toggle:focus-visible {
+  outline: 3px solid var(--run-a-focus);
+  outline-offset: 2px;
+}
+
+.life-rail-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  overflow-y: auto;
+}
+
+.life-rail-item {
+  display: flex;
+  align-items: stretch;
+  gap: 0.3rem;
+}
+
+.life-pin {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.4rem;
+  background: rgb(245 235 212 / 6%);
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  color: var(--run-a-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.life-pin:hover,
+.life-pin:focus-visible {
+  border-color: var(--run-a-gold);
+  background: rgb(245 235 212 / 11%);
+  outline: none;
+}
+
+.life-pin-mark {
+  flex: none;
+  width: 1.9rem;
+  height: 1.9rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #22344f, #131d2e);
+  border: 1px solid var(--run-a-line);
+  color: var(--run-a-ink);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.life-pin-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  min-width: 0;
+}
+
+.life-pin-copy strong {
+  font-size: 0.86rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.life-pin-copy small {
+  color: var(--run-a-muted);
+  font-size: 0.74rem;
+}
+
+.life-pin-hold {
+  flex: none;
+  width: 1.9rem;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  color: var(--run-a-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.life-pin-hold[aria-pressed="true"] {
+  color: var(--run-a-gold);
+}
+
+.life-pin-hold:hover,
+.life-pin-hold:focus-visible {
+  border-color: var(--run-a-gold);
+  color: var(--run-a-gold);
+  outline: none;
+}
+
+/* --- The compact bottom-left HUD --------------------------------------- */
+
+.life-hud {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  width: min(20rem, 60vw);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 3;
+}
+
+.life-hud-plaque {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.7rem;
+}
+
+.life-hud-plaque .person-portrait {
+  margin: 0;
+}
+
+.life-hud-clock {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.life-hud-clock strong {
+  color: var(--run-a-ink);
+  font-size: 0.94rem;
+}
+
+.life-hud-clock span {
+  color: var(--run-a-muted);
+  font-size: 0.8rem;
+}
+
+.life-hud-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.life-hud-note {
+  margin: 0;
+  padding: 0.4rem 0.6rem;
+  color: var(--run-a-ink);
+  background: rgb(11 19 32 / 82%);
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.life-hud-note--problem {
+  border-color: #b4642f;
+}
+
+/* --- Secondary systems, opened over the room --------------------------- */
+
+.life-overlay {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(46rem, calc(100vw - 2rem));
+  max-height: 84vh;
+  overflow-y: auto;
+  padding: 1.2rem 1.3rem 1.4rem;
+  color: #16233a;
+  background: linear-gradient(rgb(248 249 252 / 97%), rgb(248 249 252 / 94%));
+  border-radius: 0.9rem;
+  box-shadow: 0 1.4rem 3.4rem rgb(8 13 22 / 46%);
+  backdrop-filter: blur(6px);
+  z-index: 5;
+}
+
+/* On a phone the fixed rail/HUD stack instead of floating over the room. */
+@media (width <= 52rem) {
+  .life-rail {
+    position: static;
+    width: auto;
+    max-height: none;
+    margin: 0.6rem auto 0;
+  }
+
+  .life-hud {
+    position: static;
+    width: auto;
+    margin: 0.6rem auto 0;
+  }
+
+  .life-shell .scene-backdrop-content {
+    position: static;
+    padding: 0.8rem 0.8rem 1rem;
+  }
+
+  .life-moment,
+  .life-exposition {
+    width: 100%;
+  }
+}
