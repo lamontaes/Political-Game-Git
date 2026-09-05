@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 import {
   BrowserSaveStore,
@@ -57,8 +64,6 @@ import {
   lifePlaceByKey,
   lifePlaceCoverage,
   lifePlaceSearch,
-  PRONOUN_SET_KEYS,
-  PRONOUN_SET_LABELS,
 } from "../simulation";
 import type {
   EntityId,
@@ -589,8 +594,6 @@ function SetupScreen({
   const officeAvailable =
     place?.capabilities.legislativeScenarioKey !== null &&
     setup.startAge >= LEGISLATIVE_OFFICE_MINIMUM_AGE;
-  const derivedPronouns =
-    setup.pronouns ?? defaultPronounsForGender(setup.gender ?? "unstated");
   const genderStated = setup.gender && setup.gender !== "unstated";
   // The compact summaries the finished steps collapse to.
   const summaryText: Partial<Record<CreatorStep, string>> = {
@@ -753,9 +756,9 @@ function SetupScreen({
               {/*
                 Gender, asked rather than decided. Guessing it from the first
                 name would be wrong: the name corpus carries no demographic
-                attribute for anything to be guessed from. Pronouns follow the
-                gender automatically; the small disclosure below is there for a
-                character whose pronouns don't follow from it.
+                attribute for anything to be guessed from. Normal Start exposes
+                gender only (owner override) — pronouns derive silently from it
+                and are never a player-facing control here.
               */}
               <fieldset className="game-fieldset" data-testid="gender-choices">
                 <legend>Gender</legend>
@@ -784,40 +787,6 @@ function SetupScreen({
                   )}
                 </div>
               </fieldset>
-
-              <details
-                className="game-disclosure"
-                data-testid="pronoun-disclosure"
-              >
-                <summary>
-                  Pronouns: {PRONOUN_SET_LABELS[derivedPronouns]}
-                </summary>
-                <p className="game-hint">
-                  These follow the gender you chose. Change them if they don't
-                  fit.
-                </p>
-                <div
-                  className="game-choices game-choices-inline"
-                  data-testid="pronoun-choices"
-                >
-                  {PRONOUN_SET_KEYS.map((key) => (
-                    <button
-                      key={key}
-                      type="button"
-                      data-testid={`pronouns-${key}`}
-                      aria-pressed={derivedPronouns === key}
-                      className={
-                        derivedPronouns === key ? "is-chosen" : undefined
-                      }
-                      onClick={() =>
-                        setSetup((now) => ({ ...now, pronouns: key }))
-                      }
-                    >
-                      {PRONOUN_SET_LABELS[key]}
-                    </button>
-                  ))}
-                </div>
-              </details>
 
               <button
                 type="button"
@@ -1540,7 +1509,6 @@ function PlayingScreen({
       <LifeHud
         world={session.world}
         personId={session.personId}
-        name={moment.personName}
         age={moment.age}
         dateLabel={moment.dateLabel}
         placeName={moment.placeName}
@@ -1556,29 +1524,37 @@ function PlayingScreen({
       />
 
       {open === "day" ? (
-        <section className="life-overlay" data-testid="day-overlay">
+        <LifeOverlay
+          title="The day"
+          testid="day-overlay"
+          onClose={() => setOpen(null)}
+        >
           <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
-        </section>
+        </LifeOverlay>
       ) : null}
 
       {open === "people" ? (
-        <section className="life-overlay" data-testid="people-overlay">
+        <LifeOverlay
+          title="People"
+          testid="people-overlay"
+          onClose={() => setOpen(null)}
+        >
           <PlayerConversations
             world={session.world}
             personId={session.personId}
             onWorldChange={onWorldChange}
           />
-        </section>
+        </LifeOverlay>
       ) : null}
 
       {open === "work" &&
       capabilities.legislation &&
       capabilities.legislativeScenarioKey ? (
-        <section
-          className="life-overlay game-office"
-          data-testid="office-section"
+        <LifeOverlay
+          title="The office"
+          testid="office-section"
+          onClose={() => setOpen(null)}
         >
-          <h2>The office</h2>
           <p>
             {capabilities.person.givenName} works for the{" "}
             {capabilities.workPlace?.displayName} legislature, so what is in
@@ -1599,7 +1575,7 @@ function PlayingScreen({
               onWorldChange={onWorldChange}
             />
           ) : null}
-        </section>
+        </LifeOverlay>
       ) : null}
     </main>
   );
@@ -1762,7 +1738,6 @@ function railInitials(name: string): string {
 function LifeHud({
   world,
   personId,
-  name,
   age,
   dateLabel,
   placeName,
@@ -1778,7 +1753,6 @@ function LifeHud({
 }: {
   readonly world: World;
   readonly personId: EntityId;
-  readonly name: string;
   readonly age: number;
   readonly dateLabel: string;
   readonly placeName: string | null;
@@ -1815,8 +1789,7 @@ function LifeHud({
           note={`${age}${placeName ? ` · ${placeName}` : ""}`}
         />
         <div className="life-hud-clock">
-          <strong>{name}</strong>
-          <span>{dateLabel}</span>
+          <strong>{dateLabel}</strong>
         </div>
       </div>
       <nav className="life-hud-nav" aria-label="Elsewhere in this life">
@@ -1856,6 +1829,67 @@ function LifeHud({
           This life has not been saved yet.
         </p>
       ) : null}
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+
+/**
+ * A secondary surface opened over the room — the day, the people, the office.
+ *
+ * The fourth and fifth plays reported these as white takeovers with no obvious
+ * way out. This frames them as a game panel over a dimmed room, with a titled
+ * header and a clear close: an X, the Escape key, and a click on the room
+ * behind. Closing returns to exactly the moment underneath; nothing is rebuilt.
+ */
+function LifeOverlay({
+  title,
+  testid,
+  onClose,
+  children,
+}: {
+  readonly title: string;
+  readonly testid: string;
+  readonly onClose: () => void;
+  readonly children: ReactNode;
+}) {
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") onClose();
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  return (
+    <div
+      className="life-overlay-scrim"
+      data-testid={`${testid}-scrim`}
+      onClick={onClose}
+    >
+      <section
+        className="life-overlay"
+        data-testid={testid}
+        role="dialog"
+        aria-label={title}
+        aria-modal="true"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <header className="life-overlay-head">
+          <h2>{title}</h2>
+          <button
+            type="button"
+            className="ui-icon-button"
+            data-testid={`${testid}-close`}
+            aria-label="Close"
+            onClick={onClose}
+          >
+            <span aria-hidden="true">✕</span>
+          </button>
+        </header>
+        <div className="life-overlay-body">{children}</div>
+      </section>
     </div>
   );
 }
@@ -1905,9 +1939,13 @@ function StoryView({
         that will sit around it belongs to #86, and nothing here assumes a
         layout it has not shipped.
       */}
-      <header className="game-scene-header" data-testid="story-where">
-        <h2 data-testid="story-who">
-          {moment.personName}, {moment.age}
+      <header
+        className="game-scene-header life-moment-head"
+        data-testid="story-where"
+      >
+        <h2 className="life-identity" data-testid="story-who">
+          <span className="life-identity-name">{moment.personName}</span>
+          <span className="life-identity-age">{moment.age}</span>
         </h2>
         <p className="game-band" data-testid="story-when">
           {moment.dateLabel}

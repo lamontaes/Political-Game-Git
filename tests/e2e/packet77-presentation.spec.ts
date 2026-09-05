@@ -360,7 +360,7 @@ test.describe("A life happens in the room the records put it in", () => {
     await expect(page.getByTestId("life-hud")).toBeVisible();
     await page.getByTestId("elsewhere-people").click();
     await expect(page.getByTestId("conversations")).toBeVisible();
-    await page.getByTestId("elsewhere-people").click();
+    await page.getByTestId("people-overlay-close").click();
     await expect(page.getByTestId("conversations")).toHaveCount(0);
   });
 
@@ -373,7 +373,8 @@ test.describe("A life happens in the room the records put it in", () => {
     const room = await page
       .getByTestId("scene-backdrop")
       .getAttribute("data-scene-id");
-    const moment = await page.getByTestId("story-who").innerText();
+    const who = page.getByTestId("story-who").locator(".life-identity-name");
+    const moment = await who.innerText();
 
     await page.getByTestId("keep-world").click();
     await expect(page.getByTestId("keep-world")).toHaveCount(0);
@@ -382,7 +383,7 @@ test.describe("A life happens in the room the records put it in", () => {
 
     // A saved life has been introduced already, so it opens on its moment.
     await expect(page.getByTestId("life-introduction")).toHaveCount(0);
-    await expect(page.getByTestId("story-who")).toHaveText(moment);
+    await expect(who).toHaveText(moment);
     await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
       "data-scene-id",
       room ?? "",

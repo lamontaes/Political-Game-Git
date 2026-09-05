@@ -100,8 +100,8 @@ test.describe("A life is played in the room, not on a card", () => {
     await expect(page.getByTestId("people-overlay")).toBeVisible();
     await expect(page.getByTestId("conversations")).toBeVisible();
 
-    // Closing it and collapsing the rail are both reachable.
-    await page.getByTestId("elsewhere-people").click();
+    // Closing it (via its X) and collapsing the rail are both reachable.
+    await page.getByTestId("people-overlay-close").click();
     await expect(page.getByTestId("conversations")).toHaveCount(0);
     await page.getByTestId("people-rail-toggle").click();
     await expect(rail.getByTestId(/^rail-person-/)).toHaveCount(0);
