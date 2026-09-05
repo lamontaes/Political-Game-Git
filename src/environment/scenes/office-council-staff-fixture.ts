@@ -279,6 +279,7 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 3,
       allowed_content_classes: ["document-body", "bill-title", "bill-number"],
+      information_access: "institutional-working",
       fallback_decoration: "a clean paper stack on the blotter",
     },
     {
@@ -297,6 +298,7 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
         "jurisdiction-name",
       ],
       civic_symbol_policy: "canonical-source-only",
+      information_access: "public-record",
       fallback_decoration: "a generic municipal street grid with no labels",
     },
     {
@@ -310,6 +312,7 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 2,
       allowed_content_classes: ["document-body", "agenda", "election-result"],
+      information_access: "institutional-working",
       fallback_decoration: "a dark desktop with no windows open",
     },
     {
@@ -323,6 +326,7 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 2,
       allowed_content_classes: ["document-body", "agenda"],
+      information_access: "institutional-working",
       fallback_decoration: "a dark desktop with no windows open",
     },
   ],
