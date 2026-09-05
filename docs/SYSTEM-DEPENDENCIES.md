@@ -23,6 +23,7 @@ stable semantic IDs + normalized seed/keyed RNG + canonical simulation moments
      |- shared incident catalog
      |- shared vitality catalog
      |- observer / controlled-person state
+     |- optional non-diegetic setup priors (outside HistoryStore)
      |- current date + zoned minute-level current moment
      `- append-oriented HistoryStore
         |- canonical events

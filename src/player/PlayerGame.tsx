@@ -7,10 +7,11 @@ import {
 } from "../presentation/browser-world-repository";
 import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
-  chooseFormativeOption,
-  letTimePass,
-  projectFormativeYears,
-} from "../presentation/formative-play";
+  chooseStoryOption,
+  letStoryTimePass,
+  projectStoryMoment,
+} from "../presentation/life-story";
+import { projectLifeRecord } from "../presentation/life-record";
 import {
   DEFAULT_NEW_GAME_SETUP,
   LEGISLATIVE_OFFICE_MINIMUM_AGE,
@@ -21,26 +22,22 @@ import {
   type NewGameSetup,
 } from "../presentation/new-game";
 import {
-  householdConversationRoom,
   openOrdinaryLife,
   passOrdinaryDays,
   projectOrdinaryDay,
 } from "../presentation/ordinary-life";
 import {
-  availableConversationIntents,
-  commitConversationTurn,
-  conversationTopicLabel,
-  createConversationSessionDescriptor,
-  describeConversationBriefingContext,
-  openingConversationBeat,
-} from "../presentation/run-b-conversation";
-import { createHouseholdObligationProgress } from "../presentation/run-b-conversation-progress";
-import {
-  conversationProgressFromHistory,
-  recordedConversationIntents,
-} from "../presentation/conversation-continuity";
+  answerQuestionnaire,
+  endQuestionnaireEarly,
+  questionnaireContentNote,
+  questionnairePathNote,
+  questionnaireScreenFor,
+} from "../presentation/setup-questionnaire-flow";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
-import { TitleScreen } from "./TitleScreen";
+import { buildLifeIntroduction } from "../presentation/life-introduction";
+import { resolveLifeScene } from "../presentation/life-scene";
+import { SceneBackdrop } from "./SceneBackdrop";
+import { AmbientTableau, TitleScreen } from "./TitleScreen";
 import {
   readReplaySeed,
   resolveSessionSeed,
@@ -49,13 +46,22 @@ import {
   readReplaySetup,
   replayDescriptorUrl,
 } from "../presentation/new-game-identity";
-import { lifePlaceCoverage, lifePlaces } from "../simulation";
-import type { EntityId, World } from "../simulation";
+import {
+  defaultPronounsForGender,
+  GENDER_IDENTITY_KEYS,
+  GENDER_IDENTITY_LABELS,
+  lifePlaceCoverage,
+  lifePlaces,
+  PRONOUN_SET_KEYS,
+  PRONOUN_SET_LABELS,
+} from "../simulation";
+import type { EntityId, QuestionnairePhase, World } from "../simulation";
 import {
   openLegislativeWork,
   type LegislativeAssignment,
 } from "../presentation/legislation-world";
 import { LegislationWorkspace } from "./LegislationWorkspace";
+import { PlayerConversations } from "./PlayerConversation";
 import { PersonPortrait } from "./PersonPortrait";
 
 /**
@@ -69,7 +75,17 @@ import { PersonPortrait } from "./PersonPortrait";
 type Screen =
   | { readonly kind: "title" }
   | { readonly kind: "setup" }
+  /**
+   * The calibration, between choosing a life and starting one.
+   *
+   * It carries the setup rather than reading it back from the setup screen,
+   * because the answers are part of the setup by the time the world is built —
+   * and because a player who goes back and changes their age has not answered
+   * a different questionnaire.
+   */
+  | { readonly kind: "questionnaire"; readonly setup: NewGameSetup }
   | { readonly kind: "saves" }
+  | { readonly kind: "options" }
   | { readonly kind: "playing" };
 
 interface Session {
@@ -327,8 +343,24 @@ export function PlayerGame() {
         }}
         onContinue={() => void continueMostRecent()}
         onOpenSaves={() => setScreen({ kind: "saves" })}
+        onOpenOptions={() => setScreen({ kind: "options" })}
       />
     );
+  }
+
+  if (screen.kind === "options") {
+    return <OptionsScreen onBack={() => setScreen({ kind: "title" })} />;
+  }
+
+  function beginLife(setup: NewGameSetup) {
+    try {
+      const game = createNewGameWorld(setup);
+      startPlaying(game.world, game.playerPersonId, setup.seed, null);
+    } catch (error) {
+      setProblem(
+        error instanceof Error ? error.message : "That start did not work.",
+      );
+    }
   }
 
   if (screen.kind === "setup") {
@@ -338,18 +370,36 @@ export function PlayerGame() {
         seedOrigin={sessionSeed.origin}
         onBack={() => setScreen({ kind: "title" })}
         onBegin={(setup) => {
-          try {
-            const game = createNewGameWorld(setup);
-            startPlaying(game.world, game.playerPersonId, setup.seed, null);
-          } catch (error) {
-            setProblem(
-              error instanceof Error
-                ? error.message
-                : "That start did not work.",
-            );
+          setProblem(null);
+          // The calibration runs before the world is built, because its answers
+          // are part of the setup the world is built from — not because the
+          // world reads them. It never does: they go into the world's
+          // non-diegetic corner and nowhere near a generator.
+          if (questionnaireScreenFor(setup)) {
+            setScreen({ kind: "questionnaire", setup });
+            return;
           }
+          beginLife(endQuestionnaireEarly(setup));
         }}
         problem={problem}
+      />
+    );
+  }
+
+  if (screen.kind === "questionnaire") {
+    return (
+      <QuestionnaireScreenView
+        setup={screen.setup}
+        onAnswer={(choiceId) => {
+          const next = answerQuestionnaire(screen.setup, choiceId);
+          if (questionnaireScreenFor(next)) {
+            setScreen({ kind: "questionnaire", setup: next });
+            return;
+          }
+          beginLife(next);
+        }}
+        onFinishEarly={() => beginLife(endQuestionnaireEarly(screen.setup))}
+        onBack={() => setScreen({ kind: "setup" })}
       />
     );
   }
@@ -401,6 +451,45 @@ export function PlayerGame() {
 
 /* -------------------------------------------------------------------------- */
 
+/**
+ * The character creator, as one screen that unfolds.
+ *
+ * WHAT THE SECOND PLAYTEST REJECTED, AND WHAT REPLACED IT.
+ *
+ * New Game used to leave the title's room and land on a blank page carrying
+ * seven headed sections at once, with the four supported places laid out as
+ * cards that read as the game's four recommended starts. The human called it a
+ * form, and it was.
+ *
+ * What is here instead is one continuous screen standing in the same drifting
+ * room the title stands in, revealing the next thing to decide after the last
+ * one is decided. Nothing was removed: every choice the old screen took is
+ * still taken, in the same order, writing the same setup. What changed is that
+ * a player meets them one at a time and never sees a wall.
+ *
+ * The place list starts empty on purpose. Four places is what the accepted
+ * data honestly reaches today, and showing them unprompted made a limitation
+ * look like a recommendation. Searching is the interaction the national
+ * corpus will keep, so this is the seam that adapter lands on rather than a
+ * screen it will have to replace.
+ */
+
+/** The order a life is decided in. Each stage opens when the last one closes. */
+const CREATOR_STAGES = [
+  "route",
+  "place",
+  "character",
+  "life",
+  "calibration",
+  "begin",
+] as const;
+
+type CreatorStage = (typeof CREATOR_STAGES)[number];
+
+function stageIndex(stage: CreatorStage): number {
+  return CREATOR_STAGES.indexOf(stage);
+}
+
 function SetupScreen({
   seed,
   seedOrigin,
@@ -416,270 +505,679 @@ function SetupScreen({
 }) {
   const places = lifePlaces();
   const coverage = lifePlaceCoverage();
+  const [placeQuery, setPlaceQuery] = useState("");
+  /**
+   * Nothing until somebody asks for something.
+   *
+   * This is the whole of the default-card repair: with an empty query the list
+   * is empty, so the four places the game supports are found rather than
+   * offered, and none of them is centred as canonical.
+   */
+  const matchingPlaces = useMemo(() => {
+    const needle = placeQuery.trim().toLowerCase();
+    if (needle.length === 0) return [];
+    return places.filter((candidate) =>
+      [
+        candidate.displayName,
+        candidate.withinName ?? "",
+        // The formal jurisdiction name is searchable even though it is not
+        // shown: somebody who types the name on their tax bill should find
+        // the place they live.
+        candidate.formalName ?? "",
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(needle),
+    );
+  }, [places, placeQuery]);
   const [setup, setSetup] = useState<NewGameSetup>({
     ...DEFAULT_NEW_GAME_SETUP,
     seed,
   });
+  /** How far the screen has opened. It only ever moves forward. */
+  const [reached, setReached] = useState(0);
+  const open = (stage: CreatorStage) => stageIndex(stage) <= reached;
+  const advanceTo = (stage: CreatorStage) =>
+    setReached((current) => Math.max(current, stageIndex(stage)));
+
   const problems = newGameSetupProblems(setup);
   const place = places.find((candidate) => candidate.key === setup.placeKey);
+  const placeChosen = open("character") && place !== undefined;
   const officeAvailable =
     place?.capabilities.legislativeScenarioKey !== null &&
     setup.startAge >= LEGISLATIVE_OFFICE_MINIMUM_AGE;
+  const custom = setup.startKind === "custom";
 
   return (
-    <main className="game-setup" data-testid="setup-screen">
-      <h1>A new life</h1>
+    <AmbientTableau>
+      {(roomDescription: string) => (
+        <main className="game-setup game-creator" data-testid="setup-screen">
+          <h1>A new life</h1>
+          <p
+            className="game-title-scene"
+            data-testid="creator-room-description"
+          >
+            {roomDescription}
+          </p>
 
-      <section>
-        <h2>Where</h2>
-        <div className="game-choices" data-testid="place-choices">
-          {places.map((candidate) => (
-            <button
-              key={candidate.key}
-              type="button"
-              className={
-                candidate.key === setup.placeKey ? "is-chosen" : undefined
-              }
-              onClick={() =>
-                setSetup((current) => ({
-                  ...current,
-                  placeKey: candidate.key,
-                  startingLife:
-                    candidate.capabilities.legislativeScenarioKey === null
-                      ? "ordinary-life"
-                      : current.startingLife,
-                }))
-              }
-            >
-              {candidate.displayName}
-              <small>
-                {candidate.capabilities.legislativeScenarioKey
-                  ? "Legislative procedure available"
-                  : "No legislative procedure yet"}
-              </small>
+          <section data-testid="creator-stage-route">
+            <h2>How this life gets made</h2>
+            <div className="game-choices" data-testid="start-kind-choices">
+              <button
+                type="button"
+                data-testid="start-normal"
+                aria-pressed={!custom}
+                className={!custom ? "is-chosen" : undefined}
+                onClick={() => {
+                  setSetup((current) => ({ ...current, startKind: "normal" }));
+                  advanceTo("place");
+                }}
+              >
+                Normal start
+                <small>
+                  You choose where, how old and who is at home. The game writes
+                  the family and the years behind them, and what you say at the
+                  calibration shapes how that comes out.
+                </small>
+              </button>
+              <button
+                type="button"
+                data-testid="start-custom"
+                aria-pressed={custom}
+                className={custom ? "is-chosen" : undefined}
+                onClick={() => {
+                  setSetup((current) => ({ ...current, startKind: "custom" }));
+                  advanceTo("place");
+                }}
+              >
+                Custom start
+                <small>
+                  The same choices, set by you and left alone. The calibration
+                  still teaches the game how you play; it does not touch who
+                  your family is.
+                </small>
+              </button>
+            </div>
+          </section>
+
+          {open("place") ? (
+            <section data-testid="creator-stage-place">
+              <h2>Where the life begins</h2>
+              <label className="game-search">
+                Search places
+                <input
+                  type="search"
+                  data-testid="place-search"
+                  value={placeQuery}
+                  placeholder="Type a state or a city"
+                  onChange={(event) => setPlaceQuery(event.target.value)}
+                />
+              </label>
+              {matchingPlaces.length > 0 ? (
+                <div className="game-choices" data-testid="place-choices">
+                  {matchingPlaces.map((candidate) => (
+                    <button
+                      key={candidate.key}
+                      type="button"
+                      className={
+                        candidate.key === setup.placeKey
+                          ? "is-chosen"
+                          : undefined
+                      }
+                      onClick={() => {
+                        setSetup((current) => ({
+                          ...current,
+                          placeKey: candidate.key,
+                          startingLife:
+                            candidate.capabilities.legislativeScenarioKey ===
+                            null
+                              ? "ordinary-life"
+                              : current.startingLife,
+                        }));
+                        advanceTo("character");
+                      }}
+                    >
+                      {candidate.displayName}
+                      <small>
+                        {candidate.withinName
+                          ? `${candidate.withinName} · `
+                          : ""}
+                        {candidate.capabilities.legislativeScenarioKey
+                          ? "A legislature you can work in"
+                          : "Everyday life only, for now"}
+                      </small>
+                    </button>
+                  ))}
+                </div>
+              ) : placeQuery.trim().length === 0 ? (
+                <p className="game-note" data-testid="place-prompt">
+                  Type where the life starts. {coverage.playerNote}
+                </p>
+              ) : (
+                <p className="game-note" data-testid="place-no-match">
+                  Nothing here matches that yet. {coverage.playerNote}
+                </p>
+              )}
+              {placeChosen ? (
+                <p className="game-note" data-testid="place-chosen">
+                  Starting in {place.displayName}.
+                </p>
+              ) : null}
+            </section>
+          ) : null}
+
+          {open("character") ? (
+            <section data-testid="creator-stage-character">
+              <h2>Who they are</h2>
+              <div className="game-fields">
+                <label>
+                  First name
+                  <input
+                    type="text"
+                    value={setup.givenName ?? ""}
+                    placeholder="Leave blank to be given one"
+                    onChange={(event) =>
+                      setSetup((current) => ({
+                        ...current,
+                        givenName: event.target.value || null,
+                      }))
+                    }
+                  />
+                </label>
+                <label>
+                  Last name
+                  <input
+                    type="text"
+                    value={setup.familyName ?? ""}
+                    placeholder="Leave blank to be given one"
+                    onChange={(event) =>
+                      setSetup((current) => ({
+                        ...current,
+                        familyName: event.target.value || null,
+                      }))
+                    }
+                  />
+                </label>
+                <label>
+                  Starting age
+                  <input
+                    type="number"
+                    data-testid="start-age"
+                    min={MINIMUM_START_AGE}
+                    max={MAXIMUM_START_AGE}
+                    value={setup.startAge}
+                    onChange={(event) =>
+                      setSetup((current) => ({
+                        ...current,
+                        startAge: Number(event.target.value),
+                      }))
+                    }
+                  />
+                </label>
+              </div>
+
+              {/*
+                Gender, asked rather than decided.
+                The game used to have no answer to this at all — not a default,
+                a gap — so every sentence in it said "they" about everybody
+                including the character the player had just named. Asking is the
+                fix; guessing from the first name would not be, because the name
+                corpus carries no demographic attribute for anything to be
+                guessed from.
+              */}
+              <fieldset className="game-fieldset" data-testid="gender-choices">
+                <legend>Gender</legend>
+                <div className="game-choices game-choices-inline">
+                  {GENDER_IDENTITY_KEYS.map((key) => (
+                    <button
+                      key={key}
+                      type="button"
+                      data-testid={`gender-${key}`}
+                      aria-pressed={(setup.gender ?? "unstated") === key}
+                      className={
+                        (setup.gender ?? "unstated") === key
+                          ? "is-chosen"
+                          : undefined
+                      }
+                      onClick={() => {
+                        setSetup((current) => ({
+                          ...current,
+                          gender: key,
+                          // Follows the gender unless the player says otherwise
+                          // below, which is the whole reason the two are
+                          // separate fields rather than one.
+                          pronouns: defaultPronounsForGender(key),
+                        }));
+                      }}
+                    >
+                      {GENDER_IDENTITY_LABELS[key]}
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+
+              <fieldset className="game-fieldset" data-testid="pronoun-choices">
+                <legend>Pronouns</legend>
+                <p className="game-note">
+                  What the game calls this character in a sentence.
+                </p>
+                <div className="game-choices game-choices-inline">
+                  {PRONOUN_SET_KEYS.map((key) => (
+                    <button
+                      key={key}
+                      type="button"
+                      data-testid={`pronouns-${key}`}
+                      aria-pressed={
+                        (setup.pronouns ??
+                          defaultPronounsForGender(
+                            setup.gender ?? "unstated",
+                          )) === key
+                      }
+                      className={
+                        (setup.pronouns ??
+                          defaultPronounsForGender(
+                            setup.gender ?? "unstated",
+                          )) === key
+                          ? "is-chosen"
+                          : undefined
+                      }
+                      onClick={() =>
+                        setSetup((current) => ({ ...current, pronouns: key }))
+                      }
+                    >
+                      {PRONOUN_SET_LABELS[key]}
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+              {/*
+                The one way out of this stage.
+                An earlier pass had the gender buttons jump the screen forward
+                as a side effect of being pressed, so a player could not change
+                their mind about a control without the page moving under them.
+                A stage is left when its Next is pressed, and not before.
+              */}
+              <button
+                type="button"
+                className="game-creator-next"
+                data-testid="creator-continue-character"
+                onClick={() => advanceTo("life")}
+              >
+                Next
+              </button>
+            </section>
+          ) : null}
+
+          {open("life") ? (
+            <section data-testid="creator-stage-life">
+              <h2>The shape of it</h2>
+              <div className="game-choices">
+                <button
+                  type="button"
+                  className={
+                    setup.depth === "play-formative-years"
+                      ? "is-chosen"
+                      : undefined
+                  }
+                  onClick={() => {
+                    setSetup((current) => ({
+                      ...current,
+                      depth: "play-formative-years",
+                    }));
+                  }}
+                >
+                  Start in childhood
+                  <small>
+                    {setup.startAge < 18
+                      ? "Play the early years one at a time."
+                      : "Only for a character under eighteen."}
+                  </small>
+                </button>
+                <button
+                  type="button"
+                  className={
+                    setup.depth === "summarize-earlier-life"
+                      ? "is-chosen"
+                      : undefined
+                  }
+                  onClick={() => {
+                    setSetup((current) => ({
+                      ...current,
+                      depth: "summarize-earlier-life",
+                    }));
+                  }}
+                >
+                  Begin later
+                  <small>The early years are already behind them.</small>
+                </button>
+              </div>
+
+              <h3>Work</h3>
+              <div className="game-choices">
+                <button
+                  type="button"
+                  className={
+                    setup.startingLife === "ordinary-life"
+                      ? "is-chosen"
+                      : undefined
+                  }
+                  onClick={() =>
+                    setSetup((current) => ({
+                      ...current,
+                      startingLife: "ordinary-life",
+                    }))
+                  }
+                >
+                  Everyday life
+                  <small>No office. No formal political role.</small>
+                </button>
+                <button
+                  type="button"
+                  data-testid="office-start"
+                  className={
+                    setup.startingLife === "legislative-office"
+                      ? "is-chosen"
+                      : undefined
+                  }
+                  disabled={!officeAvailable}
+                  onClick={() =>
+                    setSetup((current) => ({
+                      ...current,
+                      startingLife: "legislative-office",
+                    }))
+                  }
+                >
+                  Legislative staff
+                  <small>
+                    {place?.capabilities.legislativeScenarioKey === null
+                      ? `${place.displayName} has no legislature you can work in yet.`
+                      : setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE
+                        ? `Available for characters ${LEGISLATIVE_OFFICE_MINIMUM_AGE} and older.`
+                        : "Working for a state legislature."}
+                  </small>
+                </button>
+              </div>
+
+              <h3>At home</h3>
+              <div className="game-choices" data-testid="household-choices">
+                <button
+                  type="button"
+                  data-testid="lives-alone"
+                  className={
+                    setup.household === "lives-alone" ? "is-chosen" : undefined
+                  }
+                  onClick={() =>
+                    setSetup((current) => ({
+                      ...current,
+                      household: "lives-alone",
+                    }))
+                  }
+                >
+                  Nobody else
+                  <small>
+                    {setup.startAge < 18
+                      ? "One adult raising them, and no other children."
+                      : "The character lives on their own."}
+                  </small>
+                </button>
+                <button
+                  type="button"
+                  data-testid="shares-a-home"
+                  className={
+                    setup.household === "shares-a-home"
+                      ? "is-chosen"
+                      : undefined
+                  }
+                  onClick={() =>
+                    setSetup((current) => ({
+                      ...current,
+                      household: "shares-a-home",
+                    }))
+                  }
+                >
+                  Somebody else
+                  <small>
+                    {setup.startAge < 18
+                      ? "A brother or a sister in the house too."
+                      : "One other adult shares the household."}
+                  </small>
+                </button>
+              </div>
+              <p className="game-note">
+                The game has no way to know this, so it asks. It matters because
+                somebody has to carry a week.
+              </p>
+              <button
+                type="button"
+                className="game-creator-next"
+                data-testid="creator-continue-life"
+                onClick={() => advanceTo("calibration")}
+              >
+                Next
+              </button>
+            </section>
+          ) : null}
+
+          {open("calibration") ? (
+            <section data-testid="creator-stage-calibration">
+              <h2>Before the story begins</h2>
+              <div className="game-choices" data-testid="calibration-choices">
+                <button
+                  type="button"
+                  data-testid="calibration-short"
+                  className={
+                    setup.questionnaire === "short" ? "is-chosen" : undefined
+                  }
+                  onClick={() => {
+                    setSetup((current) => ({
+                      ...current,
+                      questionnaire: "short",
+                      priors: [],
+                    }));
+                    advanceTo("begin");
+                  }}
+                >
+                  A short set
+                  <small>{questionnairePathNote("short")}</small>
+                </button>
+                <button
+                  type="button"
+                  data-testid="calibration-deep"
+                  className={
+                    setup.questionnaire === "deep" ? "is-chosen" : undefined
+                  }
+                  onClick={() => {
+                    setSetup((current) => ({
+                      ...current,
+                      questionnaire: "deep",
+                      priors: [],
+                    }));
+                    advanceTo("begin");
+                  }}
+                >
+                  Full calibration
+                  <small>{questionnairePathNote("deep")}</small>
+                </button>
+                <button
+                  type="button"
+                  data-testid="calibration-skip"
+                  className={
+                    (setup.questionnaire ?? "skipped") === "skipped"
+                      ? "is-chosen"
+                      : undefined
+                  }
+                  onClick={() => {
+                    setSetup((current) => ({
+                      ...current,
+                      questionnaire: "skipped",
+                      priors: [],
+                    }));
+                    advanceTo("begin");
+                  }}
+                >
+                  Start immediately
+                  <small>{questionnairePathNote("skipped")}</small>
+                </button>
+              </div>
+              <p className="game-note" data-testid="calibration-note">
+                {custom
+                  ? "These questions are put to you, not to your character. They teach the game how you decide, so it can put the right kind of thing in front of you. On a custom start they do not touch your family."
+                  : "These questions are put to you, not to your character. They teach the game how you decide, and on a normal start they also lean the family it writes for you — an older parent or a younger one, a brother or a sister. They never write a fact of their own."}
+              </p>
+            </section>
+          ) : null}
+
+          {problems.length > 0 && open("begin") ? (
+            <p className="game-problem" data-testid="setup-problem">
+              {problems[0]!.message}
+            </p>
+          ) : null}
+          {problem ? <p className="game-problem">{problem}</p> : null}
+
+          <div className="game-setup-actions">
+            <button type="button" onClick={onBack}>
+              Back
             </button>
-          ))}
-        </div>
-        <p className="game-note" data-testid="place-coverage">
-          These are the places a life can begin in today. {coverage.playerNote}
-        </p>
-      </section>
+            <button
+              type="button"
+              data-testid="begin"
+              disabled={problems.length > 0 || !open("begin")}
+              onClick={() => onBegin(setup)}
+            >
+              Begin
+            </button>
+          </div>
 
-      <section>
-        <h2>Who</h2>
-        <div className="game-fields">
-          <label>
-            First name
-            <input
-              type="text"
-              value={setup.givenName ?? ""}
-              placeholder="Leave blank to be given one"
-              onChange={(event) =>
-                setSetup((current) => ({
-                  ...current,
-                  givenName: event.target.value || null,
-                }))
-              }
-            />
-          </label>
-          <label>
-            Last name
-            <input
-              type="text"
-              value={setup.familyName ?? ""}
-              placeholder="Leave blank to be given one"
-              onChange={(event) =>
-                setSetup((current) => ({
-                  ...current,
-                  familyName: event.target.value || null,
-                }))
-              }
-            />
-          </label>
-          <label>
-            Age at the start
-            <input
-              type="number"
-              data-testid="start-age"
-              min={MINIMUM_START_AGE}
-              max={MAXIMUM_START_AGE}
-              value={setup.startAge}
-              onChange={(event) =>
-                setSetup((current) => ({
-                  ...current,
-                  startAge: Number(event.target.value),
-                }))
-              }
-            />
-          </label>
-        </div>
-      </section>
+          {/*
+            Reproducibility, moved off the setup surface proper.
+            A raw seed and a replay address are development tools, and the human
+            playtest read them on the New Game screen as the game showing its
+            working. They stay reachable — a bug report is worth much less
+            without them — behind a collapsed Advanced disclosure, which is
+            where the authority put them.
+          */}
+          <details className="game-dev" data-testid="setup-advanced">
+            <summary>Advanced &mdash; reproducing this world</summary>
+            <p>
+              This world is generated from{" "}
+              <code data-testid="setup-seed">{seed}</code>
+              {seedOrigin === "replay"
+                ? ", which was supplied to reproduce an earlier one."
+                : ", drawn fresh for this session."}{" "}
+              The seed on its own is not enough to rebuild it: the place, the
+              age, how much of the earlier life is played and any names you
+              typed all change what gets built. This address carries all of
+              them.
+            </p>
+            <p>
+              <code data-testid="setup-replay-link">
+                {replayDescriptorUrl("", "/", setup)}
+              </code>
+            </p>
+          </details>
+        </main>
+      )}
+    </AmbientTableau>
+  );
+}
 
-      <section>
-        <h2>How much to play</h2>
-        <div className="game-choices">
-          <button
-            type="button"
-            className={
-              setup.depth === "play-formative-years" ? "is-chosen" : undefined
-            }
-            onClick={() =>
-              setSetup((current) => ({
-                ...current,
-                depth: "play-formative-years",
-              }))
-            }
-          >
-            Play the growing-up years
-            <small>
-              {setup.startAge < 18
-                ? "Decide them one at a time from here."
-                : "Only available for a character under eighteen."}
-            </small>
-          </button>
-          <button
-            type="button"
-            className={
-              setup.depth === "summarize-earlier-life" ? "is-chosen" : undefined
-            }
-            onClick={() =>
-              setSetup((current) => ({
-                ...current,
-                depth: "summarize-earlier-life",
-              }))
-            }
-          >
-            Start with the earlier years behind you
-            <small>They go on the record without being played.</small>
-          </button>
-        </div>
-      </section>
+/* -------------------------------------------------------------------------- */
 
-      <section>
-        <h2>Doing what</h2>
-        <div className="game-choices">
-          <button
-            type="button"
-            className={
-              setup.startingLife === "ordinary-life" ? "is-chosen" : undefined
-            }
-            onClick={() =>
-              setSetup((current) => ({
-                ...current,
-                startingLife: "ordinary-life",
-              }))
-            }
-          >
-            An ordinary life
-            <small>No office, no legislature.</small>
-          </button>
-          <button
-            type="button"
-            data-testid="office-start"
-            className={
-              setup.startingLife === "legislative-office"
-                ? "is-chosen"
-                : undefined
-            }
-            disabled={!officeAvailable}
-            onClick={() =>
-              setSetup((current) => ({
-                ...current,
-                startingLife: "legislative-office",
-              }))
-            }
-          >
-            Working in a legislative office
-            <small>
-              {place?.capabilities.legislativeScenarioKey === null
-                ? `No sourced procedure for ${place.displayName} yet.`
-                : setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE
-                  ? `Needs a character of at least ${LEGISLATIVE_OFFICE_MINIMUM_AGE}.`
-                  : "Staff to a state legislature."}
-            </small>
-          </button>
-        </div>
-      </section>
+/**
+ * The calibration.
+ *
+ * A situation and some ways of handling it. What is deliberately absent is
+ * everything a quiz would have: no score, no summary at the end, and above all
+ * no label. The game never tells a player what it has concluded about them,
+ * because a game that does has stopped being able to be surprised by them.
+ *
+ * Two things left with this wave. The "1 of 26" progress line is gone, because
+ * the deep path has no fixed length any more — it stops when it stops learning
+ * — and a denominator promised one. What remains is a phase, which says that
+ * this ends without saying when.
+ *
+ * And so has "I would rather not say". Declining twenty times in a row is a
+ * worse experience than leaving, and the authority replaced it with the one
+ * control that was always the honest exit: start the life now, keeping
+ * whatever has been answered so far.
+ */
+const PHASE_LINE: Readonly<Record<QuestionnairePhase, string>> = {
+  opening: "Somewhere to start",
+  widening: "A little wider",
+  closing: "Nearly there",
+};
 
-      <section>
-        <h2>Who else is at home</h2>
-        <div className="game-choices" data-testid="household-choices">
-          <button
-            type="button"
-            data-testid="lives-alone"
-            className={
-              setup.household === "lives-alone" ? "is-chosen" : undefined
-            }
-            onClick={() =>
-              setSetup((current) => ({ ...current, household: "lives-alone" }))
-            }
-          >
-            Nobody
-            <small>The character lives on their own.</small>
-          </button>
-          <button
-            type="button"
-            data-testid="shares-a-home"
-            className={
-              setup.household === "shares-a-home" ? "is-chosen" : undefined
-            }
-            onClick={() =>
-              setSetup((current) => ({
-                ...current,
-                household: "shares-a-home",
-              }))
-            }
-          >
-            Somebody else
-            <small>One other adult shares the household.</small>
-          </button>
-        </div>
-        <p className="game-note">
-          The game has no way to know this, so it asks rather than deciding. It
-          matters because a week has to be carried by somebody.
-        </p>
-      </section>
-
-      {problems.length > 0 ? (
-        <p className="game-problem" data-testid="setup-problem">
-          {problems[0]!.message}
-        </p>
-      ) : null}
-      {problem ? <p className="game-problem">{problem}</p> : null}
-
-      <div className="game-setup-actions">
-        <button type="button" onClick={onBack}>
-          Back
-        </button>
-        <button
-          type="button"
-          data-testid="begin"
-          disabled={problems.length > 0}
-          onClick={() => onBegin(setup)}
+function QuestionnaireScreenView({
+  setup,
+  onAnswer,
+  onFinishEarly,
+  onBack,
+}: {
+  readonly setup: NewGameSetup;
+  readonly onAnswer: (choiceId: string | null) => void;
+  readonly onFinishEarly: () => void;
+  readonly onBack: () => void;
+}) {
+  const screen = questionnaireScreenFor(setup);
+  if (!screen) return null;
+  const note = questionnaireContentNote();
+  const custom = setup.startKind === "custom";
+  return (
+    <AmbientTableau>
+      {() => (
+        <main
+          className="game-setup game-creator"
+          data-testid="questionnaire-screen"
         >
-          Begin
-        </button>
-      </div>
+          <h1>Before the story begins</h1>
+          {/*
+            What these questions actually are, said once and plainly.
 
-      <details className="game-dev">
-        <summary>Reproducing this world</summary>
-        <p>
-          This world is generated from{" "}
-          <code data-testid="setup-seed">{seed}</code>
-          {seedOrigin === "replay"
-            ? ", which was supplied to reproduce an earlier one."
-            : ", drawn fresh for this session."}{" "}
-          The seed on its own is not enough to rebuild it: the place, the age,
-          how much of the earlier life is played and any names you typed all
-          change what gets built. This address carries all of them.
-        </p>
-        <p>
-          <code data-testid="setup-replay-link">
-            {replayDescriptorUrl("", "/", setup)}
-          </code>
-        </p>
-      </details>
-    </main>
+            The first playtest could not tell what the calibration was for. The
+            second read the answer it was given as evasive, because by then it
+            was also out of date: Packet 77 lets a normal start's answers lean
+            the family the generator writes. So the line says both halves — who
+            is being asked, and what it does — and says them in the fewest
+            words that are true.
+          */}
+          <p className="game-note" data-testid="questionnaire-framing">
+            {custom
+              ? "These are put to you, not to your character. They teach the game how you decide. On a custom start they do not touch your family."
+              : "These are put to you, not to your character. They teach the game how you decide, and they lean the family it writes for you. They never write a fact of their own."}
+          </p>
+          <p className="game-band" data-testid="questionnaire-progress">
+            {PHASE_LINE[screen.phase]}
+          </p>
+          <p className="game-scene" data-testid="questionnaire-prompt">
+            {screen.prompt}
+          </p>
+          <div className="game-choices" data-testid="questionnaire-options">
+            {screen.options.map((option) => (
+              <button
+                key={option.key}
+                type="button"
+                onClick={() => onAnswer(option.key)}
+              >
+                {option.text}
+              </button>
+            ))}
+          </div>
+          <div className="game-setup-actions">
+            <button type="button" onClick={onBack}>
+              Back
+            </button>
+            <button
+              type="button"
+              data-testid="questionnaire-finish"
+              onClick={onFinishEarly}
+            >
+              Begin life
+            </button>
+          </div>
+          {note ? <p className="game-note">{note}</p> : null}
+        </main>
+      )}
+    </AmbientTableau>
   );
 }
 
@@ -849,6 +1347,53 @@ function PlayingScreen({
   );
 
   /**
+   * Which secondary surface is open, and none to begin with.
+   *
+   * The default matters more than the mechanism: a life opens on its current
+   * moment and nothing else, and everything the playtest saw stacked beside it
+   * is one press away rather than already on the page.
+   */
+  const [open, setOpen] = useState<"day" | "people" | "work" | null>(null);
+
+  /**
+   * The generated family, explained before the first beat.
+   *
+   * A normal start writes the parents and the household rather than letting
+   * the player author them, so the game owes an answer to "who are these
+   * people" before it puts them in a scene — which is exactly what the first
+   * playtest asked about Maya Pittman and never got.
+   *
+   * It shows on a life that has not been saved yet, which is a life that was
+   * just created. A loaded save has been introduced already.
+   */
+  const introduction = useMemo(
+    () => buildLifeIntroduction(session.world, session.personId),
+    [session.world, session.personId],
+  );
+  const [introduced, setIntroduced] = useState(session.saveId !== null);
+
+  const sceneId = useMemo(
+    () => resolveLifeScene(session.world, session.personId).sceneId,
+    [session.world, session.personId],
+  );
+
+  const elsewhere = useMemo(() => {
+    const entries: { key: "day" | "people" | "work"; label: string }[] = [];
+    if (!capabilities.formativeYears) {
+      entries.push({ key: "day", label: "The day" });
+    }
+    entries.push({ key: "people", label: "People" });
+    if (capabilities.legislation && capabilities.legislativeScenarioKey) {
+      entries.push({ key: "work", label: "Work" });
+    }
+    return entries;
+  }, [
+    capabilities.formativeYears,
+    capabilities.legislation,
+    capabilities.legislativeScenarioKey,
+  ]);
+
+  /**
    * Opening the bill puts it in this world, and the world comes back changed.
    * Doing it here rather than inside the workspace is the point: there is one
    * world, this screen owns it, and the surface below is handed it.
@@ -884,30 +1429,114 @@ function PlayingScreen({
         <div className="game-play-actions">
           {session.saveId === null && !savesUnavailable ? (
             <button type="button" data-testid="keep-world" onClick={onKeep}>
-              Keep this life
+              Save this life
             </button>
           ) : null}
           <button type="button" data-testid="leave-game" onClick={onLeave}>
-            Leave
+            Main menu
           </button>
         </div>
       </header>
 
       {session.unsavedSeed !== null ? (
         <p className="game-note" data-testid="unsaved-note">
-          This life has not been kept yet. Nothing is stored until you keep it.
+          This life has not been saved yet.
         </p>
       ) : null}
       {notice ? <p className="game-note">{notice}</p> : null}
       {problem ? <p className="game-problem">{problem}</p> : null}
 
-      {capabilities.formativeYears ? (
-        <FormativeYearsView session={session} onWorldChange={onWorldChange} />
-      ) : (
-        <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
-      )}
+      {!introduced && introduction ? (
+        <SceneBackdrop sceneId={sceneId}>
+          <section
+            className="game-introduction"
+            data-testid="life-introduction"
+          >
+            <h2>Where this starts</h2>
+            {introduction.sentences.map((sentence) => (
+              <p key={sentence} className="game-scene">
+                {sentence}
+              </p>
+            ))}
+            <p className="game-note">
+              The game wrote them. Everything above comes from what it recorded,
+              and nothing has been added to make it read better.
+            </p>
+            <button
+              type="button"
+              data-testid="introduction-continue"
+              onClick={() => setIntroduced(true)}
+            >
+              Begin the life
+            </button>
+          </section>
+        </SceneBackdrop>
+      ) : null}
 
-      {capabilities.legislation && capabilities.legislativeScenarioKey ? (
+      {/*
+        THE ONE PRIMARY MOMENT.
+
+        The second playtest was handed "AT HOME", a meeting, a shared project,
+        addressee controls and audibility controls all at once, and reported
+        being dropped into a dashboard. Nothing was removed to answer that —
+        every system below is still reachable — but only one thing is in front
+        of the player at a time, and the thing in front of them is the scene
+        they are in. It stands in the room the records say they are in, which
+        is the other half of the same complaint.
+      */}
+      {introduced || !introduction ? (
+        <SceneBackdrop sceneId={sceneId}>
+          <StoryView session={session} onWorldChange={onWorldChange} />
+        </SceneBackdrop>
+      ) : null}
+
+      {(introduced || !introduction) && elsewhere.length > 0 ? (
+        <nav className="game-elsewhere" data-testid="life-elsewhere">
+          <h2>Elsewhere in this life</h2>
+          <div className="game-choices game-choices-inline">
+            {elsewhere.map((entry) => (
+              <button
+                key={entry.key}
+                type="button"
+                data-testid={`elsewhere-${entry.key}`}
+                aria-pressed={open === entry.key}
+                className={open === entry.key ? "is-chosen" : undefined}
+                onClick={() =>
+                  setOpen((current) =>
+                    current === entry.key ? null : entry.key,
+                  )
+                }
+              >
+                {entry.label}
+              </button>
+            ))}
+          </div>
+        </nav>
+      ) : null}
+
+      {open === "day" ? (
+        <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
+      ) : null}
+
+      {/*
+        Every conversation this life can have, and not only in adulthood.
+        These sat inside the ordinary-day surface, which the growing-up years
+        deliberately do not render — so a fifteen-year-old could not reach any
+        conversation at all, including the one written for a school corridor.
+        Which conversations appear is decided by the world; this screen only
+        decides that a life has them at every age.
+      */}
+      {open === "people" ? (
+        <PlayerConversations
+          world={session.world}
+          personId={session.personId}
+          onWorldChange={onWorldChange}
+        />
+      ) : null}
+
+      {open === "work" &&
+      capabilities.legislation &&
+      capabilities.legislativeScenarioKey ? (
         <section className="game-office" data-testid="office-section">
           <h2>The office</h2>
           <p>
@@ -930,106 +1559,267 @@ function PlayingScreen({
             />
           ) : null}
         </section>
-      ) : capabilities.formativeYears ? null : (
-        // Worth saying to an adult, who might reasonably expect a workplace.
-        // Not worth saying to a child, who obviously has no legislature.
-        <p className="game-note" data-testid="no-legislation">
-          {capabilities.withheld.find(
-            (entry) => entry.surface === "legislation",
-          )?.reason ?? ""}
-        </p>
-      )}
+      ) : null}
     </main>
   );
 }
 
 /* -------------------------------------------------------------------------- */
 
-function FormativeYearsView({
+/**
+ * One life, on one surface.
+ *
+ * This replaced two views that each drew their own card — the growing-up years
+ * and the adult bank — and drew them side by side with nothing between. What a
+ * player got was a prompt, a click, a jump in the date, and an unrelated
+ * prompt. The connective narration above the scene is the repair: it says how
+ * the life got from the last moment to this one, and it is composed from the
+ * record rather than written for the occasion.
+ *
+ * The scene below it may be a composed episode beat, a formative situation or
+ * an adult one. Which is not signalled: they are the same kind of thing to a
+ * player, and labelling them would tell somebody which moments the game thinks
+ * are important.
+ *
+ * What this life is carrying is shown as sentences about people and problems,
+ * never as a list of threads. There is no count, no standing, no family name
+ * and no machinery on this screen.
+ */
+function StoryView({
   session,
   onWorldChange,
 }: {
   readonly session: Session;
   readonly onWorldChange: (world: World) => void;
 }) {
-  const years = useMemo(
-    () => projectFormativeYears(session.world, session.personId),
+  const [journalOpen, setJournalOpen] = useState(false);
+  const moment = useMemo(
+    () => projectStoryMoment(session.world, session.personId),
     [session.world, session.personId],
   );
 
   return (
-    <section className="game-formative" data-testid="formative-section">
-      {years.scene ? (
-        <>
-          <p className="game-band" data-testid="formative-band">
-            {years.scene.bandLabel} · {years.scene.age}
-          </p>
-          <p className="game-scene" data-testid="formative-prose">
-            {years.scene.prose}
-          </p>
-          {years.scene.withPersonName ? (
-            <p className="game-note">{years.scene.withPersonName} is there.</p>
-          ) : null}
-          <div className="game-choices" data-testid="formative-options">
-            {years.scene.options.map((option) => (
-              <button
-                key={option.key}
-                type="button"
-                onClick={() =>
-                  onWorldChange(
-                    chooseFormativeOption(session.world, {
-                      personId: session.personId,
-                      situationKey: years.scene!.situationKey,
-                      optionKey: option.key,
-                      withPersonId: years.scene!.withPersonId,
-                    }),
-                  )
-                }
-              >
-                {option.label}
-                <small>{option.description}</small>
-              </button>
-            ))}
-          </div>
-        </>
-      ) : (
-        <>
-          <p className="game-scene">
-            Nothing this year that anyone would tell a story about.
-          </p>
-          <div className="game-choices">
-            <button
-              type="button"
-              data-testid="let-time-pass"
-              onClick={() =>
-                onWorldChange(letTimePass(session.world, session.personId))
-              }
-            >
-              Let the year go by
-              <small>Some of them do.</small>
-            </button>
-          </div>
-        </>
-      )}
+    <section className="game-story" data-testid="story-section">
+      {/*
+        Where and when, before anything happens in it.
+        The play surface used to open straight into narration, so the page had
+        no anchor: a reader met a paragraph about somebody, then a paragraph
+        about somebody else, with nothing saying whose life this was or what
+        year it had got to. This is semantic and textual only — the scene art
+        that will sit around it belongs to #86, and nothing here assumes a
+        layout it has not shipped.
+      */}
+      <header className="game-scene-header" data-testid="story-where">
+        <h2 data-testid="story-who">
+          {moment.personName}, {moment.age}
+        </h2>
+        <p className="game-band" data-testid="story-when">
+          {moment.dateLabel}
+          {moment.placeName ? ` · ${moment.placeName}` : ""}
+        </p>
+      </header>
 
-      {years.memories.length > 0 ? (
-        <div className="game-memories" data-testid="formative-memories">
-          <h2>What you remember</h2>
-          <ol>
-            {years.memories.map((memory, index) => (
-              <li key={`${memory.formedAt}:${index}`}>
-                <span>{memory.ageAtTime}</span>
-                {memory.summary}
-              </li>
-            ))}
-          </ol>
-        </div>
+      {moment.connective.sentences.length > 0 ? (
+        <p className="game-passage" data-testid="story-passage">
+          {moment.connective.sentences.join(" ")}
+        </p>
+      ) : null}
+
+      {moment.scene.prose.length > 0 ? (
+        <p className="game-scene" data-testid="story-prose">
+          {moment.scene.prose}
+        </p>
+      ) : null}
+
+      {/*
+        Who is here, and who they are to you.
+        This said "Maya Pittman is there." to a ten-year-old whose guardian
+        Maya was, leaving the player to guess a relationship off a shared
+        surname. The relation is read from canonical records — the authority
+        record, the kinship record, the school register — and when no record
+        establishes one, only the name is shown.
+      */}
+      {moment.scene.presentPeople.length > 0 ? (
+        <p className="game-note" data-testid="story-people">
+          {moment.scene.presentPeople
+            .map((person) => person.introduction)
+            .join(" and ")}{" "}
+          {moment.scene.presentPeople.length === 1 ? "is" : "are"} here.
+        </p>
+      ) : null}
+
+      <h3 className="game-choices-heading" data-testid="story-choices-heading">
+        What do you do?
+      </h3>
+      <div className="game-choices" data-testid="story-options">
+        {moment.scene.options.map((option) => (
+          <button
+            key={option.key}
+            type="button"
+            onClick={() =>
+              onWorldChange(
+                chooseStoryOption(session.world, {
+                  personId: session.personId,
+                  scene: moment.scene,
+                  optionKey: option.key,
+                }),
+              )
+            }
+          >
+            {option.label}
+            <small>{option.description}</small>
+          </button>
+        ))}
+        {moment.scene.kind === "ordinary-stretch" ? null : (
+          <button
+            type="button"
+            data-testid="story-let-time-pass"
+            onClick={() =>
+              onWorldChange(letStoryTimePass(session.world, session.personId))
+            }
+          >
+            {moment.formativeYears ? "Let the year run on" : "Let time pass"}
+            <small>Come back to it when something needs you.</small>
+          </button>
+        )}
+      </div>
+
+      {moment.openThreads.length > 0 ? (
+        <ul className="game-pending" data-testid="story-open">
+          {moment.openThreads.map((thread) => (
+            <li key={thread.threadKey}>{thread.sentence}</li>
+          ))}
+        </ul>
+      ) : null}
+
+      {/*
+        The record, behind a control rather than poured down the screen.
+        It used to be an always-visible "WHAT YOU REMEMBER" list that grew with
+        every beat until it was most of the page, which is a debug log with a
+        friendly heading. Nothing underneath changed; what changed is that a
+        player now opens it when they want it.
+      */}
+      <button
+        type="button"
+        className="game-journal-toggle"
+        data-testid="open-journal"
+        aria-expanded={journalOpen}
+        onClick={() => setJournalOpen((open) => !open)}
+      >
+        {journalOpen
+          ? "Close the journal"
+          : "Open the journal — everything that has happened"}
+      </button>
+      {journalOpen ? (
+        <JournalView session={session} onClose={() => setJournalOpen(false)} />
       ) : null}
     </section>
   );
 }
 
 /* -------------------------------------------------------------------------- */
+
+/**
+ * The journal.
+ *
+ * A deliberate screen rather than a wall of logs, in three parts: what has
+ * happened, who is in this life, and what is still open. All three are read
+ * from the same canonical records the play surface reads; nothing is stored
+ * twice.
+ */
+function JournalView({
+  session,
+  onClose,
+}: {
+  readonly session: Session;
+  readonly onClose: () => void;
+}) {
+  const chapters = useMemo(
+    () => projectLifeRecord(session.world, session.personId),
+    [session.world, session.personId],
+  );
+  return (
+    <div className="game-journal" data-testid="journal">
+      <h2>{chapters.personName}</h2>
+      <p className="game-note">{chapters.summary}</p>
+
+      <h3>What has happened</h3>
+      {chapters.chapters.length === 0 ? (
+        <p className="game-note" data-testid="journal-empty">
+          Nothing has been written down yet. It will fill up as the life goes
+          on.
+        </p>
+      ) : (
+        <ol data-testid="journal-entries">
+          {chapters.chapters.map((chapter) => (
+            <li key={chapter.key}>
+              <strong>{chapter.heading}</strong>
+              <ul>
+                {chapter.entries.map((entry) => (
+                  <li key={entry.key}>{entry.sentence}</li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ol>
+      )}
+
+      {chapters.people.length > 0 ? (
+        <>
+          <h3>People</h3>
+          <ul data-testid="journal-people">
+            {chapters.people.map((person) => (
+              <li key={person.personId}>{person.sentence}</li>
+            ))}
+          </ul>
+        </>
+      ) : null}
+
+      {chapters.open.length > 0 ? (
+        <>
+          <h3>Still open</h3>
+          <ul data-testid="journal-open">
+            {chapters.open.map((entry) => (
+              <li key={entry.key}>{entry.sentence}</li>
+            ))}
+          </ul>
+        </>
+      ) : null}
+
+      <button type="button" onClick={onClose}>
+        Close
+      </button>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Options.
+ *
+ * Present because the main menu names it and a menu entry that goes nowhere is
+ * worse than one that says what it has. What it has today is the accessibility
+ * setting the title art actually honours and an honest note about the rest.
+ */
+function OptionsScreen({ onBack }: { readonly onBack: () => void }) {
+  return (
+    <main className="game-setup" data-testid="options-screen">
+      <h1>Options</h1>
+      <p className="game-note">
+        Motion in the game follows your system&rsquo;s reduced-motion setting,
+        so nothing here has to be switched on to make it stop.
+      </p>
+      <p className="game-note">
+        There is not much else to set yet. As the game grows the settings it
+        actually needs will appear here rather than being invented in advance.
+      </p>
+      <button type="button" onClick={onBack}>
+        Back
+      </button>
+    </main>
+  );
+}
 
 function OrdinaryDayView({
   session,
@@ -1068,131 +1858,6 @@ function OrdinaryDayView({
           <small>Move to tomorrow.</small>
         </button>
       </div>
-      {day.companionName ? (
-        <HouseholdConversation
-          session={session}
-          onWorldChange={onWorldChange}
-        />
-      ) : null}
     </section>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-
-/**
- * Talking at home.
- *
- * Runs on the same conversation engine the office uses — same room, same
- * hearing rules, same commitment semantics — with a different subject in front
- * of it. The options below are the household subject's own; none of the
- * office's casework ever appears here.
- */
-function HouseholdConversation({
-  session,
-  onWorldChange,
-}: {
-  readonly session: Session;
-  readonly onWorldChange: (world: World) => void;
-}) {
-  // Derived from canonical history rather than remembered here. Closing this
-  // screen and reopening it — or saving, reloading and continuing — used to
-  // put the player back at turn one of a conversation the world had already
-  // recorded them finishing.
-  const progress = useMemo(
-    () =>
-      conversationProgressFromHistory(
-        session.world,
-        session.personId,
-        "household-obligation",
-      ) ?? createHouseholdObligationProgress(),
-    [session.world, session.personId],
-  );
-  // Turn ordinals start at one; the engine treats zero as a mistake. The turn
-  // this is on comes from what the world has recorded, not from a counter that
-  // resets when the component does.
-  const turn =
-    recordedConversationIntents(
-      session.world,
-      session.personId,
-      "household-obligation",
-    ).length + 1;
-  const [said, setSaid] = useState<string | null>(null);
-  const [trouble, setTrouble] = useState<string | null>(null);
-
-  const room = useMemo(
-    () => householdConversationRoom(session.world, session.personId),
-    [session.world, session.personId],
-  );
-  if (!room) return null;
-  const addressee = room.eligibleAddresseePersonIds[0]!;
-  const intents = availableConversationIntents(
-    session.world,
-    room,
-    addressee,
-    progress,
-  );
-  const beat = openingConversationBeat(
-    session.world,
-    room,
-    addressee,
-    progress,
-  );
-
-  return (
-    <div className="game-conversation" data-testid="household-conversation">
-      <p className="game-band" data-testid="conversation-topic">
-        {conversationTopicLabel(progress)}
-      </p>
-      <p className="game-note" data-testid="conversation-briefing">
-        {describeConversationBriefingContext(session.world, room, progress)}
-      </p>
-      <p className="game-scene" data-testid="conversation-beat">
-        {said ?? beat.dialogue}
-      </p>
-      {trouble ? <p className="game-problem">{trouble}</p> : null}
-      {intents.length > 0 ? (
-        <div className="game-choices" data-testid="conversation-intents">
-          {intents.map((option) => (
-            <button
-              key={option.key}
-              type="button"
-              onClick={() => {
-                try {
-                  const result = commitConversationTurn(session.world, {
-                    session: createConversationSessionDescriptor(
-                      session.world,
-                      room,
-                    ),
-                    room,
-                    progress,
-                    turnOrdinal: turn,
-                    addressee,
-                    audibility: "normal",
-                    intent: option.key,
-                  });
-                  onWorldChange(result.world);
-                  setSaid(result.presentation.beat?.dialogue ?? null);
-                  setTrouble(null);
-                } catch (error) {
-                  setTrouble(
-                    error instanceof Error
-                      ? error.message
-                      : "That did not come out right.",
-                  );
-                }
-              }}
-            >
-              {option.label}
-              <small>{option.description}</small>
-            </button>
-          ))}
-        </div>
-      ) : (
-        <p className="game-note" data-testid="conversation-closed">
-          That is settled for now.
-        </p>
-      )}
-    </div>
   );
 }

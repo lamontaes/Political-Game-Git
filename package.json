@@ -45,7 +45,8 @@
     "dev:identified": "node scripts/dev-identified.mjs",
     "stress:persons": "node --import tsx src/cli/stress-persons.ts",
     "trace:export": "node --import tsx src/cli/trace-export.ts",
-    "compare:seeds": "node --import tsx src/cli/compare-seeds.ts"
+    "compare:seeds": "node --import tsx src/cli/compare-seeds.ts",
+    "report:life": "node --import tsx scripts/life-report.ts"
   },
   "dependencies": {
     "react": "19.2.6",

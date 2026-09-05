@@ -41,6 +41,28 @@ async function waitForPort(
   return false;
 }
 
+/**
+ * Wait for something the *child* process printed.
+ *
+ * The launcher's own banner is written synchronously before Vite is spawned, so
+ * it is on the pipe by the time the port opens. Vite's banner is not: it binds
+ * the listener first and prints "ready in Nms" afterwards, so an assertion made
+ * the instant the port accepts a connection is a race the test loses on a
+ * loaded machine. It lost it on CI while passing locally on the same commit.
+ */
+async function waitForOutput(
+  read: () => string,
+  needle: string,
+  timeoutMs = 10000,
+): Promise<boolean> {
+  const start = Date.now();
+  while (Date.now() - start < timeoutMs) {
+    if (read().includes(needle)) return true;
+    await new Promise((r) => setTimeout(r, 50));
+  }
+  return false;
+}
+
 describe("dev:identified lifecycle and CLI forwarding", () => {
   it("prints banner and forwards custom arguments like --mode", async () => {
     const port = 5188;
@@ -78,7 +100,8 @@ describe("dev:identified lifecycle and CLI forwarding", () => {
     expect(output).toContain("Host: 127.0.0.1");
     expect(output).toContain(`Requested Port: ${port}`);
     expect(output).toContain("Launcher PID:");
-    expect(output).toContain("test-proof-mode");
+    // Printed by Vite, not by the launcher, so it can arrive after the bind.
+    expect(await waitForOutput(() => output, "test-proof-mode")).toBe(true);
 
     child.kill("SIGTERM");
     const isClosed = await waitForPort(port, false, 5000);

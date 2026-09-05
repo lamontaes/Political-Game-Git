@@ -18,6 +18,7 @@ import type {
   EntityId,
   IsoDate,
   MindSourceReference,
+  RelationshipChange,
   World,
 } from "../simulation";
 import {
@@ -26,7 +27,21 @@ import {
   advanceSchoolProject,
   conversationCommitContract,
   conversationSubjectPresentation,
+  selectAuthoredVariant,
 } from "./conversation-subjects";
+import {
+  conversationPerceptionSubjectKey,
+  conversationStanding,
+  effectNames,
+  priorConversationPerceptionId,
+  scheduleConversationAftermath,
+  writeConversationCommitment,
+} from "./conversation-consequences";
+import type {
+  ConversationOutcome,
+  ConversationStanding,
+} from "./conversation-consequences";
+import type { ConversationCommitContract } from "./conversation-subjects";
 import {
   canListenToRunBConversation,
   createRunBConversationProgress,
@@ -205,20 +220,26 @@ export interface CommitConversationTurnInput {
 
 export interface ConversationSemanticResult {
   readonly turnKey: string;
-  readonly outcome:
-    | "committed"
-    | "deferred"
-    | "boundary-held"
-    | "reassured"
-    | "bystander-interjected"
-    | "continued"
-    | "silence-held";
+  readonly outcome: ConversationOutcome;
   readonly responseSpeakerPersonId: EntityId | null;
   readonly actualListenerPersonIds: readonly EntityId[];
   readonly claimRecipientPersonIds: readonly EntityId[];
   readonly claimAudience: ClaimAudience | null;
   readonly durableDecisionRecorded: boolean;
-  readonly relationshipConsequence: "strengthened" | "strained" | null;
+  /**
+   * How the exchange left the two people in it.
+   *
+   * Widened from the engine's old pair to the canonical relationship
+   * vocabulary, because an exchange that settled something without moving
+   * anybody is `maintained` and used to be recorded as nothing at all.
+   */
+  readonly relationshipConsequence: RelationshipChange | null;
+  /** The id of the life commitment this turn created, when it created one. */
+  readonly commitmentId: EntityId | null;
+  /** True when this turn scheduled something that can come back. */
+  readonly aftermathScheduled: boolean;
+  /** The perception this turn's perception replaced, when it replaced one. */
+  readonly supersededPerceptionIds: readonly EntityId[];
 }
 
 export interface ConversationPresentationResult {
@@ -238,23 +259,34 @@ export interface CommitConversationTurnResult {
 
 interface ResolvedResponse {
   readonly world: World;
-  readonly outcome: ConversationSemanticResult["outcome"];
+  readonly outcome: ConversationOutcome;
   readonly speakerPersonId: EntityId | null;
   readonly dialogue: string | null;
   readonly perception: string | null;
   readonly durableDecisionRecorded: boolean;
+  /** What the room did, when nobody said anything. */
+  readonly roomNarration?: string;
 }
 
 export function createConversationSessionDescriptor(
   world: World,
   room: ConversationRoomContext,
+  /**
+   * The frontier this conversation began at, when it is already under way.
+   *
+   * Omitted, the session starts here — which is right for opening one and wrong
+   * for continuing one, because a descriptor rebuilt after every turn keys
+   * itself differently each time and an exchange stops being one exchange.
+   */
+  startedAtHistorySequence?: number,
 ): ConversationSessionDescriptor {
   validateConversationRoom(world, room);
   const participantPersonIds = canonicalPeople(
     room,
     room.activeParticipantPersonIds,
   );
-  const startingHistorySequence = world.history.nextSequence;
+  const startingHistorySequence =
+    startedAtHistorySequence ?? world.history.nextSequence;
 
   return {
     sessionKey: conversationSessionKey(
@@ -509,7 +541,10 @@ export function commitConversationTurn(
 
   const resolved =
     responseSpeakerPersonId === null
-      ? resolveQuietRoom(inputWorld)
+      ? resolveQuietRoom(inputWorld, {
+          sceneKey: input.room.sceneKey,
+          turnOrdinal: input.turnOrdinal,
+        })
       : resolveNpcResponse(inputWorld, {
           turnKey,
           room: input.room,
@@ -537,6 +572,23 @@ export function commitConversationTurn(
   ]);
   const eventVisibility =
     input.audibility === "private" ? "private" : "limited";
+
+  // What this turn writes is the subject's business, not the engine's. A
+  // household deciding who does the shopping used to leave casework history.
+  const commit = conversationCommitContract(currentProgress);
+  const choiceContext = {
+    // Addressing the room is addressing the person in it, which is the same
+    // reading the subject dialogue already uses.
+    addresseeName: shortPersonName(
+      world,
+      input.addressee === "everyone"
+        ? input.room.eligibleAddresseePersonIds[0]!
+        : input.addressee,
+    ),
+    named: (role: string) =>
+      shortPersonName(world, conversationRole(input.room, role)),
+  };
+  const choiceSentence = commit.choice(input.intent, choiceContext);
   const eventSummary = conversationEventSummary(
     world,
     input.room.playerPersonId,
@@ -544,11 +596,8 @@ export function commitConversationTurn(
     input.intent,
     resolved.outcome,
     currentProgress,
+    { commit, choiceSentence },
   );
-
-  // What this turn writes is the subject's business, not the engine's. A
-  // household deciding who does the shopping used to leave casework history.
-  const commit = conversationCommitContract(currentProgress);
 
   world = recordWorldEvent(world, {
     stableKey: `${turnKey}:event`,
@@ -590,7 +639,15 @@ export function commitConversationTurn(
       commit.contextTag,
       `conversation.intent.${input.intent}`,
       `conversation.audibility.${input.audibility}`,
+      // How it came out. The record used to say what was said and never how it
+      // landed, which meant a refusal and an agreement left identical history —
+      // and meant the progress this turn belongs to could not be rebuilt from
+      // the record after a reload.
+      `conversation.outcome.${resolved.outcome}`,
       commit.subjectTag,
+      // The conversation this turn belongs to, so a reader can group five turns
+      // into the exchange they actually were.
+      `conversation.session.${input.session.sessionKey}`,
     ],
     summary: eventSummary,
     context: {
@@ -602,21 +659,11 @@ export function commitConversationTurn(
       socialContext: commit.socialContext,
       pressure: commit.pressure(input.intent),
       // Written by the subject in front of the player, in its own words.
-      choice: commit.choice(input.intent, {
-        // Addressing the room is addressing the person in it, which is the
-        // same reading the subject dialogue already uses.
-        addresseeName: shortPersonName(
-          world,
-          input.addressee === "everyone"
-            ? input.room.eligibleAddresseePersonIds[0]!
-            : input.addressee,
-        ),
-        named: (role) =>
-          shortPersonName(world, conversationRole(input.room, role)),
-      }),
+      choice: choiceSentence,
       motivation: commit.motivation,
       immediateReaction:
         resolved.dialogue ??
+        resolved.roomNarration ??
         "The room settled briefly; no participant added another claim.",
     },
   });
@@ -672,6 +719,7 @@ export function commitConversationTurn(
     });
   }
 
+  const supersededPerceptionIds: EntityId[] = [];
   const claimSpeakerPersonId = resolved.speakerPersonId;
   const claimRecipientPersonIds =
     claimSpeakerPersonId === null || claim === null || claim === undefined
@@ -709,12 +757,26 @@ export function commitConversationTurn(
       if (!knowledge) {
         throw new Error("Conversation claim knowledge was not recorded.");
       }
+      // An opinion about this person, on this subject. Carrying the subject in
+      // the key is what keeps a revision a revision: without it, what somebody
+      // made of a neighbour at a doorstep would silently replace what they
+      // made of the same neighbour about something else entirely.
+      const perceptionSubjectKey = conversationPerceptionSubjectKey(
+        commit.subject,
+        claimSpeakerPersonId,
+      );
+      const supersedes = priorConversationPerceptionId(
+        world,
+        personId,
+        perceptionSubjectKey,
+      );
+      if (supersedes !== null) supersededPerceptionIds.push(supersedes);
       world = recordPerception(world, {
         stableKey: `${turnKey}:perception:${personId}`,
         personId,
         perceivedAt: world.currentDate,
         subjectKind: "entity:conversation-position",
-        subjectKey: `conversation-response:${claimSpeakerPersonId}`,
+        subjectKey: perceptionSubjectKey,
         subjectEntityId: claimSpeakerPersonId,
         assertion: resolved.perception,
         confidence: "medium",
@@ -724,18 +786,23 @@ export function commitConversationTurn(
           claimId: claim.id,
           knowledgeId: knowledge.id,
         },
-        supersedesPerceptionId: null,
+        supersedesPerceptionId: supersedes,
       });
     }
   }
 
-  const relationshipConsequence = relationshipConsequenceFor(input.intent);
-  if (relationshipConsequence !== null) {
+  // What the exchange did to the people in it, what it obliged anybody to, and
+  // what may come back — all three declared by the subject rather than decided
+  // here, and all three taking the outcome the turn actually reached.
+  const effect = commit.relationship?.(input.intent, resolved.outcome) ?? null;
+  let relationshipConsequence: RelationshipChange | null = null;
+  if (effect !== null) {
     if (resolved.speakerPersonId === null) {
       throw new Error(
         "A relationship-changing conversation turn requires an NPC response.",
       );
     }
+    relationshipConsequence = effect.change;
     world = recordRelationshipInteraction(world, {
       stableKey: `${turnKey}:relationship`,
       personIds: canonicalPair(
@@ -744,16 +811,55 @@ export function commitConversationTurn(
       ),
       eventId: event.id,
       occurredAt: world.currentDate,
-      kind: commit.interactionKind(relationshipConsequence),
-      change: relationshipConsequence,
-      significance: "meaningful",
-      summary:
-        relationshipConsequence === "strengthened"
-          ? `${shortPersonName(world, input.room.playerPersonId)} kept the request narrow, strengthening the working exchange with ${shortPersonName(world, resolved.speakerPersonId)}.`
-          : `${shortPersonName(world, input.room.playerPersonId)} pressed for an immediate answer, straining the exchange with ${shortPersonName(world, resolved.speakerPersonId)}.`,
+      kind: effect.kind,
+      change: effect.change,
+      significance: effect.significance,
+      summary: effect.summary(
+        effectNames(world, input.room.playerPersonId, resolved.speakerPersonId),
+      ),
       tags: commit.interactionTags,
     });
   }
+
+  let commitmentId: EntityId | null = null;
+  const commitmentSpec =
+    resolved.speakerPersonId === null
+      ? null
+      : (commit.commitment?.(input.intent, resolved.outcome) ?? null);
+  if (commitmentSpec !== null && resolved.speakerPersonId !== null) {
+    const holderId =
+      commitmentSpec.holder === "player"
+        ? input.room.playerPersonId
+        : resolved.speakerPersonId;
+    world = writeConversationCommitment(world, {
+      personId: holderId,
+      eventId: event.id,
+      stableKey: turnKey,
+      jurisdictionId: input.room.jurisdictionId,
+      spec: commitmentSpec,
+    });
+    commitmentId = world.history.lifeCommitments.at(-1)?.id ?? null;
+  }
+
+  const beforeAftermath = world.history.futureDueItems.length;
+  const aftermathSpec =
+    resolved.speakerPersonId === null
+      ? null
+      : (commit.aftermath?.(input.intent, resolved.outcome) ?? null);
+  if (aftermathSpec !== null) {
+    world = scheduleConversationAftermath(world, {
+      personId: input.room.playerPersonId,
+      counterpartPersonId: resolved.speakerPersonId,
+      eventId: event.id,
+      stableKey: turnKey,
+      subject: commit.subject,
+      intent: String(input.intent),
+      occurredAt: world.currentDate,
+      aftermath: aftermathSpec,
+    });
+  }
+  const aftermathScheduled =
+    world.history.futureDueItems.length > beforeAftermath;
 
   assertWorldIntegrity(world);
   return {
@@ -768,6 +874,9 @@ export function commitConversationTurn(
       claimAudience,
       durableDecisionRecorded: resolved.durableDecisionRecorded,
       relationshipConsequence,
+      commitmentId,
+      aftermathScheduled,
+      supersededPerceptionIds,
     },
     presentation: {
       beat:
@@ -801,7 +910,8 @@ export function commitConversationTurn(
             }`,
       roomNarration:
         resolved.speakerPersonId === null
-          ? "The room settles. No one adds anything yet."
+          ? (resolved.roomNarration ??
+            "The room settles. No one adds anything yet.")
           : null,
       hearingDescription: describeConversationHearing(
         world,
@@ -855,6 +965,8 @@ function resolveNpcResponse(
   }
   if (isSchoolProjectConversationProgress(input.progress)) {
     return resolveSchoolProjectResponse(world, {
+      turnKey: input.turnKey,
+      playerPersonId: input.playerPersonId,
       speakerPersonId: input.speakerPersonId,
       intent: input.intent,
       progress: input.progress,
@@ -862,6 +974,8 @@ function resolveNpcResponse(
   }
   if (isNeighborhoodMeetingConversationProgress(input.progress)) {
     return resolveNeighborhoodMeetingResponse(world, {
+      turnKey: input.turnKey,
+      playerPersonId: input.playerPersonId,
       speakerPersonId: input.speakerPersonId,
       intent: input.intent,
       progress: input.progress,
@@ -869,6 +983,8 @@ function resolveNpcResponse(
   }
   if (isHouseholdObligationConversationProgress(input.progress)) {
     return resolveHouseholdObligationResponse(world, {
+      turnKey: input.turnKey,
+      playerPersonId: input.playerPersonId,
       speakerPersonId: input.speakerPersonId,
       intent: input.intent,
       progress: input.progress,
@@ -976,7 +1092,27 @@ function resolveNpcResponse(
   throw new Error("Listen requires a pending bounded contribution.");
 }
 
-function resolveQuietRoom(world: World): ResolvedResponse {
+/**
+ * Nobody said anything.
+ *
+ * This had one sentence in it, which meant every silence in the game was the
+ * same silence. The bank below is still small and still says the same thing —
+ * variation here is presentation, and a silence that meant something different
+ * each time would be the engine inventing an atmosphere the world has not
+ * recorded. What decides which line is the room and how long the two of them
+ * have already been at it, both of which are canonical.
+ */
+const QUIET_ROOM_LINES: readonly string[] = [
+  "The room settled briefly; no participant added another claim.",
+  "Nobody said anything, and the moment went past.",
+  "It stayed unsaid, and after a while it stopped being a pause.",
+  "Neither of them took it up, and the quiet did not seem to need explaining.",
+];
+
+function resolveQuietRoom(
+  world: World,
+  context: { readonly sceneKey: string; readonly turnOrdinal: number },
+): ResolvedResponse {
   return {
     world,
     outcome: "silence-held",
@@ -984,6 +1120,11 @@ function resolveQuietRoom(world: World): ResolvedResponse {
     dialogue: null,
     perception: null,
     durableDecisionRecorded: false,
+    roomNarration: selectAuthoredVariant(
+      world,
+      `quiet-room:${context.sceneKey}:${context.turnOrdinal}`,
+      QUIET_ROOM_LINES,
+    ),
   };
 }
 
@@ -1027,16 +1168,406 @@ function resolveLegislativeProvisionResponse(
   };
 }
 
+/* -------------------------------------------------------------------------- */
+/* How somebody answers, and why it is not always the same answer.             */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The register somebody answers in.
+ *
+ * Read from what the world has actually recorded between these two people, and
+ * from nothing else. Three exchanges that went badly and none that went well is
+ * a reason to answer differently from somebody who has been covered for twice,
+ * and it is a reason the record can be asked about afterwards.
+ *
+ * What is deliberately absent is the player model. Which beat the player was
+ * offered, what the adaptive layer thinks they are like, how they answered a
+ * questionnaire before the game began — none of it reaches here, and none of it
+ * can: an NPC whose warmth was a function of the player's profile would be the
+ * game deciding what somebody thinks of you.
+ */
+type ResponseTone = "warm" | "even" | "worn";
+
+function responseTone(standing: ConversationStanding): ResponseTone {
+  if (standing.strainedCount > standing.strengthenedCount) return "worn";
+  if (standing.strengthenedCount > 0) return "warm";
+  return "even";
+}
+
+/**
+ * A bank of lines that all mean the same thing, and what a listener makes of
+ * them.
+ *
+ * Every line in a bank has to be interchangeable, because the canonical record
+ * is written from the subject's commit contract rather than from whichever
+ * sentence came out. Variation that changed the meaning would make the record
+ * depend on which line was drawn.
+ */
+interface TonedResponse {
+  readonly lines: readonly string[];
+  readonly perception: string;
+}
+
+type TonedBank = Readonly<Record<ResponseTone, TonedResponse>>;
+
+function speakTone(
+  world: World,
+  context: string,
+  standing: ConversationStanding,
+  bank: TonedBank,
+): {
+  readonly line: string;
+  readonly perception: string;
+  readonly tone: ResponseTone;
+} {
+  const tone = responseTone(standing);
+  const chosen = bank[tone];
+  return {
+    tone,
+    line: selectAuthoredVariant(world, `${context}:${tone}`, chosen.lines),
+    perception: chosen.perception,
+  };
+}
+
+/**
+ * A decision somebody actually makes, outside the office.
+ *
+ * The office subject has had this since it was written: two options, a set of
+ * considerations drawn from records the actor owns, and a durable trace of how
+ * they weighed it. Everything else in the game answered from a switch. This is
+ * the same evaluator with the office's own considerations lifted out, so a
+ * household, a school corridor and a doorstep can all ask somebody to decide
+ * something and get an answer that depends on who they are.
+ *
+ * Every consideration below is a record. Where a record cannot be cited the
+ * consideration carries no source reference rather than a fabricated one.
+ */
+function evaluateSubjectResponseDecision(
+  world: World,
+  input: {
+    readonly turnKey: string;
+    readonly actorPersonId: EntityId;
+    readonly playerPersonId: EntityId;
+    readonly decisionType: string;
+    readonly subjectKind: string;
+    readonly subjectKey: string;
+    readonly standing: ConversationStanding;
+    readonly accept: { readonly key: string; readonly description: string };
+    readonly refuse: { readonly key: string; readonly description: string };
+  },
+): DecisionEvaluation {
+  const considerations: DecisionConsideration[] = [];
+  const interactions = world.history.relationshipInteractions.filter((record) =>
+    input.standing.interactionIds.includes(record.id),
+  );
+  const lastStrained = [...interactions]
+    .reverse()
+    .find((record) => record.change === "strained");
+  const lastStrengthened = [...interactions]
+    .reverse()
+    .find((record) => record.change === "strengthened");
+
+  if (lastStrained) {
+    considerations.push({
+      stableKey: "conversation:recent-friction",
+      optionKey: input.refuse.key,
+      sourceType: "social:recent-friction",
+      direction: "supports",
+      importance: "strong",
+      confidence: "high",
+      explanation:
+        "The last exchange between the two of them is recorded as having gone badly.",
+      sourceRefs: [
+        { kind: "relationship-interaction", interactionId: lastStrained.id },
+      ],
+    });
+  }
+  if (lastStrengthened) {
+    considerations.push({
+      stableKey: "conversation:recent-goodwill",
+      optionKey: input.accept.key,
+      sourceType: "social:recent-goodwill",
+      direction: "supports",
+      importance: "strong",
+      confidence: "high",
+      explanation: "The two of them have a recorded exchange that went well.",
+      sourceRefs: [
+        {
+          kind: "relationship-interaction",
+          interactionId: lastStrengthened.id,
+        },
+      ],
+    });
+  }
+  if (input.standing.counterpartCommitmentId !== null) {
+    considerations.push({
+      stableKey: "conversation:already-carrying",
+      optionKey: input.refuse.key,
+      sourceType: "social:existing-commitments",
+      direction: "supports",
+      importance: "moderate",
+      confidence: "high",
+      explanation:
+        "They are already recorded as carrying something with hours attached.",
+      sourceRefs: [
+        {
+          kind: "life-history",
+          reference: {
+            family: "life-commitment",
+            recordId: input.standing.counterpartCommitmentId,
+          },
+        },
+      ],
+    });
+  }
+  if (input.standing.counterpartHouseholdMembershipId !== null) {
+    considerations.push({
+      stableKey: "conversation:shared-household",
+      optionKey: input.accept.key,
+      sourceType: "social:shared-household",
+      direction: "supports",
+      importance: "moderate",
+      confidence: "high",
+      explanation:
+        "They are on the same household record, and the week lands on both of them either way.",
+      sourceRefs: [
+        {
+          kind: "life-history",
+          reference: {
+            family: "household-membership",
+            recordId: input.standing.counterpartHouseholdMembershipId,
+          },
+        },
+      ],
+    });
+  }
+  // Something always weighs, so an answer is never a coin landing on its edge.
+  considerations.push({
+    stableKey: "conversation:asked-directly",
+    optionKey: input.accept.key,
+    sourceType: "context:asked-directly",
+    direction: "supports",
+    importance: "slight",
+    confidence: "medium",
+    explanation: "They were asked plainly, to their face.",
+    sourceRefs: [],
+  });
+  if (input.standing.priorTurnsOnSubject > 2) {
+    considerations.push({
+      stableKey: "conversation:raised-before",
+      optionKey: input.refuse.key,
+      sourceType: "context:raised-before",
+      direction: "supports",
+      importance: "moderate",
+      confidence: "medium",
+      explanation: "This has been raised between them more than once already.",
+      sourceRefs: [],
+    });
+  }
+
+  return evaluateDecision(world, {
+    stableKey: `${input.turnKey}:npc-decision`,
+    decisionType: input.decisionType,
+    actorPersonId: input.actorPersonId,
+    cutoff: currentHistoricalCutoff(world),
+    subject: {
+      kind: input.subjectKind as never,
+      key: input.subjectKey,
+      entityId: input.playerPersonId,
+    },
+    options: [
+      {
+        key: input.accept.key,
+        label: "Take it on",
+        description: input.accept.description,
+      },
+      {
+        key: input.refuse.key,
+        label: "Say no to it",
+        description: input.refuse.description,
+      },
+    ],
+    constraints: [],
+    considerations,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+}
+
+/* -------------------------------------------------------------------------- */
+
+const HOUSEHOLD_RAISE: TonedBank = {
+  warm: {
+    lines: [
+      "“I know,” {name} says. “I was going to bring it up and then I did not.”",
+      "“Yes,” {name} says, without any edge on it. “I have been not-saying it too.”",
+      "“Good,” {name} says. “One of us had to.”",
+    ],
+    perception: "{full} had been meaning to raise the same thing.",
+  },
+  even: {
+    lines: [
+      "“I know,” {name} says. “I have been not-saying it too.”",
+      "“Right,” {name} says, and puts the cup down. “Go on, then.”",
+      "“It is the same week for me,” {name} says. “So. Yes.”",
+    ],
+    perception: "{full} had been avoiding the same conversation.",
+  },
+  worn: {
+    lines: [
+      "“Here we go,” {name} says, not quite under their breath.",
+      "“I wondered how long that would take,” {name} says.",
+      "“We have had this one,” {name} says. “But go on.”",
+    ],
+    perception:
+      "{full} treated it as a conversation the two of them had already had.",
+  },
+};
+
+const HOUSEHOLD_OFFER: TonedBank = {
+  warm: {
+    lines: [
+      "“Then I owe you one,” {name} says. “I mean that.”",
+      "“You are sure?” {name} says, and then, “thank you. Properly.”",
+      "“That is a help,” {name} says. “More than you think.”",
+    ],
+    perception: "{full} accepted the offer and said it counted.",
+  },
+  even: {
+    lines: [
+      "“All right,” {name} says. “If you are offering.”",
+      "“Fine by me,” {name} says. “Say if it turns out to be too much.”",
+      "“Take it, then,” {name} says. “I will not argue.”",
+    ],
+    perception: "{full} accepted the offer without making much of it.",
+  },
+  worn: {
+    lines: [
+      "“Right,” {name} says. “Well. That is this week sorted.”",
+      "“If you want,” {name} says, already halfway out of the room.",
+      "“You do not have to make a point of it,” {name} says, and takes it anyway.",
+    ],
+    perception: "{full} took the offer and did not treat it as a favour.",
+  },
+};
+
+const HOUSEHOLD_SHARE: TonedBank = {
+  warm: {
+    lines: [
+      "“Half each works,” {name} says. “Tell me which half.”",
+      "“That is fair,” {name} says. “You pick, I will do the rest.”",
+      "“Good,” {name} says. “Write it down so neither of us forgets.”",
+    ],
+    perception: "{full} agreed to split {errands}.",
+  },
+  even: {
+    lines: [
+      "“Half each, then,” {name} says. “Which half do you want?”",
+      "“That will do,” {name} says. “Say which bits are yours.”",
+      "“Split it,” {name} says. “Fine.”",
+    ],
+    perception: "{full} agreed to split {errands}.",
+  },
+  worn: {
+    lines: [
+      "“Half,” {name} says. “And we both actually do it this time.”",
+      "“All right,” {name} says. “But I am not doing yours as well.”",
+      "“Down the middle,” {name} says, “and I will hold you to it.”",
+    ],
+    perception:
+      "{full} agreed to split {errands}, with the last time attached to it.",
+  },
+};
+
+/**
+ * The one the other person decides.
+ *
+ * Asking somebody to take your week is a request, and a request can be refused.
+ * Which way it goes is theirs, weighed over what the two of them have recorded
+ * between them.
+ */
+const HOUSEHOLD_ASK_TAKEN: TonedBank = {
+  warm: {
+    lines: [
+      "“Of course,” {name} says. “You have had a week of it.”",
+      "“Leave it with me,” {name} says. “Go and sit down.”",
+      "“I will get it,” {name} says. “It is not a problem.”",
+    ],
+    perception: "{full} took {errands} on without making a condition of it.",
+  },
+  even: {
+    lines: [
+      "“Fine. I will do it,” {name} says. “Not every week, though.”",
+      "“This week,” {name} says. “Not as a standing arrangement.”",
+      "“All right,” {name} says. “Once.”",
+    ],
+    perception: "{full} took {errands} on, and said so with a limit attached.",
+  },
+  worn: {
+    lines: [
+      "“I will do it,” {name} says. “I am saying that with a face, though.”",
+      "“Since you are asking,” {name} says, in the voice that means it is noted.",
+      "“Right,” {name} says. “Add it to the list of things I am doing.”",
+    ],
+    perception: "{full} took {errands} on and made sure it was noticed.",
+  },
+};
+
+const HOUSEHOLD_ASK_REFUSED: TonedBank = {
+  warm: {
+    lines: [
+      "“I cannot this week,” {name} says, and looks like they mean it. “I am sorry.”",
+      "“Not this one,” {name} says. “Any other week, ask me again.”",
+      "“I would if I could,” {name} says. “I genuinely cannot.”",
+    ],
+    perception: "{full} could not take {errands} on and said why.",
+  },
+  even: {
+    lines: [
+      "“No,” {name} says. “My week is the same as yours.”",
+      "“I have got nothing spare either,” {name} says.",
+      "“Not this week,” {name} says. “It will have to be both of us or neither.”",
+    ],
+    perception: "{full} would not take {errands} on.",
+  },
+  worn: {
+    lines: [
+      "“No,” {name} says. “Not again.”",
+      "“You always ask,” {name} says, “and I always say yes. Not this time.”",
+      "“I am not doing it,” {name} says. “That is not me being difficult.”",
+    ],
+    perception:
+      "{full} refused {errands}, and made it about more than this week.",
+  },
+};
+
+function fill(
+  template: string,
+  values: {
+    readonly name: string;
+    readonly full: string;
+    readonly errands: string;
+  },
+): string {
+  return template
+    .replaceAll("{name}", values.name)
+    .replaceAll("{full}", values.full)
+    .replaceAll("{errands}", values.errands);
+}
+
 /**
  * The other person answers about the week.
  *
- * Nothing here reaches for the decision machinery the office subject uses: no
- * commitment is being extracted, and none is recorded. Two people are settling
- * who does the shopping.
+ * What they say now depends on what the world records about the two of them,
+ * and whether they take the week when asked is a decision they make rather than
+ * a row in a table.
  */
 function resolveHouseholdObligationResponse(
   world: World,
   input: {
+    readonly turnKey: string;
+    readonly playerPersonId: EntityId;
     readonly speakerPersonId: EntityId;
     readonly intent: ConversationIntent;
     readonly progress: HouseholdObligationConversationProgress;
@@ -1044,63 +1575,193 @@ function resolveHouseholdObligationResponse(
 ): ResolvedResponse {
   const speaker = world.people[input.speakerPersonId];
   if (!speaker) throw new Error("The other person in the room is missing.");
-  const shortName = speaker.familyName;
-  const errands = input.progress.subjectFacts.shortObligation;
+  const values = {
+    name: speaker.familyName,
+    full: personName(speaker),
+    errands: input.progress.subjectFacts.shortObligation,
+  };
+  const standing = conversationStanding(
+    world,
+    input.playerPersonId,
+    input.speakerPersonId,
+    "conversation.subject.household-obligation",
+  );
+  const context = `household:${input.intent}:${input.speakerPersonId}`;
+
+  const say = (bank: TonedBank, outcome: ConversationOutcome, next = world) => {
+    const spoken = speakTone(next, context, standing, bank);
+    return {
+      world: next,
+      outcome,
+      speakerPersonId: input.speakerPersonId,
+      dialogue: fill(spoken.line, values),
+      perception: fill(spoken.perception, values),
+      durableDecisionRecorded: false,
+    } satisfies ResolvedResponse;
+  };
 
   switch (input.intent) {
     case "raise-obligation":
-      return {
-        world,
-        outcome: "continued",
-        speakerPersonId: input.speakerPersonId,
-        dialogue: `“I know,” ${shortName} says. “I have been not-saying it too.”`,
-        perception: `${personName(speaker)} had been avoiding the same conversation.`,
-        durableDecisionRecorded: false,
-      };
+      return say(HOUSEHOLD_RAISE, "continued");
     case "offer-to-cover":
-      return {
-        world,
-        outcome: "reassured",
-        speakerPersonId: input.speakerPersonId,
-        dialogue: `“Then I owe you one,” ${shortName} says. “I mean that.”`,
-        perception: `${personName(speaker)} accepted the offer and said it counted.`,
-        durableDecisionRecorded: false,
-      };
+      return say(HOUSEHOLD_OFFER, "reassured");
     case "ask-to-share":
+      return say(HOUSEHOLD_SHARE, "continued");
+    case "ask-for-time": {
+      assertNpcAutonomousApplication(world, input.speakerPersonId);
+      const evaluation = evaluateSubjectResponseDecision(world, {
+        turnKey: input.turnKey,
+        actorPersonId: input.speakerPersonId,
+        playerPersonId: input.playerPersonId,
+        decisionType: "conversation.household-week-response",
+        subjectKind: "context:household-conversation",
+        subjectKey: "ask-for-time:who-carries-the-week",
+        standing,
+        accept: {
+          key: "take-the-week",
+          description: "Take the week's errands on this time.",
+        },
+        refuse: {
+          key: "decline-the-week",
+          description: "Say the week will not stretch to it either.",
+        },
+      });
+      const traced = recordDurableDecisionTrace(world, evaluation);
+      const took = evaluation.selectedOptionKey === "take-the-week";
       return {
-        world,
-        outcome: "continued",
-        speakerPersonId: input.speakerPersonId,
-        dialogue: `“Half each works,” ${shortName} says. “Tell me which half.”`,
-        perception: `${personName(speaker)} agreed to split ${errands}.`,
-        durableDecisionRecorded: false,
+        ...say(
+          took ? HOUSEHOLD_ASK_TAKEN : HOUSEHOLD_ASK_REFUSED,
+          took ? "deferred" : "boundary-held",
+          traced,
+        ),
+        durableDecisionRecorded: true,
       };
-    case "ask-for-time":
-      return {
-        world,
-        outcome: "deferred",
-        speakerPersonId: input.speakerPersonId,
-        dialogue: `“Fine. I will do it,” ${shortName} says. “Not every week, though.”`,
-        perception: `${personName(speaker)} took ${errands} on, and said so with a limit attached.`,
-        durableDecisionRecorded: false,
-      };
+    }
     case "listen":
-      return {
-        world,
-        outcome: "silence-held",
-        speakerPersonId: null,
-        dialogue: null,
-        perception: null,
-        durableDecisionRecorded: false,
-      };
+      return resolveQuietRoom(world, {
+        sceneKey: "conversation:household",
+        turnOrdinal: standing.priorTurnsOnSubject,
+      });
     default:
       throw new Error("That is not something to say about the week at home.");
   }
 }
 
+const SCHOOL_RAISE: TonedBank = {
+  warm: {
+    lines: [
+      "“I thought you were doing that bit,” {name} says, and then, “sorry. I did think that.”",
+      "“Oh,” {name} says. “I had that down as yours. That is on me.”",
+      "“Right,” {name} says. “Neither of us, then. Good to know now.”",
+    ],
+    perception: "{full} had assumed the unstarted part was somebody else's.",
+  },
+  even: {
+    lines: [
+      "“I thought you had it,” {name} says.",
+      "“Nobody has done it?” {name} says. “Great.”",
+      "“So that is still sitting there,” {name} says.",
+    ],
+    perception: "{full} had assumed the unstarted part was somebody else's.",
+  },
+  worn: {
+    lines: [
+      "“This again,” {name} says.",
+      "“I am not doing all of it,” {name} says, before anything else is said.",
+      "“Let me guess,” {name} says. “It is mine.”",
+    ],
+    perception: "{full} answered as somebody expecting to be handed the work.",
+  },
+};
+
+const SCHOOL_OFFER: TonedBank = {
+  warm: {
+    lines: [
+      "“You do not have to do that,” {name} says, already writing their name next to a different section.",
+      "“Then I will do the rest of it properly,” {name} says.",
+      "“That is decent of you,” {name} says. “I will get the other half done.”",
+    ],
+    perception: "{full} took a section rather than accept the whole offer.",
+  },
+  even: {
+    lines: [
+      "“If you want it,” {name} says. “I will take the rest.”",
+      "“All right,” {name} says. “I have got the other part.”",
+      "“Suits me,” {name} says, and writes their name next to something else.",
+    ],
+    perception: "{full} took a section rather than accept the whole offer.",
+  },
+  worn: {
+    lines: [
+      "“Fine,” {name} says. “You do that bit and I will do mine.”",
+      "“Whatever works,” {name} says, not looking up.",
+      "“Sure,” {name} says. “That is what I thought would happen.”",
+    ],
+    perception: "{full} accepted the split without treating it as generous.",
+  },
+};
+
+const SCHOOL_SPLIT_AGREED: TonedBank = {
+  warm: {
+    lines: [
+      "“Down the middle, then,” {name} says. “You pick first, so you cannot complain.”",
+      "“Deal,” {name} says. “Which half do you want?”",
+      "“Half each,” {name} says. “Say now which bit is yours.”",
+    ],
+    perception: "{full} agreed to divide the unstarted work.",
+  },
+  even: {
+    lines: [
+      "“Half each,” {name} says. “Fine.”",
+      "“All right,” {name} says. “Write down who has what.”",
+      "“Split it,” {name} says. “I do not mind which.”",
+    ],
+    perception: "{full} agreed to divide the unstarted work.",
+  },
+  worn: {
+    lines: [
+      "“Half,” {name} says. “And it gets done this time.”",
+      "“All right,” {name} says, “but I am not covering yours again.”",
+      "“Down the middle,” {name} says. “Actually down the middle.”",
+    ],
+    perception:
+      "{full} agreed to divide the work, with the last time attached to it.",
+  },
+};
+
+const SCHOOL_SPLIT_REFUSED: TonedBank = {
+  warm: {
+    lines: [
+      "“I cannot take half of it,” {name} says. “Not this week. I am sorry.”",
+      "“Ask me next time,” {name} says. “This one I genuinely cannot.”",
+      "“I would,” {name} says, “but I have got two others due.”",
+    ],
+    perception: "{full} could not take half of the work and said why.",
+  },
+  even: {
+    lines: [
+      "“No,” {name} says. “I have not got the time for half of it.”",
+      "“Not half,” {name} says. “I will do a bit, not half.”",
+      "“I cannot,” {name} says. “That is all.”",
+    ],
+    perception: "{full} would not take half of the work.",
+  },
+  worn: {
+    lines: [
+      "“No,” {name} says. “I did it last time.”",
+      "“That is not happening,” {name} says.",
+      "“You keep asking,” {name} says. “The answer is still no.”",
+    ],
+    perception:
+      "{full} refused the split, and made it about more than this project.",
+  },
+};
+
 function resolveSchoolProjectResponse(
   world: World,
   input: {
+    readonly turnKey: string;
+    readonly playerPersonId: EntityId;
     readonly speakerPersonId: EntityId;
     readonly intent: ConversationIntent;
     readonly progress: SchoolProjectConversationProgress;
@@ -1108,53 +1769,192 @@ function resolveSchoolProjectResponse(
 ): ResolvedResponse {
   const speaker = world.people[input.speakerPersonId];
   if (!speaker) throw new Error("The other person in the room is missing.");
-  const shortName = speaker.familyName;
+  const values = {
+    name: speaker.familyName,
+    full: personName(speaker),
+    errands: input.progress.subjectFacts.work,
+  };
+  const standing = conversationStanding(
+    world,
+    input.playerPersonId,
+    input.speakerPersonId,
+    "conversation.subject.school-project",
+  );
+  const context = `school:${input.intent}:${input.speakerPersonId}`;
+
+  const say = (bank: TonedBank, outcome: ConversationOutcome, next = world) => {
+    const spoken = speakTone(next, context, standing, bank);
+    return {
+      world: next,
+      outcome,
+      speakerPersonId: input.speakerPersonId,
+      dialogue: fill(spoken.line, values),
+      perception: fill(spoken.perception, values),
+      durableDecisionRecorded: false,
+    } satisfies ResolvedResponse;
+  };
 
   switch (input.intent) {
     case "raise-share":
-      return {
-        world,
-        outcome: "continued",
-        speakerPersonId: input.speakerPersonId,
-        dialogue: `“I thought you were doing that bit,” ${shortName} says, and then, “sorry. I did think that.”`,
-        perception: `${personName(speaker)} had assumed the unstarted part was somebody else's.`,
-        durableDecisionRecorded: false,
-      };
+      return say(SCHOOL_RAISE, "continued");
     case "offer-to-do-more":
+      return say(SCHOOL_OFFER, "reassured");
+    case "ask-to-split": {
+      assertNpcAutonomousApplication(world, input.speakerPersonId);
+      const evaluation = evaluateSubjectResponseDecision(world, {
+        turnKey: input.turnKey,
+        actorPersonId: input.speakerPersonId,
+        playerPersonId: input.playerPersonId,
+        decisionType: "conversation.school-share-response",
+        subjectKind: "context:school-conversation",
+        subjectKey: "ask-to-split:who-does-which-half",
+        standing,
+        accept: {
+          key: "split-the-work",
+          description: "Take half of the unstarted work.",
+        },
+        refuse: {
+          key: "decline-the-split",
+          description: "Say there is no room for half of it.",
+        },
+      });
+      const traced = recordDurableDecisionTrace(world, evaluation);
+      const agreed = evaluation.selectedOptionKey === "split-the-work";
       return {
-        world,
-        outcome: "reassured",
-        speakerPersonId: input.speakerPersonId,
-        dialogue: `“You do not have to do that,” ${shortName} says, already writing their name next to a different section.`,
-        perception: `${personName(speaker)} took a section rather than accept the whole offer.`,
-        durableDecisionRecorded: false,
+        ...say(
+          agreed ? SCHOOL_SPLIT_AGREED : SCHOOL_SPLIT_REFUSED,
+          agreed ? "continued" : "boundary-held",
+          traced,
+        ),
+        durableDecisionRecorded: true,
       };
-    case "ask-to-split":
-      return {
-        world,
-        outcome: "continued",
-        speakerPersonId: input.speakerPersonId,
-        dialogue: `“Down the middle, then,” ${shortName} says. “You pick first, so you cannot complain.”`,
-        perception: `${personName(speaker)} agreed to divide the unstarted work.`,
-        durableDecisionRecorded: false,
-      };
+    }
     case "listen":
-      return {
-        world,
-        outcome: "silence-held",
-        speakerPersonId: null,
-        dialogue: null,
-        perception: null,
-        durableDecisionRecorded: false,
-      };
+      return resolveQuietRoom(world, {
+        sceneKey: "conversation:school",
+        turnOrdinal: standing.priorTurnsOnSubject,
+      });
     default:
       throw new Error("That is not something to say about the project.");
   }
 }
 
+const NEIGHBORHOOD_MENTION: TonedBank = {
+  warm: {
+    lines: [
+      "“I saw the notice,” {name} says. “I have not decided whether it is worth an evening.”",
+      "“You saw it too, then,” {name} says. “I keep meaning to think about it.”",
+      "“It has been up a week,” {name} says. “Nobody has said anything about it.”",
+    ],
+    perception: "{full} had seen the notice and not decided about it.",
+  },
+  even: {
+    lines: [
+      "“I saw it,” {name} says.",
+      "“The meeting,” {name} says. “Yes. I read it.”",
+      "“It is still up,” {name} says. “That is about all I know.”",
+    ],
+    perception: "{full} had seen the notice and not decided about it.",
+  },
+  worn: {
+    lines: [
+      "“They put one up every year,” {name} says.",
+      "“I have seen it,” {name} says. “I have seen a few of them.”",
+      "“Another meeting,” {name} says, without stopping.",
+    ],
+    perception:
+      "{full} treated the notice as one of several that had come to nothing.",
+  },
+};
+
+const NEIGHBORHOOD_SAY_GOING: TonedBank = {
+  warm: {
+    lines: [
+      "“Then tell me what they say,” {name} says. “I will take your word for it.”",
+      "“Good,” {name} says. “Somebody from here should be in the room.”",
+      "“You go,” {name} says. “I will ask you after.”",
+    ],
+    perception: "{full} was content to hear about it secondhand.",
+  },
+  even: {
+    lines: [
+      "“Right,” {name} says. “Let me know.”",
+      "“Fair enough,” {name} says. “Tell me if anything comes of it.”",
+      "“If you are going, you are going,” {name} says.",
+    ],
+    perception: "{full} was content to hear about it secondhand.",
+  },
+  worn: {
+    lines: [
+      "“You will be the only one,” {name} says.",
+      "“Good luck,” {name} says, and does not mean it unkindly.",
+      "“Somebody has to,” {name} says. “It is usually the same somebody.”",
+    ],
+    perception: "{full} expected the meeting to be attended by almost nobody.",
+  },
+};
+
+const NEIGHBORHOOD_WILL_GO: TonedBank = {
+  warm: {
+    lines: [
+      "“All right,” {name} says. “I will go. You have talked me into it.”",
+      "“Fine,” {name} says. “I will show my face.”",
+      "“If you are asking,” {name} says, “then yes.”",
+    ],
+    perception: "{full} agreed to go to the meeting.",
+  },
+  even: {
+    lines: [
+      "“I can do that,” {name} says. “It is one evening.”",
+      "“All right,” {name} says. “I will be there.”",
+      "“Yes,” {name} says. “I have nothing on.”",
+    ],
+    perception: "{full} agreed to go to the meeting.",
+  },
+  worn: {
+    lines: [
+      "“I will go,” {name} says. “I am not staying for all of it.”",
+      "“Once,” {name} says. “I will go once.”",
+      "“Fine,” {name} says. “But you owe me an evening.”",
+    ],
+    perception: "{full} agreed to go, and made the limits of it clear.",
+  },
+};
+
+const NEIGHBORHOOD_WILL_NOT_GO: TonedBank = {
+  warm: {
+    lines: [
+      "“Maybe,” {name} says. “If it is still the route they are changing, maybe.”",
+      "“I cannot promise,” {name} says. “Ask me nearer the time.”",
+      "“I would like to,” {name} says, “but I would be lying if I said I would.”",
+    ],
+    perception:
+      "{full} would go only if it turns out to be about their own street.",
+  },
+  even: {
+    lines: [
+      "“No,” {name} says. “Evenings are not mine to give away.”",
+      "“I will not be going,” {name} says.",
+      "“Not this one,” {name} says.",
+    ],
+    perception: "{full} said they would not be going.",
+  },
+  worn: {
+    lines: [
+      "“No,” {name} says. “I went to the last one.”",
+      "“I have done my evening at that hall,” {name} says.",
+      "“Not a chance,” {name} says. “Nothing came of the last three.”",
+    ],
+    perception:
+      "{full} refused, and said the earlier meetings had come to nothing.",
+  },
+};
+
 function resolveNeighborhoodMeetingResponse(
   world: World,
   input: {
+    readonly turnKey: string;
+    readonly playerPersonId: EntityId;
     readonly speakerPersonId: EntityId;
     readonly intent: ConversationIntent;
     readonly progress: NeighborhoodMeetingConversationProgress;
@@ -1162,45 +1962,71 @@ function resolveNeighborhoodMeetingResponse(
 ): ResolvedResponse {
   const speaker = world.people[input.speakerPersonId];
   if (!speaker) throw new Error("The other person in the room is missing.");
-  const shortName = speaker.familyName;
+  const values = {
+    name: speaker.familyName,
+    full: personName(speaker),
+    errands: input.progress.subjectFacts.subject,
+  };
+  const standing = conversationStanding(
+    world,
+    input.playerPersonId,
+    input.speakerPersonId,
+    "conversation.subject.neighborhood-meeting",
+  );
+  const context = `neighborhood:${input.intent}:${input.speakerPersonId}`;
+
+  const say = (bank: TonedBank, outcome: ConversationOutcome, next = world) => {
+    const spoken = speakTone(next, context, standing, bank);
+    return {
+      world: next,
+      outcome,
+      speakerPersonId: input.speakerPersonId,
+      dialogue: fill(spoken.line, values),
+      perception: fill(spoken.perception, values),
+      durableDecisionRecorded: false,
+    } satisfies ResolvedResponse;
+  };
 
   switch (input.intent) {
     case "mention-meeting":
-      return {
-        world,
-        outcome: "continued",
-        speakerPersonId: input.speakerPersonId,
-        dialogue: `“I saw the notice,” ${shortName} says. “I have not decided whether it is worth an evening.”`,
-        perception: `${personName(speaker)} had seen the notice and not decided about it.`,
-        durableDecisionRecorded: false,
-      };
+      return say(NEIGHBORHOOD_MENTION, "continued");
     case "say-you-will-go":
+      return say(NEIGHBORHOOD_SAY_GOING, "reassured");
+    case "ask-them-to-go": {
+      assertNpcAutonomousApplication(world, input.speakerPersonId);
+      const evaluation = evaluateSubjectResponseDecision(world, {
+        turnKey: input.turnKey,
+        actorPersonId: input.speakerPersonId,
+        playerPersonId: input.playerPersonId,
+        decisionType: "conversation.meeting-attendance-response",
+        subjectKind: "context:neighborhood-conversation",
+        subjectKey: "ask-them-to-go:who-gives-the-evening",
+        standing,
+        accept: {
+          key: "attend-the-meeting",
+          description: "Give the evening and go to the meeting.",
+        },
+        refuse: {
+          key: "decline-the-meeting",
+          description: "Keep the evening and say so.",
+        },
+      });
+      const traced = recordDurableDecisionTrace(world, evaluation);
+      const going = evaluation.selectedOptionKey === "attend-the-meeting";
       return {
-        world,
-        outcome: "reassured",
-        speakerPersonId: input.speakerPersonId,
-        dialogue: `“Then tell me what they say,” ${shortName} says. “I will take your word for it.”`,
-        perception: `${personName(speaker)} was content to hear about it secondhand.`,
-        durableDecisionRecorded: false,
+        ...say(
+          going ? NEIGHBORHOOD_WILL_GO : NEIGHBORHOOD_WILL_NOT_GO,
+          going ? "continued" : "boundary-held",
+          traced,
+        ),
+        durableDecisionRecorded: true,
       };
-    case "ask-them-to-go":
-      return {
-        world,
-        outcome: "deferred",
-        speakerPersonId: input.speakerPersonId,
-        dialogue: `“Maybe,” ${shortName} says. “If it is still the route they are changing, maybe.”`,
-        perception: `${personName(speaker)} would go only if it is about the route past their house.`,
-        durableDecisionRecorded: false,
-      };
+    }
     case "listen":
-      return {
-        world,
-        outcome: "silence-held",
-        speakerPersonId: null,
-        dialogue: null,
-        perception: null,
-        durableDecisionRecorded: false,
-      };
+      return resolveQuietRoom(world, {
+        sceneKey: "conversation:neighborhood",
+        turnOrdinal: standing.priorTurnsOnSubject,
+      });
     default:
       throw new Error("That is not something to say about the meeting.");
   }
@@ -1273,13 +2099,13 @@ function advanceConversationProgress(
     };
   }
   if (isHouseholdObligationConversationProgress(progress)) {
-    return advanceHouseholdObligation(progress, input.intent);
+    return advanceHouseholdObligation(progress, input.intent, input.outcome);
   }
   if (isSchoolProjectConversationProgress(progress)) {
-    return advanceSchoolProject(progress, input.intent);
+    return advanceSchoolProject(progress, input.intent, input.outcome);
   }
   if (isNeighborhoodMeetingConversationProgress(progress)) {
-    return advanceNeighborhoodMeeting(progress, input.intent);
+    return advanceNeighborhoodMeeting(progress, input.intent, input.outcome);
   }
   // Everything else is the referral subject; the guard above is exhaustive.
   if (input.intent === "listen") {
@@ -1802,14 +2628,6 @@ function rejectDuplicateTurn(world: World, turnKey: string) {
   }
 }
 
-function relationshipConsequenceFor(
-  intent: ConversationIntent,
-): "strengthened" | "strained" | null {
-  if (intent === "reassure") return "strengthened";
-  if (intent === "press") return "strained";
-  return null;
-}
-
 function conversationEventSummary(
   world: World,
   playerPersonId: EntityId,
@@ -1817,6 +2635,10 @@ function conversationEventSummary(
   intent: ConversationIntent,
   outcome: ConversationSemanticResult["outcome"],
   progress: ConversationProgress,
+  subject?: {
+    readonly commit: ConversationCommitContract;
+    readonly choiceSentence: string;
+  },
 ): string {
   const player = personName(world.people[playerPersonId]!);
   if (isRunCLegislativeConversationProgress(progress)) {
@@ -1839,7 +2661,16 @@ function conversationEventSummary(
     throw new Error("A spoken conversation intent requires an NPC response.");
   }
   const speaker = personName(world.people[responseSpeakerPersonId]!);
-  return `${player} used a ${intent.replaceAll("-", " ")} approach; ${speaker} ${outcome.replaceAll("-", " ")}.`;
+  // The subject's own account of what was done and how it landed. What used to
+  // be here — "X used a raise obligation approach; Y continued" — was the
+  // engine's vocabulary for its own states, written into canonical history and,
+  // once the journal started grouping conversations, onto a screen.
+  const said = subject
+    ? subject.choiceSentence.replace(/^The player\b/, player)
+    : `${player} spoke.`;
+  const landed =
+    subject?.commit.landed?.(intent, outcome, { speakerName: speaker }) ?? null;
+  return landed ? `${said} ${landed}` : said;
 }
 
 function conversationSubjectEntityIds(
