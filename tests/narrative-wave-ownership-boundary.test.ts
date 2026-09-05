@@ -24,14 +24,32 @@ import { changedFilesSince, hasCommit } from "./support/ownership-boundary";
  * branch adds to the `main` it sits on and fails naming any path that belongs
  * to one of those four.
  *
- * If the base commit is not in this clone every assertion here fails rather
- * than passing quietly: a boundary check that silently no-ops is worse than
- * none. CI fetches full history for that reason.
+ * If either end of the range is not in this clone every assertion here fails
+ * rather than passing quietly: a boundary check that silently no-ops is worse
+ * than none. CI fetches full history for that reason.
  *
- * The head is deliberately open — this packet is in flight, so its head is the
- * working tree. When it lands, whoever lands it closes the range the way
- * `tests/authoring-ownership-boundary.test.ts` is closed, so the check keeps
- * describing this packet instead of constraining the next one.
+ * The range is now closed at both ends, which is the step this file asked for
+ * while it was in flight: "when it lands, whoever lands it closes the range the
+ * way `tests/authoring-ownership-boundary.test.ts` is closed, so the check keeps
+ * describing this packet instead of constraining the next one."
+ *
+ * This wave landed as PR #87 and the range was left open, so the head stayed
+ * the working tree. On `main` that reads as a claim about this packet only
+ * because `main` is this packet; on every OTHER branch cut from the same base
+ * it silently became a claim about that branch, which had never agreed to it.
+ * The graphics lane hit it first and hardest: the carve-out list below hands
+ * the art bank, the art pipeline and the graphics runtime to PR #86, and PR #89
+ * is the lane that CONTINUES #86, so an open head failed it for editing exactly
+ * the surfaces it is the owner of. It failed only on CI, because a
+ * `pull_request` run checks out the synthetic merge of the branch into `main`
+ * and that merge is the first place where this file and that branch's files
+ * coexist.
+ *
+ * Closing the range is what preserves the check rather than what relaxes it.
+ * Over `5f735da..68d7d48` the two assertions below are evaluated against
+ * exactly the files this wave shipped and would still fail on any one of them
+ * that reached into another lane. What they no longer do is constrain work this
+ * packet knows nothing about.
  */
 
 const REPOSITORY_ROOT = path.resolve(__dirname, "..");
@@ -53,7 +71,17 @@ const REPOSITORY_ROOT = path.resolve(__dirname, "..");
  */
 export const NARRATIVE_WAVE_BASE = "5f735da209c59647e4b877717a40fe6cc045fc24";
 
-const MISSING_BASE = `Base commit ${NARRATIVE_WAVE_BASE} is not in this clone, so the carve-outs could not be checked. Fetch full history before trusting this suite.`;
+/**
+ * Where this wave stopped: its merge into `main` as PR #87.
+ *
+ * The same value `main` carried the moment the packet landed, so the closed
+ * range holds every commit the wave shipped and not one commit more. A later
+ * packet that wants a boundary of its own declares its own range rather than
+ * reopening this one.
+ */
+export const NARRATIVE_WAVE_HEAD = "68d7d48ee09aa7ea1a13a2d152f4f1129669ade5";
+
+const MISSING_RANGE = `This wave shipped as ${NARRATIVE_WAVE_BASE}..${NARRATIVE_WAVE_HEAD}, and one of those commits is not in this clone, so the carve-outs could not be checked. Fetch full history before trusting this suite.`;
 
 interface OwnedSurface {
   readonly pattern: RegExp;
@@ -178,11 +206,15 @@ const OWNED =
   /^(src\/simulation\/(narrative-threads|life-episodes|episode-bank|setup-opening-bank|setup-questionnaire|setup-questionnaire-bank|setup-priors|player-model|situation-selection|situation-profiles|adult-situations|life-callbacks|life-choice-evidence|commitment-seam|relationship-leverage|sha256|life-places|character-history|person-identity|person-context|voice-bands|setup-young-life-bank|setup-generation-inputs|people|world|types|index|boundary\.test|pennywise-adaptive-life\.test)\.ts|src\/presentation\/(life-|narrative-|title-ambient|adult-life|formative-play|ordinary-life|new-game|setup-questionnaire-flow|production-world|adaptive-life\.test|player-spine\.test|conversation-subjects|conversation-continuity|conversation-consequences|run-b-conversation|player-conversation)|src\/player\/PlayerGame\.tsx|src\/player\/PlayerConversation\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/SceneBackdrop\.tsx|src\/player\/player\.css|scripts\/life-report\.ts|tests\/|docs\/|ARCHITECTURE\.md|PATCH_NOTES\.md|AGENTS\.md|package\.json|package-lock\.json)/;
 
 function measuredChanges(): readonly string[] {
-  if (!hasCommit(REPOSITORY_ROOT, NARRATIVE_WAVE_BASE)) {
-    throw new Error(MISSING_BASE);
+  for (const commit of [NARRATIVE_WAVE_BASE, NARRATIVE_WAVE_HEAD]) {
+    if (!hasCommit(REPOSITORY_ROOT, commit)) throw new Error(MISSING_RANGE);
   }
-  const files = changedFilesSince(REPOSITORY_ROOT, NARRATIVE_WAVE_BASE);
-  if (files === null) throw new Error(MISSING_BASE);
+  const files = changedFilesSince(
+    REPOSITORY_ROOT,
+    NARRATIVE_WAVE_BASE,
+    NARRATIVE_WAVE_HEAD,
+  );
+  if (files === null) throw new Error(MISSING_RANGE);
   return files;
 }
 
