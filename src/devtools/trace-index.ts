@@ -2,12 +2,94 @@ import { worldContentId } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
 import {
   compareTraceNodes,
+  TRACE_LINK_KINDS,
+  TRACE_RECORD_CLASSES,
+  TRACE_TRUTH_ORIGINS,
   type TraceLink,
   type TraceNode,
   type TraceRecordClass,
 } from "./trace-model";
 import { defaultTraceSourceRegistry } from "./trace-adapters";
-import type { TraceSourceRegistry } from "./trace-sources";
+import type { TraceSource, TraceSourceRegistry } from "./trace-sources";
+
+const TRACE_LINK_KIND_SET: ReadonlySet<string> = new Set(TRACE_LINK_KINDS);
+const TRACE_RECORD_CLASS_SET: ReadonlySet<string> = new Set(
+  TRACE_RECORD_CLASSES,
+);
+const TRACE_TRUTH_ORIGIN_SET: ReadonlySet<string> = new Set(
+  TRACE_TRUTH_ORIGINS,
+);
+
+/**
+ * A private, throwaway copy of the world for one collector to read.
+ *
+ * A registered source is extension code: a later packet, or in a test a
+ * deliberately hostile one. It is handed this snapshot, never the world the
+ * caller holds, so nothing it does — assigning a field, pushing to an array —
+ * can reach the canonical state the rest of the program runs on. The snapshot
+ * is discarded the moment the collector returns.
+ */
+function snapshotWorldForCollector(world: World): World {
+  return structuredClone(world);
+}
+
+/**
+ * Structural gate for one projected record before it enters the index.
+ *
+ * `createTraceNode` already enforces this for records built through it, but a
+ * source is free to hand back a hand-rolled object, and a malformed one must
+ * not slip in looking canonical. Anything structurally wrong is refused rather
+ * than repaired: an unknown link kind, a link with no target, a record with no
+ * id are not causal facts the tool can honestly carry. A link that is
+ * well-formed but names a target no source produced is a different thing — that
+ * stays a legitimate unresolved edge, judged later against what was collected.
+ */
+function assertWellFormedCollectedNode(
+  node: TraceNode,
+  source: TraceSource,
+): void {
+  const refuse = (why: string): never => {
+    throw new Error(
+      `Trace source ${source.key} produced a malformed record: ${why}.`,
+    );
+  };
+  if (typeof node.id !== "string" || node.id.length === 0) {
+    refuse("a record carries no stable id");
+  }
+  if (!TRACE_RECORD_CLASS_SET.has(node.recordClass)) {
+    refuse(`record ${node.id} declares an unknown record class`);
+  }
+  if (!TRACE_TRUTH_ORIGIN_SET.has(node.truthOrigin)) {
+    refuse(`record ${node.id} declares an unknown truth origin`);
+  }
+  if (!Array.isArray(node.links)) {
+    refuse(`record ${node.id} has a link list that is not an array`);
+  }
+  for (const link of node.links) {
+    if (!link || typeof link !== "object") {
+      refuse(`record ${node.id} carries a link that is not an object`);
+    }
+    if (!TRACE_LINK_KIND_SET.has(link.kind)) {
+      refuse(`record ${node.id} names an unsupported link kind`);
+    }
+    if (typeof link.role !== "string") {
+      refuse(`record ${node.id} carries a link with a non-string role`);
+    }
+    if (typeof link.targetId !== "string" || link.targetId.length === 0) {
+      refuse(`record ${node.id} carries a link with no target id`);
+    }
+  }
+  if (!Array.isArray(node.unrecordedLinks)) {
+    refuse(
+      `record ${node.id} has an unrecorded-link list that is not an array`,
+    );
+  }
+  for (const unrecorded of node.unrecordedLinks) {
+    if (!TRACE_LINK_KIND_SET.has(unrecorded.kind)) {
+      refuse(`record ${node.id} names an unsupported unrecorded-link kind`);
+    }
+  }
+}
 
 /**
  * A read-only index over one world, built at inspection time and thrown away.
@@ -73,9 +155,19 @@ export function buildTraceIndex(
   world: World,
   registry: TraceSourceRegistry = defaultTraceSourceRegistry(),
 ): TraceIndex {
+  // The identity — and its content hash — are taken from the caller's world
+  // before any collector runs, and checked again after. Collectors only ever
+  // see a private snapshot, so this equality is a guarantee the code keeps, not
+  // a hope: if it ever fails, a source found a way to reach canonical state and
+  // the whole inspection is refused rather than reported against a world that
+  // changed underneath it.
+  const identity = traceIdentityOf(world);
+
   const byId = new Map<EntityId, TraceNode>();
   for (const source of registry.sources) {
-    for (const node of source.collect(world)) {
+    const snapshot = snapshotWorldForCollector(world);
+    for (const node of source.collect(snapshot)) {
+      assertWellFormedCollectedNode(node, source);
       if (byId.has(node.id)) {
         const existing = byId.get(node.id);
         throw new Error(
@@ -84,6 +176,12 @@ export function buildTraceIndex(
       }
       byId.set(node.id, { ...node, sourceKey: source.key });
     }
+  }
+
+  if (worldContentId(world) !== identity.worldContentId) {
+    throw new Error(
+      "A trace source altered the world during collection; the inspection is refused.",
+    );
   }
 
   const nodes = [...byId.values()].sort(compareTraceNodes);
@@ -117,7 +215,7 @@ export function buildTraceIndex(
     );
 
   return {
-    identity: traceIdentityOf(world),
+    identity,
     sourceKeys: registry.sources.map((source) => source.key),
     nodes,
     byId,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createDemoWorld } from "../simulation";
+import { canonicalJson, createDemoWorld, worldContentId } from "../simulation";
 import type { EntityId, MindSourceReference } from "../simulation";
 import {
   BUILT_IN_TRACE_SOURCES,
@@ -560,5 +560,320 @@ describe("graph walking", () => {
     });
     expect(walk.rootFound).toBe(false);
     expect(walk.nodes).toEqual([]);
+  });
+});
+
+describe("directed cycle classification against convergent paths", () => {
+  // Build a registry from an adjacency map. A node is created for each key;
+  // a link may name a target with no key of its own, which is exactly how the
+  // unresolved-target case is expressed. Sequence follows key order so the walk
+  // stays deterministic.
+  function graphRegistry(adjacency: Record<string, readonly string[]>) {
+    const ids = Object.keys(adjacency);
+    return createTraceSourceRegistry([
+      {
+        key: "graph.source",
+        family: "graph",
+        declaredClass: "unknown" as const,
+        collect: () =>
+          ids.map((id, position) =>
+            createTraceNode({
+              id: id as EntityId,
+              family: "graph",
+              recordClass: "unknown",
+              truthOrigin: "unrecorded",
+              stableKey: id,
+              sequence: position,
+              developmentSummary: id,
+              links: (adjacency[id] ?? []).map((targetId) => ({
+                kind: "source-record" as const,
+                role: `${targetId}Id`,
+                targetId: targetId as EntityId,
+              })),
+            }),
+          ),
+      },
+    ]);
+  }
+
+  function walkFrom(
+    adjacency: Record<string, readonly string[]>,
+    rootId: string,
+  ) {
+    const index = buildTraceIndex(
+      createDemoWorld("trace-graph"),
+      graphRegistry(adjacency),
+    );
+    return walkTrace(index, {
+      rootId: rootId as EntityId,
+      direction: "upstream",
+      maxDepth: 32,
+    });
+  }
+
+  const cycleBoundaries = (walk: ReturnType<typeof walkFrom>) =>
+    walk.boundaries.filter((boundary) => boundary.kind === "cycle");
+  const hasCycle = (walk: ReturnType<typeof walkFrom>) =>
+    cycleBoundaries(walk).length > 0;
+  const hasAlreadyReached = (walk: ReturnType<typeof walkFrom>) =>
+    walk.boundaries.some((boundary) => boundary.kind === "already-reached");
+
+  it("A. reports the loop when the two records are breadth-first siblings", () => {
+    // R -> A, R -> B, A -> B, B -> A. A and B are discovered as siblings under
+    // R, so a spanning-tree ancestor check would call both cross-links
+    // already-reached and never see the genuine A<->B cycle.
+    const walk = walkFrom({ R: ["A", "B"], A: ["B"], B: ["A"] }, "R");
+    expect(walk.nodes.map((node) => node.id).sort()).toEqual(["A", "B", "R"]);
+    expect(hasCycle(walk)).toBe(true);
+    // The loop closes between A and B, never through the root.
+    expect(
+      cycleBoundaries(walk).every(
+        (boundary) =>
+          (boundary.fromNodeId === "A" && boundary.targetId === "B") ||
+          (boundary.fromNodeId === "B" && boundary.targetId === "A"),
+      ),
+    ).toBe(true);
+  });
+
+  it("B. reports a simple two-record cycle", () => {
+    const walk = walkFrom({ A: ["B"], B: ["A"] }, "A");
+    expect(hasCycle(walk)).toBe(true);
+  });
+
+  it("C. reports a longer three-record cycle", () => {
+    const walk = walkFrom({ A: ["B"], B: ["C"], C: ["A"] }, "A");
+    expect(walk.nodes.map((node) => node.id).sort()).toEqual(["A", "B", "C"]);
+    expect(hasCycle(walk)).toBe(true);
+  });
+
+  it("D. calls a diamond DAG convergence, not a cycle", () => {
+    // R -> A, R -> B, A -> C, B -> C. C is reached twice but points nowhere,
+    // so no edge closes a loop.
+    const walk = walkFrom({ R: ["A", "B"], A: ["C"], B: ["C"], C: [] }, "R");
+    expect(hasCycle(walk)).toBe(false);
+    expect(hasAlreadyReached(walk)).toBe(true);
+  });
+
+  it("E. calls a twice-seen shared ancestor with no back path a convergence", () => {
+    // S is a shared ancestor of two branches and has no outgoing edge, so it
+    // cannot reach anything: the second arrival is already-reached, not a loop.
+    const walk = walkFrom({ R: ["X", "Y"], X: ["S"], Y: ["S"], S: [] }, "R");
+    expect(hasCycle(walk)).toBe(false);
+    expect(hasAlreadyReached(walk)).toBe(true);
+  });
+
+  it("F. reports an unresolved target and a real cycle in the same graph", () => {
+    // A <-> B is a genuine loop; A also cites GHOST, which no source produced.
+    const walk = walkFrom({ A: ["B", "GHOST"], B: ["A"] }, "A");
+    expect(hasCycle(walk)).toBe(true);
+    expect(
+      walk.boundaries.some(
+        (boundary) =>
+          boundary.kind === "unresolved-target" &&
+          boundary.targetId === "GHOST",
+      ),
+    ).toBe(true);
+    // The ghost target is never fabricated into a walked node.
+    expect(walk.nodes.map((node) => node.id).sort()).toEqual(["A", "B"]);
+  });
+
+  it("terminates and stays deterministic on a cyclic graph", () => {
+    const adjacency = { R: ["A", "B"], A: ["B"], B: ["A"] };
+    const first = walkFrom(adjacency, "R");
+    const second = walkFrom(adjacency, "R");
+    expect(JSON.stringify(first.steps)).toBe(JSON.stringify(second.steps));
+    expect(JSON.stringify(first.boundaries)).toBe(
+      JSON.stringify(second.boundaries),
+    );
+  });
+});
+
+describe("the extension-source boundary", () => {
+  function probeNode(id: string): TraceNode {
+    return createTraceNode({
+      id: id as EntityId,
+      family: "probe",
+      recordClass: "unknown",
+      truthOrigin: "unrecorded",
+      stableKey: id,
+      sequence: 0,
+      developmentSummary: id,
+    });
+  }
+
+  it("does not let a source mutate the caller's world through collect", () => {
+    const world = createDemoWorld("trace-hostile-mutation");
+    const before = canonicalJson(world);
+    const contentBefore = worldContentId(world);
+    let received = false;
+    const registry = createTraceSourceRegistry([
+      {
+        key: "hostile.mutation",
+        family: "hostile",
+        declaredClass: "unknown",
+        collect: (given) => {
+          received = true;
+          // A hostile source reaches for canonical state every way it can.
+          const mutable = given as unknown as {
+            currentDate: string;
+            seed: string;
+            personOrder: string[];
+          };
+          mutable.currentDate = "9999-12-31";
+          mutable.seed = "tampered";
+          mutable.personOrder.push("ghost_person");
+          return [probeNode("hostile_probe")];
+        },
+      },
+    ]);
+
+    const index = buildTraceIndex(world, registry);
+    expect(received).toBe(true);
+    // The probe still landed in the index...
+    expect(index.byId.has("hostile_probe" as EntityId)).toBe(true);
+    // ...but the world the caller handed in is byte-for-byte what it was.
+    expect(canonicalJson(world)).toBe(before);
+    expect(worldContentId(world)).toBe(contentBefore);
+    expect(world.currentDate).not.toBe("9999-12-31");
+  });
+
+  it("refuses a duplicate record id rather than merging two projections", () => {
+    const registry = createTraceSourceRegistry([
+      {
+        key: "a.source",
+        family: "a",
+        declaredClass: "unknown",
+        collect: () => [probeNode("shared_id")],
+      },
+      {
+        key: "b.source",
+        family: "b",
+        declaredClass: "unknown",
+        collect: () => [probeNode("shared_id")],
+      },
+    ]);
+    expect(() =>
+      buildTraceIndex(createDemoWorld("trace-duplicate-id"), registry),
+    ).toThrow("both claim record");
+  });
+
+  it("refuses a record with no id", () => {
+    const registry = createTraceSourceRegistry([
+      {
+        key: "malformed.noid",
+        family: "malformed",
+        declaredClass: "unknown",
+        collect: () => [{ ...probeNode("placeholder"), id: "" as EntityId }],
+      },
+    ]);
+    expect(() =>
+      buildTraceIndex(createDemoWorld("trace-malformed-noid"), registry),
+    ).toThrow("malformed record");
+  });
+
+  it("refuses a link with an unsupported kind", () => {
+    const registry = createTraceSourceRegistry([
+      {
+        key: "malformed.kind",
+        family: "malformed",
+        declaredClass: "unknown",
+        collect: () => [
+          {
+            ...probeNode("bad_kind"),
+            links: [
+              {
+                kind: "not-a-real-kind" as never,
+                role: "role",
+                targetId: "target" as EntityId,
+              },
+            ],
+          },
+        ],
+      },
+    ]);
+    expect(() =>
+      buildTraceIndex(createDemoWorld("trace-malformed-kind"), registry),
+    ).toThrow("unsupported link kind");
+  });
+
+  it("refuses a link with no target id", () => {
+    const registry = createTraceSourceRegistry([
+      {
+        key: "malformed.target",
+        family: "malformed",
+        declaredClass: "unknown",
+        collect: () => [
+          {
+            ...probeNode("bad_target"),
+            links: [
+              {
+                kind: "causal-parent" as const,
+                role: "role",
+                targetId: "" as EntityId,
+              },
+            ],
+          },
+        ],
+      },
+    ]);
+    expect(() =>
+      buildTraceIndex(createDemoWorld("trace-malformed-target"), registry),
+    ).toThrow("no target id");
+  });
+
+  it("keeps a well-formed link to an unknown target unresolved, never fabricated", () => {
+    const registry = createTraceSourceRegistry([
+      {
+        key: "unresolved.source",
+        family: "unresolved",
+        declaredClass: "unknown",
+        collect: () => [
+          {
+            ...probeNode("citing_record"),
+            links: [
+              {
+                kind: "source-record" as const,
+                role: "targetId",
+                targetId: "target_no_source_made" as EntityId,
+              },
+            ],
+          },
+        ],
+      },
+    ]);
+    const index = buildTraceIndex(
+      createDemoWorld("trace-unresolved-target"),
+      registry,
+    );
+    // The edge is kept as a real unresolved finding...
+    const unresolved = unresolvedTraceLinks(index);
+    expect(
+      unresolved.some(
+        (entry) => entry.link.targetId === "target_no_source_made",
+      ),
+    ).toBe(true);
+    // ...and the missing target is never invented as a node.
+    expect(index.byId.has("target_no_source_made" as EntityId)).toBe(false);
+    const walk = walkTrace(index, {
+      rootId: "citing_record" as EntityId,
+      direction: "upstream",
+      maxDepth: 8,
+    });
+    expect(
+      walk.boundaries.some(
+        (boundary) =>
+          boundary.kind === "unresolved-target" &&
+          boundary.targetId === "target_no_source_made",
+      ),
+    ).toBe(true);
+  });
+
+  it("leaves the built-in adapters non-mutating and deterministic", () => {
+    const world = createDemoWorld("trace-builtin-stability");
+    const before = canonicalJson(world);
+    const first = buildTraceIndex(world);
+    const second = buildTraceIndex(world);
+    expect(canonicalJson(world)).toBe(before);
+    expect(canonicalJson(first.nodes)).toBe(canonicalJson(second.nodes));
   });
 });

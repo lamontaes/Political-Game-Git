@@ -91,19 +91,85 @@ function allowed(
   return linkKinds === null || linkKinds.includes(kind);
 }
 
-/** True when `candidateId` lies on the walked path back from `nodeId`. */
-function reachedFrom(
-  arrivedFrom: ReadonlyMap<EntityId, EntityId>,
-  nodeId: EntityId,
-  candidateId: EntityId,
+interface OutgoingEdge {
+  readonly targetId: EntityId;
+  readonly kind: TraceLinkKind;
+  readonly role: string;
+}
+
+/**
+ * The directed edges the walk follows out of one node, in the direction and
+ * under the kind filter it was asked for. Upstream follows the record's own
+ * recorded pointers; downstream follows the derived reverse index. Both the
+ * traversal and the cycle test read edges through here, so a loop is judged
+ * against exactly the graph the walk itself moves over — never a larger one.
+ */
+function outgoingEdges(
+  index: TraceIndex,
+  node: TraceNode,
+  direction: "upstream" | "downstream",
+  linkKinds: readonly TraceLinkKind[] | null,
+): OutgoingEdge[] {
+  if (direction === "upstream") {
+    return node.links
+      .filter((link) => allowed(link.kind, linkKinds))
+      .map((link) => ({
+        targetId: link.targetId,
+        kind: link.kind,
+        role: link.role,
+      }));
+  }
+  return (index.childIdsByTargetId.get(node.id) ?? []).flatMap((childId) => {
+    const child = index.byId.get(childId);
+    if (!child) return [];
+    return child.links
+      .filter(
+        (link) => link.targetId === node.id && allowed(link.kind, linkKinds),
+      )
+      .map((link) => ({
+        targetId: child.id,
+        kind: link.kind,
+        role: link.role,
+      }));
+  });
+}
+
+/**
+ * True when an edge `fromId -> targetId` closes a genuine directed cycle:
+ * that is, when `targetId` can reach `fromId` again by following the same
+ * directed, kind-filtered edges the walk follows. This is stronger than asking
+ * whether `targetId` is an ancestor on one spanning-tree path — two records
+ * discovered as breadth-first siblings can still point back at each other, and
+ * only a reachability test over the real edges catches that loop.
+ *
+ * A convergent DAG path can never satisfy it: if `targetId` could reach
+ * `fromId` while `fromId` points at `targetId`, the graph would already
+ * contain the loop. So a shared ancestor or a second path to the same record
+ * stays a plain `already-reached` boundary and is never mistaken for a cycle.
+ * The visited guard keeps the search finite, and its boolean answer does not
+ * depend on visit order, so the walk stays deterministic.
+ */
+function closesDirectedCycle(
+  index: TraceIndex,
+  fromId: EntityId,
+  targetId: EntityId,
+  direction: "upstream" | "downstream",
+  linkKinds: readonly TraceLinkKind[] | null,
 ): boolean {
-  let current: EntityId | undefined = nodeId;
-  const guard = new Set<EntityId>();
-  while (current !== undefined) {
-    if (current === candidateId) return true;
-    if (guard.has(current)) return false;
-    guard.add(current);
-    current = arrivedFrom.get(current);
+  if (targetId === fromId) return true;
+  const visited = new Set<EntityId>([targetId]);
+  const stack: EntityId[] = [targetId];
+  while (stack.length > 0) {
+    const currentId = stack.pop();
+    if (currentId === undefined) break;
+    const current = index.byId.get(currentId);
+    if (!current) continue;
+    for (const edge of outgoingEdges(index, current, direction, linkKinds)) {
+      if (edge.targetId === fromId) return true;
+      if (visited.has(edge.targetId)) continue;
+      visited.add(edge.targetId);
+      stack.push(edge.targetId);
+    }
   }
   return false;
 }
@@ -162,10 +228,9 @@ export function walkTrace(
       : [request.direction];
 
   for (const direction of directions) {
-    // Each direction keeps its own arrival map, so a record reachable both
+    // Each direction keeps its own visited set, so a record reachable both
     // ways is walked once per direction rather than being swallowed by the
     // other direction's bookkeeping.
-    const arrivedFrom = new Map<EntityId, EntityId>();
     const seen = new Set<EntityId>([root.id]);
     const queue: QueueEntry[] = [{ nodeId: root.id, depth: 0 }];
 
@@ -175,29 +240,7 @@ export function walkTrace(
       const node = index.byId.get(entry.nodeId);
       if (!node) continue;
 
-      const outgoing =
-        direction === "upstream"
-          ? node.links
-              .filter((link) => allowed(link.kind, linkKinds))
-              .map((link) => ({
-                targetId: link.targetId,
-                kind: link.kind,
-                role: link.role,
-              }))
-          : (index.childIdsByTargetId.get(node.id) ?? []).flatMap((childId) => {
-              const child = index.byId.get(childId);
-              if (!child) return [];
-              return child.links
-                .filter(
-                  (link) =>
-                    link.targetId === node.id && allowed(link.kind, linkKinds),
-                )
-                .map((link) => ({
-                  targetId: child.id,
-                  kind: link.kind,
-                  role: link.role,
-                }));
-            });
+      const outgoing = outgoingEdges(index, node, direction, linkKinds);
 
       if (entry.depth >= maxDepth) {
         if (outgoing.length > 0) {
@@ -254,7 +297,13 @@ export function walkTrace(
           continue;
         }
         if (seen.has(target.id)) {
-          const closesLoop = reachedFrom(arrivedFrom, node.id, target.id);
+          const closesLoop = closesDirectedCycle(
+            index,
+            node.id,
+            target.id,
+            direction,
+            linkKinds,
+          );
           boundaries.push({
             kind: closesLoop ? "cycle" : "already-reached",
             nodeId: target.id,
@@ -269,7 +318,6 @@ export function walkTrace(
           continue;
         }
         seen.add(target.id);
-        arrivedFrom.set(target.id, node.id);
         reached.add(target.id);
         steps.push({
           nodeId: target.id,
