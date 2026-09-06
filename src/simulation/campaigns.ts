@@ -897,12 +897,20 @@ export function scheduleCampaignAction(
  * committee actually spent. Seeded variation then widens or narrows it, because
  * a good day on the doors and a bad one are not the same day. What it never is
  * is a flat bonus per click.
+ *
+ * A fundraising session moves nothing. An afternoon on the phones converts the
+ * candidate's time into the committee's money, and money persuades nobody until
+ * it is spent — which is what an advertising buy is for. Asking somebody who
+ * already supports you for a cheque is not the same act as changing a mind, and
+ * paying the campaign twice for one afternoon would make the phones strictly
+ * better than the doors.
  */
 function requestedGainBasisPoints(
   world: World,
   campaign: CampaignRecord,
   action: CampaignActionRecord,
 ): number {
+  if (action.kind === "fundraising") return 0;
   // How long the session was booked for. The activity record carries what it
   // is; its state record carries when, which is the half this needs.
   const timing = scheduledActivityState(world, action.scheduledActivityId);
@@ -914,9 +922,7 @@ function requestedGainBasisPoints(
   const base =
     action.kind === "outreach"
       ? Math.floor((minutes * workers * 3) / 2)
-      : action.kind === "fundraising"
-        ? Math.floor((minutes * workers) / 2)
-        : Math.floor((action.plannedSpend?.minorUnits ?? 0) / 500);
+      : Math.floor((action.plannedSpend?.minorUnits ?? 0) / 500);
   const swing = new SeededRng(world.seed)
     .fork(`campaign-action-effect:${action.id}`)
     .integer(60, 141);

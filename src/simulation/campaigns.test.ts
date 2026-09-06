@@ -151,6 +151,23 @@ function doOneSession(
   return performCampaignAction(scheduled.world, scheduled.action.id);
 }
 
+function supportSnapshot(
+  world: World,
+  campaign: CampaignRecord,
+  candidatePersonIds: readonly EntityId[],
+): Record<string, number> {
+  return Object.fromEntries(
+    [...candidatePersonIds]
+      .sort()
+      .map((personId) => [
+        personId,
+        canonicalSupportBasisPoints(world, campaign, personId),
+      ]),
+  );
+}
+
+/* ---------------------------------------------------------------------- */
+
 /* -------------------------------------------------------------------------- */
 
 describe("candidacy coverage is stated, never assumed", () => {
@@ -337,6 +354,73 @@ describe("campaign work", () => {
     expect(() =>
       doOneSession(filed.world, filed.campaign, "advertising", 1, 900_000),
     ).toThrow(/overdraw/i);
+  });
+
+  it("raises money without moving canonical support at all", () => {
+    // Fundraising converts time into committee money. It is not a way to
+    // persuade anybody, so it must leave the distribution exactly as it found
+    // it — not "almost", and not by a single basis point.
+    const filed = fileKentuckyCampaign("fundraising-support-neutral", 3);
+    const contest = requireElectionContest(
+      filed.world,
+      filed.campaign.contestId,
+    );
+    const before = supportSnapshot(
+      filed.world,
+      filed.campaign,
+      contest.candidatePersonIds,
+    );
+    const after = doOneSession(
+      filed.world,
+      filed.campaign,
+      "fundraising",
+      1,
+      null,
+    );
+    const treasury = campaignTreasuryPosition(after, filed.campaign)!;
+    expect(treasury.liquidBalance.minorUnits).toBeGreaterThan(0);
+    expect(
+      supportSnapshot(after, filed.campaign, contest.candidatePersonIds),
+    ).toEqual(before);
+  });
+
+  it("does not let the shared action path smuggle support into a raise", () => {
+    // The same generic plumbing carries every kind of session. Doing the doors
+    // and then the phones must land on exactly the support the doors earned.
+    const filed = fileKentuckyCampaign("fundraising-after-outreach", 3);
+    const contest = requireElectionContest(
+      filed.world,
+      filed.campaign.contestId,
+    );
+    const knocked = doOneSession(
+      filed.world,
+      filed.campaign,
+      "outreach",
+      1,
+      null,
+    );
+    const afterOutreach = supportSnapshot(
+      knocked,
+      filed.campaign,
+      contest.candidatePersonIds,
+    );
+    const raised = doOneSession(
+      knocked,
+      filed.campaign,
+      "fundraising",
+      2,
+      null,
+    );
+    expect(
+      supportSnapshot(raised, filed.campaign, contest.candidatePersonIds),
+    ).toEqual(afterOutreach);
+    expect(
+      campaignTreasuryPosition(raised, filed.campaign)!.liquidBalance
+        .minorUnits,
+    ).toBeGreaterThan(
+      campaignTreasuryPosition(knocked, filed.campaign)!.liquidBalance
+        .minorUnits,
+    );
   });
 
   it("moves more support for more work, not by a flat bonus", () => {
