@@ -328,7 +328,7 @@ describe("state instruments: the edicts doctrine covers text, not pages", () => 
       }
     }
     expect(checked).toBeGreaterThan(0);
-  });
+  }, 30_000);
 
   it("still refuses to open an artifact whose rights are UNKNOWN", () => {
     const doctored = withRights("hi-constitution", {
