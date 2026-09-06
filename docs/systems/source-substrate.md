@@ -105,6 +105,11 @@ are UNKNOWN. `openFixture` requires _both_ that the resolved real path is under
 path check alone falls to a symlink and a marker alone falls to a file sitting
 in the right directory.
 
+`openCachedProductionArtifacts` is the equivalent capability for large,
+cache-only products. It requires `cached-not-committed` storage, no committed
+`localPath`, a real path confined beneath `.source-cache/<domain>/`, and a byte
+digest equal to the lock. A caller-provided filename is never enough.
+
 The writer that emits into `data/source/` takes a corpus whose input class is
 statically `"production"`, so a fixture-derived corpus does not typecheck there.
 
@@ -148,10 +153,31 @@ constitutional basis, because the sections establishing them do not state one.
 ## Adapters
 
 Source is evidence; the world is truth. A fact reaches the simulation through a
-named one-way adapter or not at all, and **no adapter exists yet**. The import
-boundary is enforced by an eslint rule and by a test that reads the import
-graph: `src/simulation/`, `src/presentation/`, `src/player/`, `src/ui/`,
-`src/persistence/`, `src/cli/` and `src/environment/` may not import
+named one-way adapter or not at all. The first named adapter is
+`acs-pums-character-history`: it consumes a compiled 2024 ACS 1-year state
+shard, selects one whole housing unit by exact integer `WGTP`, binds every
+joined person to a caller-supplied fictional identity, and submits supported
+household, membership, relationship, dwelling, occupancy, and tenure intents
+through `CharacterHistoryPlan`.
+
+The bridge is deliberately narrower than its donor projection. Age checks the
+supplied birth date; source sex remains evidence only; school, attainment,
+employment, class-of-worker, occupation, and hours remain in an audit when the
+canonical writer would require a school, employer, title, or work terms that
+PUMS does not supply. PUMA never becomes an exact city or address. The donor
+selection and its weights stay in the source layer; canonical world records
+carry generated provenance keyed to an opaque donor digest rather than a raw
+PUMS `SERIALNO`.
+
+The 2024 production path is capability-complete but not acquired on this
+branch. Each state declares independent housing and person archives plus the
+2024 dictionary, independent lock identities and cache paths, and a visible
+gate stating that no 2024 source bytes or hashes are present. The deterministic
+fixture is explicitly synthetic and cannot be written as production.
+
+The import boundary remains enforced by an eslint rule and by a test that reads
+the import graph: `src/simulation/`, `src/presentation/`, `src/player/`,
+`src/ui/`, `src/persistence/`, `src/cli/` and `src/environment/` may not import
 `src/source/**`, and no domain may import another domain.
 
 ## Adding a domain
@@ -171,3 +197,14 @@ A domain that cannot yet compile production records declares a
 `productionGate` explaining why. The gate appears in `MANIFEST.json`, so it is
 a visible fact about the substrate rather than an absence somebody has to
 notice. `state-office-qualifications` is currently the only one.
+
+The 2024 PUMS state-shard form is explicit rather than a hidden alternate
+default:
+
+```text
+npm run source:acquire -- --domain acs-pums --survey-year 2024 --state-usps WY --state-fips 56
+```
+
+It writes the shard-specific lock declared by the acquisition factory and
+cache-only bytes. The USPS/FIPS pairing is a caller-supplied source identity;
+the code validates its shape and does not maintain an invented state crosswalk.

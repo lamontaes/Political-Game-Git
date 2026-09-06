@@ -2102,3 +2102,56 @@ declarative content-bank and Content Browser obligations are discharged here
 rather than rebuilt. Extracting declarative metadata from `run-b-conversation`'s
 dialogue and from the Run-C working document remains deliberately unimplemented:
 both are world- and state-dependent renderings, not banks.
+
+## D-077 — PUMS supplies coherent donor structure, never a synthetic person's identity or biography
+
+- Date: 2026-09-06
+- Status: ACCEPTED
+- Supersedes: the D-074 statement that no source adapter exists; all other
+  D-074 capability, provenance, missingness, determinism, and coverage rules
+  remain binding
+
+ACS PUMS enters initialization as one linked housing record and every person
+sharing its `SERIALNO`, never as independently sampled demographic marginals.
+The compiler is dictionary-controlled, carries state/year/PUMA identity and
+both published weights, preserves allocation and unresolved states, and makes
+no claim below PUMA geography. A state shard is three independent artifacts —
+housing archive, person archive, and dictionary — and large raw bytes remain in
+a digest-checked domain cache rather than the runtime or repository.
+
+The 2024 acquisition and compilation path may exist before source bytes do, but
+the gate must say so. No lock, retrieval instant, byte length, or digest may be
+invented to make an interface look acquired. The checked-in fixture is marked
+synthetic and cannot cross the production capability boundary.
+
+Selection is deterministic under world seed, state, corpus identity/version,
+and explicit constraints. It uses exact integer household weights and selects
+an intact donor household before choosing an eligible subject. A different
+seed may vary the donor; unrelated RNG consumption cannot.
+
+The adapter is one-way and orchestration-only. It requires a caller binding for
+every donor person, checks donor age against the supplied fictional birth date,
+and submits supported intents through `CharacterHistoryPlan` and existing
+household, kinship, partnership, dwelling, occupancy, and tenure writers.
+Canonical world provenance describes generated donor-shaped records through an
+opaque donor digest; it does not call the fictional people Census respondents
+and does not retain raw `SERIALNO` in `World`.
+
+Source sex is retained only as source evidence and never writes or infers
+gender identity or pronouns. PUMA never supplies an exact city, address, school,
+or employer. Education and work fields remain auditable but unmapped when the
+source cannot establish the canonical institution or relationship terms.
+Income is not liquid cash. Nothing in the donor creates personality, ideology,
+morality, motive, feeling, belief, a future career, or player-facing prose.
+
+Rejected: manufacturing a synthetic household from independent marginal
+distributions. Correlations and within-household relationships are the reason
+for using microdata at all.
+
+Rejected: writing PUMS sex into canonical identity, or deriving identity from
+names. A source field and a fictional person's self-identity are different
+facts.
+
+Rejected: treating the existing 2023 Wyoming QA slice as national or silently
+relabeling it 2024. It remains accepted QA evidence for its original bounded
+purpose; this bridge adds a separate versioned state-shard interface.
