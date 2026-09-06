@@ -6,8 +6,12 @@ import {
   ILLINOIS_RULE_PACK,
   KENTUCKY_RULE_PACK,
   LEGISLATIVE_RULE_PACKS,
+  MARYLAND_RULE_PACK,
   MINNESOTA_RULE_PACK,
+  MISSOURI_RULE_PACK,
   NEBRASKA_RULE_PACK,
+  NEVADA_RULE_PACK,
+  OHIO_RULE_PACK,
 } from "./legislature-rule-packs";
 import {
   assertOriginationPermitted,
@@ -107,7 +111,14 @@ describe("the legislative rule-pack matrix", () => {
     // with the same generic sentence is not inheritance; wholesale reuse of a
     // researched state's values would be, and that is what this forbids for the
     // new packs.)
-    const newPacks = [MINNESOTA_RULE_PACK, ILLINOIS_RULE_PACK];
+    const newPacks = [
+      MINNESOTA_RULE_PACK,
+      ILLINOIS_RULE_PACK,
+      MARYLAND_RULE_PACK,
+      MISSOURI_RULE_PACK,
+      NEVADA_RULE_PACK,
+      OHIO_RULE_PACK,
+    ];
     for (const pack of newPacks) {
       const othersNotes = new Set(
         LEGISLATIVE_RULE_PACKS.filter((other) => other !== pack).flatMap(
@@ -169,6 +180,10 @@ describe("the legislative rule-pack matrix", () => {
       ALASKA_RULE_PACK,
       MINNESOTA_RULE_PACK,
       ILLINOIS_RULE_PACK,
+      MARYLAND_RULE_PACK,
+      MISSOURI_RULE_PACK,
+      NEVADA_RULE_PACK,
+      OHIO_RULE_PACK,
     ]) {
       expect(pack.structure).toBe("bicameral");
       expect(pack.chambers).toHaveLength(2);
@@ -185,6 +200,10 @@ describe("the legislative rule-pack matrix", () => {
       NEBRASKA_RULE_PACK,
       MINNESOTA_RULE_PACK,
       ILLINOIS_RULE_PACK,
+      MARYLAND_RULE_PACK,
+      MISSOURI_RULE_PACK,
+      NEVADA_RULE_PACK,
+      OHIO_RULE_PACK,
     ]) {
       expect(pack.executive.override.kind).toBe("each-chamber");
     }
@@ -198,8 +217,8 @@ describe("the legislative rule-pack matrix", () => {
       fractions.add(`${threshold.numerator}/${threshold.denominatorParts}`);
     }
     expect(fractions).toContain("1/2"); // Kentucky
-    expect(fractions).toContain("3/5"); // Nebraska, Illinois
-    expect(fractions).toContain("2/3"); // Minnesota, Alaska joint
+    expect(fractions).toContain("3/5"); // Nebraska, Illinois, Maryland, Ohio
+    expect(fractions).toContain("2/3"); // Minnesota, Missouri, Nevada, Alaska joint
 
     // Alaska's money-bill bar is higher than its ordinary bar, and it is known.
     if (ALASKA_RULE_PACK.executive.override.kind === "joint-session") {
@@ -232,6 +251,20 @@ describe("the legislative rule-pack matrix", () => {
         expect(source.retrievedAt).toBe("2026-09-02");
       }
     }
+    // The 2026-09-06 wave is dated for its own read, everywhere a citation
+    // appears in it and not only in the top-level source list.
+    for (const pack of [
+      MARYLAND_RULE_PACK,
+      MISSOURI_RULE_PACK,
+      NEVADA_RULE_PACK,
+      OHIO_RULE_PACK,
+    ]) {
+      for (const source of collectSourceRefs(pack)) {
+        expect(source.retrievedAt, `${pack.packId} ${source.citation}`).toBe(
+          "2026-09-06",
+        );
+      }
+    }
 
     // The index carries each pack's sources through one-for-one and unchanged.
     const index = contentIndex();
@@ -260,6 +293,10 @@ describe("the legislative rule-pack matrix", () => {
     );
     expect(indexedPackIds).toContain("us-mn-legislature-v1");
     expect(indexedPackIds).toContain("us-il-general-assembly-v1");
+    expect(indexedPackIds).toContain("us-md-general-assembly-v1");
+    expect(indexedPackIds).toContain("us-mo-general-assembly-v1");
+    expect(indexedPackIds).toContain("us-nv-legislature-v1");
+    expect(indexedPackIds).toContain("us-oh-general-assembly-v1");
   });
 
   it("leaves the three scenario packs untouched and in order", () => {
@@ -271,6 +308,10 @@ describe("the legislative rule-pack matrix", () => {
       "us-ak-legislature-v1",
       "us-mn-legislature-v1",
       "us-il-general-assembly-v1",
+      "us-md-general-assembly-v1",
+      "us-mo-general-assembly-v1",
+      "us-nv-legislature-v1",
+      "us-oh-general-assembly-v1",
     ]);
 
     // Kentucky's veto still falls to a simple majority of members elected;
@@ -400,7 +441,14 @@ describe("where a measure is permitted to start", () => {
 
 describe("stage amendability is evidence, not a default", () => {
   it("leaves an unestablished third reading unknown rather than true or false", () => {
-    for (const pack of [MINNESOTA_RULE_PACK, ILLINOIS_RULE_PACK]) {
+    for (const pack of [
+      MINNESOTA_RULE_PACK,
+      ILLINOIS_RULE_PACK,
+      MARYLAND_RULE_PACK,
+      MISSOURI_RULE_PACK,
+      NEVADA_RULE_PACK,
+      OHIO_RULE_PACK,
+    ]) {
       for (const chamber of pack.chambers) {
         const stage = chamber.floorStages.at(-1)!;
         expect(
@@ -525,6 +573,10 @@ describe("one state's unresolved value cannot leak into another", () => {
     const expected: Record<string, RegExp> = {
       "us-mn-legislature-v1": /^Minn\./,
       "us-il-general-assembly-v1": /^Ill\. Const\./,
+      "us-md-general-assembly-v1": /^Md\. Const\./,
+      "us-mo-general-assembly-v1": /^Mo\. Const\./,
+      "us-nv-legislature-v1": /^Nev\. Const\./,
+      "us-oh-general-assembly-v1": /^Ohio Const\./,
     };
     for (const pack of LEGISLATIVE_RULE_PACKS) {
       const pattern = expected[pack.packId];
@@ -536,5 +588,361 @@ describe("one state's unresolved value cannot leak into another", () => {
         ).toMatch(pattern);
       }
     }
+  });
+});
+
+/**
+ * The 2026-09-06 wave, checked as a wave.
+ *
+ * Four states were compiled from their own constitutions in one pass. What
+ * matters is not that four packs exist but that each one is its own
+ * institution: sourced to a pinpoint provision of its own state's instruments,
+ * silent where its sources are silent, and unable to lend a rule to a
+ * neighbour. These tests read the wave the way an auditor would.
+ */
+const WAVE_TWO_PACKS = [
+  MARYLAND_RULE_PACK,
+  MISSOURI_RULE_PACK,
+  NEVADA_RULE_PACK,
+  OHIO_RULE_PACK,
+] as const;
+
+/** The state's own publisher, per pack. A citation must come from home. */
+const WAVE_TWO_HOSTS: Record<string, string> = {
+  "us-md-general-assembly-v1": "msa.maryland.gov",
+  "us-mo-general-assembly-v1": "revisor.mo.gov",
+  "us-nv-legislature-v1": "www.leg.state.nv.us",
+  "us-oh-general-assembly-v1": "codes.ohio.gov",
+};
+
+describe("the 2026-09-06 wave carries its own evidence", () => {
+  it("gives every resolved value a pinpoint provision and an excerpt", () => {
+    // A source title and a year are not provenance. Every `known` value in the
+    // wave has to name the section it came from and carry the words that were
+    // read, so a reviewer can check the claim rather than trust it.
+    for (const pack of WAVE_TWO_PACKS) {
+      for (const value of collectRuleValues(pack)) {
+        if (value.kind !== "known") continue;
+        const source = (value as { source: RuleSourceRef }).source;
+        expect(source.citation, `${pack.packId} pinpoint`).toMatch(/§|Sec\./);
+        expect(source.sourceUrl, `${pack.packId} url`).toBeTruthy();
+        expect(
+          (source.note ?? "").length,
+          `${pack.packId} ${source.citation} excerpt`,
+        ).toBeGreaterThan(60);
+        expect(source.verification).toBe("verified");
+      }
+    }
+  });
+
+  it("never writes a value into a field it could not resolve", () => {
+    for (const pack of WAVE_TWO_PACKS) {
+      const unresolved = collectRuleValues(pack).filter(
+        (value) => value.kind === "unknown",
+      );
+      expect(unresolved.length, `${pack.packId}`).toBeGreaterThan(0);
+      for (const value of unresolved) {
+        expect("value" in value).toBe(false);
+        expect("source" in value).toBe(false);
+        expect((value as { note: string }).note.length).toBeGreaterThan(40);
+      }
+    }
+  });
+
+  it("never reads not-applicable out of a silent instrument", () => {
+    // Illinois earned its one `not-applicable`: art. IV, § 9 positively runs a
+    // single window and draws no separate post-adjournment one. Nothing in this
+    // wave established a negative like that, so nothing in this wave claims one.
+    for (const pack of WAVE_TWO_PACKS) {
+      for (const value of collectRuleValues(pack)) {
+        expect(
+          value.kind,
+          `${pack.packId} claims a concept does not exist`,
+        ).not.toBe("not-applicable");
+      }
+    }
+    // The corpus still knows the difference, so this is a fact about the
+    // evidence and not a rule that no pack may ever say "not applicable".
+    expect(
+      ILLINOIS_RULE_PACK.executive.actionWindowDaysAfterAdjournment.kind,
+    ).toBe("not-applicable");
+  });
+
+  it("cites for a seat count only an instrument that fixes one", () => {
+    // Membership provisions, never the passage or veto section that happens to
+    // be nearby.
+    for (const chamber of MARYLAND_RULE_PACK.chambers) {
+      expect(chamber.seatsSource!.citation).toBe("Md. Const. art. III, § 2");
+    }
+    expect(
+      MISSOURI_RULE_PACK.chambers.map((chamber) => [
+        chamber.chamberKey,
+        chamber.seatsSource!.citation,
+      ]),
+    ).toStrictEqual([
+      ["house", "Mo. Const. art. III, § 3(a)"],
+      ["senate", "Mo. Const. art. III, § 5"],
+    ]);
+    for (const chamber of OHIO_RULE_PACK.chambers) {
+      // Ohio's count is in the redistricting article, not the legislative one.
+      expect(chamber.seatsSource!.citation).toBe("Ohio Const. art. XI, § 3(A)");
+      expect(chamber.seatsSource!.authority).toBe("constitution");
+    }
+    expect(OHIO_RULE_PACK.sources.map((source) => source.citation)).toContain(
+      "Ohio Const. art. XI, § 2",
+    );
+
+    // Nevada's constitution delegates the count and the law that answers adopts
+    // a shapefile, so no instrument read states 21 and 42. Saying nothing is the
+    // honest answer; borrowing art. 4, § 18 for it would not be.
+    for (const chamber of NEVADA_RULE_PACK.chambers) {
+      expect(chamber.seatsSource, "Nevada seat provenance").toBeNull();
+    }
+    expect(NEVADA_RULE_PACK.unresolvedGaps.join(" ")).toMatch(
+      /seat counts carry no instrument/,
+    );
+
+    // And no pack in the wave hangs a seat count on its passage or veto rule.
+    const proceduralCitations = new Set(
+      WAVE_TWO_PACKS.flatMap((pack) => [
+        pack.chambers[0]!.floorStages.at(-1)!.vote.kind === "known"
+          ? (
+              pack.chambers[0]!.floorStages.at(-1)!.vote as {
+                source: RuleSourceRef;
+              }
+            ).source.citation
+          : "",
+        pack.executive.override.threshold.source.citation,
+      ]),
+    );
+    for (const pack of WAVE_TWO_PACKS) {
+      for (const chamber of pack.chambers) {
+        if (!chamber.seatsSource) continue;
+        expect(
+          proceduralCitations.has(chamber.seatsSource.citation),
+          `${pack.packId} seats cite a procedural provision`,
+        ).toBe(false);
+      }
+    }
+  });
+
+  it("refuses a citation, a URL or a title from another state", () => {
+    for (const pack of WAVE_TWO_PACKS) {
+      const host = WAVE_TWO_HOSTS[pack.packId]!;
+      for (const source of collectSourceRefs(pack)) {
+        expect(
+          new URL(source.sourceUrl!).host,
+          `${pack.packId} cites ${source.sourceUrl}`,
+        ).toBe(host);
+      }
+    }
+    // The hosts are distinct, so the check above is a real separation and not
+    // four packs agreeing on one shared publisher.
+    expect(new Set(Object.values(WAVE_TWO_HOSTS)).size).toBe(4);
+  });
+});
+
+describe("a rule the schema cannot hold stays a gap, not a coercion", () => {
+  it("keeps Nevada's revenue supermajority out of the ordinary passage rule", () => {
+    // Nev. Const. art. 4, § 18(2) needs two-thirds of the members elected for a
+    // revenue-raising bill. The schema carries one threshold per stage and can
+    // confine a subject class by chamber but not by vote, so the temptation is
+    // to either raise the ordinary rule to two-thirds or invent an origination
+    // restriction. Neither happened.
+    for (const chamber of NEVADA_RULE_PACK.chambers) {
+      const passage = chamber.floorStages.at(-1)!.vote;
+      expect(passage.kind).toBe("known");
+      if (passage.kind === "known") {
+        expect(passage.value.numerator).toBe(1);
+        expect(passage.value.denominatorParts).toBe(2);
+      }
+    }
+    expect(NEVADA_RULE_PACK.origination.subjectRestrictions).toStrictEqual([]);
+    // A revenue bill is therefore not refused an origin Nevada permits.
+    expect(() =>
+      assertOriginationPermitted(NEVADA_RULE_PACK, "revenue", "senate"),
+    ).not.toThrow();
+    // And the rule is recorded rather than lost.
+    expect(NEVADA_RULE_PACK.unresolvedGaps.join(" ")).toMatch(
+      /two-thirds of the members elected to each House to pass a bill that creates, generates or increases any public revenue/,
+    );
+  });
+
+  it("records Maryland's pocket veto and Budget Bill without faking a field", () => {
+    // A Maryland bill the General Assembly's adjournment stops the Governor
+    // from returning "shall not be a law". The schema's inaction outcome speaks
+    // for a bill left alone in session, which in Maryland becomes law, so the
+    // pocket veto is a gap rather than a value in the wrong field.
+    expect(MARYLAND_RULE_PACK.executive.inactionOutcomeInSession).toMatchObject(
+      { kind: "known", value: "becomes-law-without-signature" },
+    );
+    const gaps = MARYLAND_RULE_PACK.unresolvedGaps.join(" ");
+    expect(gaps).toMatch(/pocket veto/);
+    expect(gaps).toMatch(/Budget Bill/);
+    expect(gaps).toMatch(/thirty-five calendar days/);
+  });
+
+  it("records Missouri's discharge power and veto session as gaps", () => {
+    const gaps = MISSOURI_RULE_PACK.unresolvedGaps.join(" ");
+    expect(gaps).toMatch(/one-third of the elected members/);
+    expect(gaps).toMatch(/veto session/);
+    // The override threshold itself is still the sourced two-thirds.
+    expect(MISSOURI_RULE_PACK.executive.override).toMatchObject({
+      kind: "each-chamber",
+      threshold: { numerator: 2, denominatorParts: 3 },
+    });
+  });
+
+  it("records Ohio's emergency route without disturbing the default", () => {
+    expect(MISSOURI_RULE_PACK.enactment.defaultEffectiveRule.kind).toBe(
+      "known",
+    );
+    expect(OHIO_RULE_PACK.enactment.defaultEffectiveRule).toMatchObject({
+      kind: "known",
+      source: { citation: "Ohio Const. art. II, § 1c" },
+    });
+    expect(OHIO_RULE_PACK.unresolvedGaps.join(" ")).toMatch(/art\. II, § 1d/);
+  });
+});
+
+describe("the wave proves the packs are data, not a shared template", () => {
+  it("gives Missouri a referral rule its neighbours do not have", () => {
+    // Missouri's constitution requires referral itself; everyone else leaves it
+    // to chamber rules nobody read. If referral were engine behaviour rather
+    // than pack data, these could not differ.
+    expect(MISSOURI_RULE_PACK.chambers[0]!.referral.source.citation).toBe(
+      "Mo. Const. art. III, § 22",
+    );
+    expect(MISSOURI_RULE_PACK.chambers[0]!.referral.authorityLabel).toMatch(
+      /Every bill shall be referred to a committee/,
+    );
+    for (const pack of [
+      MARYLAND_RULE_PACK,
+      NEVADA_RULE_PACK,
+      OHIO_RULE_PACK,
+      MINNESOTA_RULE_PACK,
+      ILLINOIS_RULE_PACK,
+    ]) {
+      expect(
+        pack.chambers[0]!.referral.authorityLabel,
+        `${pack.packId} referral`,
+      ).toMatch(/rules/);
+      expect(pack.chambers[0]!.referral.authorityLabel).not.toMatch(
+        /Every bill shall be referred/,
+      );
+    }
+    // Requiring referral is not promising a hearing, and Missouri does not.
+    expect(
+      MISSOURI_RULE_PACK.chambers[0]!.referral.everyMeasureMustBeHeard.kind,
+    ).toBe("unknown");
+  });
+
+  it("gives Missouri the corpus's only sourced germaneness standard", () => {
+    expect(
+      MISSOURI_RULE_PACK.chambers[0]!.amendments.germanenessStandard,
+    ).toMatchObject({
+      kind: "known",
+      source: { citation: "Mo. Const. art. III, § 21" },
+    });
+    const others = LEGISLATIVE_RULE_PACKS.filter(
+      (pack) => pack !== MISSOURI_RULE_PACK,
+    );
+    for (const pack of others) {
+      for (const chamber of pack.chambers) {
+        expect(
+          chamber.amendments.germanenessStandard.kind,
+          `${pack.packId} germaneness`,
+        ).toBe("unknown");
+      }
+    }
+  });
+
+  it("lets one wave state know the item veto while another does not", () => {
+    for (const pack of [
+      MARYLAND_RULE_PACK,
+      MISSOURI_RULE_PACK,
+      OHIO_RULE_PACK,
+    ]) {
+      expect(pack.executive.lineItemVeto, `${pack.packId}`).toMatchObject({
+        kind: "known",
+        value: true,
+      });
+    }
+    // Nevada's veto section never mentions an item, and an absence is neither a
+    // grant nor a denial. This is the corpus's first unresolved item veto.
+    expect(NEVADA_RULE_PACK.executive.lineItemVeto.kind).toBe("unknown");
+    expect("value" in NEVADA_RULE_PACK.executive.lineItemVeto).toBe(false);
+  });
+
+  it("keeps four different session shapes apart", () => {
+    // Maryland is capped by calendar days a year, Nevada adjourns at the end of
+    // the 120th consecutive calendar day of a biennial session, Missouri stops
+    // at a fixed May date, and Ohio has no adjournment deadline at all.
+    const adjournment = (pack: LegislativeRulePack): string => {
+      const rule = pack.session.adjournmentRule;
+      return rule.kind === "known" ? rule.value : "";
+    };
+    expect(adjournment(MARYLAND_RULE_PACK)).toMatch(/ninety days in each year/);
+    expect(adjournment(NEVADA_RULE_PACK)).toMatch(
+      /biennial.*120th consecutive calendar day/,
+    );
+    expect(adjournment(MISSOURI_RULE_PACK)).toMatch(
+      /midnight on May thirtieth/,
+    );
+    expect(adjournment(OHIO_RULE_PACK)).toMatch(/no adjournment deadline/);
+    expect(new Set(WAVE_TWO_PACKS.map(adjournment)).size).toBe(4);
+  });
+
+  it("gives the wave four different executive action windows", () => {
+    const window = (pack: LegislativeRulePack): [unknown, unknown] => [
+      pack.executive.actionWindowDaysInSession.kind === "known"
+        ? pack.executive.actionWindowDaysInSession.value
+        : null,
+      pack.executive.actionWindowDaysAfterAdjournment.kind === "known"
+        ? pack.executive.actionWindowDaysAfterAdjournment.value
+        : null,
+    ];
+    expect(window(MARYLAND_RULE_PACK)).toStrictEqual([6, 30]);
+    expect(window(MISSOURI_RULE_PACK)).toStrictEqual([15, 45]);
+    expect(window(NEVADA_RULE_PACK)).toStrictEqual([5, 10]);
+    expect(window(OHIO_RULE_PACK)).toStrictEqual([10, 10]);
+  });
+
+  it("does not lend Minnesota's revenue confinement to anyone in the wave", () => {
+    // The clearest possible leak: Minnesota and Kentucky confine revenue bills
+    // to the lower house. None of these four does, and none pretends to.
+    for (const pack of WAVE_TWO_PACKS) {
+      expect(pack.origination.subjectRestrictions, pack.packId).toStrictEqual(
+        [],
+      );
+      const revenue = permittedOriginChambers(pack, "revenue");
+      expect(revenue.kind).toBe("known");
+      if (revenue.kind === "known") {
+        expect([...revenue.value].sort()).toStrictEqual(
+          [...pack.chamberOrder].sort(),
+        );
+      }
+    }
+    // Minnesota still confines its own, so the difference is real.
+    expect(
+      permittedOriginChambers(MINNESOTA_RULE_PACK, "revenue"),
+    ).toMatchObject({ kind: "known", value: ["house"] });
+  });
+
+  it("names Nevada's lower chamber what Nevada calls it", () => {
+    // A pack that copied a template would have a "house". Nevada has an
+    // Assembly, and transit works from either end of it.
+    expect(NEVADA_RULE_PACK.chamberOrder).toStrictEqual(["assembly", "senate"]);
+    expect(chamberSequenceFrom(NEVADA_RULE_PACK, "senate")).toStrictEqual([
+      "senate",
+      "assembly",
+    ]);
+    expect(nextChamberKey(NEVADA_RULE_PACK, "senate", "senate")).toBe(
+      "assembly",
+    );
+    expect(nextChamberKey(NEVADA_RULE_PACK, "assembly", "senate")).toBeNull();
+    expect(() => chamberSequenceFrom(NEVADA_RULE_PACK, "house")).toThrow(
+      /not in the order/,
+    );
   });
 });
