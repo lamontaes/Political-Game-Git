@@ -1,5 +1,6 @@
 import { makeIsoDate } from "./dates";
 import {
+  assertOriginationPermitted,
   chamberByKey,
   committeeByKey,
   floorStageByKey,
@@ -120,6 +121,15 @@ export function assertLegislationIntegrity(
     }
     const pack = rulePackById(measure.rulePackId);
     chamberByKey(pack, measure.originChamberKey);
+    // Where the measure claims to have begun must satisfy the jurisdiction's
+    // own sourced origination rule, whoever wrote the record. This holds even
+    // for a measure carrying no introduction action at all, so the boundary
+    // cannot be stepped around by omitting the action that would be checked.
+    assertOriginationPermitted(
+      pack,
+      measure.subjectClass,
+      measure.originChamberKey,
+    );
     makeIsoDate(measure.introducedAt);
     if (measure.designation.trim().length === 0) {
       throw new Error(`Legislative measure has no designation: ${measure.id}`);

@@ -77,10 +77,27 @@ function toItem(pack: LegislativeRulePack): ContentItem {
       label: "Executive at presentment",
       description: `The office that acts when a measure is presented is titled ${pack.executive.titleLabel}.`,
     },
+    {
+      key: `origination:${pack.origination.generalOrigination.kind}`,
+      label: "Where an ordinary measure may start",
+      description:
+        pack.origination.generalOrigination.kind === "known"
+          ? `An ordinary measure may originate in: ${pack.origination.generalOrigination.value.join(", ")}.`
+          : `Not resolved: ${pack.origination.generalOrigination.note}`,
+    },
+    ...pack.origination.subjectRestrictions.map((restriction) => ({
+      key: `origination-restriction:${restriction.subjectClass}`,
+      label: `Origination of a ${restriction.subjectClass} measure`,
+      description: `Confined to ${restriction.chamberKeys.join(", ")} by ${restriction.source.citation}. ${restriction.note}`,
+    })),
     ...pack.chambers.map((chamber) => ({
       key: `chamber:${chamber.chamberKey}`,
       label: chamber.name,
-      description: `${chamber.seats} seats, ${chamber.committees.length} committee rule(s).`,
+      description: `${chamber.seats} seats${
+        chamber.seatsSource
+          ? ` (${chamber.seatsSource.citation})`
+          : " (seat-fixing instrument not established by this pack)"
+      }, ${chamber.committees.length} committee rule(s).`,
     })),
     ...pack.chambers.flatMap((chamber) =>
       chamber.floorStages.map((stage) => ({
