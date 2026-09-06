@@ -43,7 +43,9 @@ interface WalkedRule {
   readonly rule: RuleValue<unknown>;
 }
 
-function looksLikeRuleValue(candidate: unknown): candidate is RuleValue<unknown> {
+function looksLikeRuleValue(
+  candidate: unknown,
+): candidate is RuleValue<unknown> {
   if (typeof candidate !== "object" || candidate === null) {
     return false;
   }
@@ -226,22 +228,29 @@ describe("executive-authority: unsupported fields stay unknown", () => {
     ],
   ];
 
-  it.each(HELD_UNKNOWN)("holds %o unsupported fields at unknown", (pack, paths) => {
-    for (const path of paths) {
-      const rule = ruleAt(pack, path);
-      expect(`${pack.packId}:${path}:${rule.kind}`).toBe(
-        `${pack.packId}:${path}:unknown`,
-      );
-      // An unknown must say what is unresolved, not merely be empty.
-      expect(noteOf(rule).trim().length).toBeGreaterThan(0);
-    }
-  });
+  it.each(HELD_UNKNOWN)(
+    "holds %o unsupported fields at unknown",
+    (pack, paths) => {
+      for (const path of paths) {
+        const rule = ruleAt(pack, path);
+        expect(`${pack.packId}:${path}:${rule.kind}`).toBe(
+          `${pack.packId}:${path}:unknown`,
+        );
+        // An unknown must say what is unresolved, not merely be empty.
+        expect(noteOf(rule).trim().length).toBeGreaterThan(0);
+      }
+    },
+  );
 
   it("keeps the nine unresearched dimensions unknown in every state pack", () => {
     for (const pack of STATE_PACKS) {
-      expect(pack.executiveDirective.hasDirectiveAuthority.kind).toBe("unknown");
+      expect(pack.executiveDirective.hasDirectiveAuthority.kind).toBe(
+        "unknown",
+      );
       expect(pack.executiveDirective.authorityBasis.kind).toBe("unknown");
-      expect(pack.emergencyDeclaration.executiveMayDeclare.kind).toBe("unknown");
+      expect(pack.emergencyDeclaration.executiveMayDeclare.kind).toBe(
+        "unknown",
+      );
       expect(pack.budgetSubmission.executiveMustSubmit.kind).toBe("unknown");
       expect(pack.administrative.faithfulExecutionDuty.kind).toBe("unknown");
       expect(pack.administrative.supervisoryAuthority.kind).toBe("unknown");
@@ -259,9 +268,9 @@ describe("executive-authority: unsupported fields stay unknown", () => {
     const notApplicable = ALL_RULES.filter(
       (entry) => entry.rule.kind === "not-applicable",
     );
-    expect(notApplicable.map((entry) => `${entry.packId}:${entry.path}`)).toEqual(
-      [],
-    );
+    expect(
+      notApplicable.map((entry) => `${entry.packId}:${entry.path}`),
+    ).toEqual([]);
   });
 });
 

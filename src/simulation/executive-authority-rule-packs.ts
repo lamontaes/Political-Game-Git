@@ -140,7 +140,10 @@ const US_CONST_RETRIEVED = "2026-09-06";
  * themselves, so a reader can see exactly how far the clause reaches — and
  * therefore where it stops.
  */
-function federalArticleII(citation: string, operativeText: string): RuleSourceRef {
+function federalArticleII(
+  citation: string,
+  operativeText: string,
+): RuleSourceRef {
   return source(
     "constitution",
     citation,
