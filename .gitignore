@@ -13,3 +13,6 @@ test-results/
 
 content-export/
 .source-cache/
+
+# Blind prose-evaluation working data (never committed; holdout material stays in Drive)
+prose-eval-runs/

@@ -9,6 +9,8 @@
  */
 
 import { SourceProvenanceError } from "./errors";
+import { assertValidGovernmentEdictBasis } from "./enacted-text";
+import type { GovernmentEdictBasis } from "./enacted-text";
 import { isSha256Hex } from "./hashing";
 
 /** How the bytes were obtained. */
@@ -58,12 +60,42 @@ export interface ArtifactPublisherFacts {
  * `UNKNOWN` is a legitimate answer and must never be inferred from the fact
  * that something was publicly reachable — the same rule AGENTS.md already
  * applies to art assets, applied to data.
+ *
+ * `public-domain-government-edict` is a fourth answer and not a softening of
+ * that rule. The substrate's first thirteen domains all read federal
+ * statistical products, for which `public-domain-us-government` is exactly
+ * right. A state constitution is not a work of the United States government, so
+ * that status would be false for it; `UNKNOWN` would be false in the other
+ * direction, because the edicts doctrine is a positive determination about the
+ * text of an enacted law rather than an absence of information.
+ *
+ * That status therefore carries a structured `edict` determination rather than
+ * a sentence: who enacted what, under which doctrine, and — because the
+ * doctrine reaches enacted text and not the web page carrying it — a
+ * deterministic boundary naming the spans of the capture that determination
+ * covers. `capability.ts` cuts that boundary before a compiler sees anything,
+ * so the status label alone is never permission to read a page.
+ *
+ * The union is discriminated on `status`: `edict` cannot be attached to a
+ * federal or licensed record, and cannot be omitted from an edict one.
  */
-export interface ArtifactRights {
-  readonly status:
-    "public-domain-us-government" | "declared-license" | "UNKNOWN";
+interface RightsCommon {
   readonly declaredLicense: string | null;
   readonly attributionRequired: boolean | "UNKNOWN";
+}
+
+export type ArtifactRights =
+  | (RightsCommon & { readonly status: "public-domain-us-government" })
+  | (RightsCommon & { readonly status: "declared-license" })
+  | (RightsCommon & { readonly status: "UNKNOWN" })
+  | (RightsCommon & {
+      readonly status: "public-domain-government-edict";
+      readonly edict: GovernmentEdictBasis;
+    });
+
+/** The statuses under which a compiler may read an artifact at all. */
+export function rightsPermitProduction(rights: ArtifactRights): boolean {
+  return rights.status !== "UNKNOWN";
 }
 
 /** How a QA slice was cut out of its parent, precisely enough to re-cut it. */
@@ -168,6 +200,13 @@ export function assertValidRawArtifact(artifact: RawArtifact): void {
   }
   if (artifact.quarantined && !artifact.quarantineReason?.trim()) {
     fail("is quarantined without a reason.");
+  }
+  if (artifact.rights.status === "public-domain-government-edict") {
+    assertValidGovernmentEdictBasis(artifact.artifactId, artifact.rights.edict);
+  } else if ("edict" in artifact.rights) {
+    fail(
+      `carries an edict determination while claiming rights status "${artifact.rights.status}"; that determination belongs only to public-domain-government-edict.`,
+    );
   }
 }
 
