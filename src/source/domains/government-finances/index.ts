@@ -37,6 +37,7 @@ import type {
 import { parseFinanceMatrix } from "./parse";
 import { normalizeFinances } from "./normalize";
 import { validateFinanceCorpus } from "./validate";
+import { surveyYearWindow } from "./survey-year";
 import type { FinanceRecord } from "./types";
 
 export type { EstimateBasis, FinanceCategory, FinanceRecord } from "./types";
@@ -83,8 +84,16 @@ export function compileFinanceFixture(
     );
   }
 
-  const years = [...new Set(records.map((record) => record.fiscalYear))].sort();
-  const asOf = `${years.at(-1) ?? 2022}-12-31`;
+  /*
+   * The corpus is current as of the last day the newest survey year covers.
+   *
+   * Not December 31 of that year, which is what this derived before the survey
+   * year and the fiscal year were told apart: a survey year is not a calendar
+   * year, and dating the corpus to a December 31 it does not reach asserted six
+   * months of coverage the source never claimed.
+   */
+  const years = [...new Set(records.map((record) => record.surveyYear))].sort();
+  const asOf = surveyYearWindow(years.at(-1) ?? 2022).lastDay;
 
   return {
     corpus: {

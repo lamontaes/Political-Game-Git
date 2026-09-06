@@ -68,20 +68,48 @@ export interface FinanceRecord {
   /**
    * The Census survey year, carried on every record so years never merge.
    *
-   * This is the survey the amount was published in, not the calendar year the
-   * government's books closed in. The two differ for most governments: a survey
-   * year covers fiscal years ending from July 1 of the previous calendar year
-   * through June 30 of the survey year. See `survey-year.ts`.
+   * This is the survey the amount was published in. It is not the government's
+   * fiscal year and it is not a calendar year: a survey year covers fiscal
+   * years ending from July 1 of the previous calendar year through June 30 of
+   * the survey year, so it names a window that most governments' books close
+   * inside rather than a year any one government would recognise as its own.
+   * See `survey-year.ts`.
+   *
+   * The field was called `fiscalYear` until an audit of this branch caught the
+   * name asserting something the value does not mean. Nothing about the number
+   * changed; it was always the survey year, and its own documentation said so
+   * while its name said otherwise. A name that disagrees with its type comment
+   * is read by the name, so a later caller comparing this against a
+   * government's actual fiscal year would have been comparing two different
+   * things and finding them equal.
    */
-  readonly fiscalYear: number;
+  readonly surveyYear: number;
   /**
    * The government's own fiscal-year-ending date, as supplied by the source.
    *
-   * Kept as a separate fact from `fiscalYear` and never derived from it. A
+   * Kept as a separate fact from `surveyYear` and never derived from it. A
    * December-31 or September-30 government reports under a survey year whose
    * calendar year this date does not share, and that is correct, not drift.
    */
   readonly fiscalYearEnding: string;
+  /**
+   * The government's own label for the fiscal year, when the source states one.
+   *
+   * This is the third of Section G's three separate facts, and the one the
+   * public-use finance products do not currently carry: they publish the survey
+   * year and the fiscal-year-ending date, not the name the government itself
+   * gives that year. Whether a book closing on 2021-12-31 is "FY2021" or
+   * "FY2022" is the government's own convention, and the survey does not
+   * report it.
+   *
+   * So it is `Sourced` rather than a `string`, and in the shipped fixture it is
+   * UNKNOWN. That is the honest shape: the alternative — deriving a label from
+   * `surveyYear`, or from the calendar year of `fiscalYearEnding` — would
+   * manufacture a fact the source never stated and make it indistinguishable
+   * from one it did. If a product is later acquired that does publish the
+   * label, it lands here as KNOWN and nothing downstream has to change.
+   */
+  readonly fiscalYearLabel: Sourced<string>;
   readonly category: FinanceCategory;
   /** The Census item/line code (e.g. a revenue or expenditure item code). */
   readonly itemCode: string;

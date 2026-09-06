@@ -14,6 +14,13 @@
  *
  * Nothing is promoted, combined across years, or rolled into a composite. Each
  * row is one amount for one government in one year, and it stays exactly that.
+ *
+ * The same rule governs the three year facts. The Census survey year, the
+ * government's fiscal-year-ending date and the government's own fiscal-year
+ * label are read from three columns and never from each other. The label is the
+ * one the public-use products do not publish, so its column is empty and it
+ * normalizes to UNKNOWN — the row says the source did not state it, rather than
+ * quietly restating the survey year under a different name.
  */
 
 import {
@@ -101,6 +108,37 @@ function readAmount(
   }
 }
 
+/**
+ * Turn the fiscal-year-label cell into a sourced value, or an honest absence.
+ *
+ * There is exactly one path to KNOWN: the source supplied a non-empty label and
+ * a real fiscal-year-ending date to place it at. Every other row is UNKNOWN,
+ * and deliberately carries no value key — not the survey year, not the calendar
+ * year of the closing date, not an empty string. A government's fiscal year is
+ * its own convention, and a convention nobody published is not one this
+ * substrate is entitled to infer.
+ */
+function readFiscalYearLabel(
+  rawLabel: string,
+  fiscalYearEnding: string,
+  evidence: Evidence,
+): Sourced<string> {
+  const label = rawLabel.trim();
+  if (label === "") {
+    return unknown(
+      "The source states a Census survey year and a fiscal-year-ending date, but no label of the government's own for that fiscal year. The public-use finance products do not publish one, and it is not derivable from either of the facts they do publish.",
+      [evidence],
+    );
+  }
+  if (!isCalendarDate(fiscalYearEnding)) {
+    return unknown(
+      `The source supplies fiscal-year label "${label}" but no usable fiscal-year-ending date ("${fiscalYearEnding}"), so the year it labels cannot be placed in time.`,
+      [evidence],
+    );
+  }
+  return known(label, [evidence], "FINAL", fiscalYearEnding);
+}
+
 export function normalizeFinances(
   rows: readonly DelimitedRow[],
   artifactId: string,
@@ -114,8 +152,9 @@ export function normalizeFinances(
     const stateUsps = financeField(row, "state_usps").toUpperCase();
     const govTypeCode = financeField(row, "gov_type_code");
     const govName = financeField(row, "gov_name");
-    const fiscalYearRaw = financeField(row, "fiscal_year");
+    const surveyYearRaw = financeField(row, "survey_year");
     const fiscalYearEnding = financeField(row, "fiscal_year_ending");
+    const fiscalYearLabelRaw = financeField(row, "fiscal_year_label");
     const categoryRaw = financeField(row, "category").toUpperCase();
     const itemCode = financeField(row, "item_code");
     const itemDescription = financeField(row, "item_description");
@@ -133,12 +172,12 @@ export function normalizeFinances(
       });
       continue;
     }
-    const fiscalYear = Number(fiscalYearRaw);
-    if (!/^\d{4}$/.test(fiscalYearRaw) || !Number.isInteger(fiscalYear)) {
+    const surveyYear = Number(surveyYearRaw);
+    if (!/^\d{4}$/.test(surveyYearRaw) || !Number.isInteger(surveyYear)) {
       defects.push({
         kind: "unparsable-record",
         line: row.line,
-        message: `Line ${row.line}: "${fiscalYearRaw}" is not a four-digit fiscal year.`,
+        message: `Line ${row.line}: "${surveyYearRaw}" is not a four-digit Census survey year.`,
       });
       continue;
     }
@@ -189,16 +228,36 @@ export function normalizeFinances(
       },
       providerNativeId: censusGovId,
     };
+    /*
+     * The label cites its own column. An UNKNOWN that pointed at the amount
+     * cell would say the amount is missing; this one says the label is, and an
+     * auditor following the locator lands on the cell that is actually empty.
+     */
+    const fiscalYearLabelEvidence: Evidence = {
+      artifactId,
+      locator: {
+        kind: "delimited-row",
+        artifactId,
+        line: row.line,
+        column: "fiscal_year_label",
+      },
+      providerNativeId: censusGovId,
+    };
 
     records.push({
-      recordId: `${censusGovId}:${category}:${itemCode}:${fiscalYear}`,
+      recordId: `${censusGovId}:${category}:${itemCode}:${surveyYear}`,
       censusGovId,
       stateFips,
       stateUsps,
       govTypeCode,
       govName,
-      fiscalYear,
+      surveyYear,
       fiscalYearEnding,
+      fiscalYearLabel: readFiscalYearLabel(
+        fiscalYearLabelRaw,
+        fiscalYearEnding,
+        fiscalYearLabelEvidence,
+      ),
       category,
       itemCode,
       itemDescription,

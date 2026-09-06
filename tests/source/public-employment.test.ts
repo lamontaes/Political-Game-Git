@@ -351,6 +351,59 @@ describe("the public-employment fabricated-score guard, adversarially", () => {
     });
   }
 
+  /*
+   * The delimiter bypass, on the domain that most invites it.
+   *
+   * A staffing metric is the easiest thing in this project to fabricate, and a
+   * function label is where it would arrive. The guard used to treat `-` and
+   * `_` as parts of a word, so `efficiency-score` and `staff_productivity_index`
+   * passed while their spaced spellings were caught. That the legitimate list
+   * above contains `Police protection - officers` is exactly why the boundary
+   * cannot be fixed by rejecting hyphens: both spellings must be judged on
+   * vocabulary alone.
+   */
+  const bypassed = [
+    "efficiency-score",
+    "fiscal-score",
+    "overall-fiscal-health",
+    "staff_productivity_index",
+    "workforce-competency-rating",
+    "overall_staffing_quality",
+    "service.capacity.grade",
+    "AGENCY-EFFICIENCY-MEASURE",
+  ];
+  for (const label of bypassed) {
+    it(`rejects the delimiter-spelled function "${label}"`, () => {
+      const codes = withProbeFunction("F99", label).map(
+        (finding) => finding.code,
+      );
+      expect(codes).toContain("public-employment/invented-score");
+    });
+  }
+
+  const DELIMITERS = ["-", "_", ".", "/", ":", "  ", " - "];
+  for (const delimiter of DELIMITERS) {
+    it(`catches every fabricated function respelled with "${delimiter}"`, () => {
+      for (const label of fabricated) {
+        const respelled = label.split(" ").join(delimiter);
+        const codes = withProbeFunction("F99", respelled).map(
+          (finding) => finding.code,
+        );
+        expect(codes, `"${respelled}" evaded the guard`).toContain(
+          "public-employment/invented-score",
+        );
+      }
+    });
+  }
+
+  it("still accepts every hyphenated ASPEP function under the new boundary", () => {
+    // The false-positive direction, stated once as a class: a delimiter in a
+    // label is not evidence of anything, and the Bureau uses several.
+    for (const label of legitimate.filter((entry) => entry.includes("-"))) {
+      expect(withProbeFunction("F99", label), label).toEqual([]);
+    }
+  });
+
   it("does not conflate ASPEP reference timing with the finance fiscal window", () => {
     // ASPEP's reference is the pay period including March 12 of the survey
     // year, so its reference date sits inside the reference year. A

@@ -35,6 +35,25 @@
  *
  * The consequence is that "Health and hospitals" passes and "Overall fiscal
  * health" does not, which is the distinction that actually matters.
+ *
+ * The other half of the guard is where a word is judged to end, and an earlier
+ * revision got it backwards. It treated `-` as part of a word, so the boundary
+ * around "score" refused to close against a hyphen and `efficiency-score` slid
+ * straight through; `_` did the same by virtue of being a `\w` character. The
+ * effect was that a verdict was caught when it was spelled with spaces and
+ * waved past when it was spelled as an identifier — `efficiency score`
+ * rejected, `efficiency_score`, `fiscal-score` and `overall-fiscal-health`
+ * accepted. A guard with that shape does not constrain what a corpus may
+ * assert; it constrains only how the assertion is typed, which is no
+ * constraint at all.
+ *
+ * So a word here ends wherever a letter or a digit stops. Hyphens, underscores,
+ * whitespace, slashes, commas, parentheses and every other punctuation mark are
+ * all the same thing — a delimiter — and the text is reduced to delimiter-
+ * separated words once, before any token is looked for. Nothing about the
+ * vocabulary changes: "Health and hospitals" still passes, "upgrade" still does
+ * not contain "grade", and `Police Protection - Officers`, which ASPEP really
+ * does publish with a hyphen in it, is still the source's own name for a thing.
  */
 
 /**
@@ -143,10 +162,52 @@ export interface FabricatedScoreMatch {
   readonly reason: string;
 }
 
-/** Whole-word, case-insensitive. "upgrade" does not contain "grade". */
-function containsWord(haystack: string, token: string): boolean {
-  const escaped = token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return new RegExp(`(?<![\\w-])${escaped}(?![\\w-])`, "i").test(haystack);
+/**
+ * Everything that is not a letter or a digit, in any script.
+ *
+ * This is the guard's definition of a delimiter, and it is deliberately total:
+ * naming the separators to reject is how `-` and `_` came to be exempt in the
+ * first place. Letters and digits are word, everything else parts words, and
+ * there is no third category for a composite to hide in.
+ */
+const DELIMITER_RUN = /[^\p{L}\p{N}]+/gu;
+
+/**
+ * Reduce text to lowercase words separated and bounded by single spaces.
+ *
+ * The leading and trailing space are what make a plain substring test a
+ * whole-word test: " grade " does not occur in " upgrade ", while it does occur
+ * in " efficiency grade " however the source spelled the gap between the two.
+ */
+function delimitWords(text: string): string {
+  return ` ${text.toLowerCase().replace(DELIMITER_RUN, " ").trim()} `;
+}
+
+/**
+ * The delimited form of each token, computed once.
+ *
+ * Tokens go through the same reduction as the text, so a token that contains a
+ * delimiter itself — "well-being", "z-score" — matches the source's spelling of
+ * it rather than only its own.
+ */
+const DELIMITED_TOKENS = new Map<string, string>();
+
+function delimitedToken(token: string): string {
+  const cached = DELIMITED_TOKENS.get(token);
+  if (cached !== undefined) return cached;
+  const delimited = delimitWords(token);
+  DELIMITED_TOKENS.set(token, delimited);
+  return delimited;
+}
+
+/**
+ * Whole-word, case-insensitive, delimiter-blind.
+ *
+ * `delimited` is text already through `delimitWords`; callers reduce once and
+ * probe many times.
+ */
+function containsWord(delimited: string, token: string): boolean {
+  return delimited.includes(delimitedToken(token));
 }
 
 /**
@@ -157,8 +218,9 @@ function containsWord(haystack: string, token: string): boolean {
  * `null` when the text reads as a source's own vocabulary.
  */
 export function findFabricatedScore(text: string): FabricatedScoreMatch | null {
+  const delimited = delimitWords(text);
   for (const token of SCORE_METRIC_TOKENS) {
-    if (containsWord(text, token)) {
+    if (containsWord(delimited, token)) {
       return {
         token,
         reason: `names "${token}", which describes a measurement shape rather than a published amount. The source publishes observations, not a composite ${token}.`,
@@ -166,7 +228,7 @@ export function findFabricatedScore(text: string): FabricatedScoreMatch | null {
     }
   }
   for (const token of SCORE_JUDGEMENT_TOKENS) {
-    if (containsWord(text, token)) {
+    if (containsWord(delimited, token)) {
       return {
         token,
         reason: `names "${token}", which is an evaluative judgement rather than anything the source collects.`,
@@ -174,9 +236,9 @@ export function findFabricatedScore(text: string): FabricatedScoreMatch | null {
     }
   }
   for (const token of SCORE_DOMAIN_TOKENS) {
-    if (!containsWord(text, token)) continue;
+    if (!containsWord(delimited, token)) continue;
     for (const qualifier of SCORE_COMPOSITE_QUALIFIERS) {
-      if (containsWord(text, qualifier)) {
+      if (containsWord(delimited, qualifier)) {
         return {
           token,
           qualifier,

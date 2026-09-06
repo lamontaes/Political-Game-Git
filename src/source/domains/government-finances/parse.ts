@@ -2,9 +2,20 @@
  * Reading a government-finances matrix.
  *
  * The shape is one tab-separated row per published fiscal amount, carrying the
- * government's Census identity, the reference year and fiscal-year-ending date,
- * the fiscal category and item, the units, the estimate basis, and the amount
- * with a status that says how (or whether) it is known.
+ * government's Census identity, the three separate year facts — Census survey
+ * year, fiscal-year-ending date, and the government's own fiscal-year label
+ * where the source states one — the fiscal category and item, the units, the
+ * estimate basis, and the amount with a status that says how (or whether) it is
+ * known.
+ *
+ * `survey_year` was called `fiscal_year` until an audit caught the column name
+ * asserting the government's fiscal year while carrying the Bureau's survey
+ * year. `fiscal_year_label` is the column the government's own fiscal year
+ * would arrive in; the current public-use products do not publish it, so it is
+ * empty throughout the fixture and becomes an UNKNOWN rather than a derived
+ * value. An empty cell here means the source did not say, which is why the
+ * column exists at all: a schema with nowhere to put the label invites deriving
+ * one from the survey year.
  *
  * Tabs specifically, with a width check, for the same reason the qualifications
  * matrix insists on them: a delimiter that does not survive transport collapses
@@ -23,8 +34,9 @@ export const FINANCE_COLUMNS = [
   "state_usps",
   "gov_type_code",
   "gov_name",
-  "fiscal_year",
+  "survey_year",
   "fiscal_year_ending",
+  "fiscal_year_label",
   "category",
   "item_code",
   "item_description",

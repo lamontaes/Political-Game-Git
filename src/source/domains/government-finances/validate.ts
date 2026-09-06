@@ -5,9 +5,10 @@
  * compiler actually produced: a government identity that can be joined by code
  * rather than by name, units on every amount, the sample/universe distinction
  * kept explicit, the survey year and the fiscal-year-ending date both preserved
- * and consistent with the Bureau's own fiscal window, and — the one the backbone
- * is most emphatic about — no collapse of published amounts into a single
- * invented "capacity", "health" or "efficiency" score.
+ * and consistent with the Bureau's own fiscal window, the government's own
+ * fiscal-year label kept distinct from both rather than derived from either,
+ * and — the one the backbone is most emphatic about — no collapse of published
+ * amounts into a single invented "capacity", "health" or "efficiency" score.
  *
  * The fiscal-window check is the subtle one. A survey year covers fiscal years
  * ending from July 1 of the previous calendar year through June 30 of the survey
@@ -74,13 +75,13 @@ export function validateFinanceCorpus(
         recordId: record.recordId,
       });
     } else if (
-      !isWithinSurveyYearWindow(record.fiscalYear, record.fiscalYearEnding)
+      !isWithinSurveyYearWindow(record.surveyYear, record.fiscalYearEnding)
     ) {
-      const { firstDay, lastDay } = surveyYearWindow(record.fiscalYear);
+      const { firstDay, lastDay } = surveyYearWindow(record.surveyYear);
       findings.push({
         severity: "error",
         code: "government-finances/fiscal-year-outside-survey-window",
-        message: `${record.recordId} reports survey year ${record.fiscalYear} with fiscal-year-ending ${record.fiscalYearEnding}, which is outside that survey year's window (${firstDay} through ${lastDay}). A survey year covers fiscal years ending from July 1 of the previous calendar year through June 30 of the survey year.`,
+        message: `${record.recordId} reports survey year ${record.surveyYear} with fiscal-year-ending ${record.fiscalYearEnding}, which is outside that survey year's window (${firstDay} through ${lastDay}). A survey year covers fiscal years ending from July 1 of the previous calendar year through June 30 of the survey year.`,
         recordId: record.recordId,
       });
     }
@@ -123,6 +124,31 @@ export function validateFinanceCorpus(
         });
       }
     }
+
+    /*
+     * A fiscal-year label that is merely the survey year restated.
+     *
+     * The three year facts are separate, and the cheapest way to erase that
+     * separation is to fill the label column from the survey-year column and
+     * call the conflation a transcription. This does not catch a government
+     * whose label genuinely equals its survey year — it cannot, and a June-30
+     * state's label legitimately does — so it fires only where the label was
+     * also asserted for a closing date in the *previous* calendar year, where
+     * equality to the survey year cannot have come from the source.
+     */
+    if (
+      record.fiscalYearLabel.state === "KNOWN" &&
+      isCalendarDate(record.fiscalYearEnding) &&
+      record.fiscalYearLabel.value.trim() === String(record.surveyYear) &&
+      record.fiscalYearEnding.slice(0, 4) !== String(record.surveyYear)
+    ) {
+      findings.push({
+        severity: "error",
+        code: "government-finances/derived-fiscal-year-label",
+        message: `${record.recordId} labels its fiscal year "${record.fiscalYearLabel.value}", which is the Census survey year, while the government's books closed on ${record.fiscalYearEnding} in a different calendar year. A fiscal-year label copied from the survey year is not a fact the source stated; leave it UNKNOWN unless the source publishes one.`,
+        recordId: record.recordId,
+      });
+    }
   }
 
   /*
@@ -134,12 +160,12 @@ export function validateFinanceCorpus(
    * Annual Survey years and no SAMPLE_ESTIMATE anywhere is worth a second look.
    */
   const bases = new Set(records.map((record) => record.estimateBasis));
-  const years = new Set(records.map((record) => record.fiscalYear));
+  const years = new Set(records.map((record) => record.surveyYear));
   if (records.length >= 20 && years.size >= 3 && bases.size === 1) {
     findings.push({
       severity: "warning",
       code: "government-finances/single-estimate-basis",
-      message: `Every record across ${years.size} fiscal years shares one estimate basis (${[...bases][0]}). The Annual Survey samples and the Census of Governments does not; a span with only one basis may have flattened the distinction.`,
+      message: `Every record across ${years.size} survey years shares one estimate basis (${[...bases][0]}). The Annual Survey samples and the Census of Governments does not; a span with only one basis may have flattened the distinction.`,
     });
   }
 
