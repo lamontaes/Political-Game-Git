@@ -21,6 +21,7 @@ import {
   FISCAL_AUTHORITY_PRODUCTION_GATE,
   FISCAL_FIELD_SCHEMA,
   FISCAL_MATRIX_COLUMNS,
+  FISCAL_RULE_DEPENDENCIES,
   FISCAL_RULE_FIELDS,
   TAX_INSTRUMENTS,
   classifyBalancedBudget,
@@ -118,7 +119,21 @@ function onlyRows(
 
 /** A row builder that keeps the column order in one place. */
 function row(fields: Partial<Record<string, string>>): readonly string[] {
-  return FISCAL_MATRIX_COLUMNS.map((column) => fields[column] ?? "");
+  const valueKind =
+    fields.value_kind ??
+    (fields.record_kind === "TAX_INSTRUMENT"
+      ? "ENUM"
+      : (FISCAL_FIELD_SCHEMA[fields.subject as keyof typeof FISCAL_FIELD_SCHEMA]
+          ?.kind ?? ""));
+  const complete: Partial<Record<string, string>> = {
+    value_kind: valueKind,
+    authority_artifact_kind: "ENACTED_STATUTE",
+    authority_artifact_id: "fixture:probe:statute",
+    authority_lineage: "FIRST_PARTY_LEGAL_ARTIFACT",
+    searched_scope: "",
+    ...fields,
+  };
+  return FISCAL_MATRIX_COLUMNS.map((column) => complete[column] ?? "");
 }
 
 const CITED = {
@@ -130,6 +145,23 @@ const CITED = {
   authority_url: "https://fixture.invalid/statutes",
   paraphrase: "A probe row.",
 };
+
+const DEPENDENCY_CASES = [
+  ["LOCAL_OPTION_SALES_TAX_MAX_RATE_PERCENT", "GENERAL_SALES_TAX", "2"],
+  [
+    "LOCAL_OPTION_SALES_TAX_VOTER_REFERENDUM_REQUIRED",
+    "GENERAL_SALES_TAX",
+    "true",
+  ],
+  ["LOCAL_OPTION_SALES_TAX_EARMARK", "GENERAL_SALES_TAX", "Roads"],
+  ["LOCAL_INCOME_TAX_TYPE", "PAYROLL_OR_OCCUPATIONAL_TAX", "PAYROLL_TAX"],
+  ["LOCAL_INCOME_TAX_MAX_RATE_PERCENT", "PAYROLL_OR_OCCUPATIONAL_TAX", "2"],
+  [
+    "LOCAL_INCOME_TAX_VOTER_REFERENDUM_REQUIRED",
+    "PAYROLL_OR_OCCUPATIONAL_TAX",
+    "false",
+  ],
+] as const;
 
 describe("the fiscal authority compiler", () => {
   it("compiles a fixture matrix end to end", () => {
@@ -366,6 +398,97 @@ describe("the matrix reader refuses a shape it cannot transcribe", () => {
 });
 
 describe("the normalizer refuses what it cannot transcribe honestly", () => {
+  it.each([
+    ["status", { status: "MYSTERY" }, /status.*closed vocabulary/i],
+    ["blank status", { status: "" }, /status.*closed vocabulary/i],
+    ["case-drifted status", { status: "known" }, /status.*closed vocabulary/i],
+    [
+      "whitespace-smuggled status",
+      { status: " KNOWN " },
+      /status.*closed vocabulary/i,
+    ],
+    [
+      "blank derivation",
+      { direct_derived: "" },
+      /direct_derived.*DIRECT.*DERIVED/i,
+    ],
+    [
+      "malformed derivation",
+      { direct_derived: "DIRECTISH" },
+      /direct_derived.*DIRECT.*DERIVED/i,
+    ],
+    [
+      "blank review flag",
+      { review_required: "" },
+      /review_required.*true.*false/i,
+    ],
+    [
+      "case-drifted review flag",
+      { review_required: "FALSE" },
+      /review_required.*true.*false/i,
+    ],
+    [
+      "whitespace-smuggled review flag",
+      { review_required: " false " },
+      /review_required.*true.*false/i,
+    ],
+    [
+      "case-drifted derivation",
+      { direct_derived: "derived" },
+      /direct_derived.*DIRECT.*DERIVED/i,
+    ],
+    [
+      "whitespace-smuggled derivation",
+      { direct_derived: " DIRECT " },
+      /direct_derived.*DIRECT.*DERIVED/i,
+    ],
+    [
+      "invalid review flag",
+      { review_required: "no" },
+      /review_required.*true.*false/i,
+    ],
+  ])("rejects %s control vocabulary", (_label, override, message) => {
+    expect(() =>
+      withRows([
+        row({
+          ...CITED,
+          state: "QQ",
+          level: "STATE",
+          record_kind: "FISCAL_RULE",
+          subject: "LINE_ITEM_VETO_AVAILABLE",
+          status: "KNOWN",
+          value: "true",
+          ...override,
+        }),
+      ]),
+    ).toThrow(message);
+  });
+
+  it.each([
+    ["NOMINAL_MILLAGE_CAP_MILLS", "PERCENT", "2", "MILLS"],
+    ["LOCAL_OPTION_SALES_TAX_MAX_RATE_PERCENT", "MILLS", "2", "PERCENT"],
+    ["RESERVE_CAP_PERCENT_OF_GENERAL_FUND", "MONEY", "2000000", "PERCENT"],
+  ])(
+    "rejects %s carrying mismatched %s units even when the scalar parses",
+    (field, valueKind, value, expectedKind) => {
+      const level = field.startsWith("RESERVE_") ? "STATE" : "MUNICIPALITY";
+      expect(() =>
+        withRows([
+          row({
+            ...CITED,
+            state: "QQ",
+            level,
+            record_kind: "FISCAL_RULE",
+            subject: field,
+            status: "KNOWN",
+            value,
+            value_kind: valueKind,
+          }),
+        ]),
+      ).toThrow(new RegExp(`value kind.*${valueKind}.*${expectedKind}`, "i"));
+    },
+  );
+
   it("refuses a percentage that arrived in a millage column", () => {
     expect(() =>
       withRows([
@@ -442,6 +565,60 @@ describe("the normalizer refuses what it cannot transcribe honestly", () => {
         }),
       ]),
     ).toThrow(/is a local-level rule and this row files it under STATE/);
+
+    expect(() =>
+      withRows([
+        row({
+          ...CITED,
+          state: "QQ",
+          level: "STATE",
+          record_kind: "FISCAL_RULE",
+          subject: "FISCAL_HOME_RULE_SCOPE",
+          status: "KNOWN",
+          value: "PREEMPTED_BY_STATE",
+        }),
+      ]),
+    ).toThrow(/FISCAL_HOME_RULE_SCOPE.*local-level.*STATE/);
+  });
+
+  it("enforces every field's declared government-level scope", () => {
+    const levels = [
+      "STATE",
+      "COUNTY",
+      "MUNICIPALITY",
+      "CONSOLIDATED_CITY_COUNTY",
+      "SCHOOL_DISTRICT",
+      "SPECIAL_DISTRICT",
+    ] as const;
+
+    for (const field of FISCAL_RULE_FIELDS) {
+      const schema = FISCAL_FIELD_SCHEMA[field];
+      for (const level of levels) {
+        const allowed =
+          schema.scope === "ANY" ||
+          (schema.scope === "STATE" && level === "STATE") ||
+          (schema.scope === "LOCAL" && level !== "STATE");
+        const compile = () =>
+          onlyRows([
+            row({
+              ...CITED,
+              state: "QQ",
+              level,
+              record_kind: "FISCAL_RULE",
+              subject: field,
+              status: "UNKNOWN",
+              value: "",
+            }),
+          ]);
+        if (allowed) {
+          expect(compile, `${field} should allow ${level}`).not.toThrow();
+        } else {
+          expect(compile, `${field} should reject ${level}`).toThrow(
+            /state-level|local-level/,
+          );
+        }
+      }
+    }
   });
 
   it("refuses a value on a status that carries none, and a status with no value", () => {
@@ -581,7 +758,48 @@ describe("92N's own boundaries are permanent validation errors", () => {
   });
 
   it("refuses an absence of authority that names no scope searched", () => {
-    const corpus = withRows([
+    expect(() =>
+      withRows([
+        row({
+          ...CITED,
+          state: "QQ",
+          level: "MUNICIPALITY",
+          record_kind: "TAX_INSTRUMENT",
+          subject: "GENERAL_SALES_TAX",
+          status: "KNOWN",
+          value: "NO_ENABLING_AUTHORITY",
+          paraphrase: "",
+        }),
+      ]),
+    ).toThrow(/requires searched_scope JSON/);
+  });
+
+  it("refuses free prose as proof of a no-enabling-authority search", () => {
+    expect(() =>
+      onlyRows([
+        row({
+          ...CITED,
+          state: "QQ",
+          level: "MUNICIPALITY",
+          record_kind: "TAX_INSTRUMENT",
+          subject: "GENERAL_SALES_TAX",
+          status: "KNOWN",
+          value: "NO_ENABLING_AUTHORITY",
+          paraphrase: "A probe row.",
+        }),
+      ]),
+    ).toThrow(/free prose is not proof/);
+  });
+
+  it("accepts a structured searched scope tied to the row and its evidence identity", () => {
+    const searchedScope = JSON.stringify({
+      authorityKinds: ["ENACTED_STATUTE"],
+      evidenceArtifactIds: ["fixture:probe:statute"],
+      instrument: "GENERAL_SALES_TAX",
+      jurisdictionStateUsps: "QQ",
+      level: "MUNICIPALITY",
+    });
+    const corpus = onlyRows([
       row({
         ...CITED,
         state: "QQ",
@@ -590,61 +808,94 @@ describe("92N's own boundaries are permanent validation errors", () => {
         subject: "GENERAL_SALES_TAX",
         status: "KNOWN",
         value: "NO_ENABLING_AUTHORITY",
-        paraphrase: "",
+        searched_scope: searchedScope,
       }),
     ]);
-    expect(
-      validateFiscalAuthorityCorpus(corpus).findings.some(
-        (finding) => finding.code === "fiscal/silence-without-scope",
-      ),
-    ).toBe(true);
+    const entry = corpus.records[0];
+    expect(entry && isTaxInstrumentAuthority(entry)).toBe(true);
+    if (entry && isTaxInstrumentAuthority(entry)) {
+      expect(entry.searchedScope?.instrument).toBe("GENERAL_SALES_TAX");
+      expect(entry.searchedScope?.evidenceArtifactIds).toEqual([
+        "fixture:probe:statute",
+      ]);
+    }
   });
 
-  it("refuses a statistical survey standing in as legal authority", () => {
-    const corpus = withRows([
-      row({
-        ...CITED,
-        state: "QQ",
-        level: "MUNICIPALITY",
-        record_kind: "TAX_INSTRUMENT",
-        subject: "INDIVIDUAL_INCOME_TAX",
-        status: "KNOWN",
-        value: "STATUTORILY_PREEMPTED",
-        authority_type: "Annual Survey of State and Local Government Finances",
-        paraphrase:
-          "The state reported no local individual income tax revenue.",
-      }),
-    ]);
-    expect(
-      validateFiscalAuthorityCorpus(corpus).findings.some(
-        (finding) =>
-          finding.code === "fiscal/observation-as-legal-authority" &&
-          finding.message.includes(
-            "Observed zero revenue is not a prohibition",
-          ),
-      ),
-    ).toBe(true);
+  it.each([
+    [
+      "jurisdiction",
+      { jurisdictionStateUsps: "RR" },
+      /jurisdiction must be QQ/,
+    ],
+    ["government level", { level: "COUNTY" }, /level must be MUNICIPALITY/],
+    [
+      "instrument family",
+      { instrument: "PROPERTY_TAX" },
+      /instrument must be GENERAL_SALES_TAX/,
+    ],
+    [
+      "legal-artifact family",
+      { authorityKinds: ["STATE_CONSTITUTION"] },
+      /does not include the cited ENACTED_STATUTE/,
+    ],
+    [
+      "evidence identity",
+      { evidenceArtifactIds: ["fixture:probe:other"] },
+      /does not include cited artifact/,
+    ],
+  ])("rejects searched scope with mismatched %s", (_label, override, error) => {
+    const searchedScope = JSON.stringify({
+      authorityKinds: ["ENACTED_STATUTE"],
+      evidenceArtifactIds: ["fixture:probe:statute"],
+      instrument: "GENERAL_SALES_TAX",
+      jurisdictionStateUsps: "QQ",
+      level: "MUNICIPALITY",
+      ...override,
+    });
+    expect(() =>
+      onlyRows([
+        row({
+          ...CITED,
+          state: "QQ",
+          level: "MUNICIPALITY",
+          record_kind: "TAX_INSTRUMENT",
+          subject: "GENERAL_SALES_TAX",
+          status: "KNOWN",
+          value: "NO_ENABLING_AUTHORITY",
+          searched_scope: searchedScope,
+        }),
+      ]),
+    ).toThrow(error);
   });
 
-  it("refuses a Census revenue line code as a legal locator", () => {
-    const corpus = withRows([
-      row({
-        ...CITED,
-        state: "QQ",
-        level: "MUNICIPALITY",
-        record_kind: "TAX_INSTRUMENT",
-        subject: "GENERAL_SALES_TAX",
-        status: "KNOWN",
-        value: "STATUTORILY_PREEMPTED",
-        legal_locator: "T09",
-      }),
-    ]);
-    expect(
-      validateFiscalAuthorityCorpus(corpus).findings.some(
-        (finding) => finding.code === "fiscal/observation-as-legal-authority",
-      ),
-    ).toBe(true);
-  });
+  it.each([
+    ["generic statistical source", "Statistical Report", "Table 2"],
+    ["renamed statistical source", "Official Revenue Compendium", "s 1-1"],
+    ["citation-looking prose", "State Code Survey", "art. IV, s 2"],
+  ])(
+    "refuses %s without positive legal-artifact identity",
+    (_label, authorityType, locator) => {
+      expect(() =>
+        onlyRows([
+          row({
+            ...CITED,
+            state: "QQ",
+            level: "MUNICIPALITY",
+            record_kind: "TAX_INSTRUMENT",
+            subject: "GENERAL_SALES_TAX",
+            status: "KNOWN",
+            value: "STATUTORILY_PREEMPTED",
+            authority_type: authorityType,
+            authority_artifact_kind: "STATISTICAL_REPORT",
+            authority_artifact_id: "fixture:probe:observations",
+            authority_lineage: "OBSERVATIONAL_SOURCE",
+            legal_locator: locator,
+            authority_url: "https://fixture.invalid/renamed-observations",
+          }),
+        ]),
+      ).toThrow(/positive legal-artifact vocabulary/);
+    },
+  );
 
   it("refuses a fiscal verdict smuggled in as the name of a fund", () => {
     const corpus = withRows([
@@ -665,17 +916,45 @@ describe("92N's own boundaries are permanent validation errors", () => {
     ).toBe(true);
   });
 
-  it("refuses a ceiling on an instrument the same corpus says is barred", () => {
-    const corpus = withRows([
-      row({
-        ...CITED,
-        state: "QQ",
-        level: "MUNICIPALITY",
-        record_kind: "TAX_INSTRUMENT",
-        subject: "GENERAL_SALES_TAX",
-        status: "KNOWN",
-        value: "STATUTORILY_PREEMPTED",
-      }),
+  it("covers every declared tax-rule dependency with an adversarial case", () => {
+    expect(Object.keys(FISCAL_RULE_DEPENDENCIES).sort()).toEqual(
+      DEPENDENCY_CASES.map(([field]) => field).sort(),
+    );
+  });
+
+  it.each(DEPENDENCY_CASES)(
+    "refuses known %s when its %s authority is barred",
+    (field, instrument, value) => {
+      const corpus = onlyRows([
+        row({
+          ...CITED,
+          state: "QQ",
+          level: "MUNICIPALITY",
+          record_kind: "TAX_INSTRUMENT",
+          subject: instrument,
+          status: "KNOWN",
+          value: "STATUTORILY_PREEMPTED",
+        }),
+        row({
+          ...CITED,
+          state: "QQ",
+          level: "MUNICIPALITY",
+          record_kind: "FISCAL_RULE",
+          subject: field,
+          status: "KNOWN",
+          value,
+        }),
+      ]);
+      expect(
+        validateFiscalAuthorityCorpus(corpus).findings.some(
+          (finding) => finding.code === "fiscal/limit-on-barred-instrument",
+        ),
+      ).toBe(true);
+    },
+  );
+
+  it("refuses a known dependent rule without known permissive authority", () => {
+    const corpus = onlyRows([
       row({
         ...CITED,
         state: "QQ",
@@ -688,7 +967,44 @@ describe("92N's own boundaries are permanent validation errors", () => {
     ]);
     expect(
       validateFiscalAuthorityCorpus(corpus).findings.some(
-        (finding) => finding.code === "fiscal/limit-on-barred-instrument",
+        (finding) =>
+          finding.code === "fiscal/dependent-rule-without-known-authority",
+      ),
+    ).toBe(true);
+  });
+
+  it("preserves local level when detecting a universal municipality rule", () => {
+    const states = ["AA", "BB", "CC", "DD", "EE"];
+    const corpus = onlyRows(
+      states.flatMap((state, index) => [
+        row({
+          ...CITED,
+          state,
+          level: "MUNICIPALITY",
+          record_kind: "TAX_INSTRUMENT",
+          subject: "GENERAL_SALES_TAX",
+          status: "KNOWN",
+          value: "AUTHORIZED",
+        }),
+        row({
+          ...CITED,
+          state,
+          level: "SPECIAL_DISTRICT",
+          record_kind: "TAX_INSTRUMENT",
+          subject: "GENERAL_SALES_TAX",
+          status: "KNOWN",
+          value:
+            index % 2 === 0
+              ? "STATUTORILY_PREEMPTED"
+              : "AUTHORIZED_WITH_VOTER_APPROVAL",
+        }),
+      ]),
+    );
+    expect(
+      validateFiscalAuthorityCorpus(corpus).findings.some(
+        (finding) =>
+          finding.code === "fiscal/universal-tax-model" &&
+          finding.message.includes("MUNICIPALITY"),
       ),
     ).toBe(true);
   });
@@ -712,6 +1028,44 @@ describe("92N's own boundaries are permanent validation errors", () => {
       ),
     ).toBe(true);
     expect(isClean(report)).toBe(false);
+  });
+
+  it("does not confuse legitimate within-state level differences with universality", () => {
+    const states = ["AA", "BB", "CC", "DD", "EE"];
+    const values = [
+      "AUTHORIZED",
+      "AUTHORIZED_WITH_VOTER_APPROVAL",
+      "AUTHORIZED_LIMITED_CLASS",
+      "STATUTORILY_PREEMPTED",
+      "CONSTITUTIONALLY_PROHIBITED",
+    ];
+    const corpus = onlyRows(
+      states.flatMap((state, index) => [
+        row({
+          ...CITED,
+          state,
+          level: "MUNICIPALITY",
+          record_kind: "TAX_INSTRUMENT",
+          subject: "GENERAL_SALES_TAX",
+          status: "KNOWN",
+          value: values[index],
+        }),
+        row({
+          ...CITED,
+          state,
+          level: "COUNTY",
+          record_kind: "TAX_INSTRUMENT",
+          subject: "GENERAL_SALES_TAX",
+          status: "KNOWN",
+          value: values[(index + 1) % values.length],
+        }),
+      ]),
+    );
+    expect(
+      validateFiscalAuthorityCorpus(corpus).findings.some(
+        (finding) => finding.code === "fiscal/universal-tax-model",
+      ),
+    ).toBe(false);
   });
 
   it("leaves the fixture corpus free of errors, warnings and all", () => {

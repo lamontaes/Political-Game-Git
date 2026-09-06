@@ -21,7 +21,11 @@
  * point of a closed set is that a consumer can exhaust it.
  */
 
-import type { FiscalRuleField, TaxInstrument } from "./types";
+import type {
+  FiscalLegalArtifactKind,
+  FiscalRuleField,
+  TaxInstrument,
+} from "./types";
 
 /** How a field's value is read out of the matrix, and checked. */
 export type FiscalValueKind =
@@ -36,6 +40,17 @@ export interface FiscalFieldSchema {
   /** The closed vocabulary, for an `ENUM` field. */
   readonly enumValues?: readonly string[];
 }
+
+/** Exact positive legal-artifact vocabulary accepted at the matrix boundary. */
+export const FISCAL_LEGAL_ARTIFACT_KINDS: readonly FiscalLegalArtifactKind[] = [
+  "STATE_CONSTITUTION",
+  "ENACTED_STATUTE",
+  "BALLOT_MEASURE",
+  "APPELLATE_DECISION",
+  "ADMINISTRATIVE_CODE",
+];
+
+export const FISCAL_AUTHORITY_LINEAGE = "FIRST_PARTY_LEGAL_ARTIFACT" as const;
 
 const VOTE_THRESHOLDS = [
   "SIMPLE_MAJORITY",
@@ -182,7 +197,7 @@ export const FISCAL_FIELD_SCHEMA: Readonly<
   },
   FISCAL_HOME_RULE_SCOPE: {
     kind: "ENUM",
-    scope: "ANY",
+    scope: "LOCAL",
     enumValues: [
       "PREEMPTED_BY_STATE",
       "BROAD_LOCAL_TAXING_POWER",
@@ -229,6 +244,31 @@ export const FISCAL_FIELD_SCHEMA: Readonly<
     kind: "BOOLEAN",
     scope: "LOCAL",
   },
+};
+
+/**
+ * Rules whose meaning presupposes a permitted tax instrument at the same state
+ * and government level. Multiple instruments are alternatives, not cumulative
+ * requirements.
+ */
+export const FISCAL_RULE_DEPENDENCIES: Readonly<
+  Partial<Record<FiscalRuleField, readonly TaxInstrument[]>>
+> = {
+  LOCAL_OPTION_SALES_TAX_MAX_RATE_PERCENT: ["GENERAL_SALES_TAX"],
+  LOCAL_OPTION_SALES_TAX_VOTER_REFERENDUM_REQUIRED: ["GENERAL_SALES_TAX"],
+  LOCAL_OPTION_SALES_TAX_EARMARK: ["GENERAL_SALES_TAX"],
+  LOCAL_INCOME_TAX_TYPE: [
+    "INDIVIDUAL_INCOME_TAX",
+    "PAYROLL_OR_OCCUPATIONAL_TAX",
+  ],
+  LOCAL_INCOME_TAX_MAX_RATE_PERCENT: [
+    "INDIVIDUAL_INCOME_TAX",
+    "PAYROLL_OR_OCCUPATIONAL_TAX",
+  ],
+  LOCAL_INCOME_TAX_VOTER_REFERENDUM_REQUIRED: [
+    "INDIVIDUAL_INCOME_TAX",
+    "PAYROLL_OR_OCCUPATIONAL_TAX",
+  ],
 };
 
 /** Every rule field, sorted, so error messages and tests are deterministic. */

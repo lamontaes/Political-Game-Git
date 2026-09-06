@@ -180,6 +180,29 @@ export type FiscalRuleField =
 /** The four stages of the balanced-budget taxonomy, in order. */
 export type BalancedBudgetStage = 1 | 2 | 3 | 4;
 
+/** Closed kinds of first-party legal artifact that may support this domain. */
+export type FiscalLegalArtifactKind =
+  | "STATE_CONSTITUTION"
+  | "ENACTED_STATUTE"
+  | "BALLOT_MEASURE"
+  | "APPELLATE_DECISION"
+  | "ADMINISTRATIVE_CODE";
+
+/** The only admitted lineage for a legal-authority citation. */
+export type FiscalAuthorityLineage = "FIRST_PARTY_LEGAL_ARTIFACT";
+
+/**
+ * Structured proof of the authority universe searched before asserting that no
+ * enabling grant exists. Free prose is deliberately not part of this shape.
+ */
+export interface EnablingAuthoritySearchScope {
+  readonly jurisdictionStateUsps: string;
+  readonly level: FiscalLevel;
+  readonly instrument: TaxInstrument;
+  readonly authorityKinds: readonly FiscalLegalArtifactKind[];
+  readonly evidenceArtifactIds: readonly string[];
+}
+
 /**
  * The legal authority a fiscal fact rests on, as the research recorded it.
  *
@@ -192,6 +215,12 @@ export type BalancedBudgetStage = 1 | 2 | 3 | 4;
 export interface CitedFiscalAuthority {
   /** "State Constitution", "Enacted Statute", "Ballot Measure", verbatim. */
   readonly authorityType: string;
+  /** Closed legal-artifact identity; observational products have no value here. */
+  readonly artifactKind: FiscalLegalArtifactKind;
+  /** Stable identity of the cited first-party legal artifact. */
+  readonly artifactId: string;
+  /** Positive provenance contract, not a publisher-name heuristic. */
+  readonly lineage: FiscalAuthorityLineage;
   /** The article, section, chapter or measure number, verbatim. */
   readonly legalLocator: string;
   /** The publisher's URL for the authority, as the research recorded it. */
@@ -228,6 +257,8 @@ export interface TaxInstrumentAuthorityRecord extends FiscalRecordBase {
   readonly kind: "TAX_INSTRUMENT";
   readonly instrument: TaxInstrument;
   readonly authorization: Sourced<TaxAuthorizationStatus>;
+  /** Present only for a KNOWN NO_ENABLING_AUTHORITY conclusion. */
+  readonly searchedScope: EnablingAuthoritySearchScope | null;
 }
 
 /** One fiscal rule, in whichever state of resolution the research left it. */

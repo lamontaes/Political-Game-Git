@@ -1,12 +1,12 @@
 /**
  * Reading a fiscal authority matrix.
  *
- * One tab-separated row per fact, carrying its own status, value, authority,
- * locator, effective date, derivation flag and review flag. The shape is the
- * qualifications matrix's, and for the same reason: 92N states most of its
+ * One tab-separated row per fact, carrying exact control vocabularies, an
+ * explicit value kind, positive legal-artifact identity, and — only for a
+ * no-enabling-authority conclusion — structured searched scope. The shape is
+ * the qualifications matrix's, and for the same reason: 92N states most of its
  * facts inside prose sentences, and extracting a citation from a sentence is
- * inference rather than transcription. A row that states its own citation is
- * the only shape this compiler accepts.
+ * inference rather than transcription.
  *
  * Tabs specifically, and a width check, because a matrix that loses its tab
  * characters in transport reads as a single column and every field after the
@@ -23,13 +23,18 @@ export const FISCAL_MATRIX_COLUMNS = [
   "subject",
   "status",
   "value",
+  "value_kind",
   "authority_type",
+  "authority_artifact_kind",
+  "authority_artifact_id",
+  "authority_lineage",
   "legal_locator",
   "effective_date",
   "direct_derived",
   "review_required",
   "authority_url",
   "paraphrase",
+  "searched_scope",
 ] as const;
 
 export type FiscalMatrixColumn = (typeof FISCAL_MATRIX_COLUMNS)[number];
@@ -45,7 +50,9 @@ export function parseFiscalMatrix(bytes: Uint8Array): FiscalMatrixTable {
     delimiter: "\t",
     hasHeaderRow: true,
     expectedFieldCount: FISCAL_MATRIX_COLUMNS.length,
-    trimFields: true,
+    // Control columns are exact vocabularies. Preserving their bytes is what
+    // lets the normalizer reject whitespace smuggling rather than erase it.
+    trimFields: false,
   });
 
   const header = parsed.header ?? [];

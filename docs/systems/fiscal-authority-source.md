@@ -52,20 +52,23 @@ production fiscal authority is a data change rather than a design.
 state that forbids one are not the same state. 92N states this boundary in its
 own header: observed zero revenue is not legal prohibition, and legal authority
 does not guarantee collection. `government-finances` carries observed dollars;
-this domain carries legal power. The validator makes a statistical product cited
-as a legal authority an error, and it treats a Census government-finance line
-code appearing as a legal locator the same way — that is the mapping running
-backwards.
+this domain carries legal power. Admission is positive rather than a publisher-
+name blocklist: every row binds to a closed first-party legal-artifact kind, a
+stable artifact identity, and the exact `FIRST_PARTY_LEGAL_ARTIFACT` lineage.
+An observational product has no accepted artifact kind or lineage even if its
+title, filename, URL, locator, or prose has been made to look legal.
 
 **Absence is not prohibition.** Local governments have no inherent taxing power,
 so "no local income tax" is the expected reading of almost any silence, which is
 exactly what makes it dangerous. `TaxAuthorizationStatus` keeps three legal
 facts apart: `CONSTITUTIONALLY_PROHIBITED`, `STATUTORILY_PREEMPTED`, and
 `NO_ENABLING_AUTHORITY` — the Dillon's Rule case, where an enabling chapter was
-read and grants nothing. A prohibition that names no provision is an error, and
-so is a `NO_ENABLING_AUTHORITY` that names no scope searched. An instrument with
-no record at all is none of the three: `instrumentPermission` answers
-`UNESTABLISHED`, never `BARRED`.
+read and grants nothing. A prohibition that names no provision is an error.
+`NO_ENABLING_AUTHORITY` additionally requires structured `searched_scope` JSON
+whose jurisdiction, government level, instrument family, legal-artifact kinds,
+and evidence artifact identities match the row. A paraphrase such as “A probe
+row.” proves no search. An instrument with no record at all is none of the three:
+`instrumentPermission` answers `UNESTABLISHED`, never `BARRED`.
 
 There is deliberately no authorization status meaning "levies it". Whether a tax
 is imposed, and at what rate, is an observation.
@@ -86,17 +89,24 @@ absence.
 
 ## The matrix, and what it cannot express
 
-One tab-separated row per fact, carrying its own status, value, authority,
-locator, effective date, derivation flag and review flag — the qualifications
-matrix shape, for the same reason: 92N states most of its facts inside prose,
-and extracting a citation from a sentence is inference rather than
-transcription.
+One tab-separated row per fact, carrying its own exact status, value, explicit
+value kind, positive legal-artifact identity and lineage, locator, effective
+date, derivation flag, review flag, and optional structured searched scope — the
+qualifications matrix shape, for the same reason: 92N states most of its facts
+inside prose, and extracting a citation from a sentence is inference rather than
+transcription. The parser preserves raw field bytes so whitespace cannot be
+trimmed away before the closed `status`, `direct_derived`, `review_required`,
+value-kind, artifact-kind, and lineage vocabularies are checked.
 
-Each field declares a value kind and a level scope. A percentage in a millage
-column is a defect, and so is a state-level rule filed under a municipality —
-92N's local matrix reports millage caps and levy growth caps in one column, and
-a compiler that accepted either into either would let a ten-mill cap arrive as
-ten percent.
+Each field declares a value kind and a level scope. Every row repeats the value
+kind, and compilation requires exact agreement with the field schema before the
+scalar is parsed. A percentage in a millage column is therefore a defect even
+when its number is also a plausible millage. Every field is checked against all
+state and local levels; `FISCAL_HOME_RULE_SCOPE` is local-only. Dependent local
+sales- and income-tax rate, type, referendum, and earmark rules may be KNOWN only
+when an alternative underlying instrument is KNOWN and permissive at the same
+state and government level. A barred or unresolved authority cannot support a
+KNOWN dependent mechanic.
 
 Three value states are unreachable from this shape, and each refusal names
 itself rather than downgrading quietly:
@@ -122,7 +132,11 @@ thirty-six preempt local income taxes, five have no state sales tax, nine no
 broad personal income tax. Local option sales tax authority is among the most
 divergent fields in American fiscal law, so a corpus spanning five or more
 states that reports the same answer everywhere has reproduced the slider this
-research exists to refute. That is an error, not a warning.
+research exists to refute. That is an error, not a warning. The comparison is
+keyed by both state and local-government level: county, municipality,
+school-district, special-district, and consolidated-government answers never
+overwrite one another. Variation at one level cannot hide a universal rule at
+another.
 
 There is no fiscal freedom index, capacity rating or solvency score, and no
 field to put one in. The core fabricated-score guard is the second line, for a

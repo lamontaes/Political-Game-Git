@@ -42,14 +42,19 @@ import type {
 } from "../../core/index";
 import { fiscalMatrixField } from "./parse";
 import {
+  FISCAL_AUTHORITY_LINEAGE,
   FISCAL_FIELD_SCHEMA,
+  FISCAL_LEGAL_ARTIFACT_KINDS,
   MAX_PLAUSIBLE_MILLS,
   TAX_INSTRUMENTS,
 } from "./schema";
-import type { FiscalFieldSchema } from "./schema";
+import type { FiscalFieldSchema, FiscalValueKind } from "./schema";
 import type {
   CitedFiscalAuthority,
+  EnablingAuthoritySearchScope,
+  FiscalAuthorityLineage,
   FiscalAuthorityRecord,
+  FiscalLegalArtifactKind,
   FiscalLevel,
   FiscalRuleField,
   FiscalRuleRecord,
@@ -77,6 +82,41 @@ const AUTHORIZATION_STATUSES: readonly TaxAuthorizationStatus[] = [
   "NO_ENABLING_AUTHORITY",
 ];
 
+type FiscalMatrixStatus =
+  | "KNOWN"
+  | "NOT_YET_OPERATIVE"
+  | "NOT_APPLICABLE"
+  | "NO_REQUIREMENT_FOUND"
+  | "UNKNOWN"
+  | "CONFLICTING"
+  | "HISTORICAL"
+  | "SUPPRESSED";
+
+type CompilableFiscalMatrixStatus = Exclude<
+  FiscalMatrixStatus,
+  "HISTORICAL" | "SUPPRESSED"
+>;
+
+const MATRIX_STATUSES: readonly FiscalMatrixStatus[] = [
+  "KNOWN",
+  "NOT_YET_OPERATIVE",
+  "NOT_APPLICABLE",
+  "NO_REQUIREMENT_FOUND",
+  "UNKNOWN",
+  "CONFLICTING",
+  "HISTORICAL",
+  "SUPPRESSED",
+];
+
+const VALUE_KINDS: readonly FiscalValueKind[] = [
+  "BOOLEAN",
+  "PERCENT",
+  "MILLS",
+  "MONEY",
+  "ENUM",
+  "TEXT",
+];
+
 /** The statuses that carry a value, and the ones that must not. */
 const VALUE_BEARING_STATUSES = new Set(["KNOWN", "NOT_YET_OPERATIVE"]);
 const VALUELESS_STATUSES = new Set([
@@ -93,19 +133,139 @@ export interface FiscalNormalizeResult {
   readonly defects: readonly ParseDefect[];
 }
 
-function authorityFrom(row: DelimitedRow): CitedFiscalAuthority {
-  const derivation =
-    fiscalMatrixField(row, "direct_derived") === "DERIVED"
-      ? "DERIVED"
-      : "DIRECT";
+function authorityFrom(
+  row: DelimitedRow,
+  artifactKind: FiscalLegalArtifactKind,
+  artifactId: string,
+  lineage: FiscalAuthorityLineage,
+  derivation: "DIRECT" | "DERIVED",
+): CitedFiscalAuthority {
   return {
-    authorityType: fiscalMatrixField(row, "authority_type"),
-    legalLocator: fiscalMatrixField(row, "legal_locator"),
-    authorityUrl: fiscalMatrixField(row, "authority_url"),
-    effectiveDate: fiscalMatrixField(row, "effective_date"),
+    authorityType: fiscalMatrixField(row, "authority_type").trim(),
+    artifactKind,
+    artifactId,
+    lineage,
+    legalLocator: fiscalMatrixField(row, "legal_locator").trim(),
+    authorityUrl: fiscalMatrixField(row, "authority_url").trim(),
+    effectiveDate: fiscalMatrixField(row, "effective_date").trim(),
     derivation,
     derivationChain: null,
-    paraphrase: fiscalMatrixField(row, "paraphrase"),
+    paraphrase: fiscalMatrixField(row, "paraphrase").trim(),
+  };
+}
+
+const SEARCH_SCOPE_KEYS = [
+  "authorityKinds",
+  "evidenceArtifactIds",
+  "instrument",
+  "jurisdictionStateUsps",
+  "level",
+] as const;
+
+function readSearchScope(
+  raw: string,
+  expected: {
+    readonly stateUsps: string;
+    readonly level: FiscalLevel;
+    readonly instrument: TaxInstrument;
+    readonly artifactKind: FiscalLegalArtifactKind;
+    readonly artifactId: string;
+  },
+):
+  | { readonly value: EnablingAuthoritySearchScope }
+  | { readonly error: string } {
+  if (raw === "") {
+    return {
+      error:
+        "NO_ENABLING_AUTHORITY requires searched_scope JSON; free prose is not proof of an authority search.",
+    };
+  }
+
+  let decoded: unknown;
+  try {
+    decoded = JSON.parse(raw);
+  } catch {
+    return { error: "searched_scope is not valid JSON." };
+  }
+  if (
+    decoded === null ||
+    typeof decoded !== "object" ||
+    Array.isArray(decoded)
+  ) {
+    return { error: "searched_scope must be a JSON object." };
+  }
+  const object = decoded as Record<string, unknown>;
+  const keys = Object.keys(object).sort();
+  if (
+    keys.length !== SEARCH_SCOPE_KEYS.length ||
+    keys.some((key, index) => key !== SEARCH_SCOPE_KEYS[index])
+  ) {
+    return {
+      error: `searched_scope must contain exactly: ${SEARCH_SCOPE_KEYS.join(", ")}.`,
+    };
+  }
+
+  if (object.jurisdictionStateUsps !== expected.stateUsps) {
+    return {
+      error: `searched_scope jurisdiction must be ${expected.stateUsps}.`,
+    };
+  }
+  if (object.level !== expected.level) {
+    return { error: `searched_scope level must be ${expected.level}.` };
+  }
+  if (object.instrument !== expected.instrument) {
+    return {
+      error: `searched_scope instrument must be ${expected.instrument}.`,
+    };
+  }
+
+  if (
+    !Array.isArray(object.authorityKinds) ||
+    object.authorityKinds.length === 0 ||
+    object.authorityKinds.some(
+      (kind) =>
+        typeof kind !== "string" ||
+        !FISCAL_LEGAL_ARTIFACT_KINDS.includes(kind as FiscalLegalArtifactKind),
+    )
+  ) {
+    return {
+      error: `searched_scope authorityKinds must be a nonempty array from the closed legal-artifact vocabulary: ${FISCAL_LEGAL_ARTIFACT_KINDS.join(", ")}.`,
+    };
+  }
+  if (!object.authorityKinds.includes(expected.artifactKind)) {
+    return {
+      error: `searched_scope authorityKinds does not include the cited ${expected.artifactKind} artifact.`,
+    };
+  }
+
+  if (
+    !Array.isArray(object.evidenceArtifactIds) ||
+    object.evidenceArtifactIds.length === 0 ||
+    object.evidenceArtifactIds.some(
+      (id) =>
+        typeof id !== "string" || !/^[A-Za-z0-9][A-Za-z0-9._:/-]*$/.test(id),
+    )
+  ) {
+    return {
+      error:
+        "searched_scope evidenceArtifactIds must be a nonempty array of stable artifact identities.",
+    };
+  }
+  if (!object.evidenceArtifactIds.includes(expected.artifactId)) {
+    return {
+      error: `searched_scope evidenceArtifactIds does not include cited artifact "${expected.artifactId}".`,
+    };
+  }
+
+  return {
+    value: {
+      jurisdictionStateUsps: object.jurisdictionStateUsps as string,
+      level: object.level as FiscalLevel,
+      instrument: object.instrument as TaxInstrument,
+      authorityKinds:
+        object.authorityKinds as readonly FiscalLegalArtifactKind[],
+      evidenceArtifactIds: object.evidenceArtifactIds as readonly string[],
+    },
   };
 }
 
@@ -174,7 +334,7 @@ export function readRuleValue(
  * refuses to pretend otherwise.
  */
 function readSourced<T extends FiscalRuleValue>(
-  status: string,
+  status: CompilableFiscalMatrixStatus,
   value: T | null,
   evidence: Evidence,
   authority: CitedFiscalAuthority,
@@ -223,7 +383,6 @@ function readSourced<T extends FiscalRuleValue>(
         [evidence],
       );
     case "UNKNOWN":
-    default:
       return unknown(
         authority.paraphrase ||
           `The research recorded status "${status}" without establishing a value.`,
@@ -245,9 +404,15 @@ export function normalizeFiscalAuthority(
     const levelRaw = fiscalMatrixField(row, "level").toUpperCase();
     const kindRaw = fiscalMatrixField(row, "record_kind").toUpperCase();
     const subject = fiscalMatrixField(row, "subject").trim();
-    const status = fiscalMatrixField(row, "status").trim();
+    const statusRaw = fiscalMatrixField(row, "status");
     const rawValue = fiscalMatrixField(row, "value").trim();
-    const reviewRequired = fiscalMatrixField(row, "review_required") === "true";
+    const valueKindRaw = fiscalMatrixField(row, "value_kind");
+    const derivationRaw = fiscalMatrixField(row, "direct_derived");
+    const reviewRequiredRaw = fiscalMatrixField(row, "review_required");
+    const authorityKindRaw = fiscalMatrixField(row, "authority_artifact_kind");
+    const authorityArtifactId = fiscalMatrixField(row, "authority_artifact_id");
+    const authorityLineageRaw = fiscalMatrixField(row, "authority_lineage");
+    const searchedScopeRaw = fiscalMatrixField(row, "searched_scope");
 
     const fail = (message: string): void => {
       defects.push({
@@ -266,12 +431,73 @@ export function normalizeFiscalAuthority(
       fail(`"${levelRaw}" is not a level of government this domain models.`);
       continue;
     }
+    const status = MATRIX_STATUSES.find((candidate) => candidate === statusRaw);
+    if (!status) {
+      fail(
+        `status "${statusRaw}" is outside the closed vocabulary: ${MATRIX_STATUSES.join(", ")}.`,
+      );
+      continue;
+    }
     if (status === "HISTORICAL") {
       fail(
         "HISTORICAL needs a closed interval and this matrix carries one date. A repealed rule with an invented repeal date is worse than no record.",
       );
       continue;
     }
+    const compilableStatus = status as CompilableFiscalMatrixStatus;
+    const valueKind = VALUE_KINDS.find(
+      (candidate) => candidate === valueKindRaw,
+    );
+    if (!valueKind) {
+      fail(
+        `value_kind "${valueKindRaw}" is outside the closed vocabulary: ${VALUE_KINDS.join(", ")}.`,
+      );
+      continue;
+    }
+    const derivation = ["DIRECT", "DERIVED"].find(
+      (candidate) => candidate === derivationRaw,
+    ) as "DIRECT" | "DERIVED" | undefined;
+    if (!derivation) {
+      fail(
+        `direct_derived "${derivationRaw}" is invalid; expected exactly DIRECT or DERIVED.`,
+      );
+      continue;
+    }
+    if (reviewRequiredRaw !== "true" && reviewRequiredRaw !== "false") {
+      fail(
+        `review_required "${reviewRequiredRaw}" is invalid; expected exactly true or false.`,
+      );
+      continue;
+    }
+    const reviewRequired = reviewRequiredRaw === "true";
+    const authorityKind = FISCAL_LEGAL_ARTIFACT_KINDS.find(
+      (candidate) => candidate === authorityKindRaw,
+    );
+    if (!authorityKind) {
+      fail(
+        `authority_artifact_kind "${authorityKindRaw}" is outside the positive legal-artifact vocabulary: ${FISCAL_LEGAL_ARTIFACT_KINDS.join(", ")}.`,
+      );
+      continue;
+    }
+    if (!/^[A-Za-z0-9][A-Za-z0-9._:/-]*$/.test(authorityArtifactId)) {
+      fail(
+        `authority_artifact_id "${authorityArtifactId}" is not a stable artifact identity.`,
+      );
+      continue;
+    }
+    if (authorityLineageRaw !== FISCAL_AUTHORITY_LINEAGE) {
+      fail(
+        `authority_lineage "${authorityLineageRaw}" is invalid; expected exactly ${FISCAL_AUTHORITY_LINEAGE}.`,
+      );
+      continue;
+    }
+    const authority = authorityFrom(
+      row,
+      authorityKind,
+      authorityArtifactId,
+      authorityLineageRaw,
+      derivation,
+    );
     if (status === "SUPPRESSED") {
       fail(
         "SUPPRESSED describes a publisher withholding a value it holds. A legal authority does not suppress; an unreadable provision is UNKNOWN.",
@@ -289,7 +515,6 @@ export function normalizeFiscalAuthority(
       continue;
     }
 
-    const authority = authorityFrom(row);
     const evidence: Evidence = {
       artifactId,
       locator: {
@@ -308,6 +533,12 @@ export function normalizeFiscalAuthority(
         fail(`"${subject}" is not a tax instrument this domain models.`);
         continue;
       }
+      if (valueKind !== "ENUM") {
+        fail(
+          `value kind ${valueKind} does not match TAX_INSTRUMENT authorization kind ENUM.`,
+        );
+        continue;
+      }
       let authorizationValue: TaxAuthorizationStatus | null = null;
       if (rawValue !== "") {
         const matched = AUTHORIZATION_STATUSES.find(
@@ -322,6 +553,30 @@ export function normalizeFiscalAuthority(
         authorizationValue = matched;
       }
 
+      let searchedScope: EnablingAuthoritySearchScope | null = null;
+      if (
+        compilableStatus === "KNOWN" &&
+        authorizationValue === "NO_ENABLING_AUTHORITY"
+      ) {
+        const read = readSearchScope(searchedScopeRaw, {
+          stateUsps,
+          level,
+          instrument,
+          artifactKind: authorityKind,
+          artifactId: authorityArtifactId,
+        });
+        if ("error" in read) {
+          fail(read.error);
+          continue;
+        }
+        searchedScope = read.value;
+      } else if (searchedScopeRaw !== "") {
+        fail(
+          "searched_scope is permitted only on a KNOWN NO_ENABLING_AUTHORITY tax-instrument row.",
+        );
+        continue;
+      }
+
       records.push({
         kind: "TAX_INSTRUMENT",
         recordId: `${stateUsps}:${level}:TAX:${instrument}`,
@@ -329,12 +584,13 @@ export function normalizeFiscalAuthority(
         level,
         instrument,
         authorization: readSourced<TaxAuthorizationStatus>(
-          status,
+          compilableStatus,
           authorizationValue,
           evidence,
           authority,
           corpusAsOf,
         ),
+        searchedScope,
         citedAuthority: authority,
         normalizationReviewRequired: reviewRequired,
         evidence,
@@ -353,6 +609,18 @@ export function normalizeFiscalAuthority(
     const schema = FISCAL_FIELD_SCHEMA[field] as FiscalFieldSchema | undefined;
     if (!schema) {
       fail(`"${subject}" is not a fiscal rule this domain models.`);
+      continue;
+    }
+    if (valueKind !== schema.kind) {
+      fail(
+        `${field}: value kind ${valueKind} does not match the field's declared ${schema.kind} kind.`,
+      );
+      continue;
+    }
+    if (searchedScopeRaw !== "") {
+      fail(
+        "searched_scope is permitted only on a KNOWN NO_ENABLING_AUTHORITY tax-instrument row.",
+      );
       continue;
     }
     if (schema.scope === "STATE" && level !== "STATE") {
@@ -385,7 +653,7 @@ export function normalizeFiscalAuthority(
       level,
       field,
       rule: readSourced<FiscalRuleValue>(
-        status,
+        compilableStatus,
         value,
         evidence,
         authority,

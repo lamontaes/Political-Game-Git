@@ -49,7 +49,10 @@ import type { FiscalAuthorityRecord } from "./types";
 export type {
   BalancedBudgetStage,
   CitedFiscalAuthority,
+  EnablingAuthoritySearchScope,
+  FiscalAuthorityLineage,
   FiscalAuthorityRecord,
+  FiscalLegalArtifactKind,
   FiscalLevel,
   FiscalRuleField,
   FiscalRuleRecord,
@@ -72,6 +75,9 @@ export type {
 } from "./schema";
 export {
   FISCAL_FIELD_SCHEMA,
+  FISCAL_AUTHORITY_LINEAGE,
+  FISCAL_LEGAL_ARTIFACT_KINDS,
+  FISCAL_RULE_DEPENDENCIES,
   FISCAL_RULE_FIELDS,
   MAX_PLAUSIBLE_MILLS,
   TAX_INSTRUMENTS,
@@ -97,13 +103,10 @@ export {
   statesCovered,
   taxInstrumentAuthorization,
 } from "./classify";
-export {
-  OBSERVED_DATA_AUTHORITIES,
-  validateFiscalAuthorityCorpus,
-} from "./validate";
+export { validateFiscalAuthorityCorpus } from "./validate";
 
-export const FISCAL_AUTHORITY_COMPILER_VERSION = "1.0.0";
-export const FISCAL_AUTHORITY_PARSER_VERSION = "1.0.0";
+export const FISCAL_AUTHORITY_COMPILER_VERSION = "1.1.0";
+export const FISCAL_AUTHORITY_PARSER_VERSION = "2.0.0";
 
 /** The as-of date a fixture corpus is evaluated against. */
 export const FISCAL_AUTHORITY_CORPUS_AS_OF = "2026-01-01";
