@@ -134,16 +134,83 @@ function relativeToRepository(repositoryRoot: string, target: string): string {
   return relative === "" ? "." : toPosix(relative);
 }
 
-function assertDirectory(directory: string, label: string): void {
-  let stat: fs.Stats;
+/**
+ * Canonical containment predicate for production-audit inputs.
+ *
+ * Both arguments must already be absolute and fully resolved (symlinks
+ * included) so that traversal and symlink escapes cannot regain access outside
+ * the repository. String prefix comparison is deliberately avoided: a sibling
+ * directory such as `<root>-external` shares a textual prefix with the root
+ * without being contained by it.
+ */
+function isRepositoryContained(
+  repositoryRoot: string,
+  target: string,
+): boolean {
+  const relative = path.relative(repositoryRoot, target);
+  if (relative === "") return true;
+  if (path.isAbsolute(relative)) return false;
+  return !relative.split(path.sep).includes("..");
+}
+
+function resolveRealPath(target: string, label: string): string {
   try {
-    stat = fs.statSync(directory);
+    return fs.realpathSync(target);
   } catch {
-    throw new Error(`${label} does not exist: ${directory}`);
+    throw new Error(`${label} does not exist: ${target}`);
   }
-  if (!stat.isDirectory()) {
-    throw new Error(`${label} is not a directory: ${directory}`);
+}
+
+function assertDirectory(realPath: string, label: string): void {
+  if (!fs.statSync(realPath).isDirectory()) {
+    throw new Error(`${label} is not a directory: ${realPath}`);
   }
+}
+
+function assertContained(
+  repositoryRoot: string,
+  realPath: string,
+  label: string,
+): void {
+  if (!isRepositoryContained(repositoryRoot, realPath)) {
+    throw new Error(
+      `${label} must stay inside the repository root '${repositoryRoot}': '${realPath}' is outside it.`,
+    );
+  }
+}
+
+/**
+ * Resolve the repository root itself. Every later containment decision is made
+ * against this fully resolved path.
+ */
+function resolveRepositoryRoot(value: string): string {
+  const realPath = resolveRealPath(path.resolve(value), "Repository root");
+  assertDirectory(realPath, "Repository root");
+  return realPath;
+}
+
+function resolveContainedDirectory(
+  repositoryRoot: string,
+  value: string,
+  label: string,
+): string {
+  const realPath = resolveRealPath(path.resolve(repositoryRoot, value), label);
+  assertContained(repositoryRoot, realPath, label);
+  assertDirectory(realPath, label);
+  return realPath;
+}
+
+function resolveContainedFile(
+  repositoryRoot: string,
+  value: string,
+  label: string,
+): string {
+  const realPath = resolveRealPath(path.resolve(repositoryRoot, value), label);
+  assertContained(repositoryRoot, realPath, label);
+  if (!fs.statSync(realPath).isFile()) {
+    throw new Error(`${label} is not a regular file: ${realPath}`);
+  }
+  return realPath;
 }
 
 function enumerateFiles(root: string, rejectSymlinks: boolean): FileRecord[] {
@@ -317,18 +384,20 @@ function validateManifestFiles(
     checked.add(key);
 
     const absolutePath = path.resolve(repositoryRoot, identity.repositoryPath);
-    const relative = path.relative(repositoryRoot, absolutePath);
-    if (relative.startsWith("..") || path.isAbsolute(relative)) {
-      throw new Error(
-        `Manifest path escapes the repository: '${identity.repositoryPath}'.`,
-      );
-    }
     if (!fs.existsSync(absolutePath) || !fs.statSync(absolutePath).isFile()) {
       throw new Error(
         `Manifest identity path does not exist as a file: '${identity.repositoryPath}'.`,
       );
     }
-    const actualHash = hashFile(absolutePath);
+    // Resolve symlinks before the containment decision so a repository-relative
+    // link cannot point the audit at a file outside the repository.
+    const realPath = fs.realpathSync(absolutePath);
+    if (!isRepositoryContained(repositoryRoot, realPath)) {
+      throw new Error(
+        `Manifest path escapes the repository: '${identity.repositoryPath}'.`,
+      );
+    }
+    const actualHash = hashFile(realPath);
     if (actualHash !== identity.hash) {
       throw new Error(
         `Manifest hash mismatch for '${identity.repositoryPath}': declared ${identity.hash}, actual ${actualHash}.`,
@@ -529,21 +598,31 @@ function groupRowsByClassification(
 export function auditRuntimeAssets(
   options: RuntimeAssetAuditOptions,
 ): RuntimeAssetAuditReport {
-  const repositoryRoot = path.resolve(options.repositoryRoot);
-  const buildRoot = path.resolve(repositoryRoot, options.buildRoot ?? "dist");
-  const manifestPath = path.resolve(
-    repositoryRoot,
-    options.manifestPath ?? "art/manifest/asset_manifest.json",
-  );
-  const artRoot = path.join(repositoryRoot, "art");
   const largestFileLimit = options.largestFileLimit ?? 20;
-
   if (!Number.isSafeInteger(largestFileLimit) || largestFileLimit < 0) {
     throw new Error("largestFileLimit must be a non-negative safe integer.");
   }
-  assertDirectory(repositoryRoot, "Repository root");
-  assertDirectory(buildRoot, "Build root");
-  assertDirectory(artRoot, "Repository art root");
+
+  // A production audit is only trustworthy when every input it reports on is a
+  // canonical repository input. External build roots and external manifests are
+  // rejected outright rather than annotated, so a structurally normal-looking
+  // report cannot describe files this repository does not own.
+  const repositoryRoot = resolveRepositoryRoot(options.repositoryRoot);
+  const buildRoot = resolveContainedDirectory(
+    repositoryRoot,
+    options.buildRoot ?? "dist",
+    "Build root",
+  );
+  const manifestPath = resolveContainedFile(
+    repositoryRoot,
+    options.manifestPath ?? "art/manifest/asset_manifest.json",
+    "Asset manifest",
+  );
+  const artRoot = resolveContainedDirectory(
+    repositoryRoot,
+    "art",
+    "Repository art root",
+  );
 
   const buildFiles = enumerateFiles(buildRoot, true);
   const manifest = loadManifest(manifestPath);

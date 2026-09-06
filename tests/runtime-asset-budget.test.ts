@@ -87,6 +87,33 @@ function createFixture(): string {
   return root;
 }
 
+function createExternalFixture(): string {
+  const root = fs.mkdtempSync(
+    path.join(os.tmpdir(), "runtime-asset-budget-external-"),
+  );
+  temporaryRoots.push(root);
+  write(root, "fakebuild/client/assets/planted.png", "runtime-image");
+  write(root, "fakemanifest.json", `${JSON.stringify({ assets: [] })}\n`);
+  return root;
+}
+
+function readManifest(root: string): AssetManifest {
+  return JSON.parse(
+    fs.readFileSync(
+      path.join(root, "art/manifest/asset_manifest.json"),
+      "utf8",
+    ),
+  ) as AssetManifest;
+}
+
+function writeManifest(root: string, manifest: AssetManifest): void {
+  write(
+    root,
+    "art/manifest/asset_manifest.json",
+    `${JSON.stringify(manifest, null, 2)}\n`,
+  );
+}
+
 afterEach(() => {
   for (const root of temporaryRoots.splice(0)) {
     fs.rmSync(root, { recursive: true, force: true });
@@ -235,5 +262,259 @@ describe("runtime asset budget audit", () => {
     expect(
       fs.existsSync(path.join(root, "dist/client/assets/unknown.png")),
     ).toBe(true);
+  });
+});
+
+describe("canonical input containment", () => {
+  it("rejects a relative external build root", () => {
+    const root = createFixture();
+    const external = createExternalFixture();
+    const relativeEscape = path.relative(
+      root,
+      path.join(external, "fakebuild"),
+    );
+
+    expect(relativeEscape.startsWith("..")).toBe(true);
+    expect(() =>
+      auditRuntimeAssets({ repositoryRoot: root, buildRoot: relativeEscape }),
+    ).toThrow(/Build root must stay inside the repository root/);
+  });
+
+  it("rejects an absolute external build root", () => {
+    const root = createFixture();
+    const external = createExternalFixture();
+
+    expect(() =>
+      auditRuntimeAssets({
+        repositoryRoot: root,
+        buildRoot: path.join(external, "fakebuild"),
+      }),
+    ).toThrow(/Build root must stay inside the repository root/);
+  });
+
+  it("rejects a build root reached through a repository-relative symlink", () => {
+    const root = createFixture();
+    const external = createExternalFixture();
+    fs.symlinkSync(
+      path.join(external, "fakebuild"),
+      path.join(root, "dist-link"),
+    );
+
+    expect(() =>
+      auditRuntimeAssets({ repositoryRoot: root, buildRoot: "dist-link" }),
+    ).toThrow(/Build root must stay inside the repository root/);
+  });
+
+  it("rejects a sibling directory that merely shares the repository prefix", () => {
+    const root = createFixture();
+    const sibling = `${root}-external`;
+    fs.mkdirSync(sibling, { recursive: true });
+    temporaryRoots.push(sibling);
+
+    expect(() =>
+      auditRuntimeAssets({ repositoryRoot: root, buildRoot: sibling }),
+    ).toThrow(/Build root must stay inside the repository root/);
+  });
+
+  it("rejects a relative external manifest", () => {
+    const root = createFixture();
+    const external = createExternalFixture();
+    const relativeEscape = path.relative(
+      root,
+      path.join(external, "fakemanifest.json"),
+    );
+
+    expect(relativeEscape.startsWith("..")).toBe(true);
+    expect(() =>
+      auditRuntimeAssets({
+        repositoryRoot: root,
+        manifestPath: relativeEscape,
+      }),
+    ).toThrow(/Asset manifest must stay inside the repository root/);
+  });
+
+  it("rejects an absolute external manifest", () => {
+    const root = createFixture();
+    const external = createExternalFixture();
+
+    expect(() =>
+      auditRuntimeAssets({
+        repositoryRoot: root,
+        manifestPath: path.join(external, "fakemanifest.json"),
+      }),
+    ).toThrow(/Asset manifest must stay inside the repository root/);
+  });
+
+  it("rejects manifest path traversal that climbs out of the repository", () => {
+    const root = createFixture();
+    const external = createExternalFixture();
+    const traversal = path.join(
+      "art",
+      "manifest",
+      "..",
+      "..",
+      "..",
+      path.basename(external),
+      "fakemanifest.json",
+    );
+
+    expect(() =>
+      auditRuntimeAssets({ repositoryRoot: root, manifestPath: traversal }),
+    ).toThrow(/Asset manifest must stay inside the repository root/);
+  });
+
+  it("rejects a manifest reached through a repository-relative symlink", () => {
+    const root = createFixture();
+    const external = createExternalFixture();
+    fs.symlinkSync(
+      path.join(external, "fakemanifest.json"),
+      path.join(root, "art/manifest/external.json"),
+    );
+
+    expect(() =>
+      auditRuntimeAssets({
+        repositoryRoot: root,
+        manifestPath: "art/manifest/external.json",
+      }),
+    ).toThrow(/Asset manifest must stay inside the repository root/);
+  });
+
+  it("rejects a manifest path that is not a regular file", () => {
+    const root = createFixture();
+
+    expect(() =>
+      auditRuntimeAssets({
+        repositoryRoot: root,
+        manifestPath: "art/manifest",
+      }),
+    ).toThrow(/Asset manifest is not a regular file/);
+  });
+
+  it("rejects a symlink anywhere in audited build output", () => {
+    const root = createFixture();
+    fs.symlinkSync(
+      path.join(root, "art/families/office/runtime.png"),
+      path.join(root, "dist/client/assets/linked.png"),
+    );
+
+    expect(() => auditRuntimeAssets({ repositoryRoot: root })).toThrow(
+      /Symlinks are not allowed in audited build output/,
+    );
+  });
+
+  it("still supports a repository-contained alternate build directory", () => {
+    const root = createFixture();
+    write(root, "dist-alternate/client/assets/runtime-a.png", "runtime-image");
+
+    const report = auditRuntimeAssets({
+      repositoryRoot: root,
+      buildRoot: "dist-alternate",
+    });
+
+    expect(report.inputs.buildRoot).toBe("dist-alternate");
+    expect(report.totals.rasters.files).toBe(1);
+    expect(report.rasters[0]?.classification).toBe("player-runtime");
+  });
+
+  it("reports canonical repository-relative inputs for the default audit", () => {
+    const root = createFixture();
+    const byDefault = auditRuntimeAssets({ repositoryRoot: root });
+    const explicit = auditRuntimeAssets({
+      repositoryRoot: root,
+      buildRoot: "dist",
+      manifestPath: "art/manifest/asset_manifest.json",
+    });
+
+    expect(byDefault.inputs.buildRoot).toBe("dist");
+    expect(byDefault.inputs.manifestPath).toBe(
+      "art/manifest/asset_manifest.json",
+    );
+    expect(byDefault.inputs.repositoryArtRoot).toBe("art");
+    expect(JSON.stringify(explicit)).toBe(JSON.stringify(byDefault));
+  });
+});
+
+describe("hash and identity overlap retention", () => {
+  it("keeps repository source overlap on a released production hash", () => {
+    const root = createFixture();
+    write(
+      root,
+      "art/generated/candidates/wave/runtime-duplicate.png",
+      "runtime-image",
+    );
+
+    const report = auditRuntimeAssets({ repositoryRoot: root });
+    const row = report.rasters.find(
+      (candidate) => candidate.emittedPath === "client/assets/runtime-a.png",
+    );
+
+    expect(row?.classification).toBe("player-runtime");
+    expect(row?.knownPlayerRuntimeMaterial).toBe(true);
+    expect(row?.sourceCandidateReference).toBe(true);
+    expect(row?.repositorySourcePaths).toEqual([
+      "art/families/office/runtime.png",
+      "art/generated/candidates/wave/runtime-duplicate.png",
+    ]);
+    expect(row?.manifestMatches.map((match) => match.assetId)).toEqual([
+      "office_runtime",
+    ]);
+  });
+
+  it("retains every manifest identity that shares one content hash", () => {
+    const root = createFixture();
+    write(root, "art/families/office/runtime-alias.png", "runtime-image");
+    const manifest = readManifest(root);
+    manifest.assets.push({
+      ...manifest.assets[0]!,
+      asset_id: "office_runtime_alias",
+      final_path: "art/families/office/runtime-alias.png",
+      raster_tiers: undefined,
+    });
+    writeManifest(root, manifest);
+
+    const report = auditRuntimeAssets({ repositoryRoot: root });
+    const row = report.rasters.find(
+      (candidate) => candidate.emittedPath === "client/assets/runtime-a.png",
+    );
+
+    expect(row?.manifestMatches.map((match) => match.assetId)).toEqual([
+      "office_runtime",
+      "office_runtime_alias",
+    ]);
+    expect(row?.manifestMatches[1]?.roles).toEqual([
+      {
+        role: "final",
+        repositoryPath: "art/families/office/runtime-alias.png",
+      },
+    ]);
+    expect(row?.classification).toBe("player-runtime");
+  });
+
+  it("de-duplicates only genuinely identical final and tier roles", () => {
+    const root = createFixture();
+    write(root, "art/families/office/runtime-alias.png", "runtime-image");
+    const manifest = readManifest(root);
+    const runtimeAsset = manifest.assets[0]!;
+    const existingTier = runtimeAsset.raster_tiers![0]!;
+    runtimeAsset.raster_tiers = [
+      existingTier,
+      { ...existingTier },
+      { ...existingTier, path: "art/families/office/runtime-alias.png" },
+    ];
+    writeManifest(root, manifest);
+
+    const report = auditRuntimeAssets({ repositoryRoot: root });
+    const row = report.rasters.find(
+      (candidate) => candidate.emittedPath === "client/assets/runtime-a.png",
+    );
+
+    expect(row?.manifestMatches[0]?.roles).toEqual([
+      { role: "final", repositoryPath: "art/families/office/runtime.png" },
+      {
+        role: "tier",
+        repositoryPath: "art/families/office/runtime-alias.png",
+      },
+      { role: "tier", repositoryPath: "art/families/office/runtime.png" },
+    ]);
   });
 });

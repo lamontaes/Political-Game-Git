@@ -15,7 +15,26 @@ node --import tsx scripts/art-asset-factory/runtime-asset-budget.ts --pretty > /
 
 `--root`, `--build`, `--manifest`, and `--largest` override the repository root,
 build-output directory, manifest, and largest-file list length. Paths in the
-JSON remain relative to the repository or build root. The report contains no
+JSON remain relative to the repository or build root.
+
+## Canonical input containment
+
+The audit fails closed on any input outside the repository root. After the
+repository root, build root, and manifest are resolved to absolute real paths —
+symlinks included — each must be contained by the repository root under a
+`path.relative` segment test rather than a string prefix comparison, and the
+manifest must additionally be a regular file. A relative escape, an absolute
+external path, a `..` traversal, and a symlink that leaves the repository are
+all rejected with a nonzero exit. A repository-contained alternate build
+directory remains supported.
+
+Containment is the trust boundary itself, not a label: because an external build
+root or external manifest can never produce a report, a report that exists is
+necessarily describing canonical repository inputs. The tool therefore carries
+no spoofable "canonical" flag. Manifest `final_path` and raster-tier paths are
+likewise resolved through symlinks before their containment, existence, and
+SHA-256 checks, so a repository-relative link cannot relabel an external file as
+a released production identity. The report contains no
 timestamp, filesystem-order dependency, or host-specific absolute path, so the
 same tree and build output serialize identically.
 
