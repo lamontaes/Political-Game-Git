@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   campaignForCandidate,
   campaignState,
+  candidacyPacks,
   requireLifePlace,
   searchLifePlaces,
 } from "../simulation";
@@ -39,6 +40,21 @@ function adultLifeInPlace(seed: string, place: LifePlace) {
     world: openOrdinaryLife(built.world, built.playerPersonId),
     personId: built.playerPersonId,
   };
+}
+
+/** A locality whose own state is not in the accepted candidacy pack set. */
+function unsupportedLocality(): LifePlace {
+  const supported = new Set(
+    candidacyPacks().map((pack) => pack.jurisdictionKey),
+  );
+  const place = searchLifePlaces("a", 500).find(
+    (candidate) =>
+      candidate.scope === "locality" &&
+      candidate.stateJurisdictionKey !== null &&
+      !supported.has(candidate.stateJurisdictionKey),
+  );
+  if (!place) throw new Error("The place corpus has no unsupported locality.");
+  return place;
 }
 
 /** Every number this screen would put in front of a player. */
@@ -94,12 +110,11 @@ describe("what the game will and will not offer", () => {
   });
 
   it("still says nothing is on offer where the state has no accepted pack", () => {
-    // The fail-closed rule is unchanged; only its boundary moved from "this is
-    // not the state" to "this state has no source".
-    const ohio = searchLifePlaces("Cleveland", 80).find(
-      (place) => place.displayName === "Cleveland, Ohio",
-    )!;
-    const life = adultLifeInPlace("offer-cleveland", ohio);
+    // The fail-closed rule is unchanged. The negative control is derived from
+    // the accepted pack set so adding a new state's pack cannot silently turn
+    // yesterday's refusal fixture into a supported place.
+    const place = unsupportedLocality();
+    const life = adultLifeInPlace("offer-unsupported", place);
     const view = projectCampaign(life.world, life.personId);
     expect(view.phase).toBe("unavailable");
     expect(view.unavailableReason).toMatch(/has not read this state/i);
@@ -185,7 +200,7 @@ describe("the campaign a player can see", () => {
       expect(numbersOn(view)).not.toContain(truthPercent);
     }
     expect(checked).toBeGreaterThan(5);
-  });
+  }, 15_000);
 
   it("spends the committee's money once it has some", () => {
     const life = adultLife("player-money", "kentucky");

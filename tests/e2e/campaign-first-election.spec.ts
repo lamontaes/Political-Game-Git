@@ -1,6 +1,11 @@
 import { expect, test, type Page } from "@playwright/test";
 
 import { enterLife, openElsewhere, startLife } from "./support/creator";
+import {
+  candidacyPacks,
+  searchLifePlaces,
+  type LifePlace,
+} from "../../src/simulation";
 
 /**
  * Standing for office, in a browser, on the route a player actually opens.
@@ -49,6 +54,20 @@ async function beginAdultLifeIn(page: Page, place: string) {
   await expect(page.getByTestId("play-screen")).toBeVisible();
   await enterLife(page);
   await openDay(page);
+}
+
+function unsupportedLocality(): LifePlace {
+  const supported = new Set(
+    candidacyPacks().map((pack) => pack.jurisdictionKey),
+  );
+  const place = searchLifePlaces("a", 500).find(
+    (candidate) =>
+      candidate.scope === "locality" &&
+      candidate.stateJurisdictionKey !== null &&
+      !supported.has(candidate.stateJurisdictionKey),
+  );
+  if (!place) throw new Error("The place corpus has no unsupported locality.");
+  return place;
 }
 
 /** Opens the day overlay, where the ordinary day and the campaign both live. */
@@ -108,12 +127,9 @@ test.describe("A life can stand for something", () => {
   }) => {
     const errors = watchForErrors(page);
     await freshBrowser(page);
-    // Cleveland, Ohio. This test used to use Lexington, on the theory that a
-    // city inside Kentucky could not reach Kentucky's offices — which is the
-    // owner-play defect, not a rule. The fail-closed rule itself is unchanged
-    // and is shown here where it actually applies: a state the game has read no
-    // legislature for offers nothing, and says which absence it means.
-    await beginAdultLifeIn(page, "Cleveland, Ohio");
+    // The negative control comes from the accepted pack set rather than naming
+    // a state whose source coverage may arrive later.
+    await beginAdultLifeIn(page, unsupportedLocality().displayName);
 
     await expect(page.getByTestId("no-campaign")).toContainText(
       /has not read this state/i,

@@ -161,13 +161,19 @@ export function AmbientTableau({
     : null;
 
   const presentation = showing ?? resolved ?? TYPOGRAPHIC_ONLY;
+  const cycleKey = frame ? `${frame.index}:${step}` : "still";
+  const leavingCycleKey =
+    frame?.leaving && frame.index >= 0
+      ? `${(frame.index - 1 + cycle.length) % cycle.length}:${step - 1}`
+      : null;
 
   return (
     <TitleTableau
       presentation={presentation}
       leaving={leaving}
       drifting={!reducedMotion}
-      cycleKey={frame ? `${frame.index}:${step}` : "still"}
+      cycleKey={cycleKey}
+      leavingCycleKey={leavingCycleKey}
     >
       {children(presentation.description)}
     </TitleTableau>

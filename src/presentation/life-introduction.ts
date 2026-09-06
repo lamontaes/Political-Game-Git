@@ -93,6 +93,7 @@ function ageOn(birthDate: string, on: string): number {
 
 const PROGRAM_LABELS: Readonly<Record<string, string>> = {
   "schooling:elementary": "elementary school",
+  "schooling:middle": "middle school",
   "schooling:secondary": "high school",
   "schooling:tertiary": "college",
 };

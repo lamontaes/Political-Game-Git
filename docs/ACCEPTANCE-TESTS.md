@@ -495,7 +495,7 @@ Apprenticeship composes canonical training enrollment, paid work, mentor interac
 
 ### NOW-121 — Run B eligibility, determinism, persistence, and scope hold
 
-Teen work asks the injected eligibility provider; a block returns structured reasons and writes no forbidden work truth. Quick generation is deterministic and unaffected by unrelated materialization. JSON and SQLite preserve generated history, bounded context people, provenance, global sequence, and references exactly. Run B adds no Run C finance/housing, Stage 6 generalized event engine, Stage 7 law/territory/institution content, foreign-government simulation, or polished UI.
+Teen work asks the injected eligibility provider; a block returns structured reasons and writes no forbidden work truth. Quick adult generation is deterministic across seeds and ages, keeps elementary schooling in ages 5–7, follows it with a distinct middle-school step, starts secondary schooling in ages 13–15, starts work no earlier than 16, and writes nothing after the current date. Those generator bands do not rewrite played, authored, or imported canonical dates. Quick generation remains unaffected by unrelated materialization. JSON and SQLite preserve generated history, bounded context people, provenance, global sequence, and references exactly. Run B adds no Run C finance/housing, Stage 6 generalized event engine, Stage 7 law/territory/institution content, foreign-government simulation, or polished UI.
 
 ### NOW-122 — Work compensation produces exact actual income
 

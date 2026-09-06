@@ -3,15 +3,18 @@ import { describe, expect, it } from "vitest";
 import { buildProductionWorld } from "./production-world";
 import { buildLifeIntroduction } from "./life-introduction";
 import { resolvePlayerCapabilities } from "./player-capabilities";
-import { requireLifePlace } from "../simulation";
+import { ageOnDate, requireLifePlace } from "../simulation";
 
 /**
  * An adult start says what the generator wrote, before the first decision.
  *
  * The owner play was told "You're 34, and you live in Lexington, Kentucky. You
  * live on your own." — two facts they had typed in themselves — and then handed
- * a dilemma. The records held a parent, two schools and a job the entire time.
- * This is the projection failing, not the generator.
+ * a dilemma. The records held a parent, schools and a job the entire time.
+ * The first repair exposed those records; the next owner play showed that one
+ * of them was canonically wrong, because the generator called age seven high
+ * school. The projection remains literal. The dates it exposes now have to be
+ * right before they reach it.
  */
 
 function adultInLexington(seed: string, gender: "male" | "female" = "male") {
@@ -25,6 +28,16 @@ function adultInLexington(seed: string, gender: "male" | "female" = "male") {
       gender,
       pronouns: gender === "male" ? "he-him" : "she-her",
     },
+  });
+}
+
+function adultAt(seed: string, age: number) {
+  return buildProductionWorld({
+    seed,
+    place: requireLifePlace("lexington-fayette"),
+    age,
+    givenName: null,
+    familyName: null,
   });
 }
 
@@ -79,6 +92,65 @@ describe("the opening grounds an adult life in its own records", () => {
     ).toStrictEqual(
       buildLifeIntroduction(b.world, b.playerPersonId)!.grounding,
     );
+  });
+
+  it.each(
+    [18, 21, 34, 55, 80].flatMap((age) =>
+      ["chronology-a", "chronology-b", "chronology-c"].map(
+        (seed) => [age, `${seed}-${age}`] as const,
+      ),
+    ),
+  )("keeps generated age-%i history chronological for seed %s", (age, seed) => {
+    const built = adultAt(seed, age);
+    const person = built.world.people[built.playerPersonId]!;
+    const education = built.world.history.educationEnrollments.filter(
+      (record) => record.personId === person.id,
+    );
+    const elementary = education.find(
+      (record) => record.programKind === "schooling:elementary",
+    );
+    const middle = education.find(
+      (record) => record.programKind === "schooling:middle",
+    );
+    const high = education.find(
+      (record) => record.programKind === "schooling:secondary",
+    );
+    expect(elementary).toBeDefined();
+    expect(middle).toBeDefined();
+    expect(high).toBeDefined();
+
+    const elementaryAge = ageOnDate(person.birthDate, elementary!.startedAt);
+    const middleAge = ageOnDate(person.birthDate, middle!.startedAt);
+    const highAge = ageOnDate(person.birthDate, high!.startedAt);
+    expect(elementaryAge).toBeGreaterThanOrEqual(5);
+    expect(elementaryAge).toBeLessThanOrEqual(7);
+    expect(middleAge).toBeGreaterThan(elementaryAge);
+    expect(highAge).toBeGreaterThanOrEqual(13);
+    expect(highAge).toBeLessThanOrEqual(15);
+    expect(highAge).toBeGreaterThan(middleAge);
+
+    const playerWork = built.world.history.workRelationships.filter(
+      (record) => record.personId === person.id,
+    );
+    expect(playerWork.length).toBeGreaterThan(0);
+    for (const work of playerWork) {
+      expect(
+        ageOnDate(person.birthDate, work.startedAt),
+      ).toBeGreaterThanOrEqual(16);
+      expect(work.startedAt <= built.world.currentDate).toBe(true);
+    }
+
+    const formativeEvents = built.world.history.events.filter(
+      (event) =>
+        event.stableKey.startsWith("production:earlier-life:event:") &&
+        event.involvedEntityIds.includes(person.id),
+    );
+    const eventDates = formativeEvents.map((event) => event.occurredAt);
+    expect(eventDates).toStrictEqual([...eventDates].sort());
+    for (const date of eventDates) {
+      expect(date >= person.birthDate).toBe(true);
+      expect(date <= built.world.currentDate).toBe(true);
+    }
   });
 });
 

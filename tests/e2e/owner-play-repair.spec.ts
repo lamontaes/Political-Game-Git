@@ -96,6 +96,75 @@ test.describe("the opening is one continuous presentation", () => {
     expect(painted).toBe(true);
   });
 
+  test("keeps each decoded room and its camera mounted through two ambient transitions", async ({
+    page,
+  }) => {
+    await page.clock.install();
+    await freshBrowser(page);
+
+    const current = page.getByTestId("title-tableau-stage");
+    await expect(page.getByTestId("title-tableau-plate")).toBeVisible();
+    await current.evaluate((stage) => {
+      (stage as HTMLElement).dataset.continuityMark = "first-room";
+    });
+
+    await page.clock.fastForward(15_100);
+    await expect(
+      page.getByTestId("title-tableau-stage-leaving"),
+    ).toHaveAttribute("data-continuity-mark", "first-room");
+
+    const second = page.getByTestId("title-tableau-stage");
+    await expect
+      .poll(async () =>
+        second
+          .getByTestId("title-tableau-plate")
+          .evaluate(
+            (image) =>
+              (image as HTMLImageElement).complete &&
+              (image as HTMLImageElement).naturalWidth,
+          ),
+      )
+      .toBeGreaterThan(0);
+    const secondCamera = await second
+      .getByTestId("title-tableau-camera")
+      .evaluate((camera) => {
+        (camera as HTMLElement).dataset.cameraContinuityMark = "held";
+        return (camera as HTMLElement).style.transform;
+      });
+    await second.evaluate((stage) => {
+      (stage as HTMLElement).dataset.continuityMark = "second-room";
+    });
+
+    // This is the transition the owner saw go black. The room that was the
+    // arriving stage at the first change must become the leaving stage at the
+    // second change without React replacing its decoded image or camera node.
+    await page.clock.fastForward(15_000);
+    const leaving = page.getByTestId("title-tableau-stage-leaving");
+    await expect(leaving).toHaveAttribute(
+      "data-continuity-mark",
+      "second-room",
+    );
+    const heldCamera = leaving.getByTestId("title-tableau-camera");
+    await expect(heldCamera).toHaveAttribute(
+      "data-camera-continuity-mark",
+      "held",
+    );
+    expect(
+      await heldCamera.evaluate(
+        (camera) => (camera as HTMLElement).style.transform,
+      ),
+    ).toBe(secondCamera);
+    expect(
+      await leaving
+        .getByTestId("title-tableau-plate")
+        .evaluate(
+          (image) =>
+            (image as HTMLImageElement).complete &&
+            (image as HTMLImageElement).naturalWidth > 0,
+        ),
+    ).toBe(true);
+  });
+
   test("does not move the life backdrop when overlays open and close", async ({
     page,
   }) => {
@@ -134,22 +203,16 @@ test.describe("the life the player asked for is the life they get", () => {
     await startLife(page, { age: 34, place: "Kentucky", gender: "male" });
     await expect(page.getByTestId("play-screen")).toBeVisible();
 
-    // Read the opening BEFORE stepping inside: "Step inside" is what dismisses
-    // it, so asserting after would be asserting about a screen that is gone.
-    const introduction = page.getByTestId("life-introduction");
-    await expect(introduction).toBeVisible();
-
-    // "Camila" was the rejected output, but the seed is fresh every run, so
-    // asserting one absent name would prove almost nothing. The check is that
-    // whatever name was drawn is one this stated gender can produce.
-    const shown = await introduction.innerText();
-    const drawn = GIVEN_NAME_GENERATION_POOLS_V1.male.find((name) =>
-      new RegExp(`\\b${name}\\b`).test(shown),
-    );
-    expect(
-      drawn,
-      `no male-pool given name appeared in the opening:\n${shown}`,
-    ).toBeDefined();
+    // The introduction names family members, not the player. Read the
+    // persistent player plaque so a parent's generated name cannot satisfy or
+    // fail this assertion by accident.
+    const shown = await page
+      .getByTestId("life-hud")
+      .getByTestId("person-portrait")
+      .locator("strong")
+      .innerText();
+    const givenName = shown.split(" ")[0];
+    expect(GIVEN_NAME_GENERATION_POOLS_V1.male).toContain(givenName);
   });
 
   test("grounds the life in its own records before the first choice", async ({
@@ -166,6 +229,19 @@ test.describe("the life the player asked for is the life they get", () => {
     for (const line of lines) {
       expect(line).not.toMatch(/^You're 34/);
     }
+
+    const yearIn = (line: string) => Number(line.match(/\b(\d{4})\b/)?.[1]);
+    const elementary = lines.find((line) => /elementary school/i.test(line));
+    const middle = lines.find((line) => /middle school/i.test(line));
+    const high = lines.find((line) => /high school/i.test(line));
+    const work = lines.find((line) => /Neighborhood Market/i.test(line));
+    expect(elementary).toBeDefined();
+    expect(middle).toBeDefined();
+    expect(high).toBeDefined();
+    expect(work).toBeDefined();
+    expect(yearIn(middle!)).toBeGreaterThan(yearIn(elementary!));
+    expect(yearIn(high!)).toBeGreaterThan(yearIn(middle!));
+    expect(yearIn(work!)).toBeGreaterThan(yearIn(high!));
   });
 });
 
@@ -208,5 +284,78 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await expect(page.getByTestId("campaign-result")).toBeVisible();
     // Whatever the result, the life goes on.
     await expect(page.getByTestId("play-screen")).toBeVisible();
+  });
+
+  test("explains same-day exhaustion and restores campaign actions tomorrow", async ({
+    page,
+  }) => {
+    await freshBrowser(page);
+    await startLife(page, { age: 34, place: "Lexington", gender: "male" });
+    await enterLife(page);
+    await openElsewhere(page, "day");
+    await page.getByTestId("file-candidacy").click();
+
+    // Three sessions fit before the already-posted evening meeting. A fourth
+    // does not; that is allowed exhaustion, and every disabled action says why.
+    // Exercise both native input paths on the exact owner route.
+    await page.getByTestId("campaign-fundraising").click();
+    await page.getByTestId("campaign-outreach").focus();
+    await page.keyboard.press("Enter");
+    await page.getByTestId("campaign-advertising").click();
+    for (const kind of ["fundraising", "outreach", "advertising"] as const) {
+      const action = page.getByTestId(`campaign-${kind}`);
+      await expect(action).toBeDisabled();
+      await expect(action).toContainText(/today is already spoken for/i);
+    }
+    await expect(page.getByTestId("pass-day")).toBeEnabled();
+
+    // Campaign time does not leak into the ordinary conversation surface.
+    await openElsewhere(page, "people");
+    const intent = page
+      .getByTestId("conversation-intents")
+      .first()
+      .getByRole("button")
+      .first();
+    await expect(intent).toBeEnabled();
+
+    await openElsewhere(page, "day");
+    await page.getByTestId("pass-day").focus();
+    await page.keyboard.press("Space");
+    await expect(page.getByTestId("campaign-fundraising")).toBeEnabled();
+    await expect(page.getByTestId("campaign-outreach")).toBeEnabled();
+  });
+
+  test("lists a campaign opponent as relevant without silently pinning them", async ({
+    page,
+  }) => {
+    test.setTimeout(60_000);
+    await freshBrowser(page);
+    await startLife(page, { age: 34, place: "Lexington", gender: "male" });
+    await enterLife(page);
+    await openElsewhere(page, "day");
+    await page.getByTestId("file-candidacy").click();
+    const opponentLine = (
+      await page.getByTestId("campaign-opponents").innerText()
+    ).trim();
+    const opponentName = opponentLine
+      .replace(/^Running against\s+/i, "")
+      .replace(/\.$/, "");
+
+    for (let day = 0; day < 45; day += 1) {
+      if (await page.getByTestId("campaign-result").isVisible()) break;
+      await page.getByTestId("pass-day").click();
+    }
+    await expect(page.getByTestId("campaign-result")).toBeVisible();
+
+    const opponent = page
+      .getByTestId("people-rail")
+      .locator("li")
+      .filter({ hasText: opponentName });
+    await expect(opponent).toHaveCount(1);
+    // The rail is a relevant-people list. The empty star is the separate,
+    // deliberate hold state; discovery must not press it for the player.
+    const pin = opponent.locator("[data-testid^='rail-pin-']");
+    await expect(pin).toHaveAttribute("aria-pressed", "false");
+    await expect(pin).toHaveAttribute("aria-label", "Pin");
   });
 });

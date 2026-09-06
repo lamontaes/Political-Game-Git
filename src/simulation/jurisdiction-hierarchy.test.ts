@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   candidacyAuthority,
   candidacyPackForJurisdiction,
+  candidacyPacks,
   lifePlaceByKey,
   requireLifePlace,
   searchLifePlaces,
@@ -28,6 +29,20 @@ function localityIn(query: string, displayName: string): LifePlace {
     (candidate) => candidate.displayName === displayName,
   );
   if (!place) throw new Error(`The corpus has no ${displayName}.`);
+  return place;
+}
+
+function unsupportedLocality(): LifePlace {
+  const supported = new Set(
+    candidacyPacks().map((pack) => pack.jurisdictionKey),
+  );
+  const place = searchLifePlaces("a", 500).find(
+    (candidate) =>
+      candidate.scope === "locality" &&
+      candidate.stateJurisdictionKey !== null &&
+      !supported.has(candidate.stateJurisdictionKey),
+  );
+  if (!place) throw new Error("The place corpus has no unsupported locality.");
   return place;
 }
 
@@ -59,13 +74,12 @@ describe("a locality reaches its own state, and no other", () => {
   });
 
   it("gives a place in a state with no accepted pack nothing at all", () => {
-    const cleveland = localityIn("Cleveland", "Cleveland, Ohio");
-    expect(cleveland.stateJurisdictionKey).toBe("US-OH");
-    const authority = candidacyAuthority(cleveland.context.jurisdiction.id);
+    const unsupported = unsupportedLocality();
+    const authority = candidacyAuthority(unsupported.context.jurisdiction.id);
     expect(authority.pack).toBeNull();
     expect(authority.scope).toBeNull();
     expect(
-      candidacyPackForJurisdiction(cleveland.context.jurisdiction.id),
+      candidacyPackForJurisdiction(unsupported.context.jurisdiction.id),
     ).toBeNull();
   });
 
@@ -92,12 +106,13 @@ describe("a locality reaches its own state, and no other", () => {
     expect(lexington.pack).not.toBeNull();
     expect(lexington.localOfficesUnsourced).toBe(true);
 
-    // An Ohio city: neither answers, and the two facts are still distinct.
-    const cleveland = candidacyAuthority(
-      localityIn("Cleveland", "Cleveland, Ohio").context.jurisdiction.id,
+    // A city in a currently unsupported state: neither answers, and the two
+    // facts are still distinct.
+    const unsupported = candidacyAuthority(
+      unsupportedLocality().context.jurisdiction.id,
     );
-    expect(cleveland.pack).toBeNull();
-    expect(cleveland.localOfficesUnsourced).toBe(true);
+    expect(unsupported.pack).toBeNull();
+    expect(unsupported.localOfficesUnsourced).toBe(true);
   });
 
   it("keeps an authored state entry a state, not a hometown", () => {
