@@ -11,6 +11,14 @@
 //     Run the deterministic gate over every fresh grounding probe in
 //     scripts/prose-eval/fixtures/grounding/ and report mismatches.
 //
+//   npm run prose:eval -- verify-review <reviewer-reply-file>
+//     Enforce the grounding reviewer's verdict. Reads the reviewer's reply from
+//     a file (its deterministic development interface) and exits zero only when
+//     that reply is exactly a valid GROUNDING: PASS under the contract. Any
+//     UNSUPPORTED, malformed, partial, extra-text, ambiguous, or empty reply
+//     exits non-zero. It never rewrites prose and never scores style; the mere
+//     presence of reviewer output is not a pass.
+//
 //   npm run prose:eval -- bundle <run-dir> [seed]
 //     Read raw outputs from <run-dir>/raw/<PACKET>__<CONFIG>.md (CONFIG one of
 //     A|B|C|D), write anonymized per-packet review files to <run-dir>/review/
@@ -36,7 +44,11 @@ import {
   type ConfigId,
   type RawOutput,
 } from "./lib";
-import { checkGrounding, formatGroundingReport } from "./grounding";
+import {
+  checkGrounding,
+  formatGroundingReport,
+  parseReviewerVerdict,
+} from "./grounding";
 import { loadProbes } from "./probes";
 
 // Everything the holdout-hygiene hard rule names: the Skill, both prose agents,
@@ -171,6 +183,28 @@ function runGround(packetPath: string, outputPath: string): number {
   return 1;
 }
 
+function runVerifyReview(replyPath: string): number {
+  const reply = readFileSync(replyPath, "utf8");
+  const verdict = parseReviewerVerdict(reply);
+  if (verdict.pass) {
+    console.log("REVIEW: PASS — reviewer returned a clean GROUNDING: PASS");
+    return 0;
+  }
+  if (verdict.malformed) {
+    console.error(
+      "REVIEW: REJECTED — reviewer reply is not a valid verdict under the " +
+        "contract (empty, malformed, partial, ambiguous, or a PASS wrapped in " +
+        "other text). A gate never passes on unverifiable output.",
+    );
+    return 1;
+  }
+  console.error("REVIEW: UNSUPPORTED — reviewer reported unsupported claims:");
+  for (const claim of verdict.claims) {
+    console.error(`  - ${claim}`);
+  }
+  return 1;
+}
+
 function runProbes(): number {
   const probes = loadProbes();
   let failures = 0;
@@ -217,6 +251,16 @@ switch (command) {
   case "probes":
     exitCode = runProbes();
     break;
+  case "verify-review": {
+    const replyPath = args[0];
+    if (!replyPath) {
+      console.error("usage: prose:eval verify-review <reviewer-reply-file>");
+      exitCode = 1;
+      break;
+    }
+    exitCode = runVerifyReview(replyPath);
+    break;
+  }
   case "bundle": {
     const runDir = args[0];
     if (!runDir) {
@@ -230,7 +274,7 @@ switch (command) {
   default:
     console.error(
       "usage: prose:eval <hygiene | ground <packet-file> <output-file> | " +
-        "probes | bundle <run-dir> [seed]>",
+        "probes | verify-review <reviewer-reply-file> | bundle <run-dir> [seed]>",
     );
     exitCode = 1;
 }

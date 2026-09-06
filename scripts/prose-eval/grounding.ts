@@ -16,13 +16,16 @@
 //     reviewer rather than guessing at precision.
 //   - Nothing here rewrites prose. The gate reports; it never edits.
 
+import { parseResultClass } from "./lib";
+
 export type GroundingRule =
   | "date-invention"
   | "time-invention"
   | "delivery-invention"
   | "scope-widening"
   | "player-gender"
-  | "surface-drift";
+  | "surface-drift"
+  | "envelope-drift";
 
 export interface GroundingFinding {
   rule: GroundingRule;
@@ -174,16 +177,11 @@ const PLURAL_SUBJECTS = [
   "they",
 ];
 
-const GENDERED_PRONOUNS = [
-  "he",
-  "him",
-  "his",
-  "she",
-  "her",
-  "hers",
-  "himself",
-  "herself",
-];
+// Third-person gendered pronouns, split by gender. The split matters: an NPC
+// established in one gender never licenses player pronouns of the other, and a
+// named NPC is no license for the player at all (the player is second person).
+const MALE_PRONOUNS = ["he", "him", "his", "himself"];
+const FEMALE_PRONOUNS = ["she", "her", "hers", "herself"];
 
 // Surfaces that keep a native non-second-person register.
 const ARTIFACT_SURFACE_TERMS = [
@@ -226,39 +224,12 @@ function normalize(text: string): string {
 
 /**
  * Player-facing prose only. `result:`, `omitted:`, `missing:` and `reason:`
- * are review metadata; grounding is judged on what the player would read.
+ * are review metadata; grounding is judged on what the player would read. The
+ * full prose payload is returned — every prose line, not just the first — so
+ * this is a thin view over the structural envelope parse.
  */
 export function extractProse(output: string): string {
-  const lines = output.split(/\r?\n/);
-  const kept: string[] = [];
-  let inProse = false;
-  for (const line of lines) {
-    const lower = line.trim().toLowerCase();
-    if (/^result\s*:/.test(lower)) continue;
-    if (/^(omitted|missing|reason)\s*:/.test(lower)) {
-      inProse = false;
-      continue;
-    }
-    if (/^prose\s*:/.test(lower)) {
-      inProse = true;
-      kept.push(line.replace(/^\s*prose\s*:/i, ""));
-      continue;
-    }
-    if (!inProse) {
-      // Content before any `prose:` marker is treated as prose so that a bare
-      // output (no result envelope) is still checked rather than skipped.
-      if (
-        kept.length === 0 &&
-        line.trim() !== "" &&
-        !/^-\s/.test(line.trim())
-      ) {
-        kept.push(line);
-      }
-      continue;
-    }
-    kept.push(line);
-  }
-  return kept.join("\n");
+  return parseEnvelope(output).prose;
 }
 
 function packetSection(packet: string, field: string): string {
@@ -271,13 +242,15 @@ function hasWord(haystack: string, word: string): boolean {
   return new RegExp(`\\b${word.replace(/'/g, "'")}\\b`).test(haystack);
 }
 
+// The artifact register is a property the SURFACE declares (surfaces 9a–9e in
+// the register list), not something a stray word in the OUTPUT REQUEST turns
+// on. "brief" in particular is an ordinary request word ("write a brief note",
+// "brief the player"); reading it as an artifact surface silently switched off
+// the identity and staging checks. Match SURFACE terms on word boundaries so
+// "brief" the artifact is caught but "briefing"/"debrief" are not.
 function isArtifactSurface(packet: string): boolean {
-  const surface = normalize(
-    packetSection(packet, "SURFACE") +
-      " " +
-      packetSection(packet, "OUTPUT REQUEST"),
-  );
-  return ARTIFACT_SURFACE_TERMS.some((term) => surface.includes(term));
+  const surface = normalize(packetSection(packet, "SURFACE"));
+  return ARTIFACT_SURFACE_TERMS.some((term) => hasWord(surface, term));
 }
 
 function isNoteSurface(packet: string): boolean {
@@ -285,19 +258,133 @@ function isNoteSurface(packet: string): boolean {
   return NOTE_SURFACE_TERMS.some((term) => surface.includes(term));
 }
 
+// A stated clock time: 2:00, 2 p.m., two o'clock.
 const CLOCK_PATTERN =
   /\b\d{1,2}:\d{2}\b|\b\d{1,2}\s*(?:a\.m\.|p\.m\.|am|pm)\b|\bo'clock\b/;
+
+// Named times of day. These assert a moment as firmly as a clock reading.
+const TIME_OF_DAY_WORDS = /\b(?:noon|midday|midnight)\b/;
+
+// Approximate / colloquial times: "around 11", "just after 9", "close to noon".
+// The negative lookahead keeps a count or duration ("around 5 members", "about
+// 45 days") from being read as a clock time.
+const APPROX_TIME =
+  /\b(?:around|about|round about|shortly after|shortly before|just after|just before|a little after|a little before|close to|half past|quarter past|quarter to|sometime after|sometime before)\s+(?:\d{1,2}(?::\d{2})?\s*(?:a\.m\.|p\.m\.|am|pm|o'clock)?|noon|midday|midnight)\b(?!\s*(?:members?|people|persons?|residents?|voters?|votes?|others?|percent|dollars?|days?|weeks?|months?|years?|minutes?|min|mins|hours?|hrs?|seconds?|secs?|miles?|feet|acres?|blocks?|of\b|to\b|and\b))/;
+
+// The moment the output puts on the clock, if any — checked identically in
+// packet and prose so a packet-supplied time defers precision to the reviewer.
+function assertedTime(text: string): string | null {
+  for (const pattern of [CLOCK_PATTERN, TIME_OF_DAY_WORDS, APPROX_TIME]) {
+    const match = pattern.exec(text);
+    if (match) return match[0].trim();
+  }
+  return null;
+}
+
+// A month word (`may`, `march`, `august` …) is a common English word as often
+// as a calendar month. It asserts a date only in a dated context: beside a day
+// number or year, or introduced by a temporal preposition. The lead-in set is
+// deliberately restricted to prepositions that never precede the modal verb
+// "may" ("in May", "by May", "since May") so that "the vote may pass" is not
+// misread as the month of May.
+function assertsMonthDate(text: string, month: string): boolean {
+  const dayAfter = new RegExp(`\\b${month}\\s+\\d{1,2}(?:st|nd|rd|th)?\\b`);
+  const yearAfter = new RegExp(`\\b${month}\\s+\\d{4}\\b`);
+  const dayBefore = new RegExp(
+    `\\b\\d{1,2}(?:st|nd|rd|th)?\\s+(?:of\\s+)?${month}\\b`,
+  );
+  const leadIn = new RegExp(
+    `\\b(?:in|by|since|until|till|through|throughout|during|early|late|mid|mid-)\\s+${month}\\b`,
+  );
+  return (
+    dayAfter.test(text) ||
+    yearAfter.test(text) ||
+    dayBefore.test(text) ||
+    leadIn.test(text)
+  );
+}
+
+// Structurally parse the candidate result envelope. `prose` is the full
+// player-facing payload — every prose line, not just the first — so a claim
+// smuggled onto a later line is still checked. `problems` records a malformed
+// or unknown result class, a missing required field, or bare/unexpected
+// material sitting outside the allowed shape, so an envelope that only *looks*
+// valid on its first line cannot pass.
+interface ParsedEnvelope {
+  prose: string;
+  problems: string[];
+}
+
+function parseEnvelope(output: string): ParsedEnvelope {
+  const lines = output.split(/\r?\n/);
+  const hasResult = lines.some((line) => /^\s*result\s*:/i.test(line));
+
+  if (!hasResult) {
+    // No result wrapper. Everything a player would read is prose; strip only a
+    // stray leading `prose:`/metadata marker, and check the rest in full.
+    const prose = lines
+      .filter((line) => !/^\s*(omitted|missing|reason)\s*:/i.test(line))
+      .map((line) => line.replace(/^\s*prose\s*:/i, ""))
+      .join("\n");
+    return { prose, problems: [] };
+  }
+
+  const proseParts: string[] = [];
+  const junk: string[] = [];
+  let section: "pre" | "prose" | "omitted" | "missing" | "reason" = "pre";
+  for (const line of lines) {
+    const marker = /^\s*(result|prose|omitted|missing|reason)\s*:(.*)$/i.exec(
+      line,
+    );
+    if (marker) {
+      const field = marker[1].toLowerCase();
+      if (field === "result") {
+        section = "pre";
+        continue;
+      }
+      if (field === "prose") {
+        section = "prose";
+        proseParts.push(marker[2]);
+        continue;
+      }
+      section = field as "omitted" | "missing" | "reason";
+      continue;
+    }
+    if (section === "prose") {
+      proseParts.push(line);
+      continue;
+    }
+    // A non-empty, non-marker line before any `prose:` (or between `result:` and
+    // the first field) is chatter the contract does not allow. The omitted /
+    // missing / reason payloads are review metadata and are intentionally not
+    // treated as prose or as junk.
+    if (section === "pre" && line.trim() !== "") junk.push(line);
+  }
+
+  const problems = [...parseResultClass(output).problems];
+  if (junk.length > 0) {
+    problems.push(
+      `unexpected content outside the result envelope: ` +
+        junk.map((line) => `"${line.trim()}"`).join(", "),
+    );
+  }
+  // Junk is checked for grounding too — chatter can still assert facts.
+  return { prose: [...proseParts, ...junk].join("\n"), problems };
+}
 
 export function checkGrounding(
   packet: string,
   output: string,
 ): GroundingReport {
   const packetText = normalize(packet);
-  const prose = normalize(extractProse(output));
+  const envelope = parseEnvelope(output);
+  const prose = normalize(envelope.prose);
   const findings: GroundingFinding[] = [];
 
   // 1. Dates and days ------------------------------------------------------
-  for (const label of [...WEEKDAYS, ...MONTHS, ...RELATIVE_DAY_LABELS]) {
+  // Weekdays and relative-day labels are unambiguous temporal words; flag any
+  // the packet does not supply.
+  for (const label of [...WEEKDAYS, ...RELATIVE_DAY_LABELS]) {
     if (hasWord(prose, label) && !hasWord(packetText, label)) {
       findings.push({
         rule: "date-invention",
@@ -308,17 +395,31 @@ export function checkGrounding(
       });
     }
   }
+  // Months are checked contextually so the modal "may" and the verb "march"
+  // are not misread as the calendar months of the same spelling.
+  for (const month of MONTHS) {
+    if (assertsMonthDate(prose, month) && !hasWord(packetText, month)) {
+      findings.push({
+        rule: "date-invention",
+        claim: month,
+        detail:
+          `output dates the moment in "${month}"; the packet establishes no such ` +
+          `month or date`,
+      });
+    }
+  }
 
-  // 2. Clock times. Conservative: only when the packet supplies no time at all.
-  if (CLOCK_PATTERN.test(prose) && !CLOCK_PATTERN.test(packetText)) {
-    const match = CLOCK_PATTERN.exec(prose);
+  // 2. Times of day. Conservative: only when the packet supplies no time at
+  // all. Approximate and colloquial times ("around 11") count as assertions.
+  const proseTime = assertedTime(prose);
+  if (proseTime && !assertedTime(packetText)) {
     findings.push({
       rule: "time-invention",
-      claim: match ? match[0] : "clock time",
+      claim: proseTime,
       detail:
-        "output states a clock time; the packet establishes no time of day. " +
-        "(When the packet does supply times, hour-level precision is left to " +
-        "the grounding reviewer rather than checked here.)",
+        `output states a time of day ("${proseTime}"); the packet establishes ` +
+        "no time. (When the packet does supply a time, hour-level precision is " +
+        "left to the grounding reviewer rather than checked here.)",
     });
   }
 
@@ -360,42 +461,66 @@ export function checkGrounding(
     });
   }
 
-  // 5. Player gender -------------------------------------------------------
+  // 5. Player identity -----------------------------------------------------
+  // The player is second person; a gendered pronoun in character-facing prose
+  // needs a same-gender actor the packet actually establishes. Checking each
+  // gender on its own is what stops an NPC's "he" from licensing the player's
+  // "she": a pronoun the packet supplies in one gender is no support for the
+  // other, and a merely named NPC is no support for the player at all.
   if (!isArtifactSurface(packet)) {
-    const packetHasGender = GENDERED_PRONOUNS.some((p) =>
-      hasWord(packetText, p),
-    );
-    if (!packetHasGender) {
-      const used = GENDERED_PRONOUNS.filter((p) => hasWord(prose, p));
-      if (used.length > 0) {
-        findings.push({
-          rule: "player-gender",
-          claim: used.join(", "),
-          detail:
-            "character-facing prose uses third-person gendered pronouns; the " +
-            "packet supplies no gender and second person is the required form",
-        });
-      }
+    const packetMale = MALE_PRONOUNS.some((p) => hasWord(packetText, p));
+    const packetFemale = FEMALE_PRONOUNS.some((p) => hasWord(packetText, p));
+    const unsupported: string[] = [];
+    if (!packetMale) {
+      unsupported.push(...MALE_PRONOUNS.filter((p) => hasWord(prose, p)));
+    }
+    if (!packetFemale) {
+      unsupported.push(...FEMALE_PRONOUNS.filter((p) => hasWord(prose, p)));
+    }
+    if (unsupported.length > 0) {
+      findings.push({
+        rule: "player-gender",
+        claim: unsupported.join(", "),
+        detail:
+          "character-facing prose uses third-person gendered pronouns the packet " +
+          "does not establish for a same-gender actor; second person is the " +
+          "required player form, and an NPC of one gender never licenses the other",
+      });
     }
   }
 
   // 6. Surface authority ---------------------------------------------------
   // A task note is a written record, not a played scene. Staged dialogue is
-  // caught whether or not it is quoted — dropping the quotation marks is the
-  // harder version of the same drift.
+  // caught whether or not it is quoted. A quotation mark elsewhere in the
+  // packet is no licence to stage a scene here: the only quoted speech a note
+  // may carry is a line the packet supplies verbatim, and even a supplied quote
+  // may not be dressed with attribution ("Nasser tells you, leaning in").
   if (isNoteSurface(packet) && !isArtifactSurface(packet)) {
-    const packetHasQuote = /"/.test(packetText);
-    const quoted = /"[^"]{12,}"/.test(prose);
+    const quotedSpans = [...prose.matchAll(/"([^"]{12,})"/g)].map((m) => m[1]);
+    const stagedQuote = quotedSpans.some((span) => !packetText.includes(span));
     const attributed = ATTRIBUTION_VERBS.some((verb) => hasWord(prose, verb));
-    if ((quoted || attributed) && !packetHasQuote) {
+    if (stagedQuote || attributed) {
       findings.push({
         rule: "surface-drift",
-        claim: quoted ? "staged direct dialogue" : "unquoted staged dialogue",
+        claim: attributed ? "staged dialogue" : "staged direct quotation",
         detail:
           "the packet's SURFACE is a note/task record, but the output stages " +
-          "spoken dialogue the packet does not supply",
+          "spoken dialogue the packet does not supply (a stray quotation mark " +
+          "elsewhere in the packet does not license staging a scene here)",
       });
     }
+  }
+
+  // 7. Result envelope -----------------------------------------------------
+  // A malformed or unknown result class, a missing required field, or chatter
+  // outside the allowed shape is itself a rejection: an envelope that only
+  // looks valid on its first line does not pass on that alone.
+  if (envelope.problems.length > 0) {
+    findings.push({
+      rule: "envelope-drift",
+      claim: "result envelope",
+      detail: envelope.problems.join("; "),
+    });
   }
 
   return { pass: findings.length === 0, findings };

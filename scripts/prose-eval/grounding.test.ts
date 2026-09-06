@@ -10,13 +10,15 @@ import { loadProbes } from "./probes";
 const probes = loadProbes();
 
 describe("grounding probes", () => {
-  it("ships a probe for every failure class the reserve round found", () => {
+  it("ships a probe for every failure class, including the audit-found ones", () => {
     const rules = new Set(probes.map((probe) => probe.expectedRule));
     expect(rules).toContain("date-invention");
+    expect(rules).toContain("time-invention");
     expect(rules).toContain("delivery-invention");
     expect(rules).toContain("scope-widening");
     expect(rules).toContain("player-gender");
     expect(rules).toContain("surface-drift");
+    expect(rules).toContain("envelope-drift");
     expect(probes.some((probe) => probe.expectPass)).toBe(true);
   });
 
@@ -104,6 +106,119 @@ describe("grounding gate mechanics", () => {
     expect(output).toBe(
       "result: SAFE_RENDER\nprose: The director calls Tuesday.",
     );
+  });
+});
+
+describe("audit-reproduced gate defects", () => {
+  const rules = (packet: string, output: string) =>
+    checkGrounding(packet, output).findings.map((f) => f.rule);
+
+  it("rejects an unsupported approximate time and passes a supported one", () => {
+    expect(
+      rules(
+        "KNOWN WORLD FACTS:\n- The character is at the kitchen table.",
+        "result: SAFE_RENDER\nprose: It's around 11 at the kitchen table.",
+      ),
+    ).toContain("time-invention");
+    expect(
+      checkGrounding(
+        "KNOWN WORLD FACTS:\n- It is around 11 at night.",
+        "result: SAFE_RENDER\nprose: It's around 11.",
+      ).pass,
+    ).toBe(true);
+  });
+
+  it("does not let an NPC's pronoun license a player pronoun of another gender", () => {
+    expect(
+      rules(
+        "SURFACE: Narrative transition.\nRELATIONSHIPS: Director Boase set the schedule; he chairs the board.\nKNOWN WORLD FACTS:\n- The character goes to the annex.",
+        "result: SAFE_RENDER\nprose: She heads to the annex.",
+      ),
+    ).toContain("player-gender");
+  });
+
+  it("still allows a same-gender NPC pronoun the packet supplies", () => {
+    expect(
+      rules(
+        "SURFACE: Quick interaction.\nRELATIONSHIPS: Chair Okafor runs the meeting; she keeps it short.\nKNOWN WORLD FACTS:\n- Okafor opens the session.",
+        "result: SAFE_RENDER\nprose: Okafor opens the session; she keeps it short.",
+      ),
+    ).not.toContain("player-gender");
+  });
+
+  it("does not let the word 'brief' in OUTPUT REQUEST switch off the identity check", () => {
+    expect(
+      rules(
+        "SURFACE: Quick interaction.\nKNOWN WORLD FACTS:\n- A resident asks where to file.\nOUTPUT REQUEST: Brief the player in one sentence.",
+        "result: SAFE_RENDER\nprose: He points the resident to the window.",
+      ),
+    ).toContain("player-gender");
+  });
+
+  it("rejects an unknown result class and bare chatter outside the envelope", () => {
+    expect(
+      rules(
+        "KNOWN WORLD FACTS:\n- A filing is due.",
+        "result: RENDER\nprose: You review the filing.",
+      ),
+    ).toContain("envelope-drift");
+    expect(
+      rules(
+        "KNOWN WORLD FACTS:\n- A filing is due.",
+        "Sure, here it is:\nresult: SAFE_RENDER\nprose: You review the filing.",
+      ),
+    ).toContain("envelope-drift");
+  });
+
+  it("passes a valid multi-line envelope with choices", () => {
+    expect(
+      checkGrounding(
+        "SURFACE: Quick interaction plus choices.\nKNOWN WORLD FACTS:\n- The secretary calls: the hearing moved to the larger room.",
+        "result: SAFE_RENDER\nprose: The secretary calls: the hearing moved to the larger room.\n\n1. Head over.\n2. Send word.",
+      ).pass,
+    ).toBe(true);
+  });
+
+  it("inspects a later prose line in a bare multi-line output, not only the first", () => {
+    expect(
+      rules(
+        "SURFACE: Quick interaction.\nKNOWN WORLD FACTS:\n- A filing is due.",
+        "You review the filing.\nThe clerk calls Tuesday to confirm.",
+      ),
+    ).toEqual(expect.arrayContaining(["delivery-invention", "date-invention"]));
+  });
+
+  it("does not let a stray packet quotation license staged dialogue on a note", () => {
+    expect(
+      rules(
+        'SURFACE: Staff-work task note.\nKNOWN WORLD FACTS:\n- Nasser wants a summary of "the sunset clause" by the Friday filing.',
+        "result: SAFE_RENDER\nprose: Get me the summary by the Friday filing, Nasser says, dropping into the chair.",
+      ),
+    ).toContain("surface-drift");
+  });
+
+  it("allows a packet-supplied quotation logged verbatim on a note", () => {
+    expect(
+      checkGrounding(
+        'SURFACE: Staff-work task note.\nKNOWN WORLD FACTS:\n- The notice reads, in full: "Room 204 is closed for the Friday filing."',
+        'result: SAFE_RENDER\nprose: Notice to log: "Room 204 is closed for the Friday filing."',
+      ).pass,
+    ).toBe(true);
+  });
+
+  it("does not read the modal 'may' as the month but still catches a real month date", () => {
+    expect(
+      checkGrounding(
+        "SURFACE: Quick interaction.\nKNOWN WORLD FACTS:\n- The board weighs Permit 19.",
+        "result: SAFE_RENDER\nprose: The board may take Permit 19 to a second reading.",
+      ).pass,
+    ).toBe(true);
+    expect(
+      rules(
+        "KNOWN WORLD FACTS:\n- The board approved the calendar.",
+        "result: SAFE_RENDER\nprose: The first day is set for May 3.",
+      ),
+    ).toContain("date-invention");
   });
 });
 

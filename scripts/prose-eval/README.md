@@ -83,9 +83,23 @@ npm run prose:eval -- probes
 
 `ground` prints `GROUNDING: PASS` or the specific unsupported claims and exits
 non-zero when it finds any. It checks the classes that actually failed review:
-invented day/date/relative-day labels, invented clock times, invented delivery
-or staging, one actor's non-action widened to a group, player gender inferred on
-a character-facing surface, and a task-note surface staged as dialogue.
+
+- invented day/date/relative-day labels, and months only in a dated context so
+  the modal "may" is not misread as the month;
+- invented times — clock (`2 p.m.`) and approximate/colloquial (`around 11`)
+  alike;
+- invented delivery or staging;
+- one actor's non-action widened to a group;
+- player identity: a gendered pronoun with no same-gender actor the packet
+  establishes, so an NPC's `he` never licenses the player's `she`, checked from
+  the SURFACE's declared register (the word "brief" in an OUTPUT REQUEST no
+  longer switches the check off);
+- a task-note surface staged as dialogue, regardless of a stray quotation mark
+  elsewhere in the packet;
+- a malformed result envelope: an unknown result class, a missing required
+  field, or bare chatter outside the allowed shape. The full prose payload is
+  parsed — every prose line, not just the first — so a claim on a later line is
+  still checked.
 
 It is a floor, not a proof of grounding. Every check is conservative and fires
 only when the packet supplies no support at all for that class; where a packet
@@ -105,6 +119,19 @@ unsupported claims. It never rewrites prose and never judges style.
 Its reply is untrusted text, so `parseReviewerVerdict` is fail-closed: anything
 that is not an unambiguous `GROUNDING: PASS` — a malformed reply, a verdict
 wrapped in commentary, an `UNSUPPORTED` block naming no claim — is not a pass.
+
+That parser is enforced through a CLI command, not left as library code with no
+caller:
+
+```
+npm run prose:eval -- verify-review <reviewer-reply-file>
+```
+
+`verify-review` reads the reviewer's reply from a file (its deterministic
+development interface) and exits zero **only** when that reply is exactly a
+valid `GROUNDING: PASS`. An `UNSUPPORTED`, malformed, partial, extra-text,
+ambiguous, or empty reply exits non-zero. It never rewrites prose, never scores
+style, and never treats the mere presence of reviewer output as a pass.
 
 Model pinning is verified, not assumed. `model:` frontmatter is honoured;
 **`effort:` is not** — launching by frontmatter alone runs the writer at effort
