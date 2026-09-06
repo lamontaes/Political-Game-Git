@@ -11,6 +11,7 @@
 
 import {
   corpusCanonicalDigest,
+  openCachedProductionArtifacts,
   openProductionArtifacts,
   parseDelimited,
 } from "../../core/index";
@@ -24,6 +25,7 @@ import type {
   ValidationReport,
 } from "../../core/index";
 import {
+  type AcsPumsStateShardIdentity,
   DICTIONARY_ARTIFACT,
   HOUSING_SLICE_ARTIFACT,
   HOUSING_SLICE_PREDICATE,
@@ -32,7 +34,9 @@ import {
   QA_SLICE_GROUP_QUARTERS,
   QA_SLICE_HOUSING_UNITS,
   acsPumsAcquisition,
+  createAcsPums2024StateShardAcquisition,
 } from "./acquisition";
+import type { PumsDonorArtifacts } from "./donor";
 import { parsePumsDictionary } from "./dictionary";
 import { readPumsRow } from "./normalize";
 import {
@@ -44,6 +48,33 @@ import { validatePumsCorpus } from "./validate";
 import type { PumsHousingRecord, PumsPersonRecord, PumsValue } from "./types";
 
 export type { PumsHousingRecord, PumsPersonRecord, PumsValue } from "./types";
+export type {
+  AcsPumsDonorCorpus,
+  PumsAllocationStatus,
+  PumsBuildingType,
+  PumsCodedValue,
+  PumsDonorArtifacts,
+  PumsDonorFact,
+  PumsDonorFixtureArtifacts,
+  PumsDonorPerson,
+  PumsEmploymentStatus,
+  PumsHouseholdDonor,
+  PumsHouseholdRelationship,
+  PumsHousingTenure,
+  PumsKnownDonorFact,
+  PumsSchoolEnrollment,
+  PumsUnitType,
+  PumsUnavailableDonorFact,
+} from "./donor";
+export {
+  DONOR_HOUSING_PROJECTION,
+  DONOR_PERSON_PROJECTION,
+  PUMS_DONOR_COMPILER_VERSION,
+  PUMS_DONOR_PARSER_VERSION,
+  compileAcsPumsDonorFixture,
+  compileAcsPumsDonorShard,
+  openAcsPumsDonorFixture,
+} from "./donor";
 export {
   parsePumsDictionary,
   rangeFor,
@@ -52,13 +83,21 @@ export {
 export { readPumsCell } from "./normalize";
 export { HOUSING_PROJECTION, PERSON_PROJECTION } from "./projection";
 export {
+  ACS_PUMS_2024_PRODUCTION_GATE,
+  ACS_PUMS_DONOR_SURVEY_YEAR,
   cutHousingSlice,
   cutPersonSlice,
+  createAcsPums2024StateShardAcquisition,
   HOUSING_SLICE_ARTIFACT,
   HOUSING_ARTIFACT,
   PERSON_SLICE_ARTIFACT,
   PERSON_ARTIFACT,
   QA_SLICE_HOUSING_UNITS,
+} from "./acquisition";
+export type {
+  AcsPumsStateShardAcquisition,
+  AcsPumsStateShardArtifactRole,
+  AcsPumsStateShardIdentity,
 } from "./acquisition";
 
 export const PUMS_COMPILER_VERSION = "1.0.0";
@@ -223,6 +262,22 @@ export function openPumsProduction(
     housingSlice: HOUSING_SLICE_ARTIFACT,
     personSlice: PERSON_SLICE_ARTIFACT,
     dictionary: DICTIONARY_ARTIFACT,
+  });
+}
+
+/**
+ * Open an actually acquired 2024 shard. The declared gate remains in force
+ * until a caller supplies the shard-specific lock created by a real retrieval.
+ */
+export function openAcsPums2024StateShardProduction(
+  lock: ArtifactLock,
+  input: Pick<AcsPumsStateShardIdentity, "stateUsps" | "stateFips">,
+): ProductionInput<PumsDonorArtifacts> {
+  const acquisition = createAcsPums2024StateShardAcquisition(input);
+  return openCachedProductionArtifacts("acs-pums", lock, {
+    housing: acquisition.cachedArtifacts.housingArchive,
+    person: acquisition.cachedArtifacts.personArchive,
+    dictionary: acquisition.cachedArtifacts.dictionary,
   });
 }
 
