@@ -1,0 +1,245 @@
+{
+  "tool": "source-sheet-chop-v1",
+  "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/skinny man.png",
+  "sourceSha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+  "sourceWidth": 5056,
+  "sourceHeight": 3392,
+  "options": {
+    "alphaNoiseThreshold": 8,
+    "paddingPixels": 64,
+    "minimumGapPixels": 24,
+    "minimumComponentPixels": 20000
+  },
+  "columnBands": [
+    {
+      "start": 292,
+      "end": 860
+    },
+    {
+      "start": 1449,
+      "end": 1463
+    },
+    {
+      "start": 1491,
+      "end": 2373
+    },
+    {
+      "start": 2759,
+      "end": 3496
+    },
+    {
+      "start": 4003,
+      "end": 4764
+    }
+  ],
+  "rowBands": [
+    {
+      "start": 76,
+      "end": 1712
+    },
+    {
+      "start": 1794,
+      "end": 3367
+    }
+  ],
+  "noisePixelsCleared": 3825090,
+  "cells": [
+    {
+      "cellId": "R1C1",
+      "row": 1,
+      "column": 1,
+      "sourceBox": {
+        "x": 320,
+        "y": 81,
+        "width": 518,
+        "height": 1624
+      },
+      "centroidNormalized": {
+        "x": 0.114332,
+        "y": 0.252366
+      },
+      "exportWidth": 646,
+      "exportHeight": 1752,
+      "opaquePixels": 501981,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 28559,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_front_a_v1.png",
+      "sha256": "24ddae8f5a1f9e545fe0bd045e9b16b7ff8e25f04aa80517b19ebbbfefd5c189"
+    },
+    {
+      "cellId": "R1C3",
+      "row": 1,
+      "column": 3,
+      "sourceBox": {
+        "x": 1540,
+        "y": 80,
+        "width": 713,
+        "height": 1633
+      },
+      "centroidNormalized": {
+        "x": 0.357104,
+        "y": 0.251858
+      },
+      "exportWidth": 841,
+      "exportHeight": 1761,
+      "opaquePixels": 462656,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 22679,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_conversational_open_hand_v1.png",
+      "sha256": "e6d9e8f5f91caef96a8d8b73d636977681c14cf1d61d8a13e297b0090349c118"
+    },
+    {
+      "cellId": "R1C4",
+      "row": 1,
+      "column": 4,
+      "sourceBox": {
+        "x": 2948,
+        "y": 80,
+        "width": 491,
+        "height": 1610
+      },
+      "centroidNormalized": {
+        "x": 0.630497,
+        "y": 0.255691
+      },
+      "exportWidth": 619,
+      "exportHeight": 1738,
+      "opaquePixels": 481001,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 22666,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_back_v1.png",
+      "sha256": "b4f8b8e58582a0cd85664d3b9efd6e9f8c231ca68ef4f2b0cf9630806abc7706"
+    },
+    {
+      "cellId": "R1C5",
+      "row": 1,
+      "column": 5,
+      "sourceBox": {
+        "x": 4003,
+        "y": 76,
+        "width": 762,
+        "height": 1636
+      },
+      "centroidNormalized": {
+        "x": 0.887885,
+        "y": 0.254106
+      },
+      "exportWidth": 890,
+      "exportHeight": 1764,
+      "opaquePixels": 505038,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 27165,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_lectern_interaction_v1.png",
+      "sha256": "1701a2f38bcf4b9977b41f3aaa444c337b09f7e2ea119cf640d788ff059c8fb5"
+    },
+    {
+      "cellId": "R2C1",
+      "row": 2,
+      "column": 1,
+      "sourceBox": {
+        "x": 292,
+        "y": 1818,
+        "width": 569,
+        "height": 1530
+      },
+      "centroidNormalized": {
+        "x": 0.114042,
+        "y": 0.766104
+      },
+      "exportWidth": 697,
+      "exportHeight": 1658,
+      "opaquePixels": 543192,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 26447,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_front_chair_v1.png",
+      "sha256": "55071836e9ba9ceb5f2adfd92e7e5216fddc08ecf87ee8503eb4eef4cb92dcea"
+    },
+    {
+      "cellId": "R2C3",
+      "row": 2,
+      "column": 3,
+      "sourceBox": {
+        "x": 1491,
+        "y": 1850,
+        "width": 883,
+        "height": 1499
+      },
+      "centroidNormalized": {
+        "x": 0.370471,
+        "y": 0.764827
+      },
+      "exportWidth": 1011,
+      "exportHeight": 1627,
+      "opaquePixels": 511410,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 24098,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_interaction_surface_v1.png",
+      "sha256": "2be018346e6637e395f99a65ac256fe280bb6f86df32e252d72b5fda7657c9c5"
+    },
+    {
+      "cellId": "R2C4",
+      "row": 2,
+      "column": 4,
+      "sourceBox": {
+        "x": 2759,
+        "y": 1850,
+        "width": 738,
+        "height": 1504
+      },
+      "centroidNormalized": {
+        "x": 0.626671,
+        "y": 0.765434
+      },
+      "exportWidth": 866,
+      "exportHeight": 1632,
+      "opaquePixels": 494344,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 22287,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_conversational_open_hand_v1.png",
+      "sha256": "50eea36105b9a6e5cc4c8c3c6adb2f269b0d34612d8dac1db829bdc677851bf8"
+    },
+    {
+      "cellId": "R2C5",
+      "row": 2,
+      "column": 5,
+      "sourceBox": {
+        "x": 4285,
+        "y": 1794,
+        "width": 452,
+        "height": 1574
+      },
+      "centroidNormalized": {
+        "x": 0.893108,
+        "y": 0.758404
+      },
+      "exportWidth": 580,
+      "exportHeight": 1702,
+      "opaquePixels": 450596,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 27137,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_three_quarter_v1.png",
+      "sha256": "e01b8ddc6b067330186af4739c1e45acdc0828edc3e7772f520cf613eb0333b3"
+    }
+  ],
+  "rejectedFragments": [
+    {
+      "row": 2,
+      "column": 2,
+      "opaquePixels": 30,
+      "sourceBox": {
+        "x": 1449,
+        "y": 2540,
+        "width": 15,
+        "height": 3
+      }
+    }
+  ]
+}

@@ -25,6 +25,159 @@ const PUMS_BASE =
 const DICT_URL =
   "https://www2.census.gov/programs-surveys/acs/tech_docs/pums/data_dict/PUMS_Data_Dictionary_2023.csv";
 
+export const ACS_PUMS_DONOR_SURVEY_YEAR = 2024;
+export const ACS_PUMS_2024_PRODUCTION_GATE =
+  "No 2024 ACS 1-year state housing/person archives or 2024 dictionary are locked in this repository. The acquisition factory declares the cache-only path, but production donor compilation remains unavailable until npm run source:acquire -- --domain acs-pums --survey-year 2024 --state-usps <USPS> --state-fips <FIPS> records the actual bytes and hashes.";
+
+export interface AcsPumsStateShardIdentity {
+  readonly product: "acs-1-year-pums";
+  readonly surveyYear: 2024;
+  /** Publisher state/territory abbreviation used in the archive filename. */
+  readonly stateUsps: string;
+  /** Publisher two-digit STATE value and archive-member suffix. */
+  readonly stateFips: string;
+}
+
+export type AcsPumsStateShardArtifactRole =
+  "housingArchive" | "personArchive" | "dictionary";
+
+export interface AcsPumsStateShardAcquisition {
+  readonly identity: AcsPumsStateShardIdentity;
+  /** A shard lock never replaces the accepted 2023 QA corpus lock. */
+  readonly lockPath: string;
+  readonly plan: AcquisitionPlan;
+  readonly cachedArtifacts: Readonly<
+    Record<
+      AcsPumsStateShardArtifactRole,
+      { readonly artifactId: string; readonly cachePath: string }
+    >
+  >;
+}
+
+/**
+ * Declare one reproducible 2024 state shard without claiming it was acquired.
+ *
+ * The caller supplies the USPS/FIPS pairing from an accepted state identity
+ * source. This module validates shape but deliberately carries no hand-authored
+ * state crosswalk that could silently disagree with the publisher.
+ */
+export function createAcsPums2024StateShardAcquisition(input: {
+  readonly stateUsps: string;
+  readonly stateFips: string;
+}): AcsPumsStateShardAcquisition {
+  const stateUsps = input.stateUsps.trim().toUpperCase();
+  const stateFips = input.stateFips.trim();
+  if (!/^[A-Z]{2}$/.test(stateUsps)) {
+    throw new Error("ACS PUMS state USPS identity must be two ASCII letters.");
+  }
+  if (!/^\d{2}$/.test(stateFips)) {
+    throw new Error("ACS PUMS state FIPS identity must be two digits.");
+  }
+
+  const identity: AcsPumsStateShardIdentity = {
+    product: "acs-1-year-pums",
+    surveyYear: ACS_PUMS_DONOR_SURVEY_YEAR,
+    stateUsps,
+    stateFips,
+  };
+  const stateToken = stateUsps.toLowerCase();
+  const base =
+    "https://www2.census.gov/programs-surveys/acs/data/pums/2024/1-Year";
+  const dictionaryUrl =
+    "https://www2.census.gov/programs-surveys/acs/tech_docs/pums/data_dict/PUMS_Data_Dictionary_2024.csv";
+  const cacheRoot = `.source-cache/acs-pums/2024/1-year/${stateToken}`;
+  const housingArtifactId = `census-acs-pums-2024-1yr-${stateToken}-housing-zip`;
+  const personArtifactId = `census-acs-pums-2024-1yr-${stateToken}-person-zip`;
+  const dictionaryArtifactId = "census-acs-pums-2024-data-dictionary-csv";
+
+  const publisher = "U.S. Census Bureau, American Community Survey Office";
+  const rights = {
+    status: "public-domain-us-government" as const,
+    declaredLicense: null,
+    attributionRequired: false as const,
+  };
+  const documentationUrl =
+    "https://www.census.gov/programs-surveys/acs/microdata/documentation.2024.html";
+  const cachedArtifacts = {
+    housingArchive: {
+      artifactId: housingArtifactId,
+      cachePath: `${cacheRoot}/csv_h${stateToken}.zip`,
+    },
+    personArchive: {
+      artifactId: personArtifactId,
+      cachePath: `${cacheRoot}/csv_p${stateToken}.zip`,
+    },
+    dictionary: {
+      artifactId: dictionaryArtifactId,
+      cachePath: ".source-cache/acs-pums/2024/PUMS_Data_Dictionary_2024.csv",
+    },
+  } as const;
+
+  return {
+    identity,
+    lockPath: `data/source/acs-pums/shards/2024/${stateToken}/artifact-lock.json`,
+    cachedArtifacts,
+    plan: {
+      domain: "acs-pums",
+      requests: [
+        {
+          artifactId: housingArtifactId,
+          provider: publisher,
+          url: `${base}/csv_h${stateToken}.zip`,
+          method: "bulk-download",
+          mediaType: "application/zip",
+          containerMemberPath: `psam_h${stateFips}.csv`,
+          publisher: {
+            statedVintage: "2024 ACS 1-year PUMS",
+            releaseDate: null,
+            schemaVersion: "ACS 2024 1-year PUMS housing record layout",
+            documentationUrl,
+          },
+          rights,
+          storage: "cached-not-committed",
+          localPath: null,
+          cachePath: cachedArtifacts.housingArchive.cachePath,
+        },
+        {
+          artifactId: personArtifactId,
+          provider: publisher,
+          url: `${base}/csv_p${stateToken}.zip`,
+          method: "bulk-download",
+          mediaType: "application/zip",
+          containerMemberPath: `psam_p${stateFips}.csv`,
+          publisher: {
+            statedVintage: "2024 ACS 1-year PUMS",
+            releaseDate: null,
+            schemaVersion: "ACS 2024 1-year PUMS person record layout",
+            documentationUrl,
+          },
+          rights,
+          storage: "cached-not-committed",
+          localPath: null,
+          cachePath: cachedArtifacts.personArchive.cachePath,
+        },
+        {
+          artifactId: dictionaryArtifactId,
+          provider: publisher,
+          url: dictionaryUrl,
+          method: "GET",
+          mediaType: "text/csv",
+          publisher: {
+            statedVintage: "2024",
+            releaseDate: null,
+            schemaVersion: "PUMS data dictionary, 2024 1-year",
+            documentationUrl,
+          },
+          rights,
+          storage: "cached-not-committed",
+          localPath: null,
+          cachePath: cachedArtifacts.dictionary.cachePath,
+        },
+      ],
+    },
+  };
+}
+
 export const PERSON_ARTIFACT = "census-acs-pums-2023-1yr-wy-person-zip";
 export const HOUSING_ARTIFACT = "census-acs-pums-2023-1yr-wy-housing-zip";
 export const DICTIONARY_ARTIFACT = "census-acs-pums-2023-data-dictionary-csv";

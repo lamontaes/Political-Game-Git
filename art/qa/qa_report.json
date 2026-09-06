@@ -1360,6 +1360,1266 @@
     "meetsTransparencyReq": null
   },
   {
+    "file": "generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_conversational_open_hand_v1.png",
+    "metadata": {
+      "width": 882,
+      "height": 1604,
+      "aspectRatio": "441:802",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_front_chair_v1.png",
+    "metadata": {
+      "width": 747,
+      "height": 1607,
+      "aspectRatio": "747:1607",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_interaction_surface_v1.png",
+    "metadata": {
+      "width": 1148,
+      "height": 1596,
+      "aspectRatio": "41:57",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_conversational_open_hand_v1.png",
+    "metadata": {
+      "width": 861,
+      "height": 1742,
+      "aspectRatio": "861:1742",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_lectern_interaction_v1.png",
+    "metadata": {
+      "width": 906,
+      "height": 1743,
+      "aspectRatio": "302:581",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_neutral_back_v1.png",
+    "metadata": {
+      "width": 671,
+      "height": 1743,
+      "aspectRatio": "671:1743",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_neutral_front_a_v1.png",
+    "metadata": {
+      "width": 725,
+      "height": 1739,
+      "aspectRatio": "725:1739",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_neutral_profile_v1.png",
+    "metadata": {
+      "width": 512,
+      "height": 1703,
+      "aspectRatio": "512:1703",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_brown_fur_hood_parka_v1.png",
+    "metadata": {
+      "width": 1113,
+      "height": 1284,
+      "aspectRatio": "371:428",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_burgundy_short_sleeve_polo_v1.png",
+    "metadata": {
+      "width": 1092,
+      "height": 1120,
+      "aspectRatio": "39:40",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_charcoal_blazer_v1.png",
+    "metadata": {
+      "width": 1102,
+      "height": 1134,
+      "aspectRatio": "551:567",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_cream_cardigan_v1.png",
+    "metadata": {
+      "width": 1102,
+      "height": 1109,
+      "aspectRatio": "1102:1109",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_gray_short_sleeve_tee_v1.png",
+    "metadata": {
+      "width": 924,
+      "height": 1000,
+      "aspectRatio": "231:250",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_mustard_cable_sweater_v1.png",
+    "metadata": {
+      "width": 1096,
+      "height": 1080,
+      "aspectRatio": "137:135",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_navy_zip_hoodie_v1.png",
+    "metadata": {
+      "width": 1080,
+      "height": 1137,
+      "aspectRatio": "360:379",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_olive_button_up_shirt_v1.png",
+    "metadata": {
+      "width": 1093,
+      "height": 1130,
+      "aspectRatio": "1093:1130",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_olive_puffer_vest_layered_v1.png",
+    "metadata": {
+      "width": 1091,
+      "height": 1133,
+      "aspectRatio": "1091:1133",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_plaid_overshirt_v1.png",
+    "metadata": {
+      "width": 1091,
+      "height": 1146,
+      "aspectRatio": "1091:1146",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_tan_utility_shirt_v1.png",
+    "metadata": {
+      "width": 1093,
+      "height": 1145,
+      "aspectRatio": "1093:1145",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_teal_shell_jacket_v1.png",
+    "metadata": {
+      "width": 1096,
+      "height": 1144,
+      "aspectRatio": "137:143",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_athletic_sneaker_blue_v1.png",
+    "metadata": {
+      "width": 1486,
+      "height": 1025,
+      "aspectRatio": "1486:1025",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_canvas_sneaker_navy_v1.png",
+    "metadata": {
+      "width": 1419,
+      "height": 988,
+      "aspectRatio": "1419:988",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_chukka_taupe_v1.png",
+    "metadata": {
+      "width": 1478,
+      "height": 1207,
+      "aspectRatio": "1478:1207",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_combat_boot_olive_v1.png",
+    "metadata": {
+      "width": 1465,
+      "height": 1371,
+      "aspectRatio": "1465:1371",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_flat_green_v1.png",
+    "metadata": {
+      "width": 1473,
+      "height": 980,
+      "aspectRatio": "1473:980",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_loafer_brown_v1.png",
+    "metadata": {
+      "width": 1463,
+      "height": 1053,
+      "aspectRatio": "1463:1053",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_low_top_sneaker_gray_v1.png",
+    "metadata": {
+      "width": 1425,
+      "height": 1017,
+      "aspectRatio": "475:339",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_oxford_black_v1.png",
+    "metadata": {
+      "width": 1453,
+      "height": 1085,
+      "aspectRatio": "1453:1085",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_pump_burgundy_v1.png",
+    "metadata": {
+      "width": 1448,
+      "height": 1147,
+      "aspectRatio": "1448:1147",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_pump_gray_v1.png",
+    "metadata": {
+      "width": 1412,
+      "height": 1102,
+      "aspectRatio": "706:551",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_sandal_brown_v1.png",
+    "metadata": {
+      "width": 1455,
+      "height": 1070,
+      "aspectRatio": "291:214",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_work_boot_tan_v1.png",
+    "metadata": {
+      "width": 1461,
+      "height": 1300,
+      "aspectRatio": "1461:1300",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_black_joggers_v1.png",
+    "metadata": {
+      "width": 638,
+      "height": 1199,
+      "aspectRatio": "58:109",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_blue_straight_jeans_v1.png",
+    "metadata": {
+      "width": 625,
+      "height": 1220,
+      "aspectRatio": "125:244",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_brown_corduroy_trousers_v1.png",
+    "metadata": {
+      "width": 633,
+      "height": 1194,
+      "aspectRatio": "211:398",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_charcoal_dress_trousers_v1.png",
+    "metadata": {
+      "width": 629,
+      "height": 1223,
+      "aspectRatio": "629:1223",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_dark_blue_slim_jeans_v1.png",
+    "metadata": {
+      "width": 629,
+      "height": 1214,
+      "aspectRatio": "629:1214",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_khaki_chinos_v1.png",
+    "metadata": {
+      "width": 628,
+      "height": 1221,
+      "aspectRatio": "628:1221",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_khaki_shorts_v1.png",
+    "metadata": {
+      "width": 669,
+      "height": 790,
+      "aspectRatio": "669:790",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_light_blue_dress_trousers_v1.png",
+    "metadata": {
+      "width": 628,
+      "height": 1217,
+      "aspectRatio": "628:1217",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_light_gray_dress_trousers_v1.png",
+    "metadata": {
+      "width": 629,
+      "height": 1203,
+      "aspectRatio": "629:1203",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_navy_work_trousers_v1.png",
+    "metadata": {
+      "width": 667,
+      "height": 1195,
+      "aspectRatio": "667:1195",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_olive_cargo_trousers_v1.png",
+    "metadata": {
+      "width": 668,
+      "height": 1211,
+      "aspectRatio": "668:1211",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_tan_cargo_trousers_v1.png",
+    "metadata": {
+      "width": 659,
+      "height": 1199,
+      "aspectRatio": "659:1199",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_brown_fur_hood_parka_v1.png",
+    "metadata": {
+      "width": 1004,
+      "height": 1239,
+      "aspectRatio": "1004:1239",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_burgundy_long_sleeve_polo_v1.png",
+    "metadata": {
+      "width": 968,
+      "height": 1091,
+      "aspectRatio": "968:1091",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_charcoal_blazer_v1.png",
+    "metadata": {
+      "width": 964,
+      "height": 1127,
+      "aspectRatio": "964:1127",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_charcoal_puffer_vest_layered_v1.png",
+    "metadata": {
+      "width": 981,
+      "height": 1083,
+      "aspectRatio": "327:361",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_cream_cardigan_v1.png",
+    "metadata": {
+      "width": 988,
+      "height": 1036,
+      "aspectRatio": "247:259",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_gray_long_sleeve_tee_v1.png",
+    "metadata": {
+      "width": 960,
+      "height": 1038,
+      "aspectRatio": "160:173",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_green_cable_sweater_v1.png",
+    "metadata": {
+      "width": 979,
+      "height": 1071,
+      "aspectRatio": "979:1071",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_navy_zip_hoodie_v1.png",
+    "metadata": {
+      "width": 1001,
+      "height": 1097,
+      "aspectRatio": "1001:1097",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_olive_shell_jacket_v1.png",
+    "metadata": {
+      "width": 1003,
+      "height": 1110,
+      "aspectRatio": "1003:1110",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_plaid_overshirt_v1.png",
+    "metadata": {
+      "width": 988,
+      "height": 1118,
+      "aspectRatio": "38:43",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_tan_utility_shirt_v1.png",
+    "metadata": {
+      "width": 999,
+      "height": 1133,
+      "aspectRatio": "999:1133",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_white_button_up_shirt_v1.png",
+    "metadata": {
+      "width": 995,
+      "height": 1126,
+      "aspectRatio": "995:1126",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_conversational_open_hand_v1.png",
+    "metadata": {
+      "width": 866,
+      "height": 1632,
+      "aspectRatio": "433:816",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_front_chair_v1.png",
+    "metadata": {
+      "width": 697,
+      "height": 1658,
+      "aspectRatio": "697:1658",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_interaction_surface_v1.png",
+    "metadata": {
+      "width": 1011,
+      "height": 1627,
+      "aspectRatio": "1011:1627",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_conversational_open_hand_v1.png",
+    "metadata": {
+      "width": 841,
+      "height": 1761,
+      "aspectRatio": "841:1761",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_lectern_interaction_v1.png",
+    "metadata": {
+      "width": 890,
+      "height": 1764,
+      "aspectRatio": "445:882",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_back_v1.png",
+    "metadata": {
+      "width": 619,
+      "height": 1738,
+      "aspectRatio": "619:1738",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_front_a_v1.png",
+    "metadata": {
+      "width": 646,
+      "height": 1752,
+      "aspectRatio": "323:876",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_three_quarter_v1.png",
+    "metadata": {
+      "width": 580,
+      "height": 1702,
+      "aspectRatio": "290:851",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R1C1_single_phone_v1.png",
+    "metadata": {
+      "width": 847,
+      "height": 654,
+      "aspectRatio": "847:654",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R1C2_multiple_notebook_clipboard_lanyard_v1.png",
+    "metadata": {
+      "width": 2938,
+      "height": 785,
+      "aspectRatio": "2938:785",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R1C3_single_earbud_case_v1.png",
+    "metadata": {
+      "width": 544,
+      "height": 455,
+      "aspectRatio": "544:455",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R1C4_single_usb_cable_v1.png",
+    "metadata": {
+      "width": 752,
+      "height": 715,
+      "aspectRatio": "752:715",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R2C1_single_legal_pad_v1.png",
+    "metadata": {
+      "width": 882,
+      "height": 687,
+      "aspectRatio": "294:229",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R2C2_multiple_binder_folder_document_wallet_v1.png",
+    "metadata": {
+      "width": 2991,
+      "height": 788,
+      "aspectRatio": "2991:788",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R2C3_single_stapler_v1.png",
+    "metadata": {
+      "width": 676,
+      "height": 571,
+      "aspectRatio": "676:571",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R2C4_single_sticky_notes_v1.png",
+    "metadata": {
+      "width": 620,
+      "height": 528,
+      "aspectRatio": "155:132",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C1_multiple_bottle_note_envelope_v1.png",
+    "metadata": {
+      "width": 817,
+      "height": 1447,
+      "aspectRatio": "817:1447",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C2_multiple_coffee_mug_keys_writing_news_v1.png",
+    "metadata": {
+      "width": 3227,
+      "height": 1381,
+      "aspectRatio": "3227:1381",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C3_multiple_cards_umbrella_backpack_v1.png",
+    "metadata": {
+      "width": 805,
+      "height": 1417,
+      "aspectRatio": "805:1417",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C4_multiple_pencil_briefcase_v1.png",
+    "metadata": {
+      "width": 688,
+      "height": 1425,
+      "aspectRatio": "688:1425",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/additional-fat-female-pose/wave_a_additional_fat_female_seated_interaction_surface_v1.png",
+    "metadata": {
+      "width": 1200,
+      "height": 2979,
+      "aspectRatio": "400:993",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/additional-fat-female-pose/wave_a_additional_fat_female_standing_conversational_hands_clasped_v1.png",
+    "metadata": {
+      "width": 1107,
+      "height": 3460,
+      "aspectRatio": "1107:3460",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/additional-fat-female-pose/wave_a_additional_fat_female_standing_lectern_interaction_v1.png",
+    "metadata": {
+      "width": 1358,
+      "height": 1422,
+      "aspectRatio": "679:711",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_conversational_open_hand_v1.png",
+    "metadata": {
+      "width": 872,
+      "height": 1629,
+      "aspectRatio": "872:1629",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_front_neutral_v1.png",
+    "metadata": {
+      "width": 710,
+      "height": 1653,
+      "aspectRatio": "710:1653",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_interaction_surface_v1.png",
+    "metadata": {
+      "width": 1170,
+      "height": 1625,
+      "aspectRatio": "18:25",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_conversational_open_hand_v1.png",
+    "metadata": {
+      "width": 852,
+      "height": 1743,
+      "aspectRatio": "284:581",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_interaction_surface_v1.png",
+    "metadata": {
+      "width": 887,
+      "height": 1744,
+      "aspectRatio": "887:1744",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_front_a_v1.png",
+    "metadata": {
+      "width": 675,
+      "height": 1740,
+      "aspectRatio": "45:116",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_front_b_v1.png",
+    "metadata": {
+      "width": 646,
+      "height": 1742,
+      "aspectRatio": "323:871",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_three_quarter_v1.png",
+    "metadata": {
+      "width": 581,
+      "height": 1693,
+      "aspectRatio": "581:1693",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_conversational_open_hand_v1.png",
+    "metadata": {
+      "width": 832,
+      "height": 1629,
+      "aspectRatio": "832:1629",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_front_neutral_v1.png",
+    "metadata": {
+      "width": 663,
+      "height": 1664,
+      "aspectRatio": "51:128",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_interaction_surface_v1.png",
+    "metadata": {
+      "width": 928,
+      "height": 1632,
+      "aspectRatio": "29:51",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_conversational_open_hand_v1.png",
+    "metadata": {
+      "width": 835,
+      "height": 1738,
+      "aspectRatio": "835:1738",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_interaction_surface_v1.png",
+    "metadata": {
+      "width": 796,
+      "height": 1738,
+      "aspectRatio": "398:869",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_front_a_v1.png",
+    "metadata": {
+      "width": 786,
+      "height": 1739,
+      "aspectRatio": "786:1739",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_front_b_v1.png",
+    "metadata": {
+      "width": 751,
+      "height": 1738,
+      "aspectRatio": "751:1738",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_three_quarter_v1.png",
+    "metadata": {
+      "width": 605,
+      "height": 1664,
+      "aspectRatio": "605:1664",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_conversational_open_hand_v1.png",
+    "metadata": {
+      "width": 848,
+      "height": 1628,
+      "aspectRatio": "212:407",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_front_neutral_v1.png",
+    "metadata": {
+      "width": 669,
+      "height": 1720,
+      "aspectRatio": "669:1720",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_interaction_surface_v1.png",
+    "metadata": {
+      "width": 1081,
+      "height": 1638,
+      "aspectRatio": "1081:1638",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_conversational_open_hand_v1.png",
+    "metadata": {
+      "width": 865,
+      "height": 1705,
+      "aspectRatio": "173:341",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_interaction_surface_v1.png",
+    "metadata": {
+      "width": 840,
+      "height": 1729,
+      "aspectRatio": "120:247",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_front_a_v1.png",
+    "metadata": {
+      "width": 880,
+      "height": 1702,
+      "aspectRatio": "440:851",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_front_b_v1.png",
+    "metadata": {
+      "width": 754,
+      "height": 1702,
+      "aspectRatio": "377:851",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_three_quarter_v1.png",
+    "metadata": {
+      "width": 650,
+      "height": 1735,
+      "aspectRatio": "130:347",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_conversational_open_hand_v1.png",
+    "metadata": {
+      "width": 851,
+      "height": 1623,
+      "aspectRatio": "851:1623",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_front_neutral_v1.png",
+    "metadata": {
+      "width": 635,
+      "height": 1642,
+      "aspectRatio": "635:1642",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_interaction_surface_v1.png",
+    "metadata": {
+      "width": 861,
+      "height": 1635,
+      "aspectRatio": "287:545",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_conversational_open_hand_v1.png",
+    "metadata": {
+      "width": 787,
+      "height": 1713,
+      "aspectRatio": "787:1713",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_interaction_surface_v1.png",
+    "metadata": {
+      "width": 764,
+      "height": 1709,
+      "aspectRatio": "764:1709",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_front_a_v1.png",
+    "metadata": {
+      "width": 676,
+      "height": 1703,
+      "aspectRatio": "52:131",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_front_b_v1.png",
+    "metadata": {
+      "width": 614,
+      "height": 1706,
+      "aspectRatio": "307:853",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_three_quarter_v1.png",
+    "metadata": {
+      "width": 566,
+      "height": 1658,
+      "aspectRatio": "283:829",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-01.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1557,
+      "aspectRatio": "1280:1557",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-02.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-03.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-04.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-05.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1677,
+      "aspectRatio": "1280:1677",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-06.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1677,
+      "aspectRatio": "1280:1677",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-07.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-08.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-09.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-10.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-11.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-12.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-13.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-14.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1707,
+      "aspectRatio": "1280:1707",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "qa/p95-recent-drive-sweep/drive-visual-review/page-15.png",
+    "metadata": {
+      "width": 1280,
+      "height": 1000,
+      "aspectRatio": "32:25",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png",
     "metadata": {
       "width": 765,
@@ -1376,6 +2636,206 @@
       "height": 1024,
       "aspectRatio": "765:1024",
       "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/recent-drive-sweep/source-images/fat man.png",
+    "metadata": {
+      "width": 5056,
+      "height": 3392,
+      "aspectRatio": "79:53",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/recent-drive-sweep/source-images/female top.png",
+    "metadata": {
+      "width": 3584,
+      "height": 4800,
+      "aspectRatio": "56:75",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/recent-drive-sweep/source-images/IMG_5189.JPG",
+    "metadata": {
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/recent-drive-sweep/source-images/IMG_5190.JPG",
+    "metadata": {
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/recent-drive-sweep/source-images/IMG_5192.PNG",
+    "metadata": {
+      "width": 5056,
+      "height": 3392,
+      "aspectRatio": "79:53",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/recent-drive-sweep/source-images/IMG_5202.JPG",
+    "metadata": {
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/recent-drive-sweep/source-images/IMG_5203.PNG",
+    "metadata": {
+      "width": 5632,
+      "height": 3072,
+      "aspectRatio": "11:6",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/recent-drive-sweep/source-images/IMG_5204.JPG",
+    "metadata": {
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/recent-drive-sweep/source-images/IMG_5205.JPG",
+    "metadata": {
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/recent-drive-sweep/source-images/IMG_5207.JPG",
+    "metadata": {
+      "width": 5504,
+      "height": 3072,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/recent-drive-sweep/source-images/male bottom.png",
+    "metadata": {
+      "width": 3584,
+      "height": 4800,
+      "aspectRatio": "56:75",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/recent-drive-sweep/source-images/male tops.png",
+    "metadata": {
+      "width": 3584,
+      "height": 4800,
+      "aspectRatio": "56:75",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/recent-drive-sweep/source-images/shoes.png",
+    "metadata": {
+      "width": 4336,
+      "height": 5804,
+      "aspectRatio": "1084:1451",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/recent-drive-sweep/source-images/skinny man.png",
+    "metadata": {
+      "width": 5056,
+      "height": 3392,
+      "aspectRatio": "79:53",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/recent-drive-sweep/source-images/supplies.png",
+    "metadata": {
+      "width": 5516,
+      "height": 3008,
+      "aspectRatio": "1379:752",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/wave-a-morphology/source-sheets/additional fat female pose.png",
+    "metadata": {
+      "width": 4352,
+      "height": 3904,
+      "aspectRatio": "68:61",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/wave-a-morphology/source-sheets/average man.png",
+    "metadata": {
+      "width": 5056,
+      "height": 3392,
+      "aspectRatio": "79:53",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/wave-a-morphology/source-sheets/average woman.png",
+    "metadata": {
+      "width": 5056,
+      "height": 3392,
+      "aspectRatio": "79:53",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/wave-a-morphology/source-sheets/older woman.png",
+    "metadata": {
+      "width": 5056,
+      "height": 3392,
+      "aspectRatio": "79:53",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "references/candidates/wave-a-morphology/source-sheets/skinny woman.png",
+    "metadata": {
+      "width": 5056,
+      "height": 3392,
+      "aspectRatio": "79:53",
+      "hasTransparency": "confirmed"
     },
     "meetsTransparencyReq": null
   },

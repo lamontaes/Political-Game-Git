@@ -2,6 +2,15 @@ import { useMemo, useRef, type CSSProperties, type ReactNode } from "react";
 
 import { SCENE_REGISTRY } from "../presentation/scene-registry";
 import type { PlacedScenePerson } from "../presentation/life-scene-people";
+import {
+  bindSceneSurfaces,
+  dynamicSurfacePayloads,
+} from "../presentation/surface-binding";
+import {
+  EMPTY_SURFACE_PROJECTION,
+  type DynamicSurfaceProjection,
+} from "../presentation/surface-projection";
+import { SceneSurfaceLayer } from "./SceneSurfaceLayer";
 import { PRODUCTION_VISUAL_LIBRARY } from "../presentation/visual-integration";
 import { useRasterTier } from "./useRasterTier";
 import { useSceneCoverTransform } from "./useSceneTransform";
@@ -25,9 +34,17 @@ import { useSceneCoverTransform } from "./useSceneTransform";
 export function SceneBackdrop({
   sceneId,
   people = [],
+  surfaces = EMPTY_SURFACE_PROJECTION,
   children,
 }: {
   readonly sceneId: string | null;
+  /**
+   * What this world can honestly put on the room's declared surfaces.
+   *
+   * Defaulted to the empty projection so a caller that has not decided yet
+   * gets a room with its painted decoration, never an invented one.
+   */
+  readonly surfaces?: DynamicSurfaceProjection;
   /**
    * The generated people standing in this room, positioned by the registry's
    * own anchors. They paint in the plate's coordinate space, above the plate
@@ -67,6 +84,11 @@ export function SceneBackdrop({
   );
 
   const painted = Boolean(tier.paintedUrl);
+  const bindings = useMemo(
+    () =>
+      scene ? bindSceneSurfaces(scene, dynamicSurfacePayloads(surfaces)) : [],
+    [scene, surfaces],
+  );
 
   return (
     <div
@@ -101,6 +123,13 @@ export function SceneBackdrop({
               alt=""
               draggable="false"
               data-testid="scene-backdrop-plate"
+            />
+          ) : null}
+          {painted ? (
+            <SceneSurfaceLayer
+              slots={scene?.surfaceSlots ?? []}
+              bindings={bindings}
+              plate={plate}
             />
           ) : null}
         </div>
