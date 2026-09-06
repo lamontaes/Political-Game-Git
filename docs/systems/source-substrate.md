@@ -208,3 +208,26 @@ npm run source:acquire -- --domain acs-pums --survey-year 2024 --state-usps WY -
 It writes the shard-specific lock declared by the acquisition factory and
 cache-only bytes. The USPS/FIPS pairing is a caller-supplied source identity;
 the code validates its shape and does not maintain an invented state crosswalk.
+
+## Civil service and public-sector labor profiles
+
+`civil-service-labor` is a source-only, headless domain. It emits one
+`CivilServiceLaborRecord` for the federal government and each of the fifty
+states. Each record holds distinct `CivilServiceProfile` and
+`LaborBargainingProfile` identities; this complete identity envelope is not a
+claim that the facts inside every profile are complete.
+
+The first production wave compiles independently verified federal, Alaska,
+Minnesota, and Nebraska fields. A fact is `KNOWN` only when its declaration's
+literal excerpt remains in a locked official artifact. State web captures are
+opened through a pinned government-edict boundary, so the compiler receives
+only the declared enacted text. Kentucky remains `UNKNOWN` because the
+publisher returned PDF bytes that this domain's enacted-text parser does not
+support. Illinois and the other unsupported states likewise remain valueless
+`UNKNOWN`; the research dossier is a retrieval map and is never evidence.
+
+The types stop at legal substrate: service classification, appointment and
+removal protection, appeal body, local mandate, bargaining coverage and scope,
+management rights, impasse, and strike restriction. They contain no grievance
+workflow, deadline engine, arbitrator-selection simulation, score, ranking,
+World adapter, or player surface.

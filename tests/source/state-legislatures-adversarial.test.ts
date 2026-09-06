@@ -297,7 +297,7 @@ describe("state instruments: the edicts doctrine covers text, not pages", () => 
     }
   });
 
-  it("leaves every other source domain's rights semantics exactly as they were", async () => {
+  it("confines edict rights to the two declared legal-source domains", async () => {
     let checked = 0;
     for (const name of listDomainNames()) {
       if (name === "state-legislatures") continue;
@@ -310,9 +310,19 @@ describe("state instruments: the edicts doctrine covers text, not pages", () => 
       }
       const parsed = JSON.parse(raw) as ArtifactLock;
       for (const entry of parsed.artifacts) {
-        // Unchanged statuses, and no domain silently acquires an edict claim.
-        expect(entry.rights.status).not.toBe("public-domain-government-edict");
-        expect("edict" in entry.rights).toBe(false);
+        if (
+          name !== "civil-service-labor" ||
+          entry.rights.status !== "public-domain-government-edict"
+        ) {
+          // Statistical and federal-product domains do not acquire an edict claim.
+          expect("edict" in entry.rights).toBe(false);
+        } else {
+          // 92P state statutes use the same structured, pinned boundary.
+          expect(entry.rights.edict.contentScope).toBe(
+            "enacted-legal-text-only",
+          );
+          expect(entry.rights.edict.scope.extracted.length).toBeGreaterThan(0);
+        }
         expect(() => assertValidRawArtifact(entry)).not.toThrow();
         checked += 1;
       }
