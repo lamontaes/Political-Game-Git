@@ -1986,3 +1986,119 @@ records. The inspector remains a development route at `?view=causal-trace`
 that ordinary play cannot reach, and opening, filtering, walking, comparing and
 exporting leave the world's canonical serialization, content hash and append
 frontier identical.
+
+## D-076 — Authored content is described by a declarative bank contract, not re-authored
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: renumbered from D-075 on merge of accepted main (PR #84), whose
+  source-substrate decision holds D-074 and whose causal-tracing decision holds
+  D-075; the architecture is unchanged, only the identifier.
+
+The game's authored content lives in the modules that run it: formative
+situations in `character-history.ts`, conversation subjects in
+`conversation-subjects.ts`, the ordinary week in `ordinary-life.ts`, measures in
+`legislation-scenarios.ts`, institutional procedure in
+`legislature-rule-packs.ts`, and the personality, policy, metric, causal,
+incident and mortality definitions in their own catalogs. Each describes itself
+in its own vocabulary, which is correct for the code that runs it and useless
+for reviewing what the game contains.
+
+`src/content/` describes that content and does not re-author it. Adapters read
+banks that already exist; the banks keep their own shapes, their own stable
+keys, and their authority over what they mean. A bank id is a stable dotted
+content key checked with the existing `assertDottedContentKey`; an item id is
+`${bankId}/${itemKey}` where `itemKey` is exactly the key the source bank
+already uses, because renaming existing content to satisfy an index would be
+the index changing the game.
+
+Rejected: migrating the banks into one authored content format. That would
+rewrite content this lane does not own, and would make the index the source of
+truth for content whose truth lives in the modules that run it.
+
+Rejected: a second selection or orchestration engine over the index. Selection
+stays where it already is. The index holds no world, evaluates no eligibility,
+and cannot change anything.
+
+Every dimension is either declared by the bank or explicitly undeclared with
+the reason it is. There is no third state and no default, because an index that
+quietly invents a prerequisite reviews as fact. The test is what the SOURCE
+declares, never what runtime code could compute: a value a function could work
+out from a world is undeclared here, because the bank did not write it down.
+Formative eligibility is a predicate over a world in
+`formativeEligibilityProvider`; a conversation subject's intents come from
+`availableIntents(world, room, addressee, progress, …)`; the ordinary week's
+gate is `ordinaryLifeAvailableFor` asking `formativeIntervalAt`, and everything
+else about an ordinary work item is written by `openOrdinaryLife` from a world
+at creation time. All of those are findings rather than gaps. An episode
+stage's `requires`, by contrast, IS data — every `EpisodeRequirement` names a
+role, an age, a capability, a fact key or an earlier stage — so it is read and
+transcribed under each kind's own vocabulary. Reading a requirement is not
+evaluating one, and nothing here builds a world to do so.
+
+Each field means one thing and is used for only that thing, and a fact the bank
+declares once is reported once. A prerequisite gates; a required canonical fact
+is a record a world must show; an option is a bounded choice offered to
+somebody; a follow-up is somewhere the content leads; a role is a part somebody
+plays. Structure a bank declares about the thing it describes — a legislature's
+chambers and floor stages, its members and its executive office, a measure's
+authored member decisions and the disposition its executive is written to take,
+which rule pack and jurisdiction a measure belongs to, a questionnaire item's
+assumed relationships and settings, a conversation subject's commit vocabulary —
+is none of those, and has its own name rather than being pushed into whichever
+facet had a free slot. Citations are provenance, because that is what a citation
+is. Unresolved research is unresolved research. Life stages are a set, so a bank
+that bands an item into several keeps it declared and keeps it findable under
+each; collapsing a band set to "undeclared" said the bank was silent about the
+one thing it had gone to the trouble of writing down.
+
+The test is whether the SOURCE declares the concept, never whether the concept
+is true or whether runtime code could produce it. A questionnaire's relationship
+and setting assumptions are declared, but the source says outright they "cannot
+be checked against records" — so they are declared structure, not required
+facts, because required facts are records a world must show and the questionnaire
+runs before any world exists. A measure's sponsor is introduced by the scenario
+builder at construction time; the blueprint declares no sponsor field, so no
+sponsor role is reported. A rule pack's members and executive are institutional
+participants the pack defines, not a ContentRole list it authored, so roles is
+undeclared and the institution is declared structure. Which rule pack and
+jurisdiction a measure runs through are intrinsic to what the measure is, not
+gates that must independently become true, so they are structure and not
+prerequisites. And one declaration is reported once: a formative situation's
+band is its life stage and nothing else, while an episode stage's age bound is a
+declared requirement and so a prerequisite and not a life stage, because an
+arbitrary age is not a named band.
+
+Authority and status are read from the repository, not invented. Legislative
+rule packs are `sourced` and carry their citations, retrieval dates and
+verification statuses through into the index. Situations, subjects, the ordinary
+week and the measures are `authored` — the measures keep the notice that says
+the procedure is sourced and the bill is not real. The synthetic catalogs are
+`synthetic-fixture` and `excluded-from-production`, which is what
+`assertProductionCatalogBoundary` already enforces. The production catalogs are
+`unestablished` and appear in the index as an empty bank, because "nothing has
+been established here" is a fact about the game and belongs in a review surface
+rather than being absent from it.
+
+Nothing counts. No test and no surface asserts how much content exists, so
+authoring one more situation is never a failure, and a bank registered later is
+one adapter and one line.
+
+Both exports are deterministic. The JSON goes through `canonicalJson` for the
+same reason a world snapshot does — key order is not content — and both carry a
+content digest so two reports can be compared. An export that changed between
+two identical runs could not be diffed, and a diff is what a reviewer does with
+one.
+
+The Content Browser is a development route at `?view=content`, alongside the
+developer viewer, the character proof, the legislation workspace and the office
+fixture. Nothing player-facing links to it or imports it, and tests assert both
+the route and the one-way dependency.
+
+Consequence: what the game has written down can be read, searched and exported
+without opening the game or building a world, and Packet 60 section O's
+declarative content-bank and Content Browser obligations are discharged here
+rather than rebuilt. Extracting declarative metadata from `run-b-conversation`'s
+dialogue and from the Run-C working document remains deliberately unimplemented:
+both are world- and state-dependent renderings, not banks.

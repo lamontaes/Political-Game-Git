@@ -1674,6 +1674,20 @@ const SITUATIONS: readonly AvailableLifeSituation[] = AUTHORED_SITUATIONS.map(
   }),
 );
 
+/**
+ * Every authored formative situation, whether or not any particular life can
+ * currently reach one.
+ *
+ * `availableLifeSituations` answers a different question — what this person,
+ * in this band, with or without somebody beside them, can be offered right now
+ * — and it is the only question play needs. Review needs the other one: what
+ * has been written at all. Both read the same array, so the reviewed bank and
+ * the played bank cannot drift apart.
+ */
+export function lifeSituationCatalog(): readonly AvailableLifeSituation[] {
+  return SITUATIONS;
+}
+
 export function availableLifeSituations(
   world: World,
   input: {
