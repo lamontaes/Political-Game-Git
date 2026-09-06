@@ -1,0 +1,94 @@
+{
+  "asOf": "2026-09-06",
+  "canonicalSha256": "857a38e3adec0b13c973560672ffbe2d272e298d4f2d8c04412e06afe621769a",
+  "compiler": {
+    "name": "state-legislatures",
+    "version": "1.0.0"
+  },
+  "corpusId": "state-legislatures",
+  "coverage": {
+    "boundedSampleReason": null,
+    "isCompleteUniverse": true,
+    "universeDescription": "The fifty United States, one identity record each. Facts inside a record are KNOWN only where a locked state instrument states them; a state whose authority could not be retrieved carries UNKNOWN values and a gap naming the obstacle."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "ak-constitution",
+      "sha256": "d72b68a640262aad7c25d7906741bda4ee19aef529a3a4cb896580570d63d476"
+    },
+    {
+      "artifactId": "ca-constitution-article-4",
+      "sha256": "233b020b79d211bdd6e6c465c93389d7b24e7617260f08379aacb9c5b75d1123"
+    },
+    {
+      "artifactId": "de-constitution-article-2",
+      "sha256": "f7920b5fbae62dfb17e353d1bc088b044b1d370c5426919c9dff7f88c067dbb6"
+    },
+    {
+      "artifactId": "fl-constitution",
+      "sha256": "cd56710740c0ff6e7595384afd7b12745c19ee28f44abbad8a32a20e4f4d82db"
+    },
+    {
+      "artifactId": "hi-constitution",
+      "sha256": "d9a7b4af7ae2cc6c0ddb4ccf54e2f5d392d2962a1205dc5076e56cc793cd97e3"
+    },
+    {
+      "artifactId": "id-constitution-article-3-section-2",
+      "sha256": "767b379ed8a16fdd2e007bb4d688bce5b855ffcc98006e1ee84c2d84f56fdea2"
+    },
+    {
+      "artifactId": "il-constitution-article-4",
+      "sha256": "59c10c5dd47c9cec1a85b8793283f2b3d2cf04f4a883bcb6d8dbc16b2eb15198"
+    },
+    {
+      "artifactId": "ma-constitution",
+      "sha256": "d78569b99a5fb26a60c6291653389df991d9db257925958cc321de71bf8f64e6"
+    },
+    {
+      "artifactId": "mn-constitution",
+      "sha256": "6bfe2bc1b70379d84df07ea00d6c5c516f1ba4388bd941662c2c5c7a0b834254"
+    },
+    {
+      "artifactId": "mn-statutes-2-021",
+      "sha256": "40af850248d0d5cfee25cd4722d850ee29baa2e592a8d9e1bc6f44a0e4c45da4"
+    },
+    {
+      "artifactId": "nc-constitution-article-2",
+      "sha256": "facc48e54c1544892470d18296ed5a2b8b3e74c814d8ad471cec9876ba829bf2"
+    },
+    {
+      "artifactId": "ne-constitution-article-3-section-1",
+      "sha256": "4f22c94908b3bad7bde72e9c49466fbdc25092ed13450825889bd2f8fbb211dc"
+    },
+    {
+      "artifactId": "ne-constitution-article-3-section-6",
+      "sha256": "03a182b167c35d66ebae79f1e23a1b38c496aa690c99f99594f68865c67998c3"
+    },
+    {
+      "artifactId": "nv-constitution",
+      "sha256": "726067b645f47709f00c2cf23ee6a514f7fc64381fd6c1f6eb0b1f48b31c51cc"
+    },
+    {
+      "artifactId": "oh-constitution-article-2",
+      "sha256": "8180d526a21c7c0f68b2bfa5fe049a9e26ee929471e21318595c260d873e9608"
+    },
+    {
+      "artifactId": "or-constitution",
+      "sha256": "25e2dfcc84c3fbd851f6dff028abd7114888607985ea6ea74252e758bc7f3673"
+    },
+    {
+      "artifactId": "va-constitution-article-4-section-3",
+      "sha256": "1b8f02691393f9a5459a40f37dfd5c7f1b27b60d7cbb5c869a4c0528544fbd0f"
+    },
+    {
+      "artifactId": "va-constitution-article-4-section-2",
+      "sha256": "7290f58d4cc5f74d21cf6d1f326922123901286f7b39cba2bd02239c7625dd34"
+    }
+  ],
+  "parser": {
+    "name": "state-instrument-transcription",
+    "version": "1.0.0"
+  },
+  "recordCount": 50
+}
