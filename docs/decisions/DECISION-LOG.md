@@ -2165,9 +2165,20 @@ purpose; this bridge adds a separate versioned state-shard interface.
 Introduce `src/simulation/executive-authority-rules.ts` (the contract, readers
 and integrity validator) and `src/simulation/executive-authority-rule-packs.ts`
 (the jurisdiction data) as a data-and-readers substrate for executive powers and
-constraints, alongside the legislative rule packs. It reuses the legislature
-contract's `RuleValue` known / unknown / not-applicable semantics and sources
-every value.
+constraints, alongside the legislative rule packs. It composes with the
+legislature contract's shared `RuleValue` algebra but locally narrows that
+algebra through `ExecutiveRuleValue<T>` to `known | unknown`. A `known` value is
+source-bearing; an unresolved value stays `unknown` rather than claiming that a
+concept does not exist. The legislature's own three-state `RuleValue` semantics
+remain unchanged.
+
+The executive-authority substrate categorically rejects `not-applicable` before
+accessing its note. The shared shape carries only free text for that state, so a
+citation-shaped note cannot establish affirmative sourced inapplicability and
+must not be interpreted as evidence. If executive authority later needs a
+`not-applicable` state, it requires a distinct source-bearing representation
+approved as an architecture contract; widening the existing note-only shape is
+not sufficient.
 
 Bill-presentment facts — presentment, action windows, inaction outcome,
 line-item veto and override — are NOT restated. They remain owned by
@@ -2245,15 +2256,20 @@ Integrity hardening (R2 repair, same PR #101 branch, no new claim): the
 contract's runtime boundary was tightened so it fails closed rather than open,
 without changing any sourced row.
 
-- `assertRuleValue` now holds each `RuleValue` to its exact shape. A `known`
-  value must carry a value and a pinpointed source and nothing else; an
-  `unknown` may carry only its note (an "unknown" smuggling a value is
-  rejected); and a `not-applicable` is an affirmative, sourced determination —
-  its note must cite the provision that establishes inapplicability, so silence
-  can never be read as `not-applicable`. The three enumerated fields (branch
+- `assertRuleValue` now holds each locally admitted `RuleValue` to its exact
+  shape. A `known` value must carry a value and a pinpointed source and nothing
+  else, while an `unknown` may carry only its note (an "unknown" smuggling a
+  value is rejected). A `not-applicable` is rejected categorically before its
+  note is accessed: citation-shaped free text is not a source-bearing
+  determination and cannot turn silence into a claim that a concept does not
+  exist. A future executive `not-applicable` representation requires a distinct
+  source-bearing architecture contract. The three enumerated fields (branch
   structure, removal mode, clemency model) are checked against their closed
   domains at runtime, so an invalid enum fails at validation, not only at
   compile time.
+- This narrowing is local to executive authority. The legislature's shared
+  `RuleValue`, `notApplicableRule`, and `requireKnown` semantics remain
+  unchanged.
 - `isGenericCitation` no longer treats a bare year as a pinpoint. A citation
   such as "US CONSTITUTION 1787" is refused; a genuine locator — an article,
   section, clause, rule, statutory-code section, or a section-sign form like
@@ -2264,4 +2280,6 @@ without changing any sourced row.
   stand in for real presentment authority.
 
 Federal presentment remains `unknown`; no federal authority is invented. The
-bounded six-jurisdiction substrate and every accepted sourced row are unchanged.
+bounded six-jurisdiction substrate, all six shipped executive packs, every
+jurisdiction fact, and every accepted sourced row are unchanged by this
+documentation reconciliation.
