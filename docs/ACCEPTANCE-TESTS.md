@@ -1120,6 +1120,29 @@ skip earlier commitments, and a second blocked attempt at 11:30 cannot skip
 travel. Both rejected actions retain object identity and exact serialized
 World, and browser time/history attributes remain unchanged.
 
+### NOW-213 — ACS PUMS initializes one coherent fictional household without inventing people
+
+A declared 2024 ACS 1-year state shard consists of independently identified
+housing, person, and dictionary artifacts with cache-only paths and locked-byte
+capability checks; until those bytes and hashes exist, a visible production gate
+remains closed. The dictionary-driven compiler joins people to housing by
+`SERIALNO`, rejects orphans, duplicates, state/year/PUMA disagreement and
+household-size disagreement, preserves housing and person weights, and retains
+KNOWN, NIU, unresolved, and allocation distinctions. The checked-in corpus is
+an explicit synthetic fixture, not an empirical claim.
+
+Whole-household selection is identical for the same world seed, state,
+corpus/version, and constraints, varies across seeds, uses exact positive
+integer household weights, and never assembles people from independent
+marginals. The one-way adapter binds every donor person to a supplied fictional
+identity and uses ordinary character-history writers for the household,
+memberships, dictionary-supported relationships, dwelling, occupancy, and
+tenure. Age is a consistency check; source sex never changes identity; PUMA is
+not an exact place; unsupported school/work facts remain auditable rather than
+inventing institutions. No event, memory, belief, personality, education, or
+work record appears as a side effect, no raw `SERIALNO` enters `World`, and the
+result round-trips through the existing snapshot codec.
+
 ## Manual Now
 
 The visual statements below are independent human acceptance checks. They are
