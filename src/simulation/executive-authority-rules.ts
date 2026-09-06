@@ -340,6 +340,61 @@ export function isPluralExecutive(pack: ExecutiveAuthorityRulePack): boolean {
 // Validation
 // ---------------------------------------------------------------------------
 
+/**
+ * Citation shapes that name an instrument without pinpointing anything inside
+ * it. A source like "<State> Const. executive article" or "<State> Const. veto
+ * section" reads like evidence and is not: it identifies a body of law, not the
+ * operative provision that would establish a specific rule for a specific
+ * office. A `known` value resting on one of these is unfalsifiable, so the
+ * contract refuses it at the seam rather than leaving it to review.
+ */
+const GENERIC_CITATION_PATTERNS: readonly RegExp[] = [
+  /\bexecutive\s+article\b/i,
+  /\bveto\s+section\b/i,
+  /\bsuccession\s+clause\b/i,
+  /\bexecutive\s+section\b/i,
+  /\bgenerally\b/i,
+  /\bvarious\b/i,
+  /\bpassim\b/i,
+];
+
+/**
+ * The shapes a real pinpoint takes: a provision word or section sign followed
+ * by the provision's own number ("Art. II, Sec. 3", "Sec. 88", "ch. 10A"), or a
+ * statutory code abbreviation carrying one ("KRS 117.015(2)", "10 ILCS 5/1A-1").
+ * A citation matching none of these names an instrument, not a provision.
+ */
+const PINPOINT_PATTERNS: readonly RegExp[] = [
+  /(?:§|\b(?:sec|section|art|article|cl|clause|rule|ch|chapter|title|para|paragraph)\b\.?)\s*[0-9IVXLCDM]/i,
+  /\b[A-Z]{2,}\b[^\n]*\d/,
+];
+
+/**
+ * True where a citation identifies no pinpoint provision — either because it
+ * matches a known generic template, or because it carries no section, article,
+ * clause or page number at all. Exported so a caller can check a citation
+ * before building a rule from it.
+ */
+export function isGenericCitation(citation: string): boolean {
+  const trimmed = citation.trim();
+  if (trimmed.length === 0) {
+    return true;
+  }
+  if (GENERIC_CITATION_PATTERNS.some((pattern) => pattern.test(trimmed))) {
+    return true;
+  }
+  return !PINPOINT_PATTERNS.some((pattern) => pattern.test(trimmed));
+}
+
+function assertPinpointedSource(source: RuleSourceRef, label: string): void {
+  assertSourceRef(source, label);
+  if (isGenericCitation(source.citation)) {
+    throw new Error(
+      `${label} rests on a citation with no pinpoint provision ('${source.citation}'); a known rule must name the operative provision it comes from.`,
+    );
+  }
+}
+
 function assertRuleValue<T>(
   value: RuleValue<T>,
   label: string,
@@ -349,7 +404,7 @@ function assertRuleValue<T>(
     throw new Error(`${label} must be a rule value.`);
   }
   if (value.kind === "known") {
-    assertSourceRef(value.source, label);
+    assertPinpointedSource(value.source, label);
     validate?.(value.value);
     return;
   }

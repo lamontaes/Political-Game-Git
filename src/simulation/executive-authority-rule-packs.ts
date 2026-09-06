@@ -2,8 +2,10 @@ import {
   knownRule,
   unknownRule,
   type RuleSourceRef,
+  type RuleValue,
   type RuleVerificationStatus,
 } from "./legislature-rules";
+import { rulePackById } from "./legislature-rule-packs";
 import type {
   ClemencyModel,
   ExecutiveAuthorityRulePack,
@@ -13,46 +15,49 @@ import type {
 } from "./executive-authority-rules";
 
 /**
- * Runtime executive-authority rule packs, compiled from completed jurisdiction
- * research. Each value cites the instrument the research resolved it from, and
- * everything the research did not resolve stays `unknown` — not zero, not
+ * Runtime executive-authority rule packs, compiled from the independently
+ * verified six-jurisdiction subset. Each value cites the instrument the
+ * verified record resolved it from, and everything that record does not
+ * resolve at the precision the field asks for stays `unknown` — not zero, not
  * absent, and never guessed.
  *
- * The corpus these packs are built from is narrower than the full slate of
- * executive powers, and the packs say so rather than papering over it:
+ * Evidence boundary, recorded because it is what constrains these packs:
  *
- * - The five state packs (Kentucky, Nebraska, Alaska, Minnesota, Illinois) are
- *   drawn from the 92A jurisdiction-authority research wave. That research
- *   resolved office identity, the separately-elected officers that make a state
- *   a plural executive, and appointment/confirmation authority. It did not
- *   research special sessions, removal, executive orders, reorganization,
- *   emergency declarations, clemency, budget submission, the administrative
- *   duty, or militia command — so every one of those stays `unknown` in every
- *   state pack. They are gaps in the research, carried forward honestly, not
- *   powers the offices lack.
+ * - The `92H` executive-governing research is complete, and it is read here as
+ *   research. It does NOT convert the national executive-authority matrix into
+ *   primary legal authority for any field.
+ * - The national 92K executive-authority matrix is REJECTED and requires
+ *   reconstruction. It is candidate/diagnostic evidence only. No row of it is
+ *   ingested here, no field is promoted to `known` on its strength, and none of
+ *   its synthetic pack identifiers appears in this module.
+ * - The five state packs (Kentucky, Nebraska, Alaska, Minnesota, Illinois) rest
+ *   on the 92A jurisdiction-authority wave, which resolved office identity and
+ *   the separately elected officers that make a state a plural executive, and —
+ *   for Alaska alone — appointment with legislative confirmation at the exact
+ *   scope of Alaska Const. Art. III, Sec. 25. It resolved nothing else. A
+ *   clause that establishes one specific appointment (a judicial vacancy, a
+ *   named board) does not establish a general appointment power, so the general
+ *   field stays `unknown` rather than being widened to fit.
+ * - The federal pack rests on the operative text of Article II of the United
+ *   States Constitution, retrieved from the National Archives transcript. Only
+ *   what that text says is `known`. There is no express executive-order clause
+ *   and no general supervisory clause in Article II, so directive authority and
+ *   supervisory authority stay `unknown` rather than being inferred from the
+ *   vesting clause. Everything that turns on federal statute rather than
+ *   Article II — removal doctrine, reorganization, the emergency-powers regime,
+ *   and the budget-submission duty — stays `unknown`.
  *
- * - The federal pack rests on the text of the United States Constitution,
- *   Article II. Its constitutional clauses (the vesting of executive power,
- *   appointment with the Senate's advice and consent, the pardon power, the
- *   duty to take care that the laws be faithfully executed, the convening
- *   power, and command of the militia when called into federal service) are
- *   carried as `known`, but their sources are marked `unresolved`: the operative
- *   text was not retrieved and verified for this pack, and no executive-branch
- *   research warehouse resolved them. Everything that turns on federal statute
- *   rather than Article II — presidential removal doctrine, agency
- *   reorganization, the emergency-powers regime, and the statutory budget duty —
- *   stays `unknown`.
- *
- * Wisconsin is named in the intended corpus but is absent here on purpose: no
- * jurisdiction-authority or executive-authority research exists for it, and this
- * pack file will not invent state-constitutional citations to fill the slot.
- * See {@link UNRESEARCHED_JURISDICTIONS}.
+ * Wisconsin is named in the intended corpus but is absent here on purpose: it
+ * is outside the verified six-jurisdiction subset and no accepted research
+ * resolves it. See {@link UNRESEARCHED_JURISDICTIONS}.
  *
  * Presentment, veto, line-item veto and override are NOT restated here. Where a
  * legislative rule pack owns those facts, this pack points at it by id through
- * its `presentment` reference (Kentucky, Nebraska and Alaska each have one);
- * where none has been compiled yet (Minnesota, Illinois, the federal
- * executive), the reference stays `unknown`.
+ * its `presentment` reference, and {@link presentmentRef} resolves that id
+ * against the live compiled registry at module load, so a reference to a pack
+ * that does not exist is impossible to write. Where no legislative pack has
+ * been compiled (Minnesota, Illinois, the federal executive), the reference
+ * stays `unknown`.
  */
 
 // ---------------------------------------------------------------------------
@@ -77,6 +82,23 @@ function source(
     verification,
     note,
   };
+}
+
+/**
+ * Builds an executive pack's presentment reference from the LIVE compiled
+ * legislative registry.
+ *
+ * The reference is not a legal fact about the jurisdiction — it is a statement
+ * that a specific compiled artifact in this repository owns presentment for
+ * this office. So it is resolved against that artifact rather than asserted:
+ * `rulePackById` throws at module load if no pack carries the id, which makes a
+ * synthetic or remembered pack identifier impossible to ship. The reference
+ * carries the referenced pack's own executive-rule source, so the evidence a
+ * reader sees is the evidence the legislative pack actually holds.
+ */
+function presentmentRef(legislativePackId: string): RuleValue<string> {
+  const legislativePack = rulePackById(legislativePackId);
+  return knownRule(legislativePack.packId, legislativePack.executive.source);
 }
 
 /**
@@ -108,30 +130,43 @@ export const UNRESEARCHED_JURISDICTIONS: readonly {
 // ---------------------------------------------------------------------------
 
 const US_CONST_TITLE = "The Constitution of the United States";
+const US_CONST_URL =
+  "https://www.archives.gov/founding-docs/constitution-transcript";
+const US_CONST_RETRIEVED = "2026-09-06";
 
-function federalArticleII(citation: string, note: string): RuleSourceRef {
+/**
+ * A clause of Article II whose operative text was retrieved from the National
+ * Archives transcript for this pack. The note carries the operative words
+ * themselves, so a reader can see exactly how far the clause reaches — and
+ * therefore where it stops.
+ */
+function federalArticleII(citation: string, operativeText: string): RuleSourceRef {
   return source(
     "constitution",
     citation,
     US_CONST_TITLE,
-    null,
-    null,
-    "unresolved",
-    `${note} Stated from the text of the United States Constitution; the operative text was not retrieved and verified for this pack, and no executive-authority research warehouse resolved it.`,
+    US_CONST_URL,
+    US_CONST_RETRIEVED,
+    "verified",
+    `Operative text: "${operativeText}"`,
   );
 }
 
-const US_ART2_S1 = federalArticleII(
-  "U.S. Const. Art. II, Sec. 1",
-  "The executive power is vested in a President of the United States, a single elected chief executive.",
+const US_ART2_S1_C1 = federalArticleII(
+  "U.S. Const. Art. II, Sec. 1, cl. 1",
+  "The executive Power shall be vested in a President of the United States of America.",
 );
-const US_ART2_S2 = federalArticleII(
-  "U.S. Const. Art. II, Sec. 2",
-  "The President is Commander in Chief; grants reprieves and pardons for offenses against the United States except in cases of impeachment; and nominates, and by and with the advice and consent of the Senate appoints, principal officers.",
+const US_ART2_S2_C1 = federalArticleII(
+  "U.S. Const. Art. II, Sec. 2, cl. 1",
+  "The President shall be Commander in Chief of the Army and Navy of the United States, and of the Militia of the several States, when called into the actual Service of the United States; ... and he shall have Power to grant Reprieves and Pardons for Offences against the United States, except in Cases of Impeachment.",
+);
+const US_ART2_S2_C2 = federalArticleII(
+  "U.S. Const. Art. II, Sec. 2, cl. 2",
+  "he shall nominate, and by and with the Advice and Consent of the Senate, shall appoint Ambassadors, other public Ministers and Consuls, Judges of the supreme Court, and all other Officers of the United States.",
 );
 const US_ART2_S3 = federalArticleII(
   "U.S. Const. Art. II, Sec. 3",
-  "The President may on extraordinary occasions convene both Houses, or either of them, and shall take care that the laws be faithfully executed.",
+  "he may, on extraordinary Occasions, convene both Houses, or either of them ... he shall take Care that the Laws be faithfully executed, and shall Commission all the Officers of the United States.",
 );
 
 const US_FEDERAL_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
@@ -141,112 +176,127 @@ const US_FEDERAL_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   office: {
     officeKey: "us-federal-president",
     title: "President",
-    branchStructure: knownRule<ExecutiveBranchStructure>("unitary", US_ART2_S1),
-    source: US_ART2_S1,
+    // The vesting clause puts the whole executive power in one elected
+    // officer, which is what makes the branch unitary.
+    branchStructure: knownRule<ExecutiveBranchStructure>(
+      "unitary",
+      US_ART2_S1_C1,
+    ),
+    source: US_ART2_S1_C1,
   },
   presentment: {
     // Presentment and the veto live in Art. I, Sec. 7, which belongs to a
     // federal legislative rule pack that has not been compiled. The reference
-    // stays unknown rather than pointing at a pack that does not exist.
+    // stays unknown rather than naming a pack that does not exist.
     legislativeRulePackId: unknownRule(
       "No federal legislative rule pack has been compiled; presentment and the veto (U.S. Const. Art. I, Sec. 7) are not yet represented as a pack this reference can resolve.",
     ),
   },
   appointment: {
-    executiveAppoints: knownRule(true, US_ART2_S2),
-    legislativeConfirmationRequired: knownRule(true, US_ART2_S2),
-    confirmingBody: knownRule("the Senate", US_ART2_S2),
-    source: US_ART2_S2,
+    executiveAppoints: knownRule(true, US_ART2_S2_C2),
+    legislativeConfirmationRequired: knownRule(true, US_ART2_S2_C2),
+    confirmingBody: knownRule("the Senate", US_ART2_S2_C2),
+    source: US_ART2_S2_C2,
   },
   removal: {
     mode: unknownRule<RemovalMode>(
-      "Presidential removal authority rests on judicial doctrine (the line running through Myers and Humphrey's Executor), not on Article II text, and was not resolved for this pack.",
+      "Presidential removal authority rests on judicial doctrine (the line running through Myers and Humphrey's Executor), not on any Article II text, and no exact operative authority for it was read for this pack.",
     ),
-    source: US_ART2_S1,
+    source: US_ART2_S1_C1,
   },
   specialSession: {
     executiveMayConvene: knownRule(true, US_ART2_S3),
     agendaLimitedToCall: unknownRule(
-      "The convening power in Art. II, Sec. 3 lets the President call Congress but does not by its text confine what Congress may then consider; whether any agenda limit applies was not resolved for this pack.",
+      "Art. II, Sec. 3 lets the President convene both Houses on extraordinary occasions and says nothing about what Congress may then consider. That silence is not a positive rule either way, so the agenda limit stays unknown.",
     ),
     source: US_ART2_S3,
   },
   executiveDirective: {
-    hasDirectiveAuthority: knownRule(true, US_ART2_S1),
-    authorityBasis: knownRule(
-      "The executive power vested by Art. II, Sec. 1 together with the duty to take care that the laws be faithfully executed (Art. II, Sec. 3); there is no express executive-order clause.",
-      US_ART2_S3,
+    // Article II contains no express executive-order or directive clause. The
+    // vesting clause and the take-care duty are general; reading a directive
+    // power out of them would be inferring a power from a generic vesting
+    // clause beyond what the operative text supports, so it stays unknown.
+    hasDirectiveAuthority: unknownRule(
+      "Article II contains no express executive-order or directive clause. Directive authority is a doctrinal and statutory question that no exact operative authority read for this pack resolves; it is not inferred from the vesting clause or the take-care duty.",
     ),
-    source: US_ART2_S1,
+    authorityBasis: unknownRule(
+      "With no express directive clause in the operative Article II text, the basis for federal directive authority is unresolved for this pack.",
+    ),
+    source: US_ART2_S1_C1,
   },
   reorganization: {
     executiveMayReorganize: unknownRule(
-      "Federal executive reorganization authority is statutory (the lapsed Reorganization Act line), not constitutional, and was not resolved for this pack.",
+      "Federal executive reorganization authority is statutory (the lapsed Reorganization Act line), not constitutional, and no exact operative statute was read for this pack.",
     ),
     legislativeDisapprovalAvailable: unknownRule(
-      "Whether a federal reorganization takes effect subject to congressional disapproval turns on the reorganization statute in force, which was not resolved for this pack.",
+      "Whether a federal reorganization takes effect subject to congressional disapproval turns on the reorganization statute in force, which was not read for this pack.",
     ),
     sunset: unknownRule(
-      "Whether federal reorganization authority sunsets turns on the reorganization statute in force, which was not resolved for this pack.",
+      "Whether federal reorganization authority sunsets turns on the reorganization statute in force, which was not read for this pack.",
     ),
-    source: US_ART2_S1,
+    source: US_ART2_S1_C1,
   },
   emergencyDeclaration: {
     executiveMayDeclare: unknownRule(
-      "Federal emergency-declaration authority is statutory (the National Emergencies Act regime), not Article II, and was not resolved for this pack.",
+      "Federal emergency-declaration authority is statutory (the National Emergencies Act regime), not Article II, and no exact operative statute was read for this pack.",
     ),
     initialDurationDays: unknownRule(
-      "The duration of a federal emergency declaration turns on the governing statute, which was not resolved for this pack.",
+      "The duration of a federal emergency declaration turns on the governing statute, which was not read for this pack.",
     ),
     extension: unknownRule(
-      "How a federal emergency declaration is extended turns on the governing statute, which was not resolved for this pack.",
+      "How a federal emergency declaration is extended turns on the governing statute, which was not read for this pack.",
     ),
     legislativeTermination: unknownRule(
-      "How Congress may terminate a federal emergency declaration turns on the governing statute, which was not resolved for this pack.",
+      "How Congress may terminate a federal emergency declaration turns on the governing statute, which was not read for this pack.",
     ),
-    source: US_ART2_S1,
+    source: US_ART2_S1_C1,
   },
   clemency: {
-    model: knownRule<ClemencyModel>("executive-sole", US_ART2_S2),
+    // The pardon power is granted to the President alone; no board appears in
+    // the operative text.
+    model: knownRule<ClemencyModel>("executive-sole", US_ART2_S2_C1),
     scope: knownRule(
-      "Reprieves and pardons for offenses against the United States, except in cases of impeachment.",
-      US_ART2_S2,
+      "Reprieves and pardons for offences against the United States, except in cases of impeachment.",
+      US_ART2_S2_C1,
     ),
-    source: US_ART2_S2,
+    source: US_ART2_S2_C1,
   },
   budgetSubmission: {
     executiveMustSubmit: unknownRule(
-      "The President's budget-submission duty is statutory (the Budget and Accounting Act line), not Article II, and was not resolved for this pack.",
+      "The President's budget-submission duty is statutory (the Budget and Accounting Act line), not Article II, and no exact operative statute was read for this pack.",
     ),
     submissionDeadline: unknownRule(
-      "The federal budget-submission deadline turns on the governing statute, which was not resolved for this pack.",
+      "The federal budget-submission deadline turns on the governing statute, which was not read for this pack.",
     ),
     source: US_ART2_S3,
   },
   administrative: {
     faithfulExecutionDuty: knownRule(true, US_ART2_S3),
-    supervisoryAuthority: knownRule(
-      "The President supervises the executive branch under the vesting of executive power (Art. II, Sec. 1) and the take-care duty (Art. II, Sec. 3).",
-      US_ART2_S3,
+    // The nearest thing Article II has to a supervisory clause is the Opinions
+    // Clause, which reaches only written opinions from department heads on
+    // their own duties. That is narrower than a general supervisory authority,
+    // so this field is not filled from it.
+    supervisoryAuthority: unknownRule(
+      "Article II grants no general supervisory clause. The Opinions Clause (Art. II, Sec. 2, cl. 1) reaches only the President's power to require written opinions from principal officers on the duties of their own offices, which does not establish general supervisory authority over the branch; the field stays unknown rather than being widened to fit.",
     ),
     source: US_ART2_S3,
   },
   pluralExecutive: [],
   guard: {
-    commandsMilitia: knownRule(true, US_ART2_S2),
+    commandsMilitia: knownRule(true, US_ART2_S2_C1),
     scope: knownRule(
-      "Commander in Chief of the Army and Navy, and of the militia of the several states when called into the actual service of the United States.",
-      US_ART2_S2,
+      "Commander in Chief of the Army and Navy of the United States, and of the Militia of the several States when called into the actual Service of the United States.",
+      US_ART2_S2_C1,
     ),
-    source: US_ART2_S2,
+    source: US_ART2_S2_C1,
   },
-  sources: [US_ART2_S1, US_ART2_S2, US_ART2_S3],
+  sources: [US_ART2_S1_C1, US_ART2_S2_C1, US_ART2_S2_C2, US_ART2_S3],
   unresolvedGaps: [
     "Presentment and the veto (Art. I, Sec. 7) belong to a federal legislative pack that has not been compiled.",
     "Presidential removal doctrine is unresolved.",
-    "Whether the convening power limits Congress's agenda is unresolved.",
+    "Whether the convening power limits Congress's agenda is unresolved; Article II is silent, and silence is not a rule.",
+    "Federal directive/executive-order authority and general supervisory authority are unresolved: Article II has no express clause for either, and neither is inferred from the vesting clause.",
     "Statutory reorganization, emergency-powers, and budget-submission regimes are unresolved.",
-    "The Article II clauses here rest on the constitutional text and were not independently retrieved and verified for this pack.",
   ],
 };
 
@@ -440,12 +490,18 @@ const KENTUCKY_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     source: KY_SEC_91,
   },
   presentment: {
-    legislativeRulePackId: knownRule("us-ky-general-assembly-v1", KY_SEC_91),
+    legislativeRulePackId: presentmentRef("us-ky-general-assembly-v1"),
   },
   appointment: {
-    executiveAppoints: knownRule(true, KY_SEC_118),
+    // Sec. 118 establishes one specific appointment — filling a judicial
+    // vacancy from a nominating commission's list. It does not establish a
+    // general power to appoint the principal officers of the branch, which is
+    // what this field asks, so the field is not filled from it.
+    executiveAppoints: unknownRule(
+      "No general appointment clause was read for Kentucky. Ky. Const. Sec. 118 establishes only appointment to a judicial vacancy from a nominating commission's list, and KRS 117.015(2) only the State Board of Elections; neither establishes a general power to appoint principal officers of the executive branch.",
+    ),
     legislativeConfirmationRequired: unknownRule(
-      "No general appointment-and-confirmation clause was resolved for Kentucky; the appointment powers the 92A research captured (judicial vacancies, the State Board of Elections) are not senate-confirmed on the record read.",
+      "No general appointment-and-confirmation clause was read for Kentucky; the specific appointments the record captures (judicial vacancies, the State Board of Elections) are not senate-confirmed on that record, which is not a general rule either way.",
     ),
     confirmingBody: unknownRule(
       "Whether and which body confirms Kentucky executive appointments was not resolved by the 92A research.",
@@ -474,8 +530,8 @@ const KENTUCKY_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   ],
   sources: [KY_SEC_91, KY_SEC_118, KY_SEC_145, KY_ELECTION_BOARD],
   unresolvedGaps: [
-    "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the 92A research and stay unknown.",
-    "Whether Kentucky executive appointments require legislative confirmation is unresolved.",
+    "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the verified record and stay unknown.",
+    "Kentucky's general appointment power, and whether appointments require legislative confirmation, are both unresolved: only specific appointments were read.",
   ],
 };
 
@@ -515,12 +571,18 @@ const NEBRASKA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     source: NE_ART4_S1,
   },
   presentment: {
-    legislativeRulePackId: knownRule("us-ne-legislature-v1", NE_ART4_S1),
+    legislativeRulePackId: presentmentRef("us-ne-legislature-v1"),
   },
   appointment: {
-    executiveAppoints: knownRule(true, NE_ART5_S21),
+    // Neb. Const. Art. IV, Sec. 10 is the provision that would establish the
+    // general appointment-and-confirmation regime, and it was not read for
+    // this pack. Art. V, Sec. 21 is judicial merit selection, a different and
+    // narrower thing, so it does not fill this field.
+    executiveAppoints: unknownRule(
+      "No general Nebraska appointment clause was read for this pack. Neb. Const. Art. V, Sec. 21 establishes only judicial merit selection from a nominating commission's list; the general appointment provision (Art. IV, Sec. 10) was not read at the precision this field requires.",
+    ),
     legislativeConfirmationRequired: unknownRule(
-      "Whether Nebraska executive appointments require legislative confirmation was not resolved by the 92A research; the appointment power it captured is judicial merit selection, which is not a confirmation.",
+      "Whether Nebraska executive appointments require legislative confirmation was not read at exact operative precision; judicial merit selection is not a confirmation and does not answer it.",
     ),
     confirmingBody: unknownRule(
       "Whether and which body confirms Nebraska executive appointments was not resolved by the 92A research.",
@@ -536,8 +598,8 @@ const NEBRASKA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   ],
   sources: [NE_ART4_S1, NE_ART5_S21],
   unresolvedGaps: [
-    "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the 92A research and stay unknown.",
-    "Whether Nebraska executive appointments require legislative confirmation is unresolved.",
+    "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the verified record and stay unknown.",
+    "Nebraska's general appointment and confirmation regime (Art. IV, Sec. 10) was not read and stays unresolved.",
   ],
 };
 
@@ -573,13 +635,6 @@ const AK_ART4_S5 = stateConst(
   null,
   "The Alaska Judicial Council nominates at least two candidates and the Governor must appoint one within forty-five days.",
 );
-const AK_SOS_MERGER = stateConst(
-  "Alaska Const. (1970 amendment)",
-  AK_CONST_TITLE,
-  null,
-  "The office of Secretary of State was merged into the Lieutenant Governor by a 1970 constitutional amendment; there is no separate Secretary of State.",
-);
-
 const ALASKA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   packId: "us-ak-governor-v1",
   jurisdictionKey: "US-AK",
@@ -594,7 +649,7 @@ const ALASKA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     source: AK_ART3_S25,
   },
   presentment: {
-    legislativeRulePackId: knownRule("us-ak-legislature-v1", AK_ART3_S25),
+    legislativeRulePackId: presentmentRef("us-ak-legislature-v1"),
   },
   appointment: {
     executiveAppoints: knownRule(true, AK_ART3_S25),
@@ -607,10 +662,10 @@ const ALASKA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   // establish that — the appointed, joint-confirmed Attorney General and the
   // absence of a Secretary of State — are recorded as gaps, not as officers.
   pluralExecutive: [],
-  sources: [AK_ART3_S25, AK_ART4_S5, AK_SOS_MERGER],
+  sources: [AK_ART3_S25, AK_ART4_S5],
   unresolvedGaps: [
-    "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the 92A research and stay unknown.",
-    "Alaska's Attorney General is appointed and confirmed by the Legislature in joint session (Art. III, Sec. 25), not elected; Alaska has no Secretary of State (1970 amendment). The branch is unitary.",
+    "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the verified record and stay unknown.",
+    "Alaska's Attorney General is appointed and confirmed by the Legislature in joint session (Art. III, Sec. 25) rather than elected, which is what makes the branch unitary here. The separate history by which the office of Secretary of State ceased to exist was not read to a pinpoint provision and is not cited as authority.",
   ],
 };
 
@@ -652,12 +707,17 @@ const MINNESOTA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     ),
   },
   appointment: {
-    executiveAppoints: knownRule(true, MN_ART6_S8),
+    // The officer class the read source covers is judges filling interim
+    // vacancies, not the principal officers of the executive branch this field
+    // describes. The field stays unknown at the general precision it asks for.
+    executiveAppoints: unknownRule(
+      "The read Minnesota sources cover only specific officer classes — judges filling interim vacancies (Minn. Const. Art. VI, Sec. 8) and one named board (Minn. Stat. ch. 10A) — not a general power to appoint the principal officers of the executive branch.",
+    ),
     legislativeConfirmationRequired: unknownRule(
-      "The 92A research did not resolve a general Minnesota confirmation requirement; it captured one board (the Campaign Finance and Public Disclosure Board, Minn. Stat. ch. 10A) whose members are confirmed by both houses, which is a specific instance rather than a general rule.",
+      "No general Minnesota confirmation requirement was read; the one captured instance (the Campaign Finance and Public Disclosure Board, Minn. Stat. ch. 10A, confirmed by both houses) is a specific board, not a general rule.",
     ),
     confirmingBody: unknownRule(
-      "Whether and which body confirms Minnesota executive appointments generally was not resolved by the 92A research.",
+      "Whether and which body confirms Minnesota executive appointments generally was not read at exact operative precision.",
     ),
     source: MN_ART6_S8,
   },
@@ -669,9 +729,10 @@ const MINNESOTA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   ],
   sources: [MN_ART5_S1, MN_ART6_S8, MN_CH_10A],
   unresolvedGaps: [
-    "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the 92A research and stay unknown.",
-    "No Minnesota legislative pack exists, so presentment/veto are not yet composable.",
-    "A general Minnesota confirmation requirement is unresolved.",
+    "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the verified record and stay unknown.",
+    "No Minnesota legislative pack exists on accepted main, so presentment/veto are not yet composable and the reference stays unknown.",
+    "Minnesota's general appointment power and confirmation requirement are both unresolved.",
+    "Minnesota clemency is unresolved. No clemency mapping is carried: the mapping that appeared in rejected national research rested on a source that does not support it.",
   ],
 };
 
@@ -721,9 +782,20 @@ const ILLINOIS_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     ),
   },
   appointment: {
-    executiveAppoints: knownRule(true, IL_ART3_S5),
-    legislativeConfirmationRequired: knownRule(true, IL_ART3_S5),
-    confirmingBody: knownRule("the Senate", IL_ART3_S5),
+    // Art. III, Sec. 5 establishes how one body — the State Board of Elections
+    // — is appointed. It is not the general appointment clause, and its
+    // advice-and-consent requirement is not the general confirmation rule.
+    // Both fields stay unknown until the general constitutional provision is
+    // read at its own precision.
+    executiveAppoints: unknownRule(
+      "No general Illinois appointment clause was read. Ill. Const. Art. III, Sec. 5 and 10 ILCS 5/1A-1 establish only how the State Board of Elections is constituted, which does not establish a general power to appoint the principal officers of the executive branch.",
+    ),
+    legislativeConfirmationRequired: unknownRule(
+      "Illinois's general confirmation requirement was not read at exact operative precision. The captured advice-and-consent fact is specific to the State Board of Elections, and no supermajority confirmation rule is carried: the three-fifths figure that appeared in rejected national research is not supported by any source read here.",
+    ),
+    confirmingBody: unknownRule(
+      "Which body confirms Illinois executive appointments generally, and on what vote, was not read at exact operative precision.",
+    ),
     source: IL_ART3_S5,
   },
   ...unresearchedStateDimensions(IL_ART5_S1),
@@ -735,9 +807,9 @@ const ILLINOIS_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   ],
   sources: [IL_ART5_S1, IL_ART3_S5, IL_ELECTION_CODE],
   unresolvedGaps: [
-    "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the 92A research and stay unknown.",
-    "No Illinois legislative pack exists, so presentment/veto are not yet composable.",
-    "The captured confirmation fact is the State Board of Elections (Senate advice and consent); a general Illinois confirmation clause was not separately resolved.",
+    "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the verified record and stay unknown.",
+    "No Illinois legislative pack exists on accepted main, so presentment/veto are not yet composable and the reference stays unknown.",
+    "The only captured confirmation fact is the State Board of Elections (Senate advice and consent). Illinois's general confirmation clause and its vote requirement are unresolved; no three-fifths rule is carried.",
   ],
 };
 

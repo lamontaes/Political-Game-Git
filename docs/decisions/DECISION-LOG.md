@@ -2103,9 +2103,9 @@ rather than rebuilt. Extracting declarative metadata from `run-b-conversation`'s
 dialogue and from the Run-C working document remains deliberately unimplemented:
 both are world- and state-dependent renderings, not banks.
 
-## D-077 — Executive authority is a referenced rule substrate, populated only to researched depth
+## D-078 — Executive authority is a referenced rule substrate, populated only to independently verified depth
 
-- Date: 2026-09-05
+- Date: 2026-09-06
 - Status: ACCEPTED
 - Supersedes: none
 
@@ -2118,36 +2118,62 @@ every value.
 
 Bill-presentment facts — presentment, action windows, inaction outcome,
 line-item veto and override — are NOT restated. They remain owned by
-`LegislativeRulePack.executive`, and an executive pack references the legislative
-pack by id; `resolvePresentmentAuthority` resolves them from that pack and fails
-closed when no pack is referenced. No second copy of the veto exists.
+`LegislativeRulePack.executive`, and an executive pack references the
+legislative pack by id. That reference is built by `presentmentRef`, which
+resolves the id against the live compiled registry at module load, so a pack
+cannot reference a legislative pack that does not exist and a synthetic
+presentment identifier cannot be written at all. `resolvePresentmentAuthority`
+returns the referenced pack's own `ExecutiveRule` object and fails closed where
+no pack is referenced. No second copy of the veto exists.
 
-Corpus boundary, recorded because it constrains what the packs may claim:
+Evidence boundary, recorded because it constrains what these packs may claim:
 
-- The intended `92H` executive-governing research packet does not exist in the
-  Drive chain, and no federal-executive or Wisconsin executive research exists.
-  Confirmed by direct search, not assumed.
-- The five state packs (KY, NE, AK, MN, IL) are built from the 92A
-  jurisdiction-authority wave, which resolved only office identity, the
-  separately-elected officers, and appointment/confirmation authority. The other
-  nine dimensions (removal, special session, executive orders, reorganization,
-  emergency declaration, clemency, budget submission, administrative duty,
-  militia command) stay `unknown` in every state pack.
-- The federal pack rests on U.S. Constitution Article II. Its clauses are
-  `known` but their sources are marked `unresolved`: the operative text was not
-  independently retrieved for this pack. Federal statutory dimensions stay
+- The `92H` executive-governing research is complete. It is read here as
+  research, and it does NOT convert rows of the national executive-authority
+  matrix into primary legal authority for any field.
+- The national `92K` executive-authority matrix is REJECTED and requires
+  reconstruction. It is candidate/diagnostic evidence only. No row of it is
+  ingested, no field is promoted to `known` on its strength, and none of its
+  synthetic pack identifiers appears anywhere in this substrate.
+- The five state packs (KY, NE, AK, MN, IL) rest on the 92A
+  jurisdiction-authority wave, which resolved office identity, the separately
+  elected officers that make a state a plural executive, and — for Alaska alone
+  — appointment with legislative confirmation at the exact scope of Alaska
+  Const. Art. III, Sec. 25. Everything else stays `unknown`.
+- A clause establishing one specific appointment — a judicial vacancy, a named
+  board — does not establish a general power to appoint the principal officers
+  of the branch. Kentucky, Nebraska, Minnesota and Illinois therefore hold the
+  general appointment field `unknown` rather than widening a specific clause to
+  fit it. Illinois's confirmation requirement and confirming body are `unknown`
+  for the same reason, and no supermajority confirmation rule is carried.
+- The federal pack rests on the operative text of U.S. Constitution Article II,
+  retrieved from the National Archives transcript and cited at clause precision.
+  Article II has no express executive-order clause and no general supervisory
+  clause, so directive authority and supervisory authority stay `unknown` rather
+  than being inferred from the vesting clause. Federal statutory dimensions —
+  removal doctrine, reorganization, emergency powers, budget submission — stay
   `unknown`.
-- Wisconsin is deliberately not packed. Building it would require inventing
-  state-constitutional citations, which this repository does not do. It is
-  carried as an explicit gap in `UNRESEARCHED_JURISDICTIONS`.
+- Wisconsin is deliberately not packed; it is carried as an explicit gap in
+  `UNRESEARCHED_JURISDICTIONS`.
 
-Rejected alternatives: fabricating federal, Wisconsin, or the nine unresearched
-state dimensions from model knowledge to fill the intended corpus (violates the
-no-fabricated-sourcing rule); and adding the 92H product ideas that are not
-accepted primitives — a veto-deterrence, legal-risk, morale, competence,
-loyalty, confirmability or "strong executive" score. None of those are encoded.
+Contract correction made by this decision: `assertExecutiveAuthorityPackIntegrity`
+now refuses a `known` value whose citation names an instrument without naming a
+provision inside it. `isGenericCitation` encodes that test — a citation must
+carry a pinpoint ("Art. II, Sec. 3", "KRS 117.015(2)", "10 ILCS 5/1A-1") and
+must not be one of the template shapes ("<State> Const. executive article",
+"<State> Const. veto section", "<State> Const. executive succession clause")
+that read like evidence and are not. Unfalsifiable sourcing is now rejected at
+the seam rather than left to review.
+
+Rejected alternatives: ingesting the rejected national matrix wholesale;
+promoting a field to `known` on secondary synthesis, report prose, a generic
+citation template, or constitutional silence; treating silence as
+`not-applicable`; and adding the product ideas that are not accepted primitives
+— a veto-deterrence, legal-risk, morale, competence, loyalty, confirmability or
+"strong executive" score. None of those are encoded, and a test walks every pack
+to prove no score, ideology or probability field exists.
 
 Consequence: the substrate is reusable across jurisdictions and grows by adding
-sourced data, never by widening the engine; a later executive-governance
-research pass fills the unknown dimensions and adds Wisconsin without any schema
-change.
+independently verified sourced data, never by widening the engine; a later
+verified research pass fills the unknown dimensions and adds Wisconsin without
+any schema change.
