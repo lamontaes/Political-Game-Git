@@ -18,6 +18,7 @@
 
 import {
   SourceValidationError,
+  isCalendarDate,
   known,
   notApplicable,
   suppressed,
@@ -38,8 +39,6 @@ export interface EmploymentNormalizeResult {
   readonly records: readonly EmploymentRecord[];
   readonly defects: readonly ParseDefect[];
 }
-
-const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 /**
  * Turn one measure cell into a sourced value.
@@ -85,7 +84,7 @@ export function readMeasure(
       [evidence],
     );
   }
-  if (!ISO_DATE.test(referenceDate)) {
+  if (!isCalendarDate(referenceDate)) {
     return unknown(
       `The source supplies ${measure} "${trimmed}" but no reference date, so it cannot be placed in time.`,
       [evidence],

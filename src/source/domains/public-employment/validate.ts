@@ -14,7 +14,13 @@
  * otherwise. No caller gets a bare summed number when a component is missing.
  */
 
-import { isUnresolved, sumSourced } from "../../core/index";
+import {
+  calendarYearOf,
+  findFabricatedScore,
+  isCensusGovernmentId,
+  isUnresolved,
+  sumSourced,
+} from "../../core/index";
 import type {
   Aggregate,
   CompiledCorpus,
@@ -23,18 +29,6 @@ import type {
   ValidationReport,
 } from "../../core/index";
 import type { EmploymentRecord } from "./types";
-
-/** Tokens that mark an invented productivity metric rather than a source measure. */
-export const REJECTED_SCORE_TOKENS: readonly string[] = [
-  "score",
-  "efficiency",
-  "competence",
-  "productivity index",
-  "capacity index",
-];
-
-/** A Census government identifier is a 14-digit code, never a name. */
-const GOV_ID_PATTERN = /^\d{14}$/;
 
 /**
  * Full-time plus part-time employees, as an aggregate that refuses to lie.
@@ -63,7 +57,7 @@ export function validateEmploymentCorpus(
   const records = compiled.records;
 
   for (const record of records) {
-    if (!GOV_ID_PATTERN.test(record.censusGovId)) {
+    if (!isCensusGovernmentId(record.censusGovId)) {
       findings.push({
         severity: "error",
         code: "public-employment/malformed-gov-id",
@@ -88,17 +82,16 @@ export function validateEmploymentCorpus(
       });
     }
 
-    const haystack =
-      `${record.functionCode} ${record.functionLabel}`.toLowerCase();
-    for (const token of REJECTED_SCORE_TOKENS) {
-      if (haystack.includes(token)) {
-        findings.push({
-          severity: "error",
-          code: "public-employment/invented-score",
-          message: `${record.recordId} names "${token}". The source publishes staffing and payroll, not a composite ${token}; inventing agency efficiency is forbidden.`,
-          recordId: record.recordId,
-        });
-      }
+    const fabricated = findFabricatedScore(
+      `${record.functionCode} ${record.functionLabel}`,
+    );
+    if (fabricated) {
+      findings.push({
+        severity: "error",
+        code: "public-employment/invented-score",
+        message: `${record.recordId} ${fabricated.reason} The Bureau publishes staffing and payroll; inventing agency efficiency from them is forbidden.`,
+        recordId: record.recordId,
+      });
     }
 
     const measures: readonly [string, Sourced<number>][] = [
@@ -126,12 +119,20 @@ export function validateEmploymentCorpus(
             recordId: record.recordId,
           });
         }
-        const asOfYear = Number(sourced.asOf.slice(0, 4));
-        if (asOfYear !== record.referenceYear) {
+        /*
+         * ASPEP's reference period is the pay period including March 12 of the
+         * survey year, so an employment measure is dated inside the reference
+         * year itself. This is deliberately NOT the finance domain's rule: a
+         * finance record's fiscal-year-ending date may fall in the previous
+         * calendar year, because a fiscal year is a government's own accounting
+         * period and a March-12 pay period is a fixed date the Bureau chose.
+         * The two timings must not be conflated in either direction.
+         */
+        if (calendarYearOf(sourced.asOf) !== record.referenceYear) {
           findings.push({
             severity: "error",
             code: "public-employment/year-mismatch",
-            message: `${record.recordId} reports reference year ${record.referenceYear} but ${name} is dated ${sourced.asOf}. Reference years must not drift or silently combine.`,
+            message: `${record.recordId} reports reference year ${record.referenceYear} but ${name} is dated ${sourced.asOf}. ASPEP's reference period falls inside the survey year, so reference years must not drift or silently combine.`,
             recordId: record.recordId,
           });
         }

@@ -65,9 +65,22 @@ export interface FinanceRecord {
   readonly govTypeCode: string;
   /** The government's name as supplied. Never used as a join key. */
   readonly govName: string;
-  /** The survey/reference year, carried on every record so years never merge. */
+  /**
+   * The Census survey year, carried on every record so years never merge.
+   *
+   * This is the survey the amount was published in, not the calendar year the
+   * government's books closed in. The two differ for most governments: a survey
+   * year covers fiscal years ending from July 1 of the previous calendar year
+   * through June 30 of the survey year. See `survey-year.ts`.
+   */
   readonly fiscalYear: number;
-  /** The government's fiscal-year-ending date, as supplied by the source. */
+  /**
+   * The government's own fiscal-year-ending date, as supplied by the source.
+   *
+   * Kept as a separate fact from `fiscalYear` and never derived from it. A
+   * December-31 or September-30 government reports under a survey year whose
+   * calendar year this date does not share, and that is correct, not drift.
+   */
   readonly fiscalYearEnding: string;
   readonly category: FinanceCategory;
   /** The Census item/line code (e.g. a revenue or expenditure item code). */

@@ -16,6 +16,8 @@ import { readFileSync, writeFileSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
 import {
   FINANCE_COLUMNS,
+  isWithinSurveyYearWindow,
+  surveyYearWindow,
   GOVERNMENT_FINANCES_PRODUCTION_GATE,
   compileFinanceFixture,
   openFinanceFixture,
@@ -35,6 +37,36 @@ function compiled() {
 
 function byId(id: string): FinanceRecord | undefined {
   return compiled().records.find((record) => record.recordId === id);
+}
+
+/**
+ * Compile the shipped fixture with one extra row appended.
+ *
+ * Module-scoped twin of the suite-local `withRow`, so the window and score
+ * probes below can share it. It writes through the same capability boundary the
+ * production path uses — a fixture outside `fixtures/source/` is refused.
+ */
+function withProbeRow(row: readonly string[]) {
+  const fixture = JSON.parse(readFileSync(resolve(REPO, FIXTURE), "utf-8")) as {
+    artifacts: { matrixTsv: string };
+  };
+  const relative = "fixtures/source/government-finances/window-probe.json";
+  const path = resolve(REPO, relative);
+  writeFileSync(
+    path,
+    JSON.stringify({
+      __fixture: true,
+      fixtureId: "government-finances/window-probe",
+      artifacts: {
+        matrixTsv: `${fixture.artifacts.matrixTsv}${row.join("\t")}\n`,
+      },
+    }),
+  );
+  try {
+    return compileFinanceFixture(openFinanceFixture(relative));
+  } finally {
+    rmSync(path, { force: true });
+  }
 }
 
 describe("the government-finances compiler", () => {
@@ -217,4 +249,235 @@ describe("the finance production gate", () => {
     expect(GOVERNMENT_FINANCES_PRODUCTION_GATE).toMatch(/census\.gov/);
     expect(GOVERNMENT_FINANCES_PRODUCTION_GATE).toMatch(/403/);
   });
+});
+
+/**
+ * The Census survey-year fiscal window.
+ *
+ * A survey year comprises each government's fiscal year ending between July 1
+ * of the previous calendar year and June 30 of the survey year. Half that
+ * window sits in the previous calendar year, which is where Alabama, Michigan,
+ * Texas and every December-31 municipality in the country report from — so
+ * these boundaries are the difference between transcribing the source and
+ * rejecting most of it.
+ */
+describe("the survey-year fiscal window", () => {
+  const SURVEY_YEAR = 2022;
+
+  function financeRow(fiscalYear: string, fiscalYearEnding: string): string[] {
+    return [
+      "00000000000001",
+      "00",
+      "ZZ",
+      "000",
+      "State of Fixtonia",
+      fiscalYear,
+      fiscalYearEnding,
+      "REVENUE",
+      "T99",
+      "Probe item (T99)",
+      "USD thousands",
+      "CENSUS_UNIVERSE",
+      "KNOWN",
+      "100",
+      "",
+    ];
+  }
+
+  /** Findings raised against the probe record alone. */
+  function findingsFor(fiscalYear: string, fiscalYearEnding: string) {
+    const corpus = withProbeRow(financeRow(fiscalYear, fiscalYearEnding));
+    const id = `00000000000001:REVENUE:T99:${fiscalYear}`;
+    return validateFinanceCorpus(corpus).findings.filter(
+      (finding) => finding.recordId === id,
+    );
+  }
+
+  it("states the window as the Bureau defines it", () => {
+    expect(surveyYearWindow(2022)).toEqual({
+      firstDay: "2021-07-01",
+      lastDay: "2022-06-30",
+    });
+  });
+
+  it("accepts July 1 of the previous year — the window's first day", () => {
+    expect(findingsFor(String(SURVEY_YEAR), "2021-07-01")).toEqual([]);
+    expect(isWithinSurveyYearWindow(SURVEY_YEAR, "2021-07-01")).toBe(true);
+  });
+
+  it("accepts December 31 of the previous year — the common municipal close", () => {
+    expect(findingsFor(String(SURVEY_YEAR), "2021-12-31")).toEqual([]);
+    expect(isWithinSurveyYearWindow(SURVEY_YEAR, "2021-12-31")).toBe(true);
+  });
+
+  it("accepts September 30 of the previous year — Alabama and Michigan", () => {
+    expect(findingsFor(String(SURVEY_YEAR), "2021-09-30")).toEqual([]);
+  });
+
+  it("accepts June 30 of the survey year — the window's last day", () => {
+    expect(findingsFor(String(SURVEY_YEAR), "2022-06-30")).toEqual([]);
+    expect(isWithinSurveyYearWindow(SURVEY_YEAR, "2022-06-30")).toBe(true);
+  });
+
+  it("rejects June 30 of the previous year — one day before the window", () => {
+    const codes = findingsFor(String(SURVEY_YEAR), "2021-06-30").map(
+      (finding) => finding.code,
+    );
+    expect(codes).toContain(
+      "government-finances/fiscal-year-outside-survey-window",
+    );
+    expect(isWithinSurveyYearWindow(SURVEY_YEAR, "2021-06-30")).toBe(false);
+  });
+
+  it("rejects July 1 of the survey year — one day after the window", () => {
+    const codes = findingsFor(String(SURVEY_YEAR), "2022-07-01").map(
+      (finding) => finding.code,
+    );
+    expect(codes).toContain(
+      "government-finances/fiscal-year-outside-survey-window",
+    );
+    expect(isWithinSurveyYearWindow(SURVEY_YEAR, "2022-07-01")).toBe(false);
+  });
+
+  it("rejects a date-shaped string that names no day on the calendar", () => {
+    expect(isWithinSurveyYearWindow(SURVEY_YEAR, "2022-02-30")).toBe(false);
+    // The normalizer refuses to date an amount to a day that never happened,
+    // so the amount is unresolved rather than confidently mis-dated.
+    const corpus = withProbeRow(financeRow(String(SURVEY_YEAR), "2022-02-30"));
+    const record = corpus.records.find(
+      (candidate) => candidate.recordId === "00000000000001:REVENUE:T99:2022",
+    );
+    expect(record?.amount.state).toBe("UNKNOWN");
+    expect(record?.amount).not.toHaveProperty("value");
+  });
+
+  it("keeps the survey year and the fiscal-year-ending date as separate facts", () => {
+    const corpus = withProbeRow(financeRow(String(SURVEY_YEAR), "2021-12-31"));
+    const record = corpus.records.find(
+      (candidate) => candidate.recordId === "00000000000001:REVENUE:T99:2022",
+    );
+    // The year is not derived from the date, and the date is not derived from
+    // the year: they disagree on calendar year and both survive intact.
+    expect(record?.fiscalYear).toBe(2022);
+    expect(record?.fiscalYearEnding).toBe("2021-12-31");
+    if (record?.amount.state === "KNOWN") {
+      expect(record.amount.asOf).toBe("2021-12-31");
+    }
+  });
+
+  it("the shipped fixture exemplifies the window rather than merely passing", () => {
+    const corpus = compiled();
+    // Every record's own date must sit inside its own survey year's window.
+    for (const record of corpus.records) {
+      expect(
+        isWithinSurveyYearWindow(record.fiscalYear, record.fiscalYearEnding),
+      ).toBe(true);
+    }
+    // And the fixture must actually carry the previous-calendar-year case,
+    // otherwise it teaches the defect it was corrected for.
+    const crossing = corpus.records.filter(
+      (record) =>
+        Number(record.fiscalYearEnding.slice(0, 4)) !== record.fiscalYear,
+    );
+    expect(crossing.length).toBeGreaterThan(0);
+    expect(isClean(validateFinanceCorpus(corpus))).toBe(true);
+  });
+});
+
+/**
+ * Adversarial score/rating probes.
+ *
+ * The prohibition is on fabricated verdicts, not on the Bureau's vocabulary.
+ * Both directions have to hold: a rating dressed as an item must be caught even
+ * when it avoids the word "score", and the Census function literally called
+ * "Health and hospitals" must pass.
+ */
+describe("the fabricated-score guard, adversarially", () => {
+  function describeItem(itemCode: string, description: string) {
+    const corpus = withProbeRow([
+      "00000000000001",
+      "00",
+      "ZZ",
+      "000",
+      "State of Fixtonia",
+      "2022",
+      "2022-06-30",
+      "REVENUE",
+      itemCode,
+      description,
+      "USD thousands",
+      "CENSUS_UNIVERSE",
+      "KNOWN",
+      "100",
+      "",
+    ]);
+    return validateFinanceCorpus(corpus).findings.filter(
+      (finding) =>
+        finding.recordId === `00000000000001:REVENUE:${itemCode}:2022`,
+    );
+  }
+
+  const fabricated = [
+    "Overall fiscal capacity rating",
+    "Statewide fiscal rankings",
+    "Fiscal health index",
+    "Composite revenue indicator",
+    "Municipal solvency grade",
+    "Revenue adequacy percentile",
+    "Government efficiency measure",
+    "Administrative competency measure",
+    "Staff productivity measure",
+    "Fiscal distress classification",
+    "Creditworthiness assessment",
+    "Overall fiscal health",
+    "Weighted service capacity",
+    "Aggregate performance summary",
+  ];
+  for (const description of fabricated) {
+    it(`rejects "${description}"`, () => {
+      const codes = describeItem("T99", description).map(
+        (finding) => finding.code,
+      );
+      expect(codes).toContain("government-finances/invented-score");
+    });
+  }
+
+  /*
+   * Real Census finance item and function names. Every one of these must pass:
+   * a guard that rejects the source's own vocabulary teaches whoever hits it to
+   * route around the guard, which is worse than no guard.
+   */
+  const legitimate = [
+    "Health and hospitals",
+    "Health",
+    "Hospitals",
+    "Public welfare",
+    "Police protection",
+    "Fire protection",
+    "Correction",
+    "Financial administration",
+    "Judicial and legal",
+    "Natural resources",
+    "Parks and recreation",
+    "Housing and community development",
+    "Solid waste management",
+    "Sewerage",
+    "Water supply",
+    "Air transportation",
+    "Libraries",
+    "Higher education",
+    "Elementary and secondary education",
+    "General sales and gross receipts tax",
+    "Property tax",
+    "Interest on general debt",
+    "Total debt outstanding",
+    "Total cash and securities",
+    "Insurance trust revenue",
+    "Upgrade of water treatment plant",
+  ];
+  for (const description of legitimate) {
+    it(`accepts the source's own "${description}"`, () => {
+      expect(describeItem("T99", description)).toEqual([]);
+    });
+  }
 });

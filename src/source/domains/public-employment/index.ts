@@ -47,11 +47,7 @@ export {
   parseEmploymentMatrix,
 } from "./parse";
 export { normalizeEmployment, readMeasure } from "./normalize";
-export {
-  REJECTED_SCORE_TOKENS,
-  totalEmployment,
-  validateEmploymentCorpus,
-} from "./validate";
+export { totalEmployment, validateEmploymentCorpus } from "./validate";
 
 export const PUBLIC_EMPLOYMENT_COMPILER_VERSION = "1.0.0";
 export const PUBLIC_EMPLOYMENT_PARSER_VERSION = "1.0.0";

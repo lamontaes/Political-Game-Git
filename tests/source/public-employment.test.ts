@@ -243,3 +243,131 @@ describe("the employment production gate", () => {
     expect(PUBLIC_EMPLOYMENT_PRODUCTION_GATE).toMatch(/403/);
   });
 });
+
+/**
+ * Adversarial score/rating probes, and the ASPEP reference date.
+ *
+ * ASPEP's staffing is the rawest material for a fabricated productivity metric
+ * in the whole project — headcount over population, payroll over headcount —
+ * so the guard is checked against variants that avoid the word "score", and
+ * against the Bureau's own function labels, which must survive it.
+ */
+describe("the public-employment fabricated-score guard, adversarially", () => {
+  function withProbeFunction(functionCode: string, functionLabel: string) {
+    const fixture = JSON.parse(
+      readFileSync(resolve(REPO, FIXTURE), "utf-8"),
+    ) as { artifacts: { matrixTsv: string } };
+    const row = [
+      "00000000000001",
+      "00",
+      "ZZ",
+      "000",
+      "State of Fixtonia",
+      "2022",
+      "2022-03-12",
+      functionCode,
+      functionLabel,
+      "CENSUS_UNIVERSE",
+      "employees",
+      "USD (March payroll)",
+      "10",
+      "2",
+      "11",
+      "50000",
+      "5000",
+    ];
+    const relative = "fixtures/source/public-employment/guard-probe.json";
+    const path = resolve(REPO, relative);
+    writeFileSync(
+      path,
+      JSON.stringify({
+        __fixture: true,
+        fixtureId: "public-employment/guard-probe",
+        artifacts: {
+          matrixTsv: `${fixture.artifacts.matrixTsv}${row.join("\t")}\n`,
+        },
+      }),
+    );
+    try {
+      const corpus = compileEmploymentFixture(openEmploymentFixture(relative));
+      return validateEmploymentCorpus(corpus).findings.filter(
+        (finding) => finding.recordId === `00000000000001:${functionCode}:2022`,
+      );
+    } finally {
+      rmSync(path, { force: true });
+    }
+  }
+
+  const fabricated = [
+    "Agency efficiency measure",
+    "Staffing productivity index",
+    "Workforce competency rating",
+    "Departmental performance ranking",
+    "Composite staffing indicator",
+    "Service capacity grade",
+    "Overall staffing quality",
+    "Weighted service performance",
+    "Staffing adequacy percentile",
+    "Administrative effectiveness measure",
+  ];
+  for (const label of fabricated) {
+    it(`rejects the fabricated function "${label}"`, () => {
+      const codes = withProbeFunction("F99", label).map(
+        (finding) => finding.code,
+      );
+      expect(codes).toContain("public-employment/invented-score");
+    });
+  }
+
+  /* Real ASPEP government-function labels. All must pass. */
+  const legitimate = [
+    "Health",
+    "Hospitals",
+    "Police protection - officers",
+    "Police protection - other",
+    "Fire protection",
+    "Firefighters",
+    "Correction",
+    "Judicial and legal",
+    "Financial administration",
+    "Other government administration",
+    "Streets and highways",
+    "Public welfare",
+    "Natural resources",
+    "Parks and recreation",
+    "Solid waste management",
+    "Sewerage",
+    "Water supply",
+    "Electric power",
+    "Air transportation",
+    "Libraries",
+    "Housing and community development",
+    "Elementary and secondary education - instructional",
+    "Higher education - other",
+  ];
+  for (const label of legitimate) {
+    it(`accepts the Bureau's own function "${label}"`, () => {
+      expect(withProbeFunction("F99", label)).toEqual([]);
+    });
+  }
+
+  it("does not conflate ASPEP reference timing with the finance fiscal window", () => {
+    // ASPEP's reference is the pay period including March 12 of the survey
+    // year, so its reference date sits inside the reference year. A
+    // finance-style previous-calendar-year date is NOT valid here, and the
+    // validator must say so rather than borrowing the finance window.
+    const codes = withProbeFunction("F98", "Health").map(
+      (finding) => finding.code,
+    );
+    expect(codes).toEqual([]);
+
+    const corpus = compiled();
+    for (const record of corpus.records) {
+      expect(record.referenceDate.slice(0, 4)).toBe(
+        String(record.referenceYear),
+      );
+      expect(record.referenceDate.slice(5)).toBe("03-12");
+    }
+    expect(isClean(validateEmploymentCorpus(corpus))).toBe(true);
+  });
+});

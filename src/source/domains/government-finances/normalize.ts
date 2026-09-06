@@ -18,6 +18,7 @@
 
 import {
   SourceValidationError,
+  isCalendarDate,
   known,
   notApplicable,
   suppressed,
@@ -45,8 +46,6 @@ export interface FinanceNormalizeResult {
   readonly defects: readonly ParseDefect[];
 }
 
-const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
-
 /**
  * Turn one row's status and amount into a sourced value.
  *
@@ -72,9 +71,9 @@ function readAmount(
           [evidence],
         );
       }
-      if (!ISO_DATE.test(fiscalYearEnding)) {
+      if (!isCalendarDate(fiscalYearEnding)) {
         return unknown(
-          `The source supplies amount "${trimmed}" but no fiscal-year-ending date, so it cannot be placed in time.`,
+          `The source supplies amount "${trimmed}" but no usable fiscal-year-ending date ("${fiscalYearEnding}"), so it cannot be placed in time.`,
           [evidence],
         );
       }

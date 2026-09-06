@@ -42,7 +42,9 @@ import type { FinanceRecord } from "./types";
 export type { EstimateBasis, FinanceCategory, FinanceRecord } from "./types";
 export { FINANCE_COLUMNS, financeField, parseFinanceMatrix } from "./parse";
 export { normalizeFinances } from "./normalize";
-export { REJECTED_SCORE_TOKENS, validateFinanceCorpus } from "./validate";
+export { validateFinanceCorpus } from "./validate";
+export { isWithinSurveyYearWindow, surveyYearWindow } from "./survey-year";
+export type { SurveyYearWindow } from "./survey-year";
 
 export const GOVERNMENT_FINANCES_COMPILER_VERSION = "1.0.0";
 export const GOVERNMENT_FINANCES_PARSER_VERSION = "1.0.0";

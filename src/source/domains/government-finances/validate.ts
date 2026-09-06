@@ -4,38 +4,31 @@
  * The checks here enforce the task's critical data rules against the records the
  * compiler actually produced: a government identity that can be joined by code
  * rather than by name, units on every amount, the sample/universe distinction
- * kept explicit, the reference year preserved on every value, and — the one the
- * backbone is most emphatic about — no collapse of published amounts into a
- * single invented "capacity", "health" or "efficiency" score.
+ * kept explicit, the survey year and the fiscal-year-ending date both preserved
+ * and consistent with the Bureau's own fiscal window, and — the one the backbone
+ * is most emphatic about — no collapse of published amounts into a single
+ * invented "capacity", "health" or "efficiency" score.
+ *
+ * The fiscal-window check is the subtle one. A survey year covers fiscal years
+ * ending from July 1 of the previous calendar year through June 30 of the survey
+ * year, so a September-30 or December-31 government is reported under a survey
+ * year whose calendar year its books never touched. `survey-year.ts` holds that
+ * contract; this file only applies it.
  */
 
-import { isUnresolved } from "../../core/index";
+import {
+  findFabricatedScore,
+  isCensusGovernmentId,
+  isCalendarDate,
+  isUnresolved,
+} from "../../core/index";
 import type {
   CompiledCorpus,
   ValidationFinding,
   ValidationReport,
 } from "../../core/index";
+import { isWithinSurveyYearWindow, surveyYearWindow } from "./survey-year";
 import type { FinanceRecord } from "./types";
-
-/**
- * Tokens that mark an invented composite metric rather than a source line item.
- *
- * The Bureau publishes named revenue and expenditure items, debt and holdings;
- * it never publishes a "score", an "efficiency" or a "competence". A record
- * carrying one of these in its category, item code or description is not a
- * transcription of the source — it is a verdict the domain is forbidden to make.
- */
-export const REJECTED_SCORE_TOKENS: readonly string[] = [
-  "score",
-  "efficiency",
-  "competence",
-  "composite index",
-  "health index",
-  "capacity index",
-];
-
-/** A Census government identifier is a 14-digit code, never a name. */
-const GOV_ID_PATTERN = /^\d{14}$/;
 
 export function validateFinanceCorpus(
   compiled: CompiledCorpus<FinanceRecord>,
@@ -44,7 +37,7 @@ export function validateFinanceCorpus(
   const records = compiled.records;
 
   for (const record of records) {
-    if (!GOV_ID_PATTERN.test(record.censusGovId)) {
+    if (!isCensusGovernmentId(record.censusGovId)) {
       findings.push({
         severity: "error",
         code: "government-finances/malformed-gov-id",
@@ -60,6 +53,37 @@ export function validateFinanceCorpus(
         recordId: record.recordId,
       });
     }
+    /*
+     * The survey year and the fiscal-year-ending date are two facts, and this
+     * is the check that they agree without either being derived from the other.
+     * A date outside the Bureau's window means the pair cannot both be right;
+     * it is never grounds for editing the date until it matches the year.
+     */
+    if (record.fiscalYearEnding.trim() === "") {
+      findings.push({
+        severity: "error",
+        code: "government-finances/no-fiscal-year-ending",
+        message: `${record.recordId} states no fiscal-year-ending date. A survey year alone does not say when this government's books closed.`,
+        recordId: record.recordId,
+      });
+    } else if (!isCalendarDate(record.fiscalYearEnding)) {
+      findings.push({
+        severity: "error",
+        code: "government-finances/malformed-fiscal-year-ending",
+        message: `${record.recordId} carries fiscal-year-ending "${record.fiscalYearEnding}", which is not a real calendar date.`,
+        recordId: record.recordId,
+      });
+    } else if (
+      !isWithinSurveyYearWindow(record.fiscalYear, record.fiscalYearEnding)
+    ) {
+      const { firstDay, lastDay } = surveyYearWindow(record.fiscalYear);
+      findings.push({
+        severity: "error",
+        code: "government-finances/fiscal-year-outside-survey-window",
+        message: `${record.recordId} reports survey year ${record.fiscalYear} with fiscal-year-ending ${record.fiscalYearEnding}, which is outside that survey year's window (${firstDay} through ${lastDay}). A survey year covers fiscal years ending from July 1 of the previous calendar year through June 30 of the survey year.`,
+        recordId: record.recordId,
+      });
+    }
     if (record.units.trim() === "") {
       findings.push({
         severity: "error",
@@ -69,17 +93,16 @@ export function validateFinanceCorpus(
       });
     }
 
-    const haystack =
-      `${record.category} ${record.itemCode} ${record.itemDescription}`.toLowerCase();
-    for (const token of REJECTED_SCORE_TOKENS) {
-      if (haystack.includes(token)) {
-        findings.push({
-          severity: "error",
-          code: "government-finances/invented-score",
-          message: `${record.recordId} names "${token}". The source publishes fiscal amounts, not a composite ${token}; collapsing capacity into a single number is forbidden.`,
-          recordId: record.recordId,
-        });
-      }
+    const fabricated = findFabricatedScore(
+      `${record.category} ${record.itemCode} ${record.itemDescription}`,
+    );
+    if (fabricated) {
+      findings.push({
+        severity: "error",
+        code: "government-finances/invented-score",
+        message: `${record.recordId} ${fabricated.reason} The Bureau publishes fiscal amounts; collapsing them into a single number is forbidden.`,
+        recordId: record.recordId,
+      });
     }
 
     if (record.amount.state === "KNOWN") {
@@ -91,12 +114,11 @@ export function validateFinanceCorpus(
           recordId: record.recordId,
         });
       }
-      const asOfYear = Number(record.amount.asOf.slice(0, 4));
-      if (asOfYear !== record.fiscalYear) {
+      if (record.amount.asOf !== record.fiscalYearEnding) {
         findings.push({
           severity: "error",
-          code: "government-finances/year-mismatch",
-          message: `${record.recordId} reports fiscal year ${record.fiscalYear} but its amount is dated ${record.amount.asOf}. Reference years must not drift or silently combine.`,
+          code: "government-finances/amount-date-drift",
+          message: `${record.recordId} carries fiscal-year-ending ${record.fiscalYearEnding} but its amount is dated ${record.amount.asOf}. A KNOWN amount is placed at the date the government's books closed, and nowhere else.`,
           recordId: record.recordId,
         });
       }
