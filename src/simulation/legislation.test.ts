@@ -927,6 +927,55 @@ describe("Where a bill starts decides where it goes next", () => {
     return record!;
   }
 
+  function introducedAction(world: World, measureId: EntityId) {
+    const action = (world.history.legislativeActions ?? []).find(
+      (candidate) =>
+        candidate.measureId === measureId && candidate.kind === "introduced",
+    );
+    expect(action, `introduced action for ${measureId}`).toBeDefined();
+    return action!;
+  }
+
+  function expectPermanentReplayToReject(
+    validWorld: World,
+    tamper: (world: World) => void,
+    expected: RegExp,
+  ): void {
+    const corrupted = structuredClone(validWorld);
+    tamper(corrupted);
+    expect(() => assertWorldIntegrity(corrupted)).toThrow(expected);
+
+    const persisted = JSON.parse(serializeWorld(validWorld)) as {
+      world: World;
+    };
+    tamper(persisted.world);
+    expect(() => deserializeWorld(JSON.stringify(persisted))).toThrow(expected);
+  }
+
+  function introduceOriginReplayFixture(
+    stableKey: string,
+    rulePackId: string,
+    subjectClass: "general-policy" | "revenue",
+    originChamberKey: "house" | "senate",
+  ): { readonly world: World; readonly measureId: EntityId } {
+    const scenario = createLegislativeScenario("kentucky");
+    const world = introduceMeasure(scenario.world, {
+      stableKey,
+      jurisdictionId: kentuckyJurisdiction,
+      rulePackId,
+      designation: stableKey,
+      shortTitle: "Origination replay integrity fixture",
+      summary: "Written for the permanent replay integrity regression.",
+      origin: "member-introduction",
+      subjectClass,
+      originChamberKey,
+    });
+    return {
+      world,
+      measureId: measureByKey(world, stableKey).id,
+    };
+  }
+
   it("sends a bill introduced in the second chamber onward to the first", () => {
     // A measure that starts in the Senate used to have nowhere to go, because
     // the next chamber was read off a fixed position in chamberOrder rather
@@ -1038,6 +1087,114 @@ describe("Where a bill starts decides where it goes next", () => {
         }),
       ).not.toThrow();
     }
+  });
+
+  it("rejects a persisted Minnesota revenue measure whose stored origin and introduction are both Senate", () => {
+    const fixture = introduceOriginReplayFixture(
+      "mn-revenue-tampered-senate:measure",
+      MINNESOTA_RULE_PACK.packId,
+      "revenue",
+      "house",
+    );
+
+    expectPermanentReplayToReject(
+      fixture.world,
+      (world) => {
+        const measure = (world.history.legislativeMeasures ?? []).find(
+          (candidate) => candidate.id === fixture.measureId,
+        )!;
+        Object.assign(measure, { originChamberKey: "senate" });
+        Object.assign(introducedAction(world, fixture.measureId), {
+          chamberKey: "senate",
+        });
+      },
+      /cannot originate in the Senate/,
+    );
+  });
+
+  it("rejects a persisted introduction that disagrees with the measure's stored origin", () => {
+    const fixture = introduceOriginReplayFixture(
+      "mn-origin-mismatch:measure",
+      MINNESOTA_RULE_PACK.packId,
+      "revenue",
+      "house",
+    );
+
+    expectPermanentReplayToReject(
+      fixture.world,
+      (world) => {
+        Object.assign(introducedAction(world, fixture.measureId), {
+          chamberKey: "senate",
+        });
+      },
+      /introduction names chamber 'senate' while the measure's stored origin is 'house'/,
+    );
+  });
+
+  it("keeps a legal Minnesota revenue House introduction valid after reload", () => {
+    const fixture = introduceOriginReplayFixture(
+      "mn-revenue-house-replay:measure",
+      MINNESOTA_RULE_PACK.packId,
+      "revenue",
+      "house",
+    );
+
+    expect(() => assertWorldIntegrity(fixture.world)).not.toThrow();
+    expect(deserializeWorld(serializeWorld(fixture.world))).toStrictEqual(
+      fixture.world,
+    );
+  });
+
+  it("keeps an ordinary Minnesota Senate introduction valid when general origination is unknown", () => {
+    const fixture = introduceOriginReplayFixture(
+      "mn-policy-senate-replay:measure",
+      MINNESOTA_RULE_PACK.packId,
+      "general-policy",
+      "senate",
+    );
+
+    expect(() => assertWorldIntegrity(fixture.world)).not.toThrow();
+    expect(deserializeWorld(serializeWorld(fixture.world))).toStrictEqual(
+      fixture.world,
+    );
+  });
+
+  it("keeps Illinois ordinary introductions legal from either chamber after reload", () => {
+    for (const chamberKey of ["house", "senate"] as const) {
+      const fixture = introduceOriginReplayFixture(
+        `il-${chamberKey}-replay:measure`,
+        ILLINOIS_RULE_PACK.packId,
+        "general-policy",
+        chamberKey,
+      );
+      expect(() => assertWorldIntegrity(fixture.world)).not.toThrow();
+      expect(deserializeWorld(serializeWorld(fixture.world))).toStrictEqual(
+        fixture.world,
+      );
+    }
+  });
+
+  it("rejects a persisted Kentucky revenue measure whose stored origin and introduction are both Senate", () => {
+    const fixture = introduceOriginReplayFixture(
+      "ky-revenue-tampered-senate:measure",
+      KENTUCKY_RULE_PACK.packId,
+      "revenue",
+      "house",
+    );
+
+    expectPermanentReplayToReject(
+      fixture.world,
+      (world) => {
+        const measure = (world.history.legislativeMeasures ?? []).find(
+          (candidate) => candidate.id === fixture.measureId,
+        )!;
+        Object.assign(measure, { originChamberKey: "senate" });
+        Object.assign(introducedAction(world, fixture.measureId), {
+          chamberKey: "senate",
+        });
+      },
+      /cannot originate in the Senate/,
+    );
   });
 });
 

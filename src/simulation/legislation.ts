@@ -234,11 +234,20 @@ function applyRecordedAction(
     case "introduced": {
       const gate = requirePhase(state, action.kind, ["drafting"]);
       if (!gate.ok) return gate;
-      const chamberKey = action.chamberKey ?? measure.originChamberKey;
+      const chamberKey = action.chamberKey;
+      if (chamberKey !== measure.originChamberKey) {
+        return illegal(
+          `introduction names chamber '${chamberKey ?? "none"}' while the measure's stored origin is '${measure.originChamberKey}'`,
+        );
+      }
       const chamber = chamberByKey(pack, chamberKey);
       if (!chamber.introductionAllowed) {
         return illegal(`measures cannot be introduced in the ${chamber.name}`);
       }
+      // Replay is the permanent boundary for a loaded World. Re-run the same
+      // sourced subject-specific rule as the writer so a stored measure and
+      // action cannot agree on an origin the institution forbids.
+      assertOriginationPermitted(pack, measure.subjectClass, chamberKey);
       state.phase = "awaiting-referral";
       state.chamberKey = chamberKey;
       return LEGAL;
