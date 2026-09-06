@@ -9,7 +9,6 @@ import {
   floorStageByKey,
   nextChamberKey,
   nextFloorStageKey,
-  permittedOriginChambers,
   requireKnown,
   resolveRequiredVotes,
   type ChamberRule,
@@ -239,31 +238,23 @@ function applyRecordedAction(
       // the measure itself does not claim as its origin, the save holds two
       // contradictory accounts of the same event, and neither can be trusted
       // to carry the origination rule that hangs off it.
-      if (
-        action.chamberKey !== null &&
-        action.chamberKey !== measure.originChamberKey
-      ) {
+      const chamberKey = action.chamberKey;
+      if (chamberKey !== measure.originChamberKey) {
         return illegal(
-          `the introduction names the ${action.chamberKey} while the measure began in the ${measure.originChamberKey}`,
+          `introduction names chamber '${chamberKey ?? "none"}' while the measure's stored origin is '${measure.originChamberKey}'`,
         );
       }
-      const chamberKey = action.chamberKey ?? measure.originChamberKey;
       const chamber = chamberByKey(pack, chamberKey);
       if (!chamber.introductionAllowed) {
         return illegal(`measures cannot be introduced in the ${chamber.name}`);
       }
-      // Introduction is where the jurisdiction's own origination rule binds,
-      // so replay re-decides it rather than trusting that the writer did. The
-      // writer speaks only for measures this run filed; a loaded record was
-      // written by something else, and Minnesota's revenue bill still cannot
-      // have started in the Senate. Silence stays silence: an unresolved rule
-      // refuses nothing, and `introductionAllowed` remains the only gate.
-      const permitted = permittedOriginChambers(pack, measure.subjectClass);
-      if (permitted.kind === "known" && !permitted.value.includes(chamberKey)) {
-        return illegal(
-          `a ${measure.subjectClass} measure cannot originate in the ${chamber.name}: ${permitted.source.citation} confines it to ${permitted.value.join(", ")}`,
-        );
-      }
+      // Replay is the permanent boundary for a loaded World: the writer speaks
+      // only for measures this run filed, and a loaded record was written by
+      // something else. Re-run the same sourced subject-specific rule so a
+      // stored measure and action cannot agree on an origin the institution
+      // forbids. Silence stays silence — an unresolved rule refuses nothing,
+      // and `introductionAllowed` remains the only gate there.
+      assertOriginationPermitted(pack, measure.subjectClass, chamberKey);
       state.phase = "awaiting-referral";
       state.chamberKey = chamberKey;
       return LEGAL;

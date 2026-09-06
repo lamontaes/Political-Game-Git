@@ -214,10 +214,10 @@ describe("origination survives the writer that first enforced it", () => {
     const replay = replayMeasure(tampered, filed.measureId);
     expect(replay.violations).toHaveLength(1);
     expect(replay.violations[0]).toMatch(
-      /the introduction names the senate while the measure began in the house/,
+      /introduction names chamber 'senate' while the measure's stored origin is 'house'/,
     );
     expect(() => assertWorldIntegrity(tampered)).toThrow(
-      /the introduction names the senate while the measure began in the house/,
+      /introduction names chamber 'senate' while the measure's stored origin is 'house'/,
     );
   });
 
