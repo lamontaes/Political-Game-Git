@@ -41,6 +41,7 @@ import {
   questionnaireScreenFor,
 } from "../presentation/setup-questionnaire-flow";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
+import { projectDynamicSurfaces } from "../presentation/surface-projection";
 import {
   buildLifeIntroduction,
   type IntroducedPerson,
@@ -1408,6 +1409,24 @@ function PlayingScreen({
     [session.world, session.personId],
   );
 
+  /**
+   * What this world can honestly put on the room's surfaces.
+   *
+   * Assembled from the same two things the workspace above it runs on — the
+   * legislature this character works in, and the bill they actually have open
+   * — and from nothing else. When there is no bill, the argument is null and
+   * the room's screens and papers stay as they were painted rather than
+   * finding something to say.
+   */
+  const surfaceProjection = useMemo(
+    () =>
+      projectDynamicSurfaces(session.world, {
+        jurisdictionId: capabilities.legislativeJurisdictionId,
+        measureId: assignment?.measureId ?? null,
+      }),
+    [session.world, capabilities.legislativeJurisdictionId, assignment],
+  );
+
   // The current moment, resolved here as well as inside the moment panel, so
   // the people it says are present can be stood in the room and listed on the
   // rail. It is a pure, memoized projection, so computing it twice costs
@@ -1477,7 +1496,11 @@ function PlayingScreen({
         is a compact panel over it, the household is a persistent rail on the
         right, and everything else is a small HUD in the corner.
       */}
-      <SceneBackdrop sceneId={sceneId} people={scenePeople}>
+      <SceneBackdrop
+        sceneId={sceneId}
+        people={scenePeople}
+        surfaces={surfaceProjection}
+      >
         {!introduced && introduction ? (
           <section className="life-exposition" data-testid="life-introduction">
             <p className="life-exposition-kicker">Where this starts</p>

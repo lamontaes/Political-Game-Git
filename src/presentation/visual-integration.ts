@@ -462,7 +462,13 @@ export function projectOfficeVisualScene(
       width: zone.width,
       height: zone.height,
     })),
-    documentAnchors: OFFICE_DOCUMENT_ANCHORS,
+    documentAnchors: {
+      ...OFFICE_DOCUMENT_ANCHORS,
+      "working-draft": {
+        xPercent: requireWorkingDocumentSlot(scene).rect_percent.x_percent,
+        yPercent: requireWorkingDocumentSlot(scene).rect_percent.y_percent,
+      },
+    },
     anchors: {
       "primary-desk-chair": seatAnchor("primary-desk-chair"),
       "left-guest-chair": seatAnchor("left-guest-chair"),
@@ -483,15 +489,22 @@ export function projectOfficeVisualScene(
 }
 
 /**
- * Interactive document positions on the fixture plate. These are UI entry
- * points rather than scene surface slots: the scene's `surface_slots` say where
- * a document would be PAINTED, while these say where the player clicks.
+ * Remaining fixture entry points. The working draft instead shares its
+ * authored surface slot with the visible dynamic paper.
  */
 const OFFICE_DOCUMENT_ANCHORS = {
-  "working-draft": { xPercent: 67.0, yPercent: 55.5 },
   "briefing-memo": { xPercent: 53.5, yPercent: 55.8 },
   "civic-marker": { xPercent: 60.5, yPercent: 56.8 },
 } as const;
+
+export function requireWorkingDocumentSlot(scene: RegisteredScene) {
+  const slot = scene.surfaceSlots.find(
+    (surface) => surface.slot_id === "desk-working-document",
+  );
+  if (!slot)
+    throw new Error("Office scene requires its working-document slot.");
+  return slot;
+}
 
 export const OFFICE_FIXTURE_SCENE = requireScene(
   SCENE_REGISTRY,

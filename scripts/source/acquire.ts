@@ -22,6 +22,7 @@ import type {
   AcquisitionRequest,
   ArtifactLock,
   RawArtifact,
+  SourceDomainModule,
 } from "../../src/source/core/index";
 import {
   REPO_ROOT,
@@ -30,6 +31,7 @@ import {
   loadDomain,
   loadDomains,
 } from "./registry";
+import { createAcsPums2024StateShardAcquisition } from "../../src/source/domains/acs-pums/acquisition";
 
 /**
  * How this client identifies itself.
@@ -175,12 +177,20 @@ async function acquireOne(
   return { artifact, bytes };
 }
 
-async function acquireDomain(domainName: string): Promise<void> {
-  const domain = await loadDomain(domainName);
+async function acquirePlan(
+  domainName: string,
+  plan: SourceDomainModule["acquisitionPlan"],
+  lockPath: string,
+): Promise<void> {
+  if (plan.domain !== domainName) {
+    throw new Error(
+      `Acquisition plan for "${plan.domain}" cannot write the "${domainName}" lock.`,
+    );
+  }
   const acquired = new Map<string, { artifact: RawArtifact; bytes: Buffer }>();
   const artifacts: RawArtifact[] = [];
 
-  for (const request of domain.acquisitionPlan.requests) {
+  for (const request of plan.requests) {
     process.stdout.write(`  ${request.artifactId} ... `);
     const result = await acquireOne(request, acquired);
     acquired.set(request.artifactId, result);
@@ -192,14 +202,64 @@ async function acquireDomain(domainName: string): Promise<void> {
 
   const lock: ArtifactLock = { domain: domainName, artifacts };
   assertValidArtifactLock(lock);
-  const lockPath = resolve(domainDataDir(domainName), "artifact-lock.json");
   mkdirSync(dirname(lockPath), { recursive: true });
   writeFileSync(lockPath, toCanonicalJson(lock), "utf-8");
   console.log(`  wrote ${artifacts.length} artifacts to ${lockPath}`);
 }
 
+async function acquireDomain(domainName: string): Promise<void> {
+  const domain = await loadDomain(domainName);
+  await acquirePlan(
+    domainName,
+    domain.acquisitionPlan,
+    resolve(domainDataDir(domainName), "artifact-lock.json"),
+  );
+}
+
+function flagValue(argv: readonly string[], name: string): string | null {
+  const indexes = argv.flatMap((value, index) =>
+    value === name ? [index] : [],
+  );
+  if (indexes.length === 0) return null;
+  if (indexes.length > 1) throw new Error(`${name} may be supplied only once.`);
+  const value = argv[(indexes[0] as number) + 1];
+  if (!value || value.startsWith("--")) {
+    throw new Error(`${name} requires a value.`);
+  }
+  return value;
+}
+
 async function main(): Promise<void> {
-  const only = domainFlag(process.argv.slice(2));
+  const argv = process.argv.slice(2);
+  const only = domainFlag(argv);
+  const surveyYear = flagValue(argv, "--survey-year");
+  const stateUsps = flagValue(argv, "--state-usps");
+  const stateFips = flagValue(argv, "--state-fips");
+  if (surveyYear || stateUsps || stateFips) {
+    if (
+      only !== "acs-pums" ||
+      surveyYear !== "2024" ||
+      stateUsps === null ||
+      stateFips === null
+    ) {
+      throw new Error(
+        "A PUMS shard acquisition requires --domain acs-pums --survey-year 2024 --state-usps <USPS> --state-fips <FIPS>.",
+      );
+    }
+    const acquisition = createAcsPums2024StateShardAcquisition({
+      stateUsps,
+      stateFips,
+    });
+    console.log(
+      `source:acquire acs-pums ${acquisition.identity.surveyYear} ${acquisition.identity.stateUsps}/${acquisition.identity.stateFips}`,
+    );
+    await acquirePlan(
+      "acs-pums",
+      acquisition.plan,
+      resolve(REPO_ROOT, acquisition.lockPath),
+    );
+    return;
+  }
   const domains = only
     ? [only]
     : (await loadDomains()).map((domain) => domain.domain);

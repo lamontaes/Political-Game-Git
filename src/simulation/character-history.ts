@@ -8,6 +8,7 @@ import {
   createHousehold,
   createOrganization,
   createOrganizationParticipation,
+  createPartnership,
   createWorkRelationship,
   recordCareResponsibilityState,
   recordChildAuthorityState,
@@ -28,6 +29,7 @@ import type {
   CreateHouseholdInput,
   CreateOrganizationInput,
   CreateOrganizationParticipationInput,
+  CreatePartnershipInput,
   CreateWorkRelationshipInput,
   RecordCareResponsibilityStateInput,
   RecordChildAuthorityStateInput,
@@ -178,6 +180,10 @@ export type CharacterHistoryTransition =
   | {
       readonly kind: "kinship";
       readonly input: WithProvenance<RecordKinshipInput>;
+    }
+  | {
+      readonly kind: "partnership";
+      readonly input: WithProvenance<CreatePartnershipInput>;
     }
   | {
       readonly kind: "care";
@@ -571,6 +577,12 @@ export function applyCharacterHistoryPlan(
       }
       case "kinship":
         next = recordKinship(next, withLifeProvenance(next, transition.input));
+        break;
+      case "partnership":
+        next = createPartnership(
+          next,
+          withLifeProvenance(next, transition.input),
+        );
         break;
       case "care":
         next = createCareResponsibility(
