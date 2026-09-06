@@ -1,0 +1,103 @@
+{
+  "schema": "p95-source-sheet-determinism-v1",
+  "checkedAt": "2026-09-05T17:47:29.525Z",
+  "result": "PASS",
+  "sheets": [
+    {
+      "reportPath": "art/qa/p95-recent-drive-sweep/fat-man-chop.json",
+      "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/fat man.png",
+      "componentCount": 8,
+      "structuralMatch": true,
+      "byteIdentical": true,
+      "result": "PASS"
+    },
+    {
+      "reportPath": "art/qa/p95-recent-drive-sweep/female-tops-chop.json",
+      "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/female top.png",
+      "componentCount": 12,
+      "structuralMatch": true,
+      "byteIdentical": true,
+      "result": "PASS"
+    },
+    {
+      "reportPath": "art/qa/p95-recent-drive-sweep/male-bottoms-chop.json",
+      "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/male bottom.png",
+      "componentCount": 12,
+      "structuralMatch": true,
+      "byteIdentical": true,
+      "result": "PASS"
+    },
+    {
+      "reportPath": "art/qa/p95-recent-drive-sweep/male-tops-chop.json",
+      "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/male tops.png",
+      "componentCount": 12,
+      "structuralMatch": true,
+      "byteIdentical": true,
+      "result": "PASS"
+    },
+    {
+      "reportPath": "art/qa/p95-recent-drive-sweep/shoes-chop.json",
+      "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/shoes.png",
+      "componentCount": 12,
+      "structuralMatch": true,
+      "byteIdentical": true,
+      "result": "PASS"
+    },
+    {
+      "reportPath": "art/qa/p95-recent-drive-sweep/skinny-man-chop.json",
+      "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/skinny man.png",
+      "componentCount": 8,
+      "structuralMatch": true,
+      "byteIdentical": true,
+      "result": "PASS"
+    },
+    {
+      "reportPath": "art/qa/p95-recent-drive-sweep/supplies-chop.json",
+      "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/supplies.png",
+      "componentCount": 12,
+      "structuralMatch": true,
+      "byteIdentical": true,
+      "result": "PASS"
+    },
+    {
+      "reportPath": "art/qa/p95-wave-a-morphology/additional-fat-female-pose-chop.json",
+      "sourcePath": "art/references/candidates/wave-a-morphology/source-sheets/additional fat female pose.png",
+      "componentCount": 3,
+      "structuralMatch": true,
+      "byteIdentical": true,
+      "result": "PASS"
+    },
+    {
+      "reportPath": "art/qa/p95-wave-a-morphology/average-man-chop.json",
+      "sourcePath": "art/references/candidates/wave-a-morphology/source-sheets/average man.png",
+      "componentCount": 8,
+      "structuralMatch": true,
+      "byteIdentical": true,
+      "result": "PASS"
+    },
+    {
+      "reportPath": "art/qa/p95-wave-a-morphology/average-woman-chop.json",
+      "sourcePath": "art/references/candidates/wave-a-morphology/source-sheets/average woman.png",
+      "componentCount": 8,
+      "structuralMatch": true,
+      "byteIdentical": true,
+      "result": "PASS"
+    },
+    {
+      "reportPath": "art/qa/p95-wave-a-morphology/older-woman-chop.json",
+      "sourcePath": "art/references/candidates/wave-a-morphology/source-sheets/older woman.png",
+      "componentCount": 8,
+      "structuralMatch": true,
+      "byteIdentical": true,
+      "result": "PASS"
+    },
+    {
+      "reportPath": "art/qa/p95-wave-a-morphology/skinny-woman-chop.json",
+      "sourcePath": "art/references/candidates/wave-a-morphology/source-sheets/skinny woman.png",
+      "componentCount": 8,
+      "structuralMatch": true,
+      "byteIdentical": true,
+      "result": "PASS"
+    }
+  ]
+}

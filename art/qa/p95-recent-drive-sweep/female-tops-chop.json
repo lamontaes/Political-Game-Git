@@ -1,0 +1,325 @@
+{
+  "tool": "source-sheet-chop-v1",
+  "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/female top.png",
+  "sourceSha256": "24f08760efcb553771b52a21a5025a663f5b6ceebf75a1f7514d5a1a25ea5a6b",
+  "sourceWidth": 3584,
+  "sourceHeight": 4800,
+  "options": {
+    "alphaNoiseThreshold": 8,
+    "paddingPixels": 64,
+    "minimumGapPixels": 24,
+    "minimumComponentPixels": 20000
+  },
+  "columnBands": [
+    {
+      "start": 103,
+      "end": 1080
+    },
+    {
+      "start": 1310,
+      "end": 2274
+    },
+    {
+      "start": 2504,
+      "end": 3488
+    }
+  ],
+  "rowBands": [
+    {
+      "start": 103,
+      "end": 1104
+    },
+    {
+      "start": 1284,
+      "end": 2296
+    },
+    {
+      "start": 2489,
+      "end": 3507
+    },
+    {
+      "start": 3604,
+      "end": 4759
+    }
+  ],
+  "noisePixelsCleared": 2934568,
+  "cells": [
+    {
+      "cellId": "R1C1",
+      "row": 1,
+      "column": 1,
+      "sourceBox": {
+        "x": 195,
+        "y": 157,
+        "width": 796,
+        "height": 872
+      },
+      "centroidNormalized": {
+        "x": 0.165469,
+        "y": 0.119857
+      },
+      "exportWidth": 924,
+      "exportHeight": 1000,
+      "opaquePixels": 491222,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 9042,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_gray_short_sleeve_tee_v1.png",
+      "sha256": "51e5e23e6d21473eda212d368e59ea674782b4ecbe25f642893706f366582949"
+    },
+    {
+      "cellId": "R1C2",
+      "row": 1,
+      "column": 2,
+      "sourceBox": {
+        "x": 1310,
+        "y": 103,
+        "width": 965,
+        "height": 1002
+      },
+      "centroidNormalized": {
+        "x": 0.500086,
+        "y": 0.13333
+      },
+      "exportWidth": 1093,
+      "exportHeight": 1130,
+      "opaquePixels": 712040,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 15213,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_olive_button_up_shirt_v1.png",
+      "sha256": "b9cba6f0582af7874f4bef7ec8f0306fa24a52982c23ee9a67d807c178d8644f"
+    },
+    {
+      "cellId": "R1C3",
+      "row": 1,
+      "column": 3,
+      "sourceBox": {
+        "x": 2507,
+        "y": 147,
+        "width": 968,
+        "height": 952
+      },
+      "centroidNormalized": {
+        "x": 0.834659,
+        "y": 0.13465
+      },
+      "exportWidth": 1096,
+      "exportHeight": 1080,
+      "opaquePixels": 713922,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 14283,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_mustard_cable_sweater_v1.png",
+      "sha256": "0a72d8194152ed711a657871fbddaeac134474010c4731e93173cc09351d2201"
+    },
+    {
+      "cellId": "R2C1",
+      "row": 2,
+      "column": 1,
+      "sourceBox": {
+        "x": 107,
+        "y": 1291,
+        "width": 974,
+        "height": 1006
+      },
+      "centroidNormalized": {
+        "x": 0.165495,
+        "y": 0.383182
+      },
+      "exportWidth": 1102,
+      "exportHeight": 1134,
+      "opaquePixels": 736340,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 16496,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_charcoal_blazer_v1.png",
+      "sha256": "584abc22a8e3313e865f2c71913083128a339a1d79dddd7a52ccb5597c1c81c4"
+    },
+    {
+      "cellId": "R2C2",
+      "row": 2,
+      "column": 2,
+      "sourceBox": {
+        "x": 1317,
+        "y": 1284,
+        "width": 952,
+        "height": 1009
+      },
+      "centroidNormalized": {
+        "x": 0.500173,
+        "y": 0.381496
+      },
+      "exportWidth": 1080,
+      "exportHeight": 1137,
+      "opaquePixels": 739363,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 23710,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_navy_zip_hoodie_v1.png",
+      "sha256": "b2ef42b821bc7e4904efcc3bf1f4475e6bd7e7ad23563b377ae69bec48821ef5"
+    },
+    {
+      "cellId": "R2C3",
+      "row": 2,
+      "column": 3,
+      "sourceBox": {
+        "x": 2509,
+        "y": 1289,
+        "width": 964,
+        "height": 992
+      },
+      "centroidNormalized": {
+        "x": 0.834489,
+        "y": 0.379196
+      },
+      "exportWidth": 1092,
+      "exportHeight": 1120,
+      "opaquePixels": 687672,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 16040,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_burgundy_short_sleeve_polo_v1.png",
+      "sha256": "564ae37f67ef25f042dcf91beea4f52e9c1fdb9dbeceed8965f28efa062f2bee"
+    },
+    {
+      "cellId": "R3C1",
+      "row": 3,
+      "column": 1,
+      "sourceBox": {
+        "x": 110,
+        "y": 2490,
+        "width": 963,
+        "height": 1018
+      },
+      "centroidNormalized": {
+        "x": 0.164977,
+        "y": 0.632868
+      },
+      "exportWidth": 1091,
+      "exportHeight": 1146,
+      "opaquePixels": 728976,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 16916,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_plaid_overshirt_v1.png",
+      "sha256": "70de10e2457e02caf7341fd3dc7d2f4598fc16eac9d4c1994ddb3512f0cbd4b2"
+    },
+    {
+      "cellId": "R3C2",
+      "row": 3,
+      "column": 2,
+      "sourceBox": {
+        "x": 1310,
+        "y": 2490,
+        "width": 965,
+        "height": 1017
+      },
+      "centroidNormalized": {
+        "x": 0.500108,
+        "y": 0.633779
+      },
+      "exportWidth": 1093,
+      "exportHeight": 1145,
+      "opaquePixels": 732097,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 13480,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_tan_utility_shirt_v1.png",
+      "sha256": "7f700ef99d564666ba24585338843870c3f2a9309a56a3bf6ae00b7ffb3cdbed"
+    },
+    {
+      "cellId": "R3C3",
+      "row": 3,
+      "column": 3,
+      "sourceBox": {
+        "x": 2508,
+        "y": 2489,
+        "width": 968,
+        "height": 1016
+      },
+      "centroidNormalized": {
+        "x": 0.834724,
+        "y": 0.634458
+      },
+      "exportWidth": 1096,
+      "exportHeight": 1144,
+      "opaquePixels": 756823,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 15945,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_teal_shell_jacket_v1.png",
+      "sha256": "d53f4fe3473cd7e4c418c3c57cfa04ac7e009c5db68be342ca582b223a00e247"
+    },
+    {
+      "cellId": "R4C1",
+      "row": 4,
+      "column": 1,
+      "sourceBox": {
+        "x": 103,
+        "y": 3722,
+        "width": 974,
+        "height": 981
+      },
+      "centroidNormalized": {
+        "x": 0.164371,
+        "y": 0.884667
+      },
+      "exportWidth": 1102,
+      "exportHeight": 1109,
+      "opaquePixels": 749484,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 15323,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_cream_cardigan_v1.png",
+      "sha256": "4588d83dc0f3eb88340251185b20cef75706d14472b80998a9b07cd3243fb23f"
+    },
+    {
+      "cellId": "R4C2",
+      "row": 4,
+      "column": 2,
+      "sourceBox": {
+        "x": 1311,
+        "y": 3662,
+        "width": 963,
+        "height": 1005
+      },
+      "centroidNormalized": {
+        "x": 0.500009,
+        "y": 0.876629
+      },
+      "exportWidth": 1091,
+      "exportHeight": 1133,
+      "opaquePixels": 712490,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 14839,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_olive_puffer_vest_layered_v1.png",
+      "sha256": "efce6486c6dabaec07deba4eabc4589a479738ac98359850d3e9ae72bebf4231"
+    },
+    {
+      "cellId": "R4C3",
+      "row": 4,
+      "column": 3,
+      "sourceBox": {
+        "x": 2504,
+        "y": 3604,
+        "width": 985,
+        "height": 1156
+      },
+      "centroidNormalized": {
+        "x": 0.835777,
+        "y": 0.880756
+      },
+      "exportWidth": 1113,
+      "exportHeight": 1284,
+      "opaquePixels": 900864,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 14076,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_brown_fur_hood_parka_v1.png",
+      "sha256": "0fd48c0aa095b87df31c661205d5db11bb2e0e21c88a78a0ed842cd291f1a604"
+    }
+  ],
+  "rejectedFragments": []
+}
