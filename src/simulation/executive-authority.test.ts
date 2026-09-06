@@ -976,21 +976,7 @@ describe("executive-authority R2: RuleValue runtime integrity fails closed", () 
           notApplicableRule("removal simply does not apply to this office"),
         ),
       ),
-    ).toThrow(/without affirmative sourced authority/);
-  });
-
-  it("accepts a not-applicable that cites the provision establishing it", () => {
-    // The affirmative, sourced form is allowed: the concept is declared absent
-    // by naming the operative provision, not inferred from a silent record.
-    expect(() =>
-      assertExecutiveAuthorityPackIntegrity(
-        withRemovalMode(
-          notApplicableRule(
-            "This office removes no principal officer; Alaska Const. Art. III, Sec. 25 vests that authority elsewhere.",
-          ),
-        ),
-      ),
-    ).not.toThrow();
+    ).toThrow(/does not accept/);
   });
 
   it("rejects a malformed known value missing its source", () => {
@@ -1188,5 +1174,223 @@ describe("executive-authority R2: presentment resolves only against the live reg
     expect(resolvePresentmentAuthority(KENTUCKY_EXECUTIVE_PACK, kyLegis)).toBe(
       KENTUCKY_RULE_PACK.executive,
     );
+  });
+});
+
+// ---------------------------------------------------------------------------
+// R2B blocker — a not-applicable can no longer be manufactured out of silence.
+//
+// The prior repair let `not-applicable` through on nothing more than a note
+// that *looked* like a citation. That is syntactic decoration, not evidence: a
+// free-text note carries no source object, no verification status, and no way
+// for a reader to tell an established inapplicability from an absence of
+// research. Silence is `unknown`. Until this subsystem has a source-bearing
+// representation for an affirmative "the concept does not exist here", the
+// executive-authority seam admits only `known` and `unknown`.
+// ---------------------------------------------------------------------------
+
+describe("executive-authority R2B: not-applicable cannot be manufactured from silence", () => {
+  function withRemovalMode(mode: unknown): ExecutiveAuthorityRulePack {
+    return {
+      ...KENTUCKY_EXECUTIVE_PACK,
+      removal: {
+        ...KENTUCKY_EXECUTIVE_PACK.removal,
+        mode: mode as typeof KENTUCKY_EXECUTIVE_PACK.removal.mode,
+      },
+    };
+  }
+
+  const REFUSAL = /not-applicable/;
+
+  it("rejects a note that admits the search failed but decorates it with a citation", () => {
+    // Adversarial case 1: the cited provision does not establish inapplicability.
+    expect(() =>
+      assertExecutiveAuthorityPackIntegrity(
+        withRemovalMode(
+          notApplicableRule("No authority found; see Art. V § 3"),
+        ),
+      ),
+    ).toThrow(REFUSAL);
+  });
+
+  it("rejects a plausible section citation carried in prose with no source object", () => {
+    // Adversarial case 2: citation-shaped text, no evidence channel at all.
+    expect(() =>
+      assertExecutiveAuthorityPackIntegrity(
+        withRemovalMode(
+          notApplicableRule(
+            "Ky. Const. Sec. 69 vests the executive power, so removal is inapplicable.",
+          ),
+        ),
+      ),
+    ).toThrow(REFUSAL);
+  });
+
+  it("rejects a note that borrows an unrelated valid pinpoint from the same pack", () => {
+    // Adversarial case 3: the pinpoint is real, and about something else.
+    const borrowed = KENTUCKY_EXECUTIVE_PACK.office.source.citation;
+    expect(isGenericCitation(borrowed)).toBe(false);
+    expect(() =>
+      assertExecutiveAuthorityPackIntegrity(
+        withRemovalMode(notApplicableRule(`Not applicable — ${borrowed}.`)),
+      ),
+    ).toThrow(REFUSAL);
+  });
+
+  it("rejects a note that argues silence itself proves nonexistence", () => {
+    // Adversarial case 4: the inference this contract exists to forbid.
+    expect(() =>
+      assertExecutiveAuthorityPackIntegrity(
+        withRemovalMode(
+          notApplicableRule(
+            "Ky. Const. Art. III is silent on removal, which establishes that no such power exists.",
+          ),
+        ),
+      ),
+    ).toThrow(REFUSAL);
+  });
+
+  it("rejects a malformed not-applicable smuggling hidden value and source fields", () => {
+    // Adversarial case 5: a mixed shape that would resolve a value if admitted.
+    expect(() =>
+      assertExecutiveAuthorityPackIntegrity(
+        withRemovalMode({
+          kind: "not-applicable",
+          note: "Ky. Const. Sec. 69 — inapplicable.",
+          value: "at-pleasure",
+          source: KENTUCKY_EXECUTIVE_PACK.office.source,
+        }),
+      ),
+    ).toThrow(REFUSAL);
+  });
+
+  it("rejects a not-applicable asserted from bare silence, as before", () => {
+    expect(() =>
+      assertExecutiveAuthorityPackIntegrity(
+        withRemovalMode(
+          notApplicableRule("removal simply does not apply to this office"),
+        ),
+      ),
+    ).toThrow(REFUSAL);
+  });
+
+  it("names unknown as the state such a field must hold instead", () => {
+    let message = "";
+    try {
+      assertExecutiveAuthorityPackIntegrity(
+        withRemovalMode(notApplicableRule("Art. V § 3 — inapplicable.")),
+      );
+    } catch (error) {
+      message = (error as Error).message;
+    }
+    expect(message).toMatch(/unknown/);
+  });
+
+  it("still admits the two states this subsystem does carry (positive control)", () => {
+    expect(() =>
+      assertExecutiveAuthorityPackIntegrity(
+        withRemovalMode({
+          kind: "unknown",
+          note: "92A did not resolve a removal mode for this office.",
+        }),
+      ),
+    ).not.toThrow();
+    expect(() =>
+      assertExecutiveAuthorityPackIntegrity(
+        withRemovalMode({
+          kind: "known",
+          value: "at-pleasure",
+          source: KENTUCKY_EXECUTIVE_PACK.office.source,
+        }),
+      ),
+    ).not.toThrow();
+  });
+
+  it("refuses a not-applicable in every rule-bearing field, not only removal", () => {
+    const decorated = notApplicableRule("Art. II, Sec. 3 — inapplicable.");
+    const mutations: ReadonlyArray<
+      readonly [string, ExecutiveAuthorityRulePack]
+    > = [
+      [
+        "office.branchStructure",
+        {
+          ...KENTUCKY_EXECUTIVE_PACK,
+          office: {
+            ...KENTUCKY_EXECUTIVE_PACK.office,
+            branchStructure:
+              decorated as typeof KENTUCKY_EXECUTIVE_PACK.office.branchStructure,
+          },
+        },
+      ],
+      [
+        "presentment.legislativeRulePackId",
+        {
+          ...KENTUCKY_EXECUTIVE_PACK,
+          presentment: {
+            legislativeRulePackId:
+              decorated as typeof KENTUCKY_EXECUTIVE_PACK.presentment.legislativeRulePackId,
+          },
+        },
+      ],
+      [
+        "clemency.model",
+        {
+          ...KENTUCKY_EXECUTIVE_PACK,
+          clemency: {
+            ...KENTUCKY_EXECUTIVE_PACK.clemency,
+            model: decorated as typeof KENTUCKY_EXECUTIVE_PACK.clemency.model,
+          },
+        },
+      ],
+      [
+        "emergencyDeclaration.initialDurationDays",
+        {
+          ...KENTUCKY_EXECUTIVE_PACK,
+          emergencyDeclaration: {
+            ...KENTUCKY_EXECUTIVE_PACK.emergencyDeclaration,
+            initialDurationDays:
+              decorated as typeof KENTUCKY_EXECUTIVE_PACK.emergencyDeclaration.initialDurationDays,
+          },
+        },
+      ],
+      [
+        "guard.commandsMilitia",
+        {
+          ...KENTUCKY_EXECUTIVE_PACK,
+          guard: {
+            ...KENTUCKY_EXECUTIVE_PACK.guard,
+            commandsMilitia:
+              decorated as typeof KENTUCKY_EXECUTIVE_PACK.guard.commandsMilitia,
+          },
+        },
+      ],
+      [
+        "pluralExecutive[0].independentlyElected",
+        {
+          ...KENTUCKY_EXECUTIVE_PACK,
+          pluralExecutive: KENTUCKY_EXECUTIVE_PACK.pluralExecutive.map(
+            (entry, index) =>
+              index === 0
+                ? {
+                    ...entry,
+                    independentlyElected:
+                      decorated as typeof entry.independentlyElected,
+                  }
+                : entry,
+          ),
+        },
+      ],
+    ];
+
+    const admitted: string[] = [];
+    for (const [path, pack] of mutations) {
+      try {
+        assertExecutiveAuthorityPackIntegrity(pack);
+        admitted.push(path);
+      } catch {
+        // refused, as required
+      }
+    }
+    expect(admitted).toEqual([]);
   });
 });

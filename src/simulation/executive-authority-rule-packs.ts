@@ -1,17 +1,17 @@
 import {
-  knownRule,
-  unknownRule,
   type RuleSourceRef,
-  type RuleValue,
   type RuleVerificationStatus,
 } from "./legislature-rules";
 import { rulePackById } from "./legislature-rule-packs";
-import type {
-  ClemencyModel,
-  ExecutiveAuthorityRulePack,
-  ExecutiveBranchStructure,
-  PluralExecutiveConstraint,
-  RemovalMode,
+import {
+  executiveKnown,
+  executiveUnknown,
+  type ClemencyModel,
+  type ExecutiveAuthorityRulePack,
+  type ExecutiveBranchStructure,
+  type ExecutiveRuleValue,
+  type PluralExecutiveConstraint,
+  type RemovalMode,
 } from "./executive-authority-rules";
 
 /**
@@ -100,9 +100,12 @@ function source(
  * carries the referenced pack's own executive-rule source, so the evidence a
  * reader sees is the evidence the legislative pack actually holds.
  */
-function presentmentRef(legislativePackId: string): RuleValue<string> {
+function presentmentRef(legislativePackId: string): ExecutiveRuleValue<string> {
   const legislativePack = rulePackById(legislativePackId);
-  return knownRule(legislativePack.packId, legislativePack.executive.source);
+  return executiveKnown(
+    legislativePack.packId,
+    legislativePack.executive.source,
+  );
 }
 
 /**
@@ -185,7 +188,7 @@ const US_FEDERAL_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     title: "President",
     // The vesting clause puts the whole executive power in one elected
     // officer, which is what makes the branch unitary.
-    branchStructure: knownRule<ExecutiveBranchStructure>(
+    branchStructure: executiveKnown<ExecutiveBranchStructure>(
       "unitary",
       US_ART2_S1_C1,
     ),
@@ -195,25 +198,25 @@ const US_FEDERAL_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     // Presentment and the veto live in Art. I, Sec. 7, which belongs to a
     // federal legislative rule pack that has not been compiled. The reference
     // stays unknown rather than naming a pack that does not exist.
-    legislativeRulePackId: unknownRule(
+    legislativeRulePackId: executiveUnknown(
       "No federal legislative rule pack has been compiled; presentment and the veto (U.S. Const. Art. I, Sec. 7) are not yet represented as a pack this reference can resolve.",
     ),
   },
   appointment: {
-    executiveAppoints: knownRule(true, US_ART2_S2_C2),
-    legislativeConfirmationRequired: knownRule(true, US_ART2_S2_C2),
-    confirmingBody: knownRule("the Senate", US_ART2_S2_C2),
+    executiveAppoints: executiveKnown(true, US_ART2_S2_C2),
+    legislativeConfirmationRequired: executiveKnown(true, US_ART2_S2_C2),
+    confirmingBody: executiveKnown("the Senate", US_ART2_S2_C2),
     source: US_ART2_S2_C2,
   },
   removal: {
-    mode: unknownRule<RemovalMode>(
+    mode: executiveUnknown<RemovalMode>(
       "Presidential removal authority rests on judicial doctrine (the line running through Myers and Humphrey's Executor), not on any Article II text, and no exact operative authority for it was read for this pack.",
     ),
     source: US_ART2_S1_C1,
   },
   specialSession: {
-    executiveMayConvene: knownRule(true, US_ART2_S3),
-    agendaLimitedToCall: unknownRule(
+    executiveMayConvene: executiveKnown(true, US_ART2_S3),
+    agendaLimitedToCall: executiveUnknown(
       "Art. II, Sec. 3 lets the President convene both Houses on extraordinary occasions and says nothing about what Congress may then consider. That silence is not a positive rule either way, so the agenda limit stays unknown.",
     ),
     source: US_ART2_S3,
@@ -223,37 +226,37 @@ const US_FEDERAL_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     // vesting clause and the take-care duty are general; reading a directive
     // power out of them would be inferring a power from a generic vesting
     // clause beyond what the operative text supports, so it stays unknown.
-    hasDirectiveAuthority: unknownRule(
+    hasDirectiveAuthority: executiveUnknown(
       "Article II contains no express executive-order or directive clause. Directive authority is a doctrinal and statutory question that no exact operative authority read for this pack resolves; it is not inferred from the vesting clause or the take-care duty.",
     ),
-    authorityBasis: unknownRule(
+    authorityBasis: executiveUnknown(
       "With no express directive clause in the operative Article II text, the basis for federal directive authority is unresolved for this pack.",
     ),
     source: US_ART2_S1_C1,
   },
   reorganization: {
-    executiveMayReorganize: unknownRule(
+    executiveMayReorganize: executiveUnknown(
       "Federal executive reorganization authority is statutory (the lapsed Reorganization Act line), not constitutional, and no exact operative statute was read for this pack.",
     ),
-    legislativeDisapprovalAvailable: unknownRule(
+    legislativeDisapprovalAvailable: executiveUnknown(
       "Whether a federal reorganization takes effect subject to congressional disapproval turns on the reorganization statute in force, which was not read for this pack.",
     ),
-    sunset: unknownRule(
+    sunset: executiveUnknown(
       "Whether federal reorganization authority sunsets turns on the reorganization statute in force, which was not read for this pack.",
     ),
     source: US_ART2_S1_C1,
   },
   emergencyDeclaration: {
-    executiveMayDeclare: unknownRule(
+    executiveMayDeclare: executiveUnknown(
       "Federal emergency-declaration authority is statutory (the National Emergencies Act regime), not Article II, and no exact operative statute was read for this pack.",
     ),
-    initialDurationDays: unknownRule(
+    initialDurationDays: executiveUnknown(
       "The duration of a federal emergency declaration turns on the governing statute, which was not read for this pack.",
     ),
-    extension: unknownRule(
+    extension: executiveUnknown(
       "How a federal emergency declaration is extended turns on the governing statute, which was not read for this pack.",
     ),
-    legislativeTermination: unknownRule(
+    legislativeTermination: executiveUnknown(
       "How Congress may terminate a federal emergency declaration turns on the governing statute, which was not read for this pack.",
     ),
     source: US_ART2_S1_C1,
@@ -261,37 +264,37 @@ const US_FEDERAL_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   clemency: {
     // The pardon power is granted to the President alone; no board appears in
     // the operative text.
-    model: knownRule<ClemencyModel>("executive-sole", US_ART2_S2_C1),
-    scope: knownRule(
+    model: executiveKnown<ClemencyModel>("executive-sole", US_ART2_S2_C1),
+    scope: executiveKnown(
       "Reprieves and pardons for offences against the United States, except in cases of impeachment.",
       US_ART2_S2_C1,
     ),
     source: US_ART2_S2_C1,
   },
   budgetSubmission: {
-    executiveMustSubmit: unknownRule(
+    executiveMustSubmit: executiveUnknown(
       "The President's budget-submission duty is statutory (the Budget and Accounting Act line), not Article II, and no exact operative statute was read for this pack.",
     ),
-    submissionDeadline: unknownRule(
+    submissionDeadline: executiveUnknown(
       "The federal budget-submission deadline turns on the governing statute, which was not read for this pack.",
     ),
     source: US_ART2_S3,
   },
   administrative: {
-    faithfulExecutionDuty: knownRule(true, US_ART2_S3),
+    faithfulExecutionDuty: executiveKnown(true, US_ART2_S3),
     // The nearest thing Article II has to a supervisory clause is the Opinions
     // Clause, which reaches only written opinions from department heads on
     // their own duties. That is narrower than a general supervisory authority,
     // so this field is not filled from it.
-    supervisoryAuthority: unknownRule(
+    supervisoryAuthority: executiveUnknown(
       "Article II grants no general supervisory clause. The Opinions Clause (Art. II, Sec. 2, cl. 1) reaches only the President's power to require written opinions from principal officers on the duties of their own offices, which does not establish general supervisory authority over the branch; the field stays unknown rather than being widened to fit.",
     ),
     source: US_ART2_S3,
   },
   pluralExecutive: [],
   guard: {
-    commandsMilitia: knownRule(true, US_ART2_S2_C1),
-    scope: knownRule(
+    commandsMilitia: executiveKnown(true, US_ART2_S2_C1),
+    scope: executiveKnown(
       "Commander in Chief of the Army and Navy of the United States, and of the Militia of the several States when called into the actual Service of the United States.",
       US_ART2_S2_C1,
     ),
@@ -378,80 +381,86 @@ function unresearchedStateDimensions(
 > {
   return {
     removal: {
-      mode: unknownRule<RemovalMode>(notResearchedBy92A("Removal authority")),
+      mode: executiveUnknown<RemovalMode>(
+        notResearchedBy92A("Removal authority"),
+      ),
       source: identitySource,
     },
     specialSession: {
-      executiveMayConvene: unknownRule(
+      executiveMayConvene: executiveUnknown(
         notResearchedBy92A("Special-session authority"),
       ),
-      agendaLimitedToCall: unknownRule(
+      agendaLimitedToCall: executiveUnknown(
         notResearchedBy92A("Special-session agenda scope"),
       ),
       source: identitySource,
     },
     executiveDirective: {
-      hasDirectiveAuthority: unknownRule(
+      hasDirectiveAuthority: executiveUnknown(
         notResearchedBy92A("Executive-order/directive authority"),
       ),
-      authorityBasis: unknownRule(
+      authorityBasis: executiveUnknown(
         notResearchedBy92A("The basis for executive-order authority"),
       ),
       source: identitySource,
     },
     reorganization: {
-      executiveMayReorganize: unknownRule(
+      executiveMayReorganize: executiveUnknown(
         notResearchedBy92A("Reorganization authority"),
       ),
-      legislativeDisapprovalAvailable: unknownRule(
+      legislativeDisapprovalAvailable: executiveUnknown(
         notResearchedBy92A("Reorganization disapproval"),
       ),
-      sunset: unknownRule(notResearchedBy92A("Reorganization sunset")),
+      sunset: executiveUnknown(notResearchedBy92A("Reorganization sunset")),
       source: identitySource,
     },
     emergencyDeclaration: {
-      executiveMayDeclare: unknownRule(
+      executiveMayDeclare: executiveUnknown(
         notResearchedBy92A("Emergency-declaration authority"),
       ),
-      initialDurationDays: unknownRule(
+      initialDurationDays: executiveUnknown(
         notResearchedBy92A("Emergency-declaration duration"),
       ),
-      extension: unknownRule(
+      extension: executiveUnknown(
         notResearchedBy92A("Emergency-declaration extension"),
       ),
-      legislativeTermination: unknownRule(
+      legislativeTermination: executiveUnknown(
         notResearchedBy92A("Legislative termination of an emergency"),
       ),
       source: identitySource,
     },
     clemency: {
-      model: unknownRule<ClemencyModel>(
+      model: executiveUnknown<ClemencyModel>(
         notResearchedBy92A("Clemency authority"),
       ),
-      scope: unknownRule(notResearchedBy92A("Clemency scope")),
+      scope: executiveUnknown(notResearchedBy92A("Clemency scope")),
       source: identitySource,
     },
     budgetSubmission: {
-      executiveMustSubmit: unknownRule(
+      executiveMustSubmit: executiveUnknown(
         notResearchedBy92A("Budget-submission duty"),
       ),
-      submissionDeadline: unknownRule(
+      submissionDeadline: executiveUnknown(
         notResearchedBy92A("Budget-submission deadline"),
       ),
       source: identitySource,
     },
     administrative: {
-      faithfulExecutionDuty: unknownRule(
+      faithfulExecutionDuty: executiveUnknown(
         notResearchedBy92A("The administrative/faithful-execution duty"),
       ),
-      supervisoryAuthority: unknownRule(
+      supervisoryAuthority: executiveUnknown(
         notResearchedBy92A("General supervisory authority"),
       ),
       source: identitySource,
     },
     guard: {
-      commandsMilitia: unknownRule(notResearchedBy92A("Militia/Guard command")),
-      scope: unknownRule(notResearchedBy92A("Militia/Guard command scope")),
+      commandsMilitia: executiveUnknown(
+        notResearchedBy92A("Militia/Guard command"),
+      ),
+      scope: executiveUnknown(
+        notResearchedBy92A("Militia/Guard command scope"),
+      ),
       source: identitySource,
     },
   };
@@ -493,7 +502,10 @@ const KENTUCKY_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   office: {
     officeKey: "us-ky-governor",
     title: "Governor",
-    branchStructure: knownRule<ExecutiveBranchStructure>("plural", KY_SEC_91),
+    branchStructure: executiveKnown<ExecutiveBranchStructure>(
+      "plural",
+      KY_SEC_91,
+    ),
     source: KY_SEC_91,
   },
   presentment: {
@@ -504,13 +516,13 @@ const KENTUCKY_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     // vacancy from a nominating commission's list. It does not establish a
     // general power to appoint the principal officers of the branch, which is
     // what this field asks, so the field is not filled from it.
-    executiveAppoints: unknownRule(
+    executiveAppoints: executiveUnknown(
       "No general appointment clause was read for Kentucky. Ky. Const. Sec. 118 establishes only appointment to a judicial vacancy from a nominating commission's list, and KRS 117.015(2) only the State Board of Elections; neither establishes a general power to appoint principal officers of the executive branch.",
     ),
-    legislativeConfirmationRequired: unknownRule(
+    legislativeConfirmationRequired: executiveUnknown(
       "No general appointment-and-confirmation clause was read for Kentucky; the specific appointments the record captures (judicial vacancies, the State Board of Elections) are not senate-confirmed on that record, which is not a general rule either way.",
     ),
-    confirmingBody: unknownRule(
+    confirmingBody: executiveUnknown(
       "Whether and which body confirms Kentucky executive appointments was not resolved by the 92A research.",
     ),
     source: KY_SEC_118,
@@ -520,10 +532,10 @@ const KENTUCKY_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   // nearest thing the research surfaced, so it carries that citation rather
   // than the generic identity source.
   clemency: {
-    model: unknownRule<ClemencyModel>(
+    model: executiveUnknown<ClemencyModel>(
       "Kentucky's clemency power was not resolved by the 92A research; Sec. 145 mentions an executive pardon only incidentally, as a thing that restores civil rights, and does not establish the power or any board constraint.",
     ),
-    scope: unknownRule(
+    scope: executiveUnknown(
       "The scope of Kentucky's clemency power was not resolved by the 92A research.",
     ),
     source: KY_SEC_145,
@@ -545,7 +557,7 @@ const KENTUCKY_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
 function kyOfficer(officeLabel: string): PluralExecutiveConstraint {
   return {
     officeLabel,
-    independentlyElected: knownRule(true, KY_SEC_91),
+    independentlyElected: executiveKnown(true, KY_SEC_91),
     source: KY_SEC_91,
   };
 }
@@ -574,7 +586,10 @@ const NEBRASKA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   office: {
     officeKey: "us-ne-governor",
     title: "Governor",
-    branchStructure: knownRule<ExecutiveBranchStructure>("plural", NE_ART4_S1),
+    branchStructure: executiveKnown<ExecutiveBranchStructure>(
+      "plural",
+      NE_ART4_S1,
+    ),
     source: NE_ART4_S1,
   },
   presentment: {
@@ -585,13 +600,13 @@ const NEBRASKA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     // general appointment-and-confirmation regime, and it was not read for
     // this pack. Art. V, Sec. 21 is judicial merit selection, a different and
     // narrower thing, so it does not fill this field.
-    executiveAppoints: unknownRule(
+    executiveAppoints: executiveUnknown(
       "No general Nebraska appointment clause was read for this pack. Neb. Const. Art. V, Sec. 21 establishes only judicial merit selection from a nominating commission's list; the general appointment provision (Art. IV, Sec. 10) was not read at the precision this field requires.",
     ),
-    legislativeConfirmationRequired: unknownRule(
+    legislativeConfirmationRequired: executiveUnknown(
       "Whether Nebraska executive appointments require legislative confirmation was not read at exact operative precision; judicial merit selection is not a confirmation and does not answer it.",
     ),
-    confirmingBody: unknownRule(
+    confirmingBody: executiveUnknown(
       "Whether and which body confirms Nebraska executive appointments was not resolved by the 92A research.",
     ),
     source: NE_ART5_S21,
@@ -613,7 +628,7 @@ const NEBRASKA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
 function neOfficer(officeLabel: string): PluralExecutiveConstraint {
   return {
     officeLabel,
-    independentlyElected: knownRule(true, NE_ART4_S1),
+    independentlyElected: executiveKnown(true, NE_ART4_S1),
     source: NE_ART4_S1,
   };
 }
@@ -649,7 +664,7 @@ const ALASKA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   office: {
     officeKey: "us-ak-governor",
     title: "Governor",
-    branchStructure: knownRule<ExecutiveBranchStructure>(
+    branchStructure: executiveKnown<ExecutiveBranchStructure>(
       "unitary",
       AK_ART3_S25,
     ),
@@ -659,9 +674,12 @@ const ALASKA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     legislativeRulePackId: presentmentRef("us-ak-legislature-v1"),
   },
   appointment: {
-    executiveAppoints: knownRule(true, AK_ART3_S25),
-    legislativeConfirmationRequired: knownRule(true, AK_ART3_S25),
-    confirmingBody: knownRule("the Legislature in joint session", AK_ART3_S25),
+    executiveAppoints: executiveKnown(true, AK_ART3_S25),
+    legislativeConfirmationRequired: executiveKnown(true, AK_ART3_S25),
+    confirmingBody: executiveKnown(
+      "the Legislature in joint session",
+      AK_ART3_S25,
+    ),
     source: AK_ART3_S25,
   },
   ...unresearchedStateDimensions(AK_ART3_S25),
@@ -705,7 +723,10 @@ const MINNESOTA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   office: {
     officeKey: "us-mn-governor",
     title: "Governor",
-    branchStructure: knownRule<ExecutiveBranchStructure>("plural", MN_ART5_S1),
+    branchStructure: executiveKnown<ExecutiveBranchStructure>(
+      "plural",
+      MN_ART5_S1,
+    ),
     source: MN_ART5_S1,
   },
   presentment: {
@@ -715,13 +736,13 @@ const MINNESOTA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     // The officer class the read source covers is judges filling interim
     // vacancies, not the principal officers of the executive branch this field
     // describes. The field stays unknown at the general precision it asks for.
-    executiveAppoints: unknownRule(
+    executiveAppoints: executiveUnknown(
       "The read Minnesota sources cover only specific officer classes — judges filling interim vacancies (Minn. Const. Art. VI, Sec. 8) and one named board (Minn. Stat. ch. 10A) — not a general power to appoint the principal officers of the executive branch.",
     ),
-    legislativeConfirmationRequired: unknownRule(
+    legislativeConfirmationRequired: executiveUnknown(
       "No general Minnesota confirmation requirement was read; the one captured instance (the Campaign Finance and Public Disclosure Board, Minn. Stat. ch. 10A, confirmed by both houses) is a specific board, not a general rule.",
     ),
-    confirmingBody: unknownRule(
+    confirmingBody: executiveUnknown(
       "Whether and which body confirms Minnesota executive appointments generally was not read at exact operative precision.",
     ),
     source: MN_ART6_S8,
@@ -743,7 +764,7 @@ const MINNESOTA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
 function mnOfficer(officeLabel: string): PluralExecutiveConstraint {
   return {
     officeLabel,
-    independentlyElected: knownRule(true, MN_ART5_S1),
+    independentlyElected: executiveKnown(true, MN_ART5_S1),
     source: MN_ART5_S1,
   };
 }
@@ -777,7 +798,10 @@ const ILLINOIS_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   office: {
     officeKey: "us-il-governor",
     title: "Governor",
-    branchStructure: knownRule<ExecutiveBranchStructure>("plural", IL_ART5_S1),
+    branchStructure: executiveKnown<ExecutiveBranchStructure>(
+      "plural",
+      IL_ART5_S1,
+    ),
     source: IL_ART5_S1,
   },
   presentment: {
@@ -789,13 +813,13 @@ const ILLINOIS_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     // advice-and-consent requirement is not the general confirmation rule.
     // Both fields stay unknown until the general constitutional provision is
     // read at its own precision.
-    executiveAppoints: unknownRule(
+    executiveAppoints: executiveUnknown(
       "No general Illinois appointment clause was read. Ill. Const. Art. III, Sec. 5 and 10 ILCS 5/1A-1 establish only how the State Board of Elections is constituted, which does not establish a general power to appoint the principal officers of the executive branch.",
     ),
-    legislativeConfirmationRequired: unknownRule(
+    legislativeConfirmationRequired: executiveUnknown(
       "Illinois's general confirmation requirement was not read at exact operative precision. The captured advice-and-consent fact is specific to the State Board of Elections, and no supermajority confirmation rule is carried: the three-fifths figure that appeared in rejected national research is not supported by any source read here.",
     ),
-    confirmingBody: unknownRule(
+    confirmingBody: executiveUnknown(
       "Which body confirms Illinois executive appointments generally, and on what vote, was not read at exact operative precision.",
     ),
     source: IL_ART3_S5,
@@ -817,7 +841,7 @@ const ILLINOIS_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
 function ilOfficer(officeLabel: string): PluralExecutiveConstraint {
   return {
     officeLabel,
-    independentlyElected: knownRule(true, IL_ART5_S1),
+    independentlyElected: executiveKnown(true, IL_ART5_S1),
     source: IL_ART5_S1,
   };
 }

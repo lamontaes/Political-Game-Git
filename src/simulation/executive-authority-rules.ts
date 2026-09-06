@@ -8,14 +8,22 @@
  * them. It composes them by reference (see {@link ExecutivePresentmentRef} and
  * {@link resolvePresentmentAuthority}) so the two systems cannot drift apart.
  *
- * As in the legislature contract, three epistemic states stay distinct and
- * never collapse into one another:
- * - `known`           the rule is resolved from an official source;
- * - `unknown`         no source resolved it (NOT zero, NOT none, NOT absent);
- * - `not-applicable`  the concept does not exist for this office.
+ * As in the legislature contract, epistemic states stay distinct and never
+ * collapse into one another. This subsystem carries exactly two:
+ * - `known`    the rule is resolved from an official source;
+ * - `unknown`  no source resolved it (NOT zero, NOT none, NOT absent).
  *
  * A rule that genuinely says "there is none" is a `known` value carrying the
  * negative fact (for example, a governor who commands no militia at all).
+ *
+ * The shared {@link RuleValue} union also offers `not-applicable`, and this
+ * contract deliberately does NOT accept it (see {@link ExecutiveRuleValue}).
+ * `not-applicable` is only honest as an affirmative, *sourced* determination
+ * that a concept does not exist, and the shared shape carries no source for it
+ * — only a free-text note. A note that merely looks like a citation is
+ * decoration, not evidence, so admitting it would let an absence of research
+ * become a claim about the law. Until this subsystem has a source-bearing
+ * representation for inapplicability, such a field stays `unknown`.
  *
  * Nothing here models political behaviour, and nothing here scores an office.
  * There is deliberately no veto-deterrence, legal-risk, morale, competence,
@@ -26,12 +34,63 @@
 
 import {
   assertSourceRef,
+  knownRule,
+  unknownRule,
   type LegislativeRulePack,
   type ExecutiveRule,
   type RuleSourceRef,
   type RuleValue,
 } from "./legislature-rules";
 import { rulePackById } from "./legislature-rule-packs";
+
+// ---------------------------------------------------------------------------
+// The rule-value states this subsystem carries
+// ---------------------------------------------------------------------------
+
+/**
+ * A {@link RuleValue} restricted to the two states an executive-authority pack
+ * may hold: `known` and `unknown`.
+ *
+ * `not-applicable` is excluded on purpose. It is a claim *about the law* — that
+ * a concept does not exist for this office — and the shared union represents it
+ * as nothing but a free-text note. There is no source object, no verification
+ * status, and no pinpoint a reader could check, so a validator can only inspect
+ * the note's wording. Wording is forgeable: "No authority found; see Art. V § 3"
+ * reads as a citation and asserts the opposite of one. Any check built on the
+ * note's shape therefore converts silence into a legal claim, which is exactly
+ * the fail-open this type closes.
+ *
+ * Narrowing here (rather than in {@link RuleValue} itself) keeps the repair
+ * local: the legislature contract, which resolves inapplicability against its
+ * own structures, is untouched. When this subsystem gains a source-bearing way
+ * to state inapplicability affirmatively, it belongs in a distinct shape that
+ * carries a {@link RuleSourceRef}, not in a note.
+ */
+export type ExecutiveRuleValue<T> = Extract<
+  RuleValue<T>,
+  { kind: "known" } | { kind: "unknown" }
+>;
+
+/**
+ * A resolved executive rule, narrowed to {@link ExecutiveRuleValue}.
+ *
+ * Pack data is authored through these two constructors rather than the shared
+ * `knownRule` / `unknownRule`, whose return type still admits the third state.
+ * That is the point: with these, an author cannot write a `not-applicable` into
+ * a pack without a deliberate cast, so the contract holds at authoring time and
+ * not only at the validation seam.
+ */
+export function executiveKnown<T>(
+  value: T,
+  source: RuleSourceRef,
+): ExecutiveRuleValue<T> {
+  return knownRule(value, source) as ExecutiveRuleValue<T>;
+}
+
+/** An unresolved executive rule — the state a field holds until sourced. */
+export function executiveUnknown<T>(note: string): ExecutiveRuleValue<T> {
+  return unknownRule<T>(note) as ExecutiveRuleValue<T>;
+}
 
 // ---------------------------------------------------------------------------
 // Office identity
@@ -54,7 +113,7 @@ export interface ExecutiveOfficeIdentity {
   readonly officeKey: string;
   /** The office's own title, e.g. "President" or "Governor". */
   readonly title: string;
-  readonly branchStructure: RuleValue<ExecutiveBranchStructure>;
+  readonly branchStructure: ExecutiveRuleValue<ExecutiveBranchStructure>;
   readonly source: RuleSourceRef;
 }
 
@@ -71,12 +130,14 @@ export interface ExecutiveOfficeIdentity {
 export interface ExecutivePresentmentRef {
   /**
    * The `packId` of the {@link LegislativeRulePack} whose `executive` rule
-   * carries presentment and veto for this jurisdiction, where one exists;
+   * carries presentment and veto for this jurisdiction, where one exists, and
    * `unknown` where no legislative pack has been compiled yet (the federal
-   * executive is packed here before Congress is), and `not-applicable` only if
-   * the office never receives bills at all.
+   * executive is packed here before Congress is). An office that never receives
+   * bills at all would be a sourced claim about that office's law, which this
+   * contract has no way to carry (see {@link ExecutiveRuleValue}); it stays
+   * `unknown` until it does.
    */
-  readonly legislativeRulePackId: RuleValue<string>;
+  readonly legislativeRulePackId: ExecutiveRuleValue<string>;
 }
 
 // ---------------------------------------------------------------------------
@@ -86,11 +147,11 @@ export interface ExecutivePresentmentRef {
 /** The executive's authority to appoint principal officers. */
 export interface AppointmentAuthorityRule {
   /** Whether the executive appoints principal officers of the branch. */
-  readonly executiveAppoints: RuleValue<boolean>;
+  readonly executiveAppoints: ExecutiveRuleValue<boolean>;
   /** Whether a legislative body must confirm those appointments. */
-  readonly legislativeConfirmationRequired: RuleValue<boolean>;
+  readonly legislativeConfirmationRequired: ExecutiveRuleValue<boolean>;
   /** Which body confirms, where one does (e.g. "the Senate"). */
-  readonly confirmingBody: RuleValue<string>;
+  readonly confirmingBody: ExecutiveRuleValue<string>;
   readonly source: RuleSourceRef;
 }
 
@@ -107,7 +168,7 @@ export interface AppointmentAuthorityRule {
 export type RemovalMode = "at-pleasure" | "for-cause" | "fixed-term" | "mixed";
 
 export interface RemovalAuthorityRule {
-  readonly mode: RuleValue<RemovalMode>;
+  readonly mode: ExecutiveRuleValue<RemovalMode>;
   readonly source: RuleSourceRef;
 }
 
@@ -117,13 +178,13 @@ export interface RemovalAuthorityRule {
 
 export interface SpecialSessionAuthorityRule {
   /** Whether the executive may convene an extraordinary/special session. */
-  readonly executiveMayConvene: RuleValue<boolean>;
+  readonly executiveMayConvene: ExecutiveRuleValue<boolean>;
   /**
    * Whether the legislature, once convened, may act only on the subjects the
    * executive named in the call. This is the substantive lever: a call whose
    * agenda the legislature can expand is a much weaker power than one it cannot.
    */
-  readonly agendaLimitedToCall: RuleValue<boolean>;
+  readonly agendaLimitedToCall: ExecutiveRuleValue<boolean>;
   readonly source: RuleSourceRef;
 }
 
@@ -133,12 +194,12 @@ export interface SpecialSessionAuthorityRule {
 
 export interface ExecutiveDirectiveAuthorityRule {
   /** Whether the office issues binding executive orders/directives. */
-  readonly hasDirectiveAuthority: RuleValue<boolean>;
+  readonly hasDirectiveAuthority: ExecutiveRuleValue<boolean>;
   /**
    * What the authority rests on, in the research's words — a constitutional
    * vesting/execution clause, a general statute, or a narrower grant.
    */
-  readonly authorityBasis: RuleValue<string>;
+  readonly authorityBasis: ExecutiveRuleValue<string>;
   readonly source: RuleSourceRef;
 }
 
@@ -148,15 +209,15 @@ export interface ExecutiveDirectiveAuthorityRule {
 
 export interface ReorganizationAuthorityRule {
   /** Whether the executive may reorganize executive-branch agencies. */
-  readonly executiveMayReorganize: RuleValue<boolean>;
+  readonly executiveMayReorganize: ExecutiveRuleValue<boolean>;
   /**
    * Whether a reorganization takes effect unless the legislature disapproves it
    * within a window — the legislative-veto pattern many reorganization statutes
    * use.
    */
-  readonly legislativeDisapprovalAvailable: RuleValue<boolean>;
+  readonly legislativeDisapprovalAvailable: ExecutiveRuleValue<boolean>;
   /** Whether the grant of authority itself expires, and when. */
-  readonly sunset: RuleValue<string>;
+  readonly sunset: ExecutiveRuleValue<string>;
   readonly source: RuleSourceRef;
 }
 
@@ -166,13 +227,13 @@ export interface ReorganizationAuthorityRule {
 
 export interface EmergencyDeclarationAuthorityRule {
   /** Whether the executive may declare a state of emergency/disaster. */
-  readonly executiveMayDeclare: RuleValue<boolean>;
+  readonly executiveMayDeclare: ExecutiveRuleValue<boolean>;
   /** How long the declaration stands before it must be renewed, in days. */
-  readonly initialDurationDays: RuleValue<number>;
+  readonly initialDurationDays: ExecutiveRuleValue<number>;
   /** How, and by whom, a declaration is extended past its initial term. */
-  readonly extension: RuleValue<string>;
+  readonly extension: ExecutiveRuleValue<string>;
   /** Whether and how the legislature may terminate a declaration. */
-  readonly legislativeTermination: RuleValue<string>;
+  readonly legislativeTermination: ExecutiveRuleValue<string>;
   readonly source: RuleSourceRef;
 }
 
@@ -195,9 +256,9 @@ export type ClemencyModel =
   "executive-sole" | "board-advisory" | "board-required" | "board-exclusive";
 
 export interface ClemencyAuthorityRule {
-  readonly model: RuleValue<ClemencyModel>;
+  readonly model: ExecutiveRuleValue<ClemencyModel>;
   /** What the power reaches and what it excludes (e.g. impeachment). */
-  readonly scope: RuleValue<string>;
+  readonly scope: ExecutiveRuleValue<string>;
   readonly source: RuleSourceRef;
 }
 
@@ -207,9 +268,9 @@ export interface ClemencyAuthorityRule {
 
 export interface BudgetSubmissionRule {
   /** Whether the executive is required to submit a budget to the legislature. */
-  readonly executiveMustSubmit: RuleValue<boolean>;
+  readonly executiveMustSubmit: ExecutiveRuleValue<boolean>;
   /** When the budget is due, in the research's words. */
-  readonly submissionDeadline: RuleValue<string>;
+  readonly submissionDeadline: ExecutiveRuleValue<string>;
   readonly source: RuleSourceRef;
 }
 
@@ -219,9 +280,9 @@ export interface BudgetSubmissionRule {
 
 export interface AdministrativeAuthorityRule {
   /** Whether a faithful-execution / "take care" duty binds the office. */
-  readonly faithfulExecutionDuty: RuleValue<boolean>;
+  readonly faithfulExecutionDuty: ExecutiveRuleValue<boolean>;
   /** The general supervisory authority the office holds over the branch. */
-  readonly supervisoryAuthority: RuleValue<string>;
+  readonly supervisoryAuthority: ExecutiveRuleValue<string>;
   readonly source: RuleSourceRef;
 }
 
@@ -238,7 +299,7 @@ export interface PluralExecutiveConstraint {
   /** The office, e.g. "Attorney General" or "Secretary of State". */
   readonly officeLabel: string;
   /** Whether that officer is elected independently of the chief executive. */
-  readonly independentlyElected: RuleValue<boolean>;
+  readonly independentlyElected: ExecutiveRuleValue<boolean>;
   readonly source: RuleSourceRef;
 }
 
@@ -248,9 +309,9 @@ export interface PluralExecutiveConstraint {
 
 export interface GuardAuthorityRule {
   /** Whether the office commands the state militia / National Guard. */
-  readonly commandsMilitia: RuleValue<boolean>;
+  readonly commandsMilitia: ExecutiveRuleValue<boolean>;
   /** What the command reaches, and any limit on it, in the research's words. */
-  readonly scope: RuleValue<string>;
+  readonly scope: ExecutiveRuleValue<string>;
   readonly source: RuleSourceRef;
 }
 
@@ -261,8 +322,10 @@ export interface GuardAuthorityRule {
 /**
  * A complete runtime rule pack for one executive office. Packs are data
  * compiled from sourced research; the engine holds no jurisdiction knowledge of
- * its own. Every field the research did not resolve stays `unknown`; every
- * concept the office does not have stays `not-applicable`.
+ * its own. Every field the research did not resolve stays `unknown`, and so
+ * does every field whose concept an office may not have at all: this contract
+ * carries no sourced way to assert inapplicability, and will not let an
+ * unresearched field claim one (see {@link ExecutiveRuleValue}).
  */
 export interface ExecutiveAuthorityRulePack {
   readonly packId: string;
@@ -463,16 +526,24 @@ function withinDomain<T extends string>(
  * Runtime integrity of a single {@link RuleValue}, strict enough that a
  * malformed value fails closed instead of being accepted.
  *
- * The three epistemic states are held to their exact shapes:
+ * The two epistemic states this subsystem carries are held to their exact
+ * shapes:
  * - `known` carries a resolved value and a pinpointed source and nothing else; a
  *   missing value, an empty string, a non-finite number, or a value outside the
  *   field's closed domain (via `validate`) is rejected.
  * - `unknown` carries only an explanatory note; it may not smuggle a `value` or
  *   `source`, so an "unknown" that secretly resolves something fails.
- * - `not-applicable` is an affirmative, sourced determination that the concept
- *   does not exist, never an inference from silence: its note must cite the
- *   operative provision that establishes inapplicability, or the value is
- *   rejected and the field must stay `unknown`.
+ *
+ * `not-applicable` is refused outright, before its note is read. See
+ * {@link ExecutiveRuleValue}: the shared shape carries no source for that claim,
+ * so any acceptance test could only inspect free-text wording, and wording is
+ * forgeable. Reading the note at all — however strict the reading — is what let
+ * a citation-shaped sentence turn an absent record into a statement about the
+ * law. The note is therefore never consulted, and such a field stays `unknown`.
+ *
+ * The parameter is typed as the full {@link RuleValue} on purpose: this check
+ * exists for values that never passed through the compiler (hand-built,
+ * deserialized, or cast), so it must be able to receive the state it rejects.
  */
 function assertRuleValue<T>(
   value: RuleValue<T>,
@@ -505,7 +576,16 @@ function assertRuleValue<T>(
     return;
   }
 
-  if (record.kind === "unknown" || record.kind === "not-applicable") {
+  // Refused before the note is inspected, and regardless of its shape: this
+  // subsystem has no source-bearing way to state that a concept does not exist,
+  // and a note cannot supply one no matter how it is worded.
+  if (record.kind === "not-applicable") {
+    throw new Error(
+      `${label} is marked not-applicable, which this executive-authority contract does not accept. Inapplicability is a sourced claim about the law, and a not-applicable value carries only a note — a citation-shaped note is decoration, not evidence, so admitting one would let an unresearched field assert that a power does not exist. Leave the field unknown until this subsystem carries an affirmative, source-bearing representation of inapplicability.`,
+    );
+  }
+
+  if (record.kind === "unknown") {
     if (shape !== "kind,note") {
       throw new Error(
         `${label} is a malformed ${record.kind} value; it may carry only an explanatory note (found: ${shape}).`,
@@ -513,14 +593,6 @@ function assertRuleValue<T>(
     }
     if (typeof record.note !== "string" || record.note.trim().length === 0) {
       throw new Error(`${label} must explain its ${record.kind} state.`);
-    }
-    if (
-      record.kind === "not-applicable" &&
-      !hasPinpointProvision(record.note)
-    ) {
-      throw new Error(
-        `${label} is marked not-applicable without affirmative sourced authority; a not-applicable rule must cite the provision that establishes the concept does not exist, otherwise the field stays unknown.`,
-      );
     }
     return;
   }
