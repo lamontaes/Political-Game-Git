@@ -8,6 +8,7 @@ import {
   campaignForCandidate,
   campaignState,
   campaignTreasuryPosition,
+  candidacyAuthority,
   candidacyCoverage,
   candidacyEligibility,
   candidacyPackById,
@@ -17,6 +18,7 @@ import {
   electionContestResult,
   ensureCampaignOpponents,
   fileCampaign,
+  lifePlaceByJurisdictionId,
   lifePlaces,
   makeCurrencyCode,
   performCampaignAction,
@@ -206,7 +208,10 @@ describe("candidacy coverage is stated, never assumed", () => {
     }
   });
 
-  it("refuses a filing in a place with no sourced elected office", () => {
+  it("refuses an office no accepted pack establishes", () => {
+    // Lexington declares no office of its OWN — no source describes its
+    // council — which is still true and still separate from the Kentucky seats
+    // a resident here can stand for through the state above.
     const lexington = lifePlaces().find(
       (place) => place.key === "lexington-fayette",
     )!;
@@ -231,7 +236,10 @@ describe("candidacy coverage is stated, never assumed", () => {
     );
   });
 
-  it("does not borrow another state's pack to cover the gap", () => {
+  it("reaches its own state's pack, and never a different state's", () => {
+    // Lexington is IN Kentucky. Reaching the Kentucky General Assembly from a
+    // Kentucky city is not borrowing; it is the jurisdiction hierarchy working.
+    // The owner play was refused here, and the refusal was the defect.
     const world = createScenarioWorld(
       "lexington-borrow",
       LEXINGTON_DEMO_CONTEXT,
@@ -241,16 +249,23 @@ describe("candidacy coverage is stated, never assumed", () => {
     );
     const eligibility = candidacyEligibility(world, {
       personId: firstAdult(world),
-      // Asking for a Kentucky office from a jurisdiction Kentucky's pack does
-      // not govern. The pack is read from the place, so this cannot resolve.
       jurisdictionId: LEXINGTON_DEMO_CONTEXT.jurisdiction.id,
       officeKey: kentuckyOfficeKey(),
       alreadyACandidate: false,
     });
-    expect(eligibility.eligible).toBe(false);
-    expect(eligibility.pack).toBeNull();
-    expect(eligibility.blocks.map((block) => block.kind)).toContain(
+    expect(eligibility.pack?.jurisdictionKey).toBe("US-KY");
+    expect(eligibility.blocks.map((block) => block.kind)).not.toContain(
       "no-sourced-office",
+    );
+
+    // What is still forbidden: the pack is read from the place's own state, so
+    // no place can resolve to a state that is not the one it sits in.
+    const authority = candidacyAuthority(
+      LEXINGTON_DEMO_CONTEXT.jurisdiction.id,
+    );
+    expect(authority.pack?.jurisdictionKey).toBe(
+      lifePlaceByJurisdictionId(LEXINGTON_DEMO_CONTEXT.jurisdiction.id)
+        ?.stateJurisdictionKey,
     );
   });
 });

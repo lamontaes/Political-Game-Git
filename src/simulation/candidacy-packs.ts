@@ -180,6 +180,26 @@ export function candidacyPackById(packId: string): CandidacyPack | null {
   return CANDIDACY_PACKS.find((pack) => pack.packId === packId) ?? null;
 }
 
+/**
+ * The candidacy pack a whole STATE carries, found by the state's own key.
+ *
+ * The packs already declare which jurisdiction they are for — `US-KY`,
+ * `US-MN` — so a state is matched against that declaration rather than against
+ * a name, a slug or anything a caller typed. A state with no accepted pack
+ * returns null and the surfaces above say so; there is no nearest match and no
+ * fallback, which is what keeps one state's rules out of another's election.
+ */
+export function stateCandidacyPack(
+  stateJurisdictionKey: string | null,
+): CandidacyPack | null {
+  if (stateJurisdictionKey === null) return null;
+  return (
+    CANDIDACY_PACKS.find(
+      (pack) => pack.jurisdictionKey === stateJurisdictionKey,
+    ) ?? null
+  );
+}
+
 export function requireCandidacyPack(packId: string): CandidacyPack {
   const pack = candidacyPackById(packId);
   if (!pack) {

@@ -4,7 +4,9 @@ import {
   campaignForCandidate,
   campaignState,
   requireLifePlace,
+  searchLifePlaces,
 } from "../simulation";
+import type { LifePlace } from "../simulation";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
 import { buildProductionWorld } from "./production-world";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
@@ -16,9 +18,13 @@ import {
 } from "./campaign-projection";
 
 function adultLife(seed: string, placeKey: string) {
+  return adultLifeInPlace(seed, requireLifePlace(placeKey));
+}
+
+function adultLifeInPlace(seed: string, place: LifePlace) {
   const built = buildProductionWorld({
     seed,
-    place: requireLifePlace(placeKey),
+    place,
     age: 34,
     givenName: null,
     familyName: null,
@@ -65,21 +71,43 @@ describe("what the game will and will not offer", () => {
     expect(resolvePlayerCapabilities(life.world).campaign).toBe(true);
   });
 
-  it("says plainly why there is nothing to run for where nothing is sourced", () => {
+  it("offers a Lexington life the Kentucky seats it can actually stand for", () => {
+    // This test used to assert the opposite, and the opposite was the bug the
+    // owner play hit: a Kentuckian told nobody had written down the offices
+    // where they live. Lexington still declares no council of its own; the
+    // state above it declares a General Assembly, and that is what is offered.
     const life = adultLife("offer-lexington", "lexington-fayette");
     const view = projectCampaign(life.world, life.personId);
+    expect(view.phase).not.toBe("unavailable");
+    expect(view.officeTitle).not.toBeNull();
+
+    const capabilities = resolvePlayerCapabilities(life.world);
+    expect(capabilities.campaign).toBe(true);
+    expect(
+      capabilities.withheld.some((entry) => entry.surface === "campaign"),
+    ).toBe(false);
+    // The rest of the life is untouched by the offer.
+    expect(capabilities.formativeYears).toBe(false);
+    expect(
+      passOrdinaryDays(life.world).currentDate > life.world.currentDate,
+    ).toBe(true);
+  });
+
+  it("still says nothing is on offer where the state has no accepted pack", () => {
+    // The fail-closed rule is unchanged; only its boundary moved from "this is
+    // not the state" to "this state has no source".
+    const ohio = searchLifePlaces("Cleveland", 80).find(
+      (place) => place.displayName === "Cleveland, Ohio",
+    )!;
+    const life = adultLifeInPlace("offer-cleveland", ohio);
+    const view = projectCampaign(life.world, life.personId);
     expect(view.phase).toBe("unavailable");
-    expect(view.unavailableReason).toMatch(/will not borrow another state/i);
+    expect(view.unavailableReason).toMatch(/has not read this state/i);
     expect(view.officeTitle).toBeNull();
 
     const capabilities = resolvePlayerCapabilities(life.world);
     expect(capabilities.campaign).toBe(false);
-    expect(
-      capabilities.withheld.find((entry) => entry.surface === "campaign")
-        ?.reason,
-    ).toMatch(/borrow another state/i);
-    // The rest of the life is untouched by the refusal.
-    expect(capabilities.formativeYears).toBe(false);
+    // Losing the ballot does not take the rest of the life away.
     expect(
       passOrdinaryDays(life.world).currentDate > life.world.currentDate,
     ).toBe(true);

@@ -108,10 +108,15 @@ test.describe("A life can stand for something", () => {
   }) => {
     const errors = watchForErrors(page);
     await freshBrowser(page);
-    await beginAdultLifeIn(page, "Lexington");
+    // Cleveland, Ohio. This test used to use Lexington, on the theory that a
+    // city inside Kentucky could not reach Kentucky's offices — which is the
+    // owner-play defect, not a rule. The fail-closed rule itself is unchanged
+    // and is shown here where it actually applies: a state the game has read no
+    // legislature for offers nothing, and says which absence it means.
+    await beginAdultLifeIn(page, "Cleveland, Ohio");
 
     await expect(page.getByTestId("no-campaign")).toContainText(
-      /will not borrow another state/i,
+      /has not read this state/i,
     );
     await expect(page.getByTestId("campaign-section")).toHaveCount(0);
     await expect(page.getByTestId("campaign-offer")).toHaveCount(0);
@@ -120,6 +125,19 @@ test.describe("A life can stand for something", () => {
     const before = await page.getByTestId("day-date").innerText();
     await page.getByTestId("pass-day").click();
     await expect(page.getByTestId("day-date")).not.toHaveText(before);
+
+    expect(errors).toEqual([]);
+  });
+
+  test("a city reaches the offices of the state it is in", async ({ page }) => {
+    const errors = watchForErrors(page);
+    await freshBrowser(page);
+    await beginAdultLifeIn(page, "Lexington");
+
+    // The repaired boundary, in the browser the owner played in: Lexington is
+    // in Kentucky, so the Kentucky seats are on offer here.
+    await expect(page.getByTestId("no-campaign")).toHaveCount(0);
+    await expect(page.getByTestId("file-candidacy")).toBeVisible();
 
     expect(errors).toEqual([]);
   });
