@@ -307,3 +307,31 @@ height floor alone. The same constants back `slotIsPromotable`, so the spec
 validator and the component binder cannot disagree. A slot that may present a civic seal or flag must
 declare `civic_symbol_policy: "canonical-source-only"`. Civic symbols come from
 their canonical source and are never generated, redrawn or approximated.
+
+## Asking for art the project already owns
+
+`art/requests/asset-requests.json` records each missing picture, and each
+request has to say what was searched before it was written. That check is true
+on the day it is written and decays from then on: art arrives, is chopped,
+measured and banked under a name nobody puts back into the queue, and the queue
+keeps asking for it. It has already happened here. The queue asked for the
+twelve footwear pairs to be re-rendered front-on while the corrected
+front-facing source sat ingested, chopped and hash-verified in the same
+repository.
+
+`art/requests/preserved-asset-reconciliation.json` is the reconciliation that
+closes that gap, and it is declared rather than inferred. Nothing matches words
+in a title: a person writes down which preserved art bears on which request,
+with the repository paths that justify it, and one of three verdicts —
+`closed-by-preserved-asset`, `premise-restated-still-required`, or
+`unaffected-still-required`. `npm run readiness:art` regenerates
+`art/qa/asset_readiness.md` from it and refuses the declaration when it does not
+hold: when an open request has no verdict, when a verdict claims preserved art
+answers a request the queue still carries as open, when cited evidence is not on
+disk, or when a preserved family answers no request and is not recorded as
+unlinked. That last one is the guard that matters over time, because newly
+ingested art nobody reconciled is exactly how the queue asks for a second copy.
+
+Restating a request is not promoting it. A verdict may close a request or
+correct what it claims; it never registers a candidate in `art/manifest/`, and
+the ordinary fit, anchor and human-acceptance gates are untouched by it.

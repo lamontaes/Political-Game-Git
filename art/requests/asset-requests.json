@@ -4,7 +4,7 @@
   "requests": [
     {
       "requestId": "person-production-standing-body",
-      "requestVersion": 2,
+      "requestVersion": 3,
       "priority": "P0",
       "status": "revision-requested",
       "title": "A production standing adult body, with head, hair and wardrobe that fit it",
@@ -19,7 +19,9 @@
           "art/generated/approved/pg-modular/",
           "art/generated/approved/dev-modular/",
           "art/generated/approved/dev-modular-g2/",
-          "art/references/masters/pg-modular/"
+          "art/references/masters/pg-modular/",
+          "art/generated/candidates/recent-drive-sweep/",
+          "art/generated/candidates/wave-a-morphology/"
         ],
         "driveLocationsSearched": [
           "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/20_BODY_GEOMETRY",
@@ -27,8 +29,8 @@
           "05_4K_SOURCE_MASTERS/05B_BODY_HEAD_SOURCE_SHEETS",
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS"
         ],
-        "found": "Four standing cells arrived on the Packet 71 body sheet — two standing-neutral and two standing-conversational — in one consistent family measured at 6.8 to 7.2 heads tall. The figures are right. The silhouette is not: it carries a green contour on 67 to 80 percent of its soft-edge pixels, which the approved style authority does not have and which is plainly visible at the ~250 plate pixels a body actually paints at.",
-        "shortfall": "The cells are banked under art/generated/candidates/ocd-p71/bodies with per-cell measurements in art/qa/p71/source_intake_dispositions.json. Every one is REVISE. No attachment anchors are authored, because D-068 requires them measured from the raster that ships and this raster is being re-exported."
+        "found": "Four standing cells arrived on the Packet 71 body sheet — two standing-neutral and two standing-conversational — in one consistent family measured at 6.8 to 7.2 heads tall. The figures are right. The silhouette is not: it carries a green contour on 67 to 80 percent of its soft-edge pixels, which the approved style authority does not have and which is plainly visible at the ~250 plate pixels a body actually paints at. Reconciled against the preserved assets: seven adult morphologies are now banked and measured - fat, skinny, average and older figures across both presentations, plus a three-pose supplement - as fifty-one morphology-reference components inside a hundred-and-eleven-component review.",
+        "shortfall": "The cells are banked under art/generated/candidates/ocd-p71/bodies with per-cell measurements in art/qa/p71/source_intake_dispositions.json. Every one is REVISE. No attachment anchors are authored, because D-068 requires them measured from the raster that ships and this raster is being re-exported. The preserved morphologies do not answer it either: every one of the hundred and eleven components reports eligibleAsProductionCharacterBody false, because each source cell sits under the 1696x2528 standing floor and the pipeline never enlarges a raster."
       },
       "target": {
         "targetClass": "character-component",
@@ -55,7 +57,7 @@
     },
     {
       "requestId": "person-production-seated-body",
-      "requestVersion": 2,
+      "requestVersion": 3,
       "priority": "P0",
       "status": "revision-requested",
       "title": "A production seated adult body for a desk",
@@ -68,14 +70,16 @@
       "inventoryCheck": {
         "repositoryPathsSearched": [
           "art/generated/approved/",
-          "art/references/masters/pg-modular/bodies/"
+          "art/references/masters/pg-modular/bodies/",
+          "art/generated/candidates/recent-drive-sweep/",
+          "art/generated/candidates/wave-a-morphology/"
         ],
         "driveLocationsSearched": [
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS",
           "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/30_CHARACTER_CANDIDATES"
         ],
-        "found": "Four seated cells arrived on the same sheet, all seated-guest-neutral, sharing the standing cells' body family. Same silhouette defect, same fix. None places its forearms at a work surface, so seated-at-desk is still only partially covered.",
-        "shortfall": "The cells are banked under art/generated/candidates/ocd-p71/bodies with per-cell measurements in art/qa/p71/source_intake_dispositions.json. Every one is REVISE. No attachment anchors are authored, because D-068 requires them measured from the raster that ships and this raster is being re-exported."
+        "found": "Four seated cells arrived on the same sheet, all seated-guest-neutral, sharing the standing cells' body family. Same silhouette defect, same fix. None places its forearms at a work surface, so seated-at-desk is still only partially covered. Reconciled against the preserved assets: seated and desk-interaction poses exist across the preserved morphologies.",
+        "shortfall": "The cells are banked under art/generated/candidates/ocd-p71/bodies with per-cell measurements in art/qa/p71/source_intake_dispositions.json. Every one is REVISE. No attachment anchors are authored, because D-068 requires them measured from the raster that ships and this raster is being re-exported. The preserved seated poses do not answer it: twenty-nine components carry baked desk, chair or lectern geometry, and all of them sit under the 1530x2048 seated floor, so they are interaction reference rather than a modular seated body."
       },
       "target": {
         "targetClass": "character-component",
@@ -196,7 +200,7 @@
     },
     {
       "requestId": "env-executive-office-4k-master",
-      "requestVersion": 1,
+      "requestVersion": 2,
       "priority": "P2",
       "status": "draft",
       "title": "An executive private office at production resolution",
@@ -208,15 +212,16 @@
       "whyNeeded": "The illustrated executive study is the accepted look for this room and is banked, but at 1672 pixels it is below the environment master minimum and cannot become a runtime plate.",
       "inventoryCheck": {
         "repositoryPathsSearched": [
-          "art/references/masters/scene-environment/OCD_SCENE_MASTER_EXECUTIVE_PRIVATE_OFFICE_1672x941_01.png"
+          "art/references/masters/scene-environment/OCD_SCENE_MASTER_EXECUTIVE_PRIVATE_OFFICE_1672x941_01.png",
+          "art/references/candidates/recent-drive-sweep/source-images/IMG_5189.JPG"
         ],
         "driveLocationsSearched": [
           "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS",
           "05_4K_SOURCE_MASTERS/05Y_REJECTED_HIGH_RES_CALIBRATION",
           "Our Civic Duty — ChatGPT Continuity/Stage 6.5 Visual Review — Render Evidence"
         ],
-        "found": "The 1672x941 illustrated master, banked and registered here. A 5568x3008 Topaz variant exists in Drive and is filed under rejected high-resolution calibration as photoreal drift. A CANDIDATE ARRIVED DURING THIS RUN: Drive root IMG_5189.JPG, 5504x3072 JPEG, uploaded 2026-09-04 14:20. Wood-panelled private study with a fireplace, a large desk, leather wingback chairs and windows onto trees — and, critically, no capitol dome, no state flag and no seal, which is what the generic requirement in this request was about. It clears the 4608px floor. Unclassified Drive-root upload with no managed copy: measured, not ingested.",
-        "shortfall": "1672 is below the 4608 environment master minimum, and the only larger file is a rejected style. Neither is a production plate."
+        "found": "The 1672x941 illustrated master, banked and registered here. A 5568x3008 Topaz variant exists in Drive and is filed under rejected high-resolution calibration as photoreal drift. A CANDIDATE ARRIVED DURING THIS RUN: Drive root IMG_5189.JPG, 5504x3072 JPEG, uploaded 2026-09-04 14:20. Wood-panelled private study with a fireplace, a large desk, leather wingback chairs and windows onto trees — and, critically, no capitol dome, no state flag and no seal, which is what the generic requirement in this request was about. It clears the 4608px floor. Unclassified Drive-root upload with no managed copy: measured, not ingested. Reconciled against the preserved assets: IMG_5189.JPG, an empty executive-office candidate at 5504x3072, is in the repository and clears the 4608 environment master floor on width.",
+        "shortfall": "1672 is below the 4608 environment master minimum, and the only larger file is a rejected style. Neither is a production plate. IMG_5189.JPG is not yet an answer either - its style has not been judged and no environment intake has been run on it - but it is assessed before anything new is commissioned for this room."
       },
       "target": {
         "targetClass": "environment-plate",
@@ -241,7 +246,7 @@
     },
     {
       "requestId": "env-campaign-storefront",
-      "requestVersion": 1,
+      "requestVersion": 2,
       "priority": "P2",
       "status": "draft",
       "title": "A campaign storefront office",
@@ -254,14 +259,16 @@
       "inventoryCheck": {
         "repositoryPathsSearched": [
           "art/families/",
-          "art/references/masters/scene-environment/"
+          "art/references/masters/scene-environment/",
+          "art/references/candidates/recent-drive-sweep/source-images/IMG_5190.JPG",
+          "art/references/candidates/recent-drive-sweep/source-images/IMG_5207.JPG"
         ],
         "driveLocationsSearched": [
           "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS",
           "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/10_SCENES"
         ],
-        "found": "Nothing resembling a campaign space in any bank. A CANDIDATE ARRIVED DURING THIS RUN: Drive root IMG_5190.JPG, 5504x3072 JPEG, uploaded 2026-09-04 14:20. A storefront campaign office with folding tables, laptops, phones and supply boxes — the right room. It carries BAKED READABLE TEXT, which this request forbids: a 'FIELD OFFICE' window sign and 'supplies' printed on two boxes. A blank unlabelled US map outline on the whiteboard is decor rather than information and is acceptable. Unclassified Drive-root upload with no managed copy: measured, not ingested.",
-        "shortfall": "The nearest accepted rooms are a domestic living room and a public meeting hall. Neither is a working campaign office and neither should be relabelled as one. The arriving candidate is a revision away rather than a regeneration: the same room without the window sign and the printed box labels."
+        "found": "Nothing resembling a campaign space in any bank. A CANDIDATE ARRIVED DURING THIS RUN: Drive root IMG_5190.JPG, 5504x3072 JPEG, uploaded 2026-09-04 14:20. A storefront campaign office with folding tables, laptops, phones and supply boxes — the right room. It carries BAKED READABLE TEXT, which this request forbids: a 'FIELD OFFICE' window sign and 'supplies' printed on two boxes. A blank unlabelled US map outline on the whiteboard is decor rather than information and is acceptable. Unclassified Drive-root upload with no managed copy: measured, not ingested. Reconciled against the preserved assets: IMG_5190.JPG is in the repository, alongside IMG_5207.JPG, a near field-office variant the sweep proved by hash is not a duplicate of it.",
+        "shortfall": "The nearest accepted rooms are a domestic living room and a public meeting hall. Neither is a working campaign office and neither should be relabelled as one. The arriving candidate is a revision away rather than a regeneration: the same room without the window sign and the printed box labels. The arrived candidate carries baked signage text, which a declared dynamic surface slot owns and a plate may not, so the ask is a revision of art the project already holds rather than a fresh room."
       },
       "target": {
         "targetClass": "environment-plate",
@@ -513,7 +520,7 @@
     },
     {
       "requestId": "person-adult-body-silhouette-reexport",
-      "requestVersion": 1,
+      "requestVersion": 2,
       "priority": "P0",
       "status": "queued",
       "title": "Re-export the adult body sheet without the green silhouette contour",
@@ -527,14 +534,15 @@
         "repositoryPathsSearched": [
           "art/generated/candidates/ocd-p71/bodies/",
           "art/references/masters/people-pose/",
-          "art/qa/p71/source_intake_dispositions.json"
+          "art/qa/p71/source_intake_dispositions.json",
+          "art/references/candidates/recent-drive-sweep/source-images/IMG_5192.PNG"
         ],
         "driveLocationsSearched": [
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS",
           "Drive root IMG_5178.PNG"
         ],
-        "found": "The 5056x3392 eight-pose sheet, measured here. Fully transparent pixels carry zero colour, so the background is clean; the defect is confined to the partially-transparent edge, where 67-80 percent of pixels per cell are green-dominant at a mean of roughly (43,79,30). It totals 8.4 percent of the figure's own opaque area. A CORRECTED SINGLE POSE ARRIVED DURING THIS RUN: Drive root IMG_5192.PNG, 5056x3392 RGBA, uploaded 2026-09-04 14:24. It is the standing-conversational pose from this same family with ZERO green-dominant soft-edge pixels, measured the same way — so the fix is confirmed possible and this request is now about re-exporting the remaining seven poses the same way. It is an unclassified Drive-root upload with no managed copy, so it was measured but NOT ingested.",
-        "shortfall": "The approved style authority PG_STYLE_REFERENCE_CHARACTER_P005_APPROVED.png has no silhouette stroke of any colour, so this is out of family rather than house style. Removing it here would mean rewriting the colour of pixels I cannot verify the correct value of, which is a repair the pipeline should not make silently."
+        "found": "The 5056x3392 eight-pose sheet, measured here. Fully transparent pixels carry zero colour, so the background is clean; the defect is confined to the partially-transparent edge, where 67-80 percent of pixels per cell are green-dominant at a mean of roughly (43,79,30). It totals 8.4 percent of the figure's own opaque area. A CORRECTED SINGLE POSE ARRIVED DURING THIS RUN: Drive root IMG_5192.PNG, 5056x3392 RGBA, uploaded 2026-09-04 14:24. It is the standing-conversational pose from this same family with ZERO green-dominant soft-edge pixels, measured the same way — so the fix is confirmed possible and this request is now about re-exporting the remaining seven poses the same way. It is an unclassified Drive-root upload with no managed copy, so it was measured but NOT ingested. Reconciled against the preserved assets: IMG_5192.PNG is now in the repository rather than only in Drive, and it shows the green contour fix is achievable inside this art family.",
+        "shortfall": "The approved style authority PG_STYLE_REFERENCE_CHARACTER_P005_APPROVED.png has no silhouette stroke of any colour, so this is out of family rather than house style. Removing it here would mean rewriting the colour of pixels I cannot verify the correct value of, which is a repair the pipeline should not make silently. IMG_5192.PNG does not close it: at 5056x3392 it is the same sheet resolution, so a clean re-export at that size still fails the body floor. The ask is a re-export at production resolution, not only a clean edge."
       },
       "target": {
         "targetClass": "character-component",
@@ -560,7 +568,7 @@
     },
     {
       "requestId": "person-adult-lectern-pose",
-      "requestVersion": 1,
+      "requestVersion": 2,
       "priority": "P1",
       "status": "queued",
       "title": "One standing-podium-or-lectern pose in the Packet 71 body family",
@@ -574,13 +582,15 @@
         "repositoryPathsSearched": [
           "art/generated/candidates/ocd-p71/bodies/",
           "art/manifest/pose_families.json",
-          "art/pose-control-plates/"
+          "art/pose-control-plates/",
+          "art/generated/candidates/recent-drive-sweep/",
+          "art/generated/candidates/wave-a-morphology/"
         ],
         "driveLocationsSearched": [
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS"
         ],
-        "found": "Eight poses on the Packet 71 sheet, mapped cell by cell: two standing-neutral, two standing-conversational and four seated-guest-neutral. The pose control plate standing-podium-or-lectern__front.svg exists, so the contract and the drawing guide are both already here.",
-        "shortfall": "No cell stands at a lectern or rests its hands on a raised surface. This is the one adult pose the sheet does not provide."
+        "found": "Eight poses on the Packet 71 sheet, mapped cell by cell: two standing-neutral, two standing-conversational and four seated-guest-neutral. The pose control plate standing-podium-or-lectern__front.svg exists, so the contract and the drawing guide are both already here. Reconciled against the preserved assets: five banked components do stand at a lectern or rest their hands on a raised surface, so the claim that no cell does is no longer true of the repository.",
+        "shortfall": "No cell stands at a lectern or rests its hands on a raised surface. This is the one adult pose the sheet does not provide. Those five still do not answer it: each carries the lectern baked into the figure and sits under the production body floor, which makes them reference for the pose rather than modular art a scene can compose."
       },
       "target": {
         "targetClass": "character-component",
@@ -606,9 +616,9 @@
     },
     {
       "requestId": "footwear-front-on-pair-reexport",
-      "requestVersion": 1,
+      "requestVersion": 2,
       "priority": "P1",
-      "status": "queued",
+      "status": "withdrawn-already-covered",
       "title": "Re-render the twelve footwear pairs front-on to match the body stance",
       "consumer": {
         "consumerId": "title-recent-save",
@@ -620,14 +630,16 @@
         "repositoryPathsSearched": [
           "art/generated/candidates/ocd-p71/footwear/",
           "art/references/masters/wardrobe/",
-          "art/manifest/asset_manifest.json"
+          "art/manifest/asset_manifest.json",
+          "art/references/candidates/recent-drive-sweep/source-images/shoes.png",
+          "art/generated/candidates/recent-drive-sweep/front-facing-footwear/"
         ],
         "driveLocationsSearched": [
           "05_4K_SOURCE_MASTERS/05F_WARDROBE_PROP_SOURCE_SHEETS",
           "Drive root IMG_5176.PNG"
         ],
-        "found": "Twelve pairs, chopped and measured: sneakers, a running shoe, a plimsoll, a loafer, an oxford, a work boot, a chukka, a ballet flat, two block heels, a strap sandal and a hiking boot. Alpha is clean and no cell carries a fringe.",
-        "shortfall": "Every pair is drawn as a bonded three-quarter product view with the two shoes overlapping. The body family stands front-on with the feet apart and the toes toward the camera, and the released footwear fixture for the current contract is a flat front-on strip. The camera is wrong, not the shoes."
+        "found": "Twelve pairs, chopped and measured: sneakers, a running shoe, a plimsoll, a loafer, an oxford, a work boot, a chukka, a ballet flat, two block heels, a strap sandal and a hiking boot. Alpha is clean and no cell carries a fringe. Reconciled against the preserved assets: the corrected front-facing twelve-pair source is in the repository as shoes.png at 4336x5804, classified CORRECTED_REPLACEMENT by the 286-image sweep and deterministically chopped into twelve candidates under art/generated/candidates/recent-drive-sweep/front-facing-footwear/, each hashing exactly as the component review records.",
+        "shortfall": "None any longer. The three-quarter viewpoint that this request existed to fix is answered by a source the project already owns, so re-rendering it would commission a second copy of banked art."
       },
       "target": {
         "targetClass": "character-component",
@@ -648,7 +660,8 @@
         "Laid over the body sheet's bare feet at matching scale, toe direction and separation agree.",
         "Still segments into twelve cells with npm run chop:source-sheet."
       ],
-      "dependsOn": ["person-adult-body-silhouette-reexport"]
+      "dependsOn": ["person-adult-body-silhouette-reexport"],
+      "resolutionNote": "Withdrawn as already covered. shoes.png supersedes the p71 three-quarter footwear sheet for front-on use; its twelve chopped candidates live at art/generated/candidates/recent-drive-sweep/front-facing-footwear/ and are byte-verified against art/qa/p95-recent-drive-sweep/candidate-component-review.json. They are candidates, not released pixels: the ordinary fit, anchor and human-acceptance gates still apply, and none of them is registered in art/manifest/. The p71 three-quarter sheets are retained as the source for a future three-quarter pose family."
     }
   ]
 }
