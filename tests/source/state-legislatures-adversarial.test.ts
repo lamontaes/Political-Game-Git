@@ -157,6 +157,22 @@ function asFact<T>(declared: Declared<T>): DeclaredFact<T> {
   return declared;
 }
 
+/** The same declared fact, cited to a different artifact. */
+function retargeted(
+  declared: Declared<string>,
+  artifactId: string,
+): Declared<string> {
+  const fact = asFact(declared);
+  const [first, ...rest] = fact.transcriptions;
+  return {
+    ...fact,
+    transcriptions: [
+      { ...first, artifactId },
+      ...rest.map((transcription) => ({ ...transcription, artifactId })),
+    ],
+  };
+}
+
 // ---------------------------------------------------------------------------
 // Blocker 1 — rights are a structured contract over enacted text
 // ---------------------------------------------------------------------------
@@ -572,32 +588,30 @@ describe("state instruments: a sentence has to state the proposition claimed", (
 // ---------------------------------------------------------------------------
 
 describe("state instruments: evidence binds to the authority it names", () => {
-  it("refuses a California record relabelled Kentucky behind a fabricated id", () => {
+  it("refuses a California record relabelled Kentucky, however its artifact is named", () => {
     const california = declarationOf("CA");
-    const relabelled: StateDeclaration = {
+    const asKentucky = (artifactId: string): StateDeclaration => ({
       ...california,
       stateUsps: "KY",
       stateName: "Kentucky",
       jurisdictionKey: "US-KY",
       chambers: california.chambers.map((chamber) => ({
         ...chamber,
-        name: isDeclaredFact(chamber.name)
-          ? {
-              ...asFact(chamber.name),
-              transcriptions: asFact(chamber.name).transcriptions.map(
-                (transcription) => ({
-                  ...transcription,
-                  artifactId: "ky-constitution-section-29",
-                }),
-              ) as typeof asFact extends never ? never : never,
-            }
-          : chamber.name,
-      })) as typeof california.chambers,
-    };
-    const messages = defectsFor(relabelled).join("\n");
-    expect(messages).toMatch(
-      /is not in this domain's locked acquisition lineage|instrument of US-CA, and this is the US-KY record/,
+        name: retargeted(chamber.name, artifactId),
+      })),
+    });
+
+    // The audit's probe: invent an id that looks like a Kentucky instrument.
+    expect(
+      defectsFor(asKentucky("ky-constitution-section-29")).join("\n"),
+    ).toMatch(
+      /cites artifact "ky-constitution-section-29", which is not in this domain's locked acquisition lineage/,
     );
+
+    // Keeping the real artifact does not help either: it says whose law it is.
+    expect(
+      defectsFor(asKentucky("ca-constitution-article-4")).join("\n"),
+    ).toMatch(/out of an instrument of US-CA, and this is the US-KY record/);
   });
 
   it("refuses evidence citing an artifact that is not in the lock", () => {
