@@ -1052,9 +1052,46 @@ describe("An unresolved stage rule is not permission to amend", () => {
     }
   });
 
+  it("refuses an Alaska third-reading floor amendment as a known prohibition, not unresolved", () => {
+    // Alaska Uniform Rule 35 expressly states that a bill may not be amended
+    // in third reading and must return to second reading for specific amendment.
+    // The engine must refuse the amendment as a known rule prohibition, not
+    // as unresolved silence.
+    const stage = ALASKA_RULE_PACK.chambers[0]!.floorStages[0]!;
+    expect(stage.amendable).toMatchObject({
+      kind: "known",
+      value: false,
+      source: {
+        citation: "Uniform Rule 35",
+      },
+    });
+
+    const alaska = createLegislativeScenario("alaska");
+    const alaskaOnFloor = toFloor(alaska, alaska.world, "house", 4);
+    expect(
+      availableMeasureSteps(alaskaOnFloor, alaska.measureId),
+    ).not.toContain("offer-amendment");
+
+    const body = bodyForChamber(alaska, "house");
+    expect(() =>
+      offerFloorAmendment(alaskaOnFloor, {
+        stableKey: "ak-third-reading-amendment",
+        measureId: alaska.measureId,
+        description: "Add harbor requirement",
+        offeredByLabel: "Representative from District 1",
+        dispositions: dispositionsFromCounts(body.members, {
+          yea: 21,
+          nay: 19,
+        }),
+        provenance: AUTHORED,
+      }),
+    ).toThrow("Third reading and final passage does not accept amendments.");
+  });
+
   it("keeps offering the amendment step only where both rules resolve to yes", () => {
     // Kentucky resolves both the chamber permission and the stage, so the step
-    // is offered there. Alaska resolves neither, and never offers it.
+    // is offered there. Alaska prohibits third-reading amendments (and leaves
+    // general floor authority unresolved), and never offers it.
     const kentucky = createLegislativeScenario("kentucky");
     const onFloor = toFloor(kentucky, kentucky.world, "house", 9);
     expect(availableMeasureSteps(onFloor, kentucky.measureId)).toContain(

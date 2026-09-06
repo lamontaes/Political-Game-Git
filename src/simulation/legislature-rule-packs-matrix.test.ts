@@ -400,11 +400,7 @@ describe("where a measure is permitted to start", () => {
 
 describe("stage amendability is evidence, not a default", () => {
   it("leaves an unestablished third reading unknown rather than true or false", () => {
-    for (const pack of [
-      MINNESOTA_RULE_PACK,
-      ILLINOIS_RULE_PACK,
-      ALASKA_RULE_PACK,
-    ]) {
+    for (const pack of [MINNESOTA_RULE_PACK, ILLINOIS_RULE_PACK]) {
       for (const chamber of pack.chambers) {
         const stage = chamber.floorStages.at(-1)!;
         expect(
@@ -419,7 +415,8 @@ describe("stage amendability is evidence, not a default", () => {
 
   it("keeps a resolved yes and a resolved no intact", () => {
     // Kentucky's chambers have an Amendments to Bills rule; Nebraska's final
-    // reading positively takes no amendment. Neither becomes unknown.
+    // reading positively takes no amendment. Alaska positively prohibits
+    // amendments at third reading under Uniform Rule 35. None becomes unknown.
     for (const chamber of KENTUCKY_RULE_PACK.chambers) {
       expect(chamber.floorStages[0]!.amendable).toMatchObject({
         kind: "known",
@@ -435,6 +432,15 @@ describe("stage amendability is evidence, not a default", () => {
       kind: "known",
       value: false,
     });
+    for (const chamber of ALASKA_RULE_PACK.chambers) {
+      expect(chamber.floorStages[0]!.amendable).toMatchObject({
+        kind: "known",
+        value: false,
+        source: {
+          citation: "Uniform Rule 35",
+        },
+      });
+    }
   });
 
   it("never lets an unresolved stage read as permission", () => {

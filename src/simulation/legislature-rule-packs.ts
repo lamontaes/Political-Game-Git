@@ -808,6 +808,14 @@ const AK_UNIFORM_23 = source(
   "verified",
   "Committee Meetings: written notice of the time, place and subject of committee meetings must reach the chief clerk or secretary by 4:00 p.m. on the Thursday before the week of the meeting.",
 );
+const AK_UNIFORM_35 = source(
+  "uniform-rules",
+  "Uniform Rule 35",
+  AK_UNIFORM_TITLE,
+  AK_UNIFORM_URL,
+  "verified",
+  "Amendment: a bill in second reading is subject to amendment; an amendment may not be made to a bill in its third reading, but the bill may be returned to second reading by a majority vote of the full membership of the house for the purpose of specific amendment.",
+);
 const AK_UNIFORM_43 = source(
   "uniform-rules",
   "Uniform Rule 43",
@@ -874,14 +882,10 @@ function alaskaChamber(
       {
         stageKey: "final-passage",
         label: "Third reading and final passage",
-        // This pack could not find the rule that lets an Alaska member amend on
-        // the floor at all — the same gap its `unresolvedGaps` already records —
-        // so which stage takes an amendment is unresolved too. Art. II, Sec. 14
-        // fixes the readings and the passage vote and says nothing about
-        // amendment, and it is not made to say it here.
-        amendable: unknownRule(
-          "No rule establishing that an Alaska bill may be amended at third reading was read for this pack; Art. II, Sec. 14 fixes the readings and the passage vote only.",
-        ),
+        // Uniform Rule 35 expressly prohibits amendments at third reading,
+        // providing instead that a bill may be returned to second reading by a
+        // majority of the full membership for specific amendment.
+        amendable: knownRule(false, AK_UNIFORM_35),
         separateLegislativeDayRequired: true,
         vote: knownRule(
           majorityOf(
@@ -997,6 +1001,7 @@ export const ALASKA_RULE_PACK: LegislativeRulePack = {
     AK_ART2_SEC8,
     AK_UNIFORM_20,
     AK_UNIFORM_23,
+    AK_UNIFORM_35,
     AK_UNIFORM_43,
     AK_PROCESS,
   ],

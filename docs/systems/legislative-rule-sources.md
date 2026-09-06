@@ -80,16 +80,17 @@ Corrected from the previous pack:
 ## Alaska
 
 Read in full (`verified`): Const. Art. II Secs. 15, 16, 17 and 18, and the
-headings and operative language of Uniform Rules 22, 23 and 43.
+headings and operative language of Uniform Rules 22, 23, 35 and 43.
 
-| Citation        | What it says                                                                                                                 |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Art. II Sec. 15 | Veto; the Governor may strike or reduce items in appropriation bills and returns a vetoed bill to the house of origin.       |
-| Art. II Sec. 16 | Action Upon Veto: joint session; three-quarters of the membership for revenue and appropriation bills, two-thirds otherwise. |
-| Art. II Sec. 17 | Bills Not Signed: fifteen days in session, twenty out of session, Sundays excepted — and the bill **becomes law**.           |
-| Art. II Sec. 18 | Effective Date: ninety days after enactment, unless two-thirds of each house set another date.                               |
-| Uniform Rule 23 | Committee Meetings and their notice requirement.                                                                             |
-| Uniform Rule 43 | Enrollment after both houses have passed a bill.                                                                             |
+| Citation        | What it says                                                                                                                                                                                                                               |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Art. II Sec. 15 | Veto; the Governor may strike or reduce items in appropriation bills and returns a vetoed bill to the house of origin.                                                                                                                     |
+| Art. II Sec. 16 | Action Upon Veto: joint session; three-quarters of the membership for revenue and appropriation bills, two-thirds otherwise.                                                                                                               |
+| Art. II Sec. 17 | Bills Not Signed: fifteen days in session, twenty out of session, Sundays excepted — and the bill **becomes law**.                                                                                                                         |
+| Art. II Sec. 18 | Effective Date: ninety days after enactment, unless two-thirds of each house set another date.                                                                                                                                             |
+| Uniform Rule 23 | Committee Meetings and their notice requirement.                                                                                                                                                                                           |
+| Uniform Rule 35 | Amendment: a bill in second reading is subject to amendment; an amendment may not be made to a bill in its third reading, but the bill may be returned to second reading by a majority vote of the full membership for specific amendment. |
+| Uniform Rule 43 | Enrollment after both houses have passed a bill.                                                                                                                                                                                           |
 
 Corrected from the previous pack:
 
@@ -102,6 +103,11 @@ Corrected from the previous pack:
   process guide and Uniform Rule 20's committee jurisdictions, and the authority
   for floor amendments is `unknown` — so this pack does not permit them, which
   is why the Alaska scenario cannot amend on the floor.
+- Alaska third-reading amendability was previously recorded as `unknown`.
+  Uniform Rule 35 expressly states that an amendment may not be made to a bill
+  in its third reading and requires return to second reading by majority vote of
+  the full membership for specific amendment; third reading is therefore a
+  sourced `known false` prohibition rather than `unknown`.
 - Uniform Rule 44 was cited for committee notice and the report majority. It
   concerns the time limit on introduction; notice is Rule 23.
 
