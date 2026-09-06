@@ -16,6 +16,8 @@
  * negative fact (for example, a governor with no line-item veto).
  */
 
+import type { LegislativeSubjectClass } from "./types";
+
 export type RuleAuthorityLayer =
   | "constitution"
   | "permanent-rules"
@@ -260,7 +262,18 @@ export interface CommitteeRule {
 export interface FloorStageRule {
   readonly stageKey: string;
   readonly label: string;
-  readonly amendable: boolean;
+  /**
+   * Whether THIS stage takes amendments.
+   *
+   * A rule value rather than a bare boolean, because whether a particular
+   * reading accepts amendments is a fact an instrument either establishes or
+   * does not. A chamber can be known to amend bills somewhere
+   * (`AmendmentRule.floorAmendmentsAllowed`) while no source read says which
+   * stage does it; that is `unknown`, and unknown is not permission. Turning a
+   * silent record into `true` invented a rule, and into `false` invented a
+   * prohibition.
+   */
+  readonly amendable: RuleValue<boolean>;
   readonly separateLegislativeDayRequired: boolean;
   /** Absent for advancement stages decided without a recorded threshold. */
   readonly vote: RuleValue<VoteThresholdRule>;
@@ -272,7 +285,18 @@ export interface ChamberRule {
   readonly name: string;
   /** Seats in the chamber; the usual "members elected" denominator. */
   readonly seats: number;
+  /**
+   * The instrument that fixes `seats`, where the pack established one.
+   *
+   * A seat count is not automatically constitutional: Minnesota's constitution
+   * delegates the number to statute, so the statute is the authority and citing
+   * the constitution for it would be wrong. `null` means this pack did not
+   * separately establish which instrument fixes the count — an honest absence,
+   * not a claim that no instrument does.
+   */
+  readonly seatsSource: RuleSourceRef | null;
   readonly quorum: RuleValue<VoteThresholdRule>;
+  /** Whether this chamber may receive an introduction at all. */
   readonly introductionAllowed: boolean;
   readonly referral: ReferralRule;
   readonly committees: readonly CommitteeRule[];
@@ -351,6 +375,49 @@ export interface SessionRule {
 
 export type LegislatureStructure = "bicameral" | "unicameral";
 
+// ---------------------------------------------------------------------------
+// Origination
+// ---------------------------------------------------------------------------
+
+/**
+ * A class of measure an instrument confines to particular chambers.
+ *
+ * Minnesota is the reason this exists: revenue bills must start in the House
+ * (Minn. Const. art. IV, § 18) while ordinary bills are under no such
+ * constitutional confinement. That is one jurisdiction with two different
+ * origination rules, and collapsing them loses the distinction the constitution
+ * actually draws.
+ */
+export interface SubjectOriginationRule {
+  readonly subjectClass: LegislativeSubjectClass;
+  /** Chambers this class of measure may start in. Never empty. */
+  readonly chamberKeys: readonly string[];
+  readonly source: RuleSourceRef;
+  readonly note: string;
+}
+
+/**
+ * Where a measure is PERMITTED to start — the jurisdiction's rule.
+ *
+ * This is deliberately not the same thing as the chamber a particular bill
+ * actually started in. That is a fact about one measure and lives on the measure
+ * record (`originChamberKey`); this is the standing rule the measure had to
+ * satisfy. Reading a fixed chamber order as though it were the rule made every
+ * measure in Minnesota and Illinois House-originated, which neither state's
+ * instruments say.
+ *
+ * `generalOrigination` unknown does not forbid introduction: it means no source
+ * read for the pack affirmatively states where an ordinary measure may start,
+ * and each chamber's own `introductionAllowed` stays the operative gate. It is
+ * a statement about the evidence, not a prohibition invented from silence.
+ */
+export interface OriginationRule {
+  readonly generalOrigination: RuleValue<readonly string[]>;
+  /** Classes confined more narrowly than the general rule. */
+  readonly subjectRestrictions: readonly SubjectOriginationRule[];
+  readonly source: RuleSourceRef;
+}
+
 /**
  * A complete runtime institutional rule pack for one legislature. Rule packs
  * are data compiled from sourced research; the engine holds no jurisdiction
@@ -362,8 +429,19 @@ export interface LegislativeRulePack {
   readonly displayName: string;
   readonly structure: LegislatureStructure;
   readonly chambers: readonly ChamberRule[];
-  /** Chamber keys in the order a measure travels; first is the origin. */
+  /**
+   * The chambers in their declared order.
+   *
+   * This is the order a measure travels once you know where it began, and the
+   * first entry is the DEFAULT origin used when a caller names none. It is not
+   * itself the origination rule: a measure that starts in the second chamber
+   * travels the same chambers in the other order. Use `chamberSequenceFrom` to
+   * get the sequence an actual measure follows, and `origination` for what the
+   * jurisdiction permits.
+   */
   readonly chamberOrder: readonly string[];
+  /** Where the jurisdiction's own rules permit a measure to start. */
+  readonly origination: OriginationRule;
   readonly interChamber: InterChamberRule;
   readonly executive: ExecutiveRule;
   readonly enactment: EnactmentRule;
@@ -392,7 +470,13 @@ export function chamberByKey(
   return chamber;
 }
 
-export function originChamber(pack: LegislativeRulePack): ChamberRule {
+/**
+ * The chamber a measure starts in when the caller names none.
+ *
+ * A default, not a rule. What the jurisdiction permits is `origination`, and
+ * where a particular measure actually began is on the measure itself.
+ */
+export function defaultOriginChamber(pack: LegislativeRulePack): ChamberRule {
   const first = pack.chamberOrder[0];
   if (!first) {
     throw new Error(`Rule pack '${pack.packId}' declares no chamber order.`);
@@ -400,18 +484,89 @@ export function originChamber(pack: LegislativeRulePack): ChamberRule {
   return chamberByKey(pack, first);
 }
 
-/** The chamber a measure moves to after `chamberKey`, or null if none. */
+/**
+ * The chambers a measure that began in `originChamberKey` travels, in order.
+ *
+ * The origin comes first and the remaining chambers follow in declared order,
+ * so a Senate bill in a two-chamber legislature runs senate then house. Reading
+ * the sequence off a fixed `chamberOrder` index instead meant a bill starting
+ * anywhere but the first chamber had nowhere to go.
+ */
+export function chamberSequenceFrom(
+  pack: LegislativeRulePack,
+  originChamberKey: string,
+): readonly string[] {
+  if (!pack.chamberOrder.includes(originChamberKey)) {
+    throw new Error(
+      `Chamber '${originChamberKey}' is not in the order for '${pack.packId}'.`,
+    );
+  }
+  return [
+    originChamberKey,
+    ...pack.chamberOrder.filter((key) => key !== originChamberKey),
+  ];
+}
+
+/**
+ * The chamber a measure moves to after `chamberKey`, or null if none.
+ *
+ * Relative to where the measure began, because that is what decides the order.
+ */
 export function nextChamberKey(
   pack: LegislativeRulePack,
   chamberKey: string,
+  originChamberKey: string,
 ): string | null {
-  const index = pack.chamberOrder.indexOf(chamberKey);
+  const sequence = chamberSequenceFrom(pack, originChamberKey);
+  const index = sequence.indexOf(chamberKey);
   if (index < 0) {
     throw new Error(
       `Chamber '${chamberKey}' is not in the order for '${pack.packId}'.`,
     );
   }
-  return pack.chamberOrder[index + 1] ?? null;
+  return sequence[index + 1] ?? null;
+}
+
+/**
+ * The chambers permitted to originate a measure of this class, as a rule value.
+ *
+ * A class the jurisdiction confines (Minnesota's revenue bills) answers from its
+ * own restriction and its own instrument; anything else answers from the general
+ * rule, which may itself be unknown.
+ */
+export function permittedOriginChambers(
+  pack: LegislativeRulePack,
+  subjectClass: LegislativeSubjectClass,
+): RuleValue<readonly string[]> {
+  const restriction = pack.origination.subjectRestrictions.find(
+    (candidate) => candidate.subjectClass === subjectClass,
+  );
+  if (restriction) {
+    return knownRule(restriction.chamberKeys, restriction.source);
+  }
+  return pack.origination.generalOrigination;
+}
+
+/**
+ * Refuses an origin the jurisdiction's own resolved rule forbids.
+ *
+ * An unknown rule is not a prohibition — nothing read said where an ordinary
+ * measure may start — so the chamber's `introductionAllowed` remains the gate
+ * and this check stands aside rather than inventing a refusal from silence.
+ */
+export function assertOriginationPermitted(
+  pack: LegislativeRulePack,
+  subjectClass: LegislativeSubjectClass,
+  chamberKey: string,
+): void {
+  const permitted = permittedOriginChambers(pack, subjectClass);
+  if (permitted.kind !== "known") return;
+  if (!permitted.value.includes(chamberKey)) {
+    const chamber = chamberByKey(pack, chamberKey);
+    throw new Error(
+      `A ${subjectClass} measure cannot originate in the ${chamber.name}: ${permitted.source.citation} confines it to ${permitted.value.join(", ")}.`,
+    );
+  }
 }
 
 export function committeeByKey(
@@ -499,6 +654,34 @@ function assertRuleValue<T>(
 }
 
 /**
+ * A resolved origination list must name real chambers that may actually receive
+ * an introduction. A rule permitting a chamber the pack also says cannot be
+ * introduced in is not a rule, it is a contradiction.
+ */
+function assertOriginationChambers(
+  pack: LegislativeRulePack,
+  chamberKeys: readonly string[],
+  label: string,
+): void {
+  if (chamberKeys.length === 0) {
+    throw new Error(`${label} in '${pack.packId}' names no chamber.`);
+  }
+  const seen = new Set<string>();
+  for (const chamberKey of chamberKeys) {
+    if (seen.has(chamberKey)) {
+      throw new Error(`${label} in '${pack.packId}' repeats '${chamberKey}'.`);
+    }
+    seen.add(chamberKey);
+    const chamber = chamberByKey(pack, chamberKey);
+    if (!chamber.introductionAllowed) {
+      throw new Error(
+        `${label} in '${pack.packId}' permits '${chamberKey}', which does not accept introductions.`,
+      );
+    }
+  }
+}
+
+/**
  * Structural validation of a rule pack. This checks that the institution
  * described is internally coherent; it never invents a missing rule.
  */
@@ -541,6 +724,12 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
         `Chamber '${chamber.chamberKey}' must declare a positive seat count.`,
       );
     }
+    if (chamber.seatsSource !== null) {
+      assertSourceRef(
+        chamber.seatsSource,
+        `seat count for '${chamber.chamberKey}'`,
+      );
+    }
     if (chamber.floorStages.length === 0) {
       throw new Error(
         `Chamber '${chamber.chamberKey}' must declare at least one floor stage.`,
@@ -560,6 +749,10 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
         stage.vote,
         `floor stage '${stage.stageKey}' vote`,
         assertThresholdRule,
+      );
+      assertRuleValue(
+        stage.amendable,
+        `floor stage '${stage.stageKey}' amendability`,
       );
       if (stage.vote.kind === "known") votingStages += 1;
     }
@@ -625,7 +818,40 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
       );
     }
   }
-  if (!originChamber(pack).introductionAllowed) {
+  const origination = pack.origination;
+  assertSourceRef(origination.source, `origination rule in '${pack.packId}'`);
+  assertRuleValue(
+    origination.generalOrigination,
+    `general origination in '${pack.packId}'`,
+    (chamberKeys) => {
+      assertOriginationChambers(pack, chamberKeys, "general origination");
+    },
+  );
+  const seenRestrictions = new Set<string>();
+  for (const restriction of origination.subjectRestrictions) {
+    if (seenRestrictions.has(restriction.subjectClass)) {
+      throw new Error(
+        `Rule pack '${pack.packId}' restricts '${restriction.subjectClass}' origination twice.`,
+      );
+    }
+    seenRestrictions.add(restriction.subjectClass);
+    assertSourceRef(
+      restriction.source,
+      `origination restriction on '${restriction.subjectClass}'`,
+    );
+    if (restriction.note.trim().length === 0) {
+      throw new Error(
+        `Origination restriction on '${restriction.subjectClass}' must say what confines it.`,
+      );
+    }
+    assertOriginationChambers(
+      pack,
+      restriction.chamberKeys,
+      `origination of '${restriction.subjectClass}'`,
+    );
+  }
+
+  if (!defaultOriginChamber(pack).introductionAllowed) {
     throw new Error(
       `Rule pack '${pack.packId}' origin chamber does not permit introduction.`,
     );

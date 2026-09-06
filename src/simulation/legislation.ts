@@ -2,12 +2,13 @@ import { addDays, makeIsoDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createStableId } from "./ids";
 import {
+  assertOriginationPermitted,
   chamberByKey,
   committeeByKey,
+  defaultOriginChamber,
   floorStageByKey,
   nextChamberKey,
   nextFloorStageKey,
-  originChamber,
   requireKnown,
   resolveRequiredVotes,
   type ChamberRule,
@@ -233,11 +234,27 @@ function applyRecordedAction(
     case "introduced": {
       const gate = requirePhase(state, action.kind, ["drafting"]);
       if (!gate.ok) return gate;
-      const chamberKey = action.chamberKey ?? measure.originChamberKey;
+      // A measure begins once. If the recorded introduction names a chamber
+      // the measure itself does not claim as its origin, the save holds two
+      // contradictory accounts of the same event, and neither can be trusted
+      // to carry the origination rule that hangs off it.
+      const chamberKey = action.chamberKey;
+      if (chamberKey !== measure.originChamberKey) {
+        return illegal(
+          `introduction names chamber '${chamberKey ?? "none"}' while the measure's stored origin is '${measure.originChamberKey}'`,
+        );
+      }
       const chamber = chamberByKey(pack, chamberKey);
       if (!chamber.introductionAllowed) {
         return illegal(`measures cannot be introduced in the ${chamber.name}`);
       }
+      // Replay is the permanent boundary for a loaded World: the writer speaks
+      // only for measures this run filed, and a loaded record was written by
+      // something else. Re-run the same sourced subject-specific rule so a
+      // stored measure and action cannot agree on an origin the institution
+      // forbids. Silence stays silence — an unresolved rule refuses nothing,
+      // and `introductionAllowed` remains the only gate there.
+      assertOriginationPermitted(pack, measure.subjectClass, chamberKey);
       state.phase = "awaiting-referral";
       state.chamberKey = chamberKey;
       return LEGAL;
@@ -319,7 +336,15 @@ function applyRecordedAction(
         );
       }
       const stage = floorStageByKey(chamber, state.floorStageKey ?? "");
-      if (!stage.amendable) {
+      // Unknown is not permission, and it is not the same refusal as a stage
+      // the rules positively close to amendment. Both stop the amendment; only
+      // one of them is a rule.
+      if (stage.amendable.kind !== "known") {
+        return illegal(
+          `whether ${stage.label} accepts amendments is unresolved in ${pack.displayName}`,
+        );
+      }
+      if (!stage.amendable.value) {
         return illegal(`${stage.label} does not accept amendments`);
       }
       const allowed = chamber.amendments.floorAmendmentsAllowed;
@@ -373,7 +398,11 @@ function applyRecordedAction(
       }
       state.floorStageKey = null;
       state.earliestNextFloorDate = null;
-      const nextChamber = nextChamberKey(pack, chamber.chamberKey);
+      const nextChamber = nextChamberKey(
+        pack,
+        chamber.chamberKey,
+        measure.originChamberKey,
+      );
       if (nextChamber && !state.transmitted) {
         state.phase = "awaiting-transmittal";
         return LEGAL;
@@ -396,7 +425,11 @@ function applyRecordedAction(
           `${pack.displayName} has one chamber, so there is nowhere to transmit a measure`,
         );
       }
-      const onward = nextChamberKey(pack, state.chamberKey ?? "");
+      const onward = nextChamberKey(
+        pack,
+        state.chamberKey ?? "",
+        measure.originChamberKey,
+      );
       if (!onward) return illegal("there is no further chamber to receive it");
       if (action.chamberKey !== onward) {
         return illegal(
@@ -627,7 +660,11 @@ export function measureGate(world: World, measureId: EntityId): MeasureGate {
       };
     }
     case "awaiting-transmittal": {
-      const onward = nextChamberKey(pack, position.chamberKey ?? "");
+      const onward = nextChamberKey(
+        pack,
+        position.chamberKey ?? "",
+        measure.originChamberKey,
+      );
       const onwardChamber = onward ? chamberByKey(pack, onward) : null;
       return {
         actorLabel: chamber?.name ?? "Chamber",
@@ -771,7 +808,8 @@ export function availableMeasureSteps(
       const steps: MeasureStepKey[] = [];
       const amendmentsAllowed = chamber.amendments.floorAmendmentsAllowed;
       if (
-        stage?.amendable &&
+        stage?.amendable.kind === "known" &&
+        stage.amendable.value &&
         amendmentsAllowed.kind === "known" &&
         amendmentsAllowed.value
       ) {
@@ -1261,11 +1299,16 @@ export function introduceMeasure(
     );
   }
   const pack = rulePackById(input.rulePackId);
-  const chamberKey = input.originChamberKey ?? originChamber(pack).chamberKey;
+  const chamberKey =
+    input.originChamberKey ?? defaultOriginChamber(pack).chamberKey;
   const chamber = chamberByKey(pack, chamberKey);
   if (!chamber.introductionAllowed) {
     throw new Error(`Measures cannot be introduced in the ${chamber.name}.`);
   }
+  // Where this particular bill starts has to satisfy the jurisdiction's own
+  // origination rule — the Minnesota revenue bill that must begin in the House,
+  // and nothing at all where the rule is unresolved.
+  assertOriginationPermitted(pack, input.subjectClass, chamberKey);
   if (input.designation.trim().length === 0) {
     throw new Error("A measure needs an institutional designation.");
   }
@@ -1725,7 +1768,12 @@ export function offerFloorAmendment(
     position.chamberKey ?? measure.originChamberKey,
   );
   const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
-  if (!stage.amendable) {
+  if (stage.amendable.kind !== "known") {
+    throw new Error(
+      `Whether ${stage.label} accepts amendments is unresolved in ${pack.displayName}: ${stage.amendable.note}`,
+    );
+  }
+  if (!stage.amendable.value) {
     throw new Error(`${stage.label} does not accept amendments.`);
   }
   // An unresolved or inapplicable rule is not permission. Only a rule that is
@@ -1909,7 +1957,7 @@ export function transmitMeasure(
     );
   }
   const fromKey = position.chamberKey ?? measure.originChamberKey;
-  const onward = nextChamberKey(pack, fromKey);
+  const onward = nextChamberKey(pack, fromKey, measure.originChamberKey);
   if (!onward) {
     throw new Error("The measure has already cleared every chamber.");
   }
