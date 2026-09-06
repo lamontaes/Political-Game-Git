@@ -13,6 +13,7 @@
   },
   "include": [
     "playwright.config.ts",
+    "scripts/prose-eval/**/*.ts",
     "scripts/source/**/*.ts",
     "src/cli/**/*.ts",
     "src/content/**/*.ts",
