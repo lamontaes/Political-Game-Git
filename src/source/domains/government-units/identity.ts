@@ -15,6 +15,8 @@
  * produced it is not a test (mirrors counties/identity.ts and 13B N2).
  */
 
+import { CENSUS_GOVERNMENT_ID_PATTERN } from "../../core/index";
+
 /**
  * The five basic local-government categories plus the state government.
  *
@@ -88,7 +90,7 @@ export const GOVERNMENT_TYPE_BY_LABEL: Readonly<
  * locate a unit within the Bureau's own numbering; they are not FIPS codes and
  * they are not a GEOID.
  */
-export const GOVERNMENT_UNIT_GID_PATTERN = /^\d{14}$/;
+export const GOVERNMENT_UNIT_GID_PATTERN = CENSUS_GOVERNMENT_ID_PATTERN;
 
 export interface GovernmentIdParts {
   readonly stateCensusCode: string;
