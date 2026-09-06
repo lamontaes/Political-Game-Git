@@ -9,6 +9,7 @@ import {
   floorStageByKey,
   nextChamberKey,
   nextFloorStageKey,
+  permittedOriginChambers,
   requireKnown,
   resolveRequiredVotes,
   type ChamberRule,
@@ -234,10 +235,34 @@ function applyRecordedAction(
     case "introduced": {
       const gate = requirePhase(state, action.kind, ["drafting"]);
       if (!gate.ok) return gate;
+      // A measure begins once. If the recorded introduction names a chamber
+      // the measure itself does not claim as its origin, the save holds two
+      // contradictory accounts of the same event, and neither can be trusted
+      // to carry the origination rule that hangs off it.
+      if (
+        action.chamberKey !== null &&
+        action.chamberKey !== measure.originChamberKey
+      ) {
+        return illegal(
+          `the introduction names the ${action.chamberKey} while the measure began in the ${measure.originChamberKey}`,
+        );
+      }
       const chamberKey = action.chamberKey ?? measure.originChamberKey;
       const chamber = chamberByKey(pack, chamberKey);
       if (!chamber.introductionAllowed) {
         return illegal(`measures cannot be introduced in the ${chamber.name}`);
+      }
+      // Introduction is where the jurisdiction's own origination rule binds,
+      // so replay re-decides it rather than trusting that the writer did. The
+      // writer speaks only for measures this run filed; a loaded record was
+      // written by something else, and Minnesota's revenue bill still cannot
+      // have started in the Senate. Silence stays silence: an unresolved rule
+      // refuses nothing, and `introductionAllowed` remains the only gate.
+      const permitted = permittedOriginChambers(pack, measure.subjectClass);
+      if (permitted.kind === "known" && !permitted.value.includes(chamberKey)) {
+        return illegal(
+          `a ${measure.subjectClass} measure cannot originate in the ${chamber.name}: ${permitted.source.citation} confines it to ${permitted.value.join(", ")}`,
+        );
       }
       state.phase = "awaiting-referral";
       state.chamberKey = chamberKey;
