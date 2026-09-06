@@ -18,6 +18,89 @@ import { expect, test } from "@playwright/test";
 const HIDDEN_ANALYSIS =
   "Internal sensitivity case: uptake could reduce modeled delivery to one half.";
 
+const OFFICE_VIEWPORTS = [
+  [1024, 768],
+  [1280, 800],
+  [1440, 900],
+  [1600, 900],
+  [1280, 720],
+  [1366, 768],
+  [1920, 1080],
+  [1920, 1200],
+  [2560, 1440],
+  [2560, 1600],
+  [2560, 1080],
+  [3440, 1440],
+  [3840, 1600],
+  [3840, 2160],
+  [5120, 1440],
+  [7680, 2160],
+] as const;
+
+for (const deviceScaleFactor of [1, 1.25, 2]) {
+  test.describe(`working paper co-registration at DPR ${deviceScaleFactor}`, () => {
+    test.use({ deviceScaleFactor });
+    for (const [width, height] of OFFICE_VIEWPORTS) {
+      test(`${width}x${height}: one paper, pointer and keyboard`, async ({
+        page,
+      }, testInfo) => {
+        await page.setViewportSize({ width, height });
+        await page.goto("/?view=office-fixture");
+        const desk = page.getByTestId("scene-surface-desk-working-document");
+        const entry = page.getByTestId("working-document-entry");
+        const memo = page.getByTestId("briefing-memo-entry");
+        await expect(desk).toBeVisible();
+        const assertGeometry = async () => {
+          const paper = (await desk.boundingBox())!;
+          const target = (await entry.boundingBox())!;
+          const briefing = (await memo.boundingBox())!;
+          for (const key of ["x", "y", "width", "height"] as const) {
+            expect(Math.abs(paper[key] - target[key])).toBeLessThan(0.5);
+          }
+          expect(paper.x).toBeGreaterThan(briefing.x + briefing.width);
+        };
+        await assertGeometry();
+        await expect(entry).toBeEmpty(); // No second painted title/paper.
+        expect(
+          await page
+            .getByTestId("scene-surfaces")
+            .evaluate((node) => getComputedStyle(node).pointerEvents),
+        ).toBe("none");
+        if (
+          OFFICE_VIEWPORTS.slice(0, 4).some(
+            ([w, h]) => w === width && h === height,
+          )
+        ) {
+          // Geometry can settle before the raster has decoded. Visual evidence
+          // must show the actual plate, not an incidental loading frame.
+          await page
+            .locator(".scene-environment-art")
+            .evaluate(async (node) => {
+              await (node as HTMLImageElement).decode();
+            });
+          await page.screenshot({
+            path: testInfo.outputPath(
+              `office-${width}x${height}-dpr-${deviceScaleFactor}.png`,
+            ),
+          });
+        }
+        await entry.hover();
+        await assertGeometry();
+        await entry.click();
+        const workspace = page.getByTestId("working-document-workspace");
+        await expect(workspace).toBeVisible();
+        await workspace
+          .getByRole("button", { name: "Return to office" })
+          .click();
+        await entry.focus();
+        await assertGeometry();
+        await page.keyboard.press("Enter");
+        await expect(workspace).toBeVisible();
+      });
+    }
+  });
+}
+
 test.describe("dynamic scene surfaces in the office", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/?view=office-fixture");

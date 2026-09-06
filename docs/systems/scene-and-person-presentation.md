@@ -121,6 +121,14 @@ value.
 `?view=scene-gallery` binds every registered room against one named review
 world so all five states are visible side by side.
 
+An explicitly open working document owns `document-body`; measure text is a
+fallback only when no working document was supplied. The current projection
+input cannot prove a stable document link, so even matching titles cannot
+justify replacement. Measure identity and agenda projections are independent.
+The office's working-document surface and transparent semantic entry target
+share the authored slot rectangle. Only the surface paints the paper; focus
+and hover mark the same target without moving it away from the paper.
+
 ## Contact, perspective and depth
 
 Placement is computed, never hand-tuned per sprite.

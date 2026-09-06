@@ -30,6 +30,7 @@ import {
   OFFICE_FIXTURE_SCENE,
   OFFICE_VISUAL_SCENE,
   PRODUCTION_VISUAL_LIBRARY,
+  requireWorkingDocumentSlot,
   type ComposedCharacterVisual,
 } from "../presentation/visual-integration";
 import { ModularCharacter } from "./ModularCharacter";
@@ -320,6 +321,8 @@ export function OfficeScene({
     transform: `translate3d(${sceneTransform.xOffset}px, ${sceneTransform.yOffset}px, 0) scale(${sceneTransform.uniformScale})`,
   } satisfies CSSProperties;
   const documentAnchors = OFFICE_VISUAL_SCENE.documentAnchors;
+  const workingDocumentRect =
+    requireWorkingDocumentSlot(OFFICE_FIXTURE_SCENE).rect_percent;
   const surfaceBindings = useMemo(
     () =>
       bindSceneSurfaces(OFFICE_FIXTURE_SCENE, dynamicSurfacePayloads(surfaces)),
@@ -429,16 +432,16 @@ export function OfficeScene({
           type="button"
           className="office-working-document-entry"
           style={{
-            left: `${documentAnchors["working-draft"].xPercent}%`,
-            top: `${documentAnchors["working-draft"].yPercent}%`,
+            left: `${workingDocumentRect.x_percent}%`,
+            top: `${workingDocumentRect.y_percent}%`,
+            width: `${workingDocumentRect.width_percent}%`,
+            height: `${workingDocumentRect.height_percent}%`,
           }}
           aria-label="Open Working Draft — Transit Access Pilot"
           data-testid="working-document-entry"
           data-scene-anchor-id="working-draft"
           onClick={onOpenWorkingDocument}
-        >
-          <strong>Transit Access Pilot</strong>
-        </button>
+        />
 
         <button
           type="button"

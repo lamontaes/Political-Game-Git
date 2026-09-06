@@ -3469,12 +3469,13 @@
 }
 
 .scene-camera .office-working-document-entry {
-  width: 3.8rem;
-  height: 2.7rem;
-  padding: 0.25rem 0.35rem;
-  background: linear-gradient(145deg, #e4d7c3 0%, #d8c7b0 100%);
-  border-left: 3px solid #8e6c46;
-  transform: rotate(-6deg);
+  /* The surface layer paints the only paper. This target uses that slot's
+     exact geometry and must not move independently on hover or focus. */
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
 
 .scene-camera .briefing-memo {
@@ -3488,7 +3489,6 @@
 
 .scene-camera .office-working-document-entry:hover,
 .scene-camera .office-working-document-entry:focus-visible {
-  transform: rotate(-6deg) translateY(-2px) scale(1.03);
   box-shadow:
     0 4px 10px rgba(30, 16, 8, 0.32),
     0 1px 2px rgba(0, 0, 0, 0.15);

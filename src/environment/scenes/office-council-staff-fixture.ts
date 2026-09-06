@@ -271,13 +271,15 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
     {
       slot_id: "desk-working-document",
       kind: "desk-document",
+      // The existing working-draft desk object, not the briefing to its left.
+      // Both the dynamic paper and its transparent entry target use this rect.
       rect_percent: {
-        x_percent: 54.8,
-        y_percent: 58.5,
-        width_percent: 9.2,
-        height_percent: 5.5,
+        x_percent: 67,
+        y_percent: 55.5,
+        width_percent: 6,
+        height_percent: 7.5,
       },
-      z_order: 3,
+      z_order: 9,
       allowed_content_classes: ["document-body", "bill-title", "bill-number"],
       information_access: "institutional-working",
       fallback_decoration: "a clean paper stack on the blotter",

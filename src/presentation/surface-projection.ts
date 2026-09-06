@@ -171,10 +171,9 @@ export function projectDynamicSurfaces(
     }
   }
 
-  // The office's own draft first, then the filed measure. When both exist the
-  // measure wins the document surface: a bill that has been filed is the
-  // instrument the office is working on, and the draft it came from is the
-  // earlier state of the same thing rather than a second document.
+  // A selected working document owns this surface. WorkingDocumentFacts has
+  // no stable identity to compare with a measure's sourceDocumentKey; filing,
+  // matching titles or mere co-presence cannot establish that they are linked.
   const workingDocument = input.workingDocument ?? null;
   if (workingDocument !== null) {
     facts.set("document-body", {
@@ -237,11 +236,12 @@ function projectMeasureFacts(
 
   // The working text of the draft. Institutional even after filing: the bill
   // summary is the office's own account of it, not the enrolled text.
-  facts.set("document-body", {
-    text: `${briefing.designation} — ${briefing.shortTitle}. ${briefing.summary}`,
-    channel: "institutional-working",
-    provenance: "projectMeasureBriefing: designation, shortTitle, summary",
-  });
+  if (!facts.has("document-body"))
+    facts.set("document-body", {
+      text: `${briefing.designation} — ${briefing.shortTitle}. ${briefing.summary}`,
+      channel: "institutional-working",
+      provenance: "projectMeasureBriefing: designation, shortTitle, summary",
+    });
 
   // A tally exists only once a vote has been TAKEN and recorded. There is no
   // expected count, no whip estimate and no projection from anybody's

@@ -124,6 +124,66 @@ function advance(opened: Opened, steps: number): World {
 }
 
 describe("a room says only what this world knows", () => {
+  it("retains the open document beside an unrelated filed, unlinked measure", () => {
+    const opened = openWork("surface-document-ownership");
+    const world = advance(opened, 1);
+    expect(
+      world.history.legislativeMeasures?.find(
+        (measure) => measure.id === opened.measureId,
+      )?.sourceDocumentKey,
+    ).toBeNull();
+    const measureOnly = projectDynamicSurfaces(world, {
+      measureId: opened.measureId,
+    });
+    expect(measureOnly.facts.get("bill-number")?.channel).toBe("public-record");
+    const workingDocument = {
+      title: "Unrelated working document",
+      statusLabel: "Open on desk",
+    };
+    const combined = projectDynamicSurfaces(world, {
+      measureId: opened.measureId,
+      workingDocument,
+    });
+    const documentOnly = projectDynamicSurfaces(world, { workingDocument });
+    expect(combined.facts.get("document-body")).toEqual(
+      documentOnly.facts.get("document-body"),
+    );
+    expect(combined.facts.get("document-body")?.text).toBe(
+      "Unrelated working document — Open on desk",
+    );
+    for (const [key, fact] of measureOnly.facts) {
+      if (key !== "document-body")
+        expect(combined.facts.get(key)).toEqual(fact);
+    }
+    expect(combined.empty).toEqual(measureOnly.empty);
+    // A matching title is not stable identity either.
+    expect(
+      projectDynamicSurfaces(world, {
+        measureId: opened.measureId,
+        workingDocument: {
+          title: measureOnly.facts.get("bill-title")!.text,
+          statusLabel: "Still the open document",
+        },
+      }).facts.get("document-body")?.text,
+    ).toContain("Still the open document");
+    for (const access of [
+      "public-broadcast",
+      "personal-household",
+      "public-record",
+      undefined,
+    ]) {
+      expect(
+        accessClears(access, combined.facts.get("document-body")!.channel),
+      ).toBe(false);
+    }
+    expect(
+      projectDynamicSurfaces(world, {
+        measureId: opened.measureId,
+        workingDocument: null,
+      }),
+    ).toEqual(measureOnly);
+  });
+
   /**
    * Determinism, stated the way a replay would find it broken: two worlds
    * built from the same seed through the same entry points produce the same
