@@ -102,7 +102,10 @@ const isAChild: EpisodeRequirement = {
 const atSchool: EpisodeRequirement = { kind: "fact", fact: "school.enrolled" };
 
 /** There is a job, with hours and a place. Never which job. */
-const hasWork: EpisodeRequirement = { kind: "capability", capability: "paid-work" };
+const hasWork: EpisodeRequirement = {
+  kind: "capability",
+  capability: "paid-work",
+};
 
 /**
  * There is an enrollment.
@@ -147,26 +150,146 @@ export interface KernelProvenance {
 }
 
 export const LIFE_CONTENT_92C_KERNELS: readonly KernelProvenance[] = [
-  { kernelId: "early.school.cubby-space", episodeKey: "school.the-thing-you-got-blamed-for", stageKey: "cubby-space", track: "A", isKernel: true },
-  { kernelId: "early.school.partner-pairing", episodeKey: "school.the-thing-you-got-blamed-for", stageKey: "partner-pairing", track: "A", isKernel: true },
-  { kernelId: "early.school.recess-race", episodeKey: "school.the-thing-you-got-blamed-for", stageKey: "recess-race", track: "A", isKernel: true },
-  { kernelId: "early.school.tattle-boundary", episodeKey: "school.the-thing-you-got-blamed-for", stageKey: "tattle-boundary", track: "A", isKernel: true },
-  { kernelId: "early.school.tattle-boundary", episodeKey: "school.the-thing-you-got-blamed-for", stageKey: "it-was-still-there", track: "A", isKernel: false },
-  { kernelId: "early.home.chore-resistance", episodeKey: "home.someone-is-not-all-right", stageKey: "chore-resistance", track: "A", isKernel: true },
-  { kernelId: "early.home.parent-exhaustion", episodeKey: "home.someone-is-not-all-right", stageKey: "parent-exhaustion", track: "A", isKernel: true },
-  { kernelId: "early.home.sibling-toy-snatch", episodeKey: "home.someone-is-not-all-right", stageKey: "sibling-toy-snatch", track: "A", isKernel: true },
-  { kernelId: "early.peer.best-friend-pact", episodeKey: "companionship.the-friend-you-named", stageKey: "best-friend-pact", track: "A", isKernel: true },
-  { kernelId: "rel.encounter.dormant-callback-reunion", episodeKey: "companionship.the-friend-you-named", stageKey: "across-the-checkout", track: "C", isKernel: true },
-  { kernelId: "adult.trans.shift-call-in", episodeKey: "work.the-shift-you-were-asked-for", stageKey: "called-in", track: "B", isKernel: true },
-  { kernelId: "adult.trans.coworker-cover-shift", episodeKey: "work.the-shift-you-were-asked-for", stageKey: "asked-by-a-colleague", track: "B", isKernel: true },
-  { kernelId: "adult.trans.coworker-cover-shift", episodeKey: "work.the-shift-you-were-asked-for", stageKey: "it-came-back-round", track: "B", isKernel: false },
-  { kernelId: "adult.trans.tip-pooling-dispute", episodeKey: "work.the-money-nobody-counts", stageKey: "pooled-tips", track: "B", isKernel: true },
-  { kernelId: "adult.trans.tip-pooling-dispute", episodeKey: "work.the-money-nobody-counts", stageKey: "what-you-said-stuck", track: "B", isKernel: false },
-  { kernelId: "adult.trans.commuter-strain", episodeKey: "school.the-thing-you-got-blamed-for", stageKey: "the-commute", track: "B", isKernel: true },
-  { kernelId: "rel.encounter.study-group-freeloader", episodeKey: "school.the-thing-you-got-blamed-for", stageKey: "carrying-the-group", track: "C", isKernel: true },
-  { kernelId: "adult.trans.family-business-obligation", episodeKey: "kin.the-work-that-is-not-paid", stageKey: "the-family-shop", track: "B", isKernel: true },
-  { kernelId: "adult.trans.family-business-obligation", episodeKey: "kin.the-work-that-is-not-paid", stageKey: "the-third-weekend", track: "B", isKernel: false },
-  { kernelId: "civic.encounter.flooding-sandbag-effort", episodeKey: "civic.the-thing-nobody-else-turned-up-for", stageKey: "sandbag-line", track: "E", isKernel: true },
+  {
+    kernelId: "early.school.cubby-space",
+    episodeKey: "school.the-thing-you-got-blamed-for",
+    stageKey: "cubby-space",
+    track: "A",
+    isKernel: true,
+  },
+  {
+    kernelId: "early.school.partner-pairing",
+    episodeKey: "school.the-thing-you-got-blamed-for",
+    stageKey: "partner-pairing",
+    track: "A",
+    isKernel: true,
+  },
+  {
+    kernelId: "early.school.recess-race",
+    episodeKey: "school.the-thing-you-got-blamed-for",
+    stageKey: "recess-race",
+    track: "A",
+    isKernel: true,
+  },
+  {
+    kernelId: "early.school.tattle-boundary",
+    episodeKey: "school.the-thing-you-got-blamed-for",
+    stageKey: "tattle-boundary",
+    track: "A",
+    isKernel: true,
+  },
+  {
+    kernelId: "early.school.tattle-boundary",
+    episodeKey: "school.the-thing-you-got-blamed-for",
+    stageKey: "it-was-still-there",
+    track: "A",
+    isKernel: false,
+  },
+  {
+    kernelId: "early.home.chore-resistance",
+    episodeKey: "home.someone-is-not-all-right",
+    stageKey: "chore-resistance",
+    track: "A",
+    isKernel: true,
+  },
+  {
+    kernelId: "early.home.parent-exhaustion",
+    episodeKey: "home.someone-is-not-all-right",
+    stageKey: "parent-exhaustion",
+    track: "A",
+    isKernel: true,
+  },
+  {
+    kernelId: "early.home.sibling-toy-snatch",
+    episodeKey: "home.someone-is-not-all-right",
+    stageKey: "sibling-toy-snatch",
+    track: "A",
+    isKernel: true,
+  },
+  {
+    kernelId: "early.peer.best-friend-pact",
+    episodeKey: "companionship.the-friend-you-named",
+    stageKey: "best-friend-pact",
+    track: "A",
+    isKernel: true,
+  },
+  {
+    kernelId: "rel.encounter.dormant-callback-reunion",
+    episodeKey: "companionship.the-friend-you-named",
+    stageKey: "across-the-checkout",
+    track: "C",
+    isKernel: true,
+  },
+  {
+    kernelId: "adult.trans.shift-call-in",
+    episodeKey: "work.the-shift-you-were-asked-for",
+    stageKey: "called-in",
+    track: "B",
+    isKernel: true,
+  },
+  {
+    kernelId: "adult.trans.coworker-cover-shift",
+    episodeKey: "work.the-shift-you-were-asked-for",
+    stageKey: "asked-by-a-colleague",
+    track: "B",
+    isKernel: true,
+  },
+  {
+    kernelId: "adult.trans.coworker-cover-shift",
+    episodeKey: "work.the-shift-you-were-asked-for",
+    stageKey: "it-came-back-round",
+    track: "B",
+    isKernel: false,
+  },
+  {
+    kernelId: "adult.trans.tip-pooling-dispute",
+    episodeKey: "work.the-money-nobody-counts",
+    stageKey: "pooled-tips",
+    track: "B",
+    isKernel: true,
+  },
+  {
+    kernelId: "adult.trans.tip-pooling-dispute",
+    episodeKey: "work.the-money-nobody-counts",
+    stageKey: "what-you-said-stuck",
+    track: "B",
+    isKernel: false,
+  },
+  {
+    kernelId: "adult.trans.commuter-strain",
+    episodeKey: "school.the-thing-you-got-blamed-for",
+    stageKey: "the-commute",
+    track: "B",
+    isKernel: true,
+  },
+  {
+    kernelId: "rel.encounter.study-group-freeloader",
+    episodeKey: "school.the-thing-you-got-blamed-for",
+    stageKey: "carrying-the-group",
+    track: "C",
+    isKernel: true,
+  },
+  {
+    kernelId: "adult.trans.family-business-obligation",
+    episodeKey: "kin.the-work-that-is-not-paid",
+    stageKey: "the-family-shop",
+    track: "B",
+    isKernel: true,
+  },
+  {
+    kernelId: "adult.trans.family-business-obligation",
+    episodeKey: "kin.the-work-that-is-not-paid",
+    stageKey: "the-third-weekend",
+    track: "B",
+    isKernel: false,
+  },
+  {
+    kernelId: "civic.encounter.flooding-sandbag-effort",
+    episodeKey: "civic.the-thing-nobody-else-turned-up-for",
+    stageKey: "sandbag-line",
+    track: "E",
+    isKernel: true,
+  },
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -372,7 +495,8 @@ const RULES_AS_WRITTEN: EpisodeFamily = {
         {
           key: "tell-the-adult",
           label: "Tell the adult",
-          description: "You say that the other kid went to the window during quiet work.",
+          description:
+            "You say that the other kid went to the window during quiet work.",
           nudges: [nudge("civic-order", 0.35), nudge("personal-ties", -0.25)],
           aftermath: null,
           memory:
@@ -381,7 +505,8 @@ const RULES_AS_WRITTEN: EpisodeFamily = {
         {
           key: "keep-working",
           label: "Keep working",
-          description: "You stay at your table and don't say anything about it.",
+          description:
+            "You stay at your table and don't say anything about it.",
           nudges: [
             nudge("privacy-preference", 0.3),
             nudge("security-stability", 0.2),
@@ -497,7 +622,10 @@ const HOUSE_RULES: EpisodeFamily = {
           key: "keep-playing",
           label: "Keep playing",
           description: "You go on with what you were doing with the blocks.",
-          nudges: [nudge("privacy-preference", 0.3), nudge("civic-order", -0.25)],
+          nudges: [
+            nudge("privacy-preference", 0.3),
+            nudge("civic-order", -0.25),
+          ],
           aftermath: null,
           memory:
             "You kept going with the blocks after {role:guardian} told you to put them away.",
@@ -548,7 +676,10 @@ const HOUSE_RULES: EpisodeFamily = {
           label: "Sit down next to them",
           description:
             "Sit at the table next to {role:guardian} without saying anything.",
-          nudges: [nudge("personal-ties", 0.35), nudge("care-obligation", 0.25)],
+          nudges: [
+            nudge("personal-ties", 0.35),
+            nudge("care-obligation", 0.25),
+          ],
           aftermath: null,
           memory:
             "You sat down at the table next to {role:guardian} and didn't say anything.",
@@ -601,7 +732,10 @@ const HOUSE_RULES: EpisodeFamily = {
           key: "take-it-back",
           label: "Take it back",
           description: "Pull it out of {role:household-peer}'s hands.",
-          nudges: [nudge("privacy-preference", 0.3), nudge("risk-appetite", 0.2)],
+          nudges: [
+            nudge("privacy-preference", 0.3),
+            nudge("risk-appetite", 0.2),
+          ],
           aftermath: null,
           memory: "You took it back out of {role:household-peer}'s hands.",
         },
@@ -824,8 +958,12 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
         {
           key: "offer-another",
           label: "Offer to work another one",
-          description: "Say that evening is taken and offer to work another one.",
-          nudges: [nudge("decision-style", 0.3), nudge("security-stability", 0.2)],
+          description:
+            "Say that evening is taken and offer to work another one.",
+          nudges: [
+            nudge("decision-style", 0.3),
+            nudge("security-stability", 0.2),
+          ],
           aftermath: null,
           memory: "You asked your supervisor for a different shift instead.",
         },
@@ -856,7 +994,10 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
           key: "cover-it",
           label: "Cover it",
           description: "Tell {role:colleague} you'll cover it.",
-          nudges: [nudge("personal-ties", 0.35), nudge("care-obligation", 0.25)],
+          nudges: [
+            nudge("personal-ties", 0.35),
+            nudge("care-obligation", 0.25),
+          ],
           aftermath: "goodwill",
           memory:
             "You agreed to take the shift {role:colleague} asked you to cover.",
@@ -877,7 +1018,10 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
           key: "ask-whose-funeral",
           label: "Ask whose funeral",
           description: "Ask {role:colleague} who the funeral is for.",
-          nudges: [nudge("decision-style", 0.3), nudge("institutional-trust", -0.2)],
+          nudges: [
+            nudge("decision-style", 0.3),
+            nudge("institutional-trust", -0.2),
+          ],
           aftermath: null,
           memory:
             "You asked {role:colleague} whose funeral it was before giving an answer.",
@@ -887,7 +1031,11 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
     {
       key: "it-came-back-round",
       requires: [
-        { kind: "after-choice", stage: "asked-by-a-colleague", option: "cover-it" },
+        {
+          kind: "after-choice",
+          stage: "asked-by-a-colleague",
+          option: "cover-it",
+        },
         {
           kind: "days-since-stage",
           stage: "asked-by-a-colleague",
@@ -925,7 +1073,10 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
           label: "Ask without bringing it up",
           description:
             "You ask {role:colleague} to cover the shift and leave the earlier one out of it.",
-          nudges: [nudge("personal-ties", 0.3), nudge("privacy-preference", 0.2)],
+          nudges: [
+            nudge("personal-ties", 0.3),
+            nudge("privacy-preference", 0.2),
+          ],
           aftermath: null,
           memory:
             "You asked {role:colleague} to cover the shift and didn't mention the one you took for them.",
@@ -1178,10 +1329,7 @@ const THE_LONG_WAY_IN: EpisodeFamily = {
           key: "hand-it-in-as-is",
           label: "Hand it in as is",
           description: "Turn it in with their part not done.",
-          nudges: [
-            nudge("civic-order", 0.25),
-            nudge("personal-ties", -0.3),
-          ],
+          nudges: [nudge("civic-order", 0.25), nudge("personal-ties", -0.3)],
           aftermath: "grievance",
           memory:
             "You handed in the shared work with {role:familiar}'s part not done.",
@@ -1391,8 +1539,7 @@ const WATER_CAME_UP: EpisodeFamily = {
         {
           key: "ask-if-they-need-hands",
           label: "Ask if they need hands",
-          description:
-            "Ask the people on the line whether they want one more.",
+          description: "Ask the people on the line whether they want one more.",
           nudges: [nudge("decision-style", 0.25), nudge("civic-order", 0.2)],
           aftermath: null,
           memory:

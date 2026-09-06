@@ -152,6 +152,23 @@ naming:
   the transcription cannot drift from the rule that runs: there is no second
   rule here to drift.
 
+### 92C life-content provenance
+
+`simulation/life-content-92c.ts` adds the first bounded 92C wave: sixteen
+research kernels, split evenly between age-true early childhood and the
+adult-transition/ordinary-social end. Its twenty rendered scenes each retain a
+stage-specific fact packet, accepted development-time writer output, and a
+separate fail-closed `GROUNDING: PASS` verdict under
+`prose-review/92c-wave-1/`. The production bank reads only the accepted static
+text; it never invokes a model.
+
+Independent school, household and incident moments extend the accepted family
+with the same domain. They do not invent a causal answer merely to create a
+branch. New families are reserved for sequences whose later stage names the
+actual earlier option in canonical history. Kernel provenance remains explicit
+even when a stage is hosted by an accepted family, so coverage and review do
+not depend on file location or a hand count.
+
 ## Banks indexed
 
 Nine adapters are registered in `src/content/adapters/index.ts`, in this order:

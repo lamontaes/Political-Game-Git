@@ -3,6 +3,8 @@ import { join } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
+import { createNewGameWorld } from "../presentation/new-game";
+import { projectStoryMoment } from "../presentation/life-story";
 import { EPISODE_FAMILIES } from "./episode-bank";
 import {
   LIFE_CONTENT_92C_FAMILIES,
@@ -10,7 +12,7 @@ import {
   lifeContent92cOptions,
   lifeContent92cStages,
 } from "./life-content-92c";
-import type { EpisodeRequirement } from "./life-episodes";
+import { eligibleEpisodeBeats, type EpisodeRequirement } from "./life-episodes";
 
 /**
  * The 92C wave, as claims rather than as a snapshot.
@@ -26,7 +28,48 @@ import type { EpisodeRequirement } from "./life-episodes";
 const REPO_ROOT = join(import.meta.dirname, "..", "..");
 const PROSE_DIR = join(REPO_ROOT, "prose-review", "92c-wave-1");
 
-function requirementsOf(stage: { readonly requires: readonly EpisodeRequirement[] }) {
+function formativeWorld(age: number) {
+  return createNewGameWorld({
+    placeKey: "kentucky",
+    startAge: age,
+    startKind: "custom",
+    depth: "play-formative-years",
+    startingLife: "ordinary-life",
+    household: "shares-a-home",
+    seed: "92c-age-proof",
+    givenName: null,
+    familyName: null,
+    questionnaire: "skipped",
+    priors: [],
+  });
+}
+
+const EARLY_KERNEL_STAGE_KEYS = new Set([
+  "cubby-space",
+  "partner-pairing",
+  "recess-race",
+  "tattle-boundary",
+  "it-was-still-there",
+  "chore-resistance",
+  "parent-exhaustion",
+  "sibling-toy-snatch",
+  "best-friend-pact",
+]);
+
+function offeredEarlyKernelStages(age: number): readonly string[] {
+  const created = formativeWorld(age);
+  return eligibleEpisodeBeats({
+    world: created.world,
+    personId: created.playerPersonId,
+    families: EPISODE_FAMILIES,
+  })
+    .beats.map((beat) => beat.stageKey)
+    .filter((stageKey) => EARLY_KERNEL_STAGE_KEYS.has(stageKey));
+}
+
+function requirementsOf(stage: {
+  readonly requires: readonly EpisodeRequirement[];
+}) {
   return stage.requires;
 }
 
@@ -76,6 +119,20 @@ function playerFacingText(stage: {
 /* -------------------------------------------------------------------------- */
 
 describe("the early-childhood stages are age-true rather than band-true", () => {
+  it("enforces the five, seven and ten-year-old boundaries in live eligibility", () => {
+    const atFive = offeredEarlyKernelStages(5);
+    const atSeven = offeredEarlyKernelStages(7);
+    const atTen = offeredEarlyKernelStages(10);
+
+    expect(atFive).toContain("cubby-space");
+    expect(atFive).toContain("chore-resistance");
+    expect(atFive).not.toContain("partner-pairing");
+    expect(atSeven).toContain("partner-pairing");
+    expect(atSeven).toContain("parent-exhaustion");
+    expect(atSeven).not.toContain("cubby-space");
+    expect(atTen).toEqual([]);
+  });
+
   it("gives every early stage an explicit age floor and ceiling", () => {
     expect(EARLY_CHILD_STAGES.length).toBeGreaterThanOrEqual(6);
     for (const { episodeKey, stage } of EARLY_CHILD_STAGES) {
@@ -107,7 +164,8 @@ describe("the early-childhood stages are age-true rather than band-true", () => 
     // apart. A stage that admits both ages is that defect returning.
     for (const { episodeKey, stage } of EARLY_CHILD_STAGES) {
       const floor = ageFloor(requirementsOf(stage)) ?? 0;
-      const ceiling = ageCeiling(requirementsOf(stage)) ?? Number.MAX_SAFE_INTEGER;
+      const ceiling =
+        ageCeiling(requirementsOf(stage)) ?? Number.MAX_SAFE_INTEGER;
       const admitsFive = floor <= 5 && ceiling > 5;
       const admitsTen = floor <= 10 && ceiling > 10;
       expect(
@@ -119,9 +177,9 @@ describe("the early-childhood stages are age-true rather than band-true", () => 
 
   it("spreads the early stages across the band rather than stacking them on one age", () => {
     const floors = new Set(
-      EARLY_CHILD_STAGES.map((entry) => ageFloor(requirementsOf(entry.stage))).filter(
-        (age): age is number => age !== null,
-      ),
+      EARLY_CHILD_STAGES.map((entry) =>
+        ageFloor(requirementsOf(entry.stage)),
+      ).filter((age): age is number => age !== null),
     );
     // Five, six and seven are different children. If every stage started at
     // the same age the ladder would be decorative.
@@ -195,7 +253,9 @@ describe("no forbidden adult decision reaches a child", () => {
       for (const word of forbidden) {
         // Whole words only. "rent" inside "a different partner" is not a
         // lease, and a checker that says it is trains people to ignore it.
-        const pattern = new RegExp(`\\b${word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`);
+        const pattern = new RegExp(
+          `\\b${word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
+        );
         expect(
           pattern.test(text),
           `${episodeKey}/${stage.key} puts adult matter "${word}" in front of a child`,
@@ -218,6 +278,18 @@ describe("no forbidden adult decision reaches a child", () => {
     expect(bound && bound.kind === "role-age-below" ? bound.role : null).toBe(
       "household-peer",
     );
+
+    const created = formativeWorld(5);
+    const offered = eligibleEpisodeBeats({
+      world: created.world,
+      personId: created.playerPersonId,
+      families: EPISODE_FAMILIES,
+    }).beats.find((beat) => beat.stageKey === "sibling-toy-snatch");
+    expect(offered).toBeDefined();
+    expect(
+      offered?.bindings.find((binding) => binding.role === "household-peer")
+        ?.age,
+    ).toBeLessThan(5);
   });
 });
 
@@ -267,7 +339,9 @@ describe("the adult transition does not default to four-year college", () => {
     for (const { episodeKey, stage } of ADULT_STAGES) {
       const text = playerFacingText(stage).toLowerCase();
       for (const word of collegeOnly) {
-        const pattern = new RegExp(`\\b${word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`);
+        const pattern = new RegExp(
+          `\\b${word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
+        );
         expect(
           pattern.test(text),
           `${episodeKey}/${stage.key} presumes a four-year college with "${word}"`,
@@ -299,8 +373,50 @@ describe("the adult transition does not default to four-year college", () => {
 /* -------------------------------------------------------------------------- */
 
 describe("a stage that needs somebody says so, and is withheld without them", () => {
+  it("withholds live school and guardian scenes when their records are absent", () => {
+    const created = formativeWorld(5);
+    const withoutSources = {
+      ...created.world,
+      history: {
+        ...created.world.history,
+        childAuthorities: [],
+        educationEnrollments: [],
+      },
+    };
+    const eligibility = eligibleEpisodeBeats({
+      world: withoutSources,
+      personId: created.playerPersonId,
+      families: EPISODE_FAMILIES,
+    });
+
+    expect(
+      eligibility.beats.some((beat) => beat.stageKey === "cubby-space"),
+    ).toBe(false);
+    expect(
+      eligibility.beats.some((beat) => beat.stageKey === "chore-resistance"),
+    ).toBe(false);
+    expect(
+      eligibility.exclusions.some(
+        (entry) =>
+          entry.episodeKey === "school.the-thing-you-got-blamed-for" &&
+          entry.stageKey === "*" &&
+          entry.requirement.kind === "absent" &&
+          entry.requirement.fact === "school.enrolled",
+      ),
+    ).toBe(true);
+    expect(
+      eligibility.exclusions.some(
+        (entry) =>
+          entry.stageKey === "chore-resistance" &&
+          entry.requirement.kind === "role" &&
+          entry.requirement.role === "guardian",
+      ),
+    ).toBe(true);
+  });
+
   it("declares a role requirement for every role its copy names", () => {
-    const roleToken = /\{(?:role|who|they|them|their|theirs|themselves|s|es|is|has|was|does):([a-z-]+)\}/g;
+    const roleToken =
+      /\{(?:role|who|they|them|their|theirs|themselves|s|es|is|has|was|does):([a-z-]+)\}/g;
     for (const { episodeKey, stage } of lifeContent92cStages()) {
       const named = new Set<string>();
       for (const match of playerFacingText(stage).matchAll(roleToken)) {
@@ -373,9 +489,9 @@ describe("a stage that needs somebody says so, and is withheld without them", ()
     expect(
       since && since.kind === "days-since-stage" ? since.days : 0,
     ).toBeGreaterThanOrEqual(2920);
-    expect(requires.some((r) => r.kind === "role" && r.role === "familiar")).toBe(
-      true,
-    );
+    expect(
+      requires.some((r) => r.kind === "role" && r.role === "familiar"),
+    ).toBe(true);
   });
 
   it("requires an actual earlier answer for every continuation that claims one", () => {
@@ -424,7 +540,13 @@ describe("a chosen option mutates only canonical systems that already exist", ()
   });
 
   it("keeps every commitment inside the accepted commitment namespaces", () => {
-    const namespaces = ["civic", "community", "personal", "religious", "custom"];
+    const namespaces = [
+      "civic",
+      "community",
+      "personal",
+      "religious",
+      "custom",
+    ];
     for (const { option } of lifeContent92cOptions()) {
       if (option.writes?.kind !== "take-on-commitment") continue;
       expect(namespaces).toContain(option.writes.commitmentKind.split(":")[0]);
@@ -459,6 +581,19 @@ describe("a chosen option mutates only canonical systems that already exist", ()
 /* -------------------------------------------------------------------------- */
 
 describe("variation comes from context rather than from reworded cards", () => {
+  it("selects deterministically from the same world and seed", () => {
+    const created = formativeWorld(7);
+    const first = projectStoryMoment(created.world, created.playerPersonId);
+    const second = projectStoryMoment(created.world, created.playerPersonId);
+    expect(second).toEqual(first);
+  });
+
+  it("changes the eligible set when the canonical age context changes", () => {
+    expect(offeredEarlyKernelStages(5)).not.toEqual(
+      offeredEarlyKernelStages(7),
+    );
+  });
+
   it("makes no two stages interchangeable", () => {
     // Two scenes may legitimately share a gate — being six and at school is
     // the condition for more than one thing that happens to a six-year-old.
@@ -681,7 +816,9 @@ describe("the wave says which 92C kernels it implemented", () => {
     expect(new Set(kernels.map((entry) => entry.kernelId)).size).toBe(16);
     // The authority's floor: at least six age-true 5–7, and at least six from
     // the adult transition or ordinary-social end.
-    const early = kernels.filter((entry) => entry.kernelId.startsWith("early."));
+    const early = kernels.filter((entry) =>
+      entry.kernelId.startsWith("early."),
+    );
     const later = kernels.filter(
       (entry) => !entry.kernelId.startsWith("early."),
     );
