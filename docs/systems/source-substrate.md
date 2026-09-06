@@ -180,6 +180,28 @@ the import graph: `src/simulation/`, `src/presentation/`, `src/player/`,
 `src/ui/`, `src/persistence/`, `src/cli/` and `src/environment/` may not import
 `src/source/**`, and no domain may import another domain.
 
+## Municipal governance audit fixtures
+
+`municipal-governance` describes legal institutions rather than gameplay. Its
+Kentucky audit fixture keeps the elected body, mayor, council president or vice
+mayor, professional manager, and chief administrative officer as distinct
+actors. Powers are rows with a holder, sourced capability, conditions,
+exceptions, and vote arithmetic where an authority states it. There is no
+strong/weak-mayor field or score from which powers can be inferred.
+
+The fixture also keeps election partisanship as dated history, presiding and
+voting roles as separate rules, budget preparation/proposal/adoption as separate
+authority, and consolidation as predecessor, retained-office, service-district,
+and nested-government relationships. Missing government-unit crosswalks, exact
+nested-government counts, or local procedures remain `UNKNOWN` without a value.
+
+The 92I Drive cargo is an audit input, not a production artifact. A current
+first-party statute or official municipal page controls when it conflicts with
+the cargo's candidate JSON, but a browser check does not manufacture a locked
+artifact. Production stays gated until the exact cited bytes are acquired,
+rights-scoped, hashed, and proposition-checked. No municipal adapter exists, so
+these records cannot change the World or a player surface.
+
 ## Adding a domain
 
 1. Create `src/source/domains/<name>/` with `types.ts`, `parse.ts`,
@@ -196,7 +218,8 @@ the import graph: `src/simulation/`, `src/presentation/`, `src/player/`,
 A domain that cannot yet compile production records declares a
 `productionGate` explaining why. The gate appears in `MANIFEST.json`, so it is
 a visible fact about the substrate rather than an absence somebody has to
-notice. `state-office-qualifications` is currently the only one.
+notice. `municipal-governance` is gated for independent first-party acquisition
+and audit; other gated domains state their own reason independently.
 
 The 2024 PUMS state-shard form is explicit rather than a hidden alternate
 default:
