@@ -6,6 +6,7 @@ import {
   createLegislativeScenario,
   dispositionsFromCounts,
   jointBody,
+  KENTUCKY_CONTEXT,
   legislativeScenarioKeys,
   type LegislativeScenario,
 } from "./legislation-scenarios";
@@ -18,6 +19,7 @@ import {
   COMMITTEE_HEARING_TRANSITION_KEY,
   committeeHearingTransitionHandler,
   enrollMeasure,
+  introduceMeasure,
   measureActions,
   measureGate,
   measurePosition,
@@ -36,8 +38,10 @@ import {
 } from "./legislation";
 import {
   ALASKA_RULE_PACK,
+  ILLINOIS_RULE_PACK,
   KENTUCKY_RULE_PACK,
   LEGISLATIVE_RULE_PACKS,
+  MINNESOTA_RULE_PACK,
   NEBRASKA_RULE_PACK,
 } from "./legislature-rule-packs";
 import {
@@ -46,6 +50,7 @@ import {
   fractionOf,
   knownRule,
   majorityOf,
+  nextChamberKey,
   notApplicableRule,
   requireKnown,
   resolveRequiredVotes,
@@ -907,5 +912,159 @@ describe("Durability", () => {
       expect(event!.tags).toContain("legislation");
     }
     expect(() => assertWorldIntegrity(world)).not.toThrow();
+  });
+});
+
+describe("Where a bill starts decides where it goes next", () => {
+  /** The jurisdiction a Kentucky scenario world already contains. */
+  const kentuckyJurisdiction = KENTUCKY_CONTEXT.jurisdiction.id;
+
+  function measureByKey(world: World, stableKey: string) {
+    const record = (world.history.legislativeMeasures ?? []).find(
+      (candidate) => candidate.stableKey === stableKey,
+    );
+    expect(record, `measure ${stableKey}`).toBeDefined();
+    return record!;
+  }
+
+  it("sends a bill introduced in the second chamber onward to the first", () => {
+    // A measure that starts in the Senate used to have nowhere to go, because
+    // the next chamber was read off a fixed position in chamberOrder rather
+    // than from where the bill actually began.
+    const scenario = createLegislativeScenario("kentucky");
+    const world = introduceMeasure(scenario.world, {
+      stableKey: "senate-origin:measure",
+      jurisdictionId: kentuckyJurisdiction,
+      rulePackId: KENTUCKY_RULE_PACK.packId,
+      designation: "SB 12",
+      shortTitle: "Senate-originated test measure",
+      summary: "Written for this test, to prove a Senate bill can travel.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: "senate",
+    });
+    const measure = measureByKey(world, "senate-origin:measure");
+
+    expect(measure.originChamberKey).toBe("senate");
+    expect(measurePosition(world, measure.id).chamberKey).toBe("senate");
+    // Onward is the House, and the House is the end of the road for it.
+    expect(nextChamberKey(KENTUCKY_RULE_PACK, "senate", "senate")).toBe(
+      "house",
+    );
+    expect(nextChamberKey(KENTUCKY_RULE_PACK, "house", "senate")).toBeNull();
+    expect(() => assertWorldIntegrity(world)).not.toThrow();
+  });
+
+  it("still defaults to the declared first chamber when none is named", () => {
+    const scenario = createLegislativeScenario("kentucky");
+    const world = introduceMeasure(scenario.world, {
+      stableKey: "default-origin:measure",
+      jurisdictionId: kentuckyJurisdiction,
+      rulePackId: KENTUCKY_RULE_PACK.packId,
+      designation: "HB 12",
+      shortTitle: "Default-origin test measure",
+      summary: "Written for this test.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+    });
+    expect(measureByKey(world, "default-origin:measure").originChamberKey).toBe(
+      "house",
+    );
+  });
+
+  it("refuses a Minnesota revenue bill filed anywhere but the House", () => {
+    // Minn. Const. art. IV, § 18 confines revenue bills to the House. The rule
+    // is enforced where a measure is actually filed, not by pretending every
+    // Minnesota measure is House-originated.
+    const scenario = createLegislativeScenario("kentucky");
+    const revenueInSenate = () =>
+      introduceMeasure(scenario.world, {
+        stableKey: "mn-revenue:measure",
+        jurisdictionId: kentuckyJurisdiction,
+        rulePackId: MINNESOTA_RULE_PACK.packId,
+        designation: "SF 1",
+        shortTitle: "Revenue measure filed in the wrong chamber",
+        summary: "Written for this test.",
+        origin: "member-introduction",
+        subjectClass: "revenue",
+        originChamberKey: "senate",
+      });
+    expect(revenueInSenate).toThrow(/cannot originate in the Senate/);
+
+    // The same bill in the House is fine, and an ordinary bill is unrestricted
+    // in either chamber because Minnesota's general rule is unresolved.
+    expect(() =>
+      introduceMeasure(scenario.world, {
+        stableKey: "mn-revenue-house:measure",
+        jurisdictionId: kentuckyJurisdiction,
+        rulePackId: MINNESOTA_RULE_PACK.packId,
+        designation: "HF 1",
+        shortTitle: "Revenue measure filed in the House",
+        summary: "Written for this test.",
+        origin: "member-introduction",
+        subjectClass: "revenue",
+        originChamberKey: "house",
+      }),
+    ).not.toThrow();
+    expect(() =>
+      introduceMeasure(scenario.world, {
+        stableKey: "mn-policy-senate:measure",
+        jurisdictionId: kentuckyJurisdiction,
+        rulePackId: MINNESOTA_RULE_PACK.packId,
+        designation: "SF 2",
+        shortTitle: "Ordinary measure filed in the Senate",
+        summary: "Written for this test.",
+        origin: "member-introduction",
+        subjectClass: "general-policy",
+        originChamberKey: "senate",
+      }),
+    ).not.toThrow();
+  });
+
+  it("lets an Illinois bill start in either house, because Illinois says so", () => {
+    const scenario = createLegislativeScenario("kentucky");
+    for (const chamberKey of ["house", "senate"]) {
+      expect(() =>
+        introduceMeasure(scenario.world, {
+          stableKey: `il-origin-${chamberKey}:measure`,
+          jurisdictionId: kentuckyJurisdiction,
+          rulePackId: ILLINOIS_RULE_PACK.packId,
+          designation: `Bill from the ${chamberKey}`,
+          shortTitle: "Illinois either-house test measure",
+          summary: "Written for this test.",
+          origin: "member-introduction",
+          subjectClass: "general-policy",
+          originChamberKey: chamberKey,
+        }),
+      ).not.toThrow();
+    }
+  });
+});
+
+describe("An unresolved stage rule is not permission to amend", () => {
+  it("refuses a Minnesota floor amendment as unresolved rather than forbidden", () => {
+    // Minnesota's third reading is `unknown`, and the refusal says so: the
+    // engine must not read silence as either a yes or a settled no.
+    const stage = MINNESOTA_RULE_PACK.chambers[0]!.floorStages[0]!;
+    expect(stage.amendable.kind).toBe("unknown");
+    if (stage.amendable.kind === "unknown") {
+      expect(stage.amendable.note).toMatch(/not read for this pack/);
+    }
+  });
+
+  it("keeps offering the amendment step only where both rules resolve to yes", () => {
+    // Kentucky resolves both the chamber permission and the stage, so the step
+    // is offered there. Alaska resolves neither, and never offers it.
+    const kentucky = createLegislativeScenario("kentucky");
+    const onFloor = toFloor(kentucky, kentucky.world, "house", 9);
+    expect(availableMeasureSteps(onFloor, kentucky.measureId)).toContain(
+      "offer-amendment",
+    );
+
+    const alaska = createLegislativeScenario("alaska");
+    const alaskaOnFloor = toFloor(alaska, alaska.world, "house", 4);
+    expect(
+      availableMeasureSteps(alaskaOnFloor, alaska.measureId),
+    ).not.toContain("offer-amendment");
   });
 });

@@ -125,10 +125,25 @@ Read (`verified`):
 | Minn. Const. § IV.20 | A bill passed by both houses is enrolled and signed by each presiding officer.                                                                               |
 | Minn. Const. § IV.7  | Each house determines the rules of its proceedings — the authority under which the unread referral, committee and floor-amendment rules are made.            |
 
-Left `unknown`: the floor-amendment authority and germaneness standard, referral
-and hearing guarantees, conference, the default effective date (Minn. Stat.
-§ 645.02, not read), and whether a measure dies at a given adjournment as opposed
-to at the end of the biennium.
+The seat counts are **not** constitutional and are not cited as though they were.
+Art. IV, § 2 says the number of members "shall be prescribed by law", and
+**Minn. Stat. § 2.021** is the law that prescribes it: the senate is composed of
+67 members and the house of representatives of 134. That statute is the pack's
+`seatsSource` for both chambers, and both it and the delegating section are
+cited.
+
+| Citation            | What it says                                                                                                        |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Minn. Const. § IV.2 | The number of members composing each house shall be prescribed by law — the constitution fixes no count of its own. |
+| Minn. Stat. § 2.021 | Number of members: the senate is composed of 67 members and the house of representatives of 134.                    |
+
+Left `unknown`: the floor-amendment authority and germaneness standard, **whether
+a bill may be amended at third reading**, referral and hearing guarantees,
+conference, the default effective date (Minn. Stat. § 645.02, not read), and
+whether a measure dies at a given adjournment as opposed to at the end of the
+biennium. Origination is split: revenue bills are confined to the House by art.
+IV, § 18, and where an _ordinary_ bill may start is unresolved, because no source
+read says.
 
 ## Illinois
 
@@ -145,10 +160,32 @@ Read (`verified`):
 | Ill. Const. § IV.5 | The General Assembly convenes each year on the second Wednesday of January; no fixed adjournment deadline.                                                               |
 | Ill. Const. § IV.6 | A majority of the members elected to each house is a quorum; each house determines the rules of its proceedings.                                                         |
 
-Left `unknown`: the germaneness standard, referral and hearing guarantees,
-conference, and the default effective date (Effective Date of Laws Act, 5 ILCS
-75, not read). The post-adjournment action window is `not-applicable`: Illinois
-runs one flat sixty-day window with no separate post-adjournment period.
+Illinois fixes its own seat counts in the constitution, so unlike Minnesota the
+seat provenance here is constitutional: **art. IV, § 1** vests the legislative
+power in a General Assembly "elected by the electors from 59 Legislative
+Districts and 118 Representative Districts."
+
+Left `unknown`: the germaneness standard, **whether a bill may be amended at
+third reading**, referral and hearing guarantees, conference, and the default
+effective date (Effective Date of Laws Act, 5 ILCS 75, not read). The
+post-adjournment action window is `not-applicable`: Illinois runs one flat
+sixty-day window with no separate post-adjournment period. Origination is
+`known`: art. IV, § 8 says a bill may originate in either house, and no subject
+class is confined to one of them.
+
+## Amendability is read per stage, and per stage it is often unknown
+
+A chamber can be known to amend bills somewhere while nothing read says which
+reading does it. Those are two questions and the packs keep them apart:
+`AmendmentRule.floorAmendmentsAllowed` is the chamber-level permission, and each
+`FloorStageRule.amendable` is the stage-level one. Illinois is the clearest case
+— art. IV, § 8 establishes that a bill may be amended, so the chamber-level value
+is `known true`, while the stage that takes the amendment is set by chamber rules
+that were not read, so the third reading is `unknown`. Minnesota and Alaska are
+unresolved at both levels. Kentucky's chambers each have an Amendments to Bills
+rule, and Nebraska's Final Reading positively takes no amendment; those stay
+`known`. Nothing here turns an absence of evidence into either a permission or a
+prohibition.
 
 ## How Minnesota and Illinois were read
 

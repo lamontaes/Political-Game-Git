@@ -303,6 +303,10 @@ function kentuckyChamber(
     chamberKey,
     name,
     seats,
+    // Kentucky's seat counts were carried from the compiled research without a
+    // separate read of the instrument that fixes them, so this pack does not
+    // claim one.
+    seatsSource: null,
     quorum: unknownRule(
       "Kentucky's constitutional quorum fraction was not resolved for this pack.",
     ),
@@ -347,7 +351,10 @@ function kentuckyChamber(
       {
         stageKey: "final-passage",
         label: "Third reading and final passage",
-        amendable: true,
+        // Each chamber's own Amendments to Bills rule is what lets a member
+        // amend on the floor, and it is the same rule this pack already reads
+        // for the chamber-level permission.
+        amendable: knownRule(true, chamberRules.amendments),
         separateLegislativeDayRequired: true,
         vote: knownRule(
           majorityOf(
@@ -386,6 +393,23 @@ export const KENTUCKY_RULE_PACK: LegislativeRulePack = {
     kentuckyChamber("senate", "Senate", 38, true, KY_SENATE_RULES),
   ],
   chamberOrder: ["house", "senate"],
+  origination: {
+    // Sec. 47 confines revenue bills to the House. Nothing read for this pack
+    // says where an ordinary Kentucky bill may start, so that stays unresolved
+    // rather than being read off the order the chambers happen to be listed in.
+    generalOrigination: unknownRule(
+      "Where an ordinary Kentucky bill may be introduced was not resolved for this pack; Sec. 47 speaks only to revenue bills.",
+    ),
+    subjectRestrictions: [
+      {
+        subjectClass: "revenue",
+        chamberKeys: ["house"],
+        source: KY_SEC_47,
+        note: "Revenue bills must originate in the House of Representatives.",
+      },
+    ],
+    source: KY_SEC_47,
+  },
   interChamber: {
     kind: "second-chamber",
     concurrenceThreshold: majorityOf(
@@ -547,6 +571,9 @@ export const NEBRASKA_RULE_PACK: LegislativeRulePack = {
       chamberKey: "legislature",
       name: "Legislature",
       seats: 49,
+      // Carried from the compiled research; the instrument fixing the number of
+      // senators was not separately read for this pack.
+      seatsSource: null,
       quorum: unknownRule(
         "Nebraska's quorum fraction was not resolved for this pack.",
       ),
@@ -590,7 +617,10 @@ export const NEBRASKA_RULE_PACK: LegislativeRulePack = {
         {
           stageKey: "general-file",
           label: "General File",
-          amendable: true,
+          // The Legislature's own explanation says twenty-five votes adopt
+          // amendments and advance a bill from General File, which is this
+          // stage taking amendments in so many words.
+          amendable: knownRule(true, NE_LAWMAKING),
           separateLegislativeDayRequired: true,
           vote: knownRule(NE_MAJORITY_ELECTED, NE_LAWMAKING),
           source: NE_RULE_6,
@@ -598,7 +628,7 @@ export const NEBRASKA_RULE_PACK: LegislativeRulePack = {
         {
           stageKey: "select-file",
           label: "Select File",
-          amendable: true,
+          amendable: knownRule(true, NE_RULE_6),
           separateLegislativeDayRequired: true,
           vote: knownRule(NE_MAJORITY_ELECTED, NE_LAWMAKING),
           source: NE_RULE_6,
@@ -606,7 +636,9 @@ export const NEBRASKA_RULE_PACK: LegislativeRulePack = {
         {
           stageKey: "final-reading",
           label: "Final Reading",
-          amendable: false,
+          // A positive rule, not an absence of one: the constitution puts a
+          // bill to its final reading and passage without amendment.
+          amendable: knownRule(false, NE_ART3_SEC14),
           separateLegislativeDayRequired: true,
           vote: knownRule(NE_MAJORITY_ELECTED, NE_ART3_SEC14),
           source: NE_ART3_SEC14,
@@ -622,6 +654,15 @@ export const NEBRASKA_RULE_PACK: LegislativeRulePack = {
     },
   ],
   chamberOrder: ["legislature"],
+  origination: {
+    // With one chamber there is nowhere else a bill could start, and the
+    // Legislature's own account of lawmaking describes introduction there. No
+    // subject class can be confined to a different house, because there is not
+    // one.
+    generalOrigination: knownRule(["legislature"], NE_LAWMAKING),
+    subjectRestrictions: [],
+    source: NE_LAWMAKING,
+  },
   interChamber: {
     kind: "not-applicable",
     note: "Nebraska has one chamber, so there is no second house, no concurrence and no conference committee.",
@@ -793,6 +834,9 @@ function alaskaChamber(
     chamberKey,
     name,
     seats,
+    // Carried from the compiled research; the instrument fixing the number of
+    // seats was not separately read for this pack.
+    seatsSource: null,
     quorum: unknownRule(
       "Alaska's quorum fraction was not resolved for this pack.",
     ),
@@ -830,7 +874,14 @@ function alaskaChamber(
       {
         stageKey: "final-passage",
         label: "Third reading and final passage",
-        amendable: true,
+        // This pack could not find the rule that lets an Alaska member amend on
+        // the floor at all — the same gap its `unresolvedGaps` already records —
+        // so which stage takes an amendment is unresolved too. Art. II, Sec. 14
+        // fixes the readings and the passage vote and says nothing about
+        // amendment, and it is not made to say it here.
+        amendable: unknownRule(
+          "No rule establishing that an Alaska bill may be amended at third reading was read for this pack; Art. II, Sec. 14 fixes the readings and the passage vote only.",
+        ),
         separateLegislativeDayRequired: true,
         vote: knownRule(
           majorityOf(
@@ -865,6 +916,13 @@ export const ALASKA_RULE_PACK: LegislativeRulePack = {
     alaskaChamber("senate", "Senate", 20),
   ],
   chamberOrder: ["house", "senate"],
+  origination: {
+    generalOrigination: unknownRule(
+      "Where an Alaska bill may be introduced was not resolved for this pack; no source read states an origination rule or a revenue-bill exception.",
+    ),
+    subjectRestrictions: [],
+    source: AK_ART2_SEC14,
+  },
   interChamber: {
     kind: "second-chamber",
     concurrenceThreshold: majorityOf(
@@ -1044,6 +1102,22 @@ const MN_ART4_SEC20 = constitutionSource(
   "verified",
   'Enrollment: "Every bill passed by both houses shall be enrolled and signed by the presiding officer of each house." This is the point at which both chambers have agreed on one text.',
 );
+const MN_ART4_SEC2 = constitutionSource(
+  "Minn. Const. art. IV, § 2",
+  MN_CONST_TITLE,
+  MN_CONST_URL,
+  "verified",
+  'Apportionment of members: "The number of members who compose the senate and house of representatives shall be prescribed by law." The constitution fixes no seat count of its own; it sends the number to statute, which is why the seat counts in this pack cite Minn. Stat. § 2.021 and not this section.',
+);
+const MN_STAT_2_021: RuleSourceRef = {
+  authority: "statute",
+  citation: "Minn. Stat. § 2.021",
+  sourceTitle: "Minnesota Statutes — 2.021 Number of Members",
+  sourceUrl: "https://www.revisor.mn.gov/statutes/cite/2.021",
+  retrievedAt: RETRIEVED_MN_IL,
+  verification: "verified",
+  note: "Number of members: for each legislature, until a new apportionment has been made, the senate is composed of 67 members and the house of representatives is composed of 134 members. This is the instrument that actually fixes the seat counts this pack carries.",
+};
 const MN_ART4_SEC7 = constitutionSource(
   "Minn. Const. art. IV, § 7",
   MN_CONST_TITLE,
@@ -1062,6 +1136,9 @@ function minnesotaChamber(
     chamberKey,
     name,
     seats,
+    // Not the constitution: art. IV, § 2 prescribes the number "by law", and
+    // Minn. Stat. § 2.021 is the law that does it.
+    seatsSource: MN_STAT_2_021,
     quorum: knownRule(
       majorityOf("members-elected", "a majority of the house", MN_ART4_SEC13),
       MN_ART4_SEC13,
@@ -1082,7 +1159,15 @@ function minnesotaChamber(
       {
         stageKey: "final-passage",
         label: "Third reading and final passage",
-        amendable: true,
+        // This pack does not know whether an ordinary Minnesota bill may be
+        // amended at third reading. That is the same gap the chamber-level
+        // floor-amendment authority already records: the constitution sends
+        // rules of proceeding to each house (art. IV, § 7) and those rules were
+        // not read. Saying `true` would have contradicted the pack's own
+        // unresolved authority; saying `false` would invent a prohibition.
+        amendable: unknownRule(
+          "Whether a Minnesota bill may be amended at third reading is set by each house's rules under Minn. Const. art. IV, § 7, which were not read for this pack. Art. IV, § 19 fixes only that a bill is considered on three different days.",
+        ),
         separateLegislativeDayRequired: true,
         vote: knownRule(
           majorityOf(
@@ -1117,6 +1202,24 @@ export const MINNESOTA_RULE_PACK: LegislativeRulePack = {
     minnesotaChamber("senate", "Senate", 67),
   ],
   chamberOrder: ["house", "senate"],
+  origination: {
+    // The constitution confines revenue bills to the House and says nothing
+    // about where an ordinary bill starts. Both halves are recorded: the
+    // confinement as the sourced rule it is, and the silence as silence. The
+    // listed chamber order is not evidence of either.
+    generalOrigination: unknownRule(
+      "Where an ordinary Minnesota bill may be introduced was not resolved for this pack. Art. IV, § 18 confines revenue bills to the House and no source read states a general origination rule, so this pack does not claim one either way.",
+    ),
+    subjectRestrictions: [
+      {
+        subjectClass: "revenue",
+        chamberKeys: ["house"],
+        source: MN_ART4_SEC18,
+        note: "All bills for raising revenue shall originate in the house of representatives, but the senate may propose and concur with the amendments as on other bills.",
+      },
+    ],
+    source: MN_ART4_SEC18,
+  },
   interChamber: {
     kind: "second-chamber",
     concurrenceThreshold: majorityOf(
@@ -1180,6 +1283,8 @@ export const MINNESOTA_RULE_PACK: LegislativeRulePack = {
     MN_ART4_SEC19,
     MN_ART4_SEC20,
     MN_ART4_SEC7,
+    MN_ART4_SEC2,
+    MN_STAT_2_021,
   ],
   unresolvedGaps: [
     "Minnesota's committee structure, referral among committees, and report and discharge thresholds are set by each house's rules and the joint rules, which were not read for this pack.",
@@ -1188,7 +1293,8 @@ export const MINNESOTA_RULE_PACK: LegislativeRulePack = {
     "The default effective-date rule is set by Minn. Stat. § 645.02, which was not read for this pack.",
     "Whether a Minnesota measure dies at a given adjournment, as distinct from at the end of the biennium, is unresolved.",
     "This pack models a single third-reading final-passage stage; the Minnesota Constitution requires consideration on three different days (art. IV, § 19), but the intermediate general-orders and second-reading stages come from chamber rules not read here.",
-    "Revenue bills must originate in the Minnesota House of Representatives (art. IV, § 18); the rule-pack schema has no per-chamber origination field, so this restriction is carried in the cited sources and this note rather than as a structural value.",
+    "Whether a Minnesota bill may be amended at third reading is unresolved, so this pack does not permit an amendment at that stage.",
+    "Where an ordinary Minnesota bill may be introduced is unresolved; only the revenue confinement in art. IV, § 18 is established.",
   ],
 };
 
@@ -1196,6 +1302,13 @@ const IL_CONST_URL = "https://www.ilga.gov/commission/lrb/con4.htm";
 const IL_CONST_TITLE =
   "Constitution of the State of Illinois (1970), Article IV";
 
+const IL_ART4_SEC1 = constitutionSource(
+  "Ill. Const. art. IV, § 1",
+  IL_CONST_TITLE,
+  IL_CONST_URL,
+  "verified",
+  'Legislature: "The legislative power is vested in a General Assembly consisting of a Senate and a House of Representatives, elected by the electors from 59 Legislative Districts and 118 Representative Districts." Unlike Minnesota, Illinois fixes its seat counts in the constitution itself, so the seat provenance here is constitutional rather than statutory.',
+);
 const IL_ART4_SEC8 = constitutionSource(
   "Ill. Const. art. IV, § 8",
   IL_CONST_TITLE,
@@ -1235,6 +1348,8 @@ function illinoisChamber(
     chamberKey,
     name,
     seats,
+    // Illinois names the district counts in the constitution itself.
+    seatsSource: IL_ART4_SEC1,
     quorum: knownRule(
       majorityOf(
         "members-elected",
@@ -1259,7 +1374,15 @@ function illinoisChamber(
       {
         stageKey: "third-reading",
         label: "Third reading and final passage",
-        amendable: true,
+        // Art. IV, § 8 establishes that an Illinois bill is amendable — the
+        // other house may amend or reject it — which is why the chamber-level
+        // permission is `known`. It does not say a bill may be amended at third
+        // reading, and which reading takes an amendment is a chamber-rules
+        // matter this pack did not read. Chamber-level yes, stage-level
+        // unresolved: two different questions, kept apart.
+        amendable: unknownRule(
+          "Whether an Illinois bill may be amended at third reading is set by each house's rules under Ill. Const. art. IV, § 6, which were not read for this pack. Art. IV, § 8 establishes that bills are amendable without fixing the stage at which it happens.",
+        ),
         separateLegislativeDayRequired: true,
         vote: knownRule(
           majorityOf(
@@ -1292,6 +1415,16 @@ export const ILLINOIS_RULE_PACK: LegislativeRulePack = {
     illinoisChamber("senate", "Senate", 59),
   ],
   chamberOrder: ["house", "senate"],
+  origination: {
+    // Illinois says it outright, so this is a resolved rule and not an
+    // inference from the order the chambers are listed in: an ordinary bill may
+    // start in either house. No subject class is confined to one of them by any
+    // source read here — in particular Illinois has no revenue-bill rule of the
+    // kind Minnesota has.
+    generalOrigination: knownRule(["house", "senate"], IL_ART4_SEC8),
+    subjectRestrictions: [],
+    source: IL_ART4_SEC8,
+  },
   interChamber: {
     kind: "second-chamber",
     concurrenceThreshold: majorityOf(
@@ -1348,7 +1481,13 @@ export const ILLINOIS_RULE_PACK: LegislativeRulePack = {
     ),
     source: IL_ART4_SEC5,
   },
-  sources: [IL_ART4_SEC8, IL_ART4_SEC9, IL_ART4_SEC5, IL_ART4_SEC6],
+  sources: [
+    IL_ART4_SEC8,
+    IL_ART4_SEC9,
+    IL_ART4_SEC5,
+    IL_ART4_SEC6,
+    IL_ART4_SEC1,
+  ],
   unresolvedGaps: [
     "Illinois's committee structure, referral among committees, and report and discharge thresholds are set by each house's rules and the joint rules, which were not read for this pack.",
     "Illinois's germaneness standard applied to floor amendments is set by each house's rules, which were not read for this pack.",
@@ -1356,6 +1495,7 @@ export const ILLINOIS_RULE_PACK: LegislativeRulePack = {
     "The default effective-date rule is set by the Effective Date of Laws Act (5 ILCS 75), which was not read for this pack.",
     "Whether an Illinois measure dies at a given adjournment, as distinct from at the end of the two-year General Assembly, is unresolved.",
     "This pack models a single third-reading final-passage stage; the Illinois Constitution requires a reading by title on three different days (art. IV, § 8), but the intermediate reading and amendment stages come from chamber rules not read here.",
+    "Whether an Illinois bill may be amended at third reading is unresolved, so this pack does not permit an amendment at that stage even though bills are amendable in general.",
     "The Governor's reduction veto for appropriation items (a reduced item restored by a majority of the members elected, art. IV, § 9) is distinct from an ordinary item veto; the schema records only a line-item veto flag and the override threshold, so the reduction-restore majority is carried in the § 9 note rather than as its own field.",
   ],
 };

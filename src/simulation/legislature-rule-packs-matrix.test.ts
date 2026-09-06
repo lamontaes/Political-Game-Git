@@ -10,8 +10,13 @@ import {
   NEBRASKA_RULE_PACK,
 } from "./legislature-rule-packs";
 import {
+  assertOriginationPermitted,
   assertRulePackIntegrity,
+  chamberSequenceFrom,
+  nextChamberKey,
+  permittedOriginChambers,
   type LegislativeRulePack,
+  type RuleSourceRef,
   type RuleValue,
 } from "./legislature-rules";
 
@@ -46,6 +51,30 @@ function collectRuleValues(node: unknown): RuleValue<unknown>[] {
       const kind = (value as { kind?: unknown }).kind;
       if (kind === "known" || kind === "unknown" || kind === "not-applicable") {
         found.push(value as RuleValue<unknown>);
+      }
+      for (const entry of Object.values(value)) visit(entry);
+    }
+  };
+  visit(node);
+  return found;
+}
+
+/** Every citation object reachable inside a pack, wherever it is nested. */
+function collectSourceRefs(node: unknown): RuleSourceRef[] {
+  const found: RuleSourceRef[] = [];
+  const visit = (value: unknown): void => {
+    if (Array.isArray(value)) {
+      for (const entry of value) visit(entry);
+      return;
+    }
+    if (value && typeof value === "object") {
+      const candidate = value as Partial<RuleSourceRef>;
+      if (
+        typeof candidate.citation === "string" &&
+        typeof candidate.sourceTitle === "string" &&
+        typeof candidate.authority === "string"
+      ) {
+        found.push(value as RuleSourceRef);
       }
       for (const entry of Object.values(value)) visit(entry);
     }
@@ -185,7 +214,9 @@ describe("the legislative rule-pack matrix", () => {
     // the 2026-09-05 primary-source pass; the three older packs are untouched
     // on their 2026-09-02 reads.
     for (const source of MINNESOTA_RULE_PACK.sources) {
-      expect(source.citation).toMatch(/^Minn\. Const\./);
+      // Minnesota instruments, but not all of them constitutional: the seat
+      // count is statutory and says so.
+      expect(source.citation).toMatch(/^Minn\. (Const\.|Stat\.)/);
       expect(source.retrievedAt).toBe("2026-09-05");
     }
     for (const source of ILLINOIS_RULE_PACK.sources) {
@@ -268,5 +299,236 @@ describe("the legislative rule-pack matrix", () => {
       ]);
     const signatures = LEGISLATIVE_RULE_PACKS.map(signatureOf);
     expect(new Set(signatures).size).toBe(LEGISLATIVE_RULE_PACKS.length);
+  });
+});
+
+describe("where a measure is permitted to start", () => {
+  it("does not read a permitted origin off the listed chamber order", () => {
+    // The defect this replaces: a fixed chamberOrder made every Minnesota and
+    // Illinois measure House-originated, which neither state's instruments say.
+    // The order is now transit only; permission is its own sourced rule.
+    expect(ILLINOIS_RULE_PACK.chamberOrder).toStrictEqual(["house", "senate"]);
+    expect(MINNESOTA_RULE_PACK.chamberOrder).toStrictEqual(["house", "senate"]);
+
+    // Illinois says outright that a bill may start in either house.
+    const illinois = permittedOriginChambers(
+      ILLINOIS_RULE_PACK,
+      "general-policy",
+    );
+    expect(illinois.kind).toBe("known");
+    if (illinois.kind === "known") {
+      expect([...illinois.value].sort()).toStrictEqual(["house", "senate"]);
+      expect(illinois.source.citation).toBe("Ill. Const. art. IV, § 8");
+    }
+
+    // Minnesota does not say, and silence is recorded as silence rather than as
+    // the first chamber in a list.
+    expect(
+      permittedOriginChambers(MINNESOTA_RULE_PACK, "general-policy").kind,
+    ).toBe("unknown");
+  });
+
+  it("keeps Minnesota's revenue rule distinct from its general-bill rule", () => {
+    // One jurisdiction, two different origination rules. Collapsing them loses
+    // the only origination fact Minnesota's constitution actually states.
+    const revenue = permittedOriginChambers(MINNESOTA_RULE_PACK, "revenue");
+    expect(revenue.kind).toBe("known");
+    if (revenue.kind === "known") {
+      expect(revenue.value).toStrictEqual(["house"]);
+      expect(revenue.source.citation).toBe("Minn. Const. art. IV, § 18");
+    }
+    // The general rule is still unresolved: the exception did not become the rule.
+    expect(
+      permittedOriginChambers(MINNESOTA_RULE_PACK, "general-policy").kind,
+    ).toBe("unknown");
+
+    // And the restriction actually refuses the wrong chamber.
+    expect(() =>
+      assertOriginationPermitted(MINNESOTA_RULE_PACK, "revenue", "senate"),
+    ).toThrow(/cannot originate in the Senate/);
+    expect(() =>
+      assertOriginationPermitted(MINNESOTA_RULE_PACK, "revenue", "house"),
+    ).not.toThrow();
+    // An unresolved general rule is not a prohibition invented from silence.
+    expect(() =>
+      assertOriginationPermitted(
+        MINNESOTA_RULE_PACK,
+        "general-policy",
+        "senate",
+      ),
+    ).not.toThrow();
+  });
+
+  it("carries Kentucky's own revenue confinement rather than Minnesota's", () => {
+    const kentucky = permittedOriginChambers(KENTUCKY_RULE_PACK, "revenue");
+    expect(kentucky.kind).toBe("known");
+    if (kentucky.kind === "known") {
+      expect(kentucky.value).toStrictEqual(["house"]);
+      expect(kentucky.source.citation).toBe("Ky. Const. Sec. 47");
+    }
+    // Illinois has no such confinement, and none was invented for it.
+    expect(ILLINOIS_RULE_PACK.origination.subjectRestrictions).toStrictEqual(
+      [],
+    );
+  });
+
+  it("sends a measure through the chambers from where it actually began", () => {
+    // A bill starting in the second chamber used to have nowhere to go, because
+    // the next chamber was read off a fixed index. Transit is now relative to
+    // the measure's real origin, in both directions.
+    expect(chamberSequenceFrom(ILLINOIS_RULE_PACK, "senate")).toStrictEqual([
+      "senate",
+      "house",
+    ]);
+    expect(chamberSequenceFrom(ILLINOIS_RULE_PACK, "house")).toStrictEqual([
+      "house",
+      "senate",
+    ]);
+    expect(nextChamberKey(ILLINOIS_RULE_PACK, "senate", "senate")).toBe(
+      "house",
+    );
+    expect(nextChamberKey(ILLINOIS_RULE_PACK, "house", "senate")).toBeNull();
+    expect(nextChamberKey(ILLINOIS_RULE_PACK, "house", "house")).toBe("senate");
+    expect(nextChamberKey(ILLINOIS_RULE_PACK, "senate", "house")).toBeNull();
+
+    // Nebraska has one chamber, so a measure never leaves it.
+    expect(
+      nextChamberKey(NEBRASKA_RULE_PACK, "legislature", "legislature"),
+    ).toBeNull();
+  });
+});
+
+describe("stage amendability is evidence, not a default", () => {
+  it("leaves an unestablished third reading unknown rather than true or false", () => {
+    for (const pack of [
+      MINNESOTA_RULE_PACK,
+      ILLINOIS_RULE_PACK,
+      ALASKA_RULE_PACK,
+    ]) {
+      for (const chamber of pack.chambers) {
+        const stage = chamber.floorStages.at(-1)!;
+        expect(
+          stage.amendable.kind,
+          `${pack.packId}/${chamber.chamberKey} third reading`,
+        ).toBe("unknown");
+        // Unknown carries a reason and never a value.
+        expect("value" in stage.amendable).toBe(false);
+      }
+    }
+  });
+
+  it("keeps a resolved yes and a resolved no intact", () => {
+    // Kentucky's chambers have an Amendments to Bills rule; Nebraska's final
+    // reading positively takes no amendment. Neither becomes unknown.
+    for (const chamber of KENTUCKY_RULE_PACK.chambers) {
+      expect(chamber.floorStages[0]!.amendable).toMatchObject({
+        kind: "known",
+        value: true,
+      });
+    }
+    const nebraska = NEBRASKA_RULE_PACK.chambers[0]!;
+    expect(nebraska.floorStages[0]!.amendable).toMatchObject({
+      kind: "known",
+      value: true,
+    });
+    expect(nebraska.floorStages.at(-1)!.amendable).toMatchObject({
+      kind: "known",
+      value: false,
+    });
+  });
+
+  it("never lets an unresolved stage read as permission", () => {
+    // Minnesota's chamber-level floor-amendment authority is unresolved and its
+    // stage is unresolved; Illinois knows bills are amendable but not where.
+    // Neither may be reported as a stage that accepts amendments.
+    expect(
+      MINNESOTA_RULE_PACK.chambers[0]!.amendments.floorAmendmentsAllowed.kind,
+    ).toBe("unknown");
+    expect(
+      ILLINOIS_RULE_PACK.chambers[0]!.amendments.floorAmendmentsAllowed,
+    ).toMatchObject({ kind: "known", value: true });
+    expect(ILLINOIS_RULE_PACK.chambers[0]!.floorStages[0]!.amendable.kind).toBe(
+      "unknown",
+    );
+  });
+});
+
+describe("seat counts cite the instrument that actually fixes them", () => {
+  it("attributes Minnesota's seats to the statute, not the constitution", () => {
+    // Minn. Const. art. IV, § 2 sends the number to statute, so citing the
+    // constitution for 67 and 134 would name the wrong instrument.
+    for (const chamber of MINNESOTA_RULE_PACK.chambers) {
+      expect(chamber.seatsSource).not.toBeNull();
+      expect(chamber.seatsSource!.authority).toBe("statute");
+      expect(chamber.seatsSource!.citation).toBe("Minn. Stat. § 2.021");
+    }
+    expect(
+      MINNESOTA_RULE_PACK.sources.map((source) => source.citation),
+    ).toContain("Minn. Stat. § 2.021");
+    // The delegation itself is cited too, so the chain can be followed.
+    expect(
+      MINNESOTA_RULE_PACK.sources.map((source) => source.citation),
+    ).toContain("Minn. Const. art. IV, § 2");
+  });
+
+  it("attributes Illinois's seats to the constitution, which does fix them", () => {
+    for (const chamber of ILLINOIS_RULE_PACK.chambers) {
+      expect(chamber.seatsSource).not.toBeNull();
+      expect(chamber.seatsSource!.authority).toBe("constitution");
+      expect(chamber.seatsSource!.citation).toBe("Ill. Const. art. IV, § 1");
+    }
+  });
+
+  it("says nothing rather than inventing a citation where none was read", () => {
+    for (const pack of [
+      KENTUCKY_RULE_PACK,
+      NEBRASKA_RULE_PACK,
+      ALASKA_RULE_PACK,
+    ]) {
+      for (const chamber of pack.chambers) {
+        expect(chamber.seatsSource, `${pack.packId}`).toBeNull();
+      }
+    }
+  });
+});
+
+describe("one state's unresolved value cannot leak into another", () => {
+  it("shares no rule value or citation object between two packs", () => {
+    // Structural, not textual: if two packs ever hold the SAME object, editing
+    // one state's unresolved value would silently rewrite another's. Every
+    // RuleValue and every source a pack carries must belong to it alone.
+    const owners = new Map<unknown, string>();
+    for (const pack of LEGISLATIVE_RULE_PACKS) {
+      const owned = new Set<unknown>([
+        ...collectRuleValues(pack),
+        ...collectSourceRefs(pack),
+      ]);
+      for (const node of owned) {
+        const priorOwner = owners.get(node);
+        expect(
+          priorOwner,
+          `${pack.packId} shares an object with ${priorOwner ?? "?"}`,
+        ).toBeUndefined();
+        owners.set(node, pack.packId);
+      }
+    }
+  });
+
+  it("names its own jurisdiction's instruments in every citation it carries", () => {
+    // A citation that belongs to another state is the clearest form of leak.
+    const expected: Record<string, RegExp> = {
+      "us-mn-legislature-v1": /^Minn\./,
+      "us-il-general-assembly-v1": /^Ill\. Const\./,
+    };
+    for (const pack of LEGISLATIVE_RULE_PACKS) {
+      const pattern = expected[pack.packId];
+      if (!pattern) continue;
+      for (const source of collectSourceRefs(pack)) {
+        expect(
+          source.citation,
+          `${pack.packId} cites ${source.citation}`,
+        ).toMatch(pattern);
+      }
+    }
   });
 });
