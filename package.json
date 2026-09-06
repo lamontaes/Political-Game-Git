@@ -36,6 +36,7 @@
     "validate:art": "node --import tsx scripts/art-asset-factory/cli-validate.ts",
     "inventory:art": "node --import tsx scripts/art-asset-factory/cli-inventory.ts",
     "inventory:asset-bank": "node --import tsx scripts/art-asset-factory/cli-asset-bank-inventory.ts",
+    "readiness:art": "node --import tsx scripts/art-asset-factory/cli-asset-readiness.ts",
     "inventory:masters": "node --import tsx scripts/art-asset-factory/cli-master-inventory.ts",
     "qa:art": "node --import tsx scripts/art-asset-factory/cli-qa.ts",
     "intake:environment": "node --import tsx scripts/art-asset-factory/cli-environment-intake.ts",
