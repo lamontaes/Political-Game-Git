@@ -1,12 +1,17 @@
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { gunzipSync } from "node:zlib";
 import { describe, expect, it } from "vitest";
 import corpus from "../../data/municipal-elections/92O-national-state-baseline.json";
 import {
   MUNICIPAL_CORPUS_CONFLICTS,
   MUNICIPAL_CORPUS_READINGS,
   MUNICIPAL_ELECTION_RULE_PACKS,
+  MUNICIPAL_RECALL_READINGS,
   MUNICIPAL_RULES_AUDIT_GATE,
   MUNICIPAL_RULE_PACK_JURISDICTIONS,
+  MUNICIPAL_SOURCE_FRONTIERS,
   municipalRulePackFor,
 } from "./municipal-election-rule-packs";
 import {
@@ -64,14 +69,13 @@ describe("wave coverage", () => {
   });
 
   it("resolves the rules this wave was compiled to resolve", () => {
-    // Ballot structure, timing, runoff rule, recall doctrine and vacancy rule
-    // are the spine of the wave. Each must be settled for every jurisdiction —
-    // as a single value, or as an option set state law actually names.
+    // Arkansas's compound runoff cannot fit the current scalar vocabulary and
+    // stays unknown. Every other spine rule is a value or an explicit option
+    // set; local choice is never promoted to one operative city fact.
     for (const pack of PACKS) {
       for (const [label, rule] of [
         ["ballot structure", pack.electoral.ballotStructure],
         ["election timing", pack.electoral.electionTiming],
-        ["runoff rule", pack.electoral.runoffRule],
         ["administration", pack.electoral.administration],
         ["home rule foundation", pack.homeRuleFoundation],
         ["vacancy rule", pack.vacancy.rule],
@@ -84,7 +88,18 @@ describe("wave coverage", () => {
           `${pack.usps} ${label} is ${rule.kind}`,
         ).toBe(true);
       }
+      if (pack.usps !== "AR") {
+        expect(
+          ["known", "locally-selectable"].includes(
+            pack.electoral.runoffRule.kind,
+          ),
+          `${pack.usps} runoff rule is ${pack.electoral.runoffRule.kind}`,
+        ).toBe(true);
+      }
     }
+    expect(MUNICIPAL_ELECTION_RULE_PACKS.AR!.electoral.runoffRule.kind).toBe(
+      "unknown",
+    );
   });
 });
 
@@ -113,6 +128,9 @@ describe("epistemic discipline", () => {
           `${pack.usps} resolved rule with no source`,
         ).not.toBeNull();
         expect(source!.citation.trim().length).toBeGreaterThan(0);
+        expect(source!.citation).not.toMatch(
+          /^(?:authority|citation|source|statute)\s*:?\s*$/i,
+        );
         expect(source!.corpusId).toBe(corpus.meta.packetId);
       }
     }
@@ -198,7 +216,7 @@ describe("doctrine dependents", () => {
       (pack) =>
         municipalValueOrNull(pack.electoral.runoffRule) === "pure-plurality",
     );
-    expect(plurality.length).toBe(28);
+    expect(plurality.length).toBe(26);
     for (const pack of plurality) {
       expect(pack.electoral.majorityTriggerPercent.kind).toBe("not-applicable");
     }
@@ -212,9 +230,12 @@ describe("doctrine dependents", () => {
       "AK",
       "FL",
       "IA",
+      "ID",
       "NC",
       "NJ",
+      "NM",
       "SC",
+      "TX",
     ]);
     for (const pack of selectable) {
       expect(pack.electoral.majorityTriggerPercent.kind).toBe("unknown");
@@ -273,12 +294,16 @@ describe("the readings cannot drift from the corpus", () => {
   });
 
   it("only enumerates runoff options where the corpus says the choice is local", () => {
+    const proseConditional = new Set(["ID", "NM", "TX"]);
     for (const row of corpus.jurisdictions) {
       const reading = MUNICIPAL_CORPUS_READINGS[row.usps]!;
       expect(
         reading.runoffOptions !== undefined,
         `${row.usps} runoff options`,
-      ).toBe(row.runoffRule === "locally_selectable");
+      ).toBe(
+        row.runoffRule === "locally_selectable" ||
+          proseConditional.has(row.usps),
+      );
     }
   });
 
@@ -300,13 +325,92 @@ describe("the readings cannot drift from the corpus", () => {
     }
   });
 
-  it("surfaces the corpus's own internal conflicts rather than hiding them", () => {
-    expect(MUNICIPAL_CORPUS_CONFLICTS.length).toBeGreaterThanOrEqual(10);
+  it("keeps implementation conflicts distinct from 92O's source frontiers", () => {
+    expect(MUNICIPAL_CORPUS_CONFLICTS).toHaveLength(10);
     for (const conflict of MUNICIPAL_CORPUS_CONFLICTS) {
       expect(conflict.id).toMatch(/^[a-z0-9-]+$/);
       expect(conflict.summary.length).toBeGreaterThan(20);
       expect(conflict.resolution.length).toBeGreaterThan(20);
     }
+    expect(MUNICIPAL_SOURCE_FRONTIERS).toHaveLength(4);
+    expect(MUNICIPAL_SOURCE_FRONTIERS).toEqual(corpus.sourceFrontiers);
+    expect(MUNICIPAL_SOURCE_FRONTIERS.map((item) => item.verbatim)).toEqual([
+      expect.stringContaining(
+        "North Carolina Nonpartisan Plurality vs. Primary Election Synchronization",
+      ),
+      expect.stringContaining(
+        "Illinois Non-Home-Rule Term Limit Jurisprudence",
+      ),
+      expect.stringContaining(
+        "Texas General Law Type A Runoff vs. Plurality Custom",
+      ),
+      expect.stringContaining(
+        "Kentucky Urban-County / Metro Initiative Immunity",
+      ),
+    ]);
+  });
+
+  it("keeps form-conditional recall and complex thresholds non-operative", () => {
+    const conditional = [
+      "AR",
+      "HI",
+      "ME",
+      "MO",
+      "NM",
+      "OH",
+      "OK",
+      "RI",
+      "TN",
+      "TX",
+    ];
+    for (const usps of conditional) {
+      const recall = MUNICIPAL_ELECTION_RULE_PACKS[usps]!.directDemocracy;
+      expect(recall.recallDoctrine.kind, `${usps} doctrine`).toBe(
+        "locally-selectable",
+      );
+      expect(recall.recallPetitionThreshold.kind, `${usps} threshold`).toBe(
+        "unknown",
+      );
+    }
+
+    const complex = ["CA", "DC", "FL", "LA", "MT", "WA"];
+    for (const usps of complex) {
+      const recall = MUNICIPAL_ELECTION_RULE_PACKS[usps]!.directDemocracy;
+      expect(recall.recallPetitionThreshold.kind, `${usps} threshold`).toBe(
+        "unknown",
+      );
+    }
+    expect(Object.keys(MUNICIPAL_RECALL_READINGS).sort()).toEqual(
+      [...conditional, ...complex].sort(),
+    );
+  });
+
+  it("preserves None runoff triggers instead of inferring prose numbers", () => {
+    for (const usps of ["NM", "TN"]) {
+      expect(
+        corpus.jurisdictions.find((row) => row.usps === usps)!
+          .runoffTriggerPercent,
+      ).toBeNull();
+    }
+  });
+
+  it("pins the Drive snapshot and wires its separate replay into validation", () => {
+    const source = gunzipSync(
+      readFileSync(corpus.meta.sourceSnapshot.path),
+    ).toString("utf8");
+    expect(Buffer.byteLength(source)).toBe(corpus.meta.sourceSnapshot.bytes);
+    expect(createHash("sha256").update(source).digest("hex")).toBe(
+      corpus.meta.sourceSnapshot.sha256,
+    );
+    const packageJson = JSON.parse(readFileSync("package.json", "utf8")) as {
+      scripts: Record<string, string>;
+    };
+    expect(packageJson.scripts["municipal-election:replay"]).toContain(
+      "municipal-election-synthesis.ts",
+    );
+    expect(packageJson.scripts.validate).toContain(
+      "npm run municipal-election:replay",
+    );
   });
 });
 

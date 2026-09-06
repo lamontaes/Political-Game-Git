@@ -15,9 +15,10 @@
  *
  * ## Two files, two jobs
  *
- * `data/municipal-elections/92O-national-state-baseline.json` holds the corpus
- * verbatim: every field as 92O serialises it, every citation, and the register
- * of the source's own internal conflicts. Nothing is interpreted there.
+ * `data/municipal-elections/92O-national-state-baseline.json` is regenerated
+ * from the pinned 92O Markdown snapshot. It preserves every structured profile
+ * field and citation, plus two distinct registers: section 7's four source
+ * frontiers verbatim and ten implementation-discovered compiler conflicts.
  *
  * This file holds the interpretation, in one place, as {@link READINGS}. Three
  * judgments could not come from the corpus's own booleans and had to be read
@@ -36,9 +37,10 @@
  *    differ by roughly an order of magnitude. Where the prose names no base,
  *    or gives a tiered or ranged requirement, the threshold stays `unknown`
  *    with the source's own words in the note.
- * 3. **The option set behind a `locally_selectable` runoff rule.** Six
- *    jurisdictions carry that value; the options are enumerated in the
- *    citation prose rather than in a field.
+ * 3. **Runoff local choice and compound rules.** Six jurisdictions serialize
+ *    local choice directly; Idaho, New Mexico and Texas state it in prose.
+ *    Arkansas's compound alternative cannot fit the scalar vocabulary and
+ *    stays unknown.
  *
  * Every reading below quotes what it was read from. A test asserts that each
  * reading's percentage still matches the corpus row it claims to read, so the
@@ -83,8 +85,11 @@ export const MUNICIPAL_CORPUS_ID = corpus.meta.packetId;
 export const MUNICIPAL_CORPUS_AS_OF = corpus.meta.asOf;
 export const MUNICIPAL_CORPUS_READ_ON = corpus.meta.readOn;
 
-/** The source's own catalogue of places it contradicts itself, surfaced. */
-export const MUNICIPAL_CORPUS_CONFLICTS = corpus.conflicts;
+/** Implementation-discovered conflicts in the serialized profile fields. */
+export const MUNICIPAL_CORPUS_CONFLICTS = corpus.compilerConflicts;
+
+/** The four unresolved frontier items 92O itself records in section 7. */
+export const MUNICIPAL_SOURCE_FRONTIERS = corpus.sourceFrontiers;
 
 // ---------------------------------------------------------------------------
 // Readings
@@ -132,6 +137,21 @@ interface StateReading {
     readonly options: readonly MunicipalRunoffRule[];
     readonly statutoryDefault: MunicipalRunoffRule | null;
   };
+  /** The source resolves no scalar runoff rule the current schema can carry. */
+  readonly runoffUnresolved?: string;
+}
+
+interface RecallReading {
+  readonly readFrom: string;
+  readonly availability:
+    | { readonly kind: "statewide" }
+    | {
+        readonly kind: "form-conditional";
+        readonly options: readonly MunicipalRecallDoctrine[];
+        readonly statutoryDefault: MunicipalRecallDoctrine | null;
+      };
+  /** A tiered, ranged, compound, or conflicting percentage is not a scalar. */
+  readonly threshold: "serialized" | "unresolved";
 }
 
 const REGISTERED: ThresholdReading = {
@@ -175,6 +195,98 @@ const BY_FORM = (
   statutoryDefault,
 });
 
+const CONDITIONAL_RECALL = (
+  options: readonly MunicipalRecallDoctrine[],
+  readFrom: string,
+  statutoryDefault: MunicipalRecallDoctrine | null = null,
+): RecallReading => ({
+  readFrom,
+  availability: { kind: "form-conditional", options, statutoryDefault },
+  threshold: "unresolved",
+});
+
+const COMPLEX_RECALL = (readFrom: string): RecallReading => ({
+  readFrom,
+  availability: { kind: "statewide" },
+  threshold: "unresolved",
+});
+
+/**
+ * Recall readings that cannot use the profile's flat boolean/scalar fields.
+ * Jurisdictions omitted here are statewide and use the serialized threshold.
+ */
+const RECALL_READINGS: Readonly<Record<string, RecallReading>> = {
+  AR: CONDITIONAL_RECALL(
+    ["two-question-standalone", "prohibited"],
+    "Recall exists only in City Manager (35%) and City Administrator (25%) forms and is absent in Mayor-Council cities.",
+  ),
+  CA: COMPLEX_RECALL(
+    "Population tiers are 30%, 25%, 20%, 15%, or 10%; no one statewide scalar exists.",
+  ),
+  DC: COMPLEX_RECALL(
+    "The petition needs 10% District-wide plus 10% in at least five of eight wards; the ward condition is inseparable.",
+  ),
+  FL: COMPLEX_RECALL(
+    "The first petition is 10%, 7.5%, or 5% by population, followed by an additional 15% second petition.",
+  ),
+  HI: CONDITIONAL_RECALL(
+    ["yes-no-retention", "prohibited"],
+    "Recall is governed by county charter and ranges from 10% to 15%.",
+  ),
+  LA: COMPLEX_RECALL(
+    "Population tiers are 40%, 33.3%, 25%, or 20%; no one statewide scalar exists.",
+  ),
+  ME: CONDITIONAL_RECALL(
+    ["yes-no-retention", "prohibited"],
+    "Towns must adopt recall by local ordinance. The structured base says votes cast for office while the mechanics say the last gubernatorial election, so no threshold is resolved.",
+    "prohibited",
+  ),
+  MO: CONDITIONAL_RECALL(
+    ["two-question-standalone", "prohibited"],
+    "Recall exists in third-class and charter cities and is absent in fourth-class cities.",
+  ),
+  MT: COMPLEX_RECALL(
+    "The source gives 15% for cities over 1,000 and 20% for smaller cities.",
+  ),
+  NM: CONDITIONAL_RECALL(
+    ["two-question-standalone", "prohibited"],
+    "Recall exists in Commission-Manager and charter cities, at 20% or 33.3%, and is barred in standard Mayor-Council cities.",
+  ),
+  OH: CONDITIONAL_RECALL(
+    ["two-question-standalone", "prohibited"],
+    "Statutory cities lack recall; charter cities may provide it with thresholds ranging from 15% to 25%.",
+    "prohibited",
+  ),
+  OK: CONDITIONAL_RECALL(
+    ["two-question-standalone", "prohibited"],
+    "Charter cities may provide recall at 20% to 30%; statutory general plans do not.",
+    "prohibited",
+  ),
+  RI: CONDITIONAL_RECALL(
+    ["yes-no-retention", "prohibited"],
+    "Recall exists only where a municipal home-rule charter enacts it and is absent under general state law.",
+    "prohibited",
+  ),
+  TN: CONDITIONAL_RECALL(
+    ["two-question-standalone", "prohibited"],
+    "Manager-Commission and metro charters provide recall at different thresholds; Mayor-Aldermanic charters do not.",
+  ),
+  TX: CONDITIONAL_RECALL(
+    [
+      "two-question-standalone",
+      "simultaneous-incumbent-replacement",
+      "prohibited",
+    ],
+    "General-law cities lack recall; home-rule charters choose the ballot form and thresholds range from 10% to 25%.",
+    "prohibited",
+  ),
+  WA: COMPLEX_RECALL(
+    "The source gives 25% for first/second-class cities and 35% for other cities.",
+  ),
+};
+
+export { RECALL_READINGS as MUNICIPAL_RECALL_READINGS };
+
 /**
  * The per-jurisdiction reading table.
  *
@@ -209,6 +321,8 @@ const READINGS: Readonly<Record<string, StateReading>> = {
     initiativeThreshold: FOR_OFFICE,
     referendum: AVAILABLE,
     referendumThreshold: UNRESOLVED,
+    runoffUnresolved:
+      "Arkansas uses 50%+1 or the compound alternative of 40% plus a 20-point margin in cities over 20,000; the scalar runoff vocabulary cannot preserve that rule.",
   },
   AZ: {
     readFrom:
@@ -240,13 +354,13 @@ const READINGS: Readonly<Record<string, StateReading>> = {
     initiative: BY_FORM(["town-meeting-warrant", "prohibited"]),
     initiativeThreshold: ABSOLUTE,
     referendum: AVAILABLE,
-    referendumThreshold: REGISTERED,
+    referendumThreshold: UNRESOLVED,
   },
   DC: {
     readFrom:
       "Initiative: '5% of registered electors District-wide with 5% in at least 5 of the 8 wards.' Referendum: '5% of registered electors filed within 30 days of mayoral transmission to Congress.'",
     initiative: STATEWIDE("direct-to-ballot"),
-    initiativeThreshold: REGISTERED,
+    initiativeThreshold: UNRESOLVED,
     referendum: AVAILABLE,
     referendumThreshold: REGISTERED,
   },
@@ -309,6 +423,10 @@ const READINGS: Readonly<Record<string, StateReading>> = {
     initiativeThreshold: REGISTERED,
     referendum: AVAILABLE,
     referendumThreshold: REGISTERED,
+    runoffOptions: {
+      options: ["pure-plurality", "majority-50-plus-1"],
+      statutoryDefault: "pure-plurality",
+    },
   },
   IL: {
     readFrom:
@@ -473,6 +591,10 @@ const READINGS: Readonly<Record<string, StateReading>> = {
     initiativeThreshold: UNRESOLVED,
     referendum: REFERENDUM_BY_CHARTER,
     referendumThreshold: UNRESOLVED,
+    runoffOptions: {
+      options: ["pure-plurality", "majority-50-plus-1"],
+      statutoryDefault: "pure-plurality",
+    },
   },
   NV: {
     readFrom:
@@ -569,6 +691,10 @@ const READINGS: Readonly<Record<string, StateReading>> = {
     initiativeThreshold: UNRESOLVED,
     referendum: REFERENDUM_BY_CHARTER,
     referendumThreshold: UNRESOLVED,
+    runoffOptions: {
+      options: ["majority-50-plus-1", "pure-plurality"],
+      statutoryDefault: "majority-50-plus-1",
+    },
   },
   UT: {
     readFrom:
@@ -752,13 +878,16 @@ function compileRunoff(
 } {
   const source = cite(row.runoffCitation, authorityOf(row.runoffCitation));
 
-  if (row.runoffRule === "locally_selectable") {
+  if (reading.runoffUnresolved) {
+    const note = `No single runoff rule is representable from 92O: ${reading.runoffUnresolved}`;
+    return {
+      rule: unknownMunicipalRule<MunicipalRunoffRule>(note),
+      trigger: unknownMunicipalRule<number>(note),
+    };
+  }
+
+  if (reading.runoffOptions) {
     const options = reading.runoffOptions;
-    if (!options) {
-      throw new Error(
-        `${row.usps} carries a locally-selectable runoff rule but no reading enumerates its options.`,
-      );
-    }
     return {
       rule: locallySelectableMunicipalRule(
         options.options,
@@ -766,9 +895,15 @@ function compileRunoff(
         source,
       ),
       trigger: unknownMunicipalRule<number>(
-        `A majority trigger of ${row.runoffTriggerPercent ?? "an unstated share"}% applies only if a municipality adopts a majority option, and state law resolves no operative trigger. Read from: ${row.runoffCitation}`,
+        `A majority trigger of ${row.runoffTriggerPercent ?? "an unstated share"}% applies only if a municipality adopts a majority option, and 92O resolves no local adoption. Read from: ${row.runoffCitation}`,
       ),
     };
+  }
+
+  if (row.runoffRule === "locally_selectable") {
+    throw new Error(
+      `${row.usps} carries a locally-selectable runoff rule but no reading enumerates its options.`,
+    );
   }
 
   const rule = kebab(row.runoffRule) as MunicipalRunoffRule;
@@ -792,6 +927,21 @@ function compileRecall(row: CorpusRow) {
     authorityOf(row.recallCitation),
     row.recallMechanics || null,
   );
+  const reading = RECALL_READINGS[row.usps];
+
+  if (reading?.availability.kind === "form-conditional") {
+    const why = `92O resolves only form, charter, ordinance, or local-adoption conditions, not one statewide recall rule. ${reading.readFrom}`;
+    return {
+      doctrine: locallySelectableMunicipalRule(
+        reading.availability.options,
+        reading.availability.statutoryDefault,
+        source,
+      ),
+      groundsRequired: unknownMunicipalRule<boolean>(why),
+      threshold: unknownMunicipalRule<PetitionThreshold>(why),
+      windowDays: unknownMunicipalRule<number>(why),
+    };
+  }
 
   // Both of these doctrines mean there is no recall *election*, so every rule
   // that only exists inside one is not-applicable rather than unknown. The
@@ -827,9 +977,11 @@ function compileRecall(row: CorpusRow) {
       "The corpus does not resolve whether a recall petition must plead legal cause.",
     ),
     threshold:
-      base === null || row.recallPetitionPercent === null
+      reading?.threshold === "unresolved" ||
+      base === null ||
+      row.recallPetitionPercent === null
         ? unknownMunicipalRule<PetitionThreshold>(
-            `No signature requirement is resolved for recall. Mechanics as given: ${row.recallMechanics || "none"}`,
+            `No single signature requirement is resolved for recall. ${reading?.readFrom ?? `Mechanics as given: ${row.recallMechanics || "none"}`}`,
           )
         : knownMunicipalRule(
             { percent: row.recallPetitionPercent, base },

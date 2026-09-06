@@ -92,8 +92,17 @@ export function assertMunicipalSourceRef(
   if (!source || typeof source !== "object") {
     throw new Error(`${label} must carry a source reference.`);
   }
-  if (source.citation.trim().length === 0) {
+  const citation = source.citation.trim();
+  if (citation.length === 0) {
     throw new Error(`${label} must cite an instrument.`);
+  }
+  if (
+    /^(?:authority|citation|source|statute)\s*:?\s*$/i.test(citation) ||
+    !/[A-Za-z0-9]/.test(citation)
+  ) {
+    throw new Error(
+      `${label} carries a placeholder or malformed citation: "${source.citation}".`,
+    );
   }
   if (source.corpusId.trim().length === 0) {
     throw new Error(`${label} must name the corpus it was read from.`);
@@ -406,9 +415,8 @@ export interface MunicipalElectoralFramework {
   readonly runoffRule: MunicipalRule<MunicipalRunoffRule>;
   /**
    * The share needed to win outright. Not-applicable under pure plurality,
-   * where no threshold exists. Where the runoff rule is locally selectable this
-   * is the threshold that would apply *if* a majority option were adopted, and
-   * it is therefore itself locally-selectable rather than operative.
+   * where no threshold exists. Where the runoff rule is locally selectable,
+   * the source resolves no operative local trigger, so this stays unknown.
    */
   readonly majorityTriggerPercent: MunicipalRule<number>;
   readonly administration: MunicipalRule<ElectionAdministrationModel>;

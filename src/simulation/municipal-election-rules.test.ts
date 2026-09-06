@@ -91,6 +91,11 @@ describe("municipal rule values", () => {
     expect(() => knownMunicipalRule("x", { ...SOURCE, asOf: "2026" })).toThrow(
       /ISO as-of and read dates/,
     );
+    for (const citation of ["Authority:", " citation ", "---"]) {
+      expect(() => knownMunicipalRule("x", { ...SOURCE, citation })).toThrow(
+        /placeholder or malformed citation/,
+      );
+    }
   });
 });
 

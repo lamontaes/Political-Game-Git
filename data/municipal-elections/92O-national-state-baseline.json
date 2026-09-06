@@ -8,66 +8,122 @@
     "readOn": "2026-09-06",
     "sourceTier": "secondary-synthesis-only",
     "scope": "State general-law baseline for municipal elections and municipal direct democracy across the 50 states and the District of Columbia. Local charter variation is out of scope and is never inferred.",
-    "jurisdictionCount": 51
+    "jurisdictionCount": 51,
+    "sourceSnapshot": {
+      "path": "data/municipal-elections/raw/92O_NATIONAL_MUNICIPAL_ELECTIONS_DIRECT_DEMOCRACY_COMPLETION.md.gz",
+      "bytes": 278664,
+      "sha256": "6f0f49e65949b78ef2d393a2de213ff1cae4280db6cb2630858eb69449e648e6",
+      "storageEncoding": "gzip",
+      "extraction": "deterministic-markdown-profile-parser-v1",
+      "replayCommand": "npm run municipal-election:replay"
+    }
   },
-  "conflicts": [
+  "sourceFrontiers": [
+    {
+      "id": "north-carolina-nonpartisan-plurality-vs-primary-election-synchronization",
+      "verbatim": "1. **North Carolina Nonpartisan Plurality vs. Primary Election Synchronization:**\n   - Under N.C.G.S. § 163-291, municipalities may switch between four electoral methods by charter or local ordinance. Several medium-sized North Carolina municipalities maintain charter provisions that reference repealed 1970s election board rules. Local ordinances must be audited against county board of elections practice."
+    },
+    {
+      "id": "illinois-non-home-rule-term-limit-jurisprudence",
+      "verbatim": "2. **Illinois Non-Home-Rule Term Limit Jurisprudence:**\n   - The Illinois Supreme Court in *Leck v. Michaelson* (111 Ill. 2d 523) and subsequent appellate cases has repeatedly split on whether non-home-rule villages can adopt term limits by citizen referendum. While home-rule municipalities clearly can, the statutory authority for non-home-rule municipalities remains an active judicial gray zone."
+    },
+    {
+      "id": "texas-general-law-type-a-runoff-vs-plurality-custom",
+      "verbatim": "3. **Texas General Law Type A Runoff vs. Plurality Custom:**\n   - TLGC § 22.010 and Tex. Elec. Code § 2.021 mandate majority voting for Type A general-law cities, but permit adopting plurality voting by ordinance under § 2.022. Small Type A cities often leave unrecorded whether the council adopted a formal plurality ordinance or simply operates under unlawful custom."
+    },
+    {
+      "id": "kentucky-urban-county-metro-initiative-immunity",
+      "verbatim": "4. **Kentucky Urban-County / Metro Initiative Immunity:**\n   - While KRS 83A.130 and 83A.150 grant explicit statutory initiative and referendum to cities operating under City Manager or Commission forms, KRS Chapters 67A (LFUCG) and 67C (Louisville Metro) contain zero express authorization for general citizen ordinance initiatives. The simulation engine must treat LFUCG and Louisville Metro as lacking general citizen ordinance initiatives."
+    }
+  ],
+  "compilerConflicts": [
     {
       "id": "recall-grounds-on-prohibited-states",
-      "affects": ["*"],
+      "affects": [
+        "*"
+      ],
       "summary": "Every jurisdiction whose recall doctrine is `prohibited` is also serialized with `Grounds Required: True`.",
       "resolution": "Read as a serializer artifact. A mechanism that does not exist cannot require grounds, so the compiled pack records `recallGroundsRequired` as not-applicable wherever the doctrine is prohibited rather than compiling `true`."
     },
     {
       "id": "iowa-virginia-recall-authorized-false-with-threshold",
-      "affects": ["IA", "VA"],
+      "affects": [
+        "IA",
+        "VA"
+      ],
       "summary": "Iowa and Virginia are serialized `Authorized: False` with doctrine `judicial_cause_removal_trial`, yet still carry a petition threshold (Iowa 20% of votes cast for the office, Virginia 10%).",
       "resolution": "Section 1.2 states both are judicial-removal-only. The doctrine is compiled as the resolved value; the percentage gates a judicial removal petition, not a recall election, so the recall-election petition threshold is compiled not-applicable and the number is preserved in this register rather than asserted as a recall threshold."
     },
     {
       "id": "connecticut-initiative-authorized-false-with-form",
-      "affects": ["CT"],
+      "affects": [
+        "CT"
+      ],
       "summary": "Connecticut is serialized `Authorized: False` for municipal initiative while also carrying the form `town_meeting_warrant` and a list of exempt subjects.",
       "resolution": "Section 4.1 records that New England town warrant articles are real. The compiled pack carries no redundant authorized boolean: the form value itself is the availability claim, and `town-meeting-warrant` is compiled as the resolved form."
     },
     {
       "id": "new-york-protest-referendum-window-without-mechanism",
-      "affects": ["NY"],
+      "affects": [
+        "NY"
+      ],
       "summary": "New York is serialized with no referendum and no protest referendum, yet carries a 45-day window.",
       "resolution": "A window without a mechanism resolves nothing. The protest referendum is compiled `prohibited` under general municipal law and the window not-applicable. New York town law's permissive referendum is a different instrument that this packet does not resolve."
     },
     {
       "id": "section-6-timing-enum-narrower-than-profiles",
-      "affects": ["*"],
+      "affects": [
+        "*"
+      ],
       "summary": "The packet's section 6 `MunicipalTimingModel` enum omits seven timing values its own state profiles use: spring_annual, odd_year_autumn, autumn_gubernatorial, town_meeting_day_spring, even_year_june_consolidated, even_year_august_consolidated and even_year_may_consolidated.",
       "resolution": "The state profiles are the more specific layer and govern. The compiled vocabulary is the union of the values the profiles actually use."
     },
     {
       "id": "section-1-2-recall-prohibition-count",
-      "affects": ["IL", "MA", "MN", "NC", "WV"],
+      "affects": [
+        "IL",
+        "MA",
+        "MN",
+        "NC",
+        "WV"
+      ],
       "summary": "Section 1.2 names 14 states where recall is prohibited or judicial-removal-only. The state profiles serialize 17 as `prohibited` plus 2 as `judicial_cause_removal_trial`, adding Illinois, Massachusetts, Minnesota, North Carolina and West Virginia.",
       "resolution": "The profiles govern as the more specific layer, and their claim is about state general law only. The packet itself notes a Chicago mayoral recall statute (10 ILCS 5/21A), which is consistent with general law being silent while a named local instrument is not. Charter-level recall in these states stays unresolved."
     },
     {
       "id": "kentucky-option-family-is-a-metro-family",
-      "affects": ["KY"],
+      "affects": [
+        "KY"
+      ],
       "summary": "Kentucky's statewide option family is serialized `consolidated_city_county`, a family the packet otherwise uses for individual metro governments rather than for a state baseline.",
       "resolution": "Carried verbatim because it is the source's own classification, and flagged here. The family value is descriptive metadata and no compiled electoral rule depends on it."
     },
     {
       "id": "ohio-ballot-default-vs-citation-text",
-      "affects": ["OH"],
+      "affects": [
+        "OH"
+      ],
       "summary": "Ohio's ballot structure is serialized `partisan_default_nonpartisan_optional` while the same line's citation text reads 'MANDATORY PARTISAN ELECTIONS in statutory cities'.",
       "resolution": "Both are true of different layers and the enum resolves them: statutory cities are partisan by state law, and section 1.2 records that charter cities opt nonpartisan under the 1912 Home Rule Amendment. Which layer a given Ohio municipality sits in is local variation and stays unresolved."
     },
     {
       "id": "locally-selectable-runoff-carries-a-trigger",
-      "affects": ["AK", "FL", "IA", "NJ", "NC", "SC"],
+      "affects": [
+        "AK",
+        "FL",
+        "IA",
+        "NJ",
+        "NC",
+        "SC"
+      ],
       "summary": "Six jurisdictions serialize a runoff rule of `locally_selectable` together with a concrete majority trigger.",
       "resolution": "The trigger is conditional on the local option actually being adopted, which state law does not resolve. The runoff rule compiles as locally-selectable and the trigger is carried as the conditional threshold that applies only under the majority option, never as the jurisdiction's operative rule."
     },
     {
       "id": "new-hampshire-warrant-article-threshold-is-not-a-percentage",
-      "affects": ["NH"],
+      "affects": [
+        "NH"
+      ],
       "summary": "New Hampshire's initiative form is `town_meeting_warrant` with no percentage threshold.",
       "resolution": "Section 4.1 records that a warrant article is placed by an absolute count of signers (10 to 50 registered voters), not a share of an electorate. A percentage threshold is compiled not-applicable rather than unknown."
     }
@@ -81,10 +137,12 @@
       "homeRuleAuthority": "Alaska Const. Art. X; AS Title 29 (Municipal Government)",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "AS 29.26.010",
-      "electionTimingOptions": ["annual_autumn_october"],
+      "electionTimingOptions": [
+        "annual_autumn_october"
+      ],
       "electionTimingCitation": "AS 29.26.040 (First Tuesday in October annually)",
       "runoffRule": "locally_selectable",
-      "runoffTriggerPercent": 40.0,
+      "runoffTriggerPercent": 40,
       "runoffCitation": "AS 29.26.060 (Plurality default; municipality may require 40% or 50% majority with top-two runoff)",
       "seatStructureOptions": [
         "pure_at_large",
@@ -109,27 +167,27 @@
       "recallAuthorized": true,
       "recallDoctrine": "yes_no_retention",
       "recallGroundsRequired": true,
-      "recallPetitionPercent": 25.0,
+      "recallPetitionPercent": 25,
       "recallPetitionBase": "votes_cast_for_office",
       "recallCirculationWindowDays": 60,
-      "recallCitation": "Authority:",
+      "recallCitation": "AS 29.26.240 - 29.26.350; Alaska Const. Art. XI § 8",
       "recallMechanics": "Two-stage petition. Application signed by 10 sponsor voters; if certified by clerk, full petitions require 25% signatures. Yes/No recall question; if recalled, seat is vacant and filled under vacancy rules.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 25.0,
+      "initiativePetitionPercent": 25,
       "initiativeExemptSubjects": [
         "appropriations",
         "tax_levies",
         "local_ordinances_affecting_personnel_rules"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "AS 29.26.100 - 29.26.190",
       "initiativeNotes": "Petitions require 25% of votes cast at last regular election. Council has 30 days to enact ordinance substantially identical; if not enacted, placed on ballot.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 25.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 25,
+      "referendumCitation": "AS 29.26.170 - 29.26.190",
       "referendumNotes": "Protest petition filed within 30 days after ordinance enactment suspends legal operation of ordinance until election."
     },
     {
@@ -140,10 +198,12 @@
       "homeRuleAuthority": "Ala. Code Title 11; Ala. Const. Art. IV",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "Ala. Code § 11-46-20",
-      "electionTimingOptions": ["quadrennial_late_summer_august"],
+      "electionTimingOptions": [
+        "quadrennial_late_summer_august"
+      ],
       "electionTimingCitation": "Ala. Code § 11-46-21 (Fourth Tuesday in August every 4 years, e.g. 2020, 2024, 2028)",
       "runoffRule": "majority_50_plus_1",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "Ala. Code § 11-46-55 (Top-two runoff held on fourth Tuesday following regular election)",
       "seatStructureOptions": [
         "pure_at_large",
@@ -152,7 +212,9 @@
       ],
       "seatStructureDefault": "single_member_districts (Class 1-6) / at-large (Class 7-8)",
       "seatStructureCitation": "Ala. Code § 11-43-63",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Mayor elected at-large with strong administrative powers, veto power in cities > 12,000 (Ala. Code § 11-43-40).",
       "electionAdministration": "municipal_clerk_locally_administered",
       "electionAdministrationCitation": "Ala. Code Title 11 Ch. 46 (City clerk acts as election administrator; city council canvasses)",
@@ -168,20 +230,22 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "Ala. Code Title 11 (Absent in general law; exists only in specific local legislative acts)",
       "recallMechanics": "General law provides no recall. Officials subject only to judicial impeachment under Ala. Const. Art. VII § 175.",
       "initiativeAuthorized": false,
       "initiativeForm": "prohibited",
       "initiativePetitionPercent": null,
-      "initiativeExemptSubjects": ["all_general_ordinances"],
-      "initiativeCitation": "Authority:",
+      "initiativeExemptSubjects": [
+        "all_general_ordinances"
+      ],
+      "initiativeCitation": "Ala. Code Title 11",
       "initiativeNotes": "Citizen ordinance initiative is not authorized under general municipal law; available only for changing form of government or local option liquor votes.",
       "referendumAuthorized": false,
       "protestReferendumAvailable": false,
       "protestReferendumWindowDays": null,
       "protestReferendumSuspendsOrdinance": false,
       "protestReferendumPercent": null,
-      "referendumCitation": "Authority:",
+      "referendumCitation": "Ala. Code Title 11",
       "referendumNotes": "Citizen protest referendum on city ordinances is absent in general municipal law."
     },
     {
@@ -192,10 +256,12 @@
       "homeRuleAuthority": "Ark. Code Ann. Title 14; Ark. Const. Amend. 7",
       "ballotStructure": "nonpartisan_default_partisan_optional",
       "ballotCitation": "A.C.A. § 14-42-206 (Nonpartisan default; cities of 1st class may opt by ordinance to hold party primaries)",
-      "electionTimingOptions": ["even_year_november_consolidated"],
+      "electionTimingOptions": [
+        "even_year_november_consolidated"
+      ],
       "electionTimingCitation": "A.C.A. § 14-42-202 (First Tuesday after first Monday in November of even-numbered years)",
       "runoffRule": "majority_50_plus_1",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "A.C.A. § 7-5-106, § 14-42-206 (In cities > 20,000, 50%+1 required, or 40% with a 20% margin over runner-up; otherwise top-two runoff held 3 weeks later)",
       "seatStructureOptions": [
         "single_member_wards",
@@ -220,26 +286,26 @@
       "recallAuthorized": true,
       "recallDoctrine": "two_question_standalone",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 35.0,
+      "recallPetitionPercent": 35,
       "recallPetitionBase": "votes_cast_for_office",
       "recallCirculationWindowDays": 30,
-      "recallCitation": "Authority:",
+      "recallCitation": "A.C.A. § 14-47-112 (Manager), § 14-48-114 (Admin)",
       "recallMechanics": "Authorized ONLY in City Manager (35% signatures) and City Administrator (25% signatures) forms. Strictly barred in Mayor-Council cities (general law provides no recall for aldermen/mayor).",
       "initiativeAuthorized": true,
       "initiativeForm": "direct_to_ballot",
-      "initiativePetitionPercent": 15.0,
+      "initiativePetitionPercent": 15,
       "initiativeExemptSubjects": [
         "appropriations",
         "local_administrative_matters"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "Ark. Const. Amend. 7; A.C.A. § 7-9-111",
       "initiativeNotes": "15% of votes cast for mayor at last preceding general election. Petitions filed with city clerk > 60 days before general election.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 15.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 15,
+      "referendumCitation": "Ark. Const. Amend. 7; A.C.A. § 14-55-301",
       "referendumNotes": "15% petition filed within 30 days of ordinance publication suspends ordinance until voted on at election."
     },
     {
@@ -250,10 +316,12 @@
       "homeRuleAuthority": "Ariz. Const. Art. 13 § 2; A.R.S. Title 9",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "A.R.S. § 9-821.01",
-      "electionTimingOptions": ["even_year_november_consolidated"],
+      "electionTimingOptions": [
+        "even_year_november_consolidated"
+      ],
       "electionTimingCitation": "A.R.S. § 16-204, § 16-204.01 (State law preemptively consolidated all municipal elections with statewide even-year primary in August and general election in November)",
       "runoffRule": "top_two_primary_runoff",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "A.R.S. § 9-821.01 (Candidate receiving majority of all votes cast at primary is elected outright; for remaining unfilled seats, top two candidates advance to November general)",
       "seatStructureOptions": [
         "pure_at_large",
@@ -278,26 +346,26 @@
       "recallAuthorized": true,
       "recallDoctrine": "simultaneous_incumbent_replacement",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 25.0,
+      "recallPetitionPercent": 25,
       "recallPetitionBase": "votes_cast_for_office",
       "recallCirculationWindowDays": 120,
-      "recallCitation": "Authority:",
+      "recallCitation": "Ariz. Const. Art. 8 Pt. 1; A.R.S. Title 19 Ch. 2",
       "recallMechanics": "Incumbent automatically appears on recall ballot as candidate unless resigning within 5 days. Challengers file nominating petitions. Plurality winner takes office.",
       "initiativeAuthorized": true,
       "initiativeForm": "direct_to_ballot",
-      "initiativePetitionPercent": 15.0,
+      "initiativePetitionPercent": 15,
       "initiativeExemptSubjects": [
         "administrative_matters",
         "zoning_ordinances"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "Ariz. Const. Art. 4 Pt. 1 § 1(8); A.R.S. Title 19 Ch. 1",
       "initiativeNotes": "15% of registered voters in city/town. Strict compliance standard for petition forms. Goes directly to ballot at next consolidated general election.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "Ariz. Const. Art. 4 Pt. 1 § 1(8); A.R.S. § 19-142",
       "referendumNotes": "10% of registered voters filed within 30 days of ordinance passage suspends ordinance until voted upon."
     },
     {
@@ -308,7 +376,9 @@
       "homeRuleAuthority": "Cal. Const. Art. XI §§ 3, 5; Cal. Gov. Code § 34000 et seq.",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "Cal. Const. Art. II § 6(a)",
-      "electionTimingOptions": ["even_year_november_consolidated"],
+      "electionTimingOptions": [
+        "even_year_november_consolidated"
+      ],
       "electionTimingCitation": "Cal. Elec. Code § 14050 - 14057 (California Voter Participation Rights Act / SB 415 mandates consolidation with statewide even-year elections)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
@@ -336,26 +406,26 @@
       "recallAuthorized": true,
       "recallDoctrine": "two_question_standalone",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 20.0,
+      "recallPetitionPercent": 20,
       "recallPetitionBase": "registered_voters",
       "recallCirculationWindowDays": 120,
-      "recallCitation": "Authority:",
+      "recallCitation": "Cal. Const. Art. II § 19; Cal. Elec. Code Div. 11 (§ 11000 et seq.)",
       "recallMechanics": "Two-question ballot: (1) 'Shall [Official] be recalled?' (Yes/No), and (2) 'Candidates to succeed [Official] if recalled.' Tiered signature thresholds: 30% (<1,000 voters), 25% (1k-10k), 20% (10k-50k), 15% (50k-100k), 10% (>=100k).",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 10.0,
+      "initiativePetitionPercent": 10,
       "initiativeExemptSubjects": [
         "tax_reduction_impairing_contracts",
         "administrative_matters"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "Cal. Const. Art. II § 11; Cal. Elec. Code Div. 9 Ch. 3 (§ 9200 et seq.)",
       "initiativeNotes": "10% of registered voters for regular election; 15% forces special election. Council must within 10 days either: (a) adopt ordinance without alteration, (b) call special election, or (c) order 30-day impact report.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "Cal. Const. Art. II § 11; Cal. Elec. Code Div. 9 Ch. 3 (§ 9235 et seq.)",
       "referendumNotes": "Petition signed by 10% of registered voters filed within 30 days of ordinance adoption suspends ordinance until council entirely repeals or voters approve at election."
     },
     {
@@ -397,26 +467,26 @@
       "recallAuthorized": true,
       "recallDoctrine": "two_question_standalone",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 25.0,
+      "recallPetitionPercent": 25,
       "recallPetitionBase": "votes_cast_for_office",
       "recallCirculationWindowDays": 60,
-      "recallCitation": "Authority:",
+      "recallCitation": "Colo. Const. Art. XXI § 4; C.R.S. § 31-4-501 et seq.",
       "recallMechanics": "Two-question ballot: (1) 'Shall [Officer] be recalled?' (2) Successor ballot. Petitions require 25% of the entire vote cast for all candidates for that office at the last preceding election.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 15.0,
+      "initiativePetitionPercent": 15,
       "initiativeExemptSubjects": [
         "appropriations_for_support_and_maintenance",
         "administrative_actions"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "Colo. Const. Art. V § 1(9); C.R.S. Title 31 Art. 11",
       "initiativeNotes": "5% signatures for regular election; 15% forces special election. Council has 20 days to adopt ordinance in full or submit to voters.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "Colo. Const. Art. V § 1(9); C.R.S. § 31-11-105",
       "referendumNotes": "10% of registered electors filed within 30 days of ordinance publication suspends ordinance until council repeals or election occurs."
     },
     {
@@ -427,7 +497,9 @@
       "homeRuleAuthority": "Conn. Gen. Stat. Title 7; Conn. Const. Art. X",
       "ballotStructure": "partisan_mandatory",
       "ballotCitation": "C.G.S. § 9-164, § 9-372 et seq. (Partisan municipal elections default; party nominations via primary or caucus; independent petitions)",
-      "electionTimingOptions": ["odd_year_november_consolidated"],
+      "electionTimingOptions": [
+        "odd_year_november_consolidated"
+      ],
       "electionTimingCitation": "C.G.S. § 9-164 (First Tuesday after first Monday in November of odd-numbered years; primary held in September)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
@@ -458,7 +530,7 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "C.G.S. Title 7 & 9 (Absent in general law; barred by state courts absent express statutory authorization)",
       "recallMechanics": "Recall is prohibited under general Connecticut law. Towns cannot adopt recall by home-rule charter.",
       "initiativeAuthorized": false,
       "initiativeForm": "town_meeting_warrant",
@@ -467,14 +539,14 @@
         "appropriations",
         "general_legislation_in_cities"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "C.G.S. Title 7",
       "initiativeNotes": "In town meeting towns, 20 or 50 electors can petition to place a warrant article on the town meeting agenda (C.G.S. § 7-1). In charter cities, citizen ordinance initiative is generally absent unless authorized by specific charter.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 14,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "C.G.S. § 7-7",
       "referendumNotes": "Under C.G.S. § 7-7, 200 electors or 10% of electors may petition to remove any question or ordinance passed at a town meeting to an 'adjourned town meeting' vote by voting machine."
     },
     {
@@ -485,15 +557,21 @@
       "homeRuleAuthority": "U.S. Const. Art. I § 8 cl. 17; District of Columbia Home Rule Act of 1973 (Public Law 93-198; D.C. Official Code Title 1)",
       "ballotStructure": "partisan_mandatory",
       "ballotCitation": "D.C. Code § 1-1001.08 (Closed partisan primaries in June of even-numbered years; general election in November)",
-      "electionTimingOptions": ["even_year_november_consolidated"],
+      "electionTimingOptions": [
+        "even_year_november_consolidated"
+      ],
       "electionTimingCitation": "D.C. Code § 1-1001.05 (Primary on first Tuesday in June; General Election on first Tuesday after first Monday in November of even-numbered years)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
       "runoffCitation": "D.C. Code § 1-1001.10 (Plurality election; candidate with highest vote total elected; no runoffs; Ranked-Choice Voting ballot initiative approved 2024 taking effect in future cycles)",
-      "seatStructureOptions": ["hybrid_wards_and_at_large_with_minority_quota"],
+      "seatStructureOptions": [
+        "hybrid_wards_and_at_large_with_minority_quota"
+      ],
       "seatStructureDefault": "hybrid_wards_and_at_large_with_minority_quota (13-member Council: 8 ward members + 4 at-large members + 1 Chairman elected at-large: D.C. Code § 1-204.01)",
       "seatStructureCitation": "D.C. Code § 1-204.01 (MANDATORY MINORITY PARTY QUOTA: For the 4 at-large council seats, no political party may nominate more than two candidates, guaranteeing at least two seats to minority party or independent members)",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Direct popular election (4-yr term). Strong Mayor under D.C. Code § 1-204.22: chief executive administrator with full appointment authority over cabinet agencies, executive orders, and veto power overridden by 2/3 council (§ 1-204.04).",
       "electionAdministration": "state_election_board",
       "electionAdministrationCitation": "D.C. Code § 1-1001.03 (Independent District of Columbia Board of Elections conducts all primaries, general elections, and ANC elections)",
@@ -506,27 +584,27 @@
       "recallAuthorized": true,
       "recallDoctrine": "yes_no_retention",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 10.0,
+      "recallPetitionPercent": 10,
       "recallPetitionBase": "registered_voters",
       "recallCirculationWindowDays": 180,
-      "recallCitation": "Authority:",
+      "recallCitation": "D.C. Code § 1-204.111 et seq., § 1-1001.16",
       "recallMechanics": "Home Rule Charter right. Requires signatures of 10% of registered electors District-wide, PLUS at least 10% of registered electors in at least 5 of the 8 election wards! Standalone Yes/No recall vote; if recalled, seat is vacant and filled by special election.",
       "initiativeAuthorized": true,
       "initiativeForm": "direct_to_ballot",
-      "initiativePetitionPercent": 5.0,
+      "initiativePetitionPercent": 5,
       "initiativeExemptSubjects": [
         "appropriations_of_funds",
         "laws_violating_human_rights_act",
         "charter_amendments"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "D.C. Code § 1-204.101 et seq., § 1-1001.16",
       "initiativeNotes": "5% of registered electors District-wide with 5% in at least 5 of the 8 wards. Must undergo mandatory 30-day (or 60-day) Congressional Layover Review before becoming effective.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 5.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 5,
+      "referendumCitation": "D.C. Code § 1-204.102, § 1-1001.16",
       "referendumNotes": "5% of registered electors filed within 30 days of mayoral transmission to Congress suspends the act until voted on at election."
     },
     {
@@ -537,7 +615,10 @@
       "homeRuleAuthority": "22 Del. C. Ch. 8 (Home Rule); 15 Del. C. Ch. 75",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "15 Del. C. § 7551 et seq. (Municipal Election Law mandates nonpartisan elections for all municipalities except City of Wilmington)",
-      "electionTimingOptions": ["spring_annual", "odd_year_autumn"],
+      "electionTimingOptions": [
+        "spring_annual",
+        "odd_year_autumn"
+      ],
       "electionTimingCitation": "15 Del. C. § 7553 (Election dates set by individual municipal charters, typically spring dates in March, April, or May; Wilmington holds elections in November of presidential years)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
@@ -568,20 +649,22 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "22 Del. C. Title 22 (Absent in general state law)",
       "recallMechanics": "No statewide municipal recall statute. Only available if explicitly drafted into a special legislative charter enacted by the General Assembly.",
       "initiativeAuthorized": false,
       "initiativeForm": "prohibited",
       "initiativePetitionPercent": null,
-      "initiativeExemptSubjects": ["all_ordinances"],
-      "initiativeCitation": "Authority:",
+      "initiativeExemptSubjects": [
+        "all_ordinances"
+      ],
+      "initiativeCitation": "22 Del. C. Ch. 8",
       "initiativeNotes": "Citizen ordinance initiative is not authorized by general Delaware law; exists only where explicitly granted in individual city charters (e.g. Newark Charter § 901).",
       "referendumAuthorized": false,
       "protestReferendumAvailable": false,
       "protestReferendumWindowDays": null,
       "protestReferendumSuspendsOrdinance": false,
       "protestReferendumPercent": null,
-      "referendumCitation": "Authority:",
+      "referendumCitation": "22 Del. C. Ch. 8",
       "referendumNotes": "General law provides no protest referendum on ordinances; mandatory voter referendum applies only to municipal bond issues and charter amendments."
     },
     {
@@ -599,7 +682,7 @@
       ],
       "electionTimingCitation": "F.S. § 100.3605, § 101.75 (Municipalities may set election dates by charter or ordinance; commonly March spring dates, or consolidated with August primary / November general)",
       "runoffRule": "locally_selectable",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "F.S. § 100.3605 (Charters specify plurality or majority runoff; in cities requiring majority, top two advance to second election)",
       "seatStructureOptions": [
         "pure_at_large",
@@ -624,26 +707,26 @@
       "recallAuthorized": true,
       "recallDoctrine": "two_question_standalone",
       "recallGroundsRequired": true,
-      "recallPetitionPercent": 10.0,
+      "recallPetitionPercent": 10,
       "recallPetitionBase": "registered_voters",
       "recallCirculationWindowDays": 30,
-      "recallCitation": "Authority:",
+      "recallCitation": "F.S. § 100.361 (Uniform Municipal Recall Statute)",
       "recallMechanics": "Two-tiered petition process: (1) Initial petition signed by 10% (or 7.5% in cities > 25k, 5% in > 100k) of registered electors containing specific grounds. Official files defensive statement within 5 days. (2) Second petition requires additional 15% signatures within 60 days. Recall election held with Yes/No question.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 10.0,
+      "initiativePetitionPercent": 10,
       "initiativeExemptSubjects": [
         "budget_and_appropriations",
         "zoning_regulations"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "F.S. § 166.031 (Charter amendments); Charters (Ordinances)",
       "initiativeNotes": "Charter amendment guaranteed by statute upon 10% registered voter petition (F.S. § 166.031). General ordinance initiative is not statewide mandate; available only if enacted in municipal charter.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "F.S. § 166.031; Municipal Charters",
       "referendumNotes": "Governed by individual municipal charters. Where provided, 10% voter petition within 30 days suspends ordinance pending council reconsideration or referendum."
     },
     {
@@ -654,10 +737,12 @@
       "homeRuleAuthority": "Ga. Const. Art. IX § II; O.C.G.A. Title 36 (Municipal Home Rule Act of 1965)",
       "ballotStructure": "nonpartisan_default_partisan_optional",
       "ballotCitation": "O.C.G.A. § 21-2-139 (Nonpartisan default for municipal elections; municipality may opt by charter or ordinance to conduct partisan elections)",
-      "electionTimingOptions": ["odd_year_november_consolidated"],
+      "electionTimingOptions": [
+        "odd_year_november_consolidated"
+      ],
       "electionTimingCitation": "O.C.G.A. § 21-2-9(b) (First Tuesday after first Monday in November of odd-numbered years)",
       "runoffRule": "majority_50_plus_1",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "O.C.G.A. § 21-2-501 (MANDATORY MAJORITY RULE: candidate must receive 50%+1 of votes; top-two runoff held 28 days later)",
       "seatStructureOptions": [
         "pure_at_large",
@@ -682,23 +767,25 @@
       "recallAuthorized": true,
       "recallDoctrine": "yes_no_retention",
       "recallGroundsRequired": true,
-      "recallPetitionPercent": 30.0,
+      "recallPetitionPercent": 30,
       "recallPetitionBase": "registered_voters",
       "recallCirculationWindowDays": 90,
-      "recallCitation": "Authority:",
+      "recallCitation": "O.C.G.A. Title 21 Ch. 4 (Public Officers Recall Act)",
       "recallMechanics": "Mandatory judicial review: officer may file application in Superior Court to review legal sufficiency of alleged grounds before petition circulation. Petitions require 30% of registered electors (45 days in small towns). Standalone Yes/No recall vote.",
       "initiativeAuthorized": false,
       "initiativeForm": "prohibited",
       "initiativePetitionPercent": null,
-      "initiativeExemptSubjects": ["all_general_ordinances"],
-      "initiativeCitation": "Authority:",
+      "initiativeExemptSubjects": [
+        "all_general_ordinances"
+      ],
+      "initiativeCitation": "O.C.G.A. § 36-35-3",
       "initiativeNotes": "Citizen initiative is authorized ONLY for proposing municipal charter amendments (petition signed by 20% of registered electors under O.C.G.A. § 36-35-3(b)). Citizen initiative for general ordinances is PROHIBITED.",
       "referendumAuthorized": false,
       "protestReferendumAvailable": false,
       "protestReferendumWindowDays": null,
       "protestReferendumSuspendsOrdinance": false,
       "protestReferendumPercent": null,
-      "referendumCitation": "Authority:",
+      "referendumCitation": "O.C.G.A. Title 36",
       "referendumNotes": "No general statutory protest referendum mechanism on municipal ordinances."
     },
     {
@@ -709,10 +796,12 @@
       "homeRuleAuthority": "Haw. Const. Art. VIII; Hawaii Revised Statutes (HRS) Title 6",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "HRS § 249; County Charters",
-      "electionTimingOptions": ["even_year_november_consolidated"],
+      "electionTimingOptions": [
+        "even_year_november_consolidated"
+      ],
       "electionTimingCitation": "HRS § 11-1 et seq. (Consolidated with statewide Primary in August and General Election in November of even-numbered years)",
       "runoffRule": "top_two_primary_runoff",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "County Charters (Candidate receiving 50%+1 of votes at August primary is elected outright; otherwise, top two advance to November general)",
       "seatStructureOptions": [
         "single_member_districts",
@@ -721,7 +810,9 @@
       ],
       "seatStructureDefault": "single_member_districts (Honolulu: 9 districts; Hawaii: 9 districts; Maui: 9 residency districts; Kauai: 7 at-large)",
       "seatStructureCitation": "Governed by individual County Charters",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Mayor is directly elected countywide in all 4 counties with strong executive authority, managing administration, appointments, and veto power.",
       "electionAdministration": "hybrid_clerk_and_county",
       "electionAdministrationCitation": "HRS Title 2 (State Office of Elections provides unified mail ballot system; County Clerks administer voter registration and processing)",
@@ -734,27 +825,27 @@
       "recallAuthorized": true,
       "recallDoctrine": "yes_no_retention",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 10.0,
+      "recallPetitionPercent": 10,
       "recallPetitionBase": "registered_voters",
       "recallCirculationWindowDays": 60,
-      "recallCitation": "Authority:",
+      "recallCitation": "Governed by County Charters (e.g. Honolulu Charter Art. XII)",
       "recallMechanics": "Recall governed by charter. Requires 10-15% of registered voters. Standalone Yes/No vote; successor filled via vacancy appointment/election.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 10.0,
+      "initiativePetitionPercent": 10,
       "initiativeExemptSubjects": [
         "appropriation_of_money",
         "tax_levies",
         "salaries_of_county_employees"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "County Charters (e.g. Honolulu Charter Art. III)",
       "initiativeNotes": "10% of total voters who voted at last mayoral election. Council must consider within 60 days; if rejected, placed on general election ballot.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 60,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "County Charters (e.g. Honolulu Charter Art. III)",
       "referendumNotes": "10% registered voter petition filed within 60 days suspends ordinance until council repeals or voters ratify."
     },
     {
@@ -765,10 +856,12 @@
       "homeRuleAuthority": "Iowa Const. Art. III § 38A (Municipal Home Rule Amendment); Iowa Code Ch. 364 & 372",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "Iowa Code § 376.3 ('All municipal elections shall be nonpartisan')",
-      "electionTimingOptions": ["odd_year_november_consolidated"],
+      "electionTimingOptions": [
+        "odd_year_november_consolidated"
+      ],
       "electionTimingCitation": "Iowa Code § 376.1 (First Tuesday after first Monday in November of odd-numbered years)",
       "runoffRule": "locally_selectable",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "Iowa Code § 376.4, § 376.6, § 376.9 (City council may by ordinance choose: (1) Primary election system, (2) Runoff election system, or (3) Plurality election)",
       "seatStructureOptions": [
         "pure_at_large",
@@ -793,23 +886,25 @@
       "recallAuthorized": false,
       "recallDoctrine": "judicial_cause_removal_trial",
       "recallGroundsRequired": true,
-      "recallPetitionPercent": 20.0,
+      "recallPetitionPercent": 20,
       "recallPetitionBase": "votes_cast_for_office",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "Iowa Code Ch. 66 (Removal for cause via judicial trial only)",
       "recallMechanics": "Political recall does NOT exist under Iowa law. Citizens may file a petition signed by qualified electors in the District Court to initiate a judicial trial for removal for cause.",
       "initiativeAuthorized": false,
       "initiativeForm": "prohibited",
       "initiativePetitionPercent": null,
-      "initiativeExemptSubjects": ["all_general_ordinances"],
-      "initiativeCitation": "Authority:",
+      "initiativeExemptSubjects": [
+        "all_general_ordinances"
+      ],
+      "initiativeCitation": "Iowa Code Ch. 372",
       "initiativeNotes": "General citizen ordinance initiative is NOT authorized by Iowa law. Voter petition initiative is strictly limited to proposing charter amendments (25% voters) or changing statutory form of government.",
       "referendumAuthorized": false,
       "protestReferendumAvailable": false,
       "protestReferendumWindowDays": null,
       "protestReferendumSuspendsOrdinance": false,
       "protestReferendumPercent": null,
-      "referendumCitation": "Authority:",
+      "referendumCitation": "Iowa Code Ch. 372 & 384",
       "referendumNotes": "Citizen protest referendum on general ordinances is absent. Mandatory voter referenda apply to utility franchise grants, municipal bond issuances, and capital projects."
     },
     {
@@ -820,12 +915,17 @@
       "homeRuleAuthority": "Idaho Code Title 50; Idaho Const. Art. XII § 2",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "Idaho Code § 50-403 ('All municipal elections shall be nonpartisan')",
-      "electionTimingOptions": ["odd_year_november_consolidated"],
+      "electionTimingOptions": [
+        "odd_year_november_consolidated"
+      ],
       "electionTimingCitation": "Idaho Code § 50-403 (First Tuesday after first Monday in November of odd-numbered years)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
       "runoffCitation": "Idaho Code § 50-612, § 50-707 (Plurality default; cities may by ordinance enact majority runoff requirement for mayor or council)",
-      "seatStructureOptions": ["pure_at_large", "single_member_districts"],
+      "seatStructureOptions": [
+        "pure_at_large",
+        "single_member_districts"
+      ],
       "seatStructureDefault": "pure_at_large (cities < 100,000) / single_member_districts (mandated for cities >= 100,000 under Idaho Code § 50-707A)",
       "seatStructureCitation": "Idaho Code § 50-707, § 50-707A (Boise mandated into districts by 2020/2022 statute)",
       "mayorSelectionOptions": [
@@ -844,27 +944,27 @@
       "recallAuthorized": true,
       "recallDoctrine": "yes_no_retention",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 20.0,
+      "recallPetitionPercent": 20,
       "recallPetitionBase": "registered_voters",
       "recallCirculationWindowDays": 75,
-      "recallCitation": "Authority:",
+      "recallCitation": "Idaho Code Title 34 Ch. 17 (§ 34-1701 et seq.)",
       "recallMechanics": "THE IDAHO RETENTION BARRIER (Idaho Code § 34-1712): Recall is NOT effective unless: (1) A majority votes YES on recall, AND (2) The number of YES votes equals or exceeds the total number of votes cast for the officer at their original election!",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 20.0,
+      "initiativePetitionPercent": 20,
       "initiativeExemptSubjects": [
         "appropriations",
         "tax_levies",
         "special_assessments"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "Idaho Code § 50-501",
       "initiativeNotes": "Petition signed by 20% of registered electors. Council must either pass ordinance within 30 days or submit to voters at next general city election.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 20.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 20,
+      "referendumCitation": "Idaho Code § 50-501",
       "referendumNotes": "Petition signed by 20% of electors filed within 30 days suspends ordinance until voted upon."
     },
     {
@@ -875,10 +975,12 @@
       "homeRuleAuthority": "Ill. Const. Art. VII § 6; 65 ILCS 5 (Illinois Municipal Code)",
       "ballotStructure": "partisan_default_nonpartisan_optional",
       "ballotCitation": "10 ILCS 5/Art. 7, Art. 10; 65 ILCS 5/3.1-25-20 (Partisan in aldermanic/village unless opted nonpartisan; strictly nonpartisan in Commission/Manager forms)",
-      "electionTimingOptions": ["odd_year_spring"],
+      "electionTimingOptions": [
+        "odd_year_spring"
+      ],
       "electionTimingCitation": "10 ILCS 5/2A-1.1, 5/2A-1.2 (Consolidated Primary on last Tuesday in February; Consolidated Election on first Tuesday in April of odd-numbered years)",
       "runoffRule": "top_two_primary_runoff",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "65 ILCS 5/4-3-5, 65 ILCS 20/21-12 (In nonpartisan forms and Chicago, primary eliminates all but top two candidates who contest the April election)",
       "seatStructureOptions": [
         "single_member_wards",
@@ -887,7 +989,9 @@
       ],
       "seatStructureDefault": "two_aldermen_per_ward (Statutory cities: 65 ILCS 5/3.1-20-10) / at-large (Villages: 6 Trustees)",
       "seatStructureCitation": "65 ILCS 5/3.1-20-10, 65 ILCS 5/3.1-20-25, 65 ILCS 5/3.1-25-5",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Direct election in all forms (Mayor in cities, President in villages). Holds veto over council ordinances (overridden by 2/3 vote; 65 ILCS 5/3.1-40-45).",
       "electionAdministration": "county_election_board_coordinated",
       "electionAdministrationCitation": "10 ILCS 5/Art. 6 (County Clerk or Board of Election Commissioners conducts all consolidated elections)",
@@ -903,20 +1007,22 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "65 ILCS 5 (Absent in general law; Illinois courts hold recall unauthorized without express statute)",
       "recallMechanics": "PROHIBITED under general law. Specific statutory recall exists ONLY for Chicago Mayor (added 2018; 10 ILCS 5/Art. 21A; requiring 15% registered voters in every ward) and Commission form (65 ILCS 5/4-7-1; 25% electors).",
       "initiativeAuthorized": false,
       "initiativeForm": "prohibited",
       "initiativePetitionPercent": null,
-      "initiativeExemptSubjects": ["all_general_ordinances"],
-      "initiativeCitation": "Authority:",
+      "initiativeExemptSubjects": [
+        "all_general_ordinances"
+      ],
+      "initiativeCitation": "65 ILCS 5",
       "initiativeNotes": "Citizen initiative for ordinary municipal ordinances is PROHIBITED. Voter initiative permitted only on structural questions: adopting home rule, altering council size, or changing form of government (Ill. Const. Art. VII § 6(f)).",
       "referendumAuthorized": false,
       "protestReferendumAvailable": false,
       "protestReferendumWindowDays": null,
       "protestReferendumSuspendsOrdinance": false,
       "protestReferendumPercent": null,
-      "referendumCitation": "Authority:",
+      "referendumCitation": "65 ILCS 5",
       "referendumNotes": "Protest referendum against general city ordinances is not authorized. Referenda are limited to back-door referendum questions on municipal bond issues and tax levy increases."
     },
     {
@@ -927,12 +1033,16 @@
       "homeRuleAuthority": "Ind. Code Title 36; Ind. Code § 36-1-3 (Home Rule Act)",
       "ballotStructure": "partisan_mandatory",
       "ballotCitation": "IC § 3-10-6-1, § 3-10-6-2 (MANDATORY PARTISAN ELECTIONS: candidates run in party primaries in May; general election in November of odd-numbered years)",
-      "electionTimingOptions": ["odd_year_november_consolidated"],
+      "electionTimingOptions": [
+        "odd_year_november_consolidated"
+      ],
       "electionTimingCitation": "IC § 3-10-6-5 (First Tuesday after first Monday in November of odd-numbered years; e.g. 2023, 2027)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
       "runoffCitation": "IC § 3-12-8 (Plurality election in both primary and general elections; no runoffs)",
-      "seatStructureOptions": ["hybrid_districts_and_at_large"],
+      "seatStructureOptions": [
+        "hybrid_districts_and_at_large"
+      ],
       "seatStructureDefault": "hybrid_districts_and_at_large (2nd Class: 6 districts + 3 at-large; 3rd Class: 5 districts + 2 at-large)",
       "seatStructureCitation": "IC § 36-4-6-3, § 36-4-6-4",
       "mayorSelectionOptions": [
@@ -954,20 +1064,22 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "Ind. Code Title 36; Ind. Const. Art. 6",
       "recallMechanics": "Municipal recall is STRICTLY PROHIBITED in Indiana. Officials can only be removed via judicial impeachment for official misconduct under IC § 5-8-1-35.",
       "initiativeAuthorized": false,
       "initiativeForm": "prohibited",
       "initiativePetitionPercent": null,
-      "initiativeExemptSubjects": ["all_ordinances"],
-      "initiativeCitation": "Authority:",
+      "initiativeExemptSubjects": [
+        "all_ordinances"
+      ],
+      "initiativeCitation": "IC § 36-1-3-8 (Home Rule Act express preemption)",
       "initiativeNotes": "Citizen initiative for municipal ordinances is STRICTLY PROHIBITED. The Indiana Home Rule Act expressly prohibits municipalities from creating direct legislative mechanisms.",
       "referendumAuthorized": false,
       "protestReferendumAvailable": false,
       "protestReferendumWindowDays": null,
       "protestReferendumSuspendsOrdinance": false,
       "protestReferendumPercent": null,
-      "referendumCitation": "Authority:",
+      "referendumCitation": "IC § 36-1-3-8",
       "referendumNotes": "Citizen protest referendum on city ordinances is PROHIBITED. Voter referenda exist only for public school capital projects and controlled municipal capital project tax caps."
     },
     {
@@ -978,7 +1090,9 @@
       "homeRuleAuthority": "Kan. Const. Art. 12 § 5 (Home Rule Amendment); K.S.A. Ch. 12",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "K.S.A. § 25-2113 ('All elections for city officers shall be nonpartisan')",
-      "electionTimingOptions": ["odd_year_november_consolidated"],
+      "electionTimingOptions": [
+        "odd_year_november_consolidated"
+      ],
       "electionTimingCitation": "K.S.A. § 25-2107 (Consolidated Primary in August; General Election on first Tuesday after first Monday in November of odd-numbered years)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
@@ -1006,26 +1120,26 @@
       "recallAuthorized": true,
       "recallDoctrine": "yes_no_retention",
       "recallGroundsRequired": true,
-      "recallPetitionPercent": 40.0,
+      "recallPetitionPercent": 40,
       "recallPetitionBase": "votes_cast_for_office",
       "recallCirculationWindowDays": 90,
-      "recallCitation": "Authority:",
+      "recallCitation": "Kan. Const. Art. 4 § 3; K.S.A. § 25-4301 et seq. (Kansas Recall Act)",
       "recallMechanics": "Strict grounds requirement certified by county attorney or district court before petition circulation. High signature threshold: 40% of votes cast for that office at last general election. Standalone Yes/No ballot.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 25.0,
+      "initiativePetitionPercent": 25,
       "initiativeExemptSubjects": [
         "administrative_matters",
         "tax_levies_and_appropriations"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "K.S.A. § 12-3013",
       "initiativeNotes": "Petition signed by 25% (in 2nd/3rd class) or 40% (in 1st class) of qualified electors. Governing body must pass ordinance without alteration within 20 days or submit to election.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 60,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "Kan. Const. Art. 12 § 5 (Charter ordinances); K.S.A. § 12-3013",
       "referendumNotes": "Protest referendum is guaranteed by constitution against CHARTER ORDINANCES (10% electors within 60 days suspends ordinance; Kan. Const. Art. 12 § 5(c)(3))."
     },
     {
@@ -1036,10 +1150,12 @@
       "homeRuleAuthority": "Ky. Const. §§ 156b, 160; KRS Ch. 67A, 67C, 83A",
       "ballotStructure": "nonpartisan_default_partisan_optional",
       "ballotCitation": "KRS 83A.050 (Nonpartisan default for cities; city may opt by ordinance to conduct partisan elections; Louisville Metro is PARTISAN under KRS 67C.103)",
-      "electionTimingOptions": ["even_year_november_consolidated"],
+      "electionTimingOptions": [
+        "even_year_november_consolidated"
+      ],
       "electionTimingCitation": "Ky. Const. § 148; KRS 118.025 (Primary on third Tuesday in May; General Election on first Tuesday after first Monday in November of even-numbered years)",
       "runoffRule": "top_two_primary_runoff",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "KRS 83A.170 (Nonpartisan primary in May eliminates all but top two candidates who advance to November general election; plurality wins in November)",
       "seatStructureOptions": [
         "pure_at_large",
@@ -1048,7 +1164,9 @@
       ],
       "seatStructureDefault": "pure_at_large (statutory forms) / hybrid (LFUCG: 12 districts + 3 at-large; Louisville Metro: 26 single-member districts)",
       "seatStructureCitation": "KRS 83A.100, KRS 67A.020, KRS 67C.103",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Direct election in all forms (4-yr term). Strong Mayor with full executive administration and veto in Mayor-Council (KRS 83A.130), LFUCG (Charter Sec. 5.02), and Louisville Metro (KRS 67C.105). Weak/presiding mayor in Commission and Manager forms.",
       "electionAdministration": "county_election_board_coordinated",
       "electionAdministrationCitation": "KRS 117.035 (County Board of Elections conducts all municipal and metro elections)",
@@ -1064,24 +1182,24 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "Ky. Const. §§ 150, 152; OAG 82-436",
       "recallMechanics": "Political recall is PROHIBITED for general elected municipal officers under Ky. Const. §§ 150 and 152. Limited statutory recall exists ONLY for protesting property tax rate increases exceeding the 4% revenue limit under KRS 132.017.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 20.0,
+      "initiativePetitionPercent": 20,
       "initiativeExemptSubjects": [
         "appropriations",
         "tax_levies",
         "zoning_map_amendments"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "KRS 83A.130(11), 83A.140(8), 83A.150(8)",
       "initiativeNotes": "Authorized ONLY in Commission and City Manager forms (petition signed by 20-25% of voters at last general election). Barred in LFUCG and Louisville Metro charters.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 20.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 20,
+      "referendumCitation": "KRS 83A.130, 83A.140, 83A.150",
       "referendumNotes": "Authorized in Commission and City Manager forms (20% voter petition within 30 days suspends ordinance). Barred in LFUCG and Louisville Metro charters."
     },
     {
@@ -1092,10 +1210,13 @@
       "homeRuleAuthority": "La. Const. Art. VI § 5; La. R.S. Title 33",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "La. R.S. 18:401 et seq. (Louisiana Open Jungle Primary: all candidates appear on same primary ballot regardless of party affiliation)",
-      "electionTimingOptions": ["spring_even_year", "autumn_gubernatorial"],
+      "electionTimingOptions": [
+        "spring_even_year",
+        "autumn_gubernatorial"
+      ],
       "electionTimingCitation": "La. R.S. 18:402 (Spring dates in presidential years, or fall dates in gubernatorial off-years)",
       "runoffRule": "majority_50_plus_1",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "La. R.S. 18:511 (Candidate receiving majority of votes cast in primary is elected; if no candidate clears 50%, top two advance to general election runoff 4 weeks later)",
       "seatStructureOptions": [
         "single_member_districts",
@@ -1104,7 +1225,9 @@
       ],
       "seatStructureDefault": "pure_at_large (Lawrason towns < 10,000) / single_member_districts (cities > 10,000: La. R.S. 33:382)",
       "seatStructureCitation": "La. R.S. 33:382",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Direct popular election across all forms (4-yr term). Mayor holds veto under Lawrason Act (overridden by 2/3 of aldermen; La. R.S. 33:404).",
       "electionAdministration": "county_election_board_coordinated",
       "electionAdministrationCitation": "La. R.S. Title 18 (Parish Registrar of Voters and Parish Board of Election Supervisors conduct elections on state-owned voting machines)",
@@ -1120,20 +1243,22 @@
       "recallPetitionPercent": 33.3,
       "recallPetitionBase": "registered_voters",
       "recallCirculationWindowDays": 180,
-      "recallCitation": "Authority:",
+      "recallCitation": "La. Const. Art. X § 26; La. R.S. Title 18 Ch. 6-C (§ 18:1300.1 et seq.)",
       "recallMechanics": "Universal statutory right. Tiered thresholds: 40% (<1,000 voters), 33.3% (1k-25k), 25% (25k-50k), 20% (>=50k). Standalone Yes/No recall election; if recalled, seat is declared vacant and filled under normal vacancy rules.",
       "initiativeAuthorized": false,
       "initiativeForm": "prohibited",
       "initiativePetitionPercent": null,
-      "initiativeExemptSubjects": ["all_general_ordinances"],
-      "initiativeCitation": "Authority:",
+      "initiativeExemptSubjects": [
+        "all_general_ordinances"
+      ],
+      "initiativeCitation": "La. R.S. Title 33",
       "initiativeNotes": "Citizen ordinance initiative is NOT authorized in Lawrason Act municipalities; available ONLY where explicitly granted in individual Home Rule Charters (e.g. New Orleans, Baton Rouge).",
       "referendumAuthorized": false,
       "protestReferendumAvailable": false,
       "protestReferendumWindowDays": null,
       "protestReferendumSuspendsOrdinance": false,
       "protestReferendumPercent": null,
-      "referendumCitation": "Authority:",
+      "referendumCitation": "La. R.S. Title 33",
       "referendumNotes": "Protest referendum is absent under general municipal law; referendum exists only where specified by charter or for local tax millage renewals."
     },
     {
@@ -1179,23 +1304,23 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "M.G.L. c. 43 (Absent in general law; exists only in special legislative charters)",
       "recallMechanics": "Recall is absent under general Massachusetts law. A municipality can obtain recall only by petitioning the General Court (state legislature) for a special act charter.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 12.0,
+      "initiativePetitionPercent": 12,
       "initiativeExemptSubjects": [
         "budget_appropriations",
         "school_committee_appointments"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "M.G.L. c. 43 § 37 - § 44 (Faulkner Act); c. 39 § 10 (Towns)",
       "initiativeNotes": "Under Faulkner Act, petition signed by 8% (regular election) or 12% (special election) of registered voters submitted to city council. If council fails to enact within 20 days, placed on ballot. In towns, 10 voters petition warrant article.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 20,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 12.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 12,
+      "referendumCitation": "M.G.L. c. 43 § 42",
       "referendumNotes": "Under Faulkner Act, petition signed by 12% of registered voters filed within 20 days of ordinance passage suspends ordinance until council repeals or voters ratify."
     },
     {
@@ -1241,20 +1366,22 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "Md. Const. Art. XI-E; Md. Code Local Gov't",
       "recallMechanics": "Municipal recall is absent in general state law. Available only if explicitly authorized in a municipal charter.",
       "initiativeAuthorized": false,
       "initiativeForm": "prohibited",
       "initiativePetitionPercent": null,
-      "initiativeExemptSubjects": ["all_general_ordinances"],
-      "initiativeCitation": "Authority:",
+      "initiativeExemptSubjects": [
+        "all_general_ordinances"
+      ],
+      "initiativeCitation": "Md. Code Local Gov't § 4-301",
       "initiativeNotes": "Citizen initiative is authorized ONLY for proposing municipal charter amendments (petition signed by 20% of qualified voters under LG § 4-305). General ordinance initiative is not authorized under state law.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 40,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 20.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 20,
+      "referendumCitation": "Md. Code Local Gov't § 4-304",
       "referendumNotes": "Mandatory protest referendum applies to charter amendments passed by council (20% voter petition within 40 days forces referendum). Protest referendum on general ordinances exists where provided by charter."
     },
     {
@@ -1296,23 +1423,25 @@
       "recallAuthorized": true,
       "recallDoctrine": "yes_no_retention",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 10.0,
+      "recallPetitionPercent": 10,
       "recallPetitionBase": "votes_cast_for_office",
       "recallCirculationWindowDays": 30,
-      "recallCitation": "Authority:",
+      "recallCitation": "30-A M.R.S. § 2602(6)",
       "recallMechanics": "Authorized in towns by local ordinance (30-A M.R.S. § 2602(6)). Requires petition signed by 10% of votes cast in last gubernatorial election. Town holds special recall election.",
       "initiativeAuthorized": true,
       "initiativeForm": "town_meeting_warrant",
-      "initiativePetitionPercent": 10.0,
-      "initiativeExemptSubjects": ["administrative_contracts"],
-      "initiativeCitation": "Authority:",
+      "initiativePetitionPercent": 10,
+      "initiativeExemptSubjects": [
+        "administrative_contracts"
+      ],
+      "initiativeCitation": "30-A M.R.S. § 2522 (Town Meeting Warrant Articles)",
       "initiativeNotes": "Petition signed by 10% of voters (or 10 voters in small towns) MANDATES Select Board to insert proposed article into the warrant for next Town Meeting.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "30-A M.R.S. § 2528",
       "referendumNotes": "Towns using referendum ballot system may petition ordinances to vote; charter cities define protest referendum by charter."
     },
     {
@@ -1354,23 +1483,26 @@
       "recallAuthorized": true,
       "recallDoctrine": "simultaneous_incumbent_replacement",
       "recallGroundsRequired": true,
-      "recallPetitionPercent": 25.0,
+      "recallPetitionPercent": 25,
       "recallPetitionBase": "last_gubernatorial_vote",
       "recallCirculationWindowDays": 60,
-      "recallCitation": "Authority:",
+      "recallCitation": "Mich. Const. Art. II § 8; MCL 168.951 et seq.",
       "recallMechanics": "Universal constitutional right. Clarity hearing before county election commission. Petitions require 25% of the total votes cast in the electoral district for Governor in the last election. Recall election is a replacement election: incumbent automatically on ballot unless declining.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 15.0,
-      "initiativeExemptSubjects": ["budget_appropriations", "tax_levies"],
-      "initiativeCitation": "Authority:",
+      "initiativePetitionPercent": 15,
+      "initiativeExemptSubjects": [
+        "budget_appropriations",
+        "tax_levies"
+      ],
+      "initiativeCitation": "Home Rule City Act (MCL 117.4i)",
       "initiativeNotes": "Home Rule City Act mandates that each charter may provide for initiative and referendum. Commonly 10-15% of registered electors. Council must adopt or submit to voters.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "MCL 117.4i",
       "referendumNotes": "Charter-authorized protest referendum suspends ordinance pending vote if filed within statutory/charter window."
     },
     {
@@ -1381,7 +1513,9 @@
       "homeRuleAuthority": "Minn. Const. Art. XII § 4; Minn. Stat. Ch. 410 (Home Rule) & Ch. 412 (Statutory Cities)",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "Minn. Stat. § 205.07, § 205.17 ('The municipal ballot shall be nonpartisan')",
-      "electionTimingOptions": ["even_year_november_consolidated"],
+      "electionTimingOptions": [
+        "even_year_november_consolidated"
+      ],
       "electionTimingCitation": "Minn. Stat. § 205.07 (Consolidated with statewide even-year general election on first Tuesday after first Monday in November; statutory odd-year grandfathering phasing out)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
@@ -1393,7 +1527,9 @@
       ],
       "seatStructureDefault": "pure_at_large (Statutory cities: Mayor + 4 Councilmembers elected at-large with staggered 4-year terms: Minn. Stat. § 412.02)",
       "seatStructureCitation": "Minn. Stat. § 412.02; Ch. 410",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Direct election across all forms (2- or 4-yr term). In Statutory Plan A/B, Mayor is an ordinary member of the 5-member council with NO veto power. Strong Mayor exists only by Home Rule Charter (e.g. Minneapolis, St. Paul, Duluth).",
       "electionAdministration": "county_election_board_coordinated",
       "electionAdministrationCitation": "Minn. Stat. § 205.07 (County Auditor conducts municipal elections concurrently with federal/state general elections)",
@@ -1409,20 +1545,22 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "Minn. Stat. Ch. 412 (Absent in general law; allowed ONLY in Home Rule Charters)",
       "recallMechanics": "Statutory cities CANNOT adopt recall under Minn. Stat. Ch. 412. Available ONLY if explicitly enacted in a Home Rule Charter adopted pursuant to Minn. Const. Art. XII § 4.",
       "initiativeAuthorized": false,
       "initiativeForm": "prohibited",
       "initiativePetitionPercent": null,
-      "initiativeExemptSubjects": ["all_general_ordinances"],
-      "initiativeCitation": "Authority:",
+      "initiativeExemptSubjects": [
+        "all_general_ordinances"
+      ],
+      "initiativeCitation": "Minn. Stat. Ch. 412",
       "initiativeNotes": "Statutory cities lack authority to adopt citizen initiative for ordinances. Authorized ONLY in Home Rule Charters (e.g. Minneapolis, Duluth).",
       "referendumAuthorized": false,
       "protestReferendumAvailable": false,
       "protestReferendumWindowDays": null,
       "protestReferendumSuspendsOrdinance": false,
       "protestReferendumPercent": null,
-      "referendumCitation": "Authority:",
+      "referendumCitation": "Minn. Stat. Ch. 412",
       "referendumNotes": "Protest referendum against general ordinances is absent in statutory cities. Mandatory referenda apply only to issuing capital improvement bonds and adopting optional plans."
     },
     {
@@ -1433,7 +1571,10 @@
       "homeRuleAuthority": "Mo. Const. Art. VI § 19, § 19(a); RSMo Ch. 71-80",
       "ballotStructure": "nonpartisan_default_partisan_optional",
       "ballotCitation": "RSMo § 115.121 (Nonpartisan default across Missouri; 3rd class cities may opt by ordinance to conduct partisan primaries)",
-      "electionTimingOptions": ["odd_year_spring", "annual_spring_april"],
+      "electionTimingOptions": [
+        "odd_year_spring",
+        "annual_spring_april"
+      ],
       "electionTimingCitation": "RSMo § 115.121 (Municipal Election Day on first Tuesday after first Monday in April annually or in odd-numbered years)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
@@ -1445,7 +1586,9 @@
       ],
       "seatStructureDefault": "two_aldermen_per_ward (4th Class: RSMo § 79.060; 3rd Class: RSMo § 77.030; staggered 2-year terms)",
       "seatStructureCitation": "RSMo § 77.030, § 79.060",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Direct election across all forms (2- or 4-yr term). Mayor presides, votes on ties, holds veto overridden by 2/3 council in 3rd Class (§ 77.270) and 4th Class (§ 79.140).",
       "electionAdministration": "county_election_board_coordinated",
       "electionAdministrationCitation": "RSMo § 115.023 (County Clerk or Board of Election Commissioners conducts municipal April elections)",
@@ -1458,23 +1601,26 @@
       "recallAuthorized": true,
       "recallDoctrine": "two_question_standalone",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 25.0,
+      "recallPetitionPercent": 25,
       "recallPetitionBase": "votes_cast_for_office",
       "recallCirculationWindowDays": 60,
-      "recallCitation": "Authority:",
+      "recallCitation": "RSMo § 77.650 (3rd Class); Charters",
       "recallMechanics": "Authorized in 3rd Class cities (RSMo § 77.650; 25% signatures) and Charter cities. STRICTLY PROHIBITED in 4th Class cities (state law provides no recall mechanism for 4th class aldermen/mayor).",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 25.0,
-      "initiativeExemptSubjects": ["budget_appropriations", "tax_levies"],
-      "initiativeCitation": "Authority:",
+      "initiativePetitionPercent": 25,
+      "initiativeExemptSubjects": [
+        "budget_appropriations",
+        "tax_levies"
+      ],
+      "initiativeCitation": "RSMo § 78.200 (3rd Class Commission); Charters",
       "initiativeNotes": "Authorized in 3rd Class optional forms (§ 78.200; 25% signatures) and Charter cities. PROHIBITED in 4th Class cities.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 10,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 25.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 25,
+      "referendumCitation": "RSMo § 78.220; Charters",
       "referendumNotes": "In 3rd Class cities, 25% voter petition filed within 10 days of passage suspends ordinance. In Charter cities, window is typically 30 days."
     },
     {
@@ -1485,10 +1631,12 @@
       "homeRuleAuthority": "Miss. Code Ann. Title 21; Miss. Const. Art. 4 § 88",
       "ballotStructure": "partisan_mandatory",
       "ballotCitation": "Miss. Code § 21-11-1 et seq. (MANDATORY PARTISAN ELECTIONS: municipal primary elections conducted by municipal party executive committees)",
-      "electionTimingOptions": ["quadrennial_summer_june"],
+      "electionTimingOptions": [
+        "quadrennial_summer_june"
+      ],
       "electionTimingCitation": "Miss. Code § 21-11-7, § 21-11-11 (First primary on first Tuesday in April; Second primary on fourth Tuesday in April; General Election on first Tuesday after first Monday in June every 4 years, e.g. 2021, 2025, 2029)",
       "runoffRule": "majority_50_plus_1",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "Miss. Code § 23-15-305 (MANDATORY MAJORITY in party primaries: candidate must receive majority of votes; top-two runoff held 3 weeks later in April; plurality wins in June general election)",
       "seatStructureOptions": [
         "single_member_wards",
@@ -1497,7 +1645,9 @@
       ],
       "seatStructureDefault": "hybrid_wards_and_at_large (Code Charter cities > 10,000: 6 aldermen from wards, 1 at-large: Miss. Code § 21-3-7)",
       "seatStructureCitation": "Miss. Code § 21-3-7, § 21-8-7",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Direct election across all forms (4-yr term). Strong Mayor under Miss. Code § 21-8-15 (Jackson: full veto overridden by 2/3 council). Weak Mayor under Code Charter (presides, votes on ties, holds suspensive veto overridden by 2/3 aldermen; § 21-3-15).",
       "electionAdministration": "municipal_clerk_locally_administered",
       "electionAdministrationCitation": "Miss. Code § 21-11-1 (Municipal Election Commission administers general elections; Municipal Party Executive Committees conduct party primaries)",
@@ -1510,23 +1660,25 @@
       "recallAuthorized": true,
       "recallDoctrine": "yes_no_retention",
       "recallGroundsRequired": true,
-      "recallPetitionPercent": 30.0,
+      "recallPetitionPercent": 30,
       "recallPetitionBase": "registered_voters",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "Miss. Code Ann. § 25-5-1 et seq.",
       "recallMechanics": "Governor appoints 3-member removal council of citizens; council investigates and verifies grounds; if certified, Governor orders special recall election. Yes/No vote; if recalled, seat is vacant.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 20.0,
-      "initiativeExemptSubjects": ["tax_levies_and_appropriations"],
-      "initiativeCitation": "Authority:",
+      "initiativePetitionPercent": 20,
+      "initiativeExemptSubjects": [
+        "tax_levies_and_appropriations"
+      ],
+      "initiativeCitation": "Miss. Code § 21-5-29 (Commission), § 21-9-43 (Manager)",
       "initiativeNotes": "Authorized ONLY in Commission and Council-Manager forms (petition signed by 20% of qualified electors). Barred in Code Charter and Mayor-Council cities.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 20.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 20,
+      "referendumCitation": "Miss. Code § 21-5-31, § 21-9-45",
       "referendumNotes": "Authorized in Commission and Council-Manager forms (20% voter petition within 30 days suspends ordinance). Barred in Code Charters."
     },
     {
@@ -1537,7 +1689,9 @@
       "homeRuleAuthority": "Mont. Const. Art. XI §§ 5, 6; MCA Title 7 Ch. 3",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "MCA § 13-14-111 ('Candidates for municipal office must be nominated and elected on a nonpartisan ballot')",
-      "electionTimingOptions": ["odd_year_november_consolidated"],
+      "electionTimingOptions": [
+        "odd_year_november_consolidated"
+      ],
       "electionTimingCitation": "MCA § 13-1-104 (First Tuesday after first Monday in November of odd-numbered years)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
@@ -1565,27 +1719,27 @@
       "recallAuthorized": true,
       "recallDoctrine": "yes_no_retention",
       "recallGroundsRequired": true,
-      "recallPetitionPercent": 20.0,
+      "recallPetitionPercent": 20,
       "recallPetitionBase": "registered_voters",
       "recallCirculationWindowDays": 90,
-      "recallCitation": "Authority:",
+      "recallCitation": "Mont. Const. Art. XI § 8; MCA Title 2 Ch. 16 Pt. 6 (Montana Recall Act)",
       "recallMechanics": "Statutory grounds required. Officer may challenge legal sufficiency in District Court before petition circulation. 15% (cities > 1,000) or 20% (< 1,000) signatures. Standalone Yes/No recall election; vacancy filled by appointment.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 15.0,
+      "initiativePetitionPercent": 15,
       "initiativeExemptSubjects": [
         "appropriations",
         "tax_levies",
         "special_assessments"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "Mont. Const. Art. XI § 8; MCA Title 7 Ch. 5 Pt. 1 (§ 7-5-131 et seq.)",
       "initiativeNotes": "15% of registered electors. Governing body must pass ordinance without amendment within 60 days or submit to voters at next election.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 60,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "Mont. Const. Art. XI § 8; MCA § 7-5-132",
       "referendumNotes": "10% registered voter petition filed within 60 days of ordinance passage suspends ordinance pending election."
     },
     {
@@ -1596,10 +1750,12 @@
       "homeRuleAuthority": "N.C. Const. Art. VII § 1; N.C.G.S. Ch. 160A",
       "ballotStructure": "charter_determined",
       "ballotCitation": "N.C.G.S. § 163-291 (State law provides 4 electoral options selectable by charter: (1) Nonpartisan plurality, (2) Nonpartisan runoff, (3) Nonpartisan primary, or (4) Partisan primary and election)",
-      "electionTimingOptions": ["odd_year_november_consolidated"],
+      "electionTimingOptions": [
+        "odd_year_november_consolidated"
+      ],
       "electionTimingCitation": "N.C.G.S. § 163-279 (First Tuesday after first Monday in November of odd-numbered years; e.g. 2023, 2025, 2027)",
       "runoffRule": "locally_selectable",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "N.C.G.S. § 163-293 (Under nonpartisan runoff option, majority required; runner-up may demand second election held 4 weeks later; if not demanded, leading candidate elected)",
       "seatStructureOptions": [
         "pure_at_large",
@@ -1628,20 +1784,22 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "N.C.G.S. Ch. 160A (Absent in general law; exists only in ~30 local charter acts)",
       "recallMechanics": "Recall is PROHIBITED under general state law. Available ONLY where enacted by the General Assembly in a specific local legislative charter act (e.g. Raleigh, Durham, Greensboro).",
       "initiativeAuthorized": false,
       "initiativeForm": "prohibited",
       "initiativePetitionPercent": null,
-      "initiativeExemptSubjects": ["all_general_ordinances"],
-      "initiativeCitation": "Authority:",
+      "initiativeExemptSubjects": [
+        "all_general_ordinances"
+      ],
+      "initiativeCitation": "N.C.G.S. Ch. 160A",
       "initiativeNotes": "Citizen ordinance initiative is PROHIBITED under general law; voter initiative permitted only on structural charter amendments under N.C.G.S. § 160A-104 (10% voter petition).",
       "referendumAuthorized": false,
       "protestReferendumAvailable": false,
       "protestReferendumWindowDays": null,
       "protestReferendumSuspendsOrdinance": false,
       "protestReferendumPercent": null,
-      "referendumCitation": "Authority:",
+      "referendumCitation": "N.C.G.S. Ch. 160A",
       "referendumNotes": "No general statutory protest referendum mechanism on municipal ordinances."
     },
     {
@@ -1652,7 +1810,9 @@
       "homeRuleAuthority": "N.D. Const. Art. VII § 6; N.D.C.C. Ch. 40-05.1 (Home Rule)",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "N.D.C.C. § 40-21-06 ('All municipal officers must be nominated and elected on nonpartisan ballots')",
-      "electionTimingOptions": ["even_year_june_consolidated"],
+      "electionTimingOptions": [
+        "even_year_june_consolidated"
+      ],
       "electionTimingCitation": "N.D.C.C. § 40-21-02 (Second Tuesday in June of even-numbered years, consolidated with statewide primary election)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
@@ -1664,7 +1824,9 @@
       ],
       "seatStructureDefault": "single_member_wards (Council cities: N.D.C.C. § 40-08-01) / at-large (Commission cities: § 40-09-01)",
       "seatStructureCitation": "N.D.C.C. § 40-08-01, § 40-09-01",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Direct election across all forms (4-yr term). In Council cities, Mayor presides, votes on ties, holds veto overridden by 2/3 council (§ 40-08-07). In Commission cities, President of Board of City Commissioners is executive head.",
       "electionAdministration": "county_election_board_coordinated",
       "electionAdministrationCitation": "N.D.C.C. § 40-21-02 (County Auditor conducts municipal election in June concurrently with state primary)",
@@ -1677,23 +1839,26 @@
       "recallAuthorized": true,
       "recallDoctrine": "simultaneous_incumbent_replacement",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 25.0,
+      "recallPetitionPercent": 25,
       "recallPetitionBase": "last_gubernatorial_vote",
       "recallCirculationWindowDays": 90,
-      "recallCitation": "Authority:",
+      "recallCitation": "N.D.C.C. § 44-08-21; N.D. Const. Art. VII § 6",
       "recallMechanics": "Universal statutory recall. 25% of total votes cast for Governor in that jurisdiction in last general election. Replacement election format: incumbent automatically on ballot unless resigning.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 15.0,
-      "initiativeExemptSubjects": ["appropriations", "tax_levies"],
-      "initiativeCitation": "Authority:",
+      "initiativePetitionPercent": 15,
+      "initiativeExemptSubjects": [
+        "appropriations",
+        "tax_levies"
+      ],
+      "initiativeCitation": "N.D.C.C. Ch. 40-12 (§ 40-12-01 et seq.)",
       "initiativeNotes": "Authorized in Commission and Modern Council forms (§ 40-12-02; 15% of votes cast for executive head). Council must enact without alteration within 20 days or submit to voters.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 10,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "N.D.C.C. § 40-12-08",
       "referendumNotes": "10% voter petition filed within 10 days of passage suspends ordinance until council repeals or election held."
     },
     {
@@ -1704,10 +1869,12 @@
       "homeRuleAuthority": "Neb. Const. Art. XI § 2 (Home Rule Charters); Neb. Rev. Stat. Ch. 16, 17, 18, 19",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "Neb. Rev. Stat. § 32-556 ('All municipal offices shall be nonpartisan offices')",
-      "electionTimingOptions": ["even_year_november_consolidated"],
+      "electionTimingOptions": [
+        "even_year_november_consolidated"
+      ],
       "electionTimingCitation": "Neb. Rev. Stat. § 32-401, § 32-556 (Primary on first Tuesday after second Monday in May; General Election on first Tuesday after first Monday in November of even-numbered years)",
       "runoffRule": "top_two_primary_runoff",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "Neb. Rev. Stat. § 32-556 (Statewide nonpartisan primary in May eliminates all but top two candidates who advance to November general; plurality in November)",
       "seatStructureOptions": [
         "single_member_wards",
@@ -1732,26 +1899,26 @@
       "recallAuthorized": true,
       "recallDoctrine": "yes_no_retention",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 35.0,
+      "recallPetitionPercent": 35,
       "recallPetitionBase": "votes_cast_for_office",
       "recallCirculationWindowDays": 30,
-      "recallCitation": "Authority:",
+      "recallCitation": "Neb. Rev. Stat. § 32-1301 et seq. (Nebraska Recall Act)",
       "recallMechanics": "Universal statutory recall. 35% of total votes cast for that office at last general election. Rapid circulation window (30 days). Standalone Yes/No ballot; if recalled, vacancy filled by appointment.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 15.0,
+      "initiativePetitionPercent": 15,
       "initiativeExemptSubjects": [
         "annual_appropriation",
         "emergency_measures"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "Neb. Rev. Stat. § 18-2501 et seq. (Municipal Initiative and Referendum Act)",
       "initiativeNotes": "15% of registered voters. City council has 30 days to pass measure without amendment or submit to voters.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 15.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 15,
+      "referendumCitation": "Neb. Rev. Stat. § 18-2527",
       "referendumNotes": "15% registered voter petition filed within 30 days of passage suspends ordinance pending election."
     },
     {
@@ -1796,20 +1963,22 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "RSA Title 3 & 4 (Absent in general law; NH Supreme Court bars recall absent statute)",
       "recallMechanics": "Recall is PROHIBITED under general law. Removal of municipal officials is available only for cause via Superior Court judicial hearing under RSA 41:16-c.",
       "initiativeAuthorized": true,
       "initiativeForm": "town_meeting_warrant",
       "initiativePetitionPercent": null,
-      "initiativeExemptSubjects": ["appropriations_must_be_voted_at_meeting"],
-      "initiativeCitation": "Authority:",
+      "initiativeExemptSubjects": [
+        "appropriations_must_be_voted_at_meeting"
+      ],
+      "initiativeCitation": "RSA 39:3 (Town Meeting Warrant Articles)",
       "initiativeNotes": "25 or more registered voters petition Selectmen to include any warrant article on annual Town Meeting warrant; Selectmen have mandatory duty to insert.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": null,
       "protestReferendumSuspendsOrdinance": false,
       "protestReferendumPercent": null,
-      "referendumCitation": "Authority:",
+      "referendumCitation": "RSA 40:13 (Official Ballot Referendum / SB 2)",
       "referendumNotes": "Under SB 2, all warrant articles are voted on by secret official ballot on second Tuesday in March following a deliberative session."
     },
     {
@@ -1827,7 +1996,7 @@
       ],
       "electionTimingCitation": "N.J.S.A. 40:69A-161.1 (Faulkner cities may hold nonpartisan elections on second Tuesday in May, or in November; Boroughs/Townships hold partisan elections in November annually)",
       "runoffRule": "locally_selectable",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "N.J.S.A. 40:69A-160, 40:69A-161.1 (Faulkner nonpartisan municipalities may opt for majority runoff or pure plurality; runoff held on 4th Tuesday after election)",
       "seatStructureOptions": [
         "pure_at_large",
@@ -1852,27 +2021,27 @@
       "recallAuthorized": true,
       "recallDoctrine": "two_question_standalone",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 25.0,
+      "recallPetitionPercent": 25,
       "recallPetitionBase": "registered_voters",
       "recallCirculationWindowDays": 160,
-      "recallCitation": "Authority:",
+      "recallCitation": "N.J. Const. Art. I par. 2(b); N.J.S.A. 19:27A-1 et seq. (Uniform Recall Election Law)",
       "recallMechanics": "Universal constitutional right across all municipal forms. 25% of registered voters. Two-question ballot: (1) 'Shall [Officer] be recalled?' (2) Successor candidates.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 15.0,
+      "initiativePetitionPercent": 15,
       "initiativeExemptSubjects": [
         "operating_budget",
         "salaries_of_officers_fixed_by_ordinance",
         "zoning"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "Faulkner Act (N.J.S.A. 40:69A-184 et seq.)",
       "initiativeNotes": "Authorized ONLY in Faulkner Act municipalities (10% registered voters for regular election; 15% for special election). Council must pass within 20 days or submit to voters. PROHIBITED in traditional Boroughs and Townships.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 20,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 15.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 15,
+      "referendumCitation": "Faulkner Act (N.J.S.A. 40:69A-185)",
       "referendumNotes": "Authorized in Faulkner Act cities (15% registered voter petition filed within 20 days suspends ordinance until council repeals or voters approve)."
     },
     {
@@ -1883,10 +2052,12 @@
       "homeRuleAuthority": "N.M. Const. Art. X § 6 (Municipal Home Rule Amendment); NMSA 1978 Ch. 3",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "NMSA 1978 § 1-22-3 (Local Election Act mandates strictly nonpartisan ballots)",
-      "electionTimingOptions": ["odd_year_november_consolidated"],
+      "electionTimingOptions": [
+        "odd_year_november_consolidated"
+      ],
       "electionTimingCitation": "NMSA 1978 § 1-22-3 (Regular Local Election held on first Tuesday after first Monday in November of odd-numbered years)",
       "runoffRule": "pure_plurality",
-      "runoffTriggerPercent": 40.0,
+      "runoffTriggerPercent": null,
       "runoffCitation": "NMSA 1978 § 1-22-16 (Plurality default; municipality may by ordinance adopt top-two runoff requirement with 40% or 50% threshold under § 1-22-16(B))",
       "seatStructureOptions": [
         "single_member_districts",
@@ -1911,23 +2082,26 @@
       "recallAuthorized": true,
       "recallDoctrine": "two_question_standalone",
       "recallGroundsRequired": true,
-      "recallPetitionPercent": 20.0,
+      "recallPetitionPercent": 20,
       "recallPetitionBase": "registered_voters",
       "recallCirculationWindowDays": 60,
-      "recallCitation": "Authority:",
+      "recallCitation": "NMSA 1978 § 3-14-15 (Commission-Manager); Charters",
       "recallMechanics": "Authorized in Commission-Manager cities (§ 3-14-15; 20% signatures) and Charter cities (Albuquerque: 33.3% signatures). Barred in standard Mayor-Council statutory cities.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 20.0,
-      "initiativeExemptSubjects": ["budget_appropriations", "tax_levies"],
-      "initiativeCitation": "Authority:",
+      "initiativePetitionPercent": 20,
+      "initiativeExemptSubjects": [
+        "budget_appropriations",
+        "tax_levies"
+      ],
+      "initiativeCitation": "NMSA 1978 § 3-14-17 (Commission-Manager); Charters",
       "initiativeNotes": "Authorized in Commission-Manager cities (20% registered voters) and Charter cities. Council must pass within 30 days or submit to election.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 20.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 20,
+      "referendumCitation": "NMSA 1978 § 3-14-17",
       "referendumNotes": "In Commission-Manager cities, 20% registered voter petition filed within 30 days suspends ordinance until voted upon."
     },
     {
@@ -1938,10 +2112,12 @@
       "homeRuleAuthority": "NRS Title 21 (NRS Ch. 266, 268); Nev. Const. Art. 15 § 3",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "NRS § 293C.110 ('All municipal elections must be nonpartisan')",
-      "electionTimingOptions": ["even_year_november_consolidated"],
+      "electionTimingOptions": [
+        "even_year_november_consolidated"
+      ],
       "electionTimingCitation": "NRS § 293C.110 (Preemptively consolidated all municipal elections with statewide even-year Primary in June and General in November)",
       "runoffRule": "top_two_primary_runoff",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "NRS § 293C.180 (Primary in June eliminates all but top two candidates who advance to November; if a candidate in a charter city receives majority in primary, charter may declare them elected)",
       "seatStructureOptions": [
         "single_member_wards",
@@ -1950,7 +2126,9 @@
       ],
       "seatStructureDefault": "single_member_wards (Las Vegas: 6 wards; Reno: 6 wards; Henderson: 4 wards)",
       "seatStructureCitation": "NRS § 266.095; Individual City Charters",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Direct election across all cities (4-yr term). 12-YEAR LIFETIME TERM LIMIT applies to all municipal elected officials under Nev. Const. Art. 15 § 3. Council-Manager form dominates; mayor is council member/presiding officer with ceremonial headship.",
       "electionAdministration": "county_election_board_coordinated",
       "electionAdministrationCitation": "NRS § 293C.110 (County Registrar of Voters / County Clerk conducts municipal elections)",
@@ -1963,23 +2141,26 @@
       "recallAuthorized": true,
       "recallDoctrine": "two_question_standalone",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 25.0,
+      "recallPetitionPercent": 25,
       "recallPetitionBase": "votes_cast_for_office",
       "recallCirculationWindowDays": 90,
-      "recallCitation": "Authority:",
+      "recallCitation": "Nev. Const. Art. 2 § 9; NRS Ch. 306",
       "recallMechanics": "Universal constitutional right. 25% of voters who actually voted in the election at which the officer was elected. Two-question ballot: (1) 'Shall [Officer] be recalled?' (2) Successor ballot.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 15.0,
-      "initiativeExemptSubjects": ["appropriations", "tax_levies"],
-      "initiativeCitation": "Authority:",
+      "initiativePetitionPercent": 15,
+      "initiativeExemptSubjects": [
+        "appropriations",
+        "tax_levies"
+      ],
+      "initiativeCitation": "Nev. Const. Art. 19 § 4; NRS § 295.205 et seq.",
       "initiativeNotes": "15% of registered voters. Council has 30 days to enact ordinance without change or submit to voters at next general election.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "Nev. Const. Art. 19 § 4; NRS § 295.210",
       "referendumNotes": "10% of registered voters filed within 30 days suspends ordinance until council repeals or voters ratify."
     },
     {
@@ -2005,7 +2186,9 @@
       ],
       "seatStructureDefault": "pure_at_large (Towns & Villages) / single_member_districts (Cities per individual charters)",
       "seatStructureCitation": "Town Law § 20, Village Law § 3-301, Local City Charters",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Direct popular election across all cities and villages (2- or 4-yr term). Strong Mayor in major cities (NYC, Buffalo, Syracuse, Albany: executive appointments, veto overridden by 2/3 council). In towns, Supervisor is presiding town board member.",
       "electionAdministration": "county_election_board_coordinated",
       "electionAdministrationCitation": "N.Y. Election Law § 3-200 et seq. (Bipartisan County Board of Elections conducts all general, primary, and town elections; villages may conduct independent March elections)",
@@ -2021,20 +2204,22 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "Matter of Cassella v. City of Schenectady, 281 A.D. 428 (1953); Public Officers Law § 36",
       "recallMechanics": "MUNICIPAL RECALL IS UNCONSTITUTIONAL IN NEW YORK. Appellate Division ruled that local recall charters violate state public officers law and constitution. Removal available ONLY via judicial proceeding in Appellate Division for malfeasance under Public Officers Law § 36.",
       "initiativeAuthorized": false,
       "initiativeForm": "prohibited",
       "initiativePetitionPercent": null,
-      "initiativeExemptSubjects": ["all_general_ordinances"],
-      "initiativeCitation": "Authority:",
+      "initiativeExemptSubjects": [
+        "all_general_ordinances"
+      ],
+      "initiativeCitation": "Municipal Home Rule Law § 37",
       "initiativeNotes": "Citizen initiative for ordinary municipal ordinances is PROHIBITED. Voter initiative permitted ONLY for proposing amendments to a city charter (petition signed by 30,000 electors or 10% of votes cast for Governor under MHRL § 37).",
       "referendumAuthorized": false,
       "protestReferendumAvailable": false,
       "protestReferendumWindowDays": 45,
       "protestReferendumSuspendsOrdinance": false,
       "protestReferendumPercent": null,
-      "referendumCitation": "Authority:",
+      "referendumCitation": "Municipal Home Rule Law §§ 23, 24",
       "referendumNotes": "No general protest referendum on ordinary ordinances. Permissive referendum (protest petition) applies ONLY to structural local laws enumerated in MHRL § 24 (e.g. changing term of office, reducing council salary, curtailing powers of elected official)."
     },
     {
@@ -2045,7 +2230,9 @@
       "homeRuleAuthority": "Ohio Const. Art. XVIII §§ 3, 7 (1912 Home Rule Amendment); R.C. Title 7",
       "ballotStructure": "partisan_default_nonpartisan_optional",
       "ballotCitation": "R.C. § 3513.01, § 3505.04 (MANDATORY PARTISAN ELECTIONS in statutory cities: candidates run in party primaries in May; Charter cities universally prescribe nonpartisan ballots under Art. XVIII § 3)",
-      "electionTimingOptions": ["odd_year_november_consolidated"],
+      "electionTimingOptions": [
+        "odd_year_november_consolidated"
+      ],
       "electionTimingCitation": "R.C. § 3501.01, § 3501.02 (Primary on first Tuesday after first Monday in May; General Election on first Tuesday after first Monday in November of odd-numbered years)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
@@ -2073,23 +2260,25 @@
       "recallAuthorized": true,
       "recallDoctrine": "two_question_standalone",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 20.0,
+      "recallPetitionPercent": 20,
       "recallPetitionBase": "votes_cast_for_office",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "Ohio Const. Art. II § 1f; R.C. Ch. 705; Charters",
       "recallMechanics": "Statutory cities under Title 7 lack recall; universally adopted in Charter cities pursuant to Home Rule Amendment (typically 15-25% signatures).",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 10.0,
-      "initiativeExemptSubjects": ["appropriations_for_current_expenses"],
-      "initiativeCitation": "Authority:",
+      "initiativePetitionPercent": 10,
+      "initiativeExemptSubjects": [
+        "appropriations_for_current_expenses"
+      ],
+      "initiativeCitation": "Ohio Const. Art. II § 1f; R.C. § 731.28",
       "initiativeNotes": "UNIVERSAL CONSTITUTIONAL RIGHT. 10% of electors who voted for Governor at last election. Petition filed with city auditor; auditor certifies to board of elections after 10 days.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "Ohio Const. Art. II § 1f; R.C. § 731.29",
       "referendumNotes": "UNIVERSAL CONSTITUTIONAL RIGHT. 10% voter petition filed within 30 days of ordinance passage SUSPENDS ordinance until approved at next general election."
     },
     {
@@ -2100,10 +2289,12 @@
       "homeRuleAuthority": "Okla. Const. Art. XVIII § 3(a); 11 O.S. § 1-101 et seq. (Oklahoma Municipal Code)",
       "ballotStructure": "nonpartisan_default_partisan_optional",
       "ballotCitation": "11 O.S. § 16-101 et seq. (Nonpartisan default; political party committee may petition for partisan primary: 11 O.S. § 16-106)",
-      "electionTimingOptions": ["odd_year_spring"],
+      "electionTimingOptions": [
+        "odd_year_spring"
+      ],
       "electionTimingCitation": "11 O.S. § 16-101 (Primary on second Tuesday in February; General Election on first Tuesday in April of odd-numbered years; cities may adopt resolution to hold elections in even-numbered years)",
       "runoffRule": "majority_50_plus_1",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "11 O.S. § 16-103 (Candidate receiving majority of votes cast at February primary is elected; if no candidate clears 50%, top two advance to April general)",
       "seatStructureOptions": [
         "single_member_wards",
@@ -2128,23 +2319,26 @@
       "recallAuthorized": true,
       "recallDoctrine": "two_question_standalone",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 25.0,
+      "recallPetitionPercent": 25,
       "recallPetitionBase": "votes_cast_for_office",
       "recallCirculationWindowDays": 60,
-      "recallCitation": "Authority:",
+      "recallCitation": "Okla. Const. Art. VIII § 8; Charters",
       "recallMechanics": "Charter cities universally provide recall (typically 20-30% signatures). Absent in statutory general plans.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 25.0,
-      "initiativeExemptSubjects": ["appropriations", "tax_levies"],
-      "initiativeCitation": "Authority:",
+      "initiativePetitionPercent": 25,
+      "initiativeExemptSubjects": [
+        "appropriations",
+        "tax_levies"
+      ],
+      "initiativeCitation": "Okla. Const. Art. XVIII § 4(a); 11 O.S. § 15-101 et seq.",
       "initiativeNotes": "UNIVERSAL CONSTITUTIONAL RIGHT. 25% of total votes cast at last general municipal election. Council has 30 days to enact or call election.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 25.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 25,
+      "referendumCitation": "Okla. Const. Art. XVIII § 4(b); 11 O.S. § 15-103",
       "referendumNotes": "UNIVERSAL CONSTITUTIONAL RIGHT. 25% voter petition filed within 30 days of publication suspends ordinance pending election."
     },
     {
@@ -2155,10 +2349,12 @@
       "homeRuleAuthority": "Or. Const. Art. XI § 2 (1906 Municipal Home Rule Amendment); ORS Ch. 221",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "ORS § 249.002, § 254.005 ('All municipal elections shall be nonpartisan')",
-      "electionTimingOptions": ["even_year_november_consolidated"],
+      "electionTimingOptions": [
+        "even_year_november_consolidated"
+      ],
       "electionTimingCitation": "ORS § 221.230, § 254.056 (Primary on third Tuesday in May; General Election on first Tuesday after first Monday in November of even-numbered years; all mail-ballot)",
       "runoffRule": "top_two_primary_runoff",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "ORS § 249.088 (Candidate receiving majority of votes in May primary is elected outright; otherwise, top two candidates advance to November general)",
       "seatStructureOptions": [
         "pure_at_large",
@@ -2183,23 +2379,26 @@
       "recallAuthorized": true,
       "recallDoctrine": "two_question_standalone",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 15.0,
+      "recallPetitionPercent": 15,
       "recallPetitionBase": "last_gubernatorial_vote",
       "recallCirculationWindowDays": 90,
-      "recallCitation": "Authority:",
+      "recallCitation": "Or. Const. Art. II § 18; ORS Ch. 249",
       "recallMechanics": "Universal constitutional right. 15% of total votes cast for Governor in that jurisdiction. Official has 5 days to resign; if not, special recall election ordered within 35 days. Yes/No recall question + successor candidates.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 15.0,
-      "initiativeExemptSubjects": ["appropriations", "administrative_actions"],
-      "initiativeCitation": "Authority:",
+      "initiativePetitionPercent": 15,
+      "initiativeExemptSubjects": [
+        "appropriations",
+        "administrative_actions"
+      ],
+      "initiativeCitation": "Or. Const. Art. IV § 1(5); ORS § 250.255 et seq.",
       "initiativeNotes": "UNIVERSAL CONSTITUTIONAL RIGHT. 15% of total votes cast for Governor. Council has 30 days to enact without change or submit to voters.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "Or. Const. Art. IV § 1(5); ORS § 250.255",
       "referendumNotes": "UNIVERSAL CONSTITUTIONAL RIGHT. 10% voter petition filed within 30 days of ordinance adoption suspends ordinance pending election."
     },
     {
@@ -2210,7 +2409,9 @@
       "homeRuleAuthority": "Pa. Const. Art. IX § 2; Home Rule Charter and Optional Plans Law (53 Pa.C.S. § 2901 et seq.)",
       "ballotStructure": "partisan_mandatory",
       "ballotCitation": "25 P.S. § 2862 et seq. (MANDATORY PARTISAN ELECTIONS: party primaries in May; general election in November of odd-numbered years)",
-      "electionTimingOptions": ["odd_year_november_consolidated"],
+      "electionTimingOptions": [
+        "odd_year_november_consolidated"
+      ],
       "electionTimingCitation": "Pa. Const. Art. VII § 3; 25 P.S. § 2754 (Municipal Primary on third Tuesday in May; Municipal Election on first Tuesday after first Monday in November of odd-numbered years)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
@@ -2222,7 +2423,9 @@
       ],
       "seatStructureDefault": "pure_at_large (Boroughs & 3rd Class cities) / wards (Pittsburgh, Philadelphia)",
       "seatStructureCitation": "8 Pa.C.S. § 806, 11 Pa.C.S. § 10901",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Direct election across all forms (4-yr term). In Boroughs, Mayor is weak (presides over police department, votes on council ties, holds suspensive veto overridden by 2/3 council; 8 Pa.C.S. § 1007). Strong Mayor exists in 1st/2nd Class cities (Philly, Pittsburgh) and Home Rule charters.",
       "electionAdministration": "county_election_board_coordinated",
       "electionAdministrationCitation": "25 P.S. § 2641 et seq. (County Board of Elections conducts all municipal elections)",
@@ -2238,20 +2441,22 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "Pa. Const. Art. VI § 7; Citizens Committee to Recall Rizzo v. Board of Elections, 470 Pa. 1 (1976)",
       "recallMechanics": "MUNICIPAL RECALL IS UNCONSTITUTIONAL IN PENNSYLVANIA. The Supreme Court of Pennsylvania held in Citizens Committee to Recall Rizzo (1976) that Article VI Section 7 of the Pennsylvania Constitution establishes the EXCLUSIVE methods for removing elected officers (impeachment or judicial conviction of misbehavior), and local recall charters violate the constitution.",
       "initiativeAuthorized": false,
       "initiativeForm": "prohibited",
       "initiativePetitionPercent": null,
-      "initiativeExemptSubjects": ["all_general_ordinances"],
-      "initiativeCitation": "Authority:",
+      "initiativeExemptSubjects": [
+        "all_general_ordinances"
+      ],
+      "initiativeCitation": "53 Pa.C.S. § 2971",
       "initiativeNotes": "Citizen initiative for general municipal ordinances is ABSENT under standard statutory codes. Available ONLY if explicitly enacted in a Home Rule Charter adopted pursuant to 53 Pa.C.S. § 2971.",
       "referendumAuthorized": false,
       "protestReferendumAvailable": false,
       "protestReferendumWindowDays": null,
       "protestReferendumSuspendsOrdinance": false,
       "protestReferendumPercent": null,
-      "referendumCitation": "Authority:",
+      "referendumCitation": "53 Pa.C.S. § 2971",
       "referendumNotes": "General protest referendum on municipal ordinances does not exist in standard statutory codes. Home Rule charters may authorize protest referenda."
     },
     {
@@ -2262,7 +2467,9 @@
       "homeRuleAuthority": "R.I. Const. Art. XIII (Home Rule); R.I. Gen. Laws Title 45",
       "ballotStructure": "charter_determined",
       "ballotCitation": "R.I.G.L. Title 17 (Partisan in cities like Providence and Cranston; nonpartisan in towns like Newport and South Kingstown per charter)",
-      "electionTimingOptions": ["even_year_november_consolidated"],
+      "electionTimingOptions": [
+        "even_year_november_consolidated"
+      ],
       "electionTimingCitation": "R.I.G.L. § 17-1-2, § 17-18-1 (Primary in September; General Election on first Tuesday after first Monday in November of even-numbered years)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
@@ -2290,23 +2497,25 @@
       "recallAuthorized": true,
       "recallDoctrine": "yes_no_retention",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 20.0,
+      "recallPetitionPercent": 20,
       "recallPetitionBase": "registered_voters",
       "recallCirculationWindowDays": 60,
-      "recallCitation": "Authority:",
+      "recallCitation": "Charters pursuant to R.I. Const. Art. XIII",
       "recallMechanics": "Authorized ONLY where explicitly enacted in a municipal Home Rule Charter (e.g. Cranston, Warwick). Absent under general state law.",
       "initiativeAuthorized": true,
       "initiativeForm": "town_meeting_warrant",
-      "initiativePetitionPercent": 10.0,
-      "initiativeExemptSubjects": ["administrative_matters"],
-      "initiativeCitation": "Authority:",
+      "initiativePetitionPercent": 10,
+      "initiativeExemptSubjects": [
+        "administrative_matters"
+      ],
+      "initiativeCitation": "Financial Town Meeting; Charters",
       "initiativeNotes": "Direct democracy exercised via Financial Town Meeting (FTM) where voters directly approve municipal budget and tax levies. In cities, initiative exists only where granted by charter.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "Charters; R.I. Const. Art. XIII",
       "referendumNotes": "Governed by municipal charters; protest petitions suspend ordinances where charter provides."
     },
     {
@@ -2323,7 +2532,7 @@
       ],
       "electionTimingCitation": "S.C. Code Ann. § 5-15-50 (Municipality fixes election dates by ordinance; commonly first Tuesday after first Monday in November of odd-numbered years, or spring dates)",
       "runoffRule": "locally_selectable",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "S.C. Code Ann. § 5-15-61, § 5-15-62 (If nonpartisan runoff option adopted, candidate must receive majority of votes; otherwise top two advance to runoff held 2 weeks later)",
       "seatStructureOptions": [
         "pure_at_large",
@@ -2332,7 +2541,9 @@
       ],
       "seatStructureDefault": "pure_at_large (small towns) / single_member_districts (Columbia, Charleston)",
       "seatStructureCitation": "S.C. Code Ann. § 5-15-20",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Direct election across all forms (2- or 4-yr term). Strong Mayor under § 5-9-30 (Charleston, Columbia: full administrative appointment, veto overridden by 2/3 council). In Council and Manager forms, Mayor has no veto.",
       "electionAdministration": "county_election_board_coordinated",
       "electionAdministrationCitation": "S.C. Code Ann. § 5-15-145 (Municipalities may transfer election administration to County Board of Voter Registration and Elections)",
@@ -2348,25 +2559,25 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "S.C. Code Ann. Title 5; Op. S.C. Att'y Gen. (July 19, 2007)",
       "recallMechanics": "MUNICIPAL RECALL IS PROHIBITED in South Carolina. State statutes provide no recall authority for municipal officers. Removal is available only via Governor under S.C. Const. Art. VI § 8 for indictment of crimes involving moral turpitude.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 15.0,
+      "initiativePetitionPercent": 15,
       "initiativeExemptSubjects": [
         "appropriation_of_money",
         "tax_levies",
         "salaries_of_city_employees",
         "zoning"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "S.C. Code Ann. § 5-17-10 et seq.",
       "initiativeNotes": "UNIVERSAL STATUTORY RIGHT. Petition signed by 15% of registered electors. Council must pass ordinance without amendment within 60 days or submit to election.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 60,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 15.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 15,
+      "referendumCitation": "S.C. Code Ann. § 5-17-30",
       "referendumNotes": "UNIVERSAL STATUTORY RIGHT. 15% registered elector petition filed within 60 days suspends ordinance until council repeals or election held."
     },
     {
@@ -2383,7 +2594,7 @@
       ],
       "electionTimingCitation": "SDCL § 9-13-1 (Second Tuesday in April annually; municipalities may choose to hold election on first Tuesday after first Monday in June consolidated with statewide primary)",
       "runoffRule": "majority_50_plus_1",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "SDCL § 9-13-26, § 9-13-27 (Secondary election required if no candidate receives majority, unless municipality adopts plurality ordinance under § 9-13-27.1)",
       "seatStructureOptions": [
         "two_aldermen_per_ward",
@@ -2392,7 +2603,9 @@
       ],
       "seatStructureDefault": "two_aldermen_per_ward (Aldermanic: SDCL § 9-8-1; staggered terms)",
       "seatStructureCitation": "SDCL § 9-8-1, § 9-9-1",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Direct election across all forms (2- or 4-yr term). Mayor presides, votes on ties, holds veto overridden by 2/3 council in Aldermanic form (SDCL § 9-8-3).",
       "electionAdministration": "municipal_clerk_locally_administered",
       "electionAdministrationCitation": "SDCL Ch. 9-13 (Finance Officer conducts standalone municipal elections; County Auditor conducts if consolidated with June primary)",
@@ -2405,23 +2618,26 @@
       "recallAuthorized": true,
       "recallDoctrine": "simultaneous_incumbent_replacement",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 15.0,
+      "recallPetitionPercent": 15,
       "recallPetitionBase": "registered_voters",
       "recallCirculationWindowDays": 60,
-      "recallCitation": "Authority:",
+      "recallCitation": "SDCL § 9-13-29 et seq.",
       "recallMechanics": "Universal statutory recall. Petition signed by 15% of registered voters. Incumbent is automatically a candidate on the recall ballot unless declining; challengers run alongside; plurality winner takes office.",
       "initiativeAuthorized": true,
       "initiativeForm": "direct_to_ballot",
-      "initiativePetitionPercent": 5.0,
-      "initiativeExemptSubjects": ["appropriations", "administrative_matters"],
-      "initiativeCitation": "Authority:",
+      "initiativePetitionPercent": 5,
+      "initiativeExemptSubjects": [
+        "appropriations",
+        "administrative_matters"
+      ],
+      "initiativeCitation": "S.D. Const. Art. III § 1; SDCL Ch. 9-20",
       "initiativeNotes": "FIRST STATE IN THE NATION to adopt initiative (1898). Petition signed by 5% of registered voters. Submitted to voters at next annual municipal election or special election.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 20,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 5.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 5,
+      "referendumCitation": "S.D. Const. Art. III § 1; SDCL § 9-20-6",
       "referendumNotes": "Petition signed by 5% of registered voters filed within 20 days after ordinance publication suspends ordinance pending election."
     },
     {
@@ -2439,7 +2655,7 @@
       ],
       "electionTimingCitation": "T.C.A. § 6-53-101; County Election Commission (Municipal elections commonly held in August or November of even-numbered years, or standalone May/September per charter)",
       "runoffRule": "pure_plurality",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": null,
       "runoffCitation": "T.C.A. § 2-8-110 (Plurality election; candidate with highest vote total elected; Metropolitan Nashville requires 50%+1 with runoff under Charter § 15.01)",
       "seatStructureOptions": [
         "pure_at_large",
@@ -2467,20 +2683,23 @@
       "recallPetitionPercent": 33.3,
       "recallPetitionBase": "registered_voters",
       "recallCirculationWindowDays": 30,
-      "recallCitation": "Authority:",
+      "recallCitation": "T.C.A. § 6-20-220 (Manager-Commission); Metro Charters",
       "recallMechanics": "Authorized in City Manager-Commission charters (§ 6-20-220; requires 33.3% registered voters) and Metro charters (Nashville: 15% registered voters). ABSENT in general Mayor-Aldermanic charters.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 25.0,
-      "initiativeExemptSubjects": ["appropriations", "tax_levies"],
-      "initiativeCitation": "Authority:",
+      "initiativePetitionPercent": 25,
+      "initiativeExemptSubjects": [
+        "appropriations",
+        "tax_levies"
+      ],
+      "initiativeCitation": "T.C.A. § 6-20-215; Metro Charters",
       "initiativeNotes": "Authorized in Manager-Commission charters (25% voter petition). Council must pass within 60 days or submit to election. Absent in Mayor-Aldermanic cities.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 25.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 25,
+      "referendumCitation": "T.C.A. § 6-20-218",
       "referendumNotes": "Authorized in Manager-Commission charters (25% voter petition within 30 days suspends ordinance). Absent in Mayor-Aldermanic charters."
     },
     {
@@ -2497,7 +2716,7 @@
       ],
       "electionTimingCitation": "Tex. Elec. Code § 41.001 (Uniform Election Date on first Saturday in May annually; Home Rule charters may opt for first Tuesday after first Monday in November)",
       "runoffRule": "majority_50_plus_1",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "TLGC § 22.010; Tex. Elec. Code § 2.021 (MANDATORY MAJORITY RULE in Type A cities: candidate must receive 50%+1 of votes cast; otherwise top-two runoff held; council may adopt plurality ordinance under § 2.022)",
       "seatStructureOptions": [
         "pure_at_large",
@@ -2506,7 +2725,9 @@
       ],
       "seatStructureDefault": "pure_at_large (Type A: TLGC § 22.031) / single-member districts (Home Rule cities)",
       "seatStructureCitation": "TLGC § 22.031, § 26.041",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Direct election across all forms (2-yr default; 3- or 4-yr terms trigger constitutional resign-to-run). In Type A, Mayor presides, votes only on ties, holds veto overridden by 2/3 aldermen (TLGC § 22.042, § 22.032). Strong Mayor in Houston; Council-Manager dominant in Dallas, Austin, San Antonio, Fort Worth, El Paso.",
       "electionAdministration": "hybrid_clerk_and_county",
       "electionAdministrationCitation": "Tex. Elec. Code § 31.092 (City Secretary conducts May standalone elections, or contracts with County Elections Administrator for joint election under Ch. 271)",
@@ -2519,27 +2740,27 @@
       "recallAuthorized": true,
       "recallDoctrine": "two_question_standalone",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 20.0,
+      "recallPetitionPercent": 20,
       "recallPetitionBase": "registered_voters",
       "recallCirculationWindowDays": 45,
-      "recallCitation": "Authority:",
+      "recallCitation": "Tex. Const. Art. XI § 5; Local Home Rule Charters",
       "recallMechanics": "General Law cities (Type A, B, C) lack statutory authority for recall. UNIVERSALLY ADOPTED in Texas Home Rule Charters (typically 10-25% registered voter signatures). Two-question ballot or replacement ballot per charter.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 15.0,
+      "initiativePetitionPercent": 15,
       "initiativeExemptSubjects": [
         "budget_appropriations",
         "tax_rates",
         "zoning_annexation"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "Home Rule Charters (TLGC Ch. 9)",
       "initiativeNotes": "Absent in General Law cities. Universally provided in Home Rule Charters. Council must pass without amendment or submit to voters.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "Home Rule Charters (TLGC Ch. 9)",
       "referendumNotes": "Home Rule charters grant protest referendum suspending ordinances pending vote."
     },
     {
@@ -2550,15 +2771,22 @@
       "homeRuleAuthority": "Utah Const. Art. XI § 5; Utah Code Ann. (UCA) Title 10",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "UCA § 20A-9-404 ('Municipal elections shall be nonpartisan')",
-      "electionTimingOptions": ["odd_year_november_consolidated"],
+      "electionTimingOptions": [
+        "odd_year_november_consolidated"
+      ],
       "electionTimingCitation": "UCA § 20A-1-201.5, § 20A-1-202 (Municipal Primary on second Tuesday in August; Municipal General Election on first Tuesday after first Monday in November of odd-numbered years; 100% Vote-by-Mail)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
       "runoffCitation": "UCA § 20A-1-304 (Plurality election; Municipal Alternative Voting Methods Pilot Project authorizes municipalities to adopt Ranked-Choice Voting / Instant Runoff Voting under UCA § 20A-4-601 et seq.)",
-      "seatStructureOptions": ["pure_at_large", "single_member_districts"],
+      "seatStructureOptions": [
+        "pure_at_large",
+        "single_member_districts"
+      ],
       "seatStructureDefault": "pure_at_large (5-member council statutory default: UCA § 10-3b-301; staggered 4-year terms) / districts in Salt Lake City",
       "seatStructureCitation": "UCA § 10-3-205.5",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Direct election across all forms (4-yr term). Weak Mayor in 5/6-member council: mayor presides, votes ONLY in case of a tie, and has NO veto power (UCA § 10-3b-304). Strong Mayor under § 10-3b-202: executive head with veto overridden by 2/3 council.",
       "electionAdministration": "county_election_board_coordinated",
       "electionAdministrationCitation": "UCA § 20A-5-400.1 (Municipalities contract with County Clerk to administer mail-ballot elections)",
@@ -2574,7 +2802,7 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "Utah Code Title 10 & 20A; Op. Utah Att'y Gen. (1987)",
       "recallMechanics": "MUNICIPAL RECALL IS PROHIBITED in Utah. The Utah Constitution and statutes provide no recall mechanism for local elected officials. Removal is available only for cause via judicial trial under UCA § 77-6-1.",
       "initiativeAuthorized": true,
       "initiativeForm": "direct_to_ballot",
@@ -2584,14 +2812,14 @@
         "tax_levies",
         "administrative_actions"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "Utah Const. Art. VI § 1(2); UCA Title 20A Ch. 7 Pt. 5 (§ 20A-7-501 et seq.)",
       "initiativeNotes": "UNIVERSAL STATUTORY RIGHT. Tiered signature thresholds: 8% (cities > 100k), 11.5% (cities 10k-100k), 16% (cities < 10k) of total votes cast for Governor in that city. Placed directly on municipal general election ballot.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 45,
       "protestReferendumSuspendsOrdinance": false,
       "protestReferendumPercent": 11.5,
-      "referendumCitation": "Authority:",
+      "referendumCitation": "Utah Const. Art. VI § 1(2); UCA Title 20A Ch. 7 Pt. 6 (§ 20A-7-601 et seq.)",
       "referendumNotes": "Petition filed within 45 days. Does NOT automatically suspend ordinance unless court injunction issued. Voted on at next general election."
     },
     {
@@ -2633,23 +2861,25 @@
       "recallAuthorized": false,
       "recallDoctrine": "judicial_cause_removal_trial",
       "recallGroundsRequired": true,
-      "recallPetitionPercent": 10.0,
+      "recallPetitionPercent": 10,
       "recallPetitionBase": "votes_cast_for_office",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "Va. Code § 24.2-233 et seq. (Judicial Removal Trial)",
       "recallMechanics": "POLITICAL RECALL DOES NOT EXIST IN VIRGINIA. Citizen petition signed by 10% of qualified voters who voted at last election acts ONLY as an application to the Circuit Court to initiate a judicial trial for removal for cause before a circuit judge.",
       "initiativeAuthorized": false,
       "initiativeForm": "prohibited",
       "initiativePetitionPercent": null,
-      "initiativeExemptSubjects": ["all_general_ordinances"],
-      "initiativeCitation": "Authority:",
+      "initiativeExemptSubjects": [
+        "all_general_ordinances"
+      ],
+      "initiativeCitation": "Va. Code Title 15.2",
       "initiativeNotes": "Citizen initiative for general municipal ordinances is PROHIBITED under Virginia law.",
       "referendumAuthorized": false,
       "protestReferendumAvailable": false,
       "protestReferendumWindowDays": null,
       "protestReferendumSuspendsOrdinance": false,
       "protestReferendumPercent": null,
-      "referendumCitation": "Authority:",
+      "referendumCitation": "Va. Code Title 15.2",
       "referendumNotes": "No general protest referendum on municipal ordinances. Advisory referenda permitted only upon circuit court order under Va. Code § 24.2-684."
     },
     {
@@ -2660,7 +2890,9 @@
       "homeRuleAuthority": "Vt. Const. Ch. II § 69; 24 V.S.A. (Municipal and County Government)",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "17 V.S.A. § 2640 et seq. (Town elections nonpartisan; Australian ballot or floor voting)",
-      "electionTimingOptions": ["town_meeting_day_march"],
+      "electionTimingOptions": [
+        "town_meeting_day_march"
+      ],
       "electionTimingCitation": "17 V.S.A. § 2640 (TOWN MEETING DAY: First Tuesday in March annually across the entire state)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
@@ -2691,22 +2923,22 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "24 V.S.A. (Absent in general law; exists only in specific legislative charters)",
       "recallMechanics": "Recall does NOT exist under general Vermont law. Available ONLY if enacted into a municipal charter by special act of the General Assembly.",
       "initiativeAuthorized": true,
       "initiativeForm": "town_meeting_warrant",
-      "initiativePetitionPercent": 5.0,
+      "initiativePetitionPercent": 5,
       "initiativeExemptSubjects": [
         "tax_rates_must_follow_statutory_procedures"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "17 V.S.A. § 2642(a) (Town Meeting Warning Petitions)",
       "initiativeNotes": "Petition signed by 5% of registered voters MANDATES Selectboard to insert proposed article into the warning for the annual Town Meeting.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 5.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 5,
+      "referendumCitation": "17 V.S.A. § 2661 (Reconsideration or Rescission)",
       "referendumNotes": "Petition signed by 5% of registered voters filed within 30 days of town meeting vote forces a vote on RECONSIDERATION or RESCISSION of the measure."
     },
     {
@@ -2717,10 +2949,12 @@
       "homeRuleAuthority": "Wash. Const. Art. XI § 10; RCW Title 35 (Cities) & Title 35A (Optional Municipal Code)",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "RCW § 29A.52.210 ('All city, town, and school district offices shall be nonpartisan')",
-      "electionTimingOptions": ["odd_year_november_consolidated"],
+      "electionTimingOptions": [
+        "odd_year_november_consolidated"
+      ],
       "electionTimingCitation": "RCW § 29A.04.321, § 29A.04.330 (Top-two Primary on first Tuesday in August; General Election on first Tuesday after first Monday in November of odd-numbered years; 100% Vote-by-Mail)",
       "runoffRule": "top_two_primary_runoff",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "RCW § 29A.52.210, § 29A.52.220 (Top-two primary in August eliminates all but top two candidates who advance to November general election; plurality wins in November)",
       "seatStructureOptions": [
         "pure_at_large",
@@ -2745,27 +2979,27 @@
       "recallAuthorized": true,
       "recallDoctrine": "yes_no_retention",
       "recallGroundsRequired": true,
-      "recallPetitionPercent": 25.0,
+      "recallPetitionPercent": 25,
       "recallPetitionBase": "votes_cast_for_office",
       "recallCirculationWindowDays": 180,
-      "recallCitation": "Authority:",
+      "recallCitation": "Wash. Const. Art. I §§ 33, 34; RCW Title 29A Ch. 56 (§ 29A.56.110 et seq.)",
       "recallMechanics": "MANDATORY JUDICIAL SUFFICIENCY HEARING: Petition cannot be circulated until a Superior Court judge conducts a formal hearing to determine whether charges are factually and legally sufficient! 25% (cities 1st/2nd class) or 35% (other cities) of votes cast for that office. Standalone Yes/No vote; vacancy filled by appointment.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 15.0,
+      "initiativePetitionPercent": 15,
       "initiativeExemptSubjects": [
         "appropriations",
         "tax_levies",
         "administrative_matters"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "RCW § 35A.11.080 et seq. (Code Cities); Charters",
       "initiativeNotes": "Authorized in Code Cities and First Class Charters (15% registered voters for regular election; 20% for special election). Council must pass within 30 days or submit to voters.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 10.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 10,
+      "referendumCitation": "RCW § 35A.11.080",
       "referendumNotes": "10% registered voter petition filed within 30 days of ordinance passage suspends ordinance pending election."
     },
     {
@@ -2776,7 +3010,9 @@
       "homeRuleAuthority": "Wis. Const. Art. XI § 3 (Home Rule Amendment); Wis. Stat. Ch. 62 (Cities) & Ch. 61 (Villages)",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "Wis. Stat. § 5.60 ('The official spring ballot shall be nonpartisan and shall contain no party designations')",
-      "electionTimingOptions": ["annual_spring_april"],
+      "electionTimingOptions": [
+        "annual_spring_april"
+      ],
       "electionTimingCitation": "Wis. Stat. § 5.02, § 5.60 (Spring Primary on third Tuesday in February; Spring Election on first Tuesday in April annually)",
       "runoffRule": "pure_plurality",
       "runoffTriggerPercent": null,
@@ -2787,7 +3023,9 @@
       ],
       "seatStructureDefault": "single_member_aldermanic_districts (Cities: Wis. Stat. § 62.08; staggered 2-year terms) / at-large (Villages: 6 Trustees: § 61.20)",
       "seatStructureCitation": "Wis. Stat. § 62.08, § 61.20",
-      "mayorSelectionOptions": ["direct_popular_election"],
+      "mayorSelectionOptions": [
+        "direct_popular_election"
+      ],
       "mayorSelectionNote": "Direct election across all forms (2- or 4-yr term). Mayor is chief executive; votes on ties; holds veto over ordinances and partial/line-item veto over budget appropriations (overridden by 2/3 council: Wis. Stat. § 62.09(8)(c)). In villages, Village President presides, votes as trustee, holds no veto.",
       "electionAdministration": "municipal_clerk_locally_administered",
       "electionAdministrationCitation": "Wis. Stat. § 7.15 (Municipal Clerk conducts all municipal elections and maintains local voter rolls under statewide WisVote system)",
@@ -2800,27 +3038,27 @@
       "recallAuthorized": true,
       "recallDoctrine": "simultaneous_incumbent_replacement",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 25.0,
+      "recallPetitionPercent": 25,
       "recallPetitionBase": "last_gubernatorial_vote",
       "recallCirculationWindowDays": 60,
-      "recallCitation": "Authority:",
+      "recallCitation": "Wis. Const. Art. XIII § 12; Wis. Stat. § 9.10",
       "recallMechanics": "Universal constitutional right. 25% of total votes cast for Governor in that jurisdiction. SIMULTANEOUS REPLACEMENT BALLOT: Incumbent is automatically on recall ballot as candidate unless resigning within 10 days. Challengers file nomination papers. Plurality winner takes office.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 15.0,
+      "initiativePetitionPercent": 15,
       "initiativeExemptSubjects": [
         "administrative_matters",
         "zoning",
         "repeal_of_existing_ordinances"
       ],
-      "initiativeCitation": "Authority:",
+      "initiativeCitation": "Wis. Stat. § 9.20 (Direct Legislation)",
       "initiativeNotes": "UNIVERSAL STATUTORY RIGHT. Petition signed by 15% of votes cast for Governor in municipality. Council must pass without alteration within 30 days or submit to voters at next spring or general election. Under Landt v. City of Wisconsin Dells (1966), direct legislation CANNOT be used to repeal existing legislation.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 60,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 7.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 7,
+      "referendumCitation": "Wis. Stat. § 66.0101 (Charter Ordinances); § 9.20",
       "referendumNotes": "Protest referendum guaranteed against CHARTER ORDINANCES (petition signed by 7% of votes cast for Governor within 60 days forces referendum under Wis. Stat. § 66.0101(8)). Ordinary ordinances are subject to indirect initiative, not protest referendum."
     },
     {
@@ -2866,20 +3104,22 @@
       "recallPetitionPercent": null,
       "recallPetitionBase": "not_applicable",
       "recallCirculationWindowDays": null,
-      "recallCitation": "Authority:",
+      "recallCitation": "W. Va. Code § 8-12-4 (Recall absent in general law; allowed ONLY where explicitly provided in charter)",
       "recallMechanics": "Recall is absent under general state law. Available only if explicitly enacted in a municipal charter under W. Va. Code § 8-12-4(2).",
       "initiativeAuthorized": false,
       "initiativeForm": "prohibited",
       "initiativePetitionPercent": null,
-      "initiativeExemptSubjects": ["all_general_ordinances"],
-      "initiativeCitation": "Authority:",
+      "initiativeExemptSubjects": [
+        "all_general_ordinances"
+      ],
+      "initiativeCitation": "W. Va. Code Ch. 8",
       "initiativeNotes": "Citizen initiative for ordinary municipal ordinances is not authorized by general state statute; exists only where enacted by local charter.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 30,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 15.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 15,
+      "referendumCitation": "W. Va. Code § 8-1-5a (Home Rule Referendum); Charters",
       "referendumNotes": "Under Municipal Home Rule statute (§ 8-1-5a), 15% voter petition filed within 30 days against any proposed home-rule ordinance forces referendum vote."
     },
     {
@@ -2890,10 +3130,12 @@
       "homeRuleAuthority": "Wyo. Const. Art. 13 § 1 (Home Rule Amendment); Wyo. Stat. Title 15",
       "ballotStructure": "nonpartisan_mandatory",
       "ballotCitation": "Wyo. Stat. § 22-23-103 ('All municipal elections shall be nonpartisan')",
-      "electionTimingOptions": ["even_year_november_consolidated"],
+      "electionTimingOptions": [
+        "even_year_november_consolidated"
+      ],
       "electionTimingCitation": "Wyo. Stat. § 22-23-102 (Primary on first Tuesday after third Monday in August; General Election on first Tuesday after first Monday in November of even-numbered years)",
       "runoffRule": "top_two_primary_runoff",
-      "runoffTriggerPercent": 50.0,
+      "runoffTriggerPercent": 50,
       "runoffCitation": "Wyo. Stat. § 22-23-103, § 22-23-401 (Primary in August eliminates all but top two candidates who advance to November general; plurality in November)",
       "seatStructureOptions": [
         "single_member_wards",
@@ -2918,23 +3160,26 @@
       "recallAuthorized": true,
       "recallDoctrine": "two_question_standalone",
       "recallGroundsRequired": false,
-      "recallPetitionPercent": 25.0,
+      "recallPetitionPercent": 25,
       "recallPetitionBase": "votes_cast_for_office",
       "recallCirculationWindowDays": 60,
-      "recallCitation": "Authority:",
+      "recallCitation": "Wyo. Stat. § 15-1-1101 et seq.",
       "recallMechanics": "Universal statutory recall across all cities and towns. 25% of total votes cast for that office at last general election. Two-question ballot: (1) 'Shall [Officer] be recalled?' (2) Successor candidates. If recalled, successor takes office.",
       "initiativeAuthorized": true,
       "initiativeForm": "indirect_council_first",
-      "initiativePetitionPercent": 25.0,
-      "initiativeExemptSubjects": ["appropriations", "tax_levies"],
-      "initiativeCitation": "Authority:",
+      "initiativePetitionPercent": 25,
+      "initiativeExemptSubjects": [
+        "appropriations",
+        "tax_levies"
+      ],
+      "initiativeCitation": "Wyo. Stat. § 15-4-110 (Commission/Manager); Charters",
       "initiativeNotes": "Authorized in Commission and City Manager forms (20-25% of registered electors). Council must pass within 20 days or submit to voters. Limited in Mayor-Council cities.",
       "referendumAuthorized": true,
       "protestReferendumAvailable": true,
       "protestReferendumWindowDays": 20,
       "protestReferendumSuspendsOrdinance": true,
-      "protestReferendumPercent": 25.0,
-      "referendumCitation": "Authority:",
+      "protestReferendumPercent": 25,
+      "referendumCitation": "Wyo. Stat. § 15-4-111",
       "referendumNotes": "Authorized in Commission and Manager forms (25% voter petition within 20 days suspends ordinance until voted upon)."
     }
   ]
