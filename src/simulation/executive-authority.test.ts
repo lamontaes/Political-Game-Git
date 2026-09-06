@@ -21,7 +21,9 @@ import {
 } from "./executive-authority-rule-packs";
 import {
   ALASKA_RULE_PACK,
+  ILLINOIS_RULE_PACK,
   KENTUCKY_RULE_PACK,
+  MINNESOTA_RULE_PACK,
   NEBRASKA_RULE_PACK,
   rulePackById,
 } from "./legislature-rule-packs";
@@ -207,7 +209,6 @@ describe("executive-authority: unsupported fields stay unknown", () => {
     [
       MINNESOTA_EXECUTIVE_PACK,
       [
-        "presentment.legislativeRulePackId",
         "appointment.executiveAppoints",
         "appointment.legislativeConfirmationRequired",
         "appointment.confirmingBody",
@@ -218,7 +219,6 @@ describe("executive-authority: unsupported fields stay unknown", () => {
     [
       ILLINOIS_EXECUTIVE_PACK,
       [
-        "presentment.legislativeRulePackId",
         "appointment.executiveAppoints",
         "appointment.legislativeConfirmationRequired",
         "appointment.confirmingBody",
@@ -391,8 +391,9 @@ describe("executive-authority: presentment references are real packs", () => {
       expect(legislativePack.jurisdictionKey).toBe(pack.jurisdictionKey);
       checked += 1;
     }
-    // Kentucky, Nebraska and Alaska are the three that have a compiled pack.
-    expect(checked).toBe(3);
+    // Kentucky, Nebraska, Alaska, Minnesota and Illinois all have a compiled
+    // legislative pack on main; the federal pack does not.
+    expect(checked).toBe(5);
   });
 
   it("makes a synthetic federal presentment id impossible to construct", () => {
@@ -412,19 +413,27 @@ describe("executive-authority: presentment references are real packs", () => {
       "us-ky-general-assembly-v1",
       "us-ne-legislature-v1",
       "us-ak-legislature-v1",
+      "us-mn-legislature-v1",
+      "us-il-general-assembly-v1",
     ]);
   });
 
   it("fails closed where no legislative pack has been compiled", () => {
-    for (const pack of [
-      US_FEDERAL_EXECUTIVE_PACK,
-      MINNESOTA_EXECUTIVE_PACK,
-      ILLINOIS_EXECUTIVE_PACK,
-    ]) {
-      expect(pack.presentment.legislativeRulePackId.kind).toBe("unknown");
-    }
+    // Federal is now the only unresolved reference: Art. I, Sec. 7 presentment
+    // still has no compiled pack, and nothing here invents one.
+    expect(
+      US_FEDERAL_EXECUTIVE_PACK.presentment.legislativeRulePackId.kind,
+    ).toBe("unknown");
+    expect(
+      EXECUTIVE_AUTHORITY_RULE_PACKS.filter(
+        (pack) => pack.presentment.legislativeRulePackId.kind !== "known",
+      ).map((pack) => pack.packId),
+    ).toEqual(["us-federal-executive-v1"]);
     expect(() =>
-      resolvePresentmentAuthority(MINNESOTA_EXECUTIVE_PACK, KENTUCKY_RULE_PACK),
+      resolvePresentmentAuthority(
+        US_FEDERAL_EXECUTIVE_PACK,
+        KENTUCKY_RULE_PACK,
+      ),
     ).toThrow(/does not reference a legislative pack/);
   });
 });
@@ -487,6 +496,176 @@ describe("executive-authority: presentment composition, not duplication", () => 
 });
 
 // ---------------------------------------------------------------------------
+// Post-#102 reconciliation: Minnesota and Illinois presentment now composes
+// against the legislative packs that PR #102 compiled onto main. These tests
+// prove the reference is a composition of the live artifact and not a second
+// copy of anyone's veto, and that nothing else moved.
+// ---------------------------------------------------------------------------
+
+describe("executive-authority: Minnesota and Illinois presentment after #102", () => {
+  it("resolves Minnesota to the live accepted MN legislative pack", () => {
+    const ref = MINNESOTA_EXECUTIVE_PACK.presentment.legislativeRulePackId;
+    expect(ref.kind).toBe("known");
+    expect(knownValueOrNull(ref)).toBe("us-mn-legislature-v1");
+
+    const mnLegis = rulePackById("us-mn-legislature-v1");
+    expect(mnLegis).toBe(MINNESOTA_RULE_PACK);
+    expect(mnLegis.jurisdictionKey).toBe(
+      MINNESOTA_EXECUTIVE_PACK.jurisdictionKey,
+    );
+
+    // Composition, not duplication: the very same ExecutiveRule object.
+    const resolved = resolvePresentmentAuthority(
+      MINNESOTA_EXECUTIVE_PACK,
+      mnLegis,
+    );
+    expect(resolved).toBe(MINNESOTA_RULE_PACK.executive);
+    expect(resolved.override.kind).toBe("each-chamber");
+  });
+
+  it("resolves Illinois to the live accepted IL legislative pack", () => {
+    const ref = ILLINOIS_EXECUTIVE_PACK.presentment.legislativeRulePackId;
+    expect(ref.kind).toBe("known");
+    expect(knownValueOrNull(ref)).toBe("us-il-general-assembly-v1");
+
+    const ilLegis = rulePackById("us-il-general-assembly-v1");
+    expect(ilLegis).toBe(ILLINOIS_RULE_PACK);
+    expect(ilLegis.jurisdictionKey).toBe(
+      ILLINOIS_EXECUTIVE_PACK.jurisdictionKey,
+    );
+
+    const resolved = resolvePresentmentAuthority(
+      ILLINOIS_EXECUTIVE_PACK,
+      ilLegis,
+    );
+    expect(resolved).toBe(ILLINOIS_RULE_PACK.executive);
+    expect(resolved.override.kind).toBe("each-chamber");
+  });
+
+  it("leaves Kentucky, Nebraska and Alaska resolving exactly as before", () => {
+    const before: readonly [ExecutiveAuthorityRulePack, string][] = [
+      [KENTUCKY_EXECUTIVE_PACK, "us-ky-general-assembly-v1"],
+      [NEBRASKA_EXECUTIVE_PACK, "us-ne-legislature-v1"],
+      [ALASKA_EXECUTIVE_PACK, "us-ak-legislature-v1"],
+    ];
+    for (const [execPack, packId] of before) {
+      expect(knownValueOrNull(execPack.presentment.legislativeRulePackId)).toBe(
+        packId,
+      );
+      const legisPack = rulePackById(packId);
+      expect(resolvePresentmentAuthority(execPack, legisPack)).toBe(
+        legisPack.executive,
+      );
+    }
+  });
+
+  it("keeps federal presentment unknown with no synthetic pack id", () => {
+    const ref = US_FEDERAL_EXECUTIVE_PACK.presentment.legislativeRulePackId;
+    expect(ref.kind).toBe("unknown");
+    expect(knownValueOrNull(ref)).toBeNull();
+    // No compiled federal legislative pack exists to reference.
+    for (const id of [
+      "us-federal-congress-v1",
+      "us-congress-v1",
+      "us-us-congress-v1",
+    ]) {
+      expect(() => rulePackById(id)).toThrow(
+        /No legislative rule pack is registered/,
+      );
+    }
+  });
+
+  it("cannot author a presentment reference to a pack that does not exist", () => {
+    // presentmentRef resolves the live registry, so an id nobody compiled
+    // throws at construction rather than shipping as data.
+    for (const synthetic of [
+      "us-mn-legislature-v2",
+      "US_MN_PRESENTMENT",
+      "us-il-general-assembly",
+    ]) {
+      expect(() => rulePackById(synthetic)).toThrow(
+        /No legislative rule pack is registered/,
+      );
+    }
+    // Every reference actually shipped names a pack in the live registry.
+    for (const pack of EXECUTIVE_AUTHORITY_RULE_PACKS) {
+      const value = knownValueOrNull(pack.presentment.legislativeRulePackId);
+      if (value === null) {
+        continue;
+      }
+      expect(rulePackById(value).packId).toBe(value);
+    }
+  });
+
+  it("promotes no executive field other than MN and IL presentment", () => {
+    // The reconciliation is bounded: presentment for two states, nothing else.
+    // Every other value that was unknown before #102 merged is unknown still.
+    const knownPaths = ALL_RULES.filter((entry) => isKnown(entry.rule)).map(
+      (entry) => `${entry.packId}:${entry.path}`,
+    );
+    expect(knownPaths).toContain(
+      "us-mn-governor-v1:presentment.legislativeRulePackId",
+    );
+    expect(knownPaths).toContain(
+      "us-il-governor-v1:presentment.legislativeRulePackId",
+    );
+
+    // The nine research dimensions 92A did not resolve stay unknown in all
+    // five state packs; this reconciliation was not a source-research pass.
+    const stillUnknown = [
+      "removal.mode",
+      "specialSession.executiveMayConvene",
+      "directive.executiveOrderAuthority",
+      "reorganization.executiveMayReorganize",
+      "emergency.executiveMayDeclare",
+      "clemency.model",
+      "budget.executiveMustSubmit",
+      "administration.faithfulExecutionDuty",
+      "militia.executiveCommands",
+    ];
+    for (const pack of STATE_PACKS) {
+      for (const path of stillUnknown) {
+        expect(knownPaths).not.toContain(`${pack.packId}:${path}`);
+      }
+    }
+
+    // The only presentment references that are known are the five compiled
+    // states — no sixth appeared, and federal did not move.
+    expect(
+      knownPaths.filter((entry) =>
+        entry.endsWith(":presentment.legislativeRulePackId"),
+      ),
+    ).toEqual([
+      "us-ky-governor-v1:presentment.legislativeRulePackId",
+      "us-ne-governor-v1:presentment.legislativeRulePackId",
+      "us-ak-governor-v1:presentment.legislativeRulePackId",
+      "us-mn-governor-v1:presentment.legislativeRulePackId",
+      "us-il-governor-v1:presentment.legislativeRulePackId",
+    ]);
+  });
+
+  it("brings no generic or template citation into the six packs", () => {
+    for (const pack of EXECUTIVE_AUTHORITY_RULE_PACKS) {
+      expect(() => assertExecutiveAuthorityPackIntegrity(pack)).not.toThrow();
+      for (const src of pack.sources) {
+        expect(isGenericCitation(src.citation)).toBe(false);
+      }
+    }
+    // And the two newly referenced packs carry the legislature's own evidence.
+    for (const [execPack, legisPack] of [
+      [MINNESOTA_EXECUTIVE_PACK, MINNESOTA_RULE_PACK],
+      [ILLINOIS_EXECUTIVE_PACK, ILLINOIS_RULE_PACK],
+    ] as const) {
+      const ref = execPack.presentment.legislativeRulePackId;
+      expect(ref.kind).toBe("known");
+      if (ref.kind === "known") {
+        expect(ref.source).toBe(legisPack.executive.source);
+      }
+    }
+  });
+});
+
+// ---------------------------------------------------------------------------
 // (6) (7) (8) Rejected national-matrix values are not carried.
 // ---------------------------------------------------------------------------
 
@@ -531,11 +710,30 @@ describe("executive-authority: rejected national-matrix values are absent", () =
     expect(ILLINOIS_EXECUTIVE_PACK.appointment.confirmingBody.kind).toBe(
       "unknown",
     );
-    // No value or note anywhere in the Illinois pack asserts a supermajority
-    // confirmation rule.
-    const serialized = JSON.stringify(ILLINOIS_EXECUTIVE_PACK);
+    // No value or note the Illinois EXECUTIVE pack authors asserts a
+    // supermajority confirmation rule.
+    //
+    // The scan deliberately excludes the presentment reference. Since #102 that
+    // reference carries the Illinois legislative pack's own source, whose note
+    // states the real Ill. Const. art. IV, Sec. 9 veto-override threshold —
+    // three-fifths of the members elected. That is an override threshold this
+    // pack composes from accepted main, not a confirmation rule this pack
+    // asserts, and it is exactly the evidence composition is supposed to carry.
+    const serialized = JSON.stringify(ILLINOIS_EXECUTIVE_PACK, (key, value) =>
+      key === "presentment" ? undefined : value,
+    );
     expect(serialized).not.toMatch(/three[- ]fifths\s+(vote|majority|of the)/i);
     expect(serialized).not.toMatch(/\b3\/5\b/);
+
+    // And the three-fifths text that IS reachable is the override note, reached
+    // through the legislative pack rather than restated here.
+    const ref = ILLINOIS_EXECUTIVE_PACK.presentment.legislativeRulePackId;
+    expect(ref.kind).toBe("known");
+    if (ref.kind === "known") {
+      expect(ref.source).toBe(ILLINOIS_RULE_PACK.executive.source);
+      expect(ref.source?.citation).toMatch(/art\. IV/i);
+      expect(ref.source?.note ?? "").toMatch(/three-fifths of the members/i);
+    }
   });
 
   it("carries no Minnesota clemency mapping at all", () => {

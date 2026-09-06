@@ -705,9 +705,7 @@ const MINNESOTA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     source: MN_ART5_S1,
   },
   presentment: {
-    legislativeRulePackId: unknownRule(
-      "No Minnesota legislative rule pack has been compiled, so presentment and the veto cannot be resolved through this reference yet.",
-    ),
+    legislativeRulePackId: presentmentRef("us-mn-legislature-v1"),
   },
   appointment: {
     // The officer class the read source covers is judges filling interim
@@ -733,7 +731,6 @@ const MINNESOTA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   sources: [MN_ART5_S1, MN_ART6_S8, MN_CH_10A],
   unresolvedGaps: [
     "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the verified record and stay unknown.",
-    "No Minnesota legislative pack exists on accepted main, so presentment/veto are not yet composable and the reference stays unknown.",
     "Minnesota's general appointment power and confirmation requirement are both unresolved.",
     "Minnesota clemency is unresolved. No clemency mapping is carried: the mapping that appeared in rejected national research rested on a source that does not support it.",
   ],
@@ -780,9 +777,7 @@ const ILLINOIS_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     source: IL_ART5_S1,
   },
   presentment: {
-    legislativeRulePackId: unknownRule(
-      "No Illinois legislative rule pack has been compiled, so presentment and the veto cannot be resolved through this reference yet.",
-    ),
+    legislativeRulePackId: presentmentRef("us-il-general-assembly-v1"),
   },
   appointment: {
     // Art. III, Sec. 5 establishes how one body — the State Board of Elections
@@ -811,7 +806,6 @@ const ILLINOIS_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   sources: [IL_ART5_S1, IL_ART3_S5, IL_ELECTION_CODE],
   unresolvedGaps: [
     "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the verified record and stay unknown.",
-    "No Illinois legislative pack exists on accepted main, so presentment/veto are not yet composable and the reference stays unknown.",
     "The only captured confirmation fact is the State Board of Elections (Senate advice and consent). Illinois's general confirmation clause and its vote requirement are unresolved; no three-fifths rule is carried.",
   ],
 };

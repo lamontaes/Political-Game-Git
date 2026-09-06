@@ -2230,3 +2230,13 @@ Consequence: the substrate is reusable across jurisdictions and grows by adding
 independently verified sourced data, never by widening the engine; a later
 verified research pass fills the unknown dimensions and adds Wisconsin without
 any schema change.
+
+Reconciliation after PR #102 merged (main `982f613`, accepted PR head
+`365ec2d`): #102 compiled the Minnesota (`us-mn-legislature-v1`) and Illinois
+(`us-il-general-assembly-v1`) legislative rule packs, so those two presentment
+references were built through `presentmentRef` against the live registry and
+became `known`. Exactly that changed. Nothing was researched, no other field
+moved off `unknown`, and federal presentment remains `unknown` because no
+federal legislative pack exists to resolve. This is the mechanism working as
+decided above — a reference becomes resolvable when, and only when, the
+artifact it names is actually compiled — not a new claim about either state.
