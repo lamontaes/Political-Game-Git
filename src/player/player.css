@@ -3469,12 +3469,13 @@
 }
 
 .scene-camera .office-working-document-entry {
-  width: 3.8rem;
-  height: 2.7rem;
-  padding: 0.25rem 0.35rem;
-  background: linear-gradient(145deg, #e4d7c3 0%, #d8c7b0 100%);
-  border-left: 3px solid #8e6c46;
-  transform: rotate(-6deg);
+  /* The surface layer paints the only paper. This target uses that slot's
+     exact geometry and must not move independently on hover or focus. */
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
 
 .scene-camera .briefing-memo {
@@ -3488,7 +3489,6 @@
 
 .scene-camera .office-working-document-entry:hover,
 .scene-camera .office-working-document-entry:focus-visible {
-  transform: rotate(-6deg) translateY(-2px) scale(1.03);
   box-shadow:
     0 4px 10px rgba(30, 16, 8, 0.32),
     0 1px 2px rgba(0, 0, 0, 0.15);
@@ -6739,6 +6739,138 @@
 }
 
 /* --- People standing in the room --------------------------------------- */
+
+/* ---------------------------------------------------------------------------
+   Dynamic scene surfaces
+
+   Text on the objects in the room, drawn over the plate. Two rules decide all
+   of it.
+
+   FIRST: the plate already owns the object. The screen, the board, the map and
+   the paper are painted, with their bezels, frames and paper colour. This layer
+   adds the INFORMATION and nothing else, so nothing here is fully opaque — a
+   flat fill over a wall map hides the map to show a caption, which is a worse
+   room than the static one it replaced.
+
+   SECOND: it must look institutional. Government screens, boards and paper are
+   high-contrast, unornamented and legible across a room. Nothing glows, nothing
+   is rounded, nothing animates.
+   --------------------------------------------------------------------------- */
+.scene-surface-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.scene-surface {
+  position: absolute;
+  display: flex;
+  overflow: hidden;
+  font-family: ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.005em;
+  text-wrap: pretty;
+}
+
+.scene-surface-text {
+  display: -webkit-box;
+  max-width: 100%;
+  max-height: 100%;
+  padding: 0.3em 0.45em;
+  overflow: hidden;
+  /* Canonical text longer than the object can hold stops at a LINE, the way
+     it would if it ran off the edge of the real page. It is never rewritten,
+     abbreviated, or replaced with wording nobody wrote. */
+  -webkit-line-clamp: var(--scene-surface-lines, 3);
+  -webkit-box-orient: vertical;
+  /* Words are never broken. A bill number or a dollar figure split across two
+     lines reads as a different number, and a wrong number in a civic room is
+     worse than a clipped one. */
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+/* Surfaces whose whole face IS the display: the information covers them, the
+   way a powered screen covers its own glass. The scrim stays translucent so
+   the bezel, the reflection and the angle of the object still read. */
+.scene-surface--monitor-or-screen,
+.scene-surface--television,
+.scene-surface--roll-call-board {
+  align-items: stretch;
+}
+
+.scene-surface--monitor-or-screen .scene-surface-text,
+.scene-surface--television .scene-surface-text,
+.scene-surface--roll-call-board .scene-surface-text {
+  width: 100%;
+  background: rgb(11 17 22 / 82%);
+  color: #e9eff3;
+}
+
+/* Printed matter pinned or lying flat: paper under room light. */
+.scene-surface--agenda-board,
+.scene-surface--monitor-or-bulletin-board,
+.scene-surface--desk-document,
+.scene-surface--podium-speech-notes,
+.scene-surface--large-framed-chart {
+  align-items: stretch;
+  font-weight: 500;
+}
+
+.scene-surface--agenda-board .scene-surface-text,
+.scene-surface--monitor-or-bulletin-board .scene-surface-text,
+.scene-surface--desk-document .scene-surface-text,
+.scene-surface--podium-speech-notes .scene-surface-text,
+.scene-surface--large-framed-chart .scene-surface-text {
+  width: 100%;
+  background: rgb(246 243 236 / 88%);
+  color: #1b1b19;
+}
+
+/* Objects that carry a caption rather than a display: a map keeps its
+   cartography, a frame keeps its picture, and the words sit along the bottom
+   edge on a card, which is where a title card sits on the real thing. */
+.scene-surface--large-wall-map,
+.scene-surface--picture-frame,
+.scene-surface--official-portrait-slot,
+.scene-surface--window-view,
+.scene-surface--civic-symbol {
+  /* Anchored to the TOP of the slot, where a map's title block goes and where
+     a declared rectangle is most likely to still be over the object it
+     describes: these rectangles are visual estimates traced round a frame,
+     and the slack in one is nearly always below it. */
+  align-items: flex-start;
+}
+
+.scene-surface--large-wall-map .scene-surface-text,
+.scene-surface--picture-frame .scene-surface-text,
+.scene-surface--official-portrait-slot .scene-surface-text,
+.scene-surface--window-view .scene-surface-text,
+.scene-surface--civic-symbol .scene-surface-text {
+  background: rgb(15 20 26 / 78%);
+  color: #f2ede2;
+  letter-spacing: 0.03em;
+}
+
+/* Engraved and cast material: a placard, a plate, a banner. */
+.scene-surface--podium-placard,
+.scene-surface--office-nameplate,
+.scene-surface--title-banner-safe {
+  align-items: center;
+  justify-content: center;
+}
+
+.scene-surface--podium-placard .scene-surface-text,
+.scene-surface--office-nameplate .scene-surface-text,
+.scene-surface--title-banner-safe .scene-surface-text {
+  background: rgb(29 36 48 / 88%);
+  color: #f2ede2;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
 
 .scene-backdrop-people {
   position: fixed;

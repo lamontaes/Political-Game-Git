@@ -125,6 +125,88 @@ export function openProductionArtifacts<T extends string>(
   } as ProductionInput<OpenedArtifacts<T>>;
 }
 
+export interface CachedArtifactPath {
+  readonly artifactId: string;
+  /** Repository-relative path under `.source-cache/<domain>/`. */
+  readonly cachePath: string;
+}
+
+/**
+ * Open locked publisher bytes that are intentionally cache-only.
+ *
+ * State-sharded products can be large enough that committing every raw archive
+ * would turn the repository into the runtime data store. The lock still pins
+ * the exact retrieval and digest; this opener adds only a guarded local cache
+ * path, verifies that its real path remains inside this domain's cache, and
+ * hashes the bytes before granting the same opaque production capability.
+ */
+export function openCachedProductionArtifacts<T extends string>(
+  domain: string,
+  lock: ArtifactLock,
+  artifactsByRole: Readonly<Record<T, CachedArtifactPath>>,
+): ProductionInput<OpenedArtifacts<T>> {
+  if (lock.domain !== domain) {
+    throw new SourceCapabilityError(
+      `Domain "${domain}" was handed the lock for "${lock.domain}".`,
+    );
+  }
+
+  const cacheRoot = resolve(repoRoot(), ".source-cache", domain);
+  const opened: Record<string, OpenedArtifact> = {};
+  for (const [role, requested] of Object.entries(artifactsByRole) as [
+    string,
+    CachedArtifactPath,
+  ][]) {
+    const artifact = requireArtifact(lock, requested.artifactId);
+    if (
+      artifact.storage !== "cached-not-committed" ||
+      artifact.localPath !== null
+    ) {
+      throw new SourceCapabilityError(
+        `Artifact "${requested.artifactId}" is not a cache-only artifact.`,
+      );
+    }
+    if (artifact.quarantined) {
+      throw new SourceCapabilityError(
+        `Artifact "${requested.artifactId}" is quarantined and cannot be opened for production: ${artifact.quarantineReason}`,
+      );
+    }
+    if (artifact.rights.status === "UNKNOWN") {
+      throw new SourceCapabilityError(
+        `Artifact "${requested.artifactId}" has UNKNOWN rights status and may not be opened for production compilation.`,
+      );
+    }
+
+    let real: string;
+    try {
+      real = realpathSync(insideRepo(requested.cachePath));
+    } catch {
+      throw new SourceCapabilityError(
+        `Artifact "${requested.artifactId}" is locked but cache bytes are absent at "${requested.cachePath}". Run its declared acquisition first.`,
+      );
+    }
+    if (real !== cacheRoot && !real.startsWith(cacheRoot + sep)) {
+      throw new SourceCapabilityError(
+        `Artifact "${requested.artifactId}" resolves to "${real}", outside the ${domain} source cache.`,
+      );
+    }
+
+    const bytes = readFileSync(real);
+    const digest = sha256Hex(bytes);
+    if (digest !== artifact.bytes.sha256) {
+      throw new SourceCapabilityError(
+        `Artifact "${requested.artifactId}" at "${requested.cachePath}" hashes to ${digest}, but the lock pins ${artifact.bytes.sha256}. These are not the publisher's bytes.`,
+      );
+    }
+    opened[role] = { artifact, bytes };
+  }
+
+  return {
+    artifacts: opened as OpenedArtifacts<T>,
+    lock,
+  } as ProductionInput<OpenedArtifacts<T>>;
+}
+
 /**
  * Open a fixture.
  *
