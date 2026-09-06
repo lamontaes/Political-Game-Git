@@ -3,6 +3,14 @@
 //   npm run prose:eval -- hygiene
 //     Fail if holdout-eval material leaks into the civic-prose skill/agent.
 //
+//   npm run prose:eval -- ground <packet-file> <output-file>
+//     Run the deterministic grounding gate over one candidate output and print
+//     PASS or the specific unsupported claims. Never rewrites prose.
+//
+//   npm run prose:eval -- probes
+//     Run the deterministic gate over every fresh grounding probe in
+//     scripts/prose-eval/fixtures/grounding/ and report mismatches.
+//
 //   npm run prose:eval -- bundle <run-dir> [seed]
 //     Read raw outputs from <run-dir>/raw/<PACKET>__<CONFIG>.md (CONFIG one of
 //     A|B|C|D), write anonymized per-packet review files to <run-dir>/review/
@@ -13,7 +21,13 @@
 // This tooling never judges prose. Owner preference is decisive; no model
 // judge is called anywhere in the harness.
 
-import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import {
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import { join } from "node:path";
 import {
   CONFIG_IDS,
@@ -22,10 +36,18 @@ import {
   type ConfigId,
   type RawOutput,
 } from "./lib";
+import { checkGrounding, formatGroundingReport } from "./grounding";
+import { loadProbes } from "./probes";
 
+// Everything the holdout-hygiene hard rule names: the Skill, both prose agents,
+// the fresh grounding probes, and the grounding tests. Retired holdout packets
+// may not appear in any of them.
 const SKILL_ROOTS = [
   ".claude/skills/civic-prose",
   ".claude/agents/civic-prose-writer.md",
+  ".claude/agents/civic-prose-grounding-reviewer.md",
+  "scripts/prose-eval/fixtures/grounding",
+  "scripts/prose-eval/grounding.test.ts",
 ];
 
 function listFilesRecursive(path: string): string[] {
@@ -38,7 +60,7 @@ function listFilesRecursive(path: string): string[] {
 
 function runHygiene(): number {
   const paths = SKILL_ROOTS.flatMap((root) =>
-    root.endsWith(".md") ? [root] : listFilesRecursive(root),
+    statSync(root).isDirectory() ? listFilesRecursive(root) : [root],
   );
   const files = paths.map((path) => ({
     path,
@@ -135,11 +157,65 @@ function runBundle(runDir: string, seed: string): number {
   return 0;
 }
 
+function runGround(packetPath: string, outputPath: string): number {
+  const report = checkGrounding(
+    readFileSync(packetPath, "utf8"),
+    readFileSync(outputPath, "utf8"),
+  );
+  const text = formatGroundingReport(report);
+  if (report.pass) {
+    console.log(text);
+    return 0;
+  }
+  console.error(text);
+  return 1;
+}
+
+function runProbes(): number {
+  const probes = loadProbes();
+  let failures = 0;
+  for (const probe of probes) {
+    const report = checkGrounding(probe.packet, probe.output);
+    const expected = probe.expectPass ? "PASS" : `FAIL ${probe.expectedRule}`;
+    const rules = report.findings.map((finding) => finding.rule);
+    const ok = probe.expectPass
+      ? report.pass
+      : !report.pass && rules.includes(probe.expectedRule!);
+    if (ok) {
+      console.log(`probe ${probe.id}: OK (${expected})`);
+    } else {
+      failures += 1;
+      console.error(
+        `probe ${probe.id}: expected ${expected}, got ` +
+          (report.pass ? "PASS" : `FAIL ${rules.join(",")}`),
+      );
+    }
+  }
+  console.log(
+    `probes: ${probes.length - failures}/${probes.length} grounding probes behaved as specified`,
+  );
+  return failures === 0 ? 0 : 1;
+}
+
 const [command, ...args] = process.argv.slice(2);
 let exitCode: number;
 switch (command) {
   case "hygiene":
     exitCode = runHygiene();
+    break;
+  case "ground": {
+    const packetPath = args[0];
+    const outputPath = args[1];
+    if (!packetPath || !outputPath) {
+      console.error("usage: prose:eval ground <packet-file> <output-file>");
+      exitCode = 1;
+      break;
+    }
+    exitCode = runGround(packetPath, outputPath);
+    break;
+  }
+  case "probes":
+    exitCode = runProbes();
     break;
   case "bundle": {
     const runDir = args[0];
@@ -152,7 +228,10 @@ switch (command) {
     break;
   }
   default:
-    console.error("usage: prose:eval <hygiene | bundle <run-dir> [seed]>");
+    console.error(
+      "usage: prose:eval <hygiene | ground <packet-file> <output-file> | " +
+        "probes | bundle <run-dir> [seed]>",
+    );
     exitCode = 1;
 }
 process.exit(exitCode);

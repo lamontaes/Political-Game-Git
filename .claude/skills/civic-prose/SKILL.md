@@ -30,7 +30,8 @@ income, schedule, time, location, and context — never a profession simulator.
    (news, letters, legal documents, memos, dossiers) keep their native
    register.
 3. **Draft under the contract.** `references/prose-contract.md` is the full
-   accepted authority. Calibrated examples live in `examples/approved.jsonl`,
+   accepted authority, and `references/grounding-gate.md` is the enumerated
+   grounding floor beneath it. Calibrated examples live in `examples/approved.jsonl`,
    `examples/rejected.jsonl`, and `examples/needs-context.jsonl` — each row
    records WHY, and conditional approvals carry their condition. Never promote
    a conditional example into a universal template.
@@ -41,10 +42,16 @@ income, schedule, time, location, and context — never a profession simulator.
    - `MISSING_CONTEXT` — a specific missing fact is necessary; name it,
      produce no prose, never an invented rescue. Do not choose this when a
      natural fact-safe omission still satisfies the requested moment.
-5. **Self-check the hard gates** before returning: no invention; character
-   knowledge respected; no system-label leakage; choice labels describe
-   actions only; certain intrinsic consequences exposed before confirmation;
-   player choice outranks trait; no unearned drama or filler.
+5. **Run the grounding gate.** This is a separate stage, not a glance back
+   over the draft — a general self-check already existed and still shipped
+   invented dates, invented delivery, and widened scope. Follow the verification
+   procedure in `references/grounding-gate.md`: inventory the claims, trace each
+   one to a packet line, and walk all six enumerated classes by name (days and
+   dates; delivery and staging; scope; player identity; surface authority;
+   character knowledge). Then confirm the remaining hard gates: no
+   system-label leakage; choice labels describe actions only; certain intrinsic
+   consequences exposed before confirmation; player choice outranks trait; no
+   unearned drama or filler.
 6. **Run the owner style pass** below. Grounding decides whether prose is
    legal; the owner rules decide whether it is good. Most rejected prose is
    grounded and still wrong.
@@ -89,7 +96,8 @@ are rows in `examples/rejected.jsonl`.
     feel authored.
 
 Grounding outranks all ten: none of these authorize inventing a fact, motive,
-object, reaction, or causal link to make a line land better.
+object, reaction, or causal link to make a line land better. When a style rule
+and the grounding gate disagree, the gate wins and the sentence changes.
 
 ### Before returning, scan for these
 
@@ -100,6 +108,21 @@ or shapes; "the version X put in the room"; "changes the shape of the"; "say
 the plain thing"; "holding the sentence"; "the one you've met exactly once";
 "The offer: $"; a final sentence that interprets the scene instead of ending
 it.
+
+## Verification is enforced, not self-reported
+
+Two development-time mechanisms sit outside the writer's own judgement:
+
+- `npm run prose:eval -- ground <packet-file> <output-file>` — deterministic
+  check for the enumerated grounding classes. No model call, runs in CI. It is
+  a floor: it catches those classes and defers the rest.
+- `civic-prose-grounding-reviewer` — a separate agent that does semantic
+  claim-vs-packet checking and returns `GROUNDING: PASS` or the specific
+  unsupported claims. It never rewrites prose and never judges style. Its reply
+  is parsed fail-closed, so a malformed verdict is never read as a pass.
+
+`npm run prose:eval -- probes` runs the fresh synthetic grounding probes in
+`scripts/prose-eval/fixtures/grounding/`.
 
 ## Conditional rules at scale
 

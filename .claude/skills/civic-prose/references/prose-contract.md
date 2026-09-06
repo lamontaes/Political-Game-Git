@@ -37,6 +37,13 @@ state/seed/content stays reproducible.
    consequences, locations, arrivals/departures, feelings, social reactions,
    connective events, or knowledge the character has not acquired.
    "You get home around 11" is legal only if the packet establishes arrival.
+   The enumerated, checkable form of this rule — and the verification stage
+   that enforces it — is `grounding-gate.md`. It is binding, not advisory.
+   In particular: no day/date/time the packet does not supply; no invented
+   delivery channel, arrival, or staging; no widening one actor's action or
+   non-action to a group; no player gender or third-person pronoun; and
+   SURFACE/OUTPUT REQUEST controls form, so a task note is not staged as
+   dialogue and a direct interaction is not collapsed into a task card.
 2. **Three knowledge layers.** World truth, player knowledge, and character
    knowledge are distinct. Character-facing narration asserts as known only
    what the character actually acquired. The child who hears "Not this month"
