@@ -418,6 +418,7 @@ describe("Rule packs say what their sources say", () => {
     const citations = ALASKA_RULE_PACK.sources.map((source) => source.citation);
     expect(citations).not.toContain("Uniform Rule 22");
     expect(citations).toContain("Uniform Rule 23");
+    expect(citations).toContain("Uniform Rule 35");
     expect(citations).toContain("Uniform Rule 43");
   });
 

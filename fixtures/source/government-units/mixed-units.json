@@ -1,0 +1,7 @@
+{
+  "__fixture": true,
+  "fixtureId": "government-units/mixed-units",
+  "artifacts": {
+    "listingTsv": "government_id\tgovernment_name\tstate_usps\tstate_fips\tgovernment_type\tstatus\tvintage\tcensus_place_geoid\tcounty_geoid\n90100100100000\tCounty of Example\tZZ\t\tCounty\tACTIVE\t2025\t\t\n90200101000000\tCity of Example\tZZ\t\tMunicipal\tACTIVE\t2025\t\t\n90200103000000\tCity of Linked\tZZ\t\tMunicipal\tACTIVE\t2025\t9099999\t\n90300100500000\tExample Township\tZZ\t\tTownship\tACTIVE\t2025\t\t\n90400001200000\tExample Fire Protection District\tZZ\t\tSpecial District\tACTIVE\t2025\t\t\n90500100300000\tExample Independent School District\tZZ\t\tSchool District\tACTIVE\t2025\t\t\n90200109900000\tVillage of Former\tZZ\t\tMunicipal\tINACTIVE\t2025\t\t\n90200105000000\tTown of Uncertain\tZZ\t\t\t\t2025\t\t\n91100100100000\tCounty of Sample\tYY\t\tCounty\tACTIVE\t2025\t\t\n91200302000000\tCity of Coastal\tYY\t\tMunicipal\tACTIVE\t2025\t\t\n"
+  }
+}

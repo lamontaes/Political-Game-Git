@@ -1,0 +1,106 @@
+{
+  "tool": "source-sheet-chop-v1",
+  "sourcePath": "art/references/candidates/wave-a-morphology/source-sheets/additional fat female pose.png",
+  "sourceSha256": "0667551c8c73fe77ec9b01e0d69072f6525f6ab65623ba559d4ab6a68e1ba5c7",
+  "sourceWidth": 4352,
+  "sourceHeight": 3904,
+  "options": {
+    "alphaNoiseThreshold": 8,
+    "paddingPixels": 64,
+    "minimumGapPixels": 24,
+    "minimumComponentPixels": 20000
+  },
+  "columnBands": [
+    {
+      "start": 230,
+      "end": 1208
+    },
+    {
+      "start": 1633,
+      "end": 2704
+    },
+    {
+      "start": 2946,
+      "end": 4175
+    }
+  ],
+  "rowBands": [
+    {
+      "start": 438,
+      "end": 3770
+    }
+  ],
+  "noisePixelsCleared": 4220798,
+  "cells": [
+    {
+      "cellId": "R1C1",
+      "row": 1,
+      "column": 1,
+      "sourceBox": {
+        "x": 230,
+        "y": 439,
+        "width": 979,
+        "height": 3332
+      },
+      "centroidNormalized": {
+        "x": 0.164071,
+        "y": 0.528086
+      },
+      "exportWidth": 1107,
+      "exportHeight": 3460,
+      "opaquePixels": 2057542,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 40988,
+      "outputPath": "art/generated/candidates/wave-a-morphology/additional-fat-female-pose/wave_a_additional_fat_female_standing_conversational_hands_clasped_v1.png",
+      "sha256": "3af8331dbe4c26b20cf853731dd9f6c3b21a02cdc63f64f3fc91f57ff71a719d"
+    },
+    {
+      "cellId": "R1C2",
+      "row": 1,
+      "column": 2,
+      "sourceBox": {
+        "x": 1633,
+        "y": 761,
+        "width": 1072,
+        "height": 2851
+      },
+      "centroidNormalized": {
+        "x": 0.498866,
+        "y": 0.553624
+      },
+      "exportWidth": 1200,
+      "exportHeight": 2979,
+      "opaquePixels": 1771273,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 44266,
+      "outputPath": "art/generated/candidates/wave-a-morphology/additional-fat-female-pose/wave_a_additional_fat_female_seated_interaction_surface_v1.png",
+      "sha256": "c02884caf39bea153fe2614235de0ea01ec3b7cadfd1509d8a5c88e1a7d5ba02"
+    },
+    {
+      "cellId": "R1C3",
+      "row": 1,
+      "column": 3,
+      "sourceBox": {
+        "x": 2946,
+        "y": 438,
+        "width": 1230,
+        "height": 1294
+      },
+      "centroidNormalized": {
+        "x": 0.824703,
+        "y": 0.312597
+      },
+      "exportWidth": 1358,
+      "exportHeight": 1422,
+      "opaquePixels": 813816,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 26289,
+      "outputPath": "art/generated/candidates/wave-a-morphology/additional-fat-female-pose/wave_a_additional_fat_female_standing_lectern_interaction_v1.png",
+      "sha256": "83551a083092f8fd053483f7402a6a814cc6ebe301343054c4a72ced6e8a0eda"
+    }
+  ],
+  "rejectedFragments": []
+}
