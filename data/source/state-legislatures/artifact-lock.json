@@ -1,0 +1,545 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "ak-constitution",
+      "bytes": {
+        "length": 362321,
+        "sha256": "d72b68a640262aad7c25d7906741bda4ee19aef529a3a4cb896580570d63d476"
+      },
+      "localPath": "data/source/state-legislatures/raw/ak-constitution.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Lieutenant Governor, State of Alaska",
+      "publisher": {
+        "documentationUrl": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 362321,
+        "retrievedAt": "2026-09-06T18:45:27.267Z",
+        "url": "https://ltgov.alaska.gov/information/alaskas-constitution/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of Alaska. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ca-constitution-article-4",
+      "bytes": {
+        "length": 183809,
+        "sha256": "233b020b79d211bdd6e6c465c93389d7b24e7617260f08379aacb9c5b75d1123"
+      },
+      "localPath": "data/source/state-legislatures/raw/ca-constitution-article-4.html",
+      "mediaType": "text/html",
+      "provider": "California Legislative Counsel of California",
+      "publisher": {
+        "documentationUrl": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&division=&title=&part=&chapter=&article=IV",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 183809,
+        "retrievedAt": "2026-09-06T18:45:27.746Z",
+        "url": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&division=&title=&part=&chapter=&article=IV"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of California. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "de-constitution-article-2",
+      "bytes": {
+        "length": 62697,
+        "sha256": "f7920b5fbae62dfb17e353d1bc088b044b1d370c5426919c9dff7f88c067dbb6"
+      },
+      "localPath": "data/source/state-legislatures/raw/de-constitution-article-2.html",
+      "mediaType": "text/html",
+      "provider": "Delaware Code, Office of the Delaware Code Revisors",
+      "publisher": {
+        "documentationUrl": "https://delcode.delaware.gov/constitution/constitution-03.shtml",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 62697,
+        "retrievedAt": "2026-09-06T18:45:28.529Z",
+        "url": "https://delcode.delaware.gov/constitution/constitution-03.shtml"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of Delaware. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "fl-constitution",
+      "bytes": {
+        "length": 622854,
+        "sha256": "cd56710740c0ff6e7595384afd7b12745c19ee28f44abbad8a32a20e4f4d82db"
+      },
+      "localPath": "data/source/state-legislatures/raw/fl-constitution.html",
+      "mediaType": "text/html",
+      "provider": "The Florida Senate",
+      "publisher": {
+        "documentationUrl": "https://www.flsenate.gov/Laws/Constitution",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 622854,
+        "retrievedAt": "2026-09-06T18:45:29.862Z",
+        "url": "https://www.flsenate.gov/Laws/Constitution"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of Florida. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "hi-constitution",
+      "bytes": {
+        "length": 236123,
+        "sha256": "d9a7b4af7ae2cc6c0ddb4ccf54e2f5d392d2962a1205dc5076e56cc793cd97e3"
+      },
+      "localPath": "data/source/state-legislatures/raw/hi-constitution.html",
+      "mediaType": "text/html",
+      "provider": "Hawaii Legislative Reference Bureau",
+      "publisher": {
+        "documentationUrl": "https://lrb.hawaii.gov/constitution/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 236123,
+        "retrievedAt": "2026-09-06T18:45:30.799Z",
+        "url": "https://lrb.hawaii.gov/constitution/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of Hawaii. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "id-constitution-article-3-section-2",
+      "bytes": {
+        "length": 93653,
+        "sha256": "767b379ed8a16fdd2e007bb4d688bce5b855ffcc98006e1ee84c2d84f56fdea2"
+      },
+      "localPath": "data/source/state-legislatures/raw/id-constitution-article-3-section-2.html",
+      "mediaType": "text/html",
+      "provider": "Idaho State Legislature",
+      "publisher": {
+        "documentationUrl": "https://legislature.idaho.gov/statutesrules/idconst/artiii/sect2/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 93653,
+        "retrievedAt": "2026-09-06T18:45:31.835Z",
+        "url": "https://legislature.idaho.gov/statutesrules/idconst/artiii/sect2/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of Idaho. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "il-constitution-article-4",
+      "bytes": {
+        "length": 16462,
+        "sha256": "59c10c5dd47c9cec1a85b8793283f2b3d2cf04f4a883bcb6d8dbc16b2eb15198"
+      },
+      "localPath": "data/source/state-legislatures/raw/il-constitution-article-4.html",
+      "mediaType": "text/html",
+      "provider": "Illinois General Assembly, Legislative Reference Bureau",
+      "publisher": {
+        "documentationUrl": "https://www.ilga.gov/commission/lrb/con4.htm",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 16462,
+        "retrievedAt": "2026-09-06T18:45:32.115Z",
+        "url": "https://www.ilga.gov/commission/lrb/con4.htm"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of Illinois. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ma-constitution",
+      "bytes": {
+        "length": 458396,
+        "sha256": "d78569b99a5fb26a60c6291653389df991d9db257925958cc321de71bf8f64e6"
+      },
+      "localPath": "data/source/state-legislatures/raw/ma-constitution.html",
+      "mediaType": "text/html",
+      "provider": "The 194th General Court of the Commonwealth of Massachusetts",
+      "publisher": {
+        "documentationUrl": "https://malegislature.gov/Laws/Constitution",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 458396,
+        "retrievedAt": "2026-09-06T18:45:32.550Z",
+        "url": "https://malegislature.gov/Laws/Constitution"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of Massachusetts. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "mn-constitution",
+      "bytes": {
+        "length": 150014,
+        "sha256": "6bfe2bc1b70379d84df07ea00d6c5c516f1ba4388bd941662c2c5c7a0b834254"
+      },
+      "localPath": "data/source/state-legislatures/raw/mn-constitution.html",
+      "mediaType": "text/html",
+      "provider": "Minnesota Office of the Revisor of Statutes",
+      "publisher": {
+        "documentationUrl": "https://www.revisor.mn.gov/constitution/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 150014,
+        "retrievedAt": "2026-09-06T18:45:33.018Z",
+        "url": "https://www.revisor.mn.gov/constitution/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of Minnesota. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "mn-statutes-2-021",
+      "bytes": {
+        "length": 61245,
+        "sha256": "40af850248d0d5cfee25cd4722d850ee29baa2e592a8d9e1bc6f44a0e4c45da4"
+      },
+      "localPath": "data/source/state-legislatures/raw/mn-statutes-2-021.html",
+      "mediaType": "text/html",
+      "provider": "Minnesota Office of the Revisor of Statutes",
+      "publisher": {
+        "documentationUrl": "https://www.revisor.mn.gov/statutes/cite/2.021",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 61245,
+        "retrievedAt": "2026-09-06T18:45:33.083Z",
+        "url": "https://www.revisor.mn.gov/statutes/cite/2.021"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the Minnesota Legislature. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "nc-constitution-article-2",
+      "bytes": {
+        "length": 63834,
+        "sha256": "facc48e54c1544892470d18296ed5a2b8b3e74c814d8ad471cec9876ba829bf2"
+      },
+      "localPath": "data/source/state-legislatures/raw/nc-constitution-article-2.html",
+      "mediaType": "text/html",
+      "provider": "North Carolina General Assembly",
+      "publisher": {
+        "documentationUrl": "https://www.ncleg.gov/Laws/Constitution/Article2",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 63834,
+        "retrievedAt": "2026-09-06T18:45:33.392Z",
+        "url": "https://www.ncleg.gov/Laws/Constitution/Article2"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of North Carolina. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ne-constitution-article-3-section-1",
+      "bytes": {
+        "length": 30389,
+        "sha256": "4f22c94908b3bad7bde72e9c49466fbdc25092ed13450825889bd2f8fbb211dc"
+      },
+      "localPath": "data/source/state-legislatures/raw/ne-constitution-article-3-section-1.html",
+      "mediaType": "text/html",
+      "provider": "Nebraska Legislature",
+      "publisher": {
+        "documentationUrl": "https://nebraskalegislature.gov/laws/articles.php?article=III-1",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 30389,
+        "retrievedAt": "2026-09-06T18:45:33.811Z",
+        "url": "https://nebraskalegislature.gov/laws/articles.php?article=III-1"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of Nebraska. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ne-constitution-article-3-section-6",
+      "bytes": {
+        "length": 21905,
+        "sha256": "03a182b167c35d66ebae79f1e23a1b38c496aa690c99f99594f68865c67998c3"
+      },
+      "localPath": "data/source/state-legislatures/raw/ne-constitution-article-3-section-6.html",
+      "mediaType": "text/html",
+      "provider": "Nebraska Legislature",
+      "publisher": {
+        "documentationUrl": "https://nebraskalegislature.gov/laws/articles.php?article=III-6",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 21905,
+        "retrievedAt": "2026-09-06T18:45:33.878Z",
+        "url": "https://nebraskalegislature.gov/laws/articles.php?article=III-6"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of Nebraska. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "nv-constitution",
+      "bytes": {
+        "length": 431607,
+        "sha256": "726067b645f47709f00c2cf23ee6a514f7fc64381fd6c1f6eb0b1f48b31c51cc"
+      },
+      "localPath": "data/source/state-legislatures/raw/nv-constitution.html",
+      "mediaType": "text/html",
+      "provider": "Nevada Legislature, Legislative Counsel Bureau",
+      "publisher": {
+        "documentationUrl": "https://www.leg.state.nv.us/const/nvconst.html",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 431607,
+        "retrievedAt": "2026-09-06T18:45:34.207Z",
+        "url": "https://www.leg.state.nv.us/const/nvconst.html"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of Nevada. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "oh-constitution-article-2",
+      "bytes": {
+        "length": 91421,
+        "sha256": "8180d526a21c7c0f68b2bfa5fe049a9e26ee929471e21318595c260d873e9608"
+      },
+      "localPath": "data/source/state-legislatures/raw/oh-constitution-article-2.html",
+      "mediaType": "text/html",
+      "provider": "Ohio Laws and Administrative Rules, Legislative Service Commission",
+      "publisher": {
+        "documentationUrl": "https://codes.ohio.gov/ohio-constitution/article-2",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 91421,
+        "retrievedAt": "2026-09-06T18:45:34.702Z",
+        "url": "https://codes.ohio.gov/ohio-constitution/article-2"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of Ohio. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "or-constitution",
+      "bytes": {
+        "length": 643208,
+        "sha256": "25e2dfcc84c3fbd851f6dff028abd7114888607985ea6ea74252e758bc7f3673"
+      },
+      "localPath": "data/source/state-legislatures/raw/or-constitution.html",
+      "mediaType": "text/html",
+      "provider": "Oregon State Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.oregonlegislature.gov/bills_laws/Pages/OrConst.aspx",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 643208,
+        "retrievedAt": "2026-09-06T18:45:35.554Z",
+        "url": "https://www.oregonlegislature.gov/bills_laws/Pages/OrConst.aspx"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of Oregon. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "va-constitution-article-4-section-3",
+      "bytes": {
+        "length": 24439,
+        "sha256": "1b8f02691393f9a5459a40f37dfd5c7f1b27b60d7cbb5c869a4c0528544fbd0f"
+      },
+      "localPath": "data/source/state-legislatures/raw/va-constitution-article-4-section-3.html",
+      "mediaType": "text/html",
+      "provider": "Virginia Law Portal, Virginia General Assembly",
+      "publisher": {
+        "documentationUrl": "https://law.lis.virginia.gov/constitution/article4/section3/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 24439,
+        "retrievedAt": "2026-09-06T18:45:36.158Z",
+        "url": "https://law.lis.virginia.gov/constitution/article4/section3/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of Virginia. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "va-constitution-article-4-section-2",
+      "bytes": {
+        "length": 24377,
+        "sha256": "7290f58d4cc5f74d21cf6d1f326922123901286f7b39cba2bd02239c7625dd34"
+      },
+      "localPath": "data/source/state-legislatures/raw/va-constitution-article-4-section-2.html",
+      "mediaType": "text/html",
+      "provider": "Virginia Law Portal, Virginia General Assembly",
+      "publisher": {
+        "documentationUrl": "https://law.lis.virginia.gov/constitution/article4/section2/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 24377,
+        "retrievedAt": "2026-09-06T18:45:36.306Z",
+        "url": "https://law.lis.virginia.gov/constitution/article4/section2/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edictBasis": "Enacted by the people of Virginia. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "state-legislatures"
+}

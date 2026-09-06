@@ -58,12 +58,30 @@ export interface ArtifactPublisherFacts {
  * `UNKNOWN` is a legitimate answer and must never be inferred from the fact
  * that something was publicly reachable — the same rule AGENTS.md already
  * applies to art assets, applied to data.
+ *
+ * `public-domain-government-edict` is a fourth answer and not a softening of
+ * that rule. The substrate's first thirteen domains all read federal statistical
+ * products, for which `public-domain-us-government` is exactly right. A state
+ * constitution is not a work of the United States government, so that status
+ * would be false for it; `UNKNOWN` would be false in the other direction,
+ * because the edicts doctrine is a positive determination about the text of an
+ * enacted law rather than an absence of information. The status therefore
+ * carries a mandatory `edictBasis` naming the enacting body and the doctrine,
+ * so that a reader sees the determination rather than an assumption. It covers
+ * the enacted text only, never a publisher's annotations, headnotes or site
+ * furniture, and it may never be reached by inferring that something was
+ * publicly reachable.
  */
 export interface ArtifactRights {
   readonly status:
-    "public-domain-us-government" | "declared-license" | "UNKNOWN";
+    | "public-domain-us-government"
+    | "public-domain-government-edict"
+    | "declared-license"
+    | "UNKNOWN";
   readonly declaredLicense: string | null;
   readonly attributionRequired: boolean | "UNKNOWN";
+  /** Required for `public-domain-government-edict`: whose edict, under what doctrine. */
+  readonly edictBasis?: string;
 }
 
 /** How a QA slice was cut out of its parent, precisely enough to re-cut it. */
@@ -168,6 +186,17 @@ export function assertValidRawArtifact(artifact: RawArtifact): void {
   }
   if (artifact.quarantined && !artifact.quarantineReason?.trim()) {
     fail("is quarantined without a reason.");
+  }
+  if (artifact.rights.status === "public-domain-government-edict") {
+    if (!artifact.rights.edictBasis?.trim()) {
+      fail(
+        "claims the government-edicts doctrine but names no enacting body or doctrine. An edict determination that will not say whose edict it is has not been made.",
+      );
+    }
+  } else if (artifact.rights.edictBasis !== undefined) {
+    fail(
+      `names an edictBasis while claiming rights status "${artifact.rights.status}"; the basis belongs only to public-domain-government-edict.`,
+    );
   }
 }
 
