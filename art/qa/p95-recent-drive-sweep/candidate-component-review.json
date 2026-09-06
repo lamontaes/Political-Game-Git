@@ -1,0 +1,3782 @@
+{
+  "schema": "p95-wave-a-candidate-component-review-v1",
+  "releaseStatus": "CANDIDATE_REFERENCE_ONLY",
+  "productionPixelsReleased": false,
+  "componentCount": 111,
+  "components": [
+    {
+      "family": "fat-man",
+      "sourceFilename": "fat man.png",
+      "sourceSha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C1",
+      "row": 1,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_neutral_front_a_v1.png",
+      "choppedDimensions": {
+        "width": 725,
+        "height": 1739
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 597,
+        "height": 1611
+      },
+      "opaquePixels": 582484,
+      "centroidNormalized": {
+        "x": 0.114045,
+        "y": 0.256506
+      },
+      "outputSha256": "465d9a7fa14d26cd3d2bdc3d7e22ba54b02fa7c7a031c56e2713fcb40ec661a3",
+      "apparentPoseCategory": "standing_neutral_front_a_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "fat-man",
+      "sourceFilename": "fat man.png",
+      "sourceSha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C2",
+      "row": 1,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_conversational_open_hand_v1.png",
+      "choppedDimensions": {
+        "width": 861,
+        "height": 1742
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 733,
+        "height": 1614
+      },
+      "opaquePixels": 513602,
+      "centroidNormalized": {
+        "x": 0.357,
+        "y": 0.255036
+      },
+      "outputSha256": "9402d567e95852171bd21e4e5d40abf2016022c4798f392a5fec39d136000f42",
+      "apparentPoseCategory": "standing_conversational_open_hand_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "fat-man",
+      "sourceFilename": "fat man.png",
+      "sourceSha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C3",
+      "row": 1,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_neutral_back_v1.png",
+      "choppedDimensions": {
+        "width": 671,
+        "height": 1743
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 543,
+        "height": 1615
+      },
+      "opaquePixels": 543382,
+      "centroidNormalized": {
+        "x": 0.634066,
+        "y": 0.258705
+      },
+      "outputSha256": "df661f6c5fd25676e1b510dd7ffbde206123eccd193de0e598b864bcd09b4c9e",
+      "apparentPoseCategory": "standing_neutral_back_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "fat-man",
+      "sourceFilename": "fat man.png",
+      "sourceSha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C4",
+      "row": 1,
+      "column": 4,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_lectern_interaction_v1.png",
+      "choppedDimensions": {
+        "width": 906,
+        "height": 1743
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 778,
+        "height": 1615
+      },
+      "opaquePixels": 534459,
+      "centroidNormalized": {
+        "x": 0.889242,
+        "y": 0.255482
+      },
+      "outputSha256": "dd9f6deb637d57e63a644473f67385a25f623578ead8b138e107d49255ffa30a",
+      "apparentPoseCategory": "standing_lectern_interaction_v1",
+      "bakedPropStatus": "LECTERN",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "fat-man",
+      "sourceFilename": "fat man.png",
+      "sourceSha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C1",
+      "row": 2,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_front_chair_v1.png",
+      "choppedDimensions": {
+        "width": 747,
+        "height": 1607
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 619,
+        "height": 1479
+      },
+      "opaquePixels": 566002,
+      "centroidNormalized": {
+        "x": 0.11389,
+        "y": 0.769961
+      },
+      "outputSha256": "8ffbf576e4b74465159734996adefb7146ec22d68b34709273933ec1fc5e2fdc",
+      "apparentPoseCategory": "seated_front_chair_v1",
+      "bakedPropStatus": "CHAIR",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "fat-man",
+      "sourceFilename": "fat man.png",
+      "sourceSha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C2",
+      "row": 2,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_interaction_surface_v1.png",
+      "choppedDimensions": {
+        "width": 1148,
+        "height": 1596
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 1020,
+        "height": 1468
+      },
+      "opaquePixels": 540129,
+      "centroidNormalized": {
+        "x": 0.370777,
+        "y": 0.769952
+      },
+      "outputSha256": "18564c0ed947e6a22f12d83754d0a9a6de94460c37c13ad7fc6b3a0105a081e7",
+      "apparentPoseCategory": "seated_interaction_surface_v1",
+      "bakedPropStatus": "DESK",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "fat-man",
+      "sourceFilename": "fat man.png",
+      "sourceSha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C3",
+      "row": 2,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_conversational_open_hand_v1.png",
+      "choppedDimensions": {
+        "width": 882,
+        "height": 1604
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 754,
+        "height": 1476
+      },
+      "opaquePixels": 527736,
+      "centroidNormalized": {
+        "x": 0.626598,
+        "y": 0.769815
+      },
+      "outputSha256": "33f9a882da3fa1c7761103fea8ba64fe60fd498c50c94cc1ea7233afea9a3eab",
+      "apparentPoseCategory": "seated_conversational_open_hand_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "fat-man",
+      "sourceFilename": "fat man.png",
+      "sourceSha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C4",
+      "row": 2,
+      "column": 4,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_neutral_profile_v1.png",
+      "choppedDimensions": {
+        "width": 512,
+        "height": 1703
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 384,
+        "height": 1575
+      },
+      "opaquePixels": 398225,
+      "centroidNormalized": {
+        "x": 0.895025,
+        "y": 0.755931
+      },
+      "outputSha256": "2fe412c17216ba81ac3658e94724504d69a993b485c9796131c50b780c59e379",
+      "apparentPoseCategory": "standing_neutral_profile_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "female-tops",
+      "sourceFilename": "female top.png",
+      "sourceSha256": "24f08760efcb553771b52a21a5025a663f5b6ceebf75a1f7514d5a1a25ea5a6b",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R1C1",
+      "row": 1,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_gray_short_sleeve_tee_v1.png",
+      "choppedDimensions": {
+        "width": 924,
+        "height": 1000
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 796,
+        "height": 872
+      },
+      "opaquePixels": 491222,
+      "centroidNormalized": {
+        "x": 0.165469,
+        "y": 0.119857
+      },
+      "outputSha256": "51e5e23e6d21473eda212d368e59ea674782b4ecbe25f642893706f366582949",
+      "apparentPoseCategory": "wave_a_female_top_gray_short_sleeve_tee_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "female-tops",
+      "sourceFilename": "female top.png",
+      "sourceSha256": "24f08760efcb553771b52a21a5025a663f5b6ceebf75a1f7514d5a1a25ea5a6b",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R1C2",
+      "row": 1,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_olive_button_up_shirt_v1.png",
+      "choppedDimensions": {
+        "width": 1093,
+        "height": 1130
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 965,
+        "height": 1002
+      },
+      "opaquePixels": 712040,
+      "centroidNormalized": {
+        "x": 0.500086,
+        "y": 0.13333
+      },
+      "outputSha256": "b9cba6f0582af7874f4bef7ec8f0306fa24a52982c23ee9a67d807c178d8644f",
+      "apparentPoseCategory": "wave_a_female_top_olive_button_up_shirt_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "female-tops",
+      "sourceFilename": "female top.png",
+      "sourceSha256": "24f08760efcb553771b52a21a5025a663f5b6ceebf75a1f7514d5a1a25ea5a6b",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R1C3",
+      "row": 1,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_mustard_cable_sweater_v1.png",
+      "choppedDimensions": {
+        "width": 1096,
+        "height": 1080
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 968,
+        "height": 952
+      },
+      "opaquePixels": 713922,
+      "centroidNormalized": {
+        "x": 0.834659,
+        "y": 0.13465
+      },
+      "outputSha256": "0a72d8194152ed711a657871fbddaeac134474010c4731e93173cc09351d2201",
+      "apparentPoseCategory": "wave_a_female_top_mustard_cable_sweater_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "female-tops",
+      "sourceFilename": "female top.png",
+      "sourceSha256": "24f08760efcb553771b52a21a5025a663f5b6ceebf75a1f7514d5a1a25ea5a6b",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R2C1",
+      "row": 2,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_charcoal_blazer_v1.png",
+      "choppedDimensions": {
+        "width": 1102,
+        "height": 1134
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 974,
+        "height": 1006
+      },
+      "opaquePixels": 736340,
+      "centroidNormalized": {
+        "x": 0.165495,
+        "y": 0.383182
+      },
+      "outputSha256": "584abc22a8e3313e865f2c71913083128a339a1d79dddd7a52ccb5597c1c81c4",
+      "apparentPoseCategory": "wave_a_female_top_charcoal_blazer_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "female-tops",
+      "sourceFilename": "female top.png",
+      "sourceSha256": "24f08760efcb553771b52a21a5025a663f5b6ceebf75a1f7514d5a1a25ea5a6b",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R2C2",
+      "row": 2,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_navy_zip_hoodie_v1.png",
+      "choppedDimensions": {
+        "width": 1080,
+        "height": 1137
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 952,
+        "height": 1009
+      },
+      "opaquePixels": 739363,
+      "centroidNormalized": {
+        "x": 0.500173,
+        "y": 0.381496
+      },
+      "outputSha256": "b2ef42b821bc7e4904efcc3bf1f4475e6bd7e7ad23563b377ae69bec48821ef5",
+      "apparentPoseCategory": "wave_a_female_top_navy_zip_hoodie_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "female-tops",
+      "sourceFilename": "female top.png",
+      "sourceSha256": "24f08760efcb553771b52a21a5025a663f5b6ceebf75a1f7514d5a1a25ea5a6b",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R2C3",
+      "row": 2,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_burgundy_short_sleeve_polo_v1.png",
+      "choppedDimensions": {
+        "width": 1092,
+        "height": 1120
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 964,
+        "height": 992
+      },
+      "opaquePixels": 687672,
+      "centroidNormalized": {
+        "x": 0.834489,
+        "y": 0.379196
+      },
+      "outputSha256": "564ae37f67ef25f042dcf91beea4f52e9c1fdb9dbeceed8965f28efa062f2bee",
+      "apparentPoseCategory": "wave_a_female_top_burgundy_short_sleeve_polo_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "female-tops",
+      "sourceFilename": "female top.png",
+      "sourceSha256": "24f08760efcb553771b52a21a5025a663f5b6ceebf75a1f7514d5a1a25ea5a6b",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R3C1",
+      "row": 3,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_plaid_overshirt_v1.png",
+      "choppedDimensions": {
+        "width": 1091,
+        "height": 1146
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 963,
+        "height": 1018
+      },
+      "opaquePixels": 728976,
+      "centroidNormalized": {
+        "x": 0.164977,
+        "y": 0.632868
+      },
+      "outputSha256": "70de10e2457e02caf7341fd3dc7d2f4598fc16eac9d4c1994ddb3512f0cbd4b2",
+      "apparentPoseCategory": "wave_a_female_top_plaid_overshirt_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "female-tops",
+      "sourceFilename": "female top.png",
+      "sourceSha256": "24f08760efcb553771b52a21a5025a663f5b6ceebf75a1f7514d5a1a25ea5a6b",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R3C2",
+      "row": 3,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_tan_utility_shirt_v1.png",
+      "choppedDimensions": {
+        "width": 1093,
+        "height": 1145
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 965,
+        "height": 1017
+      },
+      "opaquePixels": 732097,
+      "centroidNormalized": {
+        "x": 0.500108,
+        "y": 0.633779
+      },
+      "outputSha256": "7f700ef99d564666ba24585338843870c3f2a9309a56a3bf6ae00b7ffb3cdbed",
+      "apparentPoseCategory": "wave_a_female_top_tan_utility_shirt_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "female-tops",
+      "sourceFilename": "female top.png",
+      "sourceSha256": "24f08760efcb553771b52a21a5025a663f5b6ceebf75a1f7514d5a1a25ea5a6b",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R3C3",
+      "row": 3,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_teal_shell_jacket_v1.png",
+      "choppedDimensions": {
+        "width": 1096,
+        "height": 1144
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 968,
+        "height": 1016
+      },
+      "opaquePixels": 756823,
+      "centroidNormalized": {
+        "x": 0.834724,
+        "y": 0.634458
+      },
+      "outputSha256": "d53f4fe3473cd7e4c418c3c57cfa04ac7e009c5db68be342ca582b223a00e247",
+      "apparentPoseCategory": "wave_a_female_top_teal_shell_jacket_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "female-tops",
+      "sourceFilename": "female top.png",
+      "sourceSha256": "24f08760efcb553771b52a21a5025a663f5b6ceebf75a1f7514d5a1a25ea5a6b",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R4C1",
+      "row": 4,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_cream_cardigan_v1.png",
+      "choppedDimensions": {
+        "width": 1102,
+        "height": 1109
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 974,
+        "height": 981
+      },
+      "opaquePixels": 749484,
+      "centroidNormalized": {
+        "x": 0.164371,
+        "y": 0.884667
+      },
+      "outputSha256": "4588d83dc0f3eb88340251185b20cef75706d14472b80998a9b07cd3243fb23f",
+      "apparentPoseCategory": "wave_a_female_top_cream_cardigan_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "female-tops",
+      "sourceFilename": "female top.png",
+      "sourceSha256": "24f08760efcb553771b52a21a5025a663f5b6ceebf75a1f7514d5a1a25ea5a6b",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R4C2",
+      "row": 4,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_olive_puffer_vest_layered_v1.png",
+      "choppedDimensions": {
+        "width": 1091,
+        "height": 1133
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 963,
+        "height": 1005
+      },
+      "opaquePixels": 712490,
+      "centroidNormalized": {
+        "x": 0.500009,
+        "y": 0.876629
+      },
+      "outputSha256": "efce6486c6dabaec07deba4eabc4589a479738ac98359850d3e9ae72bebf4231",
+      "apparentPoseCategory": "wave_a_female_top_olive_puffer_vest_layered_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "female-tops",
+      "sourceFilename": "female top.png",
+      "sourceSha256": "24f08760efcb553771b52a21a5025a663f5b6ceebf75a1f7514d5a1a25ea5a6b",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R4C3",
+      "row": 4,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_brown_fur_hood_parka_v1.png",
+      "choppedDimensions": {
+        "width": 1113,
+        "height": 1284
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 985,
+        "height": 1156
+      },
+      "opaquePixels": 900864,
+      "centroidNormalized": {
+        "x": 0.835777,
+        "y": 0.880756
+      },
+      "outputSha256": "0fd48c0aa095b87df31c661205d5db11bb2e0e21c88a78a0ed842cd291f1a604",
+      "apparentPoseCategory": "wave_a_female_top_brown_fur_hood_parka_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-bottoms",
+      "sourceFilename": "male bottom.png",
+      "sourceSha256": "9afbb75c07d9343d43150bced2ecf21cbbd1583ef540081823d2aa31b02fdf64",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R1C1",
+      "row": 1,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_blue_straight_jeans_v1.png",
+      "choppedDimensions": {
+        "width": 625,
+        "height": 1220
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 497,
+        "height": 1092
+      },
+      "opaquePixels": 452873,
+      "centroidNormalized": {
+        "x": 0.166742,
+        "y": 0.127609
+      },
+      "outputSha256": "32ed4bb5a92dd80320319e58095c182fa326fd5e72c8336b4104887d81d1a7db",
+      "apparentPoseCategory": "wave_a_male_bottom_blue_straight_jeans_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-bottoms",
+      "sourceFilename": "male bottom.png",
+      "sourceSha256": "9afbb75c07d9343d43150bced2ecf21cbbd1583ef540081823d2aa31b02fdf64",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R1C2",
+      "row": 1,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_charcoal_dress_trousers_v1.png",
+      "choppedDimensions": {
+        "width": 629,
+        "height": 1223
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 501,
+        "height": 1095
+      },
+      "opaquePixels": 456850,
+      "centroidNormalized": {
+        "x": 0.499876,
+        "y": 0.127162
+      },
+      "outputSha256": "3bd6193d36a7f728771d063cddd59af105b753f78b9b52562e6bb141128247ab",
+      "apparentPoseCategory": "wave_a_male_bottom_charcoal_dress_trousers_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-bottoms",
+      "sourceFilename": "male bottom.png",
+      "sourceSha256": "9afbb75c07d9343d43150bced2ecf21cbbd1583ef540081823d2aa31b02fdf64",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R1C3",
+      "row": 1,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_khaki_chinos_v1.png",
+      "choppedDimensions": {
+        "width": 628,
+        "height": 1221
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 500,
+        "height": 1093
+      },
+      "opaquePixels": 450650,
+      "centroidNormalized": {
+        "x": 0.832865,
+        "y": 0.126646
+      },
+      "outputSha256": "192f6ca43531b6662b8535a583656ae2eae31fdd2bbfdc4300719ed3f322e6f4",
+      "apparentPoseCategory": "wave_a_male_bottom_khaki_chinos_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-bottoms",
+      "sourceFilename": "male bottom.png",
+      "sourceSha256": "9afbb75c07d9343d43150bced2ecf21cbbd1583ef540081823d2aa31b02fdf64",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R2C1",
+      "row": 2,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_navy_work_trousers_v1.png",
+      "choppedDimensions": {
+        "width": 667,
+        "height": 1195
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 539,
+        "height": 1067
+      },
+      "opaquePixels": 466774,
+      "centroidNormalized": {
+        "x": 0.166812,
+        "y": 0.376895
+      },
+      "outputSha256": "b555c371b44e123fa133fb9bdff7cb3279ae817a4ee0c423ba1b360290ad110e",
+      "apparentPoseCategory": "wave_a_male_bottom_navy_work_trousers_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-bottoms",
+      "sourceFilename": "male bottom.png",
+      "sourceSha256": "9afbb75c07d9343d43150bced2ecf21cbbd1583ef540081823d2aa31b02fdf64",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R2C2",
+      "row": 2,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_brown_corduroy_trousers_v1.png",
+      "choppedDimensions": {
+        "width": 633,
+        "height": 1194
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 505,
+        "height": 1066
+      },
+      "opaquePixels": 449599,
+      "centroidNormalized": {
+        "x": 0.499951,
+        "y": 0.374923
+      },
+      "outputSha256": "3f2523e146496199acc52aedf3e00fd9d1fcfb296cd106d2938e6a95e976a3da",
+      "apparentPoseCategory": "wave_a_male_bottom_brown_corduroy_trousers_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-bottoms",
+      "sourceFilename": "male bottom.png",
+      "sourceSha256": "9afbb75c07d9343d43150bced2ecf21cbbd1583ef540081823d2aa31b02fdf64",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R2C3",
+      "row": 2,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_khaki_shorts_v1.png",
+      "choppedDimensions": {
+        "width": 669,
+        "height": 790
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 541,
+        "height": 662
+      },
+      "opaquePixels": 323057,
+      "centroidNormalized": {
+        "x": 0.83426,
+        "y": 0.341466
+      },
+      "outputSha256": "9049e18f48d9233d43bd252a8a1861678ffa0c346bc4ebcbb7e7d353c2bee095",
+      "apparentPoseCategory": "wave_a_male_bottom_khaki_shorts_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-bottoms",
+      "sourceFilename": "male bottom.png",
+      "sourceSha256": "9afbb75c07d9343d43150bced2ecf21cbbd1583ef540081823d2aa31b02fdf64",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R3C1",
+      "row": 3,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_black_joggers_v1.png",
+      "choppedDimensions": {
+        "width": 638,
+        "height": 1199
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 510,
+        "height": 1071
+      },
+      "opaquePixels": 450597,
+      "centroidNormalized": {
+        "x": 0.167105,
+        "y": 0.618225
+      },
+      "outputSha256": "3ca2213e5486b4e83428462fa4913ba5f28b68f664ae1a66d10b2e59c88c379b",
+      "apparentPoseCategory": "wave_a_male_bottom_black_joggers_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-bottoms",
+      "sourceFilename": "male bottom.png",
+      "sourceSha256": "9afbb75c07d9343d43150bced2ecf21cbbd1583ef540081823d2aa31b02fdf64",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R3C2",
+      "row": 3,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_tan_cargo_trousers_v1.png",
+      "choppedDimensions": {
+        "width": 659,
+        "height": 1199
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 531,
+        "height": 1071
+      },
+      "opaquePixels": 492250,
+      "centroidNormalized": {
+        "x": 0.500052,
+        "y": 0.622554
+      },
+      "outputSha256": "08948b451e6fcdf246313bc17207ed941256ce683254630aad9dd19b68afe100",
+      "apparentPoseCategory": "wave_a_male_bottom_tan_cargo_trousers_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-bottoms",
+      "sourceFilename": "male bottom.png",
+      "sourceSha256": "9afbb75c07d9343d43150bced2ecf21cbbd1583ef540081823d2aa31b02fdf64",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R3C3",
+      "row": 3,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_light_gray_dress_trousers_v1.png",
+      "choppedDimensions": {
+        "width": 629,
+        "height": 1203
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 501,
+        "height": 1075
+      },
+      "opaquePixels": 458562,
+      "centroidNormalized": {
+        "x": 0.834355,
+        "y": 0.620018
+      },
+      "outputSha256": "70a47827743d070bef92a1e220f41b1066a76a67a85a1d07cd4936556e81b21d",
+      "apparentPoseCategory": "wave_a_male_bottom_light_gray_dress_trousers_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-bottoms",
+      "sourceFilename": "male bottom.png",
+      "sourceSha256": "9afbb75c07d9343d43150bced2ecf21cbbd1583ef540081823d2aa31b02fdf64",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R4C1",
+      "row": 4,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_dark_blue_slim_jeans_v1.png",
+      "choppedDimensions": {
+        "width": 629,
+        "height": 1214
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 501,
+        "height": 1086
+      },
+      "opaquePixels": 437785,
+      "centroidNormalized": {
+        "x": 0.167049,
+        "y": 0.866928
+      },
+      "outputSha256": "ab1566c228c4075cc0ecd0a51c572d07ece8dd6361f2d8cd95bc5c59b6526164",
+      "apparentPoseCategory": "wave_a_male_bottom_dark_blue_slim_jeans_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-bottoms",
+      "sourceFilename": "male bottom.png",
+      "sourceSha256": "9afbb75c07d9343d43150bced2ecf21cbbd1583ef540081823d2aa31b02fdf64",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R4C2",
+      "row": 4,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_olive_cargo_trousers_v1.png",
+      "choppedDimensions": {
+        "width": 668,
+        "height": 1211
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 540,
+        "height": 1083
+      },
+      "opaquePixels": 479586,
+      "centroidNormalized": {
+        "x": 0.500073,
+        "y": 0.870337
+      },
+      "outputSha256": "b95c815acdb264529753b365a3d5d714a038c242b4a1647353595e53e01058c2",
+      "apparentPoseCategory": "wave_a_male_bottom_olive_cargo_trousers_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-bottoms",
+      "sourceFilename": "male bottom.png",
+      "sourceSha256": "9afbb75c07d9343d43150bced2ecf21cbbd1583ef540081823d2aa31b02fdf64",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R4C3",
+      "row": 4,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_light_blue_dress_trousers_v1.png",
+      "choppedDimensions": {
+        "width": 628,
+        "height": 1217
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 500,
+        "height": 1089
+      },
+      "opaquePixels": 461409,
+      "centroidNormalized": {
+        "x": 0.834402,
+        "y": 0.869826
+      },
+      "outputSha256": "62b05656c23b6d323f4ea9e92a8277d240e24b569acca04410fdf0e0a0d388f2",
+      "apparentPoseCategory": "wave_a_male_bottom_light_blue_dress_trousers_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-tops",
+      "sourceFilename": "male tops.png",
+      "sourceSha256": "f8404c6b67480e8d20e22c8895f135b865920b5970cc27dfc2a2eaa72a9da7a8",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R1C1",
+      "row": 1,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_gray_long_sleeve_tee_v1.png",
+      "choppedDimensions": {
+        "width": 960,
+        "height": 1038
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 832,
+        "height": 910
+      },
+      "opaquePixels": 638276,
+      "centroidNormalized": {
+        "x": 0.142618,
+        "y": 0.14119
+      },
+      "outputSha256": "cfed1f9537a711dfacd1699fb0004e8c37619de2dcd9a1bdf0fd67caac7070e2",
+      "apparentPoseCategory": "wave_a_male_top_gray_long_sleeve_tee_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-tops",
+      "sourceFilename": "male tops.png",
+      "sourceSha256": "f8404c6b67480e8d20e22c8895f135b865920b5970cc27dfc2a2eaa72a9da7a8",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R1C2",
+      "row": 1,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_white_button_up_shirt_v1.png",
+      "choppedDimensions": {
+        "width": 995,
+        "height": 1126
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 867,
+        "height": 998
+      },
+      "opaquePixels": 681324,
+      "centroidNormalized": {
+        "x": 0.500191,
+        "y": 0.140431
+      },
+      "outputSha256": "544f2dbc58ec6b7dddcaf83a9bcae170f317e0acfff1b0b16904036cce345060",
+      "apparentPoseCategory": "wave_a_male_top_white_button_up_shirt_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-tops",
+      "sourceFilename": "male tops.png",
+      "sourceSha256": "f8404c6b67480e8d20e22c8895f135b865920b5970cc27dfc2a2eaa72a9da7a8",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R1C3",
+      "row": 1,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_green_cable_sweater_v1.png",
+      "choppedDimensions": {
+        "width": 979,
+        "height": 1071
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 851,
+        "height": 943
+      },
+      "opaquePixels": 662755,
+      "centroidNormalized": {
+        "x": 0.857469,
+        "y": 0.141283
+      },
+      "outputSha256": "1eb6764ac1199f74bfee7cd0f3167decbf93bfe3d35819076e0ddf7667a674df",
+      "apparentPoseCategory": "wave_a_male_top_green_cable_sweater_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-tops",
+      "sourceFilename": "male tops.png",
+      "sourceSha256": "f8404c6b67480e8d20e22c8895f135b865920b5970cc27dfc2a2eaa72a9da7a8",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R2C1",
+      "row": 2,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_charcoal_blazer_v1.png",
+      "choppedDimensions": {
+        "width": 964,
+        "height": 1127
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 836,
+        "height": 999
+      },
+      "opaquePixels": 678541,
+      "centroidNormalized": {
+        "x": 0.141907,
+        "y": 0.391328
+      },
+      "outputSha256": "3b9a37c78f16f1b8eeb15d26f6468caaacbf1b32b7c87c706ddac638ed124a86",
+      "apparentPoseCategory": "wave_a_male_top_charcoal_blazer_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-tops",
+      "sourceFilename": "male tops.png",
+      "sourceSha256": "f8404c6b67480e8d20e22c8895f135b865920b5970cc27dfc2a2eaa72a9da7a8",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R2C2",
+      "row": 2,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_navy_zip_hoodie_v1.png",
+      "choppedDimensions": {
+        "width": 1001,
+        "height": 1097
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 873,
+        "height": 969
+      },
+      "opaquePixels": 695541,
+      "centroidNormalized": {
+        "x": 0.500199,
+        "y": 0.387196
+      },
+      "outputSha256": "92ae4a33324dd91f639e0de0180e688e50a367aca5dedbdacf0821e9aa6c6d6b",
+      "apparentPoseCategory": "wave_a_male_top_navy_zip_hoodie_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-tops",
+      "sourceFilename": "male tops.png",
+      "sourceSha256": "f8404c6b67480e8d20e22c8895f135b865920b5970cc27dfc2a2eaa72a9da7a8",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R2C3",
+      "row": 2,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_burgundy_long_sleeve_polo_v1.png",
+      "choppedDimensions": {
+        "width": 968,
+        "height": 1091
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 840,
+        "height": 963
+      },
+      "opaquePixels": 658839,
+      "centroidNormalized": {
+        "x": 0.857928,
+        "y": 0.388602
+      },
+      "outputSha256": "551970660fa522654e720a06ab1536ad1aa6e66b6732590dea1694942280d3be",
+      "apparentPoseCategory": "wave_a_male_top_burgundy_long_sleeve_polo_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-tops",
+      "sourceFilename": "male tops.png",
+      "sourceSha256": "f8404c6b67480e8d20e22c8895f135b865920b5970cc27dfc2a2eaa72a9da7a8",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R3C1",
+      "row": 3,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_plaid_overshirt_v1.png",
+      "choppedDimensions": {
+        "width": 988,
+        "height": 1118
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 860,
+        "height": 990
+      },
+      "opaquePixels": 673587,
+      "centroidNormalized": {
+        "x": 0.141429,
+        "y": 0.638323
+      },
+      "outputSha256": "e8af739512747fa15daf239c570a3159458ae583e53d8f9c28b96b579d456386",
+      "apparentPoseCategory": "wave_a_male_top_plaid_overshirt_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-tops",
+      "sourceFilename": "male tops.png",
+      "sourceSha256": "f8404c6b67480e8d20e22c8895f135b865920b5970cc27dfc2a2eaa72a9da7a8",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R3C2",
+      "row": 3,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_tan_utility_shirt_v1.png",
+      "choppedDimensions": {
+        "width": 999,
+        "height": 1133
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 871,
+        "height": 1005
+      },
+      "opaquePixels": 692186,
+      "centroidNormalized": {
+        "x": 0.500502,
+        "y": 0.638951
+      },
+      "outputSha256": "07a5c1ca4e2ae6a184012c59d54271049ab809d644e7dde86c2c790e199f832f",
+      "apparentPoseCategory": "wave_a_male_top_tan_utility_shirt_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-tops",
+      "sourceFilename": "male tops.png",
+      "sourceSha256": "f8404c6b67480e8d20e22c8895f135b865920b5970cc27dfc2a2eaa72a9da7a8",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R3C3",
+      "row": 3,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_olive_shell_jacket_v1.png",
+      "choppedDimensions": {
+        "width": 1003,
+        "height": 1110
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 875,
+        "height": 982
+      },
+      "opaquePixels": 684014,
+      "centroidNormalized": {
+        "x": 0.858195,
+        "y": 0.637645
+      },
+      "outputSha256": "c5757b751af3183291fe1d4d9a222b886f6d4238cf2d5f9e4578caad21f621e4",
+      "apparentPoseCategory": "wave_a_male_top_olive_shell_jacket_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-tops",
+      "sourceFilename": "male tops.png",
+      "sourceSha256": "f8404c6b67480e8d20e22c8895f135b865920b5970cc27dfc2a2eaa72a9da7a8",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R4C1",
+      "row": 4,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_cream_cardigan_v1.png",
+      "choppedDimensions": {
+        "width": 988,
+        "height": 1036
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 860,
+        "height": 908
+      },
+      "opaquePixels": 637740,
+      "centroidNormalized": {
+        "x": 0.141449,
+        "y": 0.888418
+      },
+      "outputSha256": "711f1e30c8ca0d905faa9e4c781d2eb9697ae2664a1932de6e7355a9257d00ff",
+      "apparentPoseCategory": "wave_a_male_top_cream_cardigan_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-tops",
+      "sourceFilename": "male tops.png",
+      "sourceSha256": "f8404c6b67480e8d20e22c8895f135b865920b5970cc27dfc2a2eaa72a9da7a8",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R4C2",
+      "row": 4,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_charcoal_puffer_vest_layered_v1.png",
+      "choppedDimensions": {
+        "width": 981,
+        "height": 1083
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 853,
+        "height": 955
+      },
+      "opaquePixels": 638420,
+      "centroidNormalized": {
+        "x": 0.500589,
+        "y": 0.885338
+      },
+      "outputSha256": "d7832e3182b2e9f21be0b2fea99692fecbbc45e8ea9a7e3a9442b32338c4052b",
+      "apparentPoseCategory": "wave_a_male_top_charcoal_puffer_vest_layered_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "male-tops",
+      "sourceFilename": "male tops.png",
+      "sourceSha256": "f8404c6b67480e8d20e22c8895f135b865920b5970cc27dfc2a2eaa72a9da7a8",
+      "sourceSheetDimensions": {
+        "width": 3584,
+        "height": 4800
+      },
+      "originalCell": "R4C3",
+      "row": 4,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_brown_fur_hood_parka_v1.png",
+      "choppedDimensions": {
+        "width": 1004,
+        "height": 1239
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 876,
+        "height": 1111
+      },
+      "opaquePixels": 781930,
+      "centroidNormalized": {
+        "x": 0.859189,
+        "y": 0.886053
+      },
+      "outputSha256": "ce4e1abe5ed2d67ce9be7a6eca90cd5fd60e4121fff718bea920e8e4c02e97b0",
+      "apparentPoseCategory": "wave_a_male_top_brown_fur_hood_parka_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "shoes",
+      "sourceFilename": "shoes.png",
+      "sourceSha256": "8a7bf15e8b045edefa31dbd02d8b17a3984f9f6a967cc5eba2cfff4d69d1a402",
+      "sourceSheetDimensions": {
+        "width": 4336,
+        "height": 5804
+      },
+      "originalCell": "R1C1",
+      "row": 1,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_low_top_sneaker_gray_v1.png",
+      "choppedDimensions": {
+        "width": 1425,
+        "height": 1017
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 1297,
+        "height": 889
+      },
+      "opaquePixels": 846121,
+      "centroidNormalized": {
+        "x": 0.170779,
+        "y": 0.147528
+      },
+      "outputSha256": "a39e2976896dec5fc6dad89cea170b5c3f0b84b4bfcddf940dbe81abee13df95",
+      "apparentPoseCategory": "wave_a_footwear_low_top_sneaker_gray_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "shoes",
+      "sourceFilename": "shoes.png",
+      "sourceSha256": "8a7bf15e8b045edefa31dbd02d8b17a3984f9f6a967cc5eba2cfff4d69d1a402",
+      "sourceSheetDimensions": {
+        "width": 4336,
+        "height": 5804
+      },
+      "originalCell": "R1C2",
+      "row": 1,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_athletic_sneaker_blue_v1.png",
+      "choppedDimensions": {
+        "width": 1486,
+        "height": 1025
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 1358,
+        "height": 897
+      },
+      "opaquePixels": 880979,
+      "centroidNormalized": {
+        "x": 0.499859,
+        "y": 0.147796
+      },
+      "outputSha256": "9df37bc4b335b1b8f0fd644ec766e7c2276bfca8fe17c367ebbd1d1c7b625500",
+      "apparentPoseCategory": "wave_a_footwear_athletic_sneaker_blue_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "shoes",
+      "sourceFilename": "shoes.png",
+      "sourceSha256": "8a7bf15e8b045edefa31dbd02d8b17a3984f9f6a967cc5eba2cfff4d69d1a402",
+      "sourceSheetDimensions": {
+        "width": 4336,
+        "height": 5804
+      },
+      "originalCell": "R1C3",
+      "row": 1,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_canvas_sneaker_navy_v1.png",
+      "choppedDimensions": {
+        "width": 1419,
+        "height": 988
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 1291,
+        "height": 860
+      },
+      "opaquePixels": 809627,
+      "centroidNormalized": {
+        "x": 0.822534,
+        "y": 0.150982
+      },
+      "outputSha256": "7f9dd284ffb651910df93b0fa4d6e16cd906854c242ad8e165faafceff4088da",
+      "apparentPoseCategory": "wave_a_footwear_canvas_sneaker_navy_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "shoes",
+      "sourceFilename": "shoes.png",
+      "sourceSha256": "8a7bf15e8b045edefa31dbd02d8b17a3984f9f6a967cc5eba2cfff4d69d1a402",
+      "sourceSheetDimensions": {
+        "width": 4336,
+        "height": 5804
+      },
+      "originalCell": "R2C1",
+      "row": 2,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_loafer_brown_v1.png",
+      "choppedDimensions": {
+        "width": 1463,
+        "height": 1053
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 1335,
+        "height": 925
+      },
+      "opaquePixels": 905348,
+      "centroidNormalized": {
+        "x": 0.170785,
+        "y": 0.38995
+      },
+      "outputSha256": "e4616babbb248a6b66593a031d56176f267cd61ae91186fbc8789e0c3a0dde15",
+      "apparentPoseCategory": "wave_a_footwear_loafer_brown_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "shoes",
+      "sourceFilename": "shoes.png",
+      "sourceSha256": "8a7bf15e8b045edefa31dbd02d8b17a3984f9f6a967cc5eba2cfff4d69d1a402",
+      "sourceSheetDimensions": {
+        "width": 4336,
+        "height": 5804
+      },
+      "originalCell": "R2C2",
+      "row": 2,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_oxford_black_v1.png",
+      "choppedDimensions": {
+        "width": 1453,
+        "height": 1085
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 1325,
+        "height": 957
+      },
+      "opaquePixels": 899033,
+      "centroidNormalized": {
+        "x": 0.500638,
+        "y": 0.390922
+      },
+      "outputSha256": "f1c8eef0c2010506256375022358757aa98e3ea098872da3b8e2685a98fcf421",
+      "apparentPoseCategory": "wave_a_footwear_oxford_black_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "shoes",
+      "sourceFilename": "shoes.png",
+      "sourceSha256": "8a7bf15e8b045edefa31dbd02d8b17a3984f9f6a967cc5eba2cfff4d69d1a402",
+      "sourceSheetDimensions": {
+        "width": 4336,
+        "height": 5804
+      },
+      "originalCell": "R2C3",
+      "row": 2,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_work_boot_tan_v1.png",
+      "choppedDimensions": {
+        "width": 1461,
+        "height": 1300
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 1333,
+        "height": 1172
+      },
+      "opaquePixels": 1210046,
+      "centroidNormalized": {
+        "x": 0.822918,
+        "y": 0.371371
+      },
+      "outputSha256": "6766c145bf7cad65dbb8f9ca1419314109db0393c547e89ab78377f63f56a230",
+      "apparentPoseCategory": "wave_a_footwear_work_boot_tan_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "shoes",
+      "sourceFilename": "shoes.png",
+      "sourceSha256": "8a7bf15e8b045edefa31dbd02d8b17a3984f9f6a967cc5eba2cfff4d69d1a402",
+      "sourceSheetDimensions": {
+        "width": 4336,
+        "height": 5804
+      },
+      "originalCell": "R3C1",
+      "row": 3,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_chukka_taupe_v1.png",
+      "choppedDimensions": {
+        "width": 1478,
+        "height": 1207
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 1350,
+        "height": 1079
+      },
+      "opaquePixels": 1061179,
+      "centroidNormalized": {
+        "x": 0.171346,
+        "y": 0.625676
+      },
+      "outputSha256": "5cf4a9b7a9c6787518655ede9e217ee0c1f53beece3923d1356385c441c049d5",
+      "apparentPoseCategory": "wave_a_footwear_chukka_taupe_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "shoes",
+      "sourceFilename": "shoes.png",
+      "sourceSha256": "8a7bf15e8b045edefa31dbd02d8b17a3984f9f6a967cc5eba2cfff4d69d1a402",
+      "sourceSheetDimensions": {
+        "width": 4336,
+        "height": 5804
+      },
+      "originalCell": "R3C2",
+      "row": 3,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_flat_green_v1.png",
+      "choppedDimensions": {
+        "width": 1473,
+        "height": 980
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 1345,
+        "height": 852
+      },
+      "opaquePixels": 783436,
+      "centroidNormalized": {
+        "x": 0.499289,
+        "y": 0.648115
+      },
+      "outputSha256": "d954347af5d2df198c70390d11920ad92703b3e325dc568e259f5d005d348380",
+      "apparentPoseCategory": "wave_a_footwear_flat_green_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "shoes",
+      "sourceFilename": "shoes.png",
+      "sourceSha256": "8a7bf15e8b045edefa31dbd02d8b17a3984f9f6a967cc5eba2cfff4d69d1a402",
+      "sourceSheetDimensions": {
+        "width": 4336,
+        "height": 5804
+      },
+      "originalCell": "R3C3",
+      "row": 3,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_pump_gray_v1.png",
+      "choppedDimensions": {
+        "width": 1412,
+        "height": 1102
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 1284,
+        "height": 974
+      },
+      "opaquePixels": 876828,
+      "centroidNormalized": {
+        "x": 0.823266,
+        "y": 0.634668
+      },
+      "outputSha256": "9b9e21f60783249cf4f886a2566373f18bdf4aa48560a00ede5eb0039ebb36e4",
+      "apparentPoseCategory": "wave_a_footwear_pump_gray_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "shoes",
+      "sourceFilename": "shoes.png",
+      "sourceSha256": "8a7bf15e8b045edefa31dbd02d8b17a3984f9f6a967cc5eba2cfff4d69d1a402",
+      "sourceSheetDimensions": {
+        "width": 4336,
+        "height": 5804
+      },
+      "originalCell": "R4C1",
+      "row": 4,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_pump_burgundy_v1.png",
+      "choppedDimensions": {
+        "width": 1448,
+        "height": 1147
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 1320,
+        "height": 1019
+      },
+      "opaquePixels": 934673,
+      "centroidNormalized": {
+        "x": 0.172222,
+        "y": 0.876194
+      },
+      "outputSha256": "6f580a142802c2fa14cd41295ec0f034e28c9f24dad27a588ea36c0aa6484783",
+      "apparentPoseCategory": "wave_a_footwear_pump_burgundy_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "shoes",
+      "sourceFilename": "shoes.png",
+      "sourceSha256": "8a7bf15e8b045edefa31dbd02d8b17a3984f9f6a967cc5eba2cfff4d69d1a402",
+      "sourceSheetDimensions": {
+        "width": 4336,
+        "height": 5804
+      },
+      "originalCell": "R4C2",
+      "row": 4,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_sandal_brown_v1.png",
+      "choppedDimensions": {
+        "width": 1455,
+        "height": 1070
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 1327,
+        "height": 942
+      },
+      "opaquePixels": 917319,
+      "centroidNormalized": {
+        "x": 0.496291,
+        "y": 0.882654
+      },
+      "outputSha256": "c4974b8c589e8753cc832476b34668778617d108716cabff5bf9598eacf9b47e",
+      "apparentPoseCategory": "wave_a_footwear_sandal_brown_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "shoes",
+      "sourceFilename": "shoes.png",
+      "sourceSha256": "8a7bf15e8b045edefa31dbd02d8b17a3984f9f6a967cc5eba2cfff4d69d1a402",
+      "sourceSheetDimensions": {
+        "width": 4336,
+        "height": 5804
+      },
+      "originalCell": "R4C3",
+      "row": 4,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_combat_boot_olive_v1.png",
+      "choppedDimensions": {
+        "width": 1465,
+        "height": 1371
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 1337,
+        "height": 1243
+      },
+      "opaquePixels": 1279145,
+      "centroidNormalized": {
+        "x": 0.824276,
+        "y": 0.85663
+      },
+      "outputSha256": "cc0c4b5bc41a6d8d03f8e24b7374723e2bf33015a5f7549b1c9378d431a8a23c",
+      "apparentPoseCategory": "wave_a_footwear_combat_boot_olive_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "OTHER_CANDIDATE_INTAKE_ONLY",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "skinny-man",
+      "sourceFilename": "skinny man.png",
+      "sourceSha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C1",
+      "row": 1,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_front_a_v1.png",
+      "choppedDimensions": {
+        "width": 646,
+        "height": 1752
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 518,
+        "height": 1624
+      },
+      "opaquePixels": 501981,
+      "centroidNormalized": {
+        "x": 0.114332,
+        "y": 0.252366
+      },
+      "outputSha256": "24ddae8f5a1f9e545fe0bd045e9b16b7ff8e25f04aa80517b19ebbbfefd5c189",
+      "apparentPoseCategory": "standing_neutral_front_a_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "skinny-man",
+      "sourceFilename": "skinny man.png",
+      "sourceSha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C3",
+      "row": 1,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_conversational_open_hand_v1.png",
+      "choppedDimensions": {
+        "width": 841,
+        "height": 1761
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 713,
+        "height": 1633
+      },
+      "opaquePixels": 462656,
+      "centroidNormalized": {
+        "x": 0.357104,
+        "y": 0.251858
+      },
+      "outputSha256": "e6d9e8f5f91caef96a8d8b73d636977681c14cf1d61d8a13e297b0090349c118",
+      "apparentPoseCategory": "standing_conversational_open_hand_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "skinny-man",
+      "sourceFilename": "skinny man.png",
+      "sourceSha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C4",
+      "row": 1,
+      "column": 4,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_back_v1.png",
+      "choppedDimensions": {
+        "width": 619,
+        "height": 1738
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 491,
+        "height": 1610
+      },
+      "opaquePixels": 481001,
+      "centroidNormalized": {
+        "x": 0.630497,
+        "y": 0.255691
+      },
+      "outputSha256": "b4f8b8e58582a0cd85664d3b9efd6e9f8c231ca68ef4f2b0cf9630806abc7706",
+      "apparentPoseCategory": "standing_neutral_back_v1",
+      "bakedPropStatus": "LECTERN",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "skinny-man",
+      "sourceFilename": "skinny man.png",
+      "sourceSha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C5",
+      "row": 1,
+      "column": 5,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_lectern_interaction_v1.png",
+      "choppedDimensions": {
+        "width": 890,
+        "height": 1764
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 762,
+        "height": 1636
+      },
+      "opaquePixels": 505038,
+      "centroidNormalized": {
+        "x": 0.887885,
+        "y": 0.254106
+      },
+      "outputSha256": "1701a2f38bcf4b9977b41f3aaa444c337b09f7e2ea119cf640d788ff059c8fb5",
+      "apparentPoseCategory": "standing_lectern_interaction_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "skinny-man",
+      "sourceFilename": "skinny man.png",
+      "sourceSha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C1",
+      "row": 2,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_front_chair_v1.png",
+      "choppedDimensions": {
+        "width": 697,
+        "height": 1658
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 569,
+        "height": 1530
+      },
+      "opaquePixels": 543192,
+      "centroidNormalized": {
+        "x": 0.114042,
+        "y": 0.766104
+      },
+      "outputSha256": "55071836e9ba9ceb5f2adfd92e7e5216fddc08ecf87ee8503eb4eef4cb92dcea",
+      "apparentPoseCategory": "seated_front_chair_v1",
+      "bakedPropStatus": "CHAIR",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "skinny-man",
+      "sourceFilename": "skinny man.png",
+      "sourceSha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C3",
+      "row": 2,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_interaction_surface_v1.png",
+      "choppedDimensions": {
+        "width": 1011,
+        "height": 1627
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 883,
+        "height": 1499
+      },
+      "opaquePixels": 511410,
+      "centroidNormalized": {
+        "x": 0.370471,
+        "y": 0.764827
+      },
+      "outputSha256": "2be018346e6637e395f99a65ac256fe280bb6f86df32e252d72b5fda7657c9c5",
+      "apparentPoseCategory": "seated_interaction_surface_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "skinny-man",
+      "sourceFilename": "skinny man.png",
+      "sourceSha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C4",
+      "row": 2,
+      "column": 4,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_conversational_open_hand_v1.png",
+      "choppedDimensions": {
+        "width": 866,
+        "height": 1632
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 738,
+        "height": 1504
+      },
+      "opaquePixels": 494344,
+      "centroidNormalized": {
+        "x": 0.626671,
+        "y": 0.765434
+      },
+      "outputSha256": "50eea36105b9a6e5cc4c8c3c6adb2f269b0d34612d8dac1db829bdc677851bf8",
+      "apparentPoseCategory": "seated_conversational_open_hand_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "skinny-man",
+      "sourceFilename": "skinny man.png",
+      "sourceSha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C5",
+      "row": 2,
+      "column": 5,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_three_quarter_v1.png",
+      "choppedDimensions": {
+        "width": 580,
+        "height": 1702
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 452,
+        "height": 1574
+      },
+      "opaquePixels": 450596,
+      "centroidNormalized": {
+        "x": 0.893108,
+        "y": 0.758404
+      },
+      "outputSha256": "e01b8ddc6b067330186af4739c1e45acdc0828edc3e7772f520cf613eb0333b3",
+      "apparentPoseCategory": "standing_neutral_three_quarter_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "supplies",
+      "sourceFilename": "supplies.png",
+      "sourceSha256": "4377dc8e49ed3d40ee02af7a3360ec2d8373ccea32b85300c9b3cbee6cc445d3",
+      "sourceSheetDimensions": {
+        "width": 5516,
+        "height": 3008
+      },
+      "originalCell": "R1C1",
+      "row": 1,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R1C1_single_phone_v1.png",
+      "choppedDimensions": {
+        "width": 847,
+        "height": 654
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 719,
+        "height": 526
+      },
+      "opaquePixels": 199050,
+      "centroidNormalized": {
+        "x": 0.087921,
+        "y": 0.133836
+      },
+      "outputSha256": "94a16ef35b97a3fb099f9e48dbf140abdbd06658ce47cf09bd515e224d661609",
+      "apparentPoseCategory": "wave_a_supplies_R1C1_single_phone_v1",
+      "bakedPropStatus": "OTHER",
+      "lifecycleDisposition": "NEEDS_HUMAN_CLASSIFICATION",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "supplies",
+      "sourceFilename": "supplies.png",
+      "sourceSha256": "4377dc8e49ed3d40ee02af7a3360ec2d8373ccea32b85300c9b3cbee6cc445d3",
+      "sourceSheetDimensions": {
+        "width": 5516,
+        "height": 3008
+      },
+      "originalCell": "R1C2",
+      "row": 1,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R1C2_multiple_notebook_clipboard_lanyard_v1.png",
+      "choppedDimensions": {
+        "width": 2938,
+        "height": 785
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 2810,
+        "height": 657
+      },
+      "opaquePixels": 746058,
+      "centroidNormalized": {
+        "x": 0.43189,
+        "y": 0.138545
+      },
+      "outputSha256": "77274692655f3d5a58d34b238b783df0bd38ad73efba1a72ce17bea93bd197c0",
+      "apparentPoseCategory": "wave_a_supplies_R1C2_multiple_notebook_clipboard_lanyard_v1",
+      "bakedPropStatus": "OTHER",
+      "lifecycleDisposition": "NEEDS_HUMAN_CLASSIFICATION",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "supplies",
+      "sourceFilename": "supplies.png",
+      "sourceSha256": "4377dc8e49ed3d40ee02af7a3360ec2d8373ccea32b85300c9b3cbee6cc445d3",
+      "sourceSheetDimensions": {
+        "width": 5516,
+        "height": 3008
+      },
+      "originalCell": "R1C3",
+      "row": 1,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R1C3_single_earbud_case_v1.png",
+      "choppedDimensions": {
+        "width": 544,
+        "height": 455
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 416,
+        "height": 327
+      },
+      "opaquePixels": 94392,
+      "centroidNormalized": {
+        "x": 0.790047,
+        "y": 0.135469
+      },
+      "outputSha256": "082809173329d8af80b197c42181ed266fa2eae634583300b5aa7d38239aaf07",
+      "apparentPoseCategory": "wave_a_supplies_R1C3_single_earbud_case_v1",
+      "bakedPropStatus": "OTHER",
+      "lifecycleDisposition": "NEEDS_HUMAN_CLASSIFICATION",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "supplies",
+      "sourceFilename": "supplies.png",
+      "sourceSha256": "4377dc8e49ed3d40ee02af7a3360ec2d8373ccea32b85300c9b3cbee6cc445d3",
+      "sourceSheetDimensions": {
+        "width": 5516,
+        "height": 3008
+      },
+      "originalCell": "R1C4",
+      "row": 1,
+      "column": 4,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R1C4_single_usb_cable_v1.png",
+      "choppedDimensions": {
+        "width": 752,
+        "height": 715
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 624,
+        "height": 587
+      },
+      "opaquePixels": 94128,
+      "centroidNormalized": {
+        "x": 0.936273,
+        "y": 0.139856
+      },
+      "outputSha256": "38cafec70f5107601a1d3645b4e187d80a15eb29136ad424185e0dd82a78d66c",
+      "apparentPoseCategory": "wave_a_supplies_R1C4_single_usb_cable_v1",
+      "bakedPropStatus": "OTHER",
+      "lifecycleDisposition": "NEEDS_HUMAN_CLASSIFICATION",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "supplies",
+      "sourceFilename": "supplies.png",
+      "sourceSha256": "4377dc8e49ed3d40ee02af7a3360ec2d8373ccea32b85300c9b3cbee6cc445d3",
+      "sourceSheetDimensions": {
+        "width": 5516,
+        "height": 3008
+      },
+      "originalCell": "R2C1",
+      "row": 2,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R2C1_single_legal_pad_v1.png",
+      "choppedDimensions": {
+        "width": 882,
+        "height": 687
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 754,
+        "height": 559
+      },
+      "opaquePixels": 224679,
+      "centroidNormalized": {
+        "x": 0.087394,
+        "y": 0.38041
+      },
+      "outputSha256": "89cac3fc84fcfeef29aa8d85bdef753eebec02fa98390b7374d8634dc69067b4",
+      "apparentPoseCategory": "wave_a_supplies_R2C1_single_legal_pad_v1",
+      "bakedPropStatus": "OTHER",
+      "lifecycleDisposition": "NEEDS_HUMAN_CLASSIFICATION",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "supplies",
+      "sourceFilename": "supplies.png",
+      "sourceSha256": "4377dc8e49ed3d40ee02af7a3360ec2d8373ccea32b85300c9b3cbee6cc445d3",
+      "sourceSheetDimensions": {
+        "width": 5516,
+        "height": 3008
+      },
+      "originalCell": "R2C2",
+      "row": 2,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R2C2_multiple_binder_folder_document_wallet_v1.png",
+      "choppedDimensions": {
+        "width": 2991,
+        "height": 788
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 2863,
+        "height": 660
+      },
+      "opaquePixels": 863744,
+      "centroidNormalized": {
+        "x": 0.433246,
+        "y": 0.382921
+      },
+      "outputSha256": "a960551a50ce53f525920c246cd095dfa38d654a1e793e1c3e6cfb973114723c",
+      "apparentPoseCategory": "wave_a_supplies_R2C2_multiple_binder_folder_document_wallet_v1",
+      "bakedPropStatus": "OTHER",
+      "lifecycleDisposition": "NEEDS_HUMAN_CLASSIFICATION",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "supplies",
+      "sourceFilename": "supplies.png",
+      "sourceSha256": "4377dc8e49ed3d40ee02af7a3360ec2d8373ccea32b85300c9b3cbee6cc445d3",
+      "sourceSheetDimensions": {
+        "width": 5516,
+        "height": 3008
+      },
+      "originalCell": "R2C3",
+      "row": 2,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R2C3_single_stapler_v1.png",
+      "choppedDimensions": {
+        "width": 676,
+        "height": 571
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 548,
+        "height": 443
+      },
+      "opaquePixels": 142294,
+      "centroidNormalized": {
+        "x": 0.791147,
+        "y": 0.375632
+      },
+      "outputSha256": "4de659df6ac5de0c5fbdb9c5d30f5d66e5844baa7acf5f9fb10ec3b7ef21bda9",
+      "apparentPoseCategory": "wave_a_supplies_R2C3_single_stapler_v1",
+      "bakedPropStatus": "OTHER",
+      "lifecycleDisposition": "NEEDS_HUMAN_CLASSIFICATION",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "supplies",
+      "sourceFilename": "supplies.png",
+      "sourceSha256": "4377dc8e49ed3d40ee02af7a3360ec2d8373ccea32b85300c9b3cbee6cc445d3",
+      "sourceSheetDimensions": {
+        "width": 5516,
+        "height": 3008
+      },
+      "originalCell": "R2C4",
+      "row": 2,
+      "column": 4,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R2C4_single_sticky_notes_v1.png",
+      "choppedDimensions": {
+        "width": 620,
+        "height": 528
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 492,
+        "height": 400
+      },
+      "opaquePixels": 123298,
+      "centroidNormalized": {
+        "x": 0.931393,
+        "y": 0.38192
+      },
+      "outputSha256": "85aaf995e3914254ae8af26d6c76f33a3804911b4f6a27094b38fc8732b2a5a4",
+      "apparentPoseCategory": "wave_a_supplies_R2C4_single_sticky_notes_v1",
+      "bakedPropStatus": "OTHER",
+      "lifecycleDisposition": "NEEDS_HUMAN_CLASSIFICATION",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "supplies",
+      "sourceFilename": "supplies.png",
+      "sourceSha256": "4377dc8e49ed3d40ee02af7a3360ec2d8373ccea32b85300c9b3cbee6cc445d3",
+      "sourceSheetDimensions": {
+        "width": 5516,
+        "height": 3008
+      },
+      "originalCell": "R3C1",
+      "row": 3,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C1_multiple_bottle_note_envelope_v1.png",
+      "choppedDimensions": {
+        "width": 817,
+        "height": 1447
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 689,
+        "height": 1319
+      },
+      "opaquePixels": 357021,
+      "centroidNormalized": {
+        "x": 0.080189,
+        "y": 0.766047
+      },
+      "outputSha256": "0a2c1da676bb0b31a53f96752c5343acb95498ace6cf34fc59ed15e8f5da5264",
+      "apparentPoseCategory": "wave_a_supplies_R3C1_multiple_bottle_note_envelope_v1",
+      "bakedPropStatus": "OTHER",
+      "lifecycleDisposition": "NEEDS_HUMAN_CLASSIFICATION",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "supplies",
+      "sourceFilename": "supplies.png",
+      "sourceSha256": "4377dc8e49ed3d40ee02af7a3360ec2d8373ccea32b85300c9b3cbee6cc445d3",
+      "sourceSheetDimensions": {
+        "width": 5516,
+        "height": 3008
+      },
+      "originalCell": "R3C2",
+      "row": 3,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C2_multiple_coffee_mug_keys_writing_news_v1.png",
+      "choppedDimensions": {
+        "width": 3227,
+        "height": 1381
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 3099,
+        "height": 1253
+      },
+      "opaquePixels": 1225938,
+      "centroidNormalized": {
+        "x": 0.429266,
+        "y": 0.741632
+      },
+      "outputSha256": "8c38174e44e7161b9d571856cabe7a4a85b308d0951b9f606bece07e3947cfcc",
+      "apparentPoseCategory": "wave_a_supplies_R3C2_multiple_coffee_mug_keys_writing_news_v1",
+      "bakedPropStatus": "OTHER",
+      "lifecycleDisposition": "NEEDS_HUMAN_CLASSIFICATION",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "supplies",
+      "sourceFilename": "supplies.png",
+      "sourceSha256": "4377dc8e49ed3d40ee02af7a3360ec2d8373ccea32b85300c9b3cbee6cc445d3",
+      "sourceSheetDimensions": {
+        "width": 5516,
+        "height": 3008
+      },
+      "originalCell": "R3C3",
+      "row": 3,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C3_multiple_cards_umbrella_backpack_v1.png",
+      "choppedDimensions": {
+        "width": 805,
+        "height": 1417
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 677,
+        "height": 1289
+      },
+      "opaquePixels": 482544,
+      "centroidNormalized": {
+        "x": 0.796047,
+        "y": 0.786393
+      },
+      "outputSha256": "9c5c957689258626684035de585848b9c4e5b402df479174411141cbaca2db6b",
+      "apparentPoseCategory": "wave_a_supplies_R3C3_multiple_cards_umbrella_backpack_v1",
+      "bakedPropStatus": "OTHER",
+      "lifecycleDisposition": "NEEDS_HUMAN_CLASSIFICATION",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "supplies",
+      "sourceFilename": "supplies.png",
+      "sourceSha256": "4377dc8e49ed3d40ee02af7a3360ec2d8373ccea32b85300c9b3cbee6cc445d3",
+      "sourceSheetDimensions": {
+        "width": 5516,
+        "height": 3008
+      },
+      "originalCell": "R3C4",
+      "row": 3,
+      "column": 4,
+      "choppedOutputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C4_multiple_pencil_briefcase_v1.png",
+      "choppedDimensions": {
+        "width": 688,
+        "height": 1425
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 560,
+        "height": 1297
+      },
+      "opaquePixels": 324723,
+      "centroidNormalized": {
+        "x": 0.935201,
+        "y": 0.826268
+      },
+      "outputSha256": "8b60fdef19bcd0857daa64df88db519f9c288821164c97eb1c51b2c1f769582d",
+      "apparentPoseCategory": "wave_a_supplies_R3C4_multiple_pencil_briefcase_v1",
+      "bakedPropStatus": "OTHER",
+      "lifecycleDisposition": "NEEDS_HUMAN_CLASSIFICATION",
+      "usableAsMorphologyEvidenceFor89": false,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Candidate/reference intake only; no production release or anchor gate completed."
+    },
+    {
+      "family": "additional-fat-female-pose",
+      "sourceFilename": "additional fat female pose.png",
+      "sourceSha256": "0667551c8c73fe77ec9b01e0d69072f6525f6ab65623ba559d4ab6a68e1ba5c7",
+      "sourceSheetDimensions": {
+        "width": 4352,
+        "height": 3904
+      },
+      "originalCell": "R1C1",
+      "row": 1,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/additional-fat-female-pose/wave_a_additional_fat_female_standing_conversational_hands_clasped_v1.png",
+      "choppedDimensions": {
+        "width": 1107,
+        "height": 3460
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 979,
+        "height": 3332
+      },
+      "opaquePixels": 2057542,
+      "centroidNormalized": {
+        "x": 0.164071,
+        "y": 0.528086
+      },
+      "outputSha256": "3af8331dbe4c26b20cf853731dd9f6c3b21a02cdc63f64f3fc91f57ff71a719d",
+      "apparentPoseCategory": "standing_conversational_hands_clasped_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "additional-fat-female-pose",
+      "sourceFilename": "additional fat female pose.png",
+      "sourceSha256": "0667551c8c73fe77ec9b01e0d69072f6525f6ab65623ba559d4ab6a68e1ba5c7",
+      "sourceSheetDimensions": {
+        "width": 4352,
+        "height": 3904
+      },
+      "originalCell": "R1C2",
+      "row": 1,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/additional-fat-female-pose/wave_a_additional_fat_female_seated_interaction_surface_v1.png",
+      "choppedDimensions": {
+        "width": 1200,
+        "height": 2979
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 1072,
+        "height": 2851
+      },
+      "opaquePixels": 1771273,
+      "centroidNormalized": {
+        "x": 0.498866,
+        "y": 0.553624
+      },
+      "outputSha256": "c02884caf39bea153fe2614235de0ea01ec3b7cadfd1509d8a5c88e1a7d5ba02",
+      "apparentPoseCategory": "seated_interaction_surface_v1",
+      "bakedPropStatus": "DESK",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "additional-fat-female-pose",
+      "sourceFilename": "additional fat female pose.png",
+      "sourceSha256": "0667551c8c73fe77ec9b01e0d69072f6525f6ab65623ba559d4ab6a68e1ba5c7",
+      "sourceSheetDimensions": {
+        "width": 4352,
+        "height": 3904
+      },
+      "originalCell": "R1C3",
+      "row": 1,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/additional-fat-female-pose/wave_a_additional_fat_female_standing_lectern_interaction_v1.png",
+      "choppedDimensions": {
+        "width": 1358,
+        "height": 1422
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 1230,
+        "height": 1294
+      },
+      "opaquePixels": 813816,
+      "centroidNormalized": {
+        "x": 0.824703,
+        "y": 0.312597
+      },
+      "outputSha256": "83551a083092f8fd053483f7402a6a814cc6ebe301343054c4a72ced6e8a0eda",
+      "apparentPoseCategory": "standing_lectern_interaction_v1",
+      "bakedPropStatus": "LECTERN",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "average-man",
+      "sourceFilename": "average man.png",
+      "sourceSha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C1",
+      "row": 1,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_front_a_v1.png",
+      "choppedDimensions": {
+        "width": 675,
+        "height": 1740
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 547,
+        "height": 1612
+      },
+      "opaquePixels": 523363,
+      "centroidNormalized": {
+        "x": 0.114078,
+        "y": 0.251132
+      },
+      "outputSha256": "8cfb695665f68bd1306dc40b0bfc77dd8c13a91193f4a2caab5f962b460e0571",
+      "apparentPoseCategory": "standing_neutral_front_a_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "average-man",
+      "sourceFilename": "average man.png",
+      "sourceSha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C2",
+      "row": 1,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_conversational_open_hand_v1.png",
+      "choppedDimensions": {
+        "width": 852,
+        "height": 1743
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 724,
+        "height": 1615
+      },
+      "opaquePixels": 477355,
+      "centroidNormalized": {
+        "x": 0.35619,
+        "y": 0.250743
+      },
+      "outputSha256": "97cd1b8e57273b83aeb678529957b74276b4f71ed8aebdb5e5c5cbe3fad20184",
+      "apparentPoseCategory": "standing_conversational_open_hand_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "average-man",
+      "sourceFilename": "average man.png",
+      "sourceSha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C3",
+      "row": 1,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_front_b_v1.png",
+      "choppedDimensions": {
+        "width": 646,
+        "height": 1742
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 518,
+        "height": 1614
+      },
+      "opaquePixels": 496693,
+      "centroidNormalized": {
+        "x": 0.625449,
+        "y": 0.253956
+      },
+      "outputSha256": "71a99fb255bbbb0b2b063b11d9b206d5280c43e85902560e31e355bf1c154cff",
+      "apparentPoseCategory": "standing_neutral_front_b_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "average-man",
+      "sourceFilename": "average man.png",
+      "sourceSha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C4",
+      "row": 1,
+      "column": 4,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_interaction_surface_v1.png",
+      "choppedDimensions": {
+        "width": 887,
+        "height": 1744
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 759,
+        "height": 1616
+      },
+      "opaquePixels": 506699,
+      "centroidNormalized": {
+        "x": 0.888426,
+        "y": 0.251508
+      },
+      "outputSha256": "c211d0cf928990cbe48f36ce6f1fa8d4a6eccec94d06ed196c15598eb21f33aa",
+      "apparentPoseCategory": "standing_interaction_surface_v1",
+      "bakedPropStatus": "LECTERN",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "average-man",
+      "sourceFilename": "average man.png",
+      "sourceSha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C1",
+      "row": 2,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_front_neutral_v1.png",
+      "choppedDimensions": {
+        "width": 710,
+        "height": 1653
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 582,
+        "height": 1525
+      },
+      "opaquePixels": 556648,
+      "centroidNormalized": {
+        "x": 0.113758,
+        "y": 0.761988
+      },
+      "outputSha256": "259e1d04238995df7129925fbb026b1408e01267ffb9722a8cc0c24cbc449f65",
+      "apparentPoseCategory": "seated_front_neutral_v1",
+      "bakedPropStatus": "CHAIR",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "average-man",
+      "sourceFilename": "average man.png",
+      "sourceSha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C2",
+      "row": 2,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_interaction_surface_v1.png",
+      "choppedDimensions": {
+        "width": 1170,
+        "height": 1625
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 1042,
+        "height": 1497
+      },
+      "opaquePixels": 532524,
+      "centroidNormalized": {
+        "x": 0.369993,
+        "y": 0.763783
+      },
+      "outputSha256": "93835171b500f161bf1824adbd29010d271ac20cd99fd8117e3a2590f322d7ef",
+      "apparentPoseCategory": "seated_interaction_surface_v1",
+      "bakedPropStatus": "DESK",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "average-man",
+      "sourceFilename": "average man.png",
+      "sourceSha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C3",
+      "row": 2,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_conversational_open_hand_v1.png",
+      "choppedDimensions": {
+        "width": 872,
+        "height": 1629
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 744,
+        "height": 1501
+      },
+      "opaquePixels": 509430,
+      "centroidNormalized": {
+        "x": 0.627056,
+        "y": 0.764032
+      },
+      "outputSha256": "a8597768fc03ce7a3ccb97b5bd1162417c2d5a18a58ceb4f6b0398f1d9486fc3",
+      "apparentPoseCategory": "seated_conversational_open_hand_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "average-man",
+      "sourceFilename": "average man.png",
+      "sourceSha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C4",
+      "row": 2,
+      "column": 4,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_three_quarter_v1.png",
+      "choppedDimensions": {
+        "width": 581,
+        "height": 1693
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 453,
+        "height": 1565
+      },
+      "opaquePixels": 443590,
+      "centroidNormalized": {
+        "x": 0.893342,
+        "y": 0.754596
+      },
+      "outputSha256": "20b0fe0ee13186194a40fae3ce9e6689d8d179a1c71282859c957b24b4591bb1",
+      "apparentPoseCategory": "standing_neutral_three_quarter_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "average-woman",
+      "sourceFilename": "average woman.png",
+      "sourceSha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C1",
+      "row": 1,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_front_a_v1.png",
+      "choppedDimensions": {
+        "width": 786,
+        "height": 1739
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 658,
+        "height": 1611
+      },
+      "opaquePixels": 507519,
+      "centroidNormalized": {
+        "x": 0.114465,
+        "y": 0.250322
+      },
+      "outputSha256": "ecb41ed2a3a71b4b7650a5c5e801813674bd11683c519736d5c9ac61196011f6",
+      "apparentPoseCategory": "standing_neutral_front_a_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "average-woman",
+      "sourceFilename": "average woman.png",
+      "sourceSha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C2",
+      "row": 1,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_conversational_open_hand_v1.png",
+      "choppedDimensions": {
+        "width": 835,
+        "height": 1738
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 707,
+        "height": 1610
+      },
+      "opaquePixels": 479800,
+      "centroidNormalized": {
+        "x": 0.351596,
+        "y": 0.252985
+      },
+      "outputSha256": "68cc4eaa6c28ead532c2357738da9690cda47e05f1922385a63a8bdf6e10eaf8",
+      "apparentPoseCategory": "standing_conversational_open_hand_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "average-woman",
+      "sourceFilename": "average woman.png",
+      "sourceSha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C3",
+      "row": 1,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_front_b_v1.png",
+      "choppedDimensions": {
+        "width": 751,
+        "height": 1738
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 623,
+        "height": 1610
+      },
+      "opaquePixels": 514779,
+      "centroidNormalized": {
+        "x": 0.626337,
+        "y": 0.250917
+      },
+      "outputSha256": "7728b31198fcc09a3c40d6f580c34176bc991e08a8108f22a21d92fb98a76d54",
+      "apparentPoseCategory": "standing_neutral_front_b_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "average-woman",
+      "sourceFilename": "average woman.png",
+      "sourceSha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C4",
+      "row": 1,
+      "column": 4,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_interaction_surface_v1.png",
+      "choppedDimensions": {
+        "width": 796,
+        "height": 1738
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 668,
+        "height": 1610
+      },
+      "opaquePixels": 457847,
+      "centroidNormalized": {
+        "x": 0.891066,
+        "y": 0.254054
+      },
+      "outputSha256": "7efd8db41a6a28da8064af2359e626a60b2f721bece4c38397b32f665334c9f7",
+      "apparentPoseCategory": "standing_interaction_surface_v1",
+      "bakedPropStatus": "DESK",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "average-woman",
+      "sourceFilename": "average woman.png",
+      "sourceSha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C1",
+      "row": 2,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_front_neutral_v1.png",
+      "choppedDimensions": {
+        "width": 663,
+        "height": 1664
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 535,
+        "height": 1536
+      },
+      "opaquePixels": 494611,
+      "centroidNormalized": {
+        "x": 0.11376,
+        "y": 0.756825
+      },
+      "outputSha256": "a0516d7c211e1f173190f787fc5496b7f2be474f0b113492db1776143513ba12",
+      "apparentPoseCategory": "seated_front_neutral_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "average-woman",
+      "sourceFilename": "average woman.png",
+      "sourceSha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C2",
+      "row": 2,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_interaction_surface_v1.png",
+      "choppedDimensions": {
+        "width": 928,
+        "height": 1632
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 800,
+        "height": 1504
+      },
+      "opaquePixels": 507927,
+      "centroidNormalized": {
+        "x": 0.371929,
+        "y": 0.768759
+      },
+      "outputSha256": "e1249b5261ec1ec11dbbb2914ceb1dbc085243f1e397e4580583407b93a74b0b",
+      "apparentPoseCategory": "seated_interaction_surface_v1",
+      "bakedPropStatus": "DESK",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "average-woman",
+      "sourceFilename": "average woman.png",
+      "sourceSha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C3",
+      "row": 2,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_conversational_open_hand_v1.png",
+      "choppedDimensions": {
+        "width": 832,
+        "height": 1629
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 704,
+        "height": 1501
+      },
+      "opaquePixels": 519869,
+      "centroidNormalized": {
+        "x": 0.627661,
+        "y": 0.760477
+      },
+      "outputSha256": "d93b36bfc7ec86cb7cf6e1fe4a7e9ad31a9bc87e22b1e29340d2c0cba515c9f1",
+      "apparentPoseCategory": "seated_conversational_open_hand_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "average-woman",
+      "sourceFilename": "average woman.png",
+      "sourceSha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C4",
+      "row": 2,
+      "column": 4,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_three_quarter_v1.png",
+      "choppedDimensions": {
+        "width": 605,
+        "height": 1664
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 477,
+        "height": 1536
+      },
+      "opaquePixels": 429117,
+      "centroidNormalized": {
+        "x": 0.891066,
+        "y": 0.757332
+      },
+      "outputSha256": "7ba02e629ccf4eee9f6b3d42a9bee0774ba2a7af97a28cfd981b0d35b502f998",
+      "apparentPoseCategory": "standing_neutral_three_quarter_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "older-woman",
+      "sourceFilename": "older woman.png",
+      "sourceSha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C1",
+      "row": 1,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_front_a_v1.png",
+      "choppedDimensions": {
+        "width": 880,
+        "height": 1702
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 752,
+        "height": 1574
+      },
+      "opaquePixels": 543409,
+      "centroidNormalized": {
+        "x": 0.114488,
+        "y": 0.247165
+      },
+      "outputSha256": "a40a709eced52fe5ecd717346eb54d5cefd026c2fb4b0d679df52af01ecb204d",
+      "apparentPoseCategory": "standing_neutral_front_a_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "older-woman",
+      "sourceFilename": "older woman.png",
+      "sourceSha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C2",
+      "row": 1,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_conversational_open_hand_v1.png",
+      "choppedDimensions": {
+        "width": 865,
+        "height": 1705
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 737,
+        "height": 1577
+      },
+      "opaquePixels": 502135,
+      "centroidNormalized": {
+        "x": 0.350281,
+        "y": 0.248567
+      },
+      "outputSha256": "5053c4e0f84133f8175f040489912597d6e53c18c29a33d16faf89c2689c5c95",
+      "apparentPoseCategory": "standing_conversational_open_hand_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "older-woman",
+      "sourceFilename": "older woman.png",
+      "sourceSha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C3",
+      "row": 1,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_front_b_v1.png",
+      "choppedDimensions": {
+        "width": 754,
+        "height": 1702
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 626,
+        "height": 1574
+      },
+      "opaquePixels": 540094,
+      "centroidNormalized": {
+        "x": 0.626985,
+        "y": 0.247333
+      },
+      "outputSha256": "c09afb6f56efd5a8b869bd1c5a74e10573cd13f5431583b532145c48a4771bb1",
+      "apparentPoseCategory": "standing_neutral_front_b_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "older-woman",
+      "sourceFilename": "older woman.png",
+      "sourceSha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C4",
+      "row": 1,
+      "column": 4,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_interaction_surface_v1.png",
+      "choppedDimensions": {
+        "width": 840,
+        "height": 1729
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 712,
+        "height": 1601
+      },
+      "opaquePixels": 541369,
+      "centroidNormalized": {
+        "x": 0.887413,
+        "y": 0.263988
+      },
+      "outputSha256": "6691a2494ead7945435c538210d3e5d90b9d5b42b94ac1fa1028c828f7d50d0b",
+      "apparentPoseCategory": "standing_interaction_surface_v1",
+      "bakedPropStatus": "LECTERN",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "older-woman",
+      "sourceFilename": "older woman.png",
+      "sourceSha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C1",
+      "row": 2,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_front_neutral_v1.png",
+      "choppedDimensions": {
+        "width": 669,
+        "height": 1720
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 541,
+        "height": 1592
+      },
+      "opaquePixels": 597289,
+      "centroidNormalized": {
+        "x": 0.113244,
+        "y": 0.758077
+      },
+      "outputSha256": "8cb36a8e40aeda29422f842a3195393897963f29980b719bb7c0c55f1626fd00",
+      "apparentPoseCategory": "seated_front_neutral_v1",
+      "bakedPropStatus": "CHAIR",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "older-woman",
+      "sourceFilename": "older woman.png",
+      "sourceSha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C2",
+      "row": 2,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_interaction_surface_v1.png",
+      "choppedDimensions": {
+        "width": 1081,
+        "height": 1638
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 953,
+        "height": 1510
+      },
+      "opaquePixels": 554588,
+      "centroidNormalized": {
+        "x": 0.368931,
+        "y": 0.765566
+      },
+      "outputSha256": "076084c6e0d429b9c6126d767548391bf3f571a623849ca2d3bacb979e2a6dc8",
+      "apparentPoseCategory": "seated_interaction_surface_v1",
+      "bakedPropStatus": "DESK",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "older-woman",
+      "sourceFilename": "older woman.png",
+      "sourceSha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C3",
+      "row": 2,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_conversational_open_hand_v1.png",
+      "choppedDimensions": {
+        "width": 848,
+        "height": 1628
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 720,
+        "height": 1500
+      },
+      "opaquePixels": 524863,
+      "centroidNormalized": {
+        "x": 0.627557,
+        "y": 0.761587
+      },
+      "outputSha256": "43facda970a572eaed4d1ebba2ccfd1c923d01881b848627e29044294db86a25",
+      "apparentPoseCategory": "seated_conversational_open_hand_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "older-woman",
+      "sourceFilename": "older woman.png",
+      "sourceSha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C4",
+      "row": 2,
+      "column": 4,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_three_quarter_v1.png",
+      "choppedDimensions": {
+        "width": 650,
+        "height": 1735
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 522,
+        "height": 1607
+      },
+      "opaquePixels": 503994,
+      "centroidNormalized": {
+        "x": 0.899451,
+        "y": 0.748062
+      },
+      "outputSha256": "85fcb902dc95ac002dcdb3fd01104289704661dbdc9f497c38898c5483684286",
+      "apparentPoseCategory": "standing_neutral_three_quarter_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "skinny-woman",
+      "sourceFilename": "skinny woman.png",
+      "sourceSha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C1",
+      "row": 1,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_front_a_v1.png",
+      "choppedDimensions": {
+        "width": 676,
+        "height": 1703
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 548,
+        "height": 1575
+      },
+      "opaquePixels": 437225,
+      "centroidNormalized": {
+        "x": 0.114835,
+        "y": 0.253907
+      },
+      "outputSha256": "793c1a757cf28e630ea3fec186a3cabf827108bc8b860b6a77909d0f83fb10d4",
+      "apparentPoseCategory": "standing_neutral_front_a_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "skinny-woman",
+      "sourceFilename": "skinny woman.png",
+      "sourceSha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C2",
+      "row": 1,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_conversational_open_hand_v1.png",
+      "choppedDimensions": {
+        "width": 787,
+        "height": 1713
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 659,
+        "height": 1585
+      },
+      "opaquePixels": 412815,
+      "centroidNormalized": {
+        "x": 0.355626,
+        "y": 0.255952
+      },
+      "outputSha256": "7a1ee82da47892b6a16543f12674bc96f2ec71e370ec8eb2a9df1afafe22f4b5",
+      "apparentPoseCategory": "standing_conversational_open_hand_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "skinny-woman",
+      "sourceFilename": "skinny woman.png",
+      "sourceSha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C3",
+      "row": 1,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_front_b_v1.png",
+      "choppedDimensions": {
+        "width": 614,
+        "height": 1706
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 486,
+        "height": 1578
+      },
+      "opaquePixels": 438347,
+      "centroidNormalized": {
+        "x": 0.628411,
+        "y": 0.254163
+      },
+      "outputSha256": "545107870cd018cc5ceaabc44af73e0395229878430e809ca40180e55974b603",
+      "apparentPoseCategory": "standing_neutral_front_b_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "skinny-woman",
+      "sourceFilename": "skinny woman.png",
+      "sourceSha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R1C4",
+      "row": 1,
+      "column": 4,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_interaction_surface_v1.png",
+      "choppedDimensions": {
+        "width": 764,
+        "height": 1709
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 636,
+        "height": 1581
+      },
+      "opaquePixels": 399885,
+      "centroidNormalized": {
+        "x": 0.888541,
+        "y": 0.256425
+      },
+      "outputSha256": "794c372fcd05fbc2185bf628cd0f8306ed0368be1c4704270f1f933f928c366c",
+      "apparentPoseCategory": "standing_interaction_surface_v1",
+      "bakedPropStatus": "DESK",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "skinny-woman",
+      "sourceFilename": "skinny woman.png",
+      "sourceSha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C1",
+      "row": 2,
+      "column": 1,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_front_neutral_v1.png",
+      "choppedDimensions": {
+        "width": 635,
+        "height": 1642
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 507,
+        "height": 1514
+      },
+      "opaquePixels": 451384,
+      "centroidNormalized": {
+        "x": 0.114553,
+        "y": 0.757693
+      },
+      "outputSha256": "4f7c049d78dea3c30a90c50dc0a09229ad36882a535109989b94fb9bd98dcfd2",
+      "apparentPoseCategory": "seated_front_neutral_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "skinny-woman",
+      "sourceFilename": "skinny woman.png",
+      "sourceSha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C2",
+      "row": 2,
+      "column": 2,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_interaction_surface_v1.png",
+      "choppedDimensions": {
+        "width": 861,
+        "height": 1635
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 733,
+        "height": 1507
+      },
+      "opaquePixels": 444939,
+      "centroidNormalized": {
+        "x": 0.372109,
+        "y": 0.769587
+      },
+      "outputSha256": "f898dc224e8db9006eb6cc7bec563dc55d06c94c4000b84d1d3049b1a665ef03",
+      "apparentPoseCategory": "seated_interaction_surface_v1",
+      "bakedPropStatus": "DESK",
+      "lifecycleDisposition": "REVISE_BAKED_PROP",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "skinny-woman",
+      "sourceFilename": "skinny woman.png",
+      "sourceSha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C3",
+      "row": 2,
+      "column": 3,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_conversational_open_hand_v1.png",
+      "choppedDimensions": {
+        "width": 851,
+        "height": 1623
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 723,
+        "height": 1495
+      },
+      "opaquePixels": 459144,
+      "centroidNormalized": {
+        "x": 0.627162,
+        "y": 0.760749
+      },
+      "outputSha256": "44aa67878faa18121dbd486634db3a576372bc24eac693f479975617f7c1818b",
+      "apparentPoseCategory": "seated_conversational_open_hand_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    },
+    {
+      "family": "skinny-woman",
+      "sourceFilename": "skinny woman.png",
+      "sourceSha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+      "sourceSheetDimensions": {
+        "width": 5056,
+        "height": 3392
+      },
+      "originalCell": "R2C4",
+      "row": 2,
+      "column": 4,
+      "choppedOutputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_three_quarter_v1.png",
+      "choppedDimensions": {
+        "width": 566,
+        "height": 1658
+      },
+      "alphaPresence": true,
+      "opaqueBoundingDimensions": {
+        "width": 438,
+        "height": 1530
+      },
+      "opaquePixels": 394836,
+      "centroidNormalized": {
+        "x": 0.890083,
+        "y": 0.759389
+      },
+      "outputSha256": "dd2e7fe5bdc314ab2b77c034c28e58dcd050138a3f759c072230dc1ec624221a",
+      "apparentPoseCategory": "standing_neutral_three_quarter_v1",
+      "bakedPropStatus": "NONE",
+      "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY",
+      "usableAsMorphologyEvidenceFor89": true,
+      "eligibleAsProductionCharacterBody": false,
+      "productionEligibilityReason": "Source cell is below the approximately 1696x2528 accepted production-body floor; morphology evidence only."
+    }
+  ]
+}

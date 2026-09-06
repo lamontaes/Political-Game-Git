@@ -1,0 +1,325 @@
+{
+  "tool": "source-sheet-chop-v1",
+  "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/male bottom.png",
+  "sourceSha256": "9afbb75c07d9343d43150bced2ecf21cbbd1583ef540081823d2aa31b02fdf64",
+  "sourceWidth": 3584,
+  "sourceHeight": 4800,
+  "options": {
+    "alphaNoiseThreshold": 8,
+    "paddingPixels": 64,
+    "minimumGapPixels": 24,
+    "minimumComponentPixels": 20000
+  },
+  "columnBands": [
+    {
+      "start": 337,
+      "end": 875
+    },
+    {
+      "start": 1523,
+      "end": 2062
+    },
+    {
+      "start": 2721,
+      "end": 3261
+    }
+  ],
+  "rowBands": [
+    {
+      "start": 106,
+      "end": 1200
+    },
+    {
+      "start": 1306,
+      "end": 2373
+    },
+    {
+      "start": 2474,
+      "end": 3549
+    },
+    {
+      "start": 3667,
+      "end": 4755
+    }
+  ],
+  "noisePixelsCleared": 4045466,
+  "cells": [
+    {
+      "cellId": "R1C1",
+      "row": 1,
+      "column": 1,
+      "sourceBox": {
+        "x": 350,
+        "y": 106,
+        "width": 497,
+        "height": 1092
+      },
+      "centroidNormalized": {
+        "x": 0.166742,
+        "y": 0.127609
+      },
+      "exportWidth": 625,
+      "exportHeight": 1220,
+      "opaquePixels": 452873,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 15547,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_blue_straight_jeans_v1.png",
+      "sha256": "32ed4bb5a92dd80320319e58095c182fa326fd5e72c8336b4104887d81d1a7db"
+    },
+    {
+      "cellId": "R1C2",
+      "row": 1,
+      "column": 2,
+      "sourceBox": {
+        "x": 1542,
+        "y": 106,
+        "width": 501,
+        "height": 1095
+      },
+      "centroidNormalized": {
+        "x": 0.499876,
+        "y": 0.127162
+      },
+      "exportWidth": 629,
+      "exportHeight": 1223,
+      "opaquePixels": 456850,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 14412,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_charcoal_dress_trousers_v1.png",
+      "sha256": "3bd6193d36a7f728771d063cddd59af105b753f78b9b52562e6bb141128247ab"
+    },
+    {
+      "cellId": "R1C3",
+      "row": 1,
+      "column": 3,
+      "sourceBox": {
+        "x": 2736,
+        "y": 106,
+        "width": 500,
+        "height": 1093
+      },
+      "centroidNormalized": {
+        "x": 0.832865,
+        "y": 0.126646
+      },
+      "exportWidth": 628,
+      "exportHeight": 1221,
+      "opaquePixels": 450650,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 12454,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_khaki_chinos_v1.png",
+      "sha256": "192f6ca43531b6662b8535a583656ae2eae31fdd2bbfdc4300719ed3f322e6f4"
+    },
+    {
+      "cellId": "R2C1",
+      "row": 2,
+      "column": 1,
+      "sourceBox": {
+        "x": 337,
+        "y": 1306,
+        "width": 539,
+        "height": 1067
+      },
+      "centroidNormalized": {
+        "x": 0.166812,
+        "y": 0.376895
+      },
+      "exportWidth": 667,
+      "exportHeight": 1195,
+      "opaquePixels": 466774,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 15016,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_navy_work_trousers_v1.png",
+      "sha256": "b555c371b44e123fa133fb9bdff7cb3279ae817a4ee0c423ba1b360290ad110e"
+    },
+    {
+      "cellId": "R2C2",
+      "row": 2,
+      "column": 2,
+      "sourceBox": {
+        "x": 1540,
+        "y": 1308,
+        "width": 505,
+        "height": 1066
+      },
+      "centroidNormalized": {
+        "x": 0.499951,
+        "y": 0.374923
+      },
+      "exportWidth": 633,
+      "exportHeight": 1194,
+      "opaquePixels": 449599,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 13752,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_brown_corduroy_trousers_v1.png",
+      "sha256": "3f2523e146496199acc52aedf3e00fd9d1fcfb296cd106d2938e6a95e976a3da"
+    },
+    {
+      "cellId": "R2C3",
+      "row": 2,
+      "column": 3,
+      "sourceBox": {
+        "x": 2721,
+        "y": 1308,
+        "width": 541,
+        "height": 662
+      },
+      "centroidNormalized": {
+        "x": 0.83426,
+        "y": 0.341466
+      },
+      "exportWidth": 669,
+      "exportHeight": 790,
+      "opaquePixels": 323057,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 7897,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_khaki_shorts_v1.png",
+      "sha256": "9049e18f48d9233d43bd252a8a1861678ffa0c346bc4ebcbb7e7d353c2bee095"
+    },
+    {
+      "cellId": "R3C1",
+      "row": 3,
+      "column": 1,
+      "sourceBox": {
+        "x": 345,
+        "y": 2474,
+        "width": 510,
+        "height": 1071
+      },
+      "centroidNormalized": {
+        "x": 0.167105,
+        "y": 0.618225
+      },
+      "exportWidth": 638,
+      "exportHeight": 1199,
+      "opaquePixels": 450597,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 14064,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_black_joggers_v1.png",
+      "sha256": "3ca2213e5486b4e83428462fa4913ba5f28b68f664ae1a66d10b2e59c88c379b"
+    },
+    {
+      "cellId": "R3C2",
+      "row": 3,
+      "column": 2,
+      "sourceBox": {
+        "x": 1527,
+        "y": 2475,
+        "width": 531,
+        "height": 1071
+      },
+      "centroidNormalized": {
+        "x": 0.500052,
+        "y": 0.622554
+      },
+      "exportWidth": 659,
+      "exportHeight": 1199,
+      "opaquePixels": 492250,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 10887,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_tan_cargo_trousers_v1.png",
+      "sha256": "08948b451e6fcdf246313bc17207ed941256ce683254630aad9dd19b68afe100"
+    },
+    {
+      "cellId": "R3C3",
+      "row": 3,
+      "column": 3,
+      "sourceBox": {
+        "x": 2741,
+        "y": 2475,
+        "width": 501,
+        "height": 1075
+      },
+      "centroidNormalized": {
+        "x": 0.834355,
+        "y": 0.620018
+      },
+      "exportWidth": 629,
+      "exportHeight": 1203,
+      "opaquePixels": 458562,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 11682,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_light_gray_dress_trousers_v1.png",
+      "sha256": "70a47827743d070bef92a1e220f41b1066a76a67a85a1d07cd4936556e81b21d"
+    },
+    {
+      "cellId": "R4C1",
+      "row": 4,
+      "column": 1,
+      "sourceBox": {
+        "x": 349,
+        "y": 3667,
+        "width": 501,
+        "height": 1086
+      },
+      "centroidNormalized": {
+        "x": 0.167049,
+        "y": 0.866928
+      },
+      "exportWidth": 629,
+      "exportHeight": 1214,
+      "opaquePixels": 437785,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 16913,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_dark_blue_slim_jeans_v1.png",
+      "sha256": "ab1566c228c4075cc0ecd0a51c572d07ece8dd6361f2d8cd95bc5c59b6526164"
+    },
+    {
+      "cellId": "R4C2",
+      "row": 4,
+      "column": 2,
+      "sourceBox": {
+        "x": 1523,
+        "y": 3668,
+        "width": 540,
+        "height": 1083
+      },
+      "centroidNormalized": {
+        "x": 0.500073,
+        "y": 0.870337
+      },
+      "exportWidth": 668,
+      "exportHeight": 1211,
+      "opaquePixels": 479586,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 12541,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_olive_cargo_trousers_v1.png",
+      "sha256": "b95c815acdb264529753b365a3d5d714a038c242b4a1647353595e53e01058c2"
+    },
+    {
+      "cellId": "R4C3",
+      "row": 4,
+      "column": 3,
+      "sourceBox": {
+        "x": 2741,
+        "y": 3667,
+        "width": 500,
+        "height": 1089
+      },
+      "centroidNormalized": {
+        "x": 0.834402,
+        "y": 0.869826
+      },
+      "exportWidth": 628,
+      "exportHeight": 1217,
+      "opaquePixels": 461409,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 13703,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_light_blue_dress_trousers_v1.png",
+      "sha256": "62b05656c23b6d323f4ea9e92a8277d240e24b569acca04410fdf0e0a0d388f2"
+    }
+  ],
+  "rejectedFragments": []
+}

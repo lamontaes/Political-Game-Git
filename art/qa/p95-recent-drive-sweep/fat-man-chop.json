@@ -1,0 +1,229 @@
+{
+  "tool": "source-sheet-chop-v1",
+  "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/fat man.png",
+  "sourceSha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+  "sourceWidth": 5056,
+  "sourceHeight": 3392,
+  "options": {
+    "alphaNoiseThreshold": 8,
+    "paddingPixels": 64,
+    "minimumGapPixels": 24,
+    "minimumComponentPixels": 20000
+  },
+  "columnBands": [
+    {
+      "start": 266,
+      "end": 884
+    },
+    {
+      "start": 1372,
+      "end": 2391
+    },
+    {
+      "start": 2760,
+      "end": 3513
+    },
+    {
+      "start": 4002,
+      "end": 4779
+    }
+  ],
+  "rowBands": [
+    {
+      "start": 97,
+      "end": 1713
+    },
+    {
+      "start": 1797,
+      "end": 3391
+    }
+  ],
+  "noisePixelsCleared": 3739691,
+  "cells": [
+    {
+      "cellId": "R1C1",
+      "row": 1,
+      "column": 1,
+      "sourceBox": {
+        "x": 278,
+        "y": 99,
+        "width": 597,
+        "height": 1611
+      },
+      "centroidNormalized": {
+        "x": 0.114045,
+        "y": 0.256506
+      },
+      "exportWidth": 725,
+      "exportHeight": 1739,
+      "opaquePixels": 582484,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 28743,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_neutral_front_a_v1.png",
+      "sha256": "465d9a7fa14d26cd3d2bdc3d7e22ba54b02fa7c7a031c56e2713fcb40ec661a3"
+    },
+    {
+      "cellId": "R1C2",
+      "row": 1,
+      "column": 2,
+      "sourceBox": {
+        "x": 1529,
+        "y": 100,
+        "width": 733,
+        "height": 1614
+      },
+      "centroidNormalized": {
+        "x": 0.357,
+        "y": 0.255036
+      },
+      "exportWidth": 861,
+      "exportHeight": 1742,
+      "opaquePixels": 513602,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 21251,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_conversational_open_hand_v1.png",
+      "sha256": "9402d567e95852171bd21e4e5d40abf2016022c4798f392a5fec39d136000f42"
+    },
+    {
+      "cellId": "R1C3",
+      "row": 1,
+      "column": 3,
+      "sourceBox": {
+        "x": 2944,
+        "y": 97,
+        "width": 543,
+        "height": 1615
+      },
+      "centroidNormalized": {
+        "x": 0.634066,
+        "y": 0.258705
+      },
+      "exportWidth": 671,
+      "exportHeight": 1743,
+      "opaquePixels": 543382,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 19018,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_neutral_back_v1.png",
+      "sha256": "df661f6c5fd25676e1b510dd7ffbde206123eccd193de0e598b864bcd09b4c9e"
+    },
+    {
+      "cellId": "R1C4",
+      "row": 1,
+      "column": 4,
+      "sourceBox": {
+        "x": 4002,
+        "y": 98,
+        "width": 778,
+        "height": 1615
+      },
+      "centroidNormalized": {
+        "x": 0.889242,
+        "y": 0.255482
+      },
+      "exportWidth": 906,
+      "exportHeight": 1743,
+      "opaquePixels": 534459,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 18750,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_lectern_interaction_v1.png",
+      "sha256": "dd9f6deb637d57e63a644473f67385a25f623578ead8b138e107d49255ffa30a"
+    },
+    {
+      "cellId": "R2C1",
+      "row": 2,
+      "column": 1,
+      "sourceBox": {
+        "x": 266,
+        "y": 1870,
+        "width": 619,
+        "height": 1479
+      },
+      "centroidNormalized": {
+        "x": 0.11389,
+        "y": 0.769961
+      },
+      "exportWidth": 747,
+      "exportHeight": 1607,
+      "opaquePixels": 566002,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 19409,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_front_chair_v1.png",
+      "sha256": "8ffbf576e4b74465159734996adefb7146ec22d68b34709273933ec1fc5e2fdc"
+    },
+    {
+      "cellId": "R2C2",
+      "row": 2,
+      "column": 2,
+      "sourceBox": {
+        "x": 1372,
+        "y": 1880,
+        "width": 1020,
+        "height": 1468
+      },
+      "centroidNormalized": {
+        "x": 0.370777,
+        "y": 0.769952
+      },
+      "exportWidth": 1148,
+      "exportHeight": 1596,
+      "opaquePixels": 540129,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 21340,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_interaction_surface_v1.png",
+      "sha256": "18564c0ed947e6a22f12d83754d0a9a6de94460c37c13ad7fc6b3a0105a081e7"
+    },
+    {
+      "cellId": "R2C3",
+      "row": 2,
+      "column": 3,
+      "sourceBox": {
+        "x": 2760,
+        "y": 1879,
+        "width": 754,
+        "height": 1476
+      },
+      "centroidNormalized": {
+        "x": 0.626598,
+        "y": 0.769815
+      },
+      "exportWidth": 882,
+      "exportHeight": 1604,
+      "opaquePixels": 527736,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 18967,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_conversational_open_hand_v1.png",
+      "sha256": "33f9a882da3fa1c7761103fea8ba64fe60fd498c50c94cc1ea7233afea9a3eab"
+    },
+    {
+      "cellId": "R2C4",
+      "row": 2,
+      "column": 4,
+      "sourceBox": {
+        "x": 4308,
+        "y": 1797,
+        "width": 384,
+        "height": 1575
+      },
+      "centroidNormalized": {
+        "x": 0.895025,
+        "y": 0.755931
+      },
+      "exportWidth": 512,
+      "exportHeight": 1703,
+      "opaquePixels": 398225,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 14341,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_neutral_profile_v1.png",
+      "sha256": "2fe412c17216ba81ac3658e94724504d69a993b485c9796131c50b780c59e379"
+    }
+  ],
+  "rejectedFragments": []
+}
