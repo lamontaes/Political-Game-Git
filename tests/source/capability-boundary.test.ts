@@ -20,9 +20,11 @@ import {
   assertValidArtifactLock,
   assertValidRawArtifact,
   openFixture,
+  openCachedProductionArtifacts,
   openProductionArtifacts,
   requireArtifact,
   writeProductionCorpus,
+  sha256Hex,
 } from "../../src/source/core/index";
 import type {
   ArtifactLock,
@@ -65,6 +67,52 @@ describe("A1 — a compiler cannot be called with a plain object", () => {
 });
 
 describe("A2 / A14 / A15 — opening production artifacts", () => {
+  it("opens cache-only bytes only from the domain cache and only at the locked digest", () => {
+    const base = countiesLock().artifacts[0] as RawArtifact;
+    const cacheParent = resolve(REPO, ".source-cache/counties");
+    mkdirSync(cacheParent, { recursive: true });
+    const scratch = mkdtempSync(resolve(cacheParent, "capability-"));
+    const outside = mkdtempSync(resolve(tmpdir(), "capability-outside-"));
+    try {
+      const bytes = Buffer.from("locked cache-only publisher bytes");
+      const cacheFile = resolve(scratch, "artifact.bin");
+      const outsideFile = resolve(outside, "artifact.bin");
+      writeFileSync(cacheFile, bytes);
+      writeFileSync(outsideFile, bytes);
+      const artifact: RawArtifact = {
+        ...base,
+        artifactId: "cache-only-proof",
+        storage: "cached-not-committed",
+        localPath: null,
+        bytes: { length: bytes.length, sha256: sha256Hex(bytes) },
+        retrieval: {
+          ...base.retrieval,
+          responseBytes: bytes.length,
+        },
+      };
+      const lock: ArtifactLock = { domain: "counties", artifacts: [artifact] };
+      const cachePath = cacheFile.slice(REPO.length + 1);
+      const opened = openCachedProductionArtifacts("counties", lock, {
+        data: { artifactId: artifact.artifactId, cachePath },
+      });
+      expect(opened.artifacts.data.bytes).toEqual(bytes);
+      expect(() =>
+        openCachedProductionArtifacts("counties", lock, {
+          data: { artifactId: artifact.artifactId, cachePath: outsideFile },
+        }),
+      ).toThrow(/outside the counties source cache/);
+      writeFileSync(cacheFile, Buffer.from("tampered"));
+      expect(() =>
+        openCachedProductionArtifacts("counties", lock, {
+          data: { artifactId: artifact.artifactId, cachePath },
+        }),
+      ).toThrow(/hashes to [0-9a-f]{64}, but the lock pins/);
+    } finally {
+      rmSync(scratch, { recursive: true, force: true });
+      rmSync(outside, { recursive: true, force: true });
+    }
+  });
+
   it("A2 — refuses an unmarked synthetic payload placed at a production path", () => {
     const lock = countiesLock();
     const artifact = lock.artifacts[0] as RawArtifact;
