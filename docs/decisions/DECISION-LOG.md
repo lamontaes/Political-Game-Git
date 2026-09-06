@@ -2240,3 +2240,28 @@ moved off `unknown`, and federal presentment remains `unknown` because no
 federal legislative pack exists to resolve. This is the mechanism working as
 decided above — a reference becomes resolvable when, and only when, the
 artifact it names is actually compiled — not a new claim about either state.
+
+Integrity hardening (R2 repair, same PR #101 branch, no new claim): the
+contract's runtime boundary was tightened so it fails closed rather than open,
+without changing any sourced row.
+
+- `assertRuleValue` now holds each `RuleValue` to its exact shape. A `known`
+  value must carry a value and a pinpointed source and nothing else; an
+  `unknown` may carry only its note (an "unknown" smuggling a value is
+  rejected); and a `not-applicable` is an affirmative, sourced determination —
+  its note must cite the provision that establishes inapplicability, so silence
+  can never be read as `not-applicable`. The three enumerated fields (branch
+  structure, removal mode, clemency model) are checked against their closed
+  domains at runtime, so an invalid enum fails at validation, not only at
+  compile time.
+- `isGenericCitation` no longer treats a bare year as a pinpoint. A citation
+  such as "US CONSTITUTION 1787" is refused; a genuine locator — an article,
+  section, clause, rule, statutory-code section, or a section-sign form like
+  "§ 1983" — still passes.
+- `resolvePresentmentAuthority` resolves the referenced pack from the live
+  registry (`rulePackById`) and refuses a caller-supplied object that is not the
+  registered instance, so a fabricated pack bearing a correct-looking id cannot
+  stand in for real presentment authority.
+
+Federal presentment remains `unknown`; no federal authority is invented. The
+bounded six-jurisdiction substrate and every accepted sourced row are unchanged.

@@ -31,6 +31,7 @@ import {
   type RuleSourceRef,
   type RuleValue,
 } from "./legislature-rules";
+import { rulePackById } from "./legislature-rule-packs";
 
 // ---------------------------------------------------------------------------
 // Office identity
@@ -315,17 +316,28 @@ export function resolvePresentmentAuthority(
       `Executive pack '${executivePack.packId}' does not reference a legislative pack for presentment: ${ref.note}`,
     );
   }
-  if (ref.value !== legislativePack.packId) {
+  // Resolve the referenced authority from the live registry, never from the
+  // caller's object. `rulePackById` throws for a synthetic or unregistered id,
+  // and the identity check below refuses a fabricated object whose id merely
+  // looks right — so the ExecutiveRule handed back is always the one the
+  // registered legislative pack actually holds.
+  const registered = rulePackById(ref.value);
+  if (legislativePack !== registered) {
+    if (legislativePack.packId !== ref.value) {
+      throw new Error(
+        `Executive pack '${executivePack.packId}' references legislative pack '${ref.value}', not '${legislativePack.packId}'.`,
+      );
+    }
     throw new Error(
-      `Executive pack '${executivePack.packId}' references legislative pack '${ref.value}', not '${legislativePack.packId}'.`,
+      `Executive pack '${executivePack.packId}' presentment must resolve to the live registered legislative pack '${ref.value}', not a caller-supplied object bearing that id.`,
     );
   }
-  if (executivePack.jurisdictionKey !== legislativePack.jurisdictionKey) {
+  if (executivePack.jurisdictionKey !== registered.jurisdictionKey) {
     throw new Error(
-      `Executive pack '${executivePack.packId}' (${executivePack.jurisdictionKey}) and legislative pack '${legislativePack.packId}' (${legislativePack.jurisdictionKey}) describe different jurisdictions.`,
+      `Executive pack '${executivePack.packId}' (${executivePack.jurisdictionKey}) and legislative pack '${registered.packId}' (${registered.jurisdictionKey}) describe different jurisdictions.`,
     );
   }
-  return legislativePack.executive;
+  return registered.executive;
 }
 
 /** True where the office is arranged as a plural executive. */
@@ -359,21 +371,37 @@ const GENERIC_CITATION_PATTERNS: readonly RegExp[] = [
 ];
 
 /**
- * The shapes a real pinpoint takes: a provision word or section sign followed
- * by the provision's own number ("Art. II, Sec. 3", "Sec. 88", "ch. 10A"), or a
- * statutory code abbreviation carrying one ("KRS 117.015(2)", "10 ILCS 5/1A-1").
- * A citation matching none of these names an instrument, not a provision.
+ * The shapes a real pinpoint takes:
+ *
+ * 1. a provision word or section sign immediately followed by the provision's
+ *    own number or roman numeral — "Art. II, Sec. 3", "Sec. 88", "ch. 10A",
+ *    and a section-sign form such as "§ 1983"; or
+ * 2. a statutory-code abbreviation immediately followed by its section number —
+ *    "KRS 117.015(2)", "10 ILCS 5/1A-1".
+ *
+ * A bare four-digit year is deliberately NOT a pinpoint. The second pattern
+ * keys on a one-to-three-digit section number and refuses a longer run, so a
+ * trailing year such as "1787" in "US CONSTITUTION 1787" cannot masquerade as a
+ * locator by containing digits. A genuine four-digit section (a federal
+ * "§ 1983") still pinpoints, because a section sign or provision word
+ * introduces it and the first pattern matches that.
  */
 const PINPOINT_PATTERNS: readonly RegExp[] = [
   /(?:§|\b(?:sec|section|art|article|cl|clause|rule|ch|chapter|title|para|paragraph)\b\.?)\s*[0-9IVXLCDM]/i,
-  /\b[A-Z]{2,}\b[^\n]*\d/,
+  /\b[A-Z]{2,}\b\.?\s*(?:§\s*)?\d{1,3}(?![0-9])/,
 ];
+
+/** True where a citation or note carries an operative pinpoint provision. */
+function hasPinpointProvision(text: string): boolean {
+  return PINPOINT_PATTERNS.some((pattern) => pattern.test(text));
+}
 
 /**
  * True where a citation identifies no pinpoint provision — either because it
- * matches a known generic template, or because it carries no section, article,
- * clause or page number at all. Exported so a caller can check a citation
- * before building a rule from it.
+ * matches a known generic template, or because it names an instrument (and
+ * perhaps a year) without an article, section, clause, rule or statutory-code
+ * locator. A year alone is never a pinpoint. Exported so a caller can check a
+ * citation before building a rule from it.
  */
 export function isGenericCitation(citation: string): boolean {
   const trimmed = citation.trim();
@@ -383,7 +411,7 @@ export function isGenericCitation(citation: string): boolean {
   if (GENERIC_CITATION_PATTERNS.some((pattern) => pattern.test(trimmed))) {
     return true;
   }
-  return !PINPOINT_PATTERNS.some((pattern) => pattern.test(trimmed));
+  return !hasPinpointProvision(trimmed);
 }
 
 function assertPinpointedSource(source: RuleSourceRef, label: string): void {
@@ -395,25 +423,108 @@ function assertPinpointedSource(source: RuleSourceRef, label: string): void {
   }
 }
 
+/**
+ * The closed domains the three enumerated executive fields may take, declared as
+ * runtime data and not only as TypeScript unions. A hand-built or deserialized
+ * pack never passes through the compiler, so the domain is enforced here, at the
+ * validation seam, where an invalid enum value is rejected rather than accepted.
+ */
+const BRANCH_STRUCTURES: readonly ExecutiveBranchStructure[] = [
+  "unitary",
+  "plural",
+];
+const REMOVAL_MODES: readonly RemovalMode[] = [
+  "at-pleasure",
+  "for-cause",
+  "fixed-term",
+  "mixed",
+];
+const CLEMENCY_MODELS: readonly ClemencyModel[] = [
+  "executive-sole",
+  "board-advisory",
+  "board-required",
+  "board-exclusive",
+];
+
+/** A value check confirming a known value lies within a closed string domain. */
+function withinDomain<T extends string>(
+  domain: readonly T[],
+): (resolved: T, label: string) => void {
+  return (resolved, label) => {
+    if (typeof resolved !== "string" || !domain.includes(resolved)) {
+      throw new Error(
+        `${label} carries '${String(resolved)}', which is outside its closed domain {${domain.join(", ")}}.`,
+      );
+    }
+  };
+}
+
+/**
+ * Runtime integrity of a single {@link RuleValue}, strict enough that a
+ * malformed value fails closed instead of being accepted.
+ *
+ * The three epistemic states are held to their exact shapes:
+ * - `known` carries a resolved value and a pinpointed source and nothing else; a
+ *   missing value, an empty string, a non-finite number, or a value outside the
+ *   field's closed domain (via `validate`) is rejected.
+ * - `unknown` carries only an explanatory note; it may not smuggle a `value` or
+ *   `source`, so an "unknown" that secretly resolves something fails.
+ * - `not-applicable` is an affirmative, sourced determination that the concept
+ *   does not exist, never an inference from silence: its note must cite the
+ *   operative provision that establishes inapplicability, or the value is
+ *   rejected and the field must stay `unknown`.
+ */
 function assertRuleValue<T>(
   value: RuleValue<T>,
   label: string,
-  validate?: (resolved: T) => void,
+  validate?: (resolved: T, label: string) => void,
 ): void {
-  if (!value || typeof value !== "object") {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
     throw new Error(`${label} must be a rule value.`);
   }
-  if (value.kind === "known") {
-    assertPinpointedSource(value.source, label);
-    validate?.(value.value);
+  const record = value as Record<string, unknown>;
+  const shape = Object.keys(record).sort().join(",");
+
+  if (record.kind === "known") {
+    if (shape !== "kind,source,value") {
+      throw new Error(
+        `${label} is a malformed known value; a known rule carries exactly a value and a source (found: ${shape}).`,
+      );
+    }
+    if (record.value === undefined || record.value === null) {
+      throw new Error(`${label} is known but carries no resolved value.`);
+    }
+    if (typeof record.value === "string" && record.value.trim().length === 0) {
+      throw new Error(`${label} known value must not be an empty string.`);
+    }
+    if (typeof record.value === "number" && !Number.isFinite(record.value)) {
+      throw new Error(`${label} known numeric value must be finite.`);
+    }
+    assertPinpointedSource(record.source as RuleSourceRef, label);
+    validate?.(record.value as T, label);
     return;
   }
-  if (value.kind === "unknown" || value.kind === "not-applicable") {
-    if (value.note.trim().length === 0) {
-      throw new Error(`${label} must explain its ${value.kind} state.`);
+
+  if (record.kind === "unknown" || record.kind === "not-applicable") {
+    if (shape !== "kind,note") {
+      throw new Error(
+        `${label} is a malformed ${record.kind} value; it may carry only an explanatory note (found: ${shape}).`,
+      );
+    }
+    if (typeof record.note !== "string" || record.note.trim().length === 0) {
+      throw new Error(`${label} must explain its ${record.kind} state.`);
+    }
+    if (
+      record.kind === "not-applicable" &&
+      !hasPinpointProvision(record.note)
+    ) {
+      throw new Error(
+        `${label} is marked not-applicable without affirmative sourced authority; a not-applicable rule must cite the provision that establishes the concept does not exist, otherwise the field stays unknown.`,
+      );
     }
     return;
   }
+
   throw new Error(`${label} has an unrecognized rule state.`);
 }
 
@@ -451,6 +562,7 @@ export function assertExecutiveAuthorityPackIntegrity(
   assertRuleValue(
     pack.office.branchStructure,
     `branch structure in '${pack.packId}'`,
+    withinDomain(BRANCH_STRUCTURES),
   );
 
   assertRuleValue(
@@ -473,7 +585,11 @@ export function assertExecutiveAuthorityPackIntegrity(
   );
 
   assertSourceRef(pack.removal.source, `removal in '${pack.packId}'`);
-  assertRuleValue(pack.removal.mode, `removal mode in '${pack.packId}'`);
+  assertRuleValue(
+    pack.removal.mode,
+    `removal mode in '${pack.packId}'`,
+    withinDomain(REMOVAL_MODES),
+  );
 
   assertSourceRef(
     pack.specialSession.source,
@@ -547,7 +663,11 @@ export function assertExecutiveAuthorityPackIntegrity(
   );
 
   assertSourceRef(pack.clemency.source, `clemency in '${pack.packId}'`);
-  assertRuleValue(pack.clemency.model, `clemency model in '${pack.packId}'`);
+  assertRuleValue(
+    pack.clemency.model,
+    `clemency model in '${pack.packId}'`,
+    withinDomain(CLEMENCY_MODELS),
+  );
   assertRuleValue(pack.clemency.scope, `clemency scope in '${pack.packId}'`);
 
   assertSourceRef(

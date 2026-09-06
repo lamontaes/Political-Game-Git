@@ -30,6 +30,7 @@ import {
 import {
   isKnown,
   knownValueOrNull,
+  notApplicableRule,
   type RuleSourceRef,
   type RuleValue,
 } from "./legislature-rules";
@@ -931,5 +932,261 @@ describe("executive-authority: what the verified record establishes", () => {
     for (const pack of EXECUTIVE_AUTHORITY_RULE_PACKS) {
       expect(isKnown(pack.office.branchStructure)).toBe(true);
     }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// R2 blocker 1 — RuleValue runtime integrity fails closed.
+//
+// The contract is tested through its public seam, `assertExecutiveAuthority-
+// PackIntegrity`: one malformed rule value is injected into an otherwise valid
+// pack and the seam must refuse it. `removal.mode` carries no cross-field logic,
+// so a failure injected there is the RuleValue check firing and nothing else.
+// ---------------------------------------------------------------------------
+
+describe("executive-authority R2: RuleValue runtime integrity fails closed", () => {
+  const pinpointed: RuleSourceRef = KENTUCKY_EXECUTIVE_PACK.office.source;
+
+  function withRemovalMode(mode: unknown): ExecutiveAuthorityRulePack {
+    return {
+      ...KENTUCKY_EXECUTIVE_PACK,
+      removal: {
+        ...KENTUCKY_EXECUTIVE_PACK.removal,
+        mode: mode as typeof KENTUCKY_EXECUTIVE_PACK.removal.mode,
+      },
+    };
+  }
+
+  it("rejects an unknown that smuggles a resolved value", () => {
+    expect(() =>
+      assertExecutiveAuthorityPackIntegrity(
+        withRemovalMode({
+          kind: "unknown",
+          note: "not researched",
+          value: "at-pleasure",
+        }),
+      ),
+    ).toThrow(/only an explanatory note/);
+  });
+
+  it("rejects a not-applicable asserted from silence, with no authority", () => {
+    expect(() =>
+      assertExecutiveAuthorityPackIntegrity(
+        withRemovalMode(
+          notApplicableRule("removal simply does not apply to this office"),
+        ),
+      ),
+    ).toThrow(/without affirmative sourced authority/);
+  });
+
+  it("accepts a not-applicable that cites the provision establishing it", () => {
+    // The affirmative, sourced form is allowed: the concept is declared absent
+    // by naming the operative provision, not inferred from a silent record.
+    expect(() =>
+      assertExecutiveAuthorityPackIntegrity(
+        withRemovalMode(
+          notApplicableRule(
+            "This office removes no principal officer; Alaska Const. Art. III, Sec. 25 vests that authority elsewhere.",
+          ),
+        ),
+      ),
+    ).not.toThrow();
+  });
+
+  it("rejects a malformed known value missing its source", () => {
+    expect(() =>
+      assertExecutiveAuthorityPackIntegrity(
+        withRemovalMode({ kind: "known", value: "at-pleasure" }),
+      ),
+    ).toThrow(/malformed known value/);
+  });
+
+  it("rejects a mixed shape carrying both a value and a note", () => {
+    expect(() =>
+      assertExecutiveAuthorityPackIntegrity(
+        withRemovalMode({
+          kind: "known",
+          value: "at-pleasure",
+          note: "and also unknown",
+          source: pinpointed,
+        }),
+      ),
+    ).toThrow(/malformed known value/);
+  });
+
+  it("rejects a known value outside the field's closed enum domain", () => {
+    expect(() =>
+      assertExecutiveAuthorityPackIntegrity(
+        withRemovalMode({
+          kind: "known",
+          value: "whenever-it-likes",
+          source: pinpointed,
+        }),
+      ),
+    ).toThrow(/closed domain/);
+  });
+
+  it("rejects an invalid branch-structure enum at runtime, not only in the type", () => {
+    const broken: ExecutiveAuthorityRulePack = {
+      ...KENTUCKY_EXECUTIVE_PACK,
+      office: {
+        ...KENTUCKY_EXECUTIVE_PACK.office,
+        branchStructure: {
+          kind: "known",
+          value: "monarchy",
+          source: pinpointed,
+        } as unknown as typeof KENTUCKY_EXECUTIVE_PACK.office.branchStructure,
+      },
+    };
+    expect(() => assertExecutiveAuthorityPackIntegrity(broken)).toThrow(
+      /closed domain/,
+    );
+  });
+
+  it("rejects a known clemency model outside its domain", () => {
+    const broken: ExecutiveAuthorityRulePack = {
+      ...US_FEDERAL_EXECUTIVE_PACK,
+      clemency: {
+        ...US_FEDERAL_EXECUTIVE_PACK.clemency,
+        model: {
+          kind: "known",
+          value: "king-decides",
+          source: US_FEDERAL_EXECUTIVE_PACK.clemency.source,
+        } as unknown as typeof US_FEDERAL_EXECUTIVE_PACK.clemency.model,
+      },
+    };
+    expect(() => assertExecutiveAuthorityPackIntegrity(broken)).toThrow(
+      /closed domain/,
+    );
+  });
+
+  it("rejects a known string value that is empty", () => {
+    const broken: ExecutiveAuthorityRulePack = {
+      ...ALASKA_EXECUTIVE_PACK,
+      appointment: {
+        ...ALASKA_EXECUTIVE_PACK.appointment,
+        confirmingBody: {
+          kind: "known",
+          value: "",
+          source: ALASKA_EXECUTIVE_PACK.appointment.source,
+        } as unknown as typeof ALASKA_EXECUTIVE_PACK.appointment.confirmingBody,
+      },
+    };
+    expect(() => assertExecutiveAuthorityPackIntegrity(broken)).toThrow(
+      /empty string/,
+    );
+  });
+
+  it("still accepts every real pack (valid control)", () => {
+    for (const pack of EXECUTIVE_AUTHORITY_RULE_PACKS) {
+      expect(() => assertExecutiveAuthorityPackIntegrity(pack)).not.toThrow();
+    }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// R2 blocker 2 — a year alone is never a legal pinpoint.
+// ---------------------------------------------------------------------------
+
+describe("executive-authority R2: a year alone is never a pinpoint", () => {
+  it("rejects a generic title carrying only a year", () => {
+    for (const citation of [
+      "US CONSTITUTION 1787",
+      "U.S. Constitution, 1787",
+      "Illinois Constitution 1970",
+      "Alaska Const. 1959",
+      "Constitution of the State of Nebraska (1875)",
+    ]) {
+      expect(`${citation} => ${isGenericCitation(citation)}`).toBe(
+        `${citation} => true`,
+      );
+    }
+  });
+
+  it("accepts a genuine locator, including a four-digit section after a sign", () => {
+    for (const citation of [
+      "U.S. Const. Art. II, Sec. 3",
+      "Ky. Const. Sec. 88",
+      "KRS 117.015(2)",
+      "10 ILCS 5/1A-1",
+      "Minn. Stat. ch. 10A",
+      "42 U.S.C. § 1983",
+      "House Rule 39",
+    ]) {
+      expect(`${citation} => ${isGenericCitation(citation)}`).toBe(
+        `${citation} => false`,
+      );
+    }
+  });
+
+  it("refuses a pack whose known value rests on a year-only citation", () => {
+    const broken: ExecutiveAuthorityRulePack = {
+      ...KENTUCKY_EXECUTIVE_PACK,
+      office: {
+        ...KENTUCKY_EXECUTIVE_PACK.office,
+        branchStructure: {
+          kind: "known",
+          value: "plural",
+          source: {
+            ...KENTUCKY_EXECUTIVE_PACK.office.source,
+            citation: "Kentucky Constitution 1891",
+          },
+        },
+      },
+    };
+    expect(() => assertExecutiveAuthorityPackIntegrity(broken)).toThrow(
+      /no pinpoint provision/,
+    );
+  });
+});
+
+// ---------------------------------------------------------------------------
+// R2 blocker 3 — presentment resolves only against the live registry, never a
+// caller-supplied authority object.
+// ---------------------------------------------------------------------------
+
+describe("executive-authority R2: presentment resolves only against the live registry", () => {
+  it("rejects a fabricated legislative pack whose id merely looks right", () => {
+    const fabricated = {
+      ...KENTUCKY_RULE_PACK,
+      executive: { ...KENTUCKY_RULE_PACK.executive, titleLabel: "FABRICATED" },
+    };
+    expect(() =>
+      resolvePresentmentAuthority(KENTUCKY_EXECUTIVE_PACK, fabricated),
+    ).toThrow(/must resolve to the live registered/);
+  });
+
+  it("rejects a synthetic, unregistered legislative pack id at resolution", () => {
+    const syntheticRef: ExecutiveAuthorityRulePack = {
+      ...KENTUCKY_EXECUTIVE_PACK,
+      presentment: {
+        legislativeRulePackId: {
+          kind: "known",
+          value: "us-zz-nowhere-v1",
+          source: KENTUCKY_EXECUTIVE_PACK.office.source,
+        } as unknown as typeof KENTUCKY_EXECUTIVE_PACK.presentment.legislativeRulePackId,
+      },
+    };
+    expect(() =>
+      resolvePresentmentAuthority(syntheticRef, KENTUCKY_RULE_PACK),
+    ).toThrow(/No legislative rule pack is registered/);
+  });
+
+  it("rejects a jurisdiction mismatch even when the id resolves", () => {
+    const wrongJurisdiction: ExecutiveAuthorityRulePack = {
+      ...KENTUCKY_EXECUTIVE_PACK,
+      jurisdictionKey: "US-ZZ",
+    };
+    const kyLegis = rulePackById("us-ky-general-assembly-v1");
+    expect(() =>
+      resolvePresentmentAuthority(wrongJurisdiction, kyLegis),
+    ).toThrow(/different jurisdictions/);
+  });
+
+  it("still returns the registered pack's own executive rule for a real pair", () => {
+    const kyLegis = rulePackById("us-ky-general-assembly-v1");
+    expect(resolvePresentmentAuthority(KENTUCKY_EXECUTIVE_PACK, kyLegis)).toBe(
+      KENTUCKY_RULE_PACK.executive,
+    );
   });
 });

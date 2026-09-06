@@ -55,9 +55,13 @@ import type {
  * legislative rule pack owns those facts, this pack points at it by id through
  * its `presentment` reference, and {@link presentmentRef} resolves that id
  * against the live compiled registry at module load, so a reference to a pack
- * that does not exist is impossible to write. Where no legislative pack has
- * been compiled (Minnesota, Illinois, the federal executive), the reference
- * stays `unknown`.
+ * that does not exist is impossible to write. Kentucky, Nebraska, Alaska,
+ * Minnesota and Illinois all now have a compiled legislative pack — the
+ * Minnesota and Illinois packs since accepted PR #102 — so those five
+ * presentment references resolve. The federal executive is the one remaining
+ * unresolved reference in this bounded corpus: no federal legislative pack has
+ * been compiled (Art. I, Sec. 7 presentment has no pack to resolve), so its
+ * reference stays `unknown`. No federal authority is invented to fill it.
  */
 
 // ---------------------------------------------------------------------------
