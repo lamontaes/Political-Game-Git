@@ -135,6 +135,7 @@ export const COMMITTEE_ROOM_FIXTURE_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 0,
       allowed_content_classes: ["agenda", "neutral-art"],
+      information_access: "public-record",
       fallback_decoration: "an empty board",
     },
     {
@@ -148,6 +149,7 @@ export const COMMITTEE_ROOM_FIXTURE_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 0,
       allowed_content_classes: ["vote-tally", "bill-number"],
+      information_access: "public-record",
       fallback_decoration: "an unlit tally board",
     },
     {
@@ -161,6 +163,7 @@ export const COMMITTEE_ROOM_FIXTURE_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 5,
       allowed_content_classes: ["document-body", "briefing-slide"],
+      information_access: "institutional-working",
       fallback_decoration: "a bare tabletop",
     },
   ],

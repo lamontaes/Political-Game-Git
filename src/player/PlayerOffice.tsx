@@ -53,6 +53,7 @@ import {
 } from "../presentation/run-d-lite-state";
 import { CalendarWorkspace } from "./CalendarWorkspace";
 import { ConversationStrip } from "./ConversationStrip";
+import { projectDynamicSurfaces } from "../presentation/surface-projection";
 import { OfficeScene } from "./OfficeScene";
 import { PermanentShell } from "./PermanentShell";
 import { WorkPendingWorkspace } from "./WorkPendingWorkspace";
@@ -136,6 +137,26 @@ export function PlayerOffice() {
   const planningProjection = useMemo(
     () => projectRunDLite(world, fixture),
     [fixture, world],
+  );
+
+  /**
+   * What this office can honestly put on its own surfaces.
+   *
+   * The draft handed over is the one the workspace beside the room is already
+   * showing the player, and its status label is that workspace's own words.
+   * The room is not allowed a second, better-informed view of the document
+   * than the document workspace has.
+   */
+  const surfaceProjection = useMemo(
+    () =>
+      projectDynamicSurfaces(world, {
+        jurisdictionId: world.jurisdictionOrder[0] ?? null,
+        workingDocument: {
+          title: fixture.document.title,
+          statusLabel: documentProjection.paperStatusLabel,
+        },
+      }),
+    [world, fixture.document.title, documentProjection.paperStatusLabel],
   );
   const activeConversationRoom =
     conversationState.progress &&
@@ -476,6 +497,7 @@ export function PlayerOffice() {
     >
       <OfficeScene
         fixture={fixture}
+        surfaces={surfaceProjection}
         dossiers={dossiers}
         state={state}
         dispatch={dispatch}
