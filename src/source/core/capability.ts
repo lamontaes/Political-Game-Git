@@ -18,6 +18,10 @@ import { SourceCapabilityError } from "./errors";
 import { sha256Hex } from "./hashing";
 import type { ArtifactLock, RawArtifact } from "./artifact";
 import { requireArtifact } from "./artifact";
+import {
+  assertValidGovernmentEdictBasis,
+  extractPinnedEnactedText,
+} from "./enacted-text";
 
 declare const PRODUCTION: unique symbol;
 declare const FIXTURE: unique symbol;
@@ -36,16 +40,74 @@ export interface FixtureInput<T> {
   readonly fixtureId: string;
 }
 
-/** One opened artifact: its locked identity and the verified bytes. */
+/**
+ * How much of an artifact a production compiler is allowed to read.
+ *
+ * `whole-artifact` is the ordinary case: a federal statistical product carries
+ * no rights boundary inside it. `enacted-text-only` is what a government-edict
+ * determination buys — the doctrine covers enacted law and not the publisher's
+ * page, so the opener cuts the declared enacted-text spans and the compiler
+ * receives those and nothing else.
+ */
+export type ProductionContentScope = "whole-artifact" | "enacted-text-only";
+
+/**
+ * One opened artifact: its locked identity, and the bytes production may read.
+ *
+ * For an edict artifact `bytes` is the extracted enacted text, not the page.
+ * There is no field carrying the rest, because a field carrying the rest would
+ * be the boundary not existing.
+ */
 export interface OpenedArtifact {
   readonly artifact: RawArtifact;
   readonly bytes: Buffer;
+  readonly contentScope: ProductionContentScope;
 }
 
 /** The shape a domain receives: every artifact it asked for, by role name. */
 export type OpenedArtifacts<TRole extends string> = Readonly<
   Record<TRole, OpenedArtifact>
 >;
+
+/**
+ * Decide what a production compiler may read from verified publisher bytes.
+ *
+ * Refuses UNKNOWN outright. For a government edict it re-validates the
+ * structured determination — a lock is JSON on disk, so a type is not a check —
+ * and then narrows the bytes to the enacted-text spans that determination
+ * covers. The status label on its own opens nothing.
+ */
+function readableForProduction(
+  artifactId: string,
+  artifact: RawArtifact,
+  verifiedBytes: Buffer,
+): { bytes: Buffer; contentScope: ProductionContentScope } {
+  if (artifact.rights.status === "UNKNOWN") {
+    throw new SourceCapabilityError(
+      `Artifact "${artifactId}" has UNKNOWN rights status and may not be opened for production compilation.`,
+    );
+  }
+  if (artifact.rights.status !== "public-domain-government-edict") {
+    return { bytes: verifiedBytes, contentScope: "whole-artifact" };
+  }
+  const edict = artifact.rights.edict;
+  try {
+    assertValidGovernmentEdictBasis(artifactId, edict);
+  } catch (cause) {
+    throw new SourceCapabilityError(
+      `Artifact "${artifactId}" may not be opened for production: ${(cause as Error).message}`,
+    );
+  }
+  let bytes: Buffer;
+  try {
+    bytes = extractPinnedEnactedText(artifactId, verifiedBytes, edict.scope);
+  } catch (cause) {
+    throw new SourceCapabilityError(
+      `Artifact "${artifactId}" may not be opened for production: ${(cause as Error).message}`,
+    );
+  }
+  return { bytes, contentScope: "enacted-text-only" };
+}
 
 function repoRoot(): string {
   // core/ -> source/ -> src/ -> repository root
@@ -94,12 +156,6 @@ export function openProductionArtifacts<T extends string>(
         `Artifact "${artifactId}" is ${artifact.storage} and has no local bytes; compile from its committed QA slice instead.`,
       );
     }
-    if (artifact.rights.status === "UNKNOWN") {
-      throw new SourceCapabilityError(
-        `Artifact "${artifactId}" has UNKNOWN rights status and may not be opened for production compilation.`,
-      );
-    }
-
     let bytes: Buffer;
     try {
       bytes = readFileSync(insideRepo(artifact.localPath));
@@ -116,7 +172,10 @@ export function openProductionArtifacts<T extends string>(
       );
     }
 
-    opened[role] = { artifact, bytes };
+    opened[role] = {
+      artifact,
+      ...readableForProduction(artifactId, artifact, bytes),
+    };
   }
 
   return {
@@ -171,12 +230,6 @@ export function openCachedProductionArtifacts<T extends string>(
         `Artifact "${requested.artifactId}" is quarantined and cannot be opened for production: ${artifact.quarantineReason}`,
       );
     }
-    if (artifact.rights.status === "UNKNOWN") {
-      throw new SourceCapabilityError(
-        `Artifact "${requested.artifactId}" has UNKNOWN rights status and may not be opened for production compilation.`,
-      );
-    }
-
     let real: string;
     try {
       real = realpathSync(insideRepo(requested.cachePath));
@@ -198,7 +251,10 @@ export function openCachedProductionArtifacts<T extends string>(
         `Artifact "${requested.artifactId}" at "${requested.cachePath}" hashes to ${digest}, but the lock pins ${artifact.bytes.sha256}. These are not the publisher's bytes.`,
       );
     }
-    opened[role] = { artifact, bytes };
+    opened[role] = {
+      artifact,
+      ...readableForProduction(requested.artifactId, artifact, bytes),
+    };
   }
 
   return {
