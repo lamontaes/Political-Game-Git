@@ -36,10 +36,12 @@ length and SHA-256. The parser at
 profile field, the actual recall/initiative/referendum citation strings, and
 all four section 7 source frontiers.
 
-`npm run municipal-election:compile` regenerates the JSON. `npm run
-municipal-election:replay` regenerates it in memory and fails unless the result
-is byte-identical to the tracked artifact. `npm run validate` invokes that
-municipal replay explicitly.
+`node --import tsx scripts/source/municipal-election-synthesis.ts --write`
+regenerates the JSON. The same command without `--write` regenerates it in
+memory and fails unless the result is byte-identical to the tracked artifact.
+The municipal matrix test executes that replay, so the repository's existing
+`npm test` and `npm run validate` paths enforce it without changing the shared
+package scripts owned by another workstream.
 
 The general `source:validate` and `source:replay` commands cover registered
 `src/source/domains/*` only. They do **not** validate this Drive-derived

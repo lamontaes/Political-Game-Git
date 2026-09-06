@@ -394,7 +394,7 @@ describe("the readings cannot drift from the corpus", () => {
     }
   });
 
-  it("pins the Drive snapshot and wires its separate replay into validation", () => {
+  it("pins the Drive snapshot and replays its extraction byte-identically", () => {
     const source = gunzipSync(
       readFileSync(corpus.meta.sourceSnapshot.path),
     ).toString("utf8");
@@ -402,15 +402,12 @@ describe("the readings cannot drift from the corpus", () => {
     expect(createHash("sha256").update(source).digest("hex")).toBe(
       corpus.meta.sourceSnapshot.sha256,
     );
-    const packageJson = JSON.parse(readFileSync("package.json", "utf8")) as {
-      scripts: Record<string, string>;
-    };
-    expect(packageJson.scripts["municipal-election:replay"]).toContain(
-      "municipal-election-synthesis.ts",
+    const replay = execFileSync(
+      process.execPath,
+      ["--import", "tsx", "scripts/source/municipal-election-synthesis.ts"],
+      { encoding: "utf-8", cwd: process.cwd() },
     );
-    expect(packageJson.scripts.validate).toContain(
-      "npm run municipal-election:replay",
-    );
+    expect(replay).toContain("replay clean");
   });
 });
 

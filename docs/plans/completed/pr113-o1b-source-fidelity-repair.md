@@ -30,8 +30,9 @@ candidacy, campaign, player-facing, or PR #85 coupling.
 - `npm run format`, `npm run lint`, and `npm run typecheck`: passed.
 - `npm run source:validate`: passed for 11 registered domains.
 - `npm run source:replay`: byte-identical.
-- `npm run municipal-election:replay`: byte-identical from the pinned 92O
-  snapshot.
+- `node --import tsx scripts/source/municipal-election-synthesis.ts`:
+  byte-identical from the pinned 92O snapshot; the municipal matrix test runs
+  this replay inside the existing full test and validation paths.
 - `npm run build`, deterministic demo, `npm run validate:art`, and
   `git diff --check`: passed.
 - A local standard full-suite run reached 2,327 passing tests but several

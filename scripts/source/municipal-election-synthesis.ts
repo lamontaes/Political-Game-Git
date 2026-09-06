@@ -302,7 +302,8 @@ export function compileMunicipalElectionSynthesis(source: string) {
         sha256: createHash("sha256").update(sourceBytes).digest("hex"),
         storageEncoding: "gzip",
         extraction: "deterministic-markdown-profile-parser-v1",
-        replayCommand: "npm run municipal-election:replay",
+        replayCommand:
+          "node --import tsx scripts/source/municipal-election-synthesis.ts",
       },
     },
     sourceFrontiers: parseSourceFrontiers(source),
@@ -326,7 +327,7 @@ function main(): void {
   const tracked = readFileSync(OUTPUT_PATH, "utf8");
   if (tracked !== generated) {
     throw new Error(
-      `${OUTPUT_RELATIVE_PATH} does not match deterministic extraction from ${SOURCE_RELATIVE_PATH}. Run npm run municipal-election:compile.`,
+      `${OUTPUT_RELATIVE_PATH} does not match deterministic extraction from ${SOURCE_RELATIVE_PATH}. Run node --import tsx scripts/source/municipal-election-synthesis.ts --write.`,
     );
   }
   console.log(

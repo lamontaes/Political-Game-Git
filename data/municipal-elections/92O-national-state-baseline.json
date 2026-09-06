@@ -15,7 +15,7 @@
       "sha256": "6f0f49e65949b78ef2d393a2de213ff1cae4280db6cb2630858eb69449e648e6",
       "storageEncoding": "gzip",
       "extraction": "deterministic-markdown-profile-parser-v1",
-      "replayCommand": "npm run municipal-election:replay"
+      "replayCommand": "node --import tsx scripts/source/municipal-election-synthesis.ts"
     }
   },
   "sourceFrontiers": [
