@@ -362,6 +362,26 @@ export type EpisodeRequirement =
       readonly role: EpisodeRoleKey;
       readonly age: number;
     }
+  /**
+   * A role that can be filled by somebody UNDER this age.
+   *
+   * The exact mirror of `role-age-at-least`, and needed for the same reason
+   * pointing the other way. A scene about a much younger child in the house —
+   * the one who takes a thing out of your hands and cannot yet be reasoned
+   * with — is only that scene if the person bound to it is actually younger.
+   * Without this the part is filled by whichever household peer the world
+   * happens to list first, which in a household with an older sibling casts a
+   * teenager as a toddler.
+   *
+   * Like its mirror it reads the person's own birth record and asserts nothing
+   * else about them; it is not a claim that being younger makes somebody a
+   * different kind of person.
+   */
+  | {
+      readonly kind: "role-age-below";
+      readonly role: EpisodeRoleKey;
+      readonly age: number;
+    }
   /** Something the character is in a position to do, read off the record. */
   | {
       readonly kind: "capability";
@@ -1242,7 +1262,7 @@ export function eligibleEpisodeBeats(
 
       const neededRoles = rolesUsedBy(stage);
       const stageBindings = neededRoles.flatMap((role) => {
-        const binding = bindings.find((candidate) => candidate.role === role);
+        const binding = bindingForStageRole(bindings, stage, role);
         return binding ? [binding] : [];
       });
       if (stageBindings.length !== neededRoles.length) continue;
@@ -1293,13 +1313,55 @@ export function eligibleEpisodeBeats(
   };
 }
 
+/**
+ * The person a stage's copy is composed around, for one role.
+ *
+ * Age-bounded role requirements are satisfied by *a* binding that meets the
+ * bound, and the copy has to be about that same person — the documented claim
+ * of `role-age-at-least`, which the plain by-role lookup here quietly did not
+ * honour. In a household holding both a teenager and a toddler, a stage that
+ * asked for a household peer over thirteen was satisfied by the teenager and
+ * then narrated about whichever peer the bindings happened to list first. The
+ * mirror kind makes the same gap worse, because a scene written for a small
+ * child would otherwise be handed a sibling old enough to drive.
+ *
+ * So the stage's own age bounds for the role are applied to the choice of
+ * binding, not only to the decision to offer the stage at all. When several
+ * people qualify the first still wins, which keeps selection deterministic.
+ */
+function bindingForStageRole(
+  bindings: readonly EpisodeRoleBinding[],
+  stage: EpisodeStage,
+  role: EpisodeRoleKey,
+): EpisodeRoleBinding | undefined {
+  const atLeast = stage.requires
+    .filter(
+      (requirement) =>
+        requirement.kind === "role-age-at-least" && requirement.role === role,
+    )
+    .map((requirement) => (requirement as { readonly age: number }).age);
+  const below = stage.requires
+    .filter(
+      (requirement) =>
+        requirement.kind === "role-age-below" && requirement.role === role,
+    )
+    .map((requirement) => (requirement as { readonly age: number }).age);
+  return bindings.find(
+    (candidate) =>
+      candidate.role === role &&
+      atLeast.every((age) => candidate.age >= age) &&
+      below.every((age) => candidate.age < age),
+  );
+}
+
 /** The roles a stage's copy actually names, so nothing is bound needlessly. */
 function rolesUsedBy(stage: EpisodeStage): readonly EpisodeRoleKey[] {
   const roles = new Set<EpisodeRoleKey>();
   for (const requirement of stage.requires) {
     if (
       requirement.kind === "role" ||
-      requirement.kind === "role-age-at-least"
+      requirement.kind === "role-age-at-least" ||
+      requirement.kind === "role-age-below"
     ) {
       roles.add(requirement.role);
     }
@@ -1409,6 +1471,20 @@ function checkRequirement(input: RequirementCheckInput): RequirementOutcome {
         detail: binding
           ? `${requirement.role} is ${binding.personName}, ${binding.age}, old enough (needs ${requirement.age}).`
           : `No ${requirement.role} is at least ${requirement.age}, so this moment — which needs one who is — is not offered.`,
+      };
+    }
+    case "role-age-below": {
+      const binding = bindings.find(
+        (candidate) =>
+          candidate.role === requirement.role &&
+          candidate.age < requirement.age,
+      );
+      return {
+        satisfied: binding !== undefined,
+        anchors: binding?.anchors ?? [],
+        detail: binding
+          ? `${requirement.role} is ${binding.personName}, ${binding.age}, young enough (under ${requirement.age}).`
+          : `No ${requirement.role} is under ${requirement.age}, so this moment — which needs one who is — is not offered.`,
       };
     }
     case "capability": {

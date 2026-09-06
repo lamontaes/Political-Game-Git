@@ -179,7 +179,8 @@ function stageRoleKeys(
   for (const requirement of stage.requires) {
     if (
       requirement.kind === "role" ||
-      requirement.kind === "role-age-at-least"
+      requirement.kind === "role-age-at-least" ||
+      requirement.kind === "role-age-below"
     ) {
       keys.add(requirement.role);
     }
@@ -245,8 +246,10 @@ function declareRequiredFacts(
  * Every branch names the union member it came from, so a reader can go back to
  * `EpisodeRequirement` and check it. Nothing is collapsed into a generic
  * sentence: `without-capability` is not reported as `capability`, and
- * `role-age-at-least` keeps its age, because the whole reason that kind exists
- * is that the plain `role` requirement was not enough.
+ * `role-age-at-least` and `role-age-below` each keep their own age and their
+ * own direction, because the whole reason those kinds exist is that the plain
+ * `role` requirement was not enough — and reporting one as the other would
+ * describe a scene written for a small child as one written for an adult.
  */
 function describeRequirement(
   requirement: EpisodeRequirement,
@@ -281,6 +284,11 @@ function describeRequirement(
       return {
         key: `role-age-at-least:${requirement.role}:${requirement.age}`,
         description: `The binding for ${requirement.role} is at least ${requirement.age}; a younger person does not satisfy this and the stage is not offered.`,
+      };
+    case "role-age-below":
+      return {
+        key: `role-age-below:${requirement.role}:${requirement.age}`,
+        description: `The binding for ${requirement.role} is under ${requirement.age}; an older person does not satisfy this and the stage is not offered.`,
       };
     case "capability":
       return {

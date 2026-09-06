@@ -5,6 +5,12 @@ import type {
   EpisodeRequirement,
   EpisodeStage,
 } from "./life-episodes";
+import {
+  LIFE_CONTENT_92C_CIVIC_STAGES,
+  LIFE_CONTENT_92C_FAMILIES,
+  LIFE_CONTENT_92C_HOME_STAGES,
+  LIFE_CONTENT_92C_SCHOOL_STAGES,
+} from "./life-content-92c";
 import type { DimensionNudge, InterestTension } from "./player-model";
 
 /**
@@ -139,6 +145,7 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
   authority: EPISODE_AUTHORITY,
   roles: ["household-peer"],
   stages: [
+    ...LIFE_CONTENT_92C_HOME_STAGES,
     {
       key: "noticing",
       requires: [
@@ -711,6 +718,7 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
   authority: PLAYTEST_AUTHORITY,
   roles: [],
   stages: [
+    ...LIFE_CONTENT_92C_SCHOOL_STAGES,
     {
       key: "blamed",
       requires: [
@@ -1782,6 +1790,7 @@ const NEIGHBOURHOOD: EpisodeFamily = {
   authority: PLAYTEST_AUTHORITY,
   roles: [],
   stages: [
+    ...LIFE_CONTENT_92C_CIVIC_STAGES,
     {
       key: "the-meeting",
       requires: [{ kind: "age-at-least", age: 18 }],
@@ -2338,6 +2347,17 @@ const POLITICAL_APPROACH: EpisodeFamily = {
 
 export const EPISODE_BANK_VERSION = "pg-episode-bank-v1";
 
+/**
+ * Every authored family the game can compose a beat from.
+ *
+ * The 92C wave is spread in from its own file rather than retyped here. It is
+ * the same kind of thing — declarative families over the same machinery — and
+ * a second file was worth it only because it is large and because its two ends
+ * are answerable as a set: what the wave covers of the 62-kernel bank is a
+ * question about that file, not about this one. Everything downstream reads
+ * this array and cannot tell which file a family came from, which is the
+ * property that keeps the split cosmetic.
+ */
 export const EPISODE_FAMILIES: readonly EpisodeFamily[] = [
   SOMEONE_AT_HOME,
   FRIEND_OVER_YEARS,
@@ -2348,6 +2368,7 @@ export const EPISODE_FAMILIES: readonly EpisodeFamily[] = [
   CARING,
   NEIGHBOURHOOD,
   POLITICAL_APPROACH,
+  ...LIFE_CONTENT_92C_FAMILIES,
 ];
 
 export function episodeFamily(key: string): EpisodeFamily | null {
