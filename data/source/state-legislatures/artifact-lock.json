@@ -25,7 +25,27 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of Alaska. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Alaska",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "The Constitution of the State of Alaska",
+          "jurisdictionKey": "US-AK",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 885,
+              "sha256": "0589da7af91cf79ba8771bbae975e5e795695444a4b7975ce84596ea1192d30c"
+            },
+            "regions": [
+              {
+                "beginsWith": "1. Legislative Power; Membership The legislative power of the State is vested in a legislature",
+                "endsWith": "One-half of the senators shall be elected every two years."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -55,7 +75,31 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of California. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of California",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of California, Article IV",
+          "jurisdictionKey": "US-CA",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 667,
+              "sha256": "3532f1330dca87753ef89d94e557fd04fa49bc6a79c7005833ec36c515f59954"
+            },
+            "regions": [
+              {
+                "beginsWith": "SEC. 1. The legislative power of this State is vested in the California Legislature",
+                "endsWith": "the powers of initiative and referendum."
+              },
+              {
+                "beginsWith": "SEC. 2. (a) (1) The Senate has a membership of 40 Senators elected for 4-year terms",
+                "endsWith": "in any combination of terms."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -85,7 +129,31 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of Delaware. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Delaware",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Delaware, Article II",
+          "jurisdictionKey": "US-DE",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1194,
+              "sha256": "59789ed0914ef3dcdd80967be6c950de2ab36a3468edbf0d757446997c1c82df"
+            },
+            "regions": [
+              {
+                "beginsWith": "§ 1. General Assembly to hold legislative power; composition.",
+                "endsWith": "which shall consist of a Senate and House of Representatives."
+              },
+              {
+                "beginsWith": "§ 2. Composition of House and Senate; terms of office; districts; election.",
+                "endsWith": "in Sussex County, 7 Senatorial Districts from 1 to 7 inclusive."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -115,7 +183,31 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of Florida. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Florida",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Florida",
+          "jurisdictionKey": "US-FL",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1128,
+              "sha256": "80342972f9cb55f3ddf198a16500b0c09f7c05bf50926d349f9d71fff83f0dc6"
+            },
+            "regions": [
+              {
+                "beginsWith": "SECTION 1. Composition. — The legislative power of the state shall be vested",
+                "endsWith": "composed of one member elected from each representative district."
+              },
+              {
+                "beginsWith": "SECTION 15. Terms and qualifications of legislators.",
+                "endsWith": "shall have resided in the state for a period of two years prior to election."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -145,7 +237,35 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of Hawaii. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Hawaii",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "The Constitution of the State of Hawaii",
+          "jurisdictionKey": "US-HI",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1031,
+              "sha256": "8d6020b766fc360ccefaa3ed69e095ad34a18b5ec8be1eddce13ad540b88b5c4"
+            },
+            "regions": [
+              {
+                "beginsWith": "Article III The Legislature LEGISLATIVE POWER Section 1.",
+                "endsWith": "or the Constitution of the United States."
+              },
+              {
+                "beginsWith": "COMPOSITION OF SENATE Section 2. The senate shall be composed of twenty-five members",
+                "endsWith": "shall be as set forth in the Schedule."
+              },
+              {
+                "beginsWith": "COMPOSITION OF HOUSE OF REPRESENTATIVES Section 3.",
+                "endsWith": "shall be as set forth in the Schedule."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -175,7 +295,27 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of Idaho. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Idaho",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Idaho, Article III",
+          "jurisdictionKey": "US-ID",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 491,
+              "sha256": "f2f0c3f15e7d5a822d04cb6c762085d081369aba548fa8bd804ee65212415b0c"
+            },
+            "regions": [
+              {
+                "beginsWith": "Section 2. Membership of house and senate. (1) Following the decennial census of 2020",
+                "endsWith": "be divided by law."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -205,7 +345,31 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of Illinois. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Illinois",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Illinois, Article IV",
+          "jurisdictionKey": "US-IL",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1078,
+              "sha256": "5560dd038c84258a13f29c17d444a1764dcb287f79ce6e0f7558370bf8428fc0"
+            },
+            "regions": [
+              {
+                "beginsWith": "SECTION 1. LEGISLATURE - POWER AND STRUCTURE",
+                "endsWith": "118 Representative Districts."
+              },
+              {
+                "beginsWith": "SECTION 2. LEGISLATIVE COMPOSITION (a) One Senator shall be elected",
+                "endsWith": "for a term of two years."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -235,7 +399,31 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of Massachusetts. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Massachusetts",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the Commonwealth of Massachusetts, with Articles of Amendment",
+          "jurisdictionKey": "US-MA",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1223,
+              "sha256": "00408f75caef0121da4d60bb291b81bf6e3811b0fcb16ff546174b9e2cc26638"
+            },
+            "regions": [
+              {
+                "beginsWith": "The enumeration aforesaid shall determine the apportionment of representatives for the periods between the taking of the census.",
+                "endsWith": "be considered as part of the county of Plymouth"
+              },
+              {
+                "beginsWith": "The enumeration aforesaid shall determine the apportionment of senators for the periods between the taking of the census.",
+                "endsWith": "no town or ward of a city shall be divided therefor"
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -265,7 +453,27 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of Minnesota. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Minnesota",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "The Minnesota Constitution",
+          "jurisdictionKey": "US-MN",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 428,
+              "sha256": "8c73816e7175eb5540800e96dbe3233455a500e1612b6bdf5af426753f2397e5"
+            },
+            "regions": [
+              {
+                "beginsWith": "ARTICLE IV LEGISLATIVE DEPARTMENT Section 1. Composition of legislature.",
+                "endsWith": "in proportion to the population thereof."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -295,7 +503,27 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the Minnesota Legislature. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the Minnesota Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Minnesota Statutes, section 2.021 — Number of senators and representatives",
+          "jurisdictionKey": "US-MN",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 192,
+              "sha256": "08e4872393e65f56ec6ddeb321733f1fba78c031a5ae05adc46d0545a7d0f5dc"
+            },
+            "regions": [
+              {
+                "beginsWith": "2.021 NUMBER OF MEMBERS. For each legislature",
+                "endsWith": "the house of representatives is composed of 134 members."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -325,7 +553,27 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of North Carolina. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of North Carolina",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of North Carolina, Article II",
+          "jurisdictionKey": "US-NC",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1553,
+              "sha256": "daffe59aa883f6c9d6f6fb64fb9f9abbc06dae0921b760353f8876a3cbbafe85"
+            },
+            "regions": [
+              {
+                "beginsWith": "ARTICLE II LEGISLATIVE Section 1. Legislative power.",
+                "endsWith": "The Representatives shall be elected from districts."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -355,7 +603,27 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of Nebraska. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Nebraska",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Nebraska, Article III",
+          "jurisdictionKey": "US-NE",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 408,
+              "sha256": "d959a375583bde1ebd8e9389b43d3315c96e51eac154c78c0810feacf2bcffc7"
+            },
+            "regions": [
+              {
+                "beginsWith": "III-1. Legislative authority; how vested; power of initiative; power of referendum.",
+                "endsWith": "which power shall be called the power of initiative."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -385,7 +653,27 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of Nebraska. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Nebraska",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Nebraska, Article III",
+          "jurisdictionKey": "US-NE",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 288,
+              "sha256": "26aac7f7c92ddd405baadadb97e61fa8a52a6f59fc7bd6065a40cdceb9105be2"
+            },
+            "regions": [
+              {
+                "beginsWith": "III-6. Legislature; number of members; annual sessions.",
+                "endsWith": "as may be otherwise provided by law."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -415,7 +703,27 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of Nevada. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Nevada",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "The Constitution of the State of Nevada",
+          "jurisdictionKey": "US-NV",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 303,
+              "sha256": "b237301bf9a10bf623fe7b69a2958da4d35cf99c9c661655cefd5396a015928e"
+            },
+            "regions": [
+              {
+                "beginsWith": "Section. 1. Legislative power vested in senate and assembly.",
+                "endsWith": "shall be held at the seat of government of the State."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -445,7 +753,31 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of Ohio. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Ohio",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Ohio Constitution, Article II",
+          "jurisdictionKey": "US-OH",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1520,
+              "sha256": "d5eafabb86a25bbf5b8a6eccfeb0e9030c2dcb61211283e555013982d5cab721"
+            },
+            "regions": [
+              {
+                "beginsWith": "The legislative power of the state shall be vested in a general assembly consisting of a senate and house of representatives",
+                "endsWith": "shall be deemed limitations on the power of the people to enact laws."
+              },
+              {
+                "beginsWith": "Representatives shall be elected biennially by the electors of the respective house of representatives districts",
+                "endsWith": "senators shall be elected to and hold office for terms of four years."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -475,7 +807,35 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of Oregon. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Oregon",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of Oregon, Article IV",
+          "jurisdictionKey": "US-OR",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1156,
+              "sha256": "488ca23d47275ae98f018379cc10c6c1c1b2a4e7af351280875dcbf74315227b"
+            },
+            "regions": [
+              {
+                "beginsWith": "Section 1. Legislative power; initiative and referendum. (1) The legislative power of the state",
+                "endsWith": "consisting of a Senate and a House of Representatives."
+              },
+              {
+                "beginsWith": "Section 4. Term of office of legislators; classification of Senators.",
+                "endsWith": "unless a different commencing day for such terms shall have been appointed by law."
+              },
+              {
+                "beginsWith": "Section 6. Apportionment of Senators and Representatives; operative date.",
+                "endsWith": "A senatorial district shall consist of two representative districts."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -505,7 +865,27 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of Virginia. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Virginia",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of Virginia, Article IV",
+          "jurisdictionKey": "US-VA",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 286,
+              "sha256": "079556bf4dfcaabc795295830858839deb9023d5e463d20ec4d960e0c700d2ee"
+            },
+            "regions": [
+              {
+                "beginsWith": "Article IV. Legislature Section 3. House of Delegates The House of Delegates shall consist",
+                "endsWith": "on the Tuesday succeeding the first Monday in November."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
@@ -535,7 +915,27 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "edictBasis": "Enacted by the people of Virginia. Under the government-edicts doctrine (Georgia v. Public.Resource.Org, Inc., 590 U.S. 255 (2020)) the text of an enacted law carries no copyright. This determination covers the enacted text quoted by this domain and not the publisher's navigation, annotations or headnotes, whose rights status stays UNKNOWN.",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Virginia",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of Virginia, Article IV",
+          "jurisdictionKey": "US-VA",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 270,
+              "sha256": "19d2328e5b7b5ec63ef0c15d92e31de27098e1e6138f813f37a23484422e9b9c"
+            },
+            "regions": [
+              {
+                "beginsWith": "Article IV. Legislature Section 2. Senate The Senate shall consist",
+                "endsWith": "on the Tuesday succeeding the first Monday in November."
+              }
+            ]
+          }
+        },
         "status": "public-domain-government-edict"
       },
       "storage": "committed"

@@ -29,25 +29,76 @@ validator fails the build if a field named for any of them appears here.
 
 ## How a fact gets in
 
-Every value is a transcription, and the compiler is deliberately unconvinced:
+Every value is a transcription, and the compiler is deliberately unconvinced
+twice over:
 
 1. an authority is retrieved by `source:acquire`, and its bytes are hashed and
    pinned in the domain's artifact lock;
-2. a declaration in `src/source/domains/state-legislatures/declarations.ts`
-   names a value, a citation with a pinpoint, and the **verbatim excerpt** it
-   was read out of;
-3. at compile time the excerpt must be literally present in the locked bytes,
-   and the excerpt must actually carry the value — a seat count must appear in
-   its own sentence as digits or as the English cardinal, a chamber name must
-   appear in the sentence naming it, an `elected` claim must rest on a sentence
-   with an election word in it;
-4. anything that fails is a compile defect naming the state, the chamber and
-   the sentence. It never degrades quietly into UNKNOWN.
+2. the lock's rights determination declares which spans of that capture are
+   enacted text, and the capability layer cuts those spans before a compiler
+   sees anything — see [Rights](#rights);
+3. a declaration in `src/source/domains/state-legislatures/declarations.ts`
+   names a value, a citation with a pinpoint, the **verbatim excerpt** it was
+   read out of, and the **closed proof** under which that excerpt establishes
+   the value;
+4. at compile time the excerpt must be literally present in the enacted text of
+   the locked bytes, and the proof must hold;
+5. anything that fails is a compile defect naming the state, the chamber and the
+   sentence. It never degrades quietly into UNKNOWN.
 
-`DERIVED` covers facts that are a step away from the words — Illinois fixes 118
-Representative Districts in one section and elects one Representative from each
-in the next — and must quote every provision it rests on and state in words how
-the value follows.
+### Why the proof is a contract and not a search
+
+An independent adversarial pass defeated an earlier check that looked for the
+declared value inside the quoted sentence. All three of these compiled:
+
+- California's Senate at **twenty** seats, out of "The Senate has a membership
+  of 40 Senators elected for 4-year terms, 20 to begin every 2 years" — twenty
+  is the staggered cohort, and it is in the sentence;
+- Minnesota's senators as **elected**, out of "Senators shall be chosen by
+  single districts" — a districting rule containing an election word;
+- Illinois' House at **118** with the one-member-per-district premise deleted,
+  because 118 still appeared in the remaining transcription.
+
+So each field is proved by its own contract, and the contracts are a closed
+discriminated set rather than accumulating regular expressions:
+
+| Field                    | Proof                                                             | What it requires                                                                                                                                                                                                                  |
+| ------------------------ | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `legislatureName`        | `instrument-vests-legislature-named`                              | the claimed name is the body the provision vests legislative power in                                                                                                                                                             |
+| `chamber.name`           | `instrument-names-chamber`                                        | the provision names the chamber while composing something                                                                                                                                                                         |
+| `structure`              | `legislature-composed-of-chambers` / `legislature-single-chamber` | the provision composes the legislature of the chambers the record carries                                                                                                                                                         |
+| `chamber.seatCount`      | `chamber-membership-count`                                        | the membership clause following the chamber's **own established name** is parsed and the number it states is **read out and compared** — never searched for                                                                       |
+| `chamber.membersElected` | `chamber-members-elected`                                         | a declared clause naming who is elected, bound to the chamber by a declared member noun or by the chamber's name standing ahead of it, and stating election — where the sentence names an agent, that agent must be an electorate |
+
+A range ("not more than forty") and an open-ended count ("35 members, plus such
+additional members as shall be provided under Section 2A") state no membership,
+and the reader returns nothing for both.
+
+`DERIVED` covers facts a step away from the words, and names a closed derivation
+kind that validates **every** premise:
+
+- `seats-equal-one-member-per-district` — needs the district count _and_ the
+  one-member-per-district clause; Illinois loses 118 if either goes;
+- `election-by-district-electors` — Delaware and Idaho say "chosen, by the
+  qualified electors", which is election without the word;
+- `two-chambers-composed-separately` — Virginia composes a Senate in § 2 and a
+  House of Delegates in § 3, and neither sentence alone says there are two.
+
+### Provenance binding
+
+A record's jurisdiction is never inferred from an artifact id, because an id is
+a name a declarer chooses: the audit relabelled a California record as Kentucky
+and invented a `ky-*` id to match. Every transcription must instead
+
+- name an artifact in this domain's **locked acquisition lineage** — the closed
+  list in `acquisition.ts` of authorities this domain declared it retrieved, so
+  renamed or repackaged material from an unaccepted research wave has no route
+  in and no blocklist of names has to be maintained;
+- come from an artifact whose **own locked jurisdiction** is the record's;
+- state the **instrument title the locked artifact declares**, so a citation
+  cannot rename its own instrument;
+- carry a locator appropriate to the instrument. "Official publication 2026"
+  names a publisher and a year and leaves a reader nowhere to look.
 
 ## What is UNKNOWN, and why that is the point
 
@@ -68,11 +119,41 @@ governs. Emitting either number would state a superseded rule as present law.
 State constitutions are not works of the United States government, so
 `public-domain-us-government` would be false for them, and the edicts doctrine
 is a positive determination rather than an absence of information, so `UNKNOWN`
-would be false in the other direction. `ArtifactRights.status` therefore carries
-a fourth value, `public-domain-government-edict`, with a mandatory `edictBasis`
-naming the enacting body and the doctrine. It covers the enacted text only,
-never the publisher's navigation or annotations, and it may never be reached by
-inferring that something was publicly reachable.
+would be false in the other direction. `ArtifactRights` therefore carries a
+fourth status, `public-domain-government-edict`.
+
+The doctrine is about the text of an enacted law. It is not about the web page
+that carries that text, and a retrieved state constitution arrives wrapped in
+navigation, search widgets, revisor's notes, annotation blocks, case citations
+and a copyright footer. So the status is not a label with a sentence attached:
+it is a structured determination (`GovernmentEdictBasis` in
+`src/source/core/enacted-text.ts`) carrying the jurisdiction, the enacting
+authority, the instrument kind and title, the doctrine as an enumerated value, a
+content scope fixed at `enacted-legal-text-only`, and a deterministic boundary.
+
+The boundary is a list of spans over the capture's normalized text, each
+delimited by verbatim `beginsWith`/`endsWith` markers a reviewer can look up in
+the published instrument, with the SHA-256 and length of what they cut out
+pinned alongside. `openProductionArtifacts` verifies the publisher bytes against
+the lock, then cuts the boundary, then checks the extraction against that pin,
+and hands the compiler **only the extracted enacted text**. The mixed page is
+never production-readable, and the captured bytes on disk are never edited.
+
+Three consequences worth stating plainly:
+
+- the status label alone opens nothing — a determination missing its boundary,
+  or whose boundary no longer cuts what it pinned, is refused at the capability
+  layer, not merely flagged;
+- a placeholder fails structurally: `enactingAuthority: "x"` does not name an
+  enacting body and is rejected;
+- the publisher's annotations, headnotes and site furniture are outside every
+  determination here, and their rights status stays UNKNOWN.
+
+The captured bytes are immutable. `data/source/*/raw/**` is exempted from
+whitespace checking by `.gitattributes` because the trailing whitespace in those
+files is the publisher's; stripping it would break every digest, rights
+determination and transcription resting on those bytes. Whitespace checking
+stays on for everything this repository actually authors.
 
 ## Commands
 

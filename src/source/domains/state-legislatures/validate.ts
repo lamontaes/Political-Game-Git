@@ -8,13 +8,21 @@
  * provision behind it, a citation so generic it cannot be checked, or a
  * bicameral state carrying one chamber as though that were the whole of it.
  *
- * The rejected-provenance list is not decoration. The 92K V2/V3 research waves
- * were rejected and V4 is unaccepted, and a state-office corpus is exactly the
- * shape of thing somebody would repopulate from them; naming them here means a
- * reintroduction fails the build rather than passing review.
+ * Provenance is checked by allowing, not by forbidding. Every artifact a record
+ * cites has to be one this domain declared it retrieved, and its own locked
+ * jurisdiction has to be the record's; an id prefix proves nothing, because an
+ * id is a name a declarer chooses, and the independent audit relabelled a
+ * California record as Kentucky by inventing a `ky-*` id to go with it. The
+ * rejected-provenance list below is kept as a second line only: the 92K V2/V3
+ * waves were rejected and V4 is unaccepted, so their strings are worth catching
+ * wherever they appear, but a domain that tried to blacklist every name bad
+ * material might arrive under would be playing a game it cannot win. The
+ * lineage allowlist is what actually holds.
  */
 
 import { isUnresolved } from "../../core/index";
+import { stateLegislatureSource } from "./acquisition";
+import { hasPinpointFor } from "./normalize";
 import type {
   CompiledCorpus,
   Sourced,
@@ -89,29 +97,6 @@ export const REJECTED_PROVENANCE: readonly string[] = [
   "elections.gov/official-sources",
 ];
 
-/**
- * Citations too generic to check.
- *
- * A pinpoint is what makes a citation falsifiable. "Alabama Constitution
- * executive article" names a document and a rough neighbourhood, and a reader
- * who wants to know whether the claim is true has nowhere to look.
- */
-const GENERIC_CITATION = /^[^§]*\b(?:constitution|statutes?|code)\b[^§]*$/i;
-
-/**
- * A pinpoint is a section symbol, a numbered section, or a numbered article.
- *
- * The numeral is required and must follow the word: an earlier form of this
- * check accepted "legislative article", because case-insensitive `[IVXLC]`
- * matched the "i" of "icle". A citation that names an article without naming
- * which article is exactly the citation this rule exists to catch.
- */
-function hasPinpoint(citation: string): boolean {
-  return /§\s*\S|\bsec(?:tion|\.)?\s*\d|\bart(?:icle|\.)\s*(?:\d+|[ivxlc]+)\b/i.test(
-    citation,
-  );
-}
-
 /** Fields this domain must never grow. Their presence is the finding. */
 export const FORBIDDEN_FIELDS: readonly string[] = [
   "minimumAge",
@@ -127,24 +112,6 @@ export const FORBIDDEN_FIELDS: readonly string[] = [
   "officeholders",
   "incumbent",
 ];
-
-function citationsOf(value: Sourced<unknown>): readonly string[] {
-  const found: string[] = [];
-  const push = (locator: { citation?: string } | undefined): void => {
-    if (locator?.citation) found.push(locator.citation);
-  };
-  if (value.state === "CONFLICTING") {
-    for (const claim of value.claims) {
-      for (const item of claim.evidence)
-        push(item.locator as { citation?: string });
-    }
-    return found;
-  }
-  if (value.state === "UNKNOWN") return found;
-  for (const item of value.evidence)
-    push(item.locator as { citation?: string });
-  return found;
-}
 
 function evidenceCount(value: Sourced<unknown>): number {
   if (value.state === "CONFLICTING") {
@@ -223,16 +190,6 @@ export function validateStateLegislatureCorpus(
             recordId: id,
           });
         }
-        for (const citation of citationsOf(value)) {
-          if (!hasPinpoint(citation) && GENERIC_CITATION.test(citation)) {
-            findings.push({
-              severity: "error",
-              code: "state-legislatures/generic-citation",
-              message: `${id} cites "${citation}", which names an instrument but no provision within it. A citation without a pinpoint cannot be checked.`,
-              recordId: id,
-            });
-          }
-        }
       }
     }
 
@@ -287,21 +244,57 @@ export function validateStateLegislatureCorpus(
     }
 
     /*
-     * Evidence from another state.
+     * Evidence from outside this record's own declared authorities.
      *
-     * Every artifact in this domain is named for the state whose instrument it
-     * is, so a Wyoming record citing `ca-constitution-article-4` is caught here
-     * rather than shipping California's Assembly as Wyoming's. This is the
-     * cross-jurisdiction check in its strongest available form: an id prefix is
-     * mechanical, and a copied declaration block does not survive it.
+     * Three bindings, none of them a name a declarer picks: the artifact has to
+     * be one this domain declared it retrieved, the artifact's own locked
+     * jurisdiction has to be this record's, and the locator has to point back at
+     * the same artifact and carry a pinpoint appropriate to the instrument. The
+     * old check compared an id prefix to the state code, which a fabricated
+     * `ky-constitution` satisfied without a Kentucky instrument existing.
      */
-    const prefix = `${record.stateUsps.toLowerCase()}-`;
     for (const evidence of recordCitedArtifacts(record)) {
-      if (!evidence.artifactId.startsWith(prefix)) {
+      const spec = stateLegislatureSource(evidence.artifactId);
+      if (!spec) {
+        findings.push({
+          severity: "error",
+          code: "state-legislatures/evidence-outside-acquisition-lineage",
+          message: `${id} cites artifact "${evidence.artifactId}", which this domain never declared it retrieved. Evidence is admitted from the locked acquisition lineage and from nowhere else, so renamed or repackaged material has no route in.`,
+          recordId: id,
+        });
+        continue;
+      }
+      if (spec.jurisdictionKey !== record.jurisdictionKey) {
         findings.push({
           severity: "error",
           code: "state-legislatures/evidence-from-another-jurisdiction",
-          message: `${id} cites artifact "${evidence.artifactId}", which is not a ${record.stateUsps} authority. A state's identity may rest only on its own instruments.`,
+          message: `${id} cites artifact "${evidence.artifactId}", whose locked jurisdiction is ${spec.jurisdictionKey}. A state's identity may rest only on its own instruments, and the artifact's own declaration says whose it is.`,
+          recordId: id,
+        });
+      }
+      const locator = evidence.locator as {
+        artifactId?: string;
+        citation?: string;
+      };
+      if (
+        locator.artifactId !== undefined &&
+        locator.artifactId !== evidence.artifactId
+      ) {
+        findings.push({
+          severity: "error",
+          code: "state-legislatures/locator-artifact-mismatch",
+          message: `${id} carries evidence from artifact "${evidence.artifactId}" whose locator points at "${locator.artifactId}".`,
+          recordId: id,
+        });
+      }
+      if (
+        locator.citation === undefined ||
+        !hasPinpointFor(spec.instrumentKind, locator.citation)
+      ) {
+        findings.push({
+          severity: "error",
+          code: "state-legislatures/generic-citation",
+          message: `${id} cites "${locator.citation ?? ""}", which names no article, section or statutory locator inside a ${spec.instrumentKind}. A citation without a pinpoint cannot be checked.`,
           recordId: id,
         });
       }

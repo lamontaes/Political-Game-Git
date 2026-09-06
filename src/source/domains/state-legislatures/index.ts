@@ -48,24 +48,38 @@ export type {
 } from "./types";
 export { recordCitedArtifacts } from "./types";
 export type {
+  ChamberDeclaration,
   Declared,
   DeclaredFact,
   DeclaredUnknown,
+  DerivationKind,
+  DirectProof,
+  InvestigatedRelevance,
   StateDeclaration,
   Transcription,
+  UnknownBasis,
 } from "./declarations";
 export {
   isDeclaredFact,
   STATE_DECLARATIONS,
   STATE_LEGISLATURES_CORPUS_AS_OF,
 } from "./declarations";
-export { STATE_LEGISLATURE_SOURCES } from "./acquisition";
+export {
+  STATE_LEGISLATURE_SOURCES,
+  stateLegislatureSource,
+} from "./acquisition";
 export { containsExcerpt, normalizeRetrievedText } from "./text";
 export {
   artifactTextLookup,
+  hasPinpointFor,
+  membershipStatedFor,
+  normalizeDeclaredStates,
   normalizeStateLegislatures,
   numeralSpellings,
+  readLeadingCardinal,
+  statesElection,
 } from "./normalize";
+export type { NormalizationDefect } from "./normalize";
 export {
   FIFTY_STATE_KEYS,
   FORBIDDEN_FIELDS,

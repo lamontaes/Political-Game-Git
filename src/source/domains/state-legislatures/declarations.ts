@@ -1,5 +1,6 @@
 /**
- * What this domain claims, and the sentence it read to claim it.
+ * What this domain claims, the sentence it read to claim it, and the shape of
+ * the reading.
  *
  * Every fact here is a transcription. A declaration names a value, the
  * authority it came from, and the excerpt it was read out of — and the compiler
@@ -7,14 +8,31 @@
  * bytes the artifact lock pins. A declaration whose page has changed under it
  * does not quietly become a slightly wrong fact; it fails the build.
  *
- * `DERIVED` exists because a fact is sometimes a step away from the words.
- * Illinois fixes 118 Representative Districts in one section and elects one
- * Representative from each in the next; the House's size is in the constitution
- * but not in any single sentence of it. Delaware says a Representative is
- * "chosen, by the qualified electors" of a district, which is election without
- * using the word. A DERIVED declaration must quote every provision it rests on
- * and say in words how the value follows, so the reasoning is on the page
- * rather than in whoever wrote the number.
+ * Finding the sentence is not enough, though, and that is what the `proof`
+ * field is for. An independent adversarial pass showed what a
+ * find-the-value-in-the-sentence check admits: California's Senate section says
+ * "a membership of 40 Senators elected for 4-year terms, 20 to begin every 2
+ * years", and a claim of twenty seats passed on the staggered-cohort number
+ * sitting in the same sentence. Minnesota's "Senators shall be chosen by single
+ * districts" passed as proof that Minnesota senators are elected, when it is a
+ * districting rule. Both are real quotations attached to propositions nobody
+ * read.
+ *
+ * So each fact declares which closed proof it rests on. A seat count is proved
+ * by a membership proposition whose subject is this chamber and whose number is
+ * read out of the sentence and compared — never searched for. An elected claim
+ * is proved by a clause naming who is elected, with an electorate doing the
+ * electing; districts are not an electorate. A DERIVED fact names a closed
+ * derivation kind and every premise it needs, so Illinois' 118 requires both
+ * the district count and the one-member-per-district rule, and loses the fact
+ * if either goes.
+ *
+ * An UNKNOWN declares a basis too. "The provision I read does not fix this" is
+ * a much stronger statement than a blank and is only stronger if it cites the
+ * provision and that provision actually has the shape claimed for it — a
+ * delegation, a range, a composition by district. "Nobody retrieved the
+ * authority" cites nothing, and must say that rather than dressing itself as a
+ * claim about what the law is silent on.
  *
  * The thirty-five states with no declaration below have no legislature facts
  * here at all, only gaps saying what stopped the retrieval. That is the whole
@@ -29,7 +47,7 @@ import type { LegislatureStructure, UnresolvedGap } from "./types";
 export interface Transcription {
   /** The citation in the authority's own convention. */
   readonly citation: string;
-  /** The instrument's full title. */
+  /** The instrument's full title. Must equal the locked source's own title. */
   readonly authorityTitle: string;
   /** The locked artifact the excerpt must be found in. */
   readonly artifactId: string;
@@ -39,25 +57,144 @@ export interface Transcription {
   readonly excerpt: string;
 }
 
-/** A declared fact: a value, its reasoning, and the provisions behind it. */
+/**
+ * How a DIRECT fact's provision is read to say what is claimed.
+ *
+ * Closed, and discriminated, because the alternative is a growing pile of
+ * regular expressions each of which admits one more thing nobody intended.
+ */
+export type DirectProof =
+  /** The instrument vests legislative power in a body of this name. */
+  | { readonly kind: "instrument-vests-legislature-named" }
+  /** The provision names this chamber while composing the legislature. */
+  | { readonly kind: "instrument-names-chamber" }
+  /** The provision composes the legislature of these two named chambers. */
+  | {
+      readonly kind: "legislature-composed-of-chambers";
+      readonly chamberTerms: readonly [string, string];
+    }
+  /** The provision composes the legislature of exactly one chamber. */
+  | { readonly kind: "legislature-single-chamber" }
+  /**
+   * The provision states this chamber's membership.
+   *
+   * `chamberSubject` must be the chamber's own established name. The number is
+   * read out of the membership clause that follows that subject and compared
+   * with the claim; a number elsewhere in the sentence proves nothing.
+   */
+  | {
+      readonly kind: "chamber-membership-count";
+      readonly chamberSubject: string;
+    }
+  /**
+   * The provision states that these members reach their seats by election.
+   *
+   * `clause` is the verbatim span of the excerpt carrying the proposition, and
+   * `subject` the words inside it naming who is elected. `subjectScope` says
+   * whether the subject is this chamber's members or the whole legislature's —
+   * Alaska proves both chambers from one sentence about "Legislators", and that
+   * has to be declared rather than assumed.
+   */
+  | {
+      readonly kind: "chamber-members-elected";
+      readonly subject: string;
+      readonly clause: string;
+      readonly subjectScope: "this-chamber" | "whole-legislature";
+    };
+
+/**
+ * How a DERIVED fact's premises combine.
+ *
+ * Every kind validates each premise it needs. There is no kind that accepts a
+ * transcription because the answer happens to appear in it.
+ */
+export type DerivationKind =
+  /**
+   * Seats equal districts, one member to each.
+   *
+   * Needs both premises: a provision fixing the number of districts, and a
+   * provision electing one member from each. Illinois' House is 118 because
+   * article IV fixes 118 Representative Districts and elects one Representative
+   * from each; drop either and the count is not in the constitution.
+   */
+  | {
+      readonly kind: "seats-equal-one-member-per-district";
+      /** The districts counted, e.g. `Representative Districts`. */
+      readonly districtSubject: string;
+      /** The verbatim clause electing one member from each of them. */
+      readonly perDistrictClause: string;
+    }
+  /**
+   * Members are elected because the provision has the electors choose them.
+   *
+   * Delaware and Idaho say "chosen, by the qualified electors" rather than
+   * "elected", which is election without the word.
+   */
+  | {
+      readonly kind: "election-by-district-electors";
+      readonly subject: string;
+      readonly clause: string;
+    }
+  /**
+   * Two chambers, because two provisions each compose one of them.
+   *
+   * Virginia composes a Senate in one section and a House of Delegates in the
+   * next, and neither sentence alone says the legislature has two chambers.
+   */
+  | {
+      readonly kind: "two-chambers-composed-separately";
+      readonly chamberTerms: readonly [string, string];
+    };
+
+/** A declared fact: a value, its reasoning, the proof shape, and the provisions. */
 export interface DeclaredFact<T> {
   readonly value: T;
   readonly derivation: "DIRECT" | "DERIVED";
   /** How the provisions combine. Mandatory for DERIVED, forbidden for DIRECT. */
   readonly derivationChain: string | null;
+  /** The reading. Present for DIRECT, absent for DERIVED. */
+  readonly proof: DirectProof | null;
+  /** The closed derivation. Present for DERIVED, absent for DIRECT. */
+  readonly derivationKind: DerivationKind | null;
   readonly transcriptions: readonly [Transcription, ...Transcription[]];
 }
 
 /**
- * Nobody established this fact here, and here is why.
+ * What an investigated provision has to look like to support a given gap.
  *
- * `investigated` is what separates "we looked and the provision is silent" from
- * "nobody looked". A seat count that is UNKNOWN because the constitution
- * delegates it to statute is a much stronger statement than a blank, and it is
- * only stronger if it carries the delegating provision.
+ * The point is relevance. An UNKNOWN seat count backed by a provision that
+ * delegates the number to statute is evidence; the same UNKNOWN backed by a
+ * true, verbatim, entirely unrelated sentence from the same constitution is
+ * not, and before this existed it validated.
  */
+export type InvestigatedRelevance =
+  /** The provision hands the matter to another instrument or provision. */
+  | "delegates-to-other-provision"
+  /** The provision fixes only a floor, a ceiling or a range. */
+  | "states-limit-only"
+  /** The provision composes the chamber by district and states no number. */
+  | "composes-by-district-without-number"
+  /** Several provisions state the matter differently and none was resolved. */
+  | "competing-provisions-unresolved";
+
+/**
+ * Why nobody established this fact.
+ *
+ * `authority-not-retrieved` cites nothing because there is nothing to cite. It
+ * is a fact about a retrieval. `provision-read-does-not-fix-it` is a claim
+ * about a provision, so it has to produce the provision and the provision has
+ * to have the shape the claim needs.
+ */
+export type UnknownBasis =
+  | { readonly kind: "authority-not-retrieved" }
+  | {
+      readonly kind: "provision-read-does-not-fix-it";
+      readonly relevance: InvestigatedRelevance;
+    };
+
 export interface DeclaredUnknown {
   readonly unknownReason: string;
+  readonly basis: UnknownBasis;
   readonly investigated?: readonly Transcription[];
 }
 
@@ -72,6 +209,16 @@ export function isDeclaredFact<T>(
 
 export interface ChamberDeclaration {
   readonly chamberKey: string;
+  /**
+   * How this chamber's members are named in its own instrument.
+   *
+   * Proof vocabulary, not a compiled fact: it is what lets "One Senator shall
+   * be elected from each Legislative District" bind to the Senate rather than
+   * to whichever chamber quoted it. Declared rather than guessed, and checked
+   * to be disjoint from the other chamber's, so a record cannot prove its House
+   * elected out of a sentence about Senators.
+   */
+  readonly memberNouns: readonly string[];
   readonly name: Declared<string>;
   readonly seatCount: Declared<number>;
   readonly membersElected: Declared<boolean>;
@@ -80,6 +227,16 @@ export interface ChamberDeclaration {
 export interface StateDeclaration {
   readonly stateUsps: string;
   readonly stateName: string;
+  /** `US-XX`. Checked against every cited artifact's own locked jurisdiction. */
+  readonly jurisdictionKey: string;
+  /**
+   * Terms naming the legislature's members as a whole.
+   *
+   * Only used by a `whole-legislature` election proof, and only sound where the
+   * structure is established: "Legislators shall be elected" covers both Alaskan
+   * chambers because Alaska's legislature is those two chambers.
+   */
+  readonly legislatureMemberNouns: readonly string[];
   readonly legislatureName: Declared<string>;
   readonly structure: Declared<LegislatureStructure>;
   readonly chambers: readonly ChamberDeclaration[];
@@ -89,30 +246,95 @@ export interface StateDeclaration {
 /** The as-of date this corpus is evaluated against. An input, never a clock. */
 export const STATE_LEGISLATURES_CORPUS_AS_OF = "2026-09-06";
 
-const unknown = (
+/** An UNKNOWN that is about a retrieval, and therefore cites nothing. */
+const notRetrieved = (unknownReason: string): DeclaredUnknown => ({
+  unknownReason,
+  basis: { kind: "authority-not-retrieved" },
+});
+
+/** An UNKNOWN about a provision that was read and does not fix the value. */
+const readButNotFixed = (
   unknownReason: string,
-  ...investigated: readonly Transcription[]
-): DeclaredUnknown =>
-  investigated.length > 0 ? { unknownReason, investigated } : { unknownReason };
+  relevance: InvestigatedRelevance,
+  ...investigated: readonly [Transcription, ...Transcription[]]
+): DeclaredUnknown => ({
+  unknownReason,
+  basis: { kind: "provision-read-does-not-fix-it", relevance },
+  investigated,
+});
 
 function direct<T>(
   value: T,
+  proof: DirectProof,
   ...transcriptions: readonly [Transcription, ...Transcription[]]
 ): DeclaredFact<T> {
-  return { value, derivation: "DIRECT", derivationChain: null, transcriptions };
+  return {
+    value,
+    derivation: "DIRECT",
+    derivationChain: null,
+    proof,
+    derivationKind: null,
+    transcriptions,
+  };
 }
 
 function derived<T>(
   value: T,
   derivationChain: string,
+  derivationKind: DerivationKind,
   ...transcriptions: readonly [Transcription, ...Transcription[]]
 ): DeclaredFact<T> {
-  return { value, derivation: "DERIVED", derivationChain, transcriptions };
+  return {
+    value,
+    derivation: "DERIVED",
+    derivationChain,
+    proof: null,
+    derivationKind,
+    transcriptions,
+  };
 }
 
-// ---------------------------------------------------------------------------
-// Alaska
-// ---------------------------------------------------------------------------
+/** The legislature is vested in a body of the claimed name. */
+const NAMES_LEGISLATURE: DirectProof = {
+  kind: "instrument-vests-legislature-named",
+};
+
+/** The provision names this chamber. */
+const NAMES_CHAMBER: DirectProof = { kind: "instrument-names-chamber" };
+
+/** The provision composes the legislature of these two chambers. */
+const twoChambers = (first: string, second: string): DirectProof => ({
+  kind: "legislature-composed-of-chambers",
+  chamberTerms: [first, second],
+});
+
+/** The provision composes the legislature of one chamber. */
+const ONE_CHAMBER: DirectProof = { kind: "legislature-single-chamber" };
+
+/** The provision states this chamber's membership. */
+const seatsOf = (chamberSubject: string): DirectProof => ({
+  kind: "chamber-membership-count",
+  chamberSubject,
+});
+
+/** This chamber's members are elected, by this clause. */
+const electedBy = (subject: string, clause: string): DirectProof => ({
+  kind: "chamber-members-elected",
+  subject,
+  clause,
+  subjectScope: "this-chamber",
+});
+
+/** Every legislator is elected, by this clause, so this chamber's are. */
+const allLegislatorsElectedBy = (
+  subject: string,
+  clause: string,
+): DirectProof => ({
+  kind: "chamber-members-elected",
+  subject,
+  clause,
+  subjectScope: "whole-legislature",
+});
 
 const AK_TITLE = "The Constitution of the State of Alaska";
 const AK_ART2_SEC1: Transcription = {
@@ -538,22 +760,48 @@ const SOURCED: readonly StateDeclaration[] = [
   {
     stateUsps: "AK",
     stateName: "Alaska",
-    legislatureName: unknown(
+    jurisdictionKey: "US-AK",
+    legislatureMemberNouns: ["Legislators"],
+    legislatureName: notRetrieved(
       "Article II names the body only as 'a legislature'. No authority read for this domain states an official collective name.",
     ),
-    structure: direct<LegislatureStructure>("bicameral", AK_ART2_SEC1),
+    structure: direct<LegislatureStructure>(
+      "bicameral",
+      twoChambers("senate", "house of representatives"),
+      AK_ART2_SEC1,
+    ),
     chambers: [
       {
         chamberKey: "house",
-        name: direct("house of representatives", AK_ART2_SEC1),
-        seatCount: direct(40, AK_ART2_SEC1),
-        membersElected: direct(true, AK_ART2_SEC3),
+        memberNouns: ["representatives", "representative"],
+        name: direct("house of representatives", NAMES_CHAMBER, AK_ART2_SEC1),
+        seatCount: direct(
+          40,
+          seatsOf("house of representatives"),
+          AK_ART2_SEC1,
+        ),
+        membersElected: direct(
+          true,
+          allLegislatorsElectedBy(
+            "Legislators",
+            "Legislators shall be elected at general elections.",
+          ),
+          AK_ART2_SEC3,
+        ),
       },
       {
         chamberKey: "senate",
-        name: direct("senate", AK_ART2_SEC1),
-        seatCount: direct(20, AK_ART2_SEC1),
-        membersElected: direct(true, AK_ART2_SEC3),
+        memberNouns: ["senators", "senator"],
+        name: direct("senate", NAMES_CHAMBER, AK_ART2_SEC1),
+        seatCount: direct(20, seatsOf("senate"), AK_ART2_SEC1),
+        membersElected: direct(
+          true,
+          allLegislatorsElectedBy(
+            "Legislators",
+            "Legislators shall be elected at general elections.",
+          ),
+          AK_ART2_SEC3,
+        ),
       },
     ],
     unresolvedGaps: [],
@@ -561,20 +809,46 @@ const SOURCED: readonly StateDeclaration[] = [
   {
     stateUsps: "CA",
     stateName: "California",
-    legislatureName: direct("California Legislature", CA_ART4_SEC1),
-    structure: direct<LegislatureStructure>("bicameral", CA_ART4_SEC1),
+    jurisdictionKey: "US-CA",
+    legislatureMemberNouns: [],
+    legislatureName: direct(
+      "California Legislature",
+      NAMES_LEGISLATURE,
+      CA_ART4_SEC1,
+    ),
+    structure: direct<LegislatureStructure>(
+      "bicameral",
+      twoChambers("Senate", "Assembly"),
+      CA_ART4_SEC1,
+    ),
     chambers: [
       {
         chamberKey: "assembly",
-        name: direct("Assembly", CA_ART4_SEC1),
-        seatCount: direct(80, CA_ART4_SEC2_ASSEMBLY),
-        membersElected: direct(true, CA_ART4_SEC2_ASSEMBLY),
+        memberNouns: ["Member of the Assembly", "Members of the Assembly"],
+        name: direct("Assembly", NAMES_CHAMBER, CA_ART4_SEC1),
+        seatCount: direct(80, seatsOf("Assembly"), CA_ART4_SEC2_ASSEMBLY),
+        membersElected: direct(
+          true,
+          electedBy(
+            "members",
+            "The Assembly has a membership of 80 members elected for 2-year terms.",
+          ),
+          CA_ART4_SEC2_ASSEMBLY,
+        ),
       },
       {
         chamberKey: "senate",
-        name: direct("Senate", CA_ART4_SEC1),
-        seatCount: direct(40, CA_ART4_SEC2_SENATE),
-        membersElected: direct(true, CA_ART4_SEC2_SENATE),
+        memberNouns: ["Senators", "Senator"],
+        name: direct("Senate", NAMES_CHAMBER, CA_ART4_SEC1),
+        seatCount: direct(40, seatsOf("Senate"), CA_ART4_SEC2_SENATE),
+        membersElected: direct(
+          true,
+          electedBy(
+            "Senators",
+            "The Senate has a membership of 40 Senators elected for 4-year terms",
+          ),
+          CA_ART4_SEC2_SENATE,
+        ),
       },
     ],
     unresolvedGaps: [],
@@ -582,29 +856,54 @@ const SOURCED: readonly StateDeclaration[] = [
   {
     stateUsps: "DE",
     stateName: "Delaware",
-    legislatureName: direct("General Assembly", DE_ART2_SEC1),
-    structure: direct<LegislatureStructure>("bicameral", DE_ART2_SEC1),
+    jurisdictionKey: "US-DE",
+    legislatureMemberNouns: [],
+    legislatureName: direct(
+      "General Assembly",
+      NAMES_LEGISLATURE,
+      DE_ART2_SEC1,
+    ),
+    structure: direct<LegislatureStructure>(
+      "bicameral",
+      twoChambers("Senate", "House of Representatives"),
+      DE_ART2_SEC1,
+    ),
     chambers: [
       {
         chamberKey: "house",
-        name: direct("House of Representatives", DE_ART2_SEC1),
-        seatCount: unknown(
+        memberNouns: ["Representative", "Representatives"],
+        name: direct("House of Representatives", NAMES_CHAMBER, DE_ART2_SEC1),
+        seatCount: readButNotFixed(
           "Section 2 composes the House of '35 members, plus such additional members as shall be provided under Section 2A of this Article'. The total is therefore 35 plus an unread quantity, and 35 is not the number of seats.",
+          "delegates-to-other-provision",
           DE_ART2_SEC2_HOUSE,
         ),
         membersElected: derived(
           true,
           "The provision states that a Representative is chosen from each Representative District by the qualified electors of that district, which is election by voters.",
+          {
+            kind: "election-by-district-electors",
+            subject: "1 Representative",
+            clause:
+              "there shall be chosen, by the qualified electors thereof, 1 Representative",
+          },
           DE_ART2_ELECTORS_REP,
         ),
       },
       {
         chamberKey: "senate",
-        name: direct("Senate", DE_ART2_SEC1),
-        seatCount: direct(21, DE_ART2_SEC2_SENATE),
+        memberNouns: ["Senator", "Senators"],
+        name: direct("Senate", NAMES_CHAMBER, DE_ART2_SEC1),
+        seatCount: direct(21, seatsOf("Senate"), DE_ART2_SEC2_SENATE),
         membersElected: derived(
           true,
           "The provision states that a Senator is chosen from each Senatorial District by the qualified electors of that district, which is election by voters.",
+          {
+            kind: "election-by-district-electors",
+            subject: "1 Senator",
+            clause:
+              "shall be chosen, by the qualified electors thereof, 1 Senator",
+          },
           DE_ART2_ELECTORS_SEN,
         ),
       },
@@ -621,29 +920,54 @@ const SOURCED: readonly StateDeclaration[] = [
   {
     stateUsps: "FL",
     stateName: "Florida",
+    jurisdictionKey: "US-FL",
+    legislatureMemberNouns: [],
     legislatureName: direct(
       "legislature of the State of Florida",
+      NAMES_LEGISLATURE,
       FL_ART3_SEC1,
     ),
-    structure: direct<LegislatureStructure>("bicameral", FL_ART3_SEC1),
+    structure: direct<LegislatureStructure>(
+      "bicameral",
+      twoChambers("senate", "house of representatives"),
+      FL_ART3_SEC1,
+    ),
     chambers: [
       {
         chamberKey: "house",
-        name: direct("house of representatives", FL_ART3_SEC1),
-        seatCount: unknown(
+        memberNouns: ["Members of the house of representatives"],
+        name: direct("house of representatives", NAMES_CHAMBER, FL_ART3_SEC1),
+        seatCount: readButNotFixed(
           "Article III, § 1 composes the House of one member per representative district and fixes no number. The number of districts is set by apportionment, which this domain has not read.",
+          "composes-by-district-without-number",
           FL_ART3_SEC1,
         ),
-        membersElected: direct(true, FL_ART3_HOUSE_TERMS),
+        membersElected: direct(
+          true,
+          electedBy(
+            "Members of the house of representatives",
+            "Members of the house of representatives shall be elected for terms of two years in each even-numbered year.",
+          ),
+          FL_ART3_HOUSE_TERMS,
+        ),
       },
       {
         chamberKey: "senate",
-        name: direct("senate", FL_ART3_SEC1),
-        seatCount: unknown(
+        memberNouns: ["one senator"],
+        name: direct("senate", NAMES_CHAMBER, FL_ART3_SEC1),
+        seatCount: readButNotFixed(
           "Article III, § 1 composes the Senate of one senator per senatorial district and fixes no number. The number of districts is set by apportionment, which this domain has not read.",
+          "composes-by-district-without-number",
           FL_ART3_SEC1,
         ),
-        membersElected: direct(true, FL_ART3_SEC1),
+        membersElected: direct(
+          true,
+          electedBy(
+            "one senator",
+            "a senate composed of one senator elected from each senatorial district",
+          ),
+          FL_ART3_SEC1,
+        ),
       },
     ],
     unresolvedGaps: [
@@ -658,22 +982,48 @@ const SOURCED: readonly StateDeclaration[] = [
   {
     stateUsps: "HI",
     stateName: "Hawaii",
-    legislatureName: unknown(
+    jurisdictionKey: "US-HI",
+    legislatureMemberNouns: [],
+    legislatureName: notRetrieved(
       "Article III names the body only as 'a legislature'. No authority read for this domain states an official collective name.",
     ),
-    structure: direct<LegislatureStructure>("bicameral", HI_ART3_SEC1),
+    structure: direct<LegislatureStructure>(
+      "bicameral",
+      twoChambers("senate", "house of representatives"),
+      HI_ART3_SEC1,
+    ),
     chambers: [
       {
         chamberKey: "house",
-        name: direct("house of representatives", HI_ART3_SEC1),
-        seatCount: direct(51, HI_ART3_SEC3),
-        membersElected: direct(true, HI_ART3_SEC3),
+        memberNouns: ["representatives"],
+        name: direct("house of representatives", NAMES_CHAMBER, HI_ART3_SEC1),
+        seatCount: direct(
+          51,
+          seatsOf("house of representatives"),
+          HI_ART3_SEC3,
+        ),
+        membersElected: direct(
+          true,
+          electedBy(
+            "members",
+            "The house of representatives shall be composed of fifty-one members, who shall be elected by the qualified voters of the respective representative districts.",
+          ),
+          HI_ART3_SEC3,
+        ),
       },
       {
         chamberKey: "senate",
-        name: direct("senate", HI_ART3_SEC1),
-        seatCount: direct(25, HI_ART3_SEC2),
-        membersElected: direct(true, HI_ART3_SEC2),
+        memberNouns: ["senators"],
+        name: direct("senate", NAMES_CHAMBER, HI_ART3_SEC1),
+        seatCount: direct(25, seatsOf("senate"), HI_ART3_SEC2),
+        membersElected: direct(
+          true,
+          electedBy(
+            "members",
+            "The senate shall be composed of twenty-five members, who shall be elected by the qualified voters of the respective senatorial districts.",
+          ),
+          HI_ART3_SEC2,
+        ),
       },
     ],
     unresolvedGaps: [],
@@ -681,36 +1031,61 @@ const SOURCED: readonly StateDeclaration[] = [
   {
     stateUsps: "ID",
     stateName: "Idaho",
-    legislatureName: unknown(
+    jurisdictionKey: "US-ID",
+    legislatureMemberNouns: [],
+    legislatureName: notRetrieved(
       "Only Article III, § 2 was read for Idaho, and it does not state the legislature's official collective name.",
     ),
     structure: derived<LegislatureStructure>(
       "bicameral",
       "Section 2 fixes a senate of thirty-five members and separately empowers the legislature to fix the number of members of the house of representatives. The section therefore describes two chambers.",
+      {
+        kind: "two-chambers-composed-separately",
+        chamberTerms: ["senate", "house of representatives"],
+      },
       ID_ART3_SEC2_SENATE,
       ID_ART3_SEC2_HOUSE,
     ),
     chambers: [
       {
         chamberKey: "house",
-        name: direct("house of representatives", ID_ART3_SEC2_HOUSE),
-        seatCount: unknown(
+        memberNouns: ["representatives"],
+        name: direct(
+          "house of representatives",
+          NAMES_CHAMBER,
+          ID_ART3_SEC2_HOUSE,
+        ),
+        seatCount: readButNotFixed(
           "Article III, § 2 sets only a ceiling — the legislature may fix the House at not more than twice the number of senators — so the constitution does not state the number.",
+          "states-limit-only",
           ID_ART3_SEC2_HOUSE,
         ),
         membersElected: derived(
           true,
           "The provision states that representatives are chosen by the electors of the counties or districts into which the state is divided, which is election by voters.",
+          {
+            kind: "election-by-district-electors",
+            subject: "representatives",
+            clause:
+              "The senators and representatives shall be chosen by the electors of the respective counties or districts",
+          },
           ID_ART3_SEC2_CHOSEN,
         ),
       },
       {
         chamberKey: "senate",
-        name: direct("senate", ID_ART3_SEC2_SENATE),
-        seatCount: direct(35, ID_ART3_SEC2_SENATE),
+        memberNouns: ["senators"],
+        name: direct("senate", NAMES_CHAMBER, ID_ART3_SEC2_SENATE),
+        seatCount: direct(35, seatsOf("senate"), ID_ART3_SEC2_SENATE),
         membersElected: derived(
           true,
           "The provision states that senators are chosen by the electors of the counties or districts into which the state is divided, which is election by voters.",
+          {
+            kind: "election-by-district-electors",
+            subject: "senators",
+            clause:
+              "The senators and representatives shall be chosen by the electors of the respective counties or districts",
+          },
           ID_ART3_SEC2_CHOSEN,
         ),
       },
@@ -727,30 +1102,68 @@ const SOURCED: readonly StateDeclaration[] = [
   {
     stateUsps: "IL",
     stateName: "Illinois",
-    legislatureName: direct("General Assembly", IL_ART4_SEC1),
-    structure: direct<LegislatureStructure>("bicameral", IL_ART4_SEC1),
+    jurisdictionKey: "US-IL",
+    legislatureMemberNouns: [],
+    legislatureName: direct(
+      "General Assembly",
+      NAMES_LEGISLATURE,
+      IL_ART4_SEC1,
+    ),
+    structure: direct<LegislatureStructure>(
+      "bicameral",
+      twoChambers("Senate", "House of Representatives"),
+      IL_ART4_SEC1,
+    ),
     chambers: [
       {
         chamberKey: "house",
-        name: direct("House of Representatives", IL_ART4_SEC1),
+        memberNouns: ["Representative", "Representatives"],
+        name: direct("House of Representatives", NAMES_CHAMBER, IL_ART4_SEC1),
         seatCount: derived(
           118,
           "Section 1 states that the General Assembly is elected from 118 Representative Districts and section 2(b) that one Representative is elected from each Representative District; one seat per district across 118 districts is 118 seats.",
+          {
+            kind: "seats-equal-one-member-per-district",
+            districtSubject: "Representative Districts",
+            perDistrictClause:
+              "one Representative shall be elected from each Representative District",
+          },
           IL_ART4_SEC1,
           IL_ART4_SEC2B,
         ),
-        membersElected: direct(true, IL_ART4_SEC2B),
+        membersElected: direct(
+          true,
+          electedBy(
+            "one Representative",
+            "In 1982 and every two years thereafter one Representative shall be elected from each Representative District for a term of two years.",
+          ),
+          IL_ART4_SEC2B,
+        ),
       },
       {
         chamberKey: "senate",
-        name: direct("Senate", IL_ART4_SEC1),
+        memberNouns: ["Senator", "Senators"],
+        name: direct("Senate", NAMES_CHAMBER, IL_ART4_SEC1),
         seatCount: derived(
           59,
           "Section 1 states that the General Assembly is elected from 59 Legislative Districts and section 2(a) that one Senator is elected from each Legislative District; one seat per district across 59 districts is 59 seats.",
+          {
+            kind: "seats-equal-one-member-per-district",
+            districtSubject: "Legislative Districts",
+            perDistrictClause:
+              "One Senator shall be elected from each Legislative District",
+          },
           IL_ART4_SEC1,
           IL_ART4_SEC2A,
         ),
-        membersElected: direct(true, IL_ART4_SEC2A),
+        membersElected: direct(
+          true,
+          electedBy(
+            "One Senator",
+            "One Senator shall be elected from each Legislative District.",
+          ),
+          IL_ART4_SEC2A,
+        ),
       },
     ],
     unresolvedGaps: [],
@@ -758,11 +1171,14 @@ const SOURCED: readonly StateDeclaration[] = [
   {
     stateUsps: "MA",
     stateName: "Massachusetts",
-    legislatureName: unknown(
+    jurisdictionKey: "US-MA",
+    legislatureMemberNouns: [],
+    legislatureName: notRetrieved(
       "Not compiled. See the unresolved gap for Massachusetts.",
     ),
-    structure: unknown(
+    structure: readButNotFixed(
       "Not compiled: the retrieved document carries composition provisions from several eras at once and this domain did not resolve which governs. See the unresolved gap for Massachusetts.",
+      "competing-provisions-unresolved",
       MA_HOUSE_240,
       MA_SENATE_40,
     ),
@@ -779,24 +1195,36 @@ const SOURCED: readonly StateDeclaration[] = [
   {
     stateUsps: "MN",
     stateName: "Minnesota",
-    legislatureName: unknown(
+    jurisdictionKey: "US-MN",
+    legislatureMemberNouns: [],
+    legislatureName: notRetrieved(
       "Article IV names the body only as 'the legislature'. No authority read for this domain states an official collective name.",
     ),
-    structure: direct<LegislatureStructure>("bicameral", MN_ART4_SEC1),
+    structure: direct<LegislatureStructure>(
+      "bicameral",
+      twoChambers("senate", "house of representatives"),
+      MN_ART4_SEC1,
+    ),
     chambers: [
       {
         chamberKey: "house",
-        name: direct("house of representatives", MN_ART4_SEC1),
-        seatCount: direct(134, MN_STAT_2_021),
-        membersElected: unknown(
+        memberNouns: ["representatives"],
+        name: direct("house of representatives", NAMES_CHAMBER, MN_ART4_SEC1),
+        seatCount: direct(
+          134,
+          seatsOf("house of representatives"),
+          MN_STAT_2_021,
+        ),
+        membersElected: notRetrieved(
           "No provision read for this domain says in terms that members of the Minnesota House are elected. Article IV, § 3 speaks of representatives being chosen by district, which is a districting rule rather than a statement about how a member reaches the seat.",
         ),
       },
       {
         chamberKey: "senate",
-        name: direct("senate", MN_ART4_SEC1),
-        seatCount: direct(67, MN_STAT_2_021),
-        membersElected: unknown(
+        memberNouns: ["senators"],
+        name: direct("senate", NAMES_CHAMBER, MN_ART4_SEC1),
+        seatCount: direct(67, seatsOf("senate"), MN_STAT_2_021),
+        membersElected: notRetrieved(
           "No provision read for this domain says in terms that members of the Minnesota Senate are elected. Article IV, § 3 speaks of senators being chosen by district, which is a districting rule rather than a statement about how a member reaches the seat.",
         ),
       },
@@ -819,20 +1247,50 @@ const SOURCED: readonly StateDeclaration[] = [
   {
     stateUsps: "NC",
     stateName: "North Carolina",
-    legislatureName: direct("General Assembly", NC_ART2_SEC1),
-    structure: direct<LegislatureStructure>("bicameral", NC_ART2_SEC1),
+    jurisdictionKey: "US-NC",
+    legislatureMemberNouns: [],
+    legislatureName: direct(
+      "General Assembly",
+      NAMES_LEGISLATURE,
+      NC_ART2_SEC1,
+    ),
+    structure: direct<LegislatureStructure>(
+      "bicameral",
+      twoChambers("Senate", "House of Representatives"),
+      NC_ART2_SEC1,
+    ),
     chambers: [
       {
         chamberKey: "house",
-        name: direct("House of Representatives", NC_ART2_SEC1),
-        seatCount: direct(120, NC_ART2_SEC4),
-        membersElected: direct(true, NC_ART2_SEC5),
+        memberNouns: ["Representatives", "Representative"],
+        name: direct("House of Representatives", NAMES_CHAMBER, NC_ART2_SEC1),
+        seatCount: direct(
+          120,
+          seatsOf("House of Representatives"),
+          NC_ART2_SEC4,
+        ),
+        membersElected: direct(
+          true,
+          electedBy(
+            "The Representatives",
+            "The Representatives shall be elected from districts.",
+          ),
+          NC_ART2_SEC5,
+        ),
       },
       {
         chamberKey: "senate",
-        name: direct("Senate", NC_ART2_SEC1),
-        seatCount: direct(50, NC_ART2_SEC2),
-        membersElected: direct(true, NC_ART2_SEC3),
+        memberNouns: ["Senators", "Senator"],
+        name: direct("Senate", NAMES_CHAMBER, NC_ART2_SEC1),
+        seatCount: direct(50, seatsOf("Senate"), NC_ART2_SEC2),
+        membersElected: direct(
+          true,
+          electedBy(
+            "The Senators",
+            "The Senators shall be elected from districts.",
+          ),
+          NC_ART2_SEC3,
+        ),
       },
     ],
     unresolvedGaps: [],
@@ -840,17 +1298,25 @@ const SOURCED: readonly StateDeclaration[] = [
   {
     stateUsps: "NE",
     stateName: "Nebraska",
-    legislatureName: direct("Legislature", NE_ART3_SEC1),
-    structure: direct<LegislatureStructure>("unicameral", NE_ART3_SEC1),
+    jurisdictionKey: "US-NE",
+    legislatureMemberNouns: [],
+    legislatureName: direct("Legislature", NAMES_LEGISLATURE, NE_ART3_SEC1),
+    structure: direct<LegislatureStructure>(
+      "unicameral",
+      ONE_CHAMBER,
+      NE_ART3_SEC1,
+    ),
     chambers: [
       {
         chamberKey: "legislature",
-        name: direct("Legislature", NE_ART3_SEC1),
-        seatCount: unknown(
+        memberNouns: [],
+        name: direct("Legislature", NAMES_CHAMBER, NE_ART3_SEC1),
+        seatCount: readButNotFixed(
           "Neb. Const. art. III, § 6 fixes only a range — not more than fifty and not less than thirty members — so the constitution does not state the number.",
+          "states-limit-only",
           NE_ART3_SEC6,
         ),
-        membersElected: unknown(
+        membersElected: notRetrieved(
           "Only Article III, §§ 1 and 6 were read for Nebraska, and neither states that members are elected.",
         ),
       },
@@ -873,28 +1339,36 @@ const SOURCED: readonly StateDeclaration[] = [
   {
     stateUsps: "NV",
     stateName: "Nevada",
-    legislatureName: unknown(
+    jurisdictionKey: "US-NV",
+    legislatureMemberNouns: [],
+    legislatureName: notRetrieved(
       "Nev. Const. art. 4, § 1 designates the body by a name given in typographic quotation marks, and the retrieved bytes render those marks in an encoding this substrate does not decode. The name is on the page and could not be transcribed with confidence, so it is not claimed.",
     ),
-    structure: direct<LegislatureStructure>("bicameral", NV_ART4_SEC1),
+    structure: direct<LegislatureStructure>(
+      "bicameral",
+      twoChambers("Senate", "Assembly"),
+      NV_ART4_SEC1,
+    ),
     chambers: [
       {
         chamberKey: "assembly",
-        name: direct("Assembly", NV_ART4_SEC1),
-        seatCount: unknown(
+        memberNouns: [],
+        name: direct("Assembly", NAMES_CHAMBER, NV_ART4_SEC1),
+        seatCount: notRetrieved(
           "The Nevada Constitution fixes the Assembly's size by law rather than by number; the statute was not read here.",
         ),
-        membersElected: unknown(
+        membersElected: notRetrieved(
           "No provision read for this domain states in terms that members of the Nevada Assembly are elected.",
         ),
       },
       {
         chamberKey: "senate",
-        name: direct("Senate", NV_ART4_SEC1),
-        seatCount: unknown(
+        memberNouns: [],
+        name: direct("Senate", NAMES_CHAMBER, NV_ART4_SEC1),
+        seatCount: notRetrieved(
           "Nev. Const. art. 4, § 5 fixes the Senate only as a ratio of the Assembly — not less than one-third nor more than one-half — so it states no number.",
         ),
-        membersElected: unknown(
+        membersElected: notRetrieved(
           "No provision read for this domain states in terms that members of the Nevada Senate are elected.",
         ),
       },
@@ -911,26 +1385,45 @@ const SOURCED: readonly StateDeclaration[] = [
   {
     stateUsps: "OH",
     stateName: "Ohio",
-    legislatureName: direct("general assembly", OH_ART2_SEC1),
-    structure: direct<LegislatureStructure>("bicameral", OH_ART2_SEC1),
+    jurisdictionKey: "US-OH",
+    legislatureMemberNouns: [],
+    legislatureName: direct(
+      "general assembly",
+      NAMES_LEGISLATURE,
+      OH_ART2_SEC1,
+    ),
+    structure: direct<LegislatureStructure>(
+      "bicameral",
+      twoChambers("senate", "house of representatives"),
+      OH_ART2_SEC1,
+    ),
     chambers: [
       {
         chamberKey: "house",
-        name: direct("house of representatives", OH_ART2_SEC1),
-        seatCount: unknown(
+        memberNouns: ["Representatives"],
+        name: direct("house of representatives", NAMES_CHAMBER, OH_ART2_SEC1),
+        seatCount: notRetrieved(
           "Ohio's chamber sizes are in Article XI, which was not read for this domain. Article II states no number.",
         ),
-        membersElected: unknown(
+        membersElected: notRetrieved(
           "Article II, § 2 states that senators are elected but the corresponding statement for representatives was not read.",
         ),
       },
       {
         chamberKey: "senate",
-        name: direct("senate", OH_ART2_SEC1),
-        seatCount: unknown(
+        memberNouns: ["Senators"],
+        name: direct("senate", NAMES_CHAMBER, OH_ART2_SEC1),
+        seatCount: notRetrieved(
           "Ohio's chamber sizes are in Article XI, which was not read for this domain. Article II states no number.",
         ),
-        membersElected: direct(true, OH_ART2_SEC2),
+        membersElected: direct(
+          true,
+          electedBy(
+            "Senators",
+            "Senators shall be elected by the electors of the respective senate districts",
+          ),
+          OH_ART2_SEC2,
+        ),
       },
     ],
     unresolvedGaps: [
@@ -945,26 +1438,54 @@ const SOURCED: readonly StateDeclaration[] = [
   {
     stateUsps: "OR",
     stateName: "Oregon",
-    legislatureName: direct("Legislative Assembly", OR_ART4_SEC1),
-    structure: direct<LegislatureStructure>("bicameral", OR_ART4_SEC1),
+    jurisdictionKey: "US-OR",
+    legislatureMemberNouns: [],
+    legislatureName: direct(
+      "Legislative Assembly",
+      NAMES_LEGISLATURE,
+      OR_ART4_SEC1,
+    ),
+    structure: direct<LegislatureStructure>(
+      "bicameral",
+      twoChambers("Senate", "House of Representatives"),
+      OR_ART4_SEC1,
+    ),
     chambers: [
       {
         chamberKey: "house",
-        name: direct("House of Representatives", OR_ART4_SEC1),
-        seatCount: unknown(
+        memberNouns: ["Representatives"],
+        name: direct("House of Representatives", NAMES_CHAMBER, OR_ART4_SEC1),
+        seatCount: readButNotFixed(
           "Or. Const. art. IV, § 6 states that the number of Representatives shall be fixed by law, so the constitution states no number.",
+          "delegates-to-other-provision",
           OR_ART4_SEC6,
         ),
-        membersElected: direct(true, OR_ART4_SEC4),
+        membersElected: direct(
+          true,
+          electedBy(
+            "Representatives",
+            "The Senators shall be elected for the term of four years, and Representatives for the term of two years.",
+          ),
+          OR_ART4_SEC4,
+        ),
       },
       {
         chamberKey: "senate",
-        name: direct("Senate", OR_ART4_SEC1),
-        seatCount: unknown(
+        memberNouns: ["Senators"],
+        name: direct("Senate", NAMES_CHAMBER, OR_ART4_SEC1),
+        seatCount: readButNotFixed(
           "Or. Const. art. IV, § 6 states that the number of Senators shall be fixed by law, so the constitution states no number.",
+          "delegates-to-other-provision",
           OR_ART4_SEC6,
         ),
-        membersElected: direct(true, OR_ART4_SEC4),
+        membersElected: direct(
+          true,
+          electedBy(
+            "The Senators",
+            "The Senators shall be elected for the term of four years",
+          ),
+          OR_ART4_SEC4,
+        ),
       },
     ],
     unresolvedGaps: [
@@ -979,33 +1500,57 @@ const SOURCED: readonly StateDeclaration[] = [
   {
     stateUsps: "VA",
     stateName: "Virginia",
-    legislatureName: unknown(
+    jurisdictionKey: "US-VA",
+    legislatureMemberNouns: [],
+    legislatureName: notRetrieved(
       "Only Article IV, §§ 2 and 3 were read for Virginia, and neither states the legislature's official collective name.",
     ),
     structure: derived<LegislatureStructure>(
       "bicameral",
       "Article IV composes a Senate in § 2 and a House of Delegates in § 3, each of its own members elected by its own districts. The article therefore describes two chambers.",
+      {
+        kind: "two-chambers-composed-separately",
+        chamberTerms: ["Senate", "House of Delegates"],
+      },
       VA_ART4_SEC2,
       VA_ART4_SEC3,
     ),
     chambers: [
       {
         chamberKey: "house",
-        name: direct("House of Delegates", VA_ART4_SEC3),
-        seatCount: unknown(
+        memberNouns: [],
+        name: direct("House of Delegates", NAMES_CHAMBER, VA_ART4_SEC3),
+        seatCount: readButNotFixed(
           "Va. Const. art. IV, § 3 fixes only a range — not more than one hundred and not less than ninety members — so the constitution states no number.",
+          "states-limit-only",
           VA_ART4_SEC3,
         ),
-        membersElected: direct(true, VA_ART4_SEC3),
+        membersElected: direct(
+          true,
+          electedBy(
+            "members",
+            "The House of Delegates shall consist of not more than one hundred and not less than ninety members, who shall be elected biennially by the voters of the several house districts",
+          ),
+          VA_ART4_SEC3,
+        ),
       },
       {
         chamberKey: "senate",
-        name: direct("Senate", VA_ART4_SEC2),
-        seatCount: unknown(
+        memberNouns: [],
+        name: direct("Senate", NAMES_CHAMBER, VA_ART4_SEC2),
+        seatCount: readButNotFixed(
           "Va. Const. art. IV, § 2 fixes only a range — not more than forty and not less than thirty-three members — so the constitution states no number.",
+          "states-limit-only",
           VA_ART4_SEC2,
         ),
-        membersElected: direct(true, VA_ART4_SEC2),
+        membersElected: direct(
+          true,
+          electedBy(
+            "members",
+            "The Senate shall consist of not more than forty and not less than thirty-three members, who shall be elected quadrennially by the voters of the several senatorial districts",
+          ),
+          VA_ART4_SEC2,
+        ),
       },
     ],
     unresolvedGaps: [
@@ -1290,8 +1835,10 @@ function unreadDeclaration(state: UnreadState): StateDeclaration {
   return {
     stateUsps: state.stateUsps,
     stateName: state.stateName,
-    legislatureName: unknown(reason),
-    structure: unknown(reason),
+    jurisdictionKey: `US-${state.stateUsps}`,
+    legislatureMemberNouns: [],
+    legislatureName: notRetrieved(reason),
+    structure: notRetrieved(reason),
     chambers: [],
     unresolvedGaps: [
       {
