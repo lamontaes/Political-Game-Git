@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 import {
   BrowserSaveStore,
@@ -10,6 +17,7 @@ import {
   chooseStoryOption,
   letStoryTimePass,
   projectStoryMoment,
+  type StoryMoment,
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
 import {
@@ -30,12 +38,16 @@ import {
   answerQuestionnaire,
   endQuestionnaireEarly,
   questionnaireContentNote,
-  questionnairePathNote,
   questionnaireScreenFor,
 } from "../presentation/setup-questionnaire-flow";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
-import { buildLifeIntroduction } from "../presentation/life-introduction";
+import { projectDynamicSurfaces } from "../presentation/surface-projection";
+import {
+  buildLifeIntroduction,
+  type IntroducedPerson,
+} from "../presentation/life-introduction";
 import { resolveLifeScene } from "../presentation/life-scene";
+import { planLifeScenePeople } from "../presentation/life-scene-people";
 import { SceneBackdrop } from "./SceneBackdrop";
 import { AmbientTableau, TitleScreen } from "./TitleScreen";
 import {
@@ -50,12 +62,16 @@ import {
   defaultPronounsForGender,
   GENDER_IDENTITY_KEYS,
   GENDER_IDENTITY_LABELS,
+  lifePlaceByKey,
   lifePlaceCoverage,
-  lifePlaces,
-  PRONOUN_SET_KEYS,
-  PRONOUN_SET_LABELS,
+  lifePlaceSearch,
 } from "../simulation";
-import type { EntityId, QuestionnairePhase, World } from "../simulation";
+import type {
+  EntityId,
+  LifePlace,
+  QuestionnairePhase,
+  World,
+} from "../simulation";
 import {
   openLegislativeWork,
   type LegislativeAssignment,
@@ -474,20 +490,51 @@ export function PlayerGame() {
  * screen it will have to replace.
  */
 
-/** The order a life is decided in. Each stage opens when the last one closes. */
-const CREATOR_STAGES = [
+/**
+ * The order a life is decided in. Each step opens when the last one closes,
+ * and once a step is closed it collapses to a one-line summary the player can
+ * reopen — so the active step is the only full-height thing on screen and the
+ * creator never grows into a scrolling form.
+ *
+ * A normal start does not compose a background: who is at home, whether the
+ * character already works somewhere, and how much of the early life is played
+ * are the generator's to decide after Begin (Task E). Only a custom start
+ * carries the extra "background" step where those are set by hand.
+ */
+const NORMAL_CREATOR_STEPS = [
   "route",
-  "place",
   "character",
-  "life",
-  "calibration",
+  "place",
+  "whoAreYou",
+  "begin",
+] as const;
+const CUSTOM_CREATOR_STEPS = [
+  "route",
+  "character",
+  "place",
+  "background",
+  "whoAreYou",
   "begin",
 ] as const;
 
-type CreatorStage = (typeof CREATOR_STAGES)[number];
+type CreatorStep =
+  (typeof NORMAL_CREATOR_STEPS)[number] | (typeof CUSTOM_CREATOR_STEPS)[number];
 
-function stageIndex(stage: CreatorStage): number {
-  return CREATOR_STAGES.indexOf(stage);
+/** A short, plain place context, built only from what the sources actually hold. */
+function placeContextLines(place: LifePlace): readonly string[] {
+  const lines: string[] = [];
+  if (place.withinName) lines.push(place.withinName);
+  if (place.formalName && place.formalName !== place.displayName) {
+    lines.push(place.formalName);
+  }
+  // Capability-gated, never fabricated: the only civic fact the accepted data
+  // carries is whether the game models a legislature you could later enter.
+  lines.push(
+    place.capabilities.legislativeScenarioKey
+      ? "The game models this state's legislature, so political office is reachable here later."
+      : "The game does not model a legislature here yet, so this is an everyday life for now.",
+  );
+  return lines;
 }
 
 function SetupScreen({
@@ -503,106 +550,259 @@ function SetupScreen({
   readonly onBegin: (setup: NewGameSetup) => void;
   readonly problem: string | null;
 }) {
-  const places = lifePlaces();
   const coverage = lifePlaceCoverage();
   const [placeQuery, setPlaceQuery] = useState("");
   /**
-   * Nothing until somebody asks for something.
+   * Nothing until somebody asks for something, and then the national corpus.
    *
-   * This is the whole of the default-card repair: with an empty query the list
-   * is empty, so the four places the game supports are found rather than
-   * offered, and none of them is centred as canonical.
+   * With an empty query the list is empty, so nothing reads as a recommended
+   * default. Once the player types, the search runs over the accepted national
+   * place identity (PR #77) and returns a bounded page of matches — anywhere in
+   * the country, found rather than offered.
    */
-  const matchingPlaces = useMemo(() => {
-    const needle = placeQuery.trim().toLowerCase();
-    if (needle.length === 0) return [];
-    return places.filter((candidate) =>
-      [
-        candidate.displayName,
-        candidate.withinName ?? "",
-        // The formal jurisdiction name is searchable even though it is not
-        // shown: somebody who types the name on their tax bill should find
-        // the place they live.
-        candidate.formalName ?? "",
-      ]
-        .join(" ")
-        .toLowerCase()
-        .includes(needle),
-    );
-  }, [places, placeQuery]);
+  const matchingPlaces = useMemo(
+    () => lifePlaceSearch(placeQuery, 12),
+    [placeQuery],
+  );
   const [setup, setSetup] = useState<NewGameSetup>({
     ...DEFAULT_NEW_GAME_SETUP,
     seed,
   });
-  /** How far the screen has opened. It only ever moves forward. */
-  const [reached, setReached] = useState(0);
-  const open = (stage: CreatorStage) => stageIndex(stage) <= reached;
-  const advanceTo = (stage: CreatorStage) =>
-    setReached((current) => Math.max(current, stageIndex(stage)));
+  const custom = setup.startKind === "custom";
+  const steps: readonly CreatorStep[] = custom
+    ? CUSTOM_CREATOR_STEPS
+    : NORMAL_CREATOR_STEPS;
+
+  /**
+   * The step the player is on. It only moves forward on its own; the summaries
+   * of finished steps move it back when one is reopened to change an answer.
+   */
+  const [current, setCurrent] = useState<CreatorStep>("route");
+  const currentIndex = Math.max(steps.indexOf(current), 0);
+  const isCurrent = (step: CreatorStep) => step === current;
+  const isDone = (step: CreatorStep) => {
+    const at = steps.indexOf(step);
+    return at !== -1 && at < currentIndex;
+  };
+  const advanceTo = (step: CreatorStep) =>
+    setCurrent((now) =>
+      steps.indexOf(step) > steps.indexOf(now) ? step : now,
+    );
+  const reopen = (step: CreatorStep) => setCurrent(step);
 
   const problems = newGameSetupProblems(setup);
-  const place = places.find((candidate) => candidate.key === setup.placeKey);
-  const placeChosen = open("character") && place !== undefined;
+  const place = lifePlaceByKey(setup.placeKey);
   const officeAvailable =
     place?.capabilities.legislativeScenarioKey !== null &&
     setup.startAge >= LEGISLATIVE_OFFICE_MINIMUM_AGE;
-  const custom = setup.startKind === "custom";
+  const genderStated = setup.gender && setup.gender !== "unstated";
+  // The compact summaries the finished steps collapse to.
+  const summaryText: Partial<Record<CreatorStep, string>> = {
+    route: custom ? "Custom start" : "Start a life",
+    character: [
+      [setup.givenName, setup.familyName].filter(Boolean).join(" ") ||
+        "A name you'll be given",
+      `age ${setup.startAge}`,
+      genderStated ? GENDER_IDENTITY_LABELS[setup.gender!] : null,
+    ]
+      .filter(Boolean)
+      .join(" · "),
+    place: place ? place.displayName : "",
+    background: custom
+      ? [
+          setup.household === "shares-a-home" ? "Shares a home" : "Lives alone",
+          setup.startingLife === "legislative-office"
+            ? "Legislative staff"
+            : "Everyday life",
+        ].join(" · ")
+      : "",
+    whoAreYou:
+      setup.questionnaire === "skipped"
+        ? "Discover through play"
+        : "Answering a few questions",
+  };
+  const onReady = currentIndex >= steps.indexOf("begin");
 
   return (
     <AmbientTableau>
-      {(roomDescription: string) => (
+      {() => (
         <main className="game-setup game-creator" data-testid="setup-screen">
-          <h1>A new life</h1>
-          <p
-            className="game-title-scene"
-            data-testid="creator-room-description"
-          >
-            {roomDescription}
-          </p>
+          <h1>Your new life</h1>
 
-          <section data-testid="creator-stage-route">
-            <h2>How this life gets made</h2>
-            <div className="game-choices" data-testid="start-kind-choices">
+          {/*
+            Finished steps, collapsed. Each is a one-line summary the player can
+            reopen; this is what keeps the whole active step inside the viewport
+            instead of stacking every section into a scrolling column.
+          */}
+          {steps
+            .filter(
+              (step) =>
+                step !== "begin" && isDone(step) && Boolean(summaryText[step]),
+            )
+            .map((step) => (
+              <button
+                key={step}
+                type="button"
+                className="creator-summary"
+                data-testid={`creator-summary-${step}`}
+                onClick={() => reopen(step)}
+              >
+                <span className="creator-summary-value">
+                  {summaryText[step]}
+                </span>
+                <span className="creator-summary-edit" aria-hidden="true">
+                  Change
+                </span>
+              </button>
+            ))}
+
+          {isCurrent("route") ? (
+            <section data-testid="creator-stage-route">
+              <h2>How do you want to start?</h2>
+              <div className="game-choices" data-testid="start-kind-choices">
+                <button
+                  type="button"
+                  data-testid="start-normal"
+                  aria-pressed={!custom}
+                  className={!custom ? "is-chosen" : undefined}
+                  onClick={() => {
+                    setSetup((now) => ({ ...now, startKind: "normal" }));
+                    setCurrent("character");
+                  }}
+                >
+                  Start a life
+                  <small>
+                    You say who you are and where you're from. Everything else —
+                    your family, your home, the years behind you — the game
+                    builds when you begin.
+                  </small>
+                </button>
+                <button
+                  type="button"
+                  data-testid="start-custom"
+                  aria-pressed={custom}
+                  className={custom ? "is-chosen" : undefined}
+                  onClick={() => {
+                    setSetup((now) => ({ ...now, startKind: "custom" }));
+                    setCurrent("character");
+                  }}
+                >
+                  Custom start
+                  <small>
+                    Set the background yourself — who's at home, whether you
+                    already work somewhere, how much of the early years to play.
+                  </small>
+                </button>
+              </div>
+            </section>
+          ) : null}
+
+          {isCurrent("character") ? (
+            <section data-testid="creator-stage-character">
+              <h2>Your character</h2>
+              <div className="game-fields">
+                <label>
+                  First name
+                  <input
+                    type="text"
+                    value={setup.givenName ?? ""}
+                    aria-describedby="creator-name-hint"
+                    onChange={(event) =>
+                      setSetup((now) => ({
+                        ...now,
+                        givenName: event.target.value || null,
+                      }))
+                    }
+                  />
+                </label>
+                <label>
+                  Last name
+                  <input
+                    type="text"
+                    value={setup.familyName ?? ""}
+                    aria-describedby="creator-name-hint"
+                    onChange={(event) =>
+                      setSetup((now) => ({
+                        ...now,
+                        familyName: event.target.value || null,
+                      }))
+                    }
+                  />
+                </label>
+                <label>
+                  Starting age
+                  <input
+                    type="number"
+                    data-testid="start-age"
+                    min={MINIMUM_START_AGE}
+                    max={MAXIMUM_START_AGE}
+                    value={setup.startAge}
+                    onChange={(event) =>
+                      setSetup((now) => ({
+                        ...now,
+                        startAge: Number(event.target.value),
+                      }))
+                    }
+                  />
+                </label>
+              </div>
+              <p
+                className="game-hint"
+                id="creator-name-hint"
+                data-testid="creator-name-hint"
+              >
+                Leave a name blank and the game gives you one.
+              </p>
+
+              {/*
+                Gender, asked rather than decided. Guessing it from the first
+                name would be wrong: the name corpus carries no demographic
+                attribute for anything to be guessed from. Normal Start exposes
+                gender only (owner override) — pronouns derive silently from it
+                and are never a player-facing control here.
+              */}
+              <fieldset className="game-fieldset" data-testid="gender-choices">
+                <legend>Gender</legend>
+                <div className="game-choices game-choices-inline">
+                  {GENDER_IDENTITY_KEYS.filter((key) => key !== "unstated").map(
+                    (key) => (
+                      <button
+                        key={key}
+                        type="button"
+                        data-testid={`gender-${key}`}
+                        aria-pressed={setup.gender === key}
+                        className={
+                          setup.gender === key ? "is-chosen" : undefined
+                        }
+                        onClick={() => {
+                          setSetup((now) => ({
+                            ...now,
+                            gender: key,
+                            pronouns: defaultPronounsForGender(key),
+                          }));
+                        }}
+                      >
+                        {GENDER_IDENTITY_LABELS[key]}
+                      </button>
+                    ),
+                  )}
+                </div>
+              </fieldset>
+
               <button
                 type="button"
-                data-testid="start-normal"
-                aria-pressed={!custom}
-                className={!custom ? "is-chosen" : undefined}
-                onClick={() => {
-                  setSetup((current) => ({ ...current, startKind: "normal" }));
-                  advanceTo("place");
-                }}
+                className="game-creator-next"
+                data-testid="creator-continue-character"
+                onClick={() => advanceTo("place")}
               >
-                Normal start
-                <small>
-                  You choose where, how old and who is at home. The game writes
-                  the family and the years behind them, and what you say at the
-                  calibration shapes how that comes out.
-                </small>
+                Next
               </button>
-              <button
-                type="button"
-                data-testid="start-custom"
-                aria-pressed={custom}
-                className={custom ? "is-chosen" : undefined}
-                onClick={() => {
-                  setSetup((current) => ({ ...current, startKind: "custom" }));
-                  advanceTo("place");
-                }}
-              >
-                Custom start
-                <small>
-                  The same choices, set by you and left alone. The calibration
-                  still teaches the game how you play; it does not touch who
-                  your family is.
-                </small>
-              </button>
-            </div>
-          </section>
+            </section>
+          ) : null}
 
-          {open("place") ? (
+          {isCurrent("place") ? (
             <section data-testid="creator-stage-place">
-              <h2>Where the life begins</h2>
+              <h2>Where you're from</h2>
               <label className="game-search">
                 Search places
                 <input
@@ -624,207 +824,77 @@ function SetupScreen({
                           ? "is-chosen"
                           : undefined
                       }
-                      onClick={() => {
-                        setSetup((current) => ({
-                          ...current,
+                      onClick={() =>
+                        setSetup((now) => ({
+                          ...now,
                           placeKey: candidate.key,
                           startingLife:
                             candidate.capabilities.legislativeScenarioKey ===
                             null
                               ? "ordinary-life"
-                              : current.startingLife,
-                        }));
-                        advanceTo("character");
-                      }}
+                              : now.startingLife,
+                        }))
+                      }
                     >
                       {candidate.displayName}
-                      <small>
-                        {candidate.withinName
-                          ? `${candidate.withinName} · `
-                          : ""}
-                        {candidate.capabilities.legislativeScenarioKey
-                          ? "A legislature you can work in"
-                          : "Everyday life only, for now"}
-                      </small>
+                      <small>{candidate.withinName ?? ""}</small>
                     </button>
                   ))}
                 </div>
               ) : placeQuery.trim().length === 0 ? (
                 <p className="game-note" data-testid="place-prompt">
-                  Type where the life starts. {coverage.playerNote}
+                  Type where you're from. {coverage.playerNote}
                 </p>
               ) : (
                 <p className="game-note" data-testid="place-no-match">
                   Nothing here matches that yet. {coverage.playerNote}
                 </p>
               )}
-              {placeChosen ? (
-                <p className="game-note" data-testid="place-chosen">
-                  Starting in {place.displayName}.
-                </p>
+              {place ? (
+                <div
+                  className="creator-place-context"
+                  data-testid="place-context"
+                >
+                  <p className="creator-place-name">{place.displayName}</p>
+                  {placeContextLines(place).map((line) => (
+                    <p key={line} className="game-hint">
+                      {line}
+                    </p>
+                  ))}
+                  <button
+                    type="button"
+                    className="game-creator-next"
+                    data-testid="creator-continue-place"
+                    onClick={() =>
+                      advanceTo(custom ? "background" : "whoAreYou")
+                    }
+                  >
+                    Next
+                  </button>
+                </div>
               ) : null}
             </section>
           ) : null}
 
-          {open("character") ? (
-            <section data-testid="creator-stage-character">
-              <h2>Who they are</h2>
-              <div className="game-fields">
-                <label>
-                  First name
-                  <input
-                    type="text"
-                    value={setup.givenName ?? ""}
-                    placeholder="Leave blank to be given one"
-                    onChange={(event) =>
-                      setSetup((current) => ({
-                        ...current,
-                        givenName: event.target.value || null,
-                      }))
-                    }
-                  />
-                </label>
-                <label>
-                  Last name
-                  <input
-                    type="text"
-                    value={setup.familyName ?? ""}
-                    placeholder="Leave blank to be given one"
-                    onChange={(event) =>
-                      setSetup((current) => ({
-                        ...current,
-                        familyName: event.target.value || null,
-                      }))
-                    }
-                  />
-                </label>
-                <label>
-                  Starting age
-                  <input
-                    type="number"
-                    data-testid="start-age"
-                    min={MINIMUM_START_AGE}
-                    max={MAXIMUM_START_AGE}
-                    value={setup.startAge}
-                    onChange={(event) =>
-                      setSetup((current) => ({
-                        ...current,
-                        startAge: Number(event.target.value),
-                      }))
-                    }
-                  />
-                </label>
-              </div>
-
-              {/*
-                Gender, asked rather than decided.
-                The game used to have no answer to this at all — not a default,
-                a gap — so every sentence in it said "they" about everybody
-                including the character the player had just named. Asking is the
-                fix; guessing from the first name would not be, because the name
-                corpus carries no demographic attribute for anything to be
-                guessed from.
-              */}
-              <fieldset className="game-fieldset" data-testid="gender-choices">
-                <legend>Gender</legend>
-                <div className="game-choices game-choices-inline">
-                  {GENDER_IDENTITY_KEYS.map((key) => (
-                    <button
-                      key={key}
-                      type="button"
-                      data-testid={`gender-${key}`}
-                      aria-pressed={(setup.gender ?? "unstated") === key}
-                      className={
-                        (setup.gender ?? "unstated") === key
-                          ? "is-chosen"
-                          : undefined
-                      }
-                      onClick={() => {
-                        setSetup((current) => ({
-                          ...current,
-                          gender: key,
-                          // Follows the gender unless the player says otherwise
-                          // below, which is the whole reason the two are
-                          // separate fields rather than one.
-                          pronouns: defaultPronounsForGender(key),
-                        }));
-                      }}
-                    >
-                      {GENDER_IDENTITY_LABELS[key]}
-                    </button>
-                  ))}
-                </div>
-              </fieldset>
-
-              <fieldset className="game-fieldset" data-testid="pronoun-choices">
-                <legend>Pronouns</legend>
-                <p className="game-note">
-                  What the game calls this character in a sentence.
-                </p>
-                <div className="game-choices game-choices-inline">
-                  {PRONOUN_SET_KEYS.map((key) => (
-                    <button
-                      key={key}
-                      type="button"
-                      data-testid={`pronouns-${key}`}
-                      aria-pressed={
-                        (setup.pronouns ??
-                          defaultPronounsForGender(
-                            setup.gender ?? "unstated",
-                          )) === key
-                      }
-                      className={
-                        (setup.pronouns ??
-                          defaultPronounsForGender(
-                            setup.gender ?? "unstated",
-                          )) === key
-                          ? "is-chosen"
-                          : undefined
-                      }
-                      onClick={() =>
-                        setSetup((current) => ({ ...current, pronouns: key }))
-                      }
-                    >
-                      {PRONOUN_SET_LABELS[key]}
-                    </button>
-                  ))}
-                </div>
-              </fieldset>
-              {/*
-                The one way out of this stage.
-                An earlier pass had the gender buttons jump the screen forward
-                as a side effect of being pressed, so a player could not change
-                their mind about a control without the page moving under them.
-                A stage is left when its Next is pressed, and not before.
-              */}
-              <button
-                type="button"
-                className="game-creator-next"
-                data-testid="creator-continue-character"
-                onClick={() => advanceTo("life")}
-              >
-                Next
-              </button>
-            </section>
-          ) : null}
-
-          {open("life") ? (
-            <section data-testid="creator-stage-life">
-              <h2>The shape of it</h2>
+          {custom && isCurrent("background") ? (
+            <section data-testid="creator-stage-background">
+              <h2>Your background</h2>
+              <h3>How much of the early years to play</h3>
               <div className="game-choices">
                 <button
                   type="button"
+                  data-testid="depth-childhood"
                   className={
                     setup.depth === "play-formative-years"
                       ? "is-chosen"
                       : undefined
                   }
-                  onClick={() => {
-                    setSetup((current) => ({
-                      ...current,
+                  onClick={() =>
+                    setSetup((now) => ({
+                      ...now,
                       depth: "play-formative-years",
-                    }));
-                  }}
+                    }))
+                  }
                 >
                   Start in childhood
                   <small>
@@ -835,20 +905,21 @@ function SetupScreen({
                 </button>
                 <button
                   type="button"
+                  data-testid="depth-later"
                   className={
                     setup.depth === "summarize-earlier-life"
                       ? "is-chosen"
                       : undefined
                   }
-                  onClick={() => {
-                    setSetup((current) => ({
-                      ...current,
+                  onClick={() =>
+                    setSetup((now) => ({
+                      ...now,
                       depth: "summarize-earlier-life",
-                    }));
-                  }}
+                    }))
+                  }
                 >
                   Begin later
-                  <small>The early years are already behind them.</small>
+                  <small>The early years are already behind you.</small>
                 </button>
               </div>
 
@@ -862,8 +933,8 @@ function SetupScreen({
                       : undefined
                   }
                   onClick={() =>
-                    setSetup((current) => ({
-                      ...current,
+                    setSetup((now) => ({
+                      ...now,
                       startingLife: "ordinary-life",
                     }))
                   }
@@ -881,8 +952,8 @@ function SetupScreen({
                   }
                   disabled={!officeAvailable}
                   onClick={() =>
-                    setSetup((current) => ({
-                      ...current,
+                    setSetup((now) => ({
+                      ...now,
                       startingLife: "legislative-office",
                     }))
                   }
@@ -907,17 +978,14 @@ function SetupScreen({
                     setup.household === "lives-alone" ? "is-chosen" : undefined
                   }
                   onClick={() =>
-                    setSetup((current) => ({
-                      ...current,
-                      household: "lives-alone",
-                    }))
+                    setSetup((now) => ({ ...now, household: "lives-alone" }))
                   }
                 >
                   Nobody else
                   <small>
                     {setup.startAge < 18
-                      ? "One adult raising them, and no other children."
-                      : "The character lives on their own."}
+                      ? "One adult raising you, and no other children."
+                      : "You live on your own."}
                   </small>
                 </button>
                 <button
@@ -929,10 +997,7 @@ function SetupScreen({
                       : undefined
                   }
                   onClick={() =>
-                    setSetup((current) => ({
-                      ...current,
-                      household: "shares-a-home",
-                    }))
+                    setSetup((now) => ({ ...now, household: "shares-a-home" }))
                   }
                 >
                   Somebody else
@@ -943,91 +1008,68 @@ function SetupScreen({
                   </small>
                 </button>
               </div>
-              <p className="game-note">
-                The game has no way to know this, so it asks. It matters because
-                somebody has to carry a week.
-              </p>
               <button
                 type="button"
                 className="game-creator-next"
-                data-testid="creator-continue-life"
-                onClick={() => advanceTo("calibration")}
+                data-testid="creator-continue-background"
+                onClick={() => advanceTo("whoAreYou")}
               >
                 Next
               </button>
             </section>
           ) : null}
 
-          {open("calibration") ? (
-            <section data-testid="creator-stage-calibration">
-              <h2>Before the story begins</h2>
-              <div className="game-choices" data-testid="calibration-choices">
+          {isCurrent("whoAreYou") ? (
+            <section data-testid="creator-stage-whoareyou">
+              <h2>Who are you?</h2>
+              <p className="game-note" data-testid="whoareyou-note">
+                This is optional. A few questions help the game understand what
+                matters to you, so the situations it puts in front of you land
+                closer to home. The world remembers what you choose — some
+                things fade, some echo back years later — but nothing here locks
+                a path or decides who you become. You can skip it and let the
+                game learn from how you actually play.
+              </p>
+              <div className="game-choices" data-testid="whoareyou-choices">
                 <button
                   type="button"
-                  data-testid="calibration-short"
+                  data-testid="whoareyou-answer"
                   className={
-                    setup.questionnaire === "short" ? "is-chosen" : undefined
+                    setup.questionnaire !== "skipped" ? "is-chosen" : undefined
                   }
                   onClick={() => {
-                    setSetup((current) => ({
-                      ...current,
+                    setSetup((now) => ({
+                      ...now,
                       questionnaire: "short",
                       priors: [],
                     }));
                     advanceTo("begin");
                   }}
                 >
-                  A short set
-                  <small>{questionnairePathNote("short")}</small>
+                  Answer a Few Questions
                 </button>
                 <button
                   type="button"
-                  data-testid="calibration-deep"
+                  data-testid="whoareyou-play"
                   className={
-                    setup.questionnaire === "deep" ? "is-chosen" : undefined
+                    setup.questionnaire === "skipped" ? "is-chosen" : undefined
                   }
                   onClick={() => {
-                    setSetup((current) => ({
-                      ...current,
-                      questionnaire: "deep",
-                      priors: [],
-                    }));
-                    advanceTo("begin");
-                  }}
-                >
-                  Full calibration
-                  <small>{questionnairePathNote("deep")}</small>
-                </button>
-                <button
-                  type="button"
-                  data-testid="calibration-skip"
-                  className={
-                    (setup.questionnaire ?? "skipped") === "skipped"
-                      ? "is-chosen"
-                      : undefined
-                  }
-                  onClick={() => {
-                    setSetup((current) => ({
-                      ...current,
+                    setSetup((now) => ({
+                      ...now,
                       questionnaire: "skipped",
                       priors: [],
                     }));
                     advanceTo("begin");
                   }}
                 >
-                  Start immediately
-                  <small>{questionnairePathNote("skipped")}</small>
+                  Discover Who I Am Through Play
                 </button>
               </div>
-              <p className="game-note" data-testid="calibration-note">
-                {custom
-                  ? "These questions are put to you, not to your character. They teach the game how you decide, so it can put the right kind of thing in front of you. On a custom start they do not touch your family."
-                  : "These questions are put to you, not to your character. They teach the game how you decide, and on a normal start they also lean the family it writes for you — an older parent or a younger one, a brother or a sister. They never write a fact of their own."}
-              </p>
             </section>
           ) : null}
 
-          {problems.length > 0 && open("begin") ? (
+          {problems.length > 0 && onReady ? (
             <p className="game-problem" data-testid="setup-problem">
               {problems[0]!.message}
             </p>
@@ -1041,7 +1083,7 @@ function SetupScreen({
             <button
               type="button"
               data-testid="begin"
-              disabled={problems.length > 0 || !open("begin")}
+              disabled={problems.length > 0 || !onReady}
               onClick={() => onBegin(setup)}
             >
               Begin
@@ -1049,12 +1091,9 @@ function SetupScreen({
           </div>
 
           {/*
-            Reproducibility, moved off the setup surface proper.
-            A raw seed and a replay address are development tools, and the human
-            playtest read them on the New Game screen as the game showing its
-            working. They stay reachable — a bug report is worth much less
-            without them — behind a collapsed Advanced disclosure, which is
-            where the authority put them.
+            Reproducibility, moved off the setup surface proper. A raw seed and
+            a replay address are development tools; they stay reachable behind a
+            collapsed Advanced disclosure rather than on the creator itself.
           */}
           <details className="game-dev" data-testid="setup-advanced">
             <summary>Advanced &mdash; reproducing this world</summary>
@@ -1064,10 +1103,8 @@ function SetupScreen({
               {seedOrigin === "replay"
                 ? ", which was supplied to reproduce an earlier one."
                 : ", drawn fresh for this session."}{" "}
-              The seed on its own is not enough to rebuild it: the place, the
-              age, how much of the earlier life is played and any names you
-              typed all change what gets built. This address carries all of
-              them.
+              The address below carries the place, the age and any names you
+              typed as well, so it rebuilds the same world.
             </p>
             <p>
               <code data-testid="setup-replay-link">
@@ -1121,7 +1158,6 @@ function QuestionnaireScreenView({
   const screen = questionnaireScreenFor(setup);
   if (!screen) return null;
   const note = questionnaireContentNote();
-  const custom = setup.startKind === "custom";
   return (
     <AmbientTableau>
       {() => (
@@ -1129,21 +1165,17 @@ function QuestionnaireScreenView({
           className="game-setup game-creator"
           data-testid="questionnaire-screen"
         >
-          <h1>Before the story begins</h1>
+          <h1>Who are you?</h1>
           {/*
-            What these questions actually are, said once and plainly.
-
-            The first playtest could not tell what the calibration was for. The
-            second read the answer it was given as evasive, because by then it
-            was also out of date: Packet 77 lets a normal start's answers lean
-            the family the generator writes. So the line says both halves — who
-            is being asked, and what it does — and says them in the fewest
-            words that are true.
+            What these questions actually are, said once and plainly: they are
+            about the player, they orient what the game offers, and they decide
+            nothing about who the character becomes.
           */}
           <p className="game-note" data-testid="questionnaire-framing">
-            {custom
-              ? "These are put to you, not to your character. They teach the game how you decide. On a custom start they do not touch your family."
-              : "These are put to you, not to your character. They teach the game how you decide, and they lean the family it writes for you. They never write a fact of their own."}
+            These are about you, not your character. They help the game
+            understand how you decide, so it can put the right kind of thing in
+            front of you. Nothing here locks a path, and you can begin whenever
+            you like.
           </p>
           <p className="game-band" data-testid="questionnaire-progress">
             {PHASE_LINE[screen.phase]}
@@ -1377,6 +1409,39 @@ function PlayingScreen({
     [session.world, session.personId],
   );
 
+  /**
+   * What this world can honestly put on the room's surfaces.
+   *
+   * Assembled from the same two things the workspace above it runs on — the
+   * legislature this character works in, and the bill they actually have open
+   * — and from nothing else. When there is no bill, the argument is null and
+   * the room's screens and papers stay as they were painted rather than
+   * finding something to say.
+   */
+  const surfaceProjection = useMemo(
+    () =>
+      projectDynamicSurfaces(session.world, {
+        jurisdictionId: capabilities.legislativeJurisdictionId,
+        measureId: assignment?.measureId ?? null,
+      }),
+    [session.world, capabilities.legislativeJurisdictionId, assignment],
+  );
+
+  // The current moment, resolved here as well as inside the moment panel, so
+  // the people it says are present can be stood in the room and listed on the
+  // rail. It is a pure, memoized projection, so computing it twice costs
+  // nothing and keeps the panel self-contained.
+  const moment = useMemo(
+    () => projectStoryMoment(session.world, session.personId),
+    [session.world, session.personId],
+  );
+
+  const scenePeople = useMemo(
+    () =>
+      planLifeScenePeople(session.world, moment.scene.presentPeople, sceneId),
+    [session.world, moment.scene.presentPeople, sceneId],
+  );
+
   const elsewhere = useMemo(() => {
     const entries: { key: "day" | "people" | "work"; label: string }[] = [];
     if (!capabilities.formativeYears) {
@@ -1416,129 +1481,103 @@ function PlayingScreen({
   }
 
   return (
-    <main className="game-play" data-testid="play-screen">
-      <header className="game-play-header">
-        <PersonPortrait
-          world={session.world}
-          personId={session.personId}
-          size="small"
-          note={`${capabilities.age}${
-            capabilities.place ? ` · ${capabilities.place.displayName}` : ""
-          }`}
-        />
-        <div className="game-play-actions">
-          {session.saveId === null && !savesUnavailable ? (
-            <button type="button" data-testid="keep-world" onClick={onKeep}>
-              Save this life
-            </button>
-          ) : null}
-          <button type="button" data-testid="leave-game" onClick={onLeave}>
-            Main menu
-          </button>
-        </div>
-      </header>
+    <main
+      className="life-shell"
+      data-testid="play-screen"
+      data-scene-id={sceneId ?? ""}
+    >
+      {/*
+        THE ROOM IS THE SURFACE.
 
-      {session.unsavedSeed !== null ? (
-        <p className="game-note" data-testid="unsaved-note">
-          This life has not been saved yet.
-        </p>
-      ) : null}
-      {notice ? <p className="game-note">{notice}</p> : null}
-      {problem ? <p className="game-problem">{problem}</p> : null}
-
-      {!introduced && introduction ? (
-        <SceneBackdrop sceneId={sceneId}>
-          <section
-            className="game-introduction"
-            data-testid="life-introduction"
-          >
-            <h2>Where this starts</h2>
+        The fourth playtest reported being handed a large white card over
+        wallpaper, with no family in the room and People reduced to a button.
+        The repair is structural: the scene — with the generated household
+        standing on its own anchors — is the whole surface, the current moment
+        is a compact panel over it, the household is a persistent rail on the
+        right, and everything else is a small HUD in the corner.
+      */}
+      <SceneBackdrop
+        sceneId={sceneId}
+        people={scenePeople}
+        surfaces={surfaceProjection}
+      >
+        {!introduced && introduction ? (
+          <section className="life-exposition" data-testid="life-introduction">
+            <p className="life-exposition-kicker">Where this starts</p>
             {introduction.sentences.map((sentence) => (
-              <p key={sentence} className="game-scene">
+              <p key={sentence} className="life-exposition-line">
                 {sentence}
               </p>
             ))}
-            <p className="game-note">
-              The game wrote them. Everything above comes from what it recorded,
-              and nothing has been added to make it read better.
-            </p>
             <button
               type="button"
+              className="ui-action ui-action--primary"
               data-testid="introduction-continue"
               onClick={() => setIntroduced(true)}
             >
-              Begin the life
+              Step inside
             </button>
           </section>
-        </SceneBackdrop>
-      ) : null}
-
-      {/*
-        THE ONE PRIMARY MOMENT.
-
-        The second playtest was handed "AT HOME", a meeting, a shared project,
-        addressee controls and audibility controls all at once, and reported
-        being dropped into a dashboard. Nothing was removed to answer that —
-        every system below is still reachable — but only one thing is in front
-        of the player at a time, and the thing in front of them is the scene
-        they are in. It stands in the room the records say they are in, which
-        is the other half of the same complaint.
-      */}
-      {introduced || !introduction ? (
-        <SceneBackdrop sceneId={sceneId}>
+        ) : (
           <StoryView session={session} onWorldChange={onWorldChange} />
-        </SceneBackdrop>
-      ) : null}
+        )}
+      </SceneBackdrop>
 
-      {(introduced || !introduction) && elsewhere.length > 0 ? (
-        <nav className="game-elsewhere" data-testid="life-elsewhere">
-          <h2>Elsewhere in this life</h2>
-          <div className="game-choices game-choices-inline">
-            {elsewhere.map((entry) => (
-              <button
-                key={entry.key}
-                type="button"
-                data-testid={`elsewhere-${entry.key}`}
-                aria-pressed={open === entry.key}
-                className={open === entry.key ? "is-chosen" : undefined}
-                onClick={() =>
-                  setOpen((current) =>
-                    current === entry.key ? null : entry.key,
-                  )
-                }
-              >
-                {entry.label}
-              </button>
-            ))}
-          </div>
-        </nav>
-      ) : null}
+      <LifePeopleRail
+        moment={moment}
+        household={introduction?.household ?? []}
+        onOpenPerson={() => setOpen("people")}
+      />
+
+      <LifeHud
+        world={session.world}
+        personId={session.personId}
+        age={moment.age}
+        dateLabel={moment.dateLabel}
+        placeName={moment.placeName}
+        elsewhere={elsewhere}
+        open={open}
+        onToggle={(key) => setOpen((current) => (current === key ? null : key))}
+        canSave={session.saveId === null && !savesUnavailable}
+        onKeep={onKeep}
+        onLeave={onLeave}
+        unsaved={session.unsavedSeed !== null}
+        notice={notice}
+        problem={problem}
+      />
 
       {open === "day" ? (
-        <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
+        <LifeOverlay
+          title="The day"
+          testid="day-overlay"
+          onClose={() => setOpen(null)}
+        >
+          <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
+        </LifeOverlay>
       ) : null}
 
-      {/*
-        Every conversation this life can have, and not only in adulthood.
-        These sat inside the ordinary-day surface, which the growing-up years
-        deliberately do not render — so a fifteen-year-old could not reach any
-        conversation at all, including the one written for a school corridor.
-        Which conversations appear is decided by the world; this screen only
-        decides that a life has them at every age.
-      */}
       {open === "people" ? (
-        <PlayerConversations
-          world={session.world}
-          personId={session.personId}
-          onWorldChange={onWorldChange}
-        />
+        <LifeOverlay
+          title="People"
+          testid="people-overlay"
+          onClose={() => setOpen(null)}
+        >
+          <PlayerConversations
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+          />
+        </LifeOverlay>
       ) : null}
 
       {open === "work" &&
       capabilities.legislation &&
       capabilities.legislativeScenarioKey ? (
-        <section className="game-office" data-testid="office-section">
-          <h2>The office</h2>
+        <LifeOverlay
+          title="The office"
+          testid="office-section"
+          onClose={() => setOpen(null)}
+        >
           <p>
             {capabilities.person.givenName} works for the{" "}
             {capabilities.workPlace?.displayName} legislature, so what is in
@@ -1546,6 +1585,7 @@ function PlayingScreen({
           </p>
           <button
             type="button"
+            className="ui-action"
             data-testid="open-legislation"
             onClick={openTheBill}
           >
@@ -1558,9 +1598,322 @@ function PlayingScreen({
               onWorldChange={onWorldChange}
             />
           ) : null}
-        </section>
+        </LifeOverlay>
       ) : null}
     </main>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The persistent People rail.
+ *
+ * Who is in this moment and who has been through the life recently, kept on the
+ * right of the room rather than hidden behind a button. Present people are
+ * pinned by default and cannot be removed while they are in the room; recurring
+ * people can be pinned to keep them, or left to fall off as the life moves on.
+ * Selecting anybody opens the conversation surface, which is where a
+ * relationship is actually acted on.
+ */
+function LifePeopleRail({
+  moment,
+  household,
+  onOpenPerson,
+}: {
+  readonly moment: StoryMoment;
+  readonly household: readonly IntroducedPerson[];
+  readonly onOpenPerson: (personId: EntityId) => void;
+}) {
+  const [collapsed, setCollapsed] = useState(false);
+  const [pinned, setPinned] = useState<readonly EntityId[]>([]);
+
+  type RailPerson = {
+    readonly personId: EntityId;
+    readonly name: string;
+    readonly relationship: string | null;
+    readonly present: boolean;
+  };
+  const people: RailPerson[] = [];
+  const seen = new Set<EntityId>();
+  // Who is literally in the room this moment comes first and is pinned.
+  for (const person of moment.scene.presentPeople) {
+    seen.add(person.personId);
+    people.push({
+      personId: person.personId,
+      name: person.name,
+      relationship: person.relationship,
+      present: true,
+    });
+  }
+  // The generated household is the life's standing cast, so it is always here
+  // even when nobody is in the current scene — the family the fourth play said
+  // it never saw.
+  for (const member of household) {
+    if (seen.has(member.personId)) continue;
+    seen.add(member.personId);
+    people.push({
+      personId: member.personId,
+      name: member.introduction.split(", ")[0] ?? member.introduction,
+      relationship: member.relationship,
+      present: false,
+    });
+  }
+  // Then anyone else this life keeps coming back to.
+  for (const person of moment.people) {
+    if (seen.has(person.personId)) continue;
+    seen.add(person.personId);
+    people.push({
+      personId: person.personId,
+      name: person.name,
+      relationship: null,
+      present: false,
+    });
+  }
+
+  if (people.length === 0) return null;
+
+  return (
+    <aside
+      className={`life-rail${collapsed ? " life-rail--collapsed" : ""}`}
+      data-testid="people-rail"
+      aria-label="People in this life"
+    >
+      <button
+        type="button"
+        className="life-rail-toggle"
+        data-testid="people-rail-toggle"
+        aria-expanded={!collapsed}
+        onClick={() => setCollapsed((value) => !value)}
+      >
+        <span className="life-rail-title">People</span>
+        <span aria-hidden="true">{collapsed ? "▸" : "▾"}</span>
+      </button>
+      {!collapsed ? (
+        <ul className="life-rail-list">
+          {people.map((person) => {
+            const isPinned = person.present || pinned.includes(person.personId);
+            return (
+              <li key={person.personId} className="life-rail-item">
+                <button
+                  type="button"
+                  className="life-pin"
+                  data-testid={`rail-person-${person.personId}`}
+                  data-present={person.present ? "true" : "false"}
+                  onClick={() => onOpenPerson(person.personId)}
+                >
+                  <span className="life-pin-mark" aria-hidden="true">
+                    {railInitials(person.name)}
+                  </span>
+                  <span className="life-pin-copy">
+                    <strong>{person.name}</strong>
+                    {person.relationship ? (
+                      <small>{person.relationship}</small>
+                    ) : person.present ? (
+                      <small>here now</small>
+                    ) : null}
+                  </span>
+                </button>
+                {!person.present ? (
+                  <button
+                    type="button"
+                    className="life-pin-hold"
+                    data-testid={`rail-pin-${person.personId}`}
+                    aria-pressed={isPinned}
+                    aria-label={isPinned ? "Unpin" : "Pin"}
+                    onClick={() =>
+                      setPinned((current) =>
+                        current.includes(person.personId)
+                          ? current.filter((id) => id !== person.personId)
+                          : [...current, person.personId],
+                      )
+                    }
+                  >
+                    {isPinned ? "★" : "☆"}
+                  </button>
+                ) : null}
+              </li>
+            );
+          })}
+        </ul>
+      ) : null}
+    </aside>
+  );
+}
+
+function railInitials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  const first = parts[0]?.[0] ?? "";
+  const last = parts.length > 1 ? (parts[parts.length - 1]?.[0] ?? "") : "";
+  return `${first}${last}`.toUpperCase() || "?";
+}
+
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The compact HUD: where and when the life is, and the way to everything else.
+ *
+ * A small translucent plaque in the corner rather than a header across the top,
+ * so the room keeps the frame. It carries the date and place, the player's own
+ * name, and the row of secondary surfaces — the day, the people, the office —
+ * plus saving and leaving, none of them competing with the moment.
+ */
+function LifeHud({
+  world,
+  personId,
+  age,
+  dateLabel,
+  placeName,
+  elsewhere,
+  open,
+  onToggle,
+  canSave,
+  onKeep,
+  onLeave,
+  unsaved,
+  notice,
+  problem,
+}: {
+  readonly world: World;
+  readonly personId: EntityId;
+  readonly age: number;
+  readonly dateLabel: string;
+  readonly placeName: string | null;
+  readonly elsewhere: readonly {
+    key: "day" | "people" | "work";
+    label: string;
+  }[];
+  readonly open: "day" | "people" | "work" | null;
+  readonly onToggle: (key: "day" | "people" | "work") => void;
+  readonly canSave: boolean;
+  readonly onKeep: () => void;
+  readonly onLeave: () => void;
+  readonly unsaved: boolean;
+  readonly notice: string | null;
+  readonly problem: string | null;
+}) {
+  return (
+    <div className="life-hud" data-testid="life-hud">
+      {notice ? (
+        <p className="life-hud-note" role="status">
+          {notice}
+        </p>
+      ) : null}
+      {problem ? (
+        <p className="life-hud-note life-hud-note--problem" role="status">
+          {problem}
+        </p>
+      ) : null}
+      <div className="life-hud-plaque civic-glass">
+        <PersonPortrait
+          world={world}
+          personId={personId}
+          size="small"
+          note={`${age}${placeName ? ` · ${placeName}` : ""}`}
+        />
+        <div className="life-hud-clock">
+          <strong>{dateLabel}</strong>
+        </div>
+      </div>
+      <nav className="life-hud-nav" aria-label="Elsewhere in this life">
+        {elsewhere.map((entry) => (
+          <button
+            key={entry.key}
+            type="button"
+            className="ui-action ui-action--rail"
+            data-testid={`elsewhere-${entry.key}`}
+            aria-pressed={open === entry.key}
+            onClick={() => onToggle(entry.key)}
+          >
+            {entry.label}
+          </button>
+        ))}
+        {canSave ? (
+          <button
+            type="button"
+            className="ui-action ui-action--rail"
+            data-testid="keep-world"
+            onClick={onKeep}
+          >
+            Save this life
+          </button>
+        ) : null}
+        <button
+          type="button"
+          className="ui-action ui-action--subtle"
+          data-testid="leave-game"
+          onClick={onLeave}
+        >
+          Main menu
+        </button>
+      </nav>
+      {unsaved ? (
+        <p className="life-hud-note" data-testid="unsaved-note">
+          This life has not been saved yet.
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+
+/**
+ * A secondary surface opened over the room — the day, the people, the office.
+ *
+ * The fourth and fifth plays reported these as white takeovers with no obvious
+ * way out. This frames them as a game panel over a dimmed room, with a titled
+ * header and a clear close: an X, the Escape key, and a click on the room
+ * behind. Closing returns to exactly the moment underneath; nothing is rebuilt.
+ */
+function LifeOverlay({
+  title,
+  testid,
+  onClose,
+  children,
+}: {
+  readonly title: string;
+  readonly testid: string;
+  readonly onClose: () => void;
+  readonly children: ReactNode;
+}) {
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") onClose();
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  return (
+    <div
+      className="life-overlay-scrim"
+      data-testid={`${testid}-scrim`}
+      onClick={onClose}
+    >
+      <section
+        className="life-overlay"
+        data-testid={testid}
+        role="dialog"
+        aria-label={title}
+        aria-modal="true"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <header className="life-overlay-head">
+          <h2>{title}</h2>
+          <button
+            type="button"
+            className="ui-icon-button"
+            data-testid={`${testid}-close`}
+            aria-label="Close"
+            onClick={onClose}
+          >
+            <span aria-hidden="true">✕</span>
+          </button>
+        </header>
+        <div className="life-overlay-body">{children}</div>
+      </section>
+    </div>
   );
 }
 
@@ -1599,7 +1952,7 @@ function StoryView({
   );
 
   return (
-    <section className="game-story" data-testid="story-section">
+    <section className="game-story life-moment" data-testid="story-section">
       {/*
         Where and when, before anything happens in it.
         The play surface used to open straight into narration, so the page had
@@ -1609,9 +1962,13 @@ function StoryView({
         that will sit around it belongs to #86, and nothing here assumes a
         layout it has not shipped.
       */}
-      <header className="game-scene-header" data-testid="story-where">
-        <h2 data-testid="story-who">
-          {moment.personName}, {moment.age}
+      <header
+        className="game-scene-header life-moment-head"
+        data-testid="story-where"
+      >
+        <h2 className="life-identity" data-testid="story-who">
+          <span className="life-identity-name">{moment.personName}</span>
+          <span className="life-identity-age">{moment.age}</span>
         </h2>
         <p className="game-band" data-testid="story-when">
           {moment.dateLabel}
@@ -1651,11 +2008,12 @@ function StoryView({
       <h3 className="game-choices-heading" data-testid="story-choices-heading">
         What do you do?
       </h3>
-      <div className="game-choices" data-testid="story-options">
+      <div className="game-choices life-choices" data-testid="story-options">
         {moment.scene.options.map((option) => (
           <button
             key={option.key}
             type="button"
+            className="ui-action ui-action--choice"
             onClick={() =>
               onWorldChange(
                 chooseStoryOption(session.world, {
@@ -1673,6 +2031,7 @@ function StoryView({
         {moment.scene.kind === "ordinary-stretch" ? null : (
           <button
             type="button"
+            className="ui-action ui-action--choice ui-action--quiet"
             data-testid="story-let-time-pass"
             onClick={() =>
               onWorldChange(letStoryTimePass(session.world, session.personId))

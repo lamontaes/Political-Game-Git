@@ -1,6 +1,16 @@
 import { useMemo, useRef, type CSSProperties, type ReactNode } from "react";
 
 import { SCENE_REGISTRY } from "../presentation/scene-registry";
+import type { PlacedScenePerson } from "../presentation/life-scene-people";
+import {
+  bindSceneSurfaces,
+  dynamicSurfacePayloads,
+} from "../presentation/surface-binding";
+import {
+  EMPTY_SURFACE_PROJECTION,
+  type DynamicSurfaceProjection,
+} from "../presentation/surface-projection";
+import { SceneSurfaceLayer } from "./SceneSurfaceLayer";
 import { PRODUCTION_VISUAL_LIBRARY } from "../presentation/visual-integration";
 import { useRasterTier } from "./useRasterTier";
 import { useSceneCoverTransform } from "./useSceneTransform";
@@ -23,9 +33,25 @@ import { useSceneCoverTransform } from "./useSceneTransform";
  */
 export function SceneBackdrop({
   sceneId,
+  people = [],
+  surfaces = EMPTY_SURFACE_PROJECTION,
   children,
 }: {
   readonly sceneId: string | null;
+  /**
+   * What this world can honestly put on the room's declared surfaces.
+   *
+   * Defaulted to the empty projection so a caller that has not decided yet
+   * gets a room with its painted decoration, never an invented one.
+   */
+  readonly surfaces?: DynamicSurfaceProjection;
+  /**
+   * The generated people standing in this room, positioned by the registry's
+   * own anchors. They paint in the plate's coordinate space, above the plate
+   * and behind the content, and are decorative: interaction is the People rail's
+   * job, so nothing here takes focus.
+   */
+  readonly people?: readonly PlacedScenePerson[];
   readonly children: ReactNode;
 }) {
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -58,6 +84,11 @@ export function SceneBackdrop({
   );
 
   const painted = Boolean(tier.paintedUrl);
+  const bindings = useMemo(
+    () =>
+      scene ? bindSceneSurfaces(scene, dynamicSurfacePayloads(surfaces)) : [],
+    [scene, surfaces],
+  );
 
   return (
     <div
@@ -94,8 +125,89 @@ export function SceneBackdrop({
               data-testid="scene-backdrop-plate"
             />
           ) : null}
+          {painted ? (
+            <SceneSurfaceLayer
+              slots={scene?.surfaceSlots ?? []}
+              bindings={bindings}
+              plate={plate}
+            />
+          ) : null}
         </div>
       </div>
+      {painted && people.length > 0 ? (
+        <div
+          className="scene-backdrop-people"
+          data-testid="scene-people"
+          aria-hidden="true"
+        >
+          {people.map((person) => {
+            const toScreen = (percentX: number, percentY: number) => ({
+              x:
+                transform.xOffset +
+                (percentX / 100) * plate.width * transform.uniformScale,
+              y:
+                transform.yOffset +
+                (percentY / 100) * plate.height * transform.uniformScale,
+            });
+            const topLeft = toScreen(person.leftPercent, person.topPercent);
+            const width =
+              (person.widthPercent / 100) *
+              plate.width *
+              transform.uniformScale;
+            const height =
+              (person.heightPercent / 100) *
+              plate.height *
+              transform.uniformScale;
+            return (
+              <div
+                key={person.personId}
+                className="scene-person-token"
+                data-testid={`scene-person-${person.personId}`}
+                data-has-art={person.hasArt ? "true" : "false"}
+                data-relationship={person.relationship ?? ""}
+                style={
+                  {
+                    left: `${topLeft.x}px`,
+                    top: `${topLeft.y}px`,
+                    width: `${width}px`,
+                    height: `${height}px`,
+                  } satisfies CSSProperties
+                }
+              >
+                {person.hasArt ? (
+                  person.layers.map((layer, index) => (
+                    <img
+                      key={`${person.personId}-${index}`}
+                      className="scene-person-art"
+                      src={layer.url}
+                      alt=""
+                      draggable="false"
+                      style={{
+                        position: "absolute",
+                        left: `${((layer.leftPercent - person.leftPercent) / person.widthPercent) * 100}%`,
+                        top: `${((layer.topPercent - person.topPercent) / person.heightPercent) * 100}%`,
+                        width: `${(layer.widthPercent / person.widthPercent) * 100}%`,
+                        height: `${(layer.heightPercent / person.heightPercent) * 100}%`,
+                      }}
+                    />
+                  ))
+                ) : (
+                  <span
+                    className={`scene-person-figure${person.seated ? " scene-person-figure--seated" : ""}`}
+                    aria-hidden="true"
+                  />
+                )}
+                <span className="scene-person-plate">
+                  <strong>{person.name}</strong>
+                  {person.relationship ? (
+                    <small>{person.relationship}</small>
+                  ) : null}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      ) : null}
       <div className="scene-backdrop-content">{children}</div>
     </div>
   );

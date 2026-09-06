@@ -1,0 +1,229 @@
+{
+  "tool": "source-sheet-chop-v1",
+  "sourcePath": "art/references/candidates/wave-a-morphology/source-sheets/skinny woman.png",
+  "sourceSha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+  "sourceWidth": 5056,
+  "sourceHeight": 3392,
+  "options": {
+    "alphaNoiseThreshold": 8,
+    "paddingPixels": 64,
+    "minimumGapPixels": 24,
+    "minimumComponentPixels": 20000
+  },
+  "columnBands": [
+    {
+      "start": 307,
+      "end": 854
+    },
+    {
+      "start": 1550,
+      "end": 2293
+    },
+    {
+      "start": 2769,
+      "end": 3491
+    },
+    {
+      "start": 4066,
+      "end": 4710
+    }
+  ],
+  "rowBands": [
+    {
+      "start": 106,
+      "end": 1692
+    },
+    {
+      "start": 1829,
+      "end": 3358
+    }
+  ],
+  "noisePixelsCleared": 3965943,
+  "cells": [
+    {
+      "cellId": "R1C1",
+      "row": 1,
+      "column": 1,
+      "sourceBox": {
+        "x": 307,
+        "y": 108,
+        "width": 548,
+        "height": 1575
+      },
+      "centroidNormalized": {
+        "x": 0.114835,
+        "y": 0.253907
+      },
+      "exportWidth": 676,
+      "exportHeight": 1703,
+      "opaquePixels": 437225,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 26166,
+      "outputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_front_a_v1.png",
+      "sha256": "793c1a757cf28e630ea3fec186a3cabf827108bc8b860b6a77909d0f83fb10d4"
+    },
+    {
+      "cellId": "R1C2",
+      "row": 1,
+      "column": 2,
+      "sourceBox": {
+        "x": 1550,
+        "y": 108,
+        "width": 659,
+        "height": 1585
+      },
+      "centroidNormalized": {
+        "x": 0.355626,
+        "y": 0.255952
+      },
+      "exportWidth": 787,
+      "exportHeight": 1713,
+      "opaquePixels": 412815,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 22145,
+      "outputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_conversational_open_hand_v1.png",
+      "sha256": "7a1ee82da47892b6a16543f12674bc96f2ec71e370ec8eb2a9df1afafe22f4b5"
+    },
+    {
+      "cellId": "R1C3",
+      "row": 1,
+      "column": 3,
+      "sourceBox": {
+        "x": 2935,
+        "y": 106,
+        "width": 486,
+        "height": 1578
+      },
+      "centroidNormalized": {
+        "x": 0.628411,
+        "y": 0.254163
+      },
+      "exportWidth": 614,
+      "exportHeight": 1706,
+      "opaquePixels": 438347,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 27064,
+      "outputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_front_b_v1.png",
+      "sha256": "545107870cd018cc5ceaabc44af73e0395229878430e809ca40180e55974b603"
+    },
+    {
+      "cellId": "R1C4",
+      "row": 1,
+      "column": 4,
+      "sourceBox": {
+        "x": 4066,
+        "y": 106,
+        "width": 636,
+        "height": 1581
+      },
+      "centroidNormalized": {
+        "x": 0.888541,
+        "y": 0.256425
+      },
+      "exportWidth": 764,
+      "exportHeight": 1709,
+      "opaquePixels": 399885,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 23036,
+      "outputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_interaction_surface_v1.png",
+      "sha256": "794c372fcd05fbc2185bf628cd0f8306ed0368be1c4704270f1f933f928c366c"
+    },
+    {
+      "cellId": "R2C1",
+      "row": 2,
+      "column": 1,
+      "sourceBox": {
+        "x": 326,
+        "y": 1833,
+        "width": 507,
+        "height": 1514
+      },
+      "centroidNormalized": {
+        "x": 0.114553,
+        "y": 0.757693
+      },
+      "exportWidth": 635,
+      "exportHeight": 1642,
+      "opaquePixels": 451384,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 22118,
+      "outputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_front_neutral_v1.png",
+      "sha256": "4f7c049d78dea3c30a90c50dc0a09229ad36882a535109989b94fb9bd98dcfd2"
+    },
+    {
+      "cellId": "R2C2",
+      "row": 2,
+      "column": 2,
+      "sourceBox": {
+        "x": 1561,
+        "y": 1835,
+        "width": 733,
+        "height": 1507
+      },
+      "centroidNormalized": {
+        "x": 0.372109,
+        "y": 0.769587
+      },
+      "exportWidth": 861,
+      "exportHeight": 1635,
+      "opaquePixels": 444939,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 24302,
+      "outputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_interaction_surface_v1.png",
+      "sha256": "f898dc224e8db9006eb6cc7bec563dc55d06c94c4000b84d1d3049b1a665ef03"
+    },
+    {
+      "cellId": "R2C3",
+      "row": 2,
+      "column": 3,
+      "sourceBox": {
+        "x": 2769,
+        "y": 1849,
+        "width": 723,
+        "height": 1495
+      },
+      "centroidNormalized": {
+        "x": 0.627162,
+        "y": 0.760749
+      },
+      "exportWidth": 851,
+      "exportHeight": 1623,
+      "opaquePixels": 459144,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 24306,
+      "outputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_conversational_open_hand_v1.png",
+      "sha256": "44aa67878faa18121dbd486634db3a576372bc24eac693f479975617f7c1818b"
+    },
+    {
+      "cellId": "R2C4",
+      "row": 2,
+      "column": 4,
+      "sourceBox": {
+        "x": 4273,
+        "y": 1829,
+        "width": 438,
+        "height": 1530
+      },
+      "centroidNormalized": {
+        "x": 0.890083,
+        "y": 0.759389
+      },
+      "exportWidth": 566,
+      "exportHeight": 1658,
+      "opaquePixels": 394836,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 22888,
+      "outputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_three_quarter_v1.png",
+      "sha256": "dd2e7fe5bdc314ab2b77c034c28e58dcd050138a3f759c072230dc1ec624221a"
+    }
+  ],
+  "rejectedFragments": []
+}

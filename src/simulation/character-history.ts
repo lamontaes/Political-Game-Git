@@ -8,6 +8,7 @@ import {
   createHousehold,
   createOrganization,
   createOrganizationParticipation,
+  createPartnership,
   createWorkRelationship,
   recordCareResponsibilityState,
   recordChildAuthorityState,
@@ -28,6 +29,7 @@ import type {
   CreateHouseholdInput,
   CreateOrganizationInput,
   CreateOrganizationParticipationInput,
+  CreatePartnershipInput,
   CreateWorkRelationshipInput,
   RecordCareResponsibilityStateInput,
   RecordChildAuthorityStateInput,
@@ -178,6 +180,10 @@ export type CharacterHistoryTransition =
   | {
       readonly kind: "kinship";
       readonly input: WithProvenance<RecordKinshipInput>;
+    }
+  | {
+      readonly kind: "partnership";
+      readonly input: WithProvenance<CreatePartnershipInput>;
     }
   | {
       readonly kind: "care";
@@ -571,6 +577,12 @@ export function applyCharacterHistoryPlan(
       }
       case "kinship":
         next = recordKinship(next, withLifeProvenance(next, transition.input));
+        break;
+      case "partnership":
+        next = createPartnership(
+          next,
+          withLifeProvenance(next, transition.input),
+        );
         break;
       case "care":
         next = createCareResponsibility(
@@ -1673,6 +1685,20 @@ const SITUATIONS: readonly AvailableLifeSituation[] = AUTHORED_SITUATIONS.map(
     needsCompanion: SOCIAL_SITUATION_KEYS.includes(situation.key),
   }),
 );
+
+/**
+ * Every authored formative situation, whether or not any particular life can
+ * currently reach one.
+ *
+ * `availableLifeSituations` answers a different question — what this person,
+ * in this band, with or without somebody beside them, can be offered right now
+ * — and it is the only question play needs. Review needs the other one: what
+ * has been written at all. Both read the same array, so the reviewed bank and
+ * the played bank cannot drift apart.
+ */
+export function lifeSituationCatalog(): readonly AvailableLifeSituation[] {
+  return SITUATIONS;
+}
 
 export function availableLifeSituations(
   world: World,

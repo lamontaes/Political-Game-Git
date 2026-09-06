@@ -261,6 +261,7 @@ export const SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 1,
       allowed_content_classes: ["agenda", "headline", "document-body"],
+      information_access: "public-record",
       fallback_decoration: "blank pinned paper shapes with no legible text",
     },
     {
@@ -274,6 +275,7 @@ export const SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 3,
       allowed_content_classes: ["document-body", "bill-title", "bill-number"],
+      information_access: "institutional-working",
       fallback_decoration: "a clipboard holding blank paper",
     },
     {
@@ -287,6 +289,7 @@ export const SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 3,
       allowed_content_classes: ["document-body", "briefing-slide"],
+      information_access: "institutional-working",
       fallback_decoration: "a dark screen with no interface drawn on it",
     },
   ],

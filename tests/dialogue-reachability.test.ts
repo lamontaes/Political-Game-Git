@@ -39,6 +39,10 @@ import type { EntityId, World } from "../src/simulation";
 
 function start(overrides: Partial<NewGameSetup> = {}) {
   const game = createNewGameWorld({
+    // These fixtures pin the household on purpose — who is or is not at home is
+    // the whole point of a conversation-reachability test — so they take the
+    // custom route that honours it. A normal start (Task E) generates it.
+    startKind: "custom",
     seed: "packet-70",
     placeKey: "kentucky",
     startAge: 34,

@@ -132,14 +132,14 @@ test.describe("The title screen shows the game", () => {
     expect(scene).not.toBe("office-council-staff-fixture");
     await expect(plate).not.toHaveAttribute("src", /lexington/);
 
-    const description =
-      (await page.getByTestId("title-scene-description").textContent()) ?? "";
+    // The room no longer carries a line describing itself (Task A): the
+    // environment is the picture, not a caption. Whose title this is is said by
+    // the Continue control, which carries the save's own name.
+    await expect(page.getByTestId("title-scene-description")).toHaveCount(0);
     const name = (await page.getByTestId("continue").textContent()) ?? "";
-    // The copy says whose title this is, using the name the save already has.
-    expect(description.length).toBeGreaterThan(0);
     expect(name.length).toBeGreaterThan("Continue".length);
-    // And it says what is on screen without saying how it works.
-    expect(description).not.toMatch(
+    // And it says who without saying how it works.
+    expect(name).not.toMatch(
       /tableau|asset|tier|registry|raster|fixture|anchor/i,
     );
   });

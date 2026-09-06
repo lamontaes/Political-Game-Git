@@ -1841,11 +1841,329 @@ Consequence: chopping is measurement. The project can now take a dense sheet
 apart reproducibly, say what each cell is, and say why a good cell is still not
 shippable, without either discarding the sheet or promoting it.
 
-## D-074 — A garment is fitted to a silhouette, and a fit it does not have is a gap rather than a guess
+## D-074 — Source evidence is a separate substrate, and it is built out of refusals
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: nothing on accepted main, which contained no `src/source` at all
+- Reconciled: renumbered from D-059 on merge of accepted main
+  (PR #87), whose D-057–D-073 already occupied the D-059 slot; the
+  architecture is unchanged, only the identifier.
+
+Real-world data enters this repository through one substrate, and that
+substrate is designed around what it will not represent. The failure that
+produced the rejected provenance architecture was not carelessness about facts.
+It was a design in which a fabricated fact was _representable_: a provenance
+record that took any string as a hash, a value type with a `value` field on
+states that have no value, a compiler that accepted any object, a manifest that
+stamped itself with the clock. What cannot be represented does not have to be
+caught.
+
+Two provenance records, never blended. A `RawArtifact` is evidence of a
+retrieval — a URL, an HTTP status, the instant it happened, and a SHA-256 over
+the bytes that came back. A `NormalizedCorpus` is evidence of a computation —
+which compiler at which version read which locked artifacts to produce how many
+records. A container and the member inside it carry different digests, because
+they are different bytes. `source:verify-artifacts` re-hashes what is on disk,
+so a digest that was of a URL string, of a parsed object, or simply typed by
+hand fails the first time anybody runs it.
+
+One value algebra, with eight states, five of which have no `value` key at all.
+KNOWN, HISTORICAL and NOT_YET_OPERATIVE carry a value; NOT_APPLICABLE,
+NO_REQUIREMENT_FOUND, SUPPRESSED, CONFLICTING and UNKNOWN do not have the
+field, so `?? 0` has nothing to attach to. There is no `valueOr` and no
+overload that takes a fallback: a caller who needs a display default writes it
+at the presentation boundary, where a reader can see it. Only KNOWN is present
+truth — a historical value and a not-yet-operative one both carry numbers and
+neither is the answer to "what is it now". Release status is an orthogonal
+property of a KNOWN value rather than a ninth state, because a preliminary
+number is still a number.
+
+Aggregation returns an aggregate, not a number. A sum over a set containing any
+non-KNOWN member is INCOMPLETE, names every gap and calls its number
+`partialValue`. Reconciliation refuses an incomplete component set outright
+rather than treating an absent part as zero, which is how a corpus with missing
+counts used to reconcile perfectly and wrongly.
+
+Compilers take opaque capability handles. `ProductionInput` and `FixtureInput`
+are branded with `unique symbol` keys that cannot be named outside their
+module, so a caller holding arbitrary JSON has no path to a compiler at all.
+Opening production artifacts reads bytes and compares digests; it does not
+trust filenames. Fixtures resolve only under `fixtures/source/` _and_ must
+declare themselves, because a path check alone falls to a symlink and a marker
+alone falls to a file in the right directory.
+
+Nothing tracked under `data/source/` carries a wall clock. Retrieval time is
+acquisition evidence, recorded by the retrieval that produced it; a corpus's
+`asOf` is the semantic date the publisher declares. A build-time observation is
+not a fact about the world, and it is what makes a generated artifact fail to
+regenerate. `npm run validate` compiles the whole tree into a scratch directory
+and fails on any byte that differs.
+
+Coverage is mandatory and has no default. Every corpus says whether it holds a
+complete universe, and a bounded one says why in a sentence a reader can check.
+Where an artifact is too large to commit, its identity is still pinned and a QA
+slice is cut from it by a stated predicate, with the parent's digest on the
+slice — so anyone holding the parent can re-cut it and compare.
+
+Identity is not authority. A place, county, district, court or committee record
+says what exists, what it is called and where it is. Powers, eligibility,
+selection method and current operative status are separate facts needing
+separate evidence, and each domain's validator refuses a field whose name
+claims otherwise. Nothing in the running game imports the substrate: a fact
+reaches the world through a named one-way adapter, and no adapter exists yet.
+
+## D-075 — Causal tracing is a read-only projection that renders absence as UNKNOWN
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: renumbered from D-074 on merge of accepted main (PR #91),
+  whose source-substrate decision already occupied the D-074 slot; the
+  architecture is unchanged, only the identifier.
+
+The project can now read how canonical truth, claims, knowledge, perception,
+belief, decisions, relationships and consequences connect in a save. It reads
+them; it does not record them. `src/devtools/**` projects existing records into
+a graph whose every edge is a field the record already carries —
+`parentCausalIds`, `source.claimId`, `eventId`, a `supersedes` pointer, a mind
+source reference — and holds nothing between inspections. There is no second
+history store and no second causal graph. The downstream direction is derived
+at inspection time by reversing recorded parent edges, because the world
+records parents and not children, and persisting that reversal would turn a
+convenience into a competing source of truth.
+
+Nothing in the tool joins records by matching dates, names or text. That is the
+temptation the whole design resists: such a join produces a graph that looks
+causal and is not, and once it is in an exported trace an invented parent is
+indistinguishable from a recorded one. Where a nullable link field is null, the
+projection emits an unrecorded link naming the field and saying why nothing
+follows. Where a walk stops, it says which of five things stopped it: nothing
+was recorded, the target belongs to no registered source, the depth limit was
+reached, the edge closed a loop, or the edge reached a record another path had
+already reached. A shared ancestor is not a cycle, and reporting it as one
+would invent a loop the world does not have.
+
+Record class and truth origin are separate axes. Class answers what kind of
+record this is — canonical event, spoken claim, knowledge received, perception,
+mind state, private belief, public position, commitment, relationship change,
+decision trace, effect activation, presentation metadata. Origin reads the
+record's own provenance field and distinguishes authored and initialization
+background from simulated truth. A family carrying no provenance is
+`unrecorded`, which is not a synonym for authored, and a record the repository
+cannot justify classifying stays `unknown`.
+
+Which record families are traceable is a registration rather than a hard-coded
+list. A family becomes visible by registering a `TraceSource`; the graph logic
+knows nothing about which families exist. A registered source may not
+manufacture an edge, and may not claim a record id another source already
+produced — shadowing is rejected rather than merged, because a silent
+replacement would change what a trace means without changing anything visible
+about it. Later narrative and Pennywise trace sources register through this
+seam and require no change to the walker, index, export or UI.
+
+Absence of a record is never by itself evidence of absence in the world. The
+observer projection answers "who did not hear this" in two separately labelled
+ways: a person the event record lists as a participant who has no knowledge
+record citing the claim, and a person some caller's presence set names whom the
+event record does not list at all. The caller must state where that presence
+set came from and the trace repeats it. With no presence set supplied, the
+trace says plainly that it can only speak about recorded participants.
+
+Exports carry seed, world id, schema and generator version, history frontier
+and world content id, so a trace pasted into a bug report is something the next
+person can regenerate and diff. Identical replay plus identical request
+produces byte-identical output, through `canonicalJson` rather than a second
+serializer. The devtools boundary forbids ambient entropy for the same reason
+the simulation does.
+
+Consequence: audibility is visibly causal rather than cosmetic. The same two
+conversation turns, run quiet instead of normal, produce a different resolved
+listener set, a different set of knowledge records, a different set of
+perceptions, and a second-turn decision whose recorded chain ends somewhere
+else entirely. The tool did not arrange any of that; it read it back off the
+records. The inspector remains a development route at `?view=causal-trace`
+that ordinary play cannot reach, and opening, filtering, walking, comparing and
+exporting leave the world's canonical serialization, content hash and append
+frontier identical.
+
+## D-076 — Authored content is described by a declarative bank contract, not re-authored
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: renumbered from D-075 on merge of accepted main (PR #84), whose
+  source-substrate decision holds D-074 and whose causal-tracing decision holds
+  D-075; the architecture is unchanged, only the identifier.
+
+The game's authored content lives in the modules that run it: formative
+situations in `character-history.ts`, conversation subjects in
+`conversation-subjects.ts`, the ordinary week in `ordinary-life.ts`, measures in
+`legislation-scenarios.ts`, institutional procedure in
+`legislature-rule-packs.ts`, and the personality, policy, metric, causal,
+incident and mortality definitions in their own catalogs. Each describes itself
+in its own vocabulary, which is correct for the code that runs it and useless
+for reviewing what the game contains.
+
+`src/content/` describes that content and does not re-author it. Adapters read
+banks that already exist; the banks keep their own shapes, their own stable
+keys, and their authority over what they mean. A bank id is a stable dotted
+content key checked with the existing `assertDottedContentKey`; an item id is
+`${bankId}/${itemKey}` where `itemKey` is exactly the key the source bank
+already uses, because renaming existing content to satisfy an index would be
+the index changing the game.
+
+Rejected: migrating the banks into one authored content format. That would
+rewrite content this lane does not own, and would make the index the source of
+truth for content whose truth lives in the modules that run it.
+
+Rejected: a second selection or orchestration engine over the index. Selection
+stays where it already is. The index holds no world, evaluates no eligibility,
+and cannot change anything.
+
+Every dimension is either declared by the bank or explicitly undeclared with
+the reason it is. There is no third state and no default, because an index that
+quietly invents a prerequisite reviews as fact. The test is what the SOURCE
+declares, never what runtime code could compute: a value a function could work
+out from a world is undeclared here, because the bank did not write it down.
+Formative eligibility is a predicate over a world in
+`formativeEligibilityProvider`; a conversation subject's intents come from
+`availableIntents(world, room, addressee, progress, …)`; the ordinary week's
+gate is `ordinaryLifeAvailableFor` asking `formativeIntervalAt`, and everything
+else about an ordinary work item is written by `openOrdinaryLife` from a world
+at creation time. All of those are findings rather than gaps. An episode
+stage's `requires`, by contrast, IS data — every `EpisodeRequirement` names a
+role, an age, a capability, a fact key or an earlier stage — so it is read and
+transcribed under each kind's own vocabulary. Reading a requirement is not
+evaluating one, and nothing here builds a world to do so.
+
+Each field means one thing and is used for only that thing, and a fact the bank
+declares once is reported once. A prerequisite gates; a required canonical fact
+is a record a world must show; an option is a bounded choice offered to
+somebody; a follow-up is somewhere the content leads; a role is a part somebody
+plays. Structure a bank declares about the thing it describes — a legislature's
+chambers and floor stages, its members and its executive office, a measure's
+authored member decisions and the disposition its executive is written to take,
+which rule pack and jurisdiction a measure belongs to, a questionnaire item's
+assumed relationships and settings, a conversation subject's commit vocabulary —
+is none of those, and has its own name rather than being pushed into whichever
+facet had a free slot. Citations are provenance, because that is what a citation
+is. Unresolved research is unresolved research. Life stages are a set, so a bank
+that bands an item into several keeps it declared and keeps it findable under
+each; collapsing a band set to "undeclared" said the bank was silent about the
+one thing it had gone to the trouble of writing down.
+
+The test is whether the SOURCE declares the concept, never whether the concept
+is true or whether runtime code could produce it. A questionnaire's relationship
+and setting assumptions are declared, but the source says outright they "cannot
+be checked against records" — so they are declared structure, not required
+facts, because required facts are records a world must show and the questionnaire
+runs before any world exists. A measure's sponsor is introduced by the scenario
+builder at construction time; the blueprint declares no sponsor field, so no
+sponsor role is reported. A rule pack's members and executive are institutional
+participants the pack defines, not a ContentRole list it authored, so roles is
+undeclared and the institution is declared structure. Which rule pack and
+jurisdiction a measure runs through are intrinsic to what the measure is, not
+gates that must independently become true, so they are structure and not
+prerequisites. And one declaration is reported once: a formative situation's
+band is its life stage and nothing else, while an episode stage's age bound is a
+declared requirement and so a prerequisite and not a life stage, because an
+arbitrary age is not a named band.
+
+Authority and status are read from the repository, not invented. Legislative
+rule packs are `sourced` and carry their citations, retrieval dates and
+verification statuses through into the index. Situations, subjects, the ordinary
+week and the measures are `authored` — the measures keep the notice that says
+the procedure is sourced and the bill is not real. The synthetic catalogs are
+`synthetic-fixture` and `excluded-from-production`, which is what
+`assertProductionCatalogBoundary` already enforces. The production catalogs are
+`unestablished` and appear in the index as an empty bank, because "nothing has
+been established here" is a fact about the game and belongs in a review surface
+rather than being absent from it.
+
+Nothing counts. No test and no surface asserts how much content exists, so
+authoring one more situation is never a failure, and a bank registered later is
+one adapter and one line.
+
+Both exports are deterministic. The JSON goes through `canonicalJson` for the
+same reason a world snapshot does — key order is not content — and both carry a
+content digest so two reports can be compared. An export that changed between
+two identical runs could not be diffed, and a diff is what a reviewer does with
+one.
+
+The Content Browser is a development route at `?view=content`, alongside the
+developer viewer, the character proof, the legislation workspace and the office
+fixture. Nothing player-facing links to it or imports it, and tests assert both
+the route and the one-way dependency.
+
+Consequence: what the game has written down can be read, searched and exported
+without opening the game or building a world, and Packet 60 section O's
+declarative content-bank and Content Browser obligations are discharged here
+rather than rebuilt. Extracting declarative metadata from `run-b-conversation`'s
+dialogue and from the Run-C working document remains deliberately unimplemented:
+both are world- and state-dependent renderings, not banks.
+
+## D-077 — PUMS supplies coherent donor structure, never a synthetic person's identity or biography
+
+- Date: 2026-09-06
+- Status: ACCEPTED
+- Supersedes: the D-074 statement that no source adapter exists; all other
+  D-074 capability, provenance, missingness, determinism, and coverage rules
+  remain binding
+
+ACS PUMS enters initialization as one linked housing record and every person
+sharing its `SERIALNO`, never as independently sampled demographic marginals.
+The compiler is dictionary-controlled, carries state/year/PUMA identity and
+both published weights, preserves allocation and unresolved states, and makes
+no claim below PUMA geography. A state shard is three independent artifacts —
+housing archive, person archive, and dictionary — and large raw bytes remain in
+a digest-checked domain cache rather than the runtime or repository.
+
+The 2024 acquisition and compilation path may exist before source bytes do, but
+the gate must say so. No lock, retrieval instant, byte length, or digest may be
+invented to make an interface look acquired. The checked-in fixture is marked
+synthetic and cannot cross the production capability boundary.
+
+Selection is deterministic under world seed, state, corpus identity/version,
+and explicit constraints. It uses exact integer household weights and selects
+an intact donor household before choosing an eligible subject. A different
+seed may vary the donor; unrelated RNG consumption cannot.
+
+The adapter is one-way and orchestration-only. It requires a caller binding for
+every donor person, checks donor age against the supplied fictional birth date,
+and submits supported intents through `CharacterHistoryPlan` and existing
+household, kinship, partnership, dwelling, occupancy, and tenure writers.
+Canonical world provenance describes generated donor-shaped records through an
+opaque donor digest; it does not call the fictional people Census respondents
+and does not retain raw `SERIALNO` in `World`.
+
+Source sex is retained only as source evidence and never writes or infers
+gender identity or pronouns. PUMA never supplies an exact city, address, school,
+or employer. Education and work fields remain auditable but unmapped when the
+source cannot establish the canonical institution or relationship terms.
+Income is not liquid cash. Nothing in the donor creates personality, ideology,
+morality, motive, feeling, belief, a future career, or player-facing prose.
+
+Rejected: manufacturing a synthetic household from independent marginal
+distributions. Correlations and within-household relationships are the reason
+for using microdata at all.
+
+Rejected: writing PUMS sex into canonical identity, or deriving identity from
+names. A source field and a fictional person's self-identity are different
+facts.
+
+Rejected: treating the existing 2023 Wyoming QA slice as national or silently
+relabeling it 2024. It remains accepted QA evidence for its original bounded
+purpose; this bridge adds a separate versioned state-shard interface.
+
+## D-078 — A garment is fitted to a silhouette, and a fit it does not have is a gap rather than a guess
 
 - Date: 2026-09-04
 - Status: ACCEPTED
 - Supersedes: none
+- Reconciled: renumbered from D-074 while merging current main into PR #89,
+  whose accepted decisions already occupied D-074–D-077; the architecture is
+  unchanged, only the identifier.
 
 Packet 76 found that the proof cross-morphology garment sharing works was
 circular. `dev-g2-broad` and `dev-g2-slim` declare each other on every wearable,
@@ -1914,13 +2232,16 @@ viewpoint; child and adolescent bodies, because a child is not a scaled adult an
 no measured evidence of proportional compatibility exists; and any pairing that
 fails the bounds.
 
-## D-075 — The refusal lives where the geometry is made, and a limit is checked before it limits anything
+## D-079 — The refusal lives where the geometry is made, and a limit is checked before it limits anything
 
 - Date: 2026-09-04
 - Status: ACCEPTED
-- Supersedes: none (amends D-074)
+- Supersedes: none (amends D-078)
+- Reconciled: renumbered from D-075 while merging current main into PR #89,
+  whose accepted causal-tracing decision already occupied D-075; the
+  architecture is unchanged, only the identifier.
 
-An independent audit of the first D-074 head rejected it on three blockers and
+An independent audit of the first D-078 head rejected it on three blockers and
 one contract defect, all reproduced before repair.
 
 **A warp could become a rectangle.** The only guard against drawing a bounded

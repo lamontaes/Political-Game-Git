@@ -182,6 +182,7 @@ export const CIVIC_HEARING_ROOM_PRODUCTION_SCENE: EnvironmentSceneSpec = {
         "vote-tally",
         "briefing-slide",
       ],
+      information_access: "public-record",
       fallback_decoration: "a dark screen with no interface drawn on it",
     },
     {
@@ -195,6 +196,7 @@ export const CIVIC_HEARING_ROOM_PRODUCTION_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 0,
       allowed_content_classes: ["agenda", "bill-title", "briefing-slide"],
+      information_access: "public-record",
       fallback_decoration: "a dark screen with no interface drawn on it",
     },
     {
@@ -209,6 +211,7 @@ export const CIVIC_HEARING_ROOM_PRODUCTION_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 0,
       allowed_content_classes: ["agenda", "bill-title", "bill-number"],
+      information_access: "public-record",
       fallback_decoration: "a blank board",
     },
     {
@@ -222,6 +225,7 @@ export const CIVIC_HEARING_ROOM_PRODUCTION_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 4,
       allowed_content_classes: ["document-body", "calendar-date"],
+      information_access: "institutional-working",
       fallback_decoration: "a screen showing nothing",
     },
     {
@@ -235,6 +239,7 @@ export const CIVIC_HEARING_ROOM_PRODUCTION_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 7,
       allowed_content_classes: ["document-body"],
+      information_access: "public-record",
       fallback_decoration: "an empty reading surface",
     },
   ],

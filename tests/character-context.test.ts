@@ -160,7 +160,14 @@ describe("A named person arrives with a relationship", () => {
     readonly personId: EntityId;
   } {
     const game = createNewGameWorld(
-      setup({ startAge: 10, household: "shares-a-home", gender: "female" }),
+      // Custom, so the sibling this test names is actually at home; a normal
+      // start (Task E) generates the household and may be an only child.
+      setup({
+        startKind: "custom",
+        startAge: 10,
+        household: "shares-a-home",
+        gender: "female",
+      }),
     );
     return { world: game.world, personId: game.playerPersonId };
   }

@@ -36,6 +36,36 @@ Node desktop adapter (src/persistence)
           SQLite snapshots
 ```
 
+```text
+Source substrate (src/source), Node-only, excluded from the browser app
+
+  src/source/core            contracts, value algebra, parsers, capability boundary
+        ^
+        |
+  src/source/domains/<d>     may import core; may NOT import another domain
+        ^
+        |
+  src/source/adapters/<a>    may import domains and the simulation's public types
+        |
+        v
+  src/simulation             may NEVER import src/source
+```
+
+- The source substrate holds evidence about the real world. The simulation
+  holds the world. Evidence reaches the world only through a one-way adapter.
+  The first such adapter is the bounded ACS PUMS coherent-household donor
+  bridge: it selects an intact weighted household in the Node-only source
+  layer, then submits only supported fictional initialization intents through
+  `CharacterHistoryPlan`. `src/simulation/`, `src/presentation/`,
+  `src/player/`, `src/ui/`, `src/persistence/`, `src/cli/` and
+  `src/environment/` may not import `src/source/**`, enforced by an eslint rule
+  and by a test that reads the import graph.
+- `src/source/domains/<a>` may not import `src/source/domains/<b>`. A
+  relationship between two domains lives in an adapter or a crosswalk domain
+  that declares both as inputs.
+- `src/source/core/**` imports nothing outside itself.
+- See `docs/systems/source-substrate.md` and decisions D-074 and D-077.
+
 - `src/simulation/` contains JSON-safe domain types, deterministic utilities, world operations, a canonical zoned minute-level moment, exact scheduled activities and office work/assignment history, policy, mind, world-metric, causal-mechanism, incident-definition, and vitality catalogs, append-oriented history, exact quantity and money primitives, separate quantitative truth and observation vintages, append-oriented causal ancestry and effect activations, explicit exact aggregate-economy/fiscal derivations, frozen quantitative policy baselines/operations/estimates and explicit implementation realization, generalized incident occurrence/state/follow-on records, bounded mortality/death/functional-capacity history, objective evidence artifacts and explicit person discovery, one date-level future-transition mechanism, sparse political and character-mind records, subjective-perception projections, the general decision evaluator and political-belief adapter, persistent organizations/work/education/participation/households/care/child-authority history, exact personal/household resource flows and housing histories, a canonical character-history plan applicator, bounded formative situations, compositional adult path helpers, meaningful relationship-history helpers, qualitative life-load resolution, a future-rule eligibility consumer, progressive entity detail, and the demo scenario.
 - `src/persistence/` contains Node-only durable-storage adapters and depends on the public simulation snapshot codec.
 - `src/cli/` contains Node-only executable entry points.

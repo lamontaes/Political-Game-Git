@@ -1,5 +1,6 @@
 import {
   LIFE_TRANSITION_HANDLERS,
+  activeChildAuthoritiesAt,
   currentLifeCutoff,
   householdMembershipsAt,
   advanceWorld,
@@ -28,6 +29,48 @@ import { shortPersonName } from "./conversation-subjects";
 
 export const HOUSEHOLD_ERRANDS_KEY = "ordinary-life:household-errands";
 export const PUBLIC_MEETING_KEY = "ordinary-life:public-meeting";
+
+/**
+ * The two things an ordinary week actually puts in front of somebody.
+ *
+ * These sentences used to live inside `openOrdinaryLife`, which is where they
+ * are used and the wrong place for them to be read. Naming them here changes
+ * nothing about the week — the same two work items are written with the same
+ * two titles and the same two summaries — and it means a review surface can
+ * quote the authored line rather than retyping it somewhere else and letting
+ * the two copies drift.
+ */
+export interface OrdinaryLifeWorkItemDefinition {
+  readonly key: string;
+  readonly title: string;
+  readonly summary: string;
+}
+
+export const ORDINARY_LIFE_WORK_ITEMS: readonly OrdinaryLifeWorkItemDefinition[] =
+  [
+    {
+      key: HOUSEHOLD_ERRANDS_KEY,
+      title: "The week's errands",
+      summary:
+        "The shopping and the two appointments after it still have to be covered by somebody.",
+    },
+    {
+      key: PUBLIC_MEETING_KEY,
+      title: "Whether to go to the meeting",
+      summary:
+        "The agenda is posted. Going costs an evening; not going costs knowing what was decided.",
+    },
+  ];
+
+function ordinaryLifeWorkItem(key: string): OrdinaryLifeWorkItemDefinition {
+  const definition = ORDINARY_LIFE_WORK_ITEMS.find(
+    (candidate) => candidate.key === key,
+  );
+  if (!definition) {
+    throw new Error(`No ordinary-life work item is authored as '${key}'.`);
+  }
+  return definition;
+}
 
 export interface PendingThing {
   readonly key: string;
@@ -154,9 +197,8 @@ export function openOrdinaryLife(world: World, personId: EntityId): World {
 
   next = createWorkItem(next, {
     stableKey: HOUSEHOLD_ERRANDS_KEY,
-    title: "The week's errands",
-    summary:
-      "The shopping and the two appointments after it still have to be covered by somebody.",
+    title: ordinaryLifeWorkItem(HOUSEHOLD_ERRANDS_KEY).title,
+    summary: ordinaryLifeWorkItem(HOUSEHOLD_ERRANDS_KEY).summary,
     jurisdictionId,
     sourceEntityIds: [notice.id],
     focus: { kind: "person", personId },
@@ -171,9 +213,8 @@ export function openOrdinaryLife(world: World, personId: EntityId): World {
 
   return createWorkItem(next, {
     stableKey: PUBLIC_MEETING_KEY,
-    title: "Whether to go to the meeting",
-    summary:
-      "The agenda is posted. Going costs an evening; not going costs knowing what was decided.",
+    title: ordinaryLifeWorkItem(PUBLIC_MEETING_KEY).title,
+    summary: ordinaryLifeWorkItem(PUBLIC_MEETING_KEY).summary,
     jurisdictionId,
     sourceEntityIds: [meeting.id],
     focus: { kind: "calendar-item", scheduledActivityId: meeting.id },
@@ -305,6 +346,13 @@ export function householdConversationRoom(
 ): ConversationRoomContext | null {
   const person = world.people[personId];
   if (!person) return null;
+  // This is an adult household negotiation — who carries the week's errands —
+  // and it must not be handed to a dependent child. The fifth human play was a
+  // ten-year-old asked to settle the household logistics with a parent. A
+  // character somebody else still holds authority over does not have this
+  // conversation; refusing is more honest than casting a child as the manager
+  // of the house.
+  if (activeChildAuthoritiesAt(world, personId).length > 0) return null;
   // People the character actually lives with, not merely other people in the
   // world. A forty-one-year-old was holding a conversation "at home" with the
   // parent from their own summarized childhood — a household they had already
