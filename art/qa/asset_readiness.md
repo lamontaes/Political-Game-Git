@@ -7,32 +7,34 @@ Reconciled against **packet-92b-preserved-assets** (merge `1159da749682cf5eb1dd7
 - closed by a preserved asset: **1**
 - premise restated, still required: **6**
 - unaffected, still required: **2**
-- preserved units answering no request: **8** of 20
+- preserved units linked to a request: **13** of 20
+- preserved units answering no request: **7** of 20
 
 ## Open requests
 
-| Request                                 | Priority | Status                    | Verdict                         |
-| --------------------------------------- | -------- | ------------------------- | ------------------------------- |
-| `env-campaign-storefront`               | P2       | draft                     | premise-restated-still-required |
-| `env-executive-office-4k-master`        | P2       | draft                     | premise-restated-still-required |
-| `footwear-front-on-pair-reexport`       | P1       | withdrawn-already-covered | closed-by-preserved-asset       |
-| `mask-hearing-room-public-seating`      | P2       | draft                     | unaffected-still-required       |
-| `person-adult-body-silhouette-reexport` | P0       | queued                    | premise-restated-still-required |
-| `person-adult-lectern-pose`             | P1       | queued                    | premise-restated-still-required |
-| `person-child-body-morphology`          | P1       | queued                    | unaffected-still-required       |
-| `person-production-seated-body`         | P0       | revision-requested        | premise-restated-still-required |
-| `person-production-standing-body`       | P0       | revision-requested        | premise-restated-still-required |
+| Request                                 | Priority | Status                    | Verdict                         | Preserved units                                                                                                                                                       |
+| --------------------------------------- | -------- | ------------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `env-campaign-storefront`               | P2       | draft                     | premise-restated-still-required | `source:IMG_5190.JPG`, `source:IMG_5205.JPG`, `source:IMG_5207.JPG`                                                                                                   |
+| `env-executive-office-4k-master`        | P2       | draft                     | premise-restated-still-required | `source:IMG_5189.JPG`                                                                                                                                                 |
+| `footwear-front-on-pair-reexport`       | P1       | withdrawn-already-covered | closed-by-preserved-asset       | `family:shoes`                                                                                                                                                        |
+| `mask-hearing-room-public-seating`      | P2       | draft                     | unaffected-still-required       | —                                                                                                                                                                     |
+| `person-adult-body-silhouette-reexport` | P0       | queued                    | premise-restated-still-required | `source:IMG_5192.PNG`                                                                                                                                                 |
+| `person-adult-lectern-pose`             | P1       | queued                    | premise-restated-still-required | `family:additional-fat-female-pose`, `family:average-man`, `family:fat-man`, `family:older-woman`, `family:skinny-man`                                                |
+| `person-child-body-morphology`          | P1       | queued                    | unaffected-still-required       | —                                                                                                                                                                     |
+| `person-production-seated-body`         | P0       | revision-requested        | premise-restated-still-required | `family:additional-fat-female-pose`, `family:average-man`, `family:average-woman`, `family:fat-man`, `family:older-woman`, `family:skinny-man`, `family:skinny-woman` |
+| `person-production-standing-body`       | P0       | revision-requested        | premise-restated-still-required | `family:additional-fat-female-pose`, `family:average-man`, `family:average-woman`, `family:fat-man`, `family:older-woman`, `family:skinny-man`, `family:skinny-woman` |
 
 ### `env-campaign-storefront` — premise-restated-still-required
 
-The candidate the request names as arriving is in the repository, alongside a near variant that the sweep proved by hash is not a duplicate of it. Both are field-office spaces. The request stands because IMG_5190 carries baked signage text, which a dynamic surface slot owns and a plate may not; a revision without readable text is the ask, not a fresh room.
+Three preserved candidates bear on this room, and the request may no longer say nothing resembling a campaign space is banked. IMG_5190.JPG and IMG_5207.JPG are different JPEG bytes that decode to identical pixels: one picture, encoded twice, not two variants. Both carry the baked readable text this request forbids, a FIELD OFFICE window sign and supplies printed on two boxes. IMG_5205.JPG is a third candidate and a different room: a storefront in use as a phone bank, 5504x3072, folding tables, mismatched chairs, desk phones, stacked boxes with blank labels, a blank corkboard and a blank whiteboard, empty of people, with no readable text found on inspection. It answers the recipe and it is not withdrawn on that basis, because a candidate raster clearing the written criteria is not acceptance: IMG_5205.JPG has never been through npm run intake:environment, carries no declared source lineage, has not been judged against the accepted shared-workroom rendering language, and has no human acceptance. That assessment, not a generation, is the remaining blocker; no new storefront may be commissioned until IMG_5205.JPG has been assessed and rejected.
 
 - `art/references/candidates/recent-drive-sweep/source-images/IMG_5190.JPG`
+- `art/references/candidates/recent-drive-sweep/source-images/IMG_5205.JPG`
 - `art/references/candidates/recent-drive-sweep/source-images/IMG_5207.JPG`
 
 ### `env-executive-office-4k-master` — premise-restated-still-required
 
-The request records that the only file above the 4608 environment floor is the rejected photoreal variant. An unassessed alternative is now in the repository: IMG_5189.JPG, an empty executive-office candidate at 5504x3072, which clears the floor on width. Style has not been judged and no environment intake has been run on it, so this does not close the request; it means the candidate is assessed before anything new is commissioned.
+The request recorded that the only file above the 4608 environment floor was the rejected photoreal variant. That is no longer true: IMG_5189.JPG, an executive-office candidate at 5504x3072, is in the repository and clears the floor on width. It does not close the request. Clearing a dimension floor is not acceptance: its style has not been judged against the accepted rendering language, no environment intake has been run on it, and it is not promoted here. It is assessed before anything new is commissioned for this room.
 
 - `art/references/candidates/recent-drive-sweep/source-images/IMG_5189.JPG`
 
@@ -55,9 +57,10 @@ IMG_5192.PNG is in the repository now rather than only in Drive, and it shows th
 
 ### `person-adult-lectern-pose` — premise-restated-still-required
 
-The request says no cell stands at a lectern or rests its hands on a raised surface. That is no longer true of the banked art: five preserved components do exactly that. It is still required, because those five carry the lectern baked into the figure and are under the production floor, so they are reference for the pose rather than modular art that composes into a scene.
+The request said no cell stands at a lectern or rests its hands on a raised surface. Five preserved components carry a baked lectern and are cited here one by one: the fat-man and additional-fat-female lectern-interaction cells, the average-man and older-woman interaction-surface cells, and the skinny-man standing_neutral_back cell, which the review classifies LECTERN and which an earlier reading of this evidence left out. It is still required, because all five carry the lectern baked into the figure and sit under the production floor, so they are reference for the pose rather than modular art that composes into a scene.
 
 - `art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_lectern_interaction_v1.png`
+- `art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_back_v1.png`
 - `art/generated/candidates/wave-a-morphology/additional-fat-female-pose/wave_a_additional_fat_female_standing_lectern_interaction_v1.png`
 - `art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_interaction_surface_v1.png`
 - `art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_interaction_surface_v1.png`
@@ -68,12 +71,15 @@ Every preserved morphology is adult. Nothing in the ingested cargo is a child or
 
 ### `person-production-seated-body` — premise-restated-still-required
 
-Seated and desk-interaction poses exist across the preserved morphologies, but twenty-nine components carry baked desk, chair or lectern geometry and all of them are under the seated floor of 1530x2048. They are interaction reference, not a seated production body.
+Nineteen seated poses are banked across seven adult morphologies, so the request may no longer say seated-at-a-desk is uncovered in the bank. Ten of those nineteen carry baked furniture, four a chair and six a desk. Separately, seventeen components of any pose carry a baked interaction prop: five a lectern, four a chair and eight a desk. Every one of them is under the seated floor of 1530x2048 and reports eligibleAsProductionCharacterBody false, so they are interaction reference rather than a seated production body.
 
 - `art/generated/candidates/recent-drive-sweep/fat-man`
+- `art/generated/candidates/recent-drive-sweep/skinny-man`
 - `art/generated/candidates/wave-a-morphology/average-man`
 - `art/generated/candidates/wave-a-morphology/average-woman`
 - `art/generated/candidates/wave-a-morphology/older-woman`
+- `art/generated/candidates/wave-a-morphology/skinny-woman`
+- `art/generated/candidates/wave-a-morphology/additional-fat-female-pose`
 
 ### `person-production-standing-body` — premise-restated-still-required
 
@@ -89,50 +95,44 @@ Seven adult morphologies are now banked as fifty-one morphology-reference compon
 
 ## Preserved art no request asks for
 
-### `female-tops`
+### `family:female-tops`
 
 Twelve feminine garment candidates, banked and hashed. No open request asks for garments, because garments composite over a production body that does not exist yet.
 
 **Next required action.** Hold as candidate intake. Do not commission garment generation; the fit question belongs to the garment morphology work, not to a new source.
 
-### `male-tops`
+### `family:male-tops`
 
 Twelve masculine top candidates, banked and hashed, with no open request behind them for the same reason.
 
 **Next required action.** Hold as candidate intake.
 
-### `male-bottoms`
+### `family:male-bottoms`
 
 Twelve masculine bottom candidates, banked and hashed, with no open request behind them for the same reason.
 
 **Next required action.** Hold as candidate intake.
 
-### `supplies`
+### `family:supplies`
 
 Twenty-seven staggered objects, including the lanyard badge that was previously believed absent. The accepted chopper resolves only twelve coarse regions and several of them hold more than one object, so all twelve carry NEEDS_HUMAN_CLASSIFICATION.
 
 **Next required action.** An accepted item-level segmentation decision, before the lanyard or any other merged region is promoted on its own. Not a generation request.
 
-### `IMG_5203.PNG`
+### `source:IMG_5203.PNG`
 
-The older twelve-item office and accessory sheet, also carrying a lanyard badge, with visible green-edge and noise treatment in the source.
+The older twelve-item office and accessory sheet, also carrying a lanyard badge, with visible green-edge and noise treatment in the source. It is an accessory sheet rather than a room, so no environment request consumes it and no open request names it.
 
 **Next required action.** Keep as provenance and as a second lanyard source. It supplements the supplies sheet and supersedes nothing.
 
-### `IMG_5202.JPG`
+### `source:IMG_5202.JPG`
 
-An empty civic or work environment candidate at 5504x3072 with blank dynamic surfaces. It clears the environment master floor, has never been run through environment intake, and is named by no request.
+A press or announcement room at 5504x3072: a low stage with a wooden lectern against a curtain, rows of empty stacking chairs, camera tripods and a blank wall screen. It is not the committee hearing room plate the mask request needs, and no open request asks for this room. It clears the environment master floor and has never been through environment intake.
 
-**Next required action.** Run environment intake with a declared source lineage and judge it for style before any further environment generation is commissioned.
+**Next required action.** Run environment intake with a declared source lineage and judge it for style before any further environment generation is commissioned. Do not treat it as the hearing room.
 
-### `IMG_5204.JPG`
+### `source:IMG_5204.JPG`
 
-An empty civic or work environment candidate at 5504x3072 with blank dynamic surfaces, in the same unintaken state.
+An outdoor public park pavilion at 5504x3072: picnic tables under an open shelter, a path, bins and a blank notice board. No open request asks for an exterior, and the earlier record describing it as an empty civic or work interior was wrong about what the picture shows.
 
-**Next required action.** Run environment intake with a declared source lineage and judge it for style.
-
-### `IMG_5205.JPG`
-
-An empty civic or work environment candidate at 5504x3072 with blank dynamic surfaces, in the same unintaken state.
-
-**Next required action.** Run environment intake with a declared source lineage and judge it for style.
+**Next required action.** Run environment intake with a declared source lineage and judge it for style. It is an exterior and does not substitute for any interior room.

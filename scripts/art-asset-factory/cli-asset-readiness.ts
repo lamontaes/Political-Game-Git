@@ -18,7 +18,7 @@ const report = reconcileAssetReadiness(
   inputs.requests.requests,
   inputs.declaration,
   inputs.preservedUnits,
-  inputs.existingPaths,
+  inputs.probe,
 );
 
 const verdictsById = new Map(
@@ -50,17 +50,24 @@ lines.push(
 );
 lines.push(`- unaffected, still required: **${report.stillRequired.length}**`);
 lines.push(
+  `- preserved units linked to a request: **${report.linkedPreservedUnits.length}** of ${inputs.preservedUnits.length}`,
+);
+lines.push(
   `- preserved units answering no request: **${report.unlinkedPreservedUnits.length}** of ${inputs.preservedUnits.length}`,
 );
 lines.push("");
 lines.push("## Open requests");
 lines.push("");
-lines.push("| Request | Priority | Status | Verdict |");
-lines.push("| --- | --- | --- | --- |");
+lines.push("| Request | Priority | Status | Verdict | Preserved units |");
+lines.push("| --- | --- | --- | --- | --- |");
 for (const [requestId, verdict] of [...verdictsById].sort()) {
   const request = statusById.get(requestId);
+  const units =
+    verdict.preservedUnits.length > 0
+      ? verdict.preservedUnits.map((unit) => `\`${unit}\``).join(", ")
+      : "—";
   lines.push(
-    `| \`${requestId}\` | ${request?.priority ?? "?"} | ${request?.status ?? "?"} | ${verdict.verdict} |`,
+    `| \`${requestId}\` | ${request?.priority ?? "?"} | ${request?.status ?? "?"} | ${verdict.verdict} | ${units} |`,
   );
 }
 lines.push("");
@@ -104,7 +111,7 @@ await writeFormatted(
   JSON.stringify(
     {
       reconciledAgainst: inputs.declaration.reconciledAgainst,
-      preservedUnits: inputs.preservedUnits,
+      preservedUnits: inputs.preservedUnits.map((unit) => unit.unitKey),
       ...report,
     },
     null,
@@ -116,6 +123,6 @@ for (const finding of report.findings) {
   console.error(`${finding.code}: ${finding.subject} — ${finding.message}`);
 }
 console.log(
-  `asset readiness: ${report.closedByPreservedAsset.length} closed by preserved art, ${report.premiseRestated.length} restated, ${report.stillRequired.length} unaffected, ${report.unlinkedPreservedUnits.length} preserved units unlinked.`,
+  `asset readiness: ${report.closedByPreservedAsset.length} closed by preserved art, ${report.premiseRestated.length} restated, ${report.stillRequired.length} unaffected, ${report.linkedPreservedUnits.length} preserved units linked, ${report.unlinkedPreservedUnits.length} unlinked.`,
 );
 process.exit(report.valid ? 0 : 1);

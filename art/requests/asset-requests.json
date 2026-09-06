@@ -78,8 +78,8 @@
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS",
           "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/30_CHARACTER_CANDIDATES"
         ],
-        "found": "Four seated cells arrived on the same sheet, all seated-guest-neutral, sharing the standing cells' body family. Same silhouette defect, same fix. None places its forearms at a work surface, so seated-at-desk is still only partially covered. Reconciled against the preserved assets: seated and desk-interaction poses exist across the preserved morphologies.",
-        "shortfall": "The cells are banked under art/generated/candidates/ocd-p71/bodies with per-cell measurements in art/qa/p71/source_intake_dispositions.json. Every one is REVISE. No attachment anchors are authored, because D-068 requires them measured from the raster that ships and this raster is being re-exported. The preserved seated poses do not answer it: twenty-nine components carry baked desk, chair or lectern geometry, and all of them sit under the 1530x2048 seated floor, so they are interaction reference rather than a modular seated body."
+        "found": "Four seated cells arrived on the same sheet, all seated-guest-neutral, sharing the standing cells' body family. Same silhouette defect, same fix. None places its forearms at a work surface, so seated-at-desk is still only partially covered. Reconciled against the preserved assets: nineteen seated poses exist across seven preserved adult morphologies.",
+        "shortfall": "The cells are banked under art/generated/candidates/ocd-p71/bodies with per-cell measurements in art/qa/p71/source_intake_dispositions.json. Every one is REVISE. No attachment anchors are authored, because D-068 requires them measured from the raster that ships and this raster is being re-exported. The preserved seated poses do not answer it either: nineteen seated poses are banked across seven adult morphologies, ten of them carrying baked furniture (four a chair, six a desk), and seventeen components of any pose carry a baked interaction prop (five a lectern, four a chair, eight a desk). All of them sit under the 1530x2048 seated floor, so they are interaction reference rather than a modular seated body."
       },
       "target": {
         "targetClass": "character-component",
@@ -221,7 +221,7 @@
           "Our Civic Duty — ChatGPT Continuity/Stage 6.5 Visual Review — Render Evidence"
         ],
         "found": "The 1672x941 illustrated master, banked and registered here. A 5568x3008 Topaz variant exists in Drive and is filed under rejected high-resolution calibration as photoreal drift. A CANDIDATE ARRIVED DURING THIS RUN: Drive root IMG_5189.JPG, 5504x3072 JPEG, uploaded 2026-09-04 14:20. Wood-panelled private study with a fireplace, a large desk, leather wingback chairs and windows onto trees — and, critically, no capitol dome, no state flag and no seal, which is what the generic requirement in this request was about. It clears the 4608px floor. Unclassified Drive-root upload with no managed copy: measured, not ingested. Reconciled against the preserved assets: IMG_5189.JPG, an empty executive-office candidate at 5504x3072, is in the repository and clears the 4608 environment master floor on width.",
-        "shortfall": "1672 is below the 4608 environment master minimum, and the only larger file is a rejected style. Neither is a production plate. IMG_5189.JPG is not yet an answer either - its style has not been judged and no environment intake has been run on it - but it is assessed before anything new is commissioned for this room."
+        "shortfall": "1672 is below the 4608 environment master minimum and is not a production plate. The larger files are a rejected photoreal style and IMG_5189.JPG, and neither is an answer yet: IMG_5189.JPG clears the 4608 floor on width, but its style has not been judged, no environment intake has been run on it and it carries no declared source lineage. Clearing a dimension floor is not acceptance. It is assessed before anything new is commissioned for this room."
       },
       "target": {
         "targetClass": "environment-plate",
@@ -261,14 +261,15 @@
           "art/families/",
           "art/references/masters/scene-environment/",
           "art/references/candidates/recent-drive-sweep/source-images/IMG_5190.JPG",
+          "art/references/candidates/recent-drive-sweep/source-images/IMG_5205.JPG",
           "art/references/candidates/recent-drive-sweep/source-images/IMG_5207.JPG"
         ],
         "driveLocationsSearched": [
           "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS",
           "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/10_SCENES"
         ],
-        "found": "Nothing resembling a campaign space in any bank. A CANDIDATE ARRIVED DURING THIS RUN: Drive root IMG_5190.JPG, 5504x3072 JPEG, uploaded 2026-09-04 14:20. A storefront campaign office with folding tables, laptops, phones and supply boxes — the right room. It carries BAKED READABLE TEXT, which this request forbids: a 'FIELD OFFICE' window sign and 'supplies' printed on two boxes. A blank unlabelled US map outline on the whiteboard is decor rather than information and is acceptable. Unclassified Drive-root upload with no managed copy: measured, not ingested. Reconciled against the preserved assets: IMG_5190.JPG is in the repository, alongside IMG_5207.JPG, a near field-office variant the sweep proved by hash is not a duplicate of it.",
-        "shortfall": "The nearest accepted rooms are a domestic living room and a public meeting hall. Neither is a working campaign office and neither should be relabelled as one. The arriving candidate is a revision away rather than a regeneration: the same room without the window sign and the printed box labels. The arrived candidate carries baked signage text, which a declared dynamic surface slot owns and a plate may not, so the ask is a revision of art the project already holds rather than a fresh room."
+        "found": "No accepted master is a campaign space; the nearest banked rooms are a domestic living room and a public meeting hall. Three swept candidates do bear on this room and are in the repository. IMG_5190.JPG and IMG_5207.JPG, both 5504x3072, are different JPEG bytes that decode to identical pixels — one picture encoded twice, not two variants — and both carry the baked readable text this request forbids: a 'FIELD OFFICE' window sign and 'supplies' printed on two boxes. A blank unlabelled US map outline on the whiteboard is decor rather than information and is acceptable. IMG_5205.JPG, also 5504x3072, is a different room and the closer candidate: a storefront in use as a phone bank, with folding tables, mismatched chairs, desk phones, stacked boxes whose labels are blank, a blank corkboard and a blank whiteboard, empty of people, and no readable text found on inspection. All three are unclassified Drive-root uploads with no managed copy: measured, not ingested.",
+        "shortfall": "IMG_5190.JPG and IMG_5207.JPG are a revision away rather than a regeneration: the same room without the window sign and the printed box labels, because baked signage text belongs to a declared dynamic surface slot and not to a plate. IMG_5205.JPG needs no revision on inspection, and the remaining blocker for it is assessment rather than generation: it has never been through npm run intake:environment, carries no declared source lineage, has not been judged against the accepted shared-workroom rendering language, and has no human acceptance. Clearing the written criteria is not acceptance. No new storefront may be commissioned until IMG_5205.JPG has been assessed and rejected."
       },
       "target": {
         "targetClass": "environment-plate",
@@ -589,8 +590,8 @@
         "driveLocationsSearched": [
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS"
         ],
-        "found": "Eight poses on the Packet 71 sheet, mapped cell by cell: two standing-neutral, two standing-conversational and four seated-guest-neutral. The pose control plate standing-podium-or-lectern__front.svg exists, so the contract and the drawing guide are both already here. Reconciled against the preserved assets: five banked components do stand at a lectern or rest their hands on a raised surface, so the claim that no cell does is no longer true of the repository.",
-        "shortfall": "No cell stands at a lectern or rests its hands on a raised surface. This is the one adult pose the sheet does not provide. Those five still do not answer it: each carries the lectern baked into the figure and sits under the production body floor, which makes them reference for the pose rather than modular art a scene can compose."
+        "found": "Eight poses on the Packet 71 sheet, mapped cell by cell: two standing-neutral, two standing-conversational and four seated-guest-neutral. The pose control plate standing-podium-or-lectern__front.svg exists, so the contract and the drawing guide are both already here. Reconciled against the preserved assets: five banked components carry a baked lectern — the fat-man and additional-fat-female lectern-interaction cells, the average-man and older-woman interaction-surface cells, and the skinny-man standing_neutral_back cell.",
+        "shortfall": "The Packet 71 sheet provides no cell at a lectern, and the five banked lectern components do not answer it either: each carries the lectern baked into the figure and sits under the production body floor, which makes them reference for the pose rather than modular art a scene can compose."
       },
       "target": {
         "targetClass": "character-component",
