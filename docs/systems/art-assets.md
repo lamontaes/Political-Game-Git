@@ -307,3 +307,62 @@ height floor alone. The same constants back `slotIsPromotable`, so the spec
 validator and the component binder cannot disagree. A slot that may present a civic seal or flag must
 declare `civic_symbol_policy: "canonical-source-only"`. Civic symbols come from
 their canonical source and are never generated, redrawn or approximated.
+
+## Asking for art the project already owns
+
+`art/requests/asset-requests.json` records each missing picture, and each
+request has to say what was searched before it was written. That check is true
+on the day it is written and decays from then on: art arrives, is chopped,
+measured and banked under a name nobody puts back into the queue, and the queue
+keeps asking for it. It has already happened here. The queue asked for the
+twelve footwear pairs to be re-rendered front-on while the corrected
+front-facing source sat ingested, chopped and hash-verified in the same
+repository.
+
+`art/requests/preserved-asset-reconciliation.json` is the reconciliation that
+closes that gap, and it is declared rather than inferred. Nothing matches words
+in a title: a person writes down which preserved art bears on which request,
+with the repository paths that justify it, and one of three verdicts —
+`closed-by-preserved-asset`, `premise-restated-still-required`, or
+`unaffected-still-required`. `npm run readiness:art` regenerates
+`art/qa/asset_readiness.md` from it and refuses the declaration when it does not
+hold.
+
+Two rules carry that refusal, and both are exact.
+
+**Preserved units are named, not guessed.** Every unit of preserved art has a
+stable key — `family:<family-id>` for a chopped family, `source:<filename>` for
+a standalone sheet — and a verdict that rests on preserved art names the keys it
+rests on. Each unit is linked to at least one verdict or recorded as answering
+none; never both, never twice, never neither. The universe of units comes from
+the preserved evidence itself, and a sheet counts as its family only when the
+review's own source record proves it: the exact source filename, or the exact
+source SHA-256 for the same bytes swept under a different name. A path that
+merely contains a unit's name is not a relation to that unit and is rejected as
+evidence for it.
+
+**Evidence is verified, not merely present.** A cited path must be canonical and
+repository-relative; absolute paths, `..` traversal and anything that resolves
+through a symlink outside the repository root are refused before the filesystem
+is read. A cited file must be a file the preserved evidence recorded for that
+unit, at the SHA-256 it recorded. A cited family directory proves nothing by
+existing: every component the evidence records must be there as a regular file
+and hash as recorded, and one missing, renamed or drifted component fails the
+whole declaration.
+
+The guard that matters over time is the partition. Newly ingested art nobody
+reconciled is exactly how the queue asks for a second copy, so an unreconciled
+unit fails the run. The inventory classifications that need no decision are a
+closed list — duplicate, already represented, reference only — and anything
+else, including a classification a later sweep invents, becomes a unit somebody
+has to reconcile. The list is deliberately the wrong way round from the obvious
+one: enumerating the classifications that DO need a decision would hide every
+future class by default.
+
+Restating a request is not promoting it. A verdict may close a request or
+correct what it claims; it never registers a candidate in `art/manifest/`, and
+the ordinary fit, anchor and human-acceptance gates are untouched by it. A
+candidate raster that meets a request's written criteria is not thereby
+accepted: an environment candidate still needs `npm run intake:environment` with
+declared lineage, a style judgement and human acceptance, and until it has them
+the request stays open with that assessment named as its blocker.
