@@ -432,7 +432,11 @@ export function projectMeasureBriefing(
   } else if (position.phase === "awaiting-referral" && chamber) {
     whereItStands = `The bill has been filed in the ${chamber.name} and is waiting to be sent to a committee.`;
   } else if (position.phase === "awaiting-transmittal" && chamber) {
-    const onward = nextChamberKey(pack, chamber.chamberKey);
+    const onward = nextChamberKey(
+      pack,
+      chamber.chamberKey,
+      measure.originChamberKey,
+    );
     const target = onward ? chamberByKey(pack, onward) : null;
     whereItStands = `The ${chamber.name} passed the bill; it now goes to the ${target?.name ?? "other chamber"}.`;
   }
