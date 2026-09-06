@@ -1,6 +1,6 @@
 # ACS PUMS coherent household donor bridge
 
-Status: ACTIVE
+Status: COMPLETE
 
 ## Starting gate
 
@@ -19,7 +19,7 @@ Status: ACTIVE
 - [x] Add the first named one-way source adapter. It reuses `CharacterHistoryPlan` and applicable existing household/kinship/partnership/dwelling primitives, retains education/work facts when their required institutions or terms are absent, and adds no simulation truth store or player-facing prose.
 - [x] Add deterministic fixtures and tests for linkage, state/year filtering, replay/variation, weights/provenance, dictionary-controlled mappings, NIU/missing/allocation handling, coherent relationships, identity isolation, no ideology/personality inference, no unrelated history mutation, and save/reload.
 - [x] Update architecture, source-substrate, dependencies, acceptance, decision, and integrity-audit documentation for the accepted adapter boundary without widening Stage 6 or beginning Stage 7.
-- [ ] Run focused tests, source validation/replay, full `npm run validate`, all three required art commands, `git diff --check`, and final agent preflight. Record the exact results, move this plan to completed, publish the new branch, open the requested draft PR, verify remote head/PR state, and leave it unmerged.
+- [x] Run focused tests, source validation/replay, full `npm run validate`, all three required art commands, `git diff --check`, and final agent preflight. Record the exact results, move this plan to completed, publish the new branch, open the requested draft PR, verify remote head/PR state, and leave it unmerged.
 
 ## Scope boundaries
 
@@ -42,5 +42,12 @@ Status: ACTIVE
 - `git diff --check`: passed.
 - Final pre-publication preflight confirmed the isolated branch at exact base
   `8733190609c5620c40ed424686d43fb72fb78d0c`, with no upstream before the
-  requested branch is published. Remote `main` still resolves to that exact
-  base; the requested remote branch does not yet exist.
+  requested branch was published. Remote `main` still resolved to that exact
+  base at publication.
+
+## Delivery
+
+- Draft PR: `https://github.com/lamontaes/Political-Game-Git/pull/105`
+- Branch: `codex/acs-pums-household-donor-bridge`
+- Initial implementation commit: `0c297c20778007c8a8e65713e0151e5957067967`
+- Merge state: deliberately unmerged.
