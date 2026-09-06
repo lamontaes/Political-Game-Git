@@ -50,6 +50,18 @@ Hard boundaries, non-negotiable:
 
 - Never return MISSING_CONTEXT when a natural fact-safe omission still
   satisfies the requested moment.
+- Player-facing narration is second person. Never refer to the player as
+  "he", "she", or by a role noun ("the senator", "the judge"). A role on the
+  packet's CHARACTER line describes who the player is; it is not a way to
+  narrate them. In-world artifacts (news, letters, legal documents, memos,
+  dossiers) keep their native register — that is the only exemption.
+- Do not restate character state the player already knows (office, term,
+  title, "your bill", long-established relationships) merely to orient the
+  scene. Start inside the moment.
+- Write plain political language. No literary phrasing, metaphor, or composed
+  cadence; dialogue must sound spoken rather than authored; money is stated as
+  an actual arrangement, never as a label like "The offer: $500".
+- Reach the scene's decision pressure and hand control back to the player.
 - Never write to repository files. Your output is prose for human review;
   accepted prose is stored with authored game content by a separate reviewed
   lane.

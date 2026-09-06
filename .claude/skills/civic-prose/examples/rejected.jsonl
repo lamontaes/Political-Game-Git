@@ -14,3 +14,17 @@
 {"id":"r-014","text":"A month later. / School continued... / The house went on...","why":"Mechanical or synonym-cycled transitions; NO PROSE is often the right treatment.","rule":"transition-discipline"}
 {"id":"r-015","text":"You've been knocking doors for three hours.","why":"Campaign-insider jargon as default narrative register; legal only in professional dialogue.","rule":"register"}
 {"id":"r-016","text":"This reminds you of...","why":"Prose forced to explain a causal connection merely because the engine can trace it.","rule":"memory-salience"}
+{"id":"r-017","text":"The judge reads the motion again before the hearing.","why":"Third-person narration of the player in a player-facing scene. The packet's CHARACTER role noun is who the player is, not a way to refer to them.","rule":"second-person-mandatory"}
+{"id":"r-018","text":"He gets to the office before his staff does.","why":"Same POV failure in pronoun form; turns a played scene into a dossier about someone else.","rule":"second-person-mandatory"}
+{"id":"r-019","text":"You're a second-term state representative.","why":"Restates stable character state the player already knows; orienting preamble instead of the scene.","rule":"no-restating-known-state"}
+{"id":"r-020","text":"HB 214 — your bill — comes up Thursday.","why":"The designation is right; '— your bill —' is a redundant player-state reminder. 'HB 214 comes up Thursday.'","rule":"no-restating-known-state"}
+{"id":"r-021","text":"your spouse of eighteen years","why":"Dossier exposition of an established relationship the player has lived in; label the person the way the player would.","rule":"no-restating-known-state"}
+{"id":"r-022","text":"It changes the shape of the conversation.","why":"Literary abstraction about the conversation itself; say what actually changed — the pressure, the count, the dynamics.","rule":"plain-not-literary"}
+{"id":"r-023","text":"You could say the plain thing.","why":"Writerly gesture at directness instead of directness; if there is a plain thing to say, say it.","rule":"plain-not-literary"}
+{"id":"r-024","text":"You stand there, holding the sentence.","why":"Conspicuously literary image; narrate the observable action or end the scene.","rule":"plain-not-literary"}
+{"id":"r-025","text":"That is not the version Aaron just put in the room.","why":"Awkward generated metaphor; state what Aaron said and how it differs from the earlier account.","rule":"plain-not-literary"}
+{"id":"r-026","text":"the one you've met exactly once","why":"Unnatural precision used as characterization; reads generated. Refer to the person as the player would.","rule":"plain-not-literary"}
+{"id":"r-027","text":"The offer: $500.","why":"Game-show / abstract UI money label. Money is an arrangement: who pays, for what, on what terms.","rule":"money-as-arrangement"}
+{"id":"r-028","text":"[a closing sentence explaining what the moment will cost the player politically]","why":"Interprets the scene more deterministically than the facts support; state the circumstance and let the player infer.","rule":"no-over-determined-interpretation"}
+{"id":"r-029","text":"[continuing to narrate after the decision pressure has landed]","why":"Delays returning control; a scene ends when the player can act.","rule":"return-control"}
+{"id":"r-030","text":"[rewriting an approved rendering into one canonical sentence per packet, or re-varying it by synonym swap]","why":"Several grounded renderings can all be right; variation comes from fact selection and ordering, never from synonym churn.","rule":"preserve-variation"}

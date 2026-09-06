@@ -19,6 +19,30 @@ Principles enforced here:
 - **Owner preference is decisive** — this harness never scores, ranks, or
   judges prose, and no model judge is ever called from it.
 
+## Holdout status after Wave 1
+
+Wave 1 ran configurations A (engineering baseline, no Skill), B (isolated
+model, packet + wrapper only), and C (the civic-prose specialist). The owner
+verdicts were locked before unblinding
+(`WAVE_1_OWNER_VERDICTS — LOCKED — 2026-09-05`) and analyzed in
+`WAVE_1_UNBLIND_DIAGNOSIS — 2026-09-05`. C won on the primary metric with zero
+POV and zero grounding failures; its remaining defects were style rules the
+Skill did not yet contain, so the accepted next action was to revise the Skill
+rather than change the model or raise effort. The specialist stays on its
+Wave 1 model and low effort, and the A/B/C design is unchanged.
+
+The twelve judged Wave 1 packets are retired from held-out status and may now
+inform calibration examples. The sealed reserve packets remain fully unseen and
+are the clean post-revision test; they must not be opened, cited, paraphrased,
+or generated against until that round is authorized.
+
+Holdout hygiene deliberately still rejects **every** `H-###` packet id in the
+skill and agent files. Retiring the judged packets did not loosen the check:
+the reserves share the id shape, so the broad rule is what protects them. The
+Wave 1 defects are therefore encoded as quoted prose and repairs in
+`.claude/skills/civic-prose/examples/rejected.jsonl` and the "Owner rules"
+section of the prose contract, with no packet ids anywhere.
+
 ## Run layout
 
 Run directories live under `prose-eval-runs/` (gitignored; evaluation material

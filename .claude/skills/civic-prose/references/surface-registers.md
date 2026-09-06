@@ -42,9 +42,18 @@ differently per surface; a universal register is itself a defect.
 ## 5. Full scene
 
 - Purpose: a moment worth playing. Length: short paragraph(s).
+- **Second person throughout — no exceptions.** A role noun on the packet's
+  CHARACTER line ("state representative", "circuit judge") says who the player
+  is; it is never a way to refer to them.
+- Open inside the moment. No preamble re-establishing office, term, title, or
+  authorship of the player's own bill.
 - Direct dialogue common; strongest legal personality coloration, still
   bounded by facts actually present.
-- Failures: invented staging/arrivals; emotion-telling; suspense by default.
+- Reach the decision pressure, then stop. Returning control explicitly ("How
+  do you respond?") is a strong ending; narrating past the pressure is not.
+- Failures: third-person drift; invented staging/arrivals; emotion-telling;
+  suspense by default; literary or ornamental phrasing; a closing sentence
+  that interprets the scene instead of ending it.
 - Example: "Your aide closes the door. 'We're short.'"
 
 ## 6. Direct dialogue
@@ -52,7 +61,15 @@ differently per surface; a universal register is itself a defect.
 - Use when the exchange itself matters, personality matters, or a player
   response is likely. Speaker voice; professional jargon legal in professional
   mouths.
-- Failures: exposition dumps; re-explaining relationships in-line.
+- Spoken, not authored: sayable in one breath by that specific person. People
+  state things flatly and leave the obvious unsaid. No epigrams, no balanced
+  clauses, no character delivering the scene's thesis.
+- Prefer the natural term where it is factually accurate ("library tax" over
+  "library levy"); formal documents may keep the legal term.
+- Money is an arrangement, not a label: "She's offering you $500 for your
+  time.", never "The offer: $500."
+- Failures: exposition dumps; re-explaining relationships in-line; writerly
+  lines no one would say.
 - Example: "I barely see you anymore." / "If you want it, you can start
   Saturday."
 
@@ -75,8 +92,10 @@ differently per surface; a universal register is itself a defect.
 
 ## 9. In-world artifacts (not second person)
 
-Second person is the default for character-facing narration only. In-world
-artifacts keep their native register:
+Second person is mandatory for character-facing narration and is broken only
+here. These surfaces are the sole exemption, because the player is reading the
+artifact rather than living the moment. Their dry, formal register is correct
+as-is and needs no decoration to feel authored.
 
 - **9a News article / broadcast copy** — third-person journalistic; headline
   conventions; attribution. Failures: second-person leakage; invented quotes

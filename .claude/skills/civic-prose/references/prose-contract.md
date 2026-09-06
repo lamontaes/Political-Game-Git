@@ -70,7 +70,9 @@ state/seed/content stays reproducible.
 
 - Second person for character-facing narration and player actions; natural
   contemporary American English. In-world artifacts keep their native
-  register (see `surface-registers.md`).
+  register (see `surface-registers.md`). See owner rule 1 below: this is a
+  hard gate, not a stylistic default, and a role-noun in the packet is the
+  trap that breaks it.
 - Don't tell the player what their character feels; prefer observable events
   and actions. Interpretation needs strong evidence (explicit choice, explicit
   dialogue, very strong canonical trait plus current behavior), and stays
@@ -106,7 +108,8 @@ state/seed/content stays reproducible.
 - Variation: UI/status text may repeat verbatim when the same factual state
   warrants the same text. Narrative prose varies when context varies (people,
   relationship, lens, location, time, season, event, history, surface,
-  importance) — never by synonym-cycling identical filler.
+  importance) — never by synonym-cycling identical filler. A single packet
+  also admits several genuinely different good renderings; see owner rule 9.
 - Local/seasonal texture is desirable when location, date, and event existence
   are established; it may stay ambient; never invent a local event for
   flavor.
@@ -128,6 +131,133 @@ state/seed/content stays reproducible.
   but formal truth-bearing legal/procedural structure remains owned by
   authoritative simulation/source data and must not be creatively rewritten
   into a different meaning.
+
+## Owner rules — locked 2026-09-05
+
+Source: `WAVE_1_OWNER_VERDICTS — LOCKED — 2026-09-05` (Drive), the owner's
+review recorded before any source mapping was opened and treated as immutable.
+The rules below restate that record; the wording of the defects is the owner's
+own. They govern quality. The hard rules above govern legality, and they win:
+nothing here authorizes inventing a fact to produce a better sentence.
+
+The judged calibration set that produced these rules is retired from held-out
+use and may inform examples. The remaining sealed reserve packets stay unread:
+never open, cite, paraphrase, or generate against them, and never write a
+held-out packet id into this skill (`npm run prose:eval -- hygiene` enforces
+the id shape).
+
+### 1. Second person is mandatory in player-facing prose
+
+Player-facing narration addresses the player as "you". Third-person drift —
+"he", "the senator", "the judge", "the representative" — is a rejection, not a
+blemish, and it is the single most damaging failure observed: it converts a
+scene the player is inside into a dossier they are reading about someone else.
+
+The trap: a fact packet's CHARACTER line frequently carries a role noun
+("state representative", "circuit judge"). That line says who the player is.
+It is never a licence to narrate them by that noun.
+
+- Rejected: "The judge reviews the motion before the hearing."
+- Rejected: "He arrives at the office ahead of his staff."
+- Correct: "You read the motion again before the hearing."
+
+The only exemption is the in-world artifact surfaces (9a–9e): a news article,
+letter, court document, memo, or dossier keeps its native third-person
+register, because the player is reading it, not living it.
+
+### 2. Do not restate character state the player already knows
+
+A fact appearing in the packet is not a reason to say it. Player-facing prose
+must not orient the player to their own life. Never open by re-establishing
+office, term, chamber, title, tenure, authorship of the player's own bill, or
+a household relationship the player has lived in for years.
+
+- Rejected: "You're a second-term state representative." — the player knows.
+- Rejected: "HB 214 — your bill — comes up Thursday." The bill designation is
+  fine; "your bill" is redundant player-state reminder. "HB 214 comes up
+  Thursday."
+- Rejected: "your spouse of eighteen years" — dossier exposition, not play.
+
+Include a relationship, history, or credential only when the immediate scene
+is not intelligible without it, and then say it the way a person would, once.
+The default is to start inside the moment.
+
+### 3. Plain political language, not literary phrasing
+
+Prefer the direct sentence a person in that building would write. Conspicuous
+metaphor, abstraction about the conversation itself, and composed cadence all
+read as generated and are rejected even when perfectly grounded.
+
+Owner-flagged constructions, all rejected:
+
+- "changes the shape of the conversation" — say what changed: the pressure,
+  the count, the dynamics; or state the fact and stop.
+- "say the plain thing" — then say it.
+- "you stand there, holding the sentence" — narrate the observable, or end.
+- "that is not the version Aaron just put in the room" — say what Aaron said
+  and how it differs.
+- "the one you've met exactly once" — unnatural precision as characterization.
+
+Diagnostic: if a line would be quoted as good writing, it is probably wrong
+here. Ornamental scene-setting and restating the same beat twice for rhythm
+are the same defect.
+
+### 4. Ordinary institutional terminology; natural terms in dialogue
+
+Political specificity stays exact (committee, second reading, whip count,
+bill designation). But do not reach for a stiffer or more writerly word than
+the one people actually use. Where both are factually accurate, conversation
+takes the natural term: "library tax", not "library levy". Formal documents
+may keep the formal term where it is the legally correct one.
+
+### 5. Dialogue sounds spoken, not authored
+
+People state things flatly, interrupt, trail off, and leave the obvious
+unsaid. Lines should be sayable in one breath by that specific person. No
+epigrams, no balanced clauses, no character delivering the scene's thesis.
+Direct dialogue still earns its place per surface 6; when the information
+matters more than the exchange, summarize.
+
+### 6. Money is an actual arrangement, not a UI label
+
+State money the way the person offering it would.
+
+- Rejected: "The offer: $500." — game-show / abstract UI wording.
+- Correct: "She's offering you $500 for your time."
+- Correct: "$500 to play two songs."
+
+The same rule covers fees, salaries, contributions, and settlements: name who
+is paying, for what, and on what terms, in a sentence.
+
+### 7. Do not narrate consequences or meaning more firmly than the facts
+
+Rule 4 of the hard rules bars predicted consequences in choice labels. The
+same discipline applies to scene endings and interpretation: do not close by
+explaining what the moment signifies, what it will cost, or what happens next.
+State the concrete circumstance and let the player draw the obvious political
+conclusion. An ending that over-explains is rejected even when its inference
+is correct.
+
+### 8. Reach the decision pressure, then return control
+
+A scene exists for a decision. Get to it without preamble, and stop as soon as
+the player can act. Handing control back explicitly — "How do you respond?" —
+is a strong, owner-preferred ending. Continuing to narrate after the pressure
+has landed is a defect, not generosity.
+
+### 9. Preserve grounded variation
+
+Several materially different renderings of one packet can all be correct; the
+owner has declared three-way ties. Do not collapse a fact packet toward a
+single canonical sentence, and do not treat one approved rendering as the
+template for its surface. Equally, do not manufacture variety by swapping
+synonyms into the same skeleton — real variation comes from which grounded
+facts are selected, ordered, and left out.
+
+### 10. Dry institutional documents stay dry
+
+Formal letters, orders, memos, and filings need no decorative prose to feel
+authored. Their register is the point (surfaces 9b–9d).
 
 ## Conditionality
 
