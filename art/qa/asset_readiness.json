@@ -1,0 +1,72 @@
+{
+  "reconciledAgainst": {
+    "preservedEvidenceGeneration": "packet-92b-preserved-assets",
+    "mergeCommit": "1159da749682cf5eb1dd7ac929fddea58f79485f",
+    "evidenceDocuments": [
+      "art/qa/p92/existing_asset_lifecycle_matrix.json",
+      "art/qa/p95-recent-drive-sweep/candidate-component-review.json",
+      "art/qa/p95-recent-drive-sweep/drive-image-inventory.json"
+    ]
+  },
+  "preservedUnits": [
+    "family:additional-fat-female-pose",
+    "family:average-man",
+    "family:average-woman",
+    "family:fat-man",
+    "family:female-tops",
+    "family:male-bottoms",
+    "family:male-tops",
+    "family:older-woman",
+    "family:shoes",
+    "family:skinny-man",
+    "family:skinny-woman",
+    "family:supplies",
+    "source:IMG_5189.JPG",
+    "source:IMG_5190.JPG",
+    "source:IMG_5192.PNG",
+    "source:IMG_5202.JPG",
+    "source:IMG_5203.PNG",
+    "source:IMG_5204.JPG",
+    "source:IMG_5205.JPG",
+    "source:IMG_5207.JPG"
+  ],
+  "valid": true,
+  "findings": [],
+  "closedByPreservedAsset": ["footwear-front-on-pair-reexport"],
+  "premiseRestated": [
+    "env-campaign-storefront",
+    "env-executive-office-4k-master",
+    "person-adult-body-silhouette-reexport",
+    "person-adult-lectern-pose",
+    "person-production-seated-body",
+    "person-production-standing-body"
+  ],
+  "stillRequired": [
+    "mask-hearing-room-public-seating",
+    "person-child-body-morphology"
+  ],
+  "linkedPreservedUnits": [
+    "family:additional-fat-female-pose",
+    "family:average-man",
+    "family:average-woman",
+    "family:fat-man",
+    "family:older-woman",
+    "family:shoes",
+    "family:skinny-man",
+    "family:skinny-woman",
+    "source:IMG_5189.JPG",
+    "source:IMG_5190.JPG",
+    "source:IMG_5192.PNG",
+    "source:IMG_5205.JPG",
+    "source:IMG_5207.JPG"
+  ],
+  "unlinkedPreservedUnits": [
+    "family:female-tops",
+    "family:male-bottoms",
+    "family:male-tops",
+    "family:supplies",
+    "source:IMG_5202.JPG",
+    "source:IMG_5203.PNG",
+    "source:IMG_5204.JPG"
+  ]
+}
