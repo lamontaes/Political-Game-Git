@@ -21,6 +21,7 @@ import {
   ALASKA_RULE_PACK,
   KENTUCKY_RULE_PACK,
   LEGISLATIVE_RULE_PACKS,
+  MINNESOTA_RULE_PACK,
   NEBRASKA_RULE_PACK,
 } from "../simulation/legislature-rule-packs";
 import {
@@ -459,6 +460,7 @@ describe("Rule packs say what their sources say", () => {
 
 describe("A chamber that is not at full strength", () => {
   const senate = chamberByKey(KENTUCKY_RULE_PACK, "senate");
+  const sourcedSenate = chamberByKey(MINNESOTA_RULE_PACK, "senate");
 
   it("counts a majority of the members there actually are", () => {
     // The Senate has 38 seats. A majority of members elected is 20 at full
@@ -473,9 +475,12 @@ describe("A chamber that is not at full strength", () => {
 
   it("will not seat more members than the chamber has seats", () => {
     expect(electedMembersFor(senate, 36)).toBe(36);
-    expect(electedMembersFor(senate)).toBe(38);
-    expect(() => electedMembersFor(senate, 39)).toThrow(
-      /cannot have more members elected than its 38 seats/,
+    expect(() => electedMembersFor(senate)).toThrow(
+      /formal seat count.*unknown/i,
+    );
+    expect(electedMembersFor(sourcedSenate)).toBe(67);
+    expect(() => electedMembersFor(sourcedSenate, 68)).toThrow(
+      /cannot have more members elected than its 67 formal seats/,
     );
     expect(() => electedMembersFor(senate, 0)).toThrow(
       /positive count of elected members/,

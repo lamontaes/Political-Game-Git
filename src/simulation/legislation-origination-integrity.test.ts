@@ -8,6 +8,8 @@ import {
   ILLINOIS_RULE_PACK,
   KENTUCKY_RULE_PACK,
   MINNESOTA_RULE_PACK,
+  NEVADA_RULE_PACK,
+  OHIO_RULE_PACK,
 } from "./legislature-rule-packs";
 import { assertLegislationIntegrity } from "./legislation-integrity";
 import { assertWorldIntegrity } from "./world";
@@ -81,6 +83,18 @@ const ILLINOIS_FIXTURE = fixtureContext(
 const KENTUCKY_FIXTURE = fixtureContext(
   "us-ky-state-origination-fixture",
   "Kentucky",
+  "America/New_York",
+  -300,
+);
+const NEVADA_FIXTURE = fixtureContext(
+  "us-nv-state-origination-fixture",
+  "Nevada",
+  "America/Los_Angeles",
+  -480,
+);
+const OHIO_FIXTURE = fixtureContext(
+  "us-oh-state-origination-fixture",
+  "Ohio",
   "America/New_York",
   -300,
 );
@@ -334,5 +348,112 @@ describe("origination survives the writer that first enforced it", () => {
     expect(() =>
       assertLegislationIntegrity(stripped, new Set<EntityId>()),
     ).toThrow(/cannot originate in the Senate/);
+  });
+});
+
+/**
+ * The 2026-09-06 wave, put through the same permanent boundary.
+ *
+ * A pack that only ever ran through the writer proves nothing about a save. The
+ * states added on 2026-09-06 each state their own origination rule, and each
+ * has to survive replay and integrity on that rule and not on a neighbour's.
+ */
+describe("the 2026-09-06 wave holds its own origination on replay", () => {
+  it("lets a Nevada measure begin in either house, under Nevada's own words", () => {
+    // Nev. Const. art. 4, § 16 says any bill may originate in either House, and
+    // Nevada's lower chamber is the Assembly. A measure that really began in
+    // the Senate travels senate then assembly, and replay agrees.
+    for (const chamberKey of ["assembly", "senate"] as const) {
+      const filed = fileMeasure(
+        NEVADA_FIXTURE,
+        NEVADA_RULE_PACK.packId,
+        "general-policy",
+        chamberKey,
+      );
+      const replay = replayMeasure(filed.world, filed.measureId);
+      expect(replay.violations).toStrictEqual([]);
+      expect(replay.position.chamberKey).toBe(chamberKey);
+      expect(() => assertWorldIntegrity(filed.world)).not.toThrow();
+    }
+  });
+
+  it("still refuses a Nevada record whose introduction contradicts its origin", () => {
+    // The rule permits both chambers, so nothing here is refused for the origin
+    // itself. A save that says two different things is refused all the same.
+    const filed = fileMeasure(
+      NEVADA_FIXTURE,
+      NEVADA_RULE_PACK.packId,
+      "general-policy",
+      "assembly",
+    );
+    const tampered = withEditedIntroduction(
+      filed.world,
+      filed.measureId,
+      "senate",
+    );
+    const replay = replayMeasure(tampered, filed.measureId);
+    expect(replay.violations).toHaveLength(1);
+    expect(replay.violations[0]).toMatch(
+      /introduction names chamber 'senate' while the measure's stored origin is 'assembly'/,
+    );
+    expect(() => assertWorldIntegrity(tampered)).toThrow(
+      /stored origin is 'assembly'/,
+    );
+  });
+
+  it("does not carry Minnesota's revenue confinement into Nevada or Ohio", () => {
+    // Minnesota refuses a revenue bill filed in its Senate. Nevada and Ohio say
+    // a bill may originate in either house and confine no subject class, so the
+    // same filing has to be legal there — on replay, not only at the writer.
+    for (const [fixture, pack] of [
+      [NEVADA_FIXTURE, NEVADA_RULE_PACK],
+      [OHIO_FIXTURE, OHIO_RULE_PACK],
+    ] as const) {
+      const filed = fileMeasure(fixture, pack.packId, "revenue", "senate");
+      const replay = replayMeasure(filed.world, filed.measureId);
+      expect(replay.violations, pack.packId).toStrictEqual([]);
+      expect(replay.position.chamberKey).toBe("senate");
+      expect(() => assertWorldIntegrity(filed.world)).not.toThrow();
+    }
+
+    // And Minnesota's own refusal is untouched by their permissiveness.
+    const minnesota = fileMeasure(
+      MINNESOTA_FIXTURE,
+      MINNESOTA_RULE_PACK.packId,
+      "revenue",
+      "house",
+    );
+    const tampered = withEditedIntroduction(
+      withEditedMeasure(minnesota.world, minnesota.measureId, (measure) => ({
+        ...measure,
+        originChamberKey: "senate",
+      })),
+      minnesota.measureId,
+      "senate",
+    );
+    expect(replayMeasure(tampered, minnesota.measureId).violations[0]).toMatch(
+      /Minn\. Const\. art\. IV, § 18/,
+    );
+  });
+
+  it("refuses an Ohio record moved to a chamber the pack does not have", () => {
+    // Nevada has an assembly and Ohio does not. A save that names Nevada's
+    // chamber in an Ohio measure is not a permitted origin, it is nonsense, and
+    // replay must not quietly accept it.
+    const filed = fileMeasure(
+      OHIO_FIXTURE,
+      OHIO_RULE_PACK.packId,
+      "general-policy",
+      "house",
+    );
+    const tampered = withEditedIntroduction(
+      withEditedMeasure(filed.world, filed.measureId, (measure) => ({
+        ...measure,
+        originChamberKey: "assembly",
+      })),
+      filed.measureId,
+      "assembly",
+    );
+    expect(() => assertWorldIntegrity(tampered)).toThrow();
   });
 });

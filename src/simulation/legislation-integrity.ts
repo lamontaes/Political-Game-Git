@@ -241,9 +241,12 @@ export function assertLegislationIntegrity(
             );
     } else {
       const chamber = chamberByKey(pack, vote.forum.chamberKey);
-      if (vote.eligibleMembers > chamber.seats) {
+      if (
+        chamber.seats.kind === "known" &&
+        vote.eligibleMembers > chamber.seats.value
+      ) {
         throw new Error(
-          `Vote ${vote.id} counts more members than the ${chamber.name} has seats.`,
+          `Vote ${vote.id} counts more members than the ${chamber.name} has formal seats.`,
         );
       }
       if (vote.purpose === "veto-override") {

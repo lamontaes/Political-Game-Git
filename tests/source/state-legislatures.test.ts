@@ -221,10 +221,11 @@ describe("state-legislatures: agreement with the accepted rule packs", () => {
         if (!chamber) continue;
         if (
           chamber.seatCount.state === "KNOWN" &&
-          chamber.seatCount.value !== packChamber.seats
+          packChamber.seats.kind === "known" &&
+          chamber.seatCount.value !== packChamber.seats.value
         ) {
           disagreements.push(
-            `${pack.jurisdictionKey} ${packChamber.chamberKey} seats: pack ${packChamber.seats}, source ${chamber.seatCount.value}`,
+            `${pack.jurisdictionKey} ${packChamber.chamberKey} seats: pack ${packChamber.seats.value}, source ${chamber.seatCount.value}`,
           );
         }
         if (
