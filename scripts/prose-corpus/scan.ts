@@ -119,6 +119,24 @@ function inKeyPosition(node: ts.Node, propertyName: string | null): boolean {
   return false;
 }
 
+/**
+ * Is this literal nested inside a template expression's interpolation?
+ *
+ * `conversationRole(room, "briefing-lead")` inside a `${...}` hole is part of
+ * the surrounding sentence's composition, and the flattened template already
+ * represents it as a named slot. Emitting it a second time on its own turned
+ * role keys into corpus entries and made them read as the most-duplicated
+ * "prose" in the game.
+ */
+function insideTemplateSpan(node: ts.Node): boolean {
+  let current: ts.Node | undefined = node.parent;
+  while (current) {
+    if (ts.isTemplateSpan(current)) return true;
+    current = current.parent;
+  }
+  return false;
+}
+
 function isThrown(node: ts.Node): boolean {
   let current: ts.Node | undefined = node.parent;
   let depth = 0;
@@ -145,7 +163,10 @@ export function scanLiterals(sourcePath: string): readonly ScannedLiteral[] {
     const isPlain = ts.isStringLiteral(node);
     const isNoSub = ts.isNoSubstitutionTemplateLiteral(node);
     const isTemplateExpression = ts.isTemplateExpression(node);
-    if (isPlain || isNoSub || isTemplateExpression) {
+    if (
+      (isPlain || isNoSub || isTemplateExpression) &&
+      !insideTemplateSpan(node)
+    ) {
       const literalText = isTemplateExpression
         ? templateText(node)
         : (node as ts.StringLiteral).text;

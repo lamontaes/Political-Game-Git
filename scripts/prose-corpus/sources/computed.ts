@@ -168,6 +168,63 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
     ],
   },
   {
+    sourcePath: "src/presentation/run-b-conversation.ts",
+    domain: "conversation",
+    bank: "conversation-turn",
+    symbols: [
+      "openingConversationBeat",
+      "continuingRunBReferralBeat",
+      "describeRunBBriefingContext",
+      "describeConversationBriefingContext",
+      "conversationTopicLabel",
+      "describeConversationHearing",
+      "commitConversationTurn",
+      "availableConversationIntents",
+    ],
+    surface: "artifact",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "The conversation strip composes these turns from the room and its bound people.",
+    grounding: [
+      {
+        key: "conversation-room",
+        description:
+          "The room, its subject and the canonical people bound to its roles.",
+      },
+      {
+        key: "conversation-progress",
+        description:
+          "What this conversation has already committed, which decides the next intents.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/conversation-subjects.ts",
+    domain: "conversation",
+    bank: "conversation-subject",
+    symbols: [
+      "COMMIT_CONTRACTS",
+      "availableIntents",
+      "options",
+      "openingBeat",
+      "describeBriefing",
+      "settledHouseholdLine",
+      "commitmentLabel",
+      "dialogue",
+    ],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "A conversation names its subject to the player before any turn commits.",
+    grounding: [
+      {
+        key: "subject",
+        description:
+          "The conversation subject family and the canonical vocabulary it commits turns in.",
+      },
+    ],
+  },
+  {
     sourcePath: "src/presentation/life-introduction.ts",
     domain: "life",
     bank: "introduction",
@@ -192,6 +249,9 @@ function looksLikeProse(literal: ScannedLiteral): boolean {
   const text = literal.text.trim();
   if (text.length < 4) return false;
   if (!/[a-z]/.test(text)) return false;
+  // A single word is a key, a label fragment or a status token, not a
+  // sentence. Authored option labels are short but never one word.
+  if (!/\s/.test(text)) return false;
   // A bare slot with no words of its own is composition, not prose.
   if (/^\{[^}]*\}$/.test(text)) return false;
   return true;
