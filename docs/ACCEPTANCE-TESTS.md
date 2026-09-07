@@ -1597,6 +1597,38 @@ referral or amendment. Nebraska does not claim every bill is guaranteed a
 hearing. Committee sizes are marked as the scenario's rather than as sourced
 rules, and no source is marked verified without recording what was read.
 
+### SOURCE-001 — The 92L judicial universe is complete without inventing offices
+
+The compiled corpus contains all 51 researched jurisdictions, 156 stable
+jurisdiction/office-family slots and 148 active office families. The eight
+jurisdictions without an intermediate appellate court retain a stable slot
+whose existence is known false and whose dependent fields are
+`NOT_APPLICABLE`.
+
+### SOURCE-002 — Judicial selection remains an ordered atomic pipeline
+
+Initial selection, interim vacancy filling and renewal retain the research
+packet's ordered workflow tokens and expose only recognized atomic stages.
+Alternative county or district routes remain separate paths, and every path's
+stage order is contiguous and deterministic.
+
+### SOURCE-003 — Tenure and source-state distinctions survive compilation
+
+Good-behavior tenure is not coerced into a fixed term; fixed terms preserve
+their reported year count; renewal remains distinct from initial selection;
+and exact reported thresholds remain source tokens. `UNKNOWN`,
+`NOT_APPLICABLE` and `NO_REQUIREMENT_FOUND` remain distinct and never carry an
+invented value.
+
+### SOURCE-004 — A research synthesis never masquerades as primary authority
+
+Every judicial record points to the exact locked 92L Drive packet. The
+packet-referenced transcription is labeled as a transcription, while reported
+constitutional, statutory and court-rule citations remain
+`CITATIONS_REPORTED_NOT_RETRIEVED`. The domain contains no judging, ideology,
+predicted-ruling, quality or suitability field and has no runtime adapter or
+player surface.
+
 ### VISUAL-012 — Real masters normalize deterministically and reproduce by hash
 
 Every source master under `art/references/masters/pg-modular/` is
