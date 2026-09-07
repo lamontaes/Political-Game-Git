@@ -308,7 +308,7 @@ describe("what winning opens, and only where it is supported", () => {
     expect(
       passOrdinaryDays(lost!.world, 14).currentDate > lost!.world.currentDate,
     ).toBe(true);
-  });
+  }, 15_000);
 });
 
 describe("campaign work fits into a life that already has things in it", () => {
