@@ -13,7 +13,7 @@ import {
   NATIONAL_PLACES_META,
   NATIONAL_PLACES_ROWS,
 } from "./national-places.generated";
-import type { EntityId } from "./types";
+import type { EntityId, Jurisdiction } from "./types";
 
 /**
  * Where a life can start.
@@ -542,6 +542,36 @@ export function lifePlaceSearch(
 
 export function lifePlaces(): readonly LifePlace[] {
   return acceptedLifePlaceProvider.list();
+}
+
+/**
+ * State identity for a pack's declared key, never a resident's locality.
+ * Reuse established state identities. Where only the state reference exists,
+ * retain its placeholder provenance without creating a playable place or
+ * granting any legislative capability.
+ */
+export function stateJurisdictionForKey(key: string): Jurisdiction | null {
+  const established = lifePlaces().find(
+    (place) => place.scope === "state" && place.stateJurisdictionKey === key,
+  );
+  if (established) return established.context.jurisdiction;
+  const state = /^US-[A-Z]{2}$/.test(key) ? STATES[key.slice(3)] : undefined;
+  if (!state) return null;
+  const slug = `state-${key.toLowerCase()}-placeholder`;
+  const id = createStableId("jurisdiction", `definition:${slug}`);
+  return {
+    id,
+    slug,
+    name: state.name,
+    kind: "state-placeholder",
+    parentName: "United States",
+    provenance: {
+      asOf: null,
+      source: null,
+      jurisdiction: id,
+      status: "placeholder",
+    },
+  };
 }
 
 export function lifePlaceByKey(key: string): LifePlace | null {

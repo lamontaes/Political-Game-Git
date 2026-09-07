@@ -696,3 +696,27 @@ rail, determinism, and later-stage boundaries affected by the owner replay.
 | Post-merge ownership guard            | Corrected during reconciliation   | PR #112's inherited boundary test now measures its fixed shipped base-to-head range, following the accepted closed-range pattern. It continues to police that wave without treating later PR85 changes as PR #112 output.                               |
 | Determinism and headless core         | Confirmed                         | Simulation changes remain pure TypeScript with seeded identity and stable keys. Identical histories and campaign outcomes retain their existing replay and persistence tests; React owns only stage continuity and rail interaction.                    |
 | Stage and scope gates                 | Confirmed bounded                 | No Stage 6 semantic baseline, law/institution/electorate engine, campaign-engine rewrite, broad economics rebalance, team/staff mechanic, or new jurisdiction pack was added. Fundraising calibration and team depth remain recorded follow-ups.        |
+
+## P85D Integration Correction — 2026-09-07
+
+P85C found two gaps in the preceding acceptance claims. P85D corrects the
+integration without changing campaign effects or adding systems:
+
+- Adult choices, quiet stretches and episode choices now pass the same composed
+  campaign/life registry as the day panel. No second registry or election-day
+  special case exists; the existing callback handlers remain present.
+- Winner seating resolves the governing state from the accepted pack key and
+  reuses established state identity. A state reference without a playable
+  environment remains a placeholder, with no new place or capability granted.
+  The state joins the save's jurisdiction collection only when absent; no
+  person, household residence, prior record or municipality is rewritten.
+- Regression coverage follows actual advancement entry points and the
+  locality-origin win through canonical seating, reload and Work activation.
+  Chronology, money, observations, pinning, camera code, art/source inputs and
+  bargaining implementations remain unchanged.
+- Current-main reconciliation preserves the entire canonical M1 ownership test.
+
+LEARN: shared substrate correctness needs tests at every caller that advances
+time, and office access needs a locality-origin test where residence differs
+from governing authority. The focused integration and browser regressions are
+the durable mechanism; no broader prompt or new workflow is needed.

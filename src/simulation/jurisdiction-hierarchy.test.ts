@@ -7,6 +7,7 @@ import {
   lifePlaceByKey,
   requireLifePlace,
   searchLifePlaces,
+  stateJurisdictionForKey,
 } from "./index";
 import type { LifePlace } from "./index";
 
@@ -47,6 +48,26 @@ function unsupportedLocality(): LifePlace {
 }
 
 describe("a locality reaches its own state, and no other", () => {
+  it("resolves governing state identities without adding municipal or UI capabilities", () => {
+    const before = requireLifePlace("lexington-fayette").capabilities;
+    for (const pack of candidacyPacks()) {
+      const state = stateJurisdictionForKey(pack.jurisdictionKey);
+      expect(state).not.toBeNull();
+      expect(state!.kind).toBe("state-placeholder");
+      expect(state!.id).not.toBe(
+        requireLifePlace("lexington-fayette").context.jurisdiction.id,
+      );
+      expect(stateJurisdictionForKey(pack.jurisdictionKey)).toStrictEqual(
+        state,
+      );
+    }
+    expect(stateJurisdictionForKey("US-KY")).toStrictEqual(
+      requireLifePlace("kentucky").context.jurisdiction,
+    );
+    expect(stateJurisdictionForKey("unknown")).toBeNull();
+    expect(requireLifePlace("lexington-fayette").capabilities).toBe(before);
+    expect(before.legislativeScenarioKey).toBeNull();
+  });
   it("gives a Lexington life Kentucky's state offices", () => {
     const lexington = requireLifePlace("lexington-fayette");
     expect(lexington.scope).toBe("locality");

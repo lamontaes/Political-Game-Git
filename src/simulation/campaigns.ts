@@ -39,6 +39,7 @@ import {
 } from "./life";
 import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
 import { workStatusHistory } from "./life-queries";
+import { stateJurisdictionForKey } from "./life-places";
 import { drawCanonicalName } from "./people";
 import { createExactQuantity } from "./quantity";
 import { positionOwnerEndpoint } from "./resource-queries";
@@ -1479,10 +1480,31 @@ function seatTheWinner(
 ): World {
   const pack = requireCandidacyPack(campaign.candidacyPackId);
   const contest = requireElectionContest(world, campaign.contestId);
+  const governingJurisdiction = stateJurisdictionForKey(pack.jurisdictionKey);
+  if (!governingJurisdiction) {
+    throw new Error(
+      `No governing jurisdiction for candidacy pack ${pack.packId}.`,
+    );
+  }
+  // Register the existing state identity in this save, without moving anybody
+  // or copying state capabilities onto the municipality they live in.
+  const governingJurisdictionId = governingJurisdiction.id;
+  let next = world.jurisdictions[governingJurisdictionId]
+    ? world
+    : {
+        ...world,
+        jurisdictions: {
+          ...world.jurisdictions,
+          [governingJurisdictionId]: governingJurisdiction,
+        },
+        jurisdictionOrder: [
+          ...world.jurisdictionOrder,
+          governingJurisdictionId,
+        ],
+      };
   // One body per legislature, not one per election. Reused across campaigns
   // because a chamber is not created by the contest that fills a seat in it.
   const bodyKey = `legislature:${pack.packId}`;
-  let next = world;
   const existing = next.history.organizations.find(
     (organization) => organization.stableKey === bodyKey,
   );
@@ -1498,7 +1520,7 @@ function seatTheWinner(
       initialProfile: {
         name: pack.displayName,
         classification: "sector:government",
-        locationJurisdictionId: campaign.jurisdictionId,
+        locationJurisdictionId: governingJurisdictionId,
       },
     });
   }
@@ -1525,14 +1547,14 @@ function seatTheWinner(
       title: contest.office.title,
       occupationClassification:
         contest.office.occupationClassification ?? "service:elected-legislator",
-      locationJurisdictionId: campaign.jurisdictionId,
+      locationJurisdictionId: governingJurisdictionId,
       timeDemand: {
         expectedWeekly: { minimumHours: 10, maximumHours: 45 },
         attention: "high",
         concurrency: "partly-concurrent",
         scheduleRigidity: "mixed",
         interruptibility: "limited",
-        locationJurisdictionId: campaign.jurisdictionId,
+        locationJurisdictionId: governingJurisdictionId,
       },
     },
   });

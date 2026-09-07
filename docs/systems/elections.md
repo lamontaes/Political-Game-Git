@@ -27,14 +27,18 @@ them.
 office, a date, a candidate list, and a result with per-candidate tallies. It
 schedules itself through the future-transition substrate and fires on the
 ordinary time advance, so election day arrives because the world reached it
-rather than because a screen offered a button.
+rather than because a screen offered a button. The day panel, adult choices,
+quiet stretches and episode choices all carry the existing composed
+campaign/life future-transition registry; ordinary-life callbacks remain in it.
 
 ### Which offices exist, and on whose authority
 
-`src/simulation/candidacy.ts` derives elective offices from the accepted
-legislative rule packs. A pack cites the instrument that establishes a chamber
-and the number of members elected to it, so the office demonstrably exists.
-Nothing further is claimed:
+`src/simulation/candidacy-packs.ts` derives elective office options from the
+accepted legislative rule-pack registry. The offer attributes the recorded
+seat count to the pack; it does not attach a procedural citation as proof of
+that count. Candidate-qualification and membership-instrument gaps remain
+explicit. `candidacy.ts` resolves which pack governs a resident. Nothing
+further is claimed:
 
 - **Candidate qualifications are `unknown`.** No accepted source in this
   repository states a minimum age, a residency requirement, a term length or a
@@ -46,12 +50,13 @@ Nothing further is claimed:
   from "the law says no", and the refusal says which it is.
 - **No district is claimed.** There is no district geography, so a contest is
   for a seat in a chamber and `seatKey` is `null`.
-- **The pack is read from the jurisdiction, never supplied by the caller**, so a
-  filing cannot cite a pack that does not govern the place it is filed in.
-  Lexington-Fayette cannot borrow Kentucky's rules even by mistake.
-- **A place with no pack has no candidacy.** Lexington-Fayette has a life to
-  live and no council anybody has written down. The surface says so and offers
-  nothing else.
+- **The pack is resolved through declared jurisdiction identity, never supplied
+  by the caller.** A locality can reach its own parent-state pack through
+  `stateJurisdictionKey`. A Lexington resident can therefore stand for a
+  Kentucky legislative seat; Lexington's own municipal capabilities stay null.
+- **No local or parent-state pack means no candidacy.** Unsupported localities
+  retain ordinary life. Negative controls derive missing coverage from the
+  accepted pack registry instead of freezing a named state as unsupported.
 
 ### The campaign
 
@@ -104,8 +109,12 @@ one wins having done nothing and six win after three afternoons on the doors.
   ending, and the surface says so in those words.
 - **Winning** seats the member through the ordinary work records — an
   organization, a work relationship, a role in a jurisdiction — which is what
-  opens the existing office and legislative surfaces. Nothing new was invented
-  to let a winner through the door.
+  opens the existing office and legislative surfaces where available. The
+  seated organization and role use the governing state identity resolved from
+  the accepted pack, while the person and household retain their residence.
+  Kentucky work therefore remains Kentucky work for a Lexington resident,
+  including after save/reload. States without an existing playable legislative
+  surface receive no new surface from this identity correction.
 
 ## What is not implemented
 
@@ -121,6 +130,7 @@ one wins having done nothing and six win after three afternoons on the doors.
   rather than a donor database or a media market.
 - Endorsements, staff recruitment, forums, speeches, and media as systems. A
   campaign currently runs on the candidate alone.
-- Contests for any office outside the three accepted legislative rule packs.
+- Contests for any office outside the accepted legislative rule-pack registry. Candidacy
+  coverage and playable legislative-work coverage are separate boundaries.
 - Any NPC standing for office on their own initiative. An opponent is
   materialized when a player files, and does not campaign.

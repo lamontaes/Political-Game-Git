@@ -282,3 +282,74 @@ test.describe("A life can stand for something", () => {
     expect(errors).toEqual([]);
   });
 });
+
+test.describe("P85D integration through ordinary player controls", () => {
+  for (const route of ["choice", "quiet"] as const) {
+    test(`resolves election day through the ${route} story route`, async ({
+      page,
+    }) => {
+      const errors = watchForErrors(page);
+      await freshBrowser(page);
+      await page.goto("/?seed=p85c-owner-clock");
+      await startLife(page, { age: 34, place: "Lexington", gender: "male" });
+      await enterLife(page);
+      await openDay(page);
+      await page.getByTestId("file-candidacy").click();
+      const before = await page.getByTestId("day-date").innerText();
+      await page.getByTestId("day-overlay-close").click();
+      if (route === "quiet") {
+        await page.getByTestId("story-let-time-pass").focus();
+        await page.keyboard.press("Enter");
+      } else {
+        await page
+          .getByTestId("story-options")
+          .getByRole("button")
+          .first()
+          .click();
+      }
+      await openDay(page);
+      await expect(page.getByTestId("campaign-result")).toBeVisible();
+      await expect(page.getByTestId("day-date")).not.toHaveText(before);
+      expect(errors).toEqual([]);
+    });
+  }
+
+  test("a Lexington winner can activate Kentucky Work before and after reload", async ({
+    page,
+  }) => {
+    const errors = watchForErrors(page);
+    await freshBrowser(page);
+    await page.goto("/?seed=p85c-owner-0");
+    await startLife(page, { age: 34, place: "Lexington", gender: "male" });
+    await enterLife(page);
+    await openDay(page);
+    await page.getByTestId("file-candidacy").click();
+    await page.getByTestId("campaign-fundraising").click();
+    for (let day = 0; day < 3; day += 1) {
+      await page.getByTestId("pass-day").click();
+      await page.getByTestId("campaign-outreach").click();
+    }
+    expect(await liveUntilDecided(page)).toBe(true);
+    await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
+    await openElsewhere(page, "work");
+    await expect(page.getByTestId("office-section")).toContainText(
+      "Kentucky legislature",
+    );
+    await page.getByTestId("keep-world").click();
+    await expect(page.getByTestId("keep-world")).toHaveCount(0);
+    await page.reload();
+    await page.getByTestId("continue").click();
+    await expect(page.getByTestId("play-screen")).toBeVisible();
+    await enterLife(page);
+    await expect(page.getByTestId("life-hud")).toContainText("Lexington");
+    await page.getByTestId("elsewhere-work").focus();
+    await page.keyboard.press("Space");
+    await expect(page.getByTestId("office-section")).toContainText(
+      "Kentucky legislature",
+    );
+    await page.getByTestId("open-legislation").click();
+    await expect(page.getByTestId("legislation-workspace")).toBeVisible();
+    await expect(page.getByTestId("legislation-error")).toHaveCount(0);
+    expect(errors).toEqual([]);
+  });
+});

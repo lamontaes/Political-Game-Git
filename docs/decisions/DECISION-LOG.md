@@ -2213,10 +2213,10 @@ resolve to "anyone", so the game applies one conservative rule of its own — th
 same adult threshold the setup screen already uses — and labels it as its own,
 because "the game will not put anyone under 21 on a ballot" and "the law says
 no" are different sentences and only one of them is true. The pack is read from
-the jurisdiction rather than supplied by the caller, which makes borrowing
-Kentucky's rules for a city unsayable rather than merely discouraged.
-Lexington-Fayette therefore has a whole life to live and nothing to run for, and
-says so.
+the jurisdiction rather than supplied by the caller. P85B/P85D clarify the
+parent-state boundary: Lexington residents reach Kentucky state offices through
+the declared state key; municipal capabilities remain absent. A winning role
+records the governing state, never replacing the character's residence.
 
 The production catalog boundary was relaxed once, deliberately and by name. It
 forbids a new game carrying catalog content, because none of it is sourced and
@@ -2239,5 +2239,5 @@ through the door. Across ten seeds one candidate wins having done nothing and
 six win after three afternoons on the doors, so campaigning changes the odds
 without deciding the result. What a term is worth, when it begins, primaries,
 ballot access, campaign finance, districts, an actual electorate, and any office
-outside the three accepted packs all remain unimplemented, and the elections
+outside the accepted pack registry all remain unimplemented, and the elections
 document lists them rather than leaving them to be discovered.
