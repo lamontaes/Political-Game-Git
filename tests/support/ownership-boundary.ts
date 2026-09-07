@@ -87,35 +87,11 @@ export const PERMITTED_EXCEPTIONS: ReadonlyMap<string, string> = new Map([
   ],
   [
     "src/simulation/index.ts",
-    "Packet 66 exports ./canonical-json from the simulation barrel so the causal-trace export can reach the world's own emitter instead of writing a second serializer. The barrel gains one export line; no simulation module is modified. Packet 49 additionally exports the legislative-politics modules.",
+    "Packet 66 exports ./canonical-json from the simulation barrel so the causal-trace export can reach the world's own emitter instead of writing a second serializer. The barrel gains one export line; no simulation module is modified.",
   ],
   [
     "src/simulation/character-history.ts",
     "Packet 67 adds one accessor, lifeSituationCatalog(), so the content index can read the formative bank without constructing a world. No situation, key or behaviour is changed.",
-  ],
-  [
-    "src/presentation/run-b-conversation.ts",
-    "Packet 49 owns the bargaining conversation subject. Rather than special-case the engine, it registers through the subject registry main introduced; the engine gains the room's audibility and the turn's progress as arguments so a subject can say true things about itself. No existing subject changes behaviour.",
-  ],
-  [
-    "src/presentation/run-b-conversation-progress.ts",
-    "The same seam: progress carries the bargaining subject's own turn state so the engine does not have to know what a bill is.",
-  ],
-  [
-    "src/simulation/types.ts",
-    "Packet 49 adds the legislative-politics record types, the question identity and the commitment subject. Additive only; no shared declaration is redefined.",
-  ],
-  [
-    "src/simulation/world.ts",
-    "The legislative-politics records join the one canonical World: history collection, sequence ordering, stable-key uniqueness and the integrity assertion. No second World is introduced.",
-  ],
-  [
-    "src/simulation/decisions.ts",
-    "One additional entity-existence source, so a decision may reference a legislative-politics entity. The existing sources are unchanged.",
-  ],
-  [
-    "src/simulation/mind-integrity.ts",
-    "The same one additional entity-existence source, so a mind record may cite a legislative-politics entity.",
   ],
 ]);
 
@@ -186,7 +162,7 @@ export const FORBIDDEN: readonly OwnedSurface[] = [
  * exactly as before.
  */
 export const ALLOWED =
-  /^(src\/simulation\/legislative-|src\/player\/MeasureFloorView\.tsx|src\/player\/MeasurePaperWorkspace\.tsx|ARCHITECTURE\.md|\.claude\/launch\.json|\.github\/workflows\/|src\/authoring\/|src\/cli\/|src\/content\/|src\/devtools\/|src\/environment\/|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/player\/OfficeScene\.tsx|src\/player\/ModularCharacter\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/useRasterTier\.ts|src\/player\/useSceneTransform\.ts|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|tsconfig\.node\.json|\.gitignore|AGENTS\.md|PATCH_NOTES\.md)/;
+  /^(\.claude\/launch\.json|\.github\/workflows\/|src\/authoring\/|src\/cli\/|src\/content\/|src\/devtools\/|src\/environment\/|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/player\/OfficeScene\.tsx|src\/player\/ModularCharacter\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/useRasterTier\.ts|src\/player\/useSceneTransform\.ts|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|tsconfig\.node\.json|\.gitignore|AGENTS\.md|PATCH_NOTES\.md)/;
 
 function git(repositoryRoot: string, args: readonly string[]): string {
   return execFileSync("git", [...args], {

@@ -735,3 +735,9 @@ judicial guard. Its complete file is adopted unchanged, including the frozen
 PR115 feature head `35ba89f` and stronger synthetic-history/missing-history
 proofs. It supersedes this task's interim `333eeb1` closure above. No M3 frozen
 range is edited and no competing ownership implementation remains on PR79.
+
+Post-M3 finalization removes the inert PR79 declarations from the Packet 26
+helper, restoring it byte-for-byte to canonical main. Its frozen 120-file range
+matches none of the added paths; both versions report no violations or strays.
+All forbidden rules and range endpoints remain canonical. D-081/D-082 have no
+current-main collision; no runtime or player-route changes are included.
